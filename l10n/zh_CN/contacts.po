@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-13 17:52+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "(取消)激活地址簿错误。"
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "添加联系人时出错。"
 
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
-msgstr ""
+msgstr "设置校验值错误。"
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
@@ -56,22 +56,18 @@ msgstr ""
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "找不到地址簿。"
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "找不到联系人。"
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "缺少 ID"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/contactdetails.php:53
-msgid "Unknown"
 msgstr ""
 
 #: ajax/createaddressbook.php:18
@@ -92,15 +88,15 @@ msgstr ""
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "加载图片错误。"
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "读取联系人照片错误。"
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "保存临时文件错误。"
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
@@ -108,7 +104,7 @@ msgstr ""
 
 #: ajax/deletecard.php:37 ajax/saveproperty.php:58
 msgid "id is not set."
-msgstr ""
+msgstr "没有设置 id。"
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -120,11 +116,11 @@ msgstr "删除联系人属性错误。"
 
 #: ajax/editname.php:37
 msgid "Contact ID is missing."
-msgstr ""
+msgstr "缺少联系人 ID。"
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "缺少联系人 ID。"
 
 #: ajax/oc_photo.php:44
 msgid "No photo path was submitted."
@@ -132,7 +128,7 @@ msgstr ""
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "文件不存在:"
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
@@ -140,7 +136,7 @@ msgstr ""
 
 #: ajax/saveproperty.php:61
 msgid "checksum is not set."
-msgstr ""
+msgstr "未设置校验值。"
 
 #: ajax/saveproperty.php:78
 msgid "Information about vCard is incorrect. Please reload the page: "
@@ -182,11 +178,11 @@ msgstr ""
 
 #: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "已上传文件只上传了部分"
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "没有文件被上传"
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
 msgid "Missing a temporary folder"
@@ -198,7 +194,7 @@ msgstr "联系人"
 
 #: lib/app.php:23
 msgid "Addressbook not found."
-msgstr ""
+msgstr "未找到地址簿。"
 
 #: lib/app.php:27
 msgid "This is not your addressbook."
@@ -263,11 +259,11 @@ msgstr "传呼机"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "互联网"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
-msgstr ""
+msgstr "{name} 的生日"
 
 #: lib/search.php:22
 msgid "Contact"
@@ -283,7 +279,7 @@ msgstr "地址簿"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Configure Address Books"
-msgstr ""
+msgstr "配置地址簿"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
@@ -291,7 +287,7 @@ msgstr "新建地址簿"
 
 #: templates/part.chooseaddressbook.php:17
 msgid "Import from VCF"
-msgstr ""
+msgstr "从 VCF 导入"
 
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
@@ -334,11 +330,11 @@ msgstr ""
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "昵称"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "输入昵称"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
@@ -346,19 +342,19 @@ msgstr "生日"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "yyyy-mm-dd"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "分组"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
-msgstr ""
+msgstr "用逗号隔开分组"
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "编辑分组"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -366,35 +362,35 @@ msgstr "偏好"
 
 #: templates/part.contact.php:56
 msgid "Please specify a valid email address."
-msgstr ""
+msgstr "请指定合法的电子邮件地址"
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "输入电子邮件地址"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"
-msgstr ""
+msgstr "发送邮件到地址"
 
 #: templates/part.contact.php:61
 msgid "Delete email address"
-msgstr ""
+msgstr "删除电子邮件地址"
 
 #: templates/part.contact.php:70
 msgid "Enter phone number"
-msgstr ""
+msgstr "输入电话号码"
 
 #: templates/part.contact.php:74
 msgid "Delete phone number"
-msgstr ""
+msgstr "删除电话号码"
 
 #: templates/part.contact.php:84
 msgid "View on map"
-msgstr ""
+msgstr "在地图上显示"
 
 #: templates/part.contact.php:84
 msgid "Edit address details"
-msgstr ""
+msgstr "编辑地址细节。"
 
 #: templates/part.contact.php:95
 msgid "Add notes here."
@@ -418,23 +414,23 @@ msgstr ""
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
-msgstr ""
+msgstr "删除当前照片"
 
 #: templates/part.contactphoto.php:9
 msgid "Edit current photo"
-msgstr ""
+msgstr "编辑当前照片"
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "上传新照片"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
-msgstr ""
+msgstr "从 ownCloud 选择照片"
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "编辑地址"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
@@ -477,7 +473,7 @@ msgstr "国家"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "编辑分类"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
@@ -517,7 +513,7 @@ msgstr ""
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "名"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
@@ -525,7 +521,7 @@ msgstr ""
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "姓"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
@@ -594,35 +590,35 @@ msgstr "取消"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "导入联系人文件"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "请选择地址簿"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "创建新地址簿"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
+msgstr "新地址簿名称"
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "导入"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr ""
+msgstr "导入联系人"
 
 #: templates/part.import.php:23
 msgid "Contacts imported successfully"
-msgstr ""
+msgstr "联系人导入成功"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "关闭对话框"
 
 #: templates/part.importaddressbook.php:9
 msgid "Import Addressbook"
@@ -658,12 +654,12 @@ msgstr ""
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "更多信息"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "首选地址 (Kontact 等)"
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"

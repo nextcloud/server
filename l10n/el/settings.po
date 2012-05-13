@@ -11,10 +11,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-10 16:40+0000\n"
+"Last-Translator: Marios Bekatoros <>\n"
 "Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,15 +45,15 @@ msgstr "__όνομα_γλώσσας__"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Αρχείο καταγραφής"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Περισσότερο"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Πρόσθεσε τη δικιά σου εφαρμογή "
 
 #: templates/apps.php:22
 msgid "Select an App"
@@ -69,11 +69,11 @@ msgstr "από"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Τεκμηρίωση"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Διαχείριση μεγάλων αρχείων"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -101,11 +101,11 @@ msgstr "από τα διαθέσιμα"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Πελάτες συγχρονισμού για Desktop και Mobile"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Κατέβασε"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -173,11 +173,11 @@ msgstr "Δημιουργία"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Προεπιλεγμένο όριο"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Άλλα"
 
 #: templates/users.php:47
 msgid "Quota"

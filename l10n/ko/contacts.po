@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <limonade83@gmail.com>, 2012.
 # Shinjo Park <kde@peremen.name>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-13 17:52+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.net/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +23,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "주소록을 (비)활성화하는 데 실패했습니다."
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "연락처를 추가하는 중 오류가 발생하였습니다."
 
@@ -44,39 +45,35 @@ msgstr "연락처 속성을 추가할 수 없습니다."
 
 #: ajax/categories/categoriesfor.php:15
 msgid "No ID provided"
-msgstr ""
+msgstr "제공되는 아이디 없음"
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
-msgstr ""
+msgstr "오류 검사합계 설정"
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "삭제 카테고리를 선택하지 않았습니다. "
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "주소록을 찾을 수 없습니다."
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "연락처를 찾을 수 없습니다."
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "아이디 분실"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
 msgstr ""
 
-#: ajax/contactdetails.php:53
-msgid "Unknown"
-msgstr ""
-
 #: ajax/createaddressbook.php:18
 msgid "Cannot add addressbook with an empty name."
-msgstr ""
+msgstr "성명란이 비어 주소록에 추가 할 수 없습니다."
 
 #: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
@@ -88,27 +85,27 @@ msgstr "주소록을 활성화할 수 없습니다."
 
 #: ajax/currentphoto.php:40 ajax/oc_photo.php:40
 msgid "No contact ID was submitted."
-msgstr ""
+msgstr "접속 아이디가 기입되지 않았습니다."
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "로딩 이미지 오류입니다."
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "사진 읽기 오류"
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "임시 파일을 저장하는 동안 오류가 발생했습니다. "
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
-msgstr ""
+msgstr "로딩 사진이 유효하지 않습니다. "
 
 #: ajax/deletecard.php:37 ajax/saveproperty.php:58
 msgid "id is not set."
-msgstr ""
+msgstr "아이디가 설정되어 있지 않습니다. "
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -120,11 +117,11 @@ msgstr "연락처 속성을 삭제할 수 없습니다."
 
 #: ajax/editname.php:37
 msgid "Contact ID is missing."
-msgstr ""
+msgstr "접속 아이디가 없습니다. "
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "접속 아이디 분실"
 
 #: ajax/oc_photo.php:44
 msgid "No photo path was submitted."
@@ -132,7 +129,7 @@ msgstr ""
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "파일이 존재하지 않습니다. "
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
@@ -186,11 +183,11 @@ msgstr ""
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "파일이 업로드 되어있지 않습니다"
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "임시 폴더 분실"
 
 #: appinfo/app.php:22 templates/settings.php:3
 msgid "Contacts"
@@ -198,7 +195,7 @@ msgstr "연락처"
 
 #: lib/app.php:23
 msgid "Addressbook not found."
-msgstr ""
+msgstr "주소록을 찾을 수 없습니다."
 
 #: lib/app.php:27
 msgid "This is not your addressbook."
@@ -247,7 +244,7 @@ msgstr "음성 번호"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "메세지"
 
 #: lib/app.php:120
 msgid "Fax"
@@ -263,11 +260,11 @@ msgstr "호출기"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "인터넷"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
-msgstr ""
+msgstr "{이름}의 생일"
 
 #: lib/search.php:22
 msgid "Contact"
@@ -283,7 +280,7 @@ msgstr "주소록"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Configure Address Books"
-msgstr ""
+msgstr "주소록 구성"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
@@ -291,7 +288,7 @@ msgstr "새 주소록"
 
 #: templates/part.chooseaddressbook.php:17
 msgid "Import from VCF"
-msgstr ""
+msgstr "VCF에서 가져오기"
 
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
@@ -322,7 +319,7 @@ msgstr "연락처 삭제"
 
 #: templates/part.contact.php:19
 msgid "Drop photo to upload"
-msgstr ""
+msgstr "Drop photo to upload"
 
 #: templates/part.contact.php:29
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
@@ -330,15 +327,15 @@ msgstr ""
 
 #: templates/part.contact.php:30
 msgid "Edit name details"
-msgstr ""
+msgstr "이름 세부사항을 편집합니다. "
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "별명"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "별명 입력"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
@@ -346,19 +343,19 @@ msgstr "생일"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "일-월-년"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "그룹"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
-msgstr ""
+msgstr "쉼표로 그룹 구분"
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "그룹 편집"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -366,11 +363,11 @@ msgstr "선호함"
 
 #: templates/part.contact.php:56
 msgid "Please specify a valid email address."
-msgstr ""
+msgstr "올바른 이메일 주소를 입력하세요."
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "이메일 주소 입력"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"

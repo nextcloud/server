@@ -11,7 +11,7 @@
 "Text file" => "Arquivo texto",
 "Folder" => "Pasta",
 "Upload" => "Carregar",
-"Nothing in here. Upload something!" => "Nada aqui.Carregar alguma coisa!",
+"Nothing in here. Upload something!" => "Nada aqui.Carrege alguma coisa!",
 "Name" => "Nome",
 "Download" => "Baixar",
 "Size" => "Tamanho",

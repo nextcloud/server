@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: appinfo/app.php:32 templates/player.php:9
+#: appinfo/app.php:32 templates/player.php:8
 msgid "Music"
 msgstr ""
 
-#: templates/music.php:3 templates/player.php:13
+#: templates/music.php:3 templates/player.php:12
 msgid "Play"
 msgstr ""
 
-#: templates/music.php:4 templates/music.php:26 templates/player.php:14
+#: templates/music.php:4 templates/music.php:26 templates/player.php:13
 msgid "Pause"
 msgstr ""
 
@@ -33,7 +33,7 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: templates/music.php:6 templates/player.php:15
+#: templates/music.php:6 templates/player.php:14
 msgid "Next"
 msgstr ""
 

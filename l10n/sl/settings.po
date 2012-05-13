@@ -9,10 +9,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-09 18:12+0000\n"
+"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.net/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,15 +43,15 @@ msgstr "__ime_jezika__"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Dnevnik"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Več"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Dodajte vašo aplikacijo"
 
 #: templates/apps.php:22
 msgid "Select an App"
@@ -67,11 +67,11 @@ msgstr "s strani"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentacija"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Upravljanje velikih datotek"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -99,11 +99,11 @@ msgstr "od razpoložljivih"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Namizni in mobilni odjemalci za sinhronizacijo"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Prenesi"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -171,11 +171,11 @@ msgstr "Ustvari"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Privzeta količinska omejitev"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Drugo"
 
 #: templates/users.php:47
 msgid "Quota"

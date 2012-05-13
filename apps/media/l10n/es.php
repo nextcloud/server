@@ -5,8 +5,8 @@
 "Previous" => "Anterior",
 "Next" => "Siguiente",
 "Mute" => "Silenciar",
-"Unmute" => "Sonar",
-"Rescan Collection" => "Buscar música nueva",
+"Unmute" => "Quitar silencio",
+"Rescan Collection" => "Buscar canciones nuevas",
 "Artist" => "Artista",
 "Album" => "Álbum",
 "Title" => "Título"

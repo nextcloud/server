@@ -7,13 +7,14 @@
 #   <georg.stefan.germany@googlemail.com>, 2011.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan-Christoph Borchardt <jan@unhosted.org>, 2011.
+# Michael Krell <m4dmike.mni@gmail.com>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-13 17:52+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +27,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "(De-)Aktivierung des Adressbuches fehlgeschlagen"
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "Erstellen des Kontakts fehlgeschlagen"
 
@@ -68,14 +69,10 @@ msgstr ""
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "Fehlende ID"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/contactdetails.php:53
-msgid "Unknown"
 msgstr ""
 
 #: ajax/createaddressbook.php:18
@@ -136,7 +133,7 @@ msgstr ""
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "Datei existiert nicht: "
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
@@ -251,7 +248,7 @@ msgstr "Anruf"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "Mitteilung"
 
 #: lib/app.php:120
 msgid "Fax"
@@ -267,7 +264,7 @@ msgstr "Pager"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
@@ -350,11 +347,11 @@ msgstr "Geburtstag"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "TT-MM-JJJJ"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "Gruppen"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
@@ -362,7 +359,7 @@ msgstr ""
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "Gruppen editieren"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -410,7 +407,7 @@ msgstr ""
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "Profil Bild"
 
 #: templates/part.contact.php:107
 msgid "Phone"
@@ -418,7 +415,7 @@ msgstr "Telefon"
 
 #: templates/part.contact.php:110
 msgid "Note"
-msgstr ""
+msgstr "Notiz"
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
@@ -430,7 +427,7 @@ msgstr ""
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "Neues Foto hochladen"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
@@ -438,7 +435,7 @@ msgstr ""
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "Adresse ändern"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
@@ -481,7 +478,7 @@ msgstr "Land"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Kategorie ändern"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
@@ -497,31 +494,31 @@ msgstr ""
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
-msgstr ""
+msgstr "Frau"
 
 #: templates/part.edit_name_dialog.php:28
 msgid "Ms"
-msgstr ""
+msgstr "Frau"
 
 #: templates/part.edit_name_dialog.php:29
 msgid "Mr"
-msgstr ""
+msgstr "Herr"
 
 #: templates/part.edit_name_dialog.php:30
 msgid "Sir"
-msgstr ""
+msgstr "Herr"
 
 #: templates/part.edit_name_dialog.php:31
 msgid "Mrs"
-msgstr ""
+msgstr "Frau"
 
 #: templates/part.edit_name_dialog.php:32
 msgid "Dr"
-msgstr ""
+msgstr "Dr"
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "Vorname"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
@@ -529,7 +526,7 @@ msgstr ""
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "Familienname"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
@@ -614,7 +611,7 @@ msgstr ""
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "Importieren"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
@@ -650,7 +647,7 @@ msgstr ""
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "Kontakt hinzufügen"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
@@ -670,4 +667,4 @@ msgstr ""
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"

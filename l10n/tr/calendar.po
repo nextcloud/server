@@ -5,13 +5,14 @@
 # Translators:
 #   <ahmet_kaplan@hotmail.com>, 2012.
 # Aranel Surion <aranel@aranelsurion.org>, 2011, 2012.
+# Necdet Yücel <necdetyucel@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-10 11:01+0000\n"
+"Last-Translator: Necdet Yücel <necdetyucel@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.net/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +22,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "Takvim yok."
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "Etkinlik yok."
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -51,71 +52,71 @@ msgstr "Takvim"
 
 #: js/calendar.js:788
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
-msgstr ""
+msgstr "AAA g[ yyyy]{ '&#8212;'[ AAA] g yyyy}"
 
-#: lib/app.php:122
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "Doğum günü"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "İş"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "Arama"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "Müşteriler"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "Teslimatçı"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "Tatil günleri"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "Fikirler"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "Seyahat"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "Yıl dönümü"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "Toplantı"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "Diğer"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "Kişisel"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "Projeler"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "Sorular"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "İş"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
-msgstr ""
+msgstr "isimsiz"
 
 #: lib/object.php:330
 msgid "Does not repeat"
@@ -195,7 +196,7 @@ msgstr "Pazar"
 
 #: lib/object.php:373
 msgid "events week of month"
-msgstr ""
+msgstr "ayın etkinlikler haftası"
 
 #: lib/object.php:374
 msgid "first"
@@ -364,7 +365,7 @@ msgstr "Aktif takvimleri seçin"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "Takvimleriniz"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -373,15 +374,15 @@ msgstr "CalDav Bağlantısı"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "Paylaşılan"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "Paylaşılan takvim yok"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "Takvimi paylaş"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -398,7 +399,7 @@ msgstr "Sil"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "sizinle paylaşılmış"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -443,23 +444,23 @@ msgstr "Dışa aktar"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "Etkinlik bilgisi"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "Tekrarlama"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "Alarm"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "Katılanlar"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "Paylaş"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -471,11 +472,11 @@ msgstr "Kategori"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "Kategorileri virgülle ayırın"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "Kategorileri düzenle"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -528,11 +529,11 @@ msgstr "Günleri seçin"
 
 #: templates/part.eventform.php:169 templates/part.showevent.php:167
 msgid "and the events day of year."
-msgstr ""
+msgstr "ve yılın etkinlikler günü."
 
 #: templates/part.eventform.php:182 templates/part.showevent.php:180
 msgid "and the events day of month."
-msgstr ""
+msgstr "ve ayın etkinlikler günü."
 
 #: templates/part.eventform.php:190 templates/part.showevent.php:188
 msgid "Select months"
@@ -544,7 +545,7 @@ msgstr "Haftaları seç"
 
 #: templates/part.eventform.php:208 templates/part.showevent.php:206
 msgid "and the events week of year."
-msgstr ""
+msgstr "ve yılın etkinkinlikler haftası."
 
 #: templates/part.eventform.php:214 templates/part.showevent.php:212
 msgid "Interval"
@@ -556,11 +557,11 @@ msgstr "Son"
 
 #: templates/part.eventform.php:233 templates/part.showevent.php:231
 msgid "occurrences"
-msgstr ""
+msgstr "olaylar"
 
 #: templates/part.import.php:1
 msgid "Import a calendar file"
-msgstr ""
+msgstr "Takvim dosyasını içeri aktar"
 
 #: templates/part.import.php:6
 msgid "Please choose the calendar"
@@ -568,7 +569,7 @@ msgstr "Lütfen takvimi seçin"
 
 #: templates/part.import.php:10
 msgid "create a new calendar"
-msgstr ""
+msgstr "Yeni bir takvim oluştur"
 
 #: templates/part.import.php:15
 msgid "Name of new calendar"
@@ -580,15 +581,15 @@ msgstr "İçe Al"
 
 #: templates/part.import.php:20
 msgid "Importing calendar"
-msgstr ""
+msgstr "Takvim içe aktarılıyor"
 
 #: templates/part.import.php:23
 msgid "Calendar imported successfully"
-msgstr ""
+msgstr "Takvim başarıyla içe aktarıldı"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Diyalogu kapat"
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"
@@ -596,11 +597,11 @@ msgstr "Yeni olay oluştur"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "Bir olay görüntüle"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "Kategori seçilmedi"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -608,11 +609,11 @@ msgstr "Kategori seçin"
 
 #: templates/part.showevent.php:37
 msgid "of"
-msgstr ""
+msgstr "nın"
 
 #: templates/part.showevent.php:62 templates/part.showevent.php:70
 msgid "at"
-msgstr ""
+msgstr "üzerinde"
 
 #: templates/settings.php:14
 msgid "Timezone"
@@ -620,7 +621,7 @@ msgstr "Zaman dilimi"
 
 #: templates/settings.php:31
 msgid "Check always for changes of the timezone"
-msgstr ""
+msgstr "Sürekli zaman dilimi değişikliklerini kontrol et"
 
 #: templates/settings.php:33
 msgid "Timeformat"
@@ -636,32 +637,32 @@ msgstr "12s"
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "Haftanın ilk günü"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
-msgstr "CalDAV Takvim senkron adresi:"
+msgstr "CalDAV Takvim eşzamanlama adresi:"
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "Kullanıcılar"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "kullanıcıları seç"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "Düzenlenebilir"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "Gruplar"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "grupları seç"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "kamuyla paylaş"
