@@ -1,6 +1,10 @@
 <?php
 $RUNTIME_NOSETUPFS=true; //don't setup the fs yet
 
+// only need authentication apps
+$RUNTIME_APPTYPES=array('authentication');
+OC_App::loadApps($RUNTIME_APPTYPES);
+
 OCP\JSON::checkAppEnabled('files_sharing');
 require_once 'lib_share.php';
 

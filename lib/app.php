@@ -65,9 +65,7 @@ class OC_App{
 		$apps = self::getEnabledApps();
 		foreach( $apps as $app ){
 			if((is_null($types) or self::isType($app,$types))){
-				if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
-					require( $app.'/appinfo/app.php' );
-				}
+				self::loadApp($app);
 			}
 		}
 
@@ -75,6 +73,16 @@ class OC_App{
 
 		// return
 		return true;
+	}
+
+	/**
+	 * load a single app
+	 * @param string app
+	 */
+	public static function loadApp($app){
+		if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
+			require_once( $app.'/appinfo/app.php' );
+		}
 	}
 
 	/**
@@ -115,7 +123,7 @@ class OC_App{
 				self::$appTypes[$app]='';
 			}
 
-			OC_Appconfig::setValue($app,'types',implode(',',self::$appTypes[$app]));
+			OC_Appconfig::setValue($app,'types',self::$appTypes[$app]);
 		}
 
 		return explode(',',self::$appTypes[$app]);

@@ -7,6 +7,10 @@
  */
 OCP\App::checkAppEnabled('calendar');
 
+// only need authentication apps
+$RUNTIME_APPTYPES=array('authentication');
+OC_App::loadApps($RUNTIME_APPTYPES);
+
 // Backends
 $authBackend = new OC_Connector_Sabre_Auth();
 $principalBackend = new OC_Connector_Sabre_Principal();
