@@ -25,7 +25,11 @@ $params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_agent_password', 'lda
 if ($_POST) {
 	foreach($params as $param){
 		if(isset($_POST[$param])){
-			OC_Appconfig::setValue('user_ldap', $param, $_POST[$param]);
+			if('ldap_agent_password' == $param) {
+				OC_Appconfig::setValue('user_ldap', $param, base64_encode($_POST[$param]));
+			} else {
+				OC_Appconfig::setValue('user_ldap', $param, $_POST[$param]);
+			}
 		}
 		elseif('ldap_tls' == $param) {
 			// unchecked checkboxes are not included in the post paramters
@@ -50,5 +54,6 @@ $tmpl->assign( 'ldap_port', OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_
 
 // ldap_display_name has a default value
 $tmpl->assign( 'ldap_display_name', OC_Appconfig::getValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME));
+$tmpl->assign( 'ldap_agent_password', base64_decode(OC_Appconfig::getValue('user_ldap', 'ldap_agent_password', '')));
 
 return $tmpl->fetchPage();
