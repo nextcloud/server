@@ -86,7 +86,7 @@ class OC_App{
 	}
 
 	/**
-	 * check if an app is of a sepcific type
+	 * check if an app is of a specific type
 	 * @param string $app
 	 * @param string/array $types
 	 */
