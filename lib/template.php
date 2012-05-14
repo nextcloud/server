@@ -431,7 +431,7 @@ class OC_Template{
 				}elseif($page->appendIfExist('cssfiles', OC::$SERVERROOT, OC::$WEBROOT, "core/$style.css" )) {
 
 				}else{
-					echo('css file not found: style:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+					echo('css file not found: style:'.$style.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
 				}
 			}
