@@ -230,6 +230,8 @@ class OC{
 				OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
 			}
 
+			OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
+
 			OC_App::updateApps();
 		}
 	}
@@ -278,13 +280,9 @@ class OC{
 	public static function loadfile(){
 		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE)){
 			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
-				$appswebroot = (string) OC::$APPSWEBROOT;
-				$webroot = (string) OC::$WEBROOT;
-				$cssfile = file_get_contents(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
-				$cssfile = str_replace('%appswebroot%', $appswebroot, $cssfile);
-				$cssfile = str_replace('%webroot%', $webroot, $cssfile);
-				header('Content-Type: text/css');
-				echo $cssfile;
+				$file = 'apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE;
+				$minimizer = new OC_Minimizer_CSS();
+				$minimizer->output(array(array(OC::$APPSROOT, OC::$APPSWEBROOT, $file)));
 				exit;
 			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
 				require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);

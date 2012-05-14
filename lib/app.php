@@ -73,6 +73,12 @@ class OC_App{
 
 		self::$init = true;
 
+		if (!defined('DEBUG') || !DEBUG){
+			if (is_null($types)) {
+				OC_Util::$core_styles = OC_Util::$styles;
+				OC_Util::$styles = array();
+			}
+		}
 		// return
 		return true;
 	}
