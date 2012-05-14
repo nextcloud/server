@@ -156,7 +156,10 @@ class OC_Template{
 		$this->application = $app;
 		$this->vars = array();
 		$this->l10n = OC_L10N::get($app);
-
+                header('X-Frame-Options: Sameorigin');
+                header('X-XSS-Protection: 1; mode=block');
+                header('X-Content-Type-Options: nosniff');
+ 
 		$this->findTemplate($name);
 	}
 
