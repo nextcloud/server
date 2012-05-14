@@ -185,6 +185,7 @@ class OC_LDAP {
 	}
 
 	static public function dn2ocname($dn, $ldapname = null, $isUser = true) {
+		$dn = self::sanitizeDN($dn);
 		$table = self::getMapTable($isUser);
 		if($isUser) {
 			$nameAttribute = self::conf('ldapUserDisplayName');
@@ -362,6 +363,7 @@ class OC_LDAP {
 	 */
 	static private function mapComponent($dn, $ocname, $isUser = true) {
 		$table = self::getMapTable($isUser);
+		$dn = self::sanitizeDN($dn);
 
 		$sqliteAdjustment = '';
 		$dbtype = OCP\Config::getSystemValue('dbtype');
@@ -488,7 +490,7 @@ class OC_LDAP {
 							if($key != 'dn'){
 								$selection[$i][$key] = $item[$key][0];
 							} else {
-								$selection[$i][$key] = $item[$key];
+								$selection[$i][$key] = self::sanitizeDN($item[$key]);
 							}
 						}
 
@@ -503,7 +505,11 @@ class OC_LDAP {
 					$key = strtolower($attr[0]);
 
 					if(isset($item[$key])) {
-						$selection[] = $item[$key];
+						if($key == 'dn') {
+							$selection[] = self::sanitizeDN($item[$key]);
+						} else {
+							$selection[] = $item[$key];
+						}
 					}
 				}
 
@@ -512,6 +518,13 @@ class OC_LDAP {
 		}
 
 		return $findings;
+	}
+
+	static private function sanitizeDN($dn) {
+		//OID sometimes gives back DNs with whitespace after the comma a la "uid=foo, cn=bar, dn=..." We need to tackle this!
+		$dn = preg_replace('/,\s+/',',',$dn);
+
+		return $dn;
 	}
 
 	/**
