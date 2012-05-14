@@ -148,7 +148,15 @@ Contacts={
 					click: function() { $(this).dialog('close'); }
 				}
 			] );
-
+			
+			$('#fn').blur(function(){
+				if($('#fn').val() == '') {
+					OC.dialogs.alert(t('contacts','The name field cannot be empty. Please enter a name for this contact.'), t('contacts','Name is empty'), function() { $('#fn').focus(); });
+					$('#fn').focus();
+					return false;
+				}
+			});
+			
 			// Name has changed. Update it and reorder.
 			$('#fn').change(function(){
 				var name = $('#fn').val();
@@ -166,6 +174,7 @@ Contacts={
 				if(!added) {
 					$('#leftcontent ul').append(item);
 				}
+				Contacts.UI.Contacts.scrollTo(Contacts.UI.Card.id);
 			});
 
 			$('#contacts_deletecard').click( function() { Contacts.UI.Card.doDelete();return false;} );
@@ -182,6 +191,28 @@ Contacts={
 					Contacts.UI.Card.doExport();
 				}
 				return false;
+			});
+
+			// Profile picture upload handling
+			// New profile picture selected
+			$('#file_upload_start').change(function(){
+				Contacts.UI.Card.uploadPhoto(this.files);
+			});
+			$('#contacts_details_photo_wrapper').bind('dragover',function(event){
+				$(event.target).addClass('droppable');
+				event.stopPropagation();
+				event.preventDefault();  
+			});
+			$('#contacts_details_photo_wrapper').bind('dragleave',function(event){
+				$(event.target).removeClass('droppable');
+				//event.stopPropagation();
+				//event.preventDefault();  
+			});
+			$('#contacts_details_photo_wrapper').bind('drop',function(event){
+				event.stopPropagation();
+				event.preventDefault();
+				$(event.target).removeClass('droppable');
+				$.fileUpload(event.originalEvent.dataTransfer.files);
 			});
 
 			$('#categories').multiple_autocomplete({source: categories});
@@ -1324,10 +1355,10 @@ Contacts={
 					$(event.target).removeClass('droppable');
 					$(event.target).html(t('contacts', 'Uploading...'));
 					Contacts.UI.loading(event.target, true);
-					$.fileUpload(event.originalEvent.dataTransfer.files);
+					$.importUpload(event.originalEvent.dataTransfer.files);
 				});
 
-				$.fileUpload = function(files){
+				$.importUpload = function(files){
 					var file = files[0];
 					if(file.size > $('#max_upload').val()){
 						OC.dialogs.alert(t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'), t('contacts','Upload too large'));
@@ -1346,7 +1377,7 @@ Contacts={
 					if (!xhr.upload) {
 						OC.dialogs.alert(t('contacts', 'Your browser doesn\'t support AJAX upload. Please upload the contacts file to ownCloud and import that way.'), t('contacts', 'Error'))
 					}
-					fileUpload = xhr.upload,
+					importUpload = xhr.upload,
 					xhr.onreadystatechange = function() {
 						if (xhr.readyState == 4){
 							response = $.parseJSON(xhr.responseText);
@@ -1486,6 +1517,10 @@ Contacts={
 				var item = $('#contacts [data-id="'+id+'"]');
 				item.html(Contacts.UI.Card.fn);
 				item.css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+id+'&refresh=1'+Math.random()+') no-repeat');
+			},
+			scrollTo:function(id){
+				$('#contacts').animate({
+					scrollTop: $('#leftcontent li[data-id="'+id+'"]').offset().top}, 'slow','swing');
 			}
 		}
 	}
@@ -1555,28 +1590,6 @@ $(document).ready(function(){
 	
 	$('.contacts_property').live('change', function(){
 		Contacts.UI.Card.saveProperty(this);
-	});
-
-	// Profile picture upload handling
-	// New profile picture selected
-	$('#file_upload_start').change(function(){
-		Contacts.UI.Card.uploadPhoto(this.files);
-	});
-	$('#contacts_details_photo_wrapper').bind('dragover',function(event){
-		$(event.target).addClass('droppable');
-		event.stopPropagation();
-		event.preventDefault();  
-	});
-	$('#contacts_details_photo_wrapper').bind('dragleave',function(event){
-		$(event.target).removeClass('droppable');
-		//event.stopPropagation();
-		//event.preventDefault();  
-	});
-	$('#contacts_details_photo_wrapper').bind('drop',function(event){
-		event.stopPropagation();
-		event.preventDefault();
-		$(event.target).removeClass('droppable');
-		$.fileUpload(event.originalEvent.dataTransfer.files);
 	});
 
 	/**
