@@ -4,7 +4,7 @@
 		<p><label for="ldap_host"><?php echo $l->t('Host');?><input type="text" id="ldap_host" name="ldap_host" value="<?php echo $_['ldap_host']; ?>"></label>
 		<label for="ldap_port"><?php echo $l->t('Port');?></label><input type="text" id="ldap_port" name="ldap_port" value="<?php echo $_['ldap_port']; ?>" /></p>
 		<p><label for="ldap_dn"><?php echo $l->t('Name');?></label><input type="text" id="ldap_dn" name="ldap_dn" value="<?php echo $_['ldap_dn']; ?>" />
-		<label for="ldap_password"><?php echo $l->t('Password');?></label><input type="password" id="ldap_password" name="ldap_password" value="<?php echo $_['ldap_password']; ?>" />
+		<label for="ldap_agent_password"><?php echo $l->t('Password');?></label><input type="password" id="ldap_agent_password" name="ldap_agent_password" value="<?php echo $_['ldap_agent_password']; ?>" />
 		<small><?php echo $l->t('Leave both empty for anonymous bind for search, then bind with users credentials.');?></small></p>
 		<p><label for="ldap_base"><?php echo $l->t('Base');?></label><input type="text" id="ldap_base" name="ldap_base" value="<?php echo $_['ldap_base']; ?>" /></p>
 		<p><label for="ldap_login_filter"><?php echo $l->t('User Login Filter');?></label><input type="text" id="ldap_login_filter" name="ldap_login_filter" value="<?php echo $_['ldap_login_filter']; ?>" /><small><?php echo $l->t('use %%uid placeholder, e.g. uid=%%uid');?></small></p>

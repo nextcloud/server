@@ -48,7 +48,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 		$this->ldap_host = OC_Appconfig::getValue('user_ldap', 'ldap_host','');
 		$this->ldap_port = OC_Appconfig::getValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT	);
 		$this->ldap_dn = OC_Appconfig::getValue('user_ldap', 'ldap_dn','');
-		$this->ldap_password = OC_Appconfig::getValue('user_ldap', 'ldap_password','');
+		$this->ldap_password = base64_decode(OC_Appconfig::getValue('user_ldap', 'ldap_agent_password',''));
 		$this->ldap_base = OC_Appconfig::getValue('user_ldap', 'ldap_base','');
 		$this->ldap_login_filter = OC_Appconfig::getValue('user_ldap', 'ldap_login_filter','');
 		$this->ldap_userlist_filter = OC_Appconfig::getValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
