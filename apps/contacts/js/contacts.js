@@ -238,7 +238,7 @@ Contacts={
 				} else {
 					newid = id;
 				}
-				
+				console.log('update newid: ' + newid);
 				var localLoadContact = function(id) {
 					if($('#contacts li').length > 0) {
 						$('#leftcontent li[data-id="'+newid+'"]').addClass('active');
@@ -258,7 +258,7 @@ Contacts={
 						if(jsondata.status == 'success'){
 							$('#rightcontent').html(jsondata.data.page).ready(function() {
 								Contacts.UI.loadHandlers();
-								localLoadContact(id);
+								localLoadContact(newid);
 							});
 						} else {
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
@@ -276,6 +276,9 @@ Contacts={
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 					});
+				}
+				else {
+					localLoadContact();
 				}
 			},
 			doExport:function() {
@@ -364,6 +367,7 @@ Contacts={
 								if(newlistitem != undefined) {
 									newid = newlistitem.data('id');
 								}
+								console.log('newid: ' + newid);
 								$('#rightcontent').data('id',newid);
 								this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
 								this.data = undefined;
