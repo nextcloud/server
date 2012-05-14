@@ -25,7 +25,11 @@ foreach($calendars as $cal){
 }
 
 $calendarid = $_POST['id'];
-$calendar = OC_Calendar_App::getCalendar($calendarid);//access check
+$calendar = OC_Calendar_App::getCalendar($calendarid, true);
+if(!$calendar){
+	OCP\JSON::error(array('message'=>'permission denied'));
+	exit;
+}
 OC_Calendar_Calendar::editCalendar($calendarid, strip_tags($_POST['name']), null, null, null, $_POST['color']);
 OC_Calendar_Calendar::setCalendarActive($calendarid, $_POST['active']);
 
