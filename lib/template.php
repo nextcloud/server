@@ -163,7 +163,7 @@ class OC_Template{
 	/**
 	 * @brief Returns the formfactor extension for current formfactor
 	 */
-	protected function getFormFactorExtension()
+	static public function getFormFactorExtension()
 	{
 		$formfactor=$_SESSION['formfactor'];
 		if($formfactor=='default') { 
@@ -193,7 +193,7 @@ class OC_Template{
 		$theme=OC_Config::getValue( "theme" );
 
 		// Read the detected formfactor and use the right file name.
-		$fext = $this->getFormFactorExtension();
+		$fext = self::getFormFactorExtension();
 
 		$app = $this->application;
 		// Check if it is a app template or not.
@@ -376,7 +376,7 @@ class OC_Template{
 			$theme=OC_Config::getValue( "theme" );
 
 			// Read the detected formfactor and use the right file name.
-			$fext = $this->getFormFactorExtension();
+			$fext = self::getFormFactorExtension();
 
 			// Add the core js files or the js files provided by the selected theme
 			foreach(OC_Util::$scripts as $script){
