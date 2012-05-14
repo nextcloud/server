@@ -29,8 +29,9 @@ if ($_POST) {
 		if(isset($_POST[$param])){
 			if('ldap_agent_password' == $param) {
 				OCP\Config::setAppValue('user_ldap', $param, base64_encode($_POST[$param]));
+			} else {
+				OCP\Config::setAppValue('user_ldap', $param, $_POST[$param]);
 			}
-			OCP\Config::setAppValue('user_ldap', $param, $_POST[$param]);
 		}
 		elseif('ldap_tls' == $param) {
 			// unchecked checkboxes are not included in the post paramters
