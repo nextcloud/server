@@ -79,10 +79,9 @@ else {
 		else {
 			OC_User::unsetMagicInCookie();
 		}
-	}
-	
-	// Someone wants to log in :
-	elseif(isset($_POST["user"]) && isset($_POST['password'])) {
+        // Someone wants to log in :
+        } elseif(isset($_POST["user"]) and isset($_POST['password']) and isset($_SESSION['sectoken']) and isset($_POST['sectoken']) and ($_SESSION['sectoken']==$_POST['sectoken']) ) {
+
 		if(OC_User::login($_POST["user"], $_POST["password"])) {
 			if(!empty($_POST["remember_login"])){
 				if(defined("DEBUG") && DEBUG) {
@@ -110,5 +109,8 @@ else {
 			$error = true;
 		}
 	}
-	OC_Template::printGuestPage('', 'login', array('error' => $error, 'redirect' => isset($_REQUEST['redirect_url'])?$_REQUEST['redirect_url']:'' ));
+        $sectoken=rand(1000000,9999999);
+        $_SESSION['sectoken']=$sectoken;
+	OC_Template::printGuestPage('', 'login', array('error' => $error, 'sectoken' => $sectoken, 'redirect' => isset($_REQUEST['redirect_url'])?$_REQUEST['redirect_url']:'' ));
+
 }

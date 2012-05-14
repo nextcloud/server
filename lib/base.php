@@ -177,6 +177,17 @@ class OC{
 			}
 		}
 
+		// CSRF protection
+		if(isset($_SERVER['HTTP_REFERER'])) $referer=$_SERVER['HTTP_REFERER']; else $referer='';
+		if(isset($_SERVER['HTTPS']) and $_SERVER['HTTPS']<>'') $protocol='https://'; else $protocol='http://';
+		$server=$protocol.$_SERVER['SERVER_NAME'];
+		if(($_SERVER['REQUEST_METHOD']=='POST') and (substr($referer,0,strlen($server))<>$server)) {
+			$url = $protocol.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
+			header("Location: $url");
+			exit();
+		}	
+
+
 		if(OC_Config::getValue('installed', false)){
 			$installedVersion=OC_Config::getValue('version','0.0.0');
 			$currentVersion=implode('.',OC_Util::getVersion());
@@ -262,7 +273,10 @@ class OC{
 		}
 
 		OC_Files::cleanTmpFiles();
-
+		
+		// Check for blacklisted files
+		OC_Hook::connect('OC_Filesystem','write','OC_Filesystem','isBlacklisted');
+		
 		// Last part: connect some hooks
 		OC_HOOK::connect('OC_User', 'post_createUser', 'OC_Connector_Sabre_Principal', 'addPrincipal');
 		OC_HOOK::connect('OC_User', 'post_deleteUser', 'OC_Connector_Sabre_Principal', 'deletePrincipal');

@@ -15,7 +15,7 @@ if (isset($_POST['user'])) {
 		$token = sha1($_POST['user'].md5(uniqid(rand(), true)));
 		OC_Preferences::setValue($_POST['user'], 'owncloud', 'lostpassword', $token);
 		$email = OC_Preferences::getValue($_POST['user'], 'settings', 'email', '');
-		if (!empty($email)) {
+		if (!empty($email) and isset($_POST['sectoken']) and isset($_SESSION['sectoken']) and ($_POST['sectoken']==$_SESSION['sectoken']) ) {
 			$link = OC_Helper::linkTo('core/lostpassword', 'resetpassword.php', null, true).'?user='.$_POST['user'].'&token='.$token;
 			$tmpl = new OC_Template('core/lostpassword', 'email');
 			$tmpl->assign('link', $link);
@@ -23,10 +23,16 @@ if (isset($_POST['user'])) {
 			$l = new OC_L10N('core');
 			mail($email, $l->t('Owncloud password reset'), $msg);
 		}
-		OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => false, 'requested' => true));
+	        $sectoken=rand(1000000,9999999);
+     		$_SESSION['sectoken']=$sectoken;
+		OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => false, 'requested' => true, 'sectoken' => $sectoken));
 	} else {
-		OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => true, 'requested' => false));
+	        $sectoken=rand(1000000,9999999);
+	        $_SESSION['sectoken']=$sectoken;
+		OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => true, 'requested' => false, 'sectoken' => $sectoken));
 	}
 } else {
-	OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => false, 'requested' => false));
+        $sectoken=rand(1000000,9999999);
+        $_SESSION['sectoken']=$sectoken;
+	OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => false, 'requested' => false, 'sectoken' => $sectoken));
 }

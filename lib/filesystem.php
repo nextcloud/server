@@ -535,8 +535,16 @@ class OC_Filesystem{
 		
 	}
 	
-	static public function update_session_file_hash($sessionname,$sessionvalue){
-		$_SESSION[$sessionname] = $sessionvalue;
+	/**
+	* checks if a file is blacklsited for storage in the filesystem
+	* @param array $data from hook
+	*/
+	static public function isBlacklisted($data){
+		$blacklist = array('.htaccess');
+		$filename = strtolower(basename($data['path']));
+		if(in_array($filename,$blacklist)){
+			$data['run'] = false;	
+		}
 	}
 
 	/**

@@ -62,7 +62,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(3,00,2);
+		return array(3,00,3);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString(){
-		return '3.0.2';
+		return '3.0.3';
 	}
 
         /**
@@ -254,6 +254,9 @@ class OC_Util {
 		} else {
 			$parameters["username"] = '';
 		}
+                $sectoken=rand(1000000,9999999);
+                $_SESSION['sectoken']=$sectoken;
+                $parameters["sectoken"] = $sectoken;
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
