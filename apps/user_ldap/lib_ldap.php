@@ -590,7 +590,7 @@ class OC_LDAP {
 			self::$ldapHost             = OCP\Config::getAppValue('user_ldap', 'ldap_host', '');
 			self::$ldapPort             = OCP\Config::getAppValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT);
 			self::$ldapAgentName        = OCP\Config::getAppValue('user_ldap', 'ldap_dn','');
-			self::$ldapAgentPassword    = OCP\Config::getAppValue('user_ldap', 'ldap_password','');
+			self::$ldapAgentPassword    = base64_decode(OCP\Config::getAppValue('user_ldap', 'ldap_agent_password',''));
 			self::$ldapBase             = OCP\Config::getAppValue('user_ldap', 'ldap_base', '');
 			self::$ldapBaseUsers        = OCP\Config::getAppValue('user_ldap', 'ldap_base_users',self::$ldapBase);
 			self::$ldapBaseGroups       = OCP\Config::getAppValue('user_ldap', 'ldap_base_groups', self::$ldapBase);
