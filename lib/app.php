@@ -75,6 +75,8 @@ class OC_App{
 
 		if (!defined('DEBUG') || !DEBUG){
 			if (is_null($types)) {
+				OC_Util::$core_scripts = OC_Util::$scripts;
+				OC_Util::$scripts = array();
 				OC_Util::$core_styles = OC_Util::$styles;
 				OC_Util::$styles = array();
 			}

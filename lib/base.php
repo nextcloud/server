@@ -231,6 +231,7 @@ class OC{
 			}
 
 			OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
+			OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
 
 			OC_App::updateApps();
 		}

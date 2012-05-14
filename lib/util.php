@@ -11,6 +11,7 @@ class OC_Util {
 	private static $rootMounted=false;
 	private static $fsSetup=false;
 	public static $core_styles=array();
+	public static $core_scripts=array();
 
 	// Can be set up
 	public static function setupFS( $user = "", $root = "files" ){// configure the initial filesystem based on the configuration

@@ -15,6 +15,9 @@
 			var oc_appswebroot = '<?php echo OC::$APPSWEBROOT; ?>';
 			var oc_current_user = '<?php echo OC_User::getUser() ?>';
 		</script>
+		<?php if (!defined('DEBUG') || !DEBUG): ?>
+		<script type="text/javascript" src="<?php echo OC_Helper::linkToRemote('core.js', false) ?>"></script>
+		<?php endif ?>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
 		<?php endforeach; ?>
