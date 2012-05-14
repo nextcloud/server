@@ -41,6 +41,10 @@ class OC_Share {
 	public function __construct($source, $uid_shared_with, $permissions) {
 		$uid_owner = OCP\USER::getUser();
 		$query = OCP\DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
+		// Check if this is a reshare and use the original source
+		if ($result = OC_Share::getSource($source)) {
+			$source = $result;
+		}
 		if ($uid_shared_with == self::PUBLICLINK) {
 			$token = sha1("$uid_shared_with-$source");
 			$query->execute(array($uid_owner, self::PUBLICLINK, $source, $token, $permissions));
