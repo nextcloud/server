@@ -472,12 +472,10 @@ class OC_Share {
 		$gid = '@'.$arguments['gid'];
 		$result = $query->execute(array($gid))->fetchAll();
 		if (count($result) > 0) {
-			$query = OCP\DB::prepare('INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)');
-			$sharedFolder = '/'.$arguments['uid'].'/files/Shared/';
 			$lastSource = '';
 			for ($i = 0; $i < count($result) - 1; $i++) {
 				if ($result[$i]['source'] != $lastSource) {
-					$query->execute(array($result[$i]['uid_owner'], $arguments['uid'].'@'.$arguments['gid'], $result[$i]['source'], $sharedFolder.basename($result[$i]['source']), $result[$i]['permissions']));
+					new OC_Share($result[$i]['source'], $arguments['gid'], $result[$i]['permissions']);
 					$lastSource = $result[$i]['source'];
 				}
 			}
