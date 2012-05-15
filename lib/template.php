@@ -378,6 +378,7 @@ class OC_Template{
 			// Read the detected formfactor and use the right file name.
 			$fext = self::getFormFactorExtension();
 
+			$page->assign('jsfiles', array());
 			// Add the core js files or the js files provided by the selected theme
 			foreach(OC_Util::$scripts as $script){
 				// Is it in 3rd party?
@@ -414,6 +415,7 @@ class OC_Template{
 				}
 			}
 			// Add the css files
+			$page->assign('cssfiles', array());
 			foreach(OC_Util::$styles as $style){
 				// is it in 3rdparty?
                                 if($page->appendIfExist('cssfiles', OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $style.'.css')) {
