@@ -22,6 +22,10 @@
 
 OCP\App::checkAppEnabled('contacts');
 
+if(substr($_SERVER["REQUEST_URI"],0,strlen(OC::$APPSWEBROOT . '/apps/contacts/carddav.php')) == OC::$APPSWEBROOT . '/apps/contacts/carddav.php'){
+	$baseuri = OC::$APPSWEBROOT . '/apps/contacts/carddav.php';
+}
+
 // only need authentication apps
 $RUNTIME_APPTYPES=array('authentication');
 OC_App::loadApps($RUNTIME_APPTYPES);
