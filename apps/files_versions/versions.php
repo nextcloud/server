@@ -35,7 +35,7 @@ class Storage {
 	const DEFAULTFOLDER='versions'; 
 	const DEFAULTBLACKLIST='avi mp3 mpg mp4'; 
 	const DEFAULTMAXFILESIZE=1048576; // 10MB 
-	const DEFAULTMININTERVAL=120; // 2 min
+	const DEFAULTMININTERVAL=1; // 2 min
 	const DEFAULTMAXVERSIONS=50; 
 
 	/**
@@ -168,28 +168,65 @@ class Storage {
          * get a list of old versions of a file.
          */
         public static function getversions($filename,$count=0) {
-                if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
-			$versions=array();         
- 
-	              // fetch for old versions
-			$matches=glob($versionsfoldername.$filename.'.v*');
-			sort($matches);
-			foreach($matches as $ma) {
-				$parts=explode('.v',$ma);
-				$versions[]=(end($parts));
+        
+                if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
+                
+			$versionsfoldername = \OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$versions = array();         
+			
+			// fetch for old versions
+			$matches = glob( $versionsfoldername.$filename.'.v*' );
+			
+			sort( $matches );
+			
+			$i = 0;
+			
+			foreach( $matches as $ma ) {
+				
+				$i++;
+				$versions[$i]['cur'] = 0;
+				$parts = explode( '.v',$ma );
+				$versions[$i]['version'] = ( end( $parts ) );
+				
+				// if file with modified date exists, flag it in array as currently enabled version
+				$curFile['fileName'] = basename( $parts[0] );
+				$curFile['filePath'] = \OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/files/'.$curFile['fileName'];
+				
+				( \md5_file( $ma ) == \md5_file( $curFile['filePath'] ) ? $versions[$i]['fileMatch'] = 1 : $versions[$i]['fileMatch'] = 0 );
+				
 			}
 			
+			$versions = array_reverse( $versions );
+			
+			foreach( $versions as $key => $value ) {
+				
+				// flag the first matched file in array (which will have latest modification date) as current version
+				if ( $versions[$key]['fileMatch'] ) {
+				
+					$versions[$key]['cur'] = 1;
+					break;
+					
+				}
+			
+			}
+			
+			$versions = array_reverse( $versions );
+			
 			// only show the newest commits
-			if($count<>0 and (count($versions)>$count)) {
-				$versions=array_slice($versions,count($versions)-$count);
+			if( $count != 0 and ( count( $versions )>$count ) ) {
+			
+				$versions = array_slice( $versions, count( $versions ) - $count );
+				
 			}
 	
-			return($versions);
+			return( $versions );
 
 
-                }else{
-                        return(array());
+                } else {
+                
+			// if versioning isn't enabled then return an empty array
+                        return( array() );
+                        
                 }
         }	
 
