@@ -149,13 +149,13 @@ Contacts={
 				}
 			] );
 			
-			$('#fn').blur(function(){
+			/*$('#fn').blur(function(){
 				if($('#fn').val() == '') {
 					OC.dialogs.alert(t('contacts','The name field cannot be empty. Please enter a name for this contact.'), t('contacts','Name is empty'), function() { $('#fn').focus(); });
 					$('#fn').focus();
 					return false;
 				}
-			});
+			});*/
 			
 			// Name has changed. Update it and reorder.
 			$('#fn').change(function(){
