@@ -165,9 +165,12 @@ class Storage {
 
         
         /**
-         * get a list of old versions of a file.
+         * @brief get a list of all available versions of a file in descending chronological order
+         * @param $filename file to find versions of, relative to the user files dir
+         * @param $count number of versions to return
+         * @returns array
          */
-        public static function getversions($filename,$count=0) {
+        public static function getversions( $filename, $count = 0 ) {
         
                 if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
                 
