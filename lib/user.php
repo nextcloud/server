@@ -304,9 +304,10 @@ class OC_User {
 	 * @brief Check if the password is correct
 	 * @param $uid The username
 	 * @param $password The password
-	 * @returns true/false
+	 * @returns string
 	 *
 	 * Check if the password is correct without logging in the user
+	 * returns the user id or false
 	 */
 	public static function checkPassword( $uid, $password ){
 		foreach(self::$_usedBackends as $backend){

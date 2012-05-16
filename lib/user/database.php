@@ -117,9 +117,10 @@ class OC_User_Database extends OC_User_Backend {
 	 * @brief Check if the password is correct
 	 * @param $uid The username
 	 * @param $password The password
-	 * @returns true/false
+	 * @returns string
 	 *
 	 * Check if the password is correct without logging in the user
+	 * returns the user id or false
 	 */
 	public function checkPassword( $uid, $password ){
 		$query = OC_DB::prepare( "SELECT uid, password FROM *PREFIX*users WHERE uid = ?" );
