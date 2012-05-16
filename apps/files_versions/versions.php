@@ -27,7 +27,6 @@ class Storage {
 	//
 	// todo:
 	//   - port to oc_filesystem to enable network transparency
-	//   - check if it works well together with encryption
 	//   - implement expire all function. And find a place to call it ;-)
 	//   - add transparent compression. first test if it´s worth it.
 
@@ -69,7 +68,7 @@ class Storage {
 	 */
 	public static function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$versionsFolderName=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/files';
 			Storage::init();
 
@@ -95,7 +94,7 @@ class Storage {
 
 
 			// check mininterval
-			$matches=glob($versionsfoldername.$filename.'.v*');
+			$matches=glob($versionsFolderName.$filename.'.v*');
 			sort($matches);
 			$parts=explode('.v',end($matches));
 			if((end($parts)+Storage::DEFAULTMININTERVAL)>time()){
@@ -105,13 +104,13 @@ class Storage {
 
 			// create all parent folders
 			$info=pathinfo($filename);	
-			@mkdir($versionsfoldername.$info['dirname'],0700,true);	
+			@mkdir($versionsFolderName.$info['dirname'], 0700, true);	
 
 
 			// store a new version of a file
-			copy($filesfoldername.$filename,$versionsfoldername.$filename.'.v'.time());
+			copy($filesfoldername.$filename,$versionsFolderName.$filename.'.v'.time());
         
-			// expire old revisions
+			// expire old revisions if necessary
 			Storage::expire($filename);
 		}
 	}
@@ -124,12 +123,12 @@ class Storage {
 	
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 		
-			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$versionsFolderName=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 			
 			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/files';
 			
 			// rollback
-			if ( @copy($versionsfoldername.$filename.'.v'.$revision,$filesfoldername.$filename) ) {
+			if ( @copy($versionsFolderName.$filename.'.v'.$revision,$filesfoldername.$filename) ) {
 			
 				return true;
 				
@@ -148,10 +147,10 @@ class Storage {
 	 */
 	public static function isversioned($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$versionsFolderName=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 
 			// check for old versions
-			$matches=glob($versionsfoldername.$filename.'.v*');
+			$matches=glob($versionsFolderName.$filename.'.v*');
 			if(count($matches)>1){
 				return true;
 			}else{
@@ -170,15 +169,15 @@ class Storage {
          * @param $count number of versions to return
          * @returns array
          */
-        public static function getversions( $filename, $count = 0 ) {
+        public static function getVersions( $filename, $count = 0 ) {
         
                 if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
                 
-			$versionsfoldername = \OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$versionsFolderName = \OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 			$versions = array();         
 			
 			// fetch for old versions
-			$matches = glob( $versionsfoldername.$filename.'.v*' );
+			$matches = glob( $versionsFolderName.$filename.'.v*' );
 			
 			sort( $matches );
 			
@@ -188,12 +187,12 @@ class Storage {
 				
 				$i++;
 				$versions[$i]['cur'] = 0;
-				$parts = explode( '.v',$ma );
+				$parts = explode( '.v', $ma );
 				$versions[$i]['version'] = ( end( $parts ) );
 				
 				// if file with modified date exists, flag it in array as currently enabled version
 				$curFile['fileName'] = basename( $parts[0] );
-				$curFile['filePath'] = \OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/files/'.$curFile['fileName'];
+				$curFile['filePath'] = \OCP\Config::getSystemValue('datadirectory').\OC_Filesystem::getRoot().'/'.$curFile['fileName'];
 				
 				( \md5_file( $ma ) == \md5_file( $curFile['filePath'] ) ? $versions[$i]['fileMatch'] = 1 : $versions[$i]['fileMatch'] = 0 );
 				
@@ -231,7 +230,8 @@ class Storage {
                         return( array() );
                         
                 }
-        }	
+                
+        }
 
 
         
@@ -241,28 +241,92 @@ class Storage {
         public static function expire($filename) {
                 if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 
-			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$versionsFolderName=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 
 			// check for old versions
-			$matches=glob($versionsfoldername.$filename.'.v*');
-			if(count($matches)>\OCP\Config::getSystemValue('files_versionmaxversions', Storage::DEFAULTMAXVERSIONS)){
-				$numbertodelete=count($matches-\OCP\Config::getSystemValue('files_versionmaxversions', Storage::DEFAULTMAXVERSIONS));
+			$matches = glob( $versionsFolderName.$filename.'.v*' );
+			
+			if( count( $matches ) > \OCP\Config::getSystemValue( 'files_versionmaxversions', Storage::DEFAULTMAXVERSIONS ) ) {
+			
+				$numberToDelete = count( $matches-\OCP\Config::getSystemValue( 'files_versionmaxversions', Storage::DEFAULTMAXVERSIONS ) );
 
 				// delete old versions of a file
-				$deleteitems=array_slice($matches,0,$numbertodelete);
-				foreach($deleteitems as $de){
-					unlink($versionsfoldername.$filename.'.v'.$de);
+				$deleteItems = array_slice( $matches, 0, $numberToDelete );
+				
+				foreach( $deleteItems as $de ) {
+				
+					unlink( $versionsFolderName.$filename.'.v'.$de );
+					
 				}
 			}
                 }
         }
 
         /**
-         * expire all old versions.
+         * @brief erase all old versions of all user files
+         * @return 
          */
-        public static function expireall($filename) {
-		// todo this should go through all the versions directories and delete all the not needed files and not needed directories.
-		// useful to be included in a cleanup cronjob.
+        public static function expireAll() {
+	
+		function deleteAll($directory, $empty = false) {
+		
+			if(substr($directory,-1) == "/") {
+				$directory = substr($directory,0,-1);
+			}
+
+			if(!file_exists($directory) || !is_dir($directory)) {
+			
+				return false;
+				
+			} elseif(!is_readable($directory)) {
+			
+				return false;
+				
+			} else {
+			
+				$directoryHandle = opendir($directory);
+			
+				while ($contents = readdir($directoryHandle)) {
+				
+					if( $contents != '.' && $contents != '..') {
+						
+						$path = $directory . "/" . $contents;
+					
+						if( is_dir($path) ) {
+							
+							deleteAll($path);
+						
+						} else {
+						
+							unlink($path);
+						
+						}
+					}
+				
+				}
+			
+				closedir( $directoryHandle );
+
+				if( $empty == false ) {
+				
+					if(!rmdir($directory)) {
+					
+						return false;
+						
+					}
+					
+				}
+			
+				return true;
+			}
+			
+		}
+		
+		// FIXME: make this path dynamic
+		$dir = '/home/samtuke/owncloud/git/oc5/data/admin/versions';
+
+		( deleteAll( $dir, 1 ) ? return true : return false );
+		
         }
 
 

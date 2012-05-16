@@ -25,8 +25,8 @@ $(document).ready(function(){
 
 function createVersionsDropdown(filename, files) {
 	
-	var historyUrl = '../apps/files_versions/history.php?path='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
-
+	var historyUrl = OC.linkTo('files_versions', 'history.php?path='+encodeURIComponent( $( '#dir' ).val() ).replace( /%2F/g, '/' )+'/'+encodeURIComponent( filename ) )
+	
 	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
 	html += '<div id="private">';
 	html += '<select data-placeholder="File Version" id="found_versions" class="chzen-select">';
