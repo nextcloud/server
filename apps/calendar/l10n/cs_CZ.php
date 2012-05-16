@@ -6,7 +6,7 @@
 "Timezone changed" => "Časová zóna byla změněna",
 "Invalid request" => "Chybný požadavek",
 "Calendar" => "Kalendář",
-"MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}" => "MMM d[ rrrr]{ '&#8212;'[ MMM] d rrrr}",
+"MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}" => "d. MMM[ yyyy]{ '&#8212;' d.[ MMM] yyyy}",
 "Birthday" => "Narozeniny",
 "Business" => "Obchodní",
 "Call" => "Hovor",

@@ -78,7 +78,7 @@
 "Nickname" => "Přezdívka",
 "Enter nickname" => "Zadejte přezdívku",
 "Birthday" => "Narozeniny",
-"dd-mm-yyyy" => "dd-mm-rrrr",
+"dd-mm-yyyy" => "dd. mm. yyyy",
 "Groups" => "Skupiny",
 "Separate groups with commas" => "Oddělte skupiny čárkami",
 "Edit groups" => "Upravit skupiny",

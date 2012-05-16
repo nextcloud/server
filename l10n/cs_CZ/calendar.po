@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
 "POT-Creation-Date: 2012-05-13 19:52+0200\n"
-"PO-Revision-Date: 2012-05-12 20:04+0000\n"
+"PO-Revision-Date: 2012-05-16 08:18+0000\n"
 "Last-Translator: Michal Hrušecký <Michal@hrusecky.net>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.net/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "Kalendář"
 
 #: js/calendar.js:788
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
-msgstr "MMM d[ rrrr]{ '&#8212;'[ MMM] d rrrr}"
+msgstr "d. MMM[ yyyy]{ '&#8212;' d.[ MMM] yyyy}"
 
 #: lib/app.php:125
 msgid "Birthday"

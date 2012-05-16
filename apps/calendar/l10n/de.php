@@ -143,6 +143,7 @@
 "View an event" => "Termin öffnen",
 "No categories selected" => "Keine Kategorie ausgewählt",
 "Select category" => "Kategorie auswählen",
+"of" => "von",
 "Timezone" => "Zeitzone",
 "Check always for changes of the timezone" => "immer die Zeitzone überprüfen",
 "Timeformat" => "Zeitformat",

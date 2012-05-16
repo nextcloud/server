@@ -9,10 +9,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-16 17:32+0000\n"
+"Last-Translator: Roman Priesol <roman@priesol.net>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.net/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "email Changed"
-msgstr "email Zmenený"
+msgstr "email zmenený"
 
 #: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
 #: ajax/setlanguage.php:22
@@ -43,19 +43,19 @@ msgstr "Slovensky"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Záznam"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Viac"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Pridať vašu aplikáciu"
 
 #: templates/apps.php:22
 msgid "Select an App"
-msgstr "Vyberte Aplikáciu"
+msgstr "Vyberte aplikáciu"
 
 #: templates/apps.php:25
 msgid "-licensed"
@@ -67,11 +67,11 @@ msgstr "od"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentácia"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Spravovanie veľké súbory"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -99,11 +99,11 @@ msgstr "z dostupných"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Klienti pre synchronizáciu"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Stiahnúť"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -171,11 +171,11 @@ msgstr "Vytvoriť"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Predvolená kvóta"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Iné"
 
 #: templates/users.php:47
 msgid "Quota"

@@ -9,10 +9,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-14 09:44+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.net/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,11 +47,11 @@ msgstr ""
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Gehiago"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Gehitu zure aplikazioa"
 
 #: templates/apps.php:22
 msgid "Select an App"
@@ -67,11 +67,11 @@ msgstr " Egilea:"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentazioa"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Fitxategi handien kudeaketa"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -99,11 +99,11 @@ msgstr "eta guztira erabil dezakezu "
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Mahaigain eta mugikorren sinkronizazio bezeroak"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Deskargatu"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -175,7 +175,7 @@ msgstr ""
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Besteak"
 
 #: templates/users.php:47
 msgid "Quota"

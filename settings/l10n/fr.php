@@ -28,7 +28,7 @@
 "Change password" => "Changer de mot de passe",
 "Email" => "E-mail",
 "Your email address" => "Votre adresse e-mail",
-"Fill in an email address to enable password recovery" => "Entrez votre adresse e-mail pour activer la réinitialisation de mot de passe",
+"Fill in an email address to enable password recovery" => "Entrez votre adresse e-mail pour permettre la réinitialisation du mot de passe",
 "Language" => "Langue",
 "Help translate" => "Aidez à traduire",
 "use this address to connect to your ownCloud in your file manager" => "utilisez cette adresse pour vous connecter à votre ownCloud depuis un explorateur de fichiers",

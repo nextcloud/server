@@ -5,16 +5,17 @@
 # Translators:
 #   <bart.formosus@gmail.com>, 2011.
 #   <bartv@thisnet.nl>, 2011.
+# Erik Bent <hj.bent.60@gmail.com>, 2012.
 #   <icewind1991@gmail.com>, 2011.
 #   <koen@vervloesem.eu>, 2011.
 #   <pietje8501@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-15 06:21+0000\n"
+"Last-Translator: Erik Bent <hj.bent.60@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +51,7 @@ msgstr "Een tijdelijke map mist"
 
 #: ajax/upload.php:25
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Schrijven naar schijf mislukt"
 
 #: appinfo/app.php:7
 msgid "Files"
@@ -58,7 +59,7 @@ msgstr "Bestanden"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Bestand"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -66,23 +67,23 @@ msgstr "Maximale bestandsgrootte voor uploads"
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "max. mogelijk: "
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Nodig voor meerdere bestanden en mappen downloads."
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Zet ZIP-download aan"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 is ongelimiteerd"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Maximale grootte voor ZIP bestanden"
 
 #: templates/index.php:7
 msgid "New"
@@ -98,7 +99,7 @@ msgstr "Map"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr ""
+msgstr "Van hyperlink"
 
 #: templates/index.php:21
 msgid "Upload"
@@ -106,7 +107,7 @@ msgstr "Upload"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "Upload afbreken"
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
@@ -118,7 +119,7 @@ msgstr "Naam"
 
 #: templates/index.php:49
 msgid "Share"
-msgstr ""
+msgstr "Delen"
 
 #: templates/index.php:51
 msgid "Download"
@@ -134,7 +135,7 @@ msgstr "Laatst aangepast"
 
 #: templates/index.php:56
 msgid "Delete all"
-msgstr ""
+msgstr "Alles verwijderen"
 
 #: templates/index.php:56
 msgid "Delete"
@@ -152,8 +153,8 @@ msgstr "De bestanden die u probeert te uploaden zijn groter dan de maximaal toeg
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Bestanden worden gescand, even wachten."
 
 #: templates/index.php:74
 msgid "Current scanning"
-msgstr ""
+msgstr "Er wordt gescand"

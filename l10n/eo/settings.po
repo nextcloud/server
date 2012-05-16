@@ -7,10 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-16 22:11+0000\n"
+"Last-Translator: mctpyt <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.net/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,15 +41,15 @@ msgstr "Esperanto"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Registro"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Pli"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Aldonu vian aplikaĵon"
 
 #: templates/apps.php:22
 msgid "Select an App"
@@ -65,11 +65,11 @@ msgstr "de"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentaro"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Administrante grandajn dosierojn"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -97,11 +97,11 @@ msgstr "el la disponeblaj"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Labortablaj kaj porteblaj sinkronigoklientoj"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Elŝuti"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -169,11 +169,11 @@ msgstr "Krei"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Defaŭlta kvoto"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Alia"
 
 #: templates/users.php:47
 msgid "Quota"

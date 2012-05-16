@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
 "POT-Creation-Date: 2012-05-13 19:52+0200\n"
-"PO-Revision-Date: 2012-05-10 07:27+0000\n"
+"PO-Revision-Date: 2012-05-14 16:43+0000\n"
 "Last-Translator: goeck <admin@s-goecker.de>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -610,7 +610,7 @@ msgstr "Kategorie auswählen"
 
 #: templates/part.showevent.php:37
 msgid "of"
-msgstr ""
+msgstr "von"
 
 #: templates/part.showevent.php:62 templates/part.showevent.php:70
 msgid "at"

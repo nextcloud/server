@@ -28,7 +28,7 @@
 "Change password" => "Αλλαγή κωδικού πρόσβασης",
 "Email" => "Email",
 "Your email address" => "Διεύθυνση ηλεκτρονικού ταχυδρομείου σας",
-"Fill in an email address to enable password recovery" => "Συμπληρώστε μια διεύθυνση ηλεκτρονικού ταχυδρομείου για να ενεργοποιηθεί ή ανάκτηση κωδικού πρόσβασης",
+"Fill in an email address to enable password recovery" => "Συμπληρώστε μια διεύθυνση ηλεκτρονικού ταχυδρομείου για να ενεργοποιηθεί η ανάκτηση κωδικού πρόσβασης",
 "Language" => "Γλώσσα",
 "Help translate" => "Βοηθήστε στην μετάφραση",
 "use this address to connect to your ownCloud in your file manager" => "χρησιμοποιήστε αυτή τη διεύθυνση για να συνδεθείτε στο ownCloud σας από το διαχειριστή αρχείων σας",

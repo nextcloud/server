@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Adam Toth <adazlord@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:33+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-16 21:43+0000\n"
+"Last-Translator: Adam Toth <adazlord@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.net/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,40 +20,40 @@ msgstr ""
 
 #: appinfo/app.php:42
 msgid "Pictures"
-msgstr ""
+msgstr "Képek"
 
 #: templates/index.php:16
 msgid "Rescan"
-msgstr ""
+msgstr "Újravizsgálás"
 
 #: templates/index.php:17
 msgid "Stop"
-msgstr ""
+msgstr "Állj"
 
 #: templates/index.php:18
 msgid "Share"
-msgstr ""
+msgstr "Megosztás"
 
 #: templates/index.php:19
 msgid "Settings"
-msgstr ""
+msgstr "Beállítások"
 
 #: templates/view_album.php:19
 msgid "Back"
-msgstr ""
+msgstr "Vissza"
 
 #: templates/view_album.php:36
 msgid "Remove confirmation"
-msgstr ""
+msgstr "Megerősítés eltávolítása"
 
 #: templates/view_album.php:37
 msgid "Do you want to remove album"
-msgstr ""
+msgstr "El akarja távolítani az albumot?"
 
 #: templates/view_album.php:40
 msgid "Change album name"
-msgstr ""
+msgstr "Albumnév megváltoztatása"
 
 #: templates/view_album.php:43
 msgid "New album name"
-msgstr ""
+msgstr "Új albumnév"
