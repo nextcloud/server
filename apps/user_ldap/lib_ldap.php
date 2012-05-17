@@ -148,16 +148,6 @@ class OC_LDAP {
 
 		$record = $query->execute(array($name))->fetchOne();
 		return $record;
-		if($name=='Coyotes') {
-			echo("adsfasdf ");
-			var_dump($record);
-			die();
-		}
-		if(isset($record['ldap_dn'])) {
-			return $record['ldap_dn'];
-		}
-
-		return false;
 	}
 
 	/**
