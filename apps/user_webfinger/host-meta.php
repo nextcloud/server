@@ -19,7 +19,7 @@ if(isset($_SERVER['HTTPS'])) {
 $lrddTmpl .= '://' . $serverName . $webRoot . '/public.php?service=webfinger&q={uri}';
 $hostMetaPath = $docRoot . '/.well-known/host-meta';
 $hostMetaDir = $docRoot . '/.well-known';
-$hostMetaContents = "{\"links\":[{\"rel\":\"lrdd\",\"template\":\"http://mich.oc/public.php?service=webfinger&q={uri}\"}]}";
+$hostMetaContents = "{\"links\":[{\"rel\":\"lrdd\",\"template\":\"http'.(isset($_SERVER['HTTPS'])?'s':'').'://'.$serverName.'/public.php?service=webfinger&q={uri}\"}]}";
 foreach($hostMetaHeader as $header => $value) {
 	header($header . ": " . $value);
 }
