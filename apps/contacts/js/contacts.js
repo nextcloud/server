@@ -1287,7 +1287,7 @@ Contacts={
 								close : function(event, ui) {
 									$(this).dialog('destroy').remove();
 								}
-							});
+							}).css('overflow','visible');
 						} else {
 							alert(jsondata.data.message);
 						}
@@ -1338,7 +1338,8 @@ Contacts={
 				$('#importaddressbook_dialog').find('.upload').click(function() {
 					Contacts.UI.Addressbooks.droptarget.html(t('contacts', 'Uploading...'));
 					Contacts.UI.loading(Contacts.UI.Addressbooks.droptarget, true);
-					$('#import_upload_start').trigger('click');
+					//$('#import_upload_start').trigger('click');
+					//return false;
 				});
 				$('#importaddressbook_dialog').find('.upload').tipsy();
 				this.droptarget = $('#import_drop_target');
