@@ -133,8 +133,8 @@ class PEAR_Command
             $a = PEAR::raiseError("unknown command `$command'");
             return $a;
         }
-        $ui =& PEAR_Command::getFrontendObject();
-        $obj = &new $class($ui, $config);
+        $ui = PEAR_Command::getFrontendObject();
+        $obj = new $class($ui, $config);
         return $obj;
     }
 
@@ -149,7 +149,7 @@ class PEAR_Command
         if (!class_exists($class)) {
             return PEAR::raiseError("unknown command `$command'");
         }
-        $ui =& PEAR_Command::getFrontendObject();
+        $ui = PEAR_Command::getFrontendObject();
         $config = &PEAR_Config::singleton();
         $obj = &new $class($ui, $config);
         return $obj;

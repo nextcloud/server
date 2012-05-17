@@ -90,6 +90,9 @@
 "Cancel" => "取消",
 "Edit an event" => "編輯事件",
 "Export" => "匯出",
+"Alarm" => "鬧鐘",
+"Attendees" => "出席者",
+"Share" => "分享",
 "Title of the Event" => "事件標題",
 "Category" => "分類",
 "All Day Event" => "全天事件",
@@ -124,5 +127,10 @@
 "Timeformat" => "日期格式",
 "24h" => "24小時制",
 "12h" => "12小時制",
-"Calendar CalDAV syncing address:" => "CalDAV 的日曆同步地址："
+"Calendar CalDAV syncing address:" => "CalDAV 的日曆同步地址：",
+"Users" => "使用者",
+"select users" => "選擇使用者",
+"Editable" => "可編輯",
+"Groups" => "群組",
+"select groups" => "選擇群組"
 );

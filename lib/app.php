@@ -65,9 +65,7 @@ class OC_App{
 		$apps = self::getEnabledApps();
 		foreach( $apps as $app ){
 			if((is_null($types) or self::isType($app,$types))){
-				if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
-					require( $app.'/appinfo/app.php' );
-				}
+				self::loadApp($app);
 			}
 		}
 
@@ -78,7 +76,17 @@ class OC_App{
 	}
 
 	/**
-	 * check if an app is of a sepcific type
+	 * load a single app
+	 * @param string app
+	 */
+	public static function loadApp($app){
+		if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
+			require_once( $app.'/appinfo/app.php' );
+		}
+	}
+
+	/**
+	 * check if an app is of a specific type
 	 * @param string $app
 	 * @param string/array $types
 	 */
@@ -106,19 +114,22 @@ class OC_App{
 			self::$appTypes=OC_Appconfig::getValues(false,'types');
 		}
 
-		//get it from info.xml if we haven't cached it
-		if(!isset(self::$appTypes[$app])){
-			$appData=self::getAppInfo($app);
-			if(isset($appData['types'])){
-				self::$appTypes[$app]=implode(',',$appData['types']);
-			}else{
-				self::$appTypes[$app]='';
-			}
+		return explode(',',self::$appTypes[$app]);
+	}
 
-			OC_Appconfig::setValue($app,'types',implode(',',self::$appTypes[$app]));
+	/**
+	 * read app types from info.xml and cache them in the database
+	 */
+	public static function setAppTypes($app){
+		$appData=self::getAppInfo($app);
+		
+		if(isset($appData['types'])){
+			$appTypes=implode(',',$appData['types']);
+		}else{
+			$appTypes='';
 		}
 
-		return explode(',',self::$appTypes[$app]);
+		OC_Appconfig::setValue($app,'types',$appTypes);
 	}
 
 	/**
@@ -534,6 +545,8 @@ class OC_App{
 		foreach($appData['public'] as $name=>$path){
 			OCP\CONFIG::setAppValue('core', 'public_'.$name, '/apps/'.$appid.'/'.$path);
 		}
+
+		self::setAppTypes($appid);
 	}
 
 	/**

@@ -92,7 +92,7 @@ $tmpl = new OCP\Template( 'files', 'index', 'user' );
 $tmpl->assign( 'fileList', $list->fetchPage() );
 $tmpl->assign( 'breadcrumb', $breadcrumbNav->fetchPage() );
 $tmpl->assign( 'dir', $dir);
-$tmpl->assign( 'readonly', !OC_Filesystem::is_writable($dir));
+$tmpl->assign( 'readonly', !OC_Filesystem::is_writable($dir.'/'));
 $tmpl->assign( 'files', $files );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));

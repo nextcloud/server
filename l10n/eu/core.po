@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:31+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-14 09:40+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.net/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,15 +21,15 @@ msgstr ""
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr ""
+msgstr "Aplikazioaren izena falta da"
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr ""
+msgstr "Ez dago gehitzeko kategoriarik?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
-msgstr ""
+msgstr "Kategoria hau dagoeneko existitzen da:"
 
 #: lostpassword/index.php:26
 msgid "Owncloud password reset"
@@ -37,7 +37,7 @@ msgstr "Owncloudeko pasahitza berrezarri"
 
 #: lostpassword/index.php:27
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "ownCloud-en pasahitza berrezarri"
 
 #: lostpassword/templates/email.php:1
 msgid "Use the following link to reset your password: {link}"
@@ -102,7 +102,7 @@ msgstr "Laguntza"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Sarrera debekatuta"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -110,11 +110,11 @@ msgstr "Ez da hodeia aurkitu"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Editatu kategoriak"
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "Gehitu"
 
 #: templates/installation.php:23
 msgid "Create an <strong>admin account</strong>"
@@ -161,7 +161,7 @@ msgstr "Datubasearen hostalaria"
 msgid "Finish setup"
 msgstr "Bukatu konfigurazioa"
 
-#: templates/layout.guest.php:37
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "web zerbitzuak zure kontrolpean"
 

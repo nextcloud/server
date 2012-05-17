@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:31+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-09 11:23+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,15 +21,15 @@ msgstr ""
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr ""
+msgstr "No s'ha facilitat cap nom per l'aplicació."
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr ""
+msgstr "No voleu afegir cap categoria?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
-msgstr ""
+msgstr "Aquesta categoria ja existeix:"
 
 #: lostpassword/index.php:26
 msgid "Owncloud password reset"
@@ -37,7 +37,7 @@ msgstr "Restableix la contrasenya d'Owncloud"
 
 #: lostpassword/index.php:27
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "estableix de nou la contrasenya Owncloud"
 
 #: lostpassword/templates/email.php:1
 msgid "Use the following link to reset your password: {link}"
@@ -102,7 +102,7 @@ msgstr "Ajuda"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Accés prohibit"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -110,11 +110,11 @@ msgstr "No s'ha trobat el núvol"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Edita les categories"
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "Afegeix"
 
 #: templates/installation.php:23
 msgid "Create an <strong>admin account</strong>"
@@ -161,7 +161,7 @@ msgstr "Ordinador central de la base de dades"
 msgid "Finish setup"
 msgstr "Acaba la configuració"
 
-#: templates/layout.guest.php:37
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "controleu els vostres serveis web"
 

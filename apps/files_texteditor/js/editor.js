@@ -67,7 +67,7 @@ function setSyntaxMode(ext){
 function showControls(filename,writeperms){
 	// Loads the control bar at the top.
 	// Load the new toolbar.
-	var editorbarhtml = '<div id="editorcontrols" style="display: none;"><div class="crumb svg last" id="breadcrumb_file" style="background-image:url(&quot;../core/img/breadcrumb.png&quot;)"><p>'+filename+'</p></div>';
+	var editorbarhtml = '<div id="editorcontrols" style="display: none;"><div class="crumb svg last" id="breadcrumb_file" style="background-image:url(&quot;'+OC.imagePath('core','breadcrumb.png')+'&quot;)"><p>'+filename+'</p></div>';
 	if(writeperms=="true"){
 		editorbarhtml += '<button id="editor_save">'+t('files_texteditor','Save')+'</button><div class="separator"></div>';
 	}
@@ -221,6 +221,10 @@ function showFileEditor(dir,filename){
 								document.title = $('#editor').attr('data-filename')+' * - ownCloud';
 							}
 						});
+						// Add the ctrl+s event
+						window.aceEditor.commands.addCommand({							name: "save",							bindKey: {							win: "Ctrl-S",							mac: "Command-S",							sender: "editor"							},							exec: function(){
+								doFileSave();	
+							}						});
 					});
 				} else {
 					// Failed to get the file.

@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysql.php 295587 2010-02-28 17:16:38Z quipo $
+// $Id$
 //
 
 require_once 'MDB2/Driver/Datatype/Common.php';
@@ -86,6 +86,35 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
     function _getCollationFieldDeclaration($collation)
     {
         return 'COLLATE '.$collation;
+    }
+
+    // }}}
+    // {{{ getDeclaration()
+
+    /**
+     * Obtain DBMS specific SQL code portion needed to declare
+     * of the given type
+     *
+     * @param string $type  type to which the value should be converted to
+     * @param string $name  name the field to be declared.
+     * @param string $field definition of the field
+     *
+     * @return string DBMS-specific SQL code portion that should be used to
+     *                declare the specified field.
+     * @access public
+     */
+    function getDeclaration($type, $name, $field)
+    {
+        // MySQL DDL syntax forbids combining NOT NULL with DEFAULT NULL.
+        // To get a default of NULL for NOT NULL columns, omit it.
+        if (   isset($field['notnull'])
+            && !empty($field['notnull'])
+            && array_key_exists('default', $field) // do not use isset() here!
+            && null === $field['default']
+        ) {
+            unset($field['default']);
+        }
+        return parent::getDeclaration($type, $name, $field);
     }
 
     // }}}
@@ -179,7 +208,15 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
         case 'timestamp':
             return 'DATETIME';
         case 'float':
-            return 'DOUBLE';
+            $l = '';
+            if (!empty($field['length'])) {
+                $l = '(' . $field['length'];
+                if (!empty($field['scale'])) {
+                    $l .= ',' . $field['scale'];
+                }
+                $l .= ')';
+            }
+            return 'DOUBLE' . $l;
         case 'decimal':
             $length = !empty($field['length']) ? $field['length'] : 18;
             $scale = !empty($field['scale']) ? $field['scale'] : $db->options['decimal_places'];
@@ -513,6 +550,9 @@ class MDB2_Driver_Datatype_mysql extends MDB2_Driver_Datatype_Common
         case 'real':
             $type[] = 'float';
             $unsigned = preg_match('/ unsigned/i', $field['type']);
+            if ($decimal !== false) {
+                $length = $length.','.$decimal;
+            }
             break;
         case 'unknown':
         case 'decimal':

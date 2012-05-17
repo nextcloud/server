@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Hossein nag <h.sname@yahoo.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-15 15:00+0000\n"
+"Last-Translator: Hossein nag <h.sname@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.net/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,165 +20,165 @@ msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "email Changed"
-msgstr ""
+msgstr "پست الکترونیکی تغییر کرد"
 
 #: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
 #: ajax/setlanguage.php:22
 msgid "Invalid request"
-msgstr ""
+msgstr "درخواست غیر قابل قبول"
 
 #: ajax/openid.php:15
 msgid "OpenID Changed"
-msgstr ""
+msgstr "OpenID تغییر کرد"
 
 #: ajax/setlanguage.php:17
 msgid "Language changed"
-msgstr ""
+msgstr "زبان تغییر کرد"
 
 #: personal.php:39 personal.php:40
 msgid "__language_name__"
-msgstr ""
+msgstr "__language_name__"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "کارنامه"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "بیشتر"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "برنامه خود را بیافزایید"
 
 #: templates/apps.php:22
 msgid "Select an App"
-msgstr ""
+msgstr "یک برنامه انتخاب کنید"
 
 #: templates/apps.php:25
 msgid "-licensed"
-msgstr ""
+msgstr "مجوزنامه"
 
 #: templates/apps.php:25
 msgid "by"
-msgstr ""
+msgstr "به وسیله"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "مستندات"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "مدیریت پرونده های بزرگ"
 
 #: templates/help.php:10
 msgid "Ask a question"
-msgstr ""
+msgstr "یک سوال بپرسید"
 
 #: templates/help.php:22
 msgid "Problems connecting to help database."
-msgstr ""
+msgstr "مشکلاتی برای وصل شدن به پایگاه داده کمکی"
 
 #: templates/help.php:23
 msgid "Go there manually."
-msgstr ""
+msgstr "بروید آنجا به صورت دستی"
 
 #: templates/help.php:31
 msgid "Answer"
-msgstr ""
+msgstr "پاسخ"
 
 #: templates/personal.php:8
 msgid "You use"
-msgstr ""
+msgstr "شما استفاده می کنید"
 
 #: templates/personal.php:8
 msgid "of the available"
-msgstr ""
+msgstr "از فعال ها"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr " ابزار مدیریت با دسکتاپ و موبایل"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "بارگیری"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
-msgstr ""
+msgstr "گذرواژه شما تغییر یافته"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr ""
+msgstr "ناتوان در تغییر گذرواژه"
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr ""
+msgstr "گذرواژه کنونی"
 
 #: templates/personal.php:22
 msgid "New password"
-msgstr ""
+msgstr "گذرواژه جدید"
 
 #: templates/personal.php:23
 msgid "show"
-msgstr ""
+msgstr "نمایش"
 
 #: templates/personal.php:24
 msgid "Change password"
-msgstr ""
+msgstr "تغییر گذر واژه"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr ""
+msgstr "پست الکترونیکی"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr ""
+msgstr "پست الکترونیکی شما"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
-msgstr ""
+msgstr "زبان"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr ""
+msgstr "به ترجمه آن کمک کنید"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "از این نشانی برای وصل شدن به ابرهایتان در مدیرپرونده استفاده کنید"
 
 #: templates/users.php:15 templates/users.php:44
 msgid "Name"
-msgstr ""
+msgstr "نام"
 
 #: templates/users.php:16 templates/users.php:45
 msgid "Password"
-msgstr ""
+msgstr "گذرواژه"
 
 #: templates/users.php:17 templates/users.php:46 templates/users.php:60
 msgid "Groups"
-msgstr ""
+msgstr "گروه ها"
 
 #: templates/users.php:22
 msgid "Create"
-msgstr ""
+msgstr "ایجاد کردن"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "سهم پیش فرض"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "سایر"
 
 #: templates/users.php:47
 msgid "Quota"
-msgstr ""
+msgstr "سهم"
 
 #: templates/users.php:80
 msgid "Delete"
-msgstr ""
+msgstr "پاک کردن"

@@ -1,7 +1,4 @@
 <?php
-
-require_once('lib/base.php');
-
 OCP\JSON::checkAppEnabled('files_versions');
 
 require_once('apps/files_versions/versions.php');
@@ -14,15 +11,8 @@ if( OCA_Versions\Storage::isversioned( $source ) ) {
 
 	$count=5; //show the newest revisions
 	$versions = OCA_Versions\Storage::getversions( $source, $count);
-	$versionsFormatted = array();
-	
-	foreach ( $versions AS $version ) {
-	
-		$versionsFormatted[] = OCP\Util::formatDate( $version );
-		
-	}
 
-	$versionsSorted = array_reverse( $versionsFormatted );
+	$versionsSorted = array_reverse( $versions );
 	
 	if ( !empty( $versionsSorted ) ) {
 		OCP\JSON::encodedPrint($versionsSorted);

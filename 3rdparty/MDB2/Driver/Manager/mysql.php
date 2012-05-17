@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysql.php 302865 2010-08-29 10:30:55Z quipo $
+// $Id$
 //
 
 require_once 'MDB2/Driver/Manager/Common.php';
@@ -327,7 +327,11 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
         }
 
         $name = $db->quoteIdentifier($name, true);
-        return $db->exec("TRUNCATE TABLE $name");
+        $result = $db->exec("TRUNCATE TABLE $name");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -374,7 +378,10 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
             return $result;
         }
         if (!empty($options['analyze'])) {
-            return $db->exec('ANALYZE TABLE '.$table);
+            $result = $db->exec('ANALYZE TABLE '.$table);
+            if (MDB2::isError($result)) {
+                return $result;
+            }
         }
         return MDB2_OK;
     }
@@ -561,7 +568,11 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
         }
 
         $name = $db->quoteIdentifier($name, true);
-        return $db->exec("ALTER TABLE $name $query");
+        $result = $db->exec("ALTER TABLE $name $query");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -832,7 +843,11 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
             }
         }
         $query .= ' ('. implode(', ', $fields) . ')';
-        return $db->exec($query);
+        $result = $db->exec($query);
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -855,7 +870,11 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
 
         $table = $db->quoteIdentifier($table, true);
         $name = $db->quoteIdentifier($db->getIndexName($name), true);
-        return $db->exec("DROP INDEX $name ON $table");
+        $result = $db->exec("DROP INDEX $name ON $table");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -1015,7 +1034,11 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
 
         if ($primary || strtolower($name) == 'primary') {
             $query = 'ALTER TABLE '. $db->quoteIdentifier($table, true) .' DROP PRIMARY KEY';
-            return $db->exec($query);
+            $result = $db->exec($query);
+            if (MDB2::isError($result)) {
+                return $result;
+            }
+            return MDB2_OK;
         }
 
         //is it a FK constraint? If so, also delete the associated triggers
@@ -1031,13 +1054,21 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
             $table = $db->quoteIdentifier($table, true);
             $name = $db->quoteIdentifier($db->getIndexName($name), true);
             $query = "ALTER TABLE $table DROP FOREIGN KEY $name";
-            return $db->exec($query);
+            $result = $db->exec($query);
+            if (MDB2::isError($result)) {
+                return $result;
+            }
+            return MDB2_OK;
         }
 
         $table = $db->quoteIdentifier($table, true);
         $name = $db->quoteIdentifier($db->getIndexName($name), true);
         $query = "ALTER TABLE $table DROP INDEX $name";
-        return $db->exec($query);
+        $result = $db->exec($query);
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -1390,7 +1421,11 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
         }
 
         $sequence_name = $db->quoteIdentifier($db->getSequenceName($seq_name), true);
-        return $db->exec("DROP TABLE $sequence_name");
+        $result = $db->exec("DROP TABLE $sequence_name");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}

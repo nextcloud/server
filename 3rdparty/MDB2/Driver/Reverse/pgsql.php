@@ -43,7 +43,7 @@
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php 295587 2010-02-28 17:16:38Z quipo $
+// $Id$
 
 require_once 'MDB2/Driver/Reverse/Common.php';
 

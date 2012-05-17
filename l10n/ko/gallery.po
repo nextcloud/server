@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <limonade83@gmail.com>, 2012.
 # Shinjo Park <kde@peremen.name>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:33+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-11 19:26+0000\n"
+"Last-Translator: yunhye <limonade83@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.net/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: appinfo/app.php:42
 msgid "Pictures"
-msgstr ""
+msgstr "사진"
 
 #: templates/index.php:16
 msgid "Rescan"
@@ -28,15 +29,15 @@ msgstr "재검색"
 
 #: templates/index.php:17
 msgid "Stop"
-msgstr ""
+msgstr "정지"
 
 #: templates/index.php:18
 msgid "Share"
-msgstr ""
+msgstr "공유"
 
 #: templates/index.php:19
 msgid "Settings"
-msgstr ""
+msgstr "세팅"
 
 #: templates/view_album.php:19
 msgid "Back"
@@ -44,16 +45,16 @@ msgstr "뒤로"
 
 #: templates/view_album.php:36
 msgid "Remove confirmation"
-msgstr ""
+msgstr "삭제 승인"
 
 #: templates/view_album.php:37
 msgid "Do you want to remove album"
-msgstr ""
+msgstr "앨범을 삭제하시겠습니까"
 
 #: templates/view_album.php:40
 msgid "Change album name"
-msgstr ""
+msgstr "앨범 이름 변경"
 
 #: templates/view_album.php:43
 msgid "New album name"
-msgstr ""
+msgstr "새로운 앨범 이름"

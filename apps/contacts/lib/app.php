@@ -12,8 +12,15 @@
 OC_Contacts_App::$l10n = OC_L10N::get('contacts');
 OC_Contacts_App::$categories = new OC_VCategories('contacts');
 class OC_Contacts_App {
+	/*
+	 * @brief language object for calendar app
+	 */
+
 	public static $l10n;
-	public static $categories;
+	/*
+	 * @brief categories of the user
+	 */
+	public static $categories = null;
 
 	public static function getAddressbook($id) {
 		$addressbook = OC_Contacts_Addressbook::find( $id );
@@ -130,6 +137,21 @@ class OC_Contacts_App {
 		}
 	}
 
+	/*
+	 * @brief returns the vcategories object of the user
+	 * @return (object) $vcategories
+	 */
+	protected static function getVCategories() {
+		if (is_null(self::$categories)) {
+			self::$categories = new OC_VCategories('contacts');
+		}
+		return self::$categories;
+	}
+	
+	/*
+	 * @brief returns the categories for the user
+	 * @return (Array) $categories
+	 */
 	public static function getCategories() {
 		$categories = self::$categories->categories();
 		if(count($categories) == 0) {
@@ -169,7 +191,7 @@ class OC_Contacts_App {
 	 * @see OC_VCategories::loadFromVObject
 	 */
 	public static function loadCategoriesFromVCard(OC_VObject $contact) {
-		self::$categories->loadFromVObject($contact, true);
+		self::getVCategories()->loadFromVObject($contact, true);
 	}
 
 	public static function setLastModifiedHeader($contact) {

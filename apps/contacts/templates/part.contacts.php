@@ -8,5 +8,5 @@
 		}
 	}
 ?>
-	<li role="button" book-id="<?php echo $contact['addressbookid']; ?>" data-id="<?php echo $contact['id']; ?>"><?php echo $display; ?></li>
+	<li role="button" book-id="<?php echo $contact['addressbookid']; ?>" data-id="<?php echo $contact['id']; ?>"><a href="index.php?id=<?php echo $contact['id']; ?>"><?php echo $display; ?></a></li>
 <?php endforeach; ?>

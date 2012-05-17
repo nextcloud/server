@@ -47,7 +47,10 @@ if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
 	header('location: '.OC_Helper::linkToRemote('webdav'));
 	exit();
 }
-
+elseif(!OC_User::isLoggedIn() && substr(OC::$REQUESTEDFILE,-3) == 'css'){
+	OC_App::loadApps();
+	OC::loadfile();
+}
 // Someone is logged in :
 elseif(OC_User::isLoggedIn()) {
 	OC_App::loadApps();

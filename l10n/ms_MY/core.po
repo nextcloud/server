@@ -4,13 +4,14 @@
 # 
 # Translators:
 #   <hadri.hilmi@gmail.com>, 2011, 2012.
+# Hadri Hilmi <hadri.hilmi@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:31+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-14 10:33+0000\n"
+"Last-Translator: Hadri Hilmi <hadri.hilmi@gmail.com>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.net/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -113,7 +114,7 @@ msgstr ""
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "Tambah"
 
 #: templates/installation.php:23
 msgid "Create an <strong>admin account</strong>"
@@ -160,7 +161,7 @@ msgstr "Hos pangkalan data"
 msgid "Finish setup"
 msgstr "Setup selesai"
 
-#: templates/layout.guest.php:37
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "Perkhidmatan web di bawah kawalan anda"
 

@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: sqlite.php 295587 2010-02-28 17:16:38Z quipo $
+// $Id$
 //
 
 require_once 'MDB2/Driver/Datatype/Common.php';

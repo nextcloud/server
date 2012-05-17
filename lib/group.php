@@ -177,7 +177,11 @@ class OC_Group {
 				if(!$backend->implementsActions(OC_GROUP_BACKEND_ADD_TO_GROUP))
 					continue;
 
-				$succes|=$backend->addToGroup($uid, $gid);
+				if($backend->groupExists($gid)){
+					$succes|=$backend->addToGroup($uid, $gid);
+				}
+			}
+			if($succes){
 				OC_Hook::emit( "OC_User", "post_addToGroup", array( "uid" => $uid, "gid" => $gid ));
 			}
 			return $succes;

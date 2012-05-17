@@ -10,4 +10,8 @@
 	<types>
 		<filesystem/>
 	</types>
+	<public>
+		<files>get.php</files>
+		<webdav>get.php</webdav>
+	</public>
 </info>

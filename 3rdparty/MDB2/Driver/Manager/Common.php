@@ -43,7 +43,7 @@
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php 295587 2010-02-28 17:16:38Z quipo $
+// $Id$
 //
 
 /**
@@ -385,7 +385,11 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
         }
 
         $name = $db->quoteIdentifier($name, true);
-        return $db->exec("DROP TABLE $name");
+        $result = $db->exec("DROP TABLE $name");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -407,7 +411,11 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
         }
 
         $name = $db->quoteIdentifier($name, true);
-        return $db->exec("DELETE FROM $name");
+        $result = $db->exec("DELETE FROM $name");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -761,7 +769,11 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
             $fields[] = $db->quoteIdentifier($field, true);
         }
         $query .= ' ('. implode(', ', $fields) . ')';
-        return $db->exec($query);
+        $result = $db->exec($query);
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -783,7 +795,11 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
         }
 
         $name = $db->quoteIdentifier($db->getIndexName($name), true);
-        return $db->exec("DROP INDEX $name");
+        $result = $db->exec("DROP INDEX $name");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -895,7 +911,11 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
             $query .= ' ('. implode(', ', $referenced_fields) . ')';
             $query .= $this->_getAdvancedFKOptions($definition);
         }
-        return $db->exec($query);
+        $result = $db->exec($query);
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -919,7 +939,11 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
 
         $table = $db->quoteIdentifier($table, true);
         $name = $db->quoteIdentifier($db->getIndexName($name), true);
-        return $db->exec("ALTER TABLE $table DROP CONSTRAINT $name");
+        $result = $db->exec("ALTER TABLE $table DROP CONSTRAINT $name");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}

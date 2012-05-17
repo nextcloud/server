@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-16 17:21+0000\n"
+"Last-Translator: Roman Priesol <roman@priesol.net>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.net/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +21,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "Nenašiel sa žiadny kalendár."
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "Nenašla sa žiadna udalosť."
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -51,71 +51,71 @@ msgstr "Kalendár"
 
 #: js/calendar.js:788
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
-msgstr ""
+msgstr "d. MMM[ yyyy]{ '&#8212;' d.[ MMM] yyyy}"
 
-#: lib/app.php:122
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "Narodeniny"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "Podnikanie"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "Hovor"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "Klienti"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "Doručovateľ"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "Prázdniny"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "Nápady"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "Cesta"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "Jubileá"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "Stretnutia"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "Ostatné"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "Osobné"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "Projekty"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "Otázky"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "Práca"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
-msgstr ""
+msgstr "nepomenovaný"
 
 #: lib/object.php:330
 msgid "Does not repeat"
@@ -364,7 +364,7 @@ msgstr "Zvoľte aktívne kalendáre"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "Vaše kalendáre"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -373,15 +373,15 @@ msgstr "CalDav odkaz"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "Zdielané kalendáre"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "Žiadne zdielané kalendáre"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "Zdielať kalendár"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -398,7 +398,7 @@ msgstr "Odstrániť"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "zdielané s vami používateľom"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -443,23 +443,23 @@ msgstr "Exportovať"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "Informácie o udalosti"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "Opakovanie"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "Alarm"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "Účastníci"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "Zdielať"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -471,11 +471,11 @@ msgstr "Kategória"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "Kategórie oddelené čiarkami"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "Úprava kategórií"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -596,11 +596,11 @@ msgstr "Vytvoriť udalosť"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "Zobraziť udalosť"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "Žiadne vybraté kategórie"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -608,11 +608,11 @@ msgstr "Vybrať kategóriu"
 
 #: templates/part.showevent.php:37
 msgid "of"
-msgstr ""
+msgstr "z"
 
 #: templates/part.showevent.php:62 templates/part.showevent.php:70
 msgid "at"
-msgstr ""
+msgstr "v"
 
 #: templates/settings.php:14
 msgid "Timezone"
@@ -636,7 +636,7 @@ msgstr "12h"
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "Prvý deň v týždni"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
@@ -644,24 +644,24 @@ msgstr "Synchronizačná adresa kalendára CalDAV: "
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "Používatelia"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "vybrať používateľov"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "Upravovateľné"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "Skupiny"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "vybrať skupiny"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "zverejniť"

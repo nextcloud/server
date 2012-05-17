@@ -24,6 +24,7 @@
  */
 // only need filesystem apps
 $RUNTIME_APPTYPES=array('filesystem','authentication');
+OC_App::loadApps($RUNTIME_APPTYPES);
 
 // Backends
 $authBackend = new OC_Connector_Sabre_Auth();
