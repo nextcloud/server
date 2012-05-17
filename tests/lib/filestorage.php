@@ -88,6 +88,7 @@ abstract class Test_FileStorage extends UnitTestCase {
 		
 		//fill a file with string data
 		$this->instance->file_put_contents('/lorem.txt',$sourceText);
+		$this->assertFalse($this->instance->is_dir('/lorem.txt'));
 		$this->assertEqual($sourceText,$this->instance->file_get_contents('/lorem.txt'),'data returned from file_get_contents is not equal to the source data');
 
 		//empty the file

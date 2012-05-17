@@ -12,6 +12,8 @@ class OC_Archive_TAR extends OC_Archive{
 	const PLAIN=0;
 	const GZIP=1;
 	const BZIP=2;
+
+	private $fileList;
 	
 	/**
 	 * @var Archive_Tar tar
@@ -64,6 +66,7 @@ class OC_Archive_TAR extends OC_Archive{
 		mkdir($tmpBase.$path);
 		$result=$this->tar->addModify(array($tmpBase.$path),'',$tmpBase);
 		rmdir($tmpBase.$path);
+		$this->fileList=false;
 		return $result;
 	}
 	/**
@@ -84,6 +87,7 @@ class OC_Archive_TAR extends OC_Archive{
 		}else{
 			$result=$this->tar->addString($path,$source);
 		}
+		$this->fileList=false;
 		return $result;
 	}
 
@@ -103,12 +107,14 @@ class OC_Archive_TAR extends OC_Archive{
 		$types=array(null,'gz','bz');
 		$this->tar=new Archive_Tar($this->path,$types[self::getTarType($this->path)]);
 		$this->tar->createModify(array($tmp),'',$tmp.'/');
+		$this->fileList=false;
+		return true;
 	}
 
 	private function getHeader($file){
 		$headers=$this->tar->listContent();
 		foreach($headers as $header){
-			if($file==$header['filename'] or $file.'/'==$header['filename']){
+			if($file==$header['filename'] or $file.'/'==$header['filename'] or '/'.$file.'/'==$header['filename'] or '/'.$file==$header['filename']){
 				return $header;
 			}
 		}
@@ -144,9 +150,16 @@ class OC_Archive_TAR extends OC_Archive{
 		$folderContent=array();
 		$pathLength=strlen($path);
 		foreach($files as $file){
+			if(substr($file,0,1)=='/'){
+				$file=substr($file,1);
+			}
 			if(substr($file,0,$pathLength)==$path and $file!=$path){
-				if(strrpos(substr($file,0,-1),'/')<=$pathLength){
-					$folderContent[]=substr($file,$pathLength);
+				$result=substr($file,$pathLength);
+				if($pos=strpos($result,'/')){
+					$result=substr($result,0,$pos+1);
+				}
+				if(array_search($result,$folderContent)===false){
+					$folderContent[]=$result;
 				}
 			}
 		}
@@ -157,11 +170,15 @@ class OC_Archive_TAR extends OC_Archive{
 	 * @return array
 	 */
 	function getFiles(){
+		if($this->fileList){
+			return $this->fileList;
+		}
 		$headers=$this->tar->listContent();
 		$files=array();
 		foreach($headers as $header){
 			$files[]=$header['filename'];
 		}
+		$this->fileList=$files;
 		return $files;
 	}
 	/**
@@ -183,7 +200,11 @@ class OC_Archive_TAR extends OC_Archive{
 		if(!$this->fileExists($path)){
 			return false;
 		}
-		$success=$this->tar->extractList(array($path),$tmp);
+		if($this->fileExists('/'.$path)){
+			$success=$this->tar->extractList(array('/'.$path),$tmp);
+		}else{
+			$success=$this->tar->extractList(array($path),$tmp);
+		}
 		if($success){
 			rename($tmp.$path,$dest);
 		}
@@ -205,7 +226,26 @@ class OC_Archive_TAR extends OC_Archive{
 	 * @return bool
 	 */
 	function fileExists($path){
-		return $this->getHeader($path)!==null;
+		$files=$this->getFiles();
+		if((array_search($path,$files)!==false) or (array_search($path.'/',$files)!==false)){
+			return true;
+		}else{
+			$folderPath=$path;
+			if(substr($folderPath,-1,1)!='/'){
+				$folderPath.='/';
+			}
+			$pathLength=strlen($folderPath);
+			foreach($files as $file){
+				if(strlen($file)>$pathLength and substr($file,0,$pathLength)==$folderPath){
+					return true;
+				}
+			}
+		}
+		if(substr($path,0,1)!='/'){//not all programs agree on the use of a leading /
+			return $this->fileExists('/'.$path);
+		}else{
+			return false;
+		}
 	}
 	
 	/**
@@ -217,6 +257,7 @@ class OC_Archive_TAR extends OC_Archive{
 		if(!$this->fileExists($path)){
 			return false;
 		}
+		$this->fileList=false;
 		//no proper way to delete, extract entire archive, delete file and remake archive
 		$tmp=OCP\Files::tmpFolder();
 		$this->tar->extract($tmp);
