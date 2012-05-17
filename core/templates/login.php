@@ -7,7 +7,7 @@
 		<?php endif; ?>
 		<p class="infield">
 			<label for="user" class="infield"><?php echo $l->t( 'Username' ); ?></label>
-			<input type="text" name="user" id="user" value="<?php echo !empty($_POST['user'])?htmlentities($_POST['user']).'"':'" autofocus'; ?> autocomplete="off" required />
+			<input type="text" name="user" id="user" value="<?php echo !empty($_POST['user'])?htmlentities($_POST['user'],ENT_COMPAT,'utf-8').'"':'" autofocus'; ?> autocomplete="off" required />
 		</p>
 		<p class="infield">
 			<label for="password" class="infield"><?php echo $l->t( 'Password' ); ?></label>
