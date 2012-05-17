@@ -63,7 +63,7 @@ echo OCP\html_select_options($allgroups, array());
 	<script>
 		$('#sharewithgroup_<?php echo $group['share']; ?> > img').click(function(){
 			$('#share_group option[value="<?php echo $group['share']; ?>"]').removeAttr('disabled');
-			Calendar.UI.Share.unshare(<?php echo $id; ?>, '<?php echo (array_key_exists('calid', $_)?'calendar':'event');?>, '<?php echo $group['share']; ?>', 'group'); ?>
+			Calendar.UI.Share.unshare(<?php echo $id; ?>, '<?php echo (array_key_exists('calid', $_)?'calendar':'event');?>', '<?php echo $group['share']; ?>', 'group');
 			$('#sharewithgroup_<?php echo $group['share']; ?>').remove();
 			$("#share_group").trigger("liszt:updated");
 		});
