@@ -29,4 +29,10 @@ return array(
 		'host'=>'localhost:8080/auth',
 		'root'=>'/',
 	),
+	'amazons3'=>array(
+		'run'=>false,
+		'key'=>'test',
+		'secret'=>'test',
+		'bucket'=>'bucket',
+	)
 );
