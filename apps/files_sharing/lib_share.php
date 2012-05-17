@@ -111,6 +111,11 @@ class OC_Share {
 				// Update mtime of shared folder to invoke a file cache rescan
 				$rootView=new OC_FilesystemView('/');
 				if (!$rootView->is_dir($sharedFolder)) {
+					if (!$rootView->is_dir('/'.$uid.'/files')) {
+						OC_Util::tearDownFS();
+						OC_Util::setupFS($uid);
+						OC_Util::tearDownFS();
+					}
 					$rootView->mkdir($sharedFolder);
 				}
 				$rootView->touch($sharedFolder);
