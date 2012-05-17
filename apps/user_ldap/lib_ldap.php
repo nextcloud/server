@@ -198,6 +198,7 @@ class OC_LDAP {
 			$ldapname = self::readAttribute($dn, $nameAttribute);
 			$ldapname = $ldapname[0];
 		}
+		$ldapname = self::sanitizeUsername($ldapname);
 
 		//a new user/group! Then let's try to add it. We're shooting into the blue with the user/group name, assuming that in most cases there will not be a conflict. Otherwise an error will occur and we will continue with our second shot.
 		if(self::mapComponent($dn, $ldapname, $isUser)) {
@@ -255,16 +256,17 @@ class OC_LDAP {
 				continue;
 			}
 
-			//a new group! Then let's try to add it. We're shooting into the blue with the group name, assuming that in most cases there will not be a conflict
-			if(self::mapComponent($ldapObject['dn'], $ldapObject[$nameAttribute], $isUsers)) {
-				$ownCloudNames[] = $ldapObject[$nameAttribute];
+			//a new group! Then let's try to add it. We're shooting into the blue with the group name, assuming that in most cases there will not be a conflict. But first make sure, that the display name contains only allowed characters.
+			$ocname = self::sanitizeUsername($ldapObject[$nameAttribute]);
+			if(self::mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
+				$ownCloudNames[] = $ocname;
 				continue;
 			}
 
 			//doh! There is a conflict. We need to distinguish between groups. Adding indexes is an idea, but not much of a help for the user. The DN is ugly, but for now the only reasonable way. But we transform it to a readable format and remove the first part to only give the path where this entry is located.
-			$oc_name = self::alternateOwnCloudName($ldapObject[$nameAttribute], $ldapObject['dn']);
-			if(self::mapComponent($ldapObject['dn'], $oc_name, $isUsers)) {
-				$ownCloudNames[] = $oc_name;
+			$ocname = self::alternateOwnCloudName($ocname, $ldapObject['dn']);
+			if(self::mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
+				$ownCloudNames[] = $ocname;
 				continue;
 			}
 
@@ -284,7 +286,9 @@ class OC_LDAP {
 	 */
 	static private function alternateOwnCloudName($name, $dn) {
 		$ufn = ldap_dn2ufn($dn);
-		return $name . ' (' . trim(substr_replace($ufn, '', 0, strpos($ufn, ','))) . ')';
+		$name = $name . '@' . trim(substr_replace($ufn, '', 0, strpos($ufn, ',')));
+		$name = self::sanitizeUsername($name);
+		return $name;
 	}
 
 	/**
@@ -520,6 +524,16 @@ class OC_LDAP {
 		$dn = strtolower($dn);
 
 		return $dn;
+	}
+
+	static private function sanitizeUsername($name) {
+		//REPLACEMENTS
+		$name = str_replace(' ', '_', $name);
+
+		//every remaining unallowed characters will be removed
+		$name = preg_replace('/[^a-zA-Z0-9_.@-]/', '', $name);
+
+		return $name;
 	}
 
 	/**
