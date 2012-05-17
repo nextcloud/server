@@ -29,8 +29,8 @@ function createVersionsDropdown(filename, files) {
 	
 	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
 	html += '<div id="private">';
-	html += '<select data-placeholder="File Version" id="found_versions" class="chzen-select">';
-	html += '<option value="">Saved versions</option>';
+	html += '<select data-placeholder="Saved versions" id="found_versions" class="chzen-select">';
+	html += '<option value=""></option>';
 	html += '</select>';
 	html += '</div>';
 	//html += '<input type="button" value="Revert file" onclick="revertFile()" />';
@@ -81,8 +81,11 @@ function createVersionsDropdown(filename, files) {
 				if (response.status=='error') {
 					OC.dialogs.alert('Failed to revert '+file+' to revision '+formatDate(revision*1000)+'.','Failed to revert');
 				} else {
-					$('#dropdown').hide('blind');
-					// TODO also update the modified time in the web ui	
+					$('#dropdown').hide('blind', function() {
+						$('#dropdown').remove();
+						$('tr').removeClass('mouseOver');
+						// TODO also update the modified time in the web ui
+					});
 				}
 			}
 		});	
@@ -110,6 +113,6 @@ function createVersionsDropdown(filename, files) {
 	}
 
 	$('#dropdown').show('blind');
-	$('#share_with').chosen();
+	$('#found_versions').chosen();
 	
 }
