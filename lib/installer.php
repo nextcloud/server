@@ -193,6 +193,9 @@ class OC_Installer{
 		foreach($info['public'] as $name=>$path){
 			OCP\CONFIG::setAppValue('core', 'public_'.$name, '/apps/'.$info['id'].'/'.$path);
 		}
+
+		OC_App::setAppTypes($info['id']);
+		
 		return $info['id'];
 	}
 
@@ -318,6 +321,9 @@ class OC_Installer{
 		foreach($info['public'] as $name=>$path){
 			OCP\CONFIG::setAppValue('core', 'public_'.$name, '/apps/'.$app.'/'.$path);
 		}
+		
+		OC_App::setAppTypes($info['id']);
+		
 		return $info;
 	}
 

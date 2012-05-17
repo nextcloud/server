@@ -9,10 +9,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-14 09:58+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.net/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "Errore bat egon da helbide-liburua (des)gaitzen"
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "Errore bat egon da kontaktua gehitzerakoan"
 
@@ -46,7 +46,7 @@ msgstr "Errorea kontaktu propietatea gehitzean."
 
 #: ajax/categories/categoriesfor.php:15
 msgid "No ID provided"
-msgstr ""
+msgstr "Ez da IDrik eman"
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
@@ -54,26 +54,22 @@ msgstr ""
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Ez dira ezabatzeko kategoriak hautatu."
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "Ez da helbide libururik aurkitu."
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "Ez da kontakturik aurkitu."
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "ID falta da"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/contactdetails.php:53
-msgid "Unknown"
 msgstr ""
 
 #: ajax/createaddressbook.php:18
@@ -94,11 +90,11 @@ msgstr ""
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "Errore bat izan da irudia kargatzearkoan."
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "Errore bat izan da kontaktuaren argazkia igotzerakoan."
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
@@ -106,11 +102,11 @@ msgstr ""
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
-msgstr ""
+msgstr "Kargatzen ari den argazkia ez da egokia."
 
 #: ajax/deletecard.php:37 ajax/saveproperty.php:58
 msgid "id is not set."
-msgstr ""
+msgstr "IDa ez da ezarri."
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -122,11 +118,11 @@ msgstr "Errorea kontaktu propietatea ezabatzean."
 
 #: ajax/editname.php:37
 msgid "Contact ID is missing."
-msgstr ""
+msgstr "Kontaktuaren IDa falta da."
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "Kontaktuaren IDa falta da."
 
 #: ajax/oc_photo.php:44
 msgid "No photo path was submitted."
@@ -134,11 +130,11 @@ msgstr ""
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "Fitxategia ez da existitzen:"
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
-msgstr ""
+msgstr "elementuaren izena ez da ezarri."
 
 #: ajax/saveproperty.php:61
 msgid "checksum is not set."
@@ -158,7 +154,7 @@ msgstr "Errorea kontaktu propietatea eguneratzean."
 
 #: ajax/updateaddressbook.php:20
 msgid "Cannot update addressbook with an empty name."
-msgstr ""
+msgstr "Ezin da helbide liburua eguneratu izen huts batekin."
 
 #: ajax/updateaddressbook.php:26
 msgid "Error updating addressbook."
@@ -166,11 +162,11 @@ msgstr "Errore bat egon da helbide liburua eguneratzen."
 
 #: ajax/uploadimport.php:46 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
-msgstr ""
+msgstr "Errore bat egon da kontaktuak biltegira igotzerakoan."
 
 #: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Ez da errorerik egon, fitxategia ongi igo da"
 
 #: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
@@ -184,11 +180,11 @@ msgstr ""
 
 #: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Igotako fitxategiaren zati bat bakarrik igo da"
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Ez da fitxategirik igo"
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
 msgid "Missing a temporary folder"
@@ -200,7 +196,7 @@ msgstr "Kontaktuak"
 
 #: lib/app.php:23
 msgid "Addressbook not found."
-msgstr ""
+msgstr "Helbide liburua ez da aurkitu"
 
 #: lib/app.php:27
 msgid "This is not your addressbook."
@@ -249,7 +245,7 @@ msgstr "Ahotsa"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "Mezua"
 
 #: lib/app.php:120
 msgid "Fax"
@@ -265,11 +261,11 @@ msgstr "Bilagailua"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
-msgstr ""
+msgstr "{name}ren jaioteguna"
 
 #: lib/search.php:22
 msgid "Contact"
@@ -285,7 +281,7 @@ msgstr "Helbide Liburuak"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Configure Address Books"
-msgstr ""
+msgstr "Konfiguratu Helbide Liburuak"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
@@ -293,7 +289,7 @@ msgstr "Helbide-liburu berria"
 
 #: templates/part.chooseaddressbook.php:17
 msgid "Import from VCF"
-msgstr ""
+msgstr "VCFtik inportatu"
 
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
@@ -324,7 +320,7 @@ msgstr "Ezabatu kontaktua"
 
 #: templates/part.contact.php:19
 msgid "Drop photo to upload"
-msgstr ""
+msgstr "Askatu argazkia igotzeko"
 
 #: templates/part.contact.php:29
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
@@ -332,15 +328,15 @@ msgstr ""
 
 #: templates/part.contact.php:30
 msgid "Edit name details"
-msgstr ""
+msgstr "Editatu izenaren zehaztasunak"
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "Ezizena"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "Sartu ezizena"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
@@ -348,19 +344,19 @@ msgstr "Jaioteguna"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "yyyy-mm-dd"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "Taldeak"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
-msgstr ""
+msgstr "Banatu taldeak komekin"
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "Editatu taldeak"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -368,47 +364,47 @@ msgstr "Hobetsia"
 
 #: templates/part.contact.php:56
 msgid "Please specify a valid email address."
-msgstr ""
+msgstr "Mesedez sartu eposta helbide egoki bat"
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "Sartu eposta helbidea"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"
-msgstr ""
+msgstr "Bidali helbidera"
 
 #: templates/part.contact.php:61
 msgid "Delete email address"
-msgstr ""
+msgstr "Ezabatu eposta helbidea"
 
 #: templates/part.contact.php:70
 msgid "Enter phone number"
-msgstr ""
+msgstr "Sartu telefono zenbakia"
 
 #: templates/part.contact.php:74
 msgid "Delete phone number"
-msgstr ""
+msgstr "Ezabatu telefono zenbakia"
 
 #: templates/part.contact.php:84
 msgid "View on map"
-msgstr ""
+msgstr "Ikusi mapan"
 
 #: templates/part.contact.php:84
 msgid "Edit address details"
-msgstr ""
+msgstr "Editatu helbidearen zehaztasunak"
 
 #: templates/part.contact.php:95
 msgid "Add notes here."
-msgstr ""
+msgstr "Gehitu oharrak hemen."
 
 #: templates/part.contact.php:101
 msgid "Add field"
-msgstr ""
+msgstr "Gehitu eremua"
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "Profilaren irudia"
 
 #: templates/part.contact.php:107
 msgid "Phone"
@@ -416,27 +412,27 @@ msgstr "Telefonoa"
 
 #: templates/part.contact.php:110
 msgid "Note"
-msgstr ""
+msgstr "Oharra"
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
-msgstr ""
+msgstr "Ezabatu oraingo argazkia"
 
 #: templates/part.contactphoto.php:9
 msgid "Edit current photo"
-msgstr ""
+msgstr "Editatu oraingo argazkia"
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "Igo argazki berria"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
-msgstr ""
+msgstr "Hautatu argazki bat ownCloudetik"
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "Editatu helbidea"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
@@ -479,7 +475,7 @@ msgstr "Herrialdea"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Editatu kategoriak"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
@@ -596,76 +592,76 @@ msgstr "Ezeztatu"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "Inporatu kontaktuen fitxategia"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "Mesedez, aukeratu helbide liburua"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "sortu helbide liburu berria"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
+msgstr "Helbide liburuaren izena"
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "Inportatu"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr ""
+msgstr "Kontaktuak inportatzen"
 
 #: templates/part.import.php:23
 msgid "Contacts imported successfully"
-msgstr ""
+msgstr "Kontaktuak ongi inportatu dira"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Dialogoa itxi"
 
 #: templates/part.importaddressbook.php:9
 msgid "Import Addressbook"
-msgstr ""
+msgstr "Inporatu helbide liburua"
 
 #: templates/part.importaddressbook.php:12
 msgid "Select address book to import to:"
-msgstr ""
+msgstr "Hautau helburuko helbide liburua:"
 
 #: templates/part.importaddressbook.php:20
 msgid "Drop a VCF file to import contacts."
-msgstr ""
+msgstr "Askatu VCF fitxategia kontaktuak inportatzeko."
 
 #: templates/part.importaddressbook.php:21
 msgid "Select from HD"
-msgstr ""
+msgstr "Hautatu disko gogorretik"
 
 #: templates/part.no_contacts.php:2
 msgid "You have no contacts in your addressbook."
-msgstr ""
+msgstr "Ez duzu kontakturik zure helbide liburuan."
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "Gehitu kontaktua"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
-msgstr ""
+msgstr "Konfiguratu helbide liburuak"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing addresses"
-msgstr ""
+msgstr "CardDAV sinkronizazio helbideak"
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "informazio gehiago"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "Helbide nagusia"
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"

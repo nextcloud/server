@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Martin  <fireball@atlas.cz>, 2011, 2012.
+# Michal Hrušecký <Michal@hrusecky.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-11 21:11+0000\n"
+"Last-Translator: Michal Hrušecký <Michal@hrusecky.net>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.net/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +47,7 @@ msgstr "Chybí adresář pro sočasné soubory"
 
 #: ajax/upload.php:25
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Zápis na disk se nezdařil"
 
 #: appinfo/app.php:7
 msgid "Files"
@@ -54,7 +55,7 @@ msgstr "Soubory"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Nastavení chování k souborům"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -62,23 +63,23 @@ msgstr "Maximální velikost ukládaných souborů"
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "největší možná:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Potřeba pro vícesoborvé stahování a stahování adresářů"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Povolit ZIP-stahování"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 znamená bez omezení"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Maximální velikost vstupu pro ZIP soubory"
 
 #: templates/index.php:7
 msgid "New"
@@ -94,7 +95,7 @@ msgstr "Adresář"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr ""
+msgstr "Z url"
 
 #: templates/index.php:21
 msgid "Upload"
@@ -102,7 +103,7 @@ msgstr "Uložit"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "Zrušit upload"
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
@@ -114,7 +115,7 @@ msgstr "Název"
 
 #: templates/index.php:49
 msgid "Share"
-msgstr ""
+msgstr "Sdílet"
 
 #: templates/index.php:51
 msgid "Download"
@@ -130,7 +131,7 @@ msgstr "Změněno"
 
 #: templates/index.php:56
 msgid "Delete all"
-msgstr ""
+msgstr "Smazat vše"
 
 #: templates/index.php:56
 msgid "Delete"
@@ -148,8 +149,8 @@ msgstr "Soubory, které se snažíte uložit, překračují maximální velikost
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Soubory se prohledávají, prosím čekejte."
 
 #: templates/index.php:74
 msgid "Current scanning"
-msgstr ""
+msgstr "Aktuální prohledávání"

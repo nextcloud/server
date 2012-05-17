@@ -5,15 +5,16 @@
 # Translators:
 #   <bart.formosus@gmail.com>, 2011.
 #   <bartv@thisnet.nl>, 2011.
+# Erik Bent <hj.bent.60@gmail.com>, 2012.
 #   <icewind1991@gmail.com>, 2012.
 #   <koen@vervloesem.eu>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-15 08:05+0000\n"
+"Last-Translator: Erik Bent <hj.bent.60@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +26,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "Fout bij het (de)activeren van het adresboek."
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "Er was een fout bij het toevoegen van het contact."
 
@@ -39,7 +40,7 @@ msgstr "Minstens één van de adresvelden moet ingevuld worden."
 
 #: ajax/addproperty.php:62
 msgid "Trying to add duplicate property: "
-msgstr ""
+msgstr "Eigenschap bestaat al: "
 
 #: ajax/addproperty.php:120
 msgid "Error adding contact property."
@@ -47,39 +48,35 @@ msgstr "Fout bij het toevoegen van de contacteigenschap."
 
 #: ajax/categories/categoriesfor.php:15
 msgid "No ID provided"
-msgstr ""
+msgstr "Geen ID opgegeven"
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
-msgstr ""
+msgstr "Instellen controlegetal mislukt"
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Geen categorieën geselecteerd om te verwijderen."
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "Geen adresboek gevonden"
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "Geen contracten gevonden"
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "Ontbrekend ID"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/contactdetails.php:53
-msgid "Unknown"
-msgstr ""
+msgstr "Fout bij inlezen VCard voor ID: \""
 
 #: ajax/createaddressbook.php:18
 msgid "Cannot add addressbook with an empty name."
-msgstr ""
+msgstr "Kan geen adresboek toevoegen zonder naam."
 
 #: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
@@ -91,27 +88,27 @@ msgstr "Fout bij het activeren van het adresboek."
 
 #: ajax/currentphoto.php:40 ajax/oc_photo.php:40
 msgid "No contact ID was submitted."
-msgstr ""
+msgstr "Geen contact ID opgestuurd."
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "Fout bij laden plaatje."
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "Lezen van contact foto mislukt."
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "Tijdelijk bestand opslaan mislukt."
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
-msgstr ""
+msgstr "De geladen foto is niet goed."
 
 #: ajax/deletecard.php:37 ajax/saveproperty.php:58
 msgid "id is not set."
-msgstr ""
+msgstr "id is niet ingesteld."
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -123,35 +120,35 @@ msgstr "Fout bij het verwijderen van de contacteigenschap."
 
 #: ajax/editname.php:37
 msgid "Contact ID is missing."
-msgstr ""
+msgstr "Contact ID ontbreekt."
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "Ontbrekende contact id."
 
 #: ajax/oc_photo.php:44
 msgid "No photo path was submitted."
-msgstr ""
+msgstr "Geen fotopad opgestuurd."
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "Bestand bestaat niet:"
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
-msgstr ""
+msgstr "onderdeel naam is niet opgegeven."
 
 #: ajax/saveproperty.php:61
 msgid "checksum is not set."
-msgstr ""
+msgstr "controlegetal is niet opgegeven."
 
 #: ajax/saveproperty.php:78
 msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr ""
+msgstr "Informatie over vCard is fout. Herlaad de pagina: "
 
 #: ajax/saveproperty.php:83
 msgid "Something went FUBAR. "
-msgstr ""
+msgstr "Er ging iets totaal verkeerd. "
 
 #: ajax/saveproperty.php:153
 msgid "Error updating contact property."
@@ -159,7 +156,7 @@ msgstr "Fout bij het updaten van de contacteigenschap."
 
 #: ajax/updateaddressbook.php:20
 msgid "Cannot update addressbook with an empty name."
-msgstr ""
+msgstr "Kan adresboek zonder naam niet wijzigen"
 
 #: ajax/updateaddressbook.php:26
 msgid "Error updating addressbook."
@@ -167,33 +164,33 @@ msgstr "Fout bij het updaten van het adresboek."
 
 #: ajax/uploadimport.php:46 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
-msgstr ""
+msgstr "Fout bij opslaan van contacten."
 
 #: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "De upload van het bestand is goedgegaan."
 
 #: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "Het bestand overschrijdt de upload_max_filesize instelling in php.ini"
 
 #: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Het bestand overschrijdt de MAX_FILE_SIZE instelling dat is opgegeven in het HTML formulier"
 
 #: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Het bestand is gedeeltelijk geüpload"
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Er is geen bestand geüpload"
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Er ontbreekt een tijdelijke map"
 
 #: appinfo/app.php:22 templates/settings.php:3
 msgid "Contacts"
@@ -201,7 +198,7 @@ msgstr "Contacten"
 
 #: lib/app.php:23
 msgid "Addressbook not found."
-msgstr ""
+msgstr "Adresboek niet gevonden."
 
 #: lib/app.php:27
 msgid "This is not your addressbook."
@@ -250,7 +247,7 @@ msgstr "Stem"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "Bericht"
 
 #: lib/app.php:120
 msgid "Fax"
@@ -266,11 +263,11 @@ msgstr "Pieper"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
-msgstr ""
+msgstr "{name}'s verjaardag"
 
 #: lib/search.php:22
 msgid "Contact"
@@ -286,7 +283,7 @@ msgstr "Adresboeken"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Configure Address Books"
-msgstr ""
+msgstr "Instellen adresboeken"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
@@ -294,7 +291,7 @@ msgstr "Nieuw Adresboek"
 
 #: templates/part.chooseaddressbook.php:17
 msgid "Import from VCF"
-msgstr ""
+msgstr "Importeer uit VCF"
 
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
@@ -325,23 +322,23 @@ msgstr "Verwijder contact"
 
 #: templates/part.contact.php:19
 msgid "Drop photo to upload"
-msgstr ""
+msgstr "Verwijder foto uit upload"
 
 #: templates/part.contact.php:29
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
-msgstr ""
+msgstr "Formateer aangepast, Korte naam, Volledige naam, Achteruit of Achteruit met komma"
 
 #: templates/part.contact.php:30
 msgid "Edit name details"
-msgstr ""
+msgstr "Wijzig naam gegevens"
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "Roepnaam"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "Voer roepnaam in"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
@@ -349,19 +346,19 @@ msgstr "Verjaardag"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "dd-mm-yyyy"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "Groepen"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
-msgstr ""
+msgstr "Gebruik komma bij meerder groepen"
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "Wijzig groepen"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -369,47 +366,47 @@ msgstr "Voorkeur"
 
 #: templates/part.contact.php:56
 msgid "Please specify a valid email address."
-msgstr ""
+msgstr "Geef een geldig email adres op."
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "Voer email adres in"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"
-msgstr ""
+msgstr "Mail naar adres"
 
 #: templates/part.contact.php:61
 msgid "Delete email address"
-msgstr ""
+msgstr "Verwijder email adres"
 
 #: templates/part.contact.php:70
 msgid "Enter phone number"
-msgstr ""
+msgstr "Voer telefoonnummer in"
 
 #: templates/part.contact.php:74
 msgid "Delete phone number"
-msgstr ""
+msgstr "Verwijdere telefoonnummer"
 
 #: templates/part.contact.php:84
 msgid "View on map"
-msgstr ""
+msgstr "Bekijk op een kaart"
 
 #: templates/part.contact.php:84
 msgid "Edit address details"
-msgstr ""
+msgstr "Wijzig adres gegevens"
 
 #: templates/part.contact.php:95
 msgid "Add notes here."
-msgstr ""
+msgstr "Voeg notitie toe"
 
 #: templates/part.contact.php:101
 msgid "Add field"
-msgstr ""
+msgstr "Voeg veld toe"
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "Profiel foto"
 
 #: templates/part.contact.php:107
 msgid "Phone"
@@ -417,27 +414,27 @@ msgstr "Telefoon"
 
 #: templates/part.contact.php:110
 msgid "Note"
-msgstr ""
+msgstr "Notitie"
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
-msgstr ""
+msgstr "Verwijdere huidige foto"
 
 #: templates/part.contactphoto.php:9
 msgid "Edit current photo"
-msgstr ""
+msgstr "Wijzig huidige foto"
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "Upload nieuwe foto"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
-msgstr ""
+msgstr "Selecteer foto uit ownCloud"
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "Wijzig adres"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
@@ -480,7 +477,7 @@ msgstr "Land"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Wijzig categorieën"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
@@ -492,7 +489,7 @@ msgstr "Adresboek"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
-msgstr ""
+msgstr "Hon. prefixes"
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
@@ -520,15 +517,15 @@ msgstr ""
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "Voornaam"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
-msgstr ""
+msgstr "Extra namen"
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "Achternaam"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
@@ -597,76 +594,76 @@ msgstr "Anuleren"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "Importeer een contacten bestand"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "Kies een adresboek"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "Maak een nieuw adresboek"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
+msgstr "Naam van nieuw adresboek"
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "Importeer"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr ""
+msgstr "Importeren van contacten"
 
 #: templates/part.import.php:23
 msgid "Contacts imported successfully"
-msgstr ""
+msgstr "Contacten zijn geïmporteerd"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Sluit venster"
 
 #: templates/part.importaddressbook.php:9
 msgid "Import Addressbook"
-msgstr ""
+msgstr "Importeer adresboek"
 
 #: templates/part.importaddressbook.php:12
 msgid "Select address book to import to:"
-msgstr ""
+msgstr "Selecteer adresboek voor import:"
 
 #: templates/part.importaddressbook.php:20
 msgid "Drop a VCF file to import contacts."
-msgstr ""
+msgstr "Sleep een VCF bestand om de contacten te importeren."
 
 #: templates/part.importaddressbook.php:21
 msgid "Select from HD"
-msgstr ""
+msgstr "Selecteer van schijf"
 
 #: templates/part.no_contacts.php:2
 msgid "You have no contacts in your addressbook."
-msgstr ""
+msgstr "Je hebt geen contacten in je adresboek"
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "Contactpersoon toevoegen"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
-msgstr ""
+msgstr "Bewerken adresboeken"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing addresses"
-msgstr ""
+msgstr "CardDAV synchroniseert de adressen"
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "meer informatie"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "Standaardadres"
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "IOS/OS X"

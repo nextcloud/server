@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-13 17:52+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.net/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "Napaka med (de)aktivacijo imenika."
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "Med dodajanjem stika je prišlo do napake"
 
@@ -38,7 +38,7 @@ msgstr "Vsaj eno izmed polj je še potrebno izpolniti."
 
 #: ajax/addproperty.php:62
 msgid "Trying to add duplicate property: "
-msgstr ""
+msgstr "Poskušam dodati podvojeno lastnost:"
 
 #: ajax/addproperty.php:120
 msgid "Error adding contact property."
@@ -46,39 +46,35 @@ msgstr "Napaka pri dodajanju informacije o stiku."
 
 #: ajax/categories/categoriesfor.php:15
 msgid "No ID provided"
-msgstr ""
+msgstr "ID ni bil podan"
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
-msgstr ""
+msgstr "Napaka pri nastavljanju nadzorne vsote."
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Nobena kategorija ni bila izbrana za izbris."
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "Ni bilo najdenih imenikov."
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "Ni bilo najdenih stikov."
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "Manjkajoč ID"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/contactdetails.php:53
-msgid "Unknown"
-msgstr ""
+msgstr "Napaka pri razčlenjevanju VCard za ID: \""
 
 #: ajax/createaddressbook.php:18
 msgid "Cannot add addressbook with an empty name."
-msgstr ""
+msgstr "Ne morem dodati imenika s praznim imenom."
 
 #: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
@@ -90,27 +86,27 @@ msgstr "Napaka pri aktiviranju imenika."
 
 #: ajax/currentphoto.php:40 ajax/oc_photo.php:40
 msgid "No contact ID was submitted."
-msgstr ""
+msgstr "ID stika ni bil poslan."
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "Napaka pri nalaganju slike."
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "Napaka pri branju slike stika."
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "Napaka pri shranjevanju začasne datoteke."
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
-msgstr ""
+msgstr "Slika, ki se nalaga ni veljavna."
 
 #: ajax/deletecard.php:37 ajax/saveproperty.php:58
 msgid "id is not set."
-msgstr ""
+msgstr "id ni nastavljen."
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -122,35 +118,35 @@ msgstr "Napaka pri brisanju lastnosti stika."
 
 #: ajax/editname.php:37
 msgid "Contact ID is missing."
-msgstr ""
+msgstr "Manjka ID stika."
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "Manjka id stika."
 
 #: ajax/oc_photo.php:44
 msgid "No photo path was submitted."
-msgstr ""
+msgstr "Pot slike ni bila poslana."
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "Datoteka ne obstaja:"
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
-msgstr ""
+msgstr "ime elementa ni nastavljeno."
 
 #: ajax/saveproperty.php:61
 msgid "checksum is not set."
-msgstr ""
+msgstr "nadzorna vsota ni nastavljena."
 
 #: ajax/saveproperty.php:78
 msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr ""
+msgstr "Informacija o vCard je napačna. Prosimo, če ponovno naložite stran: "
 
 #: ajax/saveproperty.php:83
 msgid "Something went FUBAR. "
-msgstr ""
+msgstr "Nekaj je šlo v franže. "
 
 #: ajax/saveproperty.php:153
 msgid "Error updating contact property."
@@ -158,7 +154,7 @@ msgstr "Napaka pri posodabljanju lastnosti stika."
 
 #: ajax/updateaddressbook.php:20
 msgid "Cannot update addressbook with an empty name."
-msgstr ""
+msgstr "Ne morem posodobiti imenika s praznim imenom."
 
 #: ajax/updateaddressbook.php:26
 msgid "Error updating addressbook."
@@ -166,33 +162,33 @@ msgstr "Napaka pri posodabljanju imenika."
 
 #: ajax/uploadimport.php:46 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
-msgstr ""
+msgstr "Napaka pri nalaganju stikov v hrambo."
 
 #: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Datoteka je bila uspešno naložena."
 
 #: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "Naložena datoteka presega velikost, ki jo določa parameter upload_max_filesize v datoteki php.ini"
 
 #: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Naložena datoteka presega velikost, ki jo določa parameter MAX_FILE_SIZE v HTML obrazcu"
 
 #: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Datoteka je bila le delno naložena"
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Nobena datoteka ni bila naložena"
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Manjka začasna mapa"
 
 #: appinfo/app.php:22 templates/settings.php:3
 msgid "Contacts"
@@ -200,7 +196,7 @@ msgstr "Stiki"
 
 #: lib/app.php:23
 msgid "Addressbook not found."
-msgstr ""
+msgstr "Imenik ni bil najden."
 
 #: lib/app.php:27
 msgid "This is not your addressbook."
@@ -249,7 +245,7 @@ msgstr "Glas"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "Sporočilo"
 
 #: lib/app.php:120
 msgid "Fax"
@@ -265,11 +261,11 @@ msgstr "Pozivnik"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
-msgstr ""
+msgstr "{name} - rojstni dan"
 
 #: lib/search.php:22
 msgid "Contact"
@@ -285,7 +281,7 @@ msgstr "Imeniki"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Configure Address Books"
-msgstr ""
+msgstr "Nastavi imenike"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
@@ -293,7 +289,7 @@ msgstr "Nov imenik"
 
 #: templates/part.chooseaddressbook.php:17
 msgid "Import from VCF"
-msgstr ""
+msgstr "Uvozi iz VCF"
 
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
@@ -324,23 +320,23 @@ msgstr "Izbriši stik"
 
 #: templates/part.contact.php:19
 msgid "Drop photo to upload"
-msgstr ""
+msgstr "Spustite sliko tukaj, da bi jo naložili"
 
 #: templates/part.contact.php:29
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
-msgstr ""
+msgstr "Format po meri, Kratko ime, Polno ime, Obratno ali Obratno z vejico"
 
 #: templates/part.contact.php:30
 msgid "Edit name details"
-msgstr ""
+msgstr "Uredite podrobnosti imena"
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "Vzdevek"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "Vnesite vzdevek"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
@@ -348,19 +344,19 @@ msgstr "Rojstni dan"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "dd. mm. yyyy"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "Skupine"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
-msgstr ""
+msgstr "Skupine ločite z vejicami"
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "Uredi skupine"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -368,47 +364,47 @@ msgstr "Prednosten"
 
 #: templates/part.contact.php:56
 msgid "Please specify a valid email address."
-msgstr ""
+msgstr "Prosimo, če navedete veljaven e-poštni naslov."
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "Vnesite e-poštni naslov"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"
-msgstr ""
+msgstr "E-pošta naslovnika"
 
 #: templates/part.contact.php:61
 msgid "Delete email address"
-msgstr ""
+msgstr "Izbriši e-poštni naslov"
 
 #: templates/part.contact.php:70
 msgid "Enter phone number"
-msgstr ""
+msgstr "Vpiši telefonsko številko"
 
 #: templates/part.contact.php:74
 msgid "Delete phone number"
-msgstr ""
+msgstr "Izbriši telefonsko številko"
 
 #: templates/part.contact.php:84
 msgid "View on map"
-msgstr ""
+msgstr "Prikaz na zemljevidu"
 
 #: templates/part.contact.php:84
 msgid "Edit address details"
-msgstr ""
+msgstr "Uredi podrobnosti"
 
 #: templates/part.contact.php:95
 msgid "Add notes here."
-msgstr ""
+msgstr "Opombe dodajte tukaj."
 
 #: templates/part.contact.php:101
 msgid "Add field"
-msgstr ""
+msgstr "Dodaj polje"
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "Slika profila"
 
 #: templates/part.contact.php:107
 msgid "Phone"
@@ -416,27 +412,27 @@ msgstr "Telefon"
 
 #: templates/part.contact.php:110
 msgid "Note"
-msgstr ""
+msgstr "Opomba"
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
-msgstr ""
+msgstr "Izbriši trenutno sliko"
 
 #: templates/part.contactphoto.php:9
 msgid "Edit current photo"
-msgstr ""
+msgstr "Uredi trenutno sliko"
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "Naloži novo sliko"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
-msgstr ""
+msgstr "Izberi sliko iz ownCloud"
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "Uredi naslov"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
@@ -479,7 +475,7 @@ msgstr "Dežela"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Uredi kategorije"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
@@ -491,79 +487,79 @@ msgstr "Imenik"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
-msgstr ""
+msgstr "Predpone"
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
-msgstr ""
+msgstr "gdč."
 
 #: templates/part.edit_name_dialog.php:28
 msgid "Ms"
-msgstr ""
+msgstr "ga."
 
 #: templates/part.edit_name_dialog.php:29
 msgid "Mr"
-msgstr ""
+msgstr "g."
 
 #: templates/part.edit_name_dialog.php:30
 msgid "Sir"
-msgstr ""
+msgstr "g."
 
 #: templates/part.edit_name_dialog.php:31
 msgid "Mrs"
-msgstr ""
+msgstr "ga."
 
 #: templates/part.edit_name_dialog.php:32
 msgid "Dr"
-msgstr ""
+msgstr "dr."
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "Ime"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
-msgstr ""
+msgstr "Dodatna imena"
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "Priimek"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
-msgstr ""
+msgstr "Pripone"
 
 #: templates/part.edit_name_dialog.php:45
 msgid "J.D."
-msgstr ""
+msgstr "univ. dipl. prav."
 
 #: templates/part.edit_name_dialog.php:46
 msgid "M.D."
-msgstr ""
+msgstr "dr. med."
 
 #: templates/part.edit_name_dialog.php:47
 msgid "D.O."
-msgstr ""
+msgstr "dr. med., spec. spl. med."
 
 #: templates/part.edit_name_dialog.php:48
 msgid "D.C."
-msgstr ""
+msgstr "dr. med., spec. kiropraktike"
 
 #: templates/part.edit_name_dialog.php:49
 msgid "Ph.D."
-msgstr ""
+msgstr "dr."
 
 #: templates/part.edit_name_dialog.php:50
 msgid "Esq."
-msgstr ""
+msgstr "Esq."
 
 #: templates/part.edit_name_dialog.php:51
 msgid "Jr."
-msgstr ""
+msgstr "mlajši"
 
 #: templates/part.edit_name_dialog.php:52
 msgid "Sn."
-msgstr ""
+msgstr "starejši"
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
@@ -596,76 +592,76 @@ msgstr "Prekliči"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "Uvozi datoteko s stiki"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "Prosimo, če izberete imenik"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "Ustvari nov imenik"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
+msgstr "Ime novega imenika"
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "Uvozi"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr ""
+msgstr "Uvažam stike"
 
 #: templates/part.import.php:23
 msgid "Contacts imported successfully"
-msgstr ""
+msgstr "Stiki so bili uspešno uvoženi"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Zapri dialog"
 
 #: templates/part.importaddressbook.php:9
 msgid "Import Addressbook"
-msgstr ""
+msgstr "Uvozi imenik"
 
 #: templates/part.importaddressbook.php:12
 msgid "Select address book to import to:"
-msgstr ""
+msgstr "Izberite imenik v katerega boste uvažali:"
 
 #: templates/part.importaddressbook.php:20
 msgid "Drop a VCF file to import contacts."
-msgstr ""
+msgstr "Za uvoz stikov spustite VCF datoteko tukaj."
 
 #: templates/part.importaddressbook.php:21
 msgid "Select from HD"
-msgstr ""
+msgstr "Izberi iz HD"
 
 #: templates/part.no_contacts.php:2
 msgid "You have no contacts in your addressbook."
-msgstr ""
+msgstr "V vašem imeniku ni stikov."
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "Dodaj stik"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
-msgstr ""
+msgstr "Nastavi imenike"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing addresses"
-msgstr ""
+msgstr "CardDAV naslovi za sinhronizacijo"
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "več informacij"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "Primarni naslov (za kontakt et al)"
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"

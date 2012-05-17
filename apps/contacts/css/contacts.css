@@ -4,8 +4,7 @@
 #leftcontent { top: 3.5em !important; padding: 0; margin: 0; }
 #rightcontent { top: 3.5em !important; padding-top: 5px; }
 #contacts { background: #fff; width: 20em; left: 12.5em; top: 3.7em; bottom:3em; position: fixed; overflow: auto; padding: 0; margin: 0; }
-#contacts li { height: 28px; display: block; margin: 0 0 0 5px; padding: 0 0 0 25px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
-#contacts li:hover { background-color: #eee }
+#contacts a { height: 23px; display: block; margin: 0 0 0 0; padding: 0 0 0 25px; }
 #bottomcontrols { padding: 0; bottom:0px; height:2.8em; width: 20em; margin:0; background:#eee; border-top:1px solid #ccc; position:fixed; -moz-box-shadow: 0 -3px 3px -3px #000; -webkit-box-shadow: 0 -3px 3px -3px #000; box-shadow: 0 -3px 3px -3px #000;}
 #contacts_newcontact { float: left; margin: 0.2em 0 0 1em; }
 #chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }
@@ -92,7 +91,8 @@ dl.addresscard .action { float: right; }
 
 #file_upload_form { width: 0; height: 0; }
 #file_upload_target, #import_upload_target, #crop_target { display:none; }
-#file_upload_start, #import_upload_start { opacity:0; filter:alpha(opacity=0); z-index:1; /*position:absolute; left:0; top:0;*/ width:0; height:0;}
+#file_upload_start, #import_upload_start { opacity:0; filter:alpha(opacity=0); z-index:1001; /*position:absolute; left:0; top:0;*/ width:0; height:0;}
+#import_upload_start { width: 16px; height: 16px; margin: 0 0 0 0; }
 input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .big { font-weight:bold; font-size:1.2em; }
 .huge { font-weight:bold; font-size:1.5em; }

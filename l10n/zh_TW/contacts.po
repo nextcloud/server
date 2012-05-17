@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-13 17:52+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.net/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "在啟用或關閉電話簿時發生錯誤"
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "添加通訊錄發生錯誤"
 
@@ -44,7 +44,7 @@ msgstr "添加通訊錄內容中發生錯誤"
 
 #: ajax/categories/categoriesfor.php:15
 msgid "No ID provided"
-msgstr ""
+msgstr "未提供 ID"
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
@@ -68,10 +68,6 @@ msgstr ""
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/contactdetails.php:53
-msgid "Unknown"
 msgstr ""
 
 #: ajax/createaddressbook.php:18
@@ -247,7 +243,7 @@ msgstr "語音"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "訊息"
 
 #: lib/app.php:120
 msgid "Fax"
@@ -263,7 +259,7 @@ msgstr "呼叫器"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "網際網路"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
@@ -334,11 +330,11 @@ msgstr ""
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "綽號"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "輸入綽號"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
@@ -350,7 +346,7 @@ msgstr ""
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "群組"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
@@ -358,7 +354,7 @@ msgstr ""
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "編輯群組"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -370,7 +366,7 @@ msgstr ""
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "輸入電子郵件地址"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"

@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-09 11:26+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +21,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "No s'han trobat calendaris."
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "No s'han trobat events."
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -51,71 +51,71 @@ msgstr "Calendari"
 
 #: js/calendar.js:788
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
-msgstr ""
+msgstr "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
 
-#: lib/app.php:122
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "Aniversari"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "Feina"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "Trucada"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "Clients"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "Remitent"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "Vacances"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "Idees"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "Viatge"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "Sant"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "Reunió"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "Altres"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "Personal"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "Projectes"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "Preguntes"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "Feina"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
-msgstr ""
+msgstr "sense nom"
 
 #: lib/object.php:330
 msgid "Does not repeat"
@@ -364,7 +364,7 @@ msgstr "Seleccioneu calendaris actius"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "Els vostres calendaris"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -373,15 +373,15 @@ msgstr "Enllaç CalDav"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "Calendaris compartits"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "No hi ha calendaris compartits"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "Comparteix el calendari"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -398,7 +398,7 @@ msgstr "Suprimeix"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "compartit amb vós"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -443,23 +443,23 @@ msgstr "Exporta"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "Eventinfo"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "Repetició"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "Alarma"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "Assistents"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "Comparteix"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -471,11 +471,11 @@ msgstr "Categoria"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "Separeu les categories amb comes"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "Edita categories"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -596,11 +596,11 @@ msgstr "Crea un nou esdeveniment"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "Mostra un event"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "No hi ha categories seleccionades"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -608,11 +608,11 @@ msgstr "Seleccioneu categoria"
 
 #: templates/part.showevent.php:37
 msgid "of"
-msgstr ""
+msgstr "de"
 
 #: templates/part.showevent.php:62 templates/part.showevent.php:70
 msgid "at"
-msgstr ""
+msgstr "a"
 
 #: templates/settings.php:14
 msgid "Timezone"
@@ -636,7 +636,7 @@ msgstr "12h"
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "Primer dia de la setmana"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
@@ -644,24 +644,24 @@ msgstr "Adreça de sincronització del calendari CalDAV:"
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "Usuaris"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "seleccioneu usuaris"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "Editable"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "Grups"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "seleccioneu grups"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "fes-ho public"

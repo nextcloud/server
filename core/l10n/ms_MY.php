@@ -16,6 +16,7 @@
 "Admin" => "Admin",
 "Help" => "Bantuan",
 "Cloud not found" => "Awan tidak dijumpai",
+"Add" => "Tambah",
 "Create an <strong>admin account</strong>" => "buat <strong>akaun admin</strong>",
 "Password" => "Kata laluan",
 "Advanced" => "Maju",

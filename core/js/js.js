@@ -406,9 +406,9 @@ $(document).ready(function(){
 	$('#submit').hide();
 	$('#remember_login').hide();
 	$('#remember_login+label').hide();
-	$('#body-login input').keyup(function() {
+	$('input#user, input#password').keyup(function() {
 		var empty = false;
-		$('#body-login input').each(function() {
+		$('input#user, input#password').each(function() {
 			if ($(this).val() == '') {
 				empty = true;
 			}

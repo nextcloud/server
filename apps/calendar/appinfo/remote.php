@@ -7,6 +7,14 @@
  */
 OCP\App::checkAppEnabled('calendar');
 
+if(substr($_SERVER["REQUEST_URI"],0,strlen(OC::$APPSWEBROOT . '/apps/calendar/caldav.php')) == OC::$APPSWEBROOT . '/apps/calendar/caldav.php'){
+	$baseuri = OC::$APPSWEBROOT . '/apps/calendar/caldav.php';
+}
+
+// only need authentication apps
+$RUNTIME_APPTYPES=array('authentication');
+OC_App::loadApps($RUNTIME_APPTYPES);
+
 // Backends
 $authBackend = new OC_Connector_Sabre_Auth();
 $principalBackend = new OC_Connector_Sabre_Principal();

@@ -1,8 +1,6 @@
-<?php
+<?php /* vim: se et ts=4 sw=4 sts=4 fdm=marker tw=80: */
 /**
- * PHP versions 4 and 5
- *
- * Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,
+ * Copyright (c) 1998-2010 Manuel Lemos, Tomas V.V.Cox,
  * Stig. S. Bakken, Lukas Smith, Igor Feghali
  * All rights reserved.
  *
@@ -39,14 +37,13 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Author: Christian Weiske <cweiske@php.net>
- * $Id: Tool.php,v 1.6 2008/12/13 00:26:07 clockwerx Exp $
+ * PHP version 5
  *
  * @category Database
  * @package  MDB2_Schema
  * @author   Christian Weiske <cweiske@php.net>
  * @license  BSD http://www.opensource.org/licenses/bsd-license.php
- * @version  CVS: $Id: Tool.php,v 1.6 2008/12/13 00:26:07 clockwerx Exp $
+ * @version  SVN: $Id$
  * @link     http://pear.php.net/packages/MDB2_Schema
  */
 
@@ -152,7 +149,9 @@ class MDB2_Schema_Tool
         case '--init':
             return 'init';
         default:
-            throw new MDB2_Schema_Tool_ParameterException("Unknown mode \"$arg\"");
+            throw new MDB2_Schema_Tool_ParameterException(
+                "Unknown mode \"$arg\""
+            );
         }
     }//protected function getAction(&$args)
 
@@ -179,7 +178,8 @@ class MDB2_Schema_Tool
     */
     protected function doHelp()
     {
-        self::toStdErr(<<<EOH
+        self::toStdErr(
+<<<EOH
 Usage: mdb2_schematool mode parameters
 
 Works with database schemas
@@ -205,7 +205,8 @@ EOH
     */
     protected function doHelpDump()
     {
-        self::toStdErr( <<<EOH
+        self::toStdErr(
+<<<EOH
 Usage: mdb2_schematool dump [all|data|schema] [-p] DSN
 
 Dumps a database schema to stdout
@@ -216,7 +217,8 @@ DSN: Data source name in the form of
  driver://user:password@host/database
 
 User and password may be omitted.
-Using -p reads password from stdin which is more secure than passing it in the parameter.
+Using -p reads password from stdin which is more secure than passing it in the 
+parameter.
 
 EOH
         );
@@ -231,7 +233,8 @@ EOH
     */
     protected function doHelpInit()
     {
-        self::toStdErr( <<<EOH
+        self::toStdErr(
+<<<EOH
 Usage: mdb2_schematool init source [-p] destination
 
 Initializes a database with data
@@ -244,7 +247,8 @@ DSN: Data source name in the form of
  driver://user:password@host/database
 
 User and password may be omitted.
-Using -p reads password from stdin which is more secure than passing it in the parameter.
+Using -p reads password from stdin which is more secure than passing it in the 
+parameter.
 
 EOH
         );
@@ -259,7 +263,8 @@ EOH
     */
     protected function doHelpLoad()
     {
-        self::toStdErr( <<<EOH
+        self::toStdErr(
+<<<EOH
 Usage: mdb2_schematool load [-p] source [-p] destination
 
 Loads a database schema from source to destination
@@ -272,7 +277,8 @@ DSN: Data source name in the form of
  driver://user:password@host/database
 
 User and password may be omitted.
-Using -p reads password from stdin which is more secure than passing it in the parameter.
+Using -p reads password from stdin which is more secure than passing it in the 
+parameter.
 
 EOH
         );
@@ -334,7 +340,9 @@ EOH
     protected function getFileOrDsn(&$args)
     {
         if (count($args) == 0) {
-            throw new MDB2_Schema_Tool_ParameterException('File or DSN expected');
+            throw new MDB2_Schema_Tool_ParameterException(
+                'File or DSN expected'
+            );
         }
 
         $arg = array_shift($args);
@@ -450,7 +458,8 @@ EOH
         list($type, $dsn) = $this->getFileOrDsn($args);
         if ($type == 'file') {
             throw new MDB2_Schema_Tool_ParameterException(
-                'Dumping a schema file as a schema file does not make much sense'
+                'Dumping a schema file as a schema file does not make much ' .
+                'sense'
             );
         }
 
@@ -503,8 +512,14 @@ EOH
             $definition = $schemaDest->parseDatabaseDefinitionFile($dsnSource);
             $where      = 'loading schema file';
         } else {
-            $schemaSource = MDB2_Schema::factory($dsnSource, $this->getSchemaOptions());
-            $this->throwExceptionOnError($schemaSource, 'connecting to source database');
+            $schemaSource = MDB2_Schema::factory(
+                $dsnSource,
+                $this->getSchemaOptions()
+            );
+            $this->throwExceptionOnError(
+                $schemaSource,
+                'connecting to source database'
+            );
 
             $definition = $schemaSource->getDefinitionFromDatabase();
             $where      = 'loading definition from database';
@@ -514,7 +529,11 @@ EOH
 
         //create destination database from definition
         $simulate = false;
-        $op       = $schemaDest->createDatabase($definition, array(), $simulate);
+        $op       = $schemaDest->createDatabase(
+            $definition,
+            array(),
+            $simulate
+        );
         $this->throwExceptionOnError($op, 'creating the database');
     }//protected function doLoad($args)
 
@@ -545,10 +564,16 @@ EOH
         }
 
         $schemaDest = MDB2_Schema::factory($dsnDest, $this->getSchemaOptions());
-        $this->throwExceptionOnError($schemaDest, 'connecting to destination database');
+        $this->throwExceptionOnError(
+            $schemaDest,
+            'connecting to destination database'
+        );
 
         $definition = $schemaDest->getDefinitionFromDatabase();
-        $this->throwExceptionOnError($definition, 'loading definition from database');
+        $this->throwExceptionOnError(
+            $definition,
+            'loading definition from database'
+        );
 
         $op = $schemaDest->writeInitialization($dsnSource, $definition);
         $this->throwExceptionOnError($op, 'initializing database');
@@ -556,5 +581,3 @@ EOH
 
 
 }//class MDB2_Schema_Tool
-
-?>

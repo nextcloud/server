@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
 # Thiago Vicente <thiagovice@gmail.com>, 2012.
 # Van Der Fran <transifex@vanderland.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-11 19:59+0000\n"
+"Last-Translator: Guilherme Maluf Balzana <guimalufb@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.net/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +22,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "Nenhum calendário encontrado."
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "Nenhum evento encontrado."
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -51,71 +52,71 @@ msgstr "Calendário"
 
 #: js/calendar.js:788
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
-msgstr ""
+msgstr "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
 
-#: lib/app.php:122
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "Aniversário"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "Negócio"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "Chamada"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "Clientes"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "Entrega"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "Feriados"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "Idéias"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "Jornada"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "Jubileu"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "Reunião"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "Outros"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "Pessoal"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "Projetos"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "Perguntas"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "Trabalho"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
-msgstr ""
+msgstr "sem nome"
 
 #: lib/object.php:330
 msgid "Does not repeat"
@@ -364,7 +365,7 @@ msgstr "Escolha calendários ativos"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "Meus Calendários"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -373,15 +374,15 @@ msgstr "Link para CalDav"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "Calendários Compartilhados"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "Nenhum Calendário Compartilhado"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "Compartilhar Calendário"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -398,7 +399,7 @@ msgstr "Excluir"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "compartilhado com você por"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -443,23 +444,23 @@ msgstr "Exportar"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "Info de Evento"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "Repetindo"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "Alarme"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "Participantes"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "Compartilhar"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -471,11 +472,11 @@ msgstr "Categoria"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "Separe as categorias por vírgulas"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "Editar categorias"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -596,11 +597,11 @@ msgstr "Criar um novo evento"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "Visualizar evento"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "Nenhuma categoria selecionada"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -608,11 +609,11 @@ msgstr "Selecionar categoria"
 
 #: templates/part.showevent.php:37
 msgid "of"
-msgstr ""
+msgstr "de"
 
 #: templates/part.showevent.php:62 templates/part.showevent.php:70
 msgid "at"
-msgstr ""
+msgstr "para"
 
 #: templates/settings.php:14
 msgid "Timezone"
@@ -636,7 +637,7 @@ msgstr "12h"
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "Primeiro dia da semana"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
@@ -644,24 +645,24 @@ msgstr "Sincronização de endereço do calendário CalDAV :"
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "Usuários"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "Selecione usuários"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "Editável"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "Grupos"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "Selecione grupos"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "Tornar público"

@@ -8,6 +8,9 @@
 	<require>2</require>
 	<standalone/>
 	<default_enable/>
+	<types>
+		<filesystem/>
+	</types>
 	<remote>
 		<files>appinfo/remote.php</files>
 		<webdav>appinfo/remote.php</webdav>

@@ -4,16 +4,17 @@
 # 
 # Translators:
 #   <bart.formosus@gmail.com>, 2011.
+# Erik Bent <hj.bent.60@gmail.com>, 2012.
 #   <icewind1991@gmail.com>, 2011, 2012.
 #   <koen@vervloesem.eu>, 2011.
 #   <pietje8501@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-15 06:27+0000\n"
+"Last-Translator: Erik Bent <hj.bent.60@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,15 +45,15 @@ msgstr "Nederlands"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Meer"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Voeg je App toe"
 
 #: templates/apps.php:22
 msgid "Select an App"
@@ -68,11 +69,11 @@ msgstr "door"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Documentatie"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Onderhoud van grote bestanden"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -100,11 +101,11 @@ msgstr "van de beschikbare"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Desktop en mobiele synchronisatie apparaten"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -172,11 +173,11 @@ msgstr "Creëer"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Standaard limiet"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Andere"
 
 #: templates/users.php:47
 msgid "Quota"

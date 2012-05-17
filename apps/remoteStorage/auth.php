@@ -67,7 +67,7 @@ if($userId && $appUrl && $categories) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="shortcut icon" href="../../../core/img/favicon.png" /><link rel="apple-touch-icon-precomposed" href="../../../core/img/favicon-touch.png" />
 			<link rel="stylesheet" href="../../../core/css/styles.css" type="text/css" media="screen" />
-			<link rel="stylesheet" href="?app=remoteStorage&getfile=auth.css" type="text/css" media="screen" />
+			<link rel="stylesheet" href="../../../core/css/auth.css" type="text/css" media="screen" />
 		</head>
 	<body id="body-login">
 	<div id="login">
@@ -78,7 +78,7 @@ if($userId && $appUrl && $categories) {
 		</header>
 		<section id="main">
 		<div id="oauth">
-			<h2><img src="?app=remoteStorage&getfile=remoteStorage-big.png" alt="remoteStorage" /></h2>
+			<h2><img src="../../../core/img/remoteStorage-big.png" alt="remoteStorage" /></h2>
 			<p><strong><?php $appUrlParts = explode('/', $_GET['redirect_uri']); echo htmlentities($appUrlParts[2]); ?></strong>
 			requests read &amp; write access to your 
 			<?php

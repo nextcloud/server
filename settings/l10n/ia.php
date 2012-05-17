@@ -1,13 +1,19 @@
 <?php $TRANSLATIONS = array(
+"Invalid request" => "Requesta invalide",
 "OpenID Changed" => "OpenID cambiate",
 "Language changed" => "Linguage cambiate",
 "__language_name__" => "Interlingua",
+"Log" => "Registro",
+"More" => "Plus",
+"Add your App" => "Adder tu application",
 "Select an App" => "Selectionar un app",
 "by" => "per",
+"Documentation" => "Documentation",
 "Ask a question" => "Facer un question",
 "Answer" => "Responsa",
 "You use" => "Tu usa",
 "of the available" => "del disponibile",
+"Download" => "Discargar",
 "Your password got changed" => "Tu contrasigno esseva cambiate",
 "Unable to change your password" => "Non pote cambiar tu contrasigno",
 "Current password" => "Contrasigno currente",
@@ -23,5 +29,8 @@
 "Password" => "Contrasigno",
 "Groups" => "Gruppos",
 "Create" => "Crear",
+"Default Quota" => "Quota predeterminate",
+"Other" => "Altere",
+"Quota" => "Quota",
 "Delete" => "Deler"
 );

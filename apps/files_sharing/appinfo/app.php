@@ -17,5 +17,3 @@ if ($dir != '/Shared' || OCP\Config::getAppValue('files_sharing', 'resharing', '
 OCP\Util::addscript("3rdparty", "chosen/chosen.jquery.min");
 OCP\Util::addStyle( 'files_sharing', 'sharing' );
 OCP\Util::addStyle("3rdparty", "chosen/chosen");
-OCP\CONFIG::setAppValue('core', 'public_files', '/apps/files_sharing/get.php');
-?>

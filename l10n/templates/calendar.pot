@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,67 +51,67 @@ msgstr ""
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
 msgstr ""
 
-#: lib/app.php:122
+#: lib/app.php:125
 msgid "Birthday"
 msgstr ""
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr ""
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr ""
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr ""
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr ""
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr ""
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr ""
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr ""
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr ""
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr ""
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr ""
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr ""
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr ""
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr ""
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr ""
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
 msgstr ""
 

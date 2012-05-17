@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-13 17:52+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Interlingua (http://www.transifex.net/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -23,13 +23,13 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr ""
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr ""
 
 #: ajax/addproperty.php:40
 msgid "Cannot add empty property."
-msgstr ""
+msgstr "Non pote adder proprietate vacue."
 
 #: ajax/addproperty.php:52
 msgid "At least one of the address fields has to be filled out."
@@ -57,11 +57,11 @@ msgstr ""
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "Nulle adressario trovate"
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "Nulle contactos trovate."
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
@@ -71,21 +71,17 @@ msgstr ""
 msgid "Error parsing VCard for ID: \""
 msgstr ""
 
-#: ajax/contactdetails.php:53
-msgid "Unknown"
-msgstr ""
-
 #: ajax/createaddressbook.php:18
 msgid "Cannot add addressbook with an empty name."
 msgstr ""
 
 #: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
-msgstr ""
+msgstr "Error durante que il addeva le adressario."
 
 #: ajax/createaddressbook.php:30
 msgid "Error activating addressbook."
-msgstr ""
+msgstr "Error in activar adressario"
 
 #: ajax/currentphoto.php:40 ajax/oc_photo.php:40
 msgid "No contact ID was submitted."
@@ -93,7 +89,7 @@ msgstr ""
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "Il habeva un error durante le cargamento del imagine."
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
@@ -101,7 +97,7 @@ msgstr ""
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "Error durante le scriptura in le file temporari"
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
@@ -187,11 +183,11 @@ msgstr ""
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Nulle file esseva incargate."
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Manca un dossier temporari"
 
 #: appinfo/app.php:22 templates/settings.php:3
 msgid "Contacts"
@@ -199,7 +195,7 @@ msgstr "Contactos"
 
 #: lib/app.php:23
 msgid "Addressbook not found."
-msgstr ""
+msgstr "Adressario non trovate."
 
 #: lib/app.php:27
 msgid "This is not your addressbook."
@@ -248,7 +244,7 @@ msgstr "Voce"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "Message"
 
 #: lib/app.php:120
 msgid "Fax"
@@ -264,7 +260,7 @@ msgstr "Pager"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
@@ -297,7 +293,7 @@ msgstr ""
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
 msgid "CardDav Link"
-msgstr ""
+msgstr "Ligamine CardDav"
 
 #: templates/part.chooseaddressbook.rowfields.php:11
 msgid "Download"
@@ -335,11 +331,11 @@ msgstr ""
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "Pseudonymo"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "Inserer pseudonymo"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
@@ -351,7 +347,7 @@ msgstr ""
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "Gruppos"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
@@ -359,7 +355,7 @@ msgstr ""
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "Modificar gruppos"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -371,7 +367,7 @@ msgstr ""
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "Entrar un adresse de e-posta"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"
@@ -379,19 +375,19 @@ msgstr ""
 
 #: templates/part.contact.php:61
 msgid "Delete email address"
-msgstr ""
+msgstr "Deler adresse de E-posta"
 
 #: templates/part.contact.php:70
 msgid "Enter phone number"
-msgstr ""
+msgstr "Entrar un numero de telephono"
 
 #: templates/part.contact.php:74
 msgid "Delete phone number"
-msgstr ""
+msgstr "Deler numero de telephono"
 
 #: templates/part.contact.php:84
 msgid "View on map"
-msgstr ""
+msgstr "Vider in un carta"
 
 #: templates/part.contact.php:84
 msgid "Edit address details"
@@ -399,15 +395,15 @@ msgstr ""
 
 #: templates/part.contact.php:95
 msgid "Add notes here."
-msgstr ""
+msgstr "Adder notas hic"
 
 #: templates/part.contact.php:101
 msgid "Add field"
-msgstr ""
+msgstr "Adder campo"
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "Imagine de profilo"
 
 #: templates/part.contact.php:107
 msgid "Phone"
@@ -415,27 +411,27 @@ msgstr "Phono"
 
 #: templates/part.contact.php:110
 msgid "Note"
-msgstr ""
+msgstr "Nota"
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
-msgstr ""
+msgstr "Deler photo currente"
 
 #: templates/part.contactphoto.php:9
 msgid "Edit current photo"
-msgstr ""
+msgstr "Modificar photo currente"
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "Incargar nove photo"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
-msgstr ""
+msgstr "Seliger photo ex ownCloud"
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "Modificar adresses"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
@@ -478,7 +474,7 @@ msgstr "Pais"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Modificar categorias"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
@@ -490,11 +486,11 @@ msgstr "Adressario"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
-msgstr ""
+msgstr "Prefixos honorific"
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
-msgstr ""
+msgstr "Senioretta"
 
 #: templates/part.edit_name_dialog.php:28
 msgid "Ms"
@@ -502,7 +498,7 @@ msgstr ""
 
 #: templates/part.edit_name_dialog.php:29
 msgid "Mr"
-msgstr ""
+msgstr "Sr."
 
 #: templates/part.edit_name_dialog.php:30
 msgid "Sir"
@@ -510,27 +506,27 @@ msgstr ""
 
 #: templates/part.edit_name_dialog.php:31
 msgid "Mrs"
-msgstr ""
+msgstr "Sra."
 
 #: templates/part.edit_name_dialog.php:32
 msgid "Dr"
-msgstr ""
+msgstr "Dr."
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "Nomine date"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
-msgstr ""
+msgstr "Nomines additional"
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "Nomine de familia"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
-msgstr ""
+msgstr "Suffixos honorific"
 
 #: templates/part.edit_name_dialog.php:45
 msgid "J.D."
@@ -595,23 +591,23 @@ msgstr "Cancellar"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "Importar un file de contactos"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "Per favor selige le adressario"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "Crear un nove adressario"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
+msgstr "Nomine del nove gruppo:"
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "Importar"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
@@ -619,15 +615,15 @@ msgstr ""
 
 #: templates/part.import.php:23
 msgid "Contacts imported successfully"
-msgstr ""
+msgstr "Contactos importate con successo."
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Clauder dialogo"
 
 #: templates/part.importaddressbook.php:9
 msgid "Import Addressbook"
-msgstr ""
+msgstr "Importar adressario."
 
 #: templates/part.importaddressbook.php:12
 msgid "Select address book to import to:"
@@ -647,7 +643,7 @@ msgstr ""
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "Adder adressario"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
@@ -659,7 +655,7 @@ msgstr ""
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "plus info"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"
@@ -667,4 +663,4 @@ msgstr ""
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"

@@ -41,6 +41,10 @@ class OC_Share {
 	public function __construct($source, $uid_shared_with, $permissions) {
 		$uid_owner = OCP\USER::getUser();
 		$query = OCP\DB::prepare("INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)");
+		// Check if this is a reshare and use the original source
+		if ($result = OC_Share::getSource($source)) {
+			$source = $result;
+		}
 		if ($uid_shared_with == self::PUBLICLINK) {
 			$token = sha1("$uid_shared_with-$source");
 			$query->execute(array($uid_owner, self::PUBLICLINK, $source, $token, $permissions));
@@ -107,6 +111,11 @@ class OC_Share {
 				// Update mtime of shared folder to invoke a file cache rescan
 				$rootView=new OC_FilesystemView('/');
 				if (!$rootView->is_dir($sharedFolder)) {
+					if (!$rootView->is_dir('/'.$uid.'/files')) {
+						OC_Util::tearDownFS();
+						OC_Util::setupFS($uid);
+						OC_Util::tearDownFS();
+					}
 					$rootView->mkdir($sharedFolder);
 				}
 				$rootView->touch($sharedFolder);
@@ -468,12 +477,10 @@ class OC_Share {
 		$gid = '@'.$arguments['gid'];
 		$result = $query->execute(array($gid))->fetchAll();
 		if (count($result) > 0) {
-			$query = OCP\DB::prepare('INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?)');
-			$sharedFolder = '/'.$arguments['uid'].'/files/Shared/';
 			$lastSource = '';
 			for ($i = 0; $i < count($result) - 1; $i++) {
 				if ($result[$i]['source'] != $lastSource) {
-					$query->execute(array($result[$i]['uid_owner'], $arguments['uid'].'@'.$arguments['gid'], $result[$i]['source'], $sharedFolder.basename($result[$i]['source']), $result[$i]['permissions']));
+					new OC_Share($result[$i]['source'], $arguments['gid'], $result[$i]['permissions']);
 					$lastSource = $result[$i]['source'];
 				}
 			}

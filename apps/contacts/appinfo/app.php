@@ -19,7 +19,7 @@ OCP\App::addNavigationEntry( array(
   'order' => 10,
   'href' => OCP\Util::linkTo( 'contacts', 'index.php' ),
   'icon' => OCP\Util::imagePath( 'settings', 'users.svg' ),
-  'name' => OC_L10N::get('contact')->t('Contacts') ));
+  'name' => OC_L10N::get('contacts')->t('Contacts') ));
 
 
 OCP\App::registerPersonal('contacts','settings');

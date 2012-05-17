@@ -1,9 +1,5 @@
 ErrorDocument 403 /core/templates/403.php
 ErrorDocument 404 /core/templates/404.php
-Redirect 301 /apps/calendar/caldav.php /remote.php/caldav/
-Redirect 301 /apps/contacts/carddav.php /remote.php/carddav/
-Redirect 301 /apps/files/webdav.php /remote.php/webdav/
-Redirect 301 /files/webdav.php /remote.php/webdav/
 <IfModule mod_php5.c>
 php_value upload_max_filesize 512M
 php_value post_max_size 512M
@@ -18,6 +14,8 @@ RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteRule ^.well-known/host-meta /public.php?service=host-meta [QSA,L]
 RewriteRule ^.well-known/carddav /remote.php/carddav/ [R]
 RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]	
+RewriteRule ^apps/calendar/caldav.php remote.php/caldav/ [QSA,L]
+RewriteRule ^apps/contacts/carddav.php remote.php/carddav/ [QSA,L]
 RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]
 RewriteRule ^remote/(.*) remote.php [QSA,L]
 </IfModule>

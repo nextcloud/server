@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Aranel Surion <aranel@aranelsurion.org>, 2011, 2012.
+# Necdet Yücel <necdetyucel@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-13 17:52+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.net/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +23,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "Adres defteri etkisizleştirilirken hata oluştu."
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "Kişi eklenirken hata oluştu."
 
@@ -36,7 +37,7 @@ msgstr "En az bir adres alanı doldurulmalı."
 
 #: ajax/addproperty.php:62
 msgid "Trying to add duplicate property: "
-msgstr ""
+msgstr "Yinelenen özellik eklenmeye çalışılıyor: "
 
 #: ajax/addproperty.php:120
 msgid "Error adding contact property."
@@ -44,39 +45,35 @@ msgstr "Kişi özelliği eklenirken hata oluştu."
 
 #: ajax/categories/categoriesfor.php:15
 msgid "No ID provided"
-msgstr ""
+msgstr "ID verilmedi"
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
-msgstr ""
+msgstr "İmza oluşturulurken hata."
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Silmek için bir kategori seçilmedi."
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "Adres defteri bulunamadı."
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "Bağlantı bulunamadı."
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "Eksik ID"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/contactdetails.php:53
-msgid "Unknown"
-msgstr ""
+msgstr "ID için VCard ayrıştırılamadı:\""
 
 #: ajax/createaddressbook.php:18
 msgid "Cannot add addressbook with an empty name."
-msgstr ""
+msgstr "Adres defterini isimsiz ekleyemezsiniz."
 
 #: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
@@ -88,27 +85,27 @@ msgstr "Adres defteri etkinleştirilirken hata oluştu."
 
 #: ajax/currentphoto.php:40 ajax/oc_photo.php:40
 msgid "No contact ID was submitted."
-msgstr ""
+msgstr "Bağlantı ID'si girilmedi."
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "İmaj yükleme hatası."
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "Bağlantı fotoğrafı okunamadı."
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "Geçici dosya kaydetme hatası."
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
-msgstr ""
+msgstr "Yüklenecek fotograf geçerli değil."
 
 #: ajax/deletecard.php:37 ajax/saveproperty.php:58
 msgid "id is not set."
-msgstr ""
+msgstr "id atanmamış."
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -120,35 +117,35 @@ msgstr "Kişi özelliği silinirken hata oluştu."
 
 #: ajax/editname.php:37
 msgid "Contact ID is missing."
-msgstr ""
+msgstr "Bağlantı ID'si eksik."
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "Eksik bağlantı id'si."
 
 #: ajax/oc_photo.php:44
 msgid "No photo path was submitted."
-msgstr ""
+msgstr "Fotoğraf girilmedi."
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "Dosya mevcut değil:"
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
-msgstr ""
+msgstr "eleman ismi atanmamış."
 
 #: ajax/saveproperty.php:61
 msgid "checksum is not set."
-msgstr ""
+msgstr "checksum atanmamış."
 
 #: ajax/saveproperty.php:78
 msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr ""
+msgstr "vCard hakkındaki bilgi hatalı. Lütfen sayfayı yeniden yükleyin: "
 
 #: ajax/saveproperty.php:83
 msgid "Something went FUBAR. "
-msgstr ""
+msgstr "Bir şey FUBAR gitti."
 
 #: ajax/saveproperty.php:153
 msgid "Error updating contact property."
@@ -156,7 +153,7 @@ msgstr "Kişi özelliği güncellenirken hata oluştu."
 
 #: ajax/updateaddressbook.php:20
 msgid "Cannot update addressbook with an empty name."
-msgstr ""
+msgstr "Adres defterini boş bir isimle güncelleyemezsiniz."
 
 #: ajax/updateaddressbook.php:26
 msgid "Error updating addressbook."
@@ -164,33 +161,33 @@ msgstr "Adres defteri güncellenirken hata oluştu."
 
 #: ajax/uploadimport.php:46 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
-msgstr ""
+msgstr "Bağlantıları depoya yükleme hatası"
 
 #: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Dosya başarıyla yüklendi, hata oluşmadı"
 
 #: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "Dosyanın boyutu php.ini dosyasındaki upload_max_filesize limitini aşıyor"
 
 #: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Yüklenecek dosyanın boyutu HTML formunda belirtilen MAX_FILE_SIZE limitini aşıyor"
 
 #: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Dosya kısmen karşıya yüklenebildi"
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Hiç dosya gönderilmedi"
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Geçici dizin eksik"
 
 #: appinfo/app.php:22 templates/settings.php:3
 msgid "Contacts"
@@ -198,7 +195,7 @@ msgstr "Kişiler"
 
 #: lib/app.php:23
 msgid "Addressbook not found."
-msgstr ""
+msgstr "Adres defteri bulunamadı."
 
 #: lib/app.php:27
 msgid "This is not your addressbook."
@@ -247,7 +244,7 @@ msgstr "Ses"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "mesaj"
 
 #: lib/app.php:120
 msgid "Fax"
@@ -263,11 +260,11 @@ msgstr "Sayfalayıcı"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "İnternet"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
-msgstr ""
+msgstr "{name}'nin Doğumgünü"
 
 #: lib/search.php:22
 msgid "Contact"
@@ -283,7 +280,7 @@ msgstr "Adres defterleri"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Configure Address Books"
-msgstr ""
+msgstr "Adres Defterlerini Yapılandır"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
@@ -291,7 +288,7 @@ msgstr "Yeni Adres Defteri"
 
 #: templates/part.chooseaddressbook.php:17
 msgid "Import from VCF"
-msgstr ""
+msgstr "VCF'den içeri aktar"
 
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
@@ -322,23 +319,23 @@ msgstr "Kişiyi sil"
 
 #: templates/part.contact.php:19
 msgid "Drop photo to upload"
-msgstr ""
+msgstr "Fotoğrafı yüklenmesi için bırakın"
 
 #: templates/part.contact.php:29
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
-msgstr ""
+msgstr "Biçin özel, Kısa isim, Tam isim, Ters veya noktalı ters"
 
 #: templates/part.contact.php:30
 msgid "Edit name details"
-msgstr ""
+msgstr "İsim detaylarını düzenle"
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "Takma ad"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "Takma adı girin"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
@@ -346,19 +343,19 @@ msgstr "Doğum günü"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "gg-aa-yyyy"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "Gruplar"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
-msgstr ""
+msgstr "Grupları birbirinden virgülle ayırın"
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "Grupları düzenle"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -366,47 +363,47 @@ msgstr "Tercih edilen"
 
 #: templates/part.contact.php:56
 msgid "Please specify a valid email address."
-msgstr ""
+msgstr "Lütfen geçerli bir eposta adresi belirtin."
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "Eposta adresini girin"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"
-msgstr ""
+msgstr "Eposta adresi"
 
 #: templates/part.contact.php:61
 msgid "Delete email address"
-msgstr ""
+msgstr "Eposta adresini sil"
 
 #: templates/part.contact.php:70
 msgid "Enter phone number"
-msgstr ""
+msgstr "Telefon numarasını gir"
 
 #: templates/part.contact.php:74
 msgid "Delete phone number"
-msgstr ""
+msgstr "Telefon numarasını sil"
 
 #: templates/part.contact.php:84
 msgid "View on map"
-msgstr ""
+msgstr "Haritada gör"
 
 #: templates/part.contact.php:84
 msgid "Edit address details"
-msgstr ""
+msgstr "Adres detaylarını düzenle"
 
 #: templates/part.contact.php:95
 msgid "Add notes here."
-msgstr ""
+msgstr "Notları buraya ekleyin."
 
 #: templates/part.contact.php:101
 msgid "Add field"
-msgstr ""
+msgstr "Alan ekle"
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "Profil resmi"
 
 #: templates/part.contact.php:107
 msgid "Phone"
@@ -414,27 +411,27 @@ msgstr "Telefon"
 
 #: templates/part.contact.php:110
 msgid "Note"
-msgstr ""
+msgstr "Not"
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
-msgstr ""
+msgstr "Mevcut fotoğrafı sil"
 
 #: templates/part.contactphoto.php:9
 msgid "Edit current photo"
-msgstr ""
+msgstr "Mevcut fotoğrafı düzenle"
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "Yeni fotoğraf yükle"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
-msgstr ""
+msgstr "ownCloud'dan bir fotoğraf seç"
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "Adresi düzenle"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
@@ -477,7 +474,7 @@ msgstr "Ülke"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Kategorileri düzenle"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
@@ -489,79 +486,79 @@ msgstr "Adres defteri"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
-msgstr ""
+msgstr "Kısaltmalar"
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
-msgstr ""
+msgstr "Bayan"
 
 #: templates/part.edit_name_dialog.php:28
 msgid "Ms"
-msgstr ""
+msgstr "Bayan"
 
 #: templates/part.edit_name_dialog.php:29
 msgid "Mr"
-msgstr ""
+msgstr "Bay"
 
 #: templates/part.edit_name_dialog.php:30
 msgid "Sir"
-msgstr ""
+msgstr "Bay"
 
 #: templates/part.edit_name_dialog.php:31
 msgid "Mrs"
-msgstr ""
+msgstr "Bayan"
 
 #: templates/part.edit_name_dialog.php:32
 msgid "Dr"
-msgstr ""
+msgstr "Dr"
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "Verilen isim"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
-msgstr ""
+msgstr "İlave isimler"
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "Soyad"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
-msgstr ""
+msgstr "Kısaltmalar"
 
 #: templates/part.edit_name_dialog.php:45
 msgid "J.D."
-msgstr ""
+msgstr "J.D."
 
 #: templates/part.edit_name_dialog.php:46
 msgid "M.D."
-msgstr ""
+msgstr "Dr."
 
 #: templates/part.edit_name_dialog.php:47
 msgid "D.O."
-msgstr ""
+msgstr "D.O."
 
 #: templates/part.edit_name_dialog.php:48
 msgid "D.C."
-msgstr ""
+msgstr "D.C."
 
 #: templates/part.edit_name_dialog.php:49
 msgid "Ph.D."
-msgstr ""
+msgstr "Dr."
 
 #: templates/part.edit_name_dialog.php:50
 msgid "Esq."
-msgstr ""
+msgstr "Esq."
 
 #: templates/part.edit_name_dialog.php:51
 msgid "Jr."
-msgstr ""
+msgstr "Jr."
 
 #: templates/part.edit_name_dialog.php:52
 msgid "Sn."
-msgstr ""
+msgstr "Sn."
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
@@ -594,76 +591,76 @@ msgstr "İptal"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "Bağlantı dosyasını içeri aktar"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "Yeni adres defterini seç"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "Yeni adres defteri oluştur"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
+msgstr "Yeni adres defteri için isim"
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "İçe aktar"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr ""
+msgstr "Bağlantıları içe aktar"
 
 #: templates/part.import.php:23
 msgid "Contacts imported successfully"
-msgstr ""
+msgstr "Bağlantılar başarıyla içe aktarıldı"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Diyaloğu kapat"
 
 #: templates/part.importaddressbook.php:9
 msgid "Import Addressbook"
-msgstr ""
+msgstr "Adres defterini içeri aktar"
 
 #: templates/part.importaddressbook.php:12
 msgid "Select address book to import to:"
-msgstr ""
+msgstr "İçe aktarılacak adres defterini seçin:"
 
 #: templates/part.importaddressbook.php:20
 msgid "Drop a VCF file to import contacts."
-msgstr ""
+msgstr "Bağlantıları içe aktarmak için bir VCF dosyası bırakın."
 
 #: templates/part.importaddressbook.php:21
 msgid "Select from HD"
-msgstr ""
+msgstr "HD'den seç"
 
 #: templates/part.no_contacts.php:2
 msgid "You have no contacts in your addressbook."
-msgstr ""
+msgstr "Adres defterinizde hiç bağlantı yok."
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "Bağlatı ekle"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
-msgstr ""
+msgstr "Adres defterini yapılandır"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing addresses"
-msgstr ""
+msgstr "CardDAV adresleri eşzamanlıyor"
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "daha fazla bilgi"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "Birincil adres (Bağlantı ve arkadaşları)"
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"

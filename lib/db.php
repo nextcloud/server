@@ -96,6 +96,11 @@ class OC_DB {
 		$user = OC_Config::getValue( "dbuser", "" );
 		$pass = OC_Config::getValue( "dbpassword", "" );
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
+		if(strpos($host,':')){
+			list($host,$port)=explode(':',$host,2);
+		}else{
+			$port=false;
+		}
 		$opts = array();
 		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
 		
@@ -110,11 +115,19 @@ class OC_DB {
 					$dsn='sqlite:'.$datadir.'/'.$name.'.db';
 					break;
 				case 'mysql':
-					$dsn='mysql:dbname='.$name.';host='.$host;
+					if($port){
+						$dsn='mysql:dbname='.$name.';host='.$host.';port='.$port;
+					}else{
+						$dsn='mysql:dbname='.$name.';host='.$host;
+					}
 					$opts[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
 					break;
 				case 'pgsql':
-					$dsn='pgsql:dbname='.$name.';host='.$host;
+					if($port){
+						$dsn='pgsql:dbname='.$name.';host='.$host.';port='.$port;
+					}else{
+						$dsn='pgsql:dbname='.$name.';host='.$host;
+					}
 					break;
 			}
 			try{
@@ -395,7 +408,8 @@ class OC_DB {
 		
 		if (PEAR::isError($op)) {
 			$error = $op->getMessage();
-			OC_Log::write('core','Failed to update database structure ('.$error.')',OC_Log::FATAL);
+			$detail = $op->getDebugInfo();
+			OC_Log::write('core','Failed to update database structure ('.$error.', '.$detail.')',OC_Log::FATAL);
 			return false;
 		}
 		return true;

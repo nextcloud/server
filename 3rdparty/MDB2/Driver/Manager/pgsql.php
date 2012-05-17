@@ -42,7 +42,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php 299393 2010-05-14 17:49:49Z afz $
+// $Id$
 
 require_once 'MDB2/Driver/Manager/Common.php';
 
@@ -193,7 +193,11 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         }
 
         $name = $db->quoteIdentifier($name, true);
-        return $db->exec("TRUNCATE TABLE $name");
+        $result = $db->exec("TRUNCATE TABLE $name");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -234,7 +238,11 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         if (!empty($table)) {
             $query .= ' '.$db->quoteIdentifier($table, true);
         }
-        return $db->exec($query);
+        $result = $db->exec($query);
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -505,7 +513,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
      * @return mixed array of view names on success, a MDB2 error on failure
      * @access public
      */
-    function listViews()
+    function listViews($database = null)
     {
         $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
@@ -637,7 +645,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
      * @return mixed array of table names on success, a MDB2 error on failure
      * @access public
      */
-    function listTables()
+    function listTables($database = null)
     {
         $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
@@ -801,11 +809,19 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         }
 
         if (in_array($name, $unique)) {
-            return $db->exec('DROP INDEX '.$db->quoteIdentifier($name, true));
+            $result = $db->exec('DROP INDEX '.$db->quoteIdentifier($name, true));
+            if (MDB2::isError($result)) {
+                return $result;
+            }
+            return MDB2_OK;
         }
         $idxname = $db->getIndexName($name);
         if (in_array($idxname, $unique)) {
-            return $db->exec('DROP INDEX '.$db->quoteIdentifier($idxname, true));
+            $result = $db->exec('DROP INDEX '.$db->quoteIdentifier($idxname, true));
+            if (MDB2::isError($result)) {
+                return $result;
+            }
+            return MDB2_OK;
         }
         return $db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
             $name . ' is not an existing constraint for table ' . $table, __FUNCTION__);
@@ -894,8 +910,12 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         }
 
         $sequence_name = $db->quoteIdentifier($db->getSequenceName($seq_name), true);
-        return $db->exec("CREATE SEQUENCE $sequence_name INCREMENT 1".
+        $result = $db->exec("CREATE SEQUENCE $sequence_name INCREMENT 1".
             ($start < 1 ? " MINVALUE $start" : '')." START $start");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -916,7 +936,11 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         }
 
         $sequence_name = $db->quoteIdentifier($db->getSequenceName($seq_name), true);
-        return $db->exec("DROP SEQUENCE $sequence_name");
+        $result = $db->exec("DROP SEQUENCE $sequence_name");
+        if (MDB2::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -928,7 +952,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
      * @return mixed array of sequence names on success, a MDB2 error on failure
      * @access public
      */
-    function listSequences()
+    function listSequences($database = null)
     {
         $db = $this->getDBInstance();
         if (PEAR::isError($db)) {

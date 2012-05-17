@@ -15,7 +15,7 @@
 				<form data-upload-id='1' class="file_upload_form" action="<?php echo OCP\Util::linkTo('files', 'ajax/upload.php'); ?>" method="post" enctype="multipart/form-data" target="file_upload_target_1">
 					<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
 					<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
-					<input type="hidden" name="dir" value="<?php echo htmlentities($_['dir']) ?>" id="dir">
+					<input type="hidden" name="dir" value="<?php echo htmlentities($_['dir'],ENT_COMPAT,'utf-8') ?>" id="dir">
 					<button class="file_upload_filename">&nbsp;<img class='svg action' alt="Upload" src="<?php echo OCP\image_path("core", "actions/upload-white.svg"); ?>" /></button>
 					<input class="file_upload_start" type="file" name='files[]'/>
 						<a href="#" class="file_upload_button_wrapper" onclick="return false;" title="<?php echo $l->t('Upload'); echo  ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
@@ -46,7 +46,7 @@
 				<?php if(!isset($_['readonly']) || !$_['readonly']) { ?><input type="checkbox" id="select_all" /><?php } ?>
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
 				<span class='selectedActions'>
-					<a href="" class="share"><img class='svg' alt="Share" src="<?php echo OCP\image_path("core", "actions/share.svg"); ?>" /> <?php echo $l->t('Share')?></a>
+<!-- 					<a href="" class="share"><img class='svg' alt="Share" src="<?php echo OCP\image_path("core", "actions/share.svg"); ?>" /> <?php echo $l->t('Share')?></a> -->
 					<?php if($_['allowZipDownload']) : ?>
 						<a href="" class="download"><img class='svg' alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /> <?php echo $l->t('Download')?></a>
 					<?php endif; ?>

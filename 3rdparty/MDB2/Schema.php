@@ -1,8 +1,6 @@
-<?php
+<?php /* vim: se et ts=4 sw=4 sts=4 fdm=marker tw=80: */
 /**
- * PHP version 4, 5
- *
- * Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,
+ * Copyright (c) 1998-2010 Manuel Lemos, Tomas V.V.Cox,
  * Stig. S. Bakken, Lukas Smith, Igor Feghali
  * All rights reserved.
  *
@@ -39,15 +37,14 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Author: Lukas Smith <smith@pooteeweet.org>
- * Author: Igor Feghali <ifeghali@php.net>
+ * PHP version 5
  *
  * @category Database
  * @package  MDB2_Schema
  * @author   Lukas Smith <smith@pooteeweet.org>
  * @author   Igor Feghali <ifeghali@php.net>
  * @license  BSD http://www.opensource.org/licenses/bsd-license.php
- * @version  CVS: $Id: Schema.php,v 1.132 2009/02/22 21:43:22 ifeghali Exp $
+ * @version  SVN: $Id$
  * @link     http://pear.php.net/packages/MDB2_Schema
  */
 
@@ -96,7 +93,7 @@ class MDB2_Schema extends PEAR
         'parser'                => 'MDB2_Schema_Parser',
         'writer'                => 'MDB2_Schema_Writer',
         'validate'              => 'MDB2_Schema_Validate',
-        'drop_missing_tables'   => false
+        'drop_obsolete_objects' => false
     );
 
     // }}}
@@ -237,9 +234,9 @@ class MDB2_Schema extends PEAR
      * @access public
      * @see     MDB2::parseDSN
      */
-    function &factory(&$db, $options = array())
+    static function &factory(&$db, $options = array())
     {
-        $obj =& new MDB2_Schema();
+        $obj = new MDB2_Schema();
 
         $result = $obj->connect($db, $options);
         if (PEAR::isError($result)) {
@@ -284,14 +281,14 @@ class MDB2_Schema extends PEAR
 
         $this->disconnect();
         if (!MDB2::isConnection($db)) {
-            $db =& MDB2::factory($db, $db_options);
+            $db = MDB2::factory($db, $db_options);
         }
 
         if (PEAR::isError($db)) {
             return $db;
         }
 
-        $this->db =& $db;
+        $this->db = $db;
         $this->db->loadModule('Datatype');
         $this->db->loadModule('Manager');
         $this->db->loadModule('Reverse');
@@ -380,7 +377,7 @@ class MDB2_Schema extends PEAR
         $dtd_file = $this->options['dtd_file'];
         if ($dtd_file) {
             include_once 'XML/DTD/XmlValidator.php';
-            $dtd =& new XML_DTD_XmlValidator;
+            $dtd = new XML_DTD_XmlValidator;
             if (!$dtd->isValid($dtd_file, $input_file)) {
                 return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
             }
@@ -393,7 +390,16 @@ class MDB2_Schema extends PEAR
             return $result;
         }
 
-        $parser =& new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
+        $max_identifiers_length = null;
+        if (isset($this->db->options['max_identifiers_length'])) {
+            $max_identifiers_length = $this->db->options['max_identifiers_length'];
+        }
+        
+        $parser = new $class_name($variables, $fail_on_invalid_names, $structure,
+            $this->options['valid_types'], $this->options['force_defaults'],
+            $max_identifiers_length
+        );
+
         $result = $parser->setInputFile($input_file);
         if (PEAR::isError($result)) {
             return $result;
@@ -436,7 +442,17 @@ class MDB2_Schema extends PEAR
             return $result;
         }
 
-        $val =& new $class_name($this->options['fail_on_invalid_names'], $this->options['valid_types'], $this->options['force_defaults']);
+        $max_identifiers_length = null;
+        if (isset($this->db->options['max_identifiers_length'])) {
+            $max_identifiers_length = $this->db->options['max_identifiers_length'];
+        }
+
+        $val = new $class_name(
+            $this->options['fail_on_invalid_names'],
+            $this->options['valid_types'],
+            $this->options['force_defaults'],
+            $max_identifiers_length
+        );
 
         $database_definition = array(
             'name' => $database,
@@ -470,7 +486,7 @@ class MDB2_Schema extends PEAR
                 'initialization' => array()
             );
 
-            $table_definition =& $database_definition['tables'][$table_name];
+            $table_definition = $database_definition['tables'][$table_name];
             foreach ($fields as $field_name) {
                 $definition = $this->db->reverse->getTableFieldDefinition($table_name, $field_name);
                 if (PEAR::isError($definition)) {
@@ -628,6 +644,7 @@ class MDB2_Schema extends PEAR
             if (PEAR::isError($result)) {
                 return $result;
             }
+            $database_definition['tables'][$table_name]=$table_definition;
 
         }
 
@@ -1455,16 +1472,17 @@ class MDB2_Schema extends PEAR
                     $changes['tables'] = MDB2_Schema::arrayMergeClobber($changes['tables'], $change);
                 }
             }
-
-            if (!empty($previous_definition['tables'])
-                && is_array($previous_definition['tables'])) {
-                foreach ($previous_definition['tables'] as $table_name => $table) {
-                    if (empty($defined_tables[$table_name])) {
-                        $changes['tables']['remove'][$table_name] = true;
-                    }
+        }
+        if (!empty($previous_definition['tables'])
+            && is_array($previous_definition['tables'])
+        ) {
+            foreach ($previous_definition['tables'] as $table_name => $table) {
+                if (empty($defined_tables[$table_name])) {
+                    $changes['tables']['remove'][$table_name] = true;
                 }
             }
         }
+
         if (!empty($current_definition['sequences']) && is_array($current_definition['sequences'])) {
             $changes['sequences'] = $defined_sequences = array();
             foreach ($current_definition['sequences'] as $sequence_name => $sequence) {
@@ -1484,14 +1502,17 @@ class MDB2_Schema extends PEAR
                     $changes['sequences'] = MDB2_Schema::arrayMergeClobber($changes['sequences'], $change);
                 }
             }
-            if (!empty($previous_definition['sequences']) && is_array($previous_definition['sequences'])) {
-                foreach ($previous_definition['sequences'] as $sequence_name => $sequence) {
-                    if (empty($defined_sequences[$sequence_name])) {
-                        $changes['sequences']['remove'][$sequence_name] = true;
-                    }
+        }
+        if (!empty($previous_definition['sequences'])
+            && is_array($previous_definition['sequences'])
+        ) {
+            foreach ($previous_definition['sequences'] as $sequence_name => $sequence) {
+                if (empty($defined_sequences[$sequence_name])) {
+                    $changes['sequences']['remove'][$sequence_name] = true;
                 }
             }
         }
+
         return $changes;
     }
 
@@ -2022,9 +2043,10 @@ class MDB2_Schema extends PEAR
             }
         }
  
-        if ($this->options['drop_missing_tables']
+        if ($this->options['drop_obsolete_objects']
             && !empty($changes['remove'])
-            && is_array($changes['remove'])) {
+            && is_array($changes['remove'])
+        ) {
             foreach ($changes['remove'] as $table_name => $table) {
                 $result = $this->db->manager->dropTable($table_name);
                 if (PEAR::isError($result)) {
@@ -2105,7 +2127,10 @@ class MDB2_Schema extends PEAR
             }
         }
 
-        if (!empty($changes['remove']) && is_array($changes['remove'])) {
+        if ($this->options['drop_obsolete_objects']
+            && !empty($changes['remove'])
+            && is_array($changes['remove'])
+        ) {
             foreach ($changes['remove'] as $sequence_name => $sequence) {
                 $result = $this->db->manager->dropSequence($sequence_name);
                 if (PEAR::isError($result)) {
@@ -2232,7 +2257,7 @@ class MDB2_Schema extends PEAR
             }
 
             if (!empty($changes['tables']['remove']) && is_array($changes['tables']['remove'])) {
-                if ($this->options['drop_missing_tables']) {
+                if ($this->options['drop_obsolete_objects']) {
                     foreach ($changes['tables']['remove'] as $table_name => $table) {
                         $this->db->debug("$table_name:", __FUNCTION__);
                         $this->db->debug("\tRemoved table '$table_name'", __FUNCTION__);
@@ -2338,9 +2363,15 @@ class MDB2_Schema extends PEAR
                 }
             }
             if (!empty($changes['sequences']['remove']) && is_array($changes['sequences']['remove'])) {
-                foreach ($changes['sequences']['remove'] as $sequence_name => $sequence) {
-                    $this->db->debug("$sequence_name:", __FUNCTION__);
-                    $this->db->debug("\tAdded sequence '$sequence_name'", __FUNCTION__);
+                if ($this->options['drop_obsolete_objects']) {
+                    foreach ($changes['sequences']['remove'] as $sequence_name => $sequence) {
+                        $this->db->debug("$sequence_name:", __FUNCTION__);
+                        $this->db->debug("\tRemoved sequence '$sequence_name'", __FUNCTION__);
+                    }
+                } else {
+                    foreach ($changes['sequences']['remove'] as $sequence_name => $sequence) {
+                        $this->db->debug("\tObsolete sequence '$sequence_name' left as is", __FUNCTION__);
+                    }
                 }
             }
             if (!empty($changes['sequences']['change']) && is_array($changes['sequences']['change'])) {
@@ -2448,7 +2479,7 @@ class MDB2_Schema extends PEAR
             }
         }
 
-        $writer =& new $class_name($this->options['valid_types']);
+        $writer = new $class_name($this->options['valid_types']);
         return $writer->dumpDatabase($database_definition, $arguments, $dump);
     }
 
@@ -2696,9 +2727,9 @@ class MDB2_Schema extends PEAR
      * @access  public
      * @see PEAR_Error
      */
-    function &raiseError($code = null, $mode = null, $options = null, $userinfo = null)
+    static function &raiseError($code = null, $mode = null, $options = null, $userinfo = null, $dummy1 = null, $dummy2 = null, $dummy3 = false)
     {
-        $err =& PEAR::raiseError(null, $code, $mode, $options,
+        $err = PEAR::raiseError(null, $code, $mode, $options,
                                 $userinfo, 'MDB2_Schema_Error', true);
         return $err;
     }
@@ -2717,7 +2748,7 @@ class MDB2_Schema extends PEAR
      * @return  bool  true if parameter is an error
      * @access  public
      */
-    function isError($data, $code = null)
+    static function isError($data, $code = null)
     {
         if (is_a($data, 'MDB2_Schema_Error')) {
             if (is_null($code)) {
@@ -2764,4 +2795,3 @@ class MDB2_Schema_Error extends PEAR_Error
             $mode, $level, $debuginfo);
     }
 }
-?>

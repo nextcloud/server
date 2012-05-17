@@ -34,7 +34,7 @@ function createVersionsDropdown(filename, files) {
 	html += '</select>';
 	html += '</div>';
 	//html += '<input type="button" value="Revert file" onclick="revertFile()" />';
-	html += '<input type="button" value="Revert file..." onclick="window.location=\''+historyUrl+'\'" name="makelink" id="makelink" />';
+	html += '<input type="button" value="All versions..." onclick="window.location=\''+historyUrl+'\'" name="makelink" id="makelink" />';
 	html += '<br />';
 	html += '<input id="link" style="display:none; width:90%;" />';
 	
@@ -47,7 +47,7 @@ function createVersionsDropdown(filename, files) {
 	
 	$.ajax({
 		type: 'GET',
-		url: OC.linkTo('files_versions', 'ajax/getVersions.php'),
+		url: OC.filePath('files_versions', 'ajax', 'getVersions.php'),
 		dataType: 'json',
 		data: { source: files },
 		async: false,
@@ -58,34 +58,39 @@ function createVersionsDropdown(filename, files) {
 			if (versions) {
 				
 				$.each( versions, function(index, row ) {
-						
-						addVersion( row );
+					addVersion( row );
 				});
 				
 			}
-			
+			$('#found_versions').change(function(){
+				var revision=parseInt($(this).val());
+				revertFile(files,revision);
+			})
 		}
 	});
 	
-	function revertFile() {
+	function revertFile(file, revision) {
 		
 		$.ajax({
 			type: 'GET',
 			url: OC.linkTo('files_versions', 'ajax/rollbackVersion.php'),
 			dataType: 'json',
-			data: {path: file, revision: 'revision'},
+			data: {file: file, revision: revision},
 			async: false,
-			success: function(versions) {
-				if (versions) {
+			success: function(response) {
+				if (response.status=='error') {
+					OC.dialogs.alert('Failed to revert '+file+' to revision '+formatDate(revision*1000)+'.','Failed to revert');
 				}
 			}
 		});	
 		
 	}
 	
-	function addVersion( name ) {
-		
-		var version = '<option>'+name+'</option>';
+	function addVersion(revision ) {
+		name=formatDate(revision*1000);
+		var version=$('<option/>');
+		version.attr('value',revision);
+		version.text(name);
 		
 // 		} else {
 // 			var checked = ((permissions > 0) ? 'checked="checked"' : 'style="display:none;"');
@@ -98,7 +103,7 @@ function createVersionsDropdown(filename, files) {
 // 			user += '</li>';
 // 		}
 		
-		$(version).appendTo('#found_versions');
+		version.appendTo('#found_versions');
 	}
 
 	$('#dropdown').show('blind');

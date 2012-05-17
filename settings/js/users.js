@@ -157,6 +157,7 @@ $(document).ready(function(){
 	$('#newuser').submit(function(event){
 		event.preventDefault();
 		var username=$('#newusername').val();
+		var password=$('#newuserpassword').val();
 		if($('#content table tbody tr').filterAttr('data-uid',username).length>0){
 			OC.dialogs.alert('The username is already being used', 'Error creating user');
 			return;
@@ -165,7 +166,10 @@ $(document).ready(function(){
 			OC.dialogs.alert('A valid username must be provided', 'Error creating user');
 			return false;
 		}
-		var password=$('#newuserpassword').val();
+		if($.trim(password) == '') {
+			OC.dialogs.alert('A valid password must be provided', 'Error creating user');
+			return false;
+		}
 		var groups=$('#newusergroups').prev().children('div').data('settings').checked;
 		$('#newuser').get(0).reset();
 		$.post(

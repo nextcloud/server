@@ -8,9 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-13 17:52+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "Error en (des)activar la llibreta d'adreces."
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "S'ha produït un error en afegir el contacte."
 
@@ -37,7 +37,7 @@ msgstr "Almenys heu d'omplir un dels camps d'adreça."
 
 #: ajax/addproperty.php:62
 msgid "Trying to add duplicate property: "
-msgstr ""
+msgstr "Esteu intentant afegir una propietat duplicada:"
 
 #: ajax/addproperty.php:120
 msgid "Error adding contact property."
@@ -45,39 +45,35 @@ msgstr "Error en afegir la propietat del contacte."
 
 #: ajax/categories/categoriesfor.php:15
 msgid "No ID provided"
-msgstr ""
+msgstr "No heu facilitat cap ID"
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
-msgstr ""
+msgstr "Error en establir la suma de verificació."
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "No heu seleccionat les categories a eliminar."
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "No s'han trobat llibretes d'adreces."
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "No s'han trobat contactes."
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "Falta la ID"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/contactdetails.php:53
-msgid "Unknown"
-msgstr ""
+msgstr "Error en analitzar la ID de la VCard: \""
 
 #: ajax/createaddressbook.php:18
 msgid "Cannot add addressbook with an empty name."
-msgstr ""
+msgstr "No es pot afegir una llibreta d'adreces amb un nom buit."
 
 #: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
@@ -89,27 +85,27 @@ msgstr "Error en activar la llibreta d'adreces."
 
 #: ajax/currentphoto.php:40 ajax/oc_photo.php:40
 msgid "No contact ID was submitted."
-msgstr ""
+msgstr "No s'ha tramès cap ID de contacte."
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "Error en carregar la imatge."
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "Error en llegir la foto del contacte."
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "Error en desar el fitxer temporal."
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
-msgstr ""
+msgstr "La foto carregada no és vàlida."
 
 #: ajax/deletecard.php:37 ajax/saveproperty.php:58
 msgid "id is not set."
-msgstr ""
+msgstr "no s'ha establert la id."
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -121,35 +117,35 @@ msgstr "Error en eliminar la propietat del contacte."
 
 #: ajax/editname.php:37
 msgid "Contact ID is missing."
-msgstr ""
+msgstr "falta la ID del contacte."
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "Falta la id del contacte."
 
 #: ajax/oc_photo.php:44
 msgid "No photo path was submitted."
-msgstr ""
+msgstr "No heu tramès el camí de la foto."
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "El fitxer no existeix:"
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
-msgstr ""
+msgstr "no s'ha establert el nom de l'element."
 
 #: ajax/saveproperty.php:61
 msgid "checksum is not set."
-msgstr ""
+msgstr "no s'ha establert la suma de verificació."
 
 #: ajax/saveproperty.php:78
 msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr ""
+msgstr "La informació de la vCard és incorrecta. Carregueu de nou la pàgina:"
 
 #: ajax/saveproperty.php:83
 msgid "Something went FUBAR. "
-msgstr ""
+msgstr "Alguna cosa ha anat FUBAR."
 
 #: ajax/saveproperty.php:153
 msgid "Error updating contact property."
@@ -157,7 +153,7 @@ msgstr "Error en actualitzar la propietat del contacte."
 
 #: ajax/updateaddressbook.php:20
 msgid "Cannot update addressbook with an empty name."
-msgstr ""
+msgstr "No es pot actualitzar la llibreta d'adreces amb un nom buit"
 
 #: ajax/updateaddressbook.php:26
 msgid "Error updating addressbook."
@@ -165,33 +161,33 @@ msgstr "Error en actualitzar la llibreta d'adreces."
 
 #: ajax/uploadimport.php:46 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
-msgstr ""
+msgstr "Error en carregar contactes a l'emmagatzemament."
 
 #: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "No hi ha errors, el fitxer s'ha carregat correctament"
 
 #: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "El fitxer carregat supera la directiva upload_max_filesize de php.ini"
 
 #: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "El fitxer carregat supera la directiva MAX_FILE_SIZE especificada al formulari HTML"
 
 #: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "El fitxer només s'ha carregat parcialment"
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "No s'ha carregat cap fitxer"
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Falta un fitxer temporal"
 
 #: appinfo/app.php:22 templates/settings.php:3
 msgid "Contacts"
@@ -199,7 +195,7 @@ msgstr "Contactes"
 
 #: lib/app.php:23
 msgid "Addressbook not found."
-msgstr ""
+msgstr "No s'ha trobat la llibreta d'adreces."
 
 #: lib/app.php:27
 msgid "This is not your addressbook."
@@ -248,7 +244,7 @@ msgstr "Veu"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "Missatge"
 
 #: lib/app.php:120
 msgid "Fax"
@@ -264,11 +260,11 @@ msgstr "Paginador"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
-msgstr ""
+msgstr "Aniversari de {name}"
 
 #: lib/search.php:22
 msgid "Contact"
@@ -284,7 +280,7 @@ msgstr "Llibretes d'adreces"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Configure Address Books"
-msgstr ""
+msgstr "Configura les llibretes d'adreces"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
@@ -292,7 +288,7 @@ msgstr "Nova llibreta d'adreces"
 
 #: templates/part.chooseaddressbook.php:17
 msgid "Import from VCF"
-msgstr ""
+msgstr "Importa de VFC"
 
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
@@ -323,23 +319,23 @@ msgstr "Suprimeix el contacte"
 
 #: templates/part.contact.php:19
 msgid "Drop photo to upload"
-msgstr ""
+msgstr "Elimina la foto a carregar"
 
 #: templates/part.contact.php:29
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
-msgstr ""
+msgstr "Format personalitzat, Nom curt, Nom sencer, Invertit o Invertit amb coma"
 
 #: templates/part.contact.php:30
 msgid "Edit name details"
-msgstr ""
+msgstr "Edita detalls del nom"
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "Sobrenom"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "Escriviu el sobrenom"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
@@ -347,19 +343,19 @@ msgstr "Aniversari"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "dd-mm-yyyy"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "Grups"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
-msgstr ""
+msgstr "Separeu els grups amb comes"
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "Edita els grups"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -367,47 +363,47 @@ msgstr "Preferit"
 
 #: templates/part.contact.php:56
 msgid "Please specify a valid email address."
-msgstr ""
+msgstr "Especifiqueu una adreça de correu electrònic correcta"
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "Escriviu una adreça de correu electrònic"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"
-msgstr ""
+msgstr "Envia per correu electrònic a l'adreça"
 
 #: templates/part.contact.php:61
 msgid "Delete email address"
-msgstr ""
+msgstr "Elimina l'adreça de correu electrònic"
 
 #: templates/part.contact.php:70
 msgid "Enter phone number"
-msgstr ""
+msgstr "Escriviu el número de telèfon"
 
 #: templates/part.contact.php:74
 msgid "Delete phone number"
-msgstr ""
+msgstr "Elimina el número de telèfon"
 
 #: templates/part.contact.php:84
 msgid "View on map"
-msgstr ""
+msgstr "Visualitza al mapa"
 
 #: templates/part.contact.php:84
 msgid "Edit address details"
-msgstr ""
+msgstr "Edita els detalls de l'adreça"
 
 #: templates/part.contact.php:95
 msgid "Add notes here."
-msgstr ""
+msgstr "Afegiu notes aquí."
 
 #: templates/part.contact.php:101
 msgid "Add field"
-msgstr ""
+msgstr "Afegeix un camp"
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "Foto de perfil"
 
 #: templates/part.contact.php:107
 msgid "Phone"
@@ -415,27 +411,27 @@ msgstr "Telèfon"
 
 #: templates/part.contact.php:110
 msgid "Note"
-msgstr ""
+msgstr "Nota"
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
-msgstr ""
+msgstr "Elimina la foto actual"
 
 #: templates/part.contactphoto.php:9
 msgid "Edit current photo"
-msgstr ""
+msgstr "Edita la foto actual"
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "Carrega una foto nova"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
-msgstr ""
+msgstr "Selecciona una foto de ownCloud"
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "Edita l'adreça"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
@@ -478,7 +474,7 @@ msgstr "País"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Edita categories"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
@@ -490,79 +486,79 @@ msgstr "Llibreta d'adreces"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
-msgstr ""
+msgstr "Prefix honorífic:"
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
-msgstr ""
+msgstr "Srta"
 
 #: templates/part.edit_name_dialog.php:28
 msgid "Ms"
-msgstr ""
+msgstr "Sra"
 
 #: templates/part.edit_name_dialog.php:29
 msgid "Mr"
-msgstr ""
+msgstr "Sr"
 
 #: templates/part.edit_name_dialog.php:30
 msgid "Sir"
-msgstr ""
+msgstr "Senyor"
 
 #: templates/part.edit_name_dialog.php:31
 msgid "Mrs"
-msgstr ""
+msgstr "Sra"
 
 #: templates/part.edit_name_dialog.php:32
 msgid "Dr"
-msgstr ""
+msgstr "Dr"
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "Nom específic"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
-msgstr ""
+msgstr "Noms addicionals"
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "Nom de familia"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
-msgstr ""
+msgstr "Sufix honorífic:"
 
 #: templates/part.edit_name_dialog.php:45
 msgid "J.D."
-msgstr ""
+msgstr "J.D."
 
 #: templates/part.edit_name_dialog.php:46
 msgid "M.D."
-msgstr ""
+msgstr "M.D."
 
 #: templates/part.edit_name_dialog.php:47
 msgid "D.O."
-msgstr ""
+msgstr "D.O."
 
 #: templates/part.edit_name_dialog.php:48
 msgid "D.C."
-msgstr ""
+msgstr "D.C."
 
 #: templates/part.edit_name_dialog.php:49
 msgid "Ph.D."
-msgstr ""
+msgstr "Ph.D."
 
 #: templates/part.edit_name_dialog.php:50
 msgid "Esq."
-msgstr ""
+msgstr "Esq."
 
 #: templates/part.edit_name_dialog.php:51
 msgid "Jr."
-msgstr ""
+msgstr "Jr."
 
 #: templates/part.edit_name_dialog.php:52
 msgid "Sn."
-msgstr ""
+msgstr "Sn."
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
@@ -595,76 +591,76 @@ msgstr "Cancel·la"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "Importa un fitxer de contactes"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "Escolliu la llibreta d'adreces"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "crea una llibreta d'adreces nova"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
+msgstr "Nom de la nova llibreta d'adreces"
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "Importa"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr ""
+msgstr "S'estan important contactes"
 
 #: templates/part.import.php:23
 msgid "Contacts imported successfully"
-msgstr ""
+msgstr "Els contactes s'han importat correctament"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Tanca el diàleg"
 
 #: templates/part.importaddressbook.php:9
 msgid "Import Addressbook"
-msgstr ""
+msgstr "Importa la llibreta d'adreces"
 
 #: templates/part.importaddressbook.php:12
 msgid "Select address book to import to:"
-msgstr ""
+msgstr "Seleccioneu la llibreta d'adreces a la que voleu importar:"
 
 #: templates/part.importaddressbook.php:20
 msgid "Drop a VCF file to import contacts."
-msgstr ""
+msgstr "Elimina un fitxer VCF per importar contactes."
 
 #: templates/part.importaddressbook.php:21
 msgid "Select from HD"
-msgstr ""
+msgstr "Selecciona de HD"
 
 #: templates/part.no_contacts.php:2
 msgid "You have no contacts in your addressbook."
-msgstr ""
+msgstr "No teniu contactes a la llibreta d'adreces."
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "Afegeix un contacte"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
-msgstr ""
+msgstr "Configura les llibretes d'adreces"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing addresses"
-msgstr ""
+msgstr "Adreces de sincronització CardDAV"
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "més informació"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "Adreça primària (Kontact i al)"
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"

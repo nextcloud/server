@@ -102,6 +102,7 @@ class OC_Files {
 			header('Content-Transfer-Encoding: binary');
 			OC_Response::disableCaching();
 			if($zip){
+				ini_set('zlib.output_compression', 'off');
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
 			}else{

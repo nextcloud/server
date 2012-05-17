@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-10 14:57+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.net/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,15 +42,15 @@ msgstr "Eesti"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Logi"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Veel"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Lisa oma rakendus"
 
 #: templates/apps.php:22
 msgid "Select an App"
@@ -66,11 +66,11 @@ msgstr "kelle poolt"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentatsioon"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Suurte failide haldamine"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -98,11 +98,11 @@ msgstr "saadaolevast"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Töölaua ja mobiiliga sünkroniseerimise rakendused"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Lae alla"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -170,11 +170,11 @@ msgstr "Lisa"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Vaikimisi kvoot"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Muu"
 
 #: templates/users.php:47
 msgid "Quota"

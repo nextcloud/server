@@ -10,10 +10,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:31+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-10 07:32+0000\n"
+"Last-Translator: goeck <admin@s-goecker.de>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,15 +23,15 @@ msgstr ""
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr ""
+msgstr "Applikationsname nicht angegeben"
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr ""
+msgstr "Keine Kategorie hinzufügen?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
-msgstr ""
+msgstr "Kategorie existiert bereits:"
 
 #: lostpassword/index.php:26
 msgid "Owncloud password reset"
@@ -39,7 +39,7 @@ msgstr "OwnCloud Passwort zurücksetzen"
 
 #: lostpassword/index.php:27
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "ownCloud Passwort zurücksetzen"
 
 #: lostpassword/templates/email.php:1
 msgid "Use the following link to reset your password: {link}"
@@ -104,7 +104,7 @@ msgstr "Hilfe"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Zugang verboten"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -112,11 +112,11 @@ msgstr "Cloud nicht verfügbar"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Kategorien ändern"
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 #: templates/installation.php:23
 msgid "Create an <strong>admin account</strong>"
@@ -163,7 +163,7 @@ msgstr "Datenbank-Host"
 msgid "Finish setup"
 msgstr "Installation abschließen"
 
-#: templates/layout.guest.php:37
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "web services under your control"
 

@@ -5,15 +5,16 @@
 # Translators:
 # Javier Llorente <javier@opensuse.org>, 2012.
 #   <juanma@kde.org.ar>, 2011, 2012.
+# oSiNaReF  <>, 2012.
 #   <rom1dep@gmail.com>, 2011.
 #   <sergioballesterossolanas@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:31+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-13 15:32+0000\n"
+"Last-Translator: Javier Llorente <javier@opensuse.org>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,15 +24,15 @@ msgstr ""
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr ""
+msgstr "Nombre de la aplicación no provisto."
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr ""
+msgstr "¿Ninguna categoría para agregar?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
-msgstr ""
+msgstr "Esta categoría ya existe: "
 
 #: lostpassword/index.php:26
 msgid "Owncloud password reset"
@@ -39,7 +40,7 @@ msgstr "Restablecer contraseña de ownCloud"
 
 #: lostpassword/index.php:27
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "Reiniciar contraseña de ownCloud"
 
 #: lostpassword/templates/email.php:1
 msgid "Use the following link to reset your password: {link}"
@@ -104,7 +105,7 @@ msgstr "Ayuda"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Acceso denegado"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -112,11 +113,11 @@ msgstr "No se ha encontrado la nube"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Editar categorías"
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "Añadir"
 
 #: templates/installation.php:23
 msgid "Create an <strong>admin account</strong>"
@@ -141,7 +142,7 @@ msgstr "Configurar la base de datos"
 #: templates/installation.php:49 templates/installation.php:60
 #: templates/installation.php:70
 msgid "will be used"
-msgstr "serán utilizados"
+msgstr "se utilizarán"
 
 #: templates/installation.php:82
 msgid "Database user"
@@ -163,7 +164,7 @@ msgstr "Host de la base de datos"
 msgid "Finish setup"
 msgstr "Completar la instalación"
 
-#: templates/layout.guest.php:37
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "servicios web bajo tu control"
 
@@ -189,7 +190,7 @@ msgstr "Entrar"
 
 #: templates/logout.php:1
 msgid "You are logged out."
-msgstr "Has cerrado sesión."
+msgstr "Has cerrado la sesión."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

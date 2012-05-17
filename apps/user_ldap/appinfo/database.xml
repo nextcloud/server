@@ -29,7 +29,7 @@
    </field>
 
    <index>
-    <name>ldap_dn</name>
+    <name>ldap_dn_users</name>
     <unique>true</unique>
     <field>
      <name>ldap_dn</name>
@@ -37,7 +37,7 @@
    </index>
 
    <index>
-    <name>owncloud_name</name>
+    <name>owncloud_name_users</name>
     <unique>true</unique>
     <field>
      <name>owncloud_name</name>
@@ -72,7 +72,7 @@
    </field>
 
    <index>
-    <name>ldap_dn</name>
+    <name>ldap_dn_groups</name>
     <unique>true</unique>
     <field>
      <name>ldap_dn</name>
@@ -80,7 +80,7 @@
    </index>
 
    <index>
-    <name>owncloud_name</name>
+    <name>owncloud_name_groups</name>
     <unique>true</unique>
     <field>
      <name>owncloud_name</name>

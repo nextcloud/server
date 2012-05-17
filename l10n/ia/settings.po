@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-11 03:49+0000\n"
+"Last-Translator: Emilio Sepúlveda <emisepulvedam@gmail.com>\n"
 "Language-Team: Interlingua (http://www.transifex.net/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr ""
 #: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
 #: ajax/setlanguage.php:22
 msgid "Invalid request"
-msgstr ""
+msgstr "Requesta invalide"
 
 #: ajax/openid.php:15
 msgid "OpenID Changed"
@@ -42,15 +42,15 @@ msgstr "Interlingua"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Registro"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Plus"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Adder tu application"
 
 #: templates/apps.php:22
 msgid "Select an App"
@@ -66,7 +66,7 @@ msgstr "per"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Documentation"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
@@ -102,7 +102,7 @@ msgstr ""
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Discargar"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -170,15 +170,15 @@ msgstr "Crear"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Quota predeterminate"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Altere"
 
 #: templates/users.php:47
 msgid "Quota"
-msgstr ""
+msgstr "Quota"
 
 #: templates/users.php:80
 msgid "Delete"

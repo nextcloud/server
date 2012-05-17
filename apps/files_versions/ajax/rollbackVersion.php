@@ -1,26 +1,18 @@
 <?php
 
-require_once('../../../lib/base.php');
 OCP\JSON::checkAppEnabled('files_versions');
-require_once('../versions.php');
+
+require_once('apps/files_versions/versions.php');
 
 $userDirectory = "/".OCP\USER::getUser()."/files";
 
-$source = $_GET['source'];
+$file = $_GET['file'];
+$revision=(int)$_GET['revision'];
 
-$source = strip_tags( $source );
-
-echo "\n\n$source\n\n";
-
-$revision = strtotime( $source );
-
-echo "\n\n$revision\n\n";
-
-if( OCA_Versions\Storage::isversioned( $source ) ) {
-
-
-        #\OCA_Versions\Storage::rollback( $source, $revision );
-	
+if( OCA_Versions\Storage::isversioned( $file ) ) {
+	if(OCA_Versions\Storage::rollback( $file, $revision )){
+		OCP\JSON::success(array("data" => array( "revision" => $revision, "file" => $file )));
+	}else{
+		OCP\JSON::error(array("data" => array( "message" => "Could not revert:" . $file )));
+	}
 }
-
-?>

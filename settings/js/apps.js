@@ -34,6 +34,7 @@ $(document).ready(function(){
 		return false;
 	});
 	$('#rightcontent input.enable').click(function(){
+		var element = $(this);
 		var app=$(this).data('appid');
 		var active=$(this).data('active');
 		if(app){
@@ -42,6 +43,12 @@ $(document).ready(function(){
 					if(!result || result.status!='success'){
 						OC.dialogs.alert('Error','Error while disabling app');
 					}
+					else {
+						element.data('active',false);
+						element.val(t('settings','Enable'));
+						var appData=$('#leftcontent li[data-id="'+app+'"]');
+						appData.active=false;
+					}
 				},'json');
 				$('#leftcontent li[data-id="'+app+'"]').removeClass('active');
 			}else{
@@ -49,14 +56,15 @@ $(document).ready(function(){
 					if(!result || result.status!='success'){
 						OC.dialogs.alert('Error','Error while enabling app');
 					}
+					else {
+						element.data('active',true);
+						element.val(t('settings','Disable'));
+						var appData=$('#leftcontent li[data-id="'+app+'"]');
+						appData.active=true;
+					}
 				},'json');
 				$('#leftcontent li[data-id="'+app+'"]').addClass('active');
 			}
-			active=!active;
-			$(this).data('active',active);
-			$(this).val((active)?t('settings','Disable'):t('settings','Enable'));
-			var appData=$('#leftcontent li[data-id="'+app+'"]');
-			appData.active=active;
 		}
 	});
 });

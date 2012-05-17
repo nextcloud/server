@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012.
 # AriesAnywhere Anywhere <ariesanywherer@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-10 12:30+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.net/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +21,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "ไม่พบปฏิทินที่ต้องการ"
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "ไม่พบกิจกรรมที่ต้องการ"
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -50,71 +51,71 @@ msgstr "ปฏิทิน"
 
 #: js/calendar.js:788
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
-msgstr ""
+msgstr "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
 
-#: lib/app.php:122
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "วันเกิด"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "ธุรกิจ"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "โทรติดต่อ"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "ลูกค้า"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "จัดส่ง"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "วันหยุด"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "ไอเดีย"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "การเดินทาง"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "งานเลี้ยง"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "นัดประชุม"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "อื่นๆ"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "ส่วนตัว"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "โครงการ"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "คำถาม"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "งาน"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
-msgstr ""
+msgstr "ไม่มีชื่อ"
 
 #: lib/object.php:330
 msgid "Does not repeat"
@@ -363,7 +364,7 @@ msgstr "เลือกปฏิทินที่ต้องการใช้
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "ปฏิทินของคุณ"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -372,15 +373,15 @@ msgstr "ลิงค์ CalDav"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "ปฏิทินที่เปิดแชร์"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "ไม่มีปฏิทินที่เปิดแชร์ไว้"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "เปิดแชร์ปฏิทิน"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -397,7 +398,7 @@ msgstr "ลบ"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "แชร์ให้คุณโดย"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -442,23 +443,23 @@ msgstr "ส่งออกข้อมูล"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "ข้อมูลเกี่ยวกับกิจกรรม"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "ทำซ้ำ"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "แจ้งเตือน"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "ผู้เข้าร่วมกิจกรรม"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "แชร์"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -470,11 +471,11 @@ msgstr "หมวดหมู่"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "คั่นระหว่างรายการหมวดหมู่ด้วยเครื่องหมายจุลภาคหรือคอมม่า"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "แก้ไขหมวดหมู่"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -595,11 +596,11 @@ msgstr "สร้างกิจกรรมใหม่"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "ดูกิจกรรม"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "ยังไม่ได้เลือกหมวดหมู่"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -607,11 +608,11 @@ msgstr "เลือกหมวดหมู่"
 
 #: templates/part.showevent.php:37
 msgid "of"
-msgstr ""
+msgstr "ของ"
 
 #: templates/part.showevent.php:62 templates/part.showevent.php:70
 msgid "at"
-msgstr ""
+msgstr "ที่"
 
 #: templates/settings.php:14
 msgid "Timezone"
@@ -635,7 +636,7 @@ msgstr "12 ช.ม."
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "วันแรกของสัปดาห์"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
@@ -643,24 +644,24 @@ msgstr "ที่อยู่ในการเชื่อมข้อมูล
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "ผู้ใช้งาน"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "เลือกผู้ใช้งาน"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "สามารถแก้ไขได้"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "กลุ่ม"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "เลือกกลุ่ม"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "กำหนดเป็นสาธารณะ"

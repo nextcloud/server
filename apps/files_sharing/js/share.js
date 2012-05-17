@@ -181,7 +181,7 @@ OC.Share={
 		$('#privateLinkCheckbox').attr('checked', true);
 		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&token='+token;
 		if (token.indexOf('&path=') == -1) {
-			link += '&file=' + encodeURIComponent(item).replace('%2F', '/');
+			link += '&file=' + encodeURIComponent(item).replace(/%2F/g, '/');
 		} else {
 			// Disable checkbox if inside a shared parent folder
 			$('#privateLinkCheckbox').attr('disabled', 'true');
@@ -200,11 +200,13 @@ OC.Share={
 		$('#emailButton').hide();
 	},
 	emailPrivateLink:function() {
+		var link = $('#privateLinkText').val();
+		var file = link.substr(link.lastIndexOf('/') + 1).replace(/%20/g, ' ');
+		$.post(OC.filePath('files_sharing', 'ajax', 'email.php'), { toaddress: $('#email').val(), link: link, file: file } );
 		$('#email').css('font-weight', 'bold');
 		$('#email').animate({ fontWeight: 'normal' }, 2000, function() {
 			$(this).val('');
 		}).val('Email sent');
-		$.post(OC.filePath('files_sharing', 'ajax', 'email.php'), 'toaddress='+$('#email').val()+'&link='+$('#link').val());
 	},
 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');

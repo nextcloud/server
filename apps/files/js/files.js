@@ -40,7 +40,7 @@ $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
 
 	//drag/drop of files
-	$('#fileList tr td.filename').draggable(dragOptions);
+	$('#fileList tr[data-write="true"] td.filename').draggable(dragOptions);
 	$('#fileList tr[data-type="dir"][data-write="true"] td.filename').droppable(folderDropOptions);
 	$('div.crumb:not(.last)').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
