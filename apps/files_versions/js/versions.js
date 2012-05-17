@@ -80,10 +80,13 @@ function createVersionsDropdown(filename, files) {
 			success: function(response) {
 				if (response.status=='error') {
 					OC.dialogs.alert('Failed to revert '+file+' to revision '+formatDate(revision*1000)+'.','Failed to revert');
+				} else {
+					$('#dropdown').hide('blind');
+					// TODO also update the modified time in the web ui	
 				}
 			}
 		});	
-		
+	
 	}
 	
 	function addVersion(revision ) {
