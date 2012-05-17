@@ -484,8 +484,14 @@ class OC_LDAP {
 				$i = 0;
 			}
 			foreach($findings as $item) {
+				if(!is_array($item)) {
+					continue;
+				}
+				$item = array_change_key_case($item);
+
 				if($multiarray) {
 					foreach($attr as $key) {
+						$key = strtolower($key);
 						if(isset($item[$key])) {
 							if($key != 'dn'){
 								$selection[$i][$key] = $item[$key][0];
@@ -498,10 +504,6 @@ class OC_LDAP {
 					$i++;
 				} else {
 					//tribute to case insensitivity
-					if(!is_array($item)) {
-						continue;
-					}
-					$item = array_change_key_case($item);
 					$key = strtolower($attr[0]);
 
 					if(isset($item[$key])) {
@@ -599,10 +601,10 @@ class OC_LDAP {
 			self::$ldapBaseGroups       = OCP\Config::getAppValue('user_ldap', 'ldap_base_groups', self::$ldapBase);
 			self::$ldapTLS              = OCP\Config::getAppValue('user_ldap', 'ldap_tls',0);
 			self::$ldapNoCase           = OCP\Config::getAppValue('user_ldap', 'ldap_nocase', 0);
-			self::$ldapUserDisplayName  = OCP\Config::getAppValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
+			self::$ldapUserDisplayName  = strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME));
 			self::$ldapUserFilter       = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
 			self::$ldapLoginFilter      = OCP\Config::getAppValue('user_ldap', 'ldap_login_filter', '(uid=%uid)');
-			self::$ldapGroupDisplayName = OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR);
+			self::$ldapGroupDisplayName = strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR));
 
 			if(empty(self::$ldapBaseUsers)) {
 				OCP\Util::writeLog('ldap', 'Base for Users is empty, using Base DN', OCP\Util::INFO);
