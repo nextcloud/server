@@ -6,14 +6,16 @@
 #   <admin@s-goecker.de>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan-Christoph Borchardt <jan@unhosted.org>, 2011.
+# Michael Krell <m4dmike.mni@gmail.com>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
+# Thomas Müller <>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-14 16:55+0000\n"
+"Last-Translator: goeck <admin@s-goecker.de>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,7 +51,7 @@ msgstr "Temporärer Ordner fehlt."
 
 #: ajax/upload.php:25
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Fehler beim Schreiben auf Festplatte"
 
 #: appinfo/app.php:7
 msgid "Files"
@@ -65,23 +67,23 @@ msgstr "Maximale Größe"
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "maximal möglich:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Für Mehrfachdateien- und Ordnerupload benötigt:"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "ZIP-Download aktivieren"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 bedeutet unbegrenzt"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Maximale Größe für ZIP Dateien"
 
 #: templates/index.php:7
 msgid "New"
@@ -97,7 +99,7 @@ msgstr "Ordner"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr ""
+msgstr "Von der URL"
 
 #: templates/index.php:21
 msgid "Upload"
@@ -105,7 +107,7 @@ msgstr "Hochladen"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "Upload abbrechen"
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
@@ -117,7 +119,7 @@ msgstr "Name"
 
 #: templates/index.php:49
 msgid "Share"
-msgstr ""
+msgstr "Teilen"
 
 #: templates/index.php:51
 msgid "Download"
@@ -133,7 +135,7 @@ msgstr "Bearbeitet"
 
 #: templates/index.php:56
 msgid "Delete all"
-msgstr ""
+msgstr "Alle löschen"
 
 #: templates/index.php:56
 msgid "Delete"
@@ -151,8 +153,8 @@ msgstr "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Serv
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Daten werden gescannt, bitte warten."
 
 #: templates/index.php:74
 msgid "Current scanning"
-msgstr ""
+msgstr "Scannen"

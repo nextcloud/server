@@ -1,8 +1,6 @@
-<?php
+<?php /* vim: se et ts=4 sw=4 sts=4 fdm=marker tw=80: */
 /**
- * PHP versions 4 and 5
- *
- * Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,
+ * Copyright (c) 1998-2010 Manuel Lemos, Tomas V.V.Cox,
  * Stig. S. Bakken, Lukas Smith, Igor Feghali
  * All rights reserved.
  *
@@ -39,20 +37,16 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Author: Christian Dickmann <dickmann@php.net>
- * Author: Igor Feghali <ifeghali@php.net>
- *
- * $Id: Parser.php,v 1.68 2008/11/30 03:34:00 clockwerx Exp $
+ * PHP version 5
  *
  * @category Database
  * @package  MDB2_Schema
  * @author   Christian Dickmann <dickmann@php.net>
  * @author   Igor Feghali <ifeghali@php.net>
  * @license  BSD http://www.opensource.org/licenses/bsd-license.php
- * @version  CVS: $Id: Parser.php,v 1.68 2008/11/30 03:34:00 clockwerx Exp $
+ * @version  SVN: $Id$
  * @link     http://pear.php.net/packages/MDB2_Schema
  */
-
 
 require_once 'XML/Parser.php';
 require_once 'MDB2/Schema/Validate.php';
@@ -114,27 +108,83 @@ class MDB2_Schema_Parser extends XML_Parser
 
     var $val;
 
+    /**
+     * PHP 5 constructor
+     *
+     * @param array $variables              mixed array with user defined schema
+     *                                      variables
+     * @param bool  $fail_on_invalid_names  array with reserved words per RDBMS
+     * @param array $structure              multi dimensional array with 
+     *                                      database schema and data
+     * @param array $valid_types            information of all valid fields 
+     *                                      types
+     * @param bool  $force_defaults         if true sets a default value to
+     *                                      field when not explicit
+     * @param int   $max_identifiers_length maximum allowed size for entities 
+     *                                      name
+     *
+     * @return void
+     *
+     * @access public
+     * @static
+     */
     function __construct($variables, $fail_on_invalid_names = true,
-                         $structure = false, $valid_types = array(),
-                         $force_defaults = true)
-    {
+        $structure = false, $valid_types = array(), $force_defaults = true,
+        $max_identifiers_length = null
+    ) {
         // force ISO-8859-1 due to different defaults for PHP4 and PHP5
         // todo: this probably needs to be investigated some more andcleaned up
-        parent::XML_Parser('ISO-8859-1');
+        parent::__construct('ISO-8859-1');
 
         $this->variables = $variables;
         $this->structure = $structure;
-        $this->val       =& new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
+        $this->val       = new MDB2_Schema_Validate(
+            $fail_on_invalid_names,
+            $valid_types,
+            $force_defaults,
+            $max_identifiers_length
+        );
     }
 
+    /**
+     * PHP 4 compatible constructor
+     *
+     * @param array $variables              mixed array with user defined schema
+     *                                      variables
+     * @param bool  $fail_on_invalid_names  array with reserved words per RDBMS
+     * @param array $structure              multi dimensional array with 
+     *                                      database schema and data
+     * @param array $valid_types            information of all valid fields 
+     *                                      types
+     * @param bool  $force_defaults         if true sets a default value to
+     *                                      field when not explicit
+     * @param int   $max_identifiers_length maximum allowed size for entities 
+     *                                      name
+     *
+     * @return void
+     *
+     * @access public
+     * @static
+     */
     function MDB2_Schema_Parser($variables, $fail_on_invalid_names = true,
-                                $structure = false, $valid_types = array(),
-                                $force_defaults = true)
-    {
+        $structure = false, $valid_types = array(), $force_defaults = true,
+        $max_identifiers_length = null
+    ) {
         $this->__construct($variables, $fail_on_invalid_names, $structure, $valid_types, $force_defaults);
     }
 
-    function startHandler($xp, $element, $attribs)
+    /**
+     * Triggered when reading a XML open tag <element>
+     *
+     * @param resource $xp      xml parser resource
+     * @param string   $element element name
+     * @param array    $attribs attributes
+     *
+     * @return void
+     * @access private
+     * @static
+     */
+    function startHandler($xp, $element, &$attribs)
     {
         if (strtolower($element) == 'variable') {
             $this->var_mode = true;
@@ -335,12 +385,21 @@ class MDB2_Schema_Parser extends XML_Parser
                 'start' => '',
                 'description' => '',
                 'comments' => '',
-                'on' => array('table' => '', 'field' => '')
             );
             break;
         }
     }
 
+    /**
+     * Triggered when reading a XML close tag </element>
+     *
+     * @param resource $xp      xml parser resource
+     * @param string   $element element name
+     *
+     * @return void
+     * @access private
+     * @static
+     */
     function endHandler($xp, $element)
     {
         if (strtolower($element) == 'variable') {
@@ -503,7 +562,21 @@ class MDB2_Schema_Parser extends XML_Parser
         $this->element = implode('-', $this->elements);
     }
 
-    function &raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE)
+    /**
+     * Pushes a MDB2_Schema_Error into stack and returns it
+     *
+     * @param string   $msg      textual message
+     * @param int      $xmlecode PHP's XML parser error code
+     * @param resource $xp       xml parser resource
+     * @param int      $ecode    MDB2_Schema's error code
+     *
+     * @return object
+     * @access private
+     * @static
+     */
+    static function &raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE, $userinfo = null,
+                         $error_class = null,
+                         $skipmsg = false)
     {
         if (is_null($this->error)) {
             $error = '';
@@ -530,11 +603,21 @@ class MDB2_Schema_Parser extends XML_Parser
 
             $error .= "\n";
 
-            $this->error =& MDB2_Schema::raiseError($ecode, null, null, $error);
+            $this->error = MDB2_Schema::raiseError($ecode, null, null, $error);
         }
         return $this->error;
     }
 
+    /**
+     * Triggered when reading data in a XML element (text between tags) 
+     *
+     * @param resource $xp   xml parser resource
+     * @param string   $data text
+     *
+     * @return void
+     * @access private
+     * @static
+     */
     function cdataHandler($xp, $data)
     {
         if ($this->var_mode == true) {
@@ -806,6 +889,9 @@ class MDB2_Schema_Parser extends XML_Parser
         case 'database-sequence-comments':
             $this->sequence['comments'] .= $data;
             break;
+        case 'database-sequence-on':
+            $this->sequence['on'] = array('table' => '', 'field' => '');
+            break;
         case 'database-sequence-on-table':
             $this->sequence['on']['table'] .= $data;
             break;
@@ -815,5 +901,3 @@ class MDB2_Schema_Parser extends XML_Parser
         }
     }
 }
-
-?>

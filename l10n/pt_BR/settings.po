@@ -4,15 +4,16 @@
 # 
 # Translators:
 #   <duda.nogueira@metasys.com.br>, 2011.
+# Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
 # Thiago Vicente <thiagovice@gmail.com>, 2012.
 # Van Der Fran <transifex@vanderland.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-11 20:01+0000\n"
+"Last-Translator: Guilherme Maluf Balzana <guimalufb@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.net/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,15 +44,15 @@ msgstr "Português"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Mais"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Adicione seu Aplicativo"
 
 #: templates/apps.php:22
 msgid "Select an App"
@@ -67,11 +68,11 @@ msgstr "por"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Documentação"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Gerênciando Arquivos Grandes"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -99,11 +100,11 @@ msgstr "do disponível"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Sincronizando Desktop e Mobile"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -171,11 +172,11 @@ msgstr "Criar"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Quota Padrão"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Outro"
 
 #: templates/users.php:47
 msgid "Quota"

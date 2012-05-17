@@ -22,6 +22,8 @@ class OC_Calendar_Hooks{
 			OC_Calendar_Calendar::deleteCalendar($calendar['id']);
 		}
 
+		OC_Calendar_Share::post_userdelete($parameters['uid']);
+
 		return true;
 	}
 }

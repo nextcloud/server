@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-09 11:30+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +47,7 @@ msgstr "S'ha perdut un fitxer temporal"
 
 #: ajax/upload.php:25
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Ha fallat en escriure al disc"
 
 #: appinfo/app.php:7
 msgid "Files"
@@ -55,7 +55,7 @@ msgstr "Fitxers"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Gestió de fitxers"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -63,23 +63,23 @@ msgstr "Mida màxima de pujada"
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "màxim possible:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Necessari per fitxers múltiples i baixada de carpetes"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Activa la baixada ZIP"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 és sense límit"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Mida màxima d'entrada per fitxers ZIP"
 
 #: templates/index.php:7
 msgid "New"
@@ -95,7 +95,7 @@ msgstr "Carpeta"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr ""
+msgstr "Des de la url"
 
 #: templates/index.php:21
 msgid "Upload"
@@ -103,7 +103,7 @@ msgstr "Puja"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "Cancel·la la pujada"
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
@@ -115,7 +115,7 @@ msgstr "Nom"
 
 #: templates/index.php:49
 msgid "Share"
-msgstr ""
+msgstr "Comparteix"
 
 #: templates/index.php:51
 msgid "Download"
@@ -131,7 +131,7 @@ msgstr "Modificat"
 
 #: templates/index.php:56
 msgid "Delete all"
-msgstr ""
+msgstr "Esborra-ho tot"
 
 #: templates/index.php:56
 msgid "Delete"
@@ -149,8 +149,8 @@ msgstr "Els fitxers que esteu intentant pujar excedeixen la mida màxima de puja
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "S'estan escanejant els fitxers, espereu"
 
 #: templates/index.php:74
 msgid "Current scanning"
-msgstr ""
+msgstr "Actualment escanejant"

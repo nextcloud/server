@@ -256,4 +256,21 @@ class OC_Calendar_Share{
 			$stmt = OCP\DB::prepare("UPDATE *PREFIX*calendar_share_calendar SET active = ? WHERE share = ? AND sharetype = 'user' AND calendarid = ?");
 			$stmt->execute(array($active, $share, $id));
 		}
+
+		/*
+		 * @brief delete all shared calendars / events after a user was deleted
+		 * @param (string) $userid
+		 * @return (bool)
+		 */
+		public static function post_userdelete($userid){			
+			$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*calendar_share_calendar WHERE owner = ?');
+			$stmt->execute(array($userid));
+			$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*calendar_share_event WHERE owner = ?');
+			$stmt->execute(array($userid));
+			$stmt = OCP\DB::prepare("DELETE FROM *PREFIX*calendar_share_calendar WHERE share = ? AND sharetype = 'user'");
+			$stmt->execute(array($userid));
+			$stmt = OCP\DB::prepare("DELETE FROM *PREFIX*calendar_share_event WHERE share = ? AND sharetype = 'user'");
+			$stmt->execute(array($userid));
+			return true;
+		}
 }

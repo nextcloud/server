@@ -564,9 +564,13 @@ class OC_FileCache{
 		}
 		if(!$view->is_readable($path)) return; //cant read, nothing we can do
 		clearstatcache();
-		$stat=$view->stat($path);
 		$mimetype=$view->getMimeType($path);
-		$writable=$view->is_writable($path);
+		$stat=$view->stat($path);
+		if($mimetype=='httpd/unix-directory'){
+			$writable=$view->is_writable($path.'/');
+		}else{
+			$writable=$view->is_writable($path);
+		}
 		$stat['mimetype']=$mimetype;
 		$stat['writable']=$writable;
 		if($path=='/'){

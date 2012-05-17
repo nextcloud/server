@@ -10,10 +10,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-14 16:43+0000\n"
+"Last-Translator: goeck <admin@s-goecker.de>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +23,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "Keine Kalender gefunden"
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "Keine Termine gefunden"
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -55,69 +55,69 @@ msgstr "Kalender"
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
 msgstr ""
 
-#: lib/app.php:122
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "Geburtstag"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "Geschäftlich"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "Anruf"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "Kunden"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "Lieferant"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "Urlaub"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "Ideen"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "Reise"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "Jubiläum"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "Treffen"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "Anderes"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "Persönlich"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "Projekte"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "Fragen"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "Arbeit"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
-msgstr ""
+msgstr "unbenannt"
 
 #: lib/object.php:330
 msgid "Does not repeat"
@@ -366,7 +366,7 @@ msgstr "Aktive Kalender wählen"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "Deine Kalender"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -375,15 +375,15 @@ msgstr "CalDAV-Link"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "geteilte Kalender"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "Keine geteilten Kalender"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "Kalender teilen"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -400,7 +400,7 @@ msgstr "Löschen"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "Von dir geteilt mit"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -445,23 +445,23 @@ msgstr "Exportieren"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "Termininfo"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "Wiederholen"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "Alarm"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "Teilnehmer"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "Teilen"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -473,11 +473,11 @@ msgstr "Kategorie"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "Kategorien trennen mittels Komma"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "Kategorien ändern"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -598,11 +598,11 @@ msgstr "Neues Ereignis"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "Termin öffnen"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "Keine Kategorie ausgewählt"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -610,7 +610,7 @@ msgstr "Kategorie auswählen"
 
 #: templates/part.showevent.php:37
 msgid "of"
-msgstr ""
+msgstr "von"
 
 #: templates/part.showevent.php:62 templates/part.showevent.php:70
 msgid "at"
@@ -638,7 +638,7 @@ msgstr "12h"
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "erster Wochentag"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
@@ -646,24 +646,24 @@ msgstr "Kalender CalDAV Synchronisationsadresse:"
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "Nutzer"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "gewählte Nutzer"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "editierbar"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "Gruppen"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "Wähle Gruppen"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "Veröffentlichen"

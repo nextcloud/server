@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Thiago Vicente <thiagovice@gmail.com>, 2012.
+# Van Der Fran <transifex@vanderland.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:33+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-12 00:52+0000\n"
+"Last-Translator: Van Der Fran <transifex@vanderland.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.net/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: appinfo/app.php:42
 msgid "Pictures"
-msgstr ""
+msgstr "Fotos"
 
 #: templates/index.php:16
 msgid "Rescan"
@@ -28,15 +29,15 @@ msgstr "Atualizar"
 
 #: templates/index.php:17
 msgid "Stop"
-msgstr ""
+msgstr "Parar"
 
 #: templates/index.php:18
 msgid "Share"
-msgstr ""
+msgstr "Compartilhar"
 
 #: templates/index.php:19
 msgid "Settings"
-msgstr ""
+msgstr "Configuração"
 
 #: templates/view_album.php:19
 msgid "Back"
@@ -44,16 +45,16 @@ msgstr "Voltar"
 
 #: templates/view_album.php:36
 msgid "Remove confirmation"
-msgstr ""
+msgstr "Confirmar apagar"
 
 #: templates/view_album.php:37
 msgid "Do you want to remove album"
-msgstr ""
+msgstr "Voçe dezeja remover o album"
 
 #: templates/view_album.php:40
 msgid "Change album name"
-msgstr ""
+msgstr "Mudar nome do album"
 
 #: templates/view_album.php:43
 msgid "New album name"
-msgstr ""
+msgstr "Nome do novo album"

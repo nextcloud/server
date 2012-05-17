@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysql.php 302867 2010-08-29 11:22:07Z quipo $
+// $Id$
 //
 
 /**
@@ -57,21 +57,30 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
 {
     // {{{ properties
 
-    var $string_quoting = array('start' => "'", 'end' => "'", 'escape' => '\\', 'escape_pattern' => '\\');
+    public $string_quoting = array(
+        'start' => "'",
+        'end' => "'",
+        'escape' => '\\',
+        'escape_pattern' => '\\',
+    );
 
-    var $identifier_quoting = array('start' => '`', 'end' => '`', 'escape' => '`');
+    public $identifier_quoting = array(
+        'start' => '`',
+        'end' => '`',
+        'escape' => '`',
+    );
 
-    var $sql_comments = array(
+    public $sql_comments = array(
         array('start' => '-- ', 'end' => "\n", 'escape' => false),
         array('start' => '#', 'end' => "\n", 'escape' => false),
         array('start' => '/*', 'end' => '*/', 'escape' => false),
     );
 
-    var $server_capabilities_checked = false;
+    protected $server_capabilities_checked = false;
 
-    var $start_transaction = false;
+    protected $start_transaction = false;
 
-    var $varchar_max_length = 255;
+    protected $varchar_max_length = 255;
 
     // }}}
     // {{{ constructor
@@ -117,7 +126,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
 
     // }}}
     // {{{ _reCheckSupportedOptions()
-    
+
     /**
      * If the user changes certain options, other capabilities may depend
      * on the new settings, so we need to check them (again).
@@ -736,7 +745,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
         $limit = $this->limit;
         $this->offset = $this->limit = 0;
         $query = $this->_modifyQuery($query, $is_manip, $limit, $offset);
-        
+
         $result = $this->_doQuery($query, $is_manip, $connection, $this->database_name);
         if (!PEAR::isError($result)) {
             $result = $this->_affectedRows($connection, $result);
@@ -949,7 +958,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
             $this->supported['triggers'] = false;
             $this->start_transaction = false;
             $this->varchar_max_length = 255;
-            
+
             $server_info = $this->getServerVersion();
             if (is_array($server_info)) {
                 $server_version = $server_info['major'].'.'.$server_info['minor'].'.'.$server_info['patch'];
@@ -987,7 +996,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
     // {{{ function _skipUserDefinedVariable($query, $position)
 
     /**
-     * Utility method, used by prepare() to avoid misinterpreting MySQL user 
+     * Utility method, used by prepare() to avoid misinterpreting MySQL user
      * defined variables (SELECT @x:=5) for placeholders.
      * Check if the placeholder is a false positive, i.e. if it is an user defined
      * variable instead. If so, skip it and advance the position, otherwise
@@ -1081,7 +1090,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
             if (is_null($placeholder_type)) {
                 $placeholder_type_guess = $query[$p_position];
             }
-            
+
             $new_pos = $this->_skipDelimitedStrings($query, $position, $p_position);
             if (PEAR::isError($new_pos)) {
                 return $new_pos;
@@ -1090,7 +1099,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
                 $position = $new_pos;
                 continue; //evaluate again starting from the new position
             }
-            
+
             //make sure this is not part of an user defined variable
             $new_pos = $this->_skipUserDefinedVariable($query, $position);
             if ($new_pos != $position) {
@@ -1370,7 +1379,9 @@ class MDB2_Result_mysql extends MDB2_Result_Common
         if ($fetchmode == MDB2_FETCHMODE_DEFAULT) {
             $fetchmode = $this->db->fetchmode;
         }
-        if ($fetchmode & MDB2_FETCHMODE_ASSOC) {
+        if (   $fetchmode == MDB2_FETCHMODE_ASSOC
+            || $fetchmode == MDB2_FETCHMODE_OBJECT
+        ) {
             $row = @mysql_fetch_assoc($this->result);
             if (is_array($row)
                 && $this->db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
@@ -1401,8 +1412,16 @@ class MDB2_Result_mysql extends MDB2_Result_Common
         if ($mode) {
             $this->db->_fixResultArrayValues($row, $mode);
         }
-        if (!empty($this->types)) {
+        if (   (   $fetchmode != MDB2_FETCHMODE_ASSOC
+                && $fetchmode != MDB2_FETCHMODE_OBJECT)
+            && !empty($this->types)
+        ) {
             $row = $this->db->datatype->convertResultRow($this->types, $row, $rtrim);
+        } elseif (($fetchmode == MDB2_FETCHMODE_ASSOC
+                || $fetchmode == MDB2_FETCHMODE_OBJECT)
+            && !empty($this->types_assoc)
+        ) {
+            $row = $this->db->datatype->convertResultRow($this->types_assoc, $row, $rtrim);
         }
         if (!empty($this->values)) {
             $this->_assignBindColumns($row);
@@ -1575,7 +1594,7 @@ class MDB2_BufferedResult_mysql extends MDB2_Result_mysql
         }
         return $rows;
     }
-    
+
     // }}}
 }
 
@@ -1600,7 +1619,7 @@ class MDB2_Statement_mysql extends MDB2_Statement_Common
      *               a MDB2 error on failure
      * @access private
      */
-    function _execute($result_class = true, $result_wrap_class = false)
+    function _execute($result_class = true, $result_wrap_class = true)
     {
         if (is_null($this->statement)) {
             $result = parent::_execute($result_class, $result_wrap_class);

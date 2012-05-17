@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
 # Thiago Vicente <thiagovice@gmail.com>, 2012.
 # Van Der Fran <transifex@vanderland.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-14 16:43+0000\n"
+"Last-Translator: Guilherme Maluf Balzana <guimalufb@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.net/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "Erro ao (des)ativar agenda."
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "Ocorreu um erro ao adicionar o contato."
 
@@ -37,7 +38,7 @@ msgstr "Pelo menos um dos campos de endereço tem que ser preenchido."
 
 #: ajax/addproperty.php:62
 msgid "Trying to add duplicate property: "
-msgstr ""
+msgstr "Tentando adiciona propriedade duplicada:"
 
 #: ajax/addproperty.php:120
 msgid "Error adding contact property."
@@ -45,39 +46,35 @@ msgstr "Erro ao adicionar propriedade de contato."
 
 #: ajax/categories/categoriesfor.php:15
 msgid "No ID provided"
-msgstr ""
+msgstr "Nenhum ID fornecido"
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
-msgstr ""
+msgstr "Erro ajustando checksum."
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Nenhum categoria selecionada para remoção."
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "Nenhuma agenda de endereços encontrada."
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "Nenhum contato encontrado."
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "Faltando ID"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/contactdetails.php:53
-msgid "Unknown"
-msgstr ""
+msgstr "Erro de identificação VCard para ID:"
 
 #: ajax/createaddressbook.php:18
 msgid "Cannot add addressbook with an empty name."
-msgstr ""
+msgstr "Não é possivel adicionar uma agenda de endereços com o nome em branco."
 
 #: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
@@ -89,27 +86,27 @@ msgstr "Erro ao ativar agenda."
 
 #: ajax/currentphoto.php:40 ajax/oc_photo.php:40
 msgid "No contact ID was submitted."
-msgstr ""
+msgstr "Nenhum ID do contato foi submetido."
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "Erro ao carregar imagem."
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "Erro de leitura na foto do contato."
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "Erro ao salvar arquivo temporário."
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
-msgstr ""
+msgstr "Foto carregada não é válida."
 
 #: ajax/deletecard.php:37 ajax/saveproperty.php:58
 msgid "id is not set."
-msgstr ""
+msgstr "ID não definido."
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -121,35 +118,35 @@ msgstr "Erro ao excluir propriedade de contato."
 
 #: ajax/editname.php:37
 msgid "Contact ID is missing."
-msgstr ""
+msgstr "ID do contato está faltando."
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "Faltando ID do contato."
 
 #: ajax/oc_photo.php:44
 msgid "No photo path was submitted."
-msgstr ""
+msgstr "Nenhum caminho para foto foi submetido."
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "Arquivo não existe:"
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
-msgstr ""
+msgstr "nome do elemento não definido."
 
 #: ajax/saveproperty.php:61
 msgid "checksum is not set."
-msgstr ""
+msgstr "checksum não definido."
 
 #: ajax/saveproperty.php:78
 msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr ""
+msgstr "Informação sobre vCard incorreto. Por favor, recarregue a página:"
 
 #: ajax/saveproperty.php:83
 msgid "Something went FUBAR. "
-msgstr ""
+msgstr "Something went FUBAR. "
 
 #: ajax/saveproperty.php:153
 msgid "Error updating contact property."
@@ -157,7 +154,7 @@ msgstr "Erro ao atualizar propriedades do contato."
 
 #: ajax/updateaddressbook.php:20
 msgid "Cannot update addressbook with an empty name."
-msgstr ""
+msgstr "Não é possível atualizar sua agenda com um nome em branco."
 
 #: ajax/updateaddressbook.php:26
 msgid "Error updating addressbook."
@@ -165,15 +162,15 @@ msgstr "Erro ao atualizar agenda."
 
 #: ajax/uploadimport.php:46 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
-msgstr ""
+msgstr "Erro enviando contatos para armazenamento."
 
 #: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Arquivo enviado com sucesso"
 
 #: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "O arquivo enviado excede a diretiva upload_max_filesize em php.ini"
 
 #: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
 msgid ""

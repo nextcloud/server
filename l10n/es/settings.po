@@ -6,15 +6,16 @@
 # Javier Llorente <javier@opensuse.org>, 2012.
 #   <juanma@kde.org.ar>, 2011, 2012.
 #   <monty_2731@hotmail.com>, 2011.
+# oSiNaReF  <>, 2012.
 #   <rom1dep@gmail.com>, 2011.
 #   <sergioballesterossolanas@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-13 15:30+0000\n"
+"Last-Translator: Javier Llorente <javier@opensuse.org>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,15 +46,15 @@ msgstr "Castellano"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Registro"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Más"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Añade tu aplicación"
 
 #: templates/apps.php:22
 msgid "Select an App"
@@ -69,11 +70,11 @@ msgstr "por"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Documentación"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Administra archivos grandes"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -101,11 +102,11 @@ msgstr "del total disponible de"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Clientes de sincronización móviles y de escritorio"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Descargar"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -153,7 +154,7 @@ msgstr "Ayúdanos a traducir"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "utiliza esta dirección para conectar a tu ownCloud desde tu explorador de archivos"
+msgstr "utiliza esta dirección para conectar a tu ownCloud desde tu gestor de archivos"
 
 #: templates/users.php:15 templates/users.php:44
 msgid "Name"
@@ -173,11 +174,11 @@ msgstr "Crear"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Cuota predeterminada"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Otro"
 
 #: templates/users.php:47
 msgid "Quota"

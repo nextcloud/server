@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012.
 # AriesAnywhere Anywhere <ariesanywherer@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-13 17:52+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.net/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +23,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "เกิดข้อผิดพลาดใน (ยกเลิก)การเปิดใช้งานสมุดบันทึกที่อยู่"
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "เกิดข้อผิดพลาดในการเพิ่มรายชื่อผู้ติดต่อใหม่"
 
@@ -36,7 +37,7 @@ msgstr "อย่างน้อยที่สุดช่องข้อมู
 
 #: ajax/addproperty.php:62
 msgid "Trying to add duplicate property: "
-msgstr ""
+msgstr "พยายามที่จะเพิ่มทรัพยากรที่ซ้ำซ้อนกัน: "
 
 #: ajax/addproperty.php:120
 msgid "Error adding contact property."
@@ -44,39 +45,35 @@ msgstr "เกิดข้อผิดพลาดในการเพิ่ม
 
 #: ajax/categories/categoriesfor.php:15
 msgid "No ID provided"
-msgstr ""
+msgstr "ยังไม่ได้ใส่รหัส"
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการตั้งค่า checksum"
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "ยังไม่ได้เลือกหมวดหมู่ที่ต้องการลบ"
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "ไม่พบสมุดบันทึกที่อยู่ที่ต้องการ"
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "ไม่พบข้อมูลการติดต่อที่ต้องการ"
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "รหัสสูญหาย"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/contactdetails.php:53
-msgid "Unknown"
-msgstr ""
+msgstr "พบข้อผิดพลาดในการแยกรหัส VCard:\""
 
 #: ajax/createaddressbook.php:18
 msgid "Cannot add addressbook with an empty name."
-msgstr ""
+msgstr "ไม่สามารถเพิ่มสมุดบันทึกที่อยู่โดยไม่มีชื่อได้"
 
 #: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
@@ -88,27 +85,27 @@ msgstr "เกิดข้อผิดพลาดในการเปิดใ
 
 #: ajax/currentphoto.php:40 ajax/oc_photo.php:40
 msgid "No contact ID was submitted."
-msgstr ""
+msgstr "ไม่มีรหัสข้อมูลการติดต่อถูกส่งมา"
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการโหลดรูปภาพ"
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการอ่านรูปภาพของข้อมูลการติดต่อ"
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการบันทึกไฟล์ชั่วคราว"
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
-msgstr ""
+msgstr "โหลดรูปภาพไม่ถูกต้อง"
 
 #: ajax/deletecard.php:37 ajax/saveproperty.php:58
 msgid "id is not set."
-msgstr ""
+msgstr "ยังไม่ได้กำหนดรหัส"
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -120,35 +117,35 @@ msgstr "เกิดข้อผิดพลาดในการลบราย
 
 #: ajax/editname.php:37
 msgid "Contact ID is missing."
-msgstr ""
+msgstr "รหัสข้อมูลการติดต่อเกิดการสูญหาย"
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "รหัสข้อมูลการติดต่อเกิดการสูญหาย"
 
 #: ajax/oc_photo.php:44
 msgid "No photo path was submitted."
-msgstr ""
+msgstr "ไม่พบตำแหน่งพาธของรูปภาพ"
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "ไม่มีไฟล์ดังกล่าว"
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
-msgstr ""
+msgstr "ยังไม่ได้กำหนดชื่อ"
 
 #: ajax/saveproperty.php:61
 msgid "checksum is not set."
-msgstr ""
+msgstr "ยังไม่ได้กำหนดค่า checksum"
 
 #: ajax/saveproperty.php:78
 msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr ""
+msgstr "ข้อมูล vCard ไม่ถูกต้อง กรุณาโหลดหน้าเว็บใหม่อีกครั้ง: "
 
 #: ajax/saveproperty.php:83
 msgid "Something went FUBAR. "
-msgstr ""
+msgstr "มีบางอย่างเกิดการ FUBAR. "
 
 #: ajax/saveproperty.php:153
 msgid "Error updating contact property."
@@ -156,7 +153,7 @@ msgstr "เกิดข้อผิดพลาดในการอัพเด
 
 #: ajax/updateaddressbook.php:20
 msgid "Cannot update addressbook with an empty name."
-msgstr ""
+msgstr "ไม่สามารถอัพเดทสมุดบันทึกที่อยู่โดยไม่มีชื่อได้"
 
 #: ajax/updateaddressbook.php:26
 msgid "Error updating addressbook."
@@ -164,33 +161,33 @@ msgstr "เกิดข้อผิดพลาดในการอัพเด
 
 #: ajax/uploadimport.php:46 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการอัพโหลดข้อมูลการติดต่อไปยังพื้นที่จัดเก็บข้อมูล"
 
 #: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "ไม่พบข้อผิดพลาดใดๆ, ไฟล์ถูกอัพโหลดเรียบร้อยแล้ว"
 
 #: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "ไฟล์ที่อัพโหลดมีขนาดไฟล์ใหญ่เกินจำนวนที่กำหนดไว้ในคำสั่ง upload_max_filesize ที่อยู่ในไฟล์ php.ini"
 
 #: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "ไฟล์ที่อัพโหลดมีขนาดไฟล์ใหญ่เกินจำนวนที่กำหนดไว้ในคำสั่ง MAX_FILE_SIZE ที่ถูกระบุไว้ในรูปแบบของ HTML"
 
 #: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "ไฟล์ถูกอัพโหลดได้เพียงบางส่วนเท่านั้น"
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "ไม่มีไฟล์ที่ถูกอัพโหลด"
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "โฟลเดอร์ชั่วคราวเกิดการสูญหาย"
 
 #: appinfo/app.php:22 templates/settings.php:3
 msgid "Contacts"
@@ -198,7 +195,7 @@ msgstr "ข้อมูลการติดต่อ"
 
 #: lib/app.php:23
 msgid "Addressbook not found."
-msgstr ""
+msgstr "ไม่พบสมุดบันทึกที่อยู่ที่ต้องการ"
 
 #: lib/app.php:27
 msgid "This is not your addressbook."
@@ -247,7 +244,7 @@ msgstr "เสียงพูด"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "ข้อความ"
 
 #: lib/app.php:120
 msgid "Fax"
@@ -263,11 +260,11 @@ msgstr "เพจเจอร์"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "อินเทอร์เน็ต"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
-msgstr ""
+msgstr "วันเกิดของ {name}"
 
 #: lib/search.php:22
 msgid "Contact"
@@ -283,7 +280,7 @@ msgstr "สมุดบันทึกที่อยู่"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Configure Address Books"
-msgstr ""
+msgstr "กำหนดค่าสมุดบันทึกที่อยู่"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
@@ -291,7 +288,7 @@ msgstr "สร้างสมุดบันทึกข้อมูลการ
 
 #: templates/part.chooseaddressbook.php:17
 msgid "Import from VCF"
-msgstr ""
+msgstr "นำเข้าจาก VCF"
 
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
@@ -322,23 +319,23 @@ msgstr "ลบข้อมูลการติดต่อ"
 
 #: templates/part.contact.php:19
 msgid "Drop photo to upload"
-msgstr ""
+msgstr "วางรูปภาพที่ต้องการอัพโหลด"
 
 #: templates/part.contact.php:29
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
-msgstr ""
+msgstr "กำหนดรูปแบบของชื่อย่อ, ชื่อจริง, ย้อนค่ากลัีบด้วยคอมม่าเอง"
 
 #: templates/part.contact.php:30
 msgid "Edit name details"
-msgstr ""
+msgstr "แก้ไขรายละเอียดของชื่อ"
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "ชื่อเล่น"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "กรอกชื่อเล่น"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
@@ -346,19 +343,19 @@ msgstr "วันเกิด"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "dd-mm-yyyy"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "กลุ่ม"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
-msgstr ""
+msgstr "คั่นระหว่างรายชื่อกลุ่มด้วยเครื่องหมายจุลภาีคหรือคอมม่า"
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "แก้ไขกลุ่ม"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -366,47 +363,47 @@ msgstr "พิเศษ"
 
 #: templates/part.contact.php:56
 msgid "Please specify a valid email address."
-msgstr ""
+msgstr "กรุณาระบุที่อยู่อีเมลที่ถูกต้อง"
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "กรอกที่อยู่อีเมล"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"
-msgstr ""
+msgstr "ส่งอีเมลไปที่"
 
 #: templates/part.contact.php:61
 msgid "Delete email address"
-msgstr ""
+msgstr "ลบที่อยู่อีเมล"
 
 #: templates/part.contact.php:70
 msgid "Enter phone number"
-msgstr ""
+msgstr "กรอกหมายเลขโทรศัพท์"
 
 #: templates/part.contact.php:74
 msgid "Delete phone number"
-msgstr ""
+msgstr "ลบหมายเลขโทรศัพท์"
 
 #: templates/part.contact.php:84
 msgid "View on map"
-msgstr ""
+msgstr "ดูบนแผนที่"
 
 #: templates/part.contact.php:84
 msgid "Edit address details"
-msgstr ""
+msgstr "แก้ไขรายละเอียดที่อยู่"
 
 #: templates/part.contact.php:95
 msgid "Add notes here."
-msgstr ""
+msgstr "เพิ่มหมายเหตุกำกับไว้ที่นี่"
 
 #: templates/part.contact.php:101
 msgid "Add field"
-msgstr ""
+msgstr "เพิ่มช่องรับข้อมูล"
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "รูปภาพโปรไฟล์"
 
 #: templates/part.contact.php:107
 msgid "Phone"
@@ -414,27 +411,27 @@ msgstr "โทรศัพท์"
 
 #: templates/part.contact.php:110
 msgid "Note"
-msgstr ""
+msgstr "หมายเหตุ"
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
-msgstr ""
+msgstr "ลบรูปภาพปัจจุบัน"
 
 #: templates/part.contactphoto.php:9
 msgid "Edit current photo"
-msgstr ""
+msgstr "แก้ไขรูปภาพปัจจุบัน"
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "อัพโหลดรูปภาพใหม่"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
-msgstr ""
+msgstr "เลือกรูปภาพจาก ownCloud"
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "แก้ไขที่อยู่"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
@@ -477,7 +474,7 @@ msgstr "ประเทศ"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "แก้ไขหมวดหมู่"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
@@ -489,79 +486,79 @@ msgstr "สมุดบันทึกที่อยู่"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
-msgstr ""
+msgstr "คำนำหน้าชื่อคนรัก"
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
-msgstr ""
+msgstr "นางสาว"
 
 #: templates/part.edit_name_dialog.php:28
 msgid "Ms"
-msgstr ""
+msgstr "น.ส."
 
 #: templates/part.edit_name_dialog.php:29
 msgid "Mr"
-msgstr ""
+msgstr "นาย"
 
 #: templates/part.edit_name_dialog.php:30
 msgid "Sir"
-msgstr ""
+msgstr "คุณ"
 
 #: templates/part.edit_name_dialog.php:31
 msgid "Mrs"
-msgstr ""
+msgstr "นาง"
 
 #: templates/part.edit_name_dialog.php:32
 msgid "Dr"
-msgstr ""
+msgstr "ดร."
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "ชื่อที่ใช้"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
-msgstr ""
+msgstr "ชื่ออื่นๆ"
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "ชื่อครอบครัว"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
-msgstr ""
+msgstr "คำแนบท้ายชื่อคนรัก"
 
 #: templates/part.edit_name_dialog.php:45
 msgid "J.D."
-msgstr ""
+msgstr "J.D."
 
 #: templates/part.edit_name_dialog.php:46
 msgid "M.D."
-msgstr ""
+msgstr "M.D."
 
 #: templates/part.edit_name_dialog.php:47
 msgid "D.O."
-msgstr ""
+msgstr "D.O."
 
 #: templates/part.edit_name_dialog.php:48
 msgid "D.C."
-msgstr ""
+msgstr "D.C."
 
 #: templates/part.edit_name_dialog.php:49
 msgid "Ph.D."
-msgstr ""
+msgstr "ปริญญาเอก"
 
 #: templates/part.edit_name_dialog.php:50
 msgid "Esq."
-msgstr ""
+msgstr "Esq."
 
 #: templates/part.edit_name_dialog.php:51
 msgid "Jr."
-msgstr ""
+msgstr "จูเนียร์"
 
 #: templates/part.edit_name_dialog.php:52
 msgid "Sn."
-msgstr ""
+msgstr "ซีเนียร์"
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
@@ -594,76 +591,76 @@ msgstr "ยกเลิก"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "นำเข้าไฟล์ข้อมูลการติดต่อ"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "กรุณาเลือกสมุดบันทึกที่อยู่"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "สร้างสมุดบันทึกที่อยู่ใหม่"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
+msgstr "กำหนดชื่อของสมุดที่อยู่ที่สร้างใหม่"
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "นำเข้า"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr ""
+msgstr "นำเข้าข้อมูลการติดต่อ"
 
 #: templates/part.import.php:23
 msgid "Contacts imported successfully"
-msgstr ""
+msgstr "ข้อมูลการติดต่อถูกนำเข้าข้อมูลเรียบร้อยแล้ว"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "ปิดกล่องข้อความ"
 
 #: templates/part.importaddressbook.php:9
 msgid "Import Addressbook"
-msgstr ""
+msgstr "นำเข้าข้อมูลสมุดบันทึกที่อยู่"
 
 #: templates/part.importaddressbook.php:12
 msgid "Select address book to import to:"
-msgstr ""
+msgstr "เลือกสมุดบันทึกที่อยู่ที่ต้องการนำเข้า:"
 
 #: templates/part.importaddressbook.php:20
 msgid "Drop a VCF file to import contacts."
-msgstr ""
+msgstr "วางไฟล์ VCF ที่ต้องการนำเข้าข้อมูลการติดต่อ"
 
 #: templates/part.importaddressbook.php:21
 msgid "Select from HD"
-msgstr ""
+msgstr "เลือกจากฮาร์ดดิส"
 
 #: templates/part.no_contacts.php:2
 msgid "You have no contacts in your addressbook."
-msgstr ""
+msgstr "คุณยังไม่มีข้อมูลการติดต่อใดๆในสมุดบันทึกที่อยู่ของคุณ"
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "เพิ่มชื่อผู้ติดต่อ"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
-msgstr ""
+msgstr "กำหนดค่าสมุดบันทึกที่อยู่"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing addresses"
-msgstr ""
+msgstr "ที่อยู่ที่ใช้เชื่อมข้อมูลกับ CardDAV"
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "ข้อมูลเพิ่มเติม"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "ที่อยู่หลัก (สำหรับติดต่อ)"
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"

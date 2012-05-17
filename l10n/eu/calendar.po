@@ -9,10 +9,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-14 10:07+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.net/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,11 +22,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "Ez da egutegirik aurkitu."
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "Ez da gertaerarik aurkitu."
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -54,69 +54,69 @@ msgstr "Egutegia"
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
 msgstr ""
 
-#: lib/app.php:122
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "Jaioteguna"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "Negozioa"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "Deia"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "Bezeroak"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "Banatzailea"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "Oporrak"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "Ideiak"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "Bidaia"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "Urteurrena"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "Bilera"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "Bestelakoa"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "Pertsonala"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "Proiektuak"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "Galderak"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "Lana"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
-msgstr ""
+msgstr "izengabea"
 
 #: lib/object.php:330
 msgid "Does not repeat"
@@ -152,7 +152,7 @@ msgstr "inoiz"
 
 #: lib/object.php:344
 msgid "by occurrences"
-msgstr ""
+msgstr "errepikapen kopuruagatik"
 
 #: lib/object.php:345
 msgid "by date"
@@ -365,7 +365,7 @@ msgstr "Aukeratu egutegi aktiboak"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "Zure egutegiak"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -374,15 +374,15 @@ msgstr "CalDav lotura"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "Elkarbanatutako egutegiak"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "Ez dago elkarbanatutako egutegirik"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "Elkarbanatu egutegia"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -399,7 +399,7 @@ msgstr "Ezabatu"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "honek zurekin elkarbanatu du"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -444,23 +444,23 @@ msgstr "Exportatu"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "Gertaeraren informazioa"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "Errepikapena"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "Alarma"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "Partaideak"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "Elkarbanatu"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -472,11 +472,11 @@ msgstr "Kategoria"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "Banatu kategoriak komekin"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "Editatu kategoriak"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -597,11 +597,11 @@ msgstr "Sortu gertaera berria"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "Ikusi gertaera bat"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "Ez da kategoriarik hautatu"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -637,7 +637,7 @@ msgstr "12h"
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "Asteko lehenego eguna"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
@@ -645,24 +645,24 @@ msgstr "Egutegiaren CalDAV sinkronizazio helbidea"
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "Erabiltzaileak"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "hautatutako erabiltzaileak"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "Editagarria"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "Taldeak"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "hautatutako taldeak"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "publikoa egin"

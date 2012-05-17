@@ -112,7 +112,7 @@ Collection={
 							Collection.parent.find('tr').removeClass('active');
 							$('tr[data-artist="'+artist.name+'"]').addClass('active');
 						});
-						expander='';
+						var expander='';
 						if(artist.songs.length>1){
 							expander=$('<a class="expander">&gt;</a>');
 							expander.data('expanded',false);

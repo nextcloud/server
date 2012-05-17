@@ -26,29 +26,32 @@ Contacts_Import={
 		$('#startimport').click(function(){
 			var filename = $('#filename').val();
 			var path = $('#path').val();
+			var method = 'old';
 			var addressbookid = $('#contacts option:selected').val();
 			if($('#contacts option:selected').val() == 'newaddressbook'){
 				var method = 'new';
 				var addressbookname = $('#newaddressbook').val();
 				var addressbookname = $.trim(addressbookname);
-				if(newaddressbook == ''){
+				if(addressbookname == ''){
 					$('#newaddressbook').css('background-color', '#FF2626');
 					$('#newaddressbook').focus(function(){
 						$('#newaddressbook').css('background-color', '#F8F8F8');
 					});
 					return false;
 				}
-			}else{
-				var method = 'old';
 			}
 			$('#newaddressbook').attr('readonly', 'readonly');
 			$('#contacts').attr('disabled', 'disabled');
 			var progressfile = $('#progressfile').val();
-			$.post(OC.filePath('contacts', '', 'import.php'), {method: String (method), addressbookname: String (addressbookname), path: String (path), file: String (filename), id: String (addressbookid)}, function(data){
-				if(data.status == 'success'){
+			$.post(OC.filePath('contacts', '', 'import.php'), {method: String (method), addressbookname: String (addressbookname), path: String (path), file: String (filename), id: String (addressbookid)}, function(jsondata){
+				if(jsondata.status == 'success'){
 					$('#progressbar').progressbar('option', 'value', 100);
-					$('#import_done').css('display', 'block');
+					$('#import_done').find('p').html(t('contacts', 'Result: ') + jsondata.data.imported + t('contacts', ' imported, ') + jsondata.data.failed + t('contacts', ' failed.'));
+				} else {
+					$('#import_done').find('p').html(jsondata.data.message);
 				}
+				$('#import_done').show().find('p').addClass('bold');
+				$('#progressbar').fadeOut('slow');
 			});
 			$('#form_container').css('display', 'none');
 			$('#progressbar_container').css('display', 'block');

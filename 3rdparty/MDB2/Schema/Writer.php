@@ -1,8 +1,6 @@
-<?php
+<?php /* vim: se et ts=4 sw=4 sts=4 fdm=marker tw=80: */
 /**
- * PHP versions 4 and 5
- *
- * Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,
+ * Copyright (c) 1998-2010 Manuel Lemos, Tomas V.V.Cox,
  * Stig. S. Bakken, Lukas Smith, Igor Feghali
  * All rights reserved.
  *
@@ -39,15 +37,14 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Author: Lukas Smith <smith@pooteeweet.org>
- * Author: Igor Feghali <ifeghali@php.net>
+ * PHP version 5
  *
  * @category Database
  * @package  MDB2_Schema
  * @author   Lukas Smith <smith@pooteeweet.org>
  * @author   Igor Feghali <ifeghali@php.net>
  * @license  BSD http://www.opensource.org/licenses/bsd-license.php
- * @version  CVS: $Id: Writer.php,v 1.40 2008/11/30 03:34:00 clockwerx Exp $
+ * @version  SVN: $Id$
  * @link     http://pear.php.net/packages/MDB2_Schema
  */
 
@@ -69,11 +66,33 @@ class MDB2_Schema_Writer
     // }}}
     // {{{ constructor
 
+    /**
+     * PHP 5 constructor
+     *
+     * @param array $valid_types information of all valid fields 
+     *                           types
+     *
+     * @return void
+     *
+     * @access public
+     * @static
+     */
     function __construct($valid_types = array())
     {
         $this->valid_types = $valid_types;
     }
 
+    /**
+     * PHP 4 compatible constructor
+     *
+     * @param array $valid_types information of all valid fields 
+     *                           types
+     *
+     * @return void
+     *
+     * @access public
+     * @static
+     */
     function MDB2_Schema_Writer($valid_types = array())
     {
         $this->__construct($valid_types);
@@ -87,15 +106,18 @@ class MDB2_Schema_Writer
      * callbacks etc.  Basically a wrapper for PEAR::raiseError
      * without the message string.
      *
-     * @param int|PEAR_Error $code    integer error code or and PEAR_Error instance
-     * @param int            $mode    error mode, see PEAR_Error docs
-     *                                error level (E_USER_NOTICE etc).  If error mode is
-     *                                PEAR_ERROR_CALLBACK, this is the callback function,
-     *                                either as a function name, or as an array of an
-     *                                object and method name.  For other error modes this
-     *                                parameter is ignored.
-     * @param string         $options Extra debug information.  Defaults to the last
-     *                                query and native error code.
+     * @param int|PEAR_Error $code     integer error code or and PEAR_Error 
+     *                                 instance
+     * @param int            $mode     error mode, see PEAR_Error docs error
+     *                                 level (E_USER_NOTICE etc).  If error mode
+     *                                 is PEAR_ERROR_CALLBACK, this is the
+     *                                 callback function, either as a function
+     *                                 name, or as an array of an object and
+     *                                 method name.  For other error modes this
+     *                                 parameter is ignored.
+     * @param string         $options  Extra debug information. Defaults to the
+     *                                 last query and native error code.
+     * @param string         $userinfo User-friendly error message
      *
      * @return object  a PEAR error object
      * @access  public
@@ -103,7 +125,7 @@ class MDB2_Schema_Writer
      */
     function &raiseError($code = null, $mode = null, $options = null, $userinfo = null)
     {
-        $error =& MDB2_Schema::raiseError($code, $mode, $options, $userinfo);
+        $error = MDB2_Schema::raiseError($code, $mode, $options, $userinfo);
         return $error;
     }
 
@@ -578,4 +600,3 @@ class MDB2_Schema_Writer
 
     // }}}
 }
-?>

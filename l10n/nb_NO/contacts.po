@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <ajarmund@gmail.com>, 2012.
 # Christer Eriksson <post@hc3web.com>, 2012.
 # Daniel  <i18n@daniel.priv.no>, 2012.
+#   <itssmail@yahoo.no>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-13 17:52+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.net/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +25,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "Et problem oppsto med å (de)aktivere adresseboken."
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "Et problem oppsto med å legge til kontakten."
 
@@ -53,31 +55,27 @@ msgstr ""
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Ingen kategorier valgt for sletting."
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "Ingen adressebok funnet."
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "Ingen kontakter funnet."
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "Manglende ID"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
 msgstr ""
 
-#: ajax/contactdetails.php:53
-msgid "Unknown"
-msgstr ""
-
 #: ajax/createaddressbook.php:18
 msgid "Cannot add addressbook with an empty name."
-msgstr ""
+msgstr "Kan ikke legge til en adressebok uten navn."
 
 #: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
@@ -93,15 +91,15 @@ msgstr ""
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "Klarte ikke å laste bilde."
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "Klarte ikke å lese kontaktbilde."
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "Klarte ikke å lagre midlertidig fil."
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
@@ -125,15 +123,15 @@ msgstr ""
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "Mangler kontakt-id."
 
 #: ajax/oc_photo.php:44
 msgid "No photo path was submitted."
-msgstr ""
+msgstr "Ingen filsti ble lagt inn."
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "Filen eksisterer ikke:"
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
@@ -149,7 +147,7 @@ msgstr ""
 
 #: ajax/saveproperty.php:83
 msgid "Something went FUBAR. "
-msgstr ""
+msgstr "Noe gikk fryktelig galt."
 
 #: ajax/saveproperty.php:153
 msgid "Error updating contact property."
@@ -157,7 +155,7 @@ msgstr "Et problem oppsto med å legge til kontaktfeltet."
 
 #: ajax/updateaddressbook.php:20
 msgid "Cannot update addressbook with an empty name."
-msgstr ""
+msgstr "Kan ikke oppdatere adressebøker uten navn."
 
 #: ajax/updateaddressbook.php:26
 msgid "Error updating addressbook."
@@ -169,29 +167,29 @@ msgstr ""
 
 #: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Pust ut, ingen feil. Filen ble lastet opp problemfritt"
 
 #: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "Filen du prøvde å laste opp var større enn grensen upload_max_filesize i php.ini"
 
 #: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Filen du prøvde å laste opp var større enn grensen satt i MAX_FILE_SIZE i HTML-skjemaet."
 
 #: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Filen du prøvde å laste opp ble kun delvis lastet opp"
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Ingen filer ble lastet opp"
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Mangler midlertidig mappe"
 
 #: appinfo/app.php:22 templates/settings.php:3
 msgid "Contacts"
@@ -199,7 +197,7 @@ msgstr "Kontakter"
 
 #: lib/app.php:23
 msgid "Addressbook not found."
-msgstr ""
+msgstr "Adresseboken ble ikke funnet."
 
 #: lib/app.php:27
 msgid "This is not your addressbook."
@@ -248,7 +246,7 @@ msgstr "Svarer"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "Melding"
 
 #: lib/app.php:120
 msgid "Fax"
@@ -264,11 +262,11 @@ msgstr "Pager"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "Internett"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
-msgstr ""
+msgstr "bursdagen til {name}"
 
 #: lib/search.php:22
 msgid "Contact"
@@ -284,7 +282,7 @@ msgstr "Adressebøker"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Configure Address Books"
-msgstr ""
+msgstr "Konfigurer adressebok"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
@@ -292,7 +290,7 @@ msgstr "Ny adressebok"
 
 #: templates/part.chooseaddressbook.php:17
 msgid "Import from VCF"
-msgstr ""
+msgstr "Importer fra VDF"
 
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
@@ -323,7 +321,7 @@ msgstr "Slett kontakt"
 
 #: templates/part.contact.php:19
 msgid "Drop photo to upload"
-msgstr ""
+msgstr "Dra bilder hit for å laste opp"
 
 #: templates/part.contact.php:29
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
@@ -331,15 +329,15 @@ msgstr ""
 
 #: templates/part.contact.php:30
 msgid "Edit name details"
-msgstr ""
+msgstr "Endre detaljer rundt navn"
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "Kallenavn"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "Skriv inn kallenavn"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
@@ -347,19 +345,19 @@ msgstr "Bursdag"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "dd-mm-åååå"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "Grupper"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
-msgstr ""
+msgstr "Skill gruppene med komma"
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "Endre grupper"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -371,7 +369,7 @@ msgstr ""
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "Skriv inn e-postadresse"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"
@@ -379,35 +377,35 @@ msgstr ""
 
 #: templates/part.contact.php:61
 msgid "Delete email address"
-msgstr ""
+msgstr "Fjern e-postadresse"
 
 #: templates/part.contact.php:70
 msgid "Enter phone number"
-msgstr ""
+msgstr "Skriv inn telefonnummer"
 
 #: templates/part.contact.php:74
 msgid "Delete phone number"
-msgstr ""
+msgstr "Fjern telefonnummer"
 
 #: templates/part.contact.php:84
 msgid "View on map"
-msgstr ""
+msgstr "Se på kart"
 
 #: templates/part.contact.php:84
 msgid "Edit address details"
-msgstr ""
+msgstr "Endre detaljer rundt adresse"
 
 #: templates/part.contact.php:95
 msgid "Add notes here."
-msgstr ""
+msgstr "Legg inn notater her."
 
 #: templates/part.contact.php:101
 msgid "Add field"
-msgstr ""
+msgstr "Legg til felt"
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "Profilbilde"
 
 #: templates/part.contact.php:107
 msgid "Phone"
@@ -419,23 +417,23 @@ msgstr ""
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
-msgstr ""
+msgstr "Fjern nåværende bilde"
 
 #: templates/part.contactphoto.php:9
 msgid "Edit current photo"
-msgstr ""
+msgstr "Rediger nåværende bilde"
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "Last opp nytt bilde"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
-msgstr ""
+msgstr "Velg bilde fra ownCloud"
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "Endre adresse"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
@@ -478,7 +476,7 @@ msgstr "Land"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Endre kategorier"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
@@ -494,7 +492,7 @@ msgstr ""
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
-msgstr ""
+msgstr "Frøken"
 
 #: templates/part.edit_name_dialog.php:28
 msgid "Ms"
@@ -502,7 +500,7 @@ msgstr ""
 
 #: templates/part.edit_name_dialog.php:29
 msgid "Mr"
-msgstr ""
+msgstr "Herr"
 
 #: templates/part.edit_name_dialog.php:30
 msgid "Sir"
@@ -510,27 +508,27 @@ msgstr ""
 
 #: templates/part.edit_name_dialog.php:31
 msgid "Mrs"
-msgstr ""
+msgstr "Fru"
 
 #: templates/part.edit_name_dialog.php:32
 msgid "Dr"
-msgstr ""
+msgstr "Dr"
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "Fornavn"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
-msgstr ""
+msgstr "Ev. mellomnavn"
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "Etternavn"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
-msgstr ""
+msgstr "Titler"
 
 #: templates/part.edit_name_dialog.php:45
 msgid "J.D."
@@ -558,11 +556,11 @@ msgstr ""
 
 #: templates/part.edit_name_dialog.php:51
 msgid "Jr."
-msgstr ""
+msgstr "Jr."
 
 #: templates/part.edit_name_dialog.php:52
 msgid "Sn."
-msgstr ""
+msgstr "Sr."
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
@@ -595,39 +593,39 @@ msgstr "Avbryt"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "Importer en fil med kontakter."
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "Vennligst velg adressebok"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "Lag ny adressebok"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
+msgstr "Navn på ny adressebok"
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr ""
+msgstr "Importerer kontakter"
 
 #: templates/part.import.php:23
 msgid "Contacts imported successfully"
-msgstr ""
+msgstr "Kontaktene ble importert uten feil"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Lukk dialog"
 
 #: templates/part.importaddressbook.php:9
 msgid "Import Addressbook"
-msgstr ""
+msgstr "Importer adressebok"
 
 #: templates/part.importaddressbook.php:12
 msgid "Select address book to import to:"
@@ -647,7 +645,7 @@ msgstr ""
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "Ny kontakt"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
@@ -659,7 +657,7 @@ msgstr ""
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "mer info"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"

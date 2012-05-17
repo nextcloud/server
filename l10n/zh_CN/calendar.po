@@ -7,10 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-09 23:50+0000\n"
+"Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +20,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "无法找到日历。"
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "无法找到事件。"
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -52,69 +52,69 @@ msgstr "日历"
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
 msgstr ""
 
-#: lib/app.php:122
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "生日"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "商务"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "呼叫"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "客户"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "派送"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "节日"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "想法"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "旅行"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "周年纪念"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "会议"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "其他"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "个人"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "项目"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "问题"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "工作"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
-msgstr ""
+msgstr "未命名"
 
 #: lib/object.php:330
 msgid "Does not repeat"
@@ -363,7 +363,7 @@ msgstr "选择活动日历"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "您的日历"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -372,15 +372,15 @@ msgstr "CalDav 链接"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "共享的日历"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "无共享的日历"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "共享日历"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -397,7 +397,7 @@ msgstr "删除"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               "
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -442,11 +442,11 @@ msgstr "导出"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "事件信息"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "重复"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
@@ -454,11 +454,11 @@ msgstr ""
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "参加者"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "共享"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -470,11 +470,11 @@ msgstr "分类"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "用逗号分隔分类"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "编辑分类"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -595,11 +595,11 @@ msgstr "创建新事件"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "查看事件"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "无选中分类"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -635,7 +635,7 @@ msgstr "12小时"
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "每周的第一天"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
@@ -643,24 +643,24 @@ msgstr "日历CalDAV 同步地址："
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "用户"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "选中用户"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "可编辑"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "分组"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "选中分组"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "公开"

@@ -4,17 +4,19 @@
 # 
 # Translators:
 #   <admin@s-goecker.de>, 2012.
+#   <fh@cbix.de>, 2012.
 #   <georg.stefan.germany@googlemail.com>, 2011.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan-Christoph Borchardt <jan@unhosted.org>, 2011.
+# Michael Krell <m4dmike.mni@gmail.com>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-14 17:10+0000\n"
+"Last-Translator: goeck <admin@s-goecker.de>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +28,7 @@ msgstr ""
 msgid "Error (de)activating addressbook."
 msgstr "(De-)Aktivierung des Adressbuches fehlgeschlagen"
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
 msgstr "Erstellen des Kontakts fehlgeschlagen"
 
@@ -40,7 +42,7 @@ msgstr "Mindestens eines der Adressfelder muss ausgefüllt werden."
 
 #: ajax/addproperty.php:62
 msgid "Trying to add duplicate property: "
-msgstr ""
+msgstr "Versuche, doppelte Eigenschaft hinzuzufügen: "
 
 #: ajax/addproperty.php:120
 msgid "Error adding contact property."
@@ -48,39 +50,35 @@ msgstr "Kontakt ändern fehlgeschlagen"
 
 #: ajax/categories/categoriesfor.php:15
 msgid "No ID provided"
-msgstr ""
+msgstr "Keine ID angegeben"
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
-msgstr ""
+msgstr "Fehler beim Setzen der Prüfsumme."
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Keine Kategorien zum Löschen ausgewählt."
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "Keine Adressbücher gefunden."
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "Keine Kontakte gefunden."
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "Fehlende ID"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/contactdetails.php:53
-msgid "Unknown"
-msgstr ""
+msgstr "Fehler beim Einlesen der VCard für die ID: \""
 
 #: ajax/createaddressbook.php:18
 msgid "Cannot add addressbook with an empty name."
-msgstr ""
+msgstr "Bitte einen Namen für das Adressbuch angeben."
 
 #: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
@@ -92,27 +90,27 @@ msgstr "Adressbuchaktivierung fehlgeschlagen"
 
 #: ajax/currentphoto.php:40 ajax/oc_photo.php:40
 msgid "No contact ID was submitted."
-msgstr ""
+msgstr "Es wurde keine Kontakt-ID übermittelt."
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "Fehler beim Laden des Bildes."
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "Fehler beim auslesen des Kontaktfotos."
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "Fehler beim Speichern der temporären Datei."
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
-msgstr ""
+msgstr "Das Kontaktfoto ist fehlerhaft."
 
 #: ajax/deletecard.php:37 ajax/saveproperty.php:58
 msgid "id is not set."
-msgstr ""
+msgstr "ID ist nicht angegeben."
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -124,35 +122,35 @@ msgstr "Kontakteigenschaft löschen fehlgeschlagen"
 
 #: ajax/editname.php:37
 msgid "Contact ID is missing."
-msgstr ""
+msgstr "Keine Kontakt-ID angegeben."
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "Fehlende Kontakt-ID."
 
 #: ajax/oc_photo.php:44
 msgid "No photo path was submitted."
-msgstr ""
+msgstr "Kein Foto-Pfad übermittelt."
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "Datei existiert nicht: "
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
-msgstr ""
+msgstr "Kein Name für das Element angegeben."
 
 #: ajax/saveproperty.php:61
 msgid "checksum is not set."
-msgstr ""
+msgstr "Keine Prüfsumme angegeben."
 
 #: ajax/saveproperty.php:78
 msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr ""
+msgstr "Die Informationen zur vCard sind fehlerhaft. Bitte Seite neu laden: "
 
 #: ajax/saveproperty.php:83
 msgid "Something went FUBAR. "
-msgstr ""
+msgstr "Irgendwas ist hier so richtig schief gelaufen. "
 
 #: ajax/saveproperty.php:153
 msgid "Error updating contact property."
@@ -160,7 +158,7 @@ msgstr "Kontakteigenschaft aktualisieren fehlgeschlagen"
 
 #: ajax/updateaddressbook.php:20
 msgid "Cannot update addressbook with an empty name."
-msgstr ""
+msgstr "Adressbuch kann nicht mir leeren Namen aktualisiert werden."
 
 #: ajax/updateaddressbook.php:26
 msgid "Error updating addressbook."
@@ -168,33 +166,33 @@ msgstr "Adressbuch aktualisieren fehlgeschlagen"
 
 #: ajax/uploadimport.php:46 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
-msgstr ""
+msgstr "Übertragen der Kontakte fehlgeschlagen"
 
 #: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Alles bestens, Datei erfolgreich übertragen."
 
 #: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "Datei größer als durch die upload_max_filesize Direktive in php.ini erlaubt"
 
 #: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Datei größer als die MAX_FILE_SIZE Direktive erlaubt, die im HTML Formular spezifiziert ist"
 
 #: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Datei konnte nur teilweise übertragen werden"
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Keine Datei konnte übertragen werden."
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Kein temporärer Ordner vorhanden"
 
 #: appinfo/app.php:22 templates/settings.php:3
 msgid "Contacts"
@@ -202,7 +200,7 @@ msgstr "Kontakte"
 
 #: lib/app.php:23
 msgid "Addressbook not found."
-msgstr ""
+msgstr "Adressbuch nicht gefunden."
 
 #: lib/app.php:27
 msgid "This is not your addressbook."
@@ -251,7 +249,7 @@ msgstr "Anruf"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "Mitteilung"
 
 #: lib/app.php:120
 msgid "Fax"
@@ -267,11 +265,11 @@ msgstr "Pager"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "Internet"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
-msgstr ""
+msgstr "Geburtstag von {name}"
 
 #: lib/search.php:22
 msgid "Contact"
@@ -287,7 +285,7 @@ msgstr "Adressbücher"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Configure Address Books"
-msgstr ""
+msgstr "Adressbücher konfigurieren"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
@@ -295,7 +293,7 @@ msgstr "Neues Adressbuch"
 
 #: templates/part.chooseaddressbook.php:17
 msgid "Import from VCF"
-msgstr ""
+msgstr "Import von VCF Datei"
 
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
@@ -326,23 +324,23 @@ msgstr "Kontakt löschen"
 
 #: templates/part.contact.php:19
 msgid "Drop photo to upload"
-msgstr ""
+msgstr "Zieh' ein Foto hierher zum hochladen"
 
 #: templates/part.contact.php:29
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
-msgstr ""
+msgstr "Format benutzerdefiniert, Kurzname, Vollname, Rückwärts order Rückwärts mit Komma"
 
 #: templates/part.contact.php:30
 msgid "Edit name details"
-msgstr ""
+msgstr "Namen ändern"
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "Spitzname"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "Spitznamen angeben"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
@@ -350,19 +348,19 @@ msgstr "Geburtstag"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "TT-MM-JJJJ"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "Gruppen"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
-msgstr ""
+msgstr "Gruppen mit Komma trennen"
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "Gruppen editieren"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -370,47 +368,47 @@ msgstr "Bevorzugt"
 
 #: templates/part.contact.php:56
 msgid "Please specify a valid email address."
-msgstr ""
+msgstr "Bitte eine gültige E-Mail-Adresse angeben."
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "E-Mail-Adresse angeben."
 
 #: templates/part.contact.php:60
 msgid "Mail to address"
-msgstr ""
+msgstr "E-Mail an diese Adresse schreiben"
 
 #: templates/part.contact.php:61
 msgid "Delete email address"
-msgstr ""
+msgstr "E-Mail-Adresse löschen"
 
 #: templates/part.contact.php:70
 msgid "Enter phone number"
-msgstr ""
+msgstr "Telefonnummer angeben"
 
 #: templates/part.contact.php:74
 msgid "Delete phone number"
-msgstr ""
+msgstr "Telefonnummer löschen"
 
 #: templates/part.contact.php:84
 msgid "View on map"
-msgstr ""
+msgstr "Auf Karte anzeigen"
 
 #: templates/part.contact.php:84
 msgid "Edit address details"
-msgstr ""
+msgstr "Adressinformationen ändern"
 
 #: templates/part.contact.php:95
 msgid "Add notes here."
-msgstr ""
+msgstr "Füge hier Notizen ein."
 
 #: templates/part.contact.php:101
 msgid "Add field"
-msgstr ""
+msgstr "Feld hinzufügen"
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "Profil Bild"
 
 #: templates/part.contact.php:107
 msgid "Phone"
@@ -418,27 +416,27 @@ msgstr "Telefon"
 
 #: templates/part.contact.php:110
 msgid "Note"
-msgstr ""
+msgstr "Notiz"
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
-msgstr ""
+msgstr "Derzeitiges Foto löschen"
 
 #: templates/part.contactphoto.php:9
 msgid "Edit current photo"
-msgstr ""
+msgstr "Foto ändern"
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "Neues Foto hochladen"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
-msgstr ""
+msgstr "Foto aus ownCloud auswählen"
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "Adresse ändern"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
@@ -481,7 +479,7 @@ msgstr "Land"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Kategorie ändern"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
@@ -493,47 +491,47 @@ msgstr "Adressbuch"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
-msgstr ""
+msgstr "Höflichkeitspräfixe"
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
-msgstr ""
+msgstr "Frau"
 
 #: templates/part.edit_name_dialog.php:28
 msgid "Ms"
-msgstr ""
+msgstr "Frau"
 
 #: templates/part.edit_name_dialog.php:29
 msgid "Mr"
-msgstr ""
+msgstr "Herr"
 
 #: templates/part.edit_name_dialog.php:30
 msgid "Sir"
-msgstr ""
+msgstr "Herr"
 
 #: templates/part.edit_name_dialog.php:31
 msgid "Mrs"
-msgstr ""
+msgstr "Frau"
 
 #: templates/part.edit_name_dialog.php:32
 msgid "Dr"
-msgstr ""
+msgstr "Dr"
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "Vorname"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
-msgstr ""
+msgstr "Zusätzliche Namen"
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "Familienname"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
-msgstr ""
+msgstr "Höflichkeitssuffixe"
 
 #: templates/part.edit_name_dialog.php:45
 msgid "J.D."
@@ -598,47 +596,47 @@ msgstr "Abbrechen"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "Kontaktdatei importieren"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "Bitte Adressbuch auswählen"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "Neues Adressbuch erstellen"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
+msgstr "Name des neuen Adressbuchs"
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "Importieren"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr ""
+msgstr "Kontakte werden importiert"
 
 #: templates/part.import.php:23
 msgid "Contacts imported successfully"
-msgstr ""
+msgstr "Kontaktimport erfolgreich"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Dialog schließen"
 
 #: templates/part.importaddressbook.php:9
 msgid "Import Addressbook"
-msgstr ""
+msgstr "Adressbuch importieren"
 
 #: templates/part.importaddressbook.php:12
 msgid "Select address book to import to:"
-msgstr ""
+msgstr "Adressbuch, in das importiert werden soll"
 
 #: templates/part.importaddressbook.php:20
 msgid "Drop a VCF file to import contacts."
-msgstr ""
+msgstr "Zieh' eine VCF Datei hierher zum Kontaktimport"
 
 #: templates/part.importaddressbook.php:21
 msgid "Select from HD"
@@ -646,28 +644,28 @@ msgstr ""
 
 #: templates/part.no_contacts.php:2
 msgid "You have no contacts in your addressbook."
-msgstr ""
+msgstr "Du hast keine Kontakte im Adressbuch."
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "Kontakt hinzufügen"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
-msgstr ""
+msgstr "Adressbücher konfigurieren"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing addresses"
-msgstr ""
+msgstr "CardDAV Sync-Adressen"
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "mehr Info"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "primäre Adresse (für Kontact o.ä. Programme)"
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Pekka Sutela <pekka.sutela@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:31+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-10 11:34+0000\n"
+"Last-Translator: Pekka Sutela <pekka.sutela@gmail.com>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.net/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,7 +57,7 @@ msgstr ""
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
 #: templates/login.php:9
 msgid "Username"
-msgstr ""
+msgstr "Käyttäjätunnus"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request reset"
@@ -120,7 +121,7 @@ msgstr ""
 
 #: templates/installation.php:29 templates/login.php:13
 msgid "Password"
-msgstr ""
+msgstr "Salasana"
 
 #: templates/installation.php:35
 msgid "Advanced"
@@ -159,13 +160,13 @@ msgstr ""
 msgid "Finish setup"
 msgstr ""
 
-#: templates/layout.guest.php:37
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr ""
 
 #: templates/layout.user.php:35
 msgid "Log out"
-msgstr ""
+msgstr "Kirjaudu ulos"
 
 #: templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
@@ -185,7 +186,7 @@ msgstr ""
 
 #: templates/logout.php:1
 msgid "You are logged out."
-msgstr ""
+msgstr "Olet kirjautunut ulos."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

@@ -11,7 +11,11 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
 
 $calendarcolor_options = OC_Calendar_Calendar::getCalendarColorOptions();
-$calendar = OC_Calendar_App::getCalendar($_GET['calendarid']);
+$calendar = OC_Calendar_App::getCalendar($_GET['calendarid'], true);
+if(!$calendar){
+	OCP\JSON::error(array('message'=>'permission denied'));
+	exit;
+}
 $tmpl = new OCP\Template("calendar", "part.editcalendar");
 $tmpl->assign('new', false);
 $tmpl->assign('calendarcolor_options', $calendarcolor_options);

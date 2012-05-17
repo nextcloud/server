@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Hossein nag <h.sname@yahoo.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-15 17:44+0000\n"
+"Last-Translator: Hossein nag <h.sname@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.net/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,650 +20,646 @@ msgstr ""
 
 #: ajax/activation.php:19 ajax/updateaddressbook.php:32
 msgid "Error (de)activating addressbook."
-msgstr ""
+msgstr "خطا در (غیر) فعال سازی کتابچه نشانه ها"
 
-#: ajax/addcontact.php:58
+#: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
-msgstr ""
+msgstr "یک خطا در افزودن اطلاعات شخص مورد نظر"
 
 #: ajax/addproperty.php:40
 msgid "Cannot add empty property."
-msgstr ""
+msgstr "نمیتوان یک  خاصیت خالی ایجاد کرد"
 
 #: ajax/addproperty.php:52
 msgid "At least one of the address fields has to be filled out."
-msgstr ""
+msgstr "At least one of the address fields has to be filled out. "
 
 #: ajax/addproperty.php:62
 msgid "Trying to add duplicate property: "
-msgstr ""
+msgstr "امتحان کردن برای وارد کردن مشخصات تکراری"
 
 #: ajax/addproperty.php:120
 msgid "Error adding contact property."
-msgstr ""
+msgstr "خطا درهنگام افزودن ویژگی"
 
 #: ajax/categories/categoriesfor.php:15
 msgid "No ID provided"
-msgstr ""
+msgstr "هیچ شناسه ای ارائه نشده"
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
-msgstr ""
+msgstr "خطا در تنظیم checksum"
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "هیچ گروهی برای حذف شدن در نظر گرفته نشده"
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "هیچ کتابچه نشانی پیدا نشد"
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "هیچ شخصی پیدا نشد"
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
-msgstr ""
+msgstr "نشانی گم شده"
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/contactdetails.php:53
-msgid "Unknown"
-msgstr ""
+msgstr "خطا در تجزیه کارت ویزا برای شناسه:"
 
 #: ajax/createaddressbook.php:18
 msgid "Cannot add addressbook with an empty name."
-msgstr ""
+msgstr "نمیتوانید یک نام خالی را به کتابچه نشانی ها افزود"
 
 #: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
-msgstr ""
+msgstr "خطا درهنگام افزودن کتابچه نشانی ها"
 
 #: ajax/createaddressbook.php:30
 msgid "Error activating addressbook."
-msgstr ""
+msgstr "خطا درهنگام فعال سازیکتابچه نشانی ها"
 
 #: ajax/currentphoto.php:40 ajax/oc_photo.php:40
 msgid "No contact ID was submitted."
-msgstr ""
+msgstr "هیچ اطلاعاتی راجع به شناسه ارسال نشده"
 
 #: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
 msgid "Error loading image."
-msgstr ""
+msgstr "خطا در بارگزاری تصویر"
 
 #: ajax/currentphoto.php:51
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "خطا در خواندن اطلاعات تصویر"
 
 #: ajax/currentphoto.php:61
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "خطا در ذخیره پرونده موقت"
 
 #: ajax/currentphoto.php:64
 msgid "The loading photo is not valid."
-msgstr ""
+msgstr "بارگزاری تصویر امکان پذیر نیست"
 
 #: ajax/deletecard.php:37 ajax/saveproperty.php:58
 msgid "id is not set."
-msgstr ""
+msgstr "شناسه تعیین نشده"
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
-msgstr ""
+msgstr "اطلاعات درمورد vCard شما اشتباه است لطفا صفحه را دوباره بار گذاری کنید"
 
 #: ajax/deleteproperty.php:43
 msgid "Error deleting contact property."
-msgstr ""
+msgstr "خطا در هنگام پاک کرد ویژگی"
 
 #: ajax/editname.php:37
 msgid "Contact ID is missing."
-msgstr ""
+msgstr "اطلاعات شناسه گم شده"
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "شما اطلاعات شناسه را فراموش کرده اید"
 
 #: ajax/oc_photo.php:44
 msgid "No photo path was submitted."
-msgstr ""
+msgstr "هیچ نشانی از تصویرارسال نشده"
 
 #: ajax/oc_photo.php:51
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "پرونده وجود ندارد"
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
-msgstr ""
+msgstr "نام اصلی تنظیم نشده است"
 
 #: ajax/saveproperty.php:61
 msgid "checksum is not set."
-msgstr ""
+msgstr "checksum تنظیم شده نیست"
 
 #: ajax/saveproperty.php:78
 msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr ""
+msgstr "اطلاعات کارت ویزا شما غلط است لطفا صفحه را دوباره بارگزاری کنید"
 
 #: ajax/saveproperty.php:83
 msgid "Something went FUBAR. "
-msgstr ""
+msgstr "چند چیز به FUBAR رفتند"
 
 #: ajax/saveproperty.php:153
 msgid "Error updating contact property."
-msgstr ""
+msgstr "خطا در هنگام بروزرسانی  اطلاعات شخص مورد نظر"
 
 #: ajax/updateaddressbook.php:20
 msgid "Cannot update addressbook with an empty name."
-msgstr ""
+msgstr "نمی توانید کتابچه نشانی ها را با یک نام خالی بروزرسانی کنید"
 
 #: ajax/updateaddressbook.php:26
 msgid "Error updating addressbook."
-msgstr ""
+msgstr "خطا در هنگام بروزرسانی کتابچه نشانی ها"
 
 #: ajax/uploadimport.php:46 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
-msgstr ""
+msgstr "خطا در هنگام بارگذاری و ذخیره سازی"
 
 #: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "هیچ خطایی نیست بارگذاری پرونده موفقیت آمیز بود"
 
 #: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "حجم آپلود از طریق Php.ini تعیین می شود"
 
 #: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "حداکثر حجم قابل بار گذاری از طریق HTML MAX_FILE_SIZE است"
 
 #: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "پرونده بارگذاری شده فقط تاحدودی بارگذاری شده"
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "هیچ پروندهای بارگذاری نشده"
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "یک پوشه موقت گم شده"
 
 #: appinfo/app.php:22 templates/settings.php:3
 msgid "Contacts"
-msgstr ""
+msgstr "اشخاص"
 
 #: lib/app.php:23
 msgid "Addressbook not found."
-msgstr ""
+msgstr "کتابچه نشانی ها یافت نشد"
 
 #: lib/app.php:27
 msgid "This is not your addressbook."
-msgstr ""
+msgstr "این کتابچه ی نشانه های شما نیست"
 
 #: lib/app.php:38
 msgid "Contact could not be found."
-msgstr ""
+msgstr "اتصال ویا تماسی یافت نشد"
 
 #: lib/app.php:94 templates/part.contact.php:109
 msgid "Address"
-msgstr ""
+msgstr "نشانی"
 
 #: lib/app.php:95
 msgid "Telephone"
-msgstr ""
+msgstr "تلفن"
 
 #: lib/app.php:96 templates/part.contact.php:108
 msgid "Email"
-msgstr ""
+msgstr "نشانی پست الکترنیک"
 
 #: lib/app.php:97 templates/part.contact.php:33 templates/part.contact.php:34
 #: templates/part.contact.php:104
 msgid "Organization"
-msgstr ""
+msgstr "نهاد(ارگان)"
 
 #: lib/app.php:109 lib/app.php:116 lib/app.php:126
 msgid "Work"
-msgstr ""
+msgstr "کار"
 
 #: lib/app.php:110 lib/app.php:114 lib/app.php:127
 msgid "Home"
-msgstr ""
+msgstr "خانه"
 
 #: lib/app.php:115
 msgid "Mobile"
-msgstr ""
+msgstr "موبایل"
 
 #: lib/app.php:117
 msgid "Text"
-msgstr ""
+msgstr "متن"
 
 #: lib/app.php:118
 msgid "Voice"
-msgstr ""
+msgstr "صدا"
 
 #: lib/app.php:119
 msgid "Message"
-msgstr ""
+msgstr "پیغام"
 
 #: lib/app.php:120
 msgid "Fax"
-msgstr ""
+msgstr "دورنگار:"
 
 #: lib/app.php:121
 msgid "Video"
-msgstr ""
+msgstr "رسانه تصویری"
 
 #: lib/app.php:122
 msgid "Pager"
-msgstr ""
+msgstr "صفحه"
 
 #: lib/app.php:128
 msgid "Internet"
-msgstr ""
+msgstr "اینترنت"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
-msgstr ""
+msgstr "روز تولد {name} است"
 
 #: lib/search.php:22
 msgid "Contact"
-msgstr ""
+msgstr "اشخاص"
 
 #: templates/index.php:13
 msgid "Add Contact"
-msgstr ""
+msgstr "افزودن اطلاعات شخص مورد نظر"
 
 #: templates/index.php:14
 msgid "Addressbooks"
-msgstr ""
+msgstr "کتابچه ی نشانی ها"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Configure Address Books"
-msgstr ""
+msgstr "پیکر بندی کتابچه نشانی ها"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
-msgstr ""
+msgstr "کتابچه نشانه های جدید"
 
 #: templates/part.chooseaddressbook.php:17
 msgid "Import from VCF"
-msgstr ""
+msgstr "وارد شده از VCF"
 
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
 msgid "CardDav Link"
-msgstr ""
+msgstr "CardDav Link"
 
 #: templates/part.chooseaddressbook.rowfields.php:11
 msgid "Download"
-msgstr ""
+msgstr "بارگیری"
 
 #: templates/part.chooseaddressbook.rowfields.php:14
 msgid "Edit"
-msgstr ""
+msgstr "ویرایش"
 
 #: templates/part.chooseaddressbook.rowfields.php:17
 #: templates/part.contact.php:34 templates/part.contact.php:36
 #: templates/part.contact.php:38 templates/part.contact.php:42
 msgid "Delete"
-msgstr ""
+msgstr "پاک کردن"
 
 #: templates/part.contact.php:12
 msgid "Download contact"
-msgstr ""
+msgstr "دانلود مشخصات اشخاص"
 
 #: templates/part.contact.php:13
 msgid "Delete contact"
-msgstr ""
+msgstr "پاک کردن  اطلاعات شخص مورد نظر"
 
 #: templates/part.contact.php:19
 msgid "Drop photo to upload"
-msgstr ""
+msgstr "تصویر را به اینجا بکشید تا بار گذازی شود"
 
 #: templates/part.contact.php:29
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
-msgstr ""
+msgstr "Format custom, Short name, Full name, Reverse or Reverse with comma"
 
 #: templates/part.contact.php:30
 msgid "Edit name details"
-msgstr ""
+msgstr "ویرایش نام جزئیات"
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "نام مستعار"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "یک نام مستعار وارد کنید"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
-msgstr ""
+msgstr "روزتولد"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "dd-mm-yyyy"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "گروه ها"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
-msgstr ""
+msgstr "جدا کردن گروه ها به وسیله درنگ نما"
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "ویرایش گروه ها"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
-msgstr ""
+msgstr "مقدم"
 
 #: templates/part.contact.php:56
 msgid "Please specify a valid email address."
-msgstr ""
+msgstr "لطفا یک پست الکترونیکی معتبر وارد کنید"
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "یک  پست الکترونیکی وارد کنید"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"
-msgstr ""
+msgstr "به نشانی  ارسال شد"
 
 #: templates/part.contact.php:61
 msgid "Delete email address"
-msgstr ""
+msgstr "پاک کردن نشانی پست الکترونیکی"
 
 #: templates/part.contact.php:70
 msgid "Enter phone number"
-msgstr ""
+msgstr "شماره تلفن راوارد کنید"
 
 #: templates/part.contact.php:74
 msgid "Delete phone number"
-msgstr ""
+msgstr "پاک کردن شماره تلفن"
 
 #: templates/part.contact.php:84
 msgid "View on map"
-msgstr ""
+msgstr "دیدن روی نقشه"
 
 #: templates/part.contact.php:84
 msgid "Edit address details"
-msgstr ""
+msgstr "ویرایش جزئیات نشانی ها"
 
 #: templates/part.contact.php:95
 msgid "Add notes here."
-msgstr ""
+msgstr "اینجا یادداشت ها را بیافزایید"
 
 #: templates/part.contact.php:101
 msgid "Add field"
-msgstr ""
+msgstr "اضافه کردن فیلد"
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "تصویر پروفایل"
 
 #: templates/part.contact.php:107
 msgid "Phone"
-msgstr ""
+msgstr "شماره تلفن"
 
 #: templates/part.contact.php:110
 msgid "Note"
-msgstr ""
+msgstr "یادداشت"
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
-msgstr ""
+msgstr "پاک کردن تصویر کنونی"
 
 #: templates/part.contactphoto.php:9
 msgid "Edit current photo"
-msgstr ""
+msgstr "ویرایش تصویر کنونی"
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "بار گذاری یک تصویر جدید"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
-msgstr ""
+msgstr "انتخاب یک تصویر از ابر های شما"
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "ویرایش نشانی"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
-msgstr ""
+msgstr "نوع"
 
 #: templates/part.edit_address_dialog.php:22
 #: templates/part.edit_address_dialog.php:25
 msgid "PO Box"
-msgstr ""
+msgstr "صندوق پستی"
 
 #: templates/part.edit_address_dialog.php:29
 #: templates/part.edit_address_dialog.php:32
 msgid "Extended"
-msgstr ""
+msgstr "تمدید شده"
 
 #: templates/part.edit_address_dialog.php:35
 #: templates/part.edit_address_dialog.php:38
 msgid "Street"
-msgstr ""
+msgstr "خیابان"
 
 #: templates/part.edit_address_dialog.php:41
 #: templates/part.edit_address_dialog.php:44
 msgid "City"
-msgstr ""
+msgstr "شهر"
 
 #: templates/part.edit_address_dialog.php:47
 #: templates/part.edit_address_dialog.php:50
 msgid "Region"
-msgstr ""
+msgstr "ناحیه"
 
 #: templates/part.edit_address_dialog.php:53
 #: templates/part.edit_address_dialog.php:56
 msgid "Zipcode"
-msgstr ""
+msgstr "کد پستی"
 
 #: templates/part.edit_address_dialog.php:59
 #: templates/part.edit_address_dialog.php:62
 msgid "Country"
-msgstr ""
+msgstr "کشور"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "ویرایش گروه"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "افزودن"
 
 #: templates/part.edit_name_dialog.php:16
 msgid "Addressbook"
-msgstr ""
+msgstr "کتابچه ی نشانی ها"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
-msgstr ""
+msgstr "پیشوند های محترمانه"
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
-msgstr ""
+msgstr "خانم"
 
 #: templates/part.edit_name_dialog.php:28
 msgid "Ms"
-msgstr ""
+msgstr "خانم"
 
 #: templates/part.edit_name_dialog.php:29
 msgid "Mr"
-msgstr ""
+msgstr "آقا"
 
 #: templates/part.edit_name_dialog.php:30
 msgid "Sir"
-msgstr ""
+msgstr "آقا"
 
 #: templates/part.edit_name_dialog.php:31
 msgid "Mrs"
-msgstr ""
+msgstr "خانم"
 
 #: templates/part.edit_name_dialog.php:32
 msgid "Dr"
-msgstr ""
+msgstr "دکتر"
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "نام معلوم"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
-msgstr ""
+msgstr "نام های دیگر"
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "نام خانوادگی"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
-msgstr ""
+msgstr "پسوند های محترم"
 
 #: templates/part.edit_name_dialog.php:45
 msgid "J.D."
-msgstr ""
+msgstr "J.D."
 
 #: templates/part.edit_name_dialog.php:46
 msgid "M.D."
-msgstr ""
+msgstr "M.D."
 
 #: templates/part.edit_name_dialog.php:47
 msgid "D.O."
-msgstr ""
+msgstr "D.O."
 
 #: templates/part.edit_name_dialog.php:48
 msgid "D.C."
-msgstr ""
+msgstr "D.C."
 
 #: templates/part.edit_name_dialog.php:49
 msgid "Ph.D."
-msgstr ""
+msgstr "دکتری"
 
 #: templates/part.edit_name_dialog.php:50
 msgid "Esq."
-msgstr ""
+msgstr "Esq."
 
 #: templates/part.edit_name_dialog.php:51
 msgid "Jr."
-msgstr ""
+msgstr "Jr."
 
 #: templates/part.edit_name_dialog.php:52
 msgid "Sn."
-msgstr ""
+msgstr "Sn."
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
-msgstr ""
+msgstr "کتابچه نشانی جدید"
 
 #: templates/part.editaddressbook.php:9
 msgid "Edit Addressbook"
-msgstr ""
+msgstr "ویرایش کتابچه نشانی"
 
 #: templates/part.editaddressbook.php:12
 msgid "Displayname"
-msgstr ""
+msgstr "نام برای نمایش"
 
 #: templates/part.editaddressbook.php:23
 msgid "Active"
-msgstr ""
+msgstr "فعال"
 
 #: templates/part.editaddressbook.php:29
 msgid "Save"
-msgstr ""
+msgstr "ذخیره سازی"
 
 #: templates/part.editaddressbook.php:29
 msgid "Submit"
-msgstr ""
+msgstr "ارسال"
 
 #: templates/part.editaddressbook.php:30
 #: templates/part.importaddressbook.php:28
 msgid "Cancel"
-msgstr ""
+msgstr "انصراف"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "وارد کردن پرونده حاوی اطلاعات"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "لطفا یک کتابچه نشانی انتخاب کنید"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "یک کتابچه نشانی بسازید"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
+msgstr "نام کتابچه نشانی جدید"
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "وارد کردن"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr ""
+msgstr "وارد کردن اشخاص"
 
 #: templates/part.import.php:23
 msgid "Contacts imported successfully"
-msgstr ""
+msgstr "اشخاص با موفقیت افزوده شدند"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "بستن دیالوگ"
 
 #: templates/part.importaddressbook.php:9
 msgid "Import Addressbook"
-msgstr ""
+msgstr "وارد کردن کتابچه نشانی"
 
 #: templates/part.importaddressbook.php:12
 msgid "Select address book to import to:"
-msgstr ""
+msgstr "یک کتابچه نشانی انتخاب کنید تا وارد شود"
 
 #: templates/part.importaddressbook.php:20
 msgid "Drop a VCF file to import contacts."
-msgstr ""
+msgstr "یک پرونده VCF را به اینجا بکشید تا اشخاص افزوده شوند"
 
 #: templates/part.importaddressbook.php:21
 msgid "Select from HD"
-msgstr ""
+msgstr "انتخاب از دیسک سخت"
 
 #: templates/part.no_contacts.php:2
 msgid "You have no contacts in your addressbook."
-msgstr ""
+msgstr "شماهیچ شخصی در  کتابچه نشانی خود ندارید"
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "افزودن اطلاعات شخص مورد نظر"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
-msgstr ""
+msgstr "پیکربندی کتابچه ی نشانی ها"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing addresses"
-msgstr ""
+msgstr "CardDAV syncing addresses "
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "اطلاعات بیشتر"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "نشانی اولیه"
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X "

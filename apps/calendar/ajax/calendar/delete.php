@@ -11,7 +11,11 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
 
 $cal = $_POST["calendarid"];
-$calendar = OC_Calendar_App::getCalendar($cal);
+$calendar = OC_Calendar_App::getCalendar($cal, true);
+if(!$calendar){
+	OCP\JSON::error(array('message'=>'permission denied'));
+	exit;
+}
 $del = OC_Calendar_Calendar::deleteCalendar($cal);
 if($del == true){
 	OCP\JSON::success();

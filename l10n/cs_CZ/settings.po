@@ -11,10 +11,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"PO-Revision-Date: 2012-05-12 16:13+0000\n"
+"Last-Translator: Michal Hrušecký <Michal@hrusecky.net>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.net/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,15 +45,15 @@ msgstr "Česky"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Více"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Přidat vaší aplikaci"
 
 #: templates/apps.php:22
 msgid "Select an App"
@@ -69,11 +69,11 @@ msgstr "podle"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentace"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Spravování velkých souborů"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -101,11 +101,11 @@ msgstr "z dostupných"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Klienti pro synchronizaci"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Stáhnout"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -149,7 +149,7 @@ msgstr "Jazyk"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr "Pomoc s překladem"
+msgstr "Pomoci překládat"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
@@ -173,11 +173,11 @@ msgstr "Vytvořit"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Výchozí kvóta"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Jiné"
 
 #: templates/users.php:47
 msgid "Quota"

@@ -1,6 +1,10 @@
 <?php
 $RUNTIME_NOSETUPFS=true; //don't setup the fs yet
 
+// only need authentication apps
+$RUNTIME_APPTYPES=array('authentication');
+OC_App::loadApps($RUNTIME_APPTYPES);
+
 OCP\JSON::checkAppEnabled('files_sharing');
 require_once 'lib_share.php';
 
@@ -50,11 +54,11 @@ if (isset($_GET['token']) && $source = OC_Share::getSource($_GET['token'])) {
 		OCP\Util::addStyle("files", "files");
 		$breadcrumbNav = new OCP\Template("files", "part.breadcrumb", "");
 		$breadcrumbNav->assign("breadcrumb", $breadcrumb);
-		$breadcrumbNav->assign("baseURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$breadcrumbNav->assign("baseURL", OCP\Util::linkTo("", "public.php")."?service=files&token=".$token."&path=");
 		$list = new OCP\Template("files", "part.list", "");
 		$list->assign("files", $files);
-		$list->assign("baseURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
-		$list->assign("downloadURL", OCP\Util::linkTo("files_sharing", "get.php")."?token=".$token."&path=");
+		$list->assign("baseURL", OCP\Util::linkTo("", "public.php")."?service=files&token=".$token."&path=");
+		$list->assign("downloadURL", OCP\Util::linkTo("", "public.php")."?service=files&token=".$token."&path=");
 		$list->assign("readonly", true);
 		$tmpl = new OCP\Template("files", "index", "user");
 		$tmpl->assign("fileList", $list->fetchPage());

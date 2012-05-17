@@ -148,16 +148,6 @@ class OC_LDAP {
 
 		$record = $query->execute(array($name))->fetchOne();
 		return $record;
-		if($name=='Coyotes') {
-			echo("adsfasdf ");
-			var_dump($record);
-			die();
-		}
-		if(isset($record['ldap_dn'])) {
-			return $record['ldap_dn'];
-		}
-
-		return false;
 	}
 
 	/**
@@ -185,6 +175,7 @@ class OC_LDAP {
 	}
 
 	static public function dn2ocname($dn, $ldapname = null, $isUser = true) {
+		$dn = self::sanitizeDN($dn);
 		$table = self::getMapTable($isUser);
 		if($isUser) {
 			$nameAttribute = self::conf('ldapUserDisplayName');
@@ -207,6 +198,7 @@ class OC_LDAP {
 			$ldapname = self::readAttribute($dn, $nameAttribute);
 			$ldapname = $ldapname[0];
 		}
+		$ldapname = self::sanitizeUsername($ldapname);
 
 		//a new user/group! Then let's try to add it. We're shooting into the blue with the user/group name, assuming that in most cases there will not be a conflict. Otherwise an error will occur and we will continue with our second shot.
 		if(self::mapComponent($dn, $ldapname, $isUser)) {
@@ -264,16 +256,17 @@ class OC_LDAP {
 				continue;
 			}
 
-			//a new group! Then let's try to add it. We're shooting into the blue with the group name, assuming that in most cases there will not be a conflict
-			if(self::mapComponent($ldapObject['dn'], $ldapObject[$nameAttribute], $isUsers)) {
-				$ownCloudNames[] = $ldapObject[$nameAttribute];
+			//a new group! Then let's try to add it. We're shooting into the blue with the group name, assuming that in most cases there will not be a conflict. But first make sure, that the display name contains only allowed characters.
+			$ocname = self::sanitizeUsername($ldapObject[$nameAttribute]);
+			if(self::mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
+				$ownCloudNames[] = $ocname;
 				continue;
 			}
 
 			//doh! There is a conflict. We need to distinguish between groups. Adding indexes is an idea, but not much of a help for the user. The DN is ugly, but for now the only reasonable way. But we transform it to a readable format and remove the first part to only give the path where this entry is located.
-			$oc_name = self::alternateOwnCloudName($ldapObject[$nameAttribute], $ldapObject['dn']);
-			if(self::mapComponent($ldapObject['dn'], $oc_name, $isUsers)) {
-				$ownCloudNames[] = $oc_name;
+			$ocname = self::alternateOwnCloudName($ocname, $ldapObject['dn']);
+			if(self::mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
+				$ownCloudNames[] = $ocname;
 				continue;
 			}
 
@@ -293,7 +286,9 @@ class OC_LDAP {
 	 */
 	static private function alternateOwnCloudName($name, $dn) {
 		$ufn = ldap_dn2ufn($dn);
-		return $name . ' (' . trim(substr_replace($ufn, '', 0, strpos($ufn, ','))) . ')';
+		$name = $name . '@' . trim(substr_replace($ufn, '', 0, strpos($ufn, ',')));
+		$name = self::sanitizeUsername($name);
+		return $name;
 	}
 
 	/**
@@ -362,6 +357,7 @@ class OC_LDAP {
 	 */
 	static private function mapComponent($dn, $ocname, $isUser = true) {
 		$table = self::getMapTable($isUser);
+		$dn = self::sanitizeDN($dn);
 
 		$sqliteAdjustment = '';
 		$dbtype = OCP\Config::getSystemValue('dbtype');
@@ -482,13 +478,19 @@ class OC_LDAP {
 				$i = 0;
 			}
 			foreach($findings as $item) {
+				if(!is_array($item)) {
+					continue;
+				}
+				$item = array_change_key_case($item);
+
 				if($multiarray) {
 					foreach($attr as $key) {
+						$key = strtolower($key);
 						if(isset($item[$key])) {
 							if($key != 'dn'){
 								$selection[$i][$key] = $item[$key][0];
 							} else {
-								$selection[$i][$key] = $item[$key];
+								$selection[$i][$key] = self::sanitizeDN($item[$key]);
 							}
 						}
 
@@ -496,14 +498,14 @@ class OC_LDAP {
 					$i++;
 				} else {
 					//tribute to case insensitivity
-					if(!is_array($item)) {
-						continue;
-					}
-					$item = array_change_key_case($item);
 					$key = strtolower($attr[0]);
 
 					if(isset($item[$key])) {
-						$selection[] = $item[$key];
+						if($key == 'dn') {
+							$selection[] = self::sanitizeDN($item[$key]);
+						} else {
+							$selection[] = $item[$key];
+						}
 					}
 				}
 
@@ -512,6 +514,26 @@ class OC_LDAP {
 		}
 
 		return $findings;
+	}
+
+	static private function sanitizeDN($dn) {
+		//OID sometimes gives back DNs with whitespace after the comma a la "uid=foo, cn=bar, dn=..." We need to tackle this!
+		$dn = preg_replace('/,\s+/',',',$dn);
+
+		//make comparisons and everything work
+		$dn = strtolower($dn);
+
+		return $dn;
+	}
+
+	static private function sanitizeUsername($name) {
+		//REPLACEMENTS
+		$name = str_replace(' ', '_', $name);
+
+		//every remaining unallowed characters will be removed
+		$name = preg_replace('/[^a-zA-Z0-9_.@-]/', '', $name);
+
+		return $name;
 	}
 
 	/**
@@ -577,16 +599,16 @@ class OC_LDAP {
 			self::$ldapHost             = OCP\Config::getAppValue('user_ldap', 'ldap_host', '');
 			self::$ldapPort             = OCP\Config::getAppValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT);
 			self::$ldapAgentName        = OCP\Config::getAppValue('user_ldap', 'ldap_dn','');
-			self::$ldapAgentPassword    = OCP\Config::getAppValue('user_ldap', 'ldap_password','');
+			self::$ldapAgentPassword    = base64_decode(OCP\Config::getAppValue('user_ldap', 'ldap_agent_password',''));
 			self::$ldapBase             = OCP\Config::getAppValue('user_ldap', 'ldap_base', '');
 			self::$ldapBaseUsers        = OCP\Config::getAppValue('user_ldap', 'ldap_base_users',self::$ldapBase);
 			self::$ldapBaseGroups       = OCP\Config::getAppValue('user_ldap', 'ldap_base_groups', self::$ldapBase);
 			self::$ldapTLS              = OCP\Config::getAppValue('user_ldap', 'ldap_tls',0);
 			self::$ldapNoCase           = OCP\Config::getAppValue('user_ldap', 'ldap_nocase', 0);
-			self::$ldapUserDisplayName  = OCP\Config::getAppValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME);
+			self::$ldapUserDisplayName  = strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME));
 			self::$ldapUserFilter       = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
 			self::$ldapLoginFilter      = OCP\Config::getAppValue('user_ldap', 'ldap_login_filter', '(uid=%uid)');
-			self::$ldapGroupDisplayName = OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR);
+			self::$ldapGroupDisplayName = strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR));
 
 			if(empty(self::$ldapBaseUsers)) {
 				OCP\Util::writeLog('ldap', 'Base for Users is empty, using Base DN', OCP\Util::INFO);
