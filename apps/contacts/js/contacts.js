@@ -514,9 +514,9 @@ Contacts={
 				if(this.honsuf.length > 0) {
 					this.fullname += ', ' + this.honsuf;
 				}
-				$('#n').html(this.fullname);
+				$('#n').val(narray.join(';'));
 				$('#fn_select option').remove();
-				var names = [this.fullname, this.givname + ' ' + this.famname, this.famname + ' ' + this.givname, this.famname + ', ' + this.givname];
+				var names = [this.fn, this.fullname, this.givname + ' ' + this.famname, this.famname + ' ' + this.givname, this.famname + ', ' + this.givname];
 				if(this.data.ORG) {
 					names[names.length]=this.data.ORG[0].value;
 				}
