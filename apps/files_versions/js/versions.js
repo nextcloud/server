@@ -20,6 +20,7 @@ $(document).ready(function(){
 			if (($('#dropdown').length > 0)) {
 				if (file != $('#dropdown').data('file')) {
 					$('#dropdown').hide('blind', function() {
+						$('#dropdown').remove();
 						$('tr').removeClass('mouseOver');
 						createVersionsDropdown(filename, file);
 					});
