@@ -16,9 +16,18 @@ $(document).ready(function(){
 			if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
 			
 			var file = $('#dir').val()+'/'+filename;
-
-			createVersionsDropdown(filename, file)
-
+			// Check if drop down is already visible for a different file
+			if (($('#dropdown').length > 0)) {
+				if (file != $('#dropdown').data('file')) {
+					$('#dropdown').hide('blind', function() {
+						$('#dropdown').remove();
+						$('tr').removeClass('mouseOver');
+						createVersionsDropdown(filename, file);
+					});
+				}
+			} else {
+				createVersionsDropdown(filename, file);
+			}
 		});
 	}
 });
@@ -29,13 +38,12 @@ function createVersionsDropdown(filename, files) {
 	
 	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
 	html += '<div id="private">';
-	html += '<select data-placeholder="Saved versions" id="found_versions" class="chzen-select">';
+	html += '<select data-placeholder="Saved versions" id="found_versions" class="chzen-select" style="width:16em;">';
 	html += '<option value=""></option>';
 	html += '</select>';
 	html += '</div>';
 	//html += '<input type="button" value="Revert file" onclick="revertFile()" />';
 	html += '<input type="button" value="All versions..." onclick="window.location=\''+historyUrl+'\'" name="makelink" id="makelink" />';
-	html += '<br />';
 	html += '<input id="link" style="display:none; width:90%;" />';
 	
 	if (filename) {
@@ -56,11 +64,14 @@ function createVersionsDropdown(filename, files) {
 			//alert("helo "+OC.linkTo('files_versions', 'ajax/getVersions.php'));
 			
 			if (versions) {
-				
 				$.each( versions, function(index, row ) {
 					addVersion( row );
 				});
-				
+				$('#found_versions').chosen();
+			} else {
+				$('#found_versions').hide();
+				$('#makelink').hide();
+				$('<div style="text-align:center;">No other versions available</div>').appendTo('#dropdown');
 			}
 			$('#found_versions').change(function(){
 				var revision=parseInt($(this).val());
@@ -113,6 +124,6 @@ function createVersionsDropdown(filename, files) {
 	}
 
 	$('#dropdown').show('blind');
-	$('#found_versions').chosen();
+	
 	
 }
