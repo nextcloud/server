@@ -27,12 +27,6 @@ require_once('apps/user_ldap/group_ldap.php');
 
 OCP\App::registerAdmin('user_ldap','settings');
 
-// define LDAP_DEFAULT_PORT
-define('OC_USER_BACKEND_LDAP_DEFAULT_PORT', 389);
-
-// define OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME
-define('OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME', 'uid');
-
 // register user backend
 OC_User::useBackend( 'LDAP' );
 OC_Group::useBackend( new OC_GROUP_LDAP() );

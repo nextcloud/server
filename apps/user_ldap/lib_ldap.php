@@ -45,14 +45,21 @@ class OC_LDAP {
 	static protected $ldapAgentPassword;
 	static protected $ldapTLS;
 	static protected $ldapNoCase;
+	static protected $ldapIgnoreNamingRules;
 	// user and group settings, that are needed in both backends
 	static protected $ldapUserDisplayName;
 	static protected $ldapUserFilter;
 	static protected $ldapGroupDisplayName;
 	static protected $ldapLoginFilter;
 
-	static public function init() {
-		self::readConfiguration();
+	/**
+	 * @brief initializes the LDAP backend
+	 * @param $force read the config settings no matter what
+	 *
+	 * initializes the LDAP backend
+	 */
+	static public function init($force = false) {
+		self::readConfiguration($force);
 		self::establishConnection();
 	}
 
@@ -527,6 +534,10 @@ class OC_LDAP {
 	}
 
 	static private function sanitizeUsername($name) {
+		if(self::$ldapIgnoreNamingRules) {
+			return $name;
+		}
+
 		//REPLACEMENTS
 		$name = str_replace(' ', '_', $name);
 
@@ -594,21 +605,22 @@ class OC_LDAP {
 	/**
 	 * Caches the general LDAP configuration.
 	 */
-	static private function readConfiguration() {
-		if(!self::$configured) {
-			self::$ldapHost             = OCP\Config::getAppValue('user_ldap', 'ldap_host', '');
-			self::$ldapPort             = OCP\Config::getAppValue('user_ldap', 'ldap_port', OC_USER_BACKEND_LDAP_DEFAULT_PORT);
-			self::$ldapAgentName        = OCP\Config::getAppValue('user_ldap', 'ldap_dn','');
-			self::$ldapAgentPassword    = base64_decode(OCP\Config::getAppValue('user_ldap', 'ldap_agent_password',''));
-			self::$ldapBase             = OCP\Config::getAppValue('user_ldap', 'ldap_base', '');
-			self::$ldapBaseUsers        = OCP\Config::getAppValue('user_ldap', 'ldap_base_users',self::$ldapBase);
-			self::$ldapBaseGroups       = OCP\Config::getAppValue('user_ldap', 'ldap_base_groups', self::$ldapBase);
-			self::$ldapTLS              = OCP\Config::getAppValue('user_ldap', 'ldap_tls',0);
-			self::$ldapNoCase           = OCP\Config::getAppValue('user_ldap', 'ldap_nocase', 0);
-			self::$ldapUserDisplayName  = strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_display_name', OC_USER_BACKEND_LDAP_DEFAULT_DISPLAY_NAME));
-			self::$ldapUserFilter       = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
-			self::$ldapLoginFilter      = OCP\Config::getAppValue('user_ldap', 'ldap_login_filter', '(uid=%uid)');
-			self::$ldapGroupDisplayName = strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR));
+	static private function readConfiguration($force = false) {
+		if(!self::$configured || $force) {
+			self::$ldapHost              = OCP\Config::getAppValue('user_ldap', 'ldap_host', '');
+			self::$ldapPort              = OCP\Config::getAppValue('user_ldap', 'ldap_port', 389);
+			self::$ldapAgentName         = OCP\Config::getAppValue('user_ldap', 'ldap_dn','');
+			self::$ldapAgentPassword     = base64_decode(OCP\Config::getAppValue('user_ldap', 'ldap_agent_password',''));
+			self::$ldapBase              = OCP\Config::getAppValue('user_ldap', 'ldap_base', '');
+			self::$ldapBaseUsers         = OCP\Config::getAppValue('user_ldap', 'ldap_base_users',self::$ldapBase);
+			self::$ldapBaseGroups        = OCP\Config::getAppValue('user_ldap', 'ldap_base_groups', self::$ldapBase);
+			self::$ldapTLS               = OCP\Config::getAppValue('user_ldap', 'ldap_tls',0);
+			self::$ldapNoCase            = OCP\Config::getAppValue('user_ldap', 'ldap_nocase', 0);
+			self::$ldapUserDisplayName   = strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_display_name', 'uid'));
+			self::$ldapUserFilter        = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
+			self::$ldapLoginFilter       = OCP\Config::getAppValue('user_ldap', 'ldap_login_filter', '(uid=%uid)');
+			self::$ldapGroupDisplayName  = strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR));
+			self::$ldapIgnoreNamingRules = OCP\Config::getSystemValue('ldapIgnoreNamingRules', false);
 
 			if(empty(self::$ldapBaseUsers)) {
 				OCP\Util::writeLog('ldap', 'Base for Users is empty, using Base DN', OCP\Util::INFO);
