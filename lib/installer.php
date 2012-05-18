@@ -345,7 +345,7 @@ class OC_Installer{
         public static function checkCode($appname,$folder){
 
 		$blacklist=array(
-			'fopen(',
+			'exec(',
 			'eval('
 			// more evil pattern will go here later
 			// will will also check if an app is using private api once the public api is in place
