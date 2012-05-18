@@ -495,7 +495,6 @@ class OC_App{
 	 * check if any apps need updating and update those
 	 */
 	public static function updateApps(){
-		// The rest comes here
 		$versions = self::getAppVersions();
 		//ensure files app is installed for upgrades
 		if(!isset($versions['files'])){
@@ -505,6 +504,7 @@ class OC_App{
 			$currentVersion=OC_App::getAppVersion($app);
 			if ($currentVersion) {
 				if (version_compare($currentVersion, $installedVersion, '>')) {
+					OC_Log::write($app,'starting app upgrade from '.$installedVersion.' to '.$currentVersion,OC_Log::DEBUG);
 					OC_App::updateApp($app);
 					OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));
 				}
