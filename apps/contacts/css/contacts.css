@@ -91,7 +91,7 @@ dl.addresscard .action { float: right; }
 
 #file_upload_form { width: 0; height: 0; }
 #file_upload_target, #import_upload_target, #crop_target { display:none; }
-#file_upload_start, #import_upload_start { opacity:0; filter:alpha(opacity=0); z-index:1001; /*position:absolute; left:0; top:0;*/ width:0; height:0;}
+#file_upload_start, #import_upload_start { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; z-index:1001; width:0; height:0;}
 #import_upload_start { width: 16px; height: 16px; margin: 0 0 0 0; }
 input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .big { font-weight:bold; font-size:1.2em; }

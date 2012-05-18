@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <info>
 	<id>user_ldap</id>
-	<name>LDAP user backend</name>
+	<name>LDAP user and group backend</name>
 	<description>Authenticate Users by LDAP</description>
 	<licence>AGPL</licence>
 	<author>Dominik Schmidt and Arthur Schiwon</author>

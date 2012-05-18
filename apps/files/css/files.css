@@ -28,7 +28,7 @@
 
 .file_upload_start { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; z-index:1; position:absolute; left:0; top:0; width:100%; cursor:pointer;}
 .file_upload_filename.active { border-bottom-right-radius:0 }
-.file_upload_filename { position: relative; z-index:100; padding-left: 0.8em; padding-right: 0.8em; cursor:pointer; border-top-left-radius:0; border-bottom-left-radius:0; }
+.file_upload_filename { z-index:100; padding-left: 0.8em; padding-right: 0.8em; cursor:pointer; border-top-left-radius:0; border-bottom-left-radius:0; }
 .file_upload_filename img { position: absolute; top: 0.4em; left: 0.4em; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
 
 #upload { position:absolute; right:13.5em; top:0em; }
