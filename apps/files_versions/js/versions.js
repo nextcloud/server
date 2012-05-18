@@ -16,9 +16,17 @@ $(document).ready(function(){
 			if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
 			
 			var file = $('#dir').val()+'/'+filename;
-
-			createVersionsDropdown(filename, file)
-
+			// Check if drop down is already visible for a different file
+			if (($('#dropdown').length > 0)) {
+				if (file != $('#dropdown').data('file')) {
+					$('#dropdown').hide('blind', function() {
+						$('tr').removeClass('mouseOver');
+						createVersionsDropdown(filename, file);
+					});
+				}
+			} else {
+				createVersionsDropdown(filename, file);
+			}
 		});
 	}
 });
