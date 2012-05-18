@@ -6,5 +6,6 @@
 	<licence>AGPL</licence>
 	<author>Arthur Schiwon, Marvin Thomas Rabe</author>
 	<standalone/>
-	<require>2</require>
+	<require>4</require>
+	<shipped>true</shipped>
 </info>

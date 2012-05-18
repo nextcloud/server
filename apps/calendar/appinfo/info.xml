@@ -4,7 +4,8 @@
 	<name>Calendar</name>
 	<licence>AGPL</licence>
 	<author>Georg Ehrke, Bart Visscher, Jakob Sack</author>
-	<require>2</require>
+	<require>4</require>
+	<shipped>true</shipped>
 	<description>Calendar with CalDAV support</description>
 	<default_enable/>
 	<remote>

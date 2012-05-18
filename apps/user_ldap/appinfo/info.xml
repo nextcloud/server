@@ -4,8 +4,9 @@
 	<name>LDAP user backend</name>
 	<description>Authenticate Users by LDAP</description>
 	<licence>AGPL</licence>
-	<author>Dominik Schmidt</author>
-	<require>2</require>
+	<author>Dominik Schmidt and Arthur Schiwon</author>
+	<require>4</require>
+	<shipped>true</shipped>
 	<types>
 		<authentication/>
 	</types>

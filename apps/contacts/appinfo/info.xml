@@ -4,7 +4,8 @@
 	<name>Contacts</name>
 	<licence>AGPL</licence>
 	<author>Jakob Sack</author>
-	<require>2</require>
+	<require>4</require>
+	<shipped>true</shipped>
 	<description>Address book with CardDAV support.</description>
 	<standalone/>
 	<default_enable/>
