@@ -74,7 +74,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(3,91,0);
+		return array(4,00,0);
 	}
 
 	/**
@@ -82,7 +82,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString(){
-		return '4 RC';
+		return '4 RC2';
 	}
 
         /**
