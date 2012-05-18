@@ -478,7 +478,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
      * @return result or error object
      * @access protected
      */
-    function &_doQuery($query, $is_manip = false, $connection = null, $database_name = null)
+    function _doQuery($query, $is_manip = false, $connection = null, $database_name = null)
     {
         $this->last_query = $query;
         $result = $this->debug($query, 'query', array('is_manip' => $is_manip, 'when' => 'pre'));
@@ -816,7 +816,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
      * @access public
      * @see bindParam, execute
      */
-    function &prepare($query, $types = null, $result_types = null, $lobs = array())
+    function prepare($query, $types = null, $result_types = null, $lobs = array())
     {
         if ($this->options['emulate_prepared']
             || $this->supported['prepared_statements'] !== true
@@ -928,7 +928,7 @@ class MDB2_Result_sqlite3 extends MDB2_Result_Common
      * @return int data array on success, a MDB2 error on failure
      * @access public
      */
-    function &fetchRow($fetchmode = MDB2_FETCHMODE_DEFAULT, $rownum = null)
+    function fetchRow($fetchmode = MDB2_FETCHMODE_DEFAULT, $rownum = null)
     {
         if (!is_null($rownum)) {
             $seek = $this->seek($rownum);
@@ -1193,7 +1193,7 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
      *               a MDB2 error on failure
      * @access private
      */
-    function &_execute($result_class = true, $result_wrap_class = false){
+    function _execute($result_class = true, $result_wrap_class = false){
 		if (is_null($this->statement)) {
             $result =& parent::_execute($result_class, $result_wrap_class);
             return $result;
@@ -1305,7 +1305,7 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
      *               a MDB2 error on failure
      * @access public
      */
-    function &execute($values = null, $result_class = true, $result_wrap_class = false)
+    function execute($values = null, $result_class = true, $result_wrap_class = false)
     {
         if (is_null($this->positions)) {
             return $this->db->raiseError(MDB2_ERROR, null, null,
