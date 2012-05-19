@@ -69,8 +69,15 @@ class Storage {
 	 */
 	public static function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
-			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/files';
+			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
+				$pos = strpos($source, '/files', 1);
+				$uid = substr($source, 1, $pos - 1);
+				$filename = substr($source, $pos + 6);
+			} else {
+				$uid = \OCP\User::getUser();
+			}
+			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. $uid .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. $uid .'/files';
 			Storage::init();
 
 			// check if filename is a directory
@@ -94,19 +101,20 @@ class Storage {
 			}
 
 
-			// check mininterval
-			$matches=glob($versionsfoldername.$filename.'.v*');
-			sort($matches);
-			$parts=explode('.v',end($matches));
-			if((end($parts)+Storage::DEFAULTMININTERVAL)>time()){
-				return false;
+			// check mininterval if this isn't a shared file (all shared files should be versioned despite mininterval)
+			if (!isset($source)) {
+				$matches=glob($versionsfoldername.$filename.'.v*');
+				sort($matches);
+				$parts=explode('.v',end($matches));
+				if((end($parts)+Storage::DEFAULTMININTERVAL)>time()){
+					return false;
+				}
 			}
-			
+
 
 			// create all parent folders
 			$info=pathinfo($filename);	
 			@mkdir($versionsfoldername.$info['dirname'],0700,true);	
-
 
 			// store a new version of a file
 			copy($filesfoldername.$filename,$versionsfoldername.$filename.'.v'.time());
@@ -123,10 +131,16 @@ class Storage {
 	public static function rollback($filename,$revision) {
 	
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-		
-			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
+				$pos = strpos($source, '/files', 1);
+				$uid = substr($source, 1, $pos - 1);
+				$filename = substr($source, $pos + 6);
+			} else {
+				$uid = \OCP\User::getUser();
+			}
+			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'.$uid .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 			
-			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/files';
+			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. $uid .'/files';
 			
 			// rollback
 			if ( @copy($versionsfoldername.$filename.'.v'.$revision,$filesfoldername.$filename) ) {
@@ -148,7 +162,14 @@ class Storage {
 	 */
 	public static function isversioned($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
+				$pos = strpos($source, '/files', 1);
+				$uid = substr($source, 1, $pos - 1);
+				$filename = substr($source, $pos + 6);
+			} else {
+				$uid = \OCP\User::getUser();
+			}
+			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. $uid .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 
 			// check for old versions
 			$matches=glob($versionsfoldername.$filename.'.v*');
@@ -169,7 +190,14 @@ class Storage {
          */
         public static function getversions($filename,$count=0) {
                 if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
+				$pos = strpos($source, '/files', 1);
+				$uid = substr($source, 1, $pos - 1);
+				$filename = substr($source, $pos + 6);
+			} else {
+				$uid = \OCP\User::getUser();
+			}
+			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. $uid .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 			$versions=array();         
  
 	              // fetch for old versions
@@ -200,8 +228,14 @@ class Storage {
          */
         public static function expire($filename) {
                 if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-
-			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. \OCP\USER::getUser() .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
+				$pos = strpos($source, '/files', 1);
+				$uid = substr($source, 1, $pos - 1);
+				$filename = substr($source, $pos + 6);
+			} else {
+				$uid = \OCP\User::getUser();
+			}
+			$versionsfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. $uid .'/'.\OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 
 			// check for old versions
 			$matches=glob($versionsfoldername.$filename.'.v*');
