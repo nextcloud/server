@@ -101,8 +101,8 @@ class Storage {
 			}
 
 
-			// check mininterval if this isn't a shared file (all shared files should be versioned despite mininterval)
-			if (!isset($source)) {
+			// check mininterval if the file is being modified by the owner (all shared files should be versioned despite mininterval)
+			if ($uid == \OCP\User::getUser()) {
 				$matches=glob($versionsfoldername.$filename.'.v*');
 				sort($matches);
 				$parts=explode('.v',end($matches));
