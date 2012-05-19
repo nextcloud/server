@@ -156,15 +156,6 @@ class App {
 	}
 
 
-        /**
-         * @param string appid
-         * @param $app app
-         * @return OC_FilesystemView
-         */
-        public static function getStorage( $app ){
-		return \OC_App::getStorage( $app );
-	}
-
 
 }
 
