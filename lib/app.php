@@ -533,6 +533,9 @@ class OC_App{
 		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/database.xml')){
 			OC_DB::updateDbFromStructure(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/database.xml');
 		}
+		if(!self::isEnabled($appid)){
+			return;
+		}
 		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php')){
 			include OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php';
 		}
