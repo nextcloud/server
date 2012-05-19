@@ -30,6 +30,9 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
+/**
+ * This class provides functions to manage apps in ownCloud
+ */
 class App {
 
         /**
