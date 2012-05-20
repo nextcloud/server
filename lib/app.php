@@ -114,7 +114,11 @@ class OC_App{
 			self::$appTypes=OC_Appconfig::getValues(false,'types');
 		}
 
-		return explode(',',self::$appTypes[$app]);
+		if(isset(self::$appTypes[$app])){
+			return explode(',',self::$appTypes[$app]);
+		}else{
+			return array();
+		}
 	}
 
 	/**
