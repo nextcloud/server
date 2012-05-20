@@ -155,7 +155,7 @@ class OC_App{
 	 * This function checks whether or not an app is enabled.
 	 */
 	public static function isEnabled( $app ){
-		if( 'yes' == OC_Appconfig::getValue( $app, 'enabled' )){
+		if( 'files'==$app or 'yes' == OC_Appconfig::getValue( $app, 'enabled' )){
 			return true;
 		}
 
