@@ -188,6 +188,9 @@ class OC_Contacts_VCard{
 			if($upgrade && in_array($property->name, $stringprops)) {
 				self::decodeProperty($property);
 			}
+			if(in_array($property->name, $stringprops)) {
+				$property->value = strip_tags($property->value);
+			}
 			// Fix format of type parameters.
 			if($upgrade && in_array($property->name, $typeprops)) {
 				OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. before: '.$property->serialize(),OCP\Util::DEBUG);
