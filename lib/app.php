@@ -63,11 +63,14 @@ class OC_App{
 
 		// The rest comes here
 		$apps = self::getEnabledApps();
+		// prevent app.php from printing output
+		ob_start();
 		foreach( $apps as $app ){
 			if((is_null($types) or self::isType($app,$types))){
 				self::loadApp($app);
 			}
 		}
+		ob_end_clean();
 
 		self::$init = true;
 
