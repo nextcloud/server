@@ -32,7 +32,7 @@
 
 .task .completed {position:absolute;left:3em;top:0.3em;}
 
-.task .summary{padding-left:4em;}
+.task .summary{padding-left:4em;height:2em;}
 .task .summary input{position:relative;left:5px;}
 .task.done .summary{text-decoration:line-through;}
 
