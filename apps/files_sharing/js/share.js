@@ -361,7 +361,6 @@ $(document).ready(function() {
 	});
 
 	$('#emailPrivateLink').live('submit', function() {
-		event.preventDefault();
 		OC.Share.emailPrivateLink();
 	});
 });
