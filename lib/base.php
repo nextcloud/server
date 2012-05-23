@@ -326,7 +326,7 @@ class OC{
 		}
 		self::$CLI=(php_sapi_name() == 'cli');
 
-		date_default_timezone_set('Europe/Berlin');
+		date_default_timezone_set('UTC');
 		ini_set('arg_separator.output','&amp;');
 
 		//try to configure php to enable big file uploads.
