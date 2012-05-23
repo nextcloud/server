@@ -321,7 +321,7 @@ class OC{
 			ini_set('display_errors', 1);
 		}
 
-		date_default_timezone_set('Europe/Berlin');
+		date_default_timezone_set('UTC');
 		ini_set('arg_separator.output','&amp;');
 
 		//try to configure php to enable big file uploads.
