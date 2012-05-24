@@ -194,6 +194,11 @@ $(document).ready(function() {
 				var totalSize=0;
 				if(files){
 					for(var i=0;i<files.length;i++){
+						if(files[i].size ==0 && files[i].type== '')
+						{
+							OC.dialogs.alert('Unable to upload your file as it is a directory or has 0 bytes','Upload Error');
+							return;
+						}
 						totalSize+=files[i].size;
 						if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
 							FileList.finishDelete(function(){
