@@ -6,6 +6,7 @@
  * See the COPYING-README file.
  */
 
+ OC::$CLASSPATH['OC_FileStorage_StreamWrapper']='apps/files_external/lib/streamwrapper.php';
 OC::$CLASSPATH['OC_Filestorage_FTP']='apps/files_external/lib/ftp.php';
 OC::$CLASSPATH['OC_Filestorage_DAV']='apps/files_external/lib/webdav.php';
 OC::$CLASSPATH['OC_Filestorage_Google']='apps/files_external/lib/google.php';
