@@ -52,8 +52,9 @@ class OC_Files {
 	*
 	* @param dir  $dir
 	* @param file $file ; seperated list of files to download
+	* @param boolean $only_header ; boolean to only send header of the request
 	*/
-	public static function get($dir,$files){
+	public static function get($dir,$files, $only_header = false){
 		if(strpos($files,';')){
 			$files=explode(';',$files);
 		}
@@ -117,6 +118,11 @@ class OC_Files {
 		}else{
 			header("HTTP/1.0 403 Forbidden");
 			die('403 Forbidden');
+		}
+		if($only_header){
+			if(!$zip)
+				header("Content-Length: ".OC_Filesystem::filesize($filename));
+			return ;
 		}
 		if($zip){
 			$handle=fopen($filename,'r');
