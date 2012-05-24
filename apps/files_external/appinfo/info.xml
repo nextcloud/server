@@ -4,7 +4,7 @@
 	<name>External storage support</name>
 	<description>Mount external storage sources</description>
 	<licence>AGPL</licence>
-	<author>Robin Appelman</author>
+	<author>Robin Appelman, Michael Gapczynski</author>
 	<require>4</require>
 	<shipped>true</shipped>
 	<types>

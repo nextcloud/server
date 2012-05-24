@@ -1,0 +1,6 @@
+.error { color: #FF3B3B; }
+td.type { width:8em; }
+td.mount, td.options, td.applicable { width:10em; }
+#addStorage>td { border:none; }
+#addStorage>td:not(.selectStorage) { visibility:hidden; }
+#selectStorage { margin-left:-10px; }

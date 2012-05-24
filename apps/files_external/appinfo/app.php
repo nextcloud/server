@@ -10,3 +10,4 @@ OC::$CLASSPATH['OC_Filestorage_FTP']='apps/files_external/lib/ftp.php';
 OC::$CLASSPATH['OC_Filestorage_DAV']='apps/files_external/lib/webdav.php';
 OC::$CLASSPATH['OC_Filestorage_Google']='apps/files_external/lib/google.php';
 OC::$CLASSPATH['OC_Filestorage_SWIFT']='apps/files_external/lib/swift.php';
+OCP\App::registerAdmin('files_external', 'settings');
