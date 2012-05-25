@@ -30,6 +30,9 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
+/**
+ * This class provides access to the user management. You can get information about the currently logged in user and the permissions for example
+ */
 class User {
 
 

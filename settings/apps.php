@@ -39,8 +39,13 @@ foreach($registeredApps as $app){
 		$info=OC_App::getAppInfo($app);
 		$active=(OC_Appconfig::getValue($app,'enabled','no')=='yes')?true:false;
 		$info['active']=$active;
-		$info['internal']=true;
-		$info['internallabel']='Internal App';
+		if(isset($info['shipped']) and ($info['shipped']=='true')) {
+			$info['internal']=true;
+			$info['internallabel']='Internal App';
+		}else{
+			$info['internal']=false;
+			$info['internallabel']='3rd Party App';
+		}
 		$info['preview']='trans.png';
 		$apps[]=$info;
 	}

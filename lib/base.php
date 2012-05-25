@@ -79,6 +79,10 @@ class OC{
 	 */
 	public static $REQUESTEDFILE = '';
 	/**
+	 * check if owncloud runs in cli mode
+	 */
+	public static $CLI = false;
+	/**
 	 * SPL autoload
 	 */
 	public static function autoload($className){
@@ -223,6 +227,7 @@ class OC{
 			$installedVersion=OC_Config::getValue('version','0.0.0');
 			$currentVersion=implode('.',OC_Util::getVersion());
 			if (version_compare($currentVersion, $installedVersion, '>')) {
+				OC_Log::write('core','starting upgrade from '.$installedVersion.' to '.$currentVersion,OC_Log::DEBUG);
 				$result=OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
 				if(!$result){
 					echo 'Error while upgrading the database';
@@ -319,8 +324,9 @@ class OC{
 		if (defined('DEBUG') && DEBUG){
 			ini_set('display_errors', 1);
 		}
+		self::$CLI=(php_sapi_name() == 'cli');
 
-		date_default_timezone_set('Europe/Berlin');
+		date_default_timezone_set('UTC');
 		ini_set('arg_separator.output','&amp;');
 
 		//try to configure php to enable big file uploads.
@@ -368,15 +374,17 @@ class OC{
 		self::checkInstalled();
 		self::checkSSL();
 
-                // CSRF protection
-                if(isset($_SERVER['HTTP_REFERER'])) $referer=$_SERVER['HTTP_REFERER']; else $referer='';
-                if(isset($_SERVER['HTTPS']) and $_SERVER['HTTPS']<>'') $protocol='https://'; else $protocol='http://';
-                $server=$protocol.$_SERVER['SERVER_NAME'];
-                if(($_SERVER['REQUEST_METHOD']=='POST') and (substr($referer,0,strlen($server))<>$server)) {
-                        $url = $protocol.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
-                        header("Location: $url");
-                        exit();
-                } 
+		// CSRF protection
+		if(isset($_SERVER['HTTP_REFERER'])) $referer=$_SERVER['HTTP_REFERER']; else $referer='';
+		if(isset($_SERVER['HTTPS']) and $_SERVER['HTTPS']<>'') $protocol='https://'; else $protocol='http://';
+		if(!self::$CLI){
+			$server=$protocol.$_SERVER['SERVER_NAME'];
+			if(($_SERVER['REQUEST_METHOD']=='POST') and (substr($referer,0,strlen($server))<>$server)) {
+				$url = $protocol.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
+				header("Location: $url");
+				exit();
+			}
+		}
 
 		self::initSession();
 		self::initTemplateEngine();

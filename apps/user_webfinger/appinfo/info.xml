@@ -5,5 +5,6 @@
 	<description>Provide WebFinger for all users so they get a user address like user@owncloudinstance which can be used for external applications. Other apps can provide information for webfinger requests, such as remoteStorage compatibility.</description>
 	<licence>AGPL or MIT</licence>
 	<author>Michiel de Jong, Florian Hülsmann</author>
-	<require>2</require>
+	<require>4</require>
+	<shipped>true</shipped>
 </info>

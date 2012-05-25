@@ -34,6 +34,9 @@
  */
 namespace OCP;
 
+/**
+ * This class provides functions to read and write configuration data. configuration can be on a system, application or user level
+ */
 class Config {
 
 

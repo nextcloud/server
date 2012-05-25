@@ -5,6 +5,7 @@
 	<version>0.1</version>
 	<licence>AGPL</licence>
 	<author>Bart Visscher</author>
-	<require>2</require>
+	<require>4</require>
+	<shipped>true</shipped>
 	<description>Tasks view from calendar</description>
 </info>

@@ -23,7 +23,7 @@ function writeProgress($pct) {
 writeProgress('10');
 $view = $file = null;
 if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
-	$view = OCP\App::getStorage('contacts');
+	$view = OCP\Files::getStorage('contacts');
 	$file = $view->file_get_contents('/' . $_POST['file']);
 } else {
 	$file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);

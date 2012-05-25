@@ -4,7 +4,8 @@
 	<name>Pictures</name>
 	<licence>AGPL</licence>
 	<author>Bartek Przybylski</author>
-	<require>2</require>
+	<require>4</require>
+	<shipped>true</shipped>
 	<description>Dedicated pictures application</description>
 	<standalone/>
 	<default_enable/>

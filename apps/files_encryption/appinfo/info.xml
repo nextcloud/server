@@ -2,10 +2,11 @@
 <info>
 	<id>files_encryption</id>
 	<name>Encryption</name>
-	<description>Server side encryption of files</description>
+	<description>Server side encryption of files. Warning: You will lose your data if you enable this App and forget your password. Encryption is not yet compatible with LDAP.</description>
 	<licence>AGPL</licence>
 	<author>Robin Appelman</author>
-	<require>3</require>
+	<require>4</require>
+	<shipped>true</shipped>
 	<types>
 		<filesystem/>
 	</types>
