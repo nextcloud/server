@@ -5,7 +5,8 @@
 	<description>File Management</description>
 	<licence>AGPL</licence>
 	<author>Robin Appelman</author>
-	<require>2</require>
+	<require>4</require>
+	<shipped>true</shipped>
 	<standalone/>
 	<default_enable/>
 	<types>

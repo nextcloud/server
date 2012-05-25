@@ -5,6 +5,7 @@
 	<description>Migrate your user accounts</description>
 	<licence>AGPL</licence>
 	<author>Tom Needham</author>
-	<require>2</require>
+	<require>4</require>
+	<shipped>true</shipped>
 	<default_enable/>
 </info>

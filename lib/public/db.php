@@ -30,6 +30,9 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
+/**
+ * This class provides access to the internal database system. Use this class exlusively if you want to access databases
+ */
 class DB {
 
 

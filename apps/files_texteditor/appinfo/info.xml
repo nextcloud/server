@@ -5,6 +5,7 @@
 	<description>Simple plain text editor based on Ace editor.</description>
 	<licence>AGPL</licence>
 	<author>Tom Needham</author>
-	<require>2</require>
+	<require>4</require>
+	<shipped>true</shipped>
 	<default_enable/>
 </info>

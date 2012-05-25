@@ -23,7 +23,7 @@ if( isset( $_['message'] ) ) {
 	
 		echo ' ';
 		echo OCP\Util::formatDate( $v );
-		echo ' <a href="history.php?path='.urlencode( $_['path'] ).'&revert='. $v .'" class="button">Revert</a><br /><br />';
+		echo ' <a href="'.OCP\Util::linkTo('files_versions', 'history.php').'?path='.urlencode( $_['path'] ).'&revert='. $v .'" class="button">Revert</a><br /><br />';
 		
 	}
 

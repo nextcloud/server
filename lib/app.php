@@ -63,11 +63,14 @@ class OC_App{
 
 		// The rest comes here
 		$apps = self::getEnabledApps();
+		// prevent app.php from printing output
+		ob_start();
 		foreach( $apps as $app ){
 			if((is_null($types) or self::isType($app,$types))){
 				self::loadApp($app);
 			}
 		}
+		ob_end_clean();
 
 		self::$init = true;
 
@@ -114,7 +117,11 @@ class OC_App{
 			self::$appTypes=OC_Appconfig::getValues(false,'types');
 		}
 
-		return explode(',',self::$appTypes[$app]);
+		if(isset(self::$appTypes[$app])){
+			return explode(',',self::$appTypes[$app]);
+		}else{
+			return array();
+		}
 	}
 
 	/**
@@ -155,7 +162,7 @@ class OC_App{
 	 * This function checks whether or not an app is enabled.
 	 */
 	public static function isEnabled( $app ){
-		if( 'yes' == OC_Appconfig::getValue( $app, 'enabled' )){
+		if( 'files'==$app or 'yes' == OC_Appconfig::getValue( $app, 'enabled' )){
 			return true;
 		}
 
@@ -495,7 +502,6 @@ class OC_App{
 	 * check if any apps need updating and update those
 	 */
 	public static function updateApps(){
-		// The rest comes here
 		$versions = self::getAppVersions();
 		//ensure files app is installed for upgrades
 		if(!isset($versions['files'])){
@@ -505,6 +511,7 @@ class OC_App{
 			$currentVersion=OC_App::getAppVersion($app);
 			if ($currentVersion) {
 				if (version_compare($currentVersion, $installedVersion, '>')) {
+					OC_Log::write($app,'starting app upgrade from '.$installedVersion.' to '.$currentVersion,OC_Log::DEBUG);
 					OC_App::updateApp($app);
 					OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));
 				}
@@ -532,6 +539,9 @@ class OC_App{
 	public static function updateApp($appid){
 		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/database.xml')){
 			OC_DB::updateDbFromStructure(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/database.xml');
+		}
+		if(!self::isEnabled($appid)){
+			return;
 		}
 		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php')){
 			include OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php';

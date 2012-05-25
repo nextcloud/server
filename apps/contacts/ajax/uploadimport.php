@@ -32,7 +32,7 @@ function debug($msg) {
 	OCP\Util::writeLog('contacts','ajax/uploadimport.php: '.$msg, OCP\Util::DEBUG);
 }
 
-$view = OCP\App::getStorage('contacts');
+$view = OCP\Files::getStorage('contacts');
 $tmpfile = md5(rand());
 
 // If it is a Drag'n'Drop transfer it's handled here.

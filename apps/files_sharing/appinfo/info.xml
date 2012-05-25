@@ -5,7 +5,8 @@
 	<description>File sharing between users</description>
 	<licence>AGPL</licence>
 	<author>Michael Gapczynski</author>
-	<require>2</require>
+	<require>4</require>
+	<shipped>true</shipped>
 	<default_enable/>
 	<types>
 		<filesystem/>

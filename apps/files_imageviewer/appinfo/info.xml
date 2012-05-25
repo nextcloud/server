@@ -5,6 +5,7 @@
 	<description>Simple image viewer for owncloud</description>
 	<licence>AGPL</licence>
 	<author>Robin Appelman</author>
-	<require>2</require>
+	<require>4</require>
+	<shipped>true</shipped>
 	<default_enable/>
 </info>

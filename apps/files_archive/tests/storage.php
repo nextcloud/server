@@ -22,4 +22,18 @@ class Test_Filestorage_Archive_Zip extends Test_FileStorage {
 	}
 }
 
-?>
+class Test_Filestorage_Archive_Tar extends Test_FileStorage {
+	/**
+	 * @var string tmpDir
+	 */
+	private $tmpFile;
+
+	public function setUp(){
+		$this->tmpFile=OCP\Files::tmpFile('.tar.gz');
+		$this->instance=new OC_Filestorage_Archive(array('archive'=>$this->tmpFile));
+	}
+
+	public function tearDown(){
+		unlink($this->tmpFile);
+	}
+}

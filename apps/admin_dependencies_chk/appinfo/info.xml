@@ -1,9 +1,10 @@
 <?xml version="1.0"?> 
 <info>
 	<id>admin_dependencies_chk</id>
-	<name>Owncloud dependencies info</name>
+	<name>ownCloud dependencies info</name>
 	<licence>AGPL</licence>
 	<author>Brice Maron (eMerzh)</author>
-	<require>2</require>
+	<require>4</require>
+	<shipped>true</shipped>
 	<description>Display OwnCloud's dependencies informations (missings modules, ...)</description>
 </info>

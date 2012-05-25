@@ -171,6 +171,26 @@ class OC_Share {
 		return $in;
 	}
 
+	private static function updateFolder($uid_shared_with) {
+		if ($uid_shared_with != self::PUBLICLINK) {
+			if (OC_Group::groupExists($uid_shared_with)) {
+				$uid_shared_with = OC_Group::usersInGroup($uid_shared_with);
+				// Remove the owner from the list of users in the group
+				$uid_shared_with = array_diff($uid_shared_with, array(OCP\USER::getUser()));
+			} else if ($uid = strstr($uid_shared_with, '@', true)) {
+				$uid_shared_with = array($uid);
+			} else {
+				$uid_shared_with = array($uid_shared_with);
+			}
+			foreach ($uid_shared_with as $uid) {
+				$sharedFolder = $uid.'/files/Shared';
+				// Update mtime of shared folder to invoke a file cache rescan
+				$rootView = new OC_FilesystemView('/');
+				$rootView->touch($sharedFolder);
+			}
+		}
+	}
+
 	/**
 	 * Create a new entry in the database for a file inside a shared folder
 	 *
@@ -396,21 +416,7 @@ class OC_Share {
 		$uid_owner = OCP\USER::getUser();
 		$query = OCP\DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ? AND uid_shared_with ".self::getUsersAndGroups($uid_shared_with, false));
 		$query->execute(array(strlen($source), $source, $uid_owner));
-		if ($uid_shared_with != self::PUBLICLINK) {
-			if (OC_Group::groupExists($uid_shared_with)) {
-				$uid_shared_with = OC_Group::usersInGroup($uid_shared_with);
-				// Remove the owner from the list of users in the group
-				$uid_shared_with = array_diff($uid_shared_with, array($uid_owner));
-			} else {
-				$uid_shared_with = array($uid_shared_with);
-			}
-			foreach ($uid_shared_with as $uid) {
-				$sharedFolder = '/'.$uid.'/files/'.'Shared';
-				// Update mtime of shared folder to invoke a file cache rescan
-				$rootView=new OC_FilesystemView('/');
-				$rootView->touch($sharedFolder);
-			}
-		}
+		self::updateFolder($uid_shared_with);
 	}
 
 	/**
@@ -438,13 +444,14 @@ class OC_Share {
 	*/
 	public static function deleteItem($arguments) {
 		$source = "/".OCP\USER::getUser()."/files".self::cleanPath($arguments['path']);
-		if ($target = self::getTarget($source)) {
-			// Forward hook to notify of changes to target file
-			OCP\Util::emitHook("OC_Filesystem", "post_delete", array('path' => $target));
-			$query = OCP\DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ?");
-			$query->execute(array(strlen($source), $source, OCP\USER::getUser()));
+		$result = self::getMySharedItem($source);
+		if (is_array($result)) {
+			foreach ($result as $item) {
+				self::updateFolder($item['uid_shared_with']);
+			}
 		}
-		
+		$query = OCP\DB::prepare("DELETE FROM *PREFIX*sharing WHERE SUBSTR(source, 1, ?) = ? AND uid_owner = ?");
+		$query->execute(array(strlen($source), $source, OCP\USER::getUser()));
 	}
 
 	/**
@@ -460,15 +467,25 @@ class OC_Share {
 
 	public static function updateItem($arguments) {
 		$source = "/".OCP\USER::getUser()."/files".self::cleanPath($arguments['path']);
-		if ($target = self::getTarget($source)) {
-			// Forward hook to notify of changes to target file
-			OCP\Util::emitHook("OC_Filesystem", "post_write", array('path' => $target));
+		$result = self::getMySharedItem($source);
+		if (is_array($result)) {
+			foreach ($result as $item) {
+				self::updateFolder($item['uid_shared_with']);
+			}
 		}
 	}
 
 	public static function removeUser($arguments) {
-		$query = OCP\DB::prepare('DELETE FROM *PREFIX*sharing WHERE uid_owner = ? OR uid_shared_with '.self::getUsersAndGroups($arguments['uid']));
-		$query->execute(array($arguments['uid']));
+		$query = OCP\DB::prepare("SELECT uid_shared_with FROM *PREFIX*sharing WHERE uid_owner = ?");
+		$result = $query->execute(array($arguments['uid']))->fetchAll();
+		if (is_array($result)) {
+			$result = array_unique($result);
+			foreach ($result as $item) {
+				self::updateFolder($item['uid_shared_with']);
+			}
+			$query = OCP\DB::prepare('DELETE FROM *PREFIX*sharing WHERE uid_owner = ? OR uid_shared_with '.self::getUsersAndGroups($arguments['uid']));
+			$query->execute(array($arguments['uid']));
+		}
 	}
 
 	public static function addToGroupShare($arguments) {
@@ -490,6 +507,7 @@ class OC_Share {
 	public static function removeFromGroupShare($arguments) {
 		$query = OCP\DB::prepare('DELETE FROM *PREFIX*sharing WHERE uid_shared_with = ?');
 		$query->execute(array($arguments['uid'].'@'.$arguments['gid']));
+		self::updateFolder($arguments['uid']);
 	}
 
 }

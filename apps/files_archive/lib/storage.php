@@ -89,7 +89,7 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 		if($path==''){
 			return file_exists($this->path);
 		}
-		return $this->archive->fileExists($path) or $this->archive->fileExists($path.'/');
+		return $this->archive->fileExists($path);
 	}
 	public function unlink($path){
 		$path=$this->stripPath($path);

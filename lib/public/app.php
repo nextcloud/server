@@ -30,6 +30,9 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
+/**
+ * This class provides functions to manage apps in ownCloud
+ */
 class App {
 
         /**
@@ -152,15 +155,6 @@ class App {
 		return \OC_App::getAppVersion( $app );
 	}
 
-
-        /**
-         * @param string appid
-         * @param $app app
-         * @return OC_FilesystemView
-         */
-        public static function getStorage( $app ){
-		return \OC_App::getStorage( $app );
-	}
 
 
 }
