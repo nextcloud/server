@@ -97,6 +97,37 @@ class OC_Gallery_Photo {
 		return null;
 	}
 
+    public static function getViewImage($image_name, $owner = null) {
+        if (!$owner) $owner = OCP\USER::getUser();
+        $save_dir = OCP\Config::getSystemValue("datadirectory").'/'. $owner .'/gallery/';
+        $save_dir .= dirname($image_name). '/view/';
+        $image_path = $image_name;
+        $view_file = $save_dir . basename($image_name);
+        if (!is_dir($save_dir)) {
+            mkdir($save_dir, 0777, true);
+        }
+        if (file_exists($view_file)) {
+            $image = new OC_Image($view_file);
+        } else {
+            $image_path = OC_Filesystem::getLocalFile($image_path);
+            if(!file_exists($image_path)) {
+                return null;
+            }
+            $image = new OC_Image($image_path);
+            if ($image->valid()) {
+                $image->resize(1200);
+                $image->fixOrientation();
+                $image->save($view_file);
+            }
+        }
+        if ($image->valid()) {
+            return $image;
+        }else{
+            $image->destroy();
+        }
+        return null;
+    }
+
 	public static function getGalleryRoot() {
 		return OCP\Config::getUserValue(OCP\USER::getUser(), 'gallery', 'root', '');
 	}
