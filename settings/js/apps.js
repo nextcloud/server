@@ -41,7 +41,7 @@ $(document).ready(function(){
 			if(active){
 				$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:app},function(result){
 					if(!result || result.status!='success'){
-						OC.dialogs.alert('Error','Error while disabling app');
+						OC.dialogs.alert('Error while disabling app','Error');
 					}
 					else {
 						element.data('active',false);
@@ -54,7 +54,7 @@ $(document).ready(function(){
 			}else{
 				$.post(OC.filePath('settings','ajax','enableapp.php'),{appid:app},function(result){
 					if(!result || result.status!='success'){
-						OC.dialogs.alert('Error','Error while enabling app');
+						OC.dialogs.alert('Error while enabling app','Error');
 					}
 					else {
 						element.data('active',true);
