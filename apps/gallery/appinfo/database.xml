@@ -31,13 +31,13 @@
 				<name>album_path</name>
 				<type>text</type>
 				<notnull>true</notnull>
-				<length>100</length>
+				<length>256</length>
 			</field>
 			<field>
 				<name>parent_path</name>
 				<type>text</type>
 				<notnull>true</notnull>
-				<length>100</length>
+				<length>256</length>
 			</field>
 		</declaration>
 	</table>
@@ -63,7 +63,7 @@
 				<name>file_path</name>
 				<type>text</type>
 				<notnull>true</notnull>
-				<length>100</length>
+				<length>256</length>
 			</field>
 		</declaration>
 	</table>
