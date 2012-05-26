@@ -4,7 +4,7 @@
  *
  * @author Frank Karlitschek
  * @author Jakob Sack
- * @copyright 2010 Frank Karlitschek karlitschek@kde.org
+ * @copyright 2012 Frank Karlitschek frank@owncloud.org
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -189,8 +189,16 @@ class OC_App{
 			}
 		}
 		if($app!==false){
-			OC_Appconfig::setValue( $app, 'enabled', 'yes' );
-			return true;
+			// check if the app is compatible with this version of ownCloud
+			$info=OC_App::getAppInfo($app);
+			$version=OC_Util::getVersion();	
+	                if(!isset($info['require']) or ($version[0]>$info['require'])){
+				OC_Log::write('core','App "'.$info['name'].'" can\'t be installed because it is not compatible with this version of ownCloud',OC_Log::ERROR);
+				return false;
+			}else{
+				OC_Appconfig::setValue( $app, 'enabled', 'yes' );
+				return true;
+			}
 		}else{
 			return false;
 		}
@@ -517,6 +525,26 @@ class OC_App{
 				}
 			}
 		}
+		
+		// check if the current enabled apps are compatible with the current ownCloud version. disable them if not.
+		// this is important if you upgrade ownCloud and have non ported 3rd party apps installed
+		$apps =OC_App::getEnabledApps();
+		$version=OC_Util::getVersion();
+		foreach($apps as $app) {
+		
+			// check if the app is compatible with this version of ownCloud
+			$info=OC_App::getAppInfo($app);
+			if(!isset($info['require']) or ($version[0]>$info['require'])){
+				OC_Log::write('core','App "'.$info['name'].'" can\'t be used because it is not compatible with this version of ownCloud',OC_Log::ERROR);
+				OC_App::disable( $app );
+			}
+
+	
+			
+		}
+		
+		
+		
 	}
 
 	/**
