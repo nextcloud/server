@@ -5,7 +5,7 @@
  *
  * @author Frank Karlitschek
  * @author Dominik Schmidt
- * @copyright 2010 Frank Karlitschek karlitschek@kde.org
+ * @copyright 2012 Frank Karlitschek frank@owncloud.org
  * @copyright 2011 Dominik Schmidt dev@dominik-schmidt.de
  *
  * This library is free software; you can redistribute it and/or

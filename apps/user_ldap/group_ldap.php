@@ -85,7 +85,8 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		}
 
 		//uniqueMember takes DN, memberuid the uid, so we need to distinguish
-		if(strtolower($this->ldapGroupMemberAssocAttr) == 'uniquemember') {
+		if((strtolower($this->ldapGroupMemberAssocAttr) == 'uniquemember')
+			|| (strtolower($this->ldapGroupMemberAssocAttr) == 'member')) {
 			$uid = $userDN;
 		} else if(strtolower($this->ldapGroupMemberAssocAttr) == 'memberuid') {
 			$result = OC_LDAP::readAttribute($userDN, 'uid');

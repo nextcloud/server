@@ -5,7 +5,7 @@
  *
  * @author Frank Karlitschek
  * @author Jakob Sack
- * @copyright 2010 Frank Karlitschek karlitschek@kde.org
+ * @copyright 2012 Frank Karlitschek frank@owncloud.org
  * @copyright 2011 Jakob Sack kde@jakobsack.de
  *
  * This library is free software; you can redistribute it and/or

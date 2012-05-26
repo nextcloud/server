@@ -506,10 +506,11 @@ Calendar={
 			},
 			dropdown:function(userid, calid){
 				$('.calendar_share_dropdown').remove();
-				$('<div class="calendar_share_dropdown"></div>').appendTo('#'+userid+'_'+calid);
+				var element = document.getElementById(userid+'_'+calid);
+				$('<div class="calendar_share_dropdown"></div>').appendTo(element);
 				$.get(OC.filePath('calendar', 'ajax/share', 'dropdown.php') + '?calid=' + calid, function(data){
-					$('#'+userid+'_'+calid+' > .calendar_share_dropdown').html(data);
-					$('#'+userid+'_'+calid+' > .calendar_share_dropdown').show('blind');
+					$('.calendar_share_dropdown').html(data);
+					$('.calendar_share_dropdown').show('blind');
 					$('#share_user').chosen();
 					$('#share_group').chosen();
 				});
