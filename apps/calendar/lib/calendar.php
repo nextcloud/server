@@ -109,7 +109,7 @@ class OC_Calendar_Calendar{
 		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OCP\DB::insertid('*PREFIX*calendar_calendar');
+		return OCP\DB::insertid('*PREFIX*calendar_calendars');
 	}
 
 	/**
