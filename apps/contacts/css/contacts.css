@@ -30,6 +30,7 @@ textarea { width: 80%; min-height: 5em; min-width: 30em; margin: 0 !important; p
 dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 .form dt { display: table-cell; clear: left; float: left; width: 7em; margin: 0; padding: 0.8em 0.5em 0 0; text-align:right; text-overflow:ellipsis; o-text-overflow: ellipsis; vertical-align: text-bottom; color: #bbb;/* white-space: pre-wrap; white-space: -moz-pre-wrap !important; white-space: -pre-wrap; white-space: -o-pre-wrap;*/ }
 .form dd { display: table-cell; clear: right; float: left; margin: 0; padding: 0px; white-space: nowrap; vertical-align: text-bottom; }
+label:hover, dt:hover { color: #333; }
 #address.form dt { min-width: 5em; }
 #address.form dl { min-width: 10em; }
 .droptarget { margin: 0.5em; padding: 0.5em; border: thin solid #ccc; -moz-border-radius:.3em; -webkit-border-radius:.3em; border-radius:.3em; }
@@ -65,6 +66,8 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 .contactsection { position: relative; float: left; /*max-width: 40em;*/ padding: 0.5em; height: auto: border: thin solid lightgray;/* -webkit-border-radius: 0.5em; -moz-border-radius: 0.5em; border-radius: 0.5em; background-color: #f8f8f8;*/ }
 
 #cropbox { margin: auto; }
+#contacts_details_photo_wrapper { min-width: 80px; }
+#contacts_details_photo_wrapper.wait { opacity: 0.6; filter:alpha(opacity=0.6); z-index:1000; background: url('%webroot%/core/img/loading.gif') no-repeat center center; cursor: wait; }
 #contacts_details_photo { border-radius: 0.5em; border: thin solid #bbb; margin: 0.3em; background: url('%webroot%/core/img/loading.gif') no-repeat center center; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; }
 #contacts_details_photo:hover { background: #fff; cursor: default; }
 #phototools { position:absolute; margin: 5px 0 0 10px; width:auto; height:22px; padding:0px; background-color:#fff; list-style-type:none; border-radius: 0.5em; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; }
@@ -76,7 +79,7 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 #addressdisplay { padding: 0.5em; }
 dl.addresscard { background-color: #fff; float: left; width: auto; margin: 0 0.3em 0.3em 0.3em; padding: 0; border: 0; }
 dl.addresscard dd {}
-dl.addresscard dt { padding: 0.3em; /*border-bottom: thin solid lightgray;*/ font-weight: bold; clear: both; color: #bbb;}
+dl.addresscard dt { padding: 0.3em; font-weight: bold; clear: both; color: #bbb;}
 dl.addresscard dt:hover { color:#777; }
 dl.addresscard dd > ul { margin: 0.3em; padding: 0.3em; }
 dl.addresscard .action { float: right; }
