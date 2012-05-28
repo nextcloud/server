@@ -6,7 +6,7 @@ function ucwords (str) {
 
 String.prototype.strip_tags = function(){
 	tags = this;
-	stripped = tags.replace(/[\<\>]/gi, "");
+	stripped = tags.replace(/<(.|\n)*?>/g, '');
 	return stripped;
 };
 
@@ -159,7 +159,7 @@ Contacts={
 			
 			// Name has changed. Update it and reorder.
 			$('#fn').change(function(){
-				var name = $('#fn').val();
+				var name = $('#fn').val().strip_tags();
 				var item = $('#contacts [data-id="'+Contacts.UI.Card.id+'"]');
 				$(item).find('a').html(name);
 				var added = false;
