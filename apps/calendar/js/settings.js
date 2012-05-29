@@ -44,4 +44,7 @@ $(document).ready(function(){
 		$('#' + jsondata.firstday).attr('selected',true);
 		$('#firstday').chosen();
 	});
+	$('#cleancalendarcache').click(function(){
+		$.getJSON(OC.filePath('calendar', 'ajax/cache', 'rescan.php'));
+	});
 });

@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (c) 2011 Bart Visscher <bartv@thisnet.nl>
- * Copyright (c) 2011 Georg Ehrke <ownclouddev at georgswebsite dot de>
+ * Copyright (c) 2012 Georg Ehrke <ownclouddev at georgswebsite dot de>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -42,6 +42,10 @@
                     <option value="mo" id="mo"><?php echo $l->t("Monday"); ?></option>
                     <option value="su" id="su"><?php echo $l->t("Sunday"); ?></option>
                 </select>
+            </td></tr>
+
+            <tr><td><label for="" class="bold"><?php echo $l->t('Cache');?></label></td><td>
+                <input id="cleancalendarcache" type="button" class="button" value="<?php echo $l->t('Clear cache for repeating events');?>">
             </td></tr>
 
         </table>
