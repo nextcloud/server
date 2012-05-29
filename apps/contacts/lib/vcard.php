@@ -227,7 +227,7 @@ class OC_Contacts_VCard{
 			$vcard->setString('FN', $fn);
 			OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'FN\' field: '.$fn,OCP\Util::DEBUG);
 		}
-		if(!$n || $n = ';;;;'){ // Fix missing 'N' field. Ugly hack ahead ;-)
+		if(!$n || $n == ';;;;'){ // Fix missing 'N' field. Ugly hack ahead ;-)
 			$slice = array_reverse(array_slice(explode(' ', $fn), 0, 2)); // Take 2 first name parts of 'FN' and reverse.
 			if(count($slice) < 2) { // If not enought, add one more...
 				$slice[] = "";
