@@ -430,7 +430,7 @@ class OC{
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
 		
 		//parse the given parameters
-		self::$REQUESTEDAPP = (isset($_GET['app'])?str_replace('\0', '', strip_tags($_GET['app'])):OC_Config::getValue('defaultapp', 'files'));
+		self::$REQUESTEDAPP = (isset($_GET['app'])?str_replace(array('\0', '/', '\\', '..'), '', strip_tags($_GET['app'])):OC_Config::getValue('defaultapp', 'files'));
 		if(substr_count(self::$REQUESTEDAPP, '?') != 0){
 			$app = substr(self::$REQUESTEDAPP, 0, strpos(self::$REQUESTEDAPP, '?'));
 			$param = substr(self::$REQUESTEDAPP, strpos(self::$REQUESTEDAPP, '?') + 1);
