@@ -35,9 +35,8 @@ if($id) {
 	$tmpl->assign('id',$id);
 } else {
 	bailOut(OC_Contacts_App::$l10n->t('Contact ID is missing.'));
-	//$addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
-	//$tmpl->assign('addressbooks', $addressbooks);
 }
-$tmpl->printpage();
+$page = $tmpl->fetchPage();
+OCP\JSON::success(array('data' => array('page'=>$page)));
 
 ?>

@@ -36,4 +36,10 @@ return array(
 		'host'=>'localhost',
 		'root'=>'/test',
 	),
+	'amazons3'=>array(
+		'run'=>false,
+		'key'=>'test',
+		'secret'=>'test',
+		'bucket'=>'bucket',
+	),
 );

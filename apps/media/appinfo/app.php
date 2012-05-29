@@ -23,6 +23,8 @@
 $l=OC_L10N::get('media');
 
 require_once('apps/media/lib_media.php');
+require_once('apps/media/lib_collection.php');
+require_once('apps/media/lib_scanner.php');
 
 OCP\Util::addscript('media','loader');
 OCP\App::registerPersonal('media','settings');
