@@ -1,5 +1,4 @@
 <?php
-require_once(OC::$APPSROOT . '/apps/files_sharing/lib_share.php');
 
 OCP\JSON::checkAppEnabled('files_sharing');
 OCP\JSON::checkLoggedIn();

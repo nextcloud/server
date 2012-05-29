@@ -28,9 +28,6 @@
 OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('media');
 
-require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
-require_once(OC::$APPSROOT . '/apps/media/lib_scanner.php');
-
 OCP\Util::addscript('media','player');
 OCP\Util::addscript('media','music');
 OCP\Util::addscript('media','playlist');

@@ -16,9 +16,6 @@ $state = OCP\Config::getSystemValue('ldapIgnoreNamingRules', 'doCheck');
 if($state == 'doCheck'){
 	$sqlCleanMap = 'DELETE FROM *PREFIX*ldap_user_mapping';
 
-	require_once(OC::$APPSROOT.'/apps/user_ldap/lib_ldap.php');
-	require_once(OC::$APPSROOT.'/apps/user_ldap/user_ldap.php');
-
 	OCP\Config::setSystemValue('ldapIgnoreNamingRules', true);
 	$LDAP_USER = new OC_USER_LDAP();
 	$users_old = $LDAP_USER->getUsers();
