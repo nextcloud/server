@@ -102,6 +102,8 @@ switch($element) {
 			$value = $vcard->getAsString('CATEGORIES');
 		}
 		break;*/
+	case 'NOTE':
+		$value = str_replace('\n', '\\n', $value);
 	case 'EMAIL':
 		$value = strtolower($value);
 		break;
