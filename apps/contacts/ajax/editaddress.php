@@ -26,6 +26,7 @@ if($checksum) {
 $tmpl->assign('id',$id);
 $tmpl->assign('adr_types',$adr_types);
 
-$tmpl->printpage();
+$page = $tmpl->fetchPage();
+OCP\JSON::success(array('data' => array('page'=>$page, 'checksum'=>$checksum)));
 
 ?>

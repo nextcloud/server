@@ -96,12 +96,9 @@ switch($element) {
 			//$value = getOtherValue();
 		}
 		break;
-	//case 'CATEGORIES':
-		/* multi autocomplete triggers an save with empty value
-		if (!$value) {
-			$value = $vcard->getAsString('CATEGORIES');
-		}
-		break;*/
+	case 'NOTE':
+		$value = str_replace('\n', '\\n', $value);
+		break;
 	case 'EMAIL':
 		$value = strtolower($value);
 		break;
