@@ -82,7 +82,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString(){
-		return '4';
+		return '4.0.1 pre';
 	}
 
         /**
