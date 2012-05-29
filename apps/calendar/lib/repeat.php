@@ -36,12 +36,21 @@ class OC_Calendar_Repeat{
 	}
 	/*
 	 * @brief returns the cache of all repeating events of a calendar
+	 * @param (int) $id - id of the calendar
+	 * @return (array) 
 	 */
-	public static function getcalendar();
+	public static function getcalendar($id){
+
+	}
 	/*
 	 * @brief returns the cache of all repeating events of a calendar in a specific period
+	 * @param (int) $id - id of the event
+	 * @param (string) $from - start for period in UTC
+	 * @param (string) $until - end for period in UTC
 	 */
-	public static function getcalendar_inperiod();
+	public static function getcalendar_inperiod($id, $from, $until){
+		
+	}
 	/*
 	 * @brief generates the cache the first time
 	 */
