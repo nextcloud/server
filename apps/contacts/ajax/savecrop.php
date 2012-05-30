@@ -71,7 +71,7 @@ if(file_exists($tmp_path)) {
 		OCP\Util::writeLog('contacts','savecrop.php, x: '.$x1.' y: '.$y1.' w: '.$w.' h: '.$h, OCP\Util::DEBUG);
 		if($image->crop($x1, $y1, $w, $h)) {
 			if(($image->width() <= 200 && $image->height() <= 200) || $image->resize(200)) {
-				$tmpfname = tempnam("/tmp", "occCropped"); // create a new file because of caching issues.
+				$tmpfname = tempnam(get_temp_dir(), "occCropped"); // create a new file because of caching issues.
 				if($image->save($tmpfname)) {
 					unlink($tmp_path);
 					$card = OC_Contacts_App::getContactVCard($id);

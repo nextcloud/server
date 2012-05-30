@@ -67,7 +67,7 @@ if($error !== UPLOAD_ERR_OK) {
 }
 $file=$_FILES['importfile'];
 
-$tmpfname = tempnam("/tmp", "occOrig");
+$tmpfname = tempnam(get_temp_dir(), "occOrig");
 if(file_exists($file['tmp_name'])) {
 	if($view->file_put_contents('/'.$tmpfile, file_get_contents($file['tmp_name']))) {
 		debug($fn.' uploaded');
