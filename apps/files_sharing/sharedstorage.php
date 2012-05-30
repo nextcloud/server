@@ -320,6 +320,11 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	public function file_get_contents($path) {
 		$source = $this->getSource($path);
 		if ($source) {
+			$info = array(
+				'target' => $this->datadir.$path,
+				'source' => $source,
+			);
+			OCP\Util::emitHook('OC_Filestorage_Shared', 'file_get_contents', $info);
 			$storage = OC_Filesystem::getStorage($source);
 			return $storage->file_get_contents($this->getInternalPath($source));
 		}
@@ -329,6 +334,11 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		if ($this->is_writable($path)) {
 			$source = $this->getSource($path);
 			if ($source) {
+				$info = array(
+						'target' => $this->datadir.$path,
+						'source' => $source,
+					     );
+				OCP\Util::emitHook('OC_Filestorage_Shared', 'file_put_contents', $info);
 				$storage = OC_Filesystem::getStorage($source);
 				$result = $storage->file_put_contents($this->getInternalPath($source), $data);
 				if ($result) {
@@ -416,6 +426,12 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 	public function fopen($path, $mode) {
 		$source = $this->getSource($path);
 		if ($source) {
+			$info = array(
+				'target' => $this->datadir.$path,
+				'source' => $source,
+				'mode' => $mode,
+			);
+			OCP\Util::emitHook('OC_Filestorage_Shared', 'fopen', $info);
 			$storage = OC_Filesystem::getStorage($source);
 			return $storage->fopen($this->getInternalPath($source), $mode);
 		}
