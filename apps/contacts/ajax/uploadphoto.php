@@ -46,7 +46,7 @@ if ($fn) {
 		exit();
 	}
 	$id = $_GET['id'];
-	$tmpfname = tempnam('/tmp', 'occOrig');
+	$tmpfname = tempnam(get_temp_dir(), 'occOrig');
 	file_put_contents($tmpfname, file_get_contents('php://input'));
 	debug($tmpfname.' uploaded');
 	$image = new OC_Image();
@@ -93,7 +93,7 @@ if($error !== UPLOAD_ERR_OK) {
 }
 $file=$_FILES['imagefile'];
 
-$tmpfname = tempnam("/tmp", "occOrig");
+$tmpfname = tempnam(get_temp_dir(), "occOrig");
 if(file_exists($file['tmp_name'])) {
 	$image = new OC_Image();
 	if($image->loadFromFile($file['tmp_name'])) {

@@ -40,7 +40,7 @@ if (!isset($_GET['id'])) {
 	bailOut(OC_Contacts_App::$l10n->t('No contact ID was submitted.'));
 }
 
-$tmpfname = tempnam("/tmp", "occOrig");
+$tmpfname = tempnam(get_temp_dir(), "occOrig");
 $contact = OC_Contacts_App::getContactVCard($_GET['id']);
 $image = new OC_Image();
 if(!$image) {

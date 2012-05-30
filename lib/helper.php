@@ -514,7 +514,7 @@ class OC_Helper {
 	 * remove all files created by self::tmpFile
 	 */
 	public static function cleanTmp(){
-		$leftoversFile='/tmp/oc-not-deleted';
+		$leftoversFile=get_temp_dir().'/oc-not-deleted';
 		if(file_exists($leftoversFile)){
 			$leftovers=file($leftoversFile);
 			foreach($leftovers as $file) {
