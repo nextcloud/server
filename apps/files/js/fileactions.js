@@ -163,7 +163,7 @@ FileActions.register('all','Rename',function(){return OC.imagePath('core','actio
 });
 
 FileActions.register('dir','Open','',function(filename){
-	window.location='index.php?dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
+	window.location=OC.linkTo('files', 'index.php') + '&dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
 });
 
 FileActions.setDefault('dir','Open');
