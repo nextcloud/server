@@ -81,7 +81,7 @@ class Storage {
 			Storage::init();
 
 			// check if filename is a directory
-			if(is_dir($filesfoldername.$filename)){
+			if(is_dir($filesfoldername.'/'.$filename)){
 				return false;
 			}
 
@@ -143,7 +143,7 @@ class Storage {
 			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. $uid .'/files';
 			
 			// rollback
-			if ( @copy($versionsfoldername.'/'.$filename.'.v'.$revision,$filesfoldername.$filename) ) {
+			if ( @copy($versionsfoldername.'/'.$filename.'.v'.$revision,$filesfoldername.'/'.$filename) ) {
 			
 				return true;
 				
