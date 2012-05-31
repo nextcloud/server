@@ -33,7 +33,9 @@
  * use this class directly rather than using OC_Filesystem, or making use of PHP's
  * built-in file manipulation functions. This will ensure all hooks and proxies 
  * are triggered correctly.
- * 
+ *
+ * Filesystem functions are not called directly; they are passed to the correct 
+ * OC_Filestorage object
  */
 
 class OC_FilesystemView {
@@ -118,7 +120,9 @@ class OC_FilesystemView {
 	}
 
 	/**
-	 * the following functions operate with arguments and return values identical to those of their PHP built-in equivalents
+	 * the following functions operate with arguments and return values identical 
+	 * to those of their PHP built-in equivalents. Mostly they are merely wrappers 
+	 * for OC_Filestorage via basicOperation().
 	 */
 	public function mkdir($path){
 		return $this->basicOperation('mkdir',$path,array('create','write'));
@@ -351,12 +355,16 @@ class OC_FilesystemView {
 	}
 
 	/**
-	 * abstraction for running most basic operations
+	 * @brief abstraction layer for basic filesystem functions: wrapper for OC_Filestorage
 	 * @param string $operation
 	 * @param string #path
 	 * @param array (optional) hooks
 	 * @param mixed (optional) $extraParam
 	 * @return mixed
+	 * 
+	 * This method takes requests for basic filesystem functions (e.g. reading & writing 
+	 * files), processes hooks and proxies, sanitises paths, and finally passes them on to 
+	 * OC_Filestorage for delegation to a storage backend for execution
 	 */
 	private function basicOperation($operation,$path,$hooks=array(),$extraParam=null){
 		if(OC_FileProxy::runPreProxies($operation,$path, $extraParam) and OC_Filesystem::isValidPath($path)){
