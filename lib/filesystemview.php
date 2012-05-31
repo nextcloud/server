@@ -1,25 +1,39 @@
 <?php
 
 /**
-* ownCloud
-*
-* @author Frank Karlitschek
-* @copyright 2012 Frank Karlitschek frank@owncloud.org
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ * ownCloud
+ *
+ * @author Frank Karlitschek
+ * @copyright 2012 Frank Karlitschek frank@owncloud.org
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+/**
+ * Class to provide app access to files outside of the currently logged in user's data
+ * folder. Functions are provided to create a "view" into ownCloud's virtual file  
+ * system, and an API similar to the oc_filesystem class is available for manipulating
+ * those files (including the ability to read, write, and delete files).
+ * 
+ * Every view can have it's own chroot, giving it access to a part of the 
+ * filesystem and will provide the same functionality as oc_filesystem.
+
+ * For instance an app can create a new filesystem view on a data folder belonging
+ * to a user other than the one logged in, so that it may change the files there 
+ * (use case: enabling sharing of files).
+ */
 
 class OC_FilesystemView {
 	private $fakeRoot='';
