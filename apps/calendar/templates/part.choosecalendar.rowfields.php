@@ -1,6 +1,6 @@
 <?php
 echo '<td width="20px"><input id="active_' . $_['calendar']['id'] . '" type="checkbox" onClick="Calendar.UI.Calendar.activation(this,' . $_['calendar']['id'] . ')"' . ($_['calendar']['active'] ? ' checked="checked"' : '') . '></td>';
-echo '<td  id="' . OCP\USER::getUser() . '_' . $_['calendar']['id'] . '"><label for="active_' . $_['calendar']['id'] . '">' . $_['calendar']['displayname'] . '</label></td>';
+echo '<td  id="' . OCP\USER::getUser() . '_' . $_['calendar']['id'] . '"><label for="active_' . $_['calendar']['id'] . '">' . htmlspecialchars($_['calendar']['displayname']) . '</label></td>';
 echo '<td width="20px"><a href="#" onclick="Calendar.UI.Share.dropdown(\'' . OCP\USER::getUser() . '\', \'' . $_['calendar']['id'] . '\');" title="' . $l->t("Share Calendar") . '" class="action"><img  class="svg action" src="' . ((!$_['shared']) ? OCP\Util::imagePath('core', 'actions/share.svg') : OCP\Util::imagePath('core', 'actions/shared.svg')) . '"></a></td>';
 echo '<td width="20px"><a href="#" onclick="Calendar.UI.showCalDAVUrl(\'' . OCP\USER::getUser() . '\', \'' . $_['calendar']['uri'] . '\');" title="' . $l->t("CalDav Link") . '" class="action"><img  class="svg action" src="'.OCP\Util::imagePath('core', 'actions/public.svg').'"></a></td>';
 echo '<td width="20px"><a href="?app=calendar&getfile=export.php?calid=' . $_['calendar']['id'] . '" title="' . $l->t('Download') . '" class="action"><img class="svg action" src="'.OCP\Util::imagePath('core', 'actions/download.svg').'"></a></td>';
