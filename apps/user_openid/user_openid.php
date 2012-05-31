@@ -39,9 +39,9 @@ class OC_USER_OPENID extends OC_User_Backend {
 		// Get identity from user and redirect browser to OpenID Server
 		$openid = new SimpleOpenID;
 		$openid->SetIdentity($uid);
-		$openid->SetTrustRoot('http://' . $_SERVER["HTTP_HOST"]);
+		$openid->SetTrustRoot('http://' . OCP\Util::getServerHost());
 		if ($openid->GetOpenIDServer()){
-			$openid->SetApprovedURL('http://' . $_SERVER["HTTP_HOST"] . OC::$WEBROOT);      // Send Response from OpenID server to this script
+			$openid->SetApprovedURL('http://' . OCP\Util::getServerHost() . OC::$WEBROOT);      // Send Response from OpenID server to this script
 			$openid->Redirect();     // This will redirect user to OpenID Server
 			exit;
 		}else{

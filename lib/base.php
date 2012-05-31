@@ -211,9 +211,11 @@ class OC{
 		if( OC_Config::getValue( "forcessl", false )){
 			ini_set("session.cookie_secure", "on");
 			if(!isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] != 'on') {
-				$url = "https://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-				header("Location: $url");
-				exit();
+				if(!isset($_SERVER['HTTP_X_FORWARDED_PROTO']) or $_SERVER['HTTP_X_FORWARDED_PROTO']=='http') {
+					$url = "https://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+					header("Location: $url");
+					exit();
+				}
 			}
 		}
 	}

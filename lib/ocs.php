@@ -357,11 +357,11 @@ class OC_OCS {
    */
   private static function apiConfig($format) {
     $user=OC_OCS::checkpassword(false);
-    $url=substr($_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'],0,-11).'';
+    $url=substr(OC_Helper::serverHost().$_SERVER['SCRIPT_NAME'],0,-11).'';
 
     $xml['version']='1.5';
     $xml['website']='ownCloud';
-    $xml['host']=$_SERVER['HTTP_HOST'];
+    $xml['host']=OC_Helper::serverHost();
     $xml['contact']='';
     $xml['ssl']='false';
     echo(OC_OCS::generatexml($format,'ok',100,'',$xml,'config','',1));
