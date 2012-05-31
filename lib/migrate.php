@@ -146,7 +146,7 @@ class OC_Migrate{
 	 		case 'instance':
 	 			self::$content = new OC_Migration_Content( self::$zip );
 				// Creates a zip that is compatable with the import function
-				$dbfile = tempnam( "/tmp", "owncloud_export_data_" );
+				$dbfile = tempnam( get_temp_dir(), "owncloud_export_data_" );
 				OC_DB::getDbStructure( $dbfile, 'MDB2_SCHEMA_DUMP_ALL');
 
 				// Now add in *dbname* and *dbprefix*

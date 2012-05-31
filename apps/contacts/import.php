@@ -11,6 +11,7 @@ ob_start();
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 $nl = "\n";
+
 $progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
 
 function writeProgress($pct) {
@@ -48,78 +49,46 @@ if(isset($_POST['method']) && $_POST['method'] == 'new'){
 	OC_Contacts_App::getAddressbook($id); // is owner access check
 }
 //analyse the contacts file
-writeProgress('20');
-$searchfor = array('VCARD');
-$parts = $searchfor;
-$filearr = explode($nl, $file);
+writeProgress('40');
+$lines = explode($nl, $file);
 $inelement = false;
 $parts = array();
-$i = 0;
-foreach($filearr as $line){
-	foreach($searchfor as $search){
-		if(substr_count($line, $search) == 1){
-			list($attr, $val) = explode(':', $line);
-			if($attr == 'BEGIN'){
-				$parts[]['begin'] = $i;
-				$inelement = true;
-			}
-			if($attr == 'END'){
-				$parts[count($parts) - 1]['end'] = $i;
-				$inelement = false;
-			}
-		}
+$card = array();
+foreach($lines as $line){
+	if(strtoupper(trim($line)) == 'BEGIN:VCARD'){
+		$inelement = true;
+	} elseif (strtoupper(trim($line)) == 'END:VCARD') {
+		$card[] = $line;
+		$parts[] = implode($nl, $card);
+		$card = array();
+		$inelement = false;
 	}
-	$i++;
+	if ($inelement === true && trim($line) != '') {
+		$card[] = $line;
+	}
 }
 //import the contacts
-writeProgress('40');
-$start = '';
-for ($i = 0; $i < $parts[0]['begin']; $i++) { 
-	if($i == 0){
-		$start = $filearr[0];
-	}else{
-		$start .= $nl . $filearr[$i];
-	}
-}
-$end = '';
-for($i = $parts[count($parts) - 1]['end'] + 1;$i <= count($filearr) - 1; $i++){
-	if($i == $parts[count($parts) - 1]['end'] + 1){
-		$end = $filearr[$parts[count($parts) - 1]['end'] + 1];
-	}else{
-		$end .= $nl . $filearr[$i];
-	}
-}
-writeProgress('50');
-$importready = array();
-foreach($parts as $part){
-	for($i = $part['begin']; $i <= $part['end'];$i++){
-		if($i == $part['begin']){
-			$content = $filearr[$i];
-		}else{
-			$content .= $nl . $filearr[$i];
-		}
-	}
-	$importready[] = $start . $nl . $content . $nl . $end;
-}
 writeProgress('70');
-if(count($parts) == 1){
-	$importready = array($file);
-}
 $imported = 0;
 $failed = 0;
-if(!count($importready) > 0) {
+if(!count($parts) > 0) {
 	OCP\JSON::error(array('message' => 'No contacts to import in .'.$_POST['file'].' Please check if the file is corrupted.'));
 	exit();
 }
-foreach($importready as $import){
-	$card = OC_VObject::parse($import);
+foreach($parts as $part){
+	$card = OC_VObject::parse($part);
 	if (!$card) {
 		$failed += 1;
-		OCP\Util::writeLog('contacts','Import: skipping card. Error parsing VCard: '.$import, OCP\Util::ERROR);
+		OCP\Util::writeLog('contacts','Import: skipping card. Error parsing VCard: '.$part, OCP\Util::ERROR);
 		continue; // Ditch cards that can't be parsed by Sabre.
 	}
-	$imported += 1;
-	OC_Contacts_VCard::add($id, $card);
+	try {
+		OC_Contacts_VCard::add($id, $card);
+		$imported += 1;
+	} catch (Exception $e) {
+		OCP\Util::writeLog('contacts', 'Error importing vcard: '.$e->getMessage().$nl.$card, OCP\Util::ERROR);
+		$failed += 1;
+	}
 }
 //done the import
 writeProgress('100');
