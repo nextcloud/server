@@ -22,17 +22,18 @@
 
 
 /**
- * Class to provide app access to files outside of the currently logged in user's data
- * folder. Functions are provided to create a "view" into ownCloud's virtual file  
- * system, and an API similar to the oc_filesystem class is available for manipulating
- * those files (including the ability to read, write, and delete files).
+ * Class to provide access to ownCloud filesystem via a "view", and methods for 
+ * working with files within that view (e.g. read, write, delete, etc.). Each 
+ * view is restricted to a set of directories via a virtual root. The default view 
+ * uses the currently logged in user's data directory as root (parts of 
+ * OC_Filesystem are merely a wrapper for OC_FilesystemView).
  * 
- * Every view can have it's own chroot, giving it access to a part of the 
- * filesystem and will provide the same functionality as oc_filesystem.
-
- * For instance an app can create a new filesystem view on a data folder belonging
- * to a user other than the one logged in, so that it may change the files there 
- * (use case: enabling sharing of files).
+ * Apps that need to access files outside of the user data folders (to modify files
+ * belonging to a user other than the one currently logged in, for example) should
+ * use this class directly rather than using OC_Filesystem, or making use of PHP's
+ * built-in file manipulation functions. This will ensure all hooks and proxies 
+ * are triggered correctly.
+ * 
  */
 
 class OC_FilesystemView {
