@@ -96,7 +96,7 @@ class Storage {
 			}
 			
 			// check filesize
-			if(filesize($filesfoldername.$filename)>\OCP\Config::getSystemValue('files_versionsmaxfilesize', Storage::DEFAULTMAXFILESIZE)){
+			if(filesize($filesfoldername.'/'.$filename)>\OCP\Config::getSystemValue('files_versionsmaxfilesize', Storage::DEFAULTMAXFILESIZE)){
 				return false;
 			}
 
@@ -117,7 +117,7 @@ class Storage {
 			@mkdir($versionsfoldername.$info['dirname'],0700,true);	
 
 			// store a new version of a file
-			copy($filesfoldername.$filename,$versionsfoldername.$filename.'.v'.time());
+			copy($filesfoldername.'/'.$filename,$versionsfoldername.$filename.'.v'.time());
         
 			// expire old revisions
 			Storage::expire($filename);
