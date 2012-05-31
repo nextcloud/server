@@ -103,7 +103,7 @@ class OC_FilesystemView {
 	}
 
 	/**
-	 * following functions are equivilent to their php buildin equivilents for arguments/return values.
+	 * the following functions operate with arguments and return values identical to those of their PHP built-in equivalents
 	 */
 	public function mkdir($path){
 		return $this->basicOperation('mkdir',$path,array('create','write'));
