@@ -29,8 +29,6 @@ require_once('apps/media/lib_scanner.php');
 OCP\Util::addscript('media','loader');
 OCP\App::registerPersonal('media','settings');
 
-OCP\App::register( array( 'order' => 3, 'id' => 'media', 'name' => 'Media' ));
-
 OCP\App::addNavigationEntry(array('id' => 'media_index', 'order' => 2, 'href' => OCP\Util::linkTo('media', 'index.php'), 'icon' => OCP\Util::imagePath('core', 'places/music.svg'), 'name' => $l->t('Music')));
 
 OC_Search::registerProvider('OC_MediaSearchProvider');

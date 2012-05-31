@@ -26,8 +26,6 @@ OCP\Util::addStyle( 'external', 'style');
 
 OCP\App::registerAdmin('external', 'settings');
 
-OCP\App::register(array('order' => 70, 'id' => 'external', 'name' => 'External'));
-
 $sites = OC_External::getSites();
 for ($i = 0; $i < sizeof($sites); $i++) {
 	OCP\App::addNavigationEntry(

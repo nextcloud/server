@@ -29,11 +29,6 @@ OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'apps/gallery/lib/hooks_handlers.p
 
 $l = OC_L10N::get('gallery');
 
-OCP\App::register(array(
-  'order' => 20,
-  'id' => 'gallery',
-  'name' => 'Pictures'));
-
 OCP\App::addNavigationEntry( array(
  'id' => 'gallery_index',
  'order' => 20,
