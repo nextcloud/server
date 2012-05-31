@@ -410,6 +410,9 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
                     }
                     $db->loadModule('Datatype', null, true);
                     $type = $db->datatype->getTypeDeclaration($field['definition']);
+                    if($type=='SERIAL PRIMARY KEY'){//not correct when altering a table, since serials arent a real type
+						$type='INTEGER';//use integer instead
+                    }
                     $query = "ALTER $field_name TYPE $type USING CAST($field_name AS $type)";
                     $result = $db->exec("ALTER TABLE $name $query");
                     if (PEAR::isError($result)) {

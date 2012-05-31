@@ -42,7 +42,7 @@ if(!isset($_GET['path'])) {
 }
 
 $localpath = OC_Filesystem::getLocalFile($_GET['path']);
-$tmpfname = tempnam("/tmp", "occOrig");
+$tmpfname = tempnam(get_temp_dir(), "occOrig");
 
 if(!file_exists($localpath)) {
 	bailOut(OC_Contacts_App::$l10n->t('File doesn\'t exist:').$localpath);
