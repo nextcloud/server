@@ -23,7 +23,7 @@
 
 require_once('../lib/base.php');
 
-$url='http://'.substr($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],0,-17).'ocs/v1.php/';
+$url='http://'.substr(OCP\Util::getServerHost().$_SERVER['REQUEST_URI'],0,-17).'ocs/v1.php/';
 
 echo('
 <providers>

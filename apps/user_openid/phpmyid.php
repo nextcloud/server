@@ -1624,7 +1624,7 @@ if (! array_key_exists('idp_url', $profile))
 //Determine the requested URL - DO NOT OVERRIDE
 $profile['req_url'] = sprintf("%s://%s%s",
 		      $proto,
-		      $_SERVER['HTTP_HOST'],
+		      OCP\Util::getServerHost(),
 // 		      $port,//host  already includes the path
 		      $_SERVER["REQUEST_URI"]);
 
