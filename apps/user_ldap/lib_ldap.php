@@ -366,19 +366,24 @@ class OC_LDAP {
 		$table = self::getMapTable($isUser);
 		$dn = self::sanitizeDN($dn);
 
-		$sqliteAdjustment = '';
+		$sqlAdjustment = '';
 		$dbtype = OCP\Config::getSystemValue('dbtype');
-		if(($dbtype == 'sqlite') || ($dbtype == 'sqlite3')) {
-			$sqliteAdjustment = 'OR';
+		if($dbtype == 'mysql') {
+			$sqlAdjustment = 'FROM dual';
 		}
 
 		$insert = OCP\DB::prepare('
-			INSERT '.$sqliteAdjustment.' IGNORE INTO '.$table.'
-			(ldap_dn, owncloud_name)
-			VALUES (?,?)
+			INSERT INTO '.$table.' (ldap_dn, owncloud_name)
+				SELECT ?,?
+				'.$sqlAdjustment.'
+				WHERE NOT EXISTS (
+					SELECT 1
+					FROM '.$table.'
+					WHERE ldap_dn = ?
+						AND owncloud_name = ? )
 		');
 
-		$res = $insert->execute(array($dn, $ocname));
+		$res = $insert->execute(array($dn, $ocname, $dn, $ocname));
 
 		return !OCP\DB::isError($res);
 	}
