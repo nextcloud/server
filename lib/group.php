@@ -233,6 +233,7 @@ class OC_Group {
 
 			$groups=array_merge($backend->getUserGroups($uid),$groups);
 		}
+		asort($groups);
 		return $groups;
 	}
 
@@ -250,6 +251,7 @@ class OC_Group {
 
 			$groups=array_merge($backend->getGroups(),$groups);
 		}
+		asort($groups);
 		return $groups;
 	}
 	
