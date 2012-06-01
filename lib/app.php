@@ -78,7 +78,7 @@ class OC_App{
 	 * @param string app
 	 */
 	public static function loadApp($app){
-		if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
+		if(is_file(self::getAppPath($app).'/appinfo/app.php')){
 			require_once( $app.'/appinfo/app.php' );
 		}
 	}
@@ -323,10 +323,24 @@ class OC_App{
 	}
 
 	/**
+	* Get the directory for the given app.
+	* If the app is defined in multiple directory, the first one is taken. (false if not found)
+	*/
+	public static function getAppPath($appid) {
+		foreach(OC::$APPSROOTS as $dir) {
+			if(file_exists($dir.'/'.$appid)) {
+				return $dir.'/'.$appid;
+			}
+		}
+// 		OC_Log::write('core','Unable to find app "'.$appid.'"',OC_Log::ERROR);
+		return false;
+	}
+
+	/**
 	 * get the last version of the app, either from appinfo/version or from appinfo/info.xml
 	 */
 	public static function getAppVersion($appid){
-		$file=OC::$APPSROOT.'/apps/'.$appid.'/appinfo/version';
+		$file= self::getAppPath($appid).'/appinfo/version';
 		$version=@file_get_contents($file);
 		if($version){
 			return $version;
@@ -349,7 +363,7 @@ class OC_App{
 			if(isset(self::$appInfo[$appid])){
 				return self::$appInfo[$appid];
 			}
-			$file=OC::$APPSROOT.'/apps/'.$appid.'/appinfo/info.xml';
+			$file= self::getAppPath($appid).'/appinfo/info.xml';
 		}
 		$data=array();
 		$content=@file_get_contents($file);
@@ -462,10 +476,12 @@ class OC_App{
 	 */
 	public static function getAllApps(){
 		$apps=array();
-		$dh=opendir(OC::$APPSROOT.'/apps');
-		while($file=readdir($dh)){
-			if(substr($file,0,1)!='.' and is_file(OC::$APPSROOT.'/apps/'.$file.'/appinfo/app.php')){
-				$apps[]=$file;
+		foreach(OC::$APPSROOTS as $apps_dir) {
+			$dh=opendir($apps_dir);
+			while($file=readdir($dh)){
+				if(substr($file,0,1)!='.' and is_file($apps_dir.'/'.$file.'/appinfo/app.php')){
+					$apps[]=$file;
+				}
 			}
 		}
 		return $apps;
@@ -530,14 +546,14 @@ class OC_App{
 	 * @param string appid
 	 */
 	public static function updateApp($appid){
-		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/database.xml')){
-			OC_DB::updateDbFromStructure(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/database.xml');
+		if(file_exists(self::getAppPath($appid).'/appinfo/database.xml')){
+			OC_DB::updateDbFromStructure(self::getAppPath($appid).'/appinfo/database.xml');
 		}
 		if(!self::isEnabled($appid)){
 			return;
 		}
-		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php')){
-			include OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php';
+		if(file_exists(self::getAppPath($appid).'/appinfo/update.php')){
+			include self::getAppPath($appid).'/appinfo/update.php';
 		}
 
 		//set remote/public handelers

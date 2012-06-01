@@ -57,7 +57,7 @@ class OC{
 	/**
 	 * The installation path of the apps folder on the server (e.g. /srv/http/owncloud)
 	 */
-	public static $APPSROOT = '';
+	public static $APPSROOTS = array();
 	/**
 	 * the root path of the apps folder for http requests (e.g. owncloud)
 	 */
@@ -168,15 +168,17 @@ class OC{
 
 		// search the apps folder
 		if(OC_Config::getValue('appsroot', '')<>''){
-			OC::$APPSROOT=OC_Config::getValue('appsroot', '');
+			OC::$APPSROOTS=explode(':',OC_Config::getValue('appsroot', ''));
 			OC::$APPSWEBROOT=OC_Config::getValue('appsurl', '');
 		}elseif(file_exists(OC::$SERVERROOT.'/apps')){
-			OC::$APPSROOT=OC::$SERVERROOT;
-			OC::$APPSWEBROOT=OC::$WEBROOT;
-		}elseif(file_exists(OC::$SERVERROOT.'/../apps')){
-			OC::$APPSROOT=rtrim(dirname(OC::$SERVERROOT), '/');
-			OC::$APPSWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
-		}else{
+			OC::$APPSROOTS= array(OC::$SERVERROOT.'/apps');
+ 			OC::$APPSWEBROOT=OC::$WEBROOT;
+		}
+		if(file_exists(OC::$SERVERROOT.'/../apps')){
+			OC::$APPSROOTS[] = rtrim(realpath(OC::$SERVERROOT.'/../apps'), '/');
+// 			OC::$APPSWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
+		}
+		if(empty(OC::$APPSROOTS)){
 			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
 			exit;
 		}
@@ -186,8 +188,7 @@ class OC{
 			OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.
 			OC::$SERVERROOT.'/config'.PATH_SEPARATOR.
 			OC::$THIRDPARTYROOT.'/3rdparty'.PATH_SEPARATOR.
-			OC::$APPSROOT.PATH_SEPARATOR.
-			OC::$APPSROOT.'/apps'.PATH_SEPARATOR.
+			implode(OC::$APPSROOTS,PATH_SEPARATOR).PATH_SEPARATOR.
 			get_include_path().PATH_SEPARATOR.
 			OC::$SERVERROOT
 		);
@@ -273,15 +274,15 @@ class OC{
 	}
 
 	public static function loadapp(){
-		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php')){
-			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php');
+		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php')){
+			require_once(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php');
 		}else{
 			trigger_error('The requested App was not found.', E_USER_ERROR);//load default app instead?
 		}
 	}
 
 	public static function loadfile(){
-		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE)){
+		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/' . OC::$REQUESTEDFILE)){
 			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
 				$file = 'apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE;
 				$minimizer = new OC_Minimizer_CSS();
@@ -453,8 +454,8 @@ class OC{
 			$_GET['getfile'] = $file;
 		}
 		if(!is_null(self::$REQUESTEDFILE)){
-			$subdir = OC::$APPSROOT . '/apps/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE;
-			$parent = OC::$APPSROOT . '/apps/' . self::$REQUESTEDAPP;
+			$subdir = OC_App::getAppPath(OC::$REQUESTEDAPP) . '/' . self::$REQUESTEDFILE;
+			$parent = OC_App::getAppPath(OC::$REQUESTEDAPP);
 			if(!OC_Helper::issubdirectory($subdir, $parent)){
 				self::$REQUESTEDFILE = null;
 				header('HTTP/1.0 404 Not Found');

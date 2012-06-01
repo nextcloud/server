@@ -40,7 +40,7 @@ class OC_Helper {
 		if( $app != '' ){
 			$app .= '/';
 			// Check if the app is in the app folder
-			if( file_exists( OC::$APPSROOT . '/apps/'. $app.$file )){
+			if( file_exists( OC_App::getAppPath($app).$file )){
 				if(substr($file, -3) == 'php' || substr($file, -3) == 'css'){	
 					if(substr($app, -1, 1) == '/'){
 						$app = substr($app, 0, strlen($app) - 1);
@@ -150,7 +150,7 @@ class OC_Helper {
 		// Check if the app is in the app folder
 		if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )){
 			return OC::$WEBROOT."/themes/$theme/apps/$app/img/$image";
-		}elseif( file_exists( OC::$APPSROOT."/apps/$app/img/$image" )){
+		}elseif( file_exists(OC_App::getAppPath($app)."/img/$image" )){
 			return OC::$APPSWEBROOT."/apps/$app/img/$image";
 		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/themes/$theme/$app/img/$image" )){
 			return OC::$WEBROOT."/themes/$theme/$app/img/$image";
