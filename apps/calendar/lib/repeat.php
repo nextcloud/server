@@ -54,29 +54,49 @@ class OC_Calendar_Repeat{
 	/*
 	 * @brief generates the cache the first time
 	 */
-	public static function generate();
+	public static function generate($id){
+
+	}
 	/*
 	 * @brief generates the cache the first time for all repeating event of an calendar
 	 */
-	public static function generatecalendar();
+	public static function generatecalendar($id){
+
+	}
 	/*
 	 * @brief updates an event that is already cached
 	 */
-	public static function update();
+	public static function update($id){
+
+	}
 	/*
 	 * @brief updates all repating events of a calendar that are already cached
 	 */
-	public static function updatecalendar();
+	public static function updatecalendar($id){
+
+	}
 	/*
 	 * @brief checks if an event is already cached
 	 */
-	public static function is_cached();
+	public static function is_cached($id){
+
+	}
+	/*
+	 * @brief checks if a whole calendar is already cached
+	 */
+	public static function is_calendar_cached($id){
+
+	}
 	/*
 	 * @brief removes the cache of an event
 	 */
-	public static function clean();
+	public static function clean($id){
+
+	}
 	/*
 	 * @brief removes the cache of all events of a calendar
 	 */
-	public static function cleancalendar();
+	public static function cleancalendar($id){
+		
+	}
 }
