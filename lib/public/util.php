@@ -168,6 +168,18 @@ class Util {
 		return(\OC_Helper::serverHost());
 	}
 
+
+	/**
+	 * @brief Returns the server protocol
+	 * @returns the server protocol
+	 *
+	 * Returns the server protocol. It respects reverse proxy servers and load balancers
+	 */
+	 public static function getServerProtocol() {
+		return(\OC_Helper::serverProtocol());
+	}
+
+
 	/**
 	 * @brief Creates path to an image
 	 * @param $app app

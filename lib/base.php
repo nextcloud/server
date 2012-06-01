@@ -210,12 +210,10 @@ class OC{
 		// redirect to https site if configured
 		if( OC_Config::getValue( "forcessl", false )){
 			ini_set("session.cookie_secure", "on");
-			if(!isset($_SERVER['HTTPS']) or $_SERVER['HTTPS'] != 'on') {
-				if(!isset($_SERVER['HTTP_X_FORWARDED_PROTO']) or $_SERVER['HTTP_X_FORWARDED_PROTO']=='http') {
-					$url = "https://". $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-					header("Location: $url");
-					exit();
-				}
+			if(OC_Helper::serverProtocol()<>'https') {
+				$url = "https://". OC_Helper::serverHost() . $_SERVER['REQUEST_URI'];
+				header("Location: $url");
+				exit();
 			}
 		}
 	}
@@ -373,10 +371,10 @@ class OC{
 
                 // CSRF protection
                 if(isset($_SERVER['HTTP_REFERER'])) $referer=$_SERVER['HTTP_REFERER']; else $referer='';
-                if(isset($_SERVER['HTTPS']) and $_SERVER['HTTPS']<>'') $protocol='https://'; else $protocol='http://';
-                $server=$protocol.$_SERVER['SERVER_NAME'];
+                $protocol=OC_Helper::serverProtocol().'://'; 
+		$server=$protocol.OC_Helper::serverHost();
                 if(($_SERVER['REQUEST_METHOD']=='POST') and (substr($referer,0,strlen($server))<>$server)) {
-                        $url = $protocol.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
+			$url = $protocol.OC_Helper::serverProtocol().OC::$WEBROOT.'/index.php'; 
                         header("Location: $url");
                         exit();
                 } 
