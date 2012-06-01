@@ -265,6 +265,9 @@ class OC_Util {
 		if(floatval(phpversion())<5.3){
 			$errors[]=array('error'=>'PHP 5.3 is required.<br/>','hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
 		}
+		if(!defined('PDO::ATTR_DRIVER_NAME')){
+			$errors[]=array('error'=>'PHP PDO module is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+		}
 
 		return $errors;
 	}
