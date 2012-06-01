@@ -336,6 +336,7 @@ class OC_User {
 				}
 			}
 		}
+		asort($users);
 		return $users;
 	}
 
