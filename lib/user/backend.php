@@ -40,8 +40,10 @@ define('OC_USER_BACKEND_USER_EXISTS',       0x100000);
 
 
 /**
- * abstract base class for user management
- * subclass this for your own backends and see OC_User_Example for descriptions
+ * Abstract base class for user management. Provides methods for querying backend
+ * capabilities.
+ *
+ * Subclass this for your own backends, and see OC_User_Example for descriptions
  */
 abstract class OC_User_Backend {
 
