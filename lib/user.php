@@ -21,7 +21,9 @@
  */
 
 /**
- * This class provides all methods for user management.
+ * This class provides wrapper methods for user management. Multiple backends are 
+ * supported. User management operations are delegated to the configured backend for
+ * execution.
  *
  * Hooks provided:
  *   pre_createUser(&run, uid, password)
