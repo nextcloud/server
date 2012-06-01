@@ -31,8 +31,8 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		$this->ldapGroupFilter          = OCP\Config::getAppValue('user_ldap', 'ldap_group_filter', '(objectClass=posixGroup)');
 		$this->ldapGroupMemberAssocAttr = OCP\Config::getAppValue('user_ldap', 'ldap_group_member_assoc_attribute', 'uniqueMember');
 
-		if(empty($this->ldapGroupFilter) || empty($this->ldapGroupMemberAssocAttr)) {
-			$this->configured = false;
+		if(!empty($this->ldapGroupFilter) && !empty($this->ldapGroupMemberAssocAttr)) {
+			$this->configured = true;
 		}
 	}
 
