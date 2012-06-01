@@ -419,7 +419,7 @@ class OC_FileCache{
 			}
 			return $result;
 		}else{
-			OC_Log::write('files','getChached(): file not found in cache ('.$path.')',OC_Log::DEBUG);
+			OC_Log::write('files','getCached(): file not found in cache ('.$path.')',OC_Log::DEBUG);
 			if(isset(self::$savedData[$path])){
 				return self::$savedData[$path];
 			}else{
