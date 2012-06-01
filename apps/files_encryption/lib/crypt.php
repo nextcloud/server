@@ -43,16 +43,23 @@ class OC_Crypt {
 		self::init($params['uid'],$params['password']);
 	}
 
-	public static function init($login,$password) {
-		$view=new OC_FilesystemView('/'.$login);
-		OC_FileProxy::$enabled=false;
-		if(!$view->file_exists('/encryption.key')){// does key exist?
-			OC_Crypt::createkey($login,$password);
-		}
-		$key=$view->file_get_contents('/encryption.key');
-		OC_FileProxy::$enabled=true;
-		$_SESSION['enckey']=OC_Crypt::decrypt($key, $password);
-	}
+       public static function init($login,$password) {      
+          $view1=new OC_FilesystemView('/');
+          if(!$view1->file_exists('/'.$login)){
+             $view1->mkdir('/'.$login);
+          }
+
+          $view=new OC_FilesystemView('/'.$login);      
+          
+          OC_FileProxy::$enabled=false;
+          if(!$view->file_exists('/encryption.key')){// does key exist?
+             OC_Crypt::createkey($login,$password);
+          }
+          $key=$view->file_get_contents('/encryption.key');
+          OC_FileProxy::$enabled=true;
+          $_SESSION['enckey']=OC_Crypt::decrypt($key, $password);
+       }
+
 
 	/**
 	 * get the blowfish encryption handeler for a key

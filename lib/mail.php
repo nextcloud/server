@@ -31,7 +31,7 @@ class OC_Mail {
 
 		$SMTPMODE = OC_Config::getValue( 'mail_smtpmode', 'sendmail' );
 		$SMTPHOST = OC_Config::getValue( 'mail_smtphost', '127.0.0.1' );
-		$SMTPAUTH = OC_Config::getValue( 'mail_smtpauth', 'false' ); 
+		$SMTPAUTH = OC_Config::getValue( 'mail_smtpauth', false ); 
 		$SMTPUSERNAME = OC_Config::getValue( 'mail_smtpname', '' ); 
 		$SMTPPASSWORD = OC_Config::getValue( 'mail_smtppassword', '' );  
 

@@ -52,7 +52,6 @@ class App {
          *
          */
         public static function register( $data ){
-		return \OC_App::register( $data );
         }
 
 

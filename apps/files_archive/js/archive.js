@@ -8,11 +8,11 @@
 $(document).ready(function() {
 	if(typeof FileActions!=='undefined'){
 		FileActions.register('application/zip','Open','',function(filename){
-			window.location='index.php?dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
+			window.location=OC.linkTo('files', 'index.php')+'&dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
 		});
 		FileActions.setDefault('application/zip','Open');
 		FileActions.register('application/x-gzip','Open','',function(filename){
-			window.location='index.php?dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
+			window.location=OC.linkTo('files', 'index.php')+'&dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
 		});
 		FileActions.setDefault('application/x-gzip','Open');
 	}
