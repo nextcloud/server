@@ -25,10 +25,15 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 // 	//group specific settings
 	protected $ldapGroupFilter;
 	protected $ldapGroupMemberAssocAttr;
+	protected $configured = false;
 
 	public function __construct() {
 		$this->ldapGroupFilter          = OCP\Config::getAppValue('user_ldap', 'ldap_group_filter', '(objectClass=posixGroup)');
 		$this->ldapGroupMemberAssocAttr = OCP\Config::getAppValue('user_ldap', 'ldap_group_member_assoc_attribute', 'uniqueMember');
+
+		if(empty($this->ldapGroupFilter) || empty($this->ldapGroupMemberAssocAttr)) {
+			$this->configured = false;
+		}
 	}
 
 	/**
@@ -40,6 +45,9 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * Checks whether the user is member of a group or not.
 	 */
 	public function inGroup($uid, $gid) {
+		if(!$this->configured) {
+			return false;
+		}
 		$dn_user = OC_LDAP::username2dn($uid);
 		$dn_group = OC_LDAP::groupname2dn($gid);
 		// just in case
@@ -79,6 +87,9 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * if the user exists at all.
 	 */
 	public function getUserGroups($uid) {
+		if(!$this->configured) {
+			return array();
+		}
 		$userDN = OC_LDAP::username2dn($uid);
 		if(!$userDN) {
 			return array();
@@ -111,6 +122,10 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * @returns array with user ids
 	 */
 	public function usersInGroup($gid) {
+		if(!$this->configured) {
+			return array();
+		}
+
 		$groupDN = OC_LDAP::groupname2dn($gid);
 		if(!$groupDN) {
 			return array();
@@ -149,6 +164,10 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * Returns a list with all groups
 	 */
 	public function getGroups() {
+		if(!$this->configured) {
+			return array();
+		}
+
 		$ldap_groups = OC_LDAP::fetchListOfGroups($this->ldapGroupFilter, array(OC_LDAP::conf('ldapGroupDisplayName'), 'dn'));
 		$groups = OC_LDAP::ownCloudGroupNames($ldap_groups);
 		return $groups;
