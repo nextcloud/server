@@ -94,6 +94,7 @@ class OC_Setup {
 						'error' => 'MySQL username and/or password not valid',
 						'hint' => 'You need to enter either an existing account or the administrator.'
 					);
+					return($error);
 				}
 				else {
 					$oldUser=OC_Config::getValue('dbuser', false);
