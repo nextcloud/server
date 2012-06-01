@@ -12,8 +12,8 @@ class OC_Util {
 	private static $fsSetup=false;
 
 	// Can be set up
-	public static function setupFS( $user = "", $root = "files" ){// configure the initial filesystem based on the configuration
-		if(self::$fsSetup){//setting up the filesystem twice can only lead to trouble
+	public static function setupFS( $user = "", $root = "files" ){ // configure the initial filesystem based on the configuration
+		if(self::$fsSetup){ //setting up the filesystem twice can only lead to trouble
 			return false;
 		}
 
@@ -27,6 +27,15 @@ class OC_Util {
 			$tmpl->printPage();
 			exit;
 		}
+
+		// Check if apps folder is writable.
+		if(!is_writable(OC::$SERVERROOT."/apps/")) {
+			$tmpl = new OC_Template( '', 'error', 'guest' );
+			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into apps directory 'apps'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
+			$tmpl->printPage();
+			exit;
+		}
+		
 		
 		// Create root dir.
 		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
