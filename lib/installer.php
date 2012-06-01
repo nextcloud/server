@@ -126,7 +126,7 @@ class OC_Installer{
 			return false;
 		}
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml',true);
-		$basedir=OC::$APPSROOT.'/apps/'.$info['id'];
+		$basedir=OC_App::getAppPath($info['id']);
 
                 // check the code for not allowed calls
                 if(!OC_Installer::checkCode($info['id'],$extractDir)){
@@ -312,13 +312,13 @@ class OC_Installer{
 	 */
 	public static function installShippedApp($app){
 		//install the database
-		if(is_file(OC::$APPSROOT."/apps/$app/appinfo/database.xml")){
-			OC_DB::createDbFromStructure(OC::$APPSROOT."/apps/$app/appinfo/database.xml");
+		if(is_file(OC_App::getAppPath($app)."/appinfo/database.xml")){
+			OC_DB::createDbFromStructure(OC_App::getAppPath($app)."/appinfo/database.xml");
 		}
 
 		//run appinfo/install.php
-		if(is_file(OC::$APPSROOT."/apps/$app/appinfo/install.php")){
-			include(OC::$APPSROOT."/apps/$app/appinfo/install.php");
+		if(is_file(OC_App::getAppPath($app)."/appinfo/install.php")){
+			include(OC_App::getAppPath($app)."/appinfo/install.php");
 		}
 		$info=OC_App::getAppInfo($app);
 		OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));
