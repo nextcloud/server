@@ -9,11 +9,12 @@ const TILE_PROPORTION_HORIZONTAL = 0;
 const TILE_PROPORTION_VERTICAL = 0;
 const GET_THUMBNAIL_PATH = '?app=gallery&getfile=ajax/thumbnail.php&filepath=';
 const TAG = 'Pictures';
+const IMAGE_WIDTH = 150;
 
 class TileBase {
   public function getWidth() { return false; }
 
-  public function getHeight() { return 200; }
+  public function getHeight() { return 150; }
 
   public function getOnHoverAction() { return false; }
   
@@ -64,8 +65,8 @@ class TilesLine {
 	  for ($i = 0; $i < count($this->tiles_array); $i++) {
 	  	  $img_w = $this->tiles_array[$i]->getWidth();
 	  	  $extra = '';
-	  	  if ($img_w != 200) $extra = ' style="width:'.$img_w.'px"';
-		  $r .= '<div class="gallery_div" '.$extra.' onmouseover="'.$this->tiles_array[$i]->getOnHoverAction().'" onmouseout="'.$this->tiles_array[$i]->getOnOutAction().'">'.$this->tiles_array[$i]->get().'</div>';
+	  	  if ($img_w != 150) $extra = ' style="width:'.$img_w.'px"';
+		  $r .= '<div class="gallery_div" '.$extra.' onmouseover="'.$this->tiles_array[$i]->getOnHoverAction().'" onmouseout="'.$this->tiles_array[$i]->getOnOutAction().'" onclick="'.$this->tiles_array[$i]->getOnClickAction().'">'.$this->tiles_array[$i]->get().'</div>';
 	  }
 	  
 	  $r .= '</div>';
@@ -93,18 +94,6 @@ class TileSingle extends TileBase {
     $a = ThumbnailsManager::getInstance()->getThumbnailInfo($this->file_path);
     return $a['width'];
   }
-
-  public function forceSize($width_must_fit=false) {
-      $current_height = $this->image->height();
-      $current_width = $this->image->width();
-      
-      // we need height of 250px but not for tiles stack
-      if ($current_width > $current_height && !$width_must_fit) {
-	      $this->image->resize(floor((250*$current_width)/$current_height));
-      } else {
-		  $this->image->resize(200);
-	  }
-  }
   
   public function get($extra = '') {
 	  return '<img src="'.GET_THUMBNAIL_PATH.urlencode($this->getPath()).'" '.$extra.'>';
@@ -116,6 +105,10 @@ class TileSingle extends TileBase {
 
   public function getPath() {
 	  return $this->file_path;
+  }
+  
+  public function getOnClickAction() {
+	  return 'javascript:openFile(\''.$this->file_path.'\');';
   }
 
   private $file_path;
@@ -145,7 +138,7 @@ class TileStack extends TileBase {
     for ($i = 0; $i < count($this->tiles_array); $i++) {
 	    $max = max($max, $this->tiles_array[$i]->getWidth());
     }
-    return min(200, $max);
+    return min(IMAGE_WIDTH, $max);
   }
 
   public function get() {
@@ -155,11 +148,10 @@ class TileStack extends TileBase {
       $left = rand(-5, 5);
       $img_w = $this->tiles_array[$i]->getWidth();
       $extra = '';
-      if ($img_w < 200) {
+      if ($img_w < IMAGE_WIDTH) {
 	      $extra = 'width:'.$img_w.'px;';
       }
       $r .= '<div class="miniature_border gallery_div" style="background-image:url(\''.$this->tiles_array[$i]->getMiniatureSrc().'\');margin-top:'.$top.'px; margin-left:'.$left.'px;'.$extra.'"></div>';
-//      $r .= $this->tiles_array[$i]->get(' style="margin-top:'.$top.'px; margin-left:'.$left.'px; "');
     }
     return $r;
   }
@@ -174,6 +166,10 @@ class TileStack extends TileBase {
 
   public function getCount() {
 	  return count($this->tiles_array);
+  }
+  
+  public function getOnClickAction() {
+	  return 'javascript:openNewGal(\''.$this->stack_name.'\');';
   }
 
   private $tiles_array;

@@ -1,17 +1,25 @@
 <?php
+OCP\Util::addStyle('files', 'files');
+OCP\Util::addscript('files_imageviewer', 'jquery.mousewheel-3.0.4.pack');
+OCP\Util::addscript('files_imageviewer', 'jquery.fancybox-1.3.4.pack');
+OCP\Util::addStyle( 'files_imageviewer', 'jquery.fancybox-1.3.4' );
+
 $l = OC_L10N::get('gallery');
 ?>
 <style>
-div.gallery_div {position:relative; display: inline-block; height: 202px; width: 200px; margin: 5px;}
-div.miniature_border {position:absolute; height: 200px; -webkit-transition-duration: .2s; background-position: 50%;}
-div.line {display:inline-block; border: 0; width: auto; height: 210px}
-div.gallery_div img{position:absolute; top: 1; left: 0; -webkit-transition-duration: 0.3s; height:200px; width: auto;}
+div.gallery_div {position:relative; display: inline-block; height: 152px; width: 150px; margin: 5px;}
+div.miniature_border {position:absolute; height: 150px; -webkit-transition-duration: .2s; background-position: 50%;}
+div.line {display:inline-block; border: 0; width: auto; height: 160px}
+div.gallery_div img{position:absolute; top: 1; left: 0; -webkit-transition-duration: 0.3s; height:150px; width: auto;}
 div.gallery_div img.shrinker {width:80px !important;}
-div.title { opacity: 0; text-align: center; vertical-align: middle; font-family: Arial; font-size: 12px; border: 0; position: absolute; text-overflow: ellipsis; bottom: 20px; left:10px; height:auto; padding: 5px; width: 170px; background-color: black; color: white; -webkit-transition: opacity 0.5s;  z-index:1000; border-radius: 7px}
+div.title { opacity: 0; text-align: center; vertical-align: middle; font-family: Arial; font-size: 12px; border: 0; position: absolute; text-overflow: ellipsis; bottom: 20px; left:5px; height:auto; padding: 5px; width: 140px; background-color: black; color: white; -webkit-transition: opacity 0.5s;  z-index:1000; border-radius: 7px}
 div.visible { opacity: 0.8;}
 </style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+
+var root = "<?php echo !empty($_GET['root']) ? $_GET['root'] : '/'; ?>";
+
 function t(element) {
 	$('div', element).each(function(index, elem) {
 	 	if ($(elem).hasClass('title')) {
@@ -36,6 +44,20 @@ function o(element) {
 	});
 }
 
+function openNewGal(album_name) {
+	root = root + album_name + "/";
+	var url = window.location.toString().replace(window.location.search, '');
+	url = url + "?app=gallery&root="+root;
+	
+	window.location = url;
+}
+
+function openFile(file_path) {
+	var url = window.location.toString().replace(window.location.search, '');
+	url = url + "?app=files&getfile=download.php?file="+file_path;
+	window.location = url;
+}
+
 </script>
 
 <?php
@@ -43,7 +65,7 @@ function o(element) {
 include('apps/gallery/lib/tiles.php');
 $root = empty($_GET['root'])?'/':$_GET['root'];
 
-$images = \OC_FileCache::searchByMime('image', null, '/'.\OCP\USER\getUser().'/files'.$root);
+$images = \OC_FileCache::searchByMime('image', null, '/'.\OCP\USER::getUser().'/files'.$root);
 sort($images);
 
 $arr = array();
