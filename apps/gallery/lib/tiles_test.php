@@ -43,7 +43,7 @@ function o(element) {
 include('apps/gallery/lib/tiles.php');
 $root = empty($_GET['root'])?'/':$_GET['root'];
 
-$images = \OC_FileCache::searchByMime('image', null, '/'.\OCP\USER\getUser().'/files'.$root);
+$images = \OC_FileCache::searchByMime('image', null, '/bartek/files'.$root);
 sort($images);
 
 $arr = array();
@@ -51,11 +51,12 @@ $tl = new \OC\Pictures\TilesLine();
 $ts = new \OC\Pictures\TileStack(array(), '');
 $previous_element = $images[0];
 for($i = 0; $i < count($images); $i++) {
+    error_log($images[$i]);
 	$prev_dir_arr = explode('/', $previous_element);
 	$dir_arr = explode('/', $images[$i]);
 
 	if (count($dir_arr)==1) {
-		$tl->addTile(new \OC\Pictures\TileSingle($root.$images[$i]));
+		$tl->addTile(new \OC\Pictures\TileSingle($images[$i]));
 		continue;
 	}
 	if (strcmp($prev_dir_arr[0], $dir_arr[0])!=0) {
@@ -71,7 +72,7 @@ $dir_arr = explode('/', $previous_element);
 if (count($dir_arr)==0) {
 	$tl->addTile(new \OC\Pictures\TileSingle($previous_element));
 } else if (count($dir_arr) && $ts->getCount() == 0){
-    $ts = new \OC\Pictures\TileStack(array($root.$previous_element), $dir_arr[0]);
+    $ts = new \OC\Pictures\TileStack(array($previous_element), $dir_arr[0]);
 } else {
 	$arr[] = $previous_element;
 	$ts->addTile($arr);
