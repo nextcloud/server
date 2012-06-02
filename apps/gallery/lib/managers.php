@@ -29,9 +29,11 @@ class DatabaseManager {
 		if (!$image->loadFromFile($path)) {
 			return false;
 		}
+		\OCP\DB::beginTransaction();
 		$stmt = \OCP\DB::prepare('INSERT INTO *PREFIX*pictures_images_cache (uid_owner, path, width, height) VALUES (?, ?, ?, ?)');
 		$stmt->execute(array(\OCP\USER::getUser(), $path, $image->width(), $image->height()));
 		unset($image);
+		\OCP\DB::commit();
 		return $this->getFileData($path);
 	}
 	
@@ -64,7 +66,7 @@ class ThumbnailsManager {
 
 		$image->fixOrientation();
 
-		$ret = $image->preciseResize(floor((200*$image->width())/$image->height()), 200);
+		$ret = $image->preciseResize(floor((150*$image->width())/$image->height()), 150);
 		
 		if (!$ret) {
 			\OC_Log::write(self::TAG, 'Couldn\'t resize image', \OC_Log::ERROR);
