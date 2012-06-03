@@ -24,20 +24,20 @@
 
 /**
  * Class for abstraction of filesystem functions
- * This class won't call any filesystem functions for itself but but will pass them to the correct OC_Filestorage object
- * this class should also handle all the file premission related stuff
+ * This class won't call any filesystem functions for itself but will pass them to the correct OC_Filestorage object
+ * this class should also handle all the file permission related stuff
  *
  * Hooks provided:
  *   read(path)
  *   write(path, &run)
  *   post_write(path)
- *   create(path, &run) (when a file is created, both create and write will be emited in that order)
+ *   create(path, &run) (when a file is created, both create and write will be emitted in that order)
  *   post_create(path)
  *   delete(path, &run)
  *   post_delete(path)
  *   rename(oldpath,newpath, &run)
  *   post_rename(oldpath,newpath)
- *   copy(oldpath,newpath, &run) (if the newpath doesn't exists yes, copy, create and write will be emited in that order)
+ *   copy(oldpath,newpath, &run) (if the newpath doesn't exists yes, copy, create and write will be emitted in that order)
  *   post_rename(oldpath,newpath)
  *
  *   the &run parameter can be set to false to prevent the operation from occuring
@@ -59,28 +59,28 @@ class OC_Filesystem{
   const CLASSNAME = 'OC_Filesystem';
 
   /**
-   * signalname emited before file renaming
+   * signalname emitted before file renaming
    * @param oldpath
    * @param newpath
    */
   const signal_rename = 'rename';
 
   /**
-   * signal emited after file renaming
+   * signal emitted after file renaming
    * @param oldpath
    * @param newpath
    */
   const signal_post_rename = 'post_rename';
 	
   /**
-   * signal emited before file/dir creation
+   * signal emitted before file/dir creation
    * @param path
    * @param run changing this flag to false in hook handler will cancel event
    */
   const signal_create = 'create';
 
   /**
-   * signal emited after file/dir creation
+   * signal emitted after file/dir creation
    * @param path
    * @param run changing this flag to false in hook handler will cancel event
    */
@@ -371,7 +371,7 @@ class OC_Filesystem{
 	}
 	
 	/**
-	 * checks if a file is blacklsited for storage in the filesystem
+	 * checks if a file is blacklisted for storage in the filesystem
 	 * Listens to write and rename hooks
 	 * @param array $data from hook
 	 */
@@ -391,7 +391,7 @@ class OC_Filesystem{
 	}
 	
 	/**
-	 * following functions are equivilent to their php buildin equivilents for arguments/return values.
+	 * following functions are equivalent to their php builtin equivalents for arguments/return values.
 	 */
 	static public function mkdir($path){
 		return self::$defaultInstance->mkdir($path);
