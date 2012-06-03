@@ -62,23 +62,26 @@ class OC_Log_Owncloud {
 	public static function getEntries($limit=50, $offset=0){
 		self::init();
 		$minLevel=OC_Config::getValue( "loglevel", OC_Log::WARN );
-		$entries=array();
-		if(!file_exists(self::$logFile)) {
-			return array();
-		}
-		$contents=file(self::$logFile);
-		if(!$contents) {//error while reading log
-			return array();
-		}
-		$end=max(count($contents)-$offset-1, 0);
-		$start=max($end-$limit,0);
-		$i=$end;
-		while($i>$start){
-			$entry=json_decode($contents[$i]);
-			if($entry->level>=$minLevel){
-				$entries[]=$entry;
+		$entries = array();
+		$handle = fopen(self::$logFile, 'r');
+		if ($handle) {
+			// Just a guess to set the file pointer to the right spot
+			$maxLineLength = 150;
+			fseek($handle, -($limit * $maxLineLength + $offset * $maxLineLength), SEEK_END);
+			// Skip first line, because it is most likely a partial line
+			fgets($handle);
+			while (!feof($handle)) {
+				$line = fgets($handle);
+				if (!empty($line)) {
+					$entry = json_decode($line);
+					if ($entry->level >= $minLevel) {
+						$entries[] = $entry;
+					}
+				}
 			}
-			$i--;
+			fclose($handle);
+			// Extract the needed entries and reverse the order
+			$entries = array_reverse(array_slice($entries, -($limit + $offset), $limit));
 		}
 		return $entries;
 	}

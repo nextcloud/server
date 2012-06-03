@@ -20,6 +20,7 @@ $rootInfo=OC_FileCache::get('');
 $used=$rootInfo['size'];
 $free=OC_Filesystem::free_space();
 $total=$free+$used;
+if($total==0) $total=1;  // prevent division by zero
 $relative=round(($used/$total)*10000)/100;
 
 $email=OC_Preferences::getValue(OC_User::getUser(), 'settings','email','');
