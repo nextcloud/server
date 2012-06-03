@@ -217,7 +217,7 @@ class OC_FileCache{
 	}
 	
 	/**
-	 * return array of filenames matching the querty
+	 * return array of filenames matching the query
 	 * @param string $query
 	 * @param boolean $returnData
 	 * @param string root (optional)
@@ -308,7 +308,7 @@ class OC_FileCache{
 
 	/**
 	 * get the file id as used in the cache
-	 * unlike the public getId, full paths are used here (/usename/files/foo instead of /foo)
+	 * unlike the public getId, full paths are used here (/username/files/foo instead of /foo)
 	 * @param string $path
 	 * @return int
 	 */
