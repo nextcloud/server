@@ -7,6 +7,7 @@ OC::$CLASSPATH['OC_Calendar_Hooks'] = 'apps/calendar/lib/hooks.php';
 OC::$CLASSPATH['OC_Connector_Sabre_CalDAV'] = 'apps/calendar/lib/connector_sabre.php';
 OC::$CLASSPATH['OC_Calendar_Share'] = 'apps/calendar/lib/share.php';
 OC::$CLASSPATH['OC_Search_Provider_Calendar'] = 'apps/calendar/lib/search.php';
+OC::$CLASSPATH['OC_Calendar_Export'] = 'apps/calendar/lib/export.php';
 OCP\Util::connectHook('OC_User', 'post_deleteUser', 'OC_Calendar_Hooks', 'deleteUser');
 OCP\Util::addscript('calendar','loader');
 OCP\Util::addscript("3rdparty", "chosen/chosen.jquery.min");
