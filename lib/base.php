@@ -55,13 +55,9 @@ class OC{
 	 */
 	public static $THIRDPARTYWEBROOT = '';
 	/**
-	 * The installation path of the apps folder on the server (e.g. /srv/http/owncloud)
+	 * The installation path array of the apps folder on the server (e.g. /srv/http/owncloud) 'real' and web path in 'web'
 	 */
 	public static $APPSROOTS = array();
-	/**
-	 * the root path of the apps folder for http requests (e.g. owncloud)
-	 */
-	public static $APPSWEBROOT = '';
 	/*
 	 * requested app
 	 */
@@ -168,27 +164,31 @@ class OC{
 
 		// search the apps folder
 		if(OC_Config::getValue('appsroot', '')<>''){
-			OC::$APPSROOTS=explode(':',OC_Config::getValue('appsroot', ''));
-			OC::$APPSWEBROOT=OC_Config::getValue('appsurl', '');
-		}elseif(file_exists(OC::$SERVERROOT.'/apps')){
-			OC::$APPSROOTS= array(OC::$SERVERROOT.'/apps');
- 			OC::$APPSWEBROOT=OC::$WEBROOT;
+			$real_a = explode(':',OC_Config::getValue('appsroot', ''));
+			$web_a = explode(':',OC_Config::getValue('appsurl', ''));
+			foreach($real_a as $k => $path) {
+				if(!isset($web_a[$k])){
+					echo("Apps root and appsurl not mathing. You need to have the same number of paths");
+					exit;
+				}
+				OC::$APPSROOTS[] = array('path'=> $path, 'web' => $web_a[$k]);
+			}
 		}
-		if(file_exists(OC::$SERVERROOT.'/../apps')){
-			OC::$APPSROOTS[] = rtrim(realpath(OC::$SERVERROOT.'/../apps'), '/');
-// 			OC::$APPSWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
-		}
+
 		if(empty(OC::$APPSROOTS)){
 			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
 			exit;
 		}
+		$paths = array();
+		foreach( OC::$APPSROOTS as $path)
+			$paths[] = $path['path'];
 
 		// set the right include path
 		set_include_path(
 			OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.
 			OC::$SERVERROOT.'/config'.PATH_SEPARATOR.
 			OC::$THIRDPARTYROOT.'/3rdparty'.PATH_SEPARATOR.
-			implode(OC::$APPSROOTS,PATH_SEPARATOR).PATH_SEPARATOR.
+			implode($paths,PATH_SEPARATOR).PATH_SEPARATOR.
 			get_include_path().PATH_SEPARATOR.
 			OC::$SERVERROOT
 		);
@@ -292,6 +292,7 @@ class OC{
 				require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
 			}
 		}else{
+			die();
 			header('HTTP/1.0 404 Not Found');
 			exit;
 		}

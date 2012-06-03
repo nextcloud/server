@@ -48,7 +48,7 @@ class OC_Helper {
 					$urlLinkTo =  OC::$WEBROOT . '/?app=' . $app;
 					$urlLinkTo .= ($file!='index.php')?'&getfile=' . urlencode($file):'';
 				}else{
-					$urlLinkTo =  OC::$APPSWEBROOT . '/apps/' . $app . $file;
+					$urlLinkTo =  OC_App::getAppWebPath($app) . $file;
 				}
 			}
 			else{
@@ -151,7 +151,7 @@ class OC_Helper {
 		if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )){
 			return OC::$WEBROOT."/themes/$theme/apps/$app/img/$image";
 		}elseif( file_exists(OC_App::getAppPath($app)."/img/$image" )){
-			return OC::$APPSWEBROOT."/apps/$app/img/$image";
+			return OC_App::getAppWebPath($app)."/img/$image";
 		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/themes/$theme/$app/img/$image" )){
 			return OC::$WEBROOT."/themes/$theme/$app/img/$image";
 		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/$app/img/$image" )){

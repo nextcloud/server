@@ -20,7 +20,7 @@
 <div id="firstrun" style="display: none;">
 	<?php
 		echo $l->t('You have no bookmarks');
-		require_once(OC::$APPSROOT . '/apps/bookmarks/templates/bookmarklet.php');
+		require_once(OC_App::getAppPath('bookmarks') .'/templates/bookmarklet.php');
 		createBookmarklet(); 
 	?>
 </div>

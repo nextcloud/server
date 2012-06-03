@@ -415,8 +415,8 @@ class OC_Template{
 					$append = false;
 					foreach( OC::$APPSROOTS as $apps_dir)
 					{
-						if($page->appendIfExist('jsfiles', $apps_dir, OC::$APPSWEBROOT.'/apps/', "$script$fext.js" , true)) { $append =true; break; }
-						elseif($page->appendIfExist('jsfiles', $apps_dir, OC::$APPSWEBROOT.'/apps/', "$script.js", true )) { $append =true; break; }
+						if($page->appendIfExist('jsfiles', $apps_dir['path'], $apps_dir['web'], "$script$fext.js" , true)) { $append =true; break; }
+						elseif($page->appendIfExist('jsfiles', $apps_dir['path'], $apps_dir['web'], "$script.js", true )) { $append =true; break; }
 					}
 					if(! $append) {
 						echo('js file not found: script:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
@@ -443,8 +443,8 @@ class OC_Template{
 					$append = false;
 					foreach( OC::$APPSROOTS as $apps_dir)
 					{
-						if($page->appendIfExist('cssfiles', $apps_dir, OC::$APPSWEBROOT, "$style$fext.css", true)) { $append =true; break; }
-						elseif($page->appendIfExist('cssfiles', $apps_dir, OC::$APPSWEBROOT, "$style.css", true )) { $append =true; break; }
+						if($page->appendIfExist('cssfiles', $apps_dir['path'], $apps_dir['web'], "$style$fext.css", true)) { $append =true; break; }
+						elseif($page->appendIfExist('cssfiles', $apps_dir['path'], $apps_dir['web'], "$style.css", true )) { $append =true; break; }
 					}
 					if(! $append) {
 						echo('css file not found: style:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);

@@ -328,11 +328,23 @@ class OC_App{
 	*/
 	public static function getAppPath($appid) {
 		foreach(OC::$APPSROOTS as $dir) {
-			if(file_exists($dir.'/'.$appid)) {
-				return $dir.'/'.$appid;
+			if(file_exists($dir['path'].'/'.$appid)) {
+				return $dir['path'].'/'.$appid;
 			}
 		}
-// 		OC_Log::write('core','Unable to find app "'.$appid.'"',OC_Log::ERROR);
+		return false;
+	}
+
+	/**
+	* Get the path for the given app on the access
+	* If the app is defined in multiple directory, the first one is taken. (false if not found)
+	*/
+	public static function getAppWebPath($appid) {
+		foreach(OC::$APPSROOTS as $dir) {
+			if(file_exists($dir['path'].'/'.$appid)) {
+				return $dir['web'].'/'.$appid;
+			}
+		}
 		return false;
 	}
 
@@ -477,9 +489,9 @@ class OC_App{
 	public static function getAllApps(){
 		$apps=array();
 		foreach(OC::$APPSROOTS as $apps_dir) {
-			$dh=opendir($apps_dir);
+			$dh=opendir($apps_dir['path']);
 			while($file=readdir($dh)){
-				if(substr($file,0,1)!='.' and is_file($apps_dir.'/'.$file.'/appinfo/app.php')){
+				if(substr($file,0,1)!='.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')){
 					$apps[]=$file;
 				}
 			}
