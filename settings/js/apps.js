@@ -17,7 +17,7 @@ $(document).ready(function(){
 	});
 	$('#leftcontent li').click(function(){
 		var app=$(this).data('app');
-		$('#rightcontent p').show();
+		$('#rightcontent p.license').show();
 		$('#rightcontent span.name').text(app.name);
 		$('#rightcontent small.externalapp').text(app.internallabel);
 		$('#rightcontent span.version').text(app.version);
@@ -31,6 +31,10 @@ $(document).ready(function(){
 		$('#rightcontent input.enable').val((app.active)?t('settings','Disable'):t('settings','Enable'));
 		$('#rightcontent input.enable').data('appid',app.id);
 		$('#rightcontent input.enable').data('active',app.active);
+		if ( app.internal == false ) {
+			$('#rightcontent p.appslink').show();
+			$('#rightcontent a').attr('href','http://apps.owncloud.com/content/show.php?content='+app.id);
+		}
 		return false;
 	});
 	$('#rightcontent input.enable').click(function(){

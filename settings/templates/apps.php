@@ -22,6 +22,7 @@
 	<h3><strong><span class="name"><?php echo $l->t('Select an App');?></span></strong><span class="version"></span><small class="externalapp" style="visibility:hidden;"></small></h3>
 	<p class="description"></p>
 	<img src="" class="preview" />
-	<p class="hidden"><span class="licence"></span><?php echo $l->t('-licensed');?> <?php echo $l->t('by');?> <span class="author"></span></p>
+	<p class="appslink hidden"><a href="#" target="_blank"><?php echo $l->t('See application page at apps.owncloud.com');?></a></p>
+	<p class="license hidden"><span class="licence"></span><?php echo $l->t('-licensed');?> <?php echo $l->t('by');?> <span class="author"></span></p>
 	<input class="enable hidden" type="submit" />
 </div>
