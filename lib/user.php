@@ -240,7 +240,7 @@ class OC_User {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn(){
-		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ){
+		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] AND self::userExists($_SESSION['user_id']) ){
 			return true;
 		}
 		else{
