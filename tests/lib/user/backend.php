@@ -20,6 +20,16 @@
 *
 */
 
+/**
+ * Abstract class to provide the basis of backend-specific unit test classes.
+ *
+ * All subclasses MUST assign a backend property in setUp() which implements 
+ * user operations (add, remove, etc.). Test methods in this class will then be
+ * run on each separate subclass and backend therein.
+ * 
+ * For an example see /tests/lib/user/dummy.php
+ */
+
 abstract class Test_User_Backend extends UnitTestCase {
 	/**
 	 * @var OC_User_Backend $backend

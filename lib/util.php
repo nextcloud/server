@@ -28,6 +28,14 @@ class OC_Util {
 			exit;
 		}
 		
+		// Check if apps folder is writable.
+		if(!is_writable(OC::$SERVERROOT."/apps/")) {
+			$tmpl = new OC_Template( '', 'error', 'guest' );
+			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into apps directory 'apps'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
+			$tmpl->printPage();
+			exit;
+		}
+		
 		// Create root dir.
 		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
 			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
@@ -255,6 +263,9 @@ class OC_Util {
 		}
 		if(floatval(phpversion())<5.3){
 			$errors[]=array('error'=>'PHP 5.3 is required.<br/>','hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
+		}
+		if(!defined('PDO::ATTR_DRIVER_NAME')){
+			$errors[]=array('error'=>'PHP PDO module is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 		}
 
 		return $errors;
