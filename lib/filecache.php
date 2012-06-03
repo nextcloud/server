@@ -506,12 +506,12 @@ class OC_FileCache{
 		$newPath=$params['newpath'];
 		$fullOldPath=$root.$oldPath;
 		$fullNewPath=$root.$newPath;
-		if(($id=self::getFileId($fullOldPath))!=-1){
+		if(($id=self::getFileId($fullOldPath))!=-1){ // $id is unused later on!
 			$oldSize=self::getCachedSize($oldPath,$root);
 		}else{
 			return;
 		}
-		$size=OC_Filesystem::filesize($newPath);
+		$size=OC_Filesystem::filesize($newPath); // $size is unused later on!
 		self::increaseSize(dirname($fullOldPath),-$oldSize);
 		self::increaseSize(dirname($fullNewPath),$oldSize);
 		self::move($oldPath,$newPath);
