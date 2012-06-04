@@ -41,7 +41,7 @@ FileList={
 		html = $('<tr></tr>').attr({ "data-type": "dir", "data-size": size, "data-file": name});
 		td = $('<td></td>').attr({"class": "filename", "style": 'background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')' });
 		td.append('<input type="checkbox" />');
-		var link_elem = $('<a></a>').attr({ "class": "name", "href": "index.php?dir="+ encodeURIComponent($('#dir').val()+'/'+name).replace(/%2F/g, '/') });
+		var link_elem = $('<a></a>').attr({ "class": "name", "href": OC.linkTo('files', 'index.php')+"&dir="+ encodeURIComponent($('#dir').val()+'/'+name).replace(/%2F/g, '/') });
 		link_elem.append($('<span></span>').addClass('nametext').text(name));
 		link_elem.append($('<span></span>').attr({'class': 'uploadtext', 'currentUploads': 0}));
 		td.append(link_elem);
@@ -56,7 +56,7 @@ FileList={
 		modifiedColor=Math.round((Math.round((new Date()).getTime() / 1000)-lastModifiedTime)/60/60/24*5);
 		td = $('<td></td>').attr({ "class": "filesize", "title": humanFileSize(size), "style": 'color:rgb('+sizeColor+','+sizeColor+','+sizeColor+')'}).text(simpleSize);
 		html.append(td);
-		
+
 		td = $('<td></td>').attr({ "class": "date" });
 		td.append($('<span></span>').attr({ "class": "modified", "title": formatDate(lastModified), "style": 'color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')' }).text( relative_modified_date(lastModified.getTime() / 1000) ));
 		html.append(td);

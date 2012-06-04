@@ -7,16 +7,23 @@
  */
 //check for calendar rights or create new one
 ob_start();
+
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
+
 $nl="\r\n";
 $comps = array('VEVENT'=>true, 'VTODO'=>true, 'VJOURNAL'=>true);
+
 $progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '10');
-	fclose($progressfopen);
+
+function writeProgress($pct) {
+	if(is_writable('import_tmp/')){
+		$progressfopen = fopen($progressfile, 'w');
+		fwrite($progressfopen, $pct);
+		fclose($progressfopen);
+	}
 }
+writeProgress('10');
 $file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
 if($_POST['method'] == 'new'){
 	$id = OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(), $_POST['calname']);
@@ -29,20 +36,12 @@ if($_POST['method'] == 'new'){
 	}
 	$id = $_POST['id'];
 }
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '20');
-	fclose($progressfopen);
-}
+writeProgress('20');
 // normalize the newlines
 $file = str_replace(array("\r","\n\n"), array("\n","\n"), $file);
 $lines = explode("\n", $file);
 unset($file);
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '30');
-	fclose($progressfopen);
-}
+writeProgress('30');
 // analyze the file, group components by uid, and keep refs to originating calendar object
 // $cals is array calendar objects, keys are 1st line# $cal, ie array( $cal => $caldata )
 //   $caldata is array( 'first' => 1st component line#, 'last' => last comp line#, 'end' => end line# )
@@ -86,11 +85,7 @@ foreach($lines as $line) {
 	$i++;
 }
 // import the calendar
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '60');
-	fclose($progressfopen);
-}
+writeProgress('60');
 foreach($uids as $uid) {
 	
 	$prefix=$suffix=$content=array();
@@ -117,11 +112,7 @@ foreach($uids as $uid) {
 	}
 }
 // finished import
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '100');
-	fclose($progressfopen);
-}
+writeProgress('100');
 sleep(3);
 if(is_writable('import_tmp/')){
 	unlink($progressfile);

@@ -21,7 +21,9 @@
  */
 
 /**
- * This class provides all methods for user management.
+ * This class provides wrapper methods for user management. Multiple backends are 
+ * supported. User management operations are delegated to the configured backend for
+ * execution.
  *
  * Hooks provided:
  *   pre_createUser(&run, uid, password)
@@ -240,7 +242,7 @@ class OC_User {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn(){
-		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ){
+		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] AND self::userExists($_SESSION['user_id']) ){
 			return true;
 		}
 		else{
@@ -336,6 +338,7 @@ class OC_User {
 				}
 			}
 		}
+		asort($users);
 		return $users;
 	}
 

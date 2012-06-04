@@ -9,11 +9,6 @@ OCP\Util::connectHook('OC_User', 'post_deleteUser', 'OC_Contacts_Hooks', 'delete
 OCP\Util::connectHook('OC_Calendar', 'getEvents', 'OC_Contacts_Hooks', 'getBirthdayEvents');
 OCP\Util::connectHook('OC_Calendar', 'getSources', 'OC_Contacts_Hooks', 'getCalenderSources');
 
-OCP\App::register( array(
-  'order' => 10,
-  'id' => 'contacts',
-  'name' => 'Contacts' ));
-
 OCP\App::addNavigationEntry( array(
   'id' => 'contacts_index',
   'order' => 10,

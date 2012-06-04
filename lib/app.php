@@ -28,7 +28,6 @@
  */
 class OC_App{
 	static private $init = false;
-	static private $apps = array();
 	static private $activeapp = '';
 	static private $navigation = array();
 	static private $settingsForms = array();
@@ -54,14 +53,7 @@ class OC_App{
 			return true;
 		}
 
-		// Our very own core apps are hardcoded
-		foreach( array( 'settings') as $app ){
-			if(is_null($types)){
-				require( $app.'/appinfo/app.php' );
-			}
-		}
-
-		// The rest comes here
+		// Load the enabled apps here
 		$apps = self::getEnabledApps();
 		// prevent app.php from printing output
 		ob_start();
@@ -214,36 +206,6 @@ class OC_App{
 	public static function disable( $app ){
 		// check if app is a shiped app or not. if not delete
 		OC_Appconfig::setValue( $app, 'enabled', 'no' );
-	}
-
-	/**
-	 * @brief makes owncloud aware of this app
-	 * @param $data array with all information
-	 * @returns true/false
-	 *
-	 * This function registers the application. $data is an associative array.
-	 * The following keys are required:
-	 *   - id: id of the application, has to be unique ('addressbook')
-	 *   - name: Human readable name ('Addressbook')
-	 *   - version: array with Version (major, minor, bugfix) ( array(1, 0, 2))
-	 *
-	 * The following keys are optional:
-	 *   - order: integer, that influences the position of your application in
-	 *     a list of applications. Lower values come first.
-	 *
-	 */
-	public static function register( $data ){
-		OC_App::$apps[] = $data;
-	}
-
-	/**
-	 * @brief returns information of all apps
-	 * @return array with all information
-	 *
-	 * This function returns all data it got via register().
-	 */
-	public static function get(){
-		return OC_App::$apps;
 	}
 
 	/**

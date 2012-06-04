@@ -21,7 +21,7 @@
 */
 
 /**
- * Privde a common interface to all different storage options
+ * Provde a common interface to all different storage options
  */
 abstract class OC_Filestorage{
 	public function __construct($parameters){}

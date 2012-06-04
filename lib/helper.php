@@ -89,6 +89,27 @@ class OC_Helper {
 		return $host;
 	}
 
+
+        /**
+         * @brief Returns the server protocol
+         * @returns the server protocol
+         *
+         * Returns the server protocol. It respects reverse proxy servers and load balancers
+         */
+	public static function serverProtocol() {
+		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+			$proto = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);
+		}else{
+			if(isset($_SERVER['HTTPS']) and !empty($_SERVER['HTTPS']) and ($_SERVER['HTTPS']!='off')) {
+				$proto = 'https';
+			}else{
+				$proto = 'http';
+			}
+		}
+		return($proto);
+	}
+
+
 	/**
 	 * @brief Creates an absolute url
 	 * @param $app app
@@ -99,9 +120,7 @@ class OC_Helper {
 	 */
 	public static function linkToAbsolute( $app, $file ) {
 		$urlLinkTo = self::linkTo( $app, $file );
-		// Checking if the request was made through HTTPS. The last in line is for IIS
-		$protocol = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off');
-		$urlLinkTo = ($protocol?'https':'http') . '://'  . self::serverHost() . $urlLinkTo;
+		$urlLinkTo = OC_Helper::serverProtocol(). '://'  . self::serverHost() . $urlLinkTo;
 		return $urlLinkTo;
 	}
 
