@@ -35,6 +35,7 @@ class OC_App{
 	static private $personalForms = array();
 	static private $appInfo = array();
 	static private $appTypes = array();
+	static private $loadedApps = array();
 
 	/**
 	 * @brief loads all apps
@@ -48,23 +49,17 @@ class OC_App{
 	 * if $types is set, only apps of those types will be loaded
 	 */
 	public static function loadApps($types=null){
-		// Did we already load everything?
-		if( self::$init ){
-			return true;
-		}
-
 		// Load the enabled apps here
 		$apps = self::getEnabledApps();
 		// prevent app.php from printing output
 		ob_start();
 		foreach( $apps as $app ){
-			if((is_null($types) or self::isType($app,$types))){
+			if((is_null($types) or self::isType($app,$types)) && !in_array($app, self::$loadedApps)){
 				self::loadApp($app);
+				self::$loadedApps[] = $app;
 			}
 		}
 		ob_end_clean();
-
-		self::$init = true;
 
 		// return
 		return true;
@@ -121,7 +116,7 @@ class OC_App{
 	 */
 	public static function setAppTypes($app){
 		$appData=self::getAppInfo($app);
-		
+
 		if(isset($appData['types'])){
 			$appTypes=implode(',',$appData['types']);
 		}else{
@@ -183,7 +178,7 @@ class OC_App{
 		if($app!==false){
 			// check if the app is compatible with this version of ownCloud
 			$info=OC_App::getAppInfo($app);
-			$version=OC_Util::getVersion();	
+			$version=OC_Util::getVersion();
 	                if(!isset($info['require']) or ($version[0]>$info['require'])){
 				OC_Log::write('core','App "'.$info['name'].'" can\'t be installed because it is not compatible with this version of ownCloud',OC_Log::ERROR);
 				return false;
@@ -487,13 +482,13 @@ class OC_App{
 				}
 			}
 		}
-		
+
 		// check if the current enabled apps are compatible with the current ownCloud version. disable them if not.
 		// this is important if you upgrade ownCloud and have non ported 3rd party apps installed
 		$apps =OC_App::getEnabledApps();
 		$version=OC_Util::getVersion();
 		foreach($apps as $app) {
-		
+
 			// check if the app is compatible with this version of ownCloud
 			$info=OC_App::getAppInfo($app);
 			if(!isset($info['require']) or ($version[0]>$info['require'])){
@@ -501,12 +496,12 @@ class OC_App{
 				OC_App::disable( $app );
 			}
 
-	
-			
+
+
 		}
-		
-		
-		
+
+
+
 	}
 
 	/**
