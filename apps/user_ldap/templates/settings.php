@@ -4,7 +4,6 @@
 		<li><a href="#ldapSettings-1">LDAP Basic</a></li>
 		<li><a href="#ldapSettings-2">Advanced</a></li>
 	</ul>
-	<p style="text-align:right; float:right; margin: 2ex 1em;"><a href="http://owncloud.org/support/ldap-backend/" target="_blank">How to configure the LDAP backend <img src="<?php echo OCP\Util::imagePath('','actions/info.png'); ?>" /></a></p>
 	<fieldset id="ldapSettings-1">
 		<p><label for="ldap_host"><?php echo $l->t('Host');?><input type="text" id="ldap_host" name="ldap_host" value="<?php echo $_['ldap_host']; ?>"></label> <label for="ldap_base"><?php echo $l->t('Base');?></label><input type="text" id="ldap_base" name="ldap_base" value="<?php echo $_['ldap_base']; ?>" /></p>
 		<p><label for="ldap_dn"><?php echo $l->t('Name');?></label><input type="text" id="ldap_dn" name="ldap_dn" value="<?php echo $_['ldap_dn']; ?>" />
