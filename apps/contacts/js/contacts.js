@@ -170,6 +170,7 @@ Contacts={
 				var name = $('#fn').val().strip_tags();
 				var item = $('#contacts [data-id="'+Contacts.UI.Card.id+'"]');
 				$(item).find('a').html(name);
+				Contacts.UI.Card.fn = name;
 				var added = false;
 				$('#contacts li').each(function(){
 					if ($(this).text().toLowerCase() > name.toLowerCase()) {
