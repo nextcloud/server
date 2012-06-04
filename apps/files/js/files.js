@@ -56,7 +56,7 @@ $(document).ready(function() {
 
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {
-		FileActions.display($(this).children('td.filename'));
+		FileActions.display($(this).children('td.filename'), $(this).attr('data-file'), $(this).attr('data-type'));
 	});
 	$('tr').live('mouseleave',function(event) {
 		FileActions.hide();

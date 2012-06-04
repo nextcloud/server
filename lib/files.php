@@ -170,7 +170,7 @@ class OC_Files {
 	* @param file $target
 	*/
 	public static function move($sourceDir,$source,$targetDir,$target){
-		if(OC_User::isLoggedIn()){
+		if(OC_User::isLoggedIn() && ($sourceDir != '' || $source != 'Shared')){
 			$targetFile=self::normalizePath($targetDir.'/'.$target);
 			$sourceFile=self::normalizePath($sourceDir.'/'.$source);
 			return OC_Filesystem::rename($sourceFile,$targetFile);
@@ -224,7 +224,7 @@ class OC_Files {
 	* @param file $name
 	*/
 	public static function delete($dir,$file){
-		if(OC_User::isLoggedIn()){
+		if(OC_User::isLoggedIn() && ($dir!= '' || $file != 'Shared')) {
 			$file=$dir.'/'.$file;
 			return OC_Filesystem::unlink($file);
 		}
