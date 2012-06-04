@@ -19,12 +19,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  * TODO: Translatable strings.
- *       Remember to delete tmp file at some point.
  */
-// Init owncloud
- 
-OCP\Util::writeLog('contacts','ajax/savecrop.php: Huzzah!!!', OCP\Util::DEBUG);
-
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
