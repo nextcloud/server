@@ -77,7 +77,7 @@ class OC_Gallery_Album {
 			$sql .= ' AND parent_path = ?';
 			$args[] = $parent;
 		}
-    $order = OCP\Config::getUserValue($owner, 'gallery', 'order', 'ASC');
+		$order = OCP\Config::getUserValue($owner, 'gallery', 'order', 'ASC');
 		$sql .= ' ORDER BY album_name ' . $order;
 
 		$stmt = OCP\DB::prepare($sql);
@@ -90,25 +90,22 @@ class OC_Gallery_Album {
 	}
 
 	public static function changeThumbnailPath($oldname, $newname) {
-		 
-		$thumbpath = OC::$CONFIG_DATADIRECTORY.'/../gallery/';
-		rename($thumbpath.$oldname.'.png', $thumbpath.$newname.'.png');
+		$view = OCP\App::getStorage('gallery');
+		$view->rename($oldname.'.png', $newname.'.png');
 	}
 
 	public static function getAlbumSize($id){
-    $sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos WHERE album_id = ?';
-    $stmt = OCP\DB::prepare($sql);
-    $result=$stmt->execute(array($id))->fetchRow();
-    return $result['size'];
+		$sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos WHERE album_id = ?';
+		$stmt = OCP\DB::prepare($sql);
+		$result=$stmt->execute(array($id))->fetchRow();
+		return $result['size'];
 	}
 
-  public static function getIntermediateGallerySize($path) {
-    $path .= '%';
-    $sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos photos, *PREFIX*gallery_albums albums WHERE photos.album_id = albums.album_id AND uid_owner = ? AND file_path LIKE ?';
-    $stmt = OCP\DB::prepare($sql);
-    $result = $stmt->execute(array(OCP\USER::getUser(), $path))->fetchRow();
-    return $result['size'];
-  }
+	public static function getIntermediateGallerySize($path) {
+		$path .= '%';
+		$sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos photos, *PREFIX*gallery_albums albums WHERE photos.album_id = albums.album_id AND uid_owner = ? AND file_path LIKE ?';
+		$stmt = OCP\DB::prepare($sql);
+		$result = $stmt->execute(array(OCP\USER::getUser(), $path))->fetchRow();
+		return $result['size'];
+	}
 }
-
-?>
