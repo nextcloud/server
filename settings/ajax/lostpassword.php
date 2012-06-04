@@ -8,7 +8,8 @@ OC_JSON::checkLoggedIn();
 $l=OC_L10N::get('core');
 
 // Get data
-if( isset( $_POST['email'] ) && filter_var( $_POST['email'], FILTER_VALIDATE_EMAIL) ){	$email=trim($_POST['email']);
+if( isset( $_POST['email'] ) && filter_var( $_POST['email'], FILTER_VALIDATE_EMAIL) ){
+	$email=trim($_POST['email']);
 	OC_Preferences::setValue(OC_User::getUser(),'settings','email',$email);
 	OC_JSON::success(array("data" => array( "message" => $l->t("Email saved") )));
 }else{
