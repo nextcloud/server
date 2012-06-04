@@ -169,6 +169,15 @@ class OC_FileCache{
 		$newParent=self::getParentId($newPath);
 		$query=OC_DB::prepare('UPDATE *PREFIX*fscache SET parent=? ,name=?, path=?, path_hash=? WHERE path_hash=?');
 		$query->execute(array($newParent,basename($newPath),$newPath,md5($newPath),md5($oldPath)));
+
+		$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE path LIKE ?');
+		$oldLength=strlen($oldPath);
+		$updateQuery=OC_DB::prepare('UPDATE *PREFIX*fscache SET path=?, path_hash=? WHERE path_hash=?');
+		while($row= $query->execute(array($oldPath.'/%'))->fetchRow()){
+			$old=$row['path'];
+			$new=$newPath.substr($old,$oldLength);
+			$updateQuery->execute(array($new,md5($new),md5($old)));
+		}
 	}
 
 	/**
