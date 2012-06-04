@@ -17,9 +17,9 @@ if(is_null($file)){
 	exit;
 }
 
-$parts=explode('/',$file);
-$app=$parts[2];
+$parts=explode('/', $file, 2);
+$app=$parts[0];
 OC_App::loadApp($app);
 
 $baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
-require_once(OC::$APPSROOT . $file);
+require_once(OC_App::getAppPath($app) .'/'. $parts[1]);

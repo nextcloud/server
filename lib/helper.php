@@ -40,7 +40,7 @@ class OC_Helper {
 		if( $app != '' ){
 			$app .= '/';
 			// Check if the app is in the app folder
-			if( file_exists( OC_App::getAppPath($app).$file )){
+			if( file_exists( OC_App::getAppPath($app).'/'.$file )){
 				if(substr($file, -3) == 'php' || substr($file, -3) == 'css'){	
 					if(substr($app, -1, 1) == '/'){
 						$app = substr($app, 0, strlen($app) - 1);

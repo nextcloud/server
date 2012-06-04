@@ -197,10 +197,10 @@ class OC_Installer{
 
 		//set remote/public handelers
 		foreach($info['remote'] as $name=>$path){
-			OCP\CONFIG::setAppValue('core', 'remote_'.$name, '/apps/'.$info['id'].'/'.$path);
+			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $app.'/'.$path);
 		}
 		foreach($info['public'] as $name=>$path){
-			OCP\CONFIG::setAppValue('core', 'public_'.$name, '/apps/'.$info['id'].'/'.$path);
+			OCP\CONFIG::setAppValue('core', 'public_'.$name, $app.'/'.$path);
 		}
 
 		OC_App::setAppTypes($info['id']);
@@ -287,22 +287,24 @@ class OC_Installer{
 	 * This function installs all apps found in the 'apps' directory that should be enabled by default;
 	 */
 	public static function installShippedApps(){
-		$dir = opendir( OC::$APPSROOT."/apps" );
-		while( false !== ( $filename = readdir( $dir ))){
-			if( substr( $filename, 0, 1 ) != '.' and is_dir(OC::$APPSROOT."/apps/$filename") ){
-				if( file_exists( OC::$APPSROOT."/apps/$filename/appinfo/app.php" )){
-					if(!OC_Installer::isInstalled($filename)){
-						$info=OC_App::getAppInfo($filename);
-						$enabled = isset($info['default_enable']);
-						if( $enabled ){
-							OC_Installer::installShippedApp($filename);
-							OC_Appconfig::setValue($filename,'enabled','yes');
+		foreach(OC::$APPSROOTS as $app_dir) {
+			$dir = opendir( $app_dir['path'] );
+			while( false !== ( $filename = readdir( $dir ))){
+				if( substr( $filename, 0, 1 ) != '.' and is_dir($app_dir['path']."/$filename") ){
+					if( file_exists( $app_dir['path']."/$filename/appinfo/app.php" )){
+						if(!OC_Installer::isInstalled($filename)){
+							$info=OC_App::getAppInfo($filename);
+							$enabled = isset($info['default_enable']);
+							if( $enabled ){
+								OC_Installer::installShippedApp($filename);
+								OC_Appconfig::setValue($filename,'enabled','yes');
+							}
 						}
 					}
 				}
 			}
+			closedir( $dir );
 		}
-		closedir( $dir );
 	}
 
 	/**
@@ -325,10 +327,10 @@ class OC_Installer{
 		
 		//set remote/public handelers
 		foreach($info['remote'] as $name=>$path){
-			OCP\CONFIG::setAppValue('core', 'remote_'.$name, '/apps/'.$app.'/'.$path);
+			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $app.'/'.$path);
 		}
 		foreach($info['public'] as $name=>$path){
-			OCP\CONFIG::setAppValue('core', 'public_'.$name, '/apps/'.$app.'/'.$path);
+			OCP\CONFIG::setAppValue('core', 'public_'.$name, $app.'/'.$path);
 		}
 		
 		OC_App::setAppTypes($info['id']);
