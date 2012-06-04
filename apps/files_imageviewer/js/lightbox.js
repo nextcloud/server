@@ -25,7 +25,7 @@ function viewImage(dir, file) {
 	var location=OC.filePath('files','ajax','download.php')+'?files='+file+'&dir='+dir;
 	$.fancybox({
 		"href": location,
-		"title": file,
+		"title": file.replace(/</, "&lt;").replace(/>/, "&gt;"),
 		"titlePosition": "inside"
 	});
 }
