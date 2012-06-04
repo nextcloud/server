@@ -17,9 +17,6 @@
  *
  * You should have received a copy of the GNU Affero General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
- * TODO: Translatable strings.
- *       Remember to delete tmp file at some point.
  */
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
@@ -30,7 +27,7 @@ $tmp_path = isset($_POST['tmp_path']) ? $_POST['tmp_path'] : '';
 // give some time to save the photo
 sleep(5);
 
-if($tmp_path != '' && file_exists($tmp_path)) {
+if($tmp_path != '' && file_exists($tmp_path) && !is_dir($tmp_path) && dirname($tmp_path)==get_temp_dir()) {
 	unlink($tmp_path);
 	OCP\JSON::success();
 	exit();
@@ -38,4 +35,3 @@ if($tmp_path != '' && file_exists($tmp_path)) {
 	error_log('Couldn\'t find: '.$tmp_path);
 	OCP\JSON::error();
 }
-?>
