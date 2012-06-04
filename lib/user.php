@@ -127,7 +127,7 @@ class OC_User {
 		if(trim($password) == ''){
 			throw new Exception('A valid password must be provided');
 		}
-		
+
 		// Check if user already exists
 		if( self::userExists($uid) ){
 			throw new Exception('The username is already being used');
@@ -240,12 +240,13 @@ class OC_User {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn(){
-		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] AND self::userExists($_SESSION['user_id']) ){
-			return true;
+		if( isset($_SESSION['user_id']) AND $_SESSION['user_id']) {
+			OC_App::loadApps(array('authentication'));
+			if (self::userExists($_SESSION['user_id']) ){
+				return true;
+			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 
 	/**
