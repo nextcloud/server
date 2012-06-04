@@ -1,5 +1,7 @@
 <?php
 
+OC_App::loadApps();
+
 if ($service == 'core.css'){
 	$minimizer = new OC_Minimizer_CSS();
 	$files = $minimizer->findFiles(OC_Util::$core_styles);
