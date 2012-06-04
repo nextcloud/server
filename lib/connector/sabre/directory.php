@@ -118,8 +118,10 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function delete() {
 
-		foreach($this->getChildren() as $child) $child->delete();
-		OC_Filesystem::rmdir($this->path);
+		if ($this->path != "/Shared") {
+			foreach($this->getChildren() as $child) $child->delete();
+			OC_Filesystem::rmdir($this->path);
+		}
 
 	}
 
