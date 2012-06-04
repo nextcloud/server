@@ -224,7 +224,7 @@ class OC_Files {
 	* @param file $name
 	*/
 	public static function delete($dir,$file){
-		if(OC_User::isLoggedIn()){
+		if(OC_User::isLoggedIn() && ($dir!= '' || $file != 'Shared')) {
 			$file=$dir.'/'.$file;
 			return OC_Filesystem::unlink($file);
 		}
