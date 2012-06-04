@@ -329,10 +329,16 @@ class OC_Template{
 		
 		if (is_file($root.'/'.$file)) {
 				$pathes = explode('/', $file);
-				if($type == 'cssfiles' && $root == OC::$APPSROOTS[0] && $in_app){
+				$in_root = false;
+				foreach(OC::$APPSROOTS as $app_root) {
+					if($root == $app_root['path']) {
+						$in_root = true;
+						break;
+					}
+				}
+				if($type == 'cssfiles' && $in_root && $in_app){
 						$app = $pathes[0];
 						unset($pathes[0]);
-// 						unset($pathes[1]);
 						$path = implode('/', $pathes);
 						$this->append( $type, OC_Helper::linkTo($app, $path));
 				}else{
