@@ -42,8 +42,8 @@ Contacts_Import={
 			}
 			$('#newaddressbook').attr('readonly', 'readonly');
 			$('#contacts').attr('disabled', 'disabled');
-			var progressfile = $('#progressfile').val();
-			$.post(OC.filePath('contacts', '', 'import.php'), {method: String (method), addressbookname: String (addressbookname), path: String (path), file: String (filename), id: String (addressbookid)}, function(jsondata){
+			var progresskey = $('#progresskey').val();
+			$.post(OC.filePath('contacts', '', 'import.php') + '?progresskey='+progresskey, {method: String (method), addressbookname: String (addressbookname), path: String (path), file: String (filename), id: String (addressbookid)}, function(jsondata){
 				if(jsondata.status == 'success'){
 					$('#progressbar').progressbar('option', 'value', 100);
 					$('#import_done').find('p').html(t('contacts', 'Result: ') + jsondata.data.imported + t('contacts', ' imported, ') + jsondata.data.failed + t('contacts', ' failed.'));
@@ -55,7 +55,7 @@ Contacts_Import={
 			});
 			$('#form_container').css('display', 'none');
 			$('#progressbar_container').css('display', 'block');
-			window.setTimeout('Contacts_Import.getimportstatus(\'' + progressfile + '\')', 500);
+			window.setTimeout('Contacts_Import.getimportstatus(\'' + progresskey + '\')', 500);
 		});
 		$('#contacts').change(function(){
 			if($('#contacts option:selected').val() == 'newaddressbook'){
@@ -65,11 +65,11 @@ Contacts_Import={
 			}
 		});
 	},
-	getimportstatus: function(progressfile){
-		$.get(OC.filePath('contacts', 'import_tmp', progressfile), function(percent){
+	getimportstatus: function(progresskey){
+		$.get(OC.filePath('contacts', '', 'import.php') + '?progress=1&progresskey=' + progresskey, function(percent){
 			$('#progressbar').progressbar('option', 'value', parseInt(percent));
 			if(percent < 100){
-				window.setTimeout('Contacts_Import.getimportstatus(\'' + progressfile + '\')', 500);
+				window.setTimeout('Contacts_Import.getimportstatus(\'' + progresskey + '\')', 500);
 			}else{
 				$('#import_done').css('display', 'block');
 			}
