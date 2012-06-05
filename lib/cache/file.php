@@ -7,7 +7,7 @@
  */
 
 
-class OC_Cache_File extends OC_Cache {
+class OC_Cache_File{
 	protected function getStorage() {
 		if(OC_User::isLoggedIn()){
 			$subdir = 'cache';
@@ -24,7 +24,7 @@ class OC_Cache_File extends OC_Cache {
 
 	public function get($key) {
 		$storage = $this->getStorage();
-		if ($storage->is_file($key)) {
+		if ($storage and $storage->is_file($key)) {
 			$mtime = $storage->filemtime($key);
 			if ($mtime < time()) {
 				$storage->unlink($key);
@@ -35,9 +35,9 @@ class OC_Cache_File extends OC_Cache {
 		return null;
 	}
 
-	public function set($key, $value, $ttl) {
+	public function set($key, $value, $ttl=0) {
 		$storage = $this->getStorage();
-		if ($storage->file_put_contents($key, $value)) {
+		if ($storage and $storage->file_put_contents($key, $value)) {
 			return $storage->touch($key, time() + $ttl);
 		}
 		return false;
@@ -45,6 +45,21 @@ class OC_Cache_File extends OC_Cache {
 
 	public function remove($key) {
 		$storage = $this->getStorage();
+		if(!$storage){
+			return false;
+		}
 		return $storage->unlink($key);
+	}
+
+	public function clear(){
+		$storage = $this->getStorage();
+		if($storage and $storage->is_dir('/')){
+			$dh=$storage->opendir('/');
+			while($file=readdir($dh)){
+				if($file!='.' and $file!='..'){
+					$storage->unlink('/'.$file);
+				}
+			}
+		}
 	}
 }

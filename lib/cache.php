@@ -37,4 +37,11 @@ class OC_Cache {
 		return self::$cache->remove($key);
 	}
 
+	static public function clear() {
+		if (!self::$cache) {
+			self::init();
+		}
+		return self::$cache->clear();
+	}
+
 }
