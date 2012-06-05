@@ -19,10 +19,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-// Init owncloud
-//require_once('../../../lib/base.php');
 
-// Check if we are a user
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
 OCP\JSON::setContentTypeHeader('text/plain');
 OCP\JSON::checkLoggedIn();
@@ -32,30 +29,24 @@ function bailOut($msg) {
 	OCP\Util::writeLog('contacts','ajax/currentphoto.php: '.$msg, OCP\Util::ERROR);
 	exit();
 }
-function debug($msg) {
-	OCP\Util::writeLog('contacts','ajax/currentphoto.php: '.$msg, OCP\Util::DEBUG);
-}
 
 if (!isset($_GET['id'])) {
 	bailOut(OC_Contacts_App::$l10n->t('No contact ID was submitted.'));
 }
 
-$tmpfname = tempnam(get_temp_dir(), "occOrig");
 $contact = OC_Contacts_App::getContactVCard($_GET['id']);
-$image = new OC_Image();
-if(!$image) {
-	bailOut(OC_Contacts_App::$l10n->t('Error loading image.'));
-}
 // invalid vcard
 if( is_null($contact)) {
 	bailOut(OC_Contacts_App::$l10n->t('Error reading contact photo.'));
 } else {
+	$image = new OC_Image();
 	if(!$image->loadFromBase64($contact->getAsString('PHOTO'))) {
 		$image->loadFromBase64($contact->getAsString('LOGO'));
 	}
 	if($image->valid()) {
-		if($image->save($tmpfname)) {
-			OCP\JSON::success(array('data' => array('id'=>$_GET['id'], 'tmp'=>$tmpfname)));
+		$tmpkey = 'contact-photo-'.md5($contact->getAsString('FN'));
+		if(OC_Cache::set($tmpkey, $image->data(), 600)) {
+			OCP\JSON::success(array('data' => array('id'=>$_GET['id'], 'tmp'=>$tmpkey)));
 			exit();
 		} else {
 			bailOut(OC_Contacts_App::$l10n->t('Error saving temporary file.'));

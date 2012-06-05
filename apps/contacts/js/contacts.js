@@ -1162,9 +1162,9 @@ Contacts={
 					}
 				});
 			},
-			editPhoto:function(id, tmp_path){
-				//alert('editPhoto: ' + tmp_path);
-				$.getJSON(OC.filePath('contacts', 'ajax', 'cropphoto.php'),{'tmp_path':tmp_path,'id':this.id},function(jsondata){
+			editPhoto:function(id, tmpkey){
+				//alert('editPhoto: ' + tmpkey);
+				$.getJSON(OC.filePath('contacts', 'ajax', 'cropphoto.php'),{'tmpkey':tmpkey,'id':this.id},function(jsondata){
 					if(jsondata.status == 'success'){
 						//alert(jsondata.data.page);
 						$('#edit_photo_dialog_img').html(jsondata.data.page);
@@ -1194,6 +1194,7 @@ Contacts={
 						Contacts.UI.Card.loadPhotoHandlers();
 					}else{
 						OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
+						wrapper.removeClass('wait');
 					}
 				});
 				Contacts.UI.Contacts.refreshThumbnail(this.id);
