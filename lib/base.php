@@ -381,13 +381,11 @@ class OC{
                 $server=OC_Helper::serverHost();
                 $serverhost=parse_url($server);
                 if(isset($serverhost['host'])) $serverhost=$serverhost['host']; else $serverhost='';
-                if(!self::$CLI){
-                        if(($_SERVER['REQUEST_METHOD']=='POST') and ($refererhost<>$serverhost)) {
-                                $url = OC_Helper::serverProtocol().'://'.$server.OC::$WEBROOT.'/index.php';
-                                header("Location: $url");
-                                exit();
-                        }
-                }
+		if(($_SERVER['REQUEST_METHOD']=='POST') and ($refererhost<>$serverhost)) {
+			$url = OC_Helper::serverProtocol().'://'.$server.OC::$WEBROOT.'/index.php';
+			header("Location: $url");
+			exit();
+		}
 
 		self::initSession();
 		self::initTemplateEngine();
