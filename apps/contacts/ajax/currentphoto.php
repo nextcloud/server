@@ -44,7 +44,7 @@ if( is_null($contact)) {
 		$image->loadFromBase64($contact->getAsString('LOGO'));
 	}
 	if($image->valid()) {
-		$tmpkey = 'contact-photo-'.md5($contact->getAsString('FN'));
+		$tmpkey = 'contact-photo-'.$contact->getAsString('UID');
 		if(OC_Cache::set($tmpkey, $image->data(), 600)) {
 			OCP\JSON::success(array('data' => array('id'=>$_GET['id'], 'tmp'=>$tmpkey)));
 			exit();
