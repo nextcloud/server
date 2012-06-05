@@ -63,7 +63,7 @@ class OC_Minimizer_CSS extends OC_Minimizer
 				$css = str_replace('%webroot%', $webroot, $css);
 			}
 			$remote = $file_info[1];
-			$remote .= '../';
+			$remote .= '/';
 			$remote .= dirname($file_info[2]);
 			$css_out .= CSSMin::remap($css, dirname($file), $remote, true);
 		}
