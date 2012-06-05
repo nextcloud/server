@@ -79,19 +79,19 @@ class OC_MEDIA_SCANNER{
 			OCP\Util::writeLog('media',"error reading artist tag in '$file'",OCP\Util::WARN);
 			$artist='unknown';
 		}else{
-			$artist=stripslashes($data['comments']['artist'][0]);
+			$artist=strip_tags(stripslashes($data['comments']['artist'][0]));
 		}
 		if(!isset($data['comments']['album'])){
 			OCP\Util::writeLog('media',"error reading album tag in '$file'",OCP\Util::WARN);
 			$album='unknown';
 		}else{
-			$album=stripslashes($data['comments']['album'][0]);
+			$album=strip_tags(stripslashes($data['comments']['album'][0]));
 		}
 		if(!isset($data['comments']['title'])){
 			OCP\Util::writeLog('media',"error reading title tag in '$file'",OCP\Util::WARN);
 			$title='unknown';
 		}else{
-			$title=stripslashes($data['comments']['title'][0]);
+			$title=strip_tags(stripslashes($data['comments']['title'][0]));
 		}
 		$size=$data['filesize'];
 		if (isset($data['comments']['track']))
