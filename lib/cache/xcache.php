@@ -6,10 +6,9 @@
  * See the COPYING-README file.
  */
 
-
-class OC_Cache_XCache{
+class OC_Cache_XCache {
 	/**
-	 * entries in XCache gets namespaced to prevent collisions between owncloud instaces and users
+	 * entries in XCache gets namespaced to prevent collisions between owncloud instances and users
 	 */
 	protected function getNameSpace() {
 		return OC_Util::getInstanceId().'/'.OC_User::getUser().'/';

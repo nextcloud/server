@@ -28,7 +28,7 @@ abstract class Test_Cache extends UnitTestCase {
 		$value='ipsum lorum';
 		$this->instance->set('value1',$value);
 		$received=$this->instance->get('value1');
-		$this->assertEqual($value,$received,'Value not overwritten by seccond set');
+		$this->assertEqual($value,$received,'Value not overwritten by second set');
 
 		$value2='foobar';
 		$this->instance->set('value2',$value2);
@@ -36,7 +36,7 @@ abstract class Test_Cache extends UnitTestCase {
 		$this->assertTrue($this->instance->hasKey('value1'));
 		$this->assertTrue($this->instance->hasKey('value2'));
 		$this->assertEqual($value,$received,'Value changed while setting other variable');
-		$this->assertEqual($value2,$received2,'Seccond value not equal to original');
+		$this->assertEqual($value2,$received2,'Second value not equal to original');
 
 		$this->assertFalse($this->instance->hasKey('not_set'));
 		$this->assertNull($this->instance->get('not_set'),'Unset value not equal to null');
