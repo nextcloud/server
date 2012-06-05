@@ -33,6 +33,9 @@ class OC_Cache_File{
 	public function set($key, $value, $ttl=0) {
 		$storage = $this->getStorage();
 		if ($storage and $storage->file_put_contents($key, $value)) {
+			if ($ttl === 0) {
+				$ttl = 86400; // 60*60*24
+			}
 			return $storage->touch($key, time() + $ttl);
 		}
 		return false;
@@ -40,7 +43,7 @@ class OC_Cache_File{
 
 	public function hasKey($key) {
 		$storage = $this->getStorage();
-		if ($storage->is_file($key)) {
+		if ($storage && $storage->is_file($key)) {
 			$mtime = $storage->filemtime($key);
 			if ($mtime < time()) {
 				$storage->unlink($key);
