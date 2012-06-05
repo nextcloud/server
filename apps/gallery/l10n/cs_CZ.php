@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Pictures" => "Obrázky",
+"Settings" => "Nastavení",
 "Rescan" => "Znovu prohledat",
 "Stop" => "Zastavit",
 "Share" => "Sdílet",
-"Settings" => "Nastavení",
 "Back" => "Zpět",
 "Remove confirmation" => "Potvrzení odebrání",
 "Do you want to remove album" => "Chcete odstranit album?",

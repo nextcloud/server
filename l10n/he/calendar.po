@@ -5,13 +5,13 @@
 # Translators:
 # Elad Alfassa <elad@fedoraproject.org>, 2011.
 #   <tomerc+transifex.net@gmail.com>, 2011.
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2011.
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.net/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +22,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "לא נמצאו לוחות שנה."
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "לא נמצאו אירועים."
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -34,7 +34,7 @@ msgstr "לוח שנה לא נכון"
 
 #: ajax/settings/guesstimezone.php:25
 msgid "New Timezone:"
-msgstr ""
+msgstr "אזור זמן חדש:"
 
 #: ajax/settings/settimezone.php:22
 msgid "Timezone changed"
@@ -44,79 +44,103 @@ msgstr "אזור זמן השתנה"
 msgid "Invalid request"
 msgstr "בקשה לא חוקית"
 
-#: appinfo/app.php:23 templates/calendar.php:15
+#: appinfo/app.php:19 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:31
 #: templates/settings.php:12
 msgid "Calendar"
 msgstr "ח שנה"
 
-#: js/calendar.js:788
-msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+#: js/calendar.js:93
+msgid "Deletion failed"
 msgstr ""
 
-#: lib/app.php:122
+#: js/calendar.js:828
+msgid "ddd"
+msgstr ""
+
+#: js/calendar.js:829
+msgid "ddd M/d"
+msgstr ""
+
+#: js/calendar.js:830
+msgid "dddd M/d"
+msgstr ""
+
+#: js/calendar.js:833
+msgid "MMMM yyyy"
+msgstr ""
+
+#: js/calendar.js:835
+msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+msgstr "d MMM [ yyyy]{ '&#8212;'d[ MMM] yyyy}"
+
+#: js/calendar.js:837
+msgid "dddd, MMM d, yyyy"
+msgstr ""
+
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "יום הולדת"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "עסקים"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "שיחה"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "לקוחות"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "משלוח"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "חגים"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "רעיונות"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "מסע"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "יובל"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "פגישה"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "אחר"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "אישי"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "פרוייקטים"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "שאלות"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "עבודה"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
-msgstr ""
+msgstr "ללא שם"
 
 #: lib/object.php:330
 msgid "Does not repeat"
@@ -148,151 +172,151 @@ msgstr "שנתי"
 
 #: lib/object.php:343
 msgid "never"
-msgstr ""
+msgstr "לעולם לא"
 
 #: lib/object.php:344
 msgid "by occurrences"
-msgstr ""
+msgstr "לפי מופעים"
 
 #: lib/object.php:345
 msgid "by date"
-msgstr ""
+msgstr "לפי תאריך"
 
 #: lib/object.php:352
 msgid "by monthday"
-msgstr ""
+msgstr "לפי היום בחודש"
 
 #: lib/object.php:353
 msgid "by weekday"
-msgstr ""
+msgstr "לפי היום בשבוע"
 
 #: lib/object.php:360 templates/settings.php:42
 msgid "Monday"
-msgstr ""
+msgstr "יום שני"
 
 #: lib/object.php:361
 msgid "Tuesday"
-msgstr ""
+msgstr "יום שלישי"
 
 #: lib/object.php:362
 msgid "Wednesday"
-msgstr ""
+msgstr "יום רביעי"
 
 #: lib/object.php:363
 msgid "Thursday"
-msgstr ""
+msgstr "יום חמישי"
 
 #: lib/object.php:364
 msgid "Friday"
-msgstr ""
+msgstr "יום שישי"
 
 #: lib/object.php:365
 msgid "Saturday"
-msgstr ""
+msgstr "שבת"
 
 #: lib/object.php:366 templates/settings.php:43
 msgid "Sunday"
-msgstr ""
+msgstr "יום ראשון"
 
 #: lib/object.php:373
 msgid "events week of month"
-msgstr ""
+msgstr "שבוע בחודש לציון הפעילות"
 
 #: lib/object.php:374
 msgid "first"
-msgstr ""
+msgstr "ראשון"
 
 #: lib/object.php:375
 msgid "second"
-msgstr ""
+msgstr "שני"
 
 #: lib/object.php:376
 msgid "third"
-msgstr ""
+msgstr "שלישי"
 
 #: lib/object.php:377
 msgid "fourth"
-msgstr ""
+msgstr "רביעי"
 
 #: lib/object.php:378
 msgid "fifth"
-msgstr ""
+msgstr "חמישי"
 
 #: lib/object.php:379
 msgid "last"
-msgstr ""
+msgstr "אחרון"
 
 #: lib/object.php:401
 msgid "January"
-msgstr ""
+msgstr "ינואר"
 
 #: lib/object.php:402
 msgid "February"
-msgstr ""
+msgstr "פברואר"
 
 #: lib/object.php:403
 msgid "March"
-msgstr ""
+msgstr "מרץ"
 
 #: lib/object.php:404
 msgid "April"
-msgstr ""
+msgstr "אפריל"
 
 #: lib/object.php:405
 msgid "May"
-msgstr ""
+msgstr "מאי"
 
 #: lib/object.php:406
 msgid "June"
-msgstr ""
+msgstr "יוני"
 
 #: lib/object.php:407
 msgid "July"
-msgstr ""
+msgstr "יולי"
 
 #: lib/object.php:408
 msgid "August"
-msgstr ""
+msgstr "אוגוסט"
 
 #: lib/object.php:409
 msgid "September"
-msgstr ""
+msgstr "ספטמבר"
 
 #: lib/object.php:410
 msgid "October"
-msgstr ""
+msgstr "אוקטובר"
 
 #: lib/object.php:411
 msgid "November"
-msgstr ""
+msgstr "נובמבר"
 
 #: lib/object.php:412
 msgid "December"
-msgstr ""
+msgstr "דצמבר"
 
 #: lib/object.php:418
 msgid "by events date"
-msgstr ""
+msgstr "לפי תאריכי האירועים"
 
 #: lib/object.php:419
 msgid "by yearday(s)"
-msgstr ""
+msgstr "לפי ימים בשנה"
 
 #: lib/object.php:420
 msgid "by weeknumber(s)"
-msgstr ""
+msgstr "לפי מספרי השבועות"
 
 #: lib/object.php:421
 msgid "by day and month"
-msgstr ""
+msgstr "לפי יום וחודש"
 
 #: lib/search.php:32 lib/search.php:34 lib/search.php:37
 msgid "Date"
-msgstr ""
+msgstr "תאריך"
 
 #: lib/search.php:40
 msgid "Cal."
-msgstr ""
+msgstr "לוח שנה"
 
 #: templates/calendar.php:11
 msgid "All day"
@@ -304,7 +328,7 @@ msgstr "לוח שנה חדש"
 
 #: templates/calendar.php:13
 msgid "Missing fields"
-msgstr ""
+msgstr "שדות חסרים"
 
 #: templates/calendar.php:14 templates/part.eventform.php:19
 #: templates/part.showevent.php:11
@@ -313,27 +337,27 @@ msgstr "כותרת"
 
 #: templates/calendar.php:16
 msgid "From Date"
-msgstr ""
+msgstr "מתאריך"
 
 #: templates/calendar.php:17
 msgid "From Time"
-msgstr ""
+msgstr "משעה"
 
 #: templates/calendar.php:18
 msgid "To Date"
-msgstr ""
+msgstr "עד תאריך"
 
 #: templates/calendar.php:19
 msgid "To Time"
-msgstr ""
+msgstr "עד שעה"
 
 #: templates/calendar.php:20
 msgid "The event ends before it starts"
-msgstr ""
+msgstr "האירוע מסתיים עוד לפני שהתחיל"
 
 #: templates/calendar.php:21
 msgid "There was a database fail"
-msgstr ""
+msgstr "אירע כשל במסד הנתונים"
 
 #: templates/calendar.php:40
 msgid "Week"
@@ -365,7 +389,7 @@ msgstr "בחר לוחות שנה פעילים"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "לוחות השנה שלך"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -374,15 +398,15 @@ msgstr "קישור CalDav"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "לוחות שנה מושתפים"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "אין לוחות שנה משותפים"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "שיתוף לוח שנה"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -399,7 +423,7 @@ msgstr "מחיקה"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "שותף אתך על ידי"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -444,23 +468,23 @@ msgstr "יצוא"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "פרטי האירוע"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "חוזר"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "תזכורת"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "משתתפים"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "שיתוף"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -472,11 +496,11 @@ msgstr "קטגוריה"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "הפרדת קטגוריות בפסיק"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "עריכת קטגוריות"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -492,7 +516,7 @@ msgstr "עבור"
 
 #: templates/part.eventform.php:76 templates/part.showevent.php:75
 msgid "Advanced options"
-msgstr ""
+msgstr "אפשרויות מתקדמות"
 
 #: templates/part.eventform.php:81 templates/part.showevent.php:80
 msgid "Location"
@@ -516,64 +540,64 @@ msgstr "חזרה"
 
 #: templates/part.eventform.php:107 templates/part.showevent.php:105
 msgid "Advanced"
-msgstr ""
+msgstr "מתקדם"
 
 #: templates/part.eventform.php:151 templates/part.showevent.php:149
 msgid "Select weekdays"
-msgstr ""
+msgstr "יש לבחור ימים בשבוע"
 
 #: templates/part.eventform.php:164 templates/part.eventform.php:177
 #: templates/part.showevent.php:162 templates/part.showevent.php:175
 msgid "Select days"
-msgstr ""
+msgstr "יש לבחור בימים"
 
 #: templates/part.eventform.php:169 templates/part.showevent.php:167
 msgid "and the events day of year."
-msgstr ""
+msgstr "ויום האירוע בשנה."
 
 #: templates/part.eventform.php:182 templates/part.showevent.php:180
 msgid "and the events day of month."
-msgstr ""
+msgstr "ויום האירוע בחודש."
 
 #: templates/part.eventform.php:190 templates/part.showevent.php:188
 msgid "Select months"
-msgstr ""
+msgstr "יש לבחור בחודשים"
 
 #: templates/part.eventform.php:203 templates/part.showevent.php:201
 msgid "Select weeks"
-msgstr ""
+msgstr "יש לבחור בשבועות"
 
 #: templates/part.eventform.php:208 templates/part.showevent.php:206
 msgid "and the events week of year."
-msgstr ""
+msgstr "ומספור השבוע הפעיל בשנה."
 
 #: templates/part.eventform.php:214 templates/part.showevent.php:212
 msgid "Interval"
-msgstr ""
+msgstr "משך"
 
 #: templates/part.eventform.php:220 templates/part.showevent.php:218
 msgid "End"
-msgstr ""
+msgstr "סיום"
 
 #: templates/part.eventform.php:233 templates/part.showevent.php:231
 msgid "occurrences"
-msgstr ""
+msgstr "מופעים"
 
 #: templates/part.import.php:1
 msgid "Import a calendar file"
-msgstr ""
+msgstr "יבוא קובץ לוח שנה"
 
 #: templates/part.import.php:6
 msgid "Please choose the calendar"
-msgstr ""
+msgstr "נא לבחור את לוח השנה"
 
 #: templates/part.import.php:10
 msgid "create a new calendar"
-msgstr ""
+msgstr "יצירת לוח שנה חדש"
 
 #: templates/part.import.php:15
 msgid "Name of new calendar"
-msgstr ""
+msgstr "שם לוח השנה החדש"
 
 #: templates/part.import.php:17
 msgid "Import"
@@ -581,15 +605,15 @@ msgstr "יבוא"
 
 #: templates/part.import.php:20
 msgid "Importing calendar"
-msgstr ""
+msgstr "היומן מייובא"
 
 #: templates/part.import.php:23
 msgid "Calendar imported successfully"
-msgstr ""
+msgstr "היומן ייובא בהצלחה"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "סגירת הדו־שיח"
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"
@@ -597,11 +621,11 @@ msgstr "יצירת אירוע חדש"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "צפייה באירוע"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "לא נבחרו קטגוריות"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -609,11 +633,11 @@ msgstr "בחר קטגוריה"
 
 #: templates/part.showevent.php:37
 msgid "of"
-msgstr ""
+msgstr "מתוך"
 
 #: templates/part.showevent.php:62 templates/part.showevent.php:70
 msgid "at"
-msgstr ""
+msgstr "בשנה"
 
 #: templates/settings.php:14
 msgid "Timezone"
@@ -621,48 +645,48 @@ msgstr "אזור זמן"
 
 #: templates/settings.php:31
 msgid "Check always for changes of the timezone"
-msgstr ""
+msgstr "יש לבדוק תמיד אם יש הבדלים באזורי הזמן"
 
 #: templates/settings.php:33
 msgid "Timeformat"
-msgstr ""
+msgstr "מבנה התאריך"
 
 #: templates/settings.php:35
 msgid "24h"
-msgstr ""
+msgstr "24 שעות"
 
 #: templates/settings.php:36
 msgid "12h"
-msgstr ""
+msgstr "12 שעות"
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "היום הראשון בשבוע"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
-msgstr ""
+msgstr "כתובת הסנכרון ללוח שנה מסוג CalDAV:"
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "משתמשים"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "נא לבחור במשתמשים"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "ניתן לעריכה"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "קבוצות"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "בחירת קבוצות"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "הפיכה לציבורי"

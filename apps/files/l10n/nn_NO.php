@@ -6,6 +6,8 @@
 "No file was uploaded" => "Ingen filer vart lasta opp",
 "Missing a temporary folder" => "Manglar ei mellombels mappe",
 "Files" => "Filer",
+"Size" => "Storleik",
+"Modified" => "Endra",
 "Maximum upload size" => "Maksimal opplastingsstorleik",
 "New" => "Ny",
 "Text file" => "Tekst fil",
@@ -14,8 +16,6 @@
 "Nothing in here. Upload something!" => "Ingenting her. Last noko opp!",
 "Name" => "Namn",
 "Download" => "Last ned",
-"Size" => "Storleik",
-"Modified" => "Endra",
 "Delete" => "Slett",
 "Upload too large" => "For stor opplasting",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filene du prøver å laste opp er større enn maksgrensa til denne tenaren."

@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"email Changed" => "전자 우편 주소 변경됨",
-"Invalid request" => "잘못된 요청",
 "OpenID Changed" => "OpenID 변경됨",
+"Invalid request" => "잘못된 요청",
 "Language changed" => "언어가 변경되었습니다",
 "__language_name__" => "한국어",
 "Log" => "로그",

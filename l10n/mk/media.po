@@ -9,10 +9,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-04-27 19:55+0000\n"
-"Last-Translator: Georgi Stanojevski <glisha@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Macedonian (http://www.transifex.net/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,15 +20,19 @@ msgstr ""
 "Language: mk\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1\n"
 
-#: appinfo/app.php:32 templates/player.php:9
+#: appinfo/app.php:32 templates/player.php:8
 msgid "Music"
 msgstr "Музика"
 
-#: templates/music.php:3 templates/player.php:13
+#: js/music.js:18
+msgid "Add album to playlist"
+msgstr ""
+
+#: templates/music.php:3 templates/player.php:12
 msgid "Play"
 msgstr "Пушти"
 
-#: templates/music.php:4 templates/music.php:26 templates/player.php:14
+#: templates/music.php:4 templates/music.php:26 templates/player.php:13
 msgid "Pause"
 msgstr "Пауза"
 
@@ -36,7 +40,7 @@ msgstr "Пауза"
 msgid "Previous"
 msgstr "Претходно"
 
-#: templates/music.php:6 templates/player.php:15
+#: templates/music.php:6 templates/player.php:14
 msgid "Next"
 msgstr "Следно"
 

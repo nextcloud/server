@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-05-13 19:52+0200\n"
-"PO-Revision-Date: 2012-05-13 15:24+0000\n"
-"Last-Translator: Javier Llorente <javier@opensuse.org>\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,15 +45,39 @@ msgstr "Zona horaria cambiada"
 msgid "Invalid request"
 msgstr "Petición no válida"
 
-#: appinfo/app.php:23 templates/calendar.php:15
+#: appinfo/app.php:19 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:31
 #: templates/settings.php:12
 msgid "Calendar"
 msgstr "Calendario"
 
-#: js/calendar.js:788
+#: js/calendar.js:93
+msgid "Deletion failed"
+msgstr ""
+
+#: js/calendar.js:828
+msgid "ddd"
+msgstr ""
+
+#: js/calendar.js:829
+msgid "ddd M/d"
+msgstr ""
+
+#: js/calendar.js:830
+msgid "dddd M/d"
+msgstr ""
+
+#: js/calendar.js:833
+msgid "MMMM yyyy"
+msgstr ""
+
+#: js/calendar.js:835
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
 msgstr "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+
+#: js/calendar.js:837
+msgid "dddd, MMM d, yyyy"
+msgstr ""
 
 #: lib/app.php:125
 msgid "Birthday"

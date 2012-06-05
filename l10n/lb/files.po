@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <sim0n@trypill.org>, 2011.
+#   <sim0n@trypill.org>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Luxembourgish (http://www.transifex.net/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -46,15 +46,67 @@ msgstr "Et feelt en temporären Dossier"
 
 #: ajax/upload.php:25
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Konnt net op den Disk schreiwen"
 
-#: appinfo/app.php:7
+#: appinfo/app.php:6
 msgid "Files"
 msgstr "Dateien"
 
+#: js/filelist.js:186
+msgid "undo deletion"
+msgstr ""
+
+#: js/files.js:170
+msgid "generating ZIP-file, it may take some time."
+msgstr ""
+
+#: js/files.js:199
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr ""
+
+#: js/files.js:199
+msgid "Upload Error"
+msgstr ""
+
+#: js/files.js:227 js/files.js:318 js/files.js:347
+msgid "Pending"
+msgstr ""
+
+#: js/files.js:332
+msgid "Upload cancelled."
+msgstr ""
+
+#: js/files.js:456
+msgid "Invalid name, '/' is not allowed."
+msgstr ""
+
+#: js/files.js:626 templates/index.php:55
+msgid "Size"
+msgstr "Gréisst"
+
+#: js/files.js:627 templates/index.php:56
+msgid "Modified"
+msgstr "Geännert"
+
+#: js/files.js:654
+msgid "folder"
+msgstr ""
+
+#: js/files.js:656
+msgid "folders"
+msgstr ""
+
+#: js/files.js:664
+msgid "file"
+msgstr ""
+
+#: js/files.js:666
+msgid "files"
+msgstr ""
+
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Fichier handling"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -62,39 +114,39 @@ msgstr "Maximum Upload Gréisst "
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "max. méiglech:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Gett gebraucht fir multi-Fichier an Dossier Downloads."
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "ZIP-download erlaben"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 ass onlimitéiert"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Maximal Gréisst fir ZIP Fichieren"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Nei"
 
 #: templates/index.php:9
 msgid "Text file"
-msgstr ""
+msgstr "Text Fichier"
 
 #: templates/index.php:10
 msgid "Folder"
-msgstr ""
+msgstr "Dossier"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr ""
+msgstr "From URL"
 
 #: templates/index.php:21
 msgid "Upload"
@@ -102,7 +154,7 @@ msgstr "Eroplueden"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "Upload ofbriechen"
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
@@ -114,23 +166,11 @@ msgstr "Numm"
 
 #: templates/index.php:49
 msgid "Share"
-msgstr ""
+msgstr "Share"
 
 #: templates/index.php:51
 msgid "Download"
 msgstr "Eroflueden"
-
-#: templates/index.php:55
-msgid "Size"
-msgstr "Gréisst"
-
-#: templates/index.php:56
-msgid "Modified"
-msgstr "Geännert"
-
-#: templates/index.php:56
-msgid "Delete all"
-msgstr ""
 
 #: templates/index.php:56
 msgid "Delete"
@@ -148,8 +188,8 @@ msgstr "Déi Dateien déi Dir probéiert erop ze lueden sinn méi grouss wei dé
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Fichieren gi gescannt, war weg."
 
 #: templates/index.php:74
 msgid "Current scanning"
-msgstr ""
+msgstr "Momentane Scan"

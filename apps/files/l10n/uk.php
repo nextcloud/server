@@ -6,6 +6,8 @@
 "No file was uploaded" => "Не відвантажено жодного файлу",
 "Missing a temporary folder" => "Відсутній тимчасовий каталог",
 "Files" => "Файли",
+"Size" => "Розмір",
+"Modified" => "Змінено",
 "Maximum upload size" => "Максимальний розмір відвантажень",
 "New" => "Створити",
 "Text file" => "Текстовий файл",
@@ -14,8 +16,6 @@
 "Nothing in here. Upload something!" => "Тут нічого немає. Відвантажте що-небудь!",
 "Name" => "Ім'я",
 "Download" => "Завантажити",
-"Size" => "Розмір",
-"Modified" => "Змінено",
 "Delete" => "Видалити",
 "Upload too large" => "Файл занадто великий",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файли,що ви намагаєтесь відвантажити перевищують максимальний дозволений розмір файлів на цьому сервері."

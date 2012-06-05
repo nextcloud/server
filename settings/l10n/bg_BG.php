@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Invalid request" => "Невалидна заявка",
 "OpenID Changed" => "OpenID е сменено",
+"Invalid request" => "Невалидна заявка",
 "Language changed" => "Езика е сменен",
 "Select an App" => "Изберете програма",
 "-licensed" => "-лицензирано",

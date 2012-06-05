@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-05-13 19:52+0200\n"
-"PO-Revision-Date: 2012-05-13 17:52+0000\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: ajax/activation.php:19 ajax/updateaddressbook.php:32
 msgid "Error (de)activating addressbook."
-msgstr "電話帳の有効/無効化に失敗しました。"
+msgstr "アドレスブックの有効/無効化に失敗しました。"
 
 #: ajax/addcontact.php:59
 msgid "There was an error adding the contact."
@@ -31,7 +32,7 @@ msgstr "項目の新規追加に失敗しました。"
 
 #: ajax/addproperty.php:52
 msgid "At least one of the address fields has to be filled out."
-msgstr "アドレス項目の１つは記入して下さい。"
+msgstr "住所の項目のうち１つは入力して下さい。"
 
 #: ajax/addproperty.php:62
 msgid "Trying to add duplicate property: "
@@ -43,23 +44,23 @@ msgstr "連絡先の追加に失敗しました。"
 
 #: ajax/categories/categoriesfor.php:15
 msgid "No ID provided"
-msgstr ""
+msgstr "IDが提供されていません"
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
-msgstr ""
+msgstr "チェックサムの設定エラー。"
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "削除するカテゴリが選択されていません。"
 
 #: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
 msgid "No address books found."
-msgstr ""
+msgstr "アドレスブックが見つかりません。"
 
 #: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
 msgid "No contacts found."
-msgstr ""
+msgstr "連絡先が見つかりません。"
 
 #: ajax/contactdetails.php:37
 msgid "Missing ID"
@@ -67,43 +68,40 @@ msgstr ""
 
 #: ajax/contactdetails.php:41
 msgid "Error parsing VCard for ID: \""
-msgstr ""
+msgstr "VCardからIDの抽出エラー: \""
 
 #: ajax/createaddressbook.php:18
 msgid "Cannot add addressbook with an empty name."
-msgstr ""
+msgstr "名前を空白にしたままでアドレスブックを追加することはできません。"
 
 #: ajax/createaddressbook.php:24
 msgid "Error adding addressbook."
-msgstr "電話帳の追加に失敗しました。"
+msgstr "アドレスブックの追加に失敗しました。"
 
 #: ajax/createaddressbook.php:30
 msgid "Error activating addressbook."
-msgstr "電話帳の有効化に失敗しました。"
+msgstr "アドレスブックの有効化に失敗しました。"
 
-#: ajax/currentphoto.php:40 ajax/oc_photo.php:40
+#: ajax/currentphoto.php:34 ajax/oc_photo.php:37 ajax/uploadphoto.php:41
+#: ajax/uploadphoto.php:68
 msgid "No contact ID was submitted."
-msgstr ""
+msgstr "連絡先IDは登録されませんでした。"
 
-#: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
-msgid "Error loading image."
-msgstr ""
-
-#: ajax/currentphoto.php:51
+#: ajax/currentphoto.php:40
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "連絡先写真の読み込みエラー。"
 
-#: ajax/currentphoto.php:61
+#: ajax/currentphoto.php:52
 msgid "Error saving temporary file."
-msgstr ""
+msgstr "一時ファイルの保存エラー。"
 
-#: ajax/currentphoto.php:64
+#: ajax/currentphoto.php:55
 msgid "The loading photo is not valid."
-msgstr ""
+msgstr "写真の読み込みは無効です。"
 
 #: ajax/deletecard.php:37 ajax/saveproperty.php:58
 msgid "id is not set."
-msgstr ""
+msgstr "idが設定されていません。"
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -115,154 +113,313 @@ msgstr "連絡先の削除に失敗しました。"
 
 #: ajax/editname.php:37
 msgid "Contact ID is missing."
-msgstr ""
+msgstr "コンタクトIDが見つかりません。"
 
 #: ajax/loadphoto.php:44
 msgid "Missing contact id."
-msgstr ""
+msgstr "コンタクトIDが設定されていません。"
 
-#: ajax/oc_photo.php:44
+#: ajax/oc_photo.php:41
 msgid "No photo path was submitted."
+msgstr "写真のパスが登録されていません。"
+
+#: ajax/oc_photo.php:48
+msgid "File doesn't exist:"
+msgstr "ファイルが存在しません:"
+
+#: ajax/oc_photo.php:54 ajax/oc_photo.php:57
+msgid "Error loading image."
+msgstr "画像の読み込みエラー。"
+
+#: ajax/savecrop.php:68
+msgid "Error getting contact object."
 msgstr ""
 
-#: ajax/oc_photo.php:51
-msgid "File doesn't exist:"
+#: ajax/savecrop.php:75
+msgid "Error getting PHOTO property."
+msgstr ""
+
+#: ajax/savecrop.php:88
+msgid "Error saving contact."
+msgstr ""
+
+#: ajax/savecrop.php:98
+msgid "Error resizing image"
+msgstr ""
+
+#: ajax/savecrop.php:101
+msgid "Error cropping image"
+msgstr ""
+
+#: ajax/savecrop.php:104
+msgid "Error creating temporary image"
+msgstr ""
+
+#: ajax/savecrop.php:107
+msgid "Error finding image: "
 msgstr ""
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
-msgstr ""
+msgstr "要素名が設定されていません。"
 
 #: ajax/saveproperty.php:61
 msgid "checksum is not set."
-msgstr ""
+msgstr "チェックサムが設定されていません。"
 
 #: ajax/saveproperty.php:78
 msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr ""
+msgstr "vCardの情報が正しくありません。ページを再読み込みしてください: "
 
 #: ajax/saveproperty.php:83
 msgid "Something went FUBAR. "
 msgstr ""
 
-#: ajax/saveproperty.php:153
+#: ajax/saveproperty.php:150
 msgid "Error updating contact property."
 msgstr "連絡先の更新に失敗しました。"
 
 #: ajax/updateaddressbook.php:20
 msgid "Cannot update addressbook with an empty name."
-msgstr ""
+msgstr "空白の名前でアドレスブックを更新することはできません。"
 
 #: ajax/updateaddressbook.php:26
 msgid "Error updating addressbook."
-msgstr "電話帳の更新に失敗しました。"
+msgstr "アドレスブックの更新に失敗しました。"
 
 #: ajax/uploadimport.php:46 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
-msgstr ""
+msgstr "ストレージへの連絡先のアップロードエラー。"
 
-#: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
+#: ajax/uploadimport.php:59 ajax/uploadphoto.php:77
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "エラーはありません。ファイルのアップロードは成功しました"
 
-#: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
+#: ajax/uploadimport.php:60 ajax/uploadphoto.php:78
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "アップロードファイルは php.ini 内の upload_max_filesize の制限を超えています"
 
-#: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
+#: ajax/uploadimport.php:61 ajax/uploadphoto.php:79
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "アップロードファイルはHTMLフォームで指定された MAX_FILE_SIZE の制限を超えています"
 
-#: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
+#: ajax/uploadimport.php:62 ajax/uploadphoto.php:80
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "アップロードファイルは一部分だけアップロードされました"
 
-#: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
+#: ajax/uploadimport.php:63 ajax/uploadphoto.php:81
 msgid "No file was uploaded"
-msgstr ""
+msgstr "ファイルはアップロードされませんでした"
 
-#: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
+#: ajax/uploadimport.php:64 ajax/uploadphoto.php:82
 msgid "Missing a temporary folder"
+msgstr "一時保存フォルダが見つかりません"
+
+#: ajax/uploadphoto.php:59 ajax/uploadphoto.php:102
+msgid "Couldn't save temporary image: "
 msgstr ""
 
-#: appinfo/app.php:22 templates/settings.php:3
+#: ajax/uploadphoto.php:62 ajax/uploadphoto.php:105
+msgid "Couldn't load temporary image: "
+msgstr ""
+
+#: ajax/uploadphoto.php:71
+msgid "No file was uploaded. Unknown error"
+msgstr ""
+
+#: appinfo/app.php:17 templates/settings.php:3
 msgid "Contacts"
 msgstr "連絡先"
 
-#: lib/app.php:23
-msgid "Addressbook not found."
+#: js/contacts.js:24
+msgid "Sorry, this functionality has not been implemented yet"
 msgstr ""
 
-#: lib/app.php:27
+#: js/contacts.js:24
+msgid "Not implemented"
+msgstr ""
+
+#: js/contacts.js:29
+msgid "Couldn't get a valid address."
+msgstr ""
+
+#: js/contacts.js:29 js/contacts.js:334 js/contacts.js:341 js/contacts.js:355
+#: js/contacts.js:393 js/contacts.js:399 js/contacts.js:565 js/contacts.js:605
+#: js/contacts.js:631 js/contacts.js:668 js/contacts.js:747 js/contacts.js:753
+#: js/contacts.js:765 js/contacts.js:799 js/contacts.js:1056
+#: js/contacts.js:1064 js/contacts.js:1073 js/contacts.js:1130
+#: js/contacts.js:1146 js/contacts.js:1161 js/contacts.js:1173
+#: js/contacts.js:1196 js/contacts.js:1449 js/contacts.js:1457
+#: js/contacts.js:1483 js/contacts.js:1494 js/contacts.js:1509
+#: js/contacts.js:1526 js/contacts.js:1596 js/contacts.js:1644
+#: js/contacts.js:1654 js/contacts.js:1657
+msgid "Error"
+msgstr ""
+
+#: js/contacts.js:364
+msgid "Are you sure you want to delete this contact?"
+msgstr ""
+
+#: js/contacts.js:364
+msgid "Warning"
+msgstr ""
+
+#: js/contacts.js:605
+msgid "This property has to be non-empty."
+msgstr ""
+
+#: js/contacts.js:631
+msgid "Couldn't serialize elements."
+msgstr ""
+
+#: js/contacts.js:747 js/contacts.js:765
+msgid ""
+"'deleteProperty' called without type argument. Please report at "
+"bugs.owncloud.org"
+msgstr ""
+
+#: js/contacts.js:781
+msgid "Edit name"
+msgstr ""
+
+#: js/contacts.js:1056
+msgid "No files selected for upload."
+msgstr ""
+
+#: js/contacts.js:1064 js/contacts.js:1449 js/contacts.js:1634
+msgid ""
+"The file you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+
+#: js/contacts.js:1119
+msgid "Select photo"
+msgstr ""
+
+#: js/contacts.js:1257 js/contacts.js:1290
+msgid "Select type"
+msgstr ""
+
+#: js/contacts.js:1305 templates/part.importaddressbook.php:25
+msgid "Drop a VCF file to import contacts."
+msgstr "連絡先をインポートするVCFファイルをドロップしてください。"
+
+#: js/contacts.js:1475
+msgid "Import done. Success/Failure: "
+msgstr ""
+
+#: js/contacts.js:1476
+msgid "OK"
+msgstr ""
+
+#: js/contacts.js:1494
+msgid "Displayname cannot be empty."
+msgstr ""
+
+#: js/contacts.js:1634
+msgid "Upload too large"
+msgstr ""
+
+#: js/contacts.js:1638
+msgid "Only image files can be used as profile picture."
+msgstr ""
+
+#: js/contacts.js:1638
+msgid "Wrong file type"
+msgstr ""
+
+#: js/contacts.js:1644
+msgid ""
+"Your browser doesn't support AJAX upload. Please click on the profile "
+"picture to select a photo to upload."
+msgstr ""
+
+#: js/loader.js:49
+msgid "Result: "
+msgstr ""
+
+#: js/loader.js:49
+msgid " imported, "
+msgstr ""
+
+#: js/loader.js:49
+msgid " failed."
+msgstr ""
+
+#: lib/app.php:30
+msgid "Addressbook not found."
+msgstr "アドレスブックが見つかりませんでした。"
+
+#: lib/app.php:34
 msgid "This is not your addressbook."
 msgstr "これはあなたの電話帳ではありません。"
 
-#: lib/app.php:38
+#: lib/app.php:45
 msgid "Contact could not be found."
 msgstr "連絡先を見つける事ができません。"
 
-#: lib/app.php:94 templates/part.contact.php:109
+#: lib/app.php:101 templates/part.contact.php:109
 msgid "Address"
 msgstr "住所"
 
-#: lib/app.php:95
+#: lib/app.php:102
 msgid "Telephone"
 msgstr "電話番号"
 
-#: lib/app.php:96 templates/part.contact.php:108
+#: lib/app.php:103 templates/part.contact.php:108
 msgid "Email"
 msgstr "メールアドレス"
 
-#: lib/app.php:97 templates/part.contact.php:33 templates/part.contact.php:34
+#: lib/app.php:104 templates/part.contact.php:33 templates/part.contact.php:34
 #: templates/part.contact.php:104
 msgid "Organization"
 msgstr "所属"
 
-#: lib/app.php:109 lib/app.php:116 lib/app.php:126
+#: lib/app.php:116 lib/app.php:123 lib/app.php:133
 msgid "Work"
 msgstr "勤務先"
 
-#: lib/app.php:110 lib/app.php:114 lib/app.php:127
+#: lib/app.php:117 lib/app.php:121 lib/app.php:134
 msgid "Home"
 msgstr "住居"
 
-#: lib/app.php:115
+#: lib/app.php:122
 msgid "Mobile"
 msgstr "携帯電話"
 
-#: lib/app.php:117
+#: lib/app.php:124
 msgid "Text"
 msgstr "TTY TDD"
 
-#: lib/app.php:118
+#: lib/app.php:125
 msgid "Voice"
 msgstr "音声番号"
 
-#: lib/app.php:119
+#: lib/app.php:126
 msgid "Message"
-msgstr ""
+msgstr "メッセージ"
 
-#: lib/app.php:120
+#: lib/app.php:127
 msgid "Fax"
 msgstr "FAX"
 
-#: lib/app.php:121
+#: lib/app.php:128
 msgid "Video"
 msgstr "テレビ電話"
 
-#: lib/app.php:122
+#: lib/app.php:129
 msgid "Pager"
 msgstr "ポケベル"
 
-#: lib/app.php:128
+#: lib/app.php:135
 msgid "Internet"
-msgstr ""
+msgstr "インターネット"
 
 #: lib/hooks.php:79
 msgid "{name}'s Birthday"
-msgstr ""
+msgstr "{name}の誕生日"
 
 #: lib/search.php:22
 msgid "Contact"
@@ -278,7 +435,7 @@ msgstr "電話帳"
 
 #: templates/part.chooseaddressbook.php:1
 msgid "Configure Address Books"
-msgstr ""
+msgstr "アドレスブックを設定"
 
 #: templates/part.chooseaddressbook.php:16
 msgid "New Address Book"
@@ -286,12 +443,12 @@ msgstr "新規電話帳"
 
 #: templates/part.chooseaddressbook.php:17
 msgid "Import from VCF"
-msgstr ""
+msgstr "VCFからインポート"
 
 #: templates/part.chooseaddressbook.php:22
 #: templates/part.chooseaddressbook.rowfields.php:8
 msgid "CardDav Link"
-msgstr "CardDAV リンク"
+msgstr "CardDAVリンク"
 
 #: templates/part.chooseaddressbook.rowfields.php:11
 msgid "Download"
@@ -317,7 +474,7 @@ msgstr "連絡先の削除"
 
 #: templates/part.contact.php:19
 msgid "Drop photo to upload"
-msgstr ""
+msgstr "写真をドロップしてアップロード"
 
 #: templates/part.contact.php:29
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
@@ -325,35 +482,35 @@ msgstr ""
 
 #: templates/part.contact.php:30
 msgid "Edit name details"
-msgstr ""
+msgstr "名前の詳細を編集"
 
 #: templates/part.contact.php:35 templates/part.contact.php:105
 msgid "Nickname"
-msgstr ""
+msgstr "ニックネーム"
 
 #: templates/part.contact.php:36
 msgid "Enter nickname"
-msgstr ""
+msgstr "ニックネームを入力"
 
 #: templates/part.contact.php:37 templates/part.contact.php:106
 msgid "Birthday"
-msgstr "生年月日"
+msgstr "誕生日"
 
 #: templates/part.contact.php:38
 msgid "dd-mm-yyyy"
-msgstr ""
+msgstr "yyyy-mm-dd"
 
 #: templates/part.contact.php:39 templates/part.contact.php:111
 msgid "Groups"
-msgstr ""
+msgstr "グループ"
 
 #: templates/part.contact.php:41
 msgid "Separate groups with commas"
-msgstr ""
+msgstr "コンマでグループを分割"
 
 #: templates/part.contact.php:42
 msgid "Edit groups"
-msgstr ""
+msgstr "グループを編集"
 
 #: templates/part.contact.php:55 templates/part.contact.php:69
 msgid "Preferred"
@@ -361,47 +518,47 @@ msgstr "推奨"
 
 #: templates/part.contact.php:56
 msgid "Please specify a valid email address."
-msgstr ""
+msgstr "連絡先を追加"
 
 #: templates/part.contact.php:56
 msgid "Enter email address"
-msgstr ""
+msgstr "メールアドレスを入力"
 
 #: templates/part.contact.php:60
 msgid "Mail to address"
-msgstr ""
+msgstr "アドレスへメールを送る"
 
 #: templates/part.contact.php:61
 msgid "Delete email address"
-msgstr ""
+msgstr "メールアドレスを削除"
 
 #: templates/part.contact.php:70
 msgid "Enter phone number"
-msgstr ""
+msgstr "電話番号を入力"
 
 #: templates/part.contact.php:74
 msgid "Delete phone number"
-msgstr ""
+msgstr "電話番号を削除"
 
 #: templates/part.contact.php:84
 msgid "View on map"
-msgstr ""
+msgstr "地図で表示"
 
 #: templates/part.contact.php:84
 msgid "Edit address details"
-msgstr ""
+msgstr "住所の詳細を編集"
 
 #: templates/part.contact.php:95
 msgid "Add notes here."
-msgstr ""
+msgstr "ここにメモを追加。"
 
 #: templates/part.contact.php:101
 msgid "Add field"
-msgstr ""
+msgstr "項目を追加"
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "プロフィール写真"
 
 #: templates/part.contact.php:107
 msgid "Phone"
@@ -409,27 +566,31 @@ msgstr "電話番号"
 
 #: templates/part.contact.php:110
 msgid "Note"
-msgstr ""
+msgstr "メモ"
 
 #: templates/part.contactphoto.php:8
 msgid "Delete current photo"
-msgstr ""
+msgstr "現在の写真を削除"
 
 #: templates/part.contactphoto.php:9
 msgid "Edit current photo"
-msgstr ""
+msgstr "現在の写真を編集"
 
 #: templates/part.contactphoto.php:10
 msgid "Upload new photo"
-msgstr ""
+msgstr "新しい写真をアップロード"
 
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
+msgstr "ownCloudから写真を選択"
+
+#: templates/part.cropphoto.php:64
+msgid "The temporary image has been removed from cache."
 msgstr ""
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
-msgstr ""
+msgstr "住所を編集"
 
 #: templates/part.edit_address_dialog.php:14
 msgid "Type"
@@ -443,12 +604,12 @@ msgstr "私書箱"
 #: templates/part.edit_address_dialog.php:29
 #: templates/part.edit_address_dialog.php:32
 msgid "Extended"
-msgstr "拡張番地"
+msgstr "番地2"
 
 #: templates/part.edit_address_dialog.php:35
 #: templates/part.edit_address_dialog.php:38
 msgid "Street"
-msgstr "街路番地"
+msgstr "番地1"
 
 #: templates/part.edit_address_dialog.php:41
 #: templates/part.edit_address_dialog.php:44
@@ -458,7 +619,7 @@ msgstr "都市"
 #: templates/part.edit_address_dialog.php:47
 #: templates/part.edit_address_dialog.php:50
 msgid "Region"
-msgstr "地域"
+msgstr "都道府県"
 
 #: templates/part.edit_address_dialog.php:53
 #: templates/part.edit_address_dialog.php:56
@@ -472,7 +633,7 @@ msgstr "国名"
 
 #: templates/part.edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "カテゴリを編集"
 
 #: templates/part.edit_categories_dialog.php:14
 msgid "Add"
@@ -480,7 +641,7 @@ msgstr "追加"
 
 #: templates/part.edit_name_dialog.php:16
 msgid "Addressbook"
-msgstr "電話帳"
+msgstr "アドレスブック"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
@@ -488,83 +649,83 @@ msgstr ""
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
-msgstr ""
+msgstr "Miss"
 
 #: templates/part.edit_name_dialog.php:28
 msgid "Ms"
-msgstr ""
+msgstr "Ms"
 
 #: templates/part.edit_name_dialog.php:29
 msgid "Mr"
-msgstr ""
+msgstr "Mr"
 
 #: templates/part.edit_name_dialog.php:30
 msgid "Sir"
-msgstr ""
+msgstr "Sir"
 
 #: templates/part.edit_name_dialog.php:31
 msgid "Mrs"
-msgstr ""
+msgstr "Mrs"
 
 #: templates/part.edit_name_dialog.php:32
 msgid "Dr"
-msgstr ""
+msgstr "Dr"
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "名"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
-msgstr ""
+msgstr "ミドルネーム"
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "姓"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
-msgstr ""
+msgstr "ストレージへの連絡先のアップロードエラー。"
 
 #: templates/part.edit_name_dialog.php:45
 msgid "J.D."
-msgstr ""
+msgstr "J.D."
 
 #: templates/part.edit_name_dialog.php:46
 msgid "M.D."
-msgstr ""
+msgstr "M.D."
 
 #: templates/part.edit_name_dialog.php:47
 msgid "D.O."
-msgstr ""
+msgstr "D.O."
 
 #: templates/part.edit_name_dialog.php:48
 msgid "D.C."
-msgstr ""
+msgstr "D.C."
 
 #: templates/part.edit_name_dialog.php:49
 msgid "Ph.D."
-msgstr ""
+msgstr "Ph.D."
 
 #: templates/part.edit_name_dialog.php:50
 msgid "Esq."
-msgstr ""
+msgstr "Esq."
 
 #: templates/part.edit_name_dialog.php:51
 msgid "Jr."
-msgstr ""
+msgstr "Jr."
 
 #: templates/part.edit_name_dialog.php:52
 msgid "Sn."
-msgstr ""
+msgstr "Sn."
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
-msgstr "電話帳の新規作成"
+msgstr "アドレスブックの新規作成"
 
 #: templates/part.editaddressbook.php:9
 msgid "Edit Addressbook"
-msgstr "電話帳の編集"
+msgstr "アドレスブックを編集"
 
 #: templates/part.editaddressbook.php:12
 msgid "Displayname"
@@ -583,82 +744,77 @@ msgid "Submit"
 msgstr "送信"
 
 #: templates/part.editaddressbook.php:30
-#: templates/part.importaddressbook.php:28
+#: templates/part.importaddressbook.php:34
 msgid "Cancel"
 msgstr "取り消し"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "コンタクトファイルをインポート"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "アドレスブックを選択してください"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "新しいアドレスブックを作成"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
+msgstr "新しいアドレスブックの名前"
 
 #: templates/part.import.php:17
 msgid "Import"
-msgstr ""
+msgstr "インポート"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr ""
-
-#: templates/part.import.php:23
-msgid "Contacts imported successfully"
-msgstr ""
+msgstr "コンタクトをインポート"
 
 #: templates/part.import.php:24
-msgid "Close Dialog"
-msgstr ""
-
-#: templates/part.importaddressbook.php:9
-msgid "Import Addressbook"
+msgid "Close"
 msgstr ""
 
 #: templates/part.importaddressbook.php:12
+msgid ""
+"Currently this import function doesn't work while encryption is enabled.<br "
+"/>Please upload your VCF file with the file manager and click on it to "
+"import."
+msgstr ""
+
+#: templates/part.importaddressbook.php:16
 msgid "Select address book to import to:"
-msgstr ""
+msgstr "インポートするアドレスブックを選択:"
 
-#: templates/part.importaddressbook.php:20
-msgid "Drop a VCF file to import contacts."
-msgstr ""
-
-#: templates/part.importaddressbook.php:21
+#: templates/part.importaddressbook.php:26
 msgid "Select from HD"
-msgstr ""
+msgstr "HDから選択"
 
 #: templates/part.no_contacts.php:2
 msgid "You have no contacts in your addressbook."
-msgstr ""
+msgstr "アドレスブックに連絡先が登録されていません。"
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "連絡先を追加"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
-msgstr ""
+msgstr "アドレス帳を設定"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing addresses"
-msgstr ""
+msgstr "CardDAV同期アドレス"
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "詳細情報"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "プライマリアドレス（Kontact 他）"
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"

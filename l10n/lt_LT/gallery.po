@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:33+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.net/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -18,8 +18,48 @@ msgstr ""
 "Language: lt_LT\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: appinfo/app.php:42
+#: appinfo/app.php:37
 msgid "Pictures"
+msgstr "Nuotraukos"
+
+#: js/album_cover.js:44
+msgid "Share gallery"
+msgstr ""
+
+#: js/album_cover.js:64 js/album_cover.js:100 js/album_cover.js:133
+msgid "Error: "
+msgstr ""
+
+#: js/album_cover.js:64 js/album_cover.js:100
+msgid "Internal error"
+msgstr ""
+
+#: js/album_cover.js:114
+msgid "Scanning root"
+msgstr ""
+
+#: js/album_cover.js:115
+msgid "Default order"
+msgstr ""
+
+#: js/album_cover.js:116
+msgid "Ascending"
+msgstr ""
+
+#: js/album_cover.js:116
+msgid "Descending"
+msgstr ""
+
+#: js/album_cover.js:117 templates/index.php:19
+msgid "Settings"
+msgstr "Nustatymai"
+
+#: js/album_cover.js:122
+msgid "Scanning root cannot be empty"
+msgstr ""
+
+#: js/album_cover.js:122 js/album_cover.js:133
+msgid "Error"
 msgstr ""
 
 #: templates/index.php:16
@@ -28,15 +68,11 @@ msgstr "Atnaujinti"
 
 #: templates/index.php:17
 msgid "Stop"
-msgstr ""
+msgstr "Sustabdyti"
 
 #: templates/index.php:18
 msgid "Share"
-msgstr ""
-
-#: templates/index.php:19
-msgid "Settings"
-msgstr ""
+msgstr "Dalintis"
 
 #: templates/view_album.php:19
 msgid "Back"
@@ -44,16 +80,16 @@ msgstr "Atgal"
 
 #: templates/view_album.php:36
 msgid "Remove confirmation"
-msgstr ""
+msgstr "Išjungti patvirtinimą"
 
 #: templates/view_album.php:37
 msgid "Do you want to remove album"
-msgstr ""
+msgstr "Ar tikrai norite pašalinti albumą"
 
 #: templates/view_album.php:40
 msgid "Change album name"
-msgstr ""
+msgstr "Keisti albumo pavadinimą"
 
 #: templates/view_album.php:43
 msgid "New album name"
-msgstr ""
+msgstr "Naujo albumo pavadinimas"
