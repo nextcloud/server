@@ -356,12 +356,13 @@ class Storage {
 			}
 			
 		}
-		
+	
+		/*	
 		// FIXME: make this path dynamic
 		$dir = '/home/samtuke/owncloud/git/oc5/data/admin/versions';
 
 		( deleteAll( $dir, 1 ) ? return true : return false );
-		
+		*/
         }
 
 
