@@ -147,7 +147,7 @@
 "24h" => "24 t",
 "12h" => "12 t",
 "First day of the week" => "Ukens første dag",
-"Calendar CalDAV syncing address:" => "Kalender CalDAV synkroniseringsadresse",
+"Calendar CalDAV syncing address:" => "Synkroniseringsadresse fo kalender CalDAV:",
 "Users" => "Brukere",
 "select users" => "valgte brukere",
 "Editable" => "Redigerbar",

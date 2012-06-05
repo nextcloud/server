@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Application name not provided." => "Applikationsname nicht angegeben",
-"No category to add?" => "Keine Kategorie hinzufügen?",
+"No category to add?" => "Keine Kategorie hinzuzufügen?",
 "This category already exists: " => "Kategorie existiert bereits:",
-"Owncloud password reset" => "OwnCloud Passwort zurücksetzen",
+"Owncloud password reset" => "ownCloud Passwort zurücksetzen",
 "ownCloud password reset" => "ownCloud Passwort zurücksetzen",
 "Use the following link to reset your password: {link}" => "Nutze folgenden Link, um dein Passwort zurückzusetzen: {link}",
 "You will receive a link to reset your password via Email." => "Sie erhalten einen Link, um Ihr Passwort per E-Mail zurückzusetzen.",

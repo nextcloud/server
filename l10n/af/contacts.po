@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-05-13 19:52+0200\n"
-"PO-Revision-Date: 2012-05-13 17:52+0000\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Afrikaans (http://www.transifex.net/projects/p/owncloud/language/af/)\n"
 "MIME-Version: 1.0\n"
@@ -81,23 +81,20 @@ msgstr ""
 msgid "Error activating addressbook."
 msgstr ""
 
-#: ajax/currentphoto.php:40 ajax/oc_photo.php:40
+#: ajax/currentphoto.php:34 ajax/oc_photo.php:37 ajax/uploadphoto.php:41
+#: ajax/uploadphoto.php:68
 msgid "No contact ID was submitted."
 msgstr ""
 
-#: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
-msgid "Error loading image."
-msgstr ""
-
-#: ajax/currentphoto.php:51
+#: ajax/currentphoto.php:40
 msgid "Error reading contact photo."
 msgstr ""
 
-#: ajax/currentphoto.php:61
+#: ajax/currentphoto.php:52
 msgid "Error saving temporary file."
 msgstr ""
 
-#: ajax/currentphoto.php:64
+#: ajax/currentphoto.php:55
 msgid "The loading photo is not valid."
 msgstr ""
 
@@ -121,12 +118,44 @@ msgstr ""
 msgid "Missing contact id."
 msgstr ""
 
-#: ajax/oc_photo.php:44
+#: ajax/oc_photo.php:41
 msgid "No photo path was submitted."
 msgstr ""
 
-#: ajax/oc_photo.php:51
+#: ajax/oc_photo.php:48
 msgid "File doesn't exist:"
+msgstr ""
+
+#: ajax/oc_photo.php:54 ajax/oc_photo.php:57
+msgid "Error loading image."
+msgstr ""
+
+#: ajax/savecrop.php:68
+msgid "Error getting contact object."
+msgstr ""
+
+#: ajax/savecrop.php:75
+msgid "Error getting PHOTO property."
+msgstr ""
+
+#: ajax/savecrop.php:88
+msgid "Error saving contact."
+msgstr ""
+
+#: ajax/savecrop.php:98
+msgid "Error resizing image"
+msgstr ""
+
+#: ajax/savecrop.php:101
+msgid "Error cropping image"
+msgstr ""
+
+#: ajax/savecrop.php:104
+msgid "Error creating temporary image"
+msgstr ""
+
+#: ajax/savecrop.php:107
+msgid "Error finding image: "
 msgstr ""
 
 #: ajax/saveproperty.php:55
@@ -145,7 +174,7 @@ msgstr ""
 msgid "Something went FUBAR. "
 msgstr ""
 
-#: ajax/saveproperty.php:153
+#: ajax/saveproperty.php:150
 msgid "Error updating contact property."
 msgstr ""
 
@@ -161,102 +190,229 @@ msgstr ""
 msgid "Error uploading contacts to storage."
 msgstr ""
 
-#: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
+#: ajax/uploadimport.php:59 ajax/uploadphoto.php:77
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
-#: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
+#: ajax/uploadimport.php:60 ajax/uploadphoto.php:78
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 
-#: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
+#: ajax/uploadimport.php:61 ajax/uploadphoto.php:79
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
+#: ajax/uploadimport.php:62 ajax/uploadphoto.php:80
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
+#: ajax/uploadimport.php:63 ajax/uploadphoto.php:81
 msgid "No file was uploaded"
 msgstr ""
 
-#: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
+#: ajax/uploadimport.php:64 ajax/uploadphoto.php:82
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: appinfo/app.php:22 templates/settings.php:3
+#: ajax/uploadphoto.php:59 ajax/uploadphoto.php:102
+msgid "Couldn't save temporary image: "
+msgstr ""
+
+#: ajax/uploadphoto.php:62 ajax/uploadphoto.php:105
+msgid "Couldn't load temporary image: "
+msgstr ""
+
+#: ajax/uploadphoto.php:71
+msgid "No file was uploaded. Unknown error"
+msgstr ""
+
+#: appinfo/app.php:17 templates/settings.php:3
 msgid "Contacts"
 msgstr ""
 
-#: lib/app.php:23
+#: js/contacts.js:24
+msgid "Sorry, this functionality has not been implemented yet"
+msgstr ""
+
+#: js/contacts.js:24
+msgid "Not implemented"
+msgstr ""
+
+#: js/contacts.js:29
+msgid "Couldn't get a valid address."
+msgstr ""
+
+#: js/contacts.js:29 js/contacts.js:334 js/contacts.js:341 js/contacts.js:355
+#: js/contacts.js:393 js/contacts.js:399 js/contacts.js:565 js/contacts.js:605
+#: js/contacts.js:631 js/contacts.js:668 js/contacts.js:747 js/contacts.js:753
+#: js/contacts.js:765 js/contacts.js:799 js/contacts.js:1056
+#: js/contacts.js:1064 js/contacts.js:1073 js/contacts.js:1130
+#: js/contacts.js:1146 js/contacts.js:1161 js/contacts.js:1173
+#: js/contacts.js:1196 js/contacts.js:1449 js/contacts.js:1457
+#: js/contacts.js:1483 js/contacts.js:1494 js/contacts.js:1509
+#: js/contacts.js:1526 js/contacts.js:1596 js/contacts.js:1644
+#: js/contacts.js:1654 js/contacts.js:1657
+msgid "Error"
+msgstr ""
+
+#: js/contacts.js:364
+msgid "Are you sure you want to delete this contact?"
+msgstr ""
+
+#: js/contacts.js:364
+msgid "Warning"
+msgstr ""
+
+#: js/contacts.js:605
+msgid "This property has to be non-empty."
+msgstr ""
+
+#: js/contacts.js:631
+msgid "Couldn't serialize elements."
+msgstr ""
+
+#: js/contacts.js:747 js/contacts.js:765
+msgid ""
+"'deleteProperty' called without type argument. Please report at "
+"bugs.owncloud.org"
+msgstr ""
+
+#: js/contacts.js:781
+msgid "Edit name"
+msgstr ""
+
+#: js/contacts.js:1056
+msgid "No files selected for upload."
+msgstr ""
+
+#: js/contacts.js:1064 js/contacts.js:1449 js/contacts.js:1634
+msgid ""
+"The file you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+
+#: js/contacts.js:1119
+msgid "Select photo"
+msgstr ""
+
+#: js/contacts.js:1257 js/contacts.js:1290
+msgid "Select type"
+msgstr ""
+
+#: js/contacts.js:1305 templates/part.importaddressbook.php:25
+msgid "Drop a VCF file to import contacts."
+msgstr ""
+
+#: js/contacts.js:1475
+msgid "Import done. Success/Failure: "
+msgstr ""
+
+#: js/contacts.js:1476
+msgid "OK"
+msgstr ""
+
+#: js/contacts.js:1494
+msgid "Displayname cannot be empty."
+msgstr ""
+
+#: js/contacts.js:1634
+msgid "Upload too large"
+msgstr ""
+
+#: js/contacts.js:1638
+msgid "Only image files can be used as profile picture."
+msgstr ""
+
+#: js/contacts.js:1638
+msgid "Wrong file type"
+msgstr ""
+
+#: js/contacts.js:1644
+msgid ""
+"Your browser doesn't support AJAX upload. Please click on the profile "
+"picture to select a photo to upload."
+msgstr ""
+
+#: js/loader.js:49
+msgid "Result: "
+msgstr ""
+
+#: js/loader.js:49
+msgid " imported, "
+msgstr ""
+
+#: js/loader.js:49
+msgid " failed."
+msgstr ""
+
+#: lib/app.php:30
 msgid "Addressbook not found."
 msgstr ""
 
-#: lib/app.php:27
+#: lib/app.php:34
 msgid "This is not your addressbook."
 msgstr ""
 
-#: lib/app.php:38
+#: lib/app.php:45
 msgid "Contact could not be found."
 msgstr ""
 
-#: lib/app.php:94 templates/part.contact.php:109
+#: lib/app.php:101 templates/part.contact.php:109
 msgid "Address"
 msgstr ""
 
-#: lib/app.php:95
+#: lib/app.php:102
 msgid "Telephone"
 msgstr ""
 
-#: lib/app.php:96 templates/part.contact.php:108
+#: lib/app.php:103 templates/part.contact.php:108
 msgid "Email"
 msgstr ""
 
-#: lib/app.php:97 templates/part.contact.php:33 templates/part.contact.php:34
+#: lib/app.php:104 templates/part.contact.php:33 templates/part.contact.php:34
 #: templates/part.contact.php:104
 msgid "Organization"
 msgstr ""
 
-#: lib/app.php:109 lib/app.php:116 lib/app.php:126
+#: lib/app.php:116 lib/app.php:123 lib/app.php:133
 msgid "Work"
 msgstr ""
 
-#: lib/app.php:110 lib/app.php:114 lib/app.php:127
+#: lib/app.php:117 lib/app.php:121 lib/app.php:134
 msgid "Home"
 msgstr ""
 
-#: lib/app.php:115
+#: lib/app.php:122
 msgid "Mobile"
 msgstr ""
 
-#: lib/app.php:117
+#: lib/app.php:124
 msgid "Text"
 msgstr ""
 
-#: lib/app.php:118
+#: lib/app.php:125
 msgid "Voice"
 msgstr ""
 
-#: lib/app.php:119
+#: lib/app.php:126
 msgid "Message"
 msgstr ""
 
-#: lib/app.php:120
+#: lib/app.php:127
 msgid "Fax"
 msgstr ""
 
-#: lib/app.php:121
+#: lib/app.php:128
 msgid "Video"
 msgstr ""
 
-#: lib/app.php:122
+#: lib/app.php:129
 msgid "Pager"
 msgstr ""
 
-#: lib/app.php:128
+#: lib/app.php:135
 msgid "Internet"
 msgstr ""
 
@@ -427,6 +583,10 @@ msgstr ""
 msgid "Select photo from ownCloud"
 msgstr ""
 
+#: templates/part.cropphoto.php:64
+msgid "The temporary image has been removed from cache."
+msgstr ""
+
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
 msgstr ""
@@ -583,7 +743,7 @@ msgid "Submit"
 msgstr ""
 
 #: templates/part.editaddressbook.php:30
-#: templates/part.importaddressbook.php:28
+#: templates/part.importaddressbook.php:34
 msgid "Cancel"
 msgstr ""
 
@@ -611,27 +771,22 @@ msgstr ""
 msgid "Importing contacts"
 msgstr ""
 
-#: templates/part.import.php:23
-msgid "Contacts imported successfully"
-msgstr ""
-
 #: templates/part.import.php:24
-msgid "Close Dialog"
-msgstr ""
-
-#: templates/part.importaddressbook.php:9
-msgid "Import Addressbook"
+msgid "Close"
 msgstr ""
 
 #: templates/part.importaddressbook.php:12
+msgid ""
+"Currently this import function doesn't work while encryption is enabled.<br "
+"/>Please upload your VCF file with the file manager and click on it to "
+"import."
+msgstr ""
+
+#: templates/part.importaddressbook.php:16
 msgid "Select address book to import to:"
 msgstr ""
 
-#: templates/part.importaddressbook.php:20
-msgid "Drop a VCF file to import contacts."
-msgstr ""
-
-#: templates/part.importaddressbook.php:21
+#: templates/part.importaddressbook.php:26
 msgid "Select from HD"
 msgstr ""
 

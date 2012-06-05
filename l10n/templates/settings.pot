@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,38 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ajax/lostpassword.php:14
-msgid "email Changed"
+msgid "Email saved"
 msgstr ""
 
-#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
-#: ajax/setlanguage.php:22
-msgid "Invalid request"
+#: ajax/lostpassword.php:16
+msgid "Invalid email"
 msgstr ""
 
 #: ajax/openid.php:15
 msgid "OpenID Changed"
 msgstr ""
 
+#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+msgid "Invalid request"
+msgstr ""
+
 #: ajax/setlanguage.php:17
 msgid "Language changed"
 msgstr ""
 
-#: personal.php:39 personal.php:40
+#: js/apps.js:31 js/apps.js:67
+msgid "Disable"
+msgstr ""
+
+#: js/apps.js:31 js/apps.js:54
+msgid "Enable"
+msgstr ""
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr ""
+
+#: personal.php:40 personal.php:41
 msgid "__language_name__"
 msgstr ""
 
@@ -55,10 +70,14 @@ msgid "Select an App"
 msgstr ""
 
 #: templates/apps.php:25
+msgid "See application page at apps.owncloud.com"
+msgstr ""
+
+#: templates/apps.php:26
 msgid "-licensed"
 msgstr ""
 
-#: templates/apps.php:25
+#: templates/apps.php:26
 msgid "by"
 msgstr ""
 

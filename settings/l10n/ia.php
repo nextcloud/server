@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Invalid request" => "Requesta invalide",
 "OpenID Changed" => "OpenID cambiate",
+"Invalid request" => "Requesta invalide",
 "Language changed" => "Linguage cambiate",
 "__language_name__" => "Interlingua",
 "Log" => "Registro",

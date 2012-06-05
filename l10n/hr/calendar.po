@@ -4,12 +4,14 @@
 # 
 # Translators:
 # Davor Kustec <dkustec@gmail.com>, 2011.
+# Domagoj Delimar <transifex.net@domdelimar.com>, 2012.
+# Thomas Silađi <thomas.siladi@net.hr>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Croatian (http://www.transifex.net/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +22,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "Nisu pronađeni kalendari"
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "Događaj nije pronađen."
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -32,7 +34,7 @@ msgstr "Pogrešan kalendar"
 
 #: ajax/settings/guesstimezone.php:25
 msgid "New Timezone:"
-msgstr ""
+msgstr "Nova vremenska zona:"
 
 #: ajax/settings/settimezone.php:22
 msgid "Timezone changed"
@@ -42,79 +44,103 @@ msgstr "Vremenska zona promijenjena"
 msgid "Invalid request"
 msgstr "Neispravan zahtjev"
 
-#: appinfo/app.php:23 templates/calendar.php:15
+#: appinfo/app.php:19 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:31
 #: templates/settings.php:12
 msgid "Calendar"
 msgstr "Kalendar"
 
-#: js/calendar.js:788
-msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+#: js/calendar.js:93
+msgid "Deletion failed"
 msgstr ""
 
-#: lib/app.php:122
+#: js/calendar.js:828
+msgid "ddd"
+msgstr ""
+
+#: js/calendar.js:829
+msgid "ddd M/d"
+msgstr ""
+
+#: js/calendar.js:830
+msgid "dddd M/d"
+msgstr ""
+
+#: js/calendar.js:833
+msgid "MMMM yyyy"
+msgstr ""
+
+#: js/calendar.js:835
+msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+msgstr "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+
+#: js/calendar.js:837
+msgid "dddd, MMM d, yyyy"
+msgstr ""
+
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "Rođendan"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "Poslovno"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "Poziv"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "Klijenti"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "Dostavljač"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
-msgstr "Odmori"
+msgstr "Praznici"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "Ideje"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "Putovanje"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "Obljetnica"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "Sastanak"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "Ostalo"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "Osobno"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "Projekti"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "Pitanja"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "Posao"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
-msgstr ""
+msgstr "bezimeno"
 
 #: lib/object.php:330
 msgid "Does not repeat"
@@ -146,51 +172,51 @@ msgstr "Godišnje"
 
 #: lib/object.php:343
 msgid "never"
-msgstr ""
+msgstr "nikad"
 
 #: lib/object.php:344
 msgid "by occurrences"
-msgstr ""
+msgstr "po pojavama"
 
 #: lib/object.php:345
 msgid "by date"
-msgstr ""
+msgstr "po datum"
 
 #: lib/object.php:352
 msgid "by monthday"
-msgstr ""
+msgstr "po dana mjeseca"
 
 #: lib/object.php:353
 msgid "by weekday"
-msgstr ""
+msgstr "po tjednu"
 
 #: lib/object.php:360 templates/settings.php:42
 msgid "Monday"
-msgstr ""
+msgstr "ponedeljak"
 
 #: lib/object.php:361
 msgid "Tuesday"
-msgstr ""
+msgstr "utorak"
 
 #: lib/object.php:362
 msgid "Wednesday"
-msgstr ""
+msgstr "srijeda"
 
 #: lib/object.php:363
 msgid "Thursday"
-msgstr ""
+msgstr "četvrtak"
 
 #: lib/object.php:364
 msgid "Friday"
-msgstr ""
+msgstr "petak"
 
 #: lib/object.php:365
 msgid "Saturday"
-msgstr ""
+msgstr "subota"
 
 #: lib/object.php:366 templates/settings.php:43
 msgid "Sunday"
-msgstr ""
+msgstr "nedelja"
 
 #: lib/object.php:373
 msgid "events week of month"
@@ -198,99 +224,99 @@ msgstr ""
 
 #: lib/object.php:374
 msgid "first"
-msgstr ""
+msgstr "prvi"
 
 #: lib/object.php:375
 msgid "second"
-msgstr ""
+msgstr "drugi"
 
 #: lib/object.php:376
 msgid "third"
-msgstr ""
+msgstr "treći"
 
 #: lib/object.php:377
 msgid "fourth"
-msgstr ""
+msgstr "četvrti"
 
 #: lib/object.php:378
 msgid "fifth"
-msgstr ""
+msgstr "peti"
 
 #: lib/object.php:379
 msgid "last"
-msgstr ""
+msgstr "zadnji"
 
 #: lib/object.php:401
 msgid "January"
-msgstr ""
+msgstr "siječanj"
 
 #: lib/object.php:402
 msgid "February"
-msgstr ""
+msgstr "veljača"
 
 #: lib/object.php:403
 msgid "March"
-msgstr ""
+msgstr "ožujak"
 
 #: lib/object.php:404
 msgid "April"
-msgstr ""
+msgstr "travanj"
 
 #: lib/object.php:405
 msgid "May"
-msgstr ""
+msgstr "svibanj"
 
 #: lib/object.php:406
 msgid "June"
-msgstr ""
+msgstr "lipanj"
 
 #: lib/object.php:407
 msgid "July"
-msgstr ""
+msgstr "srpanj"
 
 #: lib/object.php:408
 msgid "August"
-msgstr ""
+msgstr "kolovoz"
 
 #: lib/object.php:409
 msgid "September"
-msgstr ""
+msgstr "rujan"
 
 #: lib/object.php:410
 msgid "October"
-msgstr ""
+msgstr "listopad"
 
 #: lib/object.php:411
 msgid "November"
-msgstr ""
+msgstr "studeni"
 
 #: lib/object.php:412
 msgid "December"
-msgstr ""
+msgstr "prosinac"
 
 #: lib/object.php:418
 msgid "by events date"
-msgstr ""
+msgstr "po datumu događaja"
 
 #: lib/object.php:419
 msgid "by yearday(s)"
-msgstr ""
+msgstr "po godini(-nama)"
 
 #: lib/object.php:420
 msgid "by weeknumber(s)"
-msgstr ""
+msgstr "po broju tjedna(-ana)"
 
 #: lib/object.php:421
 msgid "by day and month"
-msgstr ""
+msgstr "po danu i mjeseca"
 
 #: lib/search.php:32 lib/search.php:34 lib/search.php:37
 msgid "Date"
-msgstr ""
+msgstr "datum"
 
 #: lib/search.php:40
 msgid "Cal."
-msgstr ""
+msgstr "Kal."
 
 #: templates/calendar.php:11
 msgid "All day"
@@ -298,7 +324,7 @@ msgstr "Cijeli dan"
 
 #: templates/calendar.php:12 templates/part.choosecalendar.php:22
 msgid "New Calendar"
-msgstr "Novi Kalendar"
+msgstr "Novi kalendar"
 
 #: templates/calendar.php:13
 msgid "Missing fields"
@@ -311,19 +337,19 @@ msgstr "Naslov"
 
 #: templates/calendar.php:16
 msgid "From Date"
-msgstr "Datum Od"
+msgstr "Datum od"
 
 #: templates/calendar.php:17
 msgid "From Time"
-msgstr "Vrijeme Od"
+msgstr "Vrijeme od"
 
 #: templates/calendar.php:18
 msgid "To Date"
-msgstr "Datum Do"
+msgstr "Datum do"
 
 #: templates/calendar.php:19
 msgid "To Time"
-msgstr "Vrijeme Do"
+msgstr "Vrijeme do"
 
 #: templates/calendar.php:20
 msgid "The event ends before it starts"
@@ -359,28 +385,28 @@ msgstr "Pogreška pri čitanju datoteke."
 
 #: templates/part.choosecalendar.php:1
 msgid "Choose active calendars"
-msgstr "Odaberite aktive kalendare"
+msgstr "Odabir aktivnih kalendara"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "Vaši kalendari"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
 msgid "CalDav Link"
-msgstr "CalDav Poveznica"
+msgstr "CalDav poveznica"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "Podijeljeni kalendari"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "Nema zajedničkih kalendara"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "Podjeli kalendar"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -397,7 +423,7 @@ msgstr "Briši"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "podijeljeno s vama od "
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -442,27 +468,27 @@ msgstr "Izvoz"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "Informacije o događaju"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "Ponavljanje"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "Alarm"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "Polaznici"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "Podijeli"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
-msgstr "Naslov Događaja"
+msgstr "Naslov događaja"
 
 #: templates/part.eventform.php:27 templates/part.showevent.php:19
 msgid "Category"
@@ -470,11 +496,11 @@ msgstr "Kategorija"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "Odvoji kategorije zarezima"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "Uredi kategorije"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -498,7 +524,7 @@ msgstr "Lokacija"
 
 #: templates/part.eventform.php:83
 msgid "Location of the Event"
-msgstr "Lokacija Događaja"
+msgstr "Lokacija događaja"
 
 #: templates/part.eventform.php:89 templates/part.showevent.php:88
 msgid "Description"
@@ -514,16 +540,16 @@ msgstr "Ponavljanje"
 
 #: templates/part.eventform.php:107 templates/part.showevent.php:105
 msgid "Advanced"
-msgstr ""
+msgstr "Napredno"
 
 #: templates/part.eventform.php:151 templates/part.showevent.php:149
 msgid "Select weekdays"
-msgstr ""
+msgstr "Odaberi dane u tjednu"
 
 #: templates/part.eventform.php:164 templates/part.eventform.php:177
 #: templates/part.showevent.php:162 templates/part.showevent.php:175
 msgid "Select days"
-msgstr ""
+msgstr "Odaberi dane"
 
 #: templates/part.eventform.php:169 templates/part.showevent.php:167
 msgid "and the events day of year."
@@ -535,11 +561,11 @@ msgstr ""
 
 #: templates/part.eventform.php:190 templates/part.showevent.php:188
 msgid "Select months"
-msgstr ""
+msgstr "Odaberi mjesece"
 
 #: templates/part.eventform.php:203 templates/part.showevent.php:201
 msgid "Select weeks"
-msgstr ""
+msgstr "Odaberi tjedne"
 
 #: templates/part.eventform.php:208 templates/part.showevent.php:206
 msgid "and the events week of year."
@@ -547,31 +573,31 @@ msgstr ""
 
 #: templates/part.eventform.php:214 templates/part.showevent.php:212
 msgid "Interval"
-msgstr ""
+msgstr "Interval"
 
 #: templates/part.eventform.php:220 templates/part.showevent.php:218
 msgid "End"
-msgstr ""
+msgstr "Kraj"
 
 #: templates/part.eventform.php:233 templates/part.showevent.php:231
 msgid "occurrences"
-msgstr ""
+msgstr "pojave"
 
 #: templates/part.import.php:1
 msgid "Import a calendar file"
-msgstr ""
+msgstr "Uvozite datoteku kalendara"
 
 #: templates/part.import.php:6
 msgid "Please choose the calendar"
-msgstr "Odaberite kalendar"
+msgstr "Odaberi kalendar"
 
 #: templates/part.import.php:10
 msgid "create a new calendar"
-msgstr ""
+msgstr "stvori novi kalendar"
 
 #: templates/part.import.php:15
 msgid "Name of new calendar"
-msgstr ""
+msgstr "Ime novog kalendara"
 
 #: templates/part.import.php:17
 msgid "Import"
@@ -579,15 +605,15 @@ msgstr "Uvoz"
 
 #: templates/part.import.php:20
 msgid "Importing calendar"
-msgstr ""
+msgstr "Uvoz kalendara"
 
 #: templates/part.import.php:23
 msgid "Calendar imported successfully"
-msgstr ""
+msgstr "Kalendar je uspješno uvezen"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Zatvori dijalog"
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"
@@ -595,11 +621,11 @@ msgstr "Unesi novi događaj"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "Vidjeti događaj"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "Nema odabranih kategorija"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -607,11 +633,11 @@ msgstr "Odabir kategorije"
 
 #: templates/part.showevent.php:37
 msgid "of"
-msgstr ""
+msgstr "od"
 
 #: templates/part.showevent.php:62 templates/part.showevent.php:70
 msgid "at"
-msgstr ""
+msgstr "na"
 
 #: templates/settings.php:14
 msgid "Timezone"
@@ -619,7 +645,7 @@ msgstr "Vremenska zona"
 
 #: templates/settings.php:31
 msgid "Check always for changes of the timezone"
-msgstr ""
+msgstr "Provjerite uvijek za promjene vremenske zone"
 
 #: templates/settings.php:33
 msgid "Timeformat"
@@ -635,32 +661,32 @@ msgstr "12h"
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "Prvi dan tjedna"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
-msgstr "Adresa za CalDAV sinkronizaciju kalendara"
+msgstr "Adresa za CalDAV sinkronizaciju kalendara:"
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "Korisnici"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "odaberi korisnike"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "Može se uređivati"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "Grupe"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "izaberite grupe"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "podjeli s javnošću"

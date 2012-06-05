@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <sim0n@trypill.org>, 2011.
+#   <sim0n@trypill.org>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Luxembourgish (http://www.transifex.net/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "Keng Kalenner fonnt."
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "Keng Evenementer fonnt."
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -32,7 +32,7 @@ msgstr "Falschen Kalenner"
 
 #: ajax/settings/guesstimezone.php:25
 msgid "New Timezone:"
-msgstr ""
+msgstr "Nei Zäitzone:"
 
 #: ajax/settings/settimezone.php:22
 msgid "Timezone changed"
@@ -42,77 +42,101 @@ msgstr "Zäitzon geännert"
 msgid "Invalid request"
 msgstr "Ongülteg Requête"
 
-#: appinfo/app.php:23 templates/calendar.php:15
+#: appinfo/app.php:19 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:31
 #: templates/settings.php:12
 msgid "Calendar"
 msgstr "Kalenner"
 
-#: js/calendar.js:788
-msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+#: js/calendar.js:93
+msgid "Deletion failed"
 msgstr ""
 
-#: lib/app.php:122
+#: js/calendar.js:828
+msgid "ddd"
+msgstr ""
+
+#: js/calendar.js:829
+msgid "ddd M/d"
+msgstr ""
+
+#: js/calendar.js:830
+msgid "dddd M/d"
+msgstr ""
+
+#: js/calendar.js:833
+msgid "MMMM yyyy"
+msgstr ""
+
+#: js/calendar.js:835
+msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+msgstr "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+
+#: js/calendar.js:837
+msgid "dddd, MMM d, yyyy"
+msgstr ""
+
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "Gebuertsdag"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "Geschäftlech"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "Uruff"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "Clienten"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "Liwwerant"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "Vakanzen"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "Ideeën"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "Dag"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "Jubiläum"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "Meeting"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "Aner"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "Perséinlech"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "Projeten"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "Froen"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "Aarbecht"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
 msgstr ""
 
@@ -146,51 +170,51 @@ msgstr "All Joer"
 
 #: lib/object.php:343
 msgid "never"
-msgstr ""
+msgstr "ni"
 
 #: lib/object.php:344
 msgid "by occurrences"
-msgstr ""
+msgstr "no Virkommes"
 
 #: lib/object.php:345
 msgid "by date"
-msgstr ""
+msgstr "no Datum"
 
 #: lib/object.php:352
 msgid "by monthday"
-msgstr ""
+msgstr "no Mount-Dag"
 
 #: lib/object.php:353
 msgid "by weekday"
-msgstr ""
+msgstr "no Wochendag"
 
 #: lib/object.php:360 templates/settings.php:42
 msgid "Monday"
-msgstr ""
+msgstr "Méindes"
 
 #: lib/object.php:361
 msgid "Tuesday"
-msgstr ""
+msgstr "Dënschdes"
 
 #: lib/object.php:362
 msgid "Wednesday"
-msgstr ""
+msgstr "Mëttwoch"
 
 #: lib/object.php:363
 msgid "Thursday"
-msgstr ""
+msgstr "Donneschdes"
 
 #: lib/object.php:364
 msgid "Friday"
-msgstr ""
+msgstr "Freides"
 
 #: lib/object.php:365
 msgid "Saturday"
-msgstr ""
+msgstr "Samschdes"
 
 #: lib/object.php:366 templates/settings.php:43
 msgid "Sunday"
-msgstr ""
+msgstr "Sonndes"
 
 #: lib/object.php:373
 msgid "events week of month"
@@ -198,75 +222,75 @@ msgstr ""
 
 #: lib/object.php:374
 msgid "first"
-msgstr ""
+msgstr "éischt"
 
 #: lib/object.php:375
 msgid "second"
-msgstr ""
+msgstr "Sekonn"
 
 #: lib/object.php:376
 msgid "third"
-msgstr ""
+msgstr "Drëtt"
 
 #: lib/object.php:377
 msgid "fourth"
-msgstr ""
+msgstr "Féiert"
 
 #: lib/object.php:378
 msgid "fifth"
-msgstr ""
+msgstr "Fënneft"
 
 #: lib/object.php:379
 msgid "last"
-msgstr ""
+msgstr "Läscht"
 
 #: lib/object.php:401
 msgid "January"
-msgstr ""
+msgstr "Januar"
 
 #: lib/object.php:402
 msgid "February"
-msgstr ""
+msgstr "Februar"
 
 #: lib/object.php:403
 msgid "March"
-msgstr ""
+msgstr "Mäerz"
 
 #: lib/object.php:404
 msgid "April"
-msgstr ""
+msgstr "Abrëll"
 
 #: lib/object.php:405
 msgid "May"
-msgstr ""
+msgstr "Mee"
 
 #: lib/object.php:406
 msgid "June"
-msgstr ""
+msgstr "Juni"
 
 #: lib/object.php:407
 msgid "July"
-msgstr ""
+msgstr "Juli"
 
 #: lib/object.php:408
 msgid "August"
-msgstr ""
+msgstr "August"
 
 #: lib/object.php:409
 msgid "September"
-msgstr ""
+msgstr "September"
 
 #: lib/object.php:410
 msgid "October"
-msgstr ""
+msgstr "Oktober"
 
 #: lib/object.php:411
 msgid "November"
-msgstr ""
+msgstr "November"
 
 #: lib/object.php:412
 msgid "December"
-msgstr ""
+msgstr "Dezember"
 
 #: lib/object.php:418
 msgid "by events date"
@@ -286,11 +310,11 @@ msgstr ""
 
 #: lib/search.php:32 lib/search.php:34 lib/search.php:37
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: lib/search.php:40
 msgid "Cal."
-msgstr ""
+msgstr "Cal."
 
 #: templates/calendar.php:11
 msgid "All day"
@@ -363,7 +387,7 @@ msgstr "Wiel aktiv Kalenneren aus"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "Deng Kalenneren"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -372,11 +396,11 @@ msgstr "CalDav Link"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "Gedeelte Kalenneren"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "Keng gedeelten Kalenneren"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
@@ -514,16 +538,16 @@ msgstr "Widderhuelen"
 
 #: templates/part.eventform.php:107 templates/part.showevent.php:105
 msgid "Advanced"
-msgstr ""
+msgstr "Erweidert"
 
 #: templates/part.eventform.php:151 templates/part.showevent.php:149
 msgid "Select weekdays"
-msgstr ""
+msgstr "Wochendeeg auswielen"
 
 #: templates/part.eventform.php:164 templates/part.eventform.php:177
 #: templates/part.showevent.php:162 templates/part.showevent.php:175
 msgid "Select days"
-msgstr ""
+msgstr "Deeg auswielen"
 
 #: templates/part.eventform.php:169 templates/part.showevent.php:167
 msgid "and the events day of year."
@@ -535,11 +559,11 @@ msgstr ""
 
 #: templates/part.eventform.php:190 templates/part.showevent.php:188
 msgid "Select months"
-msgstr ""
+msgstr "Méint auswielen"
 
 #: templates/part.eventform.php:203 templates/part.showevent.php:201
 msgid "Select weeks"
-msgstr ""
+msgstr "Wochen auswielen"
 
 #: templates/part.eventform.php:208 templates/part.showevent.php:206
 msgid "and the events week of year."
@@ -547,19 +571,19 @@ msgstr ""
 
 #: templates/part.eventform.php:214 templates/part.showevent.php:212
 msgid "Interval"
-msgstr ""
+msgstr "Intervall"
 
 #: templates/part.eventform.php:220 templates/part.showevent.php:218
 msgid "End"
-msgstr ""
+msgstr "Enn"
 
 #: templates/part.eventform.php:233 templates/part.showevent.php:231
 msgid "occurrences"
-msgstr ""
+msgstr "Virkommes"
 
 #: templates/part.import.php:1
 msgid "Import a calendar file"
-msgstr ""
+msgstr "E Kalenner Fichier importéieren"
 
 #: templates/part.import.php:6
 msgid "Please choose the calendar"
@@ -567,11 +591,11 @@ msgstr "Wiel den Kalenner aus"
 
 #: templates/part.import.php:10
 msgid "create a new calendar"
-msgstr ""
+msgstr "E neie Kalenner uleeën"
 
 #: templates/part.import.php:15
 msgid "Name of new calendar"
-msgstr ""
+msgstr "Numm vum neie Kalenner"
 
 #: templates/part.import.php:17
 msgid "Import"
@@ -579,15 +603,15 @@ msgstr "Import"
 
 #: templates/part.import.php:20
 msgid "Importing calendar"
-msgstr ""
+msgstr "Importéiert Kalenner"
 
 #: templates/part.import.php:23
 msgid "Calendar imported successfully"
-msgstr ""
+msgstr "Kalenner erfollegräich importéiert"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr ""
+msgstr "Dialog zoumaachen"
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"

@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
+"This category already exists: " => "Tokia kategorija jau yra:",
 "Owncloud password reset" => "Owncloud slaptažodžio atkūrimas",
+"ownCloud password reset" => "ownCloud slaptažodžio atkūrimas",
 "Use the following link to reset your password: {link}" => "Slaptažodio atkūrimui naudokite šią nuorodą: {link}",
 "You will receive a link to reset your password via Email." => "Elektroniniu paštu gausite nuorodą, su kuria galėsite iš naujo nustatyti slaptažodį.",
 "Requested" => "Užklausta",
@@ -15,7 +17,10 @@
 "Apps" => "Programos",
 "Admin" => "Administravimas",
 "Help" => "Pagalba",
+"Access forbidden" => "Priėjimas draudžiamas",
 "Cloud not found" => "Negalima rasti",
+"Edit categories" => "Redaguoti kategorijas",
+"Add" => "Pridėti",
 "Create an <strong>admin account</strong>" => "Sukurti <strong>administratoriaus paskyrą</strong>",
 "Password" => "Slaptažodis",
 "Advanced" => "Išplėstiniai",

@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Davor Kustec <dkustec@gmail.com>, 2011.
-# Thomas Silađi <thomas.siladi@net.hr>, 2011.
+# Domagoj Delimar <transifex.net@domdelimar.com>, 2012.
+# Thomas Silađi <thomas.siladi@net.hr>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:31+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Croatian (http://www.transifex.net/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -21,27 +22,103 @@ msgstr ""
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr ""
+msgstr "Ime aplikacije nije pribavljeno."
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr ""
+msgstr "Nemate kategorija koje možete dodati?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
+msgstr "Ova kategorija već postoji: "
+
+#: js/jquery-ui-1.8.16.custom.min.js:511
+msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
+msgstr ""
+
+#: js/js.js:520
+msgid "January"
+msgstr ""
+
+#: js/js.js:520
+msgid "February"
+msgstr ""
+
+#: js/js.js:520
+msgid "March"
+msgstr ""
+
+#: js/js.js:520
+msgid "April"
+msgstr ""
+
+#: js/js.js:520
+msgid "May"
+msgstr ""
+
+#: js/js.js:520
+msgid "June"
+msgstr ""
+
+#: js/js.js:521
+msgid "July"
+msgstr ""
+
+#: js/js.js:521
+msgid "August"
+msgstr ""
+
+#: js/js.js:521
+msgid "September"
+msgstr ""
+
+#: js/js.js:521
+msgid "October"
+msgstr ""
+
+#: js/js.js:521
+msgid "November"
+msgstr ""
+
+#: js/js.js:521
+msgid "December"
+msgstr ""
+
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
+msgid "Cancel"
+msgstr ""
+
+#: js/oc-dialogs.js:159
+msgid "No"
+msgstr ""
+
+#: js/oc-dialogs.js:160
+msgid "Yes"
+msgstr ""
+
+#: js/oc-dialogs.js:177
+msgid "Ok"
+msgstr ""
+
+#: js/oc-vcategories.js:68
+msgid "No categories selected for deletion."
+msgstr ""
+
+#: js/oc-vcategories.js:68
+msgid "Error"
 msgstr ""
 
 #: lostpassword/index.php:26
 msgid "Owncloud password reset"
-msgstr ""
+msgstr "ownCloud resetiranje lozinke"
 
 #: lostpassword/index.php:27
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "ownCloud resetiranje lozinke"
 
 #: lostpassword/templates/email.php:1
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "Koristite ovaj link da biste poništili lozinku: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
@@ -70,15 +147,15 @@ msgstr "Vaša lozinka je resetirana"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "Idi na stranicu za prijavu"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "nova lozinka"
+msgstr "Nova lozinka"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "poništavanje lozinke"
+msgstr "Poništavanje lozinke"
 
 #: strings.php:5
 msgid "Personal"
@@ -86,23 +163,23 @@ msgstr "Osobno"
 
 #: strings.php:6
 msgid "Users"
-msgstr "korisnici"
+msgstr "Korisnici"
 
 #: strings.php:7
 msgid "Apps"
-msgstr "aplikacije"
+msgstr "Aplikacije"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "administrator"
+msgstr "Administrator"
 
 #: strings.php:9
 msgid "Help"
-msgstr "pomoć"
+msgstr "Pomoć"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Pristup zabranjen"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -110,15 +187,15 @@ msgstr "Cloud nije pronađen"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Uredi kategorije"
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "Dodaj"
 
 #: templates/installation.php:23
 msgid "Create an <strong>admin account</strong>"
-msgstr "stvoriti <strong>Administratorski račun</strong>"
+msgstr "Stvori <strong>administratorski račun</strong>"
 
 #: templates/installation.php:29 templates/login.php:13
 msgid "Password"
@@ -134,7 +211,7 @@ msgstr "Mapa baze podataka"
 
 #: templates/installation.php:44
 msgid "Configure the database"
-msgstr "konfigurirati baze podataka"
+msgstr "Konfiguriraj bazu podataka"
 
 #: templates/installation.php:49 templates/installation.php:60
 #: templates/installation.php:70
@@ -143,15 +220,15 @@ msgstr "će se koristiti"
 
 #: templates/installation.php:82
 msgid "Database user"
-msgstr "korisnik baze podataka"
+msgstr "Korisnik baze podataka"
 
 #: templates/installation.php:86
 msgid "Database password"
-msgstr "lozinka baze podataka"
+msgstr "Lozinka baze podataka"
 
 #: templates/installation.php:90
 msgid "Database name"
-msgstr "ime baze podataka"
+msgstr "Ime baze podataka"
 
 #: templates/installation.php:96
 msgid "Database host"
@@ -159,19 +236,19 @@ msgstr "Poslužitelj baze podataka"
 
 #: templates/installation.php:101
 msgid "Finish setup"
-msgstr "završiti postavljanje"
+msgstr "Završi postavljanje"
 
-#: templates/layout.guest.php:37
+#: templates/layout.guest.php:42
 msgid "web services under your control"
-msgstr ""
+msgstr "web usluge pod vašom kontrolom"
 
-#: templates/layout.user.php:35
+#: templates/layout.user.php:41
 msgid "Log out"
-msgstr "odjaviti"
+msgstr "Odjava"
 
-#: templates/layout.user.php:47 templates/layout.user.php:48
+#: templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
-msgstr "postavke"
+msgstr "Postavke"
 
 #: templates/login.php:6
 msgid "Lost your password?"
@@ -183,11 +260,11 @@ msgstr "zapamtiti"
 
 #: templates/login.php:18
 msgid "Log in"
-msgstr ""
+msgstr "Prijava"
 
 #: templates/logout.php:1
 msgid "You are logged out."
-msgstr "Vi ste odjavljeni."
+msgstr "Odjavljeni ste."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

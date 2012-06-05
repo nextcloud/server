@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Pictures" => "Plaatjes",
+"Settings" => "Instellingen",
 "Rescan" => "Opnieuw doorzoeken",
 "Stop" => "Stop",
 "Share" => "Deel",
-"Settings" => "Instellingen",
 "Back" => "Terug",
 "Remove confirmation" => "Verwijder bevestiging",
 "Do you want to remove album" => "Wil je het album verwijderen: ",

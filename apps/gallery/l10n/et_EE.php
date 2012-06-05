@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Pictures" => "Pildid",
+"Settings" => "Seaded",
 "Rescan" => "Skänni uuesti",
 "Stop" => "Peata",
 "Share" => "Jaga",
-"Settings" => "Seaded",
 "Back" => "Tagasi",
 "Remove confirmation" => "Eemaldamise kinnitus",
 "Do you want to remove album" => "Kas sa soovid albumit eemaldada",

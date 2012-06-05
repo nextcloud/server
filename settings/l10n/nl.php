@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"email Changed" => "mailadres aangepast",
-"Invalid request" => "Ongeldig verzoek",
 "OpenID Changed" => "OpenID is aangepast",
+"Invalid request" => "Ongeldig verzoek",
 "Language changed" => "Taal aangepast",
 "__language_name__" => "Nederlands",
 "Log" => "Log",

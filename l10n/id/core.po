@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Muhammad Panji <sumodirjo@gmail.com>, 2012.
 # Muhammad Radifar <m_radifar05@yahoo.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:31+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.net/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -20,39 +21,115 @@ msgstr ""
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr ""
+msgstr "Nama aplikasi tidak diberikan."
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr ""
+msgstr "Tidak ada kategori yang akan ditambahkan?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
+msgstr "Kategori ini sudah ada:"
+
+#: js/jquery-ui-1.8.16.custom.min.js:511
+msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
+msgstr ""
+
+#: js/js.js:520
+msgid "January"
+msgstr ""
+
+#: js/js.js:520
+msgid "February"
+msgstr ""
+
+#: js/js.js:520
+msgid "March"
+msgstr ""
+
+#: js/js.js:520
+msgid "April"
+msgstr ""
+
+#: js/js.js:520
+msgid "May"
+msgstr ""
+
+#: js/js.js:520
+msgid "June"
+msgstr ""
+
+#: js/js.js:521
+msgid "July"
+msgstr ""
+
+#: js/js.js:521
+msgid "August"
+msgstr ""
+
+#: js/js.js:521
+msgid "September"
+msgstr ""
+
+#: js/js.js:521
+msgid "October"
+msgstr ""
+
+#: js/js.js:521
+msgid "November"
+msgstr ""
+
+#: js/js.js:521
+msgid "December"
+msgstr ""
+
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
+msgid "Cancel"
+msgstr ""
+
+#: js/oc-dialogs.js:159
+msgid "No"
+msgstr ""
+
+#: js/oc-dialogs.js:160
+msgid "Yes"
+msgstr ""
+
+#: js/oc-dialogs.js:177
+msgid "Ok"
+msgstr ""
+
+#: js/oc-vcategories.js:68
+msgid "No categories selected for deletion."
+msgstr ""
+
+#: js/oc-vcategories.js:68
+msgid "Error"
 msgstr ""
 
 #: lostpassword/index.php:26
 msgid "Owncloud password reset"
-msgstr ""
+msgstr "Reset password Owncloud"
 
 #: lostpassword/index.php:27
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "reset password ownCloud"
 
 #: lostpassword/templates/email.php:1
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "Gunakan tautan berikut untuk mereset password anda: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Anda akan mendapatkan link untuk mereset password anda lewat Email."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "Telah diminta"
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Login failed!"
-msgstr ""
+msgstr "Login gagal!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
 #: templates/login.php:9
@@ -61,23 +138,23 @@ msgstr "Username"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request reset"
-msgstr ""
+msgstr "Meminta reset"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Password anda telah direset"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "Ke halaman login"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "Password baru"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "Reset password"
 
 #: strings.php:5
 msgid "Personal"
@@ -101,7 +178,7 @@ msgstr "Bantuan"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Akses Ditiadakan"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -109,11 +186,11 @@ msgstr "Cloud tidak ditemukan"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Edit kategori"
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "Tambahkan"
 
 #: templates/installation.php:23
 msgid "Create an <strong>admin account</strong>"
@@ -160,15 +237,15 @@ msgstr "Host database"
 msgid "Finish setup"
 msgstr "Selesaikan instalasi"
 
-#: templates/layout.guest.php:37
+#: templates/layout.guest.php:42
 msgid "web services under your control"
-msgstr ""
+msgstr "web service dibawah kontrol anda"
 
-#: templates/layout.user.php:35
+#: templates/layout.user.php:41
 msgid "Log out"
 msgstr "Keluar"
 
-#: templates/layout.user.php:47 templates/layout.user.php:48
+#: templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Setelan"
 
@@ -182,7 +259,7 @@ msgstr "selalu login"
 
 #: templates/login.php:18
 msgid "Log in"
-msgstr ""
+msgstr "Masuk"
 
 #: templates/logout.php:1
 msgid "You are logged out."
