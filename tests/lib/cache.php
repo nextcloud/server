@@ -40,6 +40,8 @@ abstract class Test_Cache extends UnitTestCase {
 
 		$this->assertFalse($this->instance->hasKey('not_set'));
 		$this->assertNull($this->instance->get('not_set'),'Unset value not equal to null');
+
+		$this->assertTrue($this->instance->remove('value1'));
 	}
 
 	function testTTL(){
