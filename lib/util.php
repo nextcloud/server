@@ -330,4 +330,17 @@ class OC_Util {
 		}
 		exit();
 	}
+
+	/**
+	 * get an id unqiue for this instance
+	 * @return string
+	 */
+	public static function getInstanceId(){
+		$id=OC_Config::getValue('instanceid',null);
+		if(is_null($id)){
+			$id=uniqid();
+			OC_Config::setValue('instanceid',$id);
+		}
+		return $id;
+	}
 }
