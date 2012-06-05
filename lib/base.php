@@ -367,16 +367,18 @@ class OC{
 
 		// CSRF protection
 		if(isset($_SERVER['HTTP_REFERER'])) $referer=$_SERVER['HTTP_REFERER']; else $referer='';
-		$protocol=OC_Helper::serverProtocol().'://'; 
+		$refererhost=parse_url($referer);
+		if(isset($refererhost['host'])) $refererhost=$refererhost['host']; else $refererhost='';
+		$server=OC_Helper::serverHost();
+		$serverhost=explode(':',$server);
+		$serverhost=$serverhost['0']; 
 		if(!self::$CLI){
-			$server=$protocol.OC_Helper::serverHost();
-			if(($_SERVER['REQUEST_METHOD']=='POST') and (substr($referer,0,strlen($server))<>$server)) {
-				$url = $protocol.OC_Helper::serverProtocol().OC::$WEBROOT.'/index.php';
+			if(($_SERVER['REQUEST_METHOD']=='POST') and ($refererhost<>$serverhost)) {
+				$url = OC_Helper::serverProtocol().'://'.$server.OC::$WEBROOT.'/index.php';
 				header("Location: $url");
 				exit();
 			}
 		}
-
 		self::initSession();
 		self::initTemplateEngine();
 		self::checkUpgrade();

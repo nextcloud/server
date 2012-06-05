@@ -41,7 +41,7 @@
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
  */
 class OC_Group_Database extends OC_Group_Backend {
-	static private $userGroupCache=array();
+	private $userGroupCache=array();
 
 	/**
 	 * @brief Try to create a new group
@@ -51,7 +51,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * Trys to create a new group. If the group name already exists, false will
 	 * be returned.
 	 */
-	public static function createGroup( $gid ){
+	public function createGroup( $gid ){
 		// Check for existence
 		$query = OC_DB::prepare( "SELECT gid FROM `*PREFIX*groups` WHERE gid = ?" );
 		$result = $query->execute( array( $gid ));
@@ -76,7 +76,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
-	public static function deleteGroup( $gid ){
+	public function deleteGroup( $gid ){
 		// Delete the group
 		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*groups` WHERE gid = ?" );
 		$result = $query->execute( array( $gid ));
@@ -96,7 +96,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public static function inGroup( $uid, $gid ){
+	public function inGroup( $uid, $gid ){
 		// check
 		$query = OC_DB::prepare( "SELECT uid FROM `*PREFIX*group_user` WHERE gid = ? AND uid = ?" );
 		$result = $query->execute( array( $gid, $uid ));
@@ -112,9 +112,9 @@ class OC_Group_Database extends OC_Group_Backend {
 	 *
 	 * Adds a user to a group.
 	 */
-	public static function addToGroup( $uid, $gid ){
+	public function addToGroup( $uid, $gid ){
 		// No duplicate entries!
-		if( !self::inGroup( $uid, $gid )){
+		if( !$this->inGroup( $uid, $gid )){
 			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*group_user` ( `uid`, `gid` ) VALUES( ?, ? )" );
 			$result = $query->execute( array( $uid, $gid ));
 			return true;
@@ -131,7 +131,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 *
 	 * removes the user from a group.
 	 */
-	public static function removeFromGroup( $uid, $gid ){
+	public function removeFromGroup( $uid, $gid ){
 		$query = OC_DB::prepare( "DELETE FROM *PREFIX*group_user WHERE uid = ? AND gid = ?" );
 		$result = $query->execute( array( $uid, $gid ));
 
@@ -146,7 +146,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public static function getUserGroups( $uid ){
+	public function getUserGroups( $uid ){
 		// No magic!
 		$query = OC_DB::prepare( "SELECT gid FROM `*PREFIX*group_user` WHERE uid = ?" );
 		$result = $query->execute( array( $uid ));
@@ -165,7 +165,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 *
 	 * Returns a list with all groups
 	 */
-	public static function getGroups(){
+	public function getGroups(){
 		$query = OC_DB::prepare( "SELECT gid FROM `*PREFIX*groups`" );
 		$result = $query->execute();
 
@@ -176,12 +176,12 @@ class OC_Group_Database extends OC_Group_Backend {
 
 		return $groups;
 	}
-	
+
 	/**
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public static function usersInGroup($gid){
+	public function usersInGroup($gid){
 		$query=OC_DB::prepare('SELECT uid FROM *PREFIX*group_user WHERE gid=?');
 		$users=array();
 		$result=$query->execute(array($gid));

@@ -44,7 +44,7 @@ abstract class OC_Group_Backend {
 		OC_GROUP_BACKEND_ADD_TO_GROUP => 'addToGroup',
 		OC_GROUP_BACKEND_REMOVE_FROM_GOUP => 'removeFromGroup',
 	);
-	
+
 	/**
 	* @brief Get all supported actions
 	* @returns bitwise-or'ed actions
@@ -62,7 +62,7 @@ abstract class OC_Group_Backend {
 
 		return $actions;
 	}
-	
+
 	/**
 	* @brief Check if backend implements actions
 	* @param $actions bitwise-or'ed actions
@@ -83,7 +83,7 @@ abstract class OC_Group_Backend {
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public static function inGroup($uid, $gid){
+	public function inGroup($uid, $gid){
 		return in_array($gid, $this->getUserGroups($uid));
 	}
 
@@ -95,7 +95,7 @@ abstract class OC_Group_Backend {
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public static function getUserGroups($uid){
+	public function getUserGroups($uid){
 		return array();
 	}
 
@@ -105,7 +105,7 @@ abstract class OC_Group_Backend {
 	 *
 	 * Returns a list with all groups
 	 */
-	public static function getGroups(){
+	public function getGroups(){
 		return array();
 	}
 
@@ -122,7 +122,7 @@ abstract class OC_Group_Backend {
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public static function usersInGroup($gid){
+	public function usersInGroup($gid){
 		return array();
 	}
 
