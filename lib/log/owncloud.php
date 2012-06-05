@@ -63,7 +63,7 @@ class OC_Log_Owncloud {
 		self::init();
 		$minLevel=OC_Config::getValue( "loglevel", OC_Log::WARN );
 		$entries = array();
-		$handle = fopen(self::$logFile, 'r');
+		$handle = @fopen(self::$logFile, 'r');
 		if ($handle) {
 			// Just a guess to set the file pointer to the right spot
 			$maxLineLength = 150;
