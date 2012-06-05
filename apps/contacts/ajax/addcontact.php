@@ -20,24 +20,9 @@
  *
  */
 
-// Init owncloud
- 
-function bailOut($msg) {
-	OCP\JSON::error(array('data' => array('message' => $msg)));
-	OCP\Util::writeLog('contacts','ajax/addcontact.php: '.$msg, OCP\Util::DEBUG);
-	exit();
-}
-function debug($msg) {
-	OCP\Util::writeLog('contacts','ajax/addcontact.php: '.$msg, OCP\Util::DEBUG);
-}
-
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
-
-foreach ($_POST as $key=>$element) {
-	debug('_POST: '.$key.'=>'.$element);
-}
 
 $aid = isset($_POST['aid'])?$_POST['aid']:null;
 if(!$aid) {
@@ -54,7 +39,7 @@ $vcard->setUID();
 $vcard->setString('FN',$fn);
 $vcard->setString('N',$n);
 
-$id = OC_Contacts_VCard::add($aid,$vcard, null, $isnew);
+$id = OC_Contacts_VCard::add($aid, $vcard, null, $isnew);
 if(!$id) {
 	OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('There was an error adding the contact.'))));
 	OCP\Util::writeLog('contacts','ajax/addcontact.php: Recieved non-positive ID on adding card: '.$id, OCP\Util::ERROR);
