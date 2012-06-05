@@ -120,7 +120,7 @@ class OC_Helper {
 	 */
 	public static function linkToAbsolute( $app, $file ) {
 		$urlLinkTo = self::linkTo( $app, $file );
-		$urlLinkTo = OC_Helper::serverProtocol(). '://'  . self::serverHost() . $urlLinkTo;
+		$urlLinkTo = self::serverProtocol(). '://'  . self::serverHost() . $urlLinkTo;
 		return $urlLinkTo;
 	}
 
