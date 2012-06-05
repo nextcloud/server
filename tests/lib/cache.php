@@ -43,5 +43,14 @@ abstract class Test_Cache extends UnitTestCase {
 	}
 
 	function testTTL(){
+		$value='foobar';
+		$this->instance->set('value1',$value,1);
+		$value2='foobar';
+		$this->instance->set('value2',$value2);
+		sleep(2);
+		$this->assertFalse($this->instance->hasKey('value1'));
+		$this->assertNull($this->instance->get('value1'));
+		$this->assertTrue($this->instance->hasKey('value2'));
+		$this->assertEqual($value2,$this->instance->get('value2'));
 	}
 }
