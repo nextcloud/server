@@ -22,7 +22,7 @@ function viewImage(dir, file) {
 	if(file.indexOf('.psd')>0){//can't view those
 		return;
 	}
-	var location=OC.filePath('files','ajax','download.php')+'?files='+file+'&dir='+dir;
+	var location=OC.filePath('files','ajax','download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
 	$.fancybox({
 		"href": location,
 		"title": file.replace(/</, "&lt;").replace(/>/, "&gt;"),
