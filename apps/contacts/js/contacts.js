@@ -135,13 +135,7 @@ Contacts={
 			
 			/* Initialize the photo edit dialog */
 			$('#edit_photo_dialog').dialog({ 
-				autoOpen: false, 
-				modal: true, 
-				height: 'auto', width: 'auto',
-				beforeClose: function(event, ui) {
-					Contacts.UI.Card.cleanupPhoto(this);
-					return true;
-				}
+				autoOpen: false, modal: true, height: 'auto', width: 'auto'
 			});
 			$('#edit_photo_dialog' ).dialog( 'option', 'buttons', [
 				{
@@ -1198,15 +1192,6 @@ Contacts={
 					}
 				});
 				Contacts.UI.Contacts.refreshThumbnail(this.id);
-			},
-			cleanupPhoto:function(){
-				var tmp_path = $('#cropform').find('#tmp_path').val();
-				console.log('Trying to remove: ' + tmp_path);
-				$.post(OC.filePath('contacts', 'ajax', 'cleanupphoto.php'), {tmp_path: tmp_path}, function(data){
-					if(data.status != 'success'){
-						console.log('Error deleting ' + tmp_path);
-					}
-				});
 			},
 			addMail:function() {
 				//alert('addMail');
