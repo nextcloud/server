@@ -21,6 +21,10 @@
 */
 
 class Test_Cache_XCache extends Test_Cache {
+	function skip() {
+		$this->skipUnless(function_exists('xcache_get'));
+	}
+
 	public function setUp(){
 		$this->instance=new OC_Cache_XCache();
 	}
