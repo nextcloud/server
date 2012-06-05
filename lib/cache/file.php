@@ -7,7 +7,7 @@
  */
 
 
-class OC_Cache_File {
+class OC_Cache_File extends OC_Cache {
 	protected function getStorage() {
 		if(OC_User::isLoggedIn()){
 			$subdir = 'cache';
@@ -28,11 +28,11 @@ class OC_Cache_File {
 			$mtime = $storage->filemtime($key);
 			if ($mtime < time()) {
 				$storage->unlink($key);
-				return false;
+				return null;
 			}
 			return $storage->file_get_contents($key);
 		}
-		return false;
+		return null;
 	}
 
 	public function set($key, $value, $ttl) {
