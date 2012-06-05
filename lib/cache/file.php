@@ -23,13 +23,8 @@ class OC_Cache_File{
 	}
 
 	public function get($key) {
-		$storage = $this->getStorage();
-		if ($storage and $storage->is_file($key)) {
-			$mtime = $storage->filemtime($key);
-			if ($mtime < time()) {
-				$storage->unlink($key);
-				return null;
-			}
+		if ($this->hasKey($key)) {
+			$storage = $this->getStorage();
 			return $storage->file_get_contents($key);
 		}
 		return null;
@@ -39,6 +34,19 @@ class OC_Cache_File{
 		$storage = $this->getStorage();
 		if ($storage and $storage->file_put_contents($key, $value)) {
 			return $storage->touch($key, time() + $ttl);
+		}
+		return false;
+	}
+
+	public function hasKey($key) {
+		$storage = $this->getStorage();
+		if ($storage->is_file($key)) {
+			$mtime = $storage->filemtime($key);
+			if ($mtime < time()) {
+				$storage->unlink($key);
+				return false;
+			}
+			return true;
 		}
 		return false;
 	}

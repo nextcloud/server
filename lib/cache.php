@@ -30,6 +30,13 @@ class OC_Cache {
 		return self::$cache->set($key, $value, $ttl);
 	}
 
+	static public function hasKey($key) {
+		if (!self::$cache) {
+			self::init();
+		}
+		return self::$cache->hasKey($key);
+	}
+
 	static public function remove($key) {
 		if (!self::$cache) {
 			self::init();
