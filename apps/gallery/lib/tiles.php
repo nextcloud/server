@@ -96,7 +96,7 @@ class TileSingle extends TileBase {
   }
   
   public function get($extra = '') {
-	  return '<img src="'.GET_THUMBNAIL_PATH.urlencode($this->getPath()).'" '.$extra.'>';
+    return '<a rel="images" href="?app=files&getfile=download.php?file='.urlencode($this->getPath()).'"><img rel="images" src="'.GET_THUMBNAIL_PATH.urlencode($this->getPath()).'" '.$extra.'></a>';
   }
   
   public function getMiniatureSrc() {
@@ -108,7 +108,7 @@ class TileSingle extends TileBase {
   }
   
   public function getOnClickAction() {
-	  return 'javascript:openFile(\''.$this->file_path.'\');';
+	  return '';//'javascript:openFile(\''.$this->file_path.'\');';
   }
 
   private $file_path;
