@@ -15,6 +15,10 @@ if($filename == '') {
 	OCP\JSON::error(array("data" => array( "message" => "Empty Filename" )));
 	exit();
 }
+if(strpos($filename,'/')!==false){
+	OCP\JSON::error(array("data" => array( "message" => "Invalid Filename" )));
+	exit();
+}
 
 if($source){
 	if(substr($source,0,8)!='https://' and substr($source,0,7)!='http://'){
