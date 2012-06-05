@@ -34,6 +34,8 @@ $(document).ready(function(){
 		if ( app.internal == false ) {
 			$('#rightcontent p.appslink').show();
 			$('#rightcontent a').attr('href','http://apps.owncloud.com/content/show.php?content='+app.id);
+		} else {
+			$('#rightcontent p.appslink').hide();
 		}
 		return false;
 	});
