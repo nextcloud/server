@@ -370,8 +370,8 @@ class OC{
 		$refererhost=parse_url($referer);
 		if(isset($refererhost['host'])) $refererhost=$refererhost['host']; else $refererhost='';
 		$server=OC_Helper::serverHost();
-		$serverhost=parse_url($server);
-		if(isset($serverhost['host'])) $serverhost=$serverhost['host']; else $serverhost='';
+		$serverhost=explode(':',$server);
+		$serverhost=$serverhost['0']; 
 		if(!self::$CLI){
 			if(($_SERVER['REQUEST_METHOD']=='POST') and ($refererhost<>$serverhost)) {
 				$url = OC_Helper::serverProtocol().'://'.$server.OC::$WEBROOT.'/index.php';
