@@ -18,9 +18,11 @@ abstract class Test_Cache extends UnitTestCase {
 
 	function testSimple(){
 		$this->assertNull($this->instance->get('value1'));
+		$this->assertFalse($this->instance->hasKey('value1'));
 		
 		$value='foobar';
 		$this->instance->set('value1',$value);
+		$this->assertTrue($this->instance->hasKey('value1'));
 		$received=$this->instance->get('value1');
 		$this->assertEqual($value,$received,'Value recieved from cache not equal to the original');
 		$value='ipsum lorum';
@@ -31,9 +33,12 @@ abstract class Test_Cache extends UnitTestCase {
 		$value2='foobar';
 		$this->instance->set('value2',$value2);
 		$received2=$this->instance->get('value2');
+		$this->assertTrue($this->instance->hasKey('value1'));
+		$this->assertTrue($this->instance->hasKey('value2'));
 		$this->assertEqual($value,$received,'Value changed while setting other variable');
 		$this->assertEqual($value2,$received2,'Seccond value not equal to original');
 
+		$this->assertFalse($this->instance->hasKey('not_set'));
 		$this->assertNull($this->instance->get('not_set'),'Unset value not equal to null');
 	}
 

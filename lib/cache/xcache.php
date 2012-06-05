@@ -27,6 +27,10 @@ class OC_Cache_XCache{
 		}
 	}
 
+	public function hasKey($key) {
+		return xcache_isset($this->getNamespace().$key);
+	}
+
 	public function remove($key) {
 		return xcache_unset($this->getNamespace().$key);
 	}
