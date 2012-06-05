@@ -1,8 +1,4 @@
 <?php
-OCP\Util::addStyle('files', 'files');
-OCP\Util::addscript('files_imageviewer', 'jquery.mousewheel-3.0.4.pack');
-OCP\Util::addscript('files_imageviewer', 'jquery.fancybox-1.3.4.pack');
-OCP\Util::addStyle( 'files_imageviewer', 'jquery.fancybox-1.3.4' );
 
 $l = OC_L10N::get('gallery');
 ?>
@@ -15,7 +11,6 @@ div.gallery_div img.shrinker {width:80px !important;}
 div.title { opacity: 0; text-align: center; vertical-align: middle; font-family: Arial; font-size: 12px; border: 0; position: absolute; text-overflow: ellipsis; bottom: 20px; left:5px; height:auto; padding: 5px; width: 140px; background-color: black; color: white; -webkit-transition: opacity 0.5s;  z-index:1000; border-radius: 7px}
 div.visible { opacity: 0.8;}
 </style>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 var root = "<?php echo !empty($_GET['root']) ? $_GET['root'] : '/'; ?>";
@@ -52,11 +47,11 @@ function openNewGal(album_name) {
 	window.location = url;
 }
 
-function openFile(file_path) {
-	var url = window.location.toString().replace(window.location.search, '');
-	url = url + "?app=files&getfile=download.php?file="+file_path;
-	window.location = url;
-}
+$(document).ready(function() {
+		$("a[rel=images]").fancybox({
+			'titlePosition': 'inside'
+		});
+});
 
 </script>
 
