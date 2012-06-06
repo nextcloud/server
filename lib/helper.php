@@ -120,7 +120,7 @@ class OC_Helper {
 	 */
 	public static function linkToAbsolute( $app, $file ) {
 		$urlLinkTo = self::linkTo( $app, $file );
-		$urlLinkTo = OC_Helper::serverProtocol(). '://'  . self::serverHost() . $urlLinkTo;
+		$urlLinkTo = self::serverProtocol(). '://'  . self::serverHost() . $urlLinkTo;
 		return $urlLinkTo;
 	}
 
@@ -131,8 +131,8 @@ class OC_Helper {
 	 *
 	 * Returns a absolute url to the given service.
 	 */
-	public static function linkToRemote( $service ) {
-		return self::linkToAbsolute( '', 'remote.php') . '/' . $service . '/';
+	public static function linkToRemote( $service, $add_slash = true ) {
+		return self::linkToAbsolute( '', 'remote.php') . '/' . $service . ($add_slash?'/':'');
 	}
 
 	/**

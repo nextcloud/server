@@ -22,8 +22,10 @@ if( isset( $_['message'] ) ) {
 	foreach ( $_['versions'] as $v ) {
 	
 		echo ' ';
-		echo OCP\Util::formatDate( $v );
-		echo ' <a href="'.OCP\Util::linkTo('files_versions', 'history.php').'?path='.urlencode( $_['path'] ).'&revert='. $v .'" class="button">Revert</a><br /><br />';
+		echo OCP\Util::formatDate( $v['version'] );
+		echo ' <a href="'.OCP\Util::linkTo('files_versions', 'history.php').'?path='.urlencode( $_['path'] ).'&revert='. $v['version'] .'" class="button">Revert</a><br /><br />';
+		if ( $v['cur'] ) { echo '  (<b>Current</b>)'; }
+		echo '<br /><br />';
 		
 	}
 

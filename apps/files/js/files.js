@@ -56,7 +56,7 @@ $(document).ready(function() {
 
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {
-		FileActions.display($(this).children('td.filename'));
+		FileActions.display($(this).children('td.filename'), $(this).attr('data-file'), $(this).attr('data-type'));
 	});
 	$('tr').live('mouseleave',function(event) {
 		FileActions.hide();
@@ -452,6 +452,11 @@ $(document).ready(function() {
 		input.focus();
 		input.change(function(){
 			var name=$(this).val();
+			if(name.indexOf('/')!=-1){
+				$('#notification').text(t('files','Invalid name, \'/\' is not allowed.'));
+				$('#notification').fadeIn();
+				return;
+			}
 			switch(type){
 				case 'file':
 					$.post(

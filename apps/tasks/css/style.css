@@ -9,7 +9,7 @@
 #tasks_lists .active{font-weight:bold;}
 #tasks_list h1{background-color:#1D2D44;color:white;font-size:120%;padding:0 0.5em;}
 
-.task{border-radius:0.4em;position:relative;padding:0.5em 1em;}
+.task{border-radius:0.4em;position:relative;padding:0.4em 1em;}
 .task:nth-child(odd){background-color:#F4F4F4;}
 .task:hover {background-color:#DDDDDD;}
 
@@ -33,7 +33,7 @@
 .task .completed {position:absolute;left:3em;top:0.3em;}
 
 .task .summary{padding-left:4em;height:2em;}
-.task .summary input{position:relative;left:5px;}
+.task .summary input{position:relative;left:5px;top:0.5em;}
 .task.done .summary{text-decoration:line-through;}
 
 .task .tag{border-radius:0.4em;display:inline-block;opacity:0.2;margin:0 0.2em;border:1px solid transparent;padding:0 0.4em;cursor:pointer;}
@@ -42,18 +42,19 @@
 .task:hover .tag{opacity:0.5}
 .task:hover .tag:hover{opacity:0.8;}
 
-.task .categories{position:absolute;right:12em;text-align:right;top:0.4em}
+.task .categories{position:absolute;right:12em;text-align:right;top:0.5em}
 .task .categories a{background-color:#1d2d44;color:white;}
 .task .categories .tag.active{display:none;}
 .task input.categories{display:none;top:0;text-align:left;}
 
-.task .location{background-color:#442d44;color:white;position:absolute;right:0.6em;width:9.2em;text-align:left;top:0.4em}
+.task .location{background-color:#442d44;color:white;position:absolute;right:0.6em;width:9.2em;text-align:left;top:0.5em}
 .task input.location{display:none;top:0;text-align:left;right:0.3em;background-color:white;color:#333333;}
 
 .task .more{display:none;margin-top:0.5em;}
 .task_less{display:none;}
 
 .task .description{position:relative;left:4em;}
+.task textarea.description{width:35em;height:4em;}
 .task .due{position:absolute;right:0.3em;}
 .task .due .date{width:6em;}
 .task .due .time{width:6em;}

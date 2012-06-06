@@ -43,8 +43,8 @@ Calendar_Import={
 			}
 			$('#newcalendar').attr('readonly', 'readonly');
 			$('#calendar').attr('disabled', 'disabled');
-			var progressfile = $('#progressfile').val();
-			$.post(OC.filePath('calendar', 'ajax/import', 'import.php'), {method: String (method), calname: String (calname), path: String (path), file: String (filename), id: String (calid)}, function(data){
+			var progresskey = $('#progresskey').val();
+			$.post(OC.filePath('calendar', 'ajax/import', 'import.php') + '?progresskey='+progresskey, {method: String (method), calname: String (calname), path: String (path), file: String (filename), id: String (calid)}, function(data){
 				if(data.status == 'success'){
 					$('#progressbar').progressbar('option', 'value', 100);
 					$('#import_done').css('display', 'block');
@@ -52,7 +52,7 @@ Calendar_Import={
 			});
 			$('#form_container').css('display', 'none');
 			$('#progressbar_container').css('display', 'block');
-			window.setTimeout('Calendar_Import.getimportstatus(\'' + progressfile + '\')', 500);
+			window.setTimeout('Calendar_Import.getimportstatus(\'' + progresskey + '\')', 500);
 		});
 		$('#calendar').change(function(){
 			if($('#calendar option:selected').val() == 'newcal'){
@@ -62,11 +62,11 @@ Calendar_Import={
 			}
 		});
 	},
-	getimportstatus: function(progressfile){
-		$.get(OC.filePath('calendar', 'import_tmp', progressfile), function(percent){
+	getimportstatus: function(progresskey){
+		$.get(OC.filePath('calendar', 'ajax/import', 'import.php') + '?progress=1&progresskey=' + progresskey, function(percent){
 			$('#progressbar').progressbar('option', 'value', parseInt(percent));
 			if(percent < 100){
-				window.setTimeout('Calendar_Import.getimportstatus(\'' + progressfile + '\')', 500);
+				window.setTimeout('Calendar_Import.getimportstatus(\'' + progresskey + '\')', 500);
 			}else{
 				$('#import_done').css('display', 'block');
 			}

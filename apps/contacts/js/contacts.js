@@ -134,7 +134,9 @@ Contacts={
 			$('#edit_name').keydown(function(){Contacts.UI.Card.editName()});
 			
 			/* Initialize the photo edit dialog */
-			$('#edit_photo_dialog').dialog({ autoOpen: false, modal: true, height: 'auto', width: 'auto' });
+			$('#edit_photo_dialog').dialog({ 
+				autoOpen: false, modal: true, height: 'auto', width: 'auto'
+			});
 			$('#edit_photo_dialog' ).dialog( 'option', 'buttons', [
 				{
 					text: "Ok",
@@ -162,6 +164,7 @@ Contacts={
 				var name = $('#fn').val().strip_tags();
 				var item = $('#contacts [data-id="'+Contacts.UI.Card.id+'"]');
 				$(item).find('a').html(name);
+				Contacts.UI.Card.fn = name;
 				var added = false;
 				$('#contacts li').each(function(){
 					if ($(this).text().toLowerCase() > name.toLowerCase()) {
@@ -1153,9 +1156,9 @@ Contacts={
 					}
 				});
 			},
-			editPhoto:function(id, tmp_path){
-				//alert('editPhoto: ' + tmp_path);
-				$.getJSON(OC.filePath('contacts', 'ajax', 'cropphoto.php'),{'tmp_path':tmp_path,'id':this.id},function(jsondata){
+			editPhoto:function(id, tmpkey){
+				//alert('editPhoto: ' + tmpkey);
+				$.getJSON(OC.filePath('contacts', 'ajax', 'cropphoto.php'),{'tmpkey':tmpkey,'id':this.id},function(jsondata){
 					if(jsondata.status == 'success'){
 						//alert(jsondata.data.page);
 						$('#edit_photo_dialog_img').html(jsondata.data.page);
@@ -1185,6 +1188,7 @@ Contacts={
 						Contacts.UI.Card.loadPhotoHandlers();
 					}else{
 						OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
+						wrapper.removeClass('wait');
 					}
 				});
 				Contacts.UI.Contacts.refreshThumbnail(this.id);

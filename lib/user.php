@@ -129,7 +129,7 @@ class OC_User {
 		if(trim($password) == ''){
 			throw new Exception('A valid password must be provided');
 		}
-		
+
 		// Check if user already exists
 		if( self::userExists($uid) ){
 			throw new Exception('The username is already being used');
@@ -168,9 +168,7 @@ class OC_User {
 		if( $run ){
 			//delete the user from all backends
 			foreach(self::$_usedBackends as $backend){
-				if($backend->implementsActions(OC_USER_BACKEND_DELETE_USER)){
-					$backend->deleteUser($uid);
-				}
+				$backend->deleteUser($uid);
 			}
 			// We have to delete the user from all groups
 			foreach( OC_Group::getUserGroups( $uid ) as $i ){
@@ -242,12 +240,13 @@ class OC_User {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn(){
-		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] AND self::userExists($_SESSION['user_id']) ){
-			return true;
+		if( isset($_SESSION['user_id']) AND $_SESSION['user_id']) {
+			OC_App::loadApps(array('authentication'));
+			if (self::userExists($_SESSION['user_id']) ){
+				return true;
+			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 
 	/**
@@ -331,11 +330,9 @@ class OC_User {
 	public static function getUsers(){
 		$users=array();
 		foreach(self::$_usedBackends as $backend){
-			if($backend->implementsActions(OC_USER_BACKEND_GET_USERS)){
-				$backendUsers=$backend->getUsers();
-				if(is_array($backendUsers)){
-					$users=array_merge($users,$backendUsers);
-				}
+			$backendUsers=$backend->getUsers();
+			if(is_array($backendUsers)){
+				$users=array_merge($users,$backendUsers);
 			}
 		}
 		asort($users);
@@ -349,11 +346,9 @@ class OC_User {
 	 */
 	public static function userExists($uid){
 		foreach(self::$_usedBackends as $backend){
-			if($backend->implementsActions(OC_USER_BACKEND_USER_EXISTS)){
-				$result=$backend->userExists($uid);
-				if($result===true){
-					return true;
-				}
+			$result=$backend->userExists($uid);
+			if($result===true){
+				return true;
 			}
 		}
 		return false;

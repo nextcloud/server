@@ -20,17 +20,12 @@
  *
  */
 // Check if we are a user
-// Firefox and Konqueror tries to download application/json for me.  --Arthur
-OCP\JSON::setContentTypeHeader('text/plain');
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 function bailOut($msg) {
 	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('contacts','ajax/oc_photo.php: '.$msg, OCP\Util::ERROR);
 	exit();
-}
-function debug($msg) {
-	OCP\Util::writeLog('contacts','ajax/oc_photo.php: '.$msg, OCP\Util::DEBUG);
 }
 
 if(!isset($_GET['id'])) {
@@ -42,31 +37,30 @@ if(!isset($_GET['path'])) {
 }
 
 $localpath = OC_Filesystem::getLocalFile($_GET['path']);
-$tmpfname = tempnam(get_temp_dir(), "occOrig");
+$tmpkey = 'contact-photo-'.$_GET['id'];
 
 if(!file_exists($localpath)) {
 	bailOut(OC_Contacts_App::$l10n->t('File doesn\'t exist:').$localpath);
 }
-file_put_contents($tmpfname, file_get_contents($localpath));
 
 $image = new OC_Image();
 if(!$image) {
 	bailOut(OC_Contacts_App::$l10n->t('Error loading image.'));
 }
-if(!$image->loadFromFile($tmpfname)) {
+if(!$image->loadFromFile($localpath)) {
 	bailOut(OC_Contacts_App::$l10n->t('Error loading image.'));
 }
 if($image->width() > 400 || $image->height() > 400) {
 	$image->resize(400); // Prettier resizing than with browser and saves bandwidth.
 }
 if(!$image->fixOrientation()) { // No fatal error so we don't bail out.
-	debug('Couldn\'t save correct image orientation: '.$tmpfname);
+	OCP\Util::writeLog('contacts','ajax/oc_photo.php: Couldn\'t save correct image orientation: '.$localpath, OCP\Util::DEBUG);
 }
-if($image->save($tmpfname)) {
-	OCP\JSON::success(array('data' => array('id'=>$_GET['id'], 'tmp'=>$tmpfname)));
+if(OC_Cache::set($tmpkey, $image->data(), 600)) {
+	OCP\JSON::success(array('data' => array('id'=>$_GET['id'], 'tmp'=>$tmpkey)));
 	exit();
 } else {
-	bailOut('Couldn\'t save temporary image: '.$tmpfname);
+	bailOut('Couldn\'t save temporary image: '.$tmpkey);
 }
 
 ?>

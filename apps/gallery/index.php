@@ -27,10 +27,6 @@ OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('gallery');
 OCP\App::setActiveNavigationEntry( 'gallery_index' );
 
-if (!file_exists(OCP\Config::getSystemValue("datadirectory").'/'. OCP\USER::getUser() .'/gallery')) {
-  mkdir(OCP\Config::getSystemValue("datadirectory").'/'. OCP\USER::getUser() .'/gallery');
-}
-
 if (!isset($_GET['view'])) {
   $result = OC_Gallery_Album::find(OCP\USER::getUser());
 

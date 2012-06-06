@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Denis  <reg.transifex.net@demitel.ru>, 2012.
 #   <jekader@gmail.com>, 2011, 2012.
+# Nick Remeslennikov <homolibere@gmail.com>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.net/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -21,11 +23,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "Календари не найдены."
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "События не найдены."
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -43,79 +45,103 @@ msgstr "Часовой пояс изменён"
 msgid "Invalid request"
 msgstr "Неверный запрос"
 
-#: appinfo/app.php:23 templates/calendar.php:15
+#: appinfo/app.php:19 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:31
 #: templates/settings.php:12
 msgid "Calendar"
 msgstr "Календарь"
 
-#: js/calendar.js:788
+#: js/calendar.js:93
+msgid "Deletion failed"
+msgstr ""
+
+#: js/calendar.js:828
+msgid "ddd"
+msgstr ""
+
+#: js/calendar.js:829
+msgid "ddd M/d"
+msgstr ""
+
+#: js/calendar.js:830
+msgid "dddd M/d"
+msgstr ""
+
+#: js/calendar.js:833
+msgid "MMMM yyyy"
+msgstr ""
+
+#: js/calendar.js:835
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
 msgstr ""
 
-#: lib/app.php:122
+#: js/calendar.js:837
+msgid "dddd, MMM d, yyyy"
+msgstr ""
+
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "День рождения"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "Бизнес"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "Звонить"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "Клиенты"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "Доставщик"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "Праздники"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "Идеи"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "Поездка"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "Юбилей"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "Встреча"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "Другое"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "Личное"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "Проекты"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "Вопросы"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "Работа"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
-msgstr ""
+msgstr "без имени"
 
 #: lib/object.php:330
 msgid "Does not repeat"
@@ -364,7 +390,7 @@ msgstr "Выберите активные календари"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "Ваши календари"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -373,15 +399,15 @@ msgstr "Ссылка для CalDav"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "Общие календари"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "Нет общих календарей"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "Сделать календарь общим"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -398,7 +424,7 @@ msgstr "Удалить"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "с вами поделился"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -443,23 +469,23 @@ msgstr "Экспортировать"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "Информация о событии"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "Повторение"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "Сигнал"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "Участники"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "Поделиться"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -471,11 +497,11 @@ msgstr "Категория"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "Разделяйте категории запятыми"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "Редактировать категории"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -596,11 +622,11 @@ msgstr "Создать новое событие"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "Показать событие"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "Категории не выбраны"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -636,7 +662,7 @@ msgstr "12ч"
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "Первый день недели"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
@@ -644,24 +670,24 @@ msgstr "Адрес синхронизации календаря CalDAV:"
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "Пользователи"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "выбрать пользователей"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "Редактируемо"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "Группы"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "выбрать группы"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "селать публичным"

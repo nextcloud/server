@@ -6,12 +6,13 @@
 #   <mikkelbjerglarsen@gmail.com>, 2011.
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011, 2012.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
+# Thomas Tanghus <>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +23,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "Der blev ikke fundet nogen kalendere."
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "Der blev ikke fundet nogen begivenheder."
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -44,79 +45,103 @@ msgstr "Tidszone ændret"
 msgid "Invalid request"
 msgstr "Ugyldig forespørgsel"
 
-#: appinfo/app.php:23 templates/calendar.php:15
+#: appinfo/app.php:19 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:31
 #: templates/settings.php:12
 msgid "Calendar"
 msgstr "Kalender"
 
-#: js/calendar.js:788
-msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+#: js/calendar.js:93
+msgid "Deletion failed"
 msgstr ""
 
-#: lib/app.php:122
+#: js/calendar.js:828
+msgid "ddd"
+msgstr ""
+
+#: js/calendar.js:829
+msgid "ddd M/d"
+msgstr ""
+
+#: js/calendar.js:830
+msgid "dddd M/d"
+msgstr ""
+
+#: js/calendar.js:833
+msgid "MMMM yyyy"
+msgstr ""
+
+#: js/calendar.js:835
+msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+msgstr "MMM d[ åååå]{ '&#8212;'[ MMM] d åååå}"
+
+#: js/calendar.js:837
+msgid "dddd, MMM d, yyyy"
+msgstr ""
+
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "Fødselsdag"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "Forretning"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "Ring"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "Kunder"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "Leverance"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "Helligdage"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "Ideér"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "Rejse"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "Jubilæum"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "Møde"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "Andet"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "Privat"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "Projekter"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "Spørgsmål"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
 msgstr "Arbejde"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
-msgstr ""
+msgstr "unavngivet"
 
 #: lib/object.php:330
 msgid "Does not repeat"
@@ -365,7 +390,7 @@ msgstr "Vælg aktive kalendere"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "Dine kalendere"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -374,15 +399,15 @@ msgstr "CalDav-link"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "Delte kalendere"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "Ingen delte kalendere"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "Del kalender"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -399,7 +424,7 @@ msgstr "Slet"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "delt af dig"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -444,23 +469,23 @@ msgstr "Eksporter"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "Begivenhedsinfo"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "Gentagende"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "Alarm"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "Deltagere"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "Del"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -472,11 +497,11 @@ msgstr "Kategori"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "Opdel kategorier med kommaer"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "Rediger kategorier"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -597,11 +622,11 @@ msgstr "Opret en ny begivenhed"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "Vis en begivenhed"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "Ingen categorier valgt"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -609,11 +634,11 @@ msgstr "Vælg kategori"
 
 #: templates/part.showevent.php:37
 msgid "of"
-msgstr ""
+msgstr "fra"
 
 #: templates/part.showevent.php:62 templates/part.showevent.php:70
 msgid "at"
-msgstr ""
+msgstr "kl."
 
 #: templates/settings.php:14
 msgid "Timezone"
@@ -637,7 +662,7 @@ msgstr "12T"
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "Ugens første dag"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
@@ -645,24 +670,24 @@ msgstr "Synkroniseringsadresse til CalDAV:"
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "Brugere"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "Vælg brugere"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "Redigerbar"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "Grupper"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "Vælg grupper"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "Offentliggør"

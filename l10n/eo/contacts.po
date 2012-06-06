@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-05-13 19:52+0200\n"
-"PO-Revision-Date: 2012-05-16 22:35+0000\n"
-"Last-Translator: mctpyt <mstreet@kde.org.ar>\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Esperanto (http://www.transifex.net/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +48,7 @@ msgstr "Neniu identigilo proviziĝis."
 
 #: ajax/categories/categoriesfor.php:27
 msgid "Error setting checksum."
-msgstr ""
+msgstr "Eraro dum agordado de kontrolsumo."
 
 #: ajax/categories/delete.php:29
 msgid "No categories selected for deletion."
@@ -82,23 +82,20 @@ msgstr "Eraro dum aldono de adresaro."
 msgid "Error activating addressbook."
 msgstr "Eraro dum aktivigo de adresaro."
 
-#: ajax/currentphoto.php:40 ajax/oc_photo.php:40
+#: ajax/currentphoto.php:34 ajax/oc_photo.php:37 ajax/uploadphoto.php:41
+#: ajax/uploadphoto.php:68
 msgid "No contact ID was submitted."
 msgstr "Neniu kontaktidentigilo sendiĝis."
 
-#: ajax/currentphoto.php:47 ajax/oc_photo.php:57 ajax/oc_photo.php:60
-msgid "Error loading image."
-msgstr "Eraro dum ŝargado de bildo."
-
-#: ajax/currentphoto.php:51
+#: ajax/currentphoto.php:40
 msgid "Error reading contact photo."
 msgstr "Eraro dum lego de kontakta foto."
 
-#: ajax/currentphoto.php:61
+#: ajax/currentphoto.php:52
 msgid "Error saving temporary file."
 msgstr "Eraro dum konservado de provizora dosiero."
 
-#: ajax/currentphoto.php:64
+#: ajax/currentphoto.php:55
 msgid "The loading photo is not valid."
 msgstr "La alŝutata foto ne validas."
 
@@ -122,13 +119,45 @@ msgstr "Kontaktidentigilo mankas."
 msgid "Missing contact id."
 msgstr "Mankas kontaktidentigilo."
 
-#: ajax/oc_photo.php:44
+#: ajax/oc_photo.php:41
 msgid "No photo path was submitted."
 msgstr "Neniu vojo al foto sendiĝis."
 
-#: ajax/oc_photo.php:51
+#: ajax/oc_photo.php:48
 msgid "File doesn't exist:"
 msgstr "Dosiero ne ekzistas:"
+
+#: ajax/oc_photo.php:54 ajax/oc_photo.php:57
+msgid "Error loading image."
+msgstr "Eraro dum ŝargado de bildo."
+
+#: ajax/savecrop.php:68
+msgid "Error getting contact object."
+msgstr ""
+
+#: ajax/savecrop.php:75
+msgid "Error getting PHOTO property."
+msgstr ""
+
+#: ajax/savecrop.php:88
+msgid "Error saving contact."
+msgstr ""
+
+#: ajax/savecrop.php:98
+msgid "Error resizing image"
+msgstr ""
+
+#: ajax/savecrop.php:101
+msgid "Error cropping image"
+msgstr ""
+
+#: ajax/savecrop.php:104
+msgid "Error creating temporary image"
+msgstr ""
+
+#: ajax/savecrop.php:107
+msgid "Error finding image: "
+msgstr ""
 
 #: ajax/saveproperty.php:55
 msgid "element name is not set."
@@ -136,17 +165,17 @@ msgstr "eronomo ne agordiĝis."
 
 #: ajax/saveproperty.php:61
 msgid "checksum is not set."
-msgstr ""
+msgstr "kontrolsumo ne agordiĝis."
 
 #: ajax/saveproperty.php:78
 msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr ""
+msgstr "Informo pri vCard malĝustas. Bonvolu reŝargi la paĝon:"
 
 #: ajax/saveproperty.php:83
 msgid "Something went FUBAR. "
 msgstr "Io FUBAR-is."
 
-#: ajax/saveproperty.php:153
+#: ajax/saveproperty.php:150
 msgid "Error updating contact property."
 msgstr "Eraro dum ĝisdatigo de kontaktopropraĵo."
 
@@ -162,102 +191,229 @@ msgstr "Eraro dum ĝisdatigo de adresaro."
 msgid "Error uploading contacts to storage."
 msgstr ""
 
-#: ajax/uploadimport.php:59 ajax/uploadphoto.php:85
+#: ajax/uploadimport.php:59 ajax/uploadphoto.php:77
 msgid "There is no error, the file uploaded with success"
 msgstr "Ne estas eraro, la dosiero alŝutiĝis sukcese."
 
-#: ajax/uploadimport.php:60 ajax/uploadphoto.php:86
+#: ajax/uploadimport.php:60 ajax/uploadphoto.php:78
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 
-#: ajax/uploadimport.php:61 ajax/uploadphoto.php:87
+#: ajax/uploadimport.php:61 ajax/uploadphoto.php:79
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: ajax/uploadimport.php:62 ajax/uploadphoto.php:88
+#: ajax/uploadimport.php:62 ajax/uploadphoto.php:80
 msgid "The uploaded file was only partially uploaded"
 msgstr "la alŝutita dosiero nur parte alŝutiĝis"
 
-#: ajax/uploadimport.php:63 ajax/uploadphoto.php:89
+#: ajax/uploadimport.php:63 ajax/uploadphoto.php:81
 msgid "No file was uploaded"
 msgstr "Neniu dosiero alŝutiĝis."
 
-#: ajax/uploadimport.php:64 ajax/uploadphoto.php:90
+#: ajax/uploadimport.php:64 ajax/uploadphoto.php:82
 msgid "Missing a temporary folder"
 msgstr "Mankas provizora dosierujo."
 
-#: appinfo/app.php:22 templates/settings.php:3
+#: ajax/uploadphoto.php:59 ajax/uploadphoto.php:102
+msgid "Couldn't save temporary image: "
+msgstr ""
+
+#: ajax/uploadphoto.php:62 ajax/uploadphoto.php:105
+msgid "Couldn't load temporary image: "
+msgstr ""
+
+#: ajax/uploadphoto.php:71
+msgid "No file was uploaded. Unknown error"
+msgstr ""
+
+#: appinfo/app.php:17 templates/settings.php:3
 msgid "Contacts"
 msgstr "Kontaktoj"
 
-#: lib/app.php:23
+#: js/contacts.js:24
+msgid "Sorry, this functionality has not been implemented yet"
+msgstr ""
+
+#: js/contacts.js:24
+msgid "Not implemented"
+msgstr ""
+
+#: js/contacts.js:29
+msgid "Couldn't get a valid address."
+msgstr ""
+
+#: js/contacts.js:29 js/contacts.js:334 js/contacts.js:341 js/contacts.js:355
+#: js/contacts.js:393 js/contacts.js:399 js/contacts.js:565 js/contacts.js:605
+#: js/contacts.js:631 js/contacts.js:668 js/contacts.js:747 js/contacts.js:753
+#: js/contacts.js:765 js/contacts.js:799 js/contacts.js:1056
+#: js/contacts.js:1064 js/contacts.js:1073 js/contacts.js:1130
+#: js/contacts.js:1146 js/contacts.js:1161 js/contacts.js:1173
+#: js/contacts.js:1196 js/contacts.js:1449 js/contacts.js:1457
+#: js/contacts.js:1483 js/contacts.js:1494 js/contacts.js:1509
+#: js/contacts.js:1526 js/contacts.js:1596 js/contacts.js:1644
+#: js/contacts.js:1654 js/contacts.js:1657
+msgid "Error"
+msgstr ""
+
+#: js/contacts.js:364
+msgid "Are you sure you want to delete this contact?"
+msgstr ""
+
+#: js/contacts.js:364
+msgid "Warning"
+msgstr ""
+
+#: js/contacts.js:605
+msgid "This property has to be non-empty."
+msgstr ""
+
+#: js/contacts.js:631
+msgid "Couldn't serialize elements."
+msgstr ""
+
+#: js/contacts.js:747 js/contacts.js:765
+msgid ""
+"'deleteProperty' called without type argument. Please report at "
+"bugs.owncloud.org"
+msgstr ""
+
+#: js/contacts.js:781
+msgid "Edit name"
+msgstr ""
+
+#: js/contacts.js:1056
+msgid "No files selected for upload."
+msgstr ""
+
+#: js/contacts.js:1064 js/contacts.js:1449 js/contacts.js:1634
+msgid ""
+"The file you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+
+#: js/contacts.js:1119
+msgid "Select photo"
+msgstr ""
+
+#: js/contacts.js:1257 js/contacts.js:1290
+msgid "Select type"
+msgstr ""
+
+#: js/contacts.js:1305 templates/part.importaddressbook.php:25
+msgid "Drop a VCF file to import contacts."
+msgstr "Demetu VCF-dosieron por enporti kontaktojn."
+
+#: js/contacts.js:1475
+msgid "Import done. Success/Failure: "
+msgstr ""
+
+#: js/contacts.js:1476
+msgid "OK"
+msgstr ""
+
+#: js/contacts.js:1494
+msgid "Displayname cannot be empty."
+msgstr ""
+
+#: js/contacts.js:1634
+msgid "Upload too large"
+msgstr ""
+
+#: js/contacts.js:1638
+msgid "Only image files can be used as profile picture."
+msgstr ""
+
+#: js/contacts.js:1638
+msgid "Wrong file type"
+msgstr ""
+
+#: js/contacts.js:1644
+msgid ""
+"Your browser doesn't support AJAX upload. Please click on the profile "
+"picture to select a photo to upload."
+msgstr ""
+
+#: js/loader.js:49
+msgid "Result: "
+msgstr ""
+
+#: js/loader.js:49
+msgid " imported, "
+msgstr ""
+
+#: js/loader.js:49
+msgid " failed."
+msgstr ""
+
+#: lib/app.php:30
 msgid "Addressbook not found."
 msgstr "Adresaro ne troviĝis."
 
-#: lib/app.php:27
+#: lib/app.php:34
 msgid "This is not your addressbook."
 msgstr "Ĉi tiu ne estas via adresaro."
 
-#: lib/app.php:38
+#: lib/app.php:45
 msgid "Contact could not be found."
 msgstr "Ne eblis trovi la kontakton."
 
-#: lib/app.php:94 templates/part.contact.php:109
+#: lib/app.php:101 templates/part.contact.php:109
 msgid "Address"
 msgstr "Adreso"
 
-#: lib/app.php:95
+#: lib/app.php:102
 msgid "Telephone"
 msgstr "Telefono"
 
-#: lib/app.php:96 templates/part.contact.php:108
+#: lib/app.php:103 templates/part.contact.php:108
 msgid "Email"
 msgstr "Retpoŝtadreso"
 
-#: lib/app.php:97 templates/part.contact.php:33 templates/part.contact.php:34
+#: lib/app.php:104 templates/part.contact.php:33 templates/part.contact.php:34
 #: templates/part.contact.php:104
 msgid "Organization"
 msgstr "Organizaĵo"
 
-#: lib/app.php:109 lib/app.php:116 lib/app.php:126
+#: lib/app.php:116 lib/app.php:123 lib/app.php:133
 msgid "Work"
 msgstr "Laboro"
 
-#: lib/app.php:110 lib/app.php:114 lib/app.php:127
+#: lib/app.php:117 lib/app.php:121 lib/app.php:134
 msgid "Home"
 msgstr "Hejmo"
 
-#: lib/app.php:115
+#: lib/app.php:122
 msgid "Mobile"
 msgstr "Poŝtelefono"
 
-#: lib/app.php:117
+#: lib/app.php:124
 msgid "Text"
 msgstr "Teksto"
 
-#: lib/app.php:118
+#: lib/app.php:125
 msgid "Voice"
 msgstr "Voĉo"
 
-#: lib/app.php:119
+#: lib/app.php:126
 msgid "Message"
 msgstr "Mesaĝo"
 
-#: lib/app.php:120
+#: lib/app.php:127
 msgid "Fax"
 msgstr "Fakso"
 
-#: lib/app.php:121
+#: lib/app.php:128
 msgid "Video"
 msgstr "Videaĵo"
 
-#: lib/app.php:122
+#: lib/app.php:129
 msgid "Pager"
 msgstr "Televokilo"
 
-#: lib/app.php:128
+#: lib/app.php:135
 msgid "Internet"
 msgstr "Interreto"
 
@@ -402,7 +558,7 @@ msgstr "Aldoni kampon"
 
 #: templates/part.contact.php:103
 msgid "Profile picture"
-msgstr ""
+msgstr "Profila bildo"
 
 #: templates/part.contact.php:107
 msgid "Phone"
@@ -427,6 +583,10 @@ msgstr "Alŝuti novan foton"
 #: templates/part.contactphoto.php:11
 msgid "Select photo from ownCloud"
 msgstr "Elekti foton el ownCloud"
+
+#: templates/part.cropphoto.php:64
+msgid "The temporary image has been removed from cache."
+msgstr ""
 
 #: templates/part.edit_address_dialog.php:9
 msgid "Edit address"
@@ -485,31 +645,31 @@ msgstr "Adresaro"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
-msgstr ""
+msgstr "Honoraj antaŭmetaĵoj"
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
-msgstr ""
+msgstr "f-ino"
 
 #: templates/part.edit_name_dialog.php:28
 msgid "Ms"
-msgstr ""
+msgstr "s-ino"
 
 #: templates/part.edit_name_dialog.php:29
 msgid "Mr"
-msgstr ""
+msgstr "s-ro"
 
 #: templates/part.edit_name_dialog.php:30
 msgid "Sir"
-msgstr ""
+msgstr "s-ro"
 
 #: templates/part.edit_name_dialog.php:31
 msgid "Mrs"
-msgstr ""
+msgstr "s-ino"
 
 #: templates/part.edit_name_dialog.php:32
 msgid "Dr"
-msgstr ""
+msgstr "d-ro"
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
@@ -517,7 +677,7 @@ msgstr "Persona nomo"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
-msgstr ""
+msgstr "Pliaj nomoj"
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
@@ -525,7 +685,7 @@ msgstr "Familia nomo"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
-msgstr ""
+msgstr "Honoraj postmetaĵoj"
 
 #: templates/part.edit_name_dialog.php:45
 msgid "J.D."
@@ -584,7 +744,7 @@ msgid "Submit"
 msgstr "Sendi"
 
 #: templates/part.editaddressbook.php:30
-#: templates/part.importaddressbook.php:28
+#: templates/part.importaddressbook.php:34
 msgid "Cancel"
 msgstr "Nuligi"
 
@@ -612,54 +772,49 @@ msgstr "Enporti"
 msgid "Importing contacts"
 msgstr "Enportante kontaktojn"
 
-#: templates/part.import.php:23
-msgid "Contacts imported successfully"
-msgstr "Kontaktoj enportiĝis sukcese"
-
 #: templates/part.import.php:24
-msgid "Close Dialog"
-msgstr "Fermi dialogon"
-
-#: templates/part.importaddressbook.php:9
-msgid "Import Addressbook"
-msgstr "Enporti adresaron"
+msgid "Close"
+msgstr ""
 
 #: templates/part.importaddressbook.php:12
+msgid ""
+"Currently this import function doesn't work while encryption is enabled.<br "
+"/>Please upload your VCF file with the file manager and click on it to "
+"import."
+msgstr ""
+
+#: templates/part.importaddressbook.php:16
 msgid "Select address book to import to:"
-msgstr ""
+msgstr "Elektu adresaron kien enporti:"
 
-#: templates/part.importaddressbook.php:20
-msgid "Drop a VCF file to import contacts."
-msgstr ""
-
-#: templates/part.importaddressbook.php:21
+#: templates/part.importaddressbook.php:26
 msgid "Select from HD"
-msgstr ""
+msgstr "Elekti el malmoldisko"
 
 #: templates/part.no_contacts.php:2
 msgid "You have no contacts in your addressbook."
-msgstr ""
+msgstr "Vi ne havas kontaktojn en via adresaro"
 
 #: templates/part.no_contacts.php:4
 msgid "Add contact"
-msgstr ""
+msgstr "Aldoni kontakton"
 
 #: templates/part.no_contacts.php:5
 msgid "Configure addressbooks"
-msgstr ""
+msgstr "Agordi adresarojn"
 
 #: templates/settings.php:4
 msgid "CardDAV syncing addresses"
-msgstr ""
+msgstr "adresoj por CardDAV-sinkronigo"
 
 #: templates/settings.php:4
 msgid "more info"
-msgstr ""
+msgstr "pli da informo"
 
 #: templates/settings.php:6
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "Ĉefa adreso (por Kontakt kaj aliaj)"
 
 #: templates/settings.php:8
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"

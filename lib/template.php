@@ -166,7 +166,7 @@ class OC_Template{
 	/**
 	 * @brief Returns the formfactor extension for current formfactor
 	 */
-	protected function getFormFactorExtension()
+	static public function getFormFactorExtension()
 	{
 		$formfactor=$_SESSION['formfactor'];
 		if($formfactor=='default') { 
@@ -196,7 +196,7 @@ class OC_Template{
 		$theme=OC_Config::getValue( "theme" );
 
 		// Read the detected formfactor and use the right file name.
-		$fext = $this->getFormFactorExtension();
+		$fext = self::getFormFactorExtension();
 
 		$app = $this->application;
 		// Check if it is a app template or not.
@@ -379,8 +379,9 @@ class OC_Template{
 			$theme=OC_Config::getValue( "theme" );
 
 			// Read the detected formfactor and use the right file name.
-			$fext = $this->getFormFactorExtension();
+			$fext = self::getFormFactorExtension();
 
+			$page->assign('jsfiles', array());
 			// Add the core js files or the js files provided by the selected theme
 			foreach(OC_Util::$scripts as $script){
 				// Is it in 3rd party?
@@ -417,6 +418,7 @@ class OC_Template{
 				}
 			}
 			// Add the css files
+			$page->assign('cssfiles', array());
 			foreach(OC_Util::$styles as $style){
 				// is it in 3rdparty?
                                 if($page->appendIfExist('cssfiles', OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $style.'.css')) {
@@ -434,7 +436,7 @@ class OC_Template{
 				}elseif($page->appendIfExist('cssfiles', OC::$SERVERROOT, OC::$WEBROOT, "core/$style.css" )) {
 
 				}else{
-					echo('css file not found: style:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+					echo('css file not found: style:'.$style.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
 				}
 			}

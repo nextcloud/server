@@ -18,20 +18,10 @@
  * You should have received a copy of the GNU Affero General Public
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
- * TODO: Translatable strings.
- *       Remember to delete tmp file at some point.
  */
-// Init owncloud
- 
-OCP\Util::writeLog('contacts','ajax/savecrop.php: Huzzah!!!', OCP\Util::DEBUG);
-
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
-
-// foreach ($_POST as $key=>$element) {
-// 	OCP\Util::writeLog('contacts','ajax/savecrop.php: '.$key.'=>'.$element, OCP\Util::DEBUG);
-// }
 
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
 OCP\JSON::setContentTypeHeader('text/plain');
@@ -50,88 +40,71 @@ $y1 = (isset($_POST['y1']) && $_POST['y1']) ? $_POST['y1'] : 0;
 //$y2 = isset($_POST['y2']) ? $_POST['y2'] : -1;
 $w = (isset($_POST['w']) && $_POST['w']) ? $_POST['w'] : -1;
 $h = (isset($_POST['h']) && $_POST['h']) ? $_POST['h'] : -1;
-$tmp_path = isset($_POST['tmp_path']) ? $_POST['tmp_path'] : '';
+$tmpkey = isset($_POST['tmpkey']) ? $_POST['tmpkey'] : '';
 $id = isset($_POST['id']) ? $_POST['id'] : '';
 
-if($tmp_path == '') {
-	bailOut('Missing path to temporary file.');
+if($tmpkey == '') {
+	bailOut('Missing key to temporary file.');
 }
 
 if($id == '') {
 	bailOut('Missing contact id.');
 }
 
-OCP\Util::writeLog('contacts','savecrop.php: files: '.$tmp_path.'  exists: '.file_exists($tmp_path), OCP\Util::DEBUG);
+OCP\Util::writeLog('contacts','savecrop.php: key: '.$tmpkey, OCP\Util::DEBUG);
 
-if(file_exists($tmp_path)) {
+$data = OC_Cache::get($tmpkey);
+if($data) {
 	$image = new OC_Image();
-	if($image->loadFromFile($tmp_path)) {
+	if($image->loadFromdata($data)) {
 		$w = ($w != -1 ? $w : $image->width());
 		$h = ($h != -1 ? $h : $image->height());
 		OCP\Util::writeLog('contacts','savecrop.php, x: '.$x1.' y: '.$y1.' w: '.$w.' h: '.$h, OCP\Util::DEBUG);
 		if($image->crop($x1, $y1, $w, $h)) {
 			if(($image->width() <= 200 && $image->height() <= 200) || $image->resize(200)) {
-				$tmpfname = tempnam(get_temp_dir(), "occCropped"); // create a new file because of caching issues.
-				if($image->save($tmpfname)) {
-					unlink($tmp_path);
-					$card = OC_Contacts_App::getContactVCard($id);
-					if(!$card) {
-						unlink($tmpfname);
-						bailOut('Error getting contact object.');
-					}
-					if($card->__isset('PHOTO')) {
-						OCP\Util::writeLog('contacts','savecrop.php: PHOTO property exists.', OCP\Util::DEBUG);
-						$property = $card->__get('PHOTO');
-						if(!$property) {
-							unlink($tmpfname);
-							bailOut('Error getting PHOTO property.');
-						}
-						$property->setValue($image->__toString());
-						$property->parameters[] = new Sabre_VObject_Parameter('ENCODING', 'b');
-						$property->parameters[] = new Sabre_VObject_Parameter('TYPE', $image->mimeType());
-						$card->__set('PHOTO', $property);
-					} else {
-						OCP\Util::writeLog('contacts','savecrop.php: files: Adding PHOTO property.', OCP\Util::DEBUG);
-						$card->addProperty('PHOTO', $image->__toString(), array('ENCODING' => 'b', 'TYPE' => $image->mimeType()));
-					}
-					$now = new DateTime;
-					$card->setString('REV', $now->format(DateTime::W3C));
-					if(!OC_Contacts_VCard::edit($id,$card)) {
-						bailOut('Error saving contact.');
-					}
-					unlink($tmpfname);
-					//$result=array( "status" => "success", 'mime'=>$image->mimeType(), 'tmp'=>$tmp_path);
-					$tmpl = new OCP\Template("contacts", "part.contactphoto");
-					$tmpl->assign('tmp_path', $tmpfname);
-					$tmpl->assign('mime', $image->mimeType());
-					$tmpl->assign('id', $id);
-					$tmpl->assign('refresh', true);
-					$tmpl->assign('width', $image->width());
-					$tmpl->assign('height', $image->height());
-					$page = $tmpl->fetchPage();
-					OCP\JSON::success(array('data' => array('page'=>$page, 'tmp'=>$tmpfname)));
-					exit();
-				} else {
-					if(file_exists($tmpfname)) {
-						unlink($tmpfname);
-					}
-					bailOut('Error saving temporary image');
+				$card = OC_Contacts_App::getContactVCard($id);
+				if(!$card) {
+					OC_Cache::remove($tmpkey);
+					bailOut(OC_Contacts_App::$l10n->t('Error getting contact object.'));
 				}
+				if($card->__isset('PHOTO')) {
+					OCP\Util::writeLog('contacts','savecrop.php: PHOTO property exists.', OCP\Util::DEBUG);
+					$property = $card->__get('PHOTO');
+					if(!$property) {
+						OC_Cache::remove($tmpkey);
+						bailOut(OC_Contacts_App::$l10n->t('Error getting PHOTO property.'));
+					}
+					$property->setValue($image->__toString());
+					$property->parameters[] = new Sabre_VObject_Parameter('ENCODING', 'b');
+					$property->parameters[] = new Sabre_VObject_Parameter('TYPE', $image->mimeType());
+					$card->__set('PHOTO', $property);
+				} else {
+					OCP\Util::writeLog('contacts','savecrop.php: files: Adding PHOTO property.', OCP\Util::DEBUG);
+					$card->addProperty('PHOTO', $image->__toString(), array('ENCODING' => 'b', 'TYPE' => $image->mimeType()));
+				}
+				$now = new DateTime;
+				$card->setString('REV', $now->format(DateTime::W3C));
+				if(!OC_Contacts_VCard::edit($id,$card)) {
+					bailOut(OC_Contacts_App::$l10n->t('Error saving contact.'));
+				}
+				$tmpl = new OCP\Template("contacts", "part.contactphoto");
+				$tmpl->assign('id', $id);
+				$tmpl->assign('refresh', true);
+				$tmpl->assign('width', $image->width());
+				$tmpl->assign('height', $image->height());
+				$page = $tmpl->fetchPage();
+				OCP\JSON::success(array('data' => array('page'=>$page)));
 			} else {
-				bailOut('Error resizing image');
+				bailOut(OC_Contacts_App::$l10n->t('Error resizing image'));
 			}
 		} else {
-			bailOut('Error cropping image');
+			bailOut(OC_Contacts_App::$l10n->t('Error cropping image'));
 		}
 	} else {
-		bailOut('Error creating temporary image');
+		bailOut(OC_Contacts_App::$l10n->t('Error creating temporary image'));
 	}
 } else {
-	bailOut('Error finding image: '.$tmp_path);
+	bailOut(OC_Contacts_App::$l10n->t('Error finding image: ').$tmpkey);
 }
 
-if($tmp_path != '' && file_exists($tmp_path)) {
-	unlink($tmp_path);
-}
-
-?>
+OC_Cache::remove($tmpkey);

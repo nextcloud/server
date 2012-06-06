@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-05-13 19:52+0200\n"
-"PO-Revision-Date: 2012-05-09 20:55+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,9 +19,49 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: appinfo/app.php:42
+#: appinfo/app.php:37
 msgid "Pictures"
 msgstr "图片"
+
+#: js/album_cover.js:44
+msgid "Share gallery"
+msgstr ""
+
+#: js/album_cover.js:64 js/album_cover.js:100 js/album_cover.js:133
+msgid "Error: "
+msgstr ""
+
+#: js/album_cover.js:64 js/album_cover.js:100
+msgid "Internal error"
+msgstr ""
+
+#: js/album_cover.js:114
+msgid "Scanning root"
+msgstr ""
+
+#: js/album_cover.js:115
+msgid "Default order"
+msgstr ""
+
+#: js/album_cover.js:116
+msgid "Ascending"
+msgstr ""
+
+#: js/album_cover.js:116
+msgid "Descending"
+msgstr ""
+
+#: js/album_cover.js:117 templates/index.php:19
+msgid "Settings"
+msgstr "设置"
+
+#: js/album_cover.js:122
+msgid "Scanning root cannot be empty"
+msgstr ""
+
+#: js/album_cover.js:122 js/album_cover.js:133
+msgid "Error"
+msgstr ""
 
 #: templates/index.php:16
 msgid "Rescan"
@@ -34,10 +74,6 @@ msgstr "停止"
 #: templates/index.php:18
 msgid "Share"
 msgstr "分享"
-
-#: templates/index.php:19
-msgid "Settings"
-msgstr "设置"
 
 #: templates/view_album.php:19
 msgid "Back"

@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"email Changed" => "Emel berubah",
-"Invalid request" => "Permintaan tidak sah",
 "OpenID Changed" => "OpenID ditukar",
+"Invalid request" => "Permintaan tidak sah",
 "Language changed" => "Bahasa ditukar",
 "__language_name__" => "_nama_bahasa_",
 "Select an App" => "Pilih aplikasi",

@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"email Changed" => "email změněn",
-"Invalid request" => "Chybný dotaz",
 "OpenID Changed" => "OpenID změněn",
+"Invalid request" => "Chybný dotaz",
 "Language changed" => "Jazyk byl změněn",
 "__language_name__" => "Česky",
 "Log" => "Log",

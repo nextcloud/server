@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Pictures" => "Fotos",
+"Settings" => "Arranjament",
 "Rescan" => "Escaneja de nou",
 "Stop" => "Atura",
 "Share" => "Comparteix",
-"Settings" => "Arranjament",
 "Back" => "Enrera",
 "Remove confirmation" => "Elimina la confirmació",
 "Do you want to remove album" => "Voleu eliminar l'àlbum",

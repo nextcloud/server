@@ -28,9 +28,6 @@ function bailOut($msg) {
 	OCP\Util::writeLog('contacts','ajax/uploadimport.php: '.$msg, OCP\Util::ERROR);
 	exit();
 }
-function debug($msg) {
-	OCP\Util::writeLog('contacts','ajax/uploadimport.php: '.$msg, OCP\Util::DEBUG);
-}
 
 $view = OCP\Files::getStorage('contacts');
 $tmpfile = md5(rand());
@@ -39,7 +36,6 @@ $tmpfile = md5(rand());
 $fn = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
 if($fn) {
 	if($view->file_put_contents('/'.$tmpfile, file_get_contents('php://input'))) {
-		debug($fn.' uploaded');
 		OCP\JSON::success(array('data' => array('path'=>'', 'file'=>$tmpfile)));
 		exit();
 	} else {
@@ -70,7 +66,6 @@ $file=$_FILES['importfile'];
 $tmpfname = tempnam(get_temp_dir(), "occOrig");
 if(file_exists($file['tmp_name'])) {
 	if($view->file_put_contents('/'.$tmpfile, file_get_contents($file['tmp_name']))) {
-		debug($fn.' uploaded');
 		OCP\JSON::success(array('data' => array('path'=>'', 'file'=>$tmpfile)));
 	} else {
 		bailOut(OC_Contacts_App::$l10n->t('Error uploading contacts to storage.'));

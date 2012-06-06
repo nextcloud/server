@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Helder Meneses <helder.meneses@gmail.com>, 2012.
 #   <rjgpp.1994@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.net/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -46,15 +47,67 @@ msgstr "Falta uma pasta temporária"
 
 #: ajax/upload.php:25
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Falhou a escrita no disco"
 
-#: appinfo/app.php:7
+#: appinfo/app.php:6
 msgid "Files"
 msgstr "Ficheiros"
 
+#: js/filelist.js:186
+msgid "undo deletion"
+msgstr ""
+
+#: js/files.js:170
+msgid "generating ZIP-file, it may take some time."
+msgstr ""
+
+#: js/files.js:199
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr ""
+
+#: js/files.js:199
+msgid "Upload Error"
+msgstr ""
+
+#: js/files.js:227 js/files.js:318 js/files.js:347
+msgid "Pending"
+msgstr ""
+
+#: js/files.js:332
+msgid "Upload cancelled."
+msgstr ""
+
+#: js/files.js:456
+msgid "Invalid name, '/' is not allowed."
+msgstr ""
+
+#: js/files.js:626 templates/index.php:55
+msgid "Size"
+msgstr "Tamanho"
+
+#: js/files.js:627 templates/index.php:56
+msgid "Modified"
+msgstr "Modificado"
+
+#: js/files.js:654
+msgid "folder"
+msgstr ""
+
+#: js/files.js:656
+msgid "folders"
+msgstr ""
+
+#: js/files.js:664
+msgid "file"
+msgstr ""
+
+#: js/files.js:666
+msgid "files"
+msgstr ""
+
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Manuseamento de ficheiros"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -62,23 +115,23 @@ msgstr "Tamanho máximo de envio"
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "max. possivel: "
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Necessário para multi download de ficheiros e pastas"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Ativar dowload de ficheiros ZIP"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 é ilimitado"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Tamanho máximo para ficheiros ZIP"
 
 #: templates/index.php:7
 msgid "New"
@@ -94,7 +147,7 @@ msgstr "Pasta"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr ""
+msgstr "Do endereço"
 
 #: templates/index.php:21
 msgid "Upload"
@@ -102,7 +155,7 @@ msgstr "Enviar"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "Cancelar upload"
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
@@ -114,23 +167,11 @@ msgstr "Nome"
 
 #: templates/index.php:49
 msgid "Share"
-msgstr ""
+msgstr "Partilhar"
 
 #: templates/index.php:51
 msgid "Download"
 msgstr "Transferir"
-
-#: templates/index.php:55
-msgid "Size"
-msgstr "Tamanho"
-
-#: templates/index.php:56
-msgid "Modified"
-msgstr "Modificado"
-
-#: templates/index.php:56
-msgid "Delete all"
-msgstr ""
 
 #: templates/index.php:56
 msgid "Delete"
@@ -148,8 +189,8 @@ msgstr "Os ficheiro que estás a tentar enviar excedem o tamanho máximo de envi
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Os ficheiros estão a ser analisados, por favor aguarde."
 
 #: templates/index.php:74
 msgid "Current scanning"
-msgstr ""
+msgstr "Análise actual"

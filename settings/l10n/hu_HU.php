@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"email Changed" => "Email megváltozott",
-"Invalid request" => "Érvénytelen kérés",
 "OpenID Changed" => "OpenID megváltozott",
+"Invalid request" => "Érvénytelen kérés",
 "Language changed" => "A nyelv megváltozott",
 "__language_name__" => "__language_name__",
 "Log" => "Napló",

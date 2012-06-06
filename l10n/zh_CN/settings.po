@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <rainofchaos@gmail.com>, 2012.
 #   <wengxt@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -19,57 +20,76 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 
 #: ajax/lostpassword.php:14
-msgid "email Changed"
-msgstr "电子邮件已修改"
+msgid "Email saved"
+msgstr ""
 
-#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
-#: ajax/setlanguage.php:22
-msgid "Invalid request"
-msgstr "非法请求"
+#: ajax/lostpassword.php:16
+msgid "Invalid email"
+msgstr ""
 
 #: ajax/openid.php:15
 msgid "OpenID Changed"
 msgstr "OpenID 已修改"
 
+#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+msgid "Invalid request"
+msgstr "非法请求"
+
 #: ajax/setlanguage.php:17
 msgid "Language changed"
 msgstr "语言已修改"
 
-#: personal.php:39 personal.php:40
+#: js/apps.js:31 js/apps.js:67
+msgid "Disable"
+msgstr ""
+
+#: js/apps.js:31 js/apps.js:54
+msgid "Enable"
+msgstr ""
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr ""
+
+#: personal.php:40 personal.php:41
 msgid "__language_name__"
 msgstr "简体中文"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "日志"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "更多"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "添加应用"
 
 #: templates/apps.php:22
 msgid "Select an App"
 msgstr "选择一个应用"
 
 #: templates/apps.php:25
+msgid "See application page at apps.owncloud.com"
+msgstr ""
+
+#: templates/apps.php:26
 msgid "-licensed"
 msgstr "-许可证"
 
-#: templates/apps.php:25
+#: templates/apps.php:26
 msgid "by"
 msgstr "由"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "文档"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "管理大文件"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -97,11 +117,11 @@ msgstr "的空间，总容量为"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "桌面和移动设备同步程序"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "下载"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -169,11 +189,11 @@ msgstr "创建"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "默认配额"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "其它"
 
 #: templates/users.php:47
 msgid "Quota"

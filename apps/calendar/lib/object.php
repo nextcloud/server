@@ -600,8 +600,8 @@ class OC_Calendar_Object{
 
 	public static function updateVCalendarFromRequest($request, $vcalendar)
 	{
-		$title = $request["title"];
-		$location = $request["location"];
+		$title = strip_tags($request["title"]);
+		$location = strip_tags($request["location"]);
 		$categories = $request["categories"];
 		$allday = isset($request["allday"]);
 		$from = $request["from"];
@@ -611,7 +611,7 @@ class OC_Calendar_Object{
 			$totime = $request['totime'];
 		}
 		$vevent = $vcalendar->VEVENT;
-		$description = $request["description"];
+		$description = strip_tags($request["description"]);
 		$repeat = $request["repeat"];
 		if($repeat != 'doesnotrepeat'){
 			$rrule = '';

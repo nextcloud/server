@@ -6,14 +6,15 @@
 #   <admin@s-goecker.de>, 2011, 2012.
 #   <icewind1991@gmail.com>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
+# Marcel Kühlhorn <susefan93@gmx.de>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-05-13 19:52+0200\n"
-"PO-Revision-Date: 2012-05-10 07:34+0000\n"
-"Last-Translator: goeck <admin@s-goecker.de>\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,23 +23,38 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ajax/lostpassword.php:14
-msgid "email Changed"
-msgstr "E-Mail wurde geändert"
+msgid "Email saved"
+msgstr ""
 
-#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
-#: ajax/setlanguage.php:22
-msgid "Invalid request"
-msgstr "Ungültige Anfrage"
+#: ajax/lostpassword.php:16
+msgid "Invalid email"
+msgstr ""
 
 #: ajax/openid.php:15
 msgid "OpenID Changed"
 msgstr "OpenID geändert"
 
+#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+msgid "Invalid request"
+msgstr "Ungültige Anfrage"
+
 #: ajax/setlanguage.php:17
 msgid "Language changed"
 msgstr "Sprache geändert"
 
-#: personal.php:39 personal.php:40
+#: js/apps.js:31 js/apps.js:67
+msgid "Disable"
+msgstr ""
+
+#: js/apps.js:31 js/apps.js:54
+msgid "Enable"
+msgstr ""
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr ""
+
+#: personal.php:40 personal.php:41
 msgid "__language_name__"
 msgstr "Deutsch"
 
@@ -59,10 +75,14 @@ msgid "Select an App"
 msgstr "Wähle eine Anwendung aus"
 
 #: templates/apps.php:25
+msgid "See application page at apps.owncloud.com"
+msgstr ""
+
+#: templates/apps.php:26
 msgid "-licensed"
 msgstr "-lizenziert"
 
-#: templates/apps.php:25
+#: templates/apps.php:26
 msgid "by"
 msgstr "von"
 
@@ -100,7 +120,7 @@ msgstr "der verfügbaren"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr "Desktop und mobile Syncing Clienten"
+msgstr "Desktop und mobile synchronierungs Clients"
 
 #: templates/personal.php:13
 msgid "Download"
@@ -152,7 +172,7 @@ msgstr "Hilf bei der Übersetzung!"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "Benutze diese Adresse, um deine ownCloud mit deinem Dateiverwalter zu verbinden."
+msgstr "Benutze diese Adresse, um deine ownCloud mit deinem Dateimanager zu verbinden."
 
 #: templates/users.php:15 templates/users.php:44
 msgid "Name"

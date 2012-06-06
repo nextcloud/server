@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-02-14 09:15+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.net/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -18,15 +18,19 @@ msgstr ""
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: appinfo/app.php:32 templates/player.php:9
+#: appinfo/app.php:32 templates/player.php:8
 msgid "Music"
 msgstr "מוזיקה"
 
-#: templates/music.php:3 templates/player.php:13
+#: js/music.js:18
+msgid "Add album to playlist"
+msgstr ""
+
+#: templates/music.php:3 templates/player.php:12
 msgid "Play"
 msgstr "נגן"
 
-#: templates/music.php:4 templates/music.php:26 templates/player.php:14
+#: templates/music.php:4 templates/music.php:26 templates/player.php:13
 msgid "Pause"
 msgstr "השהה"
 
@@ -34,7 +38,7 @@ msgstr "השהה"
 msgid "Previous"
 msgstr "קודם"
 
-#: templates/music.php:6 templates/player.php:15
+#: templates/music.php:6 templates/player.php:14
 msgid "Next"
 msgstr "הבא"
 

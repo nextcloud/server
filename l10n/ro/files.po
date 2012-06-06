@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Claudiu  <claudiu@tanaselia.ro>, 2011, 2012.
+# Dimon Pockemon <>, 2012.
 # Eugen Mihalache <eugemjj@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -47,15 +48,67 @@ msgstr "Lipsește un dosar temporar"
 
 #: ajax/upload.php:25
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Eroare la scriere pe disc"
 
-#: appinfo/app.php:7
+#: appinfo/app.php:6
 msgid "Files"
 msgstr "Fișiere"
 
+#: js/filelist.js:186
+msgid "undo deletion"
+msgstr ""
+
+#: js/files.js:170
+msgid "generating ZIP-file, it may take some time."
+msgstr ""
+
+#: js/files.js:199
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr ""
+
+#: js/files.js:199
+msgid "Upload Error"
+msgstr ""
+
+#: js/files.js:227 js/files.js:318 js/files.js:347
+msgid "Pending"
+msgstr ""
+
+#: js/files.js:332
+msgid "Upload cancelled."
+msgstr ""
+
+#: js/files.js:456
+msgid "Invalid name, '/' is not allowed."
+msgstr ""
+
+#: js/files.js:626 templates/index.php:55
+msgid "Size"
+msgstr "Dimensiune"
+
+#: js/files.js:627 templates/index.php:56
+msgid "Modified"
+msgstr "Modificat"
+
+#: js/files.js:654
+msgid "folder"
+msgstr ""
+
+#: js/files.js:656
+msgid "folders"
+msgstr ""
+
+#: js/files.js:664
+msgid "file"
+msgstr ""
+
+#: js/files.js:666
+msgid "files"
+msgstr ""
+
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Manipulare fișiere"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -63,23 +116,23 @@ msgstr "Dimensiune maximă admisă la încărcare"
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "max. posibil:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Necesar pentru descărcarea mai multor fișiere și a dosarelor"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Activează descărcare fișiere compresate"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 e nelimitat"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Dimensiunea maximă de intrare pentru fișiere compresate"
 
 #: templates/index.php:7
 msgid "New"
@@ -95,7 +148,7 @@ msgstr "Dosar"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr ""
+msgstr "De la URL"
 
 #: templates/index.php:21
 msgid "Upload"
@@ -103,7 +156,7 @@ msgstr "Încarcă"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "Anulează încărcarea"
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
@@ -115,23 +168,11 @@ msgstr "Nume"
 
 #: templates/index.php:49
 msgid "Share"
-msgstr ""
+msgstr "Partajează"
 
 #: templates/index.php:51
 msgid "Download"
 msgstr "Descarcă"
-
-#: templates/index.php:55
-msgid "Size"
-msgstr "Dimensiune"
-
-#: templates/index.php:56
-msgid "Modified"
-msgstr "Modificat"
-
-#: templates/index.php:56
-msgid "Delete all"
-msgstr ""
 
 #: templates/index.php:56
 msgid "Delete"
@@ -149,8 +190,8 @@ msgstr "Fișierul care l-ai încărcat a depășită limita maximă admisă la �
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Fișierele sunt scanate, te rog așteptă."
 
 #: templates/index.php:74
 msgid "Current scanning"
-msgstr ""
+msgstr "În curs de scanare"

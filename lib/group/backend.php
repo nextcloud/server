@@ -31,12 +31,8 @@ define('OC_GROUP_BACKEND_NOT_IMPLEMENTED',   -501);
  */
 define('OC_GROUP_BACKEND_CREATE_GROUP',      0x00000001);
 define('OC_GROUP_BACKEND_DELETE_GROUP',      0x00000010);
-define('OC_GROUP_BACKEND_IN_GROUP',          0x00000100);
-define('OC_GROUP_BACKEND_ADD_TO_GROUP',      0x00001000);
-define('OC_GROUP_BACKEND_REMOVE_FROM_GOUP',  0x00010000);
-define('OC_GROUP_BACKEND_GET_USER_GROUPS',   0x00100000);
-define('OC_GROUP_BACKEND_GET_USERS',         0x01000000);
-define('OC_GROUP_BACKEND_GET_GROUPS',        0x10000000);
+define('OC_GROUP_BACKEND_ADD_TO_GROUP',      0x00000100);
+define('OC_GROUP_BACKEND_REMOVE_FROM_GOUP',  0x00001000);
 
 /**
  * Abstract base class for user management
@@ -45,14 +41,10 @@ abstract class OC_Group_Backend {
 	protected $possibleActions = array(
 		OC_GROUP_BACKEND_CREATE_GROUP => 'createGroup',
 		OC_GROUP_BACKEND_DELETE_GROUP => 'deleteGroup',
-		OC_GROUP_BACKEND_IN_GROUP => 'inGroup',
 		OC_GROUP_BACKEND_ADD_TO_GROUP => 'addToGroup',
 		OC_GROUP_BACKEND_REMOVE_FROM_GOUP => 'removeFromGroup',
-		OC_GROUP_BACKEND_GET_USER_GROUPS => 'getUserGroups',
-		OC_GROUP_BACKEND_GET_USERS => 'usersInGroup',
-		OC_GROUP_BACKEND_GET_GROUPS => 'getGroups'
 	);
-	
+
 	/**
 	* @brief Get all supported actions
 	* @returns bitwise-or'ed actions
@@ -70,7 +62,7 @@ abstract class OC_Group_Backend {
 
 		return $actions;
 	}
-	
+
 	/**
 	* @brief Check if backend implements actions
 	* @param $actions bitwise-or'ed actions
@@ -84,14 +76,54 @@ abstract class OC_Group_Backend {
 	}
 
 	/**
+	 * @brief is user in group?
+	 * @param $uid uid of the user
+	 * @param $gid gid of the group
+	 * @returns true/false
+	 *
+	 * Checks whether the user is member of a group or not.
+	 */
+	public function inGroup($uid, $gid){
+		return in_array($gid, $this->getUserGroups($uid));
+	}
+
+	/**
+	 * @brief Get all groups a user belongs to
+	 * @param $uid Name of the user
+	 * @returns array with group names
+	 *
+	 * This function fetches all groups a user belongs to. It does not check
+	 * if the user exists at all.
+	 */
+	public function getUserGroups($uid){
+		return array();
+	}
+
+	/**
+	 * @brief get a list of all groups
+	 * @returns array with group names
+	 *
+	 * Returns a list with all groups
+	 */
+	public function getGroups(){
+		return array();
+	}
+
+	/**
 	 * check if a group exists
 	 * @param string $gid
 	 * @return bool
 	 */
 	public function groupExists($gid){
-		if(!$this->implementsActions(OC_GROUP_BACKEND_GET_GROUPS)){
-			return false;
-		}
 		return in_array($gid, $this->getGroups());
 	}
+
+	/**
+	 * @brief get a list of all users in a group
+	 * @returns array with user ids
+	 */
+	public function usersInGroup($gid){
+		return array();
+	}
+
 }

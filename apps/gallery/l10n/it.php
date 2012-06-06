@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Pictures" => "Immagini",
+"Settings" => "Impostazioni",
 "Rescan" => "Nuova scansione",
 "Stop" => "Ferma",
 "Share" => "Condividi",
-"Settings" => "Impostazioni",
 "Back" => "Indietro",
 "Remove confirmation" => "Rimuovi conferma",
 "Do you want to remove album" => "Vuoi rimuovere l'album",

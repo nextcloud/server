@@ -6,6 +6,7 @@
 #   <admin@s-goecker.de>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan-Christoph Borchardt <jan@unhosted.org>, 2011.
+# Marcel Kühlhorn <susefan93@gmx.de>, 2012.
 # Michael Krell <m4dmike.mni@gmail.com>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
 # Thomas Müller <>, 2012.
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-05-13 19:52+0200\n"
-"PO-Revision-Date: 2012-05-14 16:55+0000\n"
-"Last-Translator: goeck <admin@s-goecker.de>\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: German (http://www.transifex.net/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,17 +26,17 @@ msgstr ""
 
 #: ajax/upload.php:19
 msgid "There is no error, the file uploaded with success"
-msgstr "Datei hochgeladen."
+msgstr "Datei fehlerfrei hochgeladen."
 
 #: ajax/upload.php:20
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "Die hochgeladene Datei ist zu groß."
+msgstr "Die Größe der hochzuladenden Datei überschreitet die upload_max_filesize-Richtlinie in php.ini"
 
 #: ajax/upload.php:21
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Die hochgeladene Datei ist zu groß."
+msgstr "Die größe der hochzuladenden Datei überschreitet die MAX_FILE_SIZE-Richtlinie, die im HTML-Formular angegeben wurde"
 
 #: ajax/upload.php:22
 msgid "The uploaded file was only partially uploaded"
@@ -53,17 +54,69 @@ msgstr "Temporärer Ordner fehlt."
 msgid "Failed to write to disk"
 msgstr "Fehler beim Schreiben auf Festplatte"
 
-#: appinfo/app.php:7
+#: appinfo/app.php:6
 msgid "Files"
-msgstr "Dateien"
+msgstr "Files"
+
+#: js/filelist.js:186
+msgid "undo deletion"
+msgstr ""
+
+#: js/files.js:170
+msgid "generating ZIP-file, it may take some time."
+msgstr ""
+
+#: js/files.js:199
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr ""
+
+#: js/files.js:199
+msgid "Upload Error"
+msgstr ""
+
+#: js/files.js:227 js/files.js:318 js/files.js:347
+msgid "Pending"
+msgstr ""
+
+#: js/files.js:332
+msgid "Upload cancelled."
+msgstr ""
+
+#: js/files.js:456
+msgid "Invalid name, '/' is not allowed."
+msgstr ""
+
+#: js/files.js:626 templates/index.php:55
+msgid "Size"
+msgstr "Größe"
+
+#: js/files.js:627 templates/index.php:56
+msgid "Modified"
+msgstr "Bearbeitet"
+
+#: js/files.js:654
+msgid "folder"
+msgstr ""
+
+#: js/files.js:656
+msgid "folders"
+msgstr ""
+
+#: js/files.js:664
+msgid "file"
+msgstr ""
+
+#: js/files.js:666
+msgid "files"
+msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Dateibehandlung"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Maximale Größe"
+msgstr "Maximum upload size"
 
 #: templates/admin.php:7
 msgid "max. possible: "
@@ -71,7 +124,7 @@ msgstr "maximal möglich:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr "Für Mehrfachdateien- und Ordnerupload benötigt:"
+msgstr "Für Mehrfachdateien- und Ordnerdownloads benötigt:"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
@@ -91,7 +144,7 @@ msgstr "Neu"
 
 #: templates/index.php:9
 msgid "Text file"
-msgstr "Text Datei"
+msgstr "Textdatei"
 
 #: templates/index.php:10
 msgid "Folder"
@@ -124,18 +177,6 @@ msgstr "Teilen"
 #: templates/index.php:51
 msgid "Download"
 msgstr "Herunterladen"
-
-#: templates/index.php:55
-msgid "Size"
-msgstr "Größe"
-
-#: templates/index.php:56
-msgid "Modified"
-msgstr "Bearbeitet"
-
-#: templates/index.php:56
-msgid "Delete all"
-msgstr "Alle löschen"
 
 #: templates/index.php:56
 msgid "Delete"

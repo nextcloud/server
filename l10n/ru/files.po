@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Denis  <reg.transifex.net@demitel.ru>, 2012.
 #   <jekader@gmail.com>, 2012.
 #   <lankme@gmail.com>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.net/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -48,15 +49,67 @@ msgstr "Невозможно найти временную папку"
 
 #: ajax/upload.php:25
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Ошибка записи на диск"
 
-#: appinfo/app.php:7
+#: appinfo/app.php:6
 msgid "Files"
 msgstr "Файлы"
 
+#: js/filelist.js:186
+msgid "undo deletion"
+msgstr ""
+
+#: js/files.js:170
+msgid "generating ZIP-file, it may take some time."
+msgstr ""
+
+#: js/files.js:199
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr ""
+
+#: js/files.js:199
+msgid "Upload Error"
+msgstr ""
+
+#: js/files.js:227 js/files.js:318 js/files.js:347
+msgid "Pending"
+msgstr ""
+
+#: js/files.js:332
+msgid "Upload cancelled."
+msgstr ""
+
+#: js/files.js:456
+msgid "Invalid name, '/' is not allowed."
+msgstr ""
+
+#: js/files.js:626 templates/index.php:55
+msgid "Size"
+msgstr "Размер"
+
+#: js/files.js:627 templates/index.php:56
+msgid "Modified"
+msgstr "Изменен"
+
+#: js/files.js:654
+msgid "folder"
+msgstr ""
+
+#: js/files.js:656
+msgid "folders"
+msgstr ""
+
+#: js/files.js:664
+msgid "file"
+msgstr ""
+
+#: js/files.js:666
+msgid "files"
+msgstr ""
+
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Управление файлами"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -64,23 +117,23 @@ msgstr "Максимальный размер файла"
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "макс. возможно: "
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Требуется для загрузки нескольких файорв и папок"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Включить ZIP-загрузку"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 - без ограничений"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Максимальный исходный размер для ZIP файлов"
 
 #: templates/index.php:7
 msgid "New"
@@ -96,7 +149,7 @@ msgstr "Папка"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr ""
+msgstr "С url"
 
 #: templates/index.php:21
 msgid "Upload"
@@ -104,7 +157,7 @@ msgstr "Закачать"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "Отмена закачки"
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
@@ -116,23 +169,11 @@ msgstr "Название"
 
 #: templates/index.php:49
 msgid "Share"
-msgstr ""
+msgstr "Поделиться"
 
 #: templates/index.php:51
 msgid "Download"
 msgstr "Скачать"
-
-#: templates/index.php:55
-msgid "Size"
-msgstr "Размер"
-
-#: templates/index.php:56
-msgid "Modified"
-msgstr "Изменен"
-
-#: templates/index.php:56
-msgid "Delete all"
-msgstr ""
 
 #: templates/index.php:56
 msgid "Delete"
@@ -150,8 +191,8 @@ msgstr "Файлы, которые Вы пытаетесь закачать, п�
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Подождите, файлы сканируются."
 
 #: templates/index.php:74
 msgid "Current scanning"
-msgstr ""
+msgstr "Текущее сканирование"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-13 19:52+0200\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,10 @@ msgstr ""
 
 #: appinfo/app.php:32 templates/player.php:8
 msgid "Music"
+msgstr ""
+
+#: js/music.js:18
+msgid "Add album to playlist"
 msgstr ""
 
 #: templates/music.php:3 templates/player.php:12

@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +20,11 @@ msgstr ""
 
 #: ajax/categories/rescan.php:28
 msgid "No calendars found."
-msgstr ""
+msgstr "カレンダーが見つかりませんでした。"
 
 #: ajax/categories/rescan.php:36
 msgid "No events found."
-msgstr ""
+msgstr "イベントが見つかりませんでした。"
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -41,77 +42,101 @@ msgstr "タイムゾーンが変更されました"
 msgid "Invalid request"
 msgstr "無効なリクエストです"
 
-#: appinfo/app.php:23 templates/calendar.php:15
+#: appinfo/app.php:19 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:31
 #: templates/settings.php:12
 msgid "Calendar"
 msgstr "カレンダー"
 
-#: js/calendar.js:788
-msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+#: js/calendar.js:93
+msgid "Deletion failed"
 msgstr ""
 
-#: lib/app.php:122
+#: js/calendar.js:828
+msgid "ddd"
+msgstr ""
+
+#: js/calendar.js:829
+msgid "ddd M/d"
+msgstr ""
+
+#: js/calendar.js:830
+msgid "dddd M/d"
+msgstr ""
+
+#: js/calendar.js:833
+msgid "MMMM yyyy"
+msgstr ""
+
+#: js/calendar.js:835
+msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+msgstr "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+
+#: js/calendar.js:837
+msgid "dddd, MMM d, yyyy"
+msgstr ""
+
+#: lib/app.php:125
 msgid "Birthday"
 msgstr "誕生日"
 
-#: lib/app.php:123
+#: lib/app.php:126
 msgid "Business"
 msgstr "ビジネス"
 
-#: lib/app.php:124
+#: lib/app.php:127
 msgid "Call"
 msgstr "電話をかける"
 
-#: lib/app.php:125
+#: lib/app.php:128
 msgid "Clients"
 msgstr "顧客"
 
-#: lib/app.php:126
+#: lib/app.php:129
 msgid "Deliverer"
 msgstr "運送会社"
 
-#: lib/app.php:127
+#: lib/app.php:130
 msgid "Holidays"
 msgstr "休日"
 
-#: lib/app.php:128
+#: lib/app.php:131
 msgid "Ideas"
 msgstr "アイデア"
 
-#: lib/app.php:129
+#: lib/app.php:132
 msgid "Journey"
 msgstr "旅行"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Jubilee"
 msgstr "記念祭"
 
-#: lib/app.php:131
+#: lib/app.php:134
 msgid "Meeting"
 msgstr "ミーティング"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Other"
 msgstr "その他"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Personal"
 msgstr "個人"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Projects"
 msgstr "プロジェクト"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Questions"
 msgstr "質問事項"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Work"
-msgstr "仕事"
+msgstr "週の始まり"
 
-#: lib/app.php:377
+#: lib/app.php:380
 msgid "unnamed"
 msgstr ""
 
@@ -165,31 +190,31 @@ msgstr "曜日で指定"
 
 #: lib/object.php:360 templates/settings.php:42
 msgid "Monday"
-msgstr "月曜日"
+msgstr "月曜"
 
 #: lib/object.php:361
 msgid "Tuesday"
-msgstr "火曜日"
+msgstr "火曜"
 
 #: lib/object.php:362
 msgid "Wednesday"
-msgstr "水曜日"
+msgstr "水曜"
 
 #: lib/object.php:363
 msgid "Thursday"
-msgstr "木曜日"
+msgstr "木曜"
 
 #: lib/object.php:364
 msgid "Friday"
-msgstr "金曜日"
+msgstr "金曜"
 
 #: lib/object.php:365
 msgid "Saturday"
-msgstr "土曜日"
+msgstr "土曜"
 
 #: lib/object.php:366 templates/settings.php:43
 msgid "Sunday"
-msgstr "日曜日"
+msgstr "日曜"
 
 #: lib/object.php:373
 msgid "events week of month"
@@ -297,7 +322,7 @@ msgstr "終日"
 
 #: templates/calendar.php:12 templates/part.choosecalendar.php:22
 msgid "New Calendar"
-msgstr "新しくカレンダーを作成する"
+msgstr "新しくカレンダーを作成"
 
 #: templates/calendar.php:13
 msgid "Missing fields"
@@ -330,7 +355,7 @@ msgstr "イベント終了時間が開始時間より先です"
 
 #: templates/calendar.php:21
 msgid "There was a database fail"
-msgstr "データベースフェイルがありました"
+msgstr "データベースのエラーがありました"
 
 #: templates/calendar.php:40
 msgid "Week"
@@ -354,15 +379,15 @@ msgstr "カレンダー"
 
 #: templates/calendar.php:67
 msgid "There was a fail, while parsing the file."
-msgstr "ファイルを構文解析する際に失敗しました"
+msgstr "ファイルの構文解析に失敗しました。"
 
 #: templates/part.choosecalendar.php:1
 msgid "Choose active calendars"
-msgstr "アクティブなカレンダーを選択してください"
+msgstr "アクティブなカレンダーを選択"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "あなたのカレンダー"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:5
@@ -371,15 +396,15 @@ msgstr "CalDavへのリンク"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "共有カレンダー"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "共有カレンダーはありません"
 
 #: templates/part.choosecalendar.rowfields.php:4
 msgid "Share Calendar"
-msgstr ""
+msgstr "カレンダーを共有する"
 
 #: templates/part.choosecalendar.rowfields.php:6
 msgid "Download"
@@ -400,7 +425,7 @@ msgstr ""
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
-msgstr "新しくカレンダーを作成する"
+msgstr "新しいカレンダー"
 
 #: templates/part.editcalendar.php:9
 msgid "Edit calendar"
@@ -441,23 +466,23 @@ msgstr "エクスポート"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "イベント情報"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "繰り返し"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "アラーム"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "参加者"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "共有"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -469,11 +494,11 @@ msgstr "カテゴリー"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "カテゴリをコンマで区切る"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "カテゴリを編集"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:55
 msgid "All Day Event"
@@ -505,11 +530,11 @@ msgstr "メモ"
 
 #: templates/part.eventform.php:91
 msgid "Description of the Event"
-msgstr "イベントのメモ"
+msgstr "イベントの説明"
 
 #: templates/part.eventform.php:100 templates/part.showevent.php:98
 msgid "Repeat"
-msgstr "繰り返す"
+msgstr "繰り返し"
 
 #: templates/part.eventform.php:107 templates/part.showevent.php:105
 msgid "Advanced"
@@ -546,7 +571,7 @@ msgstr "対象の週を選択する。"
 
 #: templates/part.eventform.php:214 templates/part.showevent.php:212
 msgid "Interval"
-msgstr "周期"
+msgstr "間隔"
 
 #: templates/part.eventform.php:220 templates/part.showevent.php:218
 msgid "End"
@@ -586,19 +611,19 @@ msgstr "カレンダーの取り込みに成功しました"
 
 #: templates/part.import.php:24
 msgid "Close Dialog"
-msgstr "閉じる"
+msgstr "ダイアログを閉じる"
 
 #: templates/part.newevent.php:1
 msgid "Create a new event"
-msgstr "新しいイベントを作成する"
+msgstr "新しいイベントを作成"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "イベントを閲覧"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "カテゴリが選択されていません"
 
 #: templates/part.showevent.php:25
 msgid "Select category"
@@ -606,11 +631,11 @@ msgstr "カテゴリーを選択してください"
 
 #: templates/part.showevent.php:37
 msgid "of"
-msgstr ""
+msgstr "of"
 
 #: templates/part.showevent.php:62 templates/part.showevent.php:70
 msgid "at"
-msgstr ""
+msgstr "at"
 
 #: templates/settings.php:14
 msgid "Timezone"
@@ -618,7 +643,7 @@ msgstr "タイムゾーン"
 
 #: templates/settings.php:31
 msgid "Check always for changes of the timezone"
-msgstr "タイムゾーン変更を常に確認する"
+msgstr "タイムゾーンの変更を常に確認"
 
 #: templates/settings.php:33
 msgid "Timeformat"
@@ -626,40 +651,40 @@ msgstr "時刻のフォーマット"
 
 #: templates/settings.php:35
 msgid "24h"
-msgstr "24時間制"
+msgstr "24h"
 
 #: templates/settings.php:36
 msgid "12h"
-msgstr "12時間制"
+msgstr "12h"
 
 #: templates/settings.php:40
 msgid "First day of the week"
-msgstr ""
+msgstr "週の始まり"
 
 #: templates/settings.php:49
 msgid "Calendar CalDAV syncing address:"
-msgstr "カレンダーのCalDAVシンクアドレス"
+msgstr "CalDAVカレンダーの同期アドレス:"
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "ユーザ"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "ユーザを選択"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "編集可能"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "グループ"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "グループを選択"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "公開する"
