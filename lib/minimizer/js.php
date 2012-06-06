@@ -21,10 +21,6 @@ class OC_Minimizer_JS extends OC_Minimizer
 			}elseif($this->appendIfExist(OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/apps/$script$fext.js" )) {
 			}elseif($this->appendIfExist(OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/apps/$script.js" )) {
 
-			// Is it part of an app?
-			}elseif($this->appendIfExist(OC::$APPSROOT, OC::$APPSWEBROOT, "apps/$script$fext.js" )) {
-			}elseif($this->appendIfExist(OC::$APPSROOT, OC::$APPSWEBROOT, "apps/$script.js" )) {
-
 			// Is it in the owncloud root but overwritten by the theme?
 			}elseif($this->appendIfExist(OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/$script$fext.js" )) {
 			}elseif($this->appendIfExist(OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/$script.js" )) {
@@ -42,8 +38,17 @@ class OC_Minimizer_JS extends OC_Minimizer
 			}elseif($this->appendIfExist(OC::$SERVERROOT, OC::$WEBROOT, "core/$script.js" )) {
 
 			}else{
-				echo('js file not found: script:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
-				die();
+				// Is it part of an app?
+				$append = false;
+				foreach( OC::$APPSROOTS as $apps_dir)
+				{
+					if($page->appendIfExist('jsfiles', $apps_dir['path'], $apps_dir['web'], "$script$fext.js" , true)) { $append =true; break; }
+					elseif($page->appendIfExist('jsfiles', $apps_dir['path'], $apps_dir['web'], "$script.js", true )) { $append =true; break; }
+				}
+				if(! $append) {
+					echo('js file not found: script:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+					die();
+				}
 			}
 		}
 		return $this->files;

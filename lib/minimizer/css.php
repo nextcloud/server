@@ -16,10 +16,6 @@ class OC_Minimizer_CSS extends OC_Minimizer
 			// is it in 3rdparty?
 			if($this->appendIfExist(OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $style.'.css')) {
 
-			// or in apps?
-			}elseif($this->appendIfExist(OC::$APPSROOT, OC::$APPSWEBROOT, "apps/$style$fext.css" )) {
-			}elseif($this->appendIfExist(OC::$APPSROOT, OC::$APPSWEBROOT, "apps/$style.css" )) {
-
 			// or in the owncloud root?
 			}elseif($this->appendIfExist(OC::$SERVERROOT, OC::$WEBROOT, "$style$fext.css" )) {
 			}elseif($this->appendIfExist(OC::$SERVERROOT, OC::$WEBROOT, "$style.css" )) {
@@ -29,8 +25,16 @@ class OC_Minimizer_CSS extends OC_Minimizer
 			}elseif($this->appendIfExist(OC::$SERVERROOT, OC::$WEBROOT, "core/$style.css" )) {
 
 			}else{
-				echo('css file not found: style:'.$style.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
-				die();
+				$append = false;
+				foreach( OC::$APPSROOTS as $apps_dir)
+				{
+					if($this->appendIfExist('cssfiles', $apps_dir['path'], $apps_dir['web'], "$style$fext.css", true)) { $append =true; break; }
+					elseif($this->appendIfExist('cssfiles', $apps_dir['path'], $apps_dir['web'], "$style.css", true )) { $append =true; break; }
+				}
+				if(! $append) {
+					echo('css file not found: style:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+					die();
+				}
 			}
 		}
 		// Add the theme css files. you can override the default values here
@@ -52,14 +56,21 @@ class OC_Minimizer_CSS extends OC_Minimizer
 
 	public function minimizeFiles($files) {
 		$css_out = '';
-		$appswebroot = (string) OC::$APPSWEBROOT;
 		$webroot = (string) OC::$WEBROOT;
 		foreach($files as $file_info) {
 			$file = $file_info[0] . '/' . $file_info[2];
 			$css_out .= '/* ' . $file . ' */' . "\n";
 			$css = file_get_contents($file);
-			if (strpos($file, OC::$APPSROOT) == 0) {
-				$css = str_replace('%appswebroot%', $appswebroot, $css);
+
+			$in_root = false;
+			foreach(OC::$APPSROOTS as $app_root) {
+				if(strpos($file, $app_root['path']) == 0) {
+					$in_root = $app_root['web'];
+					break;
+				}
+			}
+			if ($in_root !== false) {
+				$css = str_replace('%appswebroot%', $in_root, $css);
 				$css = str_replace('%webroot%', $webroot, $css);
 			}
 			$remote = $file_info[1];

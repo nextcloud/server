@@ -17,9 +17,17 @@ if(is_null($file)){
 	exit;
 }
 
-$parts=explode('/', $file, 2);
-$app=$parts[0];
-OC_App::loadApp($app);
+if(count(explode('/',$file)) == 3) {
+	$parts=explode('/',$file);
+	$app=$parts[2];
+	OC_App::loadApp($app);
+	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
+	require_once( OC::$SERVERROOT.$file);
 
-$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
-require_once(OC_App::getAppPath($app) .'/'. $parts[1]);
+} else {
+	$parts=explode('/', $file, 2);
+	$app=$parts[0];
+	OC_App::loadApp($app);
+	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
+	require_once(OC_App::getAppPath($app) .'/'. $parts[1]);
+}

@@ -284,12 +284,12 @@ class OC{
 	public static function loadfile(){
 		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/' . OC::$REQUESTEDFILE)){
 			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
-				$file = 'apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE;
+				$file = OC_App::getAppWebPath(OC::$REQUESTEDAPP). '/' . OC::$REQUESTEDFILE;
 				$minimizer = new OC_Minimizer_CSS();
-				$minimizer->output(array(array(OC::$APPSROOT, OC::$APPSWEBROOT, $file)));
+				$minimizer->output(array(array(OC_App::getAppPath(OC::$REQUESTEDAPP), OC_App::getAppWebPath(OC::$REQUESTEDAPP), OC::$REQUESTEDFILE)));
 				exit;
 			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
-				require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
+				require_once(OC_App::getAppPath(OC::$REQUESTEDAPP). '/' . OC::$REQUESTEDFILE);
 			}
 		}else{
 			die();
