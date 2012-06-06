@@ -26,7 +26,7 @@
 		<label for="ldap_quota_def">Quota Default</label><input type="text" id="ldap_quota_def" name="ldap_quota_def" value="<?php if (isset($_['ldap_quota_def'])) echo $_['ldap_quota_def']; ?>" />bytes</p>
 		<p><label for="ldap_email_attr">Email Attribute</label><input type="text" id="ldap_email_attr" name="ldap_email_attr" value="<?php echo $_['ldap_email_attr']; ?>" /></p>
 	</fieldset>
-	<input type="submit" value="Save" />
+	<input type="submit" value="Save" /> <a href="http://owncloud.org/support/ldap-backend/" target="_blank"><img src="<?php echo OCP\Util::imagePath('','actions/info.png'); ?>" style="height:1.75ex" /> <?php echo $l->t('Help');?></a>
 	</div>
 
 </form>

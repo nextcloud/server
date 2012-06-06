@@ -10,16 +10,21 @@ ob_start();
  
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
+session_write_close();
+
 $nl = "\n";
 
-$progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
+global $progresskey;
+$progresskey = 'contacts.import-' . $_GET['progresskey'];
+
+if (isset($_GET['progress']) && $_GET['progress']) {
+	echo OC_Cache::get($progresskey);
+	die;
+}
 
 function writeProgress($pct) {
-	if(is_writable('import_tmp/')){
-		$progressfopen = fopen($progressfile, 'w');
-		fwrite($progressfopen, $pct);
-		fclose($progressfopen);
-	}
+	global $progresskey;
+	OC_Cache::set($progresskey, $pct, 300);
 }
 writeProgress('10');
 $view = $file = null;
@@ -93,9 +98,7 @@ foreach($parts as $part){
 //done the import
 writeProgress('100');
 sleep(3);
-if(is_writable('import_tmp/')){
-	unlink($progressfile);
-}
+OC_Cache::remove($progresskey);
 if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
 	if(!$view->unlink('/' . $_POST['file'])) {
 		OCP\Util::writeLog('contacts','Import: Error unlinking OC_FilesystemView ' . '/' . $_POST['file'], OCP\Util::ERROR);

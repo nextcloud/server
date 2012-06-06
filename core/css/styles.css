@@ -134,7 +134,7 @@ div.jp-play-bar, div.jp-seek-bar { padding:0; }
 
 li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat; color: #FF3B3B; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { overflow: hidden; text-overflow: ellipsis; }
-.hint { background-image: url('/core/img/actions/info.png'); background-repeat:no-repeat; color: #777777; padding-left: 25px; background-position: 0 0.3em;}
+.hint { background-image: url('../img/actions/info.png'); background-repeat:no-repeat; color: #777777; padding-left: 25px; background-position: 0 0.3em;}
 .separator { display: inline; border-left: 1px solid #d3d3d3; border-right: 1px solid #fff; height: 10px; width:0px; margin: 4px; }
 
 a.bookmarklet { background-color: #ddd; border:1px solid #ccc; padding: 5px;padding-top: 0px;padding-bottom: 2px; text-decoration: none; margin-top: 5px }

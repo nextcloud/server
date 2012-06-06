@@ -40,17 +40,6 @@ abstract class OC_User_Example extends OC_User_Backend {
 	}
 
 	/**
-		* @brief delete a user
-		* @param $uid The username of the user to delete
-		* @returns true/false
-		*
-		* Deletes a user
-		*/
-	public function deleteUser( $uid ){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
-
-	/**
 		* @brief Set password
 		* @param $uid The username
 		* @param $password The new password
@@ -72,25 +61,6 @@ abstract class OC_User_Example extends OC_User_Backend {
 		* returns the user id or false
 		*/
 	public function checkPassword($uid, $password){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
-
-	/**
-		* @brief Get a list of all users
-		* @returns array with all uids
-		*
-		* Get a list of all users.
-		*/
-	public function getUsers(){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
-
-	/**
-		* @brief check if a user exists
-		* @param string $uid the username
-		* @return boolean
-		*/
-	public function userExists($uid){
 		return OC_USER_BACKEND_NOT_IMPLEMENTED;
 	}
 }

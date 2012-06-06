@@ -20,15 +20,14 @@
  *
  */
 
-// Init owncloud
-
-$tmp_path = $_GET['tmp_path'];
+$tmpkey = $_GET['tmpkey'];
 $maxsize = isset($_GET['maxsize']) ? $_GET['maxsize'] : -1;
 header("Cache-Control: no-cache, no-store, must-revalidate");
 
-OCP\Util::writeLog('contacts','dynphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OCP\Util::DEBUG);
+OCP\Util::writeLog('contacts','tmpphoto.php: tmpkey: '.$tmpkey, OCP\Util::DEBUG);
 
-$image = new OC_Image($tmp_path);
+$image = new OC_Image();
+$image->loadFromData(OC_Cache::get($tmpkey));
 if($maxsize != -1) {
 	$image->resize($maxsize);
 }

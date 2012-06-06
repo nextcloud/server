@@ -290,8 +290,10 @@ class OC_Filesystem{
 	}
 
 	/**
-	 * get the fake root
+	 * @brief get the relative path of the root data directory for the current user
 	 * @return string
+	 *
+	 * Returns path like /admin/files
 	 */
 	static public function getRoot(){
 		return self::$defaultInstance->getRoot();

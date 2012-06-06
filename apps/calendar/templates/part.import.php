@@ -2,7 +2,7 @@
 <div id="form_container">
 <input type="hidden" id="filename" value="<?php echo $_['filename'];?>">
 <input type="hidden" id="path" value="<?php echo $_['path'];?>">
-<input type="hidden" id="progressfile" value="<?php echo md5(session_id()) . '.txt';?>">
+<input type="hidden" id="progresskey" value="<?php echo rand() ?>">
 <p style="text-align:center;"><b><?php echo $l->t('Please choose the calendar'); ?></b></p>
 <select style="width:100%;" id="calendar" name="calendar">
 <?php

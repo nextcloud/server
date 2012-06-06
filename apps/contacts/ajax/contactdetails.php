@@ -19,8 +19,6 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-// Init owncloud
  
 function bailOut($msg) {
 	OCP\JSON::error(array('data' => array('message' => $msg)));
@@ -41,18 +39,6 @@ if(is_null($vcard)) {
 	bailOut(OC_Contacts_App::$l10n->t('Error parsing VCard for ID: "'.$id.'"'));
 }
 $details = OC_Contacts_VCard::structureContact($vcard);
-
-// Some Google exported files have no FN field.
-/*if(!isset($details['FN'])) {
-	$fn = '';
-	if(isset($details['N'])) {
-		$details['FN'] = array(implode(' ', $details['N'][0]['value']));
-	} elseif(isset($details['EMAIL'])) {
-		$details['FN'] = array('value' => $details['EMAIL'][0]['value']);
-	} else {
-		$details['FN'] = array('value' => OC_Contacts_App::$l10n->t('Unknown'));
-	}
-}*/
 
 // Make up for not supporting the 'N' field in earlier version.
 if(!isset($details['N'])) {

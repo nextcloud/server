@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"email Changed" => "Epostadresse endret",
-"Invalid request" => "Ugyldig forespørsel",
 "OpenID Changed" => "OpenID endret",
+"Invalid request" => "Ugyldig forespørsel",
 "Language changed" => "Språk endret",
 "__language_name__" => "__language_name__",
 "Log" => "Logg",

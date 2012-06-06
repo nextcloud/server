@@ -54,7 +54,7 @@ if ( isset( $_GET['path'] ) ) {
         if( OCA_Versions\Storage::isversioned( $path ) ) {
 	
 		$count = 999; //show the newest revisions
-	        $versions = OCA_Versions\Storage::getversions( $path, $count );
+	        $versions = OCA_Versions\Storage::getVersions( $path, $count);
 
 		$tmpl->assign( 'versions', array_reverse( $versions ) );
 		

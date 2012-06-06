@@ -6,6 +6,8 @@
 "No file was uploaded" => "لم يتم ترفيع أي من الملفات",
 "Missing a temporary folder" => "المجلد المؤقت غير موجود",
 "Files" => "الملفات",
+"Size" => "حجم",
+"Modified" => "معدل",
 "Maximum upload size" => "الحد الأقصى لحجم الملفات التي يمكن رفعها",
 "New" => "جديد",
 "Text file" => "ملف",
@@ -14,8 +16,6 @@
 "Nothing in here. Upload something!" => "لا يوجد شيء هنا. إرفع بعض الملفات!",
 "Name" => "الاسم",
 "Download" => "تحميل",
-"Size" => "حجم",
-"Modified" => "معدل",
 "Delete" => "محذوف",
 "Upload too large" => "حجم الترفيع أعلى من المسموح",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "حجم الملفات التي تريد ترفيعها أعلى من المسموح على الخادم."

@@ -94,6 +94,13 @@ abstract class OC_Group_Example {
 	public static function getGroups(){}
 
 	/**
+	 * check if a group exists
+	 * @param string $gid
+	 * @return bool
+	 */
+	public function groupExists($gid){}
+
+	/**
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */

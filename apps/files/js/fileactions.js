@@ -51,7 +51,7 @@ FileActions={
 		var actions=this.get(mime,type);
 		return actions[name];
 	},
-	display:function(parent){
+	display:function(parent, filename, type){
 		FileActions.currentFile=parent;
 		$('#fileList span.fileactions, #fileList td.date a.action').remove();
 		var actions=FileActions.get(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
@@ -62,6 +62,8 @@ FileActions={
 		parent.children('a.name').append('<span class="fileactions" />');
 		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType());
 		for(name in actions){
+			// no rename and share action for the 'Shared' dir
+			if((name=='Rename' || name =='Share') && type=='dir' && filename=='Shared') { continue; }
 			if((name=='Download' || actions[name]!=defaultAction) && name!='Delete'){
 				var img=FileActions.icons[name];
 				if(img.call){
@@ -84,7 +86,7 @@ FileActions={
 				parent.find('a.name>span.fileactions').append(element);
 			}
 		}
-		if(actions['Delete']){
+		if(actions['Delete'] && (type!='dir' || filename != 'Shared')){ // no delete action for the 'Shared' dir
 			var img=FileActions.icons['Delete'];
 			if(img.call){
 				img=img(file);

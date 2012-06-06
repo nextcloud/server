@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"email Changed" => "تم تغير العنوان البريدي",
-"Invalid request" => "طلبك غير مفهوم",
 "OpenID Changed" => "تم تغيير ال OpenID",
+"Invalid request" => "طلبك غير مفهوم",
 "Language changed" => "تم تغيير اللغة",
 "__language_name__" => "__language_name__",
 "Select an App" => "إختر تطبيقاً",

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-05-13 19:52+0200\n"
-"PO-Revision-Date: 2012-05-11 20:06+0000\n"
-"Last-Translator: Michal Hrušecký <Michal@hrusecky.net>\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.net/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,6 +31,82 @@ msgstr "Žádná kategorie k přidání?"
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
 msgstr "Tato kategorie již existuje:"
+
+#: js/jquery-ui-1.8.16.custom.min.js:511
+msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
+msgstr ""
+
+#: js/js.js:520
+msgid "January"
+msgstr ""
+
+#: js/js.js:520
+msgid "February"
+msgstr ""
+
+#: js/js.js:520
+msgid "March"
+msgstr ""
+
+#: js/js.js:520
+msgid "April"
+msgstr ""
+
+#: js/js.js:520
+msgid "May"
+msgstr ""
+
+#: js/js.js:520
+msgid "June"
+msgstr ""
+
+#: js/js.js:521
+msgid "July"
+msgstr ""
+
+#: js/js.js:521
+msgid "August"
+msgstr ""
+
+#: js/js.js:521
+msgid "September"
+msgstr ""
+
+#: js/js.js:521
+msgid "October"
+msgstr ""
+
+#: js/js.js:521
+msgid "November"
+msgstr ""
+
+#: js/js.js:521
+msgid "December"
+msgstr ""
+
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
+msgid "Cancel"
+msgstr ""
+
+#: js/oc-dialogs.js:159
+msgid "No"
+msgstr ""
+
+#: js/oc-dialogs.js:160
+msgid "Yes"
+msgstr ""
+
+#: js/oc-dialogs.js:177
+msgid "Ok"
+msgstr ""
+
+#: js/oc-vcategories.js:68
+msgid "No categories selected for deletion."
+msgstr ""
+
+#: js/oc-vcategories.js:68
+msgid "Error"
+msgstr ""
 
 #: lostpassword/index.php:26
 msgid "Owncloud password reset"
@@ -162,15 +238,15 @@ msgstr "Hostitel databáze"
 msgid "Finish setup"
 msgstr "Dokončit instalaci"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "webové služby pod Vaší kontrolou"
 
-#: templates/layout.user.php:35
+#: templates/layout.user.php:41
 msgid "Log out"
 msgstr "Odhlásit se"
 
-#: templates/layout.user.php:47 templates/layout.user.php:48
+#: templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Nastavení"
 

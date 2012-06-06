@@ -33,7 +33,7 @@ $(document).ready(function(){
 });
 
 function createVersionsDropdown(filename, files) {
-	
+
 	var historyUrl = OC.linkTo('files_versions', 'history.php') + '?path='+encodeURIComponent( $( '#dir' ).val() ).replace( /%2F/g, '/' )+'/'+encodeURIComponent( filename );
 	
 	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';

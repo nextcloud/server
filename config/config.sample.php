@@ -30,6 +30,11 @@ $CONFIG = array(
 "log_type" => "",
 "logfile" => "",
 "loglevel" => "",
+/* Set this to false to disable the check for writable apps dir.
+ * If the apps dir is not writable, you can't download&install extra apps
+ * in the admin apps menu.
+ */
+"writable_appsdir" => true,
 // "datadirectory" => ""
 );
 ?>
