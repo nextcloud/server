@@ -383,6 +383,11 @@ class OC_Template{
 			}else{
 				$page = new OC_Template( "core", "layout.guest" );
 			}
+			$apps_paths = array();
+			foreach(OC_App::getEnabledApps() as $app){
+				$apps_paths[$app] = OC_App::getAppWebPath($app);
+			}
+			$page->assign( 'apps_paths', str_replace('\\/', '/',json_encode($apps_paths)) ); // Ugly unescape slashes waiting for better solution
 
 			// Read the selected theme from the config file
 			$theme=OC_Config::getValue( "theme" );

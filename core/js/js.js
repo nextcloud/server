@@ -31,7 +31,7 @@ t.cache={};
 
 OC={
 	webroot:oc_webroot,
-	appswebroot:oc_appswebroot,
+	appswebroots:oc_appswebroots,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
 	/**
@@ -63,10 +63,8 @@ OC={
 				link+= file;
 			}
 		}else if(file.substring(file.length-3) != 'php' && !isCore){
-			link=OC.appswebroot;
-			link+='/';
-			link+='apps/';
-			link+=app+'/';
+			link=OC.appswebroots[app];
+			link+='/'+app+'/';
 			if(type){
 				link+=type+'/';
 			}
