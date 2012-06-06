@@ -32,9 +32,10 @@ class DatabaseManager {
 		\OCP\DB::beginTransaction();
 		$stmt = \OCP\DB::prepare('INSERT INTO *PREFIX*pictures_images_cache (uid_owner, path, width, height) VALUES (?, ?, ?, ?)');
 		$stmt->execute(array(\OCP\USER::getUser(), $path, $image->width(), $image->height()));
-		unset($image);
 		\OCP\DB::commit();
-		return $this->getFileData($path);
+    $ret = array('filepath' => $path, 'width' => $image->width(), 'height' => $image->height());
+		unset($image);
+    return $ret;
 	}
 	
 	private function __construct() {}
