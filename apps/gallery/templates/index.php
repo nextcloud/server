@@ -42,7 +42,7 @@ function o(element) {
 function openNewGal(album_name) {
 	root = root + album_name + "/";
 	var url = window.location.toString().replace(window.location.search, '');
-	url = url + "?app=gallery&root="+root;
+  url = url + "?app=gallery&root="+encodeURIComponent(root);
 	
 	window.location = url;
 }
@@ -85,13 +85,15 @@ for($i = 0; $i < count($images); $i++) {
 
 $dir_arr = explode('/', $previous_element);
 
-if (count($dir_arr)==0) {
-	$tl->addTile(new \OC\Pictures\TileSingle($previous_element));
-} else if (count($dir_arr) && $ts->getCount() == 0){
-    $ts = new \OC\Pictures\TileStack(array($root.$previous_element), $dir_arr[0]);
-} else {
-	$arr[] = $previous_element;
-	$ts->addTile($arr);
+if (count($images)>1) {
+  if (count($dir_arr)==0) {
+    $tl->addTile(new \OC\Pictures\TileSingle($previous_element));
+  } else if (count($dir_arr) && $ts->getCount() == 0){
+      $ts = new \OC\Pictures\TileStack(array($root.$previous_element), $dir_arr[0]);
+  } else {
+    $arr[] = $previous_element;
+    $ts->addTile($arr);
+  }
 }
 
 if ($ts->getCount() != 0) {
