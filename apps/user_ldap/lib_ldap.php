@@ -530,7 +530,7 @@ class OC_LDAP {
 
 	static private function sanitizeDN($dn) {
 		//OID sometimes gives back DNs with whitespace after the comma a la "uid=foo, cn=bar, dn=..." We need to tackle this!
-		$dn = preg_replace('/,\s+/',',',$dn);
+		$dn = preg_replace('/([^\\\]),(\s+)/','\1,',$dn);
 
 		//make comparisons and everything work
 		$dn = strtolower($dn);
