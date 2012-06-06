@@ -20,14 +20,12 @@
  *
  */
 
-// Init owncloud
-
 OCP\JSON::checkLoggedIn();
 //OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 
 function getStandardImage(){
-	OCP\Response::setExpiresHeader('P10D');
+	//OCP\Response::setExpiresHeader('P10D');
 	OCP\Response::enableCaching();
 	OCP\Response::redirect(OCP\Util::imagePath('contacts', 'person.png'));
 }
@@ -59,12 +57,10 @@ $image = new OC_Image();
 $photo = $contact->getAsString('PHOTO');
 if($photo) {
 	OCP\Response::setETagHeader(md5($photo));
-
 	if($image->loadFromBase64($photo)) {
 		if($image->centerCrop()) {
 			if($image->resize($thumbnail_size)) {
 				if($image->show()) {
-					// done
 					exit();
 				} else {
 					OCP\Util::writeLog('contacts','thumbnail.php. Couldn\'t display thumbnail for ID '.$id,OCP\Util::ERROR);

@@ -31,17 +31,13 @@ class OC{
 	 */
 	public static $CLASSPATH = array();
 	/**
-	 * $_SERVER['DOCUMENTROOT'] but without symlinks
-	 */
-	public static $DOCUMENTROOT = '';
-	/**
 	 * The installation path for owncloud on the server (e.g. /srv/http/owncloud)
 	 */
 	public static $SERVERROOT = '';
 	/**
 	 * the current request path relative to the owncloud root (e.g. files/index.php)
 	 */
-	public static $SUBURI = '';
+	private static $SUBURI = '';
 	/**
 	 * the owncloud root path for http requests (e.g. owncloud/)
 	 */
@@ -50,10 +46,6 @@ class OC{
 	 * the folder that stores that data files for the filesystem of the user (e.g. /srv/http/owncloud/data/myusername/files)
 	 */
 	public static $CONFIG_DATADIRECTORY = '';
-	/**
-	 * the folder that stores the data for the root filesystem (e.g. /srv/http/owncloud/data)
-	 */
-	public static $CONFIG_DATADIRECTORY_ROOT = '';
 	/**
 	 * The installation path of the 3rdparty folder on the server (e.g. /srv/http/owncloud/3rdparty)
 	 */
@@ -130,7 +122,7 @@ class OC{
 
 	public static function initPaths(){
 		// calculate the documentroot
-		OC::$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
+		$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
 		OC::$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
 		OC::$SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen(OC::$SERVERROOT));
 		$scriptName=$_SERVER["SCRIPT_NAME"];
@@ -146,7 +138,7 @@ class OC{
 		}
                 OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
 		// try a new way to detect the WEBROOT which is simpler and also works with the app directory outside the owncloud folder. let´s see if this works for everybody
-//		OC::$WEBROOT=substr(OC::$SERVERROOT,strlen(OC::$DOCUMENTROOT));
+//		OC::$WEBROOT=substr(OC::$SERVERROOT,strlen($DOCUMENTROOT));
 
 
 		if(OC::$WEBROOT!='' and OC::$WEBROOT[0]!=='/'){
@@ -291,18 +283,9 @@ class OC{
 	public static function loadfile(){
 		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE)){
 			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
-				$appswebroot = (string) OC::$APPSWEBROOT;
-				$webroot = (string) OC::$WEBROOT;
-				$filepath = OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE;
-				header('Content-Type: text/css');
-				OC_Response::enableCaching();
-				OC_Response::setLastModifiedHeader(filemtime($filepath));
-				$cssfile = file_get_contents($filepath);
-				$cssfile = str_replace('%appswebroot%', $appswebroot, $cssfile);
-				$cssfile = str_replace('%webroot%', $webroot, $cssfile);
-				OC_Response::setETagHeader(md5($cssfile));
-				header('Content-Length: '.strlen($cssfile));
-				echo $cssfile;
+				$file = 'apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE;
+				$minimizer = new OC_Minimizer_CSS();
+				$minimizer->output(array(array(OC::$APPSROOT, OC::$APPSWEBROOT, $file)));
 				exit;
 			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
 				require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
@@ -381,16 +364,18 @@ class OC{
 
 		// CSRF protection
 		if(isset($_SERVER['HTTP_REFERER'])) $referer=$_SERVER['HTTP_REFERER']; else $referer='';
-		$protocol=OC_Helper::serverProtocol().'://'; 
+		$refererhost=parse_url($referer);
+		if(isset($refererhost['host'])) $refererhost=$refererhost['host']; else $refererhost='';
+		$server=OC_Helper::serverHost();
+		$serverhost=explode(':',$server);
+		$serverhost=$serverhost['0']; 
 		if(!self::$CLI){
-			$server=$protocol.OC_Helper::serverHost();
-			if(($_SERVER['REQUEST_METHOD']=='POST') and (substr($referer,0,strlen($server))<>$server)) {
-				$url = $protocol.OC_Helper::serverProtocol().OC::$WEBROOT.'/index.php';
+			if(($_SERVER['REQUEST_METHOD']=='POST') and ($refererhost<>$serverhost)) {
+				$url = OC_Helper::serverProtocol().'://'.$server.OC::$WEBROOT.'/index.php';
 				header("Location: $url");
 				exit();
 			}
 		}
-
 		self::initSession();
 		self::initTemplateEngine();
 		self::checkUpgrade();
@@ -440,7 +425,12 @@ class OC{
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
-		
+
+		if (!OC_AppConfig::getValue('core', 'remote_core.css', false)) {
+			OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
+			OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
+		}
+
 		//parse the given parameters
 		self::$REQUESTEDAPP = (isset($_GET['app'])?str_replace(array('\0', '/', '\\', '..'), '', strip_tags($_GET['app'])):OC_Config::getValue('defaultapp', 'files'));
 		if(substr_count(self::$REQUESTEDAPP, '?') != 0){

@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <mikkelbjerglarsen@gmail.com>, 2012.
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012.
+# Thomas Tanghus <>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:33+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -18,8 +20,48 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: appinfo/app.php:42
+#: appinfo/app.php:37
 msgid "Pictures"
+msgstr "Billeder"
+
+#: js/album_cover.js:44
+msgid "Share gallery"
+msgstr ""
+
+#: js/album_cover.js:64 js/album_cover.js:100 js/album_cover.js:133
+msgid "Error: "
+msgstr ""
+
+#: js/album_cover.js:64 js/album_cover.js:100
+msgid "Internal error"
+msgstr ""
+
+#: js/album_cover.js:114
+msgid "Scanning root"
+msgstr ""
+
+#: js/album_cover.js:115
+msgid "Default order"
+msgstr ""
+
+#: js/album_cover.js:116
+msgid "Ascending"
+msgstr ""
+
+#: js/album_cover.js:116
+msgid "Descending"
+msgstr ""
+
+#: js/album_cover.js:117 templates/index.php:19
+msgid "Settings"
+msgstr "Indstillinger"
+
+#: js/album_cover.js:122
+msgid "Scanning root cannot be empty"
+msgstr ""
+
+#: js/album_cover.js:122 js/album_cover.js:133
+msgid "Error"
 msgstr ""
 
 #: templates/index.php:16
@@ -28,15 +70,11 @@ msgstr "Genindlæs"
 
 #: templates/index.php:17
 msgid "Stop"
-msgstr ""
+msgstr "Stop"
 
 #: templates/index.php:18
 msgid "Share"
-msgstr ""
-
-#: templates/index.php:19
-msgid "Settings"
-msgstr ""
+msgstr "Del"
 
 #: templates/view_album.php:19
 msgid "Back"
@@ -44,16 +82,16 @@ msgstr "Tilbage"
 
 #: templates/view_album.php:36
 msgid "Remove confirmation"
-msgstr ""
+msgstr "Fjern bekræftelse"
 
 #: templates/view_album.php:37
 msgid "Do you want to remove album"
-msgstr ""
+msgstr "Ønsker du at fjerne albummet"
 
 #: templates/view_album.php:40
 msgid "Change album name"
-msgstr ""
+msgstr "Ændre albummets navn"
 
 #: templates/view_album.php:43
 msgid "New album name"
-msgstr ""
+msgstr "Nyt album navn"

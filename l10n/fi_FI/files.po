@@ -3,12 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jesse Jaara <jesse.jaara@gmail.com>, 2012.
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
+# Johannes Korpela <>, 2012.
+#   <tscooter@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.net/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -19,45 +23,97 @@ msgstr ""
 
 #: ajax/upload.php:19
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Ei virheitä, tiedosto lähetettiin onnistuneesti"
 
 #: ajax/upload.php:20
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "Lähetetty tiedosto ylittää upload_max_filesize-arvon rajan php.ini-tiedostossa"
 
 #: ajax/upload.php:21
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Lähetetty tiedosto ylittää HTML-lomakkeessa määritetyn MAX_FILE_SIZE-arvon ylärajan"
 
 #: ajax/upload.php:22
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Tiedoston lähetys onnistui vain osittain"
 
 #: ajax/upload.php:23
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Yhtäkään tiedostoa ei lähetetty"
 
 #: ajax/upload.php:24
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Väliaikaiskansiota ei ole olemassa"
 
 #: ajax/upload.php:25
 msgid "Failed to write to disk"
+msgstr "Levylle kirjoitus epäonnistui"
+
+#: appinfo/app.php:6
+msgid "Files"
+msgstr "Tiedostot"
+
+#: js/filelist.js:186
+msgid "undo deletion"
 msgstr ""
 
-#: appinfo/app.php:7
-msgid "Files"
+#: js/files.js:170
+msgid "generating ZIP-file, it may take some time."
+msgstr ""
+
+#: js/files.js:199
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr ""
+
+#: js/files.js:199
+msgid "Upload Error"
+msgstr ""
+
+#: js/files.js:227 js/files.js:318 js/files.js:347
+msgid "Pending"
+msgstr ""
+
+#: js/files.js:332
+msgid "Upload cancelled."
+msgstr ""
+
+#: js/files.js:456
+msgid "Invalid name, '/' is not allowed."
+msgstr ""
+
+#: js/files.js:626 templates/index.php:55
+msgid "Size"
+msgstr "Koko"
+
+#: js/files.js:627 templates/index.php:56
+msgid "Modified"
+msgstr "Muutettu"
+
+#: js/files.js:654
+msgid "folder"
+msgstr ""
+
+#: js/files.js:656
+msgid "folders"
+msgstr ""
+
+#: js/files.js:664
+msgid "file"
+msgstr ""
+
+#: js/files.js:666
+msgid "files"
 msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Tiedostonhallinta"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Lähetettävän tiedoston suurin sallittu koko"
 
 #: templates/admin.php:7
 msgid "max. possible: "
@@ -65,89 +121,77 @@ msgstr ""
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Tarvitaan useampien tiedostojen ja kansioiden latausta varten."
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Ota ZIP-paketin lataaminen käytöön"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 on rajoittamaton"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "ZIP-tiedostojen enimmäiskoko"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Uusi"
 
 #: templates/index.php:9
 msgid "Text file"
-msgstr ""
+msgstr "Tekstitiedosto"
 
 #: templates/index.php:10
 msgid "Folder"
-msgstr ""
+msgstr "Kansio"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr ""
+msgstr "Verkko-osoitteesta"
 
 #: templates/index.php:21
 msgid "Upload"
-msgstr ""
+msgstr "Lähetä"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "Peru lähetys"
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Täällä ei ole mitään. Lähetä tänne jotakin!"
 
 #: templates/index.php:47
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: templates/index.php:49
 msgid "Share"
-msgstr ""
+msgstr "Jaa"
 
 #: templates/index.php:51
 msgid "Download"
-msgstr ""
-
-#: templates/index.php:55
-msgid "Size"
-msgstr ""
-
-#: templates/index.php:56
-msgid "Modified"
-msgstr ""
-
-#: templates/index.php:56
-msgid "Delete all"
-msgstr ""
+msgstr "Lataa"
 
 #: templates/index.php:56
 msgid "Delete"
-msgstr ""
+msgstr "Poista"
 
 #: templates/index.php:64
 msgid "Upload too large"
-msgstr ""
+msgstr "Lähetettävä tiedosto on liian suuri"
 
 #: templates/index.php:66
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan."
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Tiedostoja tarkistetaan, odota hetki."
 
 #: templates/index.php:74
 msgid "Current scanning"

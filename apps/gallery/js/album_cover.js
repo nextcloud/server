@@ -78,14 +78,14 @@ function albumClickHandler(r) {
 		for (var i in r.photos) {
 			Albums.photos.push(r.photos[i]);
 		}
-    Albums.shared = r.shared;
-    if (Albums.shared) {
-      Albums.recursive = r.recursive;
-      Albums.token = r.token;
-    } else {
-      Albums.recursive = false;
-      Albums.token = '';
-    }
+		Albums.shared = r.shared;
+		if (Albums.shared) {
+			Albums.recursive = r.recursive;
+			Albums.token = r.token;
+		} else {
+			Albums.recursive = false;
+			Albums.token = '';
+		}
 		$(document).ready(function(){
 			var targetDiv = $('#gallery_list');
 			targetDiv.html('');

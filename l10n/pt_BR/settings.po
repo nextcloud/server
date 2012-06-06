@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-05-13 19:52+0200\n"
-"PO-Revision-Date: 2012-05-11 20:01+0000\n"
-"Last-Translator: Guilherme Maluf Balzana <guimalufb@gmail.com>\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.net/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,23 +22,38 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
 #: ajax/lostpassword.php:14
-msgid "email Changed"
-msgstr "email Alterado"
+msgid "Email saved"
+msgstr ""
 
-#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
-#: ajax/setlanguage.php:22
-msgid "Invalid request"
-msgstr "Pedido inválido"
+#: ajax/lostpassword.php:16
+msgid "Invalid email"
+msgstr ""
 
 #: ajax/openid.php:15
 msgid "OpenID Changed"
 msgstr "Mudou OpenID"
 
+#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+msgid "Invalid request"
+msgstr "Pedido inválido"
+
 #: ajax/setlanguage.php:17
 msgid "Language changed"
 msgstr "Mudou Idioma"
 
-#: personal.php:39 personal.php:40
+#: js/apps.js:31 js/apps.js:67
+msgid "Disable"
+msgstr ""
+
+#: js/apps.js:31 js/apps.js:54
+msgid "Enable"
+msgstr ""
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr ""
+
+#: personal.php:40 personal.php:41
 msgid "__language_name__"
 msgstr "Português"
 
@@ -59,10 +74,14 @@ msgid "Select an App"
 msgstr "Selecione uma Aplicação"
 
 #: templates/apps.php:25
+msgid "See application page at apps.owncloud.com"
+msgstr ""
+
+#: templates/apps.php:26
 msgid "-licensed"
 msgstr "-licenciados"
 
-#: templates/apps.php:25
+#: templates/apps.php:26
 msgid "by"
 msgstr "por"
 

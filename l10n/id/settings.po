@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Muhammad Panji <sumodirjo@gmail.com>, 2012.
 # Muhammad Radifar <m_radifar05@yahoo.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.net/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -19,57 +20,76 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 
 #: ajax/lostpassword.php:14
-msgid "email Changed"
+msgid "Email saved"
 msgstr ""
 
-#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
-#: ajax/setlanguage.php:22
-msgid "Invalid request"
-msgstr "Permintaan tidak valid"
+#: ajax/lostpassword.php:16
+msgid "Invalid email"
+msgstr ""
 
 #: ajax/openid.php:15
 msgid "OpenID Changed"
 msgstr "OpenID telah dirubah"
 
+#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+msgid "Invalid request"
+msgstr "Permintaan tidak valid"
+
 #: ajax/setlanguage.php:17
 msgid "Language changed"
 msgstr "Bahasa telah diganti"
 
-#: personal.php:39 personal.php:40
-msgid "__language_name__"
+#: js/apps.js:31 js/apps.js:67
+msgid "Disable"
 msgstr ""
+
+#: js/apps.js:31 js/apps.js:54
+msgid "Enable"
+msgstr ""
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr ""
+
+#: personal.php:40 personal.php:41
+msgid "__language_name__"
+msgstr "__language_name__"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Lebih"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Tambahkan App anda"
 
 #: templates/apps.php:22
 msgid "Select an App"
 msgstr "Pilih satu aplikasi"
 
 #: templates/apps.php:25
+msgid "See application page at apps.owncloud.com"
+msgstr ""
+
+#: templates/apps.php:26
 msgid "-licensed"
 msgstr "-terlisensi"
 
-#: templates/apps.php:25
+#: templates/apps.php:26
 msgid "by"
 msgstr "oleh"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentasi"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Mengelola berkas besar"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -97,11 +117,11 @@ msgstr "dari yang tersedia"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Klien sync Desktop dan Mobile"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Unduh"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -129,15 +149,15 @@ msgstr "Rubah password"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr ""
+msgstr "Alamat email anda"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Masukkan alamat email untuk mengaktifkan pemulihan password"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
@@ -145,7 +165,7 @@ msgstr "Bahasa"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr ""
+msgstr "Bantu menerjemahkan"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
@@ -169,15 +189,15 @@ msgstr "Buat"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Kuota default"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Lain-lain"
 
 #: templates/users.php:47
 msgid "Quota"
-msgstr ""
+msgstr "Quota"
 
 #: templates/users.php:80
 msgid "Delete"

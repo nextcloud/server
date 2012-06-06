@@ -19,23 +19,16 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-// Init owncloud
  
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
-
-// foreach ($_POST as $key=>$element) {
-// 	OCP\Util::writeLog('contacts','ajax/savecrop.php: '.$key.'=>'.$element, OCP\Util::DEBUG);
-// }
 
 function bailOut($msg) {
 	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('contacts','ajax/loadphoto.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
-
-$image = null;
 
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $refresh = isset($_GET['refresh']) ? true : false;

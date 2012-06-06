@@ -10,6 +10,8 @@ class OC_Util {
 	public static $headers=array();
 	private static $rootMounted=false;
 	private static $fsSetup=false;
+	public static $core_styles=array();
+	public static $core_scripts=array();
 
 	// Can be set up
 	public static function setupFS( $user = "", $root = "files" ){// configure the initial filesystem based on the configuration
@@ -29,7 +31,7 @@ class OC_Util {
 		}
 		
 		// Check if apps folder is writable.
-		if(!is_writable(OC::$SERVERROOT."/apps/")) {
+		if(OC_Config::getValue('writable_appsdir', true) && !is_writable(OC::$SERVERROOT."/apps/")) {
 			$tmpl = new OC_Template( '', 'error', 'guest' );
 			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into apps directory 'apps'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
 			$tmpl->printPage();
@@ -39,7 +41,7 @@ class OC_Util {
 		// Create root dir.
 		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
 			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
-            if(!$success) {
+			if(!$success) {
 				$tmpl = new OC_Template( '', 'error', 'guest' );
 				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ")));
 				$tmpl->printPage();
@@ -58,7 +60,6 @@ class OC_Util {
 			self::$rootMounted=true;
 		}
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
-
 			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
 			if( !is_dir( OC::$CONFIG_DATADIRECTORY )){
 				mkdir( OC::$CONFIG_DATADIRECTORY, 0755, true );
@@ -328,5 +329,18 @@ class OC_Util {
 			header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', '?app=files'));
 		}
 		exit();
+	}
+
+	/**
+	 * get an id unqiue for this instance
+	 * @return string
+	 */
+	public static function getInstanceId(){
+		$id=OC_Config::getValue('instanceid',null);
+		if(is_null($id)){
+			$id=uniqid();
+			OC_Config::setValue('instanceid',$id);
+		}
+		return $id;
 	}
 }

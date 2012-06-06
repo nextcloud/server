@@ -3,12 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jesse Jaara <jesse.jaara@gmail.com>, 2012.
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.net/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -18,166 +20,185 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ajax/lostpassword.php:14
-msgid "email Changed"
+msgid "Email saved"
 msgstr ""
 
-#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
-#: ajax/setlanguage.php:22
-msgid "Invalid request"
+#: ajax/lostpassword.php:16
+msgid "Invalid email"
 msgstr ""
 
 #: ajax/openid.php:15
 msgid "OpenID Changed"
-msgstr ""
+msgstr "OpenID on vaihdettu"
+
+#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+msgid "Invalid request"
+msgstr "Virheellinen pyyntö"
 
 #: ajax/setlanguage.php:17
 msgid "Language changed"
+msgstr "Kieli on vaihdettu"
+
+#: js/apps.js:31 js/apps.js:67
+msgid "Disable"
 msgstr ""
 
-#: personal.php:39 personal.php:40
-msgid "__language_name__"
+#: js/apps.js:31 js/apps.js:54
+msgid "Enable"
 msgstr ""
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr ""
+
+#: personal.php:40 personal.php:41
+msgid "__language_name__"
+msgstr "_kielen_nimi_"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Loki"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Lisää"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Lisää ohjelmasi"
 
 #: templates/apps.php:22
 msgid "Select an App"
-msgstr ""
+msgstr "Valitse ohjelma"
 
 #: templates/apps.php:25
+msgid "See application page at apps.owncloud.com"
+msgstr ""
+
+#: templates/apps.php:26
 msgid "-licensed"
-msgstr ""
+msgstr "-lisenssöity"
 
-#: templates/apps.php:25
+#: templates/apps.php:26
 msgid "by"
-msgstr ""
+msgstr "henkilölle"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentaatio"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Suurten tiedostojen hallinta"
 
 #: templates/help.php:10
 msgid "Ask a question"
-msgstr ""
+msgstr "Kysy jotain"
 
 #: templates/help.php:22
 msgid "Problems connecting to help database."
-msgstr ""
+msgstr "Virhe yhdistettäessä tietokantaan."
 
 #: templates/help.php:23
 msgid "Go there manually."
-msgstr ""
+msgstr "Ohje löytyy sieltä."
 
 #: templates/help.php:31
 msgid "Answer"
-msgstr ""
+msgstr "Vastaus"
 
 #: templates/personal.php:8
 msgid "You use"
-msgstr ""
+msgstr "Olet käyttänyt"
 
 #: templates/personal.php:8
 msgid "of the available"
-msgstr ""
+msgstr "käytettävissäsi on yhteensä"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Tietokoneen ja mobiililaitteiden synkronointisovellukset"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Lataa"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
-msgstr ""
+msgstr "Salasanasi on vaihdettu"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Salasanaasi ei voitu vaihtaa"
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr ""
+msgstr "Nykyinen salasana"
 
 #: templates/personal.php:22
 msgid "New password"
-msgstr ""
+msgstr "Uusi salasana"
 
 #: templates/personal.php:23
 msgid "show"
-msgstr ""
+msgstr "näytä"
 
 #: templates/personal.php:24
 msgid "Change password"
-msgstr ""
+msgstr "Vaihda salasana"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr ""
+msgstr "Sähköposti"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr ""
+msgstr "Sähköpostiosoitteesi"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Kirjoita sähköpostiosoitteesi alle, jotta unohdettu salasana voidaan palauttaa"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
-msgstr ""
+msgstr "Kieli"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr ""
+msgstr "Auta kääntämisessä"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "voit yhdistää tiedostonhallintasovelluksellasi ownCloudiin käyttämällä tätä osoitetta"
 
 #: templates/users.php:15 templates/users.php:44
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: templates/users.php:16 templates/users.php:45
 msgid "Password"
-msgstr ""
+msgstr "Salasana"
 
 #: templates/users.php:17 templates/users.php:46 templates/users.php:60
 msgid "Groups"
-msgstr ""
+msgstr "Ryhmät"
 
 #: templates/users.php:22
 msgid "Create"
-msgstr ""
+msgstr "Luo"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Oletuskiintiö"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Muu"
 
 #: templates/users.php:47
 msgid "Quota"
-msgstr ""
+msgstr "Kiintiö"
 
 #: templates/users.php:80
 msgid "Delete"
-msgstr ""
+msgstr "Poista"

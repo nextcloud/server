@@ -9,10 +9,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-04-16 21:16+0000\n"
-"Last-Translator: Piotr Sokół <psokol@jabster.pl>\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
+"Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.net/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,15 +20,19 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: appinfo/app.php:32 templates/player.php:9
+#: appinfo/app.php:32 templates/player.php:8
 msgid "Music"
 msgstr "Muzyka"
 
-#: templates/music.php:3 templates/player.php:13
+#: js/music.js:18
+msgid "Add album to playlist"
+msgstr ""
+
+#: templates/music.php:3 templates/player.php:12
 msgid "Play"
 msgstr "Odtwarzaj"
 
-#: templates/music.php:4 templates/music.php:26 templates/player.php:14
+#: templates/music.php:4 templates/music.php:26 templates/player.php:13
 msgid "Pause"
 msgstr "Wstrzymaj"
 
@@ -36,7 +40,7 @@ msgstr "Wstrzymaj"
 msgid "Previous"
 msgstr "Poprzedni"
 
-#: templates/music.php:6 templates/player.php:15
+#: templates/music.php:6 templates/player.php:14
 msgid "Next"
 msgstr "Następny"
 

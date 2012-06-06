@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.net/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -18,57 +19,76 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 
 #: ajax/lostpassword.php:14
-msgid "email Changed"
-msgstr "メールアドレスを変更しました"
+msgid "Email saved"
+msgstr ""
 
-#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
-#: ajax/setlanguage.php:22
-msgid "Invalid request"
-msgstr "無効なリクエストです"
+#: ajax/lostpassword.php:16
+msgid "Invalid email"
+msgstr ""
 
 #: ajax/openid.php:15
 msgid "OpenID Changed"
 msgstr "OpenIDが変更されました"
 
+#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+msgid "Invalid request"
+msgstr "無効なリクエストです"
+
 #: ajax/setlanguage.php:17
 msgid "Language changed"
 msgstr "言語が変更されました"
 
-#: personal.php:39 personal.php:40
+#: js/apps.js:31 js/apps.js:67
+msgid "Disable"
+msgstr ""
+
+#: js/apps.js:31 js/apps.js:54
+msgid "Enable"
+msgstr ""
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr ""
+
+#: personal.php:40 personal.php:41
 msgid "__language_name__"
-msgstr "Japanese(日本語)"
+msgstr "Japanese (日本語)"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "ログ"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "もっと"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "アプリを追加"
 
 #: templates/apps.php:22
 msgid "Select an App"
 msgstr "アプリを選択してください"
 
 #: templates/apps.php:25
-msgid "-licensed"
-msgstr "権利を保持されています"
+msgid "See application page at apps.owncloud.com"
+msgstr ""
 
-#: templates/apps.php:25
+#: templates/apps.php:26
+msgid "-licensed"
+msgstr "ライセンス"
+
+#: templates/apps.php:26
 msgid "by"
-msgstr "によって"
+msgstr "@"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "ドキュメント"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "大きなファイルを扱うには"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -76,11 +96,11 @@ msgstr "質問してください"
 
 #: templates/help.php:22
 msgid "Problems connecting to help database."
-msgstr "ヘルプ用データベース接続に問題が生じました"
+msgstr "ヘルプデータベースへの接続時に問題が発生しました"
 
 #: templates/help.php:23
 msgid "Go there manually."
-msgstr "手動で移動してください"
+msgstr "手動で移動してください。"
 
 #: templates/help.php:31
 msgid "Answer"
@@ -88,19 +108,19 @@ msgstr "解答"
 
 #: templates/personal.php:8
 msgid "You use"
-msgstr "あなたが使っているのは"
+msgstr "あなたは"
 
 #: templates/personal.php:8
 msgid "of the available"
-msgstr "です。利用可能容量は"
+msgstr "を利用しています。利用可能容量："
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "デスクトップおよびモバイル用の同期クライアント"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "ダウンロード"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -124,11 +144,11 @@ msgstr "表示"
 
 #: templates/personal.php:24
 msgid "Change password"
-msgstr "パスワードを変更する"
+msgstr "パスワードを変更"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr "メールアドレス"
+msgstr "Email"
 
 #: templates/personal.php:31
 msgid "Your email address"
@@ -136,7 +156,7 @@ msgstr "あなたのメールアドレス"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr "パスワードの回復を有効にするにはメールアドレスを入力してください"
+msgstr "※パスワード回復を有効にするにはメールアドレスの入力が必要です"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
@@ -144,11 +164,11 @@ msgstr "言語"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr "翻訳を手伝う"
+msgstr "翻訳に協力する"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "ファイルマネージャーであなたのownCloudに接続するときはこのアドレスを使用してください"
+msgstr "ファイルマネージャーであなたのownCloudに接続する際は、このアドレスを使用してください"
 
 #: templates/users.php:15 templates/users.php:44
 msgid "Name"
@@ -168,11 +188,11 @@ msgstr "作成"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "デフォルトのクォータサイズ"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "その他"
 
 #: templates/users.php:47
 msgid "Quota"

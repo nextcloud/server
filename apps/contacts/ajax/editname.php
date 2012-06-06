@@ -14,14 +14,11 @@ function bailOut($msg) {
 	OCP\Util::writeLog('contacts','ajax/editname.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
-function debug($msg) {
-	OCP\Util::writeLog('contacts','ajax/editname.php: '.$msg, OCP\Util::DEBUG);
-}
 
 $tmpl = new OCP\Template("contacts", "part.edit_name_dialog");
 
 $id = isset($_GET['id'])?$_GET['id']:'';
-debug('id: '.$id);
+
 if($id) {
 	$vcard = OC_Contacts_App::getContactVCard($id);
 	$name = array('', '', '', '', '');

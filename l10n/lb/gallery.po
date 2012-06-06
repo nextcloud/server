@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <sim0n@trypill.org>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:33+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Luxembourgish (http://www.transifex.net/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -17,42 +18,78 @@ msgstr ""
 "Language: lb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: appinfo/app.php:42
+#: appinfo/app.php:37
 msgid "Pictures"
+msgstr "Fotoen"
+
+#: js/album_cover.js:44
+msgid "Share gallery"
+msgstr ""
+
+#: js/album_cover.js:64 js/album_cover.js:100 js/album_cover.js:133
+msgid "Error: "
+msgstr ""
+
+#: js/album_cover.js:64 js/album_cover.js:100
+msgid "Internal error"
+msgstr ""
+
+#: js/album_cover.js:114
+msgid "Scanning root"
+msgstr ""
+
+#: js/album_cover.js:115
+msgid "Default order"
+msgstr ""
+
+#: js/album_cover.js:116
+msgid "Ascending"
+msgstr ""
+
+#: js/album_cover.js:116
+msgid "Descending"
+msgstr ""
+
+#: js/album_cover.js:117 templates/index.php:19
+msgid "Settings"
+msgstr "Astellungen"
+
+#: js/album_cover.js:122
+msgid "Scanning root cannot be empty"
+msgstr ""
+
+#: js/album_cover.js:122 js/album_cover.js:133
+msgid "Error"
 msgstr ""
 
 #: templates/index.php:16
 msgid "Rescan"
-msgstr ""
+msgstr "Nei scannen"
 
 #: templates/index.php:17
 msgid "Stop"
-msgstr ""
+msgstr "Stop"
 
 #: templates/index.php:18
 msgid "Share"
-msgstr ""
-
-#: templates/index.php:19
-msgid "Settings"
-msgstr ""
+msgstr "Deelen"
 
 #: templates/view_album.php:19
 msgid "Back"
-msgstr ""
+msgstr "Zeréck"
 
 #: templates/view_album.php:36
 msgid "Remove confirmation"
-msgstr ""
+msgstr "Konfirmatioun läschen"
 
 #: templates/view_album.php:37
 msgid "Do you want to remove album"
-msgstr ""
+msgstr "Wëlls de den Album läschen"
 
 #: templates/view_album.php:40
 msgid "Change album name"
-msgstr ""
+msgstr "Album Numm änneren"
 
 #: templates/view_album.php:43
 msgid "New album name"
-msgstr ""
+msgstr "Neien Numm fir den Album"

@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"email Changed" => "το email άλλαξε",
-"Invalid request" => "Μη έγκυρο αίτημα",
 "OpenID Changed" => "Το OpenID άλλαξε",
+"Invalid request" => "Μη έγκυρο αίτημα",
 "Language changed" => "Η γλώσσα άλλαξε",
 "__language_name__" => "__όνομα_γλώσσας__",
 "Log" => "Αρχείο καταγραφής",

@@ -187,15 +187,22 @@ class OC_Image {
 	}
 
 	/**
-	* @returns Returns a base64 encoded string suitable for embedding in a VCard.
+	* @returns Returns the raw image data.
 	*/
-	function __toString() {
+	function data() {
 		ob_start();
 		$res = imagepng($this->resource);
 		if (!$res) {
-			OC_Log::write('core','OC_Image->__toString. Error writing image',OC_Log::ERROR);
+			OC_Log::write('core','OC_Image->data. Error getting image data.',OC_Log::ERROR);
 		}
-		return base64_encode(ob_get_clean());
+		return ob_get_clean();
+	}
+
+	/**
+	* @returns Returns a base64 encoded string suitable for embedding in a VCard.
+	*/
+	function __toString() {
+		return base64_encode($this->data());
 	}
 
 	/**

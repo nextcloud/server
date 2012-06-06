@@ -20,20 +20,6 @@
  *
  */
 
-// Init owncloud
- 
-function bailOut($msg) {
-	OCP\JSON::error(array('data' => array('message' => $msg)));
-	OCP\Util::writeLog('contacts','ajax/loadcard.php: '.$msg, OCP\Util::DEBUG);
-	exit();
-}
-function debug($msg) {
-	OCP\Util::writeLog('contacts','ajax/loadcard.php: '.$msg, OCP\Util::DEBUG);
-}
-// foreach ($_POST as $key=>$element) {
-// 	debug('_POST: '.$key.'=>'.$element);
-// }
-
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');

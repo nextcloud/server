@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Pictures" => "Argazkiak",
+"Settings" => "Ezarpenak",
 "Rescan" => "Bireskaneatu",
 "Stop" => "Gelditu",
 "Share" => "Elkarbanatu",
-"Settings" => "Ezarpenak",
 "Back" => "Atzera",
 "Remove confirmation" => "Ezabatu konfirmazioa",
 "Do you want to remove album" => "Albuma ezabatu nahi al duzu",

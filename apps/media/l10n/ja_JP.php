@@ -6,7 +6,7 @@
 "Next" => "次",
 "Mute" => "ミュート",
 "Unmute" => "ミュート解除",
-"Rescan Collection" => "コレクションを再読み込みする",
+"Rescan Collection" => "コレクションの再スキャン",
 "Artist" => "アーティスト",
 "Album" => "アルバム",
 "Title" => "曲名"

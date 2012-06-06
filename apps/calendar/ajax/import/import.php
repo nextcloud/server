@@ -10,18 +10,22 @@ ob_start();
 
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
+session_write_close();
 
 $nl="\r\n";
 $comps = array('VEVENT'=>true, 'VTODO'=>true, 'VJOURNAL'=>true);
 
-$progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
+global $progresskey;
+$progresskey = 'calendar.import-' . $_GET['progresskey'];
+
+if (isset($_GET['progress']) && $_GET['progress']) {
+	echo OC_Cache::get($progresskey);
+	die;
+}
 
 function writeProgress($pct) {
-	if(is_writable('import_tmp/')){
-		$progressfopen = fopen($progressfile, 'w');
-		fwrite($progressfopen, $pct);
-		fclose($progressfopen);
-	}
+	global $progresskey;
+	OC_Cache::set($progresskey, $pct, 300);
 }
 writeProgress('10');
 $file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
@@ -114,7 +118,5 @@ foreach($uids as $uid) {
 // finished import
 writeProgress('100');
 sleep(3);
-if(is_writable('import_tmp/')){
-	unlink($progressfile);
-}
+OC_Cache::remove($progresskey);
 OCP\JSON::success();

@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Pictures" => "图片",
+"Settings" => "设置",
 "Rescan" => "重新扫描",
 "Stop" => "停止",
 "Share" => "分享",
-"Settings" => "设置",
 "Back" => "返回",
 "Remove confirmation" => "移除确认",
 "Do you want to remove album" => "您是否想要移除相册",

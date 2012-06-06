@@ -19,14 +19,12 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-// Init owncloud
- 
 
 // Check if we are a user
-// Firefox and Konqueror tries to download application/json for me.  --Arthur
-OCP\JSON::setContentTypeHeader('text/plain');
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+// Firefox and Konqueror tries to download application/json for me.  --Arthur
+OCP\JSON::setContentTypeHeader('text/plain');
 function bailOut($msg) {
 	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: '.$msg, OCP\Util::DEBUG);
@@ -39,46 +37,40 @@ function debug($msg) {
 // If it is a Drag'n'Drop transfer it's handled here.
 $fn = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
 if ($fn) {
-	// AJAX call
 	if (!isset($_GET['id'])) {
-		OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No contact ID was submitted.', OCP\Util::DEBUG);
-		OCP\JSON::error(array('data' => array( 'message' => 'No contact ID was submitted.' )));
-		exit();
+		bailOut(OC_Contacts_App::$l10n->t('No contact ID was submitted.'));
 	}
 	$id = $_GET['id'];
-	$tmpfname = tempnam(get_temp_dir(), 'occOrig');
-	file_put_contents($tmpfname, file_get_contents('php://input'));
-	debug($tmpfname.' uploaded');
+	$tmpkey = 'contact-photo-'.md5($fn);
+	$data = file_get_contents('php://input');
 	$image = new OC_Image();
-	if($image->loadFromFile($tmpfname)) {
+	sleep(1); // Apparently it needs time to load the data.
+	if($image->loadFromData($data)) {
 		if($image->width() > 400 || $image->height() > 400) {
 			$image->resize(400); // Prettier resizing than with browser and saves bandwidth.
 		}
 		if(!$image->fixOrientation()) { // No fatal error so we don't bail out.
-			debug('Couldn\'t save correct image orientation: '.$tmpfname);
+			debug('Couldn\'t save correct image orientation: '.$tmpkey);
 		}
-		if($image->save($tmpfname)) {
-			OCP\JSON::success(array('data' => array('mime'=>$_SERVER['CONTENT_TYPE'], 'name'=>$fn, 'id'=>$id, 'tmp'=>$tmpfname)));
+		if(OC_Cache::set($tmpkey, $image->data(), 600)) {
+			OCP\JSON::success(array('data' => array('mime'=>$_SERVER['CONTENT_TYPE'], 'name'=>$fn, 'id'=>$id, 'tmp'=>$tmpkey)));
 			exit();
 		} else {
-			bailOut('Couldn\'t save temporary image: '.$tmpfname);
+			bailOut(OC_Contacts_App::$l10n->t('Couldn\'t save temporary image: ').$tmpkey);
 		}
 	} else {
-		bailOut('Couldn\'t load temporary image: '.$file['tmp_name']);
+		bailOut(OC_Contacts_App::$l10n->t('Couldn\'t load temporary image: ').$tmpkey.$data);
 	}
 }
 
-
+// Uploads from file dialog are handled here.
 if (!isset($_POST['id'])) {
-	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No contact ID was submitted.', OCP\Util::DEBUG);
-	OCP\JSON::error(array('data' => array( 'message' => 'No contact ID was submitted.' )));
-	exit();
+	bailOut(OC_Contacts_App::$l10n->t('No contact ID was submitted.'));
 }
 if (!isset($_FILES['imagefile'])) {
-	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No file was uploaded. Unknown error.', OCP\Util::DEBUG);
-	OCP\JSON::error(array('data' => array( 'message' => 'No file was uploaded. Unknown error' )));
-	exit();
+	bailOut(OC_Contacts_App::$l10n->t('No file was uploaded. Unknown error'));
 }
+
 $error = $_FILES['imagefile']['error'];
 if($error !== UPLOAD_ERR_OK) {
 	$errors = array(
@@ -93,27 +85,26 @@ if($error !== UPLOAD_ERR_OK) {
 }
 $file=$_FILES['imagefile'];
 
-$tmpfname = tempnam(get_temp_dir(), "occOrig");
 if(file_exists($file['tmp_name'])) {
+	$tmpkey = 'contact-photo-'.md5(basename($file['tmp_name']));
 	$image = new OC_Image();
 	if($image->loadFromFile($file['tmp_name'])) {
 		if($image->width() > 400 || $image->height() > 400) {
 			$image->resize(400); // Prettier resizing than with browser and saves bandwidth.
 		}
 		if(!$image->fixOrientation()) { // No fatal error so we don't bail out.
-			debug('Couldn\'t save correct image orientation: '.$tmpfname);
+			debug('Couldn\'t save correct image orientation: '.$tmpkey);
 		}
-		if($image->save($tmpfname)) {
-			OCP\JSON::success(array('data' => array('mime'=>$file['type'],'size'=>$file['size'],'name'=>$file['name'], 'id'=>$_POST['id'], 'tmp'=>$tmpfname)));
+		if(OC_Cache::set($tmpkey, $image->data(), 600)) {
+			OCP\JSON::success(array('data' => array('mime'=>$file['type'],'size'=>$file['size'],'name'=>$file['name'], 'id'=>$_POST['id'], 'tmp'=>$tmpkey)));
 			exit();
 		} else {
-			bailOut('Couldn\'t save temporary image: '.$tmpfname);
+			bailOut(OC_Contacts_App::$l10n->t('Couldn\'t save temporary image: ').$tmpkey);
 		}
 	} else {
-		bailOut('Couldn\'t load temporary image: '.$file['tmp_name']);
+		bailOut(OC_Contacts_App::$l10n->t('Couldn\'t load temporary image: ').$file['tmp_name']);
 	}
 } else {
 	bailOut('Temporary file: \''.$file['tmp_name'].'\' has gone AWOL?');
 }
-
 ?>

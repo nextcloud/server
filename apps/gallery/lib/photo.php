@@ -68,17 +68,17 @@ class OC_Gallery_Photo {
 
 	public static function getThumbnail($image_name, $owner = null) {
 		if (!$owner) $owner = OCP\USER::getUser();
-		$save_dir = OCP\Config::getSystemValue("datadirectory").'/'. $owner .'/gallery/';
-		$save_dir .= dirname($image_name). '/';
-		$image_path = $image_name;
-		$thumb_file = $save_dir . basename($image_name);
-		if (!is_dir($save_dir)) {
-			mkdir($save_dir, 0777, true);
+		$view = OCP\App::getStorage('gallery');
+		$save_dir = dirname($image_name);
+		if (!$view->is_dir($save_dir)) {
+			$view->mkdir($save_dir);
 		}
-		if (file_exists($thumb_file)) {
-			$image = new OC_Image($thumb_file);
+		$view->chroot($view->getRoot().'/'.$save_dir);
+		$thumb_file = basename($image_name);
+		if ($view->file_exists($thumb_file)) {
+			$image = new OC_Image($view->fopen($thumb_file, 'r'));
 		} else {
-			$image_path = OC_Filesystem::getLocalFile($image_path);
+			$image_path = OC_Filesystem::getLocalFile($image_name);
 			if(!file_exists($image_path)) {
 				return null;
 			}
@@ -86,7 +86,7 @@ class OC_Gallery_Photo {
 			if ($image->valid()) {
 				$image->centerCrop(200);
 				$image->fixOrientation();
-				$image->save($thumb_file);
+				$image->save($view->getLocalFile($thumb_file));
 			}
 		}
 		if ($image->valid()) {

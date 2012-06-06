@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Claudiu  <claudiu@tanaselia.ro>, 2011, 2012.
+# Dimon Pockemon <>, 2012.
 # Eugen Mihalache <eugemjj@gmail.com>, 2012.
 #   <icewind1991@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:32+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:15+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.net/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -21,57 +22,76 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1))\n"
 
 #: ajax/lostpassword.php:14
-msgid "email Changed"
-msgstr "email schimbat"
+msgid "Email saved"
+msgstr ""
 
-#: ajax/lostpassword.php:16 ajax/openid.php:17 ajax/setlanguage.php:19
-#: ajax/setlanguage.php:22
-msgid "Invalid request"
-msgstr "Cerere eronată"
+#: ajax/lostpassword.php:16
+msgid "Invalid email"
+msgstr ""
 
 #: ajax/openid.php:15
 msgid "OpenID Changed"
 msgstr "OpenID schimbat"
 
+#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+msgid "Invalid request"
+msgstr "Cerere eronată"
+
 #: ajax/setlanguage.php:17
 msgid "Language changed"
 msgstr "Limba a fost schimbată"
 
-#: personal.php:39 personal.php:40
+#: js/apps.js:31 js/apps.js:67
+msgid "Disable"
+msgstr ""
+
+#: js/apps.js:31 js/apps.js:54
+msgid "Enable"
+msgstr ""
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr ""
+
+#: personal.php:40 personal.php:41
 msgid "__language_name__"
 msgstr "_language_name_"
 
 #: templates/admin.php:13
 msgid "Log"
-msgstr ""
+msgstr "Jurnal de activitate"
 
 #: templates/admin.php:40
 msgid "More"
-msgstr ""
+msgstr "Mai mult"
 
 #: templates/apps.php:8
 msgid "Add your App"
-msgstr ""
+msgstr "Adaugă aplicația ta"
 
 #: templates/apps.php:22
 msgid "Select an App"
 msgstr "Selectează o aplicație"
 
 #: templates/apps.php:25
+msgid "See application page at apps.owncloud.com"
+msgstr ""
+
+#: templates/apps.php:26
 msgid "-licensed"
 msgstr "-autorizat"
 
-#: templates/apps.php:25
+#: templates/apps.php:26
 msgid "by"
 msgstr "de"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Documetație"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Gestionînd fișiere mari"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -99,11 +119,11 @@ msgstr "din cele diponibile"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Clienți de sincronizare pentru telefon mobil și desktop"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Descărcări"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -171,11 +191,11 @@ msgstr "Crează"
 
 #: templates/users.php:25
 msgid "Default Quota"
-msgstr ""
+msgstr "Cotă implicită"
 
 #: templates/users.php:35 templates/users.php:74
 msgid "Other"
-msgstr ""
+msgstr "Altele"
 
 #: templates/users.php:47
 msgid "Quota"

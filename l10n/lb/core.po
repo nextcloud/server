@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <sim0n@trypill.org>, 2011.
+#   <sim0n@trypill.org>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://owncloud.shapado.com/\n"
-"POT-Creation-Date: 2012-05-09 12:29+0200\n"
-"PO-Revision-Date: 2012-05-09 10:31+0000\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-06-06 00:12+0200\n"
+"PO-Revision-Date: 2012-06-05 22:14+0000\n"
 "Last-Translator: icewind <icewind1991@gmail.com>\n"
 "Language-Team: Luxembourgish (http://www.transifex.net/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -20,27 +20,103 @@ msgstr ""
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr ""
+msgstr "Numm vun der Applikatioun ass net uginn."
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr ""
+msgstr "Keng Kategorie fir bäizesetzen?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
+msgstr "Des Kategorie existéiert schonn:"
+
+#: js/jquery-ui-1.8.16.custom.min.js:511
+msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
+msgstr ""
+
+#: js/js.js:520
+msgid "January"
+msgstr ""
+
+#: js/js.js:520
+msgid "February"
+msgstr ""
+
+#: js/js.js:520
+msgid "March"
+msgstr ""
+
+#: js/js.js:520
+msgid "April"
+msgstr ""
+
+#: js/js.js:520
+msgid "May"
+msgstr ""
+
+#: js/js.js:520
+msgid "June"
+msgstr ""
+
+#: js/js.js:521
+msgid "July"
+msgstr ""
+
+#: js/js.js:521
+msgid "August"
+msgstr ""
+
+#: js/js.js:521
+msgid "September"
+msgstr ""
+
+#: js/js.js:521
+msgid "October"
+msgstr ""
+
+#: js/js.js:521
+msgid "November"
+msgstr ""
+
+#: js/js.js:521
+msgid "December"
+msgstr ""
+
+#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
+msgid "Cancel"
+msgstr ""
+
+#: js/oc-dialogs.js:159
+msgid "No"
+msgstr ""
+
+#: js/oc-dialogs.js:160
+msgid "Yes"
+msgstr ""
+
+#: js/oc-dialogs.js:177
+msgid "Ok"
+msgstr ""
+
+#: js/oc-vcategories.js:68
+msgid "No categories selected for deletion."
+msgstr ""
+
+#: js/oc-vcategories.js:68
+msgid "Error"
 msgstr ""
 
 #: lostpassword/index.php:26
 msgid "Owncloud password reset"
-msgstr ""
+msgstr "Owncloud Passwuert reset"
 
 #: lostpassword/index.php:27
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "ownCloud Passwuert reset"
 
 #: lostpassword/templates/email.php:1
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "Benotz folgende Link fir däi Passwuert ze reseten: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
@@ -69,7 +145,7 @@ msgstr "Dän Passwuert ass zeréck gesat gin"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "Op d'Login Säit"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
@@ -101,7 +177,7 @@ msgstr "Hëllef"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Access net erlaabt"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -109,11 +185,11 @@ msgstr "Cloud net fonnt"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Kategorien editéieren"
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "Bäisetzen"
 
 #: templates/installation.php:23
 msgid "Create an <strong>admin account</strong>"
@@ -160,15 +236,15 @@ msgstr "Datebank Server"
 msgid "Finish setup"
 msgstr "Installatioun ofschléissen"
 
-#: templates/layout.guest.php:37
+#: templates/layout.guest.php:42
 msgid "web services under your control"
-msgstr ""
+msgstr "Web Servicer ënnert denger Kontroll"
 
-#: templates/layout.user.php:35
+#: templates/layout.user.php:41
 msgid "Log out"
 msgstr "Ausloggen"
 
-#: templates/layout.user.php:47 templates/layout.user.php:48
+#: templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Astellungen"
 
@@ -182,7 +258,7 @@ msgstr "verhalen"
 
 #: templates/login.php:18
 msgid "Log in"
-msgstr ""
+msgstr "Log dech an"
 
 #: templates/logout.php:1
 msgid "You are logged out."
