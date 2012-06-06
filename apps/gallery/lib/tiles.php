@@ -96,7 +96,9 @@ class TileSingle extends TileBase {
   }
   
   public function get($extra = '') {
-    return '<a rel="images" href="?app=files&getfile=download.php?file='.urlencode($this->getPath()).'"><img rel="images" src="'.GET_THUMBNAIL_PATH.urlencode($this->getPath()).'" '.$extra.'></a>';
+    //  !HACK! file path needs to be encoded twice because files app decode twice url, so any special chars like + or & in filename
+    //  !HACK! will result in failing of opening them 
+    return '<a rel="images" href="?app=files&getfile=download.php?file='.urlencode(urlencode($this->getPath())).'"><img rel="images" src="'.GET_THUMBNAIL_PATH.urlencode($this->getPath()).'" '.$extra.'></a>';
   }
   
   public function getMiniatureSrc() {
