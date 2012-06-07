@@ -5,16 +5,8 @@
 	 <overwrite>false</overwrite>
 	 <charset>latin1</charset>
 	 <table>
-		<name>*dbprefix*gallery_albums</name>
+		<name>*dbprefix*pictures_images_cache</name>
 		<declaration>
-			<field>
-				<name>album_id</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<autoincrement>1</autoincrement>
-				<length>4</length>
-			</field>
 			<field>
 				<name>uid_owner</name>
 				<type>text</type>
@@ -22,48 +14,22 @@
 				<length>64</length>
 			</field>
 			<field>
-				<name>album_name</name>
-				<type>text</type>
-				<notnull>true</notnull>
-				<length>100</length>
-			</field>
-			<field>
-				<name>album_path</name>
+				<name>path</name>
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>256</length>
 			</field>
 			<field>
-				<name>parent_path</name>
-				<type>text</type>
-				<notnull>true</notnull>
-				<length>256</length>
-			</field>
-		</declaration>
-	</table>
-	<table>
-		<name>*dbprefix*gallery_photos</name>
-		<declaration>
-			<field>
-				<name>photo_id</name>
+				<name>width</name>
 				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<autoincrement>1</autoincrement>
-				<length>4</length>
-			</field>
-			<field>
-				<name>album_id</name>
-				<type>integer</type>
-				<default>0</default>
 				<notnull>true</notnull>
 				<length>4</length>
 			</field>
 			<field>
-				<name>file_path</name>
-				<type>text</type>
+				<name>height</name>
+				<type>integer</type>
 				<notnull>true</notnull>
-				<length>256</length>
+				<length>4</length>
 			</field>
 		</declaration>
 	</table>

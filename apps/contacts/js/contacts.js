@@ -1281,7 +1281,7 @@ Contacts={
 		},
 		Addressbooks:{
 			droptarget:undefined,
-			droptext:t('contacts', 'Drop a VCF file to import contacts.'),
+			droptext:t('contacts', 'Drop a VCF file<br />to import contacts.'),
 			overview:function(){
 				if($('#chooseaddressbook_dialog').dialog('isOpen') == true){
 					$('#chooseaddressbook_dialog').dialog('moveToTop');
@@ -1290,7 +1290,7 @@ Contacts={
 					$.getJSON(OC.filePath('contacts', 'ajax', 'chooseaddressbook.php'), function(jsondata){
 						if(jsondata.status == 'success'){
 							$('#addressbook_dialog').html(jsondata.data.page).find('#chooseaddressbook_dialog').dialog({
-								width : 600,
+								minWidth : 600,
 								close : function(event, ui) {
 									$(this).dialog('destroy').remove();
 									$('#addressbook_dialog').remove();

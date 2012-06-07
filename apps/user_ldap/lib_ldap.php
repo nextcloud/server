@@ -52,6 +52,8 @@ class OC_LDAP {
 	static protected $ldapGroupDisplayName;
 	static protected $ldapLoginFilter;
 
+	static protected $__d;
+
 	/**
 	 * @brief initializes the LDAP backend
 	 * @param $force read the config settings no matter what
@@ -59,6 +61,9 @@ class OC_LDAP {
 	 * initializes the LDAP backend
 	 */
 	static public function init($force = false) {
+		if(is_null(self::$__d)) {
+			self::$__d = new OC_LDAP_DESTRUCTOR();
+		}
 		self::readConfiguration($force);
 		self::establishConnection();
 	}
@@ -258,7 +263,7 @@ class OC_LDAP {
 			$key = self::recursiveArraySearch($knownObjects, $ldapObject['dn']);
 
 			//everything is fine when we know the group
-			if($key) {
+			if($key !== false) {
 				$ownCloudNames[] = $knownObjects[$key]['owncloud_name'];
 				continue;
 			}
@@ -330,30 +335,6 @@ class OC_LDAP {
 	}
 
 	/**
-	 * @brief inserts a new group into the mappings table
-	 * @param $dn the record in question
-	 * @param $ocname the name to use in ownCloud
-	 * @returns true on success, false otherwise
-	 *
-	 * inserts a new group into the mappings table
-	 */
-	static private function mapGroup($dn, $ocname) {
-		return self::mapComponent($dn, $ocname, false);
-	}
-
-	/**
-	 * @brief inserts a new user into the mappings table
-	 * @param $dn the record in question
-	 * @param $ocname the name to use in ownCloud
-	 * @returns true on success, false otherwise
-	 *
-	 * inserts a new user into the mappings table
-	 */
-	static private function mapUser($dn, $ocname) {
-		return self::mapComponent($dn, $ocname, true);
-	}
-
-	/**
 	 * @brief inserts a new user or group into the mappings table
 	 * @param $dn the record in question
 	 * @param $ocname the name to use in ownCloud
@@ -380,12 +361,22 @@ class OC_LDAP {
 					SELECT 1
 					FROM '.$table.'
 					WHERE ldap_dn = ?
-						AND owncloud_name = ? )
+						OR owncloud_name = ? )
 		');
 
 		$res = $insert->execute(array($dn, $ocname, $dn, $ocname));
 
-		return !OCP\DB::isError($res);
+		if(OCP\DB::isError($res)) {
+			return false;
+		}
+
+		$insRows = $res->numRows();
+
+		if($insRows == 0) {
+			return false;
+		}
+
+		return true;
 	}
 
 	static public function fetchListOfUsers($filter, $attr) {

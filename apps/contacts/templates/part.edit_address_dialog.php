@@ -24,18 +24,17 @@ foreach(isset($adr['parameters']['TYPE'])?array($adr['parameters']['TYPE']):arra
 			<dd>
 				<input type="text" id="adr_pobox" name="value[ADR][0]" placeholder="<?php echo $l->t('PO Box'); ?>" value="<?php echo isset($adr['value'][0])?$adr['value'][0]:''; ?>">
 			</dd>
+			<dt>
+				<label class="label" for="adr_street"><?php echo $l->t('Street address'); ?></label>
+			</dt>
 			<dd>
+				<input type="text" id="adr_street" name="value[ADR][2]" placeholder="<?php echo $l->t('Street and number'); ?>" value="<?php echo isset($adr['value'][2])?$adr['value'][2]:''; ?>">
+			</dd>
 			<dt>
 				<label class="label" for="adr_extended"><?php echo $l->t('Extended'); ?></label>
 			</dt>
 			<dd>
-				<input type="text" id="adr_extended" name="value[ADR][1]" placeholder="<?php echo $l->t('Extended'); ?>" value="<?php echo isset($adr['value'][1])?$adr['value'][1]:''; ?>">
-			</dd>
-			<dt>
-				<label class="label" for="adr_street"><?php echo $l->t('Street'); ?></label>
-			</dt>
-			<dd>
-				<input type="text" id="adr_street" name="value[ADR][2]" placeholder="<?php echo $l->t('Street'); ?>" value="<?php echo isset($adr['value'][2])?$adr['value'][2]:''; ?>">
+				<input type="text" id="adr_extended" name="value[ADR][1]" placeholder="<?php echo $l->t('Apartment number etc.'); ?>" value="<?php echo isset($adr['value'][1])?$adr['value'][1]:''; ?>">
 			</dd>
 			<dt>
 				<label class="label" for="adr_city"><?php echo $l->t('City'); ?></label>
@@ -47,13 +46,13 @@ foreach(isset($adr['parameters']['TYPE'])?array($adr['parameters']['TYPE']):arra
 				<label class="label" for="adr_region"><?php echo $l->t('Region'); ?></label>
 			</dt>
 			<dd>
-				<input type="text" id="adr_region" name="value[ADR][4]" placeholder="<?php echo $l->t('Region'); ?>" value="<?php echo isset($adr['value'][4])?$adr['value'][4]:''; ?>">
+				<input type="text" id="adr_region" name="value[ADR][4]" placeholder="<?php echo $l->t('E.g. state or province'); ?>" value="<?php echo isset($adr['value'][4])?$adr['value'][4]:''; ?>">
 			</dd>
 			<dt>
 				<label class="label" for="adr_zipcode"><?php echo $l->t('Zipcode'); ?></label>
 			</dt>
 			<dd>
-				<input type="text" id="adr_zipcode" name="value[ADR][5]" placeholder="<?php echo $l->t('Zipcode'); ?>" value="<?php echo isset($adr['value'][5])?$adr['value'][5]:''; ?>">
+				<input type="text" id="adr_zipcode" name="value[ADR][5]" placeholder="<?php echo $l->t('Postal code'); ?>" value="<?php echo isset($adr['value'][5])?$adr['value'][5]:''; ?>">
 			</dd>
 			<dt>
 				<label class="label" for="adr_country"><?php echo $l->t('Country'); ?></label>

@@ -9,7 +9,7 @@ $(document).ready(function(){
 			function(result){
 				if(result.status == 'success'){
 					// Download the file
-					window.location = OC.filePath('user_migrate','ajax','export.php?operation=download')	;
+					window.location = OC.linkTo('user_migrate','ajax/export.php') + '?operation=download';
 					$('.loading').hide();
 					$('#exportbtn').val(t('user_migrate', 'Export'));
 				} else {

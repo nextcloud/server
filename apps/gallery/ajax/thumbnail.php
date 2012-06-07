@@ -20,14 +20,15 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 * 
 */
-
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('gallery');
+require_once('apps/gallery/lib/managers.php');
 
-$img = $_GET['img'];
 
-$image = OC_Gallery_Photo::getThumbnail($img);
+$img = $_GET['filepath'];
+
+$image = \OC\Pictures\ThumbnailsManager::getInstance()->getThumbnail($img);
 if ($image) {
 	OCP\Response::enableCaching(3600 * 24); // 24 hour
 	$image->show();
