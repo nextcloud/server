@@ -55,7 +55,7 @@ class OC{
 	 */
 	public static $THIRDPARTYWEBROOT = '';
 	/**
-	 * The installation path array of the apps folder on the server (e.g. /srv/http/owncloud) 'real' and web path in 'web'
+	 * The installation path array of the apps folder on the server (e.g. /srv/http/owncloud) 'path' and web path in 'url'
 	 */
 	public static $APPSROOTS = array();
 	/*
@@ -161,22 +161,17 @@ class OC{
 			echo("3rdparty directory not found! Please put the ownCloud 3rdparty folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
 			exit;
 		}
-
 		// search the apps folder
-		if(OC_Config::getValue('appsroot', '')<>''){
-			$real_a = explode(':',OC_Config::getValue('appsroot', ''));
-			$web_a = explode(':',OC_Config::getValue('appsurl', ''));
-			foreach($real_a as $k => $path) {
-				if(!isset($web_a[$k])){
-					echo("Apps root and appsurl not mathing. You need to have the same number of paths");
-					exit;
-				}
-				OC::$APPSROOTS[] = array('path'=> $path, 'web' => $web_a[$k]);
+		$config_paths = OC_Config::getValue('apps_paths', array());
+		if(! empty($config_paths)){
+			foreach($config_paths as $paths) {
+				if( isset($paths['url']) && isset($paths['path']))
+					OC::$APPSROOTS[] = $paths;	
 			}
 		}elseif(file_exists(OC::$SERVERROOT.'/apps')){
-			OC::$APPSROOTS[] = array('path'=> OC::$SERVERROOT.'/apps', 'web' => OC::$WEBROOT.'/apps/');
+			OC::$APPSROOTS[] = array('path'=> OC::$SERVERROOT.'/apps', 'url' => OC::$WEBROOT.'/apps/');
 		}elseif(file_exists(OC::$SERVERROOT.'/../apps')){
-			OC::$APPSROOTS[] = array('path'=> rtrim(dirname(OC::$SERVERROOT), '/').'/apps', 'web' => rtrim(dirname(OC::$WEBROOT), '/').'/apps/');
+			OC::$APPSROOTS[] = array('path'=> rtrim(dirname(OC::$SERVERROOT), '/').'/apps', 'url' => rtrim(dirname(OC::$WEBROOT), '/').'/apps/');
 			OC::$APPSROOT=rtrim(dirname(OC::$SERVERROOT), '/');
 		}
 

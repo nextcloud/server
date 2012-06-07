@@ -42,8 +42,8 @@ class OC_Minimizer_JS extends OC_Minimizer
 				$append = false;
 				foreach( OC::$APPSROOTS as $apps_dir)
 				{
-					if($this->appendIfExist($apps_dir['path'], $apps_dir['web'], "$script$fext.js" , true)) { $append =true; break; }
-					elseif($this->appendIfExist($apps_dir['path'], $apps_dir['web'], "$script.js", true )) { $append =true; break; }
+					if($this->appendIfExist($apps_dir['path'], $apps_dir['url'], "$script$fext.js" , true)) { $append =true; break; }
+					elseif($this->appendIfExist($apps_dir['path'], $apps_dir['url'], "$script.js", true )) { $append =true; break; }
 				}
 				if(! $append) {
 					echo('js file not found: script:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);

@@ -342,7 +342,7 @@ class OC_App{
 	public static function getAppWebPath($appid) {
 		foreach(OC::$APPSROOTS as $dir) {
 			if(file_exists($dir['path'].'/'.$appid)) {
-				return $dir['web'].'/'.$appid;
+				return $dir['url'].'/'.$appid;
 			}
 		}
 		return false;
