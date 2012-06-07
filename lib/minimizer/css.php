@@ -28,8 +28,8 @@ class OC_Minimizer_CSS extends OC_Minimizer
 				$append = false;
 				foreach( OC::$APPSROOTS as $apps_dir)
 				{
-					if($this->appendIfExist('cssfiles', $apps_dir['path'], $apps_dir['web'], "$style$fext.css", true)) { $append =true; break; }
-					elseif($this->appendIfExist('cssfiles', $apps_dir['path'], $apps_dir['web'], "$style.css", true )) { $append =true; break; }
+					if($this->appendIfExist($apps_dir['path'], $apps_dir['web'], "$style$fext.css", true)) { $append =true; break; }
+					elseif($this->appendIfExist($apps_dir['path'], $apps_dir['web'], "$style.css", true )) { $append =true; break; }
 				}
 				if(! $append) {
 					echo('css file not found: style:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
