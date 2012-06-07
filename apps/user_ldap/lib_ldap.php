@@ -52,6 +52,8 @@ class OC_LDAP {
 	static protected $ldapGroupDisplayName;
 	static protected $ldapLoginFilter;
 
+	static protected $__d;
+
 	/**
 	 * @brief initializes the LDAP backend
 	 * @param $force read the config settings no matter what
@@ -59,6 +61,9 @@ class OC_LDAP {
 	 * initializes the LDAP backend
 	 */
 	static public function init($force = false) {
+		if(is_null(self::$__d)) {
+			self::$__d = new OC_LDAP_DESTRUCTOR();
+		}
 		self::readConfiguration($force);
 		self::establishConnection();
 	}
