@@ -258,7 +258,7 @@ class OC_LDAP {
 			$key = self::recursiveArraySearch($knownObjects, $ldapObject['dn']);
 
 			//everything is fine when we know the group
-			if($key) {
+			if($key !== false) {
 				$ownCloudNames[] = $knownObjects[$key]['owncloud_name'];
 				continue;
 			}
