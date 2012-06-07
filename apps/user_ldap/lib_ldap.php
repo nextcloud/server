@@ -380,12 +380,22 @@ class OC_LDAP {
 					SELECT 1
 					FROM '.$table.'
 					WHERE ldap_dn = ?
-						AND owncloud_name = ? )
+						OR owncloud_name = ? )
 		');
 
 		$res = $insert->execute(array($dn, $ocname, $dn, $ocname));
 
-		return !OCP\DB::isError($res);
+		if(OCP\DB::isError($res)) {
+			return false;
+		}
+
+		$insRows = $res->numRows();
+
+		if($insRows == 0) {
+			return false;
+		}
+
+		return true;
 	}
 
 	static public function fetchListOfUsers($filter, $attr) {
