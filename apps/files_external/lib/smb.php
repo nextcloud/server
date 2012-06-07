@@ -13,6 +13,7 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 	private $user;
 	private $host;
 	private $root;
+	private $share;
 
 	private static $tempFiles=array();
 
@@ -20,17 +21,32 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 		$this->host=$params['host'];
 		$this->user=$params['user'];
 		$this->password=$params['password'];
+		$this->share=$params['share'];
 		$this->root=isset($params['root'])?$params['root']:'/';
+		if(substr($this->root,-1,1)!='/'){
+			$this->root.='/';
+		}
+		if(substr($this->root,0,1)!='/'){
+			$this->root='/'.$this->root;
+		}
+		if(substr($this->share,0,1)!='/'){
+			$this->share='/'.$this->share;
+		}
+		if(substr($this->share,-1,1)=='/'){
+			$this->share=substr($this->share,0,-1);
+		}
 
 		//create the root folder if necesary
-		$this->mkdir('');
+		if(!$this->is_dir('')){
+			$this->mkdir('');
+		}
 	}
 
 	public function constructUrl($path){
 		if(substr($path,-1)=='/'){
 			$path=substr($path,0,-1);
 		}
-		return 'smb://'.$this->user.':'.$this->password.'@'.$this->host.$this->root.$path;
+		return 'smb://'.$this->user.':'.$this->password.'@'.$this->host.$this->share.$this->root.$path;
 		
 	}
 }
