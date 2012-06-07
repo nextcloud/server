@@ -162,8 +162,8 @@ class OC_Util {
 			$offset=$clientTimeZone-$systemTimeZone;
 			$timestamp=$timestamp+$offset*60;
 		}
-		$timeformat=$dateOnly?'F j, Y':'F j, Y, H:i';
-		return date($timeformat,$timestamp);
+		$l=OC_L10N::get('lib');
+		return $l->l($dateOnly ? 'date' : 'datetime', $timestamp);
     }
 
 	/**
