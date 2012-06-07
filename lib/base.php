@@ -426,13 +426,6 @@ class OC{
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
 
-		if (OC_Config::getValue('installed', false)) {
-			if (!OC_AppConfig::getValue('core', 'remote_core.css', false)) {
-				OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
-				OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
-			}
-		}
-
 		//parse the given parameters
 		self::$REQUESTEDAPP = (isset($_GET['app'])?str_replace(array('\0', '/', '\\', '..'), '', strip_tags($_GET['app'])):OC_Config::getValue('defaultapp', 'files'));
 		if(substr_count(self::$REQUESTEDAPP, '?') != 0){

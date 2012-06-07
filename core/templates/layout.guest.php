@@ -4,7 +4,7 @@
 		<title>ownCloud</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="shortcut icon" href="<?php echo image_path('', 'favicon.png'); ?>" /><link rel="apple-touch-icon-precomposed" href="<?php echo image_path('', 'favicon-touch.png'); ?>" />
-		<?php if (!defined('DEBUG') || !DEBUG): ?>
+		<?php if (!empty(OC_Util::$core_styles)): ?>
 		<link rel="stylesheet" href="<?php echo OC_Helper::linkToRemote('core.css', false) ?>" type="text/css" media="screen" />
 		<?php endif ?>
 		<?php foreach($_['cssfiles'] as $cssfile): ?>
@@ -14,7 +14,7 @@
 			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
 			var oc_appswebroot = '<?php echo OC::$APPSWEBROOT; ?>';
 		</script>
-		<?php if (!defined('DEBUG') || !DEBUG): ?>
+		<?php if (!empty(OC_Util::$core_scripts)): ?>
 		<script type="text/javascript" src="<?php echo OC_Helper::linkToRemote('core.js', false) ?>"></script>
 		<?php endif ?>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
