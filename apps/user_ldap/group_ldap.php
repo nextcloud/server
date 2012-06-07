@@ -27,6 +27,11 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	protected $ldapGroupMemberAssocAttr;
 	protected $configured = false;
 
+	protected $_group_user = array();
+	protected $_user_groups = array();
+	protected $_group_users = array();
+	protected $_groups = array();
+
 	public function __construct() {
 		$this->ldapGroupFilter          = OCP\Config::getAppValue('user_ldap', 'ldap_group_filter', '(objectClass=posixGroup)');
 		$this->ldapGroupMemberAssocAttr = OCP\Config::getAppValue('user_ldap', 'ldap_group_member_assoc_attribute', 'uniqueMember');
@@ -48,6 +53,9 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		if(!$this->configured) {
 			return false;
 		}
+		if(isset($this->_group_user[$gid][$uid])) {
+			return $this->_group_user[$gid][$uid];
+		}
 		$dn_user = OC_LDAP::username2dn($uid);
 		$dn_group = OC_LDAP::groupname2dn($gid);
 		// just in case
@@ -64,8 +72,8 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		//TODO: this can be done with one LDAP query
 		if(strtolower($this->ldapGroupMemberAssocAttr) == 'memberuid') {
 			$dns = array();
-			foreach($members as $uid) {
-				$filter = str_replace('%uid', $uid, OC_LDAP::conf('ldapLoginFilter'));
+			foreach($members as $mid) {
+				$filter = str_replace('%uid', $mid, OC_LDAP::conf('ldapLoginFilter'));
 				$ldap_users = OC_LDAP::fetchListOfUsers($filter, 'dn');
 				if(count($ldap_users) < 1) {
 					continue;
@@ -75,7 +83,8 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 			$members = $dns;
 		}
 
-		return in_array($dn_user, $members);
+		$this->_group_user[$gid][$uid] = in_array($dn_user, $members);
+		return $this->_group_user[$gid][$uid];
 	}
 
 	/**
@@ -90,8 +99,12 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		if(!$this->configured) {
 			return array();
 		}
+		if(isset($this->_user_groups[$uid])) {
+			return $this->_user_groups[$uid];
+		}
 		$userDN = OC_LDAP::username2dn($uid);
 		if(!$userDN) {
+			$this->_user_groups[$uid] = array();
 			return array();
 		}
 
@@ -112,9 +125,9 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 			$this->ldapGroupMemberAssocAttr.'='.$uid
 		));
 		$groups = OC_LDAP::fetchListOfGroups($filter, array(OC_LDAP::conf('ldapGroupDisplayName'),'dn'));
-		$userGroups = OC_LDAP::ownCloudGroupNames($groups);
+		$this->_user_groups[$uid] = array_unique(OC_LDAP::ownCloudGroupNames($groups), SORT_LOCALE_STRING);
 
-		return array_unique($userGroups, SORT_LOCALE_STRING);
+		return $this->_user_groups[$uid];
 	}
 
 	/**
@@ -125,14 +138,19 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		if(!$this->configured) {
 			return array();
 		}
+		if(isset($this->_group_users[$gid])) {
+			return $this->_group_users[$gid];
+		}
 
 		$groupDN = OC_LDAP::groupname2dn($gid);
 		if(!$groupDN) {
+			$this->_group_users[$gid] = array();
 			return array();
 		}
 
 		$members = OC_LDAP::readAttribute($groupDN, $this->ldapGroupMemberAssocAttr);
 		if(!$members) {
+			$this->_group_users[$gid] = array();
 			return array();
 		}
 
@@ -154,7 +172,8 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		if(!$isMemberUid) {
 			$result = array_intersect($result, OCP\User::getUsers());
 		}
-		return array_unique($result, SORT_LOCALE_STRING);
+		$this->_group_users[$gid] = array_unique($result, SORT_LOCALE_STRING);
+		return $this->_group_users[$gid];
 	}
 
 	/**
@@ -167,10 +186,11 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		if(!$this->configured) {
 			return array();
 		}
-
-		$ldap_groups = OC_LDAP::fetchListOfGroups($this->ldapGroupFilter, array(OC_LDAP::conf('ldapGroupDisplayName'), 'dn'));
-		$groups = OC_LDAP::ownCloudGroupNames($ldap_groups);
-		return $groups;
+		if(is_null($this->_groups)) {
+			$ldap_groups = OC_LDAP::fetchListOfGroups($this->ldapGroupFilter, array(OC_LDAP::conf('ldapGroupDisplayName'), 'dn'));
+			$this->_groups = OC_LDAP::ownCloudGroupNames($ldap_groups);
+		}
+		return $this->groups;
 	}
 
 	/**
