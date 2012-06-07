@@ -36,5 +36,7 @@ if(OCP\App::isEnabled('files_encryption')) {
 <?php } ?>
 </td>
 <script type="text/javascript">
-Contacts.UI.Addressbooks.loadImportHandlers();
+$(document).ready(function(){
+	Contacts.UI.Addressbooks.loadImportHandlers();
+});
 </script>
