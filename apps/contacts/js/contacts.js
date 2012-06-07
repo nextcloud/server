@@ -1290,7 +1290,7 @@ Contacts={
 					$.getJSON(OC.filePath('contacts', 'ajax', 'chooseaddressbook.php'), function(jsondata){
 						if(jsondata.status == 'success'){
 							$('#addressbook_dialog').html(jsondata.data.page).find('#chooseaddressbook_dialog').dialog({
-								width : 600,
+								minWidth : 600,
 								close : function(event, ui) {
 									$(this).dialog('destroy').remove();
 									$('#addressbook_dialog').remove();
