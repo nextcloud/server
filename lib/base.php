@@ -173,6 +173,11 @@ class OC{
 				}
 				OC::$APPSROOTS[] = array('path'=> $path, 'web' => $web_a[$k]);
 			}
+		}elseif(file_exists(OC::$SERVERROOT.'/apps')){
+			OC::$APPSROOTS[] = array('path'=> OC::$SERVERROOT.'/apps', 'web' => OC::$WEBROOT.'/apps/');
+		}elseif(file_exists(OC::$SERVERROOT.'/../apps')){
+			OC::$APPSROOTS[] = array('path'=> rtrim(dirname(OC::$SERVERROOT), '/').'/apps', 'web' => rtrim(dirname(OC::$WEBROOT), '/').'/apps/');
+			OC::$APPSROOT=rtrim(dirname(OC::$SERVERROOT), '/');
 		}
 
 		if(empty(OC::$APPSROOTS)){
