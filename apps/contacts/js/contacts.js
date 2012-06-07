@@ -1281,7 +1281,7 @@ Contacts={
 		},
 		Addressbooks:{
 			droptarget:undefined,
-			droptext:t('contacts', 'Drop a VCF file to import contacts.'),
+			droptext:t('contacts', 'Drop a VCF file<br />to import contacts.'),
 			overview:function(){
 				if($('#chooseaddressbook_dialog').dialog('isOpen') == true){
 					$('#chooseaddressbook_dialog').dialog('moveToTop');
