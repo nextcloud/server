@@ -34,6 +34,17 @@ $CONFIG = array(
  * in the admin apps menu.
  */
 "writable_appsdir" => true,
-// "datadirectory" => ""
+// "datadirectory" => "",
+"apps_paths" => array(
+
+/* Set an array of path for your apps directories
+ key 'path' is for the fs path an the key url is for the http path to your
+ applications paths
+*/
+  array(
+    'path'=> '/var/www/owncloud/apps',
+    'url' => '/apps',
+  ),
+ ),
 );
 ?>
