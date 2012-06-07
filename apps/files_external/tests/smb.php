@@ -19,7 +19,7 @@ if(!is_array($config) or !isset($config['smb']) or !$config['smb']['run']){
 		public function setUp(){
 			$id=uniqid();
 			$this->config=include('apps/files_external/tests/config.php');
-			$this->config['smb']['root'].='/'.$id;//make sure we have an new empty folder to work in
+			$this->config['smb']['root'].=$id;//make sure we have an new empty folder to work in
 			$this->instance=new OC_Filestorage_SMB($this->config['smb']);
 		}
 
