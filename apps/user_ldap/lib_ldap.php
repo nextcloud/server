@@ -330,30 +330,6 @@ class OC_LDAP {
 	}
 
 	/**
-	 * @brief inserts a new group into the mappings table
-	 * @param $dn the record in question
-	 * @param $ocname the name to use in ownCloud
-	 * @returns true on success, false otherwise
-	 *
-	 * inserts a new group into the mappings table
-	 */
-	static private function mapGroup($dn, $ocname) {
-		return self::mapComponent($dn, $ocname, false);
-	}
-
-	/**
-	 * @brief inserts a new user into the mappings table
-	 * @param $dn the record in question
-	 * @param $ocname the name to use in ownCloud
-	 * @returns true on success, false otherwise
-	 *
-	 * inserts a new user into the mappings table
-	 */
-	static private function mapUser($dn, $ocname) {
-		return self::mapComponent($dn, $ocname, true);
-	}
-
-	/**
 	 * @brief inserts a new user or group into the mappings table
 	 * @param $dn the record in question
 	 * @param $ocname the name to use in ownCloud
