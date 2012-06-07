@@ -34,6 +34,9 @@ class OC_USER_LDAP extends OC_User_Backend {
 	// will be retrieved from LDAP server
 	protected $ldap_dc = false;
 
+	// cache getUsers()
+	protected $_users = null;
+
 	public function __construct() {
 		$this->ldapUserFilter      = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter', '(objectClass=posixAccount)');
 		$this->ldapQuotaAttribute  = OCP\Config::getAppValue('user_ldap', 'ldap_quota_attr', '');
@@ -108,9 +111,11 @@ class OC_USER_LDAP extends OC_User_Backend {
 	 * Get a list of all users.
 	 */
 	public function getUsers(){
-		$ldap_users = OC_LDAP::fetchListOfUsers($this->ldapUserFilter, array(OC_LDAP::conf('ldapUserDisplayName'), 'dn'));
-		$users = OC_LDAP::ownCloudUserNames($ldap_users);
-		return $users;
+		if(is_null($this->_users)) {
+			$ldap_users = OC_LDAP::fetchListOfUsers($this->ldapUserFilter, array(OC_LDAP::conf('ldapUserDisplayName'), 'dn'));
+			$this->_users = OC_LDAP::ownCloudUserNames($ldap_users);
+		}
+		return $this->_users;
 	}
 
 	/**
@@ -119,7 +124,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 	 * @return boolean
 	 */
 	public function userExists($uid){
-		return in_array($uid, self::getUsers());
+		return in_array($uid, $this->getUsers());
 	}
 
 }
