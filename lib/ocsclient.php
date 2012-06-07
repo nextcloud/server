@@ -35,12 +35,7 @@ class OC_OCSClient{
 	 * This function returns the url of the OCS AppStore server. It´s possible to set it in the config file or it will fallback to the default
 	 */
 	private static function getAppStoreURL(){
-		$configurl=OC_Config::getValue('appstoreurl', '');
-		if($configurl<>'') {
-			$url=$configurl;
-		}else{
-			$url='http://api.apps.owncloud.com/v1';
-		}
+		$url = OC_Config::getValue('appstoreurl', 'http://api.apps.owncloud.com/v1');
 		return($url);
 	}
 
@@ -50,12 +45,7 @@ class OC_OCSClient{
          * This function returns the url of the OCS knowledge base server. It´s possible to set it in the config file or it will fallback to the default
          */
         private static function getKBURL(){
-                $configurl=OC_Config::getValue('knowledgebaseurl', '');
-                if($configurl<>'') {
-                        $url=$configurl;
-                }else{
-                        $url='http://api.apps.owncloud.com/v1';
-                }
+                $url = OC_Config::getValue('knowledgebaseurl', 'http://api.apps.owncloud.com/v1');
                 return($url);
         }
 
