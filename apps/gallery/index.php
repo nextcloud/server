@@ -27,30 +27,6 @@ OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('gallery');
 OCP\App::setActiveNavigationEntry( 'gallery_index' );
 
-if (!file_exists(OCP\Config::getSystemValue("datadirectory").'/'. OCP\USER::getUser() .'/gallery')) {
-  mkdir(OCP\Config::getSystemValue("datadirectory").'/'. OCP\USER::getUser() .'/gallery');
-}
-
-if (!isset($_GET['view'])) {
-  $result = OC_Gallery_Album::find(OCP\USER::getUser());
-
-  $r = array();
-  while ($row = $result->fetchRow())
-    $r[] = $row;
-
-  $tmpl = new OCP\Template( 'gallery', 'index', 'user' );
-  $tmpl->assign('r', $r);
-  $tmpl->printPage();
-} else {
-  $result = OC_Gallery_Photo::findForAlbum(OCP\USER::getUser(), $_GET['view']);
-
-  $photos = array();
-  while ($p = $result->fetchRow())
-    $photos[] = $p['file_path'];
-  
-  $tmpl = new OCP\Template( 'gallery', 'view_album', 'user' );
-  $tmpl->assign('photos', $photos);
-  $tmpl->assign('albumName', $_GET['view']);
-  $tmpl->printPage();
-}
+$tmpl = new OCP\Template( 'gallery', 'index', 'user' );
+$tmpl->printPage();
 ?>
