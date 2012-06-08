@@ -88,7 +88,7 @@ class ThumbnailsManager {
 	}
 	
 	public function delete($path) {
-		unlink(\OC::$CONFIG_DATADIRECTORY_ROOT.'/'.\OC_User::getUser()."/gallery".$path);
+		unlink(\OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser()."/gallery".$path);
 	}
 	
 	private function __construct() {}
