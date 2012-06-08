@@ -77,6 +77,10 @@ class OC_L10N{
 	 * language.
 	 */
 	public function __construct($app, $lang = null){
+		$this->init($app, $lang);
+	}
+		
+	protected function init($app, $lang = null){
 		// Find the right language
 		if(is_null($lang)){
 			$lang = self::findLanguage($app);

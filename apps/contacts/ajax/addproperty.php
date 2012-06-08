@@ -33,7 +33,7 @@ $vcard = OC_Contacts_App::getContactVCard($id);
 
 if(!is_array($value)){
 	$value = trim($value);
-	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG', 'BDAY', 'NICKNAME', 'NOTE'))) {
+	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG', 'BDAY', 'URL', 'NICKNAME', 'NOTE'))) {
 		OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Cannot add empty property.'))));
 		exit();
 	}

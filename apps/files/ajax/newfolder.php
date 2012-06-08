@@ -13,7 +13,7 @@ if(trim($foldername) == '') {
 	OCP\JSON::error(array("data" => array( "message" => "Empty Foldername" )));
 	exit();
 }
-if(strpos($filename,'/')!==false){
+if(strpos($foldername,'/')!==false){
 	OCP\JSON::error(array("data" => array( "message" => "Invalid Foldername" )));
 	exit();
 }

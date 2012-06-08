@@ -34,7 +34,8 @@ return array(
 		'user'=>'test',
 		'password'=>'test',
 		'host'=>'localhost',
-		'root'=>'/test',
+		'share'=>'/test',
+		'root'=>'/test/',
 	),
 	'amazons3'=>array(
 		'run'=>false,

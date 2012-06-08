@@ -34,6 +34,8 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<dd class="propertycontainer hidden" id="org_value" data-element="ORG"><input id="org" required="required" name="value[ORG]" type="text" class="contacts_property big" name="value" value="" placeholder="<?php echo $l->t('Organization'); ?>" /><a role="button" class="action delete" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 		<dt class="hidden" id="nickname_label" data-element="NICKNAME"><label for="nickname"><?php echo $l->t('Nickname'); ?></label></dt>
 		<dd class="propertycontainer hidden" id="nickname_value" data-element="NICKNAME"><input id="nickname" required="required" name="value[NICKNAME]" type="text" class="contacts_property big" name="value" value="" placeholder="<?php echo $l->t('Enter nickname'); ?>" /><a role="button" class="action delete" title="<?php echo $l->t('Delete'); ?>"></a></dd>
+		<dt class="hidden" id="url_label" data-element="URL"><label for="nickname"><?php echo $l->t('Web site'); ?></label></dt>
+		<dd class="propertycontainer hidden" id="url_value" data-element="URL"><input id="url" required="required" name="value[URL]" type="text" class="contacts_property big" name="value" value="" placeholder="<?php echo $l->t('http://www.somesite.com'); ?>" /><a role="button" class="action globe" title="<?php echo $l->t('Go to web site'); ?>"><a role="button" class="action delete" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 		<dt class="hidden" id="bday_label" data-element="BDAY"><label for="bday"><?php echo $l->t('Birthday'); ?></label></dt>
 		<dd class="propertycontainer hidden" id="bday_value" data-element="BDAY"><input id="bday"  required="required" name="value" type="text" class="contacts_property big" value="" placeholder="<?php echo $l->t('dd-mm-yyyy'); ?>" /><a role="button" class="action delete" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 		<dt class="hidden" id="categories_label" data-element="CATEGORIES"><label for="categories"><?php echo $l->t('Groups'); ?></label></dt>
@@ -108,6 +110,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<li><a role="menuitem" data-type="EMAIL"><?php echo $l->t('Email'); ?></a></li>
 		<li><a role="menuitem" data-type="ADR"><?php echo $l->t('Address'); ?></a></li>
 		<li><a role="menuitem" data-type="NOTE"><?php echo $l->t('Note'); ?></a></li>
+		<li><a role="menuitem" data-type="URL"><?php echo $l->t('Web site'); ?></a></li>
 		<li><a role="menuitem" data-type="CATEGORIES"><?php echo $l->t('Groups'); ?></a></li>
 	</ul>
 	</div>

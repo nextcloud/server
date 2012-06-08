@@ -67,6 +67,11 @@ class OC_App{
 				OC_Util::$scripts = array();
 				OC_Util::$core_styles = OC_Util::$styles;
 				OC_Util::$styles = array();
+
+				if (!OC_AppConfig::getValue('core', 'remote_core.css', false)) {
+					OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
+					OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
+				}
 			}
 		}
 		// return

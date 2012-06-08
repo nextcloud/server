@@ -22,7 +22,7 @@ if(OCP\App::isEnabled('files_encryption')) {
 			echo OCP\html_select_options($contacts_options, $contacts_options[0]['id'], array('value'=>'id', 'label'=>'displayname'));
 			?>
 			</select>
-			<span id="import_drop_target" class="droptarget float"><?php echo $l->t("Drop a VCF file to import contacts."); ?> (Max. <?php echo  $_['uploadMaxHumanFilesize']; ?>)</span>
+			<span id="import_drop_target" class="droptarget float"><?php echo $l->t("Drop a VCF file<br />to import contacts."); ?> (Max. <?php echo  $_['uploadMaxHumanFilesize']; ?>)</span>
 			<a class="svg upload float" title="<?php echo $l->t('Select from HD'); ?>">
 			<input class="float" id="import_upload_start" type="file" accept="text/*" name="importfile" /></a>
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
@@ -36,5 +36,7 @@ if(OCP\App::isEnabled('files_encryption')) {
 <?php } ?>
 </td>
 <script type="text/javascript">
-Contacts.UI.Addressbooks.loadImportHandlers();
+$(document).ready(function(){
+	Contacts.UI.Addressbooks.loadImportHandlers();
+});
 </script>

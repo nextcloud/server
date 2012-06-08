@@ -10,7 +10,17 @@ class OC_Cache {
 	static protected $cache;
 
 	static protected function init() {
+		$fast_cache = null;
+		if (!$fast_cache && function_exists('xcache_set')) {
+			$fast_cache = new OC_Cache_XCache();
+		}
+		if (!$fast_cache && function_exists('apc_store')) {
+			$fast_cache = new OC_Cache_APC();
+		}
 		self::$cache = new OC_Cache_File();
+		if ($fast_cache) {
+			self::$cache = new OC_Cache_Broker($fast_cache, self::$cache);
+		}
 	}
 
 	static public function get($key) {
