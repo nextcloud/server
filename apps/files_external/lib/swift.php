@@ -269,7 +269,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		$this->user=$params['user'];
 		$this->root=isset($params['root'])?$params['root']:'/';
 		$this->secure=isset($params['secure'])?(bool)$params['secure']:true;
-		if(substr($this->root,0,1)!='/'){
+		if(!$this->root || $this->root[0]!='/'){
 			$this->root='/'.$this->root;
 		}
 		$this->auth = new CF_Authentication($this->user, $this->token, null, $this->host);

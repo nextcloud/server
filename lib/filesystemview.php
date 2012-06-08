@@ -34,7 +34,7 @@ class OC_FilesystemView {
 		if(!$path){
 			$path='/';
 		}
-		if(substr($path,0,1)!=='/'){
+		if($path[0]!=='/'){
 			$path='/'.$path;
 		}
 		return $this->fakeRoot.$path;

@@ -25,7 +25,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		$this->password=$params['password'];
 		$this->secure=isset($params['secure'])?(bool)$params['secure']:false;
 		$this->root=isset($params['root'])?$params['root']:'/';
-		if(substr($this->root,0,1)!='/'){
+		if(!$this->root || $this->root[0]!='/'){
 			$this->root='/'.$this->root;
 		}
 		if(substr($this->root,-1,1)!='/'){
@@ -273,7 +273,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	}
 
 	private function cleanPath($path){
-		if(substr($path,0,1)=='/'){
+		if(!$path || $path[0]=='/'){
 			return substr($path,1);
 		}else{
 			return $path;
