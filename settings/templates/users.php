@@ -64,7 +64,7 @@ foreach($_["groups"] as $group) {
 				</select>
 			</td>
 			<td class="quota">
-				<select class='quota'>
+				<select class='quota-user'>
 					<?php foreach($_['quota_preset'] as $preset):?>
 						<option <?php if($user['quota']==$preset) echo 'selected="selected"';?> value='<?php echo $preset;?>'><?php echo $preset;?></option>
 					<?php endforeach;?>
