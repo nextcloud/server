@@ -29,6 +29,11 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @var string
 	 */
 	protected $path;
+	/**
+	 * file stat cache
+	 * @var array
+	 */
+	protected $stat_cache;
 
 	/**
 	 * Sets up the node, expects a full path name
@@ -77,7 +82,14 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 
 	}
 
-
+	/**
+	 * Set the stat cache
+	 */
+	protected function stat() {
+		if (!isset($this->stat_cache)) {
+			$this->stat_cache = OC_Filesystem::stat($this->path);
+		}
+	}
 
 	/**
 	 * Returns the last modification time, as a unix timestamp
@@ -85,8 +97,8 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @return int
 	 */
 	public function getLastModified() {
-
-		return OC_Filesystem::filemtime($this->path);
+		$this->stat();
+		return $this->stat_cache['mtime'];
 
 	}
 
