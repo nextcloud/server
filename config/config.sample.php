@@ -24,6 +24,9 @@ $CONFIG = array(
 /* Prefix for the OwnCloud tables in the database */
 "dbtableprefix" => "",
 
+/* Define the salt used to hash the user passwords. All your user passwords are lost if you lose this string. */
+"passwordsalt" => "",
+
 /* Force use of HTTPS connection (true = use HTTPS) */
 "forcessl" => false,
 
