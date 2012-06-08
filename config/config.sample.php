@@ -29,6 +29,7 @@ $CONFIG = array(
 "log_type" => "",
 "logfile" => "",
 "loglevel" => "",
+"passwordsalt" => "",
 // "datadirectory" => ""
 );
 ?>

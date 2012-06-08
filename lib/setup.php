@@ -73,6 +73,10 @@ class OC_Setup {
 				$dbtype='sqlite3';
 			}
 
+			//generate a random salt that is used to salt the local user passwords
+			$salt=mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000);
+			OC_Config::setValue('passwordsalt', $salt);
+
 			//write the config file
 			OC_Config::setValue('datadirectory', $datadir);
  			OC_Config::setValue('dbtype', $dbtype);
