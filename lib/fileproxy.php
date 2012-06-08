@@ -45,15 +45,6 @@ class OC_FileProxy{
 	public static $enabled=true;
 	
 	/**
-	 * check if this proxy implments a specific proxy operation
-	 * @param string #proxy name of the proxy operation
-	 * @return bool
-	 */
-	public function provides($operation){
-		return method_exists($this,$operation);
-	}
-	
-	/**
 	 * fallback function when a proxy operation is not implemented
 	 * @param string $function the name of the proxy operation
 	 * @param mixed
@@ -76,11 +67,10 @@ class OC_FileProxy{
 		self::$proxies[]=$proxy;
 	}
 	
-	public static function getProxies($operation,$post){
-		$operation=(($post)?'post':'pre').$operation;
+	public static function getProxies($operation){
 		$proxies=array();
 		foreach(self::$proxies as $proxy){
-			if($proxy->provides($operation)){
+			if(method_exists($proxy,$operation)){
 				$proxies[]=$proxy;
 			}
 		}
@@ -91,8 +81,8 @@ class OC_FileProxy{
 		if(!self::$enabled){
 			return true;
 		}
-		$proxies=self::getProxies($operation,false);
 		$operation='pre'.$operation;
+		$proxies=self::getProxies($operation);
 		foreach($proxies as $proxy){
 			if(!is_null($filepath2)){
 				if($proxy->$operation($filepath,$filepath2)===false){
@@ -111,8 +101,8 @@ class OC_FileProxy{
 		if(!self::$enabled){
 			return $result;
 		}
-		$proxies=self::getProxies($operation,true);
 		$operation='post'.$operation;
+		$proxies=self::getProxies($operation);
 		foreach($proxies as $proxy){
 			$result=$proxy->$operation($path,$result);
 		}
