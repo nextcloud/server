@@ -59,7 +59,7 @@ if ($fn) {
 			bailOut(OC_Contacts_App::$l10n->t('Couldn\'t save temporary image: ').$tmpkey);
 		}
 	} else {
-		bailOut(OC_Contacts_App::$l10n->t('Couldn\'t load temporary image: ').$tmpkey.$data);
+		bailOut(OC_Contacts_App::$l10n->t('Couldn\'t load temporary image: ').$tmpkey);
 	}
 }
 
