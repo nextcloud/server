@@ -1,59 +1,143 @@
-$(document).ready(function(){
+$(document).ready(function() {
 
-	function applicableChange(applicable) {
-		if (applicable == 'Global') {
-			
-		}
-		console.log(applicable);
-	}
-
-	$('#selectStorage').live('change', function() {
+	$('.chzn-select').chosen();
+	
+	$('#selectBackend').live('change', function() {
 		var tr = $(this).parent().parent();
 		$('#externalStorage tbody').last().append($(tr).clone());
-		var selected = $(this).val();
+		var selected = $(this).find('option:selected').text();
+		var backendClass = $(this).val();
 		$(this).parent().text(selected);
-		var backends = $(this).data('configurations').split(';');
-		var configuration = [];
-		// Find selected backend configuration parameters
-		$.each(backends, function(index, backend) {
-			if (backend.split(':')[0] == selected) {
-				configuration = backend.split(':')[1].split(',');
-				// 				break;
-			}
-		});
+		$(tr).find('.backend').data('class', $(this).val());
+		var configurations = $(this).data('configurations');
 		var td = $(tr).find('td.configuration');
-		$.each(configuration, function(index, config) {
-			if (config.indexOf('*') != -1) {
-				td.append('<input type="password" placeholder="'+config.substring(1)+'" />');
-			} else {
-				td.append('<input type="text" placeholder="'+config+'" />');
+		$.each(configurations, function(backend, parameters) {
+			if (backend == backendClass) {
+				$.each(parameters['configuration'], function(parameter, placeholder) {
+					if (placeholder.indexOf('*') != -1) {
+						td.append('<input type="password" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
+					} else if (placeholder.indexOf('!') != -1) {
+						td.append('<label><input type="checkbox" data-parameter="'+parameter+'" />'+placeholder.substring(1)+'</label>');
+					} else if (placeholder.indexOf('&') != -1) {
+						td.append('<input type="text" class="optional" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
+					} else {
+						td.append('<input type="text" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
+					}
+				});
+				return false;
 			}
 		});
+		$('.chz-select').chosen();
 		$(tr).find('td').last().attr('class', 'remove');
 		$(tr).removeAttr('id');
 		$(this).remove();
 	});
 
-	$('td.remove>img').live('click', function() {
-		$(this).parent().parent().remove();
-		// TODO remove storage
-	});
-
-	$('#externalStorage select[multiple]').each(function(index,element){
-		applyMultiplySelect($(element));
-	});
-
-	function applyMultiplySelect(element) {
-		var checkHandeler=false;
-		element.multiSelect({
-			oncheck:applicableChange,
-			onuncheck:applicableChange,
-			minWidth: 120,
+	$('#externalStorage td').live('change', function() {
+		var tr = $(this).parent();
+		var mountPoint = $(tr).find('.mountPoint input').val();
+		if (mountPoint == '') {
+			return false;
+		}
+		var backendClass = $(tr).find('.backend').data('class');
+		var configuration = $(tr).find('.configuration input');
+		var addMountPoint = true;
+		if (configuration.length < 1) {
+			return false;
+		}
+		var classOptions = {};
+		$.each(configuration, function(index, input) {
+			if ($(input).val() == '' && !$(input).hasClass('optional')) {
+				addMountPoint = false;
+				return false;
+			}
+			if ($(input).is(':checkbox')) {
+				if ($(input).is(':checked')) {
+					classOptions[$(input).data('parameter')] = true;
+				} else {
+					classOptions[$(input).data('parameter')] = false;
+				}
+			} else {
+				classOptions[$(input).data('parameter')] = $(input).val();
+			}
 		});
-	}
+		if (addMountPoint) {
+			if ($('#externalStorage').data('admin')) {
+				var isPersonal = false;
+				var multiselect = $(tr).find('.chzn-select').val();
+				var oldGroups = $(tr).find('.applicable').data('applicable-groups');
+				var oldUsers = $(tr).find('.applicable').data('applicable-users');
+				$.each(multiselect, function(index, value) {
+					var pos = value.indexOf('(group)');
+					if (pos != -1) {
+						var mountType = 'group';
+						var applicable = value.substr(0, pos);
+						if ($.inArray(applicable, oldGroups) != -1) {
+							oldGroups.splice($.inArray(applicable, oldGroups), 1);
+						}
+					} else {
+						var mountType = 'user';
+						var applicable = value;
+						if ($.inArray(applicable, oldUsers) != -1) {
+							oldUsers.splice($.inArray(applicable, oldUsers), 1);
+						}
+					}
+					$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+				});
+				var mountType = 'group';
+				$.each(oldGroups, function(index, applicable) {
+					$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+				});
+				var mountType = 'user';
+				$.each(oldUsers, function(index, applicable) {
+					$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+				});
+			} else {
+				var isPersonal = true;
+				var mountType = 'user';
+				var applicable = OC.currentUser;
+				$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+			}
+		}
+	});
+
+	$('td.remove>img').live('click', function() {
+		var tr = $(this).parent().parent();
+		var mountPoint = $(tr).find('.mountPoint input').val();
+		if (mountPoint == '') {
+			return false;
+		}
+		if ($('#externalStorage').data('admin')) {
+			var isPersonal = false;
+			var multiselect = $(tr).find('.chzn-select').val();
+			$.each(multiselect, function(index, value) {
+				var pos = value.indexOf('(group)');
+				if (pos != -1) {
+					var mountType = 'group';
+					var applicable = value.substr(0, pos);
+				} else {
+					var mountType = 'user';
+					var applicable = value;
+				}
+				$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+			});
+		} else {
+			var mountType = 'user';
+			var applicable = OC.currentUser;
+			var isPersonal = true;
+		}
+		$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+		$(tr).remove();
+	});
+
+	
 
 	$('#allowUserMounting').bind('change', function() {
-		// TODO save setting
+		if (this.checked) {
+			OC.AppConfig.setValue('files_external', 'allow_user_mounting', 'yes');
+		} else {
+			OC.AppConfig.setValue('files_external', 'allow_user_mounting', 'no');
+		}
 	});
 
 });
