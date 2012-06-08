@@ -34,9 +34,10 @@ li.selected { background-color:#ddd; }
 #content>table:not(.nostyle) { margin-top:3em; }
 table:not(.nostyle) { width:100%; }
 #rightcontent { padding-left: 1em; }
-td.quota { position:relative }
+td.quota { position:relative; }
 div.quota { float:right; display:block; position:absolute; right:25em; top:0; }
 select.quota { position:absolute; left:0; top:0; width:10em; }
+select.quota-user { position:relative; left:0; top:0; width:10em; }
 input.quota-other { display:none; position:absolute; left:0.1em; top:0.1em; width:7em; border:none; -webkit-box-shadow: none -mox-box-shadow:none ; box-shadow:none; }
 div.quota>span { position:absolute; right:0em; white-space:nowrap; top: 0.7em }
 select.quota.active { background: #fff; }
