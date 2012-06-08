@@ -271,7 +271,7 @@ class OC{
 		ini_set('session.cookie_httponly','1;');
 		session_start();
 	}
-	
+
 	public static function loadapp(){
 		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php')){
 			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php');
@@ -279,7 +279,7 @@ class OC{
 			trigger_error('The requested App was not found.', E_USER_ERROR);//load default app instead?
 		}
 	}
-	
+
 	public static function loadfile(){
 		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE)){
 			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
@@ -289,7 +289,7 @@ class OC{
 				exit;
 			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
 				require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
-			}	
+			}
 		}else{
 			header('HTTP/1.0 404 Not Found');
 			exit;
@@ -300,7 +300,7 @@ class OC{
 		// register autoloader
 		spl_autoload_register(array('OC','autoload'));
 		setlocale(LC_ALL, 'en_US.UTF-8');
-		
+
 		// set some stuff
 		//ob_start();
 		error_reporting(E_ALL | E_STRICT);
@@ -320,7 +320,7 @@ class OC{
 		//try to configure php to enable big file uploads.
 		//this doesn´t work always depending on the webserver and php configuration.
 		//Let´s try to overwrite some defaults anyways
-		
+
 		//try to set the maximum execution time to 60min
 		@set_time_limit(3600);
 		@ini_set('max_execution_time',3600);
@@ -350,7 +350,7 @@ class OC{
 			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
 			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
 		}
-		
+
 		self::initPaths();
 
 		// register the stream wrappers
@@ -368,7 +368,7 @@ class OC{
 		if(isset($refererhost['host'])) $refererhost=$refererhost['host']; else $refererhost='';
 		$server=OC_Helper::serverHost();
 		$serverhost=explode(':',$server);
-		$serverhost=$serverhost['0']; 
+		$serverhost=$serverhost['0'];
 		if(!self::$CLI){
 			if(($_SERVER['REQUEST_METHOD']=='POST') and ($refererhost<>$serverhost)) {
 				$url = OC_Helper::serverProtocol().'://'.$server.OC::$WEBROOT.'/index.php';
@@ -419,17 +419,12 @@ class OC{
 				OC_App::loadApps();
 			}
 		}
-		
+
 		// Check for blacklisted files
 		OC_Hook::connect('OC_Filesystem','write','OC_Filesystem','isBlacklisted');
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
-
-		if (!OC_AppConfig::getValue('core', 'remote_core.css', false)) {
-			OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
-			OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
-		}
 
 		//parse the given parameters
 		self::$REQUESTEDAPP = (isset($_GET['app'])?str_replace(array('\0', '/', '\\', '..'), '', strip_tags($_GET['app'])):OC_Config::getValue('defaultapp', 'files'));
@@ -482,7 +477,7 @@ if(!function_exists('get_temp_dir')) {
 			return dirname($temp);
 		}
 		if( $temp=sys_get_temp_dir())    return $temp;
-		
+
 		return null;
 	}
 }

@@ -81,7 +81,7 @@ class OC_Gallery_Scanner {
 				$image->destroy();
 			}
 		}
-		$view = OCP\App::getStorage('gallery');
+		$view = OCP\Files::getStorage('gallery');
 		imagepng($thumbnail, $view->getLocalFile($albumName.'.png'));
 		imagedestroy($thumbnail);
 	}

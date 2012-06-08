@@ -80,7 +80,7 @@ function handleGetThumbnail($token, $imgpath) {
 function handleGetAlbumThumbnail($token, $albumname)
 {
   $owner = OC_Gallery_Sharing::getTokenOwner($token);
-  $view = OCP\App::getStorage('gallery');
+  $view = OCP\Files::getStorage('gallery');
   $file = $view->fopen($albumname.'.png', 'r');
   $image = new OC_Image($file);
   if ($image->valid()) {
@@ -94,7 +94,7 @@ function handleGetAlbumThumbnail($token, $albumname)
 
 function handleGetPhoto($token, $photo) {
   $owner = OC_Gallery_Sharing::getTokenOwner($token);
-  $view = OCP\App::getStorage('files');
+  $view = OCP\Files::getStorage('files');
   $file = $view->fopen(urldecode($photo), 'r');
   header('Content-Type: '.OC_Image::getMimeTypeForFile($file));
   OCP\Response::sendFile($file);

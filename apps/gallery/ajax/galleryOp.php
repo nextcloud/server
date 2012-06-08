@@ -42,7 +42,7 @@ function handleRemove($name) {
 
 function handleGetThumbnails($albumname) {
   OCP\Response::enableCaching(3600 * 24); // 24 hour
-  $view = OCP\App::getStorage('gallery');
+  $view = OCP\Files::getStorage('gallery');
   $thumbnail = $view->fopen(urldecode($albumname).'.png', 'r');
   header('Content-Type: '.OC_Image::getMimeTypeForFile($thumbnail));
   OCP\Response::sendFile($thumbnail);

@@ -23,7 +23,6 @@ if (isset($_POST['user'])) {
 			$msg = $tmpl->fetchPage();
 			$l = OC_L10N::get('core');
 			$from = 'lostpassword-noreply@' . OCP\Util::getServerHost();
-			$r=mail($email, $l->t('Owncloud password reset'), $msg, 'From:' . $from);
 			OC_MAIL::send($email,$_POST['user'],$l->t('ownCloud password reset'),$msg,$from,'ownCloud');
 			echo('sent');
 
