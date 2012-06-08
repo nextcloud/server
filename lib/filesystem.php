@@ -281,7 +281,7 @@ class OC_Filesystem{
 	}
 	
 	/**
-	* change the root to a fake toor
+	* change the root to a fake root
 	* @param  string  fakeRoot
 	* @return bool
 	*/

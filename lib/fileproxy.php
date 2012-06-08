@@ -27,14 +27,17 @@
  * Manipulation happens by using 2 kind of proxy operations, pre and post proxies
  * that manipulate the filesystem call and the result of the call respectively
  *
- * A pre-proxy recieves the filepath as arugments (or 2 filespaths in case of operations like copy or move) and return a boolean
- * If a pre-proxy returnes false the file operation will be canceled
+ * A pre-proxy recieves the filepath as arugments (or 2 filespaths in case of
+ * operations like copy or move) and return a boolean
+ * If a pre-proxy returns false the file operation will be canceled
  * All filesystem operations have a pre-proxy
  *
  * A post-proxy recieves 2 arguments, the filepath and the result of the operation.
- * The return calue of the post-proxy will be used as the new result of the operation
- * The operations that have a post-proxy are
- * file_get_contents, is_file, is_dir, file_exists, stat, is_readable, is_writable, fileatime, filemtime, filectime, file_get_contents, getMimeType, hash, fopen, free_space and search
+ * The return value of the post-proxy will be used as the new result of the operation
+ * The operations that have a post-proxy are:
+ * file_get_contents, is_file, is_dir, file_exists, stat, is_readable,
+ * is_writable, fileatime, filemtime, filectime, file_get_contents,
+ * getMimeType, hash, fopen, free_space and search
  */
 
 class OC_FileProxy{
@@ -51,7 +54,7 @@ class OC_FileProxy{
 	}
 	
 	/**
-	 * fallback function when a proxy operation is not implement
+	 * fallback function when a proxy operation is not implemented
 	 * @param string $function the name of the proxy operation
 	 * @param mixed
 	 *

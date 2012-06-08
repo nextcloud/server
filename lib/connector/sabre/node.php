@@ -137,7 +137,9 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	/**
 	 * Returns a list of properties for this nodes.;
 	 *
-	 * The properties list is a list of propertynames the client requested, encoded as xmlnamespace#tagName, for example: http://www.example.org/namespace#author
+	 * The properties list is a list of propertynames the client requested,
+	 * encoded as xmlnamespace#tagName, for example:
+	 * http://www.example.org/namespace#author
 	 * If the array is empty, all properties should be returned
 	 *
 	 * @param array $properties
@@ -153,11 +155,11 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			$existing[$row['propertyname']] = $row['propertyvalue'];
 		}
 
+		// if the array was empty, we need to return everything
 		if(count($properties) == 0){
 			return $existing;
 		}
 		
-		// if the array was empty, we need to return everything
 		$props = array();
 		foreach($properties as $property) {
 			if (isset($existing[$property])) $props[$property] = $existing[$property];
