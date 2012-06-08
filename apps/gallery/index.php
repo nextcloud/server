@@ -27,6 +27,7 @@ OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('gallery');
 OCP\App::setActiveNavigationEntry( 'gallery_index' );
 
+OCP\Util::addStyle('files', 'files');
 OCP\Util::addStyle('gallery', 'styles');
 OCP\Util::addScript('gallery', 'pictures');
 
