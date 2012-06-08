@@ -68,7 +68,7 @@ $(document).ready(function() {
 		}
 	}
 		
-?>	<a href="javascript:shareGallery();"><input type="button" value="<?php echo $l->t('Share');?>" /></a><br/>
+?>	<!--<a href="javascript:shareGallery();"><input type="button" value="<?php echo $l->t('Share');?>" /></a>--><br/>
 </div>
 <div id="gallerycontent">
 <?php
