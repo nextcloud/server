@@ -150,7 +150,7 @@ class OC_Archive_TAR extends OC_Archive{
 		$folderContent=array();
 		$pathLength=strlen($path);
 		foreach($files as $file){
-			if(substr($file,0,1)=='/'){
+			if($file[0]=='/'){
 				$file=substr($file,1);
 			}
 			if(substr($file,0,$pathLength)==$path and $file!=$path){
@@ -241,7 +241,7 @@ class OC_Archive_TAR extends OC_Archive{
 				}
 			}
 		}
-		if(substr($path,0,1)!='/'){//not all programs agree on the use of a leading /
+		if($path[0]!='/'){//not all programs agree on the use of a leading /
 			return $this->fileExists('/'.$path);
 		}else{
 			return false;

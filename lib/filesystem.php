@@ -150,7 +150,7 @@ class OC_Filesystem{
 		if(!$path){
 			$path='/';
 		}
-		if(substr($path,0,1)!=='/'){
+		if($path[0]!=='/'){
 			$path='/'.$path;
 		}
 		$foundMountPoint='';
@@ -313,11 +313,11 @@ class OC_Filesystem{
 	* @param string mountpoint
 	*/
 	static public function mount($class,$arguments,$mountpoint){
+		if($mountpoint[0]!='/'){
+			$mountpoint='/'.$mountpoint;
+		}
 		if(substr($mountpoint,-1)!=='/'){
 			$mountpoint=$mountpoint.'/';
-		}
-		if(substr($mountpoint,0,1)!=='/'){
-			$mountpoint='/'.$mountpoint;
 		}
 		self::$mounts[$mountpoint]=array('class'=>$class,'arguments'=>$arguments);
 	}
@@ -349,7 +349,7 @@ class OC_Filesystem{
 	 * @return bool
 	 */
 	static public function isValidPath($path){
-		if(substr($path,0,1)!=='/'){
+		if(!$path || $path[0]!=='/'){
 			$path='/'.$path;
 		}
 		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){
