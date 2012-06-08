@@ -97,18 +97,18 @@ class OC_Gallery_Scanner {
 					foreach ($a as $e) {
 						$p .= ($p == '/'?'':'/').$e;
 						OC_Gallery_Album::create(OCP\USER::getUser(), $e, $p);
-            $arr = OC_FileCache::searchByMime('image','', OC_Filesystem::getRoot().$p);
-            $step = floor(count($arr)/10);
-            if ($step == 0) $step = 1;
-            $na = array();
-            for ($j = 0; $j < count($arr); $j+=$step) {
-              $na[] = $p.$arr[$j];
-            }
-            if (count($na))
-              self::createThumbnails($e, $na);
+						$arr = OC_FileCache::searchByMime('image','', OC_Filesystem::getRoot().$p);
+						$step = floor(count($arr)/10);
+						if ($step == 0) $step = 1;
+						$na = array();
+						for ($j = 0; $j < count($arr); $j+=$step) {
+							$na[] = $p.$arr[$j];
+						}
+						if (count($na))
+							self::createThumbnails($e, $na);
 					}
 				}
-			}
+			} 
 		}
 	}
 
@@ -136,9 +136,15 @@ class OC_Gallery_Scanner {
 			if(array_search($path,$paths)===false){
 				$paths[]=$path;
 			}
+			// add sub path also if they don't contain images
+			while ( ($path = dirname($path)) != '/') {
+				if(array_search($path,$paths)===false){
+					$paths[]=$path;
+				}
+			}
+			$subs = dirname($path);
 		}
 		sort($paths);
 		return $paths;
 	}
 }
-
