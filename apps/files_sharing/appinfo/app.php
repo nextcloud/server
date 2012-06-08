@@ -8,8 +8,8 @@ OC_Hook::connect("OC_Filesystem", "post_rename", "OC_Share", "renameItem");
 OC_Hook::connect("OC_Filesystem", "post_write", "OC_Share", "updateItem");
 OC_Filesystem::registerStorageType("shared", "OC_Filestorage_Shared", array("datadir" => "string"));
 OC_Hook::connect('OC_User', 'post_deleteUser', 'OC_Share', 'removeUser');
-OC_Hook::connect('OC_User', 'post_addToGroup', 'OC_Share', 'addToGroupShare');
-OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OC_Share', 'removeFromGroupShare');
+OC_Hook::connect('OC_Group', 'post_addToGroup', 'OC_Share', 'addToGroupShare');
+OC_Hook::connect('OC_Group', 'post_removeFromGroup', 'OC_Share', 'removeFromGroupShare');
 $dir = isset($_GET['dir']) ? $_GET['dir'] : '/';
 if ($dir != '/Shared' || OC_Appconfig::getValue('files_sharing', 'resharing', 'yes') == 'yes') {
 	OC_Util::addScript("files_sharing", "share");
