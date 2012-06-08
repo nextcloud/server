@@ -23,7 +23,7 @@ if(isset($bookid)){
 	}
 }elseif(isset($contactid)){
 	$data = OC_Contacts_App::getContactObject($contactid);
-	header('Content-Type: text/directory');
+	header('Content-Type: text/vcard');
 	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $data['fullname']) . '.vcf'); 
 	echo $data['carddata'];
 }

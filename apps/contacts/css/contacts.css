@@ -31,8 +31,9 @@ dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; }
 .form dt { display: table-cell; clear: left; float: left; width: 7em; margin: 0; padding: 0.8em 0.5em 0 0; text-align:right; text-overflow:ellipsis; o-text-overflow: ellipsis; vertical-align: text-bottom; color: #bbb;/* white-space: pre-wrap; white-space: -moz-pre-wrap !important; white-space: -pre-wrap; white-space: -o-pre-wrap;*/ }
 .form dd { display: table-cell; clear: right; float: left; margin: 0; padding: 0px; white-space: nowrap; vertical-align: text-bottom; }
 label:hover, dt:hover { color: #333; }
-#address.form dt { min-width: 5em; }
-#address.form dl { min-width: 10em; }
+/*::-webkit-input-placeholder { color: #bbb; }
+:-moz-placeholder { color: #bbb; }
+:-ms-input-placeholder { color: #bbb; }*/
 .droptarget { margin: 0.5em; padding: 0.5em; border: thin solid #ccc; -moz-border-radius:.3em; -webkit-border-radius:.3em; border-radius:.3em; }
 .droppable { margin: 0.5em; padding: 0.5em; border: thin dashed #333; -moz-border-radius:.3em; -webkit-border-radius:.3em; border-radius:.3em; }
 .loading { background: url('%webroot%/core/img/loading.gif') no-repeat center !important; /*cursor: progress; */ cursor: wait; }
@@ -79,10 +80,17 @@ label:hover, dt:hover { color: #333; }
 #addressdisplay { padding: 0.5em; }
 dl.addresscard { background-color: #fff; float: left; width: auto; margin: 0 0.3em 0.3em 0.3em; padding: 0; border: 0; }
 dl.addresscard dd {}
-dl.addresscard dt { padding: 0.3em; font-weight: bold; clear: both; color: #bbb;}
+dl.addresscard dt { padding: 0.3em; font-weight: bold; clear: both; color: #aaa; }
 dl.addresscard dt:hover { color:#777; }
 dl.addresscard dd > ul { margin: 0.3em; padding: 0.3em; }
 dl.addresscard .action { float: right; }
+#address dt { width: 30%; white-space:nowrap; }
+#address dd { width: 66%; }
+#address input { width: 12em; padding: 0.6em 0.5em 0.4em; }
+#address input:-moz-placeholder { color: #aaa; }
+#address input::-webkit-input-placeholder { color: #aaa; }
+#address input:-ms-input-placeholder { color: #aaa; }
+#address input:placeholder { color: #aaa; }
 #adr_type {} /* Select */
 #adr_pobox {}
 #adr_extended {}

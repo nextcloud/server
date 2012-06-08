@@ -110,10 +110,21 @@ Contacts={
 				obj.tipsy('hide');
 				Contacts.UI.Card.deleteProperty(obj, 'single');
 			}
+			
+			var goToUrl = function(obj) {
+				var url = Contacts.UI.propertyContainerFor(obj).find('#url').val();
+				if(url != '') {
+					var newWindow = window.open(url,'_blank');
+					newWindow.focus();
+				}
+			}
+			
 			$('#identityprops a.delete').click( function() { deleteItem($(this)) });
 			$('#identityprops a.delete').keydown( function() { deleteItem($(this)) });
 			$('#categories_value a.edit').click( function() { $(this).tipsy('hide');OCCategories.edit(); } );
 			$('#categories_value a.edit').keydown( function() { $(this).tipsy('hide');OCCategories.edit(); } );
+			$('#url_value a.globe').click( function() { $(this).tipsy('hide');goToUrl($(this)); } );
+			$('#url_value a.globe').keydown( function() { $(this).tipsy('hide');goToUrl($(this)); } );
 			$('#fn_select').combobox({
 				'id': 'fn',
 				'name': 'value',
@@ -427,7 +438,7 @@ Contacts={
 				}
 			},
 			loadSingleProperties:function() {
-				var props = ['BDAY', 'NICKNAME', 'ORG', 'CATEGORIES'];
+				var props = ['BDAY', 'NICKNAME', 'ORG', 'URL', 'CATEGORIES'];
 				// Clear all elements
 				$('#ident .propertycontainer').each(function(){
 					if(props.indexOf($(this).data('element')) > -1) {
@@ -438,40 +449,22 @@ Contacts={
 					}
 				});
 				for(var prop in props) {
-					if(this.data[props[prop]] != undefined) {
-						$('#contacts_propertymenu_dropdown a[data-type="'+props[prop]+'"]').parent().hide();
-						var property = this.data[props[prop]][0];
+					var propname = props[prop];
+					if(this.data[propname] != undefined) {
+						$('#contacts_propertymenu_dropdown a[data-type="'+propname+'"]').parent().hide();
+						var property = this.data[propname][0];
 						var value = property['value'], checksum = property['checksum'];
-						switch(props[prop]) {
-							case 'BDAY':
-								var val = $.datepicker.parseDate('yy-mm-dd', value.substring(0, 10));
-								value = $.datepicker.formatDate('dd-mm-yy', val);
-								$('#contact_identity').find('#bday').val(value);
-								$('#contact_identity').find('#bday_value').data('checksum', checksum);
-								$('#contact_identity').find('#bday_label').show();
-								$('#contact_identity').find('#bday_value').show();
-								break;
-							case 'NICKNAME':
-								$('#contact_identity').find('#nickname').val(value);
-								$('#contact_identity').find('#nickname_value').data('checksum', checksum);
-								$('#contact_identity').find('#nickname_label').show();
-								$('#contact_identity').find('#nickname_value').show();
-								break;
-							case 'ORG':
-								$('#contact_identity').find('#org').val(value);
-								$('#contact_identity').find('#org_value').data('checksum', checksum);
-								$('#contact_identity').find('#org_label').show();
-								$('#contact_identity').find('#org_value').show();
-								break;
-							case 'CATEGORIES':
-								$('#contact_identity').find('#categories').val(value);
-								$('#contact_identity').find('#categories_value').data('checksum', checksum);
-								$('#contact_identity').find('#categories_label').show();
-								$('#contact_identity').find('#categories_value').show();
-								break;
+						
+						if(propname == 'BDAY') {
+							var val = $.datepicker.parseDate('yy-mm-dd', value.substring(0, 10));
+							value = $.datepicker.formatDate('dd-mm-yy', val);
 						}
+						$('#contact_identity').find('#'+propname.toLowerCase()).val(value);
+						$('#contact_identity').find('#'+propname.toLowerCase()+'_value').data('checksum', checksum);
+						$('#contact_identity').find('#'+propname.toLowerCase()+'_label').show();
+						$('#contact_identity').find('#'+propname.toLowerCase()+'_value').show();
 					} else {
-						$('#contacts_propertymenu_dropdown a[data-type="'+props[prop]+'"]').parent().show();
+						$('#contacts_propertymenu_dropdown a[data-type="'+propname+'"]').parent().show();
 					}
 				}
 			},
@@ -700,6 +693,7 @@ Contacts={
 						Contacts.UI.Card.editAddress('new', true);
 						break;
 					case 'NICKNAME':
+					case 'URL':
 					case 'ORG':
 					case 'BDAY':
 					case 'CATEGORIES':
@@ -1287,7 +1281,7 @@ Contacts={
 		},
 		Addressbooks:{
 			droptarget:undefined,
-			droptext:t('contacts', 'Drop a VCF file to import contacts.'),
+			droptext:t('contacts', 'Drop a VCF file<br />to import contacts.'),
 			overview:function(){
 				if($('#chooseaddressbook_dialog').dialog('isOpen') == true){
 					$('#chooseaddressbook_dialog').dialog('moveToTop');
@@ -1296,7 +1290,7 @@ Contacts={
 					$.getJSON(OC.filePath('contacts', 'ajax', 'chooseaddressbook.php'), function(jsondata){
 						if(jsondata.status == 'success'){
 							$('#addressbook_dialog').html(jsondata.data.page).find('#chooseaddressbook_dialog').dialog({
-								width : 600,
+								minWidth : 600,
 								close : function(event, ui) {
 									$(this).dialog('destroy').remove();
 									$('#addressbook_dialog').remove();

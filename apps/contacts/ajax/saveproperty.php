@@ -98,15 +98,6 @@ if(!$value) {
 } else {
 	/* setting value */
 	switch($element) {
-		case 'BDAY':
-		case 'FN':
-		case 'N':
-		case 'ORG':
-		case 'NOTE':
-		case 'NICKNAME':
-			debug('Setting string:'.$name.' '.$value);
-			$vcard->setString($name, $value);
-			break;
 		case 'CATEGORIES':
 			debug('Setting string:'.$name.' '.$value);
 			$vcard->children[$line]->setValue($value);
@@ -127,6 +118,10 @@ if(!$value) {
 					}
 				}
 			}
+			break;
+		default:
+			debug('Setting string:'.$name.' '.$value);
+			$vcard->setString($name, $value);
 			break;
 	}
 	// Do checksum and be happy

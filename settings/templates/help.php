@@ -26,9 +26,9 @@
 	<?php foreach($_["kbe"] as $kb): ?>
 	<div class="helpblock">
 		<?php if($kb["preview1"] <> "") { echo('<img class="preview" src="'.$kb["preview1"].'" />'); } ?>
-		<?php if($kb['detailpage']<>'') echo('<p><a target="_blank" href="'.$kb['detailpage'].'"><strong>'.$kb["name"].'</strong></a></p>');?>
-		<p><?php echo $kb['description'];?></p>
-		<?php if($kb['answer']<>'') echo('<p><strong>'.$l->t('Answer').':</strong><p>'.$kb['answer'].'</p>');?>
+		<?php if($kb['detailpage']<>'') echo('<p><a target="_blank" href="'.$kb['detailpage'].'"><strong>'.htmlentities($kb["name"]).'</strong></a></p>');?>
+		<p><?php echo htmlentities($kb['description']);?></p>
+		<?php if($kb['answer']<>'') echo('<p><strong>'.$l->t('Answer').':</strong><p>'.htmlentities($kb['answer']).'</p>');?>
 	</div>
 	<?php endforeach;
 endif?>

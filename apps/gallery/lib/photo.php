@@ -68,7 +68,7 @@ class OC_Gallery_Photo {
 
 	public static function getThumbnail($image_name, $owner = null) {
 		if (!$owner) $owner = OCP\USER::getUser();
-		$view = OCP\App::getStorage('gallery');
+		$view = OCP\Files::getStorage('gallery');
 		$save_dir = dirname($image_name);
 		if (!$view->is_dir($save_dir)) {
 			$view->mkdir($save_dir);

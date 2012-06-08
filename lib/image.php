@@ -136,6 +136,8 @@ class OC_Image {
 	*/
 	private function _output($filepath=null) {
 		if($filepath) {
+			if (!file_exists(dirname($filepath)))
+				mkdir(dirname($filepath), 0777, true);
 			if(!is_writable(dirname($filepath))) {
 				OC_Log::write('core',__METHOD__.'(): Directory \''.dirname($filepath).'\' is not writable.', OC_Log::ERROR);
 				return false;
@@ -426,7 +428,7 @@ class OC_Image {
 		if(is_resource($str)) {
 			return false;
 		}
-		$this->resource = imagecreatefromstring($str);
+		$this->resource = @imagecreatefromstring($str);
 		if(!$this->resource) {
 			OC_Log::write('core','OC_Image->loadFromData, couldn\'t load', OC_Log::DEBUG);
 			return false;
@@ -445,7 +447,7 @@ class OC_Image {
 		}
 		$data = base64_decode($str);
 		if($data) { // try to load from string data
-			$this->resource = imagecreatefromstring($data);
+			$this->resource = @imagecreatefromstring($data);
 			if(!$this->resource) {
 				OC_Log::write('core','OC_Image->loadFromBase64, couldn\'t load', OC_Log::DEBUG);
 				return false;
@@ -488,6 +490,32 @@ class OC_Image {
 		imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $new_width, $new_height, $width_orig, $height_orig);
 		if ($process == false) {
 			OC_Log::write('core',__METHOD__.'(): Error resampling process image '.$new_width.'x'.$new_height,OC_Log::ERROR);
+			imagedestroy($process);
+			return false;
+		}
+		imagedestroy($this->resource);
+		$this->resource = $process;
+		return true;
+	}
+
+	public function preciseResize($width, $height) {
+		if (!$this->valid()) {
+			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
+			return false;			
+		}
+		$width_orig=imageSX($this->resource);
+		$height_orig=imageSY($this->resource);
+		$process = imagecreatetruecolor($width, $height);
+
+		if ($process == false) {
+			OC_Log::write('core',__METHOD__.'(): Error creating true color image',OC_Log::ERROR);
+			imagedestroy($process);
+			return false;
+		}
+
+		imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+		if ($process == false) {
+			OC_Log::write('core',__METHOD__.'(): Error resampling process image '.$width.'x'.$height,OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}

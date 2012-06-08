@@ -90,7 +90,7 @@ class OC_Gallery_Album {
 	}
 
 	public static function changeThumbnailPath($oldname, $newname) {
-		$view = OCP\App::getStorage('gallery');
+		$view = OCP\Files::getStorage('gallery');
 		$view->rename($oldname.'.png', $newname.'.png');
 	}
 
