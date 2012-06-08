@@ -65,6 +65,7 @@ if ($fn) {
 		}
 	} else {
 		bailOut('Couldn\'t load temporary image: '.$file['tmp_name']);
+		bailOut(OC_Contacts_App::$l10n->t('Couldn\'t load temporary image: ').$tmpkey);
 	}
 }
 
