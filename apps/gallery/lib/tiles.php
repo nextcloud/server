@@ -156,11 +156,11 @@ class TileStack extends TileBase {
 	}
 
 	public function getOnHoverAction() {
-		return 'javascript:t(this);return false;';
+		return 'javascript:explode(this);return false;';
 	}
 	
 	public function getOnOutAction() {
-		return 'javascript:o(this);return false;';
+		return 'javascript:deplode(this);return false;';
 	}
 
 	public function getCount() {

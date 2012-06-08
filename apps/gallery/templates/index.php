@@ -15,7 +15,7 @@ div.visible { opacity: 0.8;}
 
 var root = "<?php echo !empty($_GET['root']) ? $_GET['root'] : '/'; ?>";
 
-function t(element) {
+function explode(element) {
 	$('div', element).each(function(index, elem) {
 	 	if ($(elem).hasClass('title')) {
 		 	$(elem).addClass('visible');
@@ -27,7 +27,7 @@ function t(element) {
 	});
 }
 
-function o(element) {
+function deplode(element) {
 	$('div', element).each(function(index, elem) {
 	 	if ($(elem).hasClass('title')) {
 		 	$(elem).removeClass('visible');
@@ -55,6 +55,10 @@ $(document).ready(function() {
 
 </script>
 
+<div id="controls">
+	<a href="javascript:shareGallery();"><input type="button" value="<?php echo $l->t('Share');?>" /></a><br/>
+</div>
+<div id="gallerycontent">
 <?php
 
 include('apps/gallery/lib/tiles.php');
@@ -103,3 +107,4 @@ if ($ts->getCount() != 0) {
 echo $tl->get();
 
 ?>
+</div>
