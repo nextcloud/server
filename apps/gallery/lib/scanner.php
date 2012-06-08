@@ -142,7 +142,6 @@ class OC_Gallery_Scanner {
 					$paths[]=$path;
 				}
 			}
-			$subs = dirname($path);
 		}
 		sort($paths);
 		return $paths;
