@@ -665,6 +665,9 @@ class OC_Calendar_Object{
 								$byday .= ',' . $weekofmonth . $days[$day];
 							}
 						}
+						if($byday == ''){
+							$byday = 'MO,TU,WE,TH,FR,SA,SU';
+						}
 						$rrule .= ';BYDAY=' . $byday;
 					}
 					break;
