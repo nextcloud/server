@@ -94,48 +94,89 @@ class OC_Calendar_Repeat{
 		$end = new DateTime('last day of December', new DateTimeZone('UTC'));
 		$end->modify('+5 years');
 		$object->expand($start, $end);
+
 		
 	}
 	/*
 	 * @brief generates the cache the first time for all repeating event of an calendar
+	 * @param (int) id - id of the calendar
+	 * @return (bool)
 	 */
 	public static function generatecalendar($id){
-
+		$allobjects = OC_Calendar_Object::all($id);
+		foreach($allobjects['id'] as $eventid){
+			self::generate($eventid);
+		}
+		return true;
 	}
 	/*
 	 * @brief updates an event that is already cached
+	 * @param (int) id - id of the event
+	 * @return (bool)
 	 */
 	public static function update($id){
-
+		self::clean($id);
+		self::generate($id);
+		return true;
 	}
 	/*
 	 * @brief updates all repating events of a calendar that are already cached
+	 * @param (int) id - id of the calendar
+	 * @return (bool)
 	 */
 	public static function updatecalendar($id){
-
+		self::cleancalendar($id);
+		self::generatecalendar($id);
+		return true;
 	}
 	/*
 	 * @brief checks if an event is already cached
+	 * @param (int) id - id of the event
+	 * @return (bool)
 	 */
 	public static function is_cached($id){
-
+		if(count(self::get($id)) === 1){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	/*
 	 * @brief checks if a whole calendar is already cached
+	 * @param (int) id - id of the calendar
+	 * @return (bool)
 	 */
 	public static function is_calendar_cached($id){
-
+		$cachedevents = count(self::getcalendar($id));
+		$repeatingevents = 0;
+		$allevents = OC_Calendar_Object::all($id);
+		foreach($allevents['repeating'] as $repeating){
+			if($repeating === 1){
+				$repeatingevents++;
+			}
+		}
+		if($cachedevents < $repeatingevents){
+			return false;
+		}else{
+			return true;
+		}
 	}
 	/*
 	 * @brief removes the cache of an event
+	 * @param (int) id - id of the event
+	 * @return (bool)
 	 */
 	public static function clean($id){
-
+		$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*calendar_repeat WHERE eventid = ?');
+		$stmt->execute(array($id));
 	}
 	/*
 	 * @brief removes the cache of all events of a calendar
+	 * @param (int) id - id of the calendar
+	 * @return (bool)
 	 */
 	public static function cleancalendar($id){
-		
+		$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*calendar_repeat WHERE calid = ?');
+		$stmt->execute(array($id));
 	}
 }
