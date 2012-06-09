@@ -88,7 +88,7 @@ elseif(OC_User::isLoggedIn()) {
 
 	// Someone wants to log in :
 	} elseif(isset($_POST["user"]) and isset($_POST['password']) and isset($_SESSION['sectoken']) and isset($_POST['sectoken']) and ($_SESSION['sectoken']==$_POST['sectoken']) ) {
-		OC_App::loadApps(array('authentication'));
+		OC_App::loadApps();
 		if(OC_User::login($_POST["user"], $_POST["password"])) {
 			if(!empty($_POST["remember_login"])){
 				if(defined("DEBUG") && DEBUG) {
