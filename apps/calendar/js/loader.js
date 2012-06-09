@@ -63,7 +63,7 @@ Calendar_Import={
 		});
 	},
 	getimportstatus: function(progresskey){
-		$.get(OC.filePath('calendar', 'ajax/import', 'import.php') + '?progress=1&progresskey=' + progresskey, function(percent){
+		$.post(OC.filePath('calendar', 'ajax/import', 'import.php'), {progress:1,progresskey: progresskey}, function(percent){
 			$('#progressbar').progressbar('option', 'value', parseInt(percent));
 			if(percent < 100){
 				window.setTimeout('Calendar_Import.getimportstatus(\'' + progresskey + '\')', 500);
