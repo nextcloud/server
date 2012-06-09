@@ -355,7 +355,7 @@ Contacts={
 				$('#contacts_deletecard').tipsy('hide');
 				OC.dialogs.confirm(t('contacts', 'Are you sure you want to delete this contact?'), t('contacts', 'Warning'), function(answer) {
 					if(answer == true) {
-						$.getJSON(OC.filePath('contacts', 'ajax', 'deletecard.php'),{'id':Contacts.UI.Card.id},function(jsondata){
+						$.post(OC.filePath('contacts', 'ajax', 'deletecard.php'),{'id':Contacts.UI.Card.id},function(jsondata){
 							if(jsondata.status == 'success'){
 								var newid = '';
 								var curlistitem = $('#leftcontent [data-id="'+jsondata.data.id+'"]');
@@ -711,7 +711,7 @@ Contacts={
 				Contacts.UI.loading(obj, true);
 				var checksum = Contacts.UI.checksumFor(obj);
 				if(checksum) {
-					$.getJSON(OC.filePath('contacts', 'ajax', 'deleteproperty.php'),{'id': this.id, 'checksum': checksum },function(jsondata){
+					$.post(OC.filePath('contacts', 'ajax', 'deleteproperty.php'),{'id': this.id, 'checksum': checksum },function(jsondata){
 						if(jsondata.status == 'success'){
 							if(type == 'list') {
 								Contacts.UI.propertyContainerFor(obj).remove();
