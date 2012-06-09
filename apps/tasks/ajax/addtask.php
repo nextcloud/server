@@ -8,7 +8,7 @@ $calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser(), true);
 $first_calendar = reset($calendars);
 $cid = $first_calendar['id'];
 
-$input = $_GET['text'];
+$input = $_POST['text'];
 $request = array();
 $request['summary'] = $input;
 $request["categories"] = null;
