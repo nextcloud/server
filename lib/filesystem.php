@@ -342,6 +342,20 @@ class OC_Filesystem{
 	}
 	
 	/**
+	* return path to file which reflects one visible in browser
+	* @param string path
+	* @return string
+	*/
+	static public function getLocalPath($path) {
+		$datadir = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser().'/files';
+		$newpath = $path;
+		if (strncmp($newpath, $datadir, strlen($datadir)) == 0) {
+			$newpath = substr($path, strlen($datadir));
+		}
+		return $newpath;
+	}
+	
+	/**
 	 * check if the requested path is valid
 	 * @param string path
 	 * @return bool

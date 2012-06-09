@@ -402,12 +402,7 @@ class OC_Image {
 			default:
 			
 				// this is mostly file created from encrypted file
-				$datadir = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser().'/files';
-				$newimgpath = $imagepath;
-				if (strncmp($newimgpath, $datadir, strlen($datadir)) == 0) {
-					$newimgpath = substr($imagepath, strlen($datadir));
-				}
-				$this->resource = imagecreatefromstring(\OC_Filesystem::file_get_contents($newimgpath));
+				$this->resource = imagecreatefromstring(\OC_Filesystem::file_get_contents(\OC_Filesystem::getLocalPath($newimgpath)));
 				$itype = IMAGETYPE_PNG;
 				OC_Log::write('core','OC_Image->loadFromFile, Default', OC_Log::DEBUG);
 				break;
