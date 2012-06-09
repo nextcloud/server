@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+  <title>docnosis</title>
+  <!-- <script src="../../webodf/webodf.js" type="text/javascript" charset="utf-8"></script> -->
+  <script src="../../webodf/lib/runtime.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript">//<![CDATA[
+runtime.libraryPaths = function () {
+    return ["../../webodf/lib/"];
+};
+  //]]></script>
+  <script src="docnosis.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript">//<![CDATA[
+runtime.libraryPaths = function () {
+    return ["../../webodf/lib/"];
+};
+window.addEventListener("load", function () {
+   var docnosis = document.getElementById("docnosis");
+   new Docnosis(docnosis);
+}, false);
+  //]]></script>
+ </head>
+ <body>
+  <div id="docnosis"></div>
+ </body>
+</html>

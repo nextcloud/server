@@ -1,0 +1,21 @@
+/*global exports require*/
+function createDummyXMLModel() {
+    var that = {};
+
+    function preserveWhitespace(node) {
+        return true;
+    }
+
+    // return an array with child qnames or null for inserting text.
+    // the dummy implementation allows text everywhere, but no new elements
+    // "*" means all elements are allowed
+    // ["#PCDATA", "*"] means any element and text is allowed
+    function getAllowedChildren(node, position) {
+        return [null];
+    }
+
+    that.getAllowedChildren = getAllowedChildren;
+    that.preserveWhitespace = preserveWhitespace;
+    return that;
+}
+exports.createDummyXMLModel = createDummyXMLModel;

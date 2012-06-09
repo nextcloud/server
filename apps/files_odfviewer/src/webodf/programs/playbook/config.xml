@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:rim="http://www.blackberry.com/ns/widgets"
+        version="2.0.0.0">
+  <author href="http://www.kogmbh.com/" rim:copyright="Copyright 2010-2012 KO GmbH">KO GmbH</author>
+  <name>WebODF</name>
+  <description>
+    Viewer for OpenDocument files.
+  </description>
+  <rim:orientation mode="auto"/>
+  <rim:loadingScreen onLocalPageLoad="true" onRemotePageLoad="true">
+    <rim:transitionEffect type="zoomIn"/>
+  </rim:loadingScreen>
+  <rim:category name="productivity"/>
+
+  <rim:permissions>
+    <rim:permit>access_shared</rim:permit>
+  </rim:permissions>
+  <icon src="icon.png"/>
+  <content src="index.html" rim:allowInvokeParams="true"/>
+  <feature id="blackberry.ui.dialog"/>
+  <feature id="blackberry.io.dir" />
+  <feature id="blackberry.io.file" />
+  <feature id="blackberry.utils" />
+  <feature id="blackberry.custom.filereader"/>
+</widget>

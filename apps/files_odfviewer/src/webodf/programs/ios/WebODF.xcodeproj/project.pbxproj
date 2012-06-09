@@ -1,0 +1,512 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CB099EC714DAC535000D7B99 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CB099EC614DAC535000D7B99 /* Default-Portrait~ipad.png */; };
+		CB099EC914DAC53D000D7B99 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CB099EC814DAC53D000D7B99 /* Default-Landscape~ipad.png */; };
+		CB29ECBD14FFBBBB00CEAEE3 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = CB29ECBC14FFBBBB00CEAEE3 /* unzip.c */; };
+		CB29ECBF14FFBC0500CEAEE3 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = CB29ECBE14FFBC0500CEAEE3 /* ioapi.c */; };
+		CB29ECC114FFBC1B00CEAEE3 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = CB29ECC014FFBC1B00CEAEE3 /* mztools.c */; };
+		CB29ECC314FFBC5500CEAEE3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CB29ECC214FFBC5500CEAEE3 /* libz.dylib */; };
+		CB36D11814F68F7F0084BECB /* www in Resources */ = {isa = PBXBuildFile; fileRef = CB36D11714F68F7F0084BECB /* www */; };
+		CB533D9114DABDA600C733F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533D9014DABDA600C733F6 /* Foundation.framework */; };
+		CB533D9314DABDA600C733F6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533D9214DABDA600C733F6 /* UIKit.framework */; };
+		CB533D9514DABDA600C733F6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533D9414DABDA600C733F6 /* CoreGraphics.framework */; };
+		CB533D9714DABDA600C733F6 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533D9614DABDA600C733F6 /* AddressBook.framework */; };
+		CB533D9914DABDA600C733F6 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533D9814DABDA600C733F6 /* AddressBookUI.framework */; };
+		CB533D9B14DABDA600C733F6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533D9A14DABDA600C733F6 /* AudioToolbox.framework */; };
+		CB533D9D14DABDA600C733F6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533D9C14DABDA600C733F6 /* AVFoundation.framework */; };
+		CB533D9F14DABDA600C733F6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533D9E14DABDA600C733F6 /* CoreLocation.framework */; };
+		CB533DA114DABDA600C733F6 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533DA014DABDA600C733F6 /* MediaPlayer.framework */; };
+		CB533DA314DABDA600C733F6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533DA214DABDA600C733F6 /* QuartzCore.framework */; };
+		CB533DA514DABDA600C733F6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533DA414DABDA600C733F6 /* SystemConfiguration.framework */; };
+		CB533DA714DABDA600C733F6 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533DA614DABDA600C733F6 /* MobileCoreServices.framework */; };
+		CB533DA914DABDA600C733F6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533DA814DABDA600C733F6 /* CoreMedia.framework */; };
+		CB533DAF14DABDA600C733F6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB533DAD14DABDA600C733F6 /* InfoPlist.strings */; };
+		CB533DB114DABDA600C733F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CB533DB014DABDA600C733F6 /* main.m */; };
+		CB533DB414DABDA600C733F6 /* PhoneGap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB533DB314DABDA600C733F6 /* PhoneGap.framework */; };
+		CB533DB914DABDA600C733F6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB533DB714DABDA600C733F6 /* Localizable.strings */; };
+		CB533DC014DABDA600C733F6 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CB533DBF14DABDA600C733F6 /* icon.png */; };
+		CB533DC214DABDA600C733F6 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB533DC114DABDA600C733F6 /* icon@2x.png */; };
+		CB533DC414DABDA600C733F6 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = CB533DC314DABDA600C733F6 /* icon-72.png */; };
+		CB533DC714DABDA600C733F6 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CB533DC614DABDA600C733F6 /* Default.png */; };
+		CB533DC914DABDA600C733F6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CB533DC814DABDA600C733F6 /* Default@2x.png */; };
+		CB533DCD14DABDA600C733F6 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB533DCC14DABDA600C733F6 /* PhoneGap.plist */; };
+		CB533DD114DABDA600C733F6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CB533DD014DABDA600C733F6 /* AppDelegate.m */; };
+		CB533DD414DABDA600C733F6 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB533DD314DABDA600C733F6 /* MainViewController.m */; };
+		CB533DD614DABDA600C733F6 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB533DD514DABDA600C733F6 /* MainViewController.xib */; };
+		CBD2B77314FF8E9700FC3A44 /* NativeZip.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD2B77214FF8E9700FC3A44 /* NativeZip.m */; };
+		CBDCA69D1504EAEB00C706C7 /* WebViewCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDCA69C1504EAEB00C706C7 /* WebViewCache.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		CB099EC614DAC535000D7B99 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "../Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		CB099EC814DAC53D000D7B99 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "../Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		CB29ECBC14FFBBBB00CEAEE3 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = WebODF/Classes/minizip/unzip.c; sourceTree = "<group>"; };
+		CB29ECBE14FFBC0500CEAEE3 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = WebODF/Classes/minizip/ioapi.c; sourceTree = "<group>"; };
+		CB29ECC014FFBC1B00CEAEE3 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mztools.c; path = WebODF/Classes/minizip/mztools.c; sourceTree = "<group>"; };
+		CB29ECC214FFBC5500CEAEE3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		CB36D11714F68F7F0084BECB /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		CB533D8C14DABDA500C733F6 /* KO Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KO Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB533D9014DABDA600C733F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CB533D9214DABDA600C733F6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		CB533D9414DABDA600C733F6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		CB533D9614DABDA600C733F6 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		CB533D9814DABDA600C733F6 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		CB533D9A14DABDA600C733F6 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		CB533D9C14DABDA600C733F6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		CB533D9E14DABDA600C733F6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		CB533DA014DABDA600C733F6 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		CB533DA214DABDA600C733F6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		CB533DA414DABDA600C733F6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		CB533DA614DABDA600C733F6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		CB533DA814DABDA600C733F6 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		CB533DAC14DABDA600C733F6 /* WebODF-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WebODF-Info.plist"; sourceTree = "<group>"; };
+		CB533DAE14DABDA600C733F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CB533DB014DABDA600C733F6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CB533DB214DABDA600C733F6 /* WebODF-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WebODF-Prefix.pch"; sourceTree = "<group>"; };
+		CB533DB314DABDA600C733F6 /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneGap.framework; path = /Users/Shared/PhoneGap/Frameworks/PhoneGap.framework; sourceTree = "<absolute>"; };
+		CB533DB814DABDA600C733F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CB533DBF14DABDA600C733F6 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
+		CB533DC114DABDA600C733F6 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
+		CB533DC314DABDA600C733F6 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
+		CB533DC614DABDA600C733F6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
+		CB533DC814DABDA600C733F6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
+		CB533DCC14DABDA600C733F6 /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
+		CB533DCF14DABDA600C733F6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
+		CB533DD014DABDA600C733F6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
+		CB533DD214DABDA600C733F6 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = Classes/MainViewController.h; sourceTree = "<group>"; };
+		CB533DD314DABDA600C733F6 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = Classes/MainViewController.m; sourceTree = "<group>"; };
+		CB533DD514DABDA600C733F6 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainViewController.xib; path = Classes/MainViewController.xib; sourceTree = "<group>"; };
+		CBD2B77114FF8E9700FC3A44 /* NativeZip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NativeZip.h; path = Classes/NativeZip.h; sourceTree = "<group>"; };
+		CBD2B77214FF8E9700FC3A44 /* NativeZip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NativeZip.m; path = Classes/NativeZip.m; sourceTree = "<group>"; };
+		CBDCA69B1504EAEB00C706C7 /* WebViewCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewCache.h; path = Classes/WebViewCache.h; sourceTree = "<group>"; };
+		CBDCA69C1504EAEB00C706C7 /* WebViewCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewCache.m; path = Classes/WebViewCache.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CB533D8614DABDA500C733F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB29ECC314FFBC5500CEAEE3 /* libz.dylib in Frameworks */,
+				CB533D9114DABDA600C733F6 /* Foundation.framework in Frameworks */,
+				CB533D9314DABDA600C733F6 /* UIKit.framework in Frameworks */,
+				CB533D9514DABDA600C733F6 /* CoreGraphics.framework in Frameworks */,
+				CB533D9714DABDA600C733F6 /* AddressBook.framework in Frameworks */,
+				CB533D9914DABDA600C733F6 /* AddressBookUI.framework in Frameworks */,
+				CB533D9B14DABDA600C733F6 /* AudioToolbox.framework in Frameworks */,
+				CB533D9D14DABDA600C733F6 /* AVFoundation.framework in Frameworks */,
+				CB533D9F14DABDA600C733F6 /* CoreLocation.framework in Frameworks */,
+				CB533DA114DABDA600C733F6 /* MediaPlayer.framework in Frameworks */,
+				CB533DA314DABDA600C733F6 /* QuartzCore.framework in Frameworks */,
+				CB533DA514DABDA600C733F6 /* SystemConfiguration.framework in Frameworks */,
+				CB533DA714DABDA600C733F6 /* MobileCoreServices.framework in Frameworks */,
+				CB533DA914DABDA600C733F6 /* CoreMedia.framework in Frameworks */,
+				CB533DB414DABDA600C733F6 /* PhoneGap.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CB533D8914DABDA500C733F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CB533D7E14DABDA500C733F6 = {
+			isa = PBXGroup;
+			children = (
+				CB29ECC214FFBC5500CEAEE3 /* libz.dylib */,
+				CB29ECC014FFBC1B00CEAEE3 /* mztools.c */,
+				CB29ECBE14FFBC0500CEAEE3 /* ioapi.c */,
+				CB29ECBC14FFBBBB00CEAEE3 /* unzip.c */,
+				CB36D11714F68F7F0084BECB /* www */,
+				CB533DAA14DABDA600C733F6 /* WebODF */,
+				CB533D8F14DABDA500C733F6 /* Frameworks */,
+				CB533D8D14DABDA500C733F6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CB533D8D14DABDA500C733F6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CB533D8C14DABDA500C733F6 /* KO Viewer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CB533D8F14DABDA500C733F6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CB533D9014DABDA600C733F6 /* Foundation.framework */,
+				CB533D9214DABDA600C733F6 /* UIKit.framework */,
+				CB533D9414DABDA600C733F6 /* CoreGraphics.framework */,
+				CB533D9614DABDA600C733F6 /* AddressBook.framework */,
+				CB533D9814DABDA600C733F6 /* AddressBookUI.framework */,
+				CB533D9A14DABDA600C733F6 /* AudioToolbox.framework */,
+				CB533D9C14DABDA600C733F6 /* AVFoundation.framework */,
+				CB533D9E14DABDA600C733F6 /* CoreLocation.framework */,
+				CB533DA014DABDA600C733F6 /* MediaPlayer.framework */,
+				CB533DA214DABDA600C733F6 /* QuartzCore.framework */,
+				CB533DA414DABDA600C733F6 /* SystemConfiguration.framework */,
+				CB533DA614DABDA600C733F6 /* MobileCoreServices.framework */,
+				CB533DA814DABDA600C733F6 /* CoreMedia.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CB533DAA14DABDA600C733F6 /* WebODF */ = {
+			isa = PBXGroup;
+			children = (
+				CB533DB314DABDA600C733F6 /* PhoneGap.framework */,
+				CB533DB514DABDA600C733F6 /* Resources */,
+				CB533DCE14DABDA600C733F6 /* Classes */,
+				CB533DAB14DABDA600C733F6 /* Supporting Files */,
+			);
+			path = WebODF;
+			sourceTree = "<group>";
+		};
+		CB533DAB14DABDA600C733F6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CB533DAC14DABDA600C733F6 /* WebODF-Info.plist */,
+				CB533DAD14DABDA600C733F6 /* InfoPlist.strings */,
+				CB533DB014DABDA600C733F6 /* main.m */,
+				CB533DB214DABDA600C733F6 /* WebODF-Prefix.pch */,
+				CB533DCC14DABDA600C733F6 /* PhoneGap.plist */,
+				CB533DD514DABDA600C733F6 /* MainViewController.xib */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CB533DB514DABDA600C733F6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CB533DB614DABDA600C733F6 /* en.lproj */,
+				CB533DBE14DABDA600C733F6 /* icons */,
+				CB533DC514DABDA600C733F6 /* splash */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		CB533DB614DABDA600C733F6 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				CB533DB714DABDA600C733F6 /* Localizable.strings */,
+			);
+			name = en.lproj;
+			sourceTree = "<group>";
+		};
+		CB533DBE14DABDA600C733F6 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				CB533DBF14DABDA600C733F6 /* icon.png */,
+				CB533DC114DABDA600C733F6 /* icon@2x.png */,
+				CB533DC314DABDA600C733F6 /* icon-72.png */,
+			);
+			name = icons;
+			sourceTree = "<group>";
+		};
+		CB533DC514DABDA600C733F6 /* splash */ = {
+			isa = PBXGroup;
+			children = (
+				CB099EC814DAC53D000D7B99 /* Default-Landscape~ipad.png */,
+				CB099EC614DAC535000D7B99 /* Default-Portrait~ipad.png */,
+				CB533DC614DABDA600C733F6 /* Default.png */,
+				CB533DC814DABDA600C733F6 /* Default@2x.png */,
+			);
+			name = splash;
+			sourceTree = "<group>";
+		};
+		CB533DCE14DABDA600C733F6 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CBDCA69B1504EAEB00C706C7 /* WebViewCache.h */,
+				CBDCA69C1504EAEB00C706C7 /* WebViewCache.m */,
+				CB533DCF14DABDA600C733F6 /* AppDelegate.h */,
+				CB533DD014DABDA600C733F6 /* AppDelegate.m */,
+				CB533DD214DABDA600C733F6 /* MainViewController.h */,
+				CB533DD314DABDA600C733F6 /* MainViewController.m */,
+				CBD2B77114FF8E9700FC3A44 /* NativeZip.h */,
+				CBD2B77214FF8E9700FC3A44 /* NativeZip.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CB533D8B14DABDA500C733F6 /* KO Viewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CB533DDB14DABDA600C733F6 /* Build configuration list for PBXNativeTarget "KO Viewer" */;
+			buildPhases = (
+				CB533D8514DABDA500C733F6 /* Sources */,
+				CB533D8614DABDA500C733F6 /* Frameworks */,
+				CB533D8714DABDA500C733F6 /* Resources */,
+				CB533D8814DABDA500C733F6 /* Sources */,
+				CB533D8914DABDA500C733F6 /* Frameworks */,
+				CB533D8A14DABDA500C733F6 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "KO Viewer";
+			productName = WebODF;
+			productReference = CB533D8C14DABDA500C733F6 /* KO Viewer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CB533D8014DABDA500C733F6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = CB533D8314DABDA500C733F6 /* Build configuration list for PBXProject "WebODF" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				es,
+			);
+			mainGroup = CB533D7E14DABDA500C733F6;
+			productRefGroup = CB533D8D14DABDA500C733F6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CB533D8B14DABDA500C733F6 /* KO Viewer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CB533D8714DABDA500C733F6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB533DAF14DABDA600C733F6 /* InfoPlist.strings in Resources */,
+				CB533DB914DABDA600C733F6 /* Localizable.strings in Resources */,
+				CB533DC014DABDA600C733F6 /* icon.png in Resources */,
+				CB533DC214DABDA600C733F6 /* icon@2x.png in Resources */,
+				CB533DC414DABDA600C733F6 /* icon-72.png in Resources */,
+				CB533DC714DABDA600C733F6 /* Default.png in Resources */,
+				CB533DC914DABDA600C733F6 /* Default@2x.png in Resources */,
+				CB533DCD14DABDA600C733F6 /* PhoneGap.plist in Resources */,
+				CB533DD614DABDA600C733F6 /* MainViewController.xib in Resources */,
+				CB099EC714DAC535000D7B99 /* Default-Portrait~ipad.png in Resources */,
+				CB099EC914DAC53D000D7B99 /* Default-Landscape~ipad.png in Resources */,
+				CB36D11814F68F7F0084BECB /* www in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CB533D8A14DABDA500C733F6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "rsync -a ../touchui/app/ www/app/\ncp ../../webodf/webodf.css www/\ncp ../touchui/sencha-touch.* www/\ncp ../touchui/Zoom*.png www/\nif [ ! -e www/webodf.js ]; then\n    # webodf.js should be built\n    if [ ! -e build ]; then mkdir build; fi\n    cd build\n    cmake -G Xcode ../../.. && make && cp webodf/webodf.js ..\n    if [ ! -e webodf.js ]; then\n        echo \"put webodf.js in the ios/www directory\"\n        exit 1;\n    fi\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CB533D8514DABDA500C733F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB533DB114DABDA600C733F6 /* main.m in Sources */,
+				CB533DD114DABDA600C733F6 /* AppDelegate.m in Sources */,
+				CB533DD414DABDA600C733F6 /* MainViewController.m in Sources */,
+				CBD2B77314FF8E9700FC3A44 /* NativeZip.m in Sources */,
+				CB29ECBD14FFBBBB00CEAEE3 /* unzip.c in Sources */,
+				CB29ECBF14FFBC0500CEAEE3 /* ioapi.c in Sources */,
+				CB29ECC114FFBC1B00CEAEE3 /* mztools.c in Sources */,
+				CBDCA69D1504EAEB00C706C7 /* WebViewCache.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CB533D8814DABDA500C733F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CB533DAD14DABDA600C733F6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CB533DAE14DABDA600C733F6 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CB533DB714DABDA600C733F6 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CB533DB814DABDA600C733F6 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CB533DD914DABDA600C733F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		CB533DDA14DABDA600C733F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CB533DDC14DABDA600C733F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jos van den Oever (GJ9RDPR233)";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = /Users/Shared/PhoneGap/Frameworks;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WebODF/WebODF-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "WebODF/WebODF-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					UIKit,
+					"-weak_framework",
+					AVFoundation,
+					"-weak_framework",
+					CoreMedia,
+					"-weak_library",
+					/usr/lib/libSystem.B.dylib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8A253628-DC77-4EEA-8543-53315AA93987";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		CB533DDD14DABDA600C733F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jos van den Oever (GJ9RDPR233)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = /Users/Shared/PhoneGap/Frameworks;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WebODF/WebODF-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "PHONEGAP_FRAMEWORK=YES";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "WebODF/WebODF-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					UIKit,
+					"-weak_framework",
+					AVFoundation,
+					"-weak_framework",
+					CoreMedia,
+					"-weak_library",
+					/usr/lib/libSystem.B.dylib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8A253628-DC77-4EEA-8543-53315AA93987";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CB533D8314DABDA500C733F6 /* Build configuration list for PBXProject "WebODF" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB533DD914DABDA600C733F6 /* Debug */,
+				CB533DDA14DABDA600C733F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CB533DDB14DABDA600C733F6 /* Build configuration list for PBXNativeTarget "KO Viewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB533DDC14DABDA600C733F6 /* Debug */,
+				CB533DDD14DABDA600C733F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CB533D8014DABDA500C733F6 /* Project object */;
+}

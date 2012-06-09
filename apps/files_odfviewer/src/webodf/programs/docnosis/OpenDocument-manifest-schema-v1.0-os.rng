@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    OASIS OpenDocument v1.0
+    OASIS standard, 1 May 2005
+    Relax-NG Manifest Schema
+
+    $Id$
+
+    © 2002-2005 OASIS Open
+    © 1999-2005 Sun Microsystems, Inc.
+-->
+
+<grammar 
+    xmlns="http://relaxng.org/ns/structure/1.0"
+
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
+
+    xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0">
+<define name="manifest">
+    <element name="manifest:manifest">
+        <oneOrMore>
+            <ref name="file-entry"/>
+        </oneOrMore>
+    </element>
+</define>
+
+<start>
+    <choice>
+        <ref name="manifest"/>
+    </choice>
+</start>
+<define name="file-entry">
+    <element name="manifest:file-entry">
+        <ref name="file-entry-attlist"/>
+        <optional>
+            <ref name="encryption-data"/>
+        </optional>
+    </element>
+</define>
+<define name="file-entry-attlist" combine="interleave">
+    <attribute name="manifest:full-path">
+        <data type="string"/>
+    </attribute>
+</define>
+<define name="file-entry-attlist" combine="interleave">
+    <optional>
+        <attribute name="manifest:size">
+            <data type="nonNegativeInteger"/>
+        </attribute>
+    </optional>
+</define>
+<define name="file-entry-attlist" combine="interleave">
+    <attribute name="manifest:media-type">
+        <data type="string"/>
+    </attribute>
+</define>
+<define name="encryption-data">
+    <element name="manifest:encryption-data">
+        <ref name="encryption-data-attlist"/>
+        <ref name="algorithm"/>
+        <ref name="key-derivation"/>
+    </element>
+</define>
+<define name="encryption-data-attlist" combine="interleave">
+    <attribute name="manifest:checksum-type">
+        <data type="string"/>
+    </attribute>
+</define>
+<define name="encryption-data-attlist" combine="interleave">
+    <attribute name="manifest:checksum">
+        <data type="base64Binary"/>
+    </attribute>
+</define>
+<define name="algorithm">
+    <element name="manifest:algorithm">
+        <ref name="algorithm-attlist"/>
+        <empty/>
+    </element>
+</define>
+<define name="algorithm-attlist" combine="interleave">
+    <attribute name="manifest:algorithm-name">
+        <data type="string"/>
+    </attribute>
+</define>
+<define name="algorithm-attlist" combine="interleave">
+    <attribute name="manifest:initialisation-vector">
+        <data type="base64Binary"/>
+    </attribute>
+</define>
+<define name="key-derivation">
+    <element name="manifest:key-derivation">
+        <ref name="key-derivation-attlist"/>
+        <empty/>
+    </element>
+</define>
+<define name="key-derivation-attlist" combine="interleave">
+    <attribute name="manifest:key-derivation-name">
+        <data type="string"/>
+    </attribute>
+</define>
+<define name="key-derivation-attlist" combine="interleave">
+    <attribute name="manifest:salt">
+        <data type="base64Binary"/>
+    </attribute>
+</define>
+<define name="key-derivation-attlist" combine="interleave">
+    <attribute name="manifest:iteration-count">
+            <data type="nonNegativeInteger"/>
+        </attribute>
+</define>
+</grammar>

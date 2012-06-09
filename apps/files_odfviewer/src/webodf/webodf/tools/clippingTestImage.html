@@ -1,0 +1,39 @@
+<html>
+ <head>
+  <script type="application/javascript">//<![CDATA[
+function draw() {
+  var canvas = document.getElementById("canvas"),
+      ctx = canvas.getContext("2d"),
+      size = canvas.width / 2,
+      link = document.createElement("a");
+  ctx.translate(size, size);
+  for (i = 0; i < 4; i += 1) {
+     ctx.save();
+     ctx.rotate(i * Math.PI / 2);
+     ctx.translate(0, -size);
+     drawPattern(ctx, size);
+     ctx.restore();
+  }
+  document.body.appendChild(document.createElement("br"));
+  link.appendChild(document.createTextNode("download image"));
+  link.setAttribute("href", canvas.toDataURL());
+  document.body.appendChild(link);
+}
+function drawPattern(ctx, size) {
+  var i = 0,
+      step = 2;
+  while (i < size) {
+    ctx.fillStyle = "rgb(0,0,0)";
+    ctx.fillRect (i, i, size - i, step);
+    ctx.fillRect (i, i, step, size - i);
+    i += 2 * step;
+  }
+}
+//]]></script>
+	 </head>
+	 <body onload="draw()">
+<p>This image can be used to find clipping problems. If the sides of the image are clipped asymetrically, it will obvious visually.</p>
+   <canvas id="canvas" width="136" height="136"></canvas>
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAACIAQMAAAAGdDERAAAABlBMVEUAAAAAAAClZ7nPAAAAAXRSTlMAQObYZgAAAXFJREFUSMd91EGKwzAMhWFBtjmMIQfw1XUAgQ6TrUGzGD0TW8/NaviGv69N3Irl5ZGXnGUIrrPcpSriQ7eqit6+VVVi2FZVkdu2qojHMF2qKio37sdRIobZUlURuc2WqohHDMP8QVTkxgM6SUQMw/xBROS2nD+IZ6WzqqJZ+ayqRFY2qyqSlc2qiM9Ks6qis/KsqsSsLKsqMivLqoh/KhWhop/KI6jEpzIRKvKpLIKJL5UKE10qDyaxVCZMZKksiPhWKRHdKicSW2VEnrz6/LWp8qa0XLiIXFv1EomteojIVjGJd6kuJpjP6mUSsVQPE8xnRSVyvuU4E8z3HGcSOd9ynAnme44ziZxvOc4E8z3HmeTr/VcPF/zR8S8ieMGGCSKY73irRPABGz4yEcx33DoiuOENj4AI5jseJREcgIYjQQTzHUeLCA5kwxElgvmOo04EX5CGrwwRzPc4C76w7ToL5vt7FvyAtOcsuPoPQfWe5Q+etqGXQp0CUgAAAABJRU5ErkJggg==" alt="pregenerated"/>
+ </body>
+</html>

@@ -1,0 +1,9 @@
+[submodule "webodf/extjs"]
+	path = webodf/extjs
+	url = git://github.com/probonogeek/extjs.git
+[submodule "simplerevisionserver/pywebdav"]
+	path = simplerevisionserver/pywebdav
+	url = ssh://vandenoever@heap.kogmbh.net/srv/git/pywebdav
+[submodule "extjs"]
+	path = extjs
+	url = git://github.com/probonogeek/extjs.git

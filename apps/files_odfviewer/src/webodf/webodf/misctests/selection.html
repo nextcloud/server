@@ -1,0 +1,27 @@
+<html>
+  <head><title></title>
+<script>
+window.onload = function () {
+    var selection = window.getSelection(),
+        p = document.createElement("p"),
+        textnode = document.createTextNode("hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello "),
+        range;
+
+    document.body.appendChild(p);
+    p.appendChild(textnode);
+    selection.removeAllRanges();
+    range = document.createRange();
+    range.setStart(textnode, 1);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+selection.modify("move", "forward", "line");
+
+alert(selection.rangeCount + " " + selection.getRangeAt(0).startOffset);
+}
+</script>
+  </head>
+  <body>
+  </body>
+</html>
+

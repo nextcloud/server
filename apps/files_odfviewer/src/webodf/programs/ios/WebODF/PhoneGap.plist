@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>TopActivityIndicator</key>
+	<string>gray</string>
+	<key>EnableLocation</key>
+	<false/>
+	<key>EnableViewportScale</key>
+	<false/>
+	<key>AutoHideSplashScreen</key>
+	<true/>
+	<key>ShowSplashScreenSpinner</key>
+	<true/>
+	<key>MediaPlaybackRequiresUserAction</key>
+	<false/>
+	<key>AllowInlineMediaPlayback</key>
+	<false/>
+	<key>OpenAllWhitelistURLsInWebView</key>
+	<false/>
+	<key>ExternalHosts</key>
+	<array>
+		<string>zipserver</string>
+	</array>
+	<key>Plugins</key>
+	<dict>
+		<key>ZipClass</key>
+		<string>NativeZip</string>
+		<key>com.phonegap.accelerometer</key>
+		<string>PGAccelerometer</string>
+		<key>com.phonegap.camera</key>
+		<string>PGCamera</string>
+		<key>com.phonegap.connection</key>
+		<string>PGConnection</string>
+		<key>com.phonegap.contacts</key>
+		<string>PGContacts</string>
+		<key>com.phonegap.debugconsole</key>
+		<string>PGDebugConsole</string>
+		<key>com.phonegap.file</key>
+		<string>PGFile</string>
+		<key>com.phonegap.filetransfer</key>
+		<string>PGFileTransfer</string>
+		<key>com.phonegap.geolocation</key>
+		<string>PGLocation</string>
+		<key>com.phonegap.notification</key>
+		<string>PGNotification</string>
+		<key>com.phonegap.media</key>
+		<string>PGSound</string>
+		<key>com.phonegap.mediacapture</key>
+		<string>PGCapture</string>
+		<key>com.phonegap.splashscreen</key>
+		<string>PGSplashScreen</string>
+		<key>com.phonegap.battery</key>
+		<string>PGBattery</string>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,13 @@
+content webodf.js content/
+skin webodf.js default skin/default/
+
+component {afe5fa21-709d-4916-b51c-56f60d574a0a} components/odfContentHandler.js
+contract @mozilla.org/uriloader/content-handler;1?type=application/vnd.oasis.opendocument.text {afe5fa21-709d-4916-b51c-56f60d574a0a}
+contract @mozilla.org/uriloader/content-handler;1?type=application/vnd.oasis.opendocument.spreadsheet {afe5fa21-709d-4916-b51c-56f60d574a0a}
+contract @mozilla.org/uriloader/content-handler;1?type=application/vnd.oasis.opendocument.presentation {afe5fa21-709d-4916-b51c-56f60d574a0a}
+category ext-to-type-mapping odt application/vnd.oasis.opendocument.text
+category ext-to-type-mapping fodt application/vnd.oasis.opendocument.text
+category ext-to-type-mapping ods application/vnd.oasis.opendocument.spreadsheet
+category ext-to-type-mapping fods application/vnd.oasis.opendocument.spreadsheet
+category ext-to-type-mapping odp application/vnd.oasis.opendocument.presentation
+category ext-to-type-mapping fodp application/vnd.oasis.opendocument.presentation

@@ -1,0 +1,13 @@
+--- ./util.c_	2011-04-20 11:22:46.558521731 +0200
++++ ./util.c	2011-04-20 11:23:23.999880771 +0200
+@@ -478,6 +478,10 @@
+         p->next = head;
+         head = p;
+       }
++    else if (S_ISDIR(buf.st_mode)) {
++      head = recursive_dir_list(root, entry_wrt_root, head);
++      free(entry_wrt_root);
++    }
+       else {
+         fatal("refusing to follow symbolic link: %s", entry);
+       }

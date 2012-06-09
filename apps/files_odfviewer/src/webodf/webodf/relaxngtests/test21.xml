@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document-content
+  xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+  xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+  office:version="1.2">
+  <office:body>
+    <office:text>
+      <text:p><text:bibliography-mark text:bibliography-type="misc" text:year="F" text:url="h" text:custom5="i"/></text:p>
+    </office:text>
+  </office:body>
+</office:document-content>

@@ -1,0 +1,43 @@
+This directory contains the javacript code to WebODF as well as applications that use it. The applications are browser applications, commandline applications and unit tests.
+
+lib/
+lib/core/    Parts of WebODF that also work on JavaScript runtimes without a
+             document window.
+lib/gui/     Parts of WebODF that require a domtree
+
+The library should be able to run in a number of different runtimes. Currently these are:
+ - a webbrowser
+ - node.js
+ - rhino
+A common API is implemented for these three environments in the files lib/browser.js, lib/node.js and lib/rhino.js respectively.
+
+
+
+Requirements on the code
+
+There are several requirements that need to met before code can be considered for inclusion in WebODF. Most requirements can be checked automatically, a few have to be checked by hand. A contribution must:
+ - be contributed under the appropriate license
+ - be javascript
+ - not give any warnings in a JSLint check
+ - be unchanged when passed through jsbeautifier
+ - compile with the closure compiler
+ - must pass all the unit tests that were passed before
+   - as separate js files in the currenlty used Node.JS implementation
+   - as a single compiled file in the currenlty used Node.JS implementation
+   - as separate js files in the currenlty used Rhino implementation
+   - as a single compiled file Rhino implementation
+ - must have equal or greater code coverage for the each of the test runs
+
+The automatic checks can be performed by running a dedicated command that reports in an xml file. This report is compared to the previous report.
+
+runtests.js is the command that creates a report.
+
+
+
+
+
+
+
+
+
+

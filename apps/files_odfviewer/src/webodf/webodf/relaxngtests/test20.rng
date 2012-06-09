@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar
+	xmlns="http://relaxng.org/ns/structure/1.0"
+	xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+	xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+	datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
+>
+	<start>
+		<element name="office:document-content">
+			<attribute name="office:version">
+				<value>1.2</value>
+			</attribute>
+			<ref name="office-body"/>
+		</element>
+	</start>
+	<define name="office-body">
+		<element name="office:body">
+			<element name="office:text">
+				<element name="text:p">
+					<zeroOrMore>
+						<choice>
+							<text/>
+							<element name="text:s">
+								<empty/>
+							</element>
+						</choice>
+					</zeroOrMore>
+				</element>
+			</element>
+		</element>
+	</define>
+</grammar>

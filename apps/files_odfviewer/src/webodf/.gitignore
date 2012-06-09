@@ -1,0 +1,17 @@
+#android/bin
+#android/gen
+nativeQtClient/nativeQtClient.pro.user
+programs/firefoxextension/content/webodf.js
+programs/firefoxextension/content/webodf.css
+programs/firefoxextension/install.rdf
+programs/ios/WebODF.xcodeproj/project.xcworkspace
+programs/ios/WebODF.xcodeproj/xcuserdata
+programs/ios/www/ZoomIn.png
+programs/ios/www/ZoomOut.png
+programs/ios/www/app/
+programs/ios/www/sencha-touch.css
+programs/ios/www/sencha-touch.js
+programs/ios/www/webodf.css
+programs/ios/www/webodf.js
+.DS_Store
+programs/ios/build/

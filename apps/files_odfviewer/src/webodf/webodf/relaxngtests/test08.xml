@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+                 xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0"
+                 office:version="1.2"
+                 office:mimetype="application/vnd.oasis.opendocument.text">
+   <office:settings>
+      <config:config-item-set config:name="ooo:configuration-settings">
+         <config:config-item config:name="PrintFaxName" config:type="string"/>
+      </config:config-item-set>
+   </office:settings>
+   <office:body>
+      <office:text/>
+   </office:body>
+</office:document>

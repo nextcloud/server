@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+                 xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0"
+                 office:version="1.2"
+                 office:mimetype="application/vnd.oasis.opendocument.text">
+   <office:automatic-styles>
+      <style:style style:name="NamespaceTable" style:family="table"/>
+   </office:automatic-styles>
+   <office:body>
+      <office:text/>
+   </office:body>
+</office:document>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+  <style type="text/css" media="screen">
+    body, html, div {
+      padding: 0px;
+      margin: 0px;
+      border: 0px;
+    }
+    body, html {
+      height: 100%;
+      text-align: center;
+    }
+    html > body {
+      background: black;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="webodf.css"/>
+  <script src="lib/runtime.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+function init() {
+    runtime.loadClass("odf.OdfCanvas");
+    // if the url has a fragment (#...), try to load the file it represents
+    var location = String(document.location),
+        pos = location.indexOf('#'),
+        odfelement = document.getElementById("odf");
+    document.odfcanvas = new odf.OdfCanvas(odfelement);
+    if (pos === -1 || !window) {
+        return;
+    }
+    location = location.substr(pos + 1);
+    document.odfcanvas.load(location);
+}
+window.setTimeout(init, 1);
+  </script>
+  <title></title>
+</head>
+ 
+<body>
+  <div id="odf"/>
+</body>
+</html>

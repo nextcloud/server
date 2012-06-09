@@ -1,0 +1,135 @@
+<html>
+ <head>
+  <title></title>
+ </head>
+ <body onload="test()">
+  <script>
+function init() {
+    var p = document.createElement("p");
+    p.appendChild(document.createTextNode("MMMMM MMMMM MMMMM MMMMM MMMMM"));
+    p.style.width = "5em";
+    p.style.border = "1px solid black";
+//    p.contentEditable = true;
+    document.body.insertBefore(p, null);
+    return p;
+}
+function listenEvent(eventTarget, eventType, eventHandler) {
+    if (eventTarget.addEventListener) {
+        eventTarget.addEventListener(eventType, eventHandler, false);
+    } else if (eventTarget.attachEvent) {
+        eventType = "on" + eventType;
+        eventTarget.attachEvent(eventType, eventHandler);
+    } else {
+        eventTarget["on" + eventType] = eventHandler;
+    }
+}
+function simulateKeyEvent(target, type, keyCode) {
+    var customEvent = null,
+        bubbles = true,
+        cancelable = true,
+        view = window,
+        ctrlKey = false,
+        altKey = false,
+        shiftKey = false,
+        metaKey = false,
+        charCode = keyCode;
+    if (document.createEvent) {
+        try {
+            customEvent = document.createEvent("KeyEvents");
+            customEvent.initKeyEvent(type, bubbles, cancelable, view, ctrlKey,
+                altKey, shiftKey, metaKey, keyCode, charCode);
+        } catch (ex) {
+            try {
+                customEvent = document.createEvent("Events");
+            } catch (uierror) {
+                customEvent = document.createEvent("UIEvents");
+            } finally {
+                customEvent.initEvent(type, bubbles, cancelable);
+                customEvent.view = view;
+                customEvent.altKey = altKey;
+                customEvent.ctrlKey = ctrlKey;
+                customEvent.shiftKey = shiftKey;
+                customEvent.metaKey = metaKey;
+                customEvent.keyCode = keyCode;
+                customEvent.charCode = charCode;
+            }
+        }
+        target.dispatchEvent(customEvent);
+    } else {
+        alert('ze problem');
+    }
+}
+function moveDown(target) {
+    var evt;// = document.createEvent("KeyboardEvent");
+//    evt.initKeyEvent("keypress", true, true, null, false, false, false, false, 40, 0);
+//    target.dispatchEvent(evt);
+/*
+    evt = document.createEvent("KeyboardEvent");
+    //evt = document.createEvent("KeyEvents");
+    evt.initKeyEvent("keypress", true, true, target.ownerDocument.defaultView, false, false, false, false, 9, 0);
+    target.dispatchEvent(evt);
+*/
+                evt = document.createEvent("KeyboardEvent");
+                evt.initKeyEvent("keypress", true, true, null, false, false, false, false, 0x23, 0);
+                target.dispatchEvent(evt);
+
+}
+function moveDownOpera(target) {
+    var evt = document.createEvent("UIEvents");
+    evt.initUIEvent("keypress", true, true, window, 1);
+    target.keyCode = 8;
+    target.charCode = 0;
+    target.dispatchEvent(evt);
+alert(evt);
+}
+
+function mouseclick() {
+    var selection = window.getSelection(),
+        r = selection.getRangeAt(0);
+    alert(r.startOffset);
+}
+
+function test() {
+    var p = init(),
+        selection = window.getSelection(),
+        range;
+
+    // put caret at the start of the document
+    selection.removeAllRanges();
+    range = p.ownerDocument.createRange();
+    range.setStart(p.firstChild, 8);
+    range.collapse(true);
+    selection.addRange(range);
+
+    listenEvent(document, "keydown", show);
+    listenEvent(document, "mouseup", mouseclick);
+
+    // move the caret down
+    if (selection.modify) {
+        selection.modify("move", "forward", "line");
+    } else {
+//        moveDown(p);
+        moveDownOpera(p);
+//        simulateKeyEvent(p, "keypress", 40);
+//        simulateKeyEvent(p, "keypress", 39);
+//        simulateKeyEvent(p, "keypress", 69);
+var t = "";
+for (var i in selection) {
+ t += i + " ";
+}
+//alert(t);
+    }
+    alert("'" + selection.getRangeAt(0).startOffset + "' ");
+
+}
+function show(e) {
+var t = "";
+for (var i in e) {
+ t += i + " ";
+}
+//alert(t);
+    alert("code: " + e.charCode + " key: " + e.keyCode + ' ');
+}
+  </script>
+ </body>
+</html>

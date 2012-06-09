@@ -1,0 +1,12 @@
+<!ELEMENT requirements (requirement*, dependency*)>
+<!ATTLIST desc>
+
+<!ELEMENT requirement (desc)>
+<!ATTLIST requirement id ID #REQUIRED>
+
+<!ELEMENT desc (#PCDATA)>
+<!ATTLIST desc>
+
+<!ELEMENT dependency EMPTY>
+<!ATTLIST dependency parent IDREF #REQUIRED
+                     child  IDREF #REQUIRED>

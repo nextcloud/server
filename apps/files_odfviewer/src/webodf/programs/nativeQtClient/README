@@ -1,0 +1,1 @@
+This is a small app that can show ODF documents using mainly javascript. Some functions that are not fast in browers are provided in C++ and it gives the ability to open files on the file system.

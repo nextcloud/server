@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar
+	xmlns="http://relaxng.org/ns/structure/1.0"
+	xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+	xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+>
+	<start>
+		<element name="office:document-content">
+			<attribute name="office:version">
+				<value>1.2</value>
+			</attribute>
+			<ref name="office-body"/>
+		</element>
+	</start>
+	<define name="office-body">
+		<element name="office:body">
+			<element name="office:text">
+				<element name="text:p">
+					<zeroOrMore>
+						<ref name="paragraph-content"/>
+					</zeroOrMore>
+				</element>
+			</element>
+		</element>
+	</define>
+	<define name="paragraph-content">
+		<choice>
+			<text/>
+			<element name="text:bibliography-mark">
+				<attribute name="text:bibliography-type">
+					<value>misc</value>
+				</attribute>
+				<zeroOrMore>
+					<attribute>
+						<choice>
+							<name>text:url</name>
+							<name>text:custom5</name>
+							<name>text:year</name>
+						</choice>
+						<data type="string"/>
+					</attribute>
+				</zeroOrMore>
+				<text/>
+			</element>
+		</choice>
+	</define>
+</grammar>

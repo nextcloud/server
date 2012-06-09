@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>uriloader@webodf.js</em:id>
+    <em:name>WebODF</em:name>
+    <em:type>2</em:type>
+    <em:version>@WEBODF_VERSION@</em:version>
+    <em:iconURL>chrome://webodf.js/skin/icon.png</em:iconURL>
+    <em:targetApplication>
+      <!-- Firefox -->
+      <Description>
+       <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+       <em:minVersion>3.6</em:minVersion>
+       <em:maxVersion>9.*</em:maxVersion>
+     </Description>
+    </em:targetApplication>
+    <em:targetApplication>
+      <!-- Fennec -->
+      <Description>
+       <em:id>{a23983c0-fd0e-11dc-95ff-0800200c9a66}</em:id>
+       <em:minVersion>4.0</em:minVersion>
+       <em:maxVersion>9.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+    <em:bootstrap>true</em:bootstrap>
+    <em:unpack>true</em:unpack>
+    <em:creator>Jos van den Oever</em:creator>
+    <em:description>OpenDocument Viewer</em:description>
+    <em:homepageURL>http://webodf.org/</em:homepageURL>
+  </Description>
+</RDF>
