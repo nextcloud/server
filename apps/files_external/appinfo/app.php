@@ -13,6 +13,7 @@ OC::$CLASSPATH['OC_Filestorage_Google']='apps/files_external/lib/google.php';
 OC::$CLASSPATH['OC_Filestorage_SWIFT']='apps/files_external/lib/swift.php';
 OC::$CLASSPATH['OC_Filestorage_SMB']='apps/files_external/lib/smb.php';
 OC::$CLASSPATH['OC_Filestorage_AmazonS3']='apps/files_external/lib/amazons3.php';
+OC::$CLASSPATH['OC_Filestorage_Dropbox']='apps/files_external/lib/dropbox.php';
 OC::$CLASSPATH['OC_Mount_Config']='apps/files_external/lib/config.php';
 
 OCP\App::registerAdmin('files_external', 'settings');
