@@ -27,6 +27,12 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
+function bailOut($msg) {
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	OCP\Util::writeLog('contacts','ajax/addproperty.php: '.$msg, OCP\Util::DEBUG);
+	exit();
+}
+
 $id = isset($_POST['id'])?$_POST['id']:null;
 $name = isset($_POST['name'])?$_POST['name']:null;
 $value = isset($_POST['value'])?$_POST['value']:null;
@@ -34,11 +40,21 @@ $parameters = isset($_POST['parameters'])?$_POST['parameters']:array();
 
 $vcard = OC_Contacts_App::getContactVCard($id);
 
+if(!$name) {
+	bailOut(OC_Contacts_App::$l10n->t('element name is not set.'));
+}
+if(!$id) {
+	bailOut(OC_Contacts_App::$l10n->t('id is not set.'));
+}
+
+if(!$vcard) {
+	bailOut(OC_Contacts_App::$l10n->t('Could not parse contact: ').$id);
+}
+
 if(!is_array($value)){
 	$value = trim($value);
-	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG', 'BDAY', 'NICKNAME', 'NOTE'))) {
-		OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Cannot add empty property.'))));
-		exit();
+	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG', 'BDAY', 'URL', 'NICKNAME', 'NOTE'))) {
+		bailOut(OC_Contacts_App::$l10n->t('Cannot add empty property.'));
 	}
 } elseif($name === 'ADR') { // only add if non-empty elements.
 	$empty = true;
@@ -49,8 +65,7 @@ if(!is_array($value)){
 		}
 	}
 	if($empty) {
-		OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('At least one of the address fields has to be filled out.'))));
-		exit();
+		bailOut(OC_Contacts_App::$l10n->t('At least one of the address fields has to be filled out.'));
 	}
 }
 
@@ -59,9 +74,7 @@ $current = $vcard->select($name);
 foreach($current as $item) {
 	$tmpvalue = (is_array($value)?implode(';', $value):$value);
 	if($tmpvalue == $item->value) {
-		OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Trying to add duplicate property: ').$name.': '.$tmpvalue)));
-		OCP\Util::writeLog('contacts','ajax/addproperty.php: Trying to add duplicate property: '.$name.': '.$tmpvalue, OCP\Util::DEBUG);
-		exit();
+		bailOut(OC_Contacts_App::$l10n->t('Trying to add duplicate property: '.$name.': '.$tmpvalue));
 	}
 }
 
@@ -117,9 +130,7 @@ foreach ($parameters as $key=>$element) {
 $checksum = md5($vcard->children[$line]->serialize());
 
 if(!OC_Contacts_VCard::edit($id,$vcard)) {
-	OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error adding contact property.'))));
-	OCP\Util::writeLog('contacts','ajax/addproperty.php: Error updating contact property: '.$name, OCP\Util::ERROR);
-	exit();
+	bailOut(OC_Contacts_App::$l10n->t('Error adding contact property: '.$name));
 }
 
 OCP\JSON::success(array('data' => array( 'checksum' => $checksum )));
