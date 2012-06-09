@@ -25,6 +25,7 @@
 *
 */
 
+header("X-Frame-Options: Sameorigin");
 
 // Do not load FS ...
 $RUNTIME_NOSETUPFS = true;
