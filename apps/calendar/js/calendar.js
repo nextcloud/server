@@ -49,6 +49,7 @@ Calendar={
 			$( "#event" ).tabs({ selected: 0});
 			$('#event').dialog({
 				width : 500,
+				height: 600,
 				close : function(event, ui) {
 					$(this).dialog('destroy').remove();
 				}
