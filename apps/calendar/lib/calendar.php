@@ -109,7 +109,10 @@ class OC_Calendar_Calendar{
 		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OCP\DB::insertid('*PREFIX*calendar_calendars');
+		$insertid = OCP\DB::insertid('*PREFIX*calendar_calendars');
+		OCP\Util::emitHook('OC_Calendar', 'addCalendar', array('calendar_id' => $insertid));
+
+		return $insertid;
 	}
 
 	/**
@@ -129,7 +132,10 @@ class OC_Calendar_Calendar{
 		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*calendar_calendars (userid,displayname,uri,ctag,calendarorder,calendarcolor,timezone,components) VALUES(?,?,?,?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OCP\DB::insertid('*PREFIX*calendar_calendars');
+		$insertid = OCP\DB::insertid('*PREFIX*calendar_calendars');
+		OCP\Util::emitHook('OC_Calendar', 'addCalendar', array('calendar_id' => $insertid));
+
+		return $insertid;
 	}
 
 	/**
@@ -158,6 +164,7 @@ class OC_Calendar_Calendar{
 		$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*calendar_calendars SET displayname=?,calendarorder=?,calendarcolor=?,timezone=?,components=?,ctag=ctag+1 WHERE id=?' );
 		$result = $stmt->execute(array($name,$order,$color,$timezone,$components,$id));
 
+		OCP\Util::emitHook('OC_Calendar', 'editCalendar', array('calendar_id' => $id));
 		return true;
 	}
 
@@ -197,6 +204,8 @@ class OC_Calendar_Calendar{
 
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE calendarid = ?' );
 		$stmt->execute(array($id));
+
+		OCP\Util::emitHook('OC_Calendar', 'deleteCalendar', array('calendar_id' => $id));
 
 		return true;
 	}
