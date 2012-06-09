@@ -24,8 +24,8 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
-$id = $_GET['id'];
-$checksum = $_GET['checksum'];
+$id = $_POST['id'];
+$checksum = $_POST['checksum'];
 
 $vcard = OC_Contacts_App::getContactVCard( $id );
 $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
