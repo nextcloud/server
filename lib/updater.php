@@ -30,11 +30,12 @@ class OC_Updater{
 	 */
 	public static function check(){
 		OC_Appconfig::setValue('core', 'lastupdatedat',microtime(true));
+		if(OC_Appconfig::getValue('core', 'installedat','')=='') OC_Appconfig::setValue('core', 'installedat',microtime(true));
 
 		$updaterurl='http://apps.owncloud.com/updater.php';
 		$version=OC_Util::getVersion();
-		$version['installed']=OC_Config::getValue('installedat');
-		$version['updated']=OC_Appconfig::getValue('core', 'lastupdatedat', OC_Config::getValue( 'lastupdatedat'));
+		$version['installed']=OC_Appconfig::getValue('core', 'installedat');
+		$version['updated']=OC_Appconfig::getValue('core', 'lastupdatedat');
 		$version['updatechannel']='stable';
 		$version['edition']=OC_Util::getEditionString();
 		$versionstring=implode('x',$version);
@@ -57,14 +58,19 @@ class OC_Updater{
 	}
 
 	public static function ShowUpdatingHint(){
-		$data=OC_Updater::check();
-		if(isset($data['version']) and $data['version']<>'') {
-			$txt='<span style="color:#AA0000; font-weight:bold;">'.$data['versionstring'].' is available. Get <a href="'.$data['web'].'">more information</a></span>';
+		if(OC_Config::getValue('updatechecker', true)==true){
+			$data=OC_Updater::check();
+			if(isset($data['version']) and $data['version']<>'') {
+				$txt='<span style="color:#AA0000; font-weight:bold;">'.$data['versionstring'].' is available. Get <a href="'.$data['web'].'">more information</a></span>';
+			}else{
+				$txt='up to date';
+			}
 		}else{
-			$txt='up to date';
+			$txt='updates check is disabled';
 		}
 		return($txt);
 	}
+
 
 	/**
 	 * do ownCloud update

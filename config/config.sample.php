@@ -30,6 +30,7 @@ $CONFIG = array(
 "logfile" => "",
 "loglevel" => "",
 "passwordsalt" => "",
+"updatechecker" => true,
 // "datadirectory" => ""
 );
 ?>
