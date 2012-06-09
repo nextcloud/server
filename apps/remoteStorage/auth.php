@@ -112,7 +112,7 @@ if($userId && $appUrl && $categories) {
 		}//end 'need to click Allow still'
 	} else {//login not ok
 		if($currUser) {
-			die('You are logged in as '.$currUser.' instead of '.$userId);
+			die('You are logged in as '.$currUser.' instead of '.htmlentities($userId));
 		} else {
 			header('Location: /?redirect_url='.urlencode('/apps/remoteStorage/auth.php'.$_SERVER['PATH_INFO'].'?'.$_SERVER['QUERY_STRING']));
 		}
