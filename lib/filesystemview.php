@@ -91,6 +91,23 @@ class OC_FilesystemView {
 		}
 		return $this->internal_path_cache[$path];
 	}
+
+	/**
+	 * get path relative to the root of the view
+	 * @param string path
+	 * @return string
+	 */
+	public function getRelativePath($path){
+		if($this->fakeRoot==''){
+			return $path;
+		}
+		if(strpos($path,$this->fakeRoot)!==0){
+			return null;
+		}else{
+			return substr($path,strlen($this->fakeRoot));
+		}
+	}
+	
 	/**
 	* get the storage object for a path
 	* @param string path
@@ -232,7 +249,14 @@ class OC_FilesystemView {
 		return $this->basicOperation('unlink',$path,array('delete'));
 	}
 	public function rename($path1,$path2){
-		if(OC_FileProxy::runPreProxies('rename',$path1,$path2) and OC_Filesystem::isValidPath($path2)){
+		$absolutePath1=$this->getAbsolutePath($path1);
+		$absolutePath2=$this->getAbsolutePath($path2);
+		if(OC_FileProxy::runPreProxies('rename',$absolutePath1,$absolutePath2) and OC_Filesystem::isValidPath($path2)){
+			$path1=$this->getRelativePath($absolutePath1);
+			$path2=$this->getRelativePath($absolutePath2);
+			if($path1==null or $path2==null){
+				return false;
+			}
 			$run=true;
 			OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_rename, array( OC_Filesystem::signal_param_oldpath => $path1 , OC_Filesystem::signal_param_newpath=>$path2, OC_Filesystem::signal_param_run => &$run));
 			if($run){
@@ -256,7 +280,14 @@ class OC_FilesystemView {
 		}
 	}
 	public function copy($path1,$path2){
-		if(OC_FileProxy::runPreProxies('copy',$path1,$path2) and $this->is_readable($path1) and OC_Filesystem::isValidPath($path2)){
+		$absolutePath1=$this->getAbsolutePath($path1);
+		$absolutePath2=$this->getAbsolutePath($path2);
+		if(OC_FileProxy::runPreProxies('copy',$absolutePath1,$absolutePath2) and OC_Filesystem::isValidPath($path2)){
+			$path1=$this->getRelativePath($absolutePath1);
+			$path2=$this->getRelativePath($absolutePath2);
+			if($path1==null or $path2==null){
+				return false;
+			}
 			$run=true;
 			OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_copy, array( OC_Filesystem::signal_param_oldpath => $path1 , OC_Filesystem::signal_param_newpath=>$path2, OC_Filesystem::signal_param_run => &$run));
 			$exists=$this->file_exists($path2);
@@ -375,7 +406,12 @@ class OC_FilesystemView {
 	 * OC_Filestorage for delegation to a storage backend for execution
 	 */
 	private function basicOperation($operation,$path,$hooks=array(),$extraParam=null){
-		if(OC_FileProxy::runPreProxies($operation,$path, $extraParam) and OC_Filesystem::isValidPath($path)){
+		$absolutePath=$this->getAbsolutePath($path);
+		if(OC_FileProxy::runPreProxies($operation,$absolutePath, $extraParam) and OC_Filesystem::isValidPath($path)){
+			$path=$this->getRelativePath($absolutePath);
+			if($path==null){
+				return false;
+			}
 			$internalPath=$this->getInternalPath($path);
 			$run=true;
 			if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()){
@@ -393,7 +429,7 @@ class OC_FilesystemView {
 				}else{
 					$result=$storage->$operation($internalPath);
 				}
-				$result=OC_FileProxy::runPostProxies($operation,$path,$result);
+				$result=OC_FileProxy::runPostProxies($operation,$this->getAbsolutePath($path),$result);
 				if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()){
 					if($operation!='fopen'){//no post hooks for fopen, the file stream is still open
 						foreach($hooks as $hook){
