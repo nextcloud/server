@@ -4,9 +4,6 @@ namespace OC\Pictures;
 
 require_once('lib/base.php');
 
-\OCP\JSON::checkLoggedIn();
-\OCP\JSON::checkAppEnabled('gallery');
-
 class DatabaseManager {
 	private static $instance = null;
 	const TAG = 'DatabaseManager';
