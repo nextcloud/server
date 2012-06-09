@@ -400,7 +400,11 @@ class OC_Image {
 				break;
 			*/
 			default:
-				$this->resource = imagecreatefromstring(file_get_contents($imagepath));
+			error_log($imagepath);
+			error_log(\OC_Filesystem::getInternalPath($imagepath));
+			error_log(\OC_Filesystem::getLocalFile($imagepath));
+				// this is mostly file created from encrypted file
+				$this->resource = imagecreatefromstring(\OC_Filesystem::file_get_contents(\OC_Filesystem::getInternalPath($imagepath)));
 				$itype = IMAGETYPE_PNG;
 				OC_Log::write('core','OC_Image->loadFromFile, Default', OC_Log::DEBUG);
 				break;
