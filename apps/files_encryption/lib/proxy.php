@@ -59,7 +59,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	 * @return bool
 	 */
 	private static function isEncrypted($path){
-		$metadata=OC_FileCache::getCached($path);
+		$metadata=OC_FileCache::getCached($path,'');
 		return isset($metadata['encrypted']) and (bool)$metadata['encrypted'];
 	}
 	

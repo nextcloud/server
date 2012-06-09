@@ -35,8 +35,12 @@ class OC_CryptStream{
 	private $meta=array();//header/meta for source stream
 	private $count;
 	private $writeCache;
+	private static $rootView;
 
 	public function stream_open($path, $mode, $options, &$opened_path){
+		if(!self::$rootView){
+			self::$rootView=new OC_FilesystemView('');
+		}
 		$path=str_replace('crypt://','',$path);
 		if(dirname($path)=='streams' and isset(self::$sourceStreams[basename($path)])){
 			$this->source=self::$sourceStreams[basename($path)]['stream'];
@@ -45,7 +49,7 @@ class OC_CryptStream{
 			$this->path=$path;
 			OCP\Util::writeLog('files_encryption','open encrypted '.$path. ' in '.$mode,OCP\Util::DEBUG);
 			OC_FileProxy::$enabled=false;//disable fileproxies so we can open the source file
-			$this->source=OC_FileSystem::fopen($path,$mode);
+			$this->source=self::$rootView->fopen($path,$mode);
 			OC_FileProxy::$enabled=true;
 			if(!is_resource($this->source)){
 				OCP\Util::writeLog('files_encryption','failed to open '.$path,OCP\Util::ERROR);
