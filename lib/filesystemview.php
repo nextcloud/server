@@ -40,6 +40,8 @@
 
 class OC_FilesystemView {
 	private $fakeRoot='';
+	private $internal_path_cache=array();
+	private $storage_cache=array();
 
 	public function __construct($root){
 		$this->fakeRoot=$root;
@@ -49,7 +51,7 @@ class OC_FilesystemView {
 		if(!$path){
 			$path='/';
 		}
-		if(substr($path,0,1)!=='/'){
+		if($path[0]!=='/'){
 			$path='/'.$path;
 		}
 		return $this->fakeRoot.$path;
@@ -84,7 +86,10 @@ class OC_FilesystemView {
 	* @return bool
 	*/
 	public function getInternalPath($path){
-		return OC_Filesystem::getInternalPath($this->getAbsolutePath($path));
+		if (!isset($this->internal_path_cache[$path])) {
+			$this->internal_path_cache[$path] = OC_Filesystem::getInternalPath($this->getAbsolutePath($path));
+		}
+		return $this->internal_path_cache[$path];
 	}
 	/**
 	* get the storage object for a path
@@ -92,7 +97,10 @@ class OC_FilesystemView {
 	* @return OC_Filestorage
 	*/
 	public function getStorage($path){
-		return OC_Filesystem::getStorage($this->getAbsolutePath($path));
+		if (!isset($this->storage_cache[$path])) {
+			$this->storage_cache[$path] = OC_Filesystem::getStorage($this->getAbsolutePath($path));
+		}
+		return $this->storage_cache[$path];
 	}
 
 	/**

@@ -23,13 +23,13 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 		$this->password=$params['password'];
 		$this->share=$params['share'];
 		$this->root=isset($params['root'])?$params['root']:'/';
+		if(!$this->root || $this->root[0]!='/'){
+			$this->root='/'.$this->root;
+		}
 		if(substr($this->root,-1,1)!='/'){
 			$this->root.='/';
 		}
-		if(substr($this->root,0,1)!='/'){
-			$this->root='/'.$this->root;
-		}
-		if(substr($this->share,0,1)!='/'){
+		if(!$this->share || $this->share[0]!='/'){
 			$this->share='/'.$this->share;
 		}
 		if(substr($this->share,-1,1)=='/'){
