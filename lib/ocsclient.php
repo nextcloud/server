@@ -85,7 +85,7 @@ class OC_OCSClient{
 	 *
 	 * This function returns a list of all the applications on the OCS server
 	 */
-	public static function getApplications($categories){
+	public static function getApplications($categories,$page){
 		if(OC_Config::getValue('appstoreenabled', true)==false){
 			return(array());
 		}
@@ -95,7 +95,7 @@ class OC_OCSClient{
 		}else{
 			$categoriesstring=$categories;
 		}
-		$url=OC_OCSClient::getAppStoreURL().'/content/data?categories='.urlencode($categoriesstring).'&sortmode=new&page=0&pagesize=10';
+		$url=OC_OCSClient::getAppStoreURL().'/content/data?categories='.urlencode($categoriesstring).'&sortmode=new&page='.urlencode($page).'&pagesize=100';
 		$apps=array();
 		$xml=@file_get_contents($url);
 		if($xml==FALSE){
