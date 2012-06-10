@@ -48,7 +48,7 @@ Contacts_Import={
 					$('#progressbar').progressbar('option', 'value', 100);
 					$('#import_done').find('p').html(t('contacts', 'Result: ') + jsondata.data.imported + t('contacts', ' imported, ') + jsondata.data.failed + t('contacts', ' failed.'));
 				} else {
-					$('#import_done').find('p').html(jsondata.data.message);
+					$('#import_done').find('p').html(jsondata.message);
 				}
 				$('#import_done').show().find('p').addClass('bold');
 				$('#progressbar').fadeOut('slow');
