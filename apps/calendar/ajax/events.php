@@ -5,10 +5,6 @@
  * later.
  * See the COPYING-README file.
  */
-
- 
-require_once('when/When.php');
-
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
 
