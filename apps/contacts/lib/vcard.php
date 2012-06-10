@@ -373,6 +373,10 @@ class OC_Contacts_VCard{
 	public static function editFromDAVData($aid,$uri,$data){
 		$oldcard = self::findWhereDAVDataIs($aid,$uri);
 		$card = OC_VObject::parse($data);
+		if(!$card) {
+			OCP\Util::writeLog('contacts','OC_Contacts_VCard::editFromDAVData. Unable to parse VCARD, uri: '.$uri,OCP\Util::ERROR);
+			return false;
+		}
 		return self::edit($oldcard['id'], $card);
 	}
 
