@@ -7,13 +7,17 @@ if (array_key_exists('PATH_INFO', $_SERVER)){
 }else{
 	$path_info = substr($_SERVER['PHP_SELF'], strpos($_SERVER['PHP_SELF'], basename(__FILE__)) + strlen(basename(__FILE__)));
 }
+if ($path_info === false) {
+	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
+	exit;
+}
 if (!$pos = strpos($path_info, '/', 1)) {
 	$pos = strlen($path_info);
 }
 $service=substr($path_info, 1, $pos-1);
 $file = OC_AppConfig::getValue('core', 'remote_' . $service);
 if(is_null($file)){
-	header('HTTP/1.0 404 Not Found');
+	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
 	exit;
 }
 

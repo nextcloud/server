@@ -5,7 +5,7 @@
  * later.
  * See the COPYING-README file.
  */
-$id = strip_tags($_GET['id']);
-$activation = strip_tags($_GET['activation']);
+$id = strip_tags($_POST['id']);
+$activation = strip_tags($_POST['activation']);
 OC_Calendar_Share::set_active(OCP\USER::getUser(), $id, $activation);
 OCP\JSON::success();

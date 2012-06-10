@@ -248,6 +248,26 @@ class Util {
 	}
 
 
+	/**
+ 	 * Register an get/post call. This is important to prevent CSRF attacks
+	 * TODO: write example
+	 */
+	public static function callRegister(){
+		return(\OC_Util::callRegister());
+	}
+
+
+	/**
+	 * Check an ajax get/post call if the request token is valid. exit if not.
+	 * Todo: Write howto
+	 */
+	public static function callCheck(){
+		return(\OC_Util::callCheck());
+	}
+
+
+
+
 }
 
 ?>

@@ -57,8 +57,11 @@
 				element=$(element);
 				var item=element.val();
 				var id='ms'+multiSelectId+'-option-'+item;
-				var input=$('<input id="'+id+'" type="checkbox"/>');
-				var label=$('<label for="'+id+'">'+item+'</label>');
+				var input=$('<input type="checkbox"/>');
+				input.attr('id',id);
+				var label=$('<label/>');
+				label.attr('for',id);
+				label.text(item);
 				if(settings.checked.indexOf(item)!=-1 || checked){
 					input.attr('checked',true);
 				}
@@ -130,7 +133,10 @@
 							li.text('+ '+settings.createText);
 							li.before(createItem(this));
 							var select=button.parent().next();
-							select.append($('<option selected="selected" value="'+$(this).val()+'">'+$(this).val()+'</option>'));
+							var option=$('<option selected="selected"/>');
+							option.attr('value',$(this).val());
+							option.text($(this).val());
+							select.append(optione);
 							li.prev().children('input').trigger('click');
 							button.parent().data('preventHide',false);
 							if(settings.createCallback){

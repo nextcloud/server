@@ -20,16 +20,15 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-OCP\Util::addscript('files_external', 'settings');
-OCP\Util::addstyle('files_external', 'settings');
+OCP\Util::addScript('files_external', 'settings');
+OCP\Util::addStyle('files_external', 'settings');
 $tmpl = new OCP\Template('files_external', 'settings');
-$tmpl->assign('allowUserMounting', 'yes');
 $tmpl->assign('isAdminPage', true);
-$tmpl->assign('storage', array());
+$tmpl->assign('mounts', OC_Mount_Config::getSystemMountPoints());
+$tmpl->assign('backends', OC_Mount_Config::getBackends());
 $tmpl->assign('groups', OC_Group::getGroups());
-$tmpl->assign('backends', array('Amazon S3', 'FTP', 'Google Drive', 'SWIFT', 'WebDAV'));
-$tmpl->assign('configurations', '');
-$tmpl->assign('options', array('Encrypt', 'Version control', 'Allow sharing'));
+$tmpl->assign('users', OCP\User::getUsers());
+$tmpl->assign('allowUserMounting', OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes'));
 return $tmpl->fetchPage();
 
 ?>

@@ -8,6 +8,9 @@
 <?php
 $calendar_options = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
 $calendar_options[] = array('id'=>'newcal', 'displayname'=>$l->t('create a new calendar'));
+for($i = 0;$i<count($calendar_options);$i++){
+	$calendar_options[$i]['displayname'] = htmlspecialchars($calendar_options[$i]['displayname']);
+}
 echo OCP\html_select_options($calendar_options, $calendar_options[0]['id'], array('value'=>'id', 'label'=>'displayname'));
 ?>
 </select>

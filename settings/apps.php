@@ -63,7 +63,8 @@ usort($apps, 'app_sort');
  $catagoryNames=OC_OCSClient::getCategories();
  if(is_array($catagoryNames)){
  	$categories=array_keys($catagoryNames);
- 	$externalApps=OC_OCSClient::getApplications($categories);
+	$page=0;
+ 	$externalApps=OC_OCSClient::getApplications($categories,$page);
  	foreach($externalApps as $app){
 		// show only external apps that are not exist yet
 		$local=false;

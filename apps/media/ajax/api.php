@@ -103,6 +103,10 @@ if($arguments['action']){
 			@ob_end_clean();
 			
 			$ftype=OC_Filesystem::getMimeType( $arguments['path'] );
+			if(substr($ftype,0,5)!='audio' and $ftype!='application/ogg'){
+				echo 'Not an audio file';
+				exit();
+			}
 			
 			$songId=OC_MEDIA_COLLECTION::getSongByPath($arguments['path']);
 			OC_MEDIA_COLLECTION::registerPlay($songId);
