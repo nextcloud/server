@@ -20,6 +20,7 @@ function getBookmarks() {
 	}
 
 	$.ajax({
+		  type: 'POST',
 		url: OC.filePath('bookmarks', 'ajax', 'updateList.php'),
 		data: 'tag=' + encodeURIComponent($('#bookmarkFilterTag').val()) + '&page=' + bookmarks_page + '&sort=' + bookmarks_sorting,
 		success: function(bookmarks){
@@ -70,6 +71,7 @@ function addOrEditBookmark(event) {
 	}
 	if (id == 0) {
 		$.ajax({
+			type: 'POST',
 			url: OC.filePath('bookmarks', 'ajax', 'addBookmark.php'),
 			data: 'url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title) + '&tags=' + encodeURIComponent(tags),
 			success: function(response){
@@ -82,6 +84,7 @@ function addOrEditBookmark(event) {
 	}
 	else {
 		$.ajax({
+			type: 'POST',
 			url: OC.filePath('bookmarks', 'ajax', 'editBookmark.php'),
 			data: 'id=' + id + '&url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(title) + '&tags=' + encodeURIComponent(tags),
 			success: function(){
@@ -99,6 +102,7 @@ function addOrEditBookmark(event) {
 function delBookmark(event) {
 	var record = $(this).parent().parent();
 	$.ajax({
+		type: 'POST',
 		url: OC.filePath('bookmarks', 'ajax', 'delBookmark.php'),
 		data: 'id=' + record.data('id'),
 		success: function(data){
@@ -177,6 +181,7 @@ function updateOnBottom() {
 
 function recordClick(event) {
 	$.ajax({
+		type: 'POST',
 		url: OC.filePath('bookmarks', 'ajax', 'recordClick.php'),
 		data: 'url=' + encodeURIComponent($(this).attr('href')),
 	});
