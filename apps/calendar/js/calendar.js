@@ -49,6 +49,7 @@ Calendar={
 			$( "#event" ).tabs({ selected: 0});
 			$('#event').dialog({
 				width : 500,
+				height: 600,
 				close : function(event, ui) {
 					$(this).dialog('destroy').remove();
 				}
@@ -77,7 +78,7 @@ Calendar={
 				$('#event').dialog('destroy').remove();
 			}else{
 				Calendar.UI.loading(true);
-				$('#dialog_holder').load(OC.filePath('calendar', 'ajax/event', 'edit.form.php') + '?id=' + id, Calendar.UI.startEventDialog);
+				$('#dialog_holder').load(OC.filePath('calendar', 'ajax/event', 'edit.form.php'), {id: id}, Calendar.UI.startEventDialog);
 			}
 		},
 		submitDeleteEventForm:function(url){
@@ -413,7 +414,7 @@ Calendar={
 			},
 			edit:function(object, calendarid){
 				var tr = $(document.createElement('tr'))
-					.load(OC.filePath('calendar', 'ajax/calendar', 'edit.form.php') + "?calendarid="+calendarid,
+					.load(OC.filePath('calendar', 'ajax/calendar', 'edit.form.php'), {calendarid: calendarid},
 						function(){Calendar.UI.Calendar.colorPicker(this)});
 				$(object).closest('tr').after(tr).hide();
 			},
@@ -502,14 +503,14 @@ Calendar={
 			currentid: 'false',
 			idtype: '',
 			activation:function(object,owner,id){
-				$.getJSON(OC.filePath('calendar', 'ajax/share', 'activation.php'),{id:id, idtype:'calendar', activation:object.checked?1:0});
+				$.post(OC.filePath('calendar', 'ajax/share', 'activation.php'),{id:id, idtype:'calendar', activation:object.checked?1:0});
 				$('#calendar_holder').fullCalendar('refetchEvents');
 			},
 			dropdown:function(userid, calid){
 				$('.calendar_share_dropdown').remove();
 				var element = document.getElementById(userid+'_'+calid);
 				$('<div class="calendar_share_dropdown"></div>').appendTo(element);
-				$.get(OC.filePath('calendar', 'ajax/share', 'dropdown.php') + '?calid=' + calid, function(data){
+				$.post(OC.filePath('calendar', 'ajax/share', 'dropdown.php'), {calid: calid}, function(data){
 					$('.calendar_share_dropdown').html(data);
 					$('.calendar_share_dropdown').show('blind');
 					$('#share_user').chosen();
@@ -519,7 +520,7 @@ Calendar={
 				Calendar.UI.Share.idtype = 'calendar';
 			},
 			share:function(id, idtype, sharewith, sharetype){
-				$.getJSON(OC.filePath('calendar', 'ajax/share', 'share.php'),{id:id, idtype:idtype, sharewith:sharewith, sharetype:sharetype}, function(data){
+				$.post(OC.filePath('calendar', 'ajax/share', 'share.php'),{id:id, idtype:idtype, sharewith:sharewith, sharetype:sharetype}, function(data){
 					if(sharetype == 'public'){
 						$('#public_token').val(parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=calendar&t='+data.message);
 						$('#public_token').css('display', 'block');
@@ -527,7 +528,7 @@ Calendar={
 				});
 			},
 			unshare:function(id, idtype, sharewith, sharetype){
-				$.getJSON(OC.filePath('calendar', 'ajax/share', 'unshare.php'),{id:id, idtype:idtype, sharewith:sharewith, sharetype:sharetype}, function(){
+				$.post(OC.filePath('calendar', 'ajax/share', 'unshare.php'),{id:id, idtype:idtype, sharewith:sharewith, sharetype:sharetype}, function(){
 					if(sharetype == 'public'){
 						$('#public_token').val('');
 						$('#public_token').css('display', 'none');
@@ -535,7 +536,7 @@ Calendar={
 				});
 			},
 			changepermission:function(id, idtype, sharewith, sharetype, permission){
-				$.getJSON(OC.filePath('calendar', 'ajax/share', 'changepermission.php'),{id:id, idtype:idtype, sharewith: sharewith, sharetype:sharetype, permission: (permission?1:0)});
+				$.post(OC.filePath('calendar', 'ajax/share', 'changepermission.php'),{id:id, idtype:idtype, sharewith: sharewith, sharetype:sharetype, permission: (permission?1:0)});
 			},
 			init:function(){
 				$('.calendar_share_dropdown').live('mouseleave', function(){
@@ -846,7 +847,7 @@ $(document).ready(function(){
 		viewDisplay: function(view) {
 			$('#datecontrol_date').html(view.title);
 			if (view.name != defaultView) {
-				$.get(OC.filePath('calendar', 'ajax', 'changeview.php') + "?v="+view.name);
+				$.post(OC.filePath('calendar', 'ajax', 'changeview.php'), {v:view.name});
 				defaultView = view.name;
 			}
 			Calendar.UI.setViewActive(view.name);

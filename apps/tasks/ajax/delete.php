@@ -24,7 +24,7 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('tasks');
 
-$id = $_GET['id'];
+$id = $_POST['id'];
 $task = OC_Calendar_App::getEventObject( $id );
 
 OC_Calendar_Object::delete($id);

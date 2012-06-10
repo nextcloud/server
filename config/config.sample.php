@@ -74,6 +74,9 @@ $CONFIG = array(
 /* Check 3rdparty apps for malicious code fragments */
 "appcodechecker" => "",
 
+/* Check if ownCloud is up to date */
+"updatechecker" => true,
+
 /* Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu) */
 "log_type" => "owncloud",
 
