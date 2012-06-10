@@ -55,6 +55,6 @@ class OC_GallerySearchProvider extends OC_Search_Provider{
 	}
 }
 
-OC_Search::registerProvider('OC_GallerySearchProvider');
+//OC_Search::registerProvider('OC_GallerySearchProvider');
 
 require_once('apps/gallery/lib/hooks_handlers.php');
