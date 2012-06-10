@@ -70,6 +70,15 @@ class OC_Util {
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
 			self::$fsSetup=true;
+			// Load personal mount config
+			if (is_file($CONFIG_DATADIRECTORY_ROOT.'/'.$user.'/mount.php')) {
+				$mountConfig = include($CONFIG_DATADIRECTORY_ROOT.'/'.$user.'/mount.php');
+				if (isset($mountConfig['user'][$user])) {
+					foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
+						OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
+					}
+				}
+			}
 		}
 	}
 

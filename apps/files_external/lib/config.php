@@ -98,8 +98,8 @@ class OC_Mount_Config {
 		$personal = array();
 		if (isset($mountPoints[self::MOUNT_TYPE_USER][$uid])) {
 			foreach ($mountPoints[self::MOUNT_TYPE_USER][$uid] as $mountPoint => $mount) {
-				// Remove '/$user/files/' from mount point
-				$personal[substr($mountPoint, 13)] = array('class' => $mount['class'], 'backend' => $backends[$mount['class']]['backend'], 'configuration' => $mount['options']);
+				// Remove '/uid/files/' from mount point
+				$personal[substr($mountPoint, strlen($uid) + 8)] = array('class' => $mount['class'], 'backend' => $backends[$mount['class']]['backend'], 'configuration' => $mount['options']);
 			}
 		}
 		return $personal;
@@ -123,8 +123,11 @@ class OC_Mount_Config {
 			if ($applicable != OCP\User::getUser() || $class == 'OC_Filestorage_Local') {
 				return false;
 			}
+			$mountPoint = '/'.$applicable.'/files/'.ltrim($mountPoint, '/');
+		} else {
+			$mountPoint = '/$user/files/'.ltrim($mountPoint, '/');
 		}
-		$mount = array($applicable => array('/$user/files/'.$mountPoint => array('class' => $class, 'options' => $classOptions)));
+		$mount = array($applicable => array($mountPoint => array('class' => $class, 'options' => $classOptions)));
 		$mountPoints = self::readData($isPersonal);
 		// Merge the new mount point into the current mount points
 		if (isset($mountPoints[$mountType])) {
