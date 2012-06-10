@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<title>README</title>
+		<style type="text/css" media="screen">
+		body {
+			font: 18px/1.5em 'Book Antiqua', 'Palatino Linotype', Palatino, 'Minion Pro', Cambria, Georgia, serif;
+			padding: 50px 10%;
+			max-width: 1000px;
+			margin: 0 auto;
+			color: #080000;
+			background-color: #fbfbf9;
+		}
+		code {
+			font: 13px/1.4em Monaco, monospace;
+			background-color: #f3f3f3;
+			color: #444;
+			padding: 1px 2px;
+
+			border-radius: 2px;
+			-webkit-border-radius: 2px;
+			-moz-border-radius: 2px;
+		}
+		pre {
+			border: 1px solid #ddd;
+			border-left: 6px solid #c0c0c0;
+			background-color: #f3f3f3;
+			color: #444;
+			font: 13px/1.4em Monaco, monospace;
+			overflow: auto;
+
+			margin: 1em 0 1.5em 0;
+			padding: 1em;
+			text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+
+			-webkit-border-top-right-radius: 5px;
+			-webkit-border-bottom-right-radius: 5px;
+			-moz-border-radius-topright: 5px;
+			-moz-border-radius-bottomright: 5px;
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+		}
+		pre code {
+			font-family: inherit;
+			font-size: inherit;
+			background-color: inherit;
+			color: inherit;
+			padding: 0;
+
+			border-radius: none;
+			-webkit-border-radius: none;
+			-moz-border-radius: none;
+		}
+		a {
+			color: #326EA1;
+			text-decoration: underline;
+			padding: 1px 2px;
+			-webkit-transition: background-color 0.15s;
+			-webkit-transition: color 0.15s;
+			-moz-transition: background-color 0.15s;
+			-moz-transition: color 0.15s;
+			transition: background-color 0.15s;
+			transition: color 0.15s;
+			-webkit-border-radius: 2px;
+			-moz-border-radius: 2px;
+			border-radius: 2px;
+		}
+		a:hover, a.hover {
+			color: #fff;
+			background-color: #333;
+			text-decoration: none;
+			padding: 1px 2px;
+		}
+		a.active {
+			font-weight: bold;
+		}
+		h1, h2, h3, h4, h5, h6 {
+			padding: 0.8em 0 0.2em 0;
+			margin: 0;
+		}
+		h1 {
+			margin-top: 30px;
+			padding: 15px 0 5px 5px;
+			font-size: 2em;
+			line-height: 1.3em;
+			border-bottom: 3px solid #cdcdcc;
+		}
+		h2 {
+			margin-top: 30px;
+			padding: 15px 0 5px 5px;
+			font-size: 1.5em;
+			line-height: 1.3em;
+			border-bottom: 1px solid #cdcdcc;
+		}
+		li {
+			margin: 0;
+			padding: 0;
+		}
+		em, i {
+			font-style: italic;
+		}
+		strong, b {
+			font-weight: bold;
+			color: #000;
+		}
+		p {
+			margin: 0;
+			padding: 0.5em 0;
+		}
+		ul.columns {
+			-moz-column-count: 3;
+			-moz-column-gap: 20px;
+			-webkit-column-count: 3;
+			-webkit-column-gap: 20px;
+			column-count: 3;
+			column-gap: 20px;
+		}
+		dl dt {
+			font: 13px/1.4em Monaco, monospace;
+			font-weight: bold;
+		}
+		dl dd {
+			margin-bottom: 0.5em;
+		}
+		</style>
+	</head>
+	<body>
+		<h1>DynamoDB Session Handler</h1>
+		<p>The <strong>DynamoDB Session Handler</strong> is a custom session handler for PHP that allows Amazon DynamoDB to be used as a session store while still using PHP&rsquo;s native session functions.</p>
+
+		<h2>What issues does this address?</h2>
+		<p>The native PHP session handler stores sessions on the local file system. This is unreliable in distributed web applications, because the user may be routed to servers that do not contain the session data. To solve this problem, PHP developers have implemented custom solutions for storing user session data using databases, shared file systems, Memcache servers, tamper-proof cookies, etc., by taking advantage of the interface provided by PHP via the <code>session_set_save_handler()</code> function. Unfortunately, most of these solutions require a lot of configuration or prior knowledge about the storage mechanism in order to setup. Some of them also require the provisioning or management of additional servers.</p>
+
+		<h2>Proposed solution</h2>
+		<p>The DynamoDB Session Handler uses Amazon DynamoDB as a session store, which alleviates many of the problems with existing solutions. There are no additional servers to manage, and there is very little configuration required. The Amazon DynamoDB is also fundamentally designed for low latency (the data is even stored on <abbr title="Solid State Drive">SSD</abbr>s), so the performance impact is much smaller when compared to other databases. Since the Session Handler is designed to be a drop in replacement for the default PHP session handler, it also implements session locking in a familiar way.</p>
+
+		<h2>How do I use it?</h2>
+		<p>The first step is to instantiate the Amazon DynamoDB client and register the session handler.</p>
+		<pre>require_once 'AWSSDKforPHP/sdk.class.php';
+
+// Instantiate the Amazon DynamoDB client.
+// REMEMBER: You need to set 'default_cache_config' in your config.inc.php.
+$dynamodb = new AmazonDynamoDB();
+
+// Register the DynamoDB Session Handler.
+$handler = $dynamodb->register_session_handler(array(
+    'table_name' => 'my-sessions-table'
+));</pre>
+		<p>Before you can use the session handler, you need to create a table to store the sessions in. This can be done through the <a href="https://console.aws.amazon.com/dynamodb/home">AWS Console for Amazon DynamoDB</a>, or using the session handler class (which you must configure with the table name like in the example above).</p>
+		<pre>// Create a table for session storage with default settings.
+$handler->create_sessions_table();</pre>
+		<p>If you create the table via the AWS Console, you need to make sure the primary key is a string. By default the DynamoDB Session Handler looks for a key named "id", so if you name the key something else, you will need to specify that when you configure the session handler (see the <a href="#configuration">Configuration section</a> below).</p>
+		<p>Once the session handler is registered with a valid table, you can write to (and read from) the session using the standard <code>$_SESSION</code> superglobal.</p>
+		<pre>// Start the session. This will acquire a lock if session locking is enabled.
+session_start();
+
+// Alter the session data.
+$_SESSION['username'] = 'jeremy';
+$_SESSION['role'] = 'admin';
+
+// Close and write to the session.
+// REMEMBER: You should close the session ASAP to release the session lock.
+session_write_close();</pre>
+
+        <h3>Removing expired sessions</h3>
+        <p>The session handler ties into PHP's native session garbage collection functionality, so expired sessions will be deleted periodically and automatically based on how you configure PHP to do the garbage collection. See the PHP manual for the following PHP INI settings: <a href="http://www.php.net/manual/en/session.configuration.php#ini.session.gc-probability">session.gc_probability</a>, <a href="http://www.php.net/manual/en/session.configuration.php#ini.session.gc-divisor">session.gc_divisor</a>, and <a href="http://www.php.net/manual/en/session.configuration.php#ini.session.gc-maxlifetime">session.gc_maxlifetime</a>. You may also manually call the <code>DynamoDBSessionHandler::garbage_collect()</code> to clean up the expired sessions.</p>
+
+		<h2 id="configuration">Configuring the DynamoDB Session Handler</h2>
+		<p>You may configure the behavior of the session handler using a the following settings:</p>
+		<dl>
+			<dt>table_name</dt>
+			<dd>The name of the DynamoDB table in which to store sessions.</dd>
+
+			<dt>hash_key</dt>
+			<dd>The name of the primary hash key in the DynamoDB sessions table.</dd>
+
+			<dt>session_lifetime</dt>
+			<dd>The lifetime of an inactive session before it should be garbage collected. If <code>0</code> is used, then the actual lifetime value that will be used is <code>ini_get('session.gc_maxlifetime')</code>.</dd>
+
+			<dt>consistent_reads</dt>
+			<dd>Whether or not the session handler should do consistent reads from DynamoDB.</dd>
+
+			<dt>session_locking</dt>
+			<dd>Whether or not the session handler should do session locking (see the <a href="#session_locking">Session locking section</a> for more information).</dd>
+
+			<dt>max_lock_wait_time</dt>
+			<dd>Maximum time, in seconds, that the session handler should take to acquire a lock before giving up. Only used if <code>session_locking</code> is <code>true</code>.</dd>
+
+			<dt>min_lock_retry_utime</dt>
+			<dd>Minimum time, in microseconds, that the session handler should wait to retry acquiring a lock. Only used if <code>session_locking</code> is <code>true</code>.</dd>
+
+			<dt>max_lock_retry_utime</dt>
+			<dd>Maximum time, in microseconds, that the session handler should wait to retry acquiring a lock. Only used if <code>session_locking</code> is <code>true</code>.</dd>
+		</dl>
+
+		<p>To configure the Session Handle, you must pass the configuration data into the constructor. (<strong>Note</strong>: The values used below are actually the default settings.)</p>
+		<pre>$dynamodb = new AmazonDynamoDB();
+$handler = $dynamodb->register_session_handler(array(
+    'table_name'           => 'sessions',
+    'hash_key'             => 'id',
+    'session_lifetime'     => 0,
+    'consistent_reads'     => true,
+    'session_locking'      => true,
+    'max_lock_wait_time'   => 15,
+    'min_lock_retry_utime' => 5000,
+    'max_lock_retry_utime' => 50000,
+));</pre>
+
+		<h2 id="session_locking">Session locking</h2>
+		<p>The default session handler for PHP locks sessions using a pessimistic locking algorithm. If a request (process) opens a session for reading using the <code>session_start()</code> function, it first acquires a lock. The lock is closed when that request writes back to the session, either when the request is complete, or via the <code>session_write_close()</code> function. Since the DynamoDB Session Handler is meant to be a drop in replacement for the default session handler, it also implements the same locking scheme. However, this can be slow, undesirable, and costly when multiple, simultaneous requests from the same user occur, particularly with ajax requests or HTML iframes. In some cases, you may not want or need the session to be locked. After evaluating whether or not your application actually requires session locking, you may turn off locking when you configure the session handler by setting <code>session_locking</code> to <code>false</code>.</p>
+
+		<h2 id="pricing">Pricing</h2>
+		<p>Aside from nominal data storage and data transfer fees, the costs associated with using Amazon DynamoDB are calculated based on provisioned throughput capacity and item size (see the <a href="http://aws.amazon.com/dynamodb/#pricing">Amazon DynamoDB pricing</a> details). Throughput is measured in units of Read Capacity and Write Capacity. Ultimately, the throughput and costs required for your sessions table is going to be based on your website traffic, but the following is a list of the capacity units required for each session-related operation:</p>
+		<ul>
+			<li><strong>Reading</strong> via <code>session_start()</code>
+				<p>With locking enabled: 1 unit of Write Capacity + 1 unit of Write Capacity for each time it must retry acquiring the lock</p>
+				<p>With locking disabed: 1 unit of Read Capacity (or 0.5 units of Read Capacity if <i>consistent reads</i> are disabled)</p>
+			</li>
+			<li><strong>Writing</strong> via <code>session_write_close()</code>
+				<p>1 unit of Write Capacity</p>
+			</li>
+			<li><strong>Deleting</strong> via <code>session_destroy()</code>
+				<p>1 unit of Write Capacity</p>
+			</li>
+			<li><strong>Garbage Collecting</strong> via <code>DyanamoDBSessionHandler::garbage_collect()</code>
+				<p>0.5 units of Read Capacity per KB of data in the sessions table + 1 unit of Write Capacity per expired item</p>
+			</li>
+		</ul>
+
+		<h2 id="more_information">More information</h2>
+		<p>For more information on the Amazon DynamoDB service please visit the <a href="http://aws.amazon.com/dynamodb">Amazon DynamoDB homepage</a>.</p>
+
+	</body>
+</html>

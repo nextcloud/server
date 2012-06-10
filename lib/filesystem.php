@@ -150,7 +150,7 @@ class OC_Filesystem{
 		if(!$path){
 			$path='/';
 		}
-		if(substr($path,0,1)!=='/'){
+		if($path[0]!=='/'){
 			$path='/'.$path;
 		}
 		$foundMountPoint='';
@@ -281,7 +281,7 @@ class OC_Filesystem{
 	}
 	
 	/**
-	* change the root to a fake toor
+	* change the root to a fake root
 	* @param  string  fakeRoot
 	* @return bool
 	*/
@@ -313,11 +313,11 @@ class OC_Filesystem{
 	* @param string mountpoint
 	*/
 	static public function mount($class,$arguments,$mountpoint){
+		if($mountpoint[0]!='/'){
+			$mountpoint='/'.$mountpoint;
+		}
 		if(substr($mountpoint,-1)!=='/'){
 			$mountpoint=$mountpoint.'/';
-		}
-		if(substr($mountpoint,0,1)!=='/'){
-			$mountpoint='/'.$mountpoint;
 		}
 		self::$mounts[$mountpoint]=array('class'=>$class,'arguments'=>$arguments);
 	}
@@ -344,12 +344,26 @@ class OC_Filesystem{
 	}
 	
 	/**
+	* return path to file which reflects one visible in browser
+	* @param string path
+	* @return string
+	*/
+	static public function getLocalPath($path) {
+		$datadir = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser().'/files';
+		$newpath = $path;
+		if (strncmp($newpath, $datadir, strlen($datadir)) == 0) {
+			$newpath = substr($path, strlen($datadir));
+		}
+		return $newpath;
+	}
+	
+	/**
 	 * check if the requested path is valid
 	 * @param string path
 	 * @return bool
 	 */
 	static public function isValidPath($path){
-		if(substr($path,0,1)!=='/'){
+		if(!$path || $path[0]!=='/'){
 			$path='/'.$path;
 		}
 		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){

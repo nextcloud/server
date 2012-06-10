@@ -83,7 +83,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(4,80,0);
+		return array(4,80,1);
 	}
 
 	/**
@@ -343,4 +343,60 @@ class OC_Util {
 		}
 		return $id;
 	}
+
+	/**
+	 * Register an get/post call. This is important to prevent CSRF attacks
+	 * Todo: Write howto
+	 */
+	public static function callRegister(){
+		// generate a random token.
+		$token=mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000);
+
+		// store the token together with a timestamp in the session.
+		$_SESSION['requesttoken-'.$token]=time();
+
+		// return the token
+		return($token);
+	}
+
+
+	/**
+	 * Check an ajax get/post call if the request token is valid. exit if not.
+	 * Todo: Write howto
+	 */
+	public static function callCheck(){
+		//mamimum time before token exires
+		$maxtime=(60*60);  // 1 hour
+
+		// searches in the get and post arrays for the token.
+		if(isset($_GET['requesttoken'])) {
+			$token=$_GET['requesttoken'];
+		}elseif(isset($_POST['requesttoken'])){
+			$token=$_POST['requesttoken'];
+		}else{
+			//no token found. exiting
+			exit;
+		}
+
+		// check if the token is in the user session and if the timestamp is from the last hour.
+		if(isset($_SESSION['requesttoken-'.$token])) {
+			$timestamp=$_SESSION['requesttoken-'.$token];
+			if($timestamp+$maxtime<time){
+				//token exired. exiting
+				exit;
+
+			}else{
+				//token valid
+				return;
+			}
+		}else{
+			//no token found. exiting
+			exit;
+		}
+	}
+
+
+
+
+
 }

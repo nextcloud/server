@@ -4,9 +4,6 @@ namespace OC\Pictures;
 
 require_once('lib/base.php');
 
-\OCP\JSON::checkLoggedIn();
-\OCP\JSON::checkAppEnabled('gallery');
-
 class DatabaseManager {
 	private static $instance = null;
 	const TAG = 'DatabaseManager';
@@ -29,13 +26,11 @@ class DatabaseManager {
 		if (!$image->loadFromFile($path)) {
 			return false;
 		}
-		\OCP\DB::beginTransaction();
 		$stmt = \OCP\DB::prepare('INSERT INTO *PREFIX*pictures_images_cache (uid_owner, path, width, height) VALUES (?, ?, ?, ?)');
 		$stmt->execute(array(\OCP\USER::getUser(), $path, $image->width(), $image->height()));
-		\OCP\DB::commit();
-    $ret = array('filepath' => $path, 'width' => $image->width(), 'height' => $image->height());
+		$ret = array('path' => $path, 'width' => $image->width(), 'height' => $image->height());
 		unset($image);
-    return $ret;
+		return $ret;
 	}
 	
 	private function __construct() {}
@@ -81,14 +76,19 @@ class ThumbnailsManager {
 	
 	public function getThumbnailInfo($path) {
 		$arr = DatabaseManager::getInstance()->getFileData($path);
+		if (!$arr) {
+			$thubnail = $this->getThumbnail($path);
+			unset($thubnail);
+			$arr = DatabaseManager::getInstance()->getFileData($path);
+		}
 		$ret = array('filepath' => $arr['path'],
-		             'width' => $arr['width'],
-		             'height' => $arr['height']);
+					 'width' => $arr['width'],
+					 'height' => $arr['height']);
 		return $ret;
 	}
 	
 	public function delete($path) {
-		unlink(\OC::$CONFIG_DATADIRECTORY_ROOT.'/'.\OC_User::getUser()."/gallery".$path);
+		unlink(\OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser()."/gallery".$path);
 	}
 	
 	private function __construct() {}
