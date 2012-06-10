@@ -82,7 +82,7 @@ sort($images);
 $arr = array();
 $tl = new \OC\Pictures\TilesLine();
 $ts = new \OC\Pictures\TileStack(array(), '');
-$previous_element = $images[0];
+$previous_element = @$images[0];
 for($i = 0; $i < count($images); $i++) {
 	$prev_dir_arr = explode('/', $previous_element);
 	$dir_arr = explode('/', $images[$i]);
