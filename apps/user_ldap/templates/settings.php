@@ -22,6 +22,7 @@
 		<p><input type="checkbox" id="ldap_nocase" name="ldap_nocase" value="1"<?php if (isset($_['ldap_nocase']) && ($_['ldap_nocase'])) echo ' checked'; ?>><label for="ldap_nocase"><?php echo $l->t('Case insensitve LDAP server (Windows)');?></label></p>
 		<p><label for="ldap_display_name"><?php echo $l->t('Display Name Field');?></label><input type="text" id="ldap_display_name" name="ldap_display_name" value="<?php echo $_['ldap_display_name']; ?>" />
 		<small><?php echo $l->t('Currently the display name field needs to be the same you matched %%uid against in the filter above, because ownCloud doesn\'t distinguish between user id and user name.');?></small></p>
+		<p><label for="ldap_group_display_name"><?php echo $l->t('Group Display Name Field');?></label><input type="text" id="ldap_group_display_name" name="ldap_group_display_name" value="<?php echo $_['ldap_group_display_name']; ?>" /></p>
 		<p><label for="ldap_quota_attr">Quota Attribute</label><input type="text" id="ldap_quota_attr" name="ldap_quota_attr" value="<?php echo $_['ldap_quota_attr']; ?>" />
 		<label for="ldap_quota_def">Quota Default</label><input type="text" id="ldap_quota_def" name="ldap_quota_def" value="<?php if (isset($_['ldap_quota_def'])) echo $_['ldap_quota_def']; ?>" />bytes</p>
 		<p><label for="ldap_email_attr">Email Attribute</label><input type="text" id="ldap_email_attr" name="ldap_email_attr" value="<?php echo $_['ldap_email_attr']; ?>" /></p>
