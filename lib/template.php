@@ -280,28 +280,16 @@ class OC_Template{
 	}
 
 
-/*	public function assign( $key, $value, $sanitizeHTML = true ){
-		if(is_array($value) && $sanitizeHTML == true) { 
-			array_walk_recursive($value,'OC_Template::sanitizeHTML');
-			$this->vars[$key] = $value;
-			return true;
-		}
-		if($sanitizeHTML == true) { 
-			$this->vars[$key] = htmlentities($value, ENT_QUOTES);
-			return true;
-		}
-		$this->vars[$key] = $value;
-		return true;
-	}*/
-
 	/**
 	 * @brief Internaly used to sanitze HTML
 	 *
 	 * This function is internally used to sanitize HTML.
 	 */
  	private static function sanitizeHTML( &$value ){
+ 		if(is_string($value)) {
         $value = htmlentities( $value, ENT_QUOTES );
         return $value;
+        }
     }
 
 	/**
