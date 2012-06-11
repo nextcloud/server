@@ -1387,48 +1387,49 @@ class CFLoader
 // Register the autoloader.
 spl_autoload_register(array('CFLoader', 'autoloader'));
 
+// Don't look for any configuration files, the Amazon S3 storage backend handles configuration
 
-/*%******************************************************************************************%*/
-// CONFIGURATION
-
-// Look for include file in the same directory (e.g. `./config.inc.php`).
-if (file_exists(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config.inc.php'))
-{
-	include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config.inc.php';
-}
-// Fallback to `~/.aws/sdk/config.inc.php`
-else
-{
-	if (!isset($_ENV['HOME']) && isset($_SERVER['HOME']))
-	{
-		$_ENV['HOME'] = $_SERVER['HOME'];
-	}
-	elseif (!isset($_ENV['HOME']) && !isset($_SERVER['HOME']))
-	{
-		$_ENV['HOME'] = `cd ~ && pwd`;
-		if (!$_ENV['HOME'])
-		{
-			switch (strtolower(PHP_OS))
-			{
-				case 'darwin':
-					$_ENV['HOME'] = '/Users/' . get_current_user();
-					break;
-
-				case 'windows':
-				case 'winnt':
-				case 'win32':
-					$_ENV['HOME'] = 'c:' . DIRECTORY_SEPARATOR . 'Documents and Settings' . DIRECTORY_SEPARATOR . get_current_user();
-					break;
-
-				default:
-					$_ENV['HOME'] = '/home/' . get_current_user();
-					break;
-			}
-		}
-	}
-
-	if (getenv('HOME') && file_exists(getenv('HOME') . DIRECTORY_SEPARATOR . '.aws' . DIRECTORY_SEPARATOR . 'sdk' . DIRECTORY_SEPARATOR . 'config.inc.php'))
-	{
-		include_once getenv('HOME') . DIRECTORY_SEPARATOR . '.aws' . DIRECTORY_SEPARATOR . 'sdk' . DIRECTORY_SEPARATOR . 'config.inc.php';
-	}
-}
+// /*%******************************************************************************************%*/
+// // CONFIGURATION
+// 
+// // Look for include file in the same directory (e.g. `./config.inc.php`).
+// if (file_exists(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config.inc.php'))
+// {
+// 	include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'config.inc.php';
+// }
+// // Fallback to `~/.aws/sdk/config.inc.php`
+// else
+// {
+// 	if (!isset($_ENV['HOME']) && isset($_SERVER['HOME']))
+// 	{
+// 		$_ENV['HOME'] = $_SERVER['HOME'];
+// 	}
+// 	elseif (!isset($_ENV['HOME']) && !isset($_SERVER['HOME']))
+// 	{
+// 		$_ENV['HOME'] = `cd ~ && pwd`;
+// 		if (!$_ENV['HOME'])
+// 		{
+// 			switch (strtolower(PHP_OS))
+// 			{
+// 				case 'darwin':
+// 					$_ENV['HOME'] = '/Users/' . get_current_user();
+// 					break;
+// 
+// 				case 'windows':
+// 				case 'winnt':
+// 				case 'win32':
+// 					$_ENV['HOME'] = 'c:' . DIRECTORY_SEPARATOR . 'Documents and Settings' . DIRECTORY_SEPARATOR . get_current_user();
+// 					break;
+// 
+// 				default:
+// 					$_ENV['HOME'] = '/home/' . get_current_user();
+// 					break;
+// 			}
+// 		}
+// 	}
+// 
+// 	if (getenv('HOME') && file_exists(getenv('HOME') . DIRECTORY_SEPARATOR . '.aws' . DIRECTORY_SEPARATOR . 'sdk' . DIRECTORY_SEPARATOR . 'config.inc.php'))
+// 	{
+// 		include_once getenv('HOME') . DIRECTORY_SEPARATOR . '.aws' . DIRECTORY_SEPARATOR . 'sdk' . DIRECTORY_SEPARATOR . 'config.inc.php';
+// 	}
+// }

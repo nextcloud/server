@@ -16,7 +16,7 @@
 			<?php $_['mounts'] = array_merge($_['mounts'], array('' => array())); ?>
 			<?php foreach ($_['mounts'] as $mountPoint => $mount): ?>
 				<tr <?php if ($mountPoint == '') echo 'id="addMountPoint"'; ?>>
-					<td class="mountPoint"><input type="text" name="mountPoint" value="<?php echo $mountPoint; ?>" placeholder="<?php echo $l->t('Mount point'); ?>" /></td>
+					<td class="mountPoint"><input type="text" name="mountPoint" value="<?php echo htmlentities($mountPoint); ?>" placeholder="<?php echo $l->t('Mount point'); ?>" /></td>
 					<?php if ($mountPoint == ''): ?>
 						<td class="backend">
 							<select id="selectBackend" data-configurations='<?php echo json_encode($_['backends']); ?>'>
@@ -35,13 +35,13 @@
 								<?php if (isset($_['backends'][$mount['class']]['configuration'][$parameter])): ?>
 									<?php $placeholder = $_['backends'][$mount['class']]['configuration'][$parameter]; ?>
 									<?php if (strpos($placeholder, '*') !== false): ?>
-										<input type="password" data-parameter="<?php echo $parameter; ?>" value="<?php echo $value; ?>" placeholder="<?php echo substr($placeholder, 1); ?>" />
+										<input type="password" data-parameter="<?php echo $parameter; ?>" value="<?php echo htmlentities($value); ?>" placeholder="<?php echo substr($placeholder, 1); ?>" />
 									<?php elseif(strpos($placeholder, '!') !== false): ?>
 										<label><input type="checkbox" data-parameter="<?php echo $parameter; ?>" <?php if ($value == 'true') echo ' checked="checked"'; ?>  /><?php echo substr($placeholder, 1); ?></label>
 									<?php elseif (strpos($placeholder, '&') !== false): ?>
-										<input type="text" class="optional" data-parameter="<?php echo $parameter; ?>" value="<?php echo $value; ?>" placeholder="<?php echo substr($placeholder, 1); ?>" />
+										<input type="text" class="optional" data-parameter="<?php echo $parameter; ?>" value="<?php echo htmlentities($value); ?>" placeholder="<?php echo substr($placeholder, 1); ?>" />
 									<?php else: ?>
-										<input type="text" data-parameter="<?php echo $parameter; ?>" value="<?php echo $value; ?>" placeholder="<?php echo $placeholder; ?>" />
+										<input type="text" data-parameter="<?php echo $parameter; ?>" value="<?php echo htmlentities($value); ?>" placeholder="<?php echo $placeholder; ?>" />
 									<?php endif; ?>
 								<?php endif; ?>
 							<?php endforeach; ?>

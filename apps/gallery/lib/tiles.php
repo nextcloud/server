@@ -141,7 +141,7 @@ class TileStack extends TileBase {
 	}
 
 	public function get() {
-		$r = '<div class="title gallery_div">'.$this->stack_name.'</div>';
+		$r = '<div class="title gallery_div">'.htmlentities($this->stack_name).'</div>';
 		for ($i = 0; $i < count($this->tiles_array); $i++) {
 			$top = rand(-5, 5);
 			$left = rand(-5, 5);
@@ -168,7 +168,7 @@ class TileStack extends TileBase {
 	}
 	
 	public function getOnClickAction() {
-		return 'javascript:openNewGal(\''.$this->stack_name.'\');';
+		return 'javascript:openNewGal(\''.htmlentities($this->stack_name).'\');';
 	}
 
 	private $tiles_array;

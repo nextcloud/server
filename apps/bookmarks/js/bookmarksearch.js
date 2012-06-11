@@ -16,6 +16,7 @@ function recordClick(event) {
 	var jsFileLocation = $('script[src*=bookmarksearch]').attr('src');
 	jsFileLocation = jsFileLocation.replace('js/bookmarksearch.js', '');
 	$.ajax({
+		type: 'POST',
 		url: jsFileLocation + 'ajax/recordClick.php',
 		data: 'url=' + encodeURI($(this).attr('href')),
 	});	

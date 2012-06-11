@@ -63,7 +63,7 @@ class OC_VCategories {
 	* @returns array containing the categories as strings.
 	*/
 	public function categories() {
-		OC_Log::write('core','OC_VCategories::categories: '.print_r($this->categories, true), OC_Log::DEBUG);
+		//OC_Log::write('core','OC_VCategories::categories: '.print_r($this->categories, true), OC_Log::DEBUG);
 		usort($this->categories, 'strnatcasecmp'); // usort to also renumber the keys
 		return $this->categories;
 	}
@@ -169,7 +169,7 @@ class OC_VCategories {
 		foreach($names as $name) {
 			OC_Log::write('core','OC_VCategories::delete: '.$name, OC_Log::DEBUG);
 			if($this->hasCategory($name)) {
-				OC_Log::write('core','OC_VCategories::delete: '.$name.' got it', OC_Log::DEBUG);
+				//OC_Log::write('core','OC_VCategories::delete: '.$name.' got it', OC_Log::DEBUG);
 				unset($this->categories[$this->array_searchi($name, $this->categories)]);
 			}
 		}
@@ -183,14 +183,14 @@ class OC_VCategories {
 					//OC_Log::write('core','OC_VCategories::delete, before: '.$key.': '.print_r($categories, true), OC_Log::DEBUG);
 					foreach($names as $name) {
 						$idx = $this->array_searchi($name, $categories);
-						OC_Log::write('core','OC_VCategories::delete, loop: '.$name.', '.print_r($idx, true), OC_Log::DEBUG);
+						//OC_Log::write('core','OC_VCategories::delete, loop: '.$name.', '.print_r($idx, true), OC_Log::DEBUG);
 						if($idx !== false) {
 							OC_Log::write('core','OC_VCategories::delete, unsetting: '.$categories[$this->array_searchi($name, $categories)], OC_Log::DEBUG);
 							unset($categories[$this->array_searchi($name, $categories)]);
 							//unset($categories[$idx]);
 						}
 					}
-					OC_Log::write('core','OC_VCategories::delete, after: '.$key.': '.print_r($categories, true), OC_Log::DEBUG);
+					//OC_Log::write('core','OC_VCategories::delete, after: '.$key.': '.print_r($categories, true), OC_Log::DEBUG);
 					$vobject->setString('CATEGORIES', implode(',', $categories));
 					$value[1] = $vobject->serialize();
 					$objects[$key] = $value;
