@@ -84,14 +84,14 @@ class OC_Calendar_Repeat{
 	 * @return (bool)
 	 */
 	public static function generate($id){
-		$event = OC_Calendar_Object::find(id);
+		$event = OC_Calendar_Object::find($id);
 		if($event['repeating'] == 0){
 			return false;
 		}
 		$object = OC_VObject::parse($event['calendardata']);
-		$start = new DateTime('first day of this year', new DateTimeZone('UTC'));
+		$start = new DateTime('first day of January ' . date('Y') . ' 00:00:00', new DateTimeZone('UTC'));
 		$start->modify('-5 years');
-		$end = new DateTime('last day of this year', new DateTimeZone('UTC'));
+		$end = new DateTime('last day of December ' . date('Y') . ' 23:59:59', new DateTimeZone('UTC'));
 		$end->modify('+5 years');
 		$object->expand($start, $end);
 		foreach($object->getComponents() as $vevent){
@@ -104,6 +104,7 @@ class OC_Calendar_Repeat{
 			$end_dt = $dtend->getDateTime();
 			if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
 				$startdate = $start_dt->format('Y-m-d');
+				$end_dt->modify('-1 sec');
 				$enddate = $end_dt->format('Y-m-d');
 			}else{
 				$start_dt->setTimezone(new DateTimeZone('UTC'));
