@@ -332,7 +332,8 @@ class OC_Util {
 	* Redirect to the user default page
 	*/
 	public static function redirectToDefaultPage(){
-		if(isset($_REQUEST['redirect_url']) && substr($_REQUEST['redirect_url'], 0, strlen(OC::$WEBROOT)) == OC::$WEBROOT) {
+		OC_Log::write('core','redirectToDefaultPage',OC_Log::DEBUG);
+		if(isset($_REQUEST['redirect_url']) && (substr($_REQUEST['redirect_url'], 0, strlen(OC::$WEBROOT)) == OC::$WEBROOT || $_REQUEST['redirect_url'][0] == '/')) {
 			header( 'Location: '.$_REQUEST['redirect_url']);
 		} else {
 			header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', '?app=files'));
