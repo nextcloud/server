@@ -108,7 +108,7 @@ class OC_Calendar_Object{
 		$object_id = OCP\DB::insertid('*PREFIX*calendar_objects');
 
 		OC_Calendar_Calendar::touchCalendar($id);
-		OCP\Util::emitHook('OC_Calendar', 'addEvent', array('event_id' => $object_id));
+		OCP\Util::emitHook('OC_Calendar', 'addEvent', $object_id);
 		return $object_id;
 	}
 
@@ -128,7 +128,7 @@ class OC_Calendar_Object{
 		$object_id = OCP\DB::insertid('*PREFIX*calendar_objects');
 
 		OC_Calendar_Calendar::touchCalendar($id);
-		OCP\Util::emitHook('OC_Calendar', 'addEvent', array('event_id' => $object_id));
+		OCP\Util::emitHook('OC_Calendar', 'addEvent', $object_id);
 		return $object_id;
 	}
 
@@ -149,7 +149,7 @@ class OC_Calendar_Object{
 		$stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$id));
 
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
-		OCP\Util::emitHook('OC_Calendar', 'editEvent', array('event_id' => $id));
+		OCP\Util::emitHook('OC_Calendar', 'editEvent', $id);
 
 		return true;
 	}
@@ -171,7 +171,7 @@ class OC_Calendar_Object{
 		$stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$oldobject['id']));
 
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
-		OCP\Util::emitHook('OC_Calendar', 'editEvent', array('event_id' => $oldobject['id']));
+		OCP\Util::emitHook('OC_Calendar', 'editEvent', $oldobject['id']);
 
 		return true;
 	}
@@ -186,7 +186,7 @@ class OC_Calendar_Object{
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE id = ?' );
 		$stmt->execute(array($id));
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
-		OCP\Util::emitHook('OC_Calendar', 'deleteEvent', array('event_id' => $id));
+		OCP\Util::emitHook('OC_Calendar', 'deleteEvent', $id);
 
 		return true;
 	}
@@ -202,7 +202,7 @@ class OC_Calendar_Object{
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE calendarid = ? AND uri=?' );
 		$stmt->execute(array($cid,$uri));
 		OC_Calendar_Calendar::touchCalendar($cid);
-		OCP\Util::emitHook('OC_Calendar', 'deleteEvent', array('event_id' => $oldobject['id']));
+		OCP\Util::emitHook('OC_Calendar', 'deleteEvent', $oldobject['id']);
 
 		return true;
 	}
@@ -212,7 +212,7 @@ class OC_Calendar_Object{
 		$stmt->execute(array($calendarid,$id));
 
 		OC_Calendar_Calendar::touchCalendar($id);
-		OCP\Util::emitHook('OC_Calendar', 'moveEvent', array('event_id' => $id));
+		OCP\Util::emitHook('OC_Calendar', 'moveEvent', $id);
 
 		return true;
 	}
