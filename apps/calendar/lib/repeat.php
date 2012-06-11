@@ -113,7 +113,6 @@ class OC_Calendar_Repeat{
 			}
 			$stmt = OCP\DB::prepare('INSERT INTO *PREFIX*calendar_repeat (eventid,calid,startdate,enddate) VALUES(?,?,?,?)');
 			$stmt->execute(array($id,OC_Calendar_Object::getCalendarid($id),$startdate,$enddate));
-			$object_id = OCP\DB::insertid('*PREFIX*calendar_repeat');
 		}
 		return true;
 	}
