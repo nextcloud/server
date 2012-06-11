@@ -300,7 +300,7 @@ class OC_Calendar_Object{
 	 * This function creates a date string that can be used by MDB2.
 	 * Furthermore it converts the time to UTC.
 	 */
-	protected static function getUTCforMDB($datetime){
+	public static function getUTCforMDB($datetime){
 		return date('Y-m-d H:i', $datetime->format('U') - $datetime->getOffset());
 	}
 
@@ -801,5 +801,10 @@ class OC_Calendar_Object{
 	public static function getCalendarid($id){
 		$event = self::find($id);
 		return $event['calendarid'];
+	}
+
+	public static function isrepeating($id){
+		$event = self::find($id);
+		return ($event['repeating'] == 1)?true:false;
 	}
 }
