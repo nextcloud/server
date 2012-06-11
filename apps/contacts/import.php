@@ -63,13 +63,13 @@ foreach($lines as $line){
 	if(strtoupper(trim($line)) == 'BEGIN:VCARD'){
 		$inelement = true;
 	} elseif (strtoupper(trim($line)) == 'END:VCARD') {
-		$card[] = $line;
+		$card[] = iconv(mb_detect_encoding($line, 'UTF-8, ISO-8859-1'), 'utf-8', $line);
 		$parts[] = implode($nl, $card);
 		$card = array();
 		$inelement = false;
 	}
 	if ($inelement === true && trim($line) != '') {
-		$card[] = $line;
+		$card[] = iconv(mb_detect_encoding($line, 'UTF-8, ISO-8859-1'), 'utf-8', $line);
 	}
 }
 //import the contacts
