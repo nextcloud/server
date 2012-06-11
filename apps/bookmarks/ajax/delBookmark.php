@@ -30,7 +30,7 @@ $RUNTIME_NOSETUPFS=true;
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('bookmarks');
 
-$id = $_GET['id'];
+$id = $_POST['id'];
 if (!OC_Bookmarks_Bookmarks::deleteUrl($id)){
 	OC_JSON::error();
 	exit();
