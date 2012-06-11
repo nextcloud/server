@@ -36,12 +36,12 @@ $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 $email_types = OC_Contacts_App::getTypesOfProperty('EMAIL');
 
 $tmpl = new OCP\Template('contacts','part.contact');
-$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
-$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
-$tmpl->assign('adr_types',$adr_types);
-$tmpl->assign('phone_types',$phone_types);
-$tmpl->assign('email_types',$email_types);
-$tmpl->assign('id','');
+$tmpl->assignHTML('uploadMaxFilesize', $maxUploadFilesize);
+$tmpl->assignHTML('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
+$tmpl->assignHTML('adr_types',$adr_types);
+$tmpl->assignHTML('phone_types',$phone_types);
+$tmpl->assignHTML('email_types',$email_types);
+$tmpl->assignHTML('id','');
 $page = $tmpl->fetchPage();
 
 OCP\JSON::success(array('data' => array( 'page' => $page )));

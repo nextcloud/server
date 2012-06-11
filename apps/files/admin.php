@@ -54,9 +54,9 @@ OCP\App::setActiveNavigationEntry( "files_administration" );
 $htaccessWritable=is_writable(OC::$SERVERROOT.'/.htaccess');
 
 $tmpl = new OCP\Template( 'files', 'admin' );
-$tmpl->assign( 'uploadChangable', $htaccessWorking and $htaccessWritable );
-$tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
-$tmpl->assign( 'maxPossibleUploadSize', OCP\Util::humanFileSize(PHP_INT_MAX));
-$tmpl->assign( 'allowZipDownload', $allowZipDownload);
-$tmpl->assign( 'maxZipInputSize', $maxZipInputSize);
+$tmpl->assignHTML( 'uploadChangable', $htaccessWorking and $htaccessWritable );
+$tmpl->assignHTML( 'uploadMaxFilesize', $maxUploadFilesize);
+$tmpl->assignHTML( 'maxPossibleUploadSize', OCP\Util::humanFileSize(PHP_INT_MAX));
+$tmpl->assignHTML( 'allowZipDownload', $allowZipDownload);
+$tmpl->assignHTML( 'maxZipInputSize', $maxZipInputSize);
 return $tmpl->fetchPage();

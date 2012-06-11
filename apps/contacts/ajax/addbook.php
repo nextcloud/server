@@ -14,7 +14,7 @@ $book = array(
 	'displayname' => '',
 );
 $tmpl = new OCP\Template('contacts', 'part.editaddressbook');
-$tmpl->assign('new', true);
-$tmpl->assign('addressbook', $book);
+$tmpl->assignHTML('new', true);
+$tmpl->assignHTML('addressbook', $book);
 $tmpl->printPage();
 ?>
