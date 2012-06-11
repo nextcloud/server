@@ -7,5 +7,9 @@
  */
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
-OC_Calendar_Repeat::cleancalendar(OCP\USER::getUser());
-OC_Calendar_Repeat::generatecalendar(OCP\USER::getUser());
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
+foreach($calendars as $calendar){
+	OC_Calendar_Repeat::cleancalendar($calendar['id']);
+	OC_Calendar_Repeat::generatecalendar($calendar['id']);
+}
+OCP\JSON::success();
