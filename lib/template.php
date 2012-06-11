@@ -268,12 +268,27 @@ class OC_Template{
 	 * If the key existed before, it will be overwritten
 	 */
 	public function assign( $key, $value, $sanitizeHTML=true ){
+		if(is_array($value) && $sanitizeHTML) { 
+			array_walk_recursive($value,'OC_Template::sanitizeHTML');
+			$this->vars[$key] = $value;
+			return true;
+		}
 		if($sanitizeHTML) { 
-			$this->vars[$key] = htmlentities($value);
+			$this->vars[$key] = htmlentities($value, ENT_QUOTES);
+			return true;
 		}
 		$this->vars[$key] = $value;
 		return true;
 	}
+
+	/**
+	 * @brief Internaly used to sanitze HTML
+	 *
+	 * This function is internally used to sanitize HTML.
+	 */
+ 	private function sanitizeHTML( &$value ){
+        $value = htmlentities( $value, ENT_QUOTES );
+    }
 
 	/**
 	 * @brief Appends a variable
