@@ -73,12 +73,12 @@ foreach( explode( '/', $dir ) as $i ){
 
 // make breadcrumb und filelist markup
 $list = new OCP\Template( 'files', 'part.list', '' );
-$list->assign( 'files', $files );
-$list->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'&dir=');
-$list->assign( 'downloadURL', OCP\Util::linkTo('files', 'download.php').'?file=');
+$list->assign( 'files', $files, false );
+$list->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'&dir=', false);
+$list->assign( 'downloadURL', OCP\Util::linkTo('files', 'download.php').'?file=', false);
 $breadcrumbNav = new OCP\Template( 'files', 'part.breadcrumb', '' );
-$breadcrumbNav->assign( 'breadcrumb', $breadcrumb );
-$breadcrumbNav->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'&dir=');
+$breadcrumbNav->assign( 'breadcrumb', $breadcrumb, false );
+$breadcrumbNav->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'&dir=', false);
 
 $upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
 $post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
@@ -89,8 +89,8 @@ $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 
 $tmpl = new OCP\Template( 'files', 'index', 'user' );
-$tmpl->assign( 'fileList', $list->fetchPage() );
-$tmpl->assign( 'breadcrumb', $breadcrumbNav->fetchPage() );
+$tmpl->assign( 'fileList', $list->fetchPage(), false );
+$tmpl->assign( 'breadcrumb', $breadcrumbNav->fetchPage(), false );
 $tmpl->assign( 'dir', $dir);
 $tmpl->assign( 'readonly', !OC_Filesystem::is_writable($dir.'/'));
 $tmpl->assign( 'files', $files );

@@ -286,10 +286,8 @@ class OC_Template{
 	 * This function is internally used to sanitize HTML.
 	 */
  	private static function sanitizeHTML( &$value ){
- 		if(is_string($value)) {
-        $value = htmlentities( $value, ENT_QUOTES );
-        return $value;
-        }
+ 			$value = htmlentities( $value );
+ 			return $value;
     }
 
 	/**
@@ -528,13 +526,13 @@ class OC_Template{
 			$_ = array_merge( $additionalparams, $this->vars );
 		}
 
-		// Einbinden
+		// Include
 		ob_start();
 		include( $this->path.$file.'.php' );
 		$data = ob_get_contents();
 		@ob_end_clean();
 
-		// Daten zurückgeben
+		// Return data
 		return $data;
 	}
 
@@ -548,7 +546,7 @@ class OC_Template{
 	public static function printUserPage( $application, $name, $parameters = array() ){
 		$content = new OC_Template( $application, $name, "user" );
 		foreach( $parameters as $key => $value ){
-			$content->assign( $key, $value );
+			$content->assign( $key, $value, false );
 		}
 		print $content->printPage();
 	}
@@ -563,7 +561,7 @@ class OC_Template{
 	public static function printAdminPage( $application, $name, $parameters = array() ){
 		$content = new OC_Template( $application, $name, "admin" );
 		foreach( $parameters as $key => $value ){
-			$content->assign( $key, $value );
+			$content->assign( $key, $value, false );
 		}
 		return $content->printPage();
 	}
@@ -578,7 +576,7 @@ class OC_Template{
 	public static function printGuestPage( $application, $name, $parameters = array() ){
 		$content = new OC_Template( $application, $name, "guest" );
 		foreach( $parameters as $key => $value ){
-			$content->assign( $key, $value );
+			$content->assign( $key, $value,false );
 		}
 		return $content->printPage();
 	}
