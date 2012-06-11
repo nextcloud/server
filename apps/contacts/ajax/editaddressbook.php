@@ -11,7 +11,7 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 $addressbook = OC_Contacts_App::getAddressbook($_GET['bookid']);
 $tmpl = new OCP\Template("contacts", "part.editaddressbook");
-$tmpl->assignHTML('new', false);
-$tmpl->assignHTML('addressbook', $addressbook);
+$tmpl->assign('new', false);
+$tmpl->assign('addressbook', $addressbook);
 $tmpl->printPage();
 ?>

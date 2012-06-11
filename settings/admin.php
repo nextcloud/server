@@ -23,8 +23,8 @@ function compareEntries($a,$b){
 usort($entries, 'compareEntries');
 
 $tmpl->assign('loglevel',OC_Config::getValue( "loglevel", 2 ));
-$tmpl->assignHTML('entries',$entries);
-$tmpl->assignHTML('forms',array());
+$tmpl->assign('entries',$entries);
+$tmpl->assign('forms',array());
 foreach($forms as $form){
 	$tmpl->append('forms',$form);
 }

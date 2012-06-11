@@ -33,7 +33,7 @@ if(!OC_Contacts_Addressbook::setActive($bookid, 1)) {
 }
 $addressbook = OC_Contacts_App::getAddressbook($bookid);
 $tmpl = new OCP\Template('contacts', 'part.chooseaddressbook.rowfields');
-$tmpl->assignHTML('addressbook', $addressbook);
+$tmpl->assign('addressbook', $addressbook);
 OCP\JSON::success(array(
 	'page' => $tmpl->fetchPage(),
 	'addressbook' => $addressbook,

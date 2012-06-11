@@ -156,11 +156,9 @@ class OC_Template{
 		$this->application = $app;
 		$this->vars = array();
 		$this->l10n = OC_L10N::get($app);
-        
-        // Some security settings
-        header('X-Frame-Options: Sameorigin');
-        header('X-XSS-Protection: 1; mode=block');
-        header('X-Content-Type-Options: nosniff');
+                header('X-Frame-Options: Sameorigin');
+                header('X-XSS-Protection: 1; mode=block');
+                header('X-Content-Type-Options: nosniff');
  
 		$this->findTemplate($name);
 	}
@@ -258,26 +256,10 @@ class OC_Template{
 	}
 
 	/**
-	 * @brief Assign variables and sanitizes the data
-	 * @param $key key
-	 * @param $value value
-	 * @returns true
-	 *
-	 * This function assigns a variable. It can be accessed via $_[$key] in
-	 * the template.
-	 *
-	 * If the key existed before, it will be overwritten
-	 */
-	public function assign( $key, $value ){
-		$this->vars[$key] = htmlentities($value);
-		return true;
-	}
-
-
-	/**
 	 * @brief Assign variables
 	 * @param $key key
 	 * @param $value value
+	 * @param $sanitizeHTML false, if data shouldn't get passed through htmlentities
 	 * @returns true
 	 *
 	 * This function assigns a variable. It can be accessed via $_[$key] in
@@ -285,7 +267,10 @@ class OC_Template{
 	 *
 	 * If the key existed before, it will be overwritten
 	 */
-	public function assignHTML( $key, $value ){
+	public function assign( $key, $value, $sanitizeHTML=true ){
+		if($sanitizeHTML) { 
+			$this->vars[$key] = htmlentities($value);
+		}
 		$this->vars[$key] = $value;
 		return true;
 	}
@@ -373,20 +358,20 @@ class OC_Template{
 			// Decide which page we show
 			if( $this->renderas == "user" ){
 				$page = new OC_Template( "core", "layout.user" );
-				$page->assignHTML('searchurl',OC_Helper::linkTo( 'search', 'index.php' ));
+				$page->assign('searchurl',OC_Helper::linkTo( 'search', 'index.php' ));
 				if(array_search(OC_APP::getCurrentApp(),array('settings','admin','help'))!==false){
-					$page->assignHTML('bodyid','body-settings');
+					$page->assign('bodyid','body-settings');
 				}else{
-					$page->assignHTML('bodyid','body-user');
+					$page->assign('bodyid','body-user');
 				}
 
 				// Add navigation entry
 				$navigation = OC_App::getNavigation();
-				$page->assignHTML( "navigation", $navigation);
-				$page->assignHTML( "settingsnavigation", OC_App::getSettingsNavigation());
+				$page->assign( "navigation", $navigation);
+				$page->assign( "settingsnavigation", OC_App::getSettingsNavigation());
 				foreach($navigation as $entry) {
 					if ($entry['active']) {
-						$page->assignHTML( 'application', $entry['name'] );
+						$page->assign( 'application', $entry['name'] );
 						break;
 					}
 				}
@@ -400,7 +385,7 @@ class OC_Template{
 			// Read the detected formfactor and use the right file name.
 			$fext = self::getFormFactorExtension();
 
-			$page->assignHTML('jsfiles', array());
+			$page->assign('jsfiles', array());
 			// Add the core js files or the js files provided by the selected theme
 			foreach(OC_Util::$scripts as $script){
 				// Is it in 3rd party?
@@ -437,7 +422,7 @@ class OC_Template{
 				}
 			}
 			// Add the css files
-			$page->assignHTML('cssfiles', array());
+			$page->assign('cssfiles', array());
 			foreach(OC_Util::$styles as $style){
 				// is it in 3rdparty?
                                 if($page->appendIfExist('cssfiles', OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $style.'.css')) {
@@ -475,13 +460,13 @@ class OC_Template{
 			}
 
 			// Add custom headers
-			$page->assignHTML('headers',$this->headers);
+			$page->assign('headers',$this->headers);
 			foreach(OC_Util::$headers as $header){
 				$page->append('headers',$header);
 			}
 
 			// Add css files and js files
-			$page->assignHTML( "content", $data );
+			$page->assign( "content", $data );
 			return $page->fetchPage();
 		}
 		else{

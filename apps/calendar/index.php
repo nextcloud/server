@@ -54,9 +54,9 @@ OCP\Util::addscript('contacts','jquery.multi-autocomplete');
 OCP\Util::addscript('','oc-vcategories');
 OCP\App::setActiveNavigationEntry('calendar_index');
 $tmpl = new OCP\Template('calendar', 'calendar', 'user');
-$tmpl->assignHTML('eventSources', $eventSources);
-$tmpl->assignHTML('categories', $categories);
+$tmpl->assign('eventSources', $eventSources);
+$tmpl->assign('categories', $categories);
 if(array_key_exists('showevent', $_GET)){
-	$tmpl->assignHTML('showevent', $_GET['showevent']);
+	$tmpl->assign('showevent', $_GET['showevent']);
 }
 $tmpl->printPage();

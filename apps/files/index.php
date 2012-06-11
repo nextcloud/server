@@ -73,12 +73,12 @@ foreach( explode( '/', $dir ) as $i ){
 
 // make breadcrumb und filelist markup
 $list = new OCP\Template( 'files', 'part.list', '' );
-$list->assignHTML( 'files', $files );
-$list->assignHTML( 'baseURL', OCP\Util::linkTo('files', 'index.php').'&dir=');
-$list->assignHTML( 'downloadURL', OCP\Util::linkTo('files', 'download.php').'?file=');
+$list->assign( 'files', $files );
+$list->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'&dir=');
+$list->assign( 'downloadURL', OCP\Util::linkTo('files', 'download.php').'?file=');
 $breadcrumbNav = new OCP\Template( 'files', 'part.breadcrumb', '' );
-$breadcrumbNav->assignHTML( 'breadcrumb', $breadcrumb );
-$breadcrumbNav->assignHTML( 'baseURL', OCP\Util::linkTo('files', 'index.php').'&dir=');
+$breadcrumbNav->assign( 'breadcrumb', $breadcrumb );
+$breadcrumbNav->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'&dir=');
 
 $upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
 $post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
@@ -89,14 +89,14 @@ $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 
 $tmpl = new OCP\Template( 'files', 'index', 'user' );
-$tmpl->assignHTML( 'fileList', $list->fetchPage() );
-$tmpl->assignHTML( 'breadcrumb', $breadcrumbNav->fetchPage() );
-$tmpl->assignHTML( 'dir', $dir);
-$tmpl->assignHTML( 'readonly', !OC_Filesystem::is_writable($dir.'/'));
-$tmpl->assignHTML( 'files', $files );
-$tmpl->assignHTML( 'uploadMaxFilesize', $maxUploadFilesize);
-$tmpl->assignHTML( 'uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
-$tmpl->assignHTML( 'allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
+$tmpl->assign( 'fileList', $list->fetchPage() );
+$tmpl->assign( 'breadcrumb', $breadcrumbNav->fetchPage() );
+$tmpl->assign( 'dir', $dir);
+$tmpl->assign( 'readonly', !OC_Filesystem::is_writable($dir.'/'));
+$tmpl->assign( 'files', $files );
+$tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
+$tmpl->assign( 'uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
+$tmpl->assign( 'allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 $tmpl->printPage();
 
 ?>

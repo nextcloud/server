@@ -59,16 +59,16 @@ OCP\Util::addStyle('contacts','jquery.Jcrop');
 OCP\Util::addStyle('contacts','contacts');
 
 $tmpl = new OCP\Template( "contacts", "index", "user" );
-$tmpl->assignHTML('uploadMaxFilesize', $maxUploadFilesize);
-$tmpl->assignHTML('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
-$tmpl->assignHTML('property_types', $property_types);
-$tmpl->assignHTML('phone_types', $phone_types);
-$tmpl->assignHTML('email_types', $email_types);
-$tmpl->assignHTML('categories', $categories);
-$tmpl->assignHTML('addressbooks', $addressbooks);
-$tmpl->assignHTML('contacts', $contacts);
-$tmpl->assignHTML('details', $details );
-$tmpl->assignHTML('id',$id);
+$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
+$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
+$tmpl->assign('property_types', $property_types);
+$tmpl->assign('phone_types', $phone_types);
+$tmpl->assign('email_types', $email_types);
+$tmpl->assign('categories', $categories);
+$tmpl->assign('addressbooks', $addressbooks);
+$tmpl->assign('contacts', $contacts);
+$tmpl->assign('details', $details );
+$tmpl->assign('id',$id);
 $tmpl->printPage();
 
 ?>
