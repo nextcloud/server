@@ -380,64 +380,35 @@ class OC_Calendar_App{
 						'title' => htmlspecialchars(($event['summary']!=NULL || $event['summary'] != '')?$event['summary']: self::$l10n->t('unnamed')),
 						'description' => isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'',
 						'lastmodified'=>$lastmodified);
-		
-		$dtstart = $vevent->DTSTART;
-		$start_dt = $dtstart->getDateTime();
-		$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
-		$end_dt = $dtend->getDateTime();
-		
-		if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
-			$output['allDay'] = true;
-		}else{
-			$output['allDay'] = false;
-			$start_dt->setTimezone(new DateTimeZone(self::$tz));
-			$end_dt->setTimezone(new DateTimeZone(self::$tz));
-		}
 
-		// Handle exceptions to recurring events
-		$exceptionDateObjects = $vevent->select('EXDATE');
-		$exceptionDateMap = Array();
-		foreach ($exceptionDateObjects as $exceptionObject) {
-			foreach($exceptionObject->getDateTimes() as $datetime) {
-				$ts = $datetime->getTimestamp();
-				$exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)] = true;
+		$object->expand($start, $end);
+		foreach($object->getComponents() as $child){
+			if(get_class($child) != 'Sabre_VObject_Component_VEvent'){
+				continue;
 			}
-		}
-
-		$return = array();
-		if($event['repeating'] == 1){
-			$duration = (double) $end_dt->format('U') - (double) $start_dt->format('U');
-			$r = new When();
-			$r->recur($start_dt)->rrule((string) $vevent->RRULE);
-			/*$r = new iCal_Repeat_Generator(array('RECUR'  => $start_dt,
-			 *									   'RRULE'  => (string)$vevent->RRULE
-			 *									   'RDATE'  => (string)$vevent->RDATE						
-			 *									   'EXRULE' => (string)$vevent->EXRULE
-			 *									   'EXDATE' => (string)$vevent->EXDATE));*/
-			while($result = $r->next()){
-				if($result < $start){
-					continue;
-				}
-				if($result > $end){
-					break;
-				}
-				// Check for exceptions to recurring events
-				$ts = $result->getTimestamp();
-				if (isset($exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)])) {
-					continue;
-				}
-				unset($ts);
-
-				if($output['allDay'] == true){
-					$output['start'] = $result->format('Y-m-d');
-					$output['end'] = date('Y-m-d', $result->format('U') + --$duration);
-				}else{
-					$output['start'] = $result->format('Y-m-d H:i:s');
-					$output['end'] = date('Y-m-d H:i:s', $result->format('U') + $duration);
-				}
-				$return[] = $output;
+			$vevent = $child;
+			$dtstart = $vevent->DTSTART;
+			$start_dt = $dtstart->getDateTime();
+			$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
+			$end_dt = $dtend->getDateTime();
+			
+			if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
+				$output['allDay'] = true;
+			}else{
+				$output['allDay'] = false;
+				$start_dt->setTimezone(new DateTimeZone(self::$tz));
+				$end_dt->setTimezone(new DateTimeZone(self::$tz));
 			}
-		}else{
+
+			// Handle exceptions to recurring events
+			/*$exceptionDateObjects = $vevent->select('EXDATE');
+			$exceptionDateMap = Array();
+			foreach ($exceptionDateObjects as $exceptionObject) {
+				foreach($exceptionObject->getDateTimes() as $datetime) {
+					$ts = $datetime->getTimestamp();
+					$exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)] = true;
+				}
+			}*/
 			if($output['allDay'] == true){
 				$output['start'] = $start_dt->format('Y-m-d');
 				$end_dt->modify('-1 sec');
