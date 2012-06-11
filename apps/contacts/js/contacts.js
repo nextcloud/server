@@ -1284,8 +1284,8 @@ Contacts={
 					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'chooseaddressbook.php'), function(jsondata){
 						if(jsondata.status != 'error'){
 							$('#chooseaddressbook_dialog').dialog({
-								minWidthwidth : 600,
-								close : function(event, ui) {
+								minWidth: 600,
+								close: function(event, ui) {
 									$(this).dialog('destroy').remove();
 								}
 							}).css('overflow','visible');
