@@ -119,8 +119,7 @@ class OC_Calendar_App{
 	 * @brief returns the default categories of ownCloud
 	 * @return (array) $categories
 	 */
-	protected static function getDefaultCategories()
-	{
+	protected static function getDefaultCategories(){
 		return array(
 			self::$l10n->t('Birthday'),
 			self::$l10n->t('Business'),
@@ -155,8 +154,7 @@ class OC_Calendar_App{
 	 * @brief returns the categories of the vcategories object
 	 * @return (array) $categories
 	 */
-	public static function getCategoryOptions()
-	{
+	public static function getCategoryOptions(){
 		$categories = self::getVCategories()->categories();
 		return $categories;
 	}
@@ -359,65 +357,84 @@ class OC_Calendar_App{
 	/*
 	 * @brief generates the output for an event which will be readable for our js
 	 * @param (mixed) $event - event object / array
-	 * @param (int) $start - unixtimestamp of start
-	 * @param (int) $end - unixtimestamp of end
+	 * @param (int) $start - DateTime object of start
+	 * @param (int) $end - DateTime object of end
 	 * @return (array) $output - readable output
 	 */
 	public static function generateEventOutput($event, $start, $end){
-		$output = array();
-		
-		if(isset($event['calendardata'])){
+		// Why is the following code necessary ? //
+		/*if(isset($event['calendardata'])){
 			$object = OC_VObject::parse($event['calendardata']);
 			$vevent = $object->VEVENT;
 		}else{
 			$vevent = $event['vevent'];
-		}
-		
+		}*/
+		$return = array();
+		$id = $event['id'];
+		$object = $object = OC_VObject::parse($event['calendardata']);
+		$vevent = $object->VEVENT;
+		$allday = ($vevent->DTSTART->getDateType() == Sabre_VObject_Element_DateTime::DATE)?true:false;
 		$last_modified = @$vevent->__get('LAST-MODIFIED');
 		$lastmodified = ($last_modified)?$last_modified->getDateTime()->format('U'):0;
-		
-		$output = array('id'=>(int)$event['id'],
+		$staticoutput = array('id'=>(int)$event['id'],
 						'title' => htmlspecialchars(($event['summary']!=NULL || $event['summary'] != '')?$event['summary']: self::$l10n->t('unnamed')),
 						'description' => isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'',
-						'lastmodified'=>$lastmodified);
-
-		$object->expand($start, $end);
-		foreach($object->getComponents() as $child){
-			if(get_class($child) != 'Sabre_VObject_Component_VEvent'){
-				continue;
-			}
-			$vevent = $child;
-			$dtstart = $vevent->DTSTART;
-			$start_dt = $dtstart->getDateTime();
-			$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
-			$end_dt = $dtend->getDateTime();
-			
-			if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
-				$output['allDay'] = true;
-			}else{
-				$output['allDay'] = false;
-				$start_dt->setTimezone(new DateTimeZone(self::$tz));
-				$end_dt->setTimezone(new DateTimeZone(self::$tz));
-			}
-
-			// Handle exceptions to recurring events
-			/*$exceptionDateObjects = $vevent->select('EXDATE');
-			$exceptionDateMap = Array();
-			foreach ($exceptionDateObjects as $exceptionObject) {
-				foreach($exceptionObject->getDateTimes() as $datetime) {
-					$ts = $datetime->getTimestamp();
-					$exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)] = true;
+						'lastmodified'=>$lastmodified,
+						'allDay'=>$allday);
+		if(OC_Calendar_Object::isrepeating($id) && OC_Calendar_Repeat::is_cached_inperiod($event['id'], OC_Calendar_Object::getUTCforMDB($start), OC_Calendar_Object::getUTCforMDB($end))){
+			$cachedinperiod = OC_Calendar_Repeat::get_inperiod($id, OC_Calendar_Object::getUTCforMDB($start), OC_Calendar_Object::getUTCforMDB($end));
+			foreach($cachedinperiod as $cachedevent){
+				$dynamicoutput = array();
+				if($allday){
+					$start_dt = new DateTime($cachedevent['startdate'], new DateTimeZone('UTC'));
+					$end_dt = new DateTime($cachedevent['enddate'], new DateTimeZone('UTC'));
+					$dynamicoutput['start'] = $start_dt->format('Y-m-d');
+					$dynamicoutput['end'] = $end_dt->format('Y-m-d');
+				}else{
+					$start_dt = new DateTime($cachedevent['startdate'], new DateTimeZone('UTC'));
+					$end_dt = new DateTime($cachedevent['enddate'], new DateTimeZone('UTC'));
+					$start_dt->setTimezone(new DateTimeZone(self::$tz));
+					$end_dt->setTimezone(new DateTimeZone(self::$tz));
+					$dynamicoutput['start'] = $start_dt->format('Y-m-d H:i:s');
+					$dynamicoutput['end'] = $end_dt->format('Y-m-d H:i:s');
 				}
-			}*/
-			if($output['allDay'] == true){
-				$output['start'] = $start_dt->format('Y-m-d');
-				$end_dt->modify('-1 sec');
-				$output['end'] = $end_dt->format('Y-m-d');
-			}else{
-				$output['start'] = $start_dt->format('Y-m-d H:i:s');
-				$output['end'] = $end_dt->format('Y-m-d H:i:s');
+				$return[] = array_merge($staticoutput, $dynamicoutput);
 			}
-			$return[] = $output;
+		}else{
+			$object->expand($start, $end);
+			foreach($object->getComponents() as $vevent){
+				if(get_class($vevent) != 'Sabre_VObject_Component_VEvent'){
+					continue;
+				}
+				$dynamicoutput = array();
+				$dtstart = $vevent->DTSTART;
+				$start_dt = $dtstart->getDateTime();
+				$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
+				$end_dt = $dtend->getDateTime();
+				
+				if($allday){
+					$dynamicoutput['start'] = $start_dt->format('Y-m-d');
+					$end_dt->modify('-1 sec');
+					$dynamicoutput['end'] = $end_dt->format('Y-m-d');
+				}else{
+					$start_dt->setTimezone(new DateTimeZone(self::$tz));
+					$end_dt->setTimezone(new DateTimeZone(self::$tz));
+					$dynamicoutput['start'] = $start_dt->format('Y-m-d H:i:s');
+					$dynamicoutput['end'] = $end_dt->format('Y-m-d H:i:s');
+				}
+
+				// Handle exceptions to recurring events
+				/*$exceptionDateObjects = $vevent->select('EXDATE');
+				$exceptionDateMap = Array();
+				foreach ($exceptionDateObjects as $exceptionObject) {
+					foreach($exceptionObject->getDateTimes() as $datetime) {
+						$ts = $datetime->getTimestamp();
+						$exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)] = true;
+					}
+				}*/
+
+				$return[] = array_merge($staticoutput, $dynamicoutput);
+			}
 		}
 		return $return;
 	}
