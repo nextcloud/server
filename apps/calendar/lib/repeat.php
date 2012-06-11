@@ -89,13 +89,33 @@ class OC_Calendar_Repeat{
 			return false;
 		}
 		$object = OC_VObject::parse($event['calendardata']);
-		$start = new DateTime('first day of January', new DateTimeZone('UTC'));
+		$start = new DateTime('first day of this year', new DateTimeZone('UTC'));
 		$start->modify('-5 years');
-		$end = new DateTime('last day of December', new DateTimeZone('UTC'));
+		$end = new DateTime('last day of this year', new DateTimeZone('UTC'));
 		$end->modify('+5 years');
 		$object->expand($start, $end);
-
-		
+		foreach($object->getComponents() as $vevent){
+			if(get_class($vevent) != 'Sabre_VObject_Component_VEvent'){
+				continue;
+			}
+			$dtstart = $vevent->DTSTART;
+			$start_dt = $dtstart->getDateTime();
+			$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
+			$end_dt = $dtend->getDateTime();
+			if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
+				$startdate = $start_dt->format('Y-m-d');
+				$enddate = $end_dt->format('Y-m-d');
+			}else{
+				$start_dt->setTimezone(new DateTimeZone('UTC'));
+				$end_dt->setTimezone(new DateTimeZone('UTC'));
+				$startdate = $start_dt->format('Y-m-d H:i:s');
+				$enddate = $end_dt->format('Y-m-d H:i:s');
+			}
+			$stmt = OCP\DB::prepare('INSERT INTO *PREFIX*calendar_repeat (eventid,calid,startdate,enddate) VALUES(?,?,?,?)');
+			$stmt->execute(array($id,OC_Calendar_Object::getCalendarid($id),$startdate,$enddate));
+			$object_id = OCP\DB::insertid('*PREFIX*calendar_repeat');
+		}
+		return true;
 	}
 	/*
 	 * @brief generates the cache the first time for all repeating event of an calendar
