@@ -310,8 +310,11 @@ OC.Tasks = {
 };
 
 $(document).ready(function(){
-	fillHeight($('#tasks_lists'));
-	fillWindow($('#tasks_list'));
+	$(window).resize(function () {
+		fillHeight($('#tasks_lists'));
+		fillWindow($('#tasks_list'));
+	});
+	$(window).trigger('resize');
 
 	/*-------------------------------------------------------------------------
 	 * Actions for startup

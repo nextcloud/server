@@ -2,8 +2,6 @@
 
 namespace OC\Pictures;
 
-require_once('lib/base.php');
-
 class DatabaseManager {
 	private static $instance = null;
 	const TAG = 'DatabaseManager';

@@ -15,7 +15,7 @@ session_write_close();
 $nl = "\n";
 
 global $progresskey;
-$progresskey = 'contacts.import-' . $_GET['progresskey'];
+$progresskey = 'contacts.import-' . (isset($_GET['progresskey'])?$_GET['progresskey']:'');
 
 if (isset($_GET['progress']) && $_GET['progress']) {
 	echo OC_Cache::get($progresskey);
@@ -63,13 +63,13 @@ foreach($lines as $line){
 	if(strtoupper(trim($line)) == 'BEGIN:VCARD'){
 		$inelement = true;
 	} elseif (strtoupper(trim($line)) == 'END:VCARD') {
-		$card[] = str_replace('=0D=0A', '\n', iconv(mb_detect_encoding($line, 'UTF-8, ISO-8859-1'), 'utf-8', $line));
+		$card[] = $line;
 		$parts[] = implode($nl, $card);
 		$card = array();
 		$inelement = false;
 	}
 	if ($inelement === true && trim($line) != '') {
-		$card[] = str_replace('=0D=0A', '\n', iconv(mb_detect_encoding($line, 'UTF-8, ISO-8859-1'), 'utf-8', $line));
+		$card[] = $line;
 	}
 }
 //import the contacts
