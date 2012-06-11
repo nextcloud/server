@@ -34,7 +34,7 @@ class OC_Calendar_Repeat{
 	public static function get_inperiod($id, $from, $until){
 		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*calendar_repeat WHERE eventid = ?'
 		.' AND ((startdate >= ? AND startdate <= ?)'
-		.' OR (enddate >= ? AND enddate <= ?)');
+		.' OR (enddate >= ? AND enddate <= ?))');
 		$result = $stmt->execute(array($id,
 					$from, $until,
 					$from, $until));
@@ -68,7 +68,7 @@ class OC_Calendar_Repeat{
 	public static function getcalendar_inperiod($id, $from, $until){
 		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*calendar_repeat WHERE calid = ?'
 		.' AND ((startdate >= ? AND startdate <= ?)'
-		.' OR (enddate >= ? AND enddate <= ?)');
+		.' OR (enddate >= ? AND enddate <= ?))');
 		$result = $stmt->execute(array($id,
 					$from, $until,
 					$from, $until));
@@ -155,11 +155,26 @@ class OC_Calendar_Repeat{
 	 * @return (bool)
 	 */
 	public static function is_cached($id){
-		if(count(self::get($id)) === 1){
+		if(count(self::get($id)) != 0){
 			return true;
 		}else{
 			return false;
 		}
+	}
+	/*
+	 * @brief checks if an event is already cached in a specific period
+	 * @param (int) id - id of the event
+	 * @param (string) $from - start for period in UTC
+	 * @param (string) $until - end for period in UTC
+	 * @return (bool)
+	 */
+	public static function is_cached_inperiod($id, $start, $end){
+		if(count(self::get_inperiod($id, $start, $end)) != 0){
+			return true;
+		}else{
+			return false;
+		}
+
 	}
 	/*
 	 * @brief checks if a whole calendar is already cached
