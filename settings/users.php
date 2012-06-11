@@ -34,10 +34,10 @@ foreach($quotaPreset as &$preset){
 $defaultQuota=OC_Appconfig::getValue('files','default_quota','none');
 
 $tmpl = new OC_Template( "settings", "users", "user" );
-$tmpl->assign( "users", $users );
-$tmpl->assign( "groups", $groups );
-$tmpl->assign( 'quota_preset', $quotaPreset);
-$tmpl->assign( 'default_quota', $defaultQuota);
+$tmpl->assignHTML( "users", $users );
+$tmpl->assignHTML( "groups", $groups );
+$tmpl->assignHTML( 'quota_preset', $quotaPreset);
+$tmpl->assignHTML( 'default_quota', $defaultQuota);
 $tmpl->printPage();
 
 ?>

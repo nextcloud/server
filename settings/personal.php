@@ -48,14 +48,14 @@ foreach($languageCodes as $lang){
 
 // Return template
 $tmpl = new OC_Template( 'settings', 'personal', 'user');
-$tmpl->assign('usage',OC_Helper::humanFileSize($used));
-$tmpl->assign('total_space',OC_Helper::humanFileSize($total));
-$tmpl->assign('usage_relative',$relative);
-$tmpl->assign('email',$email);
-$tmpl->assign('languages',$languages);
+$tmpl->assignHTML('usage',OC_Helper::humanFileSize($used));
+$tmpl->assignHTML('total_space',OC_Helper::humanFileSize($total));
+$tmpl->assignHTML('usage_relative',$relative);
+$tmpl->assignHTML('email',$email);
+$tmpl->assignHTML('languages',$languages);
 
 $forms=OC_App::getForms('personal');
-$tmpl->assign('forms',array());
+$tmpl->assignHTML('forms',array());
 foreach($forms as $form){
 	$tmpl->append('forms',$form);
 }

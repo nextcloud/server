@@ -21,9 +21,9 @@ unset($kbe['totalitems']);
 $pagecount=ceil($totalitems/$pagesize);
 
 $tmpl = new OC_Template( "settings", "help", "user" );
-$tmpl->assign( "kbe", $kbe );
-$tmpl->assign( "pagecount", $pagecount );
-$tmpl->assign( "page", $page );
+$tmpl->assignHTML( "kbe", $kbe );
+$tmpl->assignHTML( "pagecount", $pagecount );
+$tmpl->assignHTML( "page", $page );
 $tmpl->printPage();
 
 ?>

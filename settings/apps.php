@@ -92,7 +92,7 @@ usort($apps, 'app_sort');
 
 
 $tmpl = new OC_Template( "settings", "apps", "user" );
-$tmpl->assign('apps',$apps);
+$tmpl->assignHTML('apps',$apps);
 
 $tmpl->printPage();
 
