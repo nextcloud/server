@@ -40,6 +40,9 @@ nbproject
 # Cloud9IDE
 .settings.xml
 
+# vim ex mode
+.vimrc
+	
 # Mac OS
 .DS_Store
 
