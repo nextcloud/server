@@ -332,7 +332,8 @@ class OC_Util {
 	* Redirect to the user default page
 	*/
 	public static function redirectToDefaultPage(){
-		if(isset($_REQUEST['redirect_url']) && substr($_REQUEST['redirect_url'], 0, strlen(OC::$WEBROOT)) == OC::$WEBROOT) {
+		OC_Log::write('core','redirectToDefaultPage',OC_Log::DEBUG);
+		if(isset($_REQUEST['redirect_url']) && (substr($_REQUEST['redirect_url'], 0, strlen(OC::$WEBROOT)) == OC::$WEBROOT || $_REQUEST['redirect_url'][0] == '/')) {
 			header( 'Location: '.$_REQUEST['redirect_url']);
 		} else {
 			header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', '?app=files'));
@@ -358,11 +359,29 @@ class OC_Util {
 	 * Todo: Write howto
 	 */
 	public static function callRegister(){
+		//mamimum time before token exires
+		$maxtime=(60*60);  // 1 hour
+
 		// generate a random token.
 		$token=mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000);
 
 		// store the token together with a timestamp in the session.
 		$_SESSION['requesttoken-'.$token]=time();
+
+		// cleanup old tokens garbage collector
+		// only run every 20th time so we don´t waste cpu cycles
+		if(rand(0,20)==0) {  
+			foreach($_SESSION as $key=>$value) {
+				// search all tokens in the session
+				if(substr($key,0,12)=='requesttoken') {
+					if($value+$maxtime<time()){
+						// remove outdated tokens
+						unset($_SESSION[$key]);						
+					}
+				}	
+			}
+		}
+
 
 		// return the token
 		return($token);
