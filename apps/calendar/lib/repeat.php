@@ -185,8 +185,8 @@ class OC_Calendar_Repeat{
 		$cachedevents = count(self::getcalendar($id));
 		$repeatingevents = 0;
 		$allevents = OC_Calendar_Object::all($id);
-		foreach($allevents['repeating'] as $repeating){
-			if($repeating === 1){
+		foreach($allevents as $event){
+			if($event['repeating'] === 1){
 				$repeatingevents++;
 			}
 		}
