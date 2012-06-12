@@ -119,7 +119,6 @@ for($i = 0; $i < count($images); $i++) {
                                 }
                         } else { // if we collected images for this directory
                                 $tl->addTile(new \OC\Pictures\TileStack($second_level_images, $prev_dir_arr[0]));
-                                echo print_r($fallback_images)."\n";
                                 $fallback_images = array();
                                 $second_level_images = array();
                         }
