@@ -102,23 +102,36 @@ $previous_element = @$images[0];
 $root_images = array();
 $second_level_images = array();
 
-for($i = 0; $i < count($images); $i++) {
-	$prev_dir_arr = explode('/', $previous_element);
-	$dir_arr = explode('/', $images[$i]);
+$fallback_images = array(); // if the folder only cotains subfolders with images -> these are taken for the stack preview
 
-	if(count($dir_arr) == 1) { // getting the images in this directory
-		$root_images[] = $root.$images[$i];
-	} else {
-		if(strcmp($prev_dir_arr[0], $dir_arr[0]) != 0) {
-			$tl->addTile(new \OC\Pictures\TileStack($second_level_images, $prev_dir_arr[0]));
-			$second_level_images = array();
-		}
-		if (count($dir_arr) == 2) { // These are the pics in that subdir
-			$second_level_images[] = $root.$images[$i];
-		}
-		// have us a little something to compare against
-		$previous_element = $images[$i];
-	}
+for($i = 0; $i < count($images); $i++) {
+        $prev_dir_arr = explode('/', $previous_element);
+        $dir_arr = explode('/', $images[$i]);
+
+        if(count($dir_arr) == 1) { // getting the images in this directory
+                $root_images[] = $root.$images[$i];
+        } else {
+                if(strcmp($prev_dir_arr[0], $dir_arr[0]) != 0) { // if we entered a new directory
+                        if(count($second_level_images) == 0) { // if we don't have images in this directory
+                                if(count($fallback_images) != 0) { // but have fallback_images
+                                        $tl->addTile(new \OC\Pictures\TileStack($fallback_images, $prev_dir_arr[0]));
+                                        $fallback_images = array();
+                                }
+                        } else { // if we collected images for this directory
+                                $tl->addTile(new \OC\Pictures\TileStack($second_level_images, $prev_dir_arr[0]));
+                                echo print_r($fallback_images)."\n";
+                                $fallback_images = array();
+                                $second_level_images = array();
+                        }
+                }
+                if (count($dir_arr) == 2) { // These are the pics in our current subdir
+                        $second_level_images[] = $root.$images[$i];
+                } else { // These are images from the deeper directories
+                        $fallback_images[] = $root.$images[$i];
+                }
+                // have us a little something to compare against
+                $previous_element = $images[$i];
+        }
 }
 
 // if last element in the directory was a directory we don't want to miss it :)
