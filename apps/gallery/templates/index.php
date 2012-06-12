@@ -112,7 +112,8 @@ for($i = 0; $i < count($images); $i++) {
 		if(strcmp($prev_dir_arr[0], $dir_arr[0]) != 0) {
 			$tl->addTile(new \OC\Pictures\TileStack($second_level_images, $prev_dir_arr[0]));
 			$second_level_images = array();
-		} else if (count($dir_arr) == 2) { // These are the pics in that subdir
+		}
+		if (count($dir_arr) == 2) { // These are the pics in that subdir
 			$second_level_images[] = $root.$images[$i];
 		}
 		// have us a little something to compare against
