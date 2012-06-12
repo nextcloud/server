@@ -63,7 +63,7 @@ class TilesLine {
 				$img_w = $this->tiles_array[$i]->getWidth();
 				$extra = '';
 				if ($img_w != IMAGE_WIDTH) $extra = ' style="width:'.$img_w.'px"';
-			$r .= '<div class="gallery_div" '.$extra.' onmouseover="'.$this->tiles_array[$i]->getOnHoverAction().'" onmouseout="'.$this->tiles_array[$i]->getOnOutAction().'" onclick="'.$this->tiles_array[$i]->getOnClickAction().'">'.$this->tiles_array[$i]->get().'</div>';
+				$r .= '<div class="gallery_div" '.$extra.' onmouseover="'.$this->tiles_array[$i]->getOnHoverAction().'" onmouseout="'.$this->tiles_array[$i]->getOnOutAction().'" onclick="'.$this->tiles_array[$i]->getOnClickAction().'">'.$this->tiles_array[$i]->get().'</div>';
 		}
 		
 		$r .= '</div>';
@@ -122,7 +122,7 @@ class TileStack extends TileBase {
 		$this->tiles_array = array();
 		$this->stack_name = $stack_name;
 		for ($i = 0; $i < count($path_array) && $i < self::STACK_REPRESENTATIVES; $i++) {
-		$tile = new TileSingle($path_array[$i]);
+			$tile = new TileSingle($path_array[$i]);
 			array_push($this->tiles_array, $tile);
 		}
 	}
@@ -134,32 +134,47 @@ class TileStack extends TileBase {
 
 	public function getWidth() {
 		$max = 0;
-		for ($i = 0; $i < count($this->tiles_array); $i++) {
-			$max = max($max, $this->tiles_array[$i]->getWidth());
+		if(count($this->tiles_array) == 0) {
+			$max = IMAGE_WIDTH;
+		} else {
+			for ($i = 0; $i < count($this->tiles_array); $i++) {
+				$max = max($max, $this->tiles_array[$i]->getWidth());
+			}
 		}
 		return min(IMAGE_WIDTH, $max);
 	}
 
 	public function get() {
 		$r = '<div class="title gallery_div">'.$this->stack_name.'</div>';
-		for ($i = 0; $i < count($this->tiles_array); $i++) {
-			$top = rand(-5, 5);
-			$left = rand(-5, 5);
-			$img_w = $this->tiles_array[$i]->getWidth();
-			$extra = '';
-			if ($img_w < IMAGE_WIDTH) {
-				$extra = 'width:'.$img_w.'px;';
+		if(count($this->tiles_array) == 0) {
+			// aint no pictures in this folder...
+			$r.='<div class="miniature_border gallery_div" style="border:2px solid; margin-right: 2px;"></div>';
+		} else {
+			for ($i = 0; $i < count($this->tiles_array); $i++) {
+				$top = rand(-5, 5);
+				$left = rand(-5, 5);
+				$img_w = $this->tiles_array[$i]->getWidth();
+				$extra = '';
+				if ($img_w < IMAGE_WIDTH) {
+					$extra = 'width:'.$img_w.'px;';
+				}
+				$r .= '<div class="miniature_border gallery_div" style="background-image:url(\''.$this->tiles_array[$i]->getMiniatureSrc().'\');margin-top:'.$top.'px; margin-left:'.$left.'px;'.$extra.'"></div>';
 			}
-			$r .= '<div class="miniature_border gallery_div" style="background-image:url(\''.$this->tiles_array[$i]->getMiniatureSrc().'\');margin-top:'.$top.'px; margin-left:'.$left.'px;'.$extra.'"></div>';
 		}
 		return $r;
 	}
 
 	public function getOnHoverAction() {
+		if(count($this->tiles_array) == 0) {
+			return 'javascript:explode_empty(this);return false;';
+		}
 		return 'javascript:explode(this);return false;';
 	}
 	
 	public function getOnOutAction() {
+		if(count($this->tiles_array) == 0) {
+			return 'javascript:deplode_empty(this);return false;';
+		}
 		return 'javascript:deplode(this);return false;';
 	}
 

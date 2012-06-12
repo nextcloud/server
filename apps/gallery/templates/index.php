@@ -16,6 +16,14 @@ div.visible { opacity: 0.8;}
 
 var root = "<?php echo htmlentities($root); ?>";
 
+function explode_empty(element) {
+	$('div', element).each(function(index, elem) {
+		if ($(elem).hasClass('title')) {
+			$(elem).addClass('visible');
+		}
+	});
+}
+
 function explode(element) {
 	$('div', element).each(function(index, elem) {
 	 	if ($(elem).hasClass('title')) {
@@ -24,6 +32,14 @@ function explode(element) {
 			$(elem).css('margin-top', Math.floor(30-(Math.random()*60)) + 'px')
 			       .css('margin-left', Math.floor(30-(Math.random()*60))+ 'px')
 			       .css('z-index', '999');
+		}
+	});
+}
+
+function deplode_empty(element) {
+	$('div', element).each(function(index, elem) {
+		if ($(elem).hasClass('title')) {
+			$(elem).removeClass('visible');
 		}
 	});
 }
@@ -79,41 +95,40 @@ $root = empty($_GET['root'])?'/':$_GET['root'];
 $images = \OC_FileCache::searchByMime('image', null, '/'.\OCP\USER::getUser().'/files'.$root);
 sort($images);
 
-$arr = array();
 $tl = new \OC\Pictures\TilesLine();
 $ts = new \OC\Pictures\TileStack(array(), '');
 $previous_element = @$images[0];
+
+$root_images = array();
+$second_level_images = array();
+
 for($i = 0; $i < count($images); $i++) {
 	$prev_dir_arr = explode('/', $previous_element);
 	$dir_arr = explode('/', $images[$i]);
 
-	if (count($dir_arr)==1) {
-		$tl->addTile(new \OC\Pictures\TileSingle($root.$images[$i]));
-		continue;
+	if(count($dir_arr) == 1) { // getting the images in this directory
+		$root_images[] = $root.$images[$i];
+	} else {
+		if (count($dir_arr) == 2) { // These are the pics in that subdir
+			$second_level_images[] = $root.$images[$i];
+		}
+		if(strcmp($prev_dir_arr[0], $dir_arr[0]) != 0) {
+			$tl->addTile(new \OC\Pictures\TileStack($second_level_images, $prev_dir_arr[0]));
+			$second_level_images = array();
+		}
+		// have us a little something to compare against
+		$previous_element = $images[$i];
 	}
-	if (strcmp($prev_dir_arr[0], $dir_arr[0])!=0) {
-		$tl->addTile(new \OC\Pictures\TileStack($arr, $prev_dir_arr[0]));
-		$arr = array();
-	}
-	$arr[] = $root.$images[$i];
-	$previous_element = $images[$i];
 }
 
-$dir_arr = explode('/', $previous_element);
-
-if (count($images)>1) {
-  if (count($dir_arr)==0) {
-    $tl->addTile(new \OC\Pictures\TileSingle($previous_element));
-  } else if (count($dir_arr) && $ts->getCount() == 0){
-      $ts = new \OC\Pictures\TileStack(array($root.$previous_element), $dir_arr[0]);
-  } else {
-    $arr[] = $previous_element;
-    $ts->addTile($arr);
-  }
+// if last element in the directory was a directory we don't want to miss it :)
+if(count($second_level_images)>0) {
+	$tl->addTile(new \OC\Pictures\TileStack($second_level_images, $prev_dir_arr[0]));
 }
 
-if ($ts->getCount() != 0) {
-	$tl->addTile($ts);
+// and finally our images actually stored in the root folder
+for($i = 0; $i<count($root_images); $i++) {
+	$tl->addTile(new \OC\Pictures\TileSingle($root_images[$i]));
 }
 
 echo $tl->get();
