@@ -842,22 +842,22 @@ Contacts={
 					$('#addressdisplay dl').last().data('checksum', this.data.ADR[adr]['checksum']);
 					var adrarray = this.data.ADR[adr]['value'];
 					var adrtxt = '';
-					if(adrarray[0].length > 0) {
+					if(adrarray[0] && adrarray[0].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[0].strip_tags() + '</li>';
 					}
-					if(adrarray[1].length > 0) {
+					if(adrarray[1] && adrarray[1].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[1].strip_tags() + '</li>';
 					}
-					if(adrarray[2].length > 0) {
+					if(adrarray[2] && adrarray[2].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[2].strip_tags() + '</li>';
 					}
-					if(adrarray[3].length > 0 || adrarray[5].length > 0) {
+					if((adrarray[3] && adrarray[5]) && adrarray[3].length > 0 || adrarray[5].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[5].strip_tags() + ' ' + adrarray[3].strip_tags() + '</li>';
 					}
-					if(adrarray[4].length > 0) {
+					if(adrarray[4] && adrarray[4].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[4].strip_tags() + '</li>';
 					}
-					if(adrarray[6].length > 0) {
+					if(adrarray[6] && adrarray[6].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[6].strip_tags() + '</li>';
 					}
 					$('#addressdisplay dl').last().find('.addresslist').html(adrtxt);
@@ -1284,8 +1284,8 @@ Contacts={
 					$('#dialog_holder').load(OC.filePath('contacts', 'ajax', 'chooseaddressbook.php'), function(jsondata){
 						if(jsondata.status != 'error'){
 							$('#chooseaddressbook_dialog').dialog({
-								minWidthwidth : 600,
-								close : function(event, ui) {
+								minWidth: 600,
+								close: function(event, ui) {
 									$(this).dialog('destroy').remove();
 								}
 							}).css('overflow','visible');
