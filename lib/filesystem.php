@@ -319,6 +319,9 @@ class OC_Filesystem{
 		if(substr($mountpoint,-1)!=='/'){
 			$mountpoint=$mountpoint.'/';
 		}
+		if ($mountpoint != '/' && !self::is_dir(basename($mountpoint))) {
+			self::mkdir(basename($mountpoint));
+		}
 		self::$mounts[$mountpoint]=array('class'=>$class,'arguments'=>$arguments);
 	}
 
