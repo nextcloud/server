@@ -452,7 +452,7 @@ $(document).ready(function() {
 		input.focus();
 		input.change(function(){
 			var name=$(this).val();
-			if(name.indexOf('/')!=-1){
+			if(type != 'web' && name.indexOf('/')!=-1){
 				$('#notification').text(t('files','Invalid name, \'/\' is not allowed.'));
 				$('#notification').fadeIn();
 				return;

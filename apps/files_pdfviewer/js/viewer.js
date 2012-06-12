@@ -24,21 +24,9 @@ function showPDFviewer(dir,filename){
 		var oldcontent = $("#content").html();
 		$("#content").html(oldcontent+'<div id="loading">Loading... 0%</div><div id="viewer"></div>');
 		showPDFviewer.lastTitle = document.title;
-		if(!showPDFviewer.loaded){
-			OC.addScript( 'files_pdfviewer', 'pdfjs/build/pdf',function(){
-				OC.addScript( 'files_pdfviewer', 'pdfview',function(){
-					showPDFviewer.loaded=true;
-					PDFJS.workerSrc = OC.filePath('files_pdfviewer','js','pdfjs/build/pdf.js');
-					PDFView.Ptitle = filename;
-					PDFView.open(url,1.00);
-					PDFView.active=true;
-				});
-			});
-		}else{
-			PDFView.Ptitle = filename;
-			PDFView.open(url,1.00);
-			PDFView.active=true;
-		}
+		PDFView.Ptitle = filename;
+		PDFView.open(url,1.00);
+		PDFView.active=true;
 		$("#pageWidthOption").attr("selected","selected");
 		showPDFviewer.shown = true;
 	}
@@ -46,7 +34,6 @@ function showPDFviewer(dir,filename){
 showPDFviewer.shown=false;
 showPDFviewer.oldCode='';
 showPDFviewer.lastTitle='';
-showPDFviewer.loaded=false;
 
 $(document).ready(function(){
 	if(!$.browser.msie){//doesnt work on IE
