@@ -71,7 +71,7 @@ FileActions={
 				}
 				var html='<a href="#" class="action" style="display:none">';
 				if(img) { html+='<img src="'+img+'"/> '; }
-				html += name+'</a>';
+				html += t('files', name) +'</a>';
 				var element=$(html);
 				element.data('action',name);
 				element.click(function(event){
@@ -91,7 +91,7 @@ FileActions={
 			if(img.call){
 				img=img(file);
 			}
-			var html='<a href="#" original-title="Delete" class="action delete" style="display:none" />';
+			var html='<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" style="display:none" />';
 			var element=$(html);
 			if(img){
 				element.append($('<img src="'+img+'"/>'));
