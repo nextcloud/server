@@ -63,7 +63,7 @@ class TilesLine {
 				$img_w = $this->tiles_array[$i]->getWidth();
 				$extra = '';
 				if ($img_w != IMAGE_WIDTH) $extra = ' style="width:'.$img_w.'px"';
-				$r .= '<div class="gallery_div" '.$extra.' onmouseover="'.$this->tiles_array[$i]->getOnHoverAction().'" onmouseout="'.$this->tiles_array[$i]->getOnOutAction().'" onclick="'.$this->tiles_array[$i]->getOnClickAction().'">'.$this->tiles_array[$i]->get().'</div>';
+				$r .= '<div class="gallery_div" '.$extra.' onmouseover="'.$this->tiles_array[$i]->getOnHoverAction().'" onmouseout="'.$this->tiles_array[$i]->getOnOutAction().'" onclick="'.$this->tiles_array[$i]->getOnClickAction().'" style="background-color:#ddd">'.$this->tiles_array[$i]->get().'</div>';
 		}
 		
 		$r .= '</div>';
@@ -148,7 +148,7 @@ class TileStack extends TileBase {
 		$r = '<div class="title gallery_div">'.$this->stack_name.'</div>';
 		if(count($this->tiles_array) == 0) {
 			// aint no pictures in this folder...
-			$r.='<div class="miniature_border gallery_div" style="border:2px solid; margin-right: 2px;"></div>';
+			$r.='<div class="miniature_border gallery_div"></div>';
 		} else {
 			for ($i = 0; $i < count($this->tiles_array); $i++) {
 				$top = rand(-5, 5);

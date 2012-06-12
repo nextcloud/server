@@ -9,7 +9,7 @@ div.miniature_border {position:absolute; height: 150px; -moz-transition-duration
 div.line {display:inline-block; border: 0; width: auto; height: 160px}
 div.gallery_div img{position:absolute; top: 1; left: 0; -moz-transition-duration: 0.3s; -o-transition-duration:0.3s; -webkit-transition-duration: 0.3s; height:150px; width: auto;}
 div.gallery_div img.shrinker {width:80px !important;}
-div.title { opacity: 0; text-align: center; vertical-align: middle; font-family: Arial; font-size: 12px; border: 0; position: absolute; text-overflow: ellipsis; bottom: 20px; left:5px; height:auto; padding: 5px; width: 140px; background-color: black; color: white; -webkit-transition: opacity 0.5s;  z-index:1000; border-radius: 7px}
+div.title { opacity: 0; text-align: center; vertical-align: middle; font-family: Arial; font-size: 12px; border: 0; position: absolute; text-overflow: ellipsis; bottom: 20px; right:-5px; height:auto; padding: 5px; width: 140px; background-color: black; color: white; -webkit-transition: opacity 0.5s;  z-index:1000; border-radius: 7px}
 div.visible { opacity: 0.8;}
 </style>
 <script type="text/javascript">
@@ -59,7 +59,7 @@ function deplode(element) {
 function openNewGal(album_name) {
 	root = root + album_name + "/";
 	var url = window.location.toString().replace(window.location.search, '');
-  url = url + "?app=gallery&root="+encodeURIComponent(root);
+	url = url + "?app=gallery&root="+encodeURIComponent(root);
 	
 	window.location = url;
 }
