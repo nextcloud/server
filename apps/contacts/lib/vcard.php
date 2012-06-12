@@ -131,7 +131,7 @@ class OC_Contacts_VCard{
 		foreach($property->parameters as $key=>&$parameter){
 			if(strtoupper($parameter->name) == 'ENCODING') {
 				if(strtoupper($parameter->value) == 'QUOTED-PRINTABLE') { // what kind of other encodings could be used?
-					$property->value = str_replace("\r\n", "\n", mb_convert_encoding(quoted_printable_decode($property->value), 'utf-8', 'auto'));
+					$property->value = quoted_printable_decode($property->value);
 					unset($property->parameters[$key]);
 				}
 			} elseif(strtoupper($parameter->name) == 'CHARSET') {
@@ -188,6 +188,7 @@ class OC_Contacts_VCard{
 			if($upgrade && in_array($property->name, $stringprops)) {
 				self::decodeProperty($property);
 			}
+			$property->value = str_replace("\r\n", "\n", iconv(mb_detect_encoding($property->value, 'UTF-8, ISO-8859-1'), 'utf-8', $property->value));
 			if(in_array($property->name, $stringprops)) {
 				$property->value = strip_tags($property->value);
 			}
