@@ -91,7 +91,11 @@ FileActions={
 			if(img.call){
 				img=img(file);
 			}
-			var html='<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" style="display:none" />';
+			if ($('#dir').val().indexOf('Shared') != -1) {
+				var html='<a href="#" original-title="' + t('files', 'Unshare') + '" class="action delete" style="display:none" />';
+			} else  {
+				var html='<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" style="display:none" />';
+			}
 			var element=$(html);
 			if(img){
 				element.append($('<img src="'+img+'"/>'));
