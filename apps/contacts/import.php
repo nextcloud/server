@@ -15,7 +15,7 @@ session_write_close();
 $nl = "\n";
 
 global $progresskey;
-$progresskey = 'contacts.import-' . $_GET['progresskey'];
+$progresskey = 'contacts.import-' . (isset($_GET['progresskey'])?$_GET['progresskey']:'');
 
 if (isset($_GET['progress']) && $_GET['progress']) {
 	echo OC_Cache::get($progresskey);

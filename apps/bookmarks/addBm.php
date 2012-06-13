@@ -28,6 +28,6 @@ OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('bookmarks');
 
 require_once('bookmarksHelper.php');
-addBookmark($_GET['url'], '', 'Read-Later');
+addBookmark($_POST['url'], '', 'Read-Later');
 
 include 'templates/addBm.php';

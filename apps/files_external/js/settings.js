@@ -1,40 +1,5 @@
-$(document).ready(function() {
-
-	$('.chzn-select').chosen();
-	
-	$('#selectBackend').live('change', function() {
-		var tr = $(this).parent().parent();
-		$('#externalStorage tbody').last().append($(tr).clone());
-		var selected = $(this).find('option:selected').text();
-		var backendClass = $(this).val();
-		$(this).parent().text(selected);
-		$(tr).find('.backend').data('class', $(this).val());
-		var configurations = $(this).data('configurations');
-		var td = $(tr).find('td.configuration');
-		$.each(configurations, function(backend, parameters) {
-			if (backend == backendClass) {
-				$.each(parameters['configuration'], function(parameter, placeholder) {
-					if (placeholder.indexOf('*') != -1) {
-						td.append('<input type="password" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
-					} else if (placeholder.indexOf('!') != -1) {
-						td.append('<label><input type="checkbox" data-parameter="'+parameter+'" />'+placeholder.substring(1)+'</label>');
-					} else if (placeholder.indexOf('&') != -1) {
-						td.append('<input type="text" class="optional" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
-					} else {
-						td.append('<input type="text" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
-					}
-				});
-				return false;
-			}
-		});
-		$('.chz-select').chosen();
-		$(tr).find('td').last().attr('class', 'remove');
-		$(tr).removeAttr('id');
-		$(this).remove();
-	});
-
-	$('#externalStorage td').live('change', function() {
-		var tr = $(this).parent();
+OC.MountConfig={
+	saveStorage:function(tr) {
 		var mountPoint = $(tr).find('.mountPoint input').val();
 		if (mountPoint == '') {
 			return false;
@@ -99,6 +64,51 @@ $(document).ready(function() {
 				$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
 			}
 		}
+	}
+}
+
+$(document).ready(function() {
+
+	$('.chzn-select').chosen();
+	
+	$('#selectBackend').live('change', function() {
+		var tr = $(this).parent().parent();
+		$('#externalStorage tbody').last().append($(tr).clone());
+		var selected = $(this).find('option:selected').text();
+		var backendClass = $(this).val();
+		$(this).parent().text(selected);
+		$(tr).find('.backend').data('class', backendClass);
+		var configurations = $(this).data('configurations');
+		var td = $(tr).find('td.configuration');
+		$.each(configurations, function(backend, parameters) {
+			if (backend == backendClass) {
+				$.each(parameters['configuration'], function(parameter, placeholder) {
+					if (placeholder.indexOf('*') != -1) {
+						td.append('<input type="password" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
+					} else if (placeholder.indexOf('!') != -1) {
+						td.append('<label><input type="checkbox" data-parameter="'+parameter+'" />'+placeholder.substring(1)+'</label>');
+					} else if (placeholder.indexOf('&') != -1) {
+						td.append('<input type="text" class="optional" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
+					} else if (placeholder.indexOf('#') != -1) {
+						td.append('<input type="hidden" data-parameter="'+parameter+'" />');
+					} else {
+						td.append('<input type="text" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
+					}
+				});
+				if (parameters['custom']) {
+					OC.addScript('files_external', parameters['custom']);
+				}
+				return false;
+			}
+		});
+		$('.chz-select').chosen();
+		$(tr).find('td').last().attr('class', 'remove');
+		$(tr).removeAttr('id');
+		$(this).remove();
+	});
+
+	$('#externalStorage td').live('change', function() {
+		OC.MountConfig.saveStorage($(this).parent());
 	});
 
 	$('td.remove>img').live('click', function() {
@@ -129,8 +139,6 @@ $(document).ready(function() {
 		$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
 		$(tr).remove();
 	});
-
-	
 
 	$('#allowUserMounting').bind('change', function() {
 		if (this.checked) {

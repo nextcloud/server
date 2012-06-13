@@ -104,10 +104,6 @@ class OC_Share {
 						$counter++;
 					}
 				}
-				if (isset($gid)) {
-					$uid = $uid."@".$gid;
-				}
-				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
 				// Update mtime of shared folder to invoke a file cache rescan
 				$rootView=new OC_FilesystemView('/');
 				if (!$rootView->is_dir($sharedFolder)) {
@@ -119,6 +115,10 @@ class OC_Share {
 					$rootView->mkdir($sharedFolder);
 				}
 				$rootView->touch($sharedFolder);
+				if (isset($gid)) {
+					$uid = $uid."@".$gid;
+				}
+				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
 			}
 		}
 	}

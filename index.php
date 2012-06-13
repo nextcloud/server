@@ -112,6 +112,7 @@ elseif(OC_User::isLoggedIn()) {
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"],$_SERVER["PHP_AUTH_PW"]))	{
 			//OC_Log::write('core',"Logged in with HTTP Authentication",OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
+			$_REQUEST['redirect_url'] = (isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'');
 			OC_Util::redirectToDefaultPage();
 		}else{
 			$error = true;
