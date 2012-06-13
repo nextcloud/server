@@ -7,10 +7,6 @@
  */
 ?>
 <td id="importaddressbook_dialog" colspan="6">
-<?php 
-if(OCP\App::isEnabled('files_encryption')) { 
-	echo '<strong>'.$l->t('Currently this import function doesn\'t work while encryption is enabled.<br />Please upload your VCF file with the file manager and click on it to import.').'</strong>';
-} else { ?>
 <table>
 <tr>
 	<th><?php echo $l->t('Select address book to import to:') ?></th>
@@ -33,7 +29,6 @@ if(OCP\App::isEnabled('files_encryption')) {
 
 <input id="close_button" style="float: left;" type="button" onclick="Contacts.UI.Addressbooks.cancel(this);" value="<?php echo $l->t("Cancel"); ?>">
 <iframe name="import_upload_target" id='import_upload_target' src=""></iframe>
-<?php } ?>
 </td>
 <script type="text/javascript">
 Contacts.UI.Addressbooks.loadImportHandlers();
