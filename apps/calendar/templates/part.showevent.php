@@ -19,12 +19,14 @@
 			<th width="75px"><?php echo $l->t("Category");?>:</th>
 			<td>
 				<?php
-				if(count($_['categories']) == 0){
+				if(count($_['categories']) == 0 || $_['categories'] == ''){
 					echo $l->t('No categories selected');
 				}else{
-					echo '<select id="category" name="categories[]" multiple="multiple" title="' .  $l->t("Select category") . '">';
-					echo OCP\html_select_options($_['categories'], $_['categories'], array('combine'=>true));
-					echo '</select>';
+					echo '<ul>';
+					foreach($_['categories'] as $categorie){
+						echo '<li>' . $categorie . '</li>';
+					}
+					echo '</ul>';
 				}
 				?>
 			</td>
