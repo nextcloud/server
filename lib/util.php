@@ -409,7 +409,7 @@ class OC_Util {
 		// check if the token is in the user session and if the timestamp is from the last hour.
 		if(isset($_SESSION['requesttoken-'.$token])) {
 			$timestamp=$_SESSION['requesttoken-'.$token];
-			if($timestamp+$maxtime<time){
+			if($timestamp+$maxtime<time()){
 				//token exired. exiting
 				exit;
 
