@@ -155,6 +155,9 @@ class OC_Template{
 		$this->renderas = $renderas;
 		$this->application = $app;
 		$this->vars = array();
+		if($renderas == 'user') {
+			$this->vars['requesttoken'] = OC_Util::callRegister();
+		}
 		$this->l10n = OC_L10N::get($app);
                 header('X-Frame-Options: Sameorigin');
                 header('X-XSS-Protection: 1; mode=block');
@@ -259,6 +262,7 @@ class OC_Template{
 	 * @brief Assign variables
 	 * @param $key key
 	 * @param $value value
+	 * @param $sanitizeHTML false, if data shouldn't get passed through htmlentities
 	 * @returns true
 	 *
 	 * This function assigns a variable. It can be accessed via $_[$key] in
@@ -266,10 +270,28 @@ class OC_Template{
 	 *
 	 * If the key existed before, it will be overwritten
 	 */
-	public function assign( $key, $value ){
+		public function assign( $key, $value, $sanitizeHTML=true ){
+		if($sanitizeHTML == true) {
+			if(is_array($value)) {
+				array_walk_recursive($value,'OC_Template::sanitizeHTML');
+			} else {
+				$value = OC_Template::sanitizeHTML($value);
+			}
+		}
 		$this->vars[$key] = $value;
 		return true;
 	}
+
+
+	/**
+	 * @brief Internaly used to sanitze HTML
+	 *
+	 * This function is internally used to sanitize HTML.
+	 */
+ 	private static function sanitizeHTML( &$value ){
+ 			$value = htmlentities( $value );
+ 			return $value;
+    }
 
 	/**
 	 * @brief Appends a variable
@@ -354,20 +376,21 @@ class OC_Template{
 			// Decide which page we show
 			if( $this->renderas == "user" ){
 				$page = new OC_Template( "core", "layout.user" );
-				$page->assign('searchurl',OC_Helper::linkTo( 'search', 'index.php' ));
+				$page->assign('searchurl',OC_Helper::linkTo( 'search', 'index.php' ), false);
+				$page->assign('requesttoken', $this->vars['requesttoken']);
 				if(array_search(OC_APP::getCurrentApp(),array('settings','admin','help'))!==false){
-					$page->assign('bodyid','body-settings');
+					$page->assign('bodyid','body-settings', false);
 				}else{
-					$page->assign('bodyid','body-user');
+					$page->assign('bodyid','body-user', false);
 				}
 
 				// Add navigation entry
 				$navigation = OC_App::getNavigation();
-				$page->assign( "navigation", $navigation);
-				$page->assign( "settingsnavigation", OC_App::getSettingsNavigation());
+				$page->assign( "navigation", $navigation, false);
+				$page->assign( "settingsnavigation", OC_App::getSettingsNavigation(), false);
 				foreach($navigation as $entry) {
 					if ($entry['active']) {
-						$page->assign( 'application', $entry['name'] );
+						$page->assign( 'application', $entry['name'], false );
 						break;
 					}
 				}
@@ -381,7 +404,7 @@ class OC_Template{
 			// Read the detected formfactor and use the right file name.
 			$fext = self::getFormFactorExtension();
 
-			$page->assign('jsfiles', array());
+			$page->assign('jsfiles', array(), false);
 			// Add the core js files or the js files provided by the selected theme
 			foreach(OC_Util::$scripts as $script){
 				// Is it in 3rd party?
@@ -456,13 +479,13 @@ class OC_Template{
 			}
 
 			// Add custom headers
-			$page->assign('headers',$this->headers);
+			$page->assign('headers',$this->headers, false);
 			foreach(OC_Util::$headers as $header){
 				$page->append('headers',$header);
 			}
 
 			// Add css files and js files
-			$page->assign( "content", $data );
+			$page->assign( "content", $data, false );
 			return $page->fetchPage();
 		}
 		else{
@@ -507,13 +530,13 @@ class OC_Template{
 			$_ = array_merge( $additionalparams, $this->vars );
 		}
 
-		// Einbinden
+		// Include
 		ob_start();
 		include( $this->path.$file.'.php' );
 		$data = ob_get_contents();
 		@ob_end_clean();
 
-		// Daten zurückgeben
+		// Return data
 		return $data;
 	}
 
@@ -527,7 +550,7 @@ class OC_Template{
 	public static function printUserPage( $application, $name, $parameters = array() ){
 		$content = new OC_Template( $application, $name, "user" );
 		foreach( $parameters as $key => $value ){
-			$content->assign( $key, $value );
+			$content->assign( $key, $value, false );
 		}
 		print $content->printPage();
 	}
@@ -542,7 +565,7 @@ class OC_Template{
 	public static function printAdminPage( $application, $name, $parameters = array() ){
 		$content = new OC_Template( $application, $name, "admin" );
 		foreach( $parameters as $key => $value ){
-			$content->assign( $key, $value );
+			$content->assign( $key, $value, false );
 		}
 		return $content->printPage();
 	}
@@ -557,7 +580,7 @@ class OC_Template{
 	public static function printGuestPage( $application, $name, $parameters = array() ){
 		$content = new OC_Template( $application, $name, "guest" );
 		foreach( $parameters as $key => $value ){
-			$content->assign( $key, $value );
+			$content->assign( $key, $value,false );
 		}
 		return $content->printPage();
 	}

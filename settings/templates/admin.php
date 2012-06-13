@@ -29,7 +29,7 @@ $levels=array('Debug','Info','Warning','Error','Fatal');
 				<?php echo $entry->app;?>
 			</td>
 			<td>
-				<?php echo htmlentities($entry->message);?>
+				<?php echo $entry->message;?>
 			</td>
 			<td>
 				<?php echo OC_Util::formatDate($entry->time);?>
