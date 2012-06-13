@@ -32,16 +32,6 @@ function debug($msg) {
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
-
-foreach($_SERVER as $key=>$value) {
-	debug('_SERVER: '.$key.'=>'.print_r($value, true));
-}
-foreach($_POST as $key=>$value) {
-	debug('_POST: '.$key.'=>'.print_r($value, true));
-}
-foreach($_GET as $key=>$value) {
-	debug('_GET: '.$key.'=>'.print_r($value, true));
-}
 OCP\JSON::callCheck();
 
 $id = isset($_POST['id'])?$_POST['id']:null;
