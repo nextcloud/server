@@ -20,7 +20,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once 'common.inc.php';
+require_once 'Google/common.inc.php';
 
 class OC_Filestorage_Google extends OC_Filestorage_Common {
 
