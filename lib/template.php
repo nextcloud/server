@@ -155,6 +155,9 @@ class OC_Template{
 		$this->renderas = $renderas;
 		$this->application = $app;
 		$this->vars = array();
+		if($renderas == 'user') {
+			$this->vars['requesttoken'] = OC_Util::callRegister();
+		}
 		$this->l10n = OC_L10N::get($app);
                 header('X-Frame-Options: Sameorigin');
                 header('X-XSS-Protection: 1; mode=block');
@@ -355,6 +358,7 @@ class OC_Template{
 			if( $this->renderas == "user" ){
 				$page = new OC_Template( "core", "layout.user" );
 				$page->assign('searchurl',OC_Helper::linkTo( 'search', 'index.php' ));
+				$page->assign('requesttoken', $this->vars['requesttoken']);
 				if(array_search(OC_APP::getCurrentApp(),array('settings','admin','help'))!==false){
 					$page->assign('bodyid','body-settings');
 				}else{
