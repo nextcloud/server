@@ -4,7 +4,7 @@
 	<name>PDF Viewer</name>
 	<description>Inline PDF viewer (pdfjs-based)</description>
 	<licence>GPL</licence>
-	<author>Joan Creus</author>
+	<author>Joan Creus, Thomas Müller</author>
 	<require>4</require>
 	<shipped>true</shipped>
 	<default_enable/>

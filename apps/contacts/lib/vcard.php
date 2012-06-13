@@ -188,6 +188,7 @@ class OC_Contacts_VCard{
 			if($upgrade && in_array($property->name, $stringprops)) {
 				self::decodeProperty($property);
 			}
+			$property->value = str_replace("\r\n", "\n", iconv(mb_detect_encoding($property->value, 'UTF-8, ISO-8859-1'), 'utf-8', $property->value));
 			if(in_array($property->name, $stringprops)) {
 				$property->value = strip_tags($property->value);
 			}
@@ -373,6 +374,10 @@ class OC_Contacts_VCard{
 	public static function editFromDAVData($aid,$uri,$data){
 		$oldcard = self::findWhereDAVDataIs($aid,$uri);
 		$card = OC_VObject::parse($data);
+		if(!$card) {
+			OCP\Util::writeLog('contacts','OC_Contacts_VCard::editFromDAVData. Unable to parse VCARD, uri: '.$uri,OCP\Util::ERROR);
+			return false;
+		}
 		return self::edit($oldcard['id'], $card);
 	}
 

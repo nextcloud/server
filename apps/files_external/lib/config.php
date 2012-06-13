@@ -30,15 +30,18 @@ class OC_Mount_Config {
 
 	/**
 	* Get details on each of the external storage backends, used for the mount config UI
+	* If a custom UI is needed, add the key 'custom' and a javascript file with that name will be loaded
 	* If the configuration parameter should be secret, add a '*' to the beginning of the value
 	* If the configuration parameter is a boolean, add a '!' to the beginning of the value
 	* If the configuration parameter is optional, add a '&' to the beginning of the value
+	* If the configuration parameter is hidden, add a '#' to the begining of the value
 	* @return array
 	*/
 	public static function getBackends() {
 		return array(
 			'OC_Filestorage_Local' => array('backend' => 'Local', 'configuration' => array('datadir' => 'Location')),
 			'OC_Filestorage_AmazonS3' => array('backend' => 'Amazon S3', 'configuration' => array('key' => 'Key', 'secret' => '*Secret', 'bucket' => 'Bucket')),
+			'OC_Filestorage_Dropbox' => array('backend' => 'Dropbox', 'configuration' => array('app_key' => 'App key', 'app_secret' => 'App secret', 'token' => '#token', 'token_secret' => '#token_secret' ), 'custom' => 'dropbox'),
 			'OC_Filestorage_FTP' => array('backend' => 'FTP', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure ftps://')),
 			'OC_Filestorage_SWIFT' => array('backend' => 'OpenStack Swift', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'token' => '*Token', 'root' => '&Root', 'secure' => '!Secure ftps://')),
 			'OC_Filestorage_SMB' => array('backend' => 'SMB', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root')),
@@ -98,8 +101,8 @@ class OC_Mount_Config {
 		$personal = array();
 		if (isset($mountPoints[self::MOUNT_TYPE_USER][$uid])) {
 			foreach ($mountPoints[self::MOUNT_TYPE_USER][$uid] as $mountPoint => $mount) {
-				// Remove '/$user/files/' from mount point
-				$personal[substr($mountPoint, 13)] = array('class' => $mount['class'], 'backend' => $backends[$mount['class']]['backend'], 'configuration' => $mount['options']);
+				// Remove '/uid/files/' from mount point
+				$personal[substr($mountPoint, strlen($uid) + 8)] = array('class' => $mount['class'], 'backend' => $backends[$mount['class']]['backend'], 'configuration' => $mount['options']);
 			}
 		}
 		return $personal;
@@ -123,8 +126,11 @@ class OC_Mount_Config {
 			if ($applicable != OCP\User::getUser() || $class == 'OC_Filestorage_Local') {
 				return false;
 			}
+			$mountPoint = '/'.$applicable.'/files/'.ltrim($mountPoint, '/');
+		} else {
+			$mountPoint = '/$user/files/'.ltrim($mountPoint, '/');
 		}
-		$mount = array($applicable => array('/$user/files/'.$mountPoint => array('class' => $class, 'options' => $classOptions)));
+		$mount = array($applicable => array($mountPoint => array('class' => $class, 'options' => $classOptions)));
 		$mountPoints = self::readData($isPersonal);
 		// Merge the new mount point into the current mount points
 		if (isset($mountPoints[$mountType])) {

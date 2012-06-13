@@ -95,9 +95,9 @@ $(document).ready(function(){
 		$(this).children('img').click();
 	});
 	
-	$('select.quota').live('change',function(){
+	$('select.quota, select.quota-user').live('change',function(){
 		var select=$(this);
-		var uid=$(this).parent().parent().data('uid');
+		var uid=$(this).parent().parent().parent().data('uid');
 		var quota=$(this).val();
 		var other=$(this).next();
 		if(quota!='other'){
@@ -110,7 +110,7 @@ $(document).ready(function(){
 			other.focus();
 		}
 	});
-	$('select.quota').each(function(i,select){
+	$('select.quota, select.quota-user').each(function(i,select){
 		$(select).data('previous',$(select).val());
 	})
 	
@@ -207,9 +207,9 @@ $(document).ready(function(){
 					applyMultiplySelect(select);
 					$('#content table tbody').last().append(tr);
 
-					tr.find('select.quota option').attr('selected',null);
-					tr.find('select.quota option').first().attr('selected','selected');
-					tr.find('select.quota').data('previous','default');
+					tr.find('select.quota-user option').attr('selected',null);
+					tr.find('select.quota-user option').first().attr('selected','selected');
+					tr.find('select.quota-user').data('previous','default');
 				}
 			}
 		);

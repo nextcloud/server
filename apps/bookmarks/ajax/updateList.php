@@ -33,11 +33,11 @@ OCP\JSON::checkAppEnabled('bookmarks');
 
 
 //Filter for tag?
-$filterTag = isset($_GET['tag']) ? htmlspecialchars_decode($_GET['tag']) : false;
+$filterTag = isset($_POST['tag']) ? htmlspecialchars_decode($_POST['tag']) : false;
 
-$offset = isset($_GET['page']) ? intval($_GET['page']) * 10 : 0;
+$offset = isset($_POST['page']) ? intval($_POST['page']) * 10 : 0;
 
-$sort = isset($_GET['sort']) ? ($_GET['sort']) : 'bookmarks_sorting_recent';
+$sort = isset($_POST['sort']) ? ($_POST['sort']) : 'bookmarks_sorting_recent';
 if($sort == 'bookmarks_sorting_clicks') {
 	$sqlSortColumn = 'clickcount';
 } else {
