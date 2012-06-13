@@ -33,7 +33,7 @@
 				<select name="calendar" disabled="disabled">
 					<option>
 					<?php
-					$calendar = OC_Calendar_App::getCalendar($_['calendar']);
+					$calendar = OC_Calendar_App::getCalendar($_['calendar'], false, false);
 					echo $calendar['displayname'] . ' ' . $l->t('of') . ' ' . $calendar['userid'];
 					?>
 					</option>
