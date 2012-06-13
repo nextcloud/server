@@ -5,7 +5,7 @@
 	<input type="text" id="location" name="location" placeholder="<?php echo $l->t('Location of the task');?>" value="<?php echo isset($_['details']->LOCATION) ? $_['details']->LOCATION[0]->value : '' ?>">
 	<br>
 	<label for="categories"><?php echo $l->t('Categories'); ?></label>
-	<input id="categories" name="categories" type="text" placeholder="<?php echo $l->t('Separate categories with commas'); ?>" value="<?php echo isset($_['categories']) ? htmlspecialchars($_['categories']) : '' ?>">
+	<input id="categories" name="categories" type="text" placeholder="<?php echo $l->t('Separate categories with commas'); ?>" value="<?php echo isset($_['categories']) ? $_['categories'] : '' ?>">
 	<a class="action edit" onclick="$(this).tipsy('hide');OCCategories.edit();" title="<?php echo $l->t('Edit categories'); ?>"><img alt="<?php echo $l->t('Edit categories'); ?>" src="<?php echo OCP\image_path('core','actions/rename.svg')?>" class="svg action" style="width: 16px; height: 16px;"></a>
 	<br>
 	<label for="due"><?php echo $l->t('Due'); ?></label>

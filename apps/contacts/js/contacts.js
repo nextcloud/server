@@ -622,7 +622,7 @@ Contacts={
 				q = q + '&id=' + this.id + '&name=' + name;
 				if(checksum != undefined && checksum != '') { // save
 					q = q + '&checksum=' + checksum;
-					//console.log('Saving: ' + q);
+					console.log('Saving: ' + q);
 					$(obj).attr('disabled', 'disabled');
 					$.post(OC.filePath('contacts', 'ajax', 'saveproperty.php'),q,function(jsondata){
 						if(jsondata.status == 'success'){
@@ -640,7 +640,7 @@ Contacts={
 						}
 					},'json');
 				} else { // add
-					//console.log('Adding: ' + q);
+					console.log('Adding: ' + q);
 					$(obj).attr('disabled', 'disabled');
 					$.post(OC.filePath('contacts', 'ajax', 'addproperty.php'),q,function(jsondata){
 						if(jsondata.status == 'success'){

@@ -11,6 +11,7 @@
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+OCP\JSON::callCheck();
 
 $userid = OCP\USER::getUser();
 $name = trim(strip_tags($_POST['name']));

@@ -355,8 +355,9 @@ class OC_Util {
 	}
 
 	/**
-	 * Register an get/post call. This is important to prevent CSRF attacks
+	 * @brief Register an get/post call. This is important to prevent CSRF attacks
 	 * Todo: Write howto
+	 * @return $token Generated token.
 	 */
 	public static function callRegister(){
 		//mamimum time before token exires
@@ -381,50 +382,48 @@ class OC_Util {
 				}	
 			}
 		}
-
-
 		// return the token
 		return($token);
 	}
 
 
 	/**
-	 * Check an ajax get/post call if the request token is valid. exit if not.
-	 * Todo: Write howto
+	 * @brief Check an ajax get/post call if the request token is valid.
+	 * @return boolean False if request token is not set or is invalid.
 	 */
-	public static function callCheck(){
+	public static function isCallRegistered(){
 		//mamimum time before token exires
 		$maxtime=(60*60);  // 1 hour
-
-		// searches in the get and post arrays for the token.
 		if(isset($_GET['requesttoken'])) {
 			$token=$_GET['requesttoken'];
 		}elseif(isset($_POST['requesttoken'])){
 			$token=$_POST['requesttoken'];
+		}elseif(isset($_SERVER['HTTP_REQUESTTOKEN'])){
+			$token=$_SERVER['HTTP_REQUESTTOKEN'];
 		}else{
-			//no token found. exiting
-			exit;
+			//no token found.
+			return false;
 		}
-
-		// check if the token is in the user session and if the timestamp is from the last hour.
 		if(isset($_SESSION['requesttoken-'.$token])) {
 			$timestamp=$_SESSION['requesttoken-'.$token];
-			if($timestamp+$maxtime<time){
-				//token exired. exiting
-				exit;
-
+			if($timestamp+$maxtime<time()){
+				return false;
 			}else{
 				//token valid
-				return;
+				return true;
 			}
 		}else{
-			//no token found. exiting
-			exit;
+			return false;
 		}
 	}
 
-
-
-
-
+	/**
+	 * @brief Check an ajax get/post call if the request token is valid. exit if not.
+	 * Todo: Write howto
+	 */
+	public static function callCheck(){
+		if(!OC_Util::isCallRegistered()) {
+			exit;
+		}
+	}
 }
