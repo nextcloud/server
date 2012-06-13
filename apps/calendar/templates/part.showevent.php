@@ -30,15 +30,10 @@
 			</td>
 			<th width="75px">&nbsp;&nbsp;&nbsp;<?php echo $l->t("Calendar");?>:</th>
 			<td>
-				<select name="calendar" disabled="disabled">
-					<option>
-					<?php
-					$calendar = OC_Calendar_App::getCalendar($_['calendar'], false, false);
-					echo $calendar['displayname'] . ' ' . $l->t('of') . ' ' . $calendar['userid'];
-					?>
-					</option>
-					
-				</select>
+			<?php
+			$calendar = OC_Calendar_App::getCalendar($_['calendar'], false, false);
+			echo $calendar['displayname'] . ' ' . $l->t('of') . ' ' . $calendar['userid'];
+			?>
 			</td>
 			<th width="75px">&nbsp;</th>
 			<td>
