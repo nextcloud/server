@@ -23,6 +23,16 @@
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+foreach($_SERVER as $key=>$value) {
+	OCP\Util::writeLog('contacts','ajax/saveproperty.php: _SERVER: '.$key.'=>'.print_r($value, true), OCP\Util::DEBUG);
+}
+foreach($_POST as $key=>$value) {
+	OCP\Util::writeLog('contacts','ajax/saveproperty.php: _POST: '.$key.'=>'.print_r($value, true), OCP\Util::DEBUG);
+}
+foreach($_GET as $key=>$value) {
+	OCP\Util::writeLog('contacts','ajax/saveproperty.php: _GET: '.$key.'=>'.print_r($value, true), OCP\Util::DEBUG);
+}
+OCP\JSON::callCheck();
 
 function bailOut($msg) {
 	OCP\JSON::error(array('data' => array('message' => $msg)));

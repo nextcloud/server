@@ -23,6 +23,7 @@
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+OCP\JSON::callCheck();
 
 $id = $_POST['id'];
 $checksum = $_POST['checksum'];
