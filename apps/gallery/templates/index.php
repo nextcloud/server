@@ -16,14 +16,6 @@ div.visible { opacity: 0.8;}
 
 var root = "<?php echo htmlentities($root); ?>";
 
-function explode_empty(element) {
-	$('div', element).each(function(index, elem) {
-		if ($(elem).hasClass('title')) {
-			$(elem).addClass('visible');
-		}
-	});
-}
-
 function explode(element) {
 	$('div', element).each(function(index, elem) {
 	 	if ($(elem).hasClass('title')) {
@@ -32,14 +24,6 @@ function explode(element) {
 			$(elem).css('margin-top', Math.floor(30-(Math.random()*60)) + 'px')
 			       .css('margin-left', Math.floor(30-(Math.random()*60))+ 'px')
 			       .css('z-index', '999');
-		}
-	});
-}
-
-function deplode_empty(element) {
-	$('div', element).each(function(index, elem) {
-		if ($(elem).hasClass('title')) {
-			$(elem).removeClass('visible');
 		}
 	});
 }
