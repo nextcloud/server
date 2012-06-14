@@ -30,12 +30,6 @@ function debug($msg) {
 OCP\JSON::setContentTypeHeader('text/plain');
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
-foreach($_POST as $key=>$value) {
-	debug('POST: '.$key.'=>'.$value);
-}
-foreach($_GET as $key=>$value) {
-	debug('GET: '.$key.'=>'.$value);
-}
 OCP\JSON::callCheck();
 
 // If it is a Drag'n'Drop transfer it's handled here.
@@ -50,7 +44,6 @@ if ($fn) {
 	$id = $_GET['id'];
 	$tmpfname = tempnam(get_temp_dir(), 'occOrig');
 	file_put_contents($tmpfname, file_get_contents('php://input'));
-	debug($tmpfname.' uploaded');
 	$image = new OC_Image();
 	if($image->loadFromFile($tmpfname)) {
 		if($image->width() > 400 || $image->height() > 400) {
