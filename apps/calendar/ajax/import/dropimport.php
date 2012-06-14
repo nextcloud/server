@@ -45,7 +45,7 @@ foreach($lines as $line) {
 	}
 	$i++;
 }
-$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), true);
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);
 $id = $calendars[0]['id'];
 foreach($uids as $uid) {
 	$prefix=$suffix=$content=array();
