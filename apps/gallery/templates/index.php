@@ -122,6 +122,11 @@ if(count($second_level_images)>0) {
 	$tl->addTile(new \OC\Pictures\TileStack($second_level_images, $prev_dir_arr[0]));
 }
 
+// if last element in the directory was a directory with no second_level_images we also don't want to miss it ...
+if(count($fallback_images)>0) {
+	$tl->addTile(new \OC\Pictures\TileStack($fallback_images, $prev_dir_arr[0]));
+}
+
 // and finally our images actually stored in the root folder
 for($i = 0; $i<count($root_images); $i++) {
 	$tl->addTile(new \OC\Pictures\TileSingle($root_images[$i]));
