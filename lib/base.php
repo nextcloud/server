@@ -169,9 +169,9 @@ class OC{
 					OC::$APPSROOTS[] = $paths;	
 			}
 		}elseif(file_exists(OC::$SERVERROOT.'/apps')){
-			OC::$APPSROOTS[] = array('path'=> OC::$SERVERROOT.'/apps', 'url' => OC::$WEBROOT.'/apps/');
+			OC::$APPSROOTS[] = array('path'=> OC::$SERVERROOT.'/apps', 'url' => OC::$WEBROOT.'/apps/', 'writable' => true);
 		}elseif(file_exists(OC::$SERVERROOT.'/../apps')){
-			OC::$APPSROOTS[] = array('path'=> rtrim(dirname(OC::$SERVERROOT), '/').'/apps', 'url' => rtrim(dirname(OC::$WEBROOT), '/').'/apps/');
+			OC::$APPSROOTS[] = array('path'=> rtrim(dirname(OC::$SERVERROOT), '/').'/apps', 'url' => rtrim(dirname(OC::$WEBROOT), '/').'/apps/', 'writable' => true);
 			OC::$APPSROOT=rtrim(dirname(OC::$SERVERROOT), '/');
 		}
 

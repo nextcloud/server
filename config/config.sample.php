@@ -33,17 +33,17 @@ $CONFIG = array(
  * If the apps dir is not writable, you can't download&install extra apps
  * in the admin apps menu.
  */
-"writable_appsdir" => true,
 // "datadirectory" => "",
 "apps_paths" => array(
 
 /* Set an array of path for your apps directories
- key 'path' is for the fs path an the key url is for the http path to your
- applications paths
+ key 'path' is for the fs path an the key 'url' is for the http path to your
+ applications paths. 'writable' indicate if the user can install apps in this folder.
 */
-  array(
-    'path'=> '/var/www/owncloud/apps',
-    'url' => '/apps',
+	array(
+		'path'=> '/var/www/owncloud/apps',
+		'url' => '/apps',
+		'writable' => true,
   ),
  ),
 );

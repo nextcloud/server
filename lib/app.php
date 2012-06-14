@@ -323,16 +323,38 @@ class OC_App{
 	}
 
 	/**
+	* Get the path where to install apps
+  */
+	public static function getInstallPath() {
+		if(OC_Config::getValue('appstoreenabled', true)==false) {
+			return false;
+		}
+
+		foreach(OC::$APPSROOTS as $dir) {
+			if(isset($dir['writable']) && $dir['writable']===true)
+				return $dir['path'];
+		}
+
+		OC_Log::write('core','No application directories are marked as writable.',OC_Log::ERROR);
+		return null;
+	}
+
+
+	protected static function findAppInDirectories($appid) {
+		foreach(OC::$APPSROOTS as $dir) {
+			if(file_exists($dir['path'].'/'.$appid)) {
+				return $dir;
+			}
+		}
+	}
+	/**
 	* Get the directory for the given app.
 	* If the app is defined in multiple directory, the first one is taken. (false if not found)
 	*/
 	public static function getAppPath($appid) {
-		foreach(OC::$APPSROOTS as $dir) {
-			if(file_exists($dir['path'].'/'.$appid)) {
-				return $dir['path'].'/'.$appid;
-			}
+		if( ($dir = self::findAppInDirectories($appid)) != false) {
+			return $dir['path'].'/'.$appid;
 		}
-		return false;
 	}
 
 	/**
@@ -340,12 +362,9 @@ class OC_App{
 	* If the app is defined in multiple directory, the first one is taken. (false if not found)
 	*/
 	public static function getAppWebPath($appid) {
-		foreach(OC::$APPSROOTS as $dir) {
-			if(file_exists($dir['path'].'/'.$appid)) {
-				return $dir['url'].'/'.$appid;
-			}
+		if( ($dir = self::findAppInDirectories($appid)) != false) {
+			return $dir['url'].'/'.$appid;
 		}
-		return false;
 	}
 
 	/**

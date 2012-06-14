@@ -126,8 +126,6 @@ class OC_Installer{
 			return false;
 		}
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml',true);
-		$basedir=OC_App::getAppPath($info['id']);
-
                 // check the code for not allowed calls
                 if(!OC_Installer::checkCode($info['id'],$extractDir)){
 			OC_Log::write('core','App can\'t be installed because of not allowed code in the App',OC_Log::ERROR);
@@ -153,6 +151,7 @@ class OC_Installer{
 			return false;
 		}
 
+		$basedir=OC_App::getInstallPath().'/'.$info['id'];
 		//check if the destination directory already exists
 		if(is_dir($basedir)){
 			OC_Log::write('core','App directory already exists',OC_Log::WARN);
