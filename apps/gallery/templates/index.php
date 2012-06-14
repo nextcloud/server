@@ -101,10 +101,8 @@ for($i = 0; $i < count($images); $i++) {
 
 $dir_arr = explode('/', $previous_element);
 
-if (count($images)>1) {
-  if (count($dir_arr)==0) {
-    $tl->addTile(new \OC\Pictures\TileSingle($previous_element));
-  } else if (count($dir_arr) && $ts->getCount() == 0){
+if (count($images)>1 && count($dir_arr) > 1) {
+  if (count($dir_arr) && $ts->getCount() == 0){
       $ts = new \OC\Pictures\TileStack(array($root.$previous_element), $dir_arr[0]);
   } else {
     $arr[] = $previous_element;
