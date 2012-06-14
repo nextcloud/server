@@ -84,7 +84,8 @@
 			}
 
 			title = selectedOpts.title || (obj.nodeName ? $(obj).attr('title') : obj.title) || '';
-
+			title = title.replace(/</, "&lt;").replace(/>/, "&gt;");
+			
 			if (obj.nodeName && !selectedOpts.orig) {
 				selectedOpts.orig = $(obj).children("img:first").length ? $(obj).children("img:first") : $(obj);
 			}

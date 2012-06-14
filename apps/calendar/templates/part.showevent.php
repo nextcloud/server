@@ -19,26 +19,23 @@
 			<th width="75px"><?php echo $l->t("Category");?>:</th>
 			<td>
 				<?php
-				if(count($_['categories']) == 0){
+				if(count($_['categories']) == 0 || $_['categories'] == ''){
 					echo $l->t('No categories selected');
 				}else{
-					echo '<select id="category" name="categories[]" multiple="multiple" title="' .  $l->t("Select category") . '">';
-					echo OCP\html_select_options($_['categories'], $_['categories'], array('combine'=>true));
-					echo '</select>';
+					echo '<ul>';
+					foreach($_['categories'] as $categorie){
+						echo '<li>' . $categorie . '</li>';
+					}
+					echo '</ul>';
 				}
 				?>
 			</td>
 			<th width="75px">&nbsp;&nbsp;&nbsp;<?php echo $l->t("Calendar");?>:</th>
 			<td>
-				<select name="calendar" disabled="disabled">
-					<option>
-					<?php
-					$calendar = OC_Calendar_App::getCalendar($_['calendar']);
-					echo $calendar['displayname'] . ' ' . $l->t('of') . ' ' . $calendar['userid'];
-					?>
-					</option>
-					
-				</select>
+			<?php
+			$calendar = OC_Calendar_App::getCalendar($_['calendar'], false, false);
+			echo $calendar['displayname'] . ' ' . $l->t('of') . ' ' . $calendar['userid'];
+			?>
 			</td>
 			<th width="75px">&nbsp;</th>
 			<td>
