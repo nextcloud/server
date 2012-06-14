@@ -495,7 +495,7 @@ class OC_Share {
 		$result = $query->execute(array($gid))->fetchAll();
 		if (count($result) > 0) {
 			$lastSource = '';
-			for ($i = 0; i < count($result); $i++) {
+			for ($i = 0; $i < count($result); $i++) {
 				if ($result[$i]['source'] != $lastSource) {
 					new OC_Share($result[$i]['source'], $arguments['gid'], $result[$i]['permissions']);
 					$lastSource = $result[$i]['source'];
