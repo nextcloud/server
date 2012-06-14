@@ -11,11 +11,11 @@ OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
 
 // Create default calendar ...
-$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);
-if( count($calendars) == 0){
-	OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(),'Default calendar');
-	$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);
-}
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), true);
+// if( count($calendars) == 0){
+// 	OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(),'Default calendar');
+// 	$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), true);
+// }
 
 $eventSources = array();
 foreach($calendars as $calendar){
