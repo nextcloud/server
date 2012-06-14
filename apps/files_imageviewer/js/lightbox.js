@@ -22,7 +22,6 @@ function viewImage(dir, file) {
 	if(file.indexOf('.psd')>0){//can't view those
 		return;
 	}
-	console.log("!!!!!!!!! lightbox");
 	var location=OC.filePath('files','ajax','download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
 	$.fancybox({
 		"href": location,
