@@ -276,7 +276,7 @@ class OC_Share {
 		$userDirectory = substr($target, 0, strpos($target, "files") + 5);
 		$target = dirname($target);
 		$result = array();
-		while ($target != "" && $target != "/" && $target != "." && $target != $userDirectory) {
+		while ($target != "" && $target != "/" && $target != "." && $target != $userDirectory && $target != "\\") {
 			// Check if the parent directory of this target location is shared
 			$result = $query->execute(array($target))->fetchAll();
 			if (count($result) > 0) {
