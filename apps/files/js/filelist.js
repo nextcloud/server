@@ -276,6 +276,7 @@ var FileList={
 			$.ajax({
 				url: OC.filePath('files', 'ajax', 'delete.php'),
 				async:!sync,
+				type:'post',
 				data: {dir:$('#dir').val(),files:fileNames},
 				complete: function(data){
 					boolOperationFinished(data, function(){
