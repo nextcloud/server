@@ -19,14 +19,6 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-// Init owncloud
- 
-
-// Check if we are a user
-// Firefox and Konqueror tries to download application/json for me.  --Arthur
-OCP\JSON::setContentTypeHeader('text/plain');
-OCP\JSON::checkLoggedIn();
-OCP\JSON::checkAppEnabled('contacts');
 function bailOut($msg) {
 	OCP\JSON::error(array('data' => array('message' => $msg)));
 	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: '.$msg, OCP\Util::DEBUG);
@@ -35,6 +27,16 @@ function bailOut($msg) {
 function debug($msg) {
 	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: '.$msg, OCP\Util::DEBUG);
 }
+OCP\JSON::setContentTypeHeader('text/plain');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('contacts');
+foreach($_POST as $key=>$value) {
+	debug('POST: '.$key.'=>'.$value);
+}
+foreach($_GET as $key=>$value) {
+	debug('GET: '.$key.'=>'.$value);
+}
+OCP\JSON::callCheck();
 
 // If it is a Drag'n'Drop transfer it's handled here.
 $fn = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);

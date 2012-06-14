@@ -1,6 +1,7 @@
 <?php 
 $id = $_['id'];
 $tmp_path = $_['tmp_path'];
+$requesttoken = $_['requesttoken'];
 OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OCP\Util::DEBUG);
 ?>
 <script language="Javascript">
@@ -47,6 +48,7 @@ OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmp_path: '.$tmp_pa
 	action="<?php echo OCP\Util::linkToAbsolute('contacts', 'ajax/savecrop.php'); ?>">
 
 	<input type="hidden" id="id" name="id" value="<?php echo $id; ?>" />
+	<input type="hidden" id="requesttoken" name="requesttoken" value="<?php echo $requesttoken; ?>" />
 	<input type="hidden" id="tmp_path" name="tmp_path" value="<?php echo $tmp_path; ?>" />
 	<fieldset id="coords">
 	<input type="hidden" id="x1" name="x1" value="" />

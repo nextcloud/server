@@ -31,6 +31,7 @@ function bailOut($msg) {
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+OCP\JSON::callCheck();
 
 $id = isset($_POST['id'])?$_POST['id']:null;
 if(!$id) {

@@ -27,17 +27,11 @@ function bailOut($msg) {
 	OCP\Util::writeLog('contacts','ajax/addcontact.php: '.$msg, OCP\Util::DEBUG);
 	exit();
 }
-function debug($msg) {
-	OCP\Util::writeLog('contacts','ajax/addcontact.php: '.$msg, OCP\Util::DEBUG);
-}
 
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
-
-foreach ($_POST as $key=>$element) {
-	debug('_POST: '.$key.'=>'.$element);
-}
+OCP\JSON::callCheck();
 
 $aid = isset($_POST['aid'])?$_POST['aid']:null;
 if(!$aid) {

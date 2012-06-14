@@ -27,12 +27,14 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
-$tmp_path = $_GET['tmp_path'];
+$tmp_path = strip_tags($_GET['tmp_path']);
+$requesttoken = strip_tags($_GET['requesttoken']);
 $id = $_GET['id'];
 OCP\Util::writeLog('contacts','ajax/cropphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OCP\Util::DEBUG);
 $tmpl = new OCP\Template("contacts", "part.cropphoto");
 $tmpl->assign('tmp_path', $tmp_path);
 $tmpl->assign('id', $id);
+$tmpl->assign('requesttoken', $requesttoken);
 $page = $tmpl->fetchPage();
 
 OCP\JSON::success(array('data' => array( 'page' => $page )));

@@ -4,6 +4,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 <div id="card">
 	<form class="float" id="file_upload_form" action="<?php echo OCP\Util::linkTo('contacts', 'ajax/uploadphoto.php'); ?>" method="post" enctype="multipart/form-data" target="file_upload_target">
 		<input type="hidden" name="id" value="<?php echo $_['id'] ?>">
+		<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken'] ?>">
 		<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
 		<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 		<input id="file_upload_start" type="file" accept="image/*" name="imagefile" />
