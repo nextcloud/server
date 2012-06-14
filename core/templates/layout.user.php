@@ -32,7 +32,7 @@
 		<?php endforeach; ?>
 		<script type="text/javascript">
 			$(function() {
-				var requesttoken = '<?php echo $_['requesttoken']; ?>';
+				requesttoken = '<?php echo $_['requesttoken']; ?>';
 				$(document).bind('ajaxSend', function(elm, xhr, s){
 					if(requesttoken) {
 						xhr.setRequestHeader('requesttoken', requesttoken);
