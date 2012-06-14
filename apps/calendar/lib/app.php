@@ -50,10 +50,7 @@ class OC_Calendar_App{
 				return false;
 			}
 		}
-		if($calendar === false){
-			return false;
-		}
-		return OC_Calendar_Calendar::find($id);
+		return $calendar;
 	}
 	
 	/*
