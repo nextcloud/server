@@ -134,47 +134,32 @@ class TileStack extends TileBase {
 
 	public function getWidth() {
 		$max = 0;
-		if(count($this->tiles_array) == 0) {
-			$max = IMAGE_WIDTH;
-		} else {
-			for ($i = 0; $i < count($this->tiles_array); $i++) {
-				$max = max($max, $this->tiles_array[$i]->getWidth());
-			}
+		for ($i = 0; $i < count($this->tiles_array); $i++) {
+			$max = max($max, $this->tiles_array[$i]->getWidth());
 		}
 		return min(IMAGE_WIDTH, $max);
 	}
 
 	public function get() {
 		$r = '<div class="title gallery_div">'.$this->stack_name.'</div>';
-		if(count($this->tiles_array) == 0) {
-			// aint no pictures in this folder...
-			$r.='<div class="miniature_border gallery_div"></div>';
-		} else {
-			for ($i = 0; $i < count($this->tiles_array); $i++) {
-				$top = rand(-5, 5);
-				$left = rand(-5, 5);
-				$img_w = $this->tiles_array[$i]->getWidth();
-				$extra = '';
-				if ($img_w < IMAGE_WIDTH) {
-					$extra = 'width:'.$img_w.'px;';
-				}
-				$r .= '<div class="miniature_border gallery_div" style="background-image:url(\''.$this->tiles_array[$i]->getMiniatureSrc().'\');margin-top:'.$top.'px; margin-left:'.$left.'px;'.$extra.'"></div>';
+		for ($i = 0; $i < count($this->tiles_array); $i++) {
+			$top = rand(-5, 5);
+			$left = rand(-5, 5);
+			$img_w = $this->tiles_array[$i]->getWidth();
+			$extra = '';
+			if ($img_w < IMAGE_WIDTH) {
+				$extra = 'width:'.$img_w.'px;';
 			}
+			$r .= '<div class="miniature_border gallery_div" style="background-image:url(\''.$this->tiles_array[$i]->getMiniatureSrc().'\');margin-top:'.$top.'px; margin-left:'.$left.'px;'.$extra.'"></div>';
 		}
 		return $r;
 	}
 
 	public function getOnHoverAction() {
-		if(count($this->tiles_array) == 0) {
-			return 'javascript:explode_empty(this);return false;';
-		}
 		return 'javascript:explode(this);return false;';
 	}
 	
 	public function getOnOutAction() {
-		if(count($this->tiles_array) == 0) {
-			return 'javascript:deplode_empty(this);return false;';
-		}
 		return 'javascript:deplode(this);return false;';
 	}
 
