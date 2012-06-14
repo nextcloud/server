@@ -86,11 +86,11 @@ $CONFIG = array(
 /* Loglevel to start logging at. 0=DEBUG, 1=INFO, 2=WARN, 3=ERROR (default is WARN) */
 "loglevel" => "",
 
-/* Set this to false to disable the check for writable apps dir.
- * If the apps dir is not writable, you can't download&install extra apps
- * in the admin apps menu.
+/* The directory where the user data is stored, default to data in the owncloud
+ * directory. The sqlite database is also stored here, when sqlite is used.
  */
 // "datadirectory" => "",
+
 "apps_paths" => array(
 
 /* Set an array of path for your apps directories
@@ -103,9 +103,5 @@ $CONFIG = array(
 		'writable' => true,
   ),
  ),
-
-/* The directory where the user data is stored, default to data in the owncloud
- * directory. The sqlite database is also stored here, when sqlite is used.
- */
 );
-?>
+
