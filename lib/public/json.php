@@ -53,6 +53,13 @@ class JSON {
 		return(\OC_JSON::checkLoggedIn());
 	}
 
+	/**
+	 * @brief Check an ajax get/post call if the request token is valid.
+	 * @return json Error msg if not valid.
+	 */
+	public static function callCheck(){
+		return(\OC_JSON::callCheck());
+	}
 
 	/**
 	* @brief Send json success msg
