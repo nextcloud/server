@@ -109,8 +109,11 @@ for($i = 0; $i < count($images); $i++) {
 		}
 		if (count($dir_arr) == 2) { // These are the pics in our current subdir
 			$second_level_images[] = $root.$images[$i];
+			$fallback_images = array();
 		} else { // These are images from the deeper directories
-			$fallback_images[] = $root.$images[$i];
+			if(count($second_level_images) == 0) {
+				$fallback_images[] = $root.$images[$i];
+			}
 		}
 		// have us a little something to compare against
 		$previous_element = $images[$i];
