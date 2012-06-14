@@ -7,7 +7,7 @@
  */
  
 $user = OCP\USER::getUser();
-$calid = $_GET['calid'];
+$calid = $_POST['calid'];
 $calendar = OC_Calendar_Calendar::find($calid);
 if($calendar['userid'] != $user){
 	OCP\JSON::error();

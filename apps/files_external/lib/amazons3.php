@@ -20,7 +20,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once 'aws-sdk-1.5.5/sdk.class.php';
+require_once 'aws-sdk/sdk.class.php';
 
 class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 

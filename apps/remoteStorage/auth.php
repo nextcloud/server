@@ -25,6 +25,7 @@
 *
 */
 
+header("X-Frame-Options: Sameorigin");
 
 // Do not load FS ...
 $RUNTIME_NOSETUPFS = true;
@@ -43,9 +44,9 @@ foreach($_GET as $k => $v) {
     $userId=$v;
   } else if($k=='redirect_uri'){
     $appUrlParts=explode('/', $v);
-    $appUrl = $appUrlParts[2];//bit dodgy i guess
+    $appUrl = htmlentities($appUrlParts[2]);//TODO: check if this is equal to client_id
   } else if($k=='scope'){
-    $categories=$v;
+    $categories=htmlentities($v);
   }
 }
 $currUser = OCP\USER::getUser();
@@ -112,7 +113,7 @@ if($userId && $appUrl && $categories) {
 		}//end 'need to click Allow still'
 	} else {//login not ok
 		if($currUser) {
-			die('You are logged in as '.$currUser.' instead of '.$userId);
+			die('You are logged in as '.$currUser.' instead of '.htmlentities($userId));
 		} else {
 			header('Location: /?redirect_url='.urlencode('/apps/remoteStorage/auth.php'.$_SERVER['PATH_INFO'].'?'.$_SERVER['QUERY_STRING']));
 		}

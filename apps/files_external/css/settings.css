@@ -1,6 +1,5 @@
 .error { color: #FF3B3B; }
-td.type { width:8em; }
-td.mount, td.options, td.applicable { width:10em; }
-#addStorage>td { border:none; }
-#addStorage>td:not(.selectStorage) { visibility:hidden; }
-#selectStorage { margin-left:-10px; }
+td.mountPoint, td.backend { width:10em; }
+#addMountPoint>td { border:none; }
+#addMountPoint>td.applicable { visibility:hidden; }
+#selectBackend { margin-left:-10px; }

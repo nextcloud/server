@@ -191,7 +191,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	}
 
 	private function stripPath($path){
-		if(substr($path,0,1)=='/'){
+		if(!$path || $path[0]=='/'){
 			return substr($path,1);
 		}else{
 			return $path;

@@ -34,29 +34,21 @@
 				});
 				</script>
 				<div id="controls">
-					<div>
-						<form>
-							<div id="view">
-								<input type="button" value="<?php echo $l->t('Week');?>" id="oneweekview_radio"/>
-								<input type="button" value="<?php echo $l->t('Month');?>" id="onemonthview_radio"/>
-								<input type="button" value="<?php echo $l->t('List');?>" id="listview_radio"/>&nbsp;&nbsp;
-								<img id="loading" src="<?php echo OCP\Util::imagePath('core', 'loading.gif'); ?>" />
-							</div>
-						</form>
-						<form>
-							<div id="choosecalendar">
-								<input type="button" id="today_input" value="<?php echo $l->t("Today");?>"/>
-								<input type="button" id="choosecalendar_input" value="<?php echo $l->t("Calendars");?>" onclick="Calendar.UI.Calendar.overview();" />
-							</div>
-						</form>
-						<form>
-							<div id="datecontrol">
-								<input type="button" value="&nbsp;&lt;&nbsp;" id="datecontrol_left"/>
-								<span class="button" id="datecontrol_date"></span>
-								<input type="button" value="&nbsp;&gt;&nbsp;" id="datecontrol_right"/>
-							</div>
-						</form>
-					</div>
+					<form id="view">
+						<input type="button" value="<?php echo $l->t('Week');?>" id="oneweekview_radio"/>
+						<input type="button" value="<?php echo $l->t('Month');?>" id="onemonthview_radio"/>
+						<input type="button" value="<?php echo $l->t('List');?>" id="listview_radio"/>&nbsp;&nbsp;
+						<img id="loading" src="<?php echo OCP\Util::imagePath('core', 'loading.gif'); ?>" />
+					</form>
+					<form id="choosecalendar">
+						<input type="button" id="today_input" value="<?php echo $l->t("Today");?>"/>
+						<input type="button" id="choosecalendar_input" value="<?php echo $l->t("Calendars");?>" onclick="Calendar.UI.Calendar.overview();" />
+					</form>
+					<form id="datecontrol">
+						<input type="button" value="&nbsp;&lt;&nbsp;" id="datecontrol_left"/>
+						<input type="button" value="" id="datecontrol_date"/>
+						<input type="button" value="&nbsp;&gt;&nbsp;" id="datecontrol_right"/>
+					</form>
 				</div>
 				<div id="notification" style="display:none;"></div>
 				<div id="calendar_holder">

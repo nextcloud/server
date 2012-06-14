@@ -39,7 +39,7 @@ if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 	$_ut = "UNIX_TIMESTAMP()";
 }
 
-$bookmark_id = (int)$_GET["id"];
+$bookmark_id = (int)$_POST["id"];
 
 $query = OCP\DB::prepare("
 	UPDATE *PREFIX*bookmarks
@@ -48,8 +48,8 @@ $query = OCP\DB::prepare("
 	");
 
 $params=array(
-	htmlspecialchars_decode($_GET["url"]),
-	htmlspecialchars_decode($_GET["title"]),
+	htmlspecialchars_decode($_POST["url"]),
+	htmlspecialchars_decode($_POST["title"]),
 	);
 $query->execute($params);
 
@@ -67,7 +67,7 @@ $query = OCP\DB::prepare("
 	VALUES (?, ?)
 	");
 	
-$tags = explode(' ', urldecode($_GET["tags"]));
+$tags = explode(' ', urldecode($_POST["tags"]));
 foreach ($tags as $tag) {
 	if(empty($tag)) {
 		//avoid saving blankspaces

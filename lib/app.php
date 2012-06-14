@@ -67,6 +67,11 @@ class OC_App{
 				OC_Util::$scripts = array();
 				OC_Util::$core_styles = OC_Util::$styles;
 				OC_Util::$styles = array();
+
+				if (!OC_AppConfig::getValue('core', 'remote_core.css', false)) {
+					OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
+					OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
+				}
 			}
 		}
 		// return
@@ -510,7 +515,7 @@ class OC_App{
 		foreach(OC::$APPSROOTS as $apps_dir) {
 			$dh=opendir($apps_dir['path']);
 			while($file=readdir($dh)){
-				if(substr($file,0,1)!='.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')){
+				if($file[0]!='.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')){
 					$apps[]=$file;
 				}
 			}

@@ -16,9 +16,9 @@ $nl="\r\n";
 $comps = array('VEVENT'=>true, 'VTODO'=>true, 'VJOURNAL'=>true);
 
 global $progresskey;
-$progresskey = 'calendar.import-' . $_GET['progresskey'];
+$progresskey = 'calendar.import-' . $_POST['progresskey'];
 
-if (isset($_GET['progress']) && $_GET['progress']) {
+if (isset($_POST['progress']) && $_POST['progress']) {
 	echo OC_Cache::get($progresskey);
 	die;
 }

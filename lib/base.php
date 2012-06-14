@@ -120,7 +120,7 @@ class OC{
 		// calculate the documentroot
 		$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
 		OC::$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
-		OC::$SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen(OC::$SERVERROOT));
+		OC::$SUBURI= str_replace("\\","/",substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen(OC::$SERVERROOT)));
 		$scriptName=$_SERVER["SCRIPT_NAME"];
 		if(substr($scriptName,-1)=='/'){
 			$scriptName.='index.php';
@@ -428,15 +428,8 @@ class OC{
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
 
-		if (OC_Config::getValue('installed', false)) {
-			if (!OC_AppConfig::getValue('core', 'remote_core.css', false)) {
-				OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
-				OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
-			}
-		}
-
 		//parse the given parameters
-		self::$REQUESTEDAPP = (isset($_GET['app'])?str_replace(array('\0', '/', '\\', '..'), '', strip_tags($_GET['app'])):OC_Config::getValue('defaultapp', 'files'));
+		self::$REQUESTEDAPP = (isset($_GET['app']) && trim($_GET['app']) != '' && !is_null($_GET['app'])?str_replace(array('\0', '/', '\\', '..'), '', strip_tags($_GET['app'])):OC_Config::getValue('defaultapp', 'files'));
 		if(substr_count(self::$REQUESTEDAPP, '?') != 0){
 			$app = substr(self::$REQUESTEDAPP, 0, strpos(self::$REQUESTEDAPP, '?'));
 			$param = substr(self::$REQUESTEDAPP, strpos(self::$REQUESTEDAPP, '?') + 1);

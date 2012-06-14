@@ -310,8 +310,11 @@ OC.Tasks = {
 };
 
 $(document).ready(function(){
-	fillHeight($('#tasks_lists'));
-	fillWindow($('#tasks_list'));
+	$(window).resize(function () {
+		fillHeight($('#tasks_lists'));
+		fillWindow($('#tasks_list'));
+	});
+	$(window).trigger('resize');
 
 	/*-------------------------------------------------------------------------
 	 * Actions for startup
@@ -440,7 +443,7 @@ $(document).ready(function(){
 
 	$('#tasks_delete').live('click',function(){
 		var id = $('#task_details').data('id');
-		$.getJSON('ajax/delete.php',{'id':id},function(jsondata){
+		$.post('ajax/delete.php',{'id':id},function(jsondata){
 			if(jsondata.status == 'success'){
 				$('#tasks [data-id="'+jsondata.data.id+'"]').remove();
 				$('#task_details').data('id','');
@@ -455,7 +458,7 @@ $(document).ready(function(){
 
 	$('#tasks_addtask').click(function(){
 		var input = $('#tasks_newtask').val();
-		$.getJSON(OC.filePath('tasks', 'ajax', 'addtask.php'),{text:input},function(jsondata){
+		$.post(OC.filePath('tasks', 'ajax', 'addtask.php'),{text:input},function(jsondata){
 			if(jsondata.status == 'success'){
 				$('#tasks_list').append(OC.Tasks.create_task_div(jsondata.task));
 			}

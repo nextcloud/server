@@ -90,12 +90,12 @@ class OC_Helper {
 	}
 
 
-        /**
-         * @brief Returns the server protocol
-         * @returns the server protocol
-         *
-         * Returns the server protocol. It respects reverse proxy servers and load balancers
-         */
+	/**
+	* @brief Returns the server protocol
+	* @returns the server protocol
+	*
+	* Returns the server protocol. It respects reverse proxy servers and load balancers
+	*/
 	public static function serverProtocol() {
 		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
 			$proto = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);
@@ -132,7 +132,7 @@ class OC_Helper {
 	 * Returns a absolute url to the given service.
 	 */
 	public static function linkToRemote( $service, $add_slash = true ) {
-		return self::linkToAbsolute( '', 'remote.php') . '/' . $service . ($add_slash?'/':'');
+		return self::linkToAbsolute( '', 'remote.php') . '/' . $service . (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
 	}
 
 	/**
@@ -143,7 +143,7 @@ class OC_Helper {
 	 *
 	 * Returns the path to the image.
 	 */
-        public static function imagePath( $app, $image ){
+	public static function imagePath( $app, $image ){
 		// Read the selected theme from the config file
 		$theme=OC_Config::getValue( "theme" );
 
@@ -551,35 +551,35 @@ class OC_Helper {
 		}
 	}
 
-    /**
-     * Adds a suffix to the name in case the file exists
-     *
-     * @param $path
-     * @param $filename
-     * @return string
-     */
-    public static function buildNotExistingFileName($path, $filename){
-	    if($path==='/'){
-		    $path='';
-	    }
-        if ($pos = strrpos($filename, '.')) {
-            $name = substr($filename, 0, $pos);
-            $ext = substr($filename, $pos);
-        } else {
-            $name = $filename;
-        }
+	/**
+	* Adds a suffix to the name in case the file exists
+	*
+	* @param $path
+	* @param $filename
+	* @return string
+	*/
+	public static function buildNotExistingFileName($path, $filename){
+		if($path==='/'){
+			$path='';
+		}
+		if ($pos = strrpos($filename, '.')) {
+			$name = substr($filename, 0, $pos);
+			$ext = substr($filename, $pos);
+		} else {
+			$name = $filename;
+		}
 
-        $newpath = $path . '/' . $filename;
-        $newname = $filename;
-        $counter = 2;
-        while (OC_Filesystem::file_exists($newpath)) {
-            $newname = $name . ' (' . $counter . ')' . $ext;
-            $newpath = $path . '/' . $newname;
-            $counter++;
-        }
+		$newpath = $path . '/' . $filename;
+		$newname = $filename;
+		$counter = 2;
+		while (OC_Filesystem::file_exists($newpath)) {
+			$newname = $name . ' (' . $counter . ')' . $ext;
+			$newpath = $path . '/' . $newname;
+			$counter++;
+		}
 
-        return $newpath;
-    }
+		return $newpath;
+	}
 	
 	/*
 	 * checks if $sub is a subdirectory of $parent

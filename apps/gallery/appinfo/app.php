@@ -26,6 +26,8 @@ OC::$CLASSPATH['OC_Gallery_Photo'] = 'apps/gallery/lib/photo.php';
 OC::$CLASSPATH['OC_Gallery_Scanner'] = 'apps/gallery/lib/scanner.php';
 OC::$CLASSPATH['OC_Gallery_Sharing'] = 'apps/gallery/lib/sharing.php';
 OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'apps/gallery/lib/hooks_handlers.php';
+OC::$CLASSPATH['Pictures_Managers'] = 'apps/gallery/lib/managers.php';
+OC::$CLASSPATH['Pictures_Tiles'] = 'apps/gallery/lib/tiles.php';
 
 $l = OC_L10N::get('gallery');
 
@@ -48,6 +50,6 @@ class OC_GallerySearchProvider extends OC_Search_Provider{
 	}
 }
 
-OC_Search::registerProvider('OC_GallerySearchProvider');
+//OC_Search::registerProvider('OC_GallerySearchProvider');
 
 require_once('apps/gallery/lib/hooks_handlers.php');

@@ -110,7 +110,7 @@ class OC_Installer{
 			//try to find it in a subdir
 			$dh=opendir($extractDir);
 			while($folder=readdir($dh)){
-				if(substr($folder,0,1)!='.' and is_dir($extractDir.'/'.$folder)){
+				if($folder[0]!='.' and is_dir($extractDir.'/'.$folder)){
 					if(is_file($extractDir.'/'.$folder.'/appinfo/info.xml')){
 						$extractDir.='/'.$folder;
 					}

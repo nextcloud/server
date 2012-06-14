@@ -63,7 +63,8 @@ usort($apps, 'app_sort');
  $catagoryNames=OC_OCSClient::getCategories();
  if(is_array($catagoryNames)){
  	$categories=array_keys($catagoryNames);
- 	$externalApps=OC_OCSClient::getApplications($categories);
+	$page=0;
+ 	$externalApps=OC_OCSClient::getApplications($categories,$page);
  	foreach($externalApps as $app){
 		// show only external apps that are not exist yet
 		$local=false;
@@ -91,7 +92,7 @@ usort($apps, 'app_sort');
 
 
 $tmpl = new OC_Template( "settings", "apps", "user" );
-$tmpl->assign('apps',$apps);
+$tmpl->assign('apps',$apps, false);
 
 $tmpl->printPage();
 

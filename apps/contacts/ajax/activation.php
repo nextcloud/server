@@ -10,6 +10,7 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+OCP\JSON::callCheck();
 
 $bookid = $_POST['bookid'];
 $book = OC_Contacts_App::getAddressbook($bookid);// is owner access check

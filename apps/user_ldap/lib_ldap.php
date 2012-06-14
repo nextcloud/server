@@ -576,7 +576,7 @@ class OC_LDAP {
 	static private function combineFilter($filters, $operator) {
 		$combinedFilter = '('.$operator;
 		foreach($filters as $filter) {
-		    if(substr($filter,0,1) != '(') {
+		    if($filter[0] != '(') {
 				$filter = '('.$filter.')';
 		    }
 		    $combinedFilter.=$filter;

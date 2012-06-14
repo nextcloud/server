@@ -145,15 +145,15 @@ class Util {
 	}
 
 
-        /**
-         * @brief Creates an url
-         * @param $app app
-         * @param $file file
-         * @returns the url
-         *
-         * Returns a url to the given app and file.
-         */
-        public static function linkTo( $app, $file ){
+	/**
+	* @brief Creates an url
+	* @param $app app
+	* @param $file file
+	* @returns the url
+	*
+	* Returns a url to the given app and file.
+	*/
+	public static function linkTo( $app, $file ){
 		return(\OC_Helper::linkTo( $app, $file ));
 	}
 
@@ -248,6 +248,22 @@ class Util {
 	}
 
 
+	/**
+ 	 * Register an get/post call. This is important to prevent CSRF attacks
+	 * TODO: write example
+	 */
+	public static function callRegister(){
+		return(\OC_Util::callRegister());
+	}
+
+
+	/**
+	 * Check an ajax get/post call if the request token is valid. exit if not.
+	 * Todo: Write howto
+	 */
+	public static function callCheck(){
+		return(\OC_Util::callCheck());
+	}
 }
 
 ?>

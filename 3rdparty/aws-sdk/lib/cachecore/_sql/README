@@ -1,0 +1,5 @@
+The .sql files in this directory contain the code to create the tables for database caching.
+
+If you're not using database caching, you can safely ignore these.
+
+If you ARE using database caching, simply load the correct *.sql file into your database to set up the required tables.

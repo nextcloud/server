@@ -47,7 +47,7 @@ function loadTests($dir=''){
 	}
 	if($dh=opendir($dir)){
 		while($name=readdir($dh)){
-			if(substr($name,0,1)!='.'){//no hidden files, '.' or '..'
+			if($name[0]!='.'){//no hidden files, '.' or '..'
 				$file=$dir.'/'.$name;
 				if(is_dir($file)){
 					loadTests($file);

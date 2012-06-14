@@ -368,7 +368,7 @@ Contacts={
 				$('#contacts_deletecard').tipsy('hide');
 				OC.dialogs.confirm(t('contacts', 'Are you sure you want to delete this contact?'), t('contacts', 'Warning'), function(answer) {
 					if(answer == true) {
-						$.getJSON(OC.filePath('contacts', 'ajax', 'deletecard.php'),{'id':Contacts.UI.Card.id},function(jsondata){
+						$.post(OC.filePath('contacts', 'ajax', 'deletecard.php'),{'id':Contacts.UI.Card.id},function(jsondata){
 							if(jsondata.status == 'success'){
 								var newid = '';
 								var curlistitem = $('#leftcontent [data-id="'+jsondata.data.id+'"]');
@@ -622,7 +622,7 @@ Contacts={
 				q = q + '&id=' + this.id + '&name=' + name;
 				if(checksum != undefined && checksum != '') { // save
 					q = q + '&checksum=' + checksum;
-					//console.log('Saving: ' + q);
+					console.log('Saving: ' + q);
 					$(obj).attr('disabled', 'disabled');
 					$.post(OC.filePath('contacts', 'ajax', 'saveproperty.php'),q,function(jsondata){
 						if(jsondata.status == 'success'){
@@ -640,7 +640,7 @@ Contacts={
 						}
 					},'json');
 				} else { // add
-					//console.log('Adding: ' + q);
+					console.log('Adding: ' + q);
 					$(obj).attr('disabled', 'disabled');
 					$.post(OC.filePath('contacts', 'ajax', 'addproperty.php'),q,function(jsondata){
 						if(jsondata.status == 'success'){
@@ -707,7 +707,7 @@ Contacts={
 				Contacts.UI.loading(obj, true);
 				var checksum = Contacts.UI.checksumFor(obj);
 				if(checksum) {
-					$.getJSON(OC.filePath('contacts', 'ajax', 'deleteproperty.php'),{'id': this.id, 'checksum': checksum },function(jsondata){
+					$.post(OC.filePath('contacts', 'ajax', 'deleteproperty.php'),{'id': this.id, 'checksum': checksum },function(jsondata){
 						if(jsondata.status == 'success'){
 							if(type == 'list') {
 								Contacts.UI.propertyContainerFor(obj).remove();
@@ -839,22 +839,22 @@ Contacts={
 					$('#addressdisplay dl').last().data('checksum', this.data.ADR[adr]['checksum']);
 					var adrarray = this.data.ADR[adr]['value'];
 					var adrtxt = '';
-					if(adrarray[0].length > 0) {
+					if(adrarray[0] && adrarray[0].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[0].strip_tags() + '</li>';
 					}
-					if(adrarray[1].length > 0) {
+					if(adrarray[1] && adrarray[1].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[1].strip_tags() + '</li>';
 					}
-					if(adrarray[2].length > 0) {
+					if(adrarray[2] && adrarray[2].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[2].strip_tags() + '</li>';
 					}
-					if(adrarray[3].length > 0 || adrarray[5].length > 0) {
+					if((adrarray[3] && adrarray[5]) && adrarray[3].length > 0 || adrarray[5].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[5].strip_tags() + ' ' + adrarray[3].strip_tags() + '</li>';
 					}
-					if(adrarray[4].length > 0) {
+					if(adrarray[4] && adrarray[4].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[4].strip_tags() + '</li>';
 					}
-					if(adrarray[6].length > 0) {
+					if(adrarray[6] && adrarray[6].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[6].strip_tags() + '</li>';
 					}
 					$('#addressdisplay dl').last().find('.addresslist').html(adrtxt);
@@ -1152,7 +1152,7 @@ Contacts={
 			},
 			editPhoto:function(id, tmpkey){
 				//alert('editPhoto: ' + tmpkey);
-				$.getJSON(OC.filePath('contacts', 'ajax', 'cropphoto.php'),{'tmpkey':tmpkey,'id':this.id},function(jsondata){
+				$.getJSON(OC.filePath('contacts', 'ajax', 'cropphoto.php'),{'tmpkey':tmpkey,'id':this.id, 'requesttoken':requesttoken},function(jsondata){
 					if(jsondata.status == 'success'){
 						//alert(jsondata.data.page);
 						$('#edit_photo_dialog_img').html(jsondata.data.page);
@@ -1645,7 +1645,7 @@ $(document).ready(function(){
 				//}
 			}
 		};
-		xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadphoto.php')+'?id='+Contacts.UI.Card.id+'&imagefile='+encodeURIComponent(file.name), true);
+		xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadphoto.php')+'?id='+Contacts.UI.Card.id+'&requesttoken='+requesttoken+'&imagefile='+encodeURIComponent(file.name), true);
 		xhr.setRequestHeader('Cache-Control', 'no-cache');
 		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 		xhr.setRequestHeader('X_FILE_NAME', encodeURIComponent(file.name));

@@ -72,6 +72,15 @@ class OC_Util {
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
 			self::$fsSetup=true;
+			// Load personal mount config
+			if (is_file($CONFIG_DATADIRECTORY_ROOT.'/'.$user.'/mount.php')) {
+				$mountConfig = include($CONFIG_DATADIRECTORY_ROOT.'/'.$user.'/mount.php');
+				if (isset($mountConfig['user'][$user])) {
+					foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
+						OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
+					}
+				}
+			}
 		}
 	}
 
@@ -85,7 +94,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(4,80,0);
+		return array(4,80,1);
 	}
 
 	/**
@@ -325,7 +334,8 @@ class OC_Util {
 	* Redirect to the user default page
 	*/
 	public static function redirectToDefaultPage(){
-		if(isset($_REQUEST['redirect_url']) && substr($_REQUEST['redirect_url'], 0, strlen(OC::$WEBROOT)) == OC::$WEBROOT) {
+		OC_Log::write('core','redirectToDefaultPage',OC_Log::DEBUG);
+		if(isset($_REQUEST['redirect_url']) && (substr($_REQUEST['redirect_url'], 0, strlen(OC::$WEBROOT)) == OC::$WEBROOT || $_REQUEST['redirect_url'][0] == '/')) {
 			header( 'Location: '.$_REQUEST['redirect_url']);
 		} else {
 			header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', '?app=files'));
@@ -344,5 +354,78 @@ class OC_Util {
 			OC_Config::setValue('instanceid',$id);
 		}
 		return $id;
+	}
+
+	/**
+	 * @brief Register an get/post call. This is important to prevent CSRF attacks
+	 * Todo: Write howto
+	 * @return $token Generated token.
+	 */
+	public static function callRegister(){
+		//mamimum time before token exires
+		$maxtime=(60*60);  // 1 hour
+
+		// generate a random token.
+		$token=mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000);
+
+		// store the token together with a timestamp in the session.
+		$_SESSION['requesttoken-'.$token]=time();
+
+		// cleanup old tokens garbage collector
+		// only run every 20th time so we don´t waste cpu cycles
+		if(rand(0,20)==0) {  
+			foreach($_SESSION as $key=>$value) {
+				// search all tokens in the session
+				if(substr($key,0,12)=='requesttoken') {
+					if($value+$maxtime<time()){
+						// remove outdated tokens
+						unset($_SESSION[$key]);						
+					}
+				}	
+			}
+		}
+		// return the token
+		return($token);
+	}
+
+
+	/**
+	 * @brief Check an ajax get/post call if the request token is valid.
+	 * @return boolean False if request token is not set or is invalid.
+	 */
+	public static function isCallRegistered(){
+		//mamimum time before token exires
+		$maxtime=(60*60);  // 1 hour
+		if(isset($_GET['requesttoken'])) {
+			$token=$_GET['requesttoken'];
+		}elseif(isset($_POST['requesttoken'])){
+			$token=$_POST['requesttoken'];
+		}elseif(isset($_SERVER['HTTP_REQUESTTOKEN'])){
+			$token=$_SERVER['HTTP_REQUESTTOKEN'];
+		}else{
+			//no token found.
+			return false;
+		}
+		if(isset($_SESSION['requesttoken-'.$token])) {
+			$timestamp=$_SESSION['requesttoken-'.$token];
+			if($timestamp+$maxtime<time()){
+				return false;
+			}else{
+				//token valid
+				return true;
+			}
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * @brief Check an ajax get/post call if the request token is valid. exit if not.
+	 * Todo: Write howto
+	 */
+	public static function callCheck(){
+		if(!OC_Util::isCallRegistered()) {
+			exit;
+		}
 	}
 }

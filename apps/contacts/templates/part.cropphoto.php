@@ -1,6 +1,7 @@
 <?php 
 $id = $_['id'];
 $tmpkey = $_['tmpkey'];
+$requesttoken = $_['requesttoken'];
 OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmpkey: '.$tmpkey, OCP\Util::DEBUG);
 ?>
 <script language="Javascript">
@@ -48,6 +49,7 @@ OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmpkey: '.$tmpkey, 
 	action="<?php echo OCP\Util::linkToAbsolute('contacts', 'ajax/savecrop.php'); ?>">
 
 	<input type="hidden" id="id" name="id" value="<?php echo $id; ?>" />
+	<input type="hidden" name="requesttoken" value="<?php echo $requesttoken; ?>">
 	<input type="hidden" id="tmpkey" name="tmpkey" value="<?php echo $tmpkey; ?>" />
 	<fieldset id="coords">
 	<input type="hidden" id="x1" name="x1" value="" />

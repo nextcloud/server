@@ -18,7 +18,7 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 	private static $rootView;
 	
 	private function stripPath($path){//files should never start with /
-		if(substr($path,0,1)=='/'){
+		if(!$path || $path[0]=='/'){
 			$path=substr($path,1);
 		}
 		return $path;
