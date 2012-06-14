@@ -84,7 +84,6 @@
 			}
 
 			title = selectedOpts.title || (obj.nodeName ? $(obj).attr('title') : obj.title) || '';
-			title = title.replace(/</, "&lt;").replace(/>/, "&gt;");
 			
 			if (obj.nodeName && !selectedOpts.orig) {
 				selectedOpts.orig = $(obj).children("img:first").length ? $(obj).children("img:first") : $(obj);
@@ -94,6 +93,8 @@
 				title = selectedOpts.orig.attr('alt');
 			}
 
+			title = title.replace(/</, "&lt;").replace(/>/, "&gt;");
+			
 			href = selectedOpts.href || (obj.nodeName ? $(obj).attr('href') : obj.href) || null;
 
 			if ((/^(?:javascript)/i).test(href) || href == '#') {
