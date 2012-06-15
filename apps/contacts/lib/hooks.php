@@ -56,7 +56,7 @@ class OC_Contacts_Hooks{
 
 	static public function getBirthdayEvents($parameters) {
 		$name = $parameters['calendar_id'];
-		if (strpos('birthday_', $name) != 0) {
+		if (strpos($name, 'birthday_') != 0) {
 			return;
 		}
 		$info = explode('_', $name);

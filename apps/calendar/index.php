@@ -11,15 +11,17 @@ OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
 
 // Create default calendar ...
-$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), false);
 if( count($calendars) == 0){
 	OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(),'Default calendar');
-	$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);
+	$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), true);
 }
 
 $eventSources = array();
 foreach($calendars as $calendar){
-	$eventSources[] = OC_Calendar_Calendar::getEventSourceInfo($calendar);
+	if($calendar['active'] == 1) {
+		$eventSources[] = OC_Calendar_Calendar::getEventSourceInfo($calendar);
+	}
 }
 
 $eventSources[] = array('url' => '?app=calendar&getfile=ajax/events.php?calendar_id=shared_rw', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable'=>'true');
