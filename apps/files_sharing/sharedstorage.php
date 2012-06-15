@@ -512,6 +512,15 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		OC_Filesystem::mount('OC_Filestorage_Shared', array('datadir' => '/'.OCP\USER::getUser().'/files/Shared'), '/'.OCP\USER::getUser().'/files/Shared/');
 	}
 
+	/**
+	 * check if a file or folder has been updated since $time
+	 * @param int $time
+	 * @return bool
+	 */
+	public function hasUpdated($path,$time){
+		//TODO
+		return $this->filemtime($path)>$time;
+	}
 }
 
 if (OCP\USER::isLoggedIn()) {
