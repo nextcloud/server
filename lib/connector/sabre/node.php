@@ -139,7 +139,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 				}
 			}
 			else {
-				if( strcmp( $propertyName, "lastmodified")) {
+				if( strcmp( $propertyName, "lastmodified") === 0) {
 					$this->touch($propertyValue);
 				} else {
 					if(!array_key_exists( $propertyName, $existing )){
