@@ -13,6 +13,7 @@ class Test_Encryption extends UnitTestCase {
 		$source=file_get_contents($file); //nice large text file
 		$encrypted=OC_Crypt::encrypt($source,$key);
 		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+		$decrypted=rtrim($decrypted, "\0");
 		$this->assertNotEqual($encrypted,$source);
 		$this->assertEqual($decrypted,$source);
 
@@ -20,6 +21,7 @@ class Test_Encryption extends UnitTestCase {
 		$encrypted=OC_Crypt::encrypt($chunk,$key);
 		$this->assertEqual(strlen($chunk),strlen($encrypted));
 		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+		$decrypted=rtrim($decrypted, "\0");
 		$this->assertEqual($decrypted,$chunk);
 		
 		$encrypted=OC_Crypt::blockEncrypt($source,$key);
@@ -43,11 +45,28 @@ class Test_Encryption extends UnitTestCase {
 		$source=file_get_contents($file); //binary file
 		$encrypted=OC_Crypt::encrypt($source,$key);
 		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+		$decrypted=rtrim($decrypted, "\0");
 		$this->assertEqual($decrypted,$source);
 
 		$encrypted=OC_Crypt::blockEncrypt($source,$key);
 		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
 		$this->assertEqual($decrypted,$source);
 
+	}
+
+	function testBinary(){
+		$key=uniqid();
+	
+		$file=__DIR__.'/binary';
+		$source=file_get_contents($file); //binary file
+		$encrypted=OC_Crypt::encrypt($source,$key);
+		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+
+		$decrypted=rtrim($decrypted, "\0");
+		$this->assertEqual($decrypted,$source);
+
+		$encrypted=OC_Crypt::blockEncrypt($source,$key);
+		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
+		$this->assertEqual($decrypted,$source);
 	}
 }

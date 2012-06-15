@@ -50,7 +50,22 @@ class Test_CryptStream extends UnitTestCase {
 			$file=$this->tmpFiles[$id];
 		}
 		$stream=fopen($file,$mode);
-		OC_CryptStream::$sourceStreams[$id]=array('path'=>'dummy','stream'=>$stream);
+		OC_CryptStream::$sourceStreams[$id]=array('path'=>'dummy'.$id,'stream'=>$stream);
 		return fopen('crypt://streams/'.$id,$mode);
+	}
+
+	function testBinary(){
+		$file=__DIR__.'/binary';
+		$source=file_get_contents($file);
+
+		$stream=$this->getStream('test','w');
+		fwrite($stream,$source);
+		fclose($stream);
+
+		$stream=$this->getStream('test','r');
+		$data=stream_get_contents($stream);
+		fclose($stream);
+		$this->assertEqual(strlen($data),strlen($source));
+		$this->assertEqual($source,$data);
 	}
 }
