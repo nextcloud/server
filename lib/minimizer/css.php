@@ -67,7 +67,9 @@ class OC_Minimizer_CSS extends OC_Minimizer
 			$remote .= dirname($file_info[2]);
 			$css_out .= CSSMin::remap($css, dirname($file), $remote, true);
 		}
-		$css_out = CSSMin::minify($css_out);
+		if (!defined('DEBUG') || !DEBUG){
+			$css_out = CSSMin::minify($css_out);
+		}
 		return $css_out;
 	}
 }

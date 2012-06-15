@@ -56,7 +56,9 @@ class OC_Minimizer_JS extends OC_Minimizer
 			$js_out .= '/* ' . $file . ' */' . "\n";
 			$js_out .= file_get_contents($file);
 		}
-		$js_out = JavaScriptMinifier::minify($js_out);
+		if (!defined('DEBUG') || !DEBUG){
+			$js_out = JavaScriptMinifier::minify($js_out);
+		}
 		return $js_out;
 	}
 }

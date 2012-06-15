@@ -54,8 +54,8 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 	 * @return int
 	 */
 	private function getFreeSpace(){
-		$rootInfo=OC_FileCache::get('');
-		$usedSpace=$rootInfo['size'];
+		$rootInfo=OC_FileCache_Cached::get('');
+		$usedSpace=isset($rootInfo['size'])?$rootInfo['size']:0;
 		$totalSpace=$this->getQuota();
 		if($totalSpace==0){
 			return 0;

@@ -194,4 +194,13 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function getFolderSize($path){
 		return 0;//depricated, use OC_FileCach instead
 	}
+
+	/**
+	 * check if a file or folder has been updated since $time
+	 * @param int $time
+	 * @return bool
+	 */
+	public function hasUpdated($path,$time){
+		return $this->filemtime($path)>$time;
+	}
 }

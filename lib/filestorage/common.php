@@ -156,4 +156,13 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		}
 		return $files;
 	}
+
+	/**
+	 * check if a file or folder has been updated since $time
+	 * @param int $time
+	 * @return bool
+	 */
+	public function hasUpdated($path,$time){
+		return $this->filemtime($path)>$time;
+	}
 }
