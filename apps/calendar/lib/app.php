@@ -362,17 +362,14 @@ class OC_Calendar_App{
 	 * @return (array) $output - readable output
 	 */
 	public static function generateEventOutput($event, $start, $end){
-		// Why is the following code necessary ? //
-		/*if(isset($event['calendardata'])){
+		if(isset($event['calendardata'])){
 			$object = OC_VObject::parse($event['calendardata']);
 			$vevent = $object->VEVENT;
 		}else{
 			$vevent = $event['vevent'];
-		}*/
+		}
 		$return = array();
 		$id = $event['id'];
-		$object = $object = OC_VObject::parse($event['calendardata']);
-		$vevent = $object->VEVENT;
 		$allday = ($vevent->DTSTART->getDateType() == Sabre_VObject_Element_DateTime::DATE)?true:false;
 		$last_modified = @$vevent->__get('LAST-MODIFIED');
 		$lastmodified = ($last_modified)?$last_modified->getDateTime()->format('U'):0;
