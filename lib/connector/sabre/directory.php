@@ -85,10 +85,28 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function getChildren() {
 
-		$nodes = array();
 		$folder_content = OC_FileCache::getFolderContent($this->path);
+		$paths = array();
 		foreach($folder_content as $info) {
-			$nodes[] = $this->getChild($info['name'], $info);
+			$paths[] = $this->path.'/'.$info['name'];
+		}
+		$placeholders = join(',', array_fill(0, count($paths), '?'));
+		$query = OC_DB::prepare( 'SELECT * FROM *PREFIX*properties WHERE userid = ?' . ' AND propertypath IN ('.$placeholders.')' );
+		array_unshift($paths, OC_User::getUser()); // prepend userid
+		$result = $query->execute( $paths );
+		$properties = array_fill_keys($paths, array());
+		while($row = $result->fetchRow()) {
+			$propertypath = $row['propertypath'];
+			$propertyname = $row['propertyname'];
+			$propertyvalue = $row['propertyvalue'];
+			$properties[$propertypath][$propertyname] = $propertyvalue;
+		}
+
+		$nodes = array();
+		foreach($folder_content as $info) {
+			$node = $this->getChild($info['name'], $info);
+			$node->setPropertyCache($properties[$this->path.'/'.$info['name']]);
+			$nodes[] = $node;
 		}
 		return $nodes;
 	}

@@ -30,10 +30,15 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 */
 	protected $path;
 	/**
-	 * file stat cache
+	 * node fileinfo cache
 	 * @var array
 	 */
 	protected $fileinfo_cache;
+	/**
+	 * node properties cache
+	 * @var array
+	 */
+	protected $property_cache = null;
 
 	/**
 	 * Sets up the node, expects a full path name
@@ -101,6 +106,11 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		}
 	}
 
+	public function setPropertyCache($property_cache)
+	{
+		$this->property_cache = $property_cache;
+	}
+
 	/**
 	 * Returns the last modification time, as a unix timestamp
 	 *
@@ -153,6 +163,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			}
 
 		}
+		$this->setPropertyCache(null);
 		return true;
 	}
 
@@ -168,23 +179,24 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @return void
 	 */
 	function getProperties($properties) {
-		// At least some magic in here :-)
-		$query = OC_DB::prepare( 'SELECT * FROM *PREFIX*properties WHERE userid = ? AND propertypath = ?' );
-		$result = $query->execute( array( OC_User::getUser(), $this->path ));
+		if (is_null($this->property_cache)) {
+			$query = OC_DB::prepare( 'SELECT * FROM *PREFIX*properties WHERE userid = ? AND propertypath = ?' );
+			$result = $query->execute( array( OC_User::getUser(), $this->path ));
 
-		$existing = array();
-		while( $row = $result->fetchRow()){
-			$existing[$row['propertyname']] = $row['propertyvalue'];
+			$this->property_cache = array();
+			while( $row = $result->fetchRow()){
+				$this->property_cache[$row['propertyname']] = $row['propertyvalue'];
+			}
 		}
 
 		// if the array was empty, we need to return everything
 		if(count($properties) == 0){
-			return $existing;
+			return $this->property_cache;
 		}
 		
 		$props = array();
 		foreach($properties as $property) {
-			if (isset($existing[$property])) $props[$property] = $existing[$property];
+			if (isset($this->property_cache[$property])) $props[$property] = $this->property_cache[$property];
 		}
 		return $props;
 	}
