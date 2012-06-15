@@ -198,6 +198,10 @@ class OC_Calendar_Calendar{
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE calendarid = ?' );
 		$stmt->execute(array($id));
 
+		if(count(self::allCalendars()) == 0) {
+			self::addCalendar(OCP\USER::getUser(),'Default calendar');
+		}
+
 		return true;
 	}
 
