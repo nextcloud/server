@@ -41,11 +41,8 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @param string $path
 	 * @return void
 	 */
-	public function __construct($path, $fileinfo_cache = null) {
+	public function __construct($path) {
 		$this->path = $path;
-		if ($fileinfo_cache) {
-			$this->fileinfo_cache = $fileinfo_cache;
-		}
 	}
 
 
@@ -85,8 +82,13 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 
 	}
 
+	public function setFileinfoCache($fileinfo_cache)
+	{
+		$this->fileinfo_cache = $fileinfo_cache;
+	}
+
 	/**
-	 * Set the stat cache
+	 * Make sure the fileinfo cache is filled. Uses OC_FileCache or a direct stat
 	 */
 	protected function getFileinfoCache() {
 		if (!isset($this->fileinfo_cache)) {
