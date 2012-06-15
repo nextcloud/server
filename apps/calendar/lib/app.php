@@ -378,8 +378,8 @@ class OC_Calendar_App{
 						'description' => isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'',
 						'lastmodified'=>$lastmodified,
 						'allDay'=>$allday);
-		if(OC_Calendar_Object::isrepeating($id) && OC_Calendar_Repeat::is_cached_inperiod($event['id'], OC_Calendar_Object::getUTCforMDB($start), OC_Calendar_Object::getUTCforMDB($end))){
-			$cachedinperiod = OC_Calendar_Repeat::get_inperiod($id, OC_Calendar_Object::getUTCforMDB($start), OC_Calendar_Object::getUTCforMDB($end));
+		if(OC_Calendar_Object::isrepeating($id) && OC_Calendar_Repeat::is_cached_inperiod($event['id'], $start, $end)){
+			$cachedinperiod = OC_Calendar_Repeat::get_inperiod($id, $start, $end);
 			foreach($cachedinperiod as $cachedevent){
 				$dynamicoutput = array();
 				if($allday){

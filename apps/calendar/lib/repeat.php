@@ -27,8 +27,8 @@ class OC_Calendar_Repeat{
 	/*
 	 * @brief returns the cache of an event in a specific peroid
 	 * @param (int) $id - id of the event
-	 * @param (string) $from - start for period in UTC
-	 * @param (string) $until - end for period in UTC
+	 * @param (DateTime) $from - start for period in UTC
+	 * @param (DateTime) $until - end for period in UTC
 	 * @return (array)
 	 */
 	public static function get_inperiod($id, $from, $until){
@@ -36,8 +36,8 @@ class OC_Calendar_Repeat{
 		.' AND ((startdate >= ? AND startdate <= ?)'
 		.' OR (enddate >= ? AND enddate <= ?))');
 		$result = $stmt->execute(array($id,
-					$from, $until,
-					$from, $until));
+					OC_Calendar_Object::getUTCforMDB($from), OC_Calendar_Object::getUTCforMDB($until),
+					OC_Calendar_Object::getUTCforMDB($from), OC_Calendar_Object::getUTCforMDB($until)));
 		$return = array();
 		while($row = $result->fetchRow()){
 			$return[] = $row;
@@ -164,8 +164,8 @@ class OC_Calendar_Repeat{
 	/*
 	 * @brief checks if an event is already cached in a specific period
 	 * @param (int) id - id of the event
-	 * @param (string) $from - start for period in UTC
-	 * @param (string) $until - end for period in UTC
+	 * @param (DateTime) $from - start for period in UTC
+	 * @param (DateTime) $until - end for period in UTC
 	 * @return (bool)
 	 */
 	public static function is_cached_inperiod($id, $start, $end){
