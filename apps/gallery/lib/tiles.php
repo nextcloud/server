@@ -63,7 +63,7 @@ class TilesLine {
 				$img_w = $this->tiles_array[$i]->getWidth();
 				$extra = '';
 				if ($img_w != IMAGE_WIDTH) $extra = ' style="width:'.$img_w.'px"';
-			$r .= '<div class="gallery_div" '.$extra.' onmouseover="'.$this->tiles_array[$i]->getOnHoverAction().'" onmouseout="'.$this->tiles_array[$i]->getOnOutAction().'" onclick="'.$this->tiles_array[$i]->getOnClickAction().'">'.$this->tiles_array[$i]->get().'</div>';
+				$r .= '<div class="gallery_div" '.$extra.' onmouseover="'.$this->tiles_array[$i]->getOnHoverAction().'" onmouseout="'.$this->tiles_array[$i]->getOnOutAction().'" onclick="'.$this->tiles_array[$i]->getOnClickAction().'" style="background-color:#ddd">'.$this->tiles_array[$i]->get().'</div>';
 		}
 		
 		$r .= '</div>';
@@ -122,7 +122,7 @@ class TileStack extends TileBase {
 		$this->tiles_array = array();
 		$this->stack_name = $stack_name;
 		for ($i = 0; $i < count($path_array) && $i < self::STACK_REPRESENTATIVES; $i++) {
-		$tile = new TileSingle($path_array[$i]);
+			$tile = new TileSingle($path_array[$i]);
 			array_push($this->tiles_array, $tile);
 		}
 	}
