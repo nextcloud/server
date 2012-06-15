@@ -430,6 +430,7 @@ Calendar={
 							$('#calendar_holder').fullCalendar('removeEventSource', url);
 							$('#choosecalendar_dialog').dialog('destroy').remove();
 							Calendar.UI.Calendar.overview();
+							$('#calendar_holder').fullCalendar('refetchEvents');
 						}
 					  });
 				}
@@ -845,7 +846,7 @@ $(document).ready(function(){
 		dayNamesShort: dayNamesShort,
 		allDayText: allDayText,
 		viewDisplay: function(view) {
-			$('#datecontrol_date').html(view.title);
+			$('#datecontrol_date').val($('<p>').html(view.title).text());
 			if (view.name != defaultView) {
 				$.post(OC.filePath('calendar', 'ajax', 'changeview.php'), {v:view.name});
 				defaultView = view.name;
@@ -883,6 +884,22 @@ $(document).ready(function(){
 		},
 		loading: Calendar.UI.loading,
 		eventSources: eventSources
+	});
+	$('#datecontrol_date').datepicker({
+		changeMonth: true,
+		changeYear: true,
+		showButtonPanel: true,
+		beforeShow: function(input, inst) {
+			var calendar_holder = $('#calendar_holder');
+			var date = calendar_holder.fullCalendar('getDate');
+			inst.input.datepicker('setDate', date);
+			inst.input.val(calendar_holder.fullCalendar('getView').title);
+			return inst;
+		},
+		onSelect: function(value, inst) {
+			var date = inst.input.datepicker('getDate');
+			$('#calendar_holder').fullCalendar('gotoDate', date);
+		}
 	});
 	fillWindow($('#content'));
 	OCCategories.changed = Calendar.UI.categoriesChanged;

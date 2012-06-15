@@ -172,7 +172,6 @@ class CSSMin {
 					$type = self::getMimeType( $file );
 					// Detect when URLs were preceeded with embed tags, and also verify file size is
 					// below the limit
-			var_dump($match['embed'], $file, filesize($file));
 					if (
 						$type
 						&& $match['embed'][1] > 0

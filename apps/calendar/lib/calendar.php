@@ -44,13 +44,13 @@ class OC_Calendar_Calendar{
 	/**
 	 * @brief Returns the list of calendars for a specific user.
 	 * @param string $uid User ID
-	 * @param boolean $active Only return calendars with this $active state, default(=null) is don't care
+	 * @param boolean $active Only return calendars with this $active state, default(=false) is don't care
 	 * @return array
 	 */
-	public static function allCalendars($uid, $active=null){
+	public static function allCalendars($uid, $active=false){
 		$values = array($uid);
 		$active_where = '';
-		if (!is_null($active) && $active){
+		if ($active){
 			$active_where = ' AND active = ?';
 			$values[] = $active;
 		}
@@ -206,6 +206,9 @@ class OC_Calendar_Calendar{
 		$stmt->execute(array($id));
 
 		OCP\Util::emitHook('OC_Calendar', 'deleteCalendar', $id);
+		if(count(self::allCalendars()) == 0) {
+			self::addCalendar(OCP\USER::getUser(),'Default calendar');
+		}
 
 		return true;
 	}

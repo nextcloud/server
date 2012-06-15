@@ -50,10 +50,7 @@ class OC_Calendar_App{
 				return false;
 			}
 		}
-		if($calendar === false){
-			return false;
-		}
-		return OC_Calendar_Calendar::find($id);
+		return $calendar;
 	}
 	
 	/*
@@ -329,26 +326,29 @@ class OC_Calendar_App{
 	 */
 	public static function getrequestedEvents($calendarid, $start, $end){
 		$events = array();
-		if($calendarid == 'shared_rw' || $_GET['calendar_id'] == 'shared_r'){
+		if($calendarid == 'shared_rw' || $calendarid == 'shared_r'){
 			$calendars = OC_Calendar_Share::allSharedwithuser(OCP\USER::getUser(), OC_Calendar_Share::CALENDAR, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
 			foreach($calendars as $calendar){
 				$calendarevents = OC_Calendar_Object::allInPeriod($calendar['calendarid'], $start, $end);
+				foreach($calendarevents as $event){
+					$event['summary'] .= ' (' . self::$l10n->t('by') .  ' ' . OC_Calendar_Object::getowner($event['id']) . ')';
+				}
 				$events = array_merge($events, $calendarevents);
 			}
 			$singleevents = OC_Calendar_Share::allSharedwithuser(OCP\USER::getUser(), OC_Calendar_Share::EVENT, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
 			foreach($singleevents as $singleevent){
 				$event = OC_Calendar_Object::find($singleevent['eventid']);
+				$event['summary'] .= ' (' . self::$l10n->t('by') .  ' ' . OC_Calendar_Object::getowner($event['id']) . ')';
 				$events[] =  $event;
 			}
 		}else{
-			$calendar_id = $_GET['calendar_id'];
-			if (is_numeric($calendar_id)) {
-				$calendar = self::getCalendar($calendar_id);
+			if (is_numeric($calendarid)) {
+				$calendar = self::getCalendar($calendarid);
 				OCP\Response::enableCaching(0);
 				OCP\Response::setETagHeader($calendar['ctag']);
-				$events = OC_Calendar_Object::allInPeriod($calendar_id, $start, $end);
+				$events = OC_Calendar_Object::allInPeriod($calendarid, $start, $end);
 			} else {
-				OCP\Util::emitHook('OC_Calendar', 'getEvents', array('calendar_id' => $calendar_id, 'events' => &$events));
+				OCP\Util::emitHook('OC_Calendar', 'getEvents', array('calendar_id' => $calendarid, 'events' => &$events));
 			}
 		}
 		return $events;
