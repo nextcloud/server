@@ -49,7 +49,7 @@ class OC_Calendar_Repeat{
 	 * @param (int) $id - id of the calendar
 	 * @return (array) 
 	 */
-	public static function getcalendar($id){
+	public static function getCalendar($id){
 		$stmt = OCP\DB::prepare('SELECT * FROM *PREFIX*calendar_repeat WHERE calid = ?');
 		$result = $stmt->execute(array($id));
 		$return = array();
@@ -65,7 +65,7 @@ class OC_Calendar_Repeat{
 	 * @param (string) $until - end for period in UTC
 	 * @return (array)
 	 */
-	public static function getcalendar_inperiod($id, $from, $until){
+	public static function getCalendar_inperiod($id, $from, $until){
 		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*calendar_repeat WHERE calid = ?'
 		.' AND ((startdate >= ? AND startdate <= ?)'
 		.' OR (enddate >= ? AND enddate <= ?))');
@@ -122,7 +122,7 @@ class OC_Calendar_Repeat{
 	 * @param (int) id - id of the calendar
 	 * @return (bool)
 	 */
-	public static function generatecalendar($id){
+	public static function generateCalendar($id){
 		$allobjects = OC_Calendar_Object::all($id);
 		foreach($allobjects['id'] as $eventid){
 			self::generate($eventid);
@@ -144,9 +144,9 @@ class OC_Calendar_Repeat{
 	 * @param (int) id - id of the calendar
 	 * @return (bool)
 	 */
-	public static function updatecalendar($id){
-		self::cleancalendar($id);
-		self::generatecalendar($id);
+	public static function updateCalendar($id){
+		self::cleanCalendar($id);
+		self::generateCalendar($id);
 		return true;
 	}
 	/*
@@ -182,7 +182,7 @@ class OC_Calendar_Repeat{
 	 * @return (bool)
 	 */
 	public static function is_calendar_cached($id){
-		$cachedevents = count(self::getcalendar($id));
+		$cachedevents = count(self::getCalendar($id));
 		$repeatingevents = 0;
 		$allevents = OC_Calendar_Object::all($id);
 		foreach($allevents as $event){
@@ -210,7 +210,7 @@ class OC_Calendar_Repeat{
 	 * @param (int) id - id of the calendar
 	 * @return (bool)
 	 */
-	public static function cleancalendar($id){
+	public static function cleanCalendar($id){
 		$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*calendar_repeat WHERE calid = ?');
 		$stmt->execute(array($id));
 	}
