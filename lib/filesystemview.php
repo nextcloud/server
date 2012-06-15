@@ -402,9 +402,9 @@ class OC_FilesystemView {
 			}
 			if($run and $storage=$this->getStorage($path)){
 				if(!is_null($extraParam)){
-					$result=$storage->$operation($interalPath,$extraParam);
+					$result=$storage->$operation($internalPath,$extraParam);
 				}else{
-					$result=$storage->$operation($interalPath);
+					$result=$storage->$operation($internalPath);
 				}
 				$result=OC_FileProxy::runPostProxies($operation,$this->getAbsolutePath($path),$result);
 				if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()){

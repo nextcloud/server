@@ -47,7 +47,6 @@ class OC_CryptStream{
 			$this->path=self::$sourceStreams[basename($path)]['path'];
 		}else{
 			$this->path=$path;
-			OCP\Util::writeLog('files_encryption','open encrypted '.$path. ' in '.$mode,OCP\Util::DEBUG);
 			OC_FileProxy::$enabled=false;//disable fileproxies so we can open the source file
 			$this->source=self::$rootView->fopen($path,$mode);
 			OC_FileProxy::$enabled=true;
@@ -83,6 +82,9 @@ class OC_CryptStream{
 			$result=OC_Crypt::decrypt($data);
 		}else{
 			$result='';
+		}
+		if($this->stream_eof()){
+			$result=rtrim($result, "\0");
 		}
 		return $result;
 	}
