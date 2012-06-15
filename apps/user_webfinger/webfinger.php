@@ -17,13 +17,6 @@ header("Content-Type: application/xrd+json");
  *
  '* but can also use complex database queries to generate the webfinger result
  **/
-// calculate the documentroot
-// modified version of the one in lib/base.php that takes the .well-known symlink into account
-/*$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
-$SERVERROOT=str_replace("\\",'/',dirname(dirname(dirname(dirname(__FILE__)))));
-$SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
-$WEBROOT=substr($SUBURI,0,-34);
-*/
 
 $userName = '';
 $hostName = '';
