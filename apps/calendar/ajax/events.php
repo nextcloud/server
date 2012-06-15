@@ -11,6 +11,7 @@ require_once('when/When.php');
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
+session_write_close();
 
 // Look for the calendar id
 $calendar_id = OC_Calendar_App::getCalendar($_GET['calendar_id'], false, false);
