@@ -59,19 +59,22 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * @throws Sabre_DAV_Exception_FileNotFound
 	 * @return Sabre_DAV_INode
 	 */
-	public function getChild($name) {
+	public function getChild($name, $info = null) {
 
 		$path = $this->path . '/' . $name;
+		if (is_null($info)) {
+			$info = OC_FileCache::get($path);
+		}
 
-		if (!OC_Filesystem::file_exists($path)) throw new Sabre_DAV_Exception_NotFound('File with name ' . $path . ' could not be located');
+		if (!$info) throw new Sabre_DAV_Exception_NotFound('File with name ' . $path . ' could not be located');
 
-		if (OC_Filesystem::is_dir($path)) {
+		if ($info['mimetype'] == 'httpd/unix-directory') {
 
-			return new OC_Connector_Sabre_Directory($path);
+			return new OC_Connector_Sabre_Directory($path, $info);
 
 		} else {
 
-			return new OC_Connector_Sabre_File($path);
+			return new OC_Connector_Sabre_File($path, $info);
 
 		}
 
@@ -85,17 +88,11 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	public function getChildren() {
 
 		$nodes = array();
-		// foreach(scandir($this->path) as $node) if($node!='.' && $node!='..') $nodes[] = $this->getChild($node);
-		if( OC_Filesystem::is_dir($this->path . '/')){
-			$dh = OC_Filesystem::opendir($this->path . '/');
-			while(( $node = readdir($dh)) !== false ){
-				if($node!='.' && $node!='..'){
-					$nodes[] = $this->getChild($node);
-				}
-			}
+		$folder_content = OC_FileCache::getFolderContent($this->path);
+		foreach($folder_content as $info) {
+			$nodes[] = $this->getChild($info['name'], $info);
 		}
 		return $nodes;
-
 	}
 
 	/**

@@ -63,8 +63,8 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 * @return int
 	 */
 	public function getSize() {
-		$this->stat();
-		return $this->stat_cache['size'];
+		$this->getFileinfoCache();
+		return $this->fileinfo_cache['size'];
 
 	}
 
@@ -92,6 +92,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 * @return mixed
 	 */
 	public function getContentType() {
+		if (isset($this->fileinfo_cache['mimetype'])) {
+			return $this->fileinfo_cache['mimetype'];
+		}
 
 		return OC_Filesystem::getMimeType($this->path);
 
