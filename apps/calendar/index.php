@@ -11,15 +11,17 @@ OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
 
 // Create default calendar ...
-$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), false);
 if( count($calendars) == 0){
 	OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(),'Default calendar');
-	$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);
+	$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), true);
 }
 
 $eventSources = array();
 foreach($calendars as $calendar){
-	$eventSources[] = OC_Calendar_Calendar::getEventSourceInfo($calendar);
+	if($calendar['active'] == 1) {
+		$eventSources[] = OC_Calendar_Calendar::getEventSourceInfo($calendar);
+	}
 }
 
 $eventSources[] = array('url' => '?app=calendar&getfile=ajax/events.php?calendar_id=shared_rw', 'backgroundColor' => '#1D2D44', 'borderColor' => '#888', 'textColor' => 'white', 'editable'=>'true');
@@ -54,9 +56,9 @@ OCP\Util::addscript('contacts','jquery.multi-autocomplete');
 OCP\Util::addscript('','oc-vcategories');
 OCP\App::setActiveNavigationEntry('calendar_index');
 $tmpl = new OCP\Template('calendar', 'calendar', 'user');
-$tmpl->assign('eventSources', $eventSources);
+$tmpl->assign('eventSources', $eventSources,false);
 $tmpl->assign('categories', $categories);
 if(array_key_exists('showevent', $_GET)){
-	$tmpl->assign('showevent', $_GET['showevent']);
+	$tmpl->assign('showevent', $_GET['showevent'], false);
 }
 $tmpl->printPage();

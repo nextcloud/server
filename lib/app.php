@@ -542,6 +542,7 @@ class OC_App{
 			return;
 		}
 		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php')){
+			self::loadApp($appid);
 			include OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php';
 		}
 

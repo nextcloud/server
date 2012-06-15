@@ -319,7 +319,7 @@ class OC_Filesystem{
 		if(substr($mountpoint,-1)!=='/'){
 			$mountpoint=$mountpoint.'/';
 		}
-    if (self::getView() != null && $mountpoint != '/' && !self::is_dir(basename($mountpoint))) {
+		if (self::getView() != null && $mountpoint != '/' && !self::is_dir(basename($mountpoint))) {
 			self::mkdir(basename($mountpoint));
 		}
 		self::$mounts[$mountpoint]=array('class'=>$class,'arguments'=>$arguments);
@@ -473,6 +473,15 @@ class OC_Filesystem{
 	
 	static public function search($query){
 		return OC_FileCache::search($query);
+	}
+
+	/**
+	 * check if a file or folder has been updated since $time
+	 * @param int $time
+	 * @return bool
+	 */
+	static public function hasUpdated($path,$time){
+		return self::$defaultInstance->hasUpdated($path);
 	}
 }
 

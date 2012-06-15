@@ -444,4 +444,13 @@ class OC_FilesystemView {
 		}
 		return null;
 	}
+
+	/**
+	 * check if a file or folder has been updated since $time
+	 * @param int $time
+	 * @return bool
+	 */
+	public function hasUpdated($path,$time){
+		return $this->basicOperation('hasUpdated',$path,array(),$time);
+	}
 }

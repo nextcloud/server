@@ -42,6 +42,18 @@ class OC_JSON{
 	}
 
 	/**
+	 * @brief Check an ajax get/post call if the request token is valid.
+	 * @return json Error msg if not valid.
+	 */
+	public static function callCheck(){
+		if( !OC_Util::isCallRegistered()){
+			$l = OC_L10N::get('core');
+			self::error(array( 'data' => array( 'message' => $l->t('Token expired. Please reload page.') )));
+			exit();
+		}
+	}
+        
+	/**
 	* Check if the user is a admin, send json error msg if not
 	*/
 	public static function checkAdminUser(){

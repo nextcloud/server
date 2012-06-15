@@ -20,7 +20,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once 'common.inc.php';
+require_once 'Google/common.inc.php';
 
 class OC_Filestorage_Google extends OC_Filestorage_Common {
 
@@ -40,7 +40,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		$this->entries = array();
 	}
 
-	private function sendRequest($uri, $httpMethod, $postData = null, $extraHeaders = null, $isDownload = false, $returnHeaders = false, $isContentXML = true) {
+	private function sendRequest($uri, $httpMethod, $postData = null, $extraHeaders = null, $isDownload = false, $returnHeaders = false, $isContentXML = true, $returnHTTPCode = false) {
 		$uri = trim($uri);
 		// create an associative array from each key/value url query param pair.
 		$params = array();
@@ -108,6 +108,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			if ($httpCode <= 308) {
 				if ($isDownload) {
 					return $tmpFile;
+				} else if ($returnHTTPCode) {
+					return array('result' => $result, 'code' => $httpCode);
 				} else {
 					return $result;
 				}
@@ -425,7 +427,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			$etag = $entry->getAttribute('gd:etag');
 			$links = $entry->getElementsByTagName('link');
 			foreach ($links as $link) {
-				if ($link->getAttribute('rel') == 'http://schemas.google.com/g/2005#resumable-edit-media') {
+				if ($link->getAttribute('rel') == 'http://schemas.google.com/g/2005#resumable-create-media') {
 					$uploadUri = $link->getAttribute('href');
 					break;
 				}
@@ -461,12 +463,12 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 					}
 				}
 				$end = $i + $chunkSize - 1;
-				$headers = array('Content-Length: '.$chunkSize, 'Content-Type: '.$mimetype, 'Content Range: bytes '.$i.'-'.$end.'/'.$size);
+				$headers = array('Content-Length: '.$chunkSize, 'Content-Type: '.$mimetype, 'Content-Range: bytes '.$i.'-'.$end.'/'.$size);
 				$postData = fread($handle, $chunkSize);
-				$result = $this->sendRequest($uploadUri, 'PUT', $postData, $headers, false, true, false);
-				if ($result) {
-					// Get next location to upload file chunk
-					if (preg_match('@^Location: (.*)$@m', $result, $matches)) {
+				$result = $this->sendRequest($uploadUri, 'PUT', $postData, $headers, false, true, false, true);
+				if ($result['code'] == '308') {
+					if (preg_match('@^Location: (.*)$@m', $result['result'], $matches)) {
+						// Get next location to upload file chunk
 						$uploadUri = trim($matches[1]);
 					}
 					$i += $chunkSize;

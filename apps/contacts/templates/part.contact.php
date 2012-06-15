@@ -3,6 +3,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 ?>
 <div id="card">
 	<form class="float" id="file_upload_form" action="<?php echo OCP\Util::linkTo('contacts', 'ajax/uploadphoto.php'); ?>" method="post" enctype="multipart/form-data" target="file_upload_target">
+		<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken'] ?>">
 		<input type="hidden" name="id" value="<?php echo $_['id'] ?>">
 		<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
 		<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
@@ -23,6 +24,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 	<div id="contact_identity" class="contactsection">
 	<form method="post">
 	<input type="hidden" name="id" value="<?php echo $_['id'] ?>">
+	<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken'] ?>">
 	<fieldset id="ident" class="contactpart">
 	<span class="propertycontainer" data-element="N"><input type="hidden" id="n" class="contacts_property" name="value" value="" /></span>
 	<span id="name" class="propertycontainer" data-element="FN">
@@ -35,7 +37,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<dt class="hidden" id="nickname_label" data-element="NICKNAME"><label for="nickname"><?php echo $l->t('Nickname'); ?></label></dt>
 		<dd class="propertycontainer hidden" id="nickname_value" data-element="NICKNAME"><input id="nickname" required="required" name="value[NICKNAME]" type="text" class="contacts_property big" name="value" value="" placeholder="<?php echo $l->t('Enter nickname'); ?>" /><a role="button" class="action delete" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 		<dt class="hidden" id="url_label" data-element="URL"><label for="url"><?php echo $l->t('Web site'); ?></label></dt>
-		<dd class="propertycontainer hidden" id="url_value" data-element="URL"><input id="url" required="required" name="value[URL]" type="text" class="contacts_property big" name="value" value="" placeholder="<?php echo $l->t('http://www.somesite.com'); ?>" /><a role="button" class="action globe" title="<?php echo $l->t('Go to web site'); ?>"><a role="button" class="action delete" title="<?php echo $l->t('Delete'); ?>"></a></dd>
+		<dd class="propertycontainer hidden" id="url_value" data-element="URL"><input id="url" required="required" name="value[URL]" type="url" class="contacts_property big" name="value" value="" placeholder="<?php echo $l->t('http://www.somesite.com'); ?>" /><a role="button" class="action globe" title="<?php echo $l->t('Go to web site'); ?>"><a role="button" class="action delete" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 		<dt class="hidden" id="bday_label" data-element="BDAY"><label for="bday"><?php echo $l->t('Birthday'); ?></label></dt>
 		<dd class="propertycontainer hidden" id="bday_value" data-element="BDAY"><input id="bday"  required="required" name="value" type="text" class="contacts_property big" value="" placeholder="<?php echo $l->t('dd-mm-yyyy'); ?>" /><a role="button" class="action delete" title="<?php echo $l->t('Delete'); ?>"></a></dd>
 		<dt class="hidden" id="categories_label" data-element="CATEGORIES"><label for="categories"><?php echo $l->t('Groups'); ?></label></dt>

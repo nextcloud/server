@@ -9,7 +9,7 @@ div.miniature_border {position:absolute; height: 150px; -moz-transition-duration
 div.line {display:inline-block; border: 0; width: auto; height: 160px}
 div.gallery_div img{position:absolute; top: 1; left: 0; -moz-transition-duration: 0.3s; -o-transition-duration:0.3s; -webkit-transition-duration: 0.3s; height:150px; width: auto;}
 div.gallery_div img.shrinker {width:80px !important;}
-div.title { opacity: 0; text-align: center; vertical-align: middle; font-family: Arial; font-size: 12px; border: 0; position: absolute; text-overflow: ellipsis; bottom: 20px; left:5px; height:auto; padding: 5px; width: 140px; background-color: black; color: white; -webkit-transition: opacity 0.5s;  z-index:1000; border-radius: 7px}
+div.title { opacity: 0; text-align: center; vertical-align: middle; font-family: Arial; font-size: 12px; border: 0; position: absolute; text-overflow: ellipsis; bottom: 20px; right:-5px; height:auto; padding: 5px; width: 140px; background-color: black; color: white; -webkit-transition: opacity 0.5s;  z-index:1000; border-radius: 7px}
 div.visible { opacity: 0.8;}
 </style>
 <script type="text/javascript">
@@ -43,7 +43,7 @@ function deplode(element) {
 function openNewGal(album_name) {
 	root = root + album_name + "/";
 	var url = window.location.toString().replace(window.location.search, '');
-  url = url + "?app=gallery&root="+encodeURIComponent(root);
+	url = url + "?app=gallery&root="+encodeURIComponent(root);
 	
 	window.location = url;
 }
@@ -79,41 +79,60 @@ $root = empty($_GET['root'])?'/':$_GET['root'];
 $images = \OC_FileCache::searchByMime('image', null, '/'.\OCP\USER::getUser().'/files'.$root);
 sort($images);
 
-$arr = array();
 $tl = new \OC\Pictures\TilesLine();
 $ts = new \OC\Pictures\TileStack(array(), '');
 $previous_element = @$images[0];
+
+$root_images = array();
+$second_level_images = array();
+
+$fallback_images = array(); // if the folder only cotains subfolders with images -> these are taken for the stack preview
+
 for($i = 0; $i < count($images); $i++) {
 	$prev_dir_arr = explode('/', $previous_element);
 	$dir_arr = explode('/', $images[$i]);
 
-	if (count($dir_arr)==1) {
-		$tl->addTile(new \OC\Pictures\TileSingle($root.$images[$i]));
-		continue;
+	if(count($dir_arr) == 1) { // getting the images in this directory
+		$root_images[] = $root.$images[$i];
+	} else {
+		if(strcmp($prev_dir_arr[0], $dir_arr[0]) != 0) { // if we entered a new directory
+			if(count($second_level_images) == 0) { // if we don't have images in this directory
+				if(count($fallback_images) != 0) { // but have fallback_images
+					$tl->addTile(new \OC\Pictures\TileStack($fallback_images, $prev_dir_arr[0]));
+					$fallback_images = array();
+				}
+			} else { // if we collected images for this directory
+				$tl->addTile(new \OC\Pictures\TileStack($second_level_images, $prev_dir_arr[0]));
+				$fallback_images = array();
+				$second_level_images = array();
+			}
+		}
+		if (count($dir_arr) == 2) { // These are the pics in our current subdir
+			$second_level_images[] = $root.$images[$i];
+			$fallback_images = array();
+		} else { // These are images from the deeper directories
+			if(count($second_level_images) == 0) {
+				$fallback_images[] = $root.$images[$i];
+			}
+		}
+		// have us a little something to compare against
+		$previous_element = $images[$i];
 	}
-	if (strcmp($prev_dir_arr[0], $dir_arr[0])!=0) {
-		$tl->addTile(new \OC\Pictures\TileStack($arr, $prev_dir_arr[0]));
-		$arr = array();
-	}
-	$arr[] = $root.$images[$i];
-	$previous_element = $images[$i];
 }
 
-$dir_arr = explode('/', $previous_element);
-
-if (count($images)>1) {
-  if (count($dir_arr)==0) {
-    $tl->addTile(new \OC\Pictures\TileSingle($previous_element));
-  } else if (count($dir_arr) && $ts->getCount() == 0){
-      $ts = new \OC\Pictures\TileStack(array($root.$previous_element), $dir_arr[0]);
-  } else {
-    $arr[] = $previous_element;
-    $ts->addTile($arr);
-  }
+// if last element in the directory was a directory we don't want to miss it :)
+if(count($second_level_images)>0) {
+	$tl->addTile(new \OC\Pictures\TileStack($second_level_images, $prev_dir_arr[0]));
 }
 
-if ($ts->getCount() != 0) {
-	$tl->addTile($ts);
+// if last element in the directory was a directory with no second_level_images we also don't want to miss it ...
+if(count($fallback_images)>0) {
+	$tl->addTile(new \OC\Pictures\TileStack($fallback_images, $prev_dir_arr[0]));
+}
+
+// and finally our images actually stored in the root folder
+for($i = 0; $i<count($root_images); $i++) {
+	$tl->addTile(new \OC\Pictures\TileSingle($root_images[$i]));
 }
 
 echo $tl->get();

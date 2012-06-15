@@ -46,7 +46,7 @@
 					</form>
 					<form id="datecontrol">
 						<input type="button" value="&nbsp;&lt;&nbsp;" id="datecontrol_left"/>
-						<span class="button" id="datecontrol_date"></span>
+						<input type="button" value="" id="datecontrol_date"/>
 						<input type="button" value="&nbsp;&gt;&nbsp;" id="datecontrol_right"/>
 					</form>
 				</div>

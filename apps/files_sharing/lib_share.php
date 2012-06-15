@@ -276,7 +276,7 @@ class OC_Share {
 		$userDirectory = substr($target, 0, strpos($target, "files") + 5);
 		$target = dirname($target);
 		$result = array();
-		while ($target != "" && $target != "/" && $target != "." && $target != $userDirectory) {
+		while ($target != "" && $target != "/" && $target != "." && $target != $userDirectory && $target != "\\") {
 			// Check if the parent directory of this target location is shared
 			$result = $query->execute(array($target))->fetchAll();
 			if (count($result) > 0) {
@@ -495,7 +495,7 @@ class OC_Share {
 		$result = $query->execute(array($gid))->fetchAll();
 		if (count($result) > 0) {
 			$lastSource = '';
-			for ($i = 0; $i < count($result) - 1; $i++) {
+			for ($i = 0; $i < count($result); $i++) {
 				if ($result[$i]['source'] != $lastSource) {
 					new OC_Share($result[$i]['source'], $arguments['gid'], $result[$i]['permissions']);
 					$lastSource = $result[$i]['source'];

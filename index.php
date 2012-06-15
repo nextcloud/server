@@ -121,7 +121,7 @@ elseif(OC_User::isLoggedIn()) {
 	if(!array_key_exists('sectoken', $_SESSION) || (array_key_exists('sectoken', $_SESSION) && is_null(OC::$REQUESTEDFILE)) || substr(OC::$REQUESTEDFILE, -3) == 'php'){
 		$sectoken=rand(1000000,9999999);
 		$_SESSION['sectoken']=$sectoken;
-		$redirect_url = (isset($_REQUEST['redirect_url'])) ? $_REQUEST['redirect_url'] : $_SERVER['REQUEST_URI'];
+		$redirect_url = (isset($_REQUEST['redirect_url'])) ? strip_tags($_REQUEST['redirect_url']) : $_SERVER['REQUEST_URI'];
 		OC_Template::printGuestPage('', 'login', array('error' => $error, 'sectoken' => $sectoken, 'redirect' => $redirect_url));
 	}
 }

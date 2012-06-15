@@ -1675,6 +1675,10 @@ function preDraw() {
 function updateViewarea() {
   if (!PDFView.initialized)
     return;
+  var container = document.getElementById('viewer');
+  if (!container)
+    return;
+
   var visiblePages = PDFView.getVisiblePages();
   var pageToDraw;
   for (var i = 0; i < visiblePages.length; i++) {

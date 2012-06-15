@@ -25,10 +25,12 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
 $tmpkey = $_GET['tmpkey'];
+$requesttoken = $_GET['requesttoken'];
 $id = $_GET['id'];
 $tmpl = new OCP\Template("contacts", "part.cropphoto");
 $tmpl->assign('tmpkey', $tmpkey);
 $tmpl->assign('id', $id);
+$tmpl->assign('requesttoken', $requesttoken);
 $page = $tmpl->fetchPage();
 
 OCP\JSON::success(array('data' => array( 'page' => $page )));

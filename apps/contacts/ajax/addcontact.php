@@ -23,6 +23,7 @@
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+OCP\JSON::callCheck();
 
 $aid = isset($_POST['aid'])?$_POST['aid']:null;
 if(!$aid) {
