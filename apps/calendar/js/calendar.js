@@ -430,6 +430,7 @@ Calendar={
 							$('#calendar_holder').fullCalendar('removeEventSource', url);
 							$('#choosecalendar_dialog').dialog('destroy').remove();
 							Calendar.UI.Calendar.overview();
+							$('#calendar_holder').fullCalendar('refetchEvents');
 						}
 					  });
 				}
