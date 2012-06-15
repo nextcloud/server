@@ -33,7 +33,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * file stat cache
 	 * @var array
 	 */
-	protected $stat_cache;
+	protected $fileinfo_cache;
 
 	/**
 	 * Sets up the node, expects a full path name
@@ -41,8 +41,11 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @param string $path
 	 * @return void
 	 */
-	public function __construct($path) {
+	public function __construct($path, $fileinfo_cache = null) {
 		$this->path = $path;
+		if ($fileinfo_cache) {
+			$this->fileinfo_cache = $fileinfo_cache;
+		}
 	}
 
 
@@ -85,9 +88,14 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	/**
 	 * Set the stat cache
 	 */
-	protected function stat() {
-		if (!isset($this->stat_cache)) {
-			$this->stat_cache = OC_Filesystem::stat($this->path);
+	protected function getFileinfoCache() {
+		if (!isset($this->fileinfo_cache)) {
+			if ($fileinfo_cache = OC_FileCache::get($this->path)) {
+			} else {
+				$fileinfo_cache = OC_Filesystem::stat($this->path);
+			}
+
+			$this->fileinfo_cache = $fileinfo_cache;
 		}
 	}
 
@@ -97,8 +105,8 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @return int
 	 */
 	public function getLastModified() {
-		$this->stat();
-		return $this->stat_cache['mtime'];
+		$this->getFileinfoCache();
+		return $this->fileinfo_cache['mtime'];
 
 	}
 
