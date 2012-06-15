@@ -108,28 +108,6 @@ class MDB2_Schema_Validate
         $this->max_identifiers_length = $max_identifiers_length;
     }
 
-    /**
-     * PHP 4 compatible constructor
-     *
-     * @param bool  $fail_on_invalid_names  array with reserved words per RDBMS
-     * @param array $valid_types            information of all valid fields 
-     *                                      types
-     * @param bool  $force_defaults         if true sets a default value to
-     *                                      field when not explicit
-     * @param int   $max_identifiers_length maximum allowed size for entities 
-     *                                      name
-     *
-     * @return void
-     *
-     * @access public
-     * @static
-     */
-    function MDB2_Schema_Validate($fail_on_invalid_names = true, $valid_types = array(),
-        $force_defaults = true, $max_identifiers_length = null
-    ) {
-        $this->__construct($fail_on_invalid_names, $valid_types, $force_defaults);
-    }
-
     // }}}
     // {{{ raiseError()
 
