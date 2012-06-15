@@ -15,8 +15,10 @@ if (version_compare($installedVersion, '0.2.1', '<')) {
 		$r = $stmt->execute(array($color,$id));
 	}
 }
-$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
-foreach($calendars as $calendar){
-	OC_Calendar_Repeat::cleancalendar($calendar['id']);
-	OC_Calendar_Repeat::generatecalendar($calendar['id']);
+if (version_compare($installedVersion, '0.5', '<')) {
+	$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser());
+	foreach($calendars as $calendar){
+		OC_Calendar_Repeat::cleancalendar($calendar['id']);
+		OC_Calendar_Repeat::generatecalendar($calendar['id']);
+	}
 }
