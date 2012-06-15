@@ -474,6 +474,15 @@ class OC_Filesystem{
 	static public function search($query){
 		return OC_FileCache::search($query);
 	}
+
+	/**
+	 * check if a file or folder has been updated since $time
+	 * @param int $time
+	 * @return bool
+	 */
+	static public function hasUpdated($path,$time){
+		return self::$defaultInstance->hasUpdated($path);
+	}
 }
 
 require_once('filecache.php');
