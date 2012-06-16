@@ -23,5 +23,3 @@ if( isset( $_POST['timezone'] ) ){
 }else{
 	OCP\JSON::error(array('data' => array( 'message' => $l->t('Invalid request') )));
 }
-
-?>

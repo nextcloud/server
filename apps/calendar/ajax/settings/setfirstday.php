@@ -13,5 +13,3 @@ if(isset($_POST["firstday"])){
 }else{
 	OCP\JSON::error();
 }
-?> 
- 

@@ -13,5 +13,3 @@ if(isset($_POST["timeformat"])){
 }else{
 	OCP\JSON::error();
 }
-?> 
- 

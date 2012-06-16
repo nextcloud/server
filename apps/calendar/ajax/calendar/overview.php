@@ -12,4 +12,3 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
 $output = new OCP\Template("calendar", "part.choosecalendar");
 $output -> printpage();
-?>

@@ -43,4 +43,3 @@ if($errarr){
 	}
 	OCP\JSON::success();
 }
-?>
