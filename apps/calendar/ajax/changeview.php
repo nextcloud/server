@@ -19,4 +19,3 @@ switch($view){
 }
 OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'currentview', $view);
 OCP\JSON::success();
-?>
