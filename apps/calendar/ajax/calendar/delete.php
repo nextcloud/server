@@ -22,4 +22,3 @@ if($del == true){
 }else{
 	OCP\JSON::error(array('error'=>'dberror'));
 }
-?> 

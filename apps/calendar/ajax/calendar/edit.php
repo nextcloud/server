@@ -21,4 +21,3 @@ $tmpl->assign('new', false);
 $tmpl->assign('calendarcolor_options', $calendarcolor_options);
 $tmpl->assign('calendar', $calendar);
 $tmpl->printPage();
-?>

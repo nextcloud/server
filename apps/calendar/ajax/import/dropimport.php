@@ -71,4 +71,3 @@ foreach($uids as $uid) {
 	}
 }
 OCP\JSON::success();
-?>
