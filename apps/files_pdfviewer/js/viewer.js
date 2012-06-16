@@ -13,7 +13,7 @@ function hidePDFviewer() {
 function showPDFviewer(dir,filename){
 	if(!showPDFviewer.shown){
 		$("#editor").hide();
-		var url = OC.filePath('files','ajax','download.php')+'?files='+encodeURIComponent(filename)+"&dir="+encodeURIComponent(dir);
+		var url = OC.filePath('files','ajax','download.php')+encodeURIComponent('?files='+encodeURIComponent(filename)+"&dir="+encodeURIComponent(dir));
 		$('table').hide();
 		function im(path) { return OC.filePath('files_pdfviewer','js','pdfjs/web/images/'+path); }
 		showPDFviewer.oldcode = $("#controls").html();
