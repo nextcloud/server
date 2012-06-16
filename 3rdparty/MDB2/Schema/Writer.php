@@ -80,6 +80,7 @@ class MDB2_Schema_Writer
     function __construct($valid_types = array())
     {
         $this->valid_types = $valid_types;
+    }
 
     // }}}
     // {{{ raiseError()
