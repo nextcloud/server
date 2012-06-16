@@ -15,9 +15,10 @@ class OC_FileCache_Update{
 	 * check if a file or folder is updated outside owncloud
 	 * @param string path
 	 * @param string root (optional)
+	 * @param boolean folder
 	 * @return bool
 	 */
-	public static function hasUpdated($path,$root=false){
+	public static function hasUpdated($path,$root=false,$folder=false){
 		if($root===false){
 			$view=OC_Filesystem::getView();
 		}else{
@@ -29,7 +30,11 @@ class OC_FileCache_Update{
 		$cachedData=OC_FileCache_Cached::get($path,$root);
 		if(isset($cachedData['mtime'])){
 			$cachedMTime=$cachedData['mtime'];
-			return $view->hasUpdated($path,$cachedMTime);
+			if($folder){
+				return $view->hasUpdated($path.'/',$cachedMTime);
+			}else{
+				return $view->hasUpdated($path,$cachedMTime);
+			}
 		}else{//file not in cache, so it has to be updated
 			if(($path=='/' or $path=='') and $root===false){//dont auto update the home folder, it will be scanned
 				return false;
