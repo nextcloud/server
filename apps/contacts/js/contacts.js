@@ -173,11 +173,11 @@ Contacts={
 			// Name has changed. Update it and reorder.
 			$('#fn').change(function(){
 				var name = $('#fn').val().strip_tags();
-				var item = $('#contacts [data-id="'+Contacts.UI.Card.id+'"]');
+				var item = $('.contacts [data-id="'+Contacts.UI.Card.id+'"]');
 				$(item).find('a').html(name);
 				Contacts.UI.Card.fn = name;
 				var added = false;
-				$('#contacts li').each(function(){
+				$('.contacts li').each(function(){
 					if ($(this).text().toLowerCase() > name.toLowerCase()) {
 						$(this).before(item).fadeIn('fast');
 						added = true;
@@ -248,12 +248,12 @@ Contacts={
 			update:function(id) {
 				var newid;
 				if(!id) {
-					newid = $('#contacts li:first-child').data('id');
+					newid = $('.contacts li:first-child').data('id');
 				} else {
 					newid = id;
 				}
 				var localLoadContact = function(id) {
-					if($('#contacts li').length > 0) {
+					if($('.contacts li').length > 0) {
 						$('#leftcontent li[data-id="'+newid+'"]').addClass('active');
 						$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
 							if(jsondata.status == 'success'){
@@ -278,7 +278,7 @@ Contacts={
 						}
 					});
 				}
-				else if($('#contacts li').length == 0) {
+				else if($('.contacts li').length == 0) {
 					// load intro page
 					$.getJSON(OC.filePath('contacts', 'ajax', 'loadintro.php'),{},function(jsondata){
 						if(jsondata.status == 'success'){
@@ -384,7 +384,7 @@ Contacts={
 								this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
 								this.data = undefined;
 								
-								if($('#contacts li').length > 0) { // Load first in list.
+								if($('.contacts li').length > 0) { // Load first in list.
 									Contacts.UI.Card.update(newid);
 								} else {
 									// load intro page
@@ -1498,7 +1498,7 @@ Contacts={
 			update:function(){
 				$.getJSON(OC.filePath('contacts', 'ajax', 'contacts.php'),{},function(jsondata){
 					if(jsondata.status == 'success'){
-						$('#contacts').html(jsondata.data.page);
+						$('#leftcontent').html(jsondata.data.page);
 						Contacts.UI.Card.update();
 					}
 					else{
@@ -1506,8 +1506,8 @@ Contacts={
 					}
 				});
 				setTimeout(function() {
-					$('#contacts li').unbind('inview');
-					$('#contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
+					$('.contacts li').unbind('inview');
+					$('.contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
 						if (isInView) {
 							if (!$(this).find('a').attr('style')) {
 								$(this).find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+$(this).data('id')+') no-repeat');
@@ -1518,19 +1518,19 @@ Contacts={
 			},
 			// Add thumbnails to the contact list as they become visible in the viewport.
 			lazyupdate:function(){
-				$('#contacts li').live('inview', function(){
+				$('.contacts li').live('inview', function(){
 					if (!$(this).find('a').attr('style')) {
 						$(this).find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+$(this).data('id')+') no-repeat');
 					}
 				});
 			},
 			refreshThumbnail:function(id){
-				var item = $('#contacts [data-id="'+id+'"]').find('a');
+				var item = $('.contacts [data-id="'+id+'"]').find('a');
 				item.html(Contacts.UI.Card.fn);
 				item.css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+id+'&refresh=1'+Math.random()+') no-repeat');
 			},
 			scrollTo:function(id){
-				$('#contacts').animate({
+				$('.contacts').animate({
 					scrollTop: $('#leftcontent li[data-id="'+id+'"]').offset().top-20}, 'slow','swing');
 			}
 		}
@@ -1552,12 +1552,12 @@ $(document).ready(function(){
 	$('#contacts_newcontact').keydown(Contacts.UI.Card.editNew);
 	
 	// Load a contact.
-	$('#contacts').keydown(function(event) {
+	$('.contacts').keydown(function(event) {
 		if(event.which == 13) {
-			$('#contacts').click();
+			$('.contacts').click();
 		}
 	});
-	$('#contacts').click(function(event){
+	$('.contacts').click(function(event){
 		var $tgt = $(event.target);
 		if ($tgt.is('li') || $tgt.is('a')) {
 			var item = $tgt.is('li')?$($tgt):($tgt).parent();
@@ -1565,7 +1565,7 @@ $(document).ready(function(){
 			item.addClass('active');
 			var oldid = $('#rightcontent').data('id');
 			if(oldid != 0){
-				$('#contacts li[data-id="'+oldid+'"]').removeClass('active');
+				$('.contacts li[data-id="'+oldid+'"]').removeClass('active');
 			}
 			$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
 				if(jsondata.status == 'success'){
@@ -1579,7 +1579,7 @@ $(document).ready(function(){
 		return false;
 	});
 
-	$('#contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
+	$('.contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
 		if (isInView) { //NOTE: I've kept all conditions for future reference ;-)
 			// element is now visible in the viewport
 			if (visiblePartY == 'top') {

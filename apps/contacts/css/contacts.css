@@ -2,9 +2,11 @@
 	font-weight: bold;
 }*/
 #leftcontent { top: 3.5em !important; padding: 0; margin: 0; }
+#leftcontent a { padding: 0 0 0 25px; }
 #rightcontent { top: 3.5em !important; padding-top: 5px; }
-#contacts { background: #fff; width: 20em; left: 12.5em; top: 3.7em; bottom:3em; position: fixed; overflow: auto; padding: 0; margin: 0; }
-#contacts a { height: 23px; display: block; margin: 0 0 0 0; padding: 0 0 0 25px; }
+#leftcontent h3 {background: #aaa; display: block; max-width: 100%; height: 2em; padding: 0.5em 0.8em;}
+.contacts { background: #fff; max-width: 100%; width: 20em; left: 12.5em; top: 3.7em; bottom:3em; overflow: auto; padding: 0; margin: 0; }
+.contacts a { height: 23px; display: block; left: 12.5em; margin: 0 0 0 0; padding: 0 0 0 25px; }
 #bottomcontrols { padding: 0; bottom:0px; height:2.8em; width: 20em; margin:0; background:#eee; border-top:1px solid #ccc; position:fixed; -moz-box-shadow: 0 -3px 3px -3px #000; -webkit-box-shadow: 0 -3px 3px -3px #000; box-shadow: 0 -3px 3px -3px #000;}
 #contacts_newcontact { float: left; margin: 0.2em 0 0 1em; }
 #chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }

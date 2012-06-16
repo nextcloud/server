@@ -3,10 +3,8 @@
 	var categories = <?php echo json_encode($_['categories']); ?>;
 	var lang = '<?php echo OCP\Config::getUserValue(OCP\USER::getUser(), 'core', 'lang', 'en'); ?>';
 </script>
-<div id="leftcontent" class="leftcontent">
-	<ul id="contacts">
-		<?php echo $this->inc("part.contacts"); ?>
-	</ul>
+<div id="leftcontent">
+	<?php echo $this->inc("part.contacts"); ?>
 </div>
 <div id="bottomcontrols">
 	<form>
