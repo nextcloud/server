@@ -5,7 +5,7 @@ require_once('lib/base.php');
 if (array_key_exists('PATH_INFO', $_SERVER)){
 	$path_info = $_SERVER['PATH_INFO'];
 }else{
-	$path_info = substr($_SERVER['PHP_SELF'], strpos($_SERVER['PHP_SELF'], basename(__FILE__)) + strlen(basename(__FILE__)));
+	$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
 }
 if ($path_info === false) {
 	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);

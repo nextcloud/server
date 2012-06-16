@@ -34,7 +34,7 @@ class OC_FileCache{
 	 * @param string root (optional)
 	 * @return array
 	 *
-	 * returns an assiciative array with the following keys:
+	 * returns an associative array with the following keys:
 	 * - size
 	 * - mtime
 	 * - ctime

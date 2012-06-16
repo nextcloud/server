@@ -43,22 +43,22 @@ class OC_Crypt {
 		self::init($params['uid'],$params['password']);
 	}
 
-       public static function init($login,$password) {      
-          $view1=new OC_FilesystemView('/');
-          if(!$view1->file_exists('/'.$login)){
-             $view1->mkdir('/'.$login);
-          }
+	public static function init($login,$password) {
+		$view1=new OC_FilesystemView('/');
+		if(!$view1->file_exists('/'.$login)){
+			$view1->mkdir('/'.$login);
+		}
 
-          $view=new OC_FilesystemView('/'.$login);      
-          
-          OC_FileProxy::$enabled=false;
-          if(!$view->file_exists('/encryption.key')){// does key exist?
-             OC_Crypt::createkey($login,$password);
-          }
-          $key=$view->file_get_contents('/encryption.key');
-          OC_FileProxy::$enabled=true;
-          $_SESSION['enckey']=OC_Crypt::decrypt($key, $password);
-       }
+		$view=new OC_FilesystemView('/'.$login);
+
+		OC_FileProxy::$enabled=false;
+		if(!$view->file_exists('/encryption.key')){// does key exist?
+			OC_Crypt::createkey($login,$password);
+		}
+		$key=$view->file_get_contents('/encryption.key');
+		OC_FileProxy::$enabled=true;
+		$_SESSION['enckey']=OC_Crypt::decrypt($key, $password);
+	}
 
 
 	/**
@@ -140,7 +140,7 @@ class OC_Crypt {
 	public static function decrypt( $content, $key='') {
 		$bf = self::getBlowfish($key);
 		$data=$bf->decrypt($content);
-		return rtrim($data, "\0");
+		return $data;
 	}
 
 	/**
@@ -181,6 +181,9 @@ class OC_Crypt {
 			while (!feof($handleread)) {
 				$content = fread($handleread, 8192);
 				$enccontent=OC_CRYPT::decrypt( $content, $key);
+				if(feof($handleread)){
+					$enccontent=rtrim($enccontent, "\0");
+				}
 				fwrite($handlewrite, $enccontent);
 			}
 			fclose($handlewrite);
@@ -209,6 +212,6 @@ class OC_Crypt {
 			$result.=self::decrypt(substr($data,0,8192),$key);
 			$data=substr($data,8192);
 		}
-		return $result;
+		return rtrim($result, "\0");
 	}
 }

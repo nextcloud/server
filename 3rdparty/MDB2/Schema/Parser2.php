@@ -144,33 +144,6 @@ class MDB2_Schema_Parser2 extends XML_Unserializer
     }
 
     /**
-     * PHP 4 compatible constructor
-     *
-     * @param array $variables              mixed array with user defined schema
-     *                                      variables
-     * @param bool  $fail_on_invalid_names  array with reserved words per RDBMS
-     * @param array $structure              multi dimensional array with 
-     *                                      database schema and data
-     * @param array $valid_types            information of all valid fields 
-     *                                      types
-     * @param bool  $force_defaults         if true sets a default value to
-     *                                      field when not explicit
-     * @param int   $max_identifiers_length maximum allowed size for entities 
-     *                                      name
-     *
-     * @return void
-     *
-     * @access public
-     * @static
-     */
-    function MDB2_Schema_Parser2($variables, $fail_on_invalid_names = true,
-        $structure = false, $valid_types = array(), $force_defaults = true,
-        $max_identifiers_length = null
-    ) {
-        $this->__construct($variables, $fail_on_invalid_names, $structure, $valid_types, $force_defaults);
-    }
-
-    /**
      * Main method. Parses XML Schema File.
      *
      * @return bool|error object

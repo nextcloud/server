@@ -67,7 +67,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		if(self::shouldEncrypt($path)){
 			if (!is_resource($data)) {//stream put contents should have been converter to fopen
 				$data=OC_Crypt::blockEncrypt($data);
-				OC_FileCache::put($path,array('encrypted'=>true));
+				OC_FileCache::put($path,array('encrypted'=>true),'');
 			}
 		}
 	}

@@ -121,8 +121,7 @@ class OC{
 	}
 
 	public static function initPaths(){
-		// calculate the documentroot
-		$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
+		// calculate the root directories
 		OC::$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
 		OC::$SUBURI= str_replace("\\","/",substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen(OC::$SERVERROOT)));
 		$scriptName=$_SERVER["SCRIPT_NAME"];
@@ -137,9 +136,6 @@ class OC{
 			}
 		}
                 OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
-		// try a new way to detect the WEBROOT which is simpler and also works with the app directory outside the owncloud folder. let´s see if this works for everybody
-//		OC::$WEBROOT=substr(OC::$SERVERROOT,strlen($DOCUMENTROOT));
-
 
 		if(OC::$WEBROOT!='' and OC::$WEBROOT[0]!=='/'){
 			OC::$WEBROOT='/'.OC::$WEBROOT;
