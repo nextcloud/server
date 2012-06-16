@@ -46,6 +46,9 @@ if(!isset($arguments['album'])){
 if(!isset($arguments['search'])){
 	$arguments['search']='';
 }
+
+session_write_close();
+
 OC_MEDIA_COLLECTION::$uid=OCP\USER::getUser();
 if($arguments['action']){
 	switch($arguments['action']){

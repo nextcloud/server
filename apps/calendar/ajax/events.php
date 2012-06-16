@@ -7,6 +7,7 @@
  */
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
+session_write_close();
 
 // Look for the calendar id
 $calendar_id = null;
