@@ -66,7 +66,7 @@ $tmpl->assign('phone_types', $phone_types);
 $tmpl->assign('email_types', $email_types);
 $tmpl->assign('categories', $categories);
 $tmpl->assign('addressbooks', $addressbooks);
-$tmpl->assign('contacts', $contacts);
+$tmpl->assign('contacts', $contacts, false);
 $tmpl->assign('details', $details );
 $tmpl->assign('id',$id);
 $tmpl->printPage();

@@ -22,7 +22,7 @@ $addressbooks = isset($_['addressbooks'])?$_['addressbooks']:null;
 		<?php }} ?>
 		<dt><label for="pre"><?php echo $l->t('Hon. prefixes'); ?></label></dt>
 		<dd>
-			<input name="pre" id="pre" value="<?php echo isset($name['value'][3]) ? $name['value'][3] : ''; ?>" type="text" list="prefixes" />
+			<input name="pre" id="pre" value="<?php echo isset($name[3]) ? $name[3] : ''; ?>" type="text" list="prefixes" />
 			<datalist id="prefixes">
 				<option value="<?php echo $l->t('Miss'); ?>">
 				<option value="<?php echo $l->t('Ms'); ?>">
@@ -33,14 +33,14 @@ $addressbooks = isset($_['addressbooks'])?$_['addressbooks']:null;
 			</datalist>
 		</dd>
 		<dt><label for="giv"><?php echo $l->t('Given name'); ?></label></dt>
-		<dd><input name="giv" id="giv" value="<?php echo isset($name['value'][1]) ? $name['value'][1] : ''; ?>" type="text" /></dd>
+		<dd><input name="giv" id="giv" value="<?php echo isset($name[1]) ? $name[1] : ''; ?>" type="text" /></dd>
 		<dt><label for="add"><?php echo $l->t('Additional names'); ?></label></dt>
-		<dd><input name="add" id="add" value="<?php echo isset($name['value'][2]) ? $name['value'][2] : ''; ?>" type="text" /></dd>
+		<dd><input name="add" id="add" value="<?php echo isset($name[2]) ? $name[2] : ''; ?>" type="text" /></dd>
 		<dt><label for="fam"><?php echo $l->t('Family name'); ?></label></dt>
-		<dd><input name="fam" id="fam" value="<?php echo isset($name['value'][0]) ? $name['value'][0] : ''; ?>" type="text" /></dd>
+		<dd><input name="fam" id="fam" value="<?php echo isset($name[0]) ? $name[0] : ''; ?>" type="text" /></dd>
 		<dt><label for="suf"><?php echo $l->t('Hon. suffixes'); ?></label></dt>
 		<dd>
-			<input name="suf" id="suf" value="<?php echo isset($name['value'][4]) ? $name['value'][4] : ''; ?>" type="text" list="suffixes" />
+			<input name="suf" id="suf" value="<?php echo isset($name[4]) ? $name[4] : ''; ?>" type="text" list="suffixes" />
 			<datalist id="suffixes">
 				<option value="<?php echo $l->t('J.D.'); ?>">
 				<option value="<?php echo $l->t('M.D.'); ?>">

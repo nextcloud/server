@@ -13,7 +13,7 @@ OCP\JSON::checkAppEnabled('contacts');
 $ids = OC_Contacts_Addressbook::activeIds(OCP\USER::getUser());
 $contacts = OC_Contacts_VCard::all($ids);
 $tmpl = new OCP\Template("contacts", "part.contacts");
-$tmpl->assign('contacts', $contacts);
+$tmpl->assign('contacts', $contacts, false);
 $page = $tmpl->fetchPage();
 
 OCP\JSON::success(array('data' => array( 'page' => $page )));
