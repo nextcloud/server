@@ -16,29 +16,32 @@ $active_addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
 
 // Our new array for the contacts sorted by addressbook
 $contacts_addressbook = array();
-foreach($contacts_alphabet as $contact):
-	if(is_null($contacts_addressbook[$contact['addressbookid']])) {
-		$contacts_addressbook[$contact['addressbookid']] = array();
+foreach($contacts_alphabet as $contact) {
+	if(!isset($contacts_addressbook[$contact['addressbookid']])) {
+		$contacts_addressbook[$contact['addressbookid']] = array('contacts' => array());
 	}
-	$contacts_addressbook[$contact['addressbookid']][] = $contact;
-endforeach;
-
-// FIXME: this is kind of ugly - just to replace the keys of the array
-// perhaps we could do some magic combine_array() instead...
-foreach($contacts_addressbook as $addressbook_id => $contacts):
-	foreach($active_addressbooks as $addressbook):
-		if($addressbook_id == $addressbook['id']) {
-			unset($contacts_addressbook[$addressbook_id]);
-			$contacts_addressbook[$addressbook['displayname']] = $contacts;
+	$display = trim($contact['fullname']);
+	if(!$display) {
+		$vcard = OC_Contacts_App::getContactVCard($contact['id']);
+		if(!is_null($vcard)) {
+			$struct = OC_Contacts_VCard::structureContact($vcard);
+			$display = isset($struct['EMAIL'][0])?$struct['EMAIL'][0]['value']:'[UNKNOWN]';
 		}
-	endforeach;
-endforeach;
-// This one should be ok for a small amount of Addressbooks
-ksort($contacts_addressbook);
+	}
+	$contacts_addressbook[$contact['addressbookid']]['contacts'][] = array('id' => $contact['id'], 'addressbookid' => $contact['addressbookid'], 'displayname' => htmlspecialchars($display));
+}
+
+foreach($contacts_addressbook as $addressbook_id => $contacts) {
+	foreach($active_addressbooks as $addressbook) {
+		if($addressbook_id == $addressbook['id']) {
+			$contacts_addressbook[$addressbook_id]['displayname'] = $addressbook['displayname'];
+		}
+	}
+}
 
 $tmpl = new OCP\Template("contacts", "part.contacts");
-$tmpl->assign('contacts', $contacts_addressbook, false);
+$tmpl->assign('books', $contacts_addressbook, false);
 $page = $tmpl->fetchPage();
 
 OCP\JSON::success(array('data' => array( 'page' => $page )));
-?>
+
