@@ -1,4 +1,5 @@
 <?php
+session_write_close();
 
 OC_App::loadApps();
 

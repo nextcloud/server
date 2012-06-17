@@ -326,8 +326,11 @@ class smb_stream_wrapper extends smb {
 					$this->dir = array_keys($o['info']);
 					$this->dir_index = 0;
 					$this->adddircache ($url, $this->dir);
+					if(substr($url,-1,1)=='/'){
+						$url=substr($url,0,-1);
+					}
 					foreach ($o['info'] as $name => $info) {
-						smb::addstatcache($url . '/' . urlencode($name), $info);
+						smb::addstatcache($url . '/' . $name, $info);
 					}
 				} else {
 					trigger_error ("dir_opendir(): dir failed for path '".$pu['path']."'", E_USER_WARNING);
