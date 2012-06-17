@@ -171,13 +171,14 @@ Contacts={
 			});*/
 			
 			// Name has changed. Update it and reorder.
+			// TODO: Take addressbook into account
 			$('#fn').change(function(){
 				var name = $('#fn').val().strip_tags();
 				var item = $('.contacts [data-id="'+Contacts.UI.Card.id+'"]');
 				$(item).find('a').html(name);
 				Contacts.UI.Card.fn = name;
 				var added = false;
-				$('.contacts li').each(function(){
+				$('.contacts li[data-bookid="'+Contacts.UI.Card.bookid+'"]').each(function(){
 					if ($(this).text().toLowerCase() > name.toLowerCase()) {
 						$(this).before(item).fadeIn('fast');
 						added = true;
@@ -185,7 +186,7 @@ Contacts={
 					}
 				});
 				if(!added) {
-					$('#leftcontent ul').append(item);
+					$('#leftcontent ul[data-id="'+Contacts.UI.Card.bookid+'"]').append(item);
 				}
 				Contacts.UI.Contacts.scrollTo(Contacts.UI.Card.id);
 			});
@@ -245,19 +246,20 @@ Contacts={
 			honpre:'',
 			honsuf:'',
 			data:undefined,
-			update:function(id) {
+			update:function(id, bookid) {
 				var newid;
 				if(!id) {
 					newid = $('.contacts li:first-child').data('id');
+					bookid = $('.contacts li:first-child').data('bookid');
 				} else {
 					newid = id;
 				}
-				var localLoadContact = function(id) {
+				var localLoadContact = function(id, bookid) {
 					if($('.contacts li').length > 0) {
 						$('#leftcontent li[data-id="'+newid+'"]').addClass('active');
 						$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
 							if(jsondata.status == 'success'){
-								Contacts.UI.Card.loadContact(jsondata.data);
+								Contacts.UI.Card.loadContact(jsondata.data, bookid);
 							} else {
 								OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 							}
@@ -271,7 +273,7 @@ Contacts={
 						if(jsondata.status == 'success'){
 							$('#rightcontent').html(jsondata.data.page).ready(function() {
 								Contacts.UI.loadHandlers();
-								localLoadContact(newid);
+								localLoadContact(newid, bookid);
 							});
 						} else {
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
@@ -370,7 +372,7 @@ Contacts={
 					if(answer == true) {
 						$.post(OC.filePath('contacts', 'ajax', 'deletecard.php'),{'id':Contacts.UI.Card.id},function(jsondata){
 							if(jsondata.status == 'success'){
-								var newid = '';
+								var newid = '', bookid;
 								var curlistitem = $('#leftcontent [data-id="'+jsondata.data.id+'"]');
 								var newlistitem = curlistitem.prev();
 								if(newlistitem == undefined) {
@@ -379,13 +381,14 @@ Contacts={
 								curlistitem.remove();
 								if(newlistitem != undefined) {
 									newid = newlistitem.data('id');
+									bookid = newlistitem.data('id');
 								}
 								$('#rightcontent').data('id',newid);
 								this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
 								this.data = undefined;
 								
 								if($('.contacts li').length > 0) { // Load first in list.
-									Contacts.UI.Card.update(newid);
+									Contacts.UI.Card.update(newid, bookid);
 								} else {
 									// load intro page
 									$.getJSON(OC.filePath('contacts', 'ajax', 'loadintro.php'),{},function(jsondata){
@@ -408,9 +411,10 @@ Contacts={
 				});
 				return false;
 			},
-			loadContact:function(jsondata){
+			loadContact:function(jsondata, bookid){
 				this.data = jsondata;
 				this.id = this.data.id;
+				this.bookid = bookid;
 				$('#rightcontent').data('id',this.id);
 				this.populateNameFields();
 				this.loadPhoto();
@@ -1498,7 +1502,7 @@ Contacts={
 			update:function(){
 				$.getJSON(OC.filePath('contacts', 'ajax', 'contacts.php'),{},function(jsondata){
 					if(jsondata.status == 'success'){
-						$('#leftcontent').html(jsondata.data.page).ready(function() {
+						$('#contacts').html(jsondata.data.page).ready(function() {
 							setTimeout(function() {
 								$('.contacts li').unbind('inview');
 								$('.contacts li:visible').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
@@ -1573,6 +1577,7 @@ $(document).ready(function(){
 		if ($tgt.is('li') || $tgt.is('a')) {
 			var item = $tgt.is('li')?$($tgt):($tgt).parent();
 			var id = item.data('id');
+			var bookid = item.data('bookid');
 			item.addClass('active');
 			var oldid = $('#rightcontent').data('id');
 			if(oldid != 0){
@@ -1580,7 +1585,7 @@ $(document).ready(function(){
 			}
 			$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
 				if(jsondata.status == 'success'){
-					Contacts.UI.Card.loadContact(jsondata.data);
+					Contacts.UI.Card.loadContact(jsondata.data, bookid);
 				}
 				else{
 					OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
