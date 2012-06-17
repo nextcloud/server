@@ -1498,23 +1498,34 @@ Contacts={
 			update:function(){
 				$.getJSON(OC.filePath('contacts', 'ajax', 'contacts.php'),{},function(jsondata){
 					if(jsondata.status == 'success'){
-						$('#leftcontent').html(jsondata.data.page);
+						$('#leftcontent').html(jsondata.data.page).ready(function() {
+							setTimeout(function() {
+								$('.contacts li').unbind('inview');
+								$('.contacts li:visible').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
+									if (isInView) {
+										if (!$(this).find('a').attr('style')) {
+											$(this).find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+$(this).data('id')+') no-repeat');
+										}
+									}
+								})}, 100);
+							setTimeout(Contacts.UI.Contacts.lazyupdate, 500);
+						});
 						Contacts.UI.Card.update();
 					}
 					else{
 						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 					}
 				});
-				setTimeout(function() {
+				/*setTimeout(function() {
 					$('.contacts li').unbind('inview');
-					$('.contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
+					$('.contacts li:visible').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
 						if (isInView) {
 							if (!$(this).find('a').attr('style')) {
 								$(this).find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+$(this).data('id')+') no-repeat');
 							}
 						}
 					})}, 500);
-				setTimeout(Contacts.UI.Contacts.lazyupdate, 500);
+				setTimeout(Contacts.UI.Contacts.lazyupdate, 500);*/
 			},
 			// Add thumbnails to the contact list as they become visible in the viewport.
 			lazyupdate:function(){
@@ -1557,7 +1568,7 @@ $(document).ready(function(){
 			$('.contacts').click();
 		}
 	});
-	$(document).on("click", ".contacts",function(event){
+	$(document).on('click', '.contacts', function(event){
 		var $tgt = $(event.target);
 		if ($tgt.is('li') || $tgt.is('a')) {
 			var item = $tgt.is('li')?$($tgt):($tgt).parent();
@@ -1579,6 +1590,11 @@ $(document).ready(function(){
 		return false;
 	});
 
+	$(document).on('click', '.addressbook', function(event){
+		$(this).next().toggle();
+		return false;
+	});
+	
 	$('.contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
 		if (isInView) { //NOTE: I've kept all conditions for future reference ;-)
 			// element is now visible in the viewport
