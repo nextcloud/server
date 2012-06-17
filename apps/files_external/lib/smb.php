@@ -61,7 +61,7 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 	}
 
 	public function filetype($path){
-		return (bool)$this->opendir($path);//using opendir causes the same amount of requests and caches the content of the folder in one go
+		return (bool)@$this->opendir($path);//using opendir causes the same amount of requests and caches the content of the folder in one go
 	}
 
 	/**
