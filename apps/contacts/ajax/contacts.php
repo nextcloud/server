@@ -6,6 +6,13 @@
  * See the COPYING-README file.
  */
 
+function cmp($a, $b)
+{
+    if ($a['displayname'] == $b['displayname']) {
+        return 0;
+    }
+    return ($a['displayname'] < $b['displayname']) ? -1 : 1;
+}
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
@@ -38,6 +45,8 @@ foreach($contacts_addressbook as $addressbook_id => $contacts) {
 		}
 	}
 }
+
+usort($contacts_addressbook, 'cmp');
 
 $tmpl = new OCP\Template("contacts", "part.contacts");
 $tmpl->assign('books', $contacts_addressbook, false);
