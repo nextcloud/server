@@ -159,9 +159,9 @@ class OC_FileCache_Update{
 				foreach($cachedContent as $file){
 					$size+=$file['size'];
 				}
-				$mtime=$view->filemtime($path);
-				$ctime=$view->filectime($path);
-				$writable=$view->is_writable($path);
+				$mtime=$view->filemtime($path.'/');
+				$ctime=$view->filectime($path.'/');
+				$writable=$view->is_writable($path.'/');
 				OC_FileCache::put($path,array('size'=>$size,'mtime'=>$mtime,'ctime'=>$ctime,'mimetype'=>$mimetype,'writable'=>$writable));
 			}else{
 				$count=0;
