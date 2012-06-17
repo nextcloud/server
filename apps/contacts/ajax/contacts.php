@@ -46,7 +46,7 @@ foreach($contacts_addressbook as $addressbook_id => $contacts) {
 	}
 }
 
-usort($contacts_addressbook, 'cmp');
+uasort($contacts_addressbook, 'cmp');
 
 $tmpl = new OCP\Template("contacts", "part.contacts");
 $tmpl->assign('books', $contacts_addressbook, false);
