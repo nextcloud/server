@@ -4,7 +4,6 @@
 	var lang = '<?php echo OCP\Config::getUserValue(OCP\USER::getUser(), 'core', 'lang', 'en'); ?>';
 </script>
 <div id="leftcontent">
-	<?php echo $this->inc("part.contacts"); ?>
 </div>
 <div id="bottomcontrols">
 	<form>

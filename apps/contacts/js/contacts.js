@@ -1557,7 +1557,7 @@ $(document).ready(function(){
 			$('.contacts').click();
 		}
 	});
-	$('.contacts').click(function(event){
+	$(document).on("click", ".contacts",function(event){
 		var $tgt = $(event.target);
 		if ($tgt.is('li') || $tgt.is('a')) {
 			var item = $tgt.is('li')?$($tgt):($tgt).parent();
@@ -1678,3 +1678,4 @@ $(document).ready(function(){
 	$('#contacts_propertymenu_dropdown a').click(propertyMenuItem);
 	$('#contacts_propertymenu_dropdown a').keydown(propertyMenuItem);
 });
+Contacts.UI.Contacts.update();
