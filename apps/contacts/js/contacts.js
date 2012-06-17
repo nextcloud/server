@@ -1591,7 +1591,7 @@ $(document).ready(function(){
 	});
 
 	$(document).on('click', '.addressbook', function(event){
-		$(this).next().toggle();
+		$(this).next().slideToggle(300);
 		return false;
 	});
 	
