@@ -120,7 +120,7 @@ class OC_DB {
 					}else{
 						$dsn='mysql:dbname='.$name.';host='.$host;
 					}
-					$opts[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'; SET CHARACTER SET 'UTF8';";
+					$opts[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
 					break;
 				case 'pgsql':
 					if($port){
