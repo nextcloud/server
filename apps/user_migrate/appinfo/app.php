@@ -22,7 +22,6 @@
 */
 
 OCP\App::registerPersonal( 'user_migrate', 'settings' );
-OCP\App::registerAdmin( 'user_migrate', 'admin' );
 OCP\Util::addscript( 'user_migrate', 'export');
 
 // add settings page to navigation
