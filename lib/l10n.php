@@ -228,23 +228,29 @@ class OC_L10N{
 			return self::$language;
 		}
 
-		$available = array();
-		if(is_array($app)){
-			$available = $app;
-		}
-		else{
-			$available=self::findAvailableLanguages($app);
-		}
 		if(OC_User::getUser() && OC_Preferences::getValue(OC_User::getUser(), 'core', 'lang')){
 			$lang = OC_Preferences::getValue(OC_User::getUser(), 'core', 'lang');
 			self::$language = $lang;
-			if(array_search($lang, $available) !== false){
+			if(is_array($app)){
+				$available = $app;
+				$lang_exists = array_search($lang, $available) !== false;
+			}
+			else {
+				$lang_exists = self::languageExists($app, $lang);
+			}
+			if($lang_exists){
 				return $lang;
 			}
 		}
 
 		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])){
 			$accepted_languages = preg_split('/,\s*/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+			if(is_array($app)){
+				$available = $app;
+			}
+			else{
+				$available = self::findAvailableLanguages($app);
+			}
 			foreach($accepted_languages as $i){
 				$temp = explode(';', $i);
 				if(array_search($temp[0], $available) !== false){
@@ -295,5 +301,16 @@ class OC_L10N{
 			}
 		}
 		return $available;
+	}
+
+	public static function languageExists($app, $lang){
+		if ($lang == 'en'){//english is always available
+			return true;
+		}
+		$dir = self::findI18nDir($app);
+		if(is_dir($dir)){
+			return file_exists($dir.'/'.$lang.'.php');
+		}
+		return false;
 	}
 }

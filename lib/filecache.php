@@ -217,7 +217,7 @@ class OC_FileCache{
 	 * - versioned
 	 */
 	public static function getFolderContent($path,$root=false,$mimetype_filter=''){
-		if(OC_FileCache_Update::hasUpdated($path,$root)){
+		if(OC_FileCache_Update::hasUpdated($path,$root,true)){
 			OC_FileCache_Update::updateFolder($path,$root);
 		}
 		return OC_FileCache_Cached::getFolderContent($path,$root,$mimetype_filter);
