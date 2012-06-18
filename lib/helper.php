@@ -376,7 +376,7 @@ class OC_Helper {
 			pclose($fp);
 
 			//trim the character set from the end of the response
-			$mimeType=substr($reply,0,strrpos($reply,' '));
+			$mimeType=substr($reply,0,strrpos($reply,';'));
 		}
 		if ($mimeType=='application/octet-stream') {
 			// Fallback solution: (try to guess the type by the file extension
