@@ -1,5 +1,4 @@
 <?php
-
 /**
 * ownCloud
 *
@@ -132,7 +131,7 @@ class Share {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with the user '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
-				$uidSharedWith = array($shareWith);
+				$uidSharedWith = $shareWith;
 				$gidSharedWith = null;
 				break;
 			case self::SHARETYPE_GROUP:
@@ -204,7 +203,7 @@ class Share {
 				return false;
 		}
 		if ($item) {
-			self::delete($item['item_source'], $item['id']);
+			self::delete($item['id']);
 			return true;
 		}
 		return false;
@@ -237,7 +236,7 @@ class Share {
 					return false;
 				}
 			}
-			return self::delete($item['item_source'], $item['id'], true);
+			return self::delete($item['id'], true);
 		}
 		return false;
 	}
@@ -481,14 +480,14 @@ class Share {
 	* @brief Put shared item into the database
 	* @param string Item type
 	* @param string Item
-	* @param array User(s) the item is being shared with
+	* @param string|array User(s) the item is being shared with
 	* @param string|null Group the item is being shared with
 	* @param string Owner of the item
 	* @param string
-	* @param int Parent folder target (optional)
+	* @param bool|array Parent folder target (optional)
 	* @return bool
 	*/
-	private static function put($itemType, $item, $uidSharedWith, $gidSharedWith, $uidOwner, $permissions, $parentFolder = null) {
+	private static function put($itemType, $item, $uidSharedWith, $gidSharedWith, $uidOwner, $permissions, $parentFolder = false) {
 		// Check file extension for an equivalent item type to convert to
 		if ($itemType == 'file') {
 			$extension = strtolower(substr($item, strrpos($item, '.') + 1));
@@ -507,6 +506,7 @@ class Share {
 			// Check if this is a reshare
 			if ($checkReshare = self::getItemSharedWith($itemType, $item)) {
 				// TODO Check if resharing is allowed
+				// TODO Don't check if inside folder
 				$parent = $checkReshare['id'];
 				$itemSource = $checkReshare['item_source'];
 				$fileSource = $checkReshare['file_source'];
@@ -519,18 +519,29 @@ class Share {
 					return false;
 				} else if (is_array($source)) {
 					$itemSource = $source['item'];
-					$fileSource = \OC_FileCache::getId($source['file']);
+					$fileSource = self::getBackend('file')->getId($source['file']);
 				} else {
 					$itemSource = $source;
 					$fileSource = null;
 				}
 			}
 			$query = \OC_DB::prepare('INSERT INTO *PREFIX*sharing (item_type, item_source, item_target, parent, uid_shared_with, gid_shared_with, uid_owner, permissions, stime, file_source, file_target) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
-			// If the item is being shared with a group, add an entry for the group itself
-			if (isset($gidSharedWith)) {
+			// Share with a group
+			if (isset($gidSharedWith))  {
 				if (isset($fileSource)) {
-					if (isset($parentFolder)) {
-						$groupFileTarget = self::getBackend('file')->generateTarget($source['file'], false);
+					if ($parentFolder) {
+						if ($parentFolder === true) {
+							$groupFileTarget = self::getBackend('file')->generateTarget($source['file'], false);
+							// Set group default file target for future use
+							$parentFolders[0]['folder'] = $groupFileTarget;
+						} else {
+							// Get group default file target
+							$groupFileTarget = $parentFolder[0]['folder'].$item;
+							$parent = $parentFolder[0]['id'];
+							unset($parentFolder[0]);
+							// Only loop through users we know have different file target paths
+							$uidSharedWith = array_keys($parentFolder);
+						}
 					} else {
 						$groupFileTarget = self::getBackend('file')->generateTarget($source['file'], false);
 					}
@@ -541,31 +552,64 @@ class Share {
 				$query->execute(array($itemType, $itemSource, $groupItemTarget, $parent, null, $gidSharedWith, $uidOwner, $permissions, time(), $fileSource, $groupFileTarget));
 				// Save this id, any extra rows for this group share will need to reference it
 				$parent = \OC_DB::insertid('*PREFIX*sharing');
-			}
-			// Need to loop through the users in a group, just in case we need to change the item target or file target for a specific user
-			// A normal user share also goes through this loop
-			foreach ($uidSharedWith as $uid) {
-				$itemTarget = $backend->generateTarget($item, $uid);
-				if (isset($fileSource)) {
-					if (isset($parentFolder)) {
-						// TODO
+				// Loop through all users of this group in case we need to add an extra row
+				foreach ($uidSharedWith as $uid) {
+					$itemTarget = $backend->generateTarget($item, $uid);
+					if (isset($fileSource)) {
+						if ($parentFolder) {
+							if ($parentFolder === true) {
+								$fileTarget = self::getBackend('file')->generateTarget($source['file'], $uidSharedWith);
+								if ($fileTarget != $groupFileTarget) {
+									$parentFolders[$uid]['folder'] = $fileTarget;
+								}
+							} else if (isset($parentFolder[$uid])) {
+								$fileTarget = $parentFolder[$uid]['folder'].$item;
+								$parent = $parentFolder[$uid]['id'];
+							}
+						} else {
+							$fileTarget = self::getBackend('file')->generateTarget($source['file'], $uidSharedWith);
+						}
 					} else {
-						$fileTarget = self::getBackend('file')->generateTarget($source['file'], $uid);
+						$fileTarget = null;
+					}
+					// Insert an extra row for the group share if the item or file target is unique for this user
+					if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
+						$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $uid, $gidSharedWith, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
+						$id = \OC_DB::insertid('*PREFIX*sharing');
+					}
+					if ($parentFolder === true) {
+						$parentFolders['id'] = $id;
+					}
+				}
+				if ($parentFolder === true) {
+					// Return parent folders to preserve file target paths for potential children
+					return $parentFolders;
+				}
+			} else {
+				// Share with a user
+				$itemTarget = $backend->generateTarget($item, $uidSharedWith);
+				if (isset($fileSource)) {
+					if ($parentFolder) {
+						if ($parentFolder === true) {
+							$fileTarget = self::getBackend('file')->generateTarget($source['file'], $uidSharedWith);
+							$parentFolders['folder'] = $fileTarget;
+						} else {
+							$fileTarget = $parentFolder['folder'].$item;
+							$parent = $parentFolder['id'];
+						}
+					} else {
+						$fileTarget = self::getBackend('file')->generateTarget($source['file'], $uidSharedWith);
 					}
 				} else {
 					$fileTarget = null;
 				}
-				if (isset($gidSharedWith)) {
-					// Insert an extra row for the group share if the item or file target is unique for this user
-					if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
-						$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $uid, $gidSharedWith, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
-						\OC_DB::insertid('*PREFIX*sharing');
-					}
-				} else {
-					$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $uid, $gidSharedWith, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
-					\OC_DB::insertid('*PREFIX*sharing');
+				$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $uidSharedWith, null, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
+				$id = \OC_DB::insertid('*PREFIX*sharing');
+				if ($parentFolder === true) {
+					$parentFolders['id'] = $id;
+					// Return parent folder to preserve file target paths for potential children
+					return $parentFolders;
 				}
-				
 			}
 			return true;
 		}
@@ -578,14 +622,11 @@ class Share {
 	* @param int Id of item to delete
 	* @param bool
 	*/
-	private static function delete($itemSource, $parent, $excludeParent = false) {
-		$query = \OC_DB::prepare('SELECT id, parent FROM *PREFIX*sharing WHERE item_source = ?');
-		$result = $query->execute(array($itemSource));
+	private static function delete($parent, $excludeParent = false) {
+		$query = \OC_DB::prepare('SELECT id FROM *PREFIX*sharing WHERE parent IN (?)');
 		$ids = array($parent);
-		while ($item = $result->fetchRow()) {
-			if (in_array($item['parent'], $ids)) {
-				$ids[] = $item['id'];
-			}
+		while ($item = $query->execute(array(implode("','", $ids)))->fetchRow()) {
+			$ids[] = $item['id'];
 		}
 		if ($excludeParent) {
 			unset($ids[0]);
@@ -612,7 +653,7 @@ class Share {
 		$query = \OC_DB::prepare('SELECT id, item_source FROM *PREFIX*sharing WHERE uid_owner = ?');
 		$result = $query->execute(array($arguments['uid']));
 		while ($item = $result->fetchRow()) {
-			self::delete($item['item_source'], $item['id']);
+			self::delete($item['id']);
 		}
 	}
 
