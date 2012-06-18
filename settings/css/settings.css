@@ -50,3 +50,5 @@ span.version { margin-left:3em; color:#ddd; }
 
 /* LOF */
 #log { white-space:normal; }
+/* Don't show blank images */
+img[src=""] { display:none}
