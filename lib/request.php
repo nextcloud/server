@@ -15,6 +15,9 @@ class OC_Request {
 	}
 
 	static public function acceptGZip() {
+		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
+			return false;
+		}
 		$HTTP_ACCEPT_ENCODING = $_SERVER["HTTP_ACCEPT_ENCODING"];
 		if( strpos($HTTP_ACCEPT_ENCODING, 'x-gzip') !== false )
 			return 'x-gzip';
