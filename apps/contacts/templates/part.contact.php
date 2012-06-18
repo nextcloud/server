@@ -121,19 +121,3 @@ $id = isset($_['id']) ? $_['id'] : '';
 <div id="edit_photo_dialog" title="Edit photo">
 		<div id="edit_photo_dialog_img"></div>
 </div>
-<script type="text/javascript">
-$(document).ready(function(){
-	if('<?php echo $id; ?>'!='') {
-		$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':'<?php echo $id; ?>'},function(jsondata){
-			if(jsondata.status == 'success'){
-				$('#leftcontent li[data-id="<?php echo $id; ?>"]').addClass('active');
-				Contacts.UI.Card.loadContact(jsondata.data);
-				Contacts.UI.loadHandlers();
-			}
-			else{
-				OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-			}
-		});
-	}
-});
-</script>
