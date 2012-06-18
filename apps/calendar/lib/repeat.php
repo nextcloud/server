@@ -95,12 +95,25 @@ class OC_Calendar_Repeat{
 		$end->modify('+5 years');
 		$object->expand($start, $end);
 		foreach($object->getComponents() as $vevent){
-			if(!($vevent instanceof Sabre_VObject_Component_VEvent)){
+			if(get_class($vevent) != 'Sabre_VObject_Component_VEvent'){
 				continue;
 			}
-			$startenddate = OC_Calendar_Object::generateStartEndDate($vevent->DTSTART, OC_Calendar_Object::getDTEndFromVEvent($vevent), 'UTC');
+			$dtstart = $vevent->DTSTART;
+			$start_dt = $dtstart->getDateTime();
+			$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
+			$end_dt = $dtend->getDateTime();
+			if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
+				$startdate = $start_dt->format('Y-m-d');
+				$end_dt->modify('-1 sec');
+				$enddate = $end_dt->format('Y-m-d');
+			}else{
+				$start_dt->setTimezone(new DateTimeZone('UTC'));
+				$end_dt->setTimezone(new DateTimeZone('UTC'));
+				$startdate = $start_dt->format('Y-m-d H:i:s');
+				$enddate = $end_dt->format('Y-m-d H:i:s');
+			}
 			$stmt = OCP\DB::prepare('INSERT INTO *PREFIX*calendar_repeat (eventid,calid,startdate,enddate) VALUES(?,?,?,?)');
-			$stmt->execute(array($id,OC_Calendar_Object::getCalendarid($id),$startenddate['start'],$startenddate['end']));
+			$stmt->execute(array($id,OC_Calendar_Object::getCalendarid($id),$startdate,$enddate));
 		}
 		return true;
 	}

@@ -400,10 +400,36 @@ class OC_Calendar_App{
 		}else{
 			$object->expand($start, $end);
 			foreach($object->getComponents() as $vevent){
-				if(!($vevent instanceof Sabre_VObject_Component_VEvent)){
+				if(get_class($vevent) != 'Sabre_VObject_Component_VEvent'){
 					continue;
 				}
-				$dynamicoutput = OC_Calendar_Object::generateStartEndDate($vevent->DTSTART, OC_Calendar_Object::getDTEndFromVEvent($vevent), self::$tz);
+				$dynamicoutput = array();
+				$dtstart = $vevent->DTSTART;
+				$start_dt = $dtstart->getDateTime();
+				$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
+				$end_dt = $dtend->getDateTime();
+				
+				if($allday){
+					$dynamicoutput['start'] = $start_dt->format('Y-m-d');
+					$end_dt->modify('-1 sec');
+					$dynamicoutput['end'] = $end_dt->format('Y-m-d');
+				}else{
+					$start_dt->setTimezone(new DateTimeZone(self::$tz));
+					$end_dt->setTimezone(new DateTimeZone(self::$tz));
+					$dynamicoutput['start'] = $start_dt->format('Y-m-d H:i:s');
+					$dynamicoutput['end'] = $end_dt->format('Y-m-d H:i:s');
+				}
+
+				// Handle exceptions to recurring events
+				/*$exceptionDateObjects = $vevent->select('EXDATE');
+				$exceptionDateMap = Array();
+				foreach ($exceptionDateObjects as $exceptionObject) {
+					foreach($exceptionObject->getDateTimes() as $datetime) {
+						$ts = $datetime->getTimestamp();
+						$exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)] = true;
+					}
+				}*/
+
 				$return[] = array_merge($staticoutput, $dynamicoutput);
 			}
 		}
