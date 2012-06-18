@@ -2,9 +2,12 @@
 	font-weight: bold;
 }*/
 #leftcontent { top: 3.5em !important; padding: 0; margin: 0; }
+#leftcontent a { padding: 0 0 0 25px; }
 #rightcontent { top: 3.5em !important; padding-top: 5px; }
-#contacts { background: #fff; width: 20em; left: 12.5em; top: 3.7em; bottom:3em; position: fixed; overflow: auto; padding: 0; margin: 0; }
-#contacts a { height: 23px; display: block; margin: 0 0 0 0; padding: 0 0 0 25px; }
+#leftcontent h3 { cursor: pointer; -moz-transition: background 300ms ease 0s; background: none no-repeat scroll 1em center #eee; border-bottom: 1px solid #ddd; border-top: 1px solid #fff; display: block; max-width: 100%; padding: 0.5em 0.8em; color: #666; text-shadow: 0 1px 0 #f8f8f8; font-size: 1.2em; }
+#leftcontent h3:hover { background-color: #DBDBDB; border-bottom: 1px solid #CCCCCC; border-top: 1px solid #D4D4D4; color: #333333; }
+#contacts { position: fixed; background: #fff; max-width: 100%; width: 20em; left: 12.5em; top: 3.7em; bottom: 3em; overflow: auto; padding: 0; margin: 0; }
+.contacts a { height: 23px; display: block; left: 12.5em; margin: 0 0 0 0; padding: 0 0 0 25px; }
 #bottomcontrols { padding: 0; bottom:0px; height:2.8em; width: 20em; margin:0; background:#eee; border-top:1px solid #ccc; position:fixed; -moz-box-shadow: 0 -3px 3px -3px #000; -webkit-box-shadow: 0 -3px 3px -3px #000; box-shadow: 0 -3px 3px -3px #000;}
 #contacts_newcontact { float: left; margin: 0.2em 0 0 1em; }
 #chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }
