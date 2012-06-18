@@ -247,16 +247,17 @@ Contacts={
 			honsuf:'',
 			data:undefined,
 			update:function(id, bookid) {
-				var newid;
+				var newid, firstitem;
 				if(!id) {
-					newid = $('.contacts li:first-child').data('id');
-					bookid = $('.contacts li:first-child').data('bookid');
+					firstitem = $('#contacts:first-child li:first-child');
+					newid = firstitem.data('id');
+					bookid = firstitem.data('bookid');
 				} else {
 					newid = id;
 				}
-				var localLoadContact = function(id, bookid) {
+				var localLoadContact = function(newid, bookid) {
 					if($('.contacts li').length > 0) {
-						$('#leftcontent li[data-id="'+newid+'"]').addClass('active');
+						firstitem.addClass('active');
 						$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
 							if(jsondata.status == 'success'){
 								Contacts.UI.Card.loadContact(jsondata.data, bookid);
@@ -293,7 +294,7 @@ Contacts={
 					});
 				}
 				else {
-					localLoadContact();
+					localLoadContact(newid, bookid);
 				}
 			},
 			doExport:function() {
@@ -317,7 +318,7 @@ Contacts={
 							var id = jsondata.data.id;
 							$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
 								if(jsondata.status == 'success'){
-									Contacts.UI.Card.loadContact(jsondata.data);
+									Contacts.UI.Card.loadContact(jsondata.data, aid);
 									$('#leftcontent .active').removeClass('active');
 									var item = $('<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'" style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>');
 									var added = false;
@@ -1503,7 +1504,7 @@ Contacts={
 				$.getJSON(OC.filePath('contacts', 'ajax', 'contacts.php'),{},function(jsondata){
 					if(jsondata.status == 'success'){
 						$('#contacts').html(jsondata.data.page).ready(function() {
-							setTimeout(function() {
+							/*setTimeout(function() {
 								$('.contacts li').unbind('inview');
 								$('.contacts li:visible').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
 									if (isInView) {
@@ -1512,7 +1513,7 @@ Contacts={
 										}
 									}
 								})}, 100);
-							setTimeout(Contacts.UI.Contacts.lazyupdate, 500);
+							setTimeout(Contacts.UI.Contacts.lazyupdate, 500);*/
 						});
 						Contacts.UI.Card.update();
 					}
@@ -1600,7 +1601,7 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	$('.contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
+	/*$('.contacts li').bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
 		if (isInView) { //NOTE: I've kept all conditions for future reference ;-)
 			// element is now visible in the viewport
 			if (visiblePartY == 'top') {
@@ -1612,14 +1613,14 @@ $(document).ready(function(){
 				if (!$(this).find('a').attr('style')) {
 					//alert($(this).data('id') + ' has background: ' + $(this).attr('style'));
 					$(this).find('a').css('background','url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+$(this).data('id')+') no-repeat');
-				}/* else {
-					alert($(this).data('id') + ' has style ' + $(this).attr('style').match('url'));
-				}*/
+				}// else {
+				//	alert($(this).data('id') + ' has style ' + $(this).attr('style').match('url'));
+				//}
 			}
 		} else {
 			// element has gone out of viewport
 		}
-	});
+	});*/
 	
 	$('.contacts_property').live('change', function(){
 		Contacts.UI.Card.saveProperty(this);
