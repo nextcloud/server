@@ -304,8 +304,7 @@ class OC_Calendar_Object{
 		return date('Y-m-d H:i', $datetime->format('U') - $datetime->getOffset());
 	}
 
-	public static function getDTEndFromVEvent($vevent)
-	{
+	public static function getDTEndFromVEvent($vevent){
 		if ($vevent->DTEND) {
 			$dtend = $vevent->DTEND;
 		}else{
@@ -808,13 +807,16 @@ class OC_Calendar_Object{
 		return ($event['repeating'] == 1)?true:false;
 	}
 
-	public static function generateStartEndDate($dtstart, $dtend, $tz){
+	public static function generateStartEndDate($dtstart, $dtend, $allday, $tz){
 		$start_dt = $dtstart->getDateTime();
 		$end_dt = $dtend->getDateTime();
 		$return = array();
 		if($allday){
 			$return['start'] = $start_dt->format('Y-m-d');
-			$end_dt->modify('-1 hour');
+			$end_dt->modify('-1 day');
+			while($start_dt->format('U') >= $end_dt->format('U')){
+				$end_dt->modify('+1 day');
+			}
 			$return['end'] = $end_dt->format('Y-m-d');
 		}else{
 			$start_dt->setTimezone(new DateTimeZone($tz));

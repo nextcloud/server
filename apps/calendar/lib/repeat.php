@@ -98,7 +98,7 @@ class OC_Calendar_Repeat{
 			if(!($vevent instanceof Sabre_VObject_Component_VEvent)){
 				continue;
 			}
-			$startenddate = OC_Calendar_Object::generateStartEndDate($vevent->DTSTART, OC_Calendar_Object::getDTEndFromVEvent($vevent), 'UTC');
+			$startenddate = OC_Calendar_Object::generateStartEndDate($vevent->DTSTART, OC_Calendar_Object::getDTEndFromVEvent($vevent), ($vevent->DTSTART->getDateType() == Sabre_VObject_Element_DateTime::DATE)?true:false, 'UTC');
 			$stmt = OCP\DB::prepare('INSERT INTO *PREFIX*calendar_repeat (eventid,calid,startdate,enddate) VALUES(?,?,?,?)');
 			$stmt->execute(array($id,OC_Calendar_Object::getCalendarid($id),$startenddate['start'],$startenddate['end']));
 		}
@@ -111,8 +111,8 @@ class OC_Calendar_Repeat{
 	 */
 	public static function generateCalendar($id){
 		$allobjects = OC_Calendar_Object::all($id);
-		foreach($allobjects['id'] as $eventid){
-			self::generate($eventid);
+		foreach($allobjects as $event){
+			self::generate($event['id']);
 		}
 		return true;
 	}

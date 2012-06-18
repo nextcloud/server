@@ -399,11 +399,11 @@ class OC_Calendar_App{
 			}
 		}else{
 			$object->expand($start, $end);
-			foreach($object->getComponents() as $vevent){
-				if(!($vevent instanceof Sabre_VObject_Component_VEvent)){
+			foreach($object->getComponents() as $singleevent){
+				if(!($singleevent instanceof Sabre_VObject_Component_VEvent)){
 					continue;
 				}
-				$dynamicoutput = OC_Calendar_Object::generateStartEndDate($vevent->DTSTART, OC_Calendar_Object::getDTEndFromVEvent($vevent), self::$tz);
+				$dynamicoutput = OC_Calendar_Object::generateStartEndDate($singleevent->DTSTART, OC_Calendar_Object::getDTEndFromVEvent($singleevent), $allday, self::$tz);
 				$return[] = array_merge($staticoutput, $dynamicoutput);
 			}
 		}
