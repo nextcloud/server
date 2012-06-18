@@ -17,7 +17,8 @@ OC_App::setActiveNavigationEntry( 'personal' );
 
 // calculate the disc space
 $rootInfo=OC_FileCache::get('');
-$used=$rootInfo['size'];
+$sharedInfo=OC_FileCache::get('/Shared');
+$used=$rootInfo['size']-$sharedInfo['size'];
 $free=OC_Filesystem::free_space();
 $total=$free+$used;
 if($total==0) $total=1;  // prevent division by zero

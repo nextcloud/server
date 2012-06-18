@@ -1,17 +1,6 @@
 <?php
 
-abstract class OC_Minimizer
-{
-	protected $files = array();
-
-	protected function appendIfExist($root, $webroot, $file) {
-                if (is_file($root.'/'.$file)) {
-			$this->files[] = array($root, $webroot, $file);
-                        return true;
-                }
-                return false;
-	}
-
+abstract class OC_Minimizer {
 	public function getLastModified($files) {
 		$last_modified = 0;
 		foreach($files as $file_info) {

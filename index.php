@@ -69,6 +69,7 @@ elseif(OC_User::isLoggedIn()) {
 
 // For all others cases, we display the guest page :
 } else {
+	OC_App::loadApps(array('prelogin'));
 	$error = false;
 	// remember was checked after last login
 	if(isset($_COOKIE["oc_remember_login"]) && isset($_COOKIE["oc_token"]) && isset($_COOKIE["oc_username"]) && $_COOKIE["oc_remember_login"]) {
