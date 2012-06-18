@@ -282,7 +282,7 @@ class OC{
 			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
 				$file = 'apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE;
 				$minimizer = new OC_Minimizer_CSS();
-				$minimizer->output(array(array(OC::$APPSROOT, OC::$APPSWEBROOT, $file)));
+				$minimizer->output(array(array(OC::$APPSROOT, OC::$APPSWEBROOT, $file)), $file);
 				exit;
 			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
 				require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
