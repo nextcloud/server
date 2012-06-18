@@ -16,7 +16,12 @@ class OC_Cache_FileGlobal{
 		return $cache_dir;
 	}
 
+	protected function fixKey($key) {
+		return str_replace('/', '_', $key);
+	}
+
 	public function get($key) {
+		$key = $this->fixKey($key);
 		if ($this->hasKey($key)) {
 			$cache_dir = $this->getCacheDir();
 			return file_get_contents($cache_dir.$key);
@@ -25,6 +30,7 @@ class OC_Cache_FileGlobal{
 	}
 
 	public function set($key, $value, $ttl=0) {
+		$key = $this->fixKey($key);
 		$cache_dir = $this->getCacheDir();
 		if ($cache_dir and file_put_contents($cache_dir.$key, $value)) {
 			if ($ttl === 0) {
@@ -36,6 +42,7 @@ class OC_Cache_FileGlobal{
 	}
 
 	public function hasKey($key) {
+		$key = $this->fixKey($key);
 		$cache_dir = $this->getCacheDir();
 		if ($cache_dir && is_file($cache_dir.$key)) {
 			$mtime = filemtime($cache_dir.$key);
@@ -53,6 +60,7 @@ class OC_Cache_FileGlobal{
 		if(!$cache_dir){
 			return false;
 		}
+		$key = $this->fixKey($key);
 		return unlink($cache_dir.$key);
 	}
 
