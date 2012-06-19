@@ -488,4 +488,5 @@ class OC_Filesystem{
 	}
 }
 
+OC_Util::setupFS();
 require_once('filecache.php');

@@ -14,7 +14,7 @@ class OC_Util {
 	public static $core_scripts=array();
 
 	// Can be set up
-	public static function setupFS( $user = "", $root = "files" ){// configure the initial filesystem based on the configuration
+	public static function setupFS( $user = '' ){// configure the initial filesystem based on the configuration
 		if(self::$fsSetup){//setting up the filesystem twice can only lead to trouble
 			return false;
 		}
@@ -32,13 +32,14 @@ class OC_Util {
 		}
 
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
-			$userdirectory = $CONFIG_DATADIRECTORY."/$user/$root";
+			$user_dir = '/'.$user.'/files';
+			$userdirectory = $CONFIG_DATADIRECTORY.$user_dir;
 			if( !is_dir( $userdirectory )){
 				mkdir( $userdirectory, 0755, true );
 			}
 
 			//jail the user into his "home" directory
-			OC_Filesystem::init('/'.$user.'/'.$root);
+			OC_Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
 			self::$fsSetup=true;
@@ -51,6 +52,7 @@ class OC_Util {
 					}
 				}
 			}
+			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $user_dir));
 		}
 	}
 

@@ -510,8 +510,9 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		}
 	}
 
-	public static function setup() {
-		OC_Filesystem::mount('OC_Filestorage_Shared', array('datadir' => '/'.OCP\USER::getUser().'/files/Shared'), '/'.OCP\USER::getUser().'/files/Shared/');
+	public static function setup($options) {
+		$user_dir = $options['user_dir'];
+		OC_Filesystem::mount('OC_Filestorage_Shared', array('datadir' => $user_dir.'/Shared'), $user_dir.'/Shared/');
 	}
 
 	/**
@@ -524,11 +525,3 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		return $this->filemtime($path)>$time;
 	}
 }
-
-if (OCP\USER::isLoggedIn()) {
-	OC_Filestorage_Shared::setup();
-} else {
-	OCP\Util::connectHook('OC_User', 'post_login', 'OC_Filestorage_Shared', 'setup');
-}
-
-?>
