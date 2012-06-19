@@ -268,6 +268,7 @@ class OC_Template{
 	 *
 	 * If the key existed before, it will be overwritten
 	 */
+
 	public function assign( $key, $value ){
 		$this->vars[$key] = $value;
 		return true;
