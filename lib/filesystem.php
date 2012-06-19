@@ -399,6 +399,9 @@ class OC_Filesystem{
 	static public function opendir($path){
 		return self::$defaultInstance->opendir($path);
 	}
+	static public function readdir($path){
+		return self::$defaultInstance->readdir($path);
+	}
 	static public function is_dir($path){
 		return self::$defaultInstance->is_dir($path);
 	}

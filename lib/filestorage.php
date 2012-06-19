@@ -28,6 +28,7 @@ abstract class OC_Filestorage{
 	abstract public function mkdir($path);
 	abstract public function rmdir($path);
 	abstract public function opendir($path);
+	abstract public function readdir($path);
 	abstract public function is_dir($path);
 	abstract public function is_file($path);
 	abstract public function stat($path);
