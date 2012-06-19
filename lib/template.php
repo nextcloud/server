@@ -313,17 +313,6 @@ class OC_Template{
 		return true;
 	}
 
-
-	/**
-	 * @brief Internaly used to sanitze HTML
-	 *
-	 * This function is internally used to sanitize HTML.
-	 */
- 	private static function sanitizeHTML( &$value ){
- 			$value = htmlentities( $value , ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
- 			return $value;
-    }
-
 	/**
 	 * @brief Appends a variable
 	 * @param $key key
