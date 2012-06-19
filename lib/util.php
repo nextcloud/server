@@ -24,16 +24,16 @@ class OC_Util {
 			$user = OC_User::getUser();
 		}
 
-		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
+		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted){
-			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
+			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY),'/');
 			self::$rootMounted=true;
 		}
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
-			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
-			if( !is_dir( OC::$CONFIG_DATADIRECTORY )){
-				mkdir( OC::$CONFIG_DATADIRECTORY, 0755, true );
+			$userdirectory = $CONFIG_DATADIRECTORY."/$user/$root";
+			if( !is_dir( $userdirectory )){
+				mkdir( $userdirectory, 0755, true );
 			}
 
 			//jail the user into his "home" directory
@@ -42,8 +42,8 @@ class OC_Util {
 			OC_FileProxy::register($quotaProxy);
 			self::$fsSetup=true;
 			// Load personal mount config
-			if (is_file($CONFIG_DATADIRECTORY_ROOT.'/'.$user.'/mount.php')) {
-				$mountConfig = include($CONFIG_DATADIRECTORY_ROOT.'/'.$user.'/mount.php');
+			if (is_file($CONFIG_DATADIRECTORY.'/'.$user.'/mount.php')) {
+				$mountConfig = include($CONFIG_DATADIRECTORY.'/'.$user.'/mount.php');
 				if (isset($mountConfig['user'][$user])) {
 					foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
 						OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
@@ -202,17 +202,17 @@ class OC_Util {
 			$errors[]=array('error'=>"Can't write into apps directory 'apps'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
 		}
 
-		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
+		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
                 	$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
-			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
+			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)),-3);
 			if(substr($prems,-1)!='0'){
-				OC_Helper::chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
+				OC_Helper::chmodr($CONFIG_DATADIRECTORY,0770);
 				clearstatcache();
-				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
+				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)),-3);
 				if(substr($prems,2,1)!='0'){
-					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable for other users<br/>','hint'=>$permissionsModHint);
+					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') is readable for other users<br/>','hint'=>$permissionsModHint);
 				}
 			}
 			if( OC_Config::getValue( "enablebackup", false )){
@@ -231,13 +231,13 @@ class OC_Util {
 			//TODO: permissions checks for windows hosts
 		}
 		// Create root dir.
-		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
-			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
+		if(!is_dir($CONFIG_DATADIRECTORY)){
+			$success=@mkdir($CONFIG_DATADIRECTORY);
 			if(!$success) {
-				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
+				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
 			}
-		} else if(!is_writable($CONFIG_DATADIRECTORY_ROOT)){
-			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
+		} else if(!is_writable($CONFIG_DATADIRECTORY)){
+			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
 		}
 
 		// check if all required php modules are present
