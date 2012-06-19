@@ -43,19 +43,19 @@ class Share {
 
 	/**
 	* @brief Register a sharing backend class that extends OCP\Share_Backend for an item type
-	* @param string Class
 	* @param string Item type
+	* @param object Backend class
 	* @param string (optional) Depends on item type
 	* @param array (optional) List of supported file extensions if this item type depends on files
 	* @return Returns true if backend is registered or false if error
 	*/
-	public static function registerBackend($class, $itemType, $dependsOn = null, $supportedFileExtensions = null) {
+	public static function registerBackend($itemType, $class, $dependsOn = null, $supportedFileExtensions = null) {
 		if (is_subclass_of($class, 'OCP\Share_Backend')) {
-			if (!isset(self::$backendTypes[$itemType])) {
-				self::$backendTypes[$itemType] = array('class' => $class, 'dependsOn' => $dependsOn, 'supportedFileExtensions' => $supportedFileExtensions);
+			if (!isset(self::$backends[$itemType])) {
+				self::$backends[$itemType] = array('class' => $class, 'dependsOn' => $dependsOn, 'supportedFileExtensions' => $supportedFileExtensions);
 				return true;
 			} else {
-				\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class'].' is already registered for '.$itemType, \OC_Log::WARN);
+				\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not registered, '.self::$backends[$itemType]['class'].' is already registered for '.$itemType, \OC_Log::WARN);
 				return false;
 			}
 		}
@@ -111,8 +111,10 @@ class Share {
 	public static function share($itemType, $item, $shareType, $shareWith, $permissions) {
 		$uidOwner = \OC_User::getUser();
 		// Verify share type and sharing conditions are met
+		// TODO Doesn't handle types 
 		switch ($shareType) {
 			case self::SHARETYPE_USER:
+				\OC_Log::write('OCP\Share', 'share type '.$shareType, \OC_Log::ERROR);
 				if ($shareWith == $uidOwner) {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the user '.$shareWith.' is the item owner', \OC_Log::ERROR);
 					return false;
@@ -153,6 +155,7 @@ class Share {
 				// TODO don't loop through folder conversion
 				$uidSharedWith = '';
 				$gidSharedWith = null;
+				break;
 			default:
 				\OC_Log::write('OCP\Share', 'Share type '.$shareType.' is not valid for '.$item, \OC_Log::ERROR);
 				return false;
@@ -218,11 +221,10 @@ class Share {
 	public static function unshareFromSelf($itemType, $itemTarget) {
 		$uidSharedWith = \OC_User::getUser();
 		if ($item = self::getItems($itemType, $itemTarget, $uidSharedWith, true, null, false, 1)) {
-			// TODO Check if item is inside a shared folder and was converted
+			// Check if item is inside a shared folder and was converted
 			if ($item['parent']) {
 				$query = \OC_DB::prepare('SELECT item_type FROM *PREFIX*sharing WHERE id = ? LIMIT 1');
 				$result = $query->execute(array($item['parent']))->fetchRow();
-				// TODO Check other parents
 				if (isset($result['item_type']) && $result['item_type'] = 'folder') {
 					return false;
 				}
@@ -337,23 +339,14 @@ class Share {
 		return false;
 	}
 
-		/**
+	/**
 	* @brief Get the backend class for the specified item type
 	* @param string Item type
 	* @return Sharing backend object
 	*/
 	private static function getBackend($itemType) {
-		if (isset(self::$backends[$itemType])) {
-			return self::$backends[$itemType];
-		} else if (isset(self::$backendTypes[$itemType]['class'])) {
-			$class = self::$backendTypes[$itemType]['class'];
-			if (class_exists($class)) {
-				self::$backends[$itemType] = new $class;
-				return self::$backends[$itemType];
-			} else {
-				\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not found', \OC_Log::ERROR);
-				return false;
-			}
+		if (isset(self::$backends[$itemType]['class'])) {
+			return self::$backends[$itemType]['class'];
 		}
 		\OC_Log::write('OCP\Share', 'Sharing backend for '.$itemType.' not found', \OC_Log::ERROR);
 		return false;
