@@ -308,13 +308,7 @@ class OC_Template{
 	 * If the key existed before, it will be overwritten
 	 */
 	public function assign( $key, $value, $sanitizeHTML=true ){
-		if($sanitizeHTML == true) {
-			if(is_array($value)) {
-				array_walk_recursive($value,'OC_Template::sanitizeHTML');
-			} else {
-				$value = OC_Template::sanitizeHTML($value);
-			}
-		}
+		if($sanitizeHTML == true) $value=OC_Util::sanitizeHTML($value);
 		$this->vars[$key] = $value;
 		return true;
 	}
