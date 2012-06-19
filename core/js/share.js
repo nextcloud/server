@@ -6,7 +6,7 @@ OC.Share={
 	usersAndGroups:[],
 	loadIcons:function() {
 		// Cache all icons for shared files
-		$.getJSON(OC.filePath('files_sharing', 'ajax', 'getstatuses.php'), function(result) {
+		$.getJSON(OC.filePath('core', 'ajax', 'share.php'), function(result) {
 			if (result && result.status === 'success') {
 				$.each(result.data, function(item, hasPrivateLink) {
 					if (hasPrivateLink) {
@@ -19,7 +19,7 @@ OC.Share={
 		});
 	},
 	loadItem:function(item) {
-		$.ajax({type: 'GET', url: OC.filePath('files_sharing', 'ajax', 'getitem.php'), data: { item: item }, async: false, success: function(result) {
+		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { item: item }, async: false, success: function(result) {
 			if (result && result.status === 'success') {
 				var item = result.data;
 				OC.Share.itemUsers = item.users;
@@ -29,7 +29,7 @@ OC.Share={
 		}});
 	},
 	share:function(source, uid_shared_with, permissions, callback) {
-		$.post(OC.filePath('files_sharing', 'ajax', 'share.php'), { sources: source, uid_shared_with: uid_shared_with, permissions: permissions }, function(result) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { sources: source, uid_shared_with: uid_shared_with, permissions: permissions }, function(result) {
 			if (result && result.status === 'success') {
 				if (callback) {
 					callback(result.data);
@@ -40,7 +40,7 @@ OC.Share={
 		});
 	},
 	unshare:function(source, uid_shared_with, callback) {
-		$.post(OC.filePath('files_sharing', 'ajax', 'unshare.php'), { source: source, uid_shared_with: uid_shared_with }, function(result) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { source: source, uid_shared_with: uid_shared_with }, function(result) {
 			if (result && result.status === 'success') {
 				if (callback) {
 					callback();
@@ -50,8 +50,8 @@ OC.Share={
 			}
 		});
 	},
-	changePermissions:function(source, uid_shared_with, permissions) {
-		$.post(OC.filePath('files_sharing','ajax','setpermissions.php'), { source: source, uid_shared_with: uid_shared_with, permissions: permissions }, function(result) {
+	setPermissions:function(source, uid_shared_with, permissions) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { source: source, uid_shared_with: uid_shared_with, permissions: permissions }, function(result) {
 			if (!result || result.status !== 'success') {
 				OC.dialogs.alert('Error', 'Error while changing permissions');
 			}
