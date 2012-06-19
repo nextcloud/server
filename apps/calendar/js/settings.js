@@ -53,7 +53,7 @@ $(document).ready(function(){
 });
 function calendarcachecheck(){
 	$.getJSON(OC.filePath('calendar', 'ajax/cache', 'status.php'), function(jsondata, status) {
-		$('#cleancalendarcache').attr('title', jsondata.l10n);
+		$('#cleancalendarcache').attr('title', jsondata.l10n.text);
 		if(jsondata.status == 'success'){
 			$('#cleancalendarcache').css('background', '#90EE90');
 			$('#cleancalendarcache').css('color', '#333');
