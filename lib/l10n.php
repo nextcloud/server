@@ -40,6 +40,16 @@ class OC_L10N{
 	protected static $language = '';
 	
 	/**
+	 * App of this object
+	 */
+	protected $app;
+
+	/**
+	 * Language of this object
+	 */
+	protected $lang;
+
+	/**
 	 * Translations
 	 */
 	private $translations = array();
@@ -77,10 +87,17 @@ class OC_L10N{
 	 * language.
 	 */
 	public function __construct($app, $lang = null){
-		$this->init($app, $lang);
+		$this->app = $app;
+		$this->lang = $lang;
 	}
 		
-	protected function init($app, $lang = null){
+	protected function init(){
+		if ($this->app === true) {
+			return;
+		}
+		$app = $this->app;
+		$lang = $this->lang;
+		$this->app = true;
 		// Find the right language
 		if(is_null($lang)){
 			$lang = self::findLanguage($app);
@@ -127,10 +144,7 @@ class OC_L10N{
 	 * returned.
 	 */
 	public function t($text, $parameters = array()){
-		if(array_key_exists($text, $this->translations)){
-			return vsprintf($this->translations[$text], $parameters);
-		}
-		return vsprintf($text, $parameters);
+		return new OC_L10N_String($this, $text, $parameters);
 	}
 
 	/**
@@ -144,7 +158,7 @@ class OC_L10N{
 	public function tA($textArray){
 		$result = array();
 		foreach($textArray as $key => $text){
-			$result[$key] = $this->t($text);
+			$result[$key] = (string)$this->t($text);
 		}
 		return $result;
 	}
@@ -156,6 +170,7 @@ class OC_L10N{
 	 * Returns an associative array with all translations
 	 */
 	public function getTranslations(){
+		$this->init();
 		return $this->translations;
 	}
 
@@ -182,6 +197,7 @@ class OC_L10N{
 	 *    - params: timestamp (int/string)
 	 */
 	public function l($type, $data){
+		$this->init();
 		switch($type){
 			// If you add something don't forget to add it to $localizations
 			// at the top of the page
