@@ -19,41 +19,12 @@ class OC_Util {
 			return false;
 		}
 
-		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
-		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
-
-		// Check if config folder is writable.
-		if(!is_writable(OC::$SERVERROOT."/config/")) {
-			$tmpl = new OC_Template( '', 'error', 'guest' );
-			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
-			$tmpl->printPage();
-			exit;
-		}
-		
-		// Check if apps folder is writable.
-		if(OC_Config::getValue('writable_appsdir', true) && !is_writable(OC::$SERVERROOT."/apps/")) {
-			$tmpl = new OC_Template( '', 'error', 'guest' );
-			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into apps directory 'apps'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
-			$tmpl->printPage();
-			exit;
-		}
-		
-		// Create root dir.
-		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
-			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
-			if(!$success) {
-				$tmpl = new OC_Template( '', 'error', 'guest' );
-				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ")));
-				$tmpl->printPage();
-				exit;
-  			}
-		}
-
 		// If we are not forced to load a specific user we load the one that is logged in
 		if( $user == "" && OC_User::isLoggedIn()){
 			$user = OC_User::getUser();
 		}
 
+		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted){
 			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
@@ -209,9 +180,6 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer(){
-		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
-		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
-		$CONFIG_INSTALLED = OC_Config::getValue( "installed", false );
 		$errors=array();
 
 		//check for database drivers
@@ -224,6 +192,17 @@ class OC_Util {
 		//common hint for all file permissons error messages
 		$permissionsHint="Permissions can usually be fixed by giving the webserver write access to the ownCloud directory";
 
+		// Check if config folder is writable.
+		if(!is_writable(OC::$SERVERROOT."/config/")) {
+			$errors[]=array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
+		}
+
+		// Check if apps folder is writable.
+		if(OC_Config::getValue('writable_appsdir', true) && !is_writable(OC::$SERVERROOT."/apps/")) {
+			$errors[]=array('error'=>"Can't write into apps directory 'apps'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
+		}
+
+		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
                 	$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
@@ -237,6 +216,7 @@ class OC_Util {
 				}
 			}
 			if( OC_Config::getValue( "enablebackup", false )){
+				$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
 				$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 				if(substr($prems,-1)!='0'){
 					OC_Helper::chmodr($CONFIG_BACKUPDIRECTORY,0770);
@@ -250,7 +230,13 @@ class OC_Util {
 		}else{
 			//TODO: permissions checks for windows hosts
 		}
-		if(is_dir($CONFIG_DATADIRECTORY_ROOT) and !is_writable($CONFIG_DATADIRECTORY_ROOT)){
+		// Create root dir.
+		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
+			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
+			if(!$success) {
+				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
+			}
+		} else if(!is_writable($CONFIG_DATADIRECTORY_ROOT)){
 			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
 		}
 
