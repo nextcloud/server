@@ -1700,5 +1700,6 @@ $(document).ready(function(){
 	$('#contacts_propertymenu_dropdown a').click(propertyMenuItem);
 	$('#contacts_propertymenu_dropdown a').keydown(propertyMenuItem);
 
+	Contacts.UI.loadHandlers();
 	Contacts.UI.Contacts.update();
 });
