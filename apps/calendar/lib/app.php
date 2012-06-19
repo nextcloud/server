@@ -398,7 +398,9 @@ class OC_Calendar_App{
 				$return[] = array_merge($staticoutput, $dynamicoutput);
 			}
 		}else{
-			$object->expand($start, $end);
+			if(OC_Calendar_Object::isrepeating($id)){
+				$object->expand($start, $end);
+			}
 			foreach($object->getComponents() as $singleevent){
 				if(!($singleevent instanceof Sabre_VObject_Component_VEvent)){
 					continue;
