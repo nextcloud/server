@@ -370,7 +370,7 @@ class OC_Util {
 		$_SESSION['requesttoken-'.$token]=time();
 
 		// cleanup old tokens garbage collector
-		// only run every 20th time so we don´t waste cpu cycles
+		// only run every 20th time so we don't waste cpu cycles
 		if(rand(0,20)==0) {  
 			foreach($_SESSION as $key=>$value) {
 				// search all tokens in the session
@@ -426,4 +426,19 @@ class OC_Util {
 			exit;
 		}
 	}
+	
+	/**
+	 * @brief Public function to sanitize HTML
+	 *
+	 * This function is used to sanitize HTML and should be applied on any string or array of strings before displaying it on a web page.
+	 * 
+	 * @param string or array of strings
+	 * @return array with sanitized strings or a single sinitized string, depends on the input parameter.
+	 */
+	public static function sanitizeHTML( &$value ){
+		if (is_array($value) || is_object($value)) array_walk_recursive($value,'OC_Util::sanitizeHTML');
+		else $value = htmlentities($value, ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
+		return $value;
+	}
+
 }
