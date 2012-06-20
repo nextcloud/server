@@ -19,17 +19,18 @@ class OC_Util {
 			return false;
 		}
 
-		// If we are not forced to load a specific user we load the one that is logged in
-		if( $user == "" && OC_User::isLoggedIn()){
-			$user = OC_User::getUser();
-		}
-
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted){
 			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY),'/');
 			self::$rootMounted=true;
 		}
+
+		// If we are not forced to load a specific user we load the one that is logged in
+		if( $user == "" && OC_User::isLoggedIn()){
+			$user = OC_User::getUser();
+		}
+
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 			$userdirectory = $CONFIG_DATADIRECTORY."/$user/$root";
 			if( !is_dir( $userdirectory )){
