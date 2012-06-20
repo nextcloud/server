@@ -303,66 +303,88 @@ class Storage {
          */
         public static function expireAll() {
 	
-		function deleteAll($directory, $empty = false) {
+		function deleteAll( $directory, $empty = false ) {
 		
-			if(substr($directory,-1) == "/") {
-				$directory = substr($directory,0,-1);
+			// strip leading slash
+			if( substr( $directory, 0, 1 ) == "/" ) {
+			
+				$directory = substr( $directory, 1 );
+				
+			}
+			
+			// strip trailing slash
+			if( substr( $directory, -1) == "/" ) {
+			
+				$directory = substr( $directory, 0, -1 );
+				
 			}
 
-			if(!file_exists($directory) || !is_dir($directory)) {
+			$view = new \OC_FilesystemView('');
+			
+			if ( !$view->file_exists( $directory ) || !$view->is_dir( $directory ) ) {
 			
 				return false;
 				
-			} elseif(!is_readable($directory)) {
+			} elseif( !$view->is_readable( $directory ) ) {
 			
 				return false;
 				
 			} else {
 			
-				$directoryHandle = opendir($directory);
-			
-				while ($contents = readdir($directoryHandle)) {
+				$foldername = \OCP\Config::getSystemValue('datadirectory') .'/' . \OCP\USER::getUser() .'/' . $directory; // have to set an absolute path for use with PHP's opendir as OC version doesn't work
 				
-					if( $contents != '.' && $contents != '..') {
+				$directoryHandle = opendir( $foldername );	
+			
+				while ( $contents = $view->readdir( $directoryHandle ) ) {
+				
+					if ( $contents != '.' && $contents != '..') {
 						
 						$path = $directory . "/" . $contents;
 					
-						if( is_dir($path) ) {
+						if ( $view->is_dir( $path ) ) {
 							
-							deleteAll($path);
+							deleteAll( $path );
 						
 						} else {
-						
-							unlink($path);
+							
+							$view->unlink( \OCP\USER::getUser() .'/' . $path ); // TODO: make unlink use same system path as is_dir
 						
 						}
 					}
 				
 				}
 			
-				closedir( $directoryHandle );
+				//$view->closedir( $directoryHandle ); // TODO: implement closedir in OC_FSV
 
-				if( $empty == false ) {
+				if ( $empty == false ) {
 				
-					if(!rmdir($directory)) {
+					if ( !$view->rmdir( $directory ) ) {
 					
 						return false;
 						
 					}
 					
-				}
+ 				}
 			
 				return true;
 			}
 			
 		}
-	
-		/*	
-		// FIXME: make this path dynamic
-		$dir = '/home/samtuke/owncloud/git/oc5/data/admin/versions';
+		
+		$dir = \OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
+		
+		deleteAll( $dir, true );
 
-		( deleteAll( $dir, 1 ) ? return true : return false );
-		*/
+// 		if ( deleteAll( $dir, 1 ) ) {
+// 		
+// 			echo "<h1>deleted ok</h1>";
+// 			
+// 		} else {
+// 			
+// 			echo "<h1>not deleted</h1>";
+// 			
+// 		}
+	
         }
 
 

@@ -166,7 +166,9 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 				$result[] = OC_LDAP::dn2username($ldap_users[0]);
 				continue;
 			} else {
-				$result[] = OC_LDAP::dn2username($member);
+				if($ocname = OC_LDAP::dn2username($member)){
+					$result[] = $ocname;
+				}
 			}
 		}
 		if(!$isMemberUid) {
