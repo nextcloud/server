@@ -333,9 +333,9 @@ class Storage {
 			
 				$foldername = \OCP\Config::getSystemValue('datadirectory') .'/' . \OCP\USER::getUser() .'/' . $directory; // have to set an absolute path for use with PHP's opendir as OC version doesn't work
 				
-				$directoryHandle = opendir( $foldername );	
-			
-				while ( $contents = $view->readdir( $directoryHandle ) ) {
+				$directoryHandle = $view->opendir( \OCP\USER::getUser() . '/' . $directory );
+				
+				while ( $contents = readdir( $directoryHandle ) ) {
 				
 					if ( $contents != '.' && $contents != '..') {
 						
@@ -373,17 +373,15 @@ class Storage {
 		
 		$dir = \OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 		
-		deleteAll( $dir, true );
-
-// 		if ( deleteAll( $dir, 1 ) ) {
-// 		
-// 			echo "<h1>deleted ok</h1>";
-// 			
-// 		} else {
-// 			
-// 			echo "<h1>not deleted</h1>";
-// 			
-// 		}
+		if ( deleteAll( $dir, true ) ) {
+		
+			return true;
+			
+		} else {
+			
+			return false;
+			
+		}
 	
         }
 
