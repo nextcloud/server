@@ -266,6 +266,9 @@ class OC_FileCache{
 		}
 		$path=$root.$path;
 		$parent=self::getFileId($path);
+		if($path==-1){
+			return array();
+		}
     $query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE parent=? AND (mimetype LIKE ? OR mimetype = ?)');
     $result=$query->execute(array($parent, $mimetype_filter.'%', 'httpd/unix-directory'))->fetchAll();
 		if(is_array($result)){
