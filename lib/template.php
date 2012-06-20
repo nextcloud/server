@@ -308,27 +308,10 @@ class OC_Template{
 	 * If the key existed before, it will be overwritten
 	 */
 	public function assign( $key, $value, $sanitizeHTML=true ){
-		if($sanitizeHTML == true) {
-			if(is_array($value)) {
-				array_walk_recursive($value,'OC_Template::sanitizeHTML');
-			} else {
-				$value = OC_Template::sanitizeHTML($value);
-			}
-		}
+		if($sanitizeHTML == true) $value=OC_Util::sanitizeHTML($value);
 		$this->vars[$key] = $value;
 		return true;
 	}
-
-
-	/**
-	 * @brief Internaly used to sanitze HTML
-	 *
-	 * This function is internally used to sanitize HTML.
-	 */
- 	private static function sanitizeHTML( &$value ){
- 			$value = htmlentities( $value , ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
- 			return $value;
-    }
 
 	/**
 	 * @brief Appends a variable

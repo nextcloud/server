@@ -158,6 +158,10 @@ class OC_FilesystemView {
 	public function opendir($path){
 		return $this->basicOperation('opendir',$path,array('read'));
 	}
+	public function readdir($handle){
+		$fsLocal= new OC_Filestorage_Local( array( 'datadir' => '/' ) );
+		return $fsLocal->readdir( $handle );
+	}
 	public function is_dir($path){
 		if($path=='/'){
 			return true;

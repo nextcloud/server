@@ -139,6 +139,8 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		}
 	}
 	
+	public function readdir( $path ) {}
+	
 	public function is_dir($path) {
 		if ($path == "" || $path == "/") {
 			return true;

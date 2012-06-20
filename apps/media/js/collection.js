@@ -97,13 +97,13 @@ Collection={
 					if(artist.name && artist.songs.length>0){
 						var tr=template.clone().removeClass('template');
 						if(artist.songs.length>1){
-							tr.find('td.title a').text(artist.songs.length+' '+t('media','songs'));
-							tr.find('td.album a').text(artist.albums.length+' '+t('media','albums'));
+							tr.find('td.title a').html(artist.songs.length+' '+t('media','songs'));
+							tr.find('td.album a').html(artist.albums.length+' '+t('media','albums'));
 						}else{
-							tr.find('td.title a').text(artist.songs[0].name);
-							tr.find('td.album a').text(artist.albums[0].name);
+							tr.find('td.title a').html(artist.songs[0].name);
+							tr.find('td.album a').html(artist.albums[0].name);
 						}
-						tr.find('td.artist a').text(artist.name);
+						tr.find('td.artist a').html(artist.name);
 						tr.data('artistData',artist);
 						tr.find('td.artist a').click(function(event){
 							event.preventDefault();
