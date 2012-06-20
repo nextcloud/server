@@ -59,7 +59,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	 * @return bool
 	 */
 	private static function isEncrypted($path){
-		$metadata=OC_FileCache::getCached($path,'');
+		$metadata=OC_FileCache::getCached($path,'/');
 		return isset($metadata['encrypted']) and (bool)$metadata['encrypted'];
 	}
 	
@@ -67,7 +67,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		if(self::shouldEncrypt($path)){
 			if (!is_resource($data)) {//stream put contents should have been converter to fopen
 				$data=OC_Crypt::blockEncrypt($data);
-				OC_FileCache::put($path,array('encrypted'=>true));
+				OC_FileCache::put($path,array('encrypted'=>true),'/');
 			}
 		}
 	}

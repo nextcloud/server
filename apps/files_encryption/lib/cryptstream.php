@@ -159,7 +159,7 @@ class OC_CryptStream{
 	public function stream_close(){
 		$this->flush();
 		if($this->meta['mode']!='r' and $this->meta['mode']!='rb'){
-			OC_FileCache::put($this->path,array('encrypted'=>true));
+			OC_FileCache::put($this->path,array('encrypted'=>true),'/');
 		}
 		return fclose($this->source);
 	}
