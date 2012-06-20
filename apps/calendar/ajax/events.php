@@ -32,4 +32,4 @@ $output = array();
 foreach($events as $event){
 	$output = array_merge($output, OC_Calendar_App::generateEventOutput($event, $start, $end));
 }
-OCP\JSON::encodedPrint($output);
+OCP\JSON::encodedPrint(OCP\Util::sanitizeHTML($output));
