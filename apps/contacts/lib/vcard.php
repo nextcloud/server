@@ -56,7 +56,7 @@ class OC_Contacts_VCard{
 				$stmt = OCP\DB::prepare( $prep );
 				$result = $stmt->execute($id);
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OCP\Util::ERROR);
 				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all, ids: '.join(',', $id),OCP\Util::DEBUG);
 				OCP\Util::writeLog('contacts','SQL:'.$prep,OCP\Util::DEBUG);
 			}
