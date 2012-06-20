@@ -43,10 +43,6 @@ class OC{
 	 */
 	public static $WEBROOT = '';
 	/**
-	 * the folder that stores that data files for the filesystem of the user (e.g. /srv/http/owncloud/data/myusername/files)
-	 */
-	public static $CONFIG_DATADIRECTORY = '';
-	/**
 	 * The installation path of the 3rdparty folder on the server (e.g. /srv/http/owncloud/3rdparty)
 	 */
 	public static $THIRDPARTYROOT = '';
@@ -349,18 +345,10 @@ class OC{
 			exit;
 		}
 
-		// TODO: we should get rid of this one, too
-		// WARNING: to make everything even more confusing,
-		//   DATADIRECTORY is a var that changes and DATADIRECTORY_ROOT
-		//   stays the same, but is set by "datadirectory".
-		//   Any questions?
-		OC::$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
-
 		// User and Groups
 		if( !OC_Config::getValue( "installed", false )){
 			$_SESSION['user_id'] = '';
 		}
-
 
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 		OC_Group::useBackend(new OC_Group_Database());
