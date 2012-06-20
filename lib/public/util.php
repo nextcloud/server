@@ -274,7 +274,7 @@ class Util {
 	 * @return array with sanitized strings or a single sinitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( $value ){
-		return(\OC_Util::sanitizeHTML($value)); //Specify encoding for PHP<5.4
+		return(\OC_Util::sanitizeHTML($value));
 	}
 }
 

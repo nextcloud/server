@@ -1,0 +1,7 @@
+#files_sharing_log {
+padding: 2em;
+}
+#files_sharing_log th,
+#files_sharing_log td {
+padding: 0 1em;
+}

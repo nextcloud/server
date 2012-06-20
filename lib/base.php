@@ -353,12 +353,6 @@ class OC{
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 		OC_Group::useBackend(new OC_Group_Database());
 
-		// Set up file system unless forbidden
-		global $RUNTIME_NOSETUPFS;
-		if(!$RUNTIME_NOSETUPFS ){
-			OC_Util::setupFS();
-		}
-
 		// Load Apps
 		// This includes plugins for users and filesystems as well
 		global $RUNTIME_NOAPPS;
