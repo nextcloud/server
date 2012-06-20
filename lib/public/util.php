@@ -266,6 +266,17 @@ class Util {
 		return(\OC_Util::callCheck());
 	}
 
+	/**
+	 * @brief Used to sanitize HTML
+	 *
+	 * This function is used to sanitize HTML and should be applied on any string or array of strings before displaying it on a web page.
+	 *
+	 * @param string or array of strings
+	 * @return array with sanitized strings or a single sinitized string, depends on the input parameter.
+	 */
+	public static function sanitizeHTML( $value ){
+		return(\OC_Util::sanitizeHTML($value));
+	}
 }
 
 ?>
