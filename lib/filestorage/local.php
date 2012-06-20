@@ -20,9 +20,6 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	public function opendir($path){
 		return opendir($this->datadir.$path);
 	}
-	public function readdir($handle){
-		return readdir($handle);
-	}
 	public function is_dir($path){
 		if(substr($path,-1)=='/'){
 			$path=substr($path,0,-1);
