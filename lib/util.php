@@ -14,14 +14,9 @@ class OC_Util {
 	public static $core_scripts=array();
 
 	// Can be set up
-	public static function setupFS( $user = "", $root = "files" ){// configure the initial filesystem based on the configuration
+	public static function setupFS( $user = '' ){// configure the initial filesystem based on the configuration
 		if(self::$fsSetup){//setting up the filesystem twice can only lead to trouble
 			return false;
-		}
-
-		// If we are not forced to load a specific user we load the one that is logged in
-		if( $user == "" && OC_User::isLoggedIn()){
-			$user = OC_User::getUser();
 		}
 
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
@@ -30,14 +25,21 @@ class OC_Util {
 			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY),'/');
 			self::$rootMounted=true;
 		}
+
+		// If we are not forced to load a specific user we load the one that is logged in
+		if( $user == "" && OC_User::isLoggedIn()){
+			$user = OC_User::getUser();
+		}
+
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
-			$userdirectory = $CONFIG_DATADIRECTORY."/$user/$root";
+			$user_dir = '/'.$user.'/files';
+			$userdirectory = $CONFIG_DATADIRECTORY.$user_dir;
 			if( !is_dir( $userdirectory )){
 				mkdir( $userdirectory, 0755, true );
 			}
 
 			//jail the user into his "home" directory
-			OC_Filesystem::init('/'.$user.'/'.$root);
+			OC_Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
 			self::$fsSetup=true;
@@ -50,6 +52,7 @@ class OC_Util {
 					}
 				}
 			}
+			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $user_dir));
 		}
 	}
 
@@ -321,7 +324,11 @@ class OC_Util {
 		OC_Log::write('core','redirectToDefaultPage',OC_Log::DEBUG);
 		if(isset($_REQUEST['redirect_url']) && (substr($_REQUEST['redirect_url'], 0, strlen(OC::$WEBROOT)) == OC::$WEBROOT || $_REQUEST['redirect_url'][0] == '/')) {
 			header( 'Location: '.$_REQUEST['redirect_url']);
-		} else {
+		}
+		else if (isset(OC::$REQUESTEDAPP) && !empty(OC::$REQUESTEDAPP)) {
+			header( 'Location: '.OC::$WEBROOT.'/?app='.OC::$REQUESTEDAPP );
+		}
+		else {
 			header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', '?app=files'));
 		}
 		exit();

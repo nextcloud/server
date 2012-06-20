@@ -47,6 +47,7 @@ class OC_Share {
 		}
 		if ($uid_shared_with == self::PUBLICLINK) {
 			$token = sha1("$uid_shared_with-$source");
+			OCP\Util::emitHook('OC_Share', 'public', array('source'=>$source, 'token'=>$token, 'permissions'=>$permissions));
 			$query->execute(array($uid_owner, self::PUBLICLINK, $source, $token, $permissions));
 			$this->token = $token;
 		} else {
@@ -118,6 +119,7 @@ class OC_Share {
 				if (isset($gid)) {
 					$uid = $uid."@".$gid;
 				}
+				OCP\Util::emitHook('OC_Share', 'user', array('source'=>$source, 'target'=>$target, 'with'=>$uid, 'permissions'=>$permissions));
 				$query->execute(array($uid_owner, $uid, $source, $target, $permissions));
 			}
 		}
