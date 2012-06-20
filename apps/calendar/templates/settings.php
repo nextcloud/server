@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (c) 2011 Bart Visscher <bartv@thisnet.nl>
- * Copyright (c) 2011 Georg Ehrke <ownclouddev at georgswebsite dot de>
+ * Copyright (c) 2012 Georg Ehrke <ownclouddev at georgswebsite dot de>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -44,7 +44,11 @@
 				</select>
 			</td></tr>
 
-		</table>
+            <tr><td><label for="" class="bold"><?php echo $l->t('Cache');?></label></td><td>
+                <input id="cleancalendarcache" type="button" class="button" value="<?php echo $l->t('Clear cache for repeating events');?>">
+            </td></tr>
+
+        </table>
 
 		<?php echo $l->t('Calendar CalDAV syncing addresses'); ?> (<a href="http://owncloud.org/synchronisation/" target="_blank"><?php echo $l->t('more info'); ?></a>)
 		<dl>

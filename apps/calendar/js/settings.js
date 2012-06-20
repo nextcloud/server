@@ -44,4 +44,24 @@ $(document).ready(function(){
 		$('#' + jsondata.firstday).attr('selected',true);
 		$('#firstday').chosen();
 	});
+	$('#cleancalendarcache').click(function(){
+		$.getJSON(OC.filePath('calendar', 'ajax/cache', 'rescan.php'), function(){
+			calendarcachecheck();
+		});
+	});
+	calendarcachecheck();
 });
+function calendarcachecheck(){
+	$.getJSON(OC.filePath('calendar', 'ajax/cache', 'status.php'), function(jsondata, status) {
+		$('#cleancalendarcache').attr('title', jsondata.l10n.text);
+		if(jsondata.status == 'success'){
+			$('#cleancalendarcache').css('background', '#90EE90');
+			$('#cleancalendarcache').css('color', '#333');
+			$('#cleancalendarcache').css('text-shadow', '#fff 0 1px 0');
+		}else{
+			$('#cleancalendarcache').css('background', '#DC143C');
+			$('#cleancalendarcache').css('color', '#FFFFFF');
+			$('#cleancalendarcache').css('text-shadow', '0px 0px 0px #fff, 0px 0px #fff');
+		}
+	});
+}
