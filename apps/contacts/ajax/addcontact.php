@@ -47,4 +47,4 @@ if(!$id) {
 	exit();
 }
 
-OCP\JSON::success(array('data' => array( 'id' => $id )));
+OCP\JSON::success(array('data' => array( 'id' => $id, 'aid' => $aid )));
