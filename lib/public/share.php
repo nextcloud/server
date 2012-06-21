@@ -27,19 +27,20 @@ namespace OCP;
 */
 class Share {
 
-	const SHARETYPE_USER = 0;
-	const SHARETYPE_GROUP = 1;
+	
+	const SHARE_TYPE_USER = 0;
+	const SHARE_TYPE_GROUP = 1;
 	const SHARETYPE_CONTACT = 2;
-	const SHARETYPE_PRIVATE_LINK = 3;
+	const SHARETYPE_PRIVATE_LINK = 4;	
 
 	const PERMISSION_READ = 0;
 	const PERMISSION_UPDATE = 1;
 	const PERMISSION_DELETE = 2;
 	const PERMISSION_SHARE = 3;
-	
-	private static $backendTypes = array();
+
+	private static $shareTypeUserAndGroups = -1;
+	private static $shareTypeGroupUserUnique = 3;
 	private static $backends = array();
-	private static $sharedFolder = '/Shared/';
 
 	/**
 	* @brief Register a sharing backend class that extends OCP\Share_Backend for an item type
@@ -113,7 +114,7 @@ class Share {
 		// Verify share type and sharing conditions are met
 		// TODO Doesn't handle types 
 		switch ($shareType) {
-			case self::SHARETYPE_USER:
+			case self::SHARE_TYPE_USER:
 				\OC_Log::write('OCP\Share', 'share type '.$shareType, \OC_Log::ERROR);
 				if ($shareWith == $uidOwner) {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the user '.$shareWith.' is the item owner', \OC_Log::ERROR);
@@ -133,10 +134,8 @@ class Share {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with the user '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
-				$uidSharedWith = $shareWith;
-				$gidSharedWith = null;
 				break;
-			case self::SHARETYPE_GROUP:
+			case self::SHARE_TYPE_GROUP:
 				if (!\OC_Group::groupExists($shareWith)) {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the group '.$shareWith.' does not exist', \OC_Log::ERROR);
 					return false;
@@ -148,8 +147,11 @@ class Share {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with the group '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
-				$uidSharedWith = array_diff(\OC_Group::usersInGroup($shareWith), array($uidOwner));
-				$gidSharedWith = $shareWith;
+				// Convert share with into an array with the keys group and users
+				$group = $shareWith;
+				$shareWith = array();
+				$shareWith['group'] = $group;
+				$shareWith['users'] = array_diff(\OC_Group::usersInGroup($shareWith), array($uidOwner));
 				break;
 			case self::SHARETYPE_PRIVATE_LINK:
 				// TODO don't loop through folder conversion
@@ -162,7 +164,7 @@ class Share {
 		}
 		// If the item is a folder, scan through the folder looking for equivalent item types
 		if ($itemType == 'folder') {
-			$parentFolder = self::put('folder', $item, $uidSharedWith, $gidSharedWith, $uidOwner, $permissions, true);
+			$parentFolder = self::put('folder', $item, $shareType, $shareWith, $uidOwner, $permissions, true);
 			if ($parentFolder && $files = \OC_Files::getDirectoryContent($item)) {
 				for ($i = 0; $i < count($files); $i++) {
 					$name = substr($files[$i]['name'], strpos($files[$i]['name'], $item) - strlen($item));
@@ -171,7 +173,7 @@ class Share {
 						array_push($files, $children);
 					} else {
 						// Pass on to put() to check if this item should be converted, the item won't be inserted into the database unless it can be converted
-						self::put('file', $name, $uidSharedWith, $gidSharedWith, $uidOwner, $permissions, $parentFolder);
+						self::put('file', $name, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder);
 					}
 				}
 				return $return;
@@ -179,7 +181,7 @@ class Share {
 			return false;
 		} else {
 			// Put the item into the database
-			return self::put($itemType, $item, $uidSharedWith, $gidSharedWith, $uidOwner, $permissions);
+			return self::put($itemType, $item, $shareType, $shareWith, $uidOwner, $permissions);
 		}
 	}
 
@@ -194,11 +196,11 @@ class Share {
 	public static function unshare($itemType, $item, $shareType, $shareWith) {
 		$uidOwner = \OC_User::getUser();
 		switch ($shareType) {
-			case self::SHARETYPE_USER:
+			case self::SHARE_TYPE_USER:
 			case self::SHARETYPE_PRIVATE_LINK:
 				$item = self::getItems($itemType, $item, $shareWith, null, $uidOwner, false, 1);
 				break;
-			case self::SHARETYPE_GROUP:
+			case self::SHARE_TYPE_GROUP:
 				$item = self::getItems($itemType, $item, null, $shareWith, $uidOwner, false, 1);
 				break;
 			default:
@@ -225,7 +227,7 @@ class Share {
 			if ($item['parent']) {
 				$query = \OC_DB::prepare('SELECT item_type FROM *PREFIX*sharing WHERE id = ? LIMIT 1');
 				$result = $query->execute(array($item['parent']))->fetchRow();
-				if (isset($result['item_type']) && $result['item_type'] = 'folder') {
+				if (isset($result['item_type']) && $result['item_type'] == 'folder') {
 					return false;
 				}
 			}
@@ -293,11 +295,11 @@ class Share {
 	public static function setPermissions($itemType, $item, $shareType, $shareWith, $permissions) {
 		$uidOwner = \OC_User::getUser();
 		switch ($shareType) {
-			case self::SHARETYPE_USER:
+			case self::SHARE_TYPE_USER:
 			case self::SHARETYPE_PRIVATE_LINK:
 				$item = self::getItems($itemType, $item, $shareWith, null, $uidOwner, false, 1);
 				break;
-			case self::SHARETYPE_GROUP:
+			case self::SHARE_TYPE_GROUP:
 				$item = self::getItems($itemType, $item, null, $shareWith, $uidOwner, false, 1);
 				break;
 			default:
@@ -383,7 +385,7 @@ class Share {
 	* See public functions getItem(s)... for parameter usage
 	*
 	*/
-	private static function getItems($itemType, $item = null, $uidSharedWith = null, $gidSharedWith = null, $uidOwner = null, $translate = true, $limit = -1) {
+	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = true, $checkOnly = false, $limit = -1) {
 		if ($backend = self::getBackend($itemType)) {
 			// Check if there are any parent types that include this type of items, e.g. a music album contains songs
 			if (isset($itemType)) {
@@ -401,20 +403,17 @@ class Share {
 
 				}
 			}
-			if (isset($uidSharedWith)) {
-				if ($gidSharedWith === true) {
-					$where .= " AND (uid_shared_with = '".$uidSharedWith."'";
-					// Include group shares
-					$groups = \OC_Group::getUserGroups($uidSharedWith);
-					if (!empty($groups)) {
-						$groups = "'".implode("','", $groups)."'";
-						$where .= " OR gid_shared_with IN (".$groups.") AND (uid_shared_with IS NULL OR uid_shared_with = '".$uidSharedWith."'))";
-					}
+			if (isset($shareType) && isset($shareWith)) {
+				// Include all user and group items
+				if ($shareType == self::$shareTypeUserAndGroups) {
+					$where .= " AND share_type IN ('".self::SHARE_TYPE_USER."','".self::SHARE_TYPE_GROUP."','".self::$shareTypeGroupUserUnique."')";
+					$groups = \OC_Group::getUserGroups($shareWith);
+					$userAndGroups = array_merge(array($shareWith), $groups);
+					$where .= " AND share_with IN ('".implode("','", $userAndGroups)."')";
+					
 				} else {
-					$where .= " AND uid_shared_with = '".$uidSharedWith."'";
+					$where .= " AND share_type = '".$shareType."' AND share_with = '".$shareWith."'";
 				}
-			} else if (isset($gidSharedWith)) {
-				$where .= " AND gid_shared_with = '".$gidSharedWith."' AND uid_shared_with IS NULL";
 			}
 			if (isset($uidOwner)) {
 				$where .= " AND uid_owner = '".$uidOwner."'";
@@ -431,39 +430,45 @@ class Share {
 					}
 					$where .= " AND item_source = '".$itemSource."'";
 				} else {
-					$where .= " AND item_target = '".$item."'";
+					if ($itemType == 'file' && substr($item, -1) == '/') {
+						// Special case to select only the shared files inside the folder
+						$where .= " AND file_target LIKE '".$item."%/'";
+					} else {
+						$where .= " AND item_target = '".$item."'";
+					}
 				}
 			}
 			if ($limit != -1) {
 				$where .= ' LIMIT '.$limit;
 			}
-			echo $where.'<br />';
 			$query = \OC_DB::prepare('SELECT * FROM *PREFIX*sharing '.$where);
 			$result = $query->execute();
-			$items = array();
-			while ($item = $result->fetchRow()) {
-				// Check if this is part of a group share and the user has a different target from the group share
-				if ($gidSharedWith === true && isset($item['gid_shared_with']) && isset($item['uid_shared_with'])) {
-					// Remove the default group share item from the array
+			if (!$checkOnly) {
+				$items = array();
+				while ($item = $result->fetchRow()) {
+					// Filter out duplicate group shares for users with unique targets
+					if ($item['share_type'] == self::$shareTypeGroupUserUnique) {
 
-				}
-				if ($translate) {
-					if ($item['item_type'] != $itemType && $parentBackend = self::getBackend($item['item_type'])) {
-						if ($itemType == 'files') {
-							// TODO Don't get children, rather get file sources
-						}
-						// TODO add to array parent name
-						$children = $parentBackend->getChildren($item);
-						foreach ($children as $child) {
-							$items[] = $child;
-						}
+					}
+					$sources[] = $item['item_source'];
+					if ($format) {
+						$shareInfo[$item['item_source']] = array('item_target' => $item['item_target'], 'permissions' => $item['permissions'], 'stime' => $item['stime']);
 					} else {
-						$items[] = $backend->translateItem($item);
+						$shareInfo[$item['item_source']][$item['id']] = array('item_target' => $item['item_target'], 'permissions' => $item['permissions'], 'stime' => $item['stime']);
 					}
 				}
-			}
-			if (!empty($items)) {
-				return $items;
+				if ($format) {
+					return $backend->formatItems($sources, $shareInfo);
+				} else {
+					// TODO wrap items back into share type, share with, permissions
+					$items = $backend->getItems($sources);
+					
+				}
+				if (!empty($items)) {
+					return $items;
+				}
+			} else {
+				return $result->fetchAll();
 			}
 		}
 		return false;
@@ -480,7 +485,7 @@ class Share {
 	* @param bool|array Parent folder target (optional)
 	* @return bool
 	*/
-	private static function put($itemType, $item, $uidSharedWith, $gidSharedWith, $uidOwner, $permissions, $parentFolder = false) {
+	private static function put($itemType, $item, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder = false) {
 		// Check file extension for an equivalent item type to convert to
 		if ($itemType == 'file') {
 			$extension = strtolower(substr($item, strrpos($item, '.') + 1));
@@ -520,7 +525,7 @@ class Share {
 			}
 			$query = \OC_DB::prepare('INSERT INTO *PREFIX*sharing (item_type, item_source, item_target, parent, uid_shared_with, gid_shared_with, uid_owner, permissions, stime, file_source, file_target) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
 			// Share with a group
-			if (isset($gidSharedWith))  {
+			if ($shareType == self::SHARE_TYPE_GROUP) {
 				if (isset($fileSource)) {
 					if ($parentFolder) {
 						if ($parentFolder === true) {
@@ -542,11 +547,11 @@ class Share {
 					$groupFileTarget = null;
 				}
 				$groupItemTarget = $backend->generateTarget($item, false);
-				$query->execute(array($itemType, $itemSource, $groupItemTarget, $parent, null, $gidSharedWith, $uidOwner, $permissions, time(), $fileSource, $groupFileTarget));
+				$query->execute(array($itemType, $itemSource, $groupItemTarget, $parent, $shareType, $shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget));
 				// Save this id, any extra rows for this group share will need to reference it
 				$parent = \OC_DB::insertid('*PREFIX*sharing');
 				// Loop through all users of this group in case we need to add an extra row
-				foreach ($uidSharedWith as $uid) {
+				foreach ($shareWith['users'] as $uid) {
 					$itemTarget = $backend->generateTarget($item, $uid);
 					if (isset($fileSource)) {
 						if ($parentFolder) {
@@ -567,7 +572,7 @@ class Share {
 					}
 					// Insert an extra row for the group share if the item or file target is unique for this user
 					if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
-						$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $uid, $gidSharedWith, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
+						$query->execute(array($itemType, $itemSource, $itemTarget, $parent, self::$shareTypeGroupUserUnique, $uid, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
 						$id = \OC_DB::insertid('*PREFIX*sharing');
 					}
 					if ($parentFolder === true) {
@@ -579,7 +584,6 @@ class Share {
 					return $parentFolders;
 				}
 			} else {
-				// Share with a user
 				$itemTarget = $backend->generateTarget($item, $uidSharedWith);
 				if (isset($fileSource)) {
 					if ($parentFolder) {
@@ -596,7 +600,7 @@ class Share {
 				} else {
 					$fileTarget = null;
 				}
-				$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $uidSharedWith, null, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
+				$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $shareType, $shareWith, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
 				$id = \OC_DB::insertid('*PREFIX*sharing');
 				if ($parentFolder === true) {
 					$parentFolders['id'] = $id;
@@ -668,6 +672,8 @@ abstract class Share_Backend {
 	public static $dependsOn;
 	public static $supportedFileExtensions = array();
 
+
+
 	/**
 	* @brief Get the source of the item to be stored in the database
 	* @param string Item
@@ -682,6 +688,8 @@ abstract class Share_Backend {
 	*/
 	public abstract function getSource($item, $uid);
 
+
+
 	/**
 	* @brief Get a unique name of the item for the specified user
 	* @param string Item
@@ -694,7 +702,24 @@ abstract class Share_Backend {
 	*/
 	public abstract function generateTarget($item, $uid, $exclude = null);
 
-	public abstract function transteItem($source);
+
+
+	/**
+	* @brief
+	* @param array
+	* @return
+	*/
+	public abstract function getItems($sources);
+
+
+
+	/**
+	* @brief
+	* @param array
+	* @param array
+	* @return
+	*/
+	public abstract function formatItems($sources, $shareInfo);
 
 }
 
