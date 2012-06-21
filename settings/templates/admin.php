@@ -4,7 +4,20 @@
  * See the COPYING-README file.
  */
 $levels=array('Debug','Info','Warning','Error','Fatal');
+	
+if(!$_['htaccessworking']) {
+	?>
+	<fieldset class="personalblock">
+		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
+	
+		<span class="securitywarning">Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.</span>
+		
+	</fieldset>	
+	<?php	
+}
 ?>
+
+
 
 <?php foreach($_['forms'] as $form){
 	echo $form;
