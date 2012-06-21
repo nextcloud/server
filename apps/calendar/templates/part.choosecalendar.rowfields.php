@@ -8,7 +8,7 @@
   <a href="#" onclick="Calendar.UI.Share.dropdown('<?php echo OCP\USER::getUser() ?>', <?php echo $_['calendar']['id'] ?>);" title="<?php echo $l->t('Share Calendar') ?>" class="action"><img class="svg action" src="<?php echo (!$_['shared']) ? OCP\Util::imagePath('core', 'actions/share.svg') : OCP\Util::imagePath('core', 'actions/shared.svg') ?>"></a>
 </td>
 <td width="20px">
-  <a href="#" onclick="Calendar.UI.showCalDAVUrl('<?php echo OCP\USER::getUser() ?>', '<?php echo $_['calendar']['uri'] ?>');" title="<?php echo $l->t('CalDav Link') ?>" class="action"><img class="svg action" src="<?php echo OCP\Util::imagePath('core', 'actions/public.svg') ?>"></a>
+  <a href="#" onclick="Calendar.UI.showCalDAVUrl('<?php echo OCP\USER::getUser() ?>', '<?php echo rawurlencode(html_entity_decode($_['calendar']['uri'], ENT_QUOTES, 'UTF-8')) ?>');" title="<?php echo $l->t('CalDav Link') ?>" class="action"><img class="svg action" src="<?php echo OCP\Util::imagePath('core', 'actions/public.svg') ?>"></a>
 </td>
 <td width="20px">
   <a href="?app=calendar&amp;getfile=export.php?calid=<?php echo $_['calendar']['id'] ?>" title="<?php echo $l->t('Download') ?>" class="action"><img class="svg action" src="<?php echo OCP\Util::imagePath('core', 'actions/download.svg') ?>"></a>
