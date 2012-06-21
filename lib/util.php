@@ -200,9 +200,11 @@ class OC_Util {
 			$errors[]=array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
 		}
 
-		// Check if apps folder is writable.
-		if(OC_Config::getValue('writable_appsdir', true) && !is_writable(OC::$SERVERROOT."/apps/")) {
-			$errors[]=array('error'=>"Can't write into apps directory 'apps'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
+		// Check if there is a writable install folder.
+		if(OC_Config::getValue('appstoreenabled', true)) {
+			if( OC_App::getInstallPath() === null  || !is_writable(OC_App::getInstallPath())) {
+				$errors[]=array('error'=>"Can't write into apps directory",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
+			}
 		}
 
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
