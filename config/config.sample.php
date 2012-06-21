@@ -96,6 +96,7 @@ $CONFIG = array(
 /* Set an array of path for your apps directories
  key 'path' is for the fs path an the key 'url' is for the http path to your
  applications paths. 'writable' indicate if the user can install apps in this folder.
+ You must have at least 1 app folder writable or you must set the parameter : appstoreenabled to false
 */
 	array(
 		'path'=> '/var/www/owncloud/apps',
