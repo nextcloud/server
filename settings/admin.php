@@ -15,6 +15,7 @@ OC_App::setActiveNavigationEntry( "admin" );
 
 $tmpl = new OC_Template( 'settings', 'admin', 'user');
 $forms=OC_App::getForms('admin');
+$htaccessworking=OC_Util::ishtaccessworking();
 
 $entries=OC_Log_Owncloud::getEntries(3);
 function compareEntries($a,$b){
@@ -24,6 +25,7 @@ usort($entries, 'compareEntries');
 
 $tmpl->assign('loglevel',OC_Config::getValue( "loglevel", 2 ));
 $tmpl->assign('entries',$entries);
+$tmpl->assign('htaccessworking',$htaccessworking);
 $tmpl->assign('forms',array());
 foreach($forms as $form){
 	$tmpl->append('forms',$form);

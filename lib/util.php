@@ -434,4 +434,43 @@ class OC_Util {
 		return $value;
 	}
 
+
+        /**
+         * Check if the htaccess file is working buy creating a test file in the data directory and trying to access via http
+         */
+        public static function ishtaccessworking() {
+
+		// testdata
+		$filename='/htaccesstest.txt';
+		$testcontent='testcontent';
+
+		// creating a test file
+                $testfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$filename;
+                $fp = @fopen($testfile, 'w');
+                @fwrite($fp, $testcontent);
+                @fclose($fp);
+
+		// accessing the file via http
+                $url = OC_Helper::serverProtocol(). '://'  . OC_Helper::serverHost() . OC::$WEBROOT.'/data'.$filename;
+                $fp = @fopen($url, 'r');
+                $content=@fread($fp, 2048);
+                @fclose($fp);
+
+		// cleanup
+		@unlink($testfile);
+
+		// does it work ?
+		if($content==$testcontent) {
+			return(false);
+		}else{
+			return(true);
+
+		}
+
+        }
+
+
+
+
+
 }
