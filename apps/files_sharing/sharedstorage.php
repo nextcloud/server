@@ -25,7 +25,7 @@ require_once( 'lib_share.php' );
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
-class OC_Filestorage_Shared extends OC_Filestorage {
+class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	
 	private $datadir;
 	private $sourcePaths = array();
@@ -492,7 +492,7 @@ class OC_Filestorage_Shared extends OC_Filestorage {
 		return $this->searchInDir($query);
 	}
 
-	private function searchInDir($query, $path = "") {
+	protected function searchInDir($query, $path = "") {
 		$files = array();
 		if ($dh = $this->opendir($path)) {
 			while (($filename = readdir($dh)) !== false) {

@@ -256,12 +256,14 @@ Contacts={
 					}
 				} else {
 					newid = id;
+					bookid = bookid?bookid:$('#contacts li[data-id="'+newid+'"]').data('bookid');
 				}
 				var localLoadContact = function(newid, bookid) {
 					if($('.contacts li').length > 0) {
-						firstitem.addClass('active');
+						$('#contacts li[data-id="'+newid+'"]').addClass('active');
 						$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
 							if(jsondata.status == 'success'){
+								$('#contacts h3[data-id="'+bookid+'"]').trigger('click');
 								Contacts.UI.Card.loadContact(jsondata.data, bookid);
 							} else {
 								OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
@@ -1503,7 +1505,7 @@ Contacts={
 		},
 		Contacts:{
 			// Reload the contacts list.
-			update:function(){
+			update:function(id){
 				$.getJSON(OC.filePath('contacts', 'ajax', 'contacts.php'),{},function(jsondata){
 					if(jsondata.status == 'success'){
 						$('#contacts').html(jsondata.data.page).ready(function() {
@@ -1518,7 +1520,7 @@ Contacts={
 								})}, 100);
 							setTimeout(Contacts.UI.Contacts.lazyupdate, 500);*/
 						});
-						Contacts.UI.Card.update();
+						Contacts.UI.Card.update(id);
 					}
 					else{
 						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
@@ -1707,5 +1709,5 @@ $(document).ready(function(){
 	$('#contacts_propertymenu_dropdown a').keydown(propertyMenuItem);
 
 	Contacts.UI.loadHandlers();
-	Contacts.UI.Contacts.update();
+	Contacts.UI.Contacts.update(id);
 });

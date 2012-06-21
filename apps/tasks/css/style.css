@@ -33,7 +33,7 @@
 .task .completed {position:absolute;left:3em;top:0.3em;}
 
 .task .summary{padding-left:4em;height:2em;}
-.task .summary input{position:relative;left:5px;top:0.5em;}
+.task .summary input{position:absolute;left:5em;top:0;}
 .task.done .summary{text-decoration:line-through;}
 
 .task .tag{border-radius:0.4em;display:inline-block;opacity:0.2;margin:0 0.2em;border:1px solid transparent;padding:0 0.4em;cursor:pointer;}
@@ -58,3 +58,5 @@
 .task .due{position:absolute;right:0.3em;}
 .task .due .date{width:6em;}
 .task .due .time{width:6em;}
+
+.task_delete{position:absolute;bottom:2px;right:5px}

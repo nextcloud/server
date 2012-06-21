@@ -252,6 +252,9 @@ class OC_FilesystemView {
 	public function unlink($path){
 		return $this->basicOperation('unlink',$path,array('delete'));
 	}
+	public function deleteAll( $directory, $empty = false ) {
+		return $this->basicOperation( 'deleteAll', $directory, array('delete'), $empty );
+	}
 	public function rename($path1,$path2){
 		$absolutePath1=$this->getAbsolutePath($path1);
 		$absolutePath2=$this->getAbsolutePath($path2);
