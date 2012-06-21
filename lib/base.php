@@ -71,7 +71,11 @@ class OC{
 	 */
 	public static function autoload($className){
 		if(array_key_exists($className,OC::$CLASSPATH)){
-			require_once OC::$CLASSPATH[$className];
+			/** @TODO: Remove this when necessary
+			 Remove "apps/" from inclusion path for smooth migration to mutli app dir
+			*/
+			$path = preg_replace('/apps\//','', OC::$CLASSPATH[$className]);
+			require_once $path;
 		}
 		elseif(strpos($className,'OC_')===0){
 			require_once strtolower(str_replace('_','/',substr($className,3)) . '.php');
