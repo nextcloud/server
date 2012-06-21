@@ -343,6 +343,9 @@ class OC_Calendar_App{
 			$singleevents = OC_Calendar_Share::allSharedwithuser(OCP\USER::getUser(), OC_Calendar_Share::EVENT, 1, ($_GET['calendar_id'] == 'shared_rw')?'rw':'r');
 			foreach($singleevents as $singleevent){
 				$event = OC_Calendar_Object::find($singleevent['eventid']);
+				if(!array_key_exists('summary', $event)){
+					$event['summary'] = self::$l10n->t('unnamed');
+				}
 				$event['summary'] .= ' (' . self::$l10n->t('by') .  ' ' . OC_Calendar_Object::getowner($event['id']) . ')';
 				$events[] =  $event;
 			}
