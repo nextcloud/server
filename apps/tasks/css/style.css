@@ -58,3 +58,5 @@
 .task .due{position:absolute;right:0.3em;}
 .task .due .date{width:6em;}
 .task .due .time{width:6em;}
+
+.task_delete{position:absolute;bottom:2px;right:5px}

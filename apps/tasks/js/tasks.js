@@ -97,8 +97,10 @@ OC.Tasks = {
 				due.find('.time').timepicker('setTime', date.getHours()+':'+date.getMinutes());
 			}
 		}
+		var delete_action = task_container.find('.task_delete').click(OC.Tasks.deleteClickHandler);
 		$('<div>')
 			.addClass('more')
+			.append(delete_action)
 			.append(description)
 			.append(due)
 			.appendTo(task_container);
@@ -273,6 +275,19 @@ OC.Tasks = {
 		$task.find('div.location').show();
 		$task.find('input.location').hide();
 	},
+	deleteClickHandler:function(event){
+		var $task = $(this).closest('.task'),
+			task = $task.data('task');
+		$.post(OC.filePath('tasks', 'ajax', 'delete.php'),{'id':task.id},function(jsondata){
+			if(jsondata.status == 'success'){
+				$task.remove();
+			}
+			else{
+				alert(jsondata.data.message);
+			}
+		});
+		return false;
+	},
 	complete_task:function() {
 		var $task = $(this).closest('.task'),
 			task = $task.data('task'),
@@ -439,21 +454,6 @@ $(document).ready(function(){
 			return $(a).data('task').summary.localeCompare(
 			       $(b).data('task').summary);
 		});
-	});
-
-	$('#tasks_delete').live('click',function(){
-		var id = $('#task_details').data('id');
-		$.post('ajax/delete.php',{'id':id},function(jsondata){
-			if(jsondata.status == 'success'){
-				$('#tasks [data-id="'+jsondata.data.id+'"]').remove();
-				$('#task_details').data('id','');
-				$('#task_details').html('');
-			}
-			else{
-				alert(jsondata.data.message);
-			}
-		});
-		return false;
 	});
 
 	$('#tasks_addtask').click(function(){

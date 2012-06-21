@@ -25,6 +25,9 @@
 	<span class="task_less">
 		<img title="<?php echo $l->t('Less') ?>" src="<?php echo OCP\image_path('core', 'actions/triangle-n.svg') ?>" class="svg"><?php echo $l->t('Less') ?>
 	</span>
+	<span class="task_delete">
+		<img title="<?php echo $l->t('Delete') ?>" src="<?php echo OCP\image_path('core', 'actions/delete.svg') ?>" class="svg"><?php echo $l->t('Delete') ?>
+	</span>
 </p>
 <script type='text/javascript'>
 var categories = <?php echo json_encode($_['categories']); ?>;
