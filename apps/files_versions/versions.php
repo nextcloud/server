@@ -261,10 +261,8 @@ class Storage {
                 
         }
 
-
-        
         /**
-         * expire old versions of a file.
+         * @brief Erase a file's versions which exceed the set quota
          */
         public static function expire($filename) {
                 if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
@@ -298,90 +296,16 @@ class Storage {
         }
 
         /**
-         * @brief erase all old versions of all user files
-         * @return 
+         * @brief Erase all old versions of all user files
+         * @return true/false
          */
         public static function expireAll() {
-	
-		function deleteAll( $directory, $empty = false ) {
 		
-			// strip leading slash
-			if( substr( $directory, 0, 1 ) == "/" ) {
-			
-				$directory = substr( $directory, 1 );
-				
-			}
-			
-			// strip trailing slash
-			if( substr( $directory, -1) == "/" ) {
-			
-				$directory = substr( $directory, 0, -1 );
-				
-			}
-
-			$view = new \OC_FilesystemView('');
-			
-			if ( !$view->file_exists( $directory ) || !$view->is_dir( $directory ) ) {
-			
-				return false;
-				
-			} elseif( !$view->is_readable( $directory ) ) {
-			
-				return false;
-				
-			} else {
-			
-				$foldername = \OCP\Config::getSystemValue('datadirectory') .'/' . \OCP\USER::getUser() .'/' . $directory; // have to set an absolute path for use with PHP's opendir as OC version doesn't work
-				
-				$directoryHandle = $view->opendir( \OCP\USER::getUser() . '/' . $directory );
-				
-				while ( $contents = readdir( $directoryHandle ) ) {
-				
-					if ( $contents != '.' && $contents != '..') {
-						
-						$path = $directory . "/" . $contents;
-					
-						if ( $view->is_dir( $path ) ) {
-							
-							deleteAll( $path );
-						
-						} else {
-							
-							$view->unlink( \OCP\USER::getUser() .'/' . $path ); // TODO: make unlink use same system path as is_dir
-						
-						}
-					}
-				
-				}
-			
-				//$view->closedir( $directoryHandle ); // TODO: implement closedir in OC_FSV
-
-				if ( $empty == false ) {
-				
-					if ( !$view->rmdir( $directory ) ) {
-					
-						return false;
-						
-					}
-					
- 				}
-			
-				return true;
-			}
-			
-		}
+		$view = new \OC_FilesystemView('');
 		
 		$dir = \OCP\Config::getSystemValue('files_versionsfolder', Storage::DEFAULTFOLDER);
 		
-		if ( deleteAll( $dir, true ) ) {
-		
-			return true;
-			
-		} else {
-			
-			return false;
-			
-		}
+		return $view->deleteAll( $dir, true );
 	
         }
 

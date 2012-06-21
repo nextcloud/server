@@ -2,7 +2,7 @@
 /**
  * for local filestore, we only have to map the paths
  */
-class OC_Filestorage_Local extends OC_Filestorage{
+class OC_Filestorage_Local extends OC_Filestorage_Common{
 	protected $datadir;
 	private static $mimetypes=null;
 	public function __construct($arguments){
@@ -172,7 +172,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 			return $this->datadir.$path;
 	}
 
-	private function searchInDir($query,$dir=''){
+	protected function searchInDir($query,$dir=''){
 		$files=array();
 		foreach (scandir($this->datadir.$dir) as $item) {
 			if ($item == '.' || $item == '..') continue;
