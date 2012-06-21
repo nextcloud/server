@@ -149,6 +149,9 @@ abstract class Test_FileStorage extends UnitTestCase {
 			$this->assertTrue(($ctimeStart-1)<=$cTime);
 			$this->assertTrue($cTime<=($ctimeEnd+1));
 		}
+		$this->assertTrue($this->instance->hasUpdated('/lorem.txt',$ctimeStart-1));
+		$this->assertTrue($this->instance->hasUpdated('/',$ctimeStart-1));
+		
 		$this->assertTrue(($ctimeStart-1)<=$mTime);
 		$this->assertTrue($mTime<=($ctimeEnd+1));
 		$this->assertEqual(filesize($textFile),$this->instance->filesize('/lorem.txt'));
@@ -168,6 +171,8 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertTrue(($mtimeStart-1)<=$mTime);
 		$this->assertTrue($mTime<=($mtimeEnd+1));
 		$this->assertEqual($cTime,$originalCTime);
+
+		$this->assertTrue($this->instance->hasUpdated('/lorem.txt',$mtimeStart-1));
 		
 		if($this->instance->touch('/lorem.txt',100)!==false){
 			$mTime=$this->instance->filemtime('/lorem.txt');
@@ -184,6 +189,9 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$mTime=$this->instance->filemtime('/lorem.txt');
 		$this->assertTrue(($mtimeStart-1)<=$mTime);
 		$this->assertTrue($mTime<=($mtimeEnd+1));
+
+		$this->instance->unlink('/lorem.txt');
+		$this->assertTrue($this->instance->hasUpdated('/',$mtimeStart-1));
 	}
 
 	public function testSearch(){

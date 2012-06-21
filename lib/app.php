@@ -536,32 +536,33 @@ class OC_App{
 			$currentVersion=OC_App::getAppVersion($app);
 			if ($currentVersion) {
 				if (version_compare($currentVersion, $installedVersion, '>')) {
-					OC_Log::write($app,'starting app upgrade from '.$installedVersion.' to '.$currentVersion,OC_Log::DEBUG);
+					OC_Log::write($app, 'starting app upgrade from '.$installedVersion.' to '.$currentVersion,OC_Log::DEBUG);
 					OC_App::updateApp($app);
-					OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));
+					OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
 				}
 			}
 		}
+	}
 
-		// check if the current enabled apps are compatible with the current ownCloud version. disable them if not.
-		// this is important if you upgrade ownCloud and have non ported 3rd party apps installed
-		$apps =OC_App::getEnabledApps();
-		$version=OC_Util::getVersion();
+	/**
+	 * check if the current enabled apps are compatible with the current
+	 * ownCloud version. disable them if not.
+	 * This is important if you upgrade ownCloud and have non ported 3rd
+	 * party apps installed.
+	 */
+	public static function checkAppsRequirements($apps = array()){
+		if (empty($apps)) {
+			$apps = OC_App::getEnabledApps();
+		}
+		$version = OC_Util::getVersion();
 		foreach($apps as $app) {
-
 			// check if the app is compatible with this version of ownCloud
-			$info=OC_App::getAppInfo($app);
+			$info = OC_App::getAppInfo($app);
 			if(!isset($info['require']) or ($version[0]>$info['require'])){
 				OC_Log::write('core','App "'.$info['name'].'" can\'t be used because it is not compatible with this version of ownCloud',OC_Log::ERROR);
 				OC_App::disable( $app );
 			}
-
-
-
 		}
-
-
-
 	}
 
 	/**
@@ -589,6 +590,7 @@ class OC_App{
 			return;
 		}
 		if(file_exists(self::getAppPath($appid).'/appinfo/update.php')){
+			self::loadApp($appid);
 			include self::getAppPath($appid).'/appinfo/update.php';
 		}
 

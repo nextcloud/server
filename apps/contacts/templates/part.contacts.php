@@ -1,12 +1,10 @@
-<?php foreach( $_['contacts'] as $contact ):
-	$display = trim($contact['fullname']);
-	if(!$display) {
-		$vcard = OC_Contacts_App::getContactVCard($contact['id']);
-		if(!is_null($vcard)) {
-			$struct = OC_Contacts_VCard::structureContact($vcard);
-			$display = isset($struct['EMAIL'][0])?$struct['EMAIL'][0]['value']:'[UNKNOWN]';
-		}
+<?php
+foreach($_['books'] as $id => $addressbook) {
+	echo '<h3 class="addressbook" data-id="'.$id.'">'.$addressbook['displayname'].'</h3>';
+	echo '<ul class="contacts hidden" data-id="'.$id.'">';
+	foreach($addressbook['contacts'] as $contact) {
+		echo '<li role="button" data-bookid="'.$contact['addressbookid'].'" data-id="'.$contact['id'].'"><a href="index.php?id='.$contact['id'].'" style="background: url('.link_to('contacts','thumbnail.php').'?id='.$contact['id'].') no-repeat scroll 0 0 transparent;">'.$contact['displayname'].'</a></li>';
 	}
+	echo '</ul>';
+}
 ?>
-	<li role="button" book-id="<?php echo $contact['addressbookid']; ?>" data-id="<?php echo $contact['id']; ?>"><a href="index.php?id=<?php echo $contact['id']; ?>"><?php echo $display; ?></a></li>
-<?php endforeach; ?>

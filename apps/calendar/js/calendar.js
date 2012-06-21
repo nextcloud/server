@@ -430,6 +430,7 @@ Calendar={
 							$('#calendar_holder').fullCalendar('removeEventSource', url);
 							$('#choosecalendar_dialog').dialog('destroy').remove();
 							Calendar.UI.Calendar.overview();
+							$('#calendar_holder').fullCalendar('refetchEvents');
 						}
 					  });
 				}
@@ -868,7 +869,7 @@ $(document).ready(function(){
 		eventDrop: Calendar.UI.moveEvent,
 		eventResize: Calendar.UI.resizeEvent,
 		eventRender: function(event, element) {
-			element.find('.fc-event-title').html(element.find('.fc-event-title').text());
+			element.find('.fc-event-title').html(element.find('.fc-event-title').html());
 			element.tipsy({
 				className: 'tipsy-event',
 				opacity: 0.9,

@@ -43,10 +43,6 @@ class OC{
 	 */
 	public static $WEBROOT = '';
 	/**
-	 * the folder that stores that data files for the filesystem of the user (e.g. /srv/http/owncloud/data/myusername/files)
-	 */
-	public static $CONFIG_DATADIRECTORY = '';
-	/**
 	 * The installation path of the 3rdparty folder on the server (e.g. /srv/http/owncloud/3rdparty)
 	 */
 	public static $THIRDPARTYROOT = '';
@@ -91,34 +87,8 @@ class OC{
 		}
 	}
 
-	/**
-	 * autodetects the formfactor of the used device
-	 * default -> the normal desktop browser interface
-	 * mobile -> interface for smartphones
-	 * tablet -> interface for tablets
-	 * standalone -> the default interface but without header, footer and sidebar. just the application. useful to ue just a specific app on the desktop in a standalone window.
-	 */
-	public static function detectFormfactor(){
-		// please add more useragent strings for other devices
-		if(isset($_SERVER['HTTP_USER_AGENT'])){
-			if(stripos($_SERVER['HTTP_USER_AGENT'],'ipad')>0) {
-				$mode='tablet';
-			}elseif(stripos($_SERVER['HTTP_USER_AGENT'],'iphone')>0){
-				$mode='mobile';
-			}elseif((stripos($_SERVER['HTTP_USER_AGENT'],'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'],'nokia')>0)){
-				$mode='mobile';
-			}else{
-				$mode='default';
-			}
-		}else{
-			$mode='default';
-		}
-		return($mode);
-	}
-
 	public static function initPaths(){
-		// calculate the documentroot
-		$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
+		// calculate the root directories
 		OC::$SERVERROOT=str_replace("\\",'/',substr(__FILE__,0,-13));
 		OC::$SUBURI= str_replace("\\","/",substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen(OC::$SERVERROOT)));
 		$scriptName=$_SERVER["SCRIPT_NAME"];
@@ -133,9 +103,6 @@ class OC{
 			}
 		}
                 OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
-		// try a new way to detect the WEBROOT which is simpler and also works with the app directory outside the owncloud folder. let´s see if this works for everybody
-//		OC::$WEBROOT=substr(OC::$SERVERROOT,strlen($DOCUMENTROOT));
-
 
 		if(OC::$WEBROOT!='' and OC::$WEBROOT[0]!=='/'){
 			OC::$WEBROOT='/'.OC::$WEBROOT;
@@ -234,6 +201,7 @@ class OC{
 				}
 
 				OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
+				OC_App::checkAppsRequirements();
 			}
 
 			OC_App::updateApps();
@@ -241,15 +209,6 @@ class OC{
 	}
 
 	public static function initTemplateEngine() {
-		// if the formfactor is not yet autodetected do the autodetection now. For possible forfactors check the detectFormfactor documentation
-		if(!isset($_SESSION['formfactor'])){
-			$_SESSION['formfactor']=OC::detectFormfactor();
-		}
-		// allow manual override via GET parameter
-		if(isset($_GET['formfactor'])){
-			$_SESSION['formfactor']=$_GET['formfactor'];
-		}
-
 		// Add the stuff we need always
 		OC_Util::addScript( "jquery-1.7.2.min" );
 		OC_Util::addScript( "jquery-ui-1.8.16.custom.min" );
@@ -286,7 +245,7 @@ class OC{
 			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
 				$file = OC_App::getAppWebPath(OC::$REQUESTEDAPP). '/' . OC::$REQUESTEDFILE;
 				$minimizer = new OC_Minimizer_CSS();
-				$minimizer->output(array(array(OC_App::getAppPath(OC::$REQUESTEDAPP), OC_App::getAppWebPath(OC::$REQUESTEDAPP), OC::$REQUESTEDFILE)));
+				$minimizer->output(array(array(OC_App::getAppPath(OC::$REQUESTEDAPP), OC_App::getAppWebPath(OC::$REQUESTEDAPP), OC::$REQUESTEDFILE)),$file);
 				exit;
 			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
 				require_once(OC_App::getAppPath(OC::$REQUESTEDAPP). '/' . OC::$REQUESTEDFILE);
@@ -388,27 +347,13 @@ class OC{
 			exit;
 		}
 
-		// TODO: we should get rid of this one, too
-		// WARNING: to make everything even more confusing,
-		//   DATADIRECTORY is a var that changes and DATADIRECTORY_ROOT
-		//   stays the same, but is set by "datadirectory".
-		//   Any questions?
-		OC::$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
-
 		// User and Groups
 		if( !OC_Config::getValue( "installed", false )){
 			$_SESSION['user_id'] = '';
 		}
 
-
 		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
 		OC_Group::useBackend(new OC_Group_Database());
-
-		// Set up file system unless forbidden
-		global $RUNTIME_NOSETUPFS;
-		if(!$RUNTIME_NOSETUPFS ){
-			OC_Util::setupFS();
-		}
 
 		// Load Apps
 		// This includes plugins for users and filesystems as well

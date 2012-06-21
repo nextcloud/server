@@ -6,15 +6,54 @@
  * See the COPYING-README file.
  */
 
+function cmp($a, $b)
+{
+    if ($a['displayname'] == $b['displayname']) {
+        return 0;
+    }
+    return ($a['displayname'] < $b['displayname']) ? -1 : 1;
+}
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
-$ids = OC_Contacts_Addressbook::activeIds(OCP\USER::getUser());
-$contacts = OC_Contacts_VCard::all($ids);
+$active_addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
+error_log('active_addressbooks: '.print_r($active_addressbooks, true));
+
+$contacts_addressbook = array();
+$ids = array();
+foreach($active_addressbooks as $addressbook) {
+	$ids[] = $addressbook['id'];
+	if(!isset($contacts_addressbook[$addressbook['id']])) {
+		$contacts_addressbook[$addressbook['id']] = array('contacts' => array());
+		$contacts_addressbook[$addressbook['id']]['displayname'] = $addressbook['displayname'];
+	}
+}	
+error_log('ids: '.print_r($ids, true));
+$contacts_alphabet = OC_Contacts_VCard::all($ids);
+error_log('contacts_alphabet: '.print_r($contacts_alphabet, true));
+
+// Our new array for the contacts sorted by addressbook
+foreach($contacts_alphabet as $contact) {
+	if(!isset($contacts_addressbook[$contact['addressbookid']])) { // It should never execute.
+		$contacts_addressbook[$contact['addressbookid']] = array('contacts' => array());
+	}
+	$display = trim($contact['fullname']);
+	if(!$display) {
+		$vcard = OC_Contacts_App::getContactVCard($contact['id']);
+		if(!is_null($vcard)) {
+			$struct = OC_Contacts_VCard::structureContact($vcard);
+			$display = isset($struct['EMAIL'][0])?$struct['EMAIL'][0]['value']:'[UNKNOWN]';
+		}
+	}
+	$contacts_addressbook[$contact['addressbookid']]['contacts'][] = array('id' => $contact['id'], 'addressbookid' => $contact['addressbookid'], 'displayname' => htmlspecialchars($display));
+}
+
+uasort($contacts_addressbook, 'cmp');
+
 $tmpl = new OCP\Template("contacts", "part.contacts");
-$tmpl->assign('contacts', $contacts);
+$tmpl->assign('books', $contacts_addressbook, false);
 $page = $tmpl->fetchPage();
 
 OCP\JSON::success(array('data' => array( 'page' => $page )));
-?>
+

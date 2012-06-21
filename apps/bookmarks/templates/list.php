@@ -7,7 +7,7 @@
  * See the COPYING-README file.
  */
 ?>
-<input type="hidden" id="bookmarkFilterTag" value="<?php if(isset($_GET['tag'])) echo htmlentities($_GET['tag'],ENT_COMPAT,'utf-8'); ?>" />
+<input type="hidden" id="bookmarkFilterTag" value="<?php if(isset($_GET['tag'])) echo OCP\Util::sanitizeHTML($_GET['tag']); ?>" />
 <div id="controls">
 	<input type="hidden" id="bookmark_add_id" value="0" />
 	<input type="text" id="bookmark_add_url" placeholder="<?php echo $l->t('Address'); ?>" class="bookmarks_input" />

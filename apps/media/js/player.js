@@ -40,7 +40,7 @@ var PlayList={
 					PlayList.init(items[index].type,null); // init calls load that calls play
 				}else{
 					PlayList.player.jPlayer("setMedia", items[PlayList.current]);
-					$(".jp-current-song").text(items[PlayList.current].name);
+					$(".jp-current-song").html(items[PlayList.current].name);
 					items[index].playcount++;
 					PlayList.player.jPlayer("play",time);
 					if(index>0){

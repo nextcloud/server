@@ -61,7 +61,7 @@ if (isset($_GET['token']) && $source = OC_Share::getSource($_GET['token'])) {
 		$list->assign("downloadURL", OCP\Util::linkTo("", "public.php")."?service=files&token=".$token."&path=");
 		$list->assign("readonly", true);
 		$tmpl = new OCP\Template("files", "index", "user");
-		$tmpl->assign("fileList", $list->fetchPage());
+		$tmpl->assign("fileList", $list->fetchPage(), false);
 		$tmpl->assign("breadcrumb", $breadcrumbNav->fetchPage());
 		$tmpl->assign("readonly", true);
 		$tmpl->assign("allowZipDownload", false);
@@ -77,6 +77,7 @@ if (isset($_GET['token']) && $source = OC_Share::getSource($_GET['token'])) {
 		header("Content-Length: " . OC_Filesystem::filesize($source));
 		//download the file
 		@ob_clean();
+		OCP\Util::emitHook('OC_Share', 'public-download', array('source'=>$source, 'token'=>$token);
 		OC_Filesystem::readfile($source);
 	}
 } else {

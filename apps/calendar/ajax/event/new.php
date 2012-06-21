@@ -22,4 +22,3 @@ if($errarr){
 	$result = OC_Calendar_Object::add($cal, $vcalendar->serialize());
 	OCP\JSON::success();
 }
-?>

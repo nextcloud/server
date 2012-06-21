@@ -25,7 +25,7 @@
 /**
  * Class for abstraction of filesystem functions
  * This class won't call any filesystem functions for itself but but will pass them to the correct OC_Filestorage object
- * this class should also handle all the file premission related stuff
+ * this class should also handle all the file permission related stuff
  *
  * Hooks provided:
  *   read(path)
@@ -399,6 +399,9 @@ class OC_Filesystem{
 	static public function opendir($path){
 		return self::$defaultInstance->opendir($path);
 	}
+	static public function readdir($path){
+		return self::$defaultInstance->readdir($path);
+	}
 	static public function is_dir($path){
 		return self::$defaultInstance->is_dir($path);
 	}
@@ -474,6 +477,16 @@ class OC_Filesystem{
 	static public function search($query){
 		return OC_FileCache::search($query);
 	}
+
+	/**
+	 * check if a file or folder has been updated since $time
+	 * @param int $time
+	 * @return bool
+	 */
+	static public function hasUpdated($path,$time){
+		return self::$defaultInstance->hasUpdated($path);
+	}
 }
 
+OC_Util::setupFS();
 require_once('filecache.php');

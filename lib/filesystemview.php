@@ -158,6 +158,10 @@ class OC_FilesystemView {
 	public function opendir($path){
 		return $this->basicOperation('opendir',$path,array('read'));
 	}
+	public function readdir($handle){
+		$fsLocal= new OC_Filestorage_Local( array( 'datadir' => '/' ) );
+		return $fsLocal->readdir( $handle );
+	}
 	public function is_dir($path){
 		if($path=='/'){
 			return true;
@@ -443,5 +447,14 @@ class OC_FilesystemView {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * check if a file or folder has been updated since $time
+	 * @param int $time
+	 * @return bool
+	 */
+	public function hasUpdated($path,$time){
+		return $this->basicOperation('hasUpdated',$path,array(),$time);
 	}
 }

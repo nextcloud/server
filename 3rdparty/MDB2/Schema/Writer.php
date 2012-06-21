@@ -82,22 +82,6 @@ class MDB2_Schema_Writer
         $this->valid_types = $valid_types;
     }
 
-    /**
-     * PHP 4 compatible constructor
-     *
-     * @param array $valid_types information of all valid fields 
-     *                           types
-     *
-     * @return void
-     *
-     * @access public
-     * @static
-     */
-    function MDB2_Schema_Writer($valid_types = array())
-    {
-        $this->__construct($valid_types);
-    }
-
     // }}}
     // {{{ raiseError()
 

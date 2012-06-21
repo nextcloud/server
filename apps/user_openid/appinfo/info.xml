@@ -8,6 +8,7 @@
 	<require>4</require>
 	<shipped>true</shipped>
 	<types>
+		<prelogin/>
 		<authentication/>
 	</types>
 </info>

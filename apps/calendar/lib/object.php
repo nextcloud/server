@@ -108,7 +108,7 @@ class OC_Calendar_Object{
 		$object_id = OCP\DB::insertid('*PREFIX*calendar_objects');
 
 		OC_Calendar_Calendar::touchCalendar($id);
-
+		OCP\Util::emitHook('OC_Calendar', 'addEvent', $object_id);
 		return $object_id;
 	}
 
@@ -128,7 +128,7 @@ class OC_Calendar_Object{
 		$object_id = OCP\DB::insertid('*PREFIX*calendar_objects');
 
 		OC_Calendar_Calendar::touchCalendar($id);
-
+		OCP\Util::emitHook('OC_Calendar', 'addEvent', $object_id);
 		return $object_id;
 	}
 
@@ -149,6 +149,7 @@ class OC_Calendar_Object{
 		$stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$id));
 
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
+		OCP\Util::emitHook('OC_Calendar', 'editEvent', $id);
 
 		return true;
 	}
@@ -170,6 +171,7 @@ class OC_Calendar_Object{
 		$stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$oldobject['id']));
 
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
+		OCP\Util::emitHook('OC_Calendar', 'editEvent', $oldobject['id']);
 
 		return true;
 	}
@@ -184,6 +186,7 @@ class OC_Calendar_Object{
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE id = ?' );
 		$stmt->execute(array($id));
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
+		OCP\Util::emitHook('OC_Calendar', 'deleteEvent', $id);
 
 		return true;
 	}
@@ -195,9 +198,11 @@ class OC_Calendar_Object{
 	 * @return boolean
 	 */
 	public static function deleteFromDAVData($cid,$uri){
+		$oldobject = self::findWhereDAVDataIs($cid, $uri);
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*calendar_objects WHERE calendarid = ? AND uri=?' );
 		$stmt->execute(array($cid,$uri));
 		OC_Calendar_Calendar::touchCalendar($cid);
+		OCP\Util::emitHook('OC_Calendar', 'deleteEvent', $oldobject['id']);
 
 		return true;
 	}
@@ -207,6 +212,7 @@ class OC_Calendar_Object{
 		$stmt->execute(array($calendarid,$id));
 
 		OC_Calendar_Calendar::touchCalendar($id);
+		OCP\Util::emitHook('OC_Calendar', 'moveEvent', $id);
 
 		return true;
 	}
@@ -294,12 +300,11 @@ class OC_Calendar_Object{
 	 * This function creates a date string that can be used by MDB2.
 	 * Furthermore it converts the time to UTC.
 	 */
-	protected static function getUTCforMDB($datetime){
+	public static function getUTCforMDB($datetime){
 		return date('Y-m-d H:i', $datetime->format('U') - $datetime->getOffset());
 	}
 
-	public static function getDTEndFromVEvent($vevent)
-	{
+	public static function getDTEndFromVEvent($vevent){
 		if ($vevent->DTEND) {
 			$dtend = $vevent->DTEND;
 		}else{
@@ -600,8 +605,8 @@ class OC_Calendar_Object{
 
 	public static function updateVCalendarFromRequest($request, $vcalendar)
 	{
-		$title = strip_tags($request["title"]);
-		$location = strip_tags($request["location"]);
+		$title = $request["title"];
+		$location = $request["location"];
 		$categories = $request["categories"];
 		$allday = isset($request["allday"]);
 		$from = $request["from"];
@@ -611,7 +616,7 @@ class OC_Calendar_Object{
 			$totime = $request['totime'];
 		}
 		$vevent = $vcalendar->VEVENT;
-		$description = strip_tags($request["description"]);
+		$description = $request["description"];
 		$repeat = $request["repeat"];
 		if($repeat != 'doesnotrepeat'){
 			$rrule = '';
@@ -795,5 +800,30 @@ class OC_Calendar_Object{
 	public static function getCalendarid($id){
 		$event = self::find($id);
 		return $event['calendarid'];
+	}
+
+	public static function isrepeating($id){
+		$event = self::find($id);
+		return ($event['repeating'] == 1)?true:false;
+	}
+
+	public static function generateStartEndDate($dtstart, $dtend, $allday, $tz){
+		$start_dt = $dtstart->getDateTime();
+		$end_dt = $dtend->getDateTime();
+		$return = array();
+		if($allday){
+			$return['start'] = $start_dt->format('Y-m-d');
+			$end_dt->modify('-1 minute');
+			while($start_dt >= $end_dt){
+				$end_dt->modify('+1 day');
+			}
+			$return['end'] = $end_dt->format('Y-m-d');
+		}else{
+			$start_dt->setTimezone(new DateTimeZone($tz));
+			$end_dt->setTimezone(new DateTimeZone($tz));
+			$return['start'] = $start_dt->format('Y-m-d H:i:s');
+			$return['end'] = $end_dt->format('Y-m-d H:i:s');
+		}
+		return $return;
 	}
 }

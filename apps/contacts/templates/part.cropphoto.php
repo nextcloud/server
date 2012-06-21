@@ -4,7 +4,7 @@ $tmpkey = $_['tmpkey'];
 $requesttoken = $_['requesttoken'];
 OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmpkey: '.$tmpkey, OCP\Util::DEBUG);
 ?>
-<script language="Javascript">
+<script type="text/javascript">
 	jQuery(function($) {
 		$('#cropbox').Jcrop({
 			onChange:	showCoords,
