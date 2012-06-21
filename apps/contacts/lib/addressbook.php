@@ -172,12 +172,11 @@ class OC_Contacts_Addressbook{
 		if(!$prefbooks){
 			$addressbooks = OC_Contacts_Addressbook::all($uid);
 			if(count($addressbooks) == 0){
-				OC_Contacts_Addressbook::add($uid,'default','Default Address Book');
-				$addressbooks = OC_Contacts_Addressbook::all($uid);
+				$id = OC_Contacts_Addressbook::add($uid,'default','Default Address Book');
+				self::setActive($id, true);
 			}
-			$prefbooks = $addressbooks[0]['id'];
-			OCP\Config::setUserValue($uid,'contacts','openaddressbooks',$prefbooks);
 		}
+		$prefbooks = OCP\Config::getUserValue($uid,'contacts','openaddressbooks',null);
 		return explode(';',$prefbooks);
 	}
 
@@ -195,7 +194,7 @@ class OC_Contacts_Addressbook{
 			$stmt = OCP\DB::prepare( $prep );
 			$result = $stmt->execute($active);
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:active:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:active:, exception: '.$e->getMessage(),OCP\Util::ERROR);
 			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:active, ids: '.join(',', $active),OCP\Util::DEBUG);
 			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook::active, SQL:'.$prep,OCP\Util::DEBUG);
 		}
@@ -210,7 +209,7 @@ class OC_Contacts_Addressbook{
 	/**
 	 * @brief Activates an addressbook
 	 * @param integer $id
-	 * @param integer $name
+	 * @param boolean $active
 	 * @return boolean
 	 */
 	public static function setActive($id,$active){
@@ -256,11 +255,15 @@ class OC_Contacts_Addressbook{
 	 * @return boolean
 	 */
 	public static function delete($id){
-		// FIXME: There's no error checking at all.
 		self::setActive($id, false);
-		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
-		$stmt->execute(array($id));
-
+		try {
+			$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
+			$stmt->execute(array($id));
+		} catch(Exception $e) {
+			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:delete:, exception for '.$id.': '.$e->getMessage(),OCP\Util::ERROR);
+			return false;
+		}
+		
 		$cards = OC_Contacts_VCard::all($id);
 		foreach($cards as $card){
 			OC_Contacts_VCard::delete($card['id']);

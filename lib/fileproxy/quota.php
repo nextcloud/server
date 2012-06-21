@@ -55,7 +55,12 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 	 */
 	private function getFreeSpace(){
 		$rootInfo=OC_FileCache_Cached::get('');
-		$sharedInfo=OC_FileCache_Cached::get('/Shared');
+		// TODO Remove after merge of share_api
+		if (OC_FileCache::inCache('/Shared')) {
+			$sharedInfo=OC_FileCache_Cached::get('/Shared');
+		} else {
+			$sharedInfo = null;
+		}
 		$usedSpace=isset($rootInfo['size'])?$rootInfo['size']:0;
 		$usedSpace=isset($sharedInfo['size'])?$usedSpace-$sharedInfo['size']:$usedSpace;
 		$totalSpace=$this->getQuota();
