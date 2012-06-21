@@ -115,8 +115,9 @@ class OC_CryptStream{
 			$data=substr($block,0,$currentPos%8192).$data;
 			fseek($this->source,-($currentPos%8192),SEEK_CUR);
 		}
-		while(strlen($data)>0){
-			if(strlen($data)<8192){
+		$currentPos=ftell($this->source);
+		while($remainingLength=strlen($data)>0){
+			if($remainingLength<8192){
 				$this->writeCache=$data;
 				$data='';
 			}else{
@@ -125,8 +126,7 @@ class OC_CryptStream{
 				$data=substr($data,8192);
 			}
 		}
-		$currentPos=ftell($this->source);
-		$this->size=max($this->size,$currentPos);
+		$this->size=max($this->size,$currentPos+$length);
 		return $length;
 	}
 
