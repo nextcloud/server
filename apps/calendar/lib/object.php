@@ -814,7 +814,7 @@ class OC_Calendar_Object{
 		if($allday){
 			$return['start'] = $start_dt->format('Y-m-d');
 			$end_dt->modify('-1 minute');
-			while($start_dt->format('U') >= $end_dt->format('U')){
+			while($start_dt >= $end_dt){
 				$end_dt->modify('+1 day');
 			}
 			$return['end'] = $end_dt->format('Y-m-d');

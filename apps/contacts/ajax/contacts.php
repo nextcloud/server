@@ -17,14 +17,25 @@ function cmp($a, $b)
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
-$ids = OC_Contacts_Addressbook::activeIds(OCP\USER::getUser());
-$contacts_alphabet = OC_Contacts_VCard::all($ids);
 $active_addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
+error_log('active_addressbooks: '.print_r($active_addressbooks, true));
+
+$contacts_addressbook = array();
+$ids = array();
+foreach($active_addressbooks as $addressbook) {
+	$ids[] = $addressbook['id'];
+	if(!isset($contacts_addressbook[$addressbook['id']])) {
+		$contacts_addressbook[$addressbook['id']] = array('contacts' => array());
+		$contacts_addressbook[$addressbook['id']]['displayname'] = $addressbook['displayname'];
+	}
+}	
+error_log('ids: '.print_r($ids, true));
+$contacts_alphabet = OC_Contacts_VCard::all($ids);
+error_log('contacts_alphabet: '.print_r($contacts_alphabet, true));
 
 // Our new array for the contacts sorted by addressbook
-$contacts_addressbook = array();
 foreach($contacts_alphabet as $contact) {
-	if(!isset($contacts_addressbook[$contact['addressbookid']])) {
+	if(!isset($contacts_addressbook[$contact['addressbookid']])) { // It should never execute.
 		$contacts_addressbook[$contact['addressbookid']] = array('contacts' => array());
 	}
 	$display = trim($contact['fullname']);
@@ -36,14 +47,6 @@ foreach($contacts_alphabet as $contact) {
 		}
 	}
 	$contacts_addressbook[$contact['addressbookid']]['contacts'][] = array('id' => $contact['id'], 'addressbookid' => $contact['addressbookid'], 'displayname' => htmlspecialchars($display));
-}
-
-foreach($contacts_addressbook as $addressbook_id => $contacts) {
-	foreach($active_addressbooks as $addressbook) {
-		if($addressbook_id == $addressbook['id']) {
-			$contacts_addressbook[$addressbook_id]['displayname'] = $addressbook['displayname'];
-		}
-	}
 }
 
 uasort($contacts_addressbook, 'cmp');
