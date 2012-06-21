@@ -85,22 +85,18 @@ class OC_FileCache{
 			$root='';
 		}
 		$path=$root.$path;
-		if($path=='/'){
-			$parent=-1;
-		}else{
-			$parent=self::getFileId(dirname($path));
-		}
-		$id=self::getFileId($path);
-		if($id!=-1){
-			self::update($id,$data);
-			return;
-		}
-		if(isset(self::$savedData[$path])){
-			$data=array_merge($data,self::$savedData[$path]);
-			unset(self::$savedData[$path]);
+		$parent=self::getParentId($path);
+		$id=self::getId($path,'');
+		if(isset(OC_FileCache::$savedData[$path])){
+			$data=array_merge(OC_FileCache::$savedData[$path],$data);
+			unset(OC_FileCache::$savedData[$path]);
 		}
 		if(!isset($data['size']) or !isset($data['mtime'])){//save incomplete data for the next time we write it
 			self::$savedData[$path]=$data;
+			return;
+		}
+		if($id!=-1){
+			self::update($id,$data);
 			return;
 		}
 		if(!isset($data['encrypted'])){

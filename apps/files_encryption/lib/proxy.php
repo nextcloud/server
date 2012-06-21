@@ -66,15 +66,17 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	public function preFile_put_contents($path,&$data){
 		if(self::shouldEncrypt($path)){
 			if (!is_resource($data)) {//stream put contents should have been converter to fopen
+				$size=strlen($data);
 				$data=OC_Crypt::blockEncrypt($data);
-				OC_FileCache::put($path,array('encrypted'=>true),'/');
+				OC_FileCache::put($path,array('encrypted'=>true,'size'=>$size),'/');
 			}
 		}
 	}
 	
 	public function postFile_get_contents($path,$data){
 		if(self::isEncrypted($path)){
-			$data=OC_Crypt::blockDecrypt($data);
+			$cached=OC_FileCache::getCached($path,'/');
+			$data=OC_Crypt::blockDecrypt($data,'',$cached['size']);
 		}
 		return $data;
 	}
@@ -107,5 +109,22 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 			$mime=OCP\Files::getMimeType('crypt://'.$path,'w');
 		}
 		return $mime;
+	}
+
+	public function postStat($path,$data){
+		if(self::isEncrypted($path)){
+			$cached=OC_FileCache::getCached($path,'/');
+			$data['size']=$cached['size'];
+		}
+		return $data;
+	}
+
+	public function postFileSize($path,$size){
+		if(self::isEncrypted($path)){
+			$cached=OC_FileCache::getCached($path,'/');
+			return  $cached['size'];
+		}else{
+			return $size;
+		}
 	}
 }
