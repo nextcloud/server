@@ -206,12 +206,16 @@ class OC_Crypt {
 	/**
 	 * decrypt data in 8192b sized blocks
 	 */
-	public static function blockDecrypt($data, $key=''){
+	public static function blockDecrypt($data, $key='',$maxLength=0){
 		$result='';
 		while(strlen($data)){
 			$result.=self::decrypt(substr($data,0,8192),$key);
 			$data=substr($data,8192);
 		}
-		return rtrim($result, "\0");
+		if($maxLength>0){
+			return substr($result,0,$maxLength);
+		}else{
+			return rtrim($result, "\0");
+		}
 	}
 }
