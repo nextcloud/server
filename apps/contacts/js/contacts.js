@@ -77,7 +77,7 @@ Contacts={
 			}
 		},
 		showCardDAVUrl:function(username, bookname){
-			$('#carddav_url').val(totalurl + '/' + username + '/' + bookname);
+			$('#carddav_url').val(totalurl + '/' + username + '/' + decodeURIComponent(bookname));
 			$('#carddav_url').show();
 			$('#carddav_url_close').show();
 		},
