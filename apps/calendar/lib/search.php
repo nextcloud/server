@@ -17,6 +17,9 @@ class OC_Search_Provider_Calendar extends OC_Search_Provider{
 		foreach($calendars as $calendar){
 			$objects = OC_Calendar_Object::all($calendar['id']);
 			foreach($objects as $object){
+				if($object['objecttype']!='VEVENT') {
+					continue;
+				}
 				if(substr_count(strtolower($object['summary']), strtolower($query)) > 0){
 					$calendardata = OC_VObject::parse($object['calendardata']);
 					$vevent = $calendardata->VEVENT;
@@ -37,7 +40,7 @@ class OC_Search_Provider_Calendar extends OC_Search_Provider{
 						$info = $l->t('Date') . ': ' . $start_dt->format('d.m.y H:i') . ' - ' . $end_dt->format('d.m.y H:i');
 					}
 					$link = OCP\Util::linkTo('calendar', 'index.php').'?showevent='.urlencode($object['id']);
-					$results[]=new OC_Search_Result($object['summary'],$info, $link,$l->t('Cal.'));//$name,$text,$link,$type
+					$results[]=new OC_Search_Result($object['summary'],$info, $link,(string)$l->t('Cal.'));//$name,$text,$link,$type
 				}
 			}
 		}
