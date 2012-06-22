@@ -152,23 +152,12 @@ class OC_Config{
 	 *
 	 * Saves the config to the config file.
 	 *
-	 * Known flaws: Strings are not escaped properly
 	 */
 	public static function writeData(){
 		// Create a php file ...
-		$content = "<?php\n\$CONFIG = array(\n";
-
-		foreach( self::$cache as $key => $value ){
-			if( is_bool( $value )){
-				$value = $value ? 'true' : 'false';
-				$content .= "\"$key\" => $value,\n";
-			}
-			else{
-				$value = str_replace( "'", "\\'", $value );
-				$content .= "\"$key\" => '$value',\n";
-			}
-		}
-		$content .= ");\n?>\n";
+		$content = "<?php\n\$CONFIG = ";
+		$content .= var_export(self::$cache, true);
+		$content .= ";\n?>\n";
 
 		$filename = OC::$SERVERROOT."/config/config.php";
 		// Write the file
