@@ -64,9 +64,8 @@ OC={
 			}
 		}else if(file.substring(file.length-3) != 'php' && !isCore){
 			link=OC.appswebroots[app];
-			link+='/'+app+'/';
 			if(type){
-				link+=type+'/';
+				link+= '/'+type+'/';
 			}
 			link+=file;
 		}else{
