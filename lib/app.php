@@ -83,7 +83,7 @@ class OC_App{
 	 * @param string app
 	 */
 	public static function loadApp($app){
-		if(is_file(OC::$APPSROOT.'/apps/'.$app.'/appinfo/app.php')){
+		if(is_file(self::getAppPath($app).'/appinfo/app.php')){
 			require_once( $app.'/appinfo/app.php' );
 		}
 	}
@@ -143,6 +143,8 @@ class OC_App{
 	 * get all enabled apps
 	 */
 	public static function getEnabledApps(){
+		if(!OC_Config::getValue('installed', false))
+			return array();
 		$apps=array('files');
 		$query = OC_DB::prepare( 'SELECT appid FROM *PREFIX*appconfig WHERE configkey = \'enabled\' AND configvalue=\'yes\'' );
 		$result=$query->execute();
@@ -328,10 +330,55 @@ class OC_App{
 	}
 
 	/**
+	* Get the path where to install apps
+  */
+	public static function getInstallPath() {
+		if(OC_Config::getValue('appstoreenabled', true)==false) {
+			return false;
+		}
+
+		foreach(OC::$APPSROOTS as $dir) {
+			if(isset($dir['writable']) && $dir['writable']===true)
+				return $dir['path'];
+		}
+
+		OC_Log::write('core','No application directories are marked as writable.',OC_Log::ERROR);
+		return null;
+	}
+
+
+	protected static function findAppInDirectories($appid) {
+		foreach(OC::$APPSROOTS as $dir) {
+			if(file_exists($dir['path'].'/'.$appid)) {
+				return $dir;
+			}
+		}
+	}
+	/**
+	* Get the directory for the given app.
+	* If the app is defined in multiple directory, the first one is taken. (false if not found)
+	*/
+	public static function getAppPath($appid) {
+		if( ($dir = self::findAppInDirectories($appid)) != false) {
+			return $dir['path'].'/'.$appid;
+		}
+	}
+
+	/**
+	* Get the path for the given app on the access
+	* If the app is defined in multiple directory, the first one is taken. (false if not found)
+	*/
+	public static function getAppWebPath($appid) {
+		if( ($dir = self::findAppInDirectories($appid)) != false) {
+			return OC::$WEBROOT.$dir['url'].'/'.$appid;
+		}
+	}
+
+	/**
 	 * get the last version of the app, either from appinfo/version or from appinfo/info.xml
 	 */
 	public static function getAppVersion($appid){
-		$file=OC::$APPSROOT.'/apps/'.$appid.'/appinfo/version';
+		$file= self::getAppPath($appid).'/appinfo/version';
 		$version=@file_get_contents($file);
 		if($version){
 			return $version;
@@ -354,7 +401,7 @@ class OC_App{
 			if(isset(self::$appInfo[$appid])){
 				return self::$appInfo[$appid];
 			}
-			$file=OC::$APPSROOT.'/apps/'.$appid.'/appinfo/info.xml';
+			$file= self::getAppPath($appid).'/appinfo/info.xml';
 		}
 		$data=array();
 		$content=@file_get_contents($file);
@@ -467,10 +514,12 @@ class OC_App{
 	 */
 	public static function getAllApps(){
 		$apps=array();
-		$dh=opendir(OC::$APPSROOT.'/apps');
-		while($file=readdir($dh)){
-			if($file[0]!='.' and is_file(OC::$APPSROOT.'/apps/'.$file.'/appinfo/app.php')){
-				$apps[]=$file;
+		foreach(OC::$APPSROOTS as $apps_dir) {
+			$dh=opendir($apps_dir['path']);
+			while($file=readdir($dh)){
+				if($file[0]!='.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')){
+					$apps[]=$file;
+				}
 			}
 		}
 		return $apps;
@@ -536,24 +585,24 @@ class OC_App{
 	 * @param string appid
 	 */
 	public static function updateApp($appid){
-		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/database.xml')){
-			OC_DB::updateDbFromStructure(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/database.xml');
+		if(file_exists(self::getAppPath($appid).'/appinfo/database.xml')){
+			OC_DB::updateDbFromStructure(self::getAppPath($appid).'/appinfo/database.xml');
 		}
 		if(!self::isEnabled($appid)){
 			return;
 		}
-		if(file_exists(OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php')){
+		if(file_exists(self::getAppPath($appid).'/appinfo/update.php')){
 			self::loadApp($appid);
-			include OC::$APPSROOT.'/apps/'.$appid.'/appinfo/update.php';
+			include self::getAppPath($appid).'/appinfo/update.php';
 		}
 
 		//set remote/public handelers
 		$appData=self::getAppInfo($appid);
 		foreach($appData['remote'] as $name=>$path){
-			OCP\CONFIG::setAppValue('core', 'remote_'.$name, '/apps/'.$appid.'/'.$path);
+			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $path);
 		}
 		foreach($appData['public'] as $name=>$path){
-			OCP\CONFIG::setAppValue('core', 'public_'.$name, '/apps/'.$appid.'/'.$path);
+			OCP\CONFIG::setAppValue('core', 'public_'.$name, $appid.'/'.$path);
 		}
 
 		self::setAppTypes($appid);

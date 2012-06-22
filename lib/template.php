@@ -242,10 +242,10 @@ class OC_Template{
 		// Check if it is a app template or not.
 		if( $app != "" ){
 			// Check if the app is in the app folder or in the root
-			if( file_exists( OC::$APPSROOT."/apps/$app/templates/" )){
+			if( file_exists(OC_App::getAppPath($app)."/templates/" )){
 				// Check if the template is overwritten by the selected theme
 				if ($this->checkPathForTemplate(OC::$SERVERROOT."/themes/$theme/apps/$app/templates/", $name, $fext)) {
-				}elseif ($this->checkPathForTemplate(OC::$APPSROOT."/apps/$app/templates/", $name, $fext)) {
+				}elseif ($this->checkPathForTemplate(OC_App::getAppPath($app)."/templates/", $name, $fext)) {
 				}
 			}else{
 				// Check if the template is overwritten by the selected theme

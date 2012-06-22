@@ -57,6 +57,9 @@ class OC_OCSClient{
 	 * This function returns a list of all the application categories on the OCS server
 	 */
 	public static function getCategories(){
+		if(OC_Config::getValue('appstoreenabled', true)==false){
+			return NULL;
+		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/categories';
 	
 		$xml=@file_get_contents($url);
@@ -130,6 +133,9 @@ class OC_OCSClient{
 	 * This function returns an  applications from the OCS server
 	 */
 	public static function getApplication($id){
+		if(OC_Config::getValue('appstoreenabled', true)==false){
+			return NULL;
+		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/data/'.urlencode($id);
 
 		$xml=@file_get_contents($url);
@@ -157,31 +163,34 @@ class OC_OCSClient{
 		return $app;
 	}
 
-        /**
-         * @brief Get the download url for an application from the OCS server
-         * @returns array with application data
-         *
-         * This function returns an download url for an applications from the OCS server
-         */
-        public static function getApplicationDownload($id,$item){
-                $url=OC_OCSClient::getAppStoreURL().'/content/download/'.urlencode($id).'/'.urlencode($item);
+	/**
+		* @brief Get the download url for an application from the OCS server
+		* @returns array with application data
+		*
+		* This function returns an download url for an applications from the OCS server
+		*/
+	public static function getApplicationDownload($id,$item){
+		if(OC_Config::getValue('appstoreenabled', true)==false){
+			return NULL;
+		}
+		$url=OC_OCSClient::getAppStoreURL().'/content/download/'.urlencode($id).'/'.urlencode($item);
 
-                $xml=@file_get_contents($url);
-                if($xml==FALSE){
-                        OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
-                        return NULL;
-                }
-                $data=simplexml_load_string($xml);
+		$xml=@file_get_contents($url);
+		if($xml==FALSE){
+			OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
+			return NULL;
+		}
+		$data=simplexml_load_string($xml);
 
-                $tmp=$data->data->content;
-                $app=array();
-                if(isset($tmp->downloadlink)) { 
-	 		$app['downloadlink']=$tmp->downloadlink;
+		$tmp=$data->data->content;
+		$app=array();
+		if(isset($tmp->downloadlink)) { 
+			$app['downloadlink']=$tmp->downloadlink;
 		}else{
 	 		$app['downloadlink']='';
 		}
-                return $app;
-        }
+		return $app;
+	}
 
 
 	/**

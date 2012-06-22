@@ -2,7 +2,7 @@
 	<input type="text" id="tasks_newtask">
 	<input type="button" id="tasks_addtask" value="<?php echo $l->t('Add Task'); ?>">
 	<input type="button" id="tasks_order_due" value="<?php echo $l->t('Order Due'); ?>">
-	<input type="button" id="tasks_order_category" value="<?php echo $l->t('Order Category'); ?>">
+	<input type="button" id="tasks_order_category" value="<?php echo $l->t('Order List'); ?>">
 	<input type="button" id="tasks_order_complete" value="<?php echo $l->t('Order Complete'); ?>">
 	<input type="button" id="tasks_order_location" value="<?php echo $l->t('Order Location'); ?>">
 	<input type="button" id="tasks_order_prio" value="<?php echo $l->t('Order Priority'); ?>">
@@ -24,6 +24,9 @@
 	</span>
 	<span class="task_less">
 		<img title="<?php echo $l->t('Less') ?>" src="<?php echo OCP\image_path('core', 'actions/triangle-n.svg') ?>" class="svg"><?php echo $l->t('Less') ?>
+	</span>
+	<span class="task_delete">
+		<img title="<?php echo $l->t('Delete') ?>" src="<?php echo OCP\image_path('core', 'actions/delete.svg') ?>" class="svg"><?php echo $l->t('Delete') ?>
 	</span>
 </p>
 <script type='text/javascript'>

@@ -86,15 +86,23 @@ $CONFIG = array(
 /* Loglevel to start logging at. 0=DEBUG, 1=INFO, 2=WARN, 3=ERROR (default is WARN) */
 "loglevel" => "",
 
-/* Set this to false to disable the check for writable apps dir.
- * If the apps dir is not writable, you can't download&install extra apps
- * in the admin apps menu.
- */
-"writable_appsdir" => true,
-
 /* The directory where the user data is stored, default to data in the owncloud
  * directory. The sqlite database is also stored here, when sqlite is used.
  */
-// "datadirectory" => ""
+// "datadirectory" => "",
+
+"apps_paths" => array(
+
+/* Set an array of path for your apps directories
+ key 'path' is for the fs path an the key 'url' is for the http path to your
+ applications paths. 'writable' indicate if the user can install apps in this folder.
+ You must have at least 1 app folder writable or you must set the parameter : appstoreenabled to false
+*/
+	array(
+		'path'=> '/var/www/owncloud/apps',
+		'url' => '/apps',
+		'writable' => true,
+  ),
+ ),
 );
-?>
+

@@ -51,13 +51,9 @@ class OC{
 	 */
 	public static $THIRDPARTYWEBROOT = '';
 	/**
-	 * The installation path of the apps folder on the server (e.g. /srv/http/owncloud)
+	 * The installation path array of the apps folder on the server (e.g. /srv/http/owncloud) 'path' and web path in 'url'
 	 */
-	public static $APPSROOT = '';
-	/**
-	 * the root path of the apps folder for http requests (e.g. owncloud)
-	 */
-	public static $APPSWEBROOT = '';
+	public static $APPSROOTS = array();
 	/*
 	 * requested app
 	 */
@@ -75,7 +71,11 @@ class OC{
 	 */
 	public static function autoload($className){
 		if(array_key_exists($className,OC::$CLASSPATH)){
-			require_once OC::$CLASSPATH[$className];
+			/** @TODO: Remove this when necessary
+			 Remove "apps/" from inclusion path for smooth migration to mutli app dir
+			*/
+			$path = preg_replace('/apps\//','', OC::$CLASSPATH[$className]);
+			require_once $path;
 		}
 		elseif(strpos($className,'OC_')===0){
 			require_once strtolower(str_replace('_','/',substr($className,3)) . '.php');
@@ -132,29 +132,34 @@ class OC{
 			echo("3rdparty directory not found! Please put the ownCloud 3rdparty folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
 			exit;
 		}
-
 		// search the apps folder
-		if(OC_Config::getValue('appsroot', '')<>''){
-			OC::$APPSROOT=OC_Config::getValue('appsroot', '');
-			OC::$APPSWEBROOT=OC_Config::getValue('appsurl', '');
+		$config_paths = OC_Config::getValue('apps_paths', array());
+		if(! empty($config_paths)){
+			foreach($config_paths as $paths) {
+				if( isset($paths['url']) && isset($paths['path']))
+					OC::$APPSROOTS[] = $paths;	
+			}
 		}elseif(file_exists(OC::$SERVERROOT.'/apps')){
-			OC::$APPSROOT=OC::$SERVERROOT;
-			OC::$APPSWEBROOT=OC::$WEBROOT;
+			OC::$APPSROOTS[] = array('path'=> OC::$SERVERROOT.'/apps', 'url' => '/apps/', 'writable' => true);
 		}elseif(file_exists(OC::$SERVERROOT.'/../apps')){
+			OC::$APPSROOTS[] = array('path'=> rtrim(dirname(OC::$SERVERROOT), '/').'/apps', 'url' => '/apps/', 'writable' => true);
 			OC::$APPSROOT=rtrim(dirname(OC::$SERVERROOT), '/');
-			OC::$APPSWEBROOT=rtrim(dirname(OC::$WEBROOT), '/');
-		}else{
+		}
+
+		if(empty(OC::$APPSROOTS)){
 			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
 			exit;
 		}
+		$paths = array();
+		foreach( OC::$APPSROOTS as $path)
+			$paths[] = $path['path'];
 
 		// set the right include path
 		set_include_path(
 			OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.
 			OC::$SERVERROOT.'/config'.PATH_SEPARATOR.
 			OC::$THIRDPARTYROOT.'/3rdparty'.PATH_SEPARATOR.
-			OC::$APPSROOT.PATH_SEPARATOR.
-			OC::$APPSROOT.'/apps'.PATH_SEPARATOR.
+			implode($paths,PATH_SEPARATOR).PATH_SEPARATOR.
 			get_include_path().PATH_SEPARATOR.
 			OC::$SERVERROOT
 		);
@@ -232,24 +237,25 @@ class OC{
 	}
 
 	public static function loadapp(){
-		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php')){
-			require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/index.php');
+		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php')){
+			require_once(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php');
 		}else{
 			trigger_error('The requested App was not found.', E_USER_ERROR);//load default app instead?
 		}
 	}
 
 	public static function loadfile(){
-		if(file_exists(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE)){
+		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/' . OC::$REQUESTEDFILE)){
 			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
-				$file = 'apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE;
+				$file = OC_App::getAppWebPath(OC::$REQUESTEDAPP). '/' . OC::$REQUESTEDFILE;
 				$minimizer = new OC_Minimizer_CSS();
-				$minimizer->output(array(array(OC::$APPSROOT, OC::$APPSWEBROOT, $file)), $file);
+				$minimizer->output(array(array(OC_App::getAppPath(OC::$REQUESTEDAPP), OC_App::getAppWebPath(OC::$REQUESTEDAPP), OC::$REQUESTEDFILE)),$file);
 				exit;
 			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
-				require_once(OC::$APPSROOT . '/apps/' . OC::$REQUESTEDAPP . '/' . OC::$REQUESTEDFILE);
+				require_once(OC_App::getAppPath(OC::$REQUESTEDAPP). '/' . OC::$REQUESTEDFILE);
 			}
 		}else{
+			die();
 			header('HTTP/1.0 404 Not Found');
 			exit;
 		}
@@ -391,8 +397,8 @@ class OC{
 			$_GET['getfile'] = $file;
 		}
 		if(!is_null(self::$REQUESTEDFILE)){
-			$subdir = OC::$APPSROOT . '/apps/' . self::$REQUESTEDAPP . '/' . self::$REQUESTEDFILE;
-			$parent = OC::$APPSROOT . '/apps/' . self::$REQUESTEDAPP;
+			$subdir = OC_App::getAppPath(OC::$REQUESTEDAPP) . '/' . self::$REQUESTEDFILE;
+			$parent = OC_App::getAppPath(OC::$REQUESTEDAPP);
 			if(!OC_Helper::issubdirectory($subdir, $parent)){
 				self::$REQUESTEDFILE = null;
 				header('HTTP/1.0 404 Not Found');

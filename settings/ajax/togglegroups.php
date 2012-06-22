@@ -10,7 +10,7 @@ $error = "add user to";
 $action = "add";
 
 $username = $_POST["username"];
-$group = htmlentities($_POST["group"]);
+$group = OC_Util::sanitizeHTML($_POST["group"]);
 
 if(!OC_Group::groupExists($group)){
 	OC_Group::createGroup($group);

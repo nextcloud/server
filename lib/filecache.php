@@ -68,13 +68,13 @@ class OC_FileCache{
 		$path=$root.$path;
 		$parent=self::getParentId($path);
 		$id=self::getId($path,'');
+		if(isset(OC_FileCache_Cached::$savedData[$path])){
+			$data=array_merge(OC_FileCache_Cached::$savedData[$path],$data);
+			unset(OC_FileCache_Cached::$savedData[$path]);
+		}
 		if($id!=-1){
 			self::update($id,$data);
 			return;
-		}
-		if(isset(OC_FileCache_Cached::$savedData[$path])){
-			$data=array_merge($data,OC_FileCache_Cached::$savedData[$path]);
-			unset(OC_FileCache_Cached::$savedData[$path]);
 		}
 		if(!isset($data['size']) or !isset($data['mtime'])){//save incomplete data for the next time we write it
 			OC_FileCache_Cached::$savedData[$path]=$data;

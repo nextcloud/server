@@ -12,7 +12,7 @@
 		<?php endforeach; ?>
 		<script type="text/javascript">
 			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
-			var oc_appswebroot = '<?php echo OC::$APPSWEBROOT; ?>';
+			var oc_appswebroots = <?php echo $_['apps_paths'] ?>;
 		</script>
 		<?php if (!empty(OC_Util::$core_scripts)): ?>
 		<script type="text/javascript" src="<?php echo OC_Helper::linkToRemote('core.js', false) ?>"></script>

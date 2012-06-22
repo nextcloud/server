@@ -7,8 +7,8 @@
  */
 OCP\App::checkAppEnabled('calendar');
 
-if(substr($_SERVER["REQUEST_URI"],0,strlen(OC::$APPSWEBROOT . '/apps/calendar/caldav.php')) == OC::$APPSWEBROOT . '/apps/calendar/caldav.php'){
-	$baseuri = OC::$APPSWEBROOT . '/apps/calendar/caldav.php';
+if(substr($_SERVER["REQUEST_URI"],0,strlen(OC_App::getAppWebPath('calendar').'/caldav.php')) == OC_App::getAppWebPath('calendar'). '/caldav.php'){
+	$baseuri = OC_App::getAppWebPath('calendar').'/caldav.php';
 }
 
 // only need authentication apps
