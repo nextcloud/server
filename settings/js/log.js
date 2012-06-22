@@ -39,7 +39,7 @@ OC.Log={
 			row.append(appTd);
 			
 			var messageTd=$('<td/>');
-			messageTd.text(entry.message);
+			messageTd.html(entry.message);
 			row.append(messageTd);
 			
 			var timeTd=$('<td/>');
