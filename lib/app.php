@@ -370,7 +370,7 @@ class OC_App{
 	*/
 	public static function getAppWebPath($appid) {
 		if( ($dir = self::findAppInDirectories($appid)) != false) {
-			return $dir['url'].'/'.$appid;
+			return OC::$WEBROOT.$dir['url'].'/'.$appid;
 		}
 	}
 
