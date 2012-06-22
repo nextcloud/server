@@ -8,10 +8,12 @@
 
 class Test_CryptProxy extends UnitTestCase {
 	private $oldConfig;
+	private $oldKey;
 	
 	public function setUp(){
 		$this->oldConfig=OCP\Config::getAppValue('files_encryption','enable_encryption','true');
 		OCP\Config::setAppValue('files_encryption','enable_encryption','true');
+		$this->oldKey=isset($_SESSION['enckey'])?$_SESSION['enckey']:null;
 	
 		
 		//set testing key
@@ -36,6 +38,9 @@ class Test_CryptProxy extends UnitTestCase {
 
 	public function tearDown(){
 		OCP\Config::setAppValue('files_encryption','enable_encryption',$this->oldConfig);
+		if(!is_null($this->oldKey)){
+			$_SESSION['enckey']=$this->oldKey;
+		}
 	}
 
 	public function testSimple(){
@@ -50,6 +55,7 @@ class Test_CryptProxy extends UnitTestCase {
 		
 		$fromFile=OC_Filesystem::file_get_contents('/file');
 		$this->assertNotEqual($original,$stored);
+		$this->assertEqual(strlen($original),strlen($fromFile));
 		$this->assertEqual($original,$fromFile);
 
 	}
@@ -88,6 +94,20 @@ class Test_CryptProxy extends UnitTestCase {
 
 		$fromFile=OC_Filesystem::file_get_contents('/file');
 		$this->assertNotEqual($original,$stored);
+		$this->assertEqual(strlen($original),strlen($fromFile));
 		$this->assertEqual($original,$fromFile);
+
+		$file=__DIR__.'/zeros';
+		$original=file_get_contents($file);
+
+		OC_Filesystem::file_put_contents('/file',$original);
+
+		OC_FileProxy::$enabled=false;
+		$stored=OC_Filesystem::file_get_contents('/file');
+		OC_FileProxy::$enabled=true;
+
+		$fromFile=OC_Filesystem::file_get_contents('/file');
+		$this->assertNotEqual($original,$stored);
+		$this->assertEqual(strlen($original),strlen($fromFile));
 	}
 }

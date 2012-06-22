@@ -11,7 +11,7 @@ $(document).ready(function() {
 				window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
 					params[key] = value;
 				});
-				if (params['oauth_token'].length > 1 && decodeURIComponent(params['oauth_token']) == $(token).val() && params['oauth_verifier'].length > 1) {
+				if (params['oauth_token'] !== undefined && params['oauth_verifier'] !== undefined && decodeURIComponent(params['oauth_token']) == $(token).val()) {
 					var tr = $(this);
 					$.post(OC.filePath('files_external', 'ajax', 'google.php'), { step: 2, oauth_verifier: params['oauth_verifier'], request_token: $(token).val(), request_token_secret: $(token_secret).val() }, function(result) {
 						if (result && result.status == 'success') {

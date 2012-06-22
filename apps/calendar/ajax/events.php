@@ -22,7 +22,7 @@ $calendar_id = (is_null($calendar_id)?strip_tags($_GET['calendar_id']):$calendar
 
 $start = (version_compare(PHP_VERSION, '5.3.0', '>='))?DateTime::createFromFormat('U', $_GET['start']):new DateTime('@' . $_GET['start']);
 $end = (version_compare(PHP_VERSION, '5.3.0', '>='))?DateTime::createFromFormat('U', $_GET['end']):new DateTime('@' . $_GET['end']);
-$events = OC_Calendar_App::getrequestedEvents($calendar_id, $start, $end);
+$events = OC_Calendar_App::getrequestedEvents($_GET['calendar_id'], $start, $end);
 $output = array();
 foreach($events as $event){
 	$output = array_merge($output, OC_Calendar_App::generateEventOutput($event, $start, $end));

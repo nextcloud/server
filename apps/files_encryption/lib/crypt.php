@@ -44,18 +44,16 @@ class OC_Crypt {
 	}
 
 	public static function init($login,$password) {
-		$view1=new OC_FilesystemView('/');
-		if(!$view1->file_exists('/'.$login)){
-			$view1->mkdir('/'.$login);
+		$view=new OC_FilesystemView('/');
+		if(!$view->file_exists('/'.$login)){
+			$view->mkdir('/'.$login);
 		}
-
-		$view=new OC_FilesystemView('/'.$login);
 
 		OC_FileProxy::$enabled=false;
-		if(!$view->file_exists('/encryption.key')){// does key exist?
+		if(!$view->file_exists('/'.$login.'/encryption.key')){// does key exist?
 			OC_Crypt::createkey($login,$password);
 		}
-		$key=$view->file_get_contents('/encryption.key');
+		$key=$view->file_get_contents('/'.$login.'/encryption.key');
 		OC_FileProxy::$enabled=true;
 		$_SESSION['enckey']=OC_Crypt::decrypt($key, $password);
 	}
@@ -206,12 +204,16 @@ class OC_Crypt {
 	/**
 	 * decrypt data in 8192b sized blocks
 	 */
-	public static function blockDecrypt($data, $key=''){
+	public static function blockDecrypt($data, $key='',$maxLength=0){
 		$result='';
 		while(strlen($data)){
 			$result.=self::decrypt(substr($data,0,8192),$key);
 			$data=substr($data,8192);
 		}
-		return rtrim($result, "\0");
+		if($maxLength>0){
+			return substr($result,0,$maxLength);
+		}else{
+			return rtrim($result, "\0");
+		}
 	}
 }

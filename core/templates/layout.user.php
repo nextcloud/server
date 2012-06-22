@@ -12,7 +12,7 @@
 		<?php endforeach; ?>
 		<script type="text/javascript">
 			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
-			var oc_appswebroot = '<?php echo OC::$APPSWEBROOT; ?>';
+			var oc_appswebroots = <?php echo $_['apps_paths'] ?>;
 			var oc_current_user = '<?php echo OC_User::getUser() ?>';
 		</script>
 		<?php if (!empty(OC_Util::$core_scripts)): ?>
@@ -47,7 +47,7 @@
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img class="svg" src="<?php echo image_path('', 'logo-wide.svg'); ?>" alt="ownCloud" /></a>
 			<a class="header-right header-action" id="logout" href="<?php echo link_to('', 'index.php'); ?>?logout=true"><img class="svg" alt="<?php echo $l->t('Log out');?>" title="<?php echo $l->t('Log out');?>" src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a>
 			<form class="searchbox header-right" action="#" method="post">
-				<input id="searchbox" class="svg" type="search" name="query" value="<?php if(isset($_POST['query'])){echo htmlentities($_POST['query']);};?>" autocomplete="off" />
+				<input id="searchbox" class="svg" type="search" name="query" value="<?php if(isset($_POST['query'])){echo OC_Util::sanitizeHTML($_POST['query']);};?>" autocomplete="off" />
 			</form>
 		</div></header>
 

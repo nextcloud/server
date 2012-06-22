@@ -77,7 +77,7 @@ if (isset($_GET['token']) && $source = OC_Share::getSource($_GET['token'])) {
 		header("Content-Length: " . OC_Filesystem::filesize($source));
 		//download the file
 		@ob_clean();
-		OCP\Util::emitHook('OC_Share', 'public-download', array('source'=>$source, 'token'=>$token);
+		OCP\Util::emitHook('OC_Share', 'public-download', array('source'=>$source, 'token'=>$token));
 		OC_Filesystem::readfile($source);
 	}
 } else {

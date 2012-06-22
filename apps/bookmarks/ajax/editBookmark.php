@@ -40,18 +40,26 @@ if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 }
 
 $bookmark_id = (int)$_POST["id"];
+$user_id = OCP\USER::getUser();
 
 $query = OCP\DB::prepare("
 	UPDATE *PREFIX*bookmarks
 	SET url = ?, title =?, lastmodified = $_ut
-	WHERE id = $bookmark_id
+	WHERE id = ?
+	AND user_id = ?
 	");
 
 $params=array(
 	htmlspecialchars_decode($_POST["url"]),
 	htmlspecialchars_decode($_POST["title"]),
+	$bookmark_id,
+	$user_id,
 	);
-$query->execute($params);
+
+$result = $query->execute($params);
+
+# Abort the operation if bookmark couldn't be set (probably because the user is not allowed to edit this bookmark)
+if ($result->numRows() == 0) exit();
 
 # Remove old tags and insert new ones.
 $query = OCP\DB::prepare("
@@ -66,7 +74,7 @@ $query = OCP\DB::prepare("
 	(bookmark_id, tag)
 	VALUES (?, ?)
 	");
-	
+
 $tags = explode(' ', urldecode($_POST["tags"]));
 foreach ($tags as $tag) {
 	if(empty($tag)) {

@@ -66,7 +66,7 @@ class Test_Encryption extends UnitTestCase {
 		$this->assertEqual($decrypted,$source);
 
 		$encrypted=OC_Crypt::blockEncrypt($source,$key);
-		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
+		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key,strlen($source));
 		$this->assertEqual($decrypted,$source);
 	}
 }

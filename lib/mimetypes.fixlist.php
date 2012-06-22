@@ -17,5 +17,6 @@ return array(
 	'xlsx'=>'application/msexcel',
 	'ppt'=>'application/mspowerpoint',
 	'pptx'=>'application/mspowerpoint',
-	'sgf' => 'application/sgf'
+	'sgf' => 'application/sgf',
+	'cdr' => 'application/coreldraw'
 );

@@ -22,8 +22,8 @@
 */
 
 OCP\App::checkAppEnabled('media');
- require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
- require_once(OC::$APPSROOT . '/apps/media/lib_ampache.php');
+ require_once(OC_App::getAppPath('media').'/lib_collection.php');
+ require_once(OC_App::getAppPath('media').'/lib_ampache.php');
 
 $arguments=$_POST;
 if(!isset($_POST['action']) and isset($_GET['action'])){
