@@ -140,5 +140,3 @@ class OC_USER_LDAP extends OC_User_Backend {
 	}
 
 }
-
-?>
