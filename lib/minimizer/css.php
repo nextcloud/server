@@ -16,7 +16,7 @@ class OC_Minimizer_CSS extends OC_Minimizer
 
 			$in_root = false;
 			foreach(OC::$APPSROOTS as $app_root) {
-				if(strpos($file, $app_root['path']) == 0) {
+				if(strpos($file, $app_root['path']) === 0) {
 					$in_root = $webroot.$app_root['url'];
 					break;
 				}
@@ -33,7 +33,6 @@ class OC_Minimizer_CSS extends OC_Minimizer
 		if (!defined('DEBUG') || !DEBUG){
 			$css_out = CSSMin::minify($css_out);
 		}
-// die();
 		return $css_out;
 	}
 }
