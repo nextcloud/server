@@ -31,12 +31,14 @@ class Share {
 	const SHARE_TYPE_USER = 0;
 	const SHARE_TYPE_GROUP = 1;
 	const SHARETYPE_CONTACT = 2;
-	const SHARETYPE_PRIVATE_LINK = 4;	
+	const SHARETYPE_PRIVATE_LINK = 4;
 
 	const PERMISSION_READ = 0;
 	const PERMISSION_UPDATE = 1;
 	const PERMISSION_DELETE = 2;
 	const PERMISSION_SHARE = 3;
+
+	const FORMAT_NONE = -1;
 
 	private static $shareTypeUserAndGroups = -1;
 	private static $shareTypeGroupUserUnique = 3;
@@ -67,37 +69,45 @@ class Share {
 	/**
 	* @brief Get the items of item type shared with the current user
 	* @param string Item type
-	* @return
+	* @param int Format (optional) Format type must be defined by the backend
+	* @param int Number of items to return (optional) Returns all by default
+	* @return Return depends on format
 	*/
-	public static function getItemsSharedWith($itemType) {
-		return self::getItems($itemType, null, \OC_User::getUser(), true, null, true);
+	public static function getItemsSharedWith($itemType, $format = self::FORMAT_NONE, $limit = -1) {
+		return self::getItems($itemType, null, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, $limit);
 	}
 
 	/**
 	* @brief Get the item of item type shared with the current user
 	* @param string Item type
-	* @return
+	* @param string Item target
+	* @param int Format (optional) Format type must be defined by the backend
+	* @return Return depends on format
 	*/
-	public static function getItemSharedWith($itemType, $item) {
-		return self::getItems($itemType, $item, \OC_User::getUser(), true, null, true, 1);
+	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE) {
+		return self::getItems($itemType, $itemTarget, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, 1);
 	}
 
 	/**
 	* @brief Get the shared items of item type owned by the current user
 	* @param string Item type
-	* @return The
+	* @param int Format (optional) Format type must be defined by the backend
+	* @param int Number of items to return (optional) Returns all by default
+	* @return Return depends on format
 	*/
-	public static function getItemsOwned($itemType) {
-		return self::getItems($itemType, null, null, null, \OC_User::getUser(), true);
+	public static function getItemsOwned($itemType, $format = self::FORMAT_NONE, $limit = -1) {
+		return self::getItems($itemType, null, null, null, \OC_User::getUser(), $format, $limit);
 	}
 
 	/**
 	* @brief Get the shared item of item type owned by the current user
 	* @param string Item type
-	* @return The
+	* @param string Item
+	* @param int Format (optional) Format type must be defined by the backend
+	* @return Return depends on format
 	*/
-	public static function getItemOwned($itemType, $item) {
-		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), true, 1);
+	public static function getItemOwned($itemType, $item, $format = self::FORMAT_NONE) {
+		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format, 1);
 	}
 
 	/**
@@ -130,7 +140,7 @@ class Share {
 						return false;
 					}
 				}
-				if (self::getItems($itemType, $item, $shareWith, true, $uidOwner, false, 1)) {
+				if (self::getItems($itemType, $item, self::SHARE_TYPE_USER, $shareWith, $uidOwner, self::FORMAT_NONE, 1)) {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with the user '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
@@ -143,7 +153,7 @@ class Share {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because '.$uidOwner.' is not a member of the group '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
-				if (self::getItems($itemType, $item, null, $shareWith, $uidOwner, false, 1)) {
+				if (self::getItems($itemType, $item, self::SHARE_TYPE_GROUP, $shareWith, $uidOwner, self::FORMAT_NONE, 1)) {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with the group '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
@@ -375,7 +385,7 @@ class Share {
 	/**
 	* @brief Get shared items from the database
 	* @param string Item type
-	* @param string Item (optional)
+	* @param string Item or item target (optional)
 	* @param string User the item(s) is(are) shared with
 	* @param string|bool Group the item(s) is(are) shared with
 	* @param string User that is the owner of shared items (optional)
@@ -385,7 +395,7 @@ class Share {
 	* See public functions getItem(s)... for parameter usage
 	*
 	*/
-	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = true, $checkOnly = false, $limit = -1) {
+	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $limit = -1) {
 		if ($backend = self::getBackend($itemType)) {
 			// Check if there are any parent types that include this type of items, e.g. a music album contains songs
 			if (isset($itemType)) {
@@ -410,7 +420,6 @@ class Share {
 					$groups = \OC_Group::getUserGroups($shareWith);
 					$userAndGroups = array_merge(array($shareWith), $groups);
 					$where .= " AND share_with IN ('".implode("','", $userAndGroups)."')";
-					
 				} else {
 					$where .= " AND share_type = '".$shareType."' AND share_with = '".$shareWith."'";
 				}
@@ -443,32 +452,24 @@ class Share {
 			}
 			$query = \OC_DB::prepare('SELECT * FROM *PREFIX*sharing '.$where);
 			$result = $query->execute();
-			if (!$checkOnly) {
-				$items = array();
-				while ($item = $result->fetchRow()) {
-					// Filter out duplicate group shares for users with unique targets
-					if ($item['share_type'] == self::$shareTypeGroupUserUnique) {
-
-					}
-					$sources[] = $item['item_source'];
-					if ($format) {
-						$shareInfo[$item['item_source']] = array('item_target' => $item['item_target'], 'permissions' => $item['permissions'], 'stime' => $item['stime']);
-					} else {
-						$shareInfo[$item['item_source']][$item['id']] = array('item_target' => $item['item_target'], 'permissions' => $item['permissions'], 'stime' => $item['stime']);
-					}
-				}
-				if ($format) {
-					return $backend->formatItems($sources, $shareInfo);
-				} else {
-					// TODO wrap items back into share type, share with, permissions
-					$items = $backend->getItems($sources);
+			$items = array();
+			while ($item = $result->fetchRow()) {
+				// TODO Filter out duplicate group shares for users with unique targets
+				if ($item['share_type'] == self::$shareTypeGroupUserUnique) {
+					// Group shares should already be in items array
 					
 				}
-				if (!empty($items)) {
-					return $items;
+				// TODO Add in parent item types children?
+				if ($parents && in_array($item['item_type'], $parents)) {
+					$children[] = $item;
 				}
+// 				$items[] = array($item['item_source'] => $item['id'];
+				$items[$item['item']][$item['id']] = array('item_target' => $item['item_target'], 'permissions' => $item['permissions'], 'stime' => $item['stime']);
+			}
+			if ($format == self::FORMAT_NONE) {
+				return $items;
 			} else {
-				return $result->fetchAll();
+				return $backend->formatItems($items, $format);
 			}
 		}
 		return false;
@@ -523,7 +524,7 @@ class Share {
 					$fileSource = null;
 				}
 			}
-			$query = \OC_DB::prepare('INSERT INTO *PREFIX*sharing (item_type, item_source, item_target, parent, uid_shared_with, gid_shared_with, uid_owner, permissions, stime, file_source, file_target) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
+			$query = \OC_DB::prepare('INSERT INTO *PREFIX*sharing (item_type, item, item_source, item_target, parent, uid_shared_with, gid_shared_with, uid_owner, permissions, stime, file_source, file_target) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
 			// Share with a group
 			if ($shareType == self::SHARE_TYPE_GROUP) {
 				if (isset($fileSource)) {
@@ -547,7 +548,7 @@ class Share {
 					$groupFileTarget = null;
 				}
 				$groupItemTarget = $backend->generateTarget($item, false);
-				$query->execute(array($itemType, $itemSource, $groupItemTarget, $parent, $shareType, $shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget));
+				$query->execute(array($itemType, $item, $itemSource, $groupItemTarget, $parent, $shareType, $shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget));
 				// Save this id, any extra rows for this group share will need to reference it
 				$parent = \OC_DB::insertid('*PREFIX*sharing');
 				// Loop through all users of this group in case we need to add an extra row
@@ -572,7 +573,7 @@ class Share {
 					}
 					// Insert an extra row for the group share if the item or file target is unique for this user
 					if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
-						$query->execute(array($itemType, $itemSource, $itemTarget, $parent, self::$shareTypeGroupUserUnique, $uid, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
+						$query->execute(array($itemType, $item, $itemSource, $itemTarget, $parent, self::$shareTypeGroupUserUnique, $uid, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
 						$id = \OC_DB::insertid('*PREFIX*sharing');
 					}
 					if ($parentFolder === true) {
@@ -600,7 +601,7 @@ class Share {
 				} else {
 					$fileTarget = null;
 				}
-				$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $shareType, $shareWith, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
+				$query->execute(array($itemType, $item, $itemSource, $itemTarget, $parent, $shareType, $shareWith, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
 				$id = \OC_DB::insertid('*PREFIX*sharing');
 				if ($parentFolder === true) {
 					$parentFolders['id'] = $id;
@@ -638,10 +639,6 @@ class Share {
 	* Hook Listeners
 	*/
 	
-	public static function post_writeFile($arguments) {
-		// TODO
-	}
-
 	public static function post_deleteUser($arguments) {
 		// Delete any items shared with the deleted user
 		$query = \OC_DB::prepare('DELETE FROM *PREFIX*sharing WHERE uid_shared_with = ?');
@@ -705,21 +702,17 @@ abstract class Share_Backend {
 
 
 	/**
-	* @brief
-	* @param array
-	* @return
+	* @brief Converts the shared item sources back into the item in the specified format
+	* @param array Sources of shared items
+	* @param int Format 
+	* @return ?
+	* 
+	* The items array is formatted with the sources as the keys to an array with the following keys: item_target, permissions, stime
+	* This function allows the backend to control the output of shared items with custom formats.
+	* It is only called through calls to the public getItem(s)SharedWith functions.
 	*/
-	public abstract function getItems($sources);
+	public abstract function formatItems($items, $format);
 
-
-
-	/**
-	* @brief
-	* @param array
-	* @param array
-	* @return
-	*/
-	public abstract function formatItems($sources, $shareInfo);
 
 }
 

@@ -34,6 +34,11 @@ class OC_Files {
 	*/
 	public static function getDirectoryContent($directory, $mimetype_filter = ''){
 		$files=OC_FileCache::getFolderContent($directory, false, $mimetype_filter);
+		if ($directory == '') {
+			$files = array_merge($files, array());
+		} else if (substr($directory, 7) == '/Shared') {
+			$files = array_merge($files, OCP\Share::getItemsSharedWith('file', $directory, OC_Share_Backend_File::FORMAT_FILE_APP));
+		}
 		foreach($files as &$file){
 			$file['directory']=$directory;
 			$file['type']=($file['mimetype']=='httpd/unix-directory')?'dir':'file';
