@@ -472,14 +472,13 @@ class OC_LDAP {
 			$attr = array(strtolower($attr));
 		}
 
-		// See if we have a resource, that way we can get rid of the
-		// error-supressing.
+		// See if we have a resource
 		$link_resource = self::getConnectionResource();
 		if($link_resource)
 		{
 			$sr = ldap_search($link_resource, $base, $filter, $attr);
 			$findings = ldap_get_entries($link_resource, $sr );
-			// if we're here, probably no connection ressource is returned.
+			// if we're here, probably no connection resource is returned.
 			// to make ownCloud behave nicely, we simply give back an empty array.
 			if(is_null($findings)) {
 				return array();
