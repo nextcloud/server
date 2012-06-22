@@ -122,7 +122,6 @@ class Share {
 	public static function share($itemType, $item, $shareType, $shareWith, $permissions) {
 		$uidOwner = \OC_User::getUser();
 		// Verify share type and sharing conditions are met
-		// TODO Doesn't handle types 
 		switch ($shareType) {
 			case self::SHARE_TYPE_USER:
 				\OC_Log::write('OCP\Share', 'share type '.$shareType, \OC_Log::ERROR);
@@ -168,6 +167,7 @@ class Share {
 				$uidSharedWith = '';
 				$gidSharedWith = null;
 				break;
+			// Future share types need to include their own conditions
 			default:
 				\OC_Log::write('OCP\Share', 'Share type '.$shareType.' is not valid for '.$item, \OC_Log::ERROR);
 				return false;
@@ -204,20 +204,7 @@ class Share {
 	* @return Returns true on success or false on failure
 	*/
 	public static function unshare($itemType, $item, $shareType, $shareWith) {
-		$uidOwner = \OC_User::getUser();
-		switch ($shareType) {
-			case self::SHARE_TYPE_USER:
-			case self::SHARETYPE_PRIVATE_LINK:
-				$item = self::getItems($itemType, $item, $shareWith, null, $uidOwner, false, 1);
-				break;
-			case self::SHARE_TYPE_GROUP:
-				$item = self::getItems($itemType, $item, null, $shareWith, $uidOwner, false, 1);
-				break;
-			default:
-				\OC_Log::write('OCP\Share', 'Share type '.$shareType.' is not valid for item '.$item, \OC_Log::ERROR);
-				return false;
-		}
-		if ($item) {
+		if ($item = self::getItems($itemType, $item, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, 1)) {
 			self::delete($item['id']);
 			return true;
 		}
@@ -265,7 +252,8 @@ class Share {
 	public static function setTarget($itemType, $oldTarget, $newTarget) {
 		if ($backend = self::getBackend($itemType)) {
 			$uidSharedWith = \OC_User::getUser();
-			if ($item = self::getItems($itemType, $oldTarget, $uidSharedWith, true, null, false, 1)) {
+			// TODO Check permissions for setting target?
+			if ($item = self::getItems($itemType, $oldTarget, self::SHARE_TYPE_USER, $uidSharedWith, null, self::FORMAT_NONE, 1)) {
 				// Check if this is a group share
 				if ($item['uid_shared_with'] == null) {
 					// A new entry needs to be created exclusively for the user
@@ -303,20 +291,7 @@ class Share {
 	* @return Returns true on success or false on failure
 	*/
 	public static function setPermissions($itemType, $item, $shareType, $shareWith, $permissions) {
-		$uidOwner = \OC_User::getUser();
-		switch ($shareType) {
-			case self::SHARE_TYPE_USER:
-			case self::SHARETYPE_PRIVATE_LINK:
-				$item = self::getItems($itemType, $item, $shareWith, null, $uidOwner, false, 1);
-				break;
-			case self::SHARE_TYPE_GROUP:
-				$item = self::getItems($itemType, $item, null, $shareWith, $uidOwner, false, 1);
-				break;
-			default:
-				\OC_Log::write('OCP\Share', 'Share type '.$shareType.' is not valid for item '.$item, \OC_Log::ERROR);
-				return false;
-		}
-		if ($item) {
+		if ($item = self::getItems($itemType, $item, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, 1)) {
 			// Check if this item is a reshare and verify that the permissions granted don't exceed the parent shared item
 			if (isset($item['parent'])) {
 				$query = \OC_DB::prepare('SELECT permissions FROM *PREFIX*sharing WHERE id = ? LIMIT 1');
