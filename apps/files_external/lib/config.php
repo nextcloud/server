@@ -157,12 +157,17 @@ class OC_Mount_Config {
 	*/
 	public static function removeMountPoint($mountPoint, $mountType, $applicable, $isPersonal = false) {
 		// Verify that the mount point applies for the current user
-		if ($isPersonal && $applicable != OCP\User::getUser()) {
-			return false;
+		if ($isPersonal) {
+			if ($applicable != OCP\User::getUser()) {
+				return false;
+			}
+			$mountPoint = '/'.$applicable.'/files/'.ltrim($mountPoint, '/');
+		} else {
+			$mountPoint = '/$user/files/'.ltrim($mountPoint, '/');
 		}
 		$mountPoints = self::readData($isPersonal);
 		// Remove mount point
-		unset($mountPoints[$mountType][$applicable]['/$user/files/'.$mountPoint]);
+		unset($mountPoints[$mountType][$applicable][$mountPoint]);
 		// Unset parent arrays if empty
 		if (empty($mountPoints[$mountType][$applicable])) {
 			unset($mountPoints[$mountType][$applicable]);
