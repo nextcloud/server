@@ -1,6 +1,6 @@
 <script type="text/javascript">
 
-var root = "<?php echo $_['root']; ?>";
+var root = "<?php echo OCP\Util::sanitizeHTML($_['root']); ?>";
 
 $(document).ready(function() {
 		$("a[rel=images]").fancybox({
