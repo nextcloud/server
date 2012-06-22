@@ -426,10 +426,11 @@ class OC_Util {
 	/**
 	 * @brief Public function to sanitize HTML
 	 *
-	 * This function is used to sanitize HTML and should be applied on any string or array of strings before displaying it on a web page.
+	 * This function is used to sanitize HTML and should be applied on any
+	 * string or array of strings before displaying it on a web page.
 	 * 
 	 * @param string or array of strings
-	 * @return array with sanitized strings or a single sinitized string, depends on the input parameter.
+	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( &$value ){
 		if (is_array($value) || is_object($value)) array_walk_recursive($value,'OC_Util::sanitizeHTML');
@@ -439,7 +440,7 @@ class OC_Util {
 
 
         /**
-         * Check if the htaccess file is working buy creating a test file in the data directory and trying to access via http
+         * Check if the htaccess file is working by creating a test file in the data directory and trying to access via http
          */
         public static function ishtaccessworking() {
 

@@ -82,6 +82,15 @@ class OC_JSON{
 	}
 
 	/**
+	 * Convert OC_L10N_String to string, for use in json encodings
+	 */
+	protected static function to_string(&$value){
+		if ($value instanceof OC_L10N_String) {
+			$value = (string)$value;
+		}
+	}
+
+	/**
 	* Encode and print $data in json format
 	*/
 	public static function encodedPrint($data,$setContentType=true){
@@ -89,6 +98,7 @@ class OC_JSON{
 			if($setContentType){
 				self::setContentTypeHeader();
 			}
+			array_walk_recursive($data, array('OC_JSON', 'to_string'));
 			echo json_encode($data);
 		}
 	}

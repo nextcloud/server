@@ -26,6 +26,7 @@ $(document).ready(function() {
 </div>
 <div id="gallerycontent">
 <?php
+session_write_close();
 
 echo $_['tl']->get();
 
