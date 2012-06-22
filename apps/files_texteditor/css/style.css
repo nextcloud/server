@@ -1,16 +1,8 @@
 #editor{
 	position: fixed;
 	display: block;
-	top: 6.5em;
-	left: 12.5em;
-}
-#editorwrapper{
-	position: absolute;
-	height: 0;
-	width: 0;
-	top: 41px;
-	left: 160px;
-	display: none;
+	top: 6.8em;
+	left: 13.5em;
 }
 #editor_save{
 	margin-left: 7px;
