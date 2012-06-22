@@ -124,7 +124,19 @@ class OC_USER_LDAP extends OC_User_Backend {
 	 * @return boolean
 	 */
 	public function userExists($uid){
-		return in_array($uid, $this->getUsers());
+		//getting dn, if false the user does not exist. If dn, he may be mapped only, requires more checking.
+		$dn = OC_LDAP::username2dn($uid);
+		if(!$dn) {
+			return false;
+		}
+
+		//if user really still exists, we will be able to read his cn
+		$cn = OC_LDAP::readAttribute($dn, 'cn');
+		if(!$cn || empty($cn)) {
+			return false;
+		}
+
+		return true;
 	}
 
 }
