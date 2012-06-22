@@ -203,7 +203,8 @@ class OC_Util {
 		// Check if there is a writable install folder.
 		if(OC_Config::getValue('appstoreenabled', true)) {
 			if( OC_App::getInstallPath() === null  || !is_writable(OC_App::getInstallPath())) {
-				$errors[]=array('error'=>"Can't write into apps directory",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
+				$errors[]=array('error'=>"Can't write into apps directory",'hint'=>"You can usually fix this by giving the webserver user write access to the apps directory 
+				in owncloud or disabling the appstore in the config file.");
 			}
 		}
 
