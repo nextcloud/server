@@ -86,7 +86,7 @@ class OC_FileCache{
 		}
 		$path=$root.$path;
 		$parent=self::getParentId($path);
-		$id=self::getId($path,'');
+		$id=self::getFileId($path);
 		if(isset(OC_FileCache::$savedData[$path])){
 			$data=array_merge(OC_FileCache::$savedData[$path],$data);
 			unset(OC_FileCache::$savedData[$path]);
@@ -130,9 +130,11 @@ class OC_FileCache{
 		foreach(array('size','mtime','ctime','mimetype','encrypted','versioned','writable') as $attribute){
 			if(isset($data[$attribute])){
 				//Convert to int it args are false
-                        	if($data[$attribute] === false) $arguments[] = 0;
-				else $arguments[] = $data[$attribute];
-				$arguments[]=$data[$attribute];
+				if($data[$attribute] === false){
+					$arguments[] = 0;
+				}else{
+					$arguments[] = $data[$attribute];
+				}
 				$queryParts[]=$attribute.'=?';
 			}
 		}
