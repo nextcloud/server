@@ -2,13 +2,10 @@
 	position: fixed;
 	display: block;
 	top: 6.8em;
-	left: 13.5em;
+	left: 12.5em;
+	z-index: 20;
 }
 #editor_save{
 	margin-left: 7px;
-	float: left;
-}
-#saving_icon{
-	margin-top: 3px;
 	float: left;
 }
