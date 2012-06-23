@@ -380,12 +380,12 @@ Contacts={
 							if(jsondata.status == 'success'){
 								var newid = '', bookid;
 								var curlistitem = $('#contacts li[data-id="'+jsondata.data.id+'"]');
-								var newlistitem = curlistitem.prev();
+								var newlistitem = curlistitem.prev('li');
 								if(newlistitem == undefined) {
-									newlistitem = curlistitem.next();
+									newlistitem = curlistitem.next('li');
 								}
 								curlistitem.remove();
-								if(newlistitem != undefined) {
+								if(!$(newlistitem).is('li')) {
 									newid = newlistitem.data('id');
 									bookid = newlistitem.data('id');
 								}
