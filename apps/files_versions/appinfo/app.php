@@ -1,6 +1,6 @@
 <?php
 
-require_once('apps/files_versions/versions.php');
+require_once('files_versions/versions.php');
 
 OCP\App::registerAdmin('files_versions', 'settings');
 OCP\App::registerPersonal('files_versions','settings-personal');

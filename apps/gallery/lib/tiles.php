@@ -168,7 +168,7 @@ class TileStack extends TileBase {
 	}
 	
 	public function getOnClickAction() {
-		return 'javascript:openNewGal(\''.\OCP\Util::sanitizeHTML($this->stack_name).'\');';
+		return 'javascript:openNewGal(\''.rawurlencode($this->stack_name).'\');';
 	}
 
 	private $tiles_array;

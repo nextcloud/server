@@ -492,21 +492,21 @@ class OC_App{
 	 * register a settings form to be shown
 	 */
 	public static function registerSettings($app,$page){
-		self::$settingsForms[]='apps/'.$app.'/'.$page.'.php';
+		self::$settingsForms[]= $app.'/'.$page.'.php';
 	}
 
 	/**
 	 * register an admin form to be shown
 	 */
 	public static function registerAdmin($app,$page){
-		self::$adminForms[]='apps/'.$app.'/'.$page.'.php';
+		self::$adminForms[]= $app.'/'.$page.'.php';
 	}
 
 	/**
 	 * register a personal form to be shown
 	 */
 	public static function registerPersonal($app,$page){
-		self::$personalForms[]='apps/'.$app.'/'.$page.'.php';
+		self::$personalForms[]= $app.'/'.$page.'.php';
 	}
 
 	/**

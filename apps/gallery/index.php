@@ -31,7 +31,7 @@ OCP\Util::addStyle('files', 'files');
 OCP\Util::addStyle('gallery', 'styles');
 OCP\Util::addScript('gallery', 'pictures');
 
-include('apps/gallery/lib/tiles.php');
+include('gallery/lib/tiles.php');
 
 $root = !empty($_GET['root']) ? $_GET['root'] : '/';
 $images = \OC_FileCache::searchByMime('image', null, '/'.\OCP\USER::getUser().'/files'.$root);

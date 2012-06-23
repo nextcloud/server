@@ -157,7 +157,7 @@ class OC_Config{
 		// Create a php file ...
 		$content = "<?php\n\$CONFIG = ";
 		$content .= var_export(self::$cache, true);
-		$content .= ";\n?>\n";
+		$content .= ";\n";
 
 		$filename = OC::$SERVERROOT."/config/config.php";
 		// Write the file
