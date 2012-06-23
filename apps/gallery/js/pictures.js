@@ -60,7 +60,7 @@ function deplode(element) {
 }
 
 function openNewGal(album_name) {
-	root = root + album_name + "/";
+	root = root + decodeURIComponent(album_name) + "/";
 	var url = window.location.toString().replace(window.location.search, '');
 	url = url + "?app=gallery&root="+encodeURIComponent(root);
 
