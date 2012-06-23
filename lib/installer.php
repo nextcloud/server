@@ -302,8 +302,8 @@ class OC_Installer{
 						}
 					}
 				}
+				closedir( $dir );
 			}
-			closedir( $dir );
 		}
 	}
 
