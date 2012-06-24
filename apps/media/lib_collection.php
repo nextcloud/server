@@ -104,7 +104,7 @@ class OC_MEDIA_COLLECTION{
 			return self::$albumIdCache[$artistId][$albumId][$name];
 		}else{
 			$uid=$_SESSION['user_id'];
-			$query=OCP\DB::prepare("SELECT song_id FROM *PREFIX*media_songs WHERE song_user=? AND song_name LIKE ? AND song_artist=? AND song_album=?");
+			$query=OCP\DB::prepare("SELECT song_id FROM *PREFIX*media_songs WHERE song_user=? AND lower(song_name) LIKE ? AND song_artist=? AND song_album=?");
 			$songs=$query->execute(array($uid,$name,$artistId,$albumId))->fetchAll();
 			if(is_array($songs) and isset($songs[0])){
 				self::$albumIdCache[$artistId][$albumId][$name]=$songs[0]['song_id'];
