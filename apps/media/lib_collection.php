@@ -277,7 +277,7 @@ class OC_MEDIA_COLLECTION{
 				$query=self::$queries['addsong'];
 			}
 			$query->execute(array($name,$artist,$album,$path,$uid,$length,$track,$size));
-			$songId=OCP\DB::insertid('*PREFIX*media_songs');
+			$songId=OCP\DB::insertid('*PREFIX*media_songs_song');
 // 			self::setLastUpdated();
 			return self::getSongId($name,$artist,$album);
 		}
