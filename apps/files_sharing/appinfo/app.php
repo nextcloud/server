@@ -17,7 +17,7 @@ OCP\Util::connectHook('OC_User', 'post_removeFromGroup', 'OC_Share', 'removeFrom
 
 $dir = isset($_GET['dir']) ? $_GET['dir'] : '/';
 if ($dir != '/Shared' || OCP\Config::getAppValue('files_sharing', 'resharing', 'yes') == 'yes') {
-	OCP\Util::addscript("files_sharing", "share");
+	OCP\Util::addScript('core', 'share');
 }
 OCP\Util::addscript("3rdparty", "chosen/chosen.jquery.min");
 OCP\Util::addStyle( 'files_sharing', 'sharing' );

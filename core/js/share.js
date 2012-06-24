@@ -1,35 +1,34 @@
 OC.Share={
-	icons:[],
-	itemUsers:[],
-	itemGroups:[],
-	itemPrivateLink:false,
-	usersAndGroups:[],
-	loadIcons:function() {
-		// Cache all icons for shared files
-		$.getJSON(OC.filePath('core', 'ajax', 'share.php'), function(result) {
+	item:[],
+	statuses:[],
+	loadIcons:function(itemType) {
+		// Load all share icons
+		$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getItemsSharedStatuses', itemType: itemType }, function(result) {
 			if (result && result.status === 'success') {
 				$.each(result.data, function(item, hasPrivateLink) {
-					if (hasPrivateLink) {
-						OC.Share.icons[item] = OC.imagePath('core', 'actions/public');
+					// Private links override shared in terms of icon display
+					if (itemType == 'file') {
+						OC.Share.statuses[item] = hasPrivateLink;
 					} else {
-						OC.Share.icons[item] = OC.imagePath('core', 'actions/shared');
+						if (hasPrivateLink) {
+							$('.share').find('[data-item="'+item+'"]').attr('src', OC.imagePath('core', 'actions/public'));
+						} else {
+							$('.share').find('[data-item="'+item+'"]').attr('src', OC.imagePath('core', 'actions/shared'));
+						}
 					}
 				});
 			}
 		});
 	},
-	loadItem:function(item) {
-		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { item: item }, async: false, success: function(result) {
+	loadItem:function(itemType, item) {
+		$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getItemShared', itemType: itemType, item: item }, async: false, function(result) {
 			if (result && result.status === 'success') {
-				var item = result.data;
-				OC.Share.itemUsers = item.users;
-				OC.Share.itemGroups = item.groups;
-				OC.Share.itemPrivateLink = item.privateLink;
+				OC.Share.item = result.data;
 			}
 		}});
 	},
-	share:function(source, uid_shared_with, permissions, callback) {
-		$.post(OC.filePath('core', 'ajax', 'share.php'), { sources: source, uid_shared_with: uid_shared_with, permissions: permissions }, function(result) {
+	share:function(itemType, shareType, shareWith, permissions, callback) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'share', itemType: itemType, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
 			if (result && result.status === 'success') {
 				if (callback) {
 					callback(result.data);
@@ -39,8 +38,8 @@ OC.Share={
 			}
 		});
 	},
-	unshare:function(source, uid_shared_with, callback) {
-		$.post(OC.filePath('core', 'ajax', 'share.php'), { source: source, uid_shared_with: uid_shared_with }, function(result) {
+	unshare:function(itemType, shareType, shareWith, callback) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'unshare', itemType: itemType, shareType: shareType, shareWith: shareWith }, function(result) {
 			if (result && result.status === 'success') {
 				if (callback) {
 					callback();
@@ -50,16 +49,17 @@ OC.Share={
 			}
 		});
 	},
-	setPermissions:function(source, uid_shared_with, permissions) {
-		$.post(OC.filePath('core', 'ajax', 'share.php'), { source: source, uid_shared_with: uid_shared_with, permissions: permissions }, function(result) {
+	setPermissions:function(itemType, item, shareType, shareWith, permissions) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setPermissions', itemType: itemType, item: item, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
 			if (!result || result.status !== 'success') {
 				OC.dialogs.alert('Error', 'Error while changing permissions');
 			}
 		});
 	},
-	showDropDown:function(item, appendTo) {
+	showDropDown:function(itemType, item, appendTo) {
 		OC.Share.loadItem(item);
 		var html = '<div id="dropdown" class="drop" data-item="'+item+'">';
+		// TODO replace with autocomplete textbox
 		html += '<select data-placeholder="User or Group" id="share_with" class="chzen-select">';
 		html += '<option value="" selected="selected" disabled="disabled">Your groups & members</option>';
 		html += '</select>';
@@ -81,43 +81,6 @@ OC.Share={
 		html += '</form>';
 		html += '</div>';
 		$(html).appendTo(appendTo);
-		if (OC.Share.usersAndGroups.length < 1) {
-			$.ajax({type: 'GET', url: OC.filePath('files_sharing', 'ajax', 'userautocomplete.php'), async: false, success: function(users) {
-				if (users) {
-					OC.Share.usersAndGroups = users;
-					$.each(users, function(index, user) {
-						$(user).appendTo('#share_with');
-					});
-					$('#share_with').trigger('liszt:updated');
-				}
-			}});
-		} else {
-			$.each(OC.Share.usersAndGroups, function(index, user) {
-				$(user).appendTo('#share_with');
-			});
-			$('#share_with').trigger('liszt:updated');
-		}
-		if (OC.Share.itemUsers) {
-			$.each(OC.Share.itemUsers, function(index, user) {
-				if (user.parentFolder) {
-					OC.Share.addSharedWith(user.uid, user.permissions, false, user.parentFolder);
-				} else {
-					OC.Share.addSharedWith(user.uid, user.permissions, false, false);
-				}
-			});
-		}
-		if (OC.Share.itemGroups) {
-			$.each(OC.Share.itemGroups, function(index, group) {
-				if (group.parentFolder) {
-					OC.Share.addSharedWith(group.gid, group.permissions, group.users, group.parentFolder);
-				} else {
-					OC.Share.addSharedWith(group.gid, group.permissions, group.users, false);
-				}
-			});
-		}
-		if (OC.Share.itemPrivateLink) {
-			OC.Share.showPrivateLink(item, OC.Share.itemPrivateLink);
-		}
 		$('#dropdown').show('blind');
 		$('#share_with').chosen();
 	},
@@ -215,49 +178,57 @@ OC.Share={
 
 $(document).ready(function() {
 
+	$('.share').live('click', function() {
+		if ($(this).data('itemType') !== undefined && $(this).data('item') !== undefined) {
+			OC.Share.showDropDown($(this).data('itemType'), $(this).data('item'), $(this));
+		}
+	});
+	
 	if (typeof FileActions !== 'undefined') {
-		OC.Share.loadIcons();
+		OC.Share.loadIcons('file');
 		FileActions.register('all', 'Share', function(filename) {
 			// Return the correct sharing icon
 			if (scanFiles.scanning) { return; } // workaround to prevent additional http request block scanning feedback
 			var item =  $('#dir').val() + '/' + filename;
-			// Check if icon is in cache
-			if (OC.Share.icons[item]) {
-				return OC.Share.icons[item];
+			// Check if status is in cache
+			if (OC.Share.statuses[item] === true) {
+				return OC.imagePath('core', 'actions/public');
+			} else if (OC.Share.statuses[item] === false) {
+				return OC.imagePath('core', 'actions/shared');
 			} else {
 				var last = '';
 				var path = OC.Share.dirname(item);
 				// Search for possible parent folders that are shared
 				while (path != last) {
-					if (OC.Share.icons[path]) {
-						OC.Share.icons[item] = OC.Share.icons[path];
-						return OC.Share.icons[item];
+					if (OC.Share.statuses[path] === true) {
+						return OC.imagePath('core', 'actions/public');
+					} else if (OC.Share.statuses[path] === false) {
+						return OC.imagePath('core', 'actions/shared');
 					}
 					last = path;
 					path = OC.Share.dirname(path);
 				}
-				OC.Share.icons[item] = OC.imagePath('core', 'actions/share');
-				return OC.Share.icons[item];
+				return OC.imagePath('core', 'actions/share');
 			}
 		}, function(filename) {
-			var file = $('#dir').val() + '/' + filename;
+			var item = $('#dir').val() + '/' + filename;
 			var appendTo = $('tr').filterAttr('data-file',filename).find('td.filename');
 			// Check if drop down is already visible for a different file
 			if (($('#dropdown').length > 0)) {
-				if (file != $('#dropdown').data('item')) {
+				if (item != $('#dropdown').data('item')) {
 					OC.Share.hideDropDown(function () {
 						$('tr').removeClass('mouseOver');
-						$('tr').filterAttr('data-file',filename).addClass('mouseOver');
-						OC.Share.showDropDown(file, appendTo);
+						$('tr').filterAttr('data-file', filename).addClass('mouseOver');
+						OC.Share.showDropDown('file', item, appendTo);
 					});
 				}
 			} else {
 				$('tr').filterAttr('data-file',filename).addClass('mouseOver');
-				OC.Share.showDropDown(file, appendTo);
+				OC.Share.showDropDown('file', item, appendTo);
 			}
 		});
 	};
-	
+
 	$(this).click(function(event) {
 		if (!($(event.target).hasClass('drop')) && $(event.target).parents().index($('#dropdown')) == -1) {
 			if ($('#dropdown').is(':visible')) {

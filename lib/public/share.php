@@ -30,8 +30,7 @@ class Share {
 	
 	const SHARE_TYPE_USER = 0;
 	const SHARE_TYPE_GROUP = 1;
-	const SHARETYPE_CONTACT = 2;
-	const SHARETYPE_PRIVATE_LINK = 4;
+	const SHARE_TYPE_PRIVATE_LINK = 3;
 
 	const PERMISSION_READ = 0;
 	const PERMISSION_UPDATE = 1;
@@ -39,9 +38,10 @@ class Share {
 	const PERMISSION_SHARE = 3;
 
 	const FORMAT_NONE = -1;
+	const FORMAT_STATUSES = -2;
 
 	private static $shareTypeUserAndGroups = -1;
-	private static $shareTypeGroupUserUnique = 3;
+	private static $shareTypeGroupUserUnique = 2;
 	private static $backends = array();
 
 	/**
@@ -95,7 +95,7 @@ class Share {
 	* @param int Number of items to return (optional) Returns all by default
 	* @return Return depends on format
 	*/
-	public static function getItemsOwned($itemType, $format = self::FORMAT_NONE, $limit = -1) {
+	public static function getItemsShared($itemType, $format = self::FORMAT_NONE, $limit = -1) {
 		return self::getItems($itemType, null, null, null, \OC_User::getUser(), $format, $limit);
 	}
 
@@ -106,8 +106,18 @@ class Share {
 	* @param int Format (optional) Format type must be defined by the backend
 	* @return Return depends on format
 	*/
-	public static function getItemOwned($itemType, $item, $format = self::FORMAT_NONE) {
+	public static function getItemShared($itemType, $item, $format = self::FORMAT_NONE) {
 		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format, 1);
+	}
+
+	/**
+	* @brief Get the status of each shared item of item type owned by the current user
+	* @param string Item type
+	* @param int Number of items to return (optional) Returns all by default
+	* @return array, item as key with a value of true if item has a private link or false
+	*/
+	public static function getItemsSharedStatuses($itemType, $limit = -1) {
+		return self::getItems($itemType, null, null, null, \OC_User::getUser(), self::FORMAT_STATUSES, $limit);
 	}
 
 	/**
@@ -455,6 +465,16 @@ class Share {
 					return $items[key($items)];
 				}
 				return $items;
+			} else if ($format == self::FORMAT_STATUSES) {
+				$statuses = array();
+				foreach ($items as $item) {
+					if ($item['shareType'] == self::SHARE_TYPE_PRIVATE_LINK) {
+						$statuses[$item['item']] = true;
+					} else if (!isset($statuses[$item['item']])) {
+						$statuses[$items['item']] = false;
+					}
+				}
+				return $statuses;
 			} else {
 				return $backend->formatItems($items, $format);
 			}

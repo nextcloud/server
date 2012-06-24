@@ -20,23 +20,40 @@
 */
 
 OCP\JSON::checkLoggedIn();
-switch ($_POST['action']) {
-	case 'share':
-		$return = OCP\Share::share($_POST['itemType'], $_POST['item'], $_POST['shareType'], $_POST['shareWith'], $_POST['permissions']);
-		($return) ? OCP\JSON::success() : OCP\JSON::error();
-		break;
-	case 'unshare':
-		$return = OCP\Share::unshare($_POST['itemType'], $_POST['item'], $_POST['shareType'], $_POST['shareWith']);
-		($return) ? OCP\JSON::success() : OCP\JSON::error();
-		break;
-	case 'setTarget':
-		$return = OCP\Share::setTarget($_POST['itemType'], $_POST['item'], $_POST['newTarget']);
-		($return) ? OCP\JSON::success() : OCP\JSON::error();
-		break;
-	case 'setPermissions':
-		$return = OCP\Share::setPermissions($_POST['itemType'], $_POST['item'], $_POST['shareType'], $_POST['shareWith'], $_POST['permissions']);
-		($return) ? OCP\JSON::success() : OCP\JSON::error();
-		break;
+if (isset($_POST['action'])) {
+	switch ($_POST['action']) {
+		case 'share':
+			$return = OCP\Share::share($_POST['itemType'], $_POST['item'], $_POST['shareType'], $_POST['shareWith'], $_POST['permissions']);
+			// TODO May need to return private link
+			($return) ? OCP\JSON::success() : OCP\JSON::error();
+			break;
+		case 'unshare':
+			$return = OCP\Share::unshare($_POST['itemType'], $_POST['item'], $_POST['shareType'], $_POST['shareWith']);
+			($return) ? OCP\JSON::success() : OCP\JSON::error();
+			break;
+		case 'setTarget':
+			$return = OCP\Share::setTarget($_POST['itemType'], $_POST['item'], $_POST['newTarget']);
+			($return) ? OCP\JSON::success() : OCP\JSON::error();
+			break;
+		case 'setPermissions':
+			$return = OCP\Share::setPermissions($_POST['itemType'], $_POST['item'], $_POST['shareType'], $_POST['shareWith'], $_POST['permissions']);
+			($return) ? OCP\JSON::success() : OCP\JSON::error();
+			break;
+	}
+} else if (isset($_GET['fetch'])) {
+	switch ($_GET['fetch']) {
+		case 'getItemsSharedStatuses':
+			$return = OCP\Share::getItemsSharedStatuses($_POST['itemType']);
+			($return) ? OCP\JSON::success(array('data' => $return)) : OCP\JSON::error();
+			break;
+		case 'getItemShared':
+			$return = OCP\Share::getItemShared($_POST['itemType'], $_POST['item']);
+			($return) ? OCP\JSON::success(array('data' => $return)) : OCP\JSON::error();
+			break;
+		case 'getShareWith':
+			// TODO Autocomplete for all users, groups, etc.
+			break;
+	}
 }
 
 ?>
