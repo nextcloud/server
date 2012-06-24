@@ -20,16 +20,19 @@ if(is_null($file)){
 	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
 	exit;
 }
-if(count(explode('/',$file)) == 3) {
+
+$file = ltrim ($file, '/');
+
+if(count(explode('/',$file)) == 2) {
 	$parts=explode('/',$file);
-	$app=$parts[2];
+	$app=$parts[1];
 	OC_App::loadApp($app);
 	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
-	require_once( OC::$SERVERROOT.$file);
+	require_once( OC::$SERVERROOT.'/'.$file);
 } else {
-	$parts=explode('/', $file, 4);
-	$app=$parts[2];
+	$parts=explode('/', $file, 2);
+	$app=$parts[0];
 	OC_App::loadApp($app);
 	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
-	require_once(OC_App::getAppPath($app) .'/'. $parts[3]);
+	require_once(OC_App::getAppPath($app) .'/'. $parts[1]);
 }
