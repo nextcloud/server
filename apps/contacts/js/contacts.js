@@ -310,10 +310,11 @@ Contacts={
 			editNew:function(){ // add a new contact
 				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
 				//Contacts.UI.Card.add(t('contacts', 'Contact')+';'+t('contacts', 'New')+';;;', t('contacts', 'New Contact'), '', true);
-				Contacts.UI.Card.add(';;;;;', '', '', true);
+				Contacts.UI.Card.add(';;;;;', '', this.bookid, true);
 				return false;
 			},
 			add:function(n, fn, aid, isnew){ // add a new contact
+				aid = aid?aid:$('#contacts h3.active').first().data('id');
 				var localAddcontact = function(n, fn, aid, isnew) {
 					$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid, isnew: isnew },
 					function(jsondata) {
@@ -1605,6 +1606,8 @@ $(document).ready(function(){
 	});
 
 	$(document).on('click', '.addressbook', function(event){
+		$('#contacts h3').removeClass('active');
+		$(this).addClass('active');
 		$(this).next().slideToggle(300);
 		return false;
 	});
