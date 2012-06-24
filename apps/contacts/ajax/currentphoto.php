@@ -24,11 +24,7 @@
 OCP\JSON::setContentTypeHeader('text/plain');
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
-function bailOut($msg) {
-	OCP\JSON::error(array('data' => array('message' => $msg)));
-	OCP\Util::writeLog('contacts','ajax/currentphoto.php: '.$msg, OCP\Util::ERROR);
-	exit();
-}
+require_once('loghandler.php');
 
 if (!isset($_GET['id'])) {
 	bailOut(OC_Contacts_App::$l10n->t('No contact ID was submitted.'));

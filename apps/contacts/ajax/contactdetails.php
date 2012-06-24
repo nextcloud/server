@@ -20,11 +20,7 @@
  *
  */
  
-function bailOut($msg) {
-	OCP\JSON::error(array('data' => array('message' => $msg)));
-	OCP\Util::writeLog('contacts','ajax/contactdetails.php: '.$msg, OCP\Util::DEBUG);
-	exit();
-}
+require_once('loghandler.php');
 
 // Check if we are a user
 OCP\JSON::checkLoggedIn();

@@ -19,34 +19,22 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
-// Check if we are a user
-OCP\JSON::checkLoggedIn();
-OCP\JSON::checkAppEnabled('contacts');
 
-require_once('loghandler.php');
-
-$id = isset($_GET['id']) ? $_GET['id'] : '';
-$refresh = isset($_GET['refresh']) ? true : false;
-
-if($id == '') {
-	bailOut(OC_Contacts_App::$l10n->t('Missing contact id.'));
+function bailOut($msg, $tracelevel=1, $debuglevel=OCP\Util::ERROR) {
+	OCP\JSON::error(array('data' => array('message' => $msg)));
+	debug($msg, $tracelevel, $debuglevel);
+	exit();
 }
 
-$checksum = '';
-$vcard = OC_Contacts_App::getContactVCard( $id );
-foreach($vcard->children as $property){
-	if($property->name == 'PHOTO') {
-		$checksum = md5($property->serialize());
-		break;
+function debug($msg, $tracelevel=0, $debuglevel=OCP\Util::DEBUG) {
+	if(PHP_VERSION >= "5.4") {
+		$call = debug_backtrace(false, $tracelevel+1);
+	} else {
+		$call = debug_backtrace(false);
+	}
+	error_log('trace: '.print_r($call, true));
+	$call = $call[$tracelevel];
+	if($debuglevel !== false) {
+		OCP\Util::writeLog('contacts', $call['file'].'. Line: '.$call['line'].': '.$msg, $debuglevel);
 	}
 }
-
-$tmpl = new OCP\Template("contacts", "part.contactphoto");
-$tmpl->assign('id', $id);
-if($refresh) {
-	$tmpl->assign('refresh', 1);
-}
-$page = $tmpl->fetchPage();
-OCP\JSON::success(array('data' => array('page'=>$page, 'checksum'=>$checksum)));
-?>

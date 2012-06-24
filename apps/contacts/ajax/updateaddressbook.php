@@ -11,27 +11,22 @@
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+require_once('loghandler.php');
 
 $bookid = $_POST['id'];
 OC_Contacts_App::getAddressbook($bookid); // is owner access check
 
 $name = trim(strip_tags($_POST['name']));
 if(!$name) {
-	OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Cannot update addressbook with an empty name.'))));
-	OCP\Util::writeLog('contacts','ajax/updateaddressbook.php: Cannot update addressbook with an empty name: '.strip_tags($_POST['name']), OCP\Util::ERROR);
-	exit();
+	bailOut(OC_Contacts_App::$l10n->t('Cannot update addressbook with an empty name.'));
 }
 
 if(!OC_Contacts_Addressbook::edit($bookid, $name, null)) {
-	OCP\JSON::error(array('data' => array('message' => $l->t('Error updating addressbook.'))));
-	OCP\Util::writeLog('contacts','ajax/updateaddressbook.php: Error adding addressbook: ', OCP\Util::ERROR);
-	//exit();
+	bailOut(OC_Contacts_App::$l10n->t('Error updating addressbook.'));
 }
 
 if(!OC_Contacts_Addressbook::setActive($bookid, $_POST['active'])) {
-	OCP\JSON::error(array('data' => array('message' => $l->t('Error (de)activating addressbook.'))));
-	OCP\Util::writeLog('contacts','ajax/updateaddressbook.php: Error (de)activating addressbook: '.$bookid, OCP\Util::ERROR);
-	//exit();
+	bailOut(OC_Contacts_App::$l10n->t('Error (de)activating addressbook.'));
 }
 
 $addressbook = OC_Contacts_App::getAddressbook($bookid);

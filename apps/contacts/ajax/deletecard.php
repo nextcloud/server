@@ -19,26 +19,21 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-function bailOut($msg) {
-	OCP\JSON::error(array('data' => array('message' => $msg)));
-	OCP\Util::writeLog('contacts','ajax/saveproperty.php: '.$msg, OCP\Util::DEBUG);
-	exit();
-}
-
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
+require_once('loghandler.php');
 
 // foreach($_SERVER as $key=>$value) {
 // 	OCP\Util::writeLog('contacts','ajax/saveproperty.php: _SERVER: '.$key.'=>'.$value, OCP\Util::DEBUG);
 // }
-foreach($_POST as $key=>$value) {
-	OCP\Util::writeLog('contacts','ajax/saveproperty.php: _POST: '.$key.'=>'.print_r($value, true), OCP\Util::DEBUG);
-}
-foreach($_GET as $key=>$value) {
-	OCP\Util::writeLog('contacts','ajax/saveproperty.php: _GET: '.$key.'=>'.print_r($value, true), OCP\Util::DEBUG);
-}
+// foreach($_POST as $key=>$value) {
+// 	debug($key.'=>'.print_r($value, true));
+// }
+// foreach($_GET as $key=>$value) {
+// 	debug($key.'=>'.print_r($value, true));
+// }
 
 $id = isset($_POST['id'])?$_POST['id']:null;
 if(!$id) {
