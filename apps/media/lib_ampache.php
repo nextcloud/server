@@ -77,7 +77,7 @@ class OC_MEDIA_AMPACHE{
 					$songs=OC_MEDIA_COLLECTION::getSongCount();
 					$artists=OC_MEDIA_COLLECTION::getArtistCount();
 					$albums=OC_MEDIA_COLLECTION::getAlbumCount();
-					$query=OCP\DB::prepare("INSERT INTO *PREFIX*media_sessions (`session_id`, `token`, `user_id`, `start`) VALUES (NULL, ?, ?, now());");
+					$query=OCP\DB::prepare("INSERT INTO *PREFIX*media_sessions (`token`, `user_id`, `start`) VALUES (?, ?, now());");
 					$query->execute(array($token,$user));
 					$expire=date('c',time()+600);
 					echo('<?xml version="1.0" encoding="UTF-8"?>');
@@ -136,8 +136,14 @@ class OC_MEDIA_AMPACHE{
 				return false;
 			}
 		}
+		$CONFIG_DBTYPE = OCP\Config::getSystemValue( "dbtype", "sqlite" );
+		if($CONFIG_DBTYPE == 'psql'){
+			$interval = ' \'600s\'::interval ';
+		}else {
+			$interval = '600';
+		}
 		//remove old sessions
-		$query=OCP\DB::prepare("DELETE from *PREFIX*media_sessions WHERE start<(NOW()-600)");
+		$query=OCP\DB::prepare("DELETE from *PREFIX*media_sessions WHERE start<(NOW() - ".$interval.")");
 		$query->execute();
 		
 		$query=OCP\DB::prepare("SELECT user_id from *PREFIX*media_sessions WHERE token=?");
