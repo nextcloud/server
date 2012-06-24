@@ -375,11 +375,11 @@ class Share {
 			// Check if there are any parent types that include this type of items, e.g. a music album contains songs
 			if (isset($itemType)) {
 				if ($parents = self::getParentItemTypes($itemType)) {
-				$where = "WHERE item_type IN ('".$itemType."'";
-				foreach ($parents as $parent) {
-					$where .= ", '.$parent.'";
-				}
-				$where .= ')';
+					$where = "WHERE item_type IN ('".$itemType."'";
+					foreach ($parents as $parent) {
+						$where .= ", '.$parent.'";
+					}
+					$where .= ')';
 				} else {
 					$where = "WHERE item_type = '".$itemType."'";
 				}
@@ -401,6 +401,10 @@ class Share {
 			}
 			if (isset($uidOwner)) {
 				$where .= " AND uid_owner = '".$uidOwner."'";
+				if (!isset($shareType)) {
+					// Prevent unique user targets for group shares from being selected
+					$where .= " AND share_type != '".self::$shareTypeGroupUserUnique."'";
+				}
 			}
 			if (isset($item)) {
 				// If looking for own shared items, check item_source else check item_target
@@ -423,25 +427,33 @@ class Share {
 				}
 			}
 			if ($limit != -1) {
+				if ($limit == 1 && $shareType == self::$shareTypeUserAndGroups) {
+					// Make sure the unique user target is returned if it exists, unique targets should follow the group share in the database
+					// If the limit is not 1, the filtering can be done later
+					$where .= ' ORDER BY id DESC';
+				}
 				$where .= ' LIMIT '.$limit;
 			}
 			$query = \OC_DB::prepare('SELECT * FROM *PREFIX*sharing '.$where);
 			$result = $query->execute();
 			$items = array();
 			while ($item = $result->fetchRow()) {
-				// TODO Filter out duplicate group shares for users with unique targets
+				// Filter out duplicate group shares for users with unique targets
 				if ($item['share_type'] == self::$shareTypeGroupUserUnique) {
-					// Group shares should already be in items array
-					
+					// Group shares should already be in the items array
+					unset($items[$item['parent']]);
 				}
 				// TODO Add in parent item types children?
 				if ($parents && in_array($item['item_type'], $parents)) {
 					$children[] = $item;
 				}
-// 				$items[] = array($item['item_source'] => $item['id'];
-				$items[$item['item']][$item['id']] = array('item_target' => $item['item_target'], 'permissions' => $item['permissions'], 'stime' => $item['stime']);
+				$items[$item['id']] = $item;
 			}
 			if ($format == self::FORMAT_NONE) {
+				if ($limit == 1) {
+					// Return just the item instead of 2-dimensional array
+					return $items[key($items)];
+				}
 				return $items;
 			} else {
 				return $backend->formatItems($items, $format);

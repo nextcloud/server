@@ -38,16 +38,23 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 			return $this->sourcePaths[$target];
 		} else {
 			if (dirname($target) != $this->sharedFolder) {
-				$pos = strlen($this->sharedFolder);
+				$len = strlen($this->sharedFolder);
+				$pos = strpos($target, '/', $len);
 				// Get shared folder name
-				$itemTarget = substr($target, $pos, strpos($target, '/', $pos));
+				$itemTarget = substr($target, $len, $pos);
+				$insideFolder = true;
 			} else {
 				$itemTarget = $target;
+				$insideFolder = false;
 			}
 			$sourcePath = OCP\Share::getItemSharedWith('file', $itemTarget, OC_Share_Backend_File::FORMAT_SOURCE_PATH);
 			if ($sourcePath) {
-				$this->sourcePaths[$target] = $sourcePath;
-				return $sourcePath;
+				if ($insideFolder) {
+					$this->sourcePaths[$target] = $sourcePath.substr($target, $pos);
+				} else {
+					$this->sourcePaths[$target] = $sourcePath;
+				}
+				return $this->sourcePaths[$target];
 			}
 			return false;
 		}
