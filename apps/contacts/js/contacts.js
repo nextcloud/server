@@ -310,7 +310,7 @@ Contacts={
 			editNew:function(){ // add a new contact
 				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
 				//Contacts.UI.Card.add(t('contacts', 'Contact')+';'+t('contacts', 'New')+';;;', t('contacts', 'New Contact'), '', true);
-				Contacts.UI.Card.add(';;;;;', '', this.bookid, true);
+				Contacts.UI.Card.add(';;;;;', '', '', true);
 				return false;
 			},
 			add:function(n, fn, aid, isnew){ // add a new contact
