@@ -355,8 +355,9 @@ class Share {
 	* @return array
 	*/
 	private static function getParentItemTypes($itemType) {
+		$backendTypes = array_keys(self::$backends);
 		$parents = array($itemType);
-		foreach (self::$backendTypes as $type => $backend) {
+		foreach ($backendTypes as $type => $backend) {
 			if (in_array($backend->dependsOn, $parents)) {
 				$parents[] = $type;
 			}
@@ -497,7 +498,8 @@ class Share {
 		// Check file extension for an equivalent item type to convert to
 		if ($itemType == 'file') {
 			$extension = strtolower(substr($item, strrpos($item, '.') + 1));
-			foreach (self::$backendTypes as $type => $backend) {
+			$backendTypes = array_keys(self::$backends);
+			foreach ($backendTypes as $type => $backend) {
 				if (isset($backend['dependsOn']) && $backend['dependsOn'] == 'file' && isset($backend['supportedFileExtensions']) && in_array($extension, $backend['supportedFileExtensions'])) {
 					$itemType = $type;
 					break;

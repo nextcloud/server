@@ -25,7 +25,7 @@ OC.Share={
 			if (result && result.status === 'success') {
 				OC.Share.item = result.data;
 			}
-		}});
+		});
 	},
 	share:function(itemType, shareType, shareWith, permissions, callback) {
 		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'share', itemType: itemType, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
