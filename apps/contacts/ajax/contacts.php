@@ -18,7 +18,6 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
 $active_addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
-error_log('active_addressbooks: '.print_r($active_addressbooks, true));
 
 $contacts_addressbook = array();
 $ids = array();
@@ -29,9 +28,7 @@ foreach($active_addressbooks as $addressbook) {
 		$contacts_addressbook[$addressbook['id']]['displayname'] = $addressbook['displayname'];
 	}
 }	
-error_log('ids: '.print_r($ids, true));
 $contacts_alphabet = OC_Contacts_VCard::all($ids);
-error_log('contacts_alphabet: '.print_r($contacts_alphabet, true));
 
 // Our new array for the contacts sorted by addressbook
 foreach($contacts_alphabet as $contact) {
