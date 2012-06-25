@@ -52,13 +52,13 @@ class Share {
 	* @param array (optional) List of supported file extensions if this item type depends on files
 	* @return Returns true if backend is registered or false if error
 	*/
-	public static function registerBackend($itemType, $class, $dependsOn = null, $supportedFileExtensions = null) {
+	public static function registerBackend($itemType, $class) {
 		if (is_subclass_of($class, 'OCP\Share_Backend')) {
 			if (!isset(self::$backends[$itemType])) {
-				self::$backends[$itemType] = array('class' => $class, 'dependsOn' => $dependsOn, 'supportedFileExtensions' => $supportedFileExtensions);
+				self::$backends[$itemType] = $class;
 				return true;
 			} else {
-				\OC_Log::write('OCP\Share', 'Sharing backend '.get_class($class).' not registered, '.get_class(self::$backends[$itemType]['class']).' is already registered for '.$itemType, \OC_Log::WARN);
+				\OC_Log::write('OCP\Share', 'Sharing backend '.get_class($class).' not registered, '.get_class(self::$backends[$itemType]).' is already registered for '.$itemType, \OC_Log::WARN);
 				return false;
 			}
 		}
@@ -342,8 +342,8 @@ class Share {
 	* @return Sharing backend object
 	*/
 	private static function getBackend($itemType) {
-		if (isset(self::$backends[$itemType]['class'])) {
-			return self::$backends[$itemType]['class'];
+		if (isset(self::$backends[$itemType])) {
+			return self::$backends[$itemType];
 		}
 		\OC_Log::write('OCP\Share', 'Sharing backend for '.$itemType.' not found', \OC_Log::ERROR);
 		return false;
@@ -500,9 +500,8 @@ class Share {
 		// Check file extension for an equivalent item type to convert to
 		if ($itemType == 'file') {
 			$extension = strtolower(substr($item, strrpos($item, '.') + 1));
-			$backendTypes = array_keys(self::$backends);
-			foreach ($backendTypes as $type => $backend) {
-				if (isset($backend['dependsOn']) && $backend['dependsOn'] == 'file' && isset($backend['supportedFileExtensions']) && in_array($extension, $backend['supportedFileExtensions'])) {
+			foreach (self::$backends as $type => $backend) {
+				if (isset($backend->dependsOn) && $backend->dependsOn == 'file' && isset($backend->supportedFileExtensions) && in_array($extension, $backend->supportedFileExtensions)) {
 					$itemType = $type;
 					break;
 				}
@@ -677,10 +676,8 @@ class Share {
 */
 abstract class Share_Backend {
 
-	public static $dependsOn;
-	public static $supportedFileExtensions = array();
-
-
+	public $dependsOn;
+	public $supportedFileExtensions = array();
 
 	/**
 	* @brief Get the source of the item to be stored in the database
