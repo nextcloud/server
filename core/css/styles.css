@@ -106,6 +106,7 @@ label.infield { cursor: text !important; }
 /* VARIOUS REUSABLE SELECTORS */
 .hidden { display:none; }
 .bold { font-weight: bold; }
+.center { text-align: center; }
 
 #notification { z-index:101; cursor:pointer; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position:fixed; left:50%; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
 
