@@ -302,7 +302,7 @@ Contacts={
 										modal: true, height: 'auto', width: 'auto',
 										buttons: {
 											'Ok':function() {
-												Contacts.UI.Card.add(';;;;;', '',$('#selectaddressbook_dialog').find('select').val(), true);
+												Contacts.UI.Card.add(';;;;;', '',$('#selectaddressbook_dialog').find('input:checked').val(), true);
 												$(this).dialog('close');
 											},
 											'Cancel':function() { $(this).dialog('close'); }
