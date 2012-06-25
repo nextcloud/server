@@ -45,7 +45,7 @@ foreach($contacts_alphabet as $contact) {
 	}
 	$contacts_addressbook[$contact['addressbookid']]['contacts'][] = array('id' => $contact['id'], 'addressbookid' => $contact['addressbookid'], 'displayname' => htmlspecialchars($display));
 }
-
+unset($contacts_alphabet);
 uasort($contacts_addressbook, 'cmp');
 
 $tmpl = new OCP\Template("contacts", "part.contacts");
