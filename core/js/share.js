@@ -21,20 +21,20 @@ OC.Share={
 		});
 	},
 	loadItem:function(itemType, item) {
-		$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getItemShared', itemType: itemType, item: item }, async: false, function(result) {
+		$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getItemShared', itemType: itemType, item: item }, function(result) {
 			if (result && result.status === 'success') {
 				OC.Share.item = result.data;
 			}
 		});
 	},
-	share:function(itemType, shareType, shareWith, permissions, callback) {
-		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'share', itemType: itemType, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
+	share:function(itemType, item, shareType, shareWith, permissions, callback) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'share', itemType: itemType, item: item, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
 			if (result && result.status === 'success') {
 				if (callback) {
 					callback(result.data);
 				}
 			} else {
-				OC.dialogs.alert(result.data.message, 'Error while sharing');
+				OC.dialogs.alert('Error', 'Error while sharing');
 			}
 		});
 	},
@@ -58,11 +58,9 @@ OC.Share={
 	},
 	showDropDown:function(itemType, item, appendTo) {
 		OC.Share.loadItem(item);
-		var html = '<div id="dropdown" class="drop" data-item="'+item+'">';
+		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item="'+item+'">';
 		// TODO replace with autocomplete textbox
-		html += '<select data-placeholder="User or Group" id="share_with" class="chzen-select">';
-		html += '<option value="" selected="selected" disabled="disabled">Your groups & members</option>';
-		html += '</select>';
+		html += '<input id="shareWith" type="text" placeholder="Share with" />';
 		html += '<div id="sharedWithList">';
 		html += '<ul id="userList"></ul>';
 		html += '<div id="groups" style="display:none;">';
@@ -253,35 +251,8 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('#share_with').live('change', function() {
-		var item = $('#dropdown').data('item');
-		var uid_shared_with = $(this).val();
-		var pos = uid_shared_with.indexOf('(group)');
-		var isGroup = false;
-		if (pos != -1) {
-			// Remove '(group)' from uid_shared_with
-			uid_shared_with = uid_shared_with.substr(0, pos);
-			isGroup = true;
-		}
-		OC.Share.share(item, uid_shared_with, 0, function() {
-			if (isGroup) {
-				// Reload item because we don't know which users are in the group
-				OC.Share.loadItem(item);
-				var users;
-				$.each(OC.Share.itemGroups, function(index, group) {
-					if (group.gid == uid_shared_with) {
-						users = group.users;
-					}
-				});
-				OC.Share.addSharedWith(uid_shared_with, 0, users, false);
-			} else {
-				OC.Share.addSharedWith(uid_shared_with, 0, false, false);
-			}
-			// Change icon
-			if (!OC.Share.itemPrivateLink) {
-				OC.Share.icons[item] = OC.imagePath('core', 'actions/shared');
-			}
-		});
+	$('#shareWith').live('change', function() {
+		OC.Share.share($('#dropdown').data('item-type'), $('#dropdown').data('item'), 0, $(this).val(), 0, false);
 	});
 	
 	$('.unshare').live('click', function() {
