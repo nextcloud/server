@@ -1550,14 +1550,16 @@ Contacts={
 									}
 								})}, 100);
 							setTimeout(Contacts.UI.Contacts.lazyupdate, 500);*/
+							if($('#contacts h3').length > 1) {
+								$('#contacts h3,#contacts ul').droppable({ drop: Contacts.UI.Contacts.drop});
+								$('#contacts li').draggable({
+									axis: 'y', containment: '#contacts',
+									scroll: true, scrollSensitivity: 100,
+									opacity: 0.7, helper: 'clone'
+								});
+							}
 						});
 						Contacts.UI.Card.update(id);
-						$('#contacts h3,#contacts ul').droppable({ drop: Contacts.UI.Contacts.drop});
-						$('#contacts li').draggable({
-							axis: 'y', containment: '#contacts',
-							scroll: true, scrollSensitivity: 100,
-							opacity: 0.7, helper: 'clone'
-						});
 					}
 					else{
 						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
