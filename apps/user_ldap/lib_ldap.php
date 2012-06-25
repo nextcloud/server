@@ -171,7 +171,7 @@ class OC_LDAP {
 	 * returns the internal ownCloud name for the given LDAP DN of the group
 	 */
 	static public function dn2groupname($dn, $ldapname = null) {
-		if(strrpos($dn, self::$ldapBaseGroups) !== (strlen($dn)-strlen(self::$ldapBaseGroups))) {
+		if(strripos($dn, self::$ldapBaseGroups) !== (strlen($dn)-strlen(self::$ldapBaseGroups))) {
 			return false;
 		}
 		return self::dn2ocname($dn, $ldapname, false);
@@ -186,7 +186,7 @@ class OC_LDAP {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN
 	 */
 	static public function dn2username($dn, $ldapname = null) {
-		if(strrpos($dn, self::$ldapBaseUsers) !== (strlen($dn)-strlen(self::$ldapBaseUsers))) {
+		if(strripos($dn, self::$ldapBaseUsers) !== (strlen($dn)-strlen(self::$ldapBaseUsers))) {
 			return false;
 		}
 		return self::dn2ocname($dn, $ldapname, true);
