@@ -246,6 +246,7 @@ class OC_DB {
 				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.$query.'<br />';
 				OC_Log::write('core',$entry,OC_Log::FATAL);
+				error_log('DB error: '.$entry);
 				die( $entry );
 			}
 		}else{
@@ -255,6 +256,7 @@ class OC_DB {
 				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.$query.'<br />';
 				OC_Log::write('core',$entry,OC_Log::FATAL);
+				error_log('DB error: '.$entry);
 				die( $entry );
 			}
 			$result=new PDOStatementWrapper($result);
