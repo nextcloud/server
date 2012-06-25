@@ -135,8 +135,9 @@ class OC_VCategories {
 			$vobject = OC_VObject::parse($object);
 			if(!is_null($vobject)) {
 				$this->loadFromVObject($vobject, $sync);
+				unset($vobject);
 			} else {
-                                OC_Log::write('core','OC_VCategories::rescan, unable to parse. ID: '.', '.substr($object, 0, 100).'(...)', OC_Log::DEBUG);				
+				OC_Log::write('core','OC_VCategories::rescan, unable to parse. ID: '.', '.substr($object, 0, 100).'(...)', OC_Log::DEBUG);				
 			}
 		}
 		$this->save();
