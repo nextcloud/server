@@ -397,10 +397,10 @@ class Share {
 			if (isset($shareType) && isset($shareWith)) {
 				// Include all user and group items
 				if ($shareType == self::$shareTypeUserAndGroups) {
-					$where .= " AND share_type IN ('".self::SHARE_TYPE_USER."','".self::SHARE_TYPE_GROUP."','".self::$shareTypeGroupUserUnique."')";
+					$where .= " AND share_type IN (".self::SHARE_TYPE_USER.",".self::SHARE_TYPE_GROUP.",".self::$shareTypeGroupUserUnique.")";
 					$groups = \OC_Group::getUserGroups($shareWith);
 					$userAndGroups = array_merge(array($shareWith), $groups);
-					$where .= " AND share_with IN ('".implode(",", $userAndGroups).")";
+					$where .= " AND share_with IN ('".implode("','", $userAndGroups)."')";
 				} else {
 					$where .= " AND share_type = ".$shareType." AND share_with = '".$shareWith."'";
 				}
