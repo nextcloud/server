@@ -170,7 +170,7 @@ class Share {
 				$group = $shareWith;
 				$shareWith = array();
 				$shareWith['group'] = $group;
-				$shareWith['users'] = array_diff(\OC_Group::usersInGroup($shareWith), array($uidOwner));
+				$shareWith['users'] = array_diff(\OC_Group::usersInGroup($group), array($uidOwner));
 				break;
 			case self::SHARETYPE_PRIVATE_LINK:
 				// TODO don't loop through folder conversion
@@ -567,7 +567,7 @@ class Share {
 					if (isset($fileSource)) {
 						if ($parentFolder) {
 							if ($parentFolder === true) {
-								$fileTarget = self::getBackend('file')->generateTarget($source['file'], $uidSharedWith);
+								$fileTarget = self::getBackend('file')->generateTarget($source['file'], $uid);
 								if ($fileTarget != $groupFileTarget) {
 									$parentFolders[$uid]['folder'] = $fileTarget;
 								}
@@ -576,7 +576,7 @@ class Share {
 								$parent = $parentFolder[$uid]['id'];
 							}
 						} else {
-							$fileTarget = self::getBackend('file')->generateTarget($source['file'], $uidSharedWith);
+							$fileTarget = self::getBackend('file')->generateTarget($source['file'], $uid);
 						}
 					} else {
 						$fileTarget = null;
