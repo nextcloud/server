@@ -3,7 +3,9 @@
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */?>
-
+<script type='text/javascript'>
+	var appid = '<?php echo $_['appid']; ?>';
+</script>
 <div id="controls">
 	<a class="button" target="_blank" href="http://owncloud.org/dev/writing-apps/"><?php echo $l->t('Add your App');?></a>
 </div>
