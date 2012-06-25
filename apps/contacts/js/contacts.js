@@ -288,9 +288,39 @@ Contacts={
 				Contacts.UI.notImplemented();
 			},
 			editNew:function(){ // add a new contact
-				this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
-				//Contacts.UI.Card.add(t('contacts', 'Contact')+';'+t('contacts', 'New')+';;;', t('contacts', 'New Contact'), '', true);
-				Contacts.UI.Card.add(';;;;;', '', '', true);
+				this.id = ''; this.bookid = '', this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
+				self = this;
+				$.getJSON(OC.filePath('contacts', 'ajax', 'selectaddressbook.php'),{},function(jsondata) {
+					if(jsondata.status == 'success') {
+						if(jsondata.data.type == 'dialog') {
+							// Load dialog to select addressbook.
+							if($('#selectaddressbook_dialog').dialog('isOpen') == true) {
+								$('#selectaddressbook_dialog').dialog('moveToTop');
+							} else {
+								$('#dialog_holder').html(jsondata.data.page).ready(function($) {
+									$('#selectaddressbook_dialog').dialog({
+										modal: true, height: 'auto', width: 'auto',
+										buttons: {
+											'Ok':function() {
+												Contacts.UI.Card.add(';;;;;', '',$('#selectaddressbook_dialog').find('select').val(), true);
+												$(this).dialog('close');
+											},
+											'Cancel':function() { $(this).dialog('close'); }
+										},
+										close: function(event, ui) {
+											$(this).dialog('destroy').remove();
+										}
+									});
+								});
+							}
+						} else {
+							Contacts.UI.Card.bookid = jsondata.data.id;
+							Contacts.UI.Card.add(';;;;;', '',jsondata.data.id, true);
+						}
+					} else {
+						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+					}
+				});
 				return false;
 			},
 			add:function(n, fn, aid, isnew){ // add a new contact
@@ -304,7 +334,7 @@ Contacts={
 								if(jsondata.status == 'success'){
 									Contacts.UI.Card.loadContact(jsondata.data);
 									$('#leftcontent .active').removeClass('active');
-									var item = $('<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'" style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>');
+									var item = $('<li role="button" data-id="'+jsondata.data.id+'" data-book-id="'+aid+'" class="active"><a href="index.php?id='+jsondata.data.id+'" style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>');
 									var added = false;
 									$('#leftcontent ul li').each(function(){
 										if ($(this).text().toLowerCase() > Contacts.UI.Card.fn.toLowerCase()) {
