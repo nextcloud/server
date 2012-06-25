@@ -685,11 +685,10 @@ abstract class Share_Backend {
 	* @param string Owner of the item
 	* @return mixed|array|false Source
 	*
-	* Return a 
 	* Return an array if the item is file dependent, the array needs two keys: 'item' and 'file'
 	* Return false if the item does not exist for the user
 	*
-	* The translateItem() function will translate the source returned back into the item
+	* The formatItems() function will translate the source returned back into the item
 	*/
 	public abstract function getSource($item, $uid);
 
