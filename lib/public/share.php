@@ -107,7 +107,7 @@ class Share {
 	* @return Return depends on format
 	*/
 	public static function getItemShared($itemType, $item, $format = self::FORMAT_NONE) {
-		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format, 1);
+		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format);
 	}
 
 	/**

@@ -1,4 +1,7 @@
 OC.Share={
+	SHARE_TYPE_USER:0,
+	SHARE_TYPE_GROUP:1,
+	SHARE_TYPE_PRIVATE_LINK:3,
 	item:[],
 	statuses:[],
 	loadIcons:function(itemType) {
@@ -21,11 +24,15 @@ OC.Share={
 		});
 	},
 	loadItem:function(itemType, item) {
-		$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getItemShared', itemType: itemType, item: item }, function(result) {
+		var data = '';
+		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItemShared', itemType: itemType, item: item }, async: false, success: function(result) {
 			if (result && result.status === 'success') {
-				OC.Share.item = result.data;
+				data = result.data;
+			} else {
+				data = false;
 			}
-		});
+		}});
+		return data;
 	},
 	share:function(itemType, item, shareType, shareWith, permissions, callback) {
 		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'share', itemType: itemType, item: item, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
@@ -57,17 +64,17 @@ OC.Share={
 		});
 	},
 	showDropDown:function(itemType, item, appendTo) {
-		OC.Share.loadItem(item);
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item="'+item+'">';
 		// TODO replace with autocomplete textbox
 		html += '<input id="shareWith" type="text" placeholder="Share with" />';
 		html += '<div id="sharedWithList">';
-		html += '<ul id="userList"></ul>';
-		html += '<div id="groups" style="display:none;">';
-		html += '<br />';
-		html += 'Groups: ';
-		html += '<ul id="groupList"></ul>';
-		html += '</div>';
+		var sharedWith = OC.Share.loadItem(itemType, item);
+		if (sharedWith) {
+			$.each(sharedWith, function(index, row) {
+				html += row.share_with;
+				html += '<br />';
+			});
+		}
 		html += '</div>';
 		html += '<div id="privateLink">';
 		html += '<input type="checkbox" name="privateLinkCheckbox" id="privateLinkCheckbox" value="1" /><label for="privateLinkCheckbox">Share with private link</label>';
