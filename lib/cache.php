@@ -12,7 +12,17 @@ class OC_Cache {
 
 	static public function getGlobalCache() {
 		if (!self::$global_cache) {
+			$fast_cache = null;
+			if (!$fast_cache && function_exists('xcache_set')) {
+				$fast_cache = new OC_Cache_XCache(true);
+			}
+			if (!$fast_cache && function_exists('apc_store')) {
+				$fast_cache = new OC_Cache_APC(true);
+			}
 			self::$global_cache = new OC_Cache_FileGlobal();
+			if ($fast_cache) {
+				self::$global_cache = new OC_Cache_Broker($fast_cache, self::$global_cache);
+			}
 		}
 		return self::$global_cache;
 	}
