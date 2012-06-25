@@ -470,10 +470,10 @@ class Share {
 				} else if ($format == self::FORMAT_STATUSES) {
 					$statuses = array();
 					foreach ($items as $item) {
-						if ($item['shareType'] == self::SHARE_TYPE_PRIVATE_LINK) {
+						if ($item['share_type'] == self::SHARE_TYPE_PRIVATE_LINK) {
 							$statuses[$item['item']] = true;
 						} else if (!isset($statuses[$item['item']])) {
-							$statuses[$items['item']] = false;
+							$statuses[$item['item']] = false;
 						}
 					}
 					return $statuses;
