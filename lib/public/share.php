@@ -355,9 +355,8 @@ class Share {
 	* @return array
 	*/
 	private static function getParentItemTypes($itemType) {
-		$backendTypes = array_keys(self::$backends);
 		$parents = array($itemType);
-		foreach ($backendTypes as $type => $backend) {
+		foreach (self::$backends as $type => $backend) {
 			if (in_array($backend->dependsOn, $parents)) {
 				$parents[] = $type;
 			}
@@ -386,11 +385,7 @@ class Share {
 			// Check if there are any parent types that include this type of items, e.g. a music album contains songs
 			if (isset($itemType)) {
 				if ($parents = self::getParentItemTypes($itemType)) {
-					$where = "WHERE item_type IN ('".$itemType."'";
-					foreach ($parents as $parent) {
-						$where .= ", '.$parent.'";
-					}
-					$where .= ')';
+					$where = "WHERE item_type IN ('".implode("','", $parents)."')";
 				} else {
 					$where = "WHERE item_type = '".$itemType."'";
 				}
@@ -405,9 +400,9 @@ class Share {
 					$where .= " AND share_type IN ('".self::SHARE_TYPE_USER."','".self::SHARE_TYPE_GROUP."','".self::$shareTypeGroupUserUnique."')";
 					$groups = \OC_Group::getUserGroups($shareWith);
 					$userAndGroups = array_merge(array($shareWith), $groups);
-					$where .= " AND share_with IN ('".implode("','", $userAndGroups)."')";
+					$where .= " AND share_with IN ('".implode(",", $userAndGroups).")";
 				} else {
-					$where .= " AND share_type = '".$shareType."' AND share_with = '".$shareWith."'";
+					$where .= " AND share_type = ".$shareType." AND share_with = '".$shareWith."'";
 				}
 			}
 			if (isset($uidOwner)) {
@@ -420,14 +415,19 @@ class Share {
 			if (isset($item)) {
 				// If looking for own shared items, check item_source else check item_target
 				if (isset($uidOwner)) {
-					// Check if this item depends on a file and getSource() returned an array
 					$source = $backend->getSource($item, $uidOwner);
-					if (is_array($source)) {
-						$itemSource = $source['item'];
+					// If item type is a file, file source needs to be checked in case the item was converted
+					if ($itemType == 'file') {
+						$where .= " AND file_source = ".\OC_FileCache::getId($source['file']);
 					} else {
-						$itemSource = $source;
+						// Check if this item depends on a file and getSource() returned an array
+						if (is_array($source)) {
+							$itemSource = $source['item'];
+						} else {
+							$itemSource = $source;
+						}
+						$where .= " AND item_source = '".$itemSource."'";
 					}
-					$where .= " AND item_source = '".$itemSource."'";
 				} else {
 					if ($itemType == 'file' && substr($item, -1) == '/') {
 						// Special case to select only the shared files inside the folder
@@ -528,7 +528,7 @@ class Share {
 					return false;
 				} else if (is_array($source)) {
 					$itemSource = $source['item'];
-					$fileSource = self::getBackend('file')->getId($source['file']);
+					$fileSource = \OC_FileCache::getId($source['file']);
 				} else {
 					$itemSource = $source;
 					$fileSource = null;
