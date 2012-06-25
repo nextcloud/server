@@ -86,7 +86,7 @@ class OC_FileCache{
 		}
 		$path=$root.$path;
 		$parent=self::getParentId($path);
-		$id=self::getId($path,'');
+		$id=self::getFileId($path);
 		if(isset(OC_FileCache::$savedData[$path])){
 			$data=array_merge(OC_FileCache::$savedData[$path],$data);
 			unset(OC_FileCache::$savedData[$path]);
@@ -129,7 +129,12 @@ class OC_FileCache{
 		$queryParts=array();
 		foreach(array('size','mtime','ctime','mimetype','encrypted','versioned','writable') as $attribute){
 			if(isset($data[$attribute])){
-				$arguments[]=$data[$attribute];
+				//Convert to int it args are false
+				if($data[$attribute] === false){
+					$arguments[] = 0;
+				}else{
+					$arguments[] = $data[$attribute];
+				}
 				$queryParts[]=$attribute.'=?';
 			}
 		}
@@ -262,7 +267,7 @@ class OC_FileCache{
 		}
 		$path=$root.$path;
 		$parent=self::getFileId($path);
-		if($path==-1){
+		if($parent==-1){
 			return array();
 		}
     $query=OC_DB::prepare('SELECT name,ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE parent=? AND (mimetype LIKE ? OR mimetype = ?)');

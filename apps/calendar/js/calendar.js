@@ -661,10 +661,12 @@ function ListView(element, calendar) {
 		if (delta) {
 			if (delta < 0){
 				addDays(t.start, -7);
+				addDays(t.end, -7);
 				if (!opt('weekends')) {
 					skipWeekend(t.start, delta < 0 ? -1 : 1);
 				}
 			}else{
+				addDays(t.start, 7);
 				addDays(t.end, 7);
 				if (!opt('weekends')) {
 					skipWeekend(t.end, delta < 0 ? -1 : 1);

@@ -287,22 +287,23 @@ class OC_Installer{
 	 * This function installs all apps found in the 'apps' directory that should be enabled by default;
 	 */
 	public static function installShippedApps(){
-		$dir = opendir( OC::$APPSROOT."/apps" );
-		while( false !== ( $filename = readdir( $dir ))){
-			if( substr( $filename, 0, 1 ) != '.' and is_dir(OC::$APPSROOT."/apps/$filename") ){
-				if( file_exists( OC::$APPSROOT."/apps/$filename/appinfo/app.php" )){
-					if(!OC_Installer::isInstalled($filename)){
-						$info=OC_App::getAppInfo($filename);
-						$enabled = isset($info['default_enable']);
-						if( $enabled ){
-							OC_Installer::installShippedApp($filename);
-							OC_Appconfig::setValue($filename,'enabled','yes');
+		if($dir = opendir( OC::$APPSROOT."/apps" )){
+			while( false !== ( $filename = readdir( $dir ))){
+				if( substr( $filename, 0, 1 ) != '.' and is_dir(OC::$APPSROOT."/apps/$filename") ){
+					if( file_exists( OC::$APPSROOT."/apps/$filename/appinfo/app.php" )){
+						if(!OC_Installer::isInstalled($filename)){
+							$info=OC_App::getAppInfo($filename);
+							$enabled = isset($info['default_enable']);
+							if( $enabled ){
+								OC_Installer::installShippedApp($filename);
+								OC_Appconfig::setValue($filename,'enabled','yes');
+							}
 						}
 					}
 				}
 			}
+			closedir( $dir );
 		}
-		closedir( $dir );
 	}
 
 	/**
