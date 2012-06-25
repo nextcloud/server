@@ -8,7 +8,21 @@
 
 class OC_Cache {
 	static protected $cache;
+	static protected $global_cache;
 
+	static public function getGlobalCache() {
+		if (!self::$global_cache) {
+			self::$global_cache = new OC_Cache_FileGlobal();
+		}
+		return self::$global_cache;
+	}
+
+	static public function getUserCache() {
+		if (!self::$cache) {
+			self::init();
+		}
+		return self::$cache;
+	}
 	static protected function init() {
 		$fast_cache = null;
 		if (!$fast_cache && function_exists('xcache_set')) {
