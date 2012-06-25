@@ -58,11 +58,11 @@ class Share {
 				self::$backends[$itemType] = array('class' => $class, 'dependsOn' => $dependsOn, 'supportedFileExtensions' => $supportedFileExtensions);
 				return true;
 			} else {
-				\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not registered, '.self::$backends[$itemType]['class'].' is already registered for '.$itemType, \OC_Log::WARN);
+				\OC_Log::write('OCP\Share', 'Sharing backend '.get_class($class).' not registered, '.get_class(self::$backends[$itemType]['class']).' is already registered for '.$itemType, \OC_Log::WARN);
 				return false;
 			}
 		}
-		\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not registered, the class must extend abstract class OC_Share_Backend', \OC_Log::ERROR);
+		\OC_Log::write('OCP\Share', 'Sharing backend '.get_class($class).' not registered, the class must extend abstract class OC_Share_Backend', \OC_Log::ERROR);
 		return false;
 	}
 
@@ -232,7 +232,7 @@ class Share {
 		if ($item = self::getItems($itemType, $itemTarget, $uidSharedWith, true, null, false, 1)) {
 			// Check if item is inside a shared folder and was converted
 			if ($item['parent']) {
-				$query = \OC_DB::prepare('SELECT item_type FROM *PREFIX*sharing WHERE id = ? LIMIT 1');
+				$query = \OC_DB::prepare('SELECT item_type FROM *PREFIX*share WHERE id = ? LIMIT 1');
 				$result = $query->execute(array($item['parent']))->fetchRow();
 				if (isset($result['item_type']) && $result['item_type'] == 'folder') {
 					return false;
@@ -240,7 +240,7 @@ class Share {
 			}
 			// Check if this is a group share, if it is a group share a new entry needs to be created marked as unshared from self
 			if ($item['uid_shared_with'] == null) {
-				$query = \OC_DB::prepare('INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?,?,?,?,?,?)');
+				$query = \OC_DB::prepare('INSERT INTO *PREFIX*share VALUES(?,?,?,?,?,?,?,?,?,?)');
 				$result = $query->execute(array($item['item_type'], $item['item_source'], $item['item_target'], $uidSharedWith, $item['gid_shared_with'], $item['uid_owner'], self::UNSHARED_FROM_SELF, $item['stime'], $item['file_source'], $item['file_target']));
 				if (\OC_DB::isError($result)) {
 // 					\OC_Log::write('OCP\Share', 'Share type '.$shareType.' is not valid for item '.$item, \OC_Log::ERROR);
@@ -267,7 +267,7 @@ class Share {
 				// Check if this is a group share
 				if ($item['uid_shared_with'] == null) {
 					// A new entry needs to be created exclusively for the user
-					$query = \OC_DB::prepare('INSERT INTO *PREFIX*sharing VALUES(?,?,?,?,?,?,?,?,?,?)');
+					$query = \OC_DB::prepare('INSERT INTO *PREFIX*share VALUES(?,?,?,?,?,?,?,?,?,?)');
 					if (isset($item['file_target'])) {
 						$fileTarget = $newTarget;
 					} else {
@@ -278,10 +278,10 @@ class Share {
 				} else {
 					// Check if this item is a file or folder, update the file_target as well if this is the case
 					if ($itemType == 'file' || $itemType == 'folder') {
-						$query = \OC_DB::prepare('UPDATE *PREFIX*sharing SET item_target = ?, file_target = REPLACE(file_target, ?, ?) WHERE uid_shared_with = ?');
+						$query = \OC_DB::prepare('UPDATE *PREFIX*share SET item_target = ?, file_target = REPLACE(file_target, ?, ?) WHERE uid_shared_with = ?');
 						$query->execute(array($newTarget, $oldTarget, $newTarget, $uidSharedWith));
 					} else {
-						$query = \OC_DB::prepare('UPDATE *PREFIX*sharing SET item_target = ? WHERE item_type = ? AND item_target = ? AND uid_shared_with = ?');
+						$query = \OC_DB::prepare('UPDATE *PREFIX*share SET item_target = ? WHERE item_type = ? AND item_target = ? AND uid_shared_with = ?');
 						$query->execute(array($newTarget, $itemType, $oldTarget, $uidSharedWith));
 					}
 					return true;
@@ -304,20 +304,20 @@ class Share {
 		if ($item = self::getItems($itemType, $item, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, 1)) {
 			// Check if this item is a reshare and verify that the permissions granted don't exceed the parent shared item
 			if (isset($item['parent'])) {
-				$query = \OC_DB::prepare('SELECT permissions FROM *PREFIX*sharing WHERE id = ? LIMIT 1');
+				$query = \OC_DB::prepare('SELECT permissions FROM *PREFIX*share WHERE id = ? LIMIT 1');
 				$result = $query->execute(array($item['parent']))->fetchRow();
 				if (!isset($result['permissions']) || $permissions > $result['permissions']) {
 					\OC_Log::write('OCP\Share', '', \OC_Log::ERROR);
 					return false;
 				}
 			}
-			$query = \OC_DB::prepare('UPDATE *PREFIX*sharing SET permissions = ? WHERE id = ?');
+			$query = \OC_DB::prepare('UPDATE *PREFIX*share SET permissions = ? WHERE id = ?');
 			$query->execute(array($permissions, $item['id']));
 			// Check if permissions were reduced
 			if ($permissions < $item['permissions']) {
 				// Reduce the permissions for all reshares of this item
 				$ids = array($item['id']);
-				$query = \OC_DB::prepare('SELECT id, parent, permissions FROM *PREFIX*sharing WHERE item_source = ?');
+				$query = \OC_DB::prepare('SELECT id, parent, permissions FROM *PREFIX*share WHERE item_source = ?');
 				$result = $query->execute(array($item['item_source']));
 				while ($item = $result->fetchRow()) {
 					if (in_array($item['parent'], $ids) && $item['permissions'] > $permissions) {
@@ -327,7 +327,7 @@ class Share {
 				// Remove parent item from array, this item's permissions already got updated
 				unset($ids[0]);
 				if (!empty($ids)) {
-					$query = \OC_DB::prepare('UPDATE *PREFIX*sharing SET permissions = ? WHERE id IN (?)');
+					$query = \OC_DB::prepare('UPDATE *PREFIX*share SET permissions = ? WHERE id IN (?)');
 					$query->execute(array($permissions, implode(',', $ids)));
 				}
 			}
@@ -445,7 +445,7 @@ class Share {
 				}
 				$where .= ' LIMIT '.$limit;
 			}
-			$query = \OC_DB::prepare('SELECT * FROM *PREFIX*sharing '.$where);
+			$query = \OC_DB::prepare('SELECT * FROM *PREFIX*share '.$where);
 			$result = $query->execute();
 			$items = array();
 			while ($item = $result->fetchRow()) {
@@ -460,24 +460,26 @@ class Share {
 				}
 				$items[$item['id']] = $item;
 			}
-			if ($format == self::FORMAT_NONE) {
-				if ($limit == 1) {
-					// Return just the item instead of 2-dimensional array
-					return $items[key($items)];
-				}
-				return $items;
-			} else if ($format == self::FORMAT_STATUSES) {
-				$statuses = array();
-				foreach ($items as $item) {
-					if ($item['shareType'] == self::SHARE_TYPE_PRIVATE_LINK) {
-						$statuses[$item['item']] = true;
-					} else if (!isset($statuses[$item['item']])) {
-						$statuses[$items['item']] = false;
+			if (!empty($items)) {
+				if ($format == self::FORMAT_NONE) {
+					if ($limit == 1) {
+						// Return just the item instead of 2-dimensional array
+						return $items[key($items)];
 					}
+					return $items;
+				} else if ($format == self::FORMAT_STATUSES) {
+					$statuses = array();
+					foreach ($items as $item) {
+						if ($item['shareType'] == self::SHARE_TYPE_PRIVATE_LINK) {
+							$statuses[$item['item']] = true;
+						} else if (!isset($statuses[$item['item']])) {
+							$statuses[$items['item']] = false;
+						}
+					}
+					return $statuses;
+				} else {
+					return $backend->formatItems($items, $format);
 				}
-				return $statuses;
-			} else {
-				return $backend->formatItems($items, $format);
 			}
 		}
 		return false;
@@ -494,7 +496,7 @@ class Share {
 	* @param bool|array Parent folder target (optional)
 	* @return bool
 	*/
-	private static function put($itemType, $item, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder = false) {
+	private static function put($itemType, $item, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder = null) {
 		// Check file extension for an equivalent item type to convert to
 		if ($itemType == 'file') {
 			$extension = strtolower(substr($item, strrpos($item, '.') + 1));
@@ -533,7 +535,7 @@ class Share {
 					$fileSource = null;
 				}
 			}
-			$query = \OC_DB::prepare('INSERT INTO *PREFIX*sharing (item_type, item, item_source, item_target, parent, uid_shared_with, gid_shared_with, uid_owner, permissions, stime, file_source, file_target) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
+			$query = \OC_DB::prepare('INSERT INTO *PREFIX*share (item_type, item, item_source, item_target, parent, share_type, share_with, uid_owner, permissions, stime, file_source, file_target) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
 			// Share with a group
 			if ($shareType == self::SHARE_TYPE_GROUP) {
 				if (isset($fileSource)) {
@@ -559,7 +561,7 @@ class Share {
 				$groupItemTarget = $backend->generateTarget($item, false);
 				$query->execute(array($itemType, $item, $itemSource, $groupItemTarget, $parent, $shareType, $shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget));
 				// Save this id, any extra rows for this group share will need to reference it
-				$parent = \OC_DB::insertid('*PREFIX*sharing');
+				$parent = \OC_DB::insertid('*PREFIX*share');
 				// Loop through all users of this group in case we need to add an extra row
 				foreach ($shareWith['users'] as $uid) {
 					$itemTarget = $backend->generateTarget($item, $uid);
@@ -583,7 +585,7 @@ class Share {
 					// Insert an extra row for the group share if the item or file target is unique for this user
 					if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
 						$query->execute(array($itemType, $item, $itemSource, $itemTarget, $parent, self::$shareTypeGroupUserUnique, $uid, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
-						$id = \OC_DB::insertid('*PREFIX*sharing');
+						$id = \OC_DB::insertid('*PREFIX*share');
 					}
 					if ($parentFolder === true) {
 						$parentFolders['id'] = $id;
@@ -594,24 +596,24 @@ class Share {
 					return $parentFolders;
 				}
 			} else {
-				$itemTarget = $backend->generateTarget($item, $uidSharedWith);
+				$itemTarget = $backend->generateTarget($item, $shareWith);
 				if (isset($fileSource)) {
 					if ($parentFolder) {
 						if ($parentFolder === true) {
-							$fileTarget = self::getBackend('file')->generateTarget($source['file'], $uidSharedWith);
+							$fileTarget = self::getBackend('file')->generateTarget($source['file'], $shareWith);
 							$parentFolders['folder'] = $fileTarget;
 						} else {
 							$fileTarget = $parentFolder['folder'].$item;
 							$parent = $parentFolder['id'];
 						}
 					} else {
-						$fileTarget = self::getBackend('file')->generateTarget($source['file'], $uidSharedWith);
+						$fileTarget = self::getBackend('file')->generateTarget($source['file'], $shareWith);
 					}
 				} else {
 					$fileTarget = null;
 				}
 				$query->execute(array($itemType, $item, $itemSource, $itemTarget, $parent, $shareType, $shareWith, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
-				$id = \OC_DB::insertid('*PREFIX*sharing');
+				$id = \OC_DB::insertid('*PREFIX*share');
 				if ($parentFolder === true) {
 					$parentFolders['id'] = $id;
 					// Return parent folder to preserve file target paths for potential children
@@ -630,7 +632,7 @@ class Share {
 	* @param bool
 	*/
 	private static function delete($parent, $excludeParent = false) {
-		$query = \OC_DB::prepare('SELECT id FROM *PREFIX*sharing WHERE parent IN (?)');
+		$query = \OC_DB::prepare('SELECT id FROM *PREFIX*share WHERE parent IN (?)');
 		$ids = array($parent);
 		while ($item = $query->execute(array(implode("','", $ids)))->fetchRow()) {
 			$ids[] = $item['id'];
@@ -639,7 +641,7 @@ class Share {
 			unset($ids[0]);
 		}
 		if (!empty($ids)) {
-			$query = \OC_DB::prepare('DELETE FROM *PREFIX*sharing WHERE id IN (?)');
+			$query = \OC_DB::prepare('DELETE FROM *PREFIX*share WHERE id IN (?)');
 			$query->execute(array(implode("','", $ids)));
 		}
 	}
@@ -650,10 +652,10 @@ class Share {
 	
 	public static function post_deleteUser($arguments) {
 		// Delete any items shared with the deleted user
-		$query = \OC_DB::prepare('DELETE FROM *PREFIX*sharing WHERE uid_shared_with = ?');
+		$query = \OC_DB::prepare('DELETE FROM *PREFIX*share WHERE uid_shared_with = ?');
 		$result = $query->execute(array($arguments['uid']));
 		// Delete any items the deleted user shared
-		$query = \OC_DB::prepare('SELECT id, item_source FROM *PREFIX*sharing WHERE uid_owner = ?');
+		$query = \OC_DB::prepare('SELECT id, item_source FROM *PREFIX*share WHERE uid_owner = ?');
 		$result = $query->execute(array($arguments['uid']));
 		while ($item = $result->fetchRow()) {
 			self::delete($item['id']);
