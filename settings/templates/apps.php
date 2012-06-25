@@ -12,7 +12,7 @@
 <ul id="leftcontent">
 	<?php foreach($_['apps'] as $app):?>
 	<li <?php if($app['active']) echo 'class="active"'?> data-id="<?php echo $app['id'] ?>">
-		<a href="?appid=<?php echo $app['id'] ?>"><?php  echo $app['name'] ?></a>
+		<a href="?appid=<?php echo $app['id'] ?>"><?php  echo htmlentities($app['name']) ?></a>
 		<span class="hidden">
 			<?php OC_JSON::encodedPrint($app,false) ?>
 		</span>
