@@ -449,7 +449,7 @@ class OC_LDAP {
 		if(isset($result[$attr]) && $result[$attr]['count'] > 0){
 			$values = array();
 			for($i=0;$i<$result[$attr]['count'];$i++) {
-				$values[] = $result[$attr][$i];
+				$values[] = self::resemblesDN($attr) ? self::sanitizeDN($result[$attr][$i]) : $result[$attr][$i];
 			}
 			return $values;
 		}
@@ -521,7 +521,7 @@ class OC_LDAP {
 						$key = strtolower($key);
 						if(isset($item[$key])) {
 							if($key != 'dn'){
-								$selection[$i][$key] = $item[$key][0];
+								$selection[$i][$key] = self::resemblesDN($key) ? self::sanitizeDN($item[$key][0]) : $item[$key][0];
 							} else {
 								$selection[$i][$key] = self::sanitizeDN($item[$key]);
 							}
@@ -534,7 +534,7 @@ class OC_LDAP {
 					$key = strtolower($attr[0]);
 
 					if(isset($item[$key])) {
-						if($key == 'dn') {
+						if(self::resemblesDN($key)) {
 							$selection[] = self::sanitizeDN($item[$key]);
 						} else {
 							$selection[] = $item[$key];
@@ -547,6 +547,15 @@ class OC_LDAP {
 		}
 
 		return $findings;
+	}
+
+	static private function resemblesDN($attr) {
+		$resemblingAttributes = array(
+			'dn',
+			'uniquemember',
+			'member'
+		);
+		return in_array($attr, $resemblingAttributes);
 	}
 
 	static private function sanitizeDN($dn) {
