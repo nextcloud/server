@@ -16,6 +16,8 @@ if (!$pos = strpos($path_info, '/', 1)) {
 }
 $service=substr($path_info, 1, $pos-1);
 $file = OC_AppConfig::getValue('core', 'remote_' . $service);
+$file = preg_replace('/apps\//','', $file); //Todo Remove after Multiappdir migration
+
 if(is_null($file)){
 	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
 	exit;
