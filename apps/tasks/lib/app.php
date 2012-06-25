@@ -180,6 +180,7 @@ class OC_Task_App {
 			$timezone = new DateTimeZone($timezone);
 			$completed = new DateTime($completed, $timezone);
 			$vtodo->setDateTime('COMPLETED', $completed);
+			OCP\Util::emitHook('OC_Task', 'taskCompleted', $vtodo);
 		} else {
 			unset($vtodo->COMPLETED);
 		}
