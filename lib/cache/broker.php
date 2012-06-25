@@ -23,15 +23,13 @@ class OC_Cache_Broker {
 	}
 
 	public function set($key, $value, $ttl=0) {
-		$set_slow = strlen($value) > 8192;
-		if ($set_slow) {
+		if (!$this->fast_cache->set($key, $value, $ttl)) {
 			if ($this->fast_cache->hasKey($key)) {
 				$this->fast_cache->remove($key);
 			}
-			$this->slow_cache->set($key, $value, $ttl);
-		} else {
-			$this->fast_cache->set($key, $value, $ttl);
+			return $this->slow_cache->set($key, $value, $ttl);
 		}
+		return true;
 	}
 
 	public function hasKey($key) {
