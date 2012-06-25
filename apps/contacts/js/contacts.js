@@ -1551,8 +1551,17 @@ Contacts={
 								})}, 100);
 							setTimeout(Contacts.UI.Contacts.lazyupdate, 500);*/
 							if($('#contacts h3').length > 1) {
-								$('#contacts h3,#contacts ul').droppable({ drop: Contacts.UI.Contacts.drop});
+								$('#contacts h3,#contacts ul').each(function(index) {
+									var id = $(this).data('id');
+									var accept = 'li:not([data-bookid="'+id+'"])';
+									$(this).droppable({
+										drop: Contacts.UI.Contacts.drop,
+										activeClass: 'ui-state-hover',
+										accept: accept
+									});
+								});
 								$('#contacts li').draggable({
+									revert: 'invalid',
 									axis: 'y', containment: '#contacts',
 									scroll: true, scrollSensitivity: 100,
 									opacity: 0.7, helper: 'clone'
