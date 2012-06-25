@@ -11,7 +11,14 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
 $ids = OC_Contacts_Addressbook::activeIds(OCP\USER::getUser());
-$contacts = OC_Contacts_VCard::all($ids);
+$allcontacts = OC_Contacts_VCard::all($ids);
+$contacts = array();
+foreach($allcontacts as $contact) { // try to conserve some memory
+	$contacts[] = array('id' => $contact['id'], 'addressbookid' => $contact['addressbookid'], 'fullname' => $contact['fullname']);
+}
+unset($allcontacts);
+$addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
+
 $tmpl = new OCP\Template("contacts", "part.contacts");
 $tmpl->assign('contacts', $contacts);
 $page = $tmpl->fetchPage();
