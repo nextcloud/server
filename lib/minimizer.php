@@ -25,12 +25,15 @@ abstract class OC_Minimizer {
 		$cache = OC_Cache::getGlobalCache();
 		if (!OC_Request::isNoCache() && (!defined('DEBUG') || !DEBUG)){
 			$gzout = $cache->get($cache_key.'.gz');
-			OC_Response::setETagHeader(md5($gzout));
+			if ($gzout) {
+				OC_Response::setETagHeader(md5($gzout));
+			}
 		}
 
 		if (!$gzout) {
 			$out = $this->minimizeFiles($files);
 			$gzout = gzencode($out);
+			OC_Response::setETagHeader(md5($gzout));
 			$cache->set($cache_key.'.gz', $gzout);
 		}
 		if ($encoding = OC_Request::acceptGZip()) {
