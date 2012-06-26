@@ -61,7 +61,7 @@ OC.Share={
 		OC.Share.loadItem(item);
 		var html = '<div id="dropdown" class="drop" data-item="'+item+'">';
 		html += '<select data-placeholder="User or Group" id="share_with" class="chzen-select">';
-		html += '<option value=""></option>';
+		html += '<option value="" selected="selected" disabled="disabled">Your groups & members</option>';
 		html += '</select>';
 		html += '<div id="sharedWithList">';
 		html += '<ul id="userList"></ul>';

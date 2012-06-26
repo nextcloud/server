@@ -94,7 +94,7 @@ for($i = 0; $i<count($root_images); $i++) {
 }
 
 $tmpl = new OCP\Template( 'gallery', 'index', 'user' );
-$tmpl->assign('root', $root);
+$tmpl->assign('root', $root, false);
 $tmpl->assign('tl', $tl, false);
 $tmpl->printPage();
 ?>

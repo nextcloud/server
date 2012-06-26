@@ -19,21 +19,11 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-function bailOut($msg) {
-	OCP\JSON::error(array('data' => array('message' => $msg)));
-	OCP\Util::writeLog('contacts','ajax/saveproperty.php: '.$msg, OCP\Util::DEBUG);
-	exit();
-}
-function debug($msg) {
-	OCP\Util::writeLog('contacts','ajax/saveproperty.php: '.$msg, OCP\Util::DEBUG);
-}
-
+require_once('loghandler.php');
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
-
 $id = isset($_POST['id'])?$_POST['id']:null;
 $name = isset($_POST['name'])?$_POST['name']:null;
 $value = isset($_POST['value'])?$_POST['value']:null;

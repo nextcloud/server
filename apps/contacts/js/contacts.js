@@ -314,6 +314,7 @@ Contacts={
 				return false;
 			},
 			add:function(n, fn, aid, isnew){ // add a new contact
+				aid = aid?aid:$('#contacts h3.active').first().data('id');
 				var localAddcontact = function(n, fn, aid, isnew) {
 					$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid, isnew: isnew },
 					function(jsondata) {
@@ -380,12 +381,12 @@ Contacts={
 							if(jsondata.status == 'success'){
 								var newid = '', bookid;
 								var curlistitem = $('#contacts li[data-id="'+jsondata.data.id+'"]');
-								var newlistitem = curlistitem.prev();
+								var newlistitem = curlistitem.prev('li');
 								if(newlistitem == undefined) {
-									newlistitem = curlistitem.next();
+									newlistitem = curlistitem.next('li');
 								}
 								curlistitem.remove();
-								if(newlistitem != undefined) {
+								if(!$(newlistitem).is('li')) {
 									newid = newlistitem.data('id');
 									bookid = newlistitem.data('id');
 								}
@@ -1504,6 +1505,36 @@ Contacts={
 			}
 		},
 		Contacts:{
+			drop:function(event, ui) {
+				var dragitem = ui.draggable, droptarget = $(this);
+				//console.log('Drop ' + dragitem.data('id') +' on: ' + droptarget.data('id'));
+				if(dragitem.data('bookid') == droptarget.data('id')) {
+					return false;
+				}
+				var droplist = (droptarget.is('ul'))?droptarget:droptarget.next();
+				$.post(OC.filePath('contacts', 'ajax', 'movetoaddressbook.php'), { ids: dragitem.data('id'), aid: $(this).data('id') },
+					function(jsondata){
+						if(jsondata.status == 'success'){
+							// Do some inserting/removing/sorting magic
+							var name = $(dragitem).find('a').html();
+							var added = false;
+							$(droplist).children().each(function(){
+								if ($(this).text().toLowerCase() > name.toLowerCase()) {
+									$(this).before(dragitem.detach()); //.fadeIn('slow');
+									added = true;
+									return false;
+								}
+							});
+							if(!added) {
+								$(droplist).append(dragitem.detach());
+							}
+							dragitem.data('bookid', droptarget.data('id'));
+							Contacts.UI.Contacts.scrollTo(dragitem.data('id'));
+						} else {
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+						}
+				});
+			},
 			// Reload the contacts list.
 			update:function(id){
 				$.getJSON(OC.filePath('contacts', 'ajax', 'contacts.php'),{},function(jsondata){
@@ -1519,6 +1550,23 @@ Contacts={
 									}
 								})}, 100);
 							setTimeout(Contacts.UI.Contacts.lazyupdate, 500);*/
+							if($('#contacts h3').length > 1) {
+								$('#contacts h3,#contacts ul').each(function(index) {
+									var id = $(this).data('id');
+									var accept = 'li:not([data-bookid="'+id+'"])';
+									$(this).droppable({
+										drop: Contacts.UI.Contacts.drop,
+										activeClass: 'ui-state-hover',
+										accept: accept
+									});
+								});
+								$('#contacts li').draggable({
+									revert: 'invalid',
+									axis: 'y', containment: '#contacts',
+									scroll: true, scrollSensitivity: 100,
+									opacity: 0.7, helper: 'clone'
+								});
+							}
 						});
 						Contacts.UI.Card.update(id);
 					}
@@ -1605,6 +1653,8 @@ $(document).ready(function(){
 	});
 
 	$(document).on('click', '.addressbook', function(event){
+		$('#contacts h3').removeClass('active');
+		$(this).addClass('active');
 		$(this).next().slideToggle(300);
 		return false;
 	});

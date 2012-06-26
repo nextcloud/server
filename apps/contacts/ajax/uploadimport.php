@@ -23,11 +23,7 @@
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
-function bailOut($msg) {
-	OCP\JSON::error(array('data' => array('message' => $msg)));
-	OCP\Util::writeLog('contacts','ajax/uploadimport.php: '.$msg, OCP\Util::ERROR);
-	exit();
-}
+require_once('loghandler.php');
 
 $view = OCP\Files::getStorage('contacts');
 $tmpfile = md5(rand());

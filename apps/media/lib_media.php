@@ -21,18 +21,6 @@
 * 
 */
 
-//we need to have the sha256 hash of passwords for ampache
-OCP\Util::connectHook('OC_User','post_login','OC_MEDIA','loginListener');
-
-//connect to the filesystem for auto updating
-OCP\Util::connectHook('OC_Filesystem','post_write','OC_MEDIA','updateFile');
-
-//listen for file deletions to clean the database if a song is deleted
-OCP\Util::connectHook('OC_Filesystem','post_delete','OC_MEDIA','deleteFile');
-
-//list for file moves to update the database
-OCP\Util::connectHook('OC_Filesystem','post_rename','OC_MEDIA','moveFile');
-
 class OC_MEDIA{
 	/**
 	 * get the sha256 hash of the password needed for ampache

@@ -9,11 +9,7 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
-function bailOut($msg) {
-	OCP\JSON::error(array('data' => array('message' => $msg)));
-	OCP\Util::writeLog('contacts','ajax/editname.php: '.$msg, OCP\Util::DEBUG);
-	exit();
-}
+require_once('loghandler.php');
 
 $tmpl = new OCP\Template("contacts", "part.edit_name_dialog");
 

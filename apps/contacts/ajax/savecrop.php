@@ -27,11 +27,7 @@ OCP\JSON::callCheck();
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
 OCP\JSON::setContentTypeHeader('text/plain');
 
-function bailOut($msg) {
-	OCP\JSON::error(array('data' => array('message' => $msg)));
-	OCP\Util::writeLog('contacts','ajax/savecrop.php: '.$msg, OCP\Util::DEBUG);
-	exit();
-}
+require_once('loghandler.php');
 
 $image = null;
 

@@ -21,6 +21,15 @@
  */
 
 /**
+ * The following signals are being emitted:
+ * 
+ * OC_Contacts_VCard::post_moveToAddressbook(array('aid' => $aid, 'id' => $id))
+ * OC_Contacts_VCard::pre_deleteVCard(array('aid' => $aid, 'id' => $id, 'uri' = $uri)); (NOTE: the values can be null depending on which method emits them)
+ * OC_Contacts_VCard::post_updateVCard($id)
+ * OC_Contacts_VCard::post_createVCard($newid)
+ */
+
+/**
  * This class contains all hooks.
  */
 class OC_Contacts_Hooks{

@@ -86,7 +86,10 @@ class ThumbnailsManager {
 	}
 	
 	public function delete($path) {
-		unlink(\OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser()."/gallery".$path);
+		$thumbnail = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser()."/gallery".$path;
+		if (file_exists($thumbnail)) {
+			unlink($thumbnail);
+		}
 	}
 	
 	private function __construct() {}

@@ -112,3 +112,8 @@ foreach($_["groups"] as $group) {
 		<?php endforeach; ?>
 	</tbody>
 </table>
+
+<!-- use a standard notification class / system for this message -->
+<?php if( $_["share_notice"] ):?>
+<h3 class="settingsNotice center"><?php echo $_["share_notice"]; ?></h3>
+<?php endif;?>	

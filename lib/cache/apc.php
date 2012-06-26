@@ -7,11 +7,20 @@
  */
 
 class OC_Cache_APC {
+	protected $prefix;
+
+	public function __construct($global = false) {
+		$this->prefix = OC_Util::getInstanceId().'/';
+		if (!$global) {
+			$this->prefix .= OC_User::getUser().'/';
+		}
+	}
+
 	/**
 	 * entries in APC gets namespaced to prevent collisions between owncloud instances and users
 	 */
 	protected function getNameSpace() {
-		return OC_Util::getInstanceId().'/'.OC_User::getUser().'/';
+		return $this->prefix;
 	}
 
 	public function get($key) {
