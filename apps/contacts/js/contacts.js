@@ -258,6 +258,9 @@ Contacts={
 					newid = id;
 					bookid = bookid?bookid:$('#contacts li[data-id="'+newid+'"]').data('bookid');
 				}
+				if(!bookid) {
+					bookid = $('#contacts h3').first().data('id');
+				}
 				var localLoadContact = function(newid, bookid) {
 					if($('.contacts li').length > 0) {
 						$('#contacts li[data-id="'+newid+'"]').addClass('active');
@@ -315,7 +318,6 @@ Contacts={
 			},
 			add:function(n, fn, aid, isnew){ // add a new contact
 				aid = aid?aid:$('#contacts h3.active').first().data('id');
-				console.log('add() aid: ' + aid);
 				var localAddcontact = function(n, fn, aid, isnew) {
 					$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid, isnew: isnew },
 					function(jsondata) {
@@ -1567,6 +1569,8 @@ Contacts={
 									scroll: true, scrollSensitivity: 100,
 									opacity: 0.7, helper: 'clone'
 								});
+							} else {
+								$('#contacts h3').first().addClass('active');
 							}
 						});
 						Contacts.UI.Card.update(id);
