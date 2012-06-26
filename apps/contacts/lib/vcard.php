@@ -293,7 +293,7 @@ class OC_Contacts_VCard{
 		$newid = OCP\DB::insertid('*PREFIX*contacts_cards');
 
 		OC_Contacts_Addressbook::touch($aid);
-
+		OC_Hook::emit('OC_Contacts_VCard', 'post_createVCard', $newid);
 		return $newid;
 	}
 
@@ -360,7 +360,7 @@ class OC_Contacts_VCard{
 		$result = $stmt->execute(array($fn,$data,time(),$id));
 
 		OC_Contacts_Addressbook::touch($oldcard['addressbookid']);
-
+		OC_Hook::emit('OC_Contacts_VCard', 'post_updateVCard', $id);
 		return true;
 	}
 
@@ -388,6 +388,7 @@ class OC_Contacts_VCard{
 	 */
 	public static function delete($id){
 		// FIXME: Add error checking.
+		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard', array('aid' => null, 'id' => $id, 'uri' => null));
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
 		$stmt->execute(array($id));
 
@@ -402,6 +403,7 @@ class OC_Contacts_VCard{
 	 */
 	public static function deleteFromDAVData($aid,$uri){
 		// FIXME: Add error checking. Deleting a card gives an Kontact/Akonadi error.
+		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard', array('aid' => $aid, 'id' => null, 'uri' => $uid));
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		$stmt->execute(array($aid,$uri));
 		OC_Contacts_Addressbook::touch($aid);
@@ -559,9 +561,8 @@ class OC_Contacts_VCard{
 				return false;
 			}
 		}
-
+		OC_Hook::emit('OC_Contacts_VCard', 'post_moveToAddressbook', array('aid' => $aid, 'id' => $id));
 		OC_Contacts_Addressbook::touch($aid);
 		return true;
 	}
-
 }
