@@ -136,7 +136,7 @@
 							var option=$('<option selected="selected"/>');
 							option.attr('value',$(this).val());
 							option.text($(this).val());
-							select.append(optione);
+							select.append(options);
 							li.prev().children('input').trigger('click');
 							button.parent().data('preventHide',false);
 							if(settings.createCallback){
