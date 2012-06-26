@@ -403,7 +403,7 @@ class OC_Contacts_VCard{
 	 */
 	public static function deleteFromDAVData($aid,$uri){
 		// FIXME: Add error checking. Deleting a card gives an Kontact/Akonadi error.
-		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard', array('aid' => $aid, 'id' => null, 'uri' => $uid));
+		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard', array('aid' => $aid, 'id' => null, 'uri' => $uri));
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		$stmt->execute(array($aid,$uri));
 		OC_Contacts_Addressbook::touch($aid);
