@@ -567,6 +567,10 @@ class OC_App{
 	 * get the installed version of all papps
 	 */
 	public static function getAppVersions(){
+		static $versions;
+		if (isset($versions)) {   // simple cache, needs to be fixed
+			return $versions; // when function is used besides in checkUpgrade
+		}
 		$versions=array();
 		$query = OC_DB::prepare( 'SELECT appid, configvalue FROM *PREFIX*appconfig WHERE configkey = \'installed_version\'' );
 		$result = $query->execute();
