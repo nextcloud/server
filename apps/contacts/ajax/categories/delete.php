@@ -10,18 +10,7 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
-foreach ($_POST as $key=>$element) {
-	debug('_POST: '.$key.'=>'.print_r($element, true));
-}
-
-function bailOut($msg) {
-	OCP\JSON::error(array('data' => array('message' => $msg)));
-	OCP\Util::writeLog('contacts','ajax/categories/delete.php: '.$msg, OCP\Util::DEBUG);
-	exit();
-}
-function debug($msg) {
-	OCP\Util::writeLog('contacts','ajax/categories/delete.php: '.$msg, OCP\Util::DEBUG);
-}
+require_once('../loghandler.php');
 
 $categories = isset($_POST['categories'])?$_POST['categories']:null;
 

@@ -28,7 +28,7 @@ $dtstart = $vevent->DTSTART;
 $dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
 switch($dtstart->getDateType()) {
 	case Sabre_VObject_Property_DateTime::UTC:
-		$timeOffset = OC_Calendar_App::$tz*60;
+		$timeOffset = $_SESSION['timezone']*60;
 		$newDT      = $dtstart->getDateTime(); 
 		$newDT->add(new DateInterval("PT" . $timeOffset . "M"));
 		$dtstart->setDateTime($newDT); 

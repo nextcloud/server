@@ -93,6 +93,8 @@ usort($apps, 'app_sort');
 
 $tmpl = new OC_Template( "settings", "apps", "user" );
 $tmpl->assign('apps',$apps, false);
+$appid = (isset($_GET['appid'])?strip_tags($_GET['appid']):'');
+$tmpl->assign('appid',$appid);
 
 $tmpl->printPage();
 

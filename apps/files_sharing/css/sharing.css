@@ -12,3 +12,4 @@ a.unshare { float:right; display:inline; margin:0 .5em; padding:.3em .3em 0 .3em
 a.unshare:hover { opacity:1; }
 #share_with { width: 16em; }
 #privateLink label, .edit { font-weight:normal; }
+#share_with_chzn { display: block; }

@@ -150,6 +150,7 @@ class OC_Preferences{
 			$query = OC_DB::prepare( 'UPDATE *PREFIX*preferences SET configvalue = ? WHERE userid = ? AND appid = ? AND configkey = ?' );
 			$query->execute( array( $value, $user, $app, $key ));
 		}
+		return true;
 	}
 
 	/**

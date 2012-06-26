@@ -171,7 +171,7 @@ class OC_LDAP {
 	 * returns the internal ownCloud name for the given LDAP DN of the group
 	 */
 	static public function dn2groupname($dn, $ldapname = null) {
-		if(strrpos($dn, self::$ldapBaseGroups) !== (strlen($dn)-strlen(self::$ldapBaseGroups))) {
+		if(strripos($dn, self::$ldapBaseGroups) !== (strlen($dn)-strlen(self::$ldapBaseGroups))) {
 			return false;
 		}
 		return self::dn2ocname($dn, $ldapname, false);
@@ -186,7 +186,7 @@ class OC_LDAP {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN
 	 */
 	static public function dn2username($dn, $ldapname = null) {
-		if(strrpos($dn, self::$ldapBaseUsers) !== (strlen($dn)-strlen(self::$ldapBaseUsers))) {
+		if(strripos($dn, self::$ldapBaseUsers) !== (strlen($dn)-strlen(self::$ldapBaseUsers))) {
 			return false;
 		}
 		return self::dn2ocname($dn, $ldapname, true);
@@ -425,7 +425,7 @@ class OC_LDAP {
 		if(isset($result[$attr]) && $result[$attr]['count'] > 0){
 			$values = array();
 			for($i=0;$i<$result[$attr]['count'];$i++) {
-				$values[] = $result[$attr][$i];
+				$values[] = self::resemblesDN($attr) ? self::sanitizeDN($result[$attr][$i]) : $result[$attr][$i];
 			}
 			return $values;
 		}
@@ -508,7 +508,7 @@ class OC_LDAP {
 						$key = strtolower($key);
 						if(isset($item[$key])) {
 							if($key != 'dn'){
-								$selection[$i][$key] = $item[$key][0];
+								$selection[$i][$key] = self::resemblesDN($key) ? self::sanitizeDN($item[$key][0]) : $item[$key][0];
 							} else {
 								$selection[$i][$key] = self::sanitizeDN($item[$key]);
 							}
@@ -521,7 +521,7 @@ class OC_LDAP {
 					$key = strtolower($attr[0]);
 
 					if(isset($item[$key])) {
-						if($key == 'dn') {
+						if(self::resemblesDN($key)) {
 							$selection[] = self::sanitizeDN($item[$key]);
 						} else {
 							$selection[] = $item[$key];
@@ -534,6 +534,15 @@ class OC_LDAP {
 		}
 
 		return $findings;
+	}
+
+	static private function resemblesDN($attr) {
+		$resemblingAttributes = array(
+			'dn',
+			'uniquemember',
+			'member'
+		);
+		return in_array($attr, $resemblingAttributes);
 	}
 
 	static private function sanitizeDN($dn) {

@@ -136,14 +136,16 @@ class OC{
 		$config_paths = OC_Config::getValue('apps_paths', array());
 		if(! empty($config_paths)){
 			foreach($config_paths as $paths) {
-				if( isset($paths['url']) && isset($paths['path']))
-					OC::$APPSROOTS[] = $paths;	
+				if( isset($paths['url']) && isset($paths['path'])) {
+					$paths['url'] = rtrim($paths['url'],'/');
+					$paths['path'] = rtrim($paths['path'],'/');
+					OC::$APPSROOTS[] = $paths;
+				}
 			}
 		}elseif(file_exists(OC::$SERVERROOT.'/apps')){
-			OC::$APPSROOTS[] = array('path'=> OC::$SERVERROOT.'/apps', 'url' => '/apps/', 'writable' => true);
+			OC::$APPSROOTS[] = array('path'=> OC::$SERVERROOT.'/apps', 'url' => '/apps', 'writable' => true);
 		}elseif(file_exists(OC::$SERVERROOT.'/../apps')){
-			OC::$APPSROOTS[] = array('path'=> rtrim(dirname(OC::$SERVERROOT), '/').'/apps', 'url' => '/apps/', 'writable' => true);
-			OC::$APPSROOT=rtrim(dirname(OC::$SERVERROOT), '/');
+			OC::$APPSROOTS[] = array('path'=> rtrim(dirname(OC::$SERVERROOT), '/').'/apps', 'url' => '/apps', 'writable' => true);
 		}
 
 		if(empty(OC::$APPSROOTS)){

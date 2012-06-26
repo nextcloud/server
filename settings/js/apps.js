@@ -73,4 +73,13 @@ $(document).ready(function(){
 			}
 		}
 	});
+	
+	if(appid) {
+		var item = $('#leftcontent li[data-id="'+appid+'"]');
+		if(item) {
+			item.trigger('click');
+			item.addClass('active');
+			$('#leftcontent').animate({scrollTop: $(item).offset().top-70}, 'slow','swing');
+		}
+	}
 });

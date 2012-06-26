@@ -194,6 +194,9 @@ class OC_Calendar_App{
 		} else
 		if (isset($calendar->VTODO)) {
 			$object = $calendar->VTODO;
+		} else
+		if (isset($calendar->VJOURNAL)) {
+			$object = $calendar->VJOURNAL;
 		}
 		if ($object) {
 			self::getVCategories()->loadFromVObject($object, true);

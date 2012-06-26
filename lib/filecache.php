@@ -110,7 +110,9 @@ class OC_FileCache{
 		$queryParts=array();
 		foreach(array('size','mtime','ctime','mimetype','encrypted','versioned','writable') as $attribute){
 			if(isset($data[$attribute])){
-				$arguments[]=$data[$attribute];
+				//Convert to int it args are false
+				if($data[$attribute] === false) $arguments[] = 0;
+				else $arguments[] = $data[$attribute];
 				$queryParts[]=$attribute.'=?';
 			}
 		}

@@ -23,7 +23,7 @@
 OCP\JSON::checkLoggedIn();
 //OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
-session_close_write();
+session_write_close();
 
 function getStandardImage(){
 	//OCP\Response::setExpiresHeader('P10D');

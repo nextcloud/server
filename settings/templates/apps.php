@@ -3,14 +3,16 @@
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */?>
-
+<script type='text/javascript'>
+	var appid = '<?php echo $_['appid']; ?>';
+</script>
 <div id="controls">
 	<a class="button" target="_blank" href="http://owncloud.org/dev/writing-apps/"><?php echo $l->t('Add your App');?></a>
 </div>
 <ul id="leftcontent">
 	<?php foreach($_['apps'] as $app):?>
 	<li <?php if($app['active']) echo 'class="active"'?> data-id="<?php echo $app['id'] ?>">
-		<a href="?appid=<?php echo $app['id'] ?>"><?php  echo $app['name'] ?></a>
+		<a href="?appid=<?php echo $app['id'] ?>"><?php  echo htmlentities($app['name']) ?></a>
 		<span class="hidden">
 			<?php OC_JSON::encodedPrint($app,false) ?>
 		</span>
