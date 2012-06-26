@@ -315,6 +315,7 @@ Contacts={
 			},
 			add:function(n, fn, aid, isnew){ // add a new contact
 				aid = aid?aid:$('#contacts h3.active').first().data('id');
+				console.log('add() aid: ' + aid);
 				var localAddcontact = function(n, fn, aid, isnew) {
 					$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid, isnew: isnew },
 					function(jsondata) {
@@ -359,7 +360,7 @@ Contacts={
 			
 				var card = $('#card')[0];
 				if(!card) {
-					$.getJSON(OC.filePath('contacts', 'ajax', 'loadcard.php'),{},function(jsondata){
+					$.getJSON(OC.filePath('contacts', 'ajax', 'loadcard.php'),{'requesttoken': requesttoken},function(jsondata){
 						if(jsondata.status == 'success'){
 							$('#rightcontent').html(jsondata.data.page).ready(function() {
 								Contacts.UI.loadHandlers();

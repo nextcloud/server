@@ -27,6 +27,7 @@ OCP\JSON::checkAppEnabled('contacts');
 $upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
 $post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
 $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+$requesttoken = $_GET['requesttoken'];
 
 $freeSpace=OC_Filesystem::free_space('/');
 $freeSpace=max($freeSpace,0);
@@ -41,6 +42,7 @@ $tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesi
 $tmpl->assign('adr_types',$adr_types);
 $tmpl->assign('phone_types',$phone_types);
 $tmpl->assign('email_types',$email_types);
+$tmpl->assign('requesttoken', $requesttoken);
 $tmpl->assign('id','');
 $page = $tmpl->fetchPage();
 
