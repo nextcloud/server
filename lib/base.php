@@ -208,9 +208,9 @@ class OC{
 
 				OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
 				OC_App::checkAppsRequirements();
+				// load all apps to also upgrade enabled apps
+				OC_App::loadApps();
 			}
-
-			OC_App::updateApps();
 		}
 	}
 

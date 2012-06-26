@@ -84,6 +84,7 @@ class OC_App{
 	 */
 	public static function loadApp($app){
 		if(is_file(self::getAppPath($app).'/appinfo/app.php')){
+			self::checkUpgrade($app);
 			require_once( $app.'/appinfo/app.php' );
 		}
 	}
@@ -526,22 +527,17 @@ class OC_App{
 	}
 
 	/**
-	 * check if any apps need updating and update those
+	 * check if the app need updating and update when needed
 	 */
-	public static function updateApps(){
+	public static function checkUpgrade($app) {
 		$versions = self::getAppVersions();
-		//ensure files app is installed for upgrades
-		if(!isset($versions['files'])){
-			$versions['files']='0';
-		}
-		foreach( $versions as $app=>$installedVersion ){
-			$currentVersion=OC_App::getAppVersion($app);
-			if ($currentVersion) {
-				if (version_compare($currentVersion, $installedVersion, '>')) {
-					OC_Log::write($app, 'starting app upgrade from '.$installedVersion.' to '.$currentVersion,OC_Log::DEBUG);
-					OC_App::updateApp($app);
-					OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
-				}
+		$currentVersion=OC_App::getAppVersion($app);
+		if ($currentVersion) {
+			$installedVersion = $versions[$app];
+			if (version_compare($currentVersion, $installedVersion, '>')) {
+				OC_Log::write($app, 'starting app upgrade from '.$installedVersion.' to '.$currentVersion,OC_Log::DEBUG);
+				OC_App::updateApp($app);
+				OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
 			}
 		}
 	}
