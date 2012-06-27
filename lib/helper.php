@@ -75,6 +75,9 @@ class OC_Helper {
 	 * reverse proxies
 	 */
 	public static function serverHost() {
+		if(OC::$CLI){
+			return 'localhost';
+		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
 			if (strpos($_SERVER['HTTP_X_FORWARDED_HOST'], ",") !== false) {
 				$host = trim(array_pop(explode(",", $_SERVER['HTTP_X_FORWARDED_HOST'])));

@@ -216,6 +216,14 @@ class OC_Calendar_Object{
 
 		return true;
 	}
+	
+	/**
+     * @brief Creates a UID
+     * @return string
+     */
+    protected static function createUID(){
+        return substr(md5(rand().time()),0,10);
+    }
 
 	/**
 	 * @brief Extracts data from a vObject-Object

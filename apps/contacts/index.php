@@ -15,6 +15,9 @@ OCP\App::checkAppEnabled('contacts');
 // Get active address books. This creates a default one if none exists.
 $ids = OC_Contacts_Addressbook::activeIds(OCP\USER::getUser());
 $contacts = OC_Contacts_VCard::all($ids);
+if($contacts === false) {
+	OCP\Util::writeLog('contacts','index.html: No contacts found.',OCP\Util::DEBUG);
+}
 
 $addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
 
