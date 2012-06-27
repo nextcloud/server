@@ -212,7 +212,20 @@ class OC_Calendar_Calendar{
 
 		return true;
 	}
-
+	
+	/*
+	 * @brief merges two calendars
+	 * @param integer $id1
+	 * @param integer $id2
+	 * @return boolean
+	 */
+	public static function mergeCalendar($id1, $id2){
+		$stmt = OCP\DB::prepare('UPDATE *PREFIX*calendar_objects SET calendarid = ? WHERE calendarid = ?');
+		$stmt->execute(array($id1, $id2));
+		self::touchCalendar($id1);
+		self::deleteCalendar($id2);
+	}
+	
 	/**
 	 * @brief Creates a URI for Calendar
 	 * @param string $name name of the calendar
@@ -238,6 +251,11 @@ class OC_Calendar_Calendar{
 		list($prefix,$userid) = Sabre_DAV_URLUtil::splitPath($principaluri);
 		return $userid;
 	}
+	
+	/*
+	 * @brief returns the possible color for calendars
+	 * @return array
+	 */
 	public static function getCalendarColorOptions(){
 		return array(
 			'#ff0000', // "Red"
@@ -251,6 +269,11 @@ class OC_Calendar_Calendar{
 		);
 	}
 
+	/*
+	 * @brief generates the Event Source Info for our JS
+	 * @param array $calendar calendar data
+	 * @return array
+	 */
 	public static function getEventSourceInfo($calendar){
 		return array(
 			'url' => OCP\Util::linkTo('calendar', 'ajax/events.php').'?calendar_id='.$calendar['id'],
