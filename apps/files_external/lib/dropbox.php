@@ -33,7 +33,6 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 		$oauth = new Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
 		$oauth->setToken($params['token'], $params['token_secret']);
 		$this->dropbox = new Dropbox_API($oauth, 'dropbox');
-		
 	}
 
 	private function getMetaData($path, $list = false) {
@@ -84,8 +83,8 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 			foreach ($contents as $file) {
 				$files[] = basename($file['path']);
 			}
-			OC_FakeDirStream::$dirs['dropbox'] = $files;
-			return opendir('fakedir://dropbox');
+			OC_FakeDirStream::$dirs['dropbox'.$path] = $files;
+			return opendir('fakedir://dropbox'.$path);
 		}
 		return false;
 	}
