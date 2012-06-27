@@ -48,7 +48,7 @@ Contacts={
 				adrstr = adrstr + adrarr[6].trim();
 			}
 			adrstr = encodeURIComponent(adrstr);
-			var uri = 'http://open.mapquestapi.com/nominatim/v1/search.php?q=' + adrstr + '&limit=10&addressdetails=1&zoom=';
+			var uri = 'http://open.mapquestapi.com/nominatim/v1/search.php?q=' + adrstr + '&limit=10&addressdetails=1&polygon=1&zoom=';
 			var newWindow = window.open(uri,'_blank');
 			newWindow.focus();
 		},
