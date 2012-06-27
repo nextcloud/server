@@ -10,19 +10,6 @@
  * The following SQL statement is just a help for developers and will not be
  * executed!
  *
- * CREATE TABLE calendar_objects (
- *     id INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
- *     calendarid INTEGER UNSIGNED NOT NULL,
- *     objecttype VARCHAR(40) NOT NULL,
- *     startdate DATETIME,
- *     enddate DATETIME,
- *     repeating INT(1),
- *     summary VARCHAR(255),
- *     calendardata TEXT,
- *     uri VARCHAR(100),
- *     lastmodified INT(11)
- * );
- *
  * CREATE TABLE calendar_calendars (
  *     id INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
  *     userid VARCHAR(255),
@@ -35,6 +22,7 @@
  *     timezone TEXT,
  *     components VARCHAR(20)
  * );
+ *
  */
 
 /**
