@@ -5,6 +5,25 @@
  * later.
  * See the COPYING-README file.
  */
+ /*
+ *
+ * The following SQL statement is just a help for developers and will not be
+ * executed!
+ *
+ * CREATE TABLE calendar_objects (
+ *     id INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ *     calendarid INTEGER UNSIGNED NOT NULL,
+ *     objecttype VARCHAR(40) NOT NULL,
+ *     startdate DATETIME,
+ *     enddate DATETIME,
+ *     repeating INT(1),
+ *     summary VARCHAR(255),
+ *     calendardata TEXT,
+ *     uri VARCHAR(100),
+ *     lastmodified INT(11)
+ * );
+ *
+ */
 
 /**
  * This class manages our calendar objects
