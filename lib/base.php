@@ -170,8 +170,10 @@ class OC{
 	public static function checkInstalled() {
 		// Redirect to installer if not installed
 		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {
-			$url = 'http://'.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
-			header("Location: $url");
+			if(!OC::$CLI){
+				$url = 'http://'.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
+				header("Location: $url");
+			}
 			exit();
 		}
 	}
@@ -180,7 +182,7 @@ class OC{
 		// redirect to https site if configured
 		if( OC_Config::getValue( "forcessl", false )){
 			ini_set("session.cookie_secure", "on");
-			if(OC_Helper::serverProtocol()<>'https') {
+			if(OC_Helper::serverProtocol()<>'https' and !OC::$CLI) {
 				$url = "https://". OC_Helper::serverHost() . $_SERVER['REQUEST_URI'];
 				header("Location: $url");
 				exit();
