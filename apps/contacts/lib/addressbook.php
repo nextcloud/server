@@ -41,11 +41,18 @@ class OC_Contacts_Addressbook{
 	/**
 	 * @brief Returns the list of addressbooks for a specific user.
 	 * @param string $uid
-	 * @return array
+	 * @return array or false.
 	 */
 	public static function all($uid){
-		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ? ORDER BY displayname' );
-		$result = $stmt->execute(array($uid));
+		try {
+			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ? ORDER BY displayname' );
+			$result = $stmt->execute(array($uid));
+		} catch(Exception $e) {
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.' exception: '.$e->getMessage(),OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.' uid: '.$uid,OCP\Util::DEBUG);
+			return false;
+		}
+
 
 		$addressbooks = array();
 		while( $row = $result->fetchRow()){
@@ -68,15 +75,36 @@ class OC_Contacts_Addressbook{
 	/**
 	 * @brief Gets the data of one address book
 	 * @param integer $id
-	 * @return associative array
+	 * @return associative array or false.
 	 */
 	public static function find($id){
-		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
-		$result = $stmt->execute(array($id));
+		try {
+			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
+			$result = $stmt->execute(array($id));
+		} catch(Exception $e) {
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', id: '.$id,OCP\Util::DEBUG);
+			return false;
+		}
 
 		return $result->fetchRow();
 	}
 
+	/**
+	 * @brief Adds default address book
+	 * @return $id ID of the newly created addressbook or false on error.
+	 */
+	public static function addDefault($uid = null){
+		if(is_null($uid)) {
+			$uid = OCP\USER::getUser();
+		}
+		$id = self::add($uid,'default','Default Address Book');
+		if($id !== false) {
+			self::setActive($id, true);
+		}
+		return $id;
+	}
+	
 	/**
 	 * @brief Creates a new address book
 	 * @param string $userid
@@ -84,17 +112,22 @@ class OC_Contacts_Addressbook{
 	 * @param string $description
 	 * @return insertid
 	 */
-	public static function add($userid,$name,$description=''){
-		$all = self::all($userid);
+	public static function add($uid,$name,$description=''){
+		$all = self::all($uid);
 		$uris = array();
 		foreach($all as $i){
 			$uris[] = $i['uri'];
 		}
 
 		$uri = self::createURI($name, $uris );
-
-		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)' );
-		$result = $stmt->execute(array($userid,$name,$uri,$description,1));
+		try {
+			$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)' );
+			$result = $stmt->execute(array($uid,$name,$uri,$description,1));
+		} catch(Exception $e) {
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', uid: '.$uid,OCP\Util::DEBUG);
+			return false;
+		}
 
 		return OCP\DB::insertid('*PREFIX*contacts_addressbooks');
 	}
@@ -105,13 +138,20 @@ class OC_Contacts_Addressbook{
 	 * @param string $uri
 	 * @param string $name
 	 * @param string $description
-	 * @return insertid
+	 * @return insertid or false
 	 */
 	public static function addFromDAVData($principaluri,$uri,$name,$description){
-		$userid = self::extractUserID($principaluri);
+		$uid = self::extractUserID($principaluri);
 
-		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)' );
-		$result = $stmt->execute(array($userid,$name,$uri,$description,1));
+		try {
+			$stmt = OCP\DB::prepare('INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)');
+			$result = $stmt->execute(array($uid,$name,$uri,$description,1));
+		} catch(Exception $e) {
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', uid: '.$uid,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', uri: '.$uri,OCP\Util::DEBUG);
+			return false;
+		}
 
 		return OCP\DB::insertid('*PREFIX*contacts_addressbooks');
 	}
@@ -134,8 +174,14 @@ class OC_Contacts_Addressbook{
 			$description = $addressbook['description'];
 		}
 
-		$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_addressbooks SET displayname=?,description=?, ctag=ctag+1 WHERE id=?' );
-		$result = $stmt->execute(array($name,$description,$id));
+		try {
+			$stmt = OCP\DB::prepare('UPDATE *PREFIX*contacts_addressbooks SET displayname=?,description=?, ctag=ctag+1 WHERE id=?');
+			$result = $stmt->execute(array($name,$description,$id));
+		} catch(Exception $e) {
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', id: '.$id,OCP\Util::DEBUG);
+			return false;
+		}
 
 		return true;
 	}
@@ -172,8 +218,7 @@ class OC_Contacts_Addressbook{
 		if(!$prefbooks){
 			$addressbooks = OC_Contacts_Addressbook::all($uid);
 			if(count($addressbooks) == 0){
-				$id = OC_Contacts_Addressbook::add($uid,'default','Default Address Book');
-				self::setActive($id, true);
+				self::addDefault($uid);
 			}
 		}
 		$prefbooks = OCP\Config::getUserValue($uid,'contacts','openaddressbooks',null);
@@ -186,6 +231,9 @@ class OC_Contacts_Addressbook{
 	 * @return array
 	 */
 	public static function active($uid){
+		if(is_null($uid)){
+			$uid = OCP\USER::getUser();
+		}
 		$active = self::activeIds($uid);
 		$addressbooks = array();
 		$ids_sql = join(',', array_fill(0, count($active), '?'));
@@ -194,15 +242,18 @@ class OC_Contacts_Addressbook{
 			$stmt = OCP\DB::prepare( $prep );
 			$result = $stmt->execute($active);
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:active:, exception: '.$e->getMessage(),OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:active, ids: '.join(',', $active),OCP\Util::DEBUG);
-			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook::active, SQL:'.$prep,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', uid: '.$uid,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', ids: '.join(',', $active),OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', SQL:'.$prep,OCP\Util::DEBUG);
 		}
 
 		while( $row = $result->fetchRow()){
 			$addressbooks[] = $row;
 		}
-
+		if(!count($addressbooks)) {
+			self::addDefault($uid);
+		}
 		return $addressbooks;
 	}
 
@@ -260,7 +311,7 @@ class OC_Contacts_Addressbook{
 			$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
 			$stmt->execute(array($id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:delete:, exception for '.$id.': '.$e->getMessage(),OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception for '.$id.': '.$e->getMessage(),OCP\Util::ERROR);
 			return false;
 		}
 		

@@ -41,7 +41,11 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 			return $this->metaData[$path];
 		} else {
 			if ($list) {
-				$response = $this->dropbox->getMetaData($path);
+				try {
+					$response = $this->dropbox->getMetaData($path);
+				} catch (Exception $exception) {
+					return false;
+				}
 				if ($response && isset($response['contents'])) {
 					$contents = $response['contents'];
 					// Cache folder's contents
@@ -90,7 +94,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 		if ($metaData = $this->getMetaData($path)) {
 			$stat['size'] = $metaData['bytes'];
 			$stat['atime'] = time();
-			$stat['mtime'] = strtotime($metaData['modified']);
+			$stat['mtime'] = (isset($metaData['modified'])) ? strtotime($metaData['modified']) : time();
 			$stat['ctime'] = $stat['mtime'];
 			return $stat;
 		}
@@ -111,11 +115,11 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	}
 
 	public function is_readable($path) {
-		return true;
+		return self::file_exists($path);
 	}
 
 	public function is_writable($path) {
-		return true;
+		return self::file_exists($path);
 	}
 
 	public function file_exists($path) {

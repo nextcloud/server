@@ -90,16 +90,18 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 		foreach($folder_content as $info) {
 			$paths[] = $this->path.'/'.$info['name'];
 		}
-		$placeholders = join(',', array_fill(0, count($paths), '?'));
-		$query = OC_DB::prepare( 'SELECT * FROM *PREFIX*properties WHERE userid = ?' . ' AND propertypath IN ('.$placeholders.')' );
-		array_unshift($paths, OC_User::getUser()); // prepend userid
-		$result = $query->execute( $paths );
 		$properties = array_fill_keys($paths, array());
-		while($row = $result->fetchRow()) {
-			$propertypath = $row['propertypath'];
-			$propertyname = $row['propertyname'];
-			$propertyvalue = $row['propertyvalue'];
-			$properties[$propertypath][$propertyname] = $propertyvalue;
+		if(count($paths)>0){
+			$placeholders = join(',', array_fill(0, count($paths), '?'));
+			$query = OC_DB::prepare( 'SELECT * FROM *PREFIX*properties WHERE userid = ?' . ' AND propertypath IN ('.$placeholders.')' );
+			array_unshift($paths, OC_User::getUser()); // prepend userid
+			$result = $query->execute( $paths );
+			while($row = $result->fetchRow()) {
+				$propertypath = $row['propertypath'];
+				$propertyname = $row['propertyname'];
+				$propertyvalue = $row['propertyvalue'];
+				$properties[$propertypath][$propertyname] = $propertyvalue;
+			}
 		}
 
 		$nodes = array();

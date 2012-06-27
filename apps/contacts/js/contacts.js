@@ -48,7 +48,7 @@ Contacts={
 				adrstr = adrstr + adrarr[6].trim();
 			}
 			adrstr = encodeURIComponent(adrstr);
-			var uri = 'http://open.mapquestapi.com/nominatim/v1/search.php?q=' + adrstr + '&limit=10&addressdetails=1&zoom=';
+			var uri = 'http://open.mapquestapi.com/nominatim/v1/search.php?q=' + adrstr + '&limit=10&addressdetails=1&polygon=1&zoom=';
 			var newWindow = window.open(uri,'_blank');
 			newWindow.focus();
 		},
@@ -234,6 +234,30 @@ Contacts={
 			$('#contacts_downloadcard').tipsy({gravity: 'ne'});
 			$('#contacts_propertymenu_button').tipsy();
 			$('#contacts_newcontact, #chooseaddressbook').tipsy({gravity: 'sw'});
+
+			$('body').click(function(e){
+				if(!$(e.target).is('#contacts_propertymenu_button')) {
+					$('#contacts_propertymenu_dropdown').hide();
+				}
+			});
+			function propertyMenu(){
+				var menu = $('#contacts_propertymenu_dropdown');
+				if(menu.is(':hidden')) {
+					menu.show();
+					menu.find('li').first().focus();
+				} else {
+					menu.hide();
+				}
+			}
+			$('#contacts_propertymenu_button').click(propertyMenu);
+			$('#contacts_propertymenu_button').keydown(propertyMenu);
+			function propertyMenuItem(){
+				var type = $(this).data('type');
+				Contacts.UI.Card.addProperty(type);
+				$('#contacts_propertymenu_dropdown').hide();
+			}
+			$('#contacts_propertymenu_dropdown a').click(propertyMenuItem);
+			$('#contacts_propertymenu_dropdown a').keydown(propertyMenuItem);
 		},
 		Card:{
 			id:'',
@@ -257,6 +281,9 @@ Contacts={
 				} else {
 					newid = id;
 					bookid = bookid?bookid:$('#contacts li[data-id="'+newid+'"]').data('bookid');
+				}
+				if(!bookid) {
+					bookid = $('#contacts h3').first().data('id');
 				}
 				var localLoadContact = function(newid, bookid) {
 					if($('.contacts li').length > 0) {
@@ -359,7 +386,7 @@ Contacts={
 			
 				var card = $('#card')[0];
 				if(!card) {
-					$.getJSON(OC.filePath('contacts', 'ajax', 'loadcard.php'),{},function(jsondata){
+					$.getJSON(OC.filePath('contacts', 'ajax', 'loadcard.php'),{'requesttoken': requesttoken},function(jsondata){
 						if(jsondata.status == 'success'){
 							$('#rightcontent').html(jsondata.data.page).ready(function() {
 								Contacts.UI.loadHandlers();
@@ -1566,6 +1593,8 @@ Contacts={
 									scroll: true, scrollSensitivity: 100,
 									opacity: 0.7, helper: 'clone'
 								});
+							} else {
+								$('#contacts h3').first().addClass('active');
 							}
 						});
 						Contacts.UI.Card.update(id);
@@ -1733,30 +1762,6 @@ $(document).ready(function(){
 		xhr.setRequestHeader('Content-Type', file.type);
 		xhr.send(file);
 	}
-
-	$('body').click(function(e){
-		if(!$(e.target).is('#contacts_propertymenu_button')) {
-			$('#contacts_propertymenu_dropdown').hide();
-		}
-	});
-	function propertyMenu(){
-		var menu = $('#contacts_propertymenu_dropdown');
-		if(menu.is(':hidden')) {
-			menu.show();
-			menu.find('li').first().focus();
-		} else {
-			menu.hide();
-		}
-	}
-	$('#contacts_propertymenu_button').click(propertyMenu);
-	$('#contacts_propertymenu_button').keydown(propertyMenu);
-	function propertyMenuItem(){
-		var type = $(this).data('type');
-		Contacts.UI.Card.addProperty(type);
-		$('#contacts_propertymenu_dropdown').hide();
-	}
-	$('#contacts_propertymenu_dropdown a').click(propertyMenuItem);
-	$('#contacts_propertymenu_dropdown a').keydown(propertyMenuItem);
 
 	Contacts.UI.loadHandlers();
 	Contacts.UI.Contacts.update(id);

@@ -55,7 +55,7 @@ class OC_VCategories {
 		$this->app = $app;
 		$this->user = is_null($user) ? OC_User::getUser() : $user;
 		$categories = trim(OC_Preferences::getValue($this->user, $app, self::PREF_CATEGORIES_LABEL, ''));
-		$this->categories = $categories != '' ? unserialize($categories) : $defcategories;
+		$this->categories = $categories != '' ? @unserialize($categories) : $defcategories;
 	}
 
 	/**
@@ -64,6 +64,9 @@ class OC_VCategories {
 	*/
 	public function categories() {
 		//OC_Log::write('core','OC_VCategories::categories: '.print_r($this->categories, true), OC_Log::DEBUG);
+		if(!$this->categories) {
+			return array();
+		}
 		usort($this->categories, 'strnatcasecmp'); // usort to also renumber the keys
 		return $this->categories;
 	}
@@ -203,11 +206,17 @@ class OC_VCategories {
 
 	// case-insensitive in_array
 	private function in_arrayi($needle, $haystack) {
+		if(!is_array($haystack)) {
+			return false;
+		}
 		return in_array(strtolower($needle), array_map('strtolower', $haystack));
 	}
 
 	// case-insensitive array_search
 	private function array_searchi($needle, $haystack) {
+		if(!is_array($haystack)) {
+			return false;
+		}
 		return array_search(strtolower($needle),array_map('strtolower',$haystack)); 
 	}
 

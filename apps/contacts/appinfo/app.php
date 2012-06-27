@@ -5,6 +5,7 @@ OC::$CLASSPATH['OC_Contacts_VCard'] = 'apps/contacts/lib/vcard.php';
 OC::$CLASSPATH['OC_Contacts_Hooks'] = 'apps/contacts/lib/hooks.php';
 OC::$CLASSPATH['OC_Connector_Sabre_CardDAV'] = 'apps/contacts/lib/connector_sabre.php';
 OC::$CLASSPATH['OC_Search_Provider_Contacts'] = 'apps/contacts/lib/search.php';
+OCP\Util::connectHook('OC_User', 'post_createUser', 'OC_Contacts_Hooks', 'createUser');
 OCP\Util::connectHook('OC_User', 'post_deleteUser', 'OC_Contacts_Hooks', 'deleteUser');
 OCP\Util::connectHook('OC_Calendar', 'getEvents', 'OC_Contacts_Hooks', 'getBirthdayEvents');
 OCP\Util::connectHook('OC_Calendar', 'getSources', 'OC_Contacts_Hooks', 'getCalenderSources');
