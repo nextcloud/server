@@ -144,6 +144,31 @@ Contacts={
 			$('#edit_name').click(function(){Contacts.UI.Card.editName()});
 			$('#edit_name').keydown(function(){Contacts.UI.Card.editName()});
 			
+			$('#phototools li a').click(function() {
+				$(this).tipsy('hide');
+			});
+			$('#contacts_details_photo_wrapper').hover(
+				function () {
+					$('#phototools').slideDown(200);
+				},
+				function () {
+					$('#phototools').slideUp(200);
+				}
+			);
+			$('#phototools').hover(
+				function () {
+					$(this).removeClass('transparent');
+				},
+				function () {
+					$(this).addClass('transparent');
+				}
+			);
+			$('#phototools .upload').click(function() {
+				$('#file_upload_start').trigger('click');
+			});
+			$('#phototools .cloud').click(function() {
+				OC.dialogs.filepicker(t('contacts', 'Select photo'), Contacts.UI.Card.cloudPhotoSelected, false, 'image', true);
+			});
 			/* Initialize the photo edit dialog */
 			$('#edit_photo_dialog').dialog({ 
 				autoOpen: false, modal: true, height: 'auto', width: 'auto'
@@ -1109,25 +1134,6 @@ Contacts={
 			loadPhotoHandlers:function(){
 				$('#phototools li a').tipsy('hide');
 				$('#phototools li a').tipsy();
-				$('#phototools li a').click(function() {
-					$(this).tipsy('hide');
-				});
-				$('#contacts_details_photo_wrapper').hover(
-					function () {
-						$('#phototools').slideDown(200);
-					},
-					function () {
-						$('#phototools').slideUp(200);
-					}
-				);
-				$('#phototools').hover(
-					function () {
-						$(this).removeClass('transparent');
-					},
-					function () {
-						$(this).addClass('transparent');
-					}
-				);
 				if(this.data.PHOTO) {
 					$('#phototools .delete').click(function() {
 						$(this).tipsy('hide');
@@ -1138,16 +1144,12 @@ Contacts={
 						$(this).tipsy('hide');
 						Contacts.UI.Card.editCurrentPhoto();
 					});
+					$('#phototools .delete').show();
+					$('#phototools .edit').show();
 				} else {
 					$('#phototools .delete').hide();
 					$('#phototools .edit').hide();
 				}
-				$('#phototools .upload').click(function() {
-					$('#file_upload_start').trigger('click');
-				});
-				$('#phototools .cloud').click(function() {
-					OC.dialogs.filepicker(t('contacts', 'Select photo'), Contacts.UI.Card.cloudPhotoSelected, false, 'image', true);
-				});
 			},
 			cloudPhotoSelected:function(path){
 				$.getJSON(OC.filePath('contacts', 'ajax', 'oc_photo.php'),{'path':path,'id':Contacts.UI.Card.id},function(jsondata){
@@ -1162,22 +1164,33 @@ Contacts={
 				});
 			},
 			loadPhoto:function(refresh){
+				var self = this;
+				var refreshstr = (refresh?'&refresh=1'+Math.random():'')
 				$('#phototools li a').tipsy('hide');
 				var wrapper = $('#contacts_details_photo_wrapper');
-				wrapper.addClass('wait');
+				wrapper.addClass('loading').addClass('wait');
+				
+				var img = new Image();
+				$(img).load(function () {
+					$('img.contacts_details_photo').remove()
+					$(this).addClass('contacts_details_photo').hide();
+					wrapper.removeClass('loading').removeClass('wait');
+					$(this).insertAfter($('#phototools')).fadeIn();
+				}).error(function () {
+					// notify the user that the image could not be loaded
+					$(t('contacts','something went wrong.')).insertAfter($('#phototools'));
+				}).attr('src', OC.linkTo('contacts', 'photo.php')+'?id='+self.id+refreshstr);
+		
 				$.getJSON(OC.filePath('contacts', 'ajax', 'loadphoto.php'),{'id':this.id, 'refresh': refresh},function(jsondata){
 					if(jsondata.status == 'success'){
 						$('#contacts_details_photo_wrapper').data('checksum', jsondata.data.checksum);
-						wrapper.html(jsondata.data.page).ready(function(){ wrapper.removeClass('wait').tipsy() });
 						Contacts.UI.Card.loadPhotoHandlers();
 					}
 					else{
-						wrapper.removeClass('wait');
 						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 					}
 				});
 				$('#file_upload_form').show();
-				$('#contacts_propertymenu_dropdown a[data-type="PHOTO"]').parent().hide();
 			},
 			editCurrentPhoto:function(){
 				$.getJSON(OC.filePath('contacts', 'ajax', 'currentphoto.php'),{'id':this.id},function(jsondata){
@@ -1213,15 +1226,15 @@ Contacts={
 				var target = $('#crop_target');
 				var form = $('#cropform');
 				var wrapper = $('#contacts_details_photo_wrapper');
+				var self = this;
 				wrapper.addClass('wait');
 				form.submit();
 				target.load(function(){
 					var response=jQuery.parseJSON(target.contents().text());
 					if(response != undefined && response.status == 'success'){
 						// load cropped photo.
-						wrapper.html(response.data.page).ready(function(){ wrapper.removeClass('wait') });
+						self.loadPhoto(true);
 						Contacts.UI.Card.data.PHOTO = true;
-						Contacts.UI.Card.loadPhotoHandlers();
 					}else{
 						OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
 						wrapper.removeClass('wait');
