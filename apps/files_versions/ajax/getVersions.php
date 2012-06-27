@@ -14,9 +14,7 @@ if( OCA_Versions\Storage::isversioned( $source ) ) {
 	$versionsFormatted = array();
 	
 	foreach ( $versions AS $version ) {
-	
-		$versionsFormatted[] = OCP\Util::formatDate( $version );
-		
+		$versionsFormatted[] = OCP\Util::formatDate( doubleval($version) );
 	}
 
 	$versionsSorted = array_reverse( $versions );

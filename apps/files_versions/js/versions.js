@@ -104,9 +104,9 @@ function createVersionsDropdown(filename, files) {
 	}
 	
 	function addVersion(revision ) {
-		name=formatDate(revision*1000);
+		name=formatDate(revision.version*1000);
 		var version=$('<option/>');
-		version.attr('value',revision);
+		version.attr('value',revision.version);
 		version.text(name);
 		
 // 		} else {

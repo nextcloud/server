@@ -20,13 +20,11 @@ if( isset( $_['message'] ) ) {
 	echo('<p><em>Revert a file to a previous version by clicking on its revert button</em></p><br />');
 	
 	foreach ( $_['versions'] as $v ) {
-	
 		echo ' ';
-		echo OCP\Util::formatDate( $v['version'] );
+		echo OCP\Util::formatDate( doubleval($v['version']) );
 		echo ' <a href="'.OCP\Util::linkTo('files_versions', 'history.php').'?path='.urlencode( $_['path'] ).'&revert='. $v['version'] .'" class="button">Revert</a><br /><br />';
 		if ( $v['cur'] ) { echo '  (<b>Current</b>)'; }
 		echo '<br /><br />';
-		
 	}
 
 }
