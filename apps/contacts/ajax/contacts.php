@@ -31,19 +31,21 @@ foreach($active_addressbooks as $addressbook) {
 $contacts_alphabet = OC_Contacts_VCard::all($ids);
 
 // Our new array for the contacts sorted by addressbook
-foreach($contacts_alphabet as $contact) {
-	if(!isset($contacts_addressbook[$contact['addressbookid']])) { // It should never execute.
-		$contacts_addressbook[$contact['addressbookid']] = array('contacts' => array());
-	}
-	$display = trim($contact['fullname']);
-	if(!$display) {
-		$vcard = OC_Contacts_App::getContactVCard($contact['id']);
-		if(!is_null($vcard)) {
-			$struct = OC_Contacts_VCard::structureContact($vcard);
-			$display = isset($struct['EMAIL'][0])?$struct['EMAIL'][0]['value']:'[UNKNOWN]';
+if($contacts_alphabet) {
+	foreach($contacts_alphabet as $contact) {
+		if(!isset($contacts_addressbook[$contact['addressbookid']])) { // It should never execute.
+			$contacts_addressbook[$contact['addressbookid']] = array('contacts' => array());
 		}
+		$display = trim($contact['fullname']);
+		if(!$display) {
+			$vcard = OC_Contacts_App::getContactVCard($contact['id']);
+			if(!is_null($vcard)) {
+				$struct = OC_Contacts_VCard::structureContact($vcard);
+				$display = isset($struct['EMAIL'][0])?$struct['EMAIL'][0]['value']:'[UNKNOWN]';
+			}
+		}
+		$contacts_addressbook[$contact['addressbookid']]['contacts'][] = array('id' => $contact['id'], 'addressbookid' => $contact['addressbookid'], 'displayname' => htmlspecialchars($display));
 	}
-	$contacts_addressbook[$contact['addressbookid']]['contacts'][] = array('id' => $contact['id'], 'addressbookid' => $contact['addressbookid'], 'displayname' => htmlspecialchars($display));
 }
 unset($contacts_alphabet);
 uasort($contacts_addressbook, 'cmp');
