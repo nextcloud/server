@@ -81,8 +81,8 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 					$files[] = basename($item['target']);
 				}
 			}
-			OC_FakeDirStream::$dirs['shared']=$files;
-			return opendir('fakedir://shared');
+			OC_FakeDirStream::$dirs['shared'.$path] = $files;
+			return opendir('fakedir://shared'.$path);
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
