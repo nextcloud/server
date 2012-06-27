@@ -14,9 +14,9 @@ class OC_Calendar_Export{
 
 	/*
 	 * @brief export a calendar or an event
-	 * @param (int) $id - id of calendar / event
-	 * @param (const) $type - use OC_Calendar_Export constants
-	 * @return (string)
+	 * @param integer $id id of calendar / event
+	 * @param string $type use OC_Calendar_Export constants
+	 * @return string
 	 */
 	public static function export($id, $type){
 		if($type == self::EVENT){
@@ -30,8 +30,8 @@ class OC_Calendar_Export{
 
 	/*
 	 * @brief export a calendar and convert all times to UTC
-	 * @param (int) $id - id of the calendar
-	 * @return (string)
+	 * @param integer $id id of the calendar
+	 * @return string
 	 */
 	private static function calendar($id){
 		$events = OC_Calendar_Object::all($id);
