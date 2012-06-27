@@ -7,6 +7,7 @@
  */
 
 class OC_Contacts_Share extends OCP\Share_Backend {
+	const FORMAT_ADDRESSBOOKS = 1;
 	/**
 	* @brief Get the source of the item to be stored in the database
 	* @param string Item
@@ -37,6 +38,18 @@ class OC_Contacts_Share extends OCP\Share_Backend {
 	* If it does generate a new name e.g. name_#
 	*/
 	public function generateTarget($item, $uid, $exclude = null) {
+		$addressbook = OC_Contacts_Addressbook::find( $item );
+		$user_addressbooks = array();
+		foreach(OC_Contacts_Addressbook::all($uid) as $user_addressbook) {
+			$user_addressbooks[] = $user_addressbooks['displayname'];
+		}
+		$name = $addressbook['uid']."'s ".$addressbook['displayname'];
+		$suffix = '';
+		while (in_array($name.$suffix, $user_addressbooks)) {
+			$suffix++;
+		}
+		
+		return $name.$suffix;
 	}
 
 	/**
@@ -50,5 +63,12 @@ class OC_Contacts_Share extends OCP\Share_Backend {
 	* It is only called through calls to the public getItem(s)SharedWith functions.
 	*/
 	public function formatItems($items, $format) {
+		$addressbooks = array();
+		foreach($items as $source => $info) {
+			$addressbook = OC_Contacts_Addressbook::find( $source );
+			$addressbook['displayname'] = $info['item_target'];
+			$addressbooks[] = $addressbook;
+		}
+		return $addressbooks;
 	}
 }
