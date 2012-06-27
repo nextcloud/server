@@ -5,7 +5,6 @@ require_once('apps/files_versions/versions.php');
 
 $userDirectory = "/".OCP\USER::getUser()."/files";
 $source = $_GET['source'];
-$source = strip_tags( $source );
 
 if( OCA_Versions\Storage::isversioned( $source ) ) {
 
