@@ -17,6 +17,7 @@ if($shared['type'] == OC_Calendar_Share::CALENDAR){
 	header('Content-Disposition: inline; filename=' . str_replace(' ', '-', $calendar['displayname']) . '.ics'); 
 	echo OC_Calendar_Export::export($shared['id'], OC_Calendar_Export::CALENDAR);
 }elseif($shared['type'] == OC_Calendar_Share::EVENT){
+	$data = OC_Calendar_App::getEventObject($shared['id'], false);
 	if(!$data){
 		header('HTTP/1.0 404 Not Found');
 		exit;
