@@ -573,7 +573,7 @@ class OC_App{
 	}
 
 	/**
-	 * get the installed version of all papps
+	 * get the installed version of all apps
 	 */
 	public static function getAppVersions(){
 		static $versions;
