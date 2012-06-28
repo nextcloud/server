@@ -317,8 +317,8 @@ class Storage {
          * cleanup the versions directory if the actual file gets deleted
          */
         public static function removeVersions($params) {
-        	$rel_path =  $params[\OC_Filesystem::signal_param_path];
-        	$abs_path = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser()."/versions".$rel_path.'.v';
+        	$rel_path =  $params['path'];
+        	$abs_path = \OCP\Config::getSystemValue('datadirectory').'/'.\OCP\User::getUser()."/versions".$rel_path.'.v';
         	if(Storage::isversioned($rel_path)) {
         		$versions = Storage::getVersions($rel_path);
         		foreach ($versions as $v){
@@ -336,8 +336,8 @@ class Storage {
          */
         public static function renameVersions($params) {
         	$rel_oldpath =  $params['oldpath'];
-        	$abs_oldpath = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser()."/versions".$rel_oldpath.'.v';
-        	$abs_newpath = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser()."/versions".$params['newpath'].'.v';
+        	$abs_oldpath = \OCP\Config::getSystemValue('datadirectory').'/'.\OCP\User::getUser()."/versions".$rel_oldpath.'.v';
+        	$abs_newpath = \OCP\Config::getSystemValue('datadirectory').'/'.\OCP\User::getUser()."/versions".$params['newpath'].'.v';
         	if(Storage::isversioned($rel_oldpath)) {
         		$versions = Storage::getVersions($rel_oldpath);
         		foreach ($versions as $v){
