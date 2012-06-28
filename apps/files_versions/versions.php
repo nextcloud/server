@@ -311,6 +311,10 @@ class Storage {
 
         /**
          * @brief Erase versions of deleted file
+         * @param array
+         *          
+         * This function is connected to the delete signal of OC_Filesystem
+         * cleanup the versions directory if the actual file gets deleted
          */
         public static function removeVersions($params) {
         	$rel_path =  $params[\OC_Filesystem::signal_param_path];
@@ -319,6 +323,25 @@ class Storage {
         		$versions = Storage::getVersions($rel_path);
         		foreach ($versions as $v){
         			unlink($abs_path . $v['version']);
+        		}
+        	}
+        }
+        
+        /**
+         * @brief rename/move versions of renamed/moved files
+         * @param array with oldpath and newpath
+         * 
+         * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
+         * of the stored versions along the actual file
+         */
+        public static function renameVersions($params) {
+        	$rel_oldpath =  $params['oldpath'];
+        	$abs_oldpath = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser()."/versions".$rel_oldpath.'.v';
+        	$abs_newpath = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser()."/versions".$params['newpath'].'.v';
+        	if(Storage::isversioned($rel_oldpath)) {
+        		$versions = Storage::getVersions($rel_oldpath);
+        		foreach ($versions as $v){
+        			rename($abs_oldpath.$v['version'], $abs_newpath.$v['version']);
         		}
         	}
         }
