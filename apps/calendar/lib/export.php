@@ -49,6 +49,9 @@ class OC_Calendar_Export{
 			$return .= $object->VEVENT->serialize();
 		}
 		$return .= "END:VCALENDAR";
+		$return = str_replace("\r\n", "\n", $return);
+		$return = str_replace("\r", "\n", $return);
+		$return = str_replace("\n", "\r\n", $return);
 		return $return;
 	}
 }
