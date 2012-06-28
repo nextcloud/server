@@ -47,11 +47,18 @@ class OC_Contacts_VCard{
 	 * The cards are associative arrays. You'll find the original vCard in
 	 * ['carddata']
 	 */
-	public static function all($id){
+	public static function all($id, $start=null, $num=null){
+		$limitsql = '';
+		if(!is_null($num)) {
+			$limitsql = ' LIMIT '.$num;
+		}
+		if(!is_null($start) && !is_null($num)) {
+			$limitsql .= ' OFFSET '.$start.' ';
+		}
 		$result = null;
 		if(is_array($id) && count($id)) {
 			$id_sql = join(',', array_fill(0, count($id), '?'));
-			$prep = 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid IN ('.$id_sql.') ORDER BY fullname';
+			$prep = 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid IN ('.$id_sql.') ORDER BY fullname '.$limitsql;
 			try {
 				$stmt = OCP\DB::prepare( $prep );
 				$result = $stmt->execute($id);
@@ -63,7 +70,8 @@ class OC_Contacts_VCard{
 			}
 		} elseif(is_int($id) || is_string($id)) {
 			try {
-				$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
+				$sql = 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname'.$limitsql;
+				$stmt = OCP\DB::prepare( $sql );
 				$result = $stmt->execute(array($id));
 			} catch(Exception $e) {
 				OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);

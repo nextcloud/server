@@ -163,6 +163,7 @@ class OC_Setup {
 						'error' => 'PostgreSQL username and/or password not valid',
 						'hint' => 'You need to enter either an existing account or the administrator.'
 					);
+					return $error;
 				}
 				else {
 					//check for roles creation rights in postgresql
