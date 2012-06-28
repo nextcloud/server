@@ -4,6 +4,7 @@ namespace OC\Pictures;
 
 class DatabaseManager {
 	private static $instance = null;
+	protected $cache = array();
 	const TAG = 'DatabaseManager';
 	
 	public static function getInstance() {
@@ -12,13 +13,27 @@ class DatabaseManager {
 		return self::$instance;
 	}
 	
+	protected function getPathData($path) {
+		$stmt = \OCP\DB::prepare('SELECT * FROM *PREFIX*pictures_images_cache
+			WHERE uid_owner LIKE ? AND path like ? AND path not like ?');
+		$path_match = $path.'/%';
+		$path_notmatch = $path.'/%/%';
+		$result = $stmt->execute(array(\OCP\USER::getUser(), $path_match, $path_notmatch));
+		$this->cache[$path] = array();
+		while (($row = $result->fetchRow()) != false) {
+			$this->cache[$path][$row['path']] = $row;
+		}
+	}
+
 	public function getFileData($path) {
 		$gallery_path = \OCP\Config::getSystemValue( 'datadirectory' ).'/'.\OC_User::getUser().'/gallery';
 		$path = $gallery_path.$path;
-		$stmt = \OCP\DB::prepare('SELECT * FROM *PREFIX*pictures_images_cache WHERE uid_owner LIKE ? AND path = ?');
-		$result = $stmt->execute(array(\OCP\USER::getUser(), $path));
-		if (($row = $result->fetchRow()) != false) {
-			return $row;
+		$dir = dirname($path);
+		if (!isset($this->cache[$dir])) {
+			$this->getPathData($dir);
+		}
+		if (isset($this->cache[$dir][$path])) {
+			return $this->cache[$dir][$path];
 		}
 		$image = new \OC_Image();
 		if (!$image->loadFromFile($path)) {
@@ -28,6 +43,7 @@ class DatabaseManager {
 		$stmt->execute(array(\OCP\USER::getUser(), $path, $image->width(), $image->height()));
 		$ret = array('path' => $path, 'width' => $image->width(), 'height' => $image->height());
 		unset($image);
+		$this->cache[$dir][$path] = $ret;
 		return $ret;
 	}
 	
