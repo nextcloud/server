@@ -309,5 +309,17 @@ class Storage {
 	
         }
 
-
+        /**
+         * @brief Erase versions of deleted file
+         */
+        public static function removeVersions($params) {
+        	$rel_path =  $params[\OC_Filesystem::signal_param_path];
+        	$abs_path = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser()."/versions".$rel_path.'.v';
+        	if(Storage::isversioned($rel_path)) {
+        		$versions = Storage::getVersions($rel_path);
+        		foreach ($versions as $v){
+        			unlink($abs_path . $v['version']);
+        		}
+        	}
+        }
 }
