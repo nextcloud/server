@@ -150,7 +150,7 @@ class OC_Setup {
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
 				$dbhost = $options['dbhost'];
-				$dbtableprefix = $options['dbtableprefix'];
+				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
 				OC_CONFIG::setValue('dbname', $dbname);
 				OC_CONFIG::setValue('dbhost', $dbhost);
 				OC_CONFIG::setValue('dbtableprefix', $dbtableprefix);
@@ -163,6 +163,7 @@ class OC_Setup {
 						'error' => 'PostgreSQL username and/or password not valid',
 						'hint' => 'You need to enter either an existing account or the administrator.'
 					);
+					return $error;
 				}
 				else {
 					//check for roles creation rights in postgresql
@@ -284,12 +285,22 @@ class OC_Setup {
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
 		$e_name = pg_escape_string($name);
 		$e_user = pg_escape_string($user);
-		$query = "CREATE DATABASE \"$e_name\" OWNER \"$e_user\"";
+		$query = "select datname from pg_database where datname = '$e_name'";
 		$result = pg_query($connection, $query);
 		if(!$result) {
 			$entry='DB Error: "'.pg_last_error($connection).'"<br />';
 			$entry.='Offending command was: '.$query.'<br />';
 			echo($entry);
+		}
+		if(! pg_fetch_row($result)) {
+			//The database does not exists... let's create it
+			$query = "CREATE DATABASE \"$e_name\" OWNER \"$e_user\"";
+			$result = pg_query($connection, $query);
+			if(!$result) {
+				$entry='DB Error: "'.pg_last_error($connection).'"<br />';
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			}
 		}
 		$query = "REVOKE ALL PRIVILEGES ON DATABASE \"$e_name\" FROM PUBLIC";
 		$result = pg_query($connection, $query);		
@@ -298,12 +309,32 @@ class OC_Setup {
 	private static function pg_createDBUser($name,$password,$connection) {
 		$e_name = pg_escape_string($name);
 		$e_password = pg_escape_string($password);
-		$query = "CREATE USER \"$e_name\" CREATEDB PASSWORD '$e_password';";
+		$query = "select * from pg_roles where rolname='$e_name';";
 		$result = pg_query($connection, $query);
 		if(!$result) {
 			$entry='DB Error: "'.pg_last_error($connection).'"<br />';
 			$entry.='Offending command was: '.$query.'<br />';
 			echo($entry);
+		}
+
+		if(! pg_fetch_row($result)) {
+			//user does not exists let's create it :)
+			$query = "CREATE USER \"$e_name\" CREATEDB PASSWORD '$e_password';";
+			$result = pg_query($connection, $query);
+			if(!$result) {
+				$entry='DB Error: "'.pg_last_error($connection).'"<br />';
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			}
+		}
+		else { // change password of the existing role
+			$query = "ALTER ROLE \"$e_name\" WITH PASSWORD '$e_password';";
+			$result = pg_query($connection, $query);
+			if(!$result) {
+				$entry='DB Error: "'.pg_last_error($connection).'"<br />';
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			}
 		}
 	}
 

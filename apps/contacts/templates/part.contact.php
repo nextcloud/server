@@ -18,7 +18,14 @@ $id = isset($_['id']) ? $_['id'] : '';
 
 	<iframe name="file_upload_target" id='file_upload_target' src=""></iframe>
 	<div class="tip propertycontainer" id="contacts_details_photo_wrapper" title="<?php echo $l->t('Drop photo to upload'); ?> (max <?php echo $_['uploadMaxHumanFilesize']; ?>)" data-element="PHOTO">
+	<ul id="phototools" class="transparent hidden">
+		<li><a class="svg delete" title="<?php echo $l->t('Delete current photo'); ?>"></a></li>
+		<li><a class="svg edit" title="<?php echo $l->t('Edit current photo'); ?>"></a></li>
+		<li><a class="svg upload" title="<?php echo $l->t('Upload new photo'); ?>"></a></li>
+		<li><a class="svg cloud" title="<?php echo $l->t('Select photo from ownCloud'); ?>"></a></li>
+	</ul>
 	</div>
+	<img />
 	</div> <!-- contact_photo -->
 
 	<div id="contact_identity" class="contactsection">
@@ -104,7 +111,6 @@ $id = isset($_['id']) ? $_['id'] : '';
 	<div id="contacts_propertymenu">
 	<button class="button" id="contacts_propertymenu_button"><?php echo $l->t('Add field'); ?></button>
 	<ul id="contacts_propertymenu_dropdown" role="menu" class="hidden">
-		<li><a role="menuitem" data-type="PHOTO"><?php echo $l->t('Profile picture'); ?></a></li>
 		<li><a role="menuitem" data-type="ORG"><?php echo $l->t('Organization'); ?></a></li>
 		<li><a role="menuitem" data-type="NICKNAME"><?php echo $l->t('Nickname'); ?></a></li>
 		<li><a role="menuitem" data-type="BDAY"><?php echo $l->t('Birthday'); ?></a></li>

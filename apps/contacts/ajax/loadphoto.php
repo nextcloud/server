@@ -42,11 +42,5 @@ foreach($vcard->children as $property){
 	}
 }
 
-$tmpl = new OCP\Template("contacts", "part.contactphoto");
-$tmpl->assign('id', $id);
-if($refresh) {
-	$tmpl->assign('refresh', 1);
-}
-$page = $tmpl->fetchPage();
-OCP\JSON::success(array('data' => array('page'=>$page, 'checksum'=>$checksum)));
-?>
+OCP\JSON::success(array('data' => array('checksum'=>$checksum)));
+

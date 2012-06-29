@@ -73,10 +73,10 @@ label:hover, dt:hover { color: #333; }
 .contactsection { position: relative; float: left; /*max-width: 40em;*/ padding: 0.5em; height: auto: border: thin solid lightgray;/* -webkit-border-radius: 0.5em; -moz-border-radius: 0.5em; border-radius: 0.5em; background-color: #f8f8f8;*/ }
 
 #cropbox { margin: auto; }
-#contacts_details_photo_wrapper { min-width: 120px; }
+#contacts_details_photo_wrapper { width: 200px; }
 #contacts_details_photo_wrapper.wait { opacity: 0.6; filter:alpha(opacity=0.6); z-index:1000; background: url('%webroot%/core/img/loading.gif') no-repeat center center; cursor: wait; }
-#contacts_details_photo { border-radius: 0.5em; border: thin solid #bbb; margin: 0.3em; background: url('%webroot%/core/img/loading.gif') no-repeat center center; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; }
-#contacts_details_photo:hover { background: #fff; cursor: default; }
+.contacts_details_photo { border-radius: 0.5em; border: thin solid #bbb; margin: 0.3em; background: url('%webroot%/core/img/loading.gif') no-repeat center center; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; opacity: 1; }
+.contacts_details_photo:hover { background: #fff; cursor: default; }
 #phototools { position:absolute; margin: 5px 0 0 10px; width:auto; height:22px; padding:0px; background-color:#fff; list-style-type:none; border-radius: 0.5em; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; }
 #phototools li { display: inline; }
 #phototools li a { float:left; cursor:pointer; width:22px; height:22px; opacity: 0.6; }
