@@ -103,6 +103,7 @@ $(document).ready(function() {
 		});
 		$('.chz-select').chosen();
 		$(tr).find('td').last().attr('class', 'remove');
+		$(tr).find('td').last().removeAttr('style');
 		$(tr).removeAttr('id');
 		$(this).remove();
 	});

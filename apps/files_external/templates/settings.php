@@ -74,7 +74,7 @@
 							</select>
 						</td>
 					<?php endif; ?>
-					<td <?php if ($mountPoint != '') echo 'class="remove"'; ?>><img alt="<?php echo $l->t('Delete'); ?>" title="<?php echo $l->t('Delete'); ?>" class="svg action" src="<?php echo image_path('core', 'actions/delete.svg'); ?>" /></td>
+					<td <?php echo ($mountPoint != '') ? 'class="remove"' : 'style="visibility:hidden;"'; ?>><img alt="<?php echo $l->t('Delete'); ?>" title="<?php echo $l->t('Delete'); ?>" class="svg action" src="<?php echo image_path('core', 'actions/delete.svg'); ?>" /></td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>
