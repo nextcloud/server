@@ -186,7 +186,7 @@ $(document).ready(function(){
 	})
 	
 	$('input.quota-other').live('change',function(){
-		var uid=$(this).parent().parent().data('uid');
+		var uid=$(this).parent().parent().parent().data('uid');
 		var quota=$(this).val();
 		var select=$(this).prev();
 		var other=$(this);
