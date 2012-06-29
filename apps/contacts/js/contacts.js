@@ -1621,19 +1621,21 @@ Contacts={
 							var contactlist = $('#contacts ul[data-id="'+b+'"]');
 							for(var c in book.contacts) {
 								if(book.contacts[c].id == undefined) { continue; }
-								var contact = Contacts.UI.Card.createEntry(book.contacts[c]);
-								if(c == self.batchnum-5) {
-									contact.bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
-										$(this).unbind(event);
-										var bookid = $(this).data('bookid');
-										var numsiblings = $('.contacts li[data-bookid="'+bookid+'"]').length;
-										if (isInView && numsiblings >= self.batchnum) {
-											console.log('This would be a good time to load more contacts.');
-											Contacts.UI.Contacts.update(id, bookid, $('#contacts li[data-bookid="'+bookid+'"]').length);
-										}
-									});
+								if($('#contacts li[data-id="'+book.contacts[c]['id']+'"][data-id="'+book.contacts[c]['bookid']+'"]').length == 0) {
+									var contact = Contacts.UI.Card.createEntry(book.contacts[c]);
+									if(c == self.batchnum-5) {
+										contact.bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
+											$(this).unbind(event);
+											var bookid = $(this).data('bookid');
+											var numsiblings = $('.contacts li[data-bookid="'+bookid+'"]').length;
+											if (isInView && numsiblings >= self.batchnum) {
+												console.log('This would be a good time to load more contacts.');
+												Contacts.UI.Contacts.update(id, bookid, $('#contacts li[data-bookid="'+bookid+'"]').length);
+											}
+										});
+									}
+									contactlist.append(contact);
 								}
-								contactlist.append(contact);
 							}
 						});
 						if($('#contacts h3').length > 1) {
