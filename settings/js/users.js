@@ -40,7 +40,13 @@ $(document).ready(function(){
 		}else{
 			checkHandeler=false;
 		}
+		var addGroup = function(group) {
+			$('select[multiple]').each(function(index, element) {
+				$(element).append('<option value="'+group+'">'+group+'</option>');
+			})
+		};
 		element.multiSelect({
+			createCallback:addGroup,
 			createText:'add group',
 			checked:checked,
 			oncheck:checkHandeler,
