@@ -73,7 +73,8 @@ $(document).ready(function() {
 	
 	$('#selectBackend').live('change', function() {
 		var tr = $(this).parent().parent();
-		$('#externalStorage tbody').last().append($(tr).clone());
+		$('#externalStorage tbody').append($(tr).clone());
+		$('#externalStorage tbody tr').last().find('.mountPoint input').val('');
 		var selected = $(this).find('option:selected').text();
 		var backendClass = $(this).val();
 		$(this).parent().text(selected);
