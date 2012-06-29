@@ -35,6 +35,7 @@
 		}
 
 		button.click(function(event){
+			
 			var button=$(this);
 			if(button.parent().children('ul').length>0){
 				button.parent().children('ul').slideUp(400,function(){
@@ -136,11 +137,11 @@
 							var option=$('<option selected="selected"/>');
 							option.attr('value',$(this).val());
 							option.text($(this).val());
-							select.append(options);
+							select.append(option);
 							li.prev().children('input').trigger('click');
 							button.parent().data('preventHide',false);
 							if(settings.createCallback){
-								settings.createCallback();
+								settings.createCallback($(this).val());
 							}
 						}
 					});
