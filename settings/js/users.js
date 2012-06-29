@@ -42,7 +42,9 @@ $(document).ready(function(){
 		}
 		var addGroup = function(group) {
 			$('select[multiple]').each(function(index, element) {
-				$(element).append('<option value="'+group+'">'+group+'</option>');
+				if ($(element).find('option[value="'+group +'"]').length == 0) {
+					$(element).append('<option value="'+group+'">'+group+'</option>');
+				}
 			})
 		};
 		element.multiSelect({
