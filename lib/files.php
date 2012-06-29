@@ -167,7 +167,7 @@ class OC_Files {
 	* @param file $target
 	*/
 	public static function move($sourceDir,$source,$targetDir,$target){
-		if(OC_User::isLoggedIn() && ($sourceDir != '' || $source != 'Shared') && !OC_Filesystem::file_exists($tagetDir.'/'.$target)){
+		if(OC_User::isLoggedIn() && ($sourceDir != '' || $source != 'Shared') && !OC_Filesystem::file_exists($targetDir.'/'.$target)){
 			$targetFile=self::normalizePath($targetDir.'/'.$target);
 			$sourceFile=self::normalizePath($sourceDir.'/'.$source);
 			return OC_Filesystem::rename($sourceFile,$targetFile);
