@@ -39,7 +39,7 @@
 									<?php elseif(strpos($placeholder, '!') !== false): ?>
 										<label><input type="checkbox" data-parameter="<?php echo $parameter; ?>" <?php if ($value == 'true') echo ' checked="checked"'; ?>  /><?php echo substr($placeholder, 1); ?></label>
 									<?php elseif (strpos($placeholder, '&') !== false): ?>
-										<input type="text" class="optional" data-parameter="<?php echo $parameter; ?>" value="<?php echo $value; ?>" placeholder="<?php echo substr($placeholder, 1); ?>" />
+										<input type="text" class="optional" data-parameter="<?php echo $parameter; ?>" value="<?php echo $value; ?>" placeholder="<?php echo substr($placeholder, 5); ?>" />
 									<?php elseif (strpos($placeholder, '#') !== false): ?>
 										<input type="hidden" data-parameter="<?php echo $parameter; ?>" value="<?php echo $value; ?>" />
 									<?php else: ?>
