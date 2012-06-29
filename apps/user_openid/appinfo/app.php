@@ -50,5 +50,3 @@ if(isset($_GET['openid_mode']) and $_GET['openid_mode'] == 'id_res'){
 	OCP\Util::writeLog('user_openid','USER CANCELED REQUEST',OCP\Util::DEBUG);
 	return false;
 }
-
-?>

@@ -63,7 +63,3 @@ class OC_USER_OPENID extends OC_User_Backend {
 		}
 	}
 }
-
-
-
-?>
