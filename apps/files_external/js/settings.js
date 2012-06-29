@@ -27,7 +27,7 @@ OC.MountConfig={
 			}
 		});
 		if (addMountPoint) {
-			if ($('#externalStorage').data('admin')) {
+			if ($('#externalStorage').data('admin') === true) {
 				var isPersonal = false;
 				var multiselect = $(tr).find('.chzn-select').val();
 				var oldGroups = $(tr).find('.applicable').data('applicable-groups');
@@ -117,7 +117,7 @@ $(document).ready(function() {
 		if (mountPoint == '') {
 			return false;
 		}
-		if ($('#externalStorage').data('admin')) {
+		if ($('#externalStorage').data('admin') === true) {
 			var isPersonal = false;
 			var multiselect = $(tr).find('.chzn-select').val();
 			$.each(multiselect, function(index, value) {

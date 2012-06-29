@@ -96,8 +96,8 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 			foreach ($response->body->CommonPrefixes as $object) {
 				$files[] = basename($object->Prefix);
 			}
-			OC_FakeDirStream::$dirs['amazons3'] = $files;
-			return opendir('fakedir://amazons3');
+			OC_FakeDirStream::$dirs['amazons3'.$path] = $files;
+			return opendir('fakedir://amazons3'.$path);
 		}
 		return false;
 	}

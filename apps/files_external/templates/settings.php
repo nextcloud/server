@@ -1,7 +1,7 @@
 <form id="files_external">
 	<fieldset class="personalblock">
 	<legend><strong><?php echo $l->t('External Storage'); ?></strong></legend>
-		<table id="externalStorage" data-admin="<?php echo json_encode($_['isAdminPage']); ?>">
+		<table id="externalStorage" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
 			<thead>
 				<tr>
 					<th><?php echo $l->t('Mount point'); ?></th>
