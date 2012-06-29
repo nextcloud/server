@@ -20,10 +20,14 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	private static $tempFiles=array();
 	
 	public function __construct($params){
-		$this->host=$params['host'];
+		$host = $params['host'];
+		//remove leading http[s], will be generated in createBaseUri()
+		if (substr($host,0,8) == "https://") $host = substr($host, 8);
+		else if (substr($host,0,7) == "http://") $host = substr($host, 7);
+		$this->host=$host;
 		$this->user=$params['user'];
 		$this->password=$params['password'];
-		$this->secure=isset($params['secure'])?(bool)$params['secure']:false;
+		$this->secure=(isset($params['secure']) && $params['secure'] == 'true')?true:false;
 		$this->root=isset($params['root'])?$params['root']:'/';
 		if(!$this->root || $this->root[0]!='/'){
 			$this->root='/'.$this->root;
@@ -46,7 +50,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	private function createBaseUri(){
 		$baseUri='http';
 		if($this->secure){
-			$baseUri.'s';
+			$baseUri.='s';
 		}
 		$baseUri.='://'.$this->host.$this->root;
 		return $baseUri;
