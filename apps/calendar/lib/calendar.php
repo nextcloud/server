@@ -267,7 +267,7 @@ class OC_Calendar_Calendar{
 			'url' => OCP\Util::linkTo('calendar', 'ajax/events.php').'?calendar_id='.$calendar['id'],
 			'backgroundColor' => $calendar['calendarcolor'],
 			'borderColor' => '#888',
-			'textColor' => 'black',
+			'textColor' => self::generateTextColor($calendar['calendarcolor']),
 			'cache' => true,
 		);
 	}
@@ -286,5 +286,22 @@ class OC_Calendar_Calendar{
 			}
 		}
 		return true;
+	}
+	
+	/*
+	 * @brief generates the text color for the calendar
+	 * @param integer $calendarname
+	 * @return boolean
+	 */
+	public static function generateTextColor($calendarcolor){
+		if(substr_count($calendarcolor, '#') == 1){
+			$calendarcolor = substr($calendarcolor,1);
+		}
+		$red = hexdec(substr($calendarcolor,0,2));
+		$green = hexdec(substr($calendarcolor,2,2));
+		$blue = hexdec(substr($calendarcolor,2,2));
+		//recommendation by W3C
+		$computation = ((($red * 299) + ($green * 587) + ($blue * 114)) / 1000);
+		return ($computation > 130)?'black':'white';
 	}
 }
