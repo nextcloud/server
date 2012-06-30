@@ -23,4 +23,4 @@ if ($dir != '/Shared' || OCP\Config::getAppValue('files_sharing', 'resharing', '
 OCP\Util::addscript("3rdparty", "chosen/chosen.jquery.min");
 OCP\Util::addStyle( 'files_sharing', 'sharing' );
 OCP\Util::addStyle("3rdparty", "chosen/chosen");
-OCP\Share::registerBackend('file', new OC_Share_Backend_File());
+OCP\Share::registerBackend('file', 'OC_Share_Backend_File');

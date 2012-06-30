@@ -22,4 +22,4 @@ OCP\App::addNavigationEntry( array(
 OCP\App::registerPersonal('contacts','settings');
 OCP\Util::addscript('contacts', 'loader');
 OC_Search::registerProvider('OC_Search_Provider_Contacts');
-OCP\Share::registerBackend('addressbook', new OC_Contacts_Share());
+OCP\Share::registerBackend('addressbook', 'OC_Contacts_Share');
