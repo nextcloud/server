@@ -43,26 +43,22 @@ class Share {
 	private static $shareTypeUserAndGroups = -1;
 	private static $shareTypeGroupUserUnique = 2;
 	private static $backends = array();
+	private static $backendTypes = array();
 
 	/**
 	* @brief Register a sharing backend class that extends OCP\Share_Backend for an item type
 	* @param string Item type
-	* @param object Backend class
+	* @param string Backend class
 	* @param string (optional) Depends on item type
 	* @param array (optional) List of supported file extensions if this item type depends on files
 	* @return Returns true if backend is registered or false if error
 	*/
-	public static function registerBackend($itemType, $class) {
-		if (is_subclass_of($class, 'OCP\Share_Backend')) {
-			if (!isset(self::$backends[$itemType])) {
-				self::$backends[$itemType] = $class;
-				return true;
-			} else {
-				\OC_Log::write('OCP\Share', 'Sharing backend '.get_class($class).' not registered, '.get_class(self::$backends[$itemType]).' is already registered for '.$itemType, \OC_Log::WARN);
-				return false;
-			}
+	public static function registerBackend($itemType, $class, $dependsOn = null, $supportedFileExtensions = null) {
+		if (!isset(self::$backendTypes[$itemType])) {
+			self::$backendTypes[$itemType] = array('class' => $class, 'dependsOn' => $dependsOn, 'supportedFileExtensions' => $supportedFileExtensions);
+			return true;
 		}
-		\OC_Log::write('OCP\Share', 'Sharing backend '.get_class($class).' not registered, the class must extend abstract class OC_Share_Backend', \OC_Log::ERROR);
+		\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class'].' is already registered for '.$itemType, \OC_Log::WARN);
 		return false;
 	}
 
@@ -344,6 +340,19 @@ class Share {
 	private static function getBackend($itemType) {
 		if (isset(self::$backends[$itemType])) {
 			return self::$backends[$itemType];
+		} else if (isset(self::$backendTypes[$itemType]['class'])) {
+			$class = self::$backendTypes[$itemType]['class'];
+			if (class_exists($class)) {
+				self::$backends[$itemType] = new $class;
+				if (!is_subclass_of(self::$backends[$itemType], 'OCP\Share_Backend')) {
+					\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' must extend abstract class OC_Share_Backend', \OC_Log::ERROR);
+					return false;
+				}
+				return self::$backends[$itemType];
+			} else {
+				\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not found', \OC_Log::ERROR);
+				return false;
+			}
 		}
 		\OC_Log::write('OCP\Share', 'Sharing backend for '.$itemType.' not found', \OC_Log::ERROR);
 		return false;
