@@ -290,7 +290,8 @@ class OC_Calendar_Calendar{
 	
 	/*
 	 * @brief generates the text color for the calendar
-	 * @param integer $calendarname
+	 * @param string $calendarcolor rgb calendar color code in hex format (with or without the leading #)
+	 * (this function doesn't pay attention on the alpha value of rgba color codes)
 	 * @return boolean
 	 */
 	public static function generateTextColor($calendarcolor){
