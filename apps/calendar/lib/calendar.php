@@ -5,7 +5,7 @@
  * later.
  * See the COPYING-README file.
  */
-/*
+/**
  *
  * The following SQL statement is just a help for developers and will not be
  * executed!
@@ -201,7 +201,7 @@ class OC_Calendar_Calendar{
 		return true;
 	}
 	
-	/*
+	/**
 	 * @brief merges two calendars
 	 * @param integer $id1
 	 * @param integer $id2
@@ -240,7 +240,7 @@ class OC_Calendar_Calendar{
 		return $userid;
 	}
 	
-	/*
+	/**
 	 * @brief returns the possible color for calendars
 	 * @return array
 	 */
@@ -257,7 +257,7 @@ class OC_Calendar_Calendar{
 		);
 	}
 
-	/*
+	/**
 	 * @brief generates the Event Source Info for our JS
 	 * @param array $calendar calendar data
 	 * @return array

@@ -5,13 +5,13 @@
  * later.
  * See the COPYING-README file.
  */
-/*
+/**
  * This class manages shared calendars
  */
 class OC_Calendar_Share{
 	const CALENDAR = 'calendar';
 	const EVENT = 'event';
-	/*
+	/**
 	 * @brief: returns informations about all calendar or events which users are sharing with the user - userid
 	 * @param: string $userid - id of the user
 	 * @param: string $type - use const self::CALENDAR or self::EVENT
@@ -33,7 +33,7 @@ class OC_Calendar_Share{
 		}
 		return $return;
 	}
-	/*
+	/**
 	 * @brief: returns all users a calendar / event is shared with
 	 * @param: integer id - id of the calendar / event
 	 * @param: string $type - use const self::CALENDAR or self::EVENT
@@ -48,7 +48,7 @@ class OC_Calendar_Share{
 		}
 		return $users;
 	}
-	/*
+	/**
 	 * @brief: shares a calendar / event
 	 * @param: string $owner - userid of the owner
 	 * @param: string $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
@@ -80,7 +80,7 @@ class OC_Calendar_Share{
 			return true;
 		}
 	}
-	/*
+	/**
 	 * @brief: stops sharing a calendar / event
 	 * @param: string $owner - userid of the owner
 	 * @param: string $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
@@ -98,7 +98,7 @@ class OC_Calendar_Share{
 		}
 		return true;
 	}
-	/*
+	/**
 	 * @brief: changes the permission for a calendar / event
 	 * @param: string $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
 	 * @param: string $sharetype - type of sharing (can be: user/group/public)
@@ -115,7 +115,7 @@ class OC_Calendar_Share{
 		$stmt->execute(array($permission, $share, $sharetype, $id));
 		return true;
 	}
-	/*
+	/**
 	 * @brief: generates a token for public calendars / events
 	 * @return: string $token
 	 */
@@ -138,7 +138,7 @@ class OC_Calendar_Share{
 		$token = md5($string);
 		return substr($token, rand(0,16), 15);
 	}
-	/*
+	/**
 	 * @brief: checks if it is already shared
 	 * @param: string $owner - userid of the owner
 	 * @param: string $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
@@ -181,7 +181,7 @@ class OC_Calendar_Share{
 		}
 		return $active_where;
 	}
-	/*
+	/**
 	 * @brief: checks the permission for editing an event
 	 * @param: string $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
 	 * @param: string $id - id of the calendar / event
@@ -202,7 +202,7 @@ class OC_Calendar_Share{
 		}
 		return false;
 	}
-	/*
+	/**
 	 * @brief: checks the access of 
 	 * @param: string $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
 	 * @param: string $id - id of the calendar / event
@@ -223,7 +223,7 @@ class OC_Calendar_Share{
 			return false;
 		}
 	}
-        /*
+        /**
          * @brief: returns the calendardata of an event or a calendar
          * @param: string $token - token which should be searched
          * @return: mixed - bool if false, array with type and id if true
@@ -248,7 +248,7 @@ class OC_Calendar_Share{
 			return $return;
         }
 		
-		/*
+		/**
 		 * @brief sets the active status of the calendar
 		 * @param string 
 		 */
@@ -257,7 +257,7 @@ class OC_Calendar_Share{
 			$stmt->execute(array($active, $share, $id));
 		}
 
-		/*
+		/**
 		 * @brief deletes all shared calendars / events after a user was deleted
 		 * @param string $userid
 		 * @return boolean
@@ -274,7 +274,7 @@ class OC_Calendar_Share{
 			return true;
 		}
 		
-		/*
+		/**
 		 * @brief deletes all shared events of a calendar
 		 * @param integer $calid
 		 * @return boolean
@@ -285,7 +285,7 @@ class OC_Calendar_Share{
 			return true;
 		}
 		
-		/*
+		/**
 		 * @brief deletes all shares of an event
 		 * @param integer $eventid
 		 * @return boolean

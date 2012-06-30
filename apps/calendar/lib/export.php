@@ -5,17 +5,17 @@
  * later.
  * See the COPYING-README file.
  */
-/*
+/**
  * This class does export and converts all times to UTC
  */
 class OC_Calendar_Export{
-	/*
+	/**
 	 * @brief Use one of these constants as second parameter if you call OC_Calendar_Export::export()
 	 */
 	const CALENDAR = 'calendar';
 	const EVENT = 'event';
 
-	/*
+	/**
 	 * @brief export a calendar or an event
 	 * @param integer $id id of calendar / event
 	 * @param string $type use OC_Calendar_Export constants
@@ -30,7 +30,7 @@ class OC_Calendar_Export{
 		return self::fixLineBreaks($return);
 	}
 
-	/*
+	/**
 	 * @brief exports a calendar and convert all times to UTC
 	 * @param integer $id id of the calendar
 	 * @return string
@@ -46,7 +46,7 @@ class OC_Calendar_Export{
 		return $return;
 	}
 	
-	/*
+	/**
 	 * @brief exports an event and convert all times to UTC
 	 * @param integer $id id of the event
 	 * @return string
@@ -59,7 +59,7 @@ class OC_Calendar_Export{
 		return $return;
 	 }
 	 
-	 /*
+	 /**
 	  * @brief generates the VEVENT with UTC dates
 	  * @param array $event
 	  * @return string
@@ -79,7 +79,7 @@ class OC_Calendar_Export{
 		return $object->VEVENT->serialize();
 	}
 	
-	/*
+	/**
 	 * @brief fixes new line breaks
 	 * (fixes problems with Apple iCal)
 	 * @param string $string to fix
