@@ -303,6 +303,6 @@ class OC_Calendar_Calendar{
 		$blue = hexdec(substr($calendarcolor,2,2));
 		//recommendation by W3C
 		$computation = ((($red * 299) + ($green * 587) + ($blue * 114)) / 1000);
-		return ($computation > 130)?'black':'white';
+		return ($computation > 130)?'#000000':'#FAFAFA';
 	}
 }
