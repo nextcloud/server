@@ -528,7 +528,7 @@ class OC_DB {
 	 	self::removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
 	 	
 	 	foreach($apps as $app){
-	 		$path = self::getAppPath($app).'/appinfo/database.xml';
+	 		$path = OC_App::getAppPath($app).'/appinfo/database.xml';
 	 		if(file_exists($path)){
 	 			self::removeDBStructure( $path );	
 	 		}
