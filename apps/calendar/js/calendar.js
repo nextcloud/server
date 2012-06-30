@@ -635,12 +635,12 @@ Calendar={
 				$.post(OC.filePath('calendar', 'ajax/import', 'dropimport.php'), {'data':data},function(result) {
 					if(result.status == 'success'){
 						$('#calendar_holder').fullCalendar('addEventSource', result.eventSource);
-						$('#notification').html(result.count + ' Events has been saved in the new calendar ' + result.newcalendarname);
+						$('#notification').html(result.message);
 						$('#notification').slideDown();
 						window.setTimeout(function(){$('#notification').slideUp();}, 5000);
 						return true;
 					}else{
-						$('#notification').html('ownCloud wasn\'t able to import at least one file. File skipped.');
+						$('#notification').html(result.message);
 						$('#notification').slideDown();
 						window.setTimeout(function(){$('#notification').slideUp();}, 5000);
 					}

@@ -95,8 +95,12 @@ class OC_Calendar_Import{
 			$object->DTEND->setDateTime($dtend->getDateTime(), $object->DTSTART->getDateType());
 			$object->DTEND->getDateTime()->setTimezone(new DateTimeZone($this->tz));
 			$vcalendar = $this->createVCalendar($object->serialize());
-			OC_Calendar_Object::add($this->id, $vcalendar);
-			$this->count++;
+			$insertid = OC_Calendar_Object::add($this->id, $vcalendar);
+			if($this->isDuplicate($insertid)){
+				OC_Calendar_Object::delete($insertid);
+			}else{
+				$this->count++;	
+			}
 		}
 		return true;
 	}
@@ -240,10 +244,18 @@ class OC_Calendar_Import{
 	
 	/*
 	 * @brief checks if an event already exists in the user's calendars
+	 * @param integer $insertid id of the new object
 	 * @return boolean
 	 */
-	private function isDuplicate(){
-
+	private function isDuplicate($insertid){
+		$newobject = OC_Calendar_Object::find($insertid);
+		$stmt = OCP\DB::prepare('SELECT COUNT(*) as count FROM *PREFIX*calendar_objects WHERE objecttype=? AND startdate=? AND enddate=? AND repeating=? AND summary=? AND calendardata=?');
+		$result = $stmt->execute(array($newobject['objecttype'],$newobject['startdate'],$newobject['enddate'],$newobject['repeating'],$newobject['summary'],$newobject['calendardata']));
+		$result = $result->fetchRow();
+		if($result['count'] >= 2){
+			return true;
+		}
+		return false;
 	}
 	
 	/*

@@ -23,4 +23,10 @@ $newcalendarname = strip_tags($import->createCalendarName());
 $newid = OC_Calendar_Calendar::addCalendar(OCP\User::getUser(),$newcalendarname,'VEVENT,VTODO,VJOURNAL',null,0,$import->createCalendarColor());
 $import->setCalendarID($newid);
 $import->import();
-OCP\JSON::success(array('newcalendarname'=>$newcalendarname, 'count'=>$import->getCount(), 'newcalendarid'=>$newid, 'eventSource'=>OC_Calendar_Calendar::getEventSourceInfo(OC_Calendar_Calendar::find($newid))));
+$count = $import->getCount();
+if($count == 0){
+	OC_Calendar_Calendar::deleteCalendar($newid);
+	OCP\JSON::error(array('message'=>OC_Calendar_App::$l10n->t('The file contained either no events or all events are already saved in your account')));
+}else{
+	OCP\JSON::success(array('message'=>$count . ' ' . OC_Calendar_App::$l10n->t('events has been saved in the new calendar') . ' ' . $newcalendarname, 'eventSource'=>OC_Calendar_Calendar::getEventSourceInfo(OC_Calendar_Calendar::find($newid))));
+}
