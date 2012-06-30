@@ -12,6 +12,7 @@
 .ui-draggable-dragging { width: 16em; }
 .ui-state-hover { border: 1px solid dashed; }
 #bottomcontrols { padding: 0; bottom:0px; height:2.8em; width: 20em; margin:0; background:#eee; border-top:1px solid #ccc; position:fixed; -moz-box-shadow: 0 -3px 3px -3px #000; -webkit-box-shadow: 0 -3px 3px -3px #000; box-shadow: 0 -3px 3px -3px #000;}
+#bottomcontrols img { margin-top: 0.35em; }
 #contacts_newcontact { float: left; margin: 0.2em 0 0 1em; }
 #chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }
 #actionbar { height: 30px; width: 60px; position: fixed; right: 0px; top: 4em; margin: 0 0 0 0; padding: 0 0 0 0; z-index: 1000; }
