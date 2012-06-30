@@ -43,6 +43,11 @@ class OC_Calendar_Import{
 	 * @brief var saves the timezone the events shell converted to
 	 */
 	private $tz;
+	
+	/*
+	 * @brief var saves the userid
+	 */
+	private $userid;
 
 	/*
 	 * public methods 
@@ -69,20 +74,21 @@ class OC_Calendar_Import{
 	
 	/*
 	 * @brief imports a calendar
-	 * @param boolean $force force import even though calendar is not valid
 	 * @return boolean
 	 */
-	public function import($force = false){
-		if(!$this->isValid() && !$force){
+	public function import(){
+		if(!$this->isValid()){
 			return false;
 		}
 		foreach($this->calobject->getComponents() as $object){
 			if(!($object instanceof Sabre_VObject_Component_VEvent) && !($object instanceof Sabre_VObject_Component_VJournal) && !($object instanceof Sabre_VObject_Component_VTodo)){
 				continue;
 			}
-			
-			
-			
+			$object->DTSTART->getDateTime()->setTimezone(new DateTimeZone($this->tz));
+			$object->DTEND = OC_Calendar_Object::getDTEndFromVEvent($object);
+			$object->DTEND->getDateTime()->setTimezone(new DateTimeZone($this->tz));
+			$vcalendar = $this->createVCalendar($object->serialize());
+			OC_Calendar_Object::add($this->id, $vcalendar);
 		}
 		return true;
 	}
@@ -135,14 +141,13 @@ class OC_Calendar_Import{
 	
 	/*
 	 * @brief generates a new calendar name
-	 * @param string $userid 
 	 * @return string
 	 */
-	public function createCalendarName($userid){	
-		$calendars = OC_Calendar_Calendar::allCalendars($userid);
+	public function createCalendarName(){	
+		$calendars = OC_Calendar_Calendar::allCalendars($this->userid);
 		$calendarname = $guessedcalendarname = !is_null($this->guessCalendarName())?($this->guessCalendarName()):(OC_Calendar_App::$l10n->t('New Calendar'));
 		$i = 1;
-		while(!OC_Calendar_Calendar::isCalendarNameavailable($calendarname, $userid)){
+		while(!OC_Calendar_Calendar::isCalendarNameavailable($calendarname, $this->userid)){
 			$calendarname = $guessedcalendarname . ' (' . $i . ')';
 			$i++;
 		}
@@ -153,8 +158,8 @@ class OC_Calendar_Import{
 	 * @brief generates a new calendar color
 	 * @return string
 	 */
-	public function createCalendarColor($userid){
-		if(is_null($this->guessCalendarColor()))){
+	public function createCalendarColor(){
+		if(is_null($this->guessCalendarColor())){
 			return '#9fc6e7';
 		}
 		return $this->guessCalendarColor();
@@ -165,9 +170,19 @@ class OC_Calendar_Import{
 	 * @param integer $id of the calendar
 	 * @return boolean
 	 */
-	public static function setCalendarID($id){
+	public function setCalendarID($id){
 		$this->id = $id;
-		return true:
+		return true;
+	}
+	
+	/*
+	 * @brief sets the userid to import the calendar
+	 * @param string $id of the user
+	 * @return boolean
+	 */
+	public function setUserID($userid){
+		$this->userid = $userid;
+		return true;
 	}
 
 	/*
@@ -207,12 +222,12 @@ class OC_Calendar_Import{
 	}
 	
 	/*
-	 * @brief 
-	 * @return 
+	 * @brief checks if an event already exists in the user's calendars
+	 * @return boolean
 	 */
-	//private function (){
+	private function isDuplicate(){
 
-	//}
+	}
 	
 	/*
 	 * @brief 
@@ -223,7 +238,7 @@ class OC_Calendar_Import{
 	//}
 
 	/*
-	 * private methods for prerendering of X-... Attributes
+	 * private methods for (pre)rendering of X-... Attributes
 	 */
 	
 	/*

@@ -12,15 +12,14 @@ $data = base64_decode($data);
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
 $import = new OC_Calendar_Import($data);
+$import->setUserID(OCP\User::getUser());
 $import->setTimeZone(OC_Calendar_App::$tz);
 $import->disableProgressCache();
 if(!$import->isValid()){
 	OCP\JSON::error();
 	exit;
 }
-$calendarname = $import->createCalendarName(OCP\User::getUser());
-$calendarcolor = $import->createCalendarColor();
-$newid = OC_Calendar_Calendar::addCalendar(OCP\User::getUser(),strip_tags($calendarname),'VEVENT,VTODO,VJOURNAL',null,0,$calendarcolor);
+$newid = OC_Calendar_Calendar::addCalendar(OCP\User::getUser(),strip_tags($import->createCalendarName()),'VEVENT,VTODO,VJOURNAL',null,0,$import->createCalendarColor());
 $import->setCalendarID($newid);
 $import->import();
 OCP\JSON::success();
