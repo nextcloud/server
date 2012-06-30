@@ -19,7 +19,8 @@ if(!$import->isValid()){
 	OCP\JSON::error();
 	exit;
 }
-$newid = OC_Calendar_Calendar::addCalendar(OCP\User::getUser(),strip_tags($import->createCalendarName()),'VEVENT,VTODO,VJOURNAL',null,0,$import->createCalendarColor());
+$newcalendarname = strip_tags($import->createCalendarName());
+$newid = OC_Calendar_Calendar::addCalendar(OCP\User::getUser(),$newcalendarname,'VEVENT,VTODO,VJOURNAL',null,0,$import->createCalendarColor());
 $import->setCalendarID($newid);
 $import->import();
-OCP\JSON::success();
+OCP\JSON::success(array('newcalendarname'=>$newcalendarname, 'count'=>$import->getCount(), 'newcalendarid'=>$newid, 'eventSource'=>OC_Calendar_Calendar::getEventSourceInfo(OC_Calendar_Calendar::find($newid))));

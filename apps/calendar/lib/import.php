@@ -20,6 +20,11 @@ class OC_Calendar_Import{
 	private $calobject;
 	
 	/*
+	 * @brief var counts the number of imported elements
+	 */
+	private $count;
+	
+	/*
 	 * @brief var to check if errors happend while initialization
 	 */
 	private $error;
@@ -62,6 +67,7 @@ class OC_Calendar_Import{
 	public function __construct($ical){
 		$this->error = null;
 		$this->ical = $ical;
+		$this->count = 0;
 		try{
 			$this->calobject = OC_VObject::parse($this->ical);
 		}catch(Exception $e){
@@ -89,6 +95,7 @@ class OC_Calendar_Import{
 			$object->DTEND->getDateTime()->setTimezone(new DateTimeZone($this->tz));
 			$vcalendar = $this->createVCalendar($object->serialize());
 			OC_Calendar_Object::add($this->id, $vcalendar);
+			$this->count++;
 		}
 		return true;
 	}
@@ -183,6 +190,15 @@ class OC_Calendar_Import{
 	public function setUserID($userid){
 		$this->userid = $userid;
 		return true;
+	}
+	
+	/*
+	 * @brief returns the private 
+	 * @param string $id of the user
+	 * @return boolean
+	 */
+	public function getCount(){
+		return $this->count;
 	}
 
 	/*
