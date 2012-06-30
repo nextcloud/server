@@ -8,6 +8,7 @@ OC::$CLASSPATH['OC_Connector_Sabre_CalDAV'] = 'apps/calendar/lib/connector_sabre
 OC::$CLASSPATH['OC_Calendar_Repeat'] = 'apps/calendar/lib/repeat.php';
 OC::$CLASSPATH['OC_Calendar_Share'] = 'apps/calendar/lib/share.php';
 OC::$CLASSPATH['OC_Search_Provider_Calendar'] = 'apps/calendar/lib/search.php';
+OC::$CLASSPATH['OC_Calendar_Export'] = 'apps/calendar/lib/export.php';
 //General Hooks
 OCP\Util::connectHook('OC_User', 'post_deleteUser', 'OC_Calendar_Hooks', 'deleteUser');
 //Repeating Events Hooks
