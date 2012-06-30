@@ -37,7 +37,8 @@ class OC_Calendar_Export{
 	 */
 	private static function calendar($id){
 		$events = OC_Calendar_Object::all($id);
-		$return = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:ownCloud Calendar " . OCP\App::getAppVersion('calendar') . "\n";
+		$calendar = OC_Calendar_Calendar::find($id);
+		$return = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:ownCloud Calendar " . OCP\App::getAppVersion('calendar') . "\nX-WR-CALNAME:" . $calendar['displayname'] . "\n";
 		foreach($events as $event){
 			$return .= self::generateEvent($event);
 		}
@@ -52,7 +53,7 @@ class OC_Calendar_Export{
 	 */
 	private static function event($id){
 		$event = OC_Calendar_Object::find($id);
-		$return = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:ownCloud Calendar " . OCP\App::getAppVersion('calendar') . "\n";
+		$return = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:ownCloud Calendar " . OCP\App::getAppVersion('calendar') . "\nX-WR-CALNAME:" . $event['summary'] . "\n";
 		$return .= self::generateEvent($event);
 		$return .= "END:VCALENDAR";
 		return $return;
