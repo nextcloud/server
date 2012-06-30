@@ -27,7 +27,7 @@ OC_User::useBackend('openid');
 //check for results from openid requests
 if(isset($_GET['openid_mode']) and $_GET['openid_mode'] == 'id_res'){
 	OCP\Util::writeLog('user_openid','openid retured',OCP\Util::DEBUG);
-	$openid = new SimpleOpenID;
+	$openid = new SimpleOpenID();
 	$openid->SetIdentity($_GET['openid_identity']);
 	$openid_validation_result = $openid->ValidateWithServer();
 	if ($openid_validation_result == true){         // OK HERE KEY IS VALID
@@ -50,5 +50,3 @@ if(isset($_GET['openid_mode']) and $_GET['openid_mode'] == 'id_res'){
 	OCP\Util::writeLog('user_openid','USER CANCELED REQUEST',OCP\Util::DEBUG);
 	return false;
 }
-
-?>

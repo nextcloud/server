@@ -350,9 +350,13 @@ class OC_App{
 
 
 	protected static function findAppInDirectories($appid) {
+		static $app_dir = array();
+		if (isset($app_dir[$appid])) {
+			return $app_dir[$appid];
+		}
 		foreach(OC::$APPSROOTS as $dir) {
 			if(file_exists($dir['path'].'/'.$appid)) {
-				return $dir;
+				return $app_dir[$appid]=$dir;
 			}
 		}
 	}
@@ -569,7 +573,7 @@ class OC_App{
 	}
 
 	/**
-	 * get the installed version of all papps
+	 * get the installed version of all apps
 	 */
 	public static function getAppVersions(){
 		static $versions;

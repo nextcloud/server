@@ -258,7 +258,7 @@ class OC_Calendar_Share{
 		}
 
 		/*
-		 * @brief delete all shared calendars / events after a user was deleted
+		 * @brief deletes all shared calendars / events after a user was deleted
 		 * @param (string) $userid
 		 * @return (bool)
 		 */
@@ -271,6 +271,28 @@ class OC_Calendar_Share{
 			$stmt->execute(array($userid));
 			$stmt = OCP\DB::prepare("DELETE FROM *PREFIX*calendar_share_event WHERE share = ? AND sharetype = 'user'");
 			$stmt->execute(array($userid));
+			return true;
+		}
+		
+		/*
+		 * @brief deletes all shared events of a calendar
+		 * @param integer $calid
+		 * @return boolean
+		 */
+		public static function post_caldelete($calid){
+			$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*calendar_share_calendar WHERE calendarid = ?');
+			$stmt->execute(array($calid));
+			return true;
+		}
+		
+		/*
+		 * @brief deletes all shares of an event
+		 * @param integer $eventid
+		 * @return boolean
+		 */
+		public static function post_eventdelete($eventid){
+			$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*calendar_share_event WHERE eventid = ?');
+			$stmt->execute(array($eventid));
 			return true;
 		}
 }

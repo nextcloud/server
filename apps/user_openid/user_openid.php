@@ -37,7 +37,7 @@ class OC_USER_OPENID extends OC_User_Backend {
 	 */
 	public function checkPassword( $uid, $password ){
 		// Get identity from user and redirect browser to OpenID Server
-		$openid = new SimpleOpenID;
+		$openid = new SimpleOpenID();
 		$openid->SetIdentity($uid);
 		$openid->SetTrustRoot('http://' . OCP\Util::getServerHost());
 		if ($openid->GetOpenIDServer()){
@@ -63,7 +63,3 @@ class OC_USER_OPENID extends OC_User_Backend {
 		}
 	}
 }
-
-
-
-?>

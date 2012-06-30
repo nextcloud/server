@@ -11,6 +11,8 @@ class Test_CryptProxy extends UnitTestCase {
 	private $oldKey;
 	
 	public function setUp(){
+		$user=OC_User::getUser();
+
 		$this->oldConfig=OCP\Config::getAppValue('files_encryption','enable_encryption','true');
 		OCP\Config::setAppValue('files_encryption','enable_encryption','true');
 		$this->oldKey=isset($_SESSION['enckey'])?$_SESSION['enckey']:null;
@@ -30,10 +32,12 @@ class Test_CryptProxy extends UnitTestCase {
 		OC_Filesystem::clearMounts();
 		OC_Filesystem::mount('OC_Filestorage_Temporary',array(),'/');
 
+		OC_Filesystem::init('/'.$user.'/files');
+
 		//set up the users home folder in the temp storage
 		$rootView=new OC_FilesystemView('');
-		$rootView->mkdir('/'.OC_User::getUser());
-		$rootView->mkdir('/'.OC_User::getUser().'/files');
+		$rootView->mkdir('/'.$user);
+		$rootView->mkdir('/'.$user.'/files');
 	}
 
 	public function tearDown(){

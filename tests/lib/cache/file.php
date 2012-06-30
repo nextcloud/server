@@ -21,7 +21,26 @@
 */
 
 class Test_Cache_File extends Test_Cache {
+	function skip() {
+		$this->skipUnless(OC_User::isLoggedIn());
+	}
+	
 	public function setUp(){
+		//clear all proxies and hooks so we can do clean testing
+		OC_FileProxy::clearProxies();
+		OC_Hook::clear('OC_Filesystem');
+		
+		//enable only the encryption hook
+		OC_FileProxy::register(new OC_FileProxy_Encryption());
+		
+		//set up temporary storage
+		OC_Filesystem::clearMounts();
+		OC_Filesystem::mount('OC_Filestorage_Temporary',array(),'/');
+
+		//set up the users dir
+		$rootView=new OC_FilesystemView('');
+		$rootView->mkdir('/'.OC_User::getUser());
+		
 		$this->instance=new OC_Cache_File();
 	}
 }
