@@ -5,12 +5,12 @@
  * later.
  * See the COPYING-README file.
  */
-/*
+/**
  * This class manages the caching of repeating events
  * Events will be cached for the current year ± 5 years
  */
 class OC_Calendar_Repeat{
-	/*
+	/**
 	 * @brief returns the cache of an event
 	 * @param (int) $id - id of the event
 	 * @return (array) 
@@ -24,7 +24,7 @@ class OC_Calendar_Repeat{
 		}
 		return $return;
 	}
-	/*
+	/**
 	 * @brief returns the cache of an event in a specific peroid
 	 * @param (int) $id - id of the event
 	 * @param (DateTime) $from - start for period in UTC
@@ -44,7 +44,7 @@ class OC_Calendar_Repeat{
 		}
 		return $return;
 	}
-	/*
+	/**
 	 * @brief returns the cache of all repeating events of a calendar
 	 * @param (int) $id - id of the calendar
 	 * @return (array) 
@@ -58,7 +58,7 @@ class OC_Calendar_Repeat{
 		}
 		return $return;
 	}
-	/*
+	/**
 	 * @brief returns the cache of all repeating events of a calendar in a specific period
 	 * @param (int) $id - id of the event
 	 * @param (string) $from - start for period in UTC
@@ -78,7 +78,7 @@ class OC_Calendar_Repeat{
 		}
 		return $return;
 	}
-	/*
+	/**
 	 * @brief generates the cache the first time
 	 * @param (int) id - id of the event
 	 * @return (bool)
@@ -104,7 +104,7 @@ class OC_Calendar_Repeat{
 		}
 		return true;
 	}
-	/*
+	/**
 	 * @brief generates the cache the first time for all repeating event of an calendar
 	 * @param (int) id - id of the calendar
 	 * @return (bool)
@@ -116,7 +116,7 @@ class OC_Calendar_Repeat{
 		}
 		return true;
 	}
-	/*
+	/**
 	 * @brief updates an event that is already cached
 	 * @param (int) id - id of the event
 	 * @return (bool)
@@ -126,7 +126,7 @@ class OC_Calendar_Repeat{
 		self::generate($id);
 		return true;
 	}
-	/*
+	/**
 	 * @brief updates all repating events of a calendar that are already cached
 	 * @param (int) id - id of the calendar
 	 * @return (bool)
@@ -136,7 +136,7 @@ class OC_Calendar_Repeat{
 		self::generateCalendar($id);
 		return true;
 	}
-	/*
+	/**
 	 * @brief checks if an event is already cached
 	 * @param (int) id - id of the event
 	 * @return (bool)
@@ -148,7 +148,7 @@ class OC_Calendar_Repeat{
 			return false;
 		}
 	}
-	/*
+	/**
 	 * @brief checks if an event is already cached in a specific period
 	 * @param (int) id - id of the event
 	 * @param (DateTime) $from - start for period in UTC
@@ -163,7 +163,7 @@ class OC_Calendar_Repeat{
 		}
 
 	}
-	/*
+	/**
 	 * @brief checks if a whole calendar is already cached
 	 * @param (int) id - id of the calendar
 	 * @return (bool)
@@ -183,7 +183,7 @@ class OC_Calendar_Repeat{
 			return true;
 		}
 	}
-	/*
+	/**
 	 * @brief removes the cache of an event
 	 * @param (int) id - id of the event
 	 * @return (bool)
@@ -192,7 +192,7 @@ class OC_Calendar_Repeat{
 		$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*calendar_repeat WHERE eventid = ?');
 		$stmt->execute(array($id));
 	}
-	/*
+	/**
 	 * @brief removes the cache of all events of a calendar
 	 * @param (int) id - id of the calendar
 	 * @return (bool)
