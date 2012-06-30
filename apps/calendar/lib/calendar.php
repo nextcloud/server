@@ -271,4 +271,20 @@ class OC_Calendar_Calendar{
 			'cache' => true,
 		);
 	}
+	
+	/*
+	 * @brief checks if a calendar name is available for a user
+	 * @param string $calendarname 
+	 * @param string $userid
+	 * @return boolean
+	 */
+	public static function isCalendarNameavailable($calendarname, $userid){
+		$calendars = self::allCalendars($userid);
+		foreach($calendars as $calendar){
+			if($calendar['displayname'] == $calendarname){
+				return false;
+			}
+		}
+		return true;
+	}
 }

@@ -30,6 +30,11 @@ class OC_Calendar_Import{
 	private $ical;
 	
 	/*
+	 * @brief calendar id for import
+	 */
+	private $id;
+	
+	/*
 	 * @brief var saves the percentage of the import's progress
 	 */
 	private $progress;
@@ -64,7 +69,7 @@ class OC_Calendar_Import{
 	
 	/*
 	 * @brief imports a calendar
-	 * @param string $force force import even though calendar is not valid
+	 * @param boolean $force force import even though calendar is not valid
 	 * @return boolean
 	 */
 	public function import($force = false){
@@ -76,7 +81,10 @@ class OC_Calendar_Import{
 				continue;
 			}
 			
+			
+			
 		}
+		return true;
 	}
 	
 	/*
@@ -124,6 +132,43 @@ class OC_Calendar_Import{
 		$this->cacheprogress = false;
 		return false;
 	}
+	
+	/*
+	 * @brief generates a new calendar name
+	 * @param string $userid 
+	 * @return string
+	 */
+	public function createCalendarName($userid){	
+		$calendars = OC_Calendar_Calendar::allCalendars($userid);
+		$calendarname = $guessedcalendarname = !is_null($this->guessCalendarName())?($this->guessCalendarName()):(OC_Calendar_App::$l10n->t('New Calendar'));
+		$i = 1;
+		while(!OC_Calendar_Calendar::isCalendarNameavailable($calendarname, $userid)){
+			$calendarname = $guessedcalendarname . ' (' . $i . ')';
+			$i++;
+		}
+		return $calendarname;
+	}
+	
+	/*
+	 * @brief generates a new calendar color
+	 * @return string
+	 */
+	public function createCalendarColor($userid){
+		if(is_null($this->guessCalendarColor()))){
+			return '#9fc6e7';
+		}
+		return $this->guessCalendarColor();
+	}
+	
+	/*
+	 * @brief sets the id for the calendar
+	 * @param integer $id of the calendar
+	 * @return boolean
+	 */
+	public static function setCalendarID($id){
+		$this->id = $id;
+		return true:
+	}
 
 	/*
 	 * private methods 
@@ -165,52 +210,52 @@ class OC_Calendar_Import{
 	 * @brief 
 	 * @return 
 	 */
-	private function (){
+	//private function (){
 
-	}
+	//}
 	
 	/*
 	 * @brief 
 	 * @return 
 	 */
-	private function (){
+	//private function (){
 
-	}
+	//}
 
 	/*
-	 * public methods for prerendering of X-... Attributes
+	 * private methods for prerendering of X-... Attributes
 	 */
 	
 	/*
 	 * @brief guesses the calendar color
 	 * @return mixed - string or boolean
 	 */
-	public function guessCalendarColor(){
+	private function guessCalendarColor(){
 		if(!is_null($this->calobject->__get('X-APPLE-CALENDAR-COLOR'))){
 			return $this->calobject->__get('X-APPLE-CALENDAR-COLOR');
 		}
-		return false;
+		return null;
 	}
 	
 	/*
 	 * @brief guesses the calendar description
 	 * @return mixed - string or boolean
 	 */
-	public function guessCalendarDescription(){
+	private function guessCalendarDescription(){
 		if(!is_null($this->calobject->__get('X-WR-CALDESC'))){
 			return $this->calobject->__get('X-WR-CALDESC');
 		}
-		return false;
+		return null;
 	}
 	
 	/*
 	 * @brief guesses the calendar name
 	 * @return mixed - string or boolean
 	 */
-	public function guessCalendarName(){
+	private function guessCalendarName(){
 		if(!is_null($this->calobject->__get('X-WR-CALNAME'))){
 			return $this->calobject->__get('X-WR-CALNAME');
 		}
-		return false;
+		return null;
 	}
 }
