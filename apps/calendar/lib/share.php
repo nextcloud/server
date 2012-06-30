@@ -13,9 +13,9 @@ class OC_Calendar_Share{
 	const EVENT = 'event';
 	/*
 	 * @brief: returns informations about all calendar or events which users are sharing with the user - userid
-	 * @param: (string) $userid - id of the user
-	 * @param: (string) $type - use const self::CALENDAR or self::EVENT
-	 * @return: (array) $return - information about calendars
+	 * @param: string $userid - id of the user
+	 * @param: string $type - use const self::CALENDAR or self::EVENT
+	 * @return: array $return - information about calendars
 	 */
 	public static function allSharedwithuser($userid, $type, $active=null, $permission=null){
 		$group_where = self::group_sql(OC_Group::getUserGroups($userid));
@@ -35,9 +35,9 @@ class OC_Calendar_Share{
 	}
 	/*
 	 * @brief: returns all users a calendar / event is shared with
-	 * @param: (int) id - id of the calendar / event
-	 * @param: (string) $type - use const self::CALENDAR or self::EVENT
-	 * @return: (array) $users - information about users a calendar / event is shared with
+	 * @param: integer id - id of the calendar / event
+	 * @param: string $type - use const self::CALENDAR or self::EVENT
+	 * @return: array $users - information about users a calendar / event is shared with
 	 */
 	public static function allUsersSharedwith($id, $type){
 		$stmt = OCP\DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE ' . $type . 'id = ? ORDER BY share');
@@ -50,11 +50,11 @@ class OC_Calendar_Share{
 	}
 	/*
 	 * @brief: shares a calendar / event
-	 * @param: (string) $owner - userid of the owner
-	 * @param: (string) $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
-	 * @param: (string) $sharetype - type of sharing (can be: user/group/public)
-	 * @param: (string) $id - id of the calendar / event
-	 * @param: (string) $type - use const self::CALENDAR or self::EVENT
+	 * @param: string $owner - userid of the owner
+	 * @param: string $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
+	 * @param: string $sharetype - type of sharing (can be: user/group/public)
+	 * @param: string $id - id of the calendar / event
+	 * @param: string $type - use const self::CALENDAR or self::EVENT
 	 * @return (mixed) - token (if $sharetype == public) / bool (if $sharetype != public)
 	 */
 	public static function share($owner, $share, $sharetype, $id, $type){
@@ -82,12 +82,12 @@ class OC_Calendar_Share{
 	}
 	/*
 	 * @brief: stops sharing a calendar / event
-	 * @param: (string) $owner - userid of the owner
-	 * @param: (string) $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
-	 * @param: (string) $sharetype - type of sharing (can be: user/group/public)
-	 * @param: (string) $id - id of the calendar / event
-	 * @param: (string) $type - use const self::CALENDAR or self::EVENT
-	 * @return (bool)
+	 * @param: string $owner - userid of the owner
+	 * @param: string $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
+	 * @param: string $sharetype - type of sharing (can be: user/group/public)
+	 * @param: string $id - id of the calendar / event
+	 * @param: string $type - use const self::CALENDAR or self::EVENT
+	 * @return boolean
 	 */
 	public static function unshare($owner, $share, $sharetype, $id, $type){
 		$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*calendar_share_' . $type . ' WHERE owner = ? ' . (($sharetype != 'public')?'AND share = ?':'') . ' AND sharetype = ? AND ' . $type . 'id = ?');
@@ -100,12 +100,12 @@ class OC_Calendar_Share{
 	}
 	/*
 	 * @brief: changes the permission for a calendar / event
-	 * @param: (string) $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
-	 * @param: (string) $sharetype - type of sharing (can be: user/group/public)
-	 * @param: (string) $id - id of the calendar / event
-	 * @param: (int) $permission - permission of user the calendar / event is shared with (if $sharetype == public then $permission = 0)
-	 * @param: (string) $type - use const self::CALENDAR or self::EVENT
-	 * @return (bool)
+	 * @param: string $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
+	 * @param: string $sharetype - type of sharing (can be: user/group/public)
+	 * @param: string $id - id of the calendar / event
+	 * @param: integer $permission - permission of user the calendar / event is shared with (if $sharetype == public then $permission = 0)
+	 * @param: string $type - use const self::CALENDAR or self::EVENT
+	 * @return boolean
 	 */
 	public static function changepermission($share, $sharetype, $id, $permission, $type){
 		if($sharetype == 'public' && $permission == 1){
@@ -117,7 +117,7 @@ class OC_Calendar_Share{
 	}
 	/*
 	 * @brief: generates a token for public calendars / events
-	 * @return: (string) $token
+	 * @return: string $token
 	 */
 	private static function generate_token($id, $type){
 		$uniqid = uniqid();
@@ -140,12 +140,12 @@ class OC_Calendar_Share{
 	}
 	/*
 	 * @brief: checks if it is already shared
-	 * @param: (string) $owner - userid of the owner
-	 * @param: (string) $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
-	 * @param: (string) $sharetype - type of sharing (can be: user/group/public)
-	 * @param: (string) $id - id of the calendar / event
-	 * @param: (string) $type - use const self::CALENDAR or self::EVENT
-	 * @return (bool)
+	 * @param: string $owner - userid of the owner
+	 * @param: string $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
+	 * @param: string $sharetype - type of sharing (can be: user/group/public)
+	 * @param: string $id - id of the calendar / event
+	 * @param: string $type - use const self::CALENDAR or self::EVENT
+	 * @return boolean
 	 */
 	public static function is_already_shared($owner, $share, $sharetype, $id, $type){
 		$stmt = OCP\DB::prepare('SELECT * FROM *PREFIX*calendar_share_' . $type . ' WHERE owner = ? AND share = ? AND sharetype = ? AND ' . $type . 'id = ?');
@@ -183,10 +183,10 @@ class OC_Calendar_Share{
 	}
 	/*
 	 * @brief: checks the permission for editing an event
-	 * @param: (string) $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
-	 * @param: (string) $id - id of the calendar / event
-	 * @param: (string) $type - use const self::CALENDAR or self::EVENT
-	 * @return (bool)
+	 * @param: string $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
+	 * @param: string $id - id of the calendar / event
+	 * @param: string $type - use const self::CALENDAR or self::EVENT
+	 * @return boolean
 	 */
 	public static function is_editing_allowed($share, $id, $type){
 		$group_where = self::group_sql(OC_Group::getUserGroups($share));
@@ -204,10 +204,10 @@ class OC_Calendar_Share{
 	}
 	/*
 	 * @brief: checks the access of 
-	 * @param: (string) $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
-	 * @param: (string) $id - id of the calendar / event
-	 * @param: (string) $type - use const self::CALENDAR or self::EVENT
-	 * @return (bool)
+	 * @param: string $share - userid (if $sharetype == user) / groupid (if $sharetype == group) / token (if $sharetype == public)
+	 * @param: string $id - id of the calendar / event
+	 * @param: string $type - use const self::CALENDAR or self::EVENT
+	 * @return boolean
 	 */
 	public static function check_access($share, $id, $type){
 		$group_where = self::group_sql(OC_Group::getUserGroups($share));
@@ -225,7 +225,7 @@ class OC_Calendar_Share{
 	}
         /*
          * @brief: returns the calendardata of an event or a calendar
-         * @param: (string) $token - token which should be searched
+         * @param: string $token - token which should be searched
          * @return: mixed - bool if false, array with type and id if true
          */
         public static function getElementByToken($token){
@@ -250,7 +250,7 @@ class OC_Calendar_Share{
 		
 		/*
 		 * @brief sets the active status of the calendar
-		 * @param (string) $
+		 * @param string 
 		 */
 		public static function set_active($share, $id, $active){
 			$stmt = OCP\DB::prepare("UPDATE *PREFIX*calendar_share_calendar SET active = ? WHERE share = ? AND sharetype = 'user' AND calendarid = ?");
@@ -259,8 +259,8 @@ class OC_Calendar_Share{
 
 		/*
 		 * @brief deletes all shared calendars / events after a user was deleted
-		 * @param (string) $userid
-		 * @return (bool)
+		 * @param string $userid
+		 * @return boolean
 		 */
 		public static function post_userdelete($userid){			
 			$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*calendar_share_calendar WHERE owner = ?');
