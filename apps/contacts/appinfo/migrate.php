@@ -30,7 +30,7 @@ class OC_Migration_Provider_Contacts extends OC_Migration_Provider{
 		
 	}
 	
-	// Import function for bookmarks
+	// Import function for contacts
 	function import( ){
 		switch( $this->appinfo->version ){
 			default:
@@ -39,11 +39,13 @@ class OC_Migration_Provider_Contacts extends OC_Migration_Provider{
 				$results = $query->execute( array( $this->olduid ) );
 				$idmap = array();
 				while( $row = $results->fetchRow() ){
-					// Import each bookmark, saving its id into the map	
+					// Import each addressbook	
 					$addressbookquery = OCP\DB::prepare( "INSERT INTO *PREFIX*contacts_addressbooks (`userid`, `displayname`, `uri`, `description`, `ctag`) VALUES (?, ?, ?, ?, ?)" );
 					$addressbookquery->execute( array( $this->uid, $row['displayname'], $row['uri'], $row['description'], $row['ctag'] ) );
 					// Map the id
-					$idmap[$row['id']] = OCP\DB::insertid();
+					$idmap[$row['id']] = OCP\DB::insertid('*PREFIX*contacts_addressbooks');
+					// Make the addressbook active
+					OC_Contacts_Addressbook::setActive($idmap[$row['id']], true);
 				}
 				// Now tags
 				foreach($idmap as $oldid => $newid){
@@ -51,7 +53,7 @@ class OC_Migration_Provider_Contacts extends OC_Migration_Provider{
 					$query = $this->content->prepare( "SELECT * FROM contacts_cards WHERE addressbookid LIKE ?" );
 					$results = $query->execute( array( $oldid ) );
 					while( $row = $results->fetchRow() ){
-						// Import the tags for this bookmark, using the new bookmark id
+						// Import the contacts
 						$contactquery = OCP\DB::prepare( "INSERT INTO *PREFIX*contacts_cards (`addressbookid`, `fullname`, `carddata`, `uri`, `lastmodified`) VALUES (?, ?, ?, ?, ?)" );
 						$contactquery->execute( array( $newid, $row['fullname'], $row['carddata'], $row['uri'], $row['lastmodified'] ) );	
 					}		
