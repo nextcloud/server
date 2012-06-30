@@ -10,9 +10,9 @@
  */
 class OC_Calendar_Import{
 	/*
-	 * @brief var to check if errors happend while initialization
+	 * @brief var saves if the percentage should be saved with OC_Cache
 	 */
-	private $error;
+	private $cacheprogress;
 	
 	/*
 	 * @brief Sabre_VObject_Component_VCalendar object - for documentation see http://code.google.com/p/sabredav/wiki/Sabre_VObject_Component_VCalendar
@@ -20,19 +20,24 @@ class OC_Calendar_Import{
 	private $calobject;
 	
 	/*
+	 * @brief var to check if errors happend while initialization
+	 */
+	private $error;
+	
+	/*
 	 * @brief var saves the ical string that was submitted with the __construct function
 	 */
 	private $ical;
 	
 	/*
-	 * @brief var saves the ical string that was submitted with the __construct function
-	 */
-	private $tz;
-	
-	/*
 	 * @brief var saves the percentage of the import's progress
 	 */
 	private $progress;
+	
+	/*
+	 * @brief var saves the timezone the events shell converted to
+	 */
+	private $tz;
 
 	/*
 	 * public methods 
@@ -40,10 +45,11 @@ class OC_Calendar_Import{
 	
 	/*
 	 * @brief does general initialization for import object
-	 * @param string $calendar 
+	 * @param string $calendar content of ical file
+	 * @param string $tz timezone of the user
 	 * @return boolean
 	 */
-	public function __construct($ical, $tz){
+	public function __construct($ical){
 		$this->error = null;
 		$this->ical = $ical;
 		try{
@@ -53,7 +59,7 @@ class OC_Calendar_Import{
 			$this->error = true;
 			return false;
 		}
-		$this->tz = $tz;
+		return true;
 	}
 	
 	/*
@@ -65,7 +71,21 @@ class OC_Calendar_Import{
 		if(!$this->isValid() && !$force){
 			return false;
 		}
-		
+		foreach($this->calobject->getComponents() as $object){
+			if(!($object instanceof Sabre_VObject_Component_VEvent) && !($object instanceof Sabre_VObject_Component_VJournal) && !($object instanceof Sabre_VObject_Component_VTodo)){
+				continue;
+			}
+			
+		}
+	}
+	
+	/*
+	 * @brief sets the timezone
+	 * @return boolean
+	 */
+	public function setTimeZone($tz){
+		$this->tz = $tz;
+		return true;
 	}
 	
 	/*
@@ -86,10 +106,60 @@ class OC_Calendar_Import{
 	public function getProgress(){
 		return $this->progress;
 	}
+	
+	/*
+	 * @brief enables the cache for the percentage of progress
+	 * @return boolean
+	 */
+	public function enableProgressCache(){
+		$this->cacheprogress = true;
+		return true;
+	}
+	
+	/*
+	 * @brief disables the cache for the percentage of progress
+	 * @return boolean
+	 */
+	public function disableProgressCache(){
+		$this->cacheprogress = false;
+		return false;
+	}
 
 	/*
 	 * private methods 
 	 */
+	
+	/*
+	 * @brief generates an unique ID 
+	 * @return string 
+	 */
+	private function createUID(){
+		return substr(md5(rand().time()),0,10);
+	}
+	
+	/*
+	 * @brief checks is the UID is already in use for another event
+	 * @param string $uid uid to check
+	 * @return boolean
+	 */
+	private function isUIDAvailable($uid){
+		
+	}
+	
+	/*
+	 * @brief generates a proper VCalendar string
+	 * @param string $vobject
+	 * @return string 
+	 */
+	private function createVCalendar($vobject){
+		if(is_object($vobject)){
+			$vobject = @$vobject->serialize();
+		}
+		$vcalendar = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:ownCloud Calendar " . OCP\App::getAppVersion('calendar') . "\n";
+		$vcalendar .= $vobject;
+		$vcalendar .= "END:VCALENDAR";
+		return $vcalendar;
+	}
 	
 	/*
 	 * @brief 
@@ -99,16 +169,23 @@ class OC_Calendar_Import{
 
 	}
 	
+	/*
+	 * @brief 
+	 * @return 
+	 */
+	private function (){
+
+	}
 
 	/*
-	 * methods for X-...
+	 * public methods for prerendering of X-... Attributes
 	 */
 	
 	/*
 	 * @brief guesses the calendar color
 	 * @return mixed - string or boolean
 	 */
-	private function guessCalendarColor(){
+	public function guessCalendarColor(){
 		if(!is_null($this->calobject->__get('X-APPLE-CALENDAR-COLOR'))){
 			return $this->calobject->__get('X-APPLE-CALENDAR-COLOR');
 		}
@@ -119,7 +196,7 @@ class OC_Calendar_Import{
 	 * @brief guesses the calendar description
 	 * @return mixed - string or boolean
 	 */
-	private function guessCalendarDescription(){
+	public function guessCalendarDescription(){
 		if(!is_null($this->calobject->__get('X-WR-CALDESC'))){
 			return $this->calobject->__get('X-WR-CALDESC');
 		}
@@ -130,7 +207,7 @@ class OC_Calendar_Import{
 	 * @brief guesses the calendar name
 	 * @return mixed - string or boolean
 	 */
-	private function guessCalendarName(){
+	public function guessCalendarName(){
 		if(!is_null($this->calobject->__get('X-WR-CALNAME'))){
 			return $this->calobject->__get('X-WR-CALNAME');
 		}
