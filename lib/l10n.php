@@ -115,7 +115,7 @@ class OC_L10N{
 			// (Just no need to define date/time format etc. twice)
 			if(file_exists($i18ndir.$lang.'.php')){
 				// Include the file, save the data from $CONFIG
-				include($i18ndir.$lang.'.php');
+				include(strip_tags($i18ndir).strip_tags($lang).'.php');
 				if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)){
 					$this->translations = $TRANSLATIONS;
 				}
