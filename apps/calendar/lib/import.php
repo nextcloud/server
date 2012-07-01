@@ -267,14 +267,14 @@ class OC_Calendar_Import{
 	//}
 
 	/*
-	 * private methods for (pre)rendering of X-... Attributes
+	 * public methods for (pre)rendering of X-... Attributes
 	 */
 	
 	/*
 	 * @brief guesses the calendar color
 	 * @return mixed - string or boolean
 	 */
-	private function guessCalendarColor(){
+	public function guessCalendarColor(){
 		if(!is_null($this->calobject->__get('X-APPLE-CALENDAR-COLOR'))){
 			return $this->calobject->__get('X-APPLE-CALENDAR-COLOR');
 		}
@@ -285,7 +285,7 @@ class OC_Calendar_Import{
 	 * @brief guesses the calendar description
 	 * @return mixed - string or boolean
 	 */
-	private function guessCalendarDescription(){
+	public function guessCalendarDescription(){
 		if(!is_null($this->calobject->__get('X-WR-CALDESC'))){
 			return $this->calobject->__get('X-WR-CALDESC');
 		}
@@ -296,7 +296,7 @@ class OC_Calendar_Import{
 	 * @brief guesses the calendar name
 	 * @return mixed - string or boolean
 	 */
-	private function guessCalendarName(){
+	public function guessCalendarName(){
 		if(!is_null($this->calobject->__get('X-WR-CALNAME'))){
 			return $this->calobject->__get('X-WR-CALNAME');
 		}
