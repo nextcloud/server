@@ -15,6 +15,8 @@ class OC_JSON{
 		if (!self::$send_content_type_header){
 			// We send json data
 			header( 'Content-Type: '.$type );
+			// Force download
+			header( 'Content-Disposition: attachment' );
 			self::$send_content_type_header = true;
 		}
 	}
@@ -94,12 +96,12 @@ class OC_JSON{
 	* Encode and print $data in json format
 	*/
 	public static function encodedPrint($data,$setContentType=true){
-		if(!isset($_SERVER['PATH_INFO']) || $_SERVER['PATH_INFO'] == '') {
+			// Disable mimesniffing, don't move this to setContentTypeHeader!
+			header( 'X-Content-Type-Options: nosniff' );
 			if($setContentType){
 				self::setContentTypeHeader();
 			}
 			array_walk_recursive($data, array('OC_JSON', 'to_string'));
 			echo json_encode($data);
-		}
 	}
 }
