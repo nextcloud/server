@@ -453,7 +453,12 @@ class Share {
 				}
 				$where .= ' LIMIT '.$limit;
 			}
-			$query = \OC_DB::prepare('SELECT * FROM *PREFIX*share '.$where);
+			if ($format == self::FORMAT_STATUSES) {
+				$select = 'item, share_type';
+			} else {
+				$select = '*';
+			}
+			$query = \OC_DB::prepare('SELECT '.$select.' FROM *PREFIX*share '.$where);
 			$result = $query->execute();
 			$items = array();
 			while ($item = $result->fetchRow()) {
