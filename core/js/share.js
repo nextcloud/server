@@ -184,8 +184,8 @@ OC.Share={
 $(document).ready(function() {
 
 	$('.share').live('click', function() {
-		if ($(this).data('itemType') !== undefined && $(this).data('item') !== undefined) {
-			OC.Share.showDropDown($(this).data('itemType'), $(this).data('item'), $(this));
+		if ($(this).data('item-type') !== undefined && $(this).data('item') !== undefined) {
+			OC.Share.showDropDown($(this).data('item-type'), $(this).data('item'), $(this).parent().parent());
 		}
 	});
 	
@@ -232,17 +232,17 @@ $(document).ready(function() {
 				OC.Share.showDropDown('file', item, appendTo);
 			}
 		});
-	};
+	}
 
-	$(this).click(function(event) {
-		if (!($(event.target).hasClass('drop')) && $(event.target).parents().index($('#dropdown')) == -1) {
-			if ($('#dropdown').is(':visible')) {
-				OC.Share.hideDropDown(function() {
-					$('tr').removeClass('mouseOver');
-				});
-			}
-		}
-	});
+// 	$(this).click(function(event) {
+// 		if (!($(event.target).hasClass('drop')) && $(event.target).parents().index($('#dropdown')) == -1) {
+// 			if ($('#dropdown').is(':visible')) {
+// 				OC.Share.hideDropDown(function() {
+// 					$('tr').removeClass('mouseOver');
+// 				});
+// 			}
+// 		}
+// 	});
 
 	$('#sharedWithList li').live('mouseenter', function(event) {
 		// Show permissions and unshare button
