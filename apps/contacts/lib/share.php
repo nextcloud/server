@@ -41,9 +41,9 @@ class OC_Contacts_Share extends OCP\Share_Backend {
 		$addressbook = OC_Contacts_Addressbook::find( $item );
 		$user_addressbooks = array();
 		foreach(OC_Contacts_Addressbook::all($uid) as $user_addressbook) {
-			$user_addressbooks[] = $user_addressbooks['displayname'];
+			$user_addressbooks[] = $user_addressbook['displayname'];
 		}
-		$name = $addressbook['uid']."'s ".$addressbook['displayname'];
+		$name = $addressbook['userid']."'s ".$addressbook['displayname'];
 		$suffix = '';
 		while (in_array($name.$suffix, $user_addressbooks)) {
 			$suffix++;
