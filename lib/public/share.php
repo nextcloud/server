@@ -130,7 +130,6 @@ class Share {
 		// Verify share type and sharing conditions are met
 		switch ($shareType) {
 			case self::SHARE_TYPE_USER:
-				\OC_Log::write('OCP\Share', 'share type '.$shareType, \OC_Log::ERROR);
 				if ($shareWith == $uidOwner) {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the user '.$shareWith.' is the item owner', \OC_Log::ERROR);
 					return false;
@@ -145,7 +144,7 @@ class Share {
 						return false;
 					}
 				}
-				if ($item = self::getItems($itemType, $item, self::SHARE_TYPE_USER, $shareWith, $uidOwner, self::FORMAT_NONE, 1) && !empty($item)) {
+				if ($checkShareExists = self::getItems($itemType, $item, self::SHARE_TYPE_USER, $shareWith, $uidOwner, self::FORMAT_NONE, 1) && !empty($checkShareExists)) {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with the user '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
@@ -158,7 +157,7 @@ class Share {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because '.$uidOwner.' is not a member of the group '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
-				if ($item = self::getItems($itemType, $item, self::SHARE_TYPE_GROUP, $shareWith, $uidOwner, self::FORMAT_NONE, 1) && !empty($item)) {
+				if ($checkShareExists = self::getItems($itemType, $item, self::SHARE_TYPE_GROUP, $shareWith, $uidOwner, self::FORMAT_NONE, 1) && !empty($checkShareExists)) {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with the group '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
