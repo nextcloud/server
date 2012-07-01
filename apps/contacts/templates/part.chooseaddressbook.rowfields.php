@@ -14,5 +14,8 @@
 	<a title="<?php echo $l->t("Edit"); ?>" class="svg action edit" onclick="Contacts.UI.Addressbooks.editAddressbook(this, <?php echo $_['addressbook']["id"]; ?>);"></a>
 </td>
 <td width="20px">
+	<a title="<?php echo $l->t("Share"); ?>" class="svg action share" data-item-type="addressbook" data-item="<?php echo $_['addressbook']['id']; ?>" />
+</td>
+<td width="20px">
 	<a onclick="Contacts.UI.Addressbooks.deleteAddressbook(this, <?php echo $_['addressbook']["id"]; ?>);" title="<?php echo $l->t("Delete"); ?>" class="svg action delete"></a>
 </td>

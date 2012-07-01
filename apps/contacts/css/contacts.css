@@ -48,11 +48,12 @@ label:hover, dt:hover { color: #333; }
 .float { float: left; }
 .svg { border: inherit; background: inherit; }
 .listactions { height: 1em; width:60px; float: left; clear: right; }
-.add,.edit,.delete,.mail, .globe, .upload, .download, .cloud { cursor: pointer; width: 20px; height: 20px; margin: 0; float: left; position:relative; opacity: 0.1; }
+.add,.edit,.delete,.mail, .globe, .upload, .download, .cloud, .share { cursor: pointer; width: 20px; height: 20px; margin: 0; float: left; position:relative; opacity: 0.1; }
 .add:hover,.edit:hover,.delete:hover,.mail:hover, .globe:hover, .upload:hover, .download:hover .cloud:hover { opacity: 1.0 }
 .add { background:url('%webroot%/core/img/actions/add.svg') no-repeat center; clear: both; }
 .delete { background:url('%webroot%/core/img/actions/delete.svg') no-repeat center; }
 .edit { background:url('%webroot%/core/img/actions/rename.svg') no-repeat center; }
+.share { background:url('%webroot%/core/img/actions/share.svg') no-repeat center; }
 .mail { background:url('%webroot%/core/img/actions/mail.svg') no-repeat center; }
 .upload { background:url('%webroot%/core/img/actions/upload.svg') no-repeat center; }
 .download { background:url('%webroot%/core/img/actions/download.svg') no-repeat center; }
