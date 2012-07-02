@@ -474,17 +474,16 @@ class OC_LDAP {
 
 		// See if we have a resource
 		$link_resource = self::getConnectionResource();
-		if($link_resource)
-		{
+		if(is_resource($link_resource)) {
 			$sr = ldap_search($link_resource, $base, $filter, $attr);
 			$findings = ldap_get_entries($link_resource, $sr );
+
 			// if we're here, probably no connection resource is returned.
 			// to make ownCloud behave nicely, we simply give back an empty array.
 			if(is_null($findings)) {
 				return array();
 			}
-		} else
-		{
+		} else {
 			// Seems like we didn't find any resource.
 			// Return an empty array just like before.
 			return array();
@@ -690,6 +689,7 @@ class OC_LDAP {
 			$ldapLogin = @ldap_bind(self::$ldapConnectionRes, self::$ldapAgentName, self::$ldapAgentPassword );
 			if(!$ldapLogin) {
 				OCP\Util::writeLog('ldap', 'Bind failed: ' . ldap_errno(self::$ldapConnectionRes) . ': ' . ldap_error(self::$ldapConnectionRes), OCP\Util::ERROR);
+				self::$ldapConnectionRes = null;
 				return false;
 			}
 		}
