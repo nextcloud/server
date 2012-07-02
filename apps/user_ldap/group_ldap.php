@@ -158,7 +158,7 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 		$isMemberUid = (strtolower($this->ldapGroupMemberAssocAttr) == 'memberuid');
 		foreach($members as $member) {
 			if($isMemberUid) {
-				$filter = str_replace('%uid', $member, OC_LDAP::conf('ldapLoginFilter'));
+				$filter = OCP\Util::mb_str_replace('%uid', $member, OC_LDAP::conf('ldapLoginFilter'), 'UTF-8');
 				$ldap_users = OC_LDAP::fetchListOfUsers($filter, 'dn');
 				if(count($ldap_users) < 1) {
 					continue;

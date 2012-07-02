@@ -171,7 +171,7 @@ class OC_LDAP {
 	 * returns the internal ownCloud name for the given LDAP DN of the group
 	 */
 	static public function dn2groupname($dn, $ldapname = null) {
-		if(strripos($dn, self::$ldapBaseGroups) !== (strlen($dn)-strlen(self::$ldapBaseGroups))) {
+		if(mb_strripos($dn, self::$ldapBaseGroups, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen(self::$ldapBaseGroups, 'UTF-8'))) {
 			return false;
 		}
 		return self::dn2ocname($dn, $ldapname, false);
@@ -186,7 +186,7 @@ class OC_LDAP {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN
 	 */
 	static public function dn2username($dn, $ldapname = null) {
-		if(strripos($dn, self::$ldapBaseUsers) !== (strlen($dn)-strlen(self::$ldapBaseUsers))) {
+		if(mb_strripos($dn, self::$ldapBaseUsers, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen(self::$ldapBaseUsers, 'UTF-8'))) {
 			return false;
 		}
 		return self::dn2ocname($dn, $ldapname, true);
@@ -304,7 +304,7 @@ class OC_LDAP {
 	 */
 	static private function alternateOwnCloudName($name, $dn) {
 		$ufn = ldap_dn2ufn($dn);
-		$name = $name . '@' . trim(substr_replace($ufn, '', 0, strpos($ufn, ',')));
+		$name = $name . '@' . trim(OCP\Util::mb_substr_replace($ufn, '', 0, mb_strpos($ufn, ',', 0, 'UTF-8'), 'UTF-8'));
 		$name = self::sanitizeUsername($name);
 		return $name;
 	}
@@ -419,8 +419,8 @@ class OC_LDAP {
 		$rr = ldap_read($cr, $dn, 'objectClass=*', array($attr));
 		$er = ldap_first_entry($cr, $rr);
 		//LDAP attributes are not case sensitive
-		$result = array_change_key_case(ldap_get_attributes($cr, $er));
-		$attr = strtolower($attr);
+		$result = OCP\Util::mb_array_change_key_case(ldap_get_attributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
+		$attr = mb_strtolower($attr, 'UTF-8');
 
 		if(isset($result[$attr]) && $result[$attr]['count'] > 0){
 			$values = array();
@@ -469,7 +469,7 @@ class OC_LDAP {
 	 */
 	static private function search($filter, $base, $attr = null) {
 		if(!is_null($attr) && !is_array($attr)) {
-			$attr = array(strtolower($attr));
+			$attr = array(mb_strtolower($attr, 'UTF-8'));
 		}
 
 		// See if we have a resource
@@ -500,11 +500,11 @@ class OC_LDAP {
 				if(!is_array($item)) {
 					continue;
 				}
-				$item = array_change_key_case($item);
+				$item = OCP\Util::mb_array_change_key_case($item, MB_CASE_LOWER, 'UTF-8');
 
 				if($multiarray) {
 					foreach($attr as $key) {
-						$key = strtolower($key);
+						$key = mb_strtolower($key, 'UTF-8');
 						if(isset($item[$key])) {
 							if($key != 'dn'){
 								$selection[$i][$key] = self::resemblesDN($key) ? self::sanitizeDN($item[$key][0]) : $item[$key][0];
@@ -517,7 +517,7 @@ class OC_LDAP {
 					$i++;
 				} else {
 					//tribute to case insensitivity
-					$key = strtolower($attr[0]);
+					$key = mb_strtolower($attr[0], 'UTF-8');
 
 					if(isset($item[$key])) {
 						if(self::resemblesDN($key)) {
@@ -546,10 +546,10 @@ class OC_LDAP {
 
 	static private function sanitizeDN($dn) {
 		//OID sometimes gives back DNs with whitespace after the comma a la "uid=foo, cn=bar, dn=..." We need to tackle this!
-		$dn = preg_replace('/([^\\\]),(\s+)/','\1,',$dn);
+		$dn = preg_replace('/([^\\\]),(\s+)/u','\1,',$dn);
 
 		//make comparisons and everything work
-		$dn = strtolower($dn);
+		$dn = mb_strtolower($dn, 'UTF-8');
 
 		return $dn;
 	}
@@ -560,10 +560,10 @@ class OC_LDAP {
 		}
 
 		//REPLACEMENTS
-		$name = str_replace(' ', '_', $name);
+		$name = OCP\Util::mb_str_replace(' ', '_', $name, 'UTF-8');
 
 		//every remaining unallowed characters will be removed
-		$name = preg_replace('/[^a-zA-Z0-9_.@-]/', '', $name);
+		$name = preg_replace('/[^a-zA-Z0-9_.@-]/u', '', $name);
 
 		return $name;
 	}
@@ -637,10 +637,10 @@ class OC_LDAP {
 			self::$ldapBaseGroups        = OCP\Config::getAppValue('user_ldap', 'ldap_base_groups', self::$ldapBase);
 			self::$ldapTLS               = OCP\Config::getAppValue('user_ldap', 'ldap_tls',0);
 			self::$ldapNoCase            = OCP\Config::getAppValue('user_ldap', 'ldap_nocase', 0);
-			self::$ldapUserDisplayName   = strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_display_name', 'uid'));
+			self::$ldapUserDisplayName   = mb_strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_display_name', 'uid'), 'UTF-8');
 			self::$ldapUserFilter        = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter','objectClass=person');
 			self::$ldapLoginFilter       = OCP\Config::getAppValue('user_ldap', 'ldap_login_filter', '(uid=%uid)');
-			self::$ldapGroupDisplayName  = strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR));
+			self::$ldapGroupDisplayName  = mb_strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', LDAP_GROUP_DISPLAY_NAME_ATTR), 'UTF-8');
 			self::$ldapIgnoreNamingRules = OCP\Config::getSystemValue('ldapIgnoreNamingRules', false);
 
 			if(empty(self::$ldapBaseUsers)) {

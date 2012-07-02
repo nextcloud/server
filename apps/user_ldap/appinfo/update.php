@@ -31,3 +31,21 @@ if($state == 'doCheck'){
 		OCP\Config::setSystemValue('ldapIgnoreNamingRules', true);
 	}
 }
+
+
+//from version 0.2 to 0.2.1
+$objects = array('user', 'group');
+
+foreach($objects as $object) {
+	$fetchDNSql = 'SELECT ldap_dn from *PREFIX*ldap_'.$object.'_mapping';
+	$updateSql = 'UPDATE *PREFIX*ldap_'.$object.'_mapping SET ldap_DN = ? WHERE ldap_dn = ?';
+
+	$query = OCP\DB::prepare($fetchDNSql);
+	$res = $query->execute();
+	$DNs = $res->fetchAll();
+	$updateQuery = OCP\DB::prepare($updateSql);
+	foreach($DNs as $dn) {
+		$newDN = mb_strtolower($dn['ldap_dn'], 'UTF-8');
+		$updateQuery->execute(array($newDN, $dn['ldap_dn']));
+	}
+}
