@@ -15,8 +15,6 @@ class OC_JSON{
 		if (!self::$send_content_type_header){
 			// We send json data
 			header( 'Content-Type: '.$type );
-			// Force download
-			header( 'Content-Disposition: attachment' );
 			self::$send_content_type_header = true;
 		}
 	}
