@@ -107,16 +107,6 @@ class Share {
 	}
 
 	/**
-	* @brief Get the status of each shared item of item type owned by the current user
-	* @param string Item type
-	* @param int Number of items to return (optional) Returns all by default
-	* @return array, item as key with a value of true if item has a private link or false
-	*/
-	public static function getItemsSharedStatuses($itemType, $limit = -1) {
-		return self::getItems($itemType, null, null, null, \OC_User::getUser(), self::FORMAT_STATUSES, $limit);
-	}
-
-	/**
 	* @brief Share an item with a user, group, or via private link
 	* @param string Item type
 	* @param string Item

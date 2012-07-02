@@ -44,7 +44,7 @@ if (isset($_POST['action'])) {
 } else if (isset($_GET['fetch'])) {
 	switch ($_GET['fetch']) {
 		case 'getItemsSharedStatuses':
-			$return = OCP\Share::getItemsSharedStatuses($_GET['itemType']);
+			$return = OCP\Share::getItemsShared($_GET['itemType'], OCP\Share::FORMAT_STATUSES);
 			($return) ? OC_JSON::success(array('data' => $return)) : OC_JSON::error();
 			break;
 		case 'getItemShared':
