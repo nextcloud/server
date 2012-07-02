@@ -54,19 +54,24 @@ class OC_Contacts_Share extends OCP\Share_Backend {
 
 	/**
 	* @brief Converts the shared item sources back into the item in the specified format
-	* @param array Sources of shared items
-	* @param int Format 
+	* @param array Shared items
+	* @param int Format
 	* @return ?
-	* 
-	* The items array is formatted with the sources as the keys to an array with the following keys: item_target, permissions, stime
+	*
+	* The items array is a 3-dimensional array with the item_source as the first key and the share id as the second key to an array with the share info.
+	* The key/value pairs included in the share info depend on the function originally called:
+	* If called by getItem(s)Shared: id, item_type, item, item_source, share_type, share_with, permissions, stime, file_source
+	* If called by getItem(s)SharedWith: id, item_type, item, item_source, item_target, share_type, share_with, permissions, stime, file_source, file_target
 	* This function allows the backend to control the output of shared items with custom formats.
-	* It is only called through calls to the public getItem(s)SharedWith functions.
+	* It is only called through calls to the public getItem(s)Shared(With) functions.
 	*/
 	public function formatItems($items, $format) {
 		$addressbooks = array();
-		foreach($items as $source => $info) {
+		foreach ($items as $source => $shares) {
 			$addressbook = OC_Contacts_Addressbook::find( $source );
-			$addressbook['displayname'] = $info['item_target'];
+			foreach ($shares as $info) {
+				$addressbook['displayname'] = $info['item_target'];
+			}
 			$addressbooks[] = $addressbook;
 		}
 		return $addressbooks;

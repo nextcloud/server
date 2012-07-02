@@ -444,9 +444,13 @@ class Share {
 				$where .= ' LIMIT '.$limit;
 			}
 			if ($format == self::FORMAT_STATUSES) {
-				$select = 'item, share_type';
+				$select = 'id, item_type, item, item_source, share_type';
 			} else {
-				$select = '*';
+				if (isset($uidOwner)) {
+					$select = 'id, item_type, item, item_source, share_type, share_with, permissions, stime, file_source';
+				} else {
+					$select = 'id, item_type, item, item_source, item_target, share_type, share_with, permissions, stime, file_source, file_target';
+				}
 			}
 			$query = \OC_DB::prepare('SELECT '.$select.' FROM *PREFIX*share '.$where);
 			$result = $query->execute();
@@ -455,29 +459,32 @@ class Share {
 				// Filter out duplicate group shares for users with unique targets
 				if ($item['share_type'] == self::$shareTypeGroupUserUnique) {
 					// Group shares should already be in the items array
-					unset($items[$item['parent']]);
+					unset($items[$item['item_source']][$item['parent']]);
 				}
 				// TODO Add in parent item types children?
 				if ($parents && in_array($item['item_type'], $parents)) {
 					$children[] = $item;
 				}
-				$items[$item['id']] = $item;
+				$items[$item['item_source']][$item['id']] = $item;
 			}
 			if (!empty($items)) {
 				if ($format == self::FORMAT_NONE) {
 					if ($limit == 1) {
-						// Return just the item instead of 2-dimensional array
-						return $items[key($items)];
+						// Return just the item instead of 3-dimensional array
+						return $item;
 					}
 					return $items;
 				} else if ($format == self::FORMAT_STATUSES) {
 					$statuses = array();
-					foreach ($items as $item) {
-						if ($item['share_type'] == self::SHARE_TYPE_PRIVATE_LINK) {
-							$statuses[$item['item']] = true;
-						} else if (!isset($statuses[$item['item']])) {
-							$statuses[$item['item']] = false;
+					foreach ($items as $shares) {
+						foreach ($shares as $info) {
+							if ($info['share_type'] == self::SHARE_TYPE_PRIVATE_LINK) {
+								$statuses[$info['item']] = true;
+							} else if (!isset($statuses[$info['item']])) {
+								$statuses[$info['item']] = false;
+							}
 						}
+						
 					}
 					return $statuses;
 				} else {
@@ -713,13 +720,16 @@ abstract class Share_Backend {
 
 	/**
 	* @brief Converts the shared item sources back into the item in the specified format
-	* @param array Sources of shared items
+	* @param array Shared items
 	* @param int Format 
 	* @return ?
 	* 
-	* The items array is formatted with the sources as the keys to an array with the following keys: item_target, permissions, stime
+	* The items array is a 3-dimensional array with the item_source as the first key and the share id as the second key to an array with the share info.
+	* The key/value pairs included in the share info depend on the function originally called: 
+	* If called by getItem(s)Shared: id, item_type, item, item_source, share_type, share_with, permissions, stime, file_source
+	* If called by getItem(s)SharedWith: id, item_type, item, item_source, item_target, share_type, share_with, permissions, stime, file_source, file_target
 	* This function allows the backend to control the output of shared items with custom formats.
-	* It is only called through calls to the public getItem(s)SharedWith functions.
+	* It is only called through calls to the public getItem(s)Shared(With) functions.
 	*/
 	public abstract function formatItems($items, $format);
 
