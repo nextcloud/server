@@ -32,7 +32,7 @@ if($_POST['method'] == 'new'){
 		$newcal = true;
 	}
 	if($newcal){
-		$id = OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(), strip_tags($_POST['calname'],'VEVENT,VTODO,VJOURNAL',null,0,$import->createCalendarColor()));
+		$id = OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(), strip_tags($_POST['calname']),'VEVENT,VTODO,VJOURNAL',null,0,$import->createCalendarColor());
 		OC_Calendar_Calendar::setCalendarActive($id, 1);
 	}
 }else{
@@ -50,9 +50,13 @@ if($count == 0){
 	if($newcal){
 		OC_Calendar_Calendar::deleteCalendar($id);
 	}
-	OCP\JSON::error(array('message'=>OC_Calendar_App::$l10n->t('The file contained either no events or all events are already saved in your account')));
+	OCP\JSON::error(array('message'=>OC_Calendar_App::$l10n->t('The file contained either no events or all events are already saved in your calendar.')));
 }else{
-		OCP\JSON::success(array('message'=>$count . ' ' . OC_Calendar_App::$l10n->t('events has been saved in the new calendar') . ' ' . $newcalendarname));
+	if($newcal){
+		OCP\JSON::success(array('message'=>$count . ' ' . OC_Calendar_App::$l10n->t('events has been saved in the new calendar') . ' ' .  strip_tags($_POST['calname'])));
+	}else{
+		OCP\JSON::success(array('message'=>$count . ' ' . OC_Calendar_App::$l10n->t('events has been saved in your calendar')));
+	}
 }
 /*		//////////////////////////// Attention: following code is quite painfull !!! ///////////////////////
 writeProgress('20');

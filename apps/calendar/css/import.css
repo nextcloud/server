@@ -1,0 +1,12 @@
+/**
+ * Copyright (c) 2012 Georg Ehrke <ownclouddev at georgswebsite dot de>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+#calendar_import_newcalform, #calendar_import_mergewarning, #calendar_import_process, #calendar_import_done{display:none;}
+#calendar_import_process_message, #calendar_import_status, #calendar_import_form_message, #calendar_import_mergewarning{text-align:center;}
+#calendar_import_form_message{font-weight: bold;}
+#calendar_import_newcalendar{width:480px;}
+.calendar_import_warning{background-color: rgba(216,22,22,0.7);}
+.calendar_import_revertwarning{background-color: #ffffff;}
