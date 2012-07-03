@@ -222,7 +222,11 @@ $(document).ready(function() {
 	});
 	
 	$('#shareWith').live('change', function() {
-		OC.Share.share($('#dropdown').data('item-type'), $('#dropdown').data('item'), 0, $(this).val(), 0, false);
+		var shareWith = $(this).val();
+		OC.Share.share($('#dropdown').data('item-type'), $('#dropdown').data('item'), 0, shareWith, 0, function() {
+			OC.Share.addShareWith(shareWith, 0);
+			$('#shareWith').val('');
+		});
 	});
 	
 	$('.unshare').live('click', function() {
