@@ -96,6 +96,8 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			$responseType=$response["{DAV:}resourcetype"]->resourceType;
 			return (count($responseType)>0 and $responseType[0]=="{DAV:}collection")?'dir':'file';
 		}catch(Exception $e){
+			error_log($e->getMessage());
+			\OCP\Util::writeLog("webdav client", \OCP\Util::sanitizeHTML($e->getMessage()), \OCP\Util::ERROR);
 			return false;
 		}
 	}

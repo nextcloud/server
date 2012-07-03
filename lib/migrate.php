@@ -278,7 +278,7 @@ class OC_Migrate{
 						return json_encode( array( 'success' => false ) );
 					}
 					// Done
-					return json_encode( 'success' => true );
+					return json_encode( array( 'success' => true ) );
 					*/
 			break;
 		}
@@ -443,21 +443,10 @@ class OC_Migrate{
 						'ocversion' => OC_Util::getVersion(),
 						'exporttime' => time(),
 						'exportedby' => OC_User::getUser(),
-						'exporttype' => self::$exporttype
+						'exporttype' => self::$exporttype,
+						'exporteduser' => self::$uid
 					);
-		// Add hash if user export
-		if( self::$exporttype == 'user' ){
-			$query = OC_DB::prepare( "SELECT password FROM *PREFIX*users WHERE uid = ?" );
-			$result = $query->execute( array( self::$uid ) );
-			$row = $result->fetchRow();
-			$hash = $row ? $row['password'] : false;
-			if( !$hash ){
-				OC_Log::write( 'migration', 'Failed to get the users password hash', OC_log::ERROR);
-				return false;
-			}
-			$info['hash'] = $hash;
-			$info['exporteduser'] = self::$uid;
-		}
+
 		if( !is_array( $array ) ){
 			OC_Log::write( 'migration', 'Supplied $array was not an array in getExportInfo()', OC_Log::ERROR );
 		}

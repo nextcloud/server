@@ -360,7 +360,8 @@ $(document).ready(function() {
 		$(this).select();
 	});
 
-	$('#emailPrivateLink').live('submit', function() {
+	$('#emailPrivateLink').live('submit', function(event) {
+		event.preventDefault();
 		OC.Share.emailPrivateLink();
 	});
 });

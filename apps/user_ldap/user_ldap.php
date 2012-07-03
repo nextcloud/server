@@ -84,7 +84,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 	 */
 	public function checkPassword($uid, $password){
 		//find out dn of the user name
-		$filter = str_replace('%uid', $uid, OC_LDAP::conf('ldapLoginFilter'));
+		$filter = OCP\Util::mb_str_replace('%uid', $uid, OC_LDAP::conf('ldapLoginFilter'), 'UTF-8');
 		$ldap_users = OC_LDAP::fetchListOfUsers($filter, 'dn');
 		if(count($ldap_users) < 1) {
 			return false;

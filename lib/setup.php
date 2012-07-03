@@ -155,8 +155,11 @@ class OC_Setup {
 				OC_CONFIG::setValue('dbhost', $dbhost);
 				OC_CONFIG::setValue('dbtableprefix', $dbtableprefix);
 
+				$e_host = addslashes($dbhost);
+				$e_user = addslashes($dbuser);
+				$e_password = addslashes($dbpass);
 				//check if the database user has admin right
-				$connection_string = "host=$dbhost dbname=postgres user=$dbuser password=$dbpass";
+				$connection_string = "host='$e_host' dbname=postgres user='$e_user' password='$e_password'";
 				$connection = @pg_connect($connection_string);
 				if(!$connection) {
 					$error[] = array(
@@ -166,8 +169,9 @@ class OC_Setup {
 					return $error;
 				}
 				else {
+					$e_user = pg_escape_string($dbuser);
 					//check for roles creation rights in postgresql
-					$query="SELECT 1 FROM pg_roles WHERE rolcreaterole=TRUE AND rolname='$dbuser'";
+					$query="SELECT 1 FROM pg_roles WHERE rolcreaterole=TRUE AND rolname='$e_user'";
 					$result = pg_query($connection, $query);
 					if($result and pg_num_rows($result) > 0) {
 						//use the admin login data for the new database user
@@ -199,7 +203,13 @@ class OC_Setup {
 					// connect to the ownCloud database (dbname=$dbname) an check if it needs to be filled
 					$dbuser = OC_CONFIG::getValue('dbuser');
 					$dbpass = OC_CONFIG::getValue('dbpassword');
-					$connection_string = "host=$dbhost dbname=$dbname user=$dbuser password=$dbpass";
+
+					$e_host = addslashes($dbhost);
+					$e_dbname = addslashes($dbname);
+					$e_user = addslashes($dbuser);
+					$e_password = addslashes($dbpass);
+
+					$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' password='$e_password'";
 					$connection = @pg_connect($connection_string);
 					if(!$connection) {
 						$error[] = array(
