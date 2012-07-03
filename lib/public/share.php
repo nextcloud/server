@@ -156,7 +156,7 @@ class Share {
 						return false;
 					}
 				}
-				if ($checkShareExists = self::getItems($itemType, $item, self::SHARE_TYPE_USER, $shareWith, $uidOwner, self::FORMAT_NONE, 1) && !empty($checkShareExists)) {
+				if (self::getItems($itemType, $item, self::SHARE_TYPE_USER, $shareWith, $uidOwner, self::FORMAT_NONE, 1)) {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with the user '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
@@ -169,7 +169,7 @@ class Share {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because '.$uidOwner.' is not a member of the group '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
-				if ($checkShareExists = self::getItems($itemType, $item, self::SHARE_TYPE_GROUP, $shareWith, $uidOwner, self::FORMAT_NONE, 1) && !empty($checkShareExists)) {
+				if (self::getItems($itemType, $item, self::SHARE_TYPE_GROUP, $shareWith, $uidOwner, self::FORMAT_NONE, 1)) {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with the group '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
@@ -221,7 +221,7 @@ class Share {
 	* @return Returns true on success or false on failure
 	*/
 	public static function unshare($itemType, $item, $shareType, $shareWith) {
-		if ($item = self::getItems($itemType, $item, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, 1) && !empty($item)) {
+		if ($item = self::getItems($itemType, $item, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, 1)) {
 			self::delete($item['id']);
 			return true;
 		}
@@ -270,7 +270,7 @@ class Share {
 		if ($backend = self::getBackend($itemType)) {
 			$uidSharedWith = \OC_User::getUser();
 			// TODO Check permissions for setting target?
-			if ($item = self::getItems($itemType, $oldTarget, self::SHARE_TYPE_USER, $uidSharedWith, null, self::FORMAT_NONE, 1) && !empty($item)) {
+			if ($item = self::getItems($itemType, $oldTarget, self::SHARE_TYPE_USER, $uidSharedWith, null, self::FORMAT_NONE, 1)) {
 				// Check if this is a group share
 				if ($item['uid_shared_with'] == null) {
 					// A new entry needs to be created exclusively for the user
@@ -308,7 +308,7 @@ class Share {
 	* @return Returns true on success or false on failure
 	*/
 	public static function setPermissions($itemType, $item, $shareType, $shareWith, $permissions) {
-		if ($item = self::getItems($itemType, $item, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, 1) && !empty($item)) {
+		if ($item = self::getItems($itemType, $item, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, 1)) {
 			// Check if this item is a reshare and verify that the permissions granted don't exceed the parent shared item
 			if (isset($item['parent'])) {
 				$query = \OC_DB::prepare('SELECT permissions FROM *PREFIX*share WHERE id = ? LIMIT 1');
@@ -521,7 +521,7 @@ class Share {
 				} else {
 					return $backend->formatItems($items, $format);
 				}
-			} else if ($limit == 1) {
+			} else if ($limit == 1 || (isset($uidOwner) && isset($item))) {
 				return false;
 			}
 		}
@@ -556,7 +556,7 @@ class Share {
 		}
 		if ($backend = self::getBackend($itemType)) {
 			// Check if this is a reshare
-			if ($checkReshare = self::getItemSharedWith($itemType, $item) && !empty($checkReshare)) {
+			if ($checkReshare = self::getItemSharedWith($itemType, $item)) {
 				// TODO Check if resharing is allowed
 				// TODO Don't check if inside folder
 				$parent = $checkReshare['id'];
