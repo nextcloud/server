@@ -63,20 +63,23 @@ OC.Share={
 			}
 		});
 	},
-	showDropDown:function(itemType, item, appendTo) {
+	showDropDown:function(itemType, item, appendTo, privateLink) {
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item="'+item+'">';
 		// TODO replace with autocomplete textbox
 		html += '<input id="shareWith" type="text" placeholder="Share with" />';
 		html += '<ul id="shareWithList">';
 		html += '</ul>';
-		html += '<div id="privateLink">';
-		html += '<input type="checkbox" name="privateLinkCheckbox" id="privateLinkCheckbox" value="1" /><label for="privateLinkCheckbox">Share with private link</label>';
-		html += '<br />';
-		html += '<form id="emailPrivateLink">';
-		html += '<input id="privateLinkText" style="display:none; width:90%;" />';
-		html += '<input id="email" style="display:none; width:65%;" value="" placeholder="Email link to person" />';
-		html += '<input id="emailButton" style="display:none;" type="submit" value="Send" />';
-		html += '</form>';
+		if (privateLink) {
+			html += '<div id="privateLink">';
+			html += '<input type="checkbox" name="privateLinkCheckbox" id="privateLinkCheckbox" value="1" /><label for="privateLinkCheckbox">Share with private link</label>';
+			html += '<br />';
+			html += '<form id="emailPrivateLink">';
+			html += '<input id="privateLinkText" style="display:none; width:90%;" />';
+			html += '<input id="email" style="display:none; width:65%;" value="" placeholder="Email link to person" />';
+			html += '<input id="emailButton" style="display:none;" type="submit" value="Send" />';
+			html += '</form>';
+			html += '</div>';
+		}
 		html += '</div>';
 		$(html).appendTo(appendTo);
 		var data = OC.Share.loadItem(itemType, item);
@@ -148,7 +151,11 @@ $(document).ready(function() {
 
 	$('.share').live('click', function() {
 		if ($(this).data('item-type') !== undefined && $(this).data('item') !== undefined) {
-			OC.Share.showDropDown($(this).data('item-type'), $(this).data('item'), $(this).parent().parent());
+			var privateLink = false;
+			if ($(this).data('private-link') !== undefined && $(this).data('private-link') == true) {
+				privateLink = true;
+			}
+			OC.Share.showDropDown($(this).data('item-type'), $(this).data('item'), $(this).parent().parent(), privateLink);
 		}
 	});
 	
@@ -187,12 +194,12 @@ $(document).ready(function() {
 					OC.Share.hideDropDown(function () {
 						$('tr').removeClass('mouseOver');
 						$('tr').filterAttr('data-file', filename).addClass('mouseOver');
-						OC.Share.showDropDown('file', item, appendTo);
+						OC.Share.showDropDown('file', item, appendTo, true);
 					});
 				}
 			} else {
 				$('tr').filterAttr('data-file',filename).addClass('mouseOver');
-				OC.Share.showDropDown('file', item, appendTo);
+				OC.Share.showDropDown('file', item, appendTo, true);
 			}
 		});
 	}
