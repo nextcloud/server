@@ -10,6 +10,11 @@
  */
 class OC_Calendar_Import{
 	/*
+	 * @brief counts the absolute number of parsed elements
+	 */
+	private $abscount;
+	
+	/*
 	 * @brief var saves if the percentage should be saved with OC_Cache
 	 */
 	private $cacheprogress;
@@ -45,6 +50,11 @@ class OC_Calendar_Import{
 	private $progress;
 	
 	/*
+	 * @brief var saves the key for the percentage of the import's progress
+	 */
+	private $progresskey;
+	
+	/*
 	 * @brief var saves the timezone the events shell converted to
 	 */
 	private $tz;
@@ -67,6 +77,7 @@ class OC_Calendar_Import{
 	public function __construct($ical){
 		$this->error = null;
 		$this->ical = $ical;
+		$this->abscount = 0;
 		$this->count = 0;
 		try{
 			$this->calobject = OC_VObject::parse($this->ical);
@@ -86,6 +97,7 @@ class OC_Calendar_Import{
 		if(!$this->isValid()){
 			return false;
 		}
+		$numofcomponents = count($this->calobject->getComponents());
 		foreach($this->calobject->getComponents() as $object){
 			if(!($object instanceof Sabre_VObject_Component_VEvent) && !($object instanceof Sabre_VObject_Component_VJournal) && !($object instanceof Sabre_VObject_Component_VTodo)){
 				continue;
@@ -96,12 +108,15 @@ class OC_Calendar_Import{
 			$object->DTEND->getDateTime()->setTimezone(new DateTimeZone($this->tz));
 			$vcalendar = $this->createVCalendar($object->serialize());
 			$insertid = OC_Calendar_Object::add($this->id, $vcalendar);
+			$this->abscount++;
 			if($this->isDuplicate($insertid)){
 				OC_Calendar_Object::delete($insertid);
 			}else{
-				$this->count++;	
+				$this->count++;
 			}
+			$this->updateProgress(intval(($this->abscount / $numofcomponents)*100));
 		}
+		OC_Cache::remove($this->progresskey);
 		return true;
 	}
 	
@@ -111,6 +126,15 @@ class OC_Calendar_Import{
 	 */
 	public function setTimeZone($tz){
 		$this->tz = $tz;
+		return true;
+	}
+	
+	/*
+	 * @brief sets the progresskey
+	 * @return boolean
+	 */
+	public function setProgresskey($progresskey){
+		$this->progresskey = $progresskey;
 		return true;
 	}
 	
@@ -259,12 +283,17 @@ class OC_Calendar_Import{
 	}
 	
 	/*
-	 * @brief 
-	 * @return 
+	 * @brief updates the progress var
+	 * @param integer $percentage
+	 * @return boolean
 	 */
-	//private function (){
-
-	//}
+	private function updateProgress($percentage){
+		$this->progress = $percentage;
+		if($this->cacheprogress){
+			OC_Cache::set($this->progresskey, $this->progress, 300);
+		}
+		return true;
+	}
 
 	/*
 	 * public methods for (pre)rendering of X-... Attributes

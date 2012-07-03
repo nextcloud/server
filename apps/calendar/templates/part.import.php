@@ -17,7 +17,7 @@ $calendar_options[] = array('id'=>'newcal', 'displayname'=>$l->t('create a new c
 		<input type="hidden" id="calendar_import_filename" value="<?php echo $_['filename'];?>">
 		<input type="hidden" id="calendar_import_path" value="<?php echo $_['path'];?>">
 		<input type="hidden" id="calendar_import_progresskey" value="<?php echo rand() ?>">
-		<span id="calendar_import_form_message"><?php echo $l->t('Please choose a calendar'); ?></span>
+		<div id="calendar_import_form_message"><?php echo $l->t('Please choose a calendar'); ?></div>
 		<select style="width:100%;" id="calendar_import_calendar" name="calendar_import_calendar">
 		<?php
 		for($i = 0;$i<count($calendar_options);$i++){
@@ -27,15 +27,15 @@ $calendar_options[] = array('id'=>'newcal', 'displayname'=>$l->t('create a new c
 		?>
 		</select>
 		<div id="calendar_import_newcalform">
-			<input id="calendar_import_newcalendar"  type="text" placeholder="<?php echo $l->t('Name of new calendar'); ?>" value="<?php echo $newcalendarname ?>"><br>
+			<input id="calendar_import_newcalendar"  class="" type="text" placeholder="<?php echo $l->t('Name of new calendar'); ?>" value="<?php echo $newcalendarname ?>"><br>
 			<!--<input id="calendar_import_generatename" type="button" class="button" value="<?php echo $l->t('Take an available name!'); ?>"><br>-->
-			<span  id="calendar_import_mergewarning" class="hint"><?php echo $l->t('A Calendar with this name already exists. If you continue anyhow, these calendars will be merged.'); ?></span>
+			<div  id="calendar_import_mergewarning" class="hint"><?php echo $l->t('A Calendar with this name already exists. If you continue anyhow, these calendars will be merged.'); ?></div>
 		</div>
 		<input id="calendar_import_submit" type="button" class="button" value="&raquo; <?php echo $l->t('Import'); ?> &raquo;" id="startimport">
 	<form>
 </div>
 <div id="calendar_import_process">
-	<span id="calendar_import_process_message"></span>
+	<div id="calendar_import_process_message"></div>
 	<div  id="calendar_import_progressbar"></div>
 	<br>
 	<div id="calendar_import_status" class="hint"></div>

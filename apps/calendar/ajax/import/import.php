@@ -8,6 +8,10 @@
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
 session_write_close();
+if (isset($_POST['progresskey']) && isset($_POST['getprogress'])) {
+	echo OCP\JSON::success(array('percent'=>OC_Cache::get($_POST['progresskey'])));
+	exit;
+}
 $file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
 if(!$file){
 	OCP\JSON::error(array('error'=>'404'));
@@ -16,6 +20,7 @@ $import = new OC_Calendar_Import($file);
 $import->setUserID(OCP\User::getUser());
 $import->setTimeZone(OC_Calendar_App::$tz);
 $import->enableProgressCache();
+$import->setProgresskey($_POST['progresskey']);
 if(!$import->isValid()){
 	OCP\JSON::error(array('error'=>'notvalid'));
 	exit;
@@ -44,7 +49,12 @@ if($_POST['method'] == 'new'){
 	$id = $_POST['id'];
 }
 $import->setCalendarID($id);
-$import->import();
+try{
+	$import->import();
+}catch (Exception $e) {
+	OCP\JSON::error(array('message'=>OC_Calendar_App::$l10n->t('Import failed'), 'debug'=>$e->getMessage()));
+	//write some log
+}
 $count = $import->getCount();
 if($count == 0){
 	if($newcal){
@@ -137,4 +147,4 @@ foreach($uids as $uid) {
 writeProgress('100');
 sleep(3);
 OC_Cache::remove($progresskey);
-OCP\JSON::success();
+OCP\JSON::success();*/
