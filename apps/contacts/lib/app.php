@@ -24,16 +24,18 @@ class OC_Contacts_App {
 
 	public static function getAddressbook($id) {
 		$addressbook = OC_Contacts_Addressbook::find( $id );
-		if( $addressbook === false || $addressbook['userid'] != OCP\USER::getUser() && !OCP\Share::getItemSharedWithBySource('addressbook', $id)) {
-			if ($addressbook === false) {
-				OCP\Util::writeLog('contacts', 'Addressbook not found: '. $id, OCP\Util::ERROR);
-				OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('Addressbook not found.'))));
-			}
-			else {
+		if ($addressbook === false) {
+			OCP\Util::writeLog('contacts', 'Addressbook not found: '. $id, OCP\Util::ERROR);
+			OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('Addressbook not found.'))));
+			exit();
+		} else if ($addressbook['userid'] != OCP\USER::getUser()) {
+			if ($shared = OCP\Share::getItemSharedWithBySource('addressbook', $id)) {
+				$addressbook['displayname'] = $shared['item_target'];
+			} else {
 				OCP\Util::writeLog('contacts', 'Addressbook('.$id.') is not from '.OCP\USER::getUser(), OCP\Util::ERROR);
 				OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.'))));
+				exit();
 			}
-			exit();
 		}
 		return $addressbook;
 	}

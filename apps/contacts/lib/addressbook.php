@@ -235,6 +235,7 @@ class OC_Contacts_Addressbook{
 			$uid = OCP\USER::getUser();
 		}
 		$active = self::activeIds($uid);
+		$shared = OCP\Share::getItemsSharedWith('addressbook', OC_Contacts_Share::FORMAT_ADDRESSBOOKS);
 		$addressbooks = array();
 		$ids_sql = join(',', array_fill(0, count($active), '?'));
 		$prep = 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id IN ('.$ids_sql.') ORDER BY displayname';
@@ -249,7 +250,17 @@ class OC_Contacts_Addressbook{
 		}
 
 		while( $row = $result->fetchRow()){
-			$addressbooks[] = $row;
+			// Insert formatted shared addressbook instead
+			if ($row['userid'] != $uid) {
+				foreach ($shared as $addressbook) {
+					if ($addressbook['id'] == $row['id']) {
+						$addressbooks[] = $addressbook;
+						break;
+					}
+				}
+			} else {
+				$addressbooks[] = $row;
+			}
 		}
 		if(!count($addressbooks)) {
 			self::addDefault($uid);
