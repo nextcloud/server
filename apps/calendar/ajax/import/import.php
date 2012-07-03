@@ -24,7 +24,7 @@ $newcal = false;
 if($_POST['method'] == 'new'){
 	$calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser());
 	foreach($calendars as $calendar){
-		if($calendar['dispalyname'] == $_POST['calname']){
+		if($calendar['displayname'] == $_POST['calname']){
 			$id = $calendar['id'];
 			$newcal = false;
 			break;
