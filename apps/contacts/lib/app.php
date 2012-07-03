@@ -24,7 +24,7 @@ class OC_Contacts_App {
 
 	public static function getAddressbook($id) {
 		$addressbook = OC_Contacts_Addressbook::find( $id );
-		if( $addressbook === false || $addressbook['userid'] != OCP\USER::getUser()) {
+		if( $addressbook === false || $addressbook['userid'] != OCP\USER::getUser() && !OCP\Share::getItemSharedWithBySource('addressbook', $id)) {
 			if ($addressbook === false) {
 				OCP\Util::writeLog('contacts', 'Addressbook not found: '. $id, OCP\Util::ERROR);
 				OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('Addressbook not found.'))));

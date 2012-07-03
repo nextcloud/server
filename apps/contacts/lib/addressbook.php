@@ -58,7 +58,7 @@ class OC_Contacts_Addressbook{
 		while( $row = $result->fetchRow()){
 			$addressbooks[] = $row;
 		}
-
+		$addressbooks = array_merge($addressbooks, OCP\Share::getItemsSharedWith('addressbook', OC_Contacts_Share::FORMAT_ADDRESSBOOKS));
 		return $addressbooks;
 	}
 

@@ -20,7 +20,6 @@ if($contacts === false) {
 }
 
 $addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
-$addressbooks = array_merge($addressbooks, OCP\Share::getItemsSharedWith('addressbook', OC_Contacts_Share::FORMAT_ADDRESSBOOKS));
 
 // Load the files we need
 OCP\App::setActiveNavigationEntry( 'contacts_index' );

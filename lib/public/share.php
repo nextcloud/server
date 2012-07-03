@@ -85,6 +85,17 @@ class Share {
 	}
 
 	/**
+	* @brief Get the item of item type shared with the current user by source
+	* @param string Item type
+	* @param string Item source
+	* @param int Format (optional) Format type must be defined by the backend
+	* @return Return depends on format
+	*/
+	public static function getItemSharedWithBySource($itemType, $itemSource, $format = self::FORMAT_NONE) {
+		return self::getItems($itemType, $itemSource, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, 1, true);
+	}
+
+	/**
 	* @brief Get the shared items of item type owned by the current user
 	* @param string Item type
 	* @param int Format (optional) Format type must be defined by the backend
@@ -104,6 +115,17 @@ class Share {
 	*/
 	public static function getItemShared($itemType, $item, $format = self::FORMAT_NONE) {
 		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format);
+	}
+
+	/**
+	* @brief Get the shared item of item type owned by the current user by source
+	* @param string Item type
+	* @param string Item source
+	* @param int Format (optional) Format type must be defined by the backend
+	* @return Return depends on format
+	*/
+	public static function getItemSharedBySource($itemType, $item, $format = self::FORMAT_NONE) {
+		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format, -1, true);
 	}
 
 	/**
@@ -378,7 +400,7 @@ class Share {
 	* See public functions getItem(s)... for parameter usage
 	*
 	*/
-	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $limit = -1) {
+	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $limit = -1, $isSource = false) {
 		if ($backend = self::getBackend($itemType)) {
 			// Check if there are any parent types that include this type of items, e.g. a music album contains songs
 			if (isset($itemType)) {
@@ -427,11 +449,19 @@ class Share {
 						$where .= " AND item_source = '".$itemSource."'";
 					}
 				} else {
-					if ($itemType == 'file' && substr($item, -1) == '/') {
-						// Special case to select only the shared files inside the folder
-						$where .= " AND file_target LIKE '".$item."%/'";
+					if ($isSource) {
+						if ($itemType == 'file') {
+							$where .= " AND file_source = '".$item."'";
+						} else {
+							$where .= " AND item_source = '".$item."'";
+						}
 					} else {
-						$where .= " AND item_target = '".$item."'";
+						if ($itemType == 'file' && substr($item, -1) == '/') {
+							// Special case to select only the shared files inside the folder
+							$where .= " AND file_target LIKE '".$item."%/'";
+						} else {
+							$where .= " AND item_target = '".$item."'";
+						}
 					}
 				}
 			}
@@ -456,23 +486,23 @@ class Share {
 			$result = $query->execute();
 			$items = array();
 			while ($item = $result->fetchRow()) {
+				if ($limit == 1) {
+					// Return just the item instead of 3-dimensional array
+					return $item;
+				}
 				// Filter out duplicate group shares for users with unique targets
 				if ($item['share_type'] == self::$shareTypeGroupUserUnique) {
-					// Group shares should already be in the items array
+					// Remove the parent group share
 					unset($items[$item['item_source']][$item['parent']]);
 				}
+				$items[$item['item_source']][$item['id']] = $item;
 				// TODO Add in parent item types children?
 				if ($parents && in_array($item['item_type'], $parents)) {
 					$children[] = $item;
 				}
-				$items[$item['item_source']][$item['id']] = $item;
 			}
 			if (!empty($items)) {
 				if ($format == self::FORMAT_NONE) {
-					if ($limit == 1) {
-						// Return just the item instead of 3-dimensional array
-						return $item;
-					}
 					return $items;
 				} else if ($format == self::FORMAT_STATUSES) {
 					$statuses = array();
@@ -480,6 +510,7 @@ class Share {
 						foreach ($shares as $info) {
 							if ($info['share_type'] == self::SHARE_TYPE_PRIVATE_LINK) {
 								$statuses[$info['item']] = true;
+								break;
 							} else if (!isset($statuses[$info['item']])) {
 								$statuses[$info['item']] = false;
 							}
@@ -490,6 +521,8 @@ class Share {
 				} else {
 					return $backend->formatItems($items, $format);
 				}
+			} else if ($limit == 1) {
+				return false;
 			}
 		}
 		return array();
