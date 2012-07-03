@@ -153,6 +153,7 @@ class OC_Filesystem{
 		if($path[0]!=='/'){
 			$path='/'.$path;
 		}
+		$path=str_replace('//', '/',$path);
 		$foundMountPoint='';
 		foreach(OC_Filesystem::$mounts as $mountpoint=>$storage){
 			if($mountpoint==$path){
