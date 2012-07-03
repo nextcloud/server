@@ -75,6 +75,11 @@ class Storage {
 	 */
 	public function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		
+			$files_view = \OCP\Files::getStorage("files");
+			$users_view = \OCP\Files::getStorage("files_versions");
+			$users_view->chroot(\OCP\User::getUser().'/');
+			
 			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
 				$pos = strpos($source, '/files', 1);
 				$uid = substr($source, 1, $pos - 1);
@@ -86,8 +91,13 @@ class Storage {
 			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. $uid .'/files';
 			Storage::init();
 
+			//check if source file already exist as version to avoid recursions.
+			if ($users_view->file_exists($filename)) {
+				return false;
+			}
+			
 			// check if filename is a directory
-			if(is_dir($filesfoldername.'/'.$filename)){
+			if($files_view->is_dir($filename)){
 				return false;
 			}
 
@@ -102,7 +112,7 @@ class Storage {
 			}
 			
 			// check filesize
-			if(filesize($filesfoldername.'/'.$filename)>\OCP\Config::getSystemValue('files_versionsmaxfilesize', Storage::DEFAULTMAXFILESIZE)){
+			if($files_view->filesize($filename)>\OCP\Config::getSystemValue('files_versionsmaxfilesize', Storage::DEFAULTMAXFILESIZE)){
 				return false;
 			}
 
@@ -123,10 +133,10 @@ class Storage {
 			if(!file_exists($versionsFolderName.'/'.$info['dirname'])) mkdir($versionsFolderName.'/'.$info['dirname'],0700,true);	
 
 			// store a new version of a file
-			copy($filesfoldername.'/'.$filename,$versionsFolderName.'/'.$filename.'.v'.time());
+			@$users_view->copy('files'.$filename, 'versions'.$filename.'.v'.time());
         
 			// expire old revisions if necessary
-			$this->expire($filename);
+			Storage::expire($filename);
 		}
 	}
 
@@ -134,7 +144,7 @@ class Storage {
 	/**
 	 * rollback to an old version of a file.
 	 */
-	public function rollback( $filename, $revision ) {
+	public static function rollback($filename,$revision) {
 	
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
@@ -149,11 +159,11 @@ class Storage {
 			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. $uid .'/files';
 			
 			// rollback
-			if ( copy( $versionsFolderName.'/'.$filename.'.v'.$revision, $filesfoldername.'/'.$filename ) ) {
+			if ( @copy($versionsFolderName.'/'.$filename.'.v'.$revision,$filesfoldername.'/'.$filename) ) {
 			
 				return true;
 				
-			} else {
+			}else{
 			
 				return false;
 				
@@ -271,7 +281,7 @@ class Storage {
         /**
          * @brief Erase a file's versions which exceed the set quota
          */
-        public function expire( $filename ) {
+        public static function expire($filename) {
                 if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 
 			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
@@ -295,7 +305,7 @@ class Storage {
 				
 				foreach( $deleteItems as $de ) {
 				
-					$this->view->unlink( $versionsFolderName.'/'.$filename.'.v'.$de );
+					unlink( $versionsFolderName.'/'.$filename.'.v'.$de );
 					
 				}
 			}
@@ -327,7 +337,7 @@ class Storage {
         	if(Storage::isversioned($rel_path)) {
         		$versions = Storage::getVersions($rel_path);
         		foreach ($versions as $v){
-        			$this->view->unlink( $abs_path . $v['version'] );
+        			unlink($abs_path . $v['version']);
         		}
         	}
         }

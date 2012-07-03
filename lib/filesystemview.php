@@ -276,7 +276,7 @@ class OC_FilesystemView {
 				}else{
 					$source=$this->fopen($path1,'r');
 					$target=$this->fopen($path2,'w');
-					$count=OC_Helper::streamCopy($data,$target);
+					$count=OC_Helper::streamCopy($source,$target);
 					$storage1=$this->getStorage($path1);
 					$storage1->unlink($this->getInternalPath($path1));
 					$result=$count>0;
@@ -314,7 +314,7 @@ class OC_FilesystemView {
 				}else{
 					$source=$this->fopen($path1,'r');
 					$target=$this->fopen($path2,'w');
-					$count=OC_Helper::streamCopy($data,$target);
+					$result=OC_Helper::streamCopy($source,$target);
 				}
         OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_copy, array( OC_Filesystem::signal_param_oldpath => $path1 , OC_Filesystem::signal_param_newpath=>$path2));
 				if(!$exists){
