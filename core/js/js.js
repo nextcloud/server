@@ -67,6 +67,8 @@ OC={
 			if(type){
 				link+= '/'+type+'/';
 			}
+			if(link.substring(link.length-1) != '/')
+				link+='/';
 			link+=file;
 		}else{
 			link+='/';
