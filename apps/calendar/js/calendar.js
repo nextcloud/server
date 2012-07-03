@@ -867,7 +867,7 @@ $(document).ready(function(){
 		eventDrop: Calendar.UI.moveEvent,
 		eventResize: Calendar.UI.resizeEvent,
 		eventRender: function(event, element) {
-			element.find('.fc-event-title').html(element.find('.fc-event-title').html());
+			element.find('.fc-event-title').html(element.find('.fc-event-title').text());
 			element.tipsy({
 				className: 'tipsy-event',
 				opacity: 0.9,
