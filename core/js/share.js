@@ -25,7 +25,7 @@ OC.Share={
 	},
 	loadItem:function(itemType, item) {
 		var data = '';
-		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItemShared', itemType: itemType, item: item }, async: false, success: function(result) {
+		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, item: item }, async: false, success: function(result) {
 			if (result && result.status === 'success') {
 				data = result.data;
 			} else {
@@ -45,8 +45,8 @@ OC.Share={
 			}
 		});
 	},
-	unshare:function(itemType, shareType, shareWith, callback) {
-		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'unshare', itemType: itemType, shareType: shareType, shareWith: shareWith }, function(result) {
+	unshare:function(itemType, item, shareType, shareWith, callback) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'unshare', itemType: itemType, item: item, shareType: shareType, shareWith: shareWith }, function(result) {
 			if (result && result.status === 'success') {
 				if (callback) {
 					callback();
@@ -67,15 +67,8 @@ OC.Share={
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item="'+item+'">';
 		// TODO replace with autocomplete textbox
 		html += '<input id="shareWith" type="text" placeholder="Share with" />';
-		html += '<div id="sharedWithList">';
-		var sharedWith = OC.Share.loadItem(itemType, item);
-		if (sharedWith) {
-			$.each(sharedWith, function(index, row) {
-				html += row.share_with;
-				html += '<br />';
-			});
-		}
-		html += '</div>';
+		html += '<ul id="shareWithList">';
+		html += '</ul>';
 		html += '<div id="privateLink">';
 		html += '<input type="checkbox" name="privateLinkCheckbox" id="privateLinkCheckbox" value="1" /><label for="privateLinkCheckbox">Share with private link</label>';
 		html += '<br />';
@@ -86,6 +79,14 @@ OC.Share={
 		html += '</form>';
 		html += '</div>';
 		$(html).appendTo(appendTo);
+		var data = OC.Share.loadItem(itemType, item);
+		if (data) {
+			$.each(data, function(index, shares) {
+				$.each(shares, function(id, share) {
+					OC.Share.addShareWith(share.share_with, share.permissions);
+				});
+			});
+		}
 		$('#dropdown').show('blind');
 		$('#share_with').chosen();
 	},
@@ -97,53 +98,15 @@ OC.Share={
 			}
 		});
 	},
-	addSharedWith:function(uid_shared_with, permissions, isGroup, parentFolder) {
-		if (parentFolder) {
-			var sharedWith = '<li>Parent folder '+parentFolder+' shared with '+uid_shared_with+'</li>';
-		} else {
-			var checked = ((permissions > 0) ? 'checked="checked"' : 'style="display:none;"');
-			var style = ((permissions == 0) ? 'style="display:none;"' : '');
-			var sharedWith = '<li data-uid_shared_with="'+uid_shared_with+'">';
-			sharedWith += '<a href="" class="unshare" style="display:none;"><img class="svg" alt="Unshare" src="'+OC.imagePath('core','actions/delete')+'"/></a>';
-			sharedWith += uid_shared_with;
-			sharedWith += '<input type="checkbox" name="permissions" id="'+uid_shared_with+'" class="permissions" '+checked+' />';
-			sharedWith += '<label class="edit" for="'+uid_shared_with+'" '+style+'>can edit</label>';
-			sharedWith += '</li>';
-		}
-		if (isGroup) {
-			// Groups are added to a different list
-			$('#groups').show();
-			$(sharedWith).appendTo('#groupList');
-			// Remove group from select form
-			$('#share_with option[value="'+uid_shared_with+'(group)"]').remove();
-			$('#share_with').trigger('liszt:updated');
-			// Remove users in group from select form
-			$.each(isGroup, function(index, user) {
-				$('#share_with option[value="'+user+'"]').remove();
-				$('#share_with').trigger('liszt:updated');
-			});
-		} else {
-			$(sharedWith).appendTo('#userList');
-			// Remove user from select form
-			$('#share_with option[value="'+uid_shared_with+'"]').remove();
-			$('#share_with').trigger('liszt:updated');
-		}
+	addShareWith:function(shareWith, permissions) {
+		var checked = ((permissions > 0) ? 'checked="checked"' : 'style="display:none;"');
+		var style = ((permissions == 0) ? 'style="display:none;"' : '');
+		var html = '<li >';
+		html += shareWith;
+		html += '<a href="" class="unshare" data-share-with="'+shareWith+'" style="display:none;"><img class="svg" alt="Unshare" src="'+OC.imagePath('core','actions/delete')+'"/></a>';
+		html += '</li>';
+		$(html).appendTo('#shareWithList');
 		
-	},
-	removeSharedWith:function(uid_shared_with) {
-		var option;
-		if ($('#userList li[data-uid_shared_with="'+uid_shared_with+'"]').length > 0) {
-			$('#userList li[data-uid_shared_with="'+uid_shared_with+'"]').remove();
-			option = '<option value="'+uid_shared_with+'">'+uid_shared_with+'</option>';
-		} else if ($('#groupList li[data-uid_shared_with="'+uid_shared_with+'"]').length > 0) {
-			$('#groupList li[data-uid_shared_with="'+uid_shared_with+'"]').remove();
-			if ($('#groupList li').length < 1) {
-				$('#groups').hide();
-			}
-			option = '<option value="'+uid_shared_with+'(group)">'+uid_shared_with+' (group)</option>';
-		}
-		$(option).appendTo('#share_with');
-		$('#share_with').trigger('liszt:updated');
 	},
 	showPrivateLink:function(item, token) {
 		$('#privateLinkCheckbox').attr('checked', true);
@@ -244,12 +207,12 @@ $(document).ready(function() {
 // 		}
 // 	});
 
-	$('#sharedWithList li').live('mouseenter', function(event) {
+	$('#shareWithList li').live('mouseenter', function(event) {
 		// Show permissions and unshare button
 		$(':hidden', this).show();
 	});
 	
-	$('#sharedWithList li').live('mouseleave', function(event) {
+	$('#shareWithList li').live('mouseleave', function(event) {
 		// Hide permissions and unshare button
 		$('a', this).hide();
 		if (!$('input:[type=checkbox]', this).is(':checked')) {
@@ -263,16 +226,9 @@ $(document).ready(function() {
 	});
 	
 	$('.unshare').live('click', function() {
-		var item = $('#dropdown').data('item');
-		var uid_shared_with = $(this).parent().data('uid_shared_with');
-		OC.Share.unshare(item, uid_shared_with, function() {
-			OC.Share.removeSharedWith(uid_shared_with);
-			// Reload item to update cached users and groups for the icon check
-			OC.Share.loadItem(item);
-			// Change icon
-			if (!OC.Share.itemPrivateLink && !OC.Share.itemUsers && !OC.Share.itemGroups) {
-				OC.Share.icons[item] = OC.imagePath('core', 'actions/share');
-			}
+		var li = $(this).parent();
+		OC.Share.unshare($('#dropdown').data('item-type'), $('#dropdown').data('item'), 0, $(this).data('share-with'), function() {
+			$(li).remove();
 		});
 	});
 	

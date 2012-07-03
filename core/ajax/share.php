@@ -47,7 +47,8 @@ if (isset($_POST['action'])) {
 			$return = OCP\Share::getItemsShared($_GET['itemType'], OCP\Share::FORMAT_STATUSES);
 			($return) ? OC_JSON::success(array('data' => $return)) : OC_JSON::error();
 			break;
-		case 'getItemShared':
+		case 'getItem':
+			// TODO Check if the item was shared to the current user
 			$return = OCP\Share::getItemShared($_GET['itemType'], $_GET['item']);
 			($return) ? OC_JSON::success(array('data' => $return)) : OC_JSON::error();
 			break;

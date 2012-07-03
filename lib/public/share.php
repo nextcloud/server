@@ -479,7 +479,7 @@ class Share {
 				if (isset($uidOwner)) {
 					$select = 'id, item_type, item, item_source, share_type, share_with, permissions, stime, file_source';
 				} else {
-					$select = 'id, item_type, item, item_source, item_target, share_type, share_with, permissions, stime, file_source, file_target';
+					$select = '*';
 				}
 			}
 			$query = \OC_DB::prepare('SELECT '.$select.' FROM *PREFIX*share '.$where);
