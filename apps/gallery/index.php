@@ -30,6 +30,12 @@ OCP\App::setActiveNavigationEntry( 'gallery_index' );
 OCP\Util::addStyle('files', 'files');
 OCP\Util::addStyle('gallery', 'styles');
 OCP\Util::addScript('gallery', 'pictures');
+OCP\Util::addStyle( 'gallery', 'supersized' );
+OCP\Util::addStyle( 'gallery', 'supersized.shutter' );
+OCP\Util::addscript('gallery', 'slideshow');
+OCP\Util::addscript('gallery', 'jquery.easing.min');
+OCP\Util::addscript('gallery', 'supersized.3.2.7.min');
+OCP\Util::addscript('gallery', 'supersized.shutter.min');
 
 include('gallery/lib/tiles.php');
 
