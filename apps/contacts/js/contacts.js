@@ -1359,13 +1359,18 @@ Contacts={
 				}
 				return false;
 			},
-			activation:function(checkbox, bookid)
-			{
-				$.post(OC.filePath('contacts', 'ajax', 'activation.php'), { bookid: bookid, active: checkbox.checked?1:0 },
-				  function(data) {
-					if (data.status == 'success'){
-						checkbox.checked = data.active == 1;
-						Contacts.UI.Contacts.update();
+			activation:function(checkbox, bookid){
+				var active = checkbox.checked;
+				$.post(OC.filePath('contacts', 'ajax', 'activation.php'), {bookid: bookid, active: (active?1:0)}, function(jsondata) {
+					if (jsondata.status == 'success'){
+						if(!active) {
+							$('#contacts h3[data-id="'+bookid+'"],#contacts ul[data-id="'+bookid+'"]').remove();
+						} else {
+							Contacts.UI.Contacts.update();
+						}
+					} else {
+						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+						checkbox.checked = !active;
 					}
 				  });
 			},
