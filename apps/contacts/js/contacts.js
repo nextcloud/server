@@ -1427,7 +1427,7 @@ Contacts={
 							}
 						}
 					};
-					xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadimport.php') + '?file='+encodeURIComponent(file.name), true);
+					xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadimport.php') + '?file='+encodeURIComponent(file.name)+'&requesttoken='+requesttoken, true);
 					xhr.setRequestHeader('Cache-Control', 'no-cache');
 					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 					xhr.setRequestHeader('X_FILE_NAME', encodeURIComponent(file.name));
