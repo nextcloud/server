@@ -23,6 +23,7 @@
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+OCP\JSON::callCheck();
 require_once('loghandler.php');
 
 $view = OCP\Files::getStorage('contacts');
