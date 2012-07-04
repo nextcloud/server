@@ -81,6 +81,7 @@
 		</table>
 		<br />
 		
+		<?php if (!$_['isAdminPage']): ?>
   		<table id="sslCertificate" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
 			<thead>
 				<tr>
@@ -99,6 +100,7 @@
 		</table>		
         <input type="file" id="rootcert_import" name="rootcert_import" style="width:230px;">
         <input type="submit" name="cert_import" value="<?php echo $l->t('Import Root Certificate'); ?>" />		
+		<?php endif; ?>
 		
 		<?php if ($_['isAdminPage']): ?>
 			<br />
