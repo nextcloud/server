@@ -237,6 +237,21 @@ class OC_Mount_Config {
 		$content .= ");\n?>";
 		@file_put_contents($file, $content);
 	}
+	
+	/**
+	 * Returns all user uploaded ssl root certificates
+	 * @return array
+	 */
+	public static function getCertificates() {
+		$view = \OCP\Files::getStorage('files_external');
+		$path=\OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("");
+		$result = array();
+		$handle = opendir($path);
+		while (false !== ($file = readdir($handle))) {
+			if($file != '.' && $file != '..') $result[] = $file;
+		}
+		return $result;
+	}
 
 }
 
