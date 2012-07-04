@@ -14,12 +14,16 @@ $contactid = isset($_GET['contactid']) ? $_GET['contactid'] : NULL;
 $nl = "\n";
 if(isset($bookid)){
 	$addressbook = OC_Contacts_App::getAddressbook($bookid);
-	$cardobjects = OC_Contacts_VCard::all($bookid);
+	//$cardobjects = OC_Contacts_VCard::all($bookid);
 	header('Content-Type: text/directory');
 	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $addressbook['displayname']) . '.vcf'); 
 
-	foreach($cardobjects as $card) {
-		echo $card['carddata'] . $nl;
+	$start = 0;
+	while($cardobjects = OC_Contacts_VCard::all($bookid, $start, 20)){
+		foreach($cardobjects as $card) {
+			echo $card['carddata'] . $nl;
+		}
+		$start += 20;
 	}
 }elseif(isset($contactid)){
 	$data = OC_Contacts_App::getContactObject($contactid);

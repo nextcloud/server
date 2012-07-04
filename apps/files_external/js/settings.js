@@ -1,4 +1,4 @@
-OC.MountConfig={
+OC.MountConfig={	
 	saveStorage:function(tr) {
 		var mountPoint = $(tr).find('.mountPoint input').val();
 		if (mountPoint == '') {
@@ -68,7 +68,6 @@ OC.MountConfig={
 }
 
 $(document).ready(function() {
-
 	$('.chzn-select').chosen();
 	
 	$('#selectBackend').live('change', function() {
@@ -116,8 +115,11 @@ $(document).ready(function() {
 	$('td.remove>img').live('click', function() {
 		var tr = $(this).parent().parent();
 		var mountPoint = $(tr).find('.mountPoint input').val();
-		if (mountPoint == '') {
-			return false;
+		if (!mountPoint) {
+			var row=this.parentNode.parentNode;
+			$.post(OC.filePath('files_external', 'ajax', 'removeRootCertificate.php'), { cert: row.id  });
+			$(tr).remove();
+			return true;
 		}
 		if ($('#externalStorage').data('admin') === true) {
 			var isPersonal = false;
