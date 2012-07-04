@@ -128,6 +128,14 @@ class OC_DB {
 					}else{
 						$dsn='pgsql:dbname='.$name.';host='.$host;
 					}
+					/**
+					* Ugly fix for pg connections pbm when password use spaces
+					*/
+					$e_user = addslashes($user);
+					$e_password = addslashes($pass);
+					$pass = $user = null;
+					$dsn .= ";user='$e_user';password='$e_password'";
+					/** END OF FIX***/
 					break;
 			}
 			try{
