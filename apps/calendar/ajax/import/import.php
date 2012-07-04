@@ -37,7 +37,7 @@ if($_POST['method'] == 'new'){
 		$newcal = true;
 	}
 	if($newcal){
-		$id = OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(), strip_tags($_POST['calname']),'VEVENT,VTODO,VJOURNAL',null,0,$import->createCalendarColor());
+		$id = OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(), strip_tags($_POST['calname']),'VEVENT,VTODO,VJOURNAL',null,0,strip_tags($_POST['calcolor']));
 		OC_Calendar_Calendar::setCalendarActive($id, 1);
 	}
 }else{

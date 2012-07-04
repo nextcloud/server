@@ -11,6 +11,7 @@ Calendar_Import={
 		id: 0,
 		method: '',
 		calname: '',
+		calcolor: '',
 		progresskey: '',
 		percentage: 0
 	},
@@ -33,6 +34,7 @@ Calendar_Import={
 			//init dialog
 			$('#calendar_import_dialog').dialog({
 				width : 500,
+				resizable: false,
 				close : function() {
 					Calendar_Import.Dialog.close();
 				}
@@ -44,6 +46,10 @@ Calendar_Import={
 			$('#calendar_import_submit').click(function(){
 				Calendar_Import.Core.process();
 			});
+			$('#calendar_import_mergewarning').click(function(){
+				$('#calendar_import_newcalendar').attr('value', $('#calendar_import_availablename').val());
+				Calendar_Import.Dialog.mergewarning($('#calendar_import_newcalendar').val());
+			});
 			$('#calendar_import_calendar').change(function(){
 				if($('#calendar_import_calendar option:selected').val() == 'newcal'){
 					$('#calendar_import_newcalform').slideDown('slow');
@@ -54,7 +60,16 @@ Calendar_Import={
 				}
 			});
 			$('#calendar_import_newcalendar').keyup(function(){
-				Calendar_Import.Dialog.mergewarning($('#calendar_import_newcalendar').val());
+				Calendar_Import.Dialog.mergewarning($.trim($('#calendar_import_newcalendar').val()));
+			});
+			$('#calendar_import_newcalendar_color').miniColors({
+				letterCase: 'uppercase'
+			});
+			$('.calendar-colorpicker-color').click(function(){
+				var str = $(this).attr('rel');
+				str = str.substr(1);
+				$('#calendar_import_newcalendar_color').attr('value', str);
+				$(".color-picker").miniColors('value', '#' + str);
 			});
 			//init progressbar
 			$('#calendar_import_progressbar').progressbar({value: Calendar_Import.Store.percentage});
@@ -114,7 +129,7 @@ Calendar_Import={
 		},
 		send: function(){
 			$.post(OC.filePath('calendar', 'ajax/import', 'import.php'), 
-			{progresskey: Calendar_Import.Store.progresskey, method: String (Calendar_Import.Store.method), calname: String (Calendar_Import.Store.calname), path: String (Calendar_Import.Store.path), file: String (Calendar_Import.Store.file), id: String (Calendar_Import.Store.id)}, function(data){
+			{progresskey: Calendar_Import.Store.progresskey, method: String (Calendar_Import.Store.method), calname: String (Calendar_Import.Store.calname), path: String (Calendar_Import.Store.path), file: String (Calendar_Import.Store.file), id: String (Calendar_Import.Store.id), calcolor: String (Calendar_Import.Store.calcolor)}, function(data){
 				if(data.status == 'success'){
 					$('#calendar_import_progressbar').progressbar('option', 'value', 100);
 					Calendar_Import.Store.percentage = 100;
@@ -135,6 +150,10 @@ Calendar_Import={
 				if(Calendar_Import.Store.calname == ''){
 					Calendar_Import.Dialog.warning('#calendar_import_newcalendar');
 					return false;
+				}
+				Calendar_Import.Store.calcolor = $.trim($('#calendar_import_newcalendar_color').val());
+				if(Calendar_Import.Store.calcolor == ''){
+					Calendar_Import.Store.calcolor = $('.calendar-colorpicker-color:first').attr('rel');
 				}
 			}else{
 				Calendar_Import.Store.method = 'old';

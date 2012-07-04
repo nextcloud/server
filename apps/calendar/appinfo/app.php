@@ -24,6 +24,8 @@ OCP\Util::connectHook('OC_Calendar', 'deleteCalendar', 'OC_Calendar_Share', 'pos
 OCP\Util::addscript('calendar','loader');
 OCP\Util::addscript("3rdparty", "chosen/chosen.jquery.min");
 OCP\Util::addStyle("3rdparty", "chosen/chosen");
+OCP\Util::addStyle('3rdparty/miniColors', 'jquery.miniColors');
+OCP\Util::addscript('3rdparty/miniColors', 'jquery.miniColors.min');
 OCP\App::addNavigationEntry( array(
   'id' => 'calendar_index',
   'order' => 10,
