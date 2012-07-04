@@ -14,7 +14,7 @@ OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 
 function getStandardImage(){
-	OCP\Response::setExpiresHeader('P10D');
+	//OCP\Response::setExpiresHeader('P10D');
 	OCP\Response::enableCaching();
 	OCP\Response::redirect(OCP\Util::imagePath('contacts', 'person_large.png'));
 }
