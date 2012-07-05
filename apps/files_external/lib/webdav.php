@@ -36,8 +36,10 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			$this->root.='/';
 		}
 		
-		$caview = \OCP\Files::getStorage('files_external');
-		$capath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("");
+		$capath = '';
+		if($caview = \OCP\Files::getStorage('files_external')) {
+			$capath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("");
+		}
 		$settings = array(
 			'baseUri' => $this->createBaseUri(),
 			'userName' => $this->user,
