@@ -291,7 +291,7 @@ class OC_Image {
 	* @returns bool.
 	*/
 	public function fixOrientation() {
-		$o = $this->getOrienation();
+		$o = $this->getOrientation();
 		OC_Log::write('core','OC_Image->fixOrientation() Orientation: '.$o, OC_Log::DEBUG);
 		$rotate = 0;
 		$flip = false;
