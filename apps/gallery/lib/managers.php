@@ -25,6 +25,15 @@ class DatabaseManager {
 		}
 	}
 
+	public function setFileData($path, $width, $height) {
+		$stmt = \OCP\DB::prepare('INSERT INTO *PREFIX*pictures_images_cache (uid_owner, path, width, height) VALUES (?, ?, ?, ?)');
+		$stmt->execute(array(\OCP\USER::getUser(), $path, $width, $height));
+		$ret = array('path' => $path, 'width' => $width, 'height' => $height);
+		unset($image);
+		$this->cache[$dir][$path] = $ret;
+		return $ret;
+	}
+
 	public function getFileData($path) {
 		$gallery_path = \OCP\Config::getSystemValue( 'datadirectory' ).'/'.\OC_User::getUser().'/gallery';
 		$path = $gallery_path.$path;
@@ -39,9 +48,7 @@ class DatabaseManager {
 		if (!$image->loadFromFile($path)) {
 			return false;
 		}
-		$stmt = \OCP\DB::prepare('INSERT INTO *PREFIX*pictures_images_cache (uid_owner, path, width, height) VALUES (?, ?, ?, ?)');
-		$stmt->execute(array(\OCP\USER::getUser(), $path, $image->width(), $image->height()));
-		$ret = array('path' => $path, 'width' => $image->width(), 'height' => $image->height());
+		$ret = $this->setFileData($path, $image->width(), $image->height());
 		unset($image);
 		$this->cache[$dir][$path] = $ret;
 		return $ret;
@@ -76,7 +83,7 @@ class ThumbnailsManager {
 
 		$image->fixOrientation();
 
-		$ret = $image->preciseResize(floor((150*$image->width())/$image->height()), 150);
+		$ret = $image->preciseResize($this->getThumbnailWidth($image), $this->getThumbnailHeight($image));
 		
 		if (!$ret) {
 			\OC_Log::write(self::TAG, 'Couldn\'t resize image', \OC_Log::ERROR);
@@ -87,13 +94,28 @@ class ThumbnailsManager {
 		$image->save($gallery_path.'/'.$path);
 		return $image;
 	}
-	
+
+	public function getThumbnailWidth($image) {
+		return floor((150*$image->widthTopLeft())/$image->heightTopLeft());
+	}
+
+	public function getThumbnailHeight($image) {
+		return 150;
+	}
+
 	public function getThumbnailInfo($path) {
 		$arr = DatabaseManager::getInstance()->getFileData($path);
 		if (!$arr) {
-			$thubnail = $this->getThumbnail($path);
-			unset($thubnail);
-			$arr = DatabaseManager::getInstance()->getFileData($path);
+			if (!\OC_Filesystem::file_exists($path)) {
+				\OC_Log::write(self::TAG, 'File '.$path.' don\'t exists', \OC_Log::WARN);
+				return false;
+			}
+			$image = new \OC_Image();
+			$image->loadFromFile(\OC_Filesystem::getLocalFile($path));
+			if (!$image->valid()) {
+				return false;
+			}
+			$arr = DatabaseManager::getInstance()->setFileData($path, $this->getThumbnailWidth($image), $this->getThumbnailHeight($image));
 		}
 		$ret = array('filepath' => $arr['path'],
 					 'width' => $arr['width'],
