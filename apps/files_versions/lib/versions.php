@@ -147,6 +147,9 @@ class Storage {
 	public static function rollback($filename,$revision) {
 	
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+			$users_view = \OCP\Files::getStorage("files_versions");
+			$users_view->chroot(\OCP\User::getUser().'/');
+			
 			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
 				$pos = strpos($source, '/files', 1);
 				$uid = substr($source, 1, $pos - 1);
@@ -159,7 +162,7 @@ class Storage {
 			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. $uid .'/files';
 			
 			// rollback
-			if ( @copy($versionsFolderName.'/'.$filename.'.v'.$revision,$filesfoldername.'/'.$filename) ) {
+			if( @$users_view->copy('versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
 			
 				return true;
 				
