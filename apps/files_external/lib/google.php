@@ -237,8 +237,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				$this->entries[$name] = $entry;
 			}
 		}
-		OC_FakeDirStream::$dirs['google'] = $files;
-		return opendir('fakedir://google');
+		OC_FakeDirStream::$dirs['google'.$path] = $files;
+		return opendir('fakedir://google'.$path);
 	}
 
 	public function stat($path) {

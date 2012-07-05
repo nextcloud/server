@@ -139,7 +139,7 @@ class Dropbox_API {
     public function copy($from, $to, $root = null) {
 
         if (is_null($root)) $root = $this->root;
-        $response = $this->oauth->fetch($this->api_url . 'fileops/copy', array('from_path' => $from, 'to_path' => $to, 'root' => $root));
+        $response = $this->oauth->fetch($this->api_url . 'fileops/copy', array('from_path' => $from, 'to_path' => $to, 'root' => $root), 'POST');
 
         return json_decode($response['body'],true);
 
@@ -178,7 +178,7 @@ class Dropbox_API {
     public function delete($path, $root = null) {
 
         if (is_null($root)) $root = $this->root;
-        $response = $this->oauth->fetch($this->api_url . 'fileops/delete', array('path' => $path, 'root' => $root));
+        $response = $this->oauth->fetch($this->api_url . 'fileops/delete', array('path' => $path, 'root' => $root), 'POST');
         return json_decode($response['body']);
 
     }
@@ -196,7 +196,7 @@ class Dropbox_API {
     public function move($from, $to, $root = null) {
 
         if (is_null($root)) $root = $this->root;
-        $response = $this->oauth->fetch($this->api_url . 'fileops/move', array('from_path' => rawurldecode($from), 'to_path' => rawurldecode($to), 'root' => $root));
+        $response = $this->oauth->fetch($this->api_url . 'fileops/move', array('from_path' => rawurldecode($from), 'to_path' => rawurldecode($to), 'root' => $root), 'POST');
 
         return json_decode($response['body'],true);
 

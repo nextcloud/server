@@ -249,6 +249,7 @@ class Sabre_DAV_Client {
             // Automatically follow redirects
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_MAXREDIRS => 5,
+        	//CURLOPT_SSL_VERIFYPEER	=> false,
         );
 
         switch ($method) {

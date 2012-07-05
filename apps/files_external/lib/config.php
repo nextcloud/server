@@ -45,7 +45,7 @@ class OC_Mount_Config {
 			'OC_Filestorage_FTP' => array('backend' => 'FTP', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure ftps://')),
 			'OC_Filestorage_Google' => array('backend' => 'Google Drive', 'configuration' => array('token' => '#token', 'token_secret' => '#token secret'), 'custom' => 'google'),
 			'OC_Filestorage_SWIFT' => array('backend' => 'OpenStack Swift', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'token' => '*Token', 'root' => '&Root', 'secure' => '!Secure ftps://')),
-			'OC_Filestorage_SMB' => array('backend' => 'SMB', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root')),
+			'OC_Filestorage_SMB' => array('backend' => 'SMB', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'share' => 'Share', 'root' => '&Root')),
 			'OC_Filestorage_DAV' => array('backend' => 'WebDAV', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure https://'))
 		);
 	}
@@ -236,6 +236,21 @@ class OC_Mount_Config {
 		}
 		$content .= ");\n?>";
 		@file_put_contents($file, $content);
+	}
+	
+	/**
+	 * Returns all user uploaded ssl root certificates
+	 * @return array
+	 */
+	public static function getCertificates() {
+		$view = \OCP\Files::getStorage('files_external');
+		$path=\OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("");
+		$result = array();
+		$handle = opendir($path);
+		while (false !== ($file = readdir($handle))) {
+			if($file != '.' && $file != '..') $result[] = $file;
+		}
+		return $result;
 	}
 
 }

@@ -4,6 +4,72 @@
  * See the COPYING-README file.
  */
 
+UserList={
+	useUndo:true,
+	
+	/**
+	 * @brief Initiate user deletion process in UI
+	 * @param string uid the user ID to be deleted
+	 *
+	 * Does not actually delete the user; it sets them for
+	 * deletion when the current page is unloaded, at which point 
+	 * finishDelete() completes the process. This allows for 'undo'.
+	 */
+	do_delete:function( uid ) {
+		
+		UserList.deleteUid = uid;
+		
+		// Set undo flag
+		UserList.deleteCanceled = false;
+		
+		// Hide user in table to reflect deletion
+		$(this).parent().parent().hide();
+		$('tr').filterAttr( 'data-uid', UserList.deleteUid ).hide();
+		
+		// Provide user with option to undo
+		$('#notification').text(t('files','undo delete user'));
+		$('#notification').data('deleteuser',true);
+		$('#notification').fadeIn();
+			
+	},
+	
+	/**
+	 * @brief Delete a user via ajax
+	 * @param bool ready whether to use ready() upon completion
+	 *
+	 * Executes deletion via ajax of user identified by property deleteUid 
+	 * if 'undo' has not been used.  Completes the user deletion procedure 
+	 * and reflects success in UI.
+	 */
+	finishDelete:function( ready ){
+		
+		// Check deletion has not been undone
+		if( !UserList.deleteCanceled && UserList.deleteUid ){
+			
+			// Delete user via ajax
+			$.post(
+				OC.filePath('settings','ajax','removeuser.php'),
+				{username:UserList.deleteUid},
+				function(result){
+					
+					// Remove undo option, & remove user from table
+					boolOperationFinished( 
+						data, function(){
+							$('#notification').fadeOut();
+							$('tr').filterAttr( 'data-uid', username ).remove();
+							UserList.deleteCanceled=true;
+							UserList.deleteFiles=null;
+							if( ready ){
+								ready();
+							}
+						}
+					);
+				}
+			);
+ 		}
+	}
+}
+
 $(document).ready(function(){
 	function setQuota(uid,quota,ready){
 		$.post(
@@ -40,7 +106,15 @@ $(document).ready(function(){
 		}else{
 			checkHandeler=false;
 		}
+		var addGroup = function(group) {
+			$('select[multiple]').each(function(index, element) {
+				if ($(element).find('option[value="'+group +'"]').length == 0) {
+					$(element).append('<option value="'+group+'">'+group+'</option>');
+				}
+			})
+		};
 		element.multiSelect({
+			createCallback:addGroup,
 			createText:'add group',
 			checked:checked,
 			oncheck:checkHandeler,
@@ -53,15 +127,12 @@ $(document).ready(function(){
 	});
 	
 	$('td.remove>img').live('click',function(event){
-		var uid=$(this).parent().parent().data('uid');
-		$.post(
-			OC.filePath('settings','ajax','removeuser.php'),
-			{username:uid},
-			function(result){
-			
-			}
-		);
-		$(this).parent().parent().remove();
+		
+		var uid = $(this).parent().parent().data('uid');
+		
+		// Call function for handling delete/undo
+		UserList.do_delete( uid );
+		
 	});
 	
 	$('td.password>img').live('click',function(event){
@@ -213,6 +284,20 @@ $(document).ready(function(){
 				}
 			}
 		);
-	    location.reload();
+	});
+	// Handle undo notifications
+	$('#notification').hide();
+	$('#notification').click(function(){
+		if($('#notification').data('deleteuser'))
+		{
+			$( 'tr' ).filterAttr( 'data-uid', UserList.deleteUid ).show();
+			UserList.deleteCanceled=true;
+			UserList.deleteFiles=null;
+		}
+		$('#notification').fadeOut();
+	});
+	UserList.useUndo=('onbeforeunload' in window)
+	$(window).bind('beforeunload', function (){
+		UserList.finishDelete(null);
 	});
 });

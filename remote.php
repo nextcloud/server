@@ -25,27 +25,17 @@ if(is_null($file)){
 
 $file = ltrim ($file, '/');
 
-if(count(explode('/',$file)) == 2) {
-	$parts=explode('/',$file);
-	$app=$parts[0];
-	switch ($app) {
-		case 'files':
-			OC_Util::checkAppEnabled($app);
-			OC_App::loadApp($app);
-			break;
-		case 'core':
-			break;
-		default:
-			OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
-			exit;
-	}
-	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
-	require_once( OC::$SERVERROOT.'/'.$file);
-} else {
-	$parts=explode('/', $file, 2);
-	$app=$parts[0];
-	OC_Util::checkAppEnabled($app);
-	OC_App::loadApp($app);
-	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
-	require_once(OC_App::getAppPath($app) .'/'. $parts[1]);
+$parts=explode('/', $file, 2);
+$app=$parts[0];
+switch ($app) {
+	default:
+		OC_Util::checkAppEnabled($app);
+		OC_App::loadApp($app);
+		$file = OC_App::getAppPath($app) .'/'. $parts[1];
+		break;
+	case 'core':
+		$file =  OC::$SERVERROOT .'/'. $file;
+		break;
 }
+$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
+require_once($file);

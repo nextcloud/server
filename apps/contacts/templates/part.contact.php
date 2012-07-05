@@ -9,16 +9,19 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 		<input id="file_upload_start" type="file" accept="image/*" name="imagefile" />
 	</form>
-	<div id="actionbar">
-		<button class="svg action" id="contacts_downloadcard" title="<?php echo $l->t('Download contact');?>"></button>
-		<button class="svg action" id="contacts_deletecard" title="<?php echo $l->t('Delete contact');?>"></button>
-	</div>
 
 	<div id="contact_photo" class="contactsection">
 
 	<iframe name="file_upload_target" id='file_upload_target' src=""></iframe>
 	<div class="tip propertycontainer" id="contacts_details_photo_wrapper" title="<?php echo $l->t('Drop photo to upload'); ?> (max <?php echo $_['uploadMaxHumanFilesize']; ?>)" data-element="PHOTO">
+	<ul id="phototools" class="transparent hidden">
+		<li><a class="svg delete" title="<?php echo $l->t('Delete current photo'); ?>"></a></li>
+		<li><a class="svg edit" title="<?php echo $l->t('Edit current photo'); ?>"></a></li>
+		<li><a class="svg upload" title="<?php echo $l->t('Upload new photo'); ?>"></a></li>
+		<li><a class="svg cloud" title="<?php echo $l->t('Select photo from ownCloud'); ?>"></a></li>
+	</ul>
 	</div>
+	<img />
 	</div> <!-- contact_photo -->
 
 	<div id="contact_identity" class="contactsection">
@@ -101,20 +104,23 @@ $id = isset($_['id']) ? $_['id'] : '';
 	</form>
 	</div> <!-- contact_note -->
 
-	<div id="contacts_propertymenu">
-	<button class="button" id="contacts_propertymenu_button"><?php echo $l->t('Add field'); ?></button>
-	<ul id="contacts_propertymenu_dropdown" role="menu" class="hidden">
-		<li><a role="menuitem" data-type="PHOTO"><?php echo $l->t('Profile picture'); ?></a></li>
-		<li><a role="menuitem" data-type="ORG"><?php echo $l->t('Organization'); ?></a></li>
-		<li><a role="menuitem" data-type="NICKNAME"><?php echo $l->t('Nickname'); ?></a></li>
-		<li><a role="menuitem" data-type="BDAY"><?php echo $l->t('Birthday'); ?></a></li>
-		<li><a role="menuitem" data-type="TEL"><?php echo $l->t('Phone'); ?></a></li>
-		<li><a role="menuitem" data-type="EMAIL"><?php echo $l->t('Email'); ?></a></li>
-		<li><a role="menuitem" data-type="ADR"><?php echo $l->t('Address'); ?></a></li>
-		<li><a role="menuitem" data-type="NOTE"><?php echo $l->t('Note'); ?></a></li>
-		<li><a role="menuitem" data-type="URL"><?php echo $l->t('Web site'); ?></a></li>
-		<li><a role="menuitem" data-type="CATEGORIES"><?php echo $l->t('Groups'); ?></a></li>
-	</ul>
+	<div id="actionbar">
+		<div id="contacts_propertymenu">
+		<button class="button" id="contacts_propertymenu_button"><?php echo $l->t('Add field'); ?></button>
+		<ul id="contacts_propertymenu_dropdown" role="menu" class="hidden">
+			<li><a role="menuitem" data-type="ORG"><?php echo $l->t('Organization'); ?></a></li>
+			<li><a role="menuitem" data-type="NICKNAME"><?php echo $l->t('Nickname'); ?></a></li>
+			<li><a role="menuitem" data-type="BDAY"><?php echo $l->t('Birthday'); ?></a></li>
+			<li><a role="menuitem" data-type="TEL"><?php echo $l->t('Phone'); ?></a></li>
+			<li><a role="menuitem" data-type="EMAIL"><?php echo $l->t('Email'); ?></a></li>
+			<li><a role="menuitem" data-type="ADR"><?php echo $l->t('Address'); ?></a></li>
+			<li><a role="menuitem" data-type="NOTE"><?php echo $l->t('Note'); ?></a></li>
+			<li><a role="menuitem" data-type="URL"><?php echo $l->t('Web site'); ?></a></li>
+			<li><a role="menuitem" data-type="CATEGORIES"><?php echo $l->t('Groups'); ?></a></li>
+		</ul>
+		</div>
+		<button class="svg action" id="contacts_downloadcard" title="<?php echo $l->t('Download contact');?>"></button>
+		<button class="svg action" id="contacts_deletecard" title="<?php echo $l->t('Delete contact');?>"></button>
 	</div>
 
 </div> <!-- card -->

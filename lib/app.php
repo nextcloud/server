@@ -36,6 +36,7 @@ class OC_App{
 	static private $appInfo = array();
 	static private $appTypes = array();
 	static private $loadedApps = array();
+	static private $checkedApps = array();
 
 	/**
 	 * @brief loads all apps
@@ -349,9 +350,13 @@ class OC_App{
 
 
 	protected static function findAppInDirectories($appid) {
+		static $app_dir = array();
+		if (isset($app_dir[$appid])) {
+			return $app_dir[$appid];
+		}
 		foreach(OC::$APPSROOTS as $dir) {
 			if(file_exists($dir['path'].'/'.$appid)) {
-				return $dir;
+				return $app_dir[$appid]=$dir;
 			}
 		}
 	}
@@ -530,6 +535,10 @@ class OC_App{
 	 * check if the app need updating and update when needed
 	 */
 	public static function checkUpgrade($app) {
+		if (in_array($app, self::$checkedApps)) {
+			return;
+		}
+		self::$checkedApps[] = $app;
 		$versions = self::getAppVersions();
 		$currentVersion=OC_App::getAppVersion($app);
 		if ($currentVersion) {
@@ -564,7 +573,7 @@ class OC_App{
 	}
 
 	/**
-	 * get the installed version of all papps
+	 * get the installed version of all apps
 	 */
 	public static function getAppVersions(){
 		static $versions;

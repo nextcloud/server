@@ -35,6 +35,7 @@
 		}
 
 		button.click(function(event){
+			
 			var button=$(this);
 			if(button.parent().children('ul').length>0){
 				button.parent().children('ul').slideUp(400,function(){
@@ -128,19 +129,30 @@
 						if(event.keyCode == 13) {
 							event.preventDefault();
 							event.stopPropagation();
+							var value = $(this).val();
+							var exists = false;
+							$.each(options,function(index, item) {
+								if ($(item).val() == value) {
+									exists = true;
+									return false;
+								}
+							});
+							if (exists) {
+								return false;
+							}
 							var li=$(this).parent();
 							$(this).remove();
 							li.text('+ '+settings.createText);
 							li.before(createItem(this));
 							var select=button.parent().next();
 							var option=$('<option selected="selected"/>');
-							option.attr('value',$(this).val());
+							option.attr('value',value);
 							option.text($(this).val());
-							select.append(options);
+							select.append(option);
 							li.prev().children('input').trigger('click');
 							button.parent().data('preventHide',false);
 							if(settings.createCallback){
-								settings.createCallback();
+								settings.createCallback($(this).val());
 							}
 						}
 					});

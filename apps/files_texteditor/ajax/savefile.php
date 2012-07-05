@@ -48,6 +48,7 @@ if($path != '' && $mtime != '' && $filecontents)
 		// Save file
 		if(OC_Filesystem::is_writable($path))
 		{
+			$filecontents = iconv(mb_detect_encoding($filecontents), "UTF-8", $filecontents);
 			OC_Filesystem::file_put_contents($path, $filecontents);
 			// Clear statcache
 			clearstatcache();
