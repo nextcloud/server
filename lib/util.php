@@ -324,16 +324,17 @@ class OC_Util {
 	* Redirect to the user default page
 	*/
 	public static function redirectToDefaultPage(){
-		OC_Log::write('core','redirectToDefaultPage',OC_Log::DEBUG);
 		if(isset($_REQUEST['redirect_url']) && (substr($_REQUEST['redirect_url'], 0, strlen(OC::$WEBROOT)) == OC::$WEBROOT || $_REQUEST['redirect_url'][0] == '/')) {
-			header( 'Location: '.$_REQUEST['redirect_url']);
+			$location = $_REQUEST['redirect_url'];
 		}
 		else if (isset(OC::$REQUESTEDAPP) && !empty(OC::$REQUESTEDAPP)) {
-			header( 'Location: '.OC::$WEBROOT.'/?app='.OC::$REQUESTEDAPP );
+			$location = OC::$WEBROOT.'/?app='.OC::$REQUESTEDAPP;
 		}
 		else {
-			header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', '?app=files'));
+			$location = OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', '?app=files');
 		}
+		OC_Log::write('core', 'redirectToDefaultPage: '.$location, OC_Log::DEBUG);
+		header( 'Location: '.$location );
 		exit();
 	}
 

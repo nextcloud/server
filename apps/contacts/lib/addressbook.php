@@ -41,25 +41,60 @@ class OC_Contacts_Addressbook{
 	/**
 	 * @brief Returns the list of addressbooks for a specific user.
 	 * @param string $uid
+	 * @param boolean $active Only return calendars with this $active state, default(=false) is don't care
 	 * @return array or false.
 	 */
-	public static function all($uid){
+	public static function all($uid, $active=false){
+		$values = array($uid);
+		$active_where = '';
+		if ($active){
+			$active_where = ' AND active = ?';
+			$values[] = 1;
+		}
 		try {
-			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ? ORDER BY displayname' );
-			$result = $stmt->execute(array($uid));
+			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ? ' . $active_where . ' ORDER BY displayname' );
+			$result = $stmt->execute($values);
 		} catch(Exception $e) {
 			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.' exception: '.$e->getMessage(),OCP\Util::ERROR);
 			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.' uid: '.$uid,OCP\Util::DEBUG);
 			return false;
 		}
 
-
 		$addressbooks = array();
 		while( $row = $result->fetchRow()){
 			$addressbooks[] = $row;
 		}
+		if(!$active && !count($addressbooks)) {
+			self::addDefault($uid);
+		}
 
 		return $addressbooks;
+	}
+
+	/**
+	 * @brief Get active addressbook IDs for a user.
+	 * @param integer $uid User id. If null current user will be used.
+	 * @return array
+	 */
+	public static function activeIds($uid = null){
+		if(is_null($uid)){
+			$uid = OCP\USER::getUser();
+		}
+		$activeaddressbooks = self::all($uid, true);
+		$ids = array();
+		foreach($activeaddressbooks as $addressbook) {
+			$ids[] = $addressbook['userid'];
+		}
+		return $ids;
+	}
+
+	/**
+	 * @brief Returns the list of active addressbooks for a specific user.
+	 * @param string $uid
+	 * @return array
+	 */
+	public static function active($uid){
+		return self::all($uid, true);
 	}
 
 	/**
@@ -186,77 +221,6 @@ class OC_Contacts_Addressbook{
 		return true;
 	}
 
-	public static function cleanArray($array, $remove_null_number = true){
-		$new_array = array();
-
-		$null_exceptions = array();
-
-		foreach ($array as $key => $value){
-			$value = trim($value);
-
-			if($remove_null_number){
-				$null_exceptions[] = '0';
-			}
-
-			if(!in_array($value, $null_exceptions) && $value != "")	{
-				$new_array[] = $value;
-			}
-		}
-		return $new_array;
-	}
-
-	/**
-	 * @brief Get active addressbooks for a user.
-	 * @param integer $uid User id. If null current user will be used.
-	 * @return array
-	 */
-	public static function activeIds($uid = null){
-		if(is_null($uid)){
-			$uid = OCP\USER::getUser();
-		}
-		$prefbooks = OCP\Config::getUserValue($uid,'contacts','openaddressbooks',null);
-		if(!$prefbooks){
-			$addressbooks = OC_Contacts_Addressbook::all($uid);
-			if(count($addressbooks) == 0){
-				self::addDefault($uid);
-			}
-		}
-		$prefbooks = OCP\Config::getUserValue($uid,'contacts','openaddressbooks',null);
-		return explode(';',$prefbooks);
-	}
-
-	/**
-	 * @brief Returns the list of active addressbooks for a specific user.
-	 * @param string $uid
-	 * @return array
-	 */
-	public static function active($uid){
-		if(is_null($uid)){
-			$uid = OCP\USER::getUser();
-		}
-		$active = self::activeIds($uid);
-		$addressbooks = array();
-		$ids_sql = join(',', array_fill(0, count($active), '?'));
-		$prep = 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id IN ('.$ids_sql.') ORDER BY displayname';
-		try {
-			$stmt = OCP\DB::prepare( $prep );
-			$result = $stmt->execute($active);
-		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', uid: '.$uid,OCP\Util::DEBUG);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', ids: '.join(',', $active),OCP\Util::DEBUG);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', SQL:'.$prep,OCP\Util::DEBUG);
-		}
-
-		while( $row = $result->fetchRow()){
-			$addressbooks[] = $row;
-		}
-		if(!count($addressbooks)) {
-			self::addDefault($uid);
-		}
-		return $addressbooks;
-	}
-
 	/**
 	 * @brief Activates an addressbook
 	 * @param integer $id
@@ -264,30 +228,16 @@ class OC_Contacts_Addressbook{
 	 * @return boolean
 	 */
 	public static function setActive($id,$active){
-		// Need these ones for checking uri
-		//$addressbook = self::find($id);
-
-		if(is_null($id)){
-			$id = 0;
+		$sql = 'UPDATE *PREFIX*contacts_addressbooks SET active = ? WHERE id = ?';
+		OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', id: '.$id.', active: '.intval($active),OCP\Util::ERROR);
+		try {
+			$stmt = OCP\DB::prepare($sql);
+			$stmt->execute(array(intval($active), $id));
+			return true;
+		} catch(Exception $e) {
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception for '.$id.': '.$e->getMessage(),OCP\Util::ERROR);
+			return false;
 		}
-
-		$openaddressbooks = self::activeIds();
-		if($active) {
-			if(!in_array($id, $openaddressbooks)) {
-				$openaddressbooks[] = $id;
-			}
-		} else { 
-			if(in_array($id, $openaddressbooks)) {
-				unset($openaddressbooks[array_search($id, $openaddressbooks)]);
-			}
-		}
-		// NOTE: Ugly hack...
-		$openaddressbooks = self::cleanArray($openaddressbooks, false);
-		sort($openaddressbooks, SORT_NUMERIC);
-		// FIXME: I alway end up with a ';' prepending when imploding the array..?
-		OCP\Config::setUserValue(OCP\USER::getUser(),'contacts','openaddressbooks',implode(';', $openaddressbooks));
-
-		return true;
 	}
 
 	/**
@@ -296,8 +246,15 @@ class OC_Contacts_Addressbook{
 	 * @return boolean
 	 */
 	public static function isActive($id){
-		//OCP\Util::writeLog('contacts','OC_Contacts_Addressbook::isActive('.$id.'):'.in_array($id, self::activeIds()), OCP\Util::DEBUG);
-		return in_array($id, self::activeIds());
+		$sql = 'SELECT active FROM *PREFIX*contacts_addressbooks WHERE id = ?';
+		try {
+			$stmt = OCP\DB::prepare( $sql );
+			$result = $stmt->execute(array($id));
+			$row = $result->fetchRow();
+			return (bool)$row['active'];
+		} catch(Exception $e) {
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
+		}
 	}
 
 	/**

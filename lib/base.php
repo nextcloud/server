@@ -330,21 +330,6 @@ class OC{
 
 		self::checkInstalled();
 		self::checkSSL();
-
-		// CSRF protection
-		if(isset($_SERVER['HTTP_REFERER'])) $referer=$_SERVER['HTTP_REFERER']; else $referer='';
-		$refererhost=parse_url($referer);
-		if(isset($refererhost['host'])) $refererhost=$refererhost['host']; else $refererhost='';
-		$server=OC_Helper::serverHost();
-		$serverhost=explode(':',$server);
-		$serverhost=$serverhost['0'];
-		if(!self::$CLI){
-			if(($_SERVER['REQUEST_METHOD']=='POST') and ($refererhost<>$serverhost)) {
-				$url = OC_Helper::serverProtocol().'://'.$server.OC::$WEBROOT.'/index.php';
-				header("Location: $url");
-				exit();
-			}
-		}
 		self::initSession();
 		self::initTemplateEngine();
 		self::checkUpgrade();
