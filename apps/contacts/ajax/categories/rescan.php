@@ -10,7 +10,7 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
-require_once('../loghandler.php');
+require_once(__DIR__.'../loghandler.php');
 
 $addressbooks = OC_Contacts_Addressbook::all(OCP\USER::getUser());
 if(count($addressbooks) == 0) {
