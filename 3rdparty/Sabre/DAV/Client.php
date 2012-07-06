@@ -22,7 +22,6 @@ class Sabre_DAV_Client {
     protected $userName;
     protected $password;
     protected $proxy;
-    protected $capath;
 
     /**
      * Constructor
@@ -50,10 +49,6 @@ class Sabre_DAV_Client {
             'proxy'
         );
 
-        $this->capath = '';
-        if (isset($settings['capath'])) {
-        	$this->capath = $settings['capath'];
-        }
 
         foreach($validSettings as $validSetting) {
             if (isset($settings[$validSetting])) {
@@ -259,8 +254,6 @@ class Sabre_DAV_Client {
         	//CURLOPT_SSL_VERIFYPEER	=> false,
         );
 
-        if ($this->capath != '') $curlSettings[CURLOPT_CAPATH] = $this->capath;
-        
         switch ($method) {
             case 'PUT':
                 $curlSettings[CURLOPT_PUT] = true;
