@@ -279,4 +279,13 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 	public function hasUpdated($path,$time) {
 		return $this->filemtime($path)>$time;
 	}
+
+	/**
+	 * get the owner of a path
+	 * @param $path The path to get the owner
+	 * @return string uid or false
+	 */
+	public function getOwner($path) {
+		return OC_User::getUser();
+	}
 }
