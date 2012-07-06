@@ -147,6 +147,9 @@ class Storage {
 	public static function rollback($filename,$revision) {
 	
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+			$users_view = \OCP\Files::getStorage("files_versions");
+			$users_view->chroot(\OCP\User::getUser().'/');
+			
 			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
 				$pos = strpos($source, '/files', 1);
 				$uid = substr($source, 1, $pos - 1);
@@ -159,7 +162,7 @@ class Storage {
 			$filesfoldername=\OCP\Config::getSystemValue('datadirectory').'/'. $uid .'/files';
 			
 			// rollback
-			if ( @copy($versionsFolderName.'/'.$filename.'.v'.$revision,$filesfoldername.'/'.$filename) ) {
+			if( @$users_view->copy('versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
 			
 				return true;
 				
@@ -322,42 +325,5 @@ class Storage {
 		
 		return $this->view->deleteAll( $dir, true );
 	
-        }
-
-        /**
-         * @brief Erase versions of deleted file
-         * @param array
-         *          
-         * This function is connected to the delete signal of OC_Filesystem
-         * cleanup the versions directory if the actual file gets deleted
-         */
-        public static function removeVersions($params) {
-        	$rel_path =  $params['path'];
-        	$abs_path = \OCP\Config::getSystemValue('datadirectory').'/'.\OCP\User::getUser()."/versions".$rel_path.'.v';
-        	if(Storage::isversioned($rel_path)) {
-        		$versions = Storage::getVersions($rel_path);
-        		foreach ($versions as $v){
-        			unlink($abs_path . $v['version']);
-        		}
-        	}
-        }
-        
-        /**
-         * @brief rename/move versions of renamed/moved files
-         * @param array with oldpath and newpath
-         * 
-         * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
-         * of the stored versions along the actual file
-         */
-        public static function renameVersions($params) {
-        	$rel_oldpath =  $params['oldpath'];
-        	$abs_oldpath = \OCP\Config::getSystemValue('datadirectory').'/'.\OCP\User::getUser()."/versions".$rel_oldpath.'.v';
-        	$abs_newpath = \OCP\Config::getSystemValue('datadirectory').'/'.\OCP\User::getUser()."/versions".$params['newpath'].'.v';
-        	if(Storage::isversioned($rel_oldpath)) {
-        		$versions = Storage::getVersions($rel_oldpath);
-        		foreach ($versions as $v){
-        			rename($abs_oldpath.$v['version'], $abs_newpath.$v['version']);
-        		}
-        	}
         }
 }

@@ -41,7 +41,7 @@ class OC_Contacts_Addressbook{
 	/**
 	 * @brief Returns the list of addressbooks for a specific user.
 	 * @param string $uid
-	 * @param boolean $active Only return calendars with this $active state, default(=false) is don't care
+	 * @param boolean $active Only return addressbooks with this $active state, default(=false) is don't care
 	 * @return array or false.
 	 */
 	public static function all($uid, $active=false){
