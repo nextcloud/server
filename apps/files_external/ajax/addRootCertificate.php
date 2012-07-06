@@ -17,6 +17,7 @@ if (!strpos($data, 'BEGIN CERTIFICATE')) {
 	$pem = "-----BEGIN CERTIFICATE-----\n".$pem."-----END CERTIFICATE-----\n";
 	$fh = fopen($to, 'w');
 	fwrite($fh, $pem);
+	fclose($fh);
 }
 
 OC_Mount_Config::createCertificateBundle();
