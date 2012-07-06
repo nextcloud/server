@@ -45,8 +45,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		$this->client = new OC_Connector_Sabre_Client($settings);
 		
 		if($caview = \OCP\Files::getStorage('files_external')) {
-			$this->client->setCurlSettings(array(CURLOPT_CAPATH => \OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath(""),
-					CURLOPT_SSL_VERIFYPEER	=> false));
+			$this->client->setCurlSettings(array(CURLOPT_CAPATH => \OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("")));
 		}
 		//create the root folder if necesary
 		$this->mkdir('');
