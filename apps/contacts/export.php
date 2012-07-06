@@ -19,11 +19,12 @@ if(isset($bookid)){
 	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $addressbook['displayname']) . '.vcf'); 
 
 	$start = 0;
-	while($cardobjects = OC_Contacts_VCard::all($bookid, $start, 20)){
+	$batchsize = OCP\Config::getUserValue(OCP\User::getUser(), 'contacts', 'export_batch_size', 20);
+	while($cardobjects = OC_Contacts_VCard::all($bookid, $start, $batchsize)){
 		foreach($cardobjects as $card) {
 			echo $card['carddata'] . $nl;
 		}
-		$start += 20;
+		$start += $batchsize;
 	}
 }elseif(isset($contactid)){
 	$data = OC_Contacts_App::getContactObject($contactid);
