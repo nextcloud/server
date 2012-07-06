@@ -80,12 +80,14 @@ class OC_Log_Owncloud {
 						if ($pos == 0) {
 							$line = $ch.$line;
 						}
-						$lines++;
 						$entry = json_decode($line);
 						// Add the line as an entry if it is passed the offset and is equal or above the log level
-						if ($lines > $offset && $entry->level >= $minLevel) {
-							$entries[] = $entry;
-							$entriesCount++;
+						if ($entry->level >= $minLevel) {
+							$lines++;
+							if ($lines > $offset) {
+								$entries[] = $entry;
+								$entriesCount++;
+							}
 						}
 						$line = '';
 					}
