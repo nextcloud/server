@@ -81,7 +81,7 @@
 		</table>
 		<br />
 		
-		<?php if (!$_['isAdminPage'] && false):  // disabled until sabredav can handle uploaded ca certs   ?>
+		<?php if (!$_['isAdminPage']):  ?>
   		<table id="sslCertificate" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
 			<thead>
 				<tr>

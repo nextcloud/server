@@ -68,7 +68,7 @@ class OC_Connector_Sabre_Client extends Sabre_DAV_Client {
 	 * @return array
 	 */
 	public function request($method, $url = '', $body = null, $headers = array()) {
-		 
+
 		$this->curlSettings[CURLOPT_POSTFIELDS] = $body;	 
 		$url = $this->getAbsoluteUrl($url);
 	
