@@ -238,18 +238,18 @@ class OC_Calendar_Import{
 	 * @brief generates an unique ID 
 	 * @return string 
 	 */
-	private function createUID(){
-		return substr(md5(rand().time()),0,10);
-	}
+	//private function createUID(){
+	//	return substr(md5(rand().time()),0,10);
+	//}
 	
 	/*
 	 * @brief checks is the UID is already in use for another event
 	 * @param string $uid uid to check
 	 * @return boolean
 	 */
-	private function isUIDAvailable($uid){
-		
-	}
+	//private function isUIDAvailable($uid){
+	//	
+	//}
 	
 	/*
 	 * @brief generates a proper VCalendar string
