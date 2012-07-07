@@ -4,7 +4,9 @@
 * ownCloud
 *
 * @author Frank Karlitschek
+* @author Michael Gapczynski
 * @copyright 2012 Frank Karlitschek frank@owncloud.org
+* @copyright 2012 Michael Gapczynski mtgap@owncloud.com
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -32,48 +34,43 @@ class OC_OCS {
 	/**
 	* reads input date from get/post/cookies and converts the date to a special data-type
 	*
-	* @param variable $key
-	* @param variable-type $type
-	* @param priority $getpriority
-	* @param default  $default
-	* @return data
+	* @param string HTTP method to read the key from
+	* @param string Parameter to read
+	* @param string Variable type to format data
+	* @param mixed Default value to return if the key is not found
+	* @return mixed Data or if the key is not found and no default is set it will exit with a 400 Bad request
 	*/
-	public static function readData($key,$type='raw',$getpriority=false,$default='') {
-		if($getpriority) {
-		if(isset($_GET[$key])) {
-			$data=$_GET[$key];
-		} elseif(isset($_POST[$key])) {
-			$data=$_POST[$key];
-		} else {
-			if($default=='') {
-			if(($type=='int') or ($type=='float')) $data=0; else $data='';
+	public static function readData($method, $key, $type = 'raw', $default = null) {
+		if ($method == 'get') {
+			if (isset($_GET[$key])) {
+				$data = $_GET[$key];
+			} else if (isset($default)) {
+				return $default;
 			} else {
-			$data=$default;
+				$data = false;
+			}
+		} else if ($method == 'post') {
+			if (isset($_POST[$key])) {
+				$data = $_POST[$key];
+			} else if (isset($default)) {
+				return $default;
+			} else {
+				$data = false;
 			}
 		}
+		if ($data === false) {
+			echo self::generateXml('', 'fail', 400, 'Bad request. Please provide a valid '.$key);
+			exit();
 		} else {
-		if(isset($_POST[$key])) {
-			$data=$_POST[$key];
-		} elseif(isset($_GET[$key])) {
-			$data=$_GET[$key];
-		} elseif(isset($_COOKIE[$key])) {
-			$data=$_COOKIE[$key];
-		} else {
-			if($default=='') {
-			if(($type=='int') or ($type=='float')) $data=0; else $data='';
-			} else {
-			$data=$default;
-			}
+			// NOTE: Is the raw type necessary? It might be a little risky without sanitization
+			if ($type == 'raw') return $data;
+			elseif ($type == 'text') return OC_Util::sanitizeHTML($data);
+			elseif ($type == 'int')  return (int) $data;
+			elseif ($type == 'float') return (float) $data;
+			elseif ($type == 'array') return OC_Util::sanitizeHTML($data);
+			else return OC_Util::sanitizeHTML($data);
 		}
-		}
-
-		if($type=='raw') return($data);
-		elseif($type=='text') return(addslashes(strip_tags($data)));
-		elseif($type=='int')  { $data = (int) $data; return($data); }
-		elseif($type=='float')  { $data = (float) $data; return($data); }
-		elseif($type=='array')  { $data = $data; return($data); }
 	}
-
 
 	/**
 	main function to handle the REST request
@@ -100,26 +97,23 @@ class OC_OCS {
 		if(substr($url,(strlen($url)-1))<>'/') $url.='/';
 		$ex=explode('/',$url);
 		$paracount=count($ex);
-
+		$format = self::readData($method, 'format', 'text', '');
 		// eventhandler
 		// CONFIG
 		// apiconfig - GET - CONFIG
 		if(($method=='get') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'config')){
-			$format=OC_OCS::readdata('format','text');
 			OC_OCS::apiconfig($format);
 
 		// PERSON
 		// personcheck - POST - PERSON/CHECK
 		}elseif(($method=='post') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-3]=='person') and ($ex[$paracount-2] == 'check')){
-			$format=OC_OCS::readdata('format','text');
-			$login=OC_OCS::readdata('login','text');
-			$passwd=OC_OCS::readdata('password','text');
+			$login = self::readData($method, 'login', 'text');
+			$passwd = self::readData($method, 'password', 'text');
 			OC_OCS::personcheck($format,$login,$passwd);
 		} else if ($method == 'post' && $ex[$paracount - 4] == 'v1.php' && $ex[$paracount - 3] == 'person' && $ex[$paracount - 2] == 'add') {
-			$format = self::readData('format', 'text');
 			if (OC_Group::inGroup(self::checkPassword(), 'admin')) {
-				$login = self::readData('login', 'text');
-				$password = self::readData('password', 'text');
+				$login = self::readData($method, 'login', 'text');
+				$password = self::readData($method, 'password', 'text');
 				try {
 					OC_User::createUser($login, $password);
 					echo self::generateXml($format, 'ok', 201, '');
@@ -132,50 +126,43 @@ class OC_OCS {
 		// ACTIVITY
 		// activityget - GET ACTIVITY   page,pagesize als urlparameter
 		}elseif(($method=='get') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'activity')){
-			$format=OC_OCS::readdata('format','text');
-			$page=OC_OCS::readdata('page','int');
-			$pagesize=OC_OCS::readdata('pagesize','int');
+			$page = self::readData($method, 'page', 'int', 0);
+			$pagesize = self::readData($method, 'pagesize','int', 10);
 			if($pagesize<1 or $pagesize>100) $pagesize=10;
 			OC_OCS::activityget($format,$page,$pagesize);
 
 		// activityput - POST ACTIVITY
 		}elseif(($method=='post') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'activity')){
-			$format=OC_OCS::readdata('format','text');
-			$message=OC_OCS::readdata('message','text');
+			$message = self::readData($method, 'message', 'text');
 			OC_OCS::activityput($format,$message);
 
 		// PRIVATEDATA
 		// get - GET DATA
 		}elseif(($method=='get') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-2] == 'getattribute')){
-			$format=OC_OCS::readdata('format','text');
 			OC_OCS::privateDataGet($format);
 
 		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-3] == 'getattribute')){
-			$format=OC_OCS::readdata('format','text');
 			$app=$ex[$paracount-2];
 			OC_OCS::privateDataGet($format, $app);
 				}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-4] == 'getattribute')){
-			$format=OC_OCS::readdata('format','text');
+			
 			$key=$ex[$paracount-2];
 			$app=$ex[$paracount-3];
 			OC_OCS::privateDataGet($format, $app,$key);
 
 		// set - POST DATA
 		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-4] == 'setattribute')){
-			$format=OC_OCS::readdata('format','text');
 			$key=$ex[$paracount-2];
 			$app=$ex[$paracount-3];
-			$value=OC_OCS::readdata('value','text');
+			$value = self::readData($method, 'value', 'text');
 			OC_OCS::privatedataset($format, $app, $key, $value);
 		// delete - POST DATA
 		}elseif(($method=='post') and ($ex[$paracount-6] =='v1.php') and ($ex[$paracount-4] == 'deleteattribute')){
-			$format=OC_OCS::readdata('format','text');
 			$key=$ex[$paracount-2];
 			$app=$ex[$paracount-3];
 			OC_OCS::privatedatadelete($format, $app, $key);
 
 		}else{
-			$format=OC_OCS::readdata('format','text');
 			$txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 			$txt.=OC_OCS::getdebugoutput();
 			echo(OC_OCS::generatexml($format,'failed',999,$txt));
