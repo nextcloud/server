@@ -7,6 +7,7 @@
 OCP\JSON::setContentTypeHeader('text/plain');
 
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 if (!isset($_FILES['files'])) {
 	OCP\JSON::error(array("data" => array( "message" => "No file was uploaded. Unknown error" )));
