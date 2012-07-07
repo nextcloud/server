@@ -1,6 +1,8 @@
 <?php
 
 OCP\JSON::checkAppEnabled('files_external');
+OCP\JSON::callCheck();
+
 if ($_POST['isPersonal'] == 'true') {
 	OCP\JSON::checkLoggedIn();
 	$isPersonal = true;
