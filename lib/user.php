@@ -345,7 +345,6 @@ class OC_User {
 	 * @return boolean
 	 */
 	public static function userExists($uid){
-		static $user_exists_checked = null;
 		if (!is_null($user_exists_checked)) {
 			return $user_exists_checked;
 		}
