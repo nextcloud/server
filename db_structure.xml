@@ -235,6 +235,32 @@
 
  <table>
 
+  <name>*dbprefix*group_admin</name>
+
+  <declaration>
+
+   <field>
+    <name>gid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+   <field>
+    <name>uid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
   <name>*dbprefix*groups</name>
 
   <declaration>
