@@ -2,8 +2,8 @@
 
 // Init owncloud
 require_once('../../lib/base.php');
-
 OC_JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 $l=OC_L10N::get('core');
 

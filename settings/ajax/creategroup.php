@@ -9,6 +9,8 @@ if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' ))
 	exit();
 }
 
+OCP\JSON::callCheck();
+
 $groupname = $_POST["groupname"];
 
 // Does the group exist?

@@ -9,6 +9,8 @@ $oldPassword=isset($_POST["oldpassword"])?$_POST["oldpassword"]:'';
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();
+OCP\JSON::callCheck();
+
 if( (!OC_Group::inGroup( OC_User::getUser(), 'admin' ) && ($username!=OC_User::getUser() || !OC_User::checkPassword($username,$oldPassword)))) {
 	OC_JSON::error( array( "data" => array( "message" => "Authentication error" )));
 	exit();

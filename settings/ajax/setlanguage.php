@@ -6,6 +6,7 @@ require_once('../../lib/base.php');
 $l=OC_L10N::get('settings');
 
 OC_JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 
 // Get data

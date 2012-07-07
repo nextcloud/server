@@ -8,6 +8,7 @@ if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' ))
 	OC_JSON::error(array("data" => array( "message" => "Authentication error" )));
 	exit();
 }
+OCP\JSON::callCheck();
 
 $groups = array();
 if( isset( $_POST["groups"] )){
