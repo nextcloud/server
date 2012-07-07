@@ -75,9 +75,9 @@ class OC_OCS {
 	}
 
 
-  /**
-    main function to handle the REST request
-  **/
+	/**
+	main function to handle the REST request
+	**/
 	public static function handle() {
 		// overwrite the 404 error page returncode
 		header("HTTP/1.0 200 OK");
@@ -115,7 +115,20 @@ class OC_OCS {
 			$login=OC_OCS::readdata('login','text');
 			$passwd=OC_OCS::readdata('password','text');
 			OC_OCS::personcheck($format,$login,$passwd);
-
+		} else if ($method == 'post' && $ex[$paracount - 4] == 'v1.php' && $ex[$paracount - 3] == 'person' && $ex[$paracount - 2] == 'add') {
+			$format = self::readData('format', 'text');
+			if (OC_Group::inGroup(self::checkPassword(), 'admin')) {
+				$login = self::readData('login', 'text');
+				$password = self::readData('password', 'text');
+				try {
+					OC_User::createUser($login, $password);
+					echo self::generateXml($format, 'ok', 201, '');
+				} catch (Exception $exception) {
+					echo self::generateXml($format, 'fail', 400, $exception->getMessage());
+				}
+			} else {
+				echo self::generateXml($format, 'fail', 403, 'Permission denied');
+			}
 		// ACTIVITY
 		// activityget - GET ACTIVITY   page,pagesize als urlparameter
 		}elseif(($method=='get') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'activity')){
