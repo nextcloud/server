@@ -51,6 +51,7 @@ $email_types = OC_Contacts_App::getTypesOfProperty('EMAIL');
 
 $tmpl = new OCP\Template('contacts','part.contact');
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
+$tmpl->assign('requesttoken', $_SERVER['HTTP_REQUESTTOKEN']);
 $tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->assign('adr_types',$adr_types);
 $tmpl->assign('phone_types',$phone_types);
