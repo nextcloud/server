@@ -108,7 +108,7 @@ if(count($parts) == 1){
 $imported = 0;
 $failed = 0;
 if(!count($importready) > 0) {
-	OCP\JSON::error(array('message' => 'No contacts to import in .'.$_POST['file'].' Please check if the file is corrupted.'));
+	OCP\JSON::error(array('data' => (array('message' => 'No contacts to import in .'.$_POST['file'].' Please check if the file is corrupted.')));
 	exit();
 }
 foreach($importready as $import){
