@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ICS Exporter
+ * VCF Exporter
  *
  * This plugin adds the ability to export entire address books as .vcf files.
  * This is useful for clients that don't support CardDAV yet. They often do
@@ -53,7 +53,7 @@ class Sabre_CardDAV_VCFExportPlugin extends Sabre_DAV_ServerPlugin {
 
         $node = $this->server->tree->getNodeForPath($uri);
 
-        if (!($node instanceof Sabre_CardDAV_AddressBook)) return;
+        if (!($node instanceof Sabre_CardDAV_IAddressBook)) return;
 
         // Checking ACL, if available.
         if ($aclPlugin = $this->server->getPlugin('acl')) {
@@ -89,14 +89,11 @@ class Sabre_CardDAV_VCFExportPlugin extends Sabre_DAV_ServerPlugin {
                 continue;
             }
             $nodeData = $node[200]['{' . Sabre_CardDAV_Plugin::NS_CARDDAV . '}address-data'];
-
-            $nodeComp = Sabre_VObject_Reader::read($nodeData);
-            $objects[] = $nodeComp;
+            $objects[] = $nodeData;
 
         }
-        ob_start();
-        foreach($objects as $obj) echo $obj->serialize();
-        return ob_get_clean();
+
+        return implode("\r\n", $objects);
 
     }
 
