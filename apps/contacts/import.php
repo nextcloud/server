@@ -12,6 +12,7 @@ OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 session_write_close();
 
+$cr = "\r";
 $nl = "\n";
 
 global $progresskey;
@@ -56,6 +57,10 @@ if(isset($_POST['method']) && $_POST['method'] == 'new'){
 //analyse the contacts file
 writeProgress('40');
 $lines = explode($nl, $file);
+if(count($lines) == 1) { // Mac eol
+	$lines = explode($cr, $file);
+}
+
 $inelement = false;
 $parts = array();
 $card = array();
