@@ -628,7 +628,7 @@ Contacts={
 					return false;
 				}
 				container = $(obj).parents('.propertycontainer').first(); // get the parent holding the metadata.
-				Contacts.UI.loading(container, true);
+				Contacts.UI.loading(obj, true);
 				var checksum = container.data('checksum');
 				var name = container.data('element');
 				var fields = container.find('input.contacts_property,select.contacts_property').serializeArray();
@@ -651,7 +651,7 @@ Contacts={
 				var q = container.find('input.contacts_property,select.contacts_property,textarea.contacts_property').serialize();
 				if(q == '' || q == undefined) {
 					OC.dialogs.alert(t('contacts', 'Couldn\'t serialize elements.'), t('contacts', 'Error'));
-					Contacts.UI.loading(container, false);
+					Contacts.UI.loading(obj, false);
 					return false;
 				}
 				q = q + '&id=' + this.id + '&name=' + name;
@@ -663,7 +663,7 @@ Contacts={
 						if(jsondata.status == 'success'){
 							container.data('checksum', jsondata.data.checksum);
 							Contacts.UI.Card.savePropertyInternal(name, fields, checksum, jsondata.data.checksum);
-							Contacts.UI.loading(container, false);
+							Contacts.UI.loading(obj, false);
 							$(obj).removeAttr('disabled');
 							return true;
 						}
