@@ -1393,6 +1393,7 @@ Contacts={
 					  function(jsondata) {
 						if (jsondata.status == 'success'){
 							$(obj).closest('tr').remove();
+							$('#contacts h3[data-id="'+bookid+'"],#contacts ul[data-id="'+bookid+'"]').remove();
 							Contacts.UI.Contacts.update();
 						} else {
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
