@@ -18,6 +18,7 @@ $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 
 $tmpl = new OCP\Template('contacts', 'part.importaddressbook');
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
+$tmpl->assign('requesttoken', $_SERVER['HTTP_REQUESTTOKEN']);
 $tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->printpage();
 ?>

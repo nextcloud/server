@@ -12,6 +12,7 @@
 	<th><?php echo $l->t('Select address book to import to:') ?></th>
 	<td>
 		<form id="import_upload_form" action="<?php echo OCP\Util::linkTo('contacts', 'ajax/uploadimport.php'); ?>" method="post" enctype="multipart/form-data" target="import_upload_target">
+			<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken'] ?>">
 			<select id="book" name="book" class="float">
 			<?php
 			$contacts_options = OC_Contacts_Addressbook::all(OCP\USER::getUser());
