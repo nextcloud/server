@@ -669,7 +669,7 @@ Contacts={
 						}
 						else{
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-							Contacts.UI.loading(container, false);
+							Contacts.UI.loading(obj, false);
 							$(obj).removeAttr('disabled');
 							return false;
 						}
@@ -682,13 +682,13 @@ Contacts={
 							container.data('checksum', jsondata.data.checksum);
 							// TODO: savePropertyInternal doesn't know about new fields
 							//Contacts.UI.Card.savePropertyInternal(name, fields, checksum, jsondata.data.checksum);
-							Contacts.UI.loading(container, false);
+							Contacts.UI.loading(obj, false);
 							$(obj).removeAttr('disabled');
 							return true;
 						}
 						else{
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-							Contacts.UI.loading(container, false);
+							Contacts.UI.loading(obj, false);
 							$(obj).removeAttr('disabled');
 							return false;
 						}
