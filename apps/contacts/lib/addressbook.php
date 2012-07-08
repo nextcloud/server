@@ -169,16 +169,26 @@ class OC_Contacts_Addressbook{
 			$uid = OCP\USER::getUser();
 		}
 		$prefbooks = OCP\Config::getUserValue($uid,'contacts','openaddressbooks',null);
+		$prefbooks = explode(';',$prefbooks);
+		for ($i = 0; $i < count($prefbooks); $i++) {
+			if(!self::find($prefbooks[$i])) {
+				unset($prefbooks[$i]);
+			}
+		}
 		if(!$prefbooks){
+			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:activeIds:, No active addressbooks',OCP\Util::DEBUG);
 			$addressbooks = OC_Contacts_Addressbook::all($uid);
 			if(count($addressbooks) == 0){
-				OC_Contacts_Addressbook::add($uid,'default','Default Address Book');
+				OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:activeIds:, No addressbooks',OCP\Util::DEBUG);
+				$id = self::add($uid,'default','Default Address Book');
+				OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:activeIds:, Created addressbook: '.$id,OCP\Util::DEBUG);
+				self::setActive($id, true);
 				$addressbooks = OC_Contacts_Addressbook::all($uid);
 			}
-			$prefbooks = $addressbooks[0]['id'];
-			OCP\Config::setUserValue($uid,'contacts','openaddressbooks',$prefbooks);
+			$prefbooks[] = $addressbooks[0]['id'];
+			OCP\Config::setUserValue($uid,'contacts','openaddressbooks',implode(';',$prefbooks));
 		}
-		return explode(';',$prefbooks);
+		return $prefbooks;
 	}
 
 	/**
@@ -189,6 +199,9 @@ class OC_Contacts_Addressbook{
 	public static function active($uid){
 		$active = self::activeIds($uid);
 		$addressbooks = array();
+		if(!$active) {
+			return $addressbooks;
+		}
 		$ids_sql = join(',', array_fill(0, count($active), '?'));
 		$prep = 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id IN ('.$ids_sql.') ORDER BY displayname';
 		try {
@@ -213,7 +226,7 @@ class OC_Contacts_Addressbook{
 	 * @param integer $name
 	 * @return boolean
 	 */
-	public static function setActive($id,$active){
+	public static function setActive($id,$active=true){
 		// Need these ones for checking uri
 		//$addressbook = self::find($id);
 

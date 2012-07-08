@@ -49,25 +49,31 @@ class OC_Contacts_VCard{
 	 */
 	public static function all($id){
 		$result = null;
-		if(is_array($id)) {
+		if(is_array($id) && count($id) > 1) {
 			$id_sql = join(',', array_fill(0, count($id), '?'));
 			$prep = 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid IN ('.$id_sql.') ORDER BY fullname';
 			try {
 				$stmt = OCP\DB::prepare( $prep );
 				$result = $stmt->execute($id);
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
-				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all, ids: '.join(',', $id),OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all, ids: '.count($id).' '.join(',', $id),OCP\Util::DEBUG);
 				OCP\Util::writeLog('contacts','SQL:'.$prep,OCP\Util::DEBUG);
 			}
 		} elseif($id) {
+			if(is_array($id)) {
+				$id = $id[0];
+			}
 			try {
 				$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname' );
 				$result = $stmt->execute(array($id));
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
-				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all, ids: '. $id,OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all:, exception: '.$e->getMessage(),OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts','OC_Contacts_VCard:all, id: '. $id,OCP\Util::DEBUG);
 			}
+		} else {
+			OCP\Util::writeLog('contacts','OC_Contacts_VCard:all: No ID given.',OCP\Util::ERROR);
+			return array();
 		}
 		$cards = array();
 		if(!is_null($result)) {
