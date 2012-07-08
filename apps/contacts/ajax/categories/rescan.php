@@ -10,22 +10,7 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
-require_once(__DIR__.'/../loghandler.php');
-
-$addressbooks = OC_Contacts_Addressbook::all(OCP\USER::getUser());
-if(count($addressbooks) == 0) {
-	bailOut(OC_Contacts_App::$l10n->t('No address books found.'));
-}
-$addressbookids = array();
-foreach($addressbooks as $addressbook) {
-	$addressbookids[] = $addressbook['id'];
-} 
-$contacts = OC_Contacts_VCard::all($addressbookids);
-if(count($contacts) == 0) {
-	bailOut(OC_Contacts_App::$l10n->t('No contacts found.'));
-}
-
-OC_Contacts_App::scanCategories($contacts);
+OC_Contacts_App::scanCategories();
 $categories = OC_Contacts_App::getCategories();
 
 OCP\JSON::success(array('data' => array('categories'=>$categories)));
