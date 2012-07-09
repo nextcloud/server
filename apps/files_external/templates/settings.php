@@ -1,4 +1,4 @@
-<form id="files_external" method="post" enctype="multipart/form-data" action="/owncloud/?app=files_external&getfile=ajax/addRootCertificate.php">
+<form id="files_external" method="post" enctype="multipart/form-data" action="<?php echo OCP\Util::linkTo('files_external', 'ajax/addRootCertificate.php'); ?>">
 	<fieldset class="personalblock">
 	<legend><strong><?php echo $l->t('External Storage'); ?></strong></legend>
 		<table id="externalStorage" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
