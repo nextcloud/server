@@ -21,4 +21,3 @@ $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('requesttoken', $_SERVER['HTTP_REQUESTTOKEN']);
 $tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->printpage();
-?>

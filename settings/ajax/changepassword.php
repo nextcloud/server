@@ -23,5 +23,3 @@ if( OC_User::setPassword( $username, $password )){
 else{
 	OC_JSON::error(array("data" => array( "message" => "Unable to change password" )));
 }
-
-?>

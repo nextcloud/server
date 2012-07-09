@@ -104,6 +104,3 @@ function html_select_options($options, $selected, $params=array()) {
 class Template extends \OC_Template {
 
 }
-
-
-?>

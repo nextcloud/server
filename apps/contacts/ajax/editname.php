@@ -32,5 +32,3 @@ if($id) {
 }
 $page = $tmpl->fetchPage();
 OCP\JSON::success(array('data' => array('page'=>$page)));
-
-?>

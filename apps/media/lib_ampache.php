@@ -419,5 +419,3 @@ class OC_MEDIA_AMPACHE{
 		echo('</root>');
 	}
 }
-
-?>

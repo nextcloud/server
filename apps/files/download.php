@@ -46,4 +46,3 @@ header('Content-Length: '.OC_Filesystem::filesize($filename));
 
 @ob_end_clean();
 OC_Filesystem::readfile( $filename );
-?>

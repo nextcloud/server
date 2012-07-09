@@ -10,5 +10,3 @@ $permissions = $_POST['permissions'];
 OC_Share::setPermissions($source, $uid_shared_with, $permissions);
 
 OCP\JSON::success();
-
-?>

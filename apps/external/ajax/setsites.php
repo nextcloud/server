@@ -23,4 +23,3 @@ else
 	OCP\Config::setAppValue('external', 'sites', json_encode($sites));
 
 echo 'true';
-?>

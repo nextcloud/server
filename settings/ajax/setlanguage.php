@@ -22,5 +22,3 @@ if( isset( $_POST['lang'] ) ){
 }else{
 	OC_JSON::error(array("data" => array( "message" => $l->t("Invalid request") )));
 }
-
-?>

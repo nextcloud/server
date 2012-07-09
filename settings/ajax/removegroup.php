@@ -15,5 +15,3 @@ if( OC_Group::deleteGroup( $name )){
 else{
 	OC_JSON::error(array("data" => array( "message" => "Unable to delete group" )));
 }
-
-?>

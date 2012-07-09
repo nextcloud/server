@@ -18,5 +18,3 @@ if( OC_Files::move( $dir, $file, $dir, $newname )) {
 else{
 	OCP\JSON::error(array("data" => array( "message" => "Unable to rename file" )));
 }
-
-?>

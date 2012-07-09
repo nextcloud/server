@@ -35,4 +35,3 @@ $autoUpdate=(isset($_GET['autoupdate']) and $_GET['autoupdate']=='true');
 OCP\Config::setUserValue(OCP\USER::getUser(),'media','autoupdate',(integer)$autoUpdate);
 
 OCP\JSON::success(array('data' => $autoUpdate));
-?>

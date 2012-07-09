@@ -73,5 +73,3 @@ $tmpl->assign('addressbooks', $addressbooks);
 $tmpl->assign('details', $details );
 $tmpl->assign('id',$id);
 $tmpl->printPage();
-
-?>

@@ -1705,4 +1705,3 @@ $run_mode = (isset($_REQUEST['openid_mode'])
 debug("Run mode: $run_mode at: " . time());
 debug($_REQUEST, 'Request params');
 call_user_func($run_mode . '_mode');
-?>

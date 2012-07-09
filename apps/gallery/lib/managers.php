@@ -111,4 +111,3 @@ class ThumbnailsManager {
 	private function __construct() {}
 
 }
-?>

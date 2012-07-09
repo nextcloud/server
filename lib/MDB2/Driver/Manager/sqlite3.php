@@ -1360,4 +1360,3 @@ class MDB2_Driver_Manager_sqlite3 extends MDB2_Driver_Manager_Common
 
     // }}}
 }
-?>

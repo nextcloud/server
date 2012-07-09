@@ -223,4 +223,3 @@ class OC_VCategories {
 	}
 
 }
-?>

@@ -131,4 +131,3 @@ if($arguments['action']){
 			exit;
 	}
 }
-?>

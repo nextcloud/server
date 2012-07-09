@@ -7,5 +7,3 @@ $RUNTIME_NOAPPS=false;
 
 
 print OC_Helper::mimetypeIcon($_GET['mime']);
-
-?>

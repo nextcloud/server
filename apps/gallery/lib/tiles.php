@@ -174,5 +174,3 @@ class TileStack extends TileBase {
 	private $tiles_array;
 	private $stack_name;
 }
-
-?>

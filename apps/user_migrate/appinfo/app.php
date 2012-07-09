@@ -31,4 +31,3 @@ $entry = array(
 	'href' => OCP\Util::linkTo( "user_migrate", "admin.php" ),
 	'name' => 'Import'
 );
-?>

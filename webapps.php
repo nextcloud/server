@@ -52,5 +52,3 @@ if(!OC_User::login($authuser,$authpw)){
 
 
 }
-
-?>

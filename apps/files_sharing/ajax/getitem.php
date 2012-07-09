@@ -64,5 +64,3 @@ while ($path != $userDirectory) {
 }
 
 OCP\JSON::success(array('data' => $item));
-
-?>

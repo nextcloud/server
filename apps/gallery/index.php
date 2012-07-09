@@ -103,4 +103,3 @@ $tmpl = new OCP\Template( 'gallery', 'index', 'user' );
 $tmpl->assign('root', $root, false);
 $tmpl->assign('tl', $tl, false);
 $tmpl->printPage();
-?>

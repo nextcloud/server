@@ -26,5 +26,3 @@ if( OC_Group::createGroup( $groupname )){
 else{
 	OC_JSON::error(array("data" => array( "message" => "Unable to add group" )));
 }
-
-?>

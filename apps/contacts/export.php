@@ -32,4 +32,3 @@ if(isset($bookid)){
 	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $data['fullname']) . '.vcf'); 
 	echo $data['carddata'];
 }
-?>

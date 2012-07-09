@@ -35,4 +35,3 @@ if($username){
 }
 OC_JSON::success(array("data" => array( "username" => $username ,'quota'=>$quota)));
 
-?>

@@ -38,5 +38,3 @@ if( $success ){
 else{
 	OC_JSON::error(array("data" => array( "message" => "Unable to $error group $group" )));
 }
-
-?>

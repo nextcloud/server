@@ -15,5 +15,3 @@ if( OC_User::deleteUser( $username )){
 else{
 	OC_JSON::error(array("data" => array( "message" => "Unable to delete user" )));
 }
-
-?>
