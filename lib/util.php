@@ -66,7 +66,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(4,80,1);
+		return array(4,81,2);
 	}
 
 	/**
@@ -318,6 +318,26 @@ class OC_Util {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
+	}
+
+	/**
+	* Check if the user is a subadmin, redirects to home if not
+	* @return array $groups where the current user is subadmin
+	*/
+	public static function checkSubAdminUser(){
+		// Check if we are a user
+		self::checkLoggedIn();
+		if(OC_Group::inGroup(OC_User::getUser(),'admin')){
+			return OC_Group::getGroups();
+		}
+		$stmt = OC_DB::prepare('SELECT COUNT(*) as count FROM *PREFIX*group_admin WHERE uid = ?');
+		$result = $stmt->execute(array(OC_User::getUser()));
+		$result = $result->fetchRow();
+		if($result['count'] == 0){
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
+			exit();
+		}
+		return $groups;
 	}
 
 	/**

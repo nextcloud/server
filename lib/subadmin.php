@@ -1,0 +1,107 @@
+<?php
+/**
+ * ownCloud
+ *
+ * @author Georg Ehrke
+ * @copyright 2012 Georg Ehrke 
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/**
+ * This class provides all methods needed for managing groups.
+ *
+ * Hooks provided:
+ *   post_createSubAdmin($gid)
+ *   post_deleteSubAdmin($gid)
+ */
+class OC_SubAdmin{
+
+	/**
+	 * @brief add a SubAdmin
+	 * @param $uid uid of the SubAdmin
+	 * @param $gid gid of the group
+	 * @return boolean
+	 */
+	public static function createSubAdmin($uid, $gid){
+		$stmt = OC_DB::prepare('INSERT INTO *PREFIX*group_admin (gid,uid) VALUES(?,?)');
+		$result = $stmt->execute(array($gid, $uid));
+		if(OC_DB::isError($result)){
+			return false;
+		}
+		OC_Hook::emit( "OC_SubAdmin", "post_createSubAdmin", array( "gid" => $gid ));
+		return true;
+	}
+
+	/**
+	 * @brief delete a SubAdmin
+	 * @param $uid uid of the SubAdmin
+	 * @param $gid gid of the group
+	 * @return boolean
+	 */
+	public static function deleteSubAdmin($uid, $gid){
+		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*group_admin WHERE gid = ? AND uid = ?');
+		$result = $stmt->execute(array($gid, $uid));
+		if(OC_DB::isError($result)){
+			return false;
+		}
+		OC_Hook::emit( "OC_SubAdmin", "post_deleteSubAdmin", array( "gid" => $gid ));
+		return true;
+	}
+
+	/**
+	 * @brief get groups of a SubAdmin
+	 * @param $uid uid of the SubAdmin
+	 * @return array
+	 */
+	public static function getSubAdminsGroups($uid){
+		$stmt = OC_DB::prepare('SELECT gid FROM *PREFIX*group_admin WHERE uid = ?');
+		$result = $stmt->execute(array($gid, $uid));
+		$gids = array();
+		while($row = $result->fetchRow()){
+			$gids[] = $row['gid'];
+		}
+		return $gids;
+	}
+
+	/**
+	 * @brief get SubAdmins of a group
+	 * @param $gid gid of the group
+	 * @return array
+	 */
+	public static function getGroupsSubAdmins($gid){
+		$stmt = OC_DB::prepare('SELECT uid FROM *PREFIX*group_admin WHERE gid = ?');
+		$result = $stmt->execute(array($gid, $uid));
+		$uids = array();
+		while($row = $result->fetchRow()){
+			$uids[] = $row['uid'];
+		}
+		return $uids;
+	}
+	
+	/**
+	 * @brief get all SubAdmins
+	 * @return array
+	 */
+	public static function getAllSubAdmins(){
+		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*group_admin');
+		$result = $stmt->execute(array($gid, $uid));
+		$subadmins = array();
+		while($row = $result->fetchRow()){
+			$subadmins[] = $row;
+		}
+		return $subadmins;
+	}
+}

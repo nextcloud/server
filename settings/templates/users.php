@@ -1,13 +1,14 @@
-<?php /**
+<?php
+/**
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
-
 $allGroups=array();
 foreach($_["groups"] as $group) {
 	$allGroups[]=$group['name'];
 }
+$_['subadmingroups'] = $_['groups'];
 ?>
 
 <div id="controls">
@@ -60,6 +61,9 @@ foreach($_["groups"] as $group) {
 			<th id='headerName'><?php echo $l->t('Name')?></th>
 			<th id="headerPassword"><?php echo $l->t( 'Password' ); ?></th>
 			<th id="headerGroups"><?php echo $l->t( 'Groups' ); ?></th>
+			<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
+			<th id="headerSubAdmins"><?php echo $l->t('SubAdmins'); ?></th>
+			<?php endif;?>
 			<th id="headerQuota"><?php echo $l->t( 'Quota' ); ?></th>
 			<th id="headerRemove">&nbsp;</th>
 		</tr>
@@ -84,6 +88,20 @@ foreach($_["groups"] as $group) {
 					<?php endforeach;?>
 			</select>
 			</td>
+			<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
+			<td class="subadmins"><select
+				data-username="<?php echo $user['name'] ;?>"
+				data-user-groups="<?php echo $user['groups'] ;?>"
+				data-placeholder="subadmins" title="<?php echo $l->t('SubAdmin for ...')?>"
+				multiple="multiple">
+					<?php foreach($_["subadmingroups"] as $group): ?>
+					<option value="<?php echo $group['name'];?>">
+						<?php echo $group['name'];?>
+					</option>
+					<?php endforeach;?>
+			</select>
+			</td>
+			<?php endif;?>
 			<td class="quota">
 				<div class="quota-select-wrapper">
 					<select class='quota-user'>

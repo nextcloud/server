@@ -6,7 +6,7 @@
  */
 
 require_once('../lib/base.php');
-OC_Util::checkAdminUser();
+OC_Util::checkSubAdminUser();
 
 // We have some javascript foo!
 OC_Util::addScript( 'settings', 'users' );
@@ -17,11 +17,22 @@ OC_App::setActiveNavigationEntry( 'core_users' );
 $users = array();
 $groups = array();
 
-foreach( OC_User::getUsers() as $i ){
-	$users[] = array( "name" => $i, "groups" => join( ", ", OC_Group::getUserGroups( $i ) ),'quota'=>OC_Preferences::getValue($i,'files','quota','default'));
+$isadmin = OC_Group::inGroup(OC_User::getUser(),'admin')?true:false;
+if($isadmin){
+	$groups = OC_Group::getGroups();
+	$accessibleusers = OC_User::getUsers();
+	$subadmins = OC_SubAdmin::getAllSubAdmins();
+}else{
+	$groups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
+	$accessibleusers = OC_Group::usersInGroups($groups);
+	$subadmins = false;
 }
 
-foreach( OC_Group::getGroups() as $i ){
+foreach($accessibleusers as $i){
+	$users[] = array( "name" => $i, "groups" => join( ", ", /*array_intersect(*/OC_Group::getUserGroups($i)/*, OC_SubAdmin::getSubAdminsGroups(OC_User::getUser()))*/),'quota'=>OC_Preferences::getValue($i,'files','quota','default'));
+}
+
+foreach( $groups as $i ){
 	// Do some more work here soon
 	$groups[] = array( "name" => $i );
 }
@@ -44,10 +55,8 @@ if (\OC_App::isEnabled( "files_sharing" ) ) {
 $tmpl = new OC_Template( "settings", "users", "user" );
 $tmpl->assign( "users", $users );
 $tmpl->assign( "groups", $groups );
+$tmpl->assign( 'subadmins', $subadmins);
 $tmpl->assign( 'quota_preset', $quotaPreset);
 $tmpl->assign( 'default_quota', $defaultQuota);
 $tmpl->assign( 'share_notice', $shareNotice);
 $tmpl->printPage();
-
-?>
-
