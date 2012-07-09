@@ -18,8 +18,6 @@ $has_contacts = (count(OC_Contacts_VCard::all($ids, 0, 1)) > 0 ? true : false); 
 if($contacts === false) {
 	OCP\Util::writeLog('contacts','index.html: No contacts found.',OCP\Util::DEBUG);
 }
-error_log('activeIds: '.print_r($activeIds, true));
-error_log('has_contacts: '.$has_contacts);
 
 // Load the files we need
 OCP\App::setActiveNavigationEntry( 'contacts_index' );
@@ -53,12 +51,12 @@ OCP\Util::addStyle('contacts','jquery.Jcrop');
 OCP\Util::addStyle('contacts','contacts');
 
 $tmpl = new OCP\Template( "contacts", "index", "user" );
-$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
-$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
-$tmpl->assign('property_types', $property_types);
-$tmpl->assign('phone_types', $phone_types);
-$tmpl->assign('email_types', $email_types);
-$tmpl->assign('categories', $categories);
-$tmpl->assign('has_contacts',$has_contacts);
-$tmpl->assign('id',$id);
+$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize, false);
+$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize), false);
+$tmpl->assign('property_types', $property_types, false);
+$tmpl->assign('phone_types', $phone_types, false);
+$tmpl->assign('email_types', $email_types, false);
+$tmpl->assign('categories', $categories, false);
+$tmpl->assign('has_contacts', $has_contacts, false);
+$tmpl->assign('id',$id, false);
 $tmpl->printPage();
