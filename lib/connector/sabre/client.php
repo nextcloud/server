@@ -23,29 +23,18 @@
 
 class OC_Connector_Sabre_Client extends Sabre_DAV_Client {
 	
-	protected $curlSettings;
-	
-	public function __construct(array $settings) {
-		//set default curl settings
-		$this->curlSettings = array(
-				CURLOPT_RETURNTRANSFER => true,
-				// Return headers as part of the response
-				CURLOPT_HEADER => true,
-				// Automatically follow redirects
-				CURLOPT_FOLLOWLOCATION => true,
-				CURLOPT_MAXREDIRS => 5,
-				CURLOPT_SSL_VERIFYPEER => true,
-				//CURLOPT_SSL_VERIFYPEER	=> false,
-		);
-		parent::__construct($settings);
-	}
-	
-	public function setCurlSettings($settings) {
-		if (is_array($settings)) {
-			foreach ($settings as $k => $v) {
-				$this->curlSettings[$k] = $v;
-			}
-		}
+	protected $trustedCertificates;
+
+	/**
+	 * Add trusted root certificates to the webdav client.
+	 *
+	 * The parameter certificates should be a absulute path to a file which contains
+	 * all trusted certificates
+	 *
+	 * @param string $certificates
+	 */
+	public function addTrustedCertificates($certificates) {
+		$this->trustedCertificates = $certificates;
 	}
 	
 	/**
@@ -68,13 +57,28 @@ class OC_Connector_Sabre_Client extends Sabre_DAV_Client {
 	 * @return array
 	 */
 	public function request($method, $url = '', $body = null, $headers = array()) {
-
-		$this->curlSettings[CURLOPT_POSTFIELDS] = $body;	 
+	
 		$url = $this->getAbsoluteUrl($url);
+	
+		$curlSettings = array(
+				CURLOPT_RETURNTRANSFER => true,
+				// Return headers as part of the response
+				CURLOPT_HEADER => true,
+				CURLOPT_POSTFIELDS => $body,
+				// Automatically follow redirects
+				CURLOPT_FOLLOWLOCATION => true,
+				CURLOPT_MAXREDIRS => 5,
+				CURLOPT_SSL_VERIFYPEER => true,
+				//CURLOPT_SSL_VERIFYPEER	=> false,
+		);
+		
+		if($this->trustedCertificates) {
+			$curlSettings[CURLOPT_CAINFO] = $this->trustedCertificates;
+		}
 	
 		switch ($method) {
 			case 'PUT':
-				$this->curlSettings[CURLOPT_PUT] = true;
+				$curlSettings[CURLOPT_PUT] = true;
 				break;
 			case 'HEAD' :
 	
@@ -83,12 +87,12 @@ class OC_Connector_Sabre_Client extends Sabre_DAV_Client {
 				// specs...) cURL does unfortunately return an error in this case ("transfer closed transfer closed with
 				// ... bytes remaining to read") this can be circumvented by explicitly telling cURL to ignore the
 				// response body
-				$this->curlSettings[CURLOPT_NOBODY] = true;
-				$this->curlSettings[CURLOPT_CUSTOMREQUEST] = 'HEAD';
+				$curlSettings[CURLOPT_NOBODY] = true;
+				$curlSettings[CURLOPT_CUSTOMREQUEST] = 'HEAD';
 				break;
 	
 			default:
-				$this->curlSettings[CURLOPT_CUSTOMREQUEST] = $method;
+				$curlSettings[CURLOPT_CUSTOMREQUEST] = $method;
 				break;
 	
 		}
@@ -100,15 +104,15 @@ class OC_Connector_Sabre_Client extends Sabre_DAV_Client {
 			$nHeaders[] = $key . ': ' . $value;
 	
 		}
-		$this->curlSettings[CURLOPT_HTTPHEADER] = $nHeaders;
+		$curlSettings[CURLOPT_HTTPHEADER] = $nHeaders;
 	
 		if ($this->proxy) {
-			$this->curlSettings[CURLOPT_PROXY] = $this->proxy;
+			$curlSettings[CURLOPT_PROXY] = $this->proxy;
 		}
 	
 		if ($this->userName) {
-			$this->curlSettings[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC | CURLAUTH_DIGEST;
-			$this->curlSettings[CURLOPT_USERPWD] = $this->userName . ':' . $this->password;
+			$curlSettings[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC | CURLAUTH_DIGEST;
+			$curlSettings[CURLOPT_USERPWD] = $this->userName . ':' . $this->password;
 		}
 	
 		list(
@@ -116,7 +120,7 @@ class OC_Connector_Sabre_Client extends Sabre_DAV_Client {
 				$curlInfo,
 				$curlErrNo,
 				$curlError
-		) = $this->curlRequest($url, $this->curlSettings);
+		) = $this->curlRequest($url, $curlSettings);
 	
 		$headerBlob = substr($response, 0, $curlInfo['header_size']);
 		$response = substr($response, $curlInfo['header_size']);
@@ -164,5 +168,4 @@ class OC_Connector_Sabre_Client extends Sabre_DAV_Client {
 		return $response;
 	
 	}
-	
 }
