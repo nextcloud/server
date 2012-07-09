@@ -5,7 +5,7 @@ $(document).ready(function(){
 			clearInterval($.supersized.vars.slideshow_interval);
 		};
 
-		$(".supersizedHolder").remove();
+		$('#supersized-holder').remove();
 		$('#slideshow-content').hide();
 		$('#thumb-list').remove();
 	}
@@ -22,11 +22,11 @@ $(document).ready(function(){
 			return;
 		}
 
-		$("body").append("<div class='supersizedHolder'></div>");
-		$("#supersized-loader").remove();
-		$("#supersized").remove();
-		$(".supersizedHolder").append("<div id='supersized-loader'></div><ul id='supersized'></ul>");
-		$("#supersized").show();
+		$('body').append("<div id='supersized-holder'></div>");
+		$('#supersized-loader').remove();
+		$('#supersized').remove();
+		$('#supersized-holder').append("<div id='supersized-loader'></div><ul id='supersized'></ul>");
+		$('#supersized').show();
 		$('#slideshow-content').show();
 
 

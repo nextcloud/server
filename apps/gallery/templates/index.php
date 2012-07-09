@@ -37,7 +37,7 @@ echo $_['tl']->get();
 </div>
 
 <!-- start supersized block -->
-<div id="slideshow-content" class="supersized" style="display:none;">
+<div id="slideshow-content" style="display:none;">
 
 	<!--Thumbnail Navigation-->
 	<div id="prevthumb"></div>

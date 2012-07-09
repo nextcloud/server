@@ -1,5 +1,5 @@
 #gallerycontent { margin-top: 2.8em; overflow: visible; }
-#g-settings {position: absolute; left 13.5em; top: 0;}
+#g-settings {position: absolute; left: 13.5em; top: 0;}
 div#controls input[type=button] { -webkit-transition: opacity 0.5s ease-in-out; -moz-transition: opacity 0.5s ease-in-out; -o-transition: opacity 0.5s ease-in-out; opacity: 1; position:absolute; right:13.5em; top:0em; }
 input[type=button]:disabled { opacity: 0.5 }
 .ui-dialog tr {background-color: #eee;}
