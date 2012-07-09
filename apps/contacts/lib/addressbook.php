@@ -83,7 +83,7 @@ class OC_Contacts_Addressbook{
 		$activeaddressbooks = self::all($uid, true);
 		$ids = array();
 		foreach($activeaddressbooks as $addressbook) {
-			$ids[] = $addressbook['userid'];
+			$ids[] = $addressbook['id'];
 		}
 		return $ids;
 	}
