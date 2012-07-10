@@ -256,7 +256,7 @@ class OC_FileCache{
 	 * - versioned
 	 */
   public static function getFolderContent($path,$root='',$mimetype_filter=''){
-		if(self::isUpdated($path,$root)){
+		if(self::isUpdated($path,$root,true)){
 			self::updateFolder($path,$root);
 		}
 		if(!$root){
@@ -633,9 +633,10 @@ class OC_FileCache{
 	 * check if a file or folder is updated outside owncloud
 	 * @param string path
 	 * @param string root (optional)
+	 * @param bool folder (optional)
 	 * @return bool
 	 */
-	public static function isUpdated($path,$root=''){
+	public static function isUpdated($path,$root='',$folder=false){
 		if(!$root){
 			$root=OC_Filesystem::getRoot();
 			$view=OC_Filesystem::getView();
@@ -648,7 +649,7 @@ class OC_FileCache{
 		if(!$view->file_exists($path)){
 			return false;
 		}
-		$mtime=$view->filemtime($path);
+		$mtime=$view->filemtime($path.(($folder)?'/':''));
 		$isDir=$view->is_dir($path);
 		$fullPath=$root.$path;
 		$query=OC_DB::prepare('SELECT mtime FROM *PREFIX*fscache WHERE path_hash=?');
