@@ -324,6 +324,10 @@ class OC_FileCache{
 			$eventSource->send('scanning',array('file'=>$path,'count'=>$count));
 		}
 		$lastSend=$count;
+		// NOTE: Ugly hack to prevent shared files from going into the cache (the source already exists somewhere in the cache)
+		if (substr($path, 0, 7) == '/Shared') {
+			return;
+		}
 		if($root===false){
 			$view=OC_Filesystem::getView();
 		}else{
@@ -361,6 +365,10 @@ class OC_FileCache{
 	 * @return int size of the scanned file
 	 */
 	public static function scanFile($path,$root=false){
+		// NOTE: Ugly hack to prevent shared files from going into the cache (the source already exists somewhere in the cache)
+		if (substr($path, 0, 7) == '/Shared') {
+			return;
+		}
 		if($root===false){
 			$view=OC_Filesystem::getView();
 		}else{

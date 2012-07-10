@@ -53,9 +53,9 @@ class Share {
 	* @param array (optional) List of supported file extensions if this item type depends on files
 	* @return Returns true if backend is registered or false if error
 	*/
-	public static function registerBackend($itemType, $class, $dependsOn = null, $supportedFileExtensions = null) {
+	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
 		if (!isset(self::$backendTypes[$itemType])) {
-			self::$backendTypes[$itemType] = array('class' => $class, 'dependsOn' => $dependsOn, 'supportedFileExtensions' => $supportedFileExtensions);
+			self::$backendTypes[$itemType] = array('class' => $class, 'collectionOf' => $collectionOf, 'supportedFileExtensions' => $supportedFileExtensions);
 			return true;
 		}
 		\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class'].' is already registered for '.$itemType, \OC_Log::WARN);
@@ -69,8 +69,8 @@ class Share {
 	* @param int Number of items to return (optional) Returns all by default
 	* @return Return depends on format
 	*/
-	public static function getItemsSharedWith($itemType, $format = self::FORMAT_NONE, $limit = -1) {
-		return self::getItems($itemType, null, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, $limit);
+	public static function getItemsSharedWith($itemType, $format = self::FORMAT_NONE, $parameters = null, $limit = -1) {
+		return self::getItems($itemType, null, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, $parameters, $limit);
 	}
 
 	/**
@@ -80,8 +80,8 @@ class Share {
 	* @param int Format (optional) Format type must be defined by the backend
 	* @return Return depends on format
 	*/
-	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE) {
-		return self::getItems($itemType, $itemTarget, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, 1);
+	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE, $parameters = null) {
+		return self::getItems($itemType, $itemTarget, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, $parameters, 1);
 	}
 
 	/**
@@ -91,8 +91,8 @@ class Share {
 	* @param int Format (optional) Format type must be defined by the backend
 	* @return Return depends on format
 	*/
-	public static function getItemSharedWithBySource($itemType, $itemSource, $format = self::FORMAT_NONE) {
-		return self::getItems($itemType, $itemSource, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, 1, true);
+	public static function getItemSharedWithBySource($itemType, $itemSource, $format = self::FORMAT_NONE, $parameters = null) {
+		return self::getItems($itemType, $itemSource, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, $parameters, 1, true);
 	}
 
 	/**
@@ -102,8 +102,8 @@ class Share {
 	* @param int Number of items to return (optional) Returns all by default
 	* @return Return depends on format
 	*/
-	public static function getItemsShared($itemType, $format = self::FORMAT_NONE, $limit = -1) {
-		return self::getItems($itemType, null, null, null, \OC_User::getUser(), $format, $limit);
+	public static function getItemsShared($itemType, $format = self::FORMAT_NONE, $parameters = null, $limit = -1) {
+		return self::getItems($itemType, null, null, null, \OC_User::getUser(), $format, $parameters, $limit);
 	}
 
 	/**
@@ -113,8 +113,8 @@ class Share {
 	* @param int Format (optional) Format type must be defined by the backend
 	* @return Return depends on format
 	*/
-	public static function getItemShared($itemType, $item, $format = self::FORMAT_NONE) {
-		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format);
+	public static function getItemShared($itemType, $item, $format = self::FORMAT_NONE, $parameters = null) {
+		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format, $parameters);
 	}
 
 	/**
@@ -124,8 +124,8 @@ class Share {
 	* @param int Format (optional) Format type must be defined by the backend
 	* @return Return depends on format
 	*/
-	public static function getItemSharedBySource($itemType, $item, $format = self::FORMAT_NONE) {
-		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format, -1, true);
+	public static function getItemSharedBySource($itemType, $item, $format = self::FORMAT_NONE, $parameters = null) {
+		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format, $parameters, -1, true);
 	}
 
 	/**
@@ -195,7 +195,7 @@ class Share {
 			if ($parentFolder && $files = \OC_Files::getDirectoryContent($item)) {
 				for ($i = 0; $i < count($files); $i++) {
 					$name = substr($files[$i]['name'], strpos($files[$i]['name'], $item) - strlen($item));
-					if ($files[$i]['mimetype'] == 'httpd/unix-directory' && $children = OC_Files::getDirectoryContent($name, '/')) {
+					if ($files[$i]['mimetype'] == 'httpd/unix-directory' && $children = \OC_Files::getDirectoryContent($name, '/')) {
 						// Continue scanning into child folders
 						array_push($files, $children);
 					} else {
@@ -370,19 +370,19 @@ class Share {
 	}
 
 	/**
-	* @brief Get a list of parent item types for the specified item type
+	* @brief Get a list of collection item types for the specified item type
 	* @param string Item type
 	* @return array
 	*/
-	private static function getParentItemTypes($itemType) {
-		$parents = array($itemType);
-		foreach (self::$backends as $type => $backend) {
-			if (in_array($backend->dependsOn, $parents)) {
-				$parents[] = $type;
+	private static function getCollectionItemTypes($itemType) {
+		$collections = array($itemType);
+		foreach (self::$backendTypes as $type => $backend) {
+			if (in_array($backend['collectionOf'], $collections)) {
+				$collections[] = $type;
 			}
 		}
-		if (!empty($parents)) {
-			return $parents;
+		if (count($collections) > 1) {
+			return $collections;
 		}
 		return false;
 	}
@@ -400,19 +400,13 @@ class Share {
 	* See public functions getItem(s)... for parameter usage
 	*
 	*/
-	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $limit = -1, $isSource = false) {
+	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1, $isSource = false) {
 		if ($backend = self::getBackend($itemType)) {
 			// Check if there are any parent types that include this type of items, e.g. a music album contains songs
-			if (isset($itemType)) {
-				if ($parents = self::getParentItemTypes($itemType)) {
-					$where = "WHERE item_type IN ('".implode("','", $parents)."')";
-				} else {
-					$where = "WHERE item_type = '".$itemType."'";
-				}
-				// TODO exclude items that are inside of folders and got converted i.e. songs, pictures
-				if ($itemType == 'files') {
-
-				}
+			if ($parents = self::getCollectionItemTypes($itemType)) {
+				$where = "WHERE item_type IN ('".implode("','", $parents)."')";
+			} else {
+				$where = "WHERE item_type = '".$itemType."'";
 			}
 			if (isset($shareType) && isset($shareWith)) {
 				// Include all user and group items
@@ -450,20 +444,21 @@ class Share {
 					}
 				} else {
 					if ($isSource) {
-						if ($itemType == 'file') {
+						if ($itemType == 'file' || $itemType == 'folder') {
 							$where .= " AND file_source = '".$item."'";
 						} else {
 							$where .= " AND item_source = '".$item."'";
 						}
 					} else {
-						if ($itemType == 'file' && substr($item, -1) == '/') {
-							// Special case to select only the shared files inside the folder
-							$where .= " AND file_target LIKE '".$item."%/'";
+						if ($itemType == 'file' || $itemType == 'folder') {
+							$where .= " AND file_target = '".$item."'";
 						} else {
 							$where .= " AND item_target = '".$item."'";
 						}
 					}
 				}
+			} else if ($itemType == 'file') {
+				// TODO Exclude converted items inside shared folders
 			}
 			if ($limit != -1) {
 				if ($limit == 1 && $shareType == self::$shareTypeUserAndGroups) {
@@ -486,16 +481,12 @@ class Share {
 			$result = $query->execute();
 			$items = array();
 			while ($item = $result->fetchRow()) {
-				if ($limit == 1) {
-					// Return just the item instead of 3-dimensional array
-					return $item;
-				}
 				// Filter out duplicate group shares for users with unique targets
 				if ($item['share_type'] == self::$shareTypeGroupUserUnique) {
 					// Remove the parent group share
-					unset($items[$item['item_source']][$item['parent']]);
+					unset($items[$item['parent']]);
 				}
-				$items[$item['item_source']][$item['id']] = $item;
+				$items[$item['id']] = $item;
 				// TODO Add in parent item types children?
 				if ($parents && in_array($item['item_type'], $parents)) {
 					$children[] = $item;
@@ -506,20 +497,17 @@ class Share {
 					return $items;
 				} else if ($format == self::FORMAT_STATUSES) {
 					$statuses = array();
-					foreach ($items as $shares) {
-						foreach ($shares as $info) {
-							if ($info['share_type'] == self::SHARE_TYPE_PRIVATE_LINK) {
-								$statuses[$info['item']] = true;
-								break;
-							} else if (!isset($statuses[$info['item']])) {
-								$statuses[$info['item']] = false;
-							}
+					foreach ($items as $item) {
+						if ($item['share_type'] == self::SHARE_TYPE_PRIVATE_LINK) {
+							$statuses[$item['item']] = true;
+							break;
+						} else if (!isset($statuses[$item['item']])) {
+							$statuses[$item['item']] = false;
 						}
-						
 					}
 					return $statuses;
 				} else {
-					return $backend->formatItems($items, $format);
+					return $backend->formatItems($items, $format, $parameters);
 				}
 			} else if ($limit == 1 || (isset($uidOwner) && isset($item))) {
 				return false;
@@ -764,12 +752,14 @@ abstract class Share_Backend {
 	* This function allows the backend to control the output of shared items with custom formats.
 	* It is only called through calls to the public getItem(s)Shared(With) functions.
 	*/
-	public abstract function formatItems($items, $format);
+	public abstract function formatItems($items, $format, $parameters = null);
 
 
 }
 
-abstract class Share_Backend_Parent extends Share_Backend {
+abstract class Share_Backend_Collection extends Share_Backend {
+
+	public abstract function inCollection($collections, $item);
 
 	public abstract function getChildren($item);
     

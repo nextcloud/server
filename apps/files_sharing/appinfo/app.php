@@ -1,7 +1,8 @@
 <?php
 
 OC::$CLASSPATH['OC_Share'] = "apps/files_sharing/lib_share.php";
-OC::$CLASSPATH['OC_Share_Backend_File'] = "apps/files_sharing/share.php";
+OC::$CLASSPATH['OC_Share_Backend_File'] = "apps/files_sharing/lib/share/file.php";
+OC::$CLASSPATH['OC_Share_Backend_Folder'] = 'apps/files_sharing/lib/share/folder.php';
 OC::$CLASSPATH['OC_Filestorage_Shared'] = "apps/files_sharing/sharedstorage.php";
 
 OCP\App::registerAdmin('files_sharing', 'settings');
@@ -24,3 +25,4 @@ OCP\Util::addscript("3rdparty", "chosen/chosen.jquery.min");
 OCP\Util::addStyle( 'files_sharing', 'sharing' );
 OCP\Util::addStyle("3rdparty", "chosen/chosen");
 OCP\Share::registerBackend('file', 'OC_Share_Backend_File');
+OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');

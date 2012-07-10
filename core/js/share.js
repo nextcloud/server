@@ -84,10 +84,8 @@ OC.Share={
 		$(html).appendTo(appendTo);
 		var data = OC.Share.loadItem(itemType, item);
 		if (data) {
-			$.each(data, function(index, shares) {
-				$.each(shares, function(id, share) {
-					OC.Share.addShareWith(share.share_with, share.permissions);
-				});
+			$.each(data, function(index, share) {
+				OC.Share.addShareWith(share.share_with, share.permissions);
 			});
 		}
 		$('#dropdown').show('blind');
@@ -160,6 +158,7 @@ $(document).ready(function() {
 	});
 	
 	if (typeof FileActions !== 'undefined') {
+		
 		OC.Share.loadIcons('file');
 		FileActions.register('all', 'Share', function(filename) {
 			// Return the correct sharing icon
@@ -187,19 +186,24 @@ $(document).ready(function() {
 			}
 		}, function(filename) {
 			var item = $('#dir').val() + '/' + filename;
-			var appendTo = $('tr').filterAttr('data-file',filename).find('td.filename');
+			if ($('tr').filterAttr('data-file', filename).data('type') == 'dir') {
+				var itemType = 'folder';
+			} else {
+				var itemType = 'file';
+			}
+			var appendTo = $('tr').filterAttr('data-file', filename).find('td.filename');
 			// Check if drop down is already visible for a different file
 			if (($('#dropdown').length > 0)) {
 				if (item != $('#dropdown').data('item')) {
 					OC.Share.hideDropDown(function () {
 						$('tr').removeClass('mouseOver');
 						$('tr').filterAttr('data-file', filename).addClass('mouseOver');
-						OC.Share.showDropDown('file', item, appendTo, true);
+						OC.Share.showDropDown(itemType, item, appendTo, true);
 					});
 				}
 			} else {
 				$('tr').filterAttr('data-file',filename).addClass('mouseOver');
-				OC.Share.showDropDown('file', item, appendTo, true);
+				OC.Share.showDropDown(itemType, item, appendTo, true);
 			}
 		});
 	}
