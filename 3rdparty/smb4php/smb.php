@@ -166,6 +166,8 @@ class smb {
 						return false;
 					}elseif(substr($regs[0],0,31)=='NT_STATUS_OBJECT_PATH_NOT_FOUND'){
 						return false;
+					}elseif(substr($regs[0],0,29)=='NT_STATUS_FILE_IS_A_DIRECTORY'){
+						return false;
 					}
 					trigger_error($regs[0].' params('.$params.')', E_USER_ERROR);
 			}
