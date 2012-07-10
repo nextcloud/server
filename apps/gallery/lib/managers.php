@@ -2,7 +2,7 @@
 
 namespace OC\Pictures;
 
-class DatabaseManager {
+class DatabaseManager {        
 	private static $instance = null;
 	protected $cache = array();
 	const TAG = 'DatabaseManager';
@@ -62,6 +62,7 @@ class ThumbnailsManager {
 	
 	private static $instance = null;
 	const TAG = 'ThumbnailManager';
+        const THUMBNAIL_HEIGHT = 150;
 	
 	public static function getInstance() {
 		if (self::$instance === null)
@@ -81,27 +82,23 @@ class ThumbnailsManager {
 		$image = new \OC_Image();
 		$image->loadFromFile(\OC_Filesystem::getLocalFile($path));
 		if (!$image->valid()) return false;
-
+                            
 		$image->fixOrientation();
-
-		$ret = $image->preciseResize($this->getThumbnailWidth($image), $this->getThumbnailHeight($image));
+                
+		$ret = $image->preciseResize( floor((self::THUMBNAIL_HEIGHT*$image->width())/$image->height()), self::THUMBNAIL_HEIGHT );
 		
 		if (!$ret) {
 			\OC_Log::write(self::TAG, 'Couldn\'t resize image', \OC_Log::ERROR);
 			unset($image);
 			return false;
 		}
-
+                
 		$image->save($gallery_path.'/'.$path);
 		return $image;
 	}
 
 	public function getThumbnailWidth($image) {
-		return floor((150*$image->widthTopLeft())/$image->heightTopLeft());
-	}
-
-	public function getThumbnailHeight($image) {
-		return 150;
+		return floor((self::THUMBNAIL_HEIGHT*$image->widthTopLeft())/$image->heightTopLeft());
 	}
 
 	public function getThumbnailInfo($path) {
@@ -116,7 +113,7 @@ class ThumbnailsManager {
 			if (!$image->valid()) {
 				return false;
 			}
-			$arr = DatabaseManager::getInstance()->setFileData($path, $this->getThumbnailWidth($image), $this->getThumbnailHeight($image));
+			$arr = DatabaseManager::getInstance()->setFileData($path, $this->getThumbnailWidth($image), self::THUMBNAIL_HEIGHT);
 		}
 		$ret = array('filepath' => $arr['path'],
 					 'width' => $arr['width'],
