@@ -85,7 +85,11 @@ OC.Share={
 		var data = OC.Share.loadItem(itemType, item);
 		if (data) {
 			$.each(data, function(index, share) {
-				OC.Share.addShareWith(share.share_with, share.permissions);
+				if (share.share_type == OC.Share.SHARE_TYPE_PRIVATE_LINK) {
+					OC.Share.showPrivateLink(item, share.share_with);
+				} else {
+					OC.Share.addShareWith(share.share_with, share.permissions);
+				}
 			});
 		}
 		$('#dropdown').show('blind');
