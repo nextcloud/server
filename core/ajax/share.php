@@ -26,7 +26,6 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 	$item = OCP\Util::sanitizeHTML($_POST['item']);
 	switch ($_POST['action']) {
 		case 'share':
-			error_log($_POST['item']);
 			if (isset($_POST['shareType']) && isset($_POST['shareWith']) && isset($_POST['permissions'])) {
 				$shareType = OCP\Util::sanitizeHTML($_POST['shareType']);
 				$shareWith = OCP\Util::sanitizeHTML($_POST['shareWith']);
