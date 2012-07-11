@@ -81,7 +81,7 @@ class OC_Mail {
 
 			$mailo->Send();
 			unset($mailo);
-			OC_Log::write('Mail from '.$fromname.' ('.$fromaddress.')'.' to: '.$toname.'('.$toaddress.')'.' subject: '.$subject,'mail',OC_Log::DEBUG);
+			OC_Log::write('mail', 'Mail from '.$fromname.' ('.$fromaddress.')'.' to: '.$toname.'('.$toaddress.')'.' subject: '.$subject, OC_Log::DEBUG);
 		} catch (Exception $exception) {
 			OC_Log::write('mail', $exception->getMessage(), OC_Log::DEBUG);
 		}
