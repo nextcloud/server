@@ -71,9 +71,9 @@ class ThumbnailsManager {
 	}
 
 	public function getThumbnail($path) {
-		$gallery_path = \OCP\Config::getSystemValue( 'datadirectory' ).'/'.\OC_User::getUser().'/gallery';
-		if (file_exists($gallery_path.$path)) {
-			return new \OC_Image($gallery_path.$path);
+		$gallery_storage = \OCP\Files::getStorage('gallery');
+		if ($gallery_storage->file_exists($path)) {
+			return new \OC_Image($gallery_storage->getLocalFile($path));
 		}
 		if (!\OC_Filesystem::file_exists($path)) {
 			\OC_Log::write(self::TAG, 'File '.$path.' don\'t exists', \OC_Log::WARN);
@@ -92,8 +92,9 @@ class ThumbnailsManager {
 			unset($image);
 			return false;
 		}
+		$l = $gallery_storage->getLocalFile($path);
                 
-		$image->save($gallery_path.'/'.$path);
+		$image->save($l);
 		return $image;
 	}
 
@@ -122,9 +123,9 @@ class ThumbnailsManager {
 	}
 	
 	public function delete($path) {
-		$thumbnail = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser()."/gallery".$path;
-		if (file_exists($thumbnail)) {
-			unlink($thumbnail);
+		$thumbnail_storage = \OCP\Files::getStorage('gallery');
+		if ($thumbnail_storage->file_exists($path)) {
+			$thumbnail_storage->unlink($path);
 		}
 	}
 	

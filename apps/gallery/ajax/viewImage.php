@@ -20,8 +20,6 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-
-
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('gallery');
 
@@ -29,6 +27,6 @@ $img = $_GET['img'];
 
 $image = OC_Gallery_Photo::getViewImage($img);
 if ($image) {
-    OCP\Response::enableCaching(3600 * 24); // 24 hour
-    $image->show();
+	OCP\Response::enableCaching(3600 * 24); // 24 hour
+	$image->show();
 }
