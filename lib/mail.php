@@ -36,7 +36,7 @@ class OC_Mail {
 		$SMTPPASSWORD = OC_Config::getValue( 'mail_smtppassword', '' );  
 
 
-		$mailo = new PHPMailer();
+		$mailo = new PHPMailer(true);
 		if($SMTPMODE=='sendmail') {
 			$mailo->IsSendmail();
 		}elseif($SMTPMODE=='smtp'){
