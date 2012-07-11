@@ -481,6 +481,10 @@ class Share {
 			$result = $query->execute();
 			$items = array();
 			while ($item = $result->fetchRow()) {
+				// Return only the item instead of a 2-dimensional array
+				if ($limit == 1 && $format == self::FORMAT_NONE) {
+					return $item;
+				}
 				// Filter out duplicate group shares for users with unique targets
 				if ($item['share_type'] == self::$shareTypeGroupUserUnique) {
 					// Remove the parent group share
