@@ -2,8 +2,10 @@
 /**
  * ownCloud
  *
- * @author Frank Karlitschek
- * @copyright 2012 Frank Karlitschek frank@owncloud.org
+ * @author Sam Tuke, Frank Karlitschek, Robin Appelman
+ * @copyright 2012 Sam Tuke samtuke@owncloud.com, 
+ * Robin Appelman icewind@owncloud.com, Frank Karlitschek 
+ * frank@owncloud.org
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -20,79 +22,207 @@
  *
  */
 
-
-
-// Todo:
-//  - Crypt/decrypt button in the userinterface
-//  - Setting if crypto should be on by default
-//  - Add a setting "Don´t encrypt files larger than xx because of performance reasons"
-//  - Transparent decrypt/encrypt in filesystem.php. Autodetect if a file is encrypted (.encrypted extension)
-//  - Don't use a password directly as encryption key. but a key which is stored on the server and encrypted with the user password. -> password change faster
-//  - IMPORTANT! Check if the block lenght of the encrypted data stays the same
-
-
-require_once('Crypt_Blowfish/Blowfish.php');
+namespace OCA_Encryption;
 
 /**
- * This class is for crypting and decrypting
+ * Class for common cryptography functionality
  */
-class OC_Crypt {
-	static private $bf = null;
 
-	public static function loginListener($params){
-		self::init($params['uid'],$params['password']);
+class Crypt {
+
+        /**
+         * @brief Create a new encryption keypair
+         * @return array publicKey, privatekey
+         */
+	public static function createKeypair() {
+	
+		$res = openssl_pkey_new();
+
+		// Get private key
+		openssl_pkey_export( $res, $privateKey );
+
+		// Get public key
+		$publicKey = openssl_pkey_get_details( $res );
+		
+		$publicKey = $publicKey['key'];
+		
+		return( array( 'publicKey' => $publicKey, 'privateKey' => $privateKey ) );
+	
 	}
+	
+        /**
+         * @brief Symmetrically encrypt a file
+         * @returns encrypted file
+         */
+	public static function encrypt( $plainContent, $iv, $passphrase = '' ) {
+	
+		# TODO: Move these methods into a separate public class for app developers
+	
+		$iv64 = base64_encode( $iv );
+		
+		$raw = false; // true returns raw bytes, false returns base64
+		
+		if ( $encryptedContent = openssl_encrypt( $plainContent, 'AES-256-OFB', $passphrase, $raw, $iv ) ) {
 
-	public static function init($login,$password) {
-		$view=new OC_FilesystemView('/');
-		if(!$view->file_exists('/'.$login)){
-			$view->mkdir('/'.$login);
+			return $encryptedContent;
+			
+		} else {
+		
+			\OC_Log::write( 'Encrypted storage', 'Encryption (symmetric) of file failed' , \OC_Log::ERROR );
+			
+			return false;
+			
 		}
+	
+	}
+	
+        /**
+         * @brief Symmetrically decrypt a file
+         * @returns decrypted file
+         */
+	public static function decrypt( $encryptedContent, $iv, $passphrase ) {
+		
+// 		$iv64 = base64_encode( $iv );
+// 		
+// 		$iv = base64_decode( $iv64 );
 
-		OC_FileProxy::$enabled=false;
-		if(!$view->file_exists('/'.$login.'/encryption.key')){// does key exist?
-			OC_Crypt::createkey($login,$password);
+		$raw = false; // true returns raw bytes, false returns base64
+
+		if ( $plainContent = openssl_decrypt( $encryptedContent, 'AES-256-OFB', $passphrase, $raw, $iv) ) {
+
+			return $plainContent;
+		
+			
+		} else {
+		
+			\OC_Log::write( 'Encrypted storage', 'Decryption (symmetric) of file failed' , \OC_Log::ERROR );
+			
+			return false;
+			
 		}
-		$key=$view->file_get_contents('/'.$login.'/encryption.key');
-		OC_FileProxy::$enabled=true;
-		$_SESSION['enckey']=OC_Crypt::decrypt($key, $password);
+	
+	}
+	
+        /**
+         * @brief Asymetrically encrypt a file using a public key
+         * @returns encrypted file
+         */
+	public static function keyEncrypt( $plainContent, $publicKey ) {
+	
+		openssl_public_encrypt( $plainContent, $encryptedContent, $publicKey );
+		
+		return $encryptedContent;
+	
+	}
+	
+        /**
+         * @brief Asymetrically decrypt a file using a private key
+         * @returns decrypted file
+         */
+	public static function keyDecrypt( $encryptedContent, $privatekey ) {
+
+		openssl_private_decrypt( $encryptedContent, $plainContent, $privatekey );
+		
+		return $plainContent;
+	
+	}
+	
+	public static function encryptFile( $source, $target, $key='') {
+		$handleread  = fopen($source, "rb");
+		if($handleread!=FALSE) {
+			$handlewrite = fopen($target, "wb");
+			while (!feof($handleread)) {
+				$content = fread($handleread, 8192);
+				$enccontent=OC_CRYPT::encrypt( $content, $key);
+				fwrite($handlewrite, $enccontent);
+			}
+			fclose($handlewrite);
+			fclose($handleread);
+		}
 	}
 
 
 	/**
-	 * get the blowfish encryption handeler for a key
-	 * @param string $key (optional)
-	 * @return Crypt_Blowfish
-	 *
-	 * if the key is left out, the default handeler will be used
-	 */
-	public static function getBlowfish($key=''){
-		if($key){
-			return new Crypt_Blowfish($key);
-		}else{
-			if(!isset($_SESSION['enckey'])){
-				return false;
+	* @brief decryption of a file
+	* @param string $source
+	* @param string $target
+	* @param string $key the decryption key
+	*
+	* This function decrypts a file
+	*/
+	public static function decryptFile( $source, $target, $key='') {
+		$handleread  = fopen($source, "rb");
+		if($handleread!=FALSE) {
+			$handlewrite = fopen($target, "wb");
+			while (!feof($handleread)) {
+				$content = fread($handleread, 8192);
+				$enccontent=OC_CRYPT::decrypt( $content, $key);
+				if(feof($handleread)){
+					$enccontent=rtrim($enccontent, "\0");
+				}
+				fwrite($handlewrite, $enccontent);
 			}
-			if(!self::$bf){
-				self::$bf=new Crypt_Blowfish($_SESSION['enckey']);
-			}
-			return self::$bf;
+			fclose($handlewrite);
+			fclose($handleread);
 		}
 	}
-
-	public static function createkey($username,$passcode) {
-		// generate a random key
-		$key=mt_rand(10000,99999).mt_rand(10000,99999).mt_rand(10000,99999).mt_rand(10000,99999);
-
-		// encrypt the key with the passcode of the user
-		$enckey=OC_Crypt::encrypt($key,$passcode);
-
-		// Write the file
-		$proxyEnabled=OC_FileProxy::$enabled;
-		OC_FileProxy::$enabled=false;
-		$view=new OC_FilesystemView('/'.$username);
-		$view->file_put_contents('/encryption.key',$enckey);
-		OC_FileProxy::$enabled=$proxyEnabled;
+	
+        /**
+         * @brief Encrypts data in 8192 byte sized blocks
+         * @returns encrypted data
+         */
+	public static function blockEncrypt( $data, $key = '' ){
+	
+		$result = '';
+		
+		while( strlen( $data ) ) {
+		
+			// Encrypt byte block
+			$result .= self::encrypt( substr( $data, 0, 8192 ), $key );
+			
+			$data = substr( $data, 8192 );
+		
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * decrypt data in 8192b sized blocks
+	 */
+	public static function blockDecrypt( $data, $key='', $maxLength = 0 ) {
+		
+		$result = '';
+		
+		while( strlen( $data ) ) {
+		
+			$result .= self::decrypt( substr( $data, 0, 8192 ), $key );
+			
+			$data = substr( $data,8192 );
+			
+		}
+		
+		if ( $maxLength > 0 ) {
+		
+			return substr( $result, 0, $maxLength );
+			
+		} else {
+		
+			return rtrim( $result, "\0" );
+			
+		}
+	}
+	
+        /**
+         * @brief Generate a random key for symmetric encryption
+         * @returns $key Generated key
+         */
+	public static function generateKey() {
+		
+		$key = mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 );
+		
+		return $key;
+		
 	}
 
 	public static function changekeypasscode($oldPassword, $newPassword) {
@@ -114,106 +244,6 @@ class OC_Crypt {
 		}
 	}
 
-	/**
-	 * @brief encrypts an content
-	 * @param $content the cleartext message you want to encrypt
-	 * @param $key the encryption key (optional)
-	 * @returns encrypted content
-	 *
-	 * This function encrypts an content
-	 */
-	public static function encrypt( $content, $key='') {
-		$bf = self::getBlowfish($key);
-		return $bf->encrypt($content);
-	}
-
-	/**
-	* @brief decryption of an content
-	* @param $content the cleartext message you want to decrypt
-	* @param $key the encryption key (optional)
-	* @returns cleartext content
-	*
-	* This function decrypts an content
-	*/
-	public static function decrypt( $content, $key='') {
-		$bf = self::getBlowfish($key);
-		$data=$bf->decrypt($content);
-		return $data;
-	}
-
-	/**
-	* @brief encryption of a file
-	* @param string $source
-	* @param string $target
-	* @param string $key the decryption key
-	*
-	* This function encrypts a file
-	*/
-	public static function encryptFile( $source, $target, $key='') {
-		$handleread  = fopen($source, "rb");
-		if($handleread!=FALSE) {
-			$handlewrite = fopen($target, "wb");
-			while (!feof($handleread)) {
-				$content = fread($handleread, 8192);
-				$enccontent=OC_CRYPT::encrypt( $content, $key);
-				fwrite($handlewrite, $enccontent);
-			}
-			fclose($handlewrite);
-			fclose($handleread);
-		}
-	}
-
-
-	/**
-		* @brief decryption of a file
-		* @param string $source
-		* @param string $target
-		* @param string $key the decryption key
-		*
-		* This function decrypts a file
-		*/
-	public static function decryptFile( $source, $target, $key='') {
-		$handleread  = fopen($source, "rb");
-		if($handleread!=FALSE) {
-			$handlewrite = fopen($target, "wb");
-			while (!feof($handleread)) {
-				$content = fread($handleread, 8192);
-				$enccontent=OC_CRYPT::decrypt( $content, $key);
-				if(feof($handleread)){
-					$enccontent=rtrim($enccontent, "\0");
-				}
-				fwrite($handlewrite, $enccontent);
-			}
-			fclose($handlewrite);
-			fclose($handleread);
-		}
-	}
-	
-	/**
-	 * encrypt data in 8192b sized blocks
-	 */
-	public static function blockEncrypt($data, $key=''){
-		$result='';
-		while(strlen($data)){
-			$result.=self::encrypt(substr($data,0,8192),$key);
-			$data=substr($data,8192);
-		}
-		return $result;
-	}
-	
-	/**
-	 * decrypt data in 8192b sized blocks
-	 */
-	public static function blockDecrypt($data, $key='',$maxLength=0){
-		$result='';
-		while(strlen($data)){
-			$result.=self::decrypt(substr($data,0,8192),$key);
-			$data=substr($data,8192);
-		}
-		if($maxLength>0){
-			return substr($result,0,$maxLength);
-		}else{
-			return rtrim($result, "\0");
-		}
-	}
 }
+
+?>

@@ -21,6 +21,14 @@
 *
 */
 
+
+class OC_FileProxy_Encryption extends OC_FileProxy {
+
+	
+
+}
+
+
 /**
  * transparent encryption
  */
@@ -30,45 +38,76 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	private static $enableEncryption=null;
 	
 	/**
-	 * check if a file should be encrypted during write
+	 * Check if a file requires encryption
 	 * @param string $path
 	 * @return bool
+	 *
+	 * Tests if encryption is enabled, and file is allowed by blacklists
 	 */
-	private static function shouldEncrypt($path){
-		if(is_null(self::$enableEncryption)){
-			self::$enableEncryption=(OCP\Config::getAppValue('files_encryption','enable_encryption','true')=='true');
+	private static function shouldEncrypt( $path ) {
+	
+		if ( is_null( self::$enableEncryption ) ) {
+		
+			self::$enableEncryption = ( OCP\Config::getAppValue( 'files_encryption', 'enable_encryption', 'true' ) == 'true' );
+			
 		}
-		if(!self::$enableEncryption){
+		
+		if( !self::$enableEncryption ) {
+		
 			return false;
+			
 		}
-		if(is_null(self::$blackList)){
-			self::$blackList=explode(',',OCP\Config::getAppValue('files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
+		
+		if( is_null(self::$blackList ) ) {
+		
+			self::$blackList = explode(',',OCP\Config::getAppValue( 'files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg' ) );
+			
 		}
-		if(self::isEncrypted($path)){
+		
+		if( self::isEncrypted( $path ) ) {
+		
 			return true;
+			
 		}
-		$extension=substr($path,strrpos($path,'.')+1);
-		if(array_search($extension,self::$blackList)===false){
+		
+		$extension = substr( $path, strrpos( $path,'.' ) +1 );
+		
+		if ( array_search( $extension, self::$blackList ) === false ){
+		
 			return true;
+			
 		}
+		
+		return false;
 	}
 
 	/**
-	 * check if a file is encrypted
+	 * Check if a file is encrypted according to database file cache
 	 * @param string $path
 	 * @return bool
 	 */
-	private static function isEncrypted($path){
-		$metadata=OC_FileCache_Cached::get($path,'');
-		return isset($metadata['encrypted']) and (bool)$metadata['encrypted'];
+	private static function isEncrypted( $path ){
+	
+		// Fetch all file metadata from DB
+		$metadata = OC_FileCache_Cached::get( $path, '' );
+		
+		// Return encryption status
+		return isset( $metadata['encrypted'] ) and ( bool )$metadata['encrypted'];
+	
 	}
 	
-	public function preFile_put_contents($path,&$data){
-		if(self::shouldEncrypt($path)){
-			if (!is_resource($data)) {//stream put contents should have been converter to fopen
-				$size=strlen($data);
-				$data=OC_Crypt::blockEncrypt($data);
-				OC_FileCache::put($path,array('encrypted'=>true,'size'=>$size),'');
+	public function preFile_put_contents( $path, &$data ) {
+		
+		if ( self::shouldEncrypt( $path ) ) {
+		
+			if ( !is_resource( $data ) ) {//stream put contents should have been converter to fopen
+			
+				$size = strlen( $data );
+				
+				$data = Crypt::blockEncrypt( $data );
+				
+				OC_FileCache::put( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
+				
 			}
 		}
 	}
