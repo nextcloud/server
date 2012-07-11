@@ -253,11 +253,12 @@ $(document).ready(function() {
 	});
 	
 	$('#privateLinkCheckbox').live('change', function() {
+		var itemType = $('#dropdown').data('item-type');
 		var item = $('#dropdown').data('item');
 		if (this.checked) {
 			// Create a private link
-			OC.Share.share(item, 'public', 0, function(token) {
-				OC.Share.showPrivateLink(item, token);
+			OC.Share.share(itemType, item, OC.Share.SHARE_TYPE_PRIVATE_LINK, 0, 0, function(token) {
+				OC.Share.showPrivateLink(item, 'foo');
 				// Change icon
 				OC.Share.icons[item] = OC.imagePath('core', 'actions/public');
 			});

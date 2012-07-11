@@ -179,11 +179,9 @@ class Share {
 				$shareWith['group'] = $group;
 				$shareWith['users'] = array_diff(\OC_Group::usersInGroup($group), array($uidOwner));
 				break;
-			case self::SHARETYPE_PRIVATE_LINK:
-				// TODO don't loop through folder conversion
-				$uidSharedWith = '';
-				$gidSharedWith = null;
-				break;
+			case self::SHARE_TYPE_PRIVATE_LINK:
+				$shareWith = md5(uniqid($item, true));
+				return self::put($itemType, $item, $shareType, $shareWith, $uidOwner, $permissions);
 			// Future share types need to include their own conditions
 			default:
 				\OC_Log::write('OCP\Share', 'Share type '.$shareType.' is not valid for '.$item, \OC_Log::ERROR);
@@ -630,7 +628,11 @@ class Share {
 					return $parentFolders;
 				}
 			} else {
-				$itemTarget = $backend->generateTarget($item, $shareWith);
+				if ($shareType == self::SHARE_TYPE_PRIVATE_LINK) {
+					$itemTarget = null;
+				} else {
+					$itemTarget = $backend->generateTarget($item, $shareWith);
+				}
 				if (isset($fileSource)) {
 					if ($parentFolder) {
 						if ($parentFolder === true) {
@@ -641,7 +643,11 @@ class Share {
 							$parent = $parentFolder['id'];
 						}
 					} else {
-						$fileTarget = self::getBackend('file')->generateTarget($source['file'], $shareWith);
+						if ($shareType == self::SHARE_TYPE_PRIVATE_LINK) {
+							$fileTarget = basename($source['file']);
+						} else {
+							$fileTarget = self::getBackend('file')->generateTarget($source['file'], $shareWith);
+						}
 					}
 				} else {
 					$fileTarget = null;
