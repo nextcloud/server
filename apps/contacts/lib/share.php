@@ -65,13 +65,11 @@ class OC_Contacts_Share extends OCP\Share_Backend {
 	* This function allows the backend to control the output of shared items with custom formats.
 	* It is only called through calls to the public getItem(s)Shared(With) functions.
 	*/
-	public function formatItems($items, $format) {
+	public function formatItems($items, $format, $parameters = null) {
 		$addressbooks = array();
-		foreach ($items as $source => $shares) {
-			$addressbook = OC_Contacts_Addressbook::find( $source );
-			foreach ($shares as $info) {
-				$addressbook['displayname'] = $info['item_target'];
-			}
+		foreach ($items as $item) {
+			$addressbook = OC_Contacts_Addressbook::find($item['item_source']);
+			$addressbook['displayname'] = $item['item_target'];
 			$addressbooks[] = $addressbook;
 		}
 		return $addressbooks;
