@@ -33,5 +33,3 @@ OCP\Util::addscript("files_sharing", "list");
 $tmpl = new OCP\Template("files_sharing", "list", "user");
 $tmpl->assign("shared_items", OC_Share::getMySharedItems());
 $tmpl->printPage();
-
-?>

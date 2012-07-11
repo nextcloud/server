@@ -380,5 +380,3 @@ class OC_Setup {
 		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/index.html', '');
 	}
 }
-
-?>

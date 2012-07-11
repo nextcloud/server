@@ -164,7 +164,7 @@ class OC_Contacts_App {
 	 * @brief returns the default categories of ownCloud
 	 * @return (array) $categories
 	 */
-	protected static function getDefaultCategories(){
+	public static function getDefaultCategories(){
 		return array(
 			(string)self::$l10n->t('Birthday'),
 			(string)self::$l10n->t('Business'),
@@ -196,16 +196,19 @@ class OC_Contacts_App {
 				foreach($vcaddressbooks as $vcaddressbook) {
 					$vcaddressbookids[] = $vcaddressbook['id'];
 				}
-				$vccontacts = OC_Contacts_VCard::all($vcaddressbookids);
+				$start = 0;
+				$batchsize = 10;
+				while($vccontacts = OC_Contacts_VCard::all($vcaddressbookids, $start, $batchsize)){
+					$cards = array();
+					foreach($vccontacts as $vccontact) {
+						$cards[] = $vccontact['carddata'];
+					}
+					OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', scanning: '.$batchsize.' starting from '.$start,OCP\Util::DEBUG);
+					// only reset on first batch.
+					self::getVCategories()->rescan($cards, true, ($start==0?true:false));
+					$start += $batchsize;
+				}
 			}
-		}
-		if(is_array($vccontacts) && count($vccontacts) > 0) {
-			$cards = array();
-			foreach($vccontacts as $vccontact) {
-				$cards[] = $vccontact['carddata'];
-			}
-
-			self::$categories->rescan($cards);
 		}
 	}
 

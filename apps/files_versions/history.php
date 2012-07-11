@@ -71,5 +71,3 @@ if ( isset( $_GET['path'] ) ) {
 }
 
 $tmpl->printPage( );
-
-?>

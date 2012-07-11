@@ -79,7 +79,7 @@ Albums={
 			});
 			element.append(local);
 		}
-		var photoDisplayTemplate = '<div class="gallery_box"><div class="dummy"></div><div><a rel="images" href="'+OC.linkTo('files','download.php')+'?file=URLPATH"><img src="'+OC.filePath('gallery','ajax','thumbnail.php')+'?img=IMGPATH"></a></div></div>';
+        var photoDisplayTemplate = '<div class="gallery_box"><div class="dummy"></div><div><a rel="images" href="'+OC.linkTo('gallery/ajax','viewImage.php')+'?img=URLPATH"><img src="'+OC.filePath('gallery','ajax','thumbnail.php')+'?img=IMGPATH"></a></div></div>';
 		for (var i in Albums.photos) {
 			element.append(photoDisplayTemplate.replace("IMGPATH", escape(Albums.photos[i])).replace("URLPATH", escape(Albums.photos[i])));
 		}

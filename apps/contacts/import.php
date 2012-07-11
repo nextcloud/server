@@ -12,6 +12,7 @@ OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 session_write_close();
 
+$cr = "\r";
 $nl = "\n";
 
 global $progresskey;
@@ -35,20 +36,20 @@ if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
 	$file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
 }
 if(!$file) {
-	OCP\JSON::error(array('message' => 'Import file was empty.'));
+	OCP\JSON::error(array('data' => array('message' => 'Import file was empty.')));
 	exit();
 }
 if(isset($_POST['method']) && $_POST['method'] == 'new'){
 	$id = OC_Contacts_Addressbook::add(OCP\USER::getUser(), $_POST['addressbookname']);
 	if(!$id) {
-		OCP\JSON::error(array('message' => 'Error creating address book.'));
+		OCP\JSON::error(array('data' => array('message' => 'Error creating address book.')));
 		exit();
 	}
 	OC_Contacts_Addressbook::setActive($id, 1);
 }else{
 	$id = $_POST['id'];
 	if(!$id) {
-		OCP\JSON::error(array('message' => 'Error getting the ID of the address book.'));
+		OCP\JSON::error(array('data' => array('message' => 'Error getting the ID of the address book.')));
 		exit();
 	}
 	OC_Contacts_App::getAddressbook($id); // is owner access check
@@ -56,6 +57,10 @@ if(isset($_POST['method']) && $_POST['method'] == 'new'){
 //analyse the contacts file
 writeProgress('40');
 $lines = explode($nl, $file);
+if(count($lines) == 1) { // Mac eol
+	$lines = explode($cr, $file);
+}
+
 $inelement = false;
 $parts = array();
 $card = array();
@@ -77,7 +82,7 @@ writeProgress('70');
 $imported = 0;
 $failed = 0;
 if(!count($parts) > 0) {
-	OCP\JSON::error(array('message' => 'No contacts to import in .'.$_POST['file'].' Please check if the file is corrupted.'));
+	OCP\JSON::error(array('data' => array('message' => 'No contacts to import in .'.$_POST['file'].' Please check if the file is corrupted.')));
 	exit();
 }
 foreach($parts as $part){

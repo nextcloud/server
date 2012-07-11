@@ -95,7 +95,7 @@ class TileSingle extends TileBase {
 	public function get($extra = '') {
 		//	!HACK! file path needs to be encoded twice because files app decode twice url, so any special chars like + or & in filename
 		//	!HACK! will result in failing of opening them 
-		return '<a rel="images" title="'.htmlentities(basename($this->getPath())).'" href="'.\OCP\Util::linkTo('files', 'download.php').'?file='.urlencode(urlencode($this->getPath())).'"><img rel="images" src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'&filepath='.urlencode($this->getPath()).'" '.$extra.'></a>';
+		return '<a rel="images" title="'.htmlentities(basename($this->getPath())).'" href="'.\OCP\Util::linkTo('gallery','ajax/viewImage.php').'?img='.urlencode(urlencode($this->getPath())).'"><img rel="images" src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'&filepath='.urlencode($this->getPath()).'" '.$extra.'></a>';
 	}
 	
 	public function getMiniatureSrc() {
@@ -174,5 +174,3 @@ class TileStack extends TileBase {
 	private $tiles_array;
 	private $stack_name;
 }
-
-?>

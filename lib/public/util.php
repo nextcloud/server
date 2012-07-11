@@ -321,5 +321,3 @@ class Util {
 		return(\OC_Helper::mb_str_replace($search, $replace, $subject, $encoding, $count));
 	}
 }
-
-?>

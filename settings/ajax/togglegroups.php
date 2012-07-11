@@ -4,6 +4,7 @@
 require_once('../../lib/base.php');
 
 OC_JSON::checkAdminUser();
+OCP\JSON::callCheck();
 
 $success = true;
 $error = "add user to";
@@ -37,5 +38,3 @@ if( $success ){
 else{
 	OC_JSON::error(array("data" => array( "message" => "Unable to $error group $group" )));
 }
-
-?>

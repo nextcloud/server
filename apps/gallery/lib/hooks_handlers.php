@@ -38,5 +38,3 @@ class OC_Gallery_Hooks_Handlers {
 		//TODO: implement this
 	}
 }
-
-?>

@@ -28,5 +28,3 @@ $users[] = "</optgroup>";
 $groups[] = "</optgroup>";
 $users = array_merge($users, $groups);
 OCP\JSON::encodedPrint($users);
-
-?>

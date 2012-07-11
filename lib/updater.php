@@ -84,4 +84,3 @@ class OC_Updater{
 
 	}
 }
-?>

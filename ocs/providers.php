@@ -40,6 +40,3 @@ echo('
 </provider>
 </providers>
 ');
-
-
-?>

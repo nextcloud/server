@@ -63,25 +63,40 @@ class OC_Log_Owncloud {
 		self::init();
 		$minLevel=OC_Config::getValue( "loglevel", OC_Log::WARN );
 		$entries = array();
-		$handle = @fopen(self::$logFile, 'r');
+		$handle = @fopen(self::$logFile, 'rb');
 		if ($handle) {
-			// Just a guess to set the file pointer to the right spot
-			$maxLineLength = 150;
-			fseek($handle, -($limit * $maxLineLength + $offset * $maxLineLength), SEEK_END);
-			// Skip first line, because it is most likely a partial line
-			fgets($handle);
-			while (!feof($handle)) {
-				$line = fgets($handle);
-				if (!empty($line)) {
-					$entry = json_decode($line);
-					if ($entry->level >= $minLevel) {
-						$entries[] = $entry;
+			fseek($handle, 0, SEEK_END);
+			$pos = ftell($handle);
+			$line = '';
+			$entriesCount = 0;
+			$lines = 0;
+			// Loop through each character of the file looking for new lines
+			while ($pos >= 0 && $entriesCount < $limit) {
+				fseek($handle, $pos);
+				$ch = fgetc($handle);
+				if ($ch == "\n" || $pos == 0) {
+					if ($line != '') {
+						// Add the first character if at the start of the file, because it doesn't hit the else in the loop
+						if ($pos == 0) {
+							$line = $ch.$line;
+						}
+						$entry = json_decode($line);
+						// Add the line as an entry if it is passed the offset and is equal or above the log level
+						if ($entry->level >= $minLevel) {
+							$lines++;
+							if ($lines > $offset) {
+								$entries[] = $entry;
+								$entriesCount++;
+							}
+						}
+						$line = '';
 					}
+				} else {
+					$line = $ch.$line;
 				}
+				$pos--;
 			}
 			fclose($handle);
-			// Extract the needed entries and reverse the order
-			$entries = array_reverse(array_slice($entries, -($limit + $offset), $limit));
 		}
 		return $entries;
 	}

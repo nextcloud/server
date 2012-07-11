@@ -40,5 +40,3 @@ OCP\App::setActiveNavigationEntry( 'media_index' );
 
 $tmpl = new OCP\Template( 'media', 'music', 'user' );
 $tmpl->printPage();
-?>
- 

@@ -20,5 +20,3 @@ if ($rows = OC_Share::getMySharedItems()) {
 }
 
 OCP\JSON::success(array('data' => $items));
-
-?>

@@ -108,6 +108,56 @@ class OC_Image {
 	}
 
 	/**
+	* @brief Returns the width when the image orientation is top-left.
+	* @returns int
+	*/
+	public function widthTopLeft() {
+		$o = $this->getOrientation();
+		OC_Log::write('core','OC_Image->widthTopLeft() Orientation: '.$o, OC_Log::DEBUG);
+		switch($o) {
+			case -1:
+			case 1:
+			case 2: // Not tested
+			case 3:
+			case 4: // Not tested
+				return $this->width();
+				break;
+			case 5: // Not tested
+			case 6:
+			case 7: // Not tested
+			case 8:
+				return $this->height();
+				break;
+		}
+		return $this->width();
+	}
+
+	/**
+	* @brief Returns the height when the image orientation is top-left.
+	* @returns int
+	*/
+	public function heightTopLeft() {
+		$o = $this->getOrientation();
+		OC_Log::write('core','OC_Image->heightTopLeft() Orientation: '.$o, OC_Log::DEBUG);
+		switch($o) {
+			case -1:
+			case 1:
+			case 2: // Not tested
+			case 3:
+			case 4: // Not tested
+				return $this->height();
+				break;
+			case 5: // Not tested
+			case 6:
+			case 7: // Not tested
+			case 8:
+				return $this->width();
+				break;
+		}
+		return $this->height();
+	}
+
+	/**
 	* @brief Outputs the image.
 	* @returns bool
 	*/
@@ -209,34 +259,46 @@ class OC_Image {
 
 	/**
 	* (I'm open for suggestions on better method name ;)
+	* @brief Get the orientation based on EXIF data.
+	* @returns The orientation or -1 if no EXIF data is available.
+	*/
+	public function getOrientation() {
+		if(!is_callable('exif_read_data')){
+			OC_Log::write('core','OC_Image->fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
+			return -1;
+		}
+		if(!$this->valid()) {
+			OC_Log::write('core','OC_Image->fixOrientation() No image loaded.', OC_Log::DEBUG);
+			return -1;
+		}
+		if(is_null($this->filepath) || !is_readable($this->filepath)) {
+			OC_Log::write('core','OC_Image->fixOrientation() No readable file path set.', OC_Log::DEBUG);
+			return -1;
+		}
+		$exif = @exif_read_data($this->filepath, 'IFD0');
+		if(!$exif) {
+			return -1;
+		}
+		if(!isset($exif['Orientation'])) {
+			return -1;
+		}
+		return $exif['Orientation'];
+	}
+
+	/**
+	* (I'm open for suggestions on better method name ;)
 	* @brief Fixes orientation based on EXIF data.
 	* @returns bool.
 	*/
 	public function fixOrientation() {
-		if(!is_callable('exif_read_data')){
-			OC_Log::write('core','OC_Image->fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
-			return false;
-		}
-		if(!$this->valid()) {
-			OC_Log::write('core','OC_Image->fixOrientation() No image loaded.', OC_Log::DEBUG);
-			return false;
-		}
-		if(is_null($this->filepath) || !is_readable($this->filepath)) {
-			OC_Log::write('core','OC_Image->fixOrientation() No readable file path set.', OC_Log::DEBUG);
-			return false;
-		}
-		$exif = @exif_read_data($this->filepath, 'IFD0');
-		if(!$exif) {
-			return false;
-		}
-		if(!isset($exif['Orientation'])) {
-			return true; // Nothing to fix
-		}
-		$o = $exif['Orientation'];
+		$o = $this->getOrientation();
 		OC_Log::write('core','OC_Image->fixOrientation() Orientation: '.$o, OC_Log::DEBUG);
 		$rotate = 0;
 		$flip = false;
 		switch($o) {
+			case -1:
+				return false; //Nothing to fix
+				break;
 			case 1:
 				$rotate = 0;
 				$flip = false;

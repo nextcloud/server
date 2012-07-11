@@ -25,5 +25,3 @@ $tmpl->assign( "kbe", $kbe );
 $tmpl->assign( "pagecount", $pagecount );
 $tmpl->assign( "page", $page );
 $tmpl->printPage();
-
-?>

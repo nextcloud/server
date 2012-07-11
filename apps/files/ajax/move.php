@@ -4,6 +4,7 @@
 
 
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 // Get data
 $dir = stripslashes($_GET["dir"]);
@@ -16,5 +17,3 @@ if(OC_Files::move($dir,$file,$target,$file)){
 }else{
 	OCP\JSON::error(array("data" => array( "message" => "Could not move $file" )));
 }
-
-?>

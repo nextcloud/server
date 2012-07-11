@@ -39,5 +39,3 @@ if($categories->hasCategory($category)) {
 }
 
 OC_JSON::success(array('data' => array('categories'=>$categories->categories())));
-
-?>

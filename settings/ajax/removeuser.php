@@ -4,6 +4,7 @@
 require_once('../../lib/base.php');
 
 OC_JSON::checkAdminUser();
+OCP\JSON::callCheck();
 
 $username = $_POST["username"];
 
@@ -14,5 +15,3 @@ if( OC_User::deleteUser( $username )){
 else{
 	OC_JSON::error(array("data" => array( "message" => "Unable to delete user" )));
 }
-
-?>

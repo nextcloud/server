@@ -41,7 +41,7 @@ class OC_Contacts_Addressbook{
 	/**
 	 * @brief Returns the list of addressbooks for a specific user.
 	 * @param string $uid
-	 * @param boolean $active Only return calendars with this $active state, default(=false) is don't care
+	 * @param boolean $active Only return addressbooks with this $active state, default(=false) is don't care
 	 * @return array or false.
 	 */
 	public static function all($uid, $active=false){
@@ -83,7 +83,7 @@ class OC_Contacts_Addressbook{
 		$activeaddressbooks = self::all($uid, true);
 		$ids = array();
 		foreach($activeaddressbooks as $addressbook) {
-			$ids[] = $addressbook['userid'];
+			$ids[] = $addressbook['id'];
 		}
 		return $ids;
 	}
@@ -148,10 +148,17 @@ class OC_Contacts_Addressbook{
 	 * @return insertid
 	 */
 	public static function add($uid,$name,$description=''){
-		$all = self::all($uid);
+		try {
+			$stmt = OCP\DB::prepare( 'SELECT uri FROM *PREFIX*contacts_addressbooks WHERE userid = ? ' );
+			$result = $stmt->execute(array($uid));
+		} catch(Exception $e) {
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.' exception: '.$e->getMessage(),OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.' uid: '.$uid,OCP\Util::DEBUG);
+			return false;
+		}
 		$uris = array();
-		foreach($all as $i){
-			$uris[] = $i['uri'];
+		while($row = $result->fetchRow()){
+			$uris[] = $row['uri'];
 		}
 
 		$uri = self::createURI($name, $uris );

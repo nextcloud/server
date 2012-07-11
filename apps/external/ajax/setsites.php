@@ -8,6 +8,7 @@
 
  
 OCP\User::checkAdminUser();
+OCP\JSON::callCheck();
 
 $sites = array();
 for ($i = 0; $i < sizeof($_POST['site_name']); $i++) {
@@ -22,4 +23,3 @@ else
 	OCP\Config::setAppValue('external', 'sites', json_encode($sites));
 
 echo 'true';
-?>

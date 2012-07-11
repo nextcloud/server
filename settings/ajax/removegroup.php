@@ -4,6 +4,7 @@
 require_once('../../lib/base.php');
 
 OC_JSON::checkAdminUser();
+OCP\JSON::callCheck();
 
 $name = $_POST["groupname"];
 
@@ -14,5 +15,3 @@ if( OC_Group::deleteGroup( $name )){
 else{
 	OC_JSON::error(array("data" => array( "message" => "Unable to delete group" )));
 }
-
-?>
