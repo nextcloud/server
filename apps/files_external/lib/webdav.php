@@ -36,18 +36,20 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			$this->root.='/';
 		}
 		
-		$capath = '';
-		if($caview = \OCP\Files::getStorage('files_external')) {
-			$capath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("");
-		}
 		$settings = array(
 			'baseUri' => $this->createBaseUri(),
 			'userName' => $this->user,
 			'password' => $this->password,
-			'capath' => $capath, 
 		);
-		$this->client = new Sabre_DAV_Client($settings);
 
+		$this->client = new OC_Connector_Sabre_Client($settings);
+		
+		if($caview = \OCP\Files::getStorage('files_external')) {
+			$certPath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("").'rootcerts.crt';
+			if (file_exists($certPath))  {
+				$this->client->addTrustedCertificates($certPath);
+			}
+		}
 		//create the root folder if necesary
 		$this->mkdir('');
 	}

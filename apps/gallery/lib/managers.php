@@ -2,7 +2,7 @@
 
 namespace OC\Pictures;
 
-class DatabaseManager {
+class DatabaseManager {        
 	private static $instance = null;
 	protected $cache = array();
 	const TAG = 'DatabaseManager';
@@ -25,6 +25,16 @@ class DatabaseManager {
 		}
 	}
 
+	public function setFileData($path, $width, $height) {
+		$stmt = \OCP\DB::prepare('INSERT INTO *PREFIX*pictures_images_cache (uid_owner, path, width, height) VALUES (?, ?, ?, ?)');
+		$stmt->execute(array(\OCP\USER::getUser(), $path, $width, $height));
+		$ret = array('path' => $path, 'width' => $width, 'height' => $height);
+		unset($image);
+		$dir = dirname($path);
+		$this->cache[$dir][$path] = $ret;
+		return $ret;
+	}
+
 	public function getFileData($path) {
 		$gallery_path = \OCP\Config::getSystemValue( 'datadirectory' ).'/'.\OC_User::getUser().'/gallery';
 		$path = $gallery_path.$path;
@@ -39,9 +49,7 @@ class DatabaseManager {
 		if (!$image->loadFromFile($path)) {
 			return false;
 		}
-		$stmt = \OCP\DB::prepare('INSERT INTO *PREFIX*pictures_images_cache (uid_owner, path, width, height) VALUES (?, ?, ?, ?)');
-		$stmt->execute(array(\OCP\USER::getUser(), $path, $image->width(), $image->height()));
-		$ret = array('path' => $path, 'width' => $image->width(), 'height' => $image->height());
+		$ret = $this->setFileData($path, $image->width(), $image->height());
 		unset($image);
 		$this->cache[$dir][$path] = $ret;
 		return $ret;
@@ -54,6 +62,7 @@ class ThumbnailsManager {
 	
 	private static $instance = null;
 	const TAG = 'ThumbnailManager';
+        const THUMBNAIL_HEIGHT = 150;
 	
 	public static function getInstance() {
 		if (self::$instance === null)
@@ -62,9 +71,9 @@ class ThumbnailsManager {
 	}
 
 	public function getThumbnail($path) {
-		$gallery_path = \OCP\Config::getSystemValue( 'datadirectory' ).'/'.\OC_User::getUser().'/gallery';
-		if (file_exists($gallery_path.$path)) {
-			return new \OC_Image($gallery_path.$path);
+		$gallery_storage = \OCP\Files::getStorage('gallery');
+		if ($gallery_storage->file_exists($path)) {
+			return new \OC_Image($gallery_storage->getLocalFile($path));
 		}
 		if (!\OC_Filesystem::file_exists($path)) {
 			\OC_Log::write(self::TAG, 'File '.$path.' don\'t exists', \OC_Log::WARN);
@@ -73,27 +82,39 @@ class ThumbnailsManager {
 		$image = new \OC_Image();
 		$image->loadFromFile(\OC_Filesystem::getLocalFile($path));
 		if (!$image->valid()) return false;
-
+                            
 		$image->fixOrientation();
-
-		$ret = $image->preciseResize(floor((150*$image->width())/$image->height()), 150);
+                
+		$ret = $image->preciseResize( floor((self::THUMBNAIL_HEIGHT*$image->width())/$image->height()), self::THUMBNAIL_HEIGHT );
 		
 		if (!$ret) {
 			\OC_Log::write(self::TAG, 'Couldn\'t resize image', \OC_Log::ERROR);
 			unset($image);
 			return false;
 		}
-
-		$image->save($gallery_path.'/'.$path);
+		$l = $gallery_storage->getLocalFile($path);
+                
+		$image->save($l);
 		return $image;
 	}
-	
+
+	public function getThumbnailWidth($image) {
+		return floor((self::THUMBNAIL_HEIGHT*$image->widthTopLeft())/$image->heightTopLeft());
+	}
+
 	public function getThumbnailInfo($path) {
 		$arr = DatabaseManager::getInstance()->getFileData($path);
 		if (!$arr) {
-			$thubnail = $this->getThumbnail($path);
-			unset($thubnail);
-			$arr = DatabaseManager::getInstance()->getFileData($path);
+			if (!\OC_Filesystem::file_exists($path)) {
+				\OC_Log::write(self::TAG, 'File '.$path.' don\'t exists', \OC_Log::WARN);
+				return false;
+			}
+			$image = new \OC_Image();
+			$image->loadFromFile(\OC_Filesystem::getLocalFile($path));
+			if (!$image->valid()) {
+				return false;
+			}
+			$arr = DatabaseManager::getInstance()->setFileData($path, $this->getThumbnailWidth($image), self::THUMBNAIL_HEIGHT);
 		}
 		$ret = array('filepath' => $arr['path'],
 					 'width' => $arr['width'],
@@ -102,13 +123,12 @@ class ThumbnailsManager {
 	}
 	
 	public function delete($path) {
-		$thumbnail = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser()."/gallery".$path;
-		if (file_exists($thumbnail)) {
-			unlink($thumbnail);
+		$thumbnail_storage = \OCP\Files::getStorage('gallery');
+		if ($thumbnail_storage->file_exists($path)) {
+			$thumbnail_storage->unlink($path);
 		}
 	}
 	
 	private function __construct() {}
 
 }
-?>

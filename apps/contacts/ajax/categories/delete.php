@@ -45,5 +45,3 @@ $catman->delete($categories, $cards);
 debug('After delete: '.print_r($catman->categories(), true));
 OC_Contacts_VCard::updateDataByID($cards);
 OCP\JSON::success(array('data' => array('categories'=>$catman->categories())));
-
-?>

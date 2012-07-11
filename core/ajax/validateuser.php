@@ -36,5 +36,3 @@ if(!isset($_SERVER['PHP_AUTH_USER'])){
 	        OC_JSON::encodedPrint(array("username" => $_SERVER["PHP_AUTH_USER"], "user_valid" => "false"));
 	}
 }
-
-?>

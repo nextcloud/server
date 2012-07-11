@@ -26,6 +26,7 @@
 
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 // Get paramteres
 $filecontents = isset($_POST['filecontents']) ? $_POST['filecontents'] : false;

@@ -51,5 +51,3 @@ if( is_null($contact)) {
 		bailOut(OC_Contacts_App::$l10n->t('The loading photo is not valid.'));
 	}
 }
-
-?>

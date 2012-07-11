@@ -30,8 +30,14 @@ OCP\App::setActiveNavigationEntry( 'gallery_index' );
 OCP\Util::addStyle('files', 'files');
 OCP\Util::addStyle('gallery', 'styles');
 OCP\Util::addScript('gallery', 'pictures');
+OCP\Util::addStyle( 'gallery', 'supersized' );
+OCP\Util::addStyle( 'gallery', 'supersized.shutter' );
+OCP\Util::addScript('gallery', 'slideshow');
+OCP\Util::addScript('gallery', 'jquery.easing.min');
+OCP\Util::addScript('gallery', 'supersized.3.2.7.min');
+OCP\Util::addScript('gallery', 'supersized.shutter.min');
 
-include('gallery/lib/tiles.php');
+include 'gallery/lib/tiles.php';
 
 $root = !empty($_GET['root']) ? $_GET['root'] : '/';
 $images = \OC_FileCache::searchByMime('image', null, '/'.\OCP\USER::getUser().'/files'.$root);
@@ -97,4 +103,3 @@ $tmpl = new OCP\Template( 'gallery', 'index', 'user' );
 $tmpl->assign('root', $root, false);
 $tmpl->assign('tl', $tl, false);
 $tmpl->printPage();
-?>

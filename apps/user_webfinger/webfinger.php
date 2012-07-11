@@ -58,4 +58,3 @@ foreach($apps as $app) {
 	}
 }
 echo "]}";
-?>

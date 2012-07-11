@@ -3,4 +3,4 @@
 	// see lib/base.php for an example
 	//session_start();
 	$_SESSION['timezone'] = $_GET['time'];
-?>
+        

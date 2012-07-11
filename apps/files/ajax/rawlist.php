@@ -22,5 +22,3 @@ foreach( OC_Files::getdirectorycontent( $dir, $mimetype ) as $i ){
 }
 
 OCP\JSON::success(array('data' => $files));
-
-?>

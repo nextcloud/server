@@ -387,5 +387,3 @@ class OC_MEDIA_COLLECTION{
 		$query->execute(array($newPath,$oldPath));
 	}
 }
-
-?>

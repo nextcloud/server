@@ -58,5 +58,3 @@ if(OC_Cache::set($tmpkey, $image->data(), 600)) {
 } else {
 	bailOut('Couldn\'t save temporary image: '.$tmpkey);
 }
-
-?>

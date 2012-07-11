@@ -33,7 +33,7 @@ class Storage {
 	const DEFAULTFOLDER='versions'; 
 	const DEFAULTBLACKLIST='avi mp3 mpg mp4 ctmp'; 
 	const DEFAULTMAXFILESIZE=1048576; // 10MB 
-	const DEFAULTMININTERVAL=1; // 2 min
+	const DEFAULTMININTERVAL=60; // 1 min
 	const DEFAULTMAXVERSIONS=50;
 	
 	private $view;
@@ -239,10 +239,9 @@ class Storage {
 				$versions[$i]['version'] = ( end( $parts ) );
 				
 				// if file with modified date exists, flag it in array as currently enabled version
-				$curFile['fileName'] = basename( $parts[0] );
-				$curFile['filePath'] = \OCP\Config::getSystemValue('datadirectory').\OC_Filesystem::getRoot().'/'.$curFile['fileName'];
-				
-				( \md5_file( $ma ) == \md5_file( $curFile['filePath'] ) ? $versions[$i]['fileMatch'] = 1 : $versions[$i]['fileMatch'] = 0 );
+				$files_view = \OCP\Files::getStorage('files');
+				$local_file = $files_view->getLocalFile($filename);
+				( \md5_file( $ma ) == \md5_file( $local_file ) ? $versions[$i]['fileMatch'] = 1 : $versions[$i]['fileMatch'] = 0 );
 				
 			}
 			

@@ -16,7 +16,7 @@
 </div>
 <div id="rightcontent" class="rightcontent" data-id="<?php echo $_['id']; ?>">
 	<?php
-		if ($_['id']){
+		if($_['has_contacts']){
 			echo $this->inc('part.contact');
 		}
 		else{

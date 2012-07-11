@@ -1332,5 +1332,3 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
 		$this->free();
     }
 }
-
-?>

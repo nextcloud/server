@@ -35,5 +35,3 @@ if($query){
 }else{
 	echo 'false';
 }
-
-?>

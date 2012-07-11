@@ -131,8 +131,10 @@ class OC_VCategories {
 	*	}
 	* 	$categories->rescan($objects);
 	*/
-	public function rescan($objects, $sync=true) {
-		$this->categories = array();
+	public function rescan($objects, $sync=true, $reset=true) {
+		if($reset === true) {
+			$this->categories = array();
+		}
 		foreach($objects as $object) {
 			//OC_Log::write('core','OC_VCategories::rescan: '.substr($object, 0, 100).'(...)', OC_Log::DEBUG);
 			$vobject = OC_VObject::parse($object);
@@ -221,4 +223,3 @@ class OC_VCategories {
 	}
 
 }
-?>

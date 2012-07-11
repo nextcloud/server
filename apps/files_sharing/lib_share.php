@@ -513,5 +513,3 @@ class OC_Share {
 	}
 
 }
-
-?>

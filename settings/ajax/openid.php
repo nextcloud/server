@@ -6,6 +6,7 @@ require_once('../../lib/base.php');
 $l=OC_L10N::get('settings');
 
 OC_JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 OC_JSON::checkAppEnabled('user_openid');
 
 // Get data
@@ -16,5 +17,3 @@ if( isset( $_POST['identity'] ) ){
 }else{
 	OC_JSON::error(array("data" => array( "message" => $l->t("Invalid request") )));
 }
-
-?>
