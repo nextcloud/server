@@ -373,14 +373,15 @@ class Share {
 	* @return array
 	*/
 	private static function getCollectionItemTypes($itemType) {
-		$collections = array($itemType);
+		$collectionTypes = array($itemType);
 		foreach (self::$backendTypes as $type => $backend) {
-			if (in_array($backend['collectionOf'], $collections)) {
-				$collections[] = $type;
+			if (in_array($backend['collectionOf'], $collectionTypes)) {
+				$collectionTypes[] = $type;
 			}
 		}
-		if (count($collections) > 1) {
-			return $collections;
+		if (count($collectionTypes) > 1) {
+			unset($collectionTypes[0]);
+			return $collectionTypes;
 		}
 		return false;
 	}
@@ -401,8 +402,9 @@ class Share {
 	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1, $isSource = false) {
 		if ($backend = self::getBackend($itemType)) {
 			// Check if there are any parent types that include this type of items, e.g. a music album contains songs
-			if ($parents = self::getCollectionItemTypes($itemType)) {
-				$where = "WHERE item_type IN ('".implode("','", $parents)."')";
+			if ($collectionTypes = self::getCollectionItemTypes($itemType)) {
+				$collectionTypes = array_merge(array($itemType), $collectionTypes);
+				$where = "WHERE item_type IN ('".implode("','", $collectionTypes)."')";
 			} else {
 				$where = "WHERE item_type = '".$itemType."'";
 			}
@@ -490,7 +492,7 @@ class Share {
 				}
 				$items[$item['id']] = $item;
 				// TODO Add in parent item types children?
-				if ($parents && in_array($item['item_type'], $parents)) {
+				if ($collectionTypes && in_array($item['item_type'], $collectionTypes)) {
 					$children[] = $item;
 				}
 			}
