@@ -83,5 +83,3 @@ if ($ts->getCount() != 0) {
 }
 
 echo $tl->get();
-
-?>

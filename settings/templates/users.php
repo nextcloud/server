@@ -52,6 +52,8 @@ foreach($_["groups"] as $group) {
 	</div>
 </div>
 
+<div id='notification'></div>
+
 <table data-groups="<?php echo implode(', ',$allGroups);?>">
 	<thead>
 		<tr>

@@ -33,7 +33,6 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 		$oauth = new Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
 		$oauth->setToken($params['token'], $params['token_secret']);
 		$this->dropbox = new Dropbox_API($oauth, 'dropbox');
-		
 	}
 
 	private function getMetaData($path, $list = false) {
@@ -41,7 +40,11 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 			return $this->metaData[$path];
 		} else {
 			if ($list) {
-				$response = $this->dropbox->getMetaData($path);
+				try {
+					$response = $this->dropbox->getMetaData($path);
+				} catch (Exception $exception) {
+					return false;
+				}
 				if ($response && isset($response['contents'])) {
 					$contents = $response['contents'];
 					// Cache folder's contents
@@ -67,11 +70,16 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	}
 
 	public function mkdir($path) {
-		return $this->dropbox->createFolder($path);
+		try {
+			$this->dropbox->createFolder($path);
+			return true;
+		} catch (Exception $exception) {
+			return false;
+		}
 	}
 
 	public function rmdir($path) {
-		return $this->dropbox->delete($path);
+		return $this->unlink($path);
 	}
 
 	public function opendir($path) {
@@ -80,8 +88,8 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 			foreach ($contents as $file) {
 				$files[] = basename($file['path']);
 			}
-			OC_FakeDirStream::$dirs['dropbox'] = $files;
-			return opendir('fakedir://dropbox');
+			OC_FakeDirStream::$dirs['dropbox'.$path] = $files;
+			return opendir('fakedir://dropbox'.$path);
 		}
 		return false;
 	}
@@ -90,7 +98,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 		if ($metaData = $this->getMetaData($path)) {
 			$stat['size'] = $metaData['bytes'];
 			$stat['atime'] = time();
-			$stat['mtime'] = strtotime($metaData['modified']);
+			$stat['mtime'] = (isset($metaData['modified'])) ? strtotime($metaData['modified']) : time();
 			$stat['ctime'] = $stat['mtime'];
 			return $stat;
 		}
@@ -111,11 +119,11 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	}
 
 	public function is_readable($path) {
-		return true;
+		return $this->file_exists($path);
 	}
 
 	public function is_writable($path) {
-		return true;
+		return $this->file_exists($path);
 	}
 
 	public function file_exists($path) {
@@ -129,7 +137,30 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	}
 
 	public function unlink($path) {
-		return $this->dropbox->delete($path);
+		try {
+			$this->dropbox->delete($path);
+			return true;
+		} catch (Exception $exception) {
+			return false;
+		}
+	}
+
+	public function rename($path1, $path2) {
+		try {
+			$this->dropbox->move($path1, $path2);
+			return true;
+		} catch (Exception $exception) {
+			return false;
+		}
+	}
+
+	public function copy($path1, $path2) {
+		try {
+			$this->dropbox->copy($path1, $path2);
+			return true;
+		} catch (Exception $exception) {
+			return false;
+		}
 	}
 
 	public function fopen($path, $mode) {
@@ -137,8 +168,13 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 			case 'r':
 			case 'rb':
 				$tmpFile = OC_Helper::tmpFile();
-				file_put_contents($tmpFile, $this->dropbox->getFile($path));
-				return fopen($tmpFile, 'r');
+				try {
+					$data = $this->dropbox->getFile($path);
+					file_put_contents($tmpFile, $data);
+					return fopen($tmpFile, 'r');
+				} catch (Exception $exception) {
+					return false;
+				}
 			case 'w':
 			case 'wb':
 			case 'a':
@@ -171,9 +207,11 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	public function writeBack($tmpFile) {
 		if (isset(self::$tempFiles[$tmpFile])) {
 			$handle = fopen($tmpFile, 'r');
-			$response = $this->dropbox->putFile(self::$tempFiles[$tmpFile], $handle);
-			if ($response) {
+			try {
+				$response = $this->dropbox->putFile(self::$tempFiles[$tmpFile], $handle);
 				unlink($tmpFile);
+			} catch (Exception $exception) {
+				
 			}
 		}
 	}
@@ -188,10 +226,12 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	}
 
 	public function free_space($path) {
-		if ($info = $this->dropbox->getAccountInfo()) {
+		try {
+			$info = $this->dropbox->getAccountInfo();
 			return $info['quota_info']['quota'] - $info['quota_info']['normal'];
+		} catch (Exception $exception) {
+			return false;
 		}
-		return false;
 	}
 
 	public function touch($path, $mtime = null) {

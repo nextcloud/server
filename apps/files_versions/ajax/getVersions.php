@@ -1,11 +1,8 @@
 <?php
 OCP\JSON::checkAppEnabled('files_versions');
 
-require_once('apps/files_versions/versions.php');
-
 $userDirectory = "/".OCP\USER::getUser()."/files";
 $source = $_GET['source'];
-$source = strip_tags( $source );
 
 if( OCA_Versions\Storage::isversioned( $source ) ) {
 
@@ -14,9 +11,7 @@ if( OCA_Versions\Storage::isversioned( $source ) ) {
 	$versionsFormatted = array();
 	
 	foreach ( $versions AS $version ) {
-	
-		$versionsFormatted[] = OCP\Util::formatDate( $version );
-		
+		$versionsFormatted[] = OCP\Util::formatDate( $version['version'] );
 	}
 
 	$versionsSorted = array_reverse( $versions );

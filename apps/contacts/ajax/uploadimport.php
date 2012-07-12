@@ -23,6 +23,7 @@
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+OCP\JSON::callCheck();
 require_once('loghandler.php');
 
 $view = OCP\Files::getStorage('contacts');
@@ -69,6 +70,3 @@ if(file_exists($file['tmp_name'])) {
 } else {
 	bailOut('Temporary file: \''.$file['tmp_name'].'\' has gone AWOL?');
 }
-
-
-?>

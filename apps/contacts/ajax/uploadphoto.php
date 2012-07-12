@@ -102,4 +102,3 @@ if(file_exists($file['tmp_name'])) {
 } else {
 	bailOut('Temporary file: \''.$file['tmp_name'].'\' has gone AWOL?');
 }
-?>

@@ -26,6 +26,7 @@
 
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 // Get paramteres
 $filecontents = isset($_POST['filecontents']) ? $_POST['filecontents'] : false;
@@ -48,6 +49,7 @@ if($path != '' && $mtime != '' && $filecontents)
 		// Save file
 		if(OC_Filesystem::is_writable($path))
 		{
+			$filecontents = iconv(mb_detect_encoding($filecontents), "UTF-8", $filecontents);
 			OC_Filesystem::file_put_contents($path, $filecontents);
 			// Clear statcache
 			clearstatcache();

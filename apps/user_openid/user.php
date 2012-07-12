@@ -45,6 +45,3 @@ if(!OCP\User::userExists($USERNAME)){
 $IDENTITY=OCP\Util::linkToAbsolute( "user_openid", "user.php" ).'/'.$USERNAME;
 
 require_once 'phpmyid.php';
-
-
-?>

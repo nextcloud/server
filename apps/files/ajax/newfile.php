@@ -4,6 +4,7 @@
 
 
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 // Get the params
 $dir = isset( $_POST['dir'] ) ? stripslashes($_POST['dir']) : '';

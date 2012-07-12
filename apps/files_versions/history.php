@@ -30,21 +30,22 @@ if ( isset( $_GET['path'] ) ) {
 	$path = $_GET['path'];
 	$path = strip_tags( $path );
 	$tmpl->assign( 'path', $path );
+	$versions = new OCA_Versions\Storage();
 
 	// roll back to old version if button clicked
         if( isset( $_GET['revert'] ) ) {
         	
-        	if( \OCA_Versions\Storage::rollback( $path, $_GET['revert'] ) ) {
+        	if( $versions->rollback( $path, $_GET['revert'] ) ) {
 			
 			$tmpl->assign( 'outcome_stat', 'success' );
 			
-			$tmpl->assign( 'outcome_msg', "File {$_GET['path']} was reverted to version ".OCP\Util::formatDate( $_GET['revert'] ) );
+			$tmpl->assign( 'outcome_msg', "File {$_GET['path']} was reverted to version ".OCP\Util::formatDate( doubleval($_GET['revert']) ) );
 			
 		} else {
 		
 			$tmpl->assign( 'outcome_stat', 'failure' );
 		
-			$tmpl->assign( 'outcome_msg', "File {$_GET['path']} could not be reverted to version ".OCP\Util::formatDate( $_GET['revert'] ) );
+			$tmpl->assign( 'outcome_msg', "File {$_GET['path']} could not be reverted to version ".OCP\Util::formatDate( doubleval($_GET['revert']) ) );
 			
 		}
 		
@@ -70,5 +71,3 @@ if ( isset( $_GET['path'] ) ) {
 }
 
 $tmpl->printPage( );
-
-?>

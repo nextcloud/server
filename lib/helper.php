@@ -38,21 +38,18 @@ class OC_Helper {
 	 */
 	public static function linkTo( $app, $file ){
 		if( $app != '' ){
-			$app .= '/';
+			$app_path = OC_App::getAppPath($app);
 			// Check if the app is in the app folder
-			if( file_exists( OC_App::getAppPath($app).'/'.$file )){
-				if(substr($file, -3) == 'php' || substr($file, -3) == 'css'){	
-					if(substr($app, -1, 1) == '/'){
-						$app = substr($app, 0, strlen($app) - 1);
-					}
+			if( $app_path && file_exists( $app_path.'/'.$file )){
+				if(substr($file, -3) == 'php' || substr($file, -3) == 'css'){
 					$urlLinkTo =  OC::$WEBROOT . '/?app=' . $app;
 					$urlLinkTo .= ($file!='index.php')?'&getfile=' . urlencode($file):'';
 				}else{
-					$urlLinkTo =  OC_App::getAppWebPath($app) . $file;
+					$urlLinkTo =  OC_App::getAppWebPath($app) . '/' . $file;
 				}
 			}
 			else{
-				$urlLinkTo =  OC::$WEBROOT . '/' . $app . $file;
+				$urlLinkTo =  OC::$WEBROOT . '/' . $app . '/' . $file;
 			}
 		}
 		else{
@@ -75,6 +72,9 @@ class OC_Helper {
 	 * reverse proxies
 	 */
 	public static function serverHost() {
+		if(OC::$CLI){
+			return 'localhost';
+		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
 			if (strpos($_SERVER['HTTP_X_FORWARDED_HOST'], ",") !== false) {
 				$host = trim(array_pop(explode(",", $_SERVER['HTTP_X_FORWARDED_HOST'])));
@@ -379,7 +379,7 @@ class OC_Helper {
 			//trim the character set from the end of the response
 			$mimeType=substr($reply,0,strrpos($reply,' '));
 
-			//trim ; 
+			//trim ;
 			if (strpos($mimeType, ';') !== false) {
 				$mimeType = strstr($mimeType, ';', true);
 			}
@@ -586,11 +586,11 @@ class OC_Helper {
 
 		return $newpath;
 	}
-	
+
 	/*
 	 * checks if $sub is a subdirectory of $parent
-	 * 
-	 * @param $sub 
+	 *
+	 * @param $sub
 	 * @param $parent
 	 * @return bool
 	 */
@@ -619,5 +619,69 @@ class OC_Helper {
 		echo substr($realpath_sub, 0, strlen($realpath_parent));
 		exit;*/
 		return false;
+	}
+
+	/**
+	* @brief Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
+	*
+	* @param $input The array to work on
+	* @param $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
+	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @return array
+	*
+	* Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
+	* based on http://www.php.net/manual/en/function.array-change-key-case.php#107715
+	*
+	*/
+	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8'){
+		$case = ($case != MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
+		$ret = array();
+		foreach ($input as $k => $v) {
+			$ret[mb_convert_case($k, $case, $encoding)] = $v;
+		}
+		return $ret;
+	}
+
+	/**
+	* @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
+	*
+	* @param $input The input string. .Opposite to the PHP build-in function does not accept an array.
+	* @param $replacement The replacement string.
+	* @param $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
+	* @param $length Length of the part to be replaced
+	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @return string
+	*
+	*/
+	public static function mb_substr_replace($string, $replacement, $start, $length = null, $encoding = 'UTF-8') {
+		$start = intval($start);
+		$length = intval($length);
+		$string = mb_substr($string, 0, $start, $encoding) .
+		          $replacement .
+		          mb_substr($string, $start+$length, mb_strlen($string, 'UTF-8')-$start, $encoding);
+
+		return $string;
+	}
+
+	/**
+	* @brief Replace all occurrences of the search string with the replacement string
+	*
+	* @param $search The value being searched for, otherwise known as the needle. String.
+	* @param $replace The replacement string.
+	* @param $subject The string or array being searched and replaced on, otherwise known as the haystack.
+	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @param $count If passed, this will be set to the number of replacements performed.
+	* @return string
+	*
+	*/
+	public static function mb_str_replace($search, $replace, $subject, $encoding = 'UTF-8', &$count = null) {
+		$offset = -1;
+		$length = mb_strlen($search, 'UTF-8');
+		while(($i = mb_strrpos($subject, $search, $offset, 'UTF-8'))) {
+			$subject = OC_Helper::mb_substr_replace($subject, $replace, $i, $length);
+			$offset = $i - mb_strlen($subject, 'UTF-8') - 1;
+			$count++;
+		}
+		return $subject;
 	}
 }

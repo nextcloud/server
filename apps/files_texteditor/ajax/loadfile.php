@@ -43,6 +43,7 @@ if(!empty($filename))
 	{
 		$mtime = OC_Filesystem::filemtime($path);
 		$filecontents = OC_Filesystem::file_get_contents($path);
+		$filecontents = iconv(mb_detect_encoding($filecontents), "UTF-8", $filecontents);
 		OCP\JSON::success(array('data' => array('filecontents' => $filecontents, 'write' => 'false', 'mtime' => $mtime)));	
 	}	
 } else {

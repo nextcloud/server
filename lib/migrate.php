@@ -64,7 +64,7 @@ class OC_Migrate{
 		$apps = OC_App::getAllApps();
 
 		foreach($apps as $app){
-			$path = self::getAppPath($app) . '/appinfo/migrate.php';
+			$path = OC_App::getAppPath($app) . '/appinfo/migrate.php';
 			if( file_exists( $path ) ){
 				include( $path );
 			}
@@ -278,7 +278,7 @@ class OC_Migrate{
 						return json_encode( array( 'success' => false ) );
 					}
 					// Done
-					return json_encode( 'success' => true );
+					return json_encode( array( 'success' => true ) );
 					*/
 			break;
 		}
@@ -398,7 +398,7 @@ class OC_Migrate{
 			if( OC_App::isEnabled( $provider->getID() ) ){
 				$success = true;
 				// Does this app use the database?
-				if( file_exists( self::getAppPath($provider->getID()).'/appinfo/database.xml' ) ){
+				if( file_exists( OC_App::getAppPath($provider->getID()).'/appinfo/database.xml' ) ){
 					// Create some app tables
 					$tables = self::createAppTables( $provider->getID() );
 					if( is_array( $tables ) ){
@@ -443,21 +443,10 @@ class OC_Migrate{
 						'ocversion' => OC_Util::getVersion(),
 						'exporttime' => time(),
 						'exportedby' => OC_User::getUser(),
-						'exporttype' => self::$exporttype
+						'exporttype' => self::$exporttype,
+						'exporteduser' => self::$uid
 					);
-		// Add hash if user export
-		if( self::$exporttype == 'user' ){
-			$query = OC_DB::prepare( "SELECT password FROM *PREFIX*users WHERE uid = ?" );
-			$result = $query->execute( array( self::$uid ) );
-			$row = $result->fetchRow();
-			$hash = $row ? $row['password'] : false;
-			if( !$hash ){
-				OC_Log::write( 'migration', 'Failed to get the users password hash', OC_log::ERROR);
-				return false;
-			}
-			$info['hash'] = $hash;
-			$info['exporteduser'] = self::$uid;
-		}
+
 		if( !is_array( $array ) ){
 			OC_Log::write( 'migration', 'Supplied $array was not an array in getExportInfo()', OC_Log::ERROR );
 		}
@@ -539,7 +528,7 @@ class OC_Migrate{
 		}
 
 		// There is a database.xml file
-		$content = file_get_contents(self::getAppPath($appid) . '/appinfo/database.xml' );
+		$content = file_get_contents(OC_App::getAppPath($appid) . '/appinfo/database.xml' );
 
 		$file2 = 'static://db_scheme';
 		// TODO get the relative path to migration.db from the data dir

@@ -28,6 +28,8 @@ $RUNTIME_NOSETUPFS=true;
 
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
+
 OCP\JSON::checkAppEnabled('bookmarks');
 
 $id = $_POST['id'];

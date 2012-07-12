@@ -13,5 +13,3 @@ OCP\JSON::checkAppEnabled('contacts');
 $categories = OC_Contacts_App::getCategories();
 
 OCP\JSON::success(array('data' => array('categories'=>$categories)));
-
-?>

@@ -99,5 +99,3 @@ $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->assign( 'allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 $tmpl->printPage();
-
-?>

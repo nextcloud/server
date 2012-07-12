@@ -17,40 +17,58 @@ function cmp($a, $b)
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
-$active_addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
+$start = isset($_GET['startat'])?$_GET['startat']:0;
+$aid = isset($_GET['aid'])?$_GET['aid']:null;
 
+if(is_null($aid)) {
+	// Called initially to get the active addressbooks.
+	$active_addressbooks = OC_Contacts_Addressbook::active(OCP\USER::getUser());
+} else {
+	// called each time more contacts has to be shown.
+	$active_addressbooks = array(OC_Contacts_Addressbook::find($aid));
+}
+
+
+session_write_close();
+
+// create the addressbook associate array
 $contacts_addressbook = array();
 $ids = array();
 foreach($active_addressbooks as $addressbook) {
 	$ids[] = $addressbook['id'];
 	if(!isset($contacts_addressbook[$addressbook['id']])) {
-		$contacts_addressbook[$addressbook['id']] = array('contacts' => array());
+		$contacts_addressbook[$addressbook['id']] = array('contacts' => array('type' => 'book',));
 		$contacts_addressbook[$addressbook['id']]['displayname'] = $addressbook['displayname'];
 	}
 }	
-$contacts_alphabet = OC_Contacts_VCard::all($ids);
 
+$contacts_alphabet = array(); 
+
+// get next 50 for each addressbook.
+foreach($ids as $id) {
+	if($id) {
+		$contacts_alphabet = array_merge($contacts_alphabet, OC_Contacts_VCard::all($id, $start, 50));
+	}
+}
 // Our new array for the contacts sorted by addressbook
-foreach($contacts_alphabet as $contact) {
-	if(!isset($contacts_addressbook[$contact['addressbookid']])) { // It should never execute.
-		$contacts_addressbook[$contact['addressbookid']] = array('contacts' => array());
-	}
-	$display = trim($contact['fullname']);
-	if(!$display) {
-		$vcard = OC_Contacts_App::getContactVCard($contact['id']);
-		if(!is_null($vcard)) {
-			$struct = OC_Contacts_VCard::structureContact($vcard);
-			$display = isset($struct['EMAIL'][0])?$struct['EMAIL'][0]['value']:'[UNKNOWN]';
+if($contacts_alphabet) {
+	foreach($contacts_alphabet as $contact) {
+		if(!isset($contacts_addressbook[$contact['addressbookid']])) { // It should never execute.
+			$contacts_addressbook[$contact['addressbookid']] = array('contacts' => array('type' => 'book',));
 		}
+		$display = trim($contact['fullname']);
+		if(!$display) {
+			$vcard = OC_Contacts_App::getContactVCard($contact['id']);
+			if(!is_null($vcard)) {
+				$struct = OC_Contacts_VCard::structureContact($vcard);
+				$display = isset($struct['EMAIL'][0])?$struct['EMAIL'][0]['value']:'[UNKNOWN]';
+			}
+		}
+		$contacts_addressbook[$contact['addressbookid']]['contacts'][] = array('type' => 'contact', 'id' => $contact['id'], 'addressbookid' => $contact['addressbookid'], 'displayname' => htmlspecialchars($display));
 	}
-	$contacts_addressbook[$contact['addressbookid']]['contacts'][] = array('id' => $contact['id'], 'addressbookid' => $contact['addressbookid'], 'displayname' => htmlspecialchars($display));
 }
 unset($contacts_alphabet);
 uasort($contacts_addressbook, 'cmp');
 
-$tmpl = new OCP\Template("contacts", "part.contacts");
-$tmpl->assign('books', $contacts_addressbook, false);
-$page = $tmpl->fetchPage();
-
-OCP\JSON::success(array('data' => array( 'page' => $page )));
+OCP\JSON::success(array('data' => array('entries' => $contacts_addressbook)));
 

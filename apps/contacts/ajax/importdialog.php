@@ -13,4 +13,3 @@ $tmpl = new OCP\Template('contacts', 'part.import');
 $tmpl->assign('path', $_POST['path']);
 $tmpl->assign('filename', $_POST['filename']);
 $tmpl->printpage();
-?>

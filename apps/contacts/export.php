@@ -14,12 +14,17 @@ $contactid = isset($_GET['contactid']) ? $_GET['contactid'] : NULL;
 $nl = "\n";
 if(isset($bookid)){
 	$addressbook = OC_Contacts_App::getAddressbook($bookid);
-	$cardobjects = OC_Contacts_VCard::all($bookid);
+	//$cardobjects = OC_Contacts_VCard::all($bookid);
 	header('Content-Type: text/directory');
 	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $addressbook['displayname']) . '.vcf'); 
 
-	foreach($cardobjects as $card) {
-		echo $card['carddata'] . $nl;
+	$start = 0;
+	$batchsize = OCP\Config::getUserValue(OCP\User::getUser(), 'contacts', 'export_batch_size', 20);
+	while($cardobjects = OC_Contacts_VCard::all($bookid, $start, $batchsize)){
+		foreach($cardobjects as $card) {
+			echo $card['carddata'] . $nl;
+		}
+		$start += $batchsize;
 	}
 }elseif(isset($contactid)){
 	$data = OC_Contacts_App::getContactObject($contactid);
@@ -27,4 +32,3 @@ if(isset($bookid)){
 	header('Content-Disposition: inline; filename=' . str_replace(' ', '_', $data['fullname']) . '.vcf'); 
 	echo $data['carddata'];
 }
-?>

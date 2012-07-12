@@ -29,4 +29,3 @@ $app = $_POST["app"];
 $l = OC_L10N::get( $app );
 
 OC_JSON::success(array('data' => $l->getTranslations()));
-?>

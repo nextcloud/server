@@ -67,6 +67,8 @@ OC={
 			if(type){
 				link+= '/'+type+'/';
 			}
+			if(link.substring(link.length-1) != '/')
+				link+='/';
 			link+=file;
 		}else{
 			link+='/';
@@ -516,5 +518,5 @@ function formatDate(date){
 	}
 	var monthNames = [ t('files','January'), t('files','February'), t('files','March'), t('files','April'), t('files','May'), t('files','June'),
 	t('files','July'), t('files','August'), t('files','September'), t('files','October'), t('files','November'), t('files','December') ];
-	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+date.getMinutes();
+	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
 }

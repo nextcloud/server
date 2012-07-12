@@ -7,5 +7,3 @@ if (OCP\Config::getSystemValue('versions', 'true')=='true') {
 } else {
 	OCP\Config::setSystemValue('versions', 'true');
 }
-
-?>

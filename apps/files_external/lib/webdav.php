@@ -20,10 +20,14 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	private static $tempFiles=array();
 	
 	public function __construct($params){
-		$this->host=$params['host'];
+		$host = $params['host'];
+		//remove leading http[s], will be generated in createBaseUri()
+		if (substr($host,0,8) == "https://") $host = substr($host, 8);
+		else if (substr($host,0,7) == "http://") $host = substr($host, 7);
+		$this->host=$host;
 		$this->user=$params['user'];
 		$this->password=$params['password'];
-		$this->secure=isset($params['secure'])?(bool)$params['secure']:false;
+		$this->secure=(isset($params['secure']) && $params['secure'] == 'true')?true:false;
 		$this->root=isset($params['root'])?$params['root']:'/';
 		if(!$this->root || $this->root[0]!='/'){
 			$this->root='/'.$this->root;
@@ -37,8 +41,15 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			'userName' => $this->user,
 			'password' => $this->password,
 		);
-		$this->client = new Sabre_DAV_Client($settings);
 
+		$this->client = new OC_Connector_Sabre_Client($settings);
+		
+		if($caview = \OCP\Files::getStorage('files_external')) {
+			$certPath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("").'rootcerts.crt';
+			if (file_exists($certPath))  {
+				$this->client->addTrustedCertificates($certPath);
+			}
+		}
 		//create the root folder if necesary
 		$this->mkdir('');
 	}
@@ -46,7 +57,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	private function createBaseUri(){
 		$baseUri='http';
 		if($this->secure){
-			$baseUri.'s';
+			$baseUri.='s';
 		}
 		$baseUri.='://'.$this->host.$this->root;
 		return $baseUri;
@@ -69,13 +80,15 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			$stripLength=strlen($this->root)+strlen($path);
 			$id=md5('webdav'.$this->root.$path);
 			OC_FakeDirStream::$dirs[$id]=array();
+			$skip = true;
 			foreach($response as $file=>$data){
-				//strip root and path
-				$file=trim(substr($file,$stripLength));
-				$file=trim($file,'/');
-				if($file){
-					OC_FakeDirStream::$dirs[$id][]=$file;
+				// Skip the first file, because it is the current directory
+				if ($skip) {
+					$skip = false;
+					continue;
 				}
+				$file = urldecode(basename($file));
+				OC_FakeDirStream::$dirs[$id][]=$file;
 			}
 			return opendir('fakedir://'.$id);
 		}catch(Exception $e){
@@ -90,6 +103,8 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			$responseType=$response["{DAV:}resourcetype"]->resourceType;
 			return (count($responseType)>0 and $responseType[0]=="{DAV:}collection")?'dir':'file';
 		}catch(Exception $e){
+			error_log($e->getMessage());
+			\OCP\Util::writeLog("webdav client", \OCP\Util::sanitizeHTML($e->getMessage()), \OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -240,15 +255,11 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		$path=$this->cleanPath($path);
 		try{
 			$response=$this->client->propfind($path, array('{DAV:}getlastmodified','{DAV:}getcontentlength'));
-			if(isset($response['{DAV:}getlastmodified']) and isset($response['{DAV:}getcontentlength'])){
-				return array(
-					'mtime'=>strtotime($response['{DAV:}getlastmodified']),
-					'size'=>(int)$response['{DAV:}getcontentlength'],
-					'ctime'=>-1,
-				);
-			}else{
-				return array();
-			}
+			return array(
+				'mtime'=>strtotime($response['{DAV:}getlastmodified']),
+				'size'=>(int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
+				'ctime'=>-1,
+			);
 		}catch(Exception $e){
 			return array();
 		}

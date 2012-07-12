@@ -7,5 +7,3 @@ if ($_POST['resharing'] == true) {
 } else {
 	OCP\Config::setAppValue('files_sharing', 'resharing', 'no');
 }
-
-?>

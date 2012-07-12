@@ -25,4 +25,3 @@ foreach($vcard->children as $property){
 	}
 }
 OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error setting checksum.'))));
-?>

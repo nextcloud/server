@@ -240,17 +240,13 @@ class OC_User {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn(){
-		static $is_login_checked = null;
-		if (!is_null($is_login_checked)) {
-			return $is_login_checked;
-		}
 		if( isset($_SESSION['user_id']) AND $_SESSION['user_id']) {
 			OC_App::loadApps(array('authentication'));
 			if (self::userExists($_SESSION['user_id']) ){
-				return $is_login_checked = true;
+				return true;
 			}
 		}
-		return $is_login_checked = false;
+		return false;
 	}
 
 	/**

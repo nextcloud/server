@@ -7,6 +7,7 @@
 
 require_once('../../lib/base.php');
 OC_Util::checkAdminUser();
+OCP\JSON::callCheck();
 
 OC_Config::setValue( 'loglevel', $_POST['level'] );
 

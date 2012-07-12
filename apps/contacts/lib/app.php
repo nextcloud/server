@@ -10,7 +10,6 @@
  * This class manages our app actions
  */
 OC_Contacts_App::$l10n = OC_L10N::get('contacts');
-OC_Contacts_App::$categories = new OC_VCategories('contacts');
 class OC_Contacts_App {
 	/*
 	 * @brief language object for calendar app
@@ -139,30 +138,54 @@ class OC_Contacts_App {
 		}
 	}
 
-	/*
+	/**
 	 * @brief returns the vcategories object of the user
 	 * @return (object) $vcategories
 	 */
 	protected static function getVCategories() {
 		if (is_null(self::$categories)) {
-			self::$categories = new OC_VCategories('contacts');
+			self::$categories = new OC_VCategories('contacts', null, self::getDefaultCategories());
 		}
 		return self::$categories;
 	}
 	
-	/*
+	/**
 	 * @brief returns the categories for the user
 	 * @return (Array) $categories
 	 */
 	public static function getCategories() {
-		$categories = self::$categories->categories();
+		$categories = self::getVCategories()->categories();
 		if(count($categories) == 0) {
 			self::scanCategories();
 			$categories = self::$categories->categories();
 		}
-		return $categories;
+		return ($categories ? $categories : self::getDefaultCategories());
 	}
 
+	/**
+	 * @brief returns the default categories of ownCloud
+	 * @return (array) $categories
+	 */
+	public static function getDefaultCategories(){
+		return array(
+			(string)self::$l10n->t('Birthday'),
+			(string)self::$l10n->t('Business'),
+			(string)self::$l10n->t('Call'),
+			(string)self::$l10n->t('Clients'),
+			(string)self::$l10n->t('Deliverer'),
+			(string)self::$l10n->t('Holidays'),
+			(string)self::$l10n->t('Ideas'),
+			(string)self::$l10n->t('Journey'),
+			(string)self::$l10n->t('Jubilee'),
+			(string)self::$l10n->t('Meeting'),
+			(string)self::$l10n->t('Other'),
+			(string)self::$l10n->t('Personal'),
+			(string)self::$l10n->t('Projects'),
+			(string)self::$l10n->t('Questions'),
+			(string)self::$l10n->t('Work'),
+		);
+	}
+	
 	/**
 	 * scan vcards for categories.
 	 * @param $vccontacts VCards to scan. null to check all vcards for the current user.
@@ -175,16 +198,19 @@ class OC_Contacts_App {
 				foreach($vcaddressbooks as $vcaddressbook) {
 					$vcaddressbookids[] = $vcaddressbook['id'];
 				}
-				$vccontacts = OC_Contacts_VCard::all($vcaddressbookids);
+				$start = 0;
+				$batchsize = 10;
+				while($vccontacts = OC_Contacts_VCard::all($vcaddressbookids, $start, $batchsize)){
+					$cards = array();
+					foreach($vccontacts as $vccontact) {
+						$cards[] = $vccontact['carddata'];
+					}
+					OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', scanning: '.$batchsize.' starting from '.$start,OCP\Util::DEBUG);
+					// only reset on first batch.
+					self::getVCategories()->rescan($cards, true, ($start==0?true:false));
+					$start += $batchsize;
+				}
 			}
-		}
-		if(is_array($vccontacts) && count($vccontacts) > 0) {
-			$cards = array();
-			foreach($vccontacts as $vccontact) {
-				$cards[] = $vccontact['carddata'];
-			}
-
-			self::$categories->rescan($cards);
 		}
 	}
 

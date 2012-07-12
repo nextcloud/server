@@ -34,4 +34,3 @@ $files = $_GET["files"];
 $dir = $_GET["dir"];
 
 OC_Files::get($dir, $files, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
-?>

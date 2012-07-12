@@ -56,6 +56,12 @@
 		<dd><code><?php echo OCP\Util::linkToRemote('caldav'); ?></code></dd>
 		<dt><?php echo $l->t('iOS/OS X'); ?></dt>
 		<dd><code><?php echo OCP\Util::linkToRemote('caldav'); ?>principals/<?php echo OCP\USER::getUser(); ?></code>/</dd>
+		<dt><?php echo $l->t('Read only iCalendar link(s)'); ?></dt>
+		<dd>
+			<?php foreach($_['calendars'] as $calendar) { ?>
+			<a href="<?php echo OCP\Util::linkToRemote('caldav').'calendars/'.OCP\USER::getUser().'/'.rawurlencode($calendar['uri']) ?>?export"><?php echo $calendar['displayname'] ?></a><br />
+			<?php } ?>
+		</dd>
 		</dl>
         </fieldset>
 </form>

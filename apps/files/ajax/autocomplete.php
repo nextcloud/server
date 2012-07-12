@@ -52,5 +52,3 @@ if(OC_Filesystem::file_exists($base) and OC_Filesystem::is_dir($base)){
 	}
 }
 OCP\JSON::encodedPrint($files);
-
-?>

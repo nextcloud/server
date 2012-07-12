@@ -1,6 +1,8 @@
 <?php
 
 OCP\JSON::checkAppEnabled('files_external');
+OCP\JSON::callCheck();
+
 if ($_POST['isPersonal'] == 'true') {
 	OCP\JSON::checkLoggedIn();
 	$isPersonal = true;
@@ -9,5 +11,3 @@ if ($_POST['isPersonal'] == 'true') {
 	$isPersonal = false;
 }
 OC_Mount_Config::removeMountPoint($_POST['mountPoint'], $_POST['mountType'], $_POST['applicable'], $isPersonal);
-
-?>

@@ -32,5 +32,3 @@ class OC_External {
 	}
 
 }
-
-?>

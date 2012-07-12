@@ -451,7 +451,7 @@ $(document).ready(function() {
 		$(this).append(input);
 		input.focus();
 		input.change(function(){
-			var name=$(this).val();
+			var name=getUniqueName($(this).val());
 			if(type != 'web' && name.indexOf('/')!=-1){
 				$('#notification').text(t('files','Invalid name, \'/\' is not allowed.'));
 				$('#notification').fadeIn();
@@ -496,6 +496,7 @@ $(document).ready(function() {
 					}else{//or the domain
 						localName=(localName.match(/:\/\/(.[^/]+)/)[1]).replace('www.','');
 					}
+					localName = getUniqueName(localName);
 					$.post(
 						OC.filePath('files','ajax','newfile.php'),
 						{dir:$('#dir').val(),source:name,filename:localName},
@@ -737,7 +738,10 @@ getMimeIcon.cache={};
 function getUniqueName(name){
 	if($('tr').filterAttr('data-file',name).length>0){
 		var parts=name.split('.');
-		var extension=parts.pop();
+		var extension = "";
+		if (parts.length > 1) {
+			extension=parts.pop();
+		}
 		var base=parts.join('.');
 		numMatch=base.match(/\((\d+)\)/);
 		var num=2;
@@ -747,7 +751,10 @@ function getUniqueName(name){
 			base.pop();
 			base=base.join('(').trim();
 		}
-		name=base+' ('+num+').'+extension;
+		name=base+' ('+num+')';
+		if (extension) {
+			name = name+'.'+extension;
+		}
 		return getUniqueName(name);
 	}
 	return name;

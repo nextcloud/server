@@ -1,22 +1,31 @@
 <?php
+/**
+ * Copyright (c) 2012 Georg Ehrke <ownclouddev at georgswebsite dot de>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
 $token = strip_tags($_GET['t']);
 $shared = OC_Calendar_Share::getElementByToken($token);
-$nl = "\n\r";
 if($shared['type'] == OC_Calendar_Share::CALENDAR){
 	$calendar = OC_Calendar_App::getCalendar($shared['id'], false);
-	$calobjects = OC_Calendar_Object::all($shared['id']);
-	header('Content-Type: text/Calendar');
-	header('Content-Disposition: inline; filename=' . $calendar['displayname'] . '.ics'); 
-	foreach($calobjects as $calobject){
-		echo $calobject['calendardata'] . $nl;
+	if(!$calendar){
+		header('HTTP/1.0 404 Not Found');
+		exit;
 	}
+	header('Content-Type: text/Calendar');
+	header('Content-Disposition: inline; filename=' . str_replace(' ', '-', $calendar['displayname']) . '.ics'); 
+	echo OC_Calendar_Export::export($shared['id'], OC_Calendar_Export::CALENDAR);
 }elseif($shared['type'] == OC_Calendar_Share::EVENT){
 	$data = OC_Calendar_App::getEventObject($shared['id'], false);
-	$calendarid = $data['calendarid'];
-	$calendar = OC_Calendar_App::getCalendar($calendarid);
+	if(!$data){
+		header('HTTP/1.0 404 Not Found');
+		exit;
+	}
 	header('Content-Type: text/Calendar');
-	header('Content-Disposition: inline; filename=' . $data['summary'] . '.ics'); 
-	echo $data['calendardata'];
+	header('Content-Disposition: inline; filename=' . str_replace(' ', '-', $data['summary']) . '.ics');
+	echo OC_Calendar_Export::export($shared['id'], OC_Calendar_Export::EVENT);
 }else{
-	header('Error 404: Not Found');
+	header('HTTP/1.0 404 Not Found');
+	exit;
 }
