@@ -156,10 +156,6 @@ class Share {
 						return false;
 					}
 				}
-				if (self::getItems($itemType, $item, self::SHARE_TYPE_USER, $shareWith, $uidOwner, self::FORMAT_NONE, null, 1)) {
-					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with the user '.$shareWith, \OC_Log::ERROR);
-					return false;
-				}
 				break;
 			case self::SHARE_TYPE_GROUP:
 				if (!\OC_Group::groupExists($shareWith)) {
@@ -167,10 +163,6 @@ class Share {
 					return false;
 				} else if (!\OC_Group::inGroup($uidOwner, $shareWith)) {
 					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because '.$uidOwner.' is not a member of the group '.$shareWith, \OC_Log::ERROR);
-					return false;
-				}
-				if (self::getItems($itemType, $item, self::SHARE_TYPE_GROUP, $shareWith, $uidOwner, self::FORMAT_NONE, null, 1)) {
-					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with the group '.$shareWith, \OC_Log::ERROR);
 					return false;
 				}
 				// Convert share with into an array with the keys group and users
@@ -186,6 +178,21 @@ class Share {
 			default:
 				\OC_Log::write('OCP\Share', 'Share type '.$shareType.' is not valid for '.$item, \OC_Log::ERROR);
 				return false;
+		}
+		if (self::getItems($itemType, $item, $shareType, $shareWith, $uidOwner, self::FORMAT_NONE, null, 1)) {
+			\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with '.$shareWith, \OC_Log::ERROR);
+			return false;
+		}
+		if ($collectionTypes = self::getCollectionItemTypes($itemType)) {
+			foreach ($collectionTypes as $collectionType) {
+				$collections = self::getItems($collectionType, null, self::SHARE_TYPE_USER, $shareWith, $uidOwner);
+				if ($backend = self::getBackend($collectionType)) {
+					if ($backend->inCollection($collections, $item)) {
+						\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with '.$shareWith.' inside a collection', \OC_Log::ERROR);
+						return false;
+					}
+				}
+			}
 		}
 		// If the item is a folder, scan through the folder looking for equivalent item types
 		if ($itemType == 'folder') {
