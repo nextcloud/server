@@ -438,7 +438,7 @@ class Share {
 				if (isset($uidOwner)) {
 					$source = $backend->getSource($item, $uidOwner);
 					// If item type is a file, file source needs to be checked in case the item was converted
-					if ($itemType == 'file') {
+					if ($itemType == 'file' || $itemType == 'folder') {
 						$where .= " AND file_source = ".\OC_FileCache::getId($source['file']);
 					} else {
 						// Check if this item depends on a file and getSource() returned an array
