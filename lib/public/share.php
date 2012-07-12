@@ -562,6 +562,10 @@ class Share {
 				} else if (is_array($source)) {
 					$itemSource = $source['item'];
 					$fileSource = \OC_FileCache::getId($source['file']);
+					if ($fileSource == -1) {
+						\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the file could not be found in the file cache', \OC_Log::ERROR);
+						return false;
+					}
 				} else {
 					$itemSource = $source;
 					$fileSource = null;
