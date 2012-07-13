@@ -23,7 +23,7 @@ php -f index.php
 #test execution
 echo 'Testing with sqlite ...'
 cd tests
-php -f index.php -- xml
+php -f index.php -- xml > autotest-results-sqlite.xml
 
 
 #
