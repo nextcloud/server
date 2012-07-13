@@ -394,7 +394,7 @@ class OC_FileCache{
 		$cachedSize=self::getCachedSize($path,$root);
 		$size=0;
 		if($dir){
-			if(self::inCache($path,$root)){
+			if(self::inCache($path,$root) && $path != '/Shared'){
 				$parent=self::getFileId($fullPath);
 				$query=OC_DB::prepare('SELECT size FROM *PREFIX*fscache WHERE parent=?');
 				$result=$query->execute(array($parent));
