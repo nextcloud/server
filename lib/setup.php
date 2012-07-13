@@ -257,7 +257,7 @@ class OC_Setup {
 				OC_Installer::installShippedApps();
 
 				//create htaccess files for apache hosts
-				if (strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
+				if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 					self::createHtaccess();
 				}
 
