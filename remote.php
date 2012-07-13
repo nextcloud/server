@@ -23,6 +23,8 @@ if(is_null($file)){
 	exit;
 }
 
+$file=ltrim($file,'/');
+
 $parts=explode('/', $file, 2);
 $app=$parts[0];
 switch ($app) {
