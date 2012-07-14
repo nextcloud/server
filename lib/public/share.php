@@ -739,10 +739,10 @@ class Share {
 	
 	public static function post_deleteUser($arguments) {
 		// Delete any items shared with the deleted user
-		$query = \OC_DB::prepare('DELETE FROM *PREFIX*share WHERE uid_shared_with = ?');
+		$query = \OC_DB::prepare('DELETE FROM *PREFIX*share WHERE share_with = ?');
 		$result = $query->execute(array($arguments['uid']));
 		// Delete any items the deleted user shared
-		$query = \OC_DB::prepare('SELECT id, item_source FROM *PREFIX*share WHERE uid_owner = ?');
+		$query = \OC_DB::prepare('SELECT id FROM *PREFIX*share WHERE uid_owner = ?');
 		$result = $query->execute(array($arguments['uid']));
 		while ($item = $result->fetchRow()) {
 			self::delete($item['id']);
