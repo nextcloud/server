@@ -27,15 +27,21 @@ namespace OCP;
 */
 class Share {
 
-	
 	const SHARE_TYPE_USER = 0;
 	const SHARE_TYPE_GROUP = 1;
 	const SHARE_TYPE_PRIVATE_LINK = 3;
 
-	const PERMISSION_READ = 0;
-	const PERMISSION_UPDATE = 1;
-	const PERMISSION_DELETE = 2;
-	const PERMISSION_SHARE = 3;
+	/** CRUDS permissions (Create, Read, Update, Delete, Share) using a bitmask
+	* Construct permissions for share() and setPermissions with Or (|) e.g. Give user read and update permissions: PERMISSION_READ | PERMISSION_UPDATE
+	* Check if permission is granted with And (&) e.g. Check if delete is granted: if ($permissions & PERMISSION_DELETE)
+	* Remove permissions with And (&) and Not (~) e.g. Remove the update permission: $permissions &= ~PERMISSION_UPDATE
+	* Apps are required to handle permissions on their own, this class only stores and manages the permissions of shares
+	*/
+	const PERMISSION_CREATE = 4;
+	const PERMISSION_READ = 1;
+	const PERMISSION_UPDATE = 2;
+	const PERMISSION_DELETE = 8;
+	const PERMISSION_SHARE = 16;
 
 	const FORMAT_NONE = -1;
 	const FORMAT_STATUSES = -2;
@@ -134,7 +140,7 @@ class Share {
 	* @param string Item
 	* @param int SHARETYPE_USER | SHARETYPE_GROUP | SHARETYPE_PRIVATE_LINK
 	* @param string User or group the item is being shared with
-	* @param string
+	* @param int CRUDS permissions
 	* @return Returns true on success or false on failure
 	*/
 	public static function share($itemType, $item, $shareType, $shareWith, $permissions) {
@@ -309,7 +315,7 @@ class Share {
 	* @param string Item
 	* @param int SHARETYPE_USER | SHARETYPE_GROUP | SHARETYPE_PRIVATE_LINK
 	* @param string User or group the item is being shared with
-	* @param
+	* @param int CRUDS permissions
 	* @return Returns true on success or false on failure
 	*/
 	public static function setPermissions($itemType, $item, $shareType, $shareWith, $permissions) {
@@ -318,33 +324,47 @@ class Share {
 			if (isset($item['parent'])) {
 				$query = \OC_DB::prepare('SELECT permissions FROM *PREFIX*share WHERE id = ? LIMIT 1');
 				$result = $query->execute(array($item['parent']))->fetchRow();
-				if (!isset($result['permissions']) || $permissions > $result['permissions']) {
-					\OC_Log::write('OCP\Share', '', \OC_Log::ERROR);
+				if (~(int)$result['permissions'] & $permissions) {
+					\OC_Log::write('OCP\Share', 'Setting permissions for '.$item.' failed, because the permissions exceed permissions granted to the parent item', \OC_Log::ERROR);
 					return false;
 				}
 			}
 			$query = \OC_DB::prepare('UPDATE *PREFIX*share SET permissions = ? WHERE id = ?');
 			$query->execute(array($permissions, $item['id']));
-			// Check if permissions were reduced
-			if ($permissions < $item['permissions']) {
-				// Reduce the permissions for all reshares of this item
-				$ids = array($item['id']);
-				$query = \OC_DB::prepare('SELECT id, parent, permissions FROM *PREFIX*share WHERE item_source = ?');
-				$result = $query->execute(array($item['item_source']));
-				while ($item = $result->fetchRow()) {
-					if (in_array($item['parent'], $ids) && $item['permissions'] > $permissions) {
-						$ids[] = $item['id'];
+			// Check if permissions were removed
+			if ($item['permissions'] & ~$permissions) {
+				// If share permission is removed all reshares must be deleted
+				if (($item['permissions'] & self::PERMISSION_SHARE) && (~$permissions & self::PERMISSION_SHARE)) {
+					self::delete($item['id'], true);
+				} else {
+					$ids = array();
+					$parents = array($item['id']);
+					while (!empty($parents)) {
+						$parents = "'".implode("','", $parents)."'";
+						$query = \OC_DB::prepare('SELECT id, permissions FROM *PREFIX*share WHERE parent IN ('.$parents.')');
+						$result = $query->execute();
+						// Reset parents array, only go through loop again if items are found that need permissions removed
+						$parents = array();
+						while ($item = $result->fetchRow()) {
+							// Check if permissions need to be removed
+							if ($item['permissions'] & ~$permissions) {
+								// Add to list of items that need permissions removed
+								$ids[] = $item['id'];
+								$parents[] = $item['id'];
+							}
+						}
 					}
-				}
-				// Remove parent item from array, this item's permissions already got updated
-				unset($ids[0]);
-				if (!empty($ids)) {
-					$query = \OC_DB::prepare('UPDATE *PREFIX*share SET permissions = ? WHERE id IN (?)');
-					$query->execute(array($permissions, implode(',', $ids)));
+					// Remove the permissions for all reshares of this item
+					if (!empty($ids)) {
+						$ids = "'".implode("','", $ids)."'";
+						$query = \OC_DB::prepare('UPDATE *PREFIX*share SET permissions = permissions & ? WHERE id IN ('.$ids.')');
+						$query->execute(array($permissions));
+					}
 				}
 			}
 			return true;
 		}
+		\OC_Log::write('OCP\Share', 'Setting permissions for '.$item.' failed, because the item was not found', \OC_Log::ERROR);
 		return false;
 	}
 
@@ -479,7 +499,7 @@ class Share {
 				$select = 'id, item_type, item, item_source, share_type';
 			} else {
 				if (isset($uidOwner)) {
-					$select = 'id, item_type, item, item_source, share_type, share_with, permissions, stime, file_source';
+					$select = 'id, item_type, item, item_source, parent, share_type, share_with, permissions, stime, file_source';
 				} else {
 					$select = '*';
 				}
@@ -556,12 +576,16 @@ class Share {
 		if ($backend = self::getBackend($itemType)) {
 			// Check if this is a reshare
 			if ($checkReshare = self::getItemSharedWith($itemType, $item)) {
-				// TODO Check if resharing is allowed
-				// TODO Don't check if inside folder
-				$parent = $checkReshare['id'];
-				$itemSource = $checkReshare['item_source'];
-				$fileSource = $checkReshare['file_source'];
-				$fileTarget = $checkReshare['file_target'];
+				if ($checkReshare['permissions'] & self::PERMISSION_SHARE) {
+					// TODO Don't check if inside folder
+					$parent = $checkReshare['id'];
+					$itemSource = $checkReshare['item_source'];
+					$fileSource = $checkReshare['file_source'];
+					$fileTarget = $checkReshare['file_target'];
+				} else {
+					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because resharing is not allowed', \OC_Log::ERROR);
+					return false;
+				}
 			} else {
 				$parent = null;
 				$source = $backend->getSource($item, $uidOwner);
