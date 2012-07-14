@@ -706,9 +706,8 @@ class Share {
 
 	/**
 	* @brief Delete all reshares of an item
-	* @param string
 	* @param int Id of item to delete
-	* @param bool
+	* @param bool If true, exclude the parent from the delete
 	*/
 	private static function delete($parent, $excludeParent = false) {
 		$ids = array($parent);
