@@ -138,10 +138,10 @@ class Share {
 	* @brief Share an item with a user, group, or via private link
 	* @param string Item type
 	* @param string Item
-	* @param int SHARETYPE_USER | SHARETYPE_GROUP | SHARETYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
 	* @param string User or group the item is being shared with
 	* @param int CRUDS permissions
-	* @return Returns true on success or false on failure
+	* @return bool Returns true on success or false on failure
 	*/
 	public static function share($itemType, $item, $shareType, $shareWith, $permissions) {
 		$uidOwner = \OC_User::getUser();
@@ -227,7 +227,7 @@ class Share {
 	* @brief Unshare an item from a user, group, or delete a private link
 	* @param string Item type
 	* @param string Item
-	* @param int SHARETYPE_USER | SHARETYPE_GROUP | SHARETYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
 	* @param string User or group the item is being shared with
 	* @return Returns true on success or false on failure
 	*/
@@ -313,7 +313,7 @@ class Share {
 	* @brief Set the permissions of an item for a specific user or group
 	* @param string Item type
 	* @param string Item
-	* @param int SHARETYPE_USER | SHARETYPE_GROUP | SHARETYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
 	* @param string User or group the item is being shared with
 	* @param int CRUDS permissions
 	* @return Returns true on success or false on failure
@@ -417,11 +417,14 @@ class Share {
 	* @brief Get shared items from the database
 	* @param string Item type
 	* @param string Item or item target (optional)
-	* @param string User the item(s) is(are) shared with
-	* @param string|bool Group the item(s) is(are) shared with
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, SHARE_TYPE_PRIVATE_LINK, $shareTypeUserAndGroups, or $shareTypeGroupUserUnique
+	* @param string User or group the item is being shared with
 	* @param string User that is the owner of shared items (optional)
-	* @param bool Translate the items back into their original source (optional)
+	* @param int Format to convert items to with formatItems()
+	* @param mixed Parameters to pass to formatItems()
 	* @param int Number of items to return, -1 to return all matches (optional)
+	* @param bool Is item the source (optional)
+	* @return mixed
 	*
 	* See public functions getItem(s)... for parameter usage
 	*
@@ -551,12 +554,11 @@ class Share {
 	* @brief Put shared item into the database
 	* @param string Item type
 	* @param string Item
-	* @param string|array User(s) the item is being shared with
-	* @param string|null Group the item is being shared with
-	* @param string Owner of the item
-	* @param string
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
+	* @param string User or group the item is being shared with
+	* @param int CRUDS permissions
 	* @param bool|array Parent folder target (optional)
-	* @return bool
+	* @return bool Returns true on success or false on failure
 	*/
 	private static function put($itemType, $item, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder = null) {
 		// Check file extension for an equivalent item type to convert to
