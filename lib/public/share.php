@@ -707,15 +707,22 @@ class Share {
 	/**
 	* @brief Delete all reshares of an item
 	* @param int Id of item to delete
-	* @param bool If true, exclude the parent from the delete
+	* @param bool If true, exclude the parent from the delete (optional)
+	* @param string The user that the parent was shared with (optinal)
 	*/
-	private static function delete($parent, $excludeParent = false) {
+	private static function delete($parent, $excludeParent = false, $uidOwner = null) {
 		$ids = array($parent);
 		$parents = array($parent);
 		while (!empty($parents)) {
 			$parents = "'".implode("','", $parents)."'";
-			$query = \OC_DB::prepare('SELECT id FROM *PREFIX*share WHERE parent IN ('.$parents.')');
-			$result = $query->execute();
+			// Check the owner on the first search of reshares, useful for finding and deleting the reshares by a single user of a group share
+			if (count($ids) == 1 && isset($uidOwner)) {
+				$query = \OC_DB::prepare('SELECT id FROM *PREFIX*share WHERE parent IN ('.$parents.') AND uid_owner = ?');
+				$result = $query->execute(array($uidOwner));
+			} else {
+				$query = \OC_DB::prepare('SELECT id FROM *PREFIX*share WHERE parent IN ('.$parents.')');
+				$result = $query->execute();
+			}
 			// Reset parents array, only go through loop again if items are found
 			$parents = array();
 			while ($item = $result->fetchRow()) {
