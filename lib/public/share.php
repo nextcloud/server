@@ -711,17 +711,26 @@ class Share {
 	* @param bool
 	*/
 	private static function delete($parent, $excludeParent = false) {
-		$query = \OC_DB::prepare('SELECT id FROM *PREFIX*share WHERE parent IN (?)');
 		$ids = array($parent);
-		while ($item = $query->execute(array(implode("','", $ids)))->fetchRow()) {
-			$ids[] = $item['id'];
+		$parents = array($parent);
+		while (!empty($parents)) {
+			$parents = "'".implode("','", $parents)."'";
+			$query = \OC_DB::prepare('SELECT id FROM *PREFIX*share WHERE parent IN ('.$parents.')');
+			$result = $query->execute();
+			// Reset parents array, only go through loop again if items are found
+			$parents = array();
+			while ($item = $result->fetchRow()) {
+				$ids[] = $item['id'];
+				$parents[] = $item['id'];
+			}
 		}
 		if ($excludeParent) {
 			unset($ids[0]);
 		}
 		if (!empty($ids)) {
-			$query = \OC_DB::prepare('DELETE FROM *PREFIX*share WHERE id IN (?)');
-			$query->execute(array(implode("','", $ids)));
+			$ids = "'".implode("','", $ids)."'";
+			$query = \OC_DB::prepare('DELETE FROM *PREFIX*share WHERE id IN ('.$ids.')');
+			$query->execute();
 		}
 	}
 
