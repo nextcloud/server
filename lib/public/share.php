@@ -761,7 +761,16 @@ class Share {
 	}
 
 	public static function post_removeFromGroup($arguments) {
-		// TODO
+		$query = \OC_DB::prepare('SELECT id, share_type FROM *PREFIX*share WHERE (share_type = ? AND share_with = ?) OR (share_type = ? AND share_with = ?)');
+		$result = $query->execute(array(self::SHARE_TYPE_GROUP, $arguments['gid'], self::$shareTypeGroupUserUnique, $arguments['uid']));
+		while ($item = $result->fetchRow()) {
+			if ($item['share_type'] == self::SHARE_TYPE_GROUP) {
+				// Delete all reshares by this user of the group share
+				self::delete($item['id'], true, $arguments['uid']);
+			} else {
+				self::delete($item['id']);
+			}
+		}
 	}
 
 }
