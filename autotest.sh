@@ -26,11 +26,14 @@ php -f index.php
 echo 'Testing with sqlite ...'
 cd tests
 php -f index.php -- xml > autotest-results-sqlite.xml
+cd ..
+git checkout tests/data/*
 
 #
 # mysql testing now
 #
 # NOTES:
+#  - CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY 'owncloud';
 #  - grant access permissions: grant all on oc_autotest.* to 'oc_autotest'@'localhost';
 #
 echo "Setup environment for MySql testing ..."
@@ -65,6 +68,8 @@ php -f index.php
 echo 'Testing with MySql ...'
 cd tests
 php -f index.php -- xml > autotest-results-MySql.xml
+cd ..
+git checkout tests/data/*
 
 #
 # TODO: create config for postgres
