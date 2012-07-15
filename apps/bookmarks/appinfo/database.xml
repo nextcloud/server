@@ -3,7 +3,7 @@
 	<name>*dbname*</name>
 	<create>true</create>
 	<overwrite>false</overwrite>
-	<charset>latin1</charset>
+	<charset>utf8</charset>
 	<table>
 		<name>*dbprefix*bookmarks</name>
 		<declaration>
