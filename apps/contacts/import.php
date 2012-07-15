@@ -80,6 +80,11 @@ $imported = 0;
 $failed = 0;
 if(!count($parts) > 0) {
 	OCP\JSON::error(array('data' => array('message' => 'No contacts to import in '.$_POST['file'].'. Please check if the file is corrupted.', 'file'=>$_POST['file'])));
+	if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
+		if(!$view->unlink('/imports/' . $_POST['file'])) {
+			OCP\Util::writeLog('contacts','Import: Error unlinking OC_FilesystemView ' . '/' . $_POST['file'], OCP\Util::ERROR);
+		}
+	}
 	exit();
 }
 foreach($parts as $part){
