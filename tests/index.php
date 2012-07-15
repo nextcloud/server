@@ -26,8 +26,7 @@ require_once 'simpletest/mock_objects.php';
 require_once 'simpletest/collector.php';
 require_once 'simpletest/default_reporter.php';
 
-// test suite instance
-$testSuite=new TestSuite("ownCloud Unit Test Suite");
+$testSuiteName="ownCloud Unit Test Suite";
 
 // prepare the reporter
 if(OC::$CLI){
@@ -37,11 +36,18 @@ if(OC::$CLI){
 	{
 		$reporter= new XmlReporter;
 		$test=false;
+
+		if(isset($_SERVER['argv'][2])){
+			$testSuiteName=$testSuiteName." (".$_SERVER['argv'][2].")";
+		}
 	}
 }else{
 	$reporter='HtmlReporter';
 	$test=isset($_GET['test'])?$_GET['test']:false;
 }
+
+// test suite instance
+$testSuite=new TestSuite($testSuiteName);
 
 //load core test cases
 loadTests(dirname(__FILE__), $testSuite, $test);
