@@ -48,7 +48,7 @@ if(isset($_POST['method']) && $_POST['method'] == 'new'){
 }else{
 	$id = $_POST['id'];
 	if(!$id) {
-		OCP\JSON::error(array('data' => array('message' => 'Error getting the ID of the address book.')));
+		OCP\JSON::error(array('data' => array('message' => 'Error getting the ID of the address book.', 'file'=>$_POST['file'])));
 		exit();
 	}
 	OC_Contacts_App::getAddressbook($id); // is owner access check
@@ -79,7 +79,7 @@ writeProgress('70');
 $imported = 0;
 $failed = 0;
 if(!count($parts) > 0) {
-	OCP\JSON::error(array('data' => array('message' => 'No contacts to import in '.$_POST['file'].'. Please check if the file is corrupted.')));
+	OCP\JSON::error(array('data' => array('message' => 'No contacts to import in '.$_POST['file'].'. Please check if the file is corrupted.', 'file'=>$_POST['file'])));
 	exit();
 }
 foreach($parts as $part){
@@ -102,8 +102,8 @@ writeProgress('100');
 sleep(3);
 OC_Cache::remove($progresskey);
 if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
-	if(!$view->unlink('/' . $_POST['file'])) {
+	if(!$view->unlink('/imports/' . $_POST['file'])) {
 		OCP\Util::writeLog('contacts','Import: Error unlinking OC_FilesystemView ' . '/' . $_POST['file'], OCP\Util::ERROR);
 	}
 }
-OCP\JSON::success(array('data' => array('imported'=>$imported, 'failed'=>$failed)));
+OCP\JSON::success(array('data' => array('imported'=>$imported, 'failed'=>$failed, 'file'=>$_POST['file'])));
