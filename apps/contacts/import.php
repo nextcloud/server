@@ -12,7 +12,6 @@ OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 session_write_close();
 
-$cr = "\r";
 $nl = "\n";
 
 global $progresskey;
@@ -31,7 +30,7 @@ writeProgress('10');
 $view = $file = null;
 if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
 	$view = OCP\Files::getStorage('contacts');
-	$file = $view->file_get_contents('/' . $_POST['file']);
+	$file = $view->file_get_contents('/imports/' . $_POST['file']);
 } else {
 	$file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
 }
@@ -56,10 +55,8 @@ if(isset($_POST['method']) && $_POST['method'] == 'new'){
 }
 //analyse the contacts file
 writeProgress('40');
+$file = str_replace(array("\r","\n\n"), array("\n","\n"), $file);
 $lines = explode($nl, $file);
-if(count($lines) == 1) { // Mac eol
-	$lines = explode($cr, $file);
-}
 
 $inelement = false;
 $parts = array();

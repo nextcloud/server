@@ -27,13 +27,16 @@ OCP\JSON::callCheck();
 require_once('loghandler.php');
 
 $view = OCP\Files::getStorage('contacts');
+if(!$view->file_exists('imports')) {
+	$view->mkdir('imports');
+}
 $tmpfile = md5(rand());
 
 // If it is a Drag'n'Drop transfer it's handled here.
 $fn = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
 if($fn) {
-	if($view->file_put_contents('/'.$tmpfile, file_get_contents('php://input'))) {
-		OCP\JSON::success(array('data' => array('path'=>'', 'file'=>$tmpfile)));
+	if($view->file_put_contents('/imports/'.$fn, file_get_contents('php://input'))) {
+		OCP\JSON::success(array('data' => array('file'=>$tmpfile, 'name'=>$fn)));
 		exit();
 	} else {
 		bailOut(OC_Contacts_App::$l10n->t('Error uploading contacts to storage.'));
@@ -60,10 +63,9 @@ if($error !== UPLOAD_ERR_OK) {
 }
 $file=$_FILES['importfile'];
 
-$tmpfname = tempnam(get_temp_dir(), "occOrig");
 if(file_exists($file['tmp_name'])) {
-	if($view->file_put_contents('/'.$tmpfile, file_get_contents($file['tmp_name']))) {
-		OCP\JSON::success(array('data' => array('path'=>'', 'file'=>$tmpfile)));
+	if($view->file_put_contents('/imports/'.$file['name'], file_get_contents($file['tmp_name']))) {
+		OCP\JSON::success(array('data' => array('file'=>$file['name'], 'name'=>$file['name'])));
 	} else {
 		bailOut(OC_Contacts_App::$l10n->t('Error uploading contacts to storage.'));
 	}

@@ -14,7 +14,6 @@ for($i = 0; $i < count($option_addressbooks); $i++){
 <tr>
 	<td colspan="5" style="padding: 0.5em;">
 		<a class="button" href="#" onclick="Contacts.UI.Addressbooks.newAddressbook(this);"><?php echo $l->t('New Address Book') ?></a>
-		<a class="button" href="#" onclick="Contacts.UI.Addressbooks.importAddressbook(this);"><?php echo $l->t('Import from VCF') ?></a>
 	</td>
 </tr>
 <tr>
