@@ -1787,7 +1787,8 @@ $(document).ready(function(){
 			},
 			fail: function(e, data) {
 				console.log('fail');
-				// TODO: cancel upload & display error notification
+				Contacts.UI.notify(data.errorThrown + ': ' + data.textStatus);
+				// TODO: Remove file from upload queue.
 			},
 			progressall: function(e, data) {
 				var progress = (data.loaded/data.total)*50;
