@@ -30,7 +30,7 @@ if ( isset( $_GET['path'] ) ) {
 	$path = $_GET['path'];
 	$path = strip_tags( $path );
 	$tmpl->assign( 'path', $path );
-	$versions = new OCA_Versions\Storage( new OC_FilesystemView('') );
+	$versions = new OCA_Versions\Storage();
 
 	// roll back to old version if button clicked
         if( isset( $_GET['revert'] ) ) {

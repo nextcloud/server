@@ -47,25 +47,24 @@ UserList={
 		if( !UserList.deleteCanceled && UserList.deleteUid ){
 			
 			// Delete user via ajax
-			$.post(
-				OC.filePath('settings','ajax','removeuser.php'),
-				{username:UserList.deleteUid},
-				function(result){
-					
-					// Remove undo option, & remove user from table
-					boolOperationFinished( 
-						data, function(){
-							$('#notification').fadeOut();
-							$('tr').filterAttr( 'data-uid', username ).remove();
-							UserList.deleteCanceled=true;
-							UserList.deleteFiles=null;
-							if( ready ){
-								ready();
-							}
+			$.ajax({
+				type: 'POST',
+				url: OC.filePath('settings', 'ajax', 'removeuser.php'),
+				async: false,
+				data: { username: UserList.deleteUid },
+				success: function(result) {
+					if (result.status == 'success') {
+						// Remove undo option, & remove user from table
+						$('#notification').fadeOut();
+						$('tr').filterAttr('data-uid', UserList.deleteUid).remove();
+						UserList.deleteCanceled = true;
+						UserList.deleteFiles = null;
+						if (ready) {
+							ready();
 						}
-					);
+					}
 				}
-			);
+			});
  		}
 	}
 }
@@ -186,7 +185,7 @@ $(document).ready(function(){
 	})
 	
 	$('input.quota-other').live('change',function(){
-		var uid=$(this).parent().parent().data('uid');
+		var uid=$(this).parent().parent().parent().data('uid');
 		var quota=$(this).val();
 		var select=$(this).prev();
 		var other=$(this);

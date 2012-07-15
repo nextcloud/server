@@ -62,8 +62,8 @@
 
   function getViewportOffset() {
     return {
-      top:  w.pageYOffset || documentElement.scrollTop   || d.body.scrollTop,
-      left: w.pageXOffset || documentElement.scrollLeft  || d.body.scrollLeft
+      top:  w.pageYOffset || documentElement.scrollTop   || (d.body?d.body.scrollTop:0),
+      left: w.pageXOffset || documentElement.scrollLeft  || (d.body?d.body.scrollLeft:0)
     };
   }
 
