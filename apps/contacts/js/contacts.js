@@ -12,13 +12,10 @@ String.prototype.strip_tags = function(){
 
 Contacts={
 	UI:{
-		notify:function(msg, ndata) {
-			$('#notification').text(msg);
-			if(data) {
-				$('#notification').data(ndata[0],ndata[1]);
-			}
+		notify:function(params) {
+			$('#notification').text(params.message);
 			$('#notification').fadeIn();
-			setTimeout($('#notification').fadeOut(), 10000);
+			setTimeout(function() {$('#notification').fadeOut();}, 10000);
 		},
 		notImplemented:function() {
 			OC.dialogs.alert(t('contacts', 'Sorry, this functionality has not been implemented yet'), t('contacts', 'Not implemented'));
@@ -1421,7 +1418,7 @@ Contacts={
 				$.post(OC.filePath('contacts', '', 'import.php'), { id: aid, file: file, fstype: 'OC_FilesystemView' },
 					function(jsondata){
 						if(jsondata.status != 'success'){
-							Contacts.UI.notify(jsondata.data.message);
+							Contacts.UI.notify({message:jsondata.data.message});
 						}
 				});
 				return false;
@@ -1757,12 +1754,12 @@ $(document).ready(function(){
 										// import the file
 										uploadedfiles += 1;
 									} else {
-										Contacts.UI.notify(jsondata.data.message);
+										Contacts.UI.notify({message:jsondata.data.message});
 									}
 									return false;
 								})
 								.error(function(jqXHR, textStatus, errorThrown) {
-									Contacts.UI.notify(errorThrown + ': ' + textStatus);
+									Contacts.UI.notify({message:errorThrown + ': ' + textStatus,});
 								});
 							uploadingFiles[fileName] = jqXHR;
 						}
@@ -1779,7 +1776,7 @@ $(document).ready(function(){
 								}
 								FileList.loadingDone(file.name);
 							} else {
-								Contacts.UI.notify(response.data.message);
+								Contacts.UI.notify({message:response.data.message});
 							}
 						});
 					}
@@ -1787,7 +1784,7 @@ $(document).ready(function(){
 			},
 			fail: function(e, data) {
 				console.log('fail');
-				Contacts.UI.notify(data.errorThrown + ': ' + data.textStatus);
+				Contacts.UI.notify({message:data.errorThrown + ': ' + data.textStatus});
 				// TODO: Remove file from upload queue.
 			},
 			progressall: function(e, data) {
@@ -1806,7 +1803,7 @@ $(document).ready(function(){
 				var importFiles = function(aid, fileList) {
 					// Create a closure that can be called from different places.
 					if(numfiles != uploadedfiles) {
-						Contacts.UI.notify('Not all files uploaded. Retrying...');
+						Contacts.UI.notify({message:t('contacts', 'Not all files uploaded. Retrying...')});
 						retries += 1;
 						if(retries > 0) {
 							numfiles = uploadedfiles = retries = aid = 0;
