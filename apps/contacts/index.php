@@ -15,7 +15,7 @@ OCP\App::checkAppEnabled('contacts');
 // Get active address books. This creates a default one if none exists.
 $ids = OC_Contacts_Addressbook::activeIds(OCP\USER::getUser());
 $has_contacts = (count(OC_Contacts_VCard::all($ids, 0, 1)) > 0 ? true : false); // just to check if there are any contacts.
-if($contacts === false) {
+if($has_contacts === false) {
 	OCP\Util::writeLog('contacts','index.html: No contacts found.',OCP\Util::DEBUG);
 }
 
@@ -42,6 +42,7 @@ OCP\Util::addscript('','oc-vcategories');
 OCP\Util::addscript('contacts','contacts');
 OCP\Util::addscript('contacts','expanding');
 OCP\Util::addscript('contacts','jquery.combobox');
+OCP\Util::addscript('files', 'jquery.fileupload');
 OCP\Util::addscript('contacts','jquery.inview');
 OCP\Util::addscript('contacts','jquery.Jcrop');
 OCP\Util::addscript('contacts','jquery.multi-autocomplete');

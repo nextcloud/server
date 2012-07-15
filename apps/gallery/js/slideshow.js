@@ -15,7 +15,7 @@ $(document).ready(function(){
 
 		var images=[];
 		$('#gallerycontent div a').each(function(i,a){
-			images.push({image : a.href, title : a.title, thumb : a.children[0].src, url : 'javascript:$.endSlideshow()'});
+			images.push({image : a.href, title : a.title.replace(/</, '&lt;').replace(/>/, '&gt;'), thumb : a.children[0].src, url : 'javascript:$.endSlideshow()'});
 		});
 
 		if (images.length <= 0) {

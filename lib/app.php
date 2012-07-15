@@ -613,7 +613,7 @@ class OC_App{
 		//set remote/public handelers
 		$appData=self::getAppInfo($appid);
 		foreach($appData['remote'] as $name=>$path){
-			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $path);
+			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $appid.'/'.$path);
 		}
 		foreach($appData['public'] as $name=>$path){
 			OCP\CONFIG::setAppValue('core', 'public_'.$name, $appid.'/'.$path);

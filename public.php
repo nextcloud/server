@@ -10,6 +10,7 @@ if(is_null($file)){
 
 $parts=explode('/',$file,2);
 $app=$parts[0];
+
 OC_Util::checkAppEnabled($app);
 OC_App::loadApp($app);
 

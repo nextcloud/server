@@ -133,7 +133,7 @@ class OC_Contacts_Addressbook{
 		if(is_null($uid)) {
 			$uid = OCP\USER::getUser();
 		}
-		$id = self::add($uid,'default','Default Address Book');
+		$id = self::add($uid,'Contacts','Default Address Book');
 		if($id !== false) {
 			self::setActive($id, true);
 		}
@@ -306,7 +306,7 @@ class OC_Contacts_Addressbook{
 	 * @return string new name
 	 */
 	public static function createURI($name,$existing){
-		$name = strtolower($name);
+		$name = str_replace(' ', '_', strtolower($name));
 		$newname = $name;
 		$i = 1;
 		while(in_array($newname,$existing)){

@@ -41,7 +41,7 @@ class OC_Contacts_App {
 		$card = OC_Contacts_VCard::find( $id );
 		if( $card === false ) {
 			OCP\Util::writeLog('contacts', 'Contact could not be found: '.$id, OCP\Util::ERROR);
-			OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('Contact could not be found.').' '.$id)));
+			OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('Contact could not be found.').' '.print_r($id, true))));
 			exit();
 		}
 
