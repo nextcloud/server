@@ -1643,53 +1643,55 @@ $(document).ready(function(){
 		Contacts.UI.Card.saveProperty(this);
 	});
 
-	// Upload function for dropped contact photos files. Should go in the Contacts class/object.
-	$.fileUpload = function(files){
-		var file = files[0];
-		if(file.size > $('#max_upload').val()){
-			OC.dialogs.alert(t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'), t('contacts','Upload too large'));
-			return;
-		}
-		if (file.type.indexOf("image") != 0) {
-			OC.dialogs.alert(t('contacts','Only image files can be used as profile picture.'), t('contacts','Wrong file type'));
-			return;
-		}
-		var xhr = new XMLHttpRequest();
+	$(function() {
+		// Upload function for dropped contact photos files. Should go in the Contacts class/object.
+		$.fileUpload = function(files){
+			var file = files[0];
+			if(file.size > $('#max_upload').val()){
+				OC.dialogs.alert(t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'), t('contacts','Upload too large'));
+				return;
+			}
+			if (file.type.indexOf("image") != 0) {
+				OC.dialogs.alert(t('contacts','Only image files can be used as profile picture.'), t('contacts','Wrong file type'));
+				return;
+			}
+			var xhr = new XMLHttpRequest();
 
-		if (!xhr.upload) {
-			OC.dialogs.alert(t('contacts', 'Your browser doesn\'t support AJAX upload. Please click on the profile picture to select a photo to upload.'), t('contacts', 'Error'))
-		}
-		fileUpload = xhr.upload,
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState == 4){
-				response = $.parseJSON(xhr.responseText);
-				if(response.status == 'success') {
-					if(xhr.status == 200) {
-						Contacts.UI.Card.editPhoto(response.data.id, response.data.tmp);
+			if (!xhr.upload) {
+				OC.dialogs.alert(t('contacts', 'Your browser doesn\'t support AJAX upload. Please click on the profile picture to select a photo to upload.'), t('contacts', 'Error'))
+			}
+			fileUpload = xhr.upload,
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4){
+					response = $.parseJSON(xhr.responseText);
+					if(response.status == 'success') {
+						if(xhr.status == 200) {
+							Contacts.UI.Card.editPhoto(response.data.id, response.data.tmp);
+						} else {
+							OC.dialogs.alert(xhr.status + ': ' + xhr.responseText, t('contacts', 'Error'));
+						}
 					} else {
-						OC.dialogs.alert(xhr.status + ': ' + xhr.responseText, t('contacts', 'Error'));
+						OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
 					}
-				} else {
-					OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
 				}
-			}
-		};
-	
-		fileUpload.onprogress = function(e){
-			if (e.lengthComputable){
-				var _progress = Math.round((e.loaded * 100) / e.total);
-				//if (_progress != 100){
-				//}
-			}
-		};
-		xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadphoto.php')+'?id='+Contacts.UI.Card.id+'&requesttoken='+requesttoken+'&imagefile='+encodeURIComponent(file.name), true);
-		xhr.setRequestHeader('Cache-Control', 'no-cache');
-		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-		xhr.setRequestHeader('X_FILE_NAME', encodeURIComponent(file.name));
-		xhr.setRequestHeader('X-File-Size', file.size);
-		xhr.setRequestHeader('Content-Type', file.type);
-		xhr.send(file);
-	}
+			};
+		
+			fileUpload.onprogress = function(e){
+				if (e.lengthComputable){
+					var _progress = Math.round((e.loaded * 100) / e.total);
+					//if (_progress != 100){
+					//}
+				}
+			};
+			xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadphoto.php')+'?id='+Contacts.UI.Card.id+'&requesttoken='+requesttoken+'&imagefile='+encodeURIComponent(file.name), true);
+			xhr.setRequestHeader('Cache-Control', 'no-cache');
+			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+			xhr.setRequestHeader('X_FILE_NAME', encodeURIComponent(file.name));
+			xhr.setRequestHeader('X-File-Size', file.size);
+			xhr.setRequestHeader('Content-Type', file.type);
+			xhr.send(file);
+		}
+	});
 
 	$(document).bind('drop dragover', function (e) {
 			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
