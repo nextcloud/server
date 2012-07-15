@@ -1535,7 +1535,7 @@ Contacts={
 									return false;
 								});
 								var accept = 'li:not([data-bookid="'+b+'"])';
-								$('#contacts h3[data-id="'+b+'"]').droppable({
+								$('#contacts h3[data-id="'+b+'"],#contacts ul[data-id="'+b+'"]').droppable({
 									drop: Contacts.UI.Contacts.drop,
 									activeClass: 'ui-state-hover',
 									accept: accept
