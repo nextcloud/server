@@ -285,7 +285,7 @@ Contacts={
 			data:undefined,
 			update:function(params) { // params {cid:int, aid:int}
 				if(!params) { params = {}; }
-				$('#contacts li').removeClass('active');
+				$('#contacts li,#contacts h3').removeClass('active');
 				console.log('Card, cid: ' + params.cid + ' aid: ' + params.aid);
 				var newid, bookid, firstitem;
 				if(!parseInt(params.cid) && !parseInt(params.aid)) {
@@ -311,7 +311,7 @@ Contacts={
 				console.log('newid: ' + newid + ' bookid: ' +bookid);
 				var localLoadContact = function(newid, bookid) {
 					if($('.contacts li').length > 0) {
-						$('#contacts li[data-id="'+newid+'"]').addClass('active');
+						$('#contacts li[data-id="'+newid+'"],#contacts h3[data-id="'+bookid+'"]').addClass('active');
 						$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
 							if(jsondata.status == 'success'){
 								$('#contacts ul[data-id="'+bookid+'"]').slideDown(300);
@@ -1634,7 +1634,13 @@ $(document).ready(function(){
 			item.addClass('active');
 			var oldid = $('#rightcontent').data('id');
 			if(oldid != 0){
-				$('.contacts li[data-id="'+oldid+'"]').removeClass('active');
+				var olditem = $('.contacts li[data-id="'+oldid+'"]');
+				var oldbookid = olditem.data('bookid');
+				olditem.removeClass('active');
+				if(oldbookid != bookid) {
+					$('#contacts h3[data-id="'+oldbookid+'"]').removeClass('active');
+					$('#contacts h3[data-id="'+bookid+'"]').addClass('active');
+				}
 			}
 			$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
 				if(jsondata.status == 'success'){
