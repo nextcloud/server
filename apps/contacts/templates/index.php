@@ -11,13 +11,13 @@
 	</div>
 	<div id="uploadprogressbar"></div>
 	<div id="bottomcontrols">
-		<form>
-			<button class="svg" id="contacts_newcontact" title="<?php echo $l->t('Add Contact'); ?>"><img class="svg" src="<?php echo OCP\Util::imagePath('contacts', 'contact-new.svg'); ?>" alt="<?php echo $l->t('Add Contact'); ?>" /></button>
-			<button class="svg" id="contacts_import" title="<?php echo $l->t('Import'); ?>"><img class="svg" src="core/img/actions/upload.svg" alt="<?php echo $l->t('Import'); ?>" /></button>
-			<button class="svg" id="chooseaddressbook" title="<?php echo $l->t('Addressbooks'); ?>"><img class="svg" src="core/img/actions/settings.svg" alt="<?php echo $l->t('Addressbooks'); ?>" /></button>
-		</form>
 		<form id="import_upload_form" action="<?php echo OCP\Util::linkTo('contacts', 'ajax/uploadimport.php'); ?>" method="post" enctype="multipart/form-data" target="import_upload_target">
-			<input class="float" id="import_upload_start" type="file" accept="text/*" name="importfile" /></a>
+			<button class="svg" id="contacts_newcontact" title="<?php echo $l->t('Add Contact'); ?>"><img class="svg" src="<?php echo OCP\Util::imagePath('contacts', 'contact-new.svg'); ?>" alt="<?php echo $l->t('Add Contact'); ?>" /></button>
+			<span class="svg" id="contacts_import" title="<?php echo $l->t('Import'); ?>">
+				<input class="float" id="import_upload_start" type="file" accept="text/directory,text/vcard,text/x-vcard" name="importfile" />
+				<img class="svg" src="core/img/actions/upload.svg" alt="<?php echo $l->t('Import'); ?>" />
+			</span>
+			<button class="svg" id="chooseaddressbook" title="<?php echo $l->t('Addressbooks'); ?>"><img class="svg" src="core/img/actions/settings.svg" alt="<?php echo $l->t('Addressbooks'); ?>" /></button>
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
 		</form>
 		<iframe name="import_upload_target" id='import_upload_target' src=""></iframe>

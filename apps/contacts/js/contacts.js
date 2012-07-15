@@ -1704,12 +1704,9 @@ $(document).ready(function(){
 		var uploadingFiles = {}, numfiles = 0, uploadedfiles = 0, retries = 0;
 		var aid;
 		
-		$('#contacts_import').click(function() { // TODO: Trick IE by hiding fileupload behind button.
-			$('#import_upload_start').click();
-			return false;
-		});
 		$('#import_upload_start').fileupload({
 			dropZone: $('#contacts'), // restrict dropZone to contacts list.
+			acceptFileTypes:  /^text\/(directory|vcard|x-vcard)$/i,
 			add: function(e, data) {
 				var files = data.files;
 				var totalSize=0;
@@ -1759,6 +1756,7 @@ $(document).ready(function(){
 									return false;
 								})
 								.error(function(jqXHR, textStatus, errorThrown) {
+									console.log(textStatus);
 									Contacts.UI.notify({message:errorThrown + ': ' + textStatus,});
 								});
 							uploadingFiles[fileName] = jqXHR;
