@@ -1474,8 +1474,8 @@ Contacts={
 							var name = $(dragitem).find('a').html();
 							var added = false;
 							$(droplist).children().each(function(){
-								if (droptarget.text().toLowerCase() > name.toLowerCase()) {
-									droptarget.before(dragitem.detach()); //.fadeIn('slow');
+								if ($(this).text().toLowerCase() > name.toLowerCase()) {
+									$(this).before(dragitem.detach()); //.fadeIn('slow');
 									added = true;
 									return false;
 								}
