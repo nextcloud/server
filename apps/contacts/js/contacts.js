@@ -187,16 +187,7 @@ Contacts={
 				}
 			] );
 			
-			/*$('#fn').blur(function(){
-				if($('#fn').val() == '') {
-					OC.dialogs.alert(t('contacts','The name field cannot be empty. Please enter a name for this contact.'), t('contacts','Name is empty'), function() { $('#fn').focus(); });
-					$('#fn').focus();
-					return false;
-				}
-			});*/
-			
 			// Name has changed. Update it and reorder.
-			// TODO: Take addressbook into account
 			$('#fn').change(function(){
 				var name = $('#fn').val().strip_tags();
 				var item = $('.contacts li[data-id="'+Contacts.UI.Card.id+'"]');
