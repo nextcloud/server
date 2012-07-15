@@ -4,15 +4,36 @@
 require_once('../../lib/base.php');
 
 // Check if we are a user
-if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
+if( !OC_User::isLoggedIn() || (!OC_Group::inGroup( OC_User::getUser(), 'admin' ) && !OC_SubAdmin::isSubAdmin(OC_User::getUser()))){
 	OC_JSON::error(array("data" => array( "message" => "Authentication error" )));
 	exit();
 }
 OCP\JSON::callCheck();
 
-$groups = array();
-if( isset( $_POST["groups"] )){
-	$groups = $_POST["groups"];
+$isadmin = OC_Group::inGroup(OC_User::getUser(),'admin')?true:false;
+
+if($isadmin){
+	$groups = array();
+	if( isset( $_POST["groups"] )){
+		$groups = $_POST["groups"];
+	}
+}else{
+	$accessiblegroups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
+	$accessiblegroups = array_flip($accessiblegroups);
+	if(isset( $_POST["groups"] )){
+		$unauditedgroups = $_POST["groups"];
+		$groups = array();
+		foreach($unauditedgroups as $group){
+			if(array_key_exists($group, $accessiblegroups)){
+				$groups[] = $group;
+			}
+		}
+		if(count($groups) == 0){
+			$groups = array_flip($accessiblegroups);
+		}
+	}else{
+		$groups = array_flip($accessiblegroups);
+	}
 }
 $username = $_POST["username"];
 $password = $_POST["password"];

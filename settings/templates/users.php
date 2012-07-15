@@ -6,9 +6,12 @@
  */
 $allGroups=array();
 foreach($_["groups"] as $group) {
-	$allGroups[]=$group['name'];
+	$allGroups[] = $group['name'];
 }
-$_['subadmingroups'] = $_['groups'];
+$_['subadmingroups'] = $allGroups;
+$items = array_flip($_['subadmingroups']);
+unset($items['admin']);
+$_['subadmingroups'] = array_flip($items);
 ?>
 
 <div id="controls">
@@ -16,6 +19,7 @@ $_['subadmingroups'] = $_['groups'];
 		<input id="newusername" placeholder="<?php echo $l->t('Name')?>" /> <input
 			type="password" id="newuserpassword"
 			placeholder="<?php echo $l->t('Password')?>" /> <select
+			class="groupsselect"
 			id="newusergroups" data-placeholder="groups"
 			title="<?php echo $l->t('Groups')?>" multiple="multiple">
 			<?php foreach($_["groups"] as $group): ?>
@@ -62,7 +66,7 @@ $_['subadmingroups'] = $_['groups'];
 			<th id="headerPassword"><?php echo $l->t( 'Password' ); ?></th>
 			<th id="headerGroups"><?php echo $l->t( 'Groups' ); ?></th>
 			<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
-			<th id="headerSubAdmins"><?php echo $l->t('SubAdmins'); ?></th>
+			<th id="headerSubAdmins"><?php echo $l->t('SubAdmin'); ?></th>
 			<?php endif;?>
 			<th id="headerQuota"><?php echo $l->t( 'Quota' ); ?></th>
 			<th id="headerRemove">&nbsp;</th>
@@ -74,9 +78,10 @@ $_['subadmingroups'] = $_['groups'];
 			<td class="name"><?php echo $user["name"]; ?></td>
 			<td class="password"><span>●●●●●●●</span> <img class="svg action"
 				src="<?php echo image_path('core','actions/rename.svg')?>"
-				alt="set new password" title="set new password" />
+				alt="set new password" title="set new password"/>
 			</td>
 			<td class="groups"><select
+				class="groupsselect"
 				data-username="<?php echo $user['name'] ;?>"
 				data-user-groups="<?php echo $user['groups'] ;?>"
 				data-placeholder="groups" title="<?php echo $l->t('Groups')?>"
@@ -90,13 +95,14 @@ $_['subadmingroups'] = $_['groups'];
 			</td>
 			<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
 			<td class="subadmins"><select
+				class="subadminsselect"
 				data-username="<?php echo $user['name'] ;?>"
-				data-user-groups="<?php echo $user['groups'] ;?>"
+				data-subadmin="<?php echo $user['subadmin'] ;?>"
 				data-placeholder="subadmins" title="<?php echo $l->t('SubAdmin for ...')?>"
 				multiple="multiple">
 					<?php foreach($_["subadmingroups"] as $group): ?>
-					<option value="<?php echo $group['name'];?>">
-						<?php echo $group['name'];?>
+					<option value="<?php echo $group;?>">
+						<?php echo $group;?>
 					</option>
 					<?php endforeach;?>
 			</select>

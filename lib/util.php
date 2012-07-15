@@ -328,16 +328,13 @@ class OC_Util {
 		// Check if we are a user
 		self::checkLoggedIn();
 		if(OC_Group::inGroup(OC_User::getUser(),'admin')){
-			return OC_Group::getGroups();
+			return true;
 		}
-		$stmt = OC_DB::prepare('SELECT COUNT(*) as count FROM *PREFIX*group_admin WHERE uid = ?');
-		$result = $stmt->execute(array(OC_User::getUser()));
-		$result = $result->fetchRow();
-		if($result['count'] == 0){
+		if(!OC_SubAdmin::isSubAdmin(OC_User::getUser())){
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
-		return $groups;
+		return true;
 	}
 
 	/**

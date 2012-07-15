@@ -19,20 +19,20 @@ $groups = array();
 
 $isadmin = OC_Group::inGroup(OC_User::getUser(),'admin')?true:false;
 if($isadmin){
-	$groups = OC_Group::getGroups();
+	$accessiblegroups = OC_Group::getGroups();
 	$accessibleusers = OC_User::getUsers();
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
 }else{
-	$groups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
-	$accessibleusers = OC_Group::usersInGroups($groups);
+	$accessiblegroups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
+	$accessibleusers = OC_Group::usersInGroups($accessiblegroups);
 	$subadmins = false;
 }
 
 foreach($accessibleusers as $i){
-	$users[] = array( "name" => $i, "groups" => join( ", ", /*array_intersect(*/OC_Group::getUserGroups($i)/*, OC_SubAdmin::getSubAdminsGroups(OC_User::getUser()))*/),'quota'=>OC_Preferences::getValue($i,'files','quota','default'));
+	$users[] = array( "name" => $i, "groups" => join( ", ", /*array_intersect(*/OC_Group::getUserGroups($i)/*, OC_SubAdmin::getSubAdminsGroups(OC_User::getUser()))*/),'quota'=>OC_Preferences::getValue($i,'files','quota','default'),'subadmin'=>implode(', ',OC_SubAdmin::getSubAdminsGroups($i)));
 }
 
-foreach( $groups as $i ){
+foreach( $accessiblegroups as $i ){
 	// Do some more work here soon
 	$groups[] = array( "name" => $i );
 }
@@ -55,7 +55,9 @@ if (\OC_App::isEnabled( "files_sharing" ) ) {
 $tmpl = new OC_Template( "settings", "users", "user" );
 $tmpl->assign( "users", $users );
 $tmpl->assign( "groups", $groups );
+$tmpl->assign( 'isadmin', $isadmin);
 $tmpl->assign( 'subadmins', $subadmins);
+$tmpl->assign( 'numofgroups', count($accessiblegroups));
 $tmpl->assign( 'quota_preset', $quotaPreset);
 $tmpl->assign( 'default_quota', $defaultQuota);
 $tmpl->assign( 'share_notice', $shareNotice);

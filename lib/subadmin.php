@@ -38,9 +38,6 @@ class OC_SubAdmin{
 	public static function createSubAdmin($uid, $gid){
 		$stmt = OC_DB::prepare('INSERT INTO *PREFIX*group_admin (gid,uid) VALUES(?,?)');
 		$result = $stmt->execute(array($gid, $uid));
-		if(OC_DB::isError($result)){
-			return false;
-		}
 		OC_Hook::emit( "OC_SubAdmin", "post_createSubAdmin", array( "gid" => $gid ));
 		return true;
 	}
@@ -54,9 +51,6 @@ class OC_SubAdmin{
 	public static function deleteSubAdmin($uid, $gid){
 		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*group_admin WHERE gid = ? AND uid = ?');
 		$result = $stmt->execute(array($gid, $uid));
-		if(OC_DB::isError($result)){
-			return false;
-		}
 		OC_Hook::emit( "OC_SubAdmin", "post_deleteSubAdmin", array( "gid" => $gid ));
 		return true;
 	}
@@ -68,7 +62,7 @@ class OC_SubAdmin{
 	 */
 	public static function getSubAdminsGroups($uid){
 		$stmt = OC_DB::prepare('SELECT gid FROM *PREFIX*group_admin WHERE uid = ?');
-		$result = $stmt->execute(array($gid, $uid));
+		$result = $stmt->execute(array($uid));
 		$gids = array();
 		while($row = $result->fetchRow()){
 			$gids[] = $row['gid'];
@@ -83,7 +77,7 @@ class OC_SubAdmin{
 	 */
 	public static function getGroupsSubAdmins($gid){
 		$stmt = OC_DB::prepare('SELECT uid FROM *PREFIX*group_admin WHERE gid = ?');
-		$result = $stmt->execute(array($gid, $uid));
+		$result = $stmt->execute(array($gid));
 		$uids = array();
 		while($row = $result->fetchRow()){
 			$uids[] = $row['uid'];
@@ -97,11 +91,35 @@ class OC_SubAdmin{
 	 */
 	public static function getAllSubAdmins(){
 		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*group_admin');
-		$result = $stmt->execute(array($gid, $uid));
+		$result = $stmt->execute();
 		$subadmins = array();
 		while($row = $result->fetchRow()){
 			$subadmins[] = $row;
 		}
 		return $subadmins;
+	}
+	
+	/**
+	 * @brief checks if a user is a SubAdmin of a group
+	 * @return array
+	 */
+	public static function isSubAdminofGroup($uid, $gid){
+		$stmt = OC_DB::prepare('SELECT COUNT(*) as count FROM *PREFIX*group_admin where uid = ? AND gid = ?');
+		$result = $stmt->execute(array($uid, $gid));
+		$result = $result->fetchRow();
+		if($result['count'] >= 1){
+			return true;
+		}
+		return false;
+	}
+	
+	public static function isSubAdmin($uid){
+		$stmt = OC_DB::prepare('SELECT COUNT(*) as count FROM *PREFIX*group_admin WHERE uid = ?');
+		$result = $stmt->execute(array($uid));
+		$result = $result->fetchRow();
+		if($result['count'] > 0){
+			return true;
+		}
+		return false;
 	}
 }
