@@ -1456,20 +1456,26 @@ Contacts={
 			batchnum:50,
 			drop:function(event, ui) {
 				var dragitem = ui.draggable, droptarget = $(this);
-				//console.log('Drop ' + dragitem.data('id') +' on: ' + droptarget.data('id'));
+				if(dragitem.is('li')) {
+					Contacts.UI.Contacts.dropContact(event, dragitem, droptarget);
+				} else {
+					Contacts.UI.Contacts.dropAddressbook(event, dragitem, droptarget);
+				}
+			},
+			dropContact:function(event, dragitem, droptarget) {
 				if(dragitem.data('bookid') == droptarget.data('id')) {
 					return false;
 				}
 				var droplist = (droptarget.is('ul'))?droptarget:droptarget.next();
-				$.post(OC.filePath('contacts', 'ajax', 'movetoaddressbook.php'), { ids: dragitem.data('id'), aid: $(this).data('id') },
+				$.post(OC.filePath('contacts', 'ajax', 'movetoaddressbook.php'), { ids: dragitem.data('id'), aid: droptarget.data('id') },
 					function(jsondata){
 						if(jsondata.status == 'success'){
 							// Do some inserting/removing/sorting magic
 							var name = $(dragitem).find('a').html();
 							var added = false;
 							$(droplist).children().each(function(){
-								if ($(this).text().toLowerCase() > name.toLowerCase()) {
-									$(this).before(dragitem.detach()); //.fadeIn('slow');
+								if (droptarget.text().toLowerCase() > name.toLowerCase()) {
+									droptarget.before(dragitem.detach()); //.fadeIn('slow');
 									added = true;
 									return false;
 								}
@@ -1484,6 +1490,9 @@ Contacts={
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 				});
+			},
+			dropAddressbook:function(event, dragitem, droptarget) {
+				alert('Dropping address books not implemented yet');
 			},
 			// Reload the contacts list.
 			update:function(params){
@@ -1534,7 +1543,7 @@ Contacts={
 									$('#contacts ul[data-id="'+b+'"]').slideToggle(300);
 									return false;
 								});
-								var accept = 'li:not([data-bookid="'+b+'"])';
+								var accept = 'li:not([data-bookid="'+b+'"]),h3:not([data-id="'+b+'"])';
 								$('#contacts h3[data-id="'+b+'"],#contacts ul[data-id="'+b+'"]').droppable({
 									drop: Contacts.UI.Contacts.drop,
 									activeClass: 'ui-state-hover',
@@ -1562,7 +1571,7 @@ Contacts={
 							}
 						});
 						if($('#contacts h3').length > 1) {
-							$('#contacts li').draggable({
+							$('#contacts li,#contacts h3').draggable({
 								revert: 'invalid',
 								axis: 'y', containment: '#contacts',
 								scroll: true, scrollSensitivity: 100,
