@@ -1509,16 +1509,26 @@ Contacts={
 				$.getJSON(OC.filePath('contacts', 'ajax', 'contacts.php'),opts,function(jsondata){
 					if(jsondata.status == 'success'){
 						var books = jsondata.data.entries;
-						$.each(jsondata.data.entries, function(b, book) { 
+						$.each(books, function(b, book) { 
 							if($('#contacts h3[data-id="'+b+'"]').length == 0) {
 								firstrun = true;
-								// TODO: Make sure address books are sorted properly.
 								if($('#contacts h3').length == 0) {
 									$('#contacts').html('<h3 class="addressbook" contextmenu="addressbookmenu" data-id="'+b+'">'+book.displayname+'</h3><ul class="contacts hidden" data-id="'+b+'"></ul>');
 								} else {
 									if(!$('#contacts h3[data-id="'+b+'"]').length) {
-										$('<h3 class="addressbook" contextmenu="addressbookmenu" data-id="'+b+'">'+book.displayname+'</h3><ul class="contacts hidden" data-id="'+b+'"></ul>')
-										.appendTo('#contacts');
+										var item = $('<h3 class="addressbook" contextmenu="addressbookmenu" data-id="'+b+'">'+book.displayname+'</h3><ul class="contacts hidden" data-id="'+b+'"></ul>')
+										var added = false;
+										$('#contacts h3').each(function(){
+											if ($(this).text().toLowerCase() > book.displayname.toLowerCase()) {
+												$(this).before(item).fadeIn('fast');
+												added = true;
+												return false;
+											}
+										});
+										if(!added) {
+											$('#contacts').append(item);
+										}
+										
 									}
 								}
 								$('#contacts h3[data-id="'+b+'"]').on('click', function(event) {
