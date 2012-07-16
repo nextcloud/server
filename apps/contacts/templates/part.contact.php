@@ -117,7 +117,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 <div id="edit_photo_dialog" title="Edit photo">
 		<div id="edit_photo_dialog_img"></div>
 </div>
-<script language="Javascript">
+<script type="text/javascript">
 $(document).ready(function(){
 	if('<?php echo $id; ?>'!='') {
 		$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':'<?php echo $id; ?>'},function(jsondata){
