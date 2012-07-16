@@ -89,7 +89,7 @@ switch($element) {
 	case 'BDAY':
 		$date = New DateTime($value);
 		//$vcard->setDateTime('BDAY', $date, Sabre_VObject_Element_DateTime::DATE);
-		$value = $date->format(DateTime::ATOM);
+		$value = $date->format('Y-m-d');
 		break;
 	case 'FN':
 		if(!$value) {
@@ -112,6 +112,13 @@ if(!$value) {
 	/* setting value */
 	switch($element) {
 		case 'BDAY':
+			// I don't use setDateTime() because that formats it as YYYYMMDD instead of YYYY-MM-DD
+			// which is what the RFC recommends.
+			$vcard->children[$line]->setValue($value);
+			$vcard->children[$line]->parameters = array();
+			$vcard->children[$line]->add(new Sabre_VObject_Parameter('VALUE', 'DATE'));
+			debug('Setting value:'.$name.' '.$vcard->children[$line]);
+			break;
 		case 'FN':
 		case 'N':
 		case 'ORG':
