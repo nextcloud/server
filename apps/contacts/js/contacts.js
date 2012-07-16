@@ -299,7 +299,13 @@ Contacts={
 					newid = parseInt($('#contacts').find('li[data-bookid="'+bookid+'"]').first().data('id'));
 				} else if(parseInt(params.cid) && !parseInt(params.aid)) {
 					newid = parseInt(params.cid);
-					bookid = parseInt($('#contacts li[data-id="'+newid+'"]').data('bookid'));
+					var listitem = $('#contacts li[data-id="'+newid+'"]');
+					console.log('Is contact in list? ' + listitem.length);
+					if(listitem.length) {
+						bookid = parseInt($('#contacts li[data-id="'+newid+'"]').data('bookid'));
+					} else { // contact isn't in list yet.
+						bookid = 'unknown';
+					}
 				} else {
 					newid = parseInt(params.cid);
 					bookid = parseInt(params.aid);
@@ -311,9 +317,14 @@ Contacts={
 				console.log('newid: ' + newid + ' bookid: ' +bookid);
 				var localLoadContact = function(newid, bookid) {
 					if($('.contacts li').length > 0) {
-						$('#contacts li[data-id="'+newid+'"],#contacts h3[data-id="'+bookid+'"]').addClass('active');
 						$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
 							if(jsondata.status == 'success'){
+								if(bookid == 'unknown') { 
+									bookid = jsondata.data.addressbookid; 
+									var entry = Contacts.UI.Card.createEntry(jsondata.data);
+									$('#contacts ul[data-id="'+bookid+'"]').append(entry);
+								}
+								$('#contacts li[data-id="'+newid+'"],#contacts h3[data-id="'+bookid+'"]').addClass('active');
 								$('#contacts ul[data-id="'+bookid+'"]').slideDown(300);
 								Contacts.UI.Card.loadContact(jsondata.data, bookid);
 							} else {
@@ -1549,9 +1560,10 @@ Contacts={
 								});
 							}
 							var contactlist = $('#contacts ul[data-id="'+b+'"]');
+							var contacts = $('#contacts ul[data-id="'+b+'"] li');
 							for(var c in book.contacts) {
 								if(book.contacts[c].id == undefined) { continue; }
-								if($('#contacts li[data-id="'+book.contacts[c]['id']+'"][data-id="'+book.contacts[c]['bookid']+'"]').length == 0) {
+								if(!$('#contacts li[data-id="'+book.contacts[c]['id']+'"]').length) {
 									var contact = Contacts.UI.Card.createEntry(book.contacts[c]);
 									if(c == self.batchnum-5) {
 										contact.bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
@@ -1564,7 +1576,17 @@ Contacts={
 											}
 										});
 									}
-									contactlist.append(contact);
+									var added = false;
+									contacts.each(function(){
+										if ($(this).text().toLowerCase() > book.contacts[c].displayname.toLowerCase()) {
+											$(this).before(contact);
+											added = true;
+											return false;
+										}
+									});
+									if(!added) {
+										contactlist.append(contact);
+									}
 								}
 							}
 						});
