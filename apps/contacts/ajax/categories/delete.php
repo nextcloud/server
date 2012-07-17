@@ -9,6 +9,7 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+OCP\JSON::callCheck();
 
 require_once('../loghandler.php');
 
