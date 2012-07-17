@@ -21,7 +21,7 @@
  */
 
 /**
- * This class manages shared items within the database. 
+ * This class manages shared items within the database.
  */
 class OC_Share {
 
@@ -31,7 +31,7 @@ class OC_Share {
 	const PUBLICLINK = "public";
 
 	private $token;
-      
+
 	/**
 	 * Share an item, adds an entry into the database
 	 * @param $source The source location of the item
@@ -56,17 +56,22 @@ class OC_Share {
 				// Remove the owner from the list of users in the group
 				$uid_shared_with = array_diff($uid_shared_with, array($uid_owner));
 			} else if (OCP\User::userExists($uid_shared_with)) {
-				$userGroups = OC_Group::getUserGroups($uid_owner);
-				// Check if the user is in one of the owner's groups
-				foreach ($userGroups as $group) {
-					if ($inGroup = OC_Group::inGroup($uid_shared_with, $group)) {
-						$gid = null;
-						$uid_shared_with = array($uid_shared_with);
-						break;
+				if(OCP\Config::getAppValue('files_sharing', 'allowSharingWithEveryone', 'no') == 'yes') {
+					$gid = null;
+					$uid_shared_with = array($uid_shared_with);
+				} else {
+					$userGroups = OC_Group::getUserGroups($uid_owner);
+					// Check if the user is in one of the owner's groups
+					foreach ($userGroups as $group) {
+						if ($inGroup = OC_Group::inGroup($uid_shared_with, $group)) {
+							$gid = null;
+							$uid_shared_with = array($uid_shared_with);
+							break;
+						}
 					}
-				}
-				if (!$inGroup) {
-					throw new Exception("You can't share with ".$uid_shared_with);
+					if (!$inGroup) {
+						throw new Exception("You can't share with ".$uid_shared_with);
+					}
 				}
 			} else {
 				throw new Exception($uid_shared_with." is not a user");
@@ -379,7 +384,7 @@ class OC_Share {
 	 * You must use the pullOutOfFolder() function to change the target location of a file inside a shared folder if the target location differs from the folder
 	 *
 	 * @param $oldTarget The current target location
-	 * @param $newTarget The new target location 
+	 * @param $newTarget The new target location
 	 */
 	public static function setTarget($oldTarget, $newTarget) {
 		$oldTarget = self::cleanPath($oldTarget);
