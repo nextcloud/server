@@ -9,8 +9,9 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+OCP\JSON::callCheck();
 
-require_once('../loghandler.php');
+require_once(__DIR__.'/../loghandler.php');
 
 $categories = isset($_POST['categories'])?$_POST['categories']:null;
 

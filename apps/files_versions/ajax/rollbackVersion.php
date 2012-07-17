@@ -1,6 +1,7 @@
 <?php
 
 OCP\JSON::checkAppEnabled('files_versions');
+OCP\JSON::callCheck();
 
 $userDirectory = "/".OCP\USER::getUser()."/files";
 

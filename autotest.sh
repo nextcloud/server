@@ -1,53 +1,36 @@
+#!/bin/bash
 #
-# sqlite testing now
+# ownCloud
 #
-echo "Setup environment for sqlite testing ..."
+# @author Thomas Müller
+# @copyright 2012 Thomas Müller thomas.mueller@tmit.eu
+#
+
 DATADIR=data-autotest
-rm -rf $DATADIR
-mkdir $DATADIR
-rm -rf config/config.php
-#cp autotest/config.sqlite.php config/autoconfig.php
-cat > ./config/autoconfig.php <<DELIM
+BASEDIR=$PWD
+
+# create autoconfig for sqlite, mysql and (soon) postgresql
+cat > ./tests/autoconfig-sqlite.php <<DELIM
 <?php
 \$AUTOCONFIG = array (
   'installed' => false,
   'dbtype' => 'sqlite',
   'dbtableprefix' => 'oc_',
-  'datadirectory' => 'data',
   'adminlogin' => 'admin',
   'adminpass' => 'admin',
-  'directory' => '$PWD/$DATADIR',
+  'directory' => '$BASEDIR/$DATADIR',
 );
 DELIM
 
-php -f index.php
-
-#test execution
-echo 'Testing with sqlite ...'
-cd tests
-php -f index.php -- xml > autotest-results-sqlite.xml
-
-#
-# mysql testing now
-#
-# NOTES:
-#  - grant access permissions: grant all on oc_autotest.* to 'oc_autotest'@'localhost';
-#
-echo "Setup environment for MySql testing ..."
-DATADIR=data-autotest
-rm -rf $DATADIR
-mkdir $DATADIR
-rm -rf config/config.php
-cat > ./config/autoconfig.php <<DELIM
+cat > ./tests/autoconfig-mysql.php <<DELIM
 <?php
 \$AUTOCONFIG = array (
   'installed' => false,
   'dbtype' => 'mysql',
   'dbtableprefix' => 'oc_',
-  'datadirectory' => 'data',
   'adminlogin' => 'admin',
   'adminpass' => 'admin',
-  'directory' => '$PWD/$DATADIR',
+  'directory' => '$BASEDIR/$DATADIR',
   'dbuser' => 'oc_autotest',	
   'dbname' => 'oc_autotest',	
   'dbhost' => 'localhost',
@@ -55,18 +38,52 @@ cat > ./config/autoconfig.php <<DELIM
 );
 DELIM
 
-#drop the database
-mysql -u oc_autotest -powncloud -e "DROP DATABASE oc_autotest"
 
-#setup
-php -f index.php
+function execute_tests {
+	echo "Setup environment for $1 testing ..."
+	# back to root folder
+	cd $BASEDIR
+	echo $BASEDIR
 
-#test execution
-echo 'Testing with MySql ...'
-cd tests
-php -f index.php -- xml > autotest-results-MySql.xml
+	# revert changes to tests/data
+	git checkout tests/data/*
+
+	# reset data directory
+	rm -rf $DATADIR
+	mkdir $DATADIR
+
+	# remove the old config file
+	rm -rf config/config.php
+
+	# drop database
+	if [ "$1" == "mysql" ] ; then
+		mysql -u oc_autotest -powncloud -e "DROP DATABASE oc_autotest"
+	fi
+
+	# copy autoconfig
+	cp $BASEDIR/tests/autoconfig-$1.php $BASEDIR/config/autoconfig.php
+
+	# trigger installation
+	php -f index.php
+
+	#test execution
+	echo "Testing with $1 ..."
+	cd tests
+	php -f index.php -- xml $1 > autotest-results-$1.xml
+}
 
 #
-# TODO: create config for postgres
+# start test execution
+#
+execute_tests "sqlite"
+execute_tests 'mysql'
+
+# TODO: implement this
+#execute_tests 'postgresql'
+
+#
+# NOTES:
+#  - CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY 'owncloud';
+#  - grant access permissions: grant all on oc_autotest.* to 'oc_autotest'@'localhost';
 #
 

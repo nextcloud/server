@@ -154,8 +154,15 @@ class OC_L10N{
 	 *
 	 * Returns the translation. If no translation is found, $textArray will be
 	 * returned.
+	 *
+	 *
+	 * @deprecated deprecated since ownCloud version 5.0
+	 * This method will probably be removed with ownCloud 6.0
+	 *
+	 *
 	 */
 	public function tA($textArray){
+		OC_Log::write('core', 'DEPRECATED: the method tA is deprecated and will be removed soon.',OC_Log::WARN);
 		$result = array();
 		foreach($textArray as $key => $text){
 			$result[$key] = (string)$this->t($text);

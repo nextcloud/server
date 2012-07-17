@@ -9,6 +9,7 @@
 // Init owncloud
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('tasks');
+OCP\JSON::callCheck();
 
 $id = $_POST['id'];
 $property = $_POST['type'];

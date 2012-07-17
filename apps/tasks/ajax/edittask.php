@@ -3,6 +3,7 @@
 // Init owncloud
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('tasks');
+OCP\JSON::callCheck();
 
 $l10n = new OC_L10N('tasks');
 
