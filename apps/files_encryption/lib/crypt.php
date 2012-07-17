@@ -55,20 +55,14 @@ class Crypt {
          * @returns encrypted file
          */
 	public static function encrypt( $plainContent, $iv, $passphrase = '' ) {
-	
-		# TODO: Move these methods into a separate public class for app developers
-	
-		$iv64 = base64_encode( $iv );
 		
-		$raw = false; // true returns raw bytes, false returns base64
-		
-		if ( $encryptedContent = openssl_encrypt( $plainContent, 'AES-256-OFB', $passphrase, $raw, $iv ) ) {
+		if ( $encryptedContent = openssl_encrypt( $plainContent, 'AES-128-CFB', $passphrase, false, $iv ) ) {
 
 			return $encryptedContent;
 			
 		} else {
 		
-			\OC_Log::write( 'Encrypted storage', 'Encryption (symmetric) of file failed' , \OC_Log::ERROR );
+			\OC_Log::write( 'Encrypted storage', 'Encryption (symmetric) of content failed' , \OC_Log::ERROR );
 			
 			return false;
 			
@@ -81,21 +75,85 @@ class Crypt {
          * @returns decrypted file
          */
 	public static function decrypt( $encryptedContent, $iv, $passphrase ) {
-		
-// 		$iv64 = base64_encode( $iv );
-// 		
-// 		$iv = base64_decode( $iv64 );
 
-		$raw = false; // true returns raw bytes, false returns base64
-
-		if ( $plainContent = openssl_decrypt( $encryptedContent, 'AES-256-OFB', $passphrase, $raw, $iv) ) {
+		if ( $plainContent = openssl_decrypt( $encryptedContent, 'AES-128-CFB', $passphrase, false, $iv ) ) {
 
 			return $plainContent;
 		
 			
 		} else {
 		
-			\OC_Log::write( 'Encrypted storage', 'Decryption (symmetric) of file failed' , \OC_Log::ERROR );
+			\OC_Log::write( 'Encrypted storage', 'Decryption (symmetric) of content failed' , \OC_Log::ERROR );
+			
+			return false;
+			
+		}
+	
+	}
+	
+        /**
+         * @brief Creates symmetric keyfile content
+         * @param $plainContent content to be encrypted in keyfile
+         * @returns encrypted content combined with IV
+         * @note IV need not be specified, as it will be stored in the returned keyfile
+         * and remain accessible therein.
+         */
+	public static function symmetricEncryptFileContent( $plainContent, $passphrase = '' ) {
+		
+		if ( !$plainContent ) {
+		
+			return false;
+			
+		}
+		
+		$random = openssl_random_pseudo_bytes( 13 );
+
+		$iv = substr( base64_encode( $random ), 0, -4 );
+		
+		if ( $encryptedContent = self::encrypt( $plainContent, $iv, $passphrase ) ) {
+			
+				$combinedKeyfile = $encryptedContent .= $iv;
+				
+				return $combinedKeyfile;
+		
+		} else {
+		
+			\OC_Log::write( 'Encrypted storage', 'Encryption (symmetric) of keyfile content failed' , \OC_Log::ERROR );
+			
+			return false;
+			
+		}
+		
+	}
+
+
+	/**
+	* @brief Decrypts keyfile content
+	* @param string $source
+	* @param string $target
+	* @param string $key the decryption key
+	*
+	* This function decrypts a file
+	*/
+	public static function symmetricDecryptFileContent( $keyfileContent, $passphrase = '' ) {
+	
+		if ( !$keyfileContent ) {
+		
+			return false;
+			
+		}
+		
+		$iv = substr( $keyfileContent, -16 );
+		
+		$encryptedContent = substr( $keyfileContent, 0, -16 );
+		
+		if ( $plainContent = self::decrypt( $encryptedContent, $iv, $passphrase ) ) {
+		
+			return $plainContent;
+			
+		} else {
+		
+			\OC_Log::write( 'Encrypted storage', 'Decryption (symmetric) of keyfile content failed' , \OC_Log::ERROR );
 			
 			return false;
 			
@@ -125,92 +183,6 @@ class Crypt {
 		
 		return $plainContent;
 	
-	}
-	
-	public static function encryptFile( $source, $target, $key='') {
-		$handleread  = fopen($source, "rb");
-		if($handleread!=FALSE) {
-			$handlewrite = fopen($target, "wb");
-			while (!feof($handleread)) {
-				$content = fread($handleread, 8192);
-				$enccontent=OC_CRYPT::encrypt( $content, $key);
-				fwrite($handlewrite, $enccontent);
-			}
-			fclose($handlewrite);
-			fclose($handleread);
-		}
-	}
-
-
-	/**
-	* @brief decryption of a file
-	* @param string $source
-	* @param string $target
-	* @param string $key the decryption key
-	*
-	* This function decrypts a file
-	*/
-	public static function decryptFile( $source, $target, $key='') {
-		$handleread  = fopen($source, "rb");
-		if($handleread!=FALSE) {
-			$handlewrite = fopen($target, "wb");
-			while (!feof($handleread)) {
-				$content = fread($handleread, 8192);
-				$enccontent=OC_CRYPT::decrypt( $content, $key);
-				if(feof($handleread)){
-					$enccontent=rtrim($enccontent, "\0");
-				}
-				fwrite($handlewrite, $enccontent);
-			}
-			fclose($handlewrite);
-			fclose($handleread);
-		}
-	}
-	
-        /**
-         * @brief Encrypts data in 8192 byte sized blocks
-         * @returns encrypted data
-         */
-	public static function blockEncrypt( $data, $key = '' ){
-	
-		$result = '';
-		
-		while( strlen( $data ) ) {
-		
-			// Encrypt byte block
-			$result .= self::encrypt( substr( $data, 0, 8192 ), $key );
-			
-			$data = substr( $data, 8192 );
-		
-		}
-		
-		return $result;
-	}
-	
-	/**
-	 * decrypt data in 8192b sized blocks
-	 */
-	public static function blockDecrypt( $data, $key='', $maxLength = 0 ) {
-		
-		$result = '';
-		
-		while( strlen( $data ) ) {
-		
-			$result .= self::decrypt( substr( $data, 0, 8192 ), $key );
-			
-			$data = substr( $data,8192 );
-			
-		}
-		
-		if ( $maxLength > 0 ) {
-		
-			return substr( $result, 0, $maxLength );
-			
-		} else {
-		
-			return rtrim( $result, "\0" );
-			
-		}
 	}
 	
         /**
