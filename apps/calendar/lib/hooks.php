@@ -11,7 +11,18 @@
  */
 class OC_Calendar_Hooks{
 	/**
-	 * @brief Deletes all Addressbooks of a certain user
+	 * @brief Creates default calendar for a user
+	 * @param paramters parameters from postCreateUser-Hook
+	 * @return array
+	 */
+	public static function createUser($parameters) {
+		OC_Calendar_Calendar::addCalendar($parameters['uid'],'Default calendar');
+
+		return true;
+	}
+
+	/**
+	 * @brief Deletes all calendars of a certain user
 	 * @param paramters parameters from postDeleteUser-Hook
 	 * @return array
 	 */
