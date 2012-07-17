@@ -9,6 +9,7 @@
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
+OCP\JSON::callCheck();
 
 $id = $_POST['id'];
 $access = OC_Calendar_App::getaccess($id, OC_Calendar_App::EVENT);

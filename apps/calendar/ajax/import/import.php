@@ -10,6 +10,7 @@ ob_start();
 
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
+OCP\JSON::callCheck();
 session_write_close();
 
 $nl="\r\n";
