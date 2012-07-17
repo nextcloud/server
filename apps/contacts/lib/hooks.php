@@ -25,6 +25,16 @@
  */
 class OC_Contacts_Hooks{
 	/**
+	 * @brief Add default Addressbook for a certain user
+	 * @param paramters parameters from postCreateUser-Hook
+	 * @return array
+	 */
+	static public function createUser($parameters) {
+		OC_Contacts_Addressbook::add($parameters['uid'],'default','Default Address Book');
+		return true;
+	}
+
+	/**
 	 * @brief Deletes all Addressbooks of a certain user
 	 * @param paramters parameters from postDeleteUser-Hook
 	 * @return array
