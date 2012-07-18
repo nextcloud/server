@@ -16,7 +16,7 @@
 #uploadprogressbar { display: none; padding: 0; bottom: 3em; height:2em; width: 20em; margin:0; background:#eee; border:1px solid #ccc; position:fixed; }
 #contacts_newcontact, #contacts_import, #chooseaddressbook { float: left; margin: 0.2em 0 0 1em; border: 0 none; border-radius: 0; -moz-box-shadow: none; box-shadow: none; outline: 0 none; }
 #chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }
-#actionbar { position: relative; clear: both; height: 30px;}
+#actionbar { clear: both; height: 30px;}
 #contacts_deletecard {position:relative; float:left; background:url('%webroot%/core/img/actions/delete.svg') no-repeat center; }
 #contacts_downloadcard {position:relative; float:left; background:url('%webroot%/core/img/actions/download.svg') no-repeat center; }
 #contacts_propertymenu { clear: left; float:left; max-width: 15em; margin: 2em; }
@@ -72,7 +72,7 @@ label:hover, dt:hover { color: #333; }
 #identityprops { /*position: absolute; top: 2.5em; left: 0px;*/ }
 /*#contact_photo { max-width: 250px; }*/
 #contact_identity { min-width: 30em; }
-.contactsection { position: relative; float: left; /*max-width: 40em;*/ padding: 0.5em; height: auto: border: thin solid lightgray;/* -webkit-border-radius: 0.5em; -moz-border-radius: 0.5em; border-radius: 0.5em; background-color: #f8f8f8;*/ }
+.contactsection { position: relative; float: left; padding: 0.5em; height: auto; }
 
 #cropbox { margin: auto; }
 #contacts_details_photo_wrapper { width: 200px; }
