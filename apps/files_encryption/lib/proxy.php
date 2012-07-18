@@ -22,13 +22,6 @@
 */
 
 
-class OC_FileProxy_Encryption extends OC_FileProxy {
-
-	
-
-}
-
-
 /**
  * transparent encryption
  */

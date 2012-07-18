@@ -114,7 +114,7 @@ class Util {
 				# TODO: Use proper IV in encryption
 				
 				// Encrypt private key with user pwd as passphrase
-				$encryptedPrivateKey = Crypt::createSymmetricKeyfile( $keypair['privateKey'], $passphrase );
+				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], $passphrase );
 				
 				// $iv = openssl_random_pseudo_bytes(16);
 				$this->view->file_put_contents( '/'. 'keypair'. '/' . $privateKeyFileName, $encryptedPrivateKey );

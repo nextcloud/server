@@ -51,7 +51,7 @@ class Crypt {
 	}
 	
         /**
-         * @brief Symmetrically encrypt a file
+         * @brief Symmetrically encrypt a string
          * @returns encrypted file
          */
 	public static function encrypt( $plainContent, $iv, $passphrase = '' ) {
@@ -62,7 +62,7 @@ class Crypt {
 			
 		} else {
 		
-			\OC_Log::write( 'Encrypted storage', 'Encryption (symmetric) of content failed' , \OC_Log::ERROR );
+			\OC_Log::write( 'Encryption library', 'Encryption (symmetric) of content failed' , \OC_Log::ERROR );
 			
 			return false;
 			
@@ -71,7 +71,7 @@ class Crypt {
 	}
 	
         /**
-         * @brief Symmetrically decrypt a file
+         * @brief Symmetrically decrypt a string
          * @returns decrypted file
          */
 	public static function decrypt( $encryptedContent, $iv, $passphrase ) {
@@ -83,7 +83,7 @@ class Crypt {
 			
 		} else {
 		
-			\OC_Log::write( 'Encrypted storage', 'Decryption (symmetric) of content failed' , \OC_Log::ERROR );
+			\OC_Log::write( 'Encryption library', 'Decryption (symmetric) of content failed' , \OC_Log::ERROR );
 			
 			return false;
 			
@@ -92,7 +92,7 @@ class Crypt {
 	}
 	
         /**
-         * @brief Creates symmetric keyfile content
+         * @brief Symmetrically encrypts a string and returns keyfile content
          * @param $plainContent content to be encrypted in keyfile
          * @returns encrypted content combined with IV
          * @note IV need not be specified, as it will be stored in the returned keyfile
@@ -118,7 +118,7 @@ class Crypt {
 		
 		} else {
 		
-			\OC_Log::write( 'Encrypted storage', 'Encryption (symmetric) of keyfile content failed' , \OC_Log::ERROR );
+			\OC_Log::write( 'Encryption library', 'Encryption (symmetric) of keyfile content failed' , \OC_Log::ERROR );
 			
 			return false;
 			
@@ -128,7 +128,7 @@ class Crypt {
 
 
 	/**
-	* @brief Decrypts keyfile content
+	* @brief Symmetrically decrypts keyfile content
 	* @param string $source
 	* @param string $target
 	* @param string $key the decryption key
@@ -153,7 +153,91 @@ class Crypt {
 			
 		} else {
 		
-			\OC_Log::write( 'Encrypted storage', 'Decryption (symmetric) of keyfile content failed' , \OC_Log::ERROR );
+			\OC_Log::write( 'Encryption library', 'Decryption (symmetric) of keyfile content failed' , \OC_Log::ERROR );
+			
+			return false;
+			
+		}
+	
+	}
+	
+	/**
+	* @brief Creates symmetric keyfile content using a generated key
+	* @param string $plainContent content to be encrypted
+	* @returns array keys: key, encrypted
+	* @note symmetricDecryptFileContent() can be used to decrypt files created using this method
+	*
+	* This function decrypts a file
+	*/
+	public static function symmetricEncryptFileContentKeyfile( $plainContent ) {
+	
+		$key = self::generateKey();
+	
+		if( $encryptedContent = self::symmetricEncryptFileContent( $plainContent, $key ) ) {
+		
+			return array(
+				'key' => $key
+				, 'encrypted' => $encryptedContent
+			);
+		
+		} else {
+		
+			return false;
+			
+		}
+	
+	}
+	
+	/**
+	* @brief Create asymmetrically encrypted keyfile content using a generated key
+	* @param string $plainContent content to be encrypted
+	* @returns array keys: key, encrypted
+	* @note symmetricDecryptFileContent() can be used to decrypt files created using this method
+	*
+	* This function decrypts a file
+	*/
+	public static function multiKeyEncrypt( $plainContent, array $publicKeys ) {
+	
+		$envKeys = array();
+	
+		if( openssl_seal( $plainContent, $sealed, $envKeys, $publicKeys ) ) {
+		
+			return array(
+				'keys' => $envKeys
+				, 'encrypted' => $sealed
+			);
+		
+		} else {
+		
+			return false;
+			
+		}
+	
+	}
+	
+	/**
+	* @brief Asymmetrically encrypt a file using multiple public keys
+	* @param string $plainContent content to be encrypted
+	* @returns array keys: key, encrypted
+	* @note symmetricDecryptFileContent() can be used to decrypt files created using this method
+	*
+	* This function decrypts a file
+	*/
+	public static function multiKeyDecrypt( $encryptedContent, $envKey, $privateKey ) {
+	
+		if ( !$encryptedContent ) {
+		
+			return false;
+			
+		}
+		
+		if ( openssl_open( $encryptedContent, $plainContent, $envKey, $privateKey ) ) {
+		
+			return $plainContent;
+			
+		} else {
+		
+			\OC_Log::write( 'Encryption library', 'Decryption (asymmetric) of sealed content failed' , \OC_Log::ERROR );
 			
 			return false;
 			
@@ -162,7 +246,7 @@ class Crypt {
 	}
 	
         /**
-         * @brief Asymetrically encrypt a file using a public key
+         * @brief Asymetrically encrypt a string using a public key
          * @returns encrypted file
          */
 	public static function keyEncrypt( $plainContent, $publicKey ) {
@@ -186,14 +270,30 @@ class Crypt {
 	}
 	
         /**
-         * @brief Generate a random key for symmetric encryption
+         * @brief Generate a pseudo random 1024kb ASCII key
          * @returns $key Generated key
          */
 	public static function generateKey() {
 		
-		$key = mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 );
+		// $key = mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 );
 		
-		return $key;
+		// Generate key
+		if ( $key = base64_encode( openssl_random_pseudo_bytes( 768000, $strong ) ) ) {
+		
+			if ( !$strong ) {
+			
+				// If OpenSSL indicates randomness is insecure, log error
+				\OC_Log::write( 'Encryption library', 'Insecure symmetric key was generated using openssl_random_pseudo_bytes()' , \OC_Log::WARN );
+			
+			}
+		
+			return $key;
+			
+		} else {
+		
+			return false;
+			
+		}
 		
 	}
 
