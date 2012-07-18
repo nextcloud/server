@@ -38,12 +38,26 @@ cat > ./tests/autoconfig-mysql.php <<DELIM
 );
 DELIM
 
+cat > ./tests/autoconfig-pgsql.php <<DELIM
+<?php
+\$AUTOCONFIG = array (
+  'installed' => false,
+  'dbtype' => 'pgsql',
+  'dbtableprefix' => 'oc_',
+  'adminlogin' => 'admin',
+  'adminpass' => 'admin',
+  'directory' => '$BASEDIR/$DATADIR',
+  'dbuser' => 'oc_autotest',	
+  'dbname' => 'oc_autotest',	
+  'dbhost' => 'localhost',
+  'dbpass' => 'owncloud',	
+);
+DELIM
 
 function execute_tests {
 	echo "Setup environment for $1 testing ..."
 	# back to root folder
 	cd $BASEDIR
-	echo $BASEDIR
 
 	# revert changes to tests/data
 	git checkout tests/data/*
@@ -58,6 +72,9 @@ function execute_tests {
 	# drop database
 	if [ "$1" == "mysql" ] ; then
 		mysql -u oc_autotest -powncloud -e "DROP DATABASE oc_autotest"
+	fi
+	if [ "$1" == "pgsql" ] ; then
+		dropdb -U oc_autotest oc_autotest
 	fi
 
 	# copy autoconfig
@@ -77,13 +94,17 @@ function execute_tests {
 #
 execute_tests "sqlite"
 execute_tests 'mysql'
-
-# TODO: implement this
-#execute_tests 'postgresql'
+execute_tests 'pgsql'
 
 #
-# NOTES:
+# NOTES on mysql:
 #  - CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY 'owncloud';
 #  - grant access permissions: grant all on oc_autotest.* to 'oc_autotest'@'localhost';
+#
+# NOTES on pgsql:
+#  - su - postgres
+#  - createuser -P (enter username and password and enable superuser)
+#  - to enable dropdb I decided to add following line to pg_hba.conf (this is not the safest way but I don't care for the testing machine):
+# local	all	all	trust
 #
 
