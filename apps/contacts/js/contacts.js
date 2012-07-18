@@ -1592,9 +1592,10 @@ Contacts={
 						});
 						if($('#contacts h3').length > 1) {
 							$('#contacts li,#contacts h3').draggable({
+								distance: 10,
 								revert: 'invalid',
 								axis: 'y', containment: '#contacts',
-								scroll: true, scrollSensitivity: 100,
+								scroll: true, scrollSensitivity: 40,
 								opacity: 0.7, helper: 'clone'
 							});
 						} else {
