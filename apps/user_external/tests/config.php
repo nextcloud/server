@@ -14,7 +14,13 @@ return array(
 		'password'=>'bar',
 	),
 	'smb'=>array(
-		'run'=>true,
+		'run'=>false,
+		'host'=>'localhost',
+		'user'=>'test',//valid username/password combination
+		'password'=>'test',
+	),
+	'ftp'=>array(
+		'run'=>false,
 		'host'=>'localhost',
 		'user'=>'test',//valid username/password combination
 		'password'=>'test',
