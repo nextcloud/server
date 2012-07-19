@@ -13,4 +13,10 @@ return array(
 		'user'=>'foo',//valid username/password combination
 		'password'=>'bar',
 	),
+	'smb'=>array(
+		'run'=>true,
+		'host'=>'localhost',
+		'user'=>'test',//valid username/password combination
+		'password'=>'test',
+	),
 );
