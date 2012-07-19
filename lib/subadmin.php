@@ -148,4 +148,11 @@ class OC_SubAdmin{
 		}
 		return false;
 	}
+	
+	/*
+	 * @brief alias for self::isSubAdminofGroup()
+	 */
+	public static function isGroupAccessible($subadmin, $group){
+		return self::isSubAdminofGroup($subadmin, $group);
+	}
 }
