@@ -22,7 +22,7 @@
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
-require_once('loghandler.php');
+require_once 'loghandler.php';
 
 if(!isset($_GET['id'])) {
 	bailOut(OC_Contacts_App::$l10n->t('No contact ID was submitted.'));
@@ -50,7 +50,9 @@ if($image->width() > 400 || $image->height() > 400) {
 	$image->resize(400); // Prettier resizing than with browser and saves bandwidth.
 }
 if(!$image->fixOrientation()) { // No fatal error so we don't bail out.
-	OCP\Util::writeLog('contacts','ajax/oc_photo.php: Couldn\'t save correct image orientation: '.$localpath, OCP\Util::DEBUG);
+	OCP\Util::writeLog('contacts', 
+		'ajax/oc_photo.php: Couldn\'t save correct image orientation: '.$localpath, 
+		OCP\Util::DEBUG);
 }
 if(OC_Cache::set($tmpkey, $image->data(), 600)) {
 	OCP\JSON::success(array('data' => array('id'=>$_GET['id'], 'tmp'=>$tmpkey)));

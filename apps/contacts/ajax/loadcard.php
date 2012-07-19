@@ -30,20 +30,20 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 $requesttoken = $_GET['requesttoken'];
 
 $freeSpace=OC_Filesystem::free_space('/');
-$freeSpace=max($freeSpace,0);
-$maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
+$freeSpace=max($freeSpace, 0);
+$maxUploadFilesize = min($maxUploadFilesize, $freeSpace);
 $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
 $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 $email_types = OC_Contacts_App::getTypesOfProperty('EMAIL');
 
-$tmpl = new OCP\Template('contacts','part.contact');
+$tmpl = new OCP\Template('contacts', 'part.contact');
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
-$tmpl->assign('adr_types',$adr_types);
-$tmpl->assign('phone_types',$phone_types);
-$tmpl->assign('email_types',$email_types);
+$tmpl->assign('adr_types', $adr_types);
+$tmpl->assign('phone_types', $phone_types);
+$tmpl->assign('email_types', $email_types);
 $tmpl->assign('requesttoken', $requesttoken);
-$tmpl->assign('id','');
+$tmpl->assign('id', '');
 $page = $tmpl->fetchPage();
 
 OCP\JSON::success(array('data' => array( 'page' => $page )));

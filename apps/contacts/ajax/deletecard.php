@@ -23,17 +23,7 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
-require_once('loghandler.php');
-
-// foreach($_SERVER as $key=>$value) {
-// 	OCP\Util::writeLog('contacts','ajax/saveproperty.php: _SERVER: '.$key.'=>'.$value, OCP\Util::DEBUG);
-// }
-// foreach($_POST as $key=>$value) {
-// 	debug($key.'=>'.print_r($value, true));
-// }
-// foreach($_GET as $key=>$value) {
-// 	debug($key.'=>'.print_r($value, true));
-// }
+require_once 'loghandler.php';
 
 $id = isset($_POST['id'])?$_POST['id']:null;
 if(!$id) {

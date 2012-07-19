@@ -19,7 +19,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-require_once('loghandler.php');
+require_once 'loghandler.php';
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
@@ -39,9 +39,11 @@ if(!$id) {
 if(!$checksum) {
 	bailOut(OC_Contacts_App::$l10n->t('checksum is not set.'));
 }
-if(is_array($value)){
+if(is_array($value)) {
 	$value = array_map('strip_tags', $value);
-	ksort($value); // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
+	// NOTE: Important, otherwise the compound value will be 
+	// set in the order the fields appear in the form!
+	ksort($value); 
 	//if($name == 'CATEGORIES') {
 	//	$value = OC_Contacts_VCard::escapeDelimiters($value, ',');
 	//} else {

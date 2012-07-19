@@ -16,8 +16,12 @@ $bookid = $_POST['bookid'];
 $book = OC_Contacts_App::getAddressbook($bookid);// is owner access check
 
 if(!OC_Contacts_Addressbook::setActive($bookid, $_POST['active'])) {
-	OCP\Util::writeLog('contacts','ajax/activation.php: Error activating addressbook: '.$bookid, OCP\Util::ERROR);
-	OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('Error (de)activating addressbook.'))));
+	OCP\Util::writeLog('contacts',
+		'ajax/activation.php: Error activating addressbook: '. $bookid, 
+		OCP\Util::ERROR);
+	OCP\JSON::error(array(
+		'data' => array(
+			'message' => OC_Contacts_App::$l10n->t('Error (de)activating addressbook.'))));
 	exit();
 }
 
