@@ -101,7 +101,9 @@ class OC_SubAdmin{
 	
 	/**
 	 * @brief checks if a user is a SubAdmin of a group
-	 * @return array
+	 * @param $uid uid of the subadmin
+	 * @param $gid gid of the group
+	 * @return bool
 	 */
 	public static function isSubAdminofGroup($uid, $gid){
 		$stmt = OC_DB::prepare('SELECT COUNT(*) as count FROM *PREFIX*group_admin where uid = ? AND gid = ?');
@@ -113,6 +115,11 @@ class OC_SubAdmin{
 		return false;
 	}
 	
+	/**
+	 * @brief checks if a user is a SubAdmin
+	 * @param $uid uid of the subadmin
+	 * @return bool
+	 */
 	public static function isSubAdmin($uid){
 		$stmt = OC_DB::prepare('SELECT COUNT(*) as count FROM *PREFIX*group_admin WHERE uid = ?');
 		$result = $stmt->execute(array($uid));
@@ -123,6 +130,12 @@ class OC_SubAdmin{
 		return false;
 	}
 	
+	/**
+	 * @brief checks if a user is a accessible by a subadmin
+	 * @param $subadmin uid of the subadmin
+	 * @param $user uid of the user
+	 * @return bool
+	 */
 	public static function isUserAccessible($subadmin, $user){
 		if(!self::isSubAdmin($subadmin)){
 			return false;
