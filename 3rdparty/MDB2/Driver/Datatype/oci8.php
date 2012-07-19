@@ -241,10 +241,10 @@ class MDB2_Driver_Datatype_oci8 extends MDB2_Driver_Datatype_Common
      *        a DBMS specific format.
      * @access protected
      */
-    function _quoteTimestamp($value, $quote, $escape_wildcards)
-    {
-       return $this->_quoteText($value, $quote, $escape_wildcards);
-    }
+    //function _quoteTimestamp($value, $quote, $escape_wildcards)
+    //{
+    //   return $this->_quoteText($value, $quote, $escape_wildcards);
+    //}
 
     // }}}
     // {{{ _quoteTime()
