@@ -15,18 +15,8 @@ $userstatus = null;
 if(OC_Group::inGroup(OC_User::getUser(), 'admin')){
 	$userstatus = 'admin';
 }
-if(OC_SubAdmin::isSubAdmin(OC_User::getUser())){
-	$accessiblegroups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
-	$isuseraccessible = false;
-	foreach($accessiblegroups as $accessiblegroup){
-		if(OC_Group::inGroup($username, $accessiblegroup)){
-			$isuseraccessible = true;
-			break;
-		}
-	}
-	if($isuseraccessible){
-		$userstatus = 'subadmin';
-	}
+if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)){
+	$userstatus = 'subadmin';
 }
 if(OC_User::getUser() == $username && OC_User::checkPassword($username,$oldPassword)){
 	$userstatus = 'user';
