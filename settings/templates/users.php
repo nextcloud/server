@@ -32,7 +32,7 @@ $_['subadmingroups'] = array_flip($items);
 	<div class="quota">
 		<span><?php echo $l->t('Default Quota');?>:</span>
 		<div class="quota-select-wrapper">
-			<select class='quota'>
+			<select class='quota' <?php if(!(is_array($_['subadmins']) || $_['subadmins'])) echo 'disabled="disabled"'; ?>>
 				<?php foreach($_['quota_preset'] as $preset):?>
 				<?php if($preset!='default'):?>
 				<option
