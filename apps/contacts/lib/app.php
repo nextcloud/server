@@ -61,11 +61,11 @@ class OC_Contacts_App {
 		if(!is_null($vcard) && !$vcard->__isset('N')) {
 			$version = OCP\App::getAppVersion('contacts');
 			if($version >= 5) {
-				OCP\Util::writeLog('contacts','OC_Contacts_App::getContactVCard. Deprecated check for missing N field', OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', 'OC_Contacts_App::getContactVCard. Deprecated check for missing N field', OCP\Util::DEBUG);
 			}
-			OCP\Util::writeLog('contacts','getContactVCard, Missing N field', OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', 'getContactVCard, Missing N field', OCP\Util::DEBUG);
 			if($vcard->__isset('FN')) {
-				OCP\Util::writeLog('contacts','getContactVCard, found FN field: '.$vcard->__get('FN'), OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', 'getContactVCard, found FN field: '.$vcard->__get('FN'), OCP\Util::DEBUG);
 				$n = implode(';', array_reverse(array_slice(explode(' ', $vcard->__get('FN')), 0, 2))).';;;';
 				$vcard->setString('N', $n);
 				OC_Contacts_VCard::edit( $id, $vcard);
@@ -203,9 +203,9 @@ class OC_Contacts_App {
 					foreach($vccontacts as $vccontact) {
 						$cards[] = $vccontact['carddata'];
 					}
-					OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', scanning: '.$batchsize.' starting from '.$start,OCP\Util::DEBUG);
+					OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', scanning: '.$batchsize.' starting from '.$start, OCP\Util::DEBUG);
 					// only reset on first batch.
-					self::getVCategories()->rescan($cards, true, ($start==0?true:false));
+					self::getVCategories()->rescan($cards, true, ($start == 0 ? true : false));
 					$start += $batchsize;
 				}
 			}
