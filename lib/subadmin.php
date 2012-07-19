@@ -122,4 +122,17 @@ class OC_SubAdmin{
 		}
 		return false;
 	}
+	
+	public static function isUserAccessible($subadmin, $user){
+		if(!self::isSubAdmin($subadmin)){
+			return false;
+		}
+		$accessiblegroups = self::getSubAdminsGroups($subadmin);
+		foreach($accessiblegroups as $accessiblegroup){
+			if(OC_Group::inGroup($user, $accessiblegroup)){
+				return true;
+			}
+		}
+		return false;
+	}
 }
