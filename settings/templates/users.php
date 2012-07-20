@@ -13,7 +13,9 @@ $items = array_flip($_['subadmingroups']);
 unset($items['admin']);
 $_['subadmingroups'] = array_flip($items);
 ?>
-
+<script>
+var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
+</script>
 <div id="controls">
 	<form id="newuser">
 		<input id="newusername" placeholder="<?php echo $l->t('Name')?>" /> <input
@@ -32,7 +34,8 @@ $_['subadmingroups'] = array_flip($items);
 	<div class="quota">
 		<span><?php echo $l->t('Default Quota');?>:</span>
 		<div class="quota-select-wrapper">
-			<select class='quota' <?php if(!(is_array($_['subadmins']) || $_['subadmins'])) echo 'disabled="disabled"'; ?>>
+			<?php if((bool) $_['isadmin']): ?>
+			<select class='quota'>
 				<?php foreach($_['quota_preset'] as $preset):?>
 				<?php if($preset!='default'):?>
 				<option
@@ -53,6 +56,14 @@ $_['subadmingroups'] = array_flip($items);
 					...
 				</option>
 			</select> <input class='quota-other'></input>
+			<?php endif; ?>
+			<?php if((bool) !$_['isadmin']): ?>
+				<select class='quota' disabled="disabled">
+					<option selected="selected">
+				<?php echo $_['default_quota'];?>
+					</option>
+				</select>
+			<?php endif; ?>
 		</div>
 	</div>
 </div>

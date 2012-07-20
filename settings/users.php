@@ -55,7 +55,7 @@ if (\OC_App::isEnabled( "files_sharing" ) ) {
 $tmpl = new OC_Template( "settings", "users", "user" );
 $tmpl->assign( "users", $users );
 $tmpl->assign( "groups", $groups );
-$tmpl->assign( 'isadmin', $isadmin);
+$tmpl->assign( 'isadmin', (int) $isadmin);
 $tmpl->assign( 'subadmins', $subadmins);
 $tmpl->assign( 'numofgroups', count($accessiblegroups));
 $tmpl->assign( 'quota_preset', $quotaPreset);
