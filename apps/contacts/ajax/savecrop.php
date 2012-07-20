@@ -89,7 +89,7 @@ if($data) {
 				}
 				$now = new DateTime;
 				$card->setString('REV', $now->format(DateTime::W3C));
-				if(!OC_Contacts_VCard::edit($id,$card)) {
+				if(!OC_Contacts_VCard::edit($id, $card)) {
 					bailOut(OC_Contacts_App::$l10n->t('Error saving contact.'));
 				}
 				$tmpl = new OCP\Template("contacts", "part.contactphoto");

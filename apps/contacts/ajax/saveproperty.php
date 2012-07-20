@@ -129,7 +129,7 @@ if(!$value) {
 }
 //debug('New checksum: '.$checksum);
 
-if(!OC_Contacts_VCard::edit($id,$vcard)) {
+if(!OC_Contacts_VCard::edit($id, $vcard)) {
 	bailOut(OC_Contacts_App::$l10n->t('Error updating contact property.'));
 	exit();
 }

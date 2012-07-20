@@ -212,7 +212,7 @@ class OC_Contacts_VCard{
 		// Add version if needed
 		if($version && $version < '3.0') {
 			$upgrade = true;
-			OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. Updating from version: '.$version,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', 'OC_Contacts_VCard::updateValuesFromAdd. Updating from version: '.$version,OCP\Util::DEBUG);
 		}
 		foreach($vcard->children as &$property){
 			// Decode string properties and remove obsolete properties.
@@ -487,7 +487,7 @@ class OC_Contacts_VCard{
 	public static function unescapeDelimiters($value, $delimiter=';') {
 		$array = explode($delimiter, $value);
 		for($i=0;$i<count($array);$i++) {
-			if(substr($array[$i],-1, 1)=="\\") {
+			if(substr($array[$i], -1, 1)=="\\") {
 				if(isset($array[$i+1])) {
 					$array[$i] = substr($array[$i], 0, count($array[$i])-2).$delimiter.$array[$i+1];
 					unset($array[$i+1]);

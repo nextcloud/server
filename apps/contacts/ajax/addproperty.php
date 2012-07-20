@@ -48,10 +48,11 @@ if(!$vcard) {
 
 if(!is_array($value)) {
 	$value = trim($value);
-	if(!$value && in_array(
-			$name, 
-			array('TEL', 'EMAIL', 'ORG', 'BDAY', 'URL', 'NICKNAME', 'NOTE'))
-		) {
+	if(!$value 
+		&& in_array(
+		$name, 
+		array('TEL', 'EMAIL', 'ORG', 'BDAY', 'URL', 'NICKNAME', 'NOTE'))
+	) {
 		bailOut($l10n->t('Cannot add empty property.'));
 	}
 } elseif($name === 'ADR') { // only add if non-empty elements.
@@ -129,7 +130,7 @@ foreach ($parameters as $key=>$element) {
 		// NOTE: Maybe this doesn't only apply for TYPE?
 		// And it probably shouldn't be done here anyways :-/
 		foreach($element as $e) {
-			if($e != '' && !is_null($e)){
+			if($e != '' && !is_null($e)) {
 				$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key, $e);
 			}
 		}
