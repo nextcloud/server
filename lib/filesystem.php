@@ -473,7 +473,7 @@ class OC_Filesystem{
 		return self::$defaultInstance->hasUpdated($path,$time);
 	}
 
-	static public function removeETagHook() {
+	static public function removeETagHook($params) {
 		$path=$params['path'];
 		OC_Connector_Sabre_Node::removeETagPropertyForFile($path);
 	}
