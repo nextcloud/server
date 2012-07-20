@@ -1844,6 +1844,7 @@ $(document).ready(function(){
 						if(retries > 3) {
 							numfiles = uploadedfiles = retries = aid = 0;
 							uploadingFiles = {};
+							$('#uploadprogressbar').fadeOut();
 							OC.dialogs.alert(t('contacts', 'Something went wrong with the upload, please retry.'), t('contacts', 'Error'));
 							return;
 						}
@@ -1917,6 +1918,7 @@ $(document).ready(function(){
 								});
 							}
 						} else {
+							$('#uploadprogressbar').fadeOut();
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 					});
