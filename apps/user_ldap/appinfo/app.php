@@ -22,15 +22,13 @@
 */
 
 require_once('apps/user_ldap/lib_ldap.php');
-require_once('apps/user_ldap/user_ldap.php');
-require_once('apps/user_ldap/group_ldap.php');
-// OC::$CLASSPATH['OCA\user_ldap\LDAP_Access']='apps/user_ldap/lib/access.php';
+// require_once('apps/user_ldap/group_ldap.php');
 
 OCP\App::registerAdmin('user_ldap','settings');
 
 // register user backend
-OC_User::useBackend( new OC_USER_LDAP() );
-OC_Group::useBackend( new OC_GROUP_LDAP() );
+OC_User::useBackend(new OCA\user_ldap\USER_LDAP());
+OC_Group::useBackend(new OCA\user_ldap\GROUP_LDAP());
 
 // add settings page to navigation
 $entry = array(
