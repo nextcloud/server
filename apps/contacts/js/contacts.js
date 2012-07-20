@@ -1841,7 +1841,7 @@ $(document).ready(function(){
 					if(numfiles != uploadedfiles) {
 						Contacts.UI.notify({message:t('contacts', 'Not all files uploaded. Retrying...')});
 						retries += 1;
-						if(retries > 0) {
+						if(retries > 3) {
 							numfiles = uploadedfiles = retries = aid = 0;
 							uploadingFiles = {};
 							OC.dialogs.alert(t('contacts', 'Something went wrong with the upload, please retry.'), t('contacts', 'Error'));
