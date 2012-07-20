@@ -29,6 +29,7 @@ $RUNTIME_NOSETUPFS=true;
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('bookmarks');
+OCP\JSON::callCheck();
 
 require_once(OC::$APPSROOT . '/apps/bookmarks/bookmarksHelper.php');
 $id = addBookmark($_POST['url'], $_POST['title'], $_POST['tags']);

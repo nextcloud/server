@@ -22,6 +22,7 @@
 */
 
  
+OCP\JSON::callCheck();
 
 if (!isset($_GET['token']) || !isset($_GET['operation'])) {
   OCP\JSON::error(array('cause' => 'Not enought arguments'));

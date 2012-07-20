@@ -1,5 +1,7 @@
 <?php
 
+OCP\JSON::callCheck();
+
 OCP\JSON::checkAppEnabled('files_sharing');
 OCP\JSON::checkAdminUser();
 if ($_POST['allowSharingWithEveryone'] == true) {

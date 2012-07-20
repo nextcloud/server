@@ -3,6 +3,7 @@
 // Init owncloud
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('tasks');
+OCP\JSON::callCheck();
 
 $calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser(), true);
 $category_options = OC_Calendar_App::getCategoryOptions();

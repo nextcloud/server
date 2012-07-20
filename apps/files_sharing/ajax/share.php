@@ -3,6 +3,7 @@ require_once(OC::$APPSROOT . '/apps/files_sharing/lib_share.php');
 
 OCP\JSON::checkAppEnabled('files_sharing');
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 $userDirectory = '/'.OCP\USER::getUser().'/files';
 $sources = explode(';', $_POST['sources']);
