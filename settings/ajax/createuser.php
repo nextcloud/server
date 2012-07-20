@@ -2,6 +2,7 @@
 
 // Init owncloud
 require_once('../../lib/base.php');
+OCP\JSON::callCheck();
 
 // Check if we are a user
 if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
