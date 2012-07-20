@@ -126,7 +126,7 @@ class OC_FileCache{
 		$query=OC_DB::prepare($sql);
 		$result=$query->execute($arguments);
 		if(OC_DB::isError($result)){
-			OC_Log::write('files','error while updating file('.$path.') in cache',OC_Log::ERROR);
+			OC_Log::write('files','error while updating file('.$id.') in cache',OC_Log::ERROR);
 		}
 	}
 
@@ -303,7 +303,7 @@ class OC_FileCache{
 	 */
 	public static function increaseSize($path,$sizeDiff, $root=false){
 		if($sizeDiff==0) return;
-		$id=self::getId($path,'');
+		$id=self::getId($path,$root);
 		while($id!=-1){//walk up the filetree increasing the size of all parent folders
 			$query=OC_DB::prepare('UPDATE *PREFIX*fscache SET size=size+? WHERE id=?');
 			$query->execute(array($sizeDiff,$id));
