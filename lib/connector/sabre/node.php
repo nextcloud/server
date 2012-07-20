@@ -179,7 +179,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @param array $properties
 	 * @return void
 	 */
-	function getProperties($properties) {
+	public function getProperties($properties) {
 		if (is_null($this->property_cache)) {
 			$query = OC_DB::prepare( 'SELECT * FROM *PREFIX*properties WHERE userid = ? AND propertypath = ?' );
 			$result = $query->execute( array( OC_User::getUser(), $this->path ));
