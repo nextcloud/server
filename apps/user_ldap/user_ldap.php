@@ -23,7 +23,7 @@
  *
  */
 
-class OC_USER_LDAP extends OC_User_Backend {
+class OC_USER_LDAP implements OCP\UserInterface {
 
 	// cached settings
 	protected $ldapUserFilter;
@@ -137,6 +137,29 @@ class OC_USER_LDAP extends OC_User_Backend {
 		}
 
 		return true;
+	}
+
+	/**
+	* @brief delete a user
+	* @param $uid The username of the user to delete
+	* @returns true/false
+	*
+	* Deletes a user
+	*/
+	public function deleteUser($uid) {
+		return false;
+	}
+
+	/**
+	* @brief Check if backend implements actions
+	* @param $actions bitwise-or'ed actions
+	* @returns boolean
+	*
+	* Returns the supported actions as int to be
+	* compared with OC_USER_BACKEND_CREATE_USER etc.
+	*/
+	public function implementsActions($actions) {
+		return (bool)(OC_USER_BACKEND_CHECK_PASSWORD & $actions);
 	}
 
 }
