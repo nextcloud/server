@@ -190,7 +190,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	
 	public function filesize($path) {
 		if ($path == "" || $path == "/" || $this->is_dir($path)) {
-			return $this->getFolderSize($path);
+			return 0;
 		} else {
 			$source = $this->getSource($path);
 			if ($source) {
@@ -198,35 +198,6 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 				return $storage->filesize($this->getInternalPath($source));
 			}
 		}
-	}
-
-	public function getFolderSize($path) {
-		return 0; //depricated
-	}
-	
-	private function calculateFolderSize($path) {
-		if ($this->is_file($path)) {
-			$path = dirname($path);
-		}
-		$size = 0;
-		if ($dh = $this->opendir($path)) {
-			while (($filename = readdir($dh)) !== false) {
-				if ($filename != "." && $filename != "..") {
-					$subFile = $path."/".$filename;
-					if ($this->is_file($subFile)) {
-						$size += $this->filesize($subFile);
-					} else {
-						$size += $this->getFolderSize($subFile);
-					}
-				}
-			}
-			if ($size > 0) {
-				$dbpath = rtrim($this->datadir.$path, "/");
-// 				$query = OCP\DB::prepare("INSERT INTO *PREFIX*foldersize VALUES(?,?)");
-// 				$result = $query->execute(array($dbpath, $size));
-			}
-		}
-		return $size;
 	}
 
 	private function clearFolderSizeCache($path) {
