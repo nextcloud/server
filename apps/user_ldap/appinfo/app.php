@@ -28,7 +28,7 @@ require_once('apps/user_ldap/group_ldap.php');
 OCP\App::registerAdmin('user_ldap','settings');
 
 // register user backend
-OC_User::useBackend( 'LDAP' );
+OC_User::useBackend( new OC_USER_LDAP() );
 OC_Group::useBackend( new OC_GROUP_LDAP() );
 
 // add settings page to navigation
