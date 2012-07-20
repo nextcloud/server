@@ -672,6 +672,42 @@ class Sabre_CalDAV_Plugin extends Sabre_DAV_ServerPlugin {
 
         }
 
+        if ($vobj->name !== 'VCALENDAR') {
+            throw new Sabre_DAV_Exception_UnsupportedMediaType('This collection can only support iCalendar objects.');
+        }
+
+        $foundType = null;
+        $foundUID = null;
+        foreach($vobj->getComponents() as $component) {
+            switch($component->name) {
+                case 'VTIMEZONE' :
+                    continue 2;
+                case 'VEVENT' :
+                case 'VTODO' :
+                case 'VJOURNAL' :
+                    if (is_null($foundType)) {
+                        $foundType = $component->name;
+                        if (!isset($component->UID)) {
+                            throw new Sabre_DAV_Exception_BadRequest('Every ' . $component->name . ' component must have an UID');
+                        }
+                        $foundUID = (string)$component->UID;
+                    } else {
+                        if ($foundType !== $component->name) {
+                            throw new Sabre_DAV_Exception_BadRequest('A calendar object must only contain 1 component. We found a ' . $component->name . ' as well as a ' . $foundType);
+                        }
+                        if ($foundUID !== (string)$component->UID) {
+                            throw new Sabre_DAV_Exception_BadRequest('Every ' . $component->name . ' in this object must have identical UIDs');
+                        }
+                    }
+                    break;
+                default :
+                    throw new Sabre_DAV_Exception_BadRequest('You are not allowed to create components of type: ' . $component->name . ' here');
+
+            }
+        }
+        if (!$foundType)
+            throw new Sabre_DAV_Exception_BadRequest('iCalendar object must contain at least 1 of VEVENT, VTODO or VJOURNAL');
+
     }
 
     /**

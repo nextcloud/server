@@ -79,7 +79,7 @@ class OC_Connector_Sabre_CardDAV extends Sabre_CardDAV_Backend_Abstract {
 			}
 		}
 
-		OC_Contacts_Addressbook::edit($addressbookid,$name,$description);
+		OC_Contacts_Addressbook::edit($addressbookid, $name, $description);
 
 		return true;
 
@@ -113,7 +113,7 @@ class OC_Connector_Sabre_CardDAV extends Sabre_CardDAV_Backend_Abstract {
 
 		}
 
-		OC_Contacts_Addressbook::addFromDAVData($principaluri,$url,$name,$description);
+		OC_Contacts_Addressbook::addFromDAVData($principaluri, $url, $name, $description);
 	}
 
 	/**
@@ -156,7 +156,7 @@ class OC_Connector_Sabre_CardDAV extends Sabre_CardDAV_Backend_Abstract {
 	 * @return array
 	 */
 	public function getCard($addressbookid, $carduri) {
-		return OC_Contacts_VCard::findWhereDAVDataIs($addressbookid,$carduri);
+		return OC_Contacts_VCard::findWhereDAVDataIs($addressbookid, $carduri);
 
 	}
 
