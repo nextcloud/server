@@ -28,7 +28,7 @@ require_once 'loghandler.php';
 
 $id = $_POST['id'];
 $checksum = $_POST['checksum'];
-$l10n = OC_Contacts_App::$l10n
+$l10n = OC_Contacts_App::$l10n;
 
 $vcard = OC_Contacts_App::getContactVCard( $id );
 $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
