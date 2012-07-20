@@ -23,7 +23,7 @@
  *
  */
 
-class OC_USER_LDAP implements OCP\UserInterface {
+class OC_USER_LDAP extends OCA\user_ldap\LDAP_Access implements OCP\UserInterface {
 
 	// cached settings
 	protected $ldapUserFilter;

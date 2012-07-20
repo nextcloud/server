@@ -24,6 +24,7 @@
 require_once('apps/user_ldap/lib_ldap.php');
 require_once('apps/user_ldap/user_ldap.php');
 require_once('apps/user_ldap/group_ldap.php');
+// OC::$CLASSPATH['OCA\user_ldap\LDAP_Access']='apps/user_ldap/lib/access.php';
 
 OCP\App::registerAdmin('user_ldap','settings');
 
