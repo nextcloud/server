@@ -98,7 +98,7 @@ abstract class OC_Group_Example {
 	 * @param string $gid
 	 * @return bool
 	 */
-	public function groupExists($gid);
+	abstract public function groupExists($gid);
 
 	/**
 	 * @brief get a list of all users in a group
