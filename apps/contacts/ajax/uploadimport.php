@@ -26,7 +26,7 @@ OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
 require_once 'loghandler.php';
 
-$l10n = OC_Contacts_App::$l10n
+$l10n = OC_Contacts_App::$l10n;
 
 $view = OCP\Files::getStorage('contacts');
 if(!$view->file_exists('imports')) {
