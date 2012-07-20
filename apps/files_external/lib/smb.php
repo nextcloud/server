@@ -15,8 +15,6 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 	private $root;
 	private $share;
 
-	private static $tempFiles=array();
-
 	public function __construct($params){
 		$this->host=$params['host'];
 		$this->user=$params['user'];

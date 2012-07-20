@@ -33,7 +33,7 @@ class TilesLine {
 	}
 
 	public function setAvailableSpace($space) {
-		$available_space = $space;
+		$this->available_space = $space;
 	}
 
 	public function getTilesCount() {
