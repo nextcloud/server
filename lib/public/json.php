@@ -47,22 +47,34 @@ class JSON {
 
 
 	/**
-	* @brief Check if the user is logged in, send json error msg if not
-	*/
+	 * Check if the user is logged in, send json error msg if not.
+	 * 
+	 * This method checks if a user is logged in. If not, a json error
+	 * response will be return and the method will exit from execution
+	 * of the script.
+	 * The returned json will be in the format:
+	 * 
+	 *     {"status":"error","data":{"message":"Authentication error."}}
+	 * 
+	 * Add this call to the start of all ajax method files that requires
+	 * an authenticated user.
+	 * 
+	 * @return json Error msg if not valid.
+	 */
 	public static function checkLoggedIn(){
 		return(\OC_JSON::checkLoggedIn());
 	}
 
 	/**
-	 * @brief Check an ajax get/post call if the request token is valid.
+	 * Check an ajax get/post call if the request token is valid.
 	 * 
 	 * This method checks for a valid variable 'requesttoken' in $_GET,
-	 * $_POST and $_SERVER. If a valid token is not found, an json error
+	 * $_POST and $_SERVER. If a valid token is not found, a json error
 	 * response will be return and the method will exit from execution
 	 * of the script.
 	 * The returned json will be in the format:
 	 * 
-	 * {"status":"error","data":{"message":"Token expired. Please reload page."}}
+	 *     {"status":"error","data":{"message":"Token expired. Please reload page."}}
 	 * 
 	 * Add this call to the start of all ajax method files that creates, 
 	 * updates or deletes anything.
@@ -70,6 +82,7 @@ class JSON {
 	 * a submittable form, you will need to add the requesttoken first as a
 	 * parameter to the ajax call, then assign it to the template and finally
 	 * add a hidden input field also named 'requesttoken' containing the value.
+	 * 
 	 * @return json Error msg if not valid.
 	 */
 	public static function callCheck(){
@@ -86,8 +99,22 @@ class JSON {
 
 
 	/**
-	* @brief Send json error msg
+	* Send json error msg
+	* 
+	* Return a json error message with optional extra data for 
+	* error message or app specific data.
+	* 
+	* Example use:
+	* 
+	*     $id = [some value]
+	*     OCP\JSON::error(array('data':array('message':'An error happened', 'id': $id)));
+	* 
+	* Will return the json formatted string:
+	* 
+	*     {"status":"error","data":{"message":"An error happened", "id":[some value]}}
+	* 
 	* @param array $data The data to use
+	* @return json formatted error string.
 	*/
 	public static function error( $data = array() ){
 		return(\OC_JSON::error( $data ));
@@ -104,7 +131,18 @@ class JSON {
 
 
 	/**
-	 * @brief Check if the App is enabled and send JSON error message instead
+	 * Check if the App is enabled and send JSON error message instead
+	 * 
+	 * This method checks if a specific app is enabled. If not, a json error
+	 * response will be return and the method will exit from execution
+	 * of the script.
+	 * The returned json will be in the format:
+	 * 
+	 *     {"status":"error","data":{"message":"Application is not enabled."}}
+	 * 
+	 * Add this call to the start of all ajax method files that requires
+	 * a specific app to be enabled.
+	 * 
 	 * @param string $app The app to check
 	 */
 	public static function checkAppEnabled( $app ){
@@ -113,7 +151,18 @@ class JSON {
 
 
 	/**
-	* @brief Check if the user is a admin, send json error msg if not
+	 * Check if the user is a admin, send json error msg if not
+	 * 
+	 * This method checks if the current user has admin rights. If not, a json error
+	 * response will be return and the method will exit from execution
+	 * of the script.
+	 * The returned json will be in the format:
+	 * 
+	 *     {"status":"error","data":{"message":"Authentication error."}}
+	 * 
+	 * Add this call to the start of all ajax method files that requires
+	 * administrative rights.
+	 * 
 	*/
 	public static function checkAdminUser(){
 		return(\OC_JSON::checkAdminUser());
