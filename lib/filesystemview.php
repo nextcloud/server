@@ -393,7 +393,7 @@ class OC_FilesystemView {
 		return $this->basicOperation('getMimeType',$path);
 	}
 	public function hash($type,$path){
-		return $this->basicOperation('hash',$path,array('read'));
+		return $this->basicOperation('hash',$path,array('read'),$type);
 	}
 
 	public function free_space($path='/'){

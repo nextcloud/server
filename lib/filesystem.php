@@ -46,9 +46,10 @@
 class OC_Filesystem{
 	static private $storages=array();
 	static private $mounts=array();
-	static private $storageTypes=array();
 	public static $loaded=false;
-	private $fakeRoot='';
+	/**
+	 * @var OC_Filestorage $defaultInstance
+	 */
 	static private $defaultInstance;
 
 
@@ -155,7 +156,8 @@ class OC_Filesystem{
 		}
 		$path=str_replace('//', '/',$path);
 		$foundMountPoint='';
-		foreach(OC_Filesystem::$mounts as $mountpoint=>$storage){
+		$mountPoints=array_keys(OC_Filesystem::$mounts);
+		foreach($mountPoints as $mountpoint){
 			if($mountpoint==$path){
 				return $mountpoint;
 			}
@@ -260,10 +262,7 @@ class OC_Filesystem{
 	 * tear down the filesystem, removing all storage providers
 	 */
 	static public function tearDown(){
-		foreach(self::$storages as $mountpoint=>$storage){
-			unset(self::$storages[$mountpoint]);
-		}
-		$fakeRoot='';
+		self::$storages=array();
 	}
 	
 	/**
@@ -287,7 +286,7 @@ class OC_Filesystem{
 	* @return bool
 	*/
 	static public function chroot($fakeRoot){
-		return self::$defaultInstance->chroot($path);
+		return self::$defaultInstance->chroot($fakeRoot);
 	}
 
 	/**
@@ -485,7 +484,7 @@ class OC_Filesystem{
 	 * @return bool
 	 */
 	static public function hasUpdated($path,$time){
-		return self::$defaultInstance->hasUpdated($path);
+		return self::$defaultInstance->hasUpdated($path,$time);
 	}
 }
 
