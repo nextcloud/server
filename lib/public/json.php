@@ -55,6 +55,21 @@ class JSON {
 
 	/**
 	 * @brief Check an ajax get/post call if the request token is valid.
+	 * 
+	 * This method checks for a valid variable 'requesttoken' in $_GET,
+	 * $_POST and $_SERVER. If a valid token is not found, an json error
+	 * response will be return and the method will exit from execution
+	 * of the script.
+	 * The returned json will be in the format:
+	 * 
+	 * {"status":"error","data":{"message":"Token expired. Please reload page."}}
+	 * 
+	 * Add this call to the start of all ajax method files that creates, 
+	 * updates or deletes anything.
+	 * In cases where you e.g. use an ajax call to load a dialog containing
+	 * a submittable form, you will need to add the requesttoken first as a
+	 * parameter to the ajax call, then assign it to the template and finally
+	 * add a hidden input field also named 'requesttoken' containing the value.
 	 * @return json Error msg if not valid.
 	 */
 	public static function callCheck(){
