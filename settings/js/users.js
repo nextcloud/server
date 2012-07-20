@@ -83,7 +83,6 @@ $(document).ready(function(){
 	}
 	
 	function applyMultiplySelect(element){
-		console.log(element);
 		var checked=[];
 		var user=element.data('username');
 		if($(element).attr('class') == 'groupsselect'){		
@@ -114,9 +113,15 @@ $(document).ready(function(){
 					}
 				})
 			};
+			var label;
+			if(isadmin){
+				label = t('files', 'add group');
+			}else{
+				label = null;
+			}
 			element.multiSelect({
 				createCallback:addGroup,
-				createText:'add group',
+				createText:label,
 				checked:checked,
 				oncheck:checkHandeler,
 				onuncheck:checkHandeler,
@@ -142,8 +147,6 @@ $(document).ready(function(){
 			};
 			
 			var addSubAdmin = function(group) {
-				console.log('addSubAdmin called');
-				console.log(group);
 				$('select[multiple]').each(function(index, element) {
 					if ($(element).find('option[value="'+group +'"]').length == 0) {
 						$(element).append('<option value="'+group+'">'+group+'</option>');
@@ -294,7 +297,6 @@ $(document).ready(function(){
 				}
 				else {
 					groups = result.data.groups;
-					console.log(groups);
 					var tr=$('#content table tbody tr').first().clone();
 					tr.attr('data-uid',username);
 					tr.find('td.name').text(username);
