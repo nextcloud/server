@@ -37,13 +37,15 @@ $n = trim($_POST['n']);
 
 $vcard = new OC_VObject('VCARD');
 $vcard->setUID();
-$vcard->setString('FN',$fn);
-$vcard->setString('N',$n);
+$vcard->setString('FN', $fn);
+$vcard->setString('N', $n);
 
 $id = OC_Contacts_VCard::add($aid, $vcard, null, $isnew);
 if(!$id) {
-	OCP\JSON::error(array('data' => array('message' => OC_Contacts_App::$l10n->t('There was an error adding the contact.'))));
-	OCP\Util::writeLog('contacts','ajax/addcontact.php: Recieved non-positive ID on adding card: '.$id, OCP\Util::ERROR);
+	OCP\JSON::error(array(
+		'data' => array(
+			'message' => OC_Contacts_App::$l10n->t('There was an error adding the contact.'))));
+	OCP\Util::writeLog('contacts', 'ajax/addcontact.php: Recieved non-positive ID on adding card: '.$id, OCP\Util::ERROR);
 	exit();
 }
 

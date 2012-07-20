@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<info>
+	<id>user_external</id>
+	<name>External user support</name>
+	<description>Use external user authentication methods</description>
+	<licence>AGPL</licence>
+	<author>Robin Appelman</author>
+	<require>4</require>
+	<shipped>true</shipped>
+	<types>
+		<authentication/>
+	</types>
+</info>

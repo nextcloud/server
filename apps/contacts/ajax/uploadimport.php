@@ -24,7 +24,9 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
-require_once('loghandler.php');
+require_once 'loghandler.php';
+
+$l10n = OC_Contacts_App::$l10n;
 
 $view = OCP\Files::getStorage('contacts');
 if(!$view->file_exists('imports')) {
@@ -39,25 +41,29 @@ if($fn) {
 		OCP\JSON::success(array('data' => array('file'=>$tmpfile, 'name'=>$fn)));
 		exit();
 	} else {
-		bailOut(OC_Contacts_App::$l10n->t('Error uploading contacts to storage.'));
+		bailOut($l10n->t('Error uploading contacts to storage.'));
 	}
 }
 
 // File input transfers are handled here
 if (!isset($_FILES['importfile'])) {
-	OCP\Util::writeLog('contacts','ajax/uploadphoto.php: No file was uploaded. Unknown error.', OCP\Util::DEBUG);
-	OCP\JSON::error(array('data' => array( 'message' => 'No file was uploaded. Unknown error' )));
+	OCP\Util::writeLog('contacts',
+		'ajax/uploadphoto.php: No file was uploaded. Unknown error.', 
+		OCP\Util::DEBUG);
+	OCP\JSON::error(array('
+		data' => array(
+			'message' => 'No file was uploaded. Unknown error' )));
 	exit();
 }
 $error = $_FILES['importfile']['error'];
 if($error !== UPLOAD_ERR_OK) {
 	$errors = array(
-		0=>OC_Contacts_App::$l10n->t("There is no error, the file uploaded with success"),
-		1=>OC_Contacts_App::$l10n->t("The uploaded file exceeds the upload_max_filesize directive in php.ini").ini_get('upload_max_filesize'),
-		2=>OC_Contacts_App::$l10n->t("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
-		3=>OC_Contacts_App::$l10n->t("The uploaded file was only partially uploaded"),
-		4=>OC_Contacts_App::$l10n->t("No file was uploaded"),
-		6=>OC_Contacts_App::$l10n->t("Missing a temporary folder")
+		0=>$l10n->t("There is no error, the file uploaded with success"),
+		1=>$l10n->t("The uploaded file exceeds the upload_max_filesize directive in php.ini").ini_get('upload_max_filesize'),
+		2=>$l10n->t("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
+		3=>$l10n->t("The uploaded file was only partially uploaded"),
+		4=>$l10n->t("No file was uploaded"),
+		6=>$l10n->t("Missing a temporary folder")
 	);
 	bailOut($errors[$error]);
 }
@@ -67,7 +73,7 @@ if(file_exists($file['tmp_name'])) {
 	if($view->file_put_contents('/imports/'.$file['name'], file_get_contents($file['tmp_name']))) {
 		OCP\JSON::success(array('data' => array('file'=>$file['name'], 'name'=>$file['name'])));
 	} else {
-		bailOut(OC_Contacts_App::$l10n->t('Error uploading contacts to storage.'));
+		bailOut($l10n->t('Error uploading contacts to storage.'));
 	}
 } else {
 	bailOut('Temporary file: \''.$file['tmp_name'].'\' has gone AWOL?');

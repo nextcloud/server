@@ -34,8 +34,8 @@ if($checksum) {
 	$tmpl->assign('adr', $adr, false);
 }
 
-$tmpl->assign('id',$id);
-$tmpl->assign('adr_types',$adr_types);
+$tmpl->assign('id', $id);
+$tmpl->assign('adr_types', $adr_types);
 
 $page = $tmpl->fetchPage();
 OCP\JSON::success(array('data' => array('page'=>$page, 'checksum'=>$checksum)));

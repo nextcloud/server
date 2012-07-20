@@ -32,8 +32,7 @@ $testSuiteName="ownCloud Unit Test Suite";
 if(OC::$CLI){
 	$reporter=new TextReporter;
 	$test=isset($_SERVER['argv'][1])?$_SERVER['argv'][1]:false;
-	if($test=='xml')
-	{
+	if($test=='xml'){
 		$reporter= new XmlReporter;
 		$test=false;
 
@@ -42,7 +41,7 @@ if(OC::$CLI){
 		}
 	}
 }else{
-	$reporter='HtmlReporter';
+	$reporter=new HtmlReporter;
 	$test=isset($_GET['test'])?$_GET['test']:false;
 }
 
@@ -81,10 +80,10 @@ function loadTests($dir,$testSuite, $test){
 				}elseif(substr($file,-4)=='.php' and $file!=__FILE__){
 					$name=getTestName($file);
 					if($test===false or $test==$name or substr($name,0,strlen($test))==$test){
-					        $extractor = new SimpleFileLoader();
+						$extractor = new SimpleFileLoader();
 						$loadedSuite=$extractor->load($file);
 						if ($loadedSuite->getSize() > 0)
-						        $testSuite->add($loadedSuite);
+							$testSuite->add($loadedSuite);
 					}
 				}
 			}

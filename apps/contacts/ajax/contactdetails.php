@@ -20,7 +20,7 @@
  *
  */
  
-require_once('loghandler.php');
+require_once 'loghandler.php';
 
 // Check if we are a user
 OCP\JSON::checkLoggedIn();

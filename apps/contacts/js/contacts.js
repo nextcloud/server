@@ -1565,7 +1565,7 @@ Contacts={
 								if(book.contacts[c].id == undefined) { continue; }
 								if(!$('#contacts li[data-id="'+book.contacts[c]['id']+'"]').length) {
 									var contact = Contacts.UI.Card.createEntry(book.contacts[c]);
-									if(c == self.batchnum-5) {
+									if(c == self.batchnum-10) {
 										contact.bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
 											$(this).unbind(event);
 											var bookid = $(this).data('bookid');
@@ -1592,9 +1592,10 @@ Contacts={
 						});
 						if($('#contacts h3').length > 1) {
 							$('#contacts li,#contacts h3').draggable({
+								distance: 10,
 								revert: 'invalid',
 								axis: 'y', containment: '#contacts',
-								scroll: true, scrollSensitivity: 100,
+								scroll: true, scrollSensitivity: 40,
 								opacity: 0.7, helper: 'clone'
 							});
 						} else {
