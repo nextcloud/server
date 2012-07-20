@@ -18,21 +18,18 @@ if($isadmin){
 		$groups = $_POST["groups"];
 	}
 }else{
-	$accessiblegroups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
-	$accessiblegroups = array_flip($accessiblegroups);
 	if(isset( $_POST["groups"] )){
-		$unauditedgroups = $_POST["groups"];
 		$groups = array();
-		foreach($unauditedgroups as $group){
-			if(array_key_exists($group, $accessiblegroups)){
+		foreach($_POST["groups"] as $group){
+			if(OC_SubAdmin::isGroupAccessible(OC_User::getUser(), $group)){
 				$groups[] = $group;
 			}
 		}
 		if(count($groups) == 0){
-			$groups = array_flip($accessiblegroups);
+			$groups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
 		}
 	}else{
-		$groups = array_flip($accessiblegroups);
+		$groups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
 	}
 }
 $username = $_POST["username"];
