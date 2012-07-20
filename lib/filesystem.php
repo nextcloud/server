@@ -483,7 +483,15 @@ class OC_Filesystem{
 	static public function hasUpdated($path,$time){
 		return self::$defaultInstance->hasUpdated($path,$time);
 	}
+
+	static public function removeETagHook() {
+		$path=$params['path'];
+		OC_Connector_Sabre_Node::removeETagPropertyForFile($path);
+	}
 }
+OC_Hook::connect('OC_Filesystem','post_write', 'OC_Filesystem','removeETagHook');
+OC_Hook::connect('OC_Filesystem','post_delete','OC_Filesystem','removeETagHook');
+OC_Hook::connect('OC_Filesystem','post_rename','OC_Filesystem','removeETagHook');
 
 OC_Util::setupFS();
 require_once('filecache.php');
