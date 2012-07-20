@@ -22,7 +22,7 @@ $request['description'] = null;
 $vcalendar = OC_Task_App::createVCalendarFromRequest($request);
 $id = OC_Calendar_Object::add($cid, $vcalendar->serialize());
 
-$user_timezone = OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$user_timezone = OC_Calendar_App::getTimezone();
 $task = OC_Task_App::arrayForJSON($id, $vcalendar->VTODO, $user_timezone);
 
 OCP\JSON::success(array('task' => $task));
