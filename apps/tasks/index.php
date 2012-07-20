@@ -21,8 +21,8 @@ OCP\Util::addScript('3rdparty/timepicker', 'jquery.ui.timepicker');
 OCP\Util::addStyle('3rdparty/timepicker', 'jquery.ui.timepicker');
 OCP\Util::addScript('tasks', 'tasks');
 OCP\Util::addStyle('tasks', 'style');
-OCP\Util::addScript('contacts','jquery.multi-autocomplete');
-OCP\Util::addScript('','oc-vcategories');
+OCP\Util::addScript('contacts', 'jquery.multi-autocomplete');
+OCP\Util::addScript('', 'oc-vcategories');
 OCP\App::setActiveNavigationEntry('tasks_index');
 
 $categories = OC_Calendar_App::getCategoryOptions();

@@ -77,7 +77,7 @@ class OC_Task_App {
 	public static function validateRequest($request)
 	{
 		$errors = array();
-		if($request['summary'] == ''){
+		if($request['summary'] == '') {
 			$errors['summary'] = self::$l10n->t('Empty Summary');
 		}
 
@@ -89,10 +89,10 @@ class OC_Task_App {
 			$errors['due'] = self::$l10n->t('Invalid date/time');
 		}
 
-		if ($request['percent_complete'] < 0 || $request['percent_complete'] > 100){
+		if ($request['percent_complete'] < 0 || $request['percent_complete'] > 100) {
 			$errors['percent_complete'] = self::$l10n->t('Invalid percent complete');
 		}
-		if ($request['percent_complete'] == 100 && !empty($request['completed'])){
+		if ($request['percent_complete'] == 100 && !empty($request['completed'])) {
 			try {
 				$timezone = OCP\Config::getUserValue(OCP\User::getUser(), "calendar", "timezone", "Europe/London");
 				$timezone = new DateTimeZone($timezone);
@@ -168,8 +168,8 @@ class OC_Task_App {
 			$vtodo->__unset('PERCENT-COMPLETE');
 		}
 
-		if ($percent_complete == 100){
-			if (!$completed){
+		if ($percent_complete == 100) {
+			if (!$completed) {
 				$completed = 'now';
 			}
 		} else {
