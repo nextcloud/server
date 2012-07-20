@@ -67,7 +67,6 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	public function rmdir($path) {
 		// The folder will be removed from the database, but won't be deleted from the owner's filesystem
 		OC_Share::unshareFromMySelf($this->datadir.$path);
-		$this->clearFolderSizeCache($path);
 	}
 	
 	public function opendir($path) {
@@ -200,26 +199,6 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		}
 	}
 
-	private function clearFolderSizeCache($path) {
-		$path = rtrim($path, "/");
-		$path = preg_replace('{(/)\1+}', "/", $path);
-		if ($this->is_file($path)) {
-			$path = dirname($path);
-		}
-		$dbpath = rtrim($this->datadir.$path, "/");
-// 		$query = OCP\DB::prepare("DELETE FROM *PREFIX*/*foldersize*/ WHERE path = ?");
-// 		$result = $query->execute(array($dbpath));
-		if ($path != "/" && $path != "") {
-			$parts = explode("/", $path);
-			$part = array_pop($parts);
-			if (empty($part)) {
-				array_pop($parts);
-			}
-			$parent = implode("/", $parts);
-			$this->clearFolderSizeCache($parent);
-		}
-	}
-
 	public function is_readable($path) {
 		return true;
 	}
@@ -312,9 +291,6 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 				OCP\Util::emitHook('OC_Filestorage_Shared', 'file_put_contents', $info);
 				$storage = OC_Filesystem::getStorage($source);
 				$result = $storage->file_put_contents($this->getInternalPath($source), $data);
-				if ($result) {
-					$this->clearFolderSizeCache($path);
-				}
 				return $result;
 			}
 		}
@@ -336,7 +312,6 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		} else {
 			OC_Share::unshareFromMySelf($target);
 		}
-		$this->clearFolderSizeCache($this->getInternalPath($target));
 		return true;
 	}
 	
@@ -372,8 +347,6 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		} else {
 			OC_Share::setTarget($oldTarget, $newTarget);
 		}
-		$this->clearFolderSizeCache($this->getInternalPath($oldTarget));
-		$this->clearFolderSizeCache($this->getInternalPath($newTarget));
 		return true;
 	}
 	
@@ -384,9 +357,6 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 			if ($this->is_writable($path2)) {
 				$tmpFile = $this->toTmpFile($path1);
 				$result = $this->fromTmpFile($tmpFile, $path2);
-				if ($result) {
-					$this->clearFolderSizeCache($path2);
-				}
 				return $result;
 			} else {
 				return false;
@@ -422,9 +392,6 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 			if ($source) {
 				$storage = OC_Filesystem::getStorage($source);
 				$result = $storage->fromTmpFile($tmpFile, $this->getInternalPath($source));
-				if ($result) {
-					$this->clearFolderSizeCache($path);
-				}
 				return $result;
 			}
 		} else {
@@ -491,7 +458,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_Filesystem::getStorage($source);
-			return $storage->touch($this->getInternalPath($source),$time);
+			return $storage->touch($this->getInternalPath($source),$mtime);
 		}
 	}
 
