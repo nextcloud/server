@@ -1523,6 +1523,11 @@ Contacts={
 			 * it will be appended.
 			 */
 			insertContact:function(params) {
+				if(!params.contactlist) {
+					params['contactlist'] = params.data
+						? $('#contacts ul[data-id="'+params.data.addressbookid+'"]')
+						: contact.data('bookid');
+				}
 				var contact = params.data
 					? $('<li data-id="'+params.data.id+'" data-bookid="'+params.data.addressbookid+'" role="button"><a href="'+OC.linkTo('contacts', 'index.php')+'&id='+params.data.id+'"  style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+params.data.id+') no-repeat scroll 0% 0% transparent;">'+params.data.displayname+'</a></li>')
 					: params.contact;
