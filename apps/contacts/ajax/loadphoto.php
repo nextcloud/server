@@ -24,7 +24,7 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
-require_once('loghandler.php');
+require_once 'loghandler.php';
 
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $refresh = isset($_GET['refresh']) ? true : false;

@@ -11,7 +11,6 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @var ZipArchive zip
 	 */
 	private $zip=null;
-	private $success=false;
 	private $path;
 	
 	function __construct($source){
@@ -74,8 +73,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @return int
 	 */
 	function mtime($path){
-		$stat=$this->zip->statName($path);
-		return $stat['mtime'];
+		return filemtime($this->path);
 	}
 	/**
 	 * get the files in a folder

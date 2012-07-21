@@ -30,8 +30,10 @@ class Test_Cache_File extends Test_Cache {
 		OC_FileProxy::clearProxies();
 		OC_Hook::clear('OC_Filesystem');
 		
-		//enable only the encryption hook
-		OC_FileProxy::register(new OC_FileProxy_Encryption());
+		//enable only the encryption hook if needed
+		if(OC_App::isEnabled('files_encryption')){
+			OC_FileProxy::register(new OC_FileProxy_Encryption());
+		}
 		
 		//set up temporary storage
 		OC_Filesystem::clearMounts();

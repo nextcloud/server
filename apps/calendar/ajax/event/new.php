@@ -10,6 +10,7 @@
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
+OCP\JSON::callCheck();
 
 $errarr = OC_Calendar_Object::validateRequest($_POST);
 if($errarr){

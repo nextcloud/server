@@ -7,6 +7,7 @@
  */
  
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 $id = $_POST['id'];
 

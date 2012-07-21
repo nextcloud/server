@@ -227,13 +227,13 @@ class Storage {
 			}
 				
 			$versions = array_reverse( $versions );
-				
+			
 			foreach( $versions as $key => $value ) {
 
 				// flag the first matched file in array (which will have latest modification date) as current version
-				if ( $versions[$key]['fileMatch'] ) {
+				if ( $value['fileMatch'] ) {
 
-					$versions[$key]['cur'] = 1;
+					$value['cur'] = 1;
 					break;
 						
 				}

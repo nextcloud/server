@@ -220,7 +220,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		}
 		$tmpFile=OC_Helper::tmpFile($extension);
 		$target=fopen($tmpFile,'w');
-		$count=OC_Helper::streamCopy($source,$target);
+		OC_Helper::streamCopy($source,$target);
 		return $tmpFile;
 	}
 // 	abstract public function touch($path, $mtime=null);

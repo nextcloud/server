@@ -46,9 +46,10 @@
 class OC_Filesystem{
 	static private $storages=array();
 	static private $mounts=array();
-	static private $storageTypes=array();
 	public static $loaded=false;
-	private $fakeRoot='';
+	/**
+	 * @var OC_Filestorage $defaultInstance
+	 */
 	static private $defaultInstance;
 
 
@@ -155,7 +156,8 @@ class OC_Filesystem{
 		}
 		$path=str_replace('//', '/',$path);
 		$foundMountPoint='';
-		foreach(OC_Filesystem::$mounts as $mountpoint=>$storage){
+		$mountPoints=array_keys(OC_Filesystem::$mounts);
+		foreach($mountPoints as $mountpoint){
 			if($mountpoint==$path){
 				return $mountpoint;
 			}
@@ -260,10 +262,7 @@ class OC_Filesystem{
 	 * tear down the filesystem, removing all storage providers
 	 */
 	static public function tearDown(){
-		foreach(self::$storages as $mountpoint=>$storage){
-			unset(self::$storages[$mountpoint]);
-		}
-		$fakeRoot='';
+		self::$storages=array();
 	}
 	
 	/**
@@ -287,7 +286,7 @@ class OC_Filesystem{
 	* @return bool
 	*/
 	static public function chroot($fakeRoot){
-		return self::$defaultInstance->chroot($path);
+		return self::$defaultInstance->chroot($fakeRoot);
 	}
 
 	/**
@@ -320,21 +319,7 @@ class OC_Filesystem{
 		if(substr($mountpoint,-1)!=='/'){
 			$mountpoint=$mountpoint.'/';
 		}
-		if (self::getView() != null && $mountpoint != '/' && !self::is_dir(basename($mountpoint))) {
-			self::mkdir(basename($mountpoint));
-		}
 		self::$mounts[$mountpoint]=array('class'=>$class,'arguments'=>$arguments);
-	}
-
-	/**
-	 * create all storage backends mounted in the filesystem
-	 */
-	static private function mountAll(){
-		foreach(self::$mounts as $mountPoint=>$mount){
-			if(!isset(self::$storages[$mountPoint])){
-				self::$storages[$mountPoint]=self::createStorage($mount['type'],$mount['arguments']);
-			}
-		}
 	}
 	
 	/**
@@ -485,9 +470,17 @@ class OC_Filesystem{
 	 * @return bool
 	 */
 	static public function hasUpdated($path,$time){
-		return self::$defaultInstance->hasUpdated($path);
+		return self::$defaultInstance->hasUpdated($path,$time);
+	}
+
+	static public function removeETagHook($params) {
+		$path=$params['path'];
+		OC_Connector_Sabre_Node::removeETagPropertyForFile($path);
 	}
 }
+OC_Hook::connect('OC_Filesystem','post_write', 'OC_Filesystem','removeETagHook');
+OC_Hook::connect('OC_Filesystem','post_delete','OC_Filesystem','removeETagHook');
+OC_Hook::connect('OC_Filesystem','post_rename','OC_Filesystem','removeETagHook');
 
 OC_Util::setupFS();
 require_once('filecache.php');

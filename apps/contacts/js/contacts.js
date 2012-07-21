@@ -12,10 +12,38 @@ String.prototype.strip_tags = function(){
 
 Contacts={
 	UI:{
+		/**
+		 * Arguments:
+		 * message: The text message to show. The only mandatory parameter.
+		 * timeout: The timeout in seconds before the notification disappears. Default 10.
+		 * timeouthandler: A function to run on timeout.
+		 * clickhandler: A function to run on click. If a timeouthandler is given it will be cancelled.
+		 * data: An object that will be passed as argument to the timeouthandler and clickhandler functions.
+		 */
 		notify:function(params) {
-			$('#notification').text(params.message);
-			$('#notification').fadeIn();
-			setTimeout(function() {$('#notification').fadeOut();}, 10000);
+			var notifier = $('#notification');
+			notifier.text(params.message);
+			notifier.fadeIn();
+			var timer = setTimeout(function() {
+				notifier.fadeOut();
+				if(params.timeouthandler && $.isFunction(params.timeouthandler)) {
+					params.timeouthandler(notifier.data(dataid));
+					notifier.off('click');
+					notifier.data(dataid, null);
+				}
+			}, params.timeout && $.isNumeric(params.timeout) ? parseInt(params.timeout)*1000 : 10000);
+			var dataid = timer.toString();
+			if(params.data) {
+				notifier.data(dataid, params.data);
+			}
+			if(params.clickhandler && $.isFunction(params.clickhandler)) {
+				notifier.on('click', function() {
+					clearTimeout(timer);
+					notifier.off('click');
+					params.clickhandler(notifier.data(dataid));
+					notifier.data(dataid, null);
+				});
+			}
 		},
 		notImplemented:function() {
 			OC.dialogs.alert(t('contacts', 'Sorry, this functionality has not been implemented yet'), t('contacts', 'Not implemented'));
@@ -96,7 +124,7 @@ Contacts={
 			$('.addresscard,.propertylist li,.propertycontainer').hover(
 				function () {
 					$(this).find('.globe,.mail,.delete,.edit').animate({ opacity: 1.0 }, 200, function() {});
-				}, 
+				},
 				function () {
 					$(this).find('.globe,.mail,.delete,.edit').animate({ opacity: 0.1 }, 200, function() {});
 				}
@@ -107,7 +135,7 @@ Contacts={
 				obj.tipsy('hide');
 				Contacts.UI.Card.deleteProperty(obj, 'single');
 			}
-			
+
 			var goToUrl = function(obj) {
 				var url = Contacts.UI.propertyContainerFor(obj).find('#url').val();
 				if(url != '') {
@@ -115,7 +143,7 @@ Contacts={
 					newWindow.focus();
 				}
 			}
-			
+
 			$('#identityprops a.delete').click( function() { deleteItem($(this)) });
 			$('#identityprops a.delete').keydown( function() { deleteItem($(this)) });
 			$('#categories_value a.edit').click( function() { $(this).tipsy('hide');OCCategories.edit(); } );
@@ -140,7 +168,7 @@ Contacts={
 												});
 			$('#edit_name').click(function(){Contacts.UI.Card.editName()});
 			$('#edit_name').keydown(function(){Contacts.UI.Card.editName()});
-			
+
 			$('#phototools li a').click(function() {
 				$(this).tipsy('hide');
 			});
@@ -167,13 +195,13 @@ Contacts={
 				OC.dialogs.filepicker(t('contacts', 'Select photo'), Contacts.UI.Card.cloudPhotoSelected, false, 'image', true);
 			});
 			/* Initialize the photo edit dialog */
-			$('#edit_photo_dialog').dialog({ 
+			$('#edit_photo_dialog').dialog({
 				autoOpen: false, modal: true, height: 'auto', width: 'auto'
 			});
 			$('#edit_photo_dialog' ).dialog( 'option', 'buttons', [
 				{
 					text: "Ok",
-					click: function() { 
+					click: function() {
 						Contacts.UI.Card.savePhoto(this);
 						$(this).dialog('close');
 					}
@@ -183,37 +211,31 @@ Contacts={
 					click: function() { $(this).dialog('close'); }
 				}
 			] );
-			
+
 			// Name has changed. Update it and reorder.
 			$('#fn').change(function(){
 				var name = $('#fn').val().strip_tags();
-				var item = $('.contacts li[data-id="'+Contacts.UI.Card.id+'"]');
+				var item = $('.contacts li[data-id="'+Contacts.UI.Card.id+'"]').detach();
 				$(item).find('a').html(name);
 				Contacts.UI.Card.fn = name;
-				var added = false;
-				$('.contacts li[data-bookid="'+Contacts.UI.Card.bookid+'"]').each(function(){
-					if ($(this).text().toLowerCase() > name.toLowerCase()) {
-						$(this).before(item).fadeIn('fast');
-						added = true;
-						return false;
-					}
+				Contacts.UI.Contacts.insertContact({
+					contactlist:$('#contacts ul[data-id="'+Contacts.UI.Card.bookid+'"]'),
+					contacts:$('#contacts ul[data-id="'+Contacts.UI.Card.bookid+'"] li'),
+					contact:item,
 				});
-				if(!added) {
-					$('#contacts ul[data-id="'+Contacts.UI.Card.bookid+'"]').append(item);
-				}
 				Contacts.UI.Contacts.scrollTo(Contacts.UI.Card.id);
 			});
 
-			$('#contacts_deletecard').click( function() { Contacts.UI.Card.doDelete();return false;} );
-			$('#contacts_deletecard').keydown( function(event) { 
+			$('#contacts_deletecard').click( function() { Contacts.UI.Card.delayedDelete();return false;} );
+			$('#contacts_deletecard').keydown( function(event) {
 				if(event.which == 13 || event.which == 32) {
-					Contacts.UI.Card.doDelete();
+					Contacts.UI.Card.delayedDelete();
 				}
 				return false;
 			});
 
 			$('#contacts_downloadcard').click( function() { Contacts.UI.Card.doExport();return false;} );
-			$('#contacts_downloadcard').keydown( function(event) { 
+			$('#contacts_downloadcard').keydown( function(event) {
 				if(event.which == 13 || event.which == 32) {
 					Contacts.UI.Card.doExport();
 				}
@@ -228,12 +250,12 @@ Contacts={
 			$('#contacts_details_photo_wrapper').bind('dragover',function(event){
 				$(event.target).addClass('droppable');
 				event.stopPropagation();
-				event.preventDefault();  
+				event.preventDefault();
 			});
 			$('#contacts_details_photo_wrapper').bind('dragleave',function(event){
 				$(event.target).removeClass('droppable');
 				//event.stopPropagation();
-				//event.preventDefault();  
+				//event.preventDefault();
 			});
 			$('#contacts_details_photo_wrapper').bind('drop',function(event){
 				event.stopPropagation();
@@ -285,7 +307,7 @@ Contacts={
 			data:undefined,
 			update:function(params) { // params {cid:int, aid:int}
 				if(!params) { params = {}; }
-				$('#contacts li').removeClass('active');
+				$('#contacts li,#contacts h3').removeClass('active');
 				console.log('Card, cid: ' + params.cid + ' aid: ' + params.aid);
 				var newid, bookid, firstitem;
 				if(!parseInt(params.cid) && !parseInt(params.aid)) {
@@ -299,7 +321,13 @@ Contacts={
 					newid = parseInt($('#contacts').find('li[data-bookid="'+bookid+'"]').first().data('id'));
 				} else if(parseInt(params.cid) && !parseInt(params.aid)) {
 					newid = parseInt(params.cid);
-					bookid = parseInt($('#contacts li[data-id="'+newid+'"]').data('bookid'));
+					var listitem = $('#contacts li[data-id="'+newid+'"]');
+					console.log('Is contact in list? ' + listitem.length);
+					if(listitem.length) {
+						bookid = parseInt($('#contacts li[data-id="'+newid+'"]').data('bookid'));
+					} else { // contact isn't in list yet.
+						bookid = 'unknown';
+					}
 				} else {
 					newid = parseInt(params.cid);
 					bookid = parseInt(params.aid);
@@ -311,18 +339,26 @@ Contacts={
 				console.log('newid: ' + newid + ' bookid: ' +bookid);
 				var localLoadContact = function(newid, bookid) {
 					if($('.contacts li').length > 0) {
-						$('#contacts li[data-id="'+newid+'"]').addClass('active');
 						$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
 							if(jsondata.status == 'success'){
+								if(bookid == 'unknown') {
+									bookid = jsondata.data.addressbookid;
+									var contact = Contacts.UI.Contacts.insertContact({
+										contactlist:$('#contacts ul[data-id="'+bookid+'"]'),
+										data:jsondata.data
+									});
+								}
+								$('#contacts li[data-id="'+newid+'"],#contacts h3[data-id="'+bookid+'"]').addClass('active');
 								$('#contacts ul[data-id="'+bookid+'"]').slideDown(300);
 								Contacts.UI.Card.loadContact(jsondata.data, bookid);
+								Contacts.UI.Contacts.scrollTo(newid);
 							} else {
 								OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 							}
 						});
 					}
 				}
-				
+
 				// Make sure proper DOM is loaded.
 				if(!$('#card').length && newid) {
 					console.log('Loading card DOM');
@@ -362,9 +398,6 @@ Contacts={
 				//Contacts.UI.Card.add(t('contacts', 'Contact')+';'+t('contacts', 'New')+';;;', t('contacts', 'New Contact'), '', true);
 				Contacts.UI.Card.add(';;;;;', '', '', true);
 				return false;
-			},
-			createEntry:function(data) {
-				return $('<li data-id="'+data.id+'" data-bookid="'+data.addressbookid+'" role="button"><a href="'+OC.linkTo('contacts', 'index.php')+'&id='+data.id+'"  style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+data.id+') no-repeat scroll 0% 0% transparent;">'+data.displayname+'</a></li>');
 			},
 			add:function(n, fn, aid, isnew){ // add a new contact
 				console.log('Adding ' + fn);
@@ -410,7 +443,7 @@ Contacts={
 						}
 					});
 				}
-			
+
 				if(!$('#card').length) {
 					console.log('Loading card DOM');
 					$.getJSON(OC.filePath('contacts', 'ajax', 'loadcard.php'),{'requesttoken': requesttoken},function(jsondata){
@@ -427,47 +460,56 @@ Contacts={
 					localAddcontact(n, fn, aid, isnew);
 				}
 			},
-			doDelete:function() {
+			delayedDelete:function() {
 				$('#contacts_deletecard').tipsy('hide');
-				OC.dialogs.confirm(t('contacts', 'Are you sure you want to delete this contact?'), t('contacts', 'Warning'), function(answer) {
-					if(answer == true) {
-						$.post(OC.filePath('contacts', 'ajax', 'deletecard.php'),{'id':Contacts.UI.Card.id},function(jsondata){
-							if(jsondata.status == 'success'){
-								var newid = '', bookid;
-								var curlistitem = $('#contacts li[data-id="'+jsondata.data.id+'"]');
-								var newlistitem = curlistitem.prev('li');
-								if(!newlistitem) {
-									newlistitem = curlistitem.next('li');
-								}
-								curlistitem.remove();
-								if($(newlistitem).is('li')) {
-									newid = newlistitem.data('id');
-									bookid = newlistitem.data('bookid');
-								}
-								$('#rightcontent').data('id',newid);
-								this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
-								this.data = undefined;
-								
-								if($('.contacts li').length > 0) { // Load first in list.
-									Contacts.UI.Card.update({cid:newid, aid:bookid});
-								} else {
-									// load intro page
-									$.getJSON(OC.filePath('contacts', 'ajax', 'loadintro.php'),{},function(jsondata){
-										if(jsondata.status == 'success'){
-											id = '';
-											$('#rightcontent').data('id','');
-											$('#rightcontent').html(jsondata.data.page);
-										}
-										else{
-											OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-										}
-									});
-								}
-							}
-							else{
-								OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-							}
-						});
+				var newid = '', bookid;
+				var curlistitem = $('#contacts li[data-id="'+Contacts.UI.Card.id+'"]');
+				curlistitem.removeClass('active');
+				var newlistitem = curlistitem.prev('li');
+				if(!newlistitem) {
+					newlistitem = curlistitem.next('li');
+				}
+				curlistitem.detach();
+				if($(newlistitem).is('li')) {
+					newid = newlistitem.data('id');
+					bookid = newlistitem.data('bookid');
+				}
+				$('#rightcontent').data('id',newid);
+				this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
+				this.data = undefined;
+
+				if($('.contacts li').length > 0) { // Load first in list.
+					Contacts.UI.Card.update({cid:newid, aid:bookid});
+				} else {
+					// load intro page
+					$.getJSON(OC.filePath('contacts', 'ajax', 'loadintro.php'),{},function(jsondata){
+						if(jsondata.status == 'success'){
+							id = '';
+							$('#rightcontent').data('id','');
+							$('#rightcontent').html(jsondata.data.page);
+						}
+						else{
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+						}
+					});
+				}
+				Contacts.UI.notify({
+					data:curlistitem,
+					message:t('contacts','Click to undo deletion of "') + curlistitem.find('a').text() + '"',
+					timeouthandler:function(contact) {
+						Contacts.UI.Card.doDelete(contact.data('id'));
+						delete contact;
+					},
+					clickhandler:function(contact) {
+						Contacts.UI.Contacts.insertContact({contact:contact});
+						Contacts.UI.notify({message:t('contacts', 'Cancelled deletion of: "') + curlistitem.find('a').text() + '"'});
+					}
+				});
+			},
+			doDelete:function(id) {
+				$.post(OC.filePath('contacts', 'ajax', 'deletecard.php'),{'id':id},function(jsondata) {
+					if(jsondata.status == 'error'){
+						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 					}
 				});
 				return false;
@@ -519,7 +561,7 @@ Contacts={
 						$('#contacts_propertymenu_dropdown a[data-type="'+propname+'"]').parent().hide();
 						var property = this.data[propname][0];
 						var value = property['value'], checksum = property['checksum'];
-						
+
 						if(propname == 'BDAY') {
 							var val = $.datepicker.parseDate('yy-mm-dd', value.substring(0, 10));
 							value = $.datepicker.formatDate('dd-mm-yy', val);
@@ -584,7 +626,7 @@ Contacts={
 				$.each(names, function(key, value) {
 					$('#fn_select')
 						.append($('<option></option>')
-						.text(value)); 
+						.text(value));
 				});
 				$('#fn_select').combobox('value', this.fn);
 				$('#contact_identity').find('*[data-element="N"]').data('checksum', this.data.N[0]['checksum']);
@@ -835,7 +877,7 @@ Contacts={
 								title:  t('contacts', 'Edit name'),
 								height: 'auto', width: 'auto',
 								buttons: {
-									'Ok':function() { 
+									'Ok':function() {
 										Contacts.UI.Card.saveName(this);
 										$(this).dialog('close');
 									},
@@ -886,9 +928,9 @@ Contacts={
 				$.each(names, function(key, value) {
 					$('#fn_select')
 						.append($('<option></option>')
-						.text(value)); 
+						.text(value));
 				});
-				
+
 				if(this.id == '') {
 					var aid = $(dlg).find('#aid').val();
 					Contacts.UI.Card.add(n.join(';'), $('#short').text(), aid);
@@ -952,7 +994,7 @@ Contacts={
 					container = $('#addressdisplay dl').last();
 					container.removeClass('template').addClass('propertycontainer');
 				} else {
-					params['checksum'] = Contacts.UI.checksumFor(obj); 
+					params['checksum'] = Contacts.UI.checksumFor(obj);
 				}
 				/* Initialize the address edit dialog */
 				if($('#edit_address_dialog').dialog('isOpen') == true){
@@ -1168,7 +1210,7 @@ Contacts={
 				$('#phototools li a').tipsy('hide');
 				var wrapper = $('#contacts_details_photo_wrapper');
 				wrapper.addClass('loading').addClass('wait');
-				
+
 				var img = new Image();
 				$(img).load(function () {
 					$('img.contacts_details_photo').remove()
@@ -1177,9 +1219,9 @@ Contacts={
 					$(this).insertAfter($('#phototools')).fadeIn();
 				}).error(function () {
 					// notify the user that the image could not be loaded
-					$(t('contacts','something went wrong.')).insertAfter($('#phototools'));
+					Contacts.UI.notify({message:t('contacts','Error loading profile picture.')});
 				}).attr('src', OC.linkTo('contacts', 'photo.php')+'?id='+self.id+refreshstr);
-		
+
 				$.getJSON(OC.filePath('contacts', 'ajax', 'loadphoto.php'),{'id':this.id, 'refresh': refresh},function(jsondata){
 					if(jsondata.status == 'success'){
 						$('#contacts_details_photo_wrapper').data('checksum', jsondata.data.checksum);
@@ -1334,8 +1376,6 @@ Contacts={
 			},
 		},
 		Addressbooks:{
-			droptarget:undefined,
-			droptext:t('contacts', 'Drop a VCF file<br />to import contacts.'),
 			overview:function(){
 				if($('#chooseaddressbook_dialog').dialog('isOpen') == true){
 					$('#chooseaddressbook_dialog').dialog('moveToTop');
@@ -1427,7 +1467,7 @@ Contacts={
 				var displayname = $("#displayname_"+bookid).val().trim();
 				var active = $("#edit_active_"+bookid+":checked").length;
 				var description = $("#description_"+bookid).val();
-				
+
 				if(displayname.length == 0) {
 					OC.dialogs.alert(t('contacts', 'Displayname cannot be empty.'), t('contacts', 'Error'));
 					return false;
@@ -1456,12 +1496,18 @@ Contacts={
 			batchnum:50,
 			drop:function(event, ui) {
 				var dragitem = ui.draggable, droptarget = $(this);
-				//console.log('Drop ' + dragitem.data('id') +' on: ' + droptarget.data('id'));
+				if(dragitem.is('li')) {
+					Contacts.UI.Contacts.dropContact(event, dragitem, droptarget);
+				} else {
+					Contacts.UI.Contacts.dropAddressbook(event, dragitem, droptarget);
+				}
+			},
+			dropContact:function(event, dragitem, droptarget) {
 				if(dragitem.data('bookid') == droptarget.data('id')) {
 					return false;
 				}
 				var droplist = (droptarget.is('ul'))?droptarget:droptarget.next();
-				$.post(OC.filePath('contacts', 'ajax', 'movetoaddressbook.php'), { ids: dragitem.data('id'), aid: $(this).data('id') },
+				$.post(OC.filePath('contacts', 'ajax', 'movetoaddressbook.php'), { ids: dragitem.data('id'), aid: droptarget.data('id') },
 					function(jsondata){
 						if(jsondata.status == 'success'){
 							// Do some inserting/removing/sorting magic
@@ -1485,6 +1531,44 @@ Contacts={
 						}
 				});
 			},
+			dropAddressbook:function(event, dragitem, droptarget) {
+				alert('Dropping address books not implemented yet');
+			},
+			/**
+			 * @params params An object with the properties 'contactlist':a jquery object of the ul to insert into,
+			 * 'contacts':a jquery object of all items in the list and either 'data': an object with the properties
+			 * id, addressbookid and displayname or 'contact': a listitem to be inserted directly.
+			 * If 'contactlist' or 'contacts' aren't defined they will be search for based in the properties in 'data'.
+			 */
+			insertContact:function(params) {
+				if(!params.contactlist) {
+					// FIXME: Check if contact really exists.
+					var bookid = params.data ? params.data.addressbookid : params.contact.data('bookid');
+					params.contactlist = $('#contacts ul[data-id="'+bookid+'"]');
+				}
+				if(!params.contacts) {
+					var bookid = params.data ? params.data.addressbookid : params.contact.data('bookid');
+					params.contacts = $('#contacts ul[data-id="'+bookid+'"] li');
+				}
+				var contact = params.data
+					? $('<li data-id="'+params.data.id+'" data-bookid="'+params.data.addressbookid+'" role="button"><a href="'+OC.linkTo('contacts', 'index.php')+'&id='+params.data.id+'"  style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+params.data.id+') no-repeat scroll 0% 0% transparent;">'+params.data.displayname+'</a></li>')
+					: params.contact;
+				var added = false;
+				var name = params.data ? params.data.displayname.toLowerCase() : contact.find('a').text().toLowerCase();
+				if(params.contacts) {
+					params.contacts.each(function() {
+						if ($(this).text().toLowerCase() > name) {
+							$(this).before(contact);
+							added = true;
+							return false;
+						}
+					});
+				}
+				if(!added || !params.contacts) {
+					params.contactlist.append(contact);
+				}
+				return contact;
+			},
 			// Reload the contacts list.
 			update:function(params){
 				if(!params) { params = {}; }
@@ -1506,7 +1590,7 @@ Contacts={
 				$.getJSON(OC.filePath('contacts', 'ajax', 'contacts.php'),opts,function(jsondata){
 					if(jsondata.status == 'success'){
 						var books = jsondata.data.entries;
-						$.each(books, function(b, book) { 
+						$.each(books, function(b, book) {
 							if($('#contacts h3[data-id="'+b+'"]').length == 0) {
 								firstrun = true;
 								if($('#contacts h3').length == 0) {
@@ -1525,7 +1609,7 @@ Contacts={
 										if(!added) {
 											$('#contacts').append(item);
 										}
-										
+
 									}
 								}
 								$('#contacts h3[data-id="'+b+'"]').on('click', function(event) {
@@ -1534,7 +1618,7 @@ Contacts={
 									$('#contacts ul[data-id="'+b+'"]').slideToggle(300);
 									return false;
 								});
-								var accept = 'li:not([data-bookid="'+b+'"])';
+								var accept = 'li:not([data-bookid="'+b+'"]),h3:not([data-id="'+b+'"])';
 								$('#contacts h3[data-id="'+b+'"],#contacts ul[data-id="'+b+'"]').droppable({
 									drop: Contacts.UI.Contacts.drop,
 									activeClass: 'ui-state-hover',
@@ -1542,11 +1626,12 @@ Contacts={
 								});
 							}
 							var contactlist = $('#contacts ul[data-id="'+b+'"]');
+							var contacts = $('#contacts ul[data-id="'+b+'"] li');
 							for(var c in book.contacts) {
 								if(book.contacts[c].id == undefined) { continue; }
-								if($('#contacts li[data-id="'+book.contacts[c]['id']+'"][data-id="'+book.contacts[c]['bookid']+'"]').length == 0) {
-									var contact = Contacts.UI.Card.createEntry(book.contacts[c]);
-									if(c == self.batchnum-5) {
+								if(!$('#contacts li[data-id="'+book.contacts[c]['id']+'"]').length) {
+									var contact = Contacts.UI.Contacts.insertContact({contactlist:contactlist, contacts:contacts, data:book.contacts[c]});
+									if(c == self.batchnum-10) {
 										contact.bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
 											$(this).unbind(event);
 											var bookid = $(this).data('bookid');
@@ -1557,15 +1642,15 @@ Contacts={
 											}
 										});
 									}
-									contactlist.append(contact);
 								}
 							}
 						});
 						if($('#contacts h3').length > 1) {
-							$('#contacts li').draggable({
+							$('#contacts li,#contacts h3').draggable({
+								distance: 10,
 								revert: 'invalid',
 								axis: 'y', containment: '#contacts',
-								scroll: true, scrollSensitivity: 100,
+								scroll: true, scrollSensitivity: 40,
 								opacity: 0.7, helper: 'clone'
 							});
 						} else {
@@ -1587,9 +1672,10 @@ Contacts={
 			},
 			scrollTo:function(id){
 				var item = $('#contacts li[data-id="'+id+'"]');
+				console.log('scrollTo, found item '+id+'? ' + item.length);
 				if(item) {
-					$('.contacts').animate({
-						scrollTop: $('#contacts li[data-id="'+id+'"]').offset().top-20}, 'slow','swing');
+					$('#contacts').animate({
+						scrollTop: item.offset().top-40}, 'slow','swing');
 				}
 			}
 		}
@@ -1603,13 +1689,13 @@ $(document).ready(function(){
 	$('#notification').click(function(){
 		$('#notification').fadeOut();
 	});
-	
+
 	$('#chooseaddressbook').click(Contacts.UI.Addressbooks.overview);
 	$('#chooseaddressbook').keydown(Contacts.UI.Addressbooks.overview);
 
 	$('#contacts_newcontact').click(Contacts.UI.Card.editNew);
 	$('#contacts_newcontact').keydown(Contacts.UI.Card.editNew);
-	
+
 	// Load a contact.
 	$('.contacts').keydown(function(event) {
 		if(event.which == 13 || event.which == 32) {
@@ -1625,7 +1711,13 @@ $(document).ready(function(){
 			item.addClass('active');
 			var oldid = $('#rightcontent').data('id');
 			if(oldid != 0){
-				$('.contacts li[data-id="'+oldid+'"]').removeClass('active');
+				var olditem = $('.contacts li[data-id="'+oldid+'"]');
+				var oldbookid = olditem.data('bookid');
+				olditem.removeClass('active');
+				if(oldbookid != bookid) {
+					$('#contacts h3[data-id="'+oldbookid+'"]').removeClass('active');
+					$('#contacts h3[data-id="'+bookid+'"]').addClass('active');
+				}
 			}
 			$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
 				if(jsondata.status == 'success'){
@@ -1643,53 +1735,55 @@ $(document).ready(function(){
 		Contacts.UI.Card.saveProperty(this);
 	});
 
-	// Upload function for dropped contact photos files. Should go in the Contacts class/object.
-	$.fileUpload = function(files){
-		var file = files[0];
-		if(file.size > $('#max_upload').val()){
-			OC.dialogs.alert(t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'), t('contacts','Upload too large'));
-			return;
-		}
-		if (file.type.indexOf("image") != 0) {
-			OC.dialogs.alert(t('contacts','Only image files can be used as profile picture.'), t('contacts','Wrong file type'));
-			return;
-		}
-		var xhr = new XMLHttpRequest();
+	$(function() {
+		// Upload function for dropped contact photos files. Should go in the Contacts class/object.
+		$.fileUpload = function(files){
+			var file = files[0];
+			if(file.size > $('#max_upload').val()){
+				OC.dialogs.alert(t('contacts','The file you are trying to upload exceed the maximum size for file uploads on this server.'), t('contacts','Upload too large'));
+				return;
+			}
+			if (file.type.indexOf("image") != 0) {
+				OC.dialogs.alert(t('contacts','Only image files can be used as profile picture.'), t('contacts','Wrong file type'));
+				return;
+			}
+			var xhr = new XMLHttpRequest();
 
-		if (!xhr.upload) {
-			OC.dialogs.alert(t('contacts', 'Your browser doesn\'t support AJAX upload. Please click on the profile picture to select a photo to upload.'), t('contacts', 'Error'))
-		}
-		fileUpload = xhr.upload,
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState == 4){
-				response = $.parseJSON(xhr.responseText);
-				if(response.status == 'success') {
-					if(xhr.status == 200) {
-						Contacts.UI.Card.editPhoto(response.data.id, response.data.tmp);
+			if (!xhr.upload) {
+				OC.dialogs.alert(t('contacts', 'Your browser doesn\'t support AJAX upload. Please click on the profile picture to select a photo to upload.'), t('contacts', 'Error'))
+			}
+			fileUpload = xhr.upload,
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4){
+					response = $.parseJSON(xhr.responseText);
+					if(response.status == 'success') {
+						if(xhr.status == 200) {
+							Contacts.UI.Card.editPhoto(response.data.id, response.data.tmp);
+						} else {
+							OC.dialogs.alert(xhr.status + ': ' + xhr.responseText, t('contacts', 'Error'));
+						}
 					} else {
-						OC.dialogs.alert(xhr.status + ': ' + xhr.responseText, t('contacts', 'Error'));
+						OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
 					}
-				} else {
-					OC.dialogs.alert(response.data.message, t('contacts', 'Error'));
 				}
-			}
-		};
-	
-		fileUpload.onprogress = function(e){
-			if (e.lengthComputable){
-				var _progress = Math.round((e.loaded * 100) / e.total);
-				//if (_progress != 100){
-				//}
-			}
-		};
-		xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadphoto.php')+'?id='+Contacts.UI.Card.id+'&requesttoken='+requesttoken+'&imagefile='+encodeURIComponent(file.name), true);
-		xhr.setRequestHeader('Cache-Control', 'no-cache');
-		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-		xhr.setRequestHeader('X_FILE_NAME', encodeURIComponent(file.name));
-		xhr.setRequestHeader('X-File-Size', file.size);
-		xhr.setRequestHeader('Content-Type', file.type);
-		xhr.send(file);
-	}
+			};
+
+			fileUpload.onprogress = function(e){
+				if (e.lengthComputable){
+					var _progress = Math.round((e.loaded * 100) / e.total);
+					//if (_progress != 100){
+					//}
+				}
+			};
+			xhr.open('POST', OC.filePath('contacts', 'ajax', 'uploadphoto.php')+'?id='+Contacts.UI.Card.id+'&requesttoken='+requesttoken+'&imagefile='+encodeURIComponent(file.name), true);
+			xhr.setRequestHeader('Cache-Control', 'no-cache');
+			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+			xhr.setRequestHeader('X_FILE_NAME', encodeURIComponent(file.name));
+			xhr.setRequestHeader('X-File-Size', file.size);
+			xhr.setRequestHeader('Content-Type', file.type);
+			xhr.send(file);
+		}
+	});
 
 	$(document).bind('drop dragover', function (e) {
 			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
@@ -1703,7 +1797,7 @@ $(document).ready(function(){
 	$(function() {
 		var uploadingFiles = {}, numfiles = 0, uploadedfiles = 0, retries = 0;
 		var aid;
-		
+
 		$('#import_upload_start').fileupload({
 			dropZone: $('#contacts'), // restrict dropZone to contacts list.
 			acceptFileTypes:  /^text\/(directory|vcard|x-vcard)$/i,
@@ -1803,9 +1897,10 @@ $(document).ready(function(){
 					if(numfiles != uploadedfiles) {
 						Contacts.UI.notify({message:t('contacts', 'Not all files uploaded. Retrying...')});
 						retries += 1;
-						if(retries > 0) {
+						if(retries > 3) {
 							numfiles = uploadedfiles = retries = aid = 0;
 							uploadingFiles = {};
+							$('#uploadprogressbar').fadeOut();
 							OC.dialogs.alert(t('contacts', 'Something went wrong with the upload, please retry.'), t('contacts', 'Error'));
 							return;
 						}
@@ -1864,7 +1959,7 @@ $(document).ready(function(){
 													$(this).dialog('close');
 												}
 											},
-											'Cancel':function() { 
+											'Cancel':function() {
 												$(this).dialog('close');
 												numfiles = uploadedfiles = retries = aid = 0;
 												uploadingFiles = {};
@@ -1879,6 +1974,7 @@ $(document).ready(function(){
 								});
 							}
 						} else {
+							$('#uploadprogressbar').fadeOut();
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 						}
 					});
@@ -1890,11 +1986,11 @@ $(document).ready(function(){
 				}
 				if(data.dataType != 'iframe ') {
 					$('#upload input.stop').hide();
-				}	
+				}
 			}
 		})
 	});
-	
+
 	Contacts.UI.loadHandlers();
 	Contacts.UI.Contacts.update({cid:id});
 });

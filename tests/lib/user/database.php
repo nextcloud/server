@@ -21,7 +21,6 @@
 */
 
 class Test_User_Database extends Test_User_Backend {
-	private $user=array();
 	/**
 	 * get a new unique user name
 	 * test cases can override this in order to clean up created user

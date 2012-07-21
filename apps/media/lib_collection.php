@@ -27,7 +27,6 @@ class OC_MEDIA_COLLECTION{
 	public static $uid;
 	private static $artistIdCache=array();
 	private static $albumIdCache=array();
-	private static $songIdCache=array();
 	private static $queries=array();
 	
 	/**
@@ -152,7 +151,7 @@ class OC_MEDIA_COLLECTION{
 			return $artistId;
 		}else{
 			$query=OCP\DB::prepare("INSERT INTO `*PREFIX*media_artists` (`artist_name`) VALUES (?)");
-			$result=$query->execute(array($name));
+			$query->execute(array($name));
 			return self::getArtistId($name);;
 		}
 	}

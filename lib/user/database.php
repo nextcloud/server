@@ -39,7 +39,6 @@ require_once 'phpass/PasswordHash.php';
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
 class OC_User_Database extends OC_User_Backend {
-	static private $userGroupCache=array();
 	/**
 	 * @var PasswordHash
 	 */
@@ -87,7 +86,7 @@ class OC_User_Database extends OC_User_Backend {
 	public function deleteUser( $uid ){
 		// Delete user-group-relation
 		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*users` WHERE uid = ?" );
-		$result = $query->execute( array( $uid ));
+		$query->execute( array( $uid ));
 		return true;
 	}
 
@@ -104,11 +103,10 @@ class OC_User_Database extends OC_User_Backend {
 			$hasher=$this->getHasher();
 			$hash = $hasher->HashPassword($password.OC_Config::getValue('passwordsalt', ''));
 			$query = OC_DB::prepare( "UPDATE *PREFIX*users SET password = ? WHERE uid = ?" );
-			$result = $query->execute( array( $hash, $uid ));
+			$query->execute( array( $hash, $uid ));
 
 			return true;
-		}
-		else{
+		}else{
 			return false;
 		}
 	}

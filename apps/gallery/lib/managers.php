@@ -29,7 +29,6 @@ class DatabaseManager {
 		$stmt = \OCP\DB::prepare('INSERT INTO *PREFIX*pictures_images_cache (uid_owner, path, width, height) VALUES (?, ?, ?, ?)');
 		$stmt->execute(array(\OCP\USER::getUser(), $path, $width, $height));
 		$ret = array('path' => $path, 'width' => $width, 'height' => $height);
-		unset($image);
 		$dir = dirname($path);
 		$this->cache[$dir][$path] = $ret;
 		return $ret;

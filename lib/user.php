@@ -50,8 +50,8 @@ class OC_User {
 	 *
 	 * Makes a list of backends that can be used by other modules
 	 */
-	public static function registerBackend( $name ){
-		self::$_backends[] = $name;
+	public static function registerBackend( $backend ){
+		self::$_backends[] = $backend;
 		return true;
 	}
 
@@ -83,22 +83,26 @@ class OC_User {
 	 * Set the User Authentication Module
 	 */
 	public static function useBackend( $backend = 'database' ){
-		// You'll never know what happens
-		if( null === $backend OR !is_string( $backend )){
-			$backend = 'database';
-		}
+		if($backend instanceof OC_User_Backend){
+			self::$_usedBackends[get_class($backend)]=$backend;
+		}else{
+			// You'll never know what happens
+			if( null === $backend OR !is_string( $backend )){
+				$backend = 'database';
+			}
 
-		// Load backend
-		switch( $backend ){
-			case 'database':
-			case 'mysql':
-			case 'sqlite':
-				self::$_usedBackends[$backend] = new OC_User_Database();
-				break;
-			default:
-				$className = 'OC_USER_' . strToUpper($backend);
-				self::$_usedBackends[$backend] = new $className();
-				break;
+			// Load backend
+			switch( $backend ){
+				case 'database':
+				case 'mysql':
+				case 'sqlite':
+					self::$_usedBackends[$backend] = new OC_User_Database();
+					break;
+				default:
+					$className = 'OC_USER_' . strToUpper($backend);
+					self::$_usedBackends[$backend] = new $className();
+					break;
+			}
 		}
 
 		true;
@@ -200,7 +204,7 @@ class OC_User {
 		if( $run ){
 			$uid=self::checkPassword( $uid, $password );
 			if($uid){
-				session_regenerate_id();
+				session_regenerate_id(true);
 				self::setUserId($uid);
 				OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>$password ));
 				return true;

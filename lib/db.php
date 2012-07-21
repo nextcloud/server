@@ -33,8 +33,6 @@ class OC_DB {
 	static private $MDB2=false;
 	static private $PDO=false;
 	static private $schema=false;
-	static private $affected=0;
-	static private $result=false;
 	static private $inTransaction=false;
 	static private $prefix=null;
 	static private $type=null;
@@ -222,7 +220,7 @@ class OC_DB {
 				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
 				OC_Log::write('core',self::$MDB2->getUserInfo(),OC_Log::FATAL);
 				OC_Log::write('core',self::$MDB2->getMessage(),OC_Log::FATAL);
-				die( $error );
+				die();
 			}
 			
 			// We always, really always want associative arrays
@@ -519,8 +517,9 @@ class OC_DB {
 		
 		// Delete our temporary file
 		unlink( $file2 );
-		foreach($definition['tables'] as $name=>$table){
-			self::dropTable($name);
+		$tables=array_keys($definition['tables']);
+		foreach($tables as $table){
+			self::dropTable($table);
 		}
 	}
 	

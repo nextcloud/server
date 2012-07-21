@@ -9,7 +9,7 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
-require_once('loghandler.php');
+require_once 'loghandler.php';
 
 $tmpl = new OCP\Template("contacts", "part.edit_name_dialog");
 
@@ -25,8 +25,8 @@ if($id) {
 		}
 	}
 	$name = array_map('htmlspecialchars', $name['value']);
-	$tmpl->assign('name',$name, false);
-	$tmpl->assign('id',$id, false);
+	$tmpl->assign('name', $name, false);
+	$tmpl->assign('id', $id, false);
 } else {
 	bailOut(OC_Contacts_App::$l10n->t('Contact ID is missing.'));
 }

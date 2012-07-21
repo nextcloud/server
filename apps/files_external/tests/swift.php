@@ -13,7 +13,6 @@ if(!is_array($config) or !isset($config['swift']) or !$config['swift']['run']){
 }else{
 	class Test_Filestorage_SWIFT extends Test_FileStorage {
 		private $config;
-		private $id;
 
 		public function setUp(){
 			$id=uniqid();

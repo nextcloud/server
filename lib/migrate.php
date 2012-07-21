@@ -91,7 +91,7 @@ class OC_Migrate{
 	 	if( self::$exporttype == 'user' ){
 	 		// Check user exists
 	 		if( !is_null($uid) ){
-                                $db = new OC_User_Database;
+				$db = new OC_User_Database;
 		 		if( !$db->userExists( $uid ) ){
 					OC_Log::write('migration', 'User: '.$uid.' is not in the database and so cannot be exported.', OC_Log::ERROR);
 					return json_encode( array( 'success' => false ) );

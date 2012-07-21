@@ -12,13 +12,15 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
-require_once('loghandler.php');
+require_once 'loghandler.php';
 
 debug('name: '.$_POST['name']);
 
 $userid = OCP\USER::getUser();
 $name = isset($_POST['name'])?trim(strip_tags($_POST['name'])):null;
-$description = isset($_POST['description'])?trim(strip_tags($_POST['description'])):null;
+$description = isset($_POST['description'])
+	? trim(strip_tags($_POST['description']))
+	: null;
 
 if(is_null($name)) {
 	bailOut('Cannot add addressbook with an empty name.');

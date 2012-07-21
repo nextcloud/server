@@ -25,22 +25,7 @@
 *
 */
 
-
-// Do not load FS ...
-$RUNTIME_NOSETUPFS = true;
-
-
-require_once('../../lib/base.php');
-
-require_once('../../lib/user.php');
-require_once('../../lib/public/user.php');
-
-require_once('../../lib/app.php');
-require_once('../../lib/public/app.php');
-
-require_once('../../3rdparty/Sabre/DAV/Auth/IBackend.php');
-require_once('../../3rdparty/Sabre/DAV/Auth/Backend/AbstractBasic.php');
-require_once('../../lib/connector/sabre/auth.php');
+OC_App::loadApps(array('filesystem','authentication'));
 
 OCP\App::checkAppEnabled('remoteStorage');
 require_once('lib_remoteStorage.php');
@@ -61,14 +46,15 @@ if(isset($_SERVER['HTTP_ORIGIN'])) {
 	header('Access-Control-Allow-Origin: *');
 }
 
-$path = substr($_SERVER["REQUEST_URI"], strlen($_SERVER["SCRIPT_NAME"]));
+$path = substr($_SERVER["REQUEST_URI"], strlen($baseuri));
+
 $pathParts =  explode('/', $path);
 // for webdav:
-// 0/     1       /   2    /   3...
-//  /$ownCloudUser/remoteStorage/$category/
+//      0       /   1    /   2...
+//  $ownCloudUser/remoteStorage/$category/
 
-if(count($pathParts) >= 3 && $pathParts[0] == '') {
-	list($dummy, $ownCloudUser, $dummy2, $category) = $pathParts;
+if(count($pathParts) >= 2) {
+	list($ownCloudUser, $dummy2, $category) = $pathParts;
 
 	OC_Util::setupFS($ownCloudUser);
 
@@ -77,13 +63,13 @@ if(count($pathParts) >= 3 && $pathParts[0] == '') {
 	$server = new Sabre_DAV_Server($publicDir);
 
 	// Path to our script
-	$server->setBaseUri(OC::$WEBROOT."/apps/remoteStorage/WebDAV.php/$ownCloudUser");
+	$server->setBaseUri($baseuri.$ownCloudUser);
 
 	// Auth backend
 	$authBackend = new OC_Connector_Sabre_Auth_ro_oauth(
-      OC_remoteStorage::getValidTokens($ownCloudUser, $category),
-      $category
-      );
+		OC_remoteStorage::getValidTokens($ownCloudUser, $category),
+		$category
+	);
 
 	$authPlugin = new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud');//should use $validTokens here
 	$server->addPlugin($authPlugin);

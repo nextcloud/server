@@ -7,6 +7,7 @@
  */
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
+OCP\JSON::callCheck();
 session_write_close();
 if (isset($_POST['progresskey']) && isset($_POST['getprogress'])) {
 	echo OCP\JSON::success(array('percent'=>OC_Cache::get($_POST['progresskey'])));

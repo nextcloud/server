@@ -345,7 +345,7 @@ class OC{
 			$_SESSION['user_id'] = '';
 		}
 
-		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
+		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
 
 		// Load Apps

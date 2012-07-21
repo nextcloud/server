@@ -9,6 +9,7 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
+OCP\JSON::callCheck();
 
 foreach ($_POST as $key=>$element) {
 	debug('_POST: '.$key.'=>'.print_r($element, true));

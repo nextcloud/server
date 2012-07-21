@@ -26,22 +26,27 @@ require_once 'simpletest/mock_objects.php';
 require_once 'simpletest/collector.php';
 require_once 'simpletest/default_reporter.php';
 
-// test suite instance
-$testSuite=new TestSuite("ownCloud Unit Test Suite");
+$testSuiteName="ownCloud Unit Test Suite";
 
 // prepare the reporter
 if(OC::$CLI){
 	$reporter=new TextReporter;
 	$test=isset($_SERVER['argv'][1])?$_SERVER['argv'][1]:false;
-	if($test=='xml')
-	{
+	if($test=='xml'){
 		$reporter= new XmlReporter;
 		$test=false;
+
+		if(isset($_SERVER['argv'][2])){
+			$testSuiteName=$testSuiteName." (".$_SERVER['argv'][2].")";
+		}
 	}
 }else{
-	$reporter='HtmlReporter';
+	$reporter=new HtmlReporter;
 	$test=isset($_GET['test'])?$_GET['test']:false;
 }
+
+// test suite instance
+$testSuite=new TestSuite($testSuiteName);
 
 //load core test cases
 loadTests(dirname(__FILE__), $testSuite, $test);
@@ -75,10 +80,10 @@ function loadTests($dir,$testSuite, $test){
 				}elseif(substr($file,-4)=='.php' and $file!=__FILE__){
 					$name=getTestName($file);
 					if($test===false or $test==$name or substr($name,0,strlen($test))==$test){
-					        $extractor = new SimpleFileLoader();
+						$extractor = new SimpleFileLoader();
 						$loadedSuite=$extractor->load($file);
 						if ($loadedSuite->getSize() > 0)
-						        $testSuite->add($loadedSuite);
+							$testSuite->add($loadedSuite);
 					}
 				}
 			}

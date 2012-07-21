@@ -19,6 +19,6 @@ OCP\App::addNavigationEntry( array(
   'name' => OC_L10N::get('contacts')->t('Contacts') ));
 
 
-OCP\App::registerPersonal('contacts','settings');
+OCP\App::registerPersonal('contacts', 'settings');
 OCP\Util::addscript('contacts', 'loader');
 OC_Search::registerProvider('OC_Search_Provider_Contacts');

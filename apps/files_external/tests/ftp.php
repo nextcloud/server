@@ -13,7 +13,6 @@ if(!is_array($config) or !isset($config['ftp']) or !$config['ftp']['run']){
 }else{
 	class Test_Filestorage_FTP extends Test_FileStorage {
 		private $config;
-		private $id;
 
 		public function setUp(){
 			$id=uniqid();
