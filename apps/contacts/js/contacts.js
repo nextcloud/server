@@ -1711,7 +1711,71 @@ $(document).ready(function(){
 	$('#contacts_newcontact').click(Contacts.UI.Card.editNew);
 	$('#contacts_newcontact').keydown(Contacts.UI.Card.editNew);
 
-	// Load a contact.
+	$(document).on('keyup', function(event) {
+		console.log(event.which + ' ' + event.target.nodeName);
+		if(event.target.nodeName.toUpperCase() != 'BODY'
+			|| $('#contacts li').length == 0
+			|| !Contacts.UI.Card.id) {
+			return;
+		}
+		/**
+		 * To add:
+		 * (Shift)n/p: next/prev addressbook
+		 */
+		switch(event.which) {
+			case 46:
+				if(event.shiftKey) {
+					Contacts.UI.Card.delayedDelete();
+				}
+				break;
+			case 32: // space
+				if(event.shiftKey) {
+					Contacts.UI.Contacts.previous();
+					break;
+				}
+			case 40: // down
+			case 75: // k
+				Contacts.UI.Contacts.next();
+				break;
+			case 38: // up
+			case 65: // a
+				if(event.shiftKey) {
+					// add addressbook
+					break;
+				}
+				Contacts.UI.Card.editNew();
+				break;
+			case 74: // j
+				Contacts.UI.Contacts.previous();
+				break;
+			case 78: // n
+				// next addressbook
+				break;
+			case 13: // Enter
+			case 79: // o
+				var aid = $('#contacts h3.active').first().data('id');
+				if(aid) {
+					$('#contacts ul[data-id="'+aid+'"]').slideToggle(300);
+				}
+				break;
+			case 80: // p
+				// prev addressbook
+				break;
+			case 82: // r
+				Contacts.UI.Contacts.update({cid:Contacts.UI.Card.id});
+				break;
+			case 191: // ?
+				console.log("Keyboard shorcuts:\nk or up key: Previous contact");
+				console.log("j or down key: Next contact");
+				console.log("o or Enter key: Expand/collapse");
+				console.log("n: New contact");
+				console.log("Shift-Delete: Delete current contact");
+				break;
+		}
+
+	});
+
+			// Load a contact.
 	$('.contacts').keydown(function(event) {
 		if(event.which == 13 || event.which == 32) {
 			$('.contacts').click();
