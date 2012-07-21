@@ -345,18 +345,24 @@ class OC_Helper {
 	 */
 	static function getMimeType($path){
 		$isWrapped=(strpos($path,'://')!==false) and (substr($path,0,7)=='file://');
-		$mimeType='application/octet-stream';
-		if ($mimeType=='application/octet-stream') {
-			self::$mimetypes = include('mimetypes.fixlist.php');
-			$extension=strtolower(strrchr(basename($path), "."));
-			$extension=substr($extension,1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
 
-		}
 		if (@is_dir($path)) {
 			// directories are easy
 			return "httpd/unix-directory";
 		}
+
+		if(strpos($path,'.')){
+			//try to guess the type by the file extension
+			if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
+				self::$mimetypes=include('mimetypes.list.php');
+			}
+			$extension=strtolower(strrchr(basename($path), "."));
+			$extension=substr($extension,1);//remove leading .
+			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
+		}else{
+			$mimeType='application/octet-stream';
+		}
+		
 		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
 			$info = @strtolower(finfo_file($finfo,$path));
 			if($info){
@@ -384,15 +390,6 @@ class OC_Helper {
 				$mimeType = strstr($mimeType, ';', true);
 			}
 
-		}
-		if ($mimeType=='application/octet-stream') {
-			// Fallback solution: (try to guess the type by the file extension
-			if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
-				self::$mimetypes=include('mimetypes.list.php');
-			}
-			$extension=strtolower(strrchr(basename($path), "."));
-			$extension=substr($extension,1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
 		}
 		return $mimeType;
 	}
