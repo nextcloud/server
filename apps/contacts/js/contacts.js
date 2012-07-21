@@ -18,6 +18,7 @@ Contacts={
 		 * timeout: The timeout in seconds before the notification disappears. Default 10.
 		 * timeouthandler: A function to run on timeout.
 		 * clickhandler: A function to run on click. If a timeouthandler is given it will be cancelled.
+		 * data: An object that will be passed as argument to the timeouthandler and clickhandler functions.
 		 */
 		notify:function(params) {
 			var notifier = $('#notification');
@@ -25,13 +26,22 @@ Contacts={
 			notifier.fadeIn();
 			var timer = setTimeout(function() {
 				notifier.fadeOut();
-				if(params.timeouthandler && $.isFunction(params.timeouthandler)) { params.timeouthandler();}
+				if(params.timeouthandler && $.isFunction(params.timeouthandler)) {
+					params.timeouthandler(notifier.data(dataid));
+					notifier.off('click');
+					notifier.data(dataid, null);
+				}
 			}, params.timeout && $.isNumeric(params.timeout) ? parseInt(params.timeout)*1000 : 10000);
+			var dataid = timer.toString();
+			if(params.data) {
+				notifier.data(dataid, params.data);
+			}
 			if(params.clickhandler && $.isFunction(params.clickhandler)) {
 				notifier.on('click', function() {
 					clearTimeout(timer);
 					notifier.off('click');
-					params.clickhandler();
+					params.clickhandler(notifier.data(dataid));
+					notifier.data(dataid, null);
 				});
 			}
 		},
@@ -216,10 +226,10 @@ Contacts={
 				Contacts.UI.Contacts.scrollTo(Contacts.UI.Card.id);
 			});
 
-			$('#contacts_deletecard').click( function() { Contacts.UI.Card.doDelete();return false;} );
+			$('#contacts_deletecard').click( function() { Contacts.UI.Card.delayedDelete();return false;} );
 			$('#contacts_deletecard').keydown( function(event) {
 				if(event.which == 13 || event.which == 32) {
-					Contacts.UI.Card.doDelete();
+					Contacts.UI.Card.delayedDelete();
 				}
 				return false;
 			});
@@ -450,47 +460,56 @@ Contacts={
 					localAddcontact(n, fn, aid, isnew);
 				}
 			},
-			doDelete:function() {
+			delayedDelete:function() {
 				$('#contacts_deletecard').tipsy('hide');
-				OC.dialogs.confirm(t('contacts', 'Are you sure you want to delete this contact?'), t('contacts', 'Warning'), function(answer) {
-					if(answer == true) {
-						$.post(OC.filePath('contacts', 'ajax', 'deletecard.php'),{'id':Contacts.UI.Card.id},function(jsondata){
-							if(jsondata.status == 'success'){
-								var newid = '', bookid;
-								var curlistitem = $('#contacts li[data-id="'+jsondata.data.id+'"]');
-								var newlistitem = curlistitem.prev('li');
-								if(!newlistitem) {
-									newlistitem = curlistitem.next('li');
-								}
-								curlistitem.remove();
-								if($(newlistitem).is('li')) {
-									newid = newlistitem.data('id');
-									bookid = newlistitem.data('bookid');
-								}
-								$('#rightcontent').data('id',newid);
-								this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
-								this.data = undefined;
+				var newid = '', bookid;
+				var curlistitem = $('#contacts li[data-id="'+Contacts.UI.Card.id+'"]');
+				curlistitem.removeClass('active');
+				var newlistitem = curlistitem.prev('li');
+				if(!newlistitem) {
+					newlistitem = curlistitem.next('li');
+				}
+				curlistitem.detach();
+				if($(newlistitem).is('li')) {
+					newid = newlistitem.data('id');
+					bookid = newlistitem.data('bookid');
+				}
+				$('#rightcontent').data('id',newid);
+				this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
+				this.data = undefined;
 
-								if($('.contacts li').length > 0) { // Load first in list.
-									Contacts.UI.Card.update({cid:newid, aid:bookid});
-								} else {
-									// load intro page
-									$.getJSON(OC.filePath('contacts', 'ajax', 'loadintro.php'),{},function(jsondata){
-										if(jsondata.status == 'success'){
-											id = '';
-											$('#rightcontent').data('id','');
-											$('#rightcontent').html(jsondata.data.page);
-										}
-										else{
-											OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-										}
-									});
-								}
-							}
-							else{
-								OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-							}
-						});
+				if($('.contacts li').length > 0) { // Load first in list.
+					Contacts.UI.Card.update({cid:newid, aid:bookid});
+				} else {
+					// load intro page
+					$.getJSON(OC.filePath('contacts', 'ajax', 'loadintro.php'),{},function(jsondata){
+						if(jsondata.status == 'success'){
+							id = '';
+							$('#rightcontent').data('id','');
+							$('#rightcontent').html(jsondata.data.page);
+						}
+						else{
+							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+						}
+					});
+				}
+				Contacts.UI.notify({
+					data:curlistitem,
+					message:t('contacts','Click to undo deletion of "') + curlistitem.find('a').text() + '"',
+					timeouthandler:function(contact) {
+						Contacts.UI.Card.doDelete(contact.data('id'));
+						delete contact;
+					},
+					clickhandler:function(contact) {
+						Contacts.UI.Contacts.insertContact({contact:contact});
+						Contacts.UI.notify({message:t('contacts', 'Cancelled deletion of: "') + curlistitem.find('a').text() + '"'});
+					}
+				});
+			},
+			doDelete:function(id) {
+				$.post(OC.filePath('contacts', 'ajax', 'deletecard.php'),{'id':id},function(jsondata) {
+					if(jsondata.status == 'error'){
+						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 					}
 				});
 				return false;
@@ -1516,17 +1535,20 @@ Contacts={
 				alert('Dropping address books not implemented yet');
 			},
 			/**
-			 * @params params An object with the propeties 'contactlist':a jquery object of the ul to insert into,
+			 * @params params An object with the properties 'contactlist':a jquery object of the ul to insert into,
 			 * 'contacts':a jquery object of all items in the list and either 'data': an object with the properties
 			 * id, addressbookid and displayname or 'contact': a listitem to be inserted directly.
-			 * If 'contacts' is defined the new contact will be inserted alphabetically into the list, otherwise
-			 * it will be appended.
+			 * If 'contactlist' or 'contacts' aren't defined they will be search for based in the properties in 'data'.
 			 */
 			insertContact:function(params) {
 				if(!params.contactlist) {
-					params['contactlist'] = params.data
-						? $('#contacts ul[data-id="'+params.data.addressbookid+'"]')
-						: contact.data('bookid');
+					// FIXME: Check if contact really exists.
+					var bookid = params.data ? params.data.addressbookid : params.contact.data('bookid');
+					params.contactlist = $('#contacts ul[data-id="'+bookid+'"]');
+				}
+				if(!params.contacts) {
+					var bookid = params.data ? params.data.addressbookid : params.contact.data('bookid');
+					params.contacts = $('#contacts ul[data-id="'+bookid+'"] li');
 				}
 				var contact = params.data
 					? $('<li data-id="'+params.data.id+'" data-bookid="'+params.data.addressbookid+'" role="button"><a href="'+OC.linkTo('contacts', 'index.php')+'&id='+params.data.id+'"  style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+params.data.id+') no-repeat scroll 0% 0% transparent;">'+params.data.displayname+'</a></li>')
