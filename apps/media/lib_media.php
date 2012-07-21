@@ -27,12 +27,12 @@ class OC_MEDIA{
 	 * @param array $params, parameters passed from OC_Hook
 	 */
 	public static function loginListener($params){
-		if(isset($_POST['user']) and $_POST['password']){
-			$name=$_POST['user'];
+		if(isset($params['uid']) and $params['password']){
+			$name=$params['uid'];
 			$query=OCP\DB::prepare("SELECT user_id from *PREFIX*media_users WHERE user_id LIKE ?");
 			$uid=$query->execute(array($name))->fetchAll();
 			if(count($uid)==0){
-				$password=hash('sha256',$_POST['password']);
+				$password=hash('sha256',$params['password']);
 				$query=OCP\DB::prepare("INSERT INTO *PREFIX*media_users (user_id, user_password_sha256) VALUES (?, ?);");
 				$query->execute(array($name,$password));
 			}

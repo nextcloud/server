@@ -27,7 +27,6 @@
  * upgrading and removing apps.
  */
 class OC_App{
-	static private $init = false;
 	static private $activeapp = '';
 	static private $navigation = array();
 	static private $settingsForms = array();

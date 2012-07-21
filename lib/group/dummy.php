@@ -126,7 +126,8 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 */
 	public function getUserGroups($uid){
 		$groups=array();
-		foreach($this->groups as $group=>$user){
+		$allGroups=array_keys($this->groups);
+		foreach($allGroups as $group){
 			if($this->inGroup($uid,$group)){
 				$groups[]=$group;
 			}

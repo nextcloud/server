@@ -102,7 +102,6 @@ class OC_Setup {
 				}
 				else {
 					$oldUser=OC_Config::getValue('dbuser', false);
-					$oldPassword=OC_Config::getValue('dbpassword', false);
 					
 					$query="SELECT user FROM mysql.user WHERE user='$dbuser'"; //this should be enough to check for admin rights in mysql
 					if(mysql_query($query, $connection)) {

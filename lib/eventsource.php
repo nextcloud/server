@@ -36,7 +36,7 @@ class OC_EventSource{
 		header('Cache-Control: no-cache');
 		$this->fallback=isset($_GET['fallback']) and $_GET['fallback']=='true';
 		if($this->fallback){
-			$fallBackId=$_GET['fallback_id'];
+			$this->fallBackId=$_GET['fallback_id'];
 			header("Content-Type: text/html");
 			echo str_repeat('<span></span>'.PHP_EOL,10); //dummy data to keep IE happy
 		}else{

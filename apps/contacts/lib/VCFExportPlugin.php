@@ -31,7 +31,7 @@ class Sabre_CardDAV_VCFExportPlugin extends Sabre_DAV_ServerPlugin {
     public function initialize(Sabre_DAV_Server $server) {
 
         $this->server = $server;
-        $this->server->subscribeEvent('beforeMethod',array($this,'beforeMethod'), 90);
+        $this->server->subscribeEvent('beforeMethod', array($this,'beforeMethod'), 90);
 
     }
 
@@ -49,7 +49,7 @@ class Sabre_CardDAV_VCFExportPlugin extends Sabre_DAV_ServerPlugin {
         if ($this->server->httpRequest->getQueryString()!='export') return;
 
         // splitting uri
-        list($uri) = explode('?',$uri,2);
+        list($uri) = explode('?', $uri, 2);
 
         $node = $this->server->tree->getNodeForPath($uri);
 
@@ -60,12 +60,12 @@ class Sabre_CardDAV_VCFExportPlugin extends Sabre_DAV_ServerPlugin {
             $aclPlugin->checkPrivileges($uri, '{DAV:}read');
         }
 
-        $this->server->httpResponse->setHeader('Content-Type','text/directory');
+        $this->server->httpResponse->setHeader('Content-Type', 'text/directory');
         $this->server->httpResponse->sendStatus(200);
 
         $nodes = $this->server->getPropertiesForPath($uri, array(
             '{' . Sabre_CardDAV_Plugin::NS_CARDDAV . '}address-data',
-        ),1);
+        ), 1);
 
         $this->server->httpResponse->sendBody($this->generateVCF($nodes));
 

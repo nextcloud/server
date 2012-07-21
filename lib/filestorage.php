@@ -24,7 +24,7 @@
  * Provde a common interface to all different storage options
  */
 abstract class OC_Filestorage{
-	public function __construct($parameters){}
+	abstract public function __construct($parameters);
 	abstract public function mkdir($path);
 	abstract public function rmdir($path);
 	abstract public function opendir($path);

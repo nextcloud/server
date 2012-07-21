@@ -11,7 +11,6 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @var ZipArchive zip
 	 */
 	private $zip=null;
-	private $success=false;
 	private $path;
 	
 	function __construct($source){

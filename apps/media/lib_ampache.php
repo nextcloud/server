@@ -271,7 +271,6 @@ class OC_MEDIA_AMPACHE{
 </root>");
 			return;
 		}
-		global $SITEROOT;
 		$filter=$params['filter'];
 		$albums=OC_MEDIA_COLLECTION::getAlbums($filter);
 		$artist=OC_MEDIA_COLLECTION::getArtistName($filter);

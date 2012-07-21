@@ -88,7 +88,6 @@ class OC_OCS {
        $method='get';
     }elseif($_SERVER['REQUEST_METHOD'] == 'PUT') {
        $method='put';
-       parse_str(file_get_contents("php://input"),$put_vars);
     }elseif($_SERVER['REQUEST_METHOD'] == 'POST') {
        $method='post';
     }else{
@@ -356,9 +355,6 @@ class OC_OCS {
    * @return string xml/json
    */
   private static function apiConfig($format) {
-    $user=OC_OCS::checkpassword(false);
-    $url=substr(OCP\Util::getServerHost().$_SERVER['SCRIPT_NAME'],0,-11).'';
-
     $xml['version']='1.5';
     $xml['website']='ownCloud';
     $xml['host']=OCP\Util::getServerHost();
@@ -416,7 +412,7 @@ class OC_OCS {
    */
   private static function activityPut($format,$message) {
     // not implemented in ownCloud
-    $user=OC_OCS::checkpassword();
+    OC_OCS::checkpassword();
     echo(OC_OCS::generatexml($format,'ok',100,''));
   }
 

@@ -123,7 +123,7 @@ class OC_TemplateLayout extends OC_Template {
 					elseif(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style.css")) { $append =true; break; }
 				}
 				if(! $append) {
-					echo('css file not found: style:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+					echo('css file not found: style:'.$style.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
 				}
 			}

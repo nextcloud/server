@@ -9,7 +9,7 @@
  * This class manages our app actions
  */
 OC_Calendar_App::$l10n = new OC_L10N('calendar');
-OC_Calendar_App::$tz = OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+OC_Calendar_App::$tz = OC_Calendar_App::getTimezone();
 class OC_Calendar_App{
 	const CALENDAR = 'calendar';
 	const EVENT = 'event';
@@ -282,7 +282,17 @@ class OC_Calendar_App{
 	public static function getWeekofMonth(){
 		return OC_Calendar_Object::getWeekofMonth(self::$l10n);
 	}
-	
+
+	/**
+	 * @return (string) $timezone as set by user or the default timezone
+	 */
+	public static function getTimezone() {
+		return OCP\Config::getUserValue(OCP\User::getUser(),
+						'calendar',
+						'timezone',
+						date_default_timezone_get());
+	}
+
 	/**
 	 * @brief checks the access for a calendar / an event
 	 * @param (int) $id - id of the calendar / event
