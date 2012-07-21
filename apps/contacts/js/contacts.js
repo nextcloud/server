@@ -1569,6 +1569,21 @@ Contacts={
 				}
 				return contact;
 			},
+			next:function(reverse) {
+				// TODO: Check if we're last-child/first-child and jump to next/prev address book.
+				var curlistitem = $('#contacts li[data-id="'+Contacts.UI.Card.id+'"]');
+				var newlistitem = reverse ? curlistitem.prev('li') : curlistitem.next('li');
+				if(newlistitem) {
+					curlistitem.removeClass('active');
+					Contacts.UI.Card.update({
+						cid:newlistitem.data('id'),
+						aid:newlistitem.data('bookid')
+					});
+				}
+			},
+			previous:function() {
+				this.next(true);
+			},
 			// Reload the contacts list.
 			update:function(params){
 				if(!params) { params = {}; }
