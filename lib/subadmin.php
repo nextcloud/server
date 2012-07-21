@@ -19,7 +19,8 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
+OC_Hook::connect('OC_User', 'post_deleteUser', 'OC_SubAdmin', 'post_deleteUser');
+OC_Hook::connect('OC_User', 'post_deleteGroup', 'OC_SubAdmin', 'post_deleteGroup');
 /**
  * This class provides all methods needed for managing groups.
  *
@@ -154,5 +155,27 @@ class OC_SubAdmin{
 	 */
 	public static function isGroupAccessible($subadmin, $group){
 		return self::isSubAdminofGroup($subadmin, $group);
+	}
+
+	/**
+	 * @brief delete all SubAdmins by uid
+	 * @param $parameters 
+	 * @return boolean
+	 */
+	public static function post_deleteUser($parameters){
+		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*group_admin WHERE uid = ?');
+		$result = $stmt->execute(array($parameters['uid']));
+		return true;
+	}
+
+	/**
+	 * @brief delete all SubAdmins8 by gid
+	 * @param $parameters
+	 * @return boolean
+	 */
+	public static function post_deleteGroup($parameters){
+		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*group_admin WHERE gid = ?');
+		$result = $stmt->execute(array($parameters['gid']));
+		return true;
 	}
 }
