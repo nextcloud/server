@@ -187,20 +187,14 @@ Contacts={
 			// Name has changed. Update it and reorder.
 			$('#fn').change(function(){
 				var name = $('#fn').val().strip_tags();
-				var item = $('.contacts li[data-id="'+Contacts.UI.Card.id+'"]');
+				var item = $('.contacts li[data-id="'+Contacts.UI.Card.id+'"]').detach();
 				$(item).find('a').html(name);
 				Contacts.UI.Card.fn = name;
-				var added = false;
-				$('.contacts li[data-bookid="'+Contacts.UI.Card.bookid+'"]').each(function(){
-					if ($(this).text().toLowerCase() > name.toLowerCase()) {
-						$(this).before(item).fadeIn('fast');
-						added = true;
-						return false;
-					}
+				Contacts.UI.Contacts.insertContact({
+					contactlist:$('#contacts ul[data-id="'+Contacts.UI.Card.bookid+'"]'),
+					contacts:$('#contacts ul[data-id="'+Contacts.UI.Card.bookid+'"] li'),
+					contact:item,
 				});
-				if(!added) {
-					$('#contacts ul[data-id="'+Contacts.UI.Card.bookid+'"]').append(item);
-				}
 				Contacts.UI.Contacts.scrollTo(Contacts.UI.Card.id);
 			});
 
@@ -321,12 +315,15 @@ Contacts={
 							if(jsondata.status == 'success'){
 								if(bookid == 'unknown') { 
 									bookid = jsondata.data.addressbookid; 
-									var entry = Contacts.UI.Card.createEntry(jsondata.data);
-									$('#contacts ul[data-id="'+bookid+'"]').append(entry);
+									var contact = Contacts.UI.Contacts.insertContact({
+										contactlist:$('#contacts ul[data-id="'+bookid+'"]'), 
+										data:jsondata.data
+									});
 								}
 								$('#contacts li[data-id="'+newid+'"],#contacts h3[data-id="'+bookid+'"]').addClass('active');
 								$('#contacts ul[data-id="'+bookid+'"]').slideDown(300);
 								Contacts.UI.Card.loadContact(jsondata.data, bookid);
+								Contacts.UI.Contacts.scrollTo(newid);
 							} else {
 								OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 							}
@@ -373,9 +370,6 @@ Contacts={
 				//Contacts.UI.Card.add(t('contacts', 'Contact')+';'+t('contacts', 'New')+';;;', t('contacts', 'New Contact'), '', true);
 				Contacts.UI.Card.add(';;;;;', '', '', true);
 				return false;
-			},
-			createEntry:function(data) {
-				return $('<li data-id="'+data.id+'" data-bookid="'+data.addressbookid+'" role="button"><a href="'+OC.linkTo('contacts', 'index.php')+'&id='+data.id+'"  style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+data.id+') no-repeat scroll 0% 0% transparent;">'+data.displayname+'</a></li>');
 			},
 			add:function(n, fn, aid, isnew){ // add a new contact
 				console.log('Adding ' + fn);
@@ -1503,6 +1497,33 @@ Contacts={
 			dropAddressbook:function(event, dragitem, droptarget) {
 				alert('Dropping address books not implemented yet');
 			},
+			/**
+			 * @params params An object with the propeties 'contactlist':a jquery object of the ul to insert into,
+			 * 'contacts':a jquery object of all items in the list and either 'data': an object with the properties 
+			 * id, addressbookid and displayname or 'contact': a listitem to be inserted directly.
+			 * If 'contacts' is defined the new contact will be inserted alphabetically into the list, otherwise
+			 * it will be appended.
+			 */
+			insertContact:function(params) {
+				var contact = params.data
+					? $('<li data-id="'+params.data.id+'" data-bookid="'+params.data.addressbookid+'" role="button"><a href="'+OC.linkTo('contacts', 'index.php')+'&id='+params.data.id+'"  style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+params.data.id+') no-repeat scroll 0% 0% transparent;">'+params.data.displayname+'</a></li>')
+					: params.contact;
+				var added = false;
+				var name = params.data ? params.data.displayname.toLowerCase() : contact.find('a').text().toLowerCase();
+				if(params.contacts) {
+					params.contacts.each(function() {
+						if ($(this).text().toLowerCase() > name) {
+							$(this).before(contact);
+							added = true;
+							return false;
+						}
+					});
+				}
+				if(!added || !params.contacts) {
+					params.contactlist.append(contact);
+				}
+				return contact;
+			},
 			// Reload the contacts list.
 			update:function(params){
 				if(!params) { params = {}; }
@@ -1564,7 +1585,7 @@ Contacts={
 							for(var c in book.contacts) {
 								if(book.contacts[c].id == undefined) { continue; }
 								if(!$('#contacts li[data-id="'+book.contacts[c]['id']+'"]').length) {
-									var contact = Contacts.UI.Card.createEntry(book.contacts[c]);
+									var contact = Contacts.UI.Contacts.insertContact({contactlist:contactlist, contacts:contacts, data:book.contacts[c]});
 									if(c == self.batchnum-10) {
 										contact.bind('inview', function(event, isInView, visiblePartX, visiblePartY) {
 											$(this).unbind(event);
@@ -1575,17 +1596,6 @@ Contacts={
 												Contacts.UI.Contacts.update({cid:params.cid, aid:bookid, start:$('#contacts li[data-bookid="'+bookid+'"]').length});
 											}
 										});
-									}
-									var added = false;
-									contacts.each(function(){
-										if ($(this).text().toLowerCase() > book.contacts[c].displayname.toLowerCase()) {
-											$(this).before(contact);
-											added = true;
-											return false;
-										}
-									});
-									if(!added) {
-										contactlist.append(contact);
 									}
 								}
 							}
@@ -1617,9 +1627,10 @@ Contacts={
 			},
 			scrollTo:function(id){
 				var item = $('#contacts li[data-id="'+id+'"]');
+				console.log('scrollTo, found item '+id+'? ' + item.length);
 				if(item) {
-					$('.contacts').animate({
-						scrollTop: $('#contacts li[data-id="'+id+'"]').offset().top-20}, 'slow','swing');
+					$('#contacts').animate({
+						scrollTop: item.offset().top-40}, 'slow','swing');
 				}
 			}
 		}
