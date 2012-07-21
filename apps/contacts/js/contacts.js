@@ -1510,21 +1510,12 @@ Contacts={
 				$.post(OC.filePath('contacts', 'ajax', 'movetoaddressbook.php'), { ids: dragitem.data('id'), aid: droptarget.data('id') },
 					function(jsondata){
 						if(jsondata.status == 'success'){
-							// Do some inserting/removing/sorting magic
-							var name = $(dragitem).find('a').html();
-							var added = false;
-							$(droplist).children().each(function(){
-								if ($(this).text().toLowerCase() > name.toLowerCase()) {
-									$(this).before(dragitem.detach()); //.fadeIn('slow');
-									added = true;
-									return false;
-								}
-							});
-							if(!added) {
-								$(droplist).append(dragitem.detach());
-							}
 							dragitem.attr('data-bookid', droptarget.data('id'))
 							dragitem.data('bookid', droptarget.data('id'));
+							Contacts.UI.Contacts.insertContact({
+								contactlist:droplist,
+								contact:dragitem.detach()
+							});
 							Contacts.UI.Contacts.scrollTo(dragitem.data('id'));
 						} else {
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
