@@ -12,10 +12,28 @@ String.prototype.strip_tags = function(){
 
 Contacts={
 	UI:{
+		/**
+		 * Arguments:
+		 * message: The text message to show. The only mandatory parameter.
+		 * timeout: The timeout in seconds before the notification disappears. Default 10.
+		 * timeouthandler: A function to run on timeout.
+		 * clickhandler: A function to run on click. If a timeouthandler is given it will be cancelled.
+		 */
 		notify:function(params) {
-			$('#notification').text(params.message);
-			$('#notification').fadeIn();
-			setTimeout(function() {$('#notification').fadeOut();}, 10000);
+			var notifier = $('#notification');
+			notifier.text(params.message);
+			notifier.fadeIn();
+			var timer = setTimeout(function() {
+				notifier.fadeOut();
+				if(params.timeouthandler && $.isFunction(params.timeouthandler)) { params.timeouthandler();}
+			}, params.timeout && $.isNumeric(params.timeout) ? parseInt(params.timeout)*1000 : 10000);
+			if(params.clickhandler && $.isFunction(params.clickhandler)) {
+				notifier.on('click', function() {
+					clearTimeout(timer);
+					notifier.off('click');
+					params.clickhandler();
+				});
+			}
 		},
 		notImplemented:function() {
 			OC.dialogs.alert(t('contacts', 'Sorry, this functionality has not been implemented yet'), t('contacts', 'Not implemented'));
