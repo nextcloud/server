@@ -1687,10 +1687,10 @@ Contacts={
 			},
 			scrollTo:function(id){
 				var item = $('#contacts li[data-id="'+id+'"]');
-				console.log('scrollTo, found item '+id+'? ' + item.length);
-				if(item) {
+				if(item && $.isNumeric(item.offset().top)) {
+					console.log('scrollTo ' + parseInt(item.offset().top));
 					$('#contacts').animate({
-						scrollTop: item.offset().top-40}, 'slow','swing');
+						scrollTop: parseInt(item.offset()).top-40}, 'slow','swing');
 				}
 			}
 		}
