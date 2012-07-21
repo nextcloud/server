@@ -478,7 +478,7 @@ Contacts={
 				this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
 				this.data = undefined;
 
-				if($('.contacts li').length > 0) { // Load first in list.
+				if($('.contacts li').length > 0) {
 					Contacts.UI.Card.update({cid:newid, aid:bookid});
 				} else {
 					// load intro page
