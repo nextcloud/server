@@ -94,6 +94,9 @@ $(document).ready(function(){
 					if(user==OC.currentUser && group=='admin'){
 						return false;
 					}
+					if(!isadmin && checked.length == 1 && checked[0] == group){
+						return false;
+					}
 					$.post(
 						OC.filePath('settings','ajax','togglegroups.php'),
 						{
