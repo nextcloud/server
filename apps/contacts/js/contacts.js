@@ -299,16 +299,6 @@ Contacts={
 			$('#contacts_propertymenu_dropdown a').keydown(propertyMenuItem);
 		},
 		Card:{
-			id:'',
-			fn:'',
-			fullname:'',
-			shortname:'',
-			famname:'',
-			givname:'',
-			addname:'',
-			honpre:'',
-			honsuf:'',
-			data:undefined,
 			update:function(params) { // params {cid:int, aid:int}
 				if(!params) { params = {}; }
 				$('#contacts li,#contacts h3').removeClass('active');
@@ -588,8 +578,12 @@ Contacts={
 						$(this).find('input').val('');
 					}
 				});
-				this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
-				var narray = undefined;
+
+				with(this) {
+					delete fn; delete fullname; delete givname; delete famname;
+					delete addname; delete honpre; delete honsuf;
+				}
+
 				if(this.data.FN) {
 					this.fn = this.data.FN[0]['value'];
 				}
