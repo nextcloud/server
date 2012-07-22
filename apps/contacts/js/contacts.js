@@ -21,27 +21,31 @@ Contacts={
 		 * data: An object that will be passed as argument to the timeouthandler and clickhandler functions.
 		 */
 		notify:function(params) {
-			var notifier = $('#notification');
-			notifier.text(params.message);
-			notifier.fadeIn();
+			self = this;
+			if(!self.notifier) {
+				self.notifier = $('#notification');
+			}
+			self.notifier.text(params.message);
+			self.notifier.fadeIn();
+			self.notifier.on('click', function() { $(this).fadeOut();});
 			var timer = setTimeout(function() {
-				notifier.fadeOut();
+				self.notifier.fadeOut();
 				if(params.timeouthandler && $.isFunction(params.timeouthandler)) {
-					params.timeouthandler(notifier.data(dataid));
-					notifier.off('click');
-					notifier.data(dataid, null);
+					params.timeouthandler(self.notifier.data(dataid));
+					self.notifier.off('click');
+					self.notifier.removeData(dataid);
 				}
 			}, params.timeout && $.isNumeric(params.timeout) ? parseInt(params.timeout)*1000 : 10000);
 			var dataid = timer.toString();
 			if(params.data) {
-				notifier.data(dataid, params.data);
+				self.notifier.data(dataid, params.data);
 			}
 			if(params.clickhandler && $.isFunction(params.clickhandler)) {
-				notifier.on('click', function() {
+				self.notifier.on('click', function() {
 					clearTimeout(timer);
-					notifier.off('click');
-					params.clickhandler(notifier.data(dataid));
-					notifier.data(dataid, null);
+					self.notifier.off('click');
+					params.clickhandler(self.notifier.data(dataid));
+					self.notifier.removeData(dataid);
 				});
 			}
 		},
