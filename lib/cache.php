@@ -99,12 +99,13 @@ class OC_Cache {
 	}
 
 	/**
-	 * clear the user cache
+	 * clear the user cache of all entries starting with a prefix
+	 * @param string prefix (optional)
 	 * @return bool
 	 */
-	static public function clear() {
+	static public function clear($prefix='') {
 		$user_cache = self::getUserCache();
-		return $user_cache->clear();
+		return $user_cache->clear($prefix);
 	}
 
 	/**
