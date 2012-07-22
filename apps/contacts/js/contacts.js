@@ -1208,28 +1208,17 @@ Contacts={
 				$('#phototools li a').tipsy('hide');
 				var wrapper = $('#contacts_details_photo_wrapper');
 				wrapper.addClass('loading').addClass('wait');
-
-				var img = new Image();
-				$(img).load(function () {
+				delete this.photo;
+				this.photo = new Image();
+				$(this.photo).load(function () {
 					$('img.contacts_details_photo').remove()
-					$(this).addClass('contacts_details_photo').hide();
+					$(this).addClass('contacts_details_photo');
 					wrapper.removeClass('loading').removeClass('wait');
 					$(this).insertAfter($('#phototools')).fadeIn();
 				}).error(function () {
 					// notify the user that the image could not be loaded
 					Contacts.UI.notify({message:t('contacts','Error loading profile picture.')});
 				}).attr('src', OC.linkTo('contacts', 'photo.php')+'?id='+self.id+refreshstr);
-
-				$.getJSON(OC.filePath('contacts', 'ajax', 'loadphoto.php'),{'id':this.id, 'refresh': refresh},function(jsondata){
-					if(jsondata.status == 'success'){
-						$('#contacts_details_photo_wrapper').data('checksum', jsondata.data.checksum);
-						Contacts.UI.Card.loadPhotoHandlers();
-					}
-					else{
-						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-					}
-				});
-				$('#file_upload_form').show();
 			},
 			editCurrentPhoto:function(){
 				$.getJSON(OC.filePath('contacts', 'ajax', 'currentphoto.php'),{'id':this.id},function(jsondata){
