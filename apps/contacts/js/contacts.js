@@ -21,27 +21,31 @@ Contacts={
 		 * data: An object that will be passed as argument to the timeouthandler and clickhandler functions.
 		 */
 		notify:function(params) {
-			var notifier = $('#notification');
-			notifier.text(params.message);
-			notifier.fadeIn();
+			self = this;
+			if(!self.notifier) {
+				self.notifier = $('#notification');
+			}
+			self.notifier.text(params.message);
+			self.notifier.fadeIn();
+			self.notifier.on('click', function() { $(this).fadeOut();});
 			var timer = setTimeout(function() {
-				notifier.fadeOut();
+				self.notifier.fadeOut();
 				if(params.timeouthandler && $.isFunction(params.timeouthandler)) {
-					params.timeouthandler(notifier.data(dataid));
-					notifier.off('click');
-					notifier.data(dataid, null);
+					params.timeouthandler(self.notifier.data(dataid));
+					self.notifier.off('click');
+					self.notifier.removeData(dataid);
 				}
 			}, params.timeout && $.isNumeric(params.timeout) ? parseInt(params.timeout)*1000 : 10000);
 			var dataid = timer.toString();
 			if(params.data) {
-				notifier.data(dataid, params.data);
+				self.notifier.data(dataid, params.data);
 			}
 			if(params.clickhandler && $.isFunction(params.clickhandler)) {
-				notifier.on('click', function() {
+				self.notifier.on('click', function() {
 					clearTimeout(timer);
-					notifier.off('click');
-					params.clickhandler(notifier.data(dataid));
-					notifier.data(dataid, null);
+					self.notifier.off('click');
+					params.clickhandler(self.notifier.data(dataid));
+					self.notifier.removeData(dataid);
 				});
 			}
 		},
@@ -295,16 +299,6 @@ Contacts={
 			$('#contacts_propertymenu_dropdown a').keydown(propertyMenuItem);
 		},
 		Card:{
-			id:'',
-			fn:'',
-			fullname:'',
-			shortname:'',
-			famname:'',
-			givname:'',
-			addname:'',
-			honpre:'',
-			honsuf:'',
-			data:undefined,
 			update:function(params) { // params {cid:int, aid:int}
 				if(!params) { params = {}; }
 				$('#contacts li,#contacts h3').removeClass('active');
@@ -584,8 +578,12 @@ Contacts={
 						$(this).find('input').val('');
 					}
 				});
-				this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
-				var narray = undefined;
+
+				with(this) {
+					delete fn; delete fullname; delete givname; delete famname;
+					delete addname; delete honpre; delete honsuf;
+				}
+
 				if(this.data.FN) {
 					this.fn = this.data.FN[0]['value'];
 				}
@@ -1210,28 +1208,17 @@ Contacts={
 				$('#phototools li a').tipsy('hide');
 				var wrapper = $('#contacts_details_photo_wrapper');
 				wrapper.addClass('loading').addClass('wait');
-
-				var img = new Image();
-				$(img).load(function () {
+				delete this.photo;
+				this.photo = new Image();
+				$(this.photo).load(function () {
 					$('img.contacts_details_photo').remove()
-					$(this).addClass('contacts_details_photo').hide();
+					$(this).addClass('contacts_details_photo');
 					wrapper.removeClass('loading').removeClass('wait');
-					$(this).insertAfter($('#phototools')).fadeIn();
+					$(this).insertAfter($('#phototools')).fadeIn('fast');
 				}).error(function () {
 					// notify the user that the image could not be loaded
 					Contacts.UI.notify({message:t('contacts','Error loading profile picture.')});
 				}).attr('src', OC.linkTo('contacts', 'photo.php')+'?id='+self.id+refreshstr);
-
-				$.getJSON(OC.filePath('contacts', 'ajax', 'loadphoto.php'),{'id':this.id, 'refresh': refresh},function(jsondata){
-					if(jsondata.status == 'success'){
-						$('#contacts_details_photo_wrapper').data('checksum', jsondata.data.checksum);
-						Contacts.UI.Card.loadPhotoHandlers();
-					}
-					else{
-						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-					}
-				});
-				$('#file_upload_form').show();
 			},
 			editCurrentPhoto:function(){
 				$.getJSON(OC.filePath('contacts', 'ajax', 'currentphoto.php'),{'id':this.id},function(jsondata){
@@ -1493,7 +1480,15 @@ Contacts={
 			}
 		},
 		Contacts:{
+			contacts:{},
 			batchnum:50,
+			get:function(id) {
+				if(!this.contacts[id]) {
+					// TODO: Check if item isn't loaded yet. If so insert it.
+					this.contacts[id] = $('#contacts li[data-id="'+id+'"]');
+				}
+				return this.contacts[id];
+			},
 			drop:function(event, ui) {
 				var dragitem = ui.draggable, droptarget = $(this);
 				if(dragitem.is('li')) {
@@ -1532,13 +1527,16 @@ Contacts={
 			 * If 'contactlist' or 'contacts' aren't defined they will be search for based in the properties in 'data'.
 			 */
 			insertContact:function(params) {
+				var id, bookid;
 				if(!params.contactlist) {
 					// FIXME: Check if contact really exists.
-					var bookid = params.data ? params.data.addressbookid : params.contact.data('bookid');
+					bookid = params.data ? params.data.addressbookid : params.contact.data('bookid');
+					id = params.data ? params.data.id : params.contact.data('id');
 					params.contactlist = $('#contacts ul[data-id="'+bookid+'"]');
 				}
 				if(!params.contacts) {
-					var bookid = params.data ? params.data.addressbookid : params.contact.data('bookid');
+					bookid = params.data ? params.data.addressbookid : params.contact.data('bookid');
+					id = params.data ? params.data.id : params.contact.data('id');
 					params.contacts = $('#contacts ul[data-id="'+bookid+'"] li');
 				}
 				var contact = params.data
@@ -1558,6 +1556,7 @@ Contacts={
 				if(!added || !params.contacts) {
 					params.contactlist.append(contact);
 				}
+				//this.contacts[id] = contact;
 				return contact;
 			},
 			next:function(reverse) {
@@ -1692,18 +1691,13 @@ $(document).ready(function(){
 	OCCategories.changed = Contacts.UI.Card.categoriesChanged;
 	OCCategories.app = 'contacts';
 
-	$('#notification').click(function(){
-		$('#notification').fadeOut();
-	});
+	$('#chooseaddressbook').on('click keydown', Contacts.UI.Addressbooks.overview);
+	$('#contacts_newcontact').on('click keydown', Contacts.UI.Card.editNew);
 
-	$('#chooseaddressbook').click(Contacts.UI.Addressbooks.overview);
-	$('#chooseaddressbook').keydown(Contacts.UI.Addressbooks.overview);
+	var ninjahelp = $('#ninjahelp');
 
-	$('#contacts_newcontact').click(Contacts.UI.Card.editNew);
-	$('#contacts_newcontact').keydown(Contacts.UI.Card.editNew);
-
-	$('#ninjahelp .close').on('click keydown',function() {
-		$('#ninjahelp').hide();
+	ninjahelp.find('.close').on('click keydown',function() {
+		ninjahelp.hide();
 	});
 
 	$(document).on('keyup', function(event) {
@@ -1721,7 +1715,7 @@ $(document).ready(function(){
 		 */
 		switch(event.which) {
 			case 27: // Esc
-				$('#ninjahelp').hide();
+				ninjahelp.hide();
 				break;
 			case 46:
 				if(event.shiftKey) {
@@ -1768,7 +1762,7 @@ $(document).ready(function(){
 				Contacts.UI.Contacts.update({cid:Contacts.UI.Card.id});
 				break;
 			case 191: // ?
-				$('#ninjahelp').toggle('fast');
+				ninjahelp.toggle('fast');
 				break;
 		}
 
@@ -1780,7 +1774,7 @@ $(document).ready(function(){
 			$('.contacts').click();
 		}
 	});
-	$(document).on('click', '.contacts', function(event){
+	$(document).on('click', '#contacts', function(event){
 		var $tgt = $(event.target);
 		if ($tgt.is('li') || $tgt.is('a')) {
 			var item = $tgt.is('li')?$($tgt):($tgt).parent();
