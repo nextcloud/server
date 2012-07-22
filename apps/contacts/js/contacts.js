@@ -1679,18 +1679,13 @@ $(document).ready(function(){
 	OCCategories.changed = Contacts.UI.Card.categoriesChanged;
 	OCCategories.app = 'contacts';
 
-	$('#notification').click(function(){
-		$('#notification').fadeOut();
-	});
+	$('#chooseaddressbook').on('click keydown', Contacts.UI.Addressbooks.overview);
+	$('#contacts_newcontact').on('click keydown', Contacts.UI.Card.editNew);
 
-	$('#chooseaddressbook').click(Contacts.UI.Addressbooks.overview);
-	$('#chooseaddressbook').keydown(Contacts.UI.Addressbooks.overview);
+	var ninjahelp = $('#ninjahelp');
 
-	$('#contacts_newcontact').click(Contacts.UI.Card.editNew);
-	$('#contacts_newcontact').keydown(Contacts.UI.Card.editNew);
-
-	$('#ninjahelp .close').on('click keydown',function() {
-		$('#ninjahelp').hide();
+	ninjahelp.find('.close').on('click keydown',function() {
+		ninjahelp.hide();
 	});
 
 	$(document).on('keyup', function(event) {
@@ -1708,7 +1703,7 @@ $(document).ready(function(){
 		 */
 		switch(event.which) {
 			case 27: // Esc
-				$('#ninjahelp').hide();
+				ninjahelp.hide();
 				break;
 			case 46:
 				if(event.shiftKey) {
@@ -1755,7 +1750,7 @@ $(document).ready(function(){
 				Contacts.UI.Contacts.update({cid:Contacts.UI.Card.id});
 				break;
 			case 191: // ?
-				$('#ninjahelp').toggle('fast');
+				ninjahelp.toggle('fast');
 				break;
 		}
 
@@ -1767,7 +1762,7 @@ $(document).ready(function(){
 			$('.contacts').click();
 		}
 	});
-	$(document).on('click', '.contacts', function(event){
+	$(document).on('click', '#contacts', function(event){
 		var $tgt = $(event.target);
 		if ($tgt.is('li') || $tgt.is('a')) {
 			var item = $tgt.is('li')?$($tgt):($tgt).parent();
