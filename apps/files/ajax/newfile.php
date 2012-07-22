@@ -17,6 +17,8 @@ $source = isset( $_REQUEST['source'] ) ? stripslashes($_REQUEST['source']) : '';
 
 if($source){
 	$eventSource=new OC_EventSource();
+}else{
+	OC_JSON::callCheck();
 }
 
 if($filename == '') {
