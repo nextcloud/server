@@ -21,12 +21,6 @@
 *
 */
 
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-
 /**
  * Class to handle open collaboration services API requests
  *
@@ -87,114 +81,89 @@ class OC_OCS {
     // overwrite the 404 error page returncode
     header("HTTP/1.0 200 OK");
 
+	$router = new OC_Router();
+	$router->useCollection('ocs');
+	// CONFIG
+	$router->create('config', '/config.{format}')
+		->defaults(array('format'=>''))
+		->action('OC_OCS', 'apiConfig')
+		->requirements(array('format'=>'xml|json'));
 
-    if($_SERVER['REQUEST_METHOD'] == 'GET') {
-       $method='get';
-    }elseif($_SERVER['REQUEST_METHOD'] == 'PUT') {
-       $method='put';
-    }elseif($_SERVER['REQUEST_METHOD'] == 'POST') {
-       $method='post';
-    }else{
-      echo('internal server error: method not supported');
-      exit();
-    }
+	// PERSON
+	$router->create('person_check', '/person/check.{format}')
+		->post()
+		->defaults(array('format'=>''))
+		->action(function ($parameters) {
+				$format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
+				$login=OC_OCS::readdata('login','text');
+				$passwd=OC_OCS::readdata('password','text');
+				OC_OCS::personcheck($format,$login,$passwd);
+				})
+		->requirements(array('format'=>'xml|json'));
 
-    $routes = new RouteCollection();
-    // CONFIG
-    $routes->add('config',
-    		new Route('/config.{format}',
-    			  array('format'=>'',
-				'action' => function ($parameters) {
-			     	OC_OCS::apiconfig($parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text'));
-			  }),
-			  array('format'=>'xml|json')));
-
-    // PERSON
-    $routes->add('person_check',
-    		new Route('/person/check.{format}',
-    			  array('format'=>'',
-				'action' => function ($parameters) {
-			     	$format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
-			     	$login=OC_OCS::readdata('login','text');
-			     	$passwd=OC_OCS::readdata('password','text');
-			     	OC_OCS::personcheck($format,$login,$passwd);
-			  }),
-			  array('_method'=>'post',
-				'format'=>'xml|json')));
-
-    // ACTIVITY
-    // activityget - GET ACTIVITY   page,pagesize als urlparameter
-    $routes->add('activity_get',
-    		new Route('/activity.{format}',
-    			  array('format'=>'',
-				'action' => function ($parameters) {
-			     	$format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
-			     	$page=OC_OCS::readdata('page','int');
-			     	$pagesize=OC_OCS::readdata('pagesize','int');
-			     	if($pagesize<1 or $pagesize>100) $pagesize=10;
-			     	OC_OCS::activityget($format,$page,$pagesize);
-			  }),
-			  array('format'=>'xml|json')));
-    // activityput - POST ACTIVITY
-    $routes->add('activity_put',
-    		new Route('/activity.{format}',
-    			  array('format'=>'',
-				'action' => function ($parameters) {
-			     	$format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
+	// ACTIVITY
+	// activityget - GET ACTIVITY   page,pagesize als urlparameter
+	$router->create('activity_get', '/activity.{format}')
+		->defaults(array('format'=>''))
+		->action(function ($parameters) {
+				$format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
+				$page=OC_OCS::readdata('page','int');
+				$pagesize=OC_OCS::readdata('pagesize','int');
+				if($pagesize<1 or $pagesize>100) $pagesize=10;
+				OC_OCS::activityget($format,$page,$pagesize);
+				})
+		->requirements(array('format'=>'xml|json'));
+	// activityput - POST ACTIVITY
+	$router->create('activity_put', '/activity.{format}')
+		->post()
+		->defaults(array('format'=>''))
+		->action(function ($parameters) {
+				$format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
 				$message=OC_OCS::readdata('message','text');
 				OC_OCS::activityput($format,$message);
-			  }),
-			  array('_method'=>'post',
-				'format'=>'xml|json')));
-    // PRIVATEDATA
-    // get - GET DATA
-    $routes->add('privatedata_get',
-    		new Route('/privatedata/getattribute/{app}/{key}.{format}',
-    			  array('app' => '',
-				'key' => '',
-				'format' => '',
-					'action' => function ($parameters) {
-					$format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
-					$app = addslashes(strip_tags($parameters['app']));
-					$key = addslashes(strip_tags($parameters['key']));
-					OC_OCS::privateDataGet($format, $app, $key);
-			  }),
-			  array('format'=>'xml|json')));
-    // set - POST DATA
-    $routes->add('privatedata_set',
-    		new Route('/privatedata/setattribute/{app}/{key}.{format}',
-    			  array('format'=>'',
-				'action' => function ($parameters) {
-					$format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
-					$app = addslashes(strip_tags($parameters['app']));
-					$key = addslashes(strip_tags($parameters['key']));
-					$value=OC_OCS::readdata('value','text');
-					OC_OCS::privateDataSet($format, $app, $key, $value);
-			  }),
-			  array('_method'=>'post',
-				'format'=>'xml|json')));
-    // delete - POST DATA
-    $routes->add('privatedata_delete',
-    		new Route('/privatedata/deleteattribute/{app}/{key}.{format}',
-    			  array('format'=>'',
-				'action' => function ($parameters) {
-					$format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
-					$app = addslashes(strip_tags($parameters['app']));
-					$key = addslashes(strip_tags($parameters['key']));
-					OC_OCS::privateDataDelete($format, $app, $key);
-			  }),
-			  array('_method'=>'post',
-				'format'=>'xml|json')));
+				})
+		->requirements(array('format'=>'xml|json'));
 
-    $context = new RequestContext($_SERVER['REQUEST_URI'], $method);
-
-    $matcher = new UrlMatcher($routes, $context);
+	// PRIVATEDATA
+	// get - GET DATA
+	$router->create('privatedata_get',
+			  '/privatedata/getattribute/{app}/{key}.{format}')
+		->defaults(array('app' => '', 'key' => '', 'format' => ''))
+		->action(function ($parameters) {
+				$format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
+				$app = addslashes(strip_tags($parameters['app']));
+				$key = addslashes(strip_tags($parameters['key']));
+				OC_OCS::privateDataGet($format, $app, $key);
+				})
+		->requirements(array('format'=>'xml|json'));
+	// set - POST DATA
+	$router->create('privatedata_set',
+			  '/privatedata/setattribute/{app}/{key}.{format}')
+		->post()
+		->defaults(array('format'=>''))
+		->action(function ($parameters) {
+				$format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
+				$app = addslashes(strip_tags($parameters['app']));
+				$key = addslashes(strip_tags($parameters['key']));
+				$value=OC_OCS::readdata('value','text');
+				OC_OCS::privateDataSet($format, $app, $key, $value);
+				})
+		->requirements(array('format'=>'xml|json'));
+	// delete - POST DATA
+	$router->create('privatedata_delete',
+			  '/privatedata/deleteattribute/{app}/{key}.{format}')
+		->post()
+		->defaults(array('format'=>''))
+		->action(function ($parameters) {
+				$format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
+				$app = addslashes(strip_tags($parameters['app']));
+				$key = addslashes(strip_tags($parameters['key']));
+				OC_OCS::privateDataDelete($format, $app, $key);
+				})
+		->requirements(array('format'=>'xml|json'));
 
     try {
-	    $parameters = $matcher->match($_SERVER['PATH_INFO']);
-	    $action = $parameters['action'];
-	    unset($parameters['action']);
-	    call_user_func($action, $parameters);
+    	$router->match($_SERVER['PATH_INFO']);
     } catch (ResourceNotFoundException $e) {
       $format=OC_OCS::readdata('format','text');
       $txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
@@ -388,7 +357,8 @@ class OC_OCS {
    * @param string $format
    * @return string xml/json
    */
-  private static function apiConfig($format) {
+  public static function apiConfig($parameters) {
+    $format = $parameters['format'] ? $parameters['format'] : OC_OCS::readdata('format','text');
     $xml['version']='1.5';
     $xml['website']='ownCloud';
     $xml['host']=OCP\Util::getServerHost();
