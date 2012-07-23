@@ -22,7 +22,7 @@
 
 class Test_Cache_File extends Test_Cache {
 	function skip() {
-		$this->skipUnless(OC_User::isLoggedIn());
+		//$this->skipUnless(OC_User::isLoggedIn());
 	}
 	
 	public function setUp(){
@@ -38,6 +38,13 @@ class Test_Cache_File extends Test_Cache {
 		//set up temporary storage
 		OC_Filesystem::clearMounts();
 		OC_Filesystem::mount('OC_Filestorage_Temporary',array(),'/');
+
+		//login
+		if (OC_User::userExists('test'))
+			OC_User::deleteUser('test');
+		OC_User::createUser('test', 'testtesttest');
+
+		OC_User::login('test', 'testtesttest');
 
 		//set up the users dir
 		$rootView=new OC_FilesystemView('');
