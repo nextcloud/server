@@ -168,14 +168,30 @@ class OC_OCS {
 			OC_OCS::privatedatadelete($format, $app, $key);
 
 		// CLOUD
-		// quotaget - GET QUOTA   parameter
-		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-4]=='cloud') and ($ex[$paracount-3] == 'files') and ($ex[$paracount-2] == 'quota')){
-			OC_OCS::quotaget($format);
+		// quotaget 
+		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'quota')){
+			$user=$ex[$paracount-3];
+			OC_OCS::quotaget($format,$user);
+
+		// quotaset 
+		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'quota')){
+			$user=$ex[$paracount-3];
+			$quota = self::readData('post', 'quota', 'int');
+			OC_OCS::quotaset($format,$user,$quota);
 
 
 // add more calls here
 // please document all the call in the draft spec
 // http://www.freedesktop.org/wiki/Specifications/open-collaboration-services-1.7#CLOUD
+
+// TODO:
+// users
+// groups
+// bookmarks
+// sharing
+// versioning
+// news (rss)
+
 
 
 		}else{
@@ -545,35 +561,66 @@ class OC_OCS {
         // CLOUD API #############################################
 
         /**
-        * get the quota of the current user
+        * get the quota of a user
         * @param string $format
+        * @param string $user
         * @return string xml/json
         */
-        private static function quotaGet($format) {
-                $user=OC_OCS::checkpassword();
+        private static function quotaGet($format,$user) {
+                $login=OC_OCS::checkpassword();
+		if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
 
-		// calculate the disc space
-		$user_dir = '/'.$user.'/files';
-		OC_Filesystem::init($user_dir);
-		$rootInfo=OC_FileCache::get('');
-		$sharedInfo=OC_FileCache::get('/Shared');
-		$used=$rootInfo['size']-$sharedInfo['size'];
-		$free=OC_Filesystem::free_space();
-		$total=$free+$used;
-		if($total==0) $total=1;  // prevent division by zero
-		$relative=round(($used/$total)*10000)/100;
+			if(OC_User::userExists($user)){
+				// calculate the disc space
+				$user_dir = '/'.$user.'/files';
+				OC_Filesystem::init($user_dir);
+				$rootInfo=OC_FileCache::get('');
+				$sharedInfo=OC_FileCache::get('/Shared');
+				$used=$rootInfo['size']-$sharedInfo['size'];
+				$free=OC_Filesystem::free_space();
+				$total=$free+$used;
+				if($total==0) $total=1;  // prevent division by zero
+				$relative=round(($used/$total)*10000)/100;
 
-                $xml=array();
-                $xml['quota']=$total;
-                $xml['free']=$free;
-                $xml['used']=$used;
-                $xml['relative']=$relative;
+				$xml=array();
+				$xml['quota']=$total;
+				$xml['free']=$free;
+				$xml['used']=$used;
+				$xml['relative']=$relative;
 
-                $txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', 'full', 1, count($xml), 0);
-                echo($txt);
-
+				$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', 'full', 1, count($xml), 0);
+				echo($txt);
+			}else{
+			echo self::generateXml('', 'fail', 300, 'User does not exist');
+			}
+		}else{
+			echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+		}
         }
 
+        /**
+        * set the quota of a user
+        * @param string $format
+        * @param string $user
+        * @param string $quota
+        * @return string xml/json
+        */
+        private static function quotaSet($format,$user,$quota) {
+                $login=OC_OCS::checkpassword();
+                if(OC_Group::inGroup($login, 'admin')) {
+
+			// todo
+			// not yet implemented
+			// edit logic here
+			error_log('OCS call: user:'.$user.' quota:'.$quota);
+
+                        $xml=array();
+                        $txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', 'full', 1, count($xml), 0);
+                        echo($txt);
+                }else{
+                        echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+                }
+        }
 
 
 }
