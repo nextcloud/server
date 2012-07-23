@@ -111,21 +111,6 @@ class OC_OCS {
 			$login = self::readData($method, 'login', 'text');
 			$passwd = self::readData($method, 'password', 'text');
 			OC_OCS::personcheck($format,$login,$passwd);
-/*
-		} else if ($method == 'post' && $ex[$paracount - 4] == 'v1.php' && $ex[$paracount - 3] == 'person' && $ex[$paracount - 2] == 'add') {
-			if (OC_Group::inGroup(self::checkPassword(), 'admin')) {
-				$login = self::readData($method, 'login', 'text');
-				$password = self::readData($method, 'password', 'text');
-				try {
-					OC_User::createUser($login, $password);
-					echo self::generateXml($format, 'ok', 201, '');
-				} catch (Exception $exception) {
-					echo self::generateXml($format, 'fail', 400, $exception->getMessage());
-				}
-			} else {
-				echo self::generateXml($format, 'fail', 403, 'Permission denied');
-			}
-*/
 
 		// ACTIVITY
 		// activityget - GET ACTIVITY   page,pagesize als urlparameter
@@ -149,8 +134,8 @@ class OC_OCS {
 		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-3] == 'getattribute')){
 			$app=$ex[$paracount-2];
 			OC_OCS::privateDataGet($format, $app);
-				}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-4] == 'getattribute')){
-			
+		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-4] == 'getattribute')){
+
 			$key=$ex[$paracount-2];
 			$app=$ex[$paracount-3];
 			OC_OCS::privateDataGet($format, $app,$key);

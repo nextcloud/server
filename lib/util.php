@@ -77,13 +77,13 @@ class OC_Util {
 		return '5 pre alpha';
 	}
 
-        /**
-         * get the current installed edition of ownCloud. There is the community edition that just returns an empty string and the enterprise edition that returns "Enterprise".
-         * @return string
-         */
-        public static function getEditionString(){
-                return '';
-        }
+	/**
+	 * get the current installed edition of ownCloud. There is the community edition that just returns an empty string and the enterprise edition that returns "Enterprise".
+	 * @return string
+	 */
+	public static function getEditionString(){
+			return '';
+	}
 
 	/**
 	 * add a javascript file
@@ -131,12 +131,12 @@ class OC_Util {
 		self::$headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
 	}
 
-   /**
-     * formats a timestamp in the "right" way
-     *
-     * @param int timestamp $timestamp
-     * @param bool dateOnly option to ommit time from the result
-     */
+	/**
+	 * formats a timestamp in the "right" way
+	 *
+	 * @param int timestamp $timestamp
+	 * @param bool dateOnly option to ommit time from the result
+	 */
     public static function formatDate( $timestamp,$dateOnly=false){
 		if(isset($_SESSION['timezone'])){//adjust to clients timezone if we know it
 			$systemTimeZone = intval(date('O'));
@@ -438,26 +438,25 @@ class OC_Util {
 	}
 
 
-        /**
-         * Check if the htaccess file is working by creating a test file in the data directory and trying to access via http
-         */
-        public static function ishtaccessworking() {
-
+	/**
+	 * Check if the htaccess file is working by creating a test file in the data directory and trying to access via http
+	 */
+	public static function ishtaccessworking() {
 		// testdata
 		$filename='/htaccesstest.txt';
 		$testcontent='testcontent';
 
 		// creating a test file
-                $testfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$filename;
-                $fp = @fopen($testfile, 'w');
-                @fwrite($fp, $testcontent);
-                @fclose($fp);
+		$testfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$filename;
+		$fp = @fopen($testfile, 'w');
+		@fwrite($fp, $testcontent);
+		@fclose($fp);
 
 		// accessing the file via http
-                $url = OC_Helper::serverProtocol(). '://'  . OC_Helper::serverHost() . OC::$WEBROOT.'/data'.$filename;
-                $fp = @fopen($url, 'r');
-                $content=@fread($fp, 2048);
-                @fclose($fp);
+		$url = OC_Helper::serverProtocol(). '://'  . OC_Helper::serverHost() . OC::$WEBROOT.'/data'.$filename;
+		$fp = @fopen($url, 'r');
+		$content=@fread($fp, 2048);
+		@fclose($fp);
 
 		// cleanup
 		@unlink($testfile);
@@ -467,13 +466,7 @@ class OC_Util {
 			return(false);
 		}else{
 			return(true);
-
 		}
-
-        }
-
-
-
-
+	}
 
 }

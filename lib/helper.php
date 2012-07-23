@@ -175,10 +175,8 @@ class OC_Helper {
 	 */
 	public static function mimetypeIcon( $mimetype ){
 		$alias=array('application/xml'=>'code/xml');
-// 		echo $mimetype;
 		if(isset($alias[$mimetype])){
 			$mimetype=$alias[$mimetype];
-// 			echo $mimetype;
 		}
 		// Replace slash with a minus
 		$mimetype = str_replace( "/", "-", $mimetype );
