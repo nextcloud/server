@@ -21,6 +21,8 @@
 */
 
 class Test_Cache_File extends Test_Cache {
+	private $user;
+	
 	function skip() {
 		//$this->skipUnless(OC_User::isLoggedIn());
 	}
@@ -39,17 +41,23 @@ class Test_Cache_File extends Test_Cache {
 		OC_Filesystem::clearMounts();
 		OC_Filesystem::mount('OC_Filestorage_Temporary',array(),'/');
 
+		OC_User::clearBackends();
+		OC_User::useBackend(new OC_User_Dummy());
+		
 		//login
-		if (OC_User::userExists('test'))
-			OC_User::deleteUser('test');
-		OC_User::createUser('test', 'testtesttest');
-
-		OC_User::login('test', 'testtesttest');
+		OC_User::createUser('test', 'test');
+		
+		$this->user=OC_User::getUser();
+		OC_User::setUserId('test');
 
 		//set up the users dir
 		$rootView=new OC_FilesystemView('');
-		$rootView->mkdir('/'.OC_User::getUser());
+		$rootView->mkdir('/test');
 		
 		$this->instance=new OC_Cache_File();
+	}
+
+	public function tearDown(){
+		OC_User::setUserId($this->user);
 	}
 }
