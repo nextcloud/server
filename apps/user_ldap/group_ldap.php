@@ -23,7 +23,7 @@
 
 namespace OCA\user_ldap;
 
-class GROUP_LDAP extends \OC_Group_Backend {
+class GROUP_LDAP implements \OCP\GroupInterface {
 // 	//group specific settings
 	protected $ldapGroupFilter;
 	protected $ldapGroupMemberAssocAttr;
@@ -204,5 +204,18 @@ class GROUP_LDAP extends \OC_Group_Backend {
 	 */
 	public function groupExists($gid){
 		return in_array($gid, $this->getGroups());
+	}
+
+	/**
+	* @brief Check if backend implements actions
+	* @param $actions bitwise-or'ed actions
+	* @returns boolean
+	*
+	* Returns the supported actions as int to be
+	* compared with OC_USER_BACKEND_CREATE_USER etc.
+	*/
+	public function implementsActions($actions) {
+		//always returns false, because possible actions are modifying actions. We do not write to LDAP, at least for now.
+		return false;
 	}
 }
