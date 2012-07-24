@@ -346,15 +346,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		}
 		return false;
 	}
-	
-	public function toTmpFile($path) {
-		if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->toTmpFile($this->getInternalPath($source));
-		}
-		return false;
-	}
-	
+
 	public function getMimeType($path) {
 		if ($path == '' || $path == '/') {
 			return 'httpd/unix-directory';
