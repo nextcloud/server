@@ -1,3 +1,4 @@
+
 <?php
 /**
 * ownCloud
@@ -21,7 +22,7 @@
 
 class OC_Share_Backend_File extends OCP\Share_Backend {
 
-	const FORMAT_SOURCE_PATH = 0;
+	const FORMAT_SHARED_STORAGE = 0;
 	const FORMAT_FILE_APP = 1;
 	const FORMAT_FILE_APP_ROOT = 2;
 	const FORMAT_OPENDIR = 3;
@@ -45,6 +46,14 @@ class OC_Share_Backend_File extends OCP\Share_Backend {
 				$files[] = basename($file['file_target']);
 			}
 			return $files;
+		} else if ($format == self::FORMAT_SHARED_STORAGE) {
+			$id = $items[key($items)]['file_source'];
+			$query = OCP\DB::prepare('SELECT path FROM *PREFIX*fscache WHERE id = ?');
+			$result = $query->execute(array($id))->fetchAll();
+			if (isset($result[0]['path'])) {
+				return array('path' => $result[0]['path'], 'permissions' => $items[key($items)]['permissions']);
+			}
+			return false;
 		} else {
 			$shares = array();
 			$ids = array();
@@ -53,14 +62,7 @@ class OC_Share_Backend_File extends OCP\Share_Backend {
 				$ids[] = $item['file_source'];
 			}
 			$ids = "'".implode("','", $ids)."'";
-			if ($format == self::FORMAT_SOURCE_PATH) {
-				$query = OCP\DB::prepare('SELECT path FROM *PREFIX*fscache WHERE id IN ('.$ids.')');
-				$result = $query->execute()->fetchAll();
-				if (isset($result[0]['path'])) {
-					return $result[0]['path'];
-				}
-				return false;
-			} else if ($format == self::FORMAT_FILE_APP) {
+			if ($format == self::FORMAT_FILE_APP) {
 				$query = OCP\DB::prepare('SELECT id, path, name, ctime, mtime, mimetype, size, encrypted, versioned, writable FROM *PREFIX*fscache WHERE id IN ('.$ids.')');
 				$result = $query->execute();
 				$files = array();
@@ -90,5 +92,3 @@ class OC_Share_Backend_File extends OCP\Share_Backend {
 	}
 
 }
-
-?>
