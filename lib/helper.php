@@ -360,7 +360,7 @@ class OC_Helper {
 		}else{
 			$mimeType='application/octet-stream';
 		}
-		
+
 		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
 			$info = @strtolower(finfo_file($finfo,$path));
 			if($info){
@@ -678,5 +678,31 @@ class OC_Helper {
 			$count++;
 		}
 		return $subject;
+	}
+
+	/**
+	* @brief performs a search in a nested array
+	* @param haystack the array to be searched
+	* @param needle the search string
+	* @param $index optional, only search this key name
+	* @return the key of the matching field, otherwise false
+	*
+	* performs a search in a nested array
+	*
+	* taken from http://www.php.net/manual/en/function.array-search.php#97645
+	*/
+	public static function recursiveArraySearch($haystack, $needle, $index = null) {
+		$aIt = new RecursiveArrayIterator($haystack);
+		$it = new RecursiveIteratorIterator($aIt);
+
+		while($it->valid()) {
+			if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
+				return $aIt->key();
+			}
+
+			$it->next();
+		}
+
+		return false;
 	}
 }
