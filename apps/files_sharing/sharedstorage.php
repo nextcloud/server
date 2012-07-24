@@ -109,7 +109,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	}
 	
 	public function rmdir($path) {
-		if ($source = $this->getSourcePath($path) && ($this->getPermissions($path) & OCP\Share::PERMISSION_DELETE)) {
+		if (($source = $this->getSourcePath($path)) && ($this->getPermissions($path) & OCP\Share::PERMISSION_DELETE)) {
 			$storage = OC_Filesystem::getStorage($source);
 			return $storage->rmdir($this->getInternalPath($source));
 		}
@@ -283,15 +283,46 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	}
 	
 	public function unlink($path) {
-		// TODO
+		// Delete the file if DELETE permission is granted
+		if (($source = $this->getSourcePath($path)) && ($this->getPermissions($path) & OCP\Share::PERMISSION_DELETE)) {
+			$storage = OC_Filesystem::getStorage($source);
+			return $storage->unlink($this->getInternalPath($source));
+		}
+		return false;
 	}
 	
 	public function rename($path1, $path2) {
-		// TODO
+		if ($oldSource = $this->getSourcePath($path1)) {
+			$root1 = substr($path1, 0, strpos($path1, '/'));
+			$root2 = substr($path2, 0, strpos($path2, '/'));
+			// Moving/renaming is only allowed within the same shared folder
+			if ($root1 == $root2) {
+				$permissions1 = $this->getPermissions($path1);
+				$permissions2 = $this->getPermissions(dirname($path2));
+				$storage = OC_Filesystem::getStorage($oldSource);
+				$newSource = substr($oldSource, 0, strpos($oldSource, $root1)).$path2;
+				if (dirname($path1) == dirname($path2)) {
+					// Rename the file if UPDATE permission is granted
+					if ($permissions1 & OCP\Share::PERMISSION_UPDATE) {
+						return $storage->rename($this->getInternalPath($oldSource), $this->getInternalPath($newSource));
+					}
+				// Move the file if DELETE and CREATE permissions are granted
+				} else if (($permissions1 & OCP\Share::PERMISSION_DELETE) && ($permissions2 & OCP\Share::PERMISSION_CREATE)) {
+					return $storage->rename($this->getInternalPath($oldSource), $this->getInternalPath($newSource));
+				}
+			}
+		}
+		return false;
 	}
 	
 	public function copy($path1, $path2) {
-		// TODO
+		// Copy the file if CREATE permission is granted
+		if (($source = $this->getSourcePath($path1)) && ($this->getPermissions(dirname($path2)) & OCP\Share::PERMISSION_CREATE)) {
+			$source = $this->fopen($path1, 'r');
+			$target = $this->fopen($path2, 'w');
+			return OC_Helper::streamCopy($source, $target);
+		}
+		return false;
 	}
 	
 	public function fopen($path, $mode) {
