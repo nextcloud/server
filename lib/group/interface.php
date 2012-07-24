@@ -22,16 +22,6 @@
  */
 
 interface OC_Group_Interface {
-
-	/**
-	* @brief Get all supported actions
-	* @returns bitwise-or'ed actions
-	*
-	* Returns the supported actions as int to be
-	* compared with OC_USER_BACKEND_CREATE_USER etc.
-	*/
-	public function getSupportedActions();
-
 	/**
 	* @brief Check if backend implements actions
 	* @param $actions bitwise-or'ed actions
