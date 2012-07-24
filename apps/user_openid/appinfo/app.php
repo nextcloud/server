@@ -19,7 +19,7 @@ OCP\Util::addHeader('link',array('rel'=>'openid.delegate', 'href'=>OCP\Util::lin
 
 OCP\App::registerPersonal('user_openid','settings');
 
-require_once 'openid/user_openid.php';
+require_once 'apps/user_openid/user_openid.php';
 
 //active the openid backend
 OC_User::useBackend('openid');
