@@ -650,17 +650,39 @@ class OC_OCS {
         * @param string $user
         * @return string xml/json
         */
-        private static function publicKeyGet($format,$user) {
-                $login=OC_OCS::checkpassword();
-
-		if(OC_User::userExists($user)){
-			// calculate the disc space
-			$txt='this is the public key of '.$user;
-			echo($txt);
-		}else{
-			echo self::generateXml('', 'fail', 300, 'User does not exist');
-		}
-	}
+        private static function publicKeyGet($format, $user) {
+        	$login=OC_OCS::checkpassword();
+        	if(OC_User::userExists($user)){
+        		//TODO: GET public key
+        		$xml=array();
+        		$xml['key']="this is the public key of $user";
+        		$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
+        		echo($txt);
+        	}else{
+        		echo self::generateXml('', 'fail', 300, 'User does not exist');
+        	}
+        }
+        
+        /**
+         * set the public key of a user
+         * @param string $format
+         * @param string $user
+         * @param string $key
+         * @return string xml/json
+         */
+        private static function publicKeySet($format, $user, $key) {
+        	$login=OC_OCS::checkpassword();
+        	if($login == $user) {
+        		if(OC_User::userExists($user)){
+        			//TODO: SET public key
+        			echo self::generateXml('', 'ok', 100, 'Public key uploaded');
+        		}else{
+        			echo self::generateXml('', 'fail', 300, 'User does not exist');
+        		}
+        	}else{
+        		echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+        	}
+        }
 
         /**
         * get the private key of a user
@@ -668,21 +690,88 @@ class OC_OCS {
         * @param string $user
         * @return string xml/json
         */
-        private static function privateKeyGet($format,$user) {
-                $login=OC_OCS::checkpassword();
-                if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
+		private static function privateKeyGet($format, $user) {
+			$login=OC_OCS::checkpassword();
+			if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
+				if(OC_User::userExists($user)){
+					//TODO: GET private key
+					$xml=array();
+					$xml['key']="this is the private key of $user";
+					$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
+					echo($txt);
+				}else{
+					echo self::generateXml('', 'fail', 300, 'User does not exist');
+				}
+			}else{
+				echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+			}
+		}
+		
+		/**
+		 * set the private key of a user
+		 * @param string $format
+		 * @param string $user
+		 * @param string $key
+		 * @return string xml/json
+		 */
+		private static function privateKeySet($format, $user, $key) {
+			$login=OC_OCS::checkpassword();
+			if($login == $user) {
+				if(OC_User::userExists($user)){
+					//TODO: SET private key
+					echo self::generateXml('', 'ok', 100, 'Private key uploaded');
+				}else{
+					echo self::generateXml('', 'fail', 300, 'User does not exist');
+				}
+			}else{
+				echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+			}
+		}
 
-                        if(OC_User::userExists($user)){
-                                // calculate the disc space
-                                $txt='this is the private key of '.$user;
-                                echo($txt);
-                        }else{
-                                echo self::generateXml('', 'fail', 300, 'User does not exist');
-                        }
-                }else{
-                        echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
-                }
-        }
-
+		/**
+		 * get the encryption key of a file
+		 * @param string $format
+		 * @param string $user
+		 * @param string $file
+		 * @return string xml/json
+		 */
+		private static function privateKeyGet($format, $user, $file) {
+			$login=OC_OCS::checkpassword();
+			if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
+				if(OC_User::userExists($user)){
+					//TODO: GET file key
+					$xml=array();
+					$xml['key']="this is the key for $file";
+					$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
+					echo($txt);
+				}else{
+					echo self::generateXml('', 'fail', 300, 'User does not exist');
+				}
+			}else{
+				echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+			}
+		}
+		
+		/**
+		 * set the encryption keyn of a file
+		 * @param string $format
+		 * @param string $user
+		 * @param string $file
+		 * @param string $key
+		 * @return string xml/json
+		 */
+		private static function privateKeySet($format, $user, $file, $key) {
+			$login=OC_OCS::checkpassword();
+			if($login == $user) {
+				if(OC_User::userExists($user)){
+					//TODO: SET file key
+					echo self::generateXml('', 'ok', 100, 'File key uploaded');
+				}else{
+					echo self::generateXml('', 'fail', 300, 'User does not exist');
+				}
+			}else{
+				echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+			}
+		}		
 
 }
