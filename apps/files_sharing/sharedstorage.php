@@ -99,7 +99,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	}
 	
 	public function mkdir($path) {
-		if ($path == '' || $path == '/' || !$this->is_writable($path)) {
+		if ($path == '' || $path == '/' || !$this->is_writable(dirname($path))) {
 			return false; 
 		} else if ($source = $this->getSourcePath($path)) {
 			$storage = OC_Filesystem::getStorage($source);
