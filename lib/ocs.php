@@ -153,6 +153,10 @@ class OC_OCS {
 			OC_OCS::privatedatadelete($format, $app, $key);
 
 		// CLOUD
+		// systemWebApps 
+		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-4]=='cloud') and ($ex[$paracount-3] == 'system') and ($ex[$paracount-2] == 'webapps')){
+			OC_OCS::systemwebapps($format);
+
 		// quotaget 
 		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'quota')){
 			$user=$ex[$paracount-3];
@@ -163,6 +167,16 @@ class OC_OCS {
 			$user=$ex[$paracount-3];
 			$quota = self::readData('post', 'quota', 'int');
 			OC_OCS::quotaset($format,$user,$quota);
+
+		// keygetpublic 
+		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'publickey')){
+			$user=$ex[$paracount-3];
+			OC_OCS::publicKeyGet($format,$user);
+
+		// keygetprivate 
+		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'privatekey')){
+			$user=$ex[$paracount-3];
+			OC_OCS::privateKeyGet($format,$user);
 
 
 // add more calls here
@@ -546,6 +560,29 @@ class OC_OCS {
         // CLOUD API #############################################
 
         /**
+        * get a list of installed web apps
+        * @param string $format
+        * @return string xml/json
+        */
+        private static function systemWebApps($format) {
+                $login=OC_OCS::checkpassword();
+		$apps=OC_App::getEnabledApps();
+		$values=array();
+		foreach($apps as $app) {
+			$info=OC_App::getAppInfo($app);
+			if(isset($info['standalone'])) {
+				$newvalue=array('name'=>$info['name'],'url'=>OC_Helper::linkToAbsolute($app,''),'icon'=>'');
+				$values[]=$newvalue;
+			}
+
+		}
+		$txt=OC_OCS::generatexml($format, 'ok', 100, '', $values, 'cloud', '', 2, 0, 0);
+		echo($txt);
+
+        }
+
+
+        /**
         * get the quota of a user
         * @param string $format
         * @param string $user
@@ -573,10 +610,10 @@ class OC_OCS {
 				$xml['used']=$used;
 				$xml['relative']=$relative;
 
-				$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', 'full', 1, count($xml), 0);
+				$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
 				echo($txt);
 			}else{
-			echo self::generateXml('', 'fail', 300, 'User does not exist');
+				echo self::generateXml('', 'fail', 300, 'User does not exist');
 			}
 		}else{
 			echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
@@ -596,12 +633,52 @@ class OC_OCS {
 
 			// todo
 			// not yet implemented
-			// edit logic here
+			// add logic here
 			error_log('OCS call: user:'.$user.' quota:'.$quota);
 
                         $xml=array();
-                        $txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', 'full', 1, count($xml), 0);
+                        $txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
                         echo($txt);
+                }else{
+                        echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+                }
+        }
+
+        /**
+        * get the public key of a user
+        * @param string $format
+        * @param string $user
+        * @return string xml/json
+        */
+        private static function publicKeyGet($format,$user) {
+                $login=OC_OCS::checkpassword();
+
+		if(OC_User::userExists($user)){
+			// calculate the disc space
+			$txt='this is the public key of '.$user;
+			echo($txt);
+		}else{
+			echo self::generateXml('', 'fail', 300, 'User does not exist');
+		}
+	}
+
+        /**
+        * get the private key of a user
+        * @param string $format
+        * @param string $user
+        * @return string xml/json
+        */
+        private static function privateKeyGet($format,$user) {
+                $login=OC_OCS::checkpassword();
+                if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
+
+                        if(OC_User::userExists($user)){
+                                // calculate the disc space
+                                $txt='this is the private key of '.$user;
+                                echo($txt);
+                        }else{
+                                echo self::generateXml('', 'fail', 300, 'User does not exist');
+                        }
                 }else{
                         echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
                 }
