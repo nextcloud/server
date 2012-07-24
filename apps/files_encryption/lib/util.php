@@ -37,6 +37,23 @@ namespace OCA_Encryption;
 
 class Util {
 
+	# DONE: add method to check if file is encrypted using new system
+	# DONE: add method to check if file is encrypted using old system
+	# TODO: add method to encrypt all user files using new system
+	# TODO: add method to decrypt all user files using new system
+	# TODO: add method to encrypt all user files using old system
+	# TODO: add method to decrypt all user files using old system
+	# TODO: fix / test the crypt stream proxy class
+	# TODO: add support for optional recovery user in case of lost passphrase / keys
+	# TODO: add admin optional required long passphrase for users
+	# TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
+	# TODO: add UI buttons for encrypt / decrypt everything?
+	
+	# TODO: test new encryption with webdav
+	# TODO: test new encryption with versioning
+	# TODO: test new encryption with sharing
+	# TODO: test new encryption with proxies
+
 	private $view; // OC_FilesystemView object for filesystem operations
 	private $pwd; // User Password
 	private $client; // Client side encryption mode flag
@@ -73,6 +90,10 @@ class Util {
 	
 	}
 	
+        /**
+         * @brief Sets up encryption folders and keys for a user
+         * @param $passphrase passphrase to encrypt server-stored private key with
+         */
 	public function setup( $passphrase = null ) {
 	
 		$publicKeyFileName = 'encryption.public.key';
@@ -127,6 +148,103 @@ class Util {
 			}
 			
 		}
+	
+	}
+	
+	/**
+	 * @brief Fetch the legacy encryption key from user files
+	 * @param string $login used to locate the legacy key
+	 * @param string $passphrase used to decrypt the legacy key
+	 * @return true / false
+	 *
+	 * if the key is left out, the default handeler will be used
+	 */
+	public function getLegacyKey( $login, $passphrase ) {
+
+		OC_FileProxy::$enabled = false;
+		
+		if ( 
+		$login
+		and $passphrase 
+		and $key = $this->view->file_get_contents( '/' . $login . '/encryption.key' ) 
+		) {
+		
+			OC_FileProxy::$enabled = true;
+		
+			return $this->legacyDecrypt( $key, $passphrase );
+			
+		} else {
+		
+			OC_FileProxy::$enabled = true;
+		
+			return false;
+		
+		}
+		
+	}
+	
+	/**
+	 * @brief Get the blowfish encryption handeler for a key
+	 * @param $key string (optional)
+	 * @return Crypt_Blowfish blowfish object
+	 *
+	 * if the key is left out, the default handeler will be used
+	 */
+	public function getBlowfish( $key = '' ) {
+	
+		if( $key ){
+		
+			return new Crypt_Blowfish($key);
+		
+		} else {
+		
+			return false;
+			
+		}
+		
+	}
+	
+	/**
+	 * @brief encrypts content using legacy blowfish system
+	 * @param $content the cleartext message you want to encrypt
+	 * @param $key the encryption key (optional)
+	 * @returns encrypted content
+	 *
+	 * This function encrypts an content
+	 */
+	public static function legacyEncrypt( $content, $key='') {
+		$bf = self::getBlowfish($key);
+		return $bf->encrypt($content);
+	}
+	
+	/**
+	* @brief decryption of an content
+	* @param $content the cleartext message you want to decrypt
+	* @param $key the encryption key (optional)
+	* @returns cleartext content
+	*
+	* This function decrypts an content
+	*/
+	public static function legacyDecrypt( $content, $key = '' ) {
+	
+		$bf = $this->getBlowfish( $key );
+		
+		$data = $bf->decrypt( $content );
+		
+		return $data;
+		
+	}
+	
+	/**
+	* @brief Re-encryptes a legacy blowfish encrypted file using AES with integrated IV
+	* @param $legacyContent the legacy encrypted content to re-encrypt
+	* @returns cleartext content
+	*
+	* This function decrypts an content
+	*/
+	public function legacyRecrypt( $legacyContent ) {
+		
+		# TODO: write me
 	
 	}
 

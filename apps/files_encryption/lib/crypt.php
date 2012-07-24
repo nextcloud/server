@@ -51,6 +51,66 @@ class Crypt {
 	}
 	
         /**
+         * @brief Check if a file's contents contains an IV and is symmetrically encrypted
+         * @return true / false
+         */
+	public static function isEncryptedContent( $content ) {
+	
+		if ( !$content ) {
+		
+			return false;
+			
+		}
+		
+		// Fetch encryption metadata from end of file
+		$meta = substr( $content, -22 );
+		
+		// Fetch IV from end of file
+		$iv = substr( $meta, -16 );
+		
+		// Fetch identifier from start of metadata
+		$identifier = substr( $meta, 0, 6 );
+		
+		if ( $identifier == '00iv00') {
+		
+			return true;
+			
+		} else {
+		
+			return false;
+			
+		}
+	
+	}
+	
+        /**
+         * @brief Check if a file is encrypted via legacy system
+         * @return true / false
+         */
+	public static function isLegacyEncryptedContent( $content, $path ) {
+	
+		// Fetch all file metadata from DB
+		$metadata = \OC_FileCache_Cached::get( $content, '' );
+	
+		// If a file is flagged with encryption in DB, but isn't a valid content + IV combination, it's probably using the legacy encryption system
+		if ( 
+		$content
+		and isset( $metadata['encrypted'] ) 
+		and $metadata['encrypted'] === true 
+		and !self::isEncryptedContent( $content ) 
+		) {
+		
+			return true;
+		
+		} else {
+		
+			return false;
+			
+		}
+	
+	}
+	
+        /**
          * @brief Symmetrically encrypt a string
          * @returns encrypted file
          */
@@ -106,13 +166,12 @@ class Crypt {
 			
 		}
 		
-		$random = openssl_random_pseudo_bytes( 13 );
-
-		$iv = substr( base64_encode( $random ), 0, -4 );
+		$iv = self::generateIv();
 		
 		if ( $encryptedContent = self::encrypt( $plainContent, $iv, $passphrase ) ) {
 			
-				$combinedKeyfile = $encryptedContent .= $iv;
+				// Combine content to encrypt with IV identifier and actual IV
+				$combinedKeyfile = $encryptedContent . '00iv00' . $iv;
 				
 				return $combinedKeyfile;
 		
@@ -143,9 +202,11 @@ class Crypt {
 			
 		}
 		
+		// Fetch IV from end of file
 		$iv = substr( $keyfileContent, -16 );
 		
-		$encryptedContent = substr( $keyfileContent, 0, -16 );
+		// Remove IV and IV identifier text to expose encrypted content
+		$encryptedContent = substr( $keyfileContent, 0, -22 );
 		
 		if ( $plainContent = self::decrypt( $encryptedContent, $iv, $passphrase ) ) {
 		
@@ -267,6 +328,33 @@ class Crypt {
 		
 		return $plainContent;
 	
+	}
+	
+        /**
+         * @brief Generate a pseudo random 1024kb ASCII key
+         * @returns $key Generated key
+         */
+	public static function generateIv() {
+		
+		if ( $random = openssl_random_pseudo_bytes( 13, $strong ) ) {
+		
+			if ( !$strong ) {
+			
+				// If OpenSSL indicates randomness is insecure, log error
+				\OC_Log::write( 'Encryption library', 'Insecure symmetric key was generated using openssl_random_pseudo_bytes()' , \OC_Log::WARN );
+			
+			}
+			
+			$iv = substr( base64_encode( $random ), 0, -4 );
+			
+			return $iv;
+			
+		} else {
+		
+			return false;
+			
+		}
+		
 	}
 	
         /**
