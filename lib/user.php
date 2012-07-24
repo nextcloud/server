@@ -104,8 +104,14 @@ class OC_User {
 					break;
 			}
 		}
-
 		true;
+	}
+
+	/**
+	 * remove all used backends
+	 */
+	public static function clearBackends(){
+		self::$_usedBackends=array();
 	}
 
 	/**

@@ -368,9 +368,6 @@ class OC_DB {
 		if( $definition instanceof MDB2_Schema_Error ){
 			die( $definition->getMessage().': '.$definition->getUserInfo());
 		}
-// 		if(OC_Config::getValue('dbtype','sqlite')=='sqlite'){
-// 			$definition['overwrite']=true;//always overwrite for sqlite
-// 		}
 		$ret=self::$schema->createDatabase( $definition );
 
 		// Die in case something went wrong
@@ -527,8 +524,7 @@ class OC_DB {
 	 * @brief replaces the owncloud tables with a new set
 	 * @param $file string path to the MDB2 xml db export file
 	 */
-	 public static function replaceDB( $file ){
-	 	
+	public static function replaceDB( $file ){
 	 	$apps = OC_App::getAllApps();
 	 	self::beginTransaction();
 	 	// Delete the old tables

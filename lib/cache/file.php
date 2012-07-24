@@ -62,15 +62,16 @@ class OC_Cache_File{
 		return $storage->unlink($key);
 	}
 
-	public function clear(){
+	public function clear($prefix=''){
 		$storage = $this->getStorage();
 		if($storage and $storage->is_dir('/')){
 			$dh=$storage->opendir('/');
 			while($file=readdir($dh)){
-				if($file!='.' and $file!='..'){
+				if($file!='.' and $file!='..' and ($prefix==='' || strpos($file, $prefix) === 0)){
 					$storage->unlink('/'.$file);
 				}
 			}
 		}
+		return true;
 	}
 }

@@ -21,7 +21,7 @@
  *
  */
 
-require_once('class.openid.v3.php');
+require_once('openid/class.openid.v3.php');
 
 /**
  * Class for user OpenId backend

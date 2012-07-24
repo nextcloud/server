@@ -78,5 +78,16 @@ return array(
 	'mpeg'=>'video/mpeg',
 	'mov'=>'video/quicktime',
 	'webm'=>'video/webm',
-	'wmv'=>'video/x-ms-asf'
+	'wmv'=>'video/x-ms-asf',
+	'py'=>'text/x-script.phyton',
+	'vcf' => 'text/vcard',
+	'vcard' => 'text/vcard',
+	'doc'=>'application/msword',
+	'docx'=>'application/msword',
+	'xls'=>'application/msexcel',
+	'xlsx'=>'application/msexcel',
+	'ppt'=>'application/mspowerpoint',
+	'pptx'=>'application/mspowerpoint',
+	'sgf' => 'application/sgf',
+	'cdr' => 'application/coreldraw',
 );

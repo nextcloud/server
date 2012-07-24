@@ -23,12 +23,12 @@
 
 //From user comments at http://dk2.php.net/manual/en/function.exif-imagetype.php
 if ( ! function_exists( 'exif_imagetype' ) ) {
-    function exif_imagetype ( $filename ) {
-        if ( ( $info = getimagesize( $filename ) ) !== false ) {
-            return $info[2];
-        }
-    return false;
-    }
+	function exif_imagetype ( $filename ) {
+		if ( ( $info = getimagesize( $filename ) ) !== false ) {
+			return $info[2];
+		}
+		return false;
+	}
 }
 
 function ellipsis($str, $maxlen) {
@@ -66,7 +66,6 @@ class OC_Image {
 	public function __construct($imageref = null) {
 		//OC_Log::write('core',__METHOD__.'(): start', OC_Log::DEBUG);
 		if(!extension_loaded('gd') || !function_exists('gd_info')) {
-		//if(!function_exists('imagecreatefromjpeg')) {
 			OC_Log::write('core',__METHOD__.'(): GD module not installed', OC_Log::ERROR);
 			return false;
 		}

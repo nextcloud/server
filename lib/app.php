@@ -195,7 +195,7 @@ class OC_App{
 			// check if the app is compatible with this version of ownCloud
 			$info=OC_App::getAppInfo($app);
 			$version=OC_Util::getVersion();
-	                if(!isset($info['require']) or ($version[0]>$info['require'])){
+			if(!isset($info['require']) or ($version[0]>$info['require'])){
 				OC_Log::write('core','App "'.$info['name'].'" can\'t be installed because it is not compatible with this version of ownCloud',OC_Log::ERROR);
 				return false;
 			}else{
@@ -331,8 +331,8 @@ class OC_App{
 	}
 
 	/**
-	* Get the path where to install apps
-  */
+	 * Get the path where to install apps
+	 */
 	public static function getInstallPath() {
 		if(OC_Config::getValue('appstoreenabled', true)==false) {
 			return false;

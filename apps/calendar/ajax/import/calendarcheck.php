@@ -7,7 +7,12 @@
  */
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
-$tmpl = new OCP\Template('calendar', 'part.import');
-$tmpl->assign('path', $_POST['path']);
-$tmpl->assign('filename', $_POST['filename']);
-$tmpl->printpage();
+$calname = strip_tags($_POST['calname']);
+$calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser());
+foreach($calendars as $calendar){
+	if($calendar['displayname'] == $calname){
+		OCP\JSON::success(array('message'=>'exists'));
+		exit;
+	}
+}
+OCP\JSON::error();

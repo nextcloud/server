@@ -43,7 +43,8 @@ class OC_Cache_XCache {
 		return xcache_unset($this->getNamespace().$key);
 	}
 
-	public function clear(){
-		return xcache_unset_by_prefix($this->getNamespace());
+	public function clear($prefix=''){
+		xcache_unset_by_prefix($this->getNamespace().$prefix);
+		return true;
 	}
 }
