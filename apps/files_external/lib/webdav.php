@@ -109,11 +109,11 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		}
 	}
 
-	public function is_readable($path){
+	public function isReadable($path){
 		return true;//not properly supported
 	}
 
-	public function is_writable($path){
+	public function isUpdatable($path){
 		return true;//not properly supported
 	}
 

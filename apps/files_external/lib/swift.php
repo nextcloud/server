@@ -353,11 +353,11 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		}
 	}
 
-	public function is_readable($path){
+	public function isReadable($path){
 		return true;
 	}
 
-	public function is_writable($path){
+	public function isUpdatable($path){
 		return true;
 	}
 

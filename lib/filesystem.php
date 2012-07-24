@@ -421,11 +421,32 @@ class OC_Filesystem{
 	static public function readfile($path){
 		return self::$defaultInstance->readfile($path);
 	}
+	/**
+	* @deprecated Replaced by isReadable() as part of CRUDS
+	*/
 	static public function is_readable($path){
 		return self::$defaultInstance->is_readable($path);
 	}
+	/**
+	* @deprecated Replaced by isCreatable(), isUpdatable(), isDeletable() as part of CRUDS
+	*/
 	static public function is_writable($path){
 		return self::$defaultInstance->is_writable($path);
+	}
+	static public function isCreatable($path) {
+		return self::$defaultInstance->isCreatable($path);
+	}
+	static public function isReadable($path) {
+		return self::$defaultInstance->isReadable($path);
+	}
+	static public function isUpdatable($path) {
+		return self::$defaultInstance->isUpdatable($path);
+	}
+	static public function isDeletable($path) {
+		return self::$defaultInstance->isDeletable($path);
+	}
+	static public function isSharable($path) {
+		return self::$defaultInstance->isSharable($path);
 	}
 	static public function file_exists($path){
 		return self::$defaultInstance->file_exists($path);

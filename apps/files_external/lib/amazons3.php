@@ -134,12 +134,12 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 		return false;
 	}
 
-	public function is_readable($path) {
+	public function isReadable($path) {
 		// TODO Check acl and determine who grantee is
 		return true;
 	}
 
-	public function is_writable($path) {
+	public function isUpdatable($path) {
 		// TODO Check acl and determine who grantee is
 		return true;
 	}

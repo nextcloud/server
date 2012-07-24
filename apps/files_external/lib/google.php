@@ -280,11 +280,11 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		return false;
 	}
 
-	public function is_readable($path) {
+	public function isReadable($path) {
 		return true;
 	}
 
-	public function is_writable($path) {
+	public function isUpdatable($path) {
 		if ($path == '' || $path == '/') {
 			return true;
 		} else if ($entry = $this->getResource($path)) {

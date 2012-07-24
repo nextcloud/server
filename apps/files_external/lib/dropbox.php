@@ -118,11 +118,11 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 		return false;
 	}
 
-	public function is_readable($path) {
+	public function isReadable($path) {
 		return $this->file_exists($path);
 	}
 
-	public function is_writable($path) {
+	public function isUpdatable($path) {
 		return $this->file_exists($path);
 	}
 
