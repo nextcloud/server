@@ -46,15 +46,23 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 			$pos = strpos($target, '/', 8);
 			// Get shared folder name
 			if ($pos !== false) {
-				$itemTarget = substr($target, 0, $pos);
+				$folder = substr($target, 0, $pos);
+				if (isset($this->files[$folder])) {
+					$file = $this->files[$folder];
+				} else {
+					$file = OCP\Share::getItemSharedWith('file', $folder, OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
+				}
+				if ($file) {
+					$this->files[$target]['path'] = $file['path'].substr($target, strlen($folder));
+					$this->files[$target]['permissions'] = $file['permissions'];
+					return $this->files[$target];
+				}
 			} else {
-				$itemTarget = $target;
-			}
-			$file = OCP\Share::getItemSharedWith('file', $itemTarget, OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
-			if ($file) {
-				$this->files[$target]['path'] = $file['path'].substr($target, strlen($itemTarget));
-				$this->files[$target]['permissions'] = $file['permissions'];
-				return $this->files[$target];
+				$file = OCP\Share::getItemSharedWith('file', $target, OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
+				if ($file) {
+					$this->files[$target] = $file;
+					return $this->files[$target];
+				}
 			}
 			OCP\Util::writeLog('files_sharing', 'File source not found for: '.$target, OCP\Util::ERROR);
 			return false;
