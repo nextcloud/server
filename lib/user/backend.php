@@ -42,7 +42,7 @@ define('OC_USER_BACKEND_CHECK_PASSWORD',    0x000100);
  *
  * Subclass this for your own backends, and see OC_User_Example for descriptions
  */
-abstract class OC_User_Backend {
+abstract class OC_User_Backend implements OC_User_Interface {
 
 	protected $possibleActions = array(
 		OC_USER_BACKEND_CREATE_USER => 'createUser',

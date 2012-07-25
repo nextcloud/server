@@ -1,10 +1,9 @@
 <?php
-
 /**
-* ownCloud - user_ldap
+* ownCloud
 *
-* @author Dominik Schmidt
-* @copyright 2011 Dominik Schmidt dev@dominik-schmidt.de
+* @author Arthur Schiwon
+* @copyright 2012 Arthur Schiwon blizzz@owncloud.org
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,22 +20,12 @@
 *
 */
 
-OCP\App::registerAdmin('user_ldap', 'settings');
+/**
+ * Public interface of ownCloud for apps to use.
+ * User Class.
+ *
+ */
 
-$connector = new OCA\user_ldap\lib\Connection('user_ldap');
-$userBackend  = new OCA\user_ldap\USER_LDAP();
-$userBackend->setConnector($connector);
-$groupBackend = new OCA\user_ldap\GROUP_LDAP();
-$groupBackend->setConnector($connector);
+namespace OCP;
 
-// register user backend
-OC_User::useBackend($userBackend);
-OC_Group::useBackend($groupBackend);
-
-// add settings page to navigation
-$entry = array(
-	'id' => 'user_ldap_settings',
-	'order'=>1,
-	'href' => OCP\Util::linkTo( 'user_ldap', 'settings.php' ),
-	'name' => 'LDAP'
-);
+interface UserInterface extends \OC_User_Interface {}

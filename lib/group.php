@@ -43,7 +43,7 @@ class OC_Group {
 	 * @returns true/false
 	 */
 	public static function useBackend( $backend ){
-		if($backend instanceof OC_Group_Backend){
+		if($backend instanceof OC_Group_Interface){
 			self::$_usedBackends[]=$backend;
 		}
 	}
@@ -168,7 +168,7 @@ class OC_Group {
 
 		if($run){
 			$succes=false;
-			
+
 			//add the user to the all backends that have the group
 			foreach(self::$_usedBackends as $backend){
 				if(!$backend->implementsActions(OC_GROUP_BACKEND_ADD_TO_GROUP))
@@ -245,7 +245,7 @@ class OC_Group {
 		asort($groups);
 		return $groups;
 	}
-	
+
 	/**
 	 * check if a group exists
 	 * @param string $gid
@@ -259,7 +259,7 @@ class OC_Group {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids

@@ -37,7 +37,7 @@ define('OC_GROUP_BACKEND_REMOVE_FROM_GOUP',  0x00001000);
 /**
  * Abstract base class for user management
  */
-abstract class OC_Group_Backend {
+abstract class OC_Group_Backend implements OC_Group_Interface {
 	protected $possibleActions = array(
 		OC_GROUP_BACKEND_CREATE_GROUP => 'createGroup',
 		OC_GROUP_BACKEND_DELETE_GROUP => 'deleteGroup',
