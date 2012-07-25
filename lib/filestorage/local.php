@@ -85,7 +85,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		return $this->delTree($path);
 	}
 	public function rename($path1,$path2){
-		if (!$this->is_writable($path1)) {
+		if (!$this->isUpdatable($path1)) {
 			OC_Log::write('core','unable to rename, file is not writable : '.$path1,OC_Log::ERROR);
 			return false;
 		}
