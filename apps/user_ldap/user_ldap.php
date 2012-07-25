@@ -57,7 +57,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			if($aEmail && (count($aEmail) > 0)) {
 				$email = $aEmail[0];
 			}
-			if(!is_null($email)){
+			if(!is_null($email)) {
 				\OCP\Config::setUserValue($this->dn2username($dn), 'settings', 'email', $email);
 			}
 		}
