@@ -188,6 +188,9 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	}
 
 	public function isCreatable($path) {
+		if ($path == '') {
+			return false;
+		}
 		return ($this->getPermissions($path) & OCP\Share::PERMISSION_CREATE);
 	}
 
@@ -196,14 +199,23 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	}
 
 	public function isUpdatable($path) {
+		if ($path == '') {
+			return false;
+		}
 		return ($this->getPermissions($path) & OCP\Share::PERMISSION_UPDATE);
 	}
 
 	public function isDeletable($path) {
+		if ($path == '') {
+			return false;
+		}
 		return ($this->getPermissions($path) & OCP\Share::PERMISSION_DELETE);
 	}
 
 	public function isSharable($path) {
+		if ($path == '') {
+			return false;
+		}
 		return ($this->getPermissions($path) & OCP\Share::PERMISSION_SHARE);
 	}
 
