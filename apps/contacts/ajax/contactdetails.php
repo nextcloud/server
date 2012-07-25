@@ -20,7 +20,7 @@
  *
  */
  
-require_once('loghandler.php');
+require_once 'loghandler.php';
 
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
@@ -30,6 +30,7 @@ $id = isset($_GET['id'])?$_GET['id']:null;
 if(is_null($id)) {
 	bailOut(OC_Contacts_App::$l10n->t('Missing ID'));
 }
+$card = OC_Contacts_VCard::find($id);
 $vcard = OC_Contacts_App::getContactVCard( $id );
 if(is_null($vcard)) {
 	bailOut(OC_Contacts_App::$l10n->t('Error parsing VCard for ID: "'.$id.'"'));
@@ -50,5 +51,7 @@ if(isset($details['PHOTO'])) {
 	$details['PHOTO'] = false;
 }
 $details['id'] = $id;
+$details['displayname'] = $card['fullname'];
+$details['addressbookid'] = $card['addressbookid'];
 OC_Contacts_App::setLastModifiedHeader($vcard);
 OCP\JSON::success(array('data' => $details));

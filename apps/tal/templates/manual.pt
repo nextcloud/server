@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html metal:use-macro="${maintemplate}/page">
+<head>
+	<title>TAL Page Templates</title>
+</head>
+<body>
+<div id="content" metal:fill-slot="content">
+	<article id="manual" i18n:domain="tal" tal:define="page page|string:intro">
+		<nav>
+			<ol>
+				<li tal:repeat="section sections" tal:attributes="data-id section/id" data-page="intro">
+					<a tal:content="section/title">Introduction</a>
+				</li>
+			</ol>
+		</nav>
+		<section metal:use-macro="sections.pt/${page}">
+		<h1>Manual</h1>
+		rest of the content
+		</section>
+	</article>
+</div>
+</body>
+</html>

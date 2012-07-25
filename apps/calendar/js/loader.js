@@ -5,77 +5,175 @@
  * See the COPYING-README file.
  */
 Calendar_Import={
-	importdialog: function(filename){
-		var path = $('#dir').val();
-		$('body').append('<div id="calendar_import"></div>');
-		$('#calendar_import').load(OC.filePath('calendar', 'ajax/import', 'dialog.php'), {filename:filename, path:path},	function(){Calendar_Import.initdialog(filename);});
+	Store:{
+		file: '',
+		path: '',
+		id: 0,
+		method: '',
+		calname: '',
+		calcolor: '',
+		progresskey: '',
+		percentage: 0
 	},
-	initdialog: function(filename){
-		$('#calendar_import_dialog').dialog({
-			width : 500,
-			close : function() {
-				$(this).dialog('destroy').remove();
-				$('#calendar_import').remove();
-			}
-		});
-		$('#import_done_button').click(function(){
-			$('#calendar_import_dialog').dialog('destroy').remove();
-			$('#calendar_import').remove();
-		});
-		$('#progressbar').progressbar({value: 0});
-		$('#startimport').click(function(){
-			var filename = $('#filename').val();
-			var path = $('#path').val();
-			var calid = $('#calendar option:selected').val();
-			if($('#calendar option:selected').val() == 'newcal'){
-				var method = 'new';
-				var calname = $('#newcalendar').val();
-				var calname = $.trim(calname);
-				if(calname == ''){
-					$('#newcalendar').css('background-color', '#FF2626');
-					$('#newcalendar').focus(function(){
-						$('#newcalendar').css('background-color', '#F8F8F8');
-					});
-					return false;
-				}
-			}else{
-				var method = 'old';
-			}
-			$('#newcalendar').attr('readonly', 'readonly');
-			$('#calendar').attr('disabled', 'disabled');
-			var progresskey = $('#progresskey').val();
-			$.post(OC.filePath('calendar', 'ajax/import', 'import.php'), {progresskey: progresskey, method: String (method), calname: String (calname), path: String (path), file: String (filename), id: String (calid)}, function(data){
-				if(data.status == 'success'){
-					$('#progressbar').progressbar('option', 'value', 100);
-					$('#import_done').css('display', 'block');
+	Dialog:{
+		open: function(filename){
+			OC.addStyle('calendar', 'import');
+			Calendar_Import.Store.file = filename;
+			Calendar_Import.Store.path = $('#dir').val();
+			$('body').append('<div id="calendar_import"></div>');
+			$('#calendar_import').load(OC.filePath('calendar', 'ajax/import', 'dialog.php'), {filename:Calendar_Import.Store.file, path:Calendar_Import.Store.path},function(){
+					Calendar_Import.Dialog.init();
+			});
+		},
+		close: function(){
+			Calendar_Import.reset();
+			$(this).dialog('destroy').remove();
+			$('#calendar_import_dialog').remove();
+		},
+		init: function(){
+			//init dialog
+			$('#calendar_import_dialog').dialog({
+				width : 500,
+				resizable: false,
+				close : function() {
+					Calendar_Import.Dialog.close();
 				}
 			});
-			$('#form_container').css('display', 'none');
-			$('#progressbar_container').css('display', 'block');
-			window.setTimeout('Calendar_Import.getimportstatus(\'' + progresskey + '\')', 500);
-		});
-		$('#calendar').change(function(){
-			if($('#calendar option:selected').val() == 'newcal'){
-				$('#newcalform').slideDown('slow');
-			}else{
-				$('#newcalform').slideUp('slow');
+			//init buttons
+			$('#calendar_import_done').click(function(){
+				Calendar_Import.Dialog.close();
+			});
+			$('#calendar_import_submit').click(function(){
+				Calendar_Import.Core.process();
+			});
+			$('#calendar_import_mergewarning').click(function(){
+				$('#calendar_import_newcalendar').attr('value', $('#calendar_import_availablename').val());
+				Calendar_Import.Dialog.mergewarning($('#calendar_import_newcalendar').val());
+			});
+			$('#calendar_import_calendar').change(function(){
+				if($('#calendar_import_calendar option:selected').val() == 'newcal'){
+					$('#calendar_import_newcalform').slideDown('slow');
+					Calendar_Import.Dialog.mergewarning($('#calendar_import_newcalendar').val());
+				}else{
+					$('#calendar_import_newcalform').slideUp('slow');
+					$('#calendar_import_mergewarning').slideUp('slow');
+				}
+			});
+			$('#calendar_import_newcalendar').keyup(function(){
+				Calendar_Import.Dialog.mergewarning($.trim($('#calendar_import_newcalendar').val()));
+			});
+			$('#calendar_import_newcalendar_color').miniColors({
+				letterCase: 'uppercase'
+			});
+			$('.calendar-colorpicker-color').click(function(){
+				var str = $(this).attr('rel');
+				str = str.substr(1);
+				$('#calendar_import_newcalendar_color').attr('value', str);
+				$(".color-picker").miniColors('value', '#' + str);
+			});
+			//init progressbar
+			$('#calendar_import_progressbar').progressbar({value: Calendar_Import.Store.percentage});
+			Calendar_Import.Store.progresskey = $('#calendar_import_progresskey').val();
+		},
+		mergewarning: function(newcalname){
+			$.post(OC.filePath('calendar', 'ajax/import', 'calendarcheck.php'), {calname: newcalname}, function(data){
+				if(data.message == 'exists'){
+					$('#calendar_import_mergewarning').slideDown('slow');
+				}else{
+					$('#calendar_import_mergewarning').slideUp('slow');
+				}
+			});
+		},
+		update: function(){
+			if(Calendar_Import.Store.percentage == 100){
+				return false;
 			}
-		});
+			$.post(OC.filePath('calendar', 'ajax/import', 'import.php'), {progresskey: Calendar_Import.Store.progresskey, getprogress: true}, function(data){
+ 				if(data.status == 'success'){
+ 					if(data.percent == null){
+	 					return false;
+ 					}
+ 					Calendar_Import.Store.percentage = parseInt(data.percent);
+					$('#calendar_import_progressbar').progressbar('option', 'value', parseInt(data.percent));
+					if(data.percent < 100 ){
+						window.setTimeout('Calendar_Import.Dialog.update()', 250);
+					}else{
+						$('#calendar_import_done').css('display', 'block');
+					}
+				}else{
+					$('#calendar_import_progressbar').progressbar('option', 'value', 100);
+					$('#calendar_import_progressbar > div').css('background-color', '#FF2626');
+					$('#calendar_import_status').html(data.message);
+				}
+			});
+			return 0;
+		},
+		warning: function(selector){
+			$(selector).addClass('calendar_import_warning');
+			$(selector).focus(function(){
+				$(selector).removeClass('calendar_import_warning');
+			});
+		}
 	},
-	getimportstatus: function(progresskey){
-		$.post(OC.filePath('calendar', 'ajax/import', 'import.php'), {progress:1,progresskey: progresskey}, function(percent){
-			$('#progressbar').progressbar('option', 'value', parseInt(percent));
-			if(percent < 100){
-				window.setTimeout('Calendar_Import.getimportstatus(\'' + progresskey + '\')', 500);
-			}else{
-				$('#import_done').css('display', 'block');
+	Core:{
+		process: function(){
+			var validation = Calendar_Import.Core.prepare();
+			if(validation){
+				$('#calendar_import_form').css('display', 'none');
+				$('#calendar_import_process').css('display', 'block');
+				$('#calendar_import_newcalendar').attr('readonly', 'readonly');
+				$('#calendar_import_calendar').attr('disabled', 'disabled');
+				Calendar_Import.Core.send();
+				window.setTimeout('Calendar_Import.Dialog.update()', 250);
 			}
-		});
+		},
+		send: function(){
+			$.post(OC.filePath('calendar', 'ajax/import', 'import.php'), 
+			{progresskey: Calendar_Import.Store.progresskey, method: String (Calendar_Import.Store.method), calname: String (Calendar_Import.Store.calname), path: String (Calendar_Import.Store.path), file: String (Calendar_Import.Store.file), id: String (Calendar_Import.Store.id), calcolor: String (Calendar_Import.Store.calcolor)}, function(data){
+				if(data.status == 'success'){
+					$('#calendar_import_progressbar').progressbar('option', 'value', 100);
+					Calendar_Import.Store.percentage = 100;
+					$('#calendar_import_done').css('display', 'block');
+					$('#calendar_import_status').html(data.message);
+				}else{
+					$('#calendar_import_progressbar').progressbar('option', 'value', 100);
+					$('#calendar_import_progressbar > div').css('background-color', '#FF2626');
+					$('#calendar_import_status').html(data.message);
+				}
+			});
+		},
+		prepare: function(){
+			Calendar_Import.Store.id = $('#calendar_import_calendar option:selected').val();
+			if($('#calendar_import_calendar option:selected').val() == 'newcal'){
+				Calendar_Import.Store.method = 'new';
+				Calendar_Import.Store.calname = $.trim($('#calendar_import_newcalendar').val());
+				if(Calendar_Import.Store.calname == ''){
+					Calendar_Import.Dialog.warning('#calendar_import_newcalendar');
+					return false;
+				}
+				Calendar_Import.Store.calcolor = $.trim($('#calendar_import_newcalendar_color').val());
+				if(Calendar_Import.Store.calcolor == ''){
+					Calendar_Import.Store.calcolor = $('.calendar-colorpicker-color:first').attr('rel');
+				}
+			}else{
+				Calendar_Import.Store.method = 'old';
+			}
+			return true;
+		}
+	},
+	reset: function(){
+		Calendar_Import.Store.file = '';
+		Calendar_Import.Store.path = '';
+		Calendar_Import.Store.id = 0;
+		Calendar_Import.Store.method = '';
+		Calendar_Import.Store.calname = '';
+		Calendar_Import.Store.progresskey = '';
+		Calendar_Import.Store.percentage = 0;
 	}
 }
 $(document).ready(function(){
 	if(typeof FileActions !== 'undefined'){
-		FileActions.register('text/calendar','importcal', FileActions.PERMISSION_READ, '', Calendar_Import.importdialog);
-		FileActions.setDefault('text/calendar','importcal');
+		FileActions.register('text/calendar','importCalendar',  FileActions.PERMISSION_READ, '', Calendar_Import.Dialog.open); 
+		FileActions.setDefault('text/calendar','importCalendar');
 	};
 });

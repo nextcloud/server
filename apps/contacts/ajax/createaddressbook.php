@@ -12,7 +12,7 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
-require_once('loghandler.php');
+require_once 'loghandler.php';
 
 $userid = OCP\USER::getUser();
 $name = trim(strip_tags($_POST['name']));

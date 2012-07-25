@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+* @package shorty an ownCloud url shortener plugin
+* @category internet
+* @author Christian Reiner
+* @copyright 2011-2012 Christian Reiner <foss@christian-reiner.info>
+* @license GNU Affero General Public license (AGPL)
+* @link information 
+* @link repository https://svn.christian-reiner.info/svn/app/oc/shorty
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either
+* version 3 of the license, or any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*
+* You should have received a copy of the GNU Affero General Public
+* License along with this library.
+* If not, see <http://www.gnu.org/licenses/>.
+*
+-->
+
+<!--
+  /**
+  * @file appinfo/database.xml
+  * @brief Database scheme definition for plugins tables
+  * @author Christian Reiner
+  */
+ -->
+
+<database>
+  <name>*dbname*</name>
+  <create>true</create>
+  <overwrite>false</overwrite>
+  <charset>latin1</charset>
+  <table>
+    <name>*dbprefix*shorty</name>
+    <declaration>
+      <field>
+        <name>id</name>
+        <type>text</type>
+        <notnull>true</notnull>
+        <length>12</length>
+      </field>
+      <field>
+        <name>status</name>
+        <type>text</type>
+        <default>'shared'</default>
+        <notnull>true</notnull>
+        <length>10</length>
+      </field>
+      <field>
+        <name>title</name>
+        <type>text</type>
+        <default>''</default>
+        <notnull>true</notnull>
+        <length>80</length>
+      </field>
+      <field>
+        <name>favicon</name>
+        <type>text</type>
+        <default>''</default>
+        <notnull>false</notnull>
+        <length>1024</length>
+      </field>
+      <field>
+        <name>source</name>
+        <type>text</type>
+        <notnull>true</notnull>
+        <length>4096</length>
+      </field>
+      <field>
+        <name>target</name>
+        <type>text</type>
+        <notnull>true</notnull>
+        <length>4096</length>
+      </field>
+      <field>
+        <name>user</name>
+        <type>text</type>
+        <notnull>true</notnull>
+        <length>64</length>
+      </field>
+      <field>
+        <name>until</name>
+        <type>date</type>
+        <notnull>false</notnull>
+        <default></default>
+      </field>
+      <field>
+        <name>created</name>
+        <type>date</type>
+        <notnull>false</notnull>
+        <default></default>
+      </field>
+      <field>
+        <name>accessed</name>
+        <type>timestamp</type>
+        <notnull>false</notnull>
+        <default></default>
+      </field>
+      <field>
+        <name>clicks</name>
+        <type>integer</type>
+        <default>0</default>
+        <notnull>true</notnull>
+        <unsigned>true</unsigned>
+        <length>10</length>
+      </field>
+      <field>
+        <name>notes</name>
+        <type>text</type>
+        <default>''</default>
+        <notnull>true</notnull>
+        <length>4096</length>
+      </field>
+
+      <index>
+        <name>shorty_id</name>
+        <unique>true</unique>
+        <field>
+          <name>id</name>
+          <sorting>descending</sorting>
+        </field>
+      </index>
+      <index>
+        <name>shorty_user</name>
+        <unique>false</unique>
+        <field>
+          <name>user</name>
+          <sorting>ascending</sorting>
+        </field>
+      </index>
+      <index>
+        <name>shorty_source</name>
+        <unique>false</unique>
+        <field>
+          <name>source</name>
+          <sorting>ascending</sorting>
+        </field>
+      </index>
+    </declaration>
+ </table>
+</database>

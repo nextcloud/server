@@ -139,6 +139,8 @@ li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ff
 
 a.bookmarklet { background-color: #ddd; border:1px solid #ccc; padding: 5px;padding-top: 0px;padding-bottom: 2px; text-decoration: none; margin-top: 5px }
 
+.exception{color: #000000;}
+.exception textarea{width:95%;height: 200px;background:#ffe;border:0;}
 
 /* ---- DIALOGS ---- */
 #dirtree {width: 100%;}

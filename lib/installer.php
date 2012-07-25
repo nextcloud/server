@@ -126,19 +126,19 @@ class OC_Installer{
 			return false;
 		}
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml',true);
-                // check the code for not allowed calls
-                if(!OC_Installer::checkCode($info['id'],$extractDir)){
+		// check the code for not allowed calls
+		if(!OC_Installer::checkCode($info['id'],$extractDir)){
 			OC_Log::write('core','App can\'t be installed because of not allowed code in the App',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
-                        return false;
+			return false;
 		}
 
-                // check if the app is compatible with this version of ownCloud
+		// check if the app is compatible with this version of ownCloud
 		$version=OC_Util::getVersion();	
-                if(!isset($info['require']) or ($version[0]>$info['require'])){
+		if(!isset($info['require']) or ($version[0]>$info['require'])){
 			OC_Log::write('core','App can\'t be installed because it is not compatible with this version of ownCloud',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
-                        return false;
+			return false;
 		}
 
 		//check if an app with the same id is already installed
@@ -339,12 +339,12 @@ class OC_Installer{
 	}
 
 
-        /**
-         * check the code of an app with some static code checks
-         * @param string $folder the folder of the app to check
-         * @returns true for app is o.k. and false for app is not o.k.
-         */
-        public static function checkCode($appname,$folder){
+	/**
+	 * check the code of an app with some static code checks
+	 * @param string $folder the folder of the app to check
+	 * @returns true for app is o.k. and false for app is not o.k.
+	 */
+	public static function checkCode($appname,$folder){
 
 		$blacklist=array(
 			'exec(',
@@ -377,9 +377,7 @@ class OC_Installer{
 			return true;
 			
 		}else{
-          		return true;
+			return true;
 		}
-        }
-
-
+	}
 }

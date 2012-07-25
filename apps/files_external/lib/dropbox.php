@@ -208,7 +208,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 		if (isset(self::$tempFiles[$tmpFile])) {
 			$handle = fopen($tmpFile, 'r');
 			try {
-				$response = $this->dropbox->putFile(self::$tempFiles[$tmpFile], $handle);
+				$this->dropbox->putFile(self::$tempFiles[$tmpFile], $handle);
 				unlink($tmpFile);
 			} catch (Exception $exception) {
 				

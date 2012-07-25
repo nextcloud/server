@@ -178,7 +178,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		if ($collection == '/' || $collection == '\.' || $collection == '.') {
 			$uri = 'https://docs.google.com/feeds/default/private/full';
 		// Get parent content link
-		} else if ($dom = $this->getResource(basename($dir))) {
+		} else if ($dom = $this->getResource(basename($collection))) {
 			$uri = $dom->getElementsByTagName('content')->item(0)->getAttribute('src');
 		}
 		if (isset($uri)) {
@@ -341,7 +341,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 						break;
 					}
 				}
-				$title = basename($path);
+				$title = basename($path2);
 				// Construct post data
 				$postData = '<?xml version="1.0" encoding="UTF-8"?>';
 				$postData .= '<entry xmlns="http://www.w3.org/2005/Atom" xmlns:docs="http://schemas.google.com/docs/2007" xmlns:gd="http://schemas.google.com/g/2005" gd:etag='.$etag.'>';
@@ -352,13 +352,13 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			} else {
 				// Move to different collection
 				if ($collectionEntry = $this->getResource($collection)) {
-					$feedUri = $colelctionEntry->getElementsByTagName('content')->item(0)->getAttribute('src');
+					$feedUri = $collectionEntry->getElementsByTagName('content')->item(0)->getAttribute('src');
 					// Construct post data
 					$postData = '<?xml version="1.0" encoding="UTF-8"?>';
 					$postData .= '<entry xmlns="http://www.w3.org/2005/Atom">';
 					$postData .= '<id>'.$entry->getElementsByTagName('id')->item(0).'</id>';
 					$postData .= '</entry>';
-					$this->sendRequest($uri, 'POST', $postData);
+					$this->sendRequest($feedUri, 'POST', $postData);
 					return true;
 				}
 			}
@@ -424,7 +424,6 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			}
 		}
 		if (!isset($uploadUri) && $entry) {
-			$etag = $entry->getAttribute('gd:etag');
 			$links = $entry->getElementsByTagName('link');
 			foreach ($links as $link) {
 				if ($link->getAttribute('rel') == 'http://schemas.google.com/g/2005#resumable-create-media') {

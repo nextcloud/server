@@ -1,0 +1,142 @@
+<span metal:use-macro="${id}">
+TRUT
+</span>
+<section data-id="intro" metal:define-macro="intro">
+	<h1>Introduction</h1>
+	<h2>Initializing a template</h2>
+	<strong>Before:</strong>
+	<pre>$output = new OCP\Template('app', 'template', 'user');</pre>
+	<strong>After:</strong>
+	<pre>$tmpl = new OC_TALTemplate('app', 'template', 'user');</pre>
+	<h2>Assigning a variable</h2>
+	<strong>Before:</strong>
+	<pre>$tmpl->assign('myvar', $myvar);</pre>
+	<strong>After:</strong>
+	<pre>$tmpl->assign('myvar', $myvar);</pre>
+	The sharp minds may have noticed that there is no difference ;-)
+	<h2>Linking to an image</h2>
+	<strong>Before:</strong>
+	<pre>
+&lt;img class="svg" src="&lt;?php echo image_path('', 'logo-wide.svg'); ?&gt;" alt="ownCloud" /&gt;
+&lt;img class="svg" src="&lt;?php echo image_path('app', 'someimage.png'); ?&gt;" alt="ownCloud" /&gt;</pre>
+	<strong>After:</strong>
+	<pre>
+&lt;img class="svg" tal:attributes="src image:string:logo-wide.svg" alt="ownCloud" /&gt;
+&lt;img class="svg" tal:attributes="src image:string:app/someimage.png" alt="ownCloud" /&gt;</pre>
+	<h2>Constructing a link</h2>
+	<strong>Before:</strong>
+	<pre>
+&lt;a href="&lt;?php echo link_to('', 'index.php'); ?&gt;"&gt;Home&lt;/a&gt;
+&lt;a href="&lt;?php echo link_to('app', 'index.php'); ?&gt;"&gt;Some app&lt;/a&gt;</pre>
+	<strong>After:</strong>
+	<pre>
+&lt;a tal:attributes="href linkto:string:index.php"&gt;Home&lt;/a&gt;
+&lt;a tal:attributes="href linkto:string:app/index.php"&gt;Some app&lt;/a&gt;</pre>
+	<h2>Link to remote service</h2>
+	<strong>Before:</strong>
+	<pre>
+&lt;link rel="stylesheet" href="&lt;?php echo OC_Helper::linkToRemote('core.css') ?&gt;" type="text/css" media="screen" /&gt;
+&lt;a href="&lt;?php echo OC_Helper::linkToRemote('webdav') ?&gt;"&gt;WebDAV&lt;/a&gt;</pre>
+	<strong>After:</strong>
+	<pre>
+&lt;link rel="stylesheet" type="text/css" media="screen" tal:attributes="href remote:string:core.css" /&gt;
+&lt;a tal:attributes="href remote:string:webdav"&gt;WebDAV&lt;/a&gt;</pre>
+	<p>The latter produces a link to the WebDAV service on the current instance:
+	<a tal:attributes="href remote:string:webdav">WebDAV</a></p>
+	<h2>Accessing configuration</h2>
+	<strong>Before:</strong>
+	<pre>
+ownCloud version: &lt;?php echo OCP\Config::getSystemValue('version'); ?&gt;
+Default quota: &lt;?php echo OCP\Config::getAppValue('files', 'default_quota'); ?&gt;
+Calendar time zone: &lt;?php echo OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'timezone'); ?&gt;</pre>
+	<strong>After:</strong>
+	<pre>
+ownCloud version: $${config:string:sys/version}
+Default quota: $${config:string:app/files/default_quota}
+Calendar time zone: $${config:string:user/calendar/timezone}</pre>
+	ownCloud version: ${config:string:sys/version}<br />
+	Default quota: ${config:string:app/files/default_quota}<br />
+	Calendar time zone: ${config:string:user/calendar/timezone}<br />
+	<h2>Translating content</h2>
+	<strong>Before:</strong>
+	<pre>&lt;p&gt;&lt;?php echo $l-&gt;t('This will be translated.'); ?&gt;&lt;p&gt;</pre>
+	<strong>After:</strong>
+	<pre>&lt;p i18n:translate=""&gt;This will be translated.&lt;p&gt;</pre>
+	<a class="readmore" href="http://phptal.org/manual/en/split/i18n-content.html" target="_blank">Read more...</a>
+	<h2>Translating content with variables</h2>
+	<strong>Before:</strong>
+	<p>There is no standardized way to do this currently. I have seen both translation keys using printf formatting
+	and custom interpolation using e.g. curly brackets.</p>
+	<strong>After:</strong>
+	<pre>
+&lt;tal:block i18n:name="username" tal:content="user" /&gt;
+&lt;p i18n:translate=""&gt;Your user name is &#36;{username}.&lt;/p&gt;</pre>
+	<tal:block i18n:name="username" tal:content="user" />
+	<p i18n:translate="">Your user name is ${username}.</p>
+	<p>Or you can wrap it in some markup:</p>
+	<pre>
+&lt;p i18n:translate=""&gt;
+Welcome back &lt;span i18n:name="username" tal:replace="user"/&gt;.
+&lt;/p&gt;</pre>
+	<p i18n:translate="">
+	Welcome back <span i18n:name="username" tal:replace="user"/>.
+	</p>
+	<a class="readmore" href="http://phptal.org/manual/en/split/i18n-name.html" target="_blank">Read more...</a>
+	<h2>Translating attributes.</h2>
+	<strong>Before:</strong>
+	<pre>&lt;img alt="&lt;?php echo $l->t('Log out');?&gt;" title="&lt;?php echo $l-&gt;t('Log out');?&gt;" src="&lt;?php echo image_path('', 'actions/logout.svg'); ?&gt;" /&gt;</pre>
+	<strong>After:</strong>
+	<pre>&lt;img tal:attributes="src image:string:/actions/logout.svg" i18n:attributes="alt;title" alt="Log out" title="Log out" /&gt;</pre>
+	<a href="http://phptal.org/manual/en/split/i18n-attributes.html" target="_blank">See more...</a>
+	<h2>Iterating</h2>
+	<pre>
+$$arr = array('color' => 'red',
+            'taste' => 'sweet',
+            'shape' => 'round',
+            'name'  => 'apple');
+	</pre>
+	<strong>Before:</strong>
+	<pre>
+&lt;select size="4"&gt;
+&lt;?php foreach($$arr as $key=&gt;$value) { ?&gt;
+&lt;option value="&lt;php echo $key; &gt;" &gt;&lt;php echo $value; &gt;&lt;/option&gt;
+&lt;/select&gt;
+&lt;?php } ?&gt;</pre>
+	<strong>After:</strong>
+	<pre>
+&lt;select size="4"&gt;
+&lt;option tal:repeat="item arr" tal:attributes="value repeat/item/key" tal:content="item"&gt;&lt;/option&gt;
+&lt;/select&gt;</pre>
+	<form>
+	<select size="4" tal:define="arr php:array('color' => 'red', 'taste' => 'sweet', 'shape' => 'round', 'name'  => 'apple')">
+	<option tal:repeat="item arr" tal:attributes="value repeat/item/key" tal:content="item"></option>
+	</select>
+	</form>
+	<a class="readmore" href="http://phptal.org/manual/en/split/tal-repeat.html" target="_blank">Read more...</a>
+	<h2>Initializing a template</h2>
+	<strong>Before:</strong>
+	<pre></pre>
+	<strong>After:</strong>
+	<pre></pre>
+</section>
+<section data-id="example-1" metal:define-macro="example-1">
+	<h1>A simple example</h1>
+	This is actually the main template for this manual.
+	<pre tal:define="dut php:file_get_contents(apptemplatepath . '/manual.pt')" tal:content="dut">
+	</pre>
+</section>
+<section data-id="gotchas" metal:define-macro="gotchas">
+	<h1>Caveats &amp; Gotchas</h1>
+	I know
+</section>
+<section data-id="ref" metal:define-macro="ref">
+	<h1>References</h1>
+	<dl>
+		<dt><a href="http://phptal.org/" target="_blank">PHPTAL</a></dt><dd>The PHP TAL implementation</dd>
+		<dt><a href="http://phptal.org/manual/en/split/tal-namespace.html" target="_blank">TAL</a></dt><dd>Template Attribute Language</dd>
+		<dt><a href="http://phptal.org/manual/en/split/phptales.html" target="_blank">TALES</a></dt><dd>TAL Expression Syntax</dd>
+		<dt><a href="http://phptal.org/manual/en/split/metal.html" target="_blank">METAL</a></dt><dd>Macro Expansion Template Attribute Language</dd>
+		<dt><a href="http://phptal.org/manual/en/split/i18n.html" target="_blank">i18n namespace</a></dt><dd>Internationalization in TAL</dd>
+		<dt><a href="http://phptal.org/wiki/doku.php/zopepagetemplates" target="_blank">Zope Page Templates</a></dt><dd>Links and specifications from the original TAL implementation</dd>
+	</dl>
+</section>

@@ -1,0 +1,58 @@
+*****
+* @package shorty an ownCloud url shortener plugin
+* @category internet
+* @author Christian Reiner
+* @copyright 2011-2012 Christian Reiner <foss@christian-reiner.info>
+* @license GNU Affero General Public license (AGPL)
+* @link information
+* @link repository https://svn.christian-reiner.info/svn/app/oc/shorty
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either
+* version 3 of the license, or any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*
+* You should have received a copy of the GNU Affero General Public
+* License along with this library.
+* If not, see <http://www.gnu.org/licenses/>.
+*****
+
+This is a short list of known issues:
+
+- The datepicker popup in the edit dialog fails to set the expiration date: 
+I have no idea what the problem is. Exactly the same object works flawlessly
+in the dialog to create a new shorty. I can't see any difference, except in
+the edit dialog the date is taken from the existing row entry (working fine).
+Maybe there is some sort of magic spell to awake a datepicker after changing
+its date value ? No idea...
+
+- Clicking on a source or relay url from within the sharing dialog updates the
+clicks counter and access time correctly, but the shown list entry is not
+updated accordingly. 
+
+- Shorty does not work in the konqueror web browser
+All appears to be working fine except for one annoying thing:
+the standalone dialogs won't open ! (show, create and edit entries)
+Therefore Shorty is currently more or less useless in this browser.
+
+- Shorty does not work in the rekonq web browser
+The basic navigation elements (menu left) work, but the desktop stays empty.
+Apparently no script is executed, an issue with the js document.ready event.
+
+- It appears there is an issue with setting opacity in the Safari browser:
+The status filter in the lists toolbar shows an ugly black brick instead of a
+dimmed icon overlay. Also some other style issues appear, but the plugin seems
+to be completely usable.
+
+- When internally validating the setup of the base url used in the static
+backend you get a false positive ("doesn't work") although things are fine, if
+the mapping of base url to shorty plugin is done via a redirect. This is for
+exaple the case if you implement the mapping on a remote server because you
+want to use a different domain name for statically shortened urls.
+The reason is that jqueries ajax calls won't handle redirects internally. A
+wrapper will have to be implemented. 

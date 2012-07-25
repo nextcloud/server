@@ -23,12 +23,12 @@
 
 //From user comments at http://dk2.php.net/manual/en/function.exif-imagetype.php
 if ( ! function_exists( 'exif_imagetype' ) ) {
-    function exif_imagetype ( $filename ) {
-        if ( ( list($width, $height, $type, $attr) = getimagesize( $filename ) ) !== false ) {
-            return $type;
-        }
-    return false;
-    }
+	function exif_imagetype ( $filename ) {
+		if ( ( $info = getimagesize( $filename ) ) !== false ) {
+			return $info[2];
+		}
+		return false;
+	}
 }
 
 function ellipsis($str, $maxlen) {
@@ -66,7 +66,6 @@ class OC_Image {
 	public function __construct($imageref = null) {
 		//OC_Log::write('core',__METHOD__.'(): start', OC_Log::DEBUG);
 		if(!extension_loaded('gd') || !function_exists('gd_info')) {
-		//if(!function_exists('imagecreatefromjpeg')) {
 			OC_Log::write('core',__METHOD__.'(): GD module not installed', OC_Log::ERROR);
 			return false;
 		}
@@ -364,7 +363,7 @@ class OC_Image {
 	public function load($imageref) {
 		if(is_resource($imageref)) {
 			if(get_resource_type($imageref) == 'gd') {
-				$this->resource = $res;
+				$this->resource = $imageref;
 				return $this->resource;
 			} elseif(in_array(get_resource_type($imageref), array('file','stream'))) {
 				return $this->loadFromFileHandle($imageref);
@@ -650,9 +649,6 @@ class OC_Image {
 			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
 			return false;
 		}
-		$width_orig=imageSX($this->resource);
-		$height_orig=imageSY($this->resource);
-		//OC_Log::write('core',__METHOD__.'(): Original size: '.$width_orig.'x'.$height_orig, OC_Log::DEBUG);
 		$process = imagecreatetruecolor($w, $h);
 		if ($process == false) {
 			OC_Log::write('core',__METHOD__.'(): Error creating true color image',OC_Log::ERROR);

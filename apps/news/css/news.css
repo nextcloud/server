@@ -1,0 +1,52 @@
+li { padding-right: 0px !important; }
+
+.collapsable { background: url('%webroot%/core/img/places/folder.svg') no-repeat left center; padding-left: 20px;}
+.news_input { float:left; font-size:12px; padding:4px 2px; border:solid 1px #aacfe4; width:200px; }
+.svg { border: inherit; background: inherit; }
+
+#leftcontent { top: 3.5em !important; padding: 0; margin: 0; }
+#rightcontent { top: 3.5em !important; padding-top: 5px; }
+#feeds { background: #fff; width: 20em; left: 12.5em; top: 3.7em; bottom:3em; position: fixed; overflow: auto; padding: 0; margin: 0; }
+/* #feeds a { height: 23px; display: block; margin: 0 0 0 0; padding: 0 0 0 25px; } */
+#bottomcontrols { padding: 0; bottom:0px; overflow:visible; height:2.8em; width: 20em; margin:0; background:#eee; border-top:1px solid #ccc; position:fixed; -moz-box-shadow: 0 -3px 3px -3px #000; -webkit-box-shadow: 0 -3px 3px -3px #000; box-shadow: 0 -3px 3px -3px #000;}
+#feeds_delete { position: absolute; right: 0px; background: url('%webroot%/core/img/actions/delete.svg') no-repeat center; display: inline; }
+#feeds_edit { position: absolute; right: 1.6em; background: url('%webroot%/core/img/actions/rename.svg') no-repeat center; display: inline; }
+
+#dropdownBtn { width: 9em; padding-left: 0; padding-right:20px; background: url('%webroot%/core/img/actions/triangle-s.svg') no-repeat right center; }
+
+#addfolder { background: url('%webroot%/core/img/places/folder.svg') no-repeat left center; padding-left: 20px; }
+#addfeed { background: url('%appswebroot%/apps/news/img/rss.svg') no-repeat left center; padding-left: 20px; }
+
+ul.controls li { float: left; }
+
+.accordion .title_unread { background: #DCDCDC; font-size: 12px; border-bottom:1px solid #ccc; font-weight:bold;}
+.accordion .title_read { background: #DCDCDC; font-size: 12px; border-bottom:1px solid #ccc;}
+
+ul.menu { position: absolute; z-index:100; margin-left: 0.3em;
+	display: none;
+	background:#EEEEEE; /* default background for browsers without gradient support */
+	/* css3 */
+	background:-webkit-gradient(linear, 0 0, 0 100%, from(#DCDCDC), to(#EEEEEE));
+	background:-moz-linear-gradient(#DCDCDC, #EEEEEE);
+	background:-o-linear-gradient(#DCDCDC, #EEEEEE);
+	background:linear-gradient(#DCDCDC, #EEEEEE);
+	/*
+	-webkit-border-radius:10px;
+	-moz-border-radius:10px;
+	border-radius:10px;
+	*/
+}
+
+ul#dropdownmenu { left: 0em; box-shadow: 0px 0px 10px rgb(0, 0, 0); }
+
+ul#feedfoldermenu { position:fixed; margin-left: 0; bottom: 2.8em; border-left:1px solid #ccc; border-top:1px solid #ccc; border-right:1px solid #ccc; -moz-box-shadow: 0 -3px 3px -3px #000; -webkit-box-shadow: 0 -3px 3px -3px #000; box-shadow: 0 -3px 3px -3px #000;}
+
+li.menuItem { margin-left:0.7em; margin-right:0.7em; float: none !important; text-align: left; }
+
+li.folder_list:hover { color: rgb(0, 0, 0) !important; background: none !important; }
+li.feeds_list:hover { background: none repeat scroll 0% 0% rgb(221, 221, 221) !important; }
+div.collapsable:hover { background-color: rgb(221, 221, 221); }
+div.add_parentfolder { position: relative; }
+
+div.dialog { overflow: visible; }
+

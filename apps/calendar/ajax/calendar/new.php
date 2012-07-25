@@ -6,11 +6,10 @@
  * See the COPYING-README file.
  */
 
- 
-
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
+OCP\JSON::callCheck();
 
 if(trim($_POST['name']) == ''){
 	OCP\JSON::error(array('message'=>'empty'));

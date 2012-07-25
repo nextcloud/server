@@ -7,6 +7,7 @@
  */
  
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 if(isset($_POST["timeformat"])){
 	OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'timeformat', $_POST["timeformat"]);
 	OCP\JSON::success();

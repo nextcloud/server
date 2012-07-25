@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created using Karbon, part of Calligra: http://www.calligra.org/karbon -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="595.277pt"
+   height="841.891pt"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.2 r9819"
+   sodipodi:docname="info.svg"
+   inkscape:export-filename="/srv/www/htdocs/owncloud/apps/shorty/img/actions/info.png"
+   inkscape:export-xdpi="1.4732735"
+   inkscape:export-ydpi="1.4732735">
+  <metadata
+     id="metadata11">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview9"
+     showgrid="false"
+     inkscape:zoom="0.22425706"
+     inkscape:cx="372.0481"
+     inkscape:cy="526.18188"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
+  <defs
+     id="defs4" />
+  <g
+     id="layer0"
+     transform="matrix(1,0,0,0.92242868,0,1.2000589)">
+    <g
+       id="g4314"
+       transform="translate(212.946,163.839)"
+       style="fill:none">
+      <path
+         id="path3536"
+         transform="translate(-61.9006,-148.543)"
+         d="m 0,487.048 c 12.4425,24.828 26.0633,44.836 51.6189,16.019 C 84.1849,485.573 192.482,410.026 184.704,480.779 155.218,612.203 117.891,742.51 90.9063,874.249 59.539,946.936 141.764,1009.03 222.092,959.781 308.42,926.996 381.595,875.821 456.598,828.62 445.035,807.645 436.536,777.24 408.795,806.094 371.289,821.672 291.128,891.94 272.933,836.765 298.192,694.682 351.067,556.912 382.294,415.755 414.151,350.273 353.103,270.879 270.187,326.914 169.549,367.14 86.8111,430.152 0,487.048 z M 357.158,0.174395 C 252.436,-0.955228 204.536,139.982 305.684,174.775 387.572,199.404 471.99,128.261 449.008,60.7166 441.179,25.4089 401.168,-2.47535 357.159,0.174395 z"
+         inkscape:connector-curvature="0"
+         style="fill:#000000" />
+    </g>
+  </g>
+</svg>

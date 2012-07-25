@@ -68,18 +68,13 @@ class OC_Connector_Sabre_Client extends Sabre_DAV_Client {
 				// Automatically follow redirects
 				CURLOPT_FOLLOWLOCATION => true,
 				CURLOPT_MAXREDIRS => 5,
-				CURLOPT_SSL_VERIFYPEER => true,
-				//CURLOPT_SSL_VERIFYPEER	=> false,
 		);
-		
+	
 		if($this->trustedCertificates) {
 			$curlSettings[CURLOPT_CAINFO] = $this->trustedCertificates;
 		}
-	
+		
 		switch ($method) {
-			case 'PUT':
-				$curlSettings[CURLOPT_PUT] = true;
-				break;
 			case 'HEAD' :
 	
 				// do not read body with HEAD requests (this is neccessary because cURL does not ignore the body with HEAD
@@ -110,8 +105,15 @@ class OC_Connector_Sabre_Client extends Sabre_DAV_Client {
 			$curlSettings[CURLOPT_PROXY] = $this->proxy;
 		}
 	
-		if ($this->userName) {
-			$curlSettings[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC | CURLAUTH_DIGEST;
+		if ($this->userName && $this->authType) {
+			$curlType = 0;
+			if ($this->authType & self::AUTH_BASIC) {
+				$curlType |= CURLAUTH_BASIC;
+			}
+			if ($this->authType & self::AUTH_DIGEST) {
+				$curlType |= CURLAUTH_DIGEST;
+			}
+			$curlSettings[CURLOPT_HTTPAUTH] = $curlType;
 			$curlSettings[CURLOPT_USERPWD] = $this->userName . ':' . $this->password;
 		}
 	
@@ -167,5 +169,5 @@ class OC_Connector_Sabre_Client extends Sabre_DAV_Client {
 	
 		return $response;
 	
-	}
+	}	
 }

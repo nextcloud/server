@@ -207,7 +207,6 @@ class OC_FileCache_Update{
 
 		$cached=OC_FileCache_Cached::get($oldPath,$root);
 		$oldSize=$cached['size'];
-		$size=$view->filesize($newPath);
 		OC_FileCache::increaseSize(dirname($oldPath),-$oldSize,$root);
 		OC_FileCache::increaseSize(dirname($newPath),$oldSize,$root);
 		OC_FileCache::move($oldPath,$newPath);

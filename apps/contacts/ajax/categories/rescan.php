@@ -9,6 +9,7 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+OCP\JSON::callCheck();
 
 OC_Contacts_App::scanCategories();
 $categories = OC_Contacts_App::getCategories();

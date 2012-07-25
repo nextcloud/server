@@ -1,0 +1,10 @@
+<form id="tal">
+	<fieldset class="personalblock">
+		<legend i18n:translate="">TAL Page Templates for ownCloud</legend>
+		<p i18n:translate="">You can now create templates using TAL. As a matter of fact this section is using the internationalization namespace defined in TAL.<br />
+		Read more about it from the links below</p>
+		<ul>
+		<li><a href="" tal:attributes="href php:OCP\Util::linkTo('tal', 'index.php')" i18n:translate="">HOWTO use it in ownCloud</a></li>
+		</ul>
+	</fieldset>
+</form>

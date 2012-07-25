@@ -295,9 +295,6 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 				OCP\Util::emitHook('OC_Filestorage_Shared', 'file_put_contents', $info);
 				$storage = OC_Filesystem::getStorage($source);
 				$result = $storage->file_put_contents($this->getInternalPath($source), $data);
-				if ($result) {
-					$this->clearFolderSizeCache($path);
-				}
 				return $result;
 			}
 		}
@@ -341,9 +338,9 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 			$target = $this->fopen($path2, 'w');
 			return OC_Helper::streamCopy($source, $target);
 		}
-		return false;
+		return true;
 	}
-	
+
 	public function fopen($path, $mode) {
 		if ($source = $this->getSourcePath($path)) {
 			$info = array(
@@ -369,7 +366,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		return false;
 	}
 	
-	public function hash($type, $path, $raw) {
+	public function hash($type, $path, $raw = false) {
 		if ($source = $this->getSourcePath($path)) {
 			$storage = OC_Filesystem::getStorage($source);
 			return $storage->hash($type, $this->getInternalPath($source), $raw);

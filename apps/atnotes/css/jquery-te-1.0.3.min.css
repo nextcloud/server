@@ -1,0 +1,11 @@
+/*!
+ * http://jqueryte.com
+ * jQuery Text Editor 1.0.2
+ * Copyright (C) 2012, Fatih Koca (fatihkoca@me.com), AUTHOR.txt (http://jqueryte.com/about)
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+*/
+
+.jqte{overflow:hidden}.jqte *{font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#333}.jqte_Panel{height:25px;padding:5px 8px}.jqte_Panel a{display:block;float:left;width:22px;height:22px;border:#FFF 1px solid;text-align:center;background:url('/apps/atnotes/img/jquery-te-toolbar.png') no-repeat;font-weight:bold;cursor:pointer;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px}.jqte_Panel a.bold{background-position:0 0}.jqte_Panel a.italic{background-position:-22px 0}.jqte_Panel a.underline{background-position:-44px 0}.jqte_Panel a.orderedlist{background-position:-66px 0}.jqte_Panel a.unorderedlist{background-position:-88px 0}.jqte_Panel a.subscript{background-position:-110px 0}.jqte_Panel a.superscript{background-position:-132px 0}.jqte_Panel a.strike{background-position:-154px 0}.jqte_Panel a.remove{background-position:-176px 0}.jqte_Panel a.rule{background-position:-198px 0}.jqte_Panel a:hover,.jqte_Active{border:#CCC 1px solid!important;box-shadow:inset 0 0 2px #999;background-color:#FFF}.jqte_Panel a:active,.jqte_Active{background-color:#DDD!important}.jqte_Content{overflow-y:auto;position:absolute;top:3.3em;left:.7em;padding-right:.3em}.jqte_Content div,.jqte_Content p{margin:7px 0}.jqte_Content ul{list-style-type:disc}.jqte_Content ol{list-style-type:decimal}.jqte_Content ol,.jqte_Content ul{list-style-position:inside}

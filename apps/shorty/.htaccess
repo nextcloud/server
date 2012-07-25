@@ -1,0 +1,45 @@
+#
+# @package shorty an ownCloud url shortener plugin
+# @category internet
+# @author Christian Reiner
+# @copyright 2011-2012 Christian Reiner <foss@christian-reiner.info>
+# @license GNU Affero General Public license (AGPL)
+# @link information
+# @link repository https://svn.christian-reiner.info/svn/app/oc/shorty
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+# License as published by the Free Software Foundation; either
+# version 3 of the license, or any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License along with this library.
+# If not, see <http://www.gnu.org/licenses/>.
+#
+
+# @file .htaccess
+# These rules try to detect any requests that carry a "shorty id" and map them to forward.php?<shorty id>
+# That way you can use shorter (or more simple) urls to publish or relay links
+# @author Christian Reiner
+
+RewriteEngine On
+
+# example: http://.../apps/shorty/index.php/0123456789
+RewriteRule     index\.php/([a-z0-9]{4,12})$     ../../public.php?service=shorty_relay&id=$1 [NC,L]
+
+# example: http://.../apps/shorty/index.php?0123456789
+RewriteCond     %{QUERY_STRING}                 ^([a-z0-9]{4,12})$         [NC]
+RewriteRule     index\.php                     ../../public.php?service=shorty_relay&id=%{QUERY_STRING} [L]
+
+# example: http://.../apps/shorty/?0123456789
+RewriteCond     %{QUERY_STRING}                ^([a-z0-9]{4,12})$          [NC]
+RewriteCond     %{REQUEST_URI}                 meta/.+\.php
+RewriteRule     -                              ../../public.php?service=shorty_relay&id=%{QUERY_STRING} [L]
+
+# example: http://.../apps/shorty/0123456789
+RewriteRule     ^([a-z0-9]{4,12})$             ../../public.php?service=shorty_relay&id=$1 [NC,L]

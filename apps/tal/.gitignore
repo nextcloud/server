@@ -1,0 +1,51 @@
+# the default generated dir + db file
+data
+owncloud
+config/config.php
+config/mount.php
+apps/inc.php
+
+# just sane ignores
+.*.sw[po]
+*.bak
+*.BAK
+*~
+*.orig
+*.class
+.cvsignore
+Thumbs.db
+*.py[co]
+_darcs/*
+CVS/*
+.svn/*
+RCS/*
+
+# kdevelop
+.kdev
+*.kdev4
+
+# Lokalize
+*lokalize*
+
+# eclipse
+.project
+.settings
+
+# netbeans 
+nbproject
+
+# geany
+*.geany
+
+# Cloud9IDE
+.settings.xml
+
+# vim ex mode
+.vimrc
+	
+# Mac OS
+.DS_Store
+
+# WebFinger
+.well-known
+/.buildpath

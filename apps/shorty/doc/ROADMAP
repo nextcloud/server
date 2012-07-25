@@ -1,0 +1,96 @@
+*****
+* @package shorty an ownCloud url shortener plugin
+* @category internet
+* @author Christian Reiner
+* @copyright 2011-2012 Christian Reiner <foss@christian-reiner.info>
+* @license GNU Affero General Public license (AGPL)
+* @link information
+* @link repository https://svn.christian-reiner.info/svn/app/oc/shorty
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either
+* version 3 of the license, or any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*
+* You should have received a copy of the GNU Affero General Public
+* License along with this library.
+* If not, see <http://www.gnu.org/licenses/>.
+*****
+
+Future versions might implement additional features and services. Currently
+planned are the following:
+
+* Ability to create Shortys directly from shared files inside ownCloud
+Creating a Shorty based on the public url generated for shared files works like
+charm. However it is not very convenient to do that manually. It would be great
+to offer that option directly where file sharing is done, in that very dialog.
+However I currently do not see any means to achieve that on ownCloud. There is
+no feature offered to hook additional functionality into exsiting apps.
+This means either the existing file sharing app has to be modified or such a
+modifying core feature has to be implemented into the ownCLoud core. 
+Or maybe someone has got another idea ?
+
+* Integrated proxy function as an alternative to forwarding:
+Currently all browser requests are forwarded to the final target url, provided
+that the referenced shorty is still valid and accessible. This is a simple but
+effective strategy. Offering a transparent proxy service as an alternative
+would greatly enhance the privacy protection, since the final target url of a
+referenced web ressource would never be handed out. 
+
+* Better, more fine grained access control:
+Currently the only means of access control, apart from defining or removing a
+shorty are its "status". The status can block an otherwise valid shorty from
+usage from outside ownCloud, it can restrict its access to authenticated users
+or it can make an existing shorty freely accessible to the public. Other
+ownCloud plugins allow to define individual access to content on per-user or
+per-group rules.
+
+* Support of further backends: 
+Currently the usage of six url shortener services is implemented, besides the
+two private or local ones. Unfortunately three of these had to be disabled due
+to stability issues. Besides correcting the implementation for the disabled it
+might make sense to support further backends, especially other types besides
+online services.
+
+* Performance, stability and usability enhancements: 
+"Shorty" is my first web application using up to date web technologies.
+Therefore the implementation certainly is far from the quality one could expect
+from a serious and experienced web developer. One could also put this into more
+constructive terms: there is definately much room for enhancements   :-) 
+
+* Translations of the shorty module itself (i18n/l10n):
+Main development language is english (us), a german translation exists. I do
+not feel fit enough in other languages to create a translation myself. So I
+certainly welcome any assistance in that aspect. The effort consists of editing
+one single file, take a look at the german example in file l10n/de.php. 
+
+* Usage of svg icons instead of png graphics:
+I created all icons in svg format. ownCloud implements a mechanism to use those
+in browsers supporting svg directly. However I did not yet figure out how to
+use that feature without adding too much scripting overhead. Is it possible
+to reference icons the ownCloud way directly in a php based template, without
+the need to explicit handling via javascript ?
+I wish a better API documentation would exist for ownCloud !
+
+* Localization for the date picker fields
+Currently date inputs (expiration date) are not validated explicitly.
+A number of formats work, are accepted correct, but there is no localization
+of the input format to the users language.
+
+* Integrated help button
+One thing I miss throughout the ownCloud application is a context sensitive
+help, or a help button at all ! Originally I planned to integrate on into this 
+plugin. However I think that is more something that should be implemented as a
+core feature of ownCloud. Maybe as a separate plugin (app). SOmehing like a
+help framework with a documented api where other plugins (and core apps) can
+attach help texts or documents to. Context sensivity would then simply mean to
+update the reference in the help button for each action taken.
+
+Contributions:
+I'd be more than happy to welcome all contributions to this little experiment.
+Drop me a note, an idea, a patch, a good bottle of wine, anything !

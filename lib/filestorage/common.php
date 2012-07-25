@@ -204,7 +204,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		unlink($tmpFile);
 		return $mime;
 	}
-	public function hash($type,$path,$raw){
+	public function hash($type,$path,$raw = false){
 		$tmpFile=$this->getLocalFile();
 		$hash=hash($type,$tmpFile,$raw);
 		unlink($tmpFile);
@@ -229,7 +229,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		}
 		$tmpFile=OC_Helper::tmpFile($extension);
 		$target=fopen($tmpFile,'w');
-		$count=OC_Helper::streamCopy($source,$target);
+		OC_Helper::streamCopy($source,$target);
 		return $tmpFile;
 	}
 // 	abstract public function touch($path, $mtime=null);

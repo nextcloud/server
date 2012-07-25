@@ -1,0 +1,64 @@
+*****
+* @package shorty an ownCloud url shortener plugin
+* @category internet
+* @author Christian Reiner
+* @copyright 2011-2012 Christian Reiner <foss@christian-reiner.info>
+* @license GNU Affero General Public license (AGPL)
+* @link information
+* @link repository https://svn.christian-reiner.info/svn/app/oc/shorty
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either
+* version 3 of the license, or any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*
+* You should have received a copy of the GNU Affero General Public
+* License along with this library.
+* If not, see <http://www.gnu.org/licenses/>.
+*****
+
+=== Overview ===
+See file README.
+
+=== Installation ===
+See file INSTALLATION.
+
+=== Requirements ===
+ownCloud version 2 or newer on the server side.
+A css3 capable and reasonably standards conform web browser.
+A scripting capable bookmarks feature for the optional Shortlet thing. 
+
+=== Usage ===
+This is only a very basic description. The plugin should be fairly intuitive to
+use, just have a try with a few web urls. To get going I suggest that you
+- chose a backend (see configuration below).
+- import the shortlet into your preferred web browser (see configuration below).
+- define a few shorties either manually ("New") or by using the shortlet.
+All actions on existing shorties are accessed using the action icons shown to
+the right of the shorty in the list. Daily uses is probably based on selection
+the 'share' action and grabbing the visualized "source url".
+By clicking on the header row of the list of shorties you can open (and close)
+a "toolbox" offering options to sort, filter and reload the list. The sorting
+you chose is stored in a persistant manner, not so any filters defined. You
+cannot accidentially close the toolbox when there are still filters active. 
+You can remove (delete) existing shorties, but those shorties will only be
+marked as deleted. This way you can 'undelete' them if required. Permanent
+removal is done next time you access the shorty plugin. If you really want to
+make sure the removal is done NOW then simply reload the list. This is done in
+the "toolbox" of the list (click on the header row) by chosing the "reload"
+icon on the left (or by a simple browser reload). 
+
+=== PRIVACY ===
+Shorty allows you to stay more in control over links you post or send. It is up
+to you to decide wether a once posted link should stay valid and usable or not.
+However it is also very important to keep in mind that such form of control can
+never replace any serious form of access control over the content published via
+a published link. Shorty works as a short url resolver, meaning it forwards any
+requesting web browser to the real address of the published content. This might
+change when if future an integrated proxy function gets implemented, as opposed
+to the current forwarding mechanism. 

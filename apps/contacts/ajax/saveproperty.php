@@ -19,7 +19,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-require_once('loghandler.php');
+require_once 'loghandler.php';
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
@@ -39,9 +39,11 @@ if(!$id) {
 if(!$checksum) {
 	bailOut(OC_Contacts_App::$l10n->t('checksum is not set.'));
 }
-if(is_array($value)){
+if(is_array($value)) {
 	$value = array_map('strip_tags', $value);
-	ksort($value); // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
+	// NOTE: Important, otherwise the compound value will be 
+	// set in the order the fields appear in the form!
+	ksort($value); 
 	//if($name == 'CATEGORIES') {
 	//	$value = OC_Contacts_VCard::escapeDelimiters($value, ',');
 	//} else {
@@ -66,8 +68,7 @@ if($element != $name) {
 switch($element) {
 	case 'BDAY':
 		$date = New DateTime($value);
-		//$vcard->setDateTime('BDAY', $date, Sabre_VObject_Element_DateTime::DATE);
-		$value = $date->format(DateTime::ATOM);
+		$value = $date->format('Y-m-d');
 		break;
 	case 'FN':
 		if(!$value) {
@@ -89,6 +90,14 @@ if(!$value) {
 } else {
 	/* setting value */
 	switch($element) {
+		case 'BDAY':
+			// I don't use setDateTime() because that formats it as YYYYMMDD instead of YYYY-MM-DD
+			// which is what the RFC recommends.
+			$vcard->children[$line]->setValue($value);
+			$vcard->children[$line]->parameters = array();
+			$vcard->children[$line]->add(new Sabre_VObject_Parameter('VALUE', 'DATE'));
+			debug('Setting value:'.$name.' '.$vcard->children[$line]);
+			break;
 		case 'CATEGORIES':
 			debug('Setting string:'.$name.' '.$value);
 			$vcard->children[$line]->setValue($value);
@@ -120,7 +129,7 @@ if(!$value) {
 }
 //debug('New checksum: '.$checksum);
 
-if(!OC_Contacts_VCard::edit($id,$vcard)) {
+if(!OC_Contacts_VCard::edit($id, $vcard)) {
 	bailOut(OC_Contacts_App::$l10n->t('Error updating contact property.'));
 	exit();
 }

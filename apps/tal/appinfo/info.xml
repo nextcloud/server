@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<info>
+	<id>tal</id>
+	<name>TAL Page Templates for ownCloud</name>
+	<description>This is an alternative to OC_Template and OC_L10N - the templating and internationalization classes used in ownCloud.
+	</description>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Thomas Tanghus</author>
+	<require>5</require>
+</info>

@@ -1,0 +1,32 @@
+/**
+* ownCloud - DjazzLab Storage Charts plugin
+*
+* @author Xavier Beurois
+* @copyright 2012 Xavier Beurois www.djazz-lab.net
+* 
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either 
+* version 3 of the License, or any later version.
+* 
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*  
+* You should have received a copy of the GNU Lesser General Public 
+* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+* 
+*/
+
+#storage-charts div.personalblock.topblock span{float:right;color:#BBB;font-style:italic;}
+
+#stc_sortable div.personalblock.bottomblock, #storage-charts div.personalblock.bottomblock{margin-bottom:1em;}
+#stc_sortable div.personalblock.titleblock, #storage-charts div.personalblock.titleblock{font-weight:bold;}
+#stc_sortable div.personalblock, #storage-charts div.personalblock{margin:1em 1em 0;padding:0.5em 1em;background: none repeat scroll 0 0 #F8F8F8;border-radius:0.5em 0.5em 0.5em 0.5em;color:#555555;text-shadow:0 1px 0 #FFFFFF;border:1px solid #DDDDDD;box-shadow:0 1px 1px #FFFFFF,0 1px 1px #FFFFFF inset;}
+
+#stc_frame{margin:1em 1em 0;}
+#stc_frame #stc_sortable div.personalblock{margin:0;margin-bottom:1em;}
+#stc_frame #stc_sortable div.personalblock h3{line-height:2.6;}
+#stc_frame #stc_sortable div.personalblock h3 img{vertical-align:middle;margin-right:10px;}
+#stc_frame #stc_sortable div.personalblock h3 span#selunits,#stc_frame #stc_sortable div.personalblock h3 span#selunits_hus{float:right;}

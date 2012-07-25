@@ -58,7 +58,7 @@ class OC_Gallery_Album {
 		return $stmt->execute($args);
 	}
 
-	public static function removeByName($owner, $name) { self::remove($ownmer, $name); }
+	public static function removeByName($owner, $name) { self::remove($owner, $name); }
 	public static function removeByPath($owner, $path) { self::remove($owner, null, $path); }
 	public static function removeByParentPath($owner, $parent) { self::remove($owner, null, null, $parent); }
 	

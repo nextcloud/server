@@ -1,0 +1,22 @@
+/**
+* ownCloud - ATNotes plugin
+*
+* @author Xavier Beurois
+* @copyright 2012 Xavier Beurois www.djazz-lab.net
+* 
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either 
+* version 3 of the License, or any later version.
+* 
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*  
+* You should have received a copy of the GNU Lesser General Public 
+* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+* 
+*/
+
+#atnotes_container{min-width:830px}#atnotes_container div#controls div.title{color:#BBB;font-style:italic;padding:.7em .5em .5em}#atnotes_container ul.atnotes-noteslist{background:none repeat scroll 0 0 #f8f8f8;border-right:1px solid #DDD;overflow:auto;position:fixed;top:6.3em;width:20em;box-shadow:-2px -3px 7px #000;z-index:2}#atnotes_container ul.atnotes-noteslist li.atnotes-elt{border-bottom:1px solid #CCC;padding:.3em .8em 1em;-moz-transition:background-color 500ms ease 0s;background:none repeat scroll 0 0 #f8f8f8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#atnotes_container ul.atnotes-noteslist li.atnotes-elt:hover,#atnotes_container ul.atnotes-noteslist li.atnotes-elt.active{background:none repeat scroll 0 0 #eee}#atnotes_container ul.atnotes-noteslist li.atnotes-elt:hover div{cursor:pointer}#atnotes_container ul.atnotes-noteslist li.atnotes-elt div.atnotes-elt-title{font-weight:bold;white-space:pre-wrap;width:18.4em}#atnotes_container ul.atnotes-noteslist li.atnotes-elt div.atnotes-elt-state{float:left;width:10em;font-style:italic;color:#AAA}#atnotes_container ul.atnotes-noteslist li.atnotes-elt div.atnotes-elt-date{color:#999;float:right;width:7em;text-align:right}#atnotes_container ul.atnotes-noteslist li.atnotes-elt div.atnotes-elt-prerender{display:none}#atnotes_container div.atnotes-notesedit{left:20em;position:absolute;top:2.9em}#atnotes_container div.atnotes-notesedit div.anotes-notesedit-states{box-shadow:0 4px 7px #AAA}#atnotes_container div.atnotes-notesedit div.anotes-notesedit-states div.atnotes-saved{float:right}#atnotes_container div.atnotes-notesedit div.anotes-notesedit-title,#atnotes_container div.atnotes-notesedit div.anotes-notesedit-states{padding:.5em 2em;background-color:#FFF;border-bottom:1px solid #CCC;height:1.8em;z-index:1;min-width:350px}#atnotes_container div.atnotes-notesedit div.anotes-notesedit-states{padding:.5em 2em .5em 22em}#atnotes_container div.atnotes-notesedit div.anotes-notesedit-title input#note_title{box-shadow:none;background:0;-moz-border-radius:0;-webkit-border-radius:0;padding:0;margin:0;border:0 none}#atnotes_container div.atnotes-notesedit div.anotes-notesedit-title div.atnotes-actions-btns{float:right;margin-top:.5em}#atnotes_container div.atnotes-notesedit div.anotes-notesedit-title div.atnotes-actions-btns img{cursor:pointer}#atnotes_container div.atnotes-notesedit div.anotes-notesedit-title div.atnotes-actions-btns img.atnotes-actions-list{margin-right:1em}#atnotes_container div.atnotes-notesedit div.anotes-notesedit-title div.atnotes-actions-btns div.atnotes-actions-ddmenu{display:none}#atnotes_container div.jqte{left:20em;position:absolute;top:5.8em;border:0 none;resize:none;min-width:350px}#save_dialog div.atnotes-explorer{background-color:#FFF;border:1px solid #AAA;height:100%;width:100%;overflow-x:auto;overflow-y:visible}#save_dialog div.atnotes-explorer table{width:100%}#save_dialog div.atnotes-explorer table tr td.filename{width:70%;background-position:0 .1em;background-repeat:no-repeat;padding-left:1.7em;cursor:pointer}#save_dialog div.atnotes-explorer table tr td.filename span{cursor:pointer}#save_dialog div.atnotes-explorer table tr td.filesize{width:10%;text-align:center}#save_dialog div.atnotes-explorer table tr td.date{width:20%;text-align:center}.ui-tooltip-content ul li:hover{color:#AAA;background-color:#1a1a1a}

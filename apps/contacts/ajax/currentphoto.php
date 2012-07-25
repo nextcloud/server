@@ -24,7 +24,7 @@
 OCP\JSON::setContentTypeHeader('text/plain');
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
-require_once('loghandler.php');
+require_once 'loghandler.php';
 
 if (!isset($_GET['id'])) {
 	bailOut(OC_Contacts_App::$l10n->t('No contact ID was submitted.'));

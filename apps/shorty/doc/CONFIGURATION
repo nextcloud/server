@@ -1,0 +1,113 @@
+*****
+* @package shorty an ownCloud url shortener plugin
+* @category internet
+* @author Christian Reiner
+* @copyright 2011-2012 Christian Reiner <foss@christian-reiner.info>
+* @license GNU Affero General Public license (AGPL)
+* @link information
+* @link repository https://svn.christian-reiner.info/svn/app/oc/shorty
+*
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+* License as published by the Free Software Foundation; either
+* version 3 of the license, or any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+*
+* You should have received a copy of the GNU Affero General Public
+* License along with this library.
+* If not, see <http://www.gnu.org/licenses/>.
+*****
+
+There are five aspects that can be configured:
+1.) System wide "static backend" (optional)
+2.) Selection of a backend per user (optional)
+3.) Import of the "shortlet" into a web browser (optional)
+4.) Access control inside each single "shorty" (implicit)
+5.) Sending of Shortys as SMS
+
+1.) System wide "static backend" (optional)
+(Requires adminisstrative rights)
+This optional setting enables a 'static backend'. That is a backend generting
+source urls based on a static base url, thus the name. That base url should be
+chosen as short as possible, since this defines the total length of all links
+to be posted and used. Most likely the definition of that url requires the
+configuration of rewrite rules on the server side. So it is only an option for
+experienced adminsitrators with access to the server configuration, be it
+centralized or based on decentralized per-directory rules (".htaccess files").
+A basic example is packed in the .htaccess file (might be hidden in a directory
+listing because of the leading dot (.) in the name). The rules must be
+configured such that all requests to urls of the scheme <base url><shorty key>
+are mapped directly onto the web url of the shorty plugin
+(http://<domain>/<owncloud>/apps/shorty/). The <shorty key> is a string, 6-12
+characters long, hard to predict. It is guaranteed to be unique throughout the
+system (though in a technically crude manner...). The perfect situation for the
+definition of a meaningful static backend would be a domain with a very short
+name and configuration access to something close to the web root.
+A random example is my own domain "christian-reiner.info". Since that is not
+exactly short I would love to use the additional domain "c-r.info" for the sole
+purpose of a static backend. Unfortunately that domain has been reserved by a
+domain grabber who asks thousands of Euros for it ! So that's no option. At
+least you should try to find a setup where the web path of the ownCloud
+application is not part of the base url. So that you get something like
+http://<domain name>/<shorty key>.
+(Note that the shorty key is NOT part of the base url configuration).
+You can easily test your setup any time by clicking on the example dynamically
+visualized next to the configuration option. It runs a simple self-tests of the
+setup in background.
+There is no need that the base url must be served by the same http server that
+serves the owncoud system. A static rewrite setup may well forward short source
+urls to the shorty plugin inside a remote ownCloud installation. However, it is
+a known issue that the internal validation of the setup won't work with such
+scenario. 
+
+2.) Selection of a backend per user (optional)
+To generate the a source url that is part of every shorty the plugin uses a
+backend. The configuration is done by using a preference option in the personal
+preference section of the configuration. You can simply chose one of the
+offered backends (combo box). Changing the backend does not affect any
+previously generated shorties. Meaning they stay valid and usable and keep
+their once defined source url.
+
+Different backends are implemented:
+i.) "-none-"
+As you have guessed this is something like a "dummy" backend without any
+implemented logic. That means the source urls generated are exactly based on
+the web url of the shorty plugin in your ownCloud system. This is not a very
+clever setup, but it certainly works and keeps your data private.
+ii.) "static backend"
+If configured in the system administration a "static backend" is offered. For a
+description see C-1. This backend typically offers shorter source urls, but its
+setup required administrative rights on some http server system.
+iii.) online services (url shorteners)
+A few online services are offered as backends to generate short source urls.
+Usage of some of those services requires you to open a free account at their
+site. Detailed configuration requirements are displayed for the chosen backend.
+If you don't care for details and just want short urls then have a try with the
+tin.ny backend. No registration required, reliable service. But keep in mind
+you depend on an external service as opposed to using a local static backend.
+
+3.) Import of the "shortlet" into a web browser  (optional)
+Shorty comes with a neat little "Shortlet" offered in the personal preferneces
+section of ownCloud. It is a "button" you can import into your web browsers
+bookmark toolbar or area by simple drag & drop. The Shortlet should work with
+most modern browsers, though probably not all. Just have a try with it.
+
+4.) Access control inside each single "shorty" (implicit)
+There are a few attributres you can configure freely inside each stored shorty:
+- a title just shown inside the shorty plugin (serves recognition).
+- a notes area, maybe you want to write down whom you send the shorty ?
+- a status option that controls the usage of the shorty.
+
+5.) Sending of Shortys as SMS
+Besides sending of Shortys as email message and copying a Shortys source url 
+to the clipboard a third action can be enabled inside the sharing dialog: 
+To send a Shortys source url as SMS. 
+However, the approach is extremely minimalistic, it relies on the client system 
+to correctly handle a 'sms url'. This is typically only given on a mobile 
+device, a smart phone. In addition, such url does not allow to specify a message
+body, so the Shortys source url has to be copied and pasted manually. 
+The option is disabled by default. 

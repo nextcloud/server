@@ -9,7 +9,7 @@
  * @package Sabre
  * @subpackage CardDAV
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_CardDAV_AddressBookQueryParser {
@@ -88,12 +88,22 @@ class Sabre_CardDAV_AddressBookQueryParser {
         if (is_nan($limit)) $limit = null;
 
         $filter = $this->xpath->query('/card:addressbook-query/card:filter');
-        if ($filter->length !== 1) {
+
+        // According to the CardDAV spec there needs to be exactly 1 filter
+        // element. However, KDE 4.8.2 contains a bug that will encode 0 filter
+        // elements, so this is a workaround for that.
+        //
+        // See: https://bugs.kde.org/show_bug.cgi?id=300047
+        if ($filter->length === 0) {
+            $test = null;
+            $filter = null;
+        } elseif ($filter->length === 1) {
+            $filter = $filter->item(0);
+            $test = $this->xpath->evaluate('string(@test)', $filter);
+        } else {
             throw new Sabre_DAV_Exception_BadRequest('Only one filter element is allowed');
         }
 
-        $filter = $filter->item(0);
-        $test = $this->xpath->evaluate('string(@test)', $filter);
         if (!$test) $test = self::TEST_ANYOF;
         if ($test !== self::TEST_ANYOF && $test !== self::TEST_ALLOF) {
             throw new Sabre_DAV_Exception_BadRequest('The test attribute must either hold "anyof" or "allof"');

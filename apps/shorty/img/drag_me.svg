@@ -1,0 +1,135 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created using Karbon, part of Calligra: http://www.calligra.org/karbon -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="595.277pt" height="841.891pt">
+<defs/>
+<g id="Bubbles">
+  <ellipse id="shape0" transform="translate(162.259, 571.542)" rx="20.11097874441pt" ry="8.61849622845pt" cx="20.11097874441pt" cy="8.61849622845pt" fill="none" stroke="#989898" stroke-width="3.45827370760" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="2.00000000000"/>
+  <path id="shape1" transform="translate(172.543, 536.388)" fill="none" stroke="#707071" stroke-width="3.45827370760" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="2.00000000000" d="M63.9895 13.6082C63.9895 6.09258 49.6649 4.60196e-16 31.9947 0C14.3245 -4.60196e-16 2.16398e-15 6.09258 0 13.6082C-2.16398e-15 21.1237 14.3245 27.2163 31.9947 27.2163C49.6649 27.2163 63.9895 21.1237 63.9895 13.6082"/>
+  <path id="shape2" transform="translate(238.818, 495.564)" fill="none" stroke="#535353" stroke-width="3.45827370760" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="2.00000000000" d="M254.815 38.5564C254.815 17.2623 197.773 1.30389e-15 127.408 0C57.0423 -1.30389e-15 8.61726e-15 17.2623 0 38.5564C-8.61726e-15 59.8506 57.0423 77.1129 127.408 77.1129C197.773 77.1129 254.815 59.8506 254.815 38.5564"/>
+ </g><g id="Text">
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  version="1.2" baseProfile="tiny">
+<title>Qt Svg Document</title>
+<desc>Generated with Qt</desc>
+<defs>
+</defs>
+<g fill="none" stroke="black" stroke-width="1" fill-rule="evenodd" stroke-linecap="square" stroke-linejoin="bevel" >
+
+<g fill="none" stroke="none" transform="matrix(1,0,0,1,0,0)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="none" transform="matrix(1,0,0,1,-0.235294,-0.346925)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="none" transform="matrix(1,0,0,1,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="none" transform="matrix(1.25123,0,0,1.25123,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="none" transform="matrix(1.25123,0,0,1.25123,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#1f1c1b" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.25123,0,0,1.25123,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#1f1c1b" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.25123,0,0,1.25123,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#1f1c1b" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.25123,0,0,1.25123,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#333333" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.25123,0,0,1.25123,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#333333" fill-opacity="1" stroke="none" xml:space="preserve" x="0" y="33" font-family="Vahika" font-size="32" font-weight="700" font-style="normal" 
+ >Drag</text>
+<text fill="#333333" fill-opacity="1" stroke="none" xml:space="preserve" x="59.0156" y="33" font-family="Vahika" font-size="32" font-weight="700" font-style="normal" 
+ > me !</text>
+</g>
+
+<g fill="none" stroke="#1f1c1b" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.25123,0,0,1.25123,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#1f1c1b" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#1f1c1b" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.25123,0,0,1.25123,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#1f1c1b" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1.25123,0,0,1.25123,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="none" transform="matrix(1.25123,0,0,1.25123,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="none" transform="matrix(1.25123,0,0,1.25123,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="none" transform="matrix(1.25123,0,0,1.25123,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="none" transform="matrix(1,0,0,1,0,0)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="none" transform="matrix(1,0,0,1,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="none" transform="matrix(1,0,0,1,288,508.189)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="none" transform="matrix(1,0,0,1,-0.235294,-0.346925)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="none" transform="matrix(1,0,0,1,-0.235294,-0.346925)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,0,0)"
+font-family="Sans Serif" font-size="9" font-weight="400" font-style="normal" 
+>
+</g>
+</g>
+</svg>
+
+ </g>
+</svg>

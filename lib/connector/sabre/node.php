@@ -22,6 +22,7 @@
  */
 
 abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IProperties {
+	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
 
 	/**
 	 * The path to the current node
@@ -141,6 +142,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	public function updateProperties($properties) {
 		$existing = $this->getProperties(array());
 		foreach($properties as $propertyName => $propertyValue) {
+			$propertyName = preg_replace("/^{.*}/", "", $propertyName); // remove leading namespace from property name
 			// If it was null, we need to delete the property
 			if (is_null($propertyValue)) {
 				if(array_key_exists( $propertyName, $existing )){
@@ -178,7 +180,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @param array $properties
 	 * @return void
 	 */
-	function getProperties($properties) {
+	public function getProperties($properties) {
 		if (is_null($this->property_cache)) {
 			$query = OC_DB::prepare( 'SELECT * FROM *PREFIX*properties WHERE userid = ? AND propertypath = ?' );
 			$result = $query->execute( array( OC_User::getUser(), $this->path ));
@@ -199,5 +201,30 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			if (isset($this->property_cache[$property])) $props[$property] = $this->property_cache[$property];
 		}
 		return $props;
+	}
+
+	/**
+	 * Returns the ETag surrounded by double-quotes for this path.
+	 * @param string $path Path of the file
+	 * @return string|null Returns null if the ETag can not effectively be determined
+	 */
+	static public function getETagPropertyForFile($path) {
+		$tag = OC_Filesystem::hash('md5', $path);
+		if (empty($tag)) {
+			return null;
+		}
+		$etag = '"'.$tag.'"';
+		$query = OC_DB::prepare( 'INSERT INTO *PREFIX*properties (userid,propertypath,propertyname,propertyvalue) VALUES(?,?,?,?)' );
+		$query->execute( array( OC_User::getUser(), $path, self::GETETAG_PROPERTYNAME, $etag ));
+		return $etag;
+	}
+
+	/**
+	 * Remove the ETag from the cache.
+	 * @param string $path Path of the file
+	 */
+	static public function removeETagPropertyForFile($path) {
+		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*properties WHERE userid = ? AND propertypath = ? AND propertyname = ?' );
+		$query->execute( array( OC_User::getUser(), $path, self::GETETAG_PROPERTYNAME ));
 	}
 }

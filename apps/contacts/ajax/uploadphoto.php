@@ -27,13 +27,13 @@ OCP\JSON::callCheck();
 
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
 OCP\JSON::setContentTypeHeader('text/plain');
-require_once('loghandler.php');
-
+require_once 'loghandler.php';
+$l10n = OC_Contacts_App::$l10n;
 // If it is a Drag'n'Drop transfer it's handled here.
 $fn = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
 if ($fn) {
 	if (!isset($_GET['id'])) {
-		bailOut(OC_Contacts_App::$l10n->t('No contact ID was submitted.'));
+		bailOut($l10n->t('No contact ID was submitted.'));
 	}
 	$id = $_GET['id'];
 	$tmpkey = 'contact-photo-'.md5($fn);
@@ -48,33 +48,38 @@ if ($fn) {
 			debug('Couldn\'t save correct image orientation: '.$tmpkey);
 		}
 		if(OC_Cache::set($tmpkey, $image->data(), 600)) {
-			OCP\JSON::success(array('data' => array('mime'=>$_SERVER['CONTENT_TYPE'], 'name'=>$fn, 'id'=>$id, 'tmp'=>$tmpkey)));
+			OCP\JSON::success(array(
+				'data' => array(
+					'mime'=>$_SERVER['CONTENT_TYPE'], 
+					'name'=>$fn, 
+					'id'=>$id, 
+					'tmp'=>$tmpkey)));
 			exit();
 		} else {
-			bailOut(OC_Contacts_App::$l10n->t('Couldn\'t save temporary image: ').$tmpkey);
+			bailOut($l10n->t('Couldn\'t save temporary image: ').$tmpkey);
 		}
 	} else {
-		bailOut(OC_Contacts_App::$l10n->t('Couldn\'t load temporary image: ').$tmpkey);
+		bailOut($l10n->t('Couldn\'t load temporary image: ').$tmpkey);
 	}
 }
 
 // Uploads from file dialog are handled here.
 if (!isset($_POST['id'])) {
-	bailOut(OC_Contacts_App::$l10n->t('No contact ID was submitted.'));
+	bailOut($l10n->t('No contact ID was submitted.'));
 }
 if (!isset($_FILES['imagefile'])) {
-	bailOut(OC_Contacts_App::$l10n->t('No file was uploaded. Unknown error'));
+	bailOut($l10n->t('No file was uploaded. Unknown error'));
 }
 
 $error = $_FILES['imagefile']['error'];
 if($error !== UPLOAD_ERR_OK) {
 	$errors = array(
-		0=>OC_Contacts_App::$l10n->t("There is no error, the file uploaded with success"),
-		1=>OC_Contacts_App::$l10n->t("The uploaded file exceeds the upload_max_filesize directive in php.ini").ini_get('upload_max_filesize'),
-		2=>OC_Contacts_App::$l10n->t("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
-		3=>OC_Contacts_App::$l10n->t("The uploaded file was only partially uploaded"),
-		4=>OC_Contacts_App::$l10n->t("No file was uploaded"),
-		6=>OC_Contacts_App::$l10n->t("Missing a temporary folder")
+		0=>$l10n->t("There is no error, the file uploaded with success"),
+		1=>$l10n->t("The uploaded file exceeds the upload_max_filesize directive in php.ini").ini_get('upload_max_filesize'),
+		2=>$l10n->t("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"),
+		3=>$l10n->t("The uploaded file was only partially uploaded"),
+		4=>$l10n->t("No file was uploaded"),
+		6=>$l10n->t("Missing a temporary folder")
 	);
 	bailOut($errors[$error]);
 }
@@ -91,13 +96,20 @@ if(file_exists($file['tmp_name'])) {
 			debug('Couldn\'t save correct image orientation: '.$tmpkey);
 		}
 		if(OC_Cache::set($tmpkey, $image->data(), 600)) {
-			OCP\JSON::success(array('data' => array('mime'=>$file['type'],'size'=>$file['size'],'name'=>$file['name'], 'id'=>$_POST['id'], 'tmp'=>$tmpkey)));
+			OCP\JSON::success(array(
+				'data' => array(
+					'mime'=>$file['type'],
+					'size'=>$file['size'],
+					'name'=>$file['name'], 
+					'id'=>$_POST['id'], 
+					'tmp'=>$tmpkey,
+					)));
 			exit();
 		} else {
-			bailOut(OC_Contacts_App::$l10n->t('Couldn\'t save temporary image: ').$tmpkey);
+			bailOut($l10n->t('Couldn\'t save temporary image: ').$tmpkey);
 		}
 	} else {
-		bailOut(OC_Contacts_App::$l10n->t('Couldn\'t load temporary image: ').$file['tmp_name']);
+		bailOut($l10n->t('Couldn\'t load temporary image: ').$file['tmp_name']);
 	}
 } else {
 	bailOut('Temporary file: \''.$file['tmp_name'].'\' has gone AWOL?');
