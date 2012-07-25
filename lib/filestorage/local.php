@@ -129,7 +129,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 	}
 
 	public function getMimeType($path){
-		if($this->is_readable($path)){
+		if($this->isReadable($path)){
 			return OC_Helper::getMimeType($this->datadir.$path);
 		}else{
 			return false;
