@@ -48,7 +48,12 @@ abstract class Access {
 			return false;
 		}
 		$cr = $this->connection->getConnectionResource();
-		$rr = ldap_read($cr, $dn, 'objectClass=*', array($attr));
+		$rr = @ldap_read($cr, $dn, 'objectClass=*', array($attr));
+		if(!is_resource($rr)) {
+			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
+			//in case an error occurs , e.g. object does not exist
+			return false;
+		}
 		$er = ldap_first_entry($cr, $rr);
 		//LDAP attributes are not case sensitive
 		$result = \OCP\Util::mb_array_change_key_case(ldap_get_attributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
