@@ -211,11 +211,21 @@ class Connection {
 	 * Connects and Binds to LDAP
 	 */
 	private function establishConnection() {
+		static $phpLDAPinstalled = true;
+		if(!$phpLDAPinstalled) {
+			return false;
+		}
 		if(!$this->configured) {
 			\OCP\Util::writeLog('user_ldap', 'Configuration is invalid, cannot connect', \OCP\Util::WARN);
 			return false;
 		}
 		if(!$this->ldapConnectionRes) {
+			if(!function_exists('ldap_connect')) {
+				$phpLDAPinstalled = false;
+				\OCP\Util::writeLog('user_ldap', 'function ldap_connect is not available. Make sure that the PHP ldap module is installed.', \OCP\Util::ERROR);
+
+				return false;
+			}
 			$this->ldapConnectionRes = ldap_connect($this->config['ldapHost'], $this->config['ldapPort']);
 			if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 					if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {

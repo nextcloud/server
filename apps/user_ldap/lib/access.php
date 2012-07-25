@@ -48,6 +48,10 @@ abstract class Access {
 			return false;
 		}
 		$cr = $this->connection->getConnectionResource();
+		if(!is_resource($cr)) {
+			//LDAP not available
+			return false;
+		}
 		$rr = @ldap_read($cr, $dn, 'objectClass=*', array($attr));
 		if(!is_resource($rr)) {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
