@@ -282,10 +282,6 @@ abstract class Access {
 		$ownCloudNames = array();
 
 		foreach($ldapObjects as $ldapObject) {
-// if(!isset($ldapObject['dn'])) {
-// 	print("<pre>");
-// 	die(var_dump($ldapObjects));
-// }
 			$key = \OCP\Util::recursiveArraySearch($knownObjects, $ldapObject['dn']);
 
 			//everything is fine when we know the group
