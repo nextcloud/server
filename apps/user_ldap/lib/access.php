@@ -59,7 +59,7 @@ abstract class Access {
 		$result = \OCP\Util::mb_array_change_key_case(ldap_get_attributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
 		$attr = mb_strtolower($attr, 'UTF-8');
 
-		if(isset($result[$attr]) && $result[$attr]['count'] > 0){
+		if(isset($result[$attr]) && $result[$attr]['count'] > 0) {
 			$values = array();
 			for($i=0;$i<$result[$attr]['count'];$i++) {
 				$values[] = $this->resemblesDN($attr) ? $this->sanitizeDN($result[$attr][$i]) : $result[$attr][$i];
@@ -90,7 +90,7 @@ abstract class Access {
 	 */
 	private function sanitizeDN($dn) {
 		//OID sometimes gives back DNs with whitespace after the comma a la "uid=foo, cn=bar, dn=..." We need to tackle this!
-		$dn = preg_replace('/([^\\\]),(\s+)/u','\1,',$dn);
+		$dn = preg_replace('/([^\\\]),(\s+)/u', '\1,', $dn);
 
 		//make comparisons and everything work
 		$dn = mb_strtolower($dn, 'UTF-8');
@@ -500,7 +500,7 @@ abstract class Access {
 					foreach($attr as $key) {
 						$key = mb_strtolower($key, 'UTF-8');
 						if(isset($item[$key])) {
-							if($key != 'dn'){
+							if($key != 'dn') {
 								$selection[$i][$key] = $this->resemblesDN($key) ? $this->sanitizeDN($item[$key][0]) : $item[$key][0];
 							} else {
 								$selection[$i][$key] = $this->sanitizeDN($item[$key]);
@@ -549,7 +549,7 @@ abstract class Access {
 	 * Combines Filter arguments with AND
 	 */
 	public function combineFilterWithAnd($filters) {
-		return $this->combineFilter($filters,'&');
+		return $this->combineFilter($filters, '&');
 	}
 
 	/**
@@ -560,7 +560,7 @@ abstract class Access {
 	 * Combines Filter arguments with AND
 	 */
 	public function combineFilterWithOr($filters) {
-		return $this->combineFilter($filters,'|');
+		return $this->combineFilter($filters, '|');
 	}
 
 	/**
