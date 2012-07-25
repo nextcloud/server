@@ -177,8 +177,14 @@ class OC_OCS {
 
 		// CLOUD
 		// systemWebApps 
-		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-4]=='cloud') and ($ex[$paracount-3] == 'system') and ($ex[$paracount-2] == 'webapps')){
-			OC_OCS::systemwebapps($format);
+		$router->create('system_webapps',
+				  '/cloud/system/webapps.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					OC_OCS::systemwebapps($format);
+					})
+			->requirements(array('format'=>'xml|json'));
 
 		// quotaget 
 		$router->create('quota_get',
@@ -204,14 +210,26 @@ class OC_OCS {
 			->requirements(array('format'=>'xml|json'));
 
 		// keygetpublic 
-		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'publickey')){
-			$user=$ex[$paracount-3];
-			OC_OCS::publicKeyGet($format,$user);
+		$router->create('keygetpublic',
+				  '/cloud/user/{user}/publickey.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$user = $parameters['user'];
+					OC_OCS::publicKeyGet($format,$user);
+					})
+			->requirements(array('format'=>'xml|json'));
 
 		// keygetprivate 
-		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'privatekey')){
-			$user=$ex[$paracount-3];
-			OC_OCS::privateKeyGet($format,$user);
+		$router->create('keygetpublic',
+				  '/cloud/user/{user}/privatekey.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$user = $parameters['user'];
+					OC_OCS::privateKeyGet($format,$user);
+					})
+			->requirements(array('format'=>'xml|json'));
 
 
 // add more calls here
