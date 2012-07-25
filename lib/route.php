@@ -19,6 +19,21 @@ class OC_Route extends Route {
 		return $this;
 	}
 
+	public function get() {
+		$this->method('get');
+		return $this;
+	}
+
+	public function put() {
+		$this->method('put');
+		return $this;
+	}
+
+	public function delete() {
+		$this->method('delete');
+		return $this;
+	}
+
 	public function defaults($defaults) {
 		$action = $this->getDefault('action');
 		$this->setDefaults($defaults);
