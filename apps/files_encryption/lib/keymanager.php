@@ -34,10 +34,11 @@ class Keymanager {
 	 * @param string user name
 	 * @return string private key or false
 	 */
-	public static function getPrivateKey($user) {
-		$privateKeyStorage =  \OCP\Config::getSystemValue('datadirectory').'/'.$user.'/files_encryption/';
-		$view = new \OC_FilesystemView($privateKeyStorage);
-		return $view->file_get_contents($user.'.private.key');
+	public static function getPrivateKey( $user ) {
+
+		$view = new \OC_FilesystemView( '/' . $user . '/' . 'files_encryption' . '/' );
+		
+		return $view->file_get_contents( $user.'.private.key' );
 	}
 	
 	/**
