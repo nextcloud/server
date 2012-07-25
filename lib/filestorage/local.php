@@ -157,7 +157,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		return $return;
 	}
 
-	public function hash($type,$path,$raw){
+	public function hash($type,$path,$raw = false){
 		return hash_file($type,$this->datadir.$path,$raw);
 	}
 

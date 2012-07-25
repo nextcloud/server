@@ -366,8 +366,27 @@ class OC_FilesystemView {
 	public function getMimeType($path){
 		return $this->basicOperation('getMimeType',$path);
 	}
-	public function hash($type,$path){
-		return $this->basicOperation('hash',$path,array('read'));
+	public function hash($type, $path, $raw = false) {
+		$absolutePath = $this->getAbsolutePath($path);
+		if (OC_FileProxy::runPreProxies('hash', $absolutePath) && OC_Filesystem::isValidPath($path)) {
+			$path = $this->getRelativePath($absolutePath);
+			if ($path == null) {
+				return false;
+			}
+			if (OC_Filesystem::$loaded && $this->fakeRoot == OC_Filesystem::getRoot()) {
+				OC_Hook::emit(
+					OC_Filesystem::CLASSNAME,
+					OC_Filesystem::signal_read,
+					array( OC_Filesystem::signal_param_path => $path)
+				);
+			}
+			if ($storage = $this->getStorage($path)) {
+				$result = $storage->hash($type, $this->getInternalPath($path), $raw);
+				$result = OC_FileProxy::runPostProxies('hash', $absolutePath, $result);
+				return $result;
+			}
+		}
+		return null;
 	}
 
 	public function free_space($path='/'){
