@@ -208,7 +208,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @param string $path Path of the file
 	 * @return string|null Returns null if the ETag can not effectively be determined
 	 */
-	static public function getETagPropertyForFile($path) {
+	static public function getETagPropertyForPath($path) {
 		$tag = OC_Filesystem::hash('md5', $path);
 		if (empty($tag)) {
 			return null;
@@ -223,7 +223,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * Remove the ETag from the cache.
 	 * @param string $path Path of the file
 	 */
-	static public function removeETagPropertyForFile($path) {
+	static public function removeETagPropertyForPath($path) {
 		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*properties WHERE userid = ? AND propertypath = ? AND propertyname = ?' );
 		$query->execute( array( OC_User::getUser(), $path, self::GETETAG_PROPERTYNAME ));
 	}

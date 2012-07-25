@@ -52,7 +52,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 		$newPath = $this->path . '/' . $name;
 		OC_Filesystem::file_put_contents($newPath,$data);
 
-		return OC_Connector_Sabre_Node::getETagPropertyForFile($newPath);
+		return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 	}
 
 	/**
