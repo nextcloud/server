@@ -110,13 +110,13 @@ class Connection {
 			$this->config['ldapNoCase']            = \OCP\Config::getAppValue($this->configID, 'ldap_nocase', 0);
 			$this->config['ldapUserDisplayName']   = mb_strtolower(\OCP\Config::getAppValue($this->configID, 'ldap_display_name', 'uid'), 'UTF-8');
 			$this->config['ldapUserFilter']        = \OCP\Config::getAppValue($this->configID, 'ldap_userlist_filter','objectClass=person');
-			$this->config['ldapGroupFilter']        = \OCP\Config::getAppValue($this->configID, 'ldap_group_filter','(objectClass=posixGroup)');
+			$this->config['ldapGroupFilter']       = \OCP\Config::getAppValue($this->configID, 'ldap_group_filter','(objectClass=posixGroup)');
 			$this->config['ldapLoginFilter']       = \OCP\Config::getAppValue($this->configID, 'ldap_login_filter', '(uid=%uid)');
 			$this->config['ldapGroupDisplayName']  = mb_strtolower(\OCP\Config::getAppValue($this->configID, 'ldap_group_display_name', 'uid'), 'UTF-8');
 			$this->config['ldapQuotaAttribute']    = \OCP\Config::getAppValue($this->configID, 'ldap_quota_attr', '');
 			$this->config['ldapQuotaDefault']      = \OCP\Config::getAppValue($this->configID, 'ldap_quota_def', '');
-			$this->config['ldapEmailAttribute']      = \OCP\Config::getAppValue($this->configID, 'ldap_email_attr', '');
-			$this->config['ldapGroupMemberAssocAttr']      = \OCP\Config::getAppValue($this->configID, 'ldap_group_member_assoc_attribute', 'uniqueMember');
+			$this->config['ldapEmailAttribute']    = \OCP\Config::getAppValue($this->configID, 'ldap_email_attr', '');
+			$this->config['ldapGroupMemberAssocAttr'] = \OCP\Config::getAppValue($this->configID, 'ldap_group_member_assoc_attribute', 'uniqueMember');
 			$this->config['ldapIgnoreNamingRules'] = \OCP\Config::getSystemValue('ldapIgnoreNamingRules', false);
 
 			$this->configured = $this->validateConfiguration();
