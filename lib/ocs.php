@@ -90,8 +90,6 @@ class OC_OCS {
 			exit();
 		}
 
-		// preprocess url
-		$url = strtolower($_SERVER['REQUEST_URI']);
 		$format = self::readData($method, 'format', 'text', '');
 
 		$router = new OC_Router();
