@@ -32,7 +32,10 @@
 namespace OCA_Encryption;
 
 /**
- * Class for utilities relating to encrypted file storage system
+ * @brief Class for utilities relating to encrypted file storage system
+ * @param $view OC_FilesystemView object, expected to have OC '/' as root path
+ * @param $client flag indicating status of client side encryption. Currently
+ * unused, likely to become obsolete shortly
  */
 
 class Util {
@@ -41,10 +44,12 @@ class Util {
 	# DONE: add method to check if file is encrypted using old system
 	# DONE: add method to fetch legacy key
 	# DONE: add method to decrypt legacy encrypted data
+	
 	# TODO: add method to encrypt all user files using new system
 	# TODO: add method to decrypt all user files using new system
 	# TODO: add method to encrypt all user files using old system
 	# TODO: add method to decrypt all user files using old system
+	
 	# TODO: fix / test the crypt stream proxy class
 	# TODO: add support for optional recovery user in case of lost passphrase / keys
 	# TODO: add admin optional required long passphrase for users
@@ -60,26 +65,25 @@ class Util {
 	private $pwd; // User Password
 	private $client; // Client side encryption mode flag
 
-        /**
-         * @brief get a list of all available versions of a file in descending chronological order
-         * @param $filename file to find versions of, relative to the user files dir
-         * @param $count number of versions to return
-         * @returns array
-         */
-	public function __construct( \OC_FilesystemView $view, $client = false ) {
+	public function __construct( \OC_FilesystemView $view, $userId, $client = false ) {
 	
 		$this->view = $view;
+		$this->userId = $userId;
 		$this->client = $client;
+		$this->publicKeyDir =  '/' . 'public-keys';
+		$this->encryptionDir =  '/' . $this->userId . '/' . 'files_encryption';
+		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
+		$this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
+		$this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
 		
 	}
 	
 	public function ready() {
 		
 		if( 
-		!$this->view->file_exists( '/' . 'keyfiles' )
-		or !$this->view->file_exists( '/' . 'keypair' )
-		or !$this->view->file_exists( '/' . 'keypair' . '/'. 'encryption.public.key' )
-		or !$this->view->file_exists( '/' . 'keypair' . '/'. 'encryption.private.key' ) 
+		!$this->view->file_exists( $this->keyfilesPath )
+		or !$this->view->file_exists( $this->publicKeyPath )
+		or !$this->view->file_exists( $this->privateKeyPath ) 
 		) {
 		
 			return false;
@@ -93,61 +97,58 @@ class Util {
 	}
 	
         /**
-         * @brief Sets up encryption folders and keys for a user
+         * @brief Sets up user folders and keys for serverside encryption
          * @param $passphrase passphrase to encrypt server-stored private key with
          */
-	public function setup( $passphrase = null ) {
-	
-		$publicKeyFileName = 'encryption.public.key';
-		$privateKeyFileName = 'encryption.private.key';
+	public function setupServerSide( $passphrase = null ) {
 	
 		// Log changes to user's filesystem
 		$this->appInfo = \OC_APP::getAppInfo( 'files_encryption' );
 		
-		\OC_Log::write( $this->appInfo['name'], 'File encryption for user will be set up' , \OC_Log::INFO );
+		\OC_Log::write( $this->appInfo['name'], 'File encryption for user "' . $this->userId . '" will be set up' , \OC_Log::INFO );
 		
-		// Create mirrored keyfile directory
-		if( !$this->view->file_exists( '/' . 'keyfiles' ) ) {
+		// Create shared public key directory
+		if( !$this->view->file_exists( $this->publicKeyDir ) ) {
 		
-			$this->view->mkdir( '/'. 'keyfiles' );
+			$this->view->mkdir( $this->publicKeyDir );
 		
 		}
 		
-		// Create keypair directory
-		if( !$this->view->file_exists( '/'. 'keypair' ) ) {
+		// Create encryption app directory
+		if( !$this->view->file_exists( $this->encryptionDir ) ) {
 		
-			$this->view->mkdir( '/'. 'keypair' );
+			$this->view->mkdir( $this->encryptionDir );
+		
+		}
+		
+		// Create mirrored keyfile directory
+		if( !$this->view->file_exists( $this->keyfilesPath ) ) {
+		
+			$this->view->mkdir( $this->keyfilesPath );
 		
 		}
 		
 		// Create user keypair
 		if ( 
-		!$this->view->file_exists( '/'. 'keypair'. '/' . $publicKeyFileName ) 
-		or !$this->view->file_exists( '/'. 'keypair'. '/' . $privateKeyFileName ) 
+		!$this->view->file_exists( $this->publicKeyPath ) 
+		or !$this->view->file_exists( $this->privateKeyPath ) 
 		) {
 		
 			// Generate keypair
 			$keypair = Crypt::createKeypair();
+		
+			\OC_FileProxy::$enabled = false;
 			
 			// Save public key
-			$this->view->file_put_contents( '/'. 'keypair'. '/' . $publicKeyFileName, $keypair['publicKey'] );
+			$this->view->file_put_contents( $this->publicKeyPath, $keypair['publicKey'] );
 			
-			if ( $this->client == false ) {
-				
-				# TODO: Use proper IV in encryption
-				
-				// Encrypt private key with user pwd as passphrase
-				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], $passphrase );
-				
-				// $iv = openssl_random_pseudo_bytes(16);
-				$this->view->file_put_contents( '/'. 'keypair'. '/' . $privateKeyFileName, $encryptedPrivateKey );
-				
-			} else {
+			// Encrypt private key with user pwd as passphrase
+			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], $passphrase );
 			
-				# TODO PHASE2: add public key to keyserver for client-side
-				# TODO PHASE2: encrypt private key using password / new client side specified key, instead of existing user pwd
+			// Save private key
+			$this->view->file_put_contents( $this->privateKeyPath, $encryptedPrivateKey );
 			
-			}
+			\OC_FileProxy::$enabled = true;
 			
 		}
 	
