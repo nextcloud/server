@@ -28,19 +28,27 @@ namespace OCA_Encryption;
 
 class Hooks {
 
+	# TODO: use passphrase for encrypting private key that is separate to the login password
+
+	/**
+	 * @brief Startup encryption backend upon user login
+	 * @note This method should never be called for users using client side encryption
+	 */
 	public static function login( $params ){
 		
 		$view = new \OC_FilesystemView( '/' );
 		
-		$storage = new Storage( $view, $params['uid'] );
+		$util = new Util( $view, $params['uid'] );
 		
-		if ( !$storage->ready() ) {
+		if ( !$util->ready() ) {
 		
-			return $storage->setup( $params['password'] );
+			return $util->setup( $params['password'] );
 			
 		}
 		
-		$_SESSION['enckey'] = OC_Crypt::decrypt($key, $password);
+		$encryptedKey = Keymanager::getPrivateKey( $params['uid'] );
+		
+		$_SESSION['enckey'] = Crypt::symmetricEncryptFileContent( $encryptedKey, $params['password'] );
 		
 		return true;
 		

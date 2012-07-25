@@ -1,5 +1,5 @@
 <?php
-/**
+/***
  * ownCloud
  *
  * @author Bjoern Schiessle
@@ -22,13 +22,13 @@
 
 namespace OCA_Encryption;
 
-/*
+/**
  * This class provides basic operations to read/write encryption keys from/to the filesystem 
  */
 class Keymanager {
 	
 	
-	/*
+	/**
 	 * @brief retrieve private key from a user
 	 * 
 	 * @param string user name
@@ -40,7 +40,7 @@ class Keymanager {
 		return $view->file_get_contents($user.'.private.key');
 	}
 	
-	/*
+	/**
 	 * @brief retrieve public key from a user
 	 *
 	 * @param string user name
@@ -52,7 +52,7 @@ class Keymanager {
 		return $view->file_get_contents($user.'.public.key');
 	}
 	
-	/*
+	/**
 	 * @brief retrieve file encryption key
 	 *
 	 * @param string file name
@@ -65,7 +65,7 @@ class Keymanager {
 		return $view->file_get_contents($file.'.key');
 	}	
 	
-	/*
+	/**
 	 * @brief store private key from a user
 	 *
 	 * @param string user name
@@ -79,7 +79,7 @@ class Keymanager {
 	}
 	
 	
-	/*
+	/**
 	 * @brief store public key from a user
 	 *
 	 * @param string user name
@@ -92,7 +92,7 @@ class Keymanager {
 		return $view->file_put_contents($user.'.public.key', $key);
 	}
 	
-	/*
+	/**
 	 * @brief store file encryption key
 	 *
 	 * @param string user name of the file owner
