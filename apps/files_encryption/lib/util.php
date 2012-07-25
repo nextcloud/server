@@ -39,6 +39,8 @@ class Util {
 
 	# DONE: add method to check if file is encrypted using new system
 	# DONE: add method to check if file is encrypted using old system
+	# DONE: add method to fetch legacy key
+	# DONE: add method to decrypt legacy encrypted data
 	# TODO: add method to encrypt all user files using new system
 	# TODO: add method to decrypt all user files using new system
 	# TODO: add method to encrypt all user files using old system
@@ -152,38 +154,6 @@ class Util {
 	}
 	
 	/**
-	 * @brief Fetch the legacy encryption key from user files
-	 * @param string $login used to locate the legacy key
-	 * @param string $passphrase used to decrypt the legacy key
-	 * @return true / false
-	 *
-	 * if the key is left out, the default handeler will be used
-	 */
-	public function getLegacyKey( $login, $passphrase ) {
-
-		OC_FileProxy::$enabled = false;
-		
-		if ( 
-		$login
-		and $passphrase 
-		and $key = $this->view->file_get_contents( '/' . $login . '/encryption.key' ) 
-		) {
-		
-			OC_FileProxy::$enabled = true;
-		
-			return $this->legacyDecrypt( $key, $passphrase );
-			
-		} else {
-		
-			OC_FileProxy::$enabled = true;
-		
-			return false;
-		
-		}
-		
-	}
-	
-	/**
 	 * @brief Get the blowfish encryption handeler for a key
 	 * @param $key string (optional)
 	 * @return Crypt_Blowfish blowfish object
@@ -192,10 +162,47 @@ class Util {
 	 */
 	public function getBlowfish( $key = '' ) {
 	
-		if( $key ){
+		if ( $key ) {
 		
-			return new Crypt_Blowfish($key);
+			return new \Crypt_Blowfish( $key );
 		
+		} else {
+		
+			return false;
+			
+		}
+		
+	}
+	
+	/**
+	 * @brief Fetch the legacy encryption key from user files
+	 * @param string $login used to locate the legacy key
+	 * @param string $passphrase used to decrypt the legacy key
+	 * @return true / false
+	 *
+	 * if the key is left out, the default handeler will be used
+	 */
+	public function getLegacyKey( $passphrase ) {
+
+		//OC_FileProxy::$enabled = false;
+		
+		if ( 
+		$passphrase 
+		and $key = $this->view->file_get_contents( '/encryption.key' ) 
+		) {
+		
+			//OC_FileProxy::$enabled = true;
+		
+			if ( $this->legacyKey = $this->legacyDecrypt( $key, $passphrase ) ) {
+			
+				return true;
+				
+			} else {
+			
+				return false;
+				
+			}
+			
 		} else {
 		
 			return false;
@@ -212,9 +219,12 @@ class Util {
 	 *
 	 * This function encrypts an content
 	 */
-	public static function legacyEncrypt( $content, $key='') {
-		$bf = self::getBlowfish($key);
-		return $bf->encrypt($content);
+	public function legacyEncrypt( $content, $passphrase = '' ) {
+	
+		$bf = $this->getBlowfish( $passphrase );
+		
+		return $bf->encrypt( $content );
+		
 	}
 	
 	/**
@@ -225,9 +235,9 @@ class Util {
 	*
 	* This function decrypts an content
 	*/
-	public static function legacyDecrypt( $content, $key = '' ) {
+	public function legacyDecrypt( $content, $passphrase = '' ) {
 	
-		$bf = $this->getBlowfish( $key );
+		$bf = $this->getBlowfish( $passphrase );
 		
 		$data = $bf->decrypt( $content );
 		

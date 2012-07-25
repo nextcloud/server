@@ -8,6 +8,7 @@
  */
 
 require realpath( dirname(__FILE__).'/../lib/crypt.php' );
+require realpath( dirname(__FILE__).'/../lib/util.php' );
 //require realpath( dirname(__FILE__).'/../../../lib/filecache.php' );
 
 class Test_Encryption extends UnitTestCase {
@@ -16,6 +17,7 @@ class Test_Encryption extends UnitTestCase {
 		
 		// set content for encrypting / decrypting in tests
 		$this->data = realpath( dirname(__FILE__).'/../lib/crypt.php' );
+		$this->legacyData = realpath( dirname(__FILE__).'/legacy-text.txt' );
 		$this->legacyEncryptedData = realpath( dirname(__FILE__).'/legacy-encrypted-text.txt' );
 	
 	}
@@ -111,19 +113,6 @@ class Test_Encryption extends UnitTestCase {
 		$this->assertTrue( OCA_Encryption\Crypt::isEncryptedContent( $keyfileContent ) );
 		
 	}
-	
-//	// Cannot use this test for now due to hidden dependencies in OC_FileCache
-// 	function testIsLegacyEncryptedContent() {
-// 		
-// 		$keyfileContent = OCA_Encryption\Crypt::symmetricEncryptFileContent( $this->legacyEncryptedData, 'hat' );
-// 		
-// 		$this->assertFalse( OCA_Encryption\Crypt::isLegacyEncryptedContent( $keyfileContent, '/files/admin/test.txt' ) );
-// 		
-// 		OC_FileCache::put( '/admin/files/legacy-encrypted-test.txt', $this->legacyEncryptedData );
-// 		
-// 		$this->assertTrue( OCA_Encryption\Crypt::isLegacyEncryptedContent( $this->legacyEncryptedData, '/files/admin/test.txt' ) );
-// 		
-// 	}
 	
 	function testMultiKeyEncrypt() {
 		
