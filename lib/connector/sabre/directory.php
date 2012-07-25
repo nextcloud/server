@@ -170,5 +170,25 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 
 	}
 
+	/**
+	 * Returns a list of properties for this nodes.;
+	 *
+	 * The properties list is a list of propertynames the client requested,
+	 * encoded as xmlnamespace#tagName, for example:
+	 * http://www.example.org/namespace#author
+	 * If the array is empty, all properties should be returned
+	 *
+	 * @param array $properties
+	 * @return void
+	 */
+	public function getProperties($properties) {
+		$props = parent::getProperties($properties);
+		if (in_array(self::GETETAG_PROPERTYNAME, $properties)
+		    && !isset($props[self::GETETAG_PROPERTYNAME])) {
+			$props[self::GETETAG_PROPERTYNAME] =
+				OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
+		}
+		return $props;
+	}
 }
 

@@ -204,12 +204,21 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
+	 * Creates a ETag for this path.
+	 * @param string $path Path of the file
+	 * @return string|null Returns null if the ETag can not effectively be determined
+	 */
+	static protected function createETag($path) {
+		return uniqid('', true);
+	}
+
+	/**
 	 * Returns the ETag surrounded by double-quotes for this path.
 	 * @param string $path Path of the file
 	 * @return string|null Returns null if the ETag can not effectively be determined
 	 */
 	static public function getETagPropertyForPath($path) {
-		$tag = OC_Filesystem::hash('md5', $path);
+		$tag = self::createETag($path);
 		if (empty($tag)) {
 			return null;
 		}
