@@ -109,7 +109,8 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 
 		//uniqueMember takes DN, memberuid the uid, so we need to distinguish
 		if((strtolower($this->connection->ldapGroupMemberAssocAttr) == 'uniquemember')
-			|| (strtolower($this->connection->ldapGroupMemberAssocAttr) == 'member')) {
+			|| (strtolower($this->connection->ldapGroupMemberAssocAttr) == 'member')
+		  ) {
 			$uid = $userDN;
 		} else if(strtolower($this->connection->ldapGroupMemberAssocAttr) == 'memberuid') {
 			$result = $this->readAttribute($userDN, 'uid');
@@ -165,7 +166,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 				$result[] = $this->dn2username($ldap_users[0]);
 				continue;
 			} else {
-				if($ocname = $this->dn2username($member)){
+				if($ocname = $this->dn2username($member)) {
 					$result[] = $ocname;
 				}
 			}
