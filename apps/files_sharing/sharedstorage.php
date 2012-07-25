@@ -365,14 +365,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		}
 		return false;
 	}
-	
-	public function hash($type, $path, $raw = false) {
-		if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->hash($type, $this->getInternalPath($source), $raw);
-		}
-	}
-	
+
 	public function free_space($path) {
 		$source = $this->getSourcePath($path);
 		if ($source) {
