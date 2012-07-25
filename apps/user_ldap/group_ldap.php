@@ -23,24 +23,21 @@
 
 namespace OCA\user_ldap;
 
-class GROUP_LDAP implements \OCP\GroupInterface {
+class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 // 	//group specific settings
-	protected $ldapGroupFilter;
-	protected $ldapGroupMemberAssocAttr;
-	protected $configured = false;
+	protected $enabled = false;
 
 	protected $_group_user = array();
 	protected $_user_groups = array();
 	protected $_group_users = array();
 	protected $_groups = array();
 
-	public function __construct() {
-		$this->ldapGroupFilter          = \OCP\Config::getAppValue('user_ldap', 'ldap_group_filter', '(objectClass=posixGroup)');
-		$this->ldapGroupMemberAssocAttr = \OCP\Config::getAppValue('user_ldap', 'ldap_group_member_assoc_attribute', 'uniqueMember');
-
-		if(!empty($this->ldapGroupFilter) && !empty($this->ldapGroupMemberAssocAttr)) {
-			$this->configured = true;
+	public function setConnector(lib\Connection &$connection) {
+		parent::setConnector($connection);
+		if(empty($this->connection->ldapGroupFilter) || empty($this->connection->ldapGroupMemberAssocAttr)) {
+			$this->enabled = false;
 		}
+		$this->enabled = true;
 	}
 
 	/**
@@ -52,31 +49,31 @@ class GROUP_LDAP implements \OCP\GroupInterface {
 	 * Checks whether the user is member of a group or not.
 	 */
 	public function inGroup($uid, $gid) {
-		if(!$this->configured) {
+		if(!$this->enabled) {
 			return false;
 		}
 		if(isset($this->_group_user[$gid][$uid])) {
 			return $this->_group_user[$gid][$uid];
 		}
-		$dn_user = \OC_LDAP::username2dn($uid);
-		$dn_group = \OC_LDAP::groupname2dn($gid);
+		$dn_user = $this->username2dn($uid);
+		$dn_group = $this->groupname2dn($gid);
 		// just in case
 		if(!$dn_group || !$dn_user) {
 			return false;
 		}
 		//usually, LDAP attributes are said to be case insensitive. But there are exceptions of course.
-		$members = \OC_LDAP::readAttribute($dn_group, $this->ldapGroupMemberAssocAttr);
+		$members = $this->readAttribute($dn_group, $this->connection->ldapGroupMemberAssocAttr);
 		if(!$members) {
 			return false;
 		}
 
 		//extra work if we don't get back user DNs
 		//TODO: this can be done with one LDAP query
-		if(strtolower($this->ldapGroupMemberAssocAttr) == 'memberuid') {
+		if(strtolower($this->connection->ldapGroupMemberAssocAttr) == 'memberuid') {
 			$dns = array();
 			foreach($members as $mid) {
-				$filter = str_replace('%uid', $mid, \OC_LDAP::conf('ldapLoginFilter'));
-				$ldap_users = \OC_LDAP::fetchListOfUsers($filter, 'dn');
+				$filter = str_replace('%uid', $mid, $this->connection->ldapLoginFilter);
+				$ldap_users = $this->fetchListOfUsers($filter, 'dn');
 				if(count($ldap_users) < 1) {
 					continue;
 				}
@@ -98,36 +95,36 @@ class GROUP_LDAP implements \OCP\GroupInterface {
 	 * if the user exists at all.
 	 */
 	public function getUserGroups($uid) {
-		if(!$this->configured) {
+		if(!$this->enabled) {
 			return array();
 		}
 		if(isset($this->_user_groups[$uid])) {
 			return $this->_user_groups[$uid];
 		}
-		$userDN = \OC_LDAP::username2dn($uid);
+		$userDN = $this->username2dn($uid);
 		if(!$userDN) {
 			$this->_user_groups[$uid] = array();
 			return array();
 		}
 
 		//uniqueMember takes DN, memberuid the uid, so we need to distinguish
-		if((strtolower($this->ldapGroupMemberAssocAttr) == 'uniquemember')
-			|| (strtolower($this->ldapGroupMemberAssocAttr) == 'member')) {
+		if((strtolower($this->connection->ldapGroupMemberAssocAttr) == 'uniquemember')
+			|| (strtolower($this->connection->ldapGroupMemberAssocAttr) == 'member')) {
 			$uid = $userDN;
-		} else if(strtolower($this->ldapGroupMemberAssocAttr) == 'memberuid') {
-			$result = \OC_LDAP::readAttribute($userDN, 'uid');
+		} else if(strtolower($this->connection->ldapGroupMemberAssocAttr) == 'memberuid') {
+			$result = $this->readAttribute($userDN, 'uid');
 			$uid = $result[0];
 		} else {
 			// just in case
 			$uid = $userDN;
 		}
 
-		$filter = \OC_LDAP::combineFilterWithAnd(array(
-			$this->ldapGroupFilter,
-			$this->ldapGroupMemberAssocAttr.'='.$uid
+		$filter = $this->combineFilterWithAnd(array(
+			$this->connection->ldapGroupFilter,
+			$this->connection->ldapGroupMemberAssocAttr.'='.$uid
 		));
-		$groups = \OC_LDAP::fetchListOfGroups($filter, array(\OC_LDAP::conf('ldapGroupDisplayName'),'dn'));
-		$this->_user_groups[$uid] = array_unique(\OC_LDAP::ownCloudGroupNames($groups), SORT_LOCALE_STRING);
+		$groups = $this->fetchListOfGroups($filter, array($this->connection->ldapGroupDisplayName,'dn'));
+		$this->_user_groups[$uid] = array_unique($this->ownCloudGroupNames($groups), SORT_LOCALE_STRING);
 
 		return $this->_user_groups[$uid];
 	}
@@ -137,38 +134,38 @@ class GROUP_LDAP implements \OCP\GroupInterface {
 	 * @returns array with user ids
 	 */
 	public function usersInGroup($gid) {
-		if(!$this->configured) {
+		if(!$this->enabled) {
 			return array();
 		}
 		if(isset($this->_group_users[$gid])) {
 			return $this->_group_users[$gid];
 		}
 
-		$groupDN = \OC_LDAP::groupname2dn($gid);
+		$groupDN = $this->groupname2dn($gid);
 		if(!$groupDN) {
 			$this->_group_users[$gid] = array();
 			return array();
 		}
 
-		$members = \OC_LDAP::readAttribute($groupDN, $this->ldapGroupMemberAssocAttr);
+		$members = $this->readAttribute($groupDN, $this->connection->ldapGroupMemberAssocAttr);
 		if(!$members) {
 			$this->_group_users[$gid] = array();
 			return array();
 		}
 
 		$result = array();
-		$isMemberUid = (strtolower($this->ldapGroupMemberAssocAttr) == 'memberuid');
+		$isMemberUid = (strtolower($this->connection->ldapGroupMemberAssocAttr) == 'memberuid');
 		foreach($members as $member) {
 			if($isMemberUid) {
-				$filter = \OCP\Util::mb_str_replace('%uid', $member, \OC_LDAP::conf('ldapLoginFilter'), 'UTF-8');
-				$ldap_users = \OC_LDAP::fetchListOfUsers($filter, 'dn');
+				$filter = \OCP\Util::mb_str_replace('%uid', $member, $this->connection->ldapLoginFilter, 'UTF-8');
+				$ldap_users = $this->fetchListOfUsers($filter, 'dn');
 				if(count($ldap_users) < 1) {
 					continue;
 				}
-				$result[] = \OC_LDAP::dn2username($ldap_users[0]);
+				$result[] = $this->dn2username($ldap_users[0]);
 				continue;
 			} else {
-				if($ocname = \OC_LDAP::dn2username($member)){
+				if($ocname = $this->dn2username($member)){
 					$result[] = $ocname;
 				}
 			}
@@ -187,12 +184,12 @@ class GROUP_LDAP implements \OCP\GroupInterface {
 	 * Returns a list with all groups
 	 */
 	public function getGroups() {
-		if(!$this->configured) {
+		if(!$this->enabled) {
 			return array();
 		}
 		if(empty($this->_groups)) {
-			$ldap_groups = \OC_LDAP::fetchListOfGroups($this->ldapGroupFilter, array(\OC_LDAP::conf('ldapGroupDisplayName'), 'dn'));
-			$this->_groups = \OC_LDAP::ownCloudGroupNames($ldap_groups);
+			$ldap_groups = $this->fetchListOfGroups($this->connection->ldapGroupFilter, array($this->connection->ldapGroupDisplayName, 'dn'));
+			$this->_groups = $this->ownCloudGroupNames($ldap_groups);
 		}
 		return $this->_groups;
 	}

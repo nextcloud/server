@@ -26,9 +26,15 @@ require_once('apps/user_ldap/lib_ldap.php');
 
 OCP\App::registerAdmin('user_ldap','settings');
 
+$connector = new OCA\user_ldap\lib\Connection('user_ldap');
+$userBackend  = new OCA\user_ldap\USER_LDAP();
+$userBackend->setConnector($connector);
+$groupBackend = new OCA\user_ldap\GROUP_LDAP();
+$groupBackend->setConnector($connector);
+
 // register user backend
-OC_User::useBackend(new OCA\user_ldap\USER_LDAP());
-OC_Group::useBackend(new OCA\user_ldap\GROUP_LDAP());
+OC_User::useBackend($userBackend);
+OC_Group::useBackend($groupBackend);
 
 // add settings page to navigation
 $entry = array(
