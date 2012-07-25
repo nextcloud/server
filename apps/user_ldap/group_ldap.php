@@ -24,7 +24,6 @@
 namespace OCA\user_ldap;
 
 class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
-// 	//group specific settings
 	protected $enabled = false;
 
 	protected $_group_user = array();
