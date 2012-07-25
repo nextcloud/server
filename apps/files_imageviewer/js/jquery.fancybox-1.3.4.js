@@ -124,9 +124,7 @@
 				} else if (href.indexOf("#") === 0) {
 					type = 'inline';
 
-				} else {
-					type = 'ajax';
-				}
+				} 
 			}
 
 			if (!type) {
