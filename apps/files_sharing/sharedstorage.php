@@ -410,7 +410,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		}
 	}
 	
-	public function hash($type, $path, $raw) {
+	public function hash($type, $path, $raw = false) {
 		$source = $this->getSource($path);
 		if ($source) {
 			$storage = OC_Filesystem::getStorage($source);

@@ -452,8 +452,8 @@ class OC_Filesystem{
 	static public function getMimeType($path){
 		return self::$defaultInstance->getMimeType($path);
 	}
-	static public function hash($type,$path){
-		return self::$defaultInstance->hash($type,$path);
+	static public function hash($type,$path, $raw = false){
+		return self::$defaultInstance->hash($type,$path, $raw);
 	}
 	
 	static public function free_space($path='/'){
