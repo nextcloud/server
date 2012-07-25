@@ -26,9 +26,11 @@
  * transparent encryption
  */
 
-class OC_FileProxy_Encryption extends OC_FileProxy{
-	private static $blackList=null; //mimetypes blacklisted from encryption
-	private static $enableEncryption=null;
+class OC_FileProxy_Encryption extends OC_FileProxy {
+
+	private static $blackList = null; //mimetypes blacklisted from encryption
+	
+	private static $enableEncryption = null;
 	
 	/**
 	 * Check if a file requires encryption
@@ -97,7 +99,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 			
 				$size = strlen( $data );
 				
-				$data = Crypt::blockEncrypt( $data );
+				$data = OCA_Encryption\Crypt::symmetricEncryptFileContent( $data, '', $cached['size'] );
 				
 				OC_FileCache::put( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
 				
@@ -105,11 +107,16 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		}
 	}
 	
-	public function postFile_get_contents($path,$data){
-		if(self::isEncrypted($path)){
-			$cached=OC_FileCache_Cached::get($path,'');
-			$data=OC_Crypt::blockDecrypt($data,'',$cached['size']);
+	public function postFile_get_contents( $path, $data ) {
+	
+		if ( self::isEncrypted( $path ) ) {
+		
+			$cached = OC_FileCache_Cached::get( $path, '' );
+			
+			$data = OCA_Encryption\Crypt::symmetricDecryptFileContent( $data, '' );
+		
 		}
+		
 		return $data;
 	}
 	

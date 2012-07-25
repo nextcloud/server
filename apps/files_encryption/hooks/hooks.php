@@ -30,19 +30,21 @@ class Hooks {
 
 	public static function login( $params ){
 		
-		$view = new \OC_FilesystemView( '/' . $params['uid'] );
+		$view = new \OC_FilesystemView( '/' );
 		
-		$storage = new Storage( $view );
+		$storage = new Storage( $view, $params['uid'] );
 		
 		if ( !$storage->ready() ) {
 		
 			return $storage->setup( $params['password'] );
 			
-		} else {
-		
-			return true;
-			
 		}
+		
+		$_SESSION['enckey'] = OC_Crypt::decrypt($key, $password);
+		
+		return true;
+		
+		
 	}
 
 }
