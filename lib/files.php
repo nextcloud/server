@@ -36,7 +36,7 @@ class OC_Files {
 		$files = array();
 		if (substr($directory, 0, 7) == '/Shared') {
 			if ($directory == '/Shared') {
-				$files = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP, array('mimetype_filter' => $mimetype_filter));
+				$files = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP, array('folder' => $directory, 'mimetype_filter' => $mimetype_filter));
 			} else {
 				$pos = strpos($directory, '/', 8);
 				// Get shared folder name
@@ -49,14 +49,22 @@ class OC_Files {
 			}
 		} else {
 			$files = OC_FileCache::getFolderContent($directory, false, $mimetype_filter);
+			foreach ($files as &$file) {
+				$file['directory'] = $directory;
+				$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
+				$permissions = OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE;
+				if ($file['type'] == 'dir' && $file['writable']) {
+					$permissions |= OCP\Share::PERMISSION_CREATE;
+				}
+				if ($file['writable']) {
+					$permissions |= OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_DELETE;
+				}
+				$file['permissions'] = $permissions;
+			}
 			if ($directory == '') {
 				// Add 'Shared' folder
 				$files = array_merge($files, OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT));
 			}
-		}
-		foreach ($files as &$file) {
-			$file['directory'] = $directory;
-			$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
 		}
 		usort($files, "fileCmp");//TODO: remove this once ajax is merged
 		return $files;

@@ -43,7 +43,18 @@ class OC_Share_Backend_Folder extends OC_Share_Backend_File {
 				$pos = strpos($result['path'], $folder['item']);
 				$path = substr($result['path'], $pos).substr($parameters['folder'], strlen($folder['file_target']));
 				$root = substr($result['path'], 0, $pos);
-				return OC_FileCache::getFolderContent($path, $root, $mimetype_filter);
+				$files = OC_FileCache::getFolderContent($path, $root, $mimetype_filter);
+				foreach ($files as &$file) {
+					$file['directory'] = $parameters['folder'];
+					$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
+					$permissions = $folder['permissions'];
+					if ($file['type'] == 'file') {
+						// Remove Create permission if type is file
+						$permissions &= ~OCP\Share::PERMISSION_CREATE;
+					}
+					$file['permissions'] = $permissions;
+				}
+				return $files;
 			}
 		}/* else if ($format == self::FORMAT_OPENDIR_ROOT) {
 			$query = OCP\DB::prepare('SELECT name FROM *PREFIX*fscache WHERE id IN ('.$ids.')');

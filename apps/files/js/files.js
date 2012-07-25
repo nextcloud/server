@@ -56,7 +56,7 @@ $(document).ready(function() {
 
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {
-		FileActions.display($(this).children('td.filename'), $(this).attr('data-file'), $(this).attr('data-type'));
+		FileActions.display($(this).children('td.filename'));
 	});
 	$('tr').live('mouseleave',function(event) {
 		FileActions.hide();
@@ -106,7 +106,8 @@ $(document).ready(function() {
 			if(!renaming && !FileList.isLoading(filename)){
 				var mime=$(this).parent().parent().data('mime');
 				var type=$(this).parent().parent().data('type');
-				var action=FileActions.getDefault(mime,type);
+				var permissions = $(this).parent().parent().data('permissions');
+				var action=FileActions.getDefault(mime,type, permissions);
 				if(action){
 					action(filename);
 				}

@@ -70,7 +70,14 @@ class OC_Share_Backend_File extends OCP\Share_Backend {
 					// Set target path
 					$file['path'] = $shares[$file['id']]['file_target'];
 					$file['name'] = basename($file['path']);
-					// TODO Set permissions: $file['writable']
+					$file['directory'] = $parameters['folder'];
+					$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
+					$permissions = $shares[$file['id']]['permissions'];
+					if ($file['type'] == 'file') {
+						// Remove Create permission if type is file
+						$permissions &= ~OCP\Share::PERMISSION_CREATE;
+					}
+					$file['permissions'] = $permissions;
 					$files[] = $file;
 				}
 				return $files;
@@ -85,7 +92,7 @@ class OC_Share_Backend_File extends OCP\Share_Backend {
 					}
 					$size += $file['size'];
 				}
-				return array(0 => array('name' => 'Shared', 'mtime' => $mtime, 'mimetype' => 'httpd/unix-directory', 'size' => $size, 'writable' => false));
+				return array(0 => array('name' => 'Shared', 'mtime' => $mtime, 'mimetype' => 'httpd/unix-directory', 'size' => $size, 'writable' => false, 'type' => 'dir', 'directory' => '', 'permissions' => OCP\Share::PERMISSION_READ));
 			}
 		}
 		return array();
