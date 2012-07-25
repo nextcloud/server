@@ -74,7 +74,6 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	public function checkPassword($uid, $password){
 		//find out dn of the user name
 		$filter = \OCP\Util::mb_str_replace('%uid', $uid, $this->connection->ldapLoginFilter, 'UTF-8');
-		\OCP\Util::writeLog('user_ldap', 'Getting DN for login, filter '.$filter.' originating from '.$this->connection->ldapLoginFilter,\OCP\Util::DEBUG);
 		$ldap_users = $this->fetchListOfUsers($filter, 'dn');
 		if(count($ldap_users) < 1) {
 			return false;
