@@ -27,9 +27,6 @@ namespace OCA\user_ldap;
 
 class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 
-	// will be retrieved from LDAP server
-	protected $ldap_dc = false;
-
 	// cache getUsers()
 	protected $_users = null;
 
