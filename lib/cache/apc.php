@@ -43,14 +43,15 @@ class OC_Cache_APC {
 		return apc_delete($this->getNamespace().$key);
 	}
 
-	public function clear(){
-		$ns = $this->getNamespace();
+	public function clear($prefix=''){
+		$ns = $this->getNamespace().$prefix;
 		$cache = apc_cache_info('user');
 		foreach($cache['cache_list'] as $entry) {
 			if (strpos($entry['info'], $ns) === 0) {
 				apc_delete($entry['info']);
 			}
 		}
+		return true;
 	}
 }
 if(!function_exists('apc_exists')) {

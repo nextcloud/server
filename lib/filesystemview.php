@@ -22,19 +22,19 @@
 
 
 /**
- * Class to provide access to ownCloud filesystem via a "view", and methods for 
- * working with files within that view (e.g. read, write, delete, etc.). Each 
- * view is restricted to a set of directories via a virtual root. The default view 
- * uses the currently logged in user's data directory as root (parts of 
+ * Class to provide access to ownCloud filesystem via a "view", and methods for
+ * working with files within that view (e.g. read, write, delete, etc.). Each
+ * view is restricted to a set of directories via a virtual root. The default view
+ * uses the currently logged in user's data directory as root (parts of
  * OC_Filesystem are merely a wrapper for OC_FilesystemView).
- * 
+ *
  * Apps that need to access files outside of the user data folders (to modify files
  * belonging to a user other than the one currently logged in, for example) should
  * use this class directly rather than using OC_Filesystem, or making use of PHP's
- * built-in file manipulation functions. This will ensure all hooks and proxies 
+ * built-in file manipulation functions. This will ensure all hooks and proxies
  * are triggered correctly.
  *
- * Filesystem functions are not called directly; they are passed to the correct 
+ * Filesystem functions are not called directly; they are passed to the correct
  * OC_Filestorage object
  */
 
@@ -43,11 +43,11 @@ class OC_FilesystemView {
 	private $internal_path_cache=array();
 	private $storage_cache=array();
 
-	public function __construct($root){
+	public function __construct($root) {
 		$this->fakeRoot=$root;
 	}
 
-	public function getAbsolutePath($path){
+	public function getAbsolutePath($path) {
 		if(!$path){
 			$path='/';
 		}
@@ -63,9 +63,9 @@ class OC_FilesystemView {
 	* @param  string  fakeRoot
 	* @return bool
 	*/
-	public function chroot($fakeRoot){
+	public function chroot($fakeRoot) {
 		if(!$fakeRoot==''){
-			if($fakeRoot[0]!=='/'){
+			if($fakeRoot[0]!=='/') {
 				$fakeRoot='/'.$fakeRoot;
 			}
 		}
@@ -76,7 +76,7 @@ class OC_FilesystemView {
 	 * get the fake root
 	 * @return string
 	 */
-	public function getRoot(){
+	public function getRoot() {
 		return $this->fakeRoot;
 	}
 
@@ -85,7 +85,7 @@ class OC_FilesystemView {
 	* @param  string  path
 	* @return bool
 	*/
-	public function getInternalPath($path){
+	public function getInternalPath($path) {
 		if (!isset($this->internal_path_cache[$path])) {
 			$this->internal_path_cache[$path] = OC_Filesystem::getInternalPath($this->getAbsolutePath($path));
 		}
@@ -97,23 +97,23 @@ class OC_FilesystemView {
 	 * @param string path
 	 * @return string
 	 */
-	public function getRelativePath($path){
-		if($this->fakeRoot==''){
+	public function getRelativePath($path) {
+		if($this->fakeRoot=='') {
 			return $path;
 		}
-		if(strpos($path,$this->fakeRoot)!==0){
+		if(strpos($path, $this->fakeRoot)!==0) {
 			return null;
 		}else{
-			return substr($path,strlen($this->fakeRoot));
+			return substr($path, strlen($this->fakeRoot));
 		}
 	}
-	
+
 	/**
 	* get the storage object for a path
 	* @param string path
 	* @return OC_Filestorage
 	*/
-	public function getStorage($path){
+	public function getStorage($path) {
 		if (!isset($this->storage_cache[$path])) {
 			$this->storage_cache[$path] = OC_Filesystem::getStorage($this->getAbsolutePath($path));
 		}
@@ -127,7 +127,7 @@ class OC_FilesystemView {
 	* @param string path
 	* @return string
 	*/
-	public function getMountPoint($path){
+	public function getMountPoint($path) {
 		return OC_Filesystem::getMountPoint($this->getAbsolutePath($path));
 	}
 
@@ -137,55 +137,55 @@ class OC_FilesystemView {
 	* @param string path
 	* @return string
 	*/
-	public function getLocalFile($path){
-		$parent=substr($path,0,strrpos($path,'/'));
-		if(OC_Filesystem::isValidPath($parent) and $storage=$this->getStorage($path)){
+	public function getLocalFile($path) {
+		$parent=substr($path, 0, strrpos($path,'/'));
+		if(OC_Filesystem::isValidPath($parent) and $storage=$this->getStorage($path)) {
 			return $storage->getLocalFile($this->getInternalPath($path));
 		}
 	}
 
 	/**
-	 * the following functions operate with arguments and return values identical 
-	 * to those of their PHP built-in equivalents. Mostly they are merely wrappers 
+	 * the following functions operate with arguments and return values identical
+	 * to those of their PHP built-in equivalents. Mostly they are merely wrappers
 	 * for OC_Filestorage via basicOperation().
 	 */
-	public function mkdir($path){
-		return $this->basicOperation('mkdir',$path,array('create','write'));
+	public function mkdir($path) {
+		return $this->basicOperation('mkdir', $path, array('create', 'write'));
 	}
-	public function rmdir($path){
-		return $this->basicOperation('rmdir',$path,array('delete'));
+	public function rmdir($path) {
+		return $this->basicOperation('rmdir', $path, array('delete'));
 	}
-	public function opendir($path){
-		return $this->basicOperation('opendir',$path,array('read'));
+	public function opendir($path) {
+		return $this->basicOperation('opendir', $path, array('read'));
 	}
-	public function readdir($handle){
+	public function readdir($handle) {
 		$fsLocal= new OC_Filestorage_Local( array( 'datadir' => '/' ) );
 		return $fsLocal->readdir( $handle );
 	}
-	public function is_dir($path){
+	public function is_dir($path) {
 		if($path=='/'){
 			return true;
 		}
-		return $this->basicOperation('is_dir',$path);
+		return $this->basicOperation('is_dir', $path);
 	}
-	public function is_file($path){
+	public function is_file($path) {
 		if($path=='/'){
 			return false;
 		}
-		return $this->basicOperation('is_file',$path);
+		return $this->basicOperation('is_file', $path);
 	}
-	public function stat($path){
-		return $this->basicOperation('stat',$path);
+	public function stat($path) {
+		return $this->basicOperation('stat', $path);
 	}
-	public function filetype($path){
-		return $this->basicOperation('filetype',$path);
+	public function filetype($path) {
+		return $this->basicOperation('filetype', $path);
 	}
-	public function filesize($path){
-		return $this->basicOperation('filesize',$path);
+	public function filesize($path) {
+		return $this->basicOperation('filesize', $path);
 	}
-	public function readfile($path){
+	public function readfile($path) {
 		@ob_end_clean();
-		$handle=$this->fopen($path,'rb');
+		$handle=$this->fopen($path, 'rb');
 		if ($handle) {
 			$chunkSize = 8192;// 8 MB chunks
 			while (!feof($handle)) {
@@ -197,137 +197,210 @@ class OC_FilesystemView {
 		}
 		return false;
 	}
-	public function is_readable($path){
-		return $this->basicOperation('is_readable',$path);
+	public function is_readable($path) {
+		return $this->basicOperation('is_readable', $path);
 	}
-	public function is_writable($path){
-		return $this->basicOperation('is_writable',$path);
+	public function is_writable($path) {
+		return $this->basicOperation('is_writable', $path);
 	}
-	public function file_exists($path){
+	public function file_exists($path) {
 		if($path=='/'){
 			return true;
 		}
-		return $this->basicOperation('file_exists',$path);
+		return $this->basicOperation('file_exists', $path);
 	}
-	public function filectime($path){
-		return $this->basicOperation('filectime',$path);
+	public function filectime($path) {
+		return $this->basicOperation('filectime', $path);
 	}
-	public function filemtime($path){
-		return $this->basicOperation('filemtime',$path);
+	public function filemtime($path) {
+		return $this->basicOperation('filemtime', $path);
 	}
-	public function touch($path, $mtime=null){
+	public function touch($path, $mtime=null) {
 		return $this->basicOperation('touch', $path, array('write'), $mtime);
 	}
-	public function file_get_contents($path){
-		return $this->basicOperation('file_get_contents',$path,array('read'));
+	public function file_get_contents($path) {
+		return $this->basicOperation('file_get_contents', $path, array('read'));
 	}
-	public function file_put_contents($path,$data){
-		if(is_resource($data)){//not having to deal with streams in file_put_contents makes life easier
-			$exists=$this->file_exists($path);
-			$run=true;
-			if(!$exists){
-				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_create, array( OC_Filesystem::signal_param_path => $path, OC_Filesystem::signal_param_run => &$run));
+	public function file_put_contents($path, $data) {
+		if(is_resource($data)) {//not having to deal with streams in file_put_contents makes life easier
+			$exists = $this->file_exists($path);
+			$run = true;
+			if(!$exists) {
+				OC_Hook::emit(
+					OC_Filesystem::CLASSNAME,
+					OC_Filesystem::signal_create,
+					array(
+						OC_Filesystem::signal_param_path => $path,
+						OC_Filesystem::signal_param_run => &$run
+					)
+				);
 			}
-			OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_write, array( OC_Filesystem::signal_param_path => $path, OC_Filesystem::signal_param_run => &$run));
-			if(!$run){
+			OC_Hook::emit(
+				OC_Filesystem::CLASSNAME,
+				OC_Filesystem::signal_write,
+				array(
+					OC_Filesystem::signal_param_path => $path,
+					OC_Filesystem::signal_param_run => &$run
+				)
+			);
+			if(!$run) {
 				return false;
 			}
-			$target=$this->fopen($path,'w');
-			if($target){
-				$count=OC_Helper::streamCopy($data,$target);
+			$target=$this->fopen($path, 'w');
+			if($target) {
+				$count=OC_Helper::streamCopy($data, $target);
 				fclose($target);
 				fclose($data);
-				if(!$exists){
-					OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_create, array( OC_Filesystem::signal_param_path => $path));
+				if(!$exists) {
+					OC_Hook::emit(
+						OC_Filesystem::CLASSNAME,
+						OC_Filesystem::signal_post_create,
+						array( OC_Filesystem::signal_param_path => $path)
+					);
 				}
-				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, array( OC_Filesystem::signal_param_path => $path));
-				return $count>0;
+				OC_Hook::emit(
+					OC_Filesystem::CLASSNAME,
+					OC_Filesystem::signal_post_write,
+					array( OC_Filesystem::signal_param_path => $path)
+				);
+				return $count > 0;
 			}else{
 				return false;
 			}
 		}else{
-			return $this->basicOperation('file_put_contents',$path,array('create','write'),$data);
+			return $this->basicOperation('file_put_contents', $path, array('create', 'write'), $data);
 		}
 	}
-	public function unlink($path){
-		return $this->basicOperation('unlink',$path,array('delete'));
+	public function unlink($path) {
+		return $this->basicOperation('unlink', $path, array('delete'));
 	}
 	public function deleteAll( $directory, $empty = false ) {
 		return $this->basicOperation( 'deleteAll', $directory, array('delete'), $empty );
 	}
-	public function rename($path1,$path2){
-		$absolutePath1=$this->getAbsolutePath($path1);
-		$absolutePath2=$this->getAbsolutePath($path2);
-		if(OC_FileProxy::runPreProxies('rename',$absolutePath1,$absolutePath2) and OC_Filesystem::isValidPath($path2)){
-			$path1=$this->getRelativePath($absolutePath1);
-			$path2=$this->getRelativePath($absolutePath2);
-			if($path1==null or $path2==null){
+	public function rename($path1, $path2) {
+		$absolutePath1 = $this->getAbsolutePath($path1);
+		$absolutePath2 = $this->getAbsolutePath($path2);
+		if(OC_FileProxy::runPreProxies('rename', $absolutePath1, $absolutePath2) and OC_Filesystem::isValidPath($path2)) {
+			$path1 = $this->getRelativePath($absolutePath1);
+			$path2 = $this->getRelativePath($absolutePath2);
+			if($path1 == null or $path2 == null) {
 				return false;
 			}
 			$run=true;
-			OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_rename, array( OC_Filesystem::signal_param_oldpath => $path1 , OC_Filesystem::signal_param_newpath=>$path2, OC_Filesystem::signal_param_run => &$run));
-			if($run){
-				$mp1=$this->getMountPoint($path1);
-				$mp2=$this->getMountPoint($path2);
-				if($mp1==$mp2){
-					if($storage=$this->getStorage($path1)){
-						$result=$storage->rename($this->getInternalPath($path1),$this->getInternalPath($path2));
+			OC_Hook::emit(
+				OC_Filesystem::CLASSNAME, OC_Filesystem::signal_rename,
+					array(
+						OC_Filesystem::signal_param_oldpath => $path1,
+						OC_Filesystem::signal_param_newpath => $path2,
+						OC_Filesystem::signal_param_run => &$run
+					)
+			);
+			if($run) {
+				$mp1 = $this->getMountPoint($path1);
+				$mp2 = $this->getMountPoint($path2);
+				if($mp1 == $mp2) {
+					if($storage = $this->getStorage($path1)) {
+						$result = $storage->rename($this->getInternalPath($path1), $this->getInternalPath($path2));
 					}
-				}else{
-					$source=$this->fopen($path1,'r');
-					$target=$this->fopen($path2,'w');
-					$count=OC_Helper::streamCopy($source,$target);
-					$storage1=$this->getStorage($path1);
+				} else {
+					$source = $this->fopen($path1, 'r');
+					$target = $this->fopen($path2, 'w');
+					$count = OC_Helper::streamCopy($source, $target);
+					$storage1 = $this->getStorage($path1);
 					$storage1->unlink($this->getInternalPath($path1));
-					$result=$count>0;
+					$result = $count>0;
 				}
-				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_rename, array( OC_Filesystem::signal_param_oldpath => $path1, OC_Filesystem::signal_param_newpath=>$path2));
+				OC_Hook::emit(
+					OC_Filesystem::CLASSNAME,
+					OC_Filesystem::signal_post_rename,
+					array(
+						OC_Filesystem::signal_param_oldpath => $path1,
+						OC_Filesystem::signal_param_newpath => $path2
+					)
+				);
 				return $result;
 			}
 		}
 	}
-	public function copy($path1,$path2){
-		$absolutePath1=$this->getAbsolutePath($path1);
-		$absolutePath2=$this->getAbsolutePath($path2);
-		if(OC_FileProxy::runPreProxies('copy',$absolutePath1,$absolutePath2) and OC_Filesystem::isValidPath($path2)){
-			$path1=$this->getRelativePath($absolutePath1);
-			$path2=$this->getRelativePath($absolutePath2);
-			if($path1==null or $path2==null){
+	public function copy($path1, $path2) {
+		$absolutePath1 = $this->getAbsolutePath($path1);
+		$absolutePath2 = $this->getAbsolutePath($path2);
+		if(OC_FileProxy::runPreProxies('copy', $absolutePath1, $absolutePath2) and OC_Filesystem::isValidPath($path2)) {
+			$path1 = $this->getRelativePath($absolutePath1);
+			$path2 = $this->getRelativePath($absolutePath2);
+			if($path1 == null or $path2 == null) {
 				return false;
 			}
 			$run=true;
-			OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_copy, array( OC_Filesystem::signal_param_oldpath => $path1 , OC_Filesystem::signal_param_newpath=>$path2, OC_Filesystem::signal_param_run => &$run));
+			OC_Hook::emit(
+				OC_Filesystem::CLASSNAME,
+				OC_Filesystem::signal_copy,
+				array(
+					OC_Filesystem::signal_param_oldpath => $path1,
+					OC_Filesystem::signal_param_newpath=>$path2,
+					OC_Filesystem::signal_param_run => &$run
+				)
+			);
 			$exists=$this->file_exists($path2);
-			if($run and !$exists){
-				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_create, array( OC_Filesystem::signal_param_path => $path2, OC_Filesystem::signal_param_run => &$run));
+			if($run and !$exists) {
+				OC_Hook::emit(
+					OC_Filesystem::CLASSNAME,
+					OC_Filesystem::signal_create,
+					array(
+						OC_Filesystem::signal_param_path => $path2,
+						OC_Filesystem::signal_param_run => &$run
+					)
+				);
 			}
-			if($run){
-				OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_write, array( OC_Filesystem::signal_param_path => $path2, OC_Filesystem::signal_param_run => &$run));
+			if($run) {
+				OC_Hook::emit(
+					OC_Filesystem::CLASSNAME,
+					OC_Filesystem::signal_write,
+					array(
+						OC_Filesystem::signal_param_path => $path2,
+						OC_Filesystem::signal_param_run => &$run
+					)
+				);
 			}
-			if($run){
+			if($run) {
 				$mp1=$this->getMountPoint($path1);
 				$mp2=$this->getMountPoint($path2);
-				if($mp1==$mp2){
-					if($storage=$this->getStorage($path1)){
-						$result=$storage->copy($this->getInternalPath($path1),$this->getInternalPath($path2));
+				if($mp1 == $mp2){
+					if($storage = $this->getStorage($path1)) {
+						$result=$storage->copy($this->getInternalPath($path1), $this->getInternalPath($path2));
 					}
-				}else{
-					$source=$this->fopen($path1,'r');
-					$target=$this->fopen($path2,'w');
-					$result=OC_Helper::streamCopy($source,$target);
+				} else {
+					$source = $this->fopen($path1, 'r');
+					$target = $this->fopen($path2, 'w');
+					$result = OC_Helper::streamCopy($source, $target);
 				}
-        OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_copy, array( OC_Filesystem::signal_param_oldpath => $path1 , OC_Filesystem::signal_param_newpath=>$path2));
-				if(!$exists){
-          OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_create, array( OC_Filesystem::signal_param_path => $path2));
+				OC_Hook::emit(
+					OC_Filesystem::CLASSNAME,
+					OC_Filesystem::signal_post_copy,
+					array(
+						OC_Filesystem::signal_param_oldpath => $path1,
+						OC_Filesystem::signal_param_newpath=>$path2
+					)
+				);
+				if(!$exists) {
+					OC_Hook::emit(
+						OC_Filesystem::CLASSNAME,
+						OC_Filesystem::signal_post_create,
+						array(OC_Filesystem::signal_param_path => $path2)
+					);
 				}
-        OC_Hook::emit( OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write, array( OC_Filesystem::signal_param_path => $path2));
+				OC_Hook::emit(
+					OC_Filesystem::CLASSNAME,
+					OC_Filesystem::signal_post_write,
+					array( OC_Filesystem::signal_param_path => $path2)
+				);
 				return $result;
 			}
 		}
 	}
-	public function fopen($path,$mode){
+	public function fopen($path, $mode) {
 		$hooks=array();
-		switch($mode){
+		switch($mode) {
 			case 'r':
 			case 'rb':
 				$hooks[]='read';
@@ -355,49 +428,68 @@ class OC_FilesystemView {
 				OC_Log::write('core','invalid mode ('.$mode.') for '.$path,OC_Log::ERROR);
 		}
 
-		return $this->basicOperation('fopen',$path,$hooks,$mode);
+		return $this->basicOperation('fopen', $path, $hooks, $mode);
 	}
-	public function toTmpFile($path){
-		if(OC_Filesystem::isValidPath($path)){
-			$source=$this->fopen($path,'r');
-			if($source){
+	public function toTmpFile($path) {
+		if(OC_Filesystem::isValidPath($path)) {
+			$source = $this->fopen($path, 'r');
+			if($source) {
 				$extension='';
-				$extOffset=strpos($path,'.');
+				$extOffset=strpos($path, '.');
 				if($extOffset !== false) {
-					$extension=substr($path,strrpos($path,'.'));
+					$extension=substr($path, strrpos($path,'.'));
 				}
-				$tmpFile=OC_Helper::tmpFile($extension);
-				file_put_contents($tmpFile,$source);
+				$tmpFile = OC_Helper::tmpFile($extension);
+				file_put_contents($tmpFile, $source);
 				return $tmpFile;
 			}
 		}
 	}
-	public function fromTmpFile($tmpFile,$path){
-		if(OC_Filesystem::isValidPath($path)){
-			if(!$tmpFile){
+	public function fromTmpFile($tmpFile, $path) {
+		if(OC_Filesystem::isValidPath($path)) {
+			if(!$tmpFile) {
 				debug_print_backtrace();
 			}
-			$source=fopen($tmpFile,'r');
-			if($source){
-				$this->file_put_contents($path,$source);
+			$source=fopen($tmpFile, 'r');
+			if($source) {
+				$this->file_put_contents($path, $source);
 				unlink($tmpFile);
 				return true;
-			}else{
+			} else {
 			}
-		}else{
+		} else {
 			return false;
 		}
 	}
 
-	public function getMimeType($path){
-		return $this->basicOperation('getMimeType',$path);
+	public function getMimeType($path) {
+		return $this->basicOperation('getMimeType', $path);
 	}
-	public function hash($type,$path){
-		return $this->basicOperation('hash',$path,array('read'),$type);
+	public function hash($type, $path, $raw = false) {
+		$absolutePath = $this->getAbsolutePath($path);
+		if (OC_FileProxy::runPreProxies('hash', $absolutePath) && OC_Filesystem::isValidPath($path)) {
+			$path = $this->getRelativePath($absolutePath);
+			if ($path == null) {
+				return false;
+			}
+			if (OC_Filesystem::$loaded && $this->fakeRoot == OC_Filesystem::getRoot()) {
+				OC_Hook::emit(
+					OC_Filesystem::CLASSNAME,
+					OC_Filesystem::signal_read,
+					array( OC_Filesystem::signal_param_path => $path)
+				);
+			}
+			if ($storage = $this->getStorage($path)) {
+				$result = $storage->hash($type, $this->getInternalPath($path), $raw);
+				$result = OC_FileProxy::runPostProxies('hash', $absolutePath, $result);
+				return $result;
+			}
+		}
+		return null;
 	}
 
-	public function free_space($path='/'){
-		return $this->basicOperation('free_space',$path);
+	public function free_space($path='/') {
+		return $this->basicOperation('free_space', $path);
 	}
 
 	/**
@@ -407,41 +499,56 @@ class OC_FilesystemView {
 	 * @param array (optional) hooks
 	 * @param mixed (optional) $extraParam
 	 * @return mixed
-	 * 
-	 * This method takes requests for basic filesystem functions (e.g. reading & writing 
-	 * files), processes hooks and proxies, sanitises paths, and finally passes them on to 
+	 *
+	 * This method takes requests for basic filesystem functions (e.g. reading & writing
+	 * files), processes hooks and proxies, sanitises paths, and finally passes them on to
 	 * OC_Filestorage for delegation to a storage backend for execution
 	 */
-	private function basicOperation($operation,$path,$hooks=array(),$extraParam=null){
-		$absolutePath=$this->getAbsolutePath($path);
-		if(OC_FileProxy::runPreProxies($operation,$absolutePath, $extraParam) and OC_Filesystem::isValidPath($path)){
-			$path=$this->getRelativePath($absolutePath);
-			if($path==null){
+	private function basicOperation($operation, $path, $hooks=array(), $extraParam=null) {
+		$absolutePath = $this->getAbsolutePath($path);
+		if(OC_FileProxy::runPreProxies($operation, $absolutePath, $extraParam) and OC_Filesystem::isValidPath($path)) {
+			$path = $this->getRelativePath($absolutePath);
+			if($path == null) {
 				return false;
 			}
-			$internalPath=$this->getInternalPath($path);
-			$run=true;
-			if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()){
-				foreach($hooks as $hook){
-					if($hook!='read'){
-						OC_Hook::emit( OC_Filesystem::CLASSNAME, $hook, array( OC_Filesystem::signal_param_path => $path, OC_Filesystem::signal_param_run => &$run));
-					}else{
-						OC_Hook::emit( OC_Filesystem::CLASSNAME, $hook, array( OC_Filesystem::signal_param_path => $path));
+			$internalPath = $this->getInternalPath($path);
+			$run = true;
+			if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()) {
+				foreach($hooks as $hook) {
+					if($hook!='read') {
+						OC_Hook::emit(
+							OC_Filesystem::CLASSNAME,
+							$hook,
+							array(
+								OC_Filesystem::signal_param_path => $path,
+								OC_Filesystem::signal_param_run => &$run
+							)
+						);
+					} else {
+						OC_Hook::emit(
+							OC_Filesystem::CLASSNAME,
+							$hook,
+							array( OC_Filesystem::signal_param_path => $path)
+						);
 					}
 				}
 			}
-			if($run and $storage=$this->getStorage($path)){
-				if(!is_null($extraParam)){
-					$result=$storage->$operation($internalPath,$extraParam);
-				}else{
-					$result=$storage->$operation($internalPath);
+			if($run and $storage = $this->getStorage($path)) {
+				if(!is_null($extraParam)) {
+					$result = $storage->$operation($internalPath, $extraParam);
+				} else {
+					$result = $storage->$operation($internalPath);
 				}
-				$result=OC_FileProxy::runPostProxies($operation,$this->getAbsolutePath($path),$result);
-				if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()){
-					if($operation!='fopen'){//no post hooks for fopen, the file stream is still open
-						foreach($hooks as $hook){
+				$result = OC_FileProxy::runPostProxies($operation, $this->getAbsolutePath($path), $result);
+				if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()) {
+					if($operation!='fopen') {//no post hooks for fopen, the file stream is still open
+						foreach($hooks as $hook) {
 							if($hook!='read'){
-								OC_Hook::emit( OC_Filesystem::CLASSNAME, 'post_'.$hook, array( OC_Filesystem::signal_param_path => $path));
+								OC_Hook::emit(
+									OC_Filesystem::CLASSNAME,
+									'post_'.$hook,
+									array( OC_Filesystem::signal_param_path => $path)
+								);
 							}
 						}
 					}
@@ -457,7 +564,7 @@ class OC_FilesystemView {
 	 * @param int $time
 	 * @return bool
 	 */
-	public function hasUpdated($path,$time){
-		return $this->basicOperation('hasUpdated',$path,array(),$time);
+	public function hasUpdated($path, $time) {
+		return $this->basicOperation('hasUpdated', $path, array(), $time);
 	}
 }

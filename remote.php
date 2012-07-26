@@ -34,7 +34,7 @@ switch ($app) {
 	default:
 		OC_Util::checkAppEnabled($app);
 		OC_App::loadApp($app);
-		$file = OC_App::getAppPath($app) .'/'. $parts[1];
+		$file = '/' . OC_App::getAppPath($app) .'/'. $parts[1];
 		break;
 }
 $baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';

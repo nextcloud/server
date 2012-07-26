@@ -32,6 +32,38 @@
 			echo $this->inc('part.no_contacts');
 		}
 	?>
+	<div class="hidden" id="ninjahelp">
+		<a class="close" tabindex="0" role="button">
+			<img class="svg" src="core/img/actions/delete.svg" alt="<?php echo $l->t('Close'); ?>" />
+		</a>
+		<h2><?php echo $l->t('Keyboard shortcuts'); ?></h2>
+		<div class="help-section">
+			<h3><?php echo $l->t('Navigation'); ?></h3>
+			<dl>
+				<dt>j/Down/Space</dt>
+				<dd><?php echo $l->t('Next contact in list'); ?></dd>
+				<dt>k/Up/Shift-Space</dt>
+				<dd><?php echo $l->t('Previous contact in list'); ?></dd>
+				<dt>o/Enter</dt>
+				<dd><?php echo $l->t('Expand/collapse current addressbook'); ?></dd>
+				<dt>n/p</dt>
+				<dd><?php echo $l->t('Next/previous addressbook'); ?></dd>
+			</dl>
+		</div>
+		<div class="help-section">
+			<h3><?php echo $l->t('Actions'); ?></h3>
+			<dl>
+				<dt>r</dt>
+				<dd><?php echo $l->t('Refresh contacts list'); ?></dd>
+				<dt>a</dt>
+				<dd><?php echo $l->t('Add new contact'); ?></dd>
+				<dt>Shift-a</dt>
+				<dd><?php echo $l->t('Add new addressbook'); ?></dd>
+				<dt>Shift-Delete</dt>
+				<dd><?php echo $l->t('Delete current contact'); ?></dd>
+			</dl>
+		</div>
+	</div>
 </div>
 <!-- Dialogs -->
 <div id="dialog_holder"></div>

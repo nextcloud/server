@@ -42,6 +42,9 @@ class OC_EventSource{
 		}else{
 			header("Content-Type: text/event-stream");
 		}
+		if( !OC_Util::isCallRegistered()){
+			exit();
+		}
 		flush();
 
 	}

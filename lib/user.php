@@ -21,7 +21,7 @@
  */
 
 /**
- * This class provides wrapper methods for user management. Multiple backends are 
+ * This class provides wrapper methods for user management. Multiple backends are
  * supported. User management operations are delegated to the configured backend for
  * execution.
  *
@@ -83,7 +83,7 @@ class OC_User {
 	 * Set the User Authentication Module
 	 */
 	public static function useBackend( $backend = 'database' ){
-		if($backend instanceof OC_User_Backend){
+		if($backend instanceof OC_User_Interface){
 			self::$_usedBackends[get_class($backend)]=$backend;
 		}else{
 			// You'll never know what happens
@@ -104,8 +104,14 @@ class OC_User {
 					break;
 			}
 		}
-
 		true;
+	}
+
+	/**
+	 * remove all used backends
+	 */
+	public static function clearBackends(){
+		self::$_usedBackends=array();
 	}
 
 	/**

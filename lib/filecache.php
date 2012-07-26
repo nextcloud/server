@@ -98,6 +98,10 @@ class OC_FileCache{
 		if(OC_DB::isError($result)){
 			OC_Log::write('files','error while writing file('.$path.') to cache',OC_Log::ERROR);
 		}
+
+		if($cache=OC_Cache::getUserCache(true)){
+			$cache->remove('fileid/'.$path);//ensure we don't have -1 cached
+		}
 	}
 
 	/**
@@ -146,6 +150,11 @@ class OC_FileCache{
 		$query=OC_DB::prepare('UPDATE *PREFIX*fscache SET parent=? ,name=?, path=?, path_hash=? WHERE path_hash=?');
 		$query->execute(array($newParent,basename($newPath),$newPath,md5($newPath),md5($oldPath)));
 
+		if(($cache=OC_Cache::getUserCache(true)) && $cache->hasKey('fileid/'.$oldPath)){
+			$cache->set('fileid/'.$newPath,$cache->get('fileid/'.$oldPath));
+			$cache->remove('fileid/'.$oldPath);
+		}
+
 		$query=OC_DB::prepare('SELECT path FROM *PREFIX*fscache WHERE path LIKE ?');
 		$oldLength=strlen($oldPath);
 		$updateQuery=OC_DB::prepare('UPDATE *PREFIX*fscache SET path=?, path_hash=? WHERE path_hash=?');
@@ -153,6 +162,11 @@ class OC_FileCache{
 			$old=$row['path'];
 			$new=$newPath.substr($old,$oldLength);
 			$updateQuery->execute(array($new,md5($new),md5($old)));
+
+			if(($cache=OC_Cache::getUserCache(true)) && $cache->hasKey('fileid/'.$old)){
+				$cache->set('fileid/'.$new,$cache->get('fileid/'.$old));
+				$cache->remove('fileid/'.$old);
+			}
 		}
 	}
 
@@ -171,6 +185,8 @@ class OC_FileCache{
 		//delete everything inside the folder
 		$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE path LIKE ?');
 		$query->execute(array($root.$path.'/%'));
+
+		OC_Cache::remove('fileid/'.$root.$path);
 	}
 	
 	/**
@@ -245,9 +261,14 @@ class OC_FileCache{
 		if($root===false){
 			$root=OC_Filesystem::getRoot();
 		}
+
+		$fullPath=$root.$path;
+		if(($cache=OC_Cache::getUserCache(true)) && $cache->hasKey('fileid/'.$fullPath)){
+			return $cache->get('fileid/'.$fullPath);
+		}
 		
 		$query=OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE path_hash=?');
-		$result=$query->execute(array(md5($root.$path)));
+		$result=$query->execute(array(md5($fullPath)));
 		if(OC_DB::isError($result)){
 			OC_Log::write('files','error while getting file id of '.$path,OC_Log::ERROR);
 			return -1;
@@ -255,10 +276,15 @@ class OC_FileCache{
 		
 		$result=$result->fetchRow();
 		if(is_array($result)){
-			return $result['id'];
+			$id=$result['id'];
 		}else{
-			return -1;
+			$id=-1;
 		}
+		if($cache=OC_Cache::getUserCache(true)){
+			$cache->set('fileid/'.$fullPath,$id);
+		}
+		
+		return $id;
 	}
 	
 	/**

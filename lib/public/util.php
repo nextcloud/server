@@ -320,4 +320,15 @@ class Util {
 	public static function mb_str_replace($search, $replace, $subject, $encoding = 'UTF-8', &$count = null) {
 		return(\OC_Helper::mb_str_replace($search, $replace, $subject, $encoding, $count));
 	}
+
+	/**
+	* @brief performs a search in a nested array
+	* @param haystack the array to be searched
+	* @param needle the search string
+	* @param $index optional, only search this key name
+	* @return the key of the matching field, otherwise false
+	*/
+	public static function recursiveArraySearch($haystack, $needle, $index = null) {
+		return(\OC_Helper::recursiveArraySearch($haystack, $needle, $index));
+	}
 }

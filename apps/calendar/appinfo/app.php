@@ -9,6 +9,7 @@ OC::$CLASSPATH['OC_Calendar_Repeat'] = 'apps/calendar/lib/repeat.php';
 OC::$CLASSPATH['OC_Calendar_Share'] = 'apps/calendar/lib/share.php';
 OC::$CLASSPATH['OC_Search_Provider_Calendar'] = 'apps/calendar/lib/search.php';
 OC::$CLASSPATH['OC_Calendar_Export'] = 'apps/calendar/lib/export.php';
+OC::$CLASSPATH['OC_Calendar_Import'] = 'apps/calendar/lib/import.php';
 //General Hooks
 OCP\Util::connectHook('OC_User', 'post_createUser', 'OC_Calendar_Hooks', 'createUser');
 OCP\Util::connectHook('OC_User', 'post_deleteUser', 'OC_Calendar_Hooks', 'deleteUser');
@@ -24,6 +25,8 @@ OCP\Util::connectHook('OC_Calendar', 'deleteCalendar', 'OC_Calendar_Share', 'pos
 OCP\Util::addscript('calendar','loader');
 OCP\Util::addscript("3rdparty", "chosen/chosen.jquery.min");
 OCP\Util::addStyle("3rdparty", "chosen/chosen");
+OCP\Util::addStyle('3rdparty/miniColors', 'jquery.miniColors');
+OCP\Util::addscript('3rdparty/miniColors', 'jquery.miniColors.min');
 OCP\App::addNavigationEntry( array(
   'id' => 'calendar_index',
   'order' => 10,

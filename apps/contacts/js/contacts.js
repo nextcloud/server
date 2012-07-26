@@ -21,27 +21,31 @@ Contacts={
 		 * data: An object that will be passed as argument to the timeouthandler and clickhandler functions.
 		 */
 		notify:function(params) {
-			var notifier = $('#notification');
-			notifier.text(params.message);
-			notifier.fadeIn();
+			self = this;
+			if(!self.notifier) {
+				self.notifier = $('#notification');
+			}
+			self.notifier.text(params.message);
+			self.notifier.fadeIn();
+			self.notifier.on('click', function() { $(this).fadeOut();});
 			var timer = setTimeout(function() {
-				notifier.fadeOut();
+				self.notifier.fadeOut();
 				if(params.timeouthandler && $.isFunction(params.timeouthandler)) {
-					params.timeouthandler(notifier.data(dataid));
-					notifier.off('click');
-					notifier.data(dataid, null);
+					params.timeouthandler(self.notifier.data(dataid));
+					self.notifier.off('click');
+					self.notifier.removeData(dataid);
 				}
 			}, params.timeout && $.isNumeric(params.timeout) ? parseInt(params.timeout)*1000 : 10000);
 			var dataid = timer.toString();
 			if(params.data) {
-				notifier.data(dataid, params.data);
+				self.notifier.data(dataid, params.data);
 			}
 			if(params.clickhandler && $.isFunction(params.clickhandler)) {
-				notifier.on('click', function() {
+				self.notifier.on('click', function() {
 					clearTimeout(timer);
-					notifier.off('click');
-					params.clickhandler(notifier.data(dataid));
-					notifier.data(dataid, null);
+					self.notifier.off('click');
+					params.clickhandler(self.notifier.data(dataid));
+					self.notifier.removeData(dataid);
 				});
 			}
 		},
@@ -218,11 +222,7 @@ Contacts={
 				var item = $('.contacts li[data-id="'+Contacts.UI.Card.id+'"]').detach();
 				$(item).find('a').html(name);
 				Contacts.UI.Card.fn = name;
-				Contacts.UI.Contacts.insertContact({
-					contactlist:$('#contacts ul[data-id="'+Contacts.UI.Card.bookid+'"]'),
-					contacts:$('#contacts ul[data-id="'+Contacts.UI.Card.bookid+'"] li'),
-					contact:item,
-				});
+				Contacts.UI.Contacts.insertContact({contact:item});
 				Contacts.UI.Contacts.scrollTo(Contacts.UI.Card.id);
 			});
 
@@ -295,16 +295,6 @@ Contacts={
 			$('#contacts_propertymenu_dropdown a').keydown(propertyMenuItem);
 		},
 		Card:{
-			id:'',
-			fn:'',
-			fullname:'',
-			shortname:'',
-			famname:'',
-			givname:'',
-			addname:'',
-			honpre:'',
-			honsuf:'',
-			data:undefined,
 			update:function(params) { // params {cid:int, aid:int}
 				if(!params) { params = {}; }
 				$('#contacts li,#contacts h3').removeClass('active');
@@ -321,10 +311,11 @@ Contacts={
 					newid = parseInt($('#contacts').find('li[data-bookid="'+bookid+'"]').first().data('id'));
 				} else if(parseInt(params.cid) && !parseInt(params.aid)) {
 					newid = parseInt(params.cid);
-					var listitem = $('#contacts li[data-id="'+newid+'"]');
+					var listitem = Contacts.UI.Contacts.getContact(newid); //$('#contacts li[data-id="'+newid+'"]');
 					console.log('Is contact in list? ' + listitem.length);
 					if(listitem.length) {
-						bookid = parseInt($('#contacts li[data-id="'+newid+'"]').data('bookid'));
+						//bookid = parseInt($('#contacts li[data-id="'+newid+'"]').data('bookid'));
+						bookid = parseInt(Contacts.UI.Contacts.getContact(newid).data('bookid'));
 					} else { // contact isn't in list yet.
 						bookid = 'unknown';
 					}
@@ -412,19 +403,7 @@ Contacts={
 							$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
 								if(jsondata.status == 'success'){
 									Contacts.UI.Card.loadContact(jsondata.data, aid);
-									$('#contacts .active').removeClass('active');
-									var item = $('<li data-id="'+jsondata.data.id+'" class="active"><a href="index.php?id='+jsondata.data.id+'" style="background: url('+OC.filePath('contacts', '', 'thumbnail.php')+'?id='+jsondata.data.id+') no-repeat scroll 0% 0% transparent;">'+Contacts.UI.Card.fn+'</a></li>');
-									var added = false;
-									$('#contacts ul[data-id="'+aid+'"] li').each(function(){
-										if ($(this).text().toLowerCase() > Contacts.UI.Card.fn.toLowerCase()) {
-											$(this).before(item).fadeIn('fast');
-											added = true;
-											return false;
-										}
-									});
-									if(!added) {
-										$('#contacts ul[data-id="'+aid+'"]').append(item);
-									}
+									var item = Contacts.UI.Contacts.insertContact({data:jsondata.data});
 									if(isnew) { // add some default properties
 										Contacts.UI.Card.addProperty('EMAIL');
 										Contacts.UI.Card.addProperty('TEL');
@@ -461,9 +440,14 @@ Contacts={
 				}
 			},
 			delayedDelete:function() {
+				/* TODO:
+				$(window).unload(function() {
+					deleteFilesInQueue();
+				});
+				*/
 				$('#contacts_deletecard').tipsy('hide');
 				var newid = '', bookid;
-				var curlistitem = $('#contacts li[data-id="'+Contacts.UI.Card.id+'"]');
+				var curlistitem = Contacts.UI.Contacts.getContact(this.id);
 				curlistitem.removeClass('active');
 				var newlistitem = curlistitem.prev('li');
 				if(!newlistitem) {
@@ -474,19 +458,21 @@ Contacts={
 					newid = newlistitem.data('id');
 					bookid = newlistitem.data('bookid');
 				}
-				$('#rightcontent').data('id',newid);
-				this.id = this.fn = this.fullname = this.shortname = this.famname = this.givname = this.addname = this.honpre = this.honsuf = '';
-				this.data = undefined;
+				$('#rightcontent').data('id', newid);
 
-				if($('.contacts li').length > 0) { // Load first in list.
+				with(this) {
+					delete id; delete fn; delete fullname; delete shortname; delete famname;
+					delete givname; delete addname; delete honpre; delete honsuf; delete data;
+				}
+
+				if($('.contacts li').length > 0) {
 					Contacts.UI.Card.update({cid:newid, aid:bookid});
 				} else {
 					// load intro page
 					$.getJSON(OC.filePath('contacts', 'ajax', 'loadintro.php'),{},function(jsondata){
 						if(jsondata.status == 'success'){
 							id = '';
-							$('#rightcontent').data('id','');
-							$('#rightcontent').html(jsondata.data.page);
+							$('#rightcontent').html(jsondata.data.page).removeData('id');
 						}
 						else{
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
@@ -526,21 +512,22 @@ Contacts={
 				this.loadAddresses();
 				this.loadSingleProperties();
 				Contacts.UI.loadListHandlers();
+				var note = $('#note');
 				if(this.data.NOTE) {
-					$('#note').data('checksum', this.data.NOTE[0]['checksum']);
-					var note = $('#note').find('textarea');
+					note.data('checksum', this.data.NOTE[0]['checksum']);
+					var textarea = note.find('textarea');
 					var txt = this.data.NOTE[0]['value'];
 					var nheight = txt.split('\n').length > 4 ? txt.split('\n').length+2 : 5;
-					note.css('min-height', nheight+'em');
-					note.attr('rows', nheight);
-					note.val(txt);
-					$('#note').show();
-					note.expandingTextarea();
+					textarea.css('min-height', nheight+'em');
+					textarea.attr('rows', nheight);
+					textarea.val(txt);
+					note.show();
+					textarea.expandingTextarea();
 					$('#contacts_propertymenu_dropdown a[data-type="NOTE"]').parent().hide();
 				} else {
-					$('#note').data('checksum', '');
-					$('#note').find('textarea').val('');
-					$('#note').hide();
+					note.removeData('checksum');
+					note.find('textarea').val('');
+					note.hide();
 					$('#contacts_propertymenu_dropdown a[data-type="NOTE"]').parent().show();
 				}
 			},
@@ -566,10 +553,11 @@ Contacts={
 							var val = $.datepicker.parseDate('yy-mm-dd', value.substring(0, 10));
 							value = $.datepicker.formatDate('dd-mm-yy', val);
 						}
-						$('#contact_identity').find('#'+propname.toLowerCase()).val(value);
-						$('#contact_identity').find('#'+propname.toLowerCase()+'_value').data('checksum', checksum);
-						$('#contact_identity').find('#'+propname.toLowerCase()+'_label').show();
-						$('#contact_identity').find('#'+propname.toLowerCase()+'_value').show();
+						var identcontainer = $('#contact_identity');
+						identcontainer.find('#'+propname.toLowerCase()).val(value);
+						identcontainer.find('#'+propname.toLowerCase()+'_value').data('checksum', checksum);
+						identcontainer.find('#'+propname.toLowerCase()+'_label').show();
+						identcontainer.find('#'+propname.toLowerCase()+'_value').show();
 					} else {
 						$('#contacts_propertymenu_dropdown a[data-type="'+propname+'"]').parent().show();
 					}
@@ -584,8 +572,12 @@ Contacts={
 						$(this).find('input').val('');
 					}
 				});
-				this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
-				var narray = undefined;
+
+				with(this) {
+					delete fn; delete fullname; delete givname; delete famname;
+					delete addname; delete honpre; delete honsuf;
+				}
+
 				if(this.data.FN) {
 					this.fn = this.data.FN[0]['value'];
 				}
@@ -769,17 +761,9 @@ Contacts={
 			},
 			addProperty:function(type){
 				switch (type) {
-					case 'PHOTO':
-						this.loadPhoto(true);
-						$('#file_upload_form').show();
-						$('#contacts_propertymenu_dropdown a[data-type="'+type+'"]').parent().hide();
-						$('#file_upload_start').trigger('click');
-						break;
 					case 'NOTE':
-						$('#note').show();
 						$('#contacts_propertymenu_dropdown a[data-type="'+type+'"]').parent().hide();
-						$('#note').find('textarea').expandingTextarea();
-						$('#note').find('textarea').focus();
+						$('#note').find('textarea').expandingTextarea().show().focus();
 						break;
 					case 'EMAIL':
 						if($('#emaillist>li').length == 1) {
@@ -834,8 +818,7 @@ Contacts={
 									}
 								} else {
 									$('dl dt[data-element="'+proptype+'"],dd[data-element="'+proptype+'"]').hide();
-									$('dl dd[data-element="'+proptype+'"]').data('checksum', '');
-									$('dl dd[data-element="'+proptype+'"]').find('input').val('');
+									$('dl dd[data-element="'+proptype+'"]').data('checksum', '').find('input').val('');
 								}
 								$('#contacts_propertymenu_dropdown a[data-type="'+proptype+'"]').parent().show();
 								Contacts.UI.loading(obj, false);
@@ -862,14 +845,14 @@ Contacts={
 					}
 				}
 			},
-			editName:function(){
+			editName:function() {
 				var params = {id: this.id};
 				/* Initialize the name edit dialog */
-				if($('#edit_name_dialog').dialog('isOpen') == true){
+				if($('#edit_name_dialog').dialog('isOpen') == true) {
 					$('#edit_name_dialog').dialog('moveToTop');
-				}else{
-					$.getJSON(OC.filePath('contacts', 'ajax', 'editname.php'),{id: this.id},function(jsondata){
-						if(jsondata.status == 'success'){
+				} else {
+					$.getJSON(OC.filePath('contacts', 'ajax', 'editname.php'),{id: this.id},function(jsondata) {
+						if(jsondata.status == 'success') {
 							$('body').append('<div id="name_dialog"></div>');
 							$('#name_dialog').html(jsondata.data.page).find('#edit_name_dialog' ).dialog({
 								modal: true,
@@ -941,10 +924,11 @@ Contacts={
 			loadAddresses:function(){
 				$('#addresses').hide();
 				$('#addressdisplay dl.propertycontainer').remove();
+				var addresscontainer = $('#addressdisplay');
 				for(var adr in this.data.ADR) {
-					$('#addressdisplay dl').first().clone().insertAfter($('#addressdisplay dl').last()).show();
-					$('#addressdisplay dl').last().removeClass('template').addClass('propertycontainer');
-					$('#addressdisplay dl').last().data('checksum', this.data.ADR[adr]['checksum']);
+					addresscontainer.find('dl').first().clone().insertAfter($('#addressdisplay dl').last()).show();
+					addresscontainer.find('dl').last().removeClass('template').addClass('propertycontainer');
+					addresscontainer.find('dl').last().data('checksum', this.data.ADR[adr]['checksum']);
 					var adrarray = this.data.ADR[adr]['value'];
 					var adrtxt = '';
 					if(adrarray[0] && adrarray[0].length > 0) {
@@ -956,7 +940,7 @@ Contacts={
 					if(adrarray[2] && adrarray[2].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[2].strip_tags() + '</li>';
 					}
-					if((adrarray[3] && adrarray[5]) && adrarray[3].length > 0 || adrarray[5].length > 0) {
+					if((3 in adrarray && 5 in adrarray) && adrarray[3].length > 0 || adrarray[5].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[5].strip_tags() + ' ' + adrarray[3].strip_tags() + '</li>';
 					}
 					if(adrarray[4] && adrarray[4].length > 0) {
@@ -965,7 +949,7 @@ Contacts={
 					if(adrarray[6] && adrarray[6].length > 0) {
 						adrtxt = adrtxt + '<li>' + adrarray[6].strip_tags() + '</li>';
 					}
-					$('#addressdisplay dl').last().find('.addresslist').html(adrtxt);
+					addresscontainer.find('dl').last().find('.addresslist').html(adrtxt);
 					var types = new Array();
 					var ttypes = new Array();
 					for(var param in this.data.ADR[adr]['parameters']) {
@@ -974,12 +958,12 @@ Contacts={
 							ttypes.push(this.data.ADR[adr]['parameters'][param]);
 						}
 					}
-					$('#addressdisplay dl').last().find('.adr_type_label').text(types.join('/'));
-					$('#addressdisplay dl').last().find('.adr_type').val(ttypes.join(','));
-					$('#addressdisplay dl').last().find('.adr').val(adrarray.join(';'));
-					$('#addressdisplay dl').last().data('checksum', this.data.ADR[adr]['checksum']);
+					addresscontainer.find('dl').last().find('.adr_type_label').text(types.join('/'));
+					addresscontainer.find('dl').last().find('.adr_type').val(ttypes.join(','));
+					addresscontainer.find('dl').last().find('.adr').val(adrarray.join(';'));
+					addresscontainer.find('dl').last().data('checksum', this.data.ADR[adr]['checksum']);
 				}
-				if($('#addressdisplay dl').length > 1) {
+				if(addresscontainer.find('dl').length > 1) {
 					$('#addresses').show();
 					$('#contact_communication').show();
 				}
@@ -1024,9 +1008,6 @@ Contacts={
 								close : function(event, ui) {
 									$(this).dialog('destroy').remove();
 									$('#address_dialog').remove();
-									if(isnew) {
-										container.remove();
-									}
 								},
 								open : function(event, ui) {
 									$( "#adr_city" ).autocomplete({
@@ -1065,7 +1046,7 @@ Contacts={
 											$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 										}
 									});
-									$( "#adr_country" ).autocomplete({
+									$('#adr_country').autocomplete({
 										source: function( request, response ) {
 											$.ajax({
 												url: "http://ws.geonames.org/searchJSON",
@@ -1116,15 +1097,23 @@ Contacts={
 			saveAddress:function(dlg, obj, isnew){
 				if(isnew) {
 					container = $('#addressdisplay dl').last();
-					obj = $('#addressdisplay dl:last-child').find('input').first();
+					obj = container.find('input').first();
 				} else {
 					checksum = Contacts.UI.checksumFor(obj);
 					container = Contacts.UI.propertyContainerFor(obj);
 				}
-				var adr = new Array($(dlg).find('#adr_pobox').val().strip_tags(),$(dlg).find('#adr_extended').val().strip_tags(),$(dlg).find('#adr_street').val().strip_tags(),$(dlg).find('#adr_city').val().strip_tags(),$(dlg).find('#adr_region').val().strip_tags(),$(dlg).find('#adr_zipcode').val().strip_tags(),$(dlg).find('#adr_country').val().strip_tags());
-				$(container).find('.adr').val(adr.join(';'));
-				$(container).find('.adr_type').val($(dlg).find('#adr_type').val());
-				$(container).find('.adr_type_label').html(t('contacts',ucwords($(dlg).find('#adr_type').val().toLowerCase())));
+				var adr = new Array(
+					$(dlg).find('#adr_pobox').val().strip_tags(),
+					$(dlg).find('#adr_extended').val().strip_tags(),
+					$(dlg).find('#adr_street').val().strip_tags(),
+					$(dlg).find('#adr_city').val().strip_tags(),
+					$(dlg).find('#adr_region').val().strip_tags(),
+					$(dlg).find('#adr_zipcode').val().strip_tags(),
+					$(dlg).find('#adr_country').val().strip_tags()
+				);
+				container.find('.adr').val(adr.join(';'));
+				container.find('.adr_type').val($(dlg).find('#adr_type').val());
+				container.find('.adr_type_label').html(t('contacts',ucwords($(dlg).find('#adr_type').val().toLowerCase())));
 				Contacts.UI.Card.saveProperty($(container).find('input').first());
 				var adrtxt = '';
 				if(adr[0].length > 0) {
@@ -1145,7 +1134,7 @@ Contacts={
 				if(adr[6].length > 0) {
 					adrtxt = adrtxt + '<li>' + adr[6] + '</li>';
 				}
-				$(container).find('.addresslist').html(adrtxt);
+				container.find('.addresslist').html(adrtxt);
 			},
 			uploadPhoto:function(filelist) {
 				if(!filelist) {
@@ -1172,24 +1161,25 @@ Contacts={
 					form.submit();
 				}
 			},
-			loadPhotoHandlers:function(){
-				$('#phototools li a').tipsy('hide');
-				$('#phototools li a').tipsy();
+			loadPhotoHandlers:function() {
+				var phototools = $('#phototools');
+				phototools.find('li a').tipsy('hide');
+				phototools.find('li a').tipsy();
 				if(this.data.PHOTO) {
-					$('#phototools .delete').click(function() {
+					phototools.find('.delete').click(function() {
 						$(this).tipsy('hide');
 						Contacts.UI.Card.deleteProperty($('#contacts_details_photo'), 'single');
 						$(this).hide();
 					});
-					$('#phototools .edit').click(function() {
+					phototools.find('.edit').click(function() {
 						$(this).tipsy('hide');
 						Contacts.UI.Card.editCurrentPhoto();
 					});
-					$('#phototools .delete').show();
-					$('#phototools .edit').show();
+					phototools.find('.delete').show();
+					phototools.find('.edit').show();
 				} else {
-					$('#phototools .delete').hide();
-					$('#phototools .edit').hide();
+					phototools.find('.delete').hide();
+					phototools.find('.edit').hide();
 				}
 			},
 			cloudPhotoSelected:function(path){
@@ -1210,28 +1200,18 @@ Contacts={
 				$('#phototools li a').tipsy('hide');
 				var wrapper = $('#contacts_details_photo_wrapper');
 				wrapper.addClass('loading').addClass('wait');
-
-				var img = new Image();
-				$(img).load(function () {
+				delete this.photo;
+				this.photo = new Image();
+				$(this.photo).load(function () {
 					$('img.contacts_details_photo').remove()
-					$(this).addClass('contacts_details_photo').hide();
+					$(this).addClass('contacts_details_photo');
 					wrapper.removeClass('loading').removeClass('wait');
 					$(this).insertAfter($('#phototools')).fadeIn();
 				}).error(function () {
 					// notify the user that the image could not be loaded
 					Contacts.UI.notify({message:t('contacts','Error loading profile picture.')});
 				}).attr('src', OC.linkTo('contacts', 'photo.php')+'?id='+self.id+refreshstr);
-
-				$.getJSON(OC.filePath('contacts', 'ajax', 'loadphoto.php'),{'id':this.id, 'refresh': refresh},function(jsondata){
-					if(jsondata.status == 'success'){
-						$('#contacts_details_photo_wrapper').data('checksum', jsondata.data.checksum);
-						Contacts.UI.Card.loadPhotoHandlers();
-					}
-					else{
-						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-					}
-				});
-				$('#file_upload_form').show();
+				this.loadPhotoHandlers()
 			},
 			editCurrentPhoto:function(){
 				$.getJSON(OC.filePath('contacts', 'ajax', 'currentphoto.php'),{'id':this.id},function(jsondata){
@@ -1285,10 +1265,11 @@ Contacts={
 			},
 			addMail:function() {
 				//alert('addMail');
-				$('#emaillist li.template:first-child').clone(true).appendTo($('#emaillist')).show().find('a .tip').tipsy();
-				$('#emaillist li.template:last-child').find('select').addClass('contacts_property');
-				$('#emaillist li.template:last-child').removeClass('template').addClass('propertycontainer');
-				$('#emaillist li:last-child').find('input[type="email"]').focus();
+				var emaillist = $('#emaillist');
+				emaillist.find('li.template:first-child').clone(true).appendTo(emaillist).show().find('a .tip').tipsy();
+				emaillist.find('li.template:last-child').find('select').addClass('contacts_property');
+				emaillist.find('li.template:last-child').removeClass('template').addClass('propertycontainer');
+				emaillist.find('li:last-child').find('input[type="email"]').focus();
 				return false;
 			},
 			loadMails:function() {
@@ -1324,35 +1305,37 @@ Contacts={
 				return false;
 			},
 			addPhone:function() {
-				$('#phonelist li.template:first-child').clone(true).appendTo($('#phonelist')); //.show();
-				$('#phonelist li.template:last-child').find('select').addClass('contacts_property');
-				$('#phonelist li.template:last-child').removeClass('template').addClass('propertycontainer');
-				$('#phonelist li:last-child').find('input[type="text"]').focus();
-				$('#phonelist li:last-child').find('select').multiselect({
+				var phonelist = $('#phonelist');
+				phonelist.find('li.template:first-child').clone(true).appendTo(phonelist); //.show();
+				phonelist.find('li.template:last-child').find('select').addClass('contacts_property');
+				phonelist.find('li.template:last-child').removeClass('template').addClass('propertycontainer');
+				phonelist.find('li:last-child').find('input[type="text"]').focus();
+				phonelist.find('li:last-child').find('select').multiselect({
 														noneSelectedText: t('contacts', 'Select type'),
 														header: false,
 														selectedList: 4,
 														classes: 'typelist'
 													});
-				$('#phonelist li:last-child').show();
+				phonelist.find('li:last-child').show();
 				return false;
 			},
 			loadPhones:function() {
 				$('#phones').hide();
 				$('#phonelist li.propertycontainer').remove();
+				var phonelist = $('#phonelist');
 				for(var phone in this.data.TEL) {
 					this.addPhone();
-					$('#phonelist li:last-child').find('select').multiselect('destroy');
-					$('#phonelist li:last-child').data('checksum', this.data.TEL[phone]['checksum'])
-					$('#phonelist li:last-child').find('input[type="text"]').val(this.data.TEL[phone]['value']);
+					phonelist.find('li:last-child').find('select').multiselect('destroy');
+					phonelist.find('li:last-child').data('checksum', this.data.TEL[phone]['checksum'])
+					phonelist.find('li:last-child').find('input[type="text"]').val(this.data.TEL[phone]['value']);
 					for(var param in this.data.TEL[phone]['parameters']) {
 						if(param.toUpperCase() == 'PREF') {
-							$('#phonelist li:last-child').find('input[type="checkbox"]').attr('checked', 'checked');
+							phonelist.find('li:last-child').find('input[type="checkbox"]').attr('checked', 'checked');
 						}
 						else if(param.toUpperCase() == 'TYPE') {
 							for(ptype in this.data.TEL[phone]['parameters'][param]) {
 								var pt = this.data.TEL[phone]['parameters'][param][ptype];
-								$('#phonelist li:last-child').find('select option').each(function(){
+								phonelist.find('li:last-child').find('select option').each(function(){
 									//if ($(this).val().toUpperCase() == pt.toUpperCase()) {
 									if ($.inArray($(this).val().toUpperCase(), pt.toUpperCase().split(',')) > -1) {
 										$(this).attr('selected', 'selected');
@@ -1361,14 +1344,14 @@ Contacts={
 							}
 						}
 					}
-					$('#phonelist li:last-child').find('select').multiselect({
-														noneSelectedText: t('contacts', 'Select type'),
-														header: false,
-														selectedList: 4,
-														classes: 'typelist'
-													});
+					phonelist.find('li:last-child').find('select').multiselect({
+											noneSelectedText: t('contacts', 'Select type'),
+											header: false,
+											selectedList: 4,
+											classes: 'typelist'
+										});
 				}
-				if($('#phonelist li').length > 1) {
+				if(phonelist.find('li').length > 1) {
 					$('#phones').show();
 					$('#contact_communication').show();
 				}
@@ -1493,7 +1476,25 @@ Contacts={
 			}
 		},
 		Contacts:{
+			contacts:{},
 			batchnum:50,
+			getContact:function(id) {
+				if(!this.contacts[id]) {
+					this.contacts[id] = $('#contacts li[data-id="'+id+'"]');
+						if(!this.contacts[id]) {
+							self = this;
+							$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
+								if(jsondata.status == 'success'){
+									self.contacts[id] = self.insertContact({data:jsondata.data});
+								}
+								else{
+									OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+								}
+							});
+						}
+				}
+				return this.contacts[id];
+			},
 			drop:function(event, ui) {
 				var dragitem = ui.draggable, droptarget = $(this);
 				if(dragitem.is('li')) {
@@ -1510,21 +1511,12 @@ Contacts={
 				$.post(OC.filePath('contacts', 'ajax', 'movetoaddressbook.php'), { ids: dragitem.data('id'), aid: droptarget.data('id') },
 					function(jsondata){
 						if(jsondata.status == 'success'){
-							// Do some inserting/removing/sorting magic
-							var name = $(dragitem).find('a').html();
-							var added = false;
-							$(droplist).children().each(function(){
-								if ($(this).text().toLowerCase() > name.toLowerCase()) {
-									$(this).before(dragitem.detach()); //.fadeIn('slow');
-									added = true;
-									return false;
-								}
-							});
-							if(!added) {
-								$(droplist).append(dragitem.detach());
-							}
 							dragitem.attr('data-bookid', droptarget.data('id'))
 							dragitem.data('bookid', droptarget.data('id'));
+							Contacts.UI.Contacts.insertContact({
+								contactlist:droplist,
+								contact:dragitem.detach()
+							});
 							Contacts.UI.Contacts.scrollTo(dragitem.data('id'));
 						} else {
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
@@ -1541,13 +1533,16 @@ Contacts={
 			 * If 'contactlist' or 'contacts' aren't defined they will be search for based in the properties in 'data'.
 			 */
 			insertContact:function(params) {
+				var id, bookid;
 				if(!params.contactlist) {
 					// FIXME: Check if contact really exists.
-					var bookid = params.data ? params.data.addressbookid : params.contact.data('bookid');
+					bookid = params.data ? params.data.addressbookid : params.contact.data('bookid');
+					id = params.data ? params.data.id : params.contact.data('id');
 					params.contactlist = $('#contacts ul[data-id="'+bookid+'"]');
 				}
 				if(!params.contacts) {
-					var bookid = params.data ? params.data.addressbookid : params.contact.data('bookid');
+					bookid = params.data ? params.data.addressbookid : params.contact.data('bookid');
+					id = params.data ? params.data.id : params.contact.data('id');
 					params.contacts = $('#contacts ul[data-id="'+bookid+'"] li');
 				}
 				var contact = params.data
@@ -1567,7 +1562,23 @@ Contacts={
 				if(!added || !params.contacts) {
 					params.contactlist.append(contact);
 				}
+				//this.contacts[id] = contact;
 				return contact;
+			},
+			next:function(reverse) {
+				// TODO: Check if we're last-child/first-child and jump to next/prev address book.
+				var curlistitem = $('#contacts li[data-id="'+Contacts.UI.Card.id+'"]');
+				var newlistitem = reverse ? curlistitem.prev('li') : curlistitem.next('li');
+				if(newlistitem) {
+					curlistitem.removeClass('active');
+					Contacts.UI.Card.update({
+						cid:newlistitem.data('id'),
+						aid:newlistitem.data('bookid')
+					});
+				}
+			},
+			previous:function() {
+				this.next(true);
 			},
 			// Reload the contacts list.
 			update:function(params){
@@ -1672,10 +1683,10 @@ Contacts={
 			},
 			scrollTo:function(id){
 				var item = $('#contacts li[data-id="'+id+'"]');
-				console.log('scrollTo, found item '+id+'? ' + item.length);
-				if(item) {
+				if(item && $.isNumeric(item.offset().top)) {
+					console.log('scrollTo ' + parseInt(item.offset().top));
 					$('#contacts').animate({
-						scrollTop: item.offset().top-40}, 'slow','swing');
+						scrollTop: parseInt(item.offset()).top-40}, 'slow','swing');
 				}
 			}
 		}
@@ -1686,23 +1697,90 @@ $(document).ready(function(){
 	OCCategories.changed = Contacts.UI.Card.categoriesChanged;
 	OCCategories.app = 'contacts';
 
-	$('#notification').click(function(){
-		$('#notification').fadeOut();
+	$('#chooseaddressbook').on('click keydown', Contacts.UI.Addressbooks.overview);
+	$('#contacts_newcontact').on('click keydown', Contacts.UI.Card.editNew);
+
+	var ninjahelp = $('#ninjahelp');
+
+	ninjahelp.find('.close').on('click keydown',function() {
+		ninjahelp.hide();
 	});
 
-	$('#chooseaddressbook').click(Contacts.UI.Addressbooks.overview);
-	$('#chooseaddressbook').keydown(Contacts.UI.Addressbooks.overview);
+	$(document).on('keyup', function(event) {
+		console.log(event.which + ' ' + event.target.nodeName);
+		if(event.target.nodeName.toUpperCase() != 'BODY'
+			|| $('#contacts li').length == 0
+			|| !Contacts.UI.Card.id) {
+			return;
+		}
+		/**
+		 * To add:
+		 * (Shift)n/p: next/prev addressbook
+		 * u (85): hide/show leftcontent
+		 * f (70): add field
+		 */
+		switch(event.which) {
+			case 27: // Esc
+				ninjahelp.hide();
+				break;
+			case 46:
+				if(event.shiftKey) {
+					Contacts.UI.Card.delayedDelete();
+				}
+				break;
+			case 32: // space
+				if(event.shiftKey) {
+					Contacts.UI.Contacts.previous();
+					break;
+				}
+			case 40: // down
+			case 75: // k
+				Contacts.UI.Contacts.next();
+				break;
+			case 65: // a
+				if(event.shiftKey) {
+					// add addressbook
+					Contacts.UI.notImplemented();
+					break;
+				}
+				Contacts.UI.Card.editNew();
+				break;
+			case 38: // up
+			case 74: // j
+				Contacts.UI.Contacts.previous();
+				break;
+			case 78: // n
+				// next addressbook
+				Contacts.UI.notImplemented();
+				break;
+			case 13: // Enter
+			case 79: // o
+				var aid = $('#contacts h3.active').first().data('id');
+				if(aid) {
+					$('#contacts ul[data-id="'+aid+'"]').slideToggle(300);
+				}
+				break;
+			case 80: // p
+				// prev addressbook
+				Contacts.UI.notImplemented();
+				break;
+			case 82: // r
+				Contacts.UI.Contacts.update({cid:Contacts.UI.Card.id});
+				break;
+			case 191: // ?
+				ninjahelp.toggle('fast');
+				break;
+		}
 
-	$('#contacts_newcontact').click(Contacts.UI.Card.editNew);
-	$('#contacts_newcontact').keydown(Contacts.UI.Card.editNew);
+	});
 
-	// Load a contact.
+			// Load a contact.
 	$('.contacts').keydown(function(event) {
 		if(event.which == 13 || event.which == 32) {
 			$('.contacts').click();
 		}
 	});
-	$(document).on('click', '.contacts', function(event){
+	$(document).on('click', '#contacts', function(event){
 		var $tgt = $(event.target);
 		if ($tgt.is('li') || $tgt.is('a')) {
 			var item = $tgt.is('li')?$($tgt):($tgt).parent();
@@ -1931,14 +2009,15 @@ $(document).ready(function(){
 								$('#selectaddressbook_dialog').dialog('moveToTop');
 							} else {
 								$('#dialog_holder').html(jsondata.data.page).ready(function($) {
-									$('#selectaddressbook_dialog').dialog({
+									var select_dlg = $('#selectaddressbook_dialog');
+									select_dlg.dialog({
 										modal: true, height: 'auto', width: 'auto',
 										buttons: {
 											'Ok':function() {
-												aid = $('#selectaddressbook_dialog').find('input:checked').val();
+												aid = select_dlg.find('input:checked').val();
 												if(aid == 'new') {
-													var displayname = $('#selectaddressbook_dialog').find('input.name').val();
-													var description = $('#selectaddressbook_dialog').find('input.desc').val();
+													var displayname = select_dlg.find('input.name').val();
+													var description = select_dlg.find('input.desc').val();
 													if(!displayname.trim()) {
 														OC.dialogs.alert(t('contacts', 'The address book name cannot be empty.'), t('contacts', 'Error'));
 														return false;
