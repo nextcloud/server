@@ -14,10 +14,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Italian (http://www.transifex.net/projects/p/owncloud/language/it/)\n"
+"POT-Creation-Date: 2012-07-26 02:01+0200\n"
+"PO-Revision-Date: 2012-07-25 20:36+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
+"Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,65 +26,69 @@ msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "Email salvata"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Email non valida"
 
-#: ajax/openid.php:15
+#: ajax/openid.php:16
 msgid "OpenID Changed"
 msgstr "OpenID modificato"
 
-#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
 msgstr "Richiesta non valida"
 
-#: ajax/setlanguage.php:17
+#: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Lingua modificata"
 
 #: js/apps.js:31 js/apps.js:67
 msgid "Disable"
-msgstr ""
+msgstr "Disabilita"
 
 #: js/apps.js:31 js/apps.js:54
 msgid "Enable"
-msgstr ""
+msgstr "Abilita"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Salvataggio in corso..."
 
-#: personal.php:40 personal.php:41
+#: personal.php:41 personal.php:42
 msgid "__language_name__"
 msgstr "Italiano"
 
-#: templates/admin.php:13
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr "Avviso di sicurezza"
+
+#: templates/admin.php:28
 msgid "Log"
 msgstr "Registro"
 
-#: templates/admin.php:40
+#: templates/admin.php:55
 msgid "More"
 msgstr "Altro"
 
-#: templates/apps.php:8
+#: templates/apps.php:10
 msgid "Add your App"
 msgstr "Aggiungi la tua applicazione"
 
-#: templates/apps.php:22
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Seleziona un'applicazione"
 
-#: templates/apps.php:25
+#: templates/apps.php:27
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Vedere la pagina dell'applicazione su apps.owncloud.com"
 
-#: templates/apps.php:26
+#: templates/apps.php:28
 msgid "-licensed"
 msgstr "-rilasciato"
 
-#: templates/apps.php:26
+#: templates/apps.php:28
 msgid "by"
 msgstr "da"
 
@@ -176,34 +180,34 @@ msgstr "Migliora la traduzione"
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "usa questo indirizzo per connetterti al tuo ownCloud dal gestore file"
 
-#: templates/users.php:15 templates/users.php:44
+#: templates/users.php:15 templates/users.php:60
 msgid "Name"
 msgstr "Nome"
 
-#: templates/users.php:16 templates/users.php:45
+#: templates/users.php:17 templates/users.php:61
 msgid "Password"
 msgstr "Password"
 
-#: templates/users.php:17 templates/users.php:46 templates/users.php:60
+#: templates/users.php:19 templates/users.php:62 templates/users.php:78
 msgid "Groups"
 msgstr "Gruppi"
 
-#: templates/users.php:22
+#: templates/users.php:25
 msgid "Create"
 msgstr "Crea"
 
-#: templates/users.php:25
+#: templates/users.php:28
 msgid "Default Quota"
 msgstr "Quota predefinita"
 
-#: templates/users.php:35 templates/users.php:74
+#: templates/users.php:47 templates/users.php:103
 msgid "Other"
 msgstr "Altro"
 
-#: templates/users.php:47
+#: templates/users.php:63
 msgid "Quota"
 msgstr "Quote"
 
-#: templates/users.php:80
+#: templates/users.php:110
 msgid "Delete"
 msgstr "Elimina"
