@@ -474,7 +474,11 @@ class OC_Filesystem{
 	}
 
 	static public function removeETagHook($params) {
-		$path=$params['path'];
+		if (isset($params['path'])) {
+			$path=$params['path'];
+		} else {
+			$path=$params['oldpath'];
+		}
 		OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
 		OC_Connector_Sabre_Node::removeETagPropertyForPath(dirname($path));
 	}
