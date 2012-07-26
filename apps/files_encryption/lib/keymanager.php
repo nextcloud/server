@@ -48,8 +48,7 @@ class Keymanager {
 	 * @return string private key or false
 	 */
 	public static function getPublicKey($user) {
-		$publicKeyStorage =  \OCP\Config::getSystemValue('datadirectory').'/public-keys/';
-		$view = $view = new \OC_FilesystemView($publicKeyStorage);
+		$view = new \OC_FilesystemView( '/public-keys/' );
 		return $view->file_get_contents($user.'.public.key');
 	}
 	
@@ -61,8 +60,7 @@ class Keymanager {
 	 * @return string file key or false
 	 */
 	public static function getFileKey($user, $file) {
-		$fileKeyStorage =  \OCP\Config::getSystemValue('datadirectory').'/'.$user.'/files_encryption/keyfiles/';
-		$view = new \OC_FilesystemView($fileKeyStorage);
+		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/keyfiles/');
 		return $view->file_get_contents($file.'.key');
 	}	
 	
@@ -74,8 +72,7 @@ class Keymanager {
 	 * @return bool true/false
 	 */
 	public static function setPrivateKey($user, $key) {
-		$privateKeyStorage =  \OCP\Config::getSystemValue('datadirectory').'/'.$user.'/files_encryption/';
-		$view = new \OC_FilesystemView($privateKeyStorage);
+		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/');
 		return $view->file_put_contents($user.'.private.key', $key);
 	}
 	
@@ -88,8 +85,7 @@ class Keymanager {
 	 * @return bool true/false
 	 */
 	public static function setPublicKey($user, $key) {
-		$publicKeyStorage =  \OCP\Config::getSystemValue('datadirectory').'/public-keys/';
-		$view = new \OC_FilesystemView($publicKeyStorage);
+		$view = new \OC_FilesystemView('/public-keys/');
 		return $view->file_put_contents($user.'.public.key', $key);
 	}
 	
@@ -102,8 +98,7 @@ class Keymanager {
 	 * @return bool true/false
 	 */
 	public static function setFileKey($user, $file, $key) {
-		$fileKeyStorage =  \OCP\Config::getSystemValue('datadirectory').'/'.$user.'/files_encryption/keyfiles/';
-		$view = new \OC_FilesystemView($fileKeyStorage);
+		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/keyfiles/');
 		return $view->file_put_contents($file.'.key', $key);
 	
 	}
