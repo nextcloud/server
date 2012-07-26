@@ -480,7 +480,6 @@ class OC_Filesystem{
 			$path=$params['oldpath'];
 		}
 		OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
-		OC_Connector_Sabre_Node::removeETagPropertyForPath(dirname($path));
 	}
 }
 OC_Hook::connect('OC_Filesystem','post_write', 'OC_Filesystem','removeETagHook');
