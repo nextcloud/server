@@ -35,6 +35,21 @@ namespace OCP;
  */
 class App {
         /**
+         * @brief Makes owncloud aware of this app
+         * @brief This call is deprecated and not necessary to use.
+         * @param $data array with all information
+         * @returns true/false
+         *
+         * @deprecated this method is deprecated
+         * Do not call it anymore
+         * It'll remain in our public API for compatibility reasons
+         *
+         */
+        public static function register( $data ){
+		return \OC_App::register( $data );
+        }
+
+        /**
          * @brief adds an entry to the navigation
          * @param $data array containing the data
          * @returns true/false
