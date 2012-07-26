@@ -1,57 +1,59 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
+# Son Nguyen <sonnghit@gmail.com>, 2012.
+# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
 "POT-Creation-Date: 2012-07-26 08:03+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2012-07-25 19:30+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "Lưu email"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Email không hợp lệ"
 
 #: ajax/openid.php:16
 msgid "OpenID Changed"
-msgstr ""
+msgstr "Đổi OpenID"
 
 #: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
-msgstr ""
+msgstr "Yêu cầu không hợp lệ"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
-msgstr ""
+msgstr "Ngôn ngữ đã được thay đổi"
 
 #: js/apps.js:31 js/apps.js:67
 msgid "Disable"
-msgstr ""
+msgstr "Vô hiệu"
 
 #: js/apps.js:31 js/apps.js:54
 msgid "Enable"
-msgstr ""
+msgstr "Cho phép"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Đang tiến hành lưu ..."
 
 #: personal.php:41 personal.php:42
 msgid "__language_name__"
-msgstr ""
+msgstr "__Ngôn ngữ___"
 
 #: templates/admin.php:14
 msgid "Security Warning"
@@ -59,148 +61,148 @@ msgstr ""
 
 #: templates/admin.php:28
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: templates/admin.php:55
 msgid "More"
-msgstr ""
+msgstr "nhiều hơn"
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr ""
+msgstr "Thêm ứng dụng của bạn"
 
 #: templates/apps.php:24
 msgid "Select an App"
-msgstr ""
+msgstr "Chọn một ứng dụng"
 
 #: templates/apps.php:27
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Xem ứng dụng tại apps.owncloud.com"
 
 #: templates/apps.php:28
 msgid "-licensed"
-msgstr ""
+msgstr "Giấy phép đã được cấp"
 
 #: templates/apps.php:28
 msgid "by"
-msgstr ""
+msgstr "bởi"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Tài liệu"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Quản lý tập tin lớn"
 
 #: templates/help.php:10
 msgid "Ask a question"
-msgstr ""
+msgstr "Đặt câu hỏi"
 
 #: templates/help.php:22
 msgid "Problems connecting to help database."
-msgstr ""
+msgstr "Vấn đề kết nối đến cơ sở dữ liệu."
 
 #: templates/help.php:23
 msgid "Go there manually."
-msgstr ""
+msgstr "Đến bằng thủ công"
 
 #: templates/help.php:31
 msgid "Answer"
-msgstr ""
+msgstr "trả lời"
 
 #: templates/personal.php:8
 msgid "You use"
-msgstr ""
+msgstr "Bạn sử dụng"
 
 #: templates/personal.php:8
 msgid "of the available"
-msgstr ""
+msgstr "có sẵn"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Đồng bộ dữ liệu"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Tải về"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
-msgstr ""
+msgstr "Mật khẩu đã được thay đổi"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Không thể đổi mật khẩu"
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr ""
+msgstr "Mật khẩu cũ"
 
 #: templates/personal.php:22
 msgid "New password"
-msgstr ""
+msgstr "Mật khẩu mới "
 
 #: templates/personal.php:23
 msgid "show"
-msgstr ""
+msgstr "Hiện"
 
 #: templates/personal.php:24
 msgid "Change password"
-msgstr ""
+msgstr "Đổi mật khẩu"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr ""
+msgstr "Email của bạn"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Nhập địa chỉ email của bạn để khôi phục lại mật khẩu"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
-msgstr ""
+msgstr "Ngôn ngữ"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr ""
+msgstr "Dịch "
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "sử dụng địa chỉ này để kết nối với ownCloud của bạn trong quản lý tập tin "
 
 #: templates/users.php:15 templates/users.php:60
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
 #: templates/users.php:17 templates/users.php:61
 msgid "Password"
-msgstr ""
+msgstr "Mật khẩu"
 
 #: templates/users.php:19 templates/users.php:62 templates/users.php:78
 msgid "Groups"
-msgstr ""
+msgstr "Nhóm"
 
 #: templates/users.php:25
 msgid "Create"
-msgstr ""
+msgstr "Tạo"
 
 #: templates/users.php:28
 msgid "Default Quota"
-msgstr ""
+msgstr "Hạn ngạch mặt định"
 
 #: templates/users.php:47 templates/users.php:103
 msgid "Other"
-msgstr ""
+msgstr "Khác"
 
 #: templates/users.php:63
 msgid "Quota"
-msgstr ""
+msgstr "Hạn ngạch"
 
 #: templates/users.php:110
 msgid "Delete"
-msgstr ""
+msgstr "Xóa"

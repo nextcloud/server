@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
+# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
 "POT-Creation-Date: 2012-07-26 08:03+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2012-07-25 19:29+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: ajax/activation.php:24 ajax/updateaddressbook.php:29
 msgid "Error (de)activating addressbook."
@@ -27,11 +28,11 @@ msgstr ""
 
 #: ajax/addproperty.php:39 ajax/saveproperty.php:34
 msgid "element name is not set."
-msgstr ""
+msgstr "tên phần tử không được thiết lập."
 
 #: ajax/addproperty.php:42 ajax/deletecard.php:30 ajax/saveproperty.php:37
 msgid "id is not set."
-msgstr ""
+msgstr "id không được thiết lập."
 
 #: ajax/addproperty.php:46
 msgid "Could not parse contact: "
@@ -55,7 +56,7 @@ msgstr ""
 
 #: ajax/categories/categoriesfor.php:17
 msgid "No ID provided"
-msgstr ""
+msgstr "Không có ID được cung cấp"
 
 #: ajax/categories/categoriesfor.php:34
 msgid "Error setting checksum."
@@ -67,15 +68,15 @@ msgstr ""
 
 #: ajax/categories/delete.php:26
 msgid "No address books found."
-msgstr ""
+msgstr "Không tìm thấy sổ địa chỉ."
 
 #: ajax/categories/delete.php:34
 msgid "No contacts found."
-msgstr ""
+msgstr "Không tìm thấy danh sách"
 
 #: ajax/contactdetails.php:31
 msgid "Missing ID"
-msgstr ""
+msgstr "Missing ID"
 
 #: ajax/contactdetails.php:36
 msgid "Error parsing VCard for ID: \""
@@ -88,7 +89,7 @@ msgstr ""
 
 #: ajax/currentphoto.php:36
 msgid "Error reading contact photo."
-msgstr ""
+msgstr "Lỗi đọc liên lạc hình ảnh."
 
 #: ajax/currentphoto.php:48
 msgid "Error saving temporary file."
@@ -96,7 +97,7 @@ msgstr ""
 
 #: ajax/currentphoto.php:51
 msgid "The loading photo is not valid."
-msgstr ""
+msgstr "Các hình ảnh tải không hợp lệ."
 
 #: ajax/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -116,11 +117,11 @@ msgstr ""
 
 #: ajax/oc_photo.php:39
 msgid "File doesn't exist:"
-msgstr ""
+msgstr "Tập tin không tồn tại"
 
 #: ajax/oc_photo.php:44 ajax/oc_photo.php:47
 msgid "Error loading image."
-msgstr ""
+msgstr "Lỗi khi tải hình ảnh."
 
 #: ajax/savecrop.php:67
 msgid "Error getting contact object."
@@ -176,11 +177,11 @@ msgstr ""
 
 #: ajax/uploadimport.php:44 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
-msgstr ""
+msgstr "Lỗi tải lên danh sách địa chỉ để lưu trữ."
 
 #: ajax/uploadimport.php:61 ajax/uploadphoto.php:77
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Không có lỗi, các tập tin tải lên thành công"
 
 #: ajax/uploadimport.php:62 ajax/uploadphoto.php:78
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
@@ -218,7 +219,7 @@ msgstr ""
 
 #: appinfo/app.php:19 templates/settings.php:3
 msgid "Contacts"
-msgstr ""
+msgstr "Liên lạc"
 
 #: js/contacts.js:53
 msgid "Sorry, this functionality has not been implemented yet"
@@ -243,7 +244,7 @@ msgstr ""
 
 #: js/contacts.js:389 lib/search.php:15
 msgid "Contact"
-msgstr ""
+msgstr "Danh sách"
 
 #: js/contacts.js:389
 msgid "New"
@@ -263,8 +264,8 @@ msgstr ""
 
 #: js/contacts.js:826 js/contacts.js:844
 msgid ""
-"'deleteProperty' called without type argument. Please report at bugs."
-"owncloud.org"
+"'deleteProperty' called without type argument. Please report at "
+"bugs.owncloud.org"
 msgstr ""
 
 #: js/contacts.js:860
@@ -311,32 +312,32 @@ msgstr ""
 
 #: lib/app.php:100 templates/part.contact.php:116
 msgid "Address"
-msgstr ""
+msgstr "Địa chỉ"
 
 #: lib/app.php:101
 msgid "Telephone"
-msgstr ""
+msgstr "Điện thoại bàn"
 
 #: lib/app.php:102 templates/part.contact.php:115
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: lib/app.php:103 templates/part.contact.php:38 templates/part.contact.php:39
 #: templates/part.contact.php:111
 msgid "Organization"
-msgstr ""
+msgstr "Tổ chức"
 
 #: lib/app.php:115 lib/app.php:122 lib/app.php:132 lib/app.php:183
 msgid "Work"
-msgstr ""
+msgstr "Công việc"
 
 #: lib/app.php:116 lib/app.php:120 lib/app.php:133
 msgid "Home"
-msgstr ""
+msgstr "Nhà"
 
 #: lib/app.php:121
 msgid "Mobile"
-msgstr ""
+msgstr "Di động"
 
 #: lib/app.php:123
 msgid "Text"
@@ -352,15 +353,15 @@ msgstr ""
 
 #: lib/app.php:126
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #: lib/app.php:127
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: lib/app.php:128
 msgid "Pager"
-msgstr ""
+msgstr "số trang"
 
 #: lib/app.php:134
 msgid "Internet"
@@ -369,7 +370,7 @@ msgstr ""
 #: lib/app.php:169 templates/part.contact.php:44
 #: templates/part.contact.php:113
 msgid "Birthday"
-msgstr ""
+msgstr "Ngày sinh nhật"
 
 #: lib/app.php:170
 msgid "Business"
@@ -429,7 +430,7 @@ msgstr ""
 
 #: templates/index.php:15
 msgid "Add Contact"
-msgstr ""
+msgstr "Thêm liên lạc"
 
 #: templates/index.php:16 templates/index.php:18 templates/part.import.php:17
 msgid "Import"
@@ -437,7 +438,7 @@ msgstr ""
 
 #: templates/index.php:20
 msgid "Addressbooks"
-msgstr ""
+msgstr "Sổ địa chỉ"
 
 #: templates/index.php:37 templates/part.import.php:24
 msgid "Close"
@@ -498,22 +499,22 @@ msgstr ""
 #: templates/part.chooseaddressbook.php:21
 #: templates/part.chooseaddressbook.rowfields.php:8
 msgid "CardDav Link"
-msgstr ""
+msgstr "CardDav Link"
 
 #: templates/part.chooseaddressbook.rowfields.php:11
 msgid "Download"
-msgstr ""
+msgstr "Tải về"
 
 #: templates/part.chooseaddressbook.rowfields.php:14
 msgid "Edit"
-msgstr ""
+msgstr "Sửa"
 
 #: templates/part.chooseaddressbook.rowfields.php:17
 #: templates/part.contact.php:39 templates/part.contact.php:41
 #: templates/part.contact.php:43 templates/part.contact.php:45
 #: templates/part.contact.php:49
 msgid "Delete"
-msgstr ""
+msgstr "Xóa"
 
 #: templates/part.contact.php:16
 msgid "Drop photo to upload"
@@ -625,7 +626,7 @@ msgstr ""
 
 #: templates/part.contact.php:114
 msgid "Phone"
-msgstr ""
+msgstr "Điện thoại"
 
 #: templates/part.contact.php:117
 msgid "Note"
@@ -637,7 +638,7 @@ msgstr ""
 
 #: templates/part.contact.php:123
 msgid "Delete contact"
-msgstr ""
+msgstr "Xóa liên lạc"
 
 #: templates/part.cropphoto.php:65
 msgid "The temporary image has been removed from cache."
@@ -654,7 +655,7 @@ msgstr ""
 #: templates/part.edit_address_dialog.php:18
 #: templates/part.edit_address_dialog.php:21
 msgid "PO Box"
-msgstr ""
+msgstr "Hòm thư bưu điện"
 
 #: templates/part.edit_address_dialog.php:24
 msgid "Street address"
@@ -675,11 +676,11 @@ msgstr ""
 #: templates/part.edit_address_dialog.php:36
 #: templates/part.edit_address_dialog.php:39
 msgid "City"
-msgstr ""
+msgstr "Thành phố"
 
 #: templates/part.edit_address_dialog.php:42
 msgid "Region"
-msgstr ""
+msgstr "Vùng/miền"
 
 #: templates/part.edit_address_dialog.php:45
 msgid "E.g. state or province"
@@ -687,7 +688,7 @@ msgstr ""
 
 #: templates/part.edit_address_dialog.php:48
 msgid "Zipcode"
-msgstr ""
+msgstr "Mã bưu điện"
 
 #: templates/part.edit_address_dialog.php:51
 msgid "Postal code"
@@ -696,11 +697,11 @@ msgstr ""
 #: templates/part.edit_address_dialog.php:54
 #: templates/part.edit_address_dialog.php:57
 msgid "Country"
-msgstr ""
+msgstr "Quốc gia"
 
 #: templates/part.edit_name_dialog.php:16
 msgid "Addressbook"
-msgstr ""
+msgstr "Sổ địa chỉ"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
@@ -780,31 +781,31 @@ msgstr ""
 
 #: templates/part.editaddressbook.php:9
 msgid "New Addressbook"
-msgstr ""
+msgstr "Sổ địa chỉ mới"
 
 #: templates/part.editaddressbook.php:9
 msgid "Edit Addressbook"
-msgstr ""
+msgstr "Sửa sổ địa chỉ"
 
 #: templates/part.editaddressbook.php:12
 msgid "Displayname"
-msgstr ""
+msgstr "Hiển thị tên"
 
 #: templates/part.editaddressbook.php:23
 msgid "Active"
-msgstr ""
+msgstr "Kích hoạt"
 
 #: templates/part.editaddressbook.php:29
 msgid "Save"
-msgstr ""
+msgstr "Lưu"
 
 #: templates/part.editaddressbook.php:29
 msgid "Submit"
-msgstr ""
+msgstr "Submit"
 
 #: templates/part.editaddressbook.php:30
 msgid "Cancel"
-msgstr ""
+msgstr "Hủy"
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"

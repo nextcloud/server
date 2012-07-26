@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
+# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
 "POT-Creation-Date: 2012-07-26 08:03+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2012-07-25 19:29+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
@@ -49,7 +50,7 @@ msgstr ""
 
 #: appinfo/app.php:6
 msgid "Files"
-msgstr ""
+msgstr "Tập tin"
 
 #: js/fileactions.js:95
 msgid "Unshare"
@@ -57,7 +58,7 @@ msgstr ""
 
 #: js/fileactions.js:97 templates/index.php:56
 msgid "Delete"
-msgstr ""
+msgstr "Xóa"
 
 #: js/filelist.js:186
 msgid "undo deletion"
@@ -73,51 +74,51 @@ msgstr ""
 
 #: js/files.js:199
 msgid "Upload Error"
-msgstr ""
+msgstr "Tải lên lỗi"
 
 #: js/files.js:227 js/files.js:318 js/files.js:347
 msgid "Pending"
-msgstr ""
+msgstr "Chờ"
 
 #: js/files.js:332
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Hủy tải lên"
 
 #: js/files.js:456
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Tên không hợp lệ ,không được phép dùng '/'"
 
 #: js/files.js:631 templates/index.php:55
 msgid "Size"
-msgstr ""
+msgstr "Kích cỡ"
 
 #: js/files.js:632 templates/index.php:56
 msgid "Modified"
-msgstr ""
+msgstr "Thay đổi"
 
 #: js/files.js:659
 msgid "folder"
-msgstr ""
+msgstr "folder"
 
 #: js/files.js:661
 msgid "folders"
-msgstr ""
+msgstr "folders"
 
 #: js/files.js:669
 msgid "file"
-msgstr ""
+msgstr "file"
 
 #: js/files.js:671
 msgid "files"
-msgstr ""
+msgstr "files"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Xử lý tập tin"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Kích thước tối đa "
 
 #: templates/admin.php:7
 msgid "max. possible: "
@@ -129,59 +130,59 @@ msgstr ""
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Cho phép ZIP-download"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 là không giới hạn"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Kích thước tối đa cho các tập tin ZIP"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Mới"
 
 #: templates/index.php:9
 msgid "Text file"
-msgstr ""
+msgstr "Tập tin văn bản"
 
 #: templates/index.php:10
 msgid "Folder"
-msgstr ""
+msgstr "Folder"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr ""
+msgstr "Từ url"
 
 #: templates/index.php:21
 msgid "Upload"
-msgstr ""
+msgstr "Tải lên"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "Hủy upload"
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Không có gì ở đây .Hãy tải lên một cái gì đó !"
 
 #: templates/index.php:47
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
 #: templates/index.php:49
 msgid "Share"
-msgstr ""
+msgstr "Chia sẻ"
 
 #: templates/index.php:51
 msgid "Download"
-msgstr ""
+msgstr "Tải xuống"
 
 #: templates/index.php:64
 msgid "Upload too large"
-msgstr ""
+msgstr "File tải lên quá lớn"
 
 #: templates/index.php:66
 msgid ""
@@ -191,7 +192,7 @@ msgstr ""
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Tập tin đang được quét ,vui lòng chờ."
 
 #: templates/index.php:74
 msgid "Current scanning"
