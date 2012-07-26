@@ -30,6 +30,17 @@ namespace OCA_Encryption;
 
 class Crypt {
 
+	/**
+	 * @brief return encryption mode client or server side encryption
+	 * @param string user name 
+	 * @return string 'client' or 'server'
+	 */
+	public static function mode($user) {
+		//TODO: allow user to set encryption mode and check the selection of the user
+		// for the moment I just return 'client' for test purposes
+		return 'client';
+	}
+	
         /**
          * @brief Create a new encryption keypair
          * @return array publicKey, privatekey
