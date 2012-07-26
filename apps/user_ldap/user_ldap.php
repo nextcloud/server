@@ -23,13 +23,9 @@
  *
  */
 
-class OC_USER_LDAP extends OC_User_Backend {
+namespace OCA\user_ldap;
 
-	// cached settings
-	protected $ldapUserFilter;
-	protected $ldapQuotaAttribute;
-	protected $ldapQuotaDefault;
-	protected $ldapEmailAttribute;
+class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 
 	// will be retrieved from LDAP server
 	protected $ldap_dc = false;
@@ -37,39 +33,32 @@ class OC_USER_LDAP extends OC_User_Backend {
 	// cache getUsers()
 	protected $_users = null;
 
-	public function __construct() {
-		$this->ldapUserFilter      = OCP\Config::getAppValue('user_ldap', 'ldap_userlist_filter', '(objectClass=posixAccount)');
-		$this->ldapQuotaAttribute  = OCP\Config::getAppValue('user_ldap', 'ldap_quota_attr', '');
-		$this->ldapQuotaDefault    = OCP\Config::getAppValue('user_ldap', 'ldap_quota_def', '');
-		$this->ldapEmailAttribute  = OCP\Config::getAppValue('user_ldap', 'ldap_email_attr', '');
-	}
-
 	private function updateQuota($dn) {
 		$quota = null;
-		if(!empty($this->ldapQuotaDefault)) {
-			$quota = $this->ldapQuotaDefault;
+		if(!empty($this->connection->ldapQuotaDefault)) {
+			$quota = $this->connection->ldapQuotaDefault;
 		}
-		if(!empty($this->ldapQuotaAttribute)) {
-			$aQuota = OC_LDAP::readAttribute($dn, $this->ldapQuotaAttribute);
+		if(!empty($this->connection->ldapQuotaAttribute)) {
+			$aQuota = $this->readAttribute($dn, $this->connection->ldapQuotaAttribute);
 
 			if($aQuota && (count($aQuota) > 0)) {
 				$quota = $aQuota[0];
 			}
 		}
 		if(!is_null($quota)) {
-			OCP\Config::setUserValue(OC_LDAP::dn2username($dn), 'files', 'quota', OCP\Util::computerFileSize($quota));
+			\OCP\Config::setUserValue($this->dn2username($dn), 'files', 'quota', \OCP\Util::computerFileSize($quota));
 		}
 	}
 
 	private function updateEmail($dn) {
 		$email = null;
-		if(!empty($this->ldapEmailAttribute)) {
-			$aEmail = OC_LDAP::readAttribute($dn, $this->ldapEmailAttribute);
+		if(!empty($this->connection->ldapEmailAttribute)) {
+			$aEmail = $this->readAttribute($dn, $this->connection->ldapEmailAttribute);
 			if($aEmail && (count($aEmail) > 0)) {
 				$email = $aEmail[0];
 			}
-			if(!is_null($email)){
-				OCP\Config::setUserValue(OC_LDAP::dn2username($dn), 'settings', 'email', $email);
+			if(!is_null($email)) {
+				\OCP\Config::setUserValue($this->dn2username($dn), 'settings', 'email', $email);
 			}
 		}
 	}
@@ -84,15 +73,15 @@ class OC_USER_LDAP extends OC_User_Backend {
 	 */
 	public function checkPassword($uid, $password){
 		//find out dn of the user name
-		$filter = OCP\Util::mb_str_replace('%uid', $uid, OC_LDAP::conf('ldapLoginFilter'), 'UTF-8');
-		$ldap_users = OC_LDAP::fetchListOfUsers($filter, 'dn');
+		$filter = \OCP\Util::mb_str_replace('%uid', $uid, $this->connection->ldapLoginFilter, 'UTF-8');
+		$ldap_users = $this->fetchListOfUsers($filter, 'dn');
 		if(count($ldap_users) < 1) {
 			return false;
 		}
 		$dn = $ldap_users[0];
 
 		//are the credentials OK?
-		if(!OC_LDAP::areCredentialsValid($dn, $password)) {
+		if(!$this->areCredentialsValid($dn, $password)) {
 			return false;
 		}
 
@@ -101,7 +90,7 @@ class OC_USER_LDAP extends OC_User_Backend {
 		$this->updateEmail($dn);
 
 		//give back the display name
-		return OC_LDAP::dn2username($dn);
+		return $this->dn2username($dn);
 	}
 
 	/**
@@ -112,8 +101,8 @@ class OC_USER_LDAP extends OC_User_Backend {
 	 */
 	public function getUsers(){
 		if(is_null($this->_users)) {
-			$ldap_users = OC_LDAP::fetchListOfUsers($this->ldapUserFilter, array(OC_LDAP::conf('ldapUserDisplayName'), 'dn'));
-			$this->_users = OC_LDAP::ownCloudUserNames($ldap_users);
+			$ldap_users = $this->fetchListOfUsers($this->connection->ldapUserFilter, array($this->connection->ldapUserDisplayName, 'dn'));
+			$this->_users = $this->ownCloudUserNames($ldap_users);
 		}
 		return $this->_users;
 	}
@@ -125,18 +114,41 @@ class OC_USER_LDAP extends OC_User_Backend {
 	 */
 	public function userExists($uid){
 		//getting dn, if false the user does not exist. If dn, he may be mapped only, requires more checking.
-		$dn = OC_LDAP::username2dn($uid);
+		$dn = $this->username2dn($uid);
 		if(!$dn) {
 			return false;
 		}
 
 		//if user really still exists, we will be able to read his cn
-		$cn = OC_LDAP::readAttribute($dn, 'cn');
+		$cn = $this->readAttribute($dn, 'cn');
 		if(!$cn || empty($cn)) {
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	* @brief delete a user
+	* @param $uid The username of the user to delete
+	* @returns true/false
+	*
+	* Deletes a user
+	*/
+	public function deleteUser($uid) {
+		return false;
+	}
+
+	/**
+	* @brief Check if backend implements actions
+	* @param $actions bitwise-or'ed actions
+	* @returns boolean
+	*
+	* Returns the supported actions as int to be
+	* compared with OC_USER_BACKEND_CREATE_USER etc.
+	*/
+	public function implementsActions($actions) {
+		return (bool)(OC_USER_BACKEND_CHECK_PASSWORD & $actions);
 	}
 
 }

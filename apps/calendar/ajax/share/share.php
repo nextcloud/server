@@ -6,6 +6,8 @@
  * See the COPYING-README file.
  */
  
+OCP\JSON::callCheck();
+
 $id = strip_tags($_POST['id']);
 $idtype = strip_tags($_POST['idtype']);
 switch($idtype){

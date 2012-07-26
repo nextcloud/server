@@ -15,26 +15,26 @@ if (!$pos = strpos($path_info, '/', 1)) {
 	$pos = strlen($path_info);
 }
 $service=substr($path_info, 1, $pos-1);
+
 $file = OC_AppConfig::getValue('core', 'remote_' . $service);
-$file = preg_replace('/apps\//','', $file); //Todo Remove after Multiappdir migration
 
 if(is_null($file)){
 	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
 	exit;
 }
 
-$file = ltrim ($file, '/');
+$file=ltrim($file,'/');
 
 $parts=explode('/', $file, 2);
 $app=$parts[0];
 switch ($app) {
+	case 'core':
+		$file =  OC::$SERVERROOT .'/'. $file;
+		break;
 	default:
 		OC_Util::checkAppEnabled($app);
 		OC_App::loadApp($app);
 		$file = OC_App::getAppPath($app) .'/'. $parts[1];
-		break;
-	case 'core':
-		$file =  OC::$SERVERROOT .'/'. $file;
 		break;
 }
 $baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';

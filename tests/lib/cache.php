@@ -42,6 +42,27 @@ abstract class Test_Cache extends UnitTestCase {
 		$this->assertNull($this->instance->get('not_set'),'Unset value not equal to null');
 
 		$this->assertTrue($this->instance->remove('value1'));
+		$this->assertFalse($this->instance->hasKey('value1'));
+	}
+
+	function testClear(){
+		$value='ipsum lorum';
+		$this->instance->set('1_value1',$value);
+		$this->instance->set('1_value2',$value);
+		$this->instance->set('2_value1',$value);
+		$this->instance->set('3_value1',$value);
+
+		$this->assertTrue($this->instance->clear('1_'));
+		$this->assertFalse($this->instance->hasKey('1_value1'));
+		$this->assertFalse($this->instance->hasKey('1_value2'));
+		$this->assertTrue($this->instance->hasKey('2_value1'));
+		$this->assertTrue($this->instance->hasKey('3_value1'));
+
+		$this->assertTrue($this->instance->clear());
+		$this->assertFalse($this->instance->hasKey('1_value1'));
+		$this->assertFalse($this->instance->hasKey('1_value2'));
+		$this->assertFalse($this->instance->hasKey('2_value1'));
+		$this->assertFalse($this->instance->hasKey('3_value1'));
 	}
 
 	function testTTL(){

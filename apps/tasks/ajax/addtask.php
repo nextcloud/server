@@ -3,6 +3,7 @@
 // Init owncloud
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('tasks');
+OCP\JSON::callCheck();
 
 $calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser(), true);
 $first_calendar = reset($calendars);
@@ -21,7 +22,7 @@ $request['description'] = null;
 $vcalendar = OC_Task_App::createVCalendarFromRequest($request);
 $id = OC_Calendar_Object::add($cid, $vcalendar->serialize());
 
-$user_timezone = OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$user_timezone = OC_Calendar_App::getTimezone();
 $task = OC_Task_App::arrayForJSON($id, $vcalendar->VTODO, $user_timezone);
 
 OCP\JSON::success(array('task' => $task));

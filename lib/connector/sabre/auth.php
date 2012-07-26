@@ -31,13 +31,18 @@ class OC_Connector_Sabre_Auth extends Sabre_DAV_Auth_Backend_AbstractBasic {
 	 * @return bool
 	 */
 	protected function validateUserPass($username, $password){
-		OC_Util::setUpFS();//login hooks may need early access to the filesystem
-		if(OC_User::login($username,$password)){
-			OC_Util::setUpFS($username);
+		if (OC_User::isLoggedIn()) {
+			OC_Util::setupFS($username);
 			return true;
-		}
-		else{
-			return false;
+		} else {
+			OC_Util::setUpFS();//login hooks may need early access to the filesystem
+			if(OC_User::login($username,$password)){
+				OC_Util::setUpFS($username);
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
 	}
 } 

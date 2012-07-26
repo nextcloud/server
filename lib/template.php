@@ -82,7 +82,6 @@ function relative_modified_date($timestamp) {
 	$diffhours = round($diffminutes/60);
 	$diffdays = round($diffhours/24);
 	$diffmonths = round($diffdays/31);
-	$diffyears = round($diffdays/365);
 
 	if($timediff < 60) { return $l->t('seconds ago'); }
 	else if($timediff < 120) { return $l->t('1 minute ago'); }

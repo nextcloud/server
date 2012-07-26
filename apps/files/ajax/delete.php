@@ -4,6 +4,7 @@
 
 
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 // Get data
 $dir = stripslashes($_GET["dir"]);
@@ -25,5 +26,3 @@ if($success) {
 } else {
 	OCP\JSON::error(array("data" => array( "message" => "Could not delete:\n" . $filesWithError )));
 }
-
-?>

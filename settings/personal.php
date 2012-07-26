@@ -61,5 +61,3 @@ foreach($forms as $form){
 	$tmpl->append('forms',$form);
 }
 $tmpl->printPage();
-
-?>

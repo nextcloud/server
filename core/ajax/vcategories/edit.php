@@ -31,5 +31,3 @@ $categories = $vcategories->categories();
 debug(print_r($categories, true));
 $tmpl->assign('categories',$categories);
 $tmpl->printpage();
-
-?>

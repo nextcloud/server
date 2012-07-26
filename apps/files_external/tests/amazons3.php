@@ -45,6 +45,3 @@ if (!is_array($config) or !isset($config['amazons3']) or !$config['amazons3']['r
 		}
 	}
 }
-
-?>
-

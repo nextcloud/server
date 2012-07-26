@@ -48,6 +48,3 @@ $tmpl->assign( 'quota_preset', $quotaPreset);
 $tmpl->assign( 'default_quota', $defaultQuota);
 $tmpl->assign( 'share_notice', $shareNotice);
 $tmpl->printPage();
-
-?>
-

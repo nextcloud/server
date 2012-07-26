@@ -497,23 +497,27 @@ $(document).ready(function() {
 						localName=(localName.match(/:\/\/(.[^/]+)/)[1]).replace('www.','');
 					}
 					localName = getUniqueName(localName);
-					$.post(
-						OC.filePath('files','ajax','newfile.php'),
-						{dir:$('#dir').val(),source:name,filename:localName},
-						function(result){
-							if(result.status == 'success'){
-								var date=new Date();
-								FileList.addFile(localName,0,date);
-								var tr=$('tr').filterAttr('data-file',localName);
-								tr.data('mime',result.data.mime);
-								getMimeIcon(result.data.mime,function(path){
-									tr.find('td.filename').attr('style','background-image:url('+path+')');
-								});
-							}else{
+					$('#uploadprogressbar').progressbar({value:0});
+					$('#uploadprogressbar').fadeIn();
 
-							}
-						}
-					);
+					var eventSource=new OC.EventSource(OC.filePath('files','ajax','newfile.php'),{dir:$('#dir').val(),source:name,filename:localName});
+					eventSource.listen('progress',function(progress){
+						$('#uploadprogressbar').progressbar('value',progress);
+					});
+					eventSource.listen('success',function(mime){
+						$('#uploadprogressbar').fadeOut();
+						var date=new Date();
+						FileList.addFile(localName,0,date);
+						var tr=$('tr').filterAttr('data-file',localName);
+						tr.data('mime',mime);
+						getMimeIcon(mime,function(path){
+							tr.find('td.filename').attr('style','background-image:url('+path+')');
+						});
+					});
+					eventSource.listen('error',function(error){
+						$('#uploadprogressbar').fadeOut();
+						alert(error);
+					});
 					break;
 			}
 			var li=$(this).parent();

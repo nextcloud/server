@@ -17,4 +17,3 @@ $tmpl = new OCP\Template('contacts', 'part.editaddressbook');
 $tmpl->assign('new', true);
 $tmpl->assign('addressbook', $book);
 $tmpl->printPage();
-?>

@@ -34,12 +34,12 @@
  */
 class OC_Contacts_Hooks{
 	/**
-	 * @brief Add default Addressbooks of a certain user
-	 * @param paramters parameters from postDeleteUser-Hook
+	 * @brief Add default Addressbook for a certain user
+	 * @param paramters parameters from postCreateUser-Hook
 	 * @return array
 	 */
 	static public function createUser($parameters) {
-		OC_Contacts_Addressbook::addDefault($parameters['uid'],'default','Default Address Book');
+		OC_Contacts_Addressbook::addDefault($parameters['uid']);
 		return true;
 	}
 	
@@ -61,8 +61,8 @@ class OC_Contacts_Hooks{
 	static public function getCalenderSources($parameters) {
 		$base_url = OCP\Util::linkTo('calendar', 'ajax/events.php').'?calendar_id=';
 		foreach(OC_Contacts_Addressbook::all(OCP\USER::getUser()) as $addressbook) {
-			$parameters['sources'][] =
-				array(
+			$parameters['sources'][] 
+				= array(
 					'url' => $base_url.'birthday_'. $addressbook['id'],
 					'backgroundColor' => '#cccccc',
 					'borderColor' => '#888',
@@ -91,18 +91,24 @@ class OC_Contacts_Hooks{
 				$date = new DateTime($birthday);
 				$vevent = new OC_VObject('VEVENT');
 				//$vevent->setDateTime('LAST-MODIFIED', new DateTime($vcard->REV));
-				$vevent->setDateTime('DTSTART', $date, Sabre_VObject_Element_DateTime::DATE);
+				$vevent->setDateTime('DTSTART', $date, 
+					Sabre_VObject_Element_DateTime::DATE);
 				$vevent->setString('DURATION', 'P1D');
-				$vevent->setString('UID', substr(md5(rand().time()),0,10));
+				$vevent->setString('UID', substr(md5(rand().time()), 0, 10));
 				// DESCRIPTION?
 				$vevent->setString('RRULE', 'FREQ=YEARLY');
-				$title = str_replace('{name}', $vcard->getAsString('FN'), OC_Contacts_App::$l10n->t('{name}\'s Birthday'));
+				$title = str_replace('{name}',
+					$vcard->getAsString('FN'), 
+					OC_Contacts_App::$l10n->t('{name}\'s Birthday'));
 				$parameters['events'][] = array(
 					'id' => 0,//$card['id'],
 					'vevent' => $vevent,
 					'repeating' => true,
 					'summary' => $title,
-					'calendardata' => "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:ownCloud Contacts " . OCP\App::getAppVersion('contacts') . "\n" . $vevent->serialize() .  "END:VCALENDAR"
+					'calendardata' => "BEGIN:VCALENDAR\nVERSION:2.0\n"
+						. "PRODID:ownCloud Contacts " 
+						. OCP\App::getAppVersion('contacts') . "\n" 
+						. $vevent->serialize() .  "END:VCALENDAR"
 					);
 			}
 		}

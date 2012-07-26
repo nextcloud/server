@@ -42,5 +42,3 @@ $list->assign( "files", $files, false );
 $data = array('files' => $list->fetchPage());
 
 OCP\JSON::success(array('data' => $data));
-
-?>

@@ -86,4 +86,3 @@ if (isset($_GET['token']) && $source = OC_Share::getSource($_GET['token'])) {
 	$tmpl->printPage();
 	die();
 }
-?>

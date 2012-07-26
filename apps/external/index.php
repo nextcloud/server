@@ -40,4 +40,3 @@ if (isset($_GET['id'])) {
 		$tmpl->printPage();
 	}
 }
-?>

@@ -6,6 +6,7 @@ require_once('../../lib/base.php');
 $l=OC_L10N::get('settings');
 
 OC_JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 
 // Get data
@@ -21,5 +22,3 @@ if( isset( $_POST['lang'] ) ){
 }else{
 	OC_JSON::error(array("data" => array( "message" => $l->t("Invalid request") )));
 }
-
-?>

@@ -27,7 +27,7 @@ if (!$end){
 }
 $start = new DateTime('@'.$start);
 $end = new DateTime('@'.$end);
-$timezone = OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$timezone = OC_Calendar_App::getTimezone();
 $start->setTimezone(new DateTimeZone($timezone));
 $end->setTimezone(new DateTimeZone($timezone));
 

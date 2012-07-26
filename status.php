@@ -29,6 +29,3 @@ if(OC_Config::getValue('installed')==1) $installed='true'; else $installed='fals
 $values=array('installed'=>$installed,'version'=>implode('.',OC_Util::getVersion()),'versionstring'=>OC_Util::getVersionString(),'edition'=>OC_Util::getEditionString());
 
 echo(json_encode($values));
-
-
-?>

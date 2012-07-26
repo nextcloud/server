@@ -44,5 +44,3 @@ foreach( OC_User::getUsers() as $i ){
 }
 
 OC_JSON::encodedPrint($users);
-
-?>

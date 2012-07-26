@@ -175,10 +175,8 @@ class OC_Helper {
 	 */
 	public static function mimetypeIcon( $mimetype ){
 		$alias=array('application/xml'=>'code/xml');
-// 		echo $mimetype;
 		if(isset($alias[$mimetype])){
 			$mimetype=$alias[$mimetype];
-// 			echo $mimetype;
 		}
 		// Replace slash with a minus
 		$mimetype = str_replace( "/", "-", $mimetype );
@@ -345,18 +343,24 @@ class OC_Helper {
 	 */
 	static function getMimeType($path){
 		$isWrapped=(strpos($path,'://')!==false) and (substr($path,0,7)=='file://');
-		$mimeType='application/octet-stream';
-		if ($mimeType=='application/octet-stream') {
-			self::$mimetypes = include('mimetypes.fixlist.php');
-			$extension=strtolower(strrchr(basename($path), "."));
-			$extension=substr($extension,1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
 
-		}
 		if (@is_dir($path)) {
 			// directories are easy
 			return "httpd/unix-directory";
 		}
+
+		if(strpos($path,'.')){
+			//try to guess the type by the file extension
+			if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
+				self::$mimetypes=include('mimetypes.list.php');
+			}
+			$extension=strtolower(strrchr(basename($path), "."));
+			$extension=substr($extension,1);//remove leading .
+			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
+		}else{
+			$mimeType='application/octet-stream';
+		}
+
 		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
 			$info = @strtolower(finfo_file($finfo,$path));
 			if($info){
@@ -384,15 +388,6 @@ class OC_Helper {
 				$mimeType = strstr($mimeType, ';', true);
 			}
 
-		}
-		if ($mimeType=='application/octet-stream') {
-			// Fallback solution: (try to guess the type by the file extension
-			if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
-				self::$mimetypes=include('mimetypes.list.php');
-			}
-			$extension=strtolower(strrchr(basename($path), "."));
-			$extension=substr($extension,1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
 		}
 		return $mimeType;
 	}
@@ -676,12 +671,38 @@ class OC_Helper {
 	*/
 	public static function mb_str_replace($search, $replace, $subject, $encoding = 'UTF-8', &$count = null) {
 		$offset = -1;
-		$length = mb_strlen($search, 'UTF-8');
-		while(($i = mb_strrpos($subject, $search, $offset, 'UTF-8'))) {
+		$length = mb_strlen($search, $encoding);
+		while(($i = mb_strrpos($subject, $search, $offset, $encoding))) {
 			$subject = OC_Helper::mb_substr_replace($subject, $replace, $i, $length);
-			$offset = $i - mb_strlen($subject, 'UTF-8') - 1;
+			$offset = $i - mb_strlen($subject, $encoding) - 1;
 			$count++;
 		}
 		return $subject;
+	}
+
+	/**
+	* @brief performs a search in a nested array
+	* @param haystack the array to be searched
+	* @param needle the search string
+	* @param $index optional, only search this key name
+	* @return the key of the matching field, otherwise false
+	*
+	* performs a search in a nested array
+	*
+	* taken from http://www.php.net/manual/en/function.array-search.php#97645
+	*/
+	public static function recursiveArraySearch($haystack, $needle, $index = null) {
+		$aIt = new RecursiveArrayIterator($haystack);
+		$it = new RecursiveIteratorIterator($aIt);
+
+		while($it->valid()) {
+			if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
+				return $aIt->key();
+			}
+
+			$it->next();
+		}
+
+		return false;
 	}
 }

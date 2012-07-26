@@ -35,9 +35,7 @@ abstract class OC_User_Example extends OC_User_Backend {
 		* Creates a new user. Basic checking of username is done in OC_User
 		* itself, not in its subclasses.
 		*/
-	public function createUser($uid, $password){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
+	abstract public function createUser($uid, $password);
 
 	/**
 		* @brief Set password
@@ -47,9 +45,7 @@ abstract class OC_User_Example extends OC_User_Backend {
 		*
 		* Change the password of a user
 		*/
-	public function setPassword($uid, $password){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
+	abstract public function setPassword($uid, $password);
 
 	/**
 		* @brief Check if the password is correct
@@ -60,7 +56,5 @@ abstract class OC_User_Example extends OC_User_Backend {
 		* Check if the password is correct without logging in the user
 		* returns the user id or false
 		*/
-	public function checkPassword($uid, $password){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
+	abstract public function checkPassword($uid, $password);
 }

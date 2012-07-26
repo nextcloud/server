@@ -27,7 +27,7 @@ OCP\JSON::callCheck();
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
 OCP\JSON::setContentTypeHeader('text/plain');
 
-require_once('loghandler.php');
+require_once 'loghandler.php';
 
 $image = null;
 
@@ -48,7 +48,7 @@ if($id == '') {
 	bailOut('Missing contact id.');
 }
 
-OCP\Util::writeLog('contacts','savecrop.php: key: '.$tmpkey, OCP\Util::DEBUG);
+OCP\Util::writeLog('contacts', 'savecrop.php: key: '.$tmpkey, OCP\Util::DEBUG);
 
 $data = OC_Cache::get($tmpkey);
 if($data) {
@@ -56,7 +56,9 @@ if($data) {
 	if($image->loadFromdata($data)) {
 		$w = ($w != -1 ? $w : $image->width());
 		$h = ($h != -1 ? $h : $image->height());
-		OCP\Util::writeLog('contacts','savecrop.php, x: '.$x1.' y: '.$y1.' w: '.$w.' h: '.$h, OCP\Util::DEBUG);
+		OCP\Util::writeLog('contacts',
+			'savecrop.php, x: '.$x1.' y: '.$y1.' w: '.$w.' h: '.$h, 
+			OCP\Util::DEBUG);
 		if($image->crop($x1, $y1, $w, $h)) {
 			if(($image->width() <= 200 && $image->height() <= 200) || $image->resize(200)) {
 				$card = OC_Contacts_App::getContactVCard($id);
@@ -65,7 +67,9 @@ if($data) {
 					bailOut(OC_Contacts_App::$l10n->t('Error getting contact object.'));
 				}
 				if($card->__isset('PHOTO')) {
-					OCP\Util::writeLog('contacts','savecrop.php: PHOTO property exists.', OCP\Util::DEBUG);
+					OCP\Util::writeLog('contacts',
+						'savecrop.php: PHOTO property exists.', 
+						OCP\Util::DEBUG);
 					$property = $card->__get('PHOTO');
 					if(!$property) {
 						OC_Cache::remove($tmpkey);
@@ -76,12 +80,16 @@ if($data) {
 					$property->parameters[] = new Sabre_VObject_Parameter('TYPE', $image->mimeType());
 					$card->__set('PHOTO', $property);
 				} else {
-					OCP\Util::writeLog('contacts','savecrop.php: files: Adding PHOTO property.', OCP\Util::DEBUG);
-					$card->addProperty('PHOTO', $image->__toString(), array('ENCODING' => 'b', 'TYPE' => $image->mimeType()));
+					OCP\Util::writeLog('contacts',
+						'savecrop.php: files: Adding PHOTO property.', 
+						OCP\Util::DEBUG);
+					$card->addProperty('PHOTO', 
+						$image->__toString(), array('ENCODING' => 'b', 
+						'TYPE' => $image->mimeType()));
 				}
 				$now = new DateTime;
 				$card->setString('REV', $now->format(DateTime::W3C));
-				if(!OC_Contacts_VCard::edit($id,$card)) {
+				if(!OC_Contacts_VCard::edit($id, $card)) {
 					bailOut(OC_Contacts_App::$l10n->t('Error saving contact.'));
 				}
 				$tmpl = new OCP\Template("contacts", "part.contactphoto");

@@ -102,7 +102,6 @@ class OC_Setup {
 				}
 				else {
 					$oldUser=OC_Config::getValue('dbuser', false);
-					$oldPassword=OC_Config::getValue('dbpassword', false);
 					
 					$query="SELECT user FROM mysql.user WHERE user='$dbuser'"; //this should be enough to check for admin rights in mysql
 					if(mysql_query($query, $connection)) {
@@ -257,7 +256,7 @@ class OC_Setup {
 				OC_Installer::installShippedApps();
 
 				//create htaccess files for apache hosts
-				if (strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
+				if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 					self::createHtaccess();
 				}
 
@@ -380,5 +379,3 @@ class OC_Setup {
 		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/index.html', '');
 	}
 }
-
-?>

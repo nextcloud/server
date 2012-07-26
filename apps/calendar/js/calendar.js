@@ -622,18 +622,11 @@ Calendar={
 			drop:function(e){
 				var files = e.dataTransfer.files;
 				for(var i = 0;i < files.length;i++){
-					var file = files[i]
+					var file = files[i];
 					reader = new FileReader();
 					reader.onload = function(event){
-						if(file.type != 'text/calendar'){
-							$('#notification').html('At least one file don\'t seems to be a calendar file. File skipped.');
-							$('#notification').slideDown();
-							window.setTimeout(function(){$('#notification').slideUp();}, 5000);
-							return false;
-						}else{
-							Calendar.UI.Drop.import(event.target.result);
-							$('#calendar_holder').fullCalendar('refetchEvents');
-						}
+						Calendar.UI.Drop.import(event.target.result);
+						$('#calendar_holder').fullCalendar('refetchEvents');
 					}
 					reader.readAsDataURL(file);
 				}
@@ -641,9 +634,13 @@ Calendar={
 			import:function(data){
 				$.post(OC.filePath('calendar', 'ajax/import', 'dropimport.php'), {'data':data},function(result) {
 					if(result.status == 'success'){
+						$('#calendar_holder').fullCalendar('addEventSource', result.eventSource);
+						$('#notification').html(result.message);
+						$('#notification').slideDown();
+						window.setTimeout(function(){$('#notification').slideUp();}, 5000);
 						return true;
 					}else{
-						$('#notification').html('ownCloud wasn\'t able to import at least one file. File skipped.');
+						$('#notification').html(result.message);
 						$('#notification').slideDown();
 						window.setTimeout(function(){$('#notification').slideUp();}, 5000);
 					}

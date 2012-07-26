@@ -165,7 +165,7 @@ class OC_Preferences{
 	public static function deleteKey( $user, $app, $key ){
 		// No need for more comments
 		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*preferences WHERE userid = ? AND appid = ? AND configkey = ?' );
-		$result = $query->execute( array( $user, $app, $key ));
+		$query->execute( array( $user, $app, $key ));
 
 		return true;
 	}
@@ -181,7 +181,7 @@ class OC_Preferences{
 	public static function deleteApp( $user, $app ){
 		// No need for more comments
 		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*preferences WHERE userid = ? AND appid = ?' );
-		$result = $query->execute( array( $user, $app ));
+		$query->execute( array( $user, $app ));
 
 		return true;
 	}
@@ -196,7 +196,7 @@ class OC_Preferences{
 	public static function deleteUser( $user ){
 		// No need for more comments
 		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*preferences WHERE userid = ?' );
-		$result = $query->execute( array( $user ));
+		$query->execute( array( $user ));
 
 		return true;
 	}
@@ -211,7 +211,7 @@ class OC_Preferences{
 	public static function deleteAppFromAllUsers( $app ){
 		// No need for more comments
 		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*preferences WHERE appid = ?' );
-		$result = $query->execute( array( $app ));
+		$query->execute( array( $app ));
 
 		return true;
 	}

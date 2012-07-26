@@ -23,8 +23,6 @@
 *
 */
 
-
-
 /**
  * Class to handle open collaboration services API requests
  *
@@ -92,77 +90,160 @@ class OC_OCS {
 			exit();
 		}
 
-		// preprocess url
-		$url = strtolower($_SERVER['REQUEST_URI']);
-		if(substr($url,(strlen($url)-1))<>'/') $url.='/';
-		$ex=explode('/',$url);
-		$paracount=count($ex);
 		$format = self::readData($method, 'format', 'text', '');
-		// eventhandler
+
+		$router = new OC_Router();
+		$router->useCollection('ocs');
 		// CONFIG
-		// apiconfig - GET - CONFIG
-		if(($method=='get') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'config')){
-			OC_OCS::apiconfig($format);
+		$router->create('config', '/config.{format}')
+			->defaults(array('format' => $format))
+			->action('OC_OCS', 'apiConfig')
+			->requirements(array('format'=>'xml|json'));
 
 		// PERSON
-		// personcheck - POST - PERSON/CHECK
-		}elseif(($method=='post') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-3]=='person') and ($ex[$paracount-2] == 'check')){
-			$login = self::readData($method, 'login', 'text');
-			$passwd = self::readData($method, 'password', 'text');
-			OC_OCS::personcheck($format,$login,$passwd);
-		} else if ($method == 'post' && $ex[$paracount - 4] == 'v1.php' && $ex[$paracount - 3] == 'person' && $ex[$paracount - 2] == 'add') {
-			if (OC_Group::inGroup(self::checkPassword(), 'admin')) {
-				$login = self::readData($method, 'login', 'text');
-				$password = self::readData($method, 'password', 'text');
-				try {
-					OC_User::createUser($login, $password);
-					echo self::generateXml($format, 'ok', 201, '');
-				} catch (Exception $exception) {
-					echo self::generateXml($format, 'fail', 400, $exception->getMessage());
-				}
-			} else {
-				echo self::generateXml($format, 'fail', 403, 'Permission denied');
-			}
+		$router->create('person_check', '/person/check.{format}')
+			->post()
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$login = OC_OCS::readData('post', 'login', 'text');
+					$passwd = OC_OCS::readData('post', 'password', 'text');
+					OC_OCS::personCheck($format,$login,$passwd);
+					})
+			->requirements(array('format'=>'xml|json'));
+
 		// ACTIVITY
 		// activityget - GET ACTIVITY   page,pagesize als urlparameter
-		}elseif(($method=='get') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'activity')){
-			$page = self::readData($method, 'page', 'int', 0);
-			$pagesize = self::readData($method, 'pagesize','int', 10);
-			if($pagesize<1 or $pagesize>100) $pagesize=10;
-			OC_OCS::activityget($format,$page,$pagesize);
-
+		$router->create('activity_get', '/activity.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$page = OC_OCS::readData('get', 'page', 'int', 0);
+					$pagesize = OC_OCS::readData('get', 'pagesize', 'int', 10);
+					if($pagesize<1 or $pagesize>100) $pagesize=10;
+					OC_OCS::activityGet($format, $page, $pagesize);
+					})
+			->requirements(array('format'=>'xml|json'));
 		// activityput - POST ACTIVITY
-		}elseif(($method=='post') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'activity')){
-			$message = self::readData($method, 'message', 'text');
-			OC_OCS::activityput($format,$message);
+		$router->create('activity_put', '/activity.{format}')
+			->post()
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$message = OC_OCS::readData('post', 'message', 'text');
+					OC_OCS::activityPut($format,$message);
+					})
+			->requirements(array('format'=>'xml|json'));
 
 		// PRIVATEDATA
 		// get - GET DATA
-		}elseif(($method=='get') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-2] == 'getattribute')){
-			OC_OCS::privateDataGet($format);
-
-		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-3] == 'getattribute')){
-			$app=$ex[$paracount-2];
-			OC_OCS::privateDataGet($format, $app);
-				}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-4] == 'getattribute')){
-			
-			$key=$ex[$paracount-2];
-			$app=$ex[$paracount-3];
-			OC_OCS::privateDataGet($format, $app,$key);
-
+		$router->create('privatedata_get',
+				  '/privatedata/getattribute/{app}/{key}.{format}')
+			->defaults(array('app' => '', 'key' => '', 'format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$app = addslashes(strip_tags($parameters['app']));
+					$key = addslashes(strip_tags($parameters['key']));
+					OC_OCS::privateDataGet($format, $app, $key);
+					})
+			->requirements(array('format'=>'xml|json'));
 		// set - POST DATA
-		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-4] == 'setattribute')){
-			$key=$ex[$paracount-2];
-			$app=$ex[$paracount-3];
-			$value = self::readData($method, 'value', 'text');
-			OC_OCS::privatedataset($format, $app, $key, $value);
+		$router->create('privatedata_set',
+				  '/privatedata/setattribute/{app}/{key}.{format}')
+			->post()
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$app = addslashes(strip_tags($parameters['app']));
+					$key = addslashes(strip_tags($parameters['key']));
+					$value=OC_OCS::readData('post', 'value', 'text');
+					OC_OCS::privateDataSet($format, $app, $key, $value);
+					})
+			->requirements(array('format'=>'xml|json'));
 		// delete - POST DATA
-		}elseif(($method=='post') and ($ex[$paracount-6] =='v1.php') and ($ex[$paracount-4] == 'deleteattribute')){
-			$key=$ex[$paracount-2];
-			$app=$ex[$paracount-3];
-			OC_OCS::privatedatadelete($format, $app, $key);
+		$router->create('privatedata_delete',
+				  '/privatedata/deleteattribute/{app}/{key}.{format}')
+			->post()
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$app = addslashes(strip_tags($parameters['app']));
+					$key = addslashes(strip_tags($parameters['key']));
+					OC_OCS::privateDataDelete($format, $app, $key);
+					})
+			->requirements(array('format'=>'xml|json'));
 
-		}else{
+		// CLOUD
+		// systemWebApps 
+		$router->create('system_webapps',
+				  '/cloud/system/webapps.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					OC_OCS::systemwebapps($format);
+					})
+			->requirements(array('format'=>'xml|json'));
+
+		// quotaget 
+		$router->create('quota_get',
+				  '/cloud/user/{user}.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$user = $parameters['user'];
+					OC_OCS::quotaGet($format, $user);
+					})
+			->requirements(array('format'=>'xml|json'));
+		// quotaset 
+		$router->create('quota_set',
+				  '/cloud/user/{user}.{format}')
+			->post()
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$user = $parameters['user'];
+					$quota = self::readData('post', 'quota', 'int');
+					OC_OCS::quotaSet($format, $user, $quota);
+					})
+			->requirements(array('format'=>'xml|json'));
+
+		// keygetpublic 
+		$router->create('keygetpublic',
+				  '/cloud/user/{user}/publickey.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$user = $parameters['user'];
+					OC_OCS::publicKeyGet($format,$user);
+					})
+			->requirements(array('format'=>'xml|json'));
+
+		// keygetprivate 
+		$router->create('keygetpublic',
+				  '/cloud/user/{user}/privatekey.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$user = $parameters['user'];
+					OC_OCS::privateKeyGet($format,$user);
+					})
+			->requirements(array('format'=>'xml|json'));
+
+
+// add more calls here
+// please document all the call in the draft spec
+// http://www.freedesktop.org/wiki/Specifications/open-collaboration-services-1.7#CLOUD
+
+// TODO:
+// users
+// groups
+// bookmarks
+// sharing
+// versioning
+// news (rss)
+		try {
+			$router->match($_SERVER['PATH_INFO']);
+		} catch (ResourceNotFoundException $e) {
 			$txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 			$txt.=OC_OCS::getdebugoutput();
 			echo(OC_OCS::generatexml($format,'failed',999,$txt));
@@ -198,25 +279,25 @@ class OC_OCS {
 		if(isset($_SERVER['PHP_AUTH_PW']))   $authpw=$_SERVER['PHP_AUTH_PW']; else $authpw='';
 
 		if(empty($authuser)) {
-		if($forceuser){
-			header('WWW-Authenticate: Basic realm="your valid user account or api key"');
-			header('HTTP/1.0 401 Unauthorized');
-			exit;
-		}else{
-			$identifieduser='';
-		}
-		}else{
-		if(!OC_User::login($authuser,$authpw)){
 			if($forceuser){
-			header('WWW-Authenticate: Basic realm="your valid user account or api key"');
-			header('HTTP/1.0 401 Unauthorized');
-			exit;
+				header('WWW-Authenticate: Basic realm="your valid user account or api key"');
+				header('HTTP/1.0 401 Unauthorized');
+				exit;
 			}else{
-			$identifieduser='';
+				$identifieduser='';
 			}
 		}else{
-			$identifieduser=$authuser;
-		}
+			if(!OC_User::login($authuser,$authpw)){
+				if($forceuser){
+					header('WWW-Authenticate: Basic realm="your valid user account or api key"');
+					header('HTTP/1.0 401 Unauthorized');
+					exit;
+				}else{
+					$identifieduser='';
+				}
+			}else{
+				$identifieduser=$authuser;
+			}
 		}
 
 		return($identifieduser);
@@ -350,11 +431,12 @@ class OC_OCS {
 	* @param string $format
 	* @return string xml/json
 	*/
-	private static function apiConfig($format) {
+	public static function apiConfig($parameters) {
+		$format = $parameters['format'];
 		$user=OC_OCS::checkpassword(false);
 		$url=substr(OCP\Util::getServerHost().$_SERVER['SCRIPT_NAME'],0,-11).'';
 
-		$xml['version']='1.5';
+		$xml['version']='1.7';
 		$xml['website']='ownCloud';
 		$xml['host']=OCP\Util::getServerHost();
 		$xml['contact']='';
@@ -524,4 +606,134 @@ class OC_OCS {
 	public static function deleteData($user, $app, $key) {
 		return OC_Preferences::deleteKey($user,$app,$key);
 	}
+
+
+        // CLOUD API #############################################
+
+        /**
+        * get a list of installed web apps
+        * @param string $format
+        * @return string xml/json
+        */
+        private static function systemWebApps($format) {
+                $login=OC_OCS::checkpassword();
+		$apps=OC_App::getEnabledApps();
+		$values=array();
+		foreach($apps as $app) {
+			$info=OC_App::getAppInfo($app);
+			if(isset($info['standalone'])) {
+				$newvalue=array('name'=>$info['name'],'url'=>OC_Helper::linkToAbsolute($app,''),'icon'=>'');
+				$values[]=$newvalue;
+			}
+
+		}
+		$txt=OC_OCS::generatexml($format, 'ok', 100, '', $values, 'cloud', '', 2, 0, 0);
+		echo($txt);
+
+        }
+
+
+        /**
+        * get the quota of a user
+        * @param string $format
+        * @param string $user
+        * @return string xml/json
+        */
+        private static function quotaGet($format,$user) {
+                $login=OC_OCS::checkpassword();
+		if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
+
+			if(OC_User::userExists($user)){
+				// calculate the disc space
+				$user_dir = '/'.$user.'/files';
+				OC_Filesystem::init($user_dir);
+				$rootInfo=OC_FileCache::get('');
+				$sharedInfo=OC_FileCache::get('/Shared');
+				$used=$rootInfo['size']-$sharedInfo['size'];
+				$free=OC_Filesystem::free_space();
+				$total=$free+$used;
+				if($total==0) $total=1;  // prevent division by zero
+				$relative=round(($used/$total)*10000)/100;
+
+				$xml=array();
+				$xml['quota']=$total;
+				$xml['free']=$free;
+				$xml['used']=$used;
+				$xml['relative']=$relative;
+
+				$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
+				echo($txt);
+			}else{
+				echo self::generateXml('', 'fail', 300, 'User does not exist');
+			}
+		}else{
+			echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+		}
+        }
+
+        /**
+        * set the quota of a user
+        * @param string $format
+        * @param string $user
+        * @param string $quota
+        * @return string xml/json
+        */
+        private static function quotaSet($format,$user,$quota) {
+                $login=OC_OCS::checkpassword();
+                if(OC_Group::inGroup($login, 'admin')) {
+
+			// todo
+			// not yet implemented
+			// add logic here
+			error_log('OCS call: user:'.$user.' quota:'.$quota);
+
+                        $xml=array();
+                        $txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
+                        echo($txt);
+                }else{
+                        echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+                }
+        }
+
+        /**
+        * get the public key of a user
+        * @param string $format
+        * @param string $user
+        * @return string xml/json
+        */
+        private static function publicKeyGet($format,$user) {
+                $login=OC_OCS::checkpassword();
+
+		if(OC_User::userExists($user)){
+			// calculate the disc space
+			$txt='this is the public key of '.$user;
+			echo($txt);
+		}else{
+			echo self::generateXml('', 'fail', 300, 'User does not exist');
+		}
+	}
+
+        /**
+        * get the private key of a user
+        * @param string $format
+        * @param string $user
+        * @return string xml/json
+        */
+        private static function privateKeyGet($format,$user) {
+                $login=OC_OCS::checkpassword();
+                if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
+
+                        if(OC_User::userExists($user)){
+                                // calculate the disc space
+                                $txt='this is the private key of '.$user;
+                                echo($txt);
+                        }else{
+                                echo self::generateXml('', 'fail', 300, 'User does not exist');
+                        }
+                }else{
+                        echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+                }
+        }
+
+
 }

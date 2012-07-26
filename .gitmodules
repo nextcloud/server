@@ -1,0 +1,3 @@
+[submodule "3rdparty/Symfony/Component/Routing"]
+	path = 3rdparty/Symfony/Component/Routing
+	url = git://github.com/symfony/Routing.git

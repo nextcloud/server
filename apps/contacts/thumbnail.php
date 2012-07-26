@@ -25,14 +25,15 @@ OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 session_write_close();
 
-function getStandardImage(){
+function getStandardImage() {
 	//OCP\Response::setExpiresHeader('P10D');
 	OCP\Response::enableCaching();
 	OCP\Response::redirect(OCP\Util::imagePath('contacts', 'person.png'));
 }
 
 if(!extension_loaded('gd') || !function_exists('gd_info')) {
-	OCP\Util::writeLog('contacts','thumbnail.php. GD module not installed',OCP\Util::DEBUG);
+	OCP\Util::writeLog('contacts', 
+		'thumbnail.php. GD module not installed', OCP\Util::DEBUG);
 	getStandardImage();
 	exit();
 }
@@ -43,8 +44,10 @@ $caching = isset($_GET['refresh']) ? 0 : null;
 $contact = OC_Contacts_App::getContactVCard($id);
 
 // invalid vcard
-if(is_null($contact)){
-	OCP\Util::writeLog('contacts','thumbnail.php. The VCard for ID '.$id.' is not RFC compatible',OCP\Util::ERROR);
+if(is_null($contact)) {
+	OCP\Util::writeLog('contacts', 
+		'thumbnail.php. The VCard for ID ' . $id . ' is not RFC compatible', 
+		OCP\Util::ERROR);
 	getStandardImage();
 	exit();
 }
@@ -64,16 +67,24 @@ if($photo) {
 				if($image->show()) {
 					exit();
 				} else {
-					OCP\Util::writeLog('contacts','thumbnail.php. Couldn\'t display thumbnail for ID '.$id,OCP\Util::ERROR);
+					OCP\Util::writeLog('contacts', 
+						'thumbnail.php. Couldn\'t display thumbnail for ID ' . $id, 
+						OCP\Util::ERROR);
 				}
 			} else {
-				OCP\Util::writeLog('contacts','thumbnail.php. Couldn\'t resize thumbnail for ID '.$id,OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts', 
+					'thumbnail.php. Couldn\'t resize thumbnail for ID ' . $id, 
+					OCP\Util::ERROR);
 			}
 		}else{
-			OCP\Util::writeLog('contacts','thumbnail.php. Couldn\'t crop thumbnail for ID '.$id,OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', 
+				'thumbnail.php. Couldn\'t crop thumbnail for ID ' . $id, 
+				OCP\Util::ERROR);
 		}
 	} else {
-		OCP\Util::writeLog('contacts','thumbnail.php. Couldn\'t load image string for ID '.$id,OCP\Util::ERROR);
+		OCP\Util::writeLog('contacts', 
+			'thumbnail.php. Couldn\'t load image string for ID ' . $id, 
+			OCP\Util::ERROR);
 	}
 }
 getStandardImage();

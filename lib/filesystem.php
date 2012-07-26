@@ -46,105 +46,106 @@
 class OC_Filesystem{
 	static private $storages=array();
 	static private $mounts=array();
-	static private $storageTypes=array();
 	public static $loaded=false;
-	private $fakeRoot='';
+	/**
+	 * @var OC_Filestorage $defaultInstance
+	 */
 	static private $defaultInstance;
 
 
-  /**
-   * classname which used for hooks handling
-   * used as signalclass in OC_Hooks::emit()
-   */
-  const CLASSNAME = 'OC_Filesystem';
+	/**
+	 * classname which used for hooks handling
+	 * used as signalclass in OC_Hooks::emit()
+	 */
+	const CLASSNAME = 'OC_Filesystem';
 
-  /**
-   * signalname emited before file renaming
-   * @param oldpath
-   * @param newpath
-   */
-  const signal_rename = 'rename';
+	/**
+	 * signalname emited before file renaming
+	 * @param oldpath
+	 * @param newpath
+	 */
+	const signal_rename = 'rename';
 
-  /**
-   * signal emited after file renaming
-   * @param oldpath
-   * @param newpath
-   */
-  const signal_post_rename = 'post_rename';
-	
-  /**
-   * signal emited before file/dir creation
-   * @param path
-   * @param run changing this flag to false in hook handler will cancel event
-   */
-  const signal_create = 'create';
+	/**
+	 * signal emited after file renaming
+	 * @param oldpath
+	 * @param newpath
+	 */
+	const signal_post_rename = 'post_rename';
 
-  /**
-   * signal emited after file/dir creation
-   * @param path
-   * @param run changing this flag to false in hook handler will cancel event
-   */
-  const signal_post_create = 'post_create';
+	/**
+	 * signal emited before file/dir creation
+	 * @param path
+	 * @param run changing this flag to false in hook handler will cancel event
+	 */
+	const signal_create = 'create';
 
-  /**
-   * signal emits before file/dir copy
-   * @param oldpath
-   * @param newpath
-   * @param run changing this flag to false in hook handler will cancel event
-   */
-  const signal_copy = 'copy';
+	/**
+	 * signal emited after file/dir creation
+	 * @param path
+	 * @param run changing this flag to false in hook handler will cancel event
+	 */
+	const signal_post_create = 'post_create';
 
-  /**
-   * signal emits after file/dir copy
-   * @param oldpath
-   * @param newpath
-   */
-  const signal_post_copy = 'post_copy';
+	/**
+	 * signal emits before file/dir copy
+	* @param oldpath
+	 * @param newpath
+	  * @param run changing this flag to false in hook handler will cancel event
+	 */
+	const signal_copy = 'copy';
 
-  /**
-   * signal emits before file/dir save
-   * @param path
-   * @param run changing this flag to false in hook handler will cancel event
-   */
-  const signal_write = 'write';
+	/**
+	 * signal emits after file/dir copy
+	 * @param oldpath
+	 * @param newpath
+	 */
+	const signal_post_copy = 'post_copy';
 
-  /**
-   * signal emits after file/dir save
-   * @param path
-   */
-  const signal_post_write = 'post_write';
-	
-  /**
-   * signal emits when reading file/dir
-   * @param path
-   */
-  const signal_read = 'read';
+	/**
+	 * signal emits before file/dir save
+	 * @param path
+	 * @param run changing this flag to false in hook handler will cancel event
+	 */
+	const signal_write = 'write';
 
-  /**
-   * signal emits when removing file/dir
-   * @param path
-   */
-  const signal_delete = 'delete';
+	/**
+	 * signal emits after file/dir save
+	 * @param path
+	 */
+	const signal_post_write = 'post_write';
 
-  /**
-   * parameters definitions for signals
-   */
-  const signal_param_path = 'path';
-  const signal_param_oldpath = 'oldpath';
-  const signal_param_newpath = 'newpath';
+	/**
+	 * signal emits when reading file/dir
+	 * @param path
+	 */
+	const signal_read = 'read';
 
-  /**
-   * run - changing this flag to false in hook handler will cancel event
-   */
-  const signal_param_run = 'run';
+	/**
+	 * signal emits when removing file/dir
+	 * @param path
+	 */
+	const signal_delete = 'delete';
 
-  /**
-	* get the mountpoint of the storage object for a path
-	( note: because a storage is not always mounted inside the fakeroot, the returned mountpoint is relative to the absolute root of the filesystem and doesn't take the chroot into account
-	*
-	* @param string path
-	* @return string
-	*/
+	/**
+	 * parameters definitions for signals
+	 */
+	const signal_param_path = 'path';
+	const signal_param_oldpath = 'oldpath';
+	const signal_param_newpath = 'newpath';
+
+	/**
+	 * run - changing this flag to false in hook handler will cancel event
+	 */
+	const signal_param_run = 'run';
+
+	/**
+	 * get the mountpoint of the storage object for a path
+	 ( note: because a storage is not always mounted inside the fakeroot, the returned mountpoint is relative to the absolute root of the filesystem and doesn't take the chroot into account
+	 *
+	 * @param string path
+	  * @return string
+	 */
 	static public function getMountPoint($path){
 		OC_Hook::emit(self::CLASSNAME,'get_mountpoint',array('path'=>$path));
 		if(!$path){
@@ -155,7 +156,8 @@ class OC_Filesystem{
 		}
 		$path=str_replace('//', '/',$path);
 		$foundMountPoint='';
-		foreach(OC_Filesystem::$mounts as $mountpoint=>$storage){
+		$mountPoints=array_keys(OC_Filesystem::$mounts);
+		foreach($mountPoints as $mountpoint){
 			if($mountpoint==$path){
 				return $mountpoint;
 			}
@@ -260,10 +262,7 @@ class OC_Filesystem{
 	 * tear down the filesystem, removing all storage providers
 	 */
 	static public function tearDown(){
-		foreach(self::$storages as $mountpoint=>$storage){
-			unset(self::$storages[$mountpoint]);
-		}
-		$fakeRoot='';
+		self::$storages=array();
 	}
 	
 	/**
@@ -287,7 +286,7 @@ class OC_Filesystem{
 	* @return bool
 	*/
 	static public function chroot($fakeRoot){
-		return self::$defaultInstance->chroot($path);
+		return self::$defaultInstance->chroot($fakeRoot);
 	}
 
 	/**
@@ -320,21 +319,7 @@ class OC_Filesystem{
 		if(substr($mountpoint,-1)!=='/'){
 			$mountpoint=$mountpoint.'/';
 		}
-		if (self::getView() != null && $mountpoint != '/' && !self::is_dir(basename($mountpoint))) {
-			self::mkdir(basename($mountpoint));
-		}
 		self::$mounts[$mountpoint]=array('class'=>$class,'arguments'=>$arguments);
-	}
-
-	/**
-	 * create all storage backends mounted in the filesystem
-	 */
-	static private function mountAll(){
-		foreach(self::$mounts as $mountPoint=>$mount){
-			if(!isset(self::$storages[$mountPoint])){
-				self::$storages[$mountPoint]=self::createStorage($mount['type'],$mount['arguments']);
-			}
-		}
 	}
 	
 	/**
@@ -485,9 +470,17 @@ class OC_Filesystem{
 	 * @return bool
 	 */
 	static public function hasUpdated($path,$time){
-		return self::$defaultInstance->hasUpdated($path);
+		return self::$defaultInstance->hasUpdated($path,$time);
+	}
+
+	static public function removeETagHook($params) {
+		$path=$params['path'];
+		OC_Connector_Sabre_Node::removeETagPropertyForFile($path);
 	}
 }
+OC_Hook::connect('OC_Filesystem','post_write', 'OC_Filesystem','removeETagHook');
+OC_Hook::connect('OC_Filesystem','post_delete','OC_Filesystem','removeETagHook');
+OC_Hook::connect('OC_Filesystem','post_rename','OC_Filesystem','removeETagHook');
 
 OC_Util::setupFS();
 require_once('filecache.php');

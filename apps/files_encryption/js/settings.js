@@ -17,8 +17,8 @@ $(document).ready(function(){
 		OC.AppConfig.setValue('files_encryption','type_blacklist',blackList);
 	}
 
-	$('#enbale_encryption').change(function(){
-		var checked=$('#enbale_encryption').is(':checked');
+	$('#enable_encryption').change(function(){
+		var checked=$('#enable_encryption').is(':checked');
 		OC.AppConfig.setValue('files_encryption','enable_encryption',(checked)?'true':'false');
 	})
 })

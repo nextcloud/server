@@ -5,6 +5,7 @@ OCP\JSON::checkAppEnabled('files_external');
 $view = \OCP\Files::getStorage("files_external");
 $from = $_FILES['rootcert_import']['tmp_name'];
 $path = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("").'uploads/';
+if(!file_exists($path)) mkdir($path,0700,true);
 $to = $path.$_FILES['rootcert_import']['name'];
 move_uploaded_file($from, $to);
 

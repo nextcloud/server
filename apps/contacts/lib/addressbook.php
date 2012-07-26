@@ -37,17 +37,17 @@
 /**
  * This class manages our addressbooks.
  */
-class OC_Contacts_Addressbook{
+class OC_Contacts_Addressbook {
 	/**
 	 * @brief Returns the list of addressbooks for a specific user.
 	 * @param string $uid
 	 * @param boolean $active Only return addressbooks with this $active state, default(=false) is don't care
 	 * @return array or false.
 	 */
-	public static function all($uid, $active=false){
+	public static function all($uid, $active=false) {
 		$values = array($uid);
 		$active_where = '';
-		if ($active){
+		if ($active) {
 			$active_where = ' AND active = ?';
 			$values[] = 1;
 		}
@@ -55,13 +55,13 @@ class OC_Contacts_Addressbook{
 			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ? ' . $active_where . ' ORDER BY displayname' );
 			$result = $stmt->execute($values);
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.' exception: '.$e->getMessage(),OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.' uid: '.$uid,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.' exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.' uid: '.$uid, OCP\Util::DEBUG);
 			return false;
 		}
 
 		$addressbooks = array();
-		while( $row = $result->fetchRow()){
+		while( $row = $result->fetchRow()) {
 			$addressbooks[] = $row;
 		}
 		if(!$active && !count($addressbooks)) {
@@ -76,14 +76,14 @@ class OC_Contacts_Addressbook{
 	 * @param integer $uid User id. If null current user will be used.
 	 * @return array
 	 */
-	public static function activeIds($uid = null){
-		if(is_null($uid)){
+	public static function activeIds($uid = null) {
+		if(is_null($uid)) {
 			$uid = OCP\USER::getUser();
 		}
 		$activeaddressbooks = self::all($uid, true);
 		$ids = array();
 		foreach($activeaddressbooks as $addressbook) {
-			$ids[] = $addressbook['userid'];
+			$ids[] = $addressbook['id'];
 		}
 		return $ids;
 	}
@@ -93,7 +93,7 @@ class OC_Contacts_Addressbook{
 	 * @param string $uid
 	 * @return array
 	 */
-	public static function active($uid){
+	public static function active($uid) {
 		return self::all($uid, true);
 	}
 
@@ -112,13 +112,13 @@ class OC_Contacts_Addressbook{
 	 * @param integer $id
 	 * @return associative array or false.
 	 */
-	public static function find($id){
+	public static function find($id) {
 		try {
 			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
 			$result = $stmt->execute(array($id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', id: '.$id,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id: '.$id, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -129,11 +129,11 @@ class OC_Contacts_Addressbook{
 	 * @brief Adds default address book
 	 * @return $id ID of the newly created addressbook or false on error.
 	 */
-	public static function addDefault($uid = null){
+	public static function addDefault($uid = null) {
 		if(is_null($uid)) {
 			$uid = OCP\USER::getUser();
 		}
-		$id = self::add($uid,'default','Default Address Book');
+		$id = self::add($uid, 'Contacts', 'Default Address Book');
 		if($id !== false) {
 			self::setActive($id, true);
 		}
@@ -147,13 +147,13 @@ class OC_Contacts_Addressbook{
 	 * @param string $description
 	 * @return insertid
 	 */
-	public static function add($uid,$name,$description=''){
+	public static function add($uid,$name,$description='') {
 		try {
 			$stmt = OCP\DB::prepare( 'SELECT uri FROM *PREFIX*contacts_addressbooks WHERE userid = ? ' );
 			$result = $stmt->execute(array($uid));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.' exception: '.$e->getMessage(),OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.' uid: '.$uid,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.' exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.' uid: '.$uid, OCP\Util::DEBUG);
 			return false;
 		}
 		$uris = array();
@@ -166,8 +166,8 @@ class OC_Contacts_Addressbook{
 			$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)' );
 			$result = $stmt->execute(array($uid,$name,$uri,$description,1));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', uid: '.$uid,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', uid: '.$uid, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -182,16 +182,16 @@ class OC_Contacts_Addressbook{
 	 * @param string $description
 	 * @return insertid or false
 	 */
-	public static function addFromDAVData($principaluri,$uri,$name,$description){
+	public static function addFromDAVData($principaluri,$uri,$name,$description) {
 		$uid = self::extractUserID($principaluri);
 
 		try {
 			$stmt = OCP\DB::prepare('INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)');
 			$result = $stmt->execute(array($uid,$name,$uri,$description,1));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', uid: '.$uid,OCP\Util::DEBUG);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', uri: '.$uri,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', uid: '.$uid, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', uri: '.$uri, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -205,14 +205,14 @@ class OC_Contacts_Addressbook{
 	 * @param string $description
 	 * @return boolean
 	 */
-	public static function edit($id,$name,$description){
+	public static function edit($id,$name,$description) {
 		// Need these ones for checking uri
 		$addressbook = self::find($id);
 
-		if(is_null($name)){
+		if(is_null($name)) {
 			$name = $addressbook['name'];
 		}
-		if(is_null($description)){
+		if(is_null($description)) {
 			$description = $addressbook['description'];
 		}
 
@@ -220,8 +220,8 @@ class OC_Contacts_Addressbook{
 			$stmt = OCP\DB::prepare('UPDATE *PREFIX*contacts_addressbooks SET displayname=?,description=?, ctag=ctag+1 WHERE id=?');
 			$result = $stmt->execute(array($name,$description,$id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', id: '.$id,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id: '.$id, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -234,15 +234,15 @@ class OC_Contacts_Addressbook{
 	 * @param boolean $active
 	 * @return boolean
 	 */
-	public static function setActive($id,$active){
+	public static function setActive($id,$active) {
 		$sql = 'UPDATE *PREFIX*contacts_addressbooks SET active = ? WHERE id = ?';
-		OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', id: '.$id.', active: '.intval($active),OCP\Util::ERROR);
+		OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id: '.$id.', active: '.intval($active), OCP\Util::ERROR);
 		try {
 			$stmt = OCP\DB::prepare($sql);
 			$stmt->execute(array(intval($active), $id));
 			return true;
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception for '.$id.': '.$e->getMessage(),OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception for '.$id.': '.$e->getMessage(), OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -252,7 +252,7 @@ class OC_Contacts_Addressbook{
 	 * @param integer $id ID of the address book.
 	 * @return boolean
 	 */
-	public static function isActive($id){
+	public static function isActive($id) {
 		$sql = 'SELECT active FROM *PREFIX*contacts_addressbooks WHERE id = ?';
 		try {
 			$stmt = OCP\DB::prepare( $sql );
@@ -260,7 +260,7 @@ class OC_Contacts_Addressbook{
 			$row = $result->fetchRow();
 			return (bool)$row['active'];
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
 		}
 	}
 
@@ -269,13 +269,13 @@ class OC_Contacts_Addressbook{
 	 * @param integer $id
 	 * @return boolean
 	 */
-	public static function delete($id){
+	public static function delete($id) {
 		self::setActive($id, false);
 		try {
 			$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
 			$stmt->execute(array($id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception for '.$id.': '.$e->getMessage(),OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception for '.$id.': '.$e->getMessage(), OCP\Util::ERROR);
 			return false;
 		}
 		
@@ -292,7 +292,7 @@ class OC_Contacts_Addressbook{
 	 * @param integer $id
 	 * @return boolean
 	 */
-	public static function touch($id){
+	public static function touch($id) {
 		$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_addressbooks SET ctag = ctag + 1 WHERE id = ?' );
 		$stmt->execute(array($id));
 
@@ -305,11 +305,11 @@ class OC_Contacts_Addressbook{
 	 * @param array  $existing existing addressbook URIs
 	 * @return string new name
 	 */
-	public static function createURI($name,$existing){
-		$name = strtolower($name);
+	public static function createURI($name,$existing) {
+		$name = str_replace(' ', '_', strtolower($name));
 		$newname = $name;
 		$i = 1;
-		while(in_array($newname,$existing)){
+		while(in_array($newname, $existing)) {
 			$newname = $name.$i;
 			$i = $i + 1;
 		}
@@ -320,8 +320,8 @@ class OC_Contacts_Addressbook{
 	 * @brief gets the userid from a principal path
 	 * @return string
 	 */
-	public static function extractUserID($principaluri){
-		list($prefix,$userid) = Sabre_DAV_URLUtil::splitPath($principaluri);
+	public static function extractUserID($principaluri) {
+		list($prefix, $userid) = Sabre_DAV_URLUtil::splitPath($principaluri);
 		return $userid;
 	}
 }

@@ -77,24 +77,24 @@ class OC_Task_App {
 	public static function validateRequest($request)
 	{
 		$errors = array();
-		if($request['summary'] == ''){
+		if($request['summary'] == '') {
 			$errors['summary'] = self::$l10n->t('Empty Summary');
 		}
 
 		try {
-			$timezone = OCP\Config::getUserValue(OCP\User::getUser(), "calendar", "timezone", "Europe/London");
+			$timezone = OC_Calendar_App::getTimezone();
 			$timezone = new DateTimeZone($timezone);
 			new DateTime($request['due'], $timezone);
 		} catch (Exception $e) {
 			$errors['due'] = self::$l10n->t('Invalid date/time');
 		}
 
-		if ($request['percent_complete'] < 0 || $request['percent_complete'] > 100){
+		if ($request['percent_complete'] < 0 || $request['percent_complete'] > 100) {
 			$errors['percent_complete'] = self::$l10n->t('Invalid percent complete');
 		}
-		if ($request['percent_complete'] == 100 && !empty($request['completed'])){
+		if ($request['percent_complete'] == 100 && !empty($request['completed'])) {
 			try {
-				$timezone = OCP\Config::getUserValue(OCP\User::getUser(), "calendar", "timezone", "Europe/London");
+				$timezone = OC_Calendar_App::getTimezone();
 				$timezone = new DateTimeZone($timezone);
 				new DateTime($request['completed'], $timezone);
 			} catch (Exception $e) {
@@ -147,7 +147,7 @@ class OC_Task_App {
 		$vtodo->setString('PRIORITY', $priority);
 
 		if ($due) {
-			$timezone = OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+			$timezone = OC_Calendar_App::getTimezone();
 			$timezone = new DateTimeZone($timezone);
 			$due = new DateTime($due, $timezone);
 			$vtodo->setDateTime('DUE', $due);
@@ -168,15 +168,15 @@ class OC_Task_App {
 			$vtodo->__unset('PERCENT-COMPLETE');
 		}
 
-		if ($percent_complete == 100){
-			if (!$completed){
+		if ($percent_complete == 100) {
+			if (!$completed) {
 				$completed = 'now';
 			}
 		} else {
 			$completed = null;
 		}
 		if ($completed) {
-			$timezone = OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+			$timezone = OC_Calendar_App::getTimezone();
 			$timezone = new DateTimeZone($timezone);
 			$completed = new DateTime($completed, $timezone);
 			$vtodo->setDateTime('COMPLETED', $completed);

@@ -856,7 +856,7 @@ class OC_Calendar_Object{
 			$vevent->setDateTime('DTSTART', $start, Sabre_VObject_Property_DateTime::DATE);
 			$vevent->setDateTime('DTEND', $end, Sabre_VObject_Property_DateTime::DATE);
 		}else{
-			$timezone = OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+			$timezone = OC_Calendar_App::getTimezone();
 			$timezone = new DateTimeZone($timezone);
 			$start = new DateTime($from.' '.$fromtime, $timezone);
 			$end = new DateTime($to.' '.$totime, $timezone);
