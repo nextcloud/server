@@ -28,7 +28,10 @@ class Connection {
 	private $configID;
 	private $configured = false;
 
-	//cached settings
+	//cache handler
+	protected $cache;
+
+	//settings
 	protected $config = array(
 		'ldapHost' => null,
 		'ldapPort' => null,
@@ -48,10 +51,12 @@ class Connection {
 		'ldapQuotaAttribute' => null,
 		'ldapQuotaDefault' => null,
 		'ldapEmailAttribute' => null,
+		'ldapCacheTTL' => null,
 	);
 
 	public function __construct($configID = 'user_ldap') {
 		$this->configID = $configID;
+		$this->cache = \OC_Cache::getGlobalCache();
 	}
 
 	public function __destruct() {
@@ -92,6 +97,57 @@ class Connection {
 		return $this->ldapConnectionRes;
 	}
 
+	private function getCacheKey($key) {
+		$prefix = 'LDAP-'.$this->configID.'-';
+		if(is_null($key)) {
+			return $prefix;
+		}
+		return $prefix.md5($key);
+	}
+
+	public function getFromCache($key) {
+		if(!$this->configured) {
+			$this->readConfiguration();
+		}
+		if(!$this->config['ldapCacheTTL']) {
+			return null;
+		}
+		if(!$this->isCached($key)) {
+			return null;
+
+		}
+		$key = $this->getCacheKey($key);
+
+		return unserialize(base64_decode($this->cache->get($key)));
+	}
+
+	public function isCached($key) {
+		if(!$this->configured) {
+			$this->readConfiguration();
+		}
+		if(!$this->config['ldapCacheTTL']) {
+			return false;
+		}
+		$key = $this->getCacheKey($key);
+		return $this->cache->hasKey($key);
+	}
+
+	public function writeToCache($key, $value) {
+		if(!$this->configured) {
+			$this->readConfiguration();
+		}
+		if(!$this->config['ldapCacheTTL']) {
+			return null;
+		}
+		$key   = $this->getCacheKey($key);
+		$value = base64_encode(serialize($value));
+		$this->cache->set($key, $value, $this->config['ldapCacheTTL']);
+	}
+
+	public function clearCache() {
+		$this->cache->clear($this->getCacheKey(null));
+	}
+
 	/**
 	 * Caches the general LDAP configuration.
 	 */
@@ -118,6 +174,7 @@ class Connection {
 			$this->config['ldapEmailAttribute']    = \OCP\Config::getAppValue($this->configID, 'ldap_email_attr', '');
 			$this->config['ldapGroupMemberAssocAttr'] = \OCP\Config::getAppValue($this->configID, 'ldap_group_member_assoc_attribute', 'uniqueMember');
 			$this->config['ldapIgnoreNamingRules'] = \OCP\Config::getSystemValue('ldapIgnoreNamingRules', false);
+			$this->config['ldapCacheTTL']          = \OCP\Config::getAppValue($this->configID, 'ldap_cache_ttl', 10*60);
 
 			$this->configured = $this->validateConfiguration();
 		}
