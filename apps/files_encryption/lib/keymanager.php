@@ -27,6 +27,7 @@ namespace OCA_Encryption;
  */
 class Keymanager {
 	
+	# TODO: Try and get rid of username dependencies as these methods need to be used in a proxy class that doesn't have username access
 	
 	/**
 	 * @brief retrieve private key from a user
@@ -36,9 +37,9 @@ class Keymanager {
 	 */
 	public static function getPrivateKey( $user ) {
 
-		$view = new \OC_FilesystemView( '/' . $user . '/' . 'files_encryption' . '/' );
+		$view = new \OC_FilesystemView( '/' . $user . '/' . 'files_encryption' );
 		
-		return $view->file_get_contents( $user.'.private.key' );
+		return $view->file_get_contents( '/' . $user.'.private.key' );
 	}
 	
 	/**
@@ -92,15 +93,20 @@ class Keymanager {
 	/**
 	 * @brief store file encryption key
 	 *
-	 * @param string user name of the file owner
-	 * @param string file name
-	 * @param string key
+	 * @param string $userId name of the file owner
+	 * @param string $path relative path of the file, including filename
+	 * @param string $key
 	 * @return bool true/false
 	 */
-	public static function setFileKey($user, $file, $key) {
-		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/keyfiles/');
-		return $view->file_put_contents($file.'.key', $key);
+	public static function setFileKey( $userId, $path, $key ) {
 	
+		\OC_FileProxy::$enabled = false;
+		
+		$view = new \OC_FilesystemView( '/' . $userId . '/' . 'files_encryption' );
+		
+		return $view->file_put_contents( '/' . $path . '.key', $key );
+		
+		\OC_FileProxy::$enabled = true;	
 	}
 	
 }

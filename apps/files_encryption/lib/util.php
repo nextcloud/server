@@ -184,15 +184,16 @@ class Util {
 	 * if the key is left out, the default handeler will be used
 	 */
 	public function getLegacyKey( $passphrase ) {
-
-		//OC_FileProxy::$enabled = false;
+		
+		// Disable proxies to prevent attempt to automatically decrypt key
+		OC_FileProxy::$enabled = false;
 		
 		if ( 
 		$passphrase 
 		and $key = $this->view->file_get_contents( '/encryption.key' ) 
 		) {
 		
-			//OC_FileProxy::$enabled = true;
+			OC_FileProxy::$enabled = true;
 		
 			if ( $this->legacyKey = $this->legacyDecrypt( $key, $passphrase ) ) {
 			
@@ -205,6 +206,8 @@ class Util {
 			}
 			
 		} else {
+		
+			OC_FileProxy::$enabled = true;
 		
 			return false;
 			

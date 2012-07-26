@@ -52,7 +52,6 @@ class Hooks {
 		
 		return true;
 		
-		
 	}
 
 }
