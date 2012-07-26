@@ -191,11 +191,20 @@ class Connection {
 			return false;
 		}
 
+		$params = array('ldap_host'=>'ldapHost', 'ldap_port'=>'ldapPort', 'ldap_dn'=>'ldapAgentName', 'ldap_agent_password'=>'ldapAgentPassword', 'ldap_base'=>'ldapBase', 'ldap_base_users'=>'ldapBaseUsers', 'ldap_base_groups'=>'ldapBaseGroups', 'ldap_userlist_filter'=>'ldapUserFilter', 'ldap_login_filter'=>'ldapLoginFilter', 'ldap_group_filter'=>'ldapGroupFilter', 'ldap_display_name'=>'ldapUserDisplayName', 'ldap_group_display_name'=>'ldapGroupDisplayName',
+
+		'ldap_tls'=>'ldapTLS', 'ldap_nocase'=>'ldapNoCase', 'ldap_quota_def'=>'ldapQuotaDefault', 'ldap_quota_attr'=>'ldapQuotaAttribute', 'ldap_email_attr'=>'ldapEmailAttribute', 'ldap_group_member_assoc_attribute'=>'ldapGroupMemberAssocAttr', 'ldap_cache_ttl'=>'ldapCacheTTL');
+
 		foreach($config as $parameter => $value) {
 		    if(isset($this->config[$parameter])) {
 				$this->config[$parameter] = $value;
 				if(is_array($setParameters)) {
 					$setParameters[] = $parameter;
+				}
+		    } else if(isset($params[$parameter])) {
+				$this->config[$params[$parameter]] = $value;
+				if(is_array($setParameters)) {
+					$setParameters[] = $params[$parameter];
 				}
 		    }
 		}

@@ -28,7 +28,7 @@
 		<p><label for="ldap_email_attr">Email Attribute</label><input type="text" id="ldap_email_attr" name="ldap_email_attr" value="<?php echo $_['ldap_email_attr']; ?>" /></p>
 		<p><label for="ldap_cache_ttl">Cache Time-To-Live</label><input type="text" id="ldap_cache_ttl" name="ldap_cache_ttl" value="<?php echo $_['ldap_cache_ttl']; ?>" /><small><?php echo $l->t('in seconds');?></small></p>
 	</fieldset>
-	<input type="submit" value="Save" /> <a href="http://owncloud.org/support/ldap-backend/" target="_blank"><img src="<?php echo OCP\Util::imagePath('','actions/info.png'); ?>" style="height:1.75ex" /> <?php echo $l->t('Help');?></a>
+	<input type="submit" value="Save" /> <button id="ldap_action_test_connection" name="ldap_action_test_connection">Test Configuration</button> <a href="http://owncloud.org/support/ldap-backend/" target="_blank"><img src="<?php echo OCP\Util::imagePath('','actions/info.png'); ?>" style="height:1.75ex" /> <?php echo $l->t('Help');?></a>
 	</div>
 
 </form>
