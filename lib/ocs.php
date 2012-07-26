@@ -173,10 +173,20 @@ class OC_OCS {
 			$user=$ex[$paracount-3];
 			OC_OCS::publicKeyGet($format,$user);
 
+		//keysetpublic
+		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'publickey')){
+				$user=$ex[$paracount-3];
+				$key = self::readData('post', 'key', 'string');
+				OC_OCS::publicKeySet($format,$user, $key);
+		
 		// keygetprivate 
 		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'privatekey')){
 			$user=$ex[$paracount-3];
 			OC_OCS::privateKeyGet($format,$user);
+		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'privatekey')){
+				$user=$ex[$paracount-3];
+				$key = self::readData('post', 'key', 'string');
+				OC_OCS::privateKeySet($format,$user, $key);
 
 
 // add more calls here
@@ -680,18 +690,21 @@ class OC_OCS {
          */
         private static function publicKeySet($format, $user, $key) {
         	$login=OC_OCS::checkpassword();
-        	if($login == $user) {
-        		if(OC_User::userExists($user)){
-        			//TODO: SET public key
-        			echo self::generateXml('', 'ok', 100, 'Public key uploaded');
-        		}else{
-        			echo self::generateXml('', 'fail', 300, 'User does not exist');
+        	if(($login==$user)) {
+        		if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode($user) === 'client') {
+        			if (($key = OCA_Encryption\Keymanager::setPublicKey($user, $key))) {
+        				echo self::generateXml('', 'ok', 100, '');
+        			} else {
+        				echo self::generateXml('', 'fail', 404, 'could not add your public key to the key storage');
+        			}
+        		} else {
+        			echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled for user ' . $user);
         		}
         	}else{
         		echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
         	}
         }
-
+        	
         /**
         * get the private key of a user
         * @param string $format
@@ -725,19 +738,22 @@ class OC_OCS {
 		 * @param string $key
 		 * @return string xml/json
 		 */
-		private static function privateKeySet($format, $user, $key) {
-			$login=OC_OCS::checkpassword();
-			if($login == $user) {
-				if(OC_User::userExists($user)){
-					//TODO: SET private key
-					echo self::generateXml('', 'ok', 100, 'Private key uploaded');
-				}else{
-					echo self::generateXml('', 'fail', 300, 'User does not exist');
-				}
-			}else{
-				echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
-			}
-		}
+        private static function privateKeySet($format, $user, $key) {
+        	$login=OC_OCS::checkpassword();
+        	if(($login==$user)) {
+        		if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode($user) === 'client') {
+        			if (($key = OCA_Encryption\Keymanager::setPrivateKey($user, $key))) {
+        				echo self::generateXml('', 'ok', 100, '');
+        			} else {
+        				echo self::generateXml('', 'fail', 404, 'could not add your private key to the key storage');
+        			}
+        		} else {
+        			echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled for user ' . $user);
+        		}
+        	}else{
+        		echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+        	}
+        }
 
 		/**
 		 * get the encryption key of a file

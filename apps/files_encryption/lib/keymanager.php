@@ -73,8 +73,16 @@ class Keymanager {
 	 * @return bool true/false
 	 */
 	public static function setPrivateKey($user, $key) {
-		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/');
-		return $view->file_put_contents($user.'.private.key', $key);
+
+		\OC_FileProxy::$enabled = false;
+		
+		$view = new \OC_FilesystemView('/'.$user.'/files_encryption');
+		if (!$view->file_exists('')) $view->mkdir('');
+		$result = $view->file_put_contents($user.'.private.key', $key);
+		
+		\OC_FileProxy::$enabled = true;
+		
+		return $result;
 	}
 	
 	
@@ -86,8 +94,16 @@ class Keymanager {
 	 * @return bool true/false
 	 */
 	public static function setPublicKey($user, $key) {
-		$view = new \OC_FilesystemView('/public-keys/');
-		return $view->file_put_contents($user.'.public.key', $key);
+		
+		\OC_FileProxy::$enabled = false;
+		
+		$view = new \OC_FilesystemView('/public-keys');
+		if (!$view->file_exists('')) $view->mkdir('');
+		$result = $view->file_put_contents($user.'.public.key', $key);
+		
+		\OC_FileProxy::$enabled = true;
+		
+		return $result;
 	}
 	
 	/**
@@ -103,10 +119,13 @@ class Keymanager {
 		\OC_FileProxy::$enabled = false;
 		
 		$view = new \OC_FilesystemView( '/' . $userId . '/' . 'files_encryption' );
-		
-		return $view->file_put_contents( '/' . $path . '.key', $key );
+		$path_parts = pathinfo($path);
+		if (!$view->file_exists($path_parts['dirname'])) $view->mkdir($path_parts['dirname']);
+		$result = $view->file_put_contents( '/' . $path . '.key', $key );
 		
 		\OC_FileProxy::$enabled = true;	
+		
+		return $result;
 	}
 	
 }
