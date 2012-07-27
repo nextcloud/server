@@ -23,9 +23,8 @@ class OC_FileChunking {
 	public function getPrefix() {
 		$name = $this->info['name'];
 		$transferid = $this->info['transferid'];
-		$chunkcount = $this->info['chunkcount'];
 
-		return $name.'-chunking-'.$transferid.'-'.$chunkcount.'-';
+		return $name.'-chunking-'.$transferid.'-';
 	}
 
 	protected function getCache() {
@@ -62,5 +61,34 @@ class OC_FileChunking {
 			fwrite($f,$chunk);
 		}
 		fclose($f);
+	}
+
+	public function signature_split($orgfile, $input) {
+		$info = unpack('n', fread($input, 2));
+		$blocksize = $info[1];
+		$this->info['transferid'] = mt_rand();
+		$count = 0;
+		$needed = array();
+		$cache = $this->getCache();
+		$prefix = $this->getPrefix();
+		while (!feof($orgfile)) {
+			$new_md5 = fread($input, 16);
+			if (feof($input)) {
+				break;
+			}
+			$data = fread($orgfile, $blocksize);
+			$org_md5 = md5($data, true);
+			if ($org_md5 == $new_md5) {
+				$cache->set($prefix.$count, $data);
+			} else {
+				$needed[] = $count;
+			}
+			$count++;
+		}
+		return array(
+			'transferid' => $this->info['transferid'],
+			'needed' => $needed,
+			'count' => $count,
+		);
 	}
 }
