@@ -182,7 +182,7 @@ class OC_Share {
 				$uid_shared_with = OC_Group::usersInGroup($uid_shared_with);
 				// Remove the owner from the list of users in the group
 				$uid_shared_with = array_diff($uid_shared_with, array(OCP\USER::getUser()));
-			} else if ($uid = strstr($uid_shared_with, '@', true)) {
+			} else if ($uid = strrchr($uid_shared_with, '@', true)) {
 				$uid_shared_with = array($uid);
 			} else {
 				$uid_shared_with = array($uid_shared_with);
