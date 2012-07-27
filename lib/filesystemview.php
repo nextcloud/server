@@ -223,49 +223,54 @@ class OC_FilesystemView {
 	}
 	public function file_put_contents($path, $data) {
 		if(is_resource($data)) {//not having to deal with streams in file_put_contents makes life easier
-			$exists = $this->file_exists($path);
-			$run = true;
-			if(!$exists) {
+			$absolutePath = $this->getAbsolutePath($path);
+			if (OC_FileProxy::runPreProxies('file_put_contents', $absolutePath) && OC_Filesystem::isValidPath($path)) {
+				$path = $this->getRelativePath($absolutePath);
+				$exists = $this->file_exists($path);
+				$run = true;
+				if(!$exists) {
+					OC_Hook::emit(
+						OC_Filesystem::CLASSNAME,
+						OC_Filesystem::signal_create,
+						array(
+							OC_Filesystem::signal_param_path => $path,
+							OC_Filesystem::signal_param_run => &$run
+						)
+					);
+				}
 				OC_Hook::emit(
 					OC_Filesystem::CLASSNAME,
-					OC_Filesystem::signal_create,
+					OC_Filesystem::signal_write,
 					array(
 						OC_Filesystem::signal_param_path => $path,
 						OC_Filesystem::signal_param_run => &$run
 					)
 				);
-			}
-			OC_Hook::emit(
-				OC_Filesystem::CLASSNAME,
-				OC_Filesystem::signal_write,
-				array(
-					OC_Filesystem::signal_param_path => $path,
-					OC_Filesystem::signal_param_run => &$run
-				)
-			);
-			if(!$run) {
-				return false;
-			}
-			$target=$this->fopen($path, 'w');
-			if($target) {
-				$count=OC_Helper::streamCopy($data, $target);
-				fclose($target);
-				fclose($data);
-				if(!$exists) {
+				if(!$run) {
+					return false;
+				}
+				$target=$this->fopen($path, 'w');
+				if($target) {
+					$count=OC_Helper::streamCopy($data, $target);
+					fclose($target);
+					fclose($data);
+					if(!$exists) {
+						OC_Hook::emit(
+							OC_Filesystem::CLASSNAME,
+							OC_Filesystem::signal_post_create,
+							array( OC_Filesystem::signal_param_path => $path)
+						);
+					}
 					OC_Hook::emit(
 						OC_Filesystem::CLASSNAME,
-						OC_Filesystem::signal_post_create,
+						OC_Filesystem::signal_post_write,
 						array( OC_Filesystem::signal_param_path => $path)
 					);
+					OC_FileProxy::runPostProxies('hash', $absolutePath, $count);
+					return $count > 0;
+				}else{
+					return false;
 				}
-				OC_Hook::emit(
-					OC_Filesystem::CLASSNAME,
-					OC_Filesystem::signal_post_write,
-					array( OC_Filesystem::signal_param_path => $path)
-				);
-				return $count > 0;
-			}else{
-				return false;
 			}
 		}else{
 			return $this->basicOperation('file_put_contents', $path, array('create', 'write'), $data);
