@@ -7,9 +7,11 @@
 -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
 -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
 #shareWithList { padding:0.5em; list-style-type: none; }
-#privateLink { border-top:1px solid #ddd; padding-top:0.5em; }
+#shareWithList li { padding-top:0.1em; }
+#dropdown label { font-weight:normal; }
+#dropdown input[type="checkbox"] { margin:0 0.2em 0 0.5em; }
+a.showCruds { display:inline; opacity:.5; }
+a.showCruds:hover { opacity:1; }
 a.unshare { float:right; display:inline; padding:.3em 0 0 .3em !important; opacity:.5; }
 a.unshare:hover { opacity:1; }
-#share_with { width: 16em; }
-#privateLink label, .edit { font-weight:normal; }
-#share_with_chzn { display: block; }
+#privateLink { border-top:1px solid #ddd; padding-top:0.5em; }
