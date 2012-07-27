@@ -34,24 +34,28 @@ class Hooks {
 	 * @brief Startup encryption backend upon user login
 	 * @note This method should never be called for users using client side encryption
 	 */
-	public static function login( $params ){
-		
-		$view = new \OC_FilesystemView( '/' );
-		
-		$util = new Util( $view, $params['uid'] );
-		
-		if ( !$util->ready() ) {
-		
-			return $util->setup( $params['password'] );
-			
+
+	public static function login( $params ) {
+
+		if (Crypt::mode($params['uid'])=='server') {
+
+			$view = new \OC_FilesystemView( '/' );
+
+			$util = new Util( $view, $params['uid'] );
+
+			if ( !$util->ready()) {
+
+				return $util->setupServerSide( $params['password'] );
+
+			}
+
+			$encryptedKey = Keymanager::getPrivateKey( $params['uid'] );
+
+			$_SESSION['enckey'] = Crypt::symmetricEncryptFileContent( $encryptedKey, $params['password'] );
 		}
-		
-		$encryptedKey = Keymanager::getPrivateKey( $params['uid'] );
-		
-		$_SESSION['enckey'] = Crypt::symmetricEncryptFileContent( $encryptedKey, $params['password'] );
-		
+
 		return true;
-		
+
 	}
 
 }
