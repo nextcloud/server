@@ -118,7 +118,7 @@ class Keymanager {
 	
 		\OC_FileProxy::$enabled = false;
 		
-		$view = new \OC_FilesystemView( '/' . $userId . '/' . 'files_encryption' );
+		$view = new \OC_FilesystemView( '/' . $userId . '/' . 'files_encryption/keyfiles' );
 		$path_parts = pathinfo($path);
 		if (!$view->file_exists($path_parts['dirname'])) $view->mkdir($path_parts['dirname']);
 		$result = $view->file_put_contents( '/' . $path . '.key', $key );

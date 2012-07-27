@@ -183,11 +183,24 @@ class OC_OCS {
 		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'privatekey')){
 			$user=$ex[$paracount-3];
 			OC_OCS::privateKeyGet($format,$user);
+		
+		//keysetprivate
 		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'privatekey')){
 				$user=$ex[$paracount-3];
 				$key = self::readData('post', 'key', 'string');
 				OC_OCS::privateKeySet($format,$user, $key);
-
+				
+		// keygetfiles
+		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'filekey')){
+			$user=$ex[$paracount-3];
+			OC_OCS::fileKeyGet($format,$user);
+		
+		//keysetfiles
+		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'filekey')){
+			$user=$ex[$paracount-3];
+			$key = self::readData('post', 'key', 'string');
+			$file = self::readData('post', 'file', 'string');
+			OC_OCS::fileKeySet($format,$user, $file, $key);
 
 // add more calls here
 // please document all the call in the draft spec
@@ -766,7 +779,7 @@ class OC_OCS {
 			$login=OC_OCS::checkpassword();
 			if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
 				if(OC_User::userExists($user)){
-					//TODO: GET file key
+					//TODO: GET file key, check needed if it is a shared file or not
 					$xml=array();
 					$xml['key']="this is the key for $file";
 					$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
@@ -789,16 +802,23 @@ class OC_OCS {
 		 */
 		private static function fileKeySet($format, $user, $file, $key) {
 			$login=OC_OCS::checkpassword();
-			if($login == $user) {
-				if(OC_User::userExists($user)){
-					//TODO: SET file key
-					echo self::generateXml('', 'ok', 100, 'File key uploaded');
-				}else{
-					echo self::generateXml('', 'fail', 300, 'User does not exist');
+			if(($login==$user)) {
+				if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode($user) === 'client') {
+					if (($key = OCA_Encryption\Keymanager::setFileKey($user, $file, $key))) {
+						// TODO: emit hook to move file from tmp location to the right place
+						echo self::generateXml('', 'ok', 100, '');
+						return true;
+					} else {
+						echo self::generateXml('', 'fail', 404, 'could not write key file');
+					}
+				} else {
+					echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled for user ' . $user);
 				}
 			}else{
 				echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
 			}
-		}		
+			//TODO: emit signal to remove file from tmp location
+			return false;
+		}
 
 }
