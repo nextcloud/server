@@ -24,9 +24,10 @@ class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
 		if(!$this->root || $this->root[0]!='/'){
 			$this->root='/'.$this->root;
 		}
-		
 		//create the root folder if necesary
-		mkdir($this->constructUrl(''));
+		if (!$this->is_dir('')) {
+			$this->mkdir('');
+		}
 	}
 
 	/**
