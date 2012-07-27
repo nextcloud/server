@@ -68,7 +68,7 @@ OC.Share={
 			}
 		});
 	},
-	showDropDown:function(itemType, item, appendTo, privateLink) {
+	showDropDown:function(itemType, item, appendTo, privateLink, possiblePermissions) {
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item="'+item+'">';
 		// TODO replace with autocomplete textbox
 		html += '<input id="shareWith" type="text" placeholder="Share with" style="width:90%;"/>';
@@ -89,7 +89,7 @@ OC.Share={
 				if (share.share_type == OC.Share.SHARE_TYPE_PRIVATE_LINK) {
 					OC.Share.showPrivateLink(item, share.share_with);
 				} else {
-					OC.Share.addShareWith(share.share_type, share.share_with, share.permissions);
+					OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions);
 				}
 			});
 		}
@@ -103,7 +103,7 @@ OC.Share={
 			}
 		});
 	},
-	addShareWith:function(shareType, shareWith, permissions) {
+	addShareWith:function(shareType, shareWith, permissions, possiblePermissions) {
 		var editChecked = createChecked = updateChecked = deleteChecked = shareChecked = '';
 		if (permissions & OC.Share.PERMISSION_CREATE) {
 			createChecked = 'checked="checked"';
@@ -122,14 +122,24 @@ OC.Share={
 		}
 		var html = '<li data-share-type="'+shareType+'" data-share-with="'+shareWith+'">';
 		html += shareWith;
-		html += '<label><input type="checkbox" name="edit" class="permissions" '+editChecked+' />can edit</label>';
+		if (possiblePermissions & OC.Share.PERMISSION_CREATE || possiblePermissions & OC.Share.PERMISSION_UPDATE || possiblePermissions & OC.Share.PERMISSION_DELETE) {
+			html += '<label><input type="checkbox" name="edit" class="permissions" '+editChecked+' />can edit</label>';
+		}
 		html += '<a href="#" class="showCruds" style="display:none;"><img class="svg" alt="Unshare" src="'+OC.imagePath('core', 'actions/triangle-s')+'"/></a>';
 		html += '<a href="#" class="unshare" style="display:none;"><img class="svg" alt="Unshare" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
 		html += '<div class="cruds" style="display:none;">';
-		html += '<label><input type="checkbox" name="create" class="permissions" '+createChecked+' data-permissions="'+OC.Share.PERMISSION_CREATE+'" />create</label>';
-		html += '<label><input type="checkbox" name="update" class="permissions" '+updateChecked+' data-permissions="'+OC.Share.PERMISSION_UPDATE+'" />update</label>';
-		html += '<label><input type="checkbox" name="delete" class="permissions" '+deleteChecked+' data-permissions="'+OC.Share.PERMISSION_DELETE+'" />delete</label>';
-		html += '<label><input type="checkbox" name="share" class="permissions" '+shareChecked+' data-permissions="'+OC.Share.PERMISSION_SHARE+'" />share</label>';
+			if (possiblePermissions & OC.Share.PERMISSION_CREATE) {
+				html += '<label><input type="checkbox" name="create" class="permissions" '+createChecked+' data-permissions="'+OC.Share.PERMISSION_CREATE+'" />create</label>';
+			}
+			if (possiblePermissions & OC.Share.PERMISSION_UPDATE) {
+				html += '<label><input type="checkbox" name="update" class="permissions" '+updateChecked+' data-permissions="'+OC.Share.PERMISSION_UPDATE+'" />update</label>';
+			}
+			if (possiblePermissions & OC.Share.PERMISSION_DELETE) {
+				html += '<label><input type="checkbox" name="delete" class="permissions" '+deleteChecked+' data-permissions="'+OC.Share.PERMISSION_DELETE+'" />delete</label>';
+			}
+			if (possiblePermissions & OC.Share.PERMISSION_SHARE) {
+				html += '<label><input type="checkbox" name="share" class="permissions" '+shareChecked+' data-permissions="'+OC.Share.PERMISSION_SHARE+'" />share</label>';
+			}
 		html += '</div>';
 		html += '</li>';
 		$(html).appendTo('#shareWithList');
@@ -179,7 +189,7 @@ $(document).ready(function() {
 			if ($(this).data('private-link') !== undefined && $(this).data('private-link') == true) {
 				privateLink = true;
 			}
-			OC.Share.showDropDown($(this).data('item-type'), $(this).data('item'), $(this).parent().parent(), privateLink);
+			OC.Share.showDropDown($(this).data('item-type'), $(this).data('item'), $(this).parent().parent(), privateLink, $(this).data('possible-permissions'));
 		}
 	});
 	
@@ -214,8 +224,10 @@ $(document).ready(function() {
 			var item = $('#dir').val() + '/' + filename;
 			if ($('tr').filterAttr('data-file', filename).data('type') == 'dir') {
 				var itemType = 'folder';
+				var possiblePermissions = OC.Share.PERMISSION_CREATE | OC.Share.PERMISSION_UPDATE | OC.Share.PERMISSION_DELETE | OC.Share.PERMISSION_SHARE;
 			} else {
 				var itemType = 'file';
+				var possiblePermissions = OC.Share.PERMISSION_UPDATE | OC.Share.PERMISSION_DELETE | OC.Share.PERMISSION_SHARE;
 			}
 			var appendTo = $('tr').filterAttr('data-file', filename).find('td.filename');
 			// Check if drop down is already visible for a different file
@@ -224,12 +236,12 @@ $(document).ready(function() {
 					OC.Share.hideDropDown(function () {
 						$('tr').removeClass('mouseOver');
 						$('tr').filterAttr('data-file', filename).addClass('mouseOver');
-						OC.Share.showDropDown(itemType, item, appendTo, true);
+						OC.Share.showDropDown(itemType, item, appendTo, true, possiblePermissions);
 					});
 				}
 			} else {
 				$('tr').filterAttr('data-file',filename).addClass('mouseOver');
-				OC.Share.showDropDown(itemType, item, appendTo, true);
+				OC.Share.showDropDown(itemType, item, appendTo, true, possiblePermissions);
 			}
 		});
 	}
