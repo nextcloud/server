@@ -224,7 +224,7 @@ class OC_FilesystemView {
 	public function file_put_contents($path, $data) {
 		if(is_resource($data)) {//not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = $this->getAbsolutePath($path);
-			if (OC_FileProxy::runPreProxies('file_put_contents', $absolutePath) && OC_Filesystem::isValidPath($path)) {
+			if (OC_FileProxy::runPreProxies('file_put_contents', $absolutePath, $data) && OC_Filesystem::isValidPath($path)) {
 				$path = $this->getRelativePath($absolutePath);
 				$exists = $this->file_exists($path);
 				$run = true;
