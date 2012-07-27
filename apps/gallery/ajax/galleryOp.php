@@ -186,4 +186,3 @@ if ($_GET['operation']) {
     OCP\JSON::error(array('cause' => 'Unknown operation'));
   }
 }
-?>

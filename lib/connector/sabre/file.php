@@ -26,13 +26,28 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	/**
 	 * Updates the data
 	 *
+	 * The data argument is a readable stream resource.
+	 *
+	 * After a succesful put operation, you may choose to return an ETag. The
+	 * etag must always be surrounded by double-quotes. These quotes must
+	 * appear in the actual string you're returning.
+	 *
+	 * Clients may use the ETag from a PUT request to later on make sure that
+	 * when they update the file, the contents haven't changed in the mean
+	 * time.
+	 *
+	 * If you don't plan to store the file byte-by-byte, and you return a
+	 * different object on a subsequent GET you are strongly recommended to not
+	 * return an ETag, and just return null.
+	 *
 	 * @param resource $data
-	 * @return void
+	 * @return string|null
 	 */
 	public function put($data) {
 
 		OC_Filesystem::file_put_contents($this->path,$data);
 
+		return OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
 	}
 
 	/**
@@ -42,7 +57,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function get() {
 
-		return OC_Filesystem::fopen($this->path,'r');
+		return OC_Filesystem::fopen($this->path,'rb');
 
 	}
 
@@ -79,9 +94,20 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 * @return mixed
 	 */
 	public function getETag() {
+		$properties = $this->getProperties(array(self::GETETAG_PROPERTYNAME));
+		if (isset($properties[self::GETETAG_PROPERTYNAME])) {
+			return $properties[self::GETETAG_PROPERTYNAME];
+		}
+		return $this->getETagPropertyForPath($this->path);
+	}
 
-		return null;
-
+	/**
+	 * Creates a ETag for this path.
+	 * @param string $path Path of the file
+	 * @return string|null Returns null if the ETag can not effectively be determined
+	 */
+	static protected function createETag($path) {
+		return OC_Filesystem::hash('md5', $path);
 	}
 
 	/**

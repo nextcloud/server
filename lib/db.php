@@ -33,8 +33,6 @@ class OC_DB {
 	static private $MDB2=false;
 	static private $PDO=false;
 	static private $schema=false;
-	static private $affected=0;
-	static private $result=false;
 	static private $inTransaction=false;
 	static private $prefix=null;
 	static private $type=null;
@@ -222,7 +220,7 @@ class OC_DB {
 				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
 				OC_Log::write('core',self::$MDB2->getUserInfo(),OC_Log::FATAL);
 				OC_Log::write('core',self::$MDB2->getMessage(),OC_Log::FATAL);
-				die( $error );
+				die();
 			}
 			
 			// We always, really always want associative arrays
@@ -370,9 +368,6 @@ class OC_DB {
 		if( $definition instanceof MDB2_Schema_Error ){
 			die( $definition->getMessage().': '.$definition->getUserInfo());
 		}
-// 		if(OC_Config::getValue('dbtype','sqlite')=='sqlite'){
-// 			$definition['overwrite']=true;//always overwrite for sqlite
-// 		}
 		$ret=self::$schema->createDatabase( $definition );
 
 		// Die in case something went wrong
@@ -519,8 +514,9 @@ class OC_DB {
 		
 		// Delete our temporary file
 		unlink( $file2 );
-		foreach($definition['tables'] as $name=>$table){
-			self::dropTable($name);
+		$tables=array_keys($definition['tables']);
+		foreach($tables as $table){
+			self::dropTable($table);
 		}
 	}
 	
@@ -528,8 +524,7 @@ class OC_DB {
 	 * @brief replaces the owncloud tables with a new set
 	 * @param $file string path to the MDB2 xml db export file
 	 */
-	 public static function replaceDB( $file ){
-	 	
+	public static function replaceDB( $file ){
 	 	$apps = OC_App::getAllApps();
 	 	self::beginTransaction();
 	 	// Delete the old tables

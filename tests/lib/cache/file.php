@@ -21,8 +21,10 @@
 */
 
 class Test_Cache_File extends Test_Cache {
+	private $user;
+	
 	function skip() {
-		$this->skipUnless(OC_User::isLoggedIn());
+		//$this->skipUnless(OC_User::isLoggedIn());
 	}
 	
 	public function setUp(){
@@ -30,17 +32,32 @@ class Test_Cache_File extends Test_Cache {
 		OC_FileProxy::clearProxies();
 		OC_Hook::clear('OC_Filesystem');
 		
-		//enable only the encryption hook
-		OC_FileProxy::register(new OC_FileProxy_Encryption());
+		//enable only the encryption hook if needed
+		if(OC_App::isEnabled('files_encryption')){
+			OC_FileProxy::register(new OC_FileProxy_Encryption());
+		}
 		
 		//set up temporary storage
 		OC_Filesystem::clearMounts();
 		OC_Filesystem::mount('OC_Filestorage_Temporary',array(),'/');
 
+		OC_User::clearBackends();
+		OC_User::useBackend(new OC_User_Dummy());
+		
+		//login
+		OC_User::createUser('test', 'test');
+		
+		$this->user=OC_User::getUser();
+		OC_User::setUserId('test');
+
 		//set up the users dir
 		$rootView=new OC_FilesystemView('');
-		$rootView->mkdir('/'.OC_User::getUser());
+		$rootView->mkdir('/test');
 		
 		$this->instance=new OC_Cache_File();
+	}
+
+	public function tearDown(){
+		OC_User::setUserId($this->user);
 	}
 }

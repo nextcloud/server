@@ -9,8 +9,9 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+OCP\JSON::callCheck();
 
-require_once('../loghandler.php');
+require_once __DIR__.'/../loghandler.php';
 
 $categories = isset($_POST['categories'])?$_POST['categories']:null;
 
@@ -45,5 +46,3 @@ $catman->delete($categories, $cards);
 debug('After delete: '.print_r($catman->categories(), true));
 OC_Contacts_VCard::updateDataByID($cards);
 OCP\JSON::success(array('data' => array('categories'=>$catman->categories())));
-
-?>

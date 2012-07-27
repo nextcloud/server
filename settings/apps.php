@@ -97,5 +97,3 @@ $appid = (isset($_GET['appid'])?strip_tags($_GET['appid']):'');
 $tmpl->assign('appid',$appid);
 
 $tmpl->printPage();
-
-?>

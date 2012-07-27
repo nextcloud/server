@@ -2,7 +2,6 @@
 $id = $_['id'];
 $tmpkey = $_['tmpkey'];
 $requesttoken = $_['requesttoken'];
-OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmpkey: '.$tmpkey, OCP\Util::DEBUG);
 ?>
 <script type="text/javascript">
 	jQuery(function($) {

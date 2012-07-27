@@ -45,5 +45,3 @@ foreach( OC_Group::getGroups() as $i ){
 }
 
 OC_JSON::encodedPrint($groups);
-
-?>

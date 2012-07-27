@@ -83,6 +83,9 @@ class OC{
 		elseif(strpos($className,'OCP\\')===0){
 			require_once 'public/'.strtolower(str_replace('\\','/',substr($className,3)) . '.php');
 		}
+		elseif(strpos($className,'OCA\\')===0){
+			require_once 'apps/'.strtolower(str_replace('\\','/',substr($className,3)) . '.php');
+		}
 		elseif(strpos($className,'Sabre_')===0) {
 			require_once str_replace('_','/',$className) . '.php';
 		}
@@ -345,7 +348,7 @@ class OC{
 			$_SESSION['user_id'] = '';
 		}
 
-		OC_User::useBackend( OC_Config::getValue( "userbackend", "database" ));
+		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
 
 		// Load Apps

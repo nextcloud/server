@@ -5,8 +5,6 @@
  * later.
  * See the COPYING-README file.
  */
-
- 
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
 $tmpl = new OCP\Template('calendar', 'part.import');

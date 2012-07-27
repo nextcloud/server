@@ -26,5 +26,3 @@ if($success) {
 } else {
 	OCP\JSON::error(array("data" => array( "message" => "Could not delete:\n" . $filesWithError )));
 }
-
-?>

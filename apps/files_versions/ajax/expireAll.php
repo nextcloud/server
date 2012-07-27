@@ -27,8 +27,9 @@
 // Check user and app status
 OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('files_versions');
+OCP\JSON::callCheck();
 
-$versions = new OCA_Versions\Storage( new OC_FilesystemView('') );
+$versions = new OCA_Versions\Storage();
 
 if( $versions->expireAll() ){
 	

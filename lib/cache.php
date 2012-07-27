@@ -7,48 +7,96 @@
  */
 
 class OC_Cache {
+	/**
+	 * @var OC_Cache $user_cache
+	 */
 	static protected $user_cache;
+	/**
+	 * @var OC_Cache $global_cache
+	 */
 	static protected $global_cache;
+	/**
+	 * @var OC_Cache $global_cache_fast
+	 */
+	static protected $global_cache_fast;
+	/**
+	 * @var OC_Cache $user_cache_fast
+	 */
+	static protected $user_cache_fast;
+	static protected $isFast=null;
 
-	static public function getGlobalCache() {
+	/**
+	 * get the global cache
+	 * @return OC_Cache
+	 */
+	static public function getGlobalCache($fast=false) {
 		if (!self::$global_cache) {
-			$fast_cache = null;
-			if (!$fast_cache && function_exists('xcache_set')) {
-				$fast_cache = new OC_Cache_XCache(true);
+			self::$global_cache_fast = null;
+			if (!self::$global_cache_fast && function_exists('xcache_set')) {
+				self::$global_cache_fast = new OC_Cache_XCache(true);
 			}
-			if (!$fast_cache && function_exists('apc_store')) {
-				$fast_cache = new OC_Cache_APC(true);
+			if (!self::$global_cache_fast && function_exists('apc_store')) {
+				self::$global_cache_fast = new OC_Cache_APC(true);
 			}
+			
 			self::$global_cache = new OC_Cache_FileGlobal();
-			if ($fast_cache) {
-				self::$global_cache = new OC_Cache_Broker($fast_cache, self::$global_cache);
+			if (self::$global_cache_fast) {
+				self::$global_cache = new OC_Cache_Broker(self::$global_cache_fast, self::$global_cache);
+			}
+		}
+		if($fast){
+			if(self::$global_cache_fast){
+				return self::$global_cache_fast;
+			}else{
+				return false;
 			}
 		}
 		return self::$global_cache;
 	}
 
-	static public function getUserCache() {
+	/**
+	 * get the user cache
+	 * @return OC_Cache
+	 */
+	static public function getUserCache($fast=false) {
 		if (!self::$user_cache) {
-			$fast_cache = null;
-			if (!$fast_cache && function_exists('xcache_set')) {
-				$fast_cache = new OC_Cache_XCache();
+			self::$user_cache_fast = null;
+			if (!self::$user_cache_fast && function_exists('xcache_set')) {
+				self::$user_cache_fast = new OC_Cache_XCache();
 			}
-			if (!$fast_cache && function_exists('apc_store')) {
-				$fast_cache = new OC_Cache_APC();
+			if (!self::$user_cache_fast && function_exists('apc_store')) {
+				self::$user_cache_fast = new OC_Cache_APC();
 			}
+			
 			self::$user_cache = new OC_Cache_File();
-			if ($fast_cache) {
-				self::$user_cache = new OC_Cache_Broker($fast_cache, self::$user_cache);
+			if (self::$user_cache_fast) {
+				self::$user_cache = new OC_Cache_Broker(self::$user_cache_fast, self::$user_cache);
+			}
+		}
+
+		if($fast){
+			if(self::$user_cache_fast){
+				return self::$user_cache_fast;
+			}else{
+				return false;
 			}
 		}
 		return self::$user_cache;
 	}
 
+	/**
+	 * get a value from the user cache
+	 * @return mixed
+	 */
 	static public function get($key) {
 		$user_cache = self::getUserCache();
 		return $user_cache->get($key);
 	}
 
+	/**
+	 * set a value in the user cache
+	 * @return bool
+	 */
 	static public function set($key, $value, $ttl=0) {
 		if (empty($key)) {
 			return false;
@@ -57,19 +105,43 @@ class OC_Cache {
 		return $user_cache->set($key, $value, $ttl);
 	}
 
+	/**
+	 * check if a value is set in the user cache
+	 * @return bool
+	 */
 	static public function hasKey($key) {
 		$user_cache = self::getUserCache();
 		return $user_cache->hasKey($key);
 	}
 
+	/**
+	 * remove an item from the user cache
+	 * @return bool
+	 */
 	static public function remove($key) {
 		$user_cache = self::getUserCache();
 		return $user_cache->remove($key);
 	}
 
-	static public function clear() {
+	/**
+	 * clear the user cache of all entries starting with a prefix
+	 * @param string prefix (optional)
+	 * @return bool
+	 */
+	static public function clear($prefix='') {
 		$user_cache = self::getUserCache();
-		return $user_cache->clear();
+		return $user_cache->clear($prefix);
+	}
+
+	/**
+	 * check if a fast memory based cache is available
+	 * @return true
+	 */
+	static public function isFast() {
+		if(is_null(self::$isFast)){
+			self::$isFast=function_exists('xcache_set') || function_exists('apc_store');
+		}
+		return self::$isFast;
 	}
 
 }

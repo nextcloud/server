@@ -23,6 +23,7 @@
 // Init owncloud
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('tasks');
+OCP\JSON::callCheck();
 
 $id = $_POST['id'];
 $task = OC_Calendar_App::getEventObject( $id );

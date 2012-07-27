@@ -17,5 +17,3 @@ if( isset( $_POST['identity'] ) ){
 }else{
 	OC_JSON::error(array("data" => array( "message" => $l->t("Invalid request") )));
 }
-
-?>

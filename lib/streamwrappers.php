@@ -1,6 +1,4 @@
 <?php
-global $FAKEDIRS;
-$FAKEDIRS=array();
 
 class OC_FakeDirStream{
 	public static $dirs=array();
@@ -8,8 +6,6 @@ class OC_FakeDirStream{
 	private $index;
 
 	public function dir_opendir($path,$options){
-		global $FAKEDIRS;
-		$url=parse_url($path);
 		$this->name=substr($path,strlen('fakedir://'));
 		$this->index=0;
 		if(!isset(self::$dirs[$this->name])){
@@ -161,7 +157,6 @@ class OC_StaticStreamWrapper {
 	public function stream_write($data) {
 		if (!$this->writable) return 0;
 		$size = strlen($data);
-		$len = strlen(self::$data[$this->path]);
 		if ($this->stream_eof()) {
 			self::$data[$this->path] .= $data;
 		} else {

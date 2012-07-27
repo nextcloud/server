@@ -60,5 +60,3 @@ if(strpos($dir,'..') === false){
 }
 
 OCP\JSON::error(array('data' => array('error' => $error, "file" => $fileName)));
-
-?>

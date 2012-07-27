@@ -27,7 +27,6 @@
  * upgrading and removing apps.
  */
 class OC_App{
-	static private $init = false;
 	static private $activeapp = '';
 	static private $navigation = array();
 	static private $settingsForms = array();
@@ -196,7 +195,7 @@ class OC_App{
 			// check if the app is compatible with this version of ownCloud
 			$info=OC_App::getAppInfo($app);
 			$version=OC_Util::getVersion();
-	                if(!isset($info['require']) or ($version[0]>$info['require'])){
+			if(!isset($info['require']) or ($version[0]>$info['require'])){
 				OC_Log::write('core','App "'.$info['name'].'" can\'t be installed because it is not compatible with this version of ownCloud',OC_Log::ERROR);
 				return false;
 			}else{
@@ -293,16 +292,21 @@ class OC_App{
 		if (OC_User::isLoggedIn()) {
 			// personal menu
 			$settings[] = array( "id" => "personal", "order" => 1, "href" => OC_Helper::linkTo( "settings", "personal.php" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ));
-
+			
 			// if there're some settings forms
 			if(!empty(self::$settingsForms))
 				// settings menu
 				$settings[]=array( "id" => "settings", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "settings.php" ), "name" => $l->t("Settings"), "icon" => OC_Helper::imagePath( "settings", "settings.svg" ));
-
-			// if the user is an admin
-			if(OC_Group::inGroup( $_SESSION["user_id"], "admin" )) {
+			
+			//SubAdmins are also allowed to access user management
+			if(OC_SubAdmin::isSubAdmin($_SESSION["user_id"]) || OC_Group::inGroup( $_SESSION["user_id"], "admin" )){
 				// admin users menu
 				$settings[] = array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkTo( "settings", "users.php" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "settings", "users.svg" ));
+			}
+			
+			
+			// if the user is an admin
+			if(OC_Group::inGroup( $_SESSION["user_id"], "admin" )) {
 				// admin apps menu
 				$settings[] = array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "settings", "apps.php" ).'?installed', "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" ));
 
@@ -332,8 +336,8 @@ class OC_App{
 	}
 
 	/**
-	* Get the path where to install apps
-  */
+	 * Get the path where to install apps
+	 */
 	public static function getInstallPath() {
 		if(OC_Config::getValue('appstoreenabled', true)==false) {
 			return false;
@@ -608,7 +612,7 @@ class OC_App{
 		//set remote/public handelers
 		$appData=self::getAppInfo($appid);
 		foreach($appData['remote'] as $name=>$path){
-			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $path);
+			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $appid.'/'.$path);
 		}
 		foreach($appData['public'] as $name=>$path){
 			OCP\CONFIG::setAppValue('core', 'public_'.$name, $appid.'/'.$path);

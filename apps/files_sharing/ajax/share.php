@@ -35,5 +35,3 @@ foreach ($sources as $source) {
 		}
 	}
 }
-
-?>

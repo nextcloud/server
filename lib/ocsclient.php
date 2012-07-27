@@ -71,7 +71,7 @@ class OC_OCSClient{
 		$tmp=$data->data;
 		$cats=array();
 
-		foreach($tmp->category as $key=>$value) {
+		foreach($tmp->category as $value) {
 
 			$id= (int) $value->id;
 			$name= (string) $value->name;

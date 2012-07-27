@@ -26,11 +26,26 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	/**
 	 * Creates a new file in the directory
 	 *
-	 * data is a readable stream resource
+	 * Data will either be supplied as a stream resource, or in certain cases
+	 * as a string. Keep in mind that you may have to support either.
+	 *
+	 * After succesful creation of the file, you may choose to return the ETag
+	 * of the new file here.
+	 *
+	 * The returned ETag must be surrounded by double-quotes (The quotes should
+	 * be part of the actual string).
+	 *
+	 * If you cannot accurately determine the ETag, you should not return it.
+	 * If you don't store the file exactly as-is (you're transforming it
+	 * somehow) you should also not return an ETag.
+	 *
+	 * This means that if a subsequent GET to this new file does not exactly
+	 * return the same contents of what was submitted here, you are strongly
+	 * recommended to omit the ETag.
 	 *
 	 * @param string $name Name of the file
-	 * @param resource $data Initial payload
-	 * @return void
+	 * @param resource|string $data Initial payload
+	 * @return null|string
 	 */
 	public function createFile($name, $data = null) {
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
@@ -53,11 +68,15 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 					fwrite($f,$chunk);
 				}
 				fclose($f);
+				return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 			}
 		} else {
 			$newPath = $this->path . '/' . $name;
 			OC_Filesystem::file_put_contents($newPath,$data);
+			return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 		}
+
+		return null;
 	}
 
 	/**
@@ -167,7 +186,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * @return array
 	 */
 	public function getQuotaInfo() {
-		$rootInfo=OC_FileCache::get('');
+		$rootInfo=OC_FileCache_Cached::get('');
 		return array(
 			$rootInfo['size'],
 			OC_Filesystem::free_space()
@@ -175,5 +194,25 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 
 	}
 
+	/**
+	 * Returns a list of properties for this nodes.;
+	 *
+	 * The properties list is a list of propertynames the client requested,
+	 * encoded as xmlnamespace#tagName, for example:
+	 * http://www.example.org/namespace#author
+	 * If the array is empty, all properties should be returned
+	 *
+	 * @param array $properties
+	 * @return void
+	 */
+	public function getProperties($properties) {
+		$props = parent::getProperties($properties);
+		if (in_array(self::GETETAG_PROPERTYNAME, $properties)
+		    && !isset($props[self::GETETAG_PROPERTYNAME])) {
+			$props[self::GETETAG_PROPERTYNAME] =
+				OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
+		}
+		return $props;
+	}
 }
 

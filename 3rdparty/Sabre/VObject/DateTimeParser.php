@@ -125,6 +125,9 @@ class Sabre_VObject_DateTimeParser {
 
             }
 
+            if ($duration==='P') {
+                $duration = 'PT0S';
+            }
             $iv = new DateInterval($duration);
             if ($invert) $iv->invert = true;
 
@@ -150,6 +153,7 @@ class Sabre_VObject_DateTimeParser {
         }
 
         $newDur = ($matches['plusminus']==='-'?'-':'+') . trim($newDur);
+        if ($newDur === '+') { $newDur = '+0 seconds'; };
         return $newDur;
 
     }

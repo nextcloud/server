@@ -35,11 +35,10 @@ echo('
  <termsofuse></termsofuse>
  <register></register>
  <services>
-   <activity ocsversion="1.5" />
+   <config ocsversion="1.7" />
+   <activity ocsversion="1.7" />
+   <cloud ocsversion="1.7" />
  </services>
 </provider>
 </providers>
 ');
-
-
-?>

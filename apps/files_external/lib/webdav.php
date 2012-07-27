@@ -45,7 +45,10 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		$this->client = new OC_Connector_Sabre_Client($settings);
 		
 		if($caview = \OCP\Files::getStorage('files_external')) {
-			$this->client->setCurlSettings(array(CURLOPT_CAINFO => \OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("").'rootcerts.crt'));
+			$certPath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("").'rootcerts.crt';
+			if (file_exists($certPath))  {
+				$this->client->addTrustedCertificates($certPath);
+			}
 		}
 		//create the root folder if necesary
 		$this->mkdir('');
@@ -74,16 +77,11 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		$path=$this->cleanPath($path);
 		try{
 			$response=$this->client->propfind($path, array(),1);
-			$stripLength=strlen($this->root)+strlen($path);
 			$id=md5('webdav'.$this->root.$path);
 			OC_FakeDirStream::$dirs[$id]=array();
-			$skip = true;
-			foreach($response as $file=>$data){
-				// Skip the first file, because it is the current directory
-				if ($skip) {
-					$skip = false;
-					continue;
-				}
+			$files=array_keys($response);
+			array_shift($files);//the first entry is the current directory
+			foreach($files as $file){
 				$file = urldecode(basename($file));
 				OC_FakeDirStream::$dirs[$id][]=$file;
 			}
@@ -117,7 +115,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	public function file_exists($path){
 		$path=$this->cleanPath($path);
 		try{
-			$response=$this->client->propfind($path, array('{DAV:}resourcetype'));
+			$this->client->propfind($path, array('{DAV:}resourcetype'));
 			return true;//no 404 exception
 		}catch(Exception $e){
 			return false;
@@ -198,7 +196,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			$mtime=time();
 		}
 		$path=$this->cleanPath($path);
-		$this->client->proppatch($path, array('{DAV:}lastmodified' => $mtime,));
+		$this->client->proppatch($path, array('{DAV:}lastmodified' => $mtime));
 	}
 
 	public function getFile($path,$target){

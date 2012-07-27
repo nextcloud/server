@@ -56,5 +56,3 @@ $tmpl = new OCP\Template( "files", "index", "user" );
 $tmpl->assign( 'files', $files );
 $tmpl->assign( "breadcrumb", $breadcrumb );
 $tmpl->printPage();
-
-?>

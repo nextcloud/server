@@ -134,4 +134,3 @@ class MDB2_Driver_Function_sqlite3 extends MDB2_Driver_Function_Common
 
     // }}}
 }
-?>

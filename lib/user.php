@@ -21,7 +21,7 @@
  */
 
 /**
- * This class provides wrapper methods for user management. Multiple backends are 
+ * This class provides wrapper methods for user management. Multiple backends are
  * supported. User management operations are delegated to the configured backend for
  * execution.
  *
@@ -50,8 +50,8 @@ class OC_User {
 	 *
 	 * Makes a list of backends that can be used by other modules
 	 */
-	public static function registerBackend( $name ){
-		self::$_backends[] = $name;
+	public static function registerBackend( $backend ){
+		self::$_backends[] = $backend;
 		return true;
 	}
 
@@ -83,25 +83,35 @@ class OC_User {
 	 * Set the User Authentication Module
 	 */
 	public static function useBackend( $backend = 'database' ){
-		// You'll never know what happens
-		if( null === $backend OR !is_string( $backend )){
-			$backend = 'database';
-		}
+		if($backend instanceof OC_User_Interface){
+			self::$_usedBackends[get_class($backend)]=$backend;
+		}else{
+			// You'll never know what happens
+			if( null === $backend OR !is_string( $backend )){
+				$backend = 'database';
+			}
 
-		// Load backend
-		switch( $backend ){
-			case 'database':
-			case 'mysql':
-			case 'sqlite':
-				self::$_usedBackends[$backend] = new OC_User_Database();
-				break;
-			default:
-				$className = 'OC_USER_' . strToUpper($backend);
-				self::$_usedBackends[$backend] = new $className();
-				break;
+			// Load backend
+			switch( $backend ){
+				case 'database':
+				case 'mysql':
+				case 'sqlite':
+					self::$_usedBackends[$backend] = new OC_User_Database();
+					break;
+				default:
+					$className = 'OC_USER_' . strToUpper($backend);
+					self::$_usedBackends[$backend] = new $className();
+					break;
+			}
 		}
-
 		true;
+	}
+
+	/**
+	 * remove all used backends
+	 */
+	public static function clearBackends(){
+		self::$_usedBackends=array();
 	}
 
 	/**
@@ -200,7 +210,7 @@ class OC_User {
 		if( $run ){
 			$uid=self::checkPassword( $uid, $password );
 			if($uid){
-				session_regenerate_id();
+				session_regenerate_id(true);
 				self::setUserId($uid);
 				OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>$password ));
 				return true;
@@ -345,17 +355,13 @@ class OC_User {
 	 * @return boolean
 	 */
 	public static function userExists($uid){
-		static $user_exists_checked = null;
-		if (!is_null($user_exists_checked)) {
-			return $user_exists_checked;
-		}
 		foreach(self::$_usedBackends as $backend){
 			$result=$backend->userExists($uid);
 			if($result===true){
-				return $user_exists_checked = true;
+				return true;
 			}
 		}
-		return $user_exists_checked = false;
+		return false;
 	}
 
 	/**

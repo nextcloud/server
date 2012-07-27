@@ -7,4 +7,7 @@
 	<author>Michiel de Jong</author>
 	<require>4</require>
 	<shipped>true</shipped>
+	<remote>
+		<remoteStorage>webdav.php</remoteStorage>
+	</remote>
 </info>

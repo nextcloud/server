@@ -34,27 +34,20 @@ namespace OCP;
  * This class provides functions to manage apps in ownCloud
  */
 class App {
-
         /**
          * @brief Makes owncloud aware of this app
          * @brief This call is deprecated and not necessary to use.
          * @param $data array with all information
          * @returns true/false
          *
-         * This function registers the application. $data is an associative array.
-         * The following keys are required:
-         *   - id: id of the application, has to be unique ('addressbook')
-         *   - name: Human readable name ('Addressbook')
-         *   - version: array with Version (major, minor, bugfix) ( array(1, 0, 2))
-         *
-         * The following keys are optional:
-         *   - order: integer, that influences the position of your application in
-         *     a list of applications. Lower values come first.
+         * @deprecated this method is deprecated
+         * Do not call it anymore
+         * It'll remain in our public API for compatibility reasons
          *
          */
         public static function register( $data ){
+		return \OC_App::register( $data );
         }
-
 
         /**
          * @brief adds an entry to the navigation
@@ -158,6 +151,3 @@ class App {
 
 
 }
-
-
-?>

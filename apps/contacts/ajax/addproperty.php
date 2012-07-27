@@ -25,7 +25,7 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
 
-require_once('loghandler.php');
+require_once 'loghandler.php';
 
 $id = isset($_POST['id'])?$_POST['id']:null;
 $name = isset($_POST['name'])?$_POST['name']:null;
@@ -33,22 +33,27 @@ $value = isset($_POST['value'])?$_POST['value']:null;
 $parameters = isset($_POST['parameters'])?$_POST['parameters']:array();
 
 $vcard = OC_Contacts_App::getContactVCard($id);
+$l10n = OC_Contacts_App::$l10n;
 
 if(!$name) {
-	bailOut(OC_Contacts_App::$l10n->t('element name is not set.'));
+	bailOut($l10n->t('element name is not set.'));
 }
 if(!$id) {
-	bailOut(OC_Contacts_App::$l10n->t('id is not set.'));
+	bailOut($l10n->t('id is not set.'));
 }
 
 if(!$vcard) {
-	bailOut(OC_Contacts_App::$l10n->t('Could not parse contact: ').$id);
+	bailOut($l10n->t('Could not parse contact: ').$id);
 }
 
-if(!is_array($value)){
+if(!is_array($value)) {
 	$value = trim($value);
-	if(!$value && in_array($name, array('TEL', 'EMAIL', 'ORG', 'BDAY', 'URL', 'NICKNAME', 'NOTE'))) {
-		bailOut(OC_Contacts_App::$l10n->t('Cannot add empty property.'));
+	if(!$value 
+		&& in_array(
+		$name, 
+		array('TEL', 'EMAIL', 'ORG', 'BDAY', 'URL', 'NICKNAME', 'NOTE'))
+	) {
+		bailOut($l10n->t('Cannot add empty property.'));
 	}
 } elseif($name === 'ADR') { // only add if non-empty elements.
 	$empty = true;
@@ -59,7 +64,7 @@ if(!is_array($value)){
 		}
 	}
 	if($empty) {
-		bailOut(OC_Contacts_App::$l10n->t('At least one of the address fields has to be filled out.'));
+		bailOut($l10n->t('At least one of the address fields has to be filled out.'));
 	}
 }
 
@@ -68,12 +73,14 @@ $current = $vcard->select($name);
 foreach($current as $item) {
 	$tmpvalue = (is_array($value)?implode(';', $value):$value);
 	if($tmpvalue == $item->value) {
-		bailOut(OC_Contacts_App::$l10n->t('Trying to add duplicate property: '.$name.': '.$tmpvalue));
+		bailOut($l10n->t('Trying to add duplicate property: '.$name.': '.$tmpvalue));
 	}
 }
 
 if(is_array($value)) {
-	ksort($value);  // NOTE: Important, otherwise the compound value will be set in the order the fields appear in the form!
+	// NOTE: Important, otherwise the compound value will 
+	// be set in the order the fields appear in the form!
+	ksort($value);  
 	$value = array_map('strip_tags', $value);
 } else {
 	$value = strip_tags($value);
@@ -116,24 +123,25 @@ switch($name) {
 
 $line = count($vcard->children) - 1;
 
-// Apparently Sabre_VObject_Parameter doesn't do well with multiple values or I don't know how to do it. Tanghus.
+// Apparently Sabre_VObject_Parameter doesn't do well with 
+// multiple values or I don't know how to do it. Tanghus.
 foreach ($parameters as $key=>$element) {
 	if(is_array($element) && strtoupper($key) == 'TYPE') { 
 		// NOTE: Maybe this doesn't only apply for TYPE?
 		// And it probably shouldn't be done here anyways :-/
-		foreach($element as $e){
-			if($e != '' && !is_null($e)){
-				$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$e);
+		foreach($element as $e) {
+			if($e != '' && !is_null($e)) {
+				$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key, $e);
 			}
 		}
 	} else {
-			$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key,$element);
+			$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key, $element);
 	}
 }
 $checksum = md5($vcard->children[$line]->serialize());
 
-if(!OC_Contacts_VCard::edit($id,$vcard)) {
-	bailOut(OC_Contacts_App::$l10n->t('Error adding contact property: '.$name));
+if(!OC_Contacts_VCard::edit($id, $vcard)) {
+	bailOut($l10n->t('Error adding contact property: '.$name));
 }
 
 OCP\JSON::success(array('data' => array( 'checksum' => $checksum )));

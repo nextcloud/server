@@ -52,6 +52,8 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
         $server->subscribeEvent('report', array($this,'report'));
         $server->subscribeEvent('onHTMLActionsPanel', array($this,'htmlActionsPanel'));
         $server->subscribeEvent('onBrowserPostAction', array($this,'browserPostAction'));
+        $server->subscribeEvent('beforeWriteContent', array($this, 'beforeWriteContent'));
+        $server->subscribeEvent('beforeCreateFile', array($this, 'beforeCreateFile'));
 
         /* Namespaces */
         $server->xmlNamespaces[self::NS_CARDDAV] = 'card';
@@ -284,6 +286,81 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
     }
 
     /**
+     * This method is triggered before a file gets updated with new content.
+     *
+     * This plugin uses this method to ensure that Card nodes receive valid
+     * vcard data.
+     *
+     * @param string $path
+     * @param Sabre_DAV_IFile $node
+     * @param resource $data
+     * @return void
+     */
+    public function beforeWriteContent($path, Sabre_DAV_IFile $node, &$data) {
+
+        if (!$node instanceof Sabre_CardDAV_ICard)
+            return;
+
+        $this->validateVCard($data);
+
+    }
+
+    /**
+     * This method is triggered before a new file is created.
+     *
+     * This plugin uses this method to ensure that Card nodes receive valid
+     * vcard data.
+     *
+     * @param string $path
+     * @param resource $data
+     * @param Sabre_DAV_ICollection $parentNode
+     * @return void
+     */
+    public function beforeCreateFile($path, &$data, Sabre_DAV_ICollection $parentNode) {
+
+        if (!$parentNode instanceof Sabre_CardDAV_IAddressBook)
+            return;
+
+        $this->validateVCard($data);
+
+    }
+
+    /**
+     * Checks if the submitted iCalendar data is in fact, valid.
+     *
+     * An exception is thrown if it's not.
+     *
+     * @param resource|string $data
+     * @return void
+     */
+    protected function validateVCard(&$data) {
+
+        // If it's a stream, we convert it to a string first.
+        if (is_resource($data)) {
+            $data = stream_get_contents($data);
+        }
+
+        // Converting the data to unicode, if needed.
+        $data = Sabre_DAV_StringUtil::ensureUTF8($data);
+
+        try {
+
+            $vobj = Sabre_VObject_Reader::read($data);
+
+        } catch (Sabre_VObject_ParseException $e) {
+
+            throw new Sabre_DAV_Exception_UnsupportedMediaType('This resource only supports valid vcard data. Parse error: ' . $e->getMessage());
+
+        }
+
+        if ($vobj->name !== 'VCARD') {
+            throw new Sabre_DAV_Exception_UnsupportedMediaType('This collection can only support vcard objects.');
+        }
+
+    }
+
+
+    /**
      * This function handles the addressbook-query REPORT
      *
      * This report is used by the client to filter an addressbook based on a
@@ -361,6 +438,8 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
     public function validateFilters($vcardData, array $filters, $test) {
 
         $vcard = Sabre_VObject_Reader::read($vcardData);
+
+        if (!$filters) return true;
 
         foreach($filters as $filter) {
 

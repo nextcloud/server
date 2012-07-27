@@ -4,7 +4,6 @@
  */
 class OC_Filestorage_Local extends OC_Filestorage_Common{
 	protected $datadir;
-	private static $mimetypes=null;
 	public function __construct($arguments){
 		$this->datadir=$arguments['datadir'];
 		if(substr($this->datadir,-1)!=='/'){
@@ -41,7 +40,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 	}
 	public function filesize($path){
 		if($this->is_dir($path)){
-			return $this->getFolderSize($path);
+			return 0;
 		}else{
 			return filesize($this->datadir.$path);
 		}
@@ -157,7 +156,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		return $return;
 	}
 
-	public function hash($type,$path,$raw){
+	public function hash($path,$type,$raw=false){
 		return hash_file($type,$this->datadir.$path,$raw);
 	}
 
@@ -184,15 +183,6 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 			}
 		}
 		return $files;
-	}
-
-	/**
-	 * @brief get the size of folder and it's content
-	 * @param string $path file path
-	 * @return int size of folder and it's content
-	 */
-	public function getFolderSize($path){
-		return 0;//depricated, use OC_FileCach instead
 	}
 
 	/**

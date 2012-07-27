@@ -63,9 +63,9 @@ class OC_Contacts_VCard{
 				$stmt = OCP\DB::prepare( $prep );
 				$result = $stmt->execute($id);
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
-				OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', ids: '.join(',', $id),OCP\Util::DEBUG);
-				OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.'SQL:'.$prep,OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', ids: '.join(',', $id), OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.'SQL:'.$prep, OCP\Util::DEBUG);
 				return false;
 			}
 		} elseif(is_int($id) || is_string($id)) {
@@ -74,12 +74,12 @@ class OC_Contacts_VCard{
 				$stmt = OCP\DB::prepare( $sql );
 				$result = $stmt->execute(array($id));
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
-				OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', ids: '. $id,OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', ids: '. $id, OCP\Util::DEBUG);
 				return false;
 			}
 		} else {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.'. Addressbook id(s) argument is empty: '. $id,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.'. Addressbook id(s) argument is empty: '. $id, OCP\Util::DEBUG);
 			return false;
 		}
 		$cards = array();
@@ -102,8 +102,8 @@ class OC_Contacts_VCard{
 			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE id = ?' );
 			$result = $stmt->execute(array($id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', id: '. $id,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id: '. $id, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -121,8 +121,8 @@ class OC_Contacts_VCard{
 			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri = ?' );
 			$result = $stmt->execute(array($aid,$uri));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', aid: '.$aid.' uri'.$uri, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', aid: '.$aid.' uri'.$uri, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -177,16 +177,16 @@ class OC_Contacts_VCard{
 		try {
 			$result = $stmt->execute(array($aid,$uri));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', aid: '.$aid.' uid'.$uid, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', aid: '.$aid.' uid'.$uid, OCP\Util::DEBUG);
 			return false;
 		}
-		if($result->numRows() > 0){
+		if($result->numRows() > 0) {
 			while(true) {
-				$tmpuid = substr(md5(rand().time()),0,10);
+				$tmpuid = substr(md5(rand().time()), 0, 10);
 				$uri = $tmpuid.'.vcf';
-				$result = $stmt->execute(array($aid,$uri));
-				if($result->numRows() > 0){
+				$result = $stmt->execute(array($aid, $uri));
+				if($result->numRows() > 0) {
 					continue;
 				} else {
 					$uid = $tmpuid;
@@ -212,7 +212,7 @@ class OC_Contacts_VCard{
 		// Add version if needed
 		if($version && $version < '3.0') {
 			$upgrade = true;
-			OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. Updating from version: '.$version,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', 'OC_Contacts_VCard::updateValuesFromAdd. Updating from version: '.$version, OCP\Util::DEBUG);
 		}
 		foreach($vcard->children as &$property){
 			// Decode string properties and remove obsolete properties.
@@ -225,29 +225,29 @@ class OC_Contacts_VCard{
 			}
 			// Fix format of type parameters.
 			if($upgrade && in_array($property->name, $typeprops)) {
-				OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. before: '.$property->serialize(),OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', 'OC_Contacts_VCard::updateValuesFromAdd. before: '.$property->serialize(), OCP\Util::DEBUG);
 				self::formatPropertyTypes($property);
-				OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. after: '.$property->serialize(),OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', 'OC_Contacts_VCard::updateValuesFromAdd. after: '.$property->serialize(), OCP\Util::DEBUG);
 			}
-			if($property->name == 'FN'){
+			if($property->name == 'FN') {
 				$fn = $property->value;
 			}
-			if($property->name == 'N'){
+			if($property->name == 'N') {
 				$n = $property->value;
 			}
-			if($property->name == 'UID'){
+			if($property->name == 'UID') {
 				$uid = $property->value;
 			}
-			if($property->name == 'ORG'){
+			if($property->name == 'ORG') {
 				$org = $property->value;
 			}
-			if($property->name == 'EMAIL' && is_null($email)){ // only use the first email as substitute for missing N or FN.
+			if($property->name == 'EMAIL' && is_null($email)) { // only use the first email as substitute for missing N or FN.
 				$email = $property->value;
 			}
 		}
 		// Check for missing 'N', 'FN' and 'UID' properties
 		if(!$fn) {
-			if($n && $n != ';;;;'){
+			if($n && $n != ';;;;') {
 				$fn = join(' ', array_reverse(array_slice(explode(';', $n), 0, 2)));
 			} elseif($email) {
 				$fn = $email;
@@ -257,21 +257,21 @@ class OC_Contacts_VCard{
 				$fn = 'Unknown Name';
 			}
 			$vcard->setString('FN', $fn);
-			OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'FN\' field: '.$fn,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', 'OC_Contacts_VCard::updateValuesFromAdd. Added missing \'FN\' field: '.$fn, OCP\Util::DEBUG);
 		}
-		if(!$n || $n == ';;;;'){ // Fix missing 'N' field. Ugly hack ahead ;-)
+		if(!$n || $n == ';;;;') { // Fix missing 'N' field. Ugly hack ahead ;-)
 			$slice = array_reverse(array_slice(explode(' ', $fn), 0, 2)); // Take 2 first name parts of 'FN' and reverse.
 			if(count($slice) < 2) { // If not enought, add one more...
 				$slice[] = "";
 			}
 			$n = implode(';', $slice).';;;';
 			$vcard->setString('N', $n);
-			OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'N\' field: '.$n,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', 'OC_Contacts_VCard::updateValuesFromAdd. Added missing \'N\' field: '.$n, OCP\Util::DEBUG);
 		}
 		if(!$uid) {
 			$vcard->setUID();
 			$uid = $vcard->getAsString('UID');
-			OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateValuesFromAdd. Added missing \'UID\' field: '.$uid,OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', 'OC_Contacts_VCard::updateValuesFromAdd. Added missing \'UID\' field: '.$uid, OCP\Util::DEBUG);
 		}
 		if(self::trueUID($aid, $uid)) {
 			$vcard->setString('UID', $uid);
@@ -288,8 +288,8 @@ class OC_Contacts_VCard{
 	 * @return insertid on success or false.
 	 */
 	public static function add($aid, OC_VObject $card, $uri=null, $isnew=false){
-		if(is_null($card)){
-			OCP\Util::writeLog('contacts','OC_Contacts_VCard::add. No vCard supplied', OCP\Util::ERROR);
+		if(is_null($card)) {
+			OCP\Util::writeLog('contacts', 'OC_Contacts_VCard::add. No vCard supplied', OCP\Util::ERROR);
 			return null;
 		};
 
@@ -298,7 +298,7 @@ class OC_Contacts_VCard{
 			self::updateValuesFromAdd($aid, $card);
 		}
 
-		$card->setString('VERSION','3.0');
+		$card->setString('VERSION', '3.0');
 		// Add product ID is missing.
 		$prodid = trim($card->getAsString('PRODID'));
 		if(!$prodid) {
@@ -323,8 +323,8 @@ class OC_Contacts_VCard{
 		try {
 			$result = $stmt->execute(array($aid,$fn,$data,$uri,time()));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', aid: '.$aid.' uri'.$uri, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', aid: '.$aid.' uri'.$uri, OCP\Util::DEBUG);
 			return false;
 		}
 		$newid = OCP\DB::insertid('*PREFIX*contacts_cards');
@@ -355,15 +355,15 @@ class OC_Contacts_VCard{
 		$now = new DateTime;
 		foreach($objects as $object) {
 			$vcard = OC_VObject::parse($object[1]);
-			if(!is_null($vcard)){
+			if(!is_null($vcard)) {
 				$vcard->setString('REV', $now->format(DateTime::W3C));
 				$data = $vcard->serialize();
 				try {
 					$result = $stmt->execute(array($data,time(),$object[0]));
 					//OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateDataByID, id: '.$object[0].': '.$object[1],OCP\Util::DEBUG);
 				} catch(Exception $e) {
-					OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
-					OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', id: '.$object[0],OCP\Util::DEBUG);
+					OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+					OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id: '.$object[0], OCP\Util::DEBUG);
 				}
 			}
 		}
@@ -397,8 +397,8 @@ class OC_Contacts_VCard{
 		try {
 			$result = $stmt->execute(array($fn,$data,time(),$id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', id'.$id, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id'.$id, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -414,11 +414,11 @@ class OC_Contacts_VCard{
 	 * @param string $data  vCard file
 	 * @return boolean
 	 */
-	public static function editFromDAVData($aid,$uri,$data){
-		$oldcard = self::findWhereDAVDataIs($aid,$uri);
+	public static function editFromDAVData($aid, $uri, $data){
+		$oldcard = self::findWhereDAVDataIs($aid, $uri);
 		$card = OC_VObject::parse($data);
 		if(!$card) {
-			OCP\Util::writeLog('contacts','OC_Contacts_VCard::editFromDAVData. Unable to parse VCARD, uri: '.$uri,OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', Unable to parse VCARD, uri: '.$uri, OCP\Util::ERROR);
 			return false;
 		}
 		return self::edit($oldcard['id'], $card);
@@ -430,14 +430,13 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 */
 	public static function delete($id){
-		// FIXME: Add error checking.
 		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard', array('aid' => null, 'id' => $id, 'uri' => null));
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
 		try {
 			$stmt->execute(array($id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', id: '.$id, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id: '.$id, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -451,14 +450,13 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 */
 	public static function deleteFromDAVData($aid,$uri){
-		// FIXME: Add error checking. Deleting a card gives an Kontact/Akonadi error.
 		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard', array('aid' => $aid, 'id' => null, 'uri' => $uri));
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		try {
 			$stmt->execute(array($aid,$uri));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', aid: '.$aid.' uri: '.$uri, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', aid: '.$aid.' uri: '.$uri, OCP\Util::DEBUG);
 			return false;
 		}
 		OC_Contacts_Addressbook::touch($aid);
@@ -487,14 +485,14 @@ class OC_Contacts_VCard{
 	 * @return array
 	 */
 	public static function unescapeDelimiters($value, $delimiter=';') {
-		$array = explode($delimiter,$value);
+		$array = explode($delimiter, $value);
 		for($i=0;$i<count($array);$i++) {
-			if(substr($array[$i],-1,1)=="\\") {
+			if(substr($array[$i], -1, 1)=="\\") {
 				if(isset($array[$i+1])) {
-					$array[$i] = substr($array[$i],0,count($array[$i])-2).$delimiter.$array[$i+1];
+					$array[$i] = substr($array[$i], 0, count($array[$i])-2).$delimiter.$array[$i+1];
 					unset($array[$i+1]);
 				} else {
-					$array[$i] = substr($array[$i],0,count($array[$i])-2).$delimiter;
+					$array[$i] = substr($array[$i], 0, count($array[$i])-2).$delimiter;
 				}
 				$i = $i - 1;
 			}
@@ -510,12 +508,12 @@ class OC_Contacts_VCard{
 	 *
 	 * look at code ...
 	 */
-	public static function structureContact($object){
+	public static function structureContact($object) {
 		$details = array();
 		foreach($object->children as $property){
 			$temp = self::structureProperty($property);
 			if(!is_null($temp)) {
-				if(array_key_exists($property->name,$details)){
+				if(array_key_exists($property->name, $details)) {
 					$details[$property->name][] = $temp;
 				}
 				else{
@@ -539,10 +537,10 @@ class OC_Contacts_VCard{
 	 * NOTE: $value is not escaped anymore. It shouldn't make any difference
 	 * but we should look out for any problems.
 	 */
-	public static function structureProperty($property){
+	public static function structureProperty($property) {
 		$value = $property->value;
 		//$value = htmlspecialchars($value);
-		if($property->name == 'ADR' || $property->name == 'N'){
+		if($property->name == 'ADR' || $property->name == 'N') {
 			$value = self::unescapeDelimiters($value);
 		} elseif($property->name == 'BDAY') {
 			if(strpos($value, '-') === false) {
@@ -562,17 +560,17 @@ class OC_Contacts_VCard{
 			// Faulty entries by kaddressbook
 			// Actually TYPE=PREF is correct according to RFC 2426
 			// but this way is more handy in the UI. Tanghus.
-			if($parameter->name == 'TYPE' && $parameter->value == 'PREF'){
+			if($parameter->name == 'TYPE' && $parameter->value == 'PREF') {
 				$parameter->name = 'PREF';
 				$parameter->value = '1';
 			}
 			// NOTE: Apparently Sabre_VObject_Reader can't always deal with value list parameters
 			// like TYPE=HOME,CELL,VOICE. Tanghus.
-			if (in_array($property->name, array('TEL', 'EMAIL')) && $parameter->name == 'TYPE'){
-				if (isset($temp['parameters'][$parameter->name])){
+			if (in_array($property->name, array('TEL', 'EMAIL')) && $parameter->name == 'TYPE') {
+				if (isset($temp['parameters'][$parameter->name])) {
 					$temp['parameters'][$parameter->name][] = $parameter->value;
 				}
-				else{
+				else {
 					$temp['parameters'][$parameter->name] = array($parameter->value);
 				}
 			}
@@ -590,7 +588,7 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 *
 	 */
-	public static function moveToAddressBook($aid, $id){
+	public static function moveToAddressBook($aid, $id) {
 		OC_Contacts_App::getAddressbook($aid); // check for user ownership.
 		if(is_array($id)) {
 			$id_sql = join(',', array_fill(0, count($id), '?'));
@@ -601,9 +599,9 @@ class OC_Contacts_VCard{
 				$vals = array_merge((array)$aid, $id);
 				$result = $stmt->execute($vals);
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::ERROR);
-				OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', ids: '.join(',', $vals),OCP\Util::DEBUG);
-				OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', SQL:'.$prep,OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', ids: '.join(',', $vals), OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', SQL:'.$prep, OCP\Util::DEBUG);
 				return false;
 			}
 		} else {
@@ -611,8 +609,8 @@ class OC_Contacts_VCard{
 				$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id = ?' );
 				$result = $stmt->execute(array($aid, $id));
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(),OCP\Util::DEBUG);
-				OCP\Util::writeLog('contacts',__CLASS__.'::'.__METHOD__.' id: '.$id,OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.' id: '.$id, OCP\Util::DEBUG);
 				return false;
 			}
 		}

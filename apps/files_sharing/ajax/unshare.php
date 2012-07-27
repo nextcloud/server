@@ -9,5 +9,3 @@ $uid_shared_with = $_POST['uid_shared_with'];
 OC_Share::unshare($source, $uid_shared_with);
 
 OCP\JSON::success();
-
-?>

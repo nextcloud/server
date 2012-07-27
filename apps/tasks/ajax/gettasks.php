@@ -11,7 +11,7 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('tasks');
 
 $calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser(), true);
-$user_timezone = OCP\Config::getUserValue(OCP\User::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+$user_timezone = OC_Calendar_App::getTimezone();
 
 $tasks = array();
 foreach( $calendars as $calendar ){
