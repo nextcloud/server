@@ -71,6 +71,7 @@ class OC_MEDIA_AMPACHE{
 				$pass=$users[0]['user_password_sha256'];
 				$key=hash('sha256',$time.$pass);
 				if($key==$auth){
+					
 					$token=hash('sha256','oc_media_'.$key);
 					OC_MEDIA_COLLECTION::$uid=$users[0]['user_id'];
 					$date=date('c');//todo proper update/add/clean dates
@@ -150,6 +151,7 @@ class OC_MEDIA_AMPACHE{
 		$users=$query->execute(array($auth))->fetchAll();
 		if(count($users)>0){
 			OC_MEDIA_COLLECTION::$uid=$users[0]['user_id'];
+			OC_User::setUserId($users[0]['user_id']);
 			return $users[0]['user_id'];
 		}else{
 			return false;
