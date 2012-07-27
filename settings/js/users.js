@@ -87,7 +87,7 @@ $(document).ready(function(){
 		var user=element.data('username');
 		if($(element).attr('class') == 'groupsselect'){		
 			if(element.data('userGroups')){
-				checked=element.data('userGroups').split(', ');
+				checked=String(element.data('userGroups')).split(', ');
 			}
 			if(user){
 				var checkHandeler=function(group){
