@@ -8,42 +8,55 @@
 
 
 class OC_FileChunking {
+	protected $info;
+	protected $cache;
+
 	static public function decodeName($name) {
 		preg_match('/(?P<name>.*)-chunking-(?P<transferid>\d+)-(?P<chunkcount>\d+)-(?P<index>\d+)/', $name, $matches);
 		return $matches;
 	}
 
-	static public function getPrefix($name, $transferid, $chunkcount) {
+	public function __construct($info) {
+		$this->info = $info;
+	}
+
+	public function getPrefix() {
+		$name = $this->info['name'];
+		$transferid = $this->info['transferid'];
+		$chunkcount = $this->info['chunkcount'];
+
 		return $name.'-chunking-'.$transferid.'-'.$chunkcount.'-';
 	}
 
-	static public function store($name, $data) {
-		$cache = new OC_Cache_File();
+	protected function getCache() {
+		if (!isset($this->cache)) {
+			$this->cache = new OC_Cache_File();
+		}
+		return $this->cache;
+	}
+
+	public function store($index, $data) {
+		$cache = $this->getCache();
+		$name = $this->getPrefix().$index;
 		$cache->set($name, $data);
 	}
 
-	static public function isComplete($info) {
-		$prefix = OC_FileChunking::getPrefix($info['name'],
-				$info['transferid'],
-				$info['chunkcount']
-			);
+	public function isComplete() {
+		$prefix = $this->getPrefix();
 		$parts = 0;
-		$cache = new OC_Cache_File();
-		for($i=0; $i < $info['chunkcount']; $i++) {
+		$cache = $this->getCache();
+		for($i=0; $i < $this->info['chunkcount']; $i++) {
 			if ($cache->hasKey($prefix.$i)) {
 				$parts ++;
 			}
 		}
-		return $parts == $info['chunkcount'];
+		return $parts == $this->info['chunkcount'];
 	}
 
-	static public function assemble($info, $f) {
-		$cache = new OC_Cache_File();
-		$prefix = OC_FileChunking::getPrefix($info['name'],
-				$info['transferid'],
-				$info['chunkcount']
-			);
-		for($i=0; $i < $info['chunkcount']; $i++) {
+	public function assemble($f) {
+		$cache = $this->getCache();
+		$prefix = $this->getPrefix();
+		for($i=0; $i < $this->info['chunkcount']; $i++) {
 			$chunk = $cache->get($prefix.$i);
 			$cache->remove($prefix.$i);
 			fwrite($f,$chunk);
