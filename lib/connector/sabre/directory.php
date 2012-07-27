@@ -49,25 +49,12 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function createFile($name, $data = null) {
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
-			$cache = new OC_Cache_File();
-			$cache->set($name, $data);
-			preg_match('/(?P<name>.*)-chunking-(?P<transferid>\d+)-(?P<chunkcount>\d+)-(?P<index>\d+)/', $name, $matches);
-			$prefix = $matches['name'].'-chunking-'.$matches['transferid'].'-'.$matches['chunkcount'].'-';
-			$parts = 0;
-			for($i=0; $i < $matches['chunkcount']; $i++) {
-				if ($cache->hasKey($prefix.$i)) {
-					$parts ++;
-				}
-			}
-			if ($parts == $matches['chunkcount']) {
-				$newPath = $this->path . '/' . $matches['name'];
+			OC_FileChunking::store($name, $data);
+			$info = OC_FileChunking::decodeName($name);
+			if (OC_FileChunking::isComplete($info)) {
+				$newPath = $this->path . '/' . $info['name'];
 				$f = OC_Filesystem::fopen($newPath, 'w');
-				for($i=0; $i < $matches['chunkcount']; $i++) {
-					$chunk = $cache->get($prefix.$i);
-					$cache->remove($prefix.$i);
-					fwrite($f,$chunk);
-				}
-				fclose($f);
+				OC_FileChunking::assemble($info, $f);
 				return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 			}
 		} else {
