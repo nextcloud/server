@@ -71,7 +71,6 @@ class OC_MEDIA_AMPACHE{
 				$pass=$users[0]['user_password_sha256'];
 				$key=hash('sha256',$time.$pass);
 				if($key==$auth){
-					
 					$token=hash('sha256','oc_media_'.$key);
 					OC_MEDIA_COLLECTION::$uid=$users[0]['user_id'];
 					$date=date('c');//todo proper update/add/clean dates
@@ -273,7 +272,7 @@ class OC_MEDIA_AMPACHE{
 </root>");
 			return;
 		}
-		$filter=$params['filter'];
+		$filter = isset($params['filter']) ? $params['filter'] : '';
 		$albums=OC_MEDIA_COLLECTION::getAlbums($filter);
 		$artist=OC_MEDIA_COLLECTION::getArtistName($filter);
 		echo('<?xml version="1.0" encoding="UTF-8"?>');
@@ -402,7 +401,7 @@ class OC_MEDIA_AMPACHE{
 </root>");
 			return;
 		}
-		$filter=$params['filter'];
+		$filter = isset($params['filter']) ? $params['filter'] : '';
 		$artists=OC_MEDIA_COLLECTION::getArtists($filter);
 		$albums=OC_MEDIA_COLLECTION::getAlbums(0,$filter);
 		$songs=OC_MEDIA_COLLECTION::getSongs(0,0,$filter);
