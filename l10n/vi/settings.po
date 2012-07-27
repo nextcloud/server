@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-26 08:03+0200\n"
-"PO-Revision-Date: 2012-07-25 19:30+0000\n"
+"POT-Creation-Date: 2012-07-27 02:02+0200\n"
+"PO-Revision-Date: 2012-07-27 00:02+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -35,6 +35,10 @@ msgstr "Đổi OpenID"
 msgid "Invalid request"
 msgstr "Yêu cầu không hợp lệ"
 
+#: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr ""
+
 #: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Ngôn ngữ đã được thay đổi"
@@ -51,7 +55,7 @@ msgstr "Cho phép"
 msgid "Saving..."
 msgstr "Đang tiến hành lưu ..."
 
-#: personal.php:41 personal.php:42
+#: personal.php:46 personal.php:47
 msgid "__language_name__"
 msgstr "__Ngôn ngữ___"
 
@@ -175,34 +179,42 @@ msgstr "Dịch "
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "sử dụng địa chỉ này để kết nối với ownCloud của bạn trong quản lý tập tin "
 
-#: templates/users.php:15 templates/users.php:60
+#: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "Tên"
 
-#: templates/users.php:17 templates/users.php:61
+#: templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: templates/users.php:19 templates/users.php:62 templates/users.php:78
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
 msgstr "Nhóm"
 
-#: templates/users.php:25
+#: templates/users.php:32
 msgid "Create"
 msgstr "Tạo"
 
-#: templates/users.php:28
+#: templates/users.php:35
 msgid "Default Quota"
 msgstr "Hạn ngạch mặt định"
 
-#: templates/users.php:47 templates/users.php:103
+#: templates/users.php:55 templates/users.php:138
 msgid "Other"
 msgstr "Khác"
 
-#: templates/users.php:63
+#: templates/users.php:80
+msgid "SubAdmin"
+msgstr ""
+
+#: templates/users.php:82
 msgid "Quota"
 msgstr "Hạn ngạch"
 
-#: templates/users.php:110
+#: templates/users.php:112
+msgid "SubAdmin for ..."
+msgstr ""
+
+#: templates/users.php:145
 msgid "Delete"
 msgstr "Xóa"

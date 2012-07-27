@@ -5,14 +5,16 @@
 # Translators:
 # Ahmed Noor Kader Mustajir Md Eusoff <sir.ade@gmail.com>, 2012.
 #   <hadri.hilmi@gmail.com>, 2011, 2012.
+# Hadri Hilmi <hadri.hilmi@gmail.com>, 2012.
+# Zulhilmi Rosnin <zulhilmi.rosnin@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Malay (Malaysia) (http://www.transifex.net/projects/p/owncloud/language/ms_MY/)\n"
+"POT-Creation-Date: 2012-07-27 02:02+0200\n"
+"PO-Revision-Date: 2012-07-27 00:02+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,75 +23,83 @@ msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "Emel disimpan"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Emel tidak sah"
 
-#: ajax/openid.php:15
+#: ajax/openid.php:16
 msgid "OpenID Changed"
 msgstr "OpenID ditukar"
 
-#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
 msgstr "Permintaan tidak sah"
 
-#: ajax/setlanguage.php:17
+#: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr ""
+
+#: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Bahasa ditukar"
 
 #: js/apps.js:31 js/apps.js:67
 msgid "Disable"
-msgstr ""
+msgstr "Nyahaktif"
 
 #: js/apps.js:31 js/apps.js:54
 msgid "Enable"
-msgstr ""
+msgstr "Aktif"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Simpan..."
 
-#: personal.php:40 personal.php:41
+#: personal.php:46 personal.php:47
 msgid "__language_name__"
 msgstr "_nama_bahasa_"
 
-#: templates/admin.php:13
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr ""
+
+#: templates/admin.php:28
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
-#: templates/admin.php:40
+#: templates/admin.php:55
 msgid "More"
-msgstr ""
+msgstr "Lanjutan"
 
-#: templates/apps.php:8
+#: templates/apps.php:10
 msgid "Add your App"
-msgstr ""
+msgstr "Tambah apps anda"
 
-#: templates/apps.php:22
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Pilih aplikasi"
 
-#: templates/apps.php:25
+#: templates/apps.php:27
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Lihat halaman applikasi di apps.owncloud.com"
 
-#: templates/apps.php:26
+#: templates/apps.php:28
 msgid "-licensed"
 msgstr "-dilesen"
 
-#: templates/apps.php:26
+#: templates/apps.php:28
 msgid "by"
 msgstr "oleh"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentasi"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Mengurus Fail Besar"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -117,11 +127,11 @@ msgstr "yang tersedia"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Klien Selarian untuk Desktop dan Mobile"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Muat turun"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -171,34 +181,42 @@ msgstr "Bantu terjemah"
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "guna alamat ini untuk menyambung owncloud anda dalam pengurus fail anda"
 
-#: templates/users.php:15 templates/users.php:44
+#: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "Nama"
 
-#: templates/users.php:16 templates/users.php:45
+#: templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Kata laluan "
 
-#: templates/users.php:17 templates/users.php:46 templates/users.php:60
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
 msgstr "Kumpulan"
 
-#: templates/users.php:22
+#: templates/users.php:32
 msgid "Create"
 msgstr "Buat"
 
-#: templates/users.php:25
+#: templates/users.php:35
 msgid "Default Quota"
-msgstr ""
+msgstr "Kuota Lalai"
 
-#: templates/users.php:35 templates/users.php:74
+#: templates/users.php:55 templates/users.php:138
 msgid "Other"
+msgstr "Lain"
+
+#: templates/users.php:80
+msgid "SubAdmin"
 msgstr ""
 
-#: templates/users.php:47
+#: templates/users.php:82
 msgid "Quota"
 msgstr "Kuota"
 
-#: templates/users.php:80
+#: templates/users.php:112
+msgid "SubAdmin for ..."
+msgstr ""
+
+#: templates/users.php:145
 msgid "Delete"
 msgstr "Padam"

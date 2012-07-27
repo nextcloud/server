@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-26 02:01+0200\n"
-"PO-Revision-Date: 2012-07-25 23:06+0000\n"
-"Last-Translator: juanman <juanma@kde.org.ar>\n"
+"POT-Creation-Date: 2012-07-27 02:02+0200\n"
+"PO-Revision-Date: 2012-07-27 00:02+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,6 +40,10 @@ msgstr "OpenID cambiado"
 msgid "Invalid request"
 msgstr "Solicitud no válida"
 
+#: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr ""
+
 #: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Idioma cambiado"
@@ -56,7 +60,7 @@ msgstr "Activar"
 msgid "Saving..."
 msgstr "Salvando.."
 
-#: personal.php:41 personal.php:42
+#: personal.php:46 personal.php:47
 msgid "__language_name__"
 msgstr "Castellano"
 
@@ -180,34 +184,42 @@ msgstr "Ayúdanos a traducir"
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "utiliza esta dirección para conectar a tu ownCloud desde tu gestor de archivos"
 
-#: templates/users.php:15 templates/users.php:60
+#: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "Nombre"
 
-#: templates/users.php:17 templates/users.php:61
+#: templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Contraseña"
 
-#: templates/users.php:19 templates/users.php:62 templates/users.php:78
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
 msgstr "Grupos"
 
-#: templates/users.php:25
+#: templates/users.php:32
 msgid "Create"
 msgstr "Crear"
 
-#: templates/users.php:28
+#: templates/users.php:35
 msgid "Default Quota"
 msgstr "Cuota predeterminada"
 
-#: templates/users.php:47 templates/users.php:103
+#: templates/users.php:55 templates/users.php:138
 msgid "Other"
 msgstr "Otro"
 
-#: templates/users.php:63
+#: templates/users.php:80
+msgid "SubAdmin"
+msgstr ""
+
+#: templates/users.php:82
 msgid "Quota"
 msgstr "Cuota"
 
-#: templates/users.php:110
+#: templates/users.php:112
+msgid "SubAdmin for ..."
+msgstr ""
+
+#: templates/users.php:145
 msgid "Delete"
 msgstr "Eliminar"
