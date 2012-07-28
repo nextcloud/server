@@ -179,10 +179,13 @@ class OC_Share {
 				$uid_shared_with = OC_Group::usersInGroup($uid_shared_with);
 				// Remove the owner from the list of users in the group
 				$uid_shared_with = array_diff($uid_shared_with, array(OCP\USER::getUser()));
-			} else if ($uid = strrchr($uid_shared_with, '@', true)) {
-				$uid_shared_with = array($uid);
 			} else {
-				$uid_shared_with = array($uid_shared_with);
+				$pos = strrpos($uid_shared_with, '@');
+				if ($pos !== false && OC_Group::groupExists(substr($uid_shared_with, $pos + 1))) {
+					$uid_shared_with = array(substr($uid_shared_with, 0, $pos));
+				} else {
+					$uid_shared_with = array($uid_shared_with);
+				}
 			}
 			foreach ($uid_shared_with as $uid) {
 				$sharedFolder = $uid.'/files/Shared';
