@@ -53,6 +53,15 @@ class OC_API {
 	*/
 	public function call($parameters){
 		
+		// Get the routes
+		// TODO cache
+		foreach(OC_APP::getEnabledApps() as $app){
+			$file = OC_App::getAppPath($app).'/appinfo/routes.php';
+			if(file_exists($file)){
+				require_once($file);
+			}
+		}
+		
 		$name = $parameters['_name'];
 		$response = array();
 		// Loop through registered actions
