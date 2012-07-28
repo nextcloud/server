@@ -3,6 +3,7 @@
 "Invalid email" => "E-mail invalide",
 "OpenID Changed" => "Identifiant OpenID changé",
 "Invalid request" => "Requête invalide",
+"Authentication error" => "Erreur d'authentification",
 "Language changed" => "Langue changée",
 "Disable" => "Désactivé",
 "Enable" => "Activé",
@@ -44,6 +45,8 @@
 "Create" => "Créer",
 "Default Quota" => "Quota par défaut",
 "Other" => "Autre",
+"SubAdmin" => "SubAdmin",
 "Quota" => "Quota",
+"SubAdmin for ..." => "SubAdmin pour ...",
 "Delete" => "Supprimer"
 );

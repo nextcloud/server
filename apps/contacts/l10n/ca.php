@@ -206,5 +206,5 @@
 "more info" => "més informació",
 "Primary address (Kontact et al)" => "Adreça primària (Kontact i al)",
 "iOS/OS X" => "iOS/OS X",
-"Read only vCard directory link(s)" => "Enllaç(os) només de lectura vCard"
+"Read only vCard directory link(s)" => "Enllaç(os) vCard només de lectura"
 );

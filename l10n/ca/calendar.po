@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-27 02:02+0200\n"
-"PO-Revision-Date: 2012-07-26 10:41+0000\n"
+"POT-Creation-Date: 2012-07-28 02:02+0200\n"
+"PO-Revision-Date: 2012-07-27 06:17+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -769,7 +769,7 @@ msgstr "Memòria de cau"
 
 #: templates/settings.php:48
 msgid "Clear cache for repeating events"
-msgstr "Neteja la memòria de cau pels esdveniments amb repetició"
+msgstr "Neteja la memòria de cau pels esdeveniments amb repetició"
 
 #: templates/settings.php:53
 msgid "Calendar CalDAV syncing addresses"
@@ -789,7 +789,7 @@ msgstr "IOS/OS X"
 
 #: templates/settings.php:59
 msgid "Read only iCalendar link(s)"
-msgstr "Enllaç(os) del calendari només de lectura"
+msgstr "Enllaç(os) iCalendar només de lectura"
 
 #: templates/share.dropdown.php:20
 msgid "Users"

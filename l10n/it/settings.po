@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-27 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-07-28 02:02+0200\n"
+"PO-Revision-Date: 2012-07-27 05:39+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +42,7 @@ msgstr "Richiesta non valida"
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "Errore di autenticazione"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -210,7 +210,7 @@ msgstr "Altro"
 
 #: templates/users.php:80
 msgid "SubAdmin"
-msgstr ""
+msgstr "SubAdmin"
 
 #: templates/users.php:82
 msgid "Quota"
@@ -218,7 +218,7 @@ msgstr "Quote"
 
 #: templates/users.php:112
 msgid "SubAdmin for ..."
-msgstr ""
+msgstr "SubAdmin per..."
 
 #: templates/users.php:145
 msgid "Delete"

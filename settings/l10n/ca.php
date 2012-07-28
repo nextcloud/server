@@ -3,6 +3,7 @@
 "Invalid email" => "El correu electrònic no és vàlid",
 "OpenID Changed" => "OpenID ha canviat",
 "Invalid request" => "Sol.licitud no vàlida",
+"Authentication error" => "Error d'autenticació",
 "Language changed" => "S'ha canviat l'idioma",
 "Disable" => "Desactiva",
 "Enable" => "Activa",
@@ -44,6 +45,8 @@
 "Create" => "Crea",
 "Default Quota" => "Quota per defecte",
 "Other" => "Altre",
+"SubAdmin" => "SubAdmin",
 "Quota" => "Quota",
+"SubAdmin for ..." => "SubAdmin per a ...",
 "Delete" => "Suprimeix"
 );
