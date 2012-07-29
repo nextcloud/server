@@ -3,6 +3,7 @@
 "Invalid email" => "Μη έγκυρο email",
 "OpenID Changed" => "Το OpenID άλλαξε",
 "Invalid request" => "Μη έγκυρο αίτημα",
+"Authentication error" => "Σφάλμα πιστοποίησης",
 "Language changed" => "Η γλώσσα άλλαξε",
 "Disable" => "Απενεργοποίηση",
 "Enable" => "Ενεργοποίηση",
@@ -44,6 +45,8 @@
 "Create" => "Δημιουργία",
 "Default Quota" => "Προεπιλεγμένο όριο",
 "Other" => "Άλλα",
+"SubAdmin" => "SubAdmin",
 "Quota" => "Σύνολο χώρου",
+"SubAdmin for ..." => "SubAdmin για ...",
 "Delete" => "Διαγραφή"
 );

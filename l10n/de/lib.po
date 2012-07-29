@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <thomas.mueller@tmit.eu>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-28 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 22:23+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-07-29 02:04+0200\n"
+"PO-Revision-Date: 2012-07-28 14:29+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,23 +20,23 @@ msgstr ""
 
 #: app.php:287
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 #: app.php:294
 msgid "Personal"
-msgstr ""
+msgstr "Persönlich"
 
 #: app.php:299
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #: app.php:304
 msgid "Users"
-msgstr ""
+msgstr "Benutzer"
 
 #: app.php:311
 msgid "Apps"
-msgstr ""
+msgstr "Apps"
 
 #: app.php:313
 msgid "Admin"

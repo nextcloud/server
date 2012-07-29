@@ -106,6 +106,7 @@
 "Navigation" => "Πλοήγηση",
 "Next contact in list" => "Επόμενη επαφή στη λίστα",
 "Previous contact in list" => "Προηγούμενη επαφή στη λίστα",
+"Expand/collapse current addressbook" => "Ανάπτυξη/σύμπτυξη τρέχοντος βιβλίου διευθύνσεων",
 "Next/previous addressbook" => "Επόμενο/προηγούμενο βιβλίο διευθύνσεων",
 "Actions" => "Ενέργειες",
 "Refresh contacts list" => "Ανανέωσε τη λίστα επαφών",

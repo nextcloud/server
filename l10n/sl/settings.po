@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-27 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-07-29 02:04+0200\n"
+"PO-Revision-Date: 2012-07-28 02:03+0000\n"
+"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +38,7 @@ msgstr "Neveljaven zahtevek"
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "Napaka overitve"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -62,7 +62,7 @@ msgstr "__ime_jezika__"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "Varnostno opozorilo"
 
 #: templates/admin.php:28
 msgid "Log"
@@ -206,7 +206,7 @@ msgstr "Drugo"
 
 #: templates/users.php:80
 msgid "SubAdmin"
-msgstr ""
+msgstr "PodSkrbnik"
 
 #: templates/users.php:82
 msgid "Quota"
@@ -214,7 +214,7 @@ msgstr "Količinska omejitev"
 
 #: templates/users.php:112
 msgid "SubAdmin for ..."
-msgstr ""
+msgstr "PodSkrbnik za ..."
 
 #: templates/users.php:145
 msgid "Delete"

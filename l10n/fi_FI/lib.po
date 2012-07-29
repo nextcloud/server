@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-28 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 22:27+0000\n"
+"POT-Creation-Date: 2012-07-29 02:04+0200\n"
+"PO-Revision-Date: 2012-07-28 15:54+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Sovellukset"
 
 #: app.php:313
 msgid "Admin"
-msgstr ""
+msgstr "Ylläpitäjä"
 
 #: files.php:245
 msgid "ZIP download is turned off."
@@ -64,7 +64,7 @@ msgstr ""
 
 #: json.php:39 json.php:63 json.php:75
 msgid "Authentication error"
-msgstr ""
+msgstr "Todennusvirhe"
 
 #: json.php:51
 msgid "Token expired. Please reload page."

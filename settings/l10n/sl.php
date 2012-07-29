@@ -3,11 +3,13 @@
 "Invalid email" => "Neveljaven e-poštni naslov",
 "OpenID Changed" => "OpenID je bil spremenjen",
 "Invalid request" => "Neveljaven zahtevek",
+"Authentication error" => "Napaka overitve",
 "Language changed" => "Jezik je bil spremenjen",
 "Disable" => "Onemogoči",
 "Enable" => "Omogoči",
 "Saving..." => "Shranjevanje...",
 "__language_name__" => "__ime_jezika__",
+"Security Warning" => "Varnostno opozorilo",
 "Log" => "Dnevnik",
 "More" => "Več",
 "Add your App" => "Dodajte vašo aplikacijo",
@@ -43,6 +45,8 @@
 "Create" => "Ustvari",
 "Default Quota" => "Privzeta količinska omejitev",
 "Other" => "Drugo",
+"SubAdmin" => "PodSkrbnik",
 "Quota" => "Količinska omejitev",
+"SubAdmin for ..." => "PodSkrbnik za ...",
 "Delete" => "Izbriši"
 );

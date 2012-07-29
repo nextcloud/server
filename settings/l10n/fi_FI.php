@@ -3,6 +3,7 @@
 "Invalid email" => "Virheellinen sähköposti",
 "OpenID Changed" => "OpenID on vaihdettu",
 "Invalid request" => "Virheellinen pyyntö",
+"Authentication error" => "Todennusvirhe",
 "Language changed" => "Kieli on vaihdettu",
 "Disable" => "Poista käytöstä",
 "Enable" => "Käytä",
