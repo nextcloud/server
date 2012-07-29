@@ -202,11 +202,19 @@ OC.Share={
 	emailPrivateLink:function() {
 		var link = $('#privateLinkText').val();
 		var file = link.substr(link.lastIndexOf('/') + 1).replace(/%20/g, ' ');
-		$.post(OC.filePath('files_sharing', 'ajax', 'email.php'), { toaddress: $('#email').val(), link: link, file: file } );
-		$('#email').css('font-weight', 'bold');
-		$('#email').animate({ fontWeight: 'normal' }, 2000, function() {
-			$(this).val('');
-		}).val('Email sent');
+		var email = $('#email').val();
+		if (email != '') {
+			$.post(OC.filePath('files_sharing', 'ajax', 'email.php'), { toaddress: email, link: link, file: file }, function(result) {
+				if (result && result.status == 'success') {
+					$('#email').css('font-weight', 'bold');
+					$('#email').animate({ fontWeight: 'normal' }, 2000, function() {
+						$(this).val('');
+					}).val('Email sent');
+				} else {
+					OC.dialogs.alert(result.data.message, 'Error while sharing');
+				}
+			});
+		}
 	},
 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
