@@ -89,3 +89,4 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 #navigation>ul>li:first-child+li { padding-top:2.9em; }
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
+#notification .undo { cursor:pointer; font-weight:bold; margin-left:1em; }

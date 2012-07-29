@@ -183,7 +183,7 @@ FileList={
 		procesSelection();
 		FileList.deleteCanceled=false;
 		FileList.deleteFiles=files;
-		$('#notification').text(t('files','undo deletion'));
+		$('#notification').html(t('files', 'deleted')+' '+files+'<span class="undo">'+t('files', 'undo')+'</span>');
 		$('#notification').data('deletefile',true);
 		$('#notification').fadeIn();
 	},
@@ -214,12 +214,11 @@ FileList={
 
 $(document).ready(function(){
 	$('#notification').hide();
-	$('#notification').click(function(){
+	$('#notification .undo').live('click', function(){
 		if($('#notification').data('deletefile'))
 		{
 			$.each(FileList.deleteFiles,function(index,file){
 				$('tr').filterAttr('data-file',file).show();
-// 			alert(file);
 			});
 			FileList.deleteCanceled=true;
 			FileList.deleteFiles=null;
