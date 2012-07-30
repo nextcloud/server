@@ -79,12 +79,19 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			return false;
 		}
 
-		//update some settings, if necessary
-		$this->updateQuota($dn);
-		$this->updateEmail($dn);
+		//do we have a username for him/her?
+		$ocname = $this->dn2username($dn);
 
-		//give back the display name
-		return $this->dn2username($dn);
+		if($ocname){
+			//update some settings, if necessary
+			$this->updateQuota($dn);
+			$this->updateEmail($dn);
+
+			//give back the display name
+			return $ocname;
+		}
+
+		return false;
 	}
 
 	/**

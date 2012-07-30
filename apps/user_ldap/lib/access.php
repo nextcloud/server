@@ -178,7 +178,7 @@ abstract class Access {
 	 * @param $ldapname optional, the display name of the object
 	 * @returns string with with the name to use in ownCloud, false on DN outside of search DN
 	 *
-	 * returns the internal ownCloud name for the given LDAP DN of the group
+	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
 	 */
 	public function dn2groupname($dn, $ldapname = null) {
 		if(mb_strripos($dn, $this->connection->ldapBaseGroups, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->connection->ldapBaseGroups, 'UTF-8'))) {
@@ -193,7 +193,7 @@ abstract class Access {
 	 * @param $ldapname optional, the display name of the object
 	 * @returns string with with the name to use in ownCloud
 	 *
-	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN
+	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 */
 	public function dn2username($dn, $ldapname = null) {
 		if(mb_strripos($dn, $this->connection->ldapBaseUsers, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->connection->ldapBaseUsers, 'UTF-8'))) {
@@ -233,6 +233,10 @@ abstract class Access {
 
 		if(is_null($ldapname)) {
 			$ldapname = $this->readAttribute($dn, $nameAttribute);
+			if(!isset($ldapname[0]) && empty($ldapname[0])) {
+				\OCP\Util::writeLog('user_ldap', 'No or empty name for '.$dn.'.', \OCP\Util::INFO);
+				return false;
+			}
 			$ldapname = $ldapname[0];
 		}
 		$ldapname = $this->sanitizeUsername($ldapname);
@@ -248,9 +252,8 @@ abstract class Access {
 			return $oc_name;
 		}
 
-		//TODO: do not simple die away!
-		//and this of course should never been thrown :)
-		throw new Exception('LDAP backend: unexpected collision of DN and ownCloud Name.');
+		//if everything else did not help..
+		OCP\Util::writeLog('user_ldap', 'Could not create unique ownCloud name for '.$dn.'.', \OCP\Util::INFO);
 	}
 
 	/**
@@ -294,6 +297,12 @@ abstract class Access {
 				continue;
 			}
 
+			//we do not take empty usernames
+			if(!isset($ldapObject[$nameAttribute]) || empty($ldapObject[$nameAttribute])) {
+				\OCP\Util::writeLog('user_ldap', 'No or empty name for '.$ldapObject['dn'].', skipping.', \OCP\Util::INFO);
+				continue;
+			}
+
 			//a new group! Then let's try to add it. We're shooting into the blue with the group name, assuming that in most cases there will not be a conflict. But first make sure, that the display name contains only allowed characters.
 			$ocname = $this->sanitizeUsername($ldapObject[$nameAttribute]);
 			if($this->mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
@@ -308,9 +317,8 @@ abstract class Access {
 				continue;
 			}
 
-			//TODO: do not simple die away
-			//and this of course should never been thrown :)
-			throw new Exception('LDAP backend: unexpected collision of DN and ownCloud Name.');
+			//if everything else did not help..
+			\OCP\Util::writeLog('user_ldap', 'Could not create unique ownCloud name for '.$ldapObject['dn'].', skipping.', \OCP\Util::INFO);
 		}
 		return $ownCloudNames;
 	}
