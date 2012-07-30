@@ -26,6 +26,7 @@ switch($operation){
 		);
 		
 		$t = new OC_Template('settings', 'oauth', 'guest');
+		OC_Util::addStyle('settings', 'oauth');
 		$t->assign('consumer', $consumer);
 		$t->printPage();
 	break;
