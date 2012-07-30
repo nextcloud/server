@@ -62,6 +62,9 @@ class OC_Contacts_VCard{
 			}
 		} elseif($id) {
 			if(is_array($id)) {
+				if(count($id) == 0) {
+					return array();
+				}
 				$id = $id[0];
 			}
 			try {
@@ -110,7 +113,7 @@ class OC_Contacts_VCard{
 		return $result->fetchRow();
 	}
 
-	/** 
+	/**
 	* @brief Format property TYPE parameters for upgrading from v. 2.1
 	* @param $property Reference to a Sabre_VObject_Property.
 	* In version 2.1 e.g. a phone can be formatted like: TEL;HOME;CELL:123456789
@@ -126,7 +129,7 @@ class OC_Contacts_VCard{
 		}
 	}
 
-	/** 
+	/**
 	* @brief Decode properties for upgrading from v. 2.1
 	* @param $property Reference to a Sabre_VObject_Property.
 	* The only encoding allowed in version 3.0 is 'b' for binary. All encoded strings
