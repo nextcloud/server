@@ -36,15 +36,16 @@ class OC_API {
 	* @param string $method the http method
 	* @param string $url the url to match
 	* @param callable $action the function to run
+	* @param string $app the id of the app registering the call
 	*/
-	public static function register($method, $url, $action){
+	public static function register($method, $url, $action, $app){
 		$name = strtolower($method).$url;
 		if(!isset(self::$actions[$name])){
 			OC_Router::create($name, $url.'.{format}')
 				->action('OC_API', 'call');
 			self::$actions[$name] = array();
 		}
-		self::$actions[$name][] = $action;
+		self::$actions[$name][] = array('app' => $app, 'action' => $action);
 	}
 	
 	/**
@@ -68,8 +69,8 @@ class OC_API {
 		$response = array();
 		// Loop through registered actions
 		foreach(self::$actions[$name] as $action){
-			if(is_callable($action)){
-				$action_response = call_user_func($action, $parameters);
+			if(is_callable($action['action'])){
+				$action_response = call_user_func($action['action'], $parameters);
 				if(is_array($action_response)){
 					// Merge with previous
 					$response = array_merge($response, $action_response);
