@@ -3,7 +3,10 @@
 class OC_OCS_Privatedata {
 
 	public static function privatedataGet($parameters){
-		$user = OC_OCS::checkpassword();
+		// TODO check user auth
+		$user = OC_User::getUser();
+		$app = addslashes(strip_tags($parameters['app']));
+		$key = addslashes(strip_tags($parameters['key']));
 		$result = OC_OCS::getData($user,$app,$key);
 		$xml=  array();
 		foreach($result as $i=>$log) {
