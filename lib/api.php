@@ -86,7 +86,6 @@ class OC_API {
 		$finalresponse = array();
 		$numresponses = count($responses);
 		
-		// TODO - This is only a temporary merge. If keys match and value is another array we want to compare deeper in the array
 		foreach($responses as $response){
 			if(is_int($response) && empty($finalresponse)){
 				$finalresponse = $response;
@@ -95,13 +94,12 @@ class OC_API {
 			if(is_array($response)){
 				// Shipped apps win
 				if(OC_App::isShipped($response['app'])){
-					$finalresponse = array_merge($finalresponse, $response);
+					$finalresponse = array_merge_recursive($finalresponse, $response);
 				} else {
-					$finalresponse = array_merge($response, $finalresponse);
+					$finalresponse = array_merge_recursive($response, $finalresponse);
 				}
 			}
 		}
-		// END TODO
 
 		return $finalresponse;
 	}
