@@ -23,14 +23,30 @@ class OC_Contacts_App {
 
 	public static function getAddressbook($id) {
 		$addressbook = OC_Contacts_Addressbook::find( $id );
-		if( $addressbook === false || $addressbook['userid'] != OCP\USER::getUser()) {
+		if($addressbook === false || $addressbook['userid'] != OCP\USER::getUser()) {
 			if ($addressbook === false) {
-				OCP\Util::writeLog('contacts', 'Addressbook not found: '. $id, OCP\Util::ERROR);
-				OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('Addressbook not found.'))));
+				OCP\Util::writeLog('contacts',
+					'Addressbook not found: '. $id,
+					OCP\Util::ERROR);
+				OCP\JSON::error(
+					array(
+						'data' => array(
+							'message' => self::$l10n->t('Addressbook not found.')
+						)
+					)
+				);
 			}
 			else {
-				OCP\Util::writeLog('contacts', 'Addressbook('.$id.') is not from '.OCP\USER::getUser(), OCP\Util::ERROR);
-				OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.'))));
+				OCP\Util::writeLog('contacts',
+					'Addressbook('.$id.') is not from '.OCP\USER::getUser(),
+					OCP\Util::ERROR);
+				OCP\JSON::error(
+					array(
+						'data' => array(
+							'message' => self::$l10n->t('This is not your addressbook.')
+						)
+					)
+				);
 			}
 			exit();
 		}
@@ -40,8 +56,17 @@ class OC_Contacts_App {
 	public static function getContactObject($id) {
 		$card = OC_Contacts_VCard::find( $id );
 		if( $card === false ) {
-			OCP\Util::writeLog('contacts', 'Contact could not be found: '.$id, OCP\Util::ERROR);
-			OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('Contact could not be found.').' '.print_r($id, true))));
+			OCP\Util::writeLog('contacts',
+				'Contact could not be found: '.$id,
+				OCP\Util::ERROR);
+			OCP\JSON::error(
+				array(
+					'data' => array(
+						'message' => self::$l10n->t('Contact could not be found.')
+							.' '.print_r($id, true)
+					)
+				)
+			);
 			exit();
 		}
 
@@ -110,29 +135,29 @@ class OC_Contacts_App {
 	public static function getTypesOfProperty($prop) {
 		$l = self::$l10n;
 		switch($prop) {
-		case 'ADR':
-			return array(
-				'WORK' => $l->t('Work'),
-				'HOME' => $l->t('Home'),
-			);
-		case 'TEL':
-			return array(
-				'HOME'  =>  $l->t('Home'),
-				'CELL'  =>  $l->t('Mobile'),
-				'WORK'  =>  $l->t('Work'),
-				'TEXT'  =>  $l->t('Text'),
-				'VOICE' =>  $l->t('Voice'),
-				'MSG'   =>  $l->t('Message'),
-				'FAX'   =>  $l->t('Fax'),
-				'VIDEO' =>  $l->t('Video'),
-				'PAGER' =>  $l->t('Pager'),
-			);
-		case 'EMAIL':
-			return array(
-				'WORK' => $l->t('Work'),
-				'HOME' => $l->t('Home'),
-				'INTERNET' => $l->t('Internet'),
-			);
+			case 'ADR':
+				return array(
+					'WORK' => $l->t('Work'),
+					'HOME' => $l->t('Home'),
+				);
+			case 'TEL':
+				return array(
+					'HOME'  =>  $l->t('Home'),
+					'CELL'  =>  $l->t('Mobile'),
+					'WORK'  =>  $l->t('Work'),
+					'TEXT'  =>  $l->t('Text'),
+					'VOICE' =>  $l->t('Voice'),
+					'MSG'   =>  $l->t('Message'),
+					'FAX'   =>  $l->t('Fax'),
+					'VIDEO' =>  $l->t('Video'),
+					'PAGER' =>  $l->t('Pager'),
+				);
+			case 'EMAIL':
+				return array(
+					'WORK' => $l->t('Work'),
+					'HOME' => $l->t('Home'),
+					'INTERNET' => $l->t('Internet'),
+				);
 		}
 	}
 
@@ -142,11 +167,13 @@ class OC_Contacts_App {
 	 */
 	protected static function getVCategories() {
 		if (is_null(self::$categories)) {
-			self::$categories = new OC_VCategories('contacts', null, self::getDefaultCategories());
+			self::$categories = new OC_VCategories('contacts',
+				null,
+				self::getDefaultCategories());
 		}
 		return self::$categories;
 	}
-	
+
 	/**
 	 * @brief returns the categories for the user
 	 * @return (Array) $categories
@@ -183,7 +210,7 @@ class OC_Contacts_App {
 			(string)self::$l10n->t('Work'),
 		);
 	}
-	
+
 	/**
 	 * scan vcards for categories.
 	 * @param $vccontacts VCards to scan. null to check all vcards for the current user.
@@ -198,14 +225,20 @@ class OC_Contacts_App {
 				}
 				$start = 0;
 				$batchsize = 10;
-				while($vccontacts = OC_Contacts_VCard::all($vcaddressbookids, $start, $batchsize)){
+				while($vccontacts =
+					OC_Contacts_VCard::all($vcaddressbookids, $start, $batchsize)) {
 					$cards = array();
 					foreach($vccontacts as $vccontact) {
 						$cards[] = $vccontact['carddata'];
 					}
-					OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', scanning: '.$batchsize.' starting from '.$start, OCP\Util::DEBUG);
+					OCP\Util::writeLog('contacts',
+						__CLASS__.'::'.__METHOD__
+							.', scanning: '.$batchsize.' starting from '.$start,
+						OCP\Util::DEBUG);
 					// only reset on first batch.
-					self::getVCategories()->rescan($cards, true, ($start == 0 ? true : false));
+					self::getVCategories()->rescan($cards,
+						true,
+						($start == 0 ? true : false));
 					$start += $batchsize;
 				}
 			}
