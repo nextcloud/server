@@ -143,6 +143,7 @@ class Keymanager {
 			$targetpath_parts=explode('/',$targetpath);
 			$user = $targetpath_parts[1];
 			$targetpath = str_replace('/'.$user.'/files/', '', $targetpath);
+			//TODO: check for write permission on shared file once the new sharing API is in place
 		}
 		
 		$view = new \OC_FilesystemView( '/' . $user . '/files_encryption/keyfiles' );
