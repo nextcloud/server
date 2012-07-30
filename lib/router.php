@@ -16,6 +16,21 @@ class OC_Router {
 	protected $collections = array();
 	protected $collection = null;
 
+	/**
+	 * loads the api routes
+	 */
+	public function loadRoutes(){
+		// TODO cache
+		foreach(OC_APP::getEnabledApps() as $app){
+			$file = OC_App::getAppPath($app).'/appinfo/routes.php';
+			if(file_exists($file)){
+				require_once($file);
+			}
+		}
+		// include ocs routes
+		require_once(OC::$SERVERROOT.'/ocs/routes.php');
+	}
+
 	public function useCollection($name) {
 		if (!isset($this->collections[$name])) {
 			$this->collections[$name] = new RouteCollection();
