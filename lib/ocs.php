@@ -191,9 +191,10 @@ class OC_OCS {
 				OC_OCS::privateKeySet($format,$user, $key);
 				
 		// keygetfiles
-		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'filekey')){
-			$user=$ex[$paracount-3];
-			OC_OCS::fileKeyGet($format,$user);
+		}elseif(($method=='get') and ($ex[$paracount-7] == 'v1.php') and ($ex[$paracount-6]=='cloud') and ($ex[$paracount-5] == 'user') and ($ex[$paracount-3] == 'filekey')){
+			$user=$ex[$paracount-4];
+			$file = urldecode($ex[$paracount-2]);
+			OC_OCS::fileKeyGet($format,$user, $file);
 		
 		//keysetfiles
 		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'filekey')){
@@ -734,7 +735,7 @@ class OC_OCS {
         				$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
         				echo($txt);
         			} else {
-        				echo self::generateXml('', 'fail', 404, 'private Key does not exist');
+        				echo self::generateXml('', 'fail', 404, 'private key does not exist');
         			}
         		} else {
         			echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled for user ' . $user);
@@ -777,15 +778,18 @@ class OC_OCS {
 		 */
 		private static function fileKeyGet($format, $user, $file) {
 			$login=OC_OCS::checkpassword();
-			if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
-				if(OC_User::userExists($user)){
-					//TODO: GET file key, check needed if it is a shared file or not
-					$xml=array();
-					$xml['key']="this is the key for $file";
-					$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
-					echo($txt);
-				}else{
-					echo self::generateXml('', 'fail', 300, 'User does not exist');
+			if(($login==$user)) {
+				if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode($user) === 'client') {
+					if (($key = OCA_Encryption\Keymanager::getFileKey($user, $file))) {
+						$xml=array();
+						$xml['key']=$key;
+						$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
+						echo($txt);
+					} else {
+						echo self::generateXml('', 'fail', 404, 'file key does not exist');
+					}
+				} else {
+					echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled for user ' . $user);
 				}
 			}else{
 				echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
