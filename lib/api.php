@@ -40,7 +40,7 @@ class OC_API {
 	public static function register($method, $url, $action){
 		$name = strtolower($method).$url;
 		if(!isset(self::$actions[$name])){
-			OC_Router::create($name, $url)
+			OC_Router::create($name, $url.'.{format}')
 				->action('OC_API', 'call');
 			self::$actions[$name] = array();
 		}

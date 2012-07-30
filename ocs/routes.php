@@ -6,20 +6,20 @@
  */
 
 // Config
-OC_API::register('get', '/config.{format}', array('OC_OCS_Config', 'apiConfig'));
+OC_API::register('get', '/config', array('OC_OCS_Config', 'apiConfig'));
 // Person
-OC_API::register('post', '/person/check.{format}', array('OC_OCS_Person', 'check'));
+OC_API::register('post', '/person/check', array('OC_OCS_Person', 'check'));
 // Activity
-OC_API::register('get', '/activity.{format}', array('OC_OCS_Activity', 'activityGet'));
+OC_API::register('get', '/activity', array('OC_OCS_Activity', 'activityGet'));
 // Privatedata
-OC_API::register('get', '/privatedata/getattribute/{app}/{key}.{format}', array('OC_OCS_Privatedata', 'privatedataGet'));
-OC_API::register('post', '/privatedata/setattribute/{app}/{key}.{format}', array('OC_OCS_Privatedata', 'privatedataPut'));
-OC_API::register('post', '/privatedata/deleteattribute/{app}/{key}.{format}', array('OC_OCS_Privatedata', 'privatedataDelete'));
+OC_API::register('get', '/privatedata/getattribute/{app}/{key}', array('OC_OCS_Privatedata', 'privatedataGet'));
+OC_API::register('post', '/privatedata/setattribute/{app}/{key}', array('OC_OCS_Privatedata', 'privatedataPut'));
+OC_API::register('post', '/privatedata/deleteattribute/{app}/{key}', array('OC_OCS_Privatedata', 'privatedataDelete'));
 // Cloud
-OC_API::register('get', '/cloud/system/webapps.{format}', array('OC_OCS_Cloud', 'systemwebapps'));
-OC_API::register('get', '/cloud/user/{user}.{format}', array('OC_OCS_Cloud', 'getQuota'));
-OC_API::register('post', '/cloud/user/{user}.{format}', array('OC_OCS_Cloud', 'setQuota'));
-OC_API::register('get', '/cloud/user/{user}/publickey.{format}', array('OC_OCS_Cloud', 'getPublicKey'));
-OC_API::register('get', '/cloud/user/{user}/privatekey.{format}', array('OC_OCS_Cloud', 'getPrivateKey'));
+OC_API::register('get', '/cloud/system/webapps', array('OC_OCS_Cloud', 'systemwebapps'));
+OC_API::register('get', '/cloud/user/{user}', array('OC_OCS_Cloud', 'getQuota'));
+OC_API::register('post', '/cloud/user/{user}', array('OC_OCS_Cloud', 'setQuota'));
+OC_API::register('get', '/cloud/user/{user}/publickey', array('OC_OCS_Cloud', 'getPublicKey'));
+OC_API::register('get', '/cloud/user/{user}/privatekey', array('OC_OCS_Cloud', 'getPrivateKey'));
 
 ?>
