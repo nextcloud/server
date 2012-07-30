@@ -55,15 +55,7 @@ class OC_API {
 	public static function call($parameters){
 		
 		// Get the routes
-		// TODO cache
-		foreach(OC_APP::getEnabledApps() as $app){
-			$file = OC_App::getAppPath($app).'/appinfo/routes.php';
-			if(file_exists($file)){
-				require_once($file);
-			}
-		}
-		// include core routes
-		require_once(OC::$SERVERROOT.'ocs/routes.php');
+		self::loadRoutes();
 		
 		$name = $parameters['_name'];
 		$response = array();
@@ -89,6 +81,21 @@ class OC_API {
 		} else {
 			self::respond($response);
 		}
+	}
+	
+	/**
+	 * loads the api routes
+	 */
+	private static function loadRoutes(){
+		// TODO cache
+		foreach(OC_APP::getEnabledApps() as $app){
+			$file = OC_App::getAppPath($app).'/appinfo/routes.php';
+			if(file_exists($file)){
+				require_once($file);
+			}
+		}
+		// include core routes
+		require_once(OC::$SERVERROOT.'ocs/routes.php');
 	}
 	
 	/**
