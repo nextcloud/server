@@ -43,7 +43,8 @@ class OC_API {
 		$name = str_replace(array('/', '{', '}'), '_', $name);
 		if(!isset(self::$actions[$name])){
 			OC::$router->create($name, $url.'.{_format}')
-				->defaults(array('_format'=>'xml'))
+				->defaults(array('_format' => 'xml'))
+				->requirements(array('_format' => 'xml|json'))
 				->action('OC_API', 'call');
 			self::$actions[$name] = array();
 		}
@@ -55,7 +56,7 @@ class OC_API {
 	* @param array $parameters
 	*/
 	public static function call($parameters){
-		$name = $parameters['_name'];
+		$name = $parameters['_route'];
 		// Loop through registered actions
 		foreach(self::$actions[$name] as $action){
 			$app = $action['app'];
@@ -107,8 +108,14 @@ class OC_API {
 	* @param int|array $response the response
 	* @param string $format the format xml|json
 	*/
-	private function respond($response, $format='json'){
-		// TODO respond in the correct format
+	private static function respond($response, $format='json'){
+		if ($format == 'json') {
+			echo json_encode($response);
+		} else if ($format == 'xml') {
+			// TODO array to xml
+		} else {
+			var_dump($format, $response);
+		}
 	}
 	
 }

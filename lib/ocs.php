@@ -251,6 +251,24 @@ class OC_OCS {
 		exit();
 	}
 
+	public static function notFound() {
+		if($_SERVER['REQUEST_METHOD'] == 'GET') {
+			$method='get';
+		}elseif($_SERVER['REQUEST_METHOD'] == 'PUT') {
+			$method='put';
+			parse_str(file_get_contents("php://input"),$put_vars);
+		}elseif($_SERVER['REQUEST_METHOD'] == 'POST') {
+			$method='post';
+		}else{
+			echo('internal server error: method not supported');
+			exit();
+		}
+		$format = self::readData($method, 'format', 'text', '');
+		$txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
+		$txt.=OC_OCS::getDebugOutput();
+		echo(OC_OCS::generateXml($format,'failed',999,$txt));
+	}
+
 	/**
 	* generated some debug information to make it easier to find faild API calls
 	* @return debug data string

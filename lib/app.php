@@ -145,7 +145,7 @@ class OC_App{
 	 * @param string $appid the id of the app to check
 	 * @return bool
 	 */
-	public function isShipped($appid){
+	public static function isShipped($appid){
 		$info = self::getAppInfo($appid);
 		if(isset($info['shipped']) && $info['shipped']=='true'){
 			return true;

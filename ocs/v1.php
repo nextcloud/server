@@ -22,5 +22,13 @@
 */
 
 require_once('../lib/base.php');
-@ob_clean();
-OC_OCS::handle();
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+
+OC::$router->useCollection('ocs');
+OC::$router->loadRoutes();
+
+try {
+	OC::$router->match($_SERVER['PATH_INFO']);
+} catch (ResourceNotFoundException $e) {
+	OC_OCS::notFound();
+}
