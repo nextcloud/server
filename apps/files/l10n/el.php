@@ -9,7 +9,6 @@
 "Files" => "Αρχεία",
 "Unshare" => "Ακύρωση Διαμοιρασμού",
 "Delete" => "Διαγραφή",
-"undo deletion" => "αναίρεση διαγραφής",
 "generating ZIP-file, it may take some time." => "παραγωγή αρχείου ZIP, ίσως διαρκέσει αρκετά.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Αδυναμία στην μεταφόρτωση του αρχείου σας αφού είναι φάκελος ή έχει 0 bytes",
 "Upload Error" => "Σφάλμα Μεταφόρτωσης",

@@ -9,7 +9,6 @@
 "Files" => "Datoteke",
 "Unshare" => "Vzemi iz souporabe",
 "Delete" => "Izbriši",
-"undo deletion" => "prekliči izbris",
 "generating ZIP-file, it may take some time." => "Ustvarjam ZIP datoteko. To lahko traja nekaj časa.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nalaganje ni mogoče, saj gre za mapo, ali pa ima datoteka velikost 0 bajtov.",
 "Upload Error" => "Napaka pri nalaganju",

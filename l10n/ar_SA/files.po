@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-26 08:03+0200\n"
-"PO-Revision-Date: 2012-07-25 19:29+0000\n"
+"POT-Creation-Date: 2012-07-30 02:02+0200\n"
+"PO-Revision-Date: 2012-07-30 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Arabic (Saudi Arabia) (http://www.transifex.com/projects/p/owncloud/language/ar_SA/)\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,11 @@ msgid "Delete"
 msgstr ""
 
 #: js/filelist.js:186
-msgid "undo deletion"
+msgid "deleted"
+msgstr ""
+
+#: js/filelist.js:186
+msgid "undo"
 msgstr ""
 
 #: js/files.js:170

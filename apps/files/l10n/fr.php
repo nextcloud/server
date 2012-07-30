@@ -9,7 +9,6 @@
 "Files" => "Fichiers",
 "Unshare" => "Ne plus partager",
 "Delete" => "Supprimer",
-"undo deletion" => "Annuler la suppression",
 "generating ZIP-file, it may take some time." => "Générer un fichier ZIP, cela peut prendre du temps",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Impossible de charger vos fichiers car il s'agit d'un dossier ou le fichier fait 0 octet.",
 "Upload Error" => "Erreur de chargement",

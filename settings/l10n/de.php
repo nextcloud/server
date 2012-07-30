@@ -11,7 +11,7 @@
 "__language_name__" => "Deutsch",
 "Security Warning" => "Sicherheitshinweis",
 "Log" => "Log",
-"More" => "mehr",
+"More" => "Mehr",
 "Add your App" => "Füge deine App hinzu",
 "Select an App" => "Wähle eine Anwendung aus",
 "See application page at apps.owncloud.com" => "Weitere Anwendungen auf apps.owncloud.com",

@@ -6,15 +6,16 @@
 # Christer Eriksson <post@hc3web.com>, 2012.
 # Daniel Sandman <revoltism@gmail.com>, 2012.
 #   <hakan.thn@gmail.com>, 2011.
+#   <magnus@linux.com>, 2012.
 #   <revoltism@gmail.com>, 2011, 2012.
 #   <tscooter@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-27 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-07-30 02:03+0200\n"
+"PO-Revision-Date: 2012-07-29 20:26+0000\n"
+"Last-Translator: maghog <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgstr "Ogiltig begäran"
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "Autentiseringsfel"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -64,7 +65,7 @@ msgstr "__language_name__"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "Säkerhetsvarning"
 
 #: templates/admin.php:28
 msgid "Log"
@@ -208,7 +209,7 @@ msgstr "Annat"
 
 #: templates/users.php:80
 msgid "SubAdmin"
-msgstr ""
+msgstr "Underadministratör"
 
 #: templates/users.php:82
 msgid "Quota"
@@ -216,7 +217,7 @@ msgstr "Kvot"
 
 #: templates/users.php:112
 msgid "SubAdmin for ..."
-msgstr ""
+msgstr "Underadministratör för ..."
 
 #: templates/users.php:145
 msgid "Delete"

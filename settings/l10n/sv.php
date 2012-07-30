@@ -3,11 +3,13 @@
 "Invalid email" => "Ogiltig e-post",
 "OpenID Changed" => "OpenID ändrat",
 "Invalid request" => "Ogiltig begäran",
+"Authentication error" => "Autentiseringsfel",
 "Language changed" => "Språk ändrades",
 "Disable" => "Avaktivera",
 "Enable" => "Aktivera",
 "Saving..." => "Sparar...",
 "__language_name__" => "__language_name__",
+"Security Warning" => "Säkerhetsvarning",
 "Log" => "Logg",
 "More" => "Mera",
 "Add your App" => "Lägg till din applikation",
@@ -43,6 +45,8 @@
 "Create" => "Skapa",
 "Default Quota" => "Förvald datakvot",
 "Other" => "Annat",
+"SubAdmin" => "Underadministratör",
 "Quota" => "Kvot",
+"SubAdmin for ..." => "Underadministratör för ...",
 "Delete" => "Ta bort"
 );

@@ -4,49 +4,50 @@
 # 
 # Translators:
 #   <ajarmund@gmail.com>, 2011, 2012.
+# Arvid Nornes <arvid.nornes@gmail.com>, 2012.
 # Christer Eriksson <post@hc3web.com>, 2012.
 # Daniel  <i18n@daniel.priv.no>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.net/projects/p/owncloud/language/nb_NO/)\n"
+"POT-Creation-Date: 2012-07-30 02:02+0200\n"
+"PO-Revision-Date: 2012-07-30 00:03+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
 msgstr "Det er ingen feil. Filen ble lastet opp."
 
-#: ajax/upload.php:20
+#: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "Filstørrelsen overskrider maksgrensedirektivet upload_max_filesize i php.ini-konfigurasjonen."
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Filstørrelsen overskrider maksgrensen på MAX_FILE_SIZE som ble oppgitt i HTML-skjemaet"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
 msgstr "Filopplastningen ble bare delvis gjennomført"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid "No file was uploaded"
 msgstr "Ingen fil ble lastet opp"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:25
 msgid "Missing a temporary folder"
 msgstr "Mangler en midlertidig mappe"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "Failed to write to disk"
 msgstr "Klarte ikke å skrive til disk"
 
@@ -54,13 +55,25 @@ msgstr "Klarte ikke å skrive til disk"
 msgid "Files"
 msgstr "Filer"
 
+#: js/fileactions.js:95
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:97 templates/index.php:56
+msgid "Delete"
+msgstr "Slett"
+
 #: js/filelist.js:186
-msgid "undo deletion"
+msgid "deleted"
+msgstr ""
+
+#: js/filelist.js:186
+msgid "undo"
 msgstr ""
 
 #: js/files.js:170
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "opprettet ZIP-fil, dette kan ta litt tid"
 
 #: js/files.js:199
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
@@ -72,7 +85,7 @@ msgstr ""
 
 #: js/files.js:227 js/files.js:318 js/files.js:347
 msgid "Pending"
-msgstr ""
+msgstr "Ventende"
 
 #: js/files.js:332
 msgid "Upload cancelled."
@@ -82,29 +95,29 @@ msgstr ""
 msgid "Invalid name, '/' is not allowed."
 msgstr ""
 
-#: js/files.js:626 templates/index.php:55
+#: js/files.js:631 templates/index.php:55
 msgid "Size"
 msgstr "Størrelse"
 
-#: js/files.js:627 templates/index.php:56
+#: js/files.js:632 templates/index.php:56
 msgid "Modified"
 msgstr "Endret"
 
-#: js/files.js:654
+#: js/files.js:659
 msgid "folder"
-msgstr ""
+msgstr "mappe"
 
-#: js/files.js:656
+#: js/files.js:661
 msgid "folders"
-msgstr ""
+msgstr "mapper"
 
-#: js/files.js:664
+#: js/files.js:669
 msgid "file"
-msgstr ""
+msgstr "fil"
 
-#: js/files.js:666
+#: js/files.js:671
 msgid "files"
-msgstr ""
+msgstr "filer"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -173,10 +186,6 @@ msgstr "Del"
 #: templates/index.php:51
 msgid "Download"
 msgstr "Last ned"
-
-#: templates/index.php:56
-msgid "Delete"
-msgstr "Slett"
 
 #: templates/index.php:64
 msgid "Upload too large"

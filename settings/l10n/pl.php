@@ -3,6 +3,7 @@
 "Invalid email" => "Niepoprawny email",
 "OpenID Changed" => "Zmieniono OpenID",
 "Invalid request" => "Nieprawidłowe żądanie",
+"Authentication error" => "Błąd uwierzytelniania",
 "Language changed" => "Język zmieniony",
 "Disable" => "Wyłączone",
 "Enable" => "Włączone",

@@ -9,7 +9,6 @@
 "Files" => "Tiedostot",
 "Unshare" => "Lopeta jakaminen",
 "Delete" => "Poista",
-"undo deletion" => "kumoa poisto",
 "generating ZIP-file, it may take some time." => "luodaan ZIP-tiedostoa, tämä saattaa kestää hetken.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Tiedoston lähetys epäonnistui, koska sen koko on 0 tavua tai kyseessä on kansio",
 "Upload Error" => "Lähetysvirhe.",
