@@ -49,7 +49,7 @@
 
    <field>
     <name>description</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>false</notnull>
    </field>
 
@@ -101,7 +101,7 @@
 
    <field>
     <name>carddata</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>false</notnull>
    </field>
 

@@ -31,7 +31,7 @@
 
    <field>
     <name>configvalue</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>true</notnull>
    </field>
 
@@ -335,7 +335,7 @@
 
    <field>
     <name>uri</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>false</notnull>
    </field>
 
@@ -362,7 +362,7 @@
    <field>
     <name>moment</name>
     <type>timestamp</type>
-    <default>0000-00-00 00:00:00</default>
+    <default>CURRENT_TIMESTAMP</default>
     <notnull>true</notnull>
    </field>
 
@@ -392,7 +392,7 @@
 
    <field>
     <name>info</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>true</notnull>
    </field>
 
@@ -432,7 +432,7 @@
 
    <field>
     <name>configvalue</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>true</notnull>
    </field>
 
@@ -472,7 +472,7 @@
 
    <field>
     <name>propertyvalue</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>true</notnull>
    </field>
 
