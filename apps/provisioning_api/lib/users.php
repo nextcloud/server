@@ -23,14 +23,37 @@
 
 class OC_Provisioning_API_Users {
 	
+	/**
+	 * returns a list of users
+	 */
 	public static function getUsers($parameters){
-		
+		return OC_User::getUsers();
 	}
 	
 	public static function addUser($parameters){
-		
+		try {
+			OC_User::createUser($parameters['userid'], $parameters['password']);
+			return 200;
+		} catch (Exception $e) {
+			switch($e->getMessage()){
+				case 'Only the following characters are allowed in a username: "a-z", "A-Z", "0-9", and "_.@-"':
+				case 'A valid username must be provided':
+				case 'A valid password must be provided':
+					return 400;
+					break;
+				case 'The username is already being used';
+					return 409;
+					break;
+				default:
+					return 500;
+					break;
+			}
+		}
 	}
 	
+	/**
+	 * gets user info
+	 */
 	public static function getUser($parameters){
 		
 	}
