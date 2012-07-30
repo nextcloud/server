@@ -9,6 +9,7 @@
 require_once('../../lib/base.php');
 
 OC_JSON::checkAdminUser();
+OCP\JSON::callCheck();
 
 $username = isset($_POST["username"])?$_POST["username"]:'';
 

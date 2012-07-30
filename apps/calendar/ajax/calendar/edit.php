@@ -9,6 +9,7 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
+OCP\JSON::callCheck();
 
 $calendarcolor_options = OC_Calendar_Calendar::getCalendarColorOptions();
 $calendar = OC_Calendar_App::getCalendar($_GET['calendarid'], true);

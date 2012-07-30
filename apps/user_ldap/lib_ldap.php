@@ -440,6 +440,10 @@ class OC_LDAP {
 	 */
 	static public function readAttribute($dn, $attr) {
 		$cr = self::getConnectionResource();
+		if(!is_resource($cr)) {
+			//LDAP not available
+			return false;
+		}
 		$rr = ldap_read($cr, $dn, 'objectClass=*', array($attr));
 		$er = ldap_first_entry($cr, $rr);
 		//LDAP attributes are not case sensitive
@@ -494,6 +498,11 @@ class OC_LDAP {
 	static private function search($filter, $base, $attr = null) {
 		if(!is_null($attr) && !is_array($attr)) {
 			$attr = array(strtolower($attr));
+		}
+		$cr = self::getConnectionResource();
+		if(!is_resource($cr)) {
+			//LDAP not available
+			return array();
 		}
 		$sr = @ldap_search(self::getConnectionResource(), $base, $filter, $attr);
 		$findings = @ldap_get_entries(self::getConnectionResource(), $sr );
@@ -686,11 +695,22 @@ class OC_LDAP {
 	 * Connects and Binds to LDAP
 	 */
 	static private function establishConnection() {
+		static $phpLDAPinstalled = true;
+		if(!$phpLDAPinstalled) {
+			return false;
+		}
 		if(!self::$configured) {
 			OCP\Util::writeLog('ldap', 'Configuration is invalid, cannot connect', OCP\Util::INFO);
 			return false;
 		}
 		if(!self::$ldapConnectionRes) {
+			//check if php-ldap is installed
+			if(!function_exists('ldap_connect')) {
+				$phpLDAPinstalled = false;
+				OCP\Util::writeLog('user_ldap', 'function ldap_connect is not available. Make sure that the PHP ldap module is installed.', OCP\Util::ERROR);
+
+				return false;
+			}
 			self::$ldapConnectionRes = ldap_connect(self::$ldapHost, self::$ldapPort);
 			if(ldap_set_option(self::$ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 					if(ldap_set_option(self::$ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {

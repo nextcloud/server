@@ -439,7 +439,7 @@ class OC_Calendar_App{
 					$output['end'] = date('Y-m-d', $result->format('U') + --$duration);
 				}else{
 					$output['start'] = $result->format('Y-m-d H:i:s');
-					$output['end'] = date('Y-m-d H:i:s', $result->format('U') + $duration);
+					$output['end'] = date('Y-m-d H:i:s', $result->format('U') + $result->format('Z') + $duration);
 				}
 				$return[] = $output;
 			}

@@ -4,6 +4,7 @@
 
 
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 // Get data
 $dir = stripslashes($_GET["dir"]);

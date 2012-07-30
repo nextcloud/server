@@ -8,6 +8,7 @@
 //check for calendar rights or create new one
 ob_start();
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 OCP\App::checkAppEnabled('calendar');
 $nl="\r\n";
 $comps = array('VEVENT'=>true, 'VTODO'=>true, 'VJOURNAL'=>true);
