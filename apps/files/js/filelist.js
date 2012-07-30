@@ -136,24 +136,39 @@ FileList={
 			event.stopPropagation();
 			event.preventDefault();
 			var newname=input.val();
-			tr.attr('data-file',newname);
-			td.children('a.name').empty();
+			if (newname != name) {
+				if ($('tr').filterAttr('data-file', newname).length > 0) {
+					$('#notification').html(newname+' '+t('files', 'already exists')+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
+					$('#notification').data('oldName', name);
+					$('#notification').data('newName', newname);
+					$('#notification').fadeIn();
+					newname = name;
+				} else {
+					$.get(OC.filePath('files','ajax','rename.php'), { dir : $('#dir').val(), newname: newname, file: name },function(result) {
+						if (!result || result.status == 'error') {
+							OC.dialogs.alert(result.data.message, 'Error moving file');
+							newname = name;
+						}
+					});
+				}
+				
+			}
+			tr.attr('data-file', newname);
 			var path = td.children('a.name').attr('href');
 			td.children('a.name').attr('href', path.replace(encodeURIComponent(name), encodeURIComponent(newname)));
-			if(newname.indexOf('.')>0){
-				basename=newname.substr(0,newname.lastIndexOf('.'));
-			}else{
-				basename=newname;
+			if (newname.indexOf('.') > 0) {
+				var basename=newname.substr(0,newname.lastIndexOf('.'));
+			} else {
+				var basename=newname;
 			}
+			td.children('a.name').empty();
 			var span=$('<span class="nametext"></span>');
 			span.text(basename);
 			td.children('a.name').append(span);
-			if(newname.indexOf('.')>0){
+			if (newname.indexOf('.') > 0) {
 				span.append($('<span class="extension">'+newname.substr(newname.lastIndexOf('.'))+'</span>'));
 			}
-			$.get(OC.filePath('files','ajax','rename.php'), { dir : $('#dir').val(), newname: newname, file: name },function(){
-				tr.data('renaming',false);
-			});
+			tr.data('renaming',false);
 			return false;
 		});
 		input.click(function(event){
@@ -164,12 +179,64 @@ FileList={
 			form.trigger('submit');
 		});
 	},
+	replace:function(oldName, newName) {
+		// Finish any existing actions
+		if (FileList.lastAction || !FileList.useUndo) {
+			FileList.lastAction();
+		}
+		var tr = $('tr').filterAttr('data-file', oldName);
+		tr.hide();
+		FileList.replaceCanceled = false;
+		FileList.replaceOldName = oldName;
+		FileList.replaceNewName = newName;
+		FileList.lastAction = function() { 
+			FileList.finishReplace();
+		};
+		$('#notification').html(t('files', 'replaced')+' '+newName+' '+t('files', 'with')+' '+oldName+'<span class="undo">'+t('files', 'undo')+'</span>');
+		$('#notification').fadeIn();
+	},
+	finishReplace:function() {
+		if (!FileList.replaceCanceled && FileList.replaceOldName && FileList.replaceNewName) {
+			// Delete the file being replaced and rename the replacement
+			FileList.deleteCanceled = false;
+			FileList.deleteFiles = [FileList.replaceNewName];
+			FileList.finishDelete(function() {
+				$.ajax({url: OC.filePath('files', 'ajax', 'rename.php'), async: false, data: { dir: $('#dir').val(), newname: FileList.replaceNewName, file: FileList.replaceOldName }, success: function(result) {
+					if (result && result.status == 'success') {
+						var tr = $('tr').filterAttr('data-file', FileList.replaceOldName);
+						tr.attr('data-file', FileList.replaceNewName);
+						var td = tr.children('td.filename');
+						td.children('a.name .span').text(FileList.replaceNewName);
+						var path = td.children('a.name').attr('href');
+						td.children('a.name').attr('href', path.replace(encodeURIComponent(FileList.replaceOldName), encodeURIComponent(FileList.replaceNewName)));
+						if (FileList.replaceNewName.indexOf('.') > 0) {
+							var basename = FileList.replaceNewName.substr(0, FileList.replaceNewName.lastIndexOf('.'));
+						} else {
+							var basename = FileList.replaceNewName;
+						}
+						td.children('a.name').empty();
+						var span = $('<span class="nametext"></span>');
+						span.text(basename);
+						td.children('a.name').append(span);
+						if (FileList.replaceNewName.indexOf('.') > 0) {
+							span.append($('<span class="extension">'+FileList.replaceNewName.substr(FileList.replaceNewName.lastIndexOf('.'))+'</span>'));
+						}
+						tr.show();
+					} else {
+						OC.dialogs.alert(result.data.message, 'Error moving file');
+					}
+					FileList.replaceCanceled = true;
+					FileList.replaceOldName = null;
+					FileList.replaceNewName = null;
+					FileList.lastAction = null;
+				}});
+			}, true);
+		}
+	},
 	do_delete:function(files){
-		if(FileList.deleteFiles || !FileList.useUndo){//finish any ongoing deletes first
-			FileList.finishDelete(function(){
-				FileList.do_delete(files);
-			});
-			return;
+		// Finish any existing actions
+		if (FileList.lastAction || !FileList.useUndo) {
+			FileList.lastAction();
 		}
 		if(files.substr){
 			files=[files];
@@ -183,8 +250,10 @@ FileList={
 		procesSelection();
 		FileList.deleteCanceled=false;
 		FileList.deleteFiles=files;
+		FileList.lastAction = function() {
+			FileList.finishDelete(null, true);
+		};
 		$('#notification').html(t('files', 'deleted')+' '+files+'<span class="undo">'+t('files', 'undo')+'</span>');
-		$('#notification').data('deletefile',true);
 		$('#notification').fadeIn();
 	},
 	finishDelete:function(ready,sync){
@@ -202,6 +271,7 @@ FileList={
 						});
 						FileList.deleteCanceled=true;
 						FileList.deleteFiles=null;
+						FileList.lastAction = null;
 						if(ready){
 							ready();
 						}
@@ -215,18 +285,32 @@ FileList={
 $(document).ready(function(){
 	$('#notification').hide();
 	$('#notification .undo').live('click', function(){
-		if($('#notification').data('deletefile'))
-		{
+		if (FileList.deleteFiles) {
 			$.each(FileList.deleteFiles,function(index,file){
 				$('tr').filterAttr('data-file',file).show();
 			});
 			FileList.deleteCanceled=true;
 			FileList.deleteFiles=null;
+		} else if (FileList.replaceOldName && FileList.replaceNewName) {
+			$('tr').filterAttr('data-file', FileList.replaceOldName).show();
+			FileList.replaceCanceled = true;
+			FileList.replaceOldName = null;
+			FileList.replaceNewName = null;
 		}
+		$('#notification').fadeOut();
+	});
+	$('#notification .replace').live('click', function() {
+		$('#notification').fadeOut('400', function() {
+			FileList.replace($('#notification').data('oldName'), $('#notification').data('newName'));
+		});
+	});
+	$('#notification .cancel').live('click', function() {
 		$('#notification').fadeOut();
 	});
 	FileList.useUndo=('onbeforeunload' in window)
 	$(window).bind('beforeunload', function (){
-		FileList.finishDelete(null,true);
+		if (FileList.lastAction) {
+			FileList.lastAction();
+		}
 	});
 });
