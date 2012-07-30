@@ -62,7 +62,7 @@ class OC_API {
 			}
 		}
 		// include core routes
-		require_once(OC::$SERVERROOT.'core/routes.php');
+		require_once(OC::$SERVERROOT.'ocs/routes.php');
 		
 		$name = $parameters['_name'];
 		$response = array();
