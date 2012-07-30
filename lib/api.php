@@ -58,29 +58,52 @@ class OC_API {
 		self::loadRoutes();
 		
 		$name = $parameters['_name'];
-		$response = array();
 		// Loop through registered actions
 		foreach(self::$actions[$name] as $action){
+			$app = $action['app'];
 			if(is_callable($action['action'])){
-				$action_response = call_user_func($action['action'], $parameters);
-				if(is_array($action_response)){
-					// Merge with previous
-					$response = array_merge($response, $action_response);
-				} else {
-					// TODO - Something failed, do we return an error code, depends on other action responses
-				}
+				$responses[] = array('app' => $app, 'response' => call_user_func($action['action'], $parameters));
 			} else {
-				// Action not callable
-				// log
-				// TODO - Depending on other action responses, do we return a 501?
+				$responses[] = array('app' => $app, 'response' => 501);
 			}
 		}
+		// Merge the responses
+		$response = self::mergeResponses($responses);
 		// Send the response
 		if(isset($parameters['_format'])){
 			self::respond($response, $parameters['_format']);
 		} else {
 			self::respond($response);
 		}
+	}
+	
+	/**
+	 * intelligently merges the different responses
+	 * @param array $responses
+	 * @return array the final merged response
+	 */
+	private static function mergeResponses($responses){
+		$finalresponse = array();
+		$numresponses = count($responses);
+		
+		// TODO - This is only a temporary merge. If keys match and value is another array we want to compare deeper in the array
+		foreach($responses as $response){
+			if(is_int($response) && empty($finalresponse)){
+				$finalresponse = $response;
+				continue;
+			}
+			if(is_array($response)){
+				// Shipped apps win
+				if(OC_App::isShipped($response['app'])){
+					$finalresponse = array_merge($finalresponse, $response);
+				} else {
+					$finalresponse = array_merge($response, $finalresponse);
+				}
+			}
+		}
+		// END TODO
+
+		return $finalresponse;
 	}
 	
 	/**
@@ -107,4 +130,4 @@ class OC_API {
 		// TODO respond in the correct format
 	}
 	
-	}
+}
