@@ -29,7 +29,7 @@ class OC_API {
 	/**
 	* api actions
 	*/
-	protected $actions = array();
+	protected static $actions = array();
 	
 	/**
 	* registers an api call
@@ -37,7 +37,7 @@ class OC_API {
 	* @param string $url the url to match
 	* @param callable $action the function to run
 	*/
-	public function register($method, $url, $action){
+	public static function register($method, $url, $action){
 		$name = strtolower($method).$url;
 		if(!isset(self::$actions[$name])){
 			OC_Router::create($name, $url)
@@ -51,7 +51,7 @@ class OC_API {
 	* handles an api call
 	* @param array $parameters
 	*/
-	public function call($parameters){
+	public static function call($parameters){
 		
 		// Get the routes
 		// TODO cache
@@ -61,6 +61,8 @@ class OC_API {
 				require_once($file);
 			}
 		}
+		// include core routes
+		require_once(OC::$SERVERROOT.'core/routes.php');
 		
 		$name = $parameters['_name'];
 		$response = array();
