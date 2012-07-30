@@ -93,7 +93,7 @@ class OC_OCS {
 		}
 
 		// preprocess url
-		$url = strtolower($_SERVER['REQUEST_URI']);
+		$url = $_SERVER['REQUEST_URI'];
 		if(substr($url,(strlen($url)-1))<>'/') $url.='/';
 		$ex=explode('/',$url);
 		$paracount=count($ex);
