@@ -1,7 +1,0 @@
-.rte-toolbar { margin: 0; width:100%; height:22px; padding:0; list-style-type:none; }
-.rte-toolbar li button, .rte-toolbar li a { float:left; cursor:pointer; opacity: 0.6; padding:0; margin: 0; border: 0; border-radius: 0; outline: 0; background: inherit; }
-.rte-toolbar li button:hover { opacity: 0.8; }
-.rte-content { cursor:text;position:absolute; border-color:#000;border-style:solid;white-space: pre-wrap;word-wrap:break-word; padding: 0.2em; }
-.rte-content ul { list-style: circle inside; }
-.rte-content li { padding-left: 1em; }
-
