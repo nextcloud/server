@@ -62,6 +62,10 @@ class OC{
 	 * requested file of app
 	 */
 	public static $REQUESTEDFILE = '';
+	/*
+	 * OC router
+	 */
+	public static $router = null;
 	/**
 	 * check if owncloud runs in cli mode
 	 */
@@ -353,6 +357,8 @@ class OC{
 
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
+
+		OC::$router = new OC_Router();
 
 		// Load Apps
 		// This includes plugins for users and filesystems as well
