@@ -19,6 +19,7 @@ switch($operation){
 	break;
 	
 	case 'authorise';
+		OC_Util::checkLoggedIn();
 		// Example
 		$consumer = array(
 			'name' => 'Firefox Bookmark Sync',
