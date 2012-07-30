@@ -59,7 +59,7 @@ class OC_FileCache{
 			$root='';
 		}
 		$path=$root.$path;
-		$query=OC_DB::prepare('SELECT ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE path_hash=?');
+		$query=OC_DB::prepare('SELECT `ctime`,`mtime`,`mimetype`,`size`,`encrypted`,`versioned`,`writable` FROM `*PREFIX*fscache` WHERE `path_hash`=?');
 		$result=$query->execute(array(md5($path)))->fetchRow();
 		if(is_array($result)){
 			return $result;
@@ -206,12 +206,12 @@ class OC_FileCache{
 			$path=$root.$file;
 			self::delete(self::getFileId($path));
 		}elseif($file!=-1){
-			$query=OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE parent=?');
+			$query=OC_DB::prepare('SELECT `id` FROM `*PREFIX*fscache` WHERE `parent`=?');
 			$result=$query->execute(array($file));
 			while($child=$result->fetchRow()){
 				self::delete(intval($child['id']));
 			}
-			$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE id=?');
+			$query=OC_DB::prepare('DELETE FROM `*PREFIX*fscache` WHERE `id`=?');
 			$query->execute(array($file));
 		}
 	}
