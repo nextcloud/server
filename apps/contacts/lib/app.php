@@ -82,22 +82,6 @@ class OC_Contacts_App {
 		$card = self::getContactObject( $id );
 
 		$vcard = OC_VObject::parse($card['carddata']);
-		// Try to fix cards with missing 'N' field from pre ownCloud 4. Hot damn, this is ugly...
-		if(!is_null($vcard) && !$vcard->__isset('N')) {
-			$version = OCP\App::getAppVersion('contacts');
-			if($version >= 5) {
-				OCP\Util::writeLog('contacts', 'OC_Contacts_App::getContactVCard. Deprecated check for missing N field', OCP\Util::DEBUG);
-			}
-			OCP\Util::writeLog('contacts', 'getContactVCard, Missing N field', OCP\Util::DEBUG);
-			if($vcard->__isset('FN')) {
-				OCP\Util::writeLog('contacts', 'getContactVCard, found FN field: '.$vcard->__get('FN'), OCP\Util::DEBUG);
-				$n = implode(';', array_reverse(array_slice(explode(' ', $vcard->__get('FN')), 0, 2))).';;;';
-				$vcard->setString('N', $n);
-				OC_Contacts_VCard::edit( $id, $vcard);
-			} else { // Else just add an empty 'N' field :-P
-				$vcard->setString('N', 'Unknown;Name;;;');
-			}
-		}
 		if (!is_null($vcard) && !isset($vcard->REV)) {
 			$rev = new DateTime('@'.$card['lastmodified']);
 			$vcard->setString('REV', $rev->format(DateTime::W3C));
