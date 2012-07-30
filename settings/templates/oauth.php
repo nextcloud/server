@@ -6,7 +6,7 @@
  */
 ?>
 <div id="oauth-request" class="guest-container">
-	<p><strong><?php echo $_['consumer']['name']; ?></strong> is requesting permission to read, write, modify and delete data from the following apps:</p>
+	<p><strong><?php echo $_['consumer']['name']; ?></strong> is requesting your permission to read, write, modify and delete data from the following apps:</p>
 	<ul>
 		<?php
 		// Foreach requested scope
@@ -15,6 +15,6 @@
 		}
 		?>
 	</ul>
-	<button>Allow</button>
-	<button>Disallow</button>
+	<a href="#" class="button">Allow</a>
+	<a href="#" class="button">Disallow</a>
 </div>
