@@ -6,7 +6,7 @@ if (version_compare($installedVersion, '1.1.2', '<')) {
 	$query = OC_DB::prepare( "SELECT propertyname, propertypath, userid FROM `*PREFIX*properties`" );
 	$result = $query->execute();
 	while( $row = $result->fetchRow()){
-		$query = OC_DB::prepare( 'UPDATE *PREFIX*properties SET propertyname = ? WHERE userid = ? AND propertypath = ?' );
+		$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertyname` = ? WHERE `userid` = ? AND `propertypath` = ?' );
 		$query->execute( array( preg_replace("/^{.*}/", "", $row["propertyname"]),$row["userid"], $row["propertypath"] ));
 	}
 }

@@ -109,7 +109,7 @@ class OC_Migration_Content{
 			
 			foreach( $options['matchval'] as $matchval ){
 				// Run the query for this match value (where x = y value)
-				$sql = "SELECT * FROM *PREFIX*" . $options['table'] . " WHERE " . $options['matchcol'] . " LIKE ?";
+				$sql = 'SELECT * FROM `*PREFIX*' . $options['table'] . '` WHERE `' . $options['matchcol'] . '` LIKE ?';
 				$query = OC_DB::prepare( $sql );
 				$results = $query->execute( array( $matchval ) );
 				$newreturns = $this->insertData( $results, $options );
@@ -118,7 +118,7 @@ class OC_Migration_Content{
 
 		} else {
 			// Just get everything
-			$sql = "SELECT * FROM *PREFIX*" . $options['table'];
+			$sql = 'SELECT * FROM `*PREFIX*' . $options['table'] . '`';
 			$query = OC_DB::prepare( $sql );
 			$results = $query->execute();
 			$return = $this->insertData( $results, $options );

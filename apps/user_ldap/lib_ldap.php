@@ -153,9 +153,9 @@ class OC_LDAP {
 		$table = self::getMapTable($isUser);
 
 		$query = OCP\DB::prepare('
-			SELECT ldap_dn
-			FROM '.$table.'
-			WHERE owncloud_name = ?
+			SELECT `ldap_dn`
+			FROM `'.$table.'`
+			WHERE `owncloud_name` = ?
 		');
 
 		$record = $query->execute(array($name))->fetchOne();
@@ -202,9 +202,9 @@ class OC_LDAP {
 		}
 
 		$query = OCP\DB::prepare('
-			SELECT owncloud_name
-			FROM '.$table.'
-			WHERE ldap_dn = ?
+			SELECT `owncloud_name`
+			FROM `'.$table.'`
+			WHERE `ldap_dn` = ?
 		');
 
 		$component = $query->execute(array($dn))->fetchOne();
@@ -344,8 +344,8 @@ class OC_LDAP {
 		$table = self::getMapTable($isUsers);
 
 		$query = OCP\DB::prepare('
-			SELECT ldap_dn, owncloud_name
-			FROM '. $table
+			SELECT `ldap_dn`, `owncloud_name`
+			FROM `'. $table .'`'
 		);
 
 		return $query->execute()->fetchAll();
@@ -391,18 +391,18 @@ class OC_LDAP {
 		$sqlAdjustment = '';
 		$dbtype = OCP\Config::getSystemValue('dbtype');
 		if($dbtype == 'mysql') {
-			$sqlAdjustment = 'FROM dual';
+			$sqlAdjustment = 'FROM `dual`';
 		}
 
 		$insert = OCP\DB::prepare('
-			INSERT INTO '.$table.' (ldap_dn, owncloud_name)
+			INSERT INTO `'.$table.'` (`ldap_dn`, `owncloud_name`)
 				SELECT ?,?
 				'.$sqlAdjustment.'
 				WHERE NOT EXISTS (
 					SELECT 1
-					FROM '.$table.'
-					WHERE ldap_dn = ?
-						OR owncloud_name = ? )
+					FROM `'.$table.'`
+					WHERE `ldap_dn` = ?
+						OR `owncloud_name` = ? )
 		');
 
 		$res = $insert->execute(array($dn, $ocname, $dn, $ocname));

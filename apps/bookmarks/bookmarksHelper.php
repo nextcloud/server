@@ -83,8 +83,8 @@ function addBookmark($url, $title, $tags='') {
 	
 	//FIXME: Detect when user adds a known URL
 	$query = OCP\DB::prepare("
-		INSERT INTO *PREFIX*bookmarks
-		(url, title, user_id, public, added, lastmodified)
+		INSERT INTO `*PREFIX*bookmarks`
+		(`url`, `title`, `user_id`, `public`, `added`, `lastmodified`)
 		VALUES (?, ?, ?, 0, $_ut, $_ut)
 		");
 	
@@ -109,8 +109,8 @@ function addBookmark($url, $title, $tags='') {
 	
 	if($b_id !== false) {
 		$query = OCP\DB::prepare("
-			INSERT INTO *PREFIX*bookmarks_tags
-			(bookmark_id, tag)
+			INSERT INTO `*PREFIX*bookmarks_tags`
+			(`bookmark_id`, `tag`)
 			VALUES (?, ?)
 			");
 	

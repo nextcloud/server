@@ -36,6 +36,8 @@ if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 	$_ut = "strftime('%s','now')";
 } elseif($CONFIG_DBTYPE == 'pgsql') {
 	$_ut = 'date_part(\'epoch\',now())::integer';
+} elseif($CONFIG_DBTYPE == 'oci') {
+	$_ut = '(oracletime - to_date(\'19700101\',\'YYYYMMDD\')) * 86400';
 } else {
 	$_ut = "UNIX_TIMESTAMP()";
 }
@@ -43,12 +45,13 @@ if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 $bookmark_id = (int)$_POST["id"];
 $user_id = OCP\USER::getUser();
 
-$query = OCP\DB::prepare("
-	UPDATE *PREFIX*bookmarks
-	SET url = ?, title =?, lastmodified = $_ut
-	WHERE id = ?
-	AND user_id = ?
-	");
+//TODO check using CURRENT_TIMESTAMP? prepare already does magic when using now()
+$query = OCP\DB::prepare('
+	UPDATE `*PREFIX*bookmarks`
+	SET `url` = ?, `title` = ?, `lastmodified` = '.$_ut.'
+	WHERE `id` = ?
+	AND `user_id` = ?
+	');
 
 $params=array(
 	htmlspecialchars_decode($_POST["url"]),
@@ -63,18 +66,22 @@ $result = $query->execute($params);
 if ($result->numRows() == 0) exit();
 
 # Remove old tags and insert new ones.
-$query = OCP\DB::prepare("
-	DELETE FROM *PREFIX*bookmarks_tags
-	WHERE bookmark_id = $bookmark_id
-	");
+$query = OCP\DB::prepare('
+	DELETE FROM `*PREFIX*bookmarks_tags`
+	WHERE `bookmark_id` = ?
+	');
 
-$query->execute();
+$params=array(
+	$bookmark_id
+	);
 
-$query = OCP\DB::prepare("
-	INSERT INTO *PREFIX*bookmarks_tags
-	(bookmark_id, tag)
+$query->execute($params);
+
+$query = OCP\DB::prepare('
+	INSERT INTO `*PREFIX*bookmarks_tags`
+	(`bookmark_id`, `tag`)
 	VALUES (?, ?)
-	");
+	');
 
 $tags = explode(' ', urldecode($_POST["tags"]));
 foreach ($tags as $tag) {

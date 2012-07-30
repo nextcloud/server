@@ -17,7 +17,7 @@ class DatabaseManager {
 	public function getFileData($path) {
 		$gallery_path = \OCP\Config::getSystemValue( 'datadirectory' ).'/'.\OC_User::getUser().'/gallery';
 		$path = $gallery_path.$path;
-		$stmt = \OCP\DB::prepare('SELECT * FROM *PREFIX*pictures_images_cache WHERE uid_owner LIKE ? AND path = ?');
+		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*pictures_images_cache` WHERE `uid_owner` LIKE ? AND `path` = ?');
 		$result = $stmt->execute(array(\OCP\USER::getUser(), $path));
 		if (($row = $result->fetchRow()) != false) {
 			return $row;
@@ -26,7 +26,7 @@ class DatabaseManager {
 		if (!$image->loadFromFile($path)) {
 			return false;
 		}
-		$stmt = \OCP\DB::prepare('INSERT INTO *PREFIX*pictures_images_cache (uid_owner, path, width, height) VALUES (?, ?, ?, ?)');
+		$stmt = \OCP\DB::prepare('INSERT INTO `*PREFIX*pictures_images_cache` (`uid_owner`, `path`, `width`, `height`) VALUES (?, ?, ?, ?)');
 		$stmt->execute(array(\OCP\USER::getUser(), $path, $image->width(), $image->height()));
 		$ret = array('path' => $path, 'width' => $image->width(), 'height' => $image->height());
 		unset($image);

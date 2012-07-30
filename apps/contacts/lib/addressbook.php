@@ -44,7 +44,7 @@ class OC_Contacts_Addressbook{
 	 * @return array
 	 */
 	public static function all($uid){
-		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE userid = ? ORDER BY displayname' );
+		$stmt = OCP\DB::prepare( 'SELECT * FROM `*PREFIX*contacts_addressbooks` WHERE `userid` = ? ORDER BY `displayname`' );
 		$result = $stmt->execute(array($uid));
 
 		$addressbooks = array();
@@ -72,7 +72,7 @@ class OC_Contacts_Addressbook{
 	 */
 	public static function find($id){
 		try {
-			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
+			$stmt = OCP\DB::prepare( 'SELECT * FROM `*PREFIX*contacts_addressbooks` WHERE `id` = ?' );
 			$result = $stmt->execute(array($id));
 			return $result->fetchRow();
 		} catch(Exception $e) {
@@ -98,7 +98,7 @@ class OC_Contacts_Addressbook{
 
 		$uri = self::createURI($name, $uris );
 
-		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)' );
+		$stmt = OCP\DB::prepare( 'INSERT INTO `*PREFIX*contacts_addressbooks` (`userid`,`displayname`,`uri`,`description`,`ctag`) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,$description,1));
 
 		return OCP\DB::insertid('*PREFIX*contacts_addressbooks');
@@ -115,7 +115,7 @@ class OC_Contacts_Addressbook{
 	public static function addFromDAVData($principaluri,$uri,$name,$description){
 		$userid = self::extractUserID($principaluri);
 
-		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*contacts_addressbooks (userid,displayname,uri,description,ctag) VALUES(?,?,?,?,?)' );
+		$stmt = OCP\DB::prepare( 'INSERT INTO `*PREFIX*contacts_addressbooks` (`userid`,`displayname`,`uri`,`description`,`ctag`) VALUES(?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,$description,1));
 
 		return OCP\DB::insertid('*PREFIX*contacts_addressbooks');
@@ -139,7 +139,7 @@ class OC_Contacts_Addressbook{
 			$description = $addressbook['description'];
 		}
 
-		$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_addressbooks SET displayname=?,description=?, ctag=ctag+1 WHERE id=?' );
+		$stmt = OCP\DB::prepare( 'UPDATE `*PREFIX*contacts_addressbooks` SET `displayname`=?,`description`=?, `ctag`=`ctag`+1 WHERE `id`=?' );
 		$result = $stmt->execute(array($name,$description,$id));
 
 		return true;
@@ -208,7 +208,7 @@ class OC_Contacts_Addressbook{
 			return $addressbooks;
 		}
 		$ids_sql = join(',', array_fill(0, count($active), '?'));
-		$prep = 'SELECT * FROM *PREFIX*contacts_addressbooks WHERE id IN ('.$ids_sql.') ORDER BY displayname';
+		$prep = 'SELECT * FROM `*PREFIX*contacts_addressbooks` WHERE `id` IN ('.$ids_sql.') ORDER BY `displayname`';
 		try {
 			$stmt = OCP\DB::prepare( $prep );
 			$result = $stmt->execute($active);
@@ -275,7 +275,7 @@ class OC_Contacts_Addressbook{
 	public static function delete($id){
 		// FIXME: There's no error checking at all.
 		self::setActive($id, false);
-		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );
+		$stmt = OCP\DB::prepare( 'DELETE FROM `*PREFIX*contacts_addressbooks` WHERE `id` = ?' );
 		$stmt->execute(array($id));
 
 		$cards = OC_Contacts_VCard::all($id);
@@ -292,7 +292,7 @@ class OC_Contacts_Addressbook{
 	 * @return boolean
 	 */
 	public static function touch($id){
-		$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_addressbooks SET ctag = ctag + 1 WHERE id = ?' );
+		$stmt = OCP\DB::prepare( 'UPDATE `*PREFIX*contacts_addressbooks` SET `ctag` = `ctag` + 1 WHERE `id` = ?' );
 		$stmt->execute(array($id));
 
 		return true;

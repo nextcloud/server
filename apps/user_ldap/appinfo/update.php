@@ -14,7 +14,7 @@ if(!is_null($pw)) {
 //it's a bit spaghetti, but hey.
 $state = OCP\Config::getSystemValue('ldapIgnoreNamingRules', 'doCheck');
 if($state == 'doCheck'){
-	$sqlCleanMap = 'DELETE FROM *PREFIX*ldap_user_mapping';
+	$sqlCleanMap = 'DELETE FROM `*PREFIX*ldap_user_mapping`';
 
 	require_once(OC::$APPSROOT.'/apps/user_ldap/lib_ldap.php');
 	require_once(OC::$APPSROOT.'/apps/user_ldap/user_ldap.php');

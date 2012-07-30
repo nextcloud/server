@@ -53,7 +53,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 */
 	public static function createGroup( $gid ){
 		// Check for existence
-		$query = OC_DB::prepare( "SELECT gid FROM `*PREFIX*groups` WHERE gid = ?" );
+		$query = OC_DB::prepare( 'SELECT `gid` FROM `*PREFIX*groups` WHERE `gid` = ?' );
 		$result = $query->execute( array( $gid ));
 
 		if( $result->fetchRow() ){
@@ -62,7 +62,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		}
 		else{
 			// Add group and exit
-			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*groups` ( `gid` ) VALUES( ? )" );
+			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*groups` ( `gid` ) VALUES( ? )' );
 			$result = $query->execute( array( $gid ));
 
 			return $result ? true : false;
@@ -78,11 +78,11 @@ class OC_Group_Database extends OC_Group_Backend {
 	 */
 	public static function deleteGroup( $gid ){
 		// Delete the group
-		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*groups` WHERE gid = ?" );
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*groups` WHERE `gid` = ?' );
 		$result = $query->execute( array( $gid ));
 
 		// Delete the group-user relation
-		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE gid = ?" );
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*group_user` WHERE `gid` = ?' );
 		$result = $query->execute( array( $gid ));
 
 		return true;
@@ -98,7 +98,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 */
 	public static function inGroup( $uid, $gid ){
 		// check
-		$query = OC_DB::prepare( "SELECT uid FROM `*PREFIX*group_user` WHERE gid = ? AND uid = ?" );
+		$query = OC_DB::prepare( 'SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` = ?' );
 		$result = $query->execute( array( $gid, $uid ));
 
 		return $result->fetchRow() ? true : false;
@@ -115,7 +115,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	public static function addToGroup( $uid, $gid ){
 		// No duplicate entries!
 		if( !self::inGroup( $uid, $gid )){
-			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*group_user` ( `uid`, `gid` ) VALUES( ?, ? )" );
+			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*group_user` ( `uid`, `gid` ) VALUES( ?, ? )' );
 			$result = $query->execute( array( $uid, $gid ));
 			return true;
 		}else{
@@ -132,7 +132,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * removes the user from a group.
 	 */
 	public static function removeFromGroup( $uid, $gid ){
-		$query = OC_DB::prepare( "DELETE FROM *PREFIX*group_user WHERE uid = ? AND gid = ?" );
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*group_user` WHERE `uid` = ? AND `gid` = ?' );
 		$result = $query->execute( array( $uid, $gid ));
 
 		return true;
@@ -148,7 +148,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 */
 	public static function getUserGroups( $uid ){
 		// No magic!
-		$query = OC_DB::prepare( "SELECT gid FROM `*PREFIX*group_user` WHERE uid = ?" );
+		$query = OC_DB::prepare( 'SELECT `gid` FROM `*PREFIX*group_user` WHERE `uid` = ?' );
 		$result = $query->execute( array( $uid ));
 
 		$groups = array();
@@ -166,7 +166,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * Returns a list with all groups
 	 */
 	public static function getGroups(){
-		$query = OC_DB::prepare( "SELECT gid FROM `*PREFIX*groups`" );
+		$query = OC_DB::prepare( 'SELECT `gid` FROM `*PREFIX*groups`' );
 		$result = $query->execute();
 
 		$groups = array();
@@ -182,7 +182,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * @returns array with user ids
 	 */
 	public static function usersInGroup($gid){
-		$query=OC_DB::prepare('SELECT uid FROM *PREFIX*group_user WHERE gid=?');
+		$query=OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid`=?');
 		$users=array();
 		$result=$query->execute(array($gid));
 		while($row=$result->fetchRow()){

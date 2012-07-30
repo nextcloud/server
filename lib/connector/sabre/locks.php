@@ -41,7 +41,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		// NOTE: the following 10 lines or so could be easily replaced by
 		// pure sql. MySQL's non-standard string concatination prevents us
 		// from doing this though.
-		$query = 'SELECT * FROM *PREFIX*locks WHERE userid = ? AND (created + timeout) > ? AND ((uri = ?)';
+		$query = 'SELECT * FROM `*PREFIX*locks` WHERE `userid` = ? AND (`created` + `timeout`) > ? AND ((`uri` = ?)';
 		$params = array(OC_User::getUser(),time(),$uri);
 
 		// We need to check locks for every part in the uri.
@@ -57,14 +57,14 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 			if ($currentPath) $currentPath.='/';
 			$currentPath.=$part;
 
-			$query.=' OR (depth!=0 AND uri = ?)';
+			$query.=' OR (`depth` != 0 AND `uri` = ?)';
 			$params[] = $currentPath;
 
 		}
 
 		if ($returnChildLocks) {
 
-			$query.=' OR (uri LIKE ?)';
+			$query.=' OR (`uri` LIKE ?)';
 			$params[] = $uri . '/%';
 
 		}
@@ -113,10 +113,10 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		}
 	
 		if ($exists) {
-			$query = OC_DB::prepare( 'UPDATE *PREFIX*locks SET owner = ?, timeout = ?, scope = ?, depth = ?, uri = ?, created = ? WHERE userid = ? AND token = ?' );
+			$query = OC_DB::prepare( 'UPDATE `*PREFIX*locks` SET `owner` = ?, `timeout` = ?, `scope` = ?, `depth` = ?, `uri` = ?, `created` = ? WHERE `userid` = ? AND `token` = ?' );
 			$result = $query->execute( array($lockInfo->owner,$lockInfo->timeout,$lockInfo->scope,$lockInfo->depth,$uri,$lockInfo->created,OC_User::getUser(),$lockInfo->token));
 		} else {
-			$query = OC_DB::prepare( 'INSERT INTO *PREFIX*locks (userid,owner,timeout,scope,depth,uri,created,token) VALUES (?,?,?,?,?,?,?,?)' );
+			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*locks` (`userid`,`owner`,`timeout`,`scope`,`depth`,`uri`,`created`,`token`) VALUES (?,?,?,?,?,?,?,?)' );
 			$result = $query->execute( array(OC_User::getUser(),$lockInfo->owner,$lockInfo->timeout,$lockInfo->scope,$lockInfo->depth,$uri,$lockInfo->created,$lockInfo->token));
 		}
 
@@ -133,7 +133,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 	 */
 	public function unlock($uri,Sabre_DAV_Locks_LockInfo $lockInfo) {
 
-		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*locks WHERE userid = ? AND uri=? AND token=?' );
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*locks` WHERE `userid` = ? AND `uri` = ? AND `token` = ?' );
 		$result = $query->execute( array(OC_User::getUser(),$uri,$lockInfo->token));
 
 		return $result->numRows() === 1;

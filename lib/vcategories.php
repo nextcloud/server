@@ -118,7 +118,7 @@ class OC_VCategories {
 	* To get the object array, do something like:
 	*	// For Addressbook:
 	*	$categories = new OC_VCategories('contacts');
-	*	$stmt = OC_DB::prepare( 'SELECT carddata FROM *PREFIX*contacts_cards' );
+	*	$stmt = OC_DB::prepare( 'SELECT `carddata` FROM `*PREFIX*contacts_cards`' );
 	*	$result = $stmt->execute();
 	*	$objects = array();
 	*	if(!is_null($result)) {
