@@ -2,7 +2,7 @@
 
 class OC_remoteStorage {
 	public static function getValidTokens($ownCloudUser, $category) {
-		$query=OCP\DB::prepare("SELECT `token`,`appUrl`,`category` FROM `*PREFIX*authtoken` WHERE `user`=? LIMIT 100");
+		$query=OCP\DB::prepare("SELECT `token`,`appUrl`,`category` FROM `*PREFIX*authtoken` WHERE `user`=?",100);
 		$result=$query->execute(array($ownCloudUser));
 		$ret = array();
 		while($row=$result->fetchRow()){
@@ -15,7 +15,7 @@ class OC_remoteStorage {
 
   public static function getTokenFor($appUrl, $categories) {
 		$user=OCP\USER::getUser();
-		$query=OCP\DB::prepare("SELECT `token` FROM `*PREFIX*authtoken` WHERE `user`=? AND `appUrl`=? AND `category`=? LIMIT 1");
+		$query=OCP\DB::prepare("SELECT `token` FROM `*PREFIX*authtoken` WHERE `user`=? AND `appUrl`=? AND `category`=?",1);
 		$result=$query->execute(array($user, $appUrl, $categories));
 		$ret = array();
 		if($row=$result->fetchRow()) {
@@ -27,7 +27,7 @@ class OC_remoteStorage {
 
 	public static function getAllTokens() {
 		$user=OCP\USER::getUser();
-		$query=OCP\DB::prepare("SELECT `token`,`appUrl`,`category` FROM `*PREFIX*authtoken` WHERE `user`=? LIMIT 100");
+		$query=OCP\DB::prepare("SELECT `token`,`appUrl`,`category` FROM `*PREFIX*authtoken` WHERE `user`=?",100);
 		$result=$query->execute(array($user));
 		$ret = array();
 		while($row=$result->fetchRow()){

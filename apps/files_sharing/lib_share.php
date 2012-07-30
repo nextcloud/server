@@ -92,7 +92,7 @@ class OC_Share {
 				// Check if the target already exists for the user, if it does append a number to the name
 				$sharedFolder = '/'.$uid.'/files/Shared';
 				$target = $sharedFolder."/".basename($source);
-				$checkTarget = OCP\DB::prepare('SELECT `source` FROM `*PREFIX*sharing` WHERE `target` = ? AND `uid_shared_with` '.self::getUsersAndGroups($uid, false).' LIMIT 1');
+				$checkTarget = OCP\DB::prepare('SELECT `source` FROM `*PREFIX*sharing` WHERE `target` = ? AND `uid_shared_with` '.self::getUsersAndGroups($uid, false),1);
 				$result = $checkTarget->execute(array($target))->fetchAll();
 				if (count($result) > 0) {
 					if ($pos = strrpos($target, ".")) {
@@ -222,7 +222,7 @@ class OC_Share {
 	 */
 	public static function getItem($target) {
 		$target = self::cleanPath($target);
-		$query = OCP\DB::prepare('SELECT `uid_owner`, `source`, `permissions` FROM `*PREFIX*sharing` WHERE `target` = ? AND `uid_shared_with` = ? LIMIT 1');
+		$query = OCP\DB::prepare('SELECT `uid_owner`, `source`, `permissions` FROM `*PREFIX*sharing` WHERE `target` = ? AND `uid_shared_with` = ?',1);
 		return $query->execute(array($target, OCP\USER::getUser()))->fetchAll();
 	}
 
@@ -279,7 +279,7 @@ class OC_Share {
 	 */
 	public static function getParentFolders($target) {
 		$target = self::cleanPath($target);
-		$query = OCP\DB::prepare('SELECT `source` FROM `*PREFIX*sharing` WHERE `target` = ? AND `uid_shared_with` '.self::getUsersAndGroups().' LIMIT 1');
+		$query = OCP\DB::prepare('SELECT `source` FROM `*PREFIX*sharing` WHERE `target` = ? AND `uid_shared_with` '.self::getUsersAndGroups(),1);
 		// Prevent searching for user directory e.g. '/MTGap/files'
 		$userDirectory = substr($target, 0, strpos($target, "files") + 5);
 		$target = dirname($target);
@@ -307,7 +307,7 @@ class OC_Share {
 	 */
 	public static function getSource($target) {
 		$target = self::cleanPath($target);
-		$query = OCP\DB::prepare('SELECT `source` FROM `*PREFIX*sharing` WHERE `target` = ? AND `uid_shared_with` '.self::getUsersAndGroups().' LIMIT 1');
+		$query = OCP\DB::prepare('SELECT `source` FROM `*PREFIX*sharing` WHERE `target` = ? AND `uid_shared_with` '.self::getUsersAndGroups(),1);
 		$result = $query->execute(array($target))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['source'];
@@ -323,7 +323,7 @@ class OC_Share {
 
 	public static function getTarget($source) {
 		$source = self::cleanPath($source);
-		$query = OCP\DB::prepare('SELECT `target` FROM `*PREFIX*sharing` WHERE `source` = ? AND `uid_owner` = ? LIMIT 1');
+		$query = OCP\DB::prepare('SELECT `target` FROM `*PREFIX*sharing` WHERE `source` = ? AND `uid_owner` = ',1);
 		$result = $query->execute(array($source, OCP\USER::getUser()))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['target'];
@@ -340,7 +340,7 @@ class OC_Share {
 	 */
 	public static function getPermissions($target) {
 		$target = self::cleanPath($target);
-		$query = OCP\DB::prepare('SELECT `permissions` FROM `*PREFIX*sharing` WHERE `target` = ? AND `uid_shared_with` '.self::getUsersAndGroups().' LIMIT 1');
+		$query = OCP\DB::prepare('SELECT `permissions` FROM `*PREFIX*sharing` WHERE `target` = ? AND `uid_shared_with` '.self::getUsersAndGroups(),1);
 		$result = $query->execute(array($target))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['permissions'];
@@ -372,7 +372,7 @@ class OC_Share {
 	 * @return The token of the public link, a sha1 hash
 	 */
 	public static function getTokenFromSource($source) {
-		$query = OCP\DB::prepare('SELECT `target` FROM `*PREFIX*sharing` WHERE `source` = ? AND `uid_shared_with` = ? AND `uid_owner` = ? LIMIT 1');
+		$query = OCP\DB::prepare('SELECT `target` FROM `*PREFIX*sharing` WHERE `source` = ? AND `uid_shared_with` = ? AND `uid_owner` = ?',1);
 		$result = $query->execute(array($source, self::PUBLICLINK, OCP\USER::getUser()))->fetchAll();
 		if (count($result) > 0) {
 			return $result[0]['target'];

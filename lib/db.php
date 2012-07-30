@@ -132,7 +132,7 @@ class OC_DB {
 						$dsn='pgsql:dbname='.$name.';host='.$host;
 					}
 					break;
-                                case 'oci':
+                                case 'oci': // Oracle with PDO is unsupported
                                         if ($port) {
                                                 $dsn = 'oci:dbname=//' . $host . ':' . $port . '/' . $name;
                                         } else {
@@ -214,6 +214,19 @@ class OC_DB {
 						'database' => $name
 					);
 					break;
+                                case 'oci':
+                                            $dsn = array(
+                                                    'phptype'  => 'oci8',
+                                                    'username' => $user,
+                                                    'password' => $pass,
+                                            );
+                                            if ($host != '') {
+                                                $dsn['hostspec'] = $host;
+                                                $dsn['database'] = $name;
+                                            } else { // use dbname for hostspec
+                                                $dsn['hostspec'] = $name;
+                                            }
+					break;
 			}
 			
 			// Try to establish connection
@@ -242,8 +255,33 @@ class OC_DB {
 	 *
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
-	static public function prepare( $query ){
-		// Optimize the query
+	static public function prepare( $query , $limit=null, $offset=null ){
+            
+            if (!is_null($limit)) {
+                if (self::$backend == self::BACKEND_MDB2) {
+                    //MDB2 uses or emulates limits & offset internally
+                    self::$MDB2->setLimit($limit, $offset);
+                } else {
+                    //PDO does not handle limit and offset.
+                    //FIXME: check limit notation for other dbs
+                    //the following sql thus might needs to take into account db ways of representing it
+                    //(oracle has no LIMIT / OFFSET)
+                        $limitsql = ' LIMIT ' . $limit;
+                    if (!is_null($offset)) {
+                        $limitsql .= ' OFFSET ' . $offset;
+                    }
+                    //insert limitsql
+                    if (substr($query, -1) == ';') { //if query ends with ;
+                        $query = substr($query, 0, -1) . $limitsql . ';';
+                    } else {
+                        $query.=$limitsql;
+                    }
+                }
+            }
+
+
+
+        // Optimize the query
 		$query = self::processQuery( $query );
 
 		self::connect();
@@ -256,6 +294,7 @@ class OC_DB {
 				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.$query.'<br />';
 				OC_Log::write('core',$entry,OC_Log::FATAL);
+				error_log('DB error: '.$entry);
 				die( $entry );
 			}
 		}else{
@@ -265,6 +304,7 @@ class OC_DB {
 				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.$query.'<br />';
 				OC_Log::write('core',$entry,OC_Log::FATAL);
+				error_log('DB error: '.$entry);
 				die( $entry );
 			}
 			$result=new PDOStatementWrapper($result);

@@ -78,9 +78,8 @@ class OC_Bookmarks_Bookmarks{
 					`*PREFIX*bookmarks`.`user_id` = ?
 				GROUP BY `id`, `url`, `title`
 				'.$sqlFilterTag.'
-				ORDER BY `*PREFIX*bookmarks`.`'.$sqlSortColumn.'` DESC 
-				LIMIT 10
-				OFFSET '. $offset);
+				ORDER BY `*PREFIX*bookmarks`.`'.$sqlSortColumn.'` DESC',
+				10,$offset);
 		} else {
 			if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' )
 				$concatFunction = '(url || title || ';
@@ -106,8 +105,8 @@ class OC_Bookmarks_Bookmarks{
 					AND `*PREFIX*bookmarks`.`user_id` = ?
 				GROUP BY `url`
 				'.$sqlFilterTag.'
-				ORDER BY `*PREFIX*bookmarks`.`'.$sqlSortColumn.'` DESC
-				LIMIT '.$offset.',  10');
+				ORDER BY `*PREFIX*bookmarks`.`'.$sqlSortColumn.'` DESC',
+				10, $offset);
 		}
 
 		$bookmarks = $query->execute($params)->fetchAll();
