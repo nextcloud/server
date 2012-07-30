@@ -1,0 +1,11 @@
+<?xml version="1.0"?> 
+<info>
+	<id>provisioning_api</id>
+	<name>Provisioning API</name>
+	<licence>AGPL</licence>
+	<author>Tom Needham</author>
+	<require>5</require>
+	<shipped>true</shipped>
+	<description>Provides API methods to manage an ownCloud Instance</description>
+	<default_enable/>
+</info>
