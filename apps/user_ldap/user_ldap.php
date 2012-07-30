@@ -96,12 +96,18 @@ class OC_USER_LDAP extends OC_User_Backend {
 			return false;
 		}
 
-		//update some settings, if necessary
-		$this->updateQuota($dn);
-		$this->updateEmail($dn);
+		//do we have a username for him/her?
+		$ocname = OC_LDAP::dn2username($dn);
 
-		//give back the display name
-		return OC_LDAP::dn2username($dn);
+		if($ocname){
+			//update some settings, if necessary
+			$this->updateQuota($dn);
+			$this->updateEmail($dn);
+
+			return $ocname;
+		}
+
+		return false;
 	}
 
 	/**

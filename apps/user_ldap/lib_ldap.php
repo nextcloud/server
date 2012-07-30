@@ -168,7 +168,7 @@ class OC_LDAP {
 	 * @param $ldapname optional, the display name of the object
 	 * @returns string with with the name to use in ownCloud, false on DN outside of search DN
 	 *
-	 * returns the internal ownCloud name for the given LDAP DN of the group
+	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
 	 */
 	static public function dn2groupname($dn, $ldapname = null) {
 		if(strripos($dn, self::$ldapBaseGroups) !== (strlen($dn)-strlen(self::$ldapBaseGroups))) {
@@ -183,7 +183,7 @@ class OC_LDAP {
 	 * @param $ldapname optional, the display name of the object
 	 * @returns string with with the name to use in ownCloud
 	 *
-	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN
+	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 */
 	static public function dn2username($dn, $ldapname = null) {
 		if(strripos($dn, self::$ldapBaseUsers) !== (strlen($dn)-strlen(self::$ldapBaseUsers))) {
@@ -214,6 +214,11 @@ class OC_LDAP {
 
 		if(is_null($ldapname)) {
 			$ldapname = self::readAttribute($dn, $nameAttribute);
+			//we do not accept empty usernames
+			if(!isset($ldapname[0]) && empty($ldapname[0])) {
+				OCP\Util::writeLog('user_ldap', 'No or empty name for '.$dn.'.', OCP\Util::INFO);
+				return false;
+			}
 			$ldapname = $ldapname[0];
 		}
 		$ldapname = self::sanitizeUsername($ldapname);
@@ -229,8 +234,8 @@ class OC_LDAP {
 			return $oc_name;
 		}
 
-		//and this of course should never been thrown :)
-		throw new Exception('LDAP backend: unexpected collision of DN and ownCloud Name.');
+		//if everything else did not help..
+		OCP\Util::writeLog('user_ldap', 'Could not create unique ownCloud name for '.$dn.'.', OCP\Util::INFO);
 	}
 
 	/**
@@ -274,6 +279,12 @@ class OC_LDAP {
 				continue;
 			}
 
+			//we do not take empty usernames
+			if(!isset($ldapObject[$nameAttribute]) || empty($ldapObject[$nameAttribute])) {
+				OCP\Util::writeLog('user_ldap', 'No or empty name for '.$ldapObject['dn'].', skipping.', OCP\Util::INFO);
+				continue;
+			}
+
 			//a new group! Then let's try to add it. We're shooting into the blue with the group name, assuming that in most cases there will not be a conflict. But first make sure, that the display name contains only allowed characters.
 			$ocname = self::sanitizeUsername($ldapObject[$nameAttribute]);
 			if(self::mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
@@ -288,8 +299,8 @@ class OC_LDAP {
 				continue;
 			}
 
-			//and this of course should never been thrown :)
-			throw new Exception('LDAP backend: unexpected collision of DN and ownCloud Name.');
+			//if everything else did not help..
+			OCP\Util::writeLog('user_ldap', 'Could not create unique ownCloud name for '.$ldapObject['dn'].', skipping.', OCP\Util::INFO);
 		}
 		return $ownCloudNames;
 	}
