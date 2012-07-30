@@ -49,21 +49,34 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 			}
 			break;
 	}
-} else if (isset($_GET['fetch']) && isset($_GET['itemType'])) {
+} else if (isset($_GET['fetch'])) {
 	switch ($_GET['fetch']) {
 		case 'getItemsSharedStatuses':
-			$return = OCP\Share::getItemsShared($_GET['itemType'], OCP\Share::FORMAT_STATUSES);
-			($return) ? OC_JSON::success(array('data' => $return)) : OC_JSON::error();
+			if (isset($_GET['itemType'])) {
+				$return = OCP\Share::getItemsShared($_GET['itemType'], OCP\Share::FORMAT_STATUSES);
+				($return) ? OC_JSON::success(array('data' => $return)) : OC_JSON::error();
+			}
 			break;
 		case 'getItem':
 			// TODO Check if the item was shared to the current user
-			if (isset($_GET['item'])) {
+			if (isset($_GET['itemType']) && isset($_GET['item'])) {
 				$return = OCP\Share::getItemShared($_GET['itemType'], $_GET['item']);
 				($return) ? OC_JSON::success(array('data' => $return)) : OC_JSON::error();
 			}
 			break;
 		case 'getShareWith':
-			// TODO Autocomplete for all users, groups, etc.
+			if (isset($_GET['search'])) {
+				$shareWith = array();
+				$users = OC_User::getUsers();
+				foreach ($users as $user) {
+					$shareWith[] = array('label' => $user, 'value' => array('shareType' => OCP\Share::SHARE_TYPE_USER, 'shareWith' => $user));
+				}
+				$groups = OC_Group::getGroups();
+				foreach ($groups as $group) {
+					$shareWith[] = array('label' => $group.' (group)', 'value' => array('shareType' => OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => $group));
+				}
+				OC_JSON::success(array('data' => $shareWith));
+			}
 			break;
 	}
 }

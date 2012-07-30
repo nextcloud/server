@@ -94,6 +94,32 @@ OC.Share={
 			});
 		}
 		$('#dropdown').show('blind');
+		$('#shareWith').autocomplete({minLength: 2, source: function(search, response) {
+// 			if (cache[search.term]) {
+// 				response(cache[search.term]);
+// 			} else {
+				$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term }, function(result) {
+					if (result.status == 'success') {
+						response(result.data);
+					} else {
+						// Suggest sharing via email
+						response();
+					}
+				});
+// 			}
+		}, select: function(event, selected) {
+			var shareType = selected.item.value.shareType;
+			var shareWith = selected.item.value.shareWith;
+			$(this).val(shareWith);
+			// Default permissions are Read and Share
+			var permissions = OC.Share.PERMISSION_READ | OC.Share.PERMISSION_SHARE;
+			OC.Share.share($('#dropdown').data('item-type'), $('#dropdown').data('item'), shareType, shareWith, permissions, function() {
+				OC.Share.addShareWith(shareType, shareWith, permissions, possiblePermissions);
+				$('#shareWith').val('');
+			});
+			return false;
+		}
+		});
 	},
 	hideDropDown:function(callback) {
 		$('#dropdown').hide('blind', function() {
@@ -272,17 +298,6 @@ $(document).ready(function() {
 		} else {
 			$('a.unshare', this).hide();
 		}
-	});
-	
-	$('#shareWith').live('change', function() {
-		var shareType = $(li).data('share-type');
-		var shareWith = $(this).val();
-		// Default permissions are Read and Share
-		var permissions = OC.Share.PERMISSION_READ | OC.Share.PERMISSION_SHARE;
-		OC.Share.share($('#dropdown').data('item-type'), $('#dropdown').data('item'), shareType, shareWith, permissions, function() {
-			OC.Share.addShareWith(shareType, shareWith, permissions);
-			$('#shareWith').val('');
-		});
 	});
 
 	$('.showCruds').live('click', function() {
