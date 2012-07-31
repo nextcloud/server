@@ -37,8 +37,8 @@ class OC_OAuth {
 	 */
 	private static function init(){
 		// Include the libraries
-		require_once(OC::$SERVERROOT.'3rdparty/oauth-php/library/OAuthServer.php');
-		require_once(OC::$SERVERROOT.'3rdparty/oauth-php/library/OAuthStore.php');
+		require_once(OC::$THIRDPARTYROOT.'3rdparty/oauth-php/library/OAuthServer.php');
+		require_once(OC::$THIRDPARTYROOT.'3rdparty/oauth-php/library/OAuthStore.php');
 		// Create the server object
 		self::$server = new OAuthServer();
 		// Initialise the OAuth store
