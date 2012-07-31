@@ -32,13 +32,19 @@ class Crypt {
 
 	/**
 	 * @brief return encryption mode client or server side encryption
-	 * @param string user name 
+	 * @param string user name (use system wide setting if name=null)
 	 * @return string 'client' or 'server'
 	 */
-	public static function mode($user) {
-		//TODO: allow user to set encryption mode and check the selection of the user
-		// for the moment I just return 'client' for test purposes
-		return 'client';
+	public static function mode($user=null) {
+		
+		$mode = \OC_Appconfig::getValue('files_encryption', 'mode', 'unknown');
+		
+		if ($mode == 'unknown') {
+			error_log('no encryption mode configured');
+			return false;
+		}
+		
+		return $mode;
 	}
 	
         /**
