@@ -58,6 +58,18 @@ class Hooks {
 
 	}
 
+	
+	/**
+	 * @brief update the encryption key of the file uploaded by the client
+	 */
+	public static function updateKeyfile( $params ) {
+		if (Crypt::mode(\OCP\User::getUser()) == 'client')
+			if (isset($params['properties']['key'])) {
+				Keymanager::setFileKey(\OCP\User::getUser(), $params['path'], $params['properties']['key']);
+			} else {
+				error_log("Client side encryption is enabled but the client doesn't provide a encryption key for the file!");
+		}
+	}
 }
 
 ?>
