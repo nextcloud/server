@@ -58,7 +58,7 @@ interface OC_Group_Interface {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups();
+	public function getGroups($search = '', $limit = 10, $offset = 0);
 
 	/**
 	 * check if a group exists
