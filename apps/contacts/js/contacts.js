@@ -1747,7 +1747,7 @@ $(document).ready(function(){
 
 	//$('#chooseaddressbook').on('click keydown', Contacts.UI.Addressbooks.overview);
 	$('#bottomcontrols .settings').on('click keydown', function() {
-		OC.appSettings('contacts');
+		OC.appSettings({appid:'contacts'});
 	});
 	$('#bottomcontrols .import').click(function() {
 		$('#import_upload_start').trigger('click');
