@@ -35,7 +35,7 @@ class API {
 	* @param string $app the id of the app registering the call
 	*/
 	public static function register($method, $url, $action, $app){
-		OC_API::register($method, $url, $action, $app);
+		\OC_API::register($method, $url, $action, $app);
 	}
      
 }
