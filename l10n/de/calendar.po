@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-25 22:14+0200\n"
-"PO-Revision-Date: 2012-07-25 20:14+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-07-27 02:02+0200\n"
+"PO-Revision-Date: 2012-07-26 18:09+0000\n"
+"Last-Translator: JamFX <niko@nik-o-mat.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,11 +27,11 @@ msgstr ""
 
 #: ajax/cache/status.php:19
 msgid "Not all calendars are completely cached"
-msgstr ""
+msgstr "Noch sind nicht alle Kalender zwischengespeichert."
 
 #: ajax/cache/status.php:21
 msgid "Everything seems to be completely cached"
-msgstr ""
+msgstr "Es sieht so aus, als wäre alles vollständig zwischengespeichert."
 
 #: ajax/categories/rescan.php:29
 msgid "No calendars found."
@@ -49,11 +49,11 @@ msgstr "Falscher Kalender"
 msgid ""
 "The file contained either no events or all events are already saved in your "
 "calendar."
-msgstr ""
+msgstr "Entweder enthielt die Datei keine Termine oder alle Termine waren schon im Kalender gespeichert."
 
 #: ajax/import/dropimport.php:31 ajax/import/import.php:67
 msgid "events has been saved in the new calendar"
-msgstr ""
+msgstr "Der Termin wurde im neuen Kalender gespeichert."
 
 #: ajax/import/import.php:56
 msgid "Import failed"
@@ -61,7 +61,7 @@ msgstr "Import fehlgeschlagen"
 
 #: ajax/import/import.php:69
 msgid "events has been saved in your calendar"
-msgstr ""
+msgstr "Der Termin wurde im Kalender gespeichert."
 
 #: ajax/settings/guesstimezone.php:25
 msgid "New Timezone:"
@@ -701,7 +701,7 @@ msgstr "Kalenderdatei Importieren"
 
 #: templates/part.import.php:24
 msgid "Please choose a calendar"
-msgstr ""
+msgstr "Wählen Sie bitte einen Kalender."
 
 #: templates/part.import.php:36
 msgid "Name of new calendar"
@@ -709,13 +709,13 @@ msgstr "Kalendername"
 
 #: templates/part.import.php:44
 msgid "Take an available name!"
-msgstr ""
+msgstr "Wählen Sie einen verfügbaren Namen."
 
 #: templates/part.import.php:45
 msgid ""
 "A Calendar with this name already exists. If you continue anyhow, these "
 "calendars will be merged."
-msgstr ""
+msgstr "Ein Kalender mit diesem Namen existiert schon. Sollten Sie fortfahren, werden die beiden Kalender zusammengeführt."
 
 #: templates/part.import.php:47
 msgid "Import"
@@ -771,31 +771,31 @@ msgstr "erster Wochentag"
 
 #: templates/settings.php:47
 msgid "Cache"
-msgstr ""
+msgstr "Zwischenspeicher"
 
 #: templates/settings.php:48
 msgid "Clear cache for repeating events"
-msgstr ""
+msgstr "Lösche den Zwischenspeicher für wiederholende Veranstaltungen."
 
 #: templates/settings.php:53
 msgid "Calendar CalDAV syncing addresses"
-msgstr ""
+msgstr "CalDAV-Kalender gleicht Adressen ab."
 
 #: templates/settings.php:53
 msgid "more info"
-msgstr ""
+msgstr "weitere Informationen"
 
 #: templates/settings.php:55
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "Primäre Adresse (Kontakt u.a.)"
 
 #: templates/settings.php:57
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"
 
 #: templates/settings.php:59
 msgid "Read only iCalendar link(s)"
-msgstr ""
+msgstr "Nur lesende(r) iCalender-Link(s)"
 
 #: templates/share.dropdown.php:20
 msgid "Users"

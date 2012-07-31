@@ -27,12 +27,6 @@ namespace OCA\user_ldap;
 
 class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 
-	// will be retrieved from LDAP server
-	protected $ldap_dc = false;
-
-	// cache getUsers()
-	protected $_users = null;
-
 	private function updateQuota($dn) {
 		$quota = null;
 		if(!empty($this->connection->ldapQuotaDefault)) {
@@ -85,12 +79,19 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			return false;
 		}
 
-		//update some settings, if necessary
-		$this->updateQuota($dn);
-		$this->updateEmail($dn);
+		//do we have a username for him/her?
+		$ocname = $this->dn2username($dn);
 
-		//give back the display name
-		return $this->dn2username($dn);
+		if($ocname){
+			//update some settings, if necessary
+			$this->updateQuota($dn);
+			$this->updateEmail($dn);
+
+			//give back the display name
+			return $ocname;
+		}
+
+		return false;
 	}
 
 	/**
@@ -100,11 +101,13 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	 * Get a list of all users.
 	 */
 	public function getUsers(){
-		if(is_null($this->_users)) {
+		$ldap_users = $this->connection->getFromCache('getUsers');
+		if(is_null($ldap_users)) {
 			$ldap_users = $this->fetchListOfUsers($this->connection->ldapUserFilter, array($this->connection->ldapUserDisplayName, 'dn'));
-			$this->_users = $this->ownCloudUserNames($ldap_users);
+			$ldap_users = $this->ownCloudUserNames($ldap_users);
+			$this->connection->writeToCache('getUsers', $ldap_users);
 		}
-		return $this->_users;
+		return $ldap_users;
 	}
 
 	/**
@@ -113,18 +116,25 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	 * @return boolean
 	 */
 	public function userExists($uid){
+		if($this->connection->isCached('userExists'.$uid)) {
+			return $this->connection->getFromCache('userExists'.$uid);
+		}
+
 		//getting dn, if false the user does not exist. If dn, he may be mapped only, requires more checking.
 		$dn = $this->username2dn($uid);
 		if(!$dn) {
+			$this->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
 
 		//if user really still exists, we will be able to read his cn
 		$cn = $this->readAttribute($dn, 'cn');
 		if(!$cn || empty($cn)) {
+			$this->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
 
+		$this->connection->writeToCache('userExists'.$uid, true);
 		return true;
 	}
 

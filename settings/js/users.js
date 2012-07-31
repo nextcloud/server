@@ -85,16 +85,62 @@ $(document).ready(function(){
 	function applyMultiplySelect(element){
 		var checked=[];
 		var user=element.data('username');
-		if(element.data('userGroups')){
-			checked=element.data('userGroups').split(', ');
+		if($(element).attr('class') == 'groupsselect'){		
+			if(element.data('userGroups')){
+				checked=String(element.data('userGroups')).split(', ');
+			}
+			if(user){
+				var checkHandeler=function(group){
+					if(user==OC.currentUser && group=='admin'){
+						return false;
+					}
+					if(!isadmin && checked.length == 1 && checked[0] == group){
+						return false;
+					}
+					$.post(
+						OC.filePath('settings','ajax','togglegroups.php'),
+						{
+							username:user,
+							group:group
+						},
+						function(){}
+					);
+				};
+			}else{
+				checkHandeler=false;
+			}
+			var addGroup = function(group) {
+				$('select[multiple]').each(function(index, element) {
+					if ($(element).find('option[value="'+group +'"]').length == 0) {
+						$(element).append('<option value="'+group+'">'+group+'</option>');
+					}
+				})
+			};
+			var label;
+			if(isadmin){
+				label = t('files', 'add group');
+			}else{
+				label = null;
+			}
+			element.multiSelect({
+				createCallback:addGroup,
+				createText:label,
+				checked:checked,
+				oncheck:checkHandeler,
+				onuncheck:checkHandeler,
+				minWidth: 100,
+			});
 		}
-		if(user){
+		if($(element).attr('class') == 'subadminsselect'){	
+			if(element.data('subadmin')){
+				checked=element.data('subadmin').split(', ');
+			}
 			var checkHandeler=function(group){
-				if(user==OC.currentUser && group=='admin'){
+				if(group=='admin'){
 					return false;
 				}
 				$.post(
-					OC.filePath('settings','ajax','togglegroups.php'),
+					OC.filePath('settings','ajax','togglesubadmins.php'),
 					{
 						username:user,
 						group:group
@@ -102,24 +148,23 @@ $(document).ready(function(){
 					function(){}
 				);
 			};
-		}else{
-			checkHandeler=false;
+			
+			var addSubAdmin = function(group) {
+				$('select[multiple]').each(function(index, element) {
+					if ($(element).find('option[value="'+group +'"]').length == 0) {
+						$(element).append('<option value="'+group+'">'+group+'</option>');
+					}
+				})
+			};
+			element.multiSelect({
+				createCallback:addSubAdmin,
+				createText:null,
+				checked:checked,
+				oncheck:checkHandeler,
+				onuncheck:checkHandeler,
+				minWidth: 100,
+			});
 		}
-		var addGroup = function(group) {
-			$('select[multiple]').each(function(index, element) {
-				if ($(element).find('option[value="'+group +'"]').length == 0) {
-					$(element).append('<option value="'+group+'">'+group+'</option>');
-				}
-			})
-		};
-		element.multiSelect({
-			createCallback:addGroup,
-			createText:'add group',
-			checked:checked,
-			oncheck:checkHandeler,
-			onuncheck:checkHandeler,
-			minWidth: 100,
-		});
 	}
 	$('select[multiple]').each(function(index,element){
 		applyMultiplySelect($(element));
@@ -254,12 +299,13 @@ $(document).ready(function(){
 					OC.dialogs.alert(result.data.message, 'Error creating user');
 				}
 				else {
+					groups = result.data.groups;
 					var tr=$('#content table tbody tr').first().clone();
 					tr.attr('data-uid',username);
 					tr.find('td.name').text(username);
-					var select=$('<select multiple="multiple" data-placehoder="Groups" title="Groups">');
+					var select=$('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="Groups">');
 					select.data('username',username);
-					select.data('userGroups',groups.join(', '));
+					select.data('userGroups',groups);
 					tr.find('td.groups').empty();
 					var allGroups=$('#content table').data('groups').split(', ');
 					for(var i=0;i<groups.length;i++){

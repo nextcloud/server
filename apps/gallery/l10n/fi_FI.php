@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Pictures" => "Kuvat",
-"Settings" => "Asetukset",
-"Rescan" => "Etsi uusia",
-"Stop" => "Pysäytä",
-"Share" => "Jaa",
+"Share gallery" => "Jaa galleria",
+"Error: " => "Virhe: ",
+"Internal error" => "Sisäinen virhe",
+"Slideshow" => "Diaesitys",
 "Back" => "Takaisin",
 "Remove confirmation" => "Poiston vahvistus",
 "Do you want to remove album" => "Tahdotko poistaa albumin",

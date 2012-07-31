@@ -43,7 +43,7 @@ class OC_DB {
 	 */
 	private static function getDBBackend(){
 		$backend=self::BACKEND_MDB2;
-		if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (instalation always needs to be done my mdb2)
+		if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (installation always needs to be done my mdb2)
 			$type = OC_Config::getValue( "dbtype", "sqlite" );
 			if($type=='sqlite3') $type='sqlite';
 			$drivers=PDO::getAvailableDrivers();

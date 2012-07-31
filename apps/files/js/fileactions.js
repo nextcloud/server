@@ -172,6 +172,7 @@ FileActions.register('all','Delete', FileActions.PERMISSION_DELETE, function(){r
 	}else{
 		FileList.do_delete(filename);
 	}
+	$('.tipsy').remove();
 });
 
 FileActions.register('all','Rename', FileActions.PERMISSION_UPDATE, function(){return OC.imagePath('core','actions/rename')},function(filename){

@@ -9,43 +9,43 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Thai (Thailand) (http://www.transifex.net/projects/p/owncloud/language/th_TH/)\n"
+"POT-Creation-Date: 2012-07-30 02:02+0200\n"
+"PO-Revision-Date: 2012-07-30 00:03+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: th_TH\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
 msgstr "ไม่มีข้อผิดพลาดใดๆ ไฟล์ถูกอัพโหลดเรียบร้อยแล้ว"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "ไฟล์ที่อัพโหลดมีขนาดเกินคำสั่ง upload_max_filesize ที่ระบุเอาไว้ในไฟล์ php.ini"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "ไฟล์ที่อัพโหลดมีขนาดเกินคำสั่ง MAX_FILE_SIZE ที่ระบุเอาไว้ในรูปแบบคำสั่งในภาษา HTML"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
 msgstr "ไฟล์ที่อัพโหลดยังไม่ได้ถูกอัพโหลดอย่างสมบูรณ์"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid "No file was uploaded"
 msgstr "ยังไม่มีไฟล์ที่ถูกอัพโหลด"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:25
 msgid "Missing a temporary folder"
 msgstr "แฟ้มเอกสารชั่วคราวเกิดการสูญหาย"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "Failed to write to disk"
 msgstr "เขียนข้อมูลลงแผ่นดิสก์ล้มเหลว"
 
@@ -53,57 +53,69 @@ msgstr "เขียนข้อมูลลงแผ่นดิสก์ล้
 msgid "Files"
 msgstr "ไฟล์"
 
+#: js/fileactions.js:95
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:97 templates/index.php:56
+msgid "Delete"
+msgstr "ลบ"
+
 #: js/filelist.js:186
-msgid "undo deletion"
+msgid "deleted"
+msgstr ""
+
+#: js/filelist.js:186
+msgid "undo"
 msgstr ""
 
 #: js/files.js:170
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "กำลังสร้างไฟล์บีบอัด ZIP อาจใช้เวลาสักครู่"
 
 #: js/files.js:199
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "ไม่สามารถอัพโหลดไฟล์ของคุณได้ เนื่องจากไฟล์ดังกล่าวเป็นไดเร็กทอรี่หรือมีขนาด 0 ไบต์"
 
 #: js/files.js:199
 msgid "Upload Error"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการอัพโหลด"
 
 #: js/files.js:227 js/files.js:318 js/files.js:347
 msgid "Pending"
-msgstr ""
+msgstr "อยู่ระหว่างดำเนินการ"
 
 #: js/files.js:332
 msgid "Upload cancelled."
-msgstr ""
+msgstr "การอัพโหลดถูกยกเลิก"
 
 #: js/files.js:456
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "ชื่อที่ใช้ไม่ถูกต้อง '/' ไม่อนุญาตให้ใช้งาน"
 
-#: js/files.js:626 templates/index.php:55
+#: js/files.js:631 templates/index.php:55
 msgid "Size"
 msgstr "ขนาด"
 
-#: js/files.js:627 templates/index.php:56
+#: js/files.js:632 templates/index.php:56
 msgid "Modified"
 msgstr "ปรับปรุงล่าสุด"
 
-#: js/files.js:654
+#: js/files.js:659
 msgid "folder"
-msgstr ""
+msgstr "โฟลเดอร์"
 
-#: js/files.js:656
+#: js/files.js:661
 msgid "folders"
-msgstr ""
+msgstr "โฟลเดอร์"
 
-#: js/files.js:664
+#: js/files.js:669
 msgid "file"
-msgstr ""
+msgstr "ไฟล์"
 
-#: js/files.js:666
+#: js/files.js:671
 msgid "files"
-msgstr ""
+msgstr "ไฟล์"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -172,10 +184,6 @@ msgstr "แชร์"
 #: templates/index.php:51
 msgid "Download"
 msgstr "ดาวน์โหลด"
-
-#: templates/index.php:56
-msgid "Delete"
-msgstr "ลบ"
 
 #: templates/index.php:64
 msgid "Upload too large"

@@ -22,8 +22,13 @@ while ($path != $userDirectory) {
 				}
 			} else {
 				// Check if uid_shared_with is a group
-				if (($pos = strpos($uid_shared_with, '@')) !== false) {
+				$pos = strrpos($uid_shared_with, '@');
+				if ($pos !== false) {
 					$gid = substr($uid_shared_with, $pos + 1);
+				} else {
+					$gid = false;
+				}
+				if ($gid && OC_Group::groupExists($gid)) {
 					// Include users in the group so the users can be removed from the list of people to share with
 					if ($path == $source) {
 						$group = array(array('gid' => $gid, 'permissions' => $rows[$i]['permissions'], 'users' => OC_Group::usersInGroup($gid), 'parentFolder' => false));

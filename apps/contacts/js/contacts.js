@@ -14,16 +14,27 @@ Contacts={
 	UI:{
 		/**
 		 * Arguments:
-		 * message: The text message to show. The only mandatory parameter.
+		 * message: The text message to show.
 		 * timeout: The timeout in seconds before the notification disappears. Default 10.
 		 * timeouthandler: A function to run on timeout.
 		 * clickhandler: A function to run on click. If a timeouthandler is given it will be cancelled.
 		 * data: An object that will be passed as argument to the timeouthandler and clickhandler functions.
+		 * cancel: If set cancel all ongoing timer events and hide the notification.
 		 */
 		notify:function(params) {
 			self = this;
 			if(!self.notifier) {
 				self.notifier = $('#notification');
+			}
+			if(params.cancel) {
+				self.notifier.off('click');
+				for(var id in self.notifier.data()) {
+					if($.isNumeric(id)) {
+						clearTimeout(parseInt(id));
+					}
+				}
+				self.notifier.text('').fadeOut().removeData();
+				return;
 			}
 			self.notifier.text(params.message);
 			self.notifier.fadeIn();
@@ -460,6 +471,11 @@ Contacts={
 				}
 				$('#rightcontent').data('id', newid);
 
+				Contacts.UI.Contacts.deletionQueue.push(this.id);
+				if(!window.onbeforeunload) {
+					window.onbeforeunload = Contacts.UI.Contacts.warnNotDeleted;
+				}
+
 				with(this) {
 					delete id; delete fn; delete fullname; delete shortname; delete famname;
 					delete givname; delete addname; delete honpre; delete honsuf; delete data;
@@ -483,7 +499,7 @@ Contacts={
 					data:curlistitem,
 					message:t('contacts','Click to undo deletion of "') + curlistitem.find('a').text() + '"',
 					timeouthandler:function(contact) {
-						Contacts.UI.Card.doDelete(contact.data('id'));
+						Contacts.UI.Card.doDelete(contact.data('id'), true);
 						delete contact;
 					},
 					clickhandler:function(contact) {
@@ -492,13 +508,21 @@ Contacts={
 					}
 				});
 			},
-			doDelete:function(id) {
+			doDelete:function(id, removeFromQueue) {
+				if(Contacts.UI.Contacts.deletionQueue.indexOf(id) == -1 && removeFromQueue) {
+					return;
+				}
 				$.post(OC.filePath('contacts', 'ajax', 'deletecard.php'),{'id':id},function(jsondata) {
 					if(jsondata.status == 'error'){
 						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 					}
+					if(removeFromQueue) {
+						Contacts.UI.Contacts.deletionQueue.splice(Contacts.UI.Contacts.deletionQueue.indexOf(id), 1);
+					}
+					if(Contacts.UI.Contacts.deletionQueue.length == 0) {
+						window.onbeforeunload = null;
+					}
 				});
-				return false;
 			},
 			loadContact:function(jsondata, bookid){
 				this.data = jsondata;
@@ -1477,7 +1501,31 @@ Contacts={
 		},
 		Contacts:{
 			contacts:{},
+			deletionQueue:[],
 			batchnum:50,
+			warnNotDeleted:function(e) {
+				e = e || window.event;
+				var warn = t('contacts', 'Some contacts are marked for deletion, but not deleted yet. Please wait for them to be deleted.');
+				if (e) {
+					e.returnValue = String(warn);
+				}
+				if(Contacts.UI.Contacts.deletionQueue.length > 0) {
+					setTimeout(Contacts.UI.Contacts.deleteFilesInQueue, 1);
+				}
+				return warn;
+			},
+			deleteFilesInQueue:function() {
+				var queue = Contacts.UI.Contacts.deletionQueue;
+				if(queue.length > 0) {
+					Contacts.UI.notify({cancel:true});
+					while(queue.length > 0) {
+						var id = queue.pop();
+						if(id) {
+							Contacts.UI.Card.doDelete(id, false);
+						}
+					}
+				}
+			},
 			getContact:function(id) {
 				if(!this.contacts[id]) {
 					this.contacts[id] = $('#contacts li[data-id="'+id+'"]');
@@ -1774,7 +1822,9 @@ $(document).ready(function(){
 
 	});
 
-			// Load a contact.
+	//$(window).on('beforeunload', Contacts.UI.Contacts.deleteFilesInQueue);
+
+	// Load a contact.
 	$('.contacts').keydown(function(event) {
 		if(event.which == 13 || event.which == 32) {
 			$('.contacts').click();

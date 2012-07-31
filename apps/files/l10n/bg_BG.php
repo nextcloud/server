@@ -6,6 +6,7 @@
 "No file was uploaded" => "Фахлът не бе качен",
 "Missing a temporary folder" => "Липсва временната папка",
 "Files" => "Файлове",
+"Delete" => "Изтриване",
 "Size" => "Размер",
 "Modified" => "Променено",
 "Maximum upload size" => "Макс. размер за качване",
@@ -13,7 +14,6 @@
 "Nothing in here. Upload something!" => "Няма нищо, качете нещо!",
 "Name" => "Име",
 "Download" => "Изтегляне",
-"Delete" => "Изтриване",
 "Upload too large" => "Файлът е прекалено голям",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файловете които се опитвате да качите са по-големи от позволеното за сървъра."
 );

@@ -208,8 +208,9 @@ class OC_User {
 		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid ));
 
 		if( $run ){
-			$uid=self::checkPassword( $uid, $password );
-			if($uid){
+			$uid = self::checkPassword( $uid, $password );
+			$enabled = self::isEnabled($uid);
+			if($uid && $enabled){
 				session_regenerate_id(true);
 				self::setUserId($uid);
 				OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>$password ));
@@ -362,6 +363,38 @@ class OC_User {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * disables a user
+	 * @param string $userid the user to disable
+	 */
+	public static function disableUser($userid){
+		$query = "INSERT INTO *PREFIX*preferences (`userid`, `appid`, `configkey`, `configvalue`) VALUES(?, ?, ?, ?)";
+		$query = OC_DB::prepare($query);
+		$query->execute(array($userid, 'core', 'enabled', 'false'));
+	}
+	
+	/**
+	 * enable a user
+	 * @param string $userid
+	 */
+	public static function enableUser($userid){
+		$query = "DELETE FROM *PREFIX*preferences WHERE userid = ? AND appid = ? AND configkey = ? AND configvalue = ?";
+		$query = OC_DB::prepare($query);
+		$query->execute(array($userid, 'core', 'enabled', 'false'));
+	}
+	
+	/**
+	 * checks if a user is enabled
+	 * @param string $userid
+	 * @return bool
+	 */
+	public static function isEnabled($userid){
+		$query = "SELECT userid FROM *PREFIX*preferences WHERE userid = ? AND appid = ? AND configkey = ? AND configvalue = ?";
+		$query = OC_DB::prepare($query);
+		$results = $query->execute(array($userid, 'core', 'enabled', 'false'));
+		return $results->numRows() ? false : true;
 	}
 
 	/**

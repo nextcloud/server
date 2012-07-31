@@ -2,6 +2,7 @@
 "The uploaded file was only partially uploaded" => "Le file incargate solmente esseva incargate partialmente",
 "No file was uploaded" => "Nulle file esseva incargate",
 "Files" => "Files",
+"Delete" => "Deler",
 "Size" => "Dimension",
 "Modified" => "Modificate",
 "Maximum upload size" => "Dimension maxime de incargamento",
@@ -12,6 +13,5 @@
 "Nothing in here. Upload something!" => "Nihil hic. Incarga alcun cosa!",
 "Name" => "Nomine",
 "Download" => "Discargar",
-"Delete" => "Deler",
 "Upload too large" => "Incargamento troppo longe"
 );

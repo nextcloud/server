@@ -79,7 +79,7 @@ class OC_Contacts_VCard{
 				return false;
 			}
 		} else {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.'. Addressbook id(s) argument is empty: '. $id, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.'. Addressbook id(s) argument is empty: '. print_r($id, true), OCP\Util::DEBUG);
 			return false;
 		}
 		$cards = array();
@@ -129,7 +129,7 @@ class OC_Contacts_VCard{
 		return $result->fetchRow();
 	}
 
-	/** 
+	/**
 	* @brief Format property TYPE parameters for upgrading from v. 2.1
 	* @param $property Reference to a Sabre_VObject_Property.
 	* In version 2.1 e.g. a phone can be formatted like: TEL;HOME;CELL:123456789
@@ -145,7 +145,7 @@ class OC_Contacts_VCard{
 		}
 	}
 
-	/** 
+	/**
 	* @brief Decode properties for upgrading from v. 2.1
 	* @param $property Reference to a Sabre_VObject_Property.
 	* The only encoding allowed in version 3.0 is 'b' for binary. All encoded strings
