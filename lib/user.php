@@ -338,12 +338,12 @@ class OC_User {
 	 *
 	 * Get a list of all users.
 	 */
-	public static function getUsers(){
-		$users=array();
-		foreach(self::$_usedBackends as $backend){
-			$backendUsers=$backend->getUsers();
-			if(is_array($backendUsers)){
-				$users=array_merge($users,$backendUsers);
+	public static function getUsers($search = '', $limit = 10, $offset = 0) {
+		$users = array();
+		foreach (self::$_usedBackends as $backend) {
+			$backendUsers = $backend->getUsers($search, $limit, $offset);
+			if (is_array($backendUsers)) {
+				$users = array_merge($users, $backendUsers);
 			}
 		}
 		asort($users);

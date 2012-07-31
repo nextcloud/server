@@ -164,15 +164,13 @@ class OC_Group_Database extends OC_Group_Backend {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups(){
-		$query = OC_DB::prepare( "SELECT gid FROM `*PREFIX*groups`" );
-		$result = $query->execute();
-
+	public function getGroups($search = '', $limit = 10, $offset = 0) {
+		$query = OC_DB::prepare('SELECT gid FROM *PREFIX*groups WHERE gid LIKE ? LIMIT '.$limit.' OFFSET '.$offset);
+		$result = $query->execute(array($search.'%'));
 		$groups = array();
-		while( $row = $result->fetchRow()){
-			$groups[] = $row["gid"];
+		while ($row = $result->fetchRow()) {
+			$groups[] = $row['gid'];
 		}
-
 		return $groups;
 	}
 
