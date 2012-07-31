@@ -35,13 +35,16 @@ class Crypt {
 	 * @param string user name (use system wide setting if name=null)
 	 * @return string 'client' or 'server'
 	 */
-	public static function mode($user=null) {
+	public static function mode( $user = null ) {
 		
-		$mode = \OC_Appconfig::getValue('files_encryption', 'mode', 'unknown');
+		$mode = \OC_Appconfig::getValue( 'files_encryption', 'mode', 'unknown' );
 		
-		if ($mode == 'unknown') {
+		if ( $mode == 'unknown' ) {
+		
 			error_log('no encryption mode configured');
+			
 			return false;
+			
 		}
 		
 		return $mode;

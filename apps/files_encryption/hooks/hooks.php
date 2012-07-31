@@ -37,14 +37,14 @@ class Hooks {
 
 	public static function login( $params ) {
 
-		if (Crypt::mode($params['uid'])=='server') {
+		if ( Crypt::mode( $params['uid'] ) == 'server' ) {
 
 			$view = new \OC_FilesystemView( '/' );
 
 			$util = new Util( $view, $params['uid'] );
 
 			if ( !$util->ready()) {
-
+				
 				return $util->setupServerSide( $params['password'] );
 
 			}

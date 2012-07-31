@@ -28,11 +28,11 @@
  */
 
 class OC_CryptStream{
-	public static $sourceStreams=array();
+	public static $sourceStreams = array();
 	private $source;
 	private $path;
-	private $readBuffer;//for streams that dont support seeking
-	private $meta=array();//header/meta for source stream
+	private $readBuffer; // For streams that dont support seeking
+	private $meta = array(); // Header / meta for source stream
 	private $count;
 	private $writeCache;
 	private $size;
@@ -98,37 +98,68 @@ class OC_CryptStream{
 		return $result;
 	}
 	
-	public function stream_write($data){
-		$length=strlen($data);
-		$written=0;
-		$currentPos=ftell($this->source);
-		if($this->writeCache){
-			$data=$this->writeCache.$data;
-			$this->writeCache='';
+	public function stream_write( $data ){
+
+		$length = strlen( $data );
+
+		$written = 0;
+
+		$currentPos = ftell( $this->source );
+
+		if( $this->writeCache ){
+
+			$data = $this->writeCache.$data;
+
+			$this->writeCache = '';
+
 		}
-		if($currentPos%8192!=0){
+
+		if( $currentPos%8192 != 0 ){
+
 			//make sure we always start on a block start
-			fseek($this->source,-($currentPos%8192),SEEK_CUR);
-			$encryptedBlock=fread($this->source,8192);
-			fseek($this->source,-($currentPos%8192),SEEK_CUR);
-			$block=OC_Crypt::decrypt($encryptedBlock);
-			$data=substr($block,0,$currentPos%8192).$data;
-			fseek($this->source,-($currentPos%8192),SEEK_CUR);
+
+			fseek( $this->source,-( $currentPos%8192 ),SEEK_CUR );
+
+			$encryptedBlock = fread( $this->source,8192 );
+
+			fseek( $this->source,-( $currentPos%8192 ),SEEK_CUR );
+
+			$block = OC_Crypt::decrypt( $encryptedBlock );
+
+			$data = substr( $block,0,$currentPos%8192 ).$data;
+
+			fseek( $this->source,-( $currentPos%8192 ),SEEK_CUR );
+
 		}
-		$currentPos=ftell($this->source);
-		while($remainingLength=strlen($data)>0){
-			if($remainingLength<8192){
-				$this->writeCache=$data;
-				$data='';
+
+		$currentPos = ftell( $this->source );
+
+		while( $remainingLength = strlen( $data )>0 ){
+
+			if( $remainingLength<8192 ){
+
+				$this->writeCache = $data;
+
+				$data = '';
+
 			}else{
-				$encrypted=OC_Crypt::encrypt(substr($data,0,8192));
-				fwrite($this->source,$encrypted);
-				$data=substr($data,8192);
+
+				$encrypted = OC_Crypt::encrypt( substr( $data,0,8192 ) );
+
+				fwrite( $this->source,$encrypted );
+
+				$data = substr( $data,8192 );
+
 			}
+
 		}
-		$this->size=max($this->size,$currentPos+$length);
+
+		$this->size = max( $this->size,$currentPos+$length );
+
 		return $length;
+
 	}
+
 
 	public function stream_set_option($option,$arg1,$arg2){
 		switch($option){
