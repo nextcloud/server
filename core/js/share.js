@@ -2,6 +2,7 @@ OC.Share={
 	SHARE_TYPE_USER:0,
 	SHARE_TYPE_GROUP:1,
 	SHARE_TYPE_PRIVATE_LINK:3,
+	SHARE_TYPE_EMAIL:4,
 	PERMISSION_CREATE:4,
 	PERMISSION_READ:1,
 	PERMISSION_UPDATE:2,
@@ -99,11 +100,16 @@ OC.Share={
 // 				response(cache[search.term]);
 // 			} else {
 				$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term }, function(result) {
-					if (result.status == 'success') {
+					if (result.status == 'success' && result.data.length > 0) {
 						response(result.data);
 					} else {
-						// Suggest sharing via email
-						response();
+						// Suggest sharing via email if valid email address
+						var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
+						if (pattern.test(search.term)) {
+							response([{label: 'Share via email: '+search.term, value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
+						} else {
+							response(['No people found']);
+						}
 					}
 				});
 // 			}
