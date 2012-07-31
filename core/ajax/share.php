@@ -67,11 +67,11 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 		case 'getShareWith':
 			if (isset($_GET['search'])) {
 				$shareWith = array();
-				$users = OC_User::getUsers();
+				$users = OC_User::getUsers($_GET['search'], 4);
 				foreach ($users as $user) {
 					$shareWith[] = array('label' => $user, 'value' => array('shareType' => OCP\Share::SHARE_TYPE_USER, 'shareWith' => $user));
 				}
-				$groups = OC_Group::getGroups();
+				$groups = OC_Group::getGroups($_GET['search'], 4);
 				foreach ($groups as $group) {
 					$shareWith[] = array('label' => $group.' (group)', 'value' => array('shareType' => OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => $group));
 				}
