@@ -14,8 +14,8 @@
 #bottomcontrols { padding: 0; bottom:0px; height:2.8em; width: 20em; margin:0; background:#eee; border-top:1px solid #ccc; position:fixed; -moz-box-shadow: 0 -3px 3px -3px #000; -webkit-box-shadow: 0 -3px 3px -3px #000; box-shadow: 0 -3px 3px -3px #000;}
 #bottomcontrols img { margin-top: 0.35em; }
 #uploadprogressbar { display: none; padding: 0; bottom: 3em; height:2em; width: 20em; margin:0; background:#eee; border:1px solid #ccc; position:fixed; }
-#contacts_newcontact, #contacts_import, #chooseaddressbook { float: left; margin: 0.2em 0 0 1em; border: 0 none; border-radius: 0; -moz-box-shadow: none; box-shadow: none; outline: 0 none; }
-#chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }
+#contacts_newcontact, #bottomcontrols .settings { float: left; margin: 0.2em 0 0 1em; border: 0 none; border-radius: 0; -moz-box-shadow: none; box-shadow: none; outline: 0 none; }
+#bottomcontrols .settings { float: right; margin: 0.2em 1em 0 0; }
 #actionbar { clear: both; height: 30px;}
 #contacts_deletecard {position:relative; float:left; background:url('%webroot%/core/img/actions/delete.svg') no-repeat center; }
 #contacts_downloadcard {position:relative; float:left; background:url('%webroot%/core/img/actions/download.svg') no-repeat center; }

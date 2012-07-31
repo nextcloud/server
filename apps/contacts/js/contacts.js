@@ -279,7 +279,7 @@ Contacts={
 			$('#contacts_deletecard').tipsy({gravity: 'ne'});
 			$('#contacts_downloadcard').tipsy({gravity: 'ne'});
 			$('#contacts_propertymenu_button').tipsy();
-			$('#contacts_newcontact, #contacts_import, #chooseaddressbook').tipsy({gravity: 'sw'});
+			$('#contacts_newcontact, #contacts_import, #bottomcontrols .settings').tipsy({gravity: 'sw'});
 
 			$('body').click(function(e){
 				if(!$(e.target).is('#contacts_propertymenu_button')) {
@@ -1745,7 +1745,13 @@ $(document).ready(function(){
 	OCCategories.changed = Contacts.UI.Card.categoriesChanged;
 	OCCategories.app = 'contacts';
 
-	$('#chooseaddressbook').on('click keydown', Contacts.UI.Addressbooks.overview);
+	//$('#chooseaddressbook').on('click keydown', Contacts.UI.Addressbooks.overview);
+	$('#bottomcontrols .settings').on('click keydown', function() {
+		OC.appSettings('contacts');
+	});
+	$('#bottomcontrols .import').click(function() {
+		$('#import_upload_start').trigger('click');
+	});
 	$('#contacts_newcontact').on('click keydown', Contacts.UI.Card.editNew);
 
 	var ninjahelp = $('#ninjahelp');

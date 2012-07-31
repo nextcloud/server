@@ -1,6 +1,5 @@
-<form id="contacts">
+<form id="contacts-settings">
 	<fieldset class="personalblock">
-		<legend><?php echo $l->t('Contacts'); ?></legend>
 		<?php echo $l->t('CardDAV syncing addresses'); ?> (<a href="http://owncloud.org/synchronisation/" target="_blank"><?php echo $l->t('more info'); ?></a>)
 		<dl>
 		<dt><?php echo $l->t('Primary address (Kontact et al)'); ?></dt>
