@@ -12,6 +12,8 @@ OC_API::register('post', '/person/check', array('OC_OCS_Person', 'check'), 'ocs'
 // Activity
 OC_API::register('get', '/activity', array('OC_OCS_Activity', 'activityGet'), 'ocs');
 // Privatedata
+OC_API::register('get', '/privatedata/getattribute', array('OC_OCS_Privatedata', 'get'), 'ocs', array('app' => '', 'key' => ''));
+OC_API::register('get', '/privatedata/getattribute/{app}', array('OC_OCS_Privatedata', 'get'), 'ocs', array('key' => ''));
 OC_API::register('get', '/privatedata/getattribute/{app}/{key}', array('OC_OCS_Privatedata', 'get'), 'ocs');
 OC_API::register('post', '/privatedata/setattribute/{app}/{key}', array('OC_OCS_Privatedata', 'set'), 'ocs');
 OC_API::register('post', '/privatedata/deleteattribute/{app}/{key}', array('OC_OCS_Privatedata', 'delete'), 'ocs');

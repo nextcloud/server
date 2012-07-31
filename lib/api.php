@@ -38,14 +38,16 @@ class OC_API {
 	* @param callable $action the function to run
 	* @param string $app the id of the app registering the call
 	*/
-	public static function register($method, $url, $action, $app){
+	public static function register($method, $url, $action, $app,
+				$defaults = array(),
+				$requirements = array()){
 		$name = strtolower($method).$url;
 		$name = str_replace(array('/', '{', '}'), '_', $name);
 		if(!isset(self::$actions[$name])){
 			OC::$router->create($name, $url.'.{_format}')
 				->method($method)
-				->defaults(array('_format' => 'xml'))
-				->requirements(array('_format' => 'xml|json'))
+				->defaults(array('_format' => 'xml') + $defaults)
+				->requirements(array('_format' => 'xml|json') + $requirements)
 				->action('OC_API', 'call');
 			self::$actions[$name] = array();
 		}
@@ -112,7 +114,7 @@ class OC_API {
 	private static function respond($response, $format='json'){
 		if ($format == 'json') {
 			echo json_encode($response);
-		} else if ($format == 'xml') {
+		//} else if ($format == 'xml') {
 			// TODO array to xml
 		} else {
 			var_dump($format, $response);
