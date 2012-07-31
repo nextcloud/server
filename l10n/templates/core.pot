@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-30 02:02+0200\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,51 +33,59 @@ msgstr ""
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr ""
 
-#: js/js.js:519
+#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+msgid "Settings"
+msgstr ""
+
+#: js/js.js:203
+msgid "Error loading script for the settings"
+msgstr ""
+
+#: js/js.js:573
 msgid "January"
 msgstr ""
 
-#: js/js.js:519
+#: js/js.js:573
 msgid "February"
 msgstr ""
 
-#: js/js.js:519
+#: js/js.js:573
 msgid "March"
 msgstr ""
 
-#: js/js.js:519
+#: js/js.js:573
 msgid "April"
 msgstr ""
 
-#: js/js.js:519
+#: js/js.js:573
 msgid "May"
 msgstr ""
 
-#: js/js.js:519
+#: js/js.js:573
 msgid "June"
 msgstr ""
 
-#: js/js.js:520
+#: js/js.js:574
 msgid "July"
 msgstr ""
 
-#: js/js.js:520
+#: js/js.js:574
 msgid "August"
 msgstr ""
 
-#: js/js.js:520
+#: js/js.js:574
 msgid "September"
 msgstr ""
 
-#: js/js.js:520
+#: js/js.js:574
 msgid "October"
 msgstr ""
 
-#: js/js.js:520
+#: js/js.js:574
 msgid "November"
 msgstr ""
 
-#: js/js.js:520
+#: js/js.js:574
 msgid "December"
 msgstr ""
 
@@ -237,10 +245,6 @@ msgstr ""
 
 #: templates/layout.user.php:49
 msgid "Log out"
-msgstr ""
-
-#: templates/layout.user.php:64 templates/layout.user.php:65
-msgid "Settings"
 msgstr ""
 
 #: templates/login.php:6

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-30 02:02+0200\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,12 +59,32 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: js/filelist.js:186
-msgid "deleted"
+#: js/filelist.js:141
+msgid "already exists"
 msgstr ""
 
-#: js/filelist.js:186
+#: js/filelist.js:141
+msgid "replace"
+msgstr ""
+
+#: js/filelist.js:141
+msgid "cancel"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "replaced"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "with"
+msgstr ""
+
+#: js/filelist.js:195 js/filelist.js:256
 msgid "undo"
+msgstr ""
+
+#: js/filelist.js:256
+msgid "deleted"
 msgstr ""
 
 #: js/files.js:170

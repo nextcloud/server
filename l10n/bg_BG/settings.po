@@ -5,13 +5,14 @@
 # Translators:
 #   <adn.adin@gmail.com>, 2011.
 # Stefan Ilivanov <ilivanov@gmail.com>, 2011.
+# Yasen Pramatarov <yasen@lindeas.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-27 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
+"PO-Revision-Date: 2012-07-30 09:43+0000\n"
+"Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +22,11 @@ msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "Е-пощата е записана"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Неправилна е-поща"
 
 #: ajax/openid.php:16
 msgid "OpenID Changed"
@@ -45,15 +46,15 @@ msgstr "Езика е сменен"
 
 #: js/apps.js:31 js/apps.js:67
 msgid "Disable"
-msgstr ""
+msgstr "Изключване"
 
 #: js/apps.js:31 js/apps.js:54
 msgid "Enable"
-msgstr ""
+msgstr "Включване"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Записване..."
 
 #: personal.php:46 personal.php:47
 msgid "__language_name__"
@@ -93,7 +94,7 @@ msgstr "от"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Документация"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
@@ -129,7 +130,7 @@ msgstr ""
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Изтегляне"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -157,15 +158,15 @@ msgstr "Промяна на парола"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr ""
+msgstr "Е-поща"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr ""
+msgstr "Адресът на е-пощата ви"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Въведете е-поща за възстановяване на паролата"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
@@ -173,7 +174,7 @@ msgstr "Език"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr ""
+msgstr "Помощ за превода"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
@@ -197,7 +198,7 @@ msgstr "Ново"
 
 #: templates/users.php:35
 msgid "Default Quota"
-msgstr ""
+msgstr "Квота по подразбиране"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
@@ -209,7 +210,7 @@ msgstr ""
 
 #: templates/users.php:82
 msgid "Quota"
-msgstr ""
+msgstr "Квота"
 
 #: templates/users.php:112
 msgid "SubAdmin for ..."

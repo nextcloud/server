@@ -9,6 +9,8 @@
 "Files" => "Archivos",
 "Unshare" => "No compartir",
 "Delete" => "Eliminado",
+"undo" => "deshacer",
+"deleted" => "borrado",
 "generating ZIP-file, it may take some time." => "generando un fichero ZIP, puede llevar un tiempo.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "No ha sido posible subir tu archivo porque es un directorio o tiene 0 bytes",
 "Upload Error" => "Error al subir el archivo",

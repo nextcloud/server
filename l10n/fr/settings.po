@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-28 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 10:05+0000\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
+"PO-Revision-Date: 2012-07-31 00:49+0000\n"
 "Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -50,11 +50,11 @@ msgstr "Langue changée"
 
 #: js/apps.js:31 js/apps.js:67
 msgid "Disable"
-msgstr "Désactivé"
+msgstr "Désactiver"
 
 #: js/apps.js:31 js/apps.js:54
 msgid "Enable"
-msgstr "Activé"
+msgstr "Activer"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -126,7 +126,7 @@ msgstr "Vous utilisez"
 
 #: templates/personal.php:8
 msgid "of the available"
-msgstr "d'espace de stockage sur un total de"
+msgstr "de votre espace de stockage d'une taille totale de"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"

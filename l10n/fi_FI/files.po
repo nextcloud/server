@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-30 02:02+0200\n"
-"PO-Revision-Date: 2012-07-30 00:03+0000\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
+"PO-Revision-Date: 2012-07-31 20:54+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -63,12 +63,32 @@ msgstr "Lopeta jakaminen"
 msgid "Delete"
 msgstr "Poista"
 
-#: js/filelist.js:186
-msgid "deleted"
+#: js/filelist.js:141
+msgid "already exists"
 msgstr ""
 
-#: js/filelist.js:186
+#: js/filelist.js:141
+msgid "replace"
+msgstr ""
+
+#: js/filelist.js:141
+msgid "cancel"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "replaced"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "with"
+msgstr ""
+
+#: js/filelist.js:195 js/filelist.js:256
 msgid "undo"
+msgstr ""
+
+#: js/filelist.js:256
+msgid "deleted"
 msgstr ""
 
 #: js/files.js:170

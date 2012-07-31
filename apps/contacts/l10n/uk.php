@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "At least one of the address fields has to be filled out." => "Має бути заповнено щонайменше одне поле.",
-"Error adding addressbook." => "Помилка при додаванні адресної книги.",
 "This is not your addressbook." => "Це не ваша адресна книга.",
 "Address" => "Адреса",
 "Telephone" => "Телефон",
@@ -12,18 +11,16 @@
 "Fax" => "Факс",
 "Video" => "Відео",
 "Pager" => "Пейджер",
+"Birthday" => "День народження",
 "Add Contact" => "Додати контакт",
 "New Address Book" => "Нова адресна книга",
 "Download" => "Завантажити",
 "Delete" => "Видалити",
-"Delete contact" => "Видалити контакт",
-"Birthday" => "День народження",
 "Phone" => "Телефон",
+"Delete contact" => "Видалити контакт",
 "Extended" => "Розширено",
-"Street" => "Вулиця",
 "City" => "Місто",
 "Zipcode" => "Поштовий індекс",
 "Country" => "Країна",
-"Add" => "Додати",
 "Displayname" => "Відображуване ім'я"
 );

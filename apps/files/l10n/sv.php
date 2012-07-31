@@ -9,6 +9,8 @@
 "Files" => "Filer",
 "Unshare" => "Sluta dela",
 "Delete" => "Ta bort",
+"undo" => "ångra",
+"deleted" => "raderad",
 "generating ZIP-file, it may take some time." => "Gererar ZIP-fil. Det kan ta lite tid.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Kunde inte ladda upp dina filer eftersom det antingen är en mapp eller har 0 bytes.",
 "Upload Error" => "Uppladdningsfel",

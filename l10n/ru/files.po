@@ -6,14 +6,15 @@
 # Denis  <reg.transifex.net@demitel.ru>, 2012.
 #   <jekader@gmail.com>, 2012.
 #   <lankme@gmail.com>, 2012.
+# Nick Remeslennikov <homolibere@gmail.com>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-30 02:02+0200\n"
-"PO-Revision-Date: 2012-07-30 00:03+0000\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
+"PO-Revision-Date: 2012-07-31 20:54+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -58,19 +59,39 @@ msgstr "Файлы"
 
 #: js/fileactions.js:95
 msgid "Unshare"
-msgstr ""
+msgstr "Снять общий доступ"
 
 #: js/fileactions.js:97 templates/index.php:56
 msgid "Delete"
 msgstr "Удалить"
 
-#: js/filelist.js:186
-msgid "deleted"
+#: js/filelist.js:141
+msgid "already exists"
 msgstr ""
 
-#: js/filelist.js:186
-msgid "undo"
+#: js/filelist.js:141
+msgid "replace"
 msgstr ""
+
+#: js/filelist.js:141
+msgid "cancel"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "replaced"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "with"
+msgstr ""
+
+#: js/filelist.js:195 js/filelist.js:256
+msgid "undo"
+msgstr "отмена"
+
+#: js/filelist.js:256
+msgid "deleted"
+msgstr "удален"
 
 #: js/files.js:170
 msgid "generating ZIP-file, it may take some time."

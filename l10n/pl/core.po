@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Cyryl Sochacki <>, 2012.
 # Kamil Domański <kdomanski@kdemail.net>, 2011.
 # Marcin Małecki <gerber@tkdami.net>, 2011, 2012.
 # Marcin Małecki <mosslar@gmail.com>, 2011.
@@ -12,10 +13,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:14+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Polish (http://www.transifex.net/projects/p/owncloud/language/pl/)\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
+"PO-Revision-Date: 2012-07-31 20:53+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,85 +37,89 @@ msgstr "Ta kategoria już istnieje"
 
 #: js/jquery-ui-1.8.16.custom.min.js:511
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
+msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
+
+#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: js/js.js:203
+msgid "Error loading script for the settings"
 msgstr ""
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "January"
-msgstr ""
+msgstr "Styczeń"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "February"
-msgstr ""
+msgstr "Luty"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "March"
-msgstr ""
+msgstr "Marzec"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "April"
-msgstr ""
+msgstr "Kwiecień"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "May"
-msgstr ""
+msgstr "Maj"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "June"
-msgstr ""
+msgstr "Czerwiec"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "July"
-msgstr ""
+msgstr "Lipiec"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "August"
-msgstr ""
+msgstr "Sierpień"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "September"
-msgstr ""
+msgstr "Wrzesień"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "October"
-msgstr ""
+msgstr "Październik"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "November"
-msgstr ""
+msgstr "Listopad"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "December"
-msgstr ""
+msgstr "Grudzień"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "Nie"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "Tak"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Nie ma kategorii zaznaczonych do usunięcia."
 
 #: js/oc-vcategories.js:68
 msgid "Error"
-msgstr ""
+msgstr "Błąd"
 
 #: lostpassword/index.php:26
-msgid "Owncloud password reset"
-msgstr "Resetowanie hasła"
-
-#: lostpassword/index.php:27
 msgid "ownCloud password reset"
 msgstr "restart hasła"
 
@@ -244,13 +249,9 @@ msgstr "Zakończ konfigurowanie"
 msgid "web services under your control"
 msgstr "usługi internetowe pod kontrolą"
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "Wylogowuje użytkownika"
-
-#: templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "Ustawienia"
 
 #: templates/login.php:6
 msgid "Lost your password?"

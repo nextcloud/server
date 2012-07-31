@@ -7,15 +7,16 @@
 #   <icewind1991@gmail.com>, 2012.
 #   <jekader@gmail.com>, 2012.
 #   <lankme@gmail.com>, 2012.
+# Nick Remeslennikov <homolibere@gmail.com>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-27 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
+"PO-Revision-Date: 2012-07-30 09:15+0000\n"
+"Last-Translator: Nick Remeslennikov <homolibere@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,7 +42,7 @@ msgstr "Неверный запрос"
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "Ошибка авторизации"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -65,7 +66,7 @@ msgstr "Русский "
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "Предупреждение безопасности"
 
 #: templates/admin.php:28
 msgid "Log"

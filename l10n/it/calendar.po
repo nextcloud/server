@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-26 02:01+0200\n"
-"PO-Revision-Date: 2012-07-25 20:45+0000\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
+"PO-Revision-Date: 2012-07-30 12:15+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -83,19 +83,19 @@ msgstr "Calendario"
 
 #: js/calendar.js:828
 msgid "ddd"
-msgstr "ggg"
+msgstr "ddd"
 
 #: js/calendar.js:829
 msgid "ddd M/d"
-msgstr "ggg M/g"
+msgstr "ddd d/M"
 
 #: js/calendar.js:830
 msgid "dddd M/d"
-msgstr "gggg M/g"
+msgstr "dddd d/M"
 
 #: js/calendar.js:833
 msgid "MMMM yyyy"
-msgstr "MMMM aaaa"
+msgstr "MMMM yyyy"
 
 #: js/calendar.js:835
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
@@ -103,7 +103,7 @@ msgstr "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
 
 #: js/calendar.js:837
 msgid "dddd, MMM d, yyyy"
-msgstr "gggg, MMM g, aaaa"
+msgstr "dddd, d MMM yyyy"
 
 #: lib/app.php:121
 msgid "Birthday"
@@ -604,7 +604,7 @@ msgstr "Categoria"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr "Categorie separate con virgole"
+msgstr "Categorie separate da virgole"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"

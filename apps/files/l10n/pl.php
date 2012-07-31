@@ -8,6 +8,8 @@
 "Failed to write to disk" => "Błąd zapisu na dysk",
 "Files" => "Pliki",
 "Delete" => "Usuwa element",
+"undo" => "wróć",
+"deleted" => "skasuj",
 "generating ZIP-file, it may take some time." => "Generowanie pliku ZIP, może potrwać pewien czas.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nie można wczytać pliku jeśli jest katalogiem lub ma 0 bajtów",
 "Upload Error" => "Błąd wczytywania",

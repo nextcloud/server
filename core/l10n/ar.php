@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Owncloud password reset" => "استرجاع كلمة السر",
+"Settings" => "تعديلات",
 "Use the following link to reset your password: {link}" => "استخدم هذه الوصلة لاسترجاع كلمة السر: {link}",
 "You will receive a link to reset your password via Email." => "سوف نرسل لك بريد يحتوي على وصلة لتجديد كلمة السر.",
 "Requested" => "تم طلب",
@@ -29,7 +29,6 @@
 "Finish setup" => "انهاء التعديلات",
 "web services under your control" => "خدمات الوب تحت تصرفك",
 "Log out" => "الخروج",
-"Settings" => "تعديلات",
 "Lost your password?" => "هل نسيت كلمة السر؟",
 "remember" => "تذكر",
 "Log in" => "أدخل",
