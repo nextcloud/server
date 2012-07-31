@@ -109,10 +109,14 @@ class Proxy extends \OC_FileProxy {
 				// Replace plain content with encrypted content by reference
 				$data = $encrypted['encrypted'];
 				
-				# TODO: check if file is in subdirectories, and if so, create those parent directories. Or else monitor creation of directories using hooks to ensure path will always exist (what about existing directories when encryption is enabled?)
+				$filePath = explode( '/', $path );
 				
-				// Save keyfile for newly encrypted file in parallel directory
-				Keymanager::setFileKey( \OCP\USER::getUser(), $path, $encrypted['key'] );
+				$filePath = array_slice( $filePath, 3 );
+				
+				$filePath = '/' . implode( '/', $filePath );
+				
+				// Save keyfile for newly encrypted file in parallel directory tree
+				Keymanager::setFileKey( \OCP\USER::getUser(), $filePath, $encrypted['key'] );
 				
 				// Update the file cache with file info
 				\OC_FileCache::put( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
@@ -124,38 +128,80 @@ class Proxy extends \OC_FileProxy {
 	public function postFile_get_contents( $path, $data ) {
 	
 		if ( Crypt::isEncryptedContent( $data ) ) {
-		trigger_error('best');
+		
+			$filePath = explode( '/', $path );
+			
+			$filePath = array_slice( $filePath, 3 );
+			
+			$filePath = '/' . implode( '/', $filePath );
+			
+			trigger_error( "CAT " . $filePath);
+		
 			$cached = \OC_FileCache_Cached::get( $path, '' );
 			
-			$data = Crypt::symmetricDecryptFileContent( $data, $_SESSION['enckey'] );
+			// Get keyfile for encrypted file
+			$keyFile = Keymanager::getFileKey( \OCP\USER::getUser(), $filePath );
+			
+			$data = Crypt::symmetricDecryptFileContent( $data, $keyFile );
 		
 		}
 		
 		return $data;
+		
 	}
 	
-	public function postFopen($path,&$result){
+	public function postFopen( $path, &$result ){
 	
-		if(!$result){
+		if ( !$result ) {
+		
 			return $result;
+			
 		}
-		$meta=stream_get_meta_data($result);
-		if(Crypt::isEncryptedContent($path)){
-			fclose($result);
-			$result=fopen('crypt://'.$path,$meta['mode']);
-		}elseif(self::shouldEncrypt($path) and $meta['mode']!='r' and $meta['mode']!='rb'){
-			if( \OC_Filesystem::file_exists( $path ) and \OC_Filesystem::filesize($path)>0){
+		
+		$meta = stream_get_meta_data( $result );
+		
+		// If file is encrypted, decrypt using crypto protocol
+		if ( Crypt::isEncryptedContent( $path ) ) {
+		
+			fclose ( $result );
+			
+			$result = fopen( 'crypt://'.$path, $meta['mode'] );
+			
+		} elseif ( 
+		self::shouldEncrypt( $path ) 
+		and $meta ['mode'] != 'r' 
+		and $meta['mode'] != 'rb' 
+		) {
+		
+		# TODO: figure out what this does
+		
+			if ( 
+			\OC_Filesystem::file_exists( $path ) 
+			and \OC_Filesystem::filesize( $path ) > 0 
+			) {
+			
 				//first encrypt the target file so we don't end up with a half encrypted file
-				\OCP\Util::writeLog('files_encryption','Decrypting '.$path.' before writing', \OCP\Util::DEBUG);
-				$tmp=fopen('php://temp');
-				\OCP\Files::streamCopy($result,$tmp);
-				fclose($result);
-				\OC_Filesystem::file_put_contents($path,$tmp);
-				fclose($tmp);
+				\OCP\Util::writeLog( 'files_encryption', 'Decrypting '.$path.' before writing', \OCP\Util::DEBUG );
+				
+				$tmp = fopen( 'php://temp' );
+				
+				\OCP\Files::streamCopy( $result, $tmp );
+				
+				// Close the original stream, we'll return another one
+				fclose( $result );
+				
+				\OC_Filesystem::file_put_contents( $path, $tmp );
+				
+				fclose( $tmp );
+			
 			}
-			$result=fopen('crypt://'.$path,$meta['mode']);
+			
+			$result = fopen( 'crypt://'.$path, $meta['mode'] );
+		
 		}
+		
 		return $result;
+	
 	}
 
 	public function postGetMimeType($path,$mime){

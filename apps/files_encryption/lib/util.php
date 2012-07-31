@@ -44,17 +44,18 @@ class Util {
 	# DONE: add method to check if file is encrypted using old system
 	# DONE: add method to fetch legacy key
 	# DONE: add method to decrypt legacy encrypted data
+	# DONE: fix / test the crypt stream proxy class	
+	
+	# TODO: replace cryptstream wrapper with stream_socket_enable_crypto, or fix it to use new crypt class methods
+	# TODO: add support for optional recovery user in case of lost passphrase / keys
+	# TODO: add admin optional required long passphrase for users
+	# TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
+	# TODO: add UI buttons for encrypt / decrypt everything?
 	
 	# TODO: add method to encrypt all user files using new system
 	# TODO: add method to decrypt all user files using new system
 	# TODO: add method to encrypt all user files using old system
 	# TODO: add method to decrypt all user files using old system
-	
-	# TODO: fix / test the crypt stream proxy class
-	# TODO: add support for optional recovery user in case of lost passphrase / keys
-	# TODO: add admin optional required long passphrase for users
-	# TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
-	# TODO: add UI buttons for encrypt / decrypt everything?
 	
 	# TODO: test new encryption with webdav
 	# TODO: test new encryption with versioning
@@ -152,6 +153,89 @@ class Util {
 			
 		}
 	
+	}
+	
+	public function findFiles( $directory, $type = 'plain' ) {
+	
+	# TODO: test finding non plain content
+		
+		if ( $handle = $this->view->opendir( $directory ) ) {
+
+			while ( false !== ( $file = readdir( $handle ) ) ) {
+			
+				if (
+				$file != "." 
+				&& $file != ".."
+				) {
+				
+					$filePath = $directory . '/' . $this->view->getRelativePath( '/' . $file );
+					
+					var_dump($filePath);
+					
+					if ( $this->view->is_dir( $filePath ) ) { 
+						
+						$this->findFiles( $filePath );
+						
+					} elseif ( $this->view->is_file( $filePath ) ) {
+					
+						if ( $type == 'plain' ) {
+					
+							$this->files[] = array( 'name' => $file, 'path' => $filePath );
+							
+						} elseif ( $type == 'encrypted' ) {
+						
+							if (  Crypt::isEncryptedContent( $this->view->file_get_contents( $filePath ) ) ) {
+							
+								$this->files[] = array( 'name' => $file, 'path' => $filePath );
+							
+							}
+						
+						} elseif ( $type == 'legacy' ) {
+						
+							if (  Crypt::isLegacyEncryptedContent( $this->view->file_get_contents( $filePath ) ) ) {
+							
+								$this->files[] = array( 'name' => $file, 'path' => $filePath );
+							
+							}
+						
+						}
+					
+					}
+					
+				}
+				
+			}
+			
+			if ( !empty( $this->files ) ) {
+			
+				return $this->files;
+			
+			} else {
+			
+				return false;
+			
+			}
+		
+		}
+		
+		return false;
+
+	}
+	
+	public function encryptAll( OC_FilesystemView $view ) {
+	
+		$plainFiles = $this->findPlainFiles( $view );
+		
+		if ( $this->encryptFiles( $plainFiles ) ) {
+		
+			return true;
+			
+		} else {
+		
+			return false;
+			
+		}
+		
 	}
 	
 	/**

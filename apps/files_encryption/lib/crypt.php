@@ -35,10 +35,12 @@ class Crypt {
 	 * @param string user name 
 	 * @return string 'client' or 'server'
 	 */
-	public static function mode($user) {
+	public static function mode( $user ) {
+	
 		//TODO: allow user to set encryption mode and check the selection of the user
 		// for the moment I just return 'client' for test purposes
-		return 'client';
+		return 'server';
+		
 	}
 	
         /**

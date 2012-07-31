@@ -27,7 +27,7 @@ namespace OCA_Encryption;
  */
 class Keymanager {
 	
-	# TODO: Try and get rid of username dependencies as these methods need to be used in a proxy class that doesn't have username access
+	# TODO: make all dependencies explicit, such as ocfsview objects, by adding them as method arguments (dependency injection)
 	
 	/**
 	 * @brief retrieve private key from a user
@@ -60,9 +60,9 @@ class Keymanager {
 	 * @param string user name of the file owner
 	 * @return string file key or false
 	 */
-	public static function getFileKey($userId, $path) {
+	public static function getFileKey( $userId, $path ) {
 		
-		$keypath = ltrim($path, '/');
+		$keypath = ltrim( $path, '/' );
 		$user = $userId;
 
 		// update $keypath and $user if path point to a file shared by someone else
@@ -132,24 +132,28 @@ class Keymanager {
 
 		\OC_FileProxy::$enabled = false;
 
-		$targetpath = ltrim($path, '/');
+		$targetpath = ltrim(  $path, '/'  );
 		$user = $userId;
 		
 		// update $keytarget and $user if key belongs to a file shared by someone else
 		$query = \OC_DB::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
-		$result = $query->execute( array ('/'.$userId.'/files/'.$targetpath, $userId));
-		if ($row = $result->fetchRow()){
+		
+		$result = $query->execute(  array ( '/'.$userId.'/files/'.$targetpath, $userId ) );
+		
+		if ( $row = $result->fetchRow(  ) ) {
 			$targetpath = $row['source'];
-			$targetpath_parts=explode('/',$targetpath);
+			$targetpath_parts=explode( '/',$targetpath );
 			$user = $targetpath_parts[1];
-			$targetpath = str_replace('/'.$user.'/files/', '', $targetpath);
+			$targetpath = str_replace( '/'.$user.'/files/', '', $targetpath );
 			//TODO: check for write permission on shared file once the new sharing API is in place
 		}
 		
 		$view = new \OC_FilesystemView( '/' . $user . '/files_encryption/keyfiles' );
-		$path_parts = pathinfo($targetpath);
 		
-		if (!$view->file_exists($path_parts['dirname'])) $view->mkdir($path_parts['dirname']);
+		$path_parts = pathinfo( $targetpath );
+		
+		if ( !$view->file_exists( $path_parts['dirname'] ) ) $view->mkdir( $path_parts['dirname'] );
+		
 		$result = $view->file_put_contents( '/' . $targetpath . '.key', $key );
 		
 		\OC_FileProxy::$enabled = true;	
