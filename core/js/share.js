@@ -8,7 +8,7 @@ OC.Share={
 	PERMISSION_UPDATE:2,
 	PERMISSION_DELETE:8,
 	PERMISSION_SHARE:16,
-	item:[],
+	itemShares:[],
 	statuses:[],
 	loadIcons:function(itemType) {
 		// Load all share icons
@@ -91,6 +91,7 @@ OC.Share={
 					OC.Share.showPrivateLink(item, share.share_with);
 				} else {
 					OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions);
+					
 				}
 			});
 		}
@@ -99,7 +100,7 @@ OC.Share={
 // 			if (cache[search.term]) {
 // 				response(cache[search.term]);
 // 			} else {
-				$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term }, function(result) {
+				$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term, itemShares: OC.Share.itemShares }, function(result) {
 					if (result.status == 'success' && result.data.length > 0) {
 						response(result.data);
 					} else {
@@ -136,6 +137,10 @@ OC.Share={
 		});
 	},
 	addShareWith:function(shareType, shareWith, permissions, possiblePermissions) {
+		if (!OC.Share.itemShares[shareType]) {
+			OC.Share.itemShares[shareType] = [];
+		}
+		OC.Share.itemShares[shareType].push(shareWith);
 		var editChecked = createChecked = updateChecked = deleteChecked = shareChecked = '';
 		if (permissions & OC.Share.PERMISSION_CREATE) {
 			createChecked = 'checked="checked"';

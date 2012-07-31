@@ -66,14 +66,37 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 			break;
 		case 'getShareWith':
 			if (isset($_GET['search'])) {
+				// TODO Include contacts
 				$shareWith = array();
-				$users = OC_User::getUsers($_GET['search'], 4);
-				foreach ($users as $user) {
-					$shareWith[] = array('label' => $user, 'value' => array('shareType' => OCP\Share::SHARE_TYPE_USER, 'shareWith' => $user));
+				$count = 0;
+				$users = array();
+				$limit = 0;
+				$offset = 0;
+				while ($count < 4 && count($users) == $limit) {
+					$limit = 4 - $count;
+					$users = OC_User::getUsers($_GET['search'], $limit, $offset);
+					$offset += $limit;
+					foreach ($users as $user) {
+						if ((!isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_USER]) || !in_array($user, $_GET['itemShares'][OCP\Share::SHARE_TYPE_USER])) && $user != OC_User::getUser()) {
+							$shareWith[] = array('label' => $user, 'value' => array('shareType' => OCP\Share::SHARE_TYPE_USER, 'shareWith' => $user));
+							$count++;
+						}
+					}
 				}
-				$groups = OC_Group::getGroups($_GET['search'], 4);
-				foreach ($groups as $group) {
-					$shareWith[] = array('label' => $group.' (group)', 'value' => array('shareType' => OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => $group));
+				$count = 0;
+				$groups = array();
+				$limit = 0;
+				$offset = 0;
+				while ($count < 4 && count($groups) == $limit) {
+					$limit = 4 - $count;
+					$groups = OC_Group::getGroups($_GET['search'], $limit, $offset);
+					$offset += $limit;
+					foreach ($groups as $group) {
+						if (!isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]) || !in_array($group, $_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])) {
+							$shareWith[] = array('label' => $group.' (group)', 'value' => array('shareType' => OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => $group));
+							$count++;
+						}
+					}
 				}
 				OC_JSON::success(array('data' => $shareWith));
 			}
