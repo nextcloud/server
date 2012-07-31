@@ -156,14 +156,17 @@ OC={
 		var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
 		return ret;
 	},
-	appSettings:function(app) {
+	appSettings:function(args) {
+		if(typeof args === 'undefined' || typeof args.appid === 'undefined') {
+			throw { name: 'MissingParameter', message: 'The parameter appid is missing' }
+		}
 		var settings = $('#appsettings');
 		if(settings.is(':visible')) {
 			settings.hide().find('.arrow').hide();
 		} else {
 			if($('#journal.settings').length == 0) {
 				var arrowclass = settings.hasClass('topright') ? 'up' : 'left';
-				var jqxhr = $.get(OC.linkTo(app, 'settings.php'), function(data) {
+				var jqxhr = $.get(OC.linkTo(args.appid, 'settings.php'), function(data) {
 					$('#appsettings').html(data).ready(function() {
 						settings.prepend('<span class="arrow '+arrowclass+'"></span><h2>'+t('core', 'Settings')+'</h2><a class="close svg"></a>').show();
 						settings.find('.close').bind('click', function() {
