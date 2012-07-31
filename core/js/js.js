@@ -156,22 +156,53 @@ OC={
 		var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
 		return ret;
 	},
+	/**
+	 * Opens a popup with the setting for an app.
+	 * @param appid String. The ID of the app e.g. 'calendar', 'contacts' or 'files'.
+	 * @param loadJS boolean or String. If true 'js/settings.js' is loaded. If it's a string
+	 * it will attempt to load a script by that name in the 'js' directory.
+	 * @param cache boolean. If true the javascript file won't be forced refreshed. Defaults to true.
+	 * @param scriptName String. The name of the PHP file to load. Defaults to 'settings.php' in
+	 * the root of the app directory hierarchy.
+	 */
 	appSettings:function(args) {
 		if(typeof args === 'undefined' || typeof args.appid === 'undefined') {
-			throw { name: 'MissingParameter', message: 'The parameter appid is missing' }
+			throw { name: 'MissingParameter', message: 'The parameter appid is missing' };
 		}
+		var props = {scriptName:'settings.php', cache:true};
+		$.extend(props, args);
 		var settings = $('#appsettings');
+		if(settings.length == 0) {
+			throw { name: 'MissingDOMElement', message: 'There has be be an element with id "appsettings" for the popup to show.' };
+		}
 		if(settings.is(':visible')) {
 			settings.hide().find('.arrow').hide();
 		} else {
 			if($('#journal.settings').length == 0) {
 				var arrowclass = settings.hasClass('topright') ? 'up' : 'left';
-				var jqxhr = $.get(OC.linkTo(args.appid, 'settings.php'), function(data) {
+				var jqxhr = $.get(OC.filePath(props.appid, '', 'settings.php'), function(data) {
 					$('#appsettings').html(data).ready(function() {
 						settings.prepend('<span class="arrow '+arrowclass+'"></span><h2>'+t('core', 'Settings')+'</h2><a class="close svg"></a>').show();
 						settings.find('.close').bind('click', function() {
 							settings.hide();
 						})
+						if(typeof props.loadJS !== 'undefined') {
+							var scriptname;
+							if(props.loadJS === true) {
+								scriptname = 'settings.js';
+							} else if(typeof props.loadJS === 'string') {
+								scriptname = props.loadJS;
+							} else {
+								throw { name: 'InvalidParameter', message: 'The "loadJS" parameter must be either boolean or a string.' };
+							}
+							if(props.cache) {
+								$.ajaxSetup({cache: true});
+							}
+							$.getScript(OC.filePath(props.appid, 'js', scriptname))
+							.fail(function(jqxhr, settings, exception) {
+								settings.append('<span>'+t('core', 'Error loading script for the settings')+'</span>');
+							});
+						}
 					});
 				}, 'html');
 			} else {
