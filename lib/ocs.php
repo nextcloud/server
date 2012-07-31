@@ -809,7 +809,6 @@ class OC_OCS {
 			if(($login==$user)) {
 				if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode($user) === 'client') {
 					if (($key = OCA_Encryption\Keymanager::setFileKey($user, $file, $key))) {
-						// TODO: emit hook to move file from tmp location to the right place
 						echo self::generateXml('', 'ok', 100, '');
 						return true;
 					} else {
@@ -821,7 +820,6 @@ class OC_OCS {
 			}else{
 				echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
 			}
-			//TODO: emit signal to remove file from tmp location
 			return false;
 		}
 

@@ -10,6 +10,7 @@ OC::$CLASSPATH['OCA_Encryption\Proxy'] = 'apps/files_encryption/lib/proxy.php';
 OC_FileProxy::register(new OCA_Encryption\Proxy());
 
 OCP\Util::connectHook('OC_User','post_login','OCA_Encryption\Hooks','login');
+OCP\Util::connectHook('OC_Webdav_Properties', 'update', 'OCA_Encryption\Hooks', 'updateKeyfile');
 
 stream_wrapper_register('crypt','OC_CryptStream');
 

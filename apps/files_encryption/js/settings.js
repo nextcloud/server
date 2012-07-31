@@ -21,4 +21,15 @@ $(document).ready(function(){
 		var checked=$('#enable_encryption').is(':checked');
 		OC.AppConfig.setValue('files_encryption','enable_encryption',(checked)?'true':'false');
 	})
+	$('input[name=encryption_mode]').change(function(){
+		var  client=$('input[value="client"]:checked').val()
+			 ,server=$('input[value="server"]:checked').val()
+			 ,none=$('input[value="none"]:checked').val()
+		if (client)
+			OC.AppConfig.setValue('files_encryption','mode','client');
+		if (server)
+			OC.AppConfig.setValue('files_encryption','mode','server');
+		if (none)
+			OC.AppConfig.setValue('files_encryption','mode','none');
+	})
 })

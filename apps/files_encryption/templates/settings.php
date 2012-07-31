@@ -1,5 +1,14 @@
 <form id="calendar">
 	<fieldset class="personalblock">
+		
+	<strong>Choose encryption mode:</strong>
+		
+	<p>
+	<input type="radio" name="encryption_mode" value="client" style="width:20px;" /> Client side encryption (most secure but makes it impossible to access your data from the web interface)<br />
+	<input type="radio" name="encryption_mode" value="server" style="width:20px;" /> Server side encryption (allows you to access your files from the web interface and the desktop client)<br />
+	<input type="radio" name="encryption_mode" value="none" style="width:20px; checked="checked" /> None (no encryption at all)<br/>
+	</p>	
+	<p>	
 	<strong><?php echo $l->t('Encryption'); ?></strong>
 		<?php echo $l->t("Exclude the following file types from encryption"); ?>
 		<select id='encryption_blacklist' title="<?php echo $l->t('None')?>" multiple="multiple">
@@ -7,6 +16,6 @@
 				<option selected="selected" value="<?php echo $type;?>"><?php echo $type;?></option>
 			<?php endforeach;?>
 		</select>
-		<input type='checkbox' id='enable_encryption' <?php if($_['encryption_enabled']){echo 'checked="checked"';} ?>></input><label for='enable_encryption'><?php echo $l->t('Enable Encryption')?></label>
+	</p>		
 	</fieldset>
 </form>
