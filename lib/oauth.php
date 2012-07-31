@@ -77,9 +77,8 @@ class OC_OAuth {
 	 * @param string $user the owncloud user adding the consumer
 	 * @return array the consumers details including secret and key
 	 */
-	public static function registerConsumer($details, $user=null){
+	public static function registerConsumer($details, $user){
 		self::init();
-		$user = is_null($user) ? OC_User::getUser() : $user;
 		$consumer = self::$store->updateConsumer($details, $user, OC_Group::inGroup($user, 'admin'));
 		return $consumer;	
 	}
