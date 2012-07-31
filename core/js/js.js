@@ -150,13 +150,12 @@ OC={
 		}
 	},
 	dialogs:OCdialogs,
-  mtime2date:function(mtime) {
-    mtime = parseInt(mtime);
-    var date = new Date(1000*mtime);
-    var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
-    return ret;
-  },
-
+	mtime2date:function(mtime) {
+		mtime = parseInt(mtime);
+		var date = new Date(1000*mtime);
+		var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
+		return ret;
+	},
 	appSettings:function(app) {
 		var settings = $('#appsettings');
 		if(settings.is(':visible')) {
