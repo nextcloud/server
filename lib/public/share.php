@@ -538,7 +538,6 @@ class Share {
 					foreach ($items as $item) {
 						if ($item['share_type'] == self::SHARE_TYPE_PRIVATE_LINK) {
 							$statuses[$item['item']] = true;
-							break;
 						} else if (!isset($statuses[$item['item']])) {
 							$statuses[$item['item']] = false;
 						}
