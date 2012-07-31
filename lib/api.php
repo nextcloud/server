@@ -43,6 +43,7 @@ class OC_API {
 		$name = str_replace(array('/', '{', '}'), '_', $name);
 		if(!isset(self::$actions[$name])){
 			OC::$router->create($name, $url.'.{_format}')
+				->method($method)
 				->defaults(array('_format' => 'xml'))
 				->requirements(array('_format' => 'xml|json'))
 				->action('OC_API', 'call');
