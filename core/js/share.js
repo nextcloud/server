@@ -95,7 +95,6 @@ OC.Share={
 				}
 			});
 		}
-		$('#dropdown').show('blind');
 		$('#shareWith').autocomplete({minLength: 2, source: function(search, response) {
 // 			if (cache[search.term]) {
 // 				response(cache[search.term]);
@@ -127,6 +126,8 @@ OC.Share={
 			return false;
 		}
 		});
+		$('#dropdown').show('blind');
+		$('#shareWith').focus();
 	},
 	hideDropDown:function(callback) {
 		$('#dropdown').hide('blind', function() {
