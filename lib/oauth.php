@@ -114,6 +114,13 @@ class OC_OAuth {
 			try{
 				$req = new OAuthRequestVerifier();
 				$user = $req->verify();
+				$run = true;
+				OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $user ));
+				if(!$run){
+					return false;
+				}
+				OC_User::setUserId($user);
+				OC_Hook::emit( "OC_User", "post_login", array( "uid" => $user ));
 				return $user;
 			} catch(OAuthException $e) {
 				// 401 Unauthorised
