@@ -2,8 +2,8 @@
 
 class OC_OCS_Privatedata {
 
-	public static function privatedataGet($parameters){
-		// TODO check user auth
+	public static function get($parameters){
+		OC_Util::checkLoggedIn();
 		$user = OC_User::getUser();
 		$app = addslashes(strip_tags($parameters['app']));
 		$key = addslashes(strip_tags($parameters['key']));
@@ -18,15 +18,22 @@ class OC_OCS_Privatedata {
 		//TODO: replace 'privatedata' with 'attribute' once a new libattice has been released that works with it
 	}
 	
-	public static function privatedataSet($parameters){
-		$user = OC_OCS::checkpassword();
+	public static function set($parameters){
+		OC_Util::checkLoggedIn();
+		$user = OC_User::getUser();
+		$app = addslashes(strip_tags($parameters['app']));
+		$key = addslashes(strip_tags($parameters['key']));
+		$value = OC_OCS::readData('post', 'value', 'text');
 		if(OC_OCS::setData($user,$app,$key,$value)){
 			return 100;
 		}
 	}
 	
-	public static function privatedataDelete($parameteres){
-		$user = OC_OCS::checkpassword();
+	public static function delete($parameters){
+		OC_Util::checkLoggedIn();
+		$user = OC_User::getUser();
+		$app = addslashes(strip_tags($parameters['app']));
+		$key = addslashes(strip_tags($parameters['key']));
 		if($key=="" or $app==""){
 			return; //key and app are NOT optional here
 		}
@@ -34,7 +41,4 @@ class OC_OCS_Privatedata {
 			return 100;
 		}
 	}
-	
 }
-
-?>

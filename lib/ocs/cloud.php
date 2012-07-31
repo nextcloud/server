@@ -2,8 +2,8 @@
 
 class OC_OCS_Cloud {
 
-	public static function systemwebapps($parameters){
-		$login = OC_OCS::checkpassword();
+	public static function getSystemWebApps($parameters){
+		OC_Util::checkLoggedIn();
 		$apps = OC_App::getEnabledApps();
 		$values = array();
 		foreach($apps as $app) {
@@ -16,9 +16,10 @@ class OC_OCS_Cloud {
 		return $values;
 	}
 	
-	public static function getQuota($parameters){
-		$login=OC_OCS::checkpassword();
-		if(OC_Group::inGroup($login, 'admin') or ($login==$parameters['user'])) {
+	public static function getUserQuota($parameters){
+		OC_Util::checkLoggedIn();
+		$user = OC_User::getUser();
+		if(OC_Group::inGroup($user, 'admin') or ($user==$parameters['user'])) {
 
 			if(OC_User::userExists($parameters['user'])){
 				// calculate the disc space
@@ -47,9 +48,10 @@ class OC_OCS_Cloud {
 		}
 	}
 	
-	public static function setQuota($parameters){
-		$login=OC_OCS::checkpassword();
-		if(OC_Group::inGroup($login, 'admin')) {
+	public static function setUserQuota($parameters){
+		OC_Util::checkLoggedIn();
+		$user = OC_User::getUser();
+		if(OC_Group::inGroup($user, 'admin')) {
 		
 			// todo
 			// not yet implemented
@@ -63,8 +65,8 @@ class OC_OCS_Cloud {
 		}
 	}
 	
-	public static function getPublickey($parameters){
-		$login=OC_OCS::checkpassword();
+	public static function getUserPublickey($parameters){
+		OC_Util::checkLoggedIn();
 
 		if(OC_User::userExists($parameters['user'])){
 			// calculate the disc space
@@ -75,23 +77,20 @@ class OC_OCS_Cloud {
 		}
 	}
 	
-	public static function getPrivatekey($parameters){
-		$login=OC_OCS::checkpassword();
-        if(OC_Group::inGroup($login, 'admin') or ($login==$parameters['user'])) {
+	public static function getUserPrivatekey($parameters){
+		OC_Util::checkLoggedIn();
+		$user = OC_User::getUser();
+		if(OC_Group::inGroup($user, 'admin') or ($user==$parameters['user'])) {
 
-                if(OC_User::userExists($user)){
-                        // calculate the disc space
-                        $txt='this is the private key of '.$parameters['user'];
-                        echo($txt);
-                }else{
-                        echo self::generateXml('', 'fail', 300, 'User does not exist');
-                }
-        }else{
-                echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
-        }
+			if(OC_User::userExists($user)){
+				// calculate the disc space
+				$txt='this is the private key of '.$parameters['user'];
+				echo($txt);
+			}else{
+				echo self::generateXml('', 'fail', 300, 'User does not exist');
+			}
+		}else{
+			echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+		}
 	}
-	
-	
 }
-
-?>

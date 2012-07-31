@@ -14,9 +14,5 @@ class OC_OCS_Person {
 		}else{
 			return 101;
 		}
-		
 	}
-	
 }
-
-?>
