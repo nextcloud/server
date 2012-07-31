@@ -82,7 +82,7 @@ OC={
 			if(type){
 				link+=type+'/';
 			}
-			link+=file;	
+			link+=file;
 		}
 		return link;
 	},
@@ -91,9 +91,9 @@ OC={
 	 * @param app the app id to which the image belongs
 	 * @param file the name of the image file
 	 * @return string
-	 * 
+	 *
 	 * if no extension is given for the image, it will automatically decide between .png and .svg based on what the browser supports
-	 */ 
+	 */
 	imagePath:function(app,file){
 		if(file.indexOf('.')==-1){//if no extension is given, use png or svg depending on browser support
 			file+=(SVGSupport())?'.svg':'.png';
@@ -105,7 +105,7 @@ OC={
 	 * @param app the app id to which the script belongs
 	 * @param script the filename of the script
 	 * @param ready event handeler to be called when the script is loaded
-	 * 
+	 *
 	 * if the script is already loaded, the event handeler will be called directly
 	 */
 	addScript:function(app,script,ready){
@@ -155,7 +155,28 @@ OC={
     var date = new Date(1000*mtime);
     var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
     return ret;
-  }
+  },
+
+	appSettings:function(app) {
+		var settings = $('#appsettings');
+		if(settings.is(':visible')) {
+			settings.hide().find('.arrow').hide();
+		} else {
+			if($('#journal.settings').length == 0) {
+				var arrowclass = settings.hasClass('topright') ? 'up' : 'left';
+				var jqxhr = $.get(OC.linkTo(app, 'settings.php'), function(data) {
+					$('#appsettings').html(data).ready(function() {
+						settings.prepend('<span class="arrow '+arrowclass+'"></span><h2>'+t('core', 'Settings')+'</h2><a class="close svg"></a>').show();
+						settings.find('.close').bind('click', function() {
+							settings.hide();
+						})
+					});
+				}, 'html');
+			} else {
+				settings.show().find('.arrow').show();
+			}
+		}
+	}
 };
 OC.search.customResults={};
 OC.search.currentResult=-1;
@@ -202,7 +223,7 @@ if (!Array.prototype.filter) {
 		var len = this.length >>> 0;
 		if (typeof fun != "function")
 			throw new TypeError();
-		
+
 		var res = [];
 		var thisp = arguments[1];
 		for (var i = 0; i < len; i++) {
@@ -222,14 +243,14 @@ if (!Array.prototype.indexOf){
 	Array.prototype.indexOf = function(elt /*, from*/)
 	{
 		var len = this.length;
-		
+
 		var from = Number(arguments[1]) || 0;
 		from = (from < 0)
 		? Math.ceil(from)
 		: Math.floor(from);
 		if (from < 0)
 			from += len;
-		
+
 		for (; from < len; from++)
 		{
 			if (from in this &&
@@ -306,7 +327,7 @@ function replaceSVG(){
 
 /**
  * prototypal inharitence functions
- * 
+ *
  * usage:
  * MySubObject=object(MyObject)
  */
@@ -352,7 +373,7 @@ $(document).ready(function(){
 		fillWindow($('#rightcontent'));
 	});
 	$(window).trigger('resize');
-	
+
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
 	}else{
@@ -395,7 +416,7 @@ $(document).ready(function(){
 		}
 	});
 
-	// 'show password' checkbox	
+	// 'show password' checkbox
 	$('#pass2').showPassword();
 
 	//use infield labels
@@ -462,15 +483,15 @@ $(document).ready(function(){
 if (!Array.prototype.map){
 	Array.prototype.map = function(fun /*, thisp */){
 		"use strict";
-		
+
 		if (this === void 0 || this === null)
 			throw new TypeError();
-		
+
 		var t = Object(this);
 		var len = t.length >>> 0;
 		if (typeof fun !== "function")
 			throw new TypeError();
-		
+
 		var res = new Array(len);
 		var thisp = arguments[1];
 		for (var i = 0; i < len; i++){
@@ -478,7 +499,7 @@ if (!Array.prototype.map){
 				res[i] = fun.call(thisp, t[i], i, t);
 			}
 		}
-		
+
 	    return res;
 	};
 }
@@ -486,7 +507,7 @@ if (!Array.prototype.map){
 /**
  * Filter Jquery selector by attribute value
  **/
-$.fn.filterAttr = function(attr_name, attr_value) {  
+$.fn.filterAttr = function(attr_name, attr_value) {
    return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
 };
 
