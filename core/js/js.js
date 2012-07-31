@@ -180,7 +180,7 @@ OC={
 		} else {
 			if($('#journal.settings').length == 0) {
 				var arrowclass = settings.hasClass('topright') ? 'up' : 'left';
-				var jqxhr = $.get(OC.filePath(props.appid, '', 'settings.php'), function(data) {
+				var jqxhr = $.get(OC.filePath(props.appid, '', props.scriptName), function(data) {
 					$('#appsettings').html(data).ready(function() {
 						settings.prepend('<span class="arrow '+arrowclass+'"></span><h2>'+t('core', 'Settings')+'</h2><a class="close svg"></a>').show();
 						settings.find('.close').bind('click', function() {
