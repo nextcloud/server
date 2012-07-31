@@ -51,7 +51,7 @@ class OC_Router {
 		if (isset($parameters['action'])) {
 			$action = $parameters['action'];
 			if (!is_callable($action)) {
-			var_dump($action);
+				var_dump($action);
 				throw new Exception('not a callable action');
 			}
 			unset($parameters['action']);

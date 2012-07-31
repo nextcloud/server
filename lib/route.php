@@ -10,27 +10,27 @@ use Symfony\Component\Routing\Route;
 
 class OC_Route extends Route {
 	public function method($method) {
-		$this->setRequirement('_method', $method);
+		$this->setRequirement('_method', strtoupper($method));
 		return $this;
 	}
 
 	public function post() {
-		$this->method('post');
+		$this->method('POST');
 		return $this;
 	}
 
 	public function get() {
-		$this->method('get');
+		$this->method('GET');
 		return $this;
 	}
 
 	public function put() {
-		$this->method('put');
+		$this->method('PUT');
 		return $this;
 	}
 
 	public function delete() {
-		$this->method('delete');
+		$this->method('DELETE');
 		return $this;
 	}
 
