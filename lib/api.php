@@ -115,11 +115,30 @@ class OC_API {
 	*/
 	private static function respond($response, $format='json'){
 		if ($format == 'json') {
-			echo json_encode($response);
-		//} else if ($format == 'xml') {
-			// TODO array to xml
+			OC_JSON::encodedPrint($response);
+		} else if ($format == 'xml') {
+			header('Content-type: text/xml; charset=UTF-8');
+			$writer = new XMLWriter();
+			$writer->openMemory();
+			$writer->setIndent( true );
+			$writer->startDocument();
+			self::toXML($response, $writer);
+			$writer->endDocument();
+			echo $writer->outputMemory(true);
 		} else {
 			var_dump($format, $response);
+		}
+	}
+
+	private static function toXML($array, $writer){
+		foreach($array as $k => $v) {
+			if (is_array($v)) {
+				$writer->startElement($k);
+				self::toXML($v, $writer);
+				$writer->endElement();
+			} else {
+				$writer->writeElement($k, $v);
+			}
 		}
 	}
 	
