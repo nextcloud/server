@@ -18,11 +18,11 @@ OC.Contacts.Settings = OC.Contacts.Settings || {
 					if(!active) {
 						$('#contacts h3[data-id="'+id+'"],#contacts ul[data-id="'+id+'"]').remove();
 					} else {
-						Contacts.UI.Contacts.update();
+						OC.Contacts.Contacts.update();
 					}
 				} else {
 					console.log('Error:', jsondata.data.message);
-					Contacts.UI.notify(t('contacts', 'Error') + ': ' + jsondata.data.message);
+					OC.Contacts.notify(t('contacts', 'Error') + ': ' + jsondata.data.message);
 					tgt.checked = !active;
 				}
 			});
@@ -37,7 +37,7 @@ OC.Contacts.Settings = OC.Contacts.Settings || {
 					if (jsondata.status == 'success'){
 						$('#contacts h3[data-id="'+id+'"],#contacts ul[data-id="'+id+'"]').remove();
 						$('.addressbooks-settings tr[data-id="'+id+'"]').remove()
-						Contacts.UI.Contacts.update();
+						OC.Contacts.Contacts.update();
 					} else {
 						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 					}
@@ -100,7 +100,7 @@ OC.Contacts.Settings = OC.Contacts.Settings || {
 							row.find('td.name').text(jsondata.addressbook.displayname);
 							row.find('td.description').text(jsondata.addressbook.description);
 						}
-						Contacts.UI.Contacts.update();
+						OC.Contacts.Contacts.update();
 					} else {
 						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 					}
