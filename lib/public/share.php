@@ -204,14 +204,14 @@ class Share {
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 					throw new \Exception($message);
 				}
-				$details = OC_Contacts_VCard::structureContact($vcard);
+				$details = \OC_Contacts_VCard::structureContact($vcard);
 				// TODO Add ownCloud user to contacts vcard
 				if (!isset($details['EMAIL'])) {
 					$message = 'Sharing '.$item.' failed, because no email address is associated with the contact';
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 					throw new \Exception($message);
 				}
-				return self::share($itemType, $item, self::SHARE_TYPE_EMAIL, $permissions);
+				return self::share($itemType, $item, self::SHARE_TYPE_EMAIL, $details['EMAIL'], $permissions);
 				break;
 			// Future share types need to include their own conditions
 			default:
