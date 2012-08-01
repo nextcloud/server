@@ -77,6 +77,8 @@ class OC_API {
 		} else {
 			self::respond($response);
 		}
+		// logout the user to be stateles
+		OC_User::logout();
 	}
 	
 	/**
