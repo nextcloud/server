@@ -128,7 +128,7 @@ class OC_Appconfig{
 			$query->execute( array( $app, $key, $value ));
 		}
 		else{
-			$query = OC_DB::prepare( 'UPDATE `*PREFIX*appconfig` SET `configvalue` = :configvalue WHERE `appid` = ? AND `configkey` = ?' );
+			$query = OC_DB::prepare( 'UPDATE `*PREFIX*appconfig` SET `configvalue` = ? WHERE `appid` = ? AND `configkey` = ?' );
 			$query->execute( array( $value, $app, $key ));
 		}
 	}

@@ -140,7 +140,7 @@ class OC_FileCache{
 		}
 		if(isset($data['mimetype'])){
 			$arguments[]=dirname($data['mimetype']);
-			$queryParts[]='mimepart=?';
+			$queryParts[]='`mimepart`=?';
 		}
 		$arguments[]=$id;
 		
@@ -148,7 +148,7 @@ class OC_FileCache{
 		$query=OC_DB::prepare($sql);
 		$result=$query->execute($arguments);
 		if(OC_DB::isError($result)){
-			OC_Log::write('files','error while updating file('.$path.') in cache',OC_Log::ERROR);
+			OC_Log::write('files','error while updating file id('.$id.') in cache',OC_Log::ERROR);
 		}
 	}
 
