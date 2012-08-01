@@ -187,6 +187,24 @@ class Share {
 			case self::SHARE_TYPE_PRIVATE_LINK:
 				$shareWith = md5(uniqid($item, true));
 				return self::put($itemType, $item, $shareType, $shareWith, $uidOwner, $permissions);
+			case self::SHARE_TYPE_CONTACT:
+				if (!\OC_App::isEnabled('contacts')) {
+					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the contacts app is not enabled', \OC_Log::ERROR);
+					return false;
+				}
+				$vcard = \OC_Contacts_App::getContactVCard($shareWith);
+				if (!isset($vcard)) {
+					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the contact does not exist', \OC_Log::ERROR);
+					return false;
+				}
+				$details = OC_Contacts_VCard::structureContact($vcard);
+				// TODO Add ownCloud user to contacts vcard
+				if (!isset($details['EMAIL'])) {
+					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because no email address is associated with the contact', \OC_Log::ERROR);
+					return false;
+				}
+				return self::share($itemType, $item, self::SHARE_TYPE_EMAIL, $permissions);
+				break;
 			// Future share types need to include their own conditions
 			default:
 				\OC_Log::write('OCP\Share', 'Share type '.$shareType.' is not valid for '.$item, \OC_Log::ERROR);

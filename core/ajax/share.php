@@ -75,7 +75,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 						foreach ($vcards as $vcard) {
 							$contact = $vcard['fullname'];
 							if (stripos($contact, $_GET['search']) !== false && (!isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT]) || !in_array($contact, $_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT]))) {
-								$shareWith[] = array('label' => $contact, 'value' => array('shareType' => 5, 'shareWith' => $contact));
+								$shareWith[] = array('label' => $contact, 'value' => array('shareType' => 5, 'shareWith' => $vcard['id']));
 							}
 						}
 					}
