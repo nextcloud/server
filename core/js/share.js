@@ -113,7 +113,11 @@ OC.Share={
 					}
 				});
 // 			}
-		}, select: function(event, selected) {
+		},
+		focus: function(event, focused) {
+			event.preventDefault();
+		},
+		select: function(event, selected) {
 			var shareType = selected.item.value.shareType;
 			var shareWith = selected.item.value.shareWith;
 			$(this).val(shareWith);
