@@ -285,6 +285,7 @@ class OC_Setup {
                                         } else {
 
                                                 OC_CONFIG::setValue('dbuser', $dbuser);
+                                                OC_CONFIG::setValue('dbname', $dbname);
                                                 OC_CONFIG::setValue('dbpassword', $dbpass);
 
                                                 //create the database not neccessary, oracle implies user = schema
