@@ -304,9 +304,13 @@ $(document).ready(function(){
 					tr.attr('data-uid',username);
 					tr.find('td.name').text(username);
 					var select=$('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="Groups">');
+					var subadminselect=$('<select multiple="multiple" class="subadminsselect" data-placehoder="Groups" title="' + t('files', 'SubAdmin') + '">');
 					select.data('username',username);
 					select.data('userGroups',groups);
+					subadminselect.data('username',username);
+					subadminselect.data('userGroups',groups);
 					tr.find('td.groups').empty();
+					tr.find('td.subadmins').empty();
 					var allGroups=$('#content table').data('groups').split(', ');
 					for(var i=0;i<groups.length;i++){
 						if(allGroups.indexOf(groups[i])==-1){
@@ -315,12 +319,18 @@ $(document).ready(function(){
 					}
 					$.each(allGroups,function(i,group){
 						select.append($('<option value="'+group+'">'+group+'</option>'));
+						if(group != 'admin'){
+							subadminselect.append($('<option value="'+group+'">'+group+'</option>'));
+						}
 					});
 					tr.find('td.groups').append(select);
+					tr.find('td.subadmins').append(subadminselect);
 					if(tr.find('td.remove img').length==0){
 						tr.find('td.remove').append($('<img alt="Delete" title="'+t('settings','Delete')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
 					}
 					applyMultiplySelect(select);
+					applyMultiplySelect(subadminselect);
+					
 					$('#content table tbody').last().append(tr);
 
 					tr.find('select.quota-user option').attr('selected',null);

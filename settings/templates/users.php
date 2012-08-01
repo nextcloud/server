@@ -109,7 +109,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 				class="subadminsselect"
 				data-username="<?php echo $user['name'] ;?>"
 				data-subadmin="<?php echo $user['subadmin'] ;?>"
-				data-placeholder="subadmins" title="<?php echo $l->t('SubAdmin for ...')?>"
+				data-placeholder="subadmins" title="<?php echo $l->t('SubAdmin')?>"
 				multiple="multiple">
 					<?php foreach($_["subadmingroups"] as $group): ?>
 					<option value="<?php echo $group;?>">
