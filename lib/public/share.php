@@ -34,6 +34,9 @@ class Share {
 	const SHARE_TYPE_USER = 0;
 	const SHARE_TYPE_GROUP = 1;
 	const SHARE_TYPE_PRIVATE_LINK = 3;
+	const SHARE_TYPE_EMAIL = 4;
+	const SHARE_TYPE_CONTACT = 5;
+	const SHARE_TYPE_REMOTE = 6;
 
 	/** CRUDS permissions (Create, Read, Update, Delete, Share) using a bitmask
 	* Construct permissions for share() and setPermissions with Or (|) e.g. Give user read and update permissions: PERMISSION_READ | PERMISSION_UPDATE
