@@ -25,9 +25,13 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 	switch ($_POST['action']) {
 		case 'share':
 			if (isset($_POST['shareType']) && isset($_POST['shareWith']) && isset($_POST['permissions'])) {
-				$return = OCP\Share::share($_POST['itemType'], $_POST['item'], $_POST['shareType'], $_POST['shareWith'], $_POST['permissions']);
-				// TODO May need to return private link
-				($return) ? OC_JSON::success() : OC_JSON::error();
+				try {
+					OCP\Share::share($_POST['itemType'], $_POST['item'], $_POST['shareType'], $_POST['shareWith'], $_POST['permissions']);
+					// TODO May need to return private link
+					OC_JSON::success();
+				} catch (Exception $exception) {
+					OC_JSON::error(array('data' => array('message' => $exception->getMessage())));
+				}
 			}
 			break;
 		case 'unshare':

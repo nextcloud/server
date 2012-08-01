@@ -156,27 +156,32 @@ class Share {
 		switch ($shareType) {
 			case self::SHARE_TYPE_USER:
 				if ($shareWith == $uidOwner) {
-					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the user '.$shareWith.' is the item owner', \OC_Log::ERROR);
-					return false;
+					$message = 'Sharing '.$item.' failed, because the user '.$shareWith.' is the item owner';
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message);
 				}
 				if (!\OC_User::userExists($shareWith)) {
-					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the user '.$shareWith.' does not exist', \OC_Log::ERROR);
-					return false;
+					$message = 'Sharing '.$item.' failed, because the user '.$shareWith.' does not exist';
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message);
 				} else {
 					$inGroup = array_intersect(\OC_Group::getUserGroups($uidOwner), \OC_Group::getUserGroups($shareWith));
 					if (empty($inGroup)) {
-						\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the user '.$shareWith.' is not a member of any groups that '.$uidOwner.' is a member of', \OC_Log::ERROR);
-						return false;
+						$message = 'Sharing '.$item.' failed, because the user '.$shareWith.' is not a member of any groups that '.$uidOwner.' is a member of';
+						\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+						throw new \Exception($message);
 					}
 				}
 				break;
 			case self::SHARE_TYPE_GROUP:
 				if (!\OC_Group::groupExists($shareWith)) {
-					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the group '.$shareWith.' does not exist', \OC_Log::ERROR);
-					return false;
+					$message = 'Sharing '.$item.' failed, because the group '.$shareWith.' does not exist';
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message);
 				} else if (!\OC_Group::inGroup($uidOwner, $shareWith)) {
-					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because '.$uidOwner.' is not a member of the group '.$shareWith, \OC_Log::ERROR);
-					return false;
+					$message = 'Sharing '.$item.' failed, because '.$uidOwner.' is not a member of the group '.$shareWith;
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message);
 				}
 				// Convert share with into an array with the keys group and users
 				$group = $shareWith;
@@ -189,19 +194,22 @@ class Share {
 				return self::put($itemType, $item, $shareType, $shareWith, $uidOwner, $permissions);
 			case self::SHARE_TYPE_CONTACT:
 				if (!\OC_App::isEnabled('contacts')) {
-					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the contacts app is not enabled', \OC_Log::ERROR);
+					$message = 'Sharing '.$item.' failed, because the contacts app is not enabled';
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 					return false;
 				}
 				$vcard = \OC_Contacts_App::getContactVCard($shareWith);
 				if (!isset($vcard)) {
-					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because the contact does not exist', \OC_Log::ERROR);
-					return false;
+					$message = 'Sharing '.$item.' failed, because the contact does not exist';
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message);
 				}
 				$details = OC_Contacts_VCard::structureContact($vcard);
 				// TODO Add ownCloud user to contacts vcard
 				if (!isset($details['EMAIL'])) {
-					\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because no email address is associated with the contact', \OC_Log::ERROR);
-					return false;
+					$message = 'Sharing '.$item.' failed, because no email address is associated with the contact';
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message);
 				}
 				return self::share($itemType, $item, self::SHARE_TYPE_EMAIL, $permissions);
 				break;
@@ -211,8 +219,9 @@ class Share {
 				return false;
 		}
 		if (self::getItems($itemType, $item, $shareType, $shareWith, $uidOwner, self::FORMAT_NONE, null, 1)) {
-			\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with '.$shareWith, \OC_Log::ERROR);
-			return false;
+			$message = 'Sharing '.$item.' failed, because this item is already shared with '.$shareWith;
+			\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+			throw new \Exception($message);
 		}
 		if ($collectionTypes = self::getCollectionItemTypes($itemType)) {
 			foreach ($collectionTypes as $collectionType) {
