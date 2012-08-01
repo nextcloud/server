@@ -27,7 +27,7 @@ namespace OCA_Encryption;
  */
 class Keymanager {
 	
-	# TODO: make all dependencies explicit, such as ocfsview objects, by adding them as method arguments (dependency injection)
+	# TODO: make all dependencies (including static classes) explicit, such as ocfsview objects, by adding them as method arguments (dependency injection)
 	
 	/**
 	 * @brief retrieve private key from a user
@@ -128,27 +128,30 @@ class Keymanager {
 	 * @param string $key
 	 * @return bool true/false
 	 */
-	public static function setFileKey( $userId, $path, $key ) {
+	public static function setFileKey( $user, $path, $key, $view, $dbClassName, $fileProxyClassName ) {
 
-		\OC_FileProxy::$enabled = false;
+		$fileProxyClassName::$enabled = false;
 
 		$targetpath = ltrim(  $path, '/'  );
-		$user = $userId;
 		
 		// update $keytarget and $user if key belongs to a file shared by someone else
-		$query = \OC_DB::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
+		$query = $dbClassName::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
 		
-		$result = $query->execute(  array ( '/'.$userId.'/files/'.$targetpath, $userId ) );
+		$result = $query->execute(  array ( '/'.$user.'/files/'.$targetpath, $user ) );
 		
 		if ( $row = $result->fetchRow(  ) ) {
-			$targetpath = $row['source'];
-			$targetpath_parts=explode( '/',$targetpath );
-			$user = $targetpath_parts[1];
-			$targetpath = str_replace( '/'.$user.'/files/', '', $targetpath );
-			//TODO: check for write permission on shared file once the new sharing API is in place
-		}
 		
-		$view = new \OC_FilesystemView( '/' . $user . '/files_encryption/keyfiles' );
+			$targetpath = $row['source'];
+			
+			$targetpath_parts=explode( '/',$targetpath );
+			
+			$user = $targetpath_parts[1];
+			
+			$targetpath = str_replace( '/'.$user.'/files/', '', $targetpath );
+			
+			//TODO: check for write permission on shared file once the new sharing API is in place
+			
+		}
 		
 		$path_parts = pathinfo( $targetpath );
 		
@@ -156,7 +159,7 @@ class Keymanager {
 		
 		$result = $view->file_put_contents( '/' . $targetpath . '.key', $key );
 		
-		\OC_FileProxy::$enabled = true;	
+		$fileProxyClassName::$enabled = true;	
 		
 		return $result;
 	}

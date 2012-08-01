@@ -115,8 +115,11 @@ class Proxy extends \OC_FileProxy {
 				
 				$filePath = '/' . implode( '/', $filePath );
 				
+				# TODO: make keyfile dir dynamic from app config
+				$view = new \OC_FilesystemView( '/' . \OCP\USER::getUser() . '/files_encryption/keyfiles' );
+				
 				// Save keyfile for newly encrypted file in parallel directory tree
-				Keymanager::setFileKey( \OCP\USER::getUser(), $filePath, $encrypted['key'] );
+				Keymanager::setFileKey( \OCP\USER::getUser(), $filePath, $encrypted['key'], $view, '\OC_DB', '\OC_FileProxy' );
 				
 				// Update the file cache with file info
 				\OC_FileCache::put( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
