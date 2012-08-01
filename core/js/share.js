@@ -165,7 +165,12 @@ OC.Share={
 		var html = '<li data-share-type="'+shareType+'" data-share-with="'+shareWith+'">';
 		html += shareWith;
 		if (possiblePermissions & OC.Share.PERMISSION_CREATE || possiblePermissions & OC.Share.PERMISSION_UPDATE || possiblePermissions & OC.Share.PERMISSION_DELETE) {
-			html += '<label><input type="checkbox" name="edit" class="permissions" '+editChecked+' />can edit</label>';
+			if (editChecked == '') {
+				html += '<label style="display:none;">';
+			} else {
+				html += '<label>';
+			}
+			html += '<input type="checkbox" name="edit" class="permissions" '+editChecked+' />can edit</label>';
 		}
 		html += '<a href="#" class="showCruds" style="display:none;"><img class="svg" alt="Unshare" src="'+OC.imagePath('core', 'actions/triangle-s')+'"/></a>';
 		html += '<a href="#" class="unshare" style="display:none;"><img class="svg" alt="Unshare" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
