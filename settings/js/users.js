@@ -304,7 +304,7 @@ $(document).ready(function(){
 					tr.attr('data-uid',username);
 					tr.find('td.name').text(username);
 					var select=$('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="Groups">');
-					var subadminselect=$('<select multiple="multiple" class="subadminsselect" data-placehoder="Groups" title="' + t('files', 'SubAdmin') + '">');
+					var subadminselect=$('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('files', 'SubAdmin') + '">');
 					select.data('username',username);
 					select.data('userGroups',groups);
 					subadminselect.data('username',username);
