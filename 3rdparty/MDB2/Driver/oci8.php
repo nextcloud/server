@@ -406,7 +406,7 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
         
         if (empty($this->dsn['disable_iso_date'])) {
             $query = "ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS'";
-            $err =& $this->_doQuery($query, true, $connection);
+            $err = $this->_doQuery($query, true, $connection);
             if (PEAR::isError($err)) {
                 $this->disconnect(false);
                 return $err;
@@ -414,7 +414,7 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
         }
         
         $query = "ALTER SESSION SET NLS_NUMERIC_CHARACTERS='. '";
-        $err =& $this->_doQuery($query, true, $connection);
+        $err = $this->_doQuery($query, true, $connection);
         if (PEAR::isError($err)) {
             $this->disconnect(false);
             return $err;
@@ -646,7 +646,7 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
      * @return result or error object
      * @access protected
      */
-    function &_doQuery($query, $is_manip = false, $connection = null, $database_name = null)
+    function _doQuery($query, $is_manip = false, $connection = null, $database_name = null)
     {
         $this->last_query = $query;
         $result = $this->debug($query, 'query', array('is_manip' => $is_manip, 'when' => 'pre'));
