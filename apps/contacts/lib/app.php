@@ -22,16 +22,18 @@ class OC_Contacts_App {
 	public static $categories = null;
 
 	public static function getAddressbook($id) {
+		// TODO: Throw an exception instead of returning json.
 		$addressbook = OC_Contacts_Addressbook::find( $id );
 		if($addressbook === false || $addressbook['userid'] != OCP\USER::getUser()) {
 			if ($addressbook === false) {
 				OCP\Util::writeLog('contacts',
 					'Addressbook not found: '. $id,
 					OCP\Util::ERROR);
+				//throw new Exception('Addressbook not found: '. $id);
 				OCP\JSON::error(
 					array(
 						'data' => array(
-							'message' => self::$l10n->t('Addressbook not found.')
+							'message' => self::$l10n->t('Addressbook not found: ' . $id)
 						)
 					)
 				);
@@ -40,6 +42,7 @@ class OC_Contacts_App {
 				OCP\Util::writeLog('contacts',
 					'Addressbook('.$id.') is not from '.OCP\USER::getUser(),
 					OCP\Util::ERROR);
+				//throw new Exception('This is not your addressbook.');
 				OCP\JSON::error(
 					array(
 						'data' => array(

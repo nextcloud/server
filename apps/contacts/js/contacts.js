@@ -22,7 +22,7 @@ Contacts={
 		 * cancel: If set cancel all ongoing timer events and hide the notification.
 		 */
 		notify:function(params) {
-			self = this;
+			var self = this;
 			if(!self.notifier) {
 				self.notifier = $('#notification');
 			}
@@ -40,6 +40,10 @@ Contacts={
 			self.notifier.fadeIn();
 			self.notifier.on('click', function() { $(this).fadeOut();});
 			var timer = setTimeout(function() {
+				if(!self || !self.notifier) {
+					var self = Contacts.UI;
+					self.notifier = $('#notification');
+				}
 				self.notifier.fadeOut();
 				if(params.timeouthandler && $.isFunction(params.timeouthandler)) {
 					params.timeouthandler(self.notifier.data(dataid));
@@ -53,6 +57,10 @@ Contacts={
 			}
 			if(params.clickhandler && $.isFunction(params.clickhandler)) {
 				self.notifier.on('click', function() {
+					if(!self || !self.notifier) {
+						var self = Contacts.UI;
+						self.notifier = $(this);
+					}
 					clearTimeout(timer);
 					self.notifier.off('click');
 					params.clickhandler(self.notifier.data(dataid));
@@ -1382,123 +1390,6 @@ Contacts={
 				return false;
 			},
 		},
-		Addressbooks:{
-			overview:function(){
-				if($('#chooseaddressbook_dialog').dialog('isOpen') == true){
-					$('#chooseaddressbook_dialog').dialog('moveToTop');
-				}else{
-					$('body').append('<div id="addressbook_dialog"></div>');
-					$.getJSON(OC.filePath('contacts', 'ajax', 'chooseaddressbook.php'), function(jsondata){
-						if(jsondata.status == 'success'){
-							$('#addressbook_dialog').html(jsondata.data.page).find('#chooseaddressbook_dialog').dialog({
-								minWidth : 600,
-								close : function(event, ui) {
-									$(this).dialog('destroy').remove();
-									$('#addressbook_dialog').remove();
-								}
-							}).css('overflow','visible');
-						} else {
-							alert(jsondata.data.message);
-							$('#addressbook_dialog').remove();
-						}
-					});
-				}
-				return false;
-			},
-			activation:function(checkbox, bookid){
-				var active = checkbox.checked;
-				$.post(OC.filePath('contacts', 'ajax', 'activation.php'), {bookid: bookid, active: (active?1:0)}, function(jsondata) {
-					if (jsondata.status == 'success'){
-						if(!active) {
-							$('#contacts h3[data-id="'+bookid+'"],#contacts ul[data-id="'+bookid+'"]').remove();
-						} else {
-							Contacts.UI.Contacts.update();
-						}
-					} else {
-						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-						checkbox.checked = !active;
-					}
-				  });
-			},
-			addAddressbook:function(name, description, cb) {
-				$.post(OC.filePath('contacts', 'ajax', 'addaddressbook.php'), { name: name, description: description, active: true },
-					function(jsondata){
-						if(jsondata.status == 'success'){
-							if(cb) {
-								cb(jsondata.data);
-							}
-						} else {
-							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-							return false;
-						}
-				});
-
-			},
-			newAddressbook:function(object){
-				var tr = $(document.createElement('tr'))
-					.load(OC.filePath('contacts', 'ajax', 'addbook.php'));
-				$(object).closest('tr').after(tr).hide();
-			},
-			editAddressbook:function(object, bookid){
-				var tr = $(document.createElement('tr'))
-					.load(OC.filePath('contacts', 'ajax', 'editaddressbook.php') + "?bookid="+bookid);
-				$(object).closest('tr').after(tr).hide();
-			},
-			deleteAddressbook:function(obj, bookid){
-				var check = confirm("Do you really want to delete this address book?");
-				if(check == false){
-					return false;
-				}else{
-					$.post(OC.filePath('contacts', 'ajax', 'deletebook.php'), { id: bookid},
-					  function(jsondata) {
-						if (jsondata.status == 'success'){
-							$(obj).closest('tr').remove();
-							$('#contacts h3[data-id="'+bookid+'"],#contacts ul[data-id="'+bookid+'"]').remove();
-							Contacts.UI.Contacts.update();
-						} else {
-							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-						}
-					  });
-				}
-			},
-			doImport:function(file, aid){
-				$.post(OC.filePath('contacts', '', 'import.php'), { id: aid, file: file, fstype: 'OC_FilesystemView' },
-					function(jsondata){
-						if(jsondata.status != 'success'){
-							Contacts.UI.notify({message:jsondata.data.message});
-						}
-				});
-				return false;
-			},
-			submit:function(button, bookid){
-				var displayname = $("#displayname_"+bookid).val().trim();
-				var active = $("#edit_active_"+bookid+":checked").length;
-				var description = $("#description_"+bookid).val();
-
-				if(displayname.length == 0) {
-					OC.dialogs.alert(t('contacts', 'Displayname cannot be empty.'), t('contacts', 'Error'));
-					return false;
-				}
-				var url;
-				if (bookid == 'new'){
-					url = OC.filePath('contacts', 'ajax', 'createaddressbook.php');
-				}else{
-					url = OC.filePath('contacts', 'ajax', 'updateaddressbook.php');
-				}
-				$.post(url, { id: bookid, name: displayname, active: active, description: description },
-					function(jsondata){
-						if(jsondata.status == 'success'){
-							$(button).closest('tr').prev().html(jsondata.page).show().next().remove();
-							Contacts.UI.Contacts.update();
-						} else {
-							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
-						}
-				});
-			},
-			cancel:function(button, bookid){
-				$(button).closest('tr').prev().show().next().remove();
-			}
-		},
 		Contacts:{
 			contacts:{},
 			deletionQueue:[],
@@ -1612,6 +1503,15 @@ Contacts={
 				}
 				//this.contacts[id] = contact;
 				return contact;
+			},
+			doImport:function(file, aid){
+				$.post(OC.filePath('contacts', '', 'import.php'), { id: aid, file: file, fstype: 'OC_FilesystemView' },
+					function(jsondata){
+						if(jsondata.status != 'success'){
+							Contacts.UI.notify({message:jsondata.data.message});
+						}
+				});
+				return false;
 			},
 			next:function(reverse) {
 				// TODO: Check if we're last-child/first-child and jump to next/prev address book.
@@ -1747,7 +1647,11 @@ $(document).ready(function(){
 
 	//$('#chooseaddressbook').on('click keydown', Contacts.UI.Addressbooks.overview);
 	$('#bottomcontrols .settings').on('click keydown', function() {
-		OC.appSettings({appid:'contacts'});
+		try {
+			OC.appSettings({appid:'contacts', loadJS:true, cache:false});
+		} catch(e) {
+			console.log('error:', e.message);
+		}
 	});
 	$('#bottomcontrols .import').click(function() {
 		$('#import_upload_start').trigger('click');
@@ -2045,7 +1949,7 @@ $(document).ready(function(){
 					$('#uploadprogressbar').progressbar('value',50);
 					var todo = uploadedfiles;
 					$.each(fileList, function(fileName, data) {
-						Contacts.UI.Addressbooks.doImport(fileName, aid);
+						Contacts.UI.Contacts.doImport(fileName, aid);
 						delete fileList[fileName];
 						numfiles -= 1; uploadedfiles -= 1;
 						$('#uploadprogressbar').progressbar('value',50+(50/(todo-uploadedfiles)));

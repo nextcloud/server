@@ -24,7 +24,6 @@
 	</div>
 </div>
 <div id="rightcontent" class="rightcontent" data-id="<?php echo $_['id']; ?>">
-	<div id="appsettings" class="popup bottomleft hidden"></div>
 	<?php
 		if($_['has_contacts']) {
 			echo $this->inc('part.contact');

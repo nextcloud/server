@@ -57,6 +57,7 @@ $types = isset($_['types'])?$_['types']:array();
 				<input type="text" id="adr_country" name="value[ADR][6]" placeholder="<?php echo $l->t('Country'); ?>" value="<?php echo isset($adr[6])?$adr[6]:''; ?>">
 			</dd>
 		</dl>
+		<div style="width: 100%; text-align:center;">Powered by <a href="http://geonames.org/" target="_blank">geonames.org</a></div>
 	</fieldset>
 	</form>
 </div>

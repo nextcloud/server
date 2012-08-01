@@ -1,3 +1,4 @@
+<div id="appsettings" class="popup bottomleft hidden"></div>
 <?php
 $id = isset($_['id']) ? $_['id'] : '';
 ?>
@@ -73,7 +74,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<div id="phones">
 			<ul id="phonelist" class="propertylist">
 				<li class="template hidden" data-element="TEL">
-				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" /> 
+				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
 				<input type="text" required="required" class="nonempty contacts_property" name="value" value="" placeholder="<?php echo $l->t('Enter phone number'); ?>" />
 				<select multiple="multiple" name="parameters[TYPE][]">
 					<?php echo OCP\html_select_options($_['phone_types'], array()) ?>

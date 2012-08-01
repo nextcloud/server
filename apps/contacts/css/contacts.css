@@ -134,3 +134,10 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .help-section dl { width: 100%; float: left; clear: right; margin: 0; padding: 0; cursor: normal; }
 .help-section dt { display: table-cell; clear: left; float: left; width: 35%; margin: 0; padding: 0.2em; text-align: right; text-overflow: ellipsis; vertical-align: text-bottom; font-weight: bold: }
 .help-section dd { display: table-cell; clear: right; float: left; margin: 0; padding: 0.2em; white-space: nowrap; vertical-align: text-bottom; }
+.contacts-settings dl { width: 100%; }
+.addressbooks-settings table { width: 100%; }
+.addressbooks-settings .actions { width: 100%; white-space: nowrap; }
+.addressbooks-settings .actions * { float: left; }
+.addressbooks-settings .actions input.name { width: 5em; }
+.addressbooks-settings .actions input.name { width: 7em; }
+
