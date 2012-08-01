@@ -199,8 +199,8 @@ OC={
 								$.ajaxSetup({cache: true});
 							}
 							$.getScript(OC.filePath(props.appid, 'js', scriptname))
-							.fail(function(jqxhr, settings, exception) {
-								settings.append('<span>'+t('core', 'Error loading script for the settings')+'</span>');
+							.fail(function(jqxhr, settings, e) {
+								throw e;
 							});
 						}
 					});
