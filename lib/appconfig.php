@@ -174,12 +174,12 @@ class OC_Appconfig{
 		if($app!==false and $key!==false){
 			return false;
 		}
-		$where='WHERE';
 		$fields='`configvalue`';
+		$where='WHERE';
 		$params=array();
 		if($app!==false){
-			$where.=' `appid` = ?';
 			$fields.=', `configkey`';
+			$where.=' `appid` = ?';
 			$params[]=$app;
 			$key='configkey';
 		}else{
