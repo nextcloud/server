@@ -4,6 +4,7 @@
 "This category already exists: " => "Questa categoria esiste già: ",
 "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Impostazioni",
+"Error loading script for the settings" => "Errore di caricamento dello script per le impostazioni",
 "January" => "Gennaio",
 "February" => "Febbraio",
 "March" => "Marzo",

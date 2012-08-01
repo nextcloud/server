@@ -100,6 +100,7 @@
 "{name}'s Birthday" => "Data di nascita di {name}",
 "Add Contact" => "Aggiungi contatto",
 "Import" => "Importa",
+"Settings" => "Impostazioni",
 "Addressbooks" => "Rubriche",
 "Close" => "Chiudi",
 "Keyboard shortcuts" => "Scorciatoie da tastiera",
