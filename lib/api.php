@@ -121,4 +121,15 @@ class OC_API {
 		}
 	}
 	
+	/**
+	 * check if the user is authenticated
+	 */
+	public static function checkLoggedIn(){
+		// Check OAuth
+		if(!OC_OAuth::isAuthorised()){
+			OC_Response::setStatus(401);
+			die();
+		}
+	}
+	
 }
