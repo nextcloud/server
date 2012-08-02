@@ -1,4 +1,3 @@
-
 <form id="encryption">
 <fieldset class="personalblock">
 

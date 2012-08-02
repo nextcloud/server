@@ -1,4 +1,10 @@
 <?php
+/**
+ * Copyright (c) 2012 Bjoern Schiessle <schiessle@owncloud.com>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
 
 $sysEncMode = \OC_Appconfig::getValue('files_encryption', 'mode', 'none');
 
@@ -21,5 +27,3 @@ if ($sysEncMode == 'user') {
 }
 
 return null;
-
-?>
