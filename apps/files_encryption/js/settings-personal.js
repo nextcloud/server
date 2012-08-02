@@ -5,9 +5,7 @@
  */
 
 $(document).ready(function(){
-	console.log("loaded!");
 	$('input[name=encryption_mode]').change(function(){
-		console.log("HERE!!!!!!!!!!!");
 		var  client=$('input[value="client"]:checked').val()
 			 ,server=$('input[value="server"]:checked').val()
 			 ,user=$('input[value="user"]:checked').val()
