@@ -1522,8 +1522,7 @@ OC.Contacts={
 			return false;
 		},
 		next:function(reverse) {
-			// TODO: Check if we're last-child/first-child and jump to next/prev address book.
-			var curlistitem = $('#contacts li[data-id="'+OC.Contacts.Card.id+'"]');
+			var curlistitem = this.getContact(OC.Contacts.Card.id);
 			var newlistitem = reverse ? curlistitem.prev('li') : curlistitem.next('li');
 			if(newlistitem) {
 				curlistitem.removeClass('active');
@@ -1535,6 +1534,30 @@ OC.Contacts={
 		},
 		previous:function() {
 			this.next(true);
+		},
+		nextAddressbook:function(reverse) {
+			console.log('nextAddressbook', reverse);
+			var curlistitem = this.getContact(OC.Contacts.Card.id);
+			var parent = curlistitem.parent('ul');
+			var newparent = reverse
+				? parent.prevAll('ul').first()
+				: parent.nextAll('ul').first();
+			if(newparent) {
+				newlistitem = newparent.find('li:first-child');
+				if(newlistitem) {
+					parent.slideUp().prev('h3').removeClass('active');
+					newparent.slideDown().prev('h3').addClass('active');
+					curlistitem.removeClass('active');
+					OC.Contacts.Card.update({
+						cid:newlistitem.data('id'),
+						aid:newlistitem.data('bookid')
+					});
+				}
+			}
+		},
+		previousAddressbook:function() {
+			console.log('previousAddressbook');
+			this.nextAddressbook(true);
 		},
 		// Reload the contacts list.
 		update:function(params){
@@ -1677,10 +1700,10 @@ $(document).ready(function(){
 			|| !OC.Contacts.Card.id) {
 			return;
 		}
-		console.log(event.which + ' ' + event.target.nodeName);
+		//console.log(event.which + ' ' + event.target.nodeName);
 		/**
 		 * To add:
-		 * (Shift)n/p: next/prev addressbook
+		 * Shift-a: add addressbook
 		 * u (85): hide/show leftcontent
 		 * f (70): add field
 		 */
@@ -1688,18 +1711,13 @@ $(document).ready(function(){
 			case 27: // Esc
 				ninjahelp.hide();
 				break;
-			case 46:
+			case 46: // Delete
 				if(event.shiftKey) {
 					OC.Contacts.Card.delayedDelete();
 				}
 				break;
-			case 32: // space
-				if(event.shiftKey) {
-					OC.Contacts.Contacts.previous();
-					break;
-				}
 			case 40: // down
-			case 75: // k
+			case 74: // j
 				OC.Contacts.Contacts.next();
 				break;
 			case 65: // a
@@ -1711,23 +1729,24 @@ $(document).ready(function(){
 				OC.Contacts.Card.editNew();
 				break;
 			case 38: // up
-			case 74: // j
+			case 75: // k
 				OC.Contacts.Contacts.previous();
 				break;
+			case 34: // PageDown
 			case 78: // n
 				// next addressbook
-				OC.Contacts.notImplemented();
+				OC.Contacts.Contacts.nextAddressbook();
 				break;
-			case 13: // Enter
 			case 79: // o
 				var aid = $('#contacts h3.active').first().data('id');
 				if(aid) {
 					$('#contacts ul[data-id="'+aid+'"]').slideToggle(300);
 				}
 				break;
+			case 33: // PageUp
 			case 80: // p
 				// prev addressbook
-				OC.Contacts.notImplemented();
+				OC.Contacts.Contacts.previousAddressbook();
 				break;
 			case 82: // r
 				OC.Contacts.Contacts.update({cid:OC.Contacts.Card.id});

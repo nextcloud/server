@@ -38,14 +38,16 @@
 		<div class="help-section">
 			<h3><?php echo $l->t('Navigation'); ?></h3>
 			<dl>
-				<dt>j/Down/Space</dt>
+				<dt>j/Down</dt>
 				<dd><?php echo $l->t('Next contact in list'); ?></dd>
-				<dt>k/Up/Shift-Space</dt>
+				<dt>k/Up</dt>
 				<dd><?php echo $l->t('Previous contact in list'); ?></dd>
-				<dt>o/Enter</dt>
+				<dt>o</dt>
 				<dd><?php echo $l->t('Expand/collapse current addressbook'); ?></dd>
-				<dt>n/p</dt>
-				<dd><?php echo $l->t('Next/previous addressbook'); ?></dd>
+				<dt>n/PageDown</dt>
+				<dd><?php echo $l->t('Next addressbook'); ?></dd>
+				<dt>p/PageUp</dt>
+				<dd><?php echo $l->t('Previous addressbook'); ?></dd>
 			</dl>
 		</div>
 		<div class="help-section">
@@ -55,8 +57,8 @@
 				<dd><?php echo $l->t('Refresh contacts list'); ?></dd>
 				<dt>a</dt>
 				<dd><?php echo $l->t('Add new contact'); ?></dd>
-				<dt>Shift-a</dt>
-				<dd><?php echo $l->t('Add new addressbook'); ?></dd>
+				<!-- dt>Shift-a</dt>
+				<dd><?php echo $l->t('Add new addressbook'); ?></dd -->
 				<dt>Shift-Delete</dt>
 				<dd><?php echo $l->t('Delete current contact'); ?></dd>
 			</dl>
