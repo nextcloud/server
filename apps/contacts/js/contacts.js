@@ -1635,9 +1635,11 @@ $(document).ready(function(){
 	OCCategories.changed = OC.Contacts.Card.categoriesChanged;
 	OCCategories.app = 'contacts';
 
-	//$('#chooseaddressbook').on('click keydown', OC.Contacts.Addressbooks.overview);
+	var ninjahelp = $('#ninjahelp');
+
 	$('#bottomcontrols .settings').on('click keydown', function() {
 		try {
+			ninjahelp.hide();
 			OC.appSettings({appid:'contacts', loadJS:true, cache:false});
 		} catch(e) {
 			console.log('error:', e.message);
@@ -1648,19 +1650,17 @@ $(document).ready(function(){
 	});
 	$('#contacts_newcontact').on('click keydown', OC.Contacts.Card.editNew);
 
-	var ninjahelp = $('#ninjahelp');
-
 	ninjahelp.find('.close').on('click keydown',function() {
 		ninjahelp.hide();
 	});
 
 	$(document).on('keyup', function(event) {
-		console.log(event.which + ' ' + event.target.nodeName);
 		if(event.target.nodeName.toUpperCase() != 'BODY'
 			|| $('#contacts li').length == 0
 			|| !OC.Contacts.Card.id) {
 			return;
 		}
+		console.log(event.which + ' ' + event.target.nodeName);
 		/**
 		 * To add:
 		 * (Shift)n/p: next/prev addressbook

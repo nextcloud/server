@@ -125,7 +125,7 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .typelist[type="button"] { float: left; max-width: 10em; border: 0; background-color: #fff; color: #bbb} /* for multiselect */
 .typelist[type="button"]:hover { color: #777; } /* for multiselect */
 .addresslist { clear: both; font-weight: bold; }
-#ninjahelp { position: absolute; bottom: 0; left: 0; right: 0; padding: 1em; margin: 1em; border: thin solid #eee; border-radius: 5px; background-color: #DBDBDB; opacity: 0.9; }
+#ninjahelp { position: absolute; bottom: 0; left: 0; right: 0; padding: 1em; margin: 1em; opacity: 0.9; }
 #ninjahelp .close { position: absolute; top: 5px; right: 5px; height: 20px; width: 20px; }
 #ninjahelp h2, .help-section h3 { width: 100%; font-weight: bold; text-align: center; }
 #ninjahelp h2 { font-size: 1.4em; }

@@ -32,10 +32,8 @@
 			echo $this->inc('part.no_contacts');
 		}
 	?>
-	<div class="hidden" id="ninjahelp">
-		<a class="close" tabindex="0" role="button">
-			<img class="svg" src="core/img/actions/delete.svg" alt="<?php echo $l->t('Close'); ?>" />
-		</a>
+	<div class="hidden popup" id="ninjahelp">
+		<a class="close" tabindex="0" role="button" title="<?php echo $l->t('Close'); ?>"></a>
 		<h2><?php echo $l->t('Keyboard shortcuts'); ?></h2>
 		<div class="help-section">
 			<h3><?php echo $l->t('Navigation'); ?></h3>
