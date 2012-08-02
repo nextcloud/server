@@ -132,6 +132,9 @@ class OC_API {
 
 	private static function toXML($array, $writer){
 		foreach($array as $k => $v) {
+			if (is_numeric($k)) {
+				$k = 'element';
+			}
 			if (is_array($v)) {
 				$writer->startElement($k);
 				self::toXML($v, $writer);
