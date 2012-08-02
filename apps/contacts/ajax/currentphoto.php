@@ -20,6 +20,8 @@
  *
  */
 
+// Firefox and Konqueror tries to download application/json for me.  --Arthur
+OCP\JSON::setContentTypeHeader('text/plain');
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 require_once 'loghandler.php';
