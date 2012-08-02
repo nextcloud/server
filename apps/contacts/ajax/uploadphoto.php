@@ -26,7 +26,7 @@ OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
 
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
-OCP\JSON::setContentTypeHeader('text/plain');
+OCP\JSON::setContentTypeHeader('text/plain; charset=utf-8');
 require_once 'loghandler.php';
 $l10n = OC_Contacts_App::$l10n;
 // If it is a Drag'n'Drop transfer it's handled here.
