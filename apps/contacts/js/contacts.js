@@ -1504,7 +1504,6 @@ OC.Contacts={
 				function(jsondata) {
 				if(jsondata.status == 'success'){
 					if(cb && typeof cb == 'function') {
-						console.log('addressbook:', jsondata.data.addressbook);
 						cb(jsondata.data.addressbook);
 					}
 				} else {
