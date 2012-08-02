@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Error (de)activating addressbook." => "Klaida (de)aktyvuojant adresų knygą.",
 "There was an error adding the contact." => "Pridedant kontaktą įvyko klaida.",
+"Error (de)activating addressbook." => "Klaida (de)aktyvuojant adresų knygą.",
 "No contacts found." => "Kontaktų nerasta.",
 "Error reading contact photo." => "Klaida skaitant kontakto nuotrauką.",
 "The loading photo is not valid." => "Netinkama įkeliama nuotrauka.",
@@ -14,7 +14,6 @@
 "No file was uploaded" => "Nebuvo įkeltas joks failas",
 "Contacts" => "Kontaktai",
 "Contact" => "Kontaktas",
-"Addressbook not found." => "Nerasta adresų knyga.",
 "This is not your addressbook." => "Tai ne jūsų adresų knygelė.",
 "Contact could not be found." => "Kontaktas nerastas",
 "Address" => "Adresas",
@@ -34,11 +33,6 @@
 "Birthday" => "Gimtadienis",
 "Add Contact" => "Pridėti kontaktą",
 "Addressbooks" => "Adresų knygos",
-"Configure Address Books" => "Konfigūruoti adresų knygas",
-"New Address Book" => "Nauja adresų knyga",
-"CardDav Link" => "CardDAV nuoroda",
-"Download" => "Atsisiųsti",
-"Edit" => "Keisti",
 "Delete" => "Trinti",
 "Nickname" => "Slapyvardis",
 "Phone" => "Telefonas",
@@ -56,5 +50,8 @@
 "Displayname" => "Rodomas vardas",
 "Active" => "Aktyvus",
 "Save" => "Išsaugoti",
-"Cancel" => "Atšaukti"
+"Cancel" => "Atšaukti",
+"Download" => "Atsisiųsti",
+"Edit" => "Keisti",
+"New Address Book" => "Nauja adresų knyga"
 );

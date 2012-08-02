@@ -47,6 +47,5 @@
 "Other" => "Diğer",
 "SubAdmin" => "Alt Yönetici",
 "Quota" => "Kota",
-"SubAdmin for ..." => "Alt yönetici için ...",
 "Delete" => "Sil"
 );

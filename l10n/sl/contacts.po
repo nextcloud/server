@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-31 22:53+0200\n"
-"PO-Revision-Date: 2012-07-31 20:54+0000\n"
+"POT-Creation-Date: 2012-08-02 02:02+0200\n"
+"PO-Revision-Date: 2012-08-02 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -19,10 +19,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
-
-#: ajax/activation.php:24 ajax/updateaddressbook.php:29
-msgid "Error (de)activating addressbook."
-msgstr "Napaka med (de)aktivacijo imenika."
 
 #: ajax/addcontact.php:47
 msgid "There was an error adding the contact."
@@ -32,7 +28,9 @@ msgstr "Med dodajanjem stika je prišlo do napake"
 msgid "element name is not set."
 msgstr "ime elementa ni nastavljeno."
 
-#: ajax/addproperty.php:42 ajax/deletecard.php:30 ajax/saveproperty.php:37
+#: ajax/addproperty.php:42 ajax/addressbook/delete.php:31
+#: ajax/addressbook/update.php:20 ajax/deletecard.php:30
+#: ajax/saveproperty.php:37
 msgid "id is not set."
 msgstr "id ni nastavljen."
 
@@ -55,6 +53,18 @@ msgstr "Poskušam dodati podvojeno lastnost:"
 #: ajax/addproperty.php:144
 msgid "Error adding contact property: "
 msgstr ""
+
+#: ajax/addressbook/activate.php:24 ajax/addressbook/update.php:32
+msgid "Error (de)activating addressbook."
+msgstr "Napaka med (de)aktivacijo imenika."
+
+#: ajax/addressbook/update.php:24
+msgid "Cannot update addressbook with an empty name."
+msgstr "Ne morem posodobiti imenika s praznim imenom."
+
+#: ajax/addressbook/update.php:28
+msgid "Error updating addressbook."
+msgstr "Napaka pri posodabljanju imenika."
 
 #: ajax/categories/categoriesfor.php:17
 msgid "No ID provided"
@@ -169,14 +179,6 @@ msgstr "Nekaj je šlo v franže. "
 msgid "Error updating contact property."
 msgstr "Napaka pri posodabljanju lastnosti stika."
 
-#: ajax/updateaddressbook.php:21
-msgid "Cannot update addressbook with an empty name."
-msgstr "Ne morem posodobiti imenika s praznim imenom."
-
-#: ajax/updateaddressbook.php:25
-msgid "Error updating addressbook."
-msgstr "Napaka pri posodabljanju imenika."
-
 #: ajax/uploadimport.php:44 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
 msgstr "Napaka pri nalaganju stikov v hrambo."
@@ -223,70 +225,77 @@ msgstr "Nobena datoteka ni bila naložena. Neznana napaka"
 msgid "Contacts"
 msgstr "Stiki"
 
-#: js/contacts.js:64
+#: js/contacts.js:72
 msgid "Sorry, this functionality has not been implemented yet"
 msgstr "Žal ta funkcionalnost še ni podprta"
 
-#: js/contacts.js:64
+#: js/contacts.js:72
 msgid "Not implemented"
 msgstr "Ni podprto"
 
-#: js/contacts.js:69
+#: js/contacts.js:77
 msgid "Couldn't get a valid address."
 msgstr "Ne morem dobiti veljavnega naslova."
 
-#: js/contacts.js:69 js/contacts.js:358 js/contacts.js:374 js/contacts.js:387
-#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:778
-#: js/contacts.js:850 js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
-#: js/contacts.js:1165 js/contacts.js:1173 js/contacts.js:1182
-#: js/contacts.js:1217 js/contacts.js:1249 js/contacts.js:1261
-#: js/contacts.js:1284 js/contacts.js:1570
+#: js/contacts.js:77 js/contacts.js:366 js/contacts.js:382 js/contacts.js:395
+#: js/contacts.js:683 js/contacts.js:723 js/contacts.js:749 js/contacts.js:786
+#: js/contacts.js:858 js/contacts.js:864 js/contacts.js:876 js/contacts.js:910
+#: js/contacts.js:1173 js/contacts.js:1181 js/contacts.js:1190
+#: js/contacts.js:1225 js/contacts.js:1257 js/contacts.js:1269
+#: js/contacts.js:1292 js/contacts.js:1430 js/contacts.js:1461
+#: js/settings.js:25 js/settings.js:42 js/settings.js:67
 msgid "Error"
 msgstr "Napaka"
 
-#: js/contacts.js:400 lib/search.php:15
+#: js/contacts.js:408 lib/search.php:15
 msgid "Contact"
 msgstr "Stik"
 
-#: js/contacts.js:400
+#: js/contacts.js:408
 msgid "New"
 msgstr ""
 
-#: js/contacts.js:400
+#: js/contacts.js:408
 msgid "New Contact"
 msgstr ""
 
-#: js/contacts.js:715
+#: js/contacts.js:723
 msgid "This property has to be non-empty."
 msgstr "Ta lastnost ne sme biti prazna"
 
-#: js/contacts.js:741
+#: js/contacts.js:749
 msgid "Couldn't serialize elements."
 msgstr "Predmetov ni bilo mogoče dati v zaporedje."
 
-#: js/contacts.js:850 js/contacts.js:868
+#: js/contacts.js:858 js/contacts.js:876
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
 msgstr "\"deleteProperty\" je bila klicana brez vrste argumenta. Prosimo, če oddate  poročilo o napaki na bugs.owncloud.org"
 
-#: js/contacts.js:884
+#: js/contacts.js:892
 msgid "Edit name"
 msgstr "Uredi ime"
 
-#: js/contacts.js:1165
+#: js/contacts.js:1173
 msgid "No files selected for upload."
 msgstr "Nobena datoteka ni bila izbrana za nalaganje."
 
-#: js/contacts.js:1173
+#: js/contacts.js:1181
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Datoteka, ki jo poskušate naložiti, presega največjo dovoljeno velikost za nalaganje na tem strežniku."
 
-#: js/contacts.js:1338 js/contacts.js:1372
+#: js/contacts.js:1346 js/contacts.js:1380
 msgid "Select type"
 msgstr "Izberite vrsto"
+
+#: js/contacts.js:1399
+msgid ""
+"Some contacts are marked for deletion, but not deleted yet. Please wait for "
+"them to be deleted."
+msgstr ""
 
 #: js/loader.js:49
 msgid "Result: "
@@ -300,129 +309,133 @@ msgstr " uvoženih, "
 msgid " failed."
 msgstr " je spodletelo."
 
-#: lib/app.php:34
-msgid "Addressbook not found."
-msgstr "Imenik ni bil najden."
+#: js/settings.js:67
+msgid "Displayname cannot be empty."
+msgstr ""
 
-#: lib/app.php:46
+#: lib/app.php:36
+msgid "Addressbook not found: "
+msgstr ""
+
+#: lib/app.php:49
 msgid "This is not your addressbook."
 msgstr "To ni vaš imenik."
 
-#: lib/app.php:65
+#: lib/app.php:68
 msgid "Contact could not be found."
 msgstr "Stika ni bilo mogoče najti."
 
-#: lib/app.php:109 templates/part.contact.php:116
+#: lib/app.php:112 templates/part.contact.php:117
 msgid "Address"
 msgstr "Naslov"
 
-#: lib/app.php:110
+#: lib/app.php:113
 msgid "Telephone"
 msgstr "Telefon"
 
-#: lib/app.php:111 templates/part.contact.php:115
+#: lib/app.php:114 templates/part.contact.php:116
 msgid "Email"
 msgstr "E-pošta"
 
-#: lib/app.php:112 templates/part.contact.php:38 templates/part.contact.php:39
-#: templates/part.contact.php:111
+#: lib/app.php:115 templates/part.contact.php:39 templates/part.contact.php:40
+#: templates/part.contact.php:112
 msgid "Organization"
 msgstr "Organizacija"
 
-#: lib/app.php:124 lib/app.php:131 lib/app.php:141 lib/app.php:194
+#: lib/app.php:127 lib/app.php:134 lib/app.php:144 lib/app.php:197
 msgid "Work"
 msgstr "Delo"
 
-#: lib/app.php:125 lib/app.php:129 lib/app.php:142
+#: lib/app.php:128 lib/app.php:132 lib/app.php:145
 msgid "Home"
 msgstr "Doma"
 
-#: lib/app.php:130
+#: lib/app.php:133
 msgid "Mobile"
 msgstr "Mobilni telefon"
 
-#: lib/app.php:132
+#: lib/app.php:135
 msgid "Text"
 msgstr "Besedilo"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Voice"
 msgstr "Glas"
 
-#: lib/app.php:134
+#: lib/app.php:137
 msgid "Message"
 msgstr "Sporočilo"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Fax"
 msgstr "Faks"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Video"
 msgstr "Video"
 
-#: lib/app.php:137
+#: lib/app.php:140
 msgid "Pager"
 msgstr "Pozivnik"
 
-#: lib/app.php:143
+#: lib/app.php:146
 msgid "Internet"
 msgstr "Internet"
 
-#: lib/app.php:180 templates/part.contact.php:44
-#: templates/part.contact.php:113
+#: lib/app.php:183 templates/part.contact.php:45
+#: templates/part.contact.php:114
 msgid "Birthday"
 msgstr "Rojstni dan"
 
-#: lib/app.php:181
+#: lib/app.php:184
 msgid "Business"
 msgstr ""
 
-#: lib/app.php:182
+#: lib/app.php:185
 msgid "Call"
 msgstr ""
 
-#: lib/app.php:183
+#: lib/app.php:186
 msgid "Clients"
 msgstr ""
 
-#: lib/app.php:184
+#: lib/app.php:187
 msgid "Deliverer"
 msgstr ""
 
-#: lib/app.php:185
+#: lib/app.php:188
 msgid "Holidays"
 msgstr ""
 
-#: lib/app.php:186
+#: lib/app.php:189
 msgid "Ideas"
 msgstr ""
 
-#: lib/app.php:187
+#: lib/app.php:190
 msgid "Journey"
 msgstr ""
 
-#: lib/app.php:188
+#: lib/app.php:191
 msgid "Jubilee"
 msgstr ""
 
-#: lib/app.php:189
+#: lib/app.php:192
 msgid "Meeting"
 msgstr ""
 
-#: lib/app.php:190
+#: lib/app.php:193
 msgid "Other"
 msgstr ""
 
-#: lib/app.php:191
+#: lib/app.php:194
 msgid "Personal"
 msgstr ""
 
-#: lib/app.php:192
+#: lib/app.php:195
 msgid "Projects"
 msgstr ""
 
-#: lib/app.php:193
+#: lib/app.php:196
 msgid "Questions"
 msgstr ""
 
@@ -442,207 +455,185 @@ msgstr "Uvozi"
 msgid "Settings"
 msgstr ""
 
-#: templates/index.php:18
+#: templates/index.php:18 templates/settings.php:9
 msgid "Addressbooks"
 msgstr "Imeniki"
 
-#: templates/index.php:38 templates/part.import.php:24
+#: templates/index.php:37 templates/part.import.php:24
 msgid "Close"
 msgstr "Zapri"
 
-#: templates/index.php:40
+#: templates/index.php:39
 msgid "Keyboard shortcuts"
 msgstr ""
 
-#: templates/index.php:42
+#: templates/index.php:41
 msgid "Navigation"
 msgstr ""
 
-#: templates/index.php:45
+#: templates/index.php:44
 msgid "Next contact in list"
 msgstr ""
 
-#: templates/index.php:47
+#: templates/index.php:46
 msgid "Previous contact in list"
 msgstr ""
 
-#: templates/index.php:49
+#: templates/index.php:48
 msgid "Expand/collapse current addressbook"
 msgstr ""
 
-#: templates/index.php:51
+#: templates/index.php:50
 msgid "Next/previous addressbook"
 msgstr ""
 
-#: templates/index.php:55
+#: templates/index.php:54
 msgid "Actions"
 msgstr ""
 
-#: templates/index.php:58
+#: templates/index.php:57
 msgid "Refresh contacts list"
 msgstr ""
 
-#: templates/index.php:60
+#: templates/index.php:59
 msgid "Add new contact"
 msgstr ""
 
-#: templates/index.php:62
+#: templates/index.php:61
 msgid "Add new addressbook"
 msgstr ""
 
-#: templates/index.php:64
+#: templates/index.php:63
 msgid "Delete current contact"
 msgstr ""
 
-#: templates/part.chooseaddressbook.php:1
-msgid "Configure Address Books"
-msgstr "Nastavi imenike"
-
-#: templates/part.chooseaddressbook.php:16
-msgid "New Address Book"
-msgstr "Nov imenik"
-
-#: templates/part.chooseaddressbook.php:21
-#: templates/part.chooseaddressbook.rowfields.php:8
-msgid "CardDav Link"
-msgstr "CardDav povezava"
-
-#: templates/part.chooseaddressbook.rowfields.php:11
-msgid "Download"
-msgstr "Prenesi"
-
-#: templates/part.chooseaddressbook.rowfields.php:14
-msgid "Edit"
-msgstr "Uredi"
-
-#: templates/part.chooseaddressbook.rowfields.php:17
-#: templates/part.contact.php:39 templates/part.contact.php:41
-#: templates/part.contact.php:43 templates/part.contact.php:45
-#: templates/part.contact.php:49
-msgid "Delete"
-msgstr "Izbriši"
-
-#: templates/part.contact.php:16
+#: templates/part.contact.php:17
 msgid "Drop photo to upload"
 msgstr "Spustite sliko tukaj, da bi jo naložili"
 
-#: templates/part.contact.php:18
+#: templates/part.contact.php:19
 msgid "Delete current photo"
 msgstr "Izbriši trenutno sliko"
 
-#: templates/part.contact.php:19
+#: templates/part.contact.php:20
 msgid "Edit current photo"
 msgstr "Uredi trenutno sliko"
 
-#: templates/part.contact.php:20
+#: templates/part.contact.php:21
 msgid "Upload new photo"
 msgstr "Naloži novo sliko"
 
-#: templates/part.contact.php:21
+#: templates/part.contact.php:22
 msgid "Select photo from ownCloud"
 msgstr "Izberi sliko iz ownCloud"
 
-#: templates/part.contact.php:34
+#: templates/part.contact.php:35
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
 msgstr "Format po meri, Kratko ime, Polno ime, Obratno ali Obratno z vejico"
 
-#: templates/part.contact.php:35
+#: templates/part.contact.php:36
 msgid "Edit name details"
 msgstr "Uredite podrobnosti imena"
 
-#: templates/part.contact.php:40 templates/part.contact.php:112
+#: templates/part.contact.php:40 templates/part.contact.php:42
+#: templates/part.contact.php:44 templates/part.contact.php:46
+#: templates/part.contact.php:50 templates/settings.php:34
+msgid "Delete"
+msgstr "Izbriši"
+
+#: templates/part.contact.php:41 templates/part.contact.php:113
 msgid "Nickname"
 msgstr "Vzdevek"
 
-#: templates/part.contact.php:41
+#: templates/part.contact.php:42
 msgid "Enter nickname"
 msgstr "Vnesite vzdevek"
 
-#: templates/part.contact.php:42 templates/part.contact.php:118
+#: templates/part.contact.php:43 templates/part.contact.php:119
 msgid "Web site"
 msgstr ""
 
-#: templates/part.contact.php:43
+#: templates/part.contact.php:44
 msgid "http://www.somesite.com"
 msgstr ""
 
-#: templates/part.contact.php:43
+#: templates/part.contact.php:44
 msgid "Go to web site"
 msgstr ""
 
-#: templates/part.contact.php:45
+#: templates/part.contact.php:46
 msgid "dd-mm-yyyy"
 msgstr "dd. mm. yyyy"
 
-#: templates/part.contact.php:46 templates/part.contact.php:119
+#: templates/part.contact.php:47 templates/part.contact.php:120
 msgid "Groups"
 msgstr "Skupine"
 
-#: templates/part.contact.php:48
+#: templates/part.contact.php:49
 msgid "Separate groups with commas"
 msgstr "Skupine ločite z vejicami"
 
-#: templates/part.contact.php:49
+#: templates/part.contact.php:50
 msgid "Edit groups"
 msgstr "Uredi skupine"
 
-#: templates/part.contact.php:62 templates/part.contact.php:76
+#: templates/part.contact.php:63 templates/part.contact.php:77
 msgid "Preferred"
 msgstr "Prednosten"
 
-#: templates/part.contact.php:63
+#: templates/part.contact.php:64
 msgid "Please specify a valid email address."
 msgstr "Prosimo, če navedete veljaven e-poštni naslov."
 
-#: templates/part.contact.php:63
+#: templates/part.contact.php:64
 msgid "Enter email address"
 msgstr "Vnesite e-poštni naslov"
 
-#: templates/part.contact.php:67
+#: templates/part.contact.php:68
 msgid "Mail to address"
 msgstr "E-pošta naslovnika"
 
-#: templates/part.contact.php:68
+#: templates/part.contact.php:69
 msgid "Delete email address"
 msgstr "Izbriši e-poštni naslov"
 
-#: templates/part.contact.php:77
+#: templates/part.contact.php:78
 msgid "Enter phone number"
 msgstr "Vpiši telefonsko številko"
 
-#: templates/part.contact.php:81
+#: templates/part.contact.php:82
 msgid "Delete phone number"
 msgstr "Izbriši telefonsko številko"
 
-#: templates/part.contact.php:91
+#: templates/part.contact.php:92
 msgid "View on map"
 msgstr "Prikaz na zemljevidu"
 
-#: templates/part.contact.php:91
+#: templates/part.contact.php:92
 msgid "Edit address details"
 msgstr "Uredi podrobnosti"
 
-#: templates/part.contact.php:102
+#: templates/part.contact.php:103
 msgid "Add notes here."
 msgstr "Opombe dodajte tukaj."
 
-#: templates/part.contact.php:109
+#: templates/part.contact.php:110
 msgid "Add field"
 msgstr "Dodaj polje"
 
-#: templates/part.contact.php:114
+#: templates/part.contact.php:115
 msgid "Phone"
 msgstr "Telefon"
 
-#: templates/part.contact.php:117
+#: templates/part.contact.php:118
 msgid "Note"
 msgstr "Opomba"
 
-#: templates/part.contact.php:122
+#: templates/part.contact.php:123
 msgid "Download contact"
 msgstr "Prenesi stik"
 
-#: templates/part.contact.php:123
+#: templates/part.contact.php:124
 msgid "Delete contact"
 msgstr "Izbriši stik"
 
@@ -801,7 +792,7 @@ msgstr "Ime za prikaz"
 msgid "Active"
 msgstr "Aktiven"
 
-#: templates/part.editaddressbook.php:29
+#: templates/part.editaddressbook.php:29 templates/settings.php:45
 msgid "Save"
 msgstr "Shrani"
 
@@ -809,7 +800,7 @@ msgstr "Shrani"
 msgid "Submit"
 msgstr "Potrdi"
 
-#: templates/part.editaddressbook.php:30
+#: templates/part.editaddressbook.php:30 templates/settings.php:46
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -833,15 +824,15 @@ msgstr "Ime novega imenika"
 msgid "Importing contacts"
 msgstr "Uvažam stike"
 
-#: templates/part.no_contacts.php:2
+#: templates/part.no_contacts.php:3
 msgid "You have no contacts in your addressbook."
 msgstr "V vašem imeniku ni stikov."
 
-#: templates/part.no_contacts.php:4
+#: templates/part.no_contacts.php:5
 msgid "Add contact"
 msgstr "Dodaj stik"
 
-#: templates/part.no_contacts.php:5
+#: templates/part.no_contacts.php:6
 msgid "Configure addressbooks"
 msgstr "Nastavi imenike"
 
@@ -873,6 +864,34 @@ msgstr "Primarni naslov (za kontakt et al)"
 msgid "iOS/OS X"
 msgstr "iOS/OS X"
 
-#: templates/settings.php:9
-msgid "Read only vCard directory link(s)"
+#: templates/settings.php:20
+msgid "Show CardDav link"
+msgstr ""
+
+#: templates/settings.php:23
+msgid "Show read-only VCF link"
+msgstr ""
+
+#: templates/settings.php:26
+msgid "Download"
+msgstr "Prenesi"
+
+#: templates/settings.php:31
+msgid "Edit"
+msgstr "Uredi"
+
+#: templates/settings.php:41
+msgid "New Address Book"
+msgstr "Nov imenik"
+
+#: templates/settings.php:42
+msgid "Name"
+msgstr ""
+
+#: templates/settings.php:43
+msgid "Description"
+msgstr ""
+
+#: templates/settings.php:51
+msgid "More..."
 msgstr ""

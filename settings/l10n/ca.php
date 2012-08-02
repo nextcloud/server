@@ -47,6 +47,5 @@
 "Other" => "Altre",
 "SubAdmin" => "SubAdmin",
 "Quota" => "Quota",
-"SubAdmin for ..." => "SubAdmin per a ...",
 "Delete" => "Suprimeix"
 );

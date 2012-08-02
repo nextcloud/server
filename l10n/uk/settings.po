@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-31 22:53+0200\n"
-"PO-Revision-Date: 2012-07-30 21:39+0000\n"
-"Last-Translator: dzubchikd <dzubchikd@gmail.com>\n"
+"POT-Creation-Date: 2012-08-02 02:02+0200\n"
+"PO-Revision-Date: 2012-08-02 00:04+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -202,16 +202,12 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: templates/users.php:80
+#: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
 msgstr ""
 
 #: templates/users.php:82
 msgid "Quota"
-msgstr ""
-
-#: templates/users.php:112
-msgid "SubAdmin for ..."
 msgstr ""
 
 #: templates/users.php:145

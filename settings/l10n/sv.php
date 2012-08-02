@@ -47,6 +47,5 @@
 "Other" => "Annat",
 "SubAdmin" => "Underadministratör",
 "Quota" => "Kvot",
-"SubAdmin for ..." => "Underadministratör för ...",
 "Delete" => "Ta bort"
 );

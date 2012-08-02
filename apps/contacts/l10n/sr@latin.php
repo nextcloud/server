@@ -16,7 +16,6 @@
 "Pager" => "Pejdžer",
 "Birthday" => "Rođendan",
 "Add Contact" => "Dodaj kontakt",
-"Edit" => "Uredi",
 "Delete" => "Obriši",
 "Phone" => "Telefon",
 "PO Box" => "Poštanski broj",
@@ -24,5 +23,6 @@
 "City" => "Grad",
 "Region" => "Regija",
 "Zipcode" => "Zip kod",
-"Country" => "Zemlja"
+"Country" => "Zemlja",
+"Edit" => "Uredi"
 );

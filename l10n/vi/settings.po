@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-27 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 00:02+0000\n"
+"POT-Creation-Date: 2012-08-02 02:02+0200\n"
+"PO-Revision-Date: 2012-08-02 00:04+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -203,17 +203,13 @@ msgstr "Hạn ngạch mặt định"
 msgid "Other"
 msgstr "Khác"
 
-#: templates/users.php:80
+#: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
 msgstr ""
 
 #: templates/users.php:82
 msgid "Quota"
 msgstr "Hạn ngạch"
-
-#: templates/users.php:112
-msgid "SubAdmin for ..."
-msgstr ""
 
 #: templates/users.php:145
 msgid "Delete"

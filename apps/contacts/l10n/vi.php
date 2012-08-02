@@ -26,9 +26,6 @@
 "Birthday" => "Ngày sinh nhật",
 "Add Contact" => "Thêm liên lạc",
 "Addressbooks" => "Sổ địa chỉ",
-"CardDav Link" => "CardDav Link",
-"Download" => "Tải về",
-"Edit" => "Sửa",
 "Delete" => "Xóa",
 "Phone" => "Điện thoại",
 "Delete contact" => "Xóa liên lạc",
@@ -44,5 +41,7 @@
 "Active" => "Kích hoạt",
 "Save" => "Lưu",
 "Submit" => "Submit",
-"Cancel" => "Hủy"
+"Cancel" => "Hủy",
+"Download" => "Tải về",
+"Edit" => "Sửa"
 );

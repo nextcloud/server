@@ -19,9 +19,6 @@
 "Birthday" => "Рођендан",
 "Add Contact" => "Додај контакт",
 "Addressbooks" => "Адресар",
-"New Address Book" => "Нови адресар",
-"Download" => "Преузимање",
-"Edit" => "Уреди",
 "Delete" => "Обриши",
 "Preferred" => "Пожељан",
 "Phone" => "Телефон",
@@ -41,5 +38,8 @@
 "Active" => "Активан",
 "Save" => "Сними",
 "Submit" => "Пошаљи",
-"Cancel" => "Откажи"
+"Cancel" => "Откажи",
+"Download" => "Преузимање",
+"Edit" => "Уреди",
+"New Address Book" => "Нови адресар"
 );

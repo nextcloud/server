@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-31 22:53+0200\n"
-"PO-Revision-Date: 2012-07-31 20:53+0000\n"
+"POT-Creation-Date: 2012-08-02 02:02+0200\n"
+"PO-Revision-Date: 2012-08-02 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -40,10 +40,6 @@ msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 #: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
 msgid "Settings"
 msgstr "Paramètres"
-
-#: js/js.js:203
-msgid "Error loading script for the settings"
-msgstr ""
 
 #: js/js.js:573
 msgid "January"

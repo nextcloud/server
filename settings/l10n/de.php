@@ -47,6 +47,5 @@
 "Other" => "Andere",
 "SubAdmin" => "Unteradministrator",
 "Quota" => "Quota",
-"SubAdmin for ..." => "Unteradministrator für...",
 "Delete" => "Löschen"
 );
