@@ -501,6 +501,7 @@ OC.Contacts={
 				clickhandler:function(contact) {
 					OC.Contacts.Contacts.insertContact({contact:contact});
 					OC.Contacts.notify({message:t('contacts', 'Cancelled deletion of: "') + curlistitem.find('a').text() + '"'});
+					window.onbeforeunload = null;
 				}
 			});
 		},
