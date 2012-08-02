@@ -15,30 +15,34 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 class OC_Router {
 	protected $collections = array();
 	protected $collection = null;
-
-	public function __construct() {
-		// TODO cache
-		$this->loadRoutes();
-	}
+	protected $root = null;
 
 	/**
 	 * loads the api routes
 	 */
 	public function loadRoutes() {
 		// TODO cache
+		$this->root = $this->getCollection('root');
 		foreach(OC_APP::getEnabledApps() as $app){
 			$file = OC_App::getAppPath($app).'/appinfo/routes.php';
 			if(file_exists($file)){
+				$this->useCollection($app);
 				require_once($file);
+				$collection = $this->getCollection($app);
+				$this->root->addCollection($collection, '/apps/'.$app);
 			}
 		}
 	}
 
-	public function useCollection($name) {
+	protected function getCollection($name) {
 		if (!isset($this->collections[$name])) {
 			$this->collections[$name] = new RouteCollection();
 		}
-		$this->collection = $this->collections[$name];
+		return $this->collections[$name];
+	}
+
+	public function useCollection($name) {
+		$this->collection = $this->getCollection($name);
 	}
 
 	public function create($name, $pattern, array $defaults = array(), array $requirements = array()) {
@@ -49,7 +53,7 @@ class OC_Router {
 
     	public function match($url) {
 		$context = new RequestContext($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
-		$matcher = new UrlMatcher($this->collection, $context);
+		$matcher = new UrlMatcher($this->root, $context);
 		$parameters = $matcher->match($url);
 		if (isset($parameters['action'])) {
 			$action = $parameters['action'];
