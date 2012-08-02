@@ -17,19 +17,18 @@ $(document).ready(function(){
 		OC.AppConfig.setValue('files_encryption','type_blacklist',blackList);
 	}
 
-	$('#enable_encryption').change(function(){
-		var checked=$('#enable_encryption').is(':checked');
-		OC.AppConfig.setValue('files_encryption','enable_encryption',(checked)?'true':'false');
-	})
 	$('input[name=encryption_mode]').change(function(){
 		var  client=$('input[value="client"]:checked').val()
 			 ,server=$('input[value="server"]:checked').val()
+			 ,user=$('input[value="user"]:checked').val()
 			 ,none=$('input[value="none"]:checked').val()
 		if (client)
 			OC.AppConfig.setValue('files_encryption','mode','client');
-		if (server)
+		else if (server)
 			OC.AppConfig.setValue('files_encryption','mode','server');
-		if (none)
+		else if (user)
+			OC.AppConfig.setValue('files_encryption','mode','user');
+		else
 			OC.AppConfig.setValue('files_encryption','mode','none');
 	})
 })

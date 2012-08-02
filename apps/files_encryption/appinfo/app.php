@@ -29,3 +29,4 @@ and OCP\User::isLoggedIn()
 }
 
 OCP\App::registerAdmin('files_encryption', 'settings');
+OCP\App::registerPersonal('files_encryption','settings-personal');

@@ -37,14 +37,17 @@ class Crypt {
 	 */
 	public static function mode( $user = null ) {
 		
-		$mode = \OC_Appconfig::getValue( 'files_encryption', 'mode', 'unknown' );
+		$mode = \OC_Appconfig::getValue( 'files_encryption', 'mode', 'none' );
 		
-		if ( $mode == 'unknown' ) {
-		
-			error_log('no encryption mode configured');
-			
-			return false;
-			
+		if ( $mode == 'user') {
+			$mode = 'none';
+			if ( $user ) {
+				$query = \OC_DB::prepare( "SELECT mode FROM *PREFIX*encryption WHERE uid = ?" );
+				$result = $query->execute(array($user));
+				if ($row = $result->fetchRow()){
+					$mode = $row['mode'];
+				}
+			}
 		}
 		
 		return $mode;
