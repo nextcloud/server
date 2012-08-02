@@ -1499,6 +1499,20 @@ OC.Contacts={
 			//this.contacts[id] = contact;
 			return contact;
 		},
+		addAddressbook:function(name, description, cb) {
+			$.post(OC.filePath('contacts', 'ajax/addressbook', 'add.php'), { name: name, description: description, active: true },
+				function(jsondata) {
+				if(jsondata.status == 'success'){
+					if(cb && typeof cb == 'function') {
+						console.log('addressbook:', jsondata.data.addressbook);
+						cb(jsondata.data.addressbook);
+					}
+				} else {
+					OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+					return false;
+				}
+			});
+		},
 		doImport:function(file, aid){
 			$.post(OC.filePath('contacts', '', 'import.php'), { id: aid, file: file, fstype: 'OC_FilesystemView' },
 				function(jsondata){
