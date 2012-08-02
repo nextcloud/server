@@ -316,8 +316,11 @@ OC.Contacts={
 			console.log('Card, cid: ' + params.cid + ' aid: ' + params.aid);
 			var newid, bookid, firstitem;
 			if(!parseInt(params.cid) && !parseInt(params.aid)) {
-				firstitem = $('#contacts ul').first().find('li:first-child');
+				firstitem = $('#contacts ul').find('li:first-child');
 				if(firstitem.length > 0) {
+					if(firstitem.length > 1) {
+						firstitem = firstitem.first();
+					}
 					newid = parseInt(firstitem.data('id'));
 					bookid = parseInt(firstitem.data('bookid'));
 				}
