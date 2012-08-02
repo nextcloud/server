@@ -26,7 +26,6 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 OC::getRouter()->useCollection('ocs');
-OC::getRouter()->loadRoutes();
 
 try {
 	OC::getRouter()->match($_SERVER['PATH_INFO']);

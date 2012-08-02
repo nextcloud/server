@@ -16,10 +16,15 @@ class OC_Router {
 	protected $collections = array();
 	protected $collection = null;
 
+	public function __construct() {
+		// TODO cache
+		$this->loadRoutes();
+	}
+
 	/**
 	 * loads the api routes
 	 */
-	public function loadRoutes(){
+	public function loadRoutes() {
 		// TODO cache
 		foreach(OC_APP::getEnabledApps() as $app){
 			$file = OC_App::getAppPath($app).'/appinfo/routes.php';
