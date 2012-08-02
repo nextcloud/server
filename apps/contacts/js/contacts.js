@@ -1990,7 +1990,7 @@ $(document).ready(function(){
 														return false;
 													}
 													$(this).dialog('close');
-													OC.Contacts.Addressbooks.addAddressbook(displayname, description, function(addressbook){
+													OC.Contacts.Contacts.addAddressbook(displayname, description, function(addressbook) {
 														aid = addressbook.id;
 														setTimeout(function() {
 															importFiles(aid, uploadingFiles);
