@@ -44,7 +44,7 @@ class OC_API {
 		$name = strtolower($method).$url;
 		$name = str_replace(array('/', '{', '}'), '_', $name);
 		if(!isset(self::$actions[$name])){
-			OC::$router->create($name, $url.'.{_format}')
+			OC::getRouter()->create($name, $url.'.{_format}')
 				->method($method)
 				->defaults(array('_format' => 'xml') + $defaults)
 				->requirements(array('_format' => 'xml|json') + $requirements)

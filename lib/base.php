@@ -62,14 +62,14 @@ class OC{
 	 * requested file of app
 	 */
 	public static $REQUESTEDFILE = '';
-	/*
-	 * OC router
-	 */
-	public static $router = null;
 	/**
 	 * check if owncloud runs in cli mode
 	 */
 	public static $CLI = false;
+	/*
+	 * OC router
+	 */
+	protected static $router = null;
 	/**
 	 * SPL autoload
 	 */
@@ -275,6 +275,14 @@ class OC{
 		}
 	}
 
+	public static function getRouter() {
+		if (!isset(OC::$router)) {
+			OC::$router = new OC_Router();
+		}
+
+		return OC::$router;
+	}
+
 	public static function init(){
 		// register autoloader
 		spl_autoload_register(array('OC','autoload'));
@@ -357,8 +365,6 @@ class OC{
 
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
-
-		OC::$router = new OC_Router();
 
 		// Load Apps
 		// This includes plugins for users and filesystems as well
