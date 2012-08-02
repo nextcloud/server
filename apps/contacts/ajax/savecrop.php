@@ -54,34 +54,39 @@ if($data) {
 		$w = ($w != -1 ? $w : $image->width());
 		$h = ($h != -1 ? $h : $image->height());
 		OCP\Util::writeLog('contacts',
-			'savecrop.php, x: '.$x1.' y: '.$y1.' w: '.$w.' h: '.$h, 
+			'savecrop.php, x: '.$x1.' y: '.$y1.' w: '.$w.' h: '.$h,
 			OCP\Util::DEBUG);
 		if($image->crop($x1, $y1, $w, $h)) {
-			if(($image->width() <= 200 && $image->height() <= 200) || $image->resize(200)) {
+			if(($image->width() <= 200 && $image->height() <= 200)
+						|| $image->resize(200)) {
 				$card = OC_Contacts_App::getContactVCard($id);
 				if(!$card) {
 					OC_Cache::remove($tmpkey);
-					bailOut(OC_Contacts_App::$l10n->t('Error getting contact object.'));
+					bailOut(OC_Contacts_App::$l10n
+						->t('Error getting contact object.'));
 				}
 				if($card->__isset('PHOTO')) {
 					OCP\Util::writeLog('contacts',
-						'savecrop.php: PHOTO property exists.', 
+						'savecrop.php: PHOTO property exists.',
 						OCP\Util::DEBUG);
 					$property = $card->__get('PHOTO');
 					if(!$property) {
 						OC_Cache::remove($tmpkey);
-						bailOut(OC_Contacts_App::$l10n->t('Error getting PHOTO property.'));
+						bailOut(OC_Contacts_App::$l10n
+							->t('Error getting PHOTO property.'));
 					}
 					$property->setValue($image->__toString());
-					$property->parameters[] = new Sabre_VObject_Parameter('ENCODING', 'b');
-					$property->parameters[] = new Sabre_VObject_Parameter('TYPE', $image->mimeType());
+					$property->parameters[]
+						= new Sabre_VObject_Parameter('ENCODING', 'b');
+					$property->parameters[]
+						= new Sabre_VObject_Parameter('TYPE', $image->mimeType());
 					$card->__set('PHOTO', $property);
 				} else {
 					OCP\Util::writeLog('contacts',
-						'savecrop.php: files: Adding PHOTO property.', 
+						'savecrop.php: files: Adding PHOTO property.',
 						OCP\Util::DEBUG);
-					$card->addProperty('PHOTO', 
-						$image->__toString(), array('ENCODING' => 'b', 
+					$card->addProperty('PHOTO',
+						$image->__toString(), array('ENCODING' => 'b',
 						'TYPE' => $image->mimeType()));
 				}
 				$now = new DateTime;

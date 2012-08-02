@@ -41,9 +41,9 @@ if(!$checksum) {
 }
 if(is_array($value)) {
 	$value = array_map('strip_tags', $value);
-	// NOTE: Important, otherwise the compound value will be 
+	// NOTE: Important, otherwise the compound value will be
 	// set in the order the fields appear in the form!
-	ksort($value); 
+	ksort($value);
 	//if($name == 'CATEGORIES') {
 	//	$value = OC_Contacts_VCard::escapeDelimiters($value, ',');
 	//} else {
@@ -56,12 +56,16 @@ if(is_array($value)) {
 $vcard = OC_Contacts_App::getContactVCard( $id );
 $line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
 if(is_null($line)) {
-	bailOut(OC_Contacts_App::$l10n->t('Information about vCard is incorrect. Please reload the page: ').$checksum);
+	bailOut(OC_Contacts_App::$l10n->t(
+		'Information about vCard is incorrect. Please reload the page: ').$checksum
+	);
 }
 $element = $vcard->children[$line]->name;
 
 if($element != $name) {
-	bailOut(OC_Contacts_App::$l10n->t('Something went FUBAR. ').$name.' != '.$element);
+	bailOut(OC_Contacts_App::$l10n->t(
+		'Something went FUBAR. ').$name.' != '.$element
+	);
 }
 
 /* preprocessing value */
@@ -91,11 +95,13 @@ if(!$value) {
 	/* setting value */
 	switch($element) {
 		case 'BDAY':
-			// I don't use setDateTime() because that formats it as YYYYMMDD instead of YYYY-MM-DD
-			// which is what the RFC recommends.
+			// I don't use setDateTime() because that formats it as YYYYMMDD instead
+			// of YYYY-MM-DD which is what the RFC recommends.
 			$vcard->children[$line]->setValue($value);
 			$vcard->children[$line]->parameters = array();
-			$vcard->children[$line]->add(new Sabre_VObject_Parameter('VALUE', 'DATE'));
+			$vcard->children[$line]->add(
+				new Sabre_VObject_Parameter('VALUE', 'DATE')
+			);
 			debug('Setting value:'.$name.' '.$vcard->children[$line]);
 			break;
 		case 'CATEGORIES':
@@ -114,7 +120,10 @@ if(!$value) {
 					debug('Adding parameter: '.$key);
 					foreach($parameter as $val) {
 						debug('Adding parameter: '.$key.'=>'.$val);
-						$vcard->children[$line]->add(new Sabre_VObject_Parameter($key, strtoupper(strip_tags($val))));
+						$vcard->children[$line]->add(new Sabre_VObject_Parameter(
+							$key,
+							strtoupper(strip_tags($val)))
+						);
 					}
 				}
 			}
@@ -134,4 +143,8 @@ if(!OC_Contacts_VCard::edit($id, $vcard)) {
 	exit();
 }
 
-OCP\JSON::success(array('data' => array( 'line' => $line, 'checksum' => $checksum, 'oldchecksum' => $_POST['checksum'] )));
+OCP\JSON::success(array('data' => array(
+	'line' => $line,
+	'checksum' => $checksum,
+	'oldchecksum' => $_POST['checksum']))
+);
