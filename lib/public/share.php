@@ -225,11 +225,12 @@ class Share {
 		}
 		if ($collectionTypes = self::getCollectionItemTypes($itemType)) {
 			foreach ($collectionTypes as $collectionType) {
-				$collections = self::getItems($collectionType, null, self::SHARE_TYPE_USER, $shareWith, $uidOwner);
+				$collections = self::getItems($collectionType, null, self::$shareTypeUserAndGroups, $shareWith, $uidOwner);
 				if ($backend = self::getBackend($collectionType)) {
 					if ($backend->inCollection($collections, $item)) {
-						\OC_Log::write('OCP\Share', 'Sharing '.$item.' failed, because this item is already shared with '.$shareWith.' inside a collection', \OC_Log::ERROR);
-						return false;
+						$message = 'Sharing '.$item.' failed, because this item is already shared with '.$shareWith.' inside a collection';
+						\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+						throw new \Exception($message);
 					}
 				}
 			}
