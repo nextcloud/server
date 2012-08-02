@@ -34,4 +34,4 @@ if(!OC_Contacts_Addressbook::setActive($bookid, 1)) {
 	bailOut('Error activating addressbook.');
 }
 $addressbook = OC_Contacts_App::getAddressbook($bookid);
-OCP\JSON::success(array('addressbook' => $addressbook));
+OCP\JSON::success(array('data' => array('addressbook' => $addressbook)));

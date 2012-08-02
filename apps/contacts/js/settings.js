@@ -79,26 +79,26 @@ OC.Contacts.Settings = OC.Contacts.Settings || {
 					if(jsondata.status == 'success'){
 						self.showActions(['new',]);
 						self.adractions.removeData('id');
-						active = Boolean(Number(jsondata.addressbook.active));
+						active = Boolean(Number(jsondata.data.addressbook.active));
 						if(id == 'new') {
 							self.adrsettings.find('table')
-								.append('<tr class="addressbook" data-id="'+jsondata.addressbook.id+'" data-uri="'+jsondata.addressbook.uri+'">'
+								.append('<tr class="addressbook" data-id="'+jsondata.data.addressbook.id+'" data-uri="'+jsondata.data.addressbook.uri+'">'
 									+ '<td class="active"><input type="checkbox" '+(active ? 'checked="checked"' : '')+' /></td>'
-									+ '<td class="name">'+jsondata.addressbook.displayname+'</td>'
-									+ '<td class="description">'+jsondata.addressbook.description+'</td>'
+									+ '<td class="name">'+jsondata.data.addressbook.displayname+'</td>'
+									+ '<td class="description">'+jsondata.data.addressbook.description+'</td>'
 									+ '<td class="action"><a class="svg action globe" title="'+t('contacts', 'Show CardDav link')+'"></a></td>'
 									+ '<td class="action"><a class="svg action cloud" title="'+t('contacts', 'Show read-only VCF link')+'"></a></td>'
 									+ '<td class="action"><a class="svg action download" title="'+t('contacts', 'Download')+'" '
 									+ 'href="'+totalurl+'/'+encodeURIComponent(oc_current_user)+'/'
-									+ encodeURIComponent(jsondata.addressbook.uri)+'?export"></a></td>'
+									+ encodeURIComponent(jsondata.data.addressbook.uri)+'?export"></a></td>'
 									+ '<td class="action"><a class="svg action edit" title="'+t('contacts', 'Edit')+'"></a></td>'
 									+ '<td class="action"><a class="svg action delete" title="'+t('contacts', 'Delete')+'"></a></td>'
 									+ '</tr>');
 						} else {
 						var row = self.adrsettings.find('tr[data-id="'+id+'"]');
 							row.find('td.active').find('input:checkbox').prop('checked', active);
-							row.find('td.name').text(jsondata.addressbook.displayname);
-							row.find('td.description').text(jsondata.addressbook.description);
+							row.find('td.name').text(jsondata.data.addressbook.displayname);
+							row.find('td.description').text(jsondata.data.addressbook.description);
 						}
 						OC.Contacts.Contacts.update();
 					} else {
