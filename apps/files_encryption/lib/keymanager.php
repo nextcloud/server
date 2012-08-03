@@ -32,11 +32,11 @@ class Keymanager {
 	/**
 	 * @brief retrieve private key from a user
 	 * 
-	 * @param string user name
 	 * @return string private key or false
 	 */
-	public static function getPrivateKey( $user ) {
+	public static function getPrivateKey() {
 
+		$user = \OCP\User::getUser();
 		$view = new \OC_FilesystemView( '/' . $user . '/' . 'files_encryption' );
 		
 		return $view->file_get_contents( '/' . $user.'.private.key' );
@@ -91,17 +91,16 @@ class Keymanager {
 	 * @brief retrieve file encryption key
 	 *
 	 * @param string file name
-	 * @param string user name of the file owner
 	 * @return string file key or false
 	 */
-	public static function getFileKey( $userId, $path ) {
+	public static function getFileKey( $path ) {
 		
 		$keypath = ltrim( $path, '/' );
-		$user = $userId;
+		$user = \OCP\User::getUser();
 
 		// update $keypath and $user if path point to a file shared by someone else
 		$query = \OC_DB::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
-		$result = $query->execute( array ('/'.$userId.'/files/'.$keypath, $userId));
+		$result = $query->execute( array ('/'.$user.'/files/'.$keypath, $user));
 		if ($row = $result->fetchRow()){
 			$keypath = $row['source'];
 			$keypath_parts=explode('/',$keypath);
@@ -114,16 +113,16 @@ class Keymanager {
 	}	
 	
 	/**
-	 * @brief store private key from a user
+	 * @brief store private key from the user
 	 *
-	 * @param string user name
 	 * @param string key
 	 * @return bool true/false
 	 */
-	public static function setPrivateKey($user, $key) {
+	public static function setPrivateKey($key) {
 
 		\OC_FileProxy::$enabled = false;
 		
+		$user = \OCP\User::getUser();
 		$view = new \OC_FilesystemView('/'.$user.'/files_encryption');
 		if (!$view->file_exists('')) $view->mkdir('');
 		$result = $view->file_put_contents($user.'.private.key', $key);
@@ -135,19 +134,18 @@ class Keymanager {
 	
 	
 	/**
-	 * @brief store public key from a user
+	 * @brief store public key of the user
 	 *
-	 * @param string user name
 	 * @param string key
 	 * @return bool true/false
 	 */
-	public static function setPublicKey($user, $key) {
+	public static function setPublicKey($key) {
 		
 		\OC_FileProxy::$enabled = false;
 		
 		$view = new \OC_FilesystemView('/public-keys');
 		if (!$view->file_exists('')) $view->mkdir('');
-		$result = $view->file_put_contents($user.'.public.key', $key);
+		$result = $view->file_put_contents(\OCP\User::getUser().'.public.key', $key);
 		
 		\OC_FileProxy::$enabled = true;
 		
@@ -157,16 +155,16 @@ class Keymanager {
 	/**
 	 * @brief store file encryption key
 	 *
-	 * @param string $userId name of the file owner
 	 * @param string $path relative path of the file, including filename
 	 * @param string $key
 	 * @return bool true/false
 	 */
-	public static function setFileKey( $user, $path, $key, $view, $dbClassName, $fileProxyClassName ) {
+	public static function setFileKey( $path, $key, $view, $dbClassName, $fileProxyClassName ) {
 
 		$fileProxyClassName::$enabled = false;
 
 		$targetpath = ltrim(  $path, '/'  );
+		$user = \OCP\User::getUser();
 		
 		// update $keytarget and $user if key belongs to a file shared by someone else
 		$query = $dbClassName::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
