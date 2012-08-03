@@ -25,6 +25,15 @@
 */
 	
 class OC_API {
+
+	private static $server;
+
+	/**
+	 * initialises the OAuth store and server
+	 */
+	private static function init() {
+		self::$server = new OC_OAuthServer(new OC_OAuthStore());
+	}
 	
 	/**
 	* api actions
@@ -151,7 +160,7 @@ class OC_API {
 	 */
 	public static function checkLoggedIn(){
 		// Check OAuth
-		if(!OC_OAuth::isAuthorised()){
+		if(!OC_OAuthServer::isAuthorised()){
 			OC_Response::setStatus(401);
 			die();
 		}

@@ -9,6 +9,7 @@ require_once('../lib/base.php');
 
 // Logic
 $operation = isset($_GET['operation']) ? $_GET['operation'] : '';
+$server = new OC_OAuthServer(new OC_OAuthStore());
 switch($operation){
 	
 	case 'register':
@@ -16,8 +17,15 @@ switch($operation){
 	break;
 	
 	case 'request_token':
-	break;
-	
+		try {
+			$request = OAuthRequest::from_request();
+			$token = $server->fetch_request_token($request);
+			echo $token;
+		} catch (OAuthException $exception) {
+			OC_Log::write('OC_OAuthServer', $exception->getMessage(), OC_LOG::ERROR);
+			echo $exception->getMessage();
+		}
+		break;
 	case 'authorise';
 		OC_Util::checkLoggedIn();
 		// Example
@@ -56,8 +64,15 @@ switch($operation){
 	break;
 	
 	case 'access_token';
-	break;
-	
+		try {
+			$request = OAuthRequest::from_request();
+			$token = $server->fetch_access_token($request);
+			echo $token;
+		} catch (OAuthException $exception) {
+			OC_Log::write('OC_OAuthServer', $exception->getMessage(), OC_LOG::ERROR);
+			echo $exception->getMessage();
+		}
+		break;
 	default:
 		// Something went wrong
 		header('Location: /');
