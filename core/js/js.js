@@ -455,11 +455,7 @@ $(document).ready(function(){
 	//use infield labels
 	$("label.infield").inFieldLabels();
 
-	// hide log in button etc. when form fields not filled
-	$('#submit').hide();
-	$('#remember_login').hide();
-	$('#remember_login+label').hide();
-	$('input#user, input#password').keyup(function() {
+	checkShowCredentials = function() {
 		var empty = false;
 		$('input#user, input#password').each(function() {
 			if ($(this).val() == '') {
@@ -475,7 +471,10 @@ $(document).ready(function(){
 			$('#remember_login').show();
 			$('#remember_login+label').fadeIn();
 		}
-	});
+	}
+	// hide log in button etc. when form fields not filled
+	checkShowCredentials();
+	$('input#user, input#password').keyup(checkShowCredentials);
 
 	$('#settings #expand').keydown(function(event) {
 		if (event.which == 13 || event.which == 32) {
