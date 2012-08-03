@@ -410,13 +410,13 @@ OC.Contacts={
 			console.log('Adding ' + fn);
 			aid = aid?aid:$('#contacts h3.active').first().data('id');
 			var localAddcontact = function(n, fn, aid, isnew) {
-				$.post(OC.filePath('contacts', 'ajax', 'addcontact.php'), { n: n, fn: fn, aid: aid, isnew: isnew },
+				$.post(OC.filePath('contacts', 'ajax', 'contact/add.php'), { n: n, fn: fn, aid: aid, isnew: isnew },
 				function(jsondata) {
 					if (jsondata.status == 'success'){
 						$('#rightcontent').data('id',jsondata.data.id);
 						var id = jsondata.data.id;
 						var aid = jsondata.data.aid;
-						$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
+						$.getJSON(OC.filePath('contacts', 'ajax', 'contact/details.php'),{'id':id},function(jsondata){
 							if(jsondata.status == 'success'){
 								OC.Contacts.Card.loadContact(jsondata.data, aid);
 								var item = OC.Contacts.Contacts.insertContact({data:jsondata.data});
@@ -512,7 +512,7 @@ OC.Contacts={
 			if(OC.Contacts.Contacts.deletionQueue.indexOf(id) == -1 && removeFromQueue) {
 				return;
 			}
-			$.post(OC.filePath('contacts', 'ajax', 'deletecard.php'),{'id':id},function(jsondata) {
+			$.post(OC.filePath('contacts', 'ajax', 'contact/delete.php'),{'id':id},function(jsondata) {
 				if(jsondata.status == 'error'){
 					OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 				}
@@ -747,7 +747,7 @@ OC.Contacts={
 					q = q + '&checksum=' + checksum;
 					console.log('Saving: ' + q);
 					$(obj).attr('disabled', 'disabled');
-					$.post(OC.filePath('contacts', 'ajax', 'saveproperty.php'),q,function(jsondata){
+					$.post(OC.filePath('contacts', 'ajax', 'contact/saveproperty.php'),q,function(jsondata){
 						if(jsondata.status == 'success'){
 							container.data('checksum', jsondata.data.checksum);
 							OC.Contacts.Card.savePropertyInternal(name, fields, checksum, jsondata.data.checksum);
@@ -765,7 +765,7 @@ OC.Contacts={
 			} else { // add
 					console.log('Adding: ' + q);
 					$(obj).attr('disabled', 'disabled');
-					$.post(OC.filePath('contacts', 'ajax', 'addproperty.php'),q,function(jsondata){
+					$.post(OC.filePath('contacts', 'ajax', 'contact/addproperty.php'),q,function(jsondata){
 						if(jsondata.status == 'success'){
 							container.data('checksum', jsondata.data.checksum);
 							// TODO: savePropertyInternal doesn't know about new fields
@@ -823,7 +823,7 @@ OC.Contacts={
 			OC.Contacts.loading(obj, true);
 			var checksum = OC.Contacts.checksumFor(obj);
 			if(checksum) {
-				$.post(OC.filePath('contacts', 'ajax', 'deleteproperty.php'),{'id': this.id, 'checksum': checksum },function(jsondata){
+				$.post(OC.filePath('contacts', 'ajax', 'contact/deleteproperty.php'),{'id': this.id, 'checksum': checksum },function(jsondata){
 					if(jsondata.status == 'success'){
 						if(type == 'list') {
 							OC.Contacts.propertyContainerFor(obj).remove();
@@ -1438,7 +1438,7 @@ OC.Contacts={
 				return false;
 			}
 			var droplist = (droptarget.is('ul'))?droptarget:droptarget.next();
-			$.post(OC.filePath('contacts', 'ajax', 'movetoaddressbook.php'), { ids: dragitem.data('id'), aid: droptarget.data('id') },
+			$.post(OC.filePath('contacts', 'ajax', 'contact/move.php'), { ids: dragitem.data('id'), aid: droptarget.data('id') },
 				function(jsondata){
 					if(jsondata.status == 'success'){
 						dragitem.attr('data-bookid', droptarget.data('id'))
@@ -1577,7 +1577,7 @@ OC.Contacts={
 			if(params.aid) {
 				opts['aid'] = params.aid;
 			}
-			$.getJSON(OC.filePath('contacts', 'ajax', 'contacts.php'),opts,function(jsondata){
+			$.getJSON(OC.filePath('contacts', 'ajax', 'contact/list.php'),opts,function(jsondata){
 				if(jsondata.status == 'success'){
 					var books = jsondata.data.entries;
 					$.each(books, function(b, book) {
