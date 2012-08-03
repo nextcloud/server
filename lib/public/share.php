@@ -52,6 +52,7 @@ class Share {
 
 	const FORMAT_NONE = -1;
 	const FORMAT_STATUSES = -2;
+	const FORMAT_SOURCES = -3;
 
 	private static $shareTypeUserAndGroups = -1;
 	private static $shareTypeGroupUserUnique = 2;
@@ -82,8 +83,8 @@ class Share {
 	* @param int Number of items to return (optional) Returns all by default
 	* @return Return depends on format
 	*/
-	public static function getItemsSharedWith($itemType, $format = self::FORMAT_NONE, $parameters = null, $limit = -1) {
-		return self::getItems($itemType, null, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, $parameters, $limit);
+	public static function getItemsSharedWith($itemType, $format = self::FORMAT_NONE, $parameters = null, $limit = -1, $includeCollections = false) {
+		return self::getItems($itemType, null, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, $parameters, $limit, $includeCollections);
 	}
 
 	/**
@@ -93,19 +94,8 @@ class Share {
 	* @param int Format (optional) Format type must be defined by the backend
 	* @return Return depends on format
 	*/
-	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE, $parameters = null) {
-		return self::getItems($itemType, $itemTarget, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, $parameters, 1);
-	}
-
-	/**
-	* @brief Get the item of item type shared with the current user by source
-	* @param string Item type
-	* @param string Item source
-	* @param int Format (optional) Format type must be defined by the backend
-	* @return Return depends on format
-	*/
-	public static function getItemSharedWithBySource($itemType, $itemSource, $format = self::FORMAT_NONE, $parameters = null) {
-		return self::getItems($itemType, $itemSource, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, $parameters, 1, true);
+	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE, $parameters = null, $includeCollections = false) {
+		return self::getItems($itemType, $itemTarget, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, $parameters, 1, $includeCollections);
 	}
 
 	/**
@@ -115,8 +105,8 @@ class Share {
 	* @param int Number of items to return (optional) Returns all by default
 	* @return Return depends on format
 	*/
-	public static function getItemsShared($itemType, $format = self::FORMAT_NONE, $parameters = null, $limit = -1) {
-		return self::getItems($itemType, null, null, null, \OC_User::getUser(), $format, $parameters, $limit);
+	public static function getItemsShared($itemType, $format = self::FORMAT_NONE, $parameters = null, $limit = -1, $includeCollections = false) {
+		return self::getItems($itemType, null, null, null, \OC_User::getUser(), $format, $parameters, $limit, $includeCollections);
 	}
 
 	/**
@@ -126,19 +116,8 @@ class Share {
 	* @param int Format (optional) Format type must be defined by the backend
 	* @return Return depends on format
 	*/
-	public static function getItemShared($itemType, $item, $format = self::FORMAT_NONE, $parameters = null) {
-		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format, $parameters);
-	}
-
-	/**
-	* @brief Get the shared item of item type owned by the current user by source
-	* @param string Item type
-	* @param string Item source
-	* @param int Format (optional) Format type must be defined by the backend
-	* @return Return depends on format
-	*/
-	public static function getItemSharedBySource($itemType, $item, $format = self::FORMAT_NONE, $parameters = null) {
-		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format, $parameters, -1, true);
+	public static function getItemShared($itemType, $item, $format = self::FORMAT_NONE, $parameters = null, $includeCollections = false) {
+		return self::getItems($itemType, $item, null, null, \OC_User::getUser(), $format, $parameters, -1, $includeCollections);
 	}
 
 	/**
@@ -218,22 +197,10 @@ class Share {
 				\OC_Log::write('OCP\Share', 'Share type '.$shareType.' is not valid for '.$item, \OC_Log::ERROR);
 				return false;
 		}
-		if (self::getItems($itemType, $item, $shareType, $shareWith, $uidOwner, self::FORMAT_NONE, null, 1)) {
+		if (self::getItems($itemType, $item, $shareType, $shareWith, $uidOwner, self::FORMAT_NONE, null, 1, true)) {
 			$message = 'Sharing '.$item.' failed, because this item is already shared with '.$shareWith;
 			\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 			throw new \Exception($message);
-		}
-		if ($collectionTypes = self::getCollectionItemTypes($itemType)) {
-			foreach ($collectionTypes as $collectionType) {
-				$collections = self::getItems($collectionType, null, self::$shareTypeUserAndGroups, $shareWith, $uidOwner);
-				if ($backend = self::getBackend($collectionType)) {
-					if ($backend->inCollection($collections, $item)) {
-						$message = 'Sharing '.$item.' failed, because this item is already shared with '.$shareWith.' inside a collection';
-						\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-						throw new \Exception($message);
-					}
-				}
-			}
 		}
 		// If the item is a folder, scan through the folder looking for equivalent item types
 		if ($itemType == 'folder') {
@@ -267,7 +234,7 @@ class Share {
 	* @return Returns true on success or false on failure
 	*/
 	public static function unshare($itemType, $item, $shareType, $shareWith) {
-		if ($item = self::getItems($itemType, $item, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, null, 1)) {
+		if ($item = self::getItems($itemType, $item, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, null, 1, false)) {
 			self::delete($item['id']);
 			return true;
 		}
@@ -316,7 +283,8 @@ class Share {
 		if ($backend = self::getBackend($itemType)) {
 			$uidSharedWith = \OC_User::getUser();
 			// TODO Check permissions for setting target?
-			if ($item = self::getItems($itemType, $oldTarget, self::SHARE_TYPE_USER, $uidSharedWith, null, self::FORMAT_NONE, 1)) {
+			if ($item = self::getItems($itemType, $oldTarget, self::SHARE_TYPE_USER, $uidSharedWith, null, self::FORMAT_NONE, null, 1, false)) {
+				// TODO Fix
 				// Check if this is a group share
 				if ($item['uid_shared_with'] == null) {
 					// A new entry needs to be created exclusively for the user
@@ -354,7 +322,7 @@ class Share {
 	* @return Returns true on success or false on failure
 	*/
 	public static function setPermissions($itemType, $item, $shareType, $shareWith, $permissions) {
-		if ($item = self::getItems($itemType, $item, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, null, 1)) {
+		if ($item = self::getItems($itemType, $item, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, null, 1, false)) {
 			// Check if this item is a reshare and verify that the permissions granted don't exceed the parent shared item
 			if (isset($item['parent'])) {
 				$query = \OC_DB::prepare('SELECT permissions FROM *PREFIX*share WHERE id = ? LIMIT 1');
@@ -464,12 +432,11 @@ class Share {
 	* See public functions getItem(s)... for parameter usage
 	*
 	*/
-	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1, $isSource = false) {
+	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1, $includeCollections = false) {
 		if ($backend = self::getBackend($itemType)) {
-			// Check if there are any parent types that include this type of items, e.g. a music album contains songs
-			if ($collectionTypes = self::getCollectionItemTypes($itemType)) {
-				$collectionTypes = array_merge(array($itemType), $collectionTypes);
-				$where = "WHERE item_type IN ('".implode("','", $collectionTypes)."')";
+			// If includeCollections is true, find collections of this item type, e.g. a music album contains songs
+			if ($includeCollections && $collectionTypes = self::getCollectionItemTypes($itemType)) {
+				$where = "WHERE item_type IN ('".implode("','", array_merge(array($itemType), $collectionTypes))."')";
 			} else {
 				$where = "WHERE item_type = '".$itemType."'";
 			}
@@ -491,7 +458,7 @@ class Share {
 					$where .= " AND share_type != '".self::$shareTypeGroupUserUnique."'";
 				}
 			}
-			if (isset($item)) {
+			if (isset($item) && !$includeCollections) {
 				// If looking for own shared items, check item_source else check item_target
 				if (isset($uidOwner)) {
 					$source = $backend->getSource($item, $uidOwner);
@@ -508,25 +475,17 @@ class Share {
 						$where .= " AND item_source = '".$itemSource."'";
 					}
 				} else {
-					if ($isSource) {
-						if ($itemType == 'file' || $itemType == 'folder') {
-							$where .= " AND file_source = '".$item."'";
-						} else {
-							$where .= " AND item_source = '".$item."'";
-						}
+					if ($itemType == 'file' || $itemType == 'folder') {
+						$where .= " AND file_target = '".$item."'";
 					} else {
-						if ($itemType == 'file' || $itemType == 'folder') {
-							$where .= " AND file_target = '".$item."'";
-						} else {
-							$where .= " AND item_target = '".$item."'";
-						}
+						$where .= " AND item_target = '".$item."'";
 					}
 				}
 			} else if ($itemType == 'file') {
 				// TODO Exclude converted items inside shared folders
 			}
-			if ($limit != -1) {
-				if ($limit == 1 && $shareType == self::$shareTypeUserAndGroups) {
+			if ($limit != -1 && !$includeCollections) {
+				if ($shareType == self::$shareTypeUserAndGroups) {
 					// Make sure the unique user target is returned if it exists, unique targets should follow the group share in the database
 					// If the limit is not 1, the filtering can be done later
 					$where .= ' ORDER BY id DESC';
@@ -534,7 +493,9 @@ class Share {
 				$where .= ' LIMIT '.$limit;
 			}
 			if ($format == self::FORMAT_STATUSES) {
-				$select = 'id, item_type, item, item_source, share_type';
+				$select = 'id, item_type, item, item_source, parent, share_type';
+			} else if ($format == self::FORMAT_SOURCES) {
+				$select = 'id, item_source, parent, share_type';
 			} else {
 				if (isset($uidOwner)) {
 					$select = 'id, item_type, item, item_source, parent, share_type, share_with, permissions, stime, file_source';
@@ -542,26 +503,52 @@ class Share {
 					$select = '*';
 				}
 			}
+			error_log($where);
 			$query = \OC_DB::prepare('SELECT '.$select.' FROM *PREFIX*share '.$where);
 			$result = $query->execute();
 			$items = array();
-			while ($item = $result->fetchRow()) {
+			while ($row = $result->fetchRow()) {
 				// Return only the item instead of a 2-dimensional array
-				if ($limit == 1 && $format == self::FORMAT_NONE) {
-					return $item;
+				if ($limit == 1 && $format == self::FORMAT_NONE && !$includeCollections) {
+					return $row;
 				}
 				// Filter out duplicate group shares for users with unique targets
-				if ($item['share_type'] == self::$shareTypeGroupUserUnique) {
+				if ($row['share_type'] == self::$shareTypeGroupUserUnique) {
 					// Remove the parent group share
-					unset($items[$item['parent']]);
+					unset($items[$row['parent']]);
 				}
-				$items[$item['id']] = $item;
-				// TODO Add in parent item types children?
-				if ($collectionTypes && in_array($item['item_type'], $collectionTypes)) {
-					$children[] = $item;
+				// Check if this is a collection of the requested item type
+				if ($row['item_type'] != $itemType) {
+					if ($collectionBackend = self::getBackend($row['item_type'])) {
+						$row['collection'] = array('item_type' => $itemType, 'item_source' => $row['item_source']);
+						// Fetch all of the children sources
+						$children = $collectionBackend->getChildren($row['item']);
+						foreach ($children as $child) {
+							$row['item_source'] = $child;
+							$row['item_target'] = ''; // TODO
+							if (isset($item)) {
+								if ((isset($uidOwner) && $row['item'] == $item) || $row['item_target'] == $item) {
+									// Return only the item instead of a 2-dimensional array
+									if ($limit == 1 && $format == self::FORMAT_NONE) {
+										return $row;
+									} else {
+										// Unset the items array and break out of both loops
+										$items = array();
+										$items[] = $row;
+										break 2;
+									}
+								}
+							} else {
+								$items[] = $row;
+							}
+						}
+					}
+				} else {
+					$items[] = $row;
 				}
 			}
 			if (!empty($items)) {
+				error_log(var_export($items, true));
 				if ($format == self::FORMAT_NONE) {
 					return $items;
 				} else if ($format == self::FORMAT_STATUSES) {
@@ -574,6 +561,12 @@ class Share {
 						}
 					}
 					return $statuses;
+				} else if ($format == self::FORMAT_SOURCES) {
+					$sources = array();
+					foreach ($items as $item) {
+						$sources[] = $item['item_source'];
+					}
+					return $sources;
 				} else {
 					return $backend->formatItems($items, $format, $parameters);
 				}
@@ -866,8 +859,11 @@ abstract class Share_Backend {
 
 abstract class Share_Backend_Collection extends Share_Backend {
 
-	public abstract function inCollection($collections, $item);
-
+	/**
+	* @brief Get the sources of the children of the item
+	* @param string Item
+	* @return array Returns an array of sources
+	*/
 	public abstract function getChildren($item);
     
 }
