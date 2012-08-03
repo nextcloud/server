@@ -73,11 +73,17 @@ class OC_API {
 		// Loop through registered actions
 		foreach(self::$actions[$name] as $action){
 			$app = $action['app'];
-			if(is_callable($action['action'])){
-				$responses[] = array('app' => $app, 'response' => call_user_func($action['action'], $parameters));
+			// Check the consumer has permission to call this method.
+			if(OC_OAuth_Server::isAuthorised('app_'.$app)){
+				if(is_callable($action['action'])){
+					$responses[] = array('app' => $app, 'response' => call_user_func($action['action'], $parameters));
+				} else {
+					$responses[] = array('app' => $app, 'response' => 501);
+				}
 			} else {
-				$responses[] = array('app' => $app, 'response' => 501);
+				$responses[] = array('app' => $app, 'response' => 401);
 			}
+			
 		}
 		// Merge the responses
 		$response = self::mergeResponses($responses);
