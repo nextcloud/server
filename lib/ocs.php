@@ -169,9 +169,9 @@ class OC_OCS {
 			OC_OCS::quotaset($format,$user,$quota);
 
 		// keygetpublic 
-		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'publickey')){
-			$user=$ex[$paracount-3];
-			OC_OCS::publicKeyGet($format,$user);
+		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'file') and ($ex[$paracount-2] == 'publickeys')){
+			$file=urldecode($ex[$paracount-3]);
+			OC_OCS::publicKeyGet($format,$file);
 
 		//keysetpublic
 		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'publickey')){
@@ -671,27 +671,22 @@ class OC_OCS {
         /**
         * get the public key of a user
         * @param string $format
-        * @param string $user
-        * @return string xml/json
+        * @param string $file
+        * @return string xml/json list of public keys
         */
-        private static function publicKeyGet($format, $user) {
+        private static function publicKeyGet($format, $file) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode($user) === 'client') {
-        		if(OC_User::userExists($user)){
-        			if (($key = OCA_Encryption\Keymanager::getPublicKey($user))) {
-        				$xml=array();
-        				$xml['key'] = $key;
-        				$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
-        				echo($txt);
-        			}
-        			else {
-        				echo self::generateXml('', 'fail', 404, 'public key does not exist');
-        			}
-        		} else {
-        			echo self::generateXml('', 'fail', 300, 'User does not exist');
+        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
+        		if (($keys = OCA_Encryption\Keymanager::getPublicKeys($file))) {
+        			$xml=$keys;
+        			$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
+        			echo($txt);
+        		}
+        		else {
+        			echo self::generateXml('', 'fail', 404, 'public key does not exist');
         		}
         	} else {
-        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled for user ' . $user);
+        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled');
         	}
         }
 
@@ -782,7 +777,7 @@ class OC_OCS {
 				if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode($user) === 'client') {
 					if (($key = OCA_Encryption\Keymanager::getFileKey($user, $file))) {
 						$xml=array();
-						$xml['key']=$key;
+						$xml['key']=$key;					
 						$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
 						echo($txt);
 					} else {

@@ -43,14 +43,48 @@ class Keymanager {
 	}
 	
 	/**
-	 * @brief retrieve public key from a user
+	 * @brief retrieve a list of the public key from all users with access to the file
 	 *
-	 * @param string user name
-	 * @return string private key or false
+	 * @param string path to file
+	 * @return array of public keys for the given file
 	 */
-	public static function getPublicKey($user) {
+	public static function getPublicKeys($path) {
+		$userId = \OCP\User::getUser();
+		$path = ltrim( $path, '/' );
+		$filepath = '/'.$userId.'/files/'.$path;
+		
+		// check if file was shared with other users
+		$query = \OC_DB::prepare( "SELECT uid_owner, source, target, uid_shared_with FROM `*PREFIX*sharing` WHERE ( target = ? AND uid_shared_with = ? ) OR source = ? " );
+		$result = $query->execute( array ($filepath, $userId, $filepath));
+		$users = array();
+		if ($row = $result->fetchRow()){
+			$source = $row['source'];
+			$owner = $row['uid_owner'];
+			$users[] = $owner;
+			// get the uids of all user with access to the file
+			$query = \OC_DB::prepare( "SELECT source, uid_shared_with FROM `*PREFIX*sharing` WHERE source = ?" );
+			$result = $query->execute( array ($source));
+			while ( ($row = $result->fetchRow()) ) {
+				$users[] = $row['uid_shared_with'];
+			}
+		} else {
+			// check if it is a file owned by the user and not shared at all
+			$userview = new \OC_FilesystemView( '/'.$userId.'/files/' );
+			if ($userview->file_exists($path)) {
+				$users[] = $userId;
+			}
+		}
+		
 		$view = new \OC_FilesystemView( '/public-keys/' );
-		return $view->file_get_contents($user.'.public.key');
+		
+		$keylist = array();
+		$count = 0;
+		foreach ($users as $user) {
+			$keylist['key'.++$count] = $view->file_get_contents($user.'.public.key');
+		}
+
+		return $keylist;
+		
 	}
 	
 	/**
