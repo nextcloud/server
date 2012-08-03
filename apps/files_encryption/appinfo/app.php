@@ -14,10 +14,7 @@ OCP\Util::connectHook('OC_Webdav_Properties', 'update', 'OCA_Encryption\Hooks', 
 
 stream_wrapper_register('crypt','OC_CryptStream');
 
-if( 
-!isset( $_SESSION['enckey'] ) 
-and OCP\User::isLoggedIn() 
-) {
+if(  !isset( $_SESSION['enckey'] ) && OCP\User::isLoggedIn() && OCA_Encryption\Crypt::mode() == 'server' ) {
 
 	// Force the user to re-log in if the encryption key isn't unlocked (happens when a user is logged in before the encryption app is enabled)
 	OCP\User::logout();
