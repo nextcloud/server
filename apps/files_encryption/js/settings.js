@@ -17,6 +17,7 @@ $(document).ready(function(){
 		OC.AppConfig.setValue('files_encryption','type_blacklist',blackList);
 	}
 
+	//TODO: Handle switch between client and server side encryption
 	$('input[name=encryption_mode]').change(function(){
 		var  client=$('input[value="client"]:checked').val()
 			 ,server=$('input[value="server"]:checked').val()

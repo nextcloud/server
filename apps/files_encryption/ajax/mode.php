@@ -5,6 +5,8 @@
  * See the COPYING-README file.
  */
 
+//TODO: Handle switch between client and server side encryption
+
 OCP\JSON::checkAppEnabled('files_encryption');
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();

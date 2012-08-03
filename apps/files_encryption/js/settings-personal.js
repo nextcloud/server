@@ -11,10 +11,11 @@ $(document).ready(function(){
 			 ,user=$('input[value="user"]:checked').val()
 			 ,none=$('input[value="none"]:checked').val()
 		if (client)
-			$.post(OC.filePath('files_encryption', 'ajax', 'changemode.php'), { mode: 'client' });
+			var encmode= 'client';
 		else if (server)
-			$.post(OC.filePath('files_encryption', 'ajax', 'changemode.php'), { mode: 'server' });
+			var encmode = 'server';
 		else
-			$.post(OC.filePath('files_encryption', 'ajax', 'changemode.php'), { mode: 'none' });
+			var encmode = 'none';	
+		$.post(OC.filePath('files_encryption', 'ajax', 'mode.php'), { mode: encmode });
 	})
 })
