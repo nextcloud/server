@@ -23,7 +23,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
-	
+
 class OC_API {
 
 	private static $server;
@@ -32,7 +32,7 @@ class OC_API {
 	 * initialises the OAuth store and server
 	 */
 	private static function init() {
-		self::$server = new OC_OAuthServer(new OC_OAuthStore());
+		self::$server = new OC_OAuth_Server(new OC_OAuth_Store());
 	}
 	
 	/**

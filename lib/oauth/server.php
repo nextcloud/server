@@ -22,7 +22,9 @@
 * 
 */
 
-class OC_OAuthServer extends OAuthServer {
+require_once(OC::$THIRDPARTYROOT.'/3rdparty/OAuth/OAuth.php');
+
+class OC_OAuth_Server extends OAuthServer {
 
 	public function fetch_request_token(&$request) {
 		$this->get_version($request);
@@ -34,6 +36,11 @@ class OC_OAuthServer extends OAuthServer {
 		return $this->data_store->new_request_token($consumer, $scope, $callback);
 	}
 	
+	/**
+	 * authorises a request token
+	 * @param string $request the request token to authorise
+	 * @return What does it return?
+	 */
 	public function authoriseRequestToken(&$request) {
 		$this->get_version($request);
 		$consumer = $this->get_consumer($request);

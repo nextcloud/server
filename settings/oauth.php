@@ -9,7 +9,7 @@ require_once('../lib/base.php');
 
 // Logic
 $operation = isset($_GET['operation']) ? $_GET['operation'] : '';
-$server = new OC_OAuthServer(new OC_OAuthStore());
+$server = new OC_OAuth_Server(new OC_OAuth_Store());
 switch($operation){
 	
 	case 'register':
