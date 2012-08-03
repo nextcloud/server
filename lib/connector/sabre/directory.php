@@ -48,11 +48,23 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * @return null|string
 	 */
 	public function createFile($name, $data = null) {
+		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+			$info = OC_FileChunking::decodeName($name);
+			$chunk_handler = new OC_FileChunking($info);
+			$chunk_handler->store($info['index'], $data);
+			if ($chunk_handler->isComplete()) {
+				$newPath = $this->path . '/' . $info['name'];
+				$f = OC_Filesystem::fopen($newPath, 'w');
+				$chunk_handler->assemble($f);
+				return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
+			}
+		} else {
+			$newPath = $this->path . '/' . $name;
+			OC_Filesystem::file_put_contents($newPath,$data);
+			return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
+		}
 
-		$newPath = $this->path . '/' . $name;
-		OC_Filesystem::file_put_contents($newPath,$data);
-
-		return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
+		return null;
 	}
 
 	/**
