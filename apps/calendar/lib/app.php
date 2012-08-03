@@ -383,8 +383,8 @@ class OC_Calendar_App{
 		$lastmodified = ($last_modified)?$last_modified->getDateTime()->format('U'):0;
 		
 		$output = array('id'=>(int)$event['id'],
-						'title' => htmlspecialchars(($event['summary']!=NULL || $event['summary'] != '')?$event['summary']: self::$l10n->t('unnamed')),
-						'description' => isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'',
+						'title' => ($event['summary']!=NULL || $event['summary'] != '')?$event['summary']: self::$l10n->t('unnamed'),
+						'description' => isset($vevent->DESCRIPTION)?$vevent->DESCRIPTION->value:'',
 						'lastmodified'=>$lastmodified);
 		
 		$dtstart = $vevent->DTSTART;
