@@ -107,16 +107,16 @@ class OC_API {
 		$numresponses = count($responses);
 		
 		foreach($responses as $response){
-			if(is_int($response) && empty($finalresponse)){
-				$finalresponse = $response;
+			if(is_int($response['response']) && empty($finalresponse)){
+				$finalresponse = $response['response'];
 				continue;
 			}
-			if(is_array($response)){
+			if(is_array($response['response'])){
 				// Shipped apps win
 				if(OC_App::isShipped($response['app'])){
-					$finalresponse = array_merge_recursive($finalresponse, $response);
+					$finalresponse = array_merge_recursive($finalresponse, $response['response']);
 				} else {
-					$finalresponse = array_merge_recursive($response, $finalresponse);
+					$finalresponse = array_merge_recursive($response['response'], $finalresponse);
 				}
 			}
 		}

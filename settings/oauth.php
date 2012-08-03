@@ -76,8 +76,8 @@ switch($operation){
 		}
 		break;
 	default:
-		// Something went wrong
-		header('Location: /');
+		// Something went wrong, we need an operation!
+		OC_Response::setStatus(400);
 	break;
 	
 }
