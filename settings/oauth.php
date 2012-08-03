@@ -27,7 +27,7 @@ switch($operation){
 		}
 		break;
 	case 'authorise';
-		OC_Util::checkLoggedIn();
+		OC_API::checkLoggedIn();
 		// Example
 		$consumer = array(
 			'name' => 'Firefox Bookmark Sync',
@@ -38,6 +38,8 @@ switch($operation){
 		$apps = OC_App::getEnabledApps();
 		$notfound = array();
 		foreach($consumer['scopes'] as $requiredapp){
+			// App scopes are in this format: app_$appname
+			$requiredapp = end(explode('_', $requiredapp));
 			if(!in_array($requiredapp, $apps)){
 				$notfound[] = $requiredapp;
 			}
