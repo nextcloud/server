@@ -666,9 +666,9 @@ class OC_LDAP {
 			self::$ldapPort              = OCP\Config::getAppValue('user_ldap', 'ldap_port', 389);
 			self::$ldapAgentName         = OCP\Config::getAppValue('user_ldap', 'ldap_dn','');
 			self::$ldapAgentPassword     = base64_decode(OCP\Config::getAppValue('user_ldap', 'ldap_agent_password',''));
-			self::$ldapBase              = OCP\Config::getAppValue('user_ldap', 'ldap_base', '');
-			self::$ldapBaseUsers         = OCP\Config::getAppValue('user_ldap', 'ldap_base_users',self::$ldapBase);
-			self::$ldapBaseGroups        = OCP\Config::getAppValue('user_ldap', 'ldap_base_groups', self::$ldapBase);
+			self::$ldapBase              = self::sanitizeDN(OCP\Config::getAppValue('user_ldap', 'ldap_base', ''));
+			self::$ldapBaseUsers         = self::sanitizeDN(OCP\Config::getAppValue('user_ldap', 'ldap_base_users',self::$ldapBase));
+			self::$ldapBaseGroups        = self::sanitizeDN(OCP\Config::getAppValue('user_ldap', 'ldap_base_groups', self::$ldapBase));
 			self::$ldapTLS               = OCP\Config::getAppValue('user_ldap', 'ldap_tls',0);
 			self::$ldapNoCase            = OCP\Config::getAppValue('user_ldap', 'ldap_nocase', 0);
 			self::$ldapUserDisplayName   = strtolower(OCP\Config::getAppValue('user_ldap', 'ldap_display_name', 'uid'));
