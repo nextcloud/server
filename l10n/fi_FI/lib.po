@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-29 02:04+0200\n"
-"PO-Revision-Date: 2012-07-28 15:54+0000\n"
+"POT-Creation-Date: 2012-08-03 02:02+0200\n"
+"PO-Revision-Date: 2012-08-02 18:23+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr "Ohje"
 
 #: app.php:294
 msgid "Personal"
-msgstr ""
+msgstr "Henkilökohtainen"
 
 #: app.php:299
 msgid "Settings"
@@ -60,7 +60,7 @@ msgstr "Valitut tiedostot ovat liian suurikokoisia mahtuakseen zip-tiedostoon."
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "Sovellusta ei ole otettu käyttöön"
 
 #: json.php:39 json.php:63 json.php:75
 msgid "Authentication error"
@@ -68,7 +68,7 @@ msgstr "Todennusvirhe"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Valtuutus vanheni. Lataa sivu uudelleen."
 
 #: template.php:86
 msgid "seconds ago"

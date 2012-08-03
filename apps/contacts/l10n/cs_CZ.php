@@ -51,7 +51,6 @@
 "Not implemented" => "Neimplementováno",
 "Couldn't get a valid address." => "Nelze získat platnou adresu.",
 "Error" => "Chyba",
-"Contact" => "Kontakt",
 "This property has to be non-empty." => "Tento parametr nemuže zůstat nevyplněn.",
 "Couldn't serialize elements." => "Prvky nelze převést..",
 "'deleteProperty' called without type argument. Please report at bugs.owncloud.org" => "'deleteProperty' voláno bez argumentu. Prosím oznamte chybu na bugs.owncloud.org",
@@ -80,6 +79,7 @@
 "Internet" => "Internet",
 "Birthday" => "Narozeniny",
 "{name}'s Birthday" => "Narozeniny {name}",
+"Contact" => "Kontakt",
 "Add Contact" => "Přidat kontakt",
 "Import" => "Import",
 "Addressbooks" => "Adresáře",
@@ -142,13 +142,6 @@
 "Esq." => "Esq.",
 "Jr." => "ml.",
 "Sn." => "st.",
-"New Addressbook" => "Nový adresář",
-"Edit Addressbook" => "Editace adresáře",
-"Displayname" => "Zobrazené jméno",
-"Active" => "Aktivní",
-"Save" => "Uložit",
-"Submit" => "Potvrdit",
-"Cancel" => "Storno",
 "Import a contacts file" => "Importovat soubor kontaktů",
 "Please choose the addressbook" => "Prosím zvolte adresář",
 "create a new addressbook" => "vytvořit nový adresář",
@@ -163,5 +156,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "Stažení",
 "Edit" => "Editovat",
-"New Address Book" => "Nový adresář"
+"New Address Book" => "Nový adresář",
+"Save" => "Uložit",
+"Cancel" => "Storno"
 );

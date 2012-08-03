@@ -26,7 +26,6 @@
 "checksum is not set." => "suma de control nu este stabilită.",
 "Error updating contact property." => "Eroare la actualizarea proprietăților contactului.",
 "Contacts" => "Contacte",
-"Contact" => "Contact",
 "This is not your addressbook." => "Nu se găsește în agendă.",
 "Contact could not be found." => "Contactul nu a putut fi găsit.",
 "Address" => "Adresă",
@@ -45,6 +44,7 @@
 "Internet" => "Internet",
 "Birthday" => "Zi de naștere",
 "{name}'s Birthday" => "Ziua de naștere a {name}",
+"Contact" => "Contact",
 "Add Contact" => "Adaugă contact",
 "Addressbooks" => "Agende",
 "Edit name details" => "Introdu detalii despre nume",
@@ -71,14 +71,9 @@
 "Zipcode" => "Cod poștal",
 "Country" => "Țară",
 "Addressbook" => "Agendă",
-"New Addressbook" => "Agendă nouă",
-"Edit Addressbook" => "Modifică agenda",
-"Displayname" => "Nume afișat",
-"Active" => "Activ",
-"Save" => "Salvează",
-"Submit" => "Trimite",
-"Cancel" => "Anulează",
 "Download" => "Descarcă",
 "Edit" => "Editează",
-"New Address Book" => "Agendă nouă"
+"New Address Book" => "Agendă nouă",
+"Save" => "Salvează",
+"Cancel" => "Anulează"
 );

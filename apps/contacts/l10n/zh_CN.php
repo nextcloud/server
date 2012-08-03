@@ -51,7 +51,6 @@
 "Not implemented" => "未实现",
 "Couldn't get a valid address." => "无法获取一个合法的地址。",
 "Error" => "错误",
-"Contact" => "联系人",
 "This property has to be non-empty." => "这个属性必须是非空的",
 "Couldn't serialize elements." => "无法序列化元素",
 "'deleteProperty' called without type argument. Please report at bugs.owncloud.org" => "'deleteProperty' 调用时没有类型声明。请到 bugs.owncloud.org 汇报错误",
@@ -80,6 +79,7 @@
 "Internet" => "互联网",
 "Birthday" => "生日",
 "{name}'s Birthday" => "{name} 的生日",
+"Contact" => "联系人",
 "Add Contact" => "添加联系人",
 "Import" => "导入",
 "Addressbooks" => "地址簿",
@@ -142,13 +142,6 @@
 "Esq." => "先生",
 "Jr." => "小",
 "Sn." => "老",
-"New Addressbook" => "新建地址簿",
-"Edit Addressbook" => "编辑地址簿",
-"Displayname" => "显示名称",
-"Active" => "激活",
-"Save" => "保存",
-"Submit" => "提交",
-"Cancel" => "取消",
 "Import a contacts file" => "导入联系人文件",
 "Please choose the addressbook" => "请选择地址簿",
 "create a new addressbook" => "创建新地址簿",
@@ -163,5 +156,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "下载",
 "Edit" => "编辑",
-"New Address Book" => "新建地址簿"
+"New Address Book" => "新建地址簿",
+"Save" => "保存",
+"Cancel" => "取消"
 );

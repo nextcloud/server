@@ -51,7 +51,6 @@
 "Not implemented" => "Não implementado",
 "Couldn't get a valid address." => "Não foi possível obter um endereço válido.",
 "Error" => "Erro",
-"Contact" => "Contacto",
 "This property has to be non-empty." => "Esta propriedade não pode estar vazia.",
 "Couldn't serialize elements." => "Não foi possivel serializar os elementos",
 "'deleteProperty' called without type argument. Please report at bugs.owncloud.org" => "'deleteProperty' chamada sem argumento definido. Por favor report o problema em bugs.owncloud.org",
@@ -80,6 +79,7 @@
 "Internet" => "Internet",
 "Birthday" => "Aniversário",
 "{name}'s Birthday" => "Aniversário de {name}",
+"Contact" => "Contacto",
 "Add Contact" => "Adicionar Contacto",
 "Import" => "Importar",
 "Addressbooks" => "Livros de endereços",
@@ -142,13 +142,6 @@
 "Esq." => "Esq.",
 "Jr." => "Jr.",
 "Sn." => "r.",
-"New Addressbook" => "Novo livro de endereços",
-"Edit Addressbook" => "Editar livro de endereços",
-"Displayname" => "Nome de exibição",
-"Active" => "Ativo",
-"Save" => "Guardar",
-"Submit" => "Submeter",
-"Cancel" => "Cancelar",
 "Import a contacts file" => "Importar um ficheiro de contactos",
 "Please choose the addressbook" => "Por favor seleccione o livro de endereços",
 "create a new addressbook" => "Criar um novo livro de endereços",
@@ -163,5 +156,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "Transferir",
 "Edit" => "Editar",
-"New Address Book" => "Novo livro de endereços"
+"New Address Book" => "Novo livro de endereços",
+"Save" => "Guardar",
+"Cancel" => "Cancelar"
 );

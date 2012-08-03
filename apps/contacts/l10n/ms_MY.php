@@ -51,7 +51,6 @@
 "Not implemented" => "Tidak digunakan",
 "Couldn't get a valid address." => "Tidak boleh mendapat alamat yang sah.",
 "Error" => "Ralat",
-"Contact" => "Hubungan",
 "This property has to be non-empty." => "Nilai ini tidak boleh kosong.",
 "Couldn't serialize elements." => "Tidak boleh menggabungkan elemen.",
 "'deleteProperty' called without type argument. Please report at bugs.owncloud.org" => "'deleteProperty' dipanggil tanpa argumen taip. Sila maklumkan di bugs.owncloud.org",
@@ -80,6 +79,7 @@
 "Internet" => "Internet",
 "Birthday" => "Hari lahir",
 "{name}'s Birthday" => "Hari Lahir {name}",
+"Contact" => "Hubungan",
 "Add Contact" => "Tambah kenalan",
 "Import" => "Import",
 "Addressbooks" => "Senarai Buku Alamat",
@@ -142,13 +142,6 @@
 "Esq." => "Esq.",
 "Jr." => "Jr.",
 "Sn." => "Sn.",
-"New Addressbook" => "Buku Alamat Baru",
-"Edit Addressbook" => "Kemaskini Buku Alamat",
-"Displayname" => "Paparan nama",
-"Active" => "Aktif",
-"Save" => "Simpan",
-"Submit" => "Hantar",
-"Cancel" => "Batal",
 "Import a contacts file" => "Import fail kenalan",
 "Please choose the addressbook" => "Sila pilih buku alamat",
 "create a new addressbook" => "Cipta buku alamat baru",
@@ -163,5 +156,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "Muat naik",
 "Edit" => "Sunting",
-"New Address Book" => "Buku Alamat Baru"
+"New Address Book" => "Buku Alamat Baru",
+"Save" => "Simpan",
+"Cancel" => "Batal"
 );

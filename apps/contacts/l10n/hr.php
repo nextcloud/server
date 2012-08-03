@@ -37,7 +37,6 @@
 "No file was uploaded" => "Datoteka nije poslana",
 "Missing a temporary folder" => "Nedostaje privremeni direktorij",
 "Contacts" => "Kontakti",
-"Contact" => "Kontakt",
 "This is not your addressbook." => "Ovo nije vaš adresar.",
 "Contact could not be found." => "Kontakt ne postoji.",
 "Address" => "Adresa",
@@ -56,6 +55,7 @@
 "Internet" => "Internet",
 "Birthday" => "Rođendan",
 "{name}'s Birthday" => "{name} Rođendan",
+"Contact" => "Kontakt",
 "Add Contact" => "Dodaj kontakt",
 "Import" => "Uvezi",
 "Addressbooks" => "Adresari",
@@ -88,14 +88,9 @@
 "Zipcode" => "Poštanski broj",
 "Country" => "Država",
 "Addressbook" => "Adresar",
-"New Addressbook" => "Novi adresar",
-"Edit Addressbook" => "Uredi adresar",
-"Displayname" => "Prikazani naziv",
-"Active" => "Aktivno",
-"Save" => "Spremi",
-"Submit" => "Pošalji",
-"Cancel" => "Prekini",
 "Download" => "Preuzimanje",
 "Edit" => "Uredi",
-"New Address Book" => "Novi adresar"
+"New Address Book" => "Novi adresar",
+"Save" => "Spremi",
+"Cancel" => "Prekini"
 );

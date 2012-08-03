@@ -49,7 +49,6 @@
 "Not implemented" => "Ne disponebla",
 "Couldn't get a valid address." => "Ne eblis ekhavi validan adreson.",
 "Error" => "Eraro",
-"Contact" => "Kontakto",
 "This property has to be non-empty." => "Ĉi tiu propraĵo devas ne esti malplena.",
 "Edit name" => "Redakti nomon",
 "No files selected for upload." => "Neniu dosiero elektita por alŝuto.",
@@ -75,6 +74,7 @@
 "Internet" => "Interreto",
 "Birthday" => "Naskiĝotago",
 "{name}'s Birthday" => "Naskiĝtago de {name}",
+"Contact" => "Kontakto",
 "Add Contact" => "Aldoni kontakton",
 "Import" => "Enporti",
 "Addressbooks" => "Adresaroj",
@@ -129,13 +129,6 @@
 "Additional names" => "Pliaj nomoj",
 "Family name" => "Familia nomo",
 "Hon. suffixes" => "Honoraj postmetaĵoj",
-"New Addressbook" => "Nova adresaro",
-"Edit Addressbook" => "Redakti adresaron",
-"Displayname" => "Montronomo",
-"Active" => "Aktiva",
-"Save" => "Konservi",
-"Submit" => "Sendi",
-"Cancel" => "Nuligi",
 "Import a contacts file" => "Enporti kontaktodosieron",
 "Please choose the addressbook" => "Bonvolu elekti adresaron",
 "create a new addressbook" => "krei novan adresaron",
@@ -150,5 +143,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "Elŝuti",
 "Edit" => "Redakti",
-"New Address Book" => "Nova adresaro"
+"New Address Book" => "Nova adresaro",
+"Save" => "Konservi",
+"Cancel" => "Nuligi"
 );

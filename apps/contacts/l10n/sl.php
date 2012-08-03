@@ -51,7 +51,6 @@
 "Not implemented" => "Ni podprto",
 "Couldn't get a valid address." => "Ne morem dobiti veljavnega naslova.",
 "Error" => "Napaka",
-"Contact" => "Stik",
 "This property has to be non-empty." => "Ta lastnost ne sme biti prazna",
 "Couldn't serialize elements." => "Predmetov ni bilo mogoče dati v zaporedje.",
 "'deleteProperty' called without type argument. Please report at bugs.owncloud.org" => "\"deleteProperty\" je bila klicana brez vrste argumenta. Prosimo, če oddate  poročilo o napaki na bugs.owncloud.org",
@@ -80,6 +79,7 @@
 "Internet" => "Internet",
 "Birthday" => "Rojstni dan",
 "{name}'s Birthday" => "{name} - rojstni dan",
+"Contact" => "Stik",
 "Add Contact" => "Dodaj stik",
 "Import" => "Uvozi",
 "Addressbooks" => "Imeniki",
@@ -142,13 +142,6 @@
 "Esq." => "Esq.",
 "Jr." => "mlajši",
 "Sn." => "starejši",
-"New Addressbook" => "Nov imenik",
-"Edit Addressbook" => "Uredi imenik",
-"Displayname" => "Ime za prikaz",
-"Active" => "Aktiven",
-"Save" => "Shrani",
-"Submit" => "Potrdi",
-"Cancel" => "Prekliči",
 "Import a contacts file" => "Uvozi datoteko s stiki",
 "Please choose the addressbook" => "Prosimo, če izberete imenik",
 "create a new addressbook" => "Ustvari nov imenik",
@@ -163,5 +156,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "Prenesi",
 "Edit" => "Uredi",
-"New Address Book" => "Nov imenik"
+"New Address Book" => "Nov imenik",
+"Save" => "Shrani",
+"Cancel" => "Prekliči"
 );

@@ -8,7 +8,6 @@
 "Error deleting contact property." => "Eit problem oppstod ved å slette kontaktfeltet.",
 "Error updating contact property." => "Eit problem oppstod ved å endre kontaktfeltet.",
 "Contacts" => "Kotaktar",
-"Contact" => "Kontakt",
 "This is not your addressbook." => "Dette er ikkje di adressebok.",
 "Contact could not be found." => "Fann ikkje kontakten.",
 "Address" => "Adresse",
@@ -24,6 +23,7 @@
 "Video" => "Video",
 "Pager" => "Personsøkjar",
 "Birthday" => "Bursdag",
+"Contact" => "Kontakt",
 "Add Contact" => "Legg til kontakt",
 "Addressbooks" => "Adressebøker",
 "Delete" => "Slett",
@@ -39,14 +39,9 @@
 "Zipcode" => "Postnummer",
 "Country" => "Land",
 "Addressbook" => "Adressebok",
-"New Addressbook" => "Ny adressebok",
-"Edit Addressbook" => "Endre adressebok",
-"Displayname" => "Visningsnamn",
-"Active" => "Aktiv",
-"Save" => "Lagre",
-"Submit" => "Send",
-"Cancel" => "Kanseller",
 "Download" => "Last ned",
 "Edit" => "Endra",
-"New Address Book" => "Ny adressebok"
+"New Address Book" => "Ny adressebok",
+"Save" => "Lagre",
+"Cancel" => "Kanseller"
 );

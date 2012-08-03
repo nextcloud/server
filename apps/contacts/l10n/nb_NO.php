@@ -39,7 +39,6 @@
 "No file was uploaded. Unknown error" => "Ingen filer ble lastet opp. Ukjent feil.",
 "Contacts" => "Kontakter",
 "Error" => "Feil",
-"Contact" => "Kontakt",
 "Edit name" => "Endre navn",
 "No files selected for upload." => "Ingen filer valgt for opplasting.",
 "The file you are trying to upload exceed the maximum size for file uploads on this server." => "Filen du prøver å laste opp er for stor.",
@@ -65,6 +64,7 @@
 "Internet" => "Internett",
 "Birthday" => "Bursdag",
 "{name}'s Birthday" => "{name}s bursdag",
+"Contact" => "Kontakt",
 "Add Contact" => "Ny kontakt",
 "Import" => "Importer",
 "Addressbooks" => "Adressebøker",
@@ -119,13 +119,6 @@
 "Ph.D." => "Stipendiat",
 "Jr." => "Jr.",
 "Sn." => "Sr.",
-"New Addressbook" => "Ny adressebok",
-"Edit Addressbook" => "Endre adressebok",
-"Displayname" => "Visningsnavn",
-"Active" => "Aktiv",
-"Save" => "Lagre",
-"Submit" => "Lagre",
-"Cancel" => "Avbryt",
 "Import a contacts file" => "Importer en fil med kontakter.",
 "Please choose the addressbook" => "Vennligst velg adressebok",
 "create a new addressbook" => "Lag ny adressebok",
@@ -139,5 +132,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "Hent ned",
 "Edit" => "Rediger",
-"New Address Book" => "Ny adressebok"
+"New Address Book" => "Ny adressebok",
+"Save" => "Lagre",
+"Cancel" => "Avbryt"
 );

@@ -8,7 +8,6 @@
 "Error deleting contact property." => "خطء خلال محي الصفه.",
 "Error updating contact property." => "خطء خلال تعديل الصفه.",
 "Contacts" => "المعارف",
-"Contact" => "معرفه",
 "This is not your addressbook." => "هذا ليس دفتر عناوينك.",
 "Contact could not be found." => "لم يتم العثور على الشخص.",
 "Address" => "عنوان",
@@ -24,6 +23,7 @@
 "Video" => "الفيديو",
 "Pager" => "الرنان",
 "Birthday" => "تاريخ الميلاد",
+"Contact" => "معرفه",
 "Add Contact" => "أضف شخص ",
 "Addressbooks" => "كتب العناوين",
 "Delete" => "حذف",
@@ -39,14 +39,9 @@
 "Zipcode" => "رقم المنطقة",
 "Country" => "البلد",
 "Addressbook" => "كتاب العناوين",
-"New Addressbook" => "كتاب عناوين جديد",
-"Edit Addressbook" => "عدل كتاب العناوين",
-"Displayname" => "الاسم المعروض",
-"Active" => "فعال",
-"Save" => "حفظ",
-"Submit" => "ارسال",
-"Cancel" => "الغاء",
 "Download" => "انزال",
 "Edit" => "تعديل",
-"New Address Book" => "كتاب عناوين جديد"
+"New Address Book" => "كتاب عناوين جديد",
+"Save" => "حفظ",
+"Cancel" => "الغاء"
 );

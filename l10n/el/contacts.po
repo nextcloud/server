@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-02 02:02+0200\n"
-"PO-Revision-Date: 2012-08-02 00:03+0000\n"
+"POT-Creation-Date: 2012-08-03 02:02+0200\n"
+"PO-Revision-Date: 2012-08-03 00:02+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -138,31 +138,31 @@ msgstr "Το αρχείο δεν υπάρχει:"
 msgid "Error loading image."
 msgstr "Σφάλμα φόρτωσης εικόνας"
 
-#: ajax/savecrop.php:64
+#: ajax/savecrop.php:66
 msgid "Error getting contact object."
 msgstr "Σφάλμα κατά τη λήψη αντικειμένου επαφής"
 
-#: ajax/savecrop.php:73
+#: ajax/savecrop.php:76
 msgid "Error getting PHOTO property."
 msgstr "Σφάλμα κατά τη λήψη ιδιοτήτων ΦΩΤΟΓΡΑΦΙΑΣ."
 
-#: ajax/savecrop.php:90
+#: ajax/savecrop.php:95
 msgid "Error saving contact."
 msgstr "Σφάλμα κατά την αποθήκευση επαφής."
 
-#: ajax/savecrop.php:100
+#: ajax/savecrop.php:105
 msgid "Error resizing image"
 msgstr "Σφάλμα κατά την αλλαγή μεγέθους εικόνας"
 
-#: ajax/savecrop.php:103
+#: ajax/savecrop.php:108
 msgid "Error cropping image"
 msgstr "Σφάλμα κατά την περικοπή εικόνας"
 
-#: ajax/savecrop.php:106
+#: ajax/savecrop.php:111
 msgid "Error creating temporary image"
 msgstr "Σφάλμα κατά την δημιουργία προσωρινής εικόνας"
 
-#: ajax/savecrop.php:109
+#: ajax/savecrop.php:114
 msgid "Error finding image: "
 msgstr "Σφάλμα κατά την εύρεση της εικόνας: "
 
@@ -170,15 +170,15 @@ msgstr "Σφάλμα κατά την εύρεση της εικόνας: "
 msgid "checksum is not set."
 msgstr "δε ορίστηκε checksum "
 
-#: ajax/saveproperty.php:59
+#: ajax/saveproperty.php:60
 msgid "Information about vCard is incorrect. Please reload the page: "
 msgstr "Οι πληροφορίες για τη vCard είναι λανθασμένες.Παρακαλώ ξαναφορτώστε τη σελίδα: "
 
-#: ajax/saveproperty.php:64
+#: ajax/saveproperty.php:67
 msgid "Something went FUBAR. "
 msgstr "Κάτι χάθηκε στο άγνωστο. "
 
-#: ajax/saveproperty.php:133
+#: ajax/saveproperty.php:142
 msgid "Error updating contact property."
 msgstr "Σφάλμα ενημέρωσης ιδιότητας επαφής."
 
@@ -228,77 +228,65 @@ msgstr "Δεν ανέβηκε κάποιο αρχείο. Άγνωστο σφάλ
 msgid "Contacts"
 msgstr "Επαφές"
 
-#: js/contacts.js:72
+#: js/contacts.js:71
 msgid "Sorry, this functionality has not been implemented yet"
 msgstr "Λυπούμαστε, αυτή η λειτουργία δεν έχει υλοποιηθεί ακόμα"
 
-#: js/contacts.js:72
+#: js/contacts.js:71
 msgid "Not implemented"
 msgstr "Δεν έχει υλοποιηθεί"
 
-#: js/contacts.js:77
+#: js/contacts.js:76
 msgid "Couldn't get a valid address."
 msgstr "Αδυναμία λήψης έγκυρης διεύθυνσης"
 
-#: js/contacts.js:77 js/contacts.js:366 js/contacts.js:382 js/contacts.js:395
-#: js/contacts.js:683 js/contacts.js:723 js/contacts.js:749 js/contacts.js:786
-#: js/contacts.js:858 js/contacts.js:864 js/contacts.js:876 js/contacts.js:910
-#: js/contacts.js:1173 js/contacts.js:1181 js/contacts.js:1190
-#: js/contacts.js:1225 js/contacts.js:1257 js/contacts.js:1269
-#: js/contacts.js:1292 js/contacts.js:1430 js/contacts.js:1461
+#: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
+#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:778
+#: js/contacts.js:850 js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
+#: js/contacts.js:1165 js/contacts.js:1173 js/contacts.js:1182
+#: js/contacts.js:1217 js/contacts.js:1249 js/contacts.js:1261
+#: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1452
 #: js/settings.js:25 js/settings.js:42 js/settings.js:67
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: js/contacts.js:408 lib/search.php:15
-msgid "Contact"
-msgstr "Επαφή"
-
-#: js/contacts.js:408
-msgid "New"
-msgstr "Νέο"
-
-#: js/contacts.js:408
-msgid "New Contact"
-msgstr "Νέα επαφή"
-
-#: js/contacts.js:723
+#: js/contacts.js:715
 msgid "This property has to be non-empty."
 msgstr "Το πεδίο δεν πρέπει να είναι άδειο."
 
-#: js/contacts.js:749
+#: js/contacts.js:741
 msgid "Couldn't serialize elements."
 msgstr "Αδύνατο να μπουν σε σειρά τα στοιχεία"
 
-#: js/contacts.js:858 js/contacts.js:876
+#: js/contacts.js:850 js/contacts.js:868
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
 msgstr "το 'deleteProperty' καλέστηκε χωρίς  without type argument. Παρακαλώ αναφέρατε στο bugs.owncloud.org"
 
-#: js/contacts.js:892
+#: js/contacts.js:884
 msgid "Edit name"
 msgstr "Αλλαγή ονόματος"
 
-#: js/contacts.js:1173
+#: js/contacts.js:1165
 msgid "No files selected for upload."
 msgstr "Δεν επιλέχτηκαν αρχεία για μεταφόρτωση"
 
-#: js/contacts.js:1181
+#: js/contacts.js:1173
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Το αρχείο που προσπαθείτε να ανεβάσετε υπερβαίνει το μέγιστο μέγεθος για τις προσθήκες αρχείων σε αυτόν τον server."
 
-#: js/contacts.js:1346 js/contacts.js:1380
+#: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
 msgstr "Επιλογή τύπου"
 
-#: js/contacts.js:1399
+#: js/contacts.js:1390
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
-msgstr ""
+msgstr "Κάποιες επαφές σημειώθηκαν προς διαγραφή,δεν έχουν διαγραφεί ακόμα. Παρακαλώ περιμένετε μέχρι να διαγραφούν."
 
 #: js/loader.js:49
 msgid "Result: "
@@ -446,6 +434,10 @@ msgstr "Ερωτήσεις"
 msgid "{name}'s Birthday"
 msgstr "{name} έχει Γενέθλια"
 
+#: lib/search.php:15
+msgid "Contact"
+msgstr "Επαφή"
+
 #: templates/index.php:14
 msgid "Add Contact"
 msgstr "Προσθήκη επαφής"
@@ -456,57 +448,57 @@ msgstr "Εισαγωγή"
 
 #: templates/index.php:18
 msgid "Settings"
-msgstr ""
+msgstr "Ρυθμίσεις"
 
 #: templates/index.php:18 templates/settings.php:9
 msgid "Addressbooks"
 msgstr "Βιβλία διευθύνσεων"
 
-#: templates/index.php:37 templates/part.import.php:24
+#: templates/index.php:36 templates/part.import.php:24
 msgid "Close"
 msgstr "Κλείσιμο  "
 
-#: templates/index.php:39
+#: templates/index.php:37
 msgid "Keyboard shortcuts"
 msgstr "Συντομεύσεις πλητρολογίου"
 
-#: templates/index.php:41
+#: templates/index.php:39
 msgid "Navigation"
 msgstr "Πλοήγηση"
 
-#: templates/index.php:44
+#: templates/index.php:42
 msgid "Next contact in list"
 msgstr "Επόμενη επαφή στη λίστα"
 
-#: templates/index.php:46
+#: templates/index.php:44
 msgid "Previous contact in list"
 msgstr "Προηγούμενη επαφή στη λίστα"
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Expand/collapse current addressbook"
 msgstr "Ανάπτυξη/σύμπτυξη τρέχοντος βιβλίου διευθύνσεων"
 
-#: templates/index.php:50
+#: templates/index.php:48
 msgid "Next/previous addressbook"
 msgstr "Επόμενο/προηγούμενο βιβλίο διευθύνσεων"
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "Actions"
 msgstr "Ενέργειες"
 
-#: templates/index.php:57
+#: templates/index.php:55
 msgid "Refresh contacts list"
 msgstr "Ανανέωσε τη λίστα επαφών"
 
-#: templates/index.php:59
+#: templates/index.php:57
 msgid "Add new contact"
 msgstr "Προσθήκη νέας επαφής"
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Add new addressbook"
 msgstr "Προσθήκη νέου βιβλίου επαφών"
 
-#: templates/index.php:63
+#: templates/index.php:61
 msgid "Delete current contact"
 msgstr "Διαγραφή τρέχουσας επαφής"
 
@@ -779,34 +771,6 @@ msgstr "Jr."
 msgid "Sn."
 msgstr "Sn."
 
-#: templates/part.editaddressbook.php:9
-msgid "New Addressbook"
-msgstr "Νέο βιβλίο διευθύνσεων"
-
-#: templates/part.editaddressbook.php:9
-msgid "Edit Addressbook"
-msgstr "Επεξεργασία βιβλίου διευθύνσεων"
-
-#: templates/part.editaddressbook.php:12
-msgid "Displayname"
-msgstr "Προβαλλόμενο όνομα"
-
-#: templates/part.editaddressbook.php:23
-msgid "Active"
-msgstr "Ενεργό"
-
-#: templates/part.editaddressbook.php:29 templates/settings.php:45
-msgid "Save"
-msgstr "Αποθήκευση"
-
-#: templates/part.editaddressbook.php:29
-msgid "Submit"
-msgstr "Καταχώρηση"
-
-#: templates/part.editaddressbook.php:30 templates/settings.php:46
-msgid "Cancel"
-msgstr "Ακύρωση"
-
 #: templates/part.import.php:1
 msgid "Import a contacts file"
 msgstr "Εισαγωγή αρχείου επαφών"
@@ -889,12 +853,20 @@ msgstr "Νέο βιβλίο διευθύνσεων"
 
 #: templates/settings.php:42
 msgid "Name"
-msgstr ""
+msgstr "Όνομα"
 
 #: templates/settings.php:43
 msgid "Description"
-msgstr ""
+msgstr "Περιγραφή"
+
+#: templates/settings.php:45
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#: templates/settings.php:46
+msgid "Cancel"
+msgstr "Ακύρωση"
 
 #: templates/settings.php:51
 msgid "More..."
-msgstr ""
+msgstr "Περισσότερα..."

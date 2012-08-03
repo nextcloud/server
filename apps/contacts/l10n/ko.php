@@ -50,7 +50,6 @@
 "Not implemented" => "구현되지 않음",
 "Couldn't get a valid address." => "유효한 주소를 얻을 수 없습니다.",
 "Error" => "오류",
-"Contact" => "연락처",
 "Couldn't serialize elements." => "요소를 직렬화 할 수 없습니다.",
 "'deleteProperty' called without type argument. Please report at bugs.owncloud.org" => "'deleteProperty'가 문서형식이 없이 불려왔습니다. bugs.owncloud.org에 보고해주세요. ",
 "Edit name" => "이름 편집",
@@ -78,6 +77,7 @@
 "Internet" => "인터넷",
 "Birthday" => "생일",
 "{name}'s Birthday" => "{이름}의 생일",
+"Contact" => "연락처",
 "Add Contact" => "연락처 추가",
 "Import" => "입력",
 "Addressbooks" => "주소록",
@@ -139,13 +139,6 @@
 "Esq." => "Esq.",
 "Jr." => "Jr.",
 "Sn." => "Sn.",
-"New Addressbook" => "새 주소록",
-"Edit Addressbook" => "주소록 편집",
-"Displayname" => "표시 이름",
-"Active" => "활성",
-"Save" => "저장",
-"Submit" => "보내기",
-"Cancel" => "취소",
 "Import a contacts file" => "연락처 파일 입력",
 "Please choose the addressbook" => "주소록을 선택해 주세요.",
 "create a new addressbook" => "새 주소록 만들기",
@@ -160,5 +153,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "다운로드",
 "Edit" => "편집",
-"New Address Book" => "새 주소록"
+"New Address Book" => "새 주소록",
+"Save" => "저장",
+"Cancel" => "취소"
 );

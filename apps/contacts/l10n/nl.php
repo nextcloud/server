@@ -37,7 +37,6 @@
 "No file was uploaded" => "Er is geen bestand geüpload",
 "Missing a temporary folder" => "Er ontbreekt een tijdelijke map",
 "Contacts" => "Contacten",
-"Contact" => "Contact",
 "This is not your addressbook." => "Dit is niet uw adresboek.",
 "Contact could not be found." => "Contact kon niet worden gevonden.",
 "Address" => "Adres",
@@ -56,6 +55,7 @@
 "Internet" => "Internet",
 "Birthday" => "Verjaardag",
 "{name}'s Birthday" => "{name}'s verjaardag",
+"Contact" => "Contact",
 "Add Contact" => "Contact toevoegen",
 "Import" => "Importeer",
 "Addressbooks" => "Adresboeken",
@@ -101,13 +101,6 @@
 "Given name" => "Voornaam",
 "Additional names" => "Extra namen",
 "Family name" => "Achternaam",
-"New Addressbook" => "Nieuw adresboek",
-"Edit Addressbook" => "Wijzig adresboek",
-"Displayname" => "Weergavenaam",
-"Active" => "Actief",
-"Save" => "Opslaan",
-"Submit" => "Opslaan",
-"Cancel" => "Anuleren",
 "Import a contacts file" => "Importeer een contacten bestand",
 "Please choose the addressbook" => "Kies een adresboek",
 "create a new addressbook" => "Maak een nieuw adresboek",
@@ -122,5 +115,7 @@
 "iOS/OS X" => "IOS/OS X",
 "Download" => "Download",
 "Edit" => "Bewerken",
-"New Address Book" => "Nieuw Adresboek"
+"New Address Book" => "Nieuw Adresboek",
+"Save" => "Opslaan",
+"Cancel" => "Anuleren"
 );

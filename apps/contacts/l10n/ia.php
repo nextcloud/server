@@ -7,7 +7,6 @@
 "No file was uploaded" => "Nulle file esseva incargate.",
 "Missing a temporary folder" => "Manca un dossier temporari",
 "Contacts" => "Contactos",
-"Contact" => "Contacto",
 "This is not your addressbook." => "Iste non es tu libro de adresses",
 "Contact could not be found." => "Contacto non poterea esser legite",
 "Address" => "Adresse",
@@ -25,6 +24,7 @@
 "Pager" => "Pager",
 "Internet" => "Internet",
 "Birthday" => "Anniversario",
+"Contact" => "Contacto",
 "Add Contact" => "Adder contacto",
 "Import" => "Importar",
 "Addressbooks" => "Adressarios",
@@ -67,12 +67,6 @@
 "Additional names" => "Nomines additional",
 "Family name" => "Nomine de familia",
 "Hon. suffixes" => "Suffixos honorific",
-"New Addressbook" => "Nove adressario",
-"Edit Addressbook" => "Modificar adressario",
-"Active" => "Active",
-"Save" => "Salveguardar",
-"Submit" => "Submitter",
-"Cancel" => "Cancellar",
 "Import a contacts file" => "Importar un file de contactos",
 "Please choose the addressbook" => "Per favor selige le adressario",
 "create a new addressbook" => "Crear un nove adressario",
@@ -82,5 +76,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "Discargar",
 "Edit" => "Modificar",
-"New Address Book" => "Nove adressario"
+"New Address Book" => "Nove adressario",
+"Save" => "Salveguardar",
+"Cancel" => "Cancellar"
 );

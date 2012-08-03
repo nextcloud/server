@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-02 02:02+0200\n"
-"PO-Revision-Date: 2012-08-02 00:03+0000\n"
+"POT-Creation-Date: 2012-08-03 02:02+0200\n"
+"PO-Revision-Date: 2012-08-03 00:02+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -137,31 +137,31 @@ msgstr "Archivo inexistente:"
 msgid "Error loading image."
 msgstr "Error cargando imagen."
 
-#: ajax/savecrop.php:64
+#: ajax/savecrop.php:66
 msgid "Error getting contact object."
 msgstr "Fallo al coger el contacto."
 
-#: ajax/savecrop.php:73
+#: ajax/savecrop.php:76
 msgid "Error getting PHOTO property."
 msgstr "Fallo al coger las propiedades de la foto ."
 
-#: ajax/savecrop.php:90
+#: ajax/savecrop.php:95
 msgid "Error saving contact."
 msgstr "Fallo al salvar un contacto"
 
-#: ajax/savecrop.php:100
+#: ajax/savecrop.php:105
 msgid "Error resizing image"
 msgstr "Fallo al cambiar de tamaño una foto"
 
-#: ajax/savecrop.php:103
+#: ajax/savecrop.php:108
 msgid "Error cropping image"
 msgstr "Fallo al cortar el tamaño de la foto"
 
-#: ajax/savecrop.php:106
+#: ajax/savecrop.php:111
 msgid "Error creating temporary image"
 msgstr "Fallo al crear la foto temporal"
 
-#: ajax/savecrop.php:109
+#: ajax/savecrop.php:114
 msgid "Error finding image: "
 msgstr "Fallo al encontrar la imagen"
 
@@ -169,15 +169,15 @@ msgstr "Fallo al encontrar la imagen"
 msgid "checksum is not set."
 msgstr "no se ha puesto ninguna suma de comprobación."
 
-#: ajax/saveproperty.php:59
+#: ajax/saveproperty.php:60
 msgid "Information about vCard is incorrect. Please reload the page: "
 msgstr "La información sobre la vCard es incorrecta. Por favor, recarga la página:"
 
-#: ajax/saveproperty.php:64
+#: ajax/saveproperty.php:67
 msgid "Something went FUBAR. "
 msgstr "Plof. Algo ha fallado."
 
-#: ajax/saveproperty.php:133
+#: ajax/saveproperty.php:142
 msgid "Error updating contact property."
 msgstr "Error al actualizar una propiedad del contacto."
 
@@ -227,73 +227,61 @@ msgstr "Fallo no se subió el fichero"
 msgid "Contacts"
 msgstr "Contactos"
 
-#: js/contacts.js:72
+#: js/contacts.js:71
 msgid "Sorry, this functionality has not been implemented yet"
 msgstr "Perdón esta función no esta aún implementada"
 
-#: js/contacts.js:72
+#: js/contacts.js:71
 msgid "Not implemented"
 msgstr "No esta implementada"
 
-#: js/contacts.js:77
+#: js/contacts.js:76
 msgid "Couldn't get a valid address."
 msgstr "Fallo : no hay dirección valida"
 
-#: js/contacts.js:77 js/contacts.js:366 js/contacts.js:382 js/contacts.js:395
-#: js/contacts.js:683 js/contacts.js:723 js/contacts.js:749 js/contacts.js:786
-#: js/contacts.js:858 js/contacts.js:864 js/contacts.js:876 js/contacts.js:910
-#: js/contacts.js:1173 js/contacts.js:1181 js/contacts.js:1190
-#: js/contacts.js:1225 js/contacts.js:1257 js/contacts.js:1269
-#: js/contacts.js:1292 js/contacts.js:1430 js/contacts.js:1461
+#: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
+#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:778
+#: js/contacts.js:850 js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
+#: js/contacts.js:1165 js/contacts.js:1173 js/contacts.js:1182
+#: js/contacts.js:1217 js/contacts.js:1249 js/contacts.js:1261
+#: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1452
 #: js/settings.js:25 js/settings.js:42 js/settings.js:67
 msgid "Error"
 msgstr "Fallo"
 
-#: js/contacts.js:408 lib/search.php:15
-msgid "Contact"
-msgstr "Contacto"
-
-#: js/contacts.js:408
-msgid "New"
-msgstr ""
-
-#: js/contacts.js:408
-msgid "New Contact"
-msgstr ""
-
-#: js/contacts.js:723
+#: js/contacts.js:715
 msgid "This property has to be non-empty."
 msgstr "Este campo no puede estar vacío."
 
-#: js/contacts.js:749
+#: js/contacts.js:741
 msgid "Couldn't serialize elements."
 msgstr "Fallo no podido ordenar los elementos"
 
-#: js/contacts.js:858 js/contacts.js:876
+#: js/contacts.js:850 js/contacts.js:868
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
 msgstr "La propiedad de \"borrar\" se llamado sin argumentos envia fallos a\nbugs.owncloud.org"
 
-#: js/contacts.js:892
+#: js/contacts.js:884
 msgid "Edit name"
 msgstr "Edita el Nombre"
 
-#: js/contacts.js:1173
+#: js/contacts.js:1165
 msgid "No files selected for upload."
 msgstr "No hay ficheros seleccionados para subir"
 
-#: js/contacts.js:1181
+#: js/contacts.js:1173
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "El fichero que quieres subir excede el tamaño máximo permitido en este servidor."
 
-#: js/contacts.js:1346 js/contacts.js:1380
+#: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
 msgstr "Selecciona el tipo"
 
-#: js/contacts.js:1399
+#: js/contacts.js:1390
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
@@ -445,6 +433,10 @@ msgstr ""
 msgid "{name}'s Birthday"
 msgstr "Cumpleaños de {name}"
 
+#: lib/search.php:15
+msgid "Contact"
+msgstr "Contacto"
+
 #: templates/index.php:14
 msgid "Add Contact"
 msgstr "Añadir contacto"
@@ -461,51 +453,51 @@ msgstr ""
 msgid "Addressbooks"
 msgstr "Libretas de direcciones"
 
-#: templates/index.php:37 templates/part.import.php:24
+#: templates/index.php:36 templates/part.import.php:24
 msgid "Close"
 msgstr "Cierra."
 
-#: templates/index.php:39
+#: templates/index.php:37
 msgid "Keyboard shortcuts"
 msgstr ""
 
-#: templates/index.php:41
+#: templates/index.php:39
 msgid "Navigation"
 msgstr ""
 
-#: templates/index.php:44
+#: templates/index.php:42
 msgid "Next contact in list"
 msgstr ""
 
-#: templates/index.php:46
+#: templates/index.php:44
 msgid "Previous contact in list"
 msgstr ""
 
-#: templates/index.php:48
+#: templates/index.php:46
 msgid "Expand/collapse current addressbook"
 msgstr ""
 
-#: templates/index.php:50
+#: templates/index.php:48
 msgid "Next/previous addressbook"
 msgstr ""
 
-#: templates/index.php:54
+#: templates/index.php:52
 msgid "Actions"
 msgstr ""
 
-#: templates/index.php:57
+#: templates/index.php:55
 msgid "Refresh contacts list"
 msgstr ""
 
-#: templates/index.php:59
+#: templates/index.php:57
 msgid "Add new contact"
 msgstr ""
 
-#: templates/index.php:61
+#: templates/index.php:59
 msgid "Add new addressbook"
 msgstr ""
 
-#: templates/index.php:63
+#: templates/index.php:61
 msgid "Delete current contact"
 msgstr ""
 
@@ -778,34 +770,6 @@ msgstr "Jr."
 msgid "Sn."
 msgstr "Sn."
 
-#: templates/part.editaddressbook.php:9
-msgid "New Addressbook"
-msgstr "Nueva libreta de direcciones"
-
-#: templates/part.editaddressbook.php:9
-msgid "Edit Addressbook"
-msgstr "Editar libreta de direcciones"
-
-#: templates/part.editaddressbook.php:12
-msgid "Displayname"
-msgstr "Nombre a mostrar"
-
-#: templates/part.editaddressbook.php:23
-msgid "Active"
-msgstr "Activo"
-
-#: templates/part.editaddressbook.php:29 templates/settings.php:45
-msgid "Save"
-msgstr "Guardar"
-
-#: templates/part.editaddressbook.php:29
-msgid "Submit"
-msgstr "Aceptar"
-
-#: templates/part.editaddressbook.php:30 templates/settings.php:46
-msgid "Cancel"
-msgstr "Cancelar"
-
 #: templates/part.import.php:1
 msgid "Import a contacts file"
 msgstr "Importar archivo de contactos"
@@ -893,6 +857,14 @@ msgstr ""
 #: templates/settings.php:43
 msgid "Description"
 msgstr ""
+
+#: templates/settings.php:45
+msgid "Save"
+msgstr "Guardar"
+
+#: templates/settings.php:46
+msgid "Cancel"
+msgstr "Cancelar"
 
 #: templates/settings.php:51
 msgid "More..."

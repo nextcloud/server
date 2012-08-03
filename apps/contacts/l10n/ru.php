@@ -51,7 +51,6 @@
 "Not implemented" => "Не реализовано",
 "Couldn't get a valid address." => "Не удалось получить адрес.",
 "Error" => "Ошибка",
-"Contact" => "Контакт",
 "This property has to be non-empty." => "Это свойство должно быть не пустым.",
 "Couldn't serialize elements." => "Не удалось сериализовать элементы.",
 "'deleteProperty' called without type argument. Please report at bugs.owncloud.org" => "'deleteProperty' called without type argument. Please report at bugs.owncloud.org",
@@ -80,6 +79,7 @@
 "Internet" => "Интернет",
 "Birthday" => "День рождения",
 "{name}'s Birthday" => "День рождения {name}",
+"Contact" => "Контакт",
 "Add Contact" => "Добавить Контакт",
 "Import" => "Импорт",
 "Addressbooks" => "Адресные книги",
@@ -142,13 +142,6 @@
 "Esq." => "Esq.",
 "Jr." => "Jr.",
 "Sn." => "Sn.",
-"New Addressbook" => "Новая адресная книга",
-"Edit Addressbook" => "Редактировать адресную книгу",
-"Displayname" => "Отображаемое имя",
-"Active" => "Активно",
-"Save" => "Сохранить",
-"Submit" => "Отправить",
-"Cancel" => "Отменить",
 "Import a contacts file" => "Загрузить файл контактов",
 "Please choose the addressbook" => "Выберите адресную книгу",
 "create a new addressbook" => "создать новую адресную книгу",
@@ -163,5 +156,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "Скачать",
 "Edit" => "Редактировать",
-"New Address Book" => "Новая адресная книга"
+"New Address Book" => "Новая адресная книга",
+"Save" => "Сохранить",
+"Cancel" => "Отменить"
 );

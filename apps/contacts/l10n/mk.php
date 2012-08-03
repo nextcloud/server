@@ -51,7 +51,6 @@
 "Not implemented" => "Не е имплементирано",
 "Couldn't get a valid address." => "Не можев да добијам исправна адреса.",
 "Error" => "Грешка",
-"Contact" => "Контакт",
 "This property has to be non-empty." => "Својството не смее да биде празно.",
 "Couldn't serialize elements." => "Не може да се серијализираат елементите.",
 "'deleteProperty' called without type argument. Please report at bugs.owncloud.org" => "'deleteProperty' повикан без тип на аргументот. Пријавете грешка/проблем на bugs.owncloud.org",
@@ -80,6 +79,7 @@
 "Internet" => "Интернет",
 "Birthday" => "Роденден",
 "{name}'s Birthday" => "Роденден на {name}",
+"Contact" => "Контакт",
 "Add Contact" => "Додади контакт",
 "Import" => "Внеси",
 "Addressbooks" => "Адресари",
@@ -142,13 +142,6 @@
 "Esq." => "Esq.",
 "Jr." => "Помлад.",
 "Sn." => "Постар.",
-"New Addressbook" => "Нов адресар",
-"Edit Addressbook" => "Уреди адресар",
-"Displayname" => "Прикажано име",
-"Active" => "Активно",
-"Save" => "Сними",
-"Submit" => "Прати",
-"Cancel" => "Откажи",
 "Import a contacts file" => "Внеси датотека со контакти",
 "Please choose the addressbook" => "Ве молам изберете адресар",
 "create a new addressbook" => "креирај нов адресар",
@@ -163,5 +156,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "Преземи",
 "Edit" => "Уреди",
-"New Address Book" => "Нов адресар"
+"New Address Book" => "Нов адресар",
+"Save" => "Сними",
+"Cancel" => "Откажи"
 );

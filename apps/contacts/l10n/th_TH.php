@@ -51,7 +51,6 @@
 "Not implemented" => "ยังไม่ได้ถูกดำเนินการ",
 "Couldn't get a valid address." => "ไม่สามารถดึงที่อยู่ที่ถูกต้องได้",
 "Error" => "พบข้อผิดพลาด",
-"Contact" => "ข้อมูลการติดต่อ",
 "This property has to be non-empty." => "คุณสมบัตินี้ต้องไม่มีข้อมูลว่างอยู่",
 "Couldn't serialize elements." => "ไม่สามารถทำสัญลักษณ์องค์ประกอบต่างๆให้เป็นตัวเลขตามลำดับได้",
 "'deleteProperty' called without type argument. Please report at bugs.owncloud.org" => "'deleteProperty' ถูกเรียกใช้โดยไม่มีอาร์กิวเมนต์ กรุณาแจ้งได้ที่ bugs.owncloud.org",
@@ -80,6 +79,7 @@
 "Internet" => "อินเทอร์เน็ต",
 "Birthday" => "วันเกิด",
 "{name}'s Birthday" => "วันเกิดของ {name}",
+"Contact" => "ข้อมูลการติดต่อ",
 "Add Contact" => "เพิ่มรายชื่อผู้ติดต่อใหม่",
 "Import" => "นำเข้า",
 "Addressbooks" => "สมุดบันทึกที่อยู่",
@@ -142,13 +142,6 @@
 "Esq." => "Esq.",
 "Jr." => "จูเนียร์",
 "Sn." => "ซีเนียร์",
-"New Addressbook" => "สร้างสมุดบันทึกที่อยู่ใหม่",
-"Edit Addressbook" => "แก้ไขสมุดบันทึกที่อยู่",
-"Displayname" => "ชื่อที่ต้องการให้แสดง",
-"Active" => "เปิดใช้",
-"Save" => "บันทึก",
-"Submit" => "ส่งข้อมูล",
-"Cancel" => "ยกเลิก",
 "Import a contacts file" => "นำเข้าไฟล์ข้อมูลการติดต่อ",
 "Please choose the addressbook" => "กรุณาเลือกสมุดบันทึกที่อยู่",
 "create a new addressbook" => "สร้างสมุดบันทึกที่อยู่ใหม่",
@@ -163,5 +156,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "ดาวน์โหลด",
 "Edit" => "แก้ไข",
-"New Address Book" => "สร้างสมุดบันทึกข้อมูลการติดต่อใหม่"
+"New Address Book" => "สร้างสมุดบันทึกข้อมูลการติดต่อใหม่",
+"Save" => "บันทึก",
+"Cancel" => "ยกเลิก"
 );

@@ -41,7 +41,6 @@
 "No file was uploaded" => "שום קובץ לא הועלה",
 "Missing a temporary folder" => "תקיה זמנית חסרה",
 "Contacts" => "אנשי קשר",
-"Contact" => "איש קשר",
 "This is not your addressbook." => "זהו אינו ספר הכתובות שלך",
 "Contact could not be found." => "לא ניתן לאתר איש קשר",
 "Address" => "כתובת",
@@ -60,6 +59,7 @@
 "Internet" => "אינטרנט",
 "Birthday" => "יום הולדת",
 "{name}'s Birthday" => "יום ההולדת של {name}",
+"Contact" => "איש קשר",
 "Add Contact" => "הוספת איש קשר",
 "Import" => "יבא",
 "Addressbooks" => "פנקסי כתובות",
@@ -119,13 +119,6 @@
 "Esq." => "Esq.",
 "Jr." => "Jr.",
 "Sn." => "Sn.",
-"New Addressbook" => "פנקס כתובות חדש",
-"Edit Addressbook" => "עריכת פנקס הכתובות",
-"Displayname" => "שם התצוגה",
-"Active" => "פעיל",
-"Save" => "שמירה",
-"Submit" => "ביצוע",
-"Cancel" => "ביטול",
 "Import a contacts file" => "יבא קובץ אנשי קשר",
 "Please choose the addressbook" => "אנא בחר ספר כתובות",
 "create a new addressbook" => "צור ספר כתובות חדש",
@@ -140,5 +133,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "הורדה",
 "Edit" => "עריכה",
-"New Address Book" => "פנקס כתובות חדש"
+"New Address Book" => "פנקס כתובות חדש",
+"Save" => "שמירה",
+"Cancel" => "ביטול"
 );

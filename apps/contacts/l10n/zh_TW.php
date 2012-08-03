@@ -12,7 +12,6 @@
 "Error updating contact property." => "更新通訊錄內容中發生錯誤",
 "No file was uploaded" => "沒有已上傳的檔案",
 "Contacts" => "通訊錄",
-"Contact" => "通訊錄",
 "This is not your addressbook." => "這不是你的電話簿",
 "Contact could not be found." => "通訊錄未發現",
 "Address" => "地址",
@@ -31,6 +30,7 @@
 "Internet" => "網際網路",
 "Birthday" => "生日",
 "{name}'s Birthday" => "{name}的生日",
+"Contact" => "通訊錄",
 "Add Contact" => "添加通訊錄",
 "Addressbooks" => "電話簿",
 "Edit name details" => "編輯姓名詳細資訊",
@@ -70,14 +70,9 @@
 "Given name" => "給定名（名）",
 "Additional names" => "額外名",
 "Family name" => "家族名（姓）",
-"New Addressbook" => "新電話簿",
-"Edit Addressbook" => "編輯電話簿",
-"Displayname" => "顯示名稱",
-"Active" => "作用中",
-"Save" => "儲存",
-"Submit" => "提出",
-"Cancel" => "取消",
 "Download" => "下載",
 "Edit" => "編輯",
-"New Address Book" => "新電話簿"
+"New Address Book" => "新電話簿",
+"Save" => "儲存",
+"Cancel" => "取消"
 );

@@ -51,7 +51,6 @@
 "Not implemented" => "Pole implementeeritud",
 "Couldn't get a valid address." => "Kehtiva aadressi hankimine ebaõnnestus",
 "Error" => "Viga",
-"Contact" => "Kontakt",
 "This property has to be non-empty." => "See omadus ei tohi olla tühi.",
 "Edit name" => "Muuda nime",
 "No files selected for upload." => "Üleslaadimiseks pole faile valitud.",
@@ -77,6 +76,7 @@
 "Internet" => "Internet",
 "Birthday" => "Sünnipäev",
 "{name}'s Birthday" => "{name} sünnipäev",
+"Contact" => "Kontakt",
 "Add Contact" => "Lisa kontakt",
 "Import" => "Impordi",
 "Addressbooks" => "Aadressiraamatud",
@@ -139,13 +139,6 @@
 "Esq." => "Esq.",
 "Jr." => "Jr.",
 "Sn." => "Senior.",
-"New Addressbook" => "Uus aadressiraamat",
-"Edit Addressbook" => "Muuda aadressiraamatut",
-"Displayname" => "Näidatav nimi",
-"Active" => "Aktiivne",
-"Save" => "Salvesta",
-"Submit" => "Saada",
-"Cancel" => "Loobu",
 "Import a contacts file" => "Impordi kontaktifail",
 "Please choose the addressbook" => "Palun vali aadressiraamat",
 "create a new addressbook" => "loo uus aadressiraamat",
@@ -160,5 +153,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "Lae alla",
 "Edit" => "Muuda",
-"New Address Book" => "Uus aadressiraamat"
+"New Address Book" => "Uus aadressiraamat",
+"Save" => "Salvesta",
+"Cancel" => "Loobu"
 );

@@ -51,7 +51,6 @@
 "Not implemented" => "Nem támogatott",
 "Couldn't get a valid address." => "Érvényes cím lekérése sikertelen",
 "Error" => "Hiba",
-"Contact" => "Kapcsolat",
 "This property has to be non-empty." => "Ezt a tulajdonságot muszáj kitölteni",
 "Couldn't serialize elements." => "Sorbarakás sikertelen",
 "'deleteProperty' called without type argument. Please report at bugs.owncloud.org" => "A 'deleteProperty' argumentum nélkül lett meghívva. Kérjük, jelezze a hibát.",
@@ -80,6 +79,7 @@
 "Internet" => "Internet",
 "Birthday" => "Születésnap",
 "{name}'s Birthday" => "{name} születésnapja",
+"Contact" => "Kapcsolat",
 "Add Contact" => "Kapcsolat hozzáadása",
 "Import" => "Import",
 "Addressbooks" => "Címlisták",
@@ -142,13 +142,6 @@
 "Esq." => "Esq.",
 "Jr." => "Ifj.",
 "Sn." => "Id.",
-"New Addressbook" => "Új Címlista",
-"Edit Addressbook" => "Címlista szerkesztése",
-"Displayname" => "Megjelenített név",
-"Active" => "Aktív",
-"Save" => "Mentés",
-"Submit" => "Elküld",
-"Cancel" => "Mégsem",
 "Import a contacts file" => "Kapcsolat-fájl importálása",
 "Please choose the addressbook" => "Válassza ki a címlistát",
 "create a new addressbook" => "Címlista létrehozása",
@@ -163,5 +156,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "Letöltés",
 "Edit" => "Szerkesztés",
-"New Address Book" => "Új címlista"
+"New Address Book" => "Új címlista",
+"Save" => "Mentés",
+"Cancel" => "Mégsem"
 );

@@ -51,7 +51,6 @@
 "Not implemented" => "Ikke implementeret",
 "Couldn't get a valid address." => "Kunne ikke finde en gyldig adresse.",
 "Error" => "Fejl",
-"Contact" => "Kontaktperson",
 "This property has to be non-empty." => "Dette felt må ikke være tomt.",
 "Couldn't serialize elements." => "Kunne ikke serialisere elementerne.",
 "'deleteProperty' called without type argument. Please report at bugs.owncloud.org" => "'deleteProperty' kaldet uden typeargument. Indrapporter fejl på bugs.owncloud.org",
@@ -80,6 +79,7 @@
 "Internet" => "Internet",
 "Birthday" => "Fødselsdag",
 "{name}'s Birthday" => "{name}s fødselsdag",
+"Contact" => "Kontaktperson",
 "Add Contact" => "Tilføj kontaktperson",
 "Import" => "Importer",
 "Addressbooks" => "Adressebøger",
@@ -142,13 +142,6 @@
 "Esq." => "Esq.",
 "Jr." => "Jr.",
 "Sn." => "Sn.",
-"New Addressbook" => "Ny adressebog",
-"Edit Addressbook" => "Rediger adressebog",
-"Displayname" => "Vist navn",
-"Active" => "Aktiv",
-"Save" => "Gem",
-"Submit" => "Gem",
-"Cancel" => "Fortryd",
 "Import a contacts file" => "Importer fil med kontaktpersoner",
 "Please choose the addressbook" => "Vælg venligst adressebog",
 "create a new addressbook" => "Opret ny adressebog",
@@ -163,5 +156,7 @@
 "iOS/OS X" => "iOS/OS X",
 "Download" => "Download",
 "Edit" => "Rediger",
-"New Address Book" => "Ny adressebog"
+"New Address Book" => "Ny adressebog",
+"Save" => "Gem",
+"Cancel" => "Fortryd"
 );

@@ -51,7 +51,6 @@
 "Not implemented" => "انجام نشد",
 "Couldn't get a valid address." => "Couldn't get a valid address.",
 "Error" => "خطا",
-"Contact" => "اشخاص",
 "This property has to be non-empty." => "این ویژگی باید به صورت غیر تهی عمل کند",
 "Couldn't serialize elements." => "قابلیت مرتب سازی عناصر وجود ندارد",
 "'deleteProperty' called without type argument. Please report at bugs.owncloud.org" => "پاک کردن ویژگی بدون استدلال انجام شده.لطفا این مورد را گزارش دهید:bugs.owncloud.org",
@@ -80,6 +79,7 @@
 "Internet" => "اینترنت",
 "Birthday" => "روزتولد",
 "{name}'s Birthday" => "روز تولد {name} است",
+"Contact" => "اشخاص",
 "Add Contact" => "افزودن اطلاعات شخص مورد نظر",
 "Import" => "وارد کردن",
 "Addressbooks" => "کتابچه ی نشانی ها",
@@ -142,13 +142,6 @@
 "Esq." => "Esq.",
 "Jr." => "Jr.",
 "Sn." => "Sn.",
-"New Addressbook" => "کتابچه نشانی جدید",
-"Edit Addressbook" => "ویرایش کتابچه نشانی",
-"Displayname" => "نام برای نمایش",
-"Active" => "فعال",
-"Save" => "ذخیره سازی",
-"Submit" => "ارسال",
-"Cancel" => "انصراف",
 "Import a contacts file" => "وارد کردن پرونده حاوی اطلاعات",
 "Please choose the addressbook" => "لطفا یک کتابچه نشانی انتخاب کنید",
 "create a new addressbook" => "یک کتابچه نشانی بسازید",
@@ -163,5 +156,7 @@
 "iOS/OS X" => "iOS/OS X ",
 "Download" => "بارگیری",
 "Edit" => "ویرایش",
-"New Address Book" => "کتابچه نشانه های جدید"
+"New Address Book" => "کتابچه نشانه های جدید",
+"Save" => "ذخیره سازی",
+"Cancel" => "انصراف"
 );
