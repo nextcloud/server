@@ -335,7 +335,7 @@ class OC_Installer{
 
 		OC_App::setAppTypes($info['id']);
 
-		return $info;
+		return $info['id'];
 	}
 
 

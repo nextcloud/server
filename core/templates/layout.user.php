@@ -55,7 +55,7 @@
 		<nav><div id="navigation">
 			<ul id="apps" class="svg">
 				<?php foreach($_['navigation'] as $entry): ?>
-					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>><?php echo $entry['name']; ?></a>
+					<li data-id="<?php echo $entry['id']; ?>"><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>><?php echo $entry['name']; ?></a>
 					</li>
 				<?php endforeach; ?>
 			</ul>
