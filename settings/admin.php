@@ -18,6 +18,8 @@ $forms=OC_App::getForms('admin');
 $htaccessworking=OC_Util::ishtaccessworking();
 
 $entries=OC_Log_Owncloud::getEntries(3);
+$entriesremain=(count(OC_Log_Owncloud::getEntries(4)) > 3)?true:false;
+
 function compareEntries($a,$b){
 	return $b->time - $a->time;
 }
@@ -25,6 +27,7 @@ usort($entries, 'compareEntries');
 
 $tmpl->assign('loglevel',OC_Config::getValue( "loglevel", 2 ));
 $tmpl->assign('entries',OC_Util::sanitizeHTML($entries));
+$tmpl->assign('entriesremain', $entriesremain);
 $tmpl->assign('htaccessworking',$htaccessworking);
 $tmpl->assign('forms',array());
 foreach($forms as $form){
