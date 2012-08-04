@@ -10,7 +10,7 @@
 require_once('../../../lib/base.php');
 
 OC_JSON::checkAdminUser();
-OC_JSON::callCheck();
+
 $l = OC_L10N::get('core');
 
 if(OC_Config::getValue('appstoreenabled', true)==false){
