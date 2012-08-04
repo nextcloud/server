@@ -47,6 +47,7 @@ foreach($registeredApps as $app){
 			$info['internallabel']='3rd Party App';
 		}
 		$info['preview']='trans.png';
+		$info['version']=OC_App::getAppVersion($app);
 		$apps[]=$info;
 	}
 }
