@@ -27,7 +27,7 @@ UserList={
 		$('tr').filterAttr( 'data-uid', UserList.deleteUid ).hide();
 		
 		// Provide user with option to undo
-		$('#notification').text(t('files','undo delete user'));
+		$('#notification').html(t('users', 'deleted')+' '+uid+'<span class="undo">'+t('users', 'undo')+'</span>');
 		$('#notification').data('deleteuser',true);
 		$('#notification').fadeIn();
 			
