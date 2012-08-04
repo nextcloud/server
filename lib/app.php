@@ -394,7 +394,7 @@ class OC_App{
 			return trim($version);
 		}else{
 			$appData=self::getAppInfo($appid);
-			return $appData['version'];
+			return isset($appData['version'])? $appData['version'] : '';
 		}
 	}
 
