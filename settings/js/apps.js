@@ -19,11 +19,68 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			}
 		});
 	},
+	loadApp:function(app) {
+		var page = $('#rightcontent');
+		page.find('p.license').show();
+		page.find('span.name').text(app.name);
+		page.find('small.externalapp').text(app.internallabel);
+		if (app.version) {
+			page.find('span.version').text(app.version);
+		} else {
+			page.find('span.version').text('');
+		}
+		page.find('p.description').text(app.description);
+		page.find('img.preview').attr('src', app.preview);
+		page.find('small.externalapp').attr('style', 'visibility:visible');
+		page.find('span.author').text(app.author);
+		page.find('span.licence').text(app.licence);
+
+		page.find('input.enable').show();
+		page.find('input.enable').val((app.active) ? t('settings', 'Disable') : t('settings', 'Enable'));
+		page.find('input.enable').data('appid', app.id);
+		page.find('input.enable').data('active', app.active);
+		if (app.internal == false) {
+			page.find('p.appslink').show();
+			page.find('a').attr('href', 'http://apps.owncloud.com/content/show.php?content=' + app.id);
+		} else {
+			page.find('p.appslink').hide();
+		}
+	},
+	enableApp:function(appid, active, element) {
+		console.log('enableApp:', appid, active, element);
+		var appitem=$('#leftcontent li[data-id="'+appid+'"]');
+		appData = appitem.data('app');
+		appData.active = !active;
+		appitem.data('app', appData);
+		if(active) {
+			$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:appid},function(result) {
+				if(!result || result.status!='success') {
+					OC.dialogs.alert('Error while disabling app','Error');
+				}
+				else {
+					element.data('active',false);
+					element.val(t('settings','Enable'));
+				}
+			},'json');
+			$('#leftcontent li[data-id="'+appid+'"]').removeClass('active');
+		} else {
+			$.post(OC.filePath('settings','ajax','enableapp.php'),{appid:appid},function(result) {
+				if(!result || result.status!='success') {
+					OC.dialogs.alert('Error while enabling app','Error');
+				}
+				else {
+					element.data('active',true);
+					element.val(t('settings','Disable'));
+				}
+			},'json');
+			$('#leftcontent li[data-id="'+appid+'"]').addClass('active');
+		}
+	},
 	insertApp:function(appdata) {
 		var applist = $('#leftcontent li');
 		var app =
-				$('<li data-id="'+appdata.id+'" data-type="external" data-installed="0">'
-				+ '<a class="app externalapp" href="'+OC.filePath('settings', 'apps', 'index.php')+'&appid=' + appdata.id+'">'
+				$('<li data-id="' + appdata.id + '" data-type="external" data-installed="0">'
+				+ '<a class="app externalapp" href="' + OC.filePath('settings', 'apps', 'index.php') + '&appid=' + appdata.id+'">'
 				+ appdata.name+'</a><small class="externalapp list">3rd party</small></li>');
 		app.data('app', appdata);
 		var added = false;
@@ -59,65 +116,16 @@ $(document).ready(function(){
 		if (tgt.is('li') || tgt.is('a')) {
 			var item = tgt.is('li') ? $(tgt) : $(tgt).parent();
 			var app = item.data('app');
-			$('#rightcontent p.license').show();
-			$('#rightcontent span.name').text(app.name);
-			$('#rightcontent small.externalapp').text(app.internallabel);
-			if (app.version) {
-				$('#rightcontent span.version').text(app.version);
-			} else {
-				$('#rightcontent span.version').text('');
-			}
-			$('#rightcontent p.description').text(app.description);
-			$('#rightcontent img.preview').attr('src',app.preview);
-			$('#rightcontent small.externalapp').attr('style','visibility:visible');
-			$('#rightcontent span.author').text(app.author);
-			$('#rightcontent span.licence').text(app.licence);
-
-			$('#rightcontent input.enable').show();
-			$('#rightcontent input.enable').val((app.active)?t('settings','Disable'):t('settings','Enable'));
-			$('#rightcontent input.enable').data('appid',app.id);
-			$('#rightcontent input.enable').data('active',app.active);
-			if ( app.internal == false ) {
-				$('#rightcontent p.appslink').show();
-				$('#rightcontent a').attr('href','http://apps.owncloud.com/content/show.php?content='+app.id);
-			} else {
-				$('#rightcontent p.appslink').hide();
-			}
+			OC.Settings.Apps.loadApp(app);
 		}
 		return false;
 	});
 	$('#rightcontent input.enable').click(function(){
 		var element = $(this);
-		var app=$(this).data('appid');
+		var appid=$(this).data('appid');
 		var active=$(this).data('active');
-		if(app){
-			if(active){
-				$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:app},function(result){
-					if(!result || result.status!='success'){
-						OC.dialogs.alert('Error while disabling app','Error');
-					}
-					else {
-						element.data('active',false);
-						element.val(t('settings','Enable'));
-						var appData=$('#leftcontent li[data-id="'+app+'"]');
-						appData.active=false;
-					}
-				},'json');
-				$('#leftcontent li[data-id="'+app+'"]').removeClass('active');
-			}else{
-				$.post(OC.filePath('settings','ajax','enableapp.php'),{appid:app},function(result){
-					if(!result || result.status!='success'){
-						OC.dialogs.alert('Error while enabling app','Error');
-					}
-					else {
-						element.data('active',true);
-						element.val(t('settings','Disable'));
-						var appData=$('#leftcontent li[data-id="'+app+'"]');
-						appData.active=true;
-					}
-				},'json');
-				$('#leftcontent li[data-id="'+app+'"]').addClass('active');
-			}
+		if(appid) {
+			OC.Settings.Apps.enableApp(appid, active, element);
 		}
 	});
 
