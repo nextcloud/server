@@ -547,7 +547,7 @@ $(document).ready(function() {
 	function resizeBreadcrumbs(firstRun) {
 		var width = $(this).width();
 		if (width != lastWidth) {
-			if (width < lastWidth || firstRun && width < breadcrumbsWidth) {
+			if ((width < lastWidth || firstRun) && width < breadcrumbsWidth) {
 				if (hiddenBreadcrumbs == 0) {
 					breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
 					$(breadcrumbs[1]).find('a').hide();
