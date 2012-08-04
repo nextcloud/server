@@ -43,14 +43,17 @@ div.quota>span { position:absolute; right:0em; white-space:nowrap; top: 0.7em }
 select.quota.active { background: #fff; }
 
 /* APPS */
-li { color:#888; white-space: nowrap; }
+.appinfo { margin: 1em; }
+h3 { font-size: 1.4em; font-weight: bold; }
+ul.applist li { height: 2.2em; padding: 0.2em 0.2em 0.2em 0.8em !important; }
+li { color:#888; }
 li.active { color:#000; }
-small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size:6pt; padding:4px; border-radius: 4px;}
+small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size: 0.6em; margin: 0; padding: 2px; border-radius: 4px;}
 small.externalapp.list { float: right; }
-span.version { margin-left:3em; color:#ddd; }
+span.version { margin-left:3em; margin-right:3em; color:#555; }
 
-.app { position: relative; display: inline-block; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; z-index: 100; transition: .2s max-width linear; -o-transition: .2s max-width linear; -moz-transition: .2s max-width linear; -webkit-transition: .2s max-width linear; -ms-transition: .2s max-width linear; }
-.app.externalapp { max-width: 10em; }
+.app { position: relative; display: inline-block; padding: 0 !important; text-overflow: hidden; overflow: hidden; white-space: nowrap; z-index: 100; transition: .2s max-width linear; -o-transition: .2s max-width linear; -moz-transition: .2s max-width linear; -webkit-transition: .2s max-width linear; -ms-transition: .2s max-width linear; }
+.app.externalapp { max-width: 12em; }
 /* Transition to complete width! */
 .app:hover, .app:active { max-width: inherit; }
 

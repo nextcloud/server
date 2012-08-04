@@ -9,7 +9,7 @@
 <div id="controls">
 	<a class="button" target="_blank" href="http://owncloud.org/dev/apps/getting-started/"><?php echo $l->t('Add your App');?></a>
 </div>
-<ul id="leftcontent">
+<ul id="leftcontent" class="applist">
 	<?php foreach($_['apps'] as $app):?>
 	<li <?php if($app['active']) echo 'class="active"'?> data-id="<?php echo $app['id'] ?>"
 		data-type="<?php echo $app['internal'] ? 'internal' : 'external' ?>" data-installed="1">
@@ -22,10 +22,12 @@
 	<?php endforeach;?>
 </ul>
 <div id="rightcontent">
+	<div class="appinfo">
 	<h3><strong><span class="name"><?php echo $l->t('Select an App');?></span></strong><span class="version"></span><small class="externalapp" style="visibility:hidden;"></small></h3>
 	<p class="description"></p>
 	<img src="" class="preview" />
 	<p class="appslink hidden"><a href="#" target="_blank"><?php echo $l->t('See application page at apps.owncloud.com');?></a></p>
 	<p class="license hidden"><span class="licence"></span><?php echo $l->t('-licensed');?> <?php echo $l->t('by');?> <span class="author"></span></p>
 	<input class="enable hidden" type="submit" />
+	</div>
 </div>
