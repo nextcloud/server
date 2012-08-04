@@ -43,10 +43,16 @@ div.quota>span { position:absolute; right:0em; white-space:nowrap; top: 0.7em }
 select.quota.active { background: #fff; }
 
 /* APPS */
-li { color:#888; }
+li { color:#888; white-space: nowrap; }
 li.active { color:#000; }
 small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size:6pt; padding:4px; border-radius: 4px;}
+small.externalapp.list { float: right; }
 span.version { margin-left:3em; color:#ddd; }
+
+.app { position: relative; display: inline-block; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; z-index: 100; transition: .2s max-width linear; -o-transition: .2s max-width linear; -moz-transition: .2s max-width linear; -webkit-transition: .2s max-width linear; -ms-transition: .2s max-width linear; }
+.app.externalapp { max-width: 10em; }
+/* Transition to complete width! */
+.app:hover, .app:active { max-width: inherit; }
 
 /* LOG */
 #log { white-space:normal; }

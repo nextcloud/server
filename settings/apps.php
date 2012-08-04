@@ -60,6 +60,7 @@ function app_sort($a, $b){
 }
 usort($apps, 'app_sort');
 
+/*
 // apps from external repo via OCS
  $catagoryNames=OC_OCSClient::getCategories();
  if(is_array($catagoryNames)){
@@ -70,7 +71,7 @@ usort($apps, 'app_sort');
 		// show only external apps that are not exist yet
 		$local=false;
  		foreach($apps as $a){
-			if($a['name']==$app['name']) $local=true;			
+			if($a['name']==$app['name']) $local=true;
 		}
 
 		if(!$local) {
@@ -89,7 +90,7 @@ usort($apps, 'app_sort');
 		}
  	}
  }
-
+*/
 
 
 $tmpl = new OC_Template( "settings", "apps", "user" );

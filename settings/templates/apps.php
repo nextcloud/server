@@ -11,12 +11,13 @@
 </div>
 <ul id="leftcontent">
 	<?php foreach($_['apps'] as $app):?>
-	<li <?php if($app['active']) echo 'class="active"'?> data-id="<?php echo $app['id'] ?>">
-		<a href="?appid=<?php echo $app['id'] ?>"><?php  echo htmlentities($app['name']) ?></a>
+	<li <?php if($app['active']) echo 'class="active"'?> data-id="<?php echo $app['id'] ?>"
+		data-type="<?php echo $app['internal'] ? 'internal' : 'external' ?>" data-installed="1">
+		<a class="app<?php if(!$app['internal']) echo ' externalapp' ?>" href="?appid=<?php echo $app['id'] ?>"><?php echo htmlentities($app['name']) ?></a>
 		<span class="hidden">
 			<?php OC_JSON::encodedPrint($app,false) ?>
 		</span>
-		<?php  if(!$app['internal']) echo '<small class="externalapp">3rd party</small>' ?>
+		<?php  if(!$app['internal']) echo '<small class="externalapp list">3rd party</small>' ?>
 	</li>
 	<?php endforeach;?>
 </ul>
