@@ -141,9 +141,12 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 					</select> <input class='quota-other'></input>
 				</div>
 			</td>
-			<td class="remove"><?php if($user['name']!=OC_User::getUser()):?> <img
-				alt="Delete" title="<?php echo $l->t('Delete')?>" class="svg action"
-				src="<?php echo image_path('core','actions/delete.svg') ?>" /> <?php endif;?>
+			<td class="remove">
+				<?php if($user['name']!=OC_User::getUser()):?> 
+					<a href="#" class="action delete" original-title="<?php echo $l->t('Delete')?>">
+						<img src="<?php echo image_path('core','actions/delete.svg') ?>" />
+					</a>
+				<?php endif;?>
 			</td>
 		</tr>
 		<?php endforeach; ?>

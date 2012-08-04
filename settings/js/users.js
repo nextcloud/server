@@ -170,7 +170,7 @@ $(document).ready(function(){
 		applyMultiplySelect($(element));
 	});
 	
-	$('td.remove>img').live('click',function(event){
+	$('td.remove>a').live('click',function(event){
 		
 		var uid = $(this).parent().parent().data('uid');
 		
