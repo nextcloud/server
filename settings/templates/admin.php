@@ -52,7 +52,10 @@ if(!$_['htaccessworking']) {
 		</tr>
 	<?php endforeach;?>
 </table>
+<?php if($_['entriesremain']): ?>
 <input id='moreLog' type='button' value='<?php echo $l->t('More');?>...'></input>
+<?php endif; ?>
+
 </fieldset>
 
 
