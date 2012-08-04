@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Cannot add empty property." => "Non pote adder proprietate vacue.",
 "No address books found." => "Nulle adressario trovate",
 "No contacts found." => "Nulle contactos trovate.",
+"Cannot add empty property." => "Non pote adder proprietate vacue.",
 "Error saving temporary file." => "Error durante le scriptura in le file temporari",
 "Error loading image." => "Il habeva un error durante le cargamento del imagine.",
 "No file was uploaded" => "Nulle file esseva incargate.",

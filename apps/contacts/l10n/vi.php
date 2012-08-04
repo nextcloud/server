@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
-"element name is not set." => "tên phần tử không được thiết lập.",
 "id is not set." => "id không được thiết lập.",
 "No ID provided" => "Không có ID được cung cấp",
 "No address books found." => "Không tìm thấy sổ địa chỉ.",
 "No contacts found." => "Không tìm thấy danh sách",
+"element name is not set." => "tên phần tử không được thiết lập.",
 "Missing ID" => "Missing ID",
 "Error reading contact photo." => "Lỗi đọc liên lạc hình ảnh.",
 "The loading photo is not valid." => "Các hình ảnh tải không hợp lệ.",

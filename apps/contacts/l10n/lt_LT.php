@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
-"There was an error adding the contact." => "Pridedant kontaktą įvyko klaida.",
 "Error (de)activating addressbook." => "Klaida (de)aktyvuojant adresų knygą.",
 "No contacts found." => "Kontaktų nerasta.",
+"There was an error adding the contact." => "Pridedant kontaktą įvyko klaida.",
+"Information about vCard is incorrect. Please reload the page." => "Informacija apie vCard yra neteisinga. ",
 "Error reading contact photo." => "Klaida skaitant kontakto nuotrauką.",
 "The loading photo is not valid." => "Netinkama įkeliama nuotrauka.",
-"Information about vCard is incorrect. Please reload the page." => "Informacija apie vCard yra neteisinga. ",
 "File doesn't exist:" => "Failas neegzistuoja:",
 "Error loading image." => "Klaida įkeliant nuotrauką.",
 "There is no error, the file uploaded with success" => "Failas įkeltas sėkmingai, be klaidų",

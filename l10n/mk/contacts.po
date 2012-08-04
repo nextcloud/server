@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-03 02:02+0200\n"
-"PO-Revision-Date: 2012-08-03 00:02+0000\n"
+"POT-Creation-Date: 2012-08-04 02:02+0200\n"
+"PO-Revision-Date: 2012-08-04 00:02+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -19,43 +19,15 @@ msgstr ""
 "Language: mk\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1\n"
 
-#: ajax/addcontact.php:47
-msgid "There was an error adding the contact."
-msgstr "Имаше грешка при додавање на контактот."
-
-#: ajax/addproperty.php:39 ajax/saveproperty.php:34
-msgid "element name is not set."
-msgstr "име за елементот не е поставена."
-
-#: ajax/addproperty.php:42 ajax/addressbook/delete.php:31
-#: ajax/addressbook/update.php:20 ajax/deletecard.php:30
-#: ajax/saveproperty.php:37
-msgid "id is not set."
-msgstr "ид не е поставено."
-
-#: ajax/addproperty.php:46
-msgid "Could not parse contact: "
-msgstr ""
-
-#: ajax/addproperty.php:56
-msgid "Cannot add empty property."
-msgstr "Неможе да се додаде празна вредност."
-
-#: ajax/addproperty.php:67
-msgid "At least one of the address fields has to be filled out."
-msgstr "Барем една од полињата за адреса треба да биде пополнето."
-
-#: ajax/addproperty.php:76
-msgid "Trying to add duplicate property: "
-msgstr "Се обидовте да внесете дупликат вредност:"
-
-#: ajax/addproperty.php:144
-msgid "Error adding contact property: "
-msgstr ""
-
 #: ajax/addressbook/activate.php:24 ajax/addressbook/update.php:32
 msgid "Error (de)activating addressbook."
 msgstr "Грешка (де)активирање на адресарот."
+
+#: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:30
+#: ajax/contact/saveproperty.php:37
+msgid "id is not set."
+msgstr "ид не е поставено."
 
 #: ajax/addressbook/update.php:24
 msgid "Cannot update addressbook with an empty name."
@@ -85,38 +57,82 @@ msgstr "Не се најдени адресари."
 msgid "No contacts found."
 msgstr "Не се најдени контакти."
 
-#: ajax/contactdetails.php:31
-msgid "Missing ID"
-msgstr "Недостасува ИД"
+#: ajax/contact/add.php:47
+msgid "There was an error adding the contact."
+msgstr "Имаше грешка при додавање на контактот."
 
-#: ajax/contactdetails.php:36
-msgid "Error parsing VCard for ID: \""
-msgstr "Грешка при парсирање VCard за ИД: \""
+#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:34
+msgid "element name is not set."
+msgstr "име за елементот не е поставена."
 
-#: ajax/currentphoto.php:28 ajax/oc_photo.php:28 ajax/uploadphoto.php:34
-#: ajax/uploadphoto.php:66
-msgid "No contact ID was submitted."
-msgstr "Не беше доставено ИД за контакт."
+#: ajax/contact/addproperty.php:46
+msgid "Could not parse contact: "
+msgstr ""
 
-#: ajax/currentphoto.php:34
-msgid "Error reading contact photo."
-msgstr "Грешка во читање на контакт фотографија."
+#: ajax/contact/addproperty.php:56
+msgid "Cannot add empty property."
+msgstr "Неможе да се додаде празна вредност."
 
-#: ajax/currentphoto.php:46
-msgid "Error saving temporary file."
-msgstr "Грешка во снимање на привремена датотека."
+#: ajax/contact/addproperty.php:67
+msgid "At least one of the address fields has to be filled out."
+msgstr "Барем една од полињата за адреса треба да биде пополнето."
 
-#: ajax/currentphoto.php:49
-msgid "The loading photo is not valid."
-msgstr "Фотографијата која се вчитува е невалидна."
+#: ajax/contact/addproperty.php:76
+msgid "Trying to add duplicate property: "
+msgstr "Се обидовте да внесете дупликат вредност:"
 
-#: ajax/deleteproperty.php:36
+#: ajax/contact/addproperty.php:144
+msgid "Error adding contact property: "
+msgstr ""
+
+#: ajax/contact/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "Информацијата за vCard не е точна. Ве молам превчитајте ја страницава."
 
-#: ajax/deleteproperty.php:43
+#: ajax/contact/deleteproperty.php:43
 msgid "Error deleting contact property."
 msgstr "Греш при бришење на вредноста за контакт."
+
+#: ajax/contact/details.php:31
+msgid "Missing ID"
+msgstr "Недостасува ИД"
+
+#: ajax/contact/details.php:36
+msgid "Error parsing VCard for ID: \""
+msgstr "Грешка при парсирање VCard за ИД: \""
+
+#: ajax/contact/saveproperty.php:40
+msgid "checksum is not set."
+msgstr "сумата за проверка не е поставена."
+
+#: ajax/contact/saveproperty.php:60
+msgid "Information about vCard is incorrect. Please reload the page: "
+msgstr "Информацијата за vCard не е точна. Ве молам превчитајте ја страницава:"
+
+#: ajax/contact/saveproperty.php:67
+msgid "Something went FUBAR. "
+msgstr "Нешто се расипа."
+
+#: ajax/contact/saveproperty.php:142
+msgid "Error updating contact property."
+msgstr "Грешка при ажурирање на вредноста за контакт."
+
+#: ajax/currentphoto.php:30 ajax/oc_photo.php:28 ajax/uploadphoto.php:36
+#: ajax/uploadphoto.php:68
+msgid "No contact ID was submitted."
+msgstr "Не беше доставено ИД за контакт."
+
+#: ajax/currentphoto.php:36
+msgid "Error reading contact photo."
+msgstr "Грешка во читање на контакт фотографија."
+
+#: ajax/currentphoto.php:48
+msgid "Error saving temporary file."
+msgstr "Грешка во снимање на привремена датотека."
+
+#: ajax/currentphoto.php:51
+msgid "The loading photo is not valid."
+msgstr "Фотографијата која се вчитува е невалидна."
 
 #: ajax/editname.php:31
 msgid "Contact ID is missing."
@@ -134,89 +150,73 @@ msgstr "Не постои датотеката:"
 msgid "Error loading image."
 msgstr "Грешка во вчитување на слика."
 
-#: ajax/savecrop.php:66
+#: ajax/savecrop.php:69
 msgid "Error getting contact object."
 msgstr "Грешка при преземањето на контакт објектот,"
 
-#: ajax/savecrop.php:76
+#: ajax/savecrop.php:79
 msgid "Error getting PHOTO property."
 msgstr "Грешка при утврдувањето на карактеристиките на фотографијата."
 
-#: ajax/savecrop.php:95
+#: ajax/savecrop.php:98
 msgid "Error saving contact."
 msgstr "Грешка при снимање на контактите."
 
-#: ajax/savecrop.php:105
+#: ajax/savecrop.php:108
 msgid "Error resizing image"
 msgstr "Грешка при скалирање на фотографијата"
 
-#: ajax/savecrop.php:108
+#: ajax/savecrop.php:111
 msgid "Error cropping image"
 msgstr "Грешка при сечење на фотографијата"
 
-#: ajax/savecrop.php:111
+#: ajax/savecrop.php:114
 msgid "Error creating temporary image"
 msgstr "Грешка при креирањето на привремената фотографија"
 
-#: ajax/savecrop.php:114
+#: ajax/savecrop.php:117
 msgid "Error finding image: "
 msgstr "Грешка при наоѓањето на фотографијата:"
-
-#: ajax/saveproperty.php:40
-msgid "checksum is not set."
-msgstr "сумата за проверка не е поставена."
-
-#: ajax/saveproperty.php:60
-msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr "Информацијата за vCard не е точна. Ве молам превчитајте ја страницава:"
-
-#: ajax/saveproperty.php:67
-msgid "Something went FUBAR. "
-msgstr "Нешто се расипа."
-
-#: ajax/saveproperty.php:142
-msgid "Error updating contact property."
-msgstr "Грешка при ажурирање на вредноста за контакт."
 
 #: ajax/uploadimport.php:44 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
 msgstr "Грешка во снимање на контактите на диск."
 
-#: ajax/uploadimport.php:61 ajax/uploadphoto.php:75
+#: ajax/uploadimport.php:61 ajax/uploadphoto.php:77
 msgid "There is no error, the file uploaded with success"
 msgstr "Датотеката беше успешно подигната."
 
-#: ajax/uploadimport.php:62 ajax/uploadphoto.php:76
+#: ajax/uploadimport.php:62 ajax/uploadphoto.php:78
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "Големината на датотеката ја надминува upload_max_filesize директивата во php.ini"
 
-#: ajax/uploadimport.php:63 ajax/uploadphoto.php:77
+#: ajax/uploadimport.php:63 ajax/uploadphoto.php:79
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Големината на датотеката ја надминува MAX_FILE_SIZE директивата која беше специфицирана во HTML формата"
 
-#: ajax/uploadimport.php:64 ajax/uploadphoto.php:78
+#: ajax/uploadimport.php:64 ajax/uploadphoto.php:80
 msgid "The uploaded file was only partially uploaded"
 msgstr "Датотеката беше само делумно подигната."
 
-#: ajax/uploadimport.php:65 ajax/uploadphoto.php:79
+#: ajax/uploadimport.php:65 ajax/uploadphoto.php:81
 msgid "No file was uploaded"
 msgstr "Не беше подигната датотека."
 
-#: ajax/uploadimport.php:66 ajax/uploadphoto.php:80
+#: ajax/uploadimport.php:66 ajax/uploadphoto.php:82
 msgid "Missing a temporary folder"
 msgstr "Недостасува привремена папка"
 
-#: ajax/uploadphoto.php:57 ajax/uploadphoto.php:107
+#: ajax/uploadphoto.php:59 ajax/uploadphoto.php:109
 msgid "Couldn't save temporary image: "
 msgstr "Не можеше да се сними привремената фотографија:"
 
-#: ajax/uploadphoto.php:60 ajax/uploadphoto.php:110
+#: ajax/uploadphoto.php:62 ajax/uploadphoto.php:112
 msgid "Couldn't load temporary image: "
 msgstr "Не можеше да се вчита привремената фотографија:"
 
-#: ajax/uploadphoto.php:69
+#: ajax/uploadphoto.php:71
 msgid "No file was uploaded. Unknown error"
 msgstr "Ниту еден фајл не се вчита. Непозната грешка"
 
@@ -237,8 +237,8 @@ msgid "Couldn't get a valid address."
 msgstr "Не можев да добијам исправна адреса."
 
 #: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
-#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:778
-#: js/contacts.js:850 js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
+#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:850
+#: js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
 #: js/contacts.js:1165 js/contacts.js:1173 js/contacts.js:1182
 #: js/contacts.js:1217 js/contacts.js:1249 js/contacts.js:1261
 #: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1452
@@ -475,26 +475,30 @@ msgid "Expand/collapse current addressbook"
 msgstr ""
 
 #: templates/index.php:48
-msgid "Next/previous addressbook"
+msgid "Next addressbook"
 msgstr ""
 
-#: templates/index.php:52
+#: templates/index.php:50
+msgid "Previous addressbook"
+msgstr ""
+
+#: templates/index.php:54
 msgid "Actions"
 msgstr ""
 
-#: templates/index.php:55
+#: templates/index.php:57
 msgid "Refresh contacts list"
 msgstr ""
 
-#: templates/index.php:57
+#: templates/index.php:59
 msgid "Add new contact"
 msgstr ""
 
-#: templates/index.php:59
+#: templates/index.php:61
 msgid "Add new addressbook"
 msgstr ""
 
-#: templates/index.php:61
+#: templates/index.php:63
 msgid "Delete current contact"
 msgstr ""
 

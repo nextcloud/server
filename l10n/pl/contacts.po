@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-03 02:02+0200\n"
-"PO-Revision-Date: 2012-08-03 00:02+0000\n"
+"POT-Creation-Date: 2012-08-04 02:02+0200\n"
+"PO-Revision-Date: 2012-08-04 00:02+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -21,43 +21,15 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: ajax/addcontact.php:47
-msgid "There was an error adding the contact."
-msgstr "Wystąpił błąd podczas dodawania kontaktu."
-
-#: ajax/addproperty.php:39 ajax/saveproperty.php:34
-msgid "element name is not set."
-msgstr "nazwa elementu nie jest ustawiona."
-
-#: ajax/addproperty.php:42 ajax/addressbook/delete.php:31
-#: ajax/addressbook/update.php:20 ajax/deletecard.php:30
-#: ajax/saveproperty.php:37
-msgid "id is not set."
-msgstr "id nie ustawione."
-
-#: ajax/addproperty.php:46
-msgid "Could not parse contact: "
-msgstr "Nie można parsować kontaktu:"
-
-#: ajax/addproperty.php:56
-msgid "Cannot add empty property."
-msgstr "Nie można dodać pustego elementu."
-
-#: ajax/addproperty.php:67
-msgid "At least one of the address fields has to be filled out."
-msgstr "Należy wypełnić przynajmniej jedno pole adresu."
-
-#: ajax/addproperty.php:76
-msgid "Trying to add duplicate property: "
-msgstr "Próba dodania z duplikowanej właściwości:"
-
-#: ajax/addproperty.php:144
-msgid "Error adding contact property: "
-msgstr "Błąd przy dodawaniu właściwości kontaktu:"
-
 #: ajax/addressbook/activate.php:24 ajax/addressbook/update.php:32
 msgid "Error (de)activating addressbook."
 msgstr "Błąd (de)aktywowania książki adresowej."
+
+#: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:30
+#: ajax/contact/saveproperty.php:37
+msgid "id is not set."
+msgstr "id nie ustawione."
 
 #: ajax/addressbook/update.php:24
 msgid "Cannot update addressbook with an empty name."
@@ -87,38 +59,82 @@ msgstr "Nie znaleziono książek adresowych"
 msgid "No contacts found."
 msgstr "Nie znaleziono kontaktów."
 
-#: ajax/contactdetails.php:31
-msgid "Missing ID"
-msgstr "Brak ID"
+#: ajax/contact/add.php:47
+msgid "There was an error adding the contact."
+msgstr "Wystąpił błąd podczas dodawania kontaktu."
 
-#: ajax/contactdetails.php:36
-msgid "Error parsing VCard for ID: \""
-msgstr "Wystąpił błąd podczas przetwarzania VCard ID: \""
+#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:34
+msgid "element name is not set."
+msgstr "nazwa elementu nie jest ustawiona."
 
-#: ajax/currentphoto.php:28 ajax/oc_photo.php:28 ajax/uploadphoto.php:34
-#: ajax/uploadphoto.php:66
-msgid "No contact ID was submitted."
-msgstr "ID kontaktu nie został utworzony."
+#: ajax/contact/addproperty.php:46
+msgid "Could not parse contact: "
+msgstr "Nie można parsować kontaktu:"
 
-#: ajax/currentphoto.php:34
-msgid "Error reading contact photo."
-msgstr "Błąd odczytu zdjęcia kontaktu."
+#: ajax/contact/addproperty.php:56
+msgid "Cannot add empty property."
+msgstr "Nie można dodać pustego elementu."
 
-#: ajax/currentphoto.php:46
-msgid "Error saving temporary file."
-msgstr "Wystąpił błąd podczas zapisywania pliku tymczasowego."
+#: ajax/contact/addproperty.php:67
+msgid "At least one of the address fields has to be filled out."
+msgstr "Należy wypełnić przynajmniej jedno pole adresu."
 
-#: ajax/currentphoto.php:49
-msgid "The loading photo is not valid."
-msgstr "Wczytywane zdjęcie nie jest poprawne."
+#: ajax/contact/addproperty.php:76
+msgid "Trying to add duplicate property: "
+msgstr "Próba dodania z duplikowanej właściwości:"
 
-#: ajax/deleteproperty.php:36
+#: ajax/contact/addproperty.php:144
+msgid "Error adding contact property: "
+msgstr "Błąd przy dodawaniu właściwości kontaktu:"
+
+#: ajax/contact/deleteproperty.php:36
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "Informacje o vCard są nieprawidłowe. Proszę odświeżyć stronę."
 
-#: ajax/deleteproperty.php:43
+#: ajax/contact/deleteproperty.php:43
 msgid "Error deleting contact property."
 msgstr "Błąd usuwania elementu."
+
+#: ajax/contact/details.php:31
+msgid "Missing ID"
+msgstr "Brak ID"
+
+#: ajax/contact/details.php:36
+msgid "Error parsing VCard for ID: \""
+msgstr "Wystąpił błąd podczas przetwarzania VCard ID: \""
+
+#: ajax/contact/saveproperty.php:40
+msgid "checksum is not set."
+msgstr "checksum-a nie ustawiona"
+
+#: ajax/contact/saveproperty.php:60
+msgid "Information about vCard is incorrect. Please reload the page: "
+msgstr "Informacje na temat vCard są niepoprawne. Proszę przeładuj stronę:"
+
+#: ajax/contact/saveproperty.php:67
+msgid "Something went FUBAR. "
+msgstr "Gdyby coś poszło FUBAR."
+
+#: ajax/contact/saveproperty.php:142
+msgid "Error updating contact property."
+msgstr "Błąd uaktualniania elementu."
+
+#: ajax/currentphoto.php:30 ajax/oc_photo.php:28 ajax/uploadphoto.php:36
+#: ajax/uploadphoto.php:68
+msgid "No contact ID was submitted."
+msgstr "ID kontaktu nie został utworzony."
+
+#: ajax/currentphoto.php:36
+msgid "Error reading contact photo."
+msgstr "Błąd odczytu zdjęcia kontaktu."
+
+#: ajax/currentphoto.php:48
+msgid "Error saving temporary file."
+msgstr "Wystąpił błąd podczas zapisywania pliku tymczasowego."
+
+#: ajax/currentphoto.php:51
+msgid "The loading photo is not valid."
+msgstr "Wczytywane zdjęcie nie jest poprawne."
 
 #: ajax/editname.php:31
 msgid "Contact ID is missing."
@@ -136,89 +152,73 @@ msgstr "Plik nie istnieje:"
 msgid "Error loading image."
 msgstr "Błąd ładowania obrazu."
 
-#: ajax/savecrop.php:66
+#: ajax/savecrop.php:69
 msgid "Error getting contact object."
 msgstr "Błąd pobrania kontaktu."
 
-#: ajax/savecrop.php:76
+#: ajax/savecrop.php:79
 msgid "Error getting PHOTO property."
 msgstr "Błąd uzyskiwania właściwości ZDJĘCIA."
 
-#: ajax/savecrop.php:95
+#: ajax/savecrop.php:98
 msgid "Error saving contact."
 msgstr "Błąd zapisu kontaktu."
 
-#: ajax/savecrop.php:105
+#: ajax/savecrop.php:108
 msgid "Error resizing image"
 msgstr "Błąd zmiany rozmiaru obrazu"
 
-#: ajax/savecrop.php:108
+#: ajax/savecrop.php:111
 msgid "Error cropping image"
 msgstr "Błąd przycinania obrazu"
 
-#: ajax/savecrop.php:111
+#: ajax/savecrop.php:114
 msgid "Error creating temporary image"
 msgstr "Błąd utworzenia obrazu tymczasowego"
 
-#: ajax/savecrop.php:114
+#: ajax/savecrop.php:117
 msgid "Error finding image: "
 msgstr "Błąd znajdowanie obrazu: "
-
-#: ajax/saveproperty.php:40
-msgid "checksum is not set."
-msgstr "checksum-a nie ustawiona"
-
-#: ajax/saveproperty.php:60
-msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr "Informacje na temat vCard są niepoprawne. Proszę przeładuj stronę:"
-
-#: ajax/saveproperty.php:67
-msgid "Something went FUBAR. "
-msgstr "Gdyby coś poszło FUBAR."
-
-#: ajax/saveproperty.php:142
-msgid "Error updating contact property."
-msgstr "Błąd uaktualniania elementu."
 
 #: ajax/uploadimport.php:44 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
 msgstr "Wystąpił błąd podczas wysyłania kontaktów do magazynu."
 
-#: ajax/uploadimport.php:61 ajax/uploadphoto.php:75
+#: ajax/uploadimport.php:61 ajax/uploadphoto.php:77
 msgid "There is no error, the file uploaded with success"
 msgstr "Nie było błędów, plik wyczytano poprawnie."
 
-#: ajax/uploadimport.php:62 ajax/uploadphoto.php:76
+#: ajax/uploadimport.php:62 ajax/uploadphoto.php:78
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "Załadowany plik przekracza wielkość upload_max_filesize w php.ini "
 
-#: ajax/uploadimport.php:63 ajax/uploadphoto.php:77
+#: ajax/uploadimport.php:63 ajax/uploadphoto.php:79
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Wczytywany plik przekracza wielkość MAX_FILE_SIZE, która została określona w formularzu HTML"
 
-#: ajax/uploadimport.php:64 ajax/uploadphoto.php:78
+#: ajax/uploadimport.php:64 ajax/uploadphoto.php:80
 msgid "The uploaded file was only partially uploaded"
 msgstr "Załadowany plik tylko częściowo został wysłany."
 
-#: ajax/uploadimport.php:65 ajax/uploadphoto.php:79
+#: ajax/uploadimport.php:65 ajax/uploadphoto.php:81
 msgid "No file was uploaded"
 msgstr "Plik nie został załadowany"
 
-#: ajax/uploadimport.php:66 ajax/uploadphoto.php:80
+#: ajax/uploadimport.php:66 ajax/uploadphoto.php:82
 msgid "Missing a temporary folder"
 msgstr "Brak folderu tymczasowego"
 
-#: ajax/uploadphoto.php:57 ajax/uploadphoto.php:107
+#: ajax/uploadphoto.php:59 ajax/uploadphoto.php:109
 msgid "Couldn't save temporary image: "
 msgstr "Nie można zapisać obrazu tymczasowego: "
 
-#: ajax/uploadphoto.php:60 ajax/uploadphoto.php:110
+#: ajax/uploadphoto.php:62 ajax/uploadphoto.php:112
 msgid "Couldn't load temporary image: "
 msgstr "Nie można wczytać obrazu tymczasowego: "
 
-#: ajax/uploadphoto.php:69
+#: ajax/uploadphoto.php:71
 msgid "No file was uploaded. Unknown error"
 msgstr "Plik nie został załadowany. Nieznany błąd"
 
@@ -239,8 +239,8 @@ msgid "Couldn't get a valid address."
 msgstr "Nie można pobrać prawidłowego adresu."
 
 #: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
-#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:778
-#: js/contacts.js:850 js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
+#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:850
+#: js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
 #: js/contacts.js:1165 js/contacts.js:1173 js/contacts.js:1182
 #: js/contacts.js:1217 js/contacts.js:1249 js/contacts.js:1261
 #: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1452
@@ -477,26 +477,30 @@ msgid "Expand/collapse current addressbook"
 msgstr ""
 
 #: templates/index.php:48
-msgid "Next/previous addressbook"
-msgstr "Następna/poprzednia książka adresowa"
+msgid "Next addressbook"
+msgstr ""
 
-#: templates/index.php:52
+#: templates/index.php:50
+msgid "Previous addressbook"
+msgstr ""
+
+#: templates/index.php:54
 msgid "Actions"
 msgstr "Akcje"
 
-#: templates/index.php:55
+#: templates/index.php:57
 msgid "Refresh contacts list"
 msgstr "Odśwież listę kontaktów"
 
-#: templates/index.php:57
+#: templates/index.php:59
 msgid "Add new contact"
 msgstr "Dodaj nowy kontakt"
 
-#: templates/index.php:59
+#: templates/index.php:61
 msgid "Add new addressbook"
 msgstr "Dodaj nowa książkę adresową"
 
-#: templates/index.php:61
+#: templates/index.php:63
 msgid "Delete current contact"
 msgstr "Usuń obecny kontakt"
 
