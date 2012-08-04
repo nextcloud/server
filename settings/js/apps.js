@@ -20,7 +20,11 @@ $(document).ready(function(){
 		$('#rightcontent p.license').show();
 		$('#rightcontent span.name').text(app.name);
 		$('#rightcontent small.externalapp').text(app.internallabel);
-		$('#rightcontent span.version').text(app.version);
+		if (app.version) {
+			$('#rightcontent span.version').text(app.version);
+		} else {
+			$('#rightcontent span.version').text('');
+		}
 		$('#rightcontent p.description').text(app.description);
 		$('#rightcontent img.preview').attr('src',app.preview);
 		$('#rightcontent small.externalapp').attr('style','visibility:visible');
