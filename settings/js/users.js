@@ -342,7 +342,7 @@ $(document).ready(function(){
 	});
 	// Handle undo notifications
 	$('#notification').hide();
-	$('#notification').click(function(){
+	$('#notification .undo').live('click', function() {
 		if($('#notification').data('deleteuser'))
 		{
 			$( 'tr' ).filterAttr( 'data-uid', UserList.deleteUid ).show();
