@@ -7,7 +7,7 @@
 	var appid = '<?php echo $_['appid']; ?>';
 </script>
 <div id="controls">
-	<a class="button" target="_blank" href="http://owncloud.org/dev/writing-apps/"><?php echo $l->t('Add your App');?></a>
+	<a class="button" target="_blank" href="http://owncloud.org/dev/apps/getting-started/"><?php echo $l->t('Add your App');?></a>
 </div>
 <ul id="leftcontent">
 	<?php foreach($_['apps'] as $app):?>
