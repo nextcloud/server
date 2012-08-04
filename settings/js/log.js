@@ -23,6 +23,9 @@ OC.Log={
 			if(result.status=='success'){
 				OC.Log.addEntries(result.data);
 				$('html, body').animate({scrollTop: $(document).height()}, 800);
+				if(!result.remain){
+					$('#moreLog').css('display', 'none');
+				}
 			}
 		});
 	},
