@@ -3,7 +3,7 @@
  See the COPYING-README file. */
 
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
-html, body { height: 100%; }
+html, body { height: 100%; overflow: auto; }
 article, aside, dialog, figure, footer, header, hgroup, nav, section { display:block; }
 body { line-height:1.5; }
 table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
