@@ -127,9 +127,9 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			return false;
 		}
 
-		//if user really still exists, we will be able to read his cn
-		$cn = $this->readAttribute($dn, 'cn');
-		if(!$cn || empty($cn)) {
+		//if user really still exists, we will be able to read his objectclass
+		$objcs = $this->readAttribute($dn, 'objectclass');
+		if(!$objcs || empty($objcs)) {
 			$this->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
