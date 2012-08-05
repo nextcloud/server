@@ -219,6 +219,7 @@ class OC_Contacts_Addressbook{
 			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:active:, exception: '.$e->getMessage(),OCP\Util::DEBUG);
 			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook:active, ids: '.join(',', $active),OCP\Util::DEBUG);
 			OCP\Util::writeLog('contacts','OC_Contacts_Addressbook::active, SQL:'.$prep,OCP\Util::DEBUG);
+			return array();
 		}
 
 		return $addressbooks;
