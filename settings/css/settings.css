@@ -48,7 +48,7 @@ h3 { font-size: 1.4em; font-weight: bold; }
 ul.applist li { height: 2.2em; padding: 0.2em 0.2em 0.2em 0.8em !important; }
 li { color:#888; }
 li.active { color:#000; }
-small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size: 0.6em; margin: 0; padding: 2px; border-radius: 4px;}
+small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 4px;}
 small.externalapp.list { float: right; }
 span.version { margin-left:3em; margin-right:3em; color:#555; }
 
