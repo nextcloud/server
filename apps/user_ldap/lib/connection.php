@@ -42,6 +42,7 @@ class Connection {
 		'ldapAgentPassword' => null,
 		'ldapTLS' => null,
 		'ldapNoCase' => null,
+		'turnOffCertCheck' => null,
 		'ldapIgnoreNamingRules' => null,
 		'ldapUserDisplayName' => null,
 		'ldapUserFilter' => null,
@@ -164,6 +165,7 @@ class Connection {
 			$this->config['ldapBaseGroups']        = \OCP\Config::getAppValue($this->configID, 'ldap_base_groups', $this->config['ldapBase']);
 			$this->config['ldapTLS']               = \OCP\Config::getAppValue($this->configID, 'ldap_tls',0);
 			$this->config['ldapNoCase']            = \OCP\Config::getAppValue($this->configID, 'ldap_nocase', 0);
+			$this->config['turnOffCertCheck']      = \OCP\Config::getAppValue($this->configID, 'ldap_turn_off_cert_check', 0);
 			$this->config['ldapUserDisplayName']   = mb_strtolower(\OCP\Config::getAppValue($this->configID, 'ldap_display_name', 'uid'), 'UTF-8');
 			$this->config['ldapUserFilter']        = \OCP\Config::getAppValue($this->configID, 'ldap_userlist_filter','objectClass=person');
 			$this->config['ldapGroupFilter']       = \OCP\Config::getAppValue($this->configID, 'ldap_group_filter','(objectClass=posixGroup)');
@@ -291,6 +293,13 @@ class Connection {
 				\OCP\Util::writeLog('user_ldap', 'function ldap_connect is not available. Make sure that the PHP ldap module is installed.', \OCP\Util::ERROR);
 
 				return false;
+			}
+			if($this->config['turnOffCertCheck']) {
+				if(putenv('LDAPTLS_REQCERT=never')) {
+					\OCP\Util::writeLog('user_ldap', 'Turned off SSL certificate validation successfully.', \OCP\Util::WARN);
+				} else {
+					\OCP\Util::writeLog('user_ldap', 'Could not turn off SSL certificate validation.', \OCP\Util::WARN);
+				}
 			}
 			$this->ldapConnectionRes = ldap_connect($this->config['ldapHost'], $this->config['ldapPort']);
 			if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {

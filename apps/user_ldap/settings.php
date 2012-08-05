@@ -20,7 +20,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-$params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_agent_password', 'ldap_base', 'ldap_base_users', 'ldap_base_groups', 'ldap_userlist_filter', 'ldap_login_filter', 'ldap_group_filter', 'ldap_display_name', 'ldap_group_display_name', 'ldap_tls', 'ldap_nocase', 'ldap_quota_def', 'ldap_quota_attr', 'ldap_email_attr', 'ldap_group_member_assoc_attribute', 'ldap_cache_ttl');
+$params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_agent_password', 'ldap_base', 'ldap_base_users', 'ldap_base_groups', 'ldap_userlist_filter', 'ldap_login_filter', 'ldap_group_filter', 'ldap_display_name', 'ldap_group_display_name', 'ldap_tls', 'ldap_turn_off_cert_check', 'ldap_nocase', 'ldap_quota_def', 'ldap_quota_attr', 'ldap_email_attr', 'ldap_group_member_assoc_attribute', 'ldap_cache_ttl');
 
 OCP\Util::addscript('user_ldap', 'settings');
 
@@ -44,6 +44,9 @@ if ($_POST) {
 			OCP\Config::setAppValue('user_ldap', $param, 0);
 		}
 		elseif('ldap_nocase' == $param) {
+			OCP\Config::setAppValue('user_ldap', $param, 0);
+		}
+		elseif('ldap_turn_off_cert_check' == $param) {
 			OCP\Config::setAppValue('user_ldap', $param, 0);
 		}
 	}
