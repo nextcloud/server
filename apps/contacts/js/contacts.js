@@ -348,7 +348,7 @@ OC.Contacts={
 			console.log('newid: ' + newid + ' bookid: ' +bookid);
 			var localLoadContact = function(newid, bookid) {
 				if($('.contacts li').length > 0) {
-					$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':newid},function(jsondata){
+					$.getJSON(OC.filePath('contacts', 'ajax', 'contact/details.php'),{'id':newid},function(jsondata){
 						if(jsondata.status == 'success'){
 							if(bookid == 'unknown') {
 								bookid = jsondata.data.addressbookid;
@@ -1783,7 +1783,7 @@ $(document).ready(function(){
 					$('#contacts h3[data-id="'+bookid+'"]').addClass('active');
 				}
 			}
-			$.getJSON(OC.filePath('contacts', 'ajax', 'contactdetails.php'),{'id':id},function(jsondata){
+			$.getJSON(OC.filePath('contacts', 'ajax', 'contact/details.php'),{'id':id},function(jsondata){
 				if(jsondata.status == 'success'){
 					OC.Contacts.Card.loadContact(jsondata.data, bookid);
 				}

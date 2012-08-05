@@ -19,8 +19,8 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
-require_once 'loghandler.php';
+
+require_once __DIR__.'/../loghandler.php';
 
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
@@ -31,7 +31,7 @@ if(is_null($id)) {
 	bailOut(OC_Contacts_App::$l10n->t('Missing ID'));
 }
 $card = OC_Contacts_VCard::find($id);
-$vcard = OC_Contacts_App::getContactVCard( $id );
+$vcard = OC_VObject::parse($card['carddata']);
 if(is_null($vcard)) {
 	bailOut(OC_Contacts_App::$l10n->t('Error parsing VCard for ID: "'.$id.'"'));
 }
