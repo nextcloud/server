@@ -28,8 +28,6 @@ abstract class Access {
 
 	public function setConnector(Connection &$connection) {
 		$this->connection = $connection;
-
-
 	}
 
 	private function checkConnection() {
