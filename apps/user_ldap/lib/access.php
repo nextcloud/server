@@ -28,6 +28,8 @@ abstract class Access {
 
 	public function setConnector(Connection &$connection) {
 		$this->connection = $connection;
+
+
 	}
 
 	private function checkConnection() {
@@ -181,7 +183,7 @@ abstract class Access {
 	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
 	 */
 	public function dn2groupname($dn, $ldapname = null) {
-		if(mb_strripos($dn, $this->connection->ldapBaseGroups, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->connection->ldapBaseGroups, 'UTF-8'))) {
+		if(mb_strripos($dn, $this->sanitizeDN($this->connection->ldapBaseGroups), 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->sanitizeDN($this->connection->ldapBaseGroups), 'UTF-8'))) {
 			return false;
 		}
 		return $this->dn2ocname($dn, $ldapname, false);
@@ -196,7 +198,7 @@ abstract class Access {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 */
 	public function dn2username($dn, $ldapname = null) {
-		if(mb_strripos($dn, $this->connection->ldapBaseUsers, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->connection->ldapBaseUsers, 'UTF-8'))) {
+		if(mb_strripos($dn, $this->sanitizeDN($this->connection->ldapBaseUsers), 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->sanitizeDN($this->connection->ldapBaseUsers), 'UTF-8'))) {
 			return false;
 		}
 		return $this->dn2ocname($dn, $ldapname, true);
