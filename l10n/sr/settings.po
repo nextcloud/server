@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-02 02:02+0200\n"
-"PO-Revision-Date: 2012-08-02 00:04+0000\n"
+"POT-Creation-Date: 2012-08-05 19:00+0200\n"
+"PO-Revision-Date: 2012-08-05 17:01+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sr\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -42,11 +46,15 @@ msgstr ""
 msgid "Language changed"
 msgstr "Језик је измењен"
 
-#: js/apps.js:31 js/apps.js:67
+#: js/apps.js:18
+msgid "Error"
+msgstr ""
+
+#: js/apps.js:39 js/apps.js:73
 msgid "Disable"
 msgstr ""
 
-#: js/apps.js:31 js/apps.js:54
+#: js/apps.js:39 js/apps.js:62
 msgid "Enable"
 msgstr ""
 
@@ -66,7 +74,7 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
-#: templates/admin.php:55
+#: templates/admin.php:56
 msgid "More"
 msgstr ""
 
@@ -74,19 +82,19 @@ msgstr ""
 msgid "Add your App"
 msgstr ""
 
-#: templates/apps.php:24
+#: templates/apps.php:26
 msgid "Select an App"
 msgstr "Изаберите програм"
 
-#: templates/apps.php:27
+#: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
 msgstr ""
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "-licensed"
 msgstr "-лиценциран"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "by"
 msgstr "од"
 
@@ -210,6 +218,6 @@ msgstr ""
 msgid "Quota"
 msgstr ""
 
-#: templates/users.php:145
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Обриши"

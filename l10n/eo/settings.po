@@ -9,15 +9,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-04 02:02+0200\n"
-"PO-Revision-Date: 2012-08-03 22:28+0000\n"
-"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
+"POT-Creation-Date: 2012-08-05 19:00+0200\n"
+"PO-Revision-Date: 2012-08-05 17:01+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -43,11 +47,15 @@ msgstr "Aŭtentiga eraro"
 msgid "Language changed"
 msgstr "La lingvo estas ŝanĝita"
 
-#: js/apps.js:31 js/apps.js:67
+#: js/apps.js:18
+msgid "Error"
+msgstr ""
+
+#: js/apps.js:39 js/apps.js:73
 msgid "Disable"
 msgstr "Malkapabligi"
 
-#: js/apps.js:31 js/apps.js:54
+#: js/apps.js:39 js/apps.js:62
 msgid "Enable"
 msgstr "Kapabligi"
 
@@ -67,7 +75,7 @@ msgstr "Sekureca averto"
 msgid "Log"
 msgstr "Registro"
 
-#: templates/admin.php:55
+#: templates/admin.php:56
 msgid "More"
 msgstr "Pli"
 
@@ -75,19 +83,19 @@ msgstr "Pli"
 msgid "Add your App"
 msgstr "Aldonu vian aplikaĵon"
 
-#: templates/apps.php:24
+#: templates/apps.php:26
 msgid "Select an App"
 msgstr "Elekti aplikaĵon"
 
-#: templates/apps.php:27
+#: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
 msgstr "Vidu la paĝon pri aplikaĵoj ĉe apps.owncloud.com"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "-licensed"
 msgstr "-permesila"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "by"
 msgstr "de"
 
@@ -205,12 +213,12 @@ msgstr "Alia"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
-msgstr ""
+msgstr "Subadministranto"
 
 #: templates/users.php:82
 msgid "Quota"
 msgstr "Kvoto"
 
-#: templates/users.php:145
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Forigi"
