@@ -255,7 +255,7 @@ abstract class Access {
 		}
 
 		//if everything else did not help..
-		OCP\Util::writeLog('user_ldap', 'Could not create unique ownCloud name for '.$dn.'.', \OCP\Util::INFO);
+		\OCP\Util::writeLog('user_ldap', 'Could not create unique ownCloud name for '.$dn.'.', \OCP\Util::INFO);
 	}
 
 	/**
