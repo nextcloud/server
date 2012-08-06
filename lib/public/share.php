@@ -629,7 +629,7 @@ class Share {
 				$parent = $checkReshare['id'];
 				$itemSource = $checkReshare['item_source'];
 				$fileSource = $checkReshare['file_source'];
-				$fileTarget = $checkReshare['file_target'];
+				$filePath = $checkReshare['file_target'];
 			} else {
 				$message = 'Sharing '.$itemSource.' failed, because resharing is not allowed';
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
@@ -653,6 +653,7 @@ class Share {
 					throw new \Exception($message);
 				}
 			} else {
+				$filePath = null;
 				$fileSource = null;
 			}
 		}
