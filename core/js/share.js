@@ -328,8 +328,12 @@ $(document).ready(function() {
 
 	$('.unshare').live('click', function() {
 		var li = $(this).parent();
-		OC.Share.unshare($('#dropdown').data('item-type'), $('#dropdown').data('item'), $(li).data('share-type'), $(li).data('share-with'), function() {
+		var shareType = $(li).data('share-type');
+		var shareWith = $(li).data('share-with');
+		OC.Share.unshare($('#dropdown').data('item-type'), $('#dropdown').data('item'), shareType, shareWith, function() {
 			$(li).remove();
+			var index = OC.Share.itemShares[shareType].indexOf(shareWith);
+			OC.Share.itemShares[shareType].splice(index, 1);
 		});
 	});
 	
