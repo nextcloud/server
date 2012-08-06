@@ -631,14 +631,16 @@ class Share {
 				$fileSource = $checkReshare['file_source'];
 				$fileTarget = $checkReshare['file_target'];
 			} else {
-				\OC_Log::write('OCP\Share', 'Sharing '.$itemSource.' failed, because resharing is not allowed', \OC_Log::ERROR);
-				return false;
+				$message = 'Sharing '.$itemSource.' failed, because resharing is not allowed';
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+				throw new \Exception($message);
 			}
 		} else {
 			$parent = null;
 			if (!$backend->isValidSource($itemSource, $uidOwner)) {
-				\OC_Log::write('OCP\Share', 'Sharing '.$itemSource.' failed, because the sharing backend for '.$itemType.' could not find its source', \OC_Log::ERROR);
-				return false;
+				$message = 'Sharing '.$itemSource.' failed, because the sharing backend for '.$itemType.' could not find its source';
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+				throw new \Exception($message);
 			}
 			$parent = null;
 			if ($backend instanceof Share_Backend_File_Dependent) {
@@ -646,8 +648,9 @@ class Share {
 				$filePath = $backend->getFilePath($itemSource, $uidOwner);
 				$fileSource = \OC_FileCache::getId($filePath);
 				if ($fileSource == -1) {
-					\OC_Log::write('OCP\Share', 'Sharing '.$itemSource.' failed, because the file could not be found in the file cache', \OC_Log::ERROR);
-					return false;
+					$message = 'Sharing '.$itemSource.' failed, because the file could not be found in the file cache';
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message);
 				}
 			} else {
 				$fileSource = null;
