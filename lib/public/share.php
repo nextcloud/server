@@ -778,7 +778,7 @@ class Share {
 				if ($checkTarget = self::getItems($itemType, $target, $shareType, $shareWith, null, self::FORMAT_NONE, null, 1)) {
 					// Find similar targets to improve backend's chances to generate a unqiue target
 					// TODO query needs to be setup like getItems
-					$checkTargets = \OC_DB::prepare('SELECT item_target FROM *PREFIX*share WHERE item_type = ? AND share_with = ? AND '.$column.' LIKE ?');
+					$checkTargets = \OC_DB::prepare('SELECT '.$column.' FROM *PREFIX*share WHERE item_type = ? AND share_with = ? AND '.$column.' LIKE ?');
 					$result = $checkTargets->execute(array($itemType, $shareWith, '%'.$target.'%'));
 					while ($row = $result->fetchRow()) {
 						$exclude[] = $row[$column];
