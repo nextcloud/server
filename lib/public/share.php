@@ -235,7 +235,7 @@ class Share {
 	* @return Returns true on success or false on failure
 	*/
 	public static function unshare($itemType, $itemSource, $shareType, $shareWith) {
-		if ($item = self::getItems($itemType, $itemSource, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, null, 1, false)) {
+		if ($item = self::getItems($itemType, $itemSource, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, null, 1)) {
 			self::delete($item['id']);
 			return true;
 		}
@@ -524,6 +524,10 @@ class Share {
 		$result = $query->execute();
 		$items = array();
 		while ($row = $result->fetchRow()) {
+			// Remove root from file source paths
+			if (isset($uidOwner) && isset($row['file_source'])) {
+				$row['file_source'] = substr($row['file_source'], $root);
+			}
 			// Return only the item instead of a 2-dimensional array
 			if ($limit == 1 && $row['item_type'] == $itemType && $row[$column] == $item) {
 				if ($format == self::FORMAT_NONE) {
@@ -537,10 +541,6 @@ class Share {
 			if ($row['share_type'] == self::$shareTypeGroupUserUnique) {
 				// Remove the parent group share
 				unset($items[$row['parent']]);
-			}
-			// Remove root from file source paths
-			if (isset($uidOwner) && isset($row['file_source'])) {
-				$row['file_source'] = substr($row['file_source'], $root);
 			}
 			// TODO Check this outside of the loop
 			// Check if this is a collection of the requested item type
