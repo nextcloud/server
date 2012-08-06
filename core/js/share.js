@@ -30,7 +30,7 @@ OC.Share={
 	},
 	loadItem:function(itemType, item) {
 		var data = '';
-// 		if (typeof OC.Share.statuses[item] !== 'undefined') {
+		if (typeof OC.Share.statuses[item] !== 'undefined') {
 			$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, item: item }, async: false, success: function(result) {
 				if (result && result.status === 'success') {
 					data = result.data;
@@ -38,7 +38,7 @@ OC.Share={
 					data = false;
 				}
 			}});
-// 		}
+		}
 		return data;
 	},
 	share:function(itemType, item, shareType, shareWith, permissions, callback) {
