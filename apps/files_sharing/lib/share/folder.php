@@ -25,8 +25,13 @@ class OC_Share_Backend_Folder extends OC_Share_Backend_File {
 		// TODO
 	}
 
-	public function getChildrenSources($item) {
-		return OC_FileCache::getFolderContent($item);
+	public function getChildren($itemSource) {
+		$files = OC_FileCache::getFolderContent($itemSource);
+		$sources = array();
+		foreach ($files as $file) {
+			$sources[] = $file['path'];
+		}
+		return $sources;
 	}
 
 	public function formatItems($items, $format, $parameters = null) {

@@ -64,7 +64,7 @@ class OC_Contacts_Addressbook {
 		while( $row = $result->fetchRow()) {
 			$addressbooks[] = $row;
 		}
-		$addressbooks = array_merge($addressbooks, OCP\Share::getItemsSharedWith('addressbook', OC_Share_Addressbook_Backend::FORMAT_ADDRESSBOOKS));
+		$addressbooks = array_merge($addressbooks, OCP\Share::getItemsSharedWith('addressbook', OC_Share_Backend_Addressbook::FORMAT_ADDRESSBOOKS));
 		if(!$active && !count($addressbooks)) {
 			self::addDefault($uid);
 		}

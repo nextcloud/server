@@ -38,7 +38,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	* @return Returns array with the keys path and permissions or false if not found
 	*/
 	private function getFile($target) {
-		$target = $this->sharedFolder.'/'.$target;
+		$target = '/'.$target;
 		$target = rtrim($target, '/');
 		if (isset($this->files[$target])) {
 			return $this->files[$target];

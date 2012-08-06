@@ -19,7 +19,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class OC_Share_Backend_Photo extends OCP\Share_Backend {
+abstract class OC_Share_Photo_Backend implements OCP\Share_Backend {
 
 	public $dependsOn = 'file';
 	public $supportedFileExtensions = array('jpg', 'png', 'gif');

@@ -16,28 +16,29 @@ OC.Share={
 			if (result && result.status === 'success') {
 				$.each(result.data, function(item, hasPrivateLink) {
 					// Private links override shared in terms of icon display
-					if (itemType == 'file') {
-						OC.Share.statuses[item] = hasPrivateLink;
-					} else {
+					if (itemType != 'file' && itemType != 'folder') {
 						if (hasPrivateLink) {
 							$('.share').find('[data-item="'+item+'"]').attr('src', OC.imagePath('core', 'actions/public'));
 						} else {
 							$('.share').find('[data-item="'+item+'"]').attr('src', OC.imagePath('core', 'actions/shared'));
 						}
 					}
+					OC.Share.statuses[item] = hasPrivateLink;
 				});
 			}
 		});
 	},
 	loadItem:function(itemType, item) {
 		var data = '';
-		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, item: item }, async: false, success: function(result) {
-			if (result && result.status === 'success') {
-				data = result.data;
-			} else {
-				data = false;
-			}
-		}});
+// 		if (typeof OC.Share.statuses[item] !== 'undefined') {
+			$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, item: item }, async: false, success: function(result) {
+				if (result && result.status === 'success') {
+					data = result.data;
+				} else {
+					data = false;
+				}
+			}});
+// 		}
 		return data;
 	},
 	share:function(itemType, item, shareType, shareWith, permissions, callback) {
@@ -241,12 +242,12 @@ $(document).ready(function() {
 	});
 	
 	if (typeof FileActions !== 'undefined') {
-		
 		OC.Share.loadIcons('file');
+		OC.Share.loadIcons('folder');
 		FileActions.register('all', 'Share', FileActions.PERMISSION_SHARE, function(filename) {
 			// Return the correct sharing icon
 			if (scanFiles.scanning) { return; } // workaround to prevent additional http request block scanning feedback
-			var item =  $('#dir').val() + '/' + filename;
+			var item = $('#dir').val() + '/' + filename;
 			// Check if status is in cache
 			if (OC.Share.statuses[item] === true) {
 				return OC.imagePath('core', 'actions/public');

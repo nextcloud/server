@@ -20,23 +20,27 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class OC_Share_Backend_File extends OCP\Share_Backend {
+class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 
 	const FORMAT_SHARED_STORAGE = 0;
 	const FORMAT_FILE_APP = 1;
 	const FORMAT_FILE_APP_ROOT = 2;
 	const FORMAT_OPENDIR = 3;
 
-	public function getSource($item, $uid) {
-		if (OC_Filesystem::file_exists($item)) {
-			return array('item' => null, 'file' => $item);
-		}
-		return false;
+	public function isValidSource($item, $uid) {
+// 		if (OC_Filesystem::file_exists($item)) {
+			return true;
+// 		}
+// 		return false;
+	}
+
+	public function getFilePath($item, $uid) {
+		return $item;
 	}
 
 	public function generateTarget($item, $uid, $exclude = null) {
 		// TODO Make sure target path doesn't exist already
-		return '/Shared'.$item;
+		return $item;
 	}
 
 	public function formatItems($items, $format, $parameters = null) {
