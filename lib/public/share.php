@@ -506,7 +506,7 @@ class Share {
 			if ($itemType == 'file' || $itemType == 'folder') {
 				$select = '*PREFIX*share.id, item_type, *PREFIX*share.parent, share_type, *PREFIX*fscache.path as file_source';
 			} else {
-				$select = 'id, item_source, parent, share_type';
+				$select = 'id, item_type, item_source, parent, share_type';
 			}
 		} else {
 			if (isset($uidOwner)) {
