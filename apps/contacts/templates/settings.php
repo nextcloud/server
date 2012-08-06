@@ -23,6 +23,9 @@
 					<a class="svg action cloud" title="<?php echo $l->t('Show read-only VCF link'); ?>"></a>
 				</td>
 				<td class="action">
+					<a class="svg action share" data-item-type="addressbook" data-item="<?php echo $addressbook['id'] ?>" title="<?php echo $l->t("Share"); ?>"></a>
+				</td>
+				<td class="action">
 					<a class="svg action download" title="<?php echo $l->t('Download'); ?>"
 						href="<?php echo OCP\Util::linkToRemote('carddav').'addressbooks/'.OCP\USER::getUser().'/'
 						.rawurlencode($addressbook['uri']) ?>?export"></a>
