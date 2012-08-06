@@ -14,16 +14,15 @@
 "Fax" => "Faks",
 "Video" => "Video",
 "Pager" => "Pejdžer",
-"Add Contact" => "Dodaj kontakt",
-"Edit" => "Uredi",
-"Delete" => "Obriši",
 "Birthday" => "Rođendan",
+"Add Contact" => "Dodaj kontakt",
+"Delete" => "Obriši",
 "Phone" => "Telefon",
 "PO Box" => "Poštanski broj",
 "Extended" => "Proširi",
-"Street" => "Ulica",
 "City" => "Grad",
 "Region" => "Regija",
 "Zipcode" => "Zip kod",
-"Country" => "Zemlja"
+"Country" => "Zemlja",
+"Edit" => "Uredi"
 );

@@ -5,75 +5,41 @@
 # Translators:
 #   <ahmet_kaplan@hotmail.com>, 2012.
 # Aranel Surion <aranel@aranelsurion.org>, 2012.
+# Emre  <emresaracoglu@live.com>, 2012.
+# Necdet Yücel <necdetyucel@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.net/projects/p/owncloud/language/tr/)\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
+"PO-Revision-Date: 2012-07-30 09:13+0000\n"
+"Last-Translator: Emre Saraçoğlu <emresaracoglu@live.com>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: appinfo/app.php:37
+#: appinfo/app.php:39
 msgid "Pictures"
 msgstr "Resimler"
 
-#: js/album_cover.js:44
+#: js/pictures.js:12
 msgid "Share gallery"
-msgstr ""
+msgstr "Galeriyi paylaş"
 
-#: js/album_cover.js:64 js/album_cover.js:100 js/album_cover.js:133
+#: js/pictures.js:32
 msgid "Error: "
-msgstr ""
+msgstr "Hata: "
 
-#: js/album_cover.js:64 js/album_cover.js:100
+#: js/pictures.js:32
 msgid "Internal error"
-msgstr ""
+msgstr "İç hata"
 
-#: js/album_cover.js:114
-msgid "Scanning root"
-msgstr ""
-
-#: js/album_cover.js:115
-msgid "Default order"
-msgstr ""
-
-#: js/album_cover.js:116
-msgid "Ascending"
-msgstr ""
-
-#: js/album_cover.js:116
-msgid "Descending"
-msgstr ""
-
-#: js/album_cover.js:117 templates/index.php:19
-msgid "Settings"
-msgstr "Ayarlar"
-
-#: js/album_cover.js:122
-msgid "Scanning root cannot be empty"
-msgstr ""
-
-#: js/album_cover.js:122 js/album_cover.js:133
-msgid "Error"
-msgstr ""
-
-#: templates/index.php:16
-msgid "Rescan"
-msgstr "Yeniden Tara "
-
-#: templates/index.php:17
-msgid "Stop"
-msgstr "Durdur"
-
-#: templates/index.php:18
-msgid "Share"
-msgstr "Paylaş"
+#: templates/index.php:27
+msgid "Slideshow"
+msgstr "Slide Gösterim"
 
 #: templates/view_album.php:19
 msgid "Back"

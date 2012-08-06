@@ -47,6 +47,5 @@
 "Other" => "Άλλα",
 "SubAdmin" => "SubAdmin",
 "Quota" => "Σύνολο χώρου",
-"SubAdmin for ..." => "SubAdmin για ...",
 "Delete" => "Διαγραφή"
 );

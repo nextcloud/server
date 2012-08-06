@@ -3,11 +3,13 @@
 "Invalid email" => "Nevalida retpoŝtadreso",
 "OpenID Changed" => "La agordo de OpenID estas ŝanĝita",
 "Invalid request" => "Nevalida peto",
+"Authentication error" => "Aŭtentiga eraro",
 "Language changed" => "La lingvo estas ŝanĝita",
 "Disable" => "Malkapabligi",
 "Enable" => "Kapabligi",
 "Saving..." => "Konservante...",
 "__language_name__" => "Esperanto",
+"Security Warning" => "Sekureca averto",
 "Log" => "Registro",
 "More" => "Pli",
 "Add your App" => "Aldonu vian aplikaĵon",
@@ -43,6 +45,7 @@
 "Create" => "Krei",
 "Default Quota" => "Defaŭlta kvoto",
 "Other" => "Alia",
+"SubAdmin" => "Subadministranto",
 "Quota" => "Kvoto",
 "Delete" => "Forigi"
 );

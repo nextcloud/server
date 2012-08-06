@@ -9,6 +9,7 @@
 "Enable" => "Włączone",
 "Saving..." => "Zapisywanie...",
 "__language_name__" => "Polski",
+"Security Warning" => "Ostrzeżenia bezpieczeństwa",
 "Log" => "Log",
 "More" => "Więcej",
 "Add your App" => "Dodaj aplikacje",
@@ -44,6 +45,7 @@
 "Create" => "Utwórz",
 "Default Quota" => "Domyślny udział",
 "Other" => "Inne",
+"SubAdmin" => "SubAdmin",
 "Quota" => "Udział",
 "Delete" => "Usuń"
 );

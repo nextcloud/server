@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Settings" => "Iestatījumi",
 "Use the following link to reset your password: {link}" => "Izmantojiet šo linku lai mainītu paroli",
 "You will receive a link to reset your password via Email." => "Jūs savā epastā saņemsiet interneta saiti, caur kuru varēsiet atjaunot paroli.",
 "Requested" => "Obligāts",
@@ -25,7 +26,6 @@
 "Database host" => "Datubāzes mājvieta",
 "Finish setup" => "Pabeigt uzstādījumus",
 "Log out" => "Izlogoties",
-"Settings" => "Iestatījumi",
 "Lost your password?" => "Aizmirsāt paroli?",
 "remember" => "atcerēties",
 "Log in" => "Ielogoties",

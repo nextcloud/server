@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Owncloud password reset" => "Ресетовање лозинке за Оунклауд",
+"Settings" => "Подешавања",
 "Use the following link to reset your password: {link}" => "Овом везом ресетујте своју лозинку: {link}",
 "You will receive a link to reset your password via Email." => "Добићете везу за ресетовање лозинке путем е-поште.",
 "Requested" => "Захтевано",
@@ -29,7 +29,6 @@
 "Finish setup" => "Заврши подешавање",
 "web services under your control" => "веб сервиси под контролом",
 "Log out" => "Одјава",
-"Settings" => "Подешавања",
 "Lost your password?" => "Изгубили сте лозинку?",
 "remember" => "упамти",
 "Log in" => "Пријава",

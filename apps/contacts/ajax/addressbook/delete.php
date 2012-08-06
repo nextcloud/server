@@ -24,9 +24,12 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
+require_once  __DIR__.'/../loghandler.php';
 
-//$id = $_GET['id'];
 $id = $_POST['id'];
+if(!$id) {
+	bailOut(OC_Contacts_App::$l10n->t('id is not set.'));
+}
 OC_Contacts_App::getAddressbook( $id ); // is owner access check
 
 OC_Contacts_Addressbook::delete($id);

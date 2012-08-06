@@ -1,10 +1,12 @@
 <?php $TRANSLATIONS = array(
+"Unable to load list from App Store" => "Impossibile caricare l'elenco dall'App Store",
 "Email saved" => "Email salvata",
 "Invalid email" => "Email non valida",
 "OpenID Changed" => "OpenID modificato",
 "Invalid request" => "Richiesta non valida",
 "Authentication error" => "Errore di autenticazione",
 "Language changed" => "Lingua modificata",
+"Error" => "Errore",
 "Disable" => "Disabilita",
 "Enable" => "Abilita",
 "Saving..." => "Salvataggio in corso...",
@@ -47,6 +49,5 @@
 "Other" => "Altro",
 "SubAdmin" => "SubAdmin",
 "Quota" => "Quote",
-"SubAdmin for ..." => "SubAdmin per...",
 "Delete" => "Elimina"
 );

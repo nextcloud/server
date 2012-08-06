@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-28 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 05:39+0000\n"
+"POT-Creation-Date: 2012-08-06 02:02+0200\n"
+"PO-Revision-Date: 2012-08-05 21:58+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr "Impossibile caricare l'elenco dall'App Store"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -48,11 +52,15 @@ msgstr "Errore di autenticazione"
 msgid "Language changed"
 msgstr "Lingua modificata"
 
-#: js/apps.js:31 js/apps.js:67
+#: js/apps.js:18
+msgid "Error"
+msgstr "Errore"
+
+#: js/apps.js:39 js/apps.js:73
 msgid "Disable"
 msgstr "Disabilita"
 
-#: js/apps.js:31 js/apps.js:54
+#: js/apps.js:39 js/apps.js:62
 msgid "Enable"
 msgstr "Abilita"
 
@@ -72,7 +80,7 @@ msgstr "Avviso di sicurezza"
 msgid "Log"
 msgstr "Registro"
 
-#: templates/admin.php:55
+#: templates/admin.php:56
 msgid "More"
 msgstr "Altro"
 
@@ -80,19 +88,19 @@ msgstr "Altro"
 msgid "Add your App"
 msgstr "Aggiungi la tua applicazione"
 
-#: templates/apps.php:24
+#: templates/apps.php:26
 msgid "Select an App"
 msgstr "Seleziona un'applicazione"
 
-#: templates/apps.php:27
+#: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
 msgstr "Vedere la pagina dell'applicazione su apps.owncloud.com"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "-licensed"
 msgstr "-rilasciato"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "by"
 msgstr "da"
 
@@ -208,7 +216,7 @@ msgstr "Quota predefinita"
 msgid "Other"
 msgstr "Altro"
 
-#: templates/users.php:80
+#: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
 msgstr "SubAdmin"
 
@@ -216,10 +224,6 @@ msgstr "SubAdmin"
 msgid "Quota"
 msgstr "Quote"
 
-#: templates/users.php:112
-msgid "SubAdmin for ..."
-msgstr "SubAdmin per..."
-
-#: templates/users.php:145
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Elimina"

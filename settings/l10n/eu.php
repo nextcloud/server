@@ -3,11 +3,13 @@
 "Invalid email" => "Baliogabeko eposta",
 "OpenID Changed" => "OpenID aldatuta",
 "Invalid request" => "Baliogabeko eskaria",
+"Authentication error" => "Autentifikazio errorea",
 "Language changed" => "Hizkuntza aldatuta",
 "Disable" => "Ez-gaitu",
 "Enable" => "Gaitu",
 "Saving..." => "Gordetzen...",
 "__language_name__" => "Euskera",
+"Security Warning" => "Segurtasun abisua",
 "Log" => "Egunkaria",
 "More" => "Gehiago",
 "Add your App" => "Gehitu zure aplikazioa",
@@ -43,6 +45,7 @@
 "Create" => "Sortu",
 "Default Quota" => "Kuota lehentsia",
 "Other" => "Besteak",
+"SubAdmin" => "SubAdmin",
 "Quota" => "Kuota",
 "Delete" => "Ezabatu"
 );

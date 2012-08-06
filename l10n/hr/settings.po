@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-27 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 00:02+0000\n"
+"POT-Creation-Date: 2012-08-05 19:00+0200\n"
+"PO-Revision-Date: 2012-08-05 17:01+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: hr\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -43,11 +47,15 @@ msgstr ""
 msgid "Language changed"
 msgstr "Jezik promijenjen"
 
-#: js/apps.js:31 js/apps.js:67
+#: js/apps.js:18
+msgid "Error"
+msgstr ""
+
+#: js/apps.js:39 js/apps.js:73
 msgid "Disable"
 msgstr "Isključi"
 
-#: js/apps.js:31 js/apps.js:54
+#: js/apps.js:39 js/apps.js:62
 msgid "Enable"
 msgstr "Uključi"
 
@@ -67,7 +75,7 @@ msgstr ""
 msgid "Log"
 msgstr "dnevnik"
 
-#: templates/admin.php:55
+#: templates/admin.php:56
 msgid "More"
 msgstr "više"
 
@@ -75,19 +83,19 @@ msgstr "više"
 msgid "Add your App"
 msgstr "Dodajte vašu aplikaciju"
 
-#: templates/apps.php:24
+#: templates/apps.php:26
 msgid "Select an App"
 msgstr "Odaberite Aplikaciju"
 
-#: templates/apps.php:27
+#: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
 msgstr "Pogledajte stranicu s aplikacijama na apps.owncloud.com"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "-licensed"
 msgstr "-licencirano"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "by"
 msgstr "od"
 
@@ -203,7 +211,7 @@ msgstr "standardni kvota"
 msgid "Other"
 msgstr "ostali"
 
-#: templates/users.php:80
+#: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
 msgstr ""
 
@@ -211,10 +219,6 @@ msgstr ""
 msgid "Quota"
 msgstr "kvota"
 
-#: templates/users.php:112
-msgid "SubAdmin for ..."
-msgstr ""
-
-#: templates/users.php:145
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Obriši"

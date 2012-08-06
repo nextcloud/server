@@ -14,15 +14,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-28 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 10:05+0000\n"
-"Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
+"POT-Creation-Date: 2012-08-05 19:00+0200\n"
+"PO-Revision-Date: 2012-08-05 17:01+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -48,13 +52,17 @@ msgstr "Erreur d'authentification"
 msgid "Language changed"
 msgstr "Langue changée"
 
-#: js/apps.js:31 js/apps.js:67
-msgid "Disable"
-msgstr "Désactivé"
+#: js/apps.js:18
+msgid "Error"
+msgstr ""
 
-#: js/apps.js:31 js/apps.js:54
+#: js/apps.js:39 js/apps.js:73
+msgid "Disable"
+msgstr "Désactiver"
+
+#: js/apps.js:39 js/apps.js:62
 msgid "Enable"
-msgstr "Activé"
+msgstr "Activer"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -72,7 +80,7 @@ msgstr "Alertes de sécurité"
 msgid "Log"
 msgstr "Journaux"
 
-#: templates/admin.php:55
+#: templates/admin.php:56
 msgid "More"
 msgstr "Plus"
 
@@ -80,19 +88,19 @@ msgstr "Plus"
 msgid "Add your App"
 msgstr "Ajoutez votre application"
 
-#: templates/apps.php:24
+#: templates/apps.php:26
 msgid "Select an App"
 msgstr "Sélectionner une Application"
 
-#: templates/apps.php:27
+#: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
 msgstr "Voir la page des applications à l'url apps.owncloud.com"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "-licensed"
 msgstr "sous licence"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "by"
 msgstr "par"
 
@@ -126,7 +134,7 @@ msgstr "Vous utilisez"
 
 #: templates/personal.php:8
 msgid "of the available"
-msgstr "d'espace de stockage sur un total de"
+msgstr "de votre espace de stockage d'une taille totale de"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -208,7 +216,7 @@ msgstr "Quota par défaut"
 msgid "Other"
 msgstr "Autre"
 
-#: templates/users.php:80
+#: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
 msgstr "SubAdmin"
 
@@ -216,10 +224,6 @@ msgstr "SubAdmin"
 msgid "Quota"
 msgstr "Quota"
 
-#: templates/users.php:112
-msgid "SubAdmin for ..."
-msgstr "SubAdmin pour ..."
-
-#: templates/users.php:145
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Supprimer"

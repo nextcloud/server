@@ -9,6 +9,8 @@
 "Files" => "Fitxers",
 "Unshare" => "Deixa de compartir",
 "Delete" => "Suprimeix",
+"undo" => "desfés",
+"deleted" => "esborrat",
 "generating ZIP-file, it may take some time." => "s'estan generant fitxers ZIP, pot trigar una estona.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "No es pot pujar el fitxer perquè és una carpeta o té 0 bytes",
 "Upload Error" => "Error en la pujada",

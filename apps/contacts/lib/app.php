@@ -22,16 +22,34 @@ class OC_Contacts_App {
 	public static $categories = null;
 
 	public static function getAddressbook($id) {
+		// TODO: Throw an exception instead of returning json.
 		$addressbook = OC_Contacts_Addressbook::find( $id );
-		if ($addressbook === false) {
-			OCP\Util::writeLog('contacts', 'Addressbook not found: '. $id, OCP\Util::ERROR);
-			OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('Addressbook not found.'))));
-		} else if ($addressbook['userid'] != OCP\USER::getUser()) {
-			if ($shared = OCP\Share::getItemSharedWithBySource('addressbook', $id)) {
-				$addressbook['displayname'] = $shared['item_target'];
-			} else {
-				OCP\Util::writeLog('contacts', 'Addressbook('.$id.') is not from '.OCP\USER::getUser(), OCP\Util::ERROR);
-				OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.'))));
+		if($addressbook === false || $addressbook['userid'] != OCP\USER::getUser()) {
+			if ($addressbook === false) {
+				OCP\Util::writeLog('contacts',
+					'Addressbook not found: '. $id,
+					OCP\Util::ERROR);
+				//throw new Exception('Addressbook not found: '. $id);
+				OCP\JSON::error(
+					array(
+						'data' => array(
+							'message' => self::$l10n->t('Addressbook not found: ' . $id)
+						)
+					)
+				);
+			}
+			else {
+				OCP\Util::writeLog('contacts',
+					'Addressbook('.$id.') is not from '.OCP\USER::getUser(),
+					OCP\Util::ERROR);
+				//throw new Exception('This is not your addressbook.');
+				OCP\JSON::error(
+					array(
+						'data' => array(
+							'message' => self::$l10n->t('This is not your addressbook.')
+						)
+					)
+				);
 			}
 		}
 		return $addressbook;

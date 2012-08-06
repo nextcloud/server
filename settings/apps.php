@@ -47,6 +47,7 @@ foreach($registeredApps as $app){
 			$info['internallabel']='3rd Party App';
 		}
 		$info['preview']='trans.png';
+		$info['version']=OC_App::getAppVersion($app);
 		$apps[]=$info;
 	}
 }
@@ -58,38 +59,6 @@ function app_sort($a, $b){
 	return strcmp($a['name'], $b['name']);
 }
 usort($apps, 'app_sort');
-
-// apps from external repo via OCS
- $catagoryNames=OC_OCSClient::getCategories();
- if(is_array($catagoryNames)){
- 	$categories=array_keys($catagoryNames);
-	$page=0;
- 	$externalApps=OC_OCSClient::getApplications($categories,$page);
- 	foreach($externalApps as $app){
-		// show only external apps that are not exist yet
-		$local=false;
- 		foreach($apps as $a){
-			if($a['name']==$app['name']) $local=true;			
-		}
-
-		if(!$local) {
- 			if($app['preview']=='') $pre='trans.png'; else $pre=$app['preview'];
-	 		$apps[]=array(
- 				'name'=>$app['name'],
- 				'id'=>$app['id'],
- 				'active'=>false,
- 				'description'=>$app['description'],
- 				'author'=>$app['personid'],
- 				'license'=>$app['license'],
- 				'preview'=>$pre,
- 				'internal'=>false,
- 				'internallabel'=>'3rd Party App',
- 			);
-		}
- 	}
- }
-
-
 
 $tmpl = new OC_Template( "settings", "apps", "user" );
 $tmpl->assign('apps',$apps, false);

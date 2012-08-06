@@ -6,13 +6,13 @@
  * later.
  * See the COPYING-README file.
  */
- 
+
 
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
-require_once 'loghandler.php';
+require_once  __DIR__.'/../loghandler.php';
 
 debug('name: '.$_POST['name']);
 
@@ -34,4 +34,4 @@ if(!OC_Contacts_Addressbook::setActive($bookid, 1)) {
 	bailOut('Error activating addressbook.');
 }
 $addressbook = OC_Contacts_App::getAddressbook($bookid);
-OCP\JSON::success(array('data' => $addressbook));
+OCP\JSON::success(array('data' => array('addressbook' => $addressbook)));

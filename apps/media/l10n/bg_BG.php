@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Music" => "Музика",
+"Add album to playlist" => "Добавяне на албума към списъка за изпълнение",
 "Play" => "Пусни",
 "Pause" => "Пауза",
 "Previous" => "Предишна",

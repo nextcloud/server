@@ -13,7 +13,7 @@ function cmp($a, $b)
     }
     return ($a['displayname'] < $b['displayname']) ? -1 : 1;
 }
- 
+
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
@@ -37,34 +37,49 @@ $ids = array();
 foreach($active_addressbooks as $addressbook) {
 	$ids[] = $addressbook['id'];
 	if(!isset($contacts_addressbook[$addressbook['id']])) {
-		$contacts_addressbook[$addressbook['id']] = array('contacts' => array('type' => 'book',));
-		$contacts_addressbook[$addressbook['id']]['displayname'] = $addressbook['displayname'];
+		$contacts_addressbook[$addressbook['id']]
+				= array('contacts' => array('type' => 'book',));
+		$contacts_addressbook[$addressbook['id']]['displayname']
+				= $addressbook['displayname'];
 	}
-}	
+}
 
-$contacts_alphabet = array(); 
+$contacts_alphabet = array();
 
 // get next 50 for each addressbook.
 foreach($ids as $id) {
 	if($id) {
-		$contacts_alphabet = array_merge($contacts_alphabet, OC_Contacts_VCard::all($id, $start, 50));
+		$contacts_alphabet = array_merge(
+				$contacts_alphabet,
+				OC_Contacts_VCard::all($id, $start, 50)
+		);
 	}
 }
 // Our new array for the contacts sorted by addressbook
 if($contacts_alphabet) {
 	foreach($contacts_alphabet as $contact) {
-		if(!isset($contacts_addressbook[$contact['addressbookid']])) { // It should never execute.
-			$contacts_addressbook[$contact['addressbookid']] = array('contacts' => array('type' => 'book',));
+		// This should never execute.
+		if(!isset($contacts_addressbook[$contact['addressbookid']])) {
+			$contacts_addressbook[$contact['addressbookid']] = array(
+				'contacts' => array('type' => 'book',)
+			);
 		}
 		$display = trim($contact['fullname']);
 		if(!$display) {
 			$vcard = OC_Contacts_App::getContactVCard($contact['id']);
 			if(!is_null($vcard)) {
 				$struct = OC_Contacts_VCard::structureContact($vcard);
-				$display = isset($struct['EMAIL'][0])?$struct['EMAIL'][0]['value']:'[UNKNOWN]';
+				$display = isset($struct['EMAIL'][0])
+					? $struct['EMAIL'][0]['value']
+					: '[UNKNOWN]';
 			}
 		}
-		$contacts_addressbook[$contact['addressbookid']]['contacts'][] = array('type' => 'contact', 'id' => $contact['id'], 'addressbookid' => $contact['addressbookid'], 'displayname' => htmlspecialchars($display));
+		$contacts_addressbook[$contact['addressbookid']]['contacts'][] = array(
+					'type' => 'contact',
+					'id' => $contact['id'],
+					'addressbookid' => $contact['addressbookid'],
+					'displayname' => htmlspecialchars($display)
+		);
 	}
 }
 unset($contacts_alphabet);

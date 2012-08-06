@@ -20,8 +20,6 @@ OCP\App::addNavigationEntry( array(
   'icon' => OCP\Util::imagePath( 'settings', 'users.svg' ),
   'name' => OC_L10N::get('contacts')->t('Contacts') ));
 
-
-OCP\App::registerPersonal('contacts', 'settings');
 OCP\Util::addscript('contacts', 'loader');
 OC_Search::registerProvider('OC_Search_Provider_Contacts');
 OCP\Share::registerBackend('contact', 'OC_Share_Backend_Contact');

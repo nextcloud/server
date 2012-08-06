@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-30 02:02+0200\n"
+"POT-Creation-Date: 2012-08-06 02:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,12 +59,32 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: js/filelist.js:186
-msgid "deleted"
+#: js/filelist.js:141
+msgid "already exists"
 msgstr ""
 
-#: js/filelist.js:186
+#: js/filelist.js:141
+msgid "replace"
+msgstr ""
+
+#: js/filelist.js:141
+msgid "cancel"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "replaced"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "with"
+msgstr ""
+
+#: js/filelist.js:195 js/filelist.js:256
 msgid "undo"
+msgstr ""
+
+#: js/filelist.js:256
+msgid "deleted"
 msgstr ""
 
 #: js/files.js:170
@@ -91,27 +111,27 @@ msgstr ""
 msgid "Invalid name, '/' is not allowed."
 msgstr ""
 
-#: js/files.js:631 templates/index.php:55
+#: js/files.js:690 templates/index.php:55
 msgid "Size"
 msgstr ""
 
-#: js/files.js:632 templates/index.php:56
+#: js/files.js:691 templates/index.php:56
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:659
+#: js/files.js:718
 msgid "folder"
 msgstr ""
 
-#: js/files.js:661
+#: js/files.js:720
 msgid "folders"
 msgstr ""
 
-#: js/files.js:669
+#: js/files.js:728
 msgid "file"
 msgstr ""
 
-#: js/files.js:671
+#: js/files.js:730
 msgid "files"
 msgstr ""
 

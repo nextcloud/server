@@ -47,6 +47,5 @@
 "Other" => "Drugo",
 "SubAdmin" => "PodSkrbnik",
 "Quota" => "Količinska omejitev",
-"SubAdmin for ..." => "PodSkrbnik za ...",
 "Delete" => "Izbriši"
 );

@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Stefan Ilivanov <ilivanov@gmail.com>, 2011.
+# Yasen Pramatarov <yasen@lindeas.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-30 02:02+0200\n"
-"PO-Revision-Date: 2012-07-30 00:03+0000\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
+"PO-Revision-Date: 2012-07-31 20:54+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +47,7 @@ msgstr "Липсва временната папка"
 
 #: ajax/upload.php:26
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Грешка при запис на диска"
 
 #: appinfo/app.php:6
 msgid "Files"
@@ -60,12 +61,32 @@ msgstr ""
 msgid "Delete"
 msgstr "Изтриване"
 
-#: js/filelist.js:186
-msgid "deleted"
+#: js/filelist.js:141
+msgid "already exists"
 msgstr ""
 
-#: js/filelist.js:186
+#: js/filelist.js:141
+msgid "replace"
+msgstr ""
+
+#: js/filelist.js:141
+msgid "cancel"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "replaced"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "with"
+msgstr ""
+
+#: js/filelist.js:195 js/filelist.js:256
 msgid "undo"
+msgstr ""
+
+#: js/filelist.js:256
+msgid "deleted"
 msgstr ""
 
 #: js/files.js:170
@@ -78,7 +99,7 @@ msgstr ""
 
 #: js/files.js:199
 msgid "Upload Error"
-msgstr ""
+msgstr "Грешка при качване"
 
 #: js/files.js:227 js/files.js:318 js/files.js:347
 msgid "Pending"
@@ -86,11 +107,11 @@ msgstr ""
 
 #: js/files.js:332
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Качването е отменено."
 
 #: js/files.js:456
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Неправилно име – \"/\" не е позволено."
 
 #: js/files.js:631 templates/index.php:55
 msgid "Size"
@@ -102,15 +123,15 @@ msgstr "Променено"
 
 #: js/files.js:659
 msgid "folder"
-msgstr ""
+msgstr "папка"
 
 #: js/files.js:661
 msgid "folders"
-msgstr ""
+msgstr "папки"
 
 #: js/files.js:669
 msgid "file"
-msgstr ""
+msgstr "файл"
 
 #: js/files.js:671
 msgid "files"
@@ -138,7 +159,7 @@ msgstr ""
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 означава без ограничение"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
@@ -146,19 +167,19 @@ msgstr ""
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Нов"
 
 #: templates/index.php:9
 msgid "Text file"
-msgstr ""
+msgstr "Текстов файл"
 
 #: templates/index.php:10
 msgid "Folder"
-msgstr ""
+msgstr "Папка"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr ""
+msgstr "От url-адрес"
 
 #: templates/index.php:21
 msgid "Upload"
@@ -166,7 +187,7 @@ msgstr "Качване"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "Отказване на качването"
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
@@ -178,7 +199,7 @@ msgstr "Име"
 
 #: templates/index.php:49
 msgid "Share"
-msgstr ""
+msgstr "Споделяне"
 
 #: templates/index.php:51
 msgid "Download"
@@ -196,7 +217,7 @@ msgstr "Файловете които се опитвате да качите с
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Файловете се претърсват, изчакайте."
 
 #: templates/index.php:74
 msgid "Current scanning"

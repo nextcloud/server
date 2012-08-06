@@ -183,7 +183,7 @@ class OC_App{
 		if(!OC_Installer::isInstalled($app)){
 			// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
 			if(!is_numeric($app)){
-				OC_Installer::installShippedApp($app);
+				$app = OC_Installer::installShippedApp($app);
 			}else{
 				$download=OC_OCSClient::getApplicationDownload($app,1);
 				if(isset($download['downloadlink']) and $download['downloadlink']!='') {
@@ -205,6 +205,7 @@ class OC_App{
 		}else{
 			return false;
 		}
+		return $app;
 	}
 
 	/**
@@ -292,19 +293,19 @@ class OC_App{
 		if (OC_User::isLoggedIn()) {
 			// personal menu
 			$settings[] = array( "id" => "personal", "order" => 1, "href" => OC_Helper::linkTo( "settings", "personal.php" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ));
-			
+
 			// if there're some settings forms
 			if(!empty(self::$settingsForms))
 				// settings menu
 				$settings[]=array( "id" => "settings", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "settings.php" ), "name" => $l->t("Settings"), "icon" => OC_Helper::imagePath( "settings", "settings.svg" ));
-			
+
 			//SubAdmins are also allowed to access user management
 			if(OC_SubAdmin::isSubAdmin($_SESSION["user_id"]) || OC_Group::inGroup( $_SESSION["user_id"], "admin" )){
 				// admin users menu
 				$settings[] = array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkTo( "settings", "users.php" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "settings", "users.svg" ));
 			}
-			
-			
+
+
 			// if the user is an admin
 			if(OC_Group::inGroup( $_SESSION["user_id"], "admin" )) {
 				// admin apps menu
@@ -394,7 +395,7 @@ class OC_App{
 			return trim($version);
 		}else{
 			$appData=self::getAppInfo($appid);
-			return $appData['version'];
+			return isset($appData['version'])? $appData['version'] : '';
 		}
 	}
 

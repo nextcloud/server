@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-30 02:02+0200\n"
-"PO-Revision-Date: 2012-07-30 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-03 02:02+0200\n"
+"PO-Revision-Date: 2012-08-02 09:32+0000\n"
+"Last-Translator: Marios Bekatoros <>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,13 +62,33 @@ msgstr "Ακύρωση Διαμοιρασμού"
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: js/filelist.js:186
-msgid "deleted"
-msgstr ""
+#: js/filelist.js:141
+msgid "already exists"
+msgstr "υπάρχει ήδη"
 
-#: js/filelist.js:186
+#: js/filelist.js:141
+msgid "replace"
+msgstr "αντικατέστησε"
+
+#: js/filelist.js:141
+msgid "cancel"
+msgstr "ακύρωση"
+
+#: js/filelist.js:195
+msgid "replaced"
+msgstr "αντικαταστάθηκε"
+
+#: js/filelist.js:195
+msgid "with"
+msgstr "με"
+
+#: js/filelist.js:195 js/filelist.js:256
 msgid "undo"
-msgstr ""
+msgstr "αναίρεση"
+
+#: js/filelist.js:256
+msgid "deleted"
+msgstr "διαγράφηκε"
 
 #: js/files.js:170
 msgid "generating ZIP-file, it may take some time."

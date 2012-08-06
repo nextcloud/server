@@ -5,8 +5,8 @@
 "Invalid request" => "Requête invalide",
 "Authentication error" => "Erreur d'authentification",
 "Language changed" => "Langue changée",
-"Disable" => "Désactivé",
-"Enable" => "Activé",
+"Disable" => "Désactiver",
+"Enable" => "Activer",
 "Saving..." => "Sauvegarde...",
 "__language_name__" => "Français",
 "Security Warning" => "Alertes de sécurité",
@@ -24,7 +24,7 @@
 "Go there manually." => "S'y rendre manuellement.",
 "Answer" => "Réponse",
 "You use" => "Vous utilisez",
-"of the available" => "d'espace de stockage sur un total de",
+"of the available" => "de votre espace de stockage d'une taille totale de",
 "Desktop and Mobile Syncing Clients" => "Clients de synchronisation Mobile et Ordinateur",
 "Download" => "Télécharger",
 "Your password got changed" => "Votre mot de passe a été changé",
@@ -47,6 +47,5 @@
 "Other" => "Autre",
 "SubAdmin" => "SubAdmin",
 "Quota" => "Quota",
-"SubAdmin for ..." => "SubAdmin pour ...",
 "Delete" => "Supprimer"
 );

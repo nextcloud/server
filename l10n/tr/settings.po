@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Aranel Surion <aranel@aranelsurion.org>, 2011, 2012.
+# Emre  <emresaracoglu@live.com>, 2012.
 # Necdet Yücel <necdetyucel@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-27 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 00:02+0000\n"
+"POT-Creation-Date: 2012-08-05 19:00+0200\n"
+"PO-Revision-Date: 2012-08-05 17:01+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +19,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
 "Plural-Forms: nplurals=1; plural=0\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -37,17 +42,21 @@ msgstr "Geçersiz istek"
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "Eşleşme hata"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Dil değiştirildi"
 
-#: js/apps.js:31 js/apps.js:67
+#: js/apps.js:18
+msgid "Error"
+msgstr ""
+
+#: js/apps.js:39 js/apps.js:73
 msgid "Disable"
 msgstr "Etkin değil"
 
-#: js/apps.js:31 js/apps.js:54
+#: js/apps.js:39 js/apps.js:62
 msgid "Enable"
 msgstr "Etkin"
 
@@ -61,13 +70,13 @@ msgstr "__dil_adı__"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "Güvenlik Uyarisi"
 
 #: templates/admin.php:28
 msgid "Log"
 msgstr "Günlük"
 
-#: templates/admin.php:55
+#: templates/admin.php:56
 msgid "More"
 msgstr "Devamı"
 
@@ -75,19 +84,19 @@ msgstr "Devamı"
 msgid "Add your App"
 msgstr "Uygulamanı Ekle"
 
-#: templates/apps.php:24
+#: templates/apps.php:26
 msgid "Select an App"
 msgstr "Bir uygulama seçin"
 
-#: templates/apps.php:27
+#: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
 msgstr "Uygulamanın sayfasına apps.owncloud.com adresinden bakın "
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "-licensed"
 msgstr "-lisanslı"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "by"
 msgstr "yapan"
 
@@ -203,18 +212,14 @@ msgstr "Varsayılan Kota"
 msgid "Other"
 msgstr "Diğer"
 
-#: templates/users.php:80
+#: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
-msgstr ""
+msgstr "Alt Yönetici"
 
 #: templates/users.php:82
 msgid "Quota"
 msgstr "Kota"
 
-#: templates/users.php:112
-msgid "SubAdmin for ..."
-msgstr ""
-
-#: templates/users.php:145
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Sil"

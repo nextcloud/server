@@ -27,7 +27,7 @@ UserList={
 		$('tr').filterAttr( 'data-uid', UserList.deleteUid ).hide();
 		
 		// Provide user with option to undo
-		$('#notification').text(t('files','undo delete user'));
+		$('#notification').html(t('users', 'deleted')+' '+uid+'<span class="undo">'+t('users', 'undo')+'</span>');
 		$('#notification').data('deleteuser',true);
 		$('#notification').fadeIn();
 			
@@ -170,7 +170,7 @@ $(document).ready(function(){
 		applyMultiplySelect($(element));
 	});
 	
-	$('td.remove>img').live('click',function(event){
+	$('td.remove>a').live('click',function(event){
 		
 		var uid = $(this).parent().parent().data('uid');
 		
@@ -304,9 +304,13 @@ $(document).ready(function(){
 					tr.attr('data-uid',username);
 					tr.find('td.name').text(username);
 					var select=$('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="Groups">');
+					var subadminselect=$('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('files', 'SubAdmin') + '">');
 					select.data('username',username);
 					select.data('userGroups',groups);
+					subadminselect.data('username',username);
+					subadminselect.data('userGroups',groups);
 					tr.find('td.groups').empty();
+					tr.find('td.subadmins').empty();
 					var allGroups=$('#content table').data('groups').split(', ');
 					for(var i=0;i<groups.length;i++){
 						if(allGroups.indexOf(groups[i])==-1){
@@ -315,12 +319,18 @@ $(document).ready(function(){
 					}
 					$.each(allGroups,function(i,group){
 						select.append($('<option value="'+group+'">'+group+'</option>'));
+						if(group != 'admin'){
+							subadminselect.append($('<option value="'+group+'">'+group+'</option>'));
+						}
 					});
 					tr.find('td.groups').append(select);
+					tr.find('td.subadmins').append(subadminselect);
 					if(tr.find('td.remove img').length==0){
 						tr.find('td.remove').append($('<img alt="Delete" title="'+t('settings','Delete')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
 					}
 					applyMultiplySelect(select);
+					applyMultiplySelect(subadminselect);
+					
 					$('#content table tbody').last().append(tr);
 
 					tr.find('select.quota-user option').attr('selected',null);
@@ -332,7 +342,7 @@ $(document).ready(function(){
 	});
 	// Handle undo notifications
 	$('#notification').hide();
-	$('#notification').click(function(){
+	$('#notification .undo').live('click', function() {
 		if($('#notification').data('deleteuser'))
 		{
 			$( 'tr' ).filterAttr( 'data-uid', UserList.deleteUid ).show();

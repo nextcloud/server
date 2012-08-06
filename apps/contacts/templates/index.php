@@ -11,13 +11,13 @@
 	</div>
 	<div id="uploadprogressbar"></div>
 	<div id="bottomcontrols">
-		<form id="import_upload_form" action="<?php echo OCP\Util::linkTo('contacts', 'ajax/uploadimport.php'); ?>" method="post" enctype="multipart/form-data" target="import_upload_target">
 			<button class="svg" id="contacts_newcontact" title="<?php echo $l->t('Add Contact'); ?>"><img class="svg" src="<?php echo OCP\Util::imagePath('contacts', 'contact-new.svg'); ?>" alt="<?php echo $l->t('Add Contact'); ?>" /></button>
-			<span class="svg" id="contacts_import" title="<?php echo $l->t('Import'); ?>">
-				<input class="float" id="import_upload_start" type="file" accept="text/directory,text/vcard,text/x-vcard" name="importfile" />
+			<button class="svg import tip" title="<?php echo $l->t('Import'); ?>">
 				<img class="svg" src="core/img/actions/upload.svg" alt="<?php echo $l->t('Import'); ?>" />
-			</span>
-			<button class="svg" id="chooseaddressbook" title="<?php echo $l->t('Addressbooks'); ?>"><img class="svg" src="core/img/actions/settings.svg" alt="<?php echo $l->t('Addressbooks'); ?>" /></button>
+			</button>
+			<button class="svg settings tip" title="<?php echo $l->t('Settings'); ?>"><img class="svg" src="core/img/actions/settings.svg" alt="<?php echo $l->t('Addressbooks'); ?>" /></button>
+		<form id="import_upload_form" action="<?php echo OCP\Util::linkTo('contacts', 'ajax/uploadimport.php'); ?>" method="post" enctype="multipart/form-data" target="import_upload_target">
+			<input class="float" id="import_upload_start" type="file" accept="text/directory,text/vcard,text/x-vcard" name="importfile" />
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
 		</form>
 		<iframe name="import_upload_target" id='import_upload_target' src=""></iframe>
@@ -32,22 +32,22 @@
 			echo $this->inc('part.no_contacts');
 		}
 	?>
-	<div class="hidden" id="ninjahelp">
-		<a class="close" tabindex="0" role="button">
-			<img class="svg" src="core/img/actions/delete.svg" alt="<?php echo $l->t('Close'); ?>" />
-		</a>
+	<div class="hidden popup" id="ninjahelp">
+		<a class="close" tabindex="0" role="button" title="<?php echo $l->t('Close'); ?>"></a>
 		<h2><?php echo $l->t('Keyboard shortcuts'); ?></h2>
 		<div class="help-section">
 			<h3><?php echo $l->t('Navigation'); ?></h3>
 			<dl>
-				<dt>j/Down/Space</dt>
+				<dt>j/Down</dt>
 				<dd><?php echo $l->t('Next contact in list'); ?></dd>
-				<dt>k/Up/Shift-Space</dt>
+				<dt>k/Up</dt>
 				<dd><?php echo $l->t('Previous contact in list'); ?></dd>
-				<dt>o/Enter</dt>
+				<dt>o</dt>
 				<dd><?php echo $l->t('Expand/collapse current addressbook'); ?></dd>
-				<dt>n/p</dt>
-				<dd><?php echo $l->t('Next/previous addressbook'); ?></dd>
+				<dt>n/PageDown</dt>
+				<dd><?php echo $l->t('Next addressbook'); ?></dd>
+				<dt>p/PageUp</dt>
+				<dd><?php echo $l->t('Previous addressbook'); ?></dd>
 			</dl>
 		</div>
 		<div class="help-section">
@@ -57,8 +57,8 @@
 				<dd><?php echo $l->t('Refresh contacts list'); ?></dd>
 				<dt>a</dt>
 				<dd><?php echo $l->t('Add new contact'); ?></dd>
-				<dt>Shift-a</dt>
-				<dd><?php echo $l->t('Add new addressbook'); ?></dd>
+				<!-- dt>Shift-a</dt>
+				<dd><?php echo $l->t('Add new addressbook'); ?></dd -->
 				<dt>Shift-Delete</dt>
 				<dd><?php echo $l->t('Delete current contact'); ?></dd>
 			</dl>

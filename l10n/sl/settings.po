@@ -10,15 +10,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-29 02:04+0200\n"
-"PO-Revision-Date: 2012-07-28 02:03+0000\n"
-"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
+"POT-Creation-Date: 2012-08-05 19:00+0200\n"
+"PO-Revision-Date: 2012-08-05 17:01+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -44,11 +48,15 @@ msgstr "Napaka overitve"
 msgid "Language changed"
 msgstr "Jezik je bil spremenjen"
 
-#: js/apps.js:31 js/apps.js:67
+#: js/apps.js:18
+msgid "Error"
+msgstr ""
+
+#: js/apps.js:39 js/apps.js:73
 msgid "Disable"
 msgstr "Onemogoči"
 
-#: js/apps.js:31 js/apps.js:54
+#: js/apps.js:39 js/apps.js:62
 msgid "Enable"
 msgstr "Omogoči"
 
@@ -68,7 +76,7 @@ msgstr "Varnostno opozorilo"
 msgid "Log"
 msgstr "Dnevnik"
 
-#: templates/admin.php:55
+#: templates/admin.php:56
 msgid "More"
 msgstr "Več"
 
@@ -76,19 +84,19 @@ msgstr "Več"
 msgid "Add your App"
 msgstr "Dodajte vašo aplikacijo"
 
-#: templates/apps.php:24
+#: templates/apps.php:26
 msgid "Select an App"
 msgstr "Izberite aplikacijo"
 
-#: templates/apps.php:27
+#: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
 msgstr "Obiščite spletno stran aplikacije na apps.owncloud.com"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "-licensed"
 msgstr "-licencirana"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "by"
 msgstr "s strani"
 
@@ -204,7 +212,7 @@ msgstr "Privzeta količinska omejitev"
 msgid "Other"
 msgstr "Drugo"
 
-#: templates/users.php:80
+#: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
 msgstr "PodSkrbnik"
 
@@ -212,10 +220,6 @@ msgstr "PodSkrbnik"
 msgid "Quota"
 msgstr "Količinska omejitev"
 
-#: templates/users.php:112
-msgid "SubAdmin for ..."
-msgstr "PodSkrbnik za ..."
-
-#: templates/users.php:145
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Izbriši"

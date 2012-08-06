@@ -14,15 +14,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-30 02:03+0200\n"
-"PO-Revision-Date: 2012-07-29 14:04+0000\n"
-"Last-Translator: Piotr Sokół <psokol@jabster.pl>\n"
+"POT-Creation-Date: 2012-08-05 19:00+0200\n"
+"PO-Revision-Date: 2012-08-05 17:01+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -48,11 +52,15 @@ msgstr "Błąd uwierzytelniania"
 msgid "Language changed"
 msgstr "Język zmieniony"
 
-#: js/apps.js:31 js/apps.js:67
+#: js/apps.js:18
+msgid "Error"
+msgstr ""
+
+#: js/apps.js:39 js/apps.js:73
 msgid "Disable"
 msgstr "Wyłączone"
 
-#: js/apps.js:31 js/apps.js:54
+#: js/apps.js:39 js/apps.js:62
 msgid "Enable"
 msgstr "Włączone"
 
@@ -66,13 +74,13 @@ msgstr "Polski"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "Ostrzeżenia bezpieczeństwa"
 
 #: templates/admin.php:28
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:55
+#: templates/admin.php:56
 msgid "More"
 msgstr "Więcej"
 
@@ -80,19 +88,19 @@ msgstr "Więcej"
 msgid "Add your App"
 msgstr "Dodaj aplikacje"
 
-#: templates/apps.php:24
+#: templates/apps.php:26
 msgid "Select an App"
 msgstr "Zaznacz aplikacje"
 
-#: templates/apps.php:27
+#: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
 msgstr "Zobacz stronę aplikacji na apps.owncloud.com"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "-licensed"
 msgstr "-licencjonowany"
 
-#: templates/apps.php:28
+#: templates/apps.php:30
 msgid "by"
 msgstr "przez"
 
@@ -208,18 +216,14 @@ msgstr "Domyślny udział"
 msgid "Other"
 msgstr "Inne"
 
-#: templates/users.php:80
+#: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
-msgstr ""
+msgstr "SubAdmin"
 
 #: templates/users.php:82
 msgid "Quota"
 msgstr "Udział"
 
-#: templates/users.php:112
-msgid "SubAdmin for ..."
-msgstr ""
-
-#: templates/users.php:145
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Usuń"
