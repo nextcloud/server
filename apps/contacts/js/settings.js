@@ -89,8 +89,7 @@ OC.Contacts.Settings = OC.Contacts.Settings || {
 									+ '<td class="action"><a class="svg action globe" title="'+t('contacts', 'Show CardDav link')+'"></a></td>'
 									+ '<td class="action"><a class="svg action cloud" title="'+t('contacts', 'Show read-only VCF link')+'"></a></td>'
 									+ '<td class="action"><a class="svg action download" title="'+t('contacts', 'Download')+'" '
-									+ 'href="'+totalurl+'/'+encodeURIComponent(oc_current_user)+'/'
-									+ encodeURIComponent(jsondata.data.addressbook.uri)+'?export"></a></td>'
+									+ 'href="'+OC.linkTo('contacts', 'export.php')+'?bookid='+jsondata.data.addressbook.id+'"></a></td>'
 									+ '<td class="action"><a class="svg action edit" title="'+t('contacts', 'Edit')+'"></a></td>'
 									+ '<td class="action"><a class="svg action delete" title="'+t('contacts', 'Delete')+'"></a></td>'
 									+ '</tr>');
@@ -106,17 +105,27 @@ OC.Contacts.Settings = OC.Contacts.Settings || {
 					}
 			});
 		},
+		showLink:function(id, row, link) {
+			console.log('row:', row.length);
+			row.next('tr.link').remove();
+			var linkrow = $('<tr class="link"><td colspan="5"><input style="width: 95%;" type="text" value="'+link+'" /></td>'
+				+ '<td colspan="3"><button>'+t('contacts', 'Cancel')+'</button></td></tr>').insertAfter(row);
+			linkrow.find('input').focus().select();
+			linkrow.find('button').click(function() {
+				$(this).parents('tr').first().remove();
+			});
+		},
 		showCardDAV:function(id) {
 			console.log('showCardDAV: ', id);
 			var row = this.adrsettings.find('tr[data-id="'+id+'"]');
-			this.adractions.find('.link').val(totalurl+'/'+encodeURIComponent(oc_current_user)+'/');
-			this.showActions(['link','cancel']);
+			this.showLink(id, row, totalurl+'/'+encodeURIComponent(oc_current_user));
 		},
 		showVCF:function(id) {
 			console.log('showVCF: ', id);
 			var row = this.adrsettings.find('tr[data-id="'+id+'"]');
-			this.adractions.find('.link').val(totalurl+'/'+encodeURIComponent(oc_current_user)+'/'+encodeURIComponent(row.data('uri'))+'?export');
-			this.showActions(['link','cancel']);
+			var link = totalurl+'/'+encodeURIComponent(oc_current_user)+'/'+encodeURIComponent(row.data('uri'))+'?export';
+			console.log(link);
+			this.showLink(id, row, link);
 		}
 	}
 };
