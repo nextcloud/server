@@ -43,7 +43,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if (isset($this->files[$target])) {
 			return $this->files[$target];
 		} else {
-			$pos = strpos($target, '/', 8);
+			$pos = strpos($target, '/', 1);
 			// Get shared folder name
 			if ($pos !== false) {
 				$folder = substr($target, 0, $pos);
