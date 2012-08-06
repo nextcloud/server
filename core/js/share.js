@@ -163,7 +163,7 @@ OC.Share={
 		if (permissions & OC.Share.PERMISSION_SHARE) {
 			shareChecked = 'checked="checked"';
 		}
-		var html = '<li data-share-type="'+shareType+'" data-share-with="'+shareWith+'">';
+		var html = '<li style="clear: both;" data-share-type="'+shareType+'" data-share-with="'+shareWith+'">';
 		html += shareWith;
 		if (possiblePermissions & OC.Share.PERMISSION_CREATE || possiblePermissions & OC.Share.PERMISSION_UPDATE || possiblePermissions & OC.Share.PERMISSION_DELETE) {
 			if (editChecked == '') {
