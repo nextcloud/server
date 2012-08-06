@@ -545,13 +545,17 @@ $(document).ready(function() {
 	
 	var lastWidth = 0;
 	var breadcrumbs = [];
-	var breadcrumbsWidth = $('#navigation').get(0).offsetWidth + $('#controls .actions').get(0).offsetWidth;
+	var breadcrumbsWidth = $('#navigation').get(0).offsetWidth;
 	var hiddenBreadcrumbs = 0;
 
 	$.each($('.crumb'), function(index, breadcrumb) {
 		breadcrumbs[index] = breadcrumb;
 		breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
 	});
+
+	if ($('#controls .actions').length > 0) {
+		breadcrumbsWidth += $('#controls .actions').get(0).offsetWidth;
+	}
 
 	function resizeBreadcrumbs(firstRun) {
 		var width = $(this).width();
