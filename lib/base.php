@@ -373,7 +373,7 @@ class OC{
 		self::$REQUESTEDAPP = (isset($_GET['app']) && trim($_GET['app']) != '' && !is_null($_GET['app'])?str_replace(array('\0', '/', '\\', '..'), '', strip_tags($_GET['app'])):OC_Config::getValue('defaultapp', 'files'));
 		if(substr_count(self::$REQUESTEDAPP, '?') != 0){
 			$app = substr(self::$REQUESTEDAPP, 0, strpos(self::$REQUESTEDAPP, '?'));
-			$param = substr(self::$REQUESTEDAPP, strpos(self::$REQUESTEDAPP, '?') + 1);
+			$param = substr($_GET['app'], strpos($_GET['app'], '?') + 1);
 			parse_str($param, $get);
 			$_GET = array_merge($_GET, $get);
 			self::$REQUESTEDAPP = $app;
