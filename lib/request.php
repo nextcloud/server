@@ -52,6 +52,10 @@ class OC_Request {
 		return($proto);
 	}
 
+	/**
+	 * @brief Check if this is a no-cache request
+	 * @returns true for no-cache
+	 */
 	static public function isNoCache() {
 		if (!isset($_SERVER['HTTP_CACHE_CONTROL'])) {
 			return false;
@@ -59,6 +63,10 @@ class OC_Request {
 		return $_SERVER['HTTP_CACHE_CONTROL'] == 'no-cache';
 	}
 
+	/**
+	 * @brief Check if the requestor understands gzip
+	 * @returns true for gzip encoding supported
+	 */
 	static public function acceptGZip() {
 		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
 			return false;
