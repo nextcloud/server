@@ -120,8 +120,19 @@ class OC_Helper {
 	 */
 	public static function linkToAbsolute( $app, $file ) {
 		$urlLinkTo = self::linkTo( $app, $file );
-		$urlLinkTo = self::serverProtocol(). '://'  . self::serverHost() . $urlLinkTo;
-		return $urlLinkTo;
+		return self::makeURLAbsolute($urlLinkTo);
+	}
+
+	/**
+	 * @brief Makes an $url absolute
+	 * @param $url the url
+	 * @returns the absolute url
+	 *
+	 * Returns a absolute url to the given app and file.
+	 */
+	public static function makeURLAbsolute( $url )
+	{
+		return self::serverProtocol(). '://'  . self::serverHost() . $url;
 	}
 
 	/**
