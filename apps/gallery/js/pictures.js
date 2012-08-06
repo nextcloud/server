@@ -61,8 +61,8 @@ function deplode(element) {
 
 function openNewGal(album_name) {
 	root = root + decodeURIComponent(album_name) + "/";
-	var url = window.location.toString().replace(window.location.search, '');
-	url = url + "?app=gallery&root="+encodeURIComponent(root);
+	var url = window.location.protocol+"//"+window.location.hostname+OC.linkTo('gallery', 'index.php');
+	url = url + "?root="+encodeURIComponent(root);
 
 	window.location = url;
 }

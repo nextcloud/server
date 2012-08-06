@@ -343,10 +343,16 @@ class OC_Util {
 			$location = $_REQUEST['redirect_url'];
 		}
 		else if (isset(OC::$REQUESTEDAPP) && !empty(OC::$REQUESTEDAPP)) {
-			$location = OC::$WEBROOT.'/?app='.OC::$REQUESTEDAPP;
+			$location = OC_Helper::linkToAbsolute( OC::$REQUESTEDAPP, 'index.php' );
 		}
 		else {
-			$location = OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', '?app=files');
+			$defaultpage = OC_Appconfig::getValue('core', 'defaultpage');
+			if ($defaultpage) {
+				$location = OC_Helper::serverProtocol().'://'.OC_Helper::serverHost().OC::$WEBROOT.'/'.$defaultpage;
+			}
+			else {
+				$location = OC_Helper::linkToAbsolute( 'files', 'index.php' );
+			}
 		}
 		OC_Log::write('core', 'redirectToDefaultPage: '.$location, OC_Log::DEBUG);
 		header( 'Location: '.$location );
