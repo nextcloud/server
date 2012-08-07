@@ -78,7 +78,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 						$vcards = OC_Contacts_VCard::all($id);
 						foreach ($vcards as $vcard) {
 							$contact = $vcard['fullname'];
-							if (stripos($contact, $_GET['search']) !== false && (!isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT]) || !in_array($contact, $_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT]))) {
+							if (stripos($contact, $_GET['search']) !== false && (!is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT]) || !in_array($contact, $_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT]))) {
 								$shareWith[] = array('label' => $contact, 'value' => array('shareType' => 5, 'shareWith' => $vcard['id']));
 							}
 						}
@@ -93,7 +93,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 					$users = OC_User::getUsers($_GET['search'], $limit, $offset);
 					$offset += $limit;
 					foreach ($users as $user) {
-						if ((!isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_USER]) || !in_array($user, $_GET['itemShares'][OCP\Share::SHARE_TYPE_USER])) && $user != OC_User::getUser()) {
+						if ((!is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_USER]) || !in_array($user, $_GET['itemShares'][OCP\Share::SHARE_TYPE_USER])) && $user != OC_User::getUser()) {
 							$shareWith[] = array('label' => $user, 'value' => array('shareType' => OCP\Share::SHARE_TYPE_USER, 'shareWith' => $user));
 							$count++;
 						}
@@ -103,7 +103,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 				$groups = OC_Group::getUserGroups(OC_User::getUser());
 				foreach ($groups as $group) {
 					if ($count < 4) {
-						if (stripos($group, $_GET['search']) !== false && (!isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]) || !in_array($group, $_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]))) {
+						if (stripos($group, $_GET['search']) !== false && (!is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]) || !in_array($group, $_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]))) {
 							$shareWith[] = array('label' => $group.' (group)', 'value' => array('shareType' => OCP\Share::SHARE_TYPE_GROUP, 'shareWith' => $group));
 							$count++;
 						}
