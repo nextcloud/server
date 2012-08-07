@@ -11,6 +11,7 @@ OC::$CLASSPATH['OC_Search_Provider_Calendar'] = 'apps/calendar/lib/search.php';
 OC::$CLASSPATH['OC_Calendar_Export'] = 'apps/calendar/lib/export.php';
 OC::$CLASSPATH['OC_Calendar_Import'] = 'apps/calendar/lib/import.php';
 OC::$CLASSPATH['OC_Share_Backend_Calendar'] = 'apps/calendar/lib/share/calendar.php';
+OC::$CLASSPATH['OC_Share_Backend_Event'] = 'apps/calendar/lib/share/event.php';
 //General Hooks
 OCP\Util::connectHook('OC_User', 'post_createUser', 'OC_Calendar_Hooks', 'createUser');
 OCP\Util::connectHook('OC_User', 'post_deleteUser', 'OC_Calendar_Hooks', 'deleteUser');
@@ -37,3 +38,4 @@ OCP\App::addNavigationEntry( array(
 OCP\App::registerPersonal('calendar', 'settings');
 OC_Search::registerProvider('OC_Search_Provider_Calendar');
 OCP\Share::registerBackend('calendar', 'OC_Share_Backend_Calendar');
+OCP\Share::registerBackend('event', 'OC_Share_Backend_Event');
