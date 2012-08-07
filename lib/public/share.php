@@ -217,7 +217,7 @@ class Share {
 						self::put('file', $name, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder);
 					}
 				}
-				return $return;
+				return true;
 			}
 			return false;
 		} else {
