@@ -73,9 +73,10 @@ if($userId && $appUrl && $categories) {
 		if($currUser) {
 			die('You are logged in as '.$currUser.' instead of '.htmlentities($userId));
 		} else {
-			header('Location: /?redirect_url='.urlencode('/apps/remoteStorage/auth.php'.$_SERVER['PATH_INFO'].'?'.$_SERVER['QUERY_STRING']));
+			// this will display the login page for us
+			OCP\Util::checkLoggedIn();
 		}
 	}
 } else {//params not ok
-	die('please use e.g. /?app=remoteStorage&getfile=auth.php&userid=admin&redirect_uri=http://host/path&scope=...');
+	die('please use e.g. '.OCP\Util::linkTo('remoteStorage', 'auth.php').'?userid=admin&redirect_uri=http://host/path&scope=...');
 }
