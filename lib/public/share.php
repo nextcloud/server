@@ -440,26 +440,39 @@ class Share {
 		$root = \OC_Filesystem::getRoot();
 		// If includeCollections is true, find collections of this item type, e.g. a music album contains songs
 		if ($includeCollections && !isset($item) && $collectionTypes = self::getCollectionItemTypes($itemType)) {
-			$where = "WHERE item_type IN ('".implode("','", array_merge(array($itemType), $collectionTypes))."')";
+			$item_types = array_merge(array($itemType), $collectionTypes);
+			$placeholders = join(',', array_fill(0, count($item_types), '?'));
+			$where = "WHERE item_type IN ('".$placeholders."')";
+			$query_args = $item_types;
 		} else {
-			$where = "WHERE item_type = '".$itemType."'";
+			$where = "WHERE item_type = ?";
+			$query_args = array($itemType);
 		}
 		if (isset($shareType) && isset($shareWith)) {
 			// Include all user and group items
 			if ($shareType == self::$shareTypeUserAndGroups) {
-				$where .= " AND share_type IN (".self::SHARE_TYPE_USER.",".self::SHARE_TYPE_GROUP.",".self::$shareTypeGroupUserUnique.")";
+				$where .= " AND share_type IN (?,?,?)";
+				$query_args[] = self::SHARE_TYPE_USER;
+				$query_args[] = self::SHARE_TYPE_GROUP;
+				$query_args[] = self::$shareTypeGroupUserUnique;
 				$groups = \OC_Group::getUserGroups($shareWith);
 				$userAndGroups = array_merge(array($shareWith), $groups);
-				$where .= " AND share_with IN ('".implode("','", $userAndGroups)."')";
+				$placeholders = join(',', array_fill(0, count($userAndGroups), '?'));
+				$where .= " AND share_with IN (".$placeholders.")";
+				$query_args = array_merge($query_args, $userAndGroups);
 			} else {
-				$where .= " AND share_type = ".$shareType." AND share_with = '".$shareWith."'";
+				$where .= " AND share_type = ? AND share_with = ?";
+				$query_args[] = $shareType;
+				$query_args[] = $shareWith;
 			}
 		}
 		if (isset($uidOwner)) {
-			$where .= " AND uid_owner = '".$uidOwner."'";
+			$where .= " AND uid_owner = ?";
+			$query_args[] = $uidOwner;
 			if (!isset($shareType)) {
 				// Prevent unique user targets for group shares from being selected
-				$where .= " AND share_type != '".self::$shareTypeGroupUserUnique."'";
+				$where .= " AND share_type != ?";
+				$query_args[] = self::$shareTypeGroupUserUnique;
 			}
 			if ($itemType == 'file' || $itemType == 'folder') {
 				$where = "INNER JOIN *PREFIX*fscache ON file_source = *PREFIX*fscache.id ".$where;
@@ -479,19 +492,24 @@ class Share {
 			if (isset($uidOwner)) {
 				// If item type is a file, file source needs to be checked in case the item was converted
 				if ($itemType == 'file' || $itemType == 'folder') {
-					$where .= " AND path = '".$root.$item."'";
+					$where .= " AND path = ?";
+					$query_args[] = $root.$item;
 				} else {
-					$where .= " AND item_source = '".$item."'";
+					$where .= " AND item_source = ?";
+					$query_args[] = $item;
 				}
 			} else {
 				if ($itemType == 'file' || $itemType == 'folder') {
-					$where .= " AND file_target = '".$item."'";
+					$where .= " AND file_target = ?";
 				} else {
-					$where .= " AND item_target = '".$item."'";
+					$where .= " AND item_target = ?";
 				}
+				$query_args[] = $item;
 			}
 			if ($includeCollections && $collectionTypes = self::getCollectionItemTypes($itemType)) {
-				$where .= " OR item_type IN ('".implode("','", $collectionTypes)."')";
+				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
+				$where .= " OR item_type IN ('".$placeholders."')";
+				$query_args = array_merge($query_args, $collectionTypes);
 			}
 		}
 		if ($limit != -1 && !$includeCollections) {
@@ -521,7 +539,7 @@ class Share {
 		}
 		$root = strlen($root);
 		$query = \OC_DB::prepare('SELECT '.$select.' FROM *PREFIX*share '.$where);
-		$result = $query->execute();
+		$result = $query->execute($query_args);
 		$items = array();
 		while ($row = $result->fetchRow()) {
 			// Remove root from file source paths
