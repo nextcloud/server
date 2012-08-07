@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Hossein nag <h.sname@yahoo.com>, 2012.
+# vahid chakoshy <vchakoshy@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-05 19:00+0200\n"
-"PO-Revision-Date: 2012-08-05 17:01+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-07 02:05+0200\n"
+"PO-Revision-Date: 2012-08-06 01:13+0000\n"
+"Last-Translator: vahid chakoshy <vchakoshy@gmail.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +49,7 @@ msgstr "زبان تغییر کرد"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "خطا"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
@@ -68,7 +69,7 @@ msgstr "__language_name__"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "اخطار امنیتی"
 
 #: templates/admin.php:28
 msgid "Log"

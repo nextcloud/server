@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Borjan Tchakaloff <borjan@tchaka.fr>, 2012.
+# Cyril Glapa <kyriog@gmail.com>, 2012.
 #   <fboulogne@april.org>, 2011.
 #   <gp4004@arghh.org>, 2011.
 #   <guiguidu31300@gmail.com>, 2012.
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-04 02:02+0200\n"
-"PO-Revision-Date: 2012-08-04 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-07 02:04+0200\n"
+"PO-Revision-Date: 2012-08-06 20:28+0000\n"
+"Last-Translator: Cyril Glapa <kyriog@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -306,11 +307,11 @@ msgstr "échoué."
 
 #: js/settings.js:67
 msgid "Displayname cannot be empty."
-msgstr ""
+msgstr "Le nom d'affichage ne peut pas être vide."
 
 #: lib/app.php:36
 msgid "Addressbook not found: "
-msgstr ""
+msgstr "Carnet d'adresse introuvable : "
 
 #: lib/app.php:49
 msgid "This is not your addressbook."
@@ -452,7 +453,7 @@ msgstr "Importer"
 
 #: templates/index.php:18
 msgid "Settings"
-msgstr ""
+msgstr "Paramètres"
 
 #: templates/index.php:18 templates/settings.php:9
 msgid "Addressbooks"
@@ -484,11 +485,11 @@ msgstr "Dé/Replier le carnet d'adresses courant"
 
 #: templates/index.php:48
 msgid "Next addressbook"
-msgstr ""
+msgstr "Carnet d'adresses suivant"
 
 #: templates/index.php:50
 msgid "Previous addressbook"
-msgstr ""
+msgstr "Carnet d'adresses précédent"
 
 #: templates/index.php:54
 msgid "Actions"
@@ -540,7 +541,7 @@ msgstr "Editer les noms"
 
 #: templates/part.contact.php:40 templates/part.contact.php:42
 #: templates/part.contact.php:44 templates/part.contact.php:46
-#: templates/part.contact.php:50 templates/settings.php:34
+#: templates/part.contact.php:50 templates/settings.php:33
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -841,7 +842,7 @@ msgstr "iOS/OS X"
 
 #: templates/settings.php:20
 msgid "Show CardDav link"
-msgstr ""
+msgstr "Afficher le lien CardDav"
 
 #: templates/settings.php:23
 msgid "Show read-only VCF link"
@@ -851,30 +852,30 @@ msgstr ""
 msgid "Download"
 msgstr "Télécharger"
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 msgid "Edit"
 msgstr "Modifier"
 
-#: templates/settings.php:41
+#: templates/settings.php:40
 msgid "New Address Book"
 msgstr "Nouveau Carnet d'adresses"
 
-#: templates/settings.php:42
+#: templates/settings.php:41
 msgid "Name"
-msgstr ""
+msgstr "Nom"
+
+#: templates/settings.php:42
+msgid "Description"
+msgstr "Description"
 
 #: templates/settings.php:43
-msgid "Description"
-msgstr ""
-
-#: templates/settings.php:45
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: templates/settings.php:46
+#: templates/settings.php:44
 msgid "Cancel"
 msgstr "Annuler"
 
-#: templates/settings.php:51
+#: templates/settings.php:49
 msgid "More..."
-msgstr ""
+msgstr "Plus…"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-06 02:01+0200\n"
+"POT-Creation-Date: 2012-08-07 02:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -530,7 +530,7 @@ msgstr ""
 
 #: templates/part.contact.php:40 templates/part.contact.php:42
 #: templates/part.contact.php:44 templates/part.contact.php:46
-#: templates/part.contact.php:50 templates/settings.php:34
+#: templates/part.contact.php:50 templates/settings.php:33
 msgid "Delete"
 msgstr ""
 
@@ -841,30 +841,30 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 msgid "Edit"
 msgstr ""
 
-#: templates/settings.php:41
+#: templates/settings.php:40
 msgid "New Address Book"
 msgstr ""
 
-#: templates/settings.php:42
+#: templates/settings.php:41
 msgid "Name"
 msgstr ""
 
-#: templates/settings.php:43
+#: templates/settings.php:42
 msgid "Description"
 msgstr ""
 
-#: templates/settings.php:45
+#: templates/settings.php:43
 msgid "Save"
 msgstr ""
 
-#: templates/settings.php:46
+#: templates/settings.php:44
 msgid "Cancel"
 msgstr ""
 
-#: templates/settings.php:51
+#: templates/settings.php:49
 msgid "More..."
 msgstr ""

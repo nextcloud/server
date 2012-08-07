@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-05 19:00+0200\n"
-"PO-Revision-Date: 2012-08-05 17:01+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-07 02:05+0200\n"
+"PO-Revision-Date: 2012-08-06 07:32+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "No s'ha pogut carregar la llista des de l'App Store"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -49,7 +49,7 @@ msgstr "S'ha canviat l'idioma"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
