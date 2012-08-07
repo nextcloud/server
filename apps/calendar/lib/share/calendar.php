@@ -43,8 +43,14 @@ class OC_Share_Backend_Calendar implements OCP\Share_Backend_Collection {
 		$calendars = array();
 		if ($format == self::FORMAT_CALENDAR) {
 			foreach ($items as $item) {
-				$calendar = OC_Calendar_App::getCalendar($item['item_source']);
+				$calendar = OC_Calendar_App::getCalendar($item['item_source'], false);
+				// TODO: really check $parameters['permissions'] == 'rw'/'r'
+				if ($parameters['permissions'] == 'rw') {
+					continue; // TODO
+				}
 				$calendar['displaynamename'] = $item['item_target'];
+				$calendar['calendarid'] = $calendar['id'];
+				$calendar['owner'] = $calendar['userid'];
 				$calendars[] = $calendar;
 			}
 		}

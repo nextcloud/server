@@ -18,19 +18,16 @@ class OC_Calendar_Share{
 	 * @return: array $return - information about calendars
 	 */
 	public static function allSharedwithuser($userid, $type, $active=null, $permission=null){
-		$group_where = self::group_sql(OC_Group::getUserGroups($userid));
-		$permission_where = self::permission_sql($permission);
-		if($type == self::CALENDAR){
-			$active_where = self::active_sql($active);
-		}else{
-			$active_where = '';
+		$format = OC_Share_Backend_Calendar::FORMAT_CALENDAR;
+		if ($type == self::EVENT) {
+			$format = OC_Share_Backend_Event::FORMAT_EVENT;
 		}
-		$stmt = OCP\DB::prepare("SELECT * FROM *PREFIX*calendar_share_" . $type . " WHERE ((share = ? AND sharetype = 'user') " . $group_where . ") AND owner <> ? " . $permission_where . " " . $active_where);
-		$result = $stmt->execute(array($userid, $userid));
-		$return = array();
-		while( $row = $result->fetchRow()){
-			$return[] = $row;
-		}
+		$return = OCP\Share::getItemsSharedWith($type,
+			$format,
+			array(
+				'active' => $active,
+				'permissions' => $permission,
+			));
 		return $return;
 	}
 	/**
