@@ -53,6 +53,19 @@ class OC_Request {
 	}
 
 	/**
+	 * @brief get Path info from request
+	 * @returns string Path info or false when not found
+	 */
+	public static function getPathInfo() {
+		if (array_key_exists('PATH_INFO', $_SERVER)){
+			$path_info = $_SERVER['PATH_INFO'];
+		}else{
+			$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
+		}
+		return $path_info;
+	}
+
+	/**
 	 * @brief Check if this is a no-cache request
 	 * @returns true for no-cache
 	 */
