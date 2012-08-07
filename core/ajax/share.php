@@ -58,7 +58,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 		case 'getItemsSharedStatuses':
 			if (isset($_GET['itemType'])) {
 				$return = OCP\Share::getItemsShared($_GET['itemType'], OCP\Share::FORMAT_STATUSES);
-				($return) ? OC_JSON::success(array('data' => $return)) : OC_JSON::error();
+				is_array($return) ? OC_JSON::success(array('data' => $return)) : OC_JSON::error();
 			}
 			break;
 		case 'getItem':
