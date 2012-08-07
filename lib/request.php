@@ -61,6 +61,17 @@ class OC_Request {
 			$path_info = $_SERVER['PATH_INFO'];
 		}else{
 			$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
+			// following is taken from Sabre_DAV_URLUtil::decodePathSegment
+			$path_info = rawurldecode($path_info);
+			$encoding = mb_detect_encoding($path_info, array('UTF-8','ISO-8859-1'));
+
+			switch($encoding) {
+
+			    case 'ISO-8859-1' :
+				$path_info = utf8_encode($path_info);
+
+			}
+			// end copy
 		}
 		return $path_info;
 	}
