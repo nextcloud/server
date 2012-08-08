@@ -23,9 +23,8 @@
 
 header('Content-type: text/html; charset=UTF-8') ;
 
-//no apps or filesystem
+//no apps
 $RUNTIME_NOAPPS=true;
-$RUNTIME_NOSETUPFS=true;
 
  
 OCP\JSON::checkAppEnabled('media');

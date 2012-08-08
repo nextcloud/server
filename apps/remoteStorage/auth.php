@@ -27,9 +27,6 @@
 
 header("X-Frame-Options: Sameorigin");
 
-// Do not load FS ...
-$RUNTIME_NOSETUPFS = true;
-
 OCP\App::checkAppEnabled('remoteStorage');
 require_once('Sabre/autoload.php');
 require_once('lib_remoteStorage.php');

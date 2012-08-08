@@ -401,9 +401,6 @@ class OC{
 }
 
 // define runtime variables - unless this already has been done
-if( !isset( $RUNTIME_NOSETUPFS )){
-	$RUNTIME_NOSETUPFS = false;
-}
 if( !isset( $RUNTIME_NOAPPS )){
 	$RUNTIME_NOAPPS = false;
 }

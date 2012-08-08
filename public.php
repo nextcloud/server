@@ -1,5 +1,4 @@
 <?php
-$RUNTIME_NOSETUPFS = true;
 $RUNTIME_NOAPPS = TRUE;
 require_once('lib/base.php');
 $file = OCP\CONFIG::getAppValue('core', 'public_' . strip_tags($_GET['service']));

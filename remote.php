@@ -1,5 +1,4 @@
 <?php
-$RUNTIME_NOSETUPFS = true;
 $RUNTIME_NOAPPS = TRUE;
 require_once('lib/base.php');
 $path_info = OC_Request::getPathInfo();
