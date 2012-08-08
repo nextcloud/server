@@ -23,9 +23,9 @@
 $RUNTIME_NOSETUPFS = true;
 require_once('lib/base.php');
 
-$appmode = OC_Appconfig::getValue( 'core', 'backgroundjob_mode', 'web' );
+$appmode = OC_Appconfig::getValue( 'core', 'backgroundjob_mode', 'ajax' );
 if( OC::$CLI ){
-	if( $appmode == 'web' ){
+	if( $appmode != 'cron' ){
 		OC_Appconfig::setValue( 'core', 'backgroundjob_mode', 'cron' );
 	}
 
@@ -41,7 +41,7 @@ if( OC::$CLI ){
 	OC_BackgroundJob_Worker::doAllSteps();
 }
 else{
-	if( $appmode == 'web' ){
+	if( $appmode == 'cron' ){
 		OC_JSON::error( array( 'data' => array( 'message' => 'Backgroundjobs are using system cron!')));
 		exit();
 	}

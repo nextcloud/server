@@ -227,11 +227,17 @@ class OC{
 		OC_Util::addScript( "jquery.infieldlabel.min" );
 		OC_Util::addScript( "jquery-tipsy" );
 		OC_Util::addScript( "oc-dialogs" );
+		OC_Util::addScript( "backgroundjobs" );
 		OC_Util::addScript( "js" );
 		OC_Util::addScript( "eventsource" );
 		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search','result');
+
+		if( OC_Appconfig::getValue( 'core', 'backgroundjob_mode', 'ajax' ) == 'ajax' ){
+			OC_Util::addScript( 'backgroundjobs' );
+		}
+		
 		OC_Util::addStyle( "styles" );
 		OC_Util::addStyle( "multiselect" );
 		OC_Util::addStyle( "jquery-ui-1.8.16.custom" );
