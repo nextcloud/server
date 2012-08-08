@@ -27,10 +27,6 @@ namespace OCA_Encryption;
  */
 class Keymanager {
 	
-	private static $defaultProperties = array('dbClassName' => \OC_DB,
-										'fileProxyClassName' => \OC_FileProxy,
-			);
-	
 	# TODO: make all dependencies (including static classes) explicit, such as ocfsview objects, by adding them as method arguments (dependency injection)
 	
 	private static function mergeProperties($properties) {
@@ -167,8 +163,7 @@ class Keymanager {
 	 * @param string $key
 	 * @return bool true/false
 	 */
-	public static function setFileKey( $path, $key, $view, $dbClassName, $fileProxyClassName ) {
-
+	public static function setFileKey( $path, $key, $view = Null, $dbClassName = '\OC_DB', $fileProxyClassName =  '\OC_FileProxy') {
 		$fileProxyClassName::$enabled = false;
 
 		$targetpath = ltrim(  $path, '/'  );
@@ -194,6 +189,10 @@ class Keymanager {
 		}
 		
 		$path_parts = pathinfo( $targetpath );
+
+		if (!$view) {
+			$view = new \OC_FilesystemView( '/' . $user . '/files_encryption/keyfiles' );
+		}
 		
 		if ( !$view->file_exists( $path_parts['dirname'] ) ) $view->mkdir( $path_parts['dirname'] );
 		

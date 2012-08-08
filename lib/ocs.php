@@ -693,14 +693,14 @@ class OC_OCS {
          */
         private static function publicKeySet($format, $key) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode($user) === 'client') {
+        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
         		if (OCA_Encryption\Keymanager::setPublicKey($key)) {
         			echo self::generateXml('', 'ok', 100, '');
         		} else {
         			echo self::generateXml('', 'fail', 404, 'could not add your public key to the key storage');
         		}
         	} else {
-        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled for user ' . $user);
+        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled');
         	}
         }
         	
@@ -711,7 +711,7 @@ class OC_OCS {
         */
         private static function privateKeyGet($format) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode($user) === 'client') {
+        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
         		if (($key = OCA_Encryption\Keymanager::getPrivateKey())) {
         			$xml=array();
         			$xml['key']=$key;
@@ -721,7 +721,7 @@ class OC_OCS {
         			echo self::generateXml('', 'fail', 404, 'private key does not exist');
         		}
         	} else {
-        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled for user ' . $user);
+        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled');
         	}
         }
 		
@@ -733,14 +733,14 @@ class OC_OCS {
 		 */
         private static function privateKeySet($format, $key) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode($user) === 'client') {
+        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
         		if (($key = OCA_Encryption\Keymanager::setPrivateKey($key))) {
         			echo self::generateXml('', 'ok', 100, '');
         		} else {
         			echo self::generateXml('', 'fail', 404, 'could not add your private key to the key storage');
         		}
         	} else {
-        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled for user ' . $user);
+        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled');
         	}
         }
 
@@ -752,7 +752,7 @@ class OC_OCS {
 		 */
         private static function fileKeyGet($format, $file) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode($user) === 'client') {
+        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
         		if (($key = OCA_Encryption\Keymanager::getFileKey($file))) {
         			$xml=array();
         			$xml['key']=$key;
@@ -762,7 +762,7 @@ class OC_OCS {
         			echo self::generateXml('', 'fail', 404, 'file key does not exist');
         		}
         	} else {
-        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled for user ' . $user);
+        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled');
         	}
         }
 		
@@ -775,14 +775,14 @@ class OC_OCS {
 		 */
         private static function fileKeySet($format, $file, $key) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode($user) === 'client') {
+        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
         		if (($key = OCA_Encryption\Keymanager::setFileKey($file, $key))) {
         			echo self::generateXml('', 'ok', 100, '');
         		} else {
         			echo self::generateXml('', 'fail', 404, 'could not write key file');
         		}
         	} else {
-        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled for user ' . $user);
+        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled');
         	}
         }
 
