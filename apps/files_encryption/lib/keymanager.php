@@ -27,7 +27,15 @@ namespace OCA_Encryption;
  */
 class Keymanager {
 	
+	private static $defaultProperties = array('dbClassName' => \OC_DB,
+										'fileProxyClassName' => \OC_FileProxy,
+			);
+	
 	# TODO: make all dependencies (including static classes) explicit, such as ocfsview objects, by adding them as method arguments (dependency injection)
+	
+	private static function mergeProperties($properties) {
+		array_merge(self::$defaultProperties, $properties);
+	}
 	
 	/**
 	 * @brief retrieve private key from a user
