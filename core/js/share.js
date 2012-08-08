@@ -73,7 +73,6 @@ OC.Share={
 	},
 	showDropDown:function(itemType, item, appendTo, privateLink, possiblePermissions) {
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item="'+item+'">';
-		// TODO replace with autocomplete textbox
 		html += '<input id="shareWith" type="text" placeholder="Share with" style="width:90%;"/>';
 		html += '<ul id="shareWithList">';
 		html += '</ul>';
@@ -86,6 +85,8 @@ OC.Share={
 		}
 		html += '</div>';
 		$(html).appendTo(appendTo);
+		// Reset item shares
+		OC.Share.itemShares = [];
 		var data = OC.Share.loadItem(itemType, item);
 		if (data) {
 			$.each(data, function(index, share) {
