@@ -77,15 +77,11 @@ class OC_FileCache{
 			return;
 		}
 		
-		// add parent directories to the file cache if they does not exist yet.
+		// add parent directory to the file cache if it does not exist yet.
 		if ($parent == -1 && $fullpath != $root) {
-			$dirparts = explode(DIRECTORY_SEPARATOR, dirname($path));
-			$part = '';
-			while ($parent == -1) {
-				self::scanFile( DIRECTORY_SEPARATOR.$part);
-				$parent = self::getParentId($fullpath);
-				$part = array_shift($dirparts);
-			}
+			$parentDir = substr(dirname($path), 0, strrpos(dirname($path), DIRECTORY_SEPARATOR));
+			self::scanFile($parentDir);
+			$parent = self::getParentId($fullpath);
 		}
 		
 		if(!isset($data['size']) or !isset($data['mtime'])){//save incomplete data for the next time we write it
