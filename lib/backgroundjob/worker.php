@@ -88,7 +88,7 @@ class OC_BackgroundJob_Worker{
 		}
 		else{
 			$tasks = OC_BackgroundJob_ScheduledTask::all();
-			if( length( $tasks )){
+			if( count( $tasks )){
 				$task = $tasks[0];
 				// delete job before we execute it. This prevents endless loops
 				// of failing jobs.
