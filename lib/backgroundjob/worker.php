@@ -1,6 +1,6 @@
 <?php
 /**
-* ownCloud - Background Job
+* ownCloud
 *
 * @author Jakob Sack
 * @copyright 2012 Jakob Sack owncloud@jakobsack.de
@@ -59,12 +59,12 @@ class OC_BackgroundJob_Worker{
 	 * with the next step. This method should be used by webcron and ajax
 	 * services.
 	 */
-	public static function doWebStep(){
-		$laststep = OC_Appconfig::getValue( 'core', 'backgroundjobs_step', 'regular_tasks' );
+	public static function doNextStep(){
+		$laststep = OC_Appconfig::getValue( 'core', 'backgroundjob_step', 'regular_tasks' );
 		
 		if( $laststep == 'regular_tasks' ){
 			// get last app
-			$lasttask = OC_Appconfig::getValue( 'core', 'backgroundjobs_task', '' );
+			$lasttask = OC_Appconfig::getValue( 'core', 'backgroundjob_task', '' );
 
 			// What's the next step?
 			$regular_tasks = OC_BackgroundJob_RegularTask::all();
@@ -74,7 +74,7 @@ class OC_BackgroundJob_Worker{
 			// search for next background job
 			foreach( $regular_tasks as $key => $value ){
 				if( strcmp( $lasttask, $key ) > 0 ){
-					OC_Appconfig::getValue( 'core', 'backgroundjobs_task', $key );
+					OC_Appconfig::getValue( 'core', 'backgroundjob_task', $key );
 					$done = true;
 					call_user_func( $value );
 					break;
@@ -83,7 +83,7 @@ class OC_BackgroundJob_Worker{
 
 			if( $done == false ){
 				// Next time load scheduled tasks
-				OC_Appconfig::setValue( 'core', 'backgroundjobs_step', 'scheduled_tasks' );
+				OC_Appconfig::setValue( 'core', 'backgroundjob_step', 'scheduled_tasks' );
 			}
 		}
 		else{
@@ -99,8 +99,8 @@ class OC_BackgroundJob_Worker{
 			}
 			else{
 				// Next time load scheduled tasks
-				OC_Appconfig::setValue( 'core', 'backgroundjobs_step', 'regular_tasks' );
-				OC_Appconfig::setValue( 'core', 'backgroundjobs_task', '' );
+				OC_Appconfig::setValue( 'core', 'backgroundjob_step', 'regular_tasks' );
+				OC_Appconfig::setValue( 'core', 'backgroundjob_task', '' );
 			}
 		}
 		

@@ -1,6 +1,6 @@
 <?php
 /**
-* ownCloud - Background Job
+* ownCloud
 *
 * @author Jakob Sack
 * @copyright 2012 Jakob Sack owncloud@jakobsack.de
