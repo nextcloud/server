@@ -367,6 +367,25 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	public function fopen($path, $mode) {
 		$source = $this->getSource($path);
 		if ($source) {
+			switch ($mode) {
+				case 'r+':
+				case 'rb+':
+				case 'w+':
+				case 'wb+':
+				case 'x+':
+				case 'xb+':
+				case 'a+':
+				case 'ab+':
+				case 'w':
+				case 'wb':
+				case 'x':
+				case 'xb':
+				case 'a':
+				case 'ab':
+					if (!$this->is_writable($path)) {
+						return false;
+					}
+			}
 			$info = array(
 				'target' => $this->datadir.$path,
 				'source' => $source,
