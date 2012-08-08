@@ -23,7 +23,7 @@
 /**
  * This class manages the regular tasks.
  */
-class OC_Backgroundjobs_RegularTask{
+class OC_BackgroundJob_RegularTask{
 	static private $registered = array();
 
 	/**
@@ -32,7 +32,7 @@ class OC_Backgroundjobs_RegularTask{
 	 * @param $method method name
 	 * @return true
 	 */
-	static public function create( $klass, $method ){
+	static public function register( $klass, $method ){
 		// Create the data structure
 		self::$registered["$klass-$method"] = array( $klass, $method );
 

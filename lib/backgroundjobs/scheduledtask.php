@@ -1,5 +1,4 @@
 <?php
-
 /**
 * ownCloud - Background Job
 *
@@ -24,7 +23,7 @@
 /**
  * This class manages our scheduled tasks.
  */
-class OC_Backgroundjobs_ScheduledTask{
+class OC_BackgroundJob_ScheduledTask{
 	/**
 	 * @brief Gets one scheduled task
 	 * @param $id ID of the task

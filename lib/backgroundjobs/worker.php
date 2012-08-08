@@ -25,7 +25,7 @@
  * 
  * TODO: locking in doAllSteps
  */
-class OC_Backgroundjobs_Worker{
+class OC_BackgroundJob_Worker{
 	/**
 	 * @brief executes all tasks
 	 * @return boolean
@@ -36,16 +36,16 @@ class OC_Backgroundjobs_Worker{
 	 */
 	public static function doAllSteps(){
 		// Do our regular work
-		$regular_tasks = OC_Backgroundjobs_RegularTask::all();
+		$regular_tasks = OC_BackgroundJob_RegularTask::all();
 		foreach( $regular_tasks as $key => $value ){
 			call_user_func( $value );
 		}
 
 		// Do our scheduled tasks
-		$scheduled_tasks = OC_Backgroundjobs_ScheduledTask::all();
+		$scheduled_tasks = OC_BackgroundJob_ScheduledTask::all();
 		foreach( $scheduled_tasks as $task ){
 			call_user_func( array( $task['klass'], $task['method'] ), $task['parameters'] );
-			OC_Backgroundjobs_ScheduledTask::delete( $task['id'] );
+			OC_BackgroundJob_ScheduledTask::delete( $task['id'] );
 		}
 		
 		return true;
@@ -67,7 +67,7 @@ class OC_Backgroundjobs_Worker{
 			$lasttask = OC_Appconfig::getValue( 'core', 'backgroundjobs_task', '' );
 
 			// What's the next step?
-			$regular_tasks = OC_Backgroundjobs_RegularTask::all();
+			$regular_tasks = OC_BackgroundJob_RegularTask::all();
 			ksort( $regular_tasks );
 			$done = false;
 			
@@ -87,12 +87,12 @@ class OC_Backgroundjobs_Worker{
 			}
 		}
 		else{
-			$tasks = OC_Backgroundjobs_ScheduledTask::all();
+			$tasks = OC_BackgroundJob_ScheduledTask::all();
 			if( length( $tasks )){
 				$task = $tasks[0];
 				// delete job before we execute it. This prevents endless loops
 				// of failing jobs.
-				OC_Backgroundjobs_ScheduledTask::delete($task['id']);
+				OC_BackgroundJob_ScheduledTask::delete($task['id']);
 
 				// execute job
 				call_user_func( array( $task['klass'], $task['method'] ), $task['parameters'] );
