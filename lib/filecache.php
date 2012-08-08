@@ -59,7 +59,7 @@ class OC_FileCache{
 			$root='';
 		}
 		$path=$root.$path;
-		$query=OC_DB::prepare('SELECT `ctime`,`mtime`,`mimetype`,`size`,`encrypted`,`versioned`,`writable` FROM `*PREFIX*fscache` WHERE `path_hash`=?');
+		$query=OC_DB::prepare('SELECT ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE path_hash=?');
 		$result=$query->execute(array(md5($path)))->fetchRow();
 		if(is_array($result)){
 			return $result;
@@ -84,19 +84,28 @@ class OC_FileCache{
 		if($root=='/'){
 			$root='';
 		}
-		$path=$root.$path;
-		$parent=self::getParentId($path);
-		$id=self::getFileId($path);
-		if(isset(OC_FileCache::$savedData[$path])){
-			$data=array_merge(OC_FileCache::$savedData[$path],$data);
-			unset(OC_FileCache::$savedData[$path]);
+		$fullpath=$root.$path;
+		$parent=self::getParentId($fullpath);
+		$id=self::getFileId($fullpath);
+		if(isset(OC_FileCache::$savedData[$fullpath])){
+			$data=array_merge(OC_FileCache::$savedData[$fullpath],$data);
+			unset(OC_FileCache::$savedData[$fullpath]);
 		}
+		
+		// add parent directory to the file cache if it does not exist yet.
+		if ($parent == -1 && $fullpath != $root) {
+			$parentDir = substr(dirname($path), 0, strrpos(dirname($path), DIRECTORY_SEPARATOR));
+			self::scanFile($parentDir);
+			$parent = self::getParentId($fullpath);
+		}
+		
 		if($id!=-1){
 			self::update($id,$data);
 			return;
 		}
+		
 		if(!isset($data['size']) or !isset($data['mtime'])){//save incomplete data for the next time we write it
-			self::$savedData[$path]=$data;
+			self::$savedData[$fullpath]=$data;
 			return;
 		}
 		if(!isset($data['encrypted'])){
@@ -113,9 +122,9 @@ class OC_FileCache{
 		$data['versioned']=(int)$data['versioned'];
 		$user=OC_User::getUser();
 		$query=OC_DB::prepare('INSERT INTO `*PREFIX*fscache`(`parent`, `name`, `path`, `path_hash`, `size`, `mtime`, `ctime`, `mimetype`, `mimepart`,`user`,`writable`,`encrypted`,`versioned`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)');
-		$result=$query->execute(array($parent,basename($path),$path,md5($path),$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable'],$data['encrypted'],$data['versioned']));
+		$result=$query->execute(array($parent,basename($fullpath),$fullpath,md5($fullpath),$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable'],$data['encrypted'],$data['versioned']));
 		if(OC_DB::isError($result)){
-			OC_Log::write('files','error while writing file('.$path.') to cache',OC_Log::ERROR);
+			OC_Log::write('files','error while writing file('.$fullpath.') to cache',OC_Log::ERROR);
 		}
 	}
 
@@ -197,12 +206,12 @@ class OC_FileCache{
 			$path=$root.$file;
 			self::delete(self::getFileId($path));
 		}elseif($file!=-1){
-			$query=OC_DB::prepare('SELECT `id` FROM `*PREFIX*fscache` WHERE `parent`=?');
+			$query=OC_DB::prepare('SELECT id FROM *PREFIX*fscache WHERE parent=?');
 			$result=$query->execute(array($file));
 			while($child=$result->fetchRow()){
 				self::delete(intval($child['id']));
 			}
-			$query=OC_DB::prepare('DELETE FROM `*PREFIX*fscache` WHERE `id`=?');
+			$query=OC_DB::prepare('DELETE FROM *PREFIX*fscache WHERE id=?');
 			$query->execute(array($file));
 		}
 	}
