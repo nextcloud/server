@@ -65,19 +65,31 @@ class OC_FileCache{
 		if($root===false){
 			$root=OC_Filesystem::getRoot();
 		}
-		$path=$root.$path;
-		$parent=self::getParentId($path);
-		$id=self::getId($path,'');
-		if(isset(OC_FileCache_Cached::$savedData[$path])){
-			$data=array_merge(OC_FileCache_Cached::$savedData[$path],$data);
-			unset(OC_FileCache_Cached::$savedData[$path]);
+		$fullpath=$root.$path;
+		$parent=self::getParentId($fullpath);
+		$id=self::getId($fullpath,'');
+		if(isset(OC_FileCache_Cached::$savedData[$fullpath])){
+			$data=array_merge(OC_FileCache_Cached::$savedData[$fullpath],$data);
+			unset(OC_FileCache_Cached::$savedData[$fullpath]);
 		}
 		if($id!=-1){
 			self::update($id,$data);
 			return;
 		}
+		
+		// add parent directories to the file cache if they does not exist yet.
+		if ($parent == -1 && $fullpath != $root) {
+			$dirparts = explode(DIRECTORY_SEPARATOR, dirname($path));
+			$part = '';
+			while ($parent == -1) {
+				self::scanFile( DIRECTORY_SEPARATOR.$part);
+				$parent = self::getParentId($fullpath);
+				$part = array_shift($dirparts);
+			}
+		}
+		
 		if(!isset($data['size']) or !isset($data['mtime'])){//save incomplete data for the next time we write it
-			OC_FileCache_Cached::$savedData[$path]=$data;
+			OC_FileCache_Cached::$savedData[$fullpath]=$data;
 			return;
 		}
 		if(!isset($data['encrypted'])){
@@ -94,13 +106,13 @@ class OC_FileCache{
 		$data['versioned']=(int)$data['versioned'];
 		$user=OC_User::getUser();
 		$query=OC_DB::prepare('INSERT INTO *PREFIX*fscache(parent, name, path, path_hash, size, mtime, ctime, mimetype, mimepart,`user`,writable,encrypted,versioned) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)');
-		$result=$query->execute(array($parent,basename($path),$path,md5($path),$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable'],$data['encrypted'],$data['versioned']));
+		$result=$query->execute(array($parent,basename($fullpath),$fullpath,md5($fullpath),$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable'],$data['encrypted'],$data['versioned']));
 		if(OC_DB::isError($result)){
-			OC_Log::write('files','error while writing file('.$path.') to cache',OC_Log::ERROR);
+			OC_Log::write('files','error while writing file('.$fullpath.') to cache',OC_Log::ERROR);
 		}
 
 		if($cache=OC_Cache::getUserCache(true)){
-			$cache->remove('fileid/'.$path);//ensure we don't have -1 cached
+			$cache->remove('fileid/'.$fullpath);//ensure we don't have -1 cached
 		}
 	}
 
@@ -343,7 +355,7 @@ class OC_FileCache{
 	 * @param string $path
 	 * @param OC_EventSource $enventSource (optional)
 	 * @param int count (optional)
-	 * @param string root (optionak)
+	 * @param string root (optional)
 	 */
 	public static function scan($path,$eventSource=false,&$count=0,$root=false){
 		if($eventSource){
