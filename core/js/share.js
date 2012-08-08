@@ -10,6 +10,7 @@ OC.Share={
 	PERMISSION_SHARE:16,
 	itemShares:[],
 	statuses:[],
+	droppedDown:false,
 	loadIcons:function(itemType) {
 		// Load all share icons
 		$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getItemsSharedStatuses', itemType: itemType }, function(result) {
@@ -133,12 +134,18 @@ OC.Share={
 			return false;
 		}
 		});
-		$('#dropdown').show('blind');
+		$('#dropdown').show('blind', function() {
+			OC.Share.droppedDown = true;
+		});
 		$('#shareWith').focus();
 	},
 	hideDropDown:function(callback) {
 		$('#dropdown').hide('blind', function() {
+			OC.Share.droppedDown = false;
 			$('#dropdown').remove();
+			if (typeof FileActions !== 'undefined') {
+				$('tr').removeClass('mouseOver');
+			}
 			if (callback) {
 				callback.call();
 			}
@@ -233,13 +240,28 @@ OC.Share={
 
 $(document).ready(function() {
 
-	$('.share').live('click', function() {
+	$('a.share').live('click', function(event) {
+		event.stopPropagation();
 		if ($(this).data('item-type') !== undefined && $(this).data('item') !== undefined) {
+			var itemType = $(this).data('item-type');
+			var item = $(this).data('item');
+			var appendTo = $(this).parent().parent();
 			var privateLink = false;
+			var possiblePermissions = $(this).data('possible-permissions');
 			if ($(this).data('private-link') !== undefined && $(this).data('private-link') == true) {
 				privateLink = true;
 			}
-			OC.Share.showDropDown($(this).data('item-type'), $(this).data('item'), $(this).parent().parent(), privateLink, $(this).data('possible-permissions'));
+			if (OC.Share.droppedDown) {
+				if (item != $('#dropdown').data('item')) {
+					OC.Share.hideDropDown(function () {
+						OC.Share.showDropDown(itemType, item, appendTo, privateLink, possiblePermissions);
+					});
+				} else {
+					OC.Share.hideDropDown();
+				}
+			} else {
+				OC.Share.showDropDown(itemType, item, appendTo, privateLink, possiblePermissions);
+			}
 		}
 	});
 	
@@ -281,13 +303,14 @@ $(document).ready(function() {
 			}
 			var appendTo = $('tr').filterAttr('data-file', filename).find('td.filename');
 			// Check if drop down is already visible for a different file
-			if (($('#dropdown').length > 0)) {
+			if (OC.Share.droppedDown) {
 				if (item != $('#dropdown').data('item')) {
 					OC.Share.hideDropDown(function () {
-						$('tr').removeClass('mouseOver');
 						$('tr').filterAttr('data-file', filename).addClass('mouseOver');
 						OC.Share.showDropDown(itemType, item, appendTo, true, possiblePermissions);
 					});
+				} else {
+					OC.Share.hideDropDown();
 				}
 			} else {
 				$('tr').filterAttr('data-file',filename).addClass('mouseOver');
@@ -296,15 +319,11 @@ $(document).ready(function() {
 		});
 	}
 
-// 	$(this).click(function(event) {
-// 		if (!($(event.target).hasClass('drop')) && $(event.target).parents().index($('#dropdown')) == -1) {
-// 			if ($('#dropdown').is(':visible')) {
-// 				OC.Share.hideDropDown(function() {
-// 					$('tr').removeClass('mouseOver');
-// 				});
-// 			}
-// 		}
-// 	});
+	$(this).click(function(event) {
+		if (OC.Share.droppedDown && !($(event.target).hasClass('drop')) && $('#dropdown').has(event.target).length === 0) {
+			OC.Share.hideDropDown();
+		}
+	});
 
 	$('#shareWithList li').live('mouseenter', function(event) {
 		// Show permissions and unshare button
