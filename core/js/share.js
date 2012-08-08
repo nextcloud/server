@@ -18,10 +18,11 @@ OC.Share={
 					// Private links override shared in terms of icon display
 					if (itemType != 'file' && itemType != 'folder') {
 						if (hasPrivateLink) {
-							$('.share').find('[data-item="'+item+'"]').attr('src', OC.imagePath('core', 'actions/public'));
+							var image = OC.imagePath('core', 'actions/public');
 						} else {
-							$('.share').find('[data-item="'+item+'"]').attr('src', OC.imagePath('core', 'actions/shared'));
+							var image = OC.imagePath('core', 'actions/shared');
 						}
+						$('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
 					}
 					OC.Share.statuses[item] = hasPrivateLink;
 				});
