@@ -398,6 +398,54 @@ class OC{
 			}
 		}
 	}
+
+	/**
+	 * @brief Try to handle request
+	 * @return true when the request is handled here
+	 */
+	public static function handleRequest() {
+		if (!OC_Config::getValue('installed', false)) {
+			// Check for autosetup:
+			$autosetup_file = OC::$SERVERROOT."/config/autoconfig.php";
+			if( file_exists( $autosetup_file )){
+				OC_Log::write('core','Autoconfig file found, setting up owncloud...',OC_Log::INFO);
+				include( $autosetup_file );
+				$_POST['install'] = 'true';
+				$_POST = array_merge ($_POST, $AUTOCONFIG);
+				unlink($autosetup_file);
+			}
+			OC_Util::addScript('setup');
+			require_once('setup.php');
+			exit();
+		}
+		// Handle WebDAV
+		if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
+			header('location: '.OC_Helper::linkToRemote('webdav'));
+			return true;
+		}
+		if(!OC_User::isLoggedIn() && substr(OC::$REQUESTEDFILE,-3) == 'css') {
+			OC_App::loadApps();
+			OC::loadfile();
+			return true;
+		}
+		// Someone is logged in :
+		if(OC_User::isLoggedIn()) {
+			OC_App::loadApps();
+			if(isset($_GET["logout"]) and ($_GET["logout"])) {
+				OC_User::logout();
+				header("Location: ".OC::$WEBROOT.'/');
+			}else{
+				if(is_null(OC::$REQUESTEDFILE)) {
+					OC::loadapp();
+				}else{
+					OC::loadfile();
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
 }
 
 // define runtime variables - unless this already has been done

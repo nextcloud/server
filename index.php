@@ -26,49 +26,8 @@ $RUNTIME_NOAPPS = TRUE; //no apps, yet
 
 require_once('lib/base.php');
 
-// Setup required :
-$not_installed = !OC_Config::getValue('installed', false);
-if($not_installed) {
-	// Check for autosetup:
-	$autosetup_file = OC::$SERVERROOT."/config/autoconfig.php";
-	if( file_exists( $autosetup_file )){
-		OC_Log::write('core','Autoconfig file found, setting up owncloud...',OC_Log::INFO);
-		include( $autosetup_file );
-		$_POST['install'] = 'true';
-		$_POST = array_merge ($_POST, $AUTOCONFIG);
-	        unlink($autosetup_file);
-	}
-	OC_Util::addScript('setup');
-	require_once('setup.php');
-	exit();
-}
-
-// Handle WebDAV
-if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
-	header('location: '.OC_Helper::linkToRemote('webdav'));
-	exit();
-}
-elseif(!OC_User::isLoggedIn() && substr(OC::$REQUESTEDFILE,-3) == 'css'){
-	OC_App::loadApps();
-	OC::loadfile();
-}
-// Someone is logged in :
-elseif(OC_User::isLoggedIn()) {
-	OC_App::loadApps();
-	if(isset($_GET["logout"]) and ($_GET["logout"])) {
-		OC_User::logout();
-		header("Location: ".OC::$WEBROOT.'/');
-		exit();
-	}else{
-		if(is_null(OC::$REQUESTEDFILE)){
-			OC::loadapp();
-		}else{
-			OC::loadfile();
-		}
-	}
-
-// For all others cases, we display the guest page :
-} else {
+if (!OC::handleRequest()) {
+// Not handled -> we display the login page:
 	OC_App::loadApps(array('prelogin'));
 	$error = false;
 	// remember was checked after last login
