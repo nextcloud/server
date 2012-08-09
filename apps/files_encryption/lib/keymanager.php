@@ -36,10 +36,15 @@ class Keymanager {
 	 */
 	public static function getPrivateKey() {
 
-		$user = \OCP\User::getUser();
-		$view = new \OC_FilesystemView( '/' . $user . '/' . 'files_encryption' );
+		\OC_FileProxy::$enabled = false;
 		
-		return $view->file_get_contents( '/' . $user.'.private.key' );
+		$user = \OCP\User::getUser();	
+		$view = new \OC_FilesystemView( '/' . $user . '/' . 'files_encryption' );
+		$result = $view->file_get_contents( '/' . $user.'.private.key' );
+		
+		\OC_FileProxy::$enabled = true;
+		
+		return $result;
 	}
 	
 	/**
@@ -75,6 +80,8 @@ class Keymanager {
 			}
 		}
 		
+		\OC_FileProxy::$enabled = false;
+		
 		$view = new \OC_FilesystemView( '/public-keys/' );
 		
 		$keylist = array();
@@ -83,6 +90,8 @@ class Keymanager {
 			$keylist['key'.++$count] = $view->file_get_contents($user.'.public.key');
 		}
 
+		\OC_FileProxy::$enabled = true;
+		
 		return $keylist;
 		
 	}
@@ -108,8 +117,14 @@ class Keymanager {
 			$keypath = str_replace('/'.$user.'/files/', '', $keypath);
 		}
 		
+		\OC_FileProxy::$enabled = false;
+		
 		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/keyfiles/');
-		return $view->file_get_contents($keypath.'.key');
+		$result = $view->file_get_contents($keypath.'.key');
+		
+		\OC_FileProxy::$enabled = true;
+		
+		return $result;
 	}	
 	
 	/**
@@ -208,11 +223,16 @@ class Keymanager {
 	 */
 	public static function changePasswd($oldpasswd, $newpasswd) {
 		if ( \OCP\User::checkPassword(\OCP\User::getUser(), $newpasswd) ) {
-			return Crypt::changekeypasscode($oldpasswd, $newpasswd);
-		} else {
-			return false;
+			$key = Keymanager::getPrivateKey();
+			if ( ($key = Crypt::symmetricDecryptFileContent($key,$oldpasswd)) ) {
+				if ( ($key = Crypt::symmetricEncryptFileContent($key, $newpasswd)) ) {
+					Keymanager::setPrivateKey($key);
+					return true;
+				
+				}
+			}
 		}
-	
+		return false;
 	}
 	
 }
