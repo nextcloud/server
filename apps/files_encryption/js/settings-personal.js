@@ -18,7 +18,7 @@ $(document).ready(function(){
 			}
 		} else if (server) {
 			if (prevmode == 'client') {
-				OC.dialogs.form([{text:'login password', name:'newpasswd', type:'password'},{text:'Encryption password used on the client', name:'oldpasswd', type:'password'}],t('encryption', 'Change encryption password to login password'), function(data) {
+				OC.dialogs.form([{text:'Login password', name:'newpasswd', type:'password'},{text:'Encryption password used on the client', name:'oldpasswd', type:'password'}],t('encryption', 'Change encryption password to login password'), function(data) {
 					$.post(OC.filePath('files_encryption', 'ajax', 'mode.php'), { mode: 'server', newpasswd: data[0].value, oldpasswd: data[1].value }, function(result) {
 						if (result.status != 'success') {
 							document.getElementById(prevmode+'_encryption').checked = true;
