@@ -20,6 +20,9 @@
 *
 */
 
+// Init owncloud
+require_once('../../lib/base.php');
+
 OC_Util::checkAdminUser();
 OCP\JSON::callCheck();
 
