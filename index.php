@@ -43,9 +43,6 @@ if (!OC::handleRequest()) {
 		$error = true;
 	}
 	if(!array_key_exists('sectoken', $_SESSION) || (array_key_exists('sectoken', $_SESSION) && is_null(OC::$REQUESTEDFILE)) || substr(OC::$REQUESTEDFILE, -3) == 'php'){
-		$sectoken=rand(1000000,9999999);
-		$_SESSION['sectoken']=$sectoken;
-		$redirect_url = (isset($_REQUEST['redirect_url'])) ? OC_Util::sanitizeHTML($_REQUEST['redirect_url']) : $_SERVER['REQUEST_URI'];
-		OC_Template::printGuestPage('', 'login', array('error' => $error, 'sectoken' => $sectoken, 'redirect' => $redirect_url));
+		OC_Util::displayLoginPage($error);
 	}
 }
