@@ -282,18 +282,19 @@ class OC_Contacts_VCard{
 
 	/**
 	 * @brief Adds a card
-	 * @param integer $aid Addressbook id
-	 * @param OC_VObject $card  vCard file
-	 * @param string $uri the uri of the card, default based on the UID
+	 * @param $aid integer Addressbook id
+	 * @param $card OC_VObject  vCard file
+	 * @param $uri string the uri of the card, default based on the UID
+	 * @param $isChecked boolean If the vCard should be checked for validity and version.
 	 * @return insertid on success or false.
 	 */
-	public static function add($aid, OC_VObject $card, $uri=null, $isnew=false){
+	public static function add($aid, OC_VObject $card, $uri=null, $isChecked=false){
 		if(is_null($card)) {
 			OCP\Util::writeLog('contacts', 'OC_Contacts_VCard::add. No vCard supplied', OCP\Util::ERROR);
 			return null;
 		};
 
-		if(!$isnew) {
+		if(!$isChecked) {
 			OC_Contacts_App::loadCategoriesFromVCard($card);
 			self::updateValuesFromAdd($aid, $card);
 		}
