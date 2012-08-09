@@ -234,7 +234,7 @@ class OC{
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search','result');
 
-		if( OC_Appconfig::getValue( 'core', 'backgroundjob_mode', 'ajax' ) == 'ajax' ){
+		if( OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax' ){
 			OC_Util::addScript( 'backgroundjobs' );
 		}
 		

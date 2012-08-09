@@ -60,11 +60,11 @@ class OC_BackgroundJob_Worker{
 	 * services.
 	 */
 	public static function doNextStep(){
-		$laststep = OC_Appconfig::getValue( 'core', 'backgroundjob_step', 'regular_tasks' );
+		$laststep = OC_Appconfig::getValue( 'core', 'backgroundjobs_step', 'regular_tasks' );
 		
 		if( $laststep == 'regular_tasks' ){
 			// get last app
-			$lasttask = OC_Appconfig::getValue( 'core', 'backgroundjob_task', '' );
+			$lasttask = OC_Appconfig::getValue( 'core', 'backgroundjobs_task', '' );
 
 			// What's the next step?
 			$regular_tasks = OC_BackgroundJob_RegularTask::all();
@@ -74,7 +74,7 @@ class OC_BackgroundJob_Worker{
 			// search for next background job
 			foreach( $regular_tasks as $key => $value ){
 				if( strcmp( $lasttask, $key ) > 0 ){
-					OC_Appconfig::getValue( 'core', 'backgroundjob_task', $key );
+					OC_Appconfig::getValue( 'core', 'backgroundjobs_task', $key );
 					$done = true;
 					call_user_func( $value );
 					break;
@@ -83,7 +83,7 @@ class OC_BackgroundJob_Worker{
 
 			if( $done == false ){
 				// Next time load scheduled tasks
-				OC_Appconfig::setValue( 'core', 'backgroundjob_step', 'scheduled_tasks' );
+				OC_Appconfig::setValue( 'core', 'backgroundjobs_step', 'scheduled_tasks' );
 			}
 		}
 		else{
@@ -99,8 +99,8 @@ class OC_BackgroundJob_Worker{
 			}
 			else{
 				// Next time load scheduled tasks
-				OC_Appconfig::setValue( 'core', 'backgroundjob_step', 'regular_tasks' );
-				OC_Appconfig::setValue( 'core', 'backgroundjob_task', '' );
+				OC_Appconfig::setValue( 'core', 'backgroundjobs_step', 'regular_tasks' );
+				OC_Appconfig::setValue( 'core', 'backgroundjobs_task', '' );
 			}
 		}
 		

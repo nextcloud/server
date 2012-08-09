@@ -23,19 +23,19 @@
 $RUNTIME_NOSETUPFS = true;
 require_once('lib/base.php');
 
-$appmode = OC_Appconfig::getValue( 'core', 'backgroundjob_mode', 'ajax' );
+$appmode = OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' );
 if( OC::$CLI ){
 	if( $appmode != 'cron' ){
-		OC_Appconfig::setValue( 'core', 'backgroundjob_mode', 'cron' );
+		OC_Appconfig::setValue( 'core', 'backgroundjobs_mode', 'cron' );
 	}
 
 	// check if backgroundjobs is still running
-	$pid = OC_Appconfig::getValue( 'core', 'backgroundjob_pid', false );
+	$pid = OC_Appconfig::getValue( 'core', 'backgroundjobs_pid', false );
 	if( $pid !== false ){
 		// FIXME: check if $pid is still alive (*nix/mswin). if so then exit
 	}
 	// save pid
-	OC_Appconfig::setValue( 'core', 'backgroundjob_pid', getmypid());
+	OC_Appconfig::setValue( 'core', 'backgroundjobs_pid', getmypid());
 
 	// Work
 	OC_BackgroundJob_Worker::doAllSteps();
