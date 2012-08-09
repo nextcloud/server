@@ -27,8 +27,7 @@
 				</td>
 				<td class="action">
 					<a class="svg action download" title="<?php echo $l->t('Download'); ?>"
-						href="<?php echo OCP\Util::linkToRemote('carddav').'addressbooks/'.OCP\USER::getUser().'/'
-						.rawurlencode($addressbook['uri']) ?>?export"></a>
+						href="<?php echo OCP\Util::linkToAbsolute('contacts', 'export.php'); ?>?bookid=<?php echo $addressbook['id'] ?>"></a>
 				</td>
 				<td class="action">
 					<a class="svg action edit" title="<?php echo $l->t("Edit"); ?>"></a>
@@ -44,7 +43,6 @@
 				<button class="new"><?php echo $l->t('New Address Book') ?></button>
 				<input class="name hidden" type="text" autofocus="autofocus" placeholder="<?php echo $l->t('Name'); ?>" />
 				<input class="description hidden" type="text" placeholder="<?php echo $l->t('Description'); ?>" />
-				<input class="link hidden" style="width: 80%" type="text" autofocus="autofocus" />
 				<button class="save hidden"><?php echo $l->t('Save') ?></button>
 				<button class="cancel hidden"><?php echo $l->t('Cancel') ?></button>
 			</div>

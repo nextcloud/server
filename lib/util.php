@@ -348,7 +348,7 @@ class OC_Util {
 		else {
 			$defaultpage = OC_Appconfig::getValue('core', 'defaultpage');
 			if ($defaultpage) {
-				$location = OC_Helper::serverProtocol().'://'.OC_Helper::serverHost().OC::$WEBROOT.'/'.$defaultpage;
+				$location = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/'.$defaultpage);
 			}
 			else {
 				$location = OC_Helper::linkToAbsolute( 'files', 'index.php' );
@@ -476,7 +476,7 @@ class OC_Util {
 		@fclose($fp);
 
 		// accessing the file via http
-		$url = OC_Helper::serverProtocol(). '://'  . OC_Helper::serverHost() . OC::$WEBROOT.'/data'.$filename;
+		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/data'.$filename);
 		$fp = @fopen($url, 'r');
 		$content=@fread($fp, 2048);
 		@fclose($fp);

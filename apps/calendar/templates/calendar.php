@@ -33,6 +33,7 @@
 				?>
 				});
 				</script>
+				<div id="notification" style="display:none;"></div>
 				<div id="controls">
 					<form id="view">
 						<input type="button" value="<?php echo $l->t('Week');?>" id="oneweekview_radio"/>
@@ -41,8 +42,9 @@
 						<img id="loading" src="<?php echo OCP\Util::imagePath('core', 'loading.gif'); ?>" />
 					</form>
 					<form id="choosecalendar">
-						<input type="button" id="today_input" value="<?php echo $l->t("Today");?>"/>
-						<input type="button" id="choosecalendar_input" value="<?php echo $l->t("Calendars");?>" onclick="Calendar.UI.Calendar.overview();" />
+						<!--<input type="button" id="today_input" value="<?php echo $l->t("Today");?>"/>-->
+						<a class="settings calendarsettings" title="<?php echo $l->t('Settings'); ?>"><img class="svg" src="<?php echo OCP\Util::imagePath('calendar', 'icon.svg'); ?>" alt="<?php echo $l->t('Settings'); ?>" /></a>
+						<a class="settings generalsettings" title="<?php echo $l->t('Settings'); ?>"><img class="svg" src="core/img/actions/settings.svg" alt="<?php echo $l->t('Settings'); ?>" /></a>
 					</form>
 					<form id="datecontrol">
 						<input type="button" value="&nbsp;&lt;&nbsp;" id="datecontrol_left"/>
@@ -50,12 +52,6 @@
 						<input type="button" value="&nbsp;&gt;&nbsp;" id="datecontrol_right"/>
 					</form>
 				</div>
-				<div id="notification" style="display:none;"></div>
-				<div id="calendar_holder">
-				</div>
-				<!-- Dialogs -->
+				<div id="fullcalendar"></div>
 				<div id="dialog_holder"></div>
-				<div id="parsingfail_dialog" title="Parsing Fail">
-					<?php echo $l->t("There was a fail, while parsing the file."); ?>
-				</div>
-				<!-- End of Dialogs -->
+				<div id="appsettings" class="popup topright hidden"></div>

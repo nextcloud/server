@@ -8,6 +8,8 @@
 "Failed to write to disk" => "نوشتن بر روی دیسک سخت ناموفق بود",
 "Files" => "فایل ها",
 "Delete" => "پاک کردن",
+"already exists" => "وجود دارد",
+"deleted" => "حذف شده",
 "generating ZIP-file, it may take some time." => "در حال ساخت فایل فشرده ممکن است زمان زیادی به طول بیانجامد",
 "Unable to upload your file as it is a directory or has 0 bytes" => "ناتوان در بارگذاری یا فایل یک پوشه است یا 0بایت دارد",
 "Upload Error" => "خطا در بار گذاری",

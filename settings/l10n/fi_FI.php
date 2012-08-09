@@ -5,6 +5,7 @@
 "Invalid request" => "Virheellinen pyyntö",
 "Authentication error" => "Todennusvirhe",
 "Language changed" => "Kieli on vaihdettu",
+"Error" => "Virhe",
 "Disable" => "Poista käytöstä",
 "Enable" => "Käytä",
 "Saving..." => "Tallennetaan...",

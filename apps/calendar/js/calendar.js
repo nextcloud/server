@@ -18,7 +18,7 @@ Calendar={
 		startEventDialog:function(){
 			Calendar.UI.loading(false);
 			$('.tipsy').remove();
-			$('#calendar_holder').fullCalendar('unselect');
+			$('#fullcalendar').fullCalendar('unselect');
 			Calendar.UI.lockTime();
 			$( "#from" ).datepicker({
 				dateFormat : 'dd-mm-yy'
@@ -88,7 +88,7 @@ Calendar={
 			$.post(url, post, function(data){
 					Calendar.UI.loading(false);
 					if(data.status == 'success'){
-						$('#calendar_holder').fullCalendar('removeEvents', $('#event_form input[name=id]').val());
+						$('#fullcalendar').fullCalendar('removeEvents', $('#event_form input[name=id]').val());
 						$('#event').dialog('destroy').remove();
 					} else {
 						$('#errorbox').html(t('calendar', 'Deletion failed'));
@@ -133,7 +133,7 @@ Calendar={
 					} else
 					if(data.status == 'success'){
 						$('#event').dialog('destroy').remove();
-						$('#calendar_holder').fullCalendar('refetchEvents');
+						$('#fullcalendar').fullCalendar('refetchEvents');
 					}
 				},"json");
 		},
@@ -148,7 +148,7 @@ Calendar={
 					console.log("Event moved successfully");
 				}else{
 					revertFunc();
-					$('#calendar_holder').fullCalendar('refetchEvents');
+					$('#fullcalendar').fullCalendar('refetchEvents');
 				}
 			});
 		},
@@ -163,7 +163,7 @@ Calendar={
 					console.log("Event resized successfully");
 				}else{
 					revertFunc();
-					$('#calendar_holder').fullCalendar('refetchEvents');
+					$('#fullcalendar').fullCalendar('refetchEvents');
 				}
 			});
 		},
@@ -239,11 +239,11 @@ Calendar={
 				doc_height = $(document).height(),
 				win_height = $(window).height();
 			if(direction == 'down' && win_height == (doc_height - scroll)){
-				$('#calendar_holder').fullCalendar('next');
+				$('#fullcalendar').fullCalendar('next');
 				$(document).scrollTop(0);
 				event.preventDefault();
 			}else if (direction == 'top' && scroll == 0) {
-				$('#calendar_holder').fullCalendar('prev');
+				$('#fullcalendar').fullCalendar('prev');
 				$(document).scrollTop(win_height);
 				event.preventDefault();
 			}
@@ -398,9 +398,9 @@ Calendar={
 					if (data.status == 'success'){
 						checkbox.checked = data.active == 1;
 						if (data.active == 1){
-							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
+							$('#fullcalendar').fullCalendar('addEventSource', data.eventSource);
 						}else{
-							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
+							$('#fullcalendar').fullCalendar('removeEventSource', data.eventSource.url);
 						}
 					}
 				  });
@@ -426,10 +426,10 @@ Calendar={
 					  function(data) {
 						if (data.status == 'success'){
 							var url = 'ajax/events.php?calendar_id='+calid;
-							$('#calendar_holder').fullCalendar('removeEventSource', url);
+							$('#fullcalendar').fullCalendar('removeEventSource', url);
 							$('#choosecalendar_dialog').dialog('destroy').remove();
 							Calendar.UI.Calendar.overview();
-							$('#calendar_holder').fullCalendar('refetchEvents');
+							$('#fullcalendar').fullCalendar('refetchEvents');
 						}
 					  });
 				}
@@ -456,8 +456,8 @@ Calendar={
 					function(data){
 						if(data.status == 'success'){
 							$(button).closest('tr').prev().html(data.page).show().next().remove();
-							$('#calendar_holder').fullCalendar('removeEventSource', data.eventSource.url);
-							$('#calendar_holder').fullCalendar('addEventSource', data.eventSource);
+							$('#fullcalendar').fullCalendar('removeEventSource', data.eventSource.url);
+							$('#fullcalendar').fullCalendar('addEventSource', data.eventSource);
 							if (calendarid == 'new'){
 								$('#choosecalendar_dialog > table:first').append('<tr><td colspan="6"><a href="#" onclick="Calendar.UI.Calendar.newCalendar(this);"><input type="button" value="' + newcalendar + '"></a></td></tr>');
 							}
@@ -504,7 +504,7 @@ Calendar={
 			idtype: '',
 			activation:function(object,owner,id){
 				$.post(OC.filePath('calendar', 'ajax/share', 'activation.php'),{id:id, idtype:'calendar', activation:object.checked?1:0});
-				$('#calendar_holder').fullCalendar('refetchEvents');
+				$('#fullcalendar').fullCalendar('refetchEvents');
 			},
 			dropdown:function(userid, calid){
 				$('.calendar_share_dropdown').remove();
@@ -612,7 +612,7 @@ Calendar={
 					console.log('The drop-import feature is not supported in your browser :(');
 					return false;
 				}
-				droparea = document.getElementById('calendar_holder');
+				droparea = document.getElementById('fullcalendar');
 				droparea.ondrop = function(e){
 					e.preventDefault();
 					Calendar.UI.Drop.drop(e);
@@ -626,7 +626,7 @@ Calendar={
 					reader = new FileReader();
 					reader.onload = function(event){
 						Calendar.UI.Drop.import(event.target.result);
-						$('#calendar_holder').fullCalendar('refetchEvents');
+						$('#fullcalendar').fullCalendar('refetchEvents');
 					}
 					reader.readAsDataURL(file);
 				}
@@ -634,7 +634,7 @@ Calendar={
 			import:function(data){
 				$.post(OC.filePath('calendar', 'ajax/import', 'dropimport.php'), {'data':data},function(result) {
 					if(result.status == 'success'){
-						$('#calendar_holder').fullCalendar('addEventSource', result.eventSource);
+						$('#fullcalendar').fullCalendar('addEventSource', result.eventSource);
 						$('#notification').html(result.message);
 						$('#notification').slideDown();
 						window.setTimeout(function(){$('#notification').slideUp();}, 5000);
@@ -647,7 +647,11 @@ Calendar={
 				});
 			}
 		}
-	}
+	},
+	Settings:{
+		//
+	},
+	
 }
 $.fullCalendar.views.list = ListView;
 function ListView(element, calendar) {
@@ -815,7 +819,7 @@ function ListView(element, calendar) {
 }
 $(document).ready(function(){
 	Calendar.UI.initScroll();
-	$('#calendar_holder').fullCalendar({
+	$('#fullcalendar').fullCalendar({
 		header: false,
 		firstDay: firstDay,
 		editable: true,
@@ -851,10 +855,10 @@ $(document).ready(function(){
 			}
 			Calendar.UI.setViewActive(view.name);
 			if (view.name == 'agendaWeek') {
-				$('#calendar_holder').fullCalendar('option', 'aspectRatio', 0.1);
+				$('#fullcalendar').fullCalendar('option', 'aspectRatio', 0.1);
 			}
 			else {
-				$('#calendar_holder').fullCalendar('option', 'aspectRatio', 1.35);
+				$('#fullcalendar').fullCalendar('option', 'aspectRatio', 1.35);
 			}
 		},
 		columnFormat: {
@@ -888,7 +892,7 @@ $(document).ready(function(){
 		changeYear: true,
 		showButtonPanel: true,
 		beforeShow: function(input, inst) {
-			var calendar_holder = $('#calendar_holder');
+			var calendar_holder = $('#fullcalendar');
 			var date = calendar_holder.fullCalendar('getDate');
 			inst.input.datepicker('setDate', date);
 			inst.input.val(calendar_holder.fullCalendar('getView').title);
@@ -896,30 +900,36 @@ $(document).ready(function(){
 		},
 		onSelect: function(value, inst) {
 			var date = inst.input.datepicker('getDate');
-			$('#calendar_holder').fullCalendar('gotoDate', date);
+			$('#fullcalendar').fullCalendar('gotoDate', date);
 		}
 	});
 	fillWindow($('#content'));
 	OCCategories.changed = Calendar.UI.categoriesChanged;
 	OCCategories.app = 'calendar';
 	$('#oneweekview_radio').click(function(){
-		$('#calendar_holder').fullCalendar('changeView', 'agendaWeek');
+		$('#fullcalendar').fullCalendar('changeView', 'agendaWeek');
 	});
 	$('#onemonthview_radio').click(function(){
-		$('#calendar_holder').fullCalendar('changeView', 'month');
+		$('#fullcalendar').fullCalendar('changeView', 'month');
 	});
 	$('#listview_radio').click(function(){
-		$('#calendar_holder').fullCalendar('changeView', 'list');
+		$('#fullcalendar').fullCalendar('changeView', 'list');
 	});
 	$('#today_input').click(function(){
-		$('#calendar_holder').fullCalendar('today');
+		$('#fullcalendar').fullCalendar('today');
 	});
 	$('#datecontrol_left').click(function(){
-		$('#calendar_holder').fullCalendar('prev');
+		$('#fullcalendar').fullCalendar('prev');
 	});
 	$('#datecontrol_right').click(function(){
-		$('#calendar_holder').fullCalendar('next');
+		$('#fullcalendar').fullCalendar('next');
 	});
 	Calendar.UI.Share.init();
 	Calendar.UI.Drop.init();
+	$('#choosecalendar .generalsettings').on('click keydown', function() {
+		OC.appSettings({appid:'calendar', loadJS:true, cache:false});
+	});
+	$('#choosecalendar .calendarsettings').on('click keydown', function() {
+		OC.appSettings({appid:'calendar', loadJS:true, cache:false, scriptName:'calendar.php'});
+	});
 });

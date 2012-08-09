@@ -3,226 +3,220 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Cyril Glapa <kyriog@gmail.com>, 2012.
-# Geoffrey Guerrier <geoffrey.guerrier@gmail.com>, 2012.
-#   <guiguidu31300@gmail.com>, 2012.
-# Nahir Mohamed <nahirmoha@gmail.com>, 2012.
-#   <rom1dep@gmail.com>, 2011.
-# Romain DEP. <rom1dep@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-07 02:04+0200\n"
-"PO-Revision-Date: 2012-08-06 20:30+0000\n"
-"Last-Translator: Cyril Glapa <kyriog@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
+"POT-Creation-Date: 2012-08-09 02:02+0200\n"
+"PO-Revision-Date: 2011-08-13 02:19+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/owncloud/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
-msgstr "Aucune erreur, le fichier a été téléversé avec succès"
+msgstr ""
 
 #: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "Le fichier téléversé excède la valeur de upload_max_filesize spécifiée dans php.ini"
+msgstr ""
 
 #: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Le fichier téléversé excède la valeur de MAX_FILE_SIZE spécifiée dans le formulaire HTML"
+msgstr ""
 
 #: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
-msgstr "Le fichier n'a été que partiellement téléversé"
+msgstr ""
 
 #: ajax/upload.php:24
 msgid "No file was uploaded"
-msgstr "Aucun fichier n'a été téléversé"
+msgstr ""
 
 #: ajax/upload.php:25
 msgid "Missing a temporary folder"
-msgstr "Il manque un répertoire temporaire"
+msgstr ""
 
 #: ajax/upload.php:26
 msgid "Failed to write to disk"
-msgstr "Erreur d'écriture sur le disque"
+msgstr ""
 
 #: appinfo/app.php:6
 msgid "Files"
-msgstr "Fichiers"
+msgstr ""
 
 #: js/fileactions.js:95
 msgid "Unshare"
-msgstr "Ne plus partager"
+msgstr ""
 
 #: js/fileactions.js:97 templates/index.php:56
 msgid "Delete"
-msgstr "Supprimer"
+msgstr ""
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr "existe déjà"
+msgstr ""
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr "remplacer"
+msgstr ""
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr "annuler"
+msgstr ""
 
 #: js/filelist.js:195
 msgid "replaced"
-msgstr "remplacé"
+msgstr ""
 
 #: js/filelist.js:195
 msgid "with"
-msgstr "avec"
+msgstr ""
 
 #: js/filelist.js:195 js/filelist.js:256
 msgid "undo"
-msgstr "annuler"
+msgstr ""
 
 #: js/filelist.js:256
 msgid "deleted"
-msgstr "supprimé"
+msgstr ""
 
 #: js/files.js:170
 msgid "generating ZIP-file, it may take some time."
-msgstr "Générer un fichier ZIP, cela peut prendre du temps"
+msgstr ""
 
 #: js/files.js:199
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Impossible de charger vos fichiers car il s'agit d'un dossier ou le fichier fait 0 octet."
+msgstr ""
 
 #: js/files.js:199
 msgid "Upload Error"
-msgstr "Erreur de chargement"
+msgstr ""
 
 #: js/files.js:227 js/files.js:318 js/files.js:347
 msgid "Pending"
-msgstr "En cours"
+msgstr ""
 
 #: js/files.js:332
 msgid "Upload cancelled."
-msgstr "Chargement annulé"
+msgstr ""
 
 #: js/files.js:456
 msgid "Invalid name, '/' is not allowed."
-msgstr "Nom invalide, '/' n'est pas autorisé."
+msgstr ""
 
 #: js/files.js:694 templates/index.php:55
 msgid "Size"
-msgstr "Taille"
+msgstr ""
 
 #: js/files.js:695 templates/index.php:56
 msgid "Modified"
-msgstr "Modifié"
+msgstr ""
 
 #: js/files.js:722
 msgid "folder"
-msgstr "dossier"
+msgstr ""
 
 #: js/files.js:724
 msgid "folders"
-msgstr "dossiers"
+msgstr ""
 
 #: js/files.js:732
 msgid "file"
-msgstr "fichier"
+msgstr ""
 
 #: js/files.js:734
 msgid "files"
-msgstr "fichiers"
+msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr "Gestion des fichiers"
+msgstr ""
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Taille max. d'envoi"
+msgstr ""
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr "Max. possible :"
+msgstr ""
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr "Nécessaire pour le téléchargement de plusieurs fichiers et de dossiers."
+msgstr ""
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr "Activer le téléchargement ZIP"
+msgstr ""
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr "0 est illimité"
+msgstr ""
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr "Taille maximale pour les fichiers ZIP"
+msgstr ""
 
 #: templates/index.php:7
 msgid "New"
-msgstr "Nouveau"
+msgstr ""
 
 #: templates/index.php:9
 msgid "Text file"
-msgstr "Fichier texte"
+msgstr ""
 
 #: templates/index.php:10
 msgid "Folder"
-msgstr "Dossier"
+msgstr ""
 
 #: templates/index.php:11
 msgid "From url"
-msgstr "Depuis URL"
+msgstr ""
 
 #: templates/index.php:21
 msgid "Upload"
-msgstr "Envoyer"
+msgstr ""
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr "Annuler envoi"
+msgstr ""
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
-msgstr "Il n'y a rien ici ! Envoyez donc quelque chose :)"
+msgstr ""
 
 #: templates/index.php:47
 msgid "Name"
-msgstr "Nom"
+msgstr ""
 
 #: templates/index.php:49
 msgid "Share"
-msgstr "Partager"
+msgstr ""
 
 #: templates/index.php:51
 msgid "Download"
-msgstr "Téléchargement"
+msgstr ""
 
 #: templates/index.php:64
 msgid "Upload too large"
-msgstr "Fichier trop volumineux"
+msgstr ""
 
 #: templates/index.php:66
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Les fichiers que vous essayez d'envoyer dépassent la taille maximale permise par ce serveur."
+msgstr ""
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr "Les fichiers sont analysés, patientez svp."
+msgstr ""
 
 #: templates/index.php:74
 msgid "Current scanning"
-msgstr "Analyse en cours"
+msgstr ""

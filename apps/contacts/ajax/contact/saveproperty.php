@@ -19,7 +19,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-require_once 'loghandler.php';
+
+require_once __DIR__.'/../loghandler.php';
+
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
@@ -146,5 +148,6 @@ if(!OC_Contacts_VCard::edit($id, $vcard)) {
 OCP\JSON::success(array('data' => array(
 	'line' => $line,
 	'checksum' => $checksum,
-	'oldchecksum' => $_POST['checksum']))
-);
+	'oldchecksum' => $_POST['checksum']
+	'lastmodified' => OC_Contacts_VCard::lastModified($vcard)->format('U')
+));

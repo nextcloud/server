@@ -3,274 +3,266 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <admin@s-goecker.de>, 2011, 2012.
-#   <alex.hotz@gmail.com>, 2011.
-#   <georg.stefan.germany@googlemail.com>, 2011.
-# Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
-# Marcel Kühlhorn <susefan93@gmx.de>, 2012.
-#   <niko@nik-o-mat.de>, 2012.
-# Phi Lieb <>, 2012.
-#   <thomas.mueller@tmit.eu>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-07 02:04+0200\n"
-"PO-Revision-Date: 2012-08-06 19:45+0000\n"
-"Last-Translator: designpoint <info@designpoint.ch>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
+"POT-Creation-Date: 2012-08-09 02:02+0200\n"
+"PO-Revision-Date: 2011-07-25 16:05+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/owncloud/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr "Applikationsname nicht angegeben"
+msgstr ""
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr "Keine Kategorie hinzuzufügen?"
+msgstr ""
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
-msgstr "Kategorie existiert bereits:"
+msgstr ""
 
 #: js/jquery-ui-1.8.16.custom.min.js:511
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
+msgstr ""
 
 #: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
 msgid "Settings"
-msgstr "Einstellungen"
+msgstr ""
 
 #: js/js.js:572
 msgid "January"
-msgstr "Januar"
+msgstr ""
 
 #: js/js.js:572
 msgid "February"
-msgstr "Februar"
+msgstr ""
 
 #: js/js.js:572
 msgid "March"
-msgstr "März"
+msgstr ""
 
 #: js/js.js:572
 msgid "April"
-msgstr "April"
+msgstr ""
 
 #: js/js.js:572
 msgid "May"
-msgstr "Mai"
+msgstr ""
 
 #: js/js.js:572
 msgid "June"
-msgstr "Juni"
+msgstr ""
 
 #: js/js.js:573
 msgid "July"
-msgstr "Juli"
+msgstr ""
 
 #: js/js.js:573
 msgid "August"
-msgstr "August"
+msgstr ""
 
 #: js/js.js:573
 msgid "September"
-msgstr "September"
+msgstr ""
 
 #: js/js.js:573
 msgid "October"
-msgstr "Oktober"
+msgstr ""
 
 #: js/js.js:573
 msgid "November"
-msgstr "November"
+msgstr ""
 
 #: js/js.js:573
 msgid "December"
-msgstr "Dezember"
+msgstr ""
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr "Abbrechen"
+msgstr ""
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr "Nein"
+msgstr ""
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr "Ja"
+msgstr ""
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr "OK"
+msgstr ""
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr "Keine Kategorien zum Löschen angegeben."
+msgstr ""
 
 #: js/oc-vcategories.js:68
 msgid "Error"
-msgstr "Fehler"
+msgstr ""
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
-msgstr "ownCloud-Passwort zurücksetzen"
+msgstr ""
 
 #: lostpassword/templates/email.php:1
 msgid "Use the following link to reset your password: {link}"
-msgstr "Nutze folgenden Link, um dein Passwort zurückzusetzen: {link}"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Du erhälst einen Link, um dein Passwort per E-Mail zurückzusetzen."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Requested"
-msgstr "Angefragt"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Login failed!"
-msgstr "Login fehlgeschlagen!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
 #: templates/login.php:9
 msgid "Username"
-msgstr "Benutzername"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request reset"
-msgstr "Anfrage zurückgesetzt"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Dein Passwort wurde zurückgesetzt."
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr "Zur Login-Seite"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Neues Passwort"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Passwort zurücksetzen"
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr "Persönlich"
+msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr "Benutzer"
+msgstr ""
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Anwendungen"
+msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Admin"
+msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr "Hilfe"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Zugang verboten"
+msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "Cloud nicht gefunden"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Kategorien editieren"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr "Hinzufügen"
+msgstr ""
 
 #: templates/installation.php:23
 msgid "Create an <strong>admin account</strong>"
-msgstr "<strong>Administrator-Konto</strong> anlegen"
+msgstr ""
 
 #: templates/installation.php:29 templates/login.php:13
 msgid "Password"
-msgstr "Passwort"
+msgstr ""
 
 #: templates/installation.php:35
 msgid "Advanced"
-msgstr "Erweitert"
+msgstr ""
 
 #: templates/installation.php:37
 msgid "Data folder"
-msgstr "Datenverzeichnis"
+msgstr ""
 
 #: templates/installation.php:44
 msgid "Configure the database"
-msgstr "Datenbank einrichten"
+msgstr ""
 
 #: templates/installation.php:49 templates/installation.php:60
 #: templates/installation.php:70
 msgid "will be used"
-msgstr "wird genutzt"
+msgstr ""
 
 #: templates/installation.php:82
 msgid "Database user"
-msgstr "Datenbank-Benutzer"
+msgstr ""
 
 #: templates/installation.php:86
 msgid "Database password"
-msgstr "Datenbank-Passwort"
+msgstr ""
 
 #: templates/installation.php:90
 msgid "Database name"
-msgstr "Datenbank-Name"
+msgstr ""
 
 #: templates/installation.php:96
 msgid "Database host"
-msgstr "Datenbank-Host"
+msgstr ""
 
 #: templates/installation.php:101
 msgid "Finish setup"
-msgstr "Installation abschließen"
+msgstr ""
 
 #: templates/layout.guest.php:42
 msgid "web services under your control"
-msgstr "Web Services unter ihrer Kontrolle"
+msgstr ""
 
 #: templates/layout.user.php:49
 msgid "Log out"
-msgstr "Abmelden"
+msgstr ""
 
 #: templates/login.php:6
 msgid "Lost your password?"
-msgstr "Passwort vergessen?"
+msgstr ""
 
 #: templates/login.php:17
 msgid "remember"
-msgstr "merken"
+msgstr ""
 
 #: templates/login.php:18
 msgid "Log in"
-msgstr "Einloggen"
+msgstr ""
 
 #: templates/logout.php:1
 msgid "You are logged out."
-msgstr "Abgemeldet"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "Zurück"
+msgstr ""
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "Weiter"
+msgstr ""

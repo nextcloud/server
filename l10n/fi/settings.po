@@ -3,21 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Hossein nag <h.sname@yahoo.com>, 2012.
-# vahid chakoshy <vchakoshy@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-07 02:05+0200\n"
-"PO-Revision-Date: 2012-08-06 01:13+0000\n"
-"Last-Translator: vahid chakoshy <vchakoshy@gmail.com>\n"
-"Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
+"POT-Creation-Date: 2012-08-09 02:02+0200\n"
+"PO-Revision-Date: 2011-07-25 16:05+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/owncloud/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fa\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
@@ -25,19 +23,19 @@ msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr "ایمیل ذخیره شد"
+msgstr ""
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr "ایمیل غیر قابل قبول"
+msgstr ""
 
 #: ajax/openid.php:16
 msgid "OpenID Changed"
-msgstr "OpenID تغییر کرد"
+msgstr ""
 
 #: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
-msgstr "درخواست غیر قابل قبول"
+msgstr ""
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
@@ -45,171 +43,171 @@ msgstr ""
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
-msgstr "زبان تغییر کرد"
+msgstr ""
 
 #: js/apps.js:18
 msgid "Error"
-msgstr "خطا"
+msgstr ""
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
-msgstr "غیرفعال"
+msgstr ""
 
 #: js/apps.js:39 js/apps.js:62
 msgid "Enable"
-msgstr "فعال"
+msgstr ""
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr "درحال ذخیره ..."
+msgstr ""
 
 #: personal.php:46 personal.php:47
 msgid "__language_name__"
-msgstr "__language_name__"
+msgstr ""
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr "اخطار امنیتی"
+msgstr ""
 
 #: templates/admin.php:28
 msgid "Log"
-msgstr "کارنامه"
+msgstr ""
 
 #: templates/admin.php:56
 msgid "More"
-msgstr "بیشتر"
+msgstr ""
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr "برنامه خود را بیافزایید"
+msgstr ""
 
 #: templates/apps.php:26
 msgid "Select an App"
-msgstr "یک برنامه انتخاب کنید"
+msgstr ""
 
 #: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
-msgstr "صفحه این اٌپ را در apps.owncloud.com ببینید"
+msgstr ""
 
 #: templates/apps.php:30
 msgid "-licensed"
-msgstr "مجوزنامه"
+msgstr ""
 
 #: templates/apps.php:30
 msgid "by"
-msgstr "به وسیله"
+msgstr ""
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr "مستندات"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr "مدیریت پرونده های بزرگ"
+msgstr ""
 
 #: templates/help.php:10
 msgid "Ask a question"
-msgstr "یک سوال بپرسید"
+msgstr ""
 
 #: templates/help.php:22
 msgid "Problems connecting to help database."
-msgstr "مشکلاتی برای وصل شدن به پایگاه داده کمکی"
+msgstr ""
 
 #: templates/help.php:23
 msgid "Go there manually."
-msgstr "بروید آنجا به صورت دستی"
+msgstr ""
 
 #: templates/help.php:31
 msgid "Answer"
-msgstr "پاسخ"
+msgstr ""
 
 #: templates/personal.php:8
 msgid "You use"
-msgstr "شما استفاده می کنید"
+msgstr ""
 
 #: templates/personal.php:8
 msgid "of the available"
-msgstr "از فعال ها"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr " ابزار مدیریت با دسکتاپ و موبایل"
+msgstr ""
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr "بارگیری"
+msgstr ""
 
 #: templates/personal.php:19
 msgid "Your password got changed"
-msgstr "گذرواژه شما تغییر یافته"
+msgstr ""
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr "ناتوان در تغییر گذرواژه"
+msgstr ""
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr "گذرواژه کنونی"
+msgstr ""
 
 #: templates/personal.php:22
 msgid "New password"
-msgstr "گذرواژه جدید"
+msgstr ""
 
 #: templates/personal.php:23
 msgid "show"
-msgstr "نمایش"
+msgstr ""
 
 #: templates/personal.php:24
 msgid "Change password"
-msgstr "تغییر گذر واژه"
+msgstr ""
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr "پست الکترونیکی"
+msgstr ""
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr "پست الکترونیکی شما"
+msgstr ""
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود"
+msgstr ""
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
-msgstr "زبان"
+msgstr ""
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr "به ترجمه آن کمک کنید"
+msgstr ""
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "از این نشانی برای وصل شدن به ابرهایتان در مدیرپرونده استفاده کنید"
+msgstr ""
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
-msgstr "نام"
+msgstr ""
 
 #: templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr "گذرواژه"
+msgstr ""
 
 #: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
-msgstr "گروه ها"
+msgstr ""
 
 #: templates/users.php:32
 msgid "Create"
-msgstr "ایجاد کردن"
+msgstr ""
 
 #: templates/users.php:35
 msgid "Default Quota"
-msgstr "سهم پیش فرض"
+msgstr ""
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
-msgstr "سایر"
+msgstr ""
 
 #: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
@@ -217,8 +215,8 @@ msgstr ""
 
 #: templates/users.php:82
 msgid "Quota"
-msgstr "سهم"
+msgstr ""
 
 #: templates/users.php:146
 msgid "Delete"
-msgstr "پاک کردن"
+msgstr ""

@@ -25,10 +25,6 @@
 *
 */
 
-
-// Do not load FS ...
-$RUNTIME_NOSETUPFS = true;
- 
 OCP\App::checkAppEnabled('remoteStorage');
 require_once('remoteStorage/lib_remoteStorage.php');
 

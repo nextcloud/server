@@ -165,7 +165,7 @@ class Util {
 	 * reverse proxies
 	 */
 	public static function getServerHost() {
-		return(\OC_Helper::serverHost());
+		return(\OC_Request::serverHost());
 	}
 
 	/**
@@ -175,7 +175,7 @@ class Util {
 	 * Returns the server protocol. It respects reverse proxy servers and load balancers
 	 */
 	public static function getServerProtocol() {
-		return(\OC_Helper::serverProtocol());
+		return(\OC_Request::serverProtocol());
 	}
 
 	/**

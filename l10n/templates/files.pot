@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-06 02:01+0200\n"
+"POT-Creation-Date: 2012-08-09 02:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,27 +111,27 @@ msgstr ""
 msgid "Invalid name, '/' is not allowed."
 msgstr ""
 
-#: js/files.js:690 templates/index.php:55
+#: js/files.js:694 templates/index.php:55
 msgid "Size"
 msgstr ""
 
-#: js/files.js:691 templates/index.php:56
+#: js/files.js:695 templates/index.php:56
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:718
+#: js/files.js:722
 msgid "folder"
 msgstr ""
 
-#: js/files.js:720
+#: js/files.js:724
 msgid "folders"
 msgstr ""
 
-#: js/files.js:728
+#: js/files.js:732
 msgid "file"
 msgstr ""
 
-#: js/files.js:730
+#: js/files.js:734
 msgid "files"
 msgstr ""
 
