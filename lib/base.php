@@ -257,25 +257,35 @@ class OC{
 		session_start();
 	}
 
-	public static function loadapp(){
-		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php')){
+	public static function loadapp() {
+		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php')) {
 			require_once(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php');
-		}else{
+		}
+		else {
 			trigger_error('The requested App was not found.', E_USER_ERROR);//load default app instead?
 		}
 	}
 
-	public static function loadfile(){
-		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/' . OC::$REQUESTEDFILE)){
-			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
-				$file = OC_App::getAppWebPath(OC::$REQUESTEDAPP). '/' . OC::$REQUESTEDFILE;
+	public static function loadfile() {
+		$app = OC::$REQUESTEDAPP;
+		$file = OC::$REQUESTEDFILE;
+		$app_path = OC_App::getAppPath($app);
+		if(file_exists($app_path . '/' . $file)) {
+			$file_ext = substr($file, -3);
+			if ($file_ext == 'css') {
+				$app_web_path = OC_App::getAppWebPath($app);
+				$filepath = $app_web_path . '/' . $file;
 				$minimizer = new OC_Minimizer_CSS();
-				$minimizer->output(array(array(OC_App::getAppPath(OC::$REQUESTEDAPP), OC_App::getAppWebPath(OC::$REQUESTEDAPP), OC::$REQUESTEDFILE)),$file);
+				$info = array($app_path, $app_web_path, $file);
+				$minimizer->output(array($info), $filepath);
 				exit;
-			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
-				require_once(OC_App::getAppPath(OC::$REQUESTEDAPP). '/' . OC::$REQUESTEDFILE);
+			} elseif($file_ext == 'php') {
+				$file = $app_path . '/' . $file;
+				unset($app, $app_path, $app_web_path, $file_ext);
+				require_once($file);
 			}
-		}else{
+		}
+		else {
 			die();
 			header('HTTP/1.0 404 Not Found');
 			exit;
