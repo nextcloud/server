@@ -99,6 +99,17 @@ class Share {
 	}
 
 	/**
+	* @brief Get the item of item type shared with the current user by source
+	* @param string Item type
+	* @param string Item source
+	* @param int Format (optional) Format type must be defined by the backend
+	* @return Return depends on format
+	*/
+	public static function getItemSharedWithBySource($itemType, $itemSource, $format = self::FORMAT_NONE, $parameters = null, $includeCollections = false) {
+		return self::getItems($itemType, $itemSource, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, $parameters, 1, $includeCollections, true);
+	}
+
+	/**
 	* @brief Get the shared items of item type owned by the current user
 	* @param string Item type
 	* @param int Format (optional) Format type must be defined by the backend
@@ -434,7 +445,7 @@ class Share {
 	* See public functions getItem(s)... for parameter usage
 	*
 	*/
-	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1, $includeCollections = false) {
+	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1, $includeCollections = false, $itemShareWithBySource = false) {
 		$backend = self::getBackend($itemType);
 		// Get filesystem root to add it to the file target and remove from the file source
 		$root = \OC_Filesystem::getRoot();
@@ -489,7 +500,7 @@ class Share {
 		}
 		if (isset($item)) {
 			// If looking for own shared items, check item_source else check item_target
-			if (isset($uidOwner)) {
+			if (isset($uidOwner) || $itemShareWithBySource) {
 				// If item type is a file, file source needs to be checked in case the item was converted
 				if ($itemType == 'file' || $itemType == 'folder') {
 					$where .= " AND path = ?";
