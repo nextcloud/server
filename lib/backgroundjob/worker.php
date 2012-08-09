@@ -73,8 +73,8 @@ class OC_BackgroundJob_Worker{
 			
 			// search for next background job
 			foreach( $regular_tasks as $key => $value ){
-				if( strcmp( $lasttask, $key ) > 0 ){
-					OC_Appconfig::getValue( 'core', 'backgroundjobs_task', $key );
+				if( strcmp( $key, $lasttask ) > 0 ){
+					OC_Appconfig::setValue( 'core', 'backgroundjobs_task', $key );
 					$done = true;
 					call_user_func( $value );
 					break;
