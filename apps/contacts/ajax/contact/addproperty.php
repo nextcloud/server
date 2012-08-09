@@ -144,4 +144,9 @@ if(!OC_Contacts_VCard::edit($id, $vcard)) {
 	bailOut($l10n->t('Error adding contact property: '.$name));
 }
 
-OCP\JSON::success(array('data' => array( 'checksum' => $checksum )));
+OCP\JSON::success(array(
+	'data' => array(
+		'checksum' => $checksum,
+		'lastmodified' => OC_Contacts_VCard::lastModified($vcard)->format('U'))
+	)
+);

@@ -49,4 +49,10 @@ if(!$id) {
 	exit();
 }
 
-OCP\JSON::success(array('data' => array( 'id' => $id, 'aid' => $aid )));
+OCP\JSON::success(array(
+	'data' => array(
+		'id' => $id,
+		'aid' => $aid,
+		'lastmodified' => OC_Contacts_VCard::lastModified($vcard)->format('U')
+	)
+));

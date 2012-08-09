@@ -44,4 +44,9 @@ if(!OC_Contacts_VCard::edit($id, $vcard)) {
 	bailOut($l10n->t('Error deleting contact property.'));
 }
 
-OCP\JSON::success(array('data' => array( 'id' => $id )));
+OCP\JSON::success(array(
+	'data' => array(
+		'id' => $id,
+		'lastmodified' => OC_Contacts_VCard::lastModified($vcard)->format('U'),
+	)
+));

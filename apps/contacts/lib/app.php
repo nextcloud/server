@@ -240,6 +240,18 @@ class OC_Contacts_App {
 		self::getVCategories()->loadFromVObject($contact, true);
 	}
 
+	/**
+	 * @brief Get the last modification time.
+	 * @param $vcard OC_VObject
+	 * $return DateTime | null
+	 */
+	public static function lastModified($vcard) {
+		$rev = $vcard->getAsString('REV');
+		if ($rev) {
+			return DateTime::createFromFormat(DateTime::W3C, $rev);
+		}
+	}
+
 	public static function setLastModifiedHeader($contact) {
 		$rev = $contact->getAsString('REV');
 		if ($rev) {
