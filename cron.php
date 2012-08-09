@@ -20,17 +20,19 @@
 *
 */
 
-function handleCliShutdown() {
-	$error = error_get_last();
-	if($error !== NULL){
-		echo 'Unexpected error!'.PHP_EOL;
-	}
+// Unfortunately we need this class for shutdown function
+class my_temporary_cron_class {
+	public static $sent = false;
 }
 
-function handleWebShutdown(){
-	$error = error_get_last();
-	if($error !== NULL){
-		OC_JSON::error( array( 'data' => array( 'message' => 'Unexpected error!')));
+function handleUnexpectedShutdown() {
+	if( !my_temporary_cron_class::$sent ){
+		if( OC::$CLI ){
+			echo 'Unexpected error!'.PHP_EOL;
+		}
+		else{
+			OC_JSON::error( array( 'data' => array( 'message' => 'Unexpected error!')));
+		}
 	}
 }
 
@@ -59,9 +61,11 @@ else{
 	register_shutdown_function('handleWebShutdown');
 	if( $appmode == 'cron' ){
 		OC_JSON::error( array( 'data' => array( 'message' => 'Backgroundjobs are using system cron!')));
-		exit();
 	}
-	OC_BackgroundJob_Worker::doNextStep();
-	OC_JSON::success();
+	else{
+		OC_BackgroundJob_Worker::doNextStep();
+		OC_JSON::success();
+	}
 }
+my_temporary_cron_class::$sent = true;
 exit();
