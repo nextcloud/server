@@ -23,13 +23,24 @@ $(document).ready(function(){
 			 ,server=$('input[value="server"]:checked').val()
 			 ,user=$('input[value="user"]:checked').val()
 			 ,none=$('input[value="none"]:checked').val()
-		if (client)
+			 ,disable=false
+		if (client) {
 			OC.AppConfig.setValue('files_encryption','mode','client');
-		else if (server)
+			disable = true;
+		} else if (server) {
 			OC.AppConfig.setValue('files_encryption','mode','server');
-		else if (user)
+			disable = true;
+		} else if (user) {
 			OC.AppConfig.setValue('files_encryption','mode','user');
-		else
+			disable = true;
+		} else {
 			OC.AppConfig.setValue('files_encryption','mode','none');
+		}
+		if (disable) {
+			document.getElementById('server_encryption').disabled = true;
+			document.getElementById('client_encryption').disabled = true;
+			document.getElementById('user_encryption').disabled = true;
+			document.getElementById('none_encryption').disabled = true;
+		}
 	})
 })

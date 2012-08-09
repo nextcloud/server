@@ -22,7 +22,7 @@ $(document).ready(function(){
 		   		$.post(OC.filePath('files_encryption', 'ajax', 'mode.php'), { mode: 'server', newpasswd: data[0].value, oldpasswd: data[1].value }, function(result) {
 		   			if (result.status != 'success') {
 		   				document.getElementById(prevmode+'_encryption').checked = true;
-		   				OC.dialogs.alert(t('encryption', 'Please check your passwords and try again'), t('encryption', 'Could not change encryption password to login password'))
+		   				OC.dialogs.alert(t('encryption', 'Please check your passwords and try again'), t('encryption', 'Could not change your file encryption password to your login password'))
 		   			}
 		   		});
 		    });

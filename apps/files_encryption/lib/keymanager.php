@@ -199,6 +199,13 @@ class Keymanager {
 		return $result;
 	}
 	
+	/**
+	 * @brief change password of private encryption key
+	 *
+	 * @param string $oldpasswd old password
+	 * @param string $newpasswd new password
+	 * @return bool true/false
+	 */
 	public static function changePasswd($oldpasswd, $newpasswd) {
 		if ( \OCP\User::checkPassword(\OCP\User::getUser(), $newpasswd) ) {
 			return Crypt::changekeypasscode($oldpasswd, $newpasswd);
