@@ -257,41 +257,6 @@ class OC{
 		session_start();
 	}
 
-	protected static function loadapp() {
-		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php')) {
-			require_once(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php');
-		}
-		else {
-			trigger_error('The requested App was not found.', E_USER_ERROR);//load default app instead?
-		}
-	}
-
-	protected static function loadfile() {
-		$app = OC::$REQUESTEDAPP;
-		$file = OC::$REQUESTEDFILE;
-		$app_path = OC_App::getAppPath($app);
-		if(file_exists($app_path . '/' . $file)) {
-			$file_ext = substr($file, -3);
-			if ($file_ext == 'css') {
-				$app_web_path = OC_App::getAppWebPath($app);
-				$filepath = $app_web_path . '/' . $file;
-				$minimizer = new OC_Minimizer_CSS();
-				$info = array($app_path, $app_web_path, $file);
-				$minimizer->output(array($info), $filepath);
-				exit;
-			} elseif($file_ext == 'php') {
-				$file = $app_path . '/' . $file;
-				unset($app, $app_path, $app_web_path, $file_ext);
-				require_once($file);
-			}
-		}
-		else {
-			die();
-			header('HTTP/1.0 404 Not Found');
-			exit;
-		}
-	}
-
 	public static function init(){
 		// register autoloader
 		spl_autoload_register(array('OC','autoload'));
@@ -454,6 +419,41 @@ class OC{
 			return true;
 		}
 		return false;
+	}
+
+	protected static function loadapp() {
+		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php')) {
+			require_once(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php');
+		}
+		else {
+			trigger_error('The requested App was not found.', E_USER_ERROR);//load default app instead?
+		}
+	}
+
+	protected static function loadfile() {
+		$app = OC::$REQUESTEDAPP;
+		$file = OC::$REQUESTEDFILE;
+		$app_path = OC_App::getAppPath($app);
+		if (file_exists($app_path . '/' . $file)) {
+			$file_ext = substr($file, -3);
+			if ($file_ext == 'css') {
+				$app_web_path = OC_App::getAppWebPath($app);
+				$filepath = $app_web_path . '/' . $file;
+				$minimizer = new OC_Minimizer_CSS();
+				$info = array($app_path, $app_web_path, $file);
+				$minimizer->output(array($info), $filepath);
+				exit;
+			} elseif($file_ext == 'php') {
+				$file = $app_path . '/' . $file;
+				unset($app, $app_path, $app_web_path, $file_ext);
+				require_once($file);
+			}
+		}
+		else {
+			die();
+			header('HTTP/1.0 404 Not Found');
+			exit;
+		}
 	}
 
 	public static function tryRememberLogin() {
