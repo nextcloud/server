@@ -30,7 +30,7 @@ class OC_BackgroundJob_Worker{
 	 * @brief executes all tasks
 	 * @return boolean
 	 *
-	 * This method executes all regular tasks and then all scheduled tasks.
+	 * This method executes all regular tasks and then all queued tasks.
 	 * This method should be called by cli scripts that do not let the user
 	 * wait.
 	 */
@@ -41,11 +41,11 @@ class OC_BackgroundJob_Worker{
 			call_user_func( $value );
 		}
 
-		// Do our scheduled tasks
-		$scheduled_tasks = OC_BackgroundJob_ScheduledTask::all();
-		foreach( $scheduled_tasks as $task ){
+		// Do our queued tasks
+		$queued_tasks = OC_BackgroundJob_QueuedTask::all();
+		foreach( $queued_tasks as $task ){
 			call_user_func( array( $task['klass'], $task['method'] ), $task['parameters'] );
-			OC_BackgroundJob_ScheduledTask::delete( $task['id'] );
+			OC_BackgroundJob_QueuedTask::delete( $task['id'] );
 		}
 		
 		return true;
@@ -82,23 +82,23 @@ class OC_BackgroundJob_Worker{
 			}
 
 			if( $done == false ){
-				// Next time load scheduled tasks
-				OC_Appconfig::setValue( 'core', 'backgroundjobs_step', 'scheduled_tasks' );
+				// Next time load queued tasks
+				OC_Appconfig::setValue( 'core', 'backgroundjobs_step', 'queued_tasks' );
 			}
 		}
 		else{
-			$tasks = OC_BackgroundJob_ScheduledTask::all();
+			$tasks = OC_BackgroundJob_QueuedTask::all();
 			if( count( $tasks )){
 				$task = $tasks[0];
 				// delete job before we execute it. This prevents endless loops
 				// of failing jobs.
-				OC_BackgroundJob_ScheduledTask::delete($task['id']);
+				OC_BackgroundJob_QueuedTask::delete($task['id']);
 
 				// execute job
 				call_user_func( array( $task['klass'], $task['method'] ), $task['parameters'] );
 			}
 			else{
-				// Next time load scheduled tasks
+				// Next time load queued tasks
 				OC_Appconfig::setValue( 'core', 'backgroundjobs_step', 'regular_tasks' );
 				OC_Appconfig::setValue( 'core', 'backgroundjobs_task', '' );
 			}

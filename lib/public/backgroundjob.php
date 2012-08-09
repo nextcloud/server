@@ -32,19 +32,20 @@ namespace OCP;
  * This class provides functions to manage backgroundjobs in ownCloud
  *
  * There are two kind of background jobs in ownCloud: regular tasks and
- * scheduled tasks.
+ * queued tasks.
  *
  * Regular tasks have to be registered in appinfo.php and
  * will run on a regular base. Fetching news could be a task that should run
  * frequently.
  *
- * Scheduled tasks have to be registered each time you want to execute them.
- * An example of the scheduled task would be the creation of the thumbnail. As
- * soon as the user uploads a picture the gallery app registers the scheduled
- * task "create thumbnail" and saves the path in the parameter. As soon as the
- * task is done it will be deleted from the list.
+ * Queued tasks have to be registered each time you want to execute them.
+ * An example of the queued task would be the creation of the thumbnail. As
+ * soon as the user uploads a picture the gallery app registers the queued
+ * task "create thumbnail" and saves the path in the parameter instead of doing
+ * the work right away. This makes the app more responsive. As soon as the task 
+ * is done it will be deleted from the list.
  */
-class Backgroundjob {
+class BackgroundJob {
 	/**
 	 * @brief creates a regular task
 	 * @param $klass class name
@@ -66,51 +67,51 @@ class Backgroundjob {
 	}
 
 	/**
-	 * @brief Gets one scheduled task
+	 * @brief Gets one queued task
 	 * @param $id ID of the task
 	 * @return associative array
 	 */
-	public static function findScheduledTask( $id ){
-		return \OC_BackgroundJob_ScheduledTask::find( $id );
+	public static function findQueuedTask( $id ){
+		return \OC_BackgroundJob_QueuedTask::find( $id );
 	}
 
 	/**
-	 * @brief Gets all scheduled tasks
+	 * @brief Gets all queued tasks
 	 * @return array with associative arrays
 	 */
-	public static function allScheduledTasks(){
-		return \OC_BackgroundJob_ScheduledTask::all();
+	public static function allQueuedTasks(){
+		return \OC_BackgroundJob_QueuedTask::all();
 	}
 
 	/**
-	 * @brief Gets all scheduled tasks of a specific app
+	 * @brief Gets all queued tasks of a specific app
 	 * @param $app app name
 	 * @return array with associative arrays
 	 */
-	public static function scheduledTaskWhereAppIs( $app ){
-		return \OC_BackgroundJob_ScheduledTask::whereAppIs( $app );
+	public static function queuedTaskWhereAppIs( $app ){
+		return \OC_BackgroundJob_QueuedTask::whereAppIs( $app );
 	}
 
 	/**
-	 * @brief schedules a task
+	 * @brief queues a task
 	 * @param $app app name
 	 * @param $klass class name
 	 * @param $method method name
 	 * @param $parameters all useful data as text
 	 * @return id of task
 	 */
-	public static function addScheduledTask( $task, $klass, $method, $parameters ){
-		return \OC_BackgroundJob_ScheduledTask::add( $task, $klass, $method, $parameters );
+	public static function addQueuedTask( $task, $klass, $method, $parameters ){
+		return \OC_BackgroundJob_QueuedTask::add( $task, $klass, $method, $parameters );
 	}
 
 	/**
-	 * @brief deletes a scheduled task
+	 * @brief deletes a queued task
 	 * @param $id id of task
 	 * @return true/false
 	 *
 	 * Deletes a report
 	 */
-	public static function deleteScheduledTask( $id ){
-		return \OC_BackgroundJob_ScheduledTask::delete( $id );
+	public static function deleteQueuedTask( $id ){
+		return \OC_BackgroundJob_QueuedTask::delete( $id );
 	}
 }

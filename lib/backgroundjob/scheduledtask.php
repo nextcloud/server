@@ -21,22 +21,22 @@
 */
 
 /**
- * This class manages our scheduled tasks.
+ * This class manages our queued tasks.
  */
-class OC_BackgroundJob_ScheduledTask{
+class OC_BackgroundJob_QueuedTask{
 	/**
-	 * @brief Gets one scheduled task
+	 * @brief Gets one queued task
 	 * @param $id ID of the task
 	 * @return associative array
 	 */
 	public static function find( $id ){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*scheduledtasks WHERE id = ?' );
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*queuedtasks WHERE id = ?' );
 		$result = $stmt->execute(array($id));
 		return $result->fetchRow();
 	}
 
 	/**
-	 * @brief Gets all scheduled tasks
+	 * @brief Gets all queued tasks
 	 * @return array with associative arrays
 	 */
 	public static function all(){
@@ -44,18 +44,17 @@ class OC_BackgroundJob_ScheduledTask{
 		$return = array();
 
 		// Get Data
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*scheduledtasks' );
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*queuedtasks' );
 		$result = $stmt->execute(array());
 		while( $row = $result->fetchRow()){
 			$return[] = $row;
 		}
 
-		// Und weg damit
 		return $return;
 	}
 
 	/**
-	 * @brief Gets all scheduled tasks of a specific app
+	 * @brief Gets all queued tasks of a specific app
 	 * @param $app app name
 	 * @return array with associative arrays
 	 */
@@ -64,7 +63,7 @@ class OC_BackgroundJob_ScheduledTask{
 		$return = array();
 
 		// Get Data
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*scheduledtasks WHERE app = ?' );
+		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*queuedtasks WHERE app = ?' );
 		$result = $stmt->execute(array($app));
 		while( $row = $result->fetchRow()){
 			$return[] = $row;
@@ -75,7 +74,7 @@ class OC_BackgroundJob_ScheduledTask{
 	}
 
 	/**
-	 * @brief schedules a task
+	 * @brief queues a task
 	 * @param $app app name
 	 * @param $klass class name
 	 * @param $method method name
@@ -83,21 +82,21 @@ class OC_BackgroundJob_ScheduledTask{
 	 * @return id of task
 	 */
 	public static function add( $task, $klass, $method, $parameters ){
-		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*scheduledtasks (app, klass, method, parameters) VALUES(?,?,?,?)' );
+		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*queuedtasks (app, klass, method, parameters) VALUES(?,?,?,?)' );
 		$result = $stmt->execute(array($app, $klass, $method, $parameters, time));
 
 		return OC_DB::insertid();
 	}
 
 	/**
-	 * @brief deletes a scheduled task
+	 * @brief deletes a queued task
 	 * @param $id id of task
 	 * @return true/false
 	 *
 	 * Deletes a report
 	 */
 	public static function delete( $id ){
-		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*scheduledtasks WHERE id = ?' );
+		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*queuedtasks WHERE id = ?' );
 		$result = $stmt->execute(array($id));
 
 		return true;
