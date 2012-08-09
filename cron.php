@@ -20,11 +20,26 @@
 *
 */
 
+function handleCliShutdown() {
+	$error = error_get_last();
+	if($error !== NULL){
+		echo 'Unexpected error!'.PHP_EOL;
+	}
+}
+
+function handleWebShutdown(){
+	$error = error_get_last();
+	if($error !== NULL){
+		OC_JSON::error( array( 'data' => array( 'message' => 'Unexpected error!')));
+	}
+}
+
 $RUNTIME_NOSETUPFS = true;
 require_once('lib/base.php');
 
 $appmode = OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' );
 if( OC::$CLI ){
+	register_shutdown_function('handleCliShutdown');
 	if( $appmode != 'cron' ){
 		OC_Appconfig::setValue( 'core', 'backgroundjobs_mode', 'cron' );
 	}
@@ -41,6 +56,7 @@ if( OC::$CLI ){
 	OC_BackgroundJob_Worker::doAllSteps();
 }
 else{
+	register_shutdown_function('handleWebShutdown');
 	if( $appmode == 'cron' ){
 		OC_JSON::error( array( 'data' => array( 'message' => 'Backgroundjobs are using system cron!')));
 		exit();
