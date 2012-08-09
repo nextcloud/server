@@ -6,16 +6,33 @@
 
 $(document).ready(function(){
 	$('input[name=encryption_mode]').change(function(){
+		var prevmode = document.getElementById('prev_encryption_mode').value
 		var  client=$('input[value="client"]:checked').val()
 			 ,server=$('input[value="server"]:checked').val()
 			 ,user=$('input[value="user"]:checked').val()
 			 ,none=$('input[value="none"]:checked').val()
-		if (client)
-			var encmode= 'client';
-		else if (server)
-			var encmode = 'server';
-		else
-			var encmode = 'none';	
-		$.post(OC.filePath('files_encryption', 'ajax', 'mode.php'), { mode: encmode });
+		if (client) {
+			$.post(OC.filePath('files_encryption', 'ajax', 'mode.php'), { mode: 'client' });
+			if (prevmode == 'server') {
+				OC.dialogs.info(t('encryption', 'Please go to your owncloud client and change your encryption password to complete the conversion'), t('encryption', 'switched to client side encryption'));
+			}
+		} else if (server) {
+			if (prevmode == 'client') {
+		    OC.dialogs.form([{text:'login password', name:'newpasswd', type:'password'},{text:'Encryption password used on the client', name:'oldpasswd', type:'password'}],t('encryption', 'Please enter your passwords'), function(data) {
+		   		$.post(OC.filePath('files_encryption', 'ajax', 'mode.php'), { mode: 'server', newpasswd: data[0].value, oldpasswd: data[1].value }, function(result) {
+		   			if (result.status != 'success') {
+		   				console.log("change selection back to " + prevmode+'_encryption');
+		   				document.getElementById(prevmode+'_encryption').checked = true;
+		   			} else {
+		   			}
+		   			
+		   		});
+		    });
+			} else {
+				$.post(OC.filePath('files_encryption', 'ajax', 'mode.php'), { mode: 'server' });
+			}
+		} else {
+			$.post(OC.filePath('files_encryption', 'ajax', 'mode.php'), { mode: 'none' });
+		}
 	})
 })

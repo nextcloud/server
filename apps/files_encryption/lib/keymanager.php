@@ -199,4 +199,10 @@ class Keymanager {
 		return $result;
 	}
 	
+	public static function changePasswd($oldpasswd, $newpasswd) {
+		//TODO change password of private key
+		error_log("password changed from '$oldpasswd' to '$newpasswd'");
+		return true;
+	}
+	
 }
