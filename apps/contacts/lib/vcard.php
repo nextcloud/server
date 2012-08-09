@@ -362,6 +362,17 @@ class OC_Contacts_VCard{
 		foreach($objects as $object) {
 			$vcard = OC_VObject::parse($object[1]);
 			if(!is_null($vcard)) {
+				$oldcard = self::find($object[0]);
+				if (!$oldcard) {
+					return false;
+				}
+				$addressbook = OC_Contacts_Addressbook::find($oldcard['addressbookid']);
+				if ($addressbook['userid'] != OCP\User::getUser()) {
+					$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $object[0], OCP\Share::FORMAT_NONE, null, true);
+					if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_UPDATE)) {
+						return false;
+					}
+				}
 				$vcard->setString('REV', $now->format(DateTime::W3C));
 				$data = $vcard->serialize();
 				try {
@@ -383,11 +394,20 @@ class OC_Contacts_VCard{
 	 */
 	public static function edit($id, OC_VObject $card){
 		$oldcard = self::find($id);
-
+		if (!$oldcard) {
+			return false;
+		}
 		if(is_null($card)) {
 			return false;
 		}
-
+		// NOTE: Owner checks are being made in the ajax files, which should be done inside the lib files to prevent any redundancies with sharing checks
+		$addressbook = OC_Contacts_Addressbook::find($oldcard['addressbookid']);
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $id, OCP\Share::FORMAT_NONE, null, true);
+			if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_UPDATE)) {
+				return false;
+			}
+		}
 		OC_Contacts_App::loadCategoriesFromVCard($card);
 
 		$fn = $card->getAsString('FN');
@@ -436,6 +456,17 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 */
 	public static function delete($id){
+		$card = self::find($id);
+		if (!$card) {
+			return false;
+		}
+		$addressbook = OC_Contacts_Addressbook::find($card['addressbookid']);
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $id, OCP\Share::FORMAT_NONE, null, true);
+			if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_DELETE)) {
+				return false;
+			}
+		}
 		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard', array('aid' => null, 'id' => $id, 'uri' => null));
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
 		try {
@@ -456,6 +487,18 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 */
 	public static function deleteFromDAVData($aid,$uri){
+		$addressbook = OC_Contacts_Addressbook::find($aid);
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$query = OCP\DB::prepare( 'SELECT id FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri = ?' );
+			$id = $query->execute(array($aid, $uri))->fetchOne();
+			if (!$id) {
+				return false;
+			}
+			$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $id, OCP\Share::FORMAT_NONE, null, true);
+			if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_DELETE)) {
+				return false;
+			}
+		}
 		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard', array('aid' => $aid, 'id' => null, 'uri' => $uri));
 		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
 		try {
@@ -595,8 +638,27 @@ class OC_Contacts_VCard{
 	 *
 	 */
 	public static function moveToAddressBook($aid, $id) {
-		OC_Contacts_App::getAddressbook($aid); // check for user ownership.
+		$addressbook = OC_Contacts_Addressbook::find($aid);
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$sharedAddressbook = OCP\Share::getItemSharedWithBySource('addressbook', $aid);
+			if (!$sharedAddressbook || !($sharedAddressbook['permissions'] & OCP\Share::PERMISSION_CREATE)) {
+				return false;
+			}
+		}
 		if(is_array($id)) {
+			foreach ($id as $index => $cardId) {
+				$card = self::find($cardId);
+				if (!$card) {
+					unset($id[$index]);
+				}
+				$oldAddressbook = OC_Contacts_Addressbook::find($card['addressbookid']);
+				if ($oldAddressbook['userid'] != OCP\User::getUser()) {
+					$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $cardId, OCP\Share::FORMAT_NONE, null, true);
+					if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_DELETE)) {
+						unset($id[$index]);
+					}
+				}
+			}
 			$id_sql = join(',', array_fill(0, count($id), '?'));
 			$prep = 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id IN ('.$id_sql.')';
 			try {
@@ -611,6 +673,17 @@ class OC_Contacts_VCard{
 				return false;
 			}
 		} else {
+			$card = self::find($id);
+			if (!$card) {
+				return false;
+			}
+			$oldAddressbook = OC_Contacts_Addressbook::find($card['addressbookid']);
+			if ($oldAddressbook['userid'] != OCP\User::getUser()) {
+				$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $id, OCP\Share::FORMAT_NONE, null, true);
+				if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_DELETE)) {
+					return false;
+				}
+			}
 			try {
 				$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id = ?' );
 				$result = $stmt->execute(array($aid, $id));
