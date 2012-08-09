@@ -32,6 +32,7 @@ if ($result->fetchRow()){
 } else {
 	$query = OC_DB::prepare( 'INSERT INTO *PREFIX*encryption ( mode, uid ) VALUES( ?, ? )' );
 }
+
 if ( (!$changePasswd || $passwdChanged) && $query->execute(array($mode, \OCP\User::getUser())) ) {
 	OCP\JSON::success();
 } else {

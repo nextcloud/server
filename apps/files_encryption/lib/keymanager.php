@@ -200,9 +200,12 @@ class Keymanager {
 	}
 	
 	public static function changePasswd($oldpasswd, $newpasswd) {
-		//TODO change password of private key
-		error_log("password changed from '$oldpasswd' to '$newpasswd'");
-		return true;
+		if ( \OCP\User::checkPassword(\OCP\User::getUser(), $newpasswd) ) {
+			return Crypt::changekeypasscode($oldpasswd, $newpasswd);
+		} else {
+			return false;
+		}
+	
 	}
 	
 }
