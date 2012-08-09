@@ -23,7 +23,8 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
-require_once 'loghandler.php';
+
+require_once __DIR__.'/../loghandler.php';
 
 $id = isset($_POST['id'])?$_POST['id']:null;
 if(!$id) {

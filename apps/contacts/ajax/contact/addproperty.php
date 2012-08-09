@@ -25,7 +25,7 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
 
-require_once 'loghandler.php';
+require_once __DIR__.'/../loghandler.php';
 
 $id = isset($_POST['id'])?$_POST['id']:null;
 $name = isset($_POST['name'])?$_POST['name']:null;
@@ -48,9 +48,9 @@ if(!$vcard) {
 
 if(!is_array($value)) {
 	$value = trim($value);
-	if(!$value 
+	if(!$value
 		&& in_array(
-		$name, 
+		$name,
 		array('TEL', 'EMAIL', 'ORG', 'BDAY', 'URL', 'NICKNAME', 'NOTE'))
 	) {
 		bailOut($l10n->t('Cannot add empty property.'));
@@ -78,9 +78,9 @@ foreach($current as $item) {
 }
 
 if(is_array($value)) {
-	// NOTE: Important, otherwise the compound value will 
+	// NOTE: Important, otherwise the compound value will
 	// be set in the order the fields appear in the form!
-	ksort($value);  
+	ksort($value);
 	$value = array_map('strip_tags', $value);
 } else {
 	$value = strip_tags($value);
@@ -123,10 +123,10 @@ switch($name) {
 
 $line = count($vcard->children) - 1;
 
-// Apparently Sabre_VObject_Parameter doesn't do well with 
+// Apparently Sabre_VObject_Parameter doesn't do well with
 // multiple values or I don't know how to do it. Tanghus.
 foreach ($parameters as $key=>$element) {
-	if(is_array($element) && strtoupper($key) == 'TYPE') { 
+	if(is_array($element) && strtoupper($key) == 'TYPE') {
 		// NOTE: Maybe this doesn't only apply for TYPE?
 		// And it probably shouldn't be done here anyways :-/
 		foreach($element as $e) {

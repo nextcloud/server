@@ -19,7 +19,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-require_once 'loghandler.php';
+
+require_once __DIR__.'/../loghandler.php';
+
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
