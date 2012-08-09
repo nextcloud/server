@@ -208,7 +208,12 @@ class OC_Contacts_Addressbook {
 	public static function edit($id,$name,$description) {
 		// Need these ones for checking uri
 		$addressbook = self::find($id);
-
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$sharedAddressbook = OCP\Share::getItemSharedWithBySource('addressbook', $id);
+			if (!$sharedAddressbook || !($sharedAddressbook['permissions'] & OCP\Share::PERMISSION_UPDATE)) {
+				return false;
+			}
+		}
 		if(is_null($name)) {
 			$name = $addressbook['name'];
 		}
@@ -270,6 +275,13 @@ class OC_Contacts_Addressbook {
 	 * @return boolean
 	 */
 	public static function delete($id) {
+		$addressbook = self::find($id);
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$sharedAddressbook = OCP\Share::getItemSharedWithBySource('addressbook', $id);
+			if (!$sharedAddressbook || !($sharedAddressbook['permissions'] & OCP\Share::PERMISSION_DELETE)) {
+				return false;
+			}
+		}
 		self::setActive($id, false);
 		try {
 			$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );

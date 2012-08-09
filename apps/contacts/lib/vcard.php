@@ -292,12 +292,26 @@ class OC_Contacts_VCard{
 			OCP\Util::writeLog('contacts', 'OC_Contacts_VCard::add. No vCard supplied', OCP\Util::ERROR);
 			return null;
 		};
-
+		$addressbook = OC_Contacts_Addressbook::find($aid);
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$sharedAddressbook = OCP\Share::getItemSharedWithBySource('addressbook', $aid);
+			if (!$sharedAddressbook) {
+				return false;
+			}
+		} else {
+			$sharedAddressbook = false;
+		}
 		if(!$isnew) {
+			if ($sharedAddressbook && !($sharedAddressbook['permissions'] & OCP\Share::PERMISSION_UPDATE)) {
+				return false;
+			}
 			OC_Contacts_App::loadCategoriesFromVCard($card);
 			self::updateValuesFromAdd($aid, $card);
+		} else {
+			if ($sharedAddressbook && !($sharedAddressbook['permissions'] & OCP\Share::PERMISSION_CREATE)) {
+				return false;
+			}
 		}
-
 		$card->setString('VERSION', '3.0');
 		// Add product ID is missing.
 		$prodid = trim($card->getAsString('PRODID'));

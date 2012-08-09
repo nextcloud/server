@@ -507,6 +507,7 @@ class Share {
 					$query_args[] = $root.$item;
 				} else {
 					$where .= " AND item_source = ?";
+					$column = 'item_source';
 					$query_args[] = $item;
 				}
 			} else {
