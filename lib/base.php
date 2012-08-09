@@ -398,9 +398,8 @@ class OC{
 			header('location: '.OC_Helper::linkToRemote('webdav'));
 			return true;
 		}
-		if(!OC_User::isLoggedIn() && substr(OC::$REQUESTEDFILE,-3) == 'css') {
-			OC_App::loadApps();
-			self::loadfile();
+		if(substr(OC::$REQUESTEDFILE,-3) == 'css') {
+			self::loadCSSFile();
 			return true;
 		}
 		// Someone is logged in :
@@ -436,14 +435,7 @@ class OC{
 		$app_path = OC_App::getAppPath($app);
 		if (file_exists($app_path . '/' . $file)) {
 			$file_ext = substr($file, -3);
-			if ($file_ext == 'css') {
-				$app_web_path = OC_App::getAppWebPath($app);
-				$filepath = $app_web_path . '/' . $file;
-				$minimizer = new OC_Minimizer_CSS();
-				$info = array($app_path, $app_web_path, $file);
-				$minimizer->output(array($info), $filepath);
-				exit;
-			} elseif($file_ext == 'php') {
+			if ($file_ext == 'php') {
 				$file = $app_path . '/' . $file;
 				unset($app, $app_path, $app_web_path, $file_ext);
 				require_once($file);
@@ -453,6 +445,19 @@ class OC{
 			die();
 			header('HTTP/1.0 404 Not Found');
 			exit;
+		}
+	}
+
+	protected static function loadCSSFile() {
+		$app = OC::$REQUESTEDAPP;
+		$file = OC::$REQUESTEDFILE;
+		$app_path = OC_App::getAppPath($app);
+		if (file_exists($app_path . '/' . $file)) {
+			$app_web_path = OC_App::getAppWebPath($app);
+			$filepath = $app_web_path . '/' . $file;
+			$minimizer = new OC_Minimizer_CSS();
+			$info = array($app_path, $app_web_path, $file);
+			$minimizer->output(array($info), $filepath);
 		}
 	}
 
