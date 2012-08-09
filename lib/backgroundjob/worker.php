@@ -36,16 +36,25 @@ class OC_BackgroundJob_Worker{
 	 */
 	public static function doAllSteps(){
 		// Do our regular work
+		$lasttask = OC_Appconfig::getValue( 'core', 'backgroundjobs_task', '' );
+
 		$regular_tasks = OC_BackgroundJob_RegularTask::all();
+		ksort( $regular_tasks );
 		foreach( $regular_tasks as $key => $value ){
-			call_user_func( $value );
+			if( strcmp( $key, $lasttask ) > 0 ){
+				// Set "restart here" config value
+				OC_Appconfig::setValue( 'core', 'backgroundjobs_task', $key );
+				call_user_func( $value );
+			}
 		}
+		// Reset "start here" config value
+		OC_Appconfig::setValue( 'core', 'backgroundjobs_task', '' );
 
 		// Do our queued tasks
 		$queued_tasks = OC_BackgroundJob_QueuedTask::all();
 		foreach( $queued_tasks as $task ){
-			call_user_func( array( $task['klass'], $task['method'] ), $task['parameters'] );
 			OC_BackgroundJob_QueuedTask::delete( $task['id'] );
+			call_user_func( array( $task['klass'], $task['method'] ), $task['parameters'] );
 		}
 		
 		return true;
