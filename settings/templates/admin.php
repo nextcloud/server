@@ -24,6 +24,19 @@ if(!$_['htaccessworking']) {
 <?php foreach($_['forms'] as $form){
 	echo $form;
 };?>
+
+<fieldset class="personalblock" id="backgroundjobs">
+	<legend><strong><?php echo $l->t('Cron');?></strong></legend>
+	<input type="radio" name="mode" value="none" id="backgroundjobs_none">
+	<label for="backgroundjobs_none">None</label><br />
+	<input type="radio" name="mode" value="ajax" id="backgroundjobs_ajax">
+	<label for="backgroundjobs_ajax">AJAX</label><br />
+	<input type="radio" name="mode" value="webcron" id="backgroundjobs_webcron">
+	<label for="backgroundjobs_webcron">Webcron</label><br />
+	<input type="radio" name="mode" value="cron" id="backgroundjobs_cron">
+	<label for="backgroundjobs_cron">Cron</label><br />
+</fieldset>
+
 <fieldset class="personalblock">
 	<legend><strong><?php echo $l->t('Log');?></strong></legend>
 	Log level: <select name='loglevel' id='loglevel'>
