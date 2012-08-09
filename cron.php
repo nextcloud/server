@@ -39,9 +39,11 @@ function handleUnexpectedShutdown() {
 $RUNTIME_NOSETUPFS = true;
 require_once('lib/base.php');
 
+// Handle unexpected errors
+register_shutdown_function('handleUnexpectedShutdown');
+
 $appmode = OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' );
 if( OC::$CLI ){
-	register_shutdown_function('handleCliShutdown');
 	if( $appmode != 'cron' ){
 		OC_Appconfig::setValue( 'core', 'backgroundjobs_mode', 'cron' );
 	}
@@ -58,7 +60,6 @@ if( OC::$CLI ){
 	OC_BackgroundJob_Worker::doAllSteps();
 }
 else{
-	register_shutdown_function('handleWebShutdown');
 	if( $appmode == 'cron' ){
 		OC_JSON::error( array( 'data' => array( 'message' => 'Backgroundjobs are using system cron!')));
 	}
