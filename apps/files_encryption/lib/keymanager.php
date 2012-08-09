@@ -228,7 +228,6 @@ class Keymanager {
 				if ( ($key = Crypt::symmetricEncryptFileContent($key, $newpasswd)) ) {
 					Keymanager::setPrivateKey($key);
 					return true;
-				
 				}
 			}
 		}
