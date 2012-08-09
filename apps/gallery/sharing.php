@@ -37,7 +37,7 @@ OCP\App::checkAppEnabled('gallery');
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="js/sharing.js" type="text/javascript"></script>
     <script>
-      var TOKEN = '<?php echo $_GET['token']; ?>';
+      var TOKEN = '<?php htmlentities(echo $_GET['token']); ?>';
     </script>
   </head>
   <body>
