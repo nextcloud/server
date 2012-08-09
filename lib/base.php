@@ -257,7 +257,7 @@ class OC{
 		session_start();
 	}
 
-	public static function loadapp() {
+	protected static function loadapp() {
 		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php')) {
 			require_once(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php');
 		}
@@ -266,7 +266,7 @@ class OC{
 		}
 	}
 
-	public static function loadfile() {
+	protected static function loadfile() {
 		$app = OC::$REQUESTEDAPP;
 		$file = OC::$REQUESTEDFILE;
 		$app_path = OC_App::getAppPath($app);
@@ -435,7 +435,7 @@ class OC{
 		}
 		if(!OC_User::isLoggedIn() && substr(OC::$REQUESTEDFILE,-3) == 'css') {
 			OC_App::loadApps();
-			OC::loadfile();
+			self::loadfile();
 			return true;
 		}
 		// Someone is logged in :
@@ -446,9 +446,9 @@ class OC{
 				header("Location: ".OC::$WEBROOT.'/');
 			}else{
 				if(is_null(OC::$REQUESTEDFILE)) {
-					OC::loadapp();
+					self::loadapp();
 				}else{
-					OC::loadfile();
+					self::loadfile();
 				}
 			}
 			return true;
