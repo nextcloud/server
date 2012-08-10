@@ -421,6 +421,15 @@ class OC{
 			header('location: '.OC_Helper::linkToRemote('webdav'));
 			return;
 		}
+		try {
+			OC::getRouter()->match(OC_Request::getPathInfo());
+			return;
+		} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
+			//header('HTTP/1.0 404 Not Found');
+		} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
+			OC_Response::setStatus(405);
+			return;
+		}
 		// Handle app css files
 		if(substr(OC::$REQUESTEDFILE,-3) == 'css') {
 			self::loadCSSFile();
