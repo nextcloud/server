@@ -63,7 +63,7 @@ class Hooks {
 	 * @brief update the encryption key of the file uploaded by the client
 	 */
 	public static function updateKeyfile( $params ) {
-		if (Crypt::mode(\OCP\User::getUser()) == 'client')
+		if (Crypt::mode() == 'client')
 			if (isset($params['properties']['key'])) {
 				Keymanager::setFileKey($params['path'], $params['properties']['key']);
 			} else {

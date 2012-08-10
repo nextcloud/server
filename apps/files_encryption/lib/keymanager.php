@@ -38,9 +38,8 @@ class Keymanager {
 	
 		$user = \OCP\User::getUser();	
 		$view = new \OC_FilesystemView( '/' . $user . '/' . 'files_encryption' );
-		$result = $view->file_get_contents( '/' . $user.'.private.key' );
-				
-		return $result;
+		return $view->file_get_contents( '/' . $user.'.private.key' );
+		
 	}
 	
 	/**
@@ -110,9 +109,8 @@ class Keymanager {
 		}
 		
 		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/keyfiles/');
-		$result = $view->file_get_contents($keypath.'.key');
-			
-		return $result;
+		return $view->file_get_contents($keypath.'.key');
+		
 	}	
 	
 	/**
@@ -126,9 +124,8 @@ class Keymanager {
 		$user = \OCP\User::getUser();
 		$view = new \OC_FilesystemView('/'.$user.'/files_encryption');
 		if (!$view->file_exists('')) $view->mkdir('');
-		$result = $view->file_put_contents($user.'.private.key', $key);
+		return $view->file_put_contents($user.'.private.key', $key);
 		
-		return $result;
 	}
 	
 	
@@ -142,9 +139,8 @@ class Keymanager {
 		
 		$view = new \OC_FilesystemView('/public-keys');
 		if (!$view->file_exists('')) $view->mkdir('');
-		$result = $view->file_put_contents(\OCP\User::getUser().'.public.key', $key);
+		return $view->file_put_contents(\OCP\User::getUser().'.public.key', $key);
 		
-		return $result;
 	}
 	
 	/**
@@ -186,9 +182,8 @@ class Keymanager {
 		
 		if ( !$view->file_exists( $path_parts['dirname'] ) ) $view->mkdir( $path_parts['dirname'] );
 		
-		$result = $view->file_put_contents( '/' . $targetpath . '.key', $key );
+		return $view->file_put_contents( '/' . $targetpath . '.key', $key );
 		
-		return $result;
 	}
 	
 	/**
@@ -199,6 +194,7 @@ class Keymanager {
 	 * @return bool true/false
 	 */
 	public static function changePasswd($oldpasswd, $newpasswd) {
+		
 		if ( \OCP\User::checkPassword(\OCP\User::getUser(), $newpasswd) ) {
 			$key = Keymanager::getPrivateKey();
 			if ( ($key = Crypt::symmetricDecryptFileContent($key,$oldpasswd)) ) {
@@ -209,6 +205,7 @@ class Keymanager {
 			}
 		}
 		return false;
+		
 	}
 	
 }

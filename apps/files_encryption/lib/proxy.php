@@ -40,7 +40,7 @@ class Proxy extends \OC_FileProxy {
 	 * @param string $path
 	 * @return bool
 	 *
-	 * Tests if encryption is enabled, and file is allowed by blacklists
+	 * Tests if server side encryption is enabled, and file is allowed by blacklists
 	 */
 	private static function shouldEncrypt( $path ) {
 	
@@ -130,7 +130,7 @@ class Proxy extends \OC_FileProxy {
 	
 	public function postFile_get_contents( $path, $data ) {
 	
-		if ( Crypt::isEncryptedContent( $data ) ) {
+		if ( Crypt::mode() == 'server' && Crypt::isEncryptedContent( $data ) ) {
 		
 			$filePath = explode( '/', $path );
 			
@@ -164,7 +164,7 @@ class Proxy extends \OC_FileProxy {
 		$meta = stream_get_meta_data( $result );
 		
 		// If file is encrypted, decrypt using crypto protocol
-		if ( Crypt::isEncryptedContent( $path ) ) {
+		if ( Crypt::mode() == 'server' && Crypt::isEncryptedContent( $path ) ) {
 		
 			fclose ( $result );
 			
@@ -208,14 +208,14 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	public function postGetMimeType($path,$mime){
-		if(Crypt::isEncryptedContent($path)){
+		if( Crypt::isEncryptedContent($path)){
 			$mime = \OCP\Files::getMimeType('crypt://'.$path,'w');
 		}
 		return $mime;
 	}
 
 	public function postStat($path,$data){
-		if(Crypt::isEncryptedContent($path)){
+		if( Crypt::isEncryptedContent($path)){
 			$cached=  \OC_FileCache_Cached::get($path,'');
 			$data['size']=$cached['size'];
 		}
@@ -223,7 +223,7 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	public function postFileSize($path,$size){
-		if(Crypt::isEncryptedContent($path)){
+		if( Crypt::isEncryptedContent($path)){
 			$cached = \OC_FileCache_Cached::get($path,'');
 			return  $cached['size'];
 		}else{
