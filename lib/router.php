@@ -10,19 +10,21 @@ use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 //use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class OC_Router {
 	protected $collections = array();
 	protected $collection = null;
 	protected $root = null;
 
+	public function __construct() {
+		// TODO cache
+		$this->root = $this->getCollection('root');
+	}
+
 	/**
 	 * loads the api routes
 	 */
 	public function loadRoutes() {
-		// TODO cache
-		$this->root = $this->getCollection('root');
 		foreach(OC_APP::getEnabledApps() as $app){
 			$file = OC_App::getAppPath($app).'/appinfo/routes.php';
 			if(file_exists($file)){

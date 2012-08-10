@@ -23,6 +23,9 @@
 *
 */
 
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+
 /**
  * Class to handle open collaboration services API requests
  *
@@ -93,7 +96,7 @@ class OC_OCS {
 		$format = self::readData($method, 'format', 'text', '');
 
 		$router = new OC_Router();
-		$router->useCollection('ocs');
+		$router->useCollection('root');
 		// CONFIG
 		$router->create('config', '/config.{format}')
 			->defaults(array('format' => $format))
@@ -247,6 +250,8 @@ class OC_OCS {
 			$txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 			$txt.=OC_OCS::getdebugoutput();
 			echo(OC_OCS::generatexml($format,'failed',999,$txt));
+		} catch (MethodNotAllowedException $e) {
+			OC_Response::setStatus(405);
 		}
 		exit();
 	}

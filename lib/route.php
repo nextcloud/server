@@ -50,7 +50,9 @@ class OC_Route extends Route {
 		if (isset($requirements['_method'])) {
 			$method = $requirements['_method'];
 		}
-		$this->method($method);
+		if ($method) {
+			$this->method($method);
+		}
 		return $this;
 	}
 
