@@ -54,7 +54,11 @@ class OC_Router {
 	}
 
     	public function match($url) {
-		$context = new RequestContext($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+		$baseUrl = OC_Helper::linkTo('', 'index.php');
+		$method = $_SERVER['REQUEST_METHOD'];
+		$host = OC_Request::serverHost();
+		$schema = OC_Request::serverProtocol();
+		$context = new RequestContext($baseUrl, $method, $host, $schema);
 		$matcher = new UrlMatcher($this->root, $context);
 		$parameters = $matcher->match($url);
 		if (isset($parameters['action'])) {
