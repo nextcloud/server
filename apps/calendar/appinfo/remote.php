@@ -30,6 +30,9 @@ $nodes = array(
 $server = new Sabre_DAV_Server($nodes);
 $server->setBaseUri($baseuri);
 // Add plugins
+$aclPlugin = new Sabre_DAVACL_Plugin();
+$aclPlugin->hideNodesFromListings = true;
+$server->addPlugin($aclPlugin);
 $server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud'));
 $server->addPlugin(new Sabre_CalDAV_Plugin());
 $server->addPlugin(new Sabre_DAVACL_Plugin());
