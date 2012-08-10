@@ -36,19 +36,16 @@ $principalBackend = new OC_Connector_Sabre_Principal();
 $carddavBackend   = new OC_Connector_Sabre_CardDAV();
 
 // Root nodes
-$nodes = array(
-	new Sabre_CalDAV_Principal_Collection($principalBackend),
+$collection = new Sabre_CalDAV_Principal_Collection($principalBackend); $collection->disableListing = true; // Disable listening
+$nodes = array( 
+	$collection, 
 	new Sabre_CardDAV_AddressBookRoot($principalBackend, $carddavBackend),
-);
+	);
 
 // Fire up server
-
 $server = new Sabre_DAV_Server($nodes);
 $server->setBaseUri($baseuri);
 // Add plugins
-$aclPlugin = new Sabre_DAVACL_Plugin();
-$aclPlugin->hideNodesFromListings = true;
-$server->addPlugin($aclPlugin);
 $server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend, 'ownCloud'));
 $server->addPlugin(new Sabre_CardDAV_Plugin());
 $server->addPlugin(new Sabre_DAVACL_Plugin());
