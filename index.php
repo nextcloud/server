@@ -42,7 +42,5 @@ if (!OC::handleRequest()) {
 	} elseif(OC::tryBasicAuthLogin()) {
 		$error = true;
 	}
-	if(!array_key_exists('sectoken', $_SESSION) || (array_key_exists('sectoken', $_SESSION) && is_null(OC::$REQUESTEDFILE)) || substr(OC::$REQUESTEDFILE, -3) == 'php'){
-		OC_Util::displayLoginPage($error);
-	}
+	OC_Util::displayLoginPage($error);
 }
