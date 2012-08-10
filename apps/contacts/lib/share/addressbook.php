@@ -8,6 +8,7 @@
 
 class OC_Share_Backend_Addressbook implements OCP\Share_Backend_Collection {
 	const FORMAT_ADDRESSBOOKS = 1;
+
 	/**
 	* @brief Get the source of the item to be stored in the database
 	* @param string Item
@@ -19,9 +20,9 @@ class OC_Share_Backend_Addressbook implements OCP\Share_Backend_Collection {
 	*
 	* The formatItems() function will translate the source returned back into the item
 	*/
-	public function isValidSource($item, $uid) {
-		$addressbook = OC_Contacts_Addressbook::find( $item );
-		if( $addressbook === false || $addressbook['userid'] != $uid) {
+	public function isValidSource($itemSource, $uidOwner) {
+		$addressbook = OC_Contacts_Addressbook::find( $itemSource );
+		if( $addressbook === false || $addressbook['userid'] != $uidOwner) {
 			return false;
 		}
 		return true;
@@ -37,8 +38,8 @@ class OC_Share_Backend_Addressbook implements OCP\Share_Backend_Collection {
 	* This function needs to verify that the user does not already have an item with this name.
 	* If it does generate a new name e.g. name_#
 	*/
-	public function generateTarget($item, $uid, $exclude = null) {
-		$addressbook = OC_Contacts_Addressbook::find( $item );
+	public function generateTarget($itemSource, $shareWith, $exclude = null) {
+		$addressbook = OC_Contacts_Addressbook::find( $itemSource );
 		$user_addressbooks = array();
 		foreach(OC_Contacts_Addressbook::all($uid) as $user_addressbook) {
 			$user_addressbooks[] = $user_addressbook['displayname'];
@@ -77,9 +78,9 @@ class OC_Share_Backend_Addressbook implements OCP\Share_Backend_Collection {
 		return $addressbooks;
 	}
 
-	public function getChildren($item) {
+	public function getChildren($itemSource) {
 		$query = OCP\DB::prepare('SELECT id FROM *PREFIX*contacts_cards WHERE addressbookid = ?');
-		$result = $query->execute(array($item));
+		$result = $query->execute(array($itemSource));
 		$sources = array();
 		while ($contact = $result->fetchRow()) {
 			$sources[] = $contact['id'];
