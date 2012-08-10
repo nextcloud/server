@@ -1,4 +1,8 @@
 <?php
+if (!OCP\App::isEnabled("user_webfinger")) {
+	return;
+}
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/xrd+json");
 
@@ -15,7 +19,7 @@ header("Content-Type: application/xrd+json");
  * 	href="<?php echo WF_BASEURL; ?>/apps/myApp/profile.php?user=<?php echo WF_USER; ?>">
  * </Link>
  *
- '* but can also use complex database queries to generate the webfinger result
+ * but can also use complex database queries to generate the webfinger result
  **/
 // calculate the documentroot
 // modified version of the one in lib/base.php that takes the .well-known symlink into account

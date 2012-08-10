@@ -1,4 +1,8 @@
 <?php
+if (!OCP\App::isEnabled("user_webfinger")) {
+	return;
+}
+
 $hostMetaHeader = array(
 	'Access-Control-Allow-Origin' => '*',
 	'Content-Type' => 'application/xrd+json'
