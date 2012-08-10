@@ -1,11 +1,7 @@
 $(document).ready(function(){
 	$('#timezone').change( function(){
-		OC.msg.startSaving('#calendar .msg')
-		// Serialize the data
 		var post = $( '#timezone' ).serialize();
-		$.post( OC.filePath('calendar', 'ajax/settings', 'settimezone.php'), post, function(data){
-			//OC.msg.finishedSaving('#calendar .msg', data);
-		});
+		$.post( OC.filePath('calendar', 'ajax/settings', 'settimezone.php'), post, function(data){return;});
 		return false;
 	});
 	$('#timezone').chosen();
@@ -52,6 +48,7 @@ $(document).ready(function(){
 		});
 	});
 	calendarcachecheck();
+	
 });
 function calendarcachecheck(){
 	$.getJSON(OC.filePath('calendar', 'ajax/cache', 'status.php'), function(jsondata, status) {

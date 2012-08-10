@@ -46,7 +46,7 @@ class Sabre_HTTP_BasicAuth extends Sabre_HTTP_AbstractAuth {
 
         if (strpos(strtolower($auth),'basic')!==0) return false;
 
-        return explode(':', base64_decode(substr($auth, 6)));
+        return explode(':', base64_decode(substr($auth, 6)),2);
 
     }
 

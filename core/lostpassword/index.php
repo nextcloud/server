@@ -19,7 +19,7 @@ if (isset($_POST['user'])) {
 		if (!empty($email) and isset($_POST['sectoken']) and isset($_SESSION['sectoken']) and ($_POST['sectoken']==$_SESSION['sectoken']) ) {
 			$link = OC_Helper::linkToAbsolute('core/lostpassword', 'resetpassword.php').'?user='.urlencode($_POST['user']).'&token='.$token;
 			$tmpl = new OC_Template('core/lostpassword', 'email');
-			$tmpl->assign('link', $link);
+			$tmpl->assign('link', $link, false);
 			$msg = $tmpl->fetchPage();
 			$l = OC_L10N::get('core');
 			$from = 'lostpassword-noreply@' . OCP\Util::getServerHost();

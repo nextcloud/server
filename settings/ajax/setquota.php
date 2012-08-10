@@ -8,10 +8,16 @@
 // Init owncloud
 require_once('../../lib/base.php');
 
-OC_JSON::checkAdminUser();
+OC_JSON::checkSubAdminUser();
 OCP\JSON::callCheck();
 
 $username = isset($_POST["username"])?$_POST["username"]:'';
+
+if(($username == '' && !OC_Group::inGroup(OC_User::getUser(), 'admin')) || (!OC_Group::inGroup(OC_User::getUser(), 'admin') && !OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username))){
+	$l = OC_L10N::get('core');
+	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
+	exit();
+}
 
 //make sure the quota is in the expected format
 $quota=$_POST["quota"];

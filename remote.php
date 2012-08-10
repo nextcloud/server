@@ -1,12 +1,7 @@
 <?php
-$RUNTIME_NOSETUPFS = true;
 $RUNTIME_NOAPPS = TRUE;
 require_once('lib/base.php');
-if (array_key_exists('PATH_INFO', $_SERVER)){
-	$path_info = $_SERVER['PATH_INFO'];
-}else{
-	$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
-}
+$path_info = OC_Request::getPathInfo();
 if ($path_info === false) {
 	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
 	exit;
@@ -34,7 +29,7 @@ switch ($app) {
 	default:
 		OC_Util::checkAppEnabled($app);
 		OC_App::loadApp($app);
-		$file = OC_App::getAppPath($app) .'/'. $parts[1];
+		$file = '/' . OC_App::getAppPath($app) .'/'. $parts[1];
 		break;
 }
 $baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';

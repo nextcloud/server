@@ -160,6 +160,7 @@ FileActions.register('all','Delete',function(){return OC.imagePath('core','actio
 	}else{
 		FileList.do_delete(filename);
 	}
+	$('.tipsy').remove();
 });
 
 FileActions.register('all','Rename',function(){return OC.imagePath('core','actions/rename')},function(filename){

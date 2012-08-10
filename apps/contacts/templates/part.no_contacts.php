@@ -1,3 +1,4 @@
+<div id="appsettings" class="popup bottomleft hidden"></div>
 <div id="firstrun">
 	<?php echo $l->t('You have no contacts in your addressbook.') ?>
 	<div id="selections">

@@ -5,87 +5,104 @@
 # Translators:
 #   <adn.adin@gmail.com>, 2011.
 # Stefan Ilivanov <ilivanov@gmail.com>, 2011.
+# Yasen Pramatarov <yasen@lindeas.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Bulgarian (Bulgaria) (http://www.transifex.net/projects/p/owncloud/language/bg_BG/)\n"
+"POT-Creation-Date: 2012-08-05 19:00+0200\n"
+"PO-Revision-Date: 2012-08-05 17:01+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: bg_BG\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr ""
+
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "Е-пощата е записана"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Неправилна е-поща"
 
-#: ajax/openid.php:15
+#: ajax/openid.php:16
 msgid "OpenID Changed"
 msgstr "OpenID е сменено"
 
-#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
 msgstr "Невалидна заявка"
 
-#: ajax/setlanguage.php:17
+#: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr ""
+
+#: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Езика е сменен"
 
-#: js/apps.js:31 js/apps.js:67
-msgid "Disable"
+#: js/apps.js:18
+msgid "Error"
 msgstr ""
 
-#: js/apps.js:31 js/apps.js:54
+#: js/apps.js:39 js/apps.js:73
+msgid "Disable"
+msgstr "Изключване"
+
+#: js/apps.js:39 js/apps.js:62
 msgid "Enable"
-msgstr ""
+msgstr "Включване"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Записване..."
 
-#: personal.php:40 personal.php:41
+#: personal.php:46 personal.php:47
 msgid "__language_name__"
 msgstr ""
 
-#: templates/admin.php:13
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr ""
+
+#: templates/admin.php:28
 msgid "Log"
 msgstr ""
 
-#: templates/admin.php:40
+#: templates/admin.php:56
 msgid "More"
 msgstr ""
 
-#: templates/apps.php:8
+#: templates/apps.php:10
 msgid "Add your App"
 msgstr ""
 
-#: templates/apps.php:22
+#: templates/apps.php:26
 msgid "Select an App"
 msgstr "Изберете програма"
 
-#: templates/apps.php:25
+#: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
 msgstr ""
 
-#: templates/apps.php:26
+#: templates/apps.php:30
 msgid "-licensed"
 msgstr "-лицензирано"
 
-#: templates/apps.php:26
+#: templates/apps.php:30
 msgid "by"
 msgstr "от"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Документация"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
@@ -121,7 +138,7 @@ msgstr ""
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Изтегляне"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
@@ -149,15 +166,15 @@ msgstr "Промяна на парола"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr ""
+msgstr "Е-поща"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr ""
+msgstr "Адресът на е-пощата ви"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Въведете е-поща за възстановяване на паролата"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
@@ -165,40 +182,44 @@ msgstr "Език"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr ""
+msgstr "Помощ за превода"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "ползвай този адрес за връзка с Вашия ownCloud във файловия мениджър"
 
-#: templates/users.php:15 templates/users.php:44
+#: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "Име"
 
-#: templates/users.php:16 templates/users.php:45
+#: templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Парола"
 
-#: templates/users.php:17 templates/users.php:46 templates/users.php:60
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
 msgstr "Групи"
 
-#: templates/users.php:22
+#: templates/users.php:32
 msgid "Create"
 msgstr "Ново"
 
-#: templates/users.php:25
+#: templates/users.php:35
 msgid "Default Quota"
-msgstr ""
+msgstr "Квота по подразбиране"
 
-#: templates/users.php:35 templates/users.php:74
+#: templates/users.php:55 templates/users.php:138
 msgid "Other"
 msgstr ""
 
-#: templates/users.php:47
-msgid "Quota"
+#: templates/users.php:80 templates/users.php:112
+msgid "SubAdmin"
 msgstr ""
 
-#: templates/users.php:80
+#: templates/users.php:82
+msgid "Quota"
+msgstr "Квота"
+
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Изтриване"

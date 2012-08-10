@@ -27,7 +27,7 @@ UserList={
 		$('tr').filterAttr( 'data-uid', UserList.deleteUid ).hide();
 		
 		// Provide user with option to undo
-		$('#notification').text(t('files','undo delete user'));
+		$('#notification').html(t('users', 'deleted')+' '+uid+'<span class="undo">'+t('users', 'undo')+'</span>');
 		$('#notification').data('deleteuser',true);
 		$('#notification').fadeIn();
 			
@@ -85,16 +85,62 @@ $(document).ready(function(){
 	function applyMultiplySelect(element){
 		var checked=[];
 		var user=element.data('username');
-		if(element.data('userGroups')){
-			checked=element.data('userGroups').split(', ');
+		if($(element).attr('class') == 'groupsselect'){		
+			if(element.data('userGroups')){
+				checked=String(element.data('userGroups')).split(', ');
+			}
+			if(user){
+				var checkHandeler=function(group){
+					if(user==OC.currentUser && group=='admin'){
+						return false;
+					}
+					if(!isadmin && checked.length == 1 && checked[0] == group){
+						return false;
+					}
+					$.post(
+						OC.filePath('settings','ajax','togglegroups.php'),
+						{
+							username:user,
+							group:group
+						},
+						function(){}
+					);
+				};
+			}else{
+				checkHandeler=false;
+			}
+			var addGroup = function(group) {
+				$('select[multiple]').each(function(index, element) {
+					if ($(element).find('option[value="'+group +'"]').length == 0) {
+						$(element).append('<option value="'+group+'">'+group+'</option>');
+					}
+				})
+			};
+			var label;
+			if(isadmin){
+				label = t('files', 'add group');
+			}else{
+				label = null;
+			}
+			element.multiSelect({
+				createCallback:addGroup,
+				createText:label,
+				checked:checked,
+				oncheck:checkHandeler,
+				onuncheck:checkHandeler,
+				minWidth: 100,
+			});
 		}
-		if(user){
+		if($(element).attr('class') == 'subadminsselect'){	
+			if(element.data('subadmin')){
+				checked=element.data('subadmin').split(', ');
+			}
 			var checkHandeler=function(group){
-				if(user==OC.currentUser && group=='admin'){
+				if(group=='admin'){
 					return false;
 				}
 				$.post(
-					OC.filePath('settings','ajax','togglegroups.php'),
+					OC.filePath('settings','ajax','togglesubadmins.php'),
 					{
 						username:user,
 						group:group
@@ -102,30 +148,29 @@ $(document).ready(function(){
 					function(){}
 				);
 			};
-		}else{
-			checkHandeler=false;
+			
+			var addSubAdmin = function(group) {
+				$('select[multiple]').each(function(index, element) {
+					if ($(element).find('option[value="'+group +'"]').length == 0) {
+						$(element).append('<option value="'+group+'">'+group+'</option>');
+					}
+				})
+			};
+			element.multiSelect({
+				createCallback:addSubAdmin,
+				createText:null,
+				checked:checked,
+				oncheck:checkHandeler,
+				onuncheck:checkHandeler,
+				minWidth: 100,
+			});
 		}
-		var addGroup = function(group) {
-			$('select[multiple]').each(function(index, element) {
-				if ($(element).find('option[value="'+group +'"]').length == 0) {
-					$(element).append('<option value="'+group+'">'+group+'</option>');
-				}
-			})
-		};
-		element.multiSelect({
-			createCallback:addGroup,
-			createText:'add group',
-			checked:checked,
-			oncheck:checkHandeler,
-			onuncheck:checkHandeler,
-			minWidth: 100,
-		});
 	}
 	$('select[multiple]').each(function(index,element){
 		applyMultiplySelect($(element));
 	});
 	
-	$('td.remove>img').live('click',function(event){
+	$('td.remove>a').live('click',function(event){
 		
 		var uid = $(this).parent().parent().data('uid');
 		
@@ -254,13 +299,18 @@ $(document).ready(function(){
 					OC.dialogs.alert(result.data.message, 'Error creating user');
 				}
 				else {
+					groups = result.data.groups;
 					var tr=$('#content table tbody tr').first().clone();
 					tr.attr('data-uid',username);
 					tr.find('td.name').text(username);
-					var select=$('<select multiple="multiple" data-placehoder="Groups" title="Groups">');
+					var select=$('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="Groups">');
+					var subadminselect=$('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('files', 'SubAdmin') + '">');
 					select.data('username',username);
-					select.data('userGroups',groups.join(', '));
+					select.data('userGroups',groups);
+					subadminselect.data('username',username);
+					subadminselect.data('userGroups',groups);
 					tr.find('td.groups').empty();
+					tr.find('td.subadmins').empty();
 					var allGroups=$('#content table').data('groups').split(', ');
 					for(var i=0;i<groups.length;i++){
 						if(allGroups.indexOf(groups[i])==-1){
@@ -269,12 +319,18 @@ $(document).ready(function(){
 					}
 					$.each(allGroups,function(i,group){
 						select.append($('<option value="'+group+'">'+group+'</option>'));
+						if(group != 'admin'){
+							subadminselect.append($('<option value="'+group+'">'+group+'</option>'));
+						}
 					});
 					tr.find('td.groups').append(select);
+					tr.find('td.subadmins').append(subadminselect);
 					if(tr.find('td.remove img').length==0){
 						tr.find('td.remove').append($('<img alt="Delete" title="'+t('settings','Delete')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
 					}
 					applyMultiplySelect(select);
+					applyMultiplySelect(subadminselect);
+					
 					$('#content table tbody').last().append(tr);
 
 					tr.find('select.quota-user option').attr('selected',null);
@@ -286,7 +342,7 @@ $(document).ready(function(){
 	});
 	// Handle undo notifications
 	$('#notification').hide();
-	$('#notification').click(function(){
+	$('#notification .undo').live('click', function() {
 		if($('#notification').data('deleteuser'))
 		{
 			$( 'tr' ).filterAttr( 'data-uid', UserList.deleteUid ).show();

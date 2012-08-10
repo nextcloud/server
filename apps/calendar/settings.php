@@ -14,4 +14,4 @@ $tmpl->assign('calendars', OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(
 
 OCP\Util::addscript('calendar','settings');
 
-return $tmpl->fetchPage();
+$tmpl->printPage();

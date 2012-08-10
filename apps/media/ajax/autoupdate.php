@@ -23,11 +23,6 @@
 
 header('Content-type: text/html; charset=UTF-8') ;
 
-//no apps or filesystem
-$RUNTIME_NOAPPS=true;
-$RUNTIME_NOSETUPFS=true;
-
- 
 OCP\JSON::checkAppEnabled('media');
 
 $autoUpdate=(isset($_GET['autoupdate']) and $_GET['autoupdate']=='true');

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Settings" => "Налаштування",
 "You will receive a link to reset your password via Email." => "Ви отримаєте посилання для скидання вашого паролю на e-mail.",
 "Username" => "Ім'я користувача",
 "Your password was reset" => "Ваш пароль був скинутий",
@@ -18,7 +19,6 @@
 "Finish setup" => "Завершити налаштування",
 "web services under your control" => "веб-сервіс під вашим контролем",
 "Log out" => "Вихід",
-"Settings" => "Налаштування",
 "Lost your password?" => "Забули пароль?",
 "remember" => "запам'ятати",
 "Log in" => "Вхід"

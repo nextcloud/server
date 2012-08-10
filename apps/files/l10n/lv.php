@@ -1,0 +1,21 @@
+<?php $TRANSLATIONS = array(
+"Files" => "Faili",
+"Unshare" => "Pārtraukt līdzdalīšanu",
+"Delete" => "Izdzēst",
+"Upload Error" => "Augšuplādēšanas laikā radās kļūda",
+"Pending" => "Gaida savu kārtu",
+"Upload cancelled." => "Augšuplāde ir atcelta",
+"Invalid name, '/' is not allowed." => "Šis simbols '/', nav atļauts.",
+"Size" => "Izmērs",
+"Modified" => "Izmainīts",
+"folder" => "mape",
+"folders" => "mapes",
+"file" => "fails",
+"files" => "faili",
+"Maximum upload size" => "Maksimālais failu augšuplādes apjoms",
+"Upload" => "Augšuplādet",
+"Nothing in here. Upload something!" => "Te vēl nekas nav. Rīkojies, sāc augšuplādēt",
+"Name" => "Nosaukums",
+"Download" => "Lejuplādēt",
+"Upload too large" => "Fails ir par lielu lai to augšuplādetu"
+);

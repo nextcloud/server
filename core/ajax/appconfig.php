@@ -6,7 +6,9 @@
  */
 
 require_once ("../../lib/base.php");
-OC_JSON::checkLoggedIn();
+OC_Util::checkAdminUser();
+OCP\JSON::callCheck();
+
 $action=isset($_POST['action'])?$_POST['action']:$_GET['action'];
 $result=false;
 switch($action){

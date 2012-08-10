@@ -7,49 +7,50 @@
 #   <bartv@thisnet.nl>, 2011.
 # Erik Bent <hj.bent.60@gmail.com>, 2012.
 #   <icewind1991@gmail.com>, 2011.
+#   <jos@gelauff.net>, 2012.
 #   <koen@vervloesem.eu>, 2011.
 #   <pietje8501@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Dutch (http://www.transifex.net/projects/p/owncloud/language/nl/)\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
+"PO-Revision-Date: 2012-07-31 20:54+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
 msgstr "Geen fout opgetreden, bestand successvol geupload."
 
-#: ajax/upload.php:20
+#: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "Het geüploade bestand is groter dan de upload_max_filesize instelling in php.ini"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Het geüploade bestand is groter dan de MAX_FILE_SIZE richtlijn die is opgegeven in de HTML-formulier"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
 msgstr "Het bestand is slechts gedeeltelijk geupload"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid "No file was uploaded"
 msgstr "Geen bestand geüpload"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:25
 msgid "Missing a temporary folder"
 msgstr "Een tijdelijke map mist"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "Failed to write to disk"
 msgstr "Schrijven naar schijf mislukt"
 
@@ -57,57 +58,89 @@ msgstr "Schrijven naar schijf mislukt"
 msgid "Files"
 msgstr "Bestanden"
 
-#: js/filelist.js:186
-msgid "undo deletion"
+#: js/fileactions.js:95
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:97 templates/index.php:56
+msgid "Delete"
+msgstr "Verwijder"
+
+#: js/filelist.js:141
+msgid "already exists"
+msgstr ""
+
+#: js/filelist.js:141
+msgid "replace"
+msgstr ""
+
+#: js/filelist.js:141
+msgid "cancel"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "replaced"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "with"
+msgstr ""
+
+#: js/filelist.js:195 js/filelist.js:256
+msgid "undo"
+msgstr ""
+
+#: js/filelist.js:256
+msgid "deleted"
 msgstr ""
 
 #: js/files.js:170
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "aanmaken ZIP-file, dit kan enige tijd duren."
 
 #: js/files.js:199
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "uploaden van de file mislukt, het is of een directory of de bestandsgrootte is 0 bytes"
 
 #: js/files.js:199
 msgid "Upload Error"
-msgstr ""
+msgstr "Upload Fout"
 
 #: js/files.js:227 js/files.js:318 js/files.js:347
 msgid "Pending"
-msgstr ""
+msgstr "Wachten"
 
 #: js/files.js:332
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Uploaden geannuleerd."
 
 #: js/files.js:456
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Ongeldige naam, '/' is niet toegestaan."
 
-#: js/files.js:626 templates/index.php:55
+#: js/files.js:631 templates/index.php:55
 msgid "Size"
 msgstr "Bestandsgrootte"
 
-#: js/files.js:627 templates/index.php:56
+#: js/files.js:632 templates/index.php:56
 msgid "Modified"
 msgstr "Laatst aangepast"
 
-#: js/files.js:654
+#: js/files.js:659
 msgid "folder"
-msgstr ""
+msgstr "map"
 
-#: js/files.js:656
+#: js/files.js:661
 msgid "folders"
-msgstr ""
+msgstr "mappen"
 
-#: js/files.js:664
+#: js/files.js:669
 msgid "file"
-msgstr ""
+msgstr "bestand"
 
-#: js/files.js:666
+#: js/files.js:671
 msgid "files"
-msgstr ""
+msgstr "bestanden"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -176,10 +209,6 @@ msgstr "Delen"
 #: templates/index.php:51
 msgid "Download"
 msgstr "Download"
-
-#: templates/index.php:56
-msgid "Delete"
-msgstr "Verwijder"
 
 #: templates/index.php:64
 msgid "Upload too large"

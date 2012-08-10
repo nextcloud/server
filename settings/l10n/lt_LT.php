@@ -1,7 +1,11 @@
 <?php $TRANSLATIONS = array(
+"Invalid email" => "Netinkamas el. paštas",
 "OpenID Changed" => "OpenID pakeistas",
 "Invalid request" => "Klaidinga užklausa",
 "Language changed" => "Kalba pakeista",
+"Disable" => "Išjungti",
+"Enable" => "Įjungti",
+"Saving..." => "Saugoma..",
 "__language_name__" => "Kalba",
 "Log" => "Žurnalas",
 "More" => "Daugiau",

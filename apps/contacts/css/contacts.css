@@ -14,8 +14,8 @@
 #bottomcontrols { padding: 0; bottom:0px; height:2.8em; width: 20em; margin:0; background:#eee; border-top:1px solid #ccc; position:fixed; -moz-box-shadow: 0 -3px 3px -3px #000; -webkit-box-shadow: 0 -3px 3px -3px #000; box-shadow: 0 -3px 3px -3px #000;}
 #bottomcontrols img { margin-top: 0.35em; }
 #uploadprogressbar { display: none; padding: 0; bottom: 3em; height:2em; width: 20em; margin:0; background:#eee; border:1px solid #ccc; position:fixed; }
-#contacts_newcontact, #contacts_import, #chooseaddressbook { float: left; margin: 0.2em 0 0 1em; border: 0 none; border-radius: 0; -moz-box-shadow: none; box-shadow: none; outline: 0 none; }
-#chooseaddressbook { float: right; margin: 0.2em 1em 0 0; }
+#contacts_newcontact, #bottomcontrols .settings { float: left; margin: 0.2em 0 0 1em; border: 0 none; border-radius: 0; -moz-box-shadow: none; box-shadow: none; outline: 0 none; }
+#bottomcontrols .settings { float: right; margin: 0.2em 1em 0 0; }
 #actionbar { clear: both; height: 30px;}
 #contacts_deletecard {position:relative; float:left; background:url('%webroot%/core/img/actions/delete.svg') no-repeat center; }
 #contacts_downloadcard {position:relative; float:left; background:url('%webroot%/core/img/actions/download.svg') no-repeat center; }
@@ -125,7 +125,7 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .typelist[type="button"] { float: left; max-width: 10em; border: 0; background-color: #fff; color: #bbb} /* for multiselect */
 .typelist[type="button"]:hover { color: #777; } /* for multiselect */
 .addresslist { clear: both; font-weight: bold; }
-#ninjahelp { position: absolute; bottom: 0; left: 0; right: 0; padding: 1em; margin: 1em; border: thin solid #eee; border-radius: 5px; background-color: #DBDBDB; opacity: 0.9; }
+#ninjahelp { position: absolute; bottom: 0; left: 0; right: 0; padding: 1em; margin: 1em; opacity: 0.9; }
 #ninjahelp .close { position: absolute; top: 5px; right: 5px; height: 20px; width: 20px; }
 #ninjahelp h2, .help-section h3 { width: 100%; font-weight: bold; text-align: center; }
 #ninjahelp h2 { font-size: 1.4em; }
@@ -134,3 +134,13 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .help-section dl { width: 100%; float: left; clear: right; margin: 0; padding: 0; cursor: normal; }
 .help-section dt { display: table-cell; clear: left; float: left; width: 35%; margin: 0; padding: 0.2em; text-align: right; text-overflow: ellipsis; vertical-align: text-bottom; font-weight: bold: }
 .help-section dd { display: table-cell; clear: right; float: left; margin: 0; padding: 0.2em; white-space: nowrap; vertical-align: text-bottom; }
+.contacts-settings dl { width: 100%; }
+.addressbooks-settings table { width: 100%; }
+.addressbooks-settings .actions { width: 100%; white-space: nowrap; }
+.addressbooks-settings .actions * { float: left; }
+.addressbooks-settings .actions input.name { width: 5em; }
+.addressbooks-settings .actions input.name { width: 7em; }
+.addressbooks-settings a.action { opacity: 0.2; }
+.addressbooks-settings a.action:hover { opacity: 1; }
+.addressbooks-settings td.active, .addressbooks-settings td.action { width: 20px; }
+

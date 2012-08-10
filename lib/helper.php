@@ -65,52 +65,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Returns the server host
-	 * @returns the server host
-	 *
-	 * Returns the server host, even if the website uses one or more
-	 * reverse proxies
-	 */
-	public static function serverHost() {
-		if(OC::$CLI){
-			return 'localhost';
-		}
-		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-			if (strpos($_SERVER['HTTP_X_FORWARDED_HOST'], ",") !== false) {
-				$host = trim(array_pop(explode(",", $_SERVER['HTTP_X_FORWARDED_HOST'])));
-			}
-			else{
-				$host=$_SERVER['HTTP_X_FORWARDED_HOST'];
-			}
-		}
-		else{
-			$host = $_SERVER['HTTP_HOST'];
-		}
-		return $host;
-	}
-
-
-	/**
-	* @brief Returns the server protocol
-	* @returns the server protocol
-	*
-	* Returns the server protocol. It respects reverse proxy servers and load balancers
-	*/
-	public static function serverProtocol() {
-		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-			$proto = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);
-		}else{
-			if(isset($_SERVER['HTTPS']) and !empty($_SERVER['HTTPS']) and ($_SERVER['HTTPS']!='off')) {
-				$proto = 'https';
-			}else{
-				$proto = 'http';
-			}
-		}
-		return($proto);
-	}
-
-
-	/**
 	 * @brief Creates an absolute url
 	 * @param $app app
 	 * @param $file file
@@ -120,8 +74,19 @@ class OC_Helper {
 	 */
 	public static function linkToAbsolute( $app, $file ) {
 		$urlLinkTo = self::linkTo( $app, $file );
-		$urlLinkTo = self::serverProtocol(). '://'  . self::serverHost() . $urlLinkTo;
-		return $urlLinkTo;
+		return self::makeURLAbsolute($urlLinkTo);
+	}
+
+	/**
+	 * @brief Makes an $url absolute
+	 * @param $url the url
+	 * @returns the absolute url
+	 *
+	 * Returns a absolute url to the given app and file.
+	 */
+	public static function makeURLAbsolute( $url )
+	{
+		return OC_Request::serverProtocol(). '://'  . OC_Request::serverHost() . $url;
 	}
 
 	/**

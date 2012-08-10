@@ -36,3 +36,15 @@ file_filter = <lang>/gallery.po
 source_file = templates/gallery.pot
 source_lang = en
 
+[owncloud.bookmarks]
+file_filter = <lang>/bookmarks.po
+source_file = templates/bookmarks.pot
+source_lang = en
+type = PO
+
+[owncloud.lib]
+file_filter = <lang>/lib.po
+source_file = templates/lib.pot
+source_lang = en
+type = PO
+

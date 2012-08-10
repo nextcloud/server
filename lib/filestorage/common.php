@@ -195,7 +195,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		unlink($tmpFile);
 		return $mime;
 	}
-	public function hash($type,$path,$raw){
+	public function hash($type,$path,$raw = false){
 		$tmpFile=$this->getLocalFile();
 		$hash=hash($type,$tmpFile,$raw);
 		unlink($tmpFile);

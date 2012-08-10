@@ -204,12 +204,21 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
+	 * Creates a ETag for this path.
+	 * @param string $path Path of the file
+	 * @return string|null Returns null if the ETag can not effectively be determined
+	 */
+	static protected function createETag($path) {
+		return uniqid('', true);
+	}
+
+	/**
 	 * Returns the ETag surrounded by double-quotes for this path.
 	 * @param string $path Path of the file
 	 * @return string|null Returns null if the ETag can not effectively be determined
 	 */
-	static public function getETagPropertyForFile($path) {
-		$tag = OC_Filesystem::hash('md5', $path);
+	static public function getETagPropertyForPath($path) {
+		$tag = self::createETag($path);
 		if (empty($tag)) {
 			return null;
 		}
@@ -223,8 +232,24 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * Remove the ETag from the cache.
 	 * @param string $path Path of the file
 	 */
-	static public function removeETagPropertyForFile($path) {
-		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*properties WHERE userid = ? AND propertypath = ? AND propertyname = ?' );
-		$query->execute( array( OC_User::getUser(), $path, self::GETETAG_PROPERTYNAME ));
+	static public function removeETagPropertyForPath($path) {
+		// remove tags from this and parent paths
+		$paths = array();
+		while ($path != '/' && $path != '') {
+			$paths[] = $path;
+			$path = dirname($path);
+		}
+		if (empty($paths)) {
+			return;
+		}
+		$paths[] = $path;
+		$path_placeholders = join(',', array_fill(0, count($paths), '?'));
+		$query = OC_DB::prepare( 'DELETE FROM *PREFIX*properties'
+			.' WHERE userid = ?'
+			.' AND propertyname = ?'
+			.' AND propertypath IN ('.$path_placeholders.')'
+			);
+		$vals = array( OC_User::getUser(), self::GETETAG_PROPERTYNAME );
+		$query->execute(array_merge( $vals, $paths ));
 	}
 }

@@ -42,14 +42,15 @@ class Sabre_VObject_Component_VEvent extends Sabre_VObject_Component {
 
         $effectiveStart = $this->DTSTART->getDateTime();
         if (isset($this->DTEND)) {
+
+            // The DTEND property is considered non inclusive. So for a 3 day
+            // event in july, dtstart and dtend would have to be July 1st and
+            // July 4th respectively.
+            //
+            // See:
+            // http://tools.ietf.org/html/rfc5545#page-54
             $effectiveEnd = $this->DTEND->getDateTime();
-            // If this was an all-day event, we should just increase the
-            // end-date by 1. Otherwise the event will last until the second
-            // the date changed, by increasing this by 1 day the event lasts
-            // all of the last day as well.
-            if ($this->DTSTART->getDateType() == Sabre_VObject_Element_DateTime::DATE) {
-                $effectiveEnd->modify('+1 day');
-            }
+
         } elseif (isset($this->DURATION)) {
             $effectiveEnd = clone $effectiveStart;
             $effectiveEnd->add( Sabre_VObject_DateTimeParser::parseDuration($this->DURATION) );

@@ -3,7 +3,7 @@
  See the COPYING-README file. */
 
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
-html, body { height: 100%; }
+html, body { height: 100%; overflow: auto; }
 article, aside, dialog, figure, footer, header, hgroup, nav, section { display:block; }
 body { line-height:1.5; }
 table { border-collapse:separate; border-spacing:0; white-space:nowrap; }
@@ -108,7 +108,8 @@ label.infield { cursor: text !important; }
 .bold { font-weight: bold; }
 .center { text-align: center; }
 
-#notification { z-index:101; cursor:pointer; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position:fixed; left:50%; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
+#notification { z-index:101; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position:fixed; left:50%; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
+#notification span { cursor:pointer; font-weight:bold; margin-left:1em; }
 
 .action, .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; filter:alpha(opacity=50); opacity:.5; -webkit-transition:opacity 200ms; -moz-transition:opacity 200ms; -o-transition:opacity 200ms; transition:opacity 200ms; }
 .action { width: 16px; height: 16px; }
@@ -157,3 +158,14 @@ a.bookmarklet { background-color: #ddd; border:1px solid #ccc; padding: 5px;padd
 #categorylist li { background:#f8f8f8; padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
 #categorylist li:hover, li:active { background:#eee; }
 #category_addinput { width: 10em; }
+
+/* ---- APP SETTINGS ---- */
+.popup { background-color: white; border-radius: 10px 10px 10px 10px; box-shadow: 0 0 20px #888888; color: #333333; padding: 10px; position: absolute; z-index: 200; }
+.popup.topright { top: -8px; right: 1em; }
+.popup.bottomleft { bottom: 1em; left: 8px; }
+.popup .close { position:absolute; top: 0.2em; right:0.2em; height: 20px; width: 20px; background:url('../img/actions/delete.svg') no-repeat center; }
+.popup h2 { font-weight: bold; font-size: 1.2em; }
+.arrow { border-bottom: 10px solid white; border-left: 10px solid transparent; border-right: 10px solid transparent; display: block; height: 0; position: absolute; width: 0; z-index: 201; }
+.arrow.left { left: -13px; bottom: 1.2em; -webkit-transform: rotate(270deg); -moz-transform: rotate(270deg); -o-transform: rotate(270deg); -ms-transform: rotate(270deg); transform: rotate(270deg); }
+.arrow.up { top: -8px; right: 2em; }
+.arrow.down { -webkit-transform: rotate(180deg); -moz-transform: rotate(180deg); -o-transform: rotate(180deg); -ms-transform: rotate(180deg); transform: rotate(180deg); }

@@ -26,7 +26,7 @@ OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
 
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
-OCP\JSON::setContentTypeHeader('text/plain');
+OCP\JSON::setContentTypeHeader('text/plain; charset=utf-8');
 require_once 'loghandler.php';
 $l10n = OC_Contacts_App::$l10n;
 // If it is a Drag'n'Drop transfer it's handled here.
@@ -50,9 +50,9 @@ if ($fn) {
 		if(OC_Cache::set($tmpkey, $image->data(), 600)) {
 			OCP\JSON::success(array(
 				'data' => array(
-					'mime'=>$_SERVER['CONTENT_TYPE'], 
-					'name'=>$fn, 
-					'id'=>$id, 
+					'mime'=>$_SERVER['CONTENT_TYPE'],
+					'name'=>$fn,
+					'id'=>$id,
 					'tmp'=>$tmpkey)));
 			exit();
 		} else {
@@ -100,8 +100,8 @@ if(file_exists($file['tmp_name'])) {
 				'data' => array(
 					'mime'=>$file['type'],
 					'size'=>$file['size'],
-					'name'=>$file['name'], 
-					'id'=>$_POST['id'], 
+					'name'=>$file['name'],
+					'id'=>$_POST['id'],
 					'tmp'=>$tmpkey,
 					)));
 			exit();

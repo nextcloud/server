@@ -12,10 +12,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:14+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Finnish (Finland) (http://www.transifex.net/projects/p/owncloud/language/fi_FI/)\n"
+"POT-Creation-Date: 2012-08-02 02:02+0200\n"
+"PO-Revision-Date: 2012-08-02 00:03+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,83 +38,83 @@ msgstr "Tämä luokka on jo olemassa: "
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr ""
 
-#: js/js.js:520
+#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+msgid "Settings"
+msgstr "Asetukset"
+
+#: js/js.js:573
 msgid "January"
-msgstr ""
+msgstr "Tammikuu"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "February"
-msgstr ""
+msgstr "Helmikuu"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "March"
-msgstr ""
+msgstr "Maaliskuu"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "April"
-msgstr ""
+msgstr "Huhtikuu"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "May"
-msgstr ""
+msgstr "Toukokuu"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "June"
-msgstr ""
+msgstr "Kesäkuu"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "July"
-msgstr ""
+msgstr "Heinäkuu"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "August"
-msgstr ""
+msgstr "Elokuu"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "September"
-msgstr ""
+msgstr "Syyskuu"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "October"
-msgstr ""
+msgstr "Lokakuu"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "November"
-msgstr ""
+msgstr "Marraskuu"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "December"
-msgstr ""
+msgstr "Joulukuu"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Peru"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "Ei"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "Kyllä"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Luokkia ei valittu poistettavaksi."
 
 #: js/oc-vcategories.js:68
 msgid "Error"
-msgstr ""
+msgstr "Virhe"
 
 #: lostpassword/index.php:26
-msgid "Owncloud password reset"
-msgstr "Owncloud-salasanan nollaus"
-
-#: lostpassword/index.php:27
 msgid "ownCloud password reset"
 msgstr "ownCloud-salasanan nollaus"
 
@@ -244,13 +244,9 @@ msgstr "Viimeistele asennus"
 msgid "web services under your control"
 msgstr "verkkopalvelut hallinnassasi"
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "Kirjaudu ulos"
-
-#: templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "Asetukset"
 
 #: templates/login.php:6
 msgid "Lost your password?"

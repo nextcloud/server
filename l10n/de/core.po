@@ -8,14 +8,17 @@
 #   <georg.stefan.germany@googlemail.com>, 2011.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2012.
+#   <niko@nik-o-mat.de>, 2012.
+# Phi Lieb <>, 2012.
+#   <thomas.mueller@tmit.eu>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:14+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: German (http://www.transifex.net/projects/p/owncloud/language/de/)\n"
+"POT-Creation-Date: 2012-08-07 02:04+0200\n"
+"PO-Revision-Date: 2012-08-06 19:45+0000\n"
+"Last-Translator: designpoint <info@designpoint.ch>\n"
+"Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,87 +39,87 @@ msgstr "Kategorie existiert bereits:"
 
 #: js/jquery-ui-1.8.16.custom.min.js:511
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr ""
+msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:520
+#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: js/js.js:572
 msgid "January"
-msgstr ""
+msgstr "Januar"
 
-#: js/js.js:520
+#: js/js.js:572
 msgid "February"
-msgstr ""
+msgstr "Februar"
 
-#: js/js.js:520
+#: js/js.js:572
 msgid "March"
-msgstr ""
+msgstr "März"
 
-#: js/js.js:520
+#: js/js.js:572
 msgid "April"
-msgstr ""
+msgstr "April"
 
-#: js/js.js:520
+#: js/js.js:572
 msgid "May"
-msgstr ""
+msgstr "Mai"
 
-#: js/js.js:520
+#: js/js.js:572
 msgid "June"
-msgstr ""
+msgstr "Juni"
 
-#: js/js.js:521
+#: js/js.js:573
 msgid "July"
-msgstr ""
+msgstr "Juli"
 
-#: js/js.js:521
+#: js/js.js:573
 msgid "August"
-msgstr ""
+msgstr "August"
 
-#: js/js.js:521
+#: js/js.js:573
 msgid "September"
-msgstr ""
+msgstr "September"
 
-#: js/js.js:521
+#: js/js.js:573
 msgid "October"
-msgstr ""
+msgstr "Oktober"
 
-#: js/js.js:521
+#: js/js.js:573
 msgid "November"
-msgstr ""
+msgstr "November"
 
-#: js/js.js:521
+#: js/js.js:573
 msgid "December"
-msgstr ""
+msgstr "Dezember"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "Nein"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Keine Kategorien zum Löschen angegeben."
 
 #: js/oc-vcategories.js:68
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: lostpassword/index.php:26
-msgid "Owncloud password reset"
-msgstr "ownCloud Passwort zurücksetzen"
-
-#: lostpassword/index.php:27
 msgid "ownCloud password reset"
-msgstr "ownCloud Passwort zurücksetzen"
+msgstr "ownCloud-Passwort zurücksetzen"
 
 #: lostpassword/templates/email.php:1
 msgid "Use the following link to reset your password: {link}"
@@ -124,7 +127,7 @@ msgstr "Nutze folgenden Link, um dein Passwort zurückzusetzen: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Sie erhalten einen Link, um Ihr Passwort per E-Mail zurückzusetzen."
+msgstr "Du erhälst einen Link, um dein Passwort per E-Mail zurückzusetzen."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Requested"
@@ -137,7 +140,7 @@ msgstr "Login fehlgeschlagen!"
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
 #: templates/login.php:9
 msgid "Username"
-msgstr "Nutzername"
+msgstr "Benutzername"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request reset"
@@ -145,7 +148,7 @@ msgstr "Anfrage zurückgesetzt"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Ihr Passwort wurde zurückgesetzt."
+msgstr "Dein Passwort wurde zurückgesetzt."
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
@@ -165,7 +168,7 @@ msgstr "Persönlich"
 
 #: strings.php:6
 msgid "Users"
-msgstr "Nutzer"
+msgstr "Benutzer"
 
 #: strings.php:7
 msgid "Apps"
@@ -173,7 +176,7 @@ msgstr "Anwendungen"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Verwaltung"
+msgstr "Admin"
 
 #: strings.php:9
 msgid "Help"
@@ -185,11 +188,11 @@ msgstr "Zugang verboten"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "Cloud nicht verfügbar"
+msgstr "Cloud nicht gefunden"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Kategorien ändern"
+msgstr "Kategorien editieren"
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
@@ -197,7 +200,7 @@ msgstr "Hinzufügen"
 
 #: templates/installation.php:23
 msgid "Create an <strong>admin account</strong>"
-msgstr "<strong>Admin-Konto</strong> anlegen"
+msgstr "<strong>Administrator-Konto</strong> anlegen"
 
 #: templates/installation.php:29 templates/login.php:13
 msgid "Password"
@@ -222,15 +225,15 @@ msgstr "wird genutzt"
 
 #: templates/installation.php:82
 msgid "Database user"
-msgstr "Datenbanknutzer"
+msgstr "Datenbank-Benutzer"
 
 #: templates/installation.php:86
 msgid "Database password"
-msgstr "Datenbankpasswort"
+msgstr "Datenbank-Passwort"
 
 #: templates/installation.php:90
 msgid "Database name"
-msgstr "Datenbankname"
+msgstr "Datenbank-Name"
 
 #: templates/installation.php:96
 msgid "Database host"
@@ -242,15 +245,11 @@ msgstr "Installation abschließen"
 
 #: templates/layout.guest.php:42
 msgid "web services under your control"
-msgstr "web services under your control"
+msgstr "Web Services unter ihrer Kontrolle"
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "Abmelden"
-
-#: templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "Einstellungen"
 
 #: templates/login.php:6
 msgid "Lost your password?"

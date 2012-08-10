@@ -28,7 +28,10 @@ class Connection {
 	private $configID;
 	private $configured = false;
 
-	//cached settings
+	//cache handler
+	protected $cache;
+
+	//settings
 	protected $config = array(
 		'ldapHost' => null,
 		'ldapPort' => null,
@@ -39,6 +42,7 @@ class Connection {
 		'ldapAgentPassword' => null,
 		'ldapTLS' => null,
 		'ldapNoCase' => null,
+		'turnOffCertCheck' => null,
 		'ldapIgnoreNamingRules' => null,
 		'ldapUserDisplayName' => null,
 		'ldapUserFilter' => null,
@@ -48,10 +52,12 @@ class Connection {
 		'ldapQuotaAttribute' => null,
 		'ldapQuotaDefault' => null,
 		'ldapEmailAttribute' => null,
+		'ldapCacheTTL' => null,
 	);
 
 	public function __construct($configID = 'user_ldap') {
 		$this->configID = $configID;
+		$this->cache = \OC_Cache::getGlobalCache();
 	}
 
 	public function __destruct() {
@@ -92,6 +98,57 @@ class Connection {
 		return $this->ldapConnectionRes;
 	}
 
+	private function getCacheKey($key) {
+		$prefix = 'LDAP-'.$this->configID.'-';
+		if(is_null($key)) {
+			return $prefix;
+		}
+		return $prefix.md5($key);
+	}
+
+	public function getFromCache($key) {
+		if(!$this->configured) {
+			$this->readConfiguration();
+		}
+		if(!$this->config['ldapCacheTTL']) {
+			return null;
+		}
+		if(!$this->isCached($key)) {
+			return null;
+
+		}
+		$key = $this->getCacheKey($key);
+
+		return unserialize(base64_decode($this->cache->get($key)));
+	}
+
+	public function isCached($key) {
+		if(!$this->configured) {
+			$this->readConfiguration();
+		}
+		if(!$this->config['ldapCacheTTL']) {
+			return false;
+		}
+		$key = $this->getCacheKey($key);
+		return $this->cache->hasKey($key);
+	}
+
+	public function writeToCache($key, $value) {
+		if(!$this->configured) {
+			$this->readConfiguration();
+		}
+		if(!$this->config['ldapCacheTTL']) {
+			return null;
+		}
+		$key   = $this->getCacheKey($key);
+		$value = base64_encode(serialize($value));
+		$this->cache->set($key, $value, $this->config['ldapCacheTTL']);
+	}
+
+	public function clearCache() {
+		$this->cache->clear($this->getCacheKey(null));
+	}
+
 	/**
 	 * Caches the general LDAP configuration.
 	 */
@@ -108,16 +165,18 @@ class Connection {
 			$this->config['ldapBaseGroups']        = \OCP\Config::getAppValue($this->configID, 'ldap_base_groups', $this->config['ldapBase']);
 			$this->config['ldapTLS']               = \OCP\Config::getAppValue($this->configID, 'ldap_tls',0);
 			$this->config['ldapNoCase']            = \OCP\Config::getAppValue($this->configID, 'ldap_nocase', 0);
+			$this->config['turnOffCertCheck']      = \OCP\Config::getAppValue($this->configID, 'ldap_turn_off_cert_check', 0);
 			$this->config['ldapUserDisplayName']   = mb_strtolower(\OCP\Config::getAppValue($this->configID, 'ldap_display_name', 'uid'), 'UTF-8');
 			$this->config['ldapUserFilter']        = \OCP\Config::getAppValue($this->configID, 'ldap_userlist_filter','objectClass=person');
-			$this->config['ldapGroupFilter']        = \OCP\Config::getAppValue($this->configID, 'ldap_group_filter','(objectClass=posixGroup)');
+			$this->config['ldapGroupFilter']       = \OCP\Config::getAppValue($this->configID, 'ldap_group_filter','(objectClass=posixGroup)');
 			$this->config['ldapLoginFilter']       = \OCP\Config::getAppValue($this->configID, 'ldap_login_filter', '(uid=%uid)');
 			$this->config['ldapGroupDisplayName']  = mb_strtolower(\OCP\Config::getAppValue($this->configID, 'ldap_group_display_name', 'uid'), 'UTF-8');
 			$this->config['ldapQuotaAttribute']    = \OCP\Config::getAppValue($this->configID, 'ldap_quota_attr', '');
 			$this->config['ldapQuotaDefault']      = \OCP\Config::getAppValue($this->configID, 'ldap_quota_def', '');
-			$this->config['ldapEmailAttribute']      = \OCP\Config::getAppValue($this->configID, 'ldap_email_attr', '');
-			$this->config['ldapGroupMemberAssocAttr']      = \OCP\Config::getAppValue($this->configID, 'ldap_group_member_assoc_attribute', 'uniqueMember');
+			$this->config['ldapEmailAttribute']    = \OCP\Config::getAppValue($this->configID, 'ldap_email_attr', '');
+			$this->config['ldapGroupMemberAssocAttr'] = \OCP\Config::getAppValue($this->configID, 'ldap_group_member_assoc_attribute', 'uniqueMember');
 			$this->config['ldapIgnoreNamingRules'] = \OCP\Config::getSystemValue('ldapIgnoreNamingRules', false);
+			$this->config['ldapCacheTTL']          = \OCP\Config::getAppValue($this->configID, 'ldap_cache_ttl', 10*60);
 
 			$this->configured = $this->validateConfiguration();
 		}
@@ -134,11 +193,20 @@ class Connection {
 			return false;
 		}
 
+		$params = array('ldap_host'=>'ldapHost', 'ldap_port'=>'ldapPort', 'ldap_dn'=>'ldapAgentName', 'ldap_agent_password'=>'ldapAgentPassword', 'ldap_base'=>'ldapBase', 'ldap_base_users'=>'ldapBaseUsers', 'ldap_base_groups'=>'ldapBaseGroups', 'ldap_userlist_filter'=>'ldapUserFilter', 'ldap_login_filter'=>'ldapLoginFilter', 'ldap_group_filter'=>'ldapGroupFilter', 'ldap_display_name'=>'ldapUserDisplayName', 'ldap_group_display_name'=>'ldapGroupDisplayName',
+
+		'ldap_tls'=>'ldapTLS', 'ldap_nocase'=>'ldapNoCase', 'ldap_quota_def'=>'ldapQuotaDefault', 'ldap_quota_attr'=>'ldapQuotaAttribute', 'ldap_email_attr'=>'ldapEmailAttribute', 'ldap_group_member_assoc_attribute'=>'ldapGroupMemberAssocAttr', 'ldap_cache_ttl'=>'ldapCacheTTL');
+
 		foreach($config as $parameter => $value) {
 		    if(isset($this->config[$parameter])) {
 				$this->config[$parameter] = $value;
 				if(is_array($setParameters)) {
 					$setParameters[] = $parameter;
+				}
+		    } else if(isset($params[$parameter])) {
+				$this->config[$params[$parameter]] = $value;
+				if(is_array($setParameters)) {
+					$setParameters[] = $params[$parameter];
 				}
 		    }
 		}
@@ -211,11 +279,28 @@ class Connection {
 	 * Connects and Binds to LDAP
 	 */
 	private function establishConnection() {
+		static $phpLDAPinstalled = true;
+		if(!$phpLDAPinstalled) {
+			return false;
+		}
 		if(!$this->configured) {
 			\OCP\Util::writeLog('user_ldap', 'Configuration is invalid, cannot connect', \OCP\Util::WARN);
 			return false;
 		}
 		if(!$this->ldapConnectionRes) {
+			if(!function_exists('ldap_connect')) {
+				$phpLDAPinstalled = false;
+				\OCP\Util::writeLog('user_ldap', 'function ldap_connect is not available. Make sure that the PHP ldap module is installed.', \OCP\Util::ERROR);
+
+				return false;
+			}
+			if($this->config['turnOffCertCheck']) {
+				if(putenv('LDAPTLS_REQCERT=never')) {
+					\OCP\Util::writeLog('user_ldap', 'Turned off SSL certificate validation successfully.', \OCP\Util::WARN);
+				} else {
+					\OCP\Util::writeLog('user_ldap', 'Could not turn off SSL certificate validation.', \OCP\Util::WARN);
+				}
+			}
 			$this->ldapConnectionRes = ldap_connect($this->config['ldapHost'], $this->config['ldapPort']);
 			if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 					if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {

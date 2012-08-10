@@ -1,12 +1,20 @@
 <?php $TRANSLATIONS = array(
+"Email saved" => "Eposta kaydedildi",
+"Invalid email" => "Geçersiz eposta",
 "OpenID Changed" => "OpenID Değiştirildi",
 "Invalid request" => "Geçersiz istek",
+"Authentication error" => "Eşleşme hata",
 "Language changed" => "Dil değiştirildi",
+"Disable" => "Etkin değil",
+"Enable" => "Etkin",
+"Saving..." => "Kaydediliyor...",
 "__language_name__" => "__dil_adı__",
+"Security Warning" => "Güvenlik Uyarisi",
 "Log" => "Günlük",
 "More" => "Devamı",
 "Add your App" => "Uygulamanı Ekle",
 "Select an App" => "Bir uygulama seçin",
+"See application page at apps.owncloud.com" => "Uygulamanın sayfasına apps.owncloud.com adresinden bakın ",
 "-licensed" => "-lisanslı",
 "by" => "yapan",
 "Documentation" => "Dökümantasyon",
@@ -37,6 +45,7 @@
 "Create" => "Oluştur",
 "Default Quota" => "Varsayılan Kota",
 "Other" => "Diğer",
+"SubAdmin" => "Alt Yönetici",
 "Quota" => "Kota",
 "Delete" => "Sil"
 );

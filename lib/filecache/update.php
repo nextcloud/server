@@ -152,8 +152,8 @@ class OC_FileCache_Update{
 		$size=0;
 		$cached=OC_FileCache_Cached::get($path,$root);
 		$cachedSize=isset($cached['size'])?$cached['size']:0;
-		
-		if($mimetype=='httpd/unix-directory'){
+
+		if($view->is_dir($path.'/')){
 			if(OC_FileCache::inCache($path,$root)){
 				$cachedContent=OC_FileCache_Cached::getFolderContent($path,$root);
 				foreach($cachedContent as $file){

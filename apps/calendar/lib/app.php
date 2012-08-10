@@ -396,8 +396,8 @@ class OC_Calendar_App{
 		$last_modified = @$vevent->__get('LAST-MODIFIED');
 		$lastmodified = ($last_modified)?$last_modified->getDateTime()->format('U'):0;
 		$staticoutput = array('id'=>(int)$event['id'],
-						'title' => htmlspecialchars(($event['summary']!=NULL || $event['summary'] != '')?$event['summary']: self::$l10n->t('unnamed')),
-						'description' => isset($vevent->DESCRIPTION)?htmlspecialchars($vevent->DESCRIPTION->value):'',
+						'title' => ($event['summary']!=NULL || $event['summary'] != '')?$event['summary']: self::$l10n->t('unnamed'),
+						'description' => isset($vevent->DESCRIPTION)?$vevent->DESCRIPTION->value:'',
 						'lastmodified'=>$lastmodified,
 						'allDay'=>$allday);
 		if(OC_Calendar_Object::isrepeating($id) && OC_Calendar_Repeat::is_cached_inperiod($event['id'], $start, $end)){

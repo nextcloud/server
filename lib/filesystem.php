@@ -452,8 +452,8 @@ class OC_Filesystem{
 	static public function getMimeType($path){
 		return self::$defaultInstance->getMimeType($path);
 	}
-	static public function hash($type,$path){
-		return self::$defaultInstance->hash($type,$path);
+	static public function hash($type,$path, $raw = false){
+		return self::$defaultInstance->hash($type,$path, $raw);
 	}
 	
 	static public function free_space($path='/'){
@@ -474,8 +474,12 @@ class OC_Filesystem{
 	}
 
 	static public function removeETagHook($params) {
-		$path=$params['path'];
-		OC_Connector_Sabre_Node::removeETagPropertyForFile($path);
+		if (isset($params['path'])) {
+			$path=$params['path'];
+		} else {
+			$path=$params['oldpath'];
+		}
+		OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
 	}
 }
 OC_Hook::connect('OC_Filesystem','post_write', 'OC_Filesystem','removeETagHook');

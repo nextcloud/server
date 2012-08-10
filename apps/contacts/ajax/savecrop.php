@@ -25,7 +25,7 @@ OCP\JSON::checkAppEnabled('contacts');
 OCP\JSON::callCheck();
 
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
-OCP\JSON::setContentTypeHeader('text/plain');
+OCP\JSON::setContentTypeHeader('text/plain; charset=utf-8');
 
 require_once 'loghandler.php';
 
@@ -57,48 +57,54 @@ if($data) {
 		$w = ($w != -1 ? $w : $image->width());
 		$h = ($h != -1 ? $h : $image->height());
 		OCP\Util::writeLog('contacts',
-			'savecrop.php, x: '.$x1.' y: '.$y1.' w: '.$w.' h: '.$h, 
+			'savecrop.php, x: '.$x1.' y: '.$y1.' w: '.$w.' h: '.$h,
 			OCP\Util::DEBUG);
 		if($image->crop($x1, $y1, $w, $h)) {
-			if(($image->width() <= 200 && $image->height() <= 200) || $image->resize(200)) {
-				$card = OC_Contacts_App::getContactVCard($id);
-				if(!$card) {
+			if(($image->width() <= 200 && $image->height() <= 200)
+						|| $image->resize(200)) {
+				$vcard = OC_Contacts_App::getContactVCard($id);
+				if(!$vcard) {
 					OC_Cache::remove($tmpkey);
-					bailOut(OC_Contacts_App::$l10n->t('Error getting contact object.'));
+					bailOut(OC_Contacts_App::$l10n
+						->t('Error getting contact object.'));
 				}
-				if($card->__isset('PHOTO')) {
+				if($vcard->__isset('PHOTO')) {
 					OCP\Util::writeLog('contacts',
-						'savecrop.php: PHOTO property exists.', 
+						'savecrop.php: PHOTO property exists.',
 						OCP\Util::DEBUG);
-					$property = $card->__get('PHOTO');
+					$property = $vcard->__get('PHOTO');
 					if(!$property) {
 						OC_Cache::remove($tmpkey);
-						bailOut(OC_Contacts_App::$l10n->t('Error getting PHOTO property.'));
+						bailOut(OC_Contacts_App::$l10n
+							->t('Error getting PHOTO property.'));
 					}
 					$property->setValue($image->__toString());
-					$property->parameters[] = new Sabre_VObject_Parameter('ENCODING', 'b');
-					$property->parameters[] = new Sabre_VObject_Parameter('TYPE', $image->mimeType());
-					$card->__set('PHOTO', $property);
+					$property->parameters[]
+						= new Sabre_VObject_Parameter('ENCODING', 'b');
+					$property->parameters[]
+						= new Sabre_VObject_Parameter('TYPE', $image->mimeType());
+					$vcard->__set('PHOTO', $property);
 				} else {
 					OCP\Util::writeLog('contacts',
-						'savecrop.php: files: Adding PHOTO property.', 
+						'savecrop.php: files: Adding PHOTO property.',
 						OCP\Util::DEBUG);
-					$card->addProperty('PHOTO', 
-						$image->__toString(), array('ENCODING' => 'b', 
+					$vcard->addProperty('PHOTO',
+						$image->__toString(), array('ENCODING' => 'b',
 						'TYPE' => $image->mimeType()));
 				}
 				$now = new DateTime;
-				$card->setString('REV', $now->format(DateTime::W3C));
-				if(!OC_Contacts_VCard::edit($id, $card)) {
+				$vcard->setString('REV', $now->format(DateTime::W3C));
+				if(!OC_Contacts_VCard::edit($id, $vcard)) {
 					bailOut(OC_Contacts_App::$l10n->t('Error saving contact.'));
 				}
-				$tmpl = new OCP\Template("contacts", "part.contactphoto");
-				$tmpl->assign('id', $id);
-				$tmpl->assign('refresh', true);
-				$tmpl->assign('width', $image->width());
-				$tmpl->assign('height', $image->height());
-				$page = $tmpl->fetchPage();
-				OCP\JSON::success(array('data' => array('page'=>$page)));
+				OCP\JSON::success(array(
+					'data' => array(
+						'id' => $id,
+						'width' => $image->width(),
+						'height' => $image->height(),
+						'lastmodified' => OC_Contacts_App::lastModified($vcard)->format('U')
+					)
+				));
 			} else {
 				bailOut(OC_Contacts_App::$l10n->t('Error resizing image'));
 			}

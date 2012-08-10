@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Settings" => "Podešavanja",
 "You will receive a link to reset your password via Email." => "Dobićete vezu za resetovanje lozinke putem e-pošte.",
 "Requested" => "Zahtevano",
 "Login failed!" => "Nesupela prijava!",
@@ -25,7 +26,6 @@
 "Database host" => "Domaćin baze",
 "Finish setup" => "Završi podešavanje",
 "Log out" => "Odjava",
-"Settings" => "Podešavanja",
 "Lost your password?" => "Izgubili ste lozinku?",
 "remember" => "upamti",
 "You are logged out." => "Odjavljeni ste.",

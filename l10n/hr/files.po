@@ -3,49 +3,49 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Davor Kustec <dkustec@gmail.com>, 2011.
+# Davor Kustec <dkustec@gmail.com>, 2011, 2012.
 # Thomas Silađi <thomas.siladi@net.hr>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Croatian (http://www.transifex.net/projects/p/owncloud/language/hr/)\n"
+"POT-Creation-Date: 2012-07-31 22:53+0200\n"
+"PO-Revision-Date: 2012-07-31 20:54+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: hr\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
 msgstr "Datoteka je poslana uspješno i bez pogrešaka"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "Poslana datoteka izlazi iz okvira upload_max_size direktive postavljene u php.ini konfiguracijskoj datoteci"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Poslana datoteka izlazi iz okvira MAX_FILE_SIZE direktive postavljene u HTML obrascu"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
 msgstr "Datoteka je poslana samo djelomično"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid "No file was uploaded"
 msgstr "Ni jedna datoteka nije poslana"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:25
 msgid "Missing a temporary folder"
 msgstr "Nedostaje privremena mapa"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "Failed to write to disk"
 msgstr "Neuspjelo pisanje na disk"
 
@@ -53,57 +53,89 @@ msgstr "Neuspjelo pisanje na disk"
 msgid "Files"
 msgstr "Datoteke"
 
-#: js/filelist.js:186
-msgid "undo deletion"
+#: js/fileactions.js:95
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:97 templates/index.php:56
+msgid "Delete"
+msgstr "Briši"
+
+#: js/filelist.js:141
+msgid "already exists"
+msgstr ""
+
+#: js/filelist.js:141
+msgid "replace"
+msgstr ""
+
+#: js/filelist.js:141
+msgid "cancel"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "replaced"
+msgstr ""
+
+#: js/filelist.js:195
+msgid "with"
+msgstr ""
+
+#: js/filelist.js:195 js/filelist.js:256
+msgid "undo"
+msgstr ""
+
+#: js/filelist.js:256
+msgid "deleted"
 msgstr ""
 
 #: js/files.js:170
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "generiranje ZIP datoteke, ovo može potrajati."
 
 #: js/files.js:199
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Nemoguće poslati datoteku jer je prazna ili je direktorij"
 
 #: js/files.js:199
 msgid "Upload Error"
-msgstr ""
+msgstr "Pogreška pri slanju"
 
 #: js/files.js:227 js/files.js:318 js/files.js:347
 msgid "Pending"
-msgstr ""
+msgstr "U tijeku"
 
 #: js/files.js:332
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Slanje poništeno."
 
 #: js/files.js:456
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Neispravan naziv, znak '/' nije dozvoljen."
 
-#: js/files.js:626 templates/index.php:55
+#: js/files.js:631 templates/index.php:55
 msgid "Size"
 msgstr "Veličina"
 
-#: js/files.js:627 templates/index.php:56
+#: js/files.js:632 templates/index.php:56
 msgid "Modified"
 msgstr "Zadnja promjena"
 
-#: js/files.js:654
+#: js/files.js:659
 msgid "folder"
-msgstr ""
+msgstr "mapa"
 
-#: js/files.js:656
+#: js/files.js:661
 msgid "folders"
-msgstr ""
+msgstr "mape"
 
-#: js/files.js:664
+#: js/files.js:669
 msgid "file"
-msgstr ""
+msgstr "datoteka"
 
-#: js/files.js:666
+#: js/files.js:671
 msgid "files"
-msgstr ""
+msgstr "datoteke"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -172,10 +204,6 @@ msgstr "podjeli"
 #: templates/index.php:51
 msgid "Download"
 msgstr "Preuzmi"
-
-#: templates/index.php:56
-msgid "Delete"
-msgstr "Briši"
 
 #: templates/index.php:64
 msgid "Upload too large"

@@ -1,12 +1,20 @@
 <?php $TRANSLATIONS = array(
+"Email saved" => "Correo salvado",
+"Invalid email" => "Correo Incorrecto",
 "OpenID Changed" => "OpenID cambiado",
 "Invalid request" => "Solicitud no válida",
+"Authentication error" => "Error de autenticación",
 "Language changed" => "Idioma cambiado",
+"Disable" => "Desactivar",
+"Enable" => "Activar",
+"Saving..." => "Salvando..",
 "__language_name__" => "Castellano",
+"Security Warning" => "Advertencia de seguridad",
 "Log" => "Registro",
 "More" => "Más",
 "Add your App" => "Añade tu aplicación",
 "Select an App" => "Seleccionar una aplicación",
+"See application page at apps.owncloud.com" => "Revisa la web de apps apps.owncloud.com",
 "-licensed" => "-autorizado",
 "by" => "por",
 "Documentation" => "Documentación",
@@ -37,6 +45,7 @@
 "Create" => "Crear",
 "Default Quota" => "Cuota predeterminada",
 "Other" => "Otro",
+"SubAdmin" => "SubAdmin",
 "Quota" => "Cuota",
 "Delete" => "Eliminar"
 );

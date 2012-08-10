@@ -9,71 +9,35 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Finnish (Finland) (http://www.transifex.net/projects/p/owncloud/language/fi_FI/)\n"
+"POT-Creation-Date: 2012-07-27 02:02+0200\n"
+"PO-Revision-Date: 2012-07-26 10:43+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: appinfo/app.php:37
+#: appinfo/app.php:39
 msgid "Pictures"
 msgstr "Kuvat"
 
-#: js/album_cover.js:44
+#: js/pictures.js:12
 msgid "Share gallery"
-msgstr ""
+msgstr "Jaa galleria"
 
-#: js/album_cover.js:64 js/album_cover.js:100 js/album_cover.js:133
+#: js/pictures.js:32
 msgid "Error: "
-msgstr ""
+msgstr "Virhe: "
 
-#: js/album_cover.js:64 js/album_cover.js:100
+#: js/pictures.js:32
 msgid "Internal error"
-msgstr ""
+msgstr "Sisäinen virhe"
 
-#: js/album_cover.js:114
-msgid "Scanning root"
-msgstr ""
-
-#: js/album_cover.js:115
-msgid "Default order"
-msgstr ""
-
-#: js/album_cover.js:116
-msgid "Ascending"
-msgstr ""
-
-#: js/album_cover.js:116
-msgid "Descending"
-msgstr ""
-
-#: js/album_cover.js:117 templates/index.php:19
-msgid "Settings"
-msgstr "Asetukset"
-
-#: js/album_cover.js:122
-msgid "Scanning root cannot be empty"
-msgstr ""
-
-#: js/album_cover.js:122 js/album_cover.js:133
-msgid "Error"
-msgstr ""
-
-#: templates/index.php:16
-msgid "Rescan"
-msgstr "Etsi uusia"
-
-#: templates/index.php:17
-msgid "Stop"
-msgstr "Pysäytä"
-
-#: templates/index.php:18
-msgid "Share"
-msgstr "Jaa"
+#: templates/index.php:27
+msgid "Slideshow"
+msgstr "Diaesitys"
 
 #: templates/view_album.php:19
 msgid "Back"

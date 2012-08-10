@@ -105,6 +105,9 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 		if(!isset($newValues['timezone'])) $newValues['timezone'] = null;
 		if(!isset($newValues['calendarorder'])) $newValues['calendarorder'] = 0;
 		if(!isset($newValues['calendarcolor'])) $newValues['calendarcolor'] = null;
+		if(!is_null($newValues['calendarcolor']) && strlen($newValues['calendarcolor']) == 9){
+			$newValues['calendarcolor'] = substr($newValues['calendarcolor'], 0, 7);
+		}
 		
 		return OC_Calendar_Calendar::addCalendarFromDAVData($principalUri,$calendarUri,$newValues['displayname'],$newValues['components'],$newValues['timezone'],$newValues['calendarorder'],$newValues['calendarcolor']);
 	}
@@ -192,7 +195,10 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 		if(!isset($newValues['timezone'])) $newValues['timezone'] = null;
 		if(!isset($newValues['calendarorder'])) $newValues['calendarorder'] = null;
 		if(!isset($newValues['calendarcolor'])) $newValues['calendarcolor'] = null;
-
+		if(!is_null($newValues['calendarcolor']) && strlen($newValues['calendarcolor']) == 9){
+			$newValues['calendarcolor'] = substr($newValues['calendarcolor'], 0, 7);
+		}
+		
 		OC_Calendar_Calendar::editCalendar($calendarId,$newValues['displayname'],null,$newValues['timezone'],$newValues['calendarorder'],$newValues['calendarcolor']);
 
 		return true;
@@ -206,6 +212,10 @@ class OC_Connector_Sabre_CalDAV extends Sabre_CalDAV_Backend_Abstract {
 	 * @return void
 	 */
 	public function deleteCalendar($calendarId) {
+	    if(preg_match( '=iCal/[1-4]?.*Mac OS X/10.[1-6](.[0-9])?=', $_SERVER['HTTP_USER_AGENT'] )){
+	    	throw new Sabre_DAV_Exception_Forbidden("Action is not possible with OSX 10.6.x", 403);
+		}
+		
 		OC_Calendar_Calendar::deleteCalendar($calendarId);
 	}
 

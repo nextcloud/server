@@ -150,6 +150,7 @@ class OC_MEDIA_AMPACHE{
 		$users=$query->execute(array($auth))->fetchAll();
 		if(count($users)>0){
 			OC_MEDIA_COLLECTION::$uid=$users[0]['user_id'];
+			OC_User::setUserId($users[0]['user_id']);
 			return $users[0]['user_id'];
 		}else{
 			return false;
@@ -271,7 +272,7 @@ class OC_MEDIA_AMPACHE{
 </root>");
 			return;
 		}
-		$filter=$params['filter'];
+		$filter = isset($params['filter']) ? $params['filter'] : '';
 		$albums=OC_MEDIA_COLLECTION::getAlbums($filter);
 		$artist=OC_MEDIA_COLLECTION::getArtistName($filter);
 		echo('<?xml version="1.0" encoding="UTF-8"?>');
@@ -400,7 +401,7 @@ class OC_MEDIA_AMPACHE{
 </root>");
 			return;
 		}
-		$filter=$params['filter'];
+		$filter = isset($params['filter']) ? $params['filter'] : '';
 		$artists=OC_MEDIA_COLLECTION::getArtists($filter);
 		$albums=OC_MEDIA_COLLECTION::getAlbums(0,$filter);
 		$songs=OC_MEDIA_COLLECTION::getSongs(0,0,$filter);
