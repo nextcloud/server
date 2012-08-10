@@ -21,7 +21,9 @@ $principalBackend = new OC_Connector_Sabre_Principal();
 $caldavBackend    = new OC_Connector_Sabre_CalDAV();
 
 // Root nodes
-$collection = new Sabre_CalDAV_Principal_Collection($principalBackend); $collection->disableListing = true; // Disable listening
+$collection = new Sabre_CalDAV_Principal_Collection($principalBackend); 
+$collection->disableListing = true; // Disable listening
+
 $nodes = array( 
 	$collection, 
 	new Sabre_CalDAV_CalendarRootNode($principalBackend, $caldavBackend),
