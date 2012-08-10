@@ -389,18 +389,18 @@ class OC{
 	}
 
 	/**
-	 * @brief Try to handle request
-	 * @return true when the request is handled here
+	 * @brief Handle the request
 	 */
 	public static function handleRequest() {
 		// Handle WebDAV
 		if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
 			header('location: '.OC_Helper::linkToRemote('webdav'));
-			return true;
+			return;
 		}
+		// Handle app css files
 		if(substr(OC::$REQUESTEDFILE,-3) == 'css') {
 			self::loadCSSFile();
-			return true;
+			return;
 		}
 		// Someone is logged in :
 		if(OC_User::isLoggedIn()) {
@@ -415,9 +415,10 @@ class OC{
 					self::loadfile();
 				}
 			}
-			return true;
+			return;
 		}
-		return false;
+		// Not handled and not logged in
+		self::handleLogin();
 	}
 
 	protected static function loadapp() {
@@ -461,7 +462,25 @@ class OC{
 		}
 	}
 
-	public static function tryRememberLogin() {
+	protected static function handleLogin() {
+		OC_App::loadApps(array('prelogin'));
+		$error = false;
+		// remember was checked after last login
+		if (OC::tryRememberLogin()) {
+			// nothing more to do
+
+		// Someone wants to log in :
+		} elseif (OC::tryFormLogin()) {
+			$error = true;
+		
+		// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+		} elseif (OC::tryBasicAuthLogin()) {
+			$error = true;
+		}
+		OC_Util::displayLoginPage($error);
+	}
+
+	protected static function tryRememberLogin() {
 		if(!isset($_COOKIE["oc_remember_login"])
 		|| !isset($_COOKIE["oc_token"])
 		|| !isset($_COOKIE["oc_username"])
@@ -484,7 +503,7 @@ class OC{
 		return true;
 	}
 
-	public static function tryFormLogin() {
+	protected static function tryFormLogin() {
 		if(!isset($_POST["user"])
 		|| !isset($_POST['password'])
 		|| !isset($_SESSION['sectoken'])
@@ -510,7 +529,7 @@ class OC{
 		return true;
 	}
 
-	public static function tryBasicAuthLogin() {
+	protected static function tryBasicAuthLogin() {
 		if (!isset($_SERVER["PHP_AUTH_USER"])
 		 || !isset($_SERVER["PHP_AUTH_PW"])){
 		 	return false;

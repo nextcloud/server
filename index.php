@@ -21,26 +21,8 @@
 *
 */
 
-
 $RUNTIME_NOAPPS = TRUE; //no apps, yet
 
 require_once('lib/base.php');
 
-if (!OC::handleRequest()) {
-// Not handled -> we display the login page:
-	OC_App::loadApps(array('prelogin'));
-	$error = false;
-	// remember was checked after last login
-	if (OC::tryRememberLogin()) {
-		// nothing more to do
-
-	// Someone wants to log in :
-	} elseif (OC::tryFormLogin()) {
-		$error = true;
-	
-	// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
-	} elseif(OC::tryBasicAuthLogin()) {
-		$error = true;
-	}
-	OC_Util::displayLoginPage($error);
-}
+OC::handleRequest();
