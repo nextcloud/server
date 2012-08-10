@@ -77,7 +77,7 @@ elseif(OC_User::isLoggedIn()) {
 		}
 		// confirm credentials in cookie
 		if(isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username']) &&
-		OC_Preferences::getValue($_COOKIE['oc_username'], "login", "token") == $_COOKIE['oc_token']) {
+		OC_Preferences::getValue($_COOKIE['oc_username'], "login", "token") === $_COOKIE['oc_token']) {
 			OC_User::setUserId($_COOKIE['oc_username']);
 			OC_Util::redirectToDefaultPage();
 		}
