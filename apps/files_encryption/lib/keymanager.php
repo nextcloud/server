@@ -35,15 +35,11 @@ class Keymanager {
 	 * @return string private key or false
 	 */
 	public static function getPrivateKey() {
-
-		\OC_FileProxy::$enabled = false;
-		
+	
 		$user = \OCP\User::getUser();	
 		$view = new \OC_FilesystemView( '/' . $user . '/' . 'files_encryption' );
 		$result = $view->file_get_contents( '/' . $user.'.private.key' );
-		
-		\OC_FileProxy::$enabled = true;
-		
+				
 		return $result;
 	}
 	
@@ -80,8 +76,6 @@ class Keymanager {
 			}
 		}
 		
-		\OC_FileProxy::$enabled = false;
-		
 		$view = new \OC_FilesystemView( '/public-keys/' );
 		
 		$keylist = array();
@@ -89,8 +83,6 @@ class Keymanager {
 		foreach ($users as $user) {
 			$keylist['key'.++$count] = $view->file_get_contents($user.'.public.key');
 		}
-
-		\OC_FileProxy::$enabled = true;
 		
 		return $keylist;
 		
@@ -117,13 +109,9 @@ class Keymanager {
 			$keypath = str_replace('/'.$user.'/files/', '', $keypath);
 		}
 		
-		\OC_FileProxy::$enabled = false;
-		
 		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/keyfiles/');
 		$result = $view->file_get_contents($keypath.'.key');
-		
-		\OC_FileProxy::$enabled = true;
-		
+			
 		return $result;
 	}	
 	
@@ -134,15 +122,11 @@ class Keymanager {
 	 * @return bool true/false
 	 */
 	public static function setPrivateKey($key) {
-
-		\OC_FileProxy::$enabled = false;
 		
 		$user = \OCP\User::getUser();
 		$view = new \OC_FilesystemView('/'.$user.'/files_encryption');
 		if (!$view->file_exists('')) $view->mkdir('');
 		$result = $view->file_put_contents($user.'.private.key', $key);
-		
-		\OC_FileProxy::$enabled = true;
 		
 		return $result;
 	}
@@ -156,13 +140,9 @@ class Keymanager {
 	 */
 	public static function setPublicKey($key) {
 		
-		\OC_FileProxy::$enabled = false;
-		
 		$view = new \OC_FilesystemView('/public-keys');
 		if (!$view->file_exists('')) $view->mkdir('');
 		$result = $view->file_put_contents(\OCP\User::getUser().'.public.key', $key);
-		
-		\OC_FileProxy::$enabled = true;
 		
 		return $result;
 	}
@@ -174,8 +154,7 @@ class Keymanager {
 	 * @param string $key
 	 * @return bool true/false
 	 */
-	public static function setFileKey( $path, $key, $view = Null, $dbClassName = '\OC_DB', $fileProxyClassName =  '\OC_FileProxy') {
-		$fileProxyClassName::$enabled = false;
+	public static function setFileKey( $path, $key, $view = Null, $dbClassName = '\OC_DB') {
 
 		$targetpath = ltrim(  $path, '/'  );
 		$user = \OCP\User::getUser();
@@ -208,8 +187,6 @@ class Keymanager {
 		if ( !$view->file_exists( $path_parts['dirname'] ) ) $view->mkdir( $path_parts['dirname'] );
 		
 		$result = $view->file_put_contents( '/' . $targetpath . '.key', $key );
-		
-		$fileProxyClassName::$enabled = true;	
 		
 		return $result;
 	}
