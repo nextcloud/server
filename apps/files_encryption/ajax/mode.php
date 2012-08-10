@@ -5,8 +5,6 @@
  * See the COPYING-README file.
  */
 
-//TODO: Handle switch between client and server side encryption
-
 use OCA_Encryption\Keymanager;
 
 OCP\JSON::checkAppEnabled('files_encryption');
