@@ -109,7 +109,8 @@ class OC{
 				OC::$SUBURI=OC::$SUBURI.'index.php';
 			}
 		}
-                OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
+
+		OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
 
 		if(OC::$WEBROOT!='' and OC::$WEBROOT[0]!=='/'){
 			OC::$WEBROOT='/'.OC::$WEBROOT;
@@ -241,15 +242,16 @@ class OC{
 		OC_Util::addScript( "jquery.infieldlabel.min" );
 		OC_Util::addScript( "jquery-tipsy" );
 		OC_Util::addScript( "oc-dialogs" );
-		OC_Util::addScript( "backgroundjobs" );
 		OC_Util::addScript( "js" );
 		OC_Util::addScript( "eventsource" );
 		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search','result');
 
-		if( OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax' ){
-			OC_Util::addScript( 'backgroundjobs' );
+		if( OC_Config::getValue( 'installed', false )){
+			if( OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax' ){
+				OC_Util::addScript( 'backgroundjobs' );
+			}
 		}
 		
 		OC_Util::addStyle( "styles" );
