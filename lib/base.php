@@ -409,10 +409,15 @@ class OC{
 				OC_User::logout();
 				header("Location: ".OC::$WEBROOT.'/');
 			}else{
-				if(is_null(OC::$REQUESTEDFILE)) {
-					self::loadapp();
-				}else{
-					self::loadfile();
+				$app = OC::$REQUESTEDAPP;
+				$file = OC::$REQUESTEDFILE;
+				if(is_null($file)) {
+					$file = 'index.php';
+				}
+				$file_ext = substr($file, -3);
+				if ($file_ext != 'php'
+					|| !self::loadAppScriptFile($app, $file)) {
+					header('HTTP/1.0 404 Not Found');
 				}
 			}
 			return;
@@ -421,32 +426,15 @@ class OC{
 		self::handleLogin();
 	}
 
-	protected static function loadapp() {
-		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php')) {
-			require_once(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php');
-		}
-		else {
-			trigger_error('The requested App was not found.', E_USER_ERROR);//load default app instead?
-		}
-	}
-
-	protected static function loadfile() {
-		$app = OC::$REQUESTEDAPP;
-		$file = OC::$REQUESTEDFILE;
+	protected static function loadAppScriptFile($app, $file) {
 		$app_path = OC_App::getAppPath($app);
-		if (file_exists($app_path . '/' . $file)) {
-			$file_ext = substr($file, -3);
-			if ($file_ext == 'php') {
-				$file = $app_path . '/' . $file;
-				unset($app, $app_path, $app_web_path, $file_ext);
-				require_once($file);
-			}
+		$file = $app_path . '/' . $file;
+		unset($app, $app_path);
+		if (file_exists($file)) {
+			require_once($file);
+			return true;
 		}
-		else {
-			die();
-			header('HTTP/1.0 404 Not Found');
-			exit;
-		}
+		return false;
 	}
 
 	protected static function loadCSSFile() {
