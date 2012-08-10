@@ -68,11 +68,13 @@ class OC_Share_Backend_Addressbook implements OCP\Share_Backend_Collection {
 	*/
 	public function formatItems($items, $format, $parameters = null) {
 		$addressbooks = array();
-		foreach ($items as $item) {
-			$addressbook = OC_Contacts_Addressbook::find($item['item_source']);
-			if ($addressbook) {
-				$addressbook['displayname'] = $item['item_target'];
-				$addressbooks[] = $addressbook;
+		if ($format == self::FORMAT_ADDRESSBOOKS) {
+			foreach ($items as $item) {
+				$addressbook = OC_Contacts_Addressbook::find($item['item_source']);
+				if ($addressbook) {
+					$addressbook['displayname'] = $item['item_target'];
+					$addressbooks[] = $addressbook;
+				}
 			}
 		}
 		return $addressbooks;
