@@ -1,4 +1,7 @@
 <?php
+if (!OCP\App::isEnabled("user_webfinger")) {
+	return;
+}
 
 if(class_exists('OC')){
 	$WEBROOT=OC::$WEBROOT;
