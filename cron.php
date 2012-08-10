@@ -39,6 +39,11 @@ function handleUnexpectedShutdown() {
 $RUNTIME_NOSETUPFS = true;
 require_once('lib/base.php');
 
+// Don't do anything if ownCloud has not been installed
+if( !OC_Config::getValue( 'installed', false )){
+	exit( 0 );
+}
+
 // Handle unexpected errors
 register_shutdown_function('handleUnexpectedShutdown');
 
