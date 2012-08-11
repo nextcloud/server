@@ -173,25 +173,11 @@ class OC{
 
 	public static function checkInstalled() {
 		// Redirect to installer if not installed
-		if (!OC_Config::getValue('installed', false)) {
-			if (OC::$SUBURI != '/index.php') {
-				if(!OC::$CLI){
-					$url = 'http://'.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
-					header("Location: $url");
-				}
-				exit();
+		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {
+			if(!OC::$CLI){
+				$url = 'http://'.$_SERVER['SERVER_NAME'].OC::$WEBROOT.'/index.php';
+				header("Location: $url");
 			}
-			// Check for autosetup:
-			$autosetup_file = OC::$SERVERROOT."/config/autoconfig.php";
-			if( file_exists( $autosetup_file )){
-				OC_Log::write('core','Autoconfig file found, setting up owncloud...', OC_Log::INFO);
-				include( $autosetup_file );
-				$_POST['install'] = 'true';
-				$_POST = array_merge ($_POST, $AUTOCONFIG);
-				unlink($autosetup_file);
-			}
-			OC_Util::addScript('setup');
-			require_once('setup.php');
 			exit();
 		}
 	}
@@ -328,10 +314,10 @@ class OC{
 		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
 		stream_wrapper_register('close', 'OC_CloseStreamWrapper');
 
-		self::initTemplateEngine();
 		self::checkInstalled();
 		self::checkSSL();
 		self::initSession();
+		self::initTemplateEngine();
 		self::checkUpgrade();
 
 		$errors=OC_Util::checkServer();
@@ -401,6 +387,20 @@ class OC{
 	 * @brief Handle the request
 	 */
 	public static function handleRequest() {
+		if (!OC_Config::getValue('installed', false)) {
+			// Check for autosetup:
+			$autosetup_file = OC::$SERVERROOT."/config/autoconfig.php";
+			if( file_exists( $autosetup_file )){
+				OC_Log::write('core','Autoconfig file found, setting up owncloud...',OC_Log::INFO);
+				include( $autosetup_file );
+				$_POST['install'] = 'true';
+				$_POST = array_merge ($_POST, $AUTOCONFIG);
+				unlink($autosetup_file);
+			}
+			OC_Util::addScript('setup');
+			require_once('setup.php');
+			exit();
+		}
 		// Handle WebDAV
 		if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
 			header('location: '.OC_Helper::linkToRemote('webdav'));
