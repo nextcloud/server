@@ -264,10 +264,10 @@ class OC_Group {
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public static function usersInGroup($gid){
+	public static function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$users=array();
 		foreach(self::$_usedBackends as $backend){
-			$users=array_merge($backend->usersInGroup($gid),$users);
+			$users = array_merge($backend->usersInGroup($gid, $search, $limit, $offset), $users);
 		}
 		return $users;
 	}
@@ -277,10 +277,11 @@ class OC_Group {
 	 * @param array $gids
 	 * @returns array with user ids
 	 */
-	public static function usersInGroups($gids){
+	public static function usersInGroups($gids, $search = '', $limit = -1, $offset = 0) {
 		$users = array();
-		foreach($gids as $gid){
-			$users = array_merge(array_diff(self::usersInGroup($gid), $users), $users);
+		foreach ($gids as $gid) {
+			// TODO Need to apply limits to groups as total
+			$users = array_merge(array_diff(self::usersInGroup($gid, $search, $limit, $offset), $users), $users);
 		}
 		return $users;
 	}

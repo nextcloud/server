@@ -104,6 +104,6 @@ abstract class OC_Group_Example {
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	abstract public static function usersInGroup($gid);
+	abstract public static function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
 
 }

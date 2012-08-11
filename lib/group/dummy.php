@@ -149,7 +149,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public function usersInGroup($gid){
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(isset($this->groups[$gid])){
 			return $this->groups[$gid];
 		}else{
