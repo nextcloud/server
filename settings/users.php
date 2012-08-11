@@ -22,7 +22,7 @@ $groups = array();
 $isadmin = OC_Group::inGroup(OC_User::getUser(),'admin')?true:false;
 if($isadmin){
 	$accessiblegroups = OC_Group::getGroups();
-	$accessibleusers = OC_User::getUsers();
+	$accessibleusers = OC_User::getUsers('', 30);
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
 }else{
 	$accessiblegroups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
