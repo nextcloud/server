@@ -133,7 +133,7 @@ $(document).ready(function(){
 		}
 		if($(element).attr('class') == 'subadminsselect'){	
 			if(element.data('subadmin')){
-				checked=element.data('subadmin').split(', ');
+				checked=String(element.data('subadmin')).split(', ');
 			}
 			var checkHandeler=function(group){
 				if(group=='admin'){
