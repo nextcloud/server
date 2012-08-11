@@ -338,7 +338,7 @@ class OC_User {
 	 *
 	 * Get a list of all users.
 	 */
-	public static function getUsers($search = '', $limit = 10, $offset = 0) {
+	public static function getUsers($search = '', $limit = -1, $offset = 0) {
 		$users = array();
 		foreach (self::$_usedBackends as $backend) {
 			$backendUsers = $backend->getUsers($search, $limit, $offset);
