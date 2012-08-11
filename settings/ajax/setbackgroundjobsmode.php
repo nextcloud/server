@@ -26,6 +26,6 @@ require_once('../../lib/base.php');
 OC_Util::checkAdminUser();
 OCP\JSON::callCheck();
 
-OC_Appconfig::setValue( 'core', 'backgroundjob_mode', $_POST['mode'] );
+OC_Appconfig::setValue( 'core', 'backgroundjobs_mode', $_POST['mode'] );
 
 echo 'true';
