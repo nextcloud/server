@@ -108,6 +108,8 @@
 "Next contact in list" => "Següent contacte de la llista",
 "Previous contact in list" => "Contacte anterior de la llista",
 "Expand/collapse current addressbook" => "Expandeix/col·lapsa la llibreta d'adreces",
+"Next addressbook" => "Llibreta d'adreces següent",
+"Previous addressbook" => "Llibreta d'adreces anterior",
 "Actions" => "Accions",
 "Refresh contacts list" => "Carrega de nou la llista de contactes",
 "Add new contact" => "Afegeix un contacte nou",

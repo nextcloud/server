@@ -108,6 +108,8 @@
 "Next contact in list" => "Contatto successivo in elenco",
 "Previous contact in list" => "Contatto precedente in elenco",
 "Expand/collapse current addressbook" => "Espandi/Contrai la rubrica corrente",
+"Next addressbook" => "Rubrica successiva",
+"Previous addressbook" => "Rubrica precedente",
 "Actions" => "Azioni",
 "Refresh contacts list" => "Aggiorna l'elenco dei contatti",
 "Add new contact" => "Aggiungi un nuovo contatto",

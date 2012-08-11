@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-04 02:02+0200\n"
-"PO-Revision-Date: 2012-08-04 00:02+0000\n"
+"POT-Creation-Date: 2012-08-11 02:02+0200\n"
+"PO-Revision-Date: 2012-08-11 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -29,8 +29,8 @@ msgid "Error (de)activating addressbook."
 msgstr "Ошибка (де)активации адресной книги."
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
-#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:30
-#: ajax/contact/saveproperty.php:37
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
+#: ajax/contact/saveproperty.php:39
 msgid "id is not set."
 msgstr "id не установлен."
 
@@ -66,7 +66,7 @@ msgstr "Контакты не найдены."
 msgid "There was an error adding the contact."
 msgstr "Произошла ошибка при добавлении контакта."
 
-#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:34
+#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:36
 msgid "element name is not set."
 msgstr "имя элемента не установлено."
 
@@ -90,11 +90,11 @@ msgstr "При попытке добавить дубликат:"
 msgid "Error adding contact property: "
 msgstr ""
 
-#: ajax/contact/deleteproperty.php:36
+#: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "Информация о vCard некорректна. Пожалуйста, обновите страницу."
 
-#: ajax/contact/deleteproperty.php:43
+#: ajax/contact/deleteproperty.php:44
 msgid "Error deleting contact property."
 msgstr "Ошибка удаления информации из контакта."
 
@@ -106,19 +106,19 @@ msgstr "Отсутствует ID"
 msgid "Error parsing VCard for ID: \""
 msgstr "Ошибка обработки VCard для ID: \""
 
-#: ajax/contact/saveproperty.php:40
+#: ajax/contact/saveproperty.php:42
 msgid "checksum is not set."
 msgstr "контрольная сумма не установлена."
 
-#: ajax/contact/saveproperty.php:60
+#: ajax/contact/saveproperty.php:62
 msgid "Information about vCard is incorrect. Please reload the page: "
 msgstr "Информация о vCard не корректна. Перезагрузите страницу: "
 
-#: ajax/contact/saveproperty.php:67
+#: ajax/contact/saveproperty.php:69
 msgid "Something went FUBAR. "
 msgstr "Что-то пошло FUBAR."
 
-#: ajax/contact/saveproperty.php:142
+#: ajax/contact/saveproperty.php:144
 msgid "Error updating contact property."
 msgstr "Ошибка обновления информации контакта."
 
@@ -167,19 +167,19 @@ msgstr "Ошибка при получении ФОТО."
 msgid "Error saving contact."
 msgstr "Ошибка при сохранении контактов."
 
-#: ajax/savecrop.php:108
+#: ajax/savecrop.php:109
 msgid "Error resizing image"
 msgstr "Ошибка изменения размера изображений"
 
-#: ajax/savecrop.php:111
+#: ajax/savecrop.php:112
 msgid "Error cropping image"
 msgstr "Ошибка обрезки изображений"
 
-#: ajax/savecrop.php:114
+#: ajax/savecrop.php:115
 msgid "Error creating temporary image"
 msgstr "Ошибка создания временных изображений"
 
-#: ajax/savecrop.php:117
+#: ajax/savecrop.php:118
 msgid "Error finding image: "
 msgstr "Ошибка поиска изображений:"
 
@@ -278,6 +278,10 @@ msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Файл, который вы пытаетесь загрузить превышать максимальный размер загружаемых файлов на этом сервере."
+
+#: js/contacts.js:1236
+msgid "Error loading profile picture."
+msgstr ""
 
 #: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
@@ -537,7 +541,7 @@ msgstr "Изменить детали имени"
 
 #: templates/part.contact.php:40 templates/part.contact.php:42
 #: templates/part.contact.php:44 templates/part.contact.php:46
-#: templates/part.contact.php:50 templates/settings.php:34
+#: templates/part.contact.php:50 templates/settings.php:33
 msgid "Delete"
 msgstr "Удалить"
 
@@ -848,30 +852,30 @@ msgstr ""
 msgid "Download"
 msgstr "Скачать"
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 msgid "Edit"
 msgstr "Редактировать"
 
-#: templates/settings.php:41
+#: templates/settings.php:40
 msgid "New Address Book"
 msgstr "Новая адресная книга"
 
-#: templates/settings.php:42
+#: templates/settings.php:41
 msgid "Name"
 msgstr ""
 
-#: templates/settings.php:43
+#: templates/settings.php:42
 msgid "Description"
 msgstr ""
 
-#: templates/settings.php:45
+#: templates/settings.php:43
 msgid "Save"
 msgstr "Сохранить"
 
-#: templates/settings.php:46
+#: templates/settings.php:44
 msgid "Cancel"
 msgstr "Отменить"
 
-#: templates/settings.php:51
+#: templates/settings.php:49
 msgid "More..."
 msgstr ""

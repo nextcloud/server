@@ -15,6 +15,7 @@
 #   <mi.sc@gmx.net>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
+# Phi Lieb <>, 2012.
 # Susi  <>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 # Thomas Müller <>, 2012.
@@ -22,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-07 02:04+0200\n"
-"PO-Revision-Date: 2012-08-06 16:13+0000\n"
+"POT-Creation-Date: 2012-08-11 02:02+0200\n"
+"PO-Revision-Date: 2012-08-11 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -37,8 +38,8 @@ msgid "Error (de)activating addressbook."
 msgstr "(De-)Aktivierung des Adressbuches fehlgeschlagen"
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
-#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:30
-#: ajax/contact/saveproperty.php:37
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
+#: ajax/contact/saveproperty.php:39
 msgid "id is not set."
 msgstr "ID ist nicht angegeben."
 
@@ -48,7 +49,7 @@ msgstr "Adressbuch kann nicht mir leeren Namen aktualisiert werden."
 
 #: ajax/addressbook/update.php:28
 msgid "Error updating addressbook."
-msgstr "Adressbuch aktualisieren fehlgeschlagen"
+msgstr "Adressbuch aktualisieren fehlgeschlagen."
 
 #: ajax/categories/categoriesfor.php:17
 msgid "No ID provided"
@@ -72,9 +73,9 @@ msgstr "Keine Kontakte gefunden."
 
 #: ajax/contact/add.php:47
 msgid "There was an error adding the contact."
-msgstr "Erstellen des Kontakts fehlgeschlagen"
+msgstr "Erstellen des Kontakts fehlgeschlagen."
 
-#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:34
+#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:36
 msgid "element name is not set."
 msgstr "Kein Name für das Element angegeben."
 
@@ -98,13 +99,13 @@ msgstr "Versuche, doppelte Eigenschaft hinzuzufügen: "
 msgid "Error adding contact property: "
 msgstr "Fehler beim Hinzufügen der Kontakteigenschaft:"
 
-#: ajax/contact/deleteproperty.php:36
+#: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "Die Information der vCard ist fehlerhaft. Bitte aktualisiere die Seite."
 
-#: ajax/contact/deleteproperty.php:43
+#: ajax/contact/deleteproperty.php:44
 msgid "Error deleting contact property."
-msgstr "Kontakteigenschaft löschen fehlgeschlagen"
+msgstr "Kontakteigenschaft löschen fehlgeschlagen."
 
 #: ajax/contact/details.php:31
 msgid "Missing ID"
@@ -114,19 +115,19 @@ msgstr "Fehlende ID"
 msgid "Error parsing VCard for ID: \""
 msgstr "Fehler beim Einlesen der VCard für die ID: \""
 
-#: ajax/contact/saveproperty.php:40
+#: ajax/contact/saveproperty.php:42
 msgid "checksum is not set."
 msgstr "Keine Prüfsumme angegeben."
 
-#: ajax/contact/saveproperty.php:60
+#: ajax/contact/saveproperty.php:62
 msgid "Information about vCard is incorrect. Please reload the page: "
 msgstr "Die Informationen zur vCard sind fehlerhaft. Bitte Seite neu laden: "
 
-#: ajax/contact/saveproperty.php:67
+#: ajax/contact/saveproperty.php:69
 msgid "Something went FUBAR. "
 msgstr "Irgendwas ist hier so richtig schief gelaufen. "
 
-#: ajax/contact/saveproperty.php:142
+#: ajax/contact/saveproperty.php:144
 msgid "Error updating contact property."
 msgstr "Kontakteigenschaft aktualisieren fehlgeschlagen"
 
@@ -173,21 +174,21 @@ msgstr "Fehler beim Abrufen der PHOTO Eigenschaft."
 
 #: ajax/savecrop.php:98
 msgid "Error saving contact."
-msgstr "Fehler beim Speichern des Kontaktes"
+msgstr "Fehler beim Speichern des Kontaktes."
 
-#: ajax/savecrop.php:108
+#: ajax/savecrop.php:109
 msgid "Error resizing image"
 msgstr "Fehler bei der Größenänderung des Bildes"
 
-#: ajax/savecrop.php:111
+#: ajax/savecrop.php:112
 msgid "Error cropping image"
 msgstr "Fehler beim Zuschneiden des Bildes"
 
-#: ajax/savecrop.php:114
+#: ajax/savecrop.php:115
 msgid "Error creating temporary image"
 msgstr "Fehler beim erstellen des temporären Bildes"
 
-#: ajax/savecrop.php:117
+#: ajax/savecrop.php:118
 msgid "Error finding image: "
 msgstr "Fehler beim Suchen des Bildes: "
 
@@ -201,13 +202,13 @@ msgstr "Alles bestens, Datei erfolgreich übertragen."
 
 #: ajax/uploadimport.php:62 ajax/uploadphoto.php:78
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "Datei größer als durch die upload_max_filesize Direktive in php.ini erlaubt"
+msgstr "Datei größer, als durch die upload_max_filesize Direktive in php.ini erlaubt"
 
 #: ajax/uploadimport.php:63 ajax/uploadphoto.php:79
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Datei größer als die MAX_FILE_SIZE Direktive erlaubt, die im HTML Formular spezifiziert ist"
+msgstr "Datei größer, als die MAX_FILE_SIZE Direktive erlaubt, die im HTML Formular spezifiziert ist"
 
 #: ajax/uploadimport.php:64 ajax/uploadphoto.php:80
 msgid "The uploaded file was only partially uploaded"
@@ -243,7 +244,7 @@ msgstr "Diese Funktion steht leider noch nicht zur Verfügung"
 
 #: js/contacts.js:71
 msgid "Not implemented"
-msgstr "Nicht Verfügbar"
+msgstr "Nicht verfügbar"
 
 #: js/contacts.js:76
 msgid "Couldn't get a valid address."
@@ -261,7 +262,7 @@ msgstr "Fehler"
 
 #: js/contacts.js:715
 msgid "This property has to be non-empty."
-msgstr "Dieses Feld darf nicht Leer sein."
+msgstr "Dieses Feld darf nicht leer sein."
 
 #: js/contacts.js:741
 msgid "Couldn't serialize elements."
@@ -271,7 +272,7 @@ msgstr "Konnte Elemente nicht serialisieren"
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
-msgstr "'deleteProperty' wurde ohne Argumente aufgerufen, bitte Melde dies auf bugs.owncloud.org"
+msgstr "'deleteProperty' wurde ohne Argumente aufgerufen, bitte melde dies auf bugs.owncloud.org"
 
 #: js/contacts.js:884
 msgid "Edit name"
@@ -285,7 +286,11 @@ msgstr "Keine Datei(en) zum Hochladen ausgewählt"
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Die Datei, die Sie versuchen hochzuladen, überschreitet die maximale Größe für Datei-Uploads auf diesem Server."
+msgstr "Die Datei, die du hochladen willst, überschreitet die maximale Größe für Datei-Uploads auf diesem Server."
+
+#: js/contacts.js:1236
+msgid "Error loading profile picture."
+msgstr ""
 
 #: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
@@ -295,7 +300,7 @@ msgstr "Wähle Typ"
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
-msgstr "Einige zum Löschen markiert Kontakte wurden noch nicht gelöscht. Bitte warten ..."
+msgstr "Einige zum Löschen markiert Kontakte wurden noch nicht gelöscht. Bitte warten."
 
 #: js/loader.js:49
 msgid "Result: "
@@ -533,7 +538,7 @@ msgstr "Neues Foto hochladen"
 
 #: templates/part.contact.php:22
 msgid "Select photo from ownCloud"
-msgstr "Foto aus ownCloud auswählen"
+msgstr "Foto aus der ownCloud auswählen"
 
 #: templates/part.contact.php:35
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
@@ -595,7 +600,7 @@ msgstr "Bitte eine gültige E-Mail-Adresse angeben."
 
 #: templates/part.contact.php:64
 msgid "Enter email address"
-msgstr "E-Mail-Adresse angeben."
+msgstr "E-Mail-Adresse angeben"
 
 #: templates/part.contact.php:68
 msgid "Mail to address"
@@ -838,7 +843,7 @@ msgstr "mehr Info"
 
 #: templates/settings.php:5
 msgid "Primary address (Kontact et al)"
-msgstr "primäre Adresse (für Kontact o.ä. Programme)"
+msgstr "primäre Adresse (für Kontakt o.ä. Programme)"
 
 #: templates/settings.php:7
 msgid "iOS/OS X"

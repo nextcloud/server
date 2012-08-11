@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <davidlopez.david@gmail.com>, 2012.
 # Javier Llorente <javier@opensuse.org>, 2012.
 #   <juanma@kde.org.ar>, 2011, 2012.
 #   <monty_2731@hotmail.com>, 2011.
@@ -14,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-05 19:00+0200\n"
-"PO-Revision-Date: 2012-08-05 17:01+0000\n"
+"POT-Creation-Date: 2012-08-11 02:02+0200\n"
+"PO-Revision-Date: 2012-08-11 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +27,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Imposible cargar la lista desde App Store"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -54,7 +55,7 @@ msgstr "Idioma cambiado"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
@@ -76,11 +77,15 @@ msgstr "Castellano"
 msgid "Security Warning"
 msgstr "Advertencia de seguridad"
 
-#: templates/admin.php:28
+#: templates/admin.php:29
+msgid "Cron"
+msgstr ""
+
+#: templates/admin.php:41
 msgid "Log"
 msgstr "Registro"
 
-#: templates/admin.php:56
+#: templates/admin.php:69
 msgid "More"
 msgstr "Más"
 

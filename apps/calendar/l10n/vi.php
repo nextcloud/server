@@ -79,9 +79,6 @@
 "Month" => "Tháng",
 "List" => "Danh sách",
 "Today" => "Hôm nay",
-"Calendars" => "Lịch",
-"There was a fail, while parsing the file." => "Có một thất bại, trong khi phân tích các tập tin.",
-"Choose active calendars" => "Chọn lịch hoạt động",
 "Your calendars" => "Lịch của bạn",
 "CalDav Link" => "Liên kết CalDav ",
 "Shared calendars" => "Chia sẻ lịch",
@@ -129,7 +126,6 @@
 "of" => "của",
 "at" => "tại",
 "Timezone" => "Múi giờ",
-"Check always for changes of the timezone" => "Luôn kiểm tra múi giờ",
 "24h" => "24h",
 "12h" => "12h"
 );
