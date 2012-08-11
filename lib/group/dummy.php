@@ -141,7 +141,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups(){
+	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		return array_keys($this->groups);
 	}
 

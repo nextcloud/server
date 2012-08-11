@@ -237,7 +237,7 @@ class OC_Group {
 	 *
 	 * Returns a list with all groups
 	 */
-	public static function getGroups($search = '', $limit = 10, $offset = 0) {
+	public static function getGroups($search = '', $limit = -1, $offset = 0) {
 		$groups = array();
 		foreach (self::$_usedBackends as $backend) {
 			$groups = array_merge($backend->getGroups($search, $limit, $offset), $groups);

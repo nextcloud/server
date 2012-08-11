@@ -91,7 +91,7 @@ abstract class OC_Group_Example {
 	 *
 	 * Returns a list with all groups
 	 */
-	abstract public static function getGroups();
+	abstract public static function getGroups($search = '', $limit = -1, $offset = 0);
 
 	/**
 	 * check if a group exists

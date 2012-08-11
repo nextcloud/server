@@ -100,7 +100,7 @@ class OC_User_Dummy extends OC_User_Backend {
 		*
 		* Get a list of all users.
 		*/
-	public function getUsers(){
+	public function getUsers($search = '', $limit = -1, $offset = 0) {
 		return array_keys($this->users);
 	}
 
