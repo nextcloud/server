@@ -11,6 +11,8 @@ OC_Util::checkSubAdminUser();
 // We have some javascript foo!
 OC_Util::addScript( 'settings', 'users' );
 OC_Util::addScript( 'core', 'multiselect' );
+// TODO Move script to core
+OC_Util::addScript('contacts', 'jquery.inview');
 OC_Util::addStyle( 'settings', 'settings' );
 OC_App::setActiveNavigationEntry( 'core_users' );
 
