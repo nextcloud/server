@@ -21,6 +21,8 @@ $(document).ready(function() {
 							OC.dialogs.alert(result.data.message, 'Error configuring Dropbox storage');
 						}
 					});
+				} else if ($(this).find('.configuration #granted').length == 0) {
+					$(this).find('.configuration').append('<span id="granted">Access granted</span>');
 				}
 			}
 		}

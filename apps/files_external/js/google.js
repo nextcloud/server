@@ -22,6 +22,8 @@ $(document).ready(function() {
 							OC.dialogs.alert(result.data.message, 'Error configuring Google Drive storage');
 						}
 					});
+				} else if ($(this).find('.configuration #granted').length == 0) {
+					$(this).find('.configuration').append('<span id="granted" style="padding-left:0.5em;">Access granted</span>');
 				}
 			}
 		}
