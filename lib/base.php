@@ -440,8 +440,8 @@ class OC{
 		}
 		// Someone is logged in :
 		if(OC_User::isLoggedIn()) {
-			OC_App::loadApps();
 			if(isset($_GET["logout"]) and ($_GET["logout"])) {
+				OC_App::loadApps();
 				OC_User::logout();
 				header("Location: ".OC::$WEBROOT.'/');
 			}else{
@@ -461,6 +461,7 @@ class OC{
 	}
 
 	public static function loadAppScriptFile($param) {
+		OC_App::loadApps();
 		$app = $param['app'];
 		$file = $param['file'];
 		$app_path = OC_App::getAppPath($app);

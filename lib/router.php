@@ -34,6 +34,8 @@ class OC_Router {
 				$this->root->addCollection($collection, '/apps/'.$app);
 			}
 		}
+		$this->useCollection('root');
+		require_once('core/routes.php');
 	}
 
 	protected function getCollection($name) {
