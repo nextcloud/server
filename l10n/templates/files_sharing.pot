@@ -17,22 +17,38 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: appinfo/app.php:39
-msgid "Pictures"
+#: templates/list.php:2
+msgid "Your Shared Files"
 msgstr ""
 
-#: js/pictures.js:12
-msgid "Share gallery"
+#: templates/list.php:6
+msgid "Item"
 msgstr ""
 
-#: js/pictures.js:32
-msgid "Error: "
+#: templates/list.php:7
+msgid "Shared With"
 msgstr ""
 
-#: js/pictures.js:32
-msgid "Internal error"
+#: templates/list.php:8
+msgid "Permissions"
 msgstr ""
 
-#: templates/index.php:27
-msgid "Slideshow"
+#: templates/list.php:16
+msgid "Read"
+msgstr ""
+
+#: templates/list.php:16
+msgid "Edit"
+msgstr ""
+
+#: templates/list.php:16 templates/list.php:17
+msgid "Delete"
+msgstr ""
+
+#: templates/settings.php:3
+msgid "Enable Resharing"
+msgstr ""
+
+#: templates/settings.php:4
+msgid "Allow users to reshare files they don't own"
 msgstr ""

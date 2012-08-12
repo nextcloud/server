@@ -17,22 +17,18 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: appinfo/app.php:39
-msgid "Pictures"
+#: templates/settings.php:3
+msgid "Encryption"
 msgstr ""
 
-#: js/pictures.js:12
-msgid "Share gallery"
+#: templates/settings.php:4
+msgid "Exclude the following file types from encryption"
 msgstr ""
 
-#: js/pictures.js:32
-msgid "Error: "
+#: templates/settings.php:5
+msgid "None"
 msgstr ""
 
-#: js/pictures.js:32
-msgid "Internal error"
-msgstr ""
-
-#: templates/index.php:27
-msgid "Slideshow"
+#: templates/settings.php:10
+msgid "Enable Encryption"
 msgstr ""
