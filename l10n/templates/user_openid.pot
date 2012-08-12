@@ -17,50 +17,38 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: appinfo/app.php:45 templates/player.php:8
-msgid "Music"
+#: templates/nomode.php:12
+msgid "This is an OpenID server endpoint. For more information, see "
 msgstr ""
 
-#: js/music.js:18
-msgid "Add album to playlist"
+#: templates/nomode.php:14
+msgid "Identity: <b>"
 msgstr ""
 
-#: templates/music.php:3 templates/player.php:12
-msgid "Play"
+#: templates/nomode.php:15
+msgid "Realm: <b>"
 msgstr ""
 
-#: templates/music.php:4 templates/music.php:26 templates/player.php:13
-msgid "Pause"
+#: templates/nomode.php:16
+msgid "User: <b>"
 msgstr ""
 
-#: templates/music.php:5
-msgid "Previous"
+#: templates/nomode.php:17
+msgid "Login"
 msgstr ""
 
-#: templates/music.php:6 templates/player.php:14
-msgid "Next"
+#: templates/nomode.php:22
+msgid "Error: <b>No user Selected"
 msgstr ""
 
-#: templates/music.php:7
-msgid "Mute"
+#: templates/settings.php:4
+msgid "you can authenticate to other sites with this address"
 msgstr ""
 
-#: templates/music.php:8
-msgid "Unmute"
+#: templates/settings.php:5
+msgid "Authorized OpenID provider"
 msgstr ""
 
-#: templates/music.php:25
-msgid "Rescan Collection"
-msgstr ""
-
-#: templates/music.php:37
-msgid "Artist"
-msgstr ""
-
-#: templates/music.php:38
-msgid "Album"
-msgstr ""
-
-#: templates/music.php:39
-msgid "Title"
+#: templates/settings.php:6
+msgid "Your address at Wordpress, Identi.ca, &hellip;"
 msgstr ""

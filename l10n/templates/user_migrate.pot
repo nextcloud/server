@@ -17,10 +17,34 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: js/settings-personal.js:31
-msgid "Expire all versions"
+#: js/export.js:14 js/export.js:20
+msgid "Export"
+msgstr ""
+
+#: js/export.js:19
+msgid "Something went wrong while the export file was being generated"
+msgstr ""
+
+#: js/export.js:19
+msgid "An error has occurred"
+msgstr ""
+
+#: templates/settings.php:2
+msgid "Export your user account"
 msgstr ""
 
 #: templates/settings.php:3
-msgid "Enable Files Versioning"
+msgid "This will create a compressed file that contains your ownCloud account."
+msgstr ""
+
+#: templates/settings.php:13
+msgid "Import user account"
+msgstr ""
+
+#: templates/settings.php:15
+msgid "ownCloud User Zip"
+msgstr ""
+
+#: templates/settings.php:17
+msgid "Import"
 msgstr ""
