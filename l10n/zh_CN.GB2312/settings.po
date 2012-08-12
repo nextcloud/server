@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <bluehattree@126.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:03+0000\n"
+"POT-Creation-Date: 2012-08-12 02:02+0200\n"
+"PO-Revision-Date: 2012-08-12 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -19,208 +20,220 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "不能从App Store 中加载列表"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "Email 保存了"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "非法Email"
 
 #: ajax/openid.php:16
 msgid "OpenID Changed"
-msgstr ""
+msgstr "OpenID 改变了"
 
 #: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
-msgstr ""
+msgstr "非法请求"
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "认证错误"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
-msgstr ""
+msgstr "语言改变了"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
-msgstr ""
+msgstr "禁用"
 
 #: js/apps.js:39 js/apps.js:62
 msgid "Enable"
-msgstr ""
+msgstr "启用"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "保存中..."
 
 #: personal.php:46 personal.php:47
 msgid "__language_name__"
-msgstr ""
+msgstr "Chinese"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "安全警告"
 
 #: templates/admin.php:29
 msgid "Cron"
+msgstr "定时"
+
+#: templates/admin.php:31
+msgid "execute one task with each page loaded"
 msgstr ""
 
-#: templates/admin.php:41
+#: templates/admin.php:33
+msgid "cron.php is registered at a webcron service"
+msgstr ""
+
+#: templates/admin.php:35
+msgid "use systems cron service"
+msgstr ""
+
+#: templates/admin.php:39
 msgid "Log"
-msgstr ""
+msgstr "日志"
 
-#: templates/admin.php:69
+#: templates/admin.php:67
 msgid "More"
-msgstr ""
+msgstr "更多"
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr ""
+msgstr "添加你的应用程序"
 
 #: templates/apps.php:26
 msgid "Select an App"
-msgstr ""
+msgstr "选择一个程序"
 
 #: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "在owncloud.com上查看应用程序"
 
 #: templates/apps.php:30
 msgid "-licensed"
-msgstr ""
+msgstr "-许可了"
 
 #: templates/apps.php:30
 msgid "by"
-msgstr ""
+msgstr "由"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "文档"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "管理大文件"
 
 #: templates/help.php:10
 msgid "Ask a question"
-msgstr ""
+msgstr "提一个问题"
 
 #: templates/help.php:22
 msgid "Problems connecting to help database."
-msgstr ""
+msgstr "连接到帮助数据库时的问题"
 
 #: templates/help.php:23
 msgid "Go there manually."
-msgstr ""
+msgstr "收到转到."
 
 #: templates/help.php:31
 msgid "Answer"
-msgstr ""
+msgstr "回答"
 
 #: templates/personal.php:8
 msgid "You use"
-msgstr ""
+msgstr "你使用"
 
 #: templates/personal.php:8
 msgid "of the available"
-msgstr ""
+msgstr "可用的"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "桌面和移动同步客户端"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "下载"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
-msgstr ""
+msgstr "你的密码已经改变"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr ""
+msgstr "不能改变你的密码"
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr ""
+msgstr "现在的密码"
 
 #: templates/personal.php:22
 msgid "New password"
-msgstr ""
+msgstr "新密码"
 
 #: templates/personal.php:23
 msgid "show"
-msgstr ""
+msgstr "展示"
 
 #: templates/personal.php:24
 msgid "Change password"
-msgstr ""
+msgstr "改变密码"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr ""
+msgstr "你的email地址"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "输入一个邮箱地址以激活密码恢复功能"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
-msgstr ""
+msgstr "语言"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr ""
+msgstr "帮助翻译"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "使用这个地址和你的文件管理器连接到你的ownCloud"
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
-msgstr ""
+msgstr "名字"
 
 #: templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "密码"
 
 #: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
-msgstr ""
+msgstr "组"
 
 #: templates/users.php:32
 msgid "Create"
-msgstr ""
+msgstr "新建"
 
 #: templates/users.php:35
 msgid "Default Quota"
-msgstr ""
+msgstr "默认限额"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
-msgstr ""
+msgstr "其他的"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
-msgstr ""
+msgstr "子专辑"
 
 #: templates/users.php:82
 msgid "Quota"
-msgstr ""
+msgstr "限额"
 
 #: templates/users.php:146
 msgid "Delete"
-msgstr ""
+msgstr "删除"

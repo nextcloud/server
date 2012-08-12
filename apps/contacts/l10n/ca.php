@@ -59,6 +59,7 @@
 "Edit name" => "Edita el nom",
 "No files selected for upload." => "No s'han seleccionat fitxers per a la pujada.",
 "The file you are trying to upload exceed the maximum size for file uploads on this server." => "El fitxer que intenteu pujar excedeix la mida màxima de pujada en aquest servidor.",
+"Error loading profile picture." => "Error en carregar la imatge de perfil.",
 "Select type" => "Seleccioneu un tipus",
 "Some contacts are marked for deletion, but not deleted yet. Please wait for them to be deleted." => "Heu marcat eliminar alguns contactes, però encara no s'han eliminat. Espereu mentre s'esborren.",
 "Result: " => "Resultat: ",

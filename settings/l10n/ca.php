@@ -12,6 +12,7 @@
 "Saving..." => "S'està desant...",
 "__language_name__" => "Català",
 "Security Warning" => "Avís de seguretat",
+"Cron" => "Cron",
 "Log" => "Registre",
 "More" => "Més",
 "Add your App" => "Afegeiu la vostra aplicació",

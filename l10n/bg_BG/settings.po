@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:03+0000\n"
+"POT-Creation-Date: 2012-08-12 02:02+0200\n"
+"PO-Revision-Date: 2012-08-12 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -76,11 +76,23 @@ msgstr ""
 msgid "Cron"
 msgstr ""
 
-#: templates/admin.php:41
+#: templates/admin.php:31
+msgid "execute one task with each page loaded"
+msgstr ""
+
+#: templates/admin.php:33
+msgid "cron.php is registered at a webcron service"
+msgstr ""
+
+#: templates/admin.php:35
+msgid "use systems cron service"
+msgstr ""
+
+#: templates/admin.php:39
 msgid "Log"
 msgstr ""
 
-#: templates/admin.php:69
+#: templates/admin.php:67
 msgid "More"
 msgstr ""
 

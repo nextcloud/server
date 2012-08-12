@@ -59,6 +59,7 @@
 "Edit name" => "Modifica il nome",
 "No files selected for upload." => "Nessun file selezionato per l'invio",
 "The file you are trying to upload exceed the maximum size for file uploads on this server." => "Il file che stai cercando di inviare supera la dimensione massima per l'invio dei file su questo server.",
+"Error loading profile picture." => "Errore durante il caricamento dell'immagine di profilo.",
 "Select type" => "Seleziona il tipo",
 "Some contacts are marked for deletion, but not deleted yet. Please wait for them to be deleted." => "Alcuni contatti sono marcati per l'eliminazione, ma non sono stati ancora rimossi. Attendi fino al completamento dell'operazione.",
 "Result: " => "Risultato: ",

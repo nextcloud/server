@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <bluehattree@126.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2011-08-13 02:19+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-12 02:02+0200\n"
+"PO-Revision-Date: 2012-08-11 14:06+0000\n"
+"Last-Translator: bluehattree <bluehattree@126.com>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,48 +20,48 @@ msgstr ""
 
 #: appinfo/app.php:45 templates/player.php:8
 msgid "Music"
-msgstr ""
+msgstr "音乐"
 
 #: js/music.js:18
 msgid "Add album to playlist"
-msgstr ""
+msgstr "添加专辑到播放列表"
 
 #: templates/music.php:3 templates/player.php:12
 msgid "Play"
-msgstr ""
+msgstr "播放"
 
 #: templates/music.php:4 templates/music.php:26 templates/player.php:13
 msgid "Pause"
-msgstr ""
+msgstr "暂停"
 
 #: templates/music.php:5
 msgid "Previous"
-msgstr ""
+msgstr "前面的"
 
 #: templates/music.php:6 templates/player.php:14
 msgid "Next"
-msgstr ""
+msgstr "下一个"
 
 #: templates/music.php:7
 msgid "Mute"
-msgstr ""
+msgstr "静音"
 
 #: templates/music.php:8
 msgid "Unmute"
-msgstr ""
+msgstr "取消静音"
 
 #: templates/music.php:25
 msgid "Rescan Collection"
-msgstr ""
+msgstr "重新扫描收藏"
 
 #: templates/music.php:37
 msgid "Artist"
-msgstr ""
+msgstr "艺术家"
 
 #: templates/music.php:38
 msgid "Album"
-msgstr ""
+msgstr "专辑"
 
 #: templates/music.php:39
 msgid "Title"
-msgstr ""
+msgstr "标题"

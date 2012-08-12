@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-12 02:02+0200\n"
+"PO-Revision-Date: 2012-08-11 11:20+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -478,7 +478,7 @@ msgstr "Avui"
 
 #: templates/calendar.php:46 templates/calendar.php:47
 msgid "Settings"
-msgstr ""
+msgstr "Configuració"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
@@ -732,7 +732,7 @@ msgstr "a"
 
 #: templates/settings.php:10
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: templates/settings.php:15
 msgid "Timezone"
@@ -740,11 +740,11 @@ msgstr "Zona horària"
 
 #: templates/settings.php:47
 msgid "Update timezone automatically"
-msgstr ""
+msgstr "Actualitza la zona horària automàticament"
 
 #: templates/settings.php:52
 msgid "Time format"
-msgstr ""
+msgstr "Format horari"
 
 #: templates/settings.php:57
 msgid "24h"
@@ -756,7 +756,7 @@ msgstr "12h"
 
 #: templates/settings.php:64
 msgid "Start week on"
-msgstr ""
+msgstr "Comença la setmana en "
 
 #: templates/settings.php:76
 msgid "Cache"
@@ -768,7 +768,7 @@ msgstr "Neteja la memòria de cau pels esdeveniments amb repetició"
 
 #: templates/settings.php:85
 msgid "URLs"
-msgstr ""
+msgstr "URLs"
 
 #: templates/settings.php:87
 msgid "Calendar CalDAV syncing addresses"
