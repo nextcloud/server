@@ -40,7 +40,7 @@
 .thisday{background: #FFFABC;}
 .event {position:relative;}
 .event.colored {border-bottom: 1px solid white;}
-.popup {display: none; position: absolute; z-index: 1000; background: #eeeeee; color: #000000; border: 1px solid #1a1a1a; font-size: 90%;}
+/*.popup {display: none; position: absolute; z-index: 1000; background: #eeeeee; color: #000000; border: 1px solid #1a1a1a; font-size: 90%;}*/
 .event_popup {width: 280px; height: 40px; padding: 10px;}
 
 input[type="button"].active {color: #6193CF}
