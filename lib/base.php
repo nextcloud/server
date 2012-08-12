@@ -430,9 +430,12 @@ class OC{
 			OC_Response::setStatus(405);
 			return;
 		}
+		$app = OC::$REQUESTEDAPP;
+		$file = OC::$REQUESTEDFILE;
+		$param = array('app' => $app, 'file' => $file);
 		// Handle app css files
-		if(substr(OC::$REQUESTEDFILE,-3) == 'css') {
-			self::loadCSSFile();
+		if(substr($file,-3) == 'css') {
+			self::loadCSSFile($param);
 			return;
 		}
 		// Someone is logged in :
@@ -442,14 +445,12 @@ class OC{
 				OC_User::logout();
 				header("Location: ".OC::$WEBROOT.'/');
 			}else{
-				$app = OC::$REQUESTEDAPP;
-				$file = OC::$REQUESTEDFILE;
 				if(is_null($file)) {
-					$file = 'index.php';
+					$param['file'] = 'index.php';
 				}
-				$file_ext = substr($file, -3);
+				$file_ext = substr($param['file'], -3);
 				if ($file_ext != 'php'
-					|| !self::loadAppScriptFile($app, $file)) {
+					|| !self::loadAppScriptFile($param)) {
 					header('HTTP/1.0 404 Not Found');
 				}
 			}
@@ -459,7 +460,9 @@ class OC{
 		self::handleLogin();
 	}
 
-	protected static function loadAppScriptFile($app, $file) {
+	public static function loadAppScriptFile($param) {
+		$app = $param['app'];
+		$file = $param['file'];
 		$app_path = OC_App::getAppPath($app);
 		$file = $app_path . '/' . $file;
 		unset($app, $app_path);
@@ -470,9 +473,9 @@ class OC{
 		return false;
 	}
 
-	protected static function loadCSSFile() {
-		$app = OC::$REQUESTEDAPP;
-		$file = OC::$REQUESTEDFILE;
+	public static function loadCSSFile($param) {
+		$app = $param['app'];
+		$file = $param['file'];
 		$app_path = OC_App::getAppPath($app);
 		if (file_exists($app_path . '/' . $file)) {
 			$app_web_path = OC_App::getAppWebPath($app);
