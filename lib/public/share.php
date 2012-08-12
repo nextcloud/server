@@ -140,7 +140,7 @@ class Share {
 	* @param int CRUDS permissions
 	* @return bool Returns true on success or false on failure
 	*/
-	public static function share($itemType, $itemSource, $shareType, $shareWith, $permissions) {
+	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions) {
 		$uidOwner = \OC_User::getUser();
 		// Verify share type and sharing conditions are met
 		switch ($shareType) {
@@ -201,7 +201,7 @@ class Share {
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 					throw new \Exception($message);
 				}
-				return self::share($itemType, $itemSource, self::SHARE_TYPE_EMAIL, $details['EMAIL'], $permissions);
+				return self::shareItem($itemType, $itemSource, self::SHARE_TYPE_EMAIL, $details['EMAIL'], $permissions);
 				break;
 			// Future share types need to include their own conditions
 			default:
