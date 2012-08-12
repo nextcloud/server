@@ -41,8 +41,10 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		// NOTE: the following 10 lines or so could be easily replaced by
 		// pure sql. MySQL's non-standard string concatination prevents us
 		// from doing this though.
-		$query = 'SELECT * FROM `*PREFIX*locks` WHERE `userid` = ? AND (`created` + `timeout`) > ? AND ((`uri` = ?)';
-		$params = array(OC_User::getUser(),time(),$uri);
+		// Fix: sqlite does not insert time() as a number but as text, making
+		// the equation returning false all the time
+		$query = 'SELECT * FROM `*PREFIX*locks` WHERE `userid` = ? AND (`created` + `timeout`) > '.time().' AND ((`uri` = ?)';
+		$params = array(OC_User::getUser(),$uri);
 
 		// We need to check locks for every part in the uri.
 		$uriParts = explode('/',$uri);
