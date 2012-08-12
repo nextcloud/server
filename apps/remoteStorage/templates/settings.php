@@ -1,10 +1,6 @@
 	<fieldset class="personalblock">
-		<?php
-			echo '<img src="'.image_path('remoteStorage', 'remoteStorage.png').'" style="width:16px"> '
-				.'<strong>'.$l->t('remoteStorage').'</strong> user address: '
-				.OCP\USER::getUser().'@'.$_SERVER['SERVER_NAME']
-				.' (<a href="http://unhosted.org/">more info</a>)';
-		?>
+		<img src="<?php echo image_path('remoteStorage', 'remoteStorage.png') ?>" style="width:16px">
+		<strong><?php echo $l->t('remoteStorage') ?></strong> user address: <?php echo OCP\USER::getUser().'@'.$_SERVER['SERVER_NAME'] ?> (<a href="http://unhosted.org/">more info</a>)
 		<p><em>Apps that currently have access to your ownCloud:</em></p>
 		<script>
 			function revokeToken(token) {
@@ -14,15 +10,13 @@
 			}
 		</script>
 		<ul>
-		<?php
-			foreach(OC_remoteStorage::getAllTokens() as $token => $details) {
-				echo '<li onmouseover="'
-					.'document.getElementById(\'revoke_'.$token.'\').style.display=\'inline\';"'
-					.'onmouseout="document.getElementById(\'revoke_'.$token.'\').style.display=\'none\';"'
-					.'> <strong>'.$details['appUrl'].'</strong>: '.$details['categories']
-					.' <a href="#" title="Revoke" class="action" style="display:none" id="revoke_'.$token.'" onclick="'
-					.'revokeToken(\''.$token.'\');this.parentNode.style.display=\'none\';"'
-					.'><img src="'.OCP\Util::imagePath('core', 'actions/delete.svg').'"></a></li>'."\n";
-			}
-		?></ul>
+		<?php foreach(OC_remoteStorage::getAllTokens() as $token => $details) { ?>
+			<li onmouseover="$('#revoke_<?php echo $token ?>').show();" onmouseout="$('#revoke_<?php echo $token ?>').hide();">
+				<strong><?php echo $details['appUrl'] ?></strong>: <?php echo $details['categories'] ?>
+				<a href="#" title="Revoke" class="action" style="display:none" id="revoke_<?php echo $token ?>" onclick="revokeToken('<?php echo $token ?>');$(this).hide();">
+					<img src="<?php echo OCP\Util::imagePath('core', 'actions/delete.svg') ?>">
+				</a>
+			</li>
+		<?php } ?>
+		</ul>
 	</fieldset>
