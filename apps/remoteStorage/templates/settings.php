@@ -1,6 +1,6 @@
 	<fieldset class="personalblock">
 		<?php
-			echo '<img src="../apps/remoteStorage/remoteStorage.png" style="width:16px"> '
+			echo '<img src="'.image_path('remoteStorage', 'remoteStorage.png').'" style="width:16px"> '
 				.'<strong>'.$l->t('remoteStorage').'</strong> user address: '
 				.OCP\USER::getUser().'@'.$_SERVER['SERVER_NAME']
 				.' (<a href="http://unhosted.org/">more info</a>)';
@@ -22,7 +22,7 @@
 					.'> <strong>'.$details['appUrl'].'</strong>: '.$details['categories']
 					.' <a href="#" title="Revoke" class="action" style="display:none" id="revoke_'.$token.'" onclick="'
 					.'revokeToken(\''.$token.'\');this.parentNode.style.display=\'none\';"'
-					.'><img src="/core/img/actions/delete.svg"></a></li>'."\n";
+					.'><img src="'.OCP\Util::imagePath('core', 'actions/delete.svg').'"></a></li>'."\n";
 			}
 		?></ul>
 	</fieldset>
