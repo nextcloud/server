@@ -22,6 +22,7 @@ $(document).ready(function() {
 						}
 					});
 				} else if ($(this).find('.configuration #granted').length == 0) {
+					$(this).find('.configuration input').attr('disabled', 'disabled');
 					$(this).find('.configuration').append('<span id="granted">Access granted</span>');
 				}
 			}
