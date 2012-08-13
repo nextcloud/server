@@ -767,7 +767,7 @@ class OC_OCS {
         }
 		
 		/**
-		 * set the encryption keyn of a file
+		 * set the encryption key of a file
 		 * @param string $format
 		 * @param string $file
 		 * @param string $key

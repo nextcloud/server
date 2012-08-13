@@ -167,6 +167,12 @@ class Keymanager {
 			$targetpath_parts=explode( '/',$targetpath );
 			
 			$user = $targetpath_parts[1];
+
+			$rootview = new \OC_FilesystemView( '/');
+			if (!$rootview->is_writable($targetpath)) {
+				\OC_Log::write( 'Encryption library', "File Key not updated because you don't have write access for the corresponding file"  , \OC_Log::ERROR );
+				return false;
+			}	
 			
 			$targetpath = str_replace( '/'.$user.'/files/', '', $targetpath );
 			
