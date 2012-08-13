@@ -273,7 +273,12 @@ class OC_Filesystem{
 	*/
 	static private function createStorage($class,$arguments){
 		if(class_exists($class)){
-			return new $class($arguments);
+			try {
+				return new $class($arguments);
+			} catch (Exception $exception) {
+				OC_Log::write('core', $exception->getMessage(), OC_Log::ERROR);
+				return false;
+			}
 		}else{
 			OC_Log::write('core','storage backend '.$class.' not found',OC_Log::ERROR);
 			return false;
