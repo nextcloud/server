@@ -30,9 +30,13 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	private static $tempFiles = array();
 
 	public function __construct($params) {
-		$oauth = new Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
-		$oauth->setToken($params['token'], $params['token_secret']);
-		$this->dropbox = new Dropbox_API($oauth, 'dropbox');
+		if (isset($params['configured']) && $params['configured'] == 'true' && isset($params['app_key']) && isset($params['app_secret']) && isset($params['token']) && isset($params['token_secret'])) {
+			$oauth = new Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
+			$oauth->setToken($params['token'], $params['token_secret']);
+			$this->dropbox = new Dropbox_API($oauth, 'dropbox');
+		} else {
+			throw new Exception('Creating OC_Filestorage_Dropbox storage failed');
+		}
 	}
 
 	private function getMetaData($path, $list = false) {
@@ -43,6 +47,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 				try {
 					$response = $this->dropbox->getMetaData($path);
 				} catch (Exception $exception) {
+					OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
 					return false;
 				}
 				if ($response && isset($response['contents'])) {
@@ -63,6 +68,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 					$this->metaData[$path] = $response;
 					return $response;
 				} catch (Exception $exception) {
+					OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
 					return false;
 				}
 			}
@@ -74,6 +80,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 			$this->dropbox->createFolder($path);
 			return true;
 		} catch (Exception $exception) {
+			OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -141,6 +148,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 			$this->dropbox->delete($path);
 			return true;
 		} catch (Exception $exception) {
+			OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -150,6 +158,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 			$this->dropbox->move($path1, $path2);
 			return true;
 		} catch (Exception $exception) {
+			OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -159,6 +168,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 			$this->dropbox->copy($path1, $path2);
 			return true;
 		} catch (Exception $exception) {
+			OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -173,6 +183,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 					file_put_contents($tmpFile, $data);
 					return fopen($tmpFile, 'r');
 				} catch (Exception $exception) {
+					OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
 					return false;
 				}
 			case 'w':
@@ -211,7 +222,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 				$this->dropbox->putFile(self::$tempFiles[$tmpFile], $handle);
 				unlink($tmpFile);
 			} catch (Exception $exception) {
-				
+				OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
 			}
 		}
 	}
@@ -230,6 +241,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 			$info = $this->dropbox->getAccountInfo();
 			return $info['quota_info']['quota'] - $info['quota_info']['normal'];
 		} catch (Exception $exception) {
+			OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
 			return false;
 		}
 	}
