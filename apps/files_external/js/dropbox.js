@@ -9,6 +9,7 @@ $(document).ready(function() {
 			} else  {
 				var pos = window.location.search.indexOf('oauth_token') + 12
 				var token = $(this).find('.configuration [data-parameter="token"]');
+				var access = true;
 				if (pos != -1 && window.location.search.substr(pos, $(token).val().length) == $(token).val()) {
 					var token_secret = $(this).find('.configuration [data-parameter="token_secret"]');
 					var tr = $(this);
@@ -18,10 +19,12 @@ $(document).ready(function() {
 							$(token_secret).val(result.access_token_secret);
 							OC.MountConfig.saveStorage(tr);
 						} else {
+							access = false;
 							OC.dialogs.alert(result.data.message, 'Error configuring Dropbox storage');
 						}
 					});
-				} else if ($(this).find('.configuration #granted').length == 0) {
+				}
+				if (access && $(this).find('.configuration #granted').length == 0) {
 					$(this).find('.configuration input').attr('disabled', 'disabled');
 					$(this).find('.configuration').append('<span id="granted">Access granted</span>');
 				}

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	
+
 	$('#externalStorage tbody tr').each(function() {
 		if ($(this).find('.backend').data('class') == 'OC_Filestorage_Google') {
 			var token = $(this).find('[data-parameter="token"]');
@@ -11,6 +11,7 @@ $(document).ready(function() {
 				window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
 					params[key] = value;
 				});
+				var access = true;
 				if (params['oauth_token'] !== undefined && params['oauth_verifier'] !== undefined && decodeURIComponent(params['oauth_token']) == $(token).val()) {
 					var tr = $(this);
 					$.post(OC.filePath('files_external', 'ajax', 'google.php'), { step: 2, oauth_verifier: params['oauth_verifier'], request_token: $(token).val(), request_token_secret: $(token_secret).val() }, function(result) {
@@ -19,16 +20,18 @@ $(document).ready(function() {
 							$(token_secret).val(result.access_token_secret);
 							OC.MountConfig.saveStorage(tr);
 						} else {
+							access = false;
 							OC.dialogs.alert(result.data.message, 'Error configuring Google Drive storage');
 						}
 					});
-				} else if ($(this).find('.configuration #granted').length == 0) {
+				}
+				if (access && $(this).find('.configuration #granted').length == 0) {
 					$(this).find('.configuration').append('<span id="granted" style="padding-left:0.5em;">Access granted</span>');
 				}
 			}
 		}
 	});
-	
+
 	$('.google').live('click', function(event) {
 		event.preventDefault();
 		var tr = $(this).parent().parent();
@@ -45,5 +48,5 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
+
 });
