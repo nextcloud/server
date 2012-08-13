@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <admin@s-goecker.de>, 2012.
+#   <driz@i2pmail.org>, 2012.
 #   <fh@cbix.de>, 2012.
 #   <florian.ruechel+owncloud@gmail.com>, 2012.
 #   <georg.stefan.germany@googlemail.com>, 2011.
@@ -23,9 +24,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-13 23:12+0200\n"
+"PO-Revision-Date: 2012-08-13 20:22+0000\n"
+"Last-Translator: driz <driz@i2pmail.org>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -290,7 +291,7 @@ msgstr "Die Datei, die du hochladen willst, überschreitet die maximale Größe 
 
 #: js/contacts.js:1236
 msgid "Error loading profile picture."
-msgstr ""
+msgstr "Fehler beim Laden des Profilbildes."
 
 #: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
@@ -825,11 +826,11 @@ msgstr "Adressbücher konfigurieren"
 msgid "Select Address Books"
 msgstr "Wähle Adressbuch"
 
-#: templates/part.selectaddressbook.php:20
+#: templates/part.selectaddressbook.php:27
 msgid "Enter name"
 msgstr "Name eingeben"
 
-#: templates/part.selectaddressbook.php:22
+#: templates/part.selectaddressbook.php:29
 msgid "Enter description"
 msgstr "Beschreibung eingeben"
 

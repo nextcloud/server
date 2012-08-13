@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <admin@s-goecker.de>, 2011, 2012.
+#   <driz@i2pmail.org>, 2012.
 #   <georg.stefan.germany@googlemail.com>, 2011, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan-Christoph Borchardt <jan@unhosted.org>, 2011.
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-13 23:12+0200\n"
+"PO-Revision-Date: 2012-08-13 20:28+0000\n"
+"Last-Translator: driz <driz@i2pmail.org>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -485,7 +486,7 @@ msgstr "Heute"
 
 #: templates/calendar.php:46 templates/calendar.php:47
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
@@ -739,7 +740,7 @@ msgstr "um"
 
 #: templates/settings.php:10
 msgid "General"
-msgstr ""
+msgstr "Allgemein"
 
 #: templates/settings.php:15
 msgid "Timezone"
@@ -747,11 +748,11 @@ msgstr "Zeitzone"
 
 #: templates/settings.php:47
 msgid "Update timezone automatically"
-msgstr ""
+msgstr "Zeitzone automatisch aktualisieren"
 
 #: templates/settings.php:52
 msgid "Time format"
-msgstr ""
+msgstr "Zeitformat"
 
 #: templates/settings.php:57
 msgid "24h"
@@ -763,7 +764,7 @@ msgstr "12h"
 
 #: templates/settings.php:64
 msgid "Start week on"
-msgstr ""
+msgstr "Erster Wochentag"
 
 #: templates/settings.php:76
 msgid "Cache"
