@@ -67,6 +67,7 @@ class Hooks {
 			if (isset($params['properties']['key'])) {
 				Keymanager::setFileKey($params['path'], $params['properties']['key']);
 			} else {
+				\OC_Log::write( 'Encryption library', "Client side encryption is enabled but the client doesn't provide a encryption key for the file!", \OC_Log::ERROR );
 				error_log("Client side encryption is enabled but the client doesn't provide a encryption key for the file!");
 		}
 	}
