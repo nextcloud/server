@@ -494,6 +494,28 @@ class OC_Filesystem{
 		}
 		OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
 	}
+
+	public static function normalizePath($path){
+		//no windows style slashes
+		$path=str_replace('\\','/',$path);
+		//add leading slash
+		if($path[0]!=='/'){
+			$path='/'.$path;
+		}
+		//remove trainling slash
+		if(substr($path,-1,1)==='/'){
+			$path=substr($path,0,-1);
+		}
+		//remove duplicate slashes
+		while(strpos($path,'//')!==false){
+			$path=str_replace('//','/',$path);
+		}
+		//normalize unicode if possible
+		if(class_exists('Normalizer')){
+			$path=Normalizer::normalize($path);
+		}
+		return $path;
+	}
 }
 OC_Hook::connect('OC_Filesystem','post_write', 'OC_Filesystem','removeETagHook');
 OC_Hook::connect('OC_Filesystem','post_delete','OC_Filesystem','removeETagHook');
