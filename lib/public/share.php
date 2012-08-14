@@ -284,44 +284,6 @@ class Share {
 	}
 
 	/**
-	* @brief Set the target name of the item for the current user
-	* @param string Item type
-	* @param string Old item name
-	* @param string New item name
-	* @return Returns true on success or false on failure
-	*/
-	public static function setTarget($itemType, $oldTarget, $newTarget) {
-		$backend = self::getBackend($itemType);
-		$uidSharedWith = \OC_User::getUser();
-		// TODO Check permissions for setting target?
-		if ($item = self::getItems($itemType, $oldTarget, self::SHARE_TYPE_USER, $uidSharedWith, null, self::FORMAT_NONE, null, 1, false)) {
-			// TODO Fix
-			// Check if this is a group share
-			if ($item['uid_shared_with'] == null) {
-				// A new entry needs to be created exclusively for the user
-				$query = \OC_DB::prepare('INSERT INTO *PREFIX*share VALUES(?,?,?,?,?,?,?,?,?,?)');
-				if (isset($item['file_target'])) {
-					$fileTarget = $newTarget;
-				} else {
-					$fileTarget = null;
-				}
-				$query->execute(array($itemType, $item['item_source'], $newTarget, $uidSharedWith, $item['gid_shared_with'], $item['uid_owner'], $item['permissions'], $item['stime'], $item['file_source'], $fileTarget));
-				return true;
-			} else {
-				// Check if this item is a file or folder, update the file_target as well if this is the case
-				if ($itemType == 'file' || $itemType == 'folder') {
-					$query = \OC_DB::prepare('UPDATE *PREFIX*share SET item_target = ?, file_target = REPLACE(file_target, ?, ?) WHERE uid_shared_with = ?');
-					$query->execute(array($newTarget, $oldTarget, $newTarget, $uidSharedWith));
-				} else {
-					$query = \OC_DB::prepare('UPDATE *PREFIX*share SET item_target = ? WHERE item_type = ? AND item_target = ? AND uid_shared_with = ?');
-					$query->execute(array($newTarget, $itemType, $oldTarget, $uidSharedWith));
-				}
-				return true;
-			}
-		}
-	}
-
-	/**
 	* @brief Set the permissions of an item for a specific user or group
 	* @param string Item type
 	* @param string Item source
