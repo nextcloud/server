@@ -48,10 +48,11 @@ class Hooks {
 				return $util->setupServerSide( $params['password'] );
 
 			}
-
+		
 			$encryptedKey = Keymanager::getPrivateKey( $params['uid'] );
 
-			$_SESSION['enckey'] = Crypt::symmetricEncryptFileContent( $encryptedKey, $params['password'] );
+			$_SESSION['enckey'] = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
+			
 		}
 
 		return true;

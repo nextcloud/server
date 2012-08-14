@@ -7,11 +7,11 @@
  * See the COPYING-README file.
  */
 
-require realpath( dirname(__FILE__).'/../lib/crypt.php' );
-require realpath( dirname(__FILE__).'/../lib/util.php' );
+require_once realpath( dirname(__FILE__).'/../lib/crypt.php' );
+require_once realpath( dirname(__FILE__).'/../lib/util.php' );
 //require realpath( dirname(__FILE__).'/../../../lib/filecache.php' );
 
-class Test_Encryption extends UnitTestCase {
+class Test_Crypt extends UnitTestCase {
 	
 	function setUp() {
 		
@@ -32,7 +32,7 @@ class Test_Encryption extends UnitTestCase {
 		
 		$this->assertTrue( $key );
 		
-		$this->assertTrue( strlen( $key ) > 1000 );
+		$this->assertTrue( strlen( $key ) > 16 );
 	
 	}
 	
@@ -135,6 +135,46 @@ class Test_Encryption extends UnitTestCase {
 		$decrypt = OCA_Encryption\Crypt::multiKeyDecrypt( $crypted['encrypted'], $crypted['keys'][0], $pair1['privateKey'] );
 		
  		$this->assertEqual( $this->data, $decrypt );
+	
+	}
+	
+	function testKeyEncrypt() {
+		
+		// Generate keypair
+		$pair1 = OCA_Encryption\Crypt::createKeypair();
+		
+		// Encrypt data
+		$crypted = OCA_Encryption\Crypt::keyEncrypt( $this->data, $pair1['publicKey'] );
+		
+		$this->assertNotEqual( $this->data, $crypted );
+		
+		// Decrypt data
+		$decrypt = OCA_Encryption\Crypt::keyDecrypt( $crypted, $pair1['privateKey'] );
+		
+		$this->assertEqual( $this->data, $decrypt );
+	
+	}
+	
+	function testKeyEncryptKeyfile() {
+	
+		# TODO: Don't repeat encryption from previous tests, use PHPUnit test interdependency instead
+		
+		// Generate keypair
+		$pair1 = OCA_Encryption\Crypt::createKeypair();
+		
+		// Encrypt plain data, generate keyfile & encrypted file
+		$cryptedData = OCA_Encryption\Crypt::symmetricEncryptFileContentKeyfile( $this->data );
+		
+		// Encrypt keyfile
+		$cryptedKey = OCA_Encryption\Crypt::keyEncrypt( $cryptedData['key'], $pair1['publicKey'] );
+		
+		// Decrypt keyfile
+		$decryptKey = OCA_Encryption\Crypt::keyDecrypt( $cryptedKey, $pair1['privateKey'] );
+		
+		// Decrypt encrypted file
+		$decryptData = OCA_Encryption\Crypt::symmetricDecryptFileContent( $cryptedData['encrypted'], $decryptKey );
+		
+		$this->assertEqual( $this->data, $decryptData );
 	
 	}
 

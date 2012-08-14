@@ -41,6 +41,19 @@ class Keymanager {
 		return $view->file_get_contents( '/' . $user.'.private.key' );
 		
 	}
+
+	/**
+	 * @brief retrieve public key for a specified user
+	 * 
+	 * @return string public key or false
+	 */
+	public static function getPublicKey() {
+	
+		$user = \OCP\User::getUser();	
+		$view = new \OC_FilesystemView( '/public-keys/' );
+		return $view->file_get_contents( '/' . $user . '.public.key' );
+		
+	}
 	
 	/**
 	 * @brief retrieve a list of the public key from all users with access to the file
@@ -94,22 +107,26 @@ class Keymanager {
 	 * @return string file key or false
 	 */
 	public static function getFileKey( $path ) {
-		
+		trigger_error("div ".$path);
 		$keypath = ltrim( $path, '/' );
 		$user = \OCP\User::getUser();
 
 		// update $keypath and $user if path point to a file shared by someone else
 		$query = \OC_DB::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
+		
 		$result = $query->execute( array ('/'.$user.'/files/'.$keypath, $user));
-		if ($row = $result->fetchRow()){
+		
+		if ($row = $result->fetchRow()) {
+		
 			$keypath = $row['source'];
-			$keypath_parts=explode('/',$keypath);
+			$keypath_parts = explode( '/', $keypath );
 			$user = $keypath_parts[1];
-			$keypath = str_replace('/'.$user.'/files/', '', $keypath);
+			$keypath = str_replace( '/' . $user . '/files/', '', $keypath );
+			
 		}
 		
 		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/keyfiles/');
-		return $view->file_get_contents($keypath.'.key');
+		return $view->file_get_contents( $keypath . '.key' );
 		
 	}	
 	

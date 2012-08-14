@@ -103,11 +103,14 @@ class Proxy extends \OC_FileProxy {
 				// Set the filesize for userland, before encrypting
 				$size = strlen( $data );
 				
+				// Disable encryption proxy to prevent recursive calls
+				\OC_FileProxy::$enabled = false;
+				
 				// Encrypt plain data and fetch key
-				$encrypted = Crypt::symmetricEncryptFileContentKeyfile( $data, $_SESSION['enckey'] );
+				$encrypted = Crypt::keyEncryptKeyfile( $data, Keymanager::getPublicKey() );
 				
 				// Replace plain content with encrypted content by reference
-				$data = $encrypted['encrypted'];
+				$data = $encrypted['data'];
 				
 				$filePath = explode( '/', $path );
 				
@@ -119,10 +122,12 @@ class Proxy extends \OC_FileProxy {
 				$view = new \OC_FilesystemView( '/' . \OCP\USER::getUser() . '/files_encryption/keyfiles' );
 				
 				// Save keyfile for newly encrypted file in parallel directory tree
-				Keymanager::setFileKey( \OCP\USER::getUser(), $filePath, $encrypted['key'], $view, '\OC_DB', '\OC_FileProxy' );
+				Keymanager::setFileKey( $filePath, $encrypted['key'], $view, '\OC_DB' );
 				
 				// Update the file cache with file info
 				\OC_FileCache::put( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
+				
+				\OC_FileProxy::$enabled = true;
 				
 			}
 		}
@@ -138,14 +143,18 @@ class Proxy extends \OC_FileProxy {
 			
 			$filePath = '/' . implode( '/', $filePath );
 			
-			trigger_error( "CAT " . $filePath);
-		
 			$cached = \OC_FileCache_Cached::get( $path, '' );
 			
-			// Get keyfile for encrypted file
-			$keyFile = Keymanager::getFileKey( \OCP\USER::getUser(), $filePath );
+			// Disable encryption proxy to prevent recursive calls
+			\OC_FileProxy::$enabled = false;
 			
-			$data = Crypt::symmetricDecryptFileContent( $data, $keyFile );
+			$keyFile = Keymanager::getFileKey( $filePath );
+			
+			$privateKey = Keymanager::getPrivateKey();
+			
+			$data = Crypt::keyDecryptKeyfile( $data, $keyFile, $privateKey  );
+			
+			\OC_FileProxy::$enabled = true;
 		
 		}
 		

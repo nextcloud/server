@@ -217,6 +217,7 @@ class Crypt {
 	* @param string $source
 	* @param string $target
 	* @param string $key the decryption key
+	* @returns decrypted content
 	*
 	* This function decrypts a file
 	*/
@@ -305,7 +306,7 @@ class Crypt {
 	/**
 	* @brief Asymmetrically encrypt a file using multiple public keys
 	* @param string $plainContent content to be encrypted
-	* @returns array keys: key, encrypted
+	* @returns string $plainContent decrypted string
 	* @note symmetricDecryptFileContent() can be used to decrypt files created using this method
 	*
 	* This function decrypts a file
@@ -355,6 +356,40 @@ class Crypt {
 		return $plainContent;
 	
 	}
+
+        /**
+         * @brief Encrypts content symmetrically and generated keyfile asymmetrically
+         * @returns array keys: data, key
+         * @note this method is a wrapper for combining other crypt class methods
+         */
+	public static function keyEncryptKeyfile( $plainContent, $publicKey ) {
+		
+		// Encrypt plain data, generate keyfile & encrypted file
+		$cryptedData = self::symmetricEncryptFileContentKeyfile( $plainContent );
+		
+		// Encrypt keyfile
+		$cryptedKey = self::keyEncrypt( $cryptedData['key'], $publicKey );
+		
+		return array( 'data' => $cryptedData['encrypted'], 'key' => $cryptedKey );
+		
+	}
+	
+        /**
+         * @brief Encrypts content symmetrically and generated keyfile asymmetrically
+         * @returns decrypted content
+         * @note this method is a wrapper for combining other crypt class methods
+         */
+	public static function keyDecryptKeyfile( $encryptedData, $encryptedKey, $privateKey ) {
+		
+		// Decrypt keyfile
+		$decryptedKey = self::keyDecrypt( $encryptedKey, $privateKey );
+		
+		// Decrypt encrypted file
+		$decryptedData = self::symmetricDecryptFileContent( $encryptedData, $decryptedKey );
+		
+		return $decryptedData;
+		
+	}
 	
         /**
          * @brief Generate a pseudo random 1024kb ASCII key
@@ -392,7 +427,7 @@ class Crypt {
 		// $key = mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 );
 		
 		// Generate key
-		if ( $key = base64_encode( openssl_random_pseudo_bytes( 768000, $strong ) ) ) {
+		if ( $key = base64_encode( openssl_random_pseudo_bytes( 183, $strong ) ) ) {
 		
 			if ( !$strong ) {
 			
