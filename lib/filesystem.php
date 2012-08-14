@@ -503,7 +503,7 @@ class OC_Filesystem{
 			$path='/'.$path;
 		}
 		//remove trainling slash
-		if(substr($path,-1,1)==='/'){
+		if(strlen($path)>1 and substr($path,-1,1)==='/'){
 			$path=substr($path,0,-1);
 		}
 		//remove duplicate slashes

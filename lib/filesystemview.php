@@ -103,7 +103,12 @@ class OC_FilesystemView {
 		if(strpos($path, $this->fakeRoot)!==0) {
 			return null;
 		}else{
-			return substr($path, strlen($this->fakeRoot));
+			$path=substr($path, strlen($this->fakeRoot));
+			if(strlen($path)===0){
+				return '/';
+			}else{
+				return $path;
+			}
 		}
 	}
 
