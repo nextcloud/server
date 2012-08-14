@@ -58,7 +58,7 @@ interface OC_Group_Interface {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups($search = '', $limit = 10, $offset = 0);
+	public function getGroups($search = '', $limit = -1, $offset = 0);
 
 	/**
 	 * check if a group exists
@@ -71,6 +71,6 @@ interface OC_Group_Interface {
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public function usersInGroup($gid);
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
 
 }

@@ -304,28 +304,29 @@ class Sabre_CalDAV_CalendarQueryValidator {
                         // one is the first to trigger. Based on this, we can
                         // determine if we can 'give up' expanding events.
                         $firstAlarm = null;
-                        foreach($expandedEvent->VALARM as $expandedAlarm) {
+                        if ($expandedEvent->VALARM !== null) {
+                            foreach($expandedEvent->VALARM as $expandedAlarm) {
 
-                            $effectiveTrigger = $expandedAlarm->getEffectiveTriggerTime();
-                            if ($expandedAlarm->isInTimeRange($start, $end)) {
-                                return true;
-                            }
+                                $effectiveTrigger = $expandedAlarm->getEffectiveTriggerTime();
+                                if ($expandedAlarm->isInTimeRange($start, $end)) {
+                                    return true;
+                                }
 
-                            if ((string)$expandedAlarm->TRIGGER['VALUE'] === 'DATE-TIME') {
-                                // This is an alarm with a non-relative trigger
-                                // time, likely created by a buggy client. The
-                                // implication is that every alarm in this
-                                // recurring event trigger at the exact same
-                                // time. It doesn't make sense to traverse
-                                // further.
-                            } else {
-                                // We store the first alarm as a means to
-                                // figure out when we can stop traversing.
-                                if (!$firstAlarm || $effectiveTrigger < $firstAlarm) {
-                                    $firstAlarm = $effectiveTrigger;
+                                if ((string)$expandedAlarm->TRIGGER['VALUE'] === 'DATE-TIME') {
+                                    // This is an alarm with a non-relative trigger
+                                    // time, likely created by a buggy client. The
+                                    // implication is that every alarm in this
+                                    // recurring event trigger at the exact same
+                                    // time. It doesn't make sense to traverse
+                                    // further.
+                                } else {
+                                    // We store the first alarm as a means to
+                                    // figure out when we can stop traversing.
+                                    if (!$firstAlarm || $effectiveTrigger < $firstAlarm) {
+                                        $firstAlarm = $effectiveTrigger;
+                                    }
                                 }
                             }
-
                         }
                         if (is_null($firstAlarm)) {
                             // No alarm was found.

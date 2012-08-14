@@ -337,6 +337,8 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
             $this->endDate = clone $this->startDate;
             if (isset($this->baseEvent->DURATION)) {
                 $this->endDate->add(Sabre_VObject_DateTimeParser::parse($this->baseEvent->DURATION->value));
+            } elseif ($this->baseEvent->DTSTART->getDateType()===Sabre_VObject_Property_DateTime::DATE) {
+                $this->endDate->modify('+1 day');
             }
         }
         $this->currentDate = clone $this->startDate;
@@ -561,7 +563,7 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
      */
     public function fastForward(DateTime $dt) {
 
-        while($this->valid() && $this->getDTEnd() < $dt) {
+        while($this->valid() && $this->getDTEnd() <= $dt) {
             $this->next();
         }
 
@@ -823,9 +825,40 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
      */
     protected function nextYearly() {
 
+        $currentMonth = $this->currentDate->format('n');
+        $currentYear = $this->currentDate->format('Y');
+        $currentDayOfMonth = $this->currentDate->format('j');
+
+        // No sub-rules, so we just advance by year
         if (!$this->byMonth) {
+
+            // Unless it was a leap day!
+            if ($currentMonth==2 && $currentDayOfMonth==29) {
+
+                $counter = 0;
+                do {
+                    $counter++;
+                    // Here we increase the year count by the interval, until
+                    // we hit a date that's also in a leap year.
+                    //
+                    // We could just find the next interval that's dividable by
+                    // 4, but that would ignore the rule that there's no leap
+                    // year every year that's dividable by a 100, but not by
+                    // 400. (1800, 1900, 2100). So we just rely on the datetime
+                    // functions instead.
+                    $nextDate = clone $this->currentDate;
+                    $nextDate->modify('+ ' . ($this->interval*$counter) . ' years');
+                } while ($nextDate->format('n')!=2);
+                $this->currentDate = $nextDate;
+
+                return;
+
+            }
+
+            // The easiest form
             $this->currentDate->modify('+' . $this->interval . ' years');
             return;
+
         }
 
         $currentMonth = $this->currentDate->format('n');
@@ -877,8 +910,8 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
 
         } else {
 
-            // no byDay or byMonthDay, so we can just loop through the
-            // months.
+            // These are the 'byMonth' rules, if there are no byDay or
+            // byMonthDay sub-rules.
             do {
 
                 $currentMonth++;
@@ -888,6 +921,7 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
                 }
             } while (!in_array($currentMonth, $this->byMonth));
             $this->currentDate->setDate($currentYear, $currentMonth, $currentDayOfMonth);
+
             return;
 
         }

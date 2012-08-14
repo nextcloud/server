@@ -100,14 +100,22 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	 *
 	 * Get a list of all users.
 	 */
-	public function getUsers(){
+	public function getUsers($search = '', $limit = 10, $offset = 0){
 		$ldap_users = $this->connection->getFromCache('getUsers');
 		if(is_null($ldap_users)) {
 			$ldap_users = $this->fetchListOfUsers($this->connection->ldapUserFilter, array($this->connection->ldapUserDisplayName, 'dn'));
 			$ldap_users = $this->ownCloudUserNames($ldap_users);
 			$this->connection->writeToCache('getUsers', $ldap_users);
 		}
-		return $ldap_users;
+		$this->userSearch = $search;
+		if(!empty($this->userSearch)) {
+			$ldap_users = array_filter($ldap_users, array($this, 'userMatchesFilter'));
+		}
+		return array_slice($ldap_users, $offset, $limit);
+	}
+
+	public function userMatchesFilter($user) {
+		return (strripos($user, $this->userSearch) !== false);
 	}
 
 	/**

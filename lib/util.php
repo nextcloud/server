@@ -271,15 +271,26 @@ class OC_Util {
 		return $errors;
 	}
 
-	public static function displayLoginPage($parameters = array()){
-		if(isset($_COOKIE["username"])){
-			$parameters["username"] = $_COOKIE["username"];
+	public static function displayLoginPage($display_lostpassword) {
+		$parameters = array();
+		$parameters['display_lostpassword'] = $display_lostpassword;
+		if (!empty($_POST['user'])) {
+			$parameters["username"] =
+				OC_Util::sanitizeHTML($_POST['user']).'"';
+			$parameters['user_autofocus'] = false;
 		} else {
 			$parameters["username"] = '';
+			$parameters['user_autofocus'] = true;
 		}
 		$sectoken=rand(1000000,9999999);
 		$_SESSION['sectoken']=$sectoken;
 		$parameters["sectoken"] = $sectoken;
+		if (isset($_REQUEST['redirect_url'])) {
+			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
+		} else {
+			$redirect_url = $_SERVER['REQUEST_URI'];
+		}
+		$parameters['redirect_url'] = $redirect_url;
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 

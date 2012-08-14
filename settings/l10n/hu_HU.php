@@ -1,13 +1,17 @@
 <?php $TRANSLATIONS = array(
+"Unable to load list from App Store" => "Nem tölthető le a lista az App Store-ból",
 "Email saved" => "Email mentve",
 "Invalid email" => "Hibás email",
 "OpenID Changed" => "OpenID megváltozott",
 "Invalid request" => "Érvénytelen kérés",
+"Authentication error" => "Hitelesítési hiba",
 "Language changed" => "A nyelv megváltozott",
+"Error" => "Hiba",
 "Disable" => "Letiltás",
 "Enable" => "Engedélyezés",
 "Saving..." => "Mentés...",
 "__language_name__" => "__language_name__",
+"Security Warning" => "Biztonsági figyelmeztetés",
 "Log" => "Napló",
 "More" => "Tovább",
 "Add your App" => "App hozzáadása",
@@ -43,6 +47,7 @@
 "Create" => "Létrehozás",
 "Default Quota" => "Alapértelmezett kvóta",
 "Other" => "Egyéb",
+"SubAdmin" => "al-Admin",
 "Quota" => "Kvóta",
 "Delete" => "Törlés"
 );

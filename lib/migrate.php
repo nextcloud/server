@@ -322,7 +322,7 @@ class OC_Migrate{
 			$objects = scandir( $path );
 			if( sizeof( $objects ) > 0 ){
 				foreach( $objects as $file ){
-					if( $file == "." || $file == ".." )
+					if( $file == "." || $file == ".." || $file == ".htaccess")
 					continue;
 					// go on
 					if( is_dir( $path . '/' . $file ) ){

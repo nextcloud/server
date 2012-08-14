@@ -47,6 +47,6 @@ if(!OC_Contacts_VCard::edit($id, $vcard)) {
 OCP\JSON::success(array(
 	'data' => array(
 		'id' => $id,
-		'lastmodified' => OC_Contacts_VCard::lastModified($vcard)->format('U'),
+		'lastmodified' => OC_Contacts_App::lastModified($vcard)->format('U'),
 	)
 ));

@@ -1,4 +1,11 @@
 <div id="selectaddressbook_dialog" title="<?php echo $l->t("Select Address Books"); ?>">
+<script type="text/javascript">
+$(document).ready(function() {
+	$('input.name,input.desc').on('focus', function(e) {
+		$('#book_new').prop('checked', true);
+	});
+});
+</script>
 <form>
 <table style="width: 100%">
 	<?php foreach($_['addressbooks'] as $idx => $addressbook) { ?>

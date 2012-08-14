@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-09 02:02+0200\n"
+"POT-Creation-Date: 2012-08-14 02:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,24 +35,4 @@ msgstr ""
 
 #: templates/index.php:27
 msgid "Slideshow"
-msgstr ""
-
-#: templates/view_album.php:19
-msgid "Back"
-msgstr ""
-
-#: templates/view_album.php:36
-msgid "Remove confirmation"
-msgstr ""
-
-#: templates/view_album.php:37
-msgid "Do you want to remove album"
-msgstr ""
-
-#: templates/view_album.php:40
-msgid "Change album name"
-msgstr ""
-
-#: templates/view_album.php:43
-msgid "New album name"
 msgstr ""

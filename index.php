@@ -21,31 +21,8 @@
 *
 */
 
-
 $RUNTIME_NOAPPS = TRUE; //no apps, yet
 
 require_once('lib/base.php');
 
-if (!OC::handleRequest()) {
-// Not handled -> we display the login page:
-	OC_App::loadApps(array('prelogin'));
-	$error = false;
-	// remember was checked after last login
-	if (OC::tryRememberLogin()) {
-		// nothing more to do
-
-	// Someone wants to log in :
-	} elseif (OC::tryFormLogin()) {
-		$error = true;
-	
-	// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
-	} elseif(OC::tryBasicAuthLogin()) {
-		$error = true;
-	}
-	if(!array_key_exists('sectoken', $_SESSION) || (array_key_exists('sectoken', $_SESSION) && is_null(OC::$REQUESTEDFILE)) || substr(OC::$REQUESTEDFILE, -3) == 'php'){
-		$sectoken=rand(1000000,9999999);
-		$_SESSION['sectoken']=$sectoken;
-		$redirect_url = (isset($_REQUEST['redirect_url'])) ? OC_Util::sanitizeHTML($_REQUEST['redirect_url']) : $_SERVER['REQUEST_URI'];
-		OC_Template::printGuestPage('', 'login', array('error' => $error, 'sectoken' => $sectoken, 'redirect' => $redirect_url));
-	}
-}
+OC::handleRequest();

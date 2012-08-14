@@ -148,6 +148,6 @@ if(!OC_Contacts_VCard::edit($id, $vcard)) {
 OCP\JSON::success(array('data' => array(
 	'line' => $line,
 	'checksum' => $checksum,
-	'oldchecksum' => $_POST['checksum']
-	'lastmodified' => OC_Contacts_VCard::lastModified($vcard)->format('U')
-));
+	'oldchecksum' => $_POST['checksum'],
+	'lastmodified' => OC_Contacts_App::lastModified($vcard)->format('U'),
+)));

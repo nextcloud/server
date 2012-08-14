@@ -1220,7 +1220,7 @@ OC.Contacts={
 		},
 		loadPhoto:function(){
 			var self = this;
-			var refreshstr = ''; //'&refresh='+Math.random();
+			var refreshstr = '&refresh='+Math.random();
 			$('#phototools li a').tipsy('hide');
 			var wrapper = $('#contacts_details_photo_wrapper');
 			wrapper.addClass('loading').addClass('wait');

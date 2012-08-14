@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-05 19:00+0200\n"
-"PO-Revision-Date: 2012-08-05 17:01+0000\n"
+"POT-Creation-Date: 2012-08-12 02:02+0200\n"
+"PO-Revision-Date: 2012-08-12 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "アプリストアからリストをロードできません"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -48,7 +48,7 @@ msgstr "言語が変更されました"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "エラー"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
@@ -70,11 +70,27 @@ msgstr "Japanese (日本語)"
 msgid "Security Warning"
 msgstr "セキュリティ警告"
 
-#: templates/admin.php:28
+#: templates/admin.php:29
+msgid "Cron"
+msgstr ""
+
+#: templates/admin.php:31
+msgid "execute one task with each page loaded"
+msgstr ""
+
+#: templates/admin.php:33
+msgid "cron.php is registered at a webcron service"
+msgstr ""
+
+#: templates/admin.php:35
+msgid "use systems cron service"
+msgstr ""
+
+#: templates/admin.php:39
 msgid "Log"
 msgstr "ログ"
 
-#: templates/admin.php:56
+#: templates/admin.php:67
 msgid "More"
 msgstr "もっと"
 
@@ -212,7 +228,7 @@ msgstr "その他"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
-msgstr ""
+msgstr "サブ管理者"
 
 #: templates/users.php:82
 msgid "Quota"

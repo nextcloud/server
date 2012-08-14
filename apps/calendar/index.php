@@ -5,7 +5,6 @@
  * later.
  * See the COPYING-README file.
  */
-DEFINE('DEBUG', TRUE);
 OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('calendar');
 

@@ -1,0 +1,74 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <rcalvoi@yahoo.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-13 23:12+0200\n"
+"PO-Revision-Date: 2012-08-13 18:28+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
+"Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: settings.php:33
+msgid ""
+"The php-json module is needed by the many applications for inter "
+"communications"
+msgstr "El mòdul php-json és necessari per moltes aplicacions per comunicacions internes"
+
+#: settings.php:39
+msgid ""
+"The php-curl modude is needed to fetch the page title when adding a "
+"bookmarks"
+msgstr "El mòdul php-curl és necessari per mostrar el títol de la pàgina quan s'afegeixen adreces d'interès"
+
+#: settings.php:45
+msgid "The php-gd module is needed to create thumbnails of your images"
+msgstr "El mòdul php-gd és necessari per generar miniatures d'imatges"
+
+#: settings.php:51
+msgid "The php-ldap module is needed connect to your ldap server"
+msgstr "El mòdul php-ldap és necessari per connectar amb el servidor ldap"
+
+#: settings.php:57
+msgid "The php-zip module is needed download multiple files at once"
+msgstr "El mòdul php-zip és necessari per baixar múltiples fitxers de cop"
+
+#: settings.php:63
+msgid ""
+"The php-mb_multibyte module is needed to manage correctly the encoding."
+msgstr "El mòdul php-mb_multibyte és necessari per gestionar correctament la codificació."
+
+#: settings.php:69
+msgid "The php-ctype module is needed validate data."
+msgstr "El mòdul php-ctype és necessari per validar dades."
+
+#: settings.php:75
+msgid "The php-xml module is needed to share files with webdav."
+msgstr "El mòdul php-xml és necessari per compatir els fitxers amb webdav."
+
+#: settings.php:81
+msgid ""
+"The allow_url_fopen directive of your php.ini should be set to 1 to retrieve"
+" knowledge base from OCS servers"
+msgstr "La directiva allow_url_fopen de php.ini hauria d'establir-se en 1 per accedir a la base de coneixements dels servidors OCS"
+
+#: settings.php:87
+msgid "The php-pdo module is needed to store owncloud data into a database."
+msgstr "El mòdul php-pdo és necessari per desar les dades d'ownCloud en una base de dades."
+
+#: templates/settings.php:2
+msgid "Dependencies status"
+msgstr "Estat de dependències"
+
+#: templates/settings.php:7
+msgid "Used by :"
+msgstr "Usat per:"

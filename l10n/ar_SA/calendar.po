@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-26 08:03+0200\n"
-"PO-Revision-Date: 2012-07-25 19:29+0000\n"
+"POT-Creation-Date: 2012-08-11 02:02+0200\n"
+"PO-Revision-Date: 2012-08-11 00:02+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Arabic (Saudi Arabia) (http://www.transifex.com/projects/p/owncloud/language/ar_SA/)\n"
 "MIME-Version: 1.0\n"
@@ -69,31 +69,30 @@ msgstr ""
 
 #: appinfo/app.php:35 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:33
-#: templates/settings.php:12
 msgid "Calendar"
 msgstr ""
 
-#: js/calendar.js:828
+#: js/calendar.js:832
 msgid "ddd"
 msgstr ""
 
-#: js/calendar.js:829
+#: js/calendar.js:833
 msgid "ddd M/d"
 msgstr ""
 
-#: js/calendar.js:830
+#: js/calendar.js:834
 msgid "dddd M/d"
 msgstr ""
 
-#: js/calendar.js:833
+#: js/calendar.js:837
 msgid "MMMM yyyy"
 msgstr ""
 
-#: js/calendar.js:835
+#: js/calendar.js:839
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
 msgstr ""
 
-#: js/calendar.js:837
+#: js/calendar.js:841
 msgid "dddd, MMM d, yyyy"
 msgstr ""
 
@@ -218,7 +217,7 @@ msgstr ""
 msgid "by weekday"
 msgstr ""
 
-#: lib/object.php:411 templates/calendar.php:5 templates/settings.php:42
+#: lib/object.php:411 templates/calendar.php:5 templates/settings.php:69
 msgid "Monday"
 msgstr ""
 
@@ -242,7 +241,7 @@ msgstr ""
 msgid "Saturday"
 msgstr ""
 
-#: lib/object.php:417 templates/calendar.php:5 templates/settings.php:43
+#: lib/object.php:417 templates/calendar.php:5 templates/settings.php:70
 msgid "Sunday"
 msgstr ""
 
@@ -459,32 +458,24 @@ msgstr ""
 msgid "There was a database fail"
 msgstr ""
 
-#: templates/calendar.php:38
+#: templates/calendar.php:39
 msgid "Week"
 msgstr ""
 
-#: templates/calendar.php:39
+#: templates/calendar.php:40
 msgid "Month"
 msgstr ""
 
-#: templates/calendar.php:40
+#: templates/calendar.php:41
 msgid "List"
 msgstr ""
 
-#: templates/calendar.php:44
+#: templates/calendar.php:45
 msgid "Today"
 msgstr ""
 
-#: templates/calendar.php:45
-msgid "Calendars"
-msgstr ""
-
-#: templates/calendar.php:59
-msgid "There was a fail, while parsing the file."
-msgstr ""
-
-#: templates/part.choosecalendar.php:1
-msgid "Choose active calendars"
+#: templates/calendar.php:46 templates/calendar.php:47
+msgid "Settings"
 msgstr ""
 
 #: templates/part.choosecalendar.php:2
@@ -737,55 +728,63 @@ msgstr ""
 msgid "at"
 msgstr ""
 
-#: templates/settings.php:14
+#: templates/settings.php:10
+msgid "General"
+msgstr ""
+
+#: templates/settings.php:15
 msgid "Timezone"
 msgstr ""
 
-#: templates/settings.php:31
-msgid "Check always for changes of the timezone"
-msgstr ""
-
-#: templates/settings.php:33
-msgid "Timeformat"
-msgstr ""
-
-#: templates/settings.php:35
-msgid "24h"
-msgstr ""
-
-#: templates/settings.php:36
-msgid "12h"
-msgstr ""
-
-#: templates/settings.php:40
-msgid "First day of the week"
-msgstr ""
-
 #: templates/settings.php:47
-msgid "Cache"
+msgid "Update timezone automatically"
 msgstr ""
 
-#: templates/settings.php:48
-msgid "Clear cache for repeating events"
-msgstr ""
-
-#: templates/settings.php:53
-msgid "Calendar CalDAV syncing addresses"
-msgstr ""
-
-#: templates/settings.php:53
-msgid "more info"
-msgstr ""
-
-#: templates/settings.php:55
-msgid "Primary address (Kontact et al)"
+#: templates/settings.php:52
+msgid "Time format"
 msgstr ""
 
 #: templates/settings.php:57
+msgid "24h"
+msgstr ""
+
+#: templates/settings.php:58
+msgid "12h"
+msgstr ""
+
+#: templates/settings.php:64
+msgid "Start week on"
+msgstr ""
+
+#: templates/settings.php:76
+msgid "Cache"
+msgstr ""
+
+#: templates/settings.php:80
+msgid "Clear cache for repeating events"
+msgstr ""
+
+#: templates/settings.php:85
+msgid "URLs"
+msgstr ""
+
+#: templates/settings.php:87
+msgid "Calendar CalDAV syncing addresses"
+msgstr ""
+
+#: templates/settings.php:87
+msgid "more info"
+msgstr ""
+
+#: templates/settings.php:89
+msgid "Primary address (Kontact et al)"
+msgstr ""
+
+#: templates/settings.php:91
 msgid "iOS/OS X"
 msgstr ""
 
-#: templates/settings.php:59
+#: templates/settings.php:93
 msgid "Read only iCalendar link(s)"
 msgstr ""
 

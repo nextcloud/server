@@ -109,7 +109,8 @@ class OC{
 				OC::$SUBURI=OC::$SUBURI.'index.php';
 			}
 		}
-                OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
+
+		OC::$WEBROOT=substr($scriptName,0,strlen($scriptName)-strlen(OC::$SUBURI));
 
 		if(OC::$WEBROOT!='' and OC::$WEBROOT[0]!=='/'){
 			OC::$WEBROOT='/'.OC::$WEBROOT;
@@ -232,6 +233,13 @@ class OC{
 		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search','result');
+
+		if( OC_Config::getValue( 'installed', false )){
+			if( OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax' ){
+				OC_Util::addScript( 'backgroundjobs' );
+			}
+		}
+		
 		OC_Util::addStyle( "styles" );
 		OC_Util::addStyle( "multiselect" );
 		OC_Util::addStyle( "jquery-ui-1.8.16.custom" );
@@ -241,31 +249,6 @@ class OC{
 	public static function initSession() {
 		ini_set('session.cookie_httponly','1;');
 		session_start();
-	}
-
-	public static function loadapp(){
-		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php')){
-			require_once(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php');
-		}else{
-			trigger_error('The requested App was not found.', E_USER_ERROR);//load default app instead?
-		}
-	}
-
-	public static function loadfile(){
-		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/' . OC::$REQUESTEDFILE)){
-			if(substr(OC::$REQUESTEDFILE, -3) == 'css'){
-				$file = OC_App::getAppWebPath(OC::$REQUESTEDAPP). '/' . OC::$REQUESTEDFILE;
-				$minimizer = new OC_Minimizer_CSS();
-				$minimizer->output(array(array(OC_App::getAppPath(OC::$REQUESTEDAPP), OC_App::getAppWebPath(OC::$REQUESTEDAPP), OC::$REQUESTEDFILE)),$file);
-				exit;
-			}elseif(substr(OC::$REQUESTEDFILE, -3) == 'php'){
-				require_once(OC_App::getAppPath(OC::$REQUESTEDAPP). '/' . OC::$REQUESTEDFILE);
-			}
-		}else{
-			die();
-			header('HTTP/1.0 404 Not Found');
-			exit;
-		}
 	}
 
 	public static function init(){
@@ -365,6 +348,7 @@ class OC{
 
 		// Check for blacklisted files
 		OC_Hook::connect('OC_Filesystem','write','OC_Filesystem','isBlacklisted');
+		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
@@ -400,8 +384,7 @@ class OC{
 	}
 
 	/**
-	 * @brief Try to handle request
-	 * @return true when the request is handled here
+	 * @brief Handle the request
 	 */
 	public static function handleRequest() {
 		if (!OC_Config::getValue('installed', false)) {
@@ -421,12 +404,12 @@ class OC{
 		// Handle WebDAV
 		if($_SERVER['REQUEST_METHOD']=='PROPFIND'){
 			header('location: '.OC_Helper::linkToRemote('webdav'));
-			return true;
+			return;
 		}
-		if(!OC_User::isLoggedIn() && substr(OC::$REQUESTEDFILE,-3) == 'css') {
-			OC_App::loadApps();
-			OC::loadfile();
-			return true;
+		// Handle app css files
+		if(substr(OC::$REQUESTEDFILE,-3) == 'css') {
+			self::loadCSSFile();
+			return;
 		}
 		// Someone is logged in :
 		if(OC_User::isLoggedIn()) {
@@ -435,18 +418,66 @@ class OC{
 				OC_User::logout();
 				header("Location: ".OC::$WEBROOT.'/');
 			}else{
-				if(is_null(OC::$REQUESTEDFILE)) {
-					OC::loadapp();
-				}else{
-					OC::loadfile();
+				$app = OC::$REQUESTEDAPP;
+				$file = OC::$REQUESTEDFILE;
+				if(is_null($file)) {
+					$file = 'index.php';
+				}
+				$file_ext = substr($file, -3);
+				if ($file_ext != 'php'
+					|| !self::loadAppScriptFile($app, $file)) {
+					header('HTTP/1.0 404 Not Found');
 				}
 			}
+			return;
+		}
+		// Not handled and not logged in
+		self::handleLogin();
+	}
+
+	protected static function loadAppScriptFile($app, $file) {
+		$app_path = OC_App::getAppPath($app);
+		$file = $app_path . '/' . $file;
+		unset($app, $app_path);
+		if (file_exists($file)) {
+			require_once($file);
 			return true;
 		}
 		return false;
 	}
 
-	public static function tryRememberLogin() {
+	protected static function loadCSSFile() {
+		$app = OC::$REQUESTEDAPP;
+		$file = OC::$REQUESTEDFILE;
+		$app_path = OC_App::getAppPath($app);
+		if (file_exists($app_path . '/' . $file)) {
+			$app_web_path = OC_App::getAppWebPath($app);
+			$filepath = $app_web_path . '/' . $file;
+			$minimizer = new OC_Minimizer_CSS();
+			$info = array($app_path, $app_web_path, $file);
+			$minimizer->output(array($info), $filepath);
+		}
+	}
+
+	protected static function handleLogin() {
+		OC_App::loadApps(array('prelogin'));
+		$error = false;
+		// remember was checked after last login
+		if (OC::tryRememberLogin()) {
+			// nothing more to do
+
+		// Someone wants to log in :
+		} elseif (OC::tryFormLogin()) {
+			$error = true;
+		
+		// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+		} elseif (OC::tryBasicAuthLogin()) {
+			$error = true;
+		}
+		OC_Util::displayLoginPage($error);
+	}
+
+	protected static function tryRememberLogin() {
 		if(!isset($_COOKIE["oc_remember_login"])
 		|| !isset($_COOKIE["oc_token"])
 		|| !isset($_COOKIE["oc_username"])
@@ -459,7 +490,7 @@ class OC{
 		}
 		// confirm credentials in cookie
 		if(isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username']) &&
-		OC_Preferences::getValue($_COOKIE['oc_username'], "login", "token") == $_COOKIE['oc_token']) {
+		OC_Preferences::getValue($_COOKIE['oc_username'], "login", "token") === $_COOKIE['oc_token']) {
 			OC_User::setUserId($_COOKIE['oc_username']);
 			OC_Util::redirectToDefaultPage();
 		}
@@ -469,7 +500,7 @@ class OC{
 		return true;
 	}
 
-	public static function tryFormLogin() {
+	protected static function tryFormLogin() {
 		if(!isset($_POST["user"])
 		|| !isset($_POST['password'])
 		|| !isset($_SESSION['sectoken'])
@@ -495,7 +526,7 @@ class OC{
 		return true;
 	}
 
-	public static function tryBasicAuthLogin() {
+	protected static function tryBasicAuthLogin() {
 		if (!isset($_SERVER["PHP_AUTH_USER"])
 		 || !isset($_SERVER["PHP_AUTH_PW"])){
 		 	return false;

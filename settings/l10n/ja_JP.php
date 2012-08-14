@@ -1,10 +1,12 @@
 <?php $TRANSLATIONS = array(
+"Unable to load list from App Store" => "アプリストアからリストをロードできません",
 "Email saved" => "メールアドレスを保存しました",
 "Invalid email" => "無効なメールアドレス",
 "OpenID Changed" => "OpenIDが変更されました",
 "Invalid request" => "無効なリクエストです",
 "Authentication error" => "認証エラー",
 "Language changed" => "言語が変更されました",
+"Error" => "エラー",
 "Disable" => "無効",
 "Enable" => "有効",
 "Saving..." => "保存中...",
@@ -45,6 +47,7 @@
 "Create" => "作成",
 "Default Quota" => "デフォルトのクォータサイズ",
 "Other" => "その他",
+"SubAdmin" => "サブ管理者",
 "Quota" => "クオータ",
 "Delete" => "削除"
 );

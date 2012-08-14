@@ -13,7 +13,6 @@ $(document).ready(function() {
 						'Connection test succeeded'
 					);
 				} else {
-					$('#ldap_action_test_connection').css('background-color', 'red');
 					OC.dialogs.alert(
 						result.message,
 						'Connection test failed'

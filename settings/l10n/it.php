@@ -12,6 +12,7 @@
 "Saving..." => "Salvataggio in corso...",
 "__language_name__" => "Italiano",
 "Security Warning" => "Avviso di sicurezza",
+"Cron" => "Cron",
 "Log" => "Registro",
 "More" => "Altro",
 "Add your App" => "Aggiungi la tua applicazione",

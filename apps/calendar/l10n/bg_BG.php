@@ -40,9 +40,6 @@
 "Month" => "Месец",
 "List" => "Списък",
 "Today" => "Днес",
-"Calendars" => "Календари",
-"There was a fail, while parsing the file." => "Възникна проблем с разлистването на файла.",
-"Choose active calendars" => "Изберете активен календар",
 "Your calendars" => "Вашите календари",
 "Shared calendars" => "Споделени календари",
 "No shared calendars" => "Няма споделени календари",
@@ -83,6 +80,5 @@
 "View an event" => "Преглед на събитие",
 "No categories selected" => "Няма избрани категории",
 "Timezone" => "Часова зона",
-"First day of the week" => "Първи ден на седмицата",
 "Groups" => "Групи"
 );
