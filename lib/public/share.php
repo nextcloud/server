@@ -143,76 +143,75 @@ class Share {
 	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions) {
 		$uidOwner = \OC_User::getUser();
 		// Verify share type and sharing conditions are met
-		switch ($shareType) {
-			case self::SHARE_TYPE_USER:
-				if ($shareWith == $uidOwner) {
-					$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is the itemSource owner';
+		if ($shareType === self::SHARE_TYPE_USER) {
+			if ($shareWith == $uidOwner) {
+				$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is the item owner';
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+				throw new \Exception($message);
+			}
+			if (!\OC_User::userExists($shareWith)) {
+				$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' does not exist';
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+				throw new \Exception($message);
+			} else {
+				$inGroup = array_intersect(\OC_Group::getUserGroups($uidOwner), \OC_Group::getUserGroups($shareWith));
+				if (empty($inGroup)) {
+					$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is not a member of any groups that '.$uidOwner.' is a member of';
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 					throw new \Exception($message);
 				}
-				if (!\OC_User::userExists($shareWith)) {
-					$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' does not exist';
-					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-					throw new \Exception($message);
-				} else {
-					$inGroup = array_intersect(\OC_Group::getUserGroups($uidOwner), \OC_Group::getUserGroups($shareWith));
-					if (empty($inGroup)) {
-						$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is not a member of any groups that '.$uidOwner.' is a member of';
-						\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-						throw new \Exception($message);
-					}
-				}
-				break;
-			case self::SHARE_TYPE_GROUP:
-				if (!\OC_Group::groupExists($shareWith)) {
-					$message = 'Sharing '.$itemSource.' failed, because the group '.$shareWith.' does not exist';
-					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-					throw new \Exception($message);
-				} else if (!\OC_Group::inGroup($uidOwner, $shareWith)) {
-					$message = 'Sharing '.$itemSource.' failed, because '.$uidOwner.' is not a member of the group '.$shareWith;
-					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-					throw new \Exception($message);
-				}
-				// Convert share with into an array with the keys group and users
-				$group = $shareWith;
-				$shareWith = array();
-				$shareWith['group'] = $group;
-				$shareWith['users'] = array_diff(\OC_Group::usersInGroup($group), array($uidOwner));
-				break;
-			case self::SHARE_TYPE_PRIVATE_LINK:
+			}
+		} else if ($shareType === self::SHARE_TYPE_GROUP) {
+			if (!\OC_Group::groupExists($shareWith)) {
+				$message = 'Sharing '.$itemSource.' failed, because the group '.$shareWith.' does not exist';
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+				throw new \Exception($message);
+			} else if (!\OC_Group::inGroup($uidOwner, $shareWith)) {
+				$message = 'Sharing '.$itemSource.' failed, because '.$uidOwner.' is not a member of the group '.$shareWith;
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+				throw new \Exception($message);
+			}
+		} else if ($shareType === self::SHARE_TYPE_PRIVATE_LINK) {
 				$shareWith = md5(uniqid($itemSource, true));
 				return self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions);
-			case self::SHARE_TYPE_CONTACT:
-				if (!\OC_App::isEnabled('contacts')) {
-					$message = 'Sharing '.$itemSource.' failed, because the contacts app is not enabled';
-					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-					return false;
-				}
-				$vcard = \OC_Contacts_App::getContactVCard($shareWith);
-				if (!isset($vcard)) {
-					$message = 'Sharing '.$itemSource.' failed, because the contact does not exist';
-					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-					throw new \Exception($message);
-				}
-				$details = \OC_Contacts_VCard::structureContact($vcard);
-				// TODO Add ownCloud user to contacts vcard
-				if (!isset($details['EMAIL'])) {
-					$message = 'Sharing '.$itemSource.' failed, because no email address is associated with the contact';
-					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-					throw new \Exception($message);
-				}
-				return self::shareItem($itemType, $itemSource, self::SHARE_TYPE_EMAIL, $details['EMAIL'], $permissions);
-				break;
-			// Future share types need to include their own conditions
-			default:
-				\OC_Log::write('OCP\Share', 'Share type '.$shareType.' is not valid for '.$itemSource, \OC_Log::ERROR);
+		} else if ($shareType === self::SHARE_TYPE_CONTACT) {
+			if (!\OC_App::isEnabled('contacts')) {
+				$message = 'Sharing '.$itemSource.' failed, because the contacts app is not enabled';
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				return false;
+			}
+			$vcard = \OC_Contacts_App::getContactVCard($shareWith);
+			if (!isset($vcard)) {
+				$message = 'Sharing '.$itemSource.' failed, because the contact does not exist';
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+				throw new \Exception($message);
+			}
+			$details = \OC_Contacts_VCard::structureContact($vcard);
+			// TODO Add ownCloud user to contacts vcard
+			if (!isset($details['EMAIL'])) {
+				$message = 'Sharing '.$itemSource.' failed, because no email address is associated with the contact';
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+				throw new \Exception($message);
+			}
+			return self::shareItem($itemType, $itemSource, self::SHARE_TYPE_EMAIL, $details['EMAIL'], $permissions);
+		} else {
+			// Future share types need to include their own conditions
+			$message = 'Share type '.$shareType.' is not valid for '.$itemSource;
+			\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+			throw new \Exception($message);
 		}
 		// TODO This query has pretty bad performance if there are large collections, figure out a way to make the collection searching more efficient
 		if (self::getItems($itemType, $itemSource, $shareType, $shareWith, $uidOwner, self::FORMAT_NONE, null, 1, true)) {
-			$message = 'Sharing '.$itemSource.' failed, because this itemSource is already shared with '.$shareWith;
+			$message = 'Sharing '.$itemSource.' failed, because this item is already shared with '.$shareWith;
 			\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 			throw new \Exception($message);
+		}
+		if ($shareType == self::SHARE_TYPE_GROUP) {
+			// Convert share with into an array with the keys group and users
+			$group = $shareWith;
+			$shareWith = array();
+			$shareWith['group'] = $group;
+			$shareWith['users'] = array_diff(\OC_Group::usersInGroup($group), array($uidOwner));
 		}
 		// If the item is a folder, scan through the folder looking for equivalent item types
 		if ($itemType == 'folder') {
@@ -338,8 +337,9 @@ class Share {
 				$query = \OC_DB::prepare('SELECT permissions FROM *PREFIX*share WHERE id = ? LIMIT 1');
 				$result = $query->execute(array($item['parent']))->fetchRow();
 				if (~(int)$result['permissions'] & $permissions) {
-					\OC_Log::write('OCP\Share', 'Setting permissions for '.$itemSource.' failed, because the permissions exceed permissions granted to the parent item', \OC_Log::ERROR);
-					return false;
+					$message = 'Setting permissions for '.$itemSource.' failed, because the permissions exceed permissions granted to '.\OC_User::getUser();
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new Exception($message);
 				}
 			}
 			$query = \OC_DB::prepare('UPDATE *PREFIX*share SET permissions = ? WHERE id = ?');
@@ -377,8 +377,9 @@ class Share {
 			}
 			return true;
 		}
-		\OC_Log::write('OCP\Share', 'Setting permissions for '.$itemSource.' failed, because the item was not found', \OC_Log::ERROR);
-		return false;
+		$message = 'Setting permissions for '.$itemSource.' failed, because the item was not found';
+		\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+		throw new Exception($message);
 	}
 
 	/**
@@ -662,6 +663,7 @@ class Share {
 		// TODO This query has pretty bad performance if there are large collections, figure out a way to make the collection searching more efficient
 		if ($checkReshare = self::getItemSharedWith($itemType, $itemSource, self::FORMAT_NONE, null, true)) {
 			if ($checkReshare['permissions'] & self::PERMISSION_SHARE) {
+				// TODO Check that other permissions aren't escalated
 				// TODO Don't check if inside folder
 				$parent = $checkReshare['id'];
 				$itemSource = $checkReshare['item_source'];
