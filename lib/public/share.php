@@ -662,13 +662,18 @@ class Share {
 		// Check if this is a reshare
 		// TODO This query has pretty bad performance if there are large collections, figure out a way to make the collection searching more efficient
 		if ($checkReshare = self::getItemSharedWith($itemType, $itemSource, self::FORMAT_NONE, null, true)) {
-			if ($checkReshare['permissions'] & self::PERMISSION_SHARE) {
-				// TODO Check that other permissions aren't escalated
-				// TODO Don't check if inside folder
-				$parent = $checkReshare['id'];
-				$itemSource = $checkReshare['item_source'];
-				$fileSource = $checkReshare['file_source'];
-				$filePath = $checkReshare['file_target'];
+			if ((int)$checkReshare['permissions'] & self::PERMISSION_SHARE) {
+				if (~(int)$checkReshare['permissions'] & $permissions) {
+					$message = 'Sharing '.$itemSource.' failed, because the permissions exceed permissions granted to '.$uidOwner;
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message);
+				} else {
+					// TODO Don't check if inside folder
+					$parent = $checkReshare['id'];
+					$itemSource = $checkReshare['item_source'];
+					$fileSource = $checkReshare['file_source'];
+					$filePath = $checkReshare['file_target'];
+				}
 			} else {
 				$message = 'Sharing '.$itemSource.' failed, because resharing is not allowed';
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
