@@ -36,12 +36,15 @@ $principalBackend = new OC_Connector_Sabre_Principal();
 $carddavBackend   = new OC_Connector_Sabre_CardDAV();
 
 // Root nodes
-$collection = new Sabre_CalDAV_Principal_Collection($principalBackend); 
-$collection->disableListing = true; // Disable listening
+$Sabre_CalDAV_Principal_Collection = new Sabre_CalDAV_Principal_Collection($principalBackend); 
+$Sabre_CalDAV_Principal_Collection->disableListing = true; // Disable listening
+
+$Sabre_CardDAV_AddressBookRoot = new Sabre_CardDAV_AddressBookRoot($principalBackend, $carddavBackend);
+$Sabre_CardDAV_AddressBookRoot->disableListing = true; // Disable listening
 
 $nodes = array( 
-	$collection, 
-	new Sabre_CardDAV_AddressBookRoot($principalBackend, $carddavBackend),
+	$Sabre_CalDAV_Principal_Collection, 
+	$Sabre_CardDAV_AddressBookRoot,
 	);
 
 // Fire up server
