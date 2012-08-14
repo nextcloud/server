@@ -448,9 +448,16 @@ class Share {
 	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1, $includeCollections = false, $itemShareWithBySource = false) {
 		$backend = self::getBackend($itemType);
 		// Get filesystem root to add it to the file target and remove from the file source
-		$root = \OC_Filesystem::getRoot();
-		// If includeCollections is true, find collections of this item type, e.g. a music album contains songs
-		if ($includeCollections && !isset($item) && $collectionTypes = self::getCollectionItemTypes($itemType)) {
+		if ($backend instanceof Share_Backend_File_Dependent) {
+			$root = \OC_Filesystem::getRoot();
+		} else {
+			$root = '';
+		}
+		if ($itemType == 'file' && !isset($item)) {
+			$where = 'WHERE file_target IS NOT NULL';
+			$query_args = array();
+		} else if ($includeCollections && !isset($item) && $collectionTypes = self::getCollectionItemTypes($itemType)) {
+			// If includeCollections is true, find collections of this item type, e.g. a music album contains songs
 			$item_types = array_merge(array($itemType), $collectionTypes);
 			$placeholders = join(',', array_fill(0, count($item_types), '?'));
 			$where = "WHERE item_type IN ('".$placeholders."')";
@@ -574,7 +581,7 @@ class Share {
 			}
 			// TODO Check this outside of the loop
 			// Check if this is a collection of the requested item type
-			if ($row['item_type'] != $itemType) {
+			if ($row['item_type'] != $itemType && $itemType != 'file' && !isset($item)) {
 				if ($collectionBackend = self::getBackend($row['item_type'])) {
 					$row['collection'] = array('item_type' => $itemType, $column => $row[$column]);
 					// Fetch all of the children sources
