@@ -17,6 +17,7 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 		
 		// set content for encrypting / decrypting in tests
 		$this->user = 'admin';
+		$this->passphrase = 'admin';
 		$this->view = new \OC_FilesystemView( '' );
 		
 		// Disable encryption proxy to prevent recursive calls
@@ -26,17 +27,27 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
 	function tearDown(){
 	
-		\OC_FileProxy::$enabled = false;
+		\OC_FileProxy::$enabled = true;
 		
 	}
 
-	function testGetPrivateKey() {
+	function testGetEncryptedPrivateKey() {
 	
 		$key = Keymanager::getPrivateKey( $this->user, $this->view );
 		
 		$this->assertEquals( 2302, strlen( $key ) );
+	
+	}
+	
+	function testGetDecryptedPrivateKey() {
+	
+		$key = Keymanager::getPrivateKey( $this->user, $this->view );
 		
-		$this->assertTrue( substr( $key, 27 ) == '-----BEGIN PRIVATE KEY-----' );
+		$decrypted = Crypt::symmetricDecryptFileContent( $key, $this->passphrase );
+		
+		$this->assertEquals( 1708, strlen( $decrypted ) );
+		
+		$this->assertEquals( '-----BEGIN PRIVATE KEY-----', substr( $decrypted, 0, 27 ) );
 	
 	}
 	
