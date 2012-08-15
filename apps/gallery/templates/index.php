@@ -18,7 +18,7 @@ $(document).ready(function() {
 		for ($i = 0; $i < count($paths); $i++) {
 			$path .= urlencode($paths[$i]).'/';
 			$classess = 'crumb'.($i == count($paths)-1?' last':'');
-			echo '<div class="'.$classess.'" style="background-image:url(\''.\OCP\image_path('core','breadcrumb.png').'\')"><a href="'.\OCP\Util::linkTo('gallery', 'index.php').'&root='.$path.'">'.OCP\Util::sanitizeHTML($paths[$i]).'</a></div>';
+			echo '<div class="'.$classess.'" style="background-image:url(\''.\OCP\image_path('core','breadcrumb.png').'\')"><a href="'.\OCP\Util::linkTo('gallery', 'index.php').'?root='.$path.'">'.OCP\Util::sanitizeHTML($paths[$i]).'</a></div>';
 		}
 	}
 		

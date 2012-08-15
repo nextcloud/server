@@ -11,7 +11,7 @@ class OC_Search_Provider_Contacts extends OC_Search_Provider{
 			$vcards = OC_Contacts_VCard::all($addressbook['id']);
 			foreach($vcards as $vcard){
 				if(substr_count(strtolower($vcard['fullname']), strtolower($query)) > 0) {
-					$link = OCP\Util::linkTo('contacts', 'index.php').'&id='.urlencode($vcard['id']);
+					$link = OCP\Util::linkTo('contacts', 'index.php').'?id='.urlencode($vcard['id']);
 					$results[]=new OC_Search_Result($vcard['fullname'], '', $link, (string)$l->t('Contact'));//$name,$text,$link,$type
 				}
 			}
