@@ -589,7 +589,7 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 *
 	 */
-	public static function moveToAddressBook($aid, $id) {
+	public static function moveToAddressBook($aid, $id, $isAddressbook = false) {
 		OC_Contacts_App::getAddressbook($aid); // check for user ownership.
 		if(is_array($id)) {
 			$id_sql = join(',', array_fill(0, count($id), '?'));
@@ -606,8 +606,13 @@ class OC_Contacts_VCard{
 				return false;
 			}
 		} else {
-			try {
+			$stmt = null;
+			if($isAddressbook) {
+				$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE addressbookid = ?' );
+			} else {
 				$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id = ?' );
+			}
+			try {
 				$result = $stmt->execute(array($aid, $id));
 			} catch(Exception $e) {
 				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::DEBUG);

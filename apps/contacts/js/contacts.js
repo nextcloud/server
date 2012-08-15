@@ -1437,8 +1437,12 @@ OC.Contacts={
 			if(dragitem.data('bookid') == droptarget.data('id')) {
 				return false;
 			}
-			var droplist = (droptarget.is('ul'))?droptarget:droptarget.next();
-			$.post(OC.filePath('contacts', 'ajax', 'contact/move.php'), { ids: dragitem.data('id'), aid: droptarget.data('id') },
+			var droplist = (droptarget.is('ul')) ? droptarget : droptarget.next();
+			$.post(OC.filePath('contacts', 'ajax', 'contact/move.php'),
+				{
+					id: dragitem.data('id'),
+					aid: droptarget.data('id')
+				},
 				function(jsondata){
 					if(jsondata.status == 'success'){
 						dragitem.attr('data-bookid', droptarget.data('id'))
@@ -1454,7 +1458,27 @@ OC.Contacts={
 			});
 		},
 		dropAddressbook:function(event, dragitem, droptarget) {
-			alert('Dropping address books not implemented yet');
+			if(confirm(t('contacts', 'Do you want to merge these address books?'))) {
+				if(dragitem.data('bookid') == droptarget.data('id')) {
+					return false;
+				}
+				var droplist = (droptarget.is('ul')) ? droptarget : droptarget.next();
+				$.post(OC.filePath('contacts', 'ajax', 'contact/move.php'),
+					{
+						id: dragitem.data('id'),
+						aid: droptarget.data('id'),
+						isaddressbook: 1
+				},
+				function(jsondata){
+					if(jsondata.status == 'success'){
+						OC.Contacts.Contacts.update(); // Easier to refresh the whole bunch.
+					} else {
+						OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+					}
+				});
+			} else {
+				return false;
+			}
 		},
 		/**
 		 * @params params An object with the properties 'contactlist':a jquery object of the ul to insert into,
