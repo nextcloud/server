@@ -56,6 +56,20 @@ class Keymanager {
 	}
 	
 	/**
+	 * @brief retrieve both keys from a user (private and public)
+	 *
+	 * @return string private key or false
+	 */
+	public static function getUserKeys() {
+	
+	return array(
+			'privatekey' => self::getPrivateKey(),
+			'publickey' => self::getPublicKey(),
+			);
+	
+	}
+	
+	/**
 	 * @brief retrieve a list of the public key from all users with access to the file
 	 *
 	 * @param string path to file
@@ -143,6 +157,19 @@ class Keymanager {
 		if (!$view->file_exists('')) $view->mkdir('');
 		return $view->file_put_contents($user.'.private.key', $key);
 		
+	}
+	
+	/**
+	 * @brief store private keys from the user
+	 *
+	 * @param string privatekey
+	 * @param string publickey
+	 * @return bool true/false
+	 */
+	public static function setUserKeys($privatekey, $publickey) {
+	
+		return (self::setPrivateKey($privatekey) && self::setPublicKey($publickey));
+	
 	}
 	
 	

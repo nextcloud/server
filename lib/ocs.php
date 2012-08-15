@@ -187,6 +187,16 @@ class OC_OCS {
 				$key = self::readData('post', 'key', 'string');
 				OC_OCS::privateKeySet($format, $key);
 			
+		// keygetuser
+		}elseif(($method=='get') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-3]=='cloud') and ($ex[$paracount-2] == 'userkeys')){
+			OC_OCS::userKeysGet($format);
+			
+		//keysetuser
+		}elseif(($method=='post') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-3]=='cloud') and ($ex[$paracount-2] == 'userkeys')){
+			$privatekey = self::readData('post', 'privatekey', 'string');
+			$publickey = self::readData('post', 'publickey', 'string');
+			OC_OCS::userKeysSet($format, $privatekey, $publickey);
+			
 		// keygetfiles
 		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'file') and ($ex[$paracount-2] == 'filekey')){
 			$file = urldecode($ex[$paracount-3]);
@@ -744,6 +754,49 @@ class OC_OCS {
         	}
         }
 
+        /**
+         * get both user keys (private and public)
+         * @param string $format
+         * @return string xml/json
+         */
+        private static function userKeysGet($format) {
+        	$login=OC_OCS::checkpassword();
+        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
+        		$keys = OCA_Encryption\Keymanager::getUserKeys();
+        		if ($keys['privatekey'] && $keys['publickey']) {
+        			$xml=array();
+        			$xml['privatekey']=$keys['privatekey'];
+        			$xml['publickey']=$keys['publickey'];
+        			$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
+        			echo($txt);
+        		} else {
+        			echo self::generateXml('', 'fail', 404, 'Keys not found on the server');
+        		}
+        	} else {
+        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled');
+        	}
+        }
+        
+        /**
+         * set both user keys (private and public)
+         * @param string $format
+         * @param string $privatekey
+         * @param string @publickey
+         * @return string xml/json
+         */
+        private static function userKeysSet($format, $privatekey, $publickey) {
+        	$login=OC_OCS::checkpassword();
+        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
+        		if (($key = OCA_Encryption\Keymanager::setUserKeys($privatekey, $publickey))) {
+        			echo self::generateXml('', 'ok', 100, '');
+        		} else {
+        			echo self::generateXml('', 'fail', 404, 'could not add your keys to the key storage');
+        		}
+        	} else {
+        		echo self::generateXml('', 'fail', 300, 'Client side encryption not enabled');
+        	}
+        }
+        
 		/**
 		 * get the encryption key of a file
 		 * @param string $format
