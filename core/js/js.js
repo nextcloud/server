@@ -54,9 +54,9 @@ OC={
 		var isCore=OC.coreApps.indexOf(app)!=-1;
 		var link=OC.webroot;
 		if((file.substring(file.length-3) == 'php' || file.substring(file.length-3) == 'css') && !isCore){
-			link+='/?app=' + app;
+			link+='/index.php/apps/' + app;
 			if (file != 'index.php') {
-				link+='&getfile=';
+				link+='/';
 				if(type){
 					link+=encodeURI(type + '/');
 				}
