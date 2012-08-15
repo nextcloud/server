@@ -19,48 +19,49 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-abstract class Test_Share_Backend extends UnitTestCase {
+class Test_Share_Backend implements OCP\Share_Backend {
 
-	protected $userBackend;
-	protected $user1;
-	protected $user2;
-	protected $groupBackend;
-	protected $group;
-	protected $itemType;
-	protected $item;
+	const FORMAT_SOURCE = 0;
+	const FORMAT_TARGET = 1;
+	const FORMAT_PERMISSIONS = 2;
+	
+	private $testItem = 'test.txt';
 
-	public function setUp() {
-		OC_User::clearBackends();
-		OC_User::useBackend('dummy');
-		$this->user1 = uniqid('user_');
-		$this->user2 = uniqid('user_');
-		OC_User::createUser($this->user1, 'pass1');
-		OC_User::createUser($this->user2, 'pass2');
-		OC_Group::clearBackends();
-		OC_Group::useBackend(new OC_Group_Dummy);
-		$this->group = uniqid('group_');
-		OC_Group::createGroup($this->group);
+	public function isValidSource($itemSource, $uidOwner) {
+		if ($itemSource == $this->testItem) {
+			return true;
+		}
 	}
 
-	public function testShareWithUserNonExistentItem() {
-		$this->assertFalse(OCP\Share::share($this->itemType, uniqid('foobar_'), OCP\Share::SHARETYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
+	public function generateTarget($itemSource, $shareWith, $exclude = null) {
+		$target = $itemSource;
+		if (isset($exclude)) {
+			$pos = strrpos($target, '.');
+			$name = substr($target, 0, $pos);
+			$ext = substr($target, $pos);
+			$append = '';
+			$i = 1;
+			while (in_array($name.$append.$ext, $exclude)) {
+				$append = $i;
+				$i++;
+			}
+			$target = $name.$append.$ext;
+		}
+		return $target;
 	}
 
-	public function testShareWithUserItem() {
-		$this->assertTrue(OCP\Share::share($this->itemType, $this->item, OCP\Share::SHARETYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
-	}
-
-	public function testShareWithGroupNonExistentItem() {
-		$this->assertFalse(OCP\Share::share($this->itemType, uniqid('foobar_'), OCP\Share::SHARETYPE_GROUP, $this->group, OCP\Share::PERMISSION_READ));
-	}
-
-	public function testShareWithGroupItem() {
-		$this->assertTrue(OCP\Share::share($this->itemType, $this->item, OCP\Share::SHARETYPE_GROUP, $this->group, OCP\Share::PERMISSION_READ));
-	}
-
-	public function testShareWithUserAlreadySharedWith() {
-		$this->assertTrue(OCP\Share::share($this->itemType, $this->item, OCP\Share::SHARETYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
-		$this->assertFalse(OCP\Share::share($this->itemType, $this->item, OCP\Share::SHARETYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
+	public function formatItems($items, $format, $parameters = null) {
+		$testItems = array();
+		foreach ($items as $item) {
+			if ($format == self::FORMAT_SOURCE) {
+				$testItems[] = $item['item_source'];
+			} else if ($format == self::FORMAT_TARGET) {
+				$testItems[] = $item['item_target'];
+			} else if ($format == self::FORMAT_PERMISSIONS) {
+				$testItems[] = $item['permissions'];
+			}
+		}
+		return $testItems;
 	}
 
 }
