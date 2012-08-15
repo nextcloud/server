@@ -135,6 +135,8 @@ class Proxy extends \OC_FileProxy {
 	
 	public function postFile_get_contents( $path, $data ) {
 	
+		# TODO: Use dependency injection to add required args for view and user etc. to this method
+	
 		if ( Crypt::mode() == 'server' && Crypt::isEncryptedContent( $data ) ) {
 		
 			$filePath = explode( '/', $path );
@@ -150,9 +152,7 @@ class Proxy extends \OC_FileProxy {
 			
 			$keyFile = Keymanager::getFileKey( $filePath );
 			
-			$privateKey = Keymanager::getPrivateKey();
-			
-			$data = Crypt::keyDecryptKeyfile( $data, $keyFile, $privateKey  );
+			$data = Crypt::keyDecryptKeyfile( $data, $keyFile, $_SESSION['enckey'] );
 			
 			\OC_FileProxy::$enabled = true;
 		
@@ -175,9 +175,15 @@ class Proxy extends \OC_FileProxy {
 		// If file is encrypted, decrypt using crypto protocol
 		if ( Crypt::mode() == 'server' && Crypt::isEncryptedContent( $path ) ) {
 		
+			$keyFile = Keymanager::getFileKey( $filePath );
+		
+			$tmp = tmpfile();
+			
+			file_put_contents( $tmp, Crypt::keyDecryptKeyfile( $result, $keyFile, $_SESSION['enckey'] ) );
+		
 			fclose ( $result );
 			
-			$result = fopen( 'crypt://'.$path, $meta['mode'] );
+			$result = fopen( $tmp );
 			
 		} elseif ( 
 		self::shouldEncrypt( $path ) 

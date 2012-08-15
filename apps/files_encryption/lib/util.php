@@ -222,9 +222,9 @@ class Util {
 
 	}
 	
-	public function encryptAll( OC_FilesystemView $view ) {
+	public function encryptAll( $directory ) {
 	
-		$plainFiles = $this->findPlainFiles( $view );
+		$plainFiles = $this->findFiles( $this->view, 'plain' );
 		
 		if ( $this->encryptFiles( $plainFiles ) ) {
 		

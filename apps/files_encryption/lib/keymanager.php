@@ -30,14 +30,14 @@ class Keymanager {
 	# TODO: make all dependencies (including static classes) explicit, such as ocfsview objects, by adding them as method arguments (dependency injection)
 		
 	/**
-	 * @brief retrieve private key from a user
+	 * @brief retrieve the ENCRYPTED private key from a user
 	 * 
 	 * @return string private key or false
+	 * @note the key returned by this method must be decrypted before use
 	 */
-	public static function getPrivateKey() {
+	public static function getPrivateKey( $user, $view ) {
 	
-		$user = \OCP\User::getUser();	
-		$view = new \OC_FilesystemView( '/' . $user . '/' . 'files_encryption' );
+		$view->chroot( '/' . $user . '/' . 'files_encryption' );
 		return $view->file_get_contents( '/' . $user.'.private.key' );
 		
 	}
@@ -121,7 +121,7 @@ class Keymanager {
 	 * @return string file key or false
 	 */
 	public static function getFileKey( $path ) {
-		trigger_error("div ".$path);
+		
 		$keypath = ltrim( $path, '/' );
 		$user = \OCP\User::getUser();
 

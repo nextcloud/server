@@ -39,6 +39,8 @@ class Hooks {
 
 		if ( Crypt::mode( $params['uid'] ) == 'server' ) {
 
+			# TODO: use lots of dependency injection here
+		
 			$view = new \OC_FilesystemView( '/' );
 
 			$util = new Util( $view, $params['uid'] );
@@ -49,8 +51,12 @@ class Hooks {
 
 			}
 		
-			$encryptedKey = Keymanager::getPrivateKey( $params['uid'] );
+			\OC_FileProxy::$enabled = false;
+		
+			$encryptedKey = Keymanager::getPrivateKey( $params['uid'], $view );
 
+			\OC_FileProxy::$enabled = true;
+			
 			$_SESSION['enckey'] = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
 			
 		}

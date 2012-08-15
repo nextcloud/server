@@ -43,6 +43,7 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
 		$key = Keymanager::getPrivateKey( $this->user, $this->view );
 		
+		# TODO: replace call to Crypt with a mock object?
 		$decrypted = Crypt::symmetricDecryptFileContent( $key, $this->passphrase );
 		
 		$this->assertEquals( 1708, strlen( $decrypted ) );
