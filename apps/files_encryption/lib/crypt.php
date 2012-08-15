@@ -447,26 +447,18 @@ class Crypt {
 	}
 
 	public static function changekeypasscode($oldPassword, $newPassword) {
+
 		if(\OCP\User::isLoggedIn()){
-			$username = \OCP\USER::getUser();
-			$view = new \OC_FilesystemView('/'.$username);
-
-			// read old key
 			$key = Keymanager::getPrivateKey();
-
-			// decrypt key with old passcode
-			if ( ($key = self::decrypt($key, $oldPassword)) ) {
-				// encrypt again with new passcode
-				$key = self::encrypt($key, $newPassword);
-
-				// store the new key
-				return Keymanager::setPrivateKey($key);
-			} else {
-				return false;
+			if ( ($key = Crypt::symmetricDecryptFileContent($key,$oldpasswd)) ) {
+				if ( ($key = Crypt::symmetricEncryptFileContent($key, $newpasswd)) ) {
+					Keymanager::setPrivateKey($key);
+					return true;
+				}
 			}
 		}
+		return false;
 	}
-
 }
 
 ?>

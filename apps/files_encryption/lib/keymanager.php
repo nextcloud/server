@@ -219,13 +219,7 @@ class Keymanager {
 	public static function changePasswd($oldpasswd, $newpasswd) {
 		
 		if ( \OCP\User::checkPassword(\OCP\User::getUser(), $newpasswd) ) {
-			$key = Keymanager::getPrivateKey();
-			if ( ($key = Crypt::symmetricDecryptFileContent($key,$oldpasswd)) ) {
-				if ( ($key = Crypt::symmetricEncryptFileContent($key, $newpasswd)) ) {
-					Keymanager::setPrivateKey($key);
-					return true;
-				}
-			}
+			return Crypt::changekeypasscode($oldpasswd, $newpasswd);
 		}
 		return false;
 		
