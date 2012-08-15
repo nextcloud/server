@@ -253,31 +253,20 @@ class Share {
 	}
 
 	/**
-	* @brief
-	* @param
-	* @param
-	* @return
+	* @brief Unshare an item shared with the current user
+	* @param string Item type
+	* @param string Item target
+	* @return Returns true on success or false on failure
+	*
+	* Unsharing from self is not allowed for items inside collections
+	*
 	*/
 	public static function unshareFromSelf($itemType, $itemTarget) {
-		$uidSharedWith = \OC_User::getUser();
-		if ($item = self::getItems($itemType, $itemTarget, $uidSharedWith, true, null, false, 1)) {
-			// Check if item is inside a shared folder and was converted
-			if ($item['parent']) {
-				$query = \OC_DB::prepare('SELECT item_type FROM *PREFIX*share WHERE id = ? LIMIT 1');
-				$result = $query->execute(array($item['parent']))->fetchRow();
-				if (isset($result['item_type']) && $result['item_type'] == 'folder') {
-					return false;
-				}
+		if ($item = self::getItemSharedWith($itemType, $itemTarget)) {
+			if ((int)$item['share_type'] === self::SHARE_TYPE_GROUP) {
+				// TODO
 			}
-			// Check if this is a group share, if it is a group share a new entry needs to be created marked as unshared from self
-			if ($item['uid_shared_with'] == null) {
-				$query = \OC_DB::prepare('INSERT INTO *PREFIX*share VALUES(?,?,?,?,?,?,?,?,?,?)');
-				$result = $query->execute(array($item['item_type'], $item['item_source'], $item['item_target'], $uidSharedWith, $item['gid_shared_with'], $item['uid_owner'], self::UNSHARED_FROM_SELF, $item['stime'], $item['file_source'], $item['file_target']));
-				if (\OC_DB::isError($result)) {
-// 					\OC_Log::write('OCP\Share', 'Share type '.$shareType.' is not valid for item '.$item, \OC_Log::ERROR);
-					return false;
-				}
-			}
+			// Delete 
 			return self::delete($item['id'], true);
 		}
 		return false;
@@ -301,7 +290,7 @@ class Share {
 				if (~(int)$result['permissions'] & $permissions) {
 					$message = 'Setting permissions for '.$itemSource.' failed, because the permissions exceed permissions granted to '.\OC_User::getUser();
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-					throw new Exception($message);
+					throw new \Exception($message);
 				}
 			}
 			$query = \OC_DB::prepare('UPDATE *PREFIX*share SET permissions = ? WHERE id = ?');
@@ -341,7 +330,7 @@ class Share {
 		}
 		$message = 'Setting permissions for '.$itemSource.' failed, because the item was not found';
 		\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-		throw new Exception($message);
+		throw new \Exception($message);
 	}
 
 	/**
@@ -669,7 +658,7 @@ class Share {
 			if (isset($fileSource)) {
 				if ($parentFolder) {
 					if ($parentFolder === true) {
-						$groupFileTarget = self::generateTarget('file', $filePath, $shareType, $shareWith);
+						$groupFileTarget = self::generateTarget('file', $filePath, $shareType, $shareWith['group']);
 						// Set group default file target for future use
 						$parentFolders[0]['folder'] = $groupFileTarget;
 					} else {
@@ -681,12 +670,12 @@ class Share {
 						$uidSharedWith = array_keys($parentFolder);
 					}
 				} else {
-					$groupFileTarget = self::generateTarget('file', $filePath, $shareType, $shareWith);
+					$groupFileTarget = self::generateTarget('file', $filePath, $shareType, $shareWith['group']);
 				}
 			} else {
 				$groupFileTarget = null;
 			}
-			$groupItemTarget = self::generateTarget($itemType, $itemSource, $shareType, $shareWith);
+			$groupItemTarget = self::generateTarget($itemType, $itemSource, $shareType, $shareWith['group']);
 			$query->execute(array($itemType, $itemSource, $groupItemTarget, $parent, $shareType, $shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget));
 			// Save this id, any extra rows for this group share will need to reference it
 			$parent = \OC_DB::insertid('*PREFIX*share');
