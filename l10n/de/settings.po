@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-12 02:02+0200\n"
-"PO-Revision-Date: 2012-08-12 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-15 02:03+0200\n"
+"PO-Revision-Date: 2012-08-14 11:29+0000\n"
+"Last-Translator: JamFX <niko@nik-o-mat.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,19 +79,19 @@ msgstr "Sicherheitshinweis"
 
 #: templates/admin.php:29
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:31
 msgid "execute one task with each page loaded"
-msgstr ""
+msgstr "Führe eine Aufgabe pro geladener Seite aus."
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "cron.php ist beim Webcron-Service registriert"
 
 #: templates/admin.php:35
 msgid "use systems cron service"
-msgstr ""
+msgstr "Nutze System-Cron-Service"
 
 #: templates/admin.php:39
 msgid "Log"

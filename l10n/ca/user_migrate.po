@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-13 18:39+0000\n"
+"POT-Creation-Date: 2012-08-15 02:03+0200\n"
+"PO-Revision-Date: 2012-08-14 08:04+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "S'ha produït un error"
 
 #: templates/settings.php:2
 msgid "Export your user account"
-msgstr "Exporta el vostre compte d'usuari"
+msgstr "Exportar el compte d'usuari"
 
 #: templates/settings.php:3
 msgid ""
@@ -41,7 +41,7 @@ msgstr "Això crearà un fitxer comprimit que conté el vostre compte ownCloud."
 
 #: templates/settings.php:13
 msgid "Import user account"
-msgstr "Importa el compte d'usuari"
+msgstr "Importar el compte d'usuari"
 
 #: templates/settings.php:15
 msgid "ownCloud User Zip"

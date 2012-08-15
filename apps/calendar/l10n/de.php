@@ -183,6 +183,7 @@
 "Start week on" => "Erster Wochentag",
 "Cache" => "Zwischenspeicher",
 "Clear cache for repeating events" => "Lösche den Zwischenspeicher für wiederholende Veranstaltungen",
+"URLs" => "URLs",
 "Calendar CalDAV syncing addresses" => "CalDAV-Kalender gleicht Adressen ab",
 "more info" => "weitere Informationen",
 "Primary address (Kontact et al)" => "Primäre Adresse (Kontakt u.a.)",

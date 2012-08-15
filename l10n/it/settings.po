@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-12 02:02+0200\n"
-"PO-Revision-Date: 2012-08-12 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-15 02:03+0200\n"
+"PO-Revision-Date: 2012-08-14 14:56+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,15 +82,15 @@ msgstr "Cron"
 
 #: templates/admin.php:31
 msgid "execute one task with each page loaded"
-msgstr ""
+msgstr "esegui un'attività con ogni pagina caricata"
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "cron.php è registrato a un servizio webcron"
 
 #: templates/admin.php:35
 msgid "use systems cron service"
-msgstr ""
+msgstr "usa il servizio cron di sistema"
 
 #: templates/admin.php:39
 msgid "Log"
@@ -162,7 +162,7 @@ msgstr "Scaricamento"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
-msgstr "La tua password è stata cambiata"
+msgstr "La tua password è stata cambiat"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

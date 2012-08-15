@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-12 02:02+0200\n"
-"PO-Revision-Date: 2012-08-12 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-15 02:03+0200\n"
+"PO-Revision-Date: 2012-08-14 08:06+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,15 +77,15 @@ msgstr "Cron"
 
 #: templates/admin.php:31
 msgid "execute one task with each page loaded"
-msgstr ""
+msgstr "executa una tasca en carregar cada pàgina"
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "cron.php està registrat en un servei web cron"
 
 #: templates/admin.php:35
 msgid "use systems cron service"
-msgstr ""
+msgstr "usa el servei cron del sistema"
 
 #: templates/admin.php:39
 msgid "Log"
@@ -97,7 +97,7 @@ msgstr "Més"
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr "Afegeiu la vostra aplicació"
+msgstr "Afegiu la vostra aplicació"
 
 #: templates/apps.php:26
 msgid "Select an App"

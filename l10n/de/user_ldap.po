@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Maurice Preuß <>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:45+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-15 02:03+0200\n"
+"PO-Revision-Date: 2012-08-14 20:45+0000\n"
+"Last-Translator: Maurice Preuß <>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: templates/settings.php:8
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
 #: templates/settings.php:8
 msgid ""
@@ -47,7 +48,7 @@ msgstr ""
 
 #: templates/settings.php:11
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
@@ -55,14 +56,14 @@ msgstr ""
 
 #: templates/settings.php:12
 msgid "User Login Filter"
-msgstr ""
+msgstr "Benutzer Login Filter"
 
 #: templates/settings.php:12
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Bestimmt den angewendeten Filter, wenn eine Anmeldung versucht wird. %%uid ersetzt den Benutzernamen bei dem Anmeldeversuch."
 
 #: templates/settings.php:12
 #, php-format
@@ -71,7 +72,7 @@ msgstr ""
 
 #: templates/settings.php:13
 msgid "User List Filter"
-msgstr ""
+msgstr "Benutzer Filter Liste"
 
 #: templates/settings.php:13
 msgid "Defines the filter to apply, when retrieving users."
@@ -83,7 +84,7 @@ msgstr ""
 
 #: templates/settings.php:14
 msgid "Group Filter"
-msgstr ""
+msgstr "Gruppen Filter"
 
 #: templates/settings.php:14
 msgid "Defines the filter to apply, when retrieving groups."
@@ -95,7 +96,7 @@ msgstr ""
 
 #: templates/settings.php:17
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: templates/settings.php:18
 msgid "Base User Tree"
@@ -115,7 +116,7 @@ msgstr ""
 
 #: templates/settings.php:21
 msgid "Do not use it for SSL connections, it will fail."
-msgstr ""
+msgstr "Verwenden Sie es nicht für SSL-Verbindungen, wird es scheitern."
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
@@ -123,7 +124,7 @@ msgstr ""
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "Schalte die SSL Zertifikatsprüfung aus."
 
 #: templates/settings.php:23
 msgid ""
@@ -153,12 +154,12 @@ msgstr ""
 
 #: templates/settings.php:27
 msgid "in bytes"
-msgstr ""
+msgstr "in bytes"
 
 #: templates/settings.php:29
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "in Sekunden. Eine Änderung leert den Cache."
 
 #: templates/settings.php:31
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"

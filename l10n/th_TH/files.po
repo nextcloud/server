@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-31 22:53+0200\n"
-"PO-Revision-Date: 2012-07-31 20:54+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-15 02:02+0200\n"
+"PO-Revision-Date: 2012-08-14 12:47+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr "ไฟล์"
 
 #: js/fileactions.js:95
 msgid "Unshare"
-msgstr ""
+msgstr "ยกเลิกการแชร์ข้อมูล"
 
 #: js/fileactions.js:97 templates/index.php:56
 msgid "Delete"
@@ -63,31 +63,31 @@ msgstr "ลบ"
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr ""
+msgstr "มีอยู่แล้ว"
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr ""
+msgstr "แทนที่"
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "ยกเลิก"
 
 #: js/filelist.js:195
 msgid "replaced"
-msgstr ""
+msgstr "แทนที่แล้ว"
 
 #: js/filelist.js:195
 msgid "with"
-msgstr ""
+msgstr "กับ"
 
 #: js/filelist.js:195 js/filelist.js:256
 msgid "undo"
-msgstr ""
+msgstr "เลิกทำ"
 
 #: js/filelist.js:256
 msgid "deleted"
-msgstr ""
+msgstr "ลบแล้ว"
 
 #: js/files.js:170
 msgid "generating ZIP-file, it may take some time."
@@ -113,27 +113,27 @@ msgstr "การอัพโหลดถูกยกเลิก"
 msgid "Invalid name, '/' is not allowed."
 msgstr "ชื่อที่ใช้ไม่ถูกต้อง '/' ไม่อนุญาตให้ใช้งาน"
 
-#: js/files.js:631 templates/index.php:55
+#: js/files.js:694 templates/index.php:55
 msgid "Size"
 msgstr "ขนาด"
 
-#: js/files.js:632 templates/index.php:56
+#: js/files.js:695 templates/index.php:56
 msgid "Modified"
 msgstr "ปรับปรุงล่าสุด"
 
-#: js/files.js:659
+#: js/files.js:722
 msgid "folder"
 msgstr "โฟลเดอร์"
 
-#: js/files.js:661
+#: js/files.js:724
 msgid "folders"
 msgstr "โฟลเดอร์"
 
-#: js/files.js:669
+#: js/files.js:732
 msgid "file"
 msgstr "ไฟล์"
 
-#: js/files.js:671
+#: js/files.js:734
 msgid "files"
 msgstr "ไฟล์"
 

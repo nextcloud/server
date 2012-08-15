@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:45+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-15 02:03+0200\n"
+"PO-Revision-Date: 2012-08-14 15:30+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: templates/settings.php:8
 msgid "Host"
-msgstr ""
+msgstr "โฮสต์"
 
 #: templates/settings.php:8
 msgid ""
@@ -47,7 +48,7 @@ msgstr ""
 
 #: templates/settings.php:11
 msgid "Password"
-msgstr ""
+msgstr "รหัสผ่าน"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
@@ -83,7 +84,7 @@ msgstr ""
 
 #: templates/settings.php:14
 msgid "Group Filter"
-msgstr ""
+msgstr "ตัวกรองข้อมูลกลุ่ม"
 
 #: templates/settings.php:14
 msgid "Defines the filter to apply, when retrieving groups."
@@ -95,7 +96,7 @@ msgstr ""
 
 #: templates/settings.php:17
 msgid "Port"
-msgstr ""
+msgstr "พอร์ต"
 
 #: templates/settings.php:18
 msgid "Base User Tree"
@@ -111,7 +112,7 @@ msgstr ""
 
 #: templates/settings.php:21
 msgid "Use TLS"
-msgstr ""
+msgstr "ใช้ TLS"
 
 #: templates/settings.php:21
 msgid "Do not use it for SSL connections, it will fail."
@@ -133,7 +134,7 @@ msgstr ""
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "ไม่แนะนำให้ใช้งาน, ใช้สำหรับการทดสอบเท่านั้น"
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
@@ -153,7 +154,7 @@ msgstr ""
 
 #: templates/settings.php:27
 msgid "in bytes"
-msgstr ""
+msgstr "ในหน่วยไบต์"
 
 #: templates/settings.php:29
 msgid "in seconds. A change empties the cache."
@@ -161,4 +162,4 @@ msgstr ""
 
 #: templates/settings.php:31
 msgid "Help"
-msgstr ""
+msgstr "ช่วยเหลือ"

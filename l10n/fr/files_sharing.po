@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Romain DEP. <rom1dep@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:35+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-15 02:03+0200\n"
+"PO-Revision-Date: 2012-08-14 16:40+0000\n"
+"Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,36 +20,36 @@ msgstr ""
 
 #: templates/list.php:2
 msgid "Your Shared Files"
-msgstr ""
+msgstr "Vos documents partagés"
 
 #: templates/list.php:6
 msgid "Item"
-msgstr ""
+msgstr "Item"
 
 #: templates/list.php:7
 msgid "Shared With"
-msgstr ""
+msgstr "Partagé avec"
 
 #: templates/list.php:8
 msgid "Permissions"
-msgstr ""
+msgstr "Permissions"
 
 #: templates/list.php:16
 msgid "Read"
-msgstr ""
+msgstr "Lecture"
 
 #: templates/list.php:16
 msgid "Edit"
-msgstr ""
+msgstr "Édition"
 
 #: templates/list.php:16 templates/list.php:17
 msgid "Delete"
-msgstr ""
+msgstr "Effacement"
 
 #: templates/settings.php:3
 msgid "Enable Resharing"
-msgstr ""
+msgstr "Permettre le repartage"
 
 #: templates/settings.php:4
 msgid "Allow users to reshare files they don't own"
-msgstr ""
+msgstr "Permettre aux utilisateurs de repartager des fichiers dont ils ne sont pas propriétaires"

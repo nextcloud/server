@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-15 02:02+0200\n"
+"PO-Revision-Date: 2012-08-14 13:30+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +21,11 @@ msgstr ""
 
 #: ajax/cache/status.php:19
 msgid "Not all calendars are completely cached"
-msgstr ""
+msgstr "ไม่ใช่ปฏิทินทั้งหมดที่จะถูกจัดเก็บข้อมูลไว้ในหน่วยความจำแคชอย่างสมบูรณ์"
 
 #: ajax/cache/status.php:21
 msgid "Everything seems to be completely cached"
-msgstr ""
+msgstr "ทุกสิ่งทุกอย่างได้ถูกเก็บเข้าไปไว้ในหน่วยความจำแคชอย่างสมบูรณ์แล้ว"
 
 #: ajax/categories/rescan.php:29
 msgid "No calendars found."
@@ -43,19 +43,19 @@ msgstr "ปฏิทินไม่ถูกต้อง"
 msgid ""
 "The file contained either no events or all events are already saved in your "
 "calendar."
-msgstr ""
+msgstr "ไฟล์ดังกล่าวบรรจุข้อมูลกิจกรรมที่มีอยู่แล้วในปฏิทินของคุณ"
 
 #: ajax/import/dropimport.php:31 ajax/import/import.php:67
 msgid "events has been saved in the new calendar"
-msgstr ""
+msgstr "กิจกรรมได้ถูกบันทึกไปไว้ในปฏิทินที่สร้างขึ้นใหม่แล้ว"
 
 #: ajax/import/import.php:56
 msgid "Import failed"
-msgstr ""
+msgstr "การนำเข้าข้อมูลล้มเหลว"
 
 #: ajax/import/import.php:69
 msgid "events has been saved in your calendar"
-msgstr ""
+msgstr "กิจกรรมได้ถูกบันทึกเข้าไปไว้ในปฏิทินของคุณแล้ว"
 
 #: ajax/settings/guesstimezone.php:25
 msgid "New Timezone:"
@@ -160,7 +160,7 @@ msgstr "งาน"
 
 #: lib/app.php:351 lib/app.php:361
 msgid "by"
-msgstr ""
+msgstr "โดย"
 
 #: lib/app.php:359 lib/app.php:399
 msgid "unnamed"
@@ -349,79 +349,79 @@ msgstr "คำนวณ"
 
 #: templates/calendar.php:6
 msgid "Sun."
-msgstr ""
+msgstr "อา."
 
 #: templates/calendar.php:6
 msgid "Mon."
-msgstr ""
+msgstr "จ."
 
 #: templates/calendar.php:6
 msgid "Tue."
-msgstr ""
+msgstr "อ."
 
 #: templates/calendar.php:6
 msgid "Wed."
-msgstr ""
+msgstr "พ."
 
 #: templates/calendar.php:6
 msgid "Thu."
-msgstr ""
+msgstr "พฤ."
 
 #: templates/calendar.php:6
 msgid "Fri."
-msgstr ""
+msgstr "ศ."
 
 #: templates/calendar.php:6
 msgid "Sat."
-msgstr ""
+msgstr "ส."
 
 #: templates/calendar.php:8
 msgid "Jan."
-msgstr ""
+msgstr "ม.ค."
 
 #: templates/calendar.php:8
 msgid "Feb."
-msgstr ""
+msgstr "ก.พ."
 
 #: templates/calendar.php:8
 msgid "Mar."
-msgstr ""
+msgstr "มี.ค."
 
 #: templates/calendar.php:8
 msgid "Apr."
-msgstr ""
+msgstr "เม.ย."
 
 #: templates/calendar.php:8
 msgid "May."
-msgstr ""
+msgstr "พ.ค."
 
 #: templates/calendar.php:8
 msgid "Jun."
-msgstr ""
+msgstr "มิ.ย."
 
 #: templates/calendar.php:8
 msgid "Jul."
-msgstr ""
+msgstr "ก.ค."
 
 #: templates/calendar.php:8
 msgid "Aug."
-msgstr ""
+msgstr "ส.ค."
 
 #: templates/calendar.php:8
 msgid "Sep."
-msgstr ""
+msgstr "ก.ย."
 
 #: templates/calendar.php:8
 msgid "Oct."
-msgstr ""
+msgstr "ต.ค."
 
 #: templates/calendar.php:8
 msgid "Nov."
-msgstr ""
+msgstr "พ.ย."
 
 #: templates/calendar.php:8
 msgid "Dec."
-msgstr ""
+msgstr "ธ.ค."
 
 #: templates/calendar.php:11
 msgid "All day"
@@ -478,7 +478,7 @@ msgstr "วันนี้"
 
 #: templates/calendar.php:46 templates/calendar.php:47
 msgid "Settings"
-msgstr ""
+msgstr "ตั้งค่า"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
@@ -686,7 +686,7 @@ msgstr "นำเข้าไฟล์ปฏิทิน"
 
 #: templates/part.import.php:24
 msgid "Please choose a calendar"
-msgstr ""
+msgstr "กรุณาเลือกปฏิทิน"
 
 #: templates/part.import.php:36
 msgid "Name of new calendar"
@@ -694,13 +694,13 @@ msgstr "ชื่อของปฏิทิน"
 
 #: templates/part.import.php:44
 msgid "Take an available name!"
-msgstr ""
+msgstr "เลือกชื่อที่ต้องการ"
 
 #: templates/part.import.php:45
 msgid ""
 "A Calendar with this name already exists. If you continue anyhow, these "
 "calendars will be merged."
-msgstr ""
+msgstr "ปฏิทินชื่อดังกล่าวถูกใช้งานไปแล้ว หากคุณยังดำเนินการต่อไป ปฏิทินดังกล่าวนี้จะถูกผสานข้อมูลเข้าด้วยกัน"
 
 #: templates/part.import.php:47
 msgid "Import"
@@ -732,7 +732,7 @@ msgstr "ที่"
 
 #: templates/settings.php:10
 msgid "General"
-msgstr ""
+msgstr "ทั่วไป"
 
 #: templates/settings.php:15
 msgid "Timezone"
@@ -740,11 +740,11 @@ msgstr "โซนเวลา"
 
 #: templates/settings.php:47
 msgid "Update timezone automatically"
-msgstr ""
+msgstr "อัพเดทโซนเวลาอัตโนมัติ"
 
 #: templates/settings.php:52
 msgid "Time format"
-msgstr ""
+msgstr "รูปแบบเวลา"
 
 #: templates/settings.php:57
 msgid "24h"
@@ -756,39 +756,39 @@ msgstr "12 ช.ม."
 
 #: templates/settings.php:64
 msgid "Start week on"
-msgstr ""
+msgstr "เริ่มต้นสัปดาห์ด้วย"
 
 #: templates/settings.php:76
 msgid "Cache"
-msgstr ""
+msgstr "หน่วยความจำแคช"
 
 #: templates/settings.php:80
 msgid "Clear cache for repeating events"
-msgstr ""
+msgstr "ล้างข้อมูลในหน่วยความจำแคชสำหรับกิจกรรมที่ซ้ำซ้อน"
 
 #: templates/settings.php:85
 msgid "URLs"
-msgstr ""
+msgstr "URLs"
 
 #: templates/settings.php:87
 msgid "Calendar CalDAV syncing addresses"
-msgstr ""
+msgstr "ที่อยู่ที่ใช้สำหรับเชื่อมข้อมูลปฏิทิน CalDAV"
 
 #: templates/settings.php:87
 msgid "more info"
-msgstr ""
+msgstr "ข้อมูลเพิ่มเติม"
 
 #: templates/settings.php:89
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "ที่อยู่หลัก (Kontact et al)"
 
 #: templates/settings.php:91
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"
 
 #: templates/settings.php:93
 msgid "Read only iCalendar link(s)"
-msgstr ""
+msgstr "อ่านเฉพาะลิงก์ iCalendar เท่านั้น"
 
 #: templates/share.dropdown.php:20
 msgid "Users"
