@@ -41,9 +41,9 @@ class OC_Mount_Config {
 		return array(
 			'OC_Filestorage_Local' => array('backend' => 'Local', 'configuration' => array('datadir' => 'Location')),
 			'OC_Filestorage_AmazonS3' => array('backend' => 'Amazon S3', 'configuration' => array('key' => 'Key', 'secret' => '*Secret', 'bucket' => 'Bucket')),
-			'OC_Filestorage_Dropbox' => array('backend' => 'Dropbox', 'configuration' => array('app_key' => 'App key', 'app_secret' => 'App secret', 'token' => '#token', 'token_secret' => '#token_secret'), 'custom' => 'dropbox'),
+			'OC_Filestorage_Dropbox' => array('backend' => 'Dropbox', 'configuration' => array('configured' => '#configured','app_key' => 'App key', 'app_secret' => 'App secret', 'token' => '#token', 'token_secret' => '#token_secret'), 'custom' => 'dropbox'),
 			'OC_Filestorage_FTP' => array('backend' => 'FTP', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure ftps://')),
-			'OC_Filestorage_Google' => array('backend' => 'Google Drive', 'configuration' => array('token' => '#token', 'token_secret' => '#token secret'), 'custom' => 'google'),
+			'OC_Filestorage_Google' => array('backend' => 'Google Drive', 'configuration' => array('configured' => '#configured', 'token' => '#token', 'token_secret' => '#token secret'), 'custom' => 'google'),
 			'OC_Filestorage_SWIFT' => array('backend' => 'OpenStack Swift', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'token' => '*Token', 'root' => '&Root', 'secure' => '!Secure ftps://')),
 			'OC_Filestorage_SMB' => array('backend' => 'SMB', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'share' => 'Share', 'root' => '&Root')),
 			'OC_Filestorage_DAV' => array('backend' => 'WebDAV', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure https://'))

@@ -27,14 +27,12 @@ if(!$_['htaccessworking']) {
 
 <fieldset class="personalblock" id="backgroundjobs">
 	<legend><strong><?php echo $l->t('Cron');?></strong></legend>
-	<input type="radio" name="mode" value="none" id="backgroundjobs_none" <?php if( $_['backgroundjobs_mode'] == "none" ){ echo 'checked="checked"'; } ?>>
-	<label for="backgroundjobs_none">None</label><br />
 	<input type="radio" name="mode" value="ajax" id="backgroundjobs_ajax" <?php if( $_['backgroundjobs_mode'] == "ajax" ){ echo 'checked="checked"'; } ?>>
-	<label for="backgroundjobs_ajax">AJAX</label><br />
+	<label for="backgroundjobs_ajax" title="<?php echo $l->t("execute one task with each page loaded"); ?>">AJAX</label><br />
 	<input type="radio" name="mode" value="webcron" id="backgroundjobs_webcron" <?php if( $_['backgroundjobs_mode'] == "webcron" ){ echo 'checked="checked"'; } ?>>
-	<label for="backgroundjobs_webcron">Webcron</label><br />
+	<label for="backgroundjobs_webcron" title="<?php echo $l->t("cron.php is registered at a webcron service"); ?>">Webcron</label><br />
 	<input type="radio" name="mode" value="cron" id="backgroundjobs_cron" <?php if( $_['backgroundjobs_mode'] == "cron" ){ echo 'checked="checked"'; } ?>>
-	<label for="backgroundjobs_cron">Cron</label><br />
+	<label for="backgroundjobs_cron" title="<?php echo $l->t("use systems cron service"); ?>">Cron</label><br />
 </fieldset>
 
 <fieldset class="personalblock">

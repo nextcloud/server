@@ -100,8 +100,8 @@ class BackgroundJob {
 	 * @param $parameters all useful data as text
 	 * @return id of task
 	 */
-	public static function addQueuedTask( $task, $klass, $method, $parameters ){
-		return \OC_BackgroundJob_QueuedTask::add( $task, $klass, $method, $parameters );
+	public static function addQueuedTask( $app, $klass, $method, $parameters ){
+		return \OC_BackgroundJob_QueuedTask::add( $app, $klass, $method, $parameters );
 	}
 
 	/**

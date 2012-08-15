@@ -160,9 +160,9 @@ a.bookmarklet { background-color: #ddd; border:1px solid #ccc; padding: 5px;padd
 #category_addinput { width: 10em; }
 
 /* ---- APP SETTINGS ---- */
-.popup { background-color: white; border-radius: 10px 10px 10px 10px; box-shadow: 0 0 20px #888888; color: #333333; padding: 10px; position: absolute; z-index: 200; }
-.popup.topright { top: -8px; right: 1em; }
-.popup.bottomleft { bottom: 1em; left: 8px; }
+.popup { background-color: white; border-radius: 10px 10px 10px 10px; box-shadow: 0 0 20px #888888; color: #333333; padding: 10px; position: fixed !important; z-index: 200; }
+.popup.topright { top: 7em; right: 1em; }
+.popup.bottomleft { bottom: 1em; left: 33em; }
 .popup .close { position:absolute; top: 0.2em; right:0.2em; height: 20px; width: 20px; background:url('../img/actions/delete.svg') no-repeat center; }
 .popup h2 { font-weight: bold; font-size: 1.2em; }
 .arrow { border-bottom: 10px solid white; border-left: 10px solid transparent; border-right: 10px solid transparent; display: block; height: 0; position: absolute; width: 0; z-index: 201; }

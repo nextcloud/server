@@ -54,10 +54,9 @@ class OC_FilesystemView {
 		if($path[0]!=='/'){
 			$path='/'.$path;
 		}
-		return $this->fakeRoot.$path;
+		return OC_Filesystem::normalizePath($this->fakeRoot.$path);
 	}
-
-
+	
 	/**
 	* change the root to a fake toor
 	* @param  string  fakeRoot
@@ -104,7 +103,12 @@ class OC_FilesystemView {
 		if(strpos($path, $this->fakeRoot)!==0) {
 			return null;
 		}else{
-			return substr($path, strlen($this->fakeRoot));
+			$path=substr($path, strlen($this->fakeRoot));
+			if(strlen($path)===0){
+				return '/';
+			}else{
+				return $path;
+			}
 		}
 	}
 

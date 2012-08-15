@@ -26,6 +26,9 @@ require_once('../../lib/base.php');
 OC_Util::checkAdminUser();
 OCP\JSON::callCheck();
 
-OC_Appconfig::setValue( 'core', 'backgroundjob_mode', $_POST['mode'] );
+$mode = isset( $_POST['mode'] ) ? $_POST['mode'] : '';
+if( $mode == "none" || $mode == "ajax" || $mode == "webcron" || $mode == "cron" ){
+	OC_Appconfig::setValue( 'core', 'backgroundjobs_mode', $_POST['mode'] );
+}
 
 echo 'true';

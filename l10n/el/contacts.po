@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-04 02:02+0200\n"
-"PO-Revision-Date: 2012-08-04 00:02+0000\n"
+"POT-Creation-Date: 2012-08-11 02:02+0200\n"
+"PO-Revision-Date: 2012-08-11 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -28,8 +28,8 @@ msgid "Error (de)activating addressbook."
 msgstr "Σφάλμα (απ)ενεργοποίησης βιβλίου διευθύνσεων"
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
-#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:30
-#: ajax/contact/saveproperty.php:37
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
+#: ajax/contact/saveproperty.php:39
 msgid "id is not set."
 msgstr "δεν ορίστηκε id"
 
@@ -65,7 +65,7 @@ msgstr "Δεν βρέθηκαν επαφές"
 msgid "There was an error adding the contact."
 msgstr "Σφάλμα κατά την προσθήκη επαφής."
 
-#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:34
+#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:36
 msgid "element name is not set."
 msgstr "δεν ορίστηκε όνομα στοιχείου"
 
@@ -89,11 +89,11 @@ msgstr "Προσπάθεια προσθήκης διπλότυπης ιδιότ�
 msgid "Error adding contact property: "
 msgstr "Σφάλμα στη προσθήκη ιδιότητας επαφής"
 
-#: ajax/contact/deleteproperty.php:36
+#: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "Οι πληροφορίες σχετικά με vCard είναι εσφαλμένες. Παρακαλώ επαναφορτώστε τη σελίδα."
 
-#: ajax/contact/deleteproperty.php:43
+#: ajax/contact/deleteproperty.php:44
 msgid "Error deleting contact property."
 msgstr "Σφάλμα διαγραφής ιδιότητας επαφής."
 
@@ -105,19 +105,19 @@ msgstr "Λείπει ID"
 msgid "Error parsing VCard for ID: \""
 msgstr "Σφάλμα κατά την ανάγνωση του VCard για το ID:\""
 
-#: ajax/contact/saveproperty.php:40
+#: ajax/contact/saveproperty.php:42
 msgid "checksum is not set."
 msgstr "δε ορίστηκε checksum "
 
-#: ajax/contact/saveproperty.php:60
+#: ajax/contact/saveproperty.php:62
 msgid "Information about vCard is incorrect. Please reload the page: "
 msgstr "Οι πληροφορίες για τη vCard είναι λανθασμένες.Παρακαλώ ξαναφορτώστε τη σελίδα: "
 
-#: ajax/contact/saveproperty.php:67
+#: ajax/contact/saveproperty.php:69
 msgid "Something went FUBAR. "
 msgstr "Κάτι χάθηκε στο άγνωστο. "
 
-#: ajax/contact/saveproperty.php:142
+#: ajax/contact/saveproperty.php:144
 msgid "Error updating contact property."
 msgstr "Σφάλμα ενημέρωσης ιδιότητας επαφής."
 
@@ -166,19 +166,19 @@ msgstr "Σφάλμα κατά τη λήψη ιδιοτήτων ΦΩΤΟΓΡΑΦ�
 msgid "Error saving contact."
 msgstr "Σφάλμα κατά την αποθήκευση επαφής."
 
-#: ajax/savecrop.php:108
+#: ajax/savecrop.php:109
 msgid "Error resizing image"
 msgstr "Σφάλμα κατά την αλλαγή μεγέθους εικόνας"
 
-#: ajax/savecrop.php:111
+#: ajax/savecrop.php:112
 msgid "Error cropping image"
 msgstr "Σφάλμα κατά την περικοπή εικόνας"
 
-#: ajax/savecrop.php:114
+#: ajax/savecrop.php:115
 msgid "Error creating temporary image"
 msgstr "Σφάλμα κατά την δημιουργία προσωρινής εικόνας"
 
-#: ajax/savecrop.php:117
+#: ajax/savecrop.php:118
 msgid "Error finding image: "
 msgstr "Σφάλμα κατά την εύρεση της εικόνας: "
 
@@ -277,6 +277,10 @@ msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Το αρχείο που προσπαθείτε να ανεβάσετε υπερβαίνει το μέγιστο μέγεθος για τις προσθήκες αρχείων σε αυτόν τον server."
+
+#: js/contacts.js:1236
+msgid "Error loading profile picture."
+msgstr ""
 
 #: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
@@ -536,7 +540,7 @@ msgstr "Αλλάξτε τις λεπτομέρειες ονόματος"
 
 #: templates/part.contact.php:40 templates/part.contact.php:42
 #: templates/part.contact.php:44 templates/part.contact.php:46
-#: templates/part.contact.php:50 templates/settings.php:34
+#: templates/part.contact.php:50 templates/settings.php:33
 msgid "Delete"
 msgstr "Διαγραφή"
 
@@ -847,30 +851,30 @@ msgstr ""
 msgid "Download"
 msgstr "Λήψη"
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 msgid "Edit"
 msgstr "Επεξεργασία"
 
-#: templates/settings.php:41
+#: templates/settings.php:40
 msgid "New Address Book"
 msgstr "Νέο βιβλίο διευθύνσεων"
 
-#: templates/settings.php:42
+#: templates/settings.php:41
 msgid "Name"
 msgstr "Όνομα"
 
-#: templates/settings.php:43
+#: templates/settings.php:42
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: templates/settings.php:45
+#: templates/settings.php:43
 msgid "Save"
 msgstr "Αποθήκευση"
 
-#: templates/settings.php:46
+#: templates/settings.php:44
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: templates/settings.php:51
+#: templates/settings.php:49
 msgid "More..."
 msgstr "Περισσότερα..."

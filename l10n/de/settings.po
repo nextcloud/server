@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-07 02:05+0200\n"
-"PO-Revision-Date: 2012-08-06 19:52+0000\n"
-"Last-Translator: designpoint <info@designpoint.ch>\n"
+"POT-Creation-Date: 2012-08-15 02:03+0200\n"
+"PO-Revision-Date: 2012-08-14 11:29+0000\n"
+"Last-Translator: JamFX <niko@nik-o-mat.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,11 +77,27 @@ msgstr "Deutsch"
 msgid "Security Warning"
 msgstr "Sicherheitshinweis"
 
-#: templates/admin.php:28
+#: templates/admin.php:29
+msgid "Cron"
+msgstr "Cron"
+
+#: templates/admin.php:31
+msgid "execute one task with each page loaded"
+msgstr "Führe eine Aufgabe pro geladener Seite aus."
+
+#: templates/admin.php:33
+msgid "cron.php is registered at a webcron service"
+msgstr "cron.php ist beim Webcron-Service registriert"
+
+#: templates/admin.php:35
+msgid "use systems cron service"
+msgstr "Nutze System-Cron-Service"
+
+#: templates/admin.php:39
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:56
+#: templates/admin.php:67
 msgid "More"
 msgstr "Mehr"
 
@@ -175,11 +191,11 @@ msgstr "E-Mail"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr "Ihre E-Mail Adresse"
+msgstr "Ihre E-Mail-Adresse"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr "Trage eine E-Mail Adresse ein, um die Passwort-Wiederherstellung zu aktivieren."
+msgstr "Trage eine E-Mail-Adresse ein, um die Passwort-Wiederherstellung zu aktivieren."
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
@@ -187,7 +203,7 @@ msgstr "Sprache"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr "Hilf bei der Übersetzung!"
+msgstr "Hilf bei der Übersetzung"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"

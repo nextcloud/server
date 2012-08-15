@@ -1,0 +1,55 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-15 02:03+0200\n"
+"PO-Revision-Date: 2012-08-14 13:32+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
+"Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: th_TH\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: templates/nomode.php:12
+msgid "This is an OpenID server endpoint. For more information, see "
+msgstr "นี่คือปลายทางของเซิร์ฟเวอร์ OpenID สำหรับรายละเอียดเพิ่มเติม, กรุณาดูที่"
+
+#: templates/nomode.php:14
+msgid "Identity: <b>"
+msgstr "ข้อมูลประจำตัว <b>"
+
+#: templates/nomode.php:15
+msgid "Realm: <b>"
+msgstr "ขอบเขตพื้นที่ <b>"
+
+#: templates/nomode.php:16
+msgid "User: <b>"
+msgstr "ผู้ใช้งาน: <b>"
+
+#: templates/nomode.php:17
+msgid "Login"
+msgstr "เข้าสู่ระบบ"
+
+#: templates/nomode.php:22
+msgid "Error: <b>No user Selected"
+msgstr "พบข้อผิดพลาด <b> ยังไม่ได้เลือกชื่อผู้ใช้งาน"
+
+#: templates/settings.php:4
+msgid "you can authenticate to other sites with this address"
+msgstr "คุณสามารถได้รับสิทธิ์เพื่อเข้าใช้งานเว็บไซต์อื่นๆโดยใช้ที่อยู่นี้"
+
+#: templates/settings.php:5
+msgid "Authorized OpenID provider"
+msgstr "ผู้ให้บริการ OpenID ที่ได้รับอนุญาต"
+
+#: templates/settings.php:6
+msgid "Your address at Wordpress, Identi.ca, &hellip;"
+msgstr "ที่อยู่ของคุณที่ Wordpress, Identi.ca, &hellip;"

@@ -81,9 +81,9 @@ class OC_BackgroundJob_QueuedTask{
 	 * @param $parameters all useful data as text
 	 * @return id of task
 	 */
-	public static function add( $task, $klass, $method, $parameters ){
+	public static function add( $app, $klass, $method, $parameters ){
 		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*queuedtasks (app, klass, method, parameters) VALUES(?,?,?,?)' );
-		$result = $stmt->execute(array($app, $klass, $method, $parameters, time));
+		$result = $stmt->execute(array($app, $klass, $method, $parameters ));
 
 		return OC_DB::insertid();
 	}

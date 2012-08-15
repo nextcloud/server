@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-04 02:02+0200\n"
-"PO-Revision-Date: 2012-08-04 00:02+0000\n"
+"POT-Creation-Date: 2012-08-11 02:02+0200\n"
+"PO-Revision-Date: 2012-08-11 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -23,8 +23,8 @@ msgid "Error (de)activating addressbook."
 msgstr "アドレスブックの有効/無効化に失敗しました。"
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
-#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:30
-#: ajax/contact/saveproperty.php:37
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
+#: ajax/contact/saveproperty.php:39
 msgid "id is not set."
 msgstr "idが設定されていません。"
 
@@ -60,13 +60,13 @@ msgstr "連絡先が見つかりません。"
 msgid "There was an error adding the contact."
 msgstr "連絡先の追加でエラーが発生しました。"
 
-#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:34
+#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:36
 msgid "element name is not set."
 msgstr "要素名が設定されていません。"
 
 #: ajax/contact/addproperty.php:46
 msgid "Could not parse contact: "
-msgstr ""
+msgstr "連絡先を解析できませんでした:"
 
 #: ajax/contact/addproperty.php:56
 msgid "Cannot add empty property."
@@ -84,35 +84,35 @@ msgstr "重複する属性を追加: "
 msgid "Error adding contact property: "
 msgstr "コンタクト属性の追加エラー: "
 
-#: ajax/contact/deleteproperty.php:36
+#: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "vCardの情報に誤りがあります。ページをリロードして下さい。"
 
-#: ajax/contact/deleteproperty.php:43
+#: ajax/contact/deleteproperty.php:44
 msgid "Error deleting contact property."
 msgstr "連絡先の削除に失敗しました。"
 
 #: ajax/contact/details.php:31
 msgid "Missing ID"
-msgstr ""
+msgstr "IDが見つかりません"
 
 #: ajax/contact/details.php:36
 msgid "Error parsing VCard for ID: \""
 msgstr "VCardからIDの抽出エラー: \""
 
-#: ajax/contact/saveproperty.php:40
+#: ajax/contact/saveproperty.php:42
 msgid "checksum is not set."
 msgstr "チェックサムが設定されていません。"
 
-#: ajax/contact/saveproperty.php:60
+#: ajax/contact/saveproperty.php:62
 msgid "Information about vCard is incorrect. Please reload the page: "
 msgstr "vCardの情報が正しくありません。ページを再読み込みしてください: "
 
-#: ajax/contact/saveproperty.php:67
+#: ajax/contact/saveproperty.php:69
 msgid "Something went FUBAR. "
-msgstr ""
+msgstr "何かがFUBARへ移動しました。"
 
-#: ajax/contact/saveproperty.php:142
+#: ajax/contact/saveproperty.php:144
 msgid "Error updating contact property."
 msgstr "連絡先の更新に失敗しました。"
 
@@ -161,19 +161,19 @@ msgstr "写真属性の取得エラー。"
 msgid "Error saving contact."
 msgstr "コンタクトの保存エラー。"
 
-#: ajax/savecrop.php:108
+#: ajax/savecrop.php:109
 msgid "Error resizing image"
 msgstr "画像のリサイズエラー"
 
-#: ajax/savecrop.php:111
+#: ajax/savecrop.php:112
 msgid "Error cropping image"
 msgstr "画像の切り抜きエラー"
 
-#: ajax/savecrop.php:114
+#: ajax/savecrop.php:115
 msgid "Error creating temporary image"
 msgstr "一時画像の生成エラー"
 
-#: ajax/savecrop.php:117
+#: ajax/savecrop.php:118
 msgid "Error finding image: "
 msgstr "画像検索エラー: "
 
@@ -273,6 +273,10 @@ msgid ""
 "on this server."
 msgstr "アップロードしようとしているファイルは、このサーバの最大ファイルアップロードサイズを超えています。"
 
+#: js/contacts.js:1236
+msgid "Error loading profile picture."
+msgstr ""
+
 #: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
 msgstr "タイプを選択"
@@ -297,11 +301,11 @@ msgstr " は失敗しました。"
 
 #: js/settings.js:67
 msgid "Displayname cannot be empty."
-msgstr ""
+msgstr "表示名は空にできません。"
 
 #: lib/app.php:36
 msgid "Addressbook not found: "
-msgstr ""
+msgstr "連絡先が見つかりません:"
 
 #: lib/app.php:49
 msgid "This is not your addressbook."
@@ -379,7 +383,7 @@ msgstr "ビジネス"
 
 #: lib/app.php:185
 msgid "Call"
-msgstr ""
+msgstr "電話"
 
 #: lib/app.php:186
 msgid "Clients"
@@ -471,23 +475,23 @@ msgstr "リスト内の前のコンタクト"
 
 #: templates/index.php:46
 msgid "Expand/collapse current addressbook"
-msgstr ""
+msgstr "現在の連絡帳を展開する／折りたたむ"
 
 #: templates/index.php:48
 msgid "Next addressbook"
-msgstr ""
+msgstr "次の連絡先"
 
 #: templates/index.php:50
 msgid "Previous addressbook"
-msgstr ""
+msgstr "前の連絡先"
 
 #: templates/index.php:54
 msgid "Actions"
-msgstr ""
+msgstr "アクション"
 
 #: templates/index.php:57
 msgid "Refresh contacts list"
-msgstr ""
+msgstr "連絡先リストを再読込する"
 
 #: templates/index.php:59
 msgid "Add new contact"
@@ -531,7 +535,7 @@ msgstr "名前の詳細を編集"
 
 #: templates/part.contact.php:40 templates/part.contact.php:42
 #: templates/part.contact.php:44 templates/part.contact.php:46
-#: templates/part.contact.php:50 templates/settings.php:34
+#: templates/part.contact.php:50 templates/settings.php:33
 msgid "Delete"
 msgstr "削除"
 
@@ -553,7 +557,7 @@ msgstr "http://www.somesite.com"
 
 #: templates/part.contact.php:44
 msgid "Go to web site"
-msgstr ""
+msgstr "Webサイトへ移動"
 
 #: templates/part.contact.php:46
 msgid "dd-mm-yyyy"
@@ -650,19 +654,19 @@ msgstr "私書箱"
 
 #: templates/part.edit_address_dialog.php:24
 msgid "Street address"
-msgstr ""
+msgstr "住所1"
 
 #: templates/part.edit_address_dialog.php:27
 msgid "Street and number"
-msgstr ""
+msgstr "番地"
 
 #: templates/part.edit_address_dialog.php:30
 msgid "Extended"
-msgstr "番地2"
+msgstr "住所2"
 
 #: templates/part.edit_address_dialog.php:33
 msgid "Apartment number etc."
-msgstr ""
+msgstr "アパート名等"
 
 #: templates/part.edit_address_dialog.php:36
 #: templates/part.edit_address_dialog.php:39
@@ -675,7 +679,7 @@ msgstr "都道府県"
 
 #: templates/part.edit_address_dialog.php:45
 msgid "E.g. state or province"
-msgstr ""
+msgstr "例：東京都、大阪府"
 
 #: templates/part.edit_address_dialog.php:48
 msgid "Zipcode"
@@ -804,7 +808,7 @@ msgstr "アドレス帳を設定"
 
 #: templates/part.selectaddressbook.php:1
 msgid "Select Address Books"
-msgstr ""
+msgstr "連絡先を洗濯してください"
 
 #: templates/part.selectaddressbook.php:20
 msgid "Enter name"
@@ -812,7 +816,7 @@ msgstr "名前を入力"
 
 #: templates/part.selectaddressbook.php:22
 msgid "Enter description"
-msgstr ""
+msgstr "説明を入力してください"
 
 #: templates/settings.php:3
 msgid "CardDAV syncing addresses"
@@ -832,40 +836,40 @@ msgstr "iOS/OS X"
 
 #: templates/settings.php:20
 msgid "Show CardDav link"
-msgstr ""
+msgstr "CarDavリンクを表示"
 
 #: templates/settings.php:23
 msgid "Show read-only VCF link"
-msgstr ""
+msgstr "読み取り専用のVCFリンクを表示"
 
 #: templates/settings.php:26
 msgid "Download"
 msgstr "ダウンロード"
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 msgid "Edit"
 msgstr "編集"
 
-#: templates/settings.php:41
+#: templates/settings.php:40
 msgid "New Address Book"
 msgstr "新規電話帳"
 
-#: templates/settings.php:42
+#: templates/settings.php:41
 msgid "Name"
-msgstr ""
+msgstr "名前"
+
+#: templates/settings.php:42
+msgid "Description"
+msgstr "説明"
 
 #: templates/settings.php:43
-msgid "Description"
-msgstr ""
-
-#: templates/settings.php:45
 msgid "Save"
 msgstr "保存"
 
-#: templates/settings.php:46
+#: templates/settings.php:44
 msgid "Cancel"
 msgstr "取り消し"
 
-#: templates/settings.php:51
+#: templates/settings.php:49
 msgid "More..."
-msgstr ""
+msgstr "もっと..."

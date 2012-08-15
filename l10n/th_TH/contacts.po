@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-04 02:02+0200\n"
-"PO-Revision-Date: 2012-08-04 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-15 02:02+0200\n"
+"PO-Revision-Date: 2012-08-14 14:39+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,8 +24,8 @@ msgid "Error (de)activating addressbook."
 msgstr "เกิดข้อผิดพลาดใน (ยกเลิก)การเปิดใช้งานสมุดบันทึกที่อยู่"
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
-#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:30
-#: ajax/contact/saveproperty.php:37
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
+#: ajax/contact/saveproperty.php:39
 msgid "id is not set."
 msgstr "ยังไม่ได้กำหนดรหัส"
 
@@ -61,13 +61,13 @@ msgstr "ไม่พบข้อมูลการติดต่อที่ต
 msgid "There was an error adding the contact."
 msgstr "เกิดข้อผิดพลาดในการเพิ่มรายชื่อผู้ติดต่อใหม่"
 
-#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:34
+#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:36
 msgid "element name is not set."
 msgstr "ยังไม่ได้กำหนดชื่อ"
 
 #: ajax/contact/addproperty.php:46
 msgid "Could not parse contact: "
-msgstr ""
+msgstr "ไม่สามารถแจกแจงรายชื่อผู้ติดต่อได้"
 
 #: ajax/contact/addproperty.php:56
 msgid "Cannot add empty property."
@@ -83,13 +83,13 @@ msgstr "พยายามที่จะเพิ่มทรัพยากร
 
 #: ajax/contact/addproperty.php:144
 msgid "Error adding contact property: "
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการเพิ่มคุณสมบัติข้อมูลผู้ติดต่อ"
 
-#: ajax/contact/deleteproperty.php:36
+#: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "ข้อมูลเกี่ยวกับ vCard ไม่ถูกต้อง กรุณาโหลดหน้าเวปใหม่อีกครั้ง"
 
-#: ajax/contact/deleteproperty.php:43
+#: ajax/contact/deleteproperty.php:44
 msgid "Error deleting contact property."
 msgstr "เกิดข้อผิดพลาดในการลบรายละเอียดการติดต่อ"
 
@@ -101,19 +101,19 @@ msgstr "รหัสสูญหาย"
 msgid "Error parsing VCard for ID: \""
 msgstr "พบข้อผิดพลาดในการแยกรหัส VCard:\""
 
-#: ajax/contact/saveproperty.php:40
+#: ajax/contact/saveproperty.php:42
 msgid "checksum is not set."
 msgstr "ยังไม่ได้กำหนดค่า checksum"
 
-#: ajax/contact/saveproperty.php:60
+#: ajax/contact/saveproperty.php:62
 msgid "Information about vCard is incorrect. Please reload the page: "
 msgstr "ข้อมูล vCard ไม่ถูกต้อง กรุณาโหลดหน้าเว็บใหม่อีกครั้ง: "
 
-#: ajax/contact/saveproperty.php:67
+#: ajax/contact/saveproperty.php:69
 msgid "Something went FUBAR. "
 msgstr "มีบางอย่างเกิดการ FUBAR. "
 
-#: ajax/contact/saveproperty.php:142
+#: ajax/contact/saveproperty.php:144
 msgid "Error updating contact property."
 msgstr "เกิดข้อผิดพลาดในการอัพเดทข้อมูลการติดต่อ"
 
@@ -162,19 +162,19 @@ msgstr "เกิดข้อผิดพลาดในการดึงคุ
 msgid "Error saving contact."
 msgstr "เกิดข้อผิดพลาดในการบันทึกข้อมูลผู้ติดต่อ"
 
-#: ajax/savecrop.php:108
+#: ajax/savecrop.php:109
 msgid "Error resizing image"
 msgstr "เกิดข้อผิดพลาดในการปรับขนาดรูปภาพ"
 
-#: ajax/savecrop.php:111
+#: ajax/savecrop.php:112
 msgid "Error cropping image"
 msgstr "เกิดข้อผิดพลาดในการครอบตัดภาพ"
 
-#: ajax/savecrop.php:114
+#: ajax/savecrop.php:115
 msgid "Error creating temporary image"
 msgstr "เกิดข้อผิดพลาดในการสร้างรูปภาพชั่วคราว"
 
-#: ajax/savecrop.php:117
+#: ajax/savecrop.php:118
 msgid "Error finding image: "
 msgstr "เกิดข้อผิดพลาดในการค้นหารูปภาพ: "
 
@@ -274,6 +274,10 @@ msgid ""
 "on this server."
 msgstr "ไฟล์ที่คุณกำลังพยายามที่จะอัพโหลดมีขนาดเกินจำนวนสูงสุดที่สามารถอัพโหลดได้สำหรับเซิร์ฟเวอร์นี้"
 
+#: js/contacts.js:1236
+msgid "Error loading profile picture."
+msgstr "เกิดข้อผิดพลาดในการโหลดรูปภาพประจำตัว"
+
 #: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
 msgstr "เลือกชนิด"
@@ -282,7 +286,7 @@ msgstr "เลือกชนิด"
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
-msgstr ""
+msgstr "ข้อมูลผู้ติดต่อบางรายการได้ถูกทำเครื่องหมายสำหรับลบทิ้งเอาไว้, แต่ยังไม่ได้ถูกลบทิ้ง, กรุณารอให้รายการดังกล่าวถูกลบทิ้งเสียก่อน"
 
 #: js/loader.js:49
 msgid "Result: "
@@ -298,11 +302,11 @@ msgstr " ล้มเหลว."
 
 #: js/settings.js:67
 msgid "Displayname cannot be empty."
-msgstr ""
+msgstr "ชื่อที่ใช้แสดงไม่สามารถเว้นว่างได้"
 
 #: lib/app.php:36
 msgid "Addressbook not found: "
-msgstr ""
+msgstr "ไม่พบสมุดบันทึกที่อยู่ที่ต้องการ"
 
 #: lib/app.php:49
 msgid "This is not your addressbook."
@@ -376,55 +380,55 @@ msgstr "วันเกิด"
 
 #: lib/app.php:184
 msgid "Business"
-msgstr ""
+msgstr "ธุรกิจ"
 
 #: lib/app.php:185
 msgid "Call"
-msgstr ""
+msgstr "โทร"
 
 #: lib/app.php:186
 msgid "Clients"
-msgstr ""
+msgstr "ลูกค้า"
 
 #: lib/app.php:187
 msgid "Deliverer"
-msgstr ""
+msgstr "ผู้จัดส่ง"
 
 #: lib/app.php:188
 msgid "Holidays"
-msgstr ""
+msgstr "วันหยุด"
 
 #: lib/app.php:189
 msgid "Ideas"
-msgstr ""
+msgstr "ไอเดีย"
 
 #: lib/app.php:190
 msgid "Journey"
-msgstr ""
+msgstr "การเดินทาง"
 
 #: lib/app.php:191
 msgid "Jubilee"
-msgstr ""
+msgstr "งานเฉลิมฉลอง"
 
 #: lib/app.php:192
 msgid "Meeting"
-msgstr ""
+msgstr "ประชุม"
 
 #: lib/app.php:193
 msgid "Other"
-msgstr ""
+msgstr "อื่นๆ"
 
 #: lib/app.php:194
 msgid "Personal"
-msgstr ""
+msgstr "ส่วนตัว"
 
 #: lib/app.php:195
 msgid "Projects"
-msgstr ""
+msgstr "โปรเจค"
 
 #: lib/app.php:196
 msgid "Questions"
-msgstr ""
+msgstr "คำถาม"
 
 #: lib/hooks.php:102
 msgid "{name}'s Birthday"
@@ -444,7 +448,7 @@ msgstr "นำเข้า"
 
 #: templates/index.php:18
 msgid "Settings"
-msgstr ""
+msgstr "ตั้งค่า"
 
 #: templates/index.php:18 templates/settings.php:9
 msgid "Addressbooks"
@@ -456,51 +460,51 @@ msgstr "ปิด"
 
 #: templates/index.php:37
 msgid "Keyboard shortcuts"
-msgstr ""
+msgstr "ปุ่มลัด"
 
 #: templates/index.php:39
 msgid "Navigation"
-msgstr ""
+msgstr "ระบบเมนู"
 
 #: templates/index.php:42
 msgid "Next contact in list"
-msgstr ""
+msgstr "ข้อมูลผู้ติดต่อถัดไปในรายการ"
 
 #: templates/index.php:44
 msgid "Previous contact in list"
-msgstr ""
+msgstr "ข้อมูลผู้ติดต่อก่อนหน้าในรายการ"
 
 #: templates/index.php:46
 msgid "Expand/collapse current addressbook"
-msgstr ""
+msgstr "ขยาย/ย่อ สมุดบันทึกที่อยู่ปัจจุบัน"
 
 #: templates/index.php:48
 msgid "Next addressbook"
-msgstr ""
+msgstr "สมุดบันทึกที่อยู่ถัดไป"
 
 #: templates/index.php:50
 msgid "Previous addressbook"
-msgstr ""
+msgstr "สมุดบันทึกที่อยู่ก่อนหน้า"
 
 #: templates/index.php:54
 msgid "Actions"
-msgstr ""
+msgstr "การกระทำ"
 
 #: templates/index.php:57
 msgid "Refresh contacts list"
-msgstr ""
+msgstr "รีเฟรชรายชื่อผู้ติดต่อใหม่"
 
 #: templates/index.php:59
 msgid "Add new contact"
-msgstr ""
+msgstr "เพิ่มข้อมูลผู้ติดต่อใหม่"
 
 #: templates/index.php:61
 msgid "Add new addressbook"
-msgstr ""
+msgstr "เพิ่มสมุดบันทึกที่อยู่ใหม่"
 
 #: templates/index.php:63
 msgid "Delete current contact"
-msgstr ""
+msgstr "ลบข้อมูลผู้ติดต่อปัจจุบัน"
 
 #: templates/part.contact.php:17
 msgid "Drop photo to upload"
@@ -532,7 +536,7 @@ msgstr "แก้ไขรายละเอียดของชื่อ"
 
 #: templates/part.contact.php:40 templates/part.contact.php:42
 #: templates/part.contact.php:44 templates/part.contact.php:46
-#: templates/part.contact.php:50 templates/settings.php:34
+#: templates/part.contact.php:50 templates/settings.php:33
 msgid "Delete"
 msgstr "ลบ"
 
@@ -546,15 +550,15 @@ msgstr "กรอกชื่อเล่น"
 
 #: templates/part.contact.php:43 templates/part.contact.php:119
 msgid "Web site"
-msgstr ""
+msgstr "เว็บไซต์"
 
 #: templates/part.contact.php:44
 msgid "http://www.somesite.com"
-msgstr ""
+msgstr "http://www.somesite.com"
 
 #: templates/part.contact.php:44
 msgid "Go to web site"
-msgstr ""
+msgstr "ไปที่เว็บไซต์"
 
 #: templates/part.contact.php:46
 msgid "dd-mm-yyyy"
@@ -651,11 +655,11 @@ msgstr "ตู้ ปณ."
 
 #: templates/part.edit_address_dialog.php:24
 msgid "Street address"
-msgstr ""
+msgstr "ที่อยู่"
 
 #: templates/part.edit_address_dialog.php:27
 msgid "Street and number"
-msgstr ""
+msgstr "ถนนและหมายเลข"
 
 #: templates/part.edit_address_dialog.php:30
 msgid "Extended"
@@ -663,7 +667,7 @@ msgstr "เพิ่ม"
 
 #: templates/part.edit_address_dialog.php:33
 msgid "Apartment number etc."
-msgstr ""
+msgstr "หมายเลขอพาร์ทเมนต์ ฯลฯ"
 
 #: templates/part.edit_address_dialog.php:36
 #: templates/part.edit_address_dialog.php:39
@@ -676,7 +680,7 @@ msgstr "ภูมิภาค"
 
 #: templates/part.edit_address_dialog.php:45
 msgid "E.g. state or province"
-msgstr ""
+msgstr "เช่น รัฐ หรือ จังหวัด"
 
 #: templates/part.edit_address_dialog.php:48
 msgid "Zipcode"
@@ -684,7 +688,7 @@ msgstr "รหัสไปรษณีย์"
 
 #: templates/part.edit_address_dialog.php:51
 msgid "Postal code"
-msgstr ""
+msgstr "รหัสไปรษณีย์"
 
 #: templates/part.edit_address_dialog.php:54
 #: templates/part.edit_address_dialog.php:57
@@ -805,15 +809,15 @@ msgstr "กำหนดค่าสมุดบันทึกที่อยู
 
 #: templates/part.selectaddressbook.php:1
 msgid "Select Address Books"
-msgstr ""
+msgstr "เลือกสมุดบันทึกที่อยู่"
 
-#: templates/part.selectaddressbook.php:20
+#: templates/part.selectaddressbook.php:27
 msgid "Enter name"
-msgstr ""
+msgstr "กรอกชื่อ"
 
-#: templates/part.selectaddressbook.php:22
+#: templates/part.selectaddressbook.php:29
 msgid "Enter description"
-msgstr ""
+msgstr "กรอกคำอธิบาย"
 
 #: templates/settings.php:3
 msgid "CardDAV syncing addresses"
@@ -833,40 +837,40 @@ msgstr "iOS/OS X"
 
 #: templates/settings.php:20
 msgid "Show CardDav link"
-msgstr ""
+msgstr "แสดงลิงก์ CardDav"
 
 #: templates/settings.php:23
 msgid "Show read-only VCF link"
-msgstr ""
+msgstr "แสดงลิงก์ VCF สำหรับอ่านเท่านั้น"
 
 #: templates/settings.php:26
 msgid "Download"
 msgstr "ดาวน์โหลด"
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: templates/settings.php:41
+#: templates/settings.php:40
 msgid "New Address Book"
 msgstr "สร้างสมุดบันทึกข้อมูลการติดต่อใหม่"
 
-#: templates/settings.php:42
+#: templates/settings.php:41
 msgid "Name"
-msgstr ""
+msgstr "ชื่อ"
+
+#: templates/settings.php:42
+msgid "Description"
+msgstr "คำอธิบาย"
 
 #: templates/settings.php:43
-msgid "Description"
-msgstr ""
-
-#: templates/settings.php:45
 msgid "Save"
 msgstr "บันทึก"
 
-#: templates/settings.php:46
+#: templates/settings.php:44
 msgid "Cancel"
 msgstr "ยกเลิก"
 
-#: templates/settings.php:51
+#: templates/settings.php:49
 msgid "More..."
-msgstr ""
+msgstr "เพิ่มเติม..."

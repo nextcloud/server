@@ -48,7 +48,7 @@ interface OC_User_Interface {
 	*
 	* Get a list of all users.
 	*/
-	public function getUsers();
+	public function getUsers($search = '', $limit = -1, $offset = 0);
 
 	/**
 	* @brief check if a user exists

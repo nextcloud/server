@@ -1,4 +1,4 @@
-OC.MountConfig={	
+OC.MountConfig={
 	saveStorage:function(tr) {
 		var mountPoint = $(tr).find('.mountPoint input').val();
 		if (mountPoint == '') {
@@ -63,6 +63,7 @@ OC.MountConfig={
 				var applicable = OC.currentUser;
 				$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
 			}
+			return true;
 		}
 	}
 }
@@ -77,6 +78,10 @@ $(document).ready(function() {
 		var selected = $(this).find('option:selected').text();
 		var backendClass = $(this).val();
 		$(this).parent().text(selected);
+		if ($(tr).find('.mountPoint input').val() == '') {
+			$(tr).find('.mountPoint input').val(suggestMountPoint(selected.replace(/\s+/g, '')));
+		}
+		$(tr).addClass(backendClass);
 		$(tr).find('.backend').data('class', backendClass);
 		var configurations = $(this).data('configurations');
 		var td = $(tr).find('td.configuration');
@@ -95,7 +100,7 @@ $(document).ready(function() {
 						td.append('<input type="text" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
 					}
 				});
-				if (parameters['custom']) {
+				if (parameters['custom'] && $('#externalStorage tbody tr.'+backendClass).length == 1) {
 					OC.addScript('files_external', parameters['custom']);
 				}
 				return false;
@@ -107,6 +112,28 @@ $(document).ready(function() {
 		$(tr).removeAttr('id');
 		$(this).remove();
 	});
+
+	function suggestMountPoint(defaultMountPoint) {
+		var i = 1;
+		var append = '';
+		var match = true;
+		while (match && i < 20) {
+			match = false;
+			$('#externalStorage tbody td.mountPoint input').each(function(index, mountPoint) {
+				if ($(mountPoint).val() == defaultMountPoint+append) {
+					match = true;
+					return false;
+				}
+			});
+			if (match) {
+				append = i;
+				i++;
+			} else {
+				break;
+			}
+		}
+		return defaultMountPoint+append;
+	} 
 
 	$('#externalStorage td').live('change', function() {
 		OC.MountConfig.saveStorage($(this).parent());

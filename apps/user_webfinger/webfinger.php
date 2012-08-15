@@ -7,17 +7,17 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/xrd+json");
 
 /**
- * To include your app in the webfinger XML, add a new script with file name
+ * To include your app in the webfinger JSON, add a new script with file name
  * 'webfinger.php' to /apps/yourapp/appinfo/, which prints out the XML parts
  * to be included. That script can make use of the constants WF_USER (e. g.
  * "user"), WF_ID (user@host) and WF_BASEURL (e. g. https://host/owncloud).
  * An example could look like this:
  * 
- * <Link
- * 	rel="myProfile"
- * 	type="text/html"
- * 	href="<?php echo WF_BASEURL; ?>/apps/myApp/profile.php?user=<?php echo WF_USER; ?>">
- * </Link>
+ * {
+ * 	"rel":"myProfile",
+ * 	"type":"text/html",
+ * 	"href":"<?php echo WF_BASEURL; ?>/apps/myApp/profile.php?user=<?php echo WF_USER; ?>"
+ * }
  *
  * but can also use complex database queries to generate the webfinger result
  **/

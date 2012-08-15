@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-04 02:02+0200\n"
-"PO-Revision-Date: 2012-08-04 00:02+0000\n"
+"POT-Creation-Date: 2012-08-11 02:02+0200\n"
+"PO-Revision-Date: 2012-08-11 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -26,8 +26,8 @@ msgid "Error (de)activating addressbook."
 msgstr "Címlista (de)aktiválása sikertelen"
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
-#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:30
-#: ajax/contact/saveproperty.php:37
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
+#: ajax/contact/saveproperty.php:39
 msgid "id is not set."
 msgstr "ID nincs beállítva"
 
@@ -63,7 +63,7 @@ msgstr "Nem található kontakt"
 msgid "There was an error adding the contact."
 msgstr "Hiba a kapcsolat hozzáadásakor"
 
-#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:34
+#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:36
 msgid "element name is not set."
 msgstr "az elem neve nincs beállítva"
 
@@ -87,11 +87,11 @@ msgstr "Kísérlet dupla tulajdonság hozzáadására: "
 msgid "Error adding contact property: "
 msgstr ""
 
-#: ajax/contact/deleteproperty.php:36
+#: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "A vCardról szóló információ helytelen. Töltsd újra az oldalt."
 
-#: ajax/contact/deleteproperty.php:43
+#: ajax/contact/deleteproperty.php:44
 msgid "Error deleting contact property."
 msgstr "Hiba a kapcsolat-tulajdonság törlésekor"
 
@@ -103,19 +103,19 @@ msgstr "Hiányzó ID"
 msgid "Error parsing VCard for ID: \""
 msgstr "VCard elemzése sikertelen a következő ID-hoz: \""
 
-#: ajax/contact/saveproperty.php:40
+#: ajax/contact/saveproperty.php:42
 msgid "checksum is not set."
 msgstr "az ellenőrzőösszeg nincs beállítva"
 
-#: ajax/contact/saveproperty.php:60
+#: ajax/contact/saveproperty.php:62
 msgid "Information about vCard is incorrect. Please reload the page: "
 msgstr "Helytelen információ a vCardról. Töltse újra az oldalt: "
 
-#: ajax/contact/saveproperty.php:67
+#: ajax/contact/saveproperty.php:69
 msgid "Something went FUBAR. "
 msgstr "Valami balul sült el."
 
-#: ajax/contact/saveproperty.php:142
+#: ajax/contact/saveproperty.php:144
 msgid "Error updating contact property."
 msgstr "Hiba a kapcsolat-tulajdonság frissítésekor"
 
@@ -164,19 +164,19 @@ msgstr "A PHOTO-tulajdonság  feldolgozása sikertelen"
 msgid "Error saving contact."
 msgstr "A kontakt mentése sikertelen"
 
-#: ajax/savecrop.php:108
+#: ajax/savecrop.php:109
 msgid "Error resizing image"
 msgstr "Képméretezés sikertelen"
 
-#: ajax/savecrop.php:111
+#: ajax/savecrop.php:112
 msgid "Error cropping image"
 msgstr "Képvágás sikertelen"
 
-#: ajax/savecrop.php:114
+#: ajax/savecrop.php:115
 msgid "Error creating temporary image"
 msgstr "Ideiglenes kép létrehozása sikertelen"
 
-#: ajax/savecrop.php:117
+#: ajax/savecrop.php:118
 msgid "Error finding image: "
 msgstr "A kép nem található"
 
@@ -275,6 +275,10 @@ msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "A feltöltendő fájl mérete meghaladja a megengedett mértéket"
+
+#: js/contacts.js:1236
+msgid "Error loading profile picture."
+msgstr ""
 
 #: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
@@ -534,7 +538,7 @@ msgstr "Név részleteinek szerkesztése"
 
 #: templates/part.contact.php:40 templates/part.contact.php:42
 #: templates/part.contact.php:44 templates/part.contact.php:46
-#: templates/part.contact.php:50 templates/settings.php:34
+#: templates/part.contact.php:50 templates/settings.php:33
 msgid "Delete"
 msgstr "Törlés"
 
@@ -845,30 +849,30 @@ msgstr ""
 msgid "Download"
 msgstr "Letöltés"
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 msgid "Edit"
 msgstr "Szerkesztés"
 
-#: templates/settings.php:41
+#: templates/settings.php:40
 msgid "New Address Book"
 msgstr "Új címlista"
 
-#: templates/settings.php:42
+#: templates/settings.php:41
 msgid "Name"
 msgstr ""
 
-#: templates/settings.php:43
+#: templates/settings.php:42
 msgid "Description"
 msgstr ""
 
-#: templates/settings.php:45
+#: templates/settings.php:43
 msgid "Save"
 msgstr "Mentés"
 
-#: templates/settings.php:46
+#: templates/settings.php:44
 msgid "Cancel"
 msgstr "Mégsem"
 
-#: templates/settings.php:51
+#: templates/settings.php:49
 msgid "More..."
 msgstr ""

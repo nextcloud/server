@@ -50,9 +50,13 @@ if(isset($details['PHOTO'])) {
 } else {
 	$details['PHOTO'] = false;
 }
+$lastmodified = OC_Contacts_App::lastModified($vcard);
+if(!$lastmodified) {
+	$lastmodified = new DateTime();
+}
 $details['id'] = $id;
 $details['displayname'] = $card['fullname'];
 $details['addressbookid'] = $card['addressbookid'];
-$details['lastmodified'] = OC_Contacts_App::lastModified($vcard)->format('U');
+$details['lastmodified'] = $lastmodified->format('U');
 OC_Contacts_App::setLastModifiedHeader($vcard);
 OCP\JSON::success(array('data' => $details));

@@ -133,12 +133,17 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public function usersInGroup($gid) {
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(!$this->enabled) {
 			return array();
 		}
+		$this->groupSearch = $search;
 		if($this->connection->isCached('usersInGroup'.$gid)) {
-			return $this->connection->getFromCache('usersInGroup'.$gid);
+			$groupUsers = $this->connection->getFromCache('usersInGroup'.$gid);
+			if(!empty($this->groupSearch)) {
+				$groupUsers = array_filter($groupUsers, array($this, 'groupMatchesFilter'));
+			}
+			return array_slice($groupUsers, $offset, $limit);
 		}
 
 		$groupDN = $this->groupname2dn($gid);
@@ -176,7 +181,11 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		$groupUsers = array_unique($result, SORT_LOCALE_STRING);
 		$this->connection->writeToCache('usersInGroup'.$gid, $groupUsers);
 
-		return $groupUsers;
+		if(!empty($this->groupSearch)) {
+			$groupUsers = array_filter($groupUsers, array($this, 'groupMatchesFilter'));
+		}
+		return array_slice($groupUsers, $offset, $limit);
+
 	}
 
 	/**
@@ -185,18 +194,27 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups() {
+	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		if(!$this->enabled) {
 			return array();
 		}
-		if($this->connection->isCached('getGroups')) {
-			return $this->connection->getFromCache('getGroups');
-		}
-		$ldap_groups = $this->fetchListOfGroups($this->connection->ldapGroupFilter, array($this->connection->ldapGroupDisplayName, 'dn'));
-		$ldap_groups = $this->ownCloudGroupNames($ldap_groups);
-		$this->connection->writeToCache('getGroups', $ldap_groups);
 
-		return $ldap_groups;
+		if($this->connection->isCached('getGroups')) {
+			$ldap_groups = $this->connection->getFromCache('getGroups');
+		} else {
+			$ldap_groups = $this->fetchListOfGroups($this->connection->ldapGroupFilter, array($this->connection->ldapGroupDisplayName, 'dn'));
+			$ldap_groups = $this->ownCloudGroupNames($ldap_groups);
+			$this->connection->writeToCache('getGroups', $ldap_groups);
+		}
+		$this->groupSearch = $search;
+		if(!empty($this->groupSearch)) {
+			$ldap_groups = array_filter($ldap_groups, array($this, 'groupMatchesFilter'));
+		}
+		return array_slice($ldap_groups, $offset, $limit);
+	}
+
+	public function groupMatchesFilter($group) {
+		return (strripos($group, $this->groupSearch) !== false);
 	}
 
 	/**

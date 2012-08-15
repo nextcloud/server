@@ -47,7 +47,19 @@ if( !OC_Config::getValue( 'installed', false )){
 // Handle unexpected errors
 register_shutdown_function('handleUnexpectedShutdown');
 
+// Exit if background jobs are disabled!
 $appmode = OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' );
+if( $appmode == 'none' ){
+	my_temporary_cron_class::$sent = true;
+	if( OC::$CLI ){
+		echo 'Background Jobs are disabled!'.PHP_EOL;
+	}
+	else{
+		OC_JSON::error( array( 'data' => array( 'message' => 'Background jobs disabled!')));
+	}
+	exit( 1 );
+}
+
 if( OC::$CLI ){
 	if( $appmode != 'cron' ){
 		OC_Appconfig::setValue( 'core', 'backgroundjobs_mode', 'cron' );

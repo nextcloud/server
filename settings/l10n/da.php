@@ -1,13 +1,17 @@
 <?php $TRANSLATIONS = array(
+"Unable to load list from App Store" => "Kunne ikke indlæse listen fra App Store",
 "Email saved" => "Email adresse gemt",
 "Invalid email" => "Ugyldig email adresse",
 "OpenID Changed" => "OpenID ændret",
 "Invalid request" => "Ugyldig forespørgsel",
+"Authentication error" => "Adgangsfejl",
 "Language changed" => "Sprog ændret",
+"Error" => "Fejl",
 "Disable" => "Deaktiver",
 "Enable" => "Aktiver",
 "Saving..." => "Gemmer...",
 "__language_name__" => "Dansk",
+"Security Warning" => "Sikkerhedsadvarsel",
 "Log" => "Log",
 "More" => "Mere",
 "Add your App" => "Tilføj din App",
@@ -43,6 +47,7 @@
 "Create" => "Ny",
 "Default Quota" => "Standard kvote",
 "Other" => "Andet",
+"SubAdmin" => "SubAdmin",
 "Quota" => "Kvote",
 "Delete" => "Slet"
 );

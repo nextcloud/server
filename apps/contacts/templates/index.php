@@ -13,9 +13,9 @@
 	<div id="bottomcontrols">
 			<button class="svg" id="contacts_newcontact" title="<?php echo $l->t('Add Contact'); ?>"><img class="svg" src="<?php echo OCP\Util::imagePath('contacts', 'contact-new.svg'); ?>" alt="<?php echo $l->t('Add Contact'); ?>" /></button>
 			<button class="svg import tip" title="<?php echo $l->t('Import'); ?>">
-				<img class="svg" src="core/img/actions/upload.svg" alt="<?php echo $l->t('Import'); ?>" />
+				<img class="svg" src="<?php echo OCP\Util::imagePath('core', 'actions/upload.svg') ?>" alt="<?php echo $l->t('Import'); ?>" />
 			</button>
-			<button class="svg settings tip" title="<?php echo $l->t('Settings'); ?>"><img class="svg" src="core/img/actions/settings.svg" alt="<?php echo $l->t('Addressbooks'); ?>" /></button>
+			<button class="svg settings tip" title="<?php echo $l->t('Settings'); ?>"><img class="svg" src="<?php echo OCP\Util::imagePath('core', 'actions/settings.svg') ?>" alt="<?php echo $l->t('Addressbooks'); ?>" /></button>
 		<form id="import_upload_form" action="<?php echo OCP\Util::linkTo('contacts', 'ajax/uploadimport.php'); ?>" method="post" enctype="multipart/form-data" target="import_upload_target">
 			<input class="float" id="import_upload_start" type="file" accept="text/directory,text/vcard,text/x-vcard" name="importfile" />
 			<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
@@ -69,6 +69,6 @@
 <div id="dialog_holder"></div>
 <!-- End of Dialogs -->
 <menu type="context" id="addressbookmenu">
-	<menuitem label="Delete" icon="core/img/actions/delete.svg" onclick="alert('Really? ' + $(this).attr('data-id'))"></menuitem>
-	<menuitem label="Rename" icon="core/img/actions/rename.svg" onclick="alert('Can\'t do that')"></menuitem>
+	<menuitem label="Delete" icon="<?php echo OCP\Util::imagePath('core', 'actions/delete.svg') ?>" onclick="alert('Really? ' + $(this).attr('data-id'))"></menuitem>
+	<menuitem label="Rename" icon="<?php echo OCP\Util::imagePath('core', 'actions/rename.svg') ?>" onclick="alert('Can\'t do that')"></menuitem>
 </menu>

@@ -28,7 +28,7 @@ $tmpl = new OCP\Template( 'files_versions', 'history', 'user' );
 if ( isset( $_GET['path'] ) ) {
 
 	$path = $_GET['path'];
-	$path = strip_tags( $path );
+	$path = $path;
 	$tmpl->assign( 'path', $path );
 	$versions = new OCA_Versions\Storage();
 

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-31 22:53+0200\n"
-"PO-Revision-Date: 2012-07-31 20:54+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-15 02:02+0200\n"
+"PO-Revision-Date: 2012-08-14 13:04+0000\n"
+"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,23 +64,23 @@ msgstr "Izbriši"
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr ""
+msgstr "že obstaja"
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr ""
+msgstr "nadomesti"
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "ekliči"
 
 #: js/filelist.js:195
 msgid "replaced"
-msgstr ""
+msgstr "nadomeščen"
 
 #: js/filelist.js:195
 msgid "with"
-msgstr ""
+msgstr "z"
 
 #: js/filelist.js:195 js/filelist.js:256
 msgid "undo"
@@ -114,27 +114,27 @@ msgstr "Nalaganje je bilo preklicano."
 msgid "Invalid name, '/' is not allowed."
 msgstr "Neveljavno ime. Znak '/' ni dovoljen."
 
-#: js/files.js:631 templates/index.php:55
+#: js/files.js:694 templates/index.php:55
 msgid "Size"
 msgstr "Velikost"
 
-#: js/files.js:632 templates/index.php:56
+#: js/files.js:695 templates/index.php:56
 msgid "Modified"
 msgstr "Spremenjeno"
 
-#: js/files.js:659
+#: js/files.js:722
 msgid "folder"
 msgstr "mapa"
 
-#: js/files.js:661
+#: js/files.js:724
 msgid "folders"
 msgstr "mape"
 
-#: js/files.js:669
+#: js/files.js:732
 msgid "file"
 msgstr "datoteka"
 
-#: js/files.js:671
+#: js/files.js:734
 msgid "files"
 msgstr "datoteke"
 

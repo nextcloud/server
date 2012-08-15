@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-06 02:01+0200\n"
-"PO-Revision-Date: 2012-08-05 17:56+0000\n"
-"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"POT-Creation-Date: 2012-08-11 02:02+0200\n"
+"PO-Revision-Date: 2012-08-11 00:03+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,8 +28,8 @@ msgid "Error (de)activating addressbook."
 msgstr "Fel (av)aktivera adressbok."
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
-#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:30
-#: ajax/contact/saveproperty.php:37
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
+#: ajax/contact/saveproperty.php:39
 msgid "id is not set."
 msgstr "ID är inte satt."
 
@@ -65,7 +65,7 @@ msgstr "Inga kontakter funna."
 msgid "There was an error adding the contact."
 msgstr "Det uppstod ett fel när kontakten skulle läggas till."
 
-#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:34
+#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:36
 msgid "element name is not set."
 msgstr "elementnamn ej angett."
 
@@ -89,11 +89,11 @@ msgstr ""
 msgid "Error adding contact property: "
 msgstr "Kunde inte lägga till egenskap för kontakt:"
 
-#: ajax/contact/deleteproperty.php:36
+#: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "Information om vCard är felaktigt. Vänligen ladda om sidan."
 
-#: ajax/contact/deleteproperty.php:43
+#: ajax/contact/deleteproperty.php:44
 msgid "Error deleting contact property."
 msgstr "Fel uppstod när kontaktegenskap skulle tas bort."
 
@@ -105,19 +105,19 @@ msgstr "ID saknas"
 msgid "Error parsing VCard for ID: \""
 msgstr "Fel vid läsning av VCard för ID: \""
 
-#: ajax/contact/saveproperty.php:40
+#: ajax/contact/saveproperty.php:42
 msgid "checksum is not set."
 msgstr "kontrollsumma är inte satt."
 
-#: ajax/contact/saveproperty.php:60
+#: ajax/contact/saveproperty.php:62
 msgid "Information about vCard is incorrect. Please reload the page: "
 msgstr "Informationen om vCard är fel. Ladda om sidan:"
 
-#: ajax/contact/saveproperty.php:67
+#: ajax/contact/saveproperty.php:69
 msgid "Something went FUBAR. "
 msgstr "Något gick fel."
 
-#: ajax/contact/saveproperty.php:142
+#: ajax/contact/saveproperty.php:144
 msgid "Error updating contact property."
 msgstr "Fel uppstod när kontaktegenskap skulle uppdateras."
 
@@ -166,19 +166,19 @@ msgstr "Fel vid hämtning av egenskaper för FOTO."
 msgid "Error saving contact."
 msgstr "Fel vid sparande av kontakt."
 
-#: ajax/savecrop.php:108
+#: ajax/savecrop.php:109
 msgid "Error resizing image"
 msgstr "Fel vid storleksförändring av bilden"
 
-#: ajax/savecrop.php:111
+#: ajax/savecrop.php:112
 msgid "Error cropping image"
 msgstr "Fel vid beskärning av bilden"
 
-#: ajax/savecrop.php:114
+#: ajax/savecrop.php:115
 msgid "Error creating temporary image"
 msgstr "Fel vid skapande av tillfällig bild"
 
-#: ajax/savecrop.php:117
+#: ajax/savecrop.php:118
 msgid "Error finding image: "
 msgstr "Kunde inte hitta bild:"
 
@@ -277,6 +277,10 @@ msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Filen du försöker ladda upp är större än den maximala storleken för filuppladdning på denna server."
+
+#: js/contacts.js:1236
+msgid "Error loading profile picture."
+msgstr ""
 
 #: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
@@ -536,7 +540,7 @@ msgstr "Redigera detaljer för namn"
 
 #: templates/part.contact.php:40 templates/part.contact.php:42
 #: templates/part.contact.php:44 templates/part.contact.php:46
-#: templates/part.contact.php:50 templates/settings.php:34
+#: templates/part.contact.php:50 templates/settings.php:33
 msgid "Delete"
 msgstr "Radera"
 
@@ -847,30 +851,30 @@ msgstr "Visa skrivskyddad VCF-länk"
 msgid "Download"
 msgstr "Nedladdning"
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 msgid "Edit"
 msgstr "Redigera"
 
-#: templates/settings.php:41
+#: templates/settings.php:40
 msgid "New Address Book"
 msgstr "Ny adressbok"
 
-#: templates/settings.php:42
+#: templates/settings.php:41
 msgid "Name"
 msgstr "Namn"
 
-#: templates/settings.php:43
+#: templates/settings.php:42
 msgid "Description"
 msgstr "Beskrivning"
 
-#: templates/settings.php:45
+#: templates/settings.php:43
 msgid "Save"
 msgstr "Spara"
 
-#: templates/settings.php:46
+#: templates/settings.php:44
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: templates/settings.php:51
+#: templates/settings.php:49
 msgid "More..."
 msgstr "Mer..."

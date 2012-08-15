@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-04 02:02+0200\n"
-"PO-Revision-Date: 2012-08-04 00:02+0000\n"
+"POT-Creation-Date: 2012-08-11 02:02+0200\n"
+"PO-Revision-Date: 2012-08-11 00:03+0000\n"
 "Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -24,8 +24,8 @@ msgid "Error (de)activating addressbook."
 msgstr "Produciuse un erro (des)activando a axenda."
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
-#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:30
-#: ajax/contact/saveproperty.php:37
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
+#: ajax/contact/saveproperty.php:39
 msgid "id is not set."
 msgstr "non se estableceu o id."
 
@@ -61,7 +61,7 @@ msgstr "Non se atoparon contactos."
 msgid "There was an error adding the contact."
 msgstr "Produciuse un erro engadindo o contacto."
 
-#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:34
+#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:36
 msgid "element name is not set."
 msgstr "non se nomeou o elemento."
 
@@ -85,11 +85,11 @@ msgstr "Tentando engadir propiedade duplicada: "
 msgid "Error adding contact property: "
 msgstr ""
 
-#: ajax/contact/deleteproperty.php:36
+#: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "A información sobre a vCard é incorrecta. Por favor volva cargar a páxina."
 
-#: ajax/contact/deleteproperty.php:43
+#: ajax/contact/deleteproperty.php:44
 msgid "Error deleting contact property."
 msgstr "Produciuse un erro borrando a propiedade do contacto."
 
@@ -101,19 +101,19 @@ msgstr "ID perdido"
 msgid "Error parsing VCard for ID: \""
 msgstr "Erro procesando a VCard para o ID: \""
 
-#: ajax/contact/saveproperty.php:40
+#: ajax/contact/saveproperty.php:42
 msgid "checksum is not set."
 msgstr "non se estableceu a suma de verificación."
 
-#: ajax/contact/saveproperty.php:60
+#: ajax/contact/saveproperty.php:62
 msgid "Information about vCard is incorrect. Please reload the page: "
 msgstr "A información sobre a vCard é incorrecta. Por favor, recargue a páxina: "
 
-#: ajax/contact/saveproperty.php:67
+#: ajax/contact/saveproperty.php:69
 msgid "Something went FUBAR. "
 msgstr ""
 
-#: ajax/contact/saveproperty.php:142
+#: ajax/contact/saveproperty.php:144
 msgid "Error updating contact property."
 msgstr "Produciuse un erro actualizando a propiedade do contacto."
 
@@ -162,19 +162,19 @@ msgstr "Erro obtendo a propiedade PHOTO."
 msgid "Error saving contact."
 msgstr "Erro gardando o contacto."
 
-#: ajax/savecrop.php:108
+#: ajax/savecrop.php:109
 msgid "Error resizing image"
 msgstr "Erro cambiando o tamaño da imaxe"
 
-#: ajax/savecrop.php:111
+#: ajax/savecrop.php:112
 msgid "Error cropping image"
 msgstr "Erro recortando a imaxe"
 
-#: ajax/savecrop.php:114
+#: ajax/savecrop.php:115
 msgid "Error creating temporary image"
 msgstr "Erro creando a imaxe temporal"
 
-#: ajax/savecrop.php:117
+#: ajax/savecrop.php:118
 msgid "Error finding image: "
 msgstr "Erro buscando a imaxe: "
 
@@ -273,6 +273,10 @@ msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "O ficheiro que tenta subir supera o tamaño máximo permitido neste servidor."
+
+#: js/contacts.js:1236
+msgid "Error loading profile picture."
+msgstr ""
 
 #: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
@@ -532,7 +536,7 @@ msgstr "Editar detalles do nome"
 
 #: templates/part.contact.php:40 templates/part.contact.php:42
 #: templates/part.contact.php:44 templates/part.contact.php:46
-#: templates/part.contact.php:50 templates/settings.php:34
+#: templates/part.contact.php:50 templates/settings.php:33
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -843,30 +847,30 @@ msgstr ""
 msgid "Download"
 msgstr "Descargar"
 
-#: templates/settings.php:31
+#: templates/settings.php:30
 msgid "Edit"
 msgstr "Editar"
 
-#: templates/settings.php:41
+#: templates/settings.php:40
 msgid "New Address Book"
 msgstr "Nova axenda"
 
-#: templates/settings.php:42
+#: templates/settings.php:41
 msgid "Name"
 msgstr ""
 
-#: templates/settings.php:43
+#: templates/settings.php:42
 msgid "Description"
 msgstr ""
 
-#: templates/settings.php:45
+#: templates/settings.php:43
 msgid "Save"
 msgstr "Gardar"
 
-#: templates/settings.php:46
+#: templates/settings.php:44
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: templates/settings.php:51
+#: templates/settings.php:49
 msgid "More..."
 msgstr ""

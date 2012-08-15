@@ -105,7 +105,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups(){
+	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		return array();
 	}
 
@@ -122,7 +122,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public function usersInGroup($gid){
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		return array();
 	}
 

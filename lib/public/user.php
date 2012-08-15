@@ -51,7 +51,7 @@ class User {
 	 *
 	 * Get a list of all users.
 	 */
-	public static function getUsers(){
+	public static function getUsers($search = '', $limit = -1, $offset = 0) {
 		return \OC_USER::getUsers();
 	}
 

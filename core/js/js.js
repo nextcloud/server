@@ -175,39 +175,41 @@ OC={
 		if(settings.length == 0) {
 			throw { name: 'MissingDOMElement', message: 'There has be be an element with id "appsettings" for the popup to show.' };
 		}
-		if(settings.is(':visible')) {
-			settings.hide().find('.arrow').hide();
+		var popup = $('#appsettings_popup');
+		if(popup.length == 0) {
+			$('body').prepend('<div class="popup hidden" id="appsettings_popup"></div>');
+			popup = $('#appsettings_popup');
+			popup.addClass(settings.hasClass('topright') ? 'topright' : 'bottomleft');
+		}
+		if(popup.is(':visible')) {
+			popup.hide().remove();
 		} else {
-			if($('#journal.settings').length == 0) {
-				var arrowclass = settings.hasClass('topright') ? 'up' : 'left';
-				var jqxhr = $.get(OC.filePath(props.appid, '', props.scriptName), function(data) {
-					$('#appsettings').html(data).ready(function() {
-						settings.prepend('<span class="arrow '+arrowclass+'"></span><h2>'+t('core', 'Settings')+'</h2><a class="close svg"></a>').show();
-						settings.find('.close').bind('click', function() {
-							settings.hide();
-						})
-						if(typeof props.loadJS !== 'undefined') {
-							var scriptname;
-							if(props.loadJS === true) {
-								scriptname = 'settings.js';
-							} else if(typeof props.loadJS === 'string') {
-								scriptname = props.loadJS;
-							} else {
-								throw { name: 'InvalidParameter', message: 'The "loadJS" parameter must be either boolean or a string.' };
-							}
-							if(props.cache) {
-								$.ajaxSetup({cache: true});
-							}
-							$.getScript(OC.filePath(props.appid, 'js', scriptname))
-							.fail(function(jqxhr, settings, e) {
-								throw e;
-							});
+			var arrowclass = settings.hasClass('topright') ? 'up' : 'left';
+			var jqxhr = $.get(OC.filePath(props.appid, '', props.scriptName), function(data) {
+				popup.html(data).ready(function() {
+					popup.prepend('<span class="arrow '+arrowclass+'"></span><h2>'+t('core', 'Settings')+'</h2><a class="close svg"></a>').show();
+					popup.find('.close').bind('click', function() {
+						popup.remove();
+					})
+					if(typeof props.loadJS !== 'undefined') {
+						var scriptname;
+						if(props.loadJS === true) {
+							scriptname = 'settings.js';
+						} else if(typeof props.loadJS === 'string') {
+							scriptname = props.loadJS;
+						} else {
+							throw { name: 'InvalidParameter', message: 'The "loadJS" parameter must be either boolean or a string.' };
 						}
-					});
-				}, 'html');
-			} else {
-				settings.show().find('.arrow').show();
-			}
+						if(props.cache) {
+							$.ajaxSetup({cache: true});
+						}
+						$.getScript(OC.filePath(props.appid, 'js', scriptname))
+						.fail(function(jqxhr, settings, e) {
+							throw e;
+						});
+					}
+				}).show();
+			}, 'html');
 		}
 	}
 };

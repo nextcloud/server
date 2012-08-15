@@ -31,13 +31,17 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 
 	private static $tempFiles = array();
 
-	public function __construct($arguments) {
-		$consumer_key = isset($arguments['consumer_key']) ? $arguments['consumer_key'] : 'anonymous';
-		$consumer_secret = isset($arguments['consumer_secret']) ? $arguments['consumer_secret'] : 'anonymous';
-		$this->consumer = new OAuthConsumer($consumer_key, $consumer_secret);
-		$this->oauth_token = new OAuthToken($arguments['token'], $arguments['token_secret']);
-		$this->sig_method = new OAuthSignatureMethod_HMAC_SHA1();
-		$this->entries = array();
+	public function __construct($params) {
+		if (isset($params['configured']) && $params['configured'] == 'true' && isset($params['token']) && isset($params['token_secret'])) {
+			$consumer_key = isset($params['consumer_key']) ? $params['consumer_key'] : 'anonymous';
+			$consumer_secret = isset($params['consumer_secret']) ? $params['consumer_secret'] : 'anonymous';
+			$this->consumer = new OAuthConsumer($consumer_key, $consumer_secret);
+			$this->oauth_token = new OAuthToken($params['token'], $params['token_secret']);
+			$this->sig_method = new OAuthSignatureMethod_HMAC_SHA1();
+			$this->entries = array();
+		} else {
+			throw new Exception('Creating OC_Filestorage_Google storage failed');
+		}
 	}
 
 	private function sendRequest($uri, $httpMethod, $postData = null, $extraHeaders = null, $isDownload = false, $returnHeaders = false, $isContentXML = true, $returnHTTPCode = false) {

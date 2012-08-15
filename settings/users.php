@@ -11,6 +11,8 @@ OC_Util::checkSubAdminUser();
 // We have some javascript foo!
 OC_Util::addScript( 'settings', 'users' );
 OC_Util::addScript( 'core', 'multiselect' );
+// TODO Move script to core
+OC_Util::addScript('contacts', 'jquery.inview');
 OC_Util::addStyle( 'settings', 'settings' );
 OC_App::setActiveNavigationEntry( 'core_users' );
 
@@ -20,11 +22,11 @@ $groups = array();
 $isadmin = OC_Group::inGroup(OC_User::getUser(),'admin')?true:false;
 if($isadmin){
 	$accessiblegroups = OC_Group::getGroups();
-	$accessibleusers = OC_User::getUsers();
+	$accessibleusers = OC_User::getUsers('', 30);
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
 }else{
 	$accessiblegroups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
-	$accessibleusers = OC_Group::usersInGroups($accessiblegroups);
+	$accessibleusers = OC_Group::usersInGroups($accessiblegroups, '', 30);
 	$subadmins = false;
 }
 

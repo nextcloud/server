@@ -59,6 +59,17 @@ class Test_Filesystem extends UnitTestCase{
 		$this->assertEqual('/',OC_Filesystem::getMountPoint('/some'));
 		$this->assertEqual('folder',OC_Filesystem::getInternalPath('/some/folder'));
 	}
+
+	public function testNormalize(){
+		$this->assertEqual('/path',OC_Filesystem::normalizePath('/path/'));
+		$this->assertEqual('/path',OC_Filesystem::normalizePath('path'));
+		$this->assertEqual('/path',OC_Filesystem::normalizePath('\path'));
+		$this->assertEqual('/foo/bar',OC_Filesystem::normalizePath('/foo//bar/'));
+		$this->assertEqual('/foo/bar',OC_Filesystem::normalizePath('/foo////bar'));
+		if(class_exists('Normalizer')){
+			$this->assertEqual("/foo/bar\xC3\xBC",OC_Filesystem::normalizePath("/foo/baru\xCC\x88"));
+		}
+	}
 }
 
 ?>
