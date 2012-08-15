@@ -7,11 +7,12 @@
  * See the COPYING-README file.
  */
 
-require_once realpath( dirname(__FILE__).'/../lib/crypt.php' );
-require_once realpath( dirname(__FILE__).'/../lib/util.php' );
-//require realpath( dirname(__FILE__).'/../../../lib/filecache.php' );
+namespace OCA_Encryption;
 
-class Test_Crypt extends UnitTestCase {
+require_once "PHPUnit/Framework/TestCase.php";
+require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
+
+class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
 		
@@ -28,9 +29,7 @@ class Test_Crypt extends UnitTestCase {
 	
 		# TODO: use more accurate (larger) string length for test confirmation
 		
-		$key = OCA_Encryption\Crypt::generateKey();
-		
-		$this->assertTrue( $key );
+		$key = Crypt::generateKey();
 		
 		$this->assertTrue( strlen( $key ) > 16 );
 	
@@ -38,9 +37,7 @@ class Test_Crypt extends UnitTestCase {
 	
 	function testGenerateIv() {
 		
-		$iv = OCA_Encryption\Crypt::generateIv();
-		
-		$this->assertTrue( $iv );
+		$iv = Crypt::generateIv();
 		
 		$this->assertTrue( strlen( $iv ) == 16 );
 	
@@ -52,9 +49,9 @@ class Test_Crypt extends UnitTestCase {
 
 		$iv = substr( base64_encode( $random ), 0, -4 ); // i.e. E5IG033j+mRNKrht
 
-		$crypted = OCA_Encryption\Crypt::encrypt( $this->data, $iv, 'hat' );
+		$crypted = Crypt::encrypt( $this->data, $iv, 'hat' );
 
-		$this->assertNotEqual( $this->data, $crypted );
+		$this->assertNotEquals( $this->data, $crypted );
 	
 	}
 	
@@ -64,11 +61,11 @@ class Test_Crypt extends UnitTestCase {
 
 		$iv = substr( base64_encode( $random ), 0, -4 ); // i.e. E5IG033j+mRNKrht
 
-		$crypted = OCA_Encryption\Crypt::encrypt( $this->data, $iv, 'hat' );
+		$crypted = Crypt::encrypt( $this->data, $iv, 'hat' );
 	
-		$decrypt = OCA_Encryption\Crypt::decrypt( $crypted, $iv, 'hat' );
+		$decrypt = Crypt::decrypt( $crypted, $iv, 'hat' );
 
-		$this->assertEqual( $this->data, $decrypt );
+		$this->assertEquals( $this->data, $decrypt );
 	
 	}
 	
@@ -76,14 +73,14 @@ class Test_Crypt extends UnitTestCase {
 	
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
 		
-		$keyfileContent = OCA_Encryption\Crypt::symmetricEncryptFileContent( $this->data, 'hat' );
+		$keyfileContent = Crypt::symmetricEncryptFileContent( $this->data, 'hat' );
 
-		$this->assertNotEqual( $this->data, $keyfileContent );
+		$this->assertNotEquals( $this->data, $keyfileContent );
 		
 
-		$decrypt = OCA_Encryption\Crypt::symmetricDecryptFileContent( $keyfileContent, 'hat' );
+		$decrypt = Crypt::symmetricDecryptFileContent( $keyfileContent, 'hat' );
 
-		$this->assertEqual( $this->data, $decrypt );
+		$this->assertEquals( $this->data, $decrypt );
 		
 	}
 
@@ -91,26 +88,26 @@ class Test_Crypt extends UnitTestCase {
 	
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
 	
-		$crypted = OCA_Encryption\Crypt::symmetricEncryptFileContentKeyfile( $this->data );
+		$crypted = Crypt::symmetricEncryptFileContentKeyfile( $this->data );
 		
-		$this->assertNotEqual( $this->data, $crypted['encrypted'] );
+		$this->assertNotEquals( $this->data, $crypted['encrypted'] );
 		
 		
-		$decrypt = OCA_Encryption\Crypt::symmetricDecryptFileContent( $crypted['encrypted'], $crypted['key'] );
+		$decrypt = Crypt::symmetricDecryptFileContent( $crypted['encrypted'], $crypted['key'] );
 		
-		$this->assertEqual( $this->data, $decrypt );
+		$this->assertEquals( $this->data, $decrypt );
 	
 	}
 	
 	function testIsEncryptedContent() {
 		
-		$this->assertFalse( OCA_Encryption\Crypt::isEncryptedContent( $this->data ) );
+		$this->assertFalse( Crypt::isEncryptedContent( $this->data ) );
 		
-		$this->assertFalse( OCA_Encryption\Crypt::isEncryptedContent( $this->legacyEncryptedData ) );
+		$this->assertFalse( Crypt::isEncryptedContent( $this->legacyEncryptedData ) );
 		
-		$keyfileContent = OCA_Encryption\Crypt::symmetricEncryptFileContent( $this->data, 'hat' );
+		$keyfileContent = Crypt::symmetricEncryptFileContent( $this->data, 'hat' );
 
-		$this->assertTrue( OCA_Encryption\Crypt::isEncryptedContent( $keyfileContent ) );
+		$this->assertTrue( Crypt::isEncryptedContent( $keyfileContent ) );
 		
 	}
 	
@@ -118,40 +115,40 @@ class Test_Crypt extends UnitTestCase {
 		
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
 		
-		$pair1 = OCA_Encryption\Crypt::createKeypair();
+		$pair1 = Crypt::createKeypair();
 		
-		$this->assertEqual( 2, count( $pair1 ) );
+		$this->assertEquals( 2, count( $pair1 ) );
 		
 		$this->assertTrue( strlen( $pair1['publicKey'] ) > 1 );
 		
 		$this->assertTrue( strlen( $pair1['privateKey'] ) > 1 );
 		
 
-		$crypted = OCA_Encryption\Crypt::multiKeyEncrypt( $this->data, array( $pair1['publicKey'] ) );
+		$crypted = Crypt::multiKeyEncrypt( $this->data, array( $pair1['publicKey'] ) );
 		
-		$this->assertNotEqual( $this->data, $crypted['encrypted'] );
+		$this->assertNotEquals( $this->data, $crypted['encrypted'] );
 		
 
-		$decrypt = OCA_Encryption\Crypt::multiKeyDecrypt( $crypted['encrypted'], $crypted['keys'][0], $pair1['privateKey'] );
+		$decrypt = Crypt::multiKeyDecrypt( $crypted['encrypted'], $crypted['keys'][0], $pair1['privateKey'] );
 		
- 		$this->assertEqual( $this->data, $decrypt );
+ 		$this->assertEquals( $this->data, $decrypt );
 	
 	}
 	
 	function testKeyEncrypt() {
 		
 		// Generate keypair
-		$pair1 = OCA_Encryption\Crypt::createKeypair();
+		$pair1 = Crypt::createKeypair();
 		
 		// Encrypt data
-		$crypted = OCA_Encryption\Crypt::keyEncrypt( $this->data, $pair1['publicKey'] );
+		$crypted = Crypt::keyEncrypt( $this->data, $pair1['publicKey'] );
 		
-		$this->assertNotEqual( $this->data, $crypted );
+		$this->assertNotEquals( $this->data, $crypted );
 		
 		// Decrypt data
-		$decrypt = OCA_Encryption\Crypt::keyDecrypt( $crypted, $pair1['privateKey'] );
+		$decrypt = Crypt::keyDecrypt( $crypted, $pair1['privateKey'] );
 		
-		$this->assertEqual( $this->data, $decrypt );
+		$this->assertEquals( $this->data, $decrypt );
 	
 	}
 	
@@ -160,21 +157,21 @@ class Test_Crypt extends UnitTestCase {
 		# TODO: Don't repeat encryption from previous tests, use PHPUnit test interdependency instead
 		
 		// Generate keypair
-		$pair1 = OCA_Encryption\Crypt::createKeypair();
+		$pair1 = Crypt::createKeypair();
 		
 		// Encrypt plain data, generate keyfile & encrypted file
-		$cryptedData = OCA_Encryption\Crypt::symmetricEncryptFileContentKeyfile( $this->data );
+		$cryptedData = Crypt::symmetricEncryptFileContentKeyfile( $this->data );
 		
 		// Encrypt keyfile
-		$cryptedKey = OCA_Encryption\Crypt::keyEncrypt( $cryptedData['key'], $pair1['publicKey'] );
+		$cryptedKey = Crypt::keyEncrypt( $cryptedData['key'], $pair1['publicKey'] );
 		
 		// Decrypt keyfile
-		$decryptKey = OCA_Encryption\Crypt::keyDecrypt( $cryptedKey, $pair1['privateKey'] );
+		$decryptKey = Crypt::keyDecrypt( $cryptedKey, $pair1['privateKey'] );
 		
 		// Decrypt encrypted file
-		$decryptData = OCA_Encryption\Crypt::symmetricDecryptFileContent( $cryptedData['encrypted'], $decryptKey );
+		$decryptData = Crypt::symmetricDecryptFileContent( $cryptedData['encrypted'], $decryptKey );
 		
-		$this->assertEqual( $this->data, $decryptData );
+		$this->assertEquals( $this->data, $decryptData );
 	
 	}
 
@@ -186,7 +183,7 @@ class Test_Crypt extends UnitTestCase {
 // 		$encrypted=OC_Crypt::encrypt($source,$key);
 // 		$decrypted=OC_Crypt::decrypt($encrypted,$key);
 // 		$decrypted=rtrim($decrypted, "\0");
-// 		$this->assertNotEqual($encrypted,$source);
+// 		$this->assertNotEquals($encrypted,$source);
 // 		$this->assertEqual($decrypted,$source);
 // 
 // 		$chunk=substr($source,0,8192);
@@ -198,14 +195,14 @@ class Test_Crypt extends UnitTestCase {
 // 		
 // 		$encrypted=OC_Crypt::blockEncrypt($source,$key);
 // 		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
-// 		$this->assertNotEqual($encrypted,$source);
+// 		$this->assertNotEquals($encrypted,$source);
 // 		$this->assertEqual($decrypted,$source);
 // 
 // 		$tmpFileEncrypted=OCP\Files::tmpFile();
 // 		OC_Crypt::encryptfile($file,$tmpFileEncrypted,$key);
 // 		$encrypted=file_get_contents($tmpFileEncrypted);
 // 		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
-// 		$this->assertNotEqual($encrypted,$source);
+// 		$this->assertNotEquals($encrypted,$source);
 // 		$this->assertEqual($decrypted,$source);
 // 
 // 		$tmpFileDecrypted=OCP\Files::tmpFile();
