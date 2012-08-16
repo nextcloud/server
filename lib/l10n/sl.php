@@ -12,11 +12,14 @@
 "Application is not enabled" => "Aplikacija ni omogočena",
 "Authentication error" => "Napaka overitve",
 "Token expired. Please reload page." => "Žeton je potekel. Prosimo, če spletno stran znova naložite.",
+"seconds ago" => "sekundami",
 "1 minute ago" => "pred minuto",
 "%d minutes ago" => "pred %d minutami",
 "today" => "danes",
 "yesterday" => "včeraj",
 "%d days ago" => "pred %d dnevi",
 "last month" => "prejšnji mesec",
-"last year" => "lani"
+"months ago" => "meseci",
+"last year" => "lani",
+"years ago" => "leti"
 );

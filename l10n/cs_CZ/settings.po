@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-12 02:02+0200\n"
-"PO-Revision-Date: 2012-08-12 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-15 09:29+0000\n"
+"Last-Translator: Martin <fireball@atlas.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Nepodařílo se stáhnout seznam z App Store"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -44,7 +44,7 @@ msgstr "Chybný dotaz"
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "Chyba autorizace"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -52,7 +52,7 @@ msgstr "Jazyk byl změněn"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
@@ -72,23 +72,23 @@ msgstr "Česky"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "Bezpečnostní upozornění"
 
 #: templates/admin.php:29
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:31
 msgid "execute one task with each page loaded"
-msgstr ""
+msgstr "spustit jednu úlohu s každou nataženou stranou"
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "cron.php je registrován jako služba webcron"
 
 #: templates/admin.php:35
 msgid "use systems cron service"
-msgstr ""
+msgstr "použijte systémovou službu cron"
 
 #: templates/admin.php:39
 msgid "Log"
@@ -232,7 +232,7 @@ msgstr "Jiné"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "SubAdmin"
-msgstr ""
+msgstr "SubAdmin"
 
 #: templates/users.php:82
 msgid "Quota"

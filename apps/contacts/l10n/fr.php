@@ -59,6 +59,7 @@
 "Edit name" => "Éditer le nom",
 "No files selected for upload." => "Aucun fichiers choisis pour être chargés",
 "The file you are trying to upload exceed the maximum size for file uploads on this server." => "Le fichier que vous tenter de charger dépasse la taille maximum de fichier autorisé sur ce serveur.",
+"Error loading profile picture." => "Erreur pendant le chargement de la photo de profil.",
 "Select type" => "Sélectionner un type",
 "Some contacts are marked for deletion, but not deleted yet. Please wait for them to be deleted." => "Certains contacts sont marqués pour être supprimés mais sont encore présents, veuillez attendre que l'opération se termine.",
 "Result: " => "Résultat :",

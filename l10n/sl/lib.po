@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-29 02:04+0200\n"
-"PO-Revision-Date: 2012-07-28 02:09+0000\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-15 00:37+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
 
-#: app.php:287
+#: app.php:288
 msgid "Help"
 msgstr "Pomoč"
 
-#: app.php:294
+#: app.php:295
 msgid "Personal"
 msgstr "Osebno"
 
-#: app.php:299
+#: app.php:300
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: app.php:304
+#: app.php:305
 msgid "Users"
 msgstr "Uporabniki"
 
-#: app.php:311
+#: app.php:312
 msgid "Apps"
 msgstr "Aplikacije"
 
-#: app.php:313
+#: app.php:314
 msgid "Admin"
 msgstr "Skrbnik"
 
@@ -72,7 +72,7 @@ msgstr "Žeton je potekel. Prosimo, če spletno stran znova naložite."
 
 #: template.php:86
 msgid "seconds ago"
-msgstr ""
+msgstr "sekundami"
 
 #: template.php:87
 msgid "1 minute ago"
@@ -102,7 +102,7 @@ msgstr "prejšnji mesec"
 
 #: template.php:95
 msgid "months ago"
-msgstr ""
+msgstr "meseci"
 
 #: template.php:96
 msgid "last year"
@@ -110,4 +110,4 @@ msgstr "lani"
 
 #: template.php:97
 msgid "years ago"
-msgstr ""
+msgstr "leti"

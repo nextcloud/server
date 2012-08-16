@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:02+0200\n"
-"PO-Revision-Date: 2012-08-15 00:03+0000\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-15 00:14+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -20,35 +20,35 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "Zunanja podatkovna shramba"
 
 #: templates/settings.php:7 templates/settings.php:19
 msgid "Mount point"
-msgstr ""
+msgstr "Priklopna točka"
 
 #: templates/settings.php:8
 msgid "Backend"
-msgstr ""
+msgstr "Zaledje"
 
 #: templates/settings.php:9
 msgid "Configuration"
-msgstr ""
+msgstr "Nastavitve"
 
 #: templates/settings.php:10
 msgid "Options"
-msgstr ""
+msgstr "Možnosti"
 
 #: templates/settings.php:11
 msgid "Applicable"
-msgstr ""
+msgstr "Se uporablja"
 
 #: templates/settings.php:23
 msgid "Add mount point"
-msgstr ""
+msgstr "Dodaj priklopno točko"
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
-msgstr ""
+msgstr "Ni nastavljeno"
 
 #: templates/settings.php:63
 msgid "All Users"
@@ -76,8 +76,8 @@ msgstr "Uvozi korenski certifikat"
 
 #: templates/settings.php:108
 msgid "Enable User External Storage"
-msgstr "Omogoči"
+msgstr "Omogoči uporabo zunanje podatkovne shrambe za uporabnike"
 
 #: templates/settings.php:109
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "Dovoli uporabnikom priklop lastne zunanje podatkovne shrambe"

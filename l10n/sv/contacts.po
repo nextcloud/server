@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-16 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,7 +83,7 @@ msgstr "Minst ett fält måste fyllas i."
 
 #: ajax/contact/addproperty.php:76
 msgid "Trying to add duplicate property: "
-msgstr ""
+msgstr "Försöker lägga till dubblett:"
 
 #: ajax/contact/addproperty.php:144
 msgid "Error adding contact property: "
@@ -245,8 +245,8 @@ msgstr "Kunde inte hitta en giltig adress."
 #: js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
 #: js/contacts.js:1165 js/contacts.js:1173 js/contacts.js:1182
 #: js/contacts.js:1217 js/contacts.js:1249 js/contacts.js:1261
-#: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1452
-#: js/settings.js:25 js/settings.js:42 js/settings.js:67
+#: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1456
+#: js/contacts.js:1476 js/settings.js:25 js/settings.js:42 js/settings.js:67
 msgid "Error"
 msgstr "Fel"
 
@@ -280,7 +280,7 @@ msgstr "Filen du försöker ladda upp är större än den maximala storleken fö
 
 #: js/contacts.js:1236
 msgid "Error loading profile picture."
-msgstr ""
+msgstr "Fel vid hämtning av profilbild."
 
 #: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
@@ -291,6 +291,10 @@ msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
 msgstr "Vissa kontakter är markerade för radering, men är inte raderade än. Vänta tills dom är raderade."
+
+#: js/contacts.js:1461
+msgid "Do you want to merge these address books?"
+msgstr ""
 
 #: js/loader.js:49
 msgid "Result: "
@@ -815,11 +819,11 @@ msgstr "Anpassa adressböcker."
 msgid "Select Address Books"
 msgstr "Välj adressböcker"
 
-#: templates/part.selectaddressbook.php:20
+#: templates/part.selectaddressbook.php:27
 msgid "Enter name"
 msgstr "Ange namn"
 
-#: templates/part.selectaddressbook.php:22
+#: templates/part.selectaddressbook.php:29
 msgid "Enter description"
 msgstr "Ange beskrivning"
 

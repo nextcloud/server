@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-16 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -250,8 +250,8 @@ msgstr "Impossible de trouver une adresse valide."
 #: js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
 #: js/contacts.js:1165 js/contacts.js:1173 js/contacts.js:1182
 #: js/contacts.js:1217 js/contacts.js:1249 js/contacts.js:1261
-#: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1452
-#: js/settings.js:25 js/settings.js:42 js/settings.js:67
+#: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1456
+#: js/contacts.js:1476 js/settings.js:25 js/settings.js:42 js/settings.js:67
 msgid "Error"
 msgstr "Erreur"
 
@@ -285,7 +285,7 @@ msgstr "Le fichier que vous tenter de charger dépasse la taille maximum de fich
 
 #: js/contacts.js:1236
 msgid "Error loading profile picture."
-msgstr ""
+msgstr "Erreur pendant le chargement de la photo de profil."
 
 #: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
@@ -296,6 +296,10 @@ msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
 msgstr "Certains contacts sont marqués pour être supprimés mais sont encore présents, veuillez attendre que l'opération se termine."
+
+#: js/contacts.js:1461
+msgid "Do you want to merge these address books?"
+msgstr ""
 
 #: js/loader.js:49
 msgid "Result: "
@@ -820,11 +824,11 @@ msgstr "Paramétrer carnet d'adresses"
 msgid "Select Address Books"
 msgstr "Choix du carnet d'adresses"
 
-#: templates/part.selectaddressbook.php:20
+#: templates/part.selectaddressbook.php:27
 msgid "Enter name"
 msgstr "Saisissez le nom"
 
-#: templates/part.selectaddressbook.php:22
+#: templates/part.selectaddressbook.php:29
 msgid "Enter description"
 msgstr "Saisissez une description"
 

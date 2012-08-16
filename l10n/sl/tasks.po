@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 13:45+0000\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-15 15:38+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "Prazen povzetek"
 
 #: lib/app.php:93
 msgid "Invalid percent complete"
-msgstr ""
+msgstr "Neveljaven odstotek dokončanja"
 
 #: lib/app.php:107
 msgid "Invalid priority"
@@ -88,11 +88,11 @@ msgstr ""
 
 #: templates/tasks.php:16
 msgid "Loading tasks..."
-msgstr ""
+msgstr "Nalagam opravila..."
 
 #: templates/tasks.php:20
 msgid "Important"
-msgstr ""
+msgstr "Pomembno"
 
 #: templates/tasks.php:23
 msgid "More"
@@ -104,4 +104,4 @@ msgstr "Manj"
 
 #: templates/tasks.php:29
 msgid "Delete"
-msgstr ""
+msgstr "Izbriši"

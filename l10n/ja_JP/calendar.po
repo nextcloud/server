@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
+#   <tetuyano+transi@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-15 01:51+0000\n"
+"Last-Translator: ttyn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -159,7 +160,7 @@ msgstr "週の始まり"
 
 #: lib/app.php:351 lib/app.php:361
 msgid "by"
-msgstr ""
+msgstr "による"
 
 #: lib/app.php:359 lib/app.php:399
 msgid "unnamed"
@@ -477,7 +478,7 @@ msgstr "今日"
 
 #: templates/calendar.php:46 templates/calendar.php:47
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
@@ -731,7 +732,7 @@ msgstr "at"
 
 #: templates/settings.php:10
 msgid "General"
-msgstr ""
+msgstr "一般"
 
 #: templates/settings.php:15
 msgid "Timezone"
@@ -739,11 +740,11 @@ msgstr "タイムゾーン"
 
 #: templates/settings.php:47
 msgid "Update timezone automatically"
-msgstr ""
+msgstr "自動的にタイムゾーンを更新"
 
 #: templates/settings.php:52
 msgid "Time format"
-msgstr ""
+msgstr "時刻の表示形式"
 
 #: templates/settings.php:57
 msgid "24h"
@@ -755,7 +756,7 @@ msgstr "12h"
 
 #: templates/settings.php:64
 msgid "Start week on"
-msgstr ""
+msgstr "1週間の初めの曜日"
 
 #: templates/settings.php:76
 msgid "Cache"
@@ -767,7 +768,7 @@ msgstr "イベントを繰り返すためにキャッシュをクリアしてく
 
 #: templates/settings.php:85
 msgid "URLs"
-msgstr ""
+msgstr "URL"
 
 #: templates/settings.php:87
 msgid "Calendar CalDAV syncing addresses"

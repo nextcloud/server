@@ -1,0 +1,20 @@
+<?php $TRANSLATIONS = array(
+"Invalid date/time" => "Nevalida dato/horo",
+"Tasks" => "Taskoj",
+"No category" => "Neniu kategorio",
+"Unspecified" => "Nespecifita",
+"1=highest" => "1=plej alta",
+"5=medium" => "5=meza",
+"9=lowest" => "9=plej malalta",
+"Invalid percent complete" => "Nevalida plenuma elcento",
+"Invalid priority" => "Nevalida pligravo",
+"Add Task" => "Aldoni taskon",
+"Order Complete" => "Ordigi laŭ plenumo",
+"Order Location" => "Ordigi laŭ loko",
+"Order Priority" => "Ordigi laŭ pligravo",
+"Loading tasks..." => "Ŝargante taskojn...",
+"Important" => "Grava",
+"More" => "Pli",
+"Less" => "Malpli",
+"Delete" => "Forigi"
+);

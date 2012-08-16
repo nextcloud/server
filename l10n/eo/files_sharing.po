@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano  <mstreet@kde.org.ar>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:35+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-15 19:32+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,36 +20,36 @@ msgstr ""
 
 #: templates/list.php:2
 msgid "Your Shared Files"
-msgstr ""
+msgstr "Viaj kunhavigitaj dosieroj"
 
 #: templates/list.php:6
 msgid "Item"
-msgstr ""
+msgstr "Ero"
 
 #: templates/list.php:7
 msgid "Shared With"
-msgstr ""
+msgstr "Kunhavigita kun"
 
 #: templates/list.php:8
 msgid "Permissions"
-msgstr ""
+msgstr "Permesoj"
 
 #: templates/list.php:16
 msgid "Read"
-msgstr ""
+msgstr "Legi"
 
 #: templates/list.php:16
 msgid "Edit"
-msgstr ""
+msgstr "Redakti"
 
 #: templates/list.php:16 templates/list.php:17
 msgid "Delete"
-msgstr ""
+msgstr "Forigi"
 
 #: templates/settings.php:3
 msgid "Enable Resharing"
-msgstr ""
+msgstr "Kapabligi rekunhavigon"
 
 #: templates/settings.php:4
 msgid "Allow users to reshare files they don't own"
-msgstr ""
+msgstr "Permesi al uzantoj rekunhavigi dosierojn, kiujn ili ne posedas"

@@ -7,15 +7,16 @@
 # Dimitris M. <monopatis@gmail.com>, 2012.
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
 # Marios Bekatoros <>, 2012.
+# Nisok Kosin <nikos.efthimiou@gmail.com>, 2012.
 # Petros Kyladitis <petros.kyladitis@gmail.com>, 2011, 2012.
 #   <vagelis@cyberdest.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-16 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -245,8 +246,8 @@ msgstr "Αδυναμία λήψης έγκυρης διεύθυνσης"
 #: js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
 #: js/contacts.js:1165 js/contacts.js:1173 js/contacts.js:1182
 #: js/contacts.js:1217 js/contacts.js:1249 js/contacts.js:1261
-#: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1452
-#: js/settings.js:25 js/settings.js:42 js/settings.js:67
+#: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1456
+#: js/contacts.js:1476 js/settings.js:25 js/settings.js:42 js/settings.js:67
 msgid "Error"
 msgstr "Σφάλμα"
 
@@ -280,7 +281,7 @@ msgstr "Το αρχείο που προσπαθείτε να ανεβάσετε 
 
 #: js/contacts.js:1236
 msgid "Error loading profile picture."
-msgstr ""
+msgstr "Σφάλμα στην φόρτωση εικόνας προφίλ."
 
 #: js/contacts.js:1337 js/contacts.js:1371
 msgid "Select type"
@@ -291,6 +292,10 @@ msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
 msgstr "Κάποιες επαφές σημειώθηκαν προς διαγραφή,δεν έχουν διαγραφεί ακόμα. Παρακαλώ περιμένετε μέχρι να διαγραφούν."
+
+#: js/contacts.js:1461
+msgid "Do you want to merge these address books?"
+msgstr ""
 
 #: js/loader.js:49
 msgid "Result: "
@@ -306,11 +311,11 @@ msgstr " απέτυχε."
 
 #: js/settings.js:67
 msgid "Displayname cannot be empty."
-msgstr ""
+msgstr "Το όνομα προβολής δεν μπορεί να είναι κενό. "
 
 #: lib/app.php:36
 msgid "Addressbook not found: "
-msgstr ""
+msgstr "Το βιβλίο διευθύνσεων δεν βρέθηκε:"
 
 #: lib/app.php:49
 msgid "This is not your addressbook."
@@ -484,11 +489,11 @@ msgstr "Ανάπτυξη/σύμπτυξη τρέχοντος βιβλίου δι
 
 #: templates/index.php:48
 msgid "Next addressbook"
-msgstr ""
+msgstr "Επόμενο βιβλίο διευθύνσεων"
 
 #: templates/index.php:50
 msgid "Previous addressbook"
-msgstr ""
+msgstr "Προηγούμενο βιβλίο διευθύνσεων"
 
 #: templates/index.php:54
 msgid "Actions"
@@ -815,11 +820,11 @@ msgstr "Ρύθμισε το βιβλίο διευθύνσεων"
 msgid "Select Address Books"
 msgstr "Επέλεξε βιβλίο διευθύνσεων"
 
-#: templates/part.selectaddressbook.php:20
+#: templates/part.selectaddressbook.php:27
 msgid "Enter name"
 msgstr "Εισαγωγή ονόματος"
 
-#: templates/part.selectaddressbook.php:22
+#: templates/part.selectaddressbook.php:29
 msgid "Enter description"
 msgstr "Εισαγωγή περιγραφής"
 
@@ -841,11 +846,11 @@ msgstr "iOS/OS X"
 
 #: templates/settings.php:20
 msgid "Show CardDav link"
-msgstr ""
+msgstr "Εμφάνιση συνδέσμου CardDav"
 
 #: templates/settings.php:23
 msgid "Show read-only VCF link"
-msgstr ""
+msgstr "Εμφάνιση συνδέσμου VCF μόνο για ανάγνωση"
 
 #: templates/settings.php:26
 msgid "Download"
