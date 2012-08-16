@@ -92,7 +92,7 @@ $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 $tmpl = new OCP\Template( 'files', 'index', 'user' );
 $tmpl->assign( 'fileList', $list->fetchPage(), false );
 $tmpl->assign( 'breadcrumb', $breadcrumbNav->fetchPage(), false );
-$tmpl->assign( 'dir', $dir);
+$tmpl->assign( 'dir', OC_Filesystem::normalizePath($dir));
 $tmpl->assign( 'readonly', !OC_Filesystem::is_writable($dir.'/'));
 $tmpl->assign( 'files', $files );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);

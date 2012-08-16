@@ -62,6 +62,7 @@ class Test_Filesystem extends UnitTestCase{
 
 	public function testNormalize(){
 		$this->assertEqual('/path',OC_Filesystem::normalizePath('/path/'));
+		$this->assertEqual('/path/',OC_Filesystem::normalizePath('/path/',false));
 		$this->assertEqual('/path',OC_Filesystem::normalizePath('path'));
 		$this->assertEqual('/path',OC_Filesystem::normalizePath('\path'));
 		$this->assertEqual('/foo/bar',OC_Filesystem::normalizePath('/foo//bar/'));

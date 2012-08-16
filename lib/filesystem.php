@@ -495,7 +495,16 @@ class OC_Filesystem{
 		OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
 	}
 
-	public static function normalizePath($path){
+	/**
+	 * normalize a path
+	 * @param string path
+	 * @param bool $stripTrailingSlash
+	 * @return string
+	 */
+	public static function normalizePath($path,$stripTrailingSlash=true){
+		if($path==''){
+			return '/';
+		}
 		//no windows style slashes
 		$path=str_replace('\\','/',$path);
 		//add leading slash
@@ -503,7 +512,7 @@ class OC_Filesystem{
 			$path='/'.$path;
 		}
 		//remove trainling slash
-		if(strlen($path)>1 and substr($path,-1,1)==='/'){
+		if($stripTrailingSlash and strlen($path)>1 and substr($path,-1,1)==='/'){
 			$path=substr($path,0,-1);
 		}
 		//remove duplicate slashes

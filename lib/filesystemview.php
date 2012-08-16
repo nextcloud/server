@@ -54,7 +54,7 @@ class OC_FilesystemView {
 		if($path[0]!=='/'){
 			$path='/'.$path;
 		}
-		return OC_Filesystem::normalizePath($this->fakeRoot.$path);
+		return $this->fakeRoot.$path;
 	}
 	
 	/**
@@ -227,7 +227,7 @@ class OC_FilesystemView {
 	}
 	public function file_put_contents($path, $data) {
 		if(is_resource($data)) {//not having to deal with streams in file_put_contents makes life easier
-			$absolutePath = $this->getAbsolutePath($path);
+			$absolutePath = OC_Filesystem::normalizePath($this->getAbsolutePath($path));
 			if (OC_FileProxy::runPreProxies('file_put_contents', $absolutePath, $data) && OC_Filesystem::isValidPath($path)) {
 				$path = $this->getRelativePath($absolutePath);
 				$exists = $this->file_exists($path);
@@ -287,11 +287,14 @@ class OC_FilesystemView {
 		return $this->basicOperation( 'deleteAll', $directory, array('delete'), $empty );
 	}
 	public function rename($path1, $path2) {
-		$absolutePath1 = $this->getAbsolutePath($path1);
-		$absolutePath2 = $this->getAbsolutePath($path2);
+		$postFix1=(substr($path1,-1,1)==='/')?'/':'';
+		$postFix2=(substr($path2,-1,1)==='/')?'/':'';
+		$absolutePath1 = OC_Filesystem::normalizePath($this->getAbsolutePath($path1));
+		$absolutePath2 = OC_Filesystem::normalizePath($this->getAbsolutePath($path2));
 		if(OC_FileProxy::runPreProxies('rename', $absolutePath1, $absolutePath2) and OC_Filesystem::isValidPath($path2)) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
+			
 			if($path1 == null or $path2 == null) {
 				return false;
 			}
@@ -305,20 +308,20 @@ class OC_FilesystemView {
 					)
 			);
 			if($run) {
-				$mp1 = $this->getMountPoint($path1);
-				$mp2 = $this->getMountPoint($path2);
+				$mp1 = $this->getMountPoint($path1.$postFix1);
+				$mp2 = $this->getMountPoint($path2.$postFix2);
 				if($mp1 == $mp2) {
 					if($storage = $this->getStorage($path1)) {
-						$result = $storage->rename($this->getInternalPath($path1), $this->getInternalPath($path2));
+						$result = $storage->rename($this->getInternalPath($path1.$postFix1), $this->getInternalPath($path2.$postFix2));
 					}
 				} else {
-					$source = $this->fopen($path1, 'r');
-					$target = $this->fopen($path2, 'w');
+					$source = $this->fopen($path1.$postFix1, 'r');
+					$target = $this->fopen($path2.$postFix2, 'w');
 					$count = OC_Helper::streamCopy($source, $target);
 					$storage1 = $this->getStorage($path1);
-					$storage1->unlink($this->getInternalPath($path1));
+					$storage1->unlink($this->getInternalPath($path1.$postFix1));
 					$result = $count>0;
-				}
+				} 
 				OC_Hook::emit(
 					OC_Filesystem::CLASSNAME,
 					OC_Filesystem::signal_post_rename,
@@ -332,11 +335,14 @@ class OC_FilesystemView {
 		}
 	}
 	public function copy($path1, $path2) {
-		$absolutePath1 = $this->getAbsolutePath($path1);
-		$absolutePath2 = $this->getAbsolutePath($path2);
+		$postFix1=(substr($path1,-1,1)==='/')?'/':'';
+		$postFix2=(substr($path2,-1,1)==='/')?'/':'';
+		$absolutePath1 = OC_Filesystem::normalizePath($this->getAbsolutePath($path1));
+		$absolutePath2 = OC_Filesystem::normalizePath($this->getAbsolutePath($path2));
 		if(OC_FileProxy::runPreProxies('copy', $absolutePath1, $absolutePath2) and OC_Filesystem::isValidPath($path2)) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
+			
 			if($path1 == null or $path2 == null) {
 				return false;
 			}
@@ -372,15 +378,15 @@ class OC_FilesystemView {
 				);
 			}
 			if($run) {
-				$mp1=$this->getMountPoint($path1);
-				$mp2=$this->getMountPoint($path2);
+				$mp1=$this->getMountPoint($path1.$postFix1);
+				$mp2=$this->getMountPoint($path2.$postFix2);
 				if($mp1 == $mp2){
-					if($storage = $this->getStorage($path1)) {
-						$result=$storage->copy($this->getInternalPath($path1), $this->getInternalPath($path2));
+					if($storage = $this->getStorage($path1.$postFix1)) {
+						$result=$storage->copy($this->getInternalPath($path1.$postFix1), $this->getInternalPath($path2.$postFix2));
 					}
 				} else {
-					$source = $this->fopen($path1, 'r');
-					$target = $this->fopen($path2, 'w');
+					$source = $this->fopen($path1.$postFix1, 'r');
+					$target = $this->fopen($path2.$postFix2, 'w');
 					$result = OC_Helper::streamCopy($source, $target);
 				}
 				OC_Hook::emit(
@@ -475,7 +481,8 @@ class OC_FilesystemView {
 		return $this->basicOperation('getMimeType', $path);
 	}
 	public function hash($type, $path, $raw = false) {
-		$absolutePath = $this->getAbsolutePath($path);
+		$postFix=(substr($path,-1,1)==='/')?'/':'';
+		$absolutePath = OC_Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (OC_FileProxy::runPreProxies('hash', $absolutePath) && OC_Filesystem::isValidPath($path)) {
 			$path = $this->getRelativePath($absolutePath);
 			if ($path == null) {
@@ -488,8 +495,8 @@ class OC_FilesystemView {
 					array( OC_Filesystem::signal_param_path => $path)
 				);
 			}
-			if ($storage = $this->getStorage($path)) {
-				$result = $storage->hash($type, $this->getInternalPath($path), $raw);
+			if ($storage = $this->getStorage($path.$postFix)) {
+				$result = $storage->hash($type, $this->getInternalPath($path.$postFix), $raw);
 				$result = OC_FileProxy::runPostProxies('hash', $absolutePath, $result);
 				return $result;
 			}
@@ -514,35 +521,16 @@ class OC_FilesystemView {
 	 * OC_Filestorage for delegation to a storage backend for execution
 	 */
 	private function basicOperation($operation, $path, $hooks=array(), $extraParam=null) {
-		$absolutePath = $this->getAbsolutePath($path);
+		$postFix=(substr($path,-1,1)==='/')?'/':'';
+		$absolutePath = OC_Filesystem::normalizePath($this->getAbsolutePath($path));
 		if(OC_FileProxy::runPreProxies($operation, $absolutePath, $extraParam) and OC_Filesystem::isValidPath($path)) {
 			$path = $this->getRelativePath($absolutePath);
 			if($path == null) {
 				return false;
 			}
-			$internalPath = $this->getInternalPath($path);
-			$run = true;
-			if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()) {
-				foreach($hooks as $hook) {
-					if($hook!='read') {
-						OC_Hook::emit(
-							OC_Filesystem::CLASSNAME,
-							$hook,
-							array(
-								OC_Filesystem::signal_param_path => $path,
-								OC_Filesystem::signal_param_run => &$run
-							)
-						);
-					} else {
-						OC_Hook::emit(
-							OC_Filesystem::CLASSNAME,
-							$hook,
-							array( OC_Filesystem::signal_param_path => $path)
-						);
-					}
-				}
-			}
-			if($run and $storage = $this->getStorage($path)) {
+			$internalPath = $this->getInternalPath($path.$postFix);
+			$run=$this->runHooks($hooks,$path);
+			if($run and $storage = $this->getStorage($path.$postFix)) {
 				if(!is_null($extraParam)) {
 					$result = $storage->$operation($internalPath, $extraParam);
 				} else {
@@ -551,21 +539,41 @@ class OC_FilesystemView {
 				$result = OC_FileProxy::runPostProxies($operation, $this->getAbsolutePath($path), $result);
 				if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()) {
 					if($operation!='fopen') {//no post hooks for fopen, the file stream is still open
-						foreach($hooks as $hook) {
-							if($hook!='read'){
-								OC_Hook::emit(
-									OC_Filesystem::CLASSNAME,
-									'post_'.$hook,
-									array( OC_Filesystem::signal_param_path => $path)
-								);
-							}
-						}
+						$this->runHooks($hooks,$path,true);
 					}
 				}
 				return $result;
 			}
 		}
 		return null;
+	}
+
+	private function runHooks($hooks,$path,$post=false){
+		$prefix=($post)?'post_':'';
+		$run=true;
+		if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()) {
+			foreach($hooks as $hook) {
+				if($hook!='read') {
+					OC_Hook::emit(
+						OC_Filesystem::CLASSNAME,
+						$prefix.$hook,
+						array(
+							OC_Filesystem::signal_param_run => &$run,
+							OC_Filesystem::signal_param_path => $path
+						)
+					);
+				} elseif(!$post) {
+					OC_Hook::emit(
+						OC_Filesystem::CLASSNAME,
+						$prefix.$hook,
+						array(
+							OC_Filesystem::signal_param_path => $path
+						)
+					);
+				}
+			}
+		}
+		return $run;
 	}
 
 	/**

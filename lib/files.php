@@ -33,6 +33,10 @@ class OC_Files {
 	* @param dir $directory path under datadirectory
 	*/
 	public static function getDirectoryContent($directory, $mimetype_filter = ''){
+		$directory=OC_Filesystem::normalizePath($directory);
+		if($directory=='/'){
+			$directory='';
+		}
 		$files=OC_FileCache::getFolderContent($directory, false, $mimetype_filter);
 		foreach($files as &$file){
 			$file['directory']=$directory;
