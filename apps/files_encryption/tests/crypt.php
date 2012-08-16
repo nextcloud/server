@@ -21,6 +21,8 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->legacyData = realpath( dirname(__FILE__).'/legacy-text.txt' );
 		$this->legacyEncryptedData = realpath( dirname(__FILE__).'/legacy-encrypted-text.txt' );
 	
+		//stream_wrapper_register( 'crypt', 'OCA_Encryption\Stream' );
+	
 	}
 	
 	function tearDown(){}
@@ -73,14 +75,56 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
 		
-		$keyfileContent = Crypt::symmetricEncryptFileContent( $this->data, 'hat' );
+		$crypted = Crypt::symmetricEncryptFileContent( $this->data, 'hat' );
 
-		$this->assertNotEquals( $this->data, $keyfileContent );
+		$this->assertNotEquals( $this->data, $crypted );
 		
 
-		$decrypt = Crypt::symmetricDecryptFileContent( $keyfileContent, 'hat' );
+		$decrypt = Crypt::symmetricDecryptFileContent( $crypted, 'hat' );
 
 		$this->assertEquals( $this->data, $decrypt );
+		
+	}
+	
+	function testSymmetricBlockEncryptFileContent() {
+		
+		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->data, 'hat' );
+
+		$this->assertNotEquals( $this->data, $crypted );
+		
+
+		$decrypt = Crypt::symmetricBlockDecryptFileContent( $crypted, 'hat' );
+
+		$this->assertEquals( $this->data, $decrypt );
+		
+	}
+	
+// 	function testSymmetricBlockStreamEncryptFileContent() {
+// 	
+// 		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->data, 'hat' );
+// 		
+// 		$cryptedFile = file_put_contents( 'crypt://' . '/blockEncrypt', $crypted );
+// 		
+// 		// Test that data was successfully written
+// 		$this->assertTrue( $cryptedFile );
+// 		
+// 		$retreivedCryptedFile = file_get_contents( '/blockEncrypt' );
+// 		
+// 		$this->assertNotEquals( $this->data, $retreivedCryptedFile );
+// 		
+// 	}
+	
+	function testSymmetricBlockStreamDecryptFileContent() {
+	
+		\OC_User::setUserId( 'admin' );
+	
+		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->data, 'hat' );
+		
+		$cryptedFile = file_put_contents( 'crypt://' . '/blockEncrypt', $crypted );
+		
+		$retreivedCryptedFile = file_get_contents( 'crypt://' . '/blockEncrypt' );
+		
+		$this->assertEquals( $this->data, $retreivedCryptedFile );
 		
 	}
 

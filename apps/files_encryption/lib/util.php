@@ -46,7 +46,7 @@ class Util {
 	# DONE: add method to decrypt legacy encrypted data
 	# DONE: fix / test the crypt stream proxy class	
 	
-	# TODO: replace cryptstream wrapper with stream_socket_enable_crypto, or fix it to use new crypt class methods
+	# TODO: replace cryptstream wrapper new AES based system
 	# TODO: add support for optional recovery user in case of lost passphrase / keys
 	# TODO: add admin optional required long passphrase for users
 	# TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.

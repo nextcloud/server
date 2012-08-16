@@ -391,6 +391,47 @@ class Crypt {
 		
 	}
 	
+	/**
+	* @brief Symmetrically encrypt a file by combining encrypted component data blocks
+	*/
+	public static function symmetricBlockEncryptFileContent( $plainContent, $key ) {
+	
+		$crypted = '';
+		
+		while( strlen( $plainContent ) ) {
+		
+			// Encrypt a chunk of unencrypted data and add it to the rest
+			$crypted .= self::symmetricEncryptFileContent( substr( $plainContent, 0, 8192 ), $key );
+			
+			// Remove the data already encrypted from remaining unencrypted data
+			$plainContent = substr( $plainContent, 8192 );
+		
+		}
+		
+		return $crypted;
+
+	}
+
+
+	/**
+	* @brief Symmetrically decrypt a file by combining encrypted component data blocks
+	*/
+	public static function symmetricBlockDecryptFileContent( $crypted, $key ) {
+
+		$decrypted = '';
+		
+		while( strlen( $crypted ) ) {
+		
+			$decrypted .= self::symmetricDecryptFileContent( substr( $crypted, 0, 8192 ), $key );
+			
+			$crypted = substr( $crypted, 8192 );
+			
+		}
+		
+		return rtrim( $decrypted, "\0" );
+		
+	}
+	
         /**
          * @brief Generate a pseudo random 1024kb ASCII key
          * @returns $key Generated key

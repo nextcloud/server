@@ -120,10 +120,10 @@ class Keymanager {
 	 * @param string file name
 	 * @return string file key or false
 	 */
-	public static function getFileKey( $path ) {
+	public static function getFileKey( $path, $staticUserClass = 'OCP\User' ) {
 		
 		$keypath = ltrim( $path, '/' );
-		$user = \OCP\User::getUser();
+		$user = $staticUserClass::getUser();
 
 		// update $keypath and $user if path point to a file shared by someone else
 		$query = \OC_DB::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
@@ -140,6 +140,7 @@ class Keymanager {
 		}
 		
 		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/keyfiles/');
+		
 		return $view->file_get_contents( $keypath . '.key' );
 		
 	}	
@@ -227,8 +228,10 @@ class Keymanager {
 		$path_parts = pathinfo( $targetpath );
 
 		if (!$view) {
-			$view = new \OC_FilesystemView( '/' . $user . '/files_encryption/keyfiles' );
+			$view = new \OC_FilesystemView( '/' );
 		}
+		
+		$view->chroot( '/' . $user . '/files_encryption/keyfiles' );
 		
 		if ( !$view->file_exists( $path_parts['dirname'] ) ) $view->mkdir( $path_parts['dirname'] );
 		
