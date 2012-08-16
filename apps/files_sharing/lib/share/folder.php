@@ -21,8 +21,32 @@
 
 class OC_Share_Backend_Folder extends OC_Share_Backend_File {
 
-	public function inCollection($collections, $item) {
-		// TODO
+	public function formatItems($items, $format, $parameters = null) {
+		if ($format == self::FORMAT_SHARED_STORAGE) {
+			// Only 1 item should come through for this format call
+			return array('path' => $items[key($items)]['file_source'], 'permissions' => $items[key($items)]['permissions']);
+		} else if ($format == self::FORMAT_FILE_APP && isset($parameters['folder'])) {
+			// Only 1 item should come through for this format call
+			$folder = $items[key($items)];
+			if (isset($parameters['mimetype_filter'])) {
+				$mimetype_filter = $parameters['mimetype_filter'];
+			} else {
+				$mimetype_filter = '';
+			}
+			$path = $folder['file_source'].substr($parameters['folder'], 7 + strlen($folder['file_target']));
+			$files = OC_FileCache::getFolderContent($path, '', $mimetype_filter);
+			foreach ($files as &$file) {
+				$file['directory'] = $parameters['folder'];
+				$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
+				$file['permissions'] = $folder['permissions'];
+				if ($file['type'] == 'file') {
+					// Remove Create permission if type is file
+					$file['permissions'] &= ~OCP\Share::PERMISSION_CREATE;
+				}
+			}
+			return $files;
+		}
+		return array();
 	}
 
 	public function getChildren($itemSource) {
@@ -34,47 +58,4 @@ class OC_Share_Backend_Folder extends OC_Share_Backend_File {
 		return $sources;
 	}
 
-	public function formatItems($items, $format, $parameters = null) {
-		if ($format == self::FORMAT_FILE_APP && isset($parameters['folder'])) {
-			$folder = $items[key($items)];
-			$query = OCP\DB::prepare('SELECT path FROM *PREFIX*fscache WHERE id = ?');
-			$result = $query->execute(array($folder['file_source']))->fetchRow();
-			if (isset($result['path'])) {
-				if (isset($parameters['mimetype_filter'])) {
-					$mimetype_filter = $parameters['mimetype_filter'];
-				} else {
-					$mimetype_filter = '';
-				}
-				$pos = strpos($result['path'], $folder['item']);
-				$path = substr($result['path'], $pos).substr($parameters['folder'], strlen($folder['file_target']));
-				$root = substr($result['path'], 0, $pos);
-				$files = OC_FileCache::getFolderContent($path, $root, $mimetype_filter);
-				foreach ($files as &$file) {
-					$file['directory'] = $parameters['folder'];
-					$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
-					$permissions = $folder['permissions'];
-					if ($file['type'] == 'file') {
-						// Remove Create permission if type is file
-						$permissions &= ~OCP\Share::PERMISSION_CREATE;
-					}
-					$file['permissions'] = $permissions;
-				}
-				return $files;
-			}
-		}/* else if ($format == self::FORMAT_OPENDIR_ROOT) {
-			$query = OCP\DB::prepare('SELECT name FROM *PREFIX*fscache WHERE id IN ('.$ids.')');
-			$result = $query->execute();
-			$files = array();
-			while ($file = $result->fetchRow()) {
-				// Set target path
-				$files[] = basename($shares[$file['id']]['item_target']);
-			}
-			return $files;
-		}*/
-		return array();
-	}
-
 }
-
-
-?>

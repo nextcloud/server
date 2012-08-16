@@ -50,7 +50,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 				if (isset($this->files[$folder])) {
 					$file = $this->files[$folder];
 				} else {
-					$file = OCP\Share::getItemSharedWith('file', $folder, OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
+					$file = OCP\Share::getItemSharedWith('folder', $folder, OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
 				}
 				if ($file) {
 					$this->files[$target]['path'] = $file['path'].substr($target, strlen($folder));
@@ -285,19 +285,21 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	}
 	
 	public function file_put_contents($path, $data) {
-		if ($this->is_writable($path)) {
-			$source = $this->getSourcePath($path);
-			if ($source) {
-				$info = array(
-						'target' => $this->sharedFolder.$path,
-						'source' => $source,
-					     );
-				OCP\Util::emitHook('OC_Filestorage_Shared', 'file_put_contents', $info);
-				$storage = OC_Filesystem::getStorage($source);
-				$result = $storage->file_put_contents($this->getInternalPath($source), $data);
-				return $result;
+		if ($source = $this->getSourcePath($path)) {
+			// Check if permission is granted
+			if (($this->file_exists($path) && !$this->isUpdatable($path)) || ($this->is_dir($path) && !$this->isCreatable($path))) {
+				return false;
 			}
+			$info = array(
+					'target' => $this->sharedFolder.$path,
+					'source' => $source,
+				);
+			OCP\Util::emitHook('OC_Filestorage_Shared', 'file_put_contents', $info);
+			$storage = OC_Filesystem::getStorage($source);
+			$result = $storage->file_put_contents($this->getInternalPath($source), $data);
+			return $result;
 		}
+		return false;
 	}
 	
 	public function unlink($path) {

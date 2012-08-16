@@ -399,23 +399,28 @@ class Share {
 	*/
 	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1, $includeCollections = false, $itemShareWithBySource = false) {
 		$backend = self::getBackend($itemType);
-		// Get filesystem root to add it to the file target and remove from the file source
+		// Get filesystem root to add it to the file target and remove from the file source, match file_source with the file cache
 		if ($backend instanceof Share_Backend_File_Dependent) {
+			$fileDependent = true;
 			$root = \OC_Filesystem::getRoot();
+			// TODO No need to do this for FORMAT_STATUSES and loading the item in the dropdown, it's a performance waste
+			$where = 'INNER JOIN *PREFIX*fscache ON file_source = *PREFIX*fscache.id ';
 		} else {
+			$fileDependent = false;
+			$where = '';
 			$root = '';
 		}
 		if ($itemType == 'file' && !isset($item)) {
-			$where = 'WHERE file_target IS NOT NULL';
+			$where .= 'WHERE file_target IS NOT NULL';
 			$query_args = array();
 		} else if ($includeCollections && !isset($item) && $collectionTypes = self::getCollectionItemTypes($itemType)) {
 			// If includeCollections is true, find collections of this item type, e.g. a music album contains songs
 			$item_types = array_merge(array($itemType), $collectionTypes);
 			$placeholders = join(',', array_fill(0, count($item_types), '?'));
-			$where = "WHERE item_type IN ('".$placeholders."')";
+			$where .= "WHERE item_type IN ('".$placeholders."')";
 			$query_args = $item_types;
-		} else {
-			$where = "WHERE item_type = ?";
+		} else if ($itemType != 'file' && $itemType != 'folder') {
+			$where .= "WHERE item_type = ?";
 			$query_args = array($itemType);
 		}
 		if (isset($shareType) && isset($shareWith)) {
@@ -445,7 +450,6 @@ class Share {
 				$query_args[] = self::$shareTypeGroupUserUnique;
 			}
 			if ($itemType == 'file' || $itemType == 'folder') {
-				$where = "INNER JOIN *PREFIX*fscache ON file_source = *PREFIX*fscache.id ".$where;
 				$column = 'file_source';
 			} else {
 				$column = 'item_source';
@@ -491,6 +495,7 @@ class Share {
 			}
 			$where .= ' LIMIT '.$limit;
 		}
+		// TODO Optimize selects
 		if ($format == self::FORMAT_STATUSES) {
 			if ($itemType == 'file' || $itemType == 'folder') {
 				$select = '*PREFIX*share.id, item_type, *PREFIX*share.parent, share_type, *PREFIX*fscache.path as file_source';
@@ -505,7 +510,15 @@ class Share {
 					$select = 'id, item_type, item_source, parent, share_type, share_with, permissions, stime, file_source';
 				}
 			} else {
-				$select = '*';
+				if ($fileDependent) {
+					if (($itemType == 'file' || $itemType == 'folder') && $format == \OC_Share_Backend_File::FORMAT_FILE_APP || $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT) {
+						$select = '*PREFIX*share.id, item_type, *PREFIX*share.parent, share_type, share_with, permissions, file_target, *PREFIX*fscache.id, path as file_source, name, ctime, mtime, mimetype, size, encrypted, versioned, writable';
+					} else {
+						$select = '*PREFIX*share.id, item_type, item_source, item_target, *PREFIX*share.parent, share_type, share_with, permissions, stime, path as file_source, file_target';
+					}
+				} else {
+					$select = '*';
+				}
 			}
 		}
 		$root = strlen($root);
@@ -534,7 +547,7 @@ class Share {
 			// TODO Check this outside of the loop
 			// Check if this is a collection of the requested item type
 			if ($row['item_type'] != $itemType && $itemType != 'file' && !isset($item)) {
-				if ($collectionBackend = self::getBackend($row['item_type'])) {
+				if ($collectionBackend = self::getBackend($row['item_type'] && $collectionBackend instanceof Share_Backend_Collection)) {
 					$row['collection'] = array('item_type' => $itemType, $column => $row[$column]);
 					// Fetch all of the children sources
 					$children = $collectionBackend->getChildren($row[$column]);

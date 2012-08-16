@@ -27,10 +27,10 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	const FORMAT_OPENDIR = 3;
 
 	public function isValidSource($item, $uid) {
-// 		if (OC_Filesystem::file_exists($item)) {
+		if (OC_Filesystem::file_exists($item)) {
 			return true;
-// 		}
-// 		return false;
+		}
+		return false;
 	}
 
 	public function getFilePath($item, $uid) {
@@ -43,61 +43,48 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	}
 
 	public function formatItems($items, $format, $parameters = null) {
-		if ($format == self::FORMAT_OPENDIR) {
+		if ($format == self::FORMAT_SHARED_STORAGE) {
+			// Only 1 item should come through for this format call
+			return array('path' => $items[key($items)]['file_source'], 'permissions' => $items[key($items)]['permissions']);
+		} else if ($format == self::FORMAT_FILE_APP) {
 			$files = array();
-			foreach ($items as $file) {
-				$files[] = basename($file['file_target']);
+			foreach ($items as $item) {
+				$file = array();
+				$file['path'] = $item['file_target'];
+				$file['name'] = basename($item['file_target']);
+				$file['ctime'] = $item['ctime'];
+				$file['mtime'] = $item['mtime'];
+				$file['mimetype'] = $item['mimetype'];
+				$file['size'] = $item['size'];
+				$file['encrypted'] = $item['encrypted'];
+				$file['versioned'] = $item['versioned'];
+				$file['directory'] = $parameters['folder'];
+				$file['type'] = ($item['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
+				$file['permissions'] = $item['permissions'];
+				if ($file['type'] == 'file') {
+					// Remove Create permission if type is file
+					$file['permissions'] &= ~OCP\Share::PERMISSION_CREATE;
+				}
+				$files[] = $file;
 			}
 			return $files;
-		} else if ($format == self::FORMAT_SHARED_STORAGE) {
-			$id = $items[key($items)]['file_source'];
-			$query = OCP\DB::prepare('SELECT path FROM *PREFIX*fscache WHERE id = ?');
-			$result = $query->execute(array($id))->fetchAll();
-			if (isset($result[0]['path'])) {
-				return array('path' => $result[0]['path'], 'permissions' => $items[key($items)]['permissions']);
-			}
-			return false;
-		} else {
-			$shares = array();
-			$ids = array();
+		} else if ($format == self::FORMAT_FILE_APP_ROOT) {
+			$mtime = 0;
+			$size = 0;
 			foreach ($items as $item) {
-				$shares[$item['file_source']] = $item;
-				$ids[] = $item['file_source'];
-			}
-			$ids = "'".implode("','", $ids)."'";
-			if ($format == self::FORMAT_FILE_APP) {
-				$query = OCP\DB::prepare('SELECT id, path, name, ctime, mtime, mimetype, size, encrypted, versioned, writable FROM *PREFIX*fscache WHERE id IN ('.$ids.')');
-				$result = $query->execute();
-				$files = array();
-				while ($file = $result->fetchRow()) {
-					// Set target path
-					$file['path'] = $shares[$file['id']]['file_target'];
-					$file['name'] = basename($file['path']);
-					$file['directory'] = $parameters['folder'];
-					$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
-					$permissions = $shares[$file['id']]['permissions'];
-					if ($file['type'] == 'file') {
-						// Remove Create permission if type is file
-						$permissions &= ~OCP\Share::PERMISSION_CREATE;
-					}
-					$file['permissions'] = $permissions;
-					$files[] = $file;
+				if ($item['mtime'] > $mtime) {
+					$mtime = $item['mtime'];
 				}
-				return $files;
-			} else if ($format == self::FORMAT_FILE_APP_ROOT) {
-				$query = OCP\DB::prepare('SELECT id, path, name, ctime, mtime, mimetype, size, encrypted, versioned, writable FROM *PREFIX*fscache WHERE id IN ('.$ids.')');
-				$result = $query->execute();
-				$mtime = 0;
-				$size = 0;
-				while ($file = $result->fetchRow()) {
-					if ($file['mtime'] > $mtime) {
-						$mtime = $file['mtime'];
-					}
-					$size += $file['size'];
-				}
-				return array(0 => array('name' => 'Shared', 'mtime' => $mtime, 'mimetype' => 'httpd/unix-directory', 'size' => $size, 'writable' => false, 'type' => 'dir', 'directory' => '', 'permissions' => OCP\Share::PERMISSION_READ));
+				$size += $item['size'];
 			}
-		}
+			return array(0 => array('name' => 'Shared', 'mtime' => $mtime, 'mimetype' => 'httpd/unix-directory', 'size' => $size, 'writable' => false, 'type' => 'dir', 'directory' => '', 'permissions' => OCP\Share::PERMISSION_READ));
+		} else if ($format == self::FORMAT_OPENDIR) {
+			$files = array();
+			foreach ($items as $item) {
+				$files[] = basename($item['file_target']);
+			}
+			return $files;
+		} 
 		return array();
 	}
 

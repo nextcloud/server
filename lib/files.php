@@ -41,9 +41,9 @@ class OC_Files {
 				$pos = strpos($directory, '/', 8);
 				// Get shared folder name
 				if ($pos !== false) {
-					$itemTarget = substr($directory, 0, $pos);
+					$itemTarget = substr($directory, 7, $pos - 7);
 				} else {
-					$itemTarget = $directory;
+					$itemTarget = substr($directory, 7);
 				}
 				$files = OCP\Share::getItemSharedWith('folder', $itemTarget, OC_Share_Backend_File::FORMAT_FILE_APP, array('folder' => $directory, 'mimetype_filter' => $mimetype_filter));
 			}

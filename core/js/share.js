@@ -267,7 +267,6 @@ $(document).ready(function() {
 	
 	if (typeof FileActions !== 'undefined') {
 		OC.Share.loadIcons('file');
-		OC.Share.loadIcons('folder');
 		FileActions.register('all', 'Share', FileActions.PERMISSION_SHARE, function(filename) {
 			// Return the correct sharing icon
 			if (scanFiles.scanning) { return; } // workaround to prevent additional http request block scanning feedback
