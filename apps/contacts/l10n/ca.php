@@ -62,6 +62,7 @@
 "Error loading profile picture." => "Error en carregar la imatge de perfil.",
 "Select type" => "Seleccioneu un tipus",
 "Some contacts are marked for deletion, but not deleted yet. Please wait for them to be deleted." => "Heu marcat eliminar alguns contactes, però encara no s'han eliminat. Espereu mentre s'esborren.",
+"Do you want to merge these address books?" => "Voleu fusionar aquestes llibretes d'adreces?",
 "Result: " => "Resultat: ",
 " imported, " => " importat, ",
 " failed." => " fallada.",

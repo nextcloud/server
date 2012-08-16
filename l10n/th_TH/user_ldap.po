@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 15:30+0000\n"
+"POT-Creation-Date: 2012-08-17 00:44+0200\n"
+"PO-Revision-Date: 2012-08-16 12:20+0000\n"
 "Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr ""
 
 #: templates/settings.php:9
 msgid "Base DN"
-msgstr ""
+msgstr "DN ฐาน"
 
 #: templates/settings.php:9
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -37,7 +37,7 @@ msgstr ""
 
 #: templates/settings.php:10
 msgid "User DN"
-msgstr ""
+msgstr "DN ของผู้ใช้งาน"
 
 #: templates/settings.php:10
 msgid ""
@@ -52,7 +52,7 @@ msgstr "รหัสผ่าน"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "สำหรับการเข้าถึงโดยบุคคลนิรนาม ให้เว้นว่าง DN และรหัสผ่านไว้"
 
 #: templates/settings.php:12
 msgid "User Login Filter"
@@ -124,7 +124,7 @@ msgstr ""
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "ปิดใช้งานการตรวจสอบความถูกต้องของใบรับรองความปลอดภัย SSL"
 
 #: templates/settings.php:23
 msgid ""
@@ -138,7 +138,7 @@ msgstr "ไม่แนะนำให้ใช้งาน, ใช้สำห�
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
-msgstr ""
+msgstr "ช่องแสดงชื่อผู้ใช้งานที่ต้องการ"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
@@ -146,7 +146,7 @@ msgstr ""
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "ช่องแสดงชื่อกลุ่มที่ต้องการ"
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."

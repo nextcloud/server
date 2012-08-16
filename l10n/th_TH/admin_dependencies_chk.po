@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:02+0200\n"
-"PO-Revision-Date: 2012-08-14 13:17+0000\n"
+"POT-Creation-Date: 2012-08-17 00:44+0200\n"
+"PO-Revision-Date: 2012-08-16 12:24+0000\n"
 "Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -22,38 +22,38 @@ msgstr ""
 msgid ""
 "The php-json module is needed by the many applications for inter "
 "communications"
-msgstr ""
+msgstr "โมดูล php-json จำเป็นต้องใช้สำหรับแอพพลิเคชั่นหลายๆตัวเพื่อการเชื่อมต่อสากล"
 
 #: settings.php:39
 msgid ""
 "The php-curl modude is needed to fetch the page title when adding a "
 "bookmarks"
-msgstr ""
+msgstr "โมดูล php-curl จำเป็นต้องใช้สำหรับดึงข้อมูลชื่อหัวเว็บเมื่อเพิ่มเข้าไปยังรายการโปรด"
 
 #: settings.php:45
 msgid "The php-gd module is needed to create thumbnails of your images"
-msgstr ""
+msgstr "โมดูล php-gd จำเป็นต้องใช้สำหรับสร้างรูปภาพขนาดย่อของรูปภาพของคุณ"
 
 #: settings.php:51
 msgid "The php-ldap module is needed connect to your ldap server"
-msgstr ""
+msgstr "โมดูล php-ldap จำเป็นต้องใช้สำหรับการเชื่อมต่อกับเซิร์ฟเวอร์ ldap ของคุณ"
 
 #: settings.php:57
 msgid "The php-zip module is needed download multiple files at once"
-msgstr ""
+msgstr "โมดูล php-zip จำเป็นต้องใช้สำหรับดาวน์โหลดไฟล์พร้อมกันหลายๆไฟล์ในครั้งเดียว"
 
 #: settings.php:63
 msgid ""
 "The php-mb_multibyte module is needed to manage correctly the encoding."
-msgstr ""
+msgstr "โมดูล php-mb_multibyte จำเป็นต้องใช้สำหรับการจัดการการแปลงรหัสไฟล์อย่างถูกต้อง"
 
 #: settings.php:69
 msgid "The php-ctype module is needed validate data."
-msgstr ""
+msgstr "โมดูล php-ctype จำเป็นต้องใช้สำหรับตรวจสอบความถูกต้องของข้อมูล"
 
 #: settings.php:75
 msgid "The php-xml module is needed to share files with webdav."
-msgstr ""
+msgstr "โมดูล php-xml จำเป็นต้องใช้สำหรับแชร์ไฟล์ด้วย webdav"
 
 #: settings.php:81
 msgid ""
@@ -63,7 +63,7 @@ msgstr ""
 
 #: settings.php:87
 msgid "The php-pdo module is needed to store owncloud data into a database."
-msgstr ""
+msgstr "โมดูล php-pdo จำเป็นต้องใช้สำหรับจัดเก็บข้อมูลใน owncloud เข้าไปไว้ยังฐานข้อมูล"
 
 #: templates/settings.php:2
 msgid "Dependencies status"

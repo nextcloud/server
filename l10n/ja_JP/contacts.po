@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-16 02:04+0200\n"
-"PO-Revision-Date: 2012-08-16 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-17 00:44+0200\n"
+"PO-Revision-Date: 2012-08-16 04:45+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: ajax/addressbook/activate.php:24 ajax/addressbook/update.php:32
 msgid "Error (de)activating addressbook."
-msgstr "アドレスブックの有効/無効化に失敗しました。"
+msgstr "アドレス帳の有効／無効化に失敗しました。"
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
 #: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
@@ -31,11 +31,11 @@ msgstr "idが設定されていません。"
 
 #: ajax/addressbook/update.php:24
 msgid "Cannot update addressbook with an empty name."
-msgstr "空白の名前でアドレスブックを更新することはできません。"
+msgstr "空白の名前でアドレス帳を更新することはできません。"
 
 #: ajax/addressbook/update.php:28
 msgid "Error updating addressbook."
-msgstr "アドレスブックの更新に失敗しました。"
+msgstr "アドレス帳の更新に失敗しました。"
 
 #: ajax/categories/categoriesfor.php:17
 msgid "No ID provided"
@@ -51,7 +51,7 @@ msgstr "削除するカテゴリが選択されていません。"
 
 #: ajax/categories/delete.php:26
 msgid "No address books found."
-msgstr "アドレスブックが見つかりません。"
+msgstr "アドレス帳が見つかりません。"
 
 #: ajax/categories/delete.php:34
 msgid "No contacts found."
@@ -290,7 +290,7 @@ msgstr "いくつかのコンタクトが削除とマークされていますが
 
 #: js/contacts.js:1461
 msgid "Do you want to merge these address books?"
-msgstr ""
+msgstr "これらのアドレス帳をマージしてもよろしいですか？"
 
 #: js/loader.js:49
 msgid "Result: "
@@ -310,7 +310,7 @@ msgstr "表示名は空にできません。"
 
 #: lib/app.php:36
 msgid "Addressbook not found: "
-msgstr "連絡先が見つかりません:"
+msgstr "アドレス帳が見つかりません:"
 
 #: lib/app.php:49
 msgid "This is not your addressbook."
@@ -456,7 +456,7 @@ msgstr "設定"
 
 #: templates/index.php:18 templates/settings.php:9
 msgid "Addressbooks"
-msgstr "電話帳"
+msgstr "アドレス帳"
 
 #: templates/index.php:36 templates/part.import.php:24
 msgid "Close"
@@ -480,15 +480,15 @@ msgstr "リスト内の前のコンタクト"
 
 #: templates/index.php:46
 msgid "Expand/collapse current addressbook"
-msgstr "現在の連絡帳を展開する／折りたたむ"
+msgstr "現在のアドレス帳を展開する／折りたたむ"
 
 #: templates/index.php:48
 msgid "Next addressbook"
-msgstr "次の連絡先"
+msgstr "次のアドレス帳"
 
 #: templates/index.php:50
 msgid "Previous addressbook"
-msgstr "前の連絡先"
+msgstr "前のアドレス帳"
 
 #: templates/index.php:54
 msgid "Actions"
@@ -504,7 +504,7 @@ msgstr "新しいコンタクトを追加"
 
 #: templates/index.php:61
 msgid "Add new addressbook"
-msgstr "新しいアドレスブックを追加"
+msgstr "新しいアドレス帳を追加"
 
 #: templates/index.php:63
 msgid "Delete current contact"
@@ -586,7 +586,7 @@ msgstr "推奨"
 
 #: templates/part.contact.php:64
 msgid "Please specify a valid email address."
-msgstr "連絡先を追加"
+msgstr "有効なメールアドレスを指定してください。"
 
 #: templates/part.contact.php:64
 msgid "Enter email address"
@@ -701,7 +701,7 @@ msgstr "国名"
 
 #: templates/part.edit_name_dialog.php:16
 msgid "Addressbook"
-msgstr "アドレスブック"
+msgstr "アドレス帳"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
@@ -785,11 +785,11 @@ msgstr "コンタクトファイルをインポート"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr "アドレスブックを選択してください"
+msgstr "アドレス帳を選択してください"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr "新しいアドレスブックを作成"
+msgstr "新しいアドレス帳を作成"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
@@ -801,7 +801,7 @@ msgstr "コンタクトをインポート"
 
 #: templates/part.no_contacts.php:3
 msgid "You have no contacts in your addressbook."
-msgstr "アドレスブックに連絡先が登録されていません。"
+msgstr "アドレス帳に連絡先が登録されていません。"
 
 #: templates/part.no_contacts.php:5
 msgid "Add contact"
@@ -813,7 +813,7 @@ msgstr "アドレス帳を設定"
 
 #: templates/part.selectaddressbook.php:1
 msgid "Select Address Books"
-msgstr "連絡先を洗濯してください"
+msgstr "アドレス帳を選択してください"
 
 #: templates/part.selectaddressbook.php:27
 msgid "Enter name"
@@ -857,7 +857,7 @@ msgstr "編集"
 
 #: templates/settings.php:40
 msgid "New Address Book"
-msgstr "新規電話帳"
+msgstr "新規のアドレス帳"
 
 #: templates/settings.php:41
 msgid "Name"

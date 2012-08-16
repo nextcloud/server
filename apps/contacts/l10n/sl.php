@@ -62,6 +62,7 @@
 "Error loading profile picture." => "Napaka pri nalaganju slike profila.",
 "Select type" => "Izberite vrsto",
 "Some contacts are marked for deletion, but not deleted yet. Please wait for them to be deleted." => "Nekateri stiki so označeni za izbris, vendar še niso izbrisani. Prosimo, če počakate na njihov izbris.",
+"Do you want to merge these address books?" => "Ali želite združiti adresarje?",
 "Result: " => "Rezultati: ",
 " imported, " => " uvoženih, ",
 " failed." => " je spodletelo.",

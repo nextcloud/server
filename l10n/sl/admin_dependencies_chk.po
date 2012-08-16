@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-16 02:04+0200\n"
-"PO-Revision-Date: 2012-08-15 00:23+0000\n"
+"POT-Creation-Date: 2012-08-17 00:44+0200\n"
+"PO-Revision-Date: 2012-08-16 20:55+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -22,48 +22,48 @@ msgstr ""
 msgid ""
 "The php-json module is needed by the many applications for inter "
 "communications"
-msgstr "Modul php-json je potrebem"
+msgstr "Modul php-json je potreben za medsebojno komunikacijo veliko aplikacij."
 
 #: settings.php:39
 msgid ""
 "The php-curl modude is needed to fetch the page title when adding a "
 "bookmarks"
-msgstr ""
+msgstr "Modul php-curl je potreben za pridobivanje naslova strani pri dodajanju zaznamkov."
 
 #: settings.php:45
 msgid "The php-gd module is needed to create thumbnails of your images"
-msgstr ""
+msgstr "Modul php-gd je potreben za ustvarjanje sličic za predogled."
 
 #: settings.php:51
 msgid "The php-ldap module is needed connect to your ldap server"
-msgstr ""
+msgstr "Modul php-ldap je potreben za povezavo z vašim ldap strežnikom."
 
 #: settings.php:57
 msgid "The php-zip module is needed download multiple files at once"
-msgstr ""
+msgstr "Modul php-zip je potreben za prenašanje večih datotek hkrati."
 
 #: settings.php:63
 msgid ""
 "The php-mb_multibyte module is needed to manage correctly the encoding."
-msgstr ""
+msgstr "Modul php-mb_multibyte je potreben za pravilno upravljanje kodiranja."
 
 #: settings.php:69
 msgid "The php-ctype module is needed validate data."
-msgstr ""
+msgstr "Modul php-ctype je potreben za preverjanje veljavnosti podatkov."
 
 #: settings.php:75
 msgid "The php-xml module is needed to share files with webdav."
-msgstr ""
+msgstr "Modul php-xml je potreben za izmenjavo datotek preko protokola WebDAV."
 
 #: settings.php:81
 msgid ""
 "The allow_url_fopen directive of your php.ini should be set to 1 to retrieve"
 " knowledge base from OCS servers"
-msgstr ""
+msgstr "Direktiva allow_url_fopen v vaši php.ini datoteki mora biti nastavljena na 1, če želite omogočiti dostop do zbirke znanja na strežnikih OCS."
 
 #: settings.php:87
 msgid "The php-pdo module is needed to store owncloud data into a database."
-msgstr ""
+msgstr "Modul php-pdo je potreben za shranjevanje ownCloud podatkov v podatkovno zbirko."
 
 #: templates/settings.php:2
 msgid "Dependencies status"

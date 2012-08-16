@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-16 02:04+0200\n"
-"PO-Revision-Date: 2012-08-15 02:59+0000\n"
+"POT-Creation-Date: 2012-08-17 00:44+0200\n"
+"PO-Revision-Date: 2012-08-16 05:28+0000\n"
 "Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -32,12 +32,12 @@ msgstr "エラーが発生しました"
 
 #: templates/settings.php:2
 msgid "Export your user account"
-msgstr "あなたのユーザアカウントをエクスポート"
+msgstr "ユーザアカウントのエクスポート"
 
 #: templates/settings.php:3
 msgid ""
 "This will create a compressed file that contains your ownCloud account."
-msgstr "あなたのownCloudアカウントを含む圧縮形式のファイルを生成します。"
+msgstr "あなたのownCloudアカウントを含む圧縮ファイルを生成します。"
 
 #: templates/settings.php:13
 msgid "Import user account"
