@@ -77,7 +77,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 			<th id="headerPassword"><?php echo $l->t( 'Password' ); ?></th>
 			<th id="headerGroups"><?php echo $l->t( 'Groups' ); ?></th>
 			<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
-			<th id="headerSubAdmins"><?php echo $l->t('SubAdmin'); ?></th>
+			<th id="headerSubAdmins"><?php echo $l->t('Group Admin'); ?></th>
 			<?php endif;?>
 			<th id="headerQuota"><?php echo $l->t( 'Quota' ); ?></th>
 			<th id="headerRemove">&nbsp;</th>
@@ -109,7 +109,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 				class="subadminsselect"
 				data-username="<?php echo $user['name'] ;?>"
 				data-subadmin="<?php echo $user['subadmin'] ;?>"
-				data-placeholder="subadmins" title="<?php echo $l->t('SubAdmin')?>"
+				data-placeholder="subadmins" title="<?php echo $l->t('Group Admin')?>"
 				multiple="multiple">
 					<?php foreach($_["subadmingroups"] as $group): ?>
 					<option value="<?php echo $group;?>">

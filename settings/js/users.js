@@ -73,7 +73,7 @@ UserList={
 		groupsSelect.data('userGroups', groups);
 		tr.find('td.groups').empty();
 		if (tr.find('td.subadmins').length > 0) {
-			var subadminSelect = $('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('files', 'SubAdmin') + '">');
+			var subadminSelect = $('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('files', 'Group Admin') + '">');
 			subadminSelect.data('username', username);
 			subadminSelect.data('userGroups', groups);
 			subadminSelect.data('subadmin', subadmin);
