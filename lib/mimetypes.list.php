@@ -93,4 +93,5 @@ return array(
 	'pptx'=>'application/mspowerpoint',
 	'sgf' => 'application/sgf',
 	'cdr' => 'application/coreldraw',
+	'impress' => 'text/impress',
 );
