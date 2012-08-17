@@ -273,8 +273,10 @@ class OC_Calendar_Import{
 	 */
 	private function isDuplicate($insertid){
 		$newobject = OC_Calendar_Object::find($insertid);
-		$stmt = OCP\DB::prepare('SELECT COUNT(*) as count FROM *PREFIX*calendar_objects WHERE objecttype=? AND startdate=? AND enddate=? AND repeating=? AND summary=? AND calendardata=?');
-		$result = $stmt->execute(array($newobject['objecttype'],$newobject['startdate'],$newobject['enddate'],$newobject['repeating'],$newobject['summary'],$newobject['calendardata']));
+		$stmt = OCP\DB::prepare('SELECT COUNT(*) as count FROM *PREFIX*calendar_objects
+								 INNER JOIN *PREFIX*calendar_calendars ON calendarid=*PREFIX*calendar_calendars.id
+								 WHERE objecttype=? AND startdate=? AND enddate=? AND repeating=? AND summary=? AND calendardata=? AND userid = ?');
+		$result = $stmt->execute(array($newobject['objecttype'],$newobject['startdate'],$newobject['enddate'],$newobject['repeating'],$newobject['summary'],$newobject['calendardata'], $this->userid));
 		$result = $result->fetchRow();
 		if($result['count'] >= 2){
 			return true;
