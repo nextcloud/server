@@ -51,7 +51,6 @@
 "Create" => "Ustvari",
 "Default Quota" => "Privzeta količinska omejitev",
 "Other" => "Drugo",
-"SubAdmin" => "PodSkrbnik",
 "Quota" => "Količinska omejitev",
 "Delete" => "Izbriši"
 );

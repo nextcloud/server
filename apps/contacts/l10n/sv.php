@@ -62,6 +62,7 @@
 "Error loading profile picture." => "Fel vid hämtning av profilbild.",
 "Select type" => "Välj typ",
 "Some contacts are marked for deletion, but not deleted yet. Please wait for them to be deleted." => "Vissa kontakter är markerade för radering, men är inte raderade än. Vänta tills dom är raderade.",
+"Do you want to merge these address books?" => "Vill du slå samman dessa adressböcker?",
 "Result: " => "Resultat:",
 " imported, " => "importerad,",
 " failed." => "misslyckades.",

@@ -47,7 +47,6 @@
 "Create" => "Ny",
 "Default Quota" => "Standard kvote",
 "Other" => "Andet",
-"SubAdmin" => "SubAdmin",
 "Quota" => "Kvote",
 "Delete" => "Slet"
 );

@@ -47,7 +47,6 @@
 "Create" => "Létrehozás",
 "Default Quota" => "Alapértelmezett kvóta",
 "Other" => "Egyéb",
-"SubAdmin" => "al-Admin",
 "Quota" => "Kvóta",
 "Delete" => "Törlés"
 );

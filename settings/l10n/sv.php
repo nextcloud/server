@@ -12,6 +12,10 @@
 "Saving..." => "Sparar...",
 "__language_name__" => "__language_name__",
 "Security Warning" => "Säkerhetsvarning",
+"Cron" => "Cron",
+"execute one task with each page loaded" => "utför en uppgift vid varje sidladdning",
+"cron.php is registered at a webcron service" => "cron.php är registrerad på en webcron-tjänst",
+"use systems cron service" => "använd systemets cron-tjänst",
 "Log" => "Logg",
 "More" => "Mera",
 "Add your App" => "Lägg till din applikation",
@@ -47,7 +51,6 @@
 "Create" => "Skapa",
 "Default Quota" => "Förvald datakvot",
 "Other" => "Annat",
-"SubAdmin" => "Underadministratör",
 "Quota" => "Kvot",
 "Delete" => "Ta bort"
 );

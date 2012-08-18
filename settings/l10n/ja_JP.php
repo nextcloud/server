@@ -51,7 +51,6 @@
 "Create" => "作成",
 "Default Quota" => "デフォルトのクォータサイズ",
 "Other" => "その他",
-"SubAdmin" => "サブ管理者",
 "Quota" => "クオータ",
 "Delete" => "削除"
 );

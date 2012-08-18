@@ -47,7 +47,6 @@
 "Create" => "Krei",
 "Default Quota" => "Defaŭlta kvoto",
 "Other" => "Alia",
-"SubAdmin" => "Subadministranto",
 "Quota" => "Kvoto",
 "Delete" => "Forigi"
 );

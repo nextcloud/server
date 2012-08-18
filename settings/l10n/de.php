@@ -51,7 +51,6 @@
 "Create" => "Anlegen",
 "Default Quota" => "Standard Quota",
 "Other" => "Andere",
-"SubAdmin" => "Unteradministrator",
 "Quota" => "Quota",
 "Delete" => "Löschen"
 );

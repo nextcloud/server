@@ -7,15 +7,16 @@
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
 #   <icewind1991@gmail.com>, 2012.
 # Marios Bekatoros <>, 2012.
+# Nisok Kosin <nikos.efthimiou@gmail.com>, 2012.
 #   <petros.kyladitis@gmail.com>, 2011.
 # Petros Kyladitis <petros.kyladitis@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-12 02:02+0200\n"
-"PO-Revision-Date: 2012-08-12 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-18 02:01+0200\n"
+"PO-Revision-Date: 2012-08-18 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +26,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Σφάλμα στην φόρτωση της λίστας από το App Store"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -53,7 +54,7 @@ msgstr "Η γλώσσα άλλαξε"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "Σφάλμα"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
@@ -77,19 +78,19 @@ msgstr "Προειδοποίηση Ασφαλείας"
 
 #: templates/admin.php:29
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:31
 msgid "execute one task with each page loaded"
-msgstr ""
+msgstr "Εκτέλεση μίας εργασίας με κάθε σελίδα που φορτώνεται"
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "Το cron.php έχει καταχωρηθεί σε μια webcron υπηρεσία"
 
 #: templates/admin.php:35
 msgid "use systems cron service"
-msgstr ""
+msgstr "Χρήση της υπηρεσίας cron του συστήματος"
 
 #: templates/admin.php:39
 msgid "Log"
@@ -232,8 +233,8 @@ msgid "Other"
 msgstr "Άλλα"
 
 #: templates/users.php:80 templates/users.php:112
-msgid "SubAdmin"
-msgstr "SubAdmin"
+msgid "Group Admin"
+msgstr ""
 
 #: templates/users.php:82
 msgid "Quota"

@@ -51,7 +51,6 @@
 "Create" => "Vytvořit",
 "Default Quota" => "Výchozí kvóta",
 "Other" => "Jiné",
-"SubAdmin" => "SubAdmin",
 "Quota" => "Kvóta",
 "Delete" => "Vymazat"
 );

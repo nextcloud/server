@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-12 02:02+0200\n"
-"PO-Revision-Date: 2012-08-12 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-18 02:01+0200\n"
+"PO-Revision-Date: 2012-08-18 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Somali (http://www.transifex.com/projects/p/owncloud/language/so/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -226,7 +226,7 @@ msgid "Other"
 msgstr ""
 
 #: templates/users.php:80 templates/users.php:112
-msgid "SubAdmin"
+msgid "Group Admin"
 msgstr ""
 
 #: templates/users.php:82

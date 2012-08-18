@@ -1,15 +1,18 @@
 <?php $TRANSLATIONS = array(
+"Unable to load list from App Store" => "Nie mogę załadować listy aplikacji",
 "Email saved" => "Email zapisany",
 "Invalid email" => "Niepoprawny email",
 "OpenID Changed" => "Zmieniono OpenID",
 "Invalid request" => "Nieprawidłowe żądanie",
 "Authentication error" => "Błąd uwierzytelniania",
 "Language changed" => "Język zmieniony",
+"Error" => "Błąd",
 "Disable" => "Wyłączone",
 "Enable" => "Włączone",
 "Saving..." => "Zapisywanie...",
 "__language_name__" => "Polski",
 "Security Warning" => "Ostrzeżenia bezpieczeństwa",
+"Cron" => "Cron",
 "Log" => "Log",
 "More" => "Więcej",
 "Add your App" => "Dodaj aplikacje",
@@ -45,7 +48,6 @@
 "Create" => "Utwórz",
 "Default Quota" => "Domyślny udział",
 "Other" => "Inne",
-"SubAdmin" => "SubAdmin",
 "Quota" => "Udział",
 "Delete" => "Usuń"
 );

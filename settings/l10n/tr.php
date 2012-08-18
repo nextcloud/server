@@ -45,7 +45,6 @@
 "Create" => "Oluştur",
 "Default Quota" => "Varsayılan Kota",
 "Other" => "Diğer",
-"SubAdmin" => "Alt Yönetici",
 "Quota" => "Kota",
 "Delete" => "Sil"
 );

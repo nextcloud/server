@@ -51,7 +51,6 @@
 "Create" => "Crea",
 "Default Quota" => "Quota predefinita",
 "Other" => "Altro",
-"SubAdmin" => "SubAdmin",
 "Quota" => "Quote",
 "Delete" => "Elimina"
 );

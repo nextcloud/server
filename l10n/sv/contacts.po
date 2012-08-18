@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-16 02:04+0200\n"
-"PO-Revision-Date: 2012-08-16 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-18 02:01+0200\n"
+"PO-Revision-Date: 2012-08-17 07:25+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -294,7 +294,7 @@ msgstr "Vissa kontakter är markerade för radering, men är inte raderade än. 
 
 #: js/contacts.js:1461
 msgid "Do you want to merge these address books?"
-msgstr ""
+msgstr "Vill du slå samman dessa adressböcker?"
 
 #: js/loader.js:49
 msgid "Result: "

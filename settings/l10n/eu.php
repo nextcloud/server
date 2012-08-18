@@ -45,7 +45,6 @@
 "Create" => "Sortu",
 "Default Quota" => "Kuota lehentsia",
 "Other" => "Besteak",
-"SubAdmin" => "SubAdmin",
 "Quota" => "Kuota",
 "Delete" => "Ezabatu"
 );
