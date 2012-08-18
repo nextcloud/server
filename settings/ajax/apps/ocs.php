@@ -35,7 +35,7 @@ if(is_array($catagoryNames)){
 		// show only external apps that aren't enabled yet
 		$local=false;
 		foreach($enabledApps as $a){
-			if($a['name'] == $app['name']) {
+			if($a == $app['name']) {
 				$local=true;
 			}
 		}
