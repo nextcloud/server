@@ -147,6 +147,16 @@ class OC_FilesystemView {
 			return $storage->getLocalFile($this->getInternalPath($path));
 		}
 	}
+	/**
+	 * @param string path
+	 * @return string
+	 */
+	public function getLocalFolder($path) {
+		$parent=substr($path, 0, strrpos($path,'/'));
+		if(OC_Filesystem::isValidPath($parent) and $storage=$this->getStorage($path)) {
+			return $storage->getLocalFolder($this->getInternalPath($path));
+		}
+	}
 
 	/**
 	 * the following functions operate with arguments and return values identical

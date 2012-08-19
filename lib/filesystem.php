@@ -336,6 +336,13 @@ class OC_Filesystem{
 	static public function getLocalFile($path){
 		return self::$defaultInstance->getLocalFile($path);
 	}
+	/**
+	 * @param string path
+	 * @return string
+	 */
+	static public function getLocalFolder($path){
+		return self::$defaultInstance->getLocalFolder($path);
+	}
 	
 	/**
 	* return path to file which reflects one visible in browser
