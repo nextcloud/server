@@ -552,6 +552,9 @@ class OC_Contacts_VCard{
 				}
 			}
 		}
+		if(is_string($value)) {
+			$value = strtr($value, array('\,' => ',', '\;' => ';'));
+		}
 		$temp = array(
 			'name' => $property->name,
 			'value' => $value,
