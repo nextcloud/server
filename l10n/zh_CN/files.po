@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <rainofchaos@gmail.com>, 2012.
 #   <wengxt@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-31 22:53+0200\n"
-"PO-Revision-Date: 2012-07-31 20:54+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-19 02:02+0200\n"
+"PO-Revision-Date: 2012-08-18 05:47+0000\n"
+"Last-Translator: leonfeng <rainofchaos@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,7 +55,7 @@ msgstr "文件"
 
 #: js/fileactions.js:95
 msgid "Unshare"
-msgstr ""
+msgstr "取消共享"
 
 #: js/fileactions.js:97 templates/index.php:56
 msgid "Delete"
@@ -62,19 +63,19 @@ msgstr "删除"
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr ""
+msgstr "已经存在"
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr ""
+msgstr "替换"
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "取消"
 
 #: js/filelist.js:195
 msgid "replaced"
-msgstr ""
+msgstr "已经替换"
 
 #: js/filelist.js:195
 msgid "with"
@@ -82,11 +83,11 @@ msgstr ""
 
 #: js/filelist.js:195 js/filelist.js:256
 msgid "undo"
-msgstr ""
+msgstr "撤销"
 
 #: js/filelist.js:256
 msgid "deleted"
-msgstr ""
+msgstr "已经删除"
 
 #: js/files.js:170
 msgid "generating ZIP-file, it may take some time."
@@ -112,27 +113,27 @@ msgstr "上传已取消"
 msgid "Invalid name, '/' is not allowed."
 msgstr "非法的名称，不允许使用‘/’。"
 
-#: js/files.js:631 templates/index.php:55
+#: js/files.js:694 templates/index.php:55
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:632 templates/index.php:56
+#: js/files.js:695 templates/index.php:56
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:659
+#: js/files.js:722
 msgid "folder"
 msgstr "文件夹"
 
-#: js/files.js:661
+#: js/files.js:724
 msgid "folders"
 msgstr "文件夹"
 
-#: js/files.js:669
+#: js/files.js:732
 msgid "file"
 msgstr "文件"
 
-#: js/files.js:671
+#: js/files.js:734
 msgid "files"
 msgstr "文件"
 

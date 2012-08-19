@@ -8,15 +8,16 @@
 #   <jekader@gmail.com>, 2012.
 #   <lankme@gmail.com>, 2012.
 # Nick Remeslennikov <homolibere@gmail.com>, 2012.
+#   <rasperepodvipodvert@gmail.com>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-18 02:01+0200\n"
-"PO-Revision-Date: 2012-08-18 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-19 02:02+0200\n"
+"PO-Revision-Date: 2012-08-18 11:59+0000\n"
+"Last-Translator: rasperepodvipodvert <rasperepodvipodvert@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Загрузка из App Store запрещена"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -54,7 +55,7 @@ msgstr "Язык изменён"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
@@ -78,19 +79,19 @@ msgstr "Предупреждение безопасности"
 
 #: templates/admin.php:29
 msgid "Cron"
-msgstr ""
+msgstr "Задание"
 
 #: templates/admin.php:31
 msgid "execute one task with each page loaded"
-msgstr ""
+msgstr "Запускать задание при загрузке каждой страницы"
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "cron.php зарегистрирован в webcron сервисе"
 
 #: templates/admin.php:35
 msgid "use systems cron service"
-msgstr ""
+msgstr "использовать системные задания"
 
 #: templates/admin.php:39
 msgid "Log"
@@ -234,7 +235,7 @@ msgstr "Другое"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "Группа Администраторы"
 
 #: templates/users.php:82
 msgid "Quota"

@@ -33,7 +33,7 @@
 "of the available" => "su un totale di",
 "Desktop and Mobile Syncing Clients" => "Client di sincronizzazione desktop e mobile",
 "Download" => "Scaricamento",
-"Your password got changed" => "La tua password è stata cambiat",
+"Your password got changed" => "La tua password è stata cambiata",
 "Unable to change your password" => "Modifica password non riuscita",
 "Current password" => "Password attuale",
 "New password" => "Nuova password",
@@ -51,6 +51,7 @@
 "Create" => "Crea",
 "Default Quota" => "Quota predefinita",
 "Other" => "Altro",
+"Group Admin" => "Gruppo di amministrazione",
 "Quota" => "Quote",
 "Delete" => "Elimina"
 );

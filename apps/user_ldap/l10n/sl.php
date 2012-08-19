@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Host" => "Gostitelj",
+"You can omit the protocol, except you require SSL. Then start with ldaps://" => "Protokol lahko izpustite, razen če zahtevate SSL. V tem primeru začnite z ldaps://",
 "Base DN" => "Osnovni DN",
 "You can specify Base DN for users and groups in the Advanced tab" => "Osnovni DN za uporabnike in skupine lahko določite v zavihku Napredno",
 "User DN" => "Uporabnik DN",
@@ -8,7 +9,10 @@
 "User Login Filter" => "Filter prijav uporabnikov",
 "use %%uid placeholder, e.g. \"uid=%%uid\"" => "uporabite ogrado %%uid, npr. \"uid=%%uid\"",
 "User List Filter" => "Filter seznama uporabnikov",
+"Defines the filter to apply, when retrieving users." => "Določi filter za uporabo med pridobivanjem uporabnikov.",
+"without any placeholder, e.g. \"objectClass=person\"." => "Brez katerekoli ograde, npr. \"objectClass=person\".",
 "Group Filter" => "Filter skupin",
+"Defines the filter to apply, when retrieving groups." => "Določi filter za uporabo med pridobivanjem skupin.",
 "Port" => "Vrata",
 "Use TLS" => "Uporabi TLS",
 "Do not use it for SSL connections, it will fail." => "Ne uporabljajte ga za SSL povezave, saj ne bo delovalo.",

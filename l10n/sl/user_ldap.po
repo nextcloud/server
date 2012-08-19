@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-18 02:01+0200\n"
-"PO-Revision-Date: 2012-08-17 19:31+0000\n"
+"POT-Creation-Date: 2012-08-19 02:02+0200\n"
+"PO-Revision-Date: 2012-08-18 14:56+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Gostitelj"
 #: templates/settings.php:8
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Protokol lahko izpustite, razen če zahtevate SSL. V tem primeru začnite z ldaps://"
 
 #: templates/settings.php:9
 msgid "Base DN"
@@ -76,11 +76,11 @@ msgstr "Filter seznama uporabnikov"
 
 #: templates/settings.php:13
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Določi filter za uporabo med pridobivanjem uporabnikov."
 
 #: templates/settings.php:13
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "Brez katerekoli ograde, npr. \"objectClass=person\"."
 
 #: templates/settings.php:14
 msgid "Group Filter"
@@ -88,7 +88,7 @@ msgstr "Filter skupin"
 
 #: templates/settings.php:14
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Določi filter za uporabo med pridobivanjem skupin."
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."

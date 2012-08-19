@@ -51,6 +51,7 @@
 "Create" => "Ustvari",
 "Default Quota" => "Privzeta količinska omejitev",
 "Other" => "Drugo",
+"Group Admin" => "Administrator skupine",
 "Quota" => "Količinska omejitev",
 "Delete" => "Izbriši"
 );

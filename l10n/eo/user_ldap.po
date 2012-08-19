@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-16 02:04+0200\n"
-"PO-Revision-Date: 2012-08-15 20:54+0000\n"
+"POT-Creation-Date: 2012-08-19 02:02+0200\n"
+"PO-Revision-Date: 2012-08-18 14:28+0000\n"
 "Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "Filtrilo de uzantensaluto"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Ĝi difinas la filtrilon aplikotan, kiam oni provas ensaluti. %%uid anstataŭigas la uzantonomon en la ensaluta ago."
 
 #: templates/settings.php:12
 #, php-format
@@ -76,7 +76,7 @@ msgstr "Filtrilo de uzantolisto"
 
 #: templates/settings.php:13
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Ĝi difinas la filtrilon aplikotan, kiam veniĝas uzantoj."
 
 #: templates/settings.php:13
 msgid "without any placeholder, e.g. \"objectClass=person\"."
@@ -88,7 +88,7 @@ msgstr "Filtrilo de grupo"
 
 #: templates/settings.php:14
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Ĝi difinas la filtrilon aplikotan, kiam veniĝas grupoj."
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
@@ -120,7 +120,7 @@ msgstr "Ne uzu ĝin por SSL-konektoj, ĝi malsukcesos."
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "LDAP-servilo blinda je litergrandeco (Vindozo)"
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
