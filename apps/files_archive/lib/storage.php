@@ -39,10 +39,17 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 	}
 	public function opendir($path){
 		$path=$this->stripPath($path);
-		$content=$this->archive->getFolder($path);
-		foreach($content as &$file){
+		if(substr($path,-1)!=='/'){
+			$path.='/';
+		}
+		$files=$this->archive->getFolder($path);
+		$content=array();
+		foreach($files as $file){
 			if(substr($file,-1)=='/'){
 				$file=substr($file,0,-1);
+			}
+			if($file and strpos($file,'/')===false){
+				$content[]=$file;
 			}
 		}
 		$id=md5($this->path.$path);
