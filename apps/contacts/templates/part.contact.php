@@ -22,7 +22,6 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<li><a class="svg cloud" title="<?php echo $l->t('Select photo from ownCloud'); ?>"></a></li>
 	</ul>
 	</div>
-	<img />
 	</div> <!-- contact_photo -->
 
 	<div id="contact_identity" class="contactsection">
