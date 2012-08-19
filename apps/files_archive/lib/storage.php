@@ -111,6 +111,19 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 			return false;//not supported
 		}
 	}
+	private function toTmpFile($path){
+		$tmpFile=OC_Helper::tmpFile($extension);
+		$this->archive->extractFile($path,$tmpFile);
+		return $tmpFile;
+	}
+	public function file_put_contents($path,$data) {
+		$path=$this->stripPath($path);
+		return $this->archive->addFile($path,$data);
+	}
+	public function file_get_contents($path) {
+		$path=$this->stripPath($path);
+		return $this->archive->getFile($path);
+	}
 
 	/**
 	 * automount paths from file hooks
