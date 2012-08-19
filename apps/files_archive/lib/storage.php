@@ -57,7 +57,7 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 		return opendir('fakedir://'.$id);
 	}
 	public function stat($path){
-		$ctime=filectime($this->path);
+		$ctime=-1;
 		$path=$this->stripPath($path);
 		if($path==''){
 			$stat=stat($this->path);
