@@ -38,10 +38,10 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 		return $this->archive->remove($path.'/');
 	}
 	public function opendir($path){
-		$path=$this->stripPath($path);
 		if(substr($path,-1)!=='/'){
 			$path.='/';
 		}
+		$path=$this->stripPath($path);
 		$files=$this->archive->getFolder($path);
 		$content=array();
 		foreach($files as $file){
