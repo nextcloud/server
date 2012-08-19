@@ -223,6 +223,26 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		OC_Helper::streamCopy($source,$target);
 		return $tmpFile;
 	}
+	public function getLocalFolder($path){
+		$baseDir=OC_Helper::tmpFolder();
+		$this->addLocalFolder($path,$baseDir);
+		return $baseDir;
+	}
+	private function addLocalFolder($path,$target){
+		if($dh=$this->opendir($path)){
+			while($file=readdir($dh)){
+				if($file!=='.' and $file!=='..'){
+					if($this->is_dir($path.'/'.$file)){
+						mkdir($target.'/'.$file);
+						$this->addLocalFolder($path.'/'.$file,$target.'/'.$file);
+					}else{
+						$tmp=$this->toTmpFile($path.'/'.$file);
+						rename($tmp,$target.'/'.$file);
+					}
+				}
+			}
+		}
+	}
 // 	abstract public function touch($path, $mtime=null);
 
 	protected function searchInDir($query,$dir=''){

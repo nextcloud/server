@@ -129,12 +129,25 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertEqual(file_get_contents($textFile),$this->instance->file_get_contents('/target.txt'));
 	}
 	
-	public function testLocalFile(){
+	public function testLocal(){
 		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/lorem.txt',file_get_contents($textFile));
 		$localFile=$this->instance->getLocalFile('/lorem.txt');
 		$this->assertTrue(file_exists($localFile));
 		$this->assertEqual(file_get_contents($localFile),file_get_contents($textFile));
+		
+		$this->instance->mkdir('/folder');
+		$this->instance->file_put_contents('/folder/lorem.txt',file_get_contents($textFile));
+		$this->instance->file_put_contents('/folder/bar.txt','asd');
+		$this->instance->mkdir('/folder/recursive');
+		$this->instance->file_put_contents('/folder/recursive/file.txt','foo');
+		$localFolder=$this->instance->getLocalFolder('/folder');
+
+		$this->assertTrue(is_dir($localFolder));
+		$this->assertTrue(file_exists($localFolder.'/lorem.txt'));
+		$this->assertEqual(file_get_contents($localFolder.'/lorem.txt'),file_get_contents($textFile));
+		$this->assertEqual(file_get_contents($localFolder.'/bar.txt'),'asd');
+		$this->assertEqual(file_get_contents($localFolder.'/recursive/file.txt'),'foo');
 	}
 
 	public function testStat(){

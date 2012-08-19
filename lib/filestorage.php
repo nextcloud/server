@@ -50,6 +50,7 @@ abstract class OC_Filestorage{
 	abstract public function search($query);
 	abstract public function touch($path, $mtime=null);
 	abstract public function getLocalFile($path);// get a path to a local version of the file, whether the original file is local or remote
+	abstract public function getLocalFolder($path);// get a path to a local version of the folder, whether the original file is local or remote
 	/**
 	 * check if a file or folder has been updated since $time
 	 * @param int $time

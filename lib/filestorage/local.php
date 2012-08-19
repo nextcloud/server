@@ -168,7 +168,10 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		return $this->searchInDir($query);
 	}
 	public function getLocalFile($path){
-			return $this->datadir.$path;
+		return $this->datadir.$path;
+	}
+	public function getLocalFolder($path){
+		return $this->datadir.$path;
 	}
 
 	protected function searchInDir($query,$dir=''){
