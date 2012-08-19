@@ -36,7 +36,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @return bool
 	 */
 	function addFile($path,$source=''){
-		if(file_exists($source)){
+		if($source and $source[0]=='/' and file_exists($source)){
 			$result=$this->zip->addFile($source,$path);
 		}else{
 			$result=$this->zip->addFromString($path,$source);

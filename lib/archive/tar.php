@@ -79,7 +79,7 @@ class OC_Archive_TAR extends OC_Archive{
 		if($this->fileExists($path)){
 			$this->remove($path);
 		}
-		if(file_exists($source)){
+		if($source and $source[0]=='/' and file_exists($source)){
 			$header=array();
 			$dummy='';
 			$this->tar->_openAppend();
