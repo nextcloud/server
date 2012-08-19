@@ -61,6 +61,7 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 		$path=$this->stripPath($path);
 		if($path==''){
 			$stat=stat($this->path);
+			$stat['size']=0;
 		}else{
 			if($this->is_dir($path)){
 				$stat=array('size'=>0);
@@ -69,6 +70,9 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 				$stat=array();
 				$stat['mtime']=$this->archive->mtime($path);
 				$stat['size']=$this->archive->filesize($path);
+				if(!$stat['mtime']){
+					$stat['mtime']=time();
+				}
 			}
 		}
 		$stat['ctime']=$ctime;
@@ -162,5 +166,9 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 
 	public function rename($path1,$path2){
 		return $this->archive->rename($path1,$path2);
+	}
+
+	public function hasUpdated($path,$time){
+		return $this->filemtime($this->path)>$time;
 	}
 }
