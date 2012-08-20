@@ -166,23 +166,15 @@ FileList={
 	},
 	do_delete:function(files){
 		if(FileList.deleteFiles || !FileList.useUndo){//finish any ongoing deletes first
+			if(!FileList.deleteFiles) {
+				FileList.prepareDeletion(files);
+			}
 			FileList.finishDelete(function(){
 				FileList.do_delete(files);
 			});
 			return;
 		}
-		if(files.substr){
-			files=[files];
-		}
-		$.each(files,function(index,file){
-			var files = $('tr').filterAttr('data-file',file);
-			files.hide();
-			files.find('input[type="checkbox"]').removeAttr('checked');
-			files.removeClass('selected');
-		});
-		procesSelection();
-		FileList.deleteCanceled=false;
-		FileList.deleteFiles=files;
+		FileList.prepareDeletion(files);
 		$('#notification').text(t('files','undo deletion'));
 		$('#notification').data('deletefile',true);
 		$('#notification').fadeIn();
@@ -209,6 +201,20 @@ FileList={
 				}
 			});
 		}
+	},
+	prepareDeletion:function(files){
+		if(files.substr){
+			files=[files];
+		}
+		$.each(files,function(index,file){
+			var files = $('tr').filterAttr('data-file',file);
+			files.hide();
+			files.find('input[type="checkbox"]').removeAttr('checked');
+			files.removeClass('selected');
+		});
+		procesSelection();
+		FileList.deleteCanceled=false;
+		FileList.deleteFiles=files;
 	}
 }
 
