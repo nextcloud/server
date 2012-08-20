@@ -63,19 +63,13 @@ class Test_Share extends UnitTestCase {
 
 	public function testShareInvalidShareType() {
 		$this->expectException(new Exception('Share type foobar is not valid for test.txt'));
-		OCP\Share::shareItem('test', 'test.txt', 'foobar', $this->user2, OCP\Share::PERMISSION_READ);
+		OCP\Share::shareItem('test', 'test.txt', 'test.txt', 'foobar', $this->user2, OCP\Share::PERMISSION_READ);
 	}
 
 	public function testInvalidItemType() {
 		$message = 'Sharing backend for foobar not found';
 		try {
-			OCP\Share::shareItem('foobar', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ);
-			$this->fail('Exception was expected: '.$message);
-		} catch (Exception $exception) {
-			$this->assertEqual($exception->getMessage(), $message);
-		}
-		try {
-			OCP\Share::shareItem('foobar', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('foobar', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
@@ -122,28 +116,28 @@ class Test_Share extends UnitTestCase {
 		// Invalid shares
 		$message = 'Sharing test.txt failed, because the user '.$this->user1.' is the item owner';
 		try {
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user1, OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user1, OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
 		}
 		$message = 'Sharing test.txt failed, because the user foobar does not exist';
 		try {
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, 'foobar', OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, 'foobar', OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
 		}
 		$message = 'Sharing foobar failed, because the sharing backend for test could not find its source';
 		try {
-			OCP\Share::shareItem('test', 'foobar', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('test', 'foobar', 'foobar', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
 		}
 		
 		// Valid share
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
 		$this->assertEqual(OCP\Share::getItemShared('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE), array('test.txt'));
 		OC_User::setUserId($this->user2);
 		$this->assertEqual(OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE), array('test.txt'));
@@ -152,7 +146,7 @@ class Test_Share extends UnitTestCase {
 		OC_User::setUserId($this->user1);
 		$message = 'Sharing test.txt failed, because this item is already shared with '.$this->user2;
 		try {
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
@@ -162,7 +156,7 @@ class Test_Share extends UnitTestCase {
 		OC_User::setUserId($this->user2);
 		$message = 'Sharing test.txt failed, because the user '.$this->user1.' is the original sharer';
 		try {
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user1, OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user1, OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
@@ -173,11 +167,11 @@ class Test_Share extends UnitTestCase {
 		$this->assertTrue(OCP\Share::unshare('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2));
 		
 		// Attempt reshare without share permission
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
 		OC_User::setUserId($this->user2);
 		$message = 'Sharing test.txt failed, because resharing is not allowed';
 		try {
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user3, OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user3, OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
@@ -191,14 +185,14 @@ class Test_Share extends UnitTestCase {
 		OC_User::setUserId($this->user2);
 		$message = 'Sharing test.txt failed, because the permissions exceed permissions granted to '.$this->user2;
 		try {
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user3, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_DELETE);
+			OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user3, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_DELETE);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
 		}
 		
 		// Valid reshare
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user3, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE));
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user3, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE));
 		$this->assertEqual(OCP\Share::getItemShared('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE), array('test.txt'));
 		OC_User::setUserId($this->user3);
 		$this->assertEqual(OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE), array('test.txt'));
@@ -234,7 +228,7 @@ class Test_Share extends UnitTestCase {
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(OCP\Share::setPermissions('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
 		OC_User::setUserId($this->user2);
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user3, OCP\Share::PERMISSION_READ));
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user3, OCP\Share::PERMISSION_READ));
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(OCP\Share::unshare('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2));
 		OC_User::setUserId($this->user2);
@@ -244,9 +238,9 @@ class Test_Share extends UnitTestCase {
 		
 		// Attempt target conflict
 		OC_User::setUserId($this->user1);
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
 		OC_User::setUserId($this->user3);
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
 		OC_User::setUserId($this->user2);
 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt', 'test1.txt'));
 		
@@ -260,21 +254,21 @@ class Test_Share extends UnitTestCase {
 		// Invalid shares
 		$message = 'Sharing test.txt failed, because the group foobar does not exist';
 		try {
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, 'foobar', OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, 'foobar', OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
 		}
 		$message = 'Sharing test.txt failed, because '.$this->user1.' is not a member of the group '.$this->group2;
 		try {
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group2, OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group2, OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
 		}
 		
 		// Valid share
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ));
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ));
 		$this->assertEqual(OCP\Share::getItemShared('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE), array('test.txt'));
 		OC_User::setUserId($this->user2);
 		$this->assertEqual(OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE), array('test.txt'));
@@ -285,7 +279,7 @@ class Test_Share extends UnitTestCase {
 		OC_User::setUserId($this->user1);
 		$message = 'Sharing test.txt failed, because this item is already shared with '.$this->group1;
 		try {
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
@@ -295,7 +289,7 @@ class Test_Share extends UnitTestCase {
 		OC_User::setUserId($this->user2);
 		$message = 'Sharing test.txt failed, because the user '.$this->user1.' is the original sharer';
 		try {
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user1, OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user1, OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
@@ -304,7 +298,7 @@ class Test_Share extends UnitTestCase {
 		// Attempt to share back to group
 		$message = 'Sharing test.txt failed, because the item was orignally shared with the group '.$this->group1;
 		try {
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
@@ -313,7 +307,7 @@ class Test_Share extends UnitTestCase {
 		// Attempt to share back to member of group
 		$message = 'Sharing test.txt failed, because the user '.$this->user3.' is a member of the original group share';
 		try {
-			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user3, OCP\Share::PERMISSION_READ);
+			OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user3, OCP\Share::PERMISSION_READ);
 			$this->fail('Exception was expected: '.$message);
 		} catch (Exception $exception) {
 			$this->assertEqual($exception->getMessage(), $message);
@@ -324,18 +318,18 @@ class Test_Share extends UnitTestCase {
 		$this->assertTrue(OCP\Share::unshare('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1));
 		
 		// Valid share with same person - user then group
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_DELETE | OCP\Share::PERMISSION_SHARE));
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_SHARE));
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_DELETE | OCP\Share::PERMISSION_SHARE));
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE));
 		OC_User::setUserId($this->user2);
 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
 		$this->assertEqual(OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_PERMISSIONS), array(OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_DELETE | OCP\Share::PERMISSION_SHARE));
 		OC_User::setUserId($this->user3);
 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
-		$this->assertEqual(OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_PERMISSIONS), array(OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_SHARE));
+		$this->assertEqual(OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_PERMISSIONS), array(OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE));
 		
 		// Valid reshare
 		OC_User::setUserId($this->user2);
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user4, OCP\Share::PERMISSION_READ));
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user4, OCP\Share::PERMISSION_READ));
 		OC_User::setUserId($this->user4);
 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
 		
@@ -343,33 +337,31 @@ class Test_Share extends UnitTestCase {
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(OCP\Share::unshare('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2));
 		OC_User::setUserId($this->user2);
-		$this->assertEqual(OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_PERMISSIONS), array(OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_SHARE));
+		$this->assertEqual(OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_PERMISSIONS), array(OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE));
 		OC_User::setUserId($this->user4);
-		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array());
 		
 		// Valid share with same person - group then user
 		OC_User::setUserId($this->user1);
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_DELETE));
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_DELETE));
 		OC_User::setUserId($this->user2);
 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
-		$this->assertEqual(OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_PERMISSIONS), array(OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_DELETE | OCP\Share::PERMISSION_SHARE));
+		$this->assertEqual(OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_PERMISSIONS), array(OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_DELETE));
 		
 		// Unshare from group only
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(OCP\Share::unshare('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1));
 		OC_User::setUserId($this->user2);
 		$this->assertEqual(OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_PERMISSIONS), array(OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_DELETE));
-		OC_User::setUserId($this->user4);
-		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array());
 		
 		// Attempt user specific target conflict
 		OC_User::setUserId($this->user3);
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
 		OC_User::setUserId($this->user2);
 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt', 'test1.txt'));
 		
-		// Valid reshare
-		$this->assertTrue(OCP\Share::shareItem('test', 'test1.txt', OCP\Share::SHARE_TYPE_USER, $this->user4, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
+		// Valid reshare TODO Broken
+		$this->assertTrue(OCP\Share::shareItem('test', 'test1.txt', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user4, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
 		OC_User::setUserId($this->user4);
 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test1.txt'));
 		
