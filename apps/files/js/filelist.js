@@ -151,7 +151,7 @@ FileList={
 						}
 					});
 				}
-				
+
 			}
 			tr.attr('data-file', newname);
 			var path = td.children('a.name').attr('href');
@@ -189,7 +189,7 @@ FileList={
 		FileList.replaceCanceled = false;
 		FileList.replaceOldName = oldName;
 		FileList.replaceNewName = newName;
-		FileList.lastAction = function() { 
+		FileList.lastAction = function() {
 			FileList.finishReplace();
 		};
 		$('#notification').html(t('files', 'replaced')+' '+newName+' '+t('files', 'with')+' '+oldName+'<span class="undo">'+t('files', 'undo')+'</span>');
@@ -236,23 +236,13 @@ FileList={
 	do_delete:function(files){
 		// Finish any existing actions
 		if (FileList.lastAction || !FileList.useUndo) {
+			if(!FileList.deleteFiles) {
+				FileList.prepareDeletion(files);
+			}
 			FileList.lastAction();
+			return;
 		}
-		if(files.substr){
-			files=[files];
-		}
-		$.each(files,function(index,file){
-			var files = $('tr').filterAttr('data-file',file);
-			files.hide();
-			files.find('input[type="checkbox"]').removeAttr('checked');
-			files.removeClass('selected');
-		});
-		procesSelection();
-		FileList.deleteCanceled=false;
-		FileList.deleteFiles=files;
-		FileList.lastAction = function() {
-			FileList.finishDelete(null, true);
-		};
+		FileList.prepareDeletion(files);
 		$('#notification').html(t('files', 'deleted')+' '+files+'<span class="undo">'+t('files', 'undo')+'</span>');
 		$('#notification').fadeIn();
 	},
@@ -279,6 +269,23 @@ FileList={
 				}
 			});
 		}
+	},
+	prepareDeletion:function(files){
+		if(files.substr){
+			files=[files];
+		}
+		$.each(files,function(index,file){
+			var files = $('tr').filterAttr('data-file',file);
+			files.hide();
+			files.find('input[type="checkbox"]').removeAttr('checked');
+			files.removeClass('selected');
+		});
+		procesSelection();
+		FileList.deleteCanceled=false;
+		FileList.deleteFiles=files;
+		FileList.lastAction = function() {
+			FileList.finishDelete(null, true);
+		};
 	}
 }
 
