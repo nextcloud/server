@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-16 02:04+0200\n"
-"PO-Revision-Date: 2012-08-16 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-20 02:01+0200\n"
+"PO-Revision-Date: 2012-08-19 15:10+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -290,7 +290,7 @@ msgstr "ข้อมูลผู้ติดต่อบางรายการ
 
 #: js/contacts.js:1461
 msgid "Do you want to merge these address books?"
-msgstr ""
+msgstr "คุณต้องการผสานข้อมูลสมุดบันทึกที่อยู่เหล่านี้หรือไม่?"
 
 #: js/loader.js:49
 msgid "Result: "
@@ -320,7 +320,7 @@ msgstr "นี่ไม่ใช่สมุดบันทึกที่อย
 msgid "Contact could not be found."
 msgstr "ไม่พบข้อมูลการติดต่อ"
 
-#: lib/app.php:112 templates/part.contact.php:117
+#: lib/app.php:112 templates/part.contact.php:116
 msgid "Address"
 msgstr "ที่อยู่"
 
@@ -328,12 +328,12 @@ msgstr "ที่อยู่"
 msgid "Telephone"
 msgstr "โทรศัพท์"
 
-#: lib/app.php:114 templates/part.contact.php:116
+#: lib/app.php:114 templates/part.contact.php:115
 msgid "Email"
 msgstr "อีเมล์"
 
-#: lib/app.php:115 templates/part.contact.php:39 templates/part.contact.php:40
-#: templates/part.contact.php:112
+#: lib/app.php:115 templates/part.contact.php:38 templates/part.contact.php:39
+#: templates/part.contact.php:111
 msgid "Organization"
 msgstr "หน่วยงาน"
 
@@ -377,8 +377,8 @@ msgstr "เพจเจอร์"
 msgid "Internet"
 msgstr "อินเทอร์เน็ต"
 
-#: lib/app.php:183 templates/part.contact.php:45
-#: templates/part.contact.php:114
+#: lib/app.php:183 templates/part.contact.php:44
+#: templates/part.contact.php:113
 msgid "Birthday"
 msgstr "วันเกิด"
 
@@ -530,113 +530,113 @@ msgstr "อัพโหลดรูปภาพใหม่"
 msgid "Select photo from ownCloud"
 msgstr "เลือกรูปภาพจาก ownCloud"
 
-#: templates/part.contact.php:35
+#: templates/part.contact.php:34
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
 msgstr "กำหนดรูปแบบของชื่อย่อ, ชื่อจริง, ย้อนค่ากลัีบด้วยคอมม่าเอง"
 
-#: templates/part.contact.php:36
+#: templates/part.contact.php:35
 msgid "Edit name details"
 msgstr "แก้ไขรายละเอียดของชื่อ"
 
-#: templates/part.contact.php:40 templates/part.contact.php:42
-#: templates/part.contact.php:44 templates/part.contact.php:46
-#: templates/part.contact.php:50 templates/settings.php:33
+#: templates/part.contact.php:39 templates/part.contact.php:41
+#: templates/part.contact.php:43 templates/part.contact.php:45
+#: templates/part.contact.php:49 templates/settings.php:33
 msgid "Delete"
 msgstr "ลบ"
 
-#: templates/part.contact.php:41 templates/part.contact.php:113
+#: templates/part.contact.php:40 templates/part.contact.php:112
 msgid "Nickname"
 msgstr "ชื่อเล่น"
 
-#: templates/part.contact.php:42
+#: templates/part.contact.php:41
 msgid "Enter nickname"
 msgstr "กรอกชื่อเล่น"
 
-#: templates/part.contact.php:43 templates/part.contact.php:119
+#: templates/part.contact.php:42 templates/part.contact.php:118
 msgid "Web site"
 msgstr "เว็บไซต์"
 
-#: templates/part.contact.php:44
+#: templates/part.contact.php:43
 msgid "http://www.somesite.com"
 msgstr "http://www.somesite.com"
 
-#: templates/part.contact.php:44
+#: templates/part.contact.php:43
 msgid "Go to web site"
 msgstr "ไปที่เว็บไซต์"
 
-#: templates/part.contact.php:46
+#: templates/part.contact.php:45
 msgid "dd-mm-yyyy"
 msgstr "dd-mm-yyyy"
 
-#: templates/part.contact.php:47 templates/part.contact.php:120
+#: templates/part.contact.php:46 templates/part.contact.php:119
 msgid "Groups"
 msgstr "กลุ่ม"
 
-#: templates/part.contact.php:49
+#: templates/part.contact.php:48
 msgid "Separate groups with commas"
 msgstr "คั่นระหว่างรายชื่อกลุ่มด้วยเครื่องหมายจุลภาีคหรือคอมม่า"
 
-#: templates/part.contact.php:50
+#: templates/part.contact.php:49
 msgid "Edit groups"
 msgstr "แก้ไขกลุ่ม"
 
-#: templates/part.contact.php:63 templates/part.contact.php:77
+#: templates/part.contact.php:62 templates/part.contact.php:76
 msgid "Preferred"
 msgstr "พิเศษ"
 
-#: templates/part.contact.php:64
+#: templates/part.contact.php:63
 msgid "Please specify a valid email address."
 msgstr "กรุณาระบุที่อยู่อีเมลที่ถูกต้อง"
 
-#: templates/part.contact.php:64
+#: templates/part.contact.php:63
 msgid "Enter email address"
 msgstr "กรอกที่อยู่อีเมล"
 
-#: templates/part.contact.php:68
+#: templates/part.contact.php:67
 msgid "Mail to address"
 msgstr "ส่งอีเมลไปที่"
 
-#: templates/part.contact.php:69
+#: templates/part.contact.php:68
 msgid "Delete email address"
 msgstr "ลบที่อยู่อีเมล"
 
-#: templates/part.contact.php:78
+#: templates/part.contact.php:77
 msgid "Enter phone number"
 msgstr "กรอกหมายเลขโทรศัพท์"
 
-#: templates/part.contact.php:82
+#: templates/part.contact.php:81
 msgid "Delete phone number"
 msgstr "ลบหมายเลขโทรศัพท์"
 
-#: templates/part.contact.php:92
+#: templates/part.contact.php:91
 msgid "View on map"
 msgstr "ดูบนแผนที่"
 
-#: templates/part.contact.php:92
+#: templates/part.contact.php:91
 msgid "Edit address details"
 msgstr "แก้ไขรายละเอียดที่อยู่"
 
-#: templates/part.contact.php:103
+#: templates/part.contact.php:102
 msgid "Add notes here."
 msgstr "เพิ่มหมายเหตุกำกับไว้ที่นี่"
 
-#: templates/part.contact.php:110
+#: templates/part.contact.php:109
 msgid "Add field"
 msgstr "เพิ่มช่องรับข้อมูล"
 
-#: templates/part.contact.php:115
+#: templates/part.contact.php:114
 msgid "Phone"
 msgstr "โทรศัพท์"
 
-#: templates/part.contact.php:118
+#: templates/part.contact.php:117
 msgid "Note"
 msgstr "หมายเหตุ"
 
-#: templates/part.contact.php:123
+#: templates/part.contact.php:122
 msgid "Download contact"
 msgstr "ดาวน์โหลดข้อมูลการติดต่อ"
 
-#: templates/part.contact.php:124
+#: templates/part.contact.php:123
 msgid "Delete contact"
 msgstr "ลบข้อมูลการติดต่อ"
 

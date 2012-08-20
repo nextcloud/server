@@ -51,6 +51,7 @@
 "Create" => "Skapa",
 "Default Quota" => "Förvald datakvot",
 "Other" => "Annat",
+"Group Admin" => "Gruppadministratör",
 "Quota" => "Kvot",
 "Delete" => "Ta bort"
 );

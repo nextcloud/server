@@ -11,6 +11,8 @@
 "Saving..." => "Tallennetaan...",
 "__language_name__" => "_kielen_nimi_",
 "Security Warning" => "Turvallisuusvaroitus",
+"Cron" => "Cron",
+"use systems cron service" => "käytä järjestelmän cron-palvelua",
 "Log" => "Loki",
 "More" => "Lisää",
 "Add your App" => "Lisää ohjelmasi",

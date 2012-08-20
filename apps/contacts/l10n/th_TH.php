@@ -62,6 +62,7 @@
 "Error loading profile picture." => "เกิดข้อผิดพลาดในการโหลดรูปภาพประจำตัว",
 "Select type" => "เลือกชนิด",
 "Some contacts are marked for deletion, but not deleted yet. Please wait for them to be deleted." => "ข้อมูลผู้ติดต่อบางรายการได้ถูกทำเครื่องหมายสำหรับลบทิ้งเอาไว้, แต่ยังไม่ได้ถูกลบทิ้ง, กรุณารอให้รายการดังกล่าวถูกลบทิ้งเสียก่อน",
+"Do you want to merge these address books?" => "คุณต้องการผสานข้อมูลสมุดบันทึกที่อยู่เหล่านี้หรือไม่?",
 "Result: " => "ผลลัพธ์: ",
 " imported, " => " นำเข้าข้อมูลแล้ว, ",
 " failed." => " ล้มเหลว.",

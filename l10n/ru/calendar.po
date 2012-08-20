@@ -6,15 +6,16 @@
 # Denis  <reg.transifex.net@demitel.ru>, 2012.
 #   <jekader@gmail.com>, 2011, 2012.
 # Nick Remeslennikov <homolibere@gmail.com>, 2012.
+#   <rasperepodvipodvert@gmail.com>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-20 02:01+0200\n"
+"PO-Revision-Date: 2012-08-19 17:21+0000\n"
+"Last-Translator: rasperepodvipodvert <rasperepodvipodvert@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -163,7 +164,7 @@ msgstr "Работа"
 
 #: lib/app.php:351 lib/app.php:361
 msgid "by"
-msgstr ""
+msgstr "до свидания"
 
 #: lib/app.php:359 lib/app.php:399
 msgid "unnamed"
@@ -481,7 +482,7 @@ msgstr "Сегодня"
 
 #: templates/calendar.php:46 templates/calendar.php:47
 msgid "Settings"
-msgstr ""
+msgstr "Параметры"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
@@ -697,13 +698,13 @@ msgstr "Название нового календаря"
 
 #: templates/part.import.php:44
 msgid "Take an available name!"
-msgstr ""
+msgstr "Возьмите разрешенное имя!"
 
 #: templates/part.import.php:45
 msgid ""
 "A Calendar with this name already exists. If you continue anyhow, these "
 "calendars will be merged."
-msgstr ""
+msgstr "Календарь с таким именем уже существует. Если вы продолжите, одноименный календарь будет удален."
 
 #: templates/part.import.php:47
 msgid "Import"
@@ -735,7 +736,7 @@ msgstr "на"
 
 #: templates/settings.php:10
 msgid "General"
-msgstr ""
+msgstr "Основные"
 
 #: templates/settings.php:15
 msgid "Timezone"
@@ -743,11 +744,11 @@ msgstr "Часовой пояс"
 
 #: templates/settings.php:47
 msgid "Update timezone automatically"
-msgstr ""
+msgstr "Автоматическое обновление временной зоны"
 
 #: templates/settings.php:52
 msgid "Time format"
-msgstr ""
+msgstr "Формат времени"
 
 #: templates/settings.php:57
 msgid "24h"
@@ -759,23 +760,23 @@ msgstr "12ч"
 
 #: templates/settings.php:64
 msgid "Start week on"
-msgstr ""
+msgstr "Начало недели"
 
 #: templates/settings.php:76
 msgid "Cache"
-msgstr ""
+msgstr "Кэш"
 
 #: templates/settings.php:80
 msgid "Clear cache for repeating events"
-msgstr ""
+msgstr "Очистить кэш повторяющихся событий"
 
 #: templates/settings.php:85
 msgid "URLs"
-msgstr ""
+msgstr "URLs"
 
 #: templates/settings.php:87
 msgid "Calendar CalDAV syncing addresses"
-msgstr ""
+msgstr "Адрес синхронизации CalDAV"
 
 #: templates/settings.php:87
 msgid "more info"
@@ -783,15 +784,15 @@ msgstr "подробнее"
 
 #: templates/settings.php:89
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "Основной адрес (Контакта)"
 
 #: templates/settings.php:91
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"
 
 #: templates/settings.php:93
 msgid "Read only iCalendar link(s)"
-msgstr ""
+msgstr "Читать только ссылки iCalendar"
 
 #: templates/share.dropdown.php:20
 msgid "Users"

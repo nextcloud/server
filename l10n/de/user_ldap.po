@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Maurice Preuß <>, 2012.
+# Phi Lieb <>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 20:45+0000\n"
-"Last-Translator: Maurice Preuß <>\n"
+"POT-Creation-Date: 2012-08-20 02:01+0200\n"
+"PO-Revision-Date: 2012-08-19 09:48+0000\n"
+"Last-Translator: Phi Lieb <>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,19 +26,19 @@ msgstr "Host"
 #: templates/settings.php:8
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Du kannst das Protokoll auslassen, außer wenn du SSL benötiogst. Beginne dann __mit__ ldaps://"
 
 #: templates/settings.php:9
 msgid "Base DN"
-msgstr ""
+msgstr "Basis-DN"
 
 #: templates/settings.php:9
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "Du kannst Basis-DN für Benutzer und Gruppen in dem \"Erweitert\"-Reiter konfigurieren"
 
 #: templates/settings.php:10
 msgid "User DN"
-msgstr ""
+msgstr "Benutzer-DN"
 
 #: templates/settings.php:10
 msgid ""
@@ -52,7 +53,7 @@ msgstr "Passwort"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Lass die Felder von DN und Passwort für anonymen Zugang leer."
 
 #: templates/settings.php:12
 msgid "User Login Filter"
@@ -68,7 +69,7 @@ msgstr "Bestimmt den angewendeten Filter, wenn eine Anmeldung versucht wird. %%u
 #: templates/settings.php:12
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "verwende %%uid Platzhalter, z. B. \"uid=%%uid\""
 
 #: templates/settings.php:13
 msgid "User List Filter"
