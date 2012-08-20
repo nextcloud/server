@@ -1301,26 +1301,39 @@ OC.Contacts={
 		loadMails:function() {
 			$('#emails').hide();
 			$('#emaillist li.propertycontainer').remove();
+			var emaillist = $('#emaillist');
 			for(var mail in this.data.EMAIL) {
 				this.addMail();
 				//$('#emaillist li:first-child').clone().appendTo($('#emaillist')).show();
-				$('#emaillist li:last-child').data('checksum', this.data.EMAIL[mail]['checksum'])
-				$('#emaillist li:last-child').find('input[type="email"]').val(this.data.EMAIL[mail]['value']);
+				var curemail = emaillist.find('li:last-child');
+				curemail.data('checksum', this.data.EMAIL[mail]['checksum'])
+				curemail.find('input[type="email"]').val(this.data.EMAIL[mail]['value']);
 				for(var param in this.data.EMAIL[mail]['parameters']) {
 					if(param.toUpperCase() == 'PREF') {
-						$('#emaillist li:last-child').find('input[type="checkbox"]').attr('checked', 'checked')
+						curemail.find('input[type="checkbox"]').attr('checked', 'checked')
 					}
 					else if(param.toUpperCase() == 'TYPE') {
 						for(etype in this.data.EMAIL[mail]['parameters'][param]) {
+							var found = false;
 							var et = this.data.EMAIL[mail]['parameters'][param][etype];
-							$('#emaillist li:last-child').find('select option').each(function(){
+							curemail.find('select option').each(function(){
 								if($.inArray($(this).val().toUpperCase(), et.toUpperCase().split(',')) > -1) {
 									$(this).attr('selected', 'selected');
+									found = true;
 								}
 							});
+							if(!found) {
+								curemail.find('select option:last-child').after('<option value="'+et+'" selected="selected">'+et+'</option>');
+							}
 						}
 					}
 				}
+				curemail.find('select').multiselect({
+								noneSelectedText: t('contacts', 'Select type'),
+								header: false,
+								selectedList: 4,
+								classes: 'typelist'
+							});
 			}
 			if($('#emaillist li').length > 1) {
 				$('#emails').show();
@@ -1359,13 +1372,18 @@ OC.Contacts={
 					}
 					else if(param.toUpperCase() == 'TYPE') {
 						for(ptype in this.data.TEL[phone]['parameters'][param]) {
+							var found = false;
 							var pt = this.data.TEL[phone]['parameters'][param][ptype];
-							phonelist.find('li:last-child').find('select option').each(function(){
+							phonelist.find('li:last-child').find('select option').each(function() {
 								//if ($(this).val().toUpperCase() == pt.toUpperCase()) {
 								if ($.inArray($(this).val().toUpperCase(), pt.toUpperCase().split(',')) > -1) {
 									$(this).attr('selected', 'selected');
+									found = true;
 								}
 							});
+							if(!found) {
+								phonelist.find('li:last-child').find('select option:last-child').after('<option class="custom" value="'+pt+'" selected="selected">'+pt+'</option>');
+							}
 						}
 					}
 				}
