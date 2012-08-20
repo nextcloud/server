@@ -40,12 +40,6 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 				($return) ? OC_JSON::success() : OC_JSON::error();
 			}
 			break;
-		case 'setTarget':
-			if (isset($_POST['newTarget'])) {
-				$return = OCP\Share::setTarget($_POST['itemType'], $_POST['item'], $_POST['newTarget']);
-				($return) ? OC_JSON::success() : OC_JSON::error();
-			}
-			break;
 		case 'setPermissions':
 			if (isset($_POST['shareType']) && isset($_POST['shareWith']) && isset($_POST['permissions'])) {
 				$return = OCP\Share::setPermissions($_POST['itemType'], $_POST['item'], $_POST['shareType'], $_POST['shareWith'], $_POST['permissions']);
