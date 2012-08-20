@@ -11,7 +11,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<input id="file_upload_start" type="file" accept="image/*" name="imagefile" />
 	</form>
 
-	<div id="contact_photo" class="contactsection">
+	<div id="contact_photo">
 
 	<iframe name="file_upload_target" id='file_upload_target' src=""></iframe>
 	<div class="tip propertycontainer" id="contacts_details_photo_wrapper" title="<?php echo $l->t('Drop photo to upload'); ?> (max <?php echo $_['uploadMaxHumanFilesize']; ?>)" data-element="PHOTO">

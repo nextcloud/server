@@ -545,13 +545,13 @@ OC.Contacts={
 				textarea.css('min-height', nheight+'em');
 				textarea.attr('rows', nheight);
 				textarea.val(txt);
-				note.show();
+				$('#contact_note').show();
 				textarea.expandingTextarea();
 				$('#contacts_propertymenu_dropdown a[data-type="NOTE"]').parent().hide();
 			} else {
 				note.removeData('checksum');
 				note.find('textarea').val('');
-				note.hide();
+				$('#contact_note').hide();
 				$('#contacts_propertymenu_dropdown a[data-type="NOTE"]').parent().show();
 			}
 		},
@@ -788,6 +788,7 @@ OC.Contacts={
 				case 'NOTE':
 					$('#contacts_propertymenu_dropdown a[data-type="'+type+'"]').parent().hide();
 					$('#note').find('textarea').expandingTextarea().show().focus();
+					$('#contact_note').show();
 					break;
 				case 'EMAIL':
 					if($('#emaillist>li').length == 1) {
@@ -838,6 +839,7 @@ OC.Contacts={
 									OC.Contacts.Card.loadPhoto();
 								} else if(proptype == 'NOTE') {
 									$('#note').find('textarea').val('');
+									$('#contact_note').hide();
 									OC.Contacts.propertyContainerFor(obj).hide();
 								}
 							} else {
