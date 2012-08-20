@@ -211,11 +211,32 @@ class OC_FilesystemView {
 		}
 		return false;
 	}
-	public function is_readable($path) {
-		return $this->basicOperation('is_readable', $path);
+	/**
+	* @deprecated Replaced by isReadable() as part of CRUDS
+	*/
+	public function is_readable($path){
+		return $this->basicOperation('isReadable',$path);
 	}
-	public function is_writable($path) {
-		return $this->basicOperation('is_writable', $path);
+	/**
+	* @deprecated Replaced by isCreatable(), isUpdatable(), isDeletable() as part of CRUDS
+	*/
+	public function is_writable($path){
+		return $this->basicOperation('isUpdatable',$path);
+	}
+	public function isCreatable($path) {
+		return $this->basicOperation('isCreatable', $path);
+	}
+	public function isReadable($path) {
+		return $this->basicOperation('isReadable', $path);
+	}
+	public function isUpdatable($path) {
+		return $this->basicOperation('isUpdatable', $path);
+	}
+	public function isDeletable($path) {
+		return $this->basicOperation('isDeletable', $path);
+	}
+	public function isSharable($path) {
+		return $this->basicOperation('isSharable', $path);
 	}
 	public function file_exists($path) {
 		if($path=='/'){

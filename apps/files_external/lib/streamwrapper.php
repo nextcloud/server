@@ -32,11 +32,11 @@ abstract class OC_FileStorage_StreamWrapper extends OC_Filestorage_Common{
 		return filetype($this->constructUrl($path));
 	}
 
-	public function is_readable($path){
+	public function isReadable($path){
 		return true;//not properly supported
 	}
 
-	public function is_writable($path){
+	public function isUpdatable($path){
 		return true;//not properly supported
 	}
 

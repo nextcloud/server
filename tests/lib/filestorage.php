@@ -31,13 +31,13 @@ abstract class Test_FileStorage extends UnitTestCase {
 	 */
 	public function testRoot(){
 		$this->assertTrue($this->instance->file_exists('/'),'Root folder does not exist');
-		$this->assertTrue($this->instance->is_readable('/'),'Root folder is not readable');
+		$this->assertTrue($this->instance->isReadable('/'),'Root folder is not readable');
 		$this->assertTrue($this->instance->is_dir('/'),'Root folder is not a directory');
 		$this->assertFalse($this->instance->is_file('/'),'Root folder is a file');
 		$this->assertEqual('dir',$this->instance->filetype('/'));
 		
 		//without this, any further testing would be useless, not an acutal requirement for filestorage though
-		$this->assertTrue($this->instance->is_writable('/'),'Root folder is not writable');
+		$this->assertTrue($this->instance->isUpdatable('/'),'Root folder is not writable');
 	}
 	
 	public function testDirectories(){
@@ -50,8 +50,8 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertFalse($this->instance->is_file('/folder'));
 		$this->assertEqual('dir',$this->instance->filetype('/folder'));
 		$this->assertEqual(0,$this->instance->filesize('/folder'));
-		$this->assertTrue($this->instance->is_readable('/folder'));
-		$this->assertTrue($this->instance->is_writable('/folder'));
+		$this->assertTrue($this->instance->isReadable('/folder'));
+		$this->assertTrue($this->instance->isUpdatable('/folder'));
 		
 		$dh=$this->instance->opendir('/');
 		$content=array();
@@ -154,7 +154,7 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$ctimeStart=time();
 		$this->instance->file_put_contents('/lorem.txt',file_get_contents($textFile));
-		$this->assertTrue($this->instance->is_readable('/lorem.txt'));
+		$this->assertTrue($this->instance->isReadable('/lorem.txt'));
 		$ctimeEnd=time();
 		$cTime=$this->instance->filectime('/lorem.txt');
 		$mTime=$this->instance->filemtime('/lorem.txt');

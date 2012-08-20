@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	if(typeof FileActions!=='undefined'){
-		FileActions.register('image','View','',function(filename){
+		FileActions.register('image','View', FileActions.PERMISSION_READ, '',function(filename){
 			viewImage($('#dir').val(),filename);
 		});
 		FileActions.setDefault('image','View');

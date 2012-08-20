@@ -7,11 +7,11 @@
 
 $(document).ready(function() {
 	if(typeof FileActions!=='undefined'){
-		FileActions.register('application/zip','Open','',function(filename){
+		FileActions.register('application/zip','Open', FileActions.PERMISSION_READ, '',function(filename){
 			window.location=OC.linkTo('files', 'index.php')+'&dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
 		});
 		FileActions.setDefault('application/zip','Open');
-		FileActions.register('application/x-gzip','Open','',function(filename){
+		FileActions.register('application/x-gzip','Open', FileActions.PERMISSION_READ, '',function(filename){
 			window.location=OC.linkTo('files', 'index.php')+'&dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
 		});
 		FileActions.setDefault('application/x-gzip','Open');

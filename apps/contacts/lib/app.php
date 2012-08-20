@@ -37,21 +37,24 @@ class OC_Contacts_App {
 						)
 					)
 				);
-			}
-			else {
-				OCP\Util::writeLog('contacts',
-					'Addressbook('.$id.') is not from '.OCP\USER::getUser(),
-					OCP\Util::ERROR);
-				//throw new Exception('This is not your addressbook.');
-				OCP\JSON::error(
-					array(
-						'data' => array(
-							'message' => self::$l10n->t('This is not your addressbook.')
+			} else {
+				$sharedAddressbook = OCP\Share::getItemSharedWithBySource('addressbook', $id, OC_Share_Backend_Addressbook::FORMAT_ADDRESSBOOKS);
+				if ($sharedAddressbook) {
+					return $sharedAddressbook;
+				} else {
+					OCP\Util::writeLog('contacts',
+						'Addressbook('.$id.') is not from '.OCP\USER::getUser(),
+						OCP\Util::ERROR);
+					//throw new Exception('This is not your addressbook.');
+					OCP\JSON::error(
+						array(
+							'data' => array(
+								'message' => self::$l10n->t('This is not your addressbook.')
+							)
 						)
-					)
-				);
+					);
+				}
 			}
-			exit();
 		}
 		return $addressbook;
 	}

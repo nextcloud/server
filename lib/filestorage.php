@@ -33,8 +33,11 @@ abstract class OC_Filestorage{
 	abstract public function stat($path);
 	abstract public function filetype($path);
 	abstract public function filesize($path);
-	abstract public function is_readable($path);
-	abstract public function is_writable($path);
+	abstract public function isCreatable($path);
+	abstract public function isReadable($path);
+	abstract public function isUpdatable($path);
+	abstract public function isDeletable($path);
+	abstract public function isSharable($path);
 	abstract public function file_exists($path);
 	abstract public function filectime($path);
 	abstract public function filemtime($path);

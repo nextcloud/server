@@ -56,7 +56,7 @@ $(document).ready(function() {
 
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {
-		FileActions.display($(this).children('td.filename'), $(this).attr('data-file'), $(this).attr('data-type'));
+		FileActions.display($(this).children('td.filename'));
 	});
 	$('tr').live('mouseleave',function(event) {
 		FileActions.hide();
@@ -106,7 +106,8 @@ $(document).ready(function() {
 			if(!renaming && !FileList.isLoading(filename)){
 				var mime=$(this).parent().parent().data('mime');
 				var type=$(this).parent().parent().data('type');
-				var action=FileActions.getDefault(mime,type);
+				var permissions = $(this).parent().parent().data('permissions');
+				var action=FileActions.getDefault(mime,type, permissions);
 				if(action){
 					action(filename);
 				}
@@ -462,14 +463,18 @@ $(document).ready(function() {
 					$.post(
 						OC.filePath('files','ajax','newfile.php'),
 						{dir:$('#dir').val(),filename:name,content:" \n"},
-						function(data){
-							var date=new Date();
-							FileList.addFile(name,0,date);
-							var tr=$('tr').filterAttr('data-file',name);
-							tr.data('mime','text/plain');
-							getMimeIcon('text/plain',function(path){
-								tr.find('td.filename').attr('style','background-image:url('+path+')');
-							});
+						function(result){
+							if (result.status == 'success') {
+								var date=new Date();
+								FileList.addFile(name,0,date);
+								var tr=$('tr').filterAttr('data-file',name);
+								tr.data('mime','text/plain');
+								getMimeIcon('text/plain',function(path){
+									tr.find('td.filename').attr('style','background-image:url('+path+')');
+								});
+							} else {
+								OC.dialogs.alert(result.data.message, 'Error');
+							}
 						}
 					);
 					break;
@@ -477,9 +482,13 @@ $(document).ready(function() {
 					$.post(
 						OC.filePath('files','ajax','newfolder.php'),
 						{dir:$('#dir').val(),foldername:name},
-						function(data){
-							var date=new Date();
-							FileList.addDir(name,0,date);
+						function(result){
+							if (result.status == 'success') {
+								var date=new Date();
+								FileList.addDir(name,0,date);
+							} else {
+								OC.dialogs.alert(result.data.message, 'Error');
+							}
 						}
 					);
 					break;

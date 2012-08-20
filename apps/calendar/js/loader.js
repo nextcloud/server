@@ -173,7 +173,7 @@ Calendar_Import={
 }
 $(document).ready(function(){
 	if(typeof FileActions !== 'undefined'){
-		FileActions.register('text/calendar','importCalendar', '', Calendar_Import.Dialog.open); 
+		FileActions.register('text/calendar','importCalendar',  FileActions.PERMISSION_READ, '', Calendar_Import.Dialog.open); 
 		FileActions.setDefault('text/calendar','importCalendar');
 	};
 });

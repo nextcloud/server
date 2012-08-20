@@ -28,6 +28,9 @@ OC::$CLASSPATH['OC_Gallery_Sharing'] = 'gallery/lib/sharing.php';
 OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'gallery/lib/hooks_handlers.php';
 OC::$CLASSPATH['Pictures_Managers'] = 'gallery/lib/managers.php';
 OC::$CLASSPATH['Pictures_Tiles'] = 'gallery/lib/tiles.php';
+OC::$CLASSPATH['OC_Share_Backend_Photo'] = 'gallery/lib/share.php';
+
+// OCP\Share::registerBackend('photo', new OC_Share_Backend_Photo());
 
 $l = OC_L10N::get('gallery');
 

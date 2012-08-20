@@ -45,10 +45,10 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 			return filesize($this->datadir.$path);
 		}
 	}
-	public function is_readable($path){
+	public function isReadable($path){
 		return is_readable($this->datadir.$path);
 	}
-	public function is_writable($path){
+	public function isUpdatable($path){
 		return is_writable($this->datadir.$path);
 	}
 	public function file_exists($path){
@@ -85,7 +85,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		return $this->delTree($path);
 	}
 	public function rename($path1,$path2){
-		if (!$this->is_writable($path1)) {
+		if (!$this->isUpdatable($path1)) {
 			OC_Log::write('core','unable to rename, file is not writable : '.$path1,OC_Log::ERROR);
 			return false;
 		}
@@ -128,7 +128,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 	}
 
 	public function getMimeType($path){
-		if($this->is_readable($path)){
+		if($this->isReadable($path)){
 			return OC_Helper::getMimeType($this->datadir.$path);
 		}else{
 			return false;

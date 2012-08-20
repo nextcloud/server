@@ -179,6 +179,20 @@ class OC_Group_Database extends OC_Group_Backend {
 	}
 
 	/**
+	 * check if a group exists
+	 * @param string $gid
+	 * @return bool
+	 */
+	public function groupExists($gid) {
+		$query = OC_DB::prepare('SELECT gid FROM *PREFIX*groups WHERE gid = ?');
+		$result = $query->execute(array($gid))->fetchOne();
+		if ($result) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */

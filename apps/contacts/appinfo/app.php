@@ -3,6 +3,8 @@ OC::$CLASSPATH['OC_Contacts_App'] = 'apps/contacts/lib/app.php';
 OC::$CLASSPATH['OC_Contacts_Addressbook'] = 'apps/contacts/lib/addressbook.php';
 OC::$CLASSPATH['OC_Contacts_VCard'] = 'apps/contacts/lib/vcard.php';
 OC::$CLASSPATH['OC_Contacts_Hooks'] = 'apps/contacts/lib/hooks.php';
+OC::$CLASSPATH['OC_Share_Backend_Contact'] = 'apps/contacts/lib/share/contact.php';
+OC::$CLASSPATH['OC_Share_Backend_Addressbook'] = 'apps/contacts/lib/share/addressbook.php';
 OC::$CLASSPATH['OC_Connector_Sabre_CardDAV'] = 'apps/contacts/lib/connector_sabre.php';
 OC::$CLASSPATH['Sabre_CardDAV_VCFExportPlugin'] = 'apps/contacts/lib/VCFExportPlugin.php';
 OC::$CLASSPATH['OC_Search_Provider_Contacts'] = 'apps/contacts/lib/search.php';
@@ -20,3 +22,6 @@ OCP\App::addNavigationEntry( array(
 
 OCP\Util::addscript('contacts', 'loader');
 OC_Search::registerProvider('OC_Search_Provider_Contacts');
+OCP\Share::registerBackend('contact', 'OC_Share_Backend_Contact');
+OCP\Share::registerBackend('addressbook', 'OC_Share_Backend_Addressbook', 'contact');
+

@@ -64,10 +64,10 @@ class OC_Contacts_Addressbook {
 		while( $row = $result->fetchRow()) {
 			$addressbooks[] = $row;
 		}
+		$addressbooks = array_merge($addressbooks, OCP\Share::getItemsSharedWith('addressbook', OC_Share_Backend_Addressbook::FORMAT_ADDRESSBOOKS));
 		if(!$active && !count($addressbooks)) {
 			self::addDefault($uid);
 		}
-
 		return $addressbooks;
 	}
 
@@ -208,7 +208,12 @@ class OC_Contacts_Addressbook {
 	public static function edit($id,$name,$description) {
 		// Need these ones for checking uri
 		$addressbook = self::find($id);
-
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$sharedAddressbook = OCP\Share::getItemSharedWithBySource('addressbook', $id);
+			if (!$sharedAddressbook || !($sharedAddressbook['permissions'] & OCP\Share::PERMISSION_UPDATE)) {
+				return false;
+			}
+		}
 		if(is_null($name)) {
 			$name = $addressbook['name'];
 		}
@@ -270,6 +275,13 @@ class OC_Contacts_Addressbook {
 	 * @return boolean
 	 */
 	public static function delete($id) {
+		$addressbook = self::find($id);
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$sharedAddressbook = OCP\Share::getItemSharedWithBySource('addressbook', $id);
+			if (!$sharedAddressbook || !($sharedAddressbook['permissions'] & OCP\Share::PERMISSION_DELETE)) {
+				return false;
+			}
+		}
 		self::setActive($id, false);
 		try {
 			$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_addressbooks WHERE id = ?' );

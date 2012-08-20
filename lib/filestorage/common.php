@@ -54,8 +54,17 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 			return $stat['size'];
 		}
 	}
-// 	abstract public function is_readable($path);
-// 	abstract public function is_writable($path);
+	public function isCreatable($path) {
+		return $this->isUpdatable($path);
+	}
+// 	abstract public function isReadable($path);
+// 	abstract public function isUpdatable($path);
+	public function isDeletable($path) {
+		return $this->isUpdatable($path);
+	}
+	public function isSharable($path) {
+		return $this->isReadable($path);
+	}
 // 	abstract public function file_exists($path);
 	public function filectime($path) {
 		$stat = $this->stat($path);

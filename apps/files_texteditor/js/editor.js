@@ -222,9 +222,17 @@ function showFileEditor(dir,filename){
 							}
 						});
 						// Add the ctrl+s event
-						window.aceEditor.commands.addCommand({							name: "save",							bindKey: {							win: "Ctrl-S",							mac: "Command-S",							sender: "editor"							},							exec: function(){
+						window.aceEditor.commands.addCommand({
+							name: "save",
+							bindKey: {
+							win: "Ctrl-S",
+							mac: "Command-S",
+							sender: "editor"
+							},
+							exec: function(){
 								doFileSave();	
-							}						});
+							}
+						});
 					});
 				} else {
 					// Failed to get the file.
@@ -297,11 +305,11 @@ $(window).resize(function() {
 var is_editor_shown = false;
 $(document).ready(function(){
 	if(typeof FileActions!=='undefined'){
-		FileActions.register('text','Edit','',function(filename){
+		FileActions.register('text','Edit', FileActions.PERMISSION_READ, '',function(filename){
 			showFileEditor($('#dir').val(),filename);
 		});
 		FileActions.setDefault('text','Edit');
-		FileActions.register('application/xml','Edit','',function(filename){
+		FileActions.register('application/xml','Edit', FileActions.PERMISSION_READ, '',function(filename){
 			showFileEditor($('#dir').val(),filename);
 		});
 		FileActions.setDefault('application/xml','Edit');
