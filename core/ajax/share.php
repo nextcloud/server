@@ -21,12 +21,12 @@
 require_once '../../lib/base.php';
 
 OC_JSON::checkLoggedIn();
-if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item'])) {
+if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSource'])) {
 	switch ($_POST['action']) {
 		case 'share':
-			if (isset($_POST['shareType']) && isset($_POST['shareWith']) && isset($_POST['permissions'])) {
+			if (isset($_POST['itemName']) && isset($_POST['shareType']) && isset($_POST['shareWith']) && isset($_POST['permissions'])) {
 				try {
-					OCP\Share::shareItem($_POST['itemType'], $_POST['item'], $_POST['item'], (int)$_POST['shareType'], $_POST['shareWith'], $_POST['permissions']);
+					OCP\Share::shareItem($_POST['itemType'], $_POST['itemName'], $_POST['itemSource'], (int)$_POST['shareType'], $_POST['shareWith'], $_POST['permissions']);
 					// TODO May need to return private link
 					OC_JSON::success();
 				} catch (Exception $exception) {
@@ -36,13 +36,13 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 			break;
 		case 'unshare':
 			if (isset($_POST['shareType']) && isset($_POST['shareWith'])) {
-				$return = OCP\Share::unshare($_POST['itemType'], $_POST['item'], $_POST['shareType'], $_POST['shareWith']);
+				$return = OCP\Share::unshare($_POST['itemType'], $_POST['itemSource'], $_POST['shareType'], $_POST['shareWith']);
 				($return) ? OC_JSON::success() : OC_JSON::error();
 			}
 			break;
 		case 'setPermissions':
 			if (isset($_POST['shareType']) && isset($_POST['shareWith']) && isset($_POST['permissions'])) {
-				$return = OCP\Share::setPermissions($_POST['itemType'], $_POST['item'], $_POST['shareType'], $_POST['shareWith'], $_POST['permissions']);
+				$return = OCP\Share::setPermissions($_POST['itemType'], $_POST['itemSource'], $_POST['shareType'], $_POST['shareWith'], $_POST['permissions']);
 				($return) ? OC_JSON::success() : OC_JSON::error();
 			}
 			break;
@@ -56,10 +56,14 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['item']
 			}
 			break;
 		case 'getItem':
-			// TODO Check if the item was shared to the current user
-			if (isset($_GET['itemType']) && isset($_GET['item'])) {
-				$return = OCP\Share::getItemShared($_GET['itemType'], $_GET['item']);
-				($return) ? OC_JSON::success(array('data' => $return)) : OC_JSON::error();
+			if (isset($_GET['itemType']) && isset($_GET['itemName']) && isset($_GET['itemSource'])) {
+				$reshare = OCP\Share::getItemSharedWith($_GET['itemType'], $_GET['itemName'], OCP\Share::FORMAT_NONE, null, true);
+				if ($_GET['itemSource'] !== false) {
+					$shares = OCP\Share::getItemShared($_GET['itemType'], $_GET['itemSource']);
+				} else {
+					$shares = false;
+				}
+				OC_JSON::success(array('data' => array('reshare' => $reshare, 'shares' => $shares)));
 			}
 			break;
 		case 'getShareWith':

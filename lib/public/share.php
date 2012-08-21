@@ -520,7 +520,7 @@ class Share {
 					if (($itemType == 'file' || $itemType == 'folder') && $format == \OC_Share_Backend_File::FORMAT_FILE_APP || $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT) {
 						$select = '*PREFIX*share.id, item_type, *PREFIX*share.parent, share_type, share_with, permissions, file_target, *PREFIX*fscache.id, path as file_source, name, ctime, mtime, mimetype, size, encrypted, versioned, writable';
 					} else {
-						$select = '*PREFIX*share.id, item_type, item_source, item_target, *PREFIX*share.parent, share_type, share_with, permissions, stime, path as file_source, file_target';
+						$select = '*PREFIX*share.id, item_type, item_source, item_target, *PREFIX*share.parent, share_type, share_with, uid_owner, permissions, stime, path as file_source, file_target';
 					}
 				} else {
 					$select = '*';

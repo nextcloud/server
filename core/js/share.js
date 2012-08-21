@@ -30,21 +30,22 @@ OC.Share={
 			}
 		});
 	},
-	loadItem:function(itemType, item) {
+	loadItem:function(itemType, itemName, itemSource) {
 		var data = '';
-		if (typeof OC.Share.statuses[item] !== 'undefined') {
-			$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, item: item }, async: false, success: function(result) {
-				if (result && result.status === 'success') {
-					data = result.data;
-				} else {
-					data = false;
-				}
-			}});
+		if (typeof OC.Share.statuses[itemName] === 'undefined') {
+			itemSource = false;
 		}
+		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, itemName: itemName, itemSource: itemSource }, async: false, success: function(result) {
+			if (result && result.status === 'success') {
+				data = result.data;
+			} else {
+				data = false;
+			}
+		}});
 		return data;
 	},
-	share:function(itemType, item, shareType, shareWith, permissions, callback) {
-		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'share', itemType: itemType, item: item, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
+	share:function(itemType, itemName, itemSource, shareType, shareWith, permissions, callback) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'share', itemType: itemType, itemName: itemName, itemSource: itemSource, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
 			if (result && result.status === 'success') {
 				if (callback) {
 					callback(result.data);
@@ -54,8 +55,8 @@ OC.Share={
 			}
 		});
 	},
-	unshare:function(itemType, item, shareType, shareWith, callback) {
-		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'unshare', itemType: itemType, item: item, shareType: shareType, shareWith: shareWith }, function(result) {
+	unshare:function(itemType, itemSource, shareType, shareWith, callback) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'unshare', itemType: itemType, itemSource: itemSource, shareType: shareType, shareWith: shareWith }, function(result) {
 			if (result && result.status === 'success') {
 				if (callback) {
 					callback();
@@ -65,15 +66,24 @@ OC.Share={
 			}
 		});
 	},
-	setPermissions:function(itemType, item, shareType, shareWith, permissions) {
-		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setPermissions', itemType: itemType, item: item, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
+	setPermissions:function(itemType, itemSource, shareType, shareWith, permissions) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setPermissions', itemType: itemType, itemSource: itemSource, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
 			if (!result || result.status !== 'success') {
 				OC.dialogs.alert('Error', 'Error while changing permissions');
 			}
 		});
 	},
-	showDropDown:function(itemType, item, appendTo, privateLink, possiblePermissions) {
-		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item="'+item+'">';
+	showDropDown:function(itemType, itemName, itemSource, appendTo, privateLink, possiblePermissions) {
+		var data = OC.Share.loadItem(itemType, itemName, itemSource);
+		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-name="'+itemName+'" data-item-source="'+itemSource+'">';
+		if (data.reshare) {
+			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
+				html += 'Shared with you and the group '+data.reshare.share_with+' by '+data.reshare.uid_owner;
+			} else {
+				html += 'Shared with you by '+data.reshare.uid_owner;
+			}
+			html += '<br />';
+		}
 		html += '<input id="shareWith" type="text" placeholder="Share with" style="width:90%;"/>';
 		html += '<ul id="shareWithList">';
 		html += '</ul>';
@@ -88,9 +98,8 @@ OC.Share={
 		$(html).appendTo(appendTo);
 		// Reset item shares
 		OC.Share.itemShares = [];
-		var data = OC.Share.loadItem(itemType, item);
-		if (data) {
-			$.each(data, function(index, share) {
+		if (data.shares) {
+			$.each(data.shares, function(index, share) {
 				if (share.share_type == OC.Share.SHARE_TYPE_PRIVATE_LINK) {
 					OC.Share.showPrivateLink(item, share.share_with);
 				} else {
@@ -127,7 +136,7 @@ OC.Share={
 			$(this).val(shareWith);
 			// Default permissions are Read and Share
 			var permissions = OC.Share.PERMISSION_READ | OC.Share.PERMISSION_SHARE;
-			OC.Share.share($('#dropdown').data('item-type'), $('#dropdown').data('item'), shareType, shareWith, permissions, function() {
+			OC.Share.share($('#dropdown').data('item-type'), $('#dropdown').data('item-name'), $('#dropdown').data('item-source'), shareType, shareWith, permissions, function() {
 				OC.Share.addShareWith(shareType, shareWith, permissions, possiblePermissions);
 				$('#shareWith').val('');
 			});
@@ -242,9 +251,10 @@ $(document).ready(function() {
 
 	$('a.share').live('click', function(event) {
 		event.stopPropagation();
-		if ($(this).data('item-type') !== undefined && $(this).data('item') !== undefined) {
+		if ($(this).data('item-type') !== undefined && $(this).data('item-name') !== undefined  && $(this).data('item-source') !== undefined) {
 			var itemType = $(this).data('item-type');
-			var item = $(this).data('item');
+			var itemName = $(this).data('item-name');
+			var itemSource = $(this).data('item-source');
 			var appendTo = $(this).parent().parent();
 			var privateLink = false;
 			var possiblePermissions = $(this).data('possible-permissions');
@@ -254,13 +264,13 @@ $(document).ready(function() {
 			if (OC.Share.droppedDown) {
 				if (item != $('#dropdown').data('item')) {
 					OC.Share.hideDropDown(function () {
-						OC.Share.showDropDown(itemType, item, appendTo, privateLink, possiblePermissions);
+						OC.Share.showDropDown(itemType, itemName, itemSource, appendTo, privateLink, possiblePermissions);
 					});
 				} else {
 					OC.Share.hideDropDown();
 				}
 			} else {
-				OC.Share.showDropDown(itemType, item, appendTo, privateLink, possiblePermissions);
+				OC.Share.showDropDown(itemType, itemName, itemSource, appendTo, privateLink, possiblePermissions);
 			}
 		}
 	});
@@ -306,14 +316,14 @@ $(document).ready(function() {
 				if (item != $('#dropdown').data('item')) {
 					OC.Share.hideDropDown(function () {
 						$('tr').filterAttr('data-file', filename).addClass('mouseOver');
-						OC.Share.showDropDown(itemType, item, appendTo, true, possiblePermissions);
+						OC.Share.showDropDown(itemType, '/'+filename, item, appendTo, true, possiblePermissions);
 					});
 				} else {
 					OC.Share.hideDropDown();
 				}
 			} else {
 				$('tr').filterAttr('data-file',filename).addClass('mouseOver');
-				OC.Share.showDropDown(itemType, item, appendTo, true, possiblePermissions);
+				OC.Share.showDropDown(itemType, '/'+filename, item, appendTo, true, possiblePermissions);
 			}
 		});
 	}
@@ -350,7 +360,7 @@ $(document).ready(function() {
 		var li = $(this).parent();
 		var shareType = $(li).data('share-type');
 		var shareWith = $(li).data('share-with');
-		OC.Share.unshare($('#dropdown').data('item-type'), $('#dropdown').data('item'), shareType, shareWith, function() {
+		OC.Share.unshare($('#dropdown').data('item-type'), $('#dropdown').data('item-source'), shareType, shareWith, function() {
 			$(li).remove();
 			var index = OC.Share.itemShares[shareType].indexOf(shareWith);
 			OC.Share.itemShares[shareType].splice(index, 1);
@@ -381,7 +391,7 @@ $(document).ready(function() {
 		$(checkboxes).filter(':not(input[name="edit"])').filter(':checked').each(function(index, checkbox) {
 			permissions |= $(checkbox).data('permissions');
 		});
-		OC.Share.setPermissions($('#dropdown').data('item-type'), $('#dropdown').data('item'), $(li).data('share-type'), $(li).data('share-with'), permissions);
+		OC.Share.setPermissions($('#dropdown').data('item-type'), $('#dropdown').data('item-source'), $(li).data('share-type'), $(li).data('share-with'), permissions);
 	});
 	
 	$('#privateLinkCheckbox').live('change', function() {
