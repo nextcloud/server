@@ -24,7 +24,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 	</div>
 	</div> <!-- contact_photo -->
 
-	<div id="contact_identity" class="contactsection">
+	<div id="contact_identity">
 	<form method="post">
 	<input type="hidden" name="id" value="<?php echo $_['id'] ?>">
 	<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken'] ?>">
