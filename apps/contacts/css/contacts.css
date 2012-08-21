@@ -32,7 +32,7 @@
 
 #card input[type="text"].contacts_property,input[type="email"].contacts_property,input[type="url"].contacts_property { width: 14em; float: left; font-weight: bold; }
 .categories { float: left; width: 16em; }
-#card input[type="text"],input[type="email"],input[type="url"],input[type="tel"],input[type="date"], select, textarea { background-color: #fefefe; border: 0 !important; -webkit-appearance:none !important; -moz-appearance:none  !important; -webkit-box-sizing:none !important; -moz-box-sizing:none !important; box-sizing:none !important; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; float: left; }
+#card input[type="checkbox"].contacts_property,input[type="text"],input[type="email"],input[type="url"],input[type="tel"],input[type="date"], select, textarea { background-color: #fefefe; border: 0 !important; -moz-appearance:none  !important; -webkit-box-sizing:none !important; -moz-box-sizing:none !important; box-sizing:none !important; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; float: left; }
 #card input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,input[type="email"]:hover,input[type="url"]:hover,input[type="tel"]:hover,input[type="date"]:hover,input[type="date"],input[type="date"]:hover,input[type="date"]:active,input[type="date"]:active,input[type="date"]:active,input[type="email"]:active,input[type="url"]:active,input[type="tel"]:active, select:hover, select:focus, select:active, textarea:focus, textarea:hover { border: 0 !important; -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #ddd, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #ddd, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #ddd, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; float: left; }
 textarea { width: 80%; min-height: 5em; min-width: 30em; margin: 0 !important; padding: 0 !important; outline: 0 !important;}
 dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; cursor: normal; }
@@ -72,11 +72,11 @@ label:hover, dt:hover { color: #333; }
 #name { /*position: absolute; top: 0px; left: 0px;*/ min-width: 25em; height: 2em; clear: right; display: block; }
 #identityprops { /*position: absolute; top: 2.5em; left: 0px;*/ }
 #contact_photo { float: left; margin: 1em; }
-#contact_identity { min-width: 30em; }
+#contact_identity { min-width: 30em; padding: 0.5em;}
 .contactsection { position: relative; float: left; width: 35em; padding: 0.5em; height: auto; }
 
 #cropbox { margin: auto; }
-#contacts_details_photo_wrapper { width: 200px; }
+#contacts_details_photo_wrapper { width: 150px; }
 #contacts_details_photo_wrapper.wait { opacity: 0.6; filter:alpha(opacity=0.6); z-index:1000; background: url('%webroot%/core/img/loading.gif') no-repeat center center; cursor: wait; }
 .contacts_details_photo { border-radius: 0.5em; border: thin solid #bbb; margin: 0.3em; background: url('%webroot%/core/img/loading.gif') no-repeat center center; -moz-box-shadow: 0 1px 3px #777; -webkit-box-shadow: 0 1px 3px #777; box-shadow: 0 1px 3px #777; opacity: 1; }
 .contacts_details_photo:hover { background: #fff; cursor: default; }
@@ -120,9 +120,10 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .propertylist { clear: none; max-width: 28em; }
 .propertylist li.propertycontainer { white-space: nowrap; min-width: 35em; /*max-width: 30em;*/ display: block; clear: right; }
 .propertycontainer[data-element="EMAIL"] > input[type="email"],.propertycontainer[data-element="TEL"] > input[type="text"] { min-width: 12em !important; float: left; }
-.propertylist li > input[type="checkbox"],input[type="radio"] { float: left; clear: left; width: 20px; height: 20px; vertical-align: middle; }
+.propertylist li > input[type="checkbox"],input[type="radio"] { float: left; clear: left; width: 16px; height: 16px; vertical-align: middle; padding: 0; }
 .propertylist li > select { float: left; max-width: 8em; }
-.typelist[type="button"] { float: left; max-width: 10em; border: 0; background-color: #fff; color: #bbb} /* for multiselect */
+.propertylist li > label.xab { display: block; color: #bbb; float:left; clear: both; padding: 0.5em 0 0 2.5em; }
+.typelist[type="button"] { float: left; max-width: 10em; border: 0; background-color: #fff; color: #bbb; box-shadow: none; } /* for multiselect */
 .typelist[type="button"]:hover { color: #777; } /* for multiselect */
 .addresslist { clear: both; font-weight: bold; }
 #ninjahelp { position: absolute; bottom: 0; left: 0; right: 0; padding: 1em; margin: 1em; opacity: 0.9; }

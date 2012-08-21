@@ -1231,6 +1231,7 @@ OC.Contacts={
 			$(this.photo).load(function () {
 				$('img.contacts_details_photo').remove()
 				$(this).addClass('contacts_details_photo');
+				wrapper.css('width', $(this).get(0).width + 10);
 				wrapper.removeClass('loading').removeClass('wait');
 				$(this).insertAfter($('#phototools')).fadeIn();
 			}).error(function () {
@@ -1304,8 +1305,11 @@ OC.Contacts={
 			var emaillist = $('#emaillist');
 			for(var mail in this.data.EMAIL) {
 				this.addMail();
-				//$('#emaillist li:first-child').clone().appendTo($('#emaillist')).show();
-				var curemail = emaillist.find('li:last-child');
+				emaillist.find('li:last-child').find('select').multiselect('destroy');
+				var curemail = emaillist.find('li.propertycontainer:last-child');
+				if(typeof this.data.EMAIL[mail].label != 'undefined') {
+					curemail.prepend('<label class="xab">'+this.data.EMAIL[mail].label+'</label>');
+				}
 				curemail.data('checksum', this.data.EMAIL[mail]['checksum'])
 				curemail.find('input[type="email"]').val(this.data.EMAIL[mail]['value']);
 				for(var param in this.data.EMAIL[mail]['parameters']) {
@@ -1363,18 +1367,22 @@ OC.Contacts={
 			var phonelist = $('#phonelist');
 			for(var phone in this.data.TEL) {
 				this.addPhone();
-				phonelist.find('li:last-child').find('select').multiselect('destroy');
-				phonelist.find('li:last-child').data('checksum', this.data.TEL[phone]['checksum'])
-				phonelist.find('li:last-child').find('input[type="text"]').val(this.data.TEL[phone]['value']);
+				var curphone = phonelist.find('li.propertycontainer:last-child');
+				if(typeof this.data.TEL[phone].label != 'undefined') {
+					curphone.prepend('<label class="xab">'+this.data.TEL[phone].label+'</label>');
+				}
+				curphone.find('select').multiselect('destroy');
+				curphone.data('checksum', this.data.TEL[phone]['checksum'])
+				curphone.find('input[type="text"]').val(this.data.TEL[phone]['value']);
 				for(var param in this.data.TEL[phone]['parameters']) {
 					if(param.toUpperCase() == 'PREF') {
-						phonelist.find('li:last-child').find('input[type="checkbox"]').attr('checked', 'checked');
+						curphone.find('input[type="checkbox"]').attr('checked', 'checked');
 					}
 					else if(param.toUpperCase() == 'TYPE') {
 						for(ptype in this.data.TEL[phone]['parameters'][param]) {
 							var found = false;
 							var pt = this.data.TEL[phone]['parameters'][param][ptype];
-							phonelist.find('li:last-child').find('select option').each(function() {
+							curphone.find('select option').each(function() {
 								//if ($(this).val().toUpperCase() == pt.toUpperCase()) {
 								if ($.inArray($(this).val().toUpperCase(), pt.toUpperCase().split(',')) > -1) {
 									$(this).attr('selected', 'selected');
@@ -1382,12 +1390,12 @@ OC.Contacts={
 								}
 							});
 							if(!found) {
-								phonelist.find('li:last-child').find('select option:last-child').after('<option class="custom" value="'+pt+'" selected="selected">'+pt+'</option>');
+								curphone.find('select option:last-child').after('<option class="custom" value="'+pt+'" selected="selected">'+pt+'</option>');
 							}
 						}
 					}
 				}
-				phonelist.find('li:last-child').find('select').multiselect({
+				curphone.find('select').multiselect({
 										noneSelectedText: t('contacts', 'Select type'),
 										header: false,
 										selectedList: 4,

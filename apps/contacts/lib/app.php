@@ -129,6 +129,7 @@ class OC_Contacts_App {
 				return array(
 					'WORK' => $l->t('Work'),
 					'HOME' => $l->t('Home'),
+					'OTHER' =>  $l->t('Other'),
 				);
 			case 'TEL':
 				return array(
@@ -141,6 +142,7 @@ class OC_Contacts_App {
 					'FAX'   =>  $l->t('Fax'),
 					'VIDEO' =>  $l->t('Video'),
 					'PAGER' =>  $l->t('Pager'),
+					'OTHER' =>  $l->t('Other'),
 				);
 			case 'EMAIL':
 				return array(

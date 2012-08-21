@@ -562,6 +562,12 @@ class OC_Contacts_VCard{
 		foreach($object->children as $property){
 			$temp = self::structureProperty($property);
 			if(!is_null($temp)) {
+				if(isset($object->{$property->group . '.X-ABLABEL'})) {
+					$temp['label'] = $object->{$property->group . '.X-ABLABEL'}->value;
+					if($temp['label'] == '_$!<Other>!$_') {
+						$temp['label'] = OC_Contacts_App::$l10n->t('Other');
+					}
+				}
 				if(array_key_exists($property->name, $details)) {
 					$details[$property->name][] = $temp;
 				}
@@ -612,7 +618,7 @@ class OC_Contacts_VCard{
 			// Faulty entries by kaddressbook
 			// Actually TYPE=PREF is correct according to RFC 2426
 			// but this way is more handy in the UI. Tanghus.
-			if($parameter->name == 'TYPE' && $parameter->value == 'PREF') {
+			if($parameter->name == 'TYPE' && strtoupper($parameter->value) == 'PREF') {
 				$parameter->name = 'PREF';
 				$parameter->value = '1';
 			}
