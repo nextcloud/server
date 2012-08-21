@@ -14,7 +14,7 @@ div.visible { opacity: 0.8;}
 </style>
 <script type="text/javascript">
 
-var root = "<?php echo $root; ?>";
+var root = "<?php echo htmlentities($root); ?>";
 
 function explode(element) {
 	$('div', element).each(function(index, elem) {
