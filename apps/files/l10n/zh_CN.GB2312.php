@@ -7,7 +7,6 @@
 "Missing a temporary folder" => "丢失了一个临时文件夹",
 "Failed to write to disk" => "写磁盘失败",
 "Files" => "文件",
-"Unshare" => "未分享的",
 "Delete" => "删除",
 "already exists" => "已经存在了",
 "replace" => "替换",

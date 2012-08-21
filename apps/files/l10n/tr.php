@@ -7,7 +7,6 @@
 "Missing a temporary folder" => "Geçici bir klasör eksik",
 "Failed to write to disk" => "Diske yazılamadı",
 "Files" => "Dosyalar",
-"Unshare" => "Paylaşılmayan",
 "Delete" => "Sil",
 "undo" => "geri al",
 "deleted" => "silindi",

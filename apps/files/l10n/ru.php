@@ -7,7 +7,6 @@
 "Missing a temporary folder" => "Невозможно найти временную папку",
 "Failed to write to disk" => "Ошибка записи на диск",
 "Files" => "Файлы",
-"Unshare" => "Снять общий доступ",
 "Delete" => "Удалить",
 "undo" => "отмена",
 "deleted" => "удален",

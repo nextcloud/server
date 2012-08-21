@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano  <mstreet@kde.org.ar>, 2012.
 #   <mstreet@kde.org.ar>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-31 22:53+0200\n"
-"PO-Revision-Date: 2012-07-31 20:54+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-21 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,87 +53,83 @@ msgstr "Malsukcesis skribo al disko"
 msgid "Files"
 msgstr "Dosieroj"
 
-#: js/fileactions.js:95
-msgid "Unshare"
-msgstr ""
-
-#: js/fileactions.js:97 templates/index.php:56
+#: js/fileactions.js:107 templates/index.php:56
 msgid "Delete"
 msgstr "Forigi"
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr ""
+msgstr "jam ekzistas"
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr ""
+msgstr "anstataŭigi"
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "nuligi"
 
 #: js/filelist.js:195
 msgid "replaced"
-msgstr ""
+msgstr "anstataŭigita"
 
 #: js/filelist.js:195
 msgid "with"
-msgstr ""
+msgstr "kun"
 
-#: js/filelist.js:195 js/filelist.js:256
+#: js/filelist.js:195 js/filelist.js:246
 msgid "undo"
-msgstr ""
+msgstr "malfari"
 
-#: js/filelist.js:256
+#: js/filelist.js:246
 msgid "deleted"
-msgstr ""
+msgstr "forigita"
 
-#: js/files.js:170
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "generanta ZIP-dosiero, ĝi povas daŭri iom da tempo"
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Ne eblis alŝuti vian dosieron ĉar ĝi estas dosierujo aŭ havas 0 duumokojn"
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Upload Error"
 msgstr "Alŝuta eraro"
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:228 js/files.js:319 js/files.js:348
 msgid "Pending"
 msgstr "Traktotaj"
 
-#: js/files.js:332
+#: js/files.js:333
 msgid "Upload cancelled."
 msgstr "La alŝuto nuliĝis."
 
-#: js/files.js:456
+#: js/files.js:457
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nevalida nomo, “/” ne estas permesata."
 
-#: js/files.js:631 templates/index.php:55
+#: js/files.js:703 templates/index.php:55
 msgid "Size"
 msgstr "Grando"
 
-#: js/files.js:632 templates/index.php:56
+#: js/files.js:704 templates/index.php:56
 msgid "Modified"
 msgstr "Modifita"
 
-#: js/files.js:659
+#: js/files.js:731
 msgid "folder"
 msgstr "dosierujo"
 
-#: js/files.js:661
+#: js/files.js:733
 msgid "folders"
 msgstr "dosierujoj"
 
-#: js/files.js:669
+#: js/files.js:741
 msgid "file"
 msgstr "dosiero"
 
-#: js/files.js:671
+#: js/files.js:743
 msgid "files"
 msgstr "dosieroj"
 

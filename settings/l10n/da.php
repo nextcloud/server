@@ -12,6 +12,8 @@
 "Saving..." => "Gemmer...",
 "__language_name__" => "Dansk",
 "Security Warning" => "Sikkerhedsadvarsel",
+"Cron" => "Cron",
+"cron.php is registered at a webcron service" => "cron.php er tilmeldt en webcron tjeneste",
 "Log" => "Log",
 "More" => "Mere",
 "Add your App" => "Tilføj din App",

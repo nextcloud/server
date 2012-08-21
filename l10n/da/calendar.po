@@ -6,15 +6,16 @@
 #   <mikkelbjerglarsen@gmail.com>, 2011.
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011, 2012.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
+#   <sr@ybnet.dk>, 2012.
 # Thomas Tanghus <>, 2012.
 # Thomas Tanghus <thomas@tanghus.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-20 14:34+0000\n"
+"Last-Translator: ressel <sr@ybnet.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: ajax/cache/status.php:19
 msgid "Not all calendars are completely cached"
-msgstr ""
+msgstr "Ikke alle kalendere er fuldstændig cached"
 
 #: ajax/cache/status.php:21
 msgid "Everything seems to be completely cached"
@@ -46,19 +47,19 @@ msgstr "Forkert kalender"
 msgid ""
 "The file contained either no events or all events are already saved in your "
 "calendar."
-msgstr ""
+msgstr "Filen indeholdt enten ingen begivenheder eller alle begivenheder er allerede gemt i din kalender."
 
 #: ajax/import/dropimport.php:31 ajax/import/import.php:67
 msgid "events has been saved in the new calendar"
-msgstr ""
+msgstr "begivenheder er gemt i den nye kalender"
 
 #: ajax/import/import.php:56
 msgid "Import failed"
-msgstr ""
+msgstr "import mislykkedes"
 
 #: ajax/import/import.php:69
 msgid "events has been saved in your calendar"
-msgstr ""
+msgstr "begivenheder er gemt i din kalender"
 
 #: ajax/settings/guesstimezone.php:25
 msgid "New Timezone:"
@@ -72,7 +73,7 @@ msgstr "Tidszone ændret"
 msgid "Invalid request"
 msgstr "Ugyldig forespørgsel"
 
-#: appinfo/app.php:35 templates/calendar.php:15
+#: appinfo/app.php:37 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:33
 msgid "Calendar"
 msgstr "Kalender"
@@ -481,7 +482,7 @@ msgstr "I dag"
 
 #: templates/calendar.php:46 templates/calendar.php:47
 msgid "Settings"
-msgstr ""
+msgstr "Indstillinger"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
@@ -703,7 +704,7 @@ msgstr ""
 msgid ""
 "A Calendar with this name already exists. If you continue anyhow, these "
 "calendars will be merged."
-msgstr ""
+msgstr "En kalender med dette navn findes allerede. Hvis du fortsætter alligevel, vil disse kalendere blive sammenlagt."
 
 #: templates/part.import.php:47
 msgid "Import"
@@ -735,7 +736,7 @@ msgstr "kl."
 
 #: templates/settings.php:10
 msgid "General"
-msgstr ""
+msgstr "Generel"
 
 #: templates/settings.php:15
 msgid "Timezone"
@@ -743,7 +744,7 @@ msgstr "Tidszone"
 
 #: templates/settings.php:47
 msgid "Update timezone automatically"
-msgstr ""
+msgstr "Opdater tidszone automatisk"
 
 #: templates/settings.php:52
 msgid "Time format"

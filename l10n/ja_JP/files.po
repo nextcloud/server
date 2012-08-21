@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-31 22:53+0200\n"
-"PO-Revision-Date: 2012-07-31 20:54+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-21 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,87 +52,83 @@ msgstr "ディスクへの書き込みに失敗しました"
 msgid "Files"
 msgstr "ファイル"
 
-#: js/fileactions.js:95
-msgid "Unshare"
-msgstr ""
-
-#: js/fileactions.js:97 templates/index.php:56
+#: js/fileactions.js:107 templates/index.php:56
 msgid "Delete"
 msgstr "削除"
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr ""
+msgstr "既に存在します"
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr ""
+msgstr "置き換え"
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: js/filelist.js:195
 msgid "replaced"
-msgstr ""
+msgstr "置換："
 
 #: js/filelist.js:195
 msgid "with"
-msgstr ""
+msgstr "←"
 
-#: js/filelist.js:195 js/filelist.js:256
+#: js/filelist.js:195 js/filelist.js:246
 msgid "undo"
-msgstr ""
+msgstr "元に戻す"
 
-#: js/filelist.js:256
+#: js/filelist.js:246
 msgid "deleted"
-msgstr ""
+msgstr "削除"
 
-#: js/files.js:170
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "ZIPファイルを生成中です、しばらくお待ちください。"
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "アップロード使用としているファイルがディレクトリ、もしくはサイズが0バイトのため、アップロードできません。"
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Upload Error"
 msgstr "アップロードエラー"
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:228 js/files.js:319 js/files.js:348
 msgid "Pending"
 msgstr "保留"
 
-#: js/files.js:332
+#: js/files.js:333
 msgid "Upload cancelled."
 msgstr "アップロードはキャンセルされました。"
 
-#: js/files.js:456
+#: js/files.js:457
 msgid "Invalid name, '/' is not allowed."
 msgstr "無効な名前、'/' は使用できません。"
 
-#: js/files.js:631 templates/index.php:55
+#: js/files.js:703 templates/index.php:55
 msgid "Size"
 msgstr "サイズ"
 
-#: js/files.js:632 templates/index.php:56
+#: js/files.js:704 templates/index.php:56
 msgid "Modified"
 msgstr "更新日時"
 
-#: js/files.js:659
+#: js/files.js:731
 msgid "folder"
 msgstr "フォルダ"
 
-#: js/files.js:661
+#: js/files.js:733
 msgid "folders"
 msgstr "フォルダ"
 
-#: js/files.js:669
+#: js/files.js:741
 msgid "file"
 msgstr "ファイル"
 
-#: js/files.js:671
+#: js/files.js:743
 msgid "files"
 msgstr "ファイル"
 

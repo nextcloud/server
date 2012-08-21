@@ -24,9 +24,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-20 02:01+0200\n"
-"PO-Revision-Date: 2012-08-19 09:39+0000\n"
-"Last-Translator: Phi Lieb <>\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-21 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -235,7 +235,7 @@ msgstr "Konnte das temporäre Bild nicht laden:"
 msgid "No file was uploaded. Unknown error"
 msgstr "Keine Datei hochgeladen. Unbekannter Fehler"
 
-#: appinfo/app.php:19
+#: appinfo/app.php:21
 msgid "Contacts"
 msgstr "Kontakte"
 
@@ -252,12 +252,12 @@ msgid "Couldn't get a valid address."
 msgstr "Konnte keine gültige Adresse abrufen"
 
 #: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
-#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:850
-#: js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
-#: js/contacts.js:1165 js/contacts.js:1173 js/contacts.js:1182
-#: js/contacts.js:1217 js/contacts.js:1249 js/contacts.js:1261
-#: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1456
-#: js/contacts.js:1476 js/settings.js:25 js/settings.js:42 js/settings.js:67
+#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:852
+#: js/contacts.js:858 js/contacts.js:870 js/contacts.js:904
+#: js/contacts.js:1167 js/contacts.js:1175 js/contacts.js:1184
+#: js/contacts.js:1219 js/contacts.js:1251 js/contacts.js:1263
+#: js/contacts.js:1286 js/contacts.js:1441 js/contacts.js:1476
+#: js/contacts.js:1496 js/settings.js:26 js/settings.js:43 js/settings.js:68
 msgid "Error"
 msgstr "Fehler"
 
@@ -269,41 +269,41 @@ msgstr "Dieses Feld darf nicht leer sein."
 msgid "Couldn't serialize elements."
 msgstr "Konnte Elemente nicht serialisieren"
 
-#: js/contacts.js:850 js/contacts.js:868
+#: js/contacts.js:852 js/contacts.js:870
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
 msgstr "'deleteProperty' wurde ohne Argumente aufgerufen, bitte melde dies auf bugs.owncloud.org"
 
-#: js/contacts.js:884
+#: js/contacts.js:886
 msgid "Edit name"
 msgstr "Name ändern"
 
-#: js/contacts.js:1165
+#: js/contacts.js:1167
 msgid "No files selected for upload."
 msgstr "Keine Datei(en) zum Hochladen ausgewählt"
 
-#: js/contacts.js:1173
+#: js/contacts.js:1175
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Die Datei, die du hochladen willst, überschreitet die maximale Größe für Datei-Uploads auf diesem Server."
 
-#: js/contacts.js:1236
+#: js/contacts.js:1238
 msgid "Error loading profile picture."
 msgstr "Fehler beim Laden des Profilbildes."
 
-#: js/contacts.js:1337 js/contacts.js:1371
+#: js/contacts.js:1332 js/contacts.js:1352 js/contacts.js:1391
 msgid "Select type"
 msgstr "Wähle Typ"
 
-#: js/contacts.js:1390
+#: js/contacts.js:1410
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
 msgstr "Einige zum Löschen markiert Kontakte wurden noch nicht gelöscht. Bitte warten."
 
-#: js/contacts.js:1461
+#: js/contacts.js:1481
 msgid "Do you want to merge these address books?"
 msgstr "Möchtest du diese Adressbücher zusammenführen?"
 
@@ -319,7 +319,7 @@ msgstr " importiert, "
 msgid " failed."
 msgstr " fehlgeschlagen."
 
-#: js/settings.js:67
+#: js/settings.js:68
 msgid "Displayname cannot be empty."
 msgstr "Der Anzeigename darf nicht leer sein."
 
@@ -327,125 +327,125 @@ msgstr "Der Anzeigename darf nicht leer sein."
 msgid "Addressbook not found: "
 msgstr "Adressbuch nicht gefunden:"
 
-#: lib/app.php:49
+#: lib/app.php:52
 msgid "This is not your addressbook."
 msgstr "Dies ist nicht dein Adressbuch."
 
-#: lib/app.php:68
+#: lib/app.php:71
 msgid "Contact could not be found."
 msgstr "Kontakt konnte nicht gefunden werden."
 
-#: lib/app.php:112 templates/part.contact.php:116
+#: lib/app.php:115 templates/part.contact.php:116
 msgid "Address"
 msgstr "Adresse"
 
-#: lib/app.php:113
+#: lib/app.php:116
 msgid "Telephone"
 msgstr "Telefon"
 
-#: lib/app.php:114 templates/part.contact.php:115
+#: lib/app.php:117 templates/part.contact.php:115
 msgid "Email"
 msgstr "E-Mail"
 
-#: lib/app.php:115 templates/part.contact.php:38 templates/part.contact.php:39
+#: lib/app.php:118 templates/part.contact.php:38 templates/part.contact.php:39
 #: templates/part.contact.php:111
 msgid "Organization"
 msgstr "Organisation"
 
-#: lib/app.php:127 lib/app.php:134 lib/app.php:144 lib/app.php:197
+#: lib/app.php:130 lib/app.php:137 lib/app.php:147 lib/app.php:200
 msgid "Work"
 msgstr "Arbeit"
 
-#: lib/app.php:128 lib/app.php:132 lib/app.php:145
+#: lib/app.php:131 lib/app.php:135 lib/app.php:148
 msgid "Home"
 msgstr "Zuhause"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Mobile"
 msgstr "Mobil"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Text"
 msgstr "Text"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Voice"
 msgstr "Anruf"
 
-#: lib/app.php:137
+#: lib/app.php:140
 msgid "Message"
 msgstr "Mitteilung"
 
-#: lib/app.php:138
+#: lib/app.php:141
 msgid "Fax"
 msgstr "Fax"
 
-#: lib/app.php:139
+#: lib/app.php:142
 msgid "Video"
 msgstr "Video"
 
-#: lib/app.php:140
+#: lib/app.php:143
 msgid "Pager"
 msgstr "Pager"
 
-#: lib/app.php:146
+#: lib/app.php:149
 msgid "Internet"
 msgstr "Internet"
 
-#: lib/app.php:183 templates/part.contact.php:44
+#: lib/app.php:186 templates/part.contact.php:44
 #: templates/part.contact.php:113
 msgid "Birthday"
 msgstr "Geburtstag"
 
-#: lib/app.php:184
+#: lib/app.php:187
 msgid "Business"
 msgstr "Geschäftlich"
 
-#: lib/app.php:185
+#: lib/app.php:188
 msgid "Call"
 msgstr "Anruf"
 
-#: lib/app.php:186
+#: lib/app.php:189
 msgid "Clients"
 msgstr "Kunden"
 
-#: lib/app.php:187
+#: lib/app.php:190
 msgid "Deliverer"
 msgstr "Lieferant"
 
-#: lib/app.php:188
+#: lib/app.php:191
 msgid "Holidays"
 msgstr "Feiertage"
 
-#: lib/app.php:189
+#: lib/app.php:192
 msgid "Ideas"
 msgstr "Ideen"
 
-#: lib/app.php:190
+#: lib/app.php:193
 msgid "Journey"
 msgstr "Reise"
 
-#: lib/app.php:191
+#: lib/app.php:194
 msgid "Jubilee"
 msgstr "Jubiläum"
 
-#: lib/app.php:192
+#: lib/app.php:195
 msgid "Meeting"
 msgstr "Besprechung"
 
-#: lib/app.php:193
+#: lib/app.php:196
 msgid "Other"
 msgstr "Andere"
 
-#: lib/app.php:194
+#: lib/app.php:197
 msgid "Personal"
 msgstr "Persönlich"
 
-#: lib/app.php:195
+#: lib/app.php:198
 msgid "Projects"
 msgstr "Projekte"
 
-#: lib/app.php:196
+#: lib/app.php:199
 msgid "Questions"
 msgstr "Fragen"
 
@@ -555,7 +555,7 @@ msgstr "Name ändern"
 
 #: templates/part.contact.php:39 templates/part.contact.php:41
 #: templates/part.contact.php:43 templates/part.contact.php:45
-#: templates/part.contact.php:49 templates/settings.php:33
+#: templates/part.contact.php:49 templates/settings.php:36
 msgid "Delete"
 msgstr "Löschen"
 
@@ -863,33 +863,37 @@ msgid "Show read-only VCF link"
 msgstr "Schreibgeschützten VCF-Link anzeigen"
 
 #: templates/settings.php:26
+msgid "Share"
+msgstr ""
+
+#: templates/settings.php:29
 msgid "Download"
 msgstr "Herunterladen"
 
-#: templates/settings.php:30
+#: templates/settings.php:33
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: templates/settings.php:40
+#: templates/settings.php:43
 msgid "New Address Book"
 msgstr "Neues Adressbuch"
 
-#: templates/settings.php:41
+#: templates/settings.php:44
 msgid "Name"
 msgstr "Name"
 
-#: templates/settings.php:42
+#: templates/settings.php:45
 msgid "Description"
 msgstr "Beschreibung"
 
-#: templates/settings.php:43
+#: templates/settings.php:46
 msgid "Save"
 msgstr "Speichern"
 
-#: templates/settings.php:44
+#: templates/settings.php:47
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: templates/settings.php:49
+#: templates/settings.php:52
 msgid "More..."
 msgstr "Mehr..."

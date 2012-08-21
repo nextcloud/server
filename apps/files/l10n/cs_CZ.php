@@ -7,7 +7,6 @@
 "Missing a temporary folder" => "Chybí adresář pro sočasné soubory",
 "Failed to write to disk" => "Zápis na disk se nezdařil",
 "Files" => "Soubory",
-"Unshare" => "Odsdílet",
 "Delete" => "Vymazat",
 "already exists" => "již existuje",
 "replace" => "zaměnit",

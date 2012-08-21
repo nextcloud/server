@@ -7,7 +7,6 @@
 "Missing a temporary folder" => "Cartella temporanea mancante",
 "Failed to write to disk" => "Scrittura su disco non riuscita",
 "Files" => "File",
-"Unshare" => "Rimuovi condivisione",
 "Delete" => "Elimina",
 "already exists" => "esiste già",
 "replace" => "sostituisci",

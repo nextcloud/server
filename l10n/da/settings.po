@@ -7,15 +7,16 @@
 #   <mikkelbjerglarsen@gmail.com>, 2011.
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011, 2012.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
+#   <sr@ybnet.dk>, 2012.
 # Thomas Tanghus <>, 2012.
 # Thomas Tanghus <thomas@tanghus.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-18 02:01+0200\n"
-"PO-Revision-Date: 2012-08-18 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-20 14:35+0000\n"
+"Last-Translator: ressel <sr@ybnet.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,7 +78,7 @@ msgstr "Sikkerhedsadvarsel"
 
 #: templates/admin.php:29
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:31
 msgid "execute one task with each page loaded"
@@ -85,7 +86,7 @@ msgstr ""
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "cron.php er tilmeldt en webcron tjeneste"
 
 #: templates/admin.php:35
 msgid "use systems cron service"

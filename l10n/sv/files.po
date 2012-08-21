@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-06 02:01+0200\n"
-"PO-Revision-Date: 2012-08-05 17:06+0000\n"
-"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-21 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,11 +57,7 @@ msgstr "Misslyckades spara till disk"
 msgid "Files"
 msgstr "Filer"
 
-#: js/fileactions.js:95
-msgid "Unshare"
-msgstr "Sluta dela"
-
-#: js/fileactions.js:97 templates/index.php:56
+#: js/fileactions.js:107 templates/index.php:56
 msgid "Delete"
 msgstr "Ta bort"
 
@@ -85,59 +81,59 @@ msgstr "ersatt"
 msgid "with"
 msgstr "med"
 
-#: js/filelist.js:195 js/filelist.js:256
+#: js/filelist.js:195 js/filelist.js:246
 msgid "undo"
 msgstr "ångra"
 
-#: js/filelist.js:256
+#: js/filelist.js:246
 msgid "deleted"
 msgstr "raderad"
 
-#: js/files.js:170
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "Gererar ZIP-fil. Det kan ta lite tid."
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Kunde inte ladda upp dina filer eftersom det antingen är en mapp eller har 0 bytes."
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Upload Error"
 msgstr "Uppladdningsfel"
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:228 js/files.js:319 js/files.js:348
 msgid "Pending"
 msgstr "Väntar"
 
-#: js/files.js:332
+#: js/files.js:333
 msgid "Upload cancelled."
 msgstr "Uppladdning avbruten."
 
-#: js/files.js:456
+#: js/files.js:457
 msgid "Invalid name, '/' is not allowed."
 msgstr "Ogiltigt namn, '/' är inte tillåten."
 
-#: js/files.js:690 templates/index.php:55
+#: js/files.js:703 templates/index.php:55
 msgid "Size"
 msgstr "Storlek"
 
-#: js/files.js:691 templates/index.php:56
+#: js/files.js:704 templates/index.php:56
 msgid "Modified"
 msgstr "Ändrad"
 
-#: js/files.js:718
+#: js/files.js:731
 msgid "folder"
 msgstr "mapp"
 
-#: js/files.js:720
+#: js/files.js:733
 msgid "folders"
 msgstr "mappar"
 
-#: js/files.js:728
+#: js/files.js:741
 msgid "file"
 msgstr "fil"
 
-#: js/files.js:730
+#: js/files.js:743
 msgid "files"
 msgstr "filer"
 

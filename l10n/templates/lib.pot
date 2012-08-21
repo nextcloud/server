@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-20 02:01+0200\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,19 +41,19 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: files.php:249
+#: files.php:276
 msgid "ZIP download is turned off."
 msgstr ""
 
-#: files.php:250
+#: files.php:277
 msgid "Files need to be downloaded one by one."
 msgstr ""
 
-#: files.php:250 files.php:275
+#: files.php:277 files.php:302
 msgid "Back to Files"
 msgstr ""
 
-#: files.php:274
+#: files.php:301
 msgid "Selected files too large to generate zip file."
 msgstr ""
 

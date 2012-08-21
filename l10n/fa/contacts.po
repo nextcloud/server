@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-16 02:04+0200\n"
-"PO-Revision-Date: 2012-08-16 00:05+0000\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-21 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -219,7 +219,7 @@ msgstr "قابلیت بارگذاری تصویر  موقت وجود ندارد:"
 msgid "No file was uploaded. Unknown error"
 msgstr "هیچ فایلی آپلود نشد.خطای ناشناس"
 
-#: appinfo/app.php:19
+#: appinfo/app.php:21
 msgid "Contacts"
 msgstr "اشخاص"
 
@@ -236,12 +236,12 @@ msgid "Couldn't get a valid address."
 msgstr "Couldn't get a valid address."
 
 #: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
-#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:850
-#: js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
-#: js/contacts.js:1165 js/contacts.js:1173 js/contacts.js:1182
-#: js/contacts.js:1217 js/contacts.js:1249 js/contacts.js:1261
-#: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1456
-#: js/contacts.js:1476 js/settings.js:25 js/settings.js:42 js/settings.js:67
+#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:852
+#: js/contacts.js:858 js/contacts.js:870 js/contacts.js:904
+#: js/contacts.js:1167 js/contacts.js:1175 js/contacts.js:1184
+#: js/contacts.js:1219 js/contacts.js:1251 js/contacts.js:1263
+#: js/contacts.js:1286 js/contacts.js:1441 js/contacts.js:1476
+#: js/contacts.js:1496 js/settings.js:26 js/settings.js:43 js/settings.js:68
 msgid "Error"
 msgstr "خطا"
 
@@ -253,41 +253,41 @@ msgstr "این ویژگی باید به صورت غیر تهی عمل کند"
 msgid "Couldn't serialize elements."
 msgstr "قابلیت مرتب سازی عناصر وجود ندارد"
 
-#: js/contacts.js:850 js/contacts.js:868
+#: js/contacts.js:852 js/contacts.js:870
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
 msgstr "پاک کردن ویژگی بدون استدلال انجام شده.لطفا این مورد را گزارش دهید:bugs.owncloud.org"
 
-#: js/contacts.js:884
+#: js/contacts.js:886
 msgid "Edit name"
 msgstr "نام تغییر"
 
-#: js/contacts.js:1165
+#: js/contacts.js:1167
 msgid "No files selected for upload."
 msgstr "هیچ فایلی برای آپلود انتخاب نشده است"
 
-#: js/contacts.js:1173
+#: js/contacts.js:1175
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "حجم فایل بسیار بیشتر از حجم تنظیم شده در تنظیمات سرور است"
 
-#: js/contacts.js:1236
+#: js/contacts.js:1238
 msgid "Error loading profile picture."
 msgstr ""
 
-#: js/contacts.js:1337 js/contacts.js:1371
+#: js/contacts.js:1332 js/contacts.js:1352 js/contacts.js:1391
 msgid "Select type"
 msgstr "نوع را انتخاب کنید"
 
-#: js/contacts.js:1390
+#: js/contacts.js:1410
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
 msgstr ""
 
-#: js/contacts.js:1461
+#: js/contacts.js:1481
 msgid "Do you want to merge these address books?"
 msgstr ""
 
@@ -303,7 +303,7 @@ msgstr "وارد شد،"
 msgid " failed."
 msgstr "ناموفق"
 
-#: js/settings.js:67
+#: js/settings.js:68
 msgid "Displayname cannot be empty."
 msgstr ""
 
@@ -311,125 +311,125 @@ msgstr ""
 msgid "Addressbook not found: "
 msgstr ""
 
-#: lib/app.php:49
+#: lib/app.php:52
 msgid "This is not your addressbook."
 msgstr "این کتابچه ی نشانه های شما نیست"
 
-#: lib/app.php:68
+#: lib/app.php:71
 msgid "Contact could not be found."
 msgstr "اتصال ویا تماسی یافت نشد"
 
-#: lib/app.php:112 templates/part.contact.php:117
+#: lib/app.php:115 templates/part.contact.php:116
 msgid "Address"
 msgstr "نشانی"
 
-#: lib/app.php:113
+#: lib/app.php:116
 msgid "Telephone"
 msgstr "تلفن"
 
-#: lib/app.php:114 templates/part.contact.php:116
+#: lib/app.php:117 templates/part.contact.php:115
 msgid "Email"
 msgstr "نشانی پست الکترنیک"
 
-#: lib/app.php:115 templates/part.contact.php:39 templates/part.contact.php:40
-#: templates/part.contact.php:112
+#: lib/app.php:118 templates/part.contact.php:38 templates/part.contact.php:39
+#: templates/part.contact.php:111
 msgid "Organization"
 msgstr "نهاد(ارگان)"
 
-#: lib/app.php:127 lib/app.php:134 lib/app.php:144 lib/app.php:197
+#: lib/app.php:130 lib/app.php:137 lib/app.php:147 lib/app.php:200
 msgid "Work"
 msgstr "کار"
 
-#: lib/app.php:128 lib/app.php:132 lib/app.php:145
+#: lib/app.php:131 lib/app.php:135 lib/app.php:148
 msgid "Home"
 msgstr "خانه"
 
-#: lib/app.php:133
+#: lib/app.php:136
 msgid "Mobile"
 msgstr "موبایل"
 
-#: lib/app.php:135
+#: lib/app.php:138
 msgid "Text"
 msgstr "متن"
 
-#: lib/app.php:136
+#: lib/app.php:139
 msgid "Voice"
 msgstr "صدا"
 
-#: lib/app.php:137
+#: lib/app.php:140
 msgid "Message"
 msgstr "پیغام"
 
-#: lib/app.php:138
+#: lib/app.php:141
 msgid "Fax"
 msgstr "دورنگار:"
 
-#: lib/app.php:139
+#: lib/app.php:142
 msgid "Video"
 msgstr "رسانه تصویری"
 
-#: lib/app.php:140
+#: lib/app.php:143
 msgid "Pager"
 msgstr "صفحه"
 
-#: lib/app.php:146
+#: lib/app.php:149
 msgid "Internet"
 msgstr "اینترنت"
 
-#: lib/app.php:183 templates/part.contact.php:45
-#: templates/part.contact.php:114
+#: lib/app.php:186 templates/part.contact.php:44
+#: templates/part.contact.php:113
 msgid "Birthday"
 msgstr "روزتولد"
 
-#: lib/app.php:184
+#: lib/app.php:187
 msgid "Business"
 msgstr ""
 
-#: lib/app.php:185
+#: lib/app.php:188
 msgid "Call"
 msgstr ""
 
-#: lib/app.php:186
+#: lib/app.php:189
 msgid "Clients"
 msgstr ""
 
-#: lib/app.php:187
+#: lib/app.php:190
 msgid "Deliverer"
 msgstr ""
 
-#: lib/app.php:188
+#: lib/app.php:191
 msgid "Holidays"
 msgstr ""
 
-#: lib/app.php:189
+#: lib/app.php:192
 msgid "Ideas"
 msgstr ""
 
-#: lib/app.php:190
+#: lib/app.php:193
 msgid "Journey"
 msgstr ""
 
-#: lib/app.php:191
+#: lib/app.php:194
 msgid "Jubilee"
 msgstr ""
 
-#: lib/app.php:192
+#: lib/app.php:195
 msgid "Meeting"
 msgstr ""
 
-#: lib/app.php:193
+#: lib/app.php:196
 msgid "Other"
 msgstr ""
 
-#: lib/app.php:194
+#: lib/app.php:197
 msgid "Personal"
 msgstr ""
 
-#: lib/app.php:195
+#: lib/app.php:198
 msgid "Projects"
 msgstr ""
 
-#: lib/app.php:196
+#: lib/app.php:199
 msgid "Questions"
 msgstr ""
 
@@ -529,113 +529,113 @@ msgstr "بار گذاری یک تصویر جدید"
 msgid "Select photo from ownCloud"
 msgstr "انتخاب یک تصویر از ابر های شما"
 
-#: templates/part.contact.php:35
+#: templates/part.contact.php:34
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
 msgstr "Format custom, Short name, Full name, Reverse or Reverse with comma"
 
-#: templates/part.contact.php:36
+#: templates/part.contact.php:35
 msgid "Edit name details"
 msgstr "ویرایش نام جزئیات"
 
-#: templates/part.contact.php:40 templates/part.contact.php:42
-#: templates/part.contact.php:44 templates/part.contact.php:46
-#: templates/part.contact.php:50 templates/settings.php:33
+#: templates/part.contact.php:39 templates/part.contact.php:41
+#: templates/part.contact.php:43 templates/part.contact.php:45
+#: templates/part.contact.php:49 templates/settings.php:36
 msgid "Delete"
 msgstr "پاک کردن"
 
-#: templates/part.contact.php:41 templates/part.contact.php:113
+#: templates/part.contact.php:40 templates/part.contact.php:112
 msgid "Nickname"
 msgstr "نام مستعار"
 
-#: templates/part.contact.php:42
+#: templates/part.contact.php:41
 msgid "Enter nickname"
 msgstr "یک نام مستعار وارد کنید"
 
-#: templates/part.contact.php:43 templates/part.contact.php:119
+#: templates/part.contact.php:42 templates/part.contact.php:118
 msgid "Web site"
 msgstr ""
 
-#: templates/part.contact.php:44
+#: templates/part.contact.php:43
 msgid "http://www.somesite.com"
 msgstr ""
 
-#: templates/part.contact.php:44
+#: templates/part.contact.php:43
 msgid "Go to web site"
 msgstr ""
 
-#: templates/part.contact.php:46
+#: templates/part.contact.php:45
 msgid "dd-mm-yyyy"
 msgstr "dd-mm-yyyy"
 
-#: templates/part.contact.php:47 templates/part.contact.php:120
+#: templates/part.contact.php:46 templates/part.contact.php:119
 msgid "Groups"
 msgstr "گروه ها"
 
-#: templates/part.contact.php:49
+#: templates/part.contact.php:48
 msgid "Separate groups with commas"
 msgstr "جدا کردن گروه ها به وسیله درنگ نما"
 
-#: templates/part.contact.php:50
+#: templates/part.contact.php:49
 msgid "Edit groups"
 msgstr "ویرایش گروه ها"
 
-#: templates/part.contact.php:63 templates/part.contact.php:77
+#: templates/part.contact.php:62 templates/part.contact.php:76
 msgid "Preferred"
 msgstr "مقدم"
 
-#: templates/part.contact.php:64
+#: templates/part.contact.php:63
 msgid "Please specify a valid email address."
 msgstr "لطفا یک پست الکترونیکی معتبر وارد کنید"
 
-#: templates/part.contact.php:64
+#: templates/part.contact.php:63
 msgid "Enter email address"
 msgstr "یک  پست الکترونیکی وارد کنید"
 
-#: templates/part.contact.php:68
+#: templates/part.contact.php:67
 msgid "Mail to address"
 msgstr "به نشانی  ارسال شد"
 
-#: templates/part.contact.php:69
+#: templates/part.contact.php:68
 msgid "Delete email address"
 msgstr "پاک کردن نشانی پست الکترونیکی"
 
-#: templates/part.contact.php:78
+#: templates/part.contact.php:77
 msgid "Enter phone number"
 msgstr "شماره تلفن راوارد کنید"
 
-#: templates/part.contact.php:82
+#: templates/part.contact.php:81
 msgid "Delete phone number"
 msgstr "پاک کردن شماره تلفن"
 
-#: templates/part.contact.php:92
+#: templates/part.contact.php:91
 msgid "View on map"
 msgstr "دیدن روی نقشه"
 
-#: templates/part.contact.php:92
+#: templates/part.contact.php:91
 msgid "Edit address details"
 msgstr "ویرایش جزئیات نشانی ها"
 
-#: templates/part.contact.php:103
+#: templates/part.contact.php:102
 msgid "Add notes here."
 msgstr "اینجا یادداشت ها را بیافزایید"
 
-#: templates/part.contact.php:110
+#: templates/part.contact.php:109
 msgid "Add field"
 msgstr "اضافه کردن فیلد"
 
-#: templates/part.contact.php:115
+#: templates/part.contact.php:114
 msgid "Phone"
 msgstr "شماره تلفن"
 
-#: templates/part.contact.php:118
+#: templates/part.contact.php:117
 msgid "Note"
 msgstr "یادداشت"
 
-#: templates/part.contact.php:123
+#: templates/part.contact.php:122
 msgid "Download contact"
 msgstr "دانلود مشخصات اشخاص"
 
-#: templates/part.contact.php:124
+#: templates/part.contact.php:123
 msgid "Delete contact"
 msgstr "پاک کردن  اطلاعات شخص مورد نظر"
 
@@ -847,33 +847,37 @@ msgid "Show read-only VCF link"
 msgstr ""
 
 #: templates/settings.php:26
+msgid "Share"
+msgstr ""
+
+#: templates/settings.php:29
 msgid "Download"
 msgstr "بارگیری"
 
-#: templates/settings.php:30
+#: templates/settings.php:33
 msgid "Edit"
 msgstr "ویرایش"
 
-#: templates/settings.php:40
+#: templates/settings.php:43
 msgid "New Address Book"
 msgstr "کتابچه نشانه های جدید"
 
-#: templates/settings.php:41
+#: templates/settings.php:44
 msgid "Name"
 msgstr ""
 
-#: templates/settings.php:42
+#: templates/settings.php:45
 msgid "Description"
 msgstr ""
 
-#: templates/settings.php:43
+#: templates/settings.php:46
 msgid "Save"
 msgstr "ذخیره سازی"
 
-#: templates/settings.php:44
+#: templates/settings.php:47
 msgid "Cancel"
 msgstr "انصراف"
 
-#: templates/settings.php:49
+#: templates/settings.php:52
 msgid "More..."
 msgstr ""

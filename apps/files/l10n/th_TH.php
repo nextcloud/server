@@ -7,7 +7,6 @@
 "Missing a temporary folder" => "แฟ้มเอกสารชั่วคราวเกิดการสูญหาย",
 "Failed to write to disk" => "เขียนข้อมูลลงแผ่นดิสก์ล้มเหลว",
 "Files" => "ไฟล์",
-"Unshare" => "ยกเลิกการแชร์ข้อมูล",
 "Delete" => "ลบ",
 "already exists" => "มีอยู่แล้ว",
 "replace" => "แทนที่",

@@ -7,7 +7,6 @@
 "Missing a temporary folder" => "Λείπει ένας προσωρινός φάκελος",
 "Failed to write to disk" => "Η εγγραφή στο δίσκο απέτυχε",
 "Files" => "Αρχεία",
-"Unshare" => "Ακύρωση Διαμοιρασμού",
 "Delete" => "Διαγραφή",
 "already exists" => "υπάρχει ήδη",
 "replace" => "αντικατέστησε",

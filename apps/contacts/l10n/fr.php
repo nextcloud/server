@@ -62,6 +62,7 @@
 "Error loading profile picture." => "Erreur pendant le chargement de la photo de profil.",
 "Select type" => "Sélectionner un type",
 "Some contacts are marked for deletion, but not deleted yet. Please wait for them to be deleted." => "Certains contacts sont marqués pour être supprimés mais sont encore présents, veuillez attendre que l'opération se termine.",
+"Do you want to merge these address books?" => "Voulez-vous fusionner ces carnets d'adresses ?",
 "Result: " => "Résultat :",
 " imported, " => "importé,",
 " failed." => "échoué.",

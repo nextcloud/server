@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Files" => "Faili",
-"Unshare" => "Pārtraukt līdzdalīšanu",
 "Delete" => "Izdzēst",
 "Upload Error" => "Augšuplādēšanas laikā radās kļūda",
 "Pending" => "Gaida savu kārtu",

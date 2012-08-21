@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <sr@ybnet.dk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:44+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-20 14:43+0000\n"
+"Last-Translator: ressel <sr@ybnet.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,35 +20,35 @@ msgstr ""
 
 #: ajax/update_property.php:51 lib/app.php:89 lib/app.php:101
 msgid "Invalid date/time"
-msgstr ""
+msgstr "Ugyldig dato/tid"
 
 #: appinfo/app.php:11
 msgid "Tasks"
-msgstr ""
+msgstr "Opgaver"
 
 #: js/tasks.js:415
 msgid "No category"
-msgstr ""
+msgstr "Ingen kategori"
 
 #: lib/app.php:33
 msgid "Unspecified"
-msgstr ""
+msgstr "Uspecificeret"
 
 #: lib/app.php:34
 msgid "1=highest"
-msgstr ""
+msgstr "1=højeste"
 
 #: lib/app.php:38
 msgid "5=medium"
-msgstr ""
+msgstr "5=mellem"
 
 #: lib/app.php:42
 msgid "9=lowest"
-msgstr ""
+msgstr "9=laveste"
 
 #: lib/app.php:81
 msgid "Empty Summary"
-msgstr ""
+msgstr "Tom beskrivelse"
 
 #: lib/app.php:93
 msgid "Invalid percent complete"
@@ -59,7 +60,7 @@ msgstr ""
 
 #: templates/tasks.php:3
 msgid "Add Task"
-msgstr ""
+msgstr "Tilføj opgave"
 
 #: templates/tasks.php:4
 msgid "Order Due"
@@ -87,20 +88,20 @@ msgstr ""
 
 #: templates/tasks.php:16
 msgid "Loading tasks..."
-msgstr ""
+msgstr "Indlæser opgaver..."
 
 #: templates/tasks.php:20
 msgid "Important"
-msgstr ""
+msgstr "vigtigt"
 
 #: templates/tasks.php:23
 msgid "More"
-msgstr ""
+msgstr "Mere"
 
 #: templates/tasks.php:26
 msgid "Less"
-msgstr ""
+msgstr "Mindre"
 
 #: templates/tasks.php:29
 msgid "Delete"
-msgstr ""
+msgstr "Slet"

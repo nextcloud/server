@@ -7,7 +7,6 @@
 "Missing a temporary folder" => "Saknar en tillfällig mapp",
 "Failed to write to disk" => "Misslyckades spara till disk",
 "Files" => "Filer",
-"Unshare" => "Sluta dela",
 "Delete" => "Ta bort",
 "already exists" => "finns redan",
 "replace" => "ersätt",

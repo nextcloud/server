@@ -7,7 +7,6 @@
 "Missing a temporary folder" => "Il manque un répertoire temporaire",
 "Failed to write to disk" => "Erreur d'écriture sur le disque",
 "Files" => "Fichiers",
-"Unshare" => "Ne plus partager",
 "Delete" => "Supprimer",
 "already exists" => "existe déjà",
 "replace" => "remplacer",

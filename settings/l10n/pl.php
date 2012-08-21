@@ -13,6 +13,9 @@
 "__language_name__" => "Polski",
 "Security Warning" => "Ostrzeżenia bezpieczeństwa",
 "Cron" => "Cron",
+"execute one task with each page loaded" => "wykonanie jednego zadania z każdej  załadowanej strony",
+"cron.php is registered at a webcron service" => "cron.php jest zarejestrowany w usłudze webcron",
+"use systems cron service" => "korzystaj z usługi systemowej cron",
 "Log" => "Log",
 "More" => "Więcej",
 "Add your App" => "Dodaj aplikacje",
@@ -48,6 +51,7 @@
 "Create" => "Utwórz",
 "Default Quota" => "Domyślny udział",
 "Other" => "Inne",
+"Group Admin" => "Grupa Admin",
 "Quota" => "Udział",
 "Delete" => "Usuń"
 );

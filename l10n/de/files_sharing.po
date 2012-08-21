@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 13:38+0000\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-21 00:05+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: templates/get.php:4
+msgid "Size"
+msgstr ""
+
+#: templates/get.php:5
+msgid "Modified"
+msgstr ""
+
+#: templates/get.php:5
+msgid "Delete all"
+msgstr ""
+
+#: templates/get.php:5 templates/list.php:16 templates/list.php:17
+msgid "Delete"
+msgstr "Löschen"
 
 #: templates/list.php:2
 msgid "Your Shared Files"
@@ -42,10 +58,6 @@ msgstr "Lesen"
 #: templates/list.php:16
 msgid "Edit"
 msgstr "Bearbeiten"
-
-#: templates/list.php:16 templates/list.php:17
-msgid "Delete"
-msgstr "Löschen"
 
 #: templates/settings.php:3
 msgid "Enable Resharing"

@@ -51,6 +51,7 @@
 "Create" => "作成",
 "Default Quota" => "デフォルトのクォータサイズ",
 "Other" => "その他",
+"Group Admin" => "グループ管理者",
 "Quota" => "クオータ",
 "Delete" => "削除"
 );
