@@ -803,7 +803,7 @@ OC.Contacts={
 					OC.Contacts.Card.addPhone();
 					break;
 				case 'ADR':
-					if($('#addressdisplay>dl').length == 1) {
+					if($('addresses>dl').length == 1) {
 						$('#addresses').show();
 					}
 					OC.Contacts.Card.editAddress('new', true);
@@ -949,10 +949,10 @@ OC.Contacts={
 		},
 		loadAddresses:function() {
 			$('#addresses').hide();
-			$('#addressdisplay dl.propertycontainer').remove();
-			var addresscontainer = $('#addressdisplay');
+			$('#addresses dl.propertycontainer').remove();
+			var addresscontainer = $('#addresses');
 			for(var adr in this.data.ADR) {
-				addresscontainer.find('dl').first().clone().insertAfter($('#addressdisplay dl').last()).show();
+				addresscontainer.find('dl').first().clone().insertAfter($('#addresses dl').last()).show();
 				addresscontainer.find('dl').last().removeClass('template').addClass('propertycontainer');
 				addresscontainer.find('dl').last().data('checksum', this.data.ADR[adr]['checksum']);
 				var adrarray = this.data.ADR[adr]['value'];
@@ -991,7 +991,6 @@ OC.Contacts={
 			}
 			if(addresscontainer.find('dl').length > 1) {
 				$('#addresses').show();
-				$('#contact_communication').show();
 			}
 			return false;
 		},
@@ -1000,8 +999,8 @@ OC.Contacts={
 			var params = {id: this.id};
 			if(obj === 'new') {
 				isnew = true;
-				$('#addressdisplay dl').first().clone(true).insertAfter($('#addressdisplay dl').last()).show();
-				container = $('#addressdisplay dl').last();
+				$('#addresses dl').first().clone(true).insertAfter($('#addresses dl').last()).show();
+				container = $('#addresses dl').last();
 				container.removeClass('template').addClass('propertycontainer');
 			} else {
 				params['checksum'] = OC.Contacts.checksumFor(obj);
@@ -1018,7 +1017,7 @@ OC.Contacts={
 							buttons: {
 								'Ok':function() {
 									if(isnew) {
-										OC.Contacts.Card.saveAddress(this, $('#addressdisplay dl:last-child').find('input').first(), isnew);
+										OC.Contacts.Card.saveAddress(this, $('#addresses dl:last-child').find('input').first(), isnew);
 									} else {
 										OC.Contacts.Card.saveAddress(this, obj, isnew);
 									}
@@ -1122,7 +1121,7 @@ OC.Contacts={
 		},
 		saveAddress:function(dlg, obj, isnew){
 			if(isnew) {
-				container = $('#addressdisplay dl').last();
+				container = $('#addresses dl').last();
 				obj = container.find('input').first();
 			} else {
 				checksum = OC.Contacts.checksumFor(obj);
@@ -1341,7 +1340,6 @@ OC.Contacts={
 			}
 			if($('#emaillist li').length > 1) {
 				$('#emails').show();
-				$('#contact_communication').show();
 			}
 			$('#emaillist li:last-child').find('input[type="text"]').focus();
 			return false;
@@ -1404,7 +1402,6 @@ OC.Contacts={
 			}
 			if(phonelist.find('li').length > 1) {
 				$('#phones').show();
-				$('#contact_communication').show();
 			}
 			return false;
 		},

@@ -24,8 +24,9 @@ $id = isset($_['id']) ? $_['id'] : '';
 	</div>
 	</div> <!-- contact_photo -->
 
-	<div id="contact_identity">
 	<form method="post">
+
+	<div id="contact_identity">
 	<input type="hidden" name="id" value="<?php echo $_['id'] ?>">
 	<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken'] ?>">
 	<fieldset id="ident" class="contactpart">
@@ -49,60 +50,51 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<a role="button" class="action delete" title="<?php echo $l->t('Delete'); ?>"></a><a role="button" class="action edit" title="<?php echo $l->t('Edit groups'); ?>"></a></dd>
 	</dl>
 	</fieldset>
-	</form>
 	</div> <!-- contact_identity -->
 
-	<!-- div class="delimiter"></div -->
-	<div id="contact_communication" class="contactsection">
-	<form method="post">
-		<!-- email addresses -->
-		<div id="emails">
-			<ul id="emaillist" class="propertylist">
-			<li class="template hidden" data-element="EMAIL">
-				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
-				<input type="email" required="required" class="nonempty contacts_property" name="value" value="" x-moz-errormessage="<?php echo $l->t('Please specify a valid email address.'); ?>" placeholder="<?php echo $l->t('Enter email address'); ?>" />
-				<select multiple="multiple" name="parameters[TYPE][]">
-					<?php echo OCP\html_select_options($_['email_types'], array()) ?>
-				</select>
-				<span class="listactions"><a class="action mail" title="<?php echo $l->t('Mail to address'); ?>"></a>
-				<a role="button" class="action delete" title="<?php echo $l->t('Delete email address'); ?>"></a></span></li>
-			</ul>
-		</div> <!-- email addresses-->
+	<!-- email addresses -->
+	<div id="emails" class="hidden contactsection">
+		<ul id="emaillist" class="propertylist">
+		<li class="template hidden" data-element="EMAIL">
+			<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
+			<input type="email" required="required" class="nonempty contacts_property" name="value" value="" x-moz-errormessage="<?php echo $l->t('Please specify a valid email address.'); ?>" placeholder="<?php echo $l->t('Enter email address'); ?>" />
+			<select multiple="multiple" name="parameters[TYPE][]">
+				<?php echo OCP\html_select_options($_['email_types'], array()) ?>
+			</select>
+			<span class="listactions"><a class="action mail" title="<?php echo $l->t('Mail to address'); ?>"></a>
+			<a role="button" class="action delete" title="<?php echo $l->t('Delete email address'); ?>"></a></span></li>
+		</ul>
+	</div> <!-- email addresses-->
 
-		<!-- Phone numbers -->
-		<div id="phones">
-			<ul id="phonelist" class="propertylist">
-				<li class="template hidden" data-element="TEL">
-				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
-				<input type="text" required="required" class="nonempty contacts_property" name="value" value="" placeholder="<?php echo $l->t('Enter phone number'); ?>" />
-				<select multiple="multiple" name="parameters[TYPE][]">
-					<?php echo OCP\html_select_options($_['phone_types'], array()) ?>
-				</select>
-				<a role="button" class="action delete" title="<?php echo $l->t('Delete phone number'); ?>"></a></li>
-			</ul>
-		</div> <!-- Phone numbers -->
+	<!-- Phone numbers -->
+	<div id="phones" class="hidden contactsection">
+		<ul id="phonelist" class="propertylist">
+			<li class="template hidden" data-element="TEL">
+			<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
+			<input type="text" required="required" class="nonempty contacts_property" name="value" value="" placeholder="<?php echo $l->t('Enter phone number'); ?>" />
+			<select multiple="multiple" name="parameters[TYPE][]">
+				<?php echo OCP\html_select_options($_['phone_types'], array()) ?>
+			</select>
+			<a role="button" class="action delete" title="<?php echo $l->t('Delete phone number'); ?>"></a></li>
+		</ul>
+	</div> <!-- Phone numbers -->
 
-		<!-- Addresses -->
-		<div id="addresses" class="hidden">
-		<div id="addressdisplay">
-			<dl class="addresscard template hidden" data-element="ADR"><dt>
-			<input class="adr contacts_property" name="value" type="hidden" value="" />
-			<input type="hidden" class="adr_type contacts_property" name="parameters[TYPE][]" value="" />
-			<span class="adr_type_label"></span><a class="action globe" title="<?php echo $l->t('View on map'); ?>"></a><a class="action edit" title="<?php echo $l->t('Edit address details'); ?>"></a><a role="button" class="action delete" title="Delete address"></a>
-			</dt><dd><ul class="addresslist"></ul></dd></dl>
+	<!-- Addresses -->
+	<div id="addresses" class="hidden contactsection">
+		<dl class="addresscard template hidden" data-element="ADR"><dt>
+		<input class="adr contacts_property" name="value" type="hidden" value="" />
+		<input type="hidden" class="adr_type contacts_property" name="parameters[TYPE][]" value="" />
+		<span class="adr_type_label"></span><a class="action globe" title="<?php echo $l->t('View on map'); ?>"></a><a class="action edit" title="<?php echo $l->t('Edit address details'); ?>"></a><a role="button" class="action delete" title="Delete address"></a>
+		</dt><dd><ul class="addresslist"></ul></dd></dl>
+	</div> <!-- Addresses -->
 
-		</div> <!-- addressdisplay -->
-		</div> <!-- Addresses -->
-	</form>
-	</div> <!-- contact_communication -->
-
-	<div id="contact_note" class="contactsection">
-	<form class="float" method="post">
+	<div id="contact_note" class="hidden contactsection">
 		<div id="note" class="propertycontainer" data-element="NOTE">
 			<textarea class="contacts_property" name="value" required="required" placeholder="<?php echo $l->t('Add notes here.'); ?>" cols="60" wrap="hard"></textarea>
 		</div>
-	</form>
 	</div> <!-- contact_note -->
+
+	</form>
 
 	<div id="actionbar">
 		<div id="contacts_propertymenu">
