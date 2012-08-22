@@ -141,11 +141,15 @@ foreach ($parameters as $key=>$element) {
 		// And it probably shouldn't be done here anyways :-/
 		foreach($element as $e) {
 			if($e != '' && !is_null($e)) {
-				$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key, $e);
+				if(trim($e)) {
+					$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key, $e);
+				}
 			}
 		}
 	} else {
+		if(trim($element)) {
 			$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key, $element);
+		}
 	}
 }
 $checksum = md5($vcard->children[$line]->serialize());

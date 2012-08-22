@@ -133,17 +133,21 @@ if(!$value) {
 					debug('Adding parameter: '.$key);
 					if(is_array($parameter)) {
 						foreach($parameter as $val) {
-							debug('Adding parameter: '.$key.'=>'.$val);
-							$vcard->children[$line]->add(new Sabre_VObject_Parameter(
-								$key,
-								strtoupper(strip_tags($val)))
-							);
+							if(trim($val)) {
+								debug('Adding parameter: '.$key.'=>'.$val);
+								$vcard->children[$line]->add(new Sabre_VObject_Parameter(
+									$key,
+									strtoupper(strip_tags($val)))
+								);
+							}
 						}
 					} else {
-						$vcard->children[$line]->add(new Sabre_VObject_Parameter(
-							$key,
-							strtoupper(strip_tags($parameter)))
-						);
+						if(trim($parameter)) {
+							$vcard->children[$line]->add(new Sabre_VObject_Parameter(
+								$key,
+								strtoupper(strip_tags($parameter)))
+							);
+						}
 					}
 				}
 			}
