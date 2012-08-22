@@ -91,6 +91,9 @@ class Connection {
 	public function getConnectionResource() {
 		if(!$this->ldapConnectionRes) {
 			$this->init();
+		} else if(!is_resource($this->ldapConnectionRes)) {
+			$this->ldapConnectionRes = null;
+			$this->establishConnection();
 		}
 		if(is_null($this->ldapConnectionRes)) {
 			\OCP\Util::writeLog('user_ldap', 'Connection could not be established', \OCP\Util::ERROR);
