@@ -533,6 +533,7 @@ OC.Contacts={
 			this.loadPhoto();
 			this.loadMails();
 			this.loadPhones();
+			this.loadIMs();
 			this.loadAddresses();
 			this.loadSingleProperties();
 			OC.Contacts.loadListHandlers();
@@ -801,6 +802,12 @@ OC.Contacts={
 						$('#phones').show();
 					}
 					OC.Contacts.Card.addPhone();
+					break;
+				case 'IMPP':
+					if($('#imlist>li').length == 1) {
+						$('#ims').show();
+					}
+					OC.Contacts.Card.addIM();
 					break;
 				case 'ADR':
 					if($('addresses>dl').length == 1) {
@@ -1289,8 +1296,72 @@ OC.Contacts={
 			});
 			OC.Contacts.Contacts.refreshThumbnail(this.id);
 		},
+		addIM:function() {
+			//alert('addMail');
+			var imlist = $('#imlist');
+			imlist.find('li.template:first-child').clone(true).appendTo(imlist).show().find('a .tip').tipsy();
+			imlist.find('li.template:last-child').find('select').addClass('contacts_property');
+			imlist.find('li.template:last-child').removeClass('template').addClass('propertycontainer');
+			imlist.find('li:last-child').find('input[type="text"]').focus();
+			return false;
+		},
+		loadIMs:function() {
+			//console.log('loadIMs');
+			$('#ims').hide();
+			$('#imlist li.propertycontainer').remove();
+			var imlist = $('#imlist');
+			for(var im in this.data.IMPP) {
+				this.addIM();
+				var curim = imlist.find('li.propertycontainer:last-child');
+				if(typeof this.data.IMPP[im].label != 'undefined') {
+					curim.prepend('<label class="xab">'+this.data.IMPP[im].label+'</label>');
+				}
+				curim.data('checksum', this.data.IMPP[im]['checksum'])
+				curim.find('input[type="text"]').val(this.data.IMPP[im]['value'].split(':').pop());
+				for(var param in this.data.IMPP[im]['parameters']) {
+					if(param.toUpperCase() == 'PREF') {
+						curim.find('input[type="checkbox"]').attr('checked', 'checked')
+					}
+					else if(param.toUpperCase() == 'TYPE') {
+						if(typeof this.data.IMPP[im]['parameters'][param] == 'string') {
+							var found = false;
+							var imt = this.data.IMPP[im]['parameters'][param];
+							curim.find('select.types option').each(function(){
+								if($(this).val().toUpperCase() == imt.toUpperCase()) {
+									$(this).attr('selected', 'selected');
+									found = true;
+								}
+							});
+							if(!found) {
+								curim.find('select.type option:last-child').after('<option value="'+imt+'" selected="selected">'+imt+'</option>');
+							}
+						} else if(typeof this.data.IMPP[im]['parameters'][param] == 'object') {
+							for(imtype in this.data.IMPP[im]['parameters'][param]) {
+								var found = false;
+								var imt = this.data.IMPP[im]['parameters'][param][imtype];
+								curim.find('select.types option').each(function(){
+									if($(this).val().toUpperCase() == imt.toUpperCase().split(',')) {
+										$(this).attr('selected', 'selected');
+										found = true;
+									}
+								});
+								if(!found) {
+									curim.find('select.type option:last-child').after('<option value="'+imt+'" selected="selected">'+imt+'</option>');
+								}
+							}
+						}
+					}
+					else if(param.toUpperCase() == 'X-SERVICE-TYPE') {
+						curim.find('select.impp').val(this.data.IMPP[im]['parameters'][param].toLowerCase());
+					}
+				}
+			}
+			if($('#imlist li').length > 1) {
+				$('#ims').show();
+			}
+			return false;
+		},
 		addMail:function() {
-			console.log('addMail');
 			var emaillist = $('#emaillist');
 			emaillist.find('li.template:first-child').clone(true).appendTo(emaillist).show().find('a .tip').tipsy();
 			emaillist.find('li.template:last-child').find('select').addClass('contacts_property');

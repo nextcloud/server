@@ -88,6 +88,16 @@ switch($element) {
 	case 'EMAIL':
 		$value = strtolower($value);
 		break;
+	case 'IMPP':
+		if(is_null($parameters) || !isset($parameters['X-SERVICE-TYPE'])) {
+			bailOut(OC_Contacts_App::$l10n->t('Missing IM parameter.'));
+		}
+		$impp = OC_Contacts_App::getIMOptions($parameters['X-SERVICE-TYPE']);
+		if(is_null($impp)) {
+			bailOut(OC_Contacts_App::$l10n->t('Unknown IM: '.$parameters['X-SERVICE-TYPE']));
+		}
+		$value = $impp['protocol'] . ':' . $value;
+		break;
 }
 
 if(!$value) {
@@ -112,7 +122,8 @@ if(!$value) {
 			break;
 		case 'EMAIL':
 		case 'TEL':
-		case 'ADR': // should I delete the property if empty or throw an error?
+		case 'ADR':
+		case 'IMPP':
 			debug('Setting element: (EMAIL/TEL/ADR)'.$element);
 			$vcard->children[$line]->setValue($value);
 			$vcard->children[$line]->parameters = array();
@@ -120,11 +131,18 @@ if(!$value) {
 				debug('Setting parameters: '.$parameters);
 				foreach($parameters as $key => $parameter) {
 					debug('Adding parameter: '.$key);
-					foreach($parameter as $val) {
-						debug('Adding parameter: '.$key.'=>'.$val);
+					if(is_array($parameter)) {
+						foreach($parameter as $val) {
+							debug('Adding parameter: '.$key.'=>'.$val);
+							$vcard->children[$line]->add(new Sabre_VObject_Parameter(
+								$key,
+								strtoupper(strip_tags($val)))
+							);
+						}
+					} else {
 						$vcard->children[$line]->add(new Sabre_VObject_Parameter(
 							$key,
-							strtoupper(strip_tags($val)))
+							strtoupper(strip_tags($parameter)))
 						);
 					}
 				}

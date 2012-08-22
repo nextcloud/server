@@ -559,20 +559,36 @@ class OC_Contacts_VCard{
 	 */
 	public static function structureContact($object) {
 		$details = array();
-		foreach($object->children as $property){
+
+		$addIM = function($name, $temp, &$details) {
+			if(!array_key_exists('IMPP', $details)) {
+				$details['IMPP'] = array();
+			}
+
+			foreach($details['IMPP'] as $im) {
+				if(strtolower($im['value']) == strtolower($temp['value']) && $im['name'] == $name) {
+					return;
+				}
+			}
+			$details['IMPP'][] = $temp;
+		};
+
+		foreach($object->children as $property) {
+			$pname = $property->name;
 			$temp = self::structureProperty($property);
 			if(!is_null($temp)) {
+				// Get Apple X-ABLabels
 				if(isset($object->{$property->group . '.X-ABLABEL'})) {
 					$temp['label'] = $object->{$property->group . '.X-ABLABEL'}->value;
 					if($temp['label'] == '_$!<Other>!$_') {
 						$temp['label'] = OC_Contacts_App::$l10n->t('Other');
 					}
 				}
-				if(array_key_exists($property->name, $details)) {
-					$details[$property->name][] = $temp;
+				if(array_key_exists($pname, $details)) {
+					$details[$pname][] = $temp;
 				}
 				else{
-					$details[$property->name] = array($temp);
+					$details[$pname] = array($temp);
 				}
 			}
 		}

@@ -109,14 +109,77 @@ class OC_Contacts_App {
 	/**
 	 * @return array of vcard prop => label
 	 */
-	public static function getAddPropertyOptions() {
+	public static function getIMOptions($im = null) {
 		$l10n = self::$l10n;
-		return array(
-				'ADR'   => $l10n->t('Address'),
-				'TEL'   => $l10n->t('Telephone'),
-				'EMAIL' => $l10n->t('Email'),
-				'ORG'   => $l10n->t('Organization'),
-		     );
+		$ims = array(
+				'jabber' => array(
+					'displayname' => (string)$l10n->t('Jabber'),
+					'xname' => 'X-JABBER',
+					'protocol' => 'xmpp',
+				),
+				'aim' => array(
+					'displayname' => (string)$l10n->t('AIM'),
+					'xname' => 'X-AIM',
+					'protocol' => 'aim',
+				),
+				'msn' => array(
+					'displayname' => (string)$l10n->t('MSN'),
+					'xname' => 'X-MSN',
+					'protocol' => 'msn',
+				),
+				'twitter' => array(
+					'displayname' => (string)$l10n->t('Twitter'),
+					'xname' => 'X-TWITTER',
+					'protocol' => null,
+				),
+				'googletalk' => array(
+					'displayname' => (string)$l10n->t('GoogleTalk'),
+					'xname' => null,
+					'protocol' => 'xmpp',
+				),
+				'facebook' => array(
+					'displayname' => (string)$l10n->t('Facebook'),
+					'xname' => null,
+					'protocol' => 'xmpp',
+				),
+				'xmpp' => array(
+					'displayname' => (string)$l10n->t('XMPP'),
+					'xname' => null,
+					'protocol' => 'xmpp',
+				),
+				'icq' => array(
+					'displayname' => (string)$l10n->t('ICQ'),
+					'xname' => 'X-ICQ',
+					'protocol' => 'icq',
+				),
+				'yahoo' => array(
+					'displayname' => (string)$l10n->t('Yahoo'),
+					'xname' => 'X-YAHOO',
+					'protocol' => 'ymsgr',
+				),
+				'skype' => array(
+					'displayname' => (string)$l10n->t('Skype'),
+					'xname' => 'X-SKYPE',
+					'protocol' => 'skype',
+				),
+				'qq' => array(
+					'displayname' => (string)$l10n->t('QQ'),
+					'xname' => 'X-SKYPE',
+					'protocol' => 'x-apple',
+				),
+				'gadugadu' => array(
+					'displayname' => (string)$l10n->t('GaduGadu'),
+					'xname' => 'X-SKYPE',
+					'protocol' => 'x-apple',
+				),
+		);
+		if(is_null($im)) {
+			return $ims;
+		} else {
+			$ims['ymsgr'] = $ims['yahoo'];
+			$ims['gtalk'] = $ims['googletalk'];
+			return isset($ims[$im]) ? $ims[$im] : null;
+		}
 	}
 
 	/**
@@ -126,6 +189,7 @@ class OC_Contacts_App {
 		$l = self::$l10n;
 		switch($prop) {
 			case 'ADR':
+			case 'IMPP':
 				return array(
 					'WORK' => $l->t('Work'),
 					'HOME' => $l->t('Home'),

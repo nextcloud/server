@@ -33,7 +33,7 @@
 #card input[type="text"].contacts_property,input[type="email"].contacts_property,input[type="url"].contacts_property { width: 14em; float: left; font-weight: bold; }
 .categories { float: left; width: 16em; }
 #card input[type="checkbox"].contacts_property,input[type="text"],input[type="email"],input[type="url"],input[type="tel"],input[type="date"], select, textarea { background-color: #fefefe; border: 0 !important; -moz-appearance:none  !important; -webkit-box-sizing:none !important; -moz-box-sizing:none !important; box-sizing:none !important; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; float: left; }
-#card input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,input[type="email"]:hover,input[type="url"]:hover,input[type="tel"]:hover,input[type="date"]:hover,input[type="date"],input[type="date"]:hover,input[type="date"]:active,input[type="date"]:active,input[type="date"]:active,input[type="email"]:active,input[type="url"]:active,input[type="tel"]:active, select:hover, select:focus, select:active, textarea:focus, textarea:hover { border: 0 !important; -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #ddd, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #ddd, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #ddd, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; float: left; }
+#card input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,input[type="email"]:hover,input[type="url"]:hover,input[type="tel"]:hover,input[type="date"]:hover,input[type="date"],input[type="date"]:hover,input[type="date"]:active,input[type="date"]:active,input[type="date"]:active,input[type="email"]:active,input[type="url"]:active,input[type="tel"]:active, textarea:focus, textarea:hover { border: 0 !important; -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; background:#fff; color:#333; border:1px solid #ddd; -moz-box-shadow:0 1px 1px #ddd, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #ddd, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #ddd, 0 1px 0 #bbb inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; outline:none; float: left; }
 textarea { width: 80%; min-height: 5em; min-width: 30em; margin: 0 !important; padding: 0 !important; outline: 0 !important;}
 dl.form { width: 100%; float: left; clear: right; margin: 0; padding: 0; cursor: normal; }
 .form dt { display: table-cell; clear: left; float: left; width: 7em; margin: 0; padding: 0.8em 0.5em 0 0; text-align:right; text-overflow:ellipsis; o-text-overflow: ellipsis; vertical-align: text-bottom; color: #bbb;/* white-space: pre-wrap; white-space: -moz-pre-wrap !important; white-space: -pre-wrap; white-space: -o-pre-wrap;*/ }
@@ -117,13 +117,21 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .big { font-weight:bold; font-size:1.2em; }
 .huge { font-weight:bold; font-size:1.5em; }
 .propertycontainer dd { float: left; width: 25em; }
-.propertylist { clear: none; max-width: 28em; }
-.propertylist li.propertycontainer { white-space: nowrap; min-width: 35em; /*max-width: 30em;*/ display: block; clear: right; }
+/*.propertylist { clear: none; max-width: 33em; }*/
+.propertylist li.propertycontainer { white-space: nowrap; min-width: 35em; display: block; clear: both; }
 .propertycontainer[data-element="EMAIL"] > input[type="email"],.propertycontainer[data-element="TEL"] > input[type="text"] { min-width: 12em !important; float: left; }
 .propertylist li > input[type="checkbox"],input[type="radio"] { float: left; clear: left; width: 16px; height: 16px; vertical-align: middle; padding: 0; }
 .propertylist li > select { float: left; max-width: 8em; }
+.propertylist li > .select_wrapper { float: left; overflow: hidden; color: #bbb; font-size: 0.8em; }
+.propertylist li > .select_wrapper select { float: left; overflow: hidden; color: #bbb; }
+.propertylist li > .select_wrapper select option { color: #777; }
+.propertylist li > .select_wrapper select:hover,.propertylist li > select:focus,.propertylist li > select:active { color: #777; }
+.propertylist li > .select_wrapper select.impp { margin-left: -2.3em; direction: rtl; }
+.propertylist li > .select_wrapper select.types { margin-right: -2em; }
+.propertylist li > input[type="checkbox"].impp { clear: none; }
 .propertylist li > label.xab { display: block; color: #bbb; float:left; clear: both; padding: 0.5em 0 0 2.5em; }
-.typelist[type="button"] { float: left; max-width: 10em; border: 0; background-color: #fff; color: #bbb; box-shadow: none; } /* for multiselect */
+.propertylist li > label.xab:hover { color: #777; }
+.typelist[type="button"] { float: left; max-width: 8em; border: 0; background-color: #fff; color: #bbb; box-shadow: none; } /* for multiselect */
 .typelist[type="button"]:hover { color: #777; } /* for multiselect */
 .addresslist { clear: both; font-weight: bold; }
 #ninjahelp { position: absolute; bottom: 0; left: 0; right: 0; padding: 1em; margin: 1em; opacity: 0.9; }

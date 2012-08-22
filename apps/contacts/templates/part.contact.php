@@ -71,13 +71,36 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<ul id="phonelist" class="propertylist">
 			<li class="template hidden" data-element="TEL">
 			<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
-			<input type="text" required="required" class="nonempty contacts_property" name="value" value="" placeholder="<?php echo $l->t('Enter phone number'); ?>" />
+			<input type="text" required="required" class="nonempty contacts_property" name="value" value=""
+					placeholder="<?php echo $l->t('Enter phone number'); ?>" />
 			<select multiple="multiple" name="parameters[TYPE][]">
 				<?php echo OCP\html_select_options($_['phone_types'], array()) ?>
 			</select>
 			<a role="button" class="action delete" title="<?php echo $l->t('Delete phone number'); ?>"></a></li>
 		</ul>
 	</div> <!-- Phone numbers -->
+
+	<!-- IMPP -->
+	<div id="ims" class="hidden contactsection">
+		<ul id="imlist" class="propertylist">
+			<li class="template hidden" data-element="IMPP">
+			<div class="select_wrapper">
+			<select class="impp" name="parameters[X-SERVICE-TYPE]">
+				<?php echo OCP\html_select_options($_['im_protocols'], array()) ?>
+			</select>
+			</div>
+			<div class="select_wrapper">
+			<select class="types" name="parameters[TYPE][]">
+				<option></option>
+				<?php echo OCP\html_select_options($_['impp_types'], array()) ?>
+			</select>
+			</div>
+			<input type="checkbox" class="contacts_property impp tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
+			<input type="text" required="required" class="nonempty contacts_property" name="value" value=""
+					placeholder="<?php echo $l->t('Instant Messenger'); ?>" />
+			<a role="button" class="action delete" title="<?php echo $l->t('Delete IM'); ?>"></a></li>
+		</ul>
+	</div> <!-- IMPP -->
 
 	<!-- Addresses -->
 	<div id="addresses" class="hidden contactsection">
@@ -105,6 +128,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 			<li><a role="menuitem" data-type="BDAY"><?php echo $l->t('Birthday'); ?></a></li>
 			<li><a role="menuitem" data-type="TEL"><?php echo $l->t('Phone'); ?></a></li>
 			<li><a role="menuitem" data-type="EMAIL"><?php echo $l->t('Email'); ?></a></li>
+			<li><a role="menuitem" data-type="IMPP"><?php echo $l->t('Instant Messaging'); ?></a></li>
 			<li><a role="menuitem" data-type="ADR"><?php echo $l->t('Address'); ?></a></li>
 			<li><a role="menuitem" data-type="NOTE"><?php echo $l->t('Note'); ?></a></li>
 			<li><a role="menuitem" data-type="URL"><?php echo $l->t('Web site'); ?></a></li>
