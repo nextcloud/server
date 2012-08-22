@@ -26,7 +26,7 @@ namespace OCA\user_ldap\lib;
 class Jobs {
 
 	//refresh groups every hour
-	static private $refreshInterval = 36;//00;
+	static private $refreshInterval = 3600;
 
 	static private $groupsFromDB;
 
