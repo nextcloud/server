@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-22 02:04+0200\n"
+"PO-Revision-Date: 2012-08-21 17:04+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -242,9 +242,9 @@ msgstr ""
 #: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:852
 #: js/contacts.js:858 js/contacts.js:870 js/contacts.js:904
 #: js/contacts.js:1167 js/contacts.js:1175 js/contacts.js:1184
-#: js/contacts.js:1219 js/contacts.js:1251 js/contacts.js:1263
-#: js/contacts.js:1286 js/contacts.js:1441 js/contacts.js:1476
-#: js/contacts.js:1496 js/settings.js:26 js/settings.js:43 js/settings.js:68
+#: js/contacts.js:1219 js/contacts.js:1252 js/contacts.js:1264
+#: js/contacts.js:1287 js/contacts.js:1449 js/contacts.js:1484
+#: js/contacts.js:1504 js/settings.js:26 js/settings.js:43 js/settings.js:68
 msgid "Error"
 msgstr "Virhe"
 
@@ -276,23 +276,23 @@ msgid ""
 "on this server."
 msgstr ""
 
-#: js/contacts.js:1238
+#: js/contacts.js:1239
 msgid "Error loading profile picture."
-msgstr ""
+msgstr "Virhe profiilikuvaa ladatessa."
 
-#: js/contacts.js:1332 js/contacts.js:1352 js/contacts.js:1391
+#: js/contacts.js:1336 js/contacts.js:1356 js/contacts.js:1399
 msgid "Select type"
 msgstr ""
 
-#: js/contacts.js:1410
+#: js/contacts.js:1418
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
 msgstr "Jotkin yhteystiedot on merkitty poistettaviksi, mutta niitä ei ole vielä poistettu. Odota hetki, että kyseiset yhteystiedot poistetaan."
 
-#: js/contacts.js:1481
+#: js/contacts.js:1489
 msgid "Do you want to merge these address books?"
-msgstr ""
+msgstr "Haluatko yhdistää nämä osoitekirjat?"
 
 #: js/loader.js:49
 msgid "Result: "
@@ -308,7 +308,7 @@ msgstr " epäonnistui."
 
 #: js/settings.js:68
 msgid "Displayname cannot be empty."
-msgstr ""
+msgstr "Näyttönimi ei voi olla tyhjä."
 
 #: lib/app.php:36
 msgid "Addressbook not found: "
@@ -339,100 +339,100 @@ msgstr "Sähköposti"
 msgid "Organization"
 msgstr "Organisaatio"
 
-#: lib/app.php:130 lib/app.php:137 lib/app.php:147 lib/app.php:200
+#: lib/app.php:130 lib/app.php:138 lib/app.php:149 lib/app.php:202
 msgid "Work"
 msgstr "Työ"
 
-#: lib/app.php:131 lib/app.php:135 lib/app.php:148
+#: lib/app.php:131 lib/app.php:136 lib/app.php:150
 msgid "Home"
 msgstr "Koti"
 
-#: lib/app.php:136
+#: lib/app.php:132 lib/app.php:145 lib/app.php:198 lib/vcard.php:568
+msgid "Other"
+msgstr "Muu"
+
+#: lib/app.php:137
 msgid "Mobile"
 msgstr "Mobiili"
 
-#: lib/app.php:138
+#: lib/app.php:139
 msgid "Text"
 msgstr "Teksti"
 
-#: lib/app.php:139
+#: lib/app.php:140
 msgid "Voice"
 msgstr "Ääni"
 
-#: lib/app.php:140
+#: lib/app.php:141
 msgid "Message"
 msgstr "Viesti"
 
-#: lib/app.php:141
+#: lib/app.php:142
 msgid "Fax"
 msgstr "Faksi"
 
-#: lib/app.php:142
+#: lib/app.php:143
 msgid "Video"
 msgstr "Video"
 
-#: lib/app.php:143
+#: lib/app.php:144
 msgid "Pager"
 msgstr "Hakulaite"
 
-#: lib/app.php:149
+#: lib/app.php:151
 msgid "Internet"
 msgstr "Internet"
 
-#: lib/app.php:186 templates/part.contact.php:44
+#: lib/app.php:188 templates/part.contact.php:44
 #: templates/part.contact.php:113
 msgid "Birthday"
 msgstr "Syntymäpäivä"
 
-#: lib/app.php:187
+#: lib/app.php:189
 msgid "Business"
 msgstr "Työ"
 
-#: lib/app.php:188
+#: lib/app.php:190
 msgid "Call"
 msgstr ""
 
-#: lib/app.php:189
+#: lib/app.php:191
 msgid "Clients"
 msgstr ""
 
-#: lib/app.php:190
+#: lib/app.php:192
 msgid "Deliverer"
 msgstr ""
 
-#: lib/app.php:191
+#: lib/app.php:193
 msgid "Holidays"
 msgstr ""
 
-#: lib/app.php:192
+#: lib/app.php:194
 msgid "Ideas"
 msgstr ""
 
-#: lib/app.php:193
+#: lib/app.php:195
 msgid "Journey"
 msgstr ""
 
-#: lib/app.php:194
+#: lib/app.php:196
 msgid "Jubilee"
 msgstr ""
 
-#: lib/app.php:195
+#: lib/app.php:197
 msgid "Meeting"
 msgstr ""
 
-#: lib/app.php:196
-msgid "Other"
-msgstr "Muu"
-
-#: lib/app.php:197
+#: lib/app.php:199
 msgid "Personal"
 msgstr ""
 
-#: lib/app.php:198
+#: lib/app.php:200
 msgid "Projects"
 msgstr ""
 
-#: lib/app.php:199
+#: lib/app.php:201
 msgid "Questions"
 msgstr "Kysymykset"
 
@@ -851,7 +851,7 @@ msgstr "Näytä vain luku -muodossa oleva VCF-linkki"
 
 #: templates/settings.php:26
 msgid "Share"
-msgstr ""
+msgstr "Jaa"
 
 #: templates/settings.php:29
 msgid "Download"

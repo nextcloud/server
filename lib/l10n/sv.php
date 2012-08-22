@@ -5,7 +5,7 @@
 "Users" => "Användare",
 "Apps" => "Program",
 "Admin" => "Admin",
-"ZIP download is turned off." => "Nedladdning av ZIP är avstängd.",
+"ZIP download is turned off." => "Nerladdning av ZIP är avstängd.",
 "Files need to be downloaded one by one." => "Filer laddas ner en åt gången.",
 "Back to Files" => "Tillbaka till Filer",
 "Selected files too large to generate zip file." => "Valda filer är för stora för att skapa zip-fil.",

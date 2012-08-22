@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# I Robot <thomas.mueller@tmit.eu>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:05+0000\n"
+"POT-Creation-Date: 2012-08-22 02:04+0200\n"
+"PO-Revision-Date: 2012-08-21 09:52+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -21,15 +22,15 @@ msgstr ""
 
 #: templates/get.php:4
 msgid "Size"
-msgstr ""
+msgstr "Größe"
 
 #: templates/get.php:5
 msgid "Modified"
-msgstr ""
+msgstr "Geändert"
 
 #: templates/get.php:5
 msgid "Delete all"
-msgstr ""
+msgstr "Alle löschen"
 
 #: templates/get.php:5 templates/list.php:16 templates/list.php:17
 msgid "Delete"

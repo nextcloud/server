@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Size" => "Storlek",
+"Modified" => "Ändrad",
+"Delete all" => "Radera alla",
 "Delete" => "Radera",
 "Your Shared Files" => "Dina delade filer",
 "Item" => "Objekt",

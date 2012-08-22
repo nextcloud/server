@@ -12,8 +12,10 @@
 "User List Filter" => "Benutzer Filter Liste",
 "Group Filter" => "Gruppen Filter",
 "Port" => "Port",
+"Use TLS" => "Nutze TLS",
 "Do not use it for SSL connections, it will fail." => "Verwenden Sie es nicht für SSL-Verbindungen, wird es scheitern.",
 "Turn off SSL certificate validation." => "Schalte die SSL Zertifikatsprüfung aus.",
+"Not recommended, use for testing only." => "Nicht empfohlen, nur zum Testen.",
 "in bytes" => "in bytes",
 "in seconds. A change empties the cache." => "in Sekunden. Eine Änderung leert den Cache.",
 "Help" => "Hilfe"

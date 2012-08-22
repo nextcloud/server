@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-19 02:02+0200\n"
-"PO-Revision-Date: 2012-08-18 14:56+0000\n"
+"POT-Creation-Date: 2012-08-22 02:04+0200\n"
+"PO-Revision-Date: 2012-08-21 11:45+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "DN uporabnikovega odjemalca, s katerim naj se opravi vezava, npr. uid=agent,dc=example,dc=com. Za anonimni dostop pustite polji DN in geslo prazni."
 
 #: templates/settings.php:11
 msgid "Password"
@@ -52,7 +52,7 @@ msgstr "Geslo"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "Za anonimni dostop pustite polji za DN in geslo prazni."
+msgstr "Za anonimni dostop pustite polji DN in geslo prazni."
 
 #: templates/settings.php:12
 msgid "User Login Filter"
@@ -63,12 +63,12 @@ msgstr "Filter prijav uporabnikov"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Določi filter uporabljen pri prijavi. %%uid nadomesti uporaniško ime pri prijavi."
 
 #: templates/settings.php:12
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr "uporabite ogrado %%uid, npr. \"uid=%%uid\""
+msgstr "Uporabite ogrado %%uid, npr. \"uid=%%uid\"."
 
 #: templates/settings.php:13
 msgid "User List Filter"
@@ -92,7 +92,7 @@ msgstr "Določi filter za uporabo med pridobivanjem skupin."
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "Brez katerekoli ograde, npr. \"objectClass=posixGroup\"."
 
 #: templates/settings.php:17
 msgid "Port"
@@ -100,15 +100,15 @@ msgstr "Vrata"
 
 #: templates/settings.php:18
 msgid "Base User Tree"
-msgstr ""
+msgstr "Osnovno uporabniško drevo"
 
 #: templates/settings.php:19
 msgid "Base Group Tree"
-msgstr ""
+msgstr "Osnovno drevo skupine"
 
 #: templates/settings.php:20
 msgid "Group-Member association"
-msgstr ""
+msgstr "Povezava člana skupine"
 
 #: templates/settings.php:21
 msgid "Use TLS"
@@ -120,7 +120,7 @@ msgstr "Ne uporabljajte ga za SSL povezave, saj ne bo delovalo."
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "LDAP strežnik je neobčutljiv na velikost črk (Windows)"
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
@@ -130,7 +130,7 @@ msgstr "Onemogoči potrditev veljavnosti SSL certifikata."
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "Če povezava deluje samo s to možnostjo, uvozite SSL potrdilo iz LDAP strežnika v vaš ownCloud strežnik."
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
@@ -138,19 +138,19 @@ msgstr "Odsvetovano, uporabite le v namene preizkušanja."
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Polje za uporabnikovo prikazano ime"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "LDAP atribut uporabljen pri ustvarjanju ownCloud uporabniških imen."
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Polje za prikazano ime skupine"
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "LDAP atribut uporabljen pri ustvarjanju ownCloud imen skupin."
 
 #: templates/settings.php:27
 msgid "in bytes"
@@ -158,7 +158,7 @@ msgstr "v bajtih"
 
 #: templates/settings.php:29
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "v sekundah. Sprememba izprazni predpomnilnik."
 
 #: templates/settings.php:31
 msgid "Help"

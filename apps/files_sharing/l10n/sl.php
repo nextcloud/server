@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Size" => "Velikost",
+"Modified" => "Spremenjeno",
+"Delete all" => "Izbriši vse",
 "Delete" => "Izbris",
 "Your Shared Files" => "Vaše datoteke v souporabi",
 "Item" => "Predmet",

@@ -6,15 +6,16 @@
 # Christer Eriksson <post@hc3web.com>, 2012.
 # Daniel Sandman <revoltism@gmail.com>, 2012.
 #   <hakan.thn@gmail.com>, 2011.
+# Magnus Höglund <magnus@linux.com>, 2012.
 #   <magnus@linux.com>, 2012.
 #   <revoltism@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-02 02:02+0200\n"
-"PO-Revision-Date: 2012-08-02 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-22 02:04+0200\n"
+"PO-Revision-Date: 2012-08-21 08:33+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr "Programnamn har inte angetts"
+msgstr "Programnamn har inte angetts."
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
@@ -38,55 +39,55 @@ msgstr "Denna kategori finns redan:"
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:190 templates/layout.user.php:64 templates/layout.user.php:65
 msgid "Settings"
 msgstr "Inställningar"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "January"
 msgstr "Januari"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "February"
 msgstr "Februari"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "March"
 msgstr "Mars"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "April"
 msgstr "April"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "May"
 msgstr "Maj"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "June"
 msgstr "Juni"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "July"
 msgstr "Juli"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "August"
 msgstr "Augusti"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "September"
 msgstr "September"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "October"
 msgstr "Oktober"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "November"
 msgstr "November"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "December"
 msgstr "December"
 
@@ -132,7 +133,7 @@ msgstr "Begärd"
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Login failed!"
-msgstr "Inloggning misslyckades!"
+msgstr "Misslyckad inloggning!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
 #: templates/login.php:9
@@ -149,7 +150,7 @@ msgstr "Ditt lösenord har återställts"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr "Till logga in sidan"
+msgstr "Till logginsidan"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
@@ -161,7 +162,7 @@ msgstr "Återställ lösenordet"
 
 #: strings.php:5
 msgid "Personal"
-msgstr "Personlig"
+msgstr "Personligt"
 
 #: strings.php:6
 msgid "Users"
@@ -222,15 +223,15 @@ msgstr "kommer att användas"
 
 #: templates/installation.php:82
 msgid "Database user"
-msgstr "Databas-användare"
+msgstr "Databasanvändare"
 
 #: templates/installation.php:86
 msgid "Database password"
-msgstr "Lösenord för databasen"
+msgstr "Lösenord till databasen"
 
 #: templates/installation.php:90
 msgid "Database name"
-msgstr "Databasens namn"
+msgstr "Databasnamn"
 
 #: templates/installation.php:96
 msgid "Database host"
@@ -262,7 +263,7 @@ msgstr "Logga in"
 
 #: templates/logout.php:1
 msgid "You are logged out."
-msgstr "Du är utloggad"
+msgstr "Du är utloggad."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

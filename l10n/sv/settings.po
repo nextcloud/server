@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-20 02:01+0200\n"
-"PO-Revision-Date: 2012-08-19 09:45+0000\n"
+"POT-Creation-Date: 2012-08-22 02:04+0200\n"
+"PO-Revision-Date: 2012-08-21 08:38+0000\n"
 "Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "Fel"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
-msgstr "Avaktivera"
+msgstr "Deaktivera"
 
 #: js/apps.js:39 js/apps.js:62
 msgid "Enable"
@@ -134,11 +134,11 @@ msgstr "Ställ en fråga"
 
 #: templates/help.php:22
 msgid "Problems connecting to help database."
-msgstr "Problem med att ansluta till hjälp-databasen."
+msgstr "Problem med att ansluta till hjälpdatabasen."
 
 #: templates/help.php:23
 msgid "Go there manually."
-msgstr "Gå dit manuellt"
+msgstr "Gå dit manuellt."
 
 #: templates/help.php:31
 msgid "Answer"
@@ -162,7 +162,7 @@ msgstr "Ladda ner"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
-msgstr "Ditt lösenord ändrades"
+msgstr "Ditt lösenord har ändrats"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
@@ -202,7 +202,7 @@ msgstr "Språk"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr "Hjälp att översätta"
+msgstr "Hjälp med att översätta"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
@@ -242,4 +242,4 @@ msgstr "Kvot"
 
 #: templates/users.php:146
 msgid "Delete"
-msgstr "Ta bort"
+msgstr "Radera"

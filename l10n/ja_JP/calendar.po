@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-16 02:04+0200\n"
-"PO-Revision-Date: 2012-08-15 01:51+0000\n"
-"Last-Translator: ttyn <tetuyano+transi@gmail.com>\n"
+"POT-Creation-Date: 2012-08-22 02:03+0200\n"
+"PO-Revision-Date: 2012-08-21 02:29+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,7 +69,7 @@ msgstr "タイムゾーンが変更されました"
 msgid "Invalid request"
 msgstr "無効なリクエストです"
 
-#: appinfo/app.php:35 templates/calendar.php:15
+#: appinfo/app.php:37 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:33
 msgid "Calendar"
 msgstr "カレンダー"
@@ -470,7 +470,7 @@ msgstr "月"
 
 #: templates/calendar.php:41
 msgid "List"
-msgstr "リスト"
+msgstr "予定リスト"
 
 #: templates/calendar.php:45
 msgid "Today"
@@ -764,7 +764,7 @@ msgstr "キャッシュ"
 
 #: templates/settings.php:80
 msgid "Clear cache for repeating events"
-msgstr "イベントを繰り返すためにキャッシュをクリアしてください"
+msgstr "繰り返しイベントのキャッシュをクリア"
 
 #: templates/settings.php:85
 msgid "URLs"

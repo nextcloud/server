@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Size" => "Dimensione",
+"Modified" => "Modificato",
+"Delete all" => "Elimina tutto",
 "Delete" => "Eliminazione",
 "Your Shared Files" => "I tuoi file condivisi",
 "Item" => "Elemento",
