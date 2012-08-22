@@ -69,6 +69,8 @@ class Share {
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
 		if (!isset(self::$backendTypes[$itemType])) {
 			self::$backendTypes[$itemType] = array('class' => $class, 'collectionOf' => $collectionOf, 'supportedFileExtensions' => $supportedFileExtensions);
+			\OC_Util::addScript('core', 'share');
+			\OC_Util::addStyle('core', 'share');
 			return true;
 		}
 		\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class'].' is already registered for '.$itemType, \OC_Log::WARN);
