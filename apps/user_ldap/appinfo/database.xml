@@ -92,4 +92,37 @@
 
  </table>
 
+
+ <table>
+
+  <name>*dbprefix*ldap_group_members</name>
+
+  <declaration>
+
+   <field>
+    <name>owncloudname</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+    <default></default>
+   </field>
+
+   <field>
+    <name>owncloudusers</name>
+    <type>clob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>ldap_group_members</name>
+    <unique>true</unique>
+    <field>
+     <name>owncloudname</name>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
 </database>

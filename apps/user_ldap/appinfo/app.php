@@ -40,3 +40,5 @@ $entry = array(
 	'href' => OCP\Util::linkTo( 'user_ldap', 'settings.php' ),
 	'name' => 'LDAP'
 );
+
+OCP\Backgroundjob::addRegularTask('OCA\user_ldap\lib\Jobs', 'updateGroups');
