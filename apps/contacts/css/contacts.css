@@ -126,8 +126,8 @@ input[type="checkbox"] { width: 20px; height: 20px; vertical-align: bottom; }
 .propertylist li > .select_wrapper select { float: left; overflow: hidden; color: #bbb; }
 .propertylist li > .select_wrapper select option { color: #777; }
 .propertylist li > .select_wrapper select:hover,.propertylist li > select:focus,.propertylist li > select:active { color: #777; }
-.propertylist li > .select_wrapper select.impp { margin-left: -2.3em; direction: rtl; }
-.propertylist li > .select_wrapper select.types { margin-right: -2em; }
+.propertylist li > .select_wrapper select.impp { margin-left: -23px; direction: rtl; }
+.propertylist li > .select_wrapper select.types { margin-right: -23px; }
 .propertylist li > input[type="checkbox"].impp { clear: none; }
 .propertylist li > label.xab { display: block; color: #bbb; float:left; clear: both; padding: 0.5em 0 0 2.5em; }
 .propertylist li > label.xab:hover { color: #777; }
