@@ -24,10 +24,6 @@
 namespace OCA\user_ldap\lib;
 
 class Jobs {
-
-	//refresh groups every hour
-	static private $refreshInterval = 3600;
-
 	static private $groupsFromDB;
 
 	static private $groupBE;
@@ -36,7 +32,7 @@ class Jobs {
 	static public function updateGroups() {
 		\OCP\Util::writeLog('user_ldap', 'Run background job "updateGroups"', \OCP\Util::DEBUG);
 		$lastUpdate = \OCP\Config::getAppValue('user_ldap', 'bgjUpdateGroupsLastRun', 0);
-		if((time() - $lastUpdate) < self::$refreshInterval) {
+		if((time() - $lastUpdate) < self::getRefreshInterval()) {
 			\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – last run too fresh, aborting.', \OCP\Util::DEBUG);
 			//komm runter Werner die Maurer geben ein aus
 			return;
@@ -58,6 +54,11 @@ class Jobs {
 		\OCP\Config::setAppValue('user_ldap', 'bgjUpdateGroupsLastRun', time());
 
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – Finished.', \OCP\Util::DEBUG);
+	}
+
+	static private function getRefreshInterval() {
+		//defaults to every hour
+		return \OCP\Config::getAppValue('user_ldap', 'bgjRefreshInterval', 3600);
 	}
 
 	static private function handleKnownGroups($groups) {
