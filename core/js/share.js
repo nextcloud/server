@@ -30,12 +30,14 @@ OC.Share={
 			}
 		});
 	},
-	loadItem:function(itemType, itemName, itemSource) {
+	loadItem:function(itemType, itemSource) {
 		var data = '';
-		if (typeof OC.Share.statuses[itemName] === 'undefined') {
-			itemSource = false;
+		if (typeof OC.Share.statuses[itemSource] === 'undefined') {
+			checkShares = false;
+		} else {
+			checkShares = true;
 		}
-		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, itemName: itemName, itemSource: itemSource }, async: false, success: function(result) {
+		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, itemSource: itemSource, checkShares: checkShares }, async: false, success: function(result) {
 			if (result && result.status === 'success') {
 				data = result.data;
 			} else {
@@ -44,8 +46,8 @@ OC.Share={
 		}});
 		return data;
 	},
-	share:function(itemType, itemName, itemSource, shareType, shareWith, permissions, callback) {
-		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'share', itemType: itemType, itemName: itemName, itemSource: itemSource, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
+	share:function(itemType, itemSource, shareType, shareWith, permissions, callback) {
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'share', itemType: itemType, itemSource: itemSource, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
 			if (result && result.status === 'success') {
 				if (callback) {
 					callback(result.data);
@@ -73,9 +75,9 @@ OC.Share={
 			}
 		});
 	},
-	showDropDown:function(itemType, itemName, itemSource, appendTo, privateLink, possiblePermissions) {
-		var data = OC.Share.loadItem(itemType, itemName, itemSource);
-		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-name="'+itemName+'" data-item-source="'+itemSource+'">';
+	showDropDown:function(itemType, itemSource, appendTo, privateLink, possiblePermissions) {
+		var data = OC.Share.loadItem(itemType, itemSource);
+		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
 		if (data.reshare) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
 				html += 'Shared with you and the group '+data.reshare.share_with+' by '+data.reshare.uid_owner;
@@ -136,7 +138,7 @@ OC.Share={
 			$(this).val(shareWith);
 			// Default permissions are Read and Share
 			var permissions = OC.Share.PERMISSION_READ | OC.Share.PERMISSION_SHARE;
-			OC.Share.share($('#dropdown').data('item-type'), $('#dropdown').data('item-name'), $('#dropdown').data('item-source'), shareType, shareWith, permissions, function() {
+			OC.Share.share($('#dropdown').data('item-type'), $('#dropdown').data('item-source'), shareType, shareWith, permissions, function() {
 				OC.Share.addShareWith(shareType, shareWith, permissions, possiblePermissions);
 				$('#shareWith').val('');
 			});
@@ -251,9 +253,8 @@ $(document).ready(function() {
 
 	$('a.share').live('click', function(event) {
 		event.stopPropagation();
-		if ($(this).data('item-type') !== undefined && $(this).data('item-name') !== undefined  && $(this).data('item-source') !== undefined) {
+		if ($(this).data('item-type') !== undefined && $(this).data('item-source') !== undefined) {
 			var itemType = $(this).data('item-type');
-			var itemName = $(this).data('item-name');
 			var itemSource = $(this).data('item-source');
 			var appendTo = $(this).parent().parent();
 			var privateLink = false;
@@ -264,13 +265,13 @@ $(document).ready(function() {
 			if (OC.Share.droppedDown) {
 				if (item != $('#dropdown').data('item')) {
 					OC.Share.hideDropDown(function () {
-						OC.Share.showDropDown(itemType, itemName, itemSource, appendTo, privateLink, possiblePermissions);
+						OC.Share.showDropDown(itemType, itemSource, appendTo, privateLink, possiblePermissions);
 					});
 				} else {
 					OC.Share.hideDropDown();
 				}
 			} else {
-				OC.Share.showDropDown(itemType, itemName, itemSource, appendTo, privateLink, possiblePermissions);
+				OC.Share.showDropDown(itemType, itemSource, appendTo, privateLink, possiblePermissions);
 			}
 		}
 	});
@@ -280,7 +281,11 @@ $(document).ready(function() {
 		FileActions.register('all', 'Share', FileActions.PERMISSION_SHARE, function(filename) {
 			// Return the correct sharing icon
 			if (scanFiles.scanning) { return; } // workaround to prevent additional http request block scanning feedback
-			var item = $('#dir').val() + filename;
+			if ($('#dir').val() == '/') {
+				var item = $('#dir').val() + filename;
+			} else {
+				var item = $('#dir').val() + '/' + filename;
+			}
 			// Check if status is in cache
 			if (OC.Share.statuses[item] === true) {
 				return OC.imagePath('core', 'actions/public');
@@ -302,7 +307,11 @@ $(document).ready(function() {
 				return OC.imagePath('core', 'actions/share');
 			}
 		}, function(filename) {
-			var item = $('#dir').val() + filename;
+			if ($('#dir').val() == '/') {
+				var item = $('#dir').val() + filename;
+			} else {
+				var item = $('#dir').val() + '/' + filename;
+			}
 			if ($('tr').filterAttr('data-file', filename).data('type') == 'dir') {
 				var itemType = 'folder';
 				var possiblePermissions = OC.Share.PERMISSION_CREATE | OC.Share.PERMISSION_UPDATE | OC.Share.PERMISSION_DELETE | OC.Share.PERMISSION_SHARE;
@@ -316,14 +325,14 @@ $(document).ready(function() {
 				if (item != $('#dropdown').data('item')) {
 					OC.Share.hideDropDown(function () {
 						$('tr').filterAttr('data-file', filename).addClass('mouseOver');
-						OC.Share.showDropDown(itemType, '/'+filename, item, appendTo, true, possiblePermissions);
+						OC.Share.showDropDown(itemType, item, appendTo, true, possiblePermissions);
 					});
 				} else {
 					OC.Share.hideDropDown();
 				}
 			} else {
 				$('tr').filterAttr('data-file',filename).addClass('mouseOver');
-				OC.Share.showDropDown(itemType, '/'+filename, item, appendTo, true, possiblePermissions);
+				OC.Share.showDropDown(itemType, item, appendTo, true, possiblePermissions);
 			}
 		});
 	}

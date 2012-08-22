@@ -25,16 +25,18 @@ class Test_Share_Backend implements OCP\Share_Backend {
 	const FORMAT_TARGET = 1;
 	const FORMAT_PERMISSIONS = 2;
 	
-	private $testItem = 'test.txt';
+	private $testItem1 = 'test.txt';
+	private $testItem2 = 'share.txt';
 
 	public function isValidSource($itemSource, $uidOwner) {
-		if ($itemSource == $this->testItem) {
+		if ($itemSource == $this->testItem1 || $itemSource == $this->testItem2) {
 			return true;
 		}
 	}
 
 	public function generateTarget($itemSource, $shareWith, $exclude = null) {
-		$target = $itemSource;
+		// Always make target be test.txt to cause conflicts
+		$target = 'test.txt';
 		if (isset($exclude)) {
 			$pos = strrpos($target, '.');
 			$name = substr($target, 0, $pos);
