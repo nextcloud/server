@@ -38,7 +38,7 @@ class OC_Files {
 			$directory='';
 		}
 		$files = array();
-		if (substr($directory, 0, 7) == '/Shared') {
+		if (($directory == '/Shared' || substr($directory, 0, 8) == '/Shared/') && OC_App::isEnabled('files_sharing')) {
 			if ($directory == '/Shared') {
 				$files = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP, array('folder' => $directory, 'mimetype_filter' => $mimetype_filter));
 			} else {
@@ -65,7 +65,7 @@ class OC_Files {
 				}
 				$file['permissions'] = $permissions;
 			}
-			if ($directory == '') {
+			if ($directory == '' && OC_App::isEnabled('files_sharing')) {
 				// Add 'Shared' folder
 				$files = array_merge($files, OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT));
 			}

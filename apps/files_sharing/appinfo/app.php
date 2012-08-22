@@ -6,3 +6,4 @@ OC::$CLASSPATH['OC_Filestorage_Shared'] = "apps/files_sharing/lib/sharedstorage.
 OCP\Util::connectHook('OC_Filesystem', 'setup', 'OC_Filestorage_Shared', 'setup');
 OCP\Share::registerBackend('file', 'OC_Share_Backend_File');
 OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');
+OCP\Util::addScript('files_sharing', 'share');
