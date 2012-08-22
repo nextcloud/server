@@ -1290,12 +1290,18 @@ OC.Contacts={
 			OC.Contacts.Contacts.refreshThumbnail(this.id);
 		},
 		addMail:function() {
-			//alert('addMail');
+			console.log('addMail');
 			var emaillist = $('#emaillist');
 			emaillist.find('li.template:first-child').clone(true).appendTo(emaillist).show().find('a .tip').tipsy();
 			emaillist.find('li.template:last-child').find('select').addClass('contacts_property');
 			emaillist.find('li.template:last-child').removeClass('template').addClass('propertycontainer');
 			emaillist.find('li:last-child').find('input[type="email"]').focus();
+			emaillist.find('li:last-child').find('select').multiselect({
+												noneSelectedText: t('contacts', 'Select type'),
+													header: false,
+													selectedList: 4,
+													classes: 'typelist'
+												});
 			return false;
 		},
 		loadMails:function() {
