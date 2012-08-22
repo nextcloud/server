@@ -298,13 +298,13 @@ $(document).ready(function(){
 			});
 			FileList.deleteCanceled=true;
 			FileList.deleteFiles=null;
-			FileList.lastAction = null;
 		} else if (FileList.replaceOldName && FileList.replaceNewName) {
 			$('tr').filterAttr('data-file', FileList.replaceOldName).show();
 			FileList.replaceCanceled = true;
 			FileList.replaceOldName = null;
 			FileList.replaceNewName = null;
 		}
+		FileList.lastAction = null;
 		$('#notification').fadeOut();
 	});
 	$('#notification .replace').live('click', function() {
