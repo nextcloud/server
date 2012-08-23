@@ -106,7 +106,7 @@ OC.Share={
 					OC.Share.showPrivateLink(item, share.share_with);
 				} else {
 					OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions);
-					
+
 				}
 			});
 		}
@@ -211,7 +211,7 @@ OC.Share={
 		html += '</div>';
 		html += '</li>';
 		$(html).appendTo('#shareWithList');
-		
+
 	},
 	showPrivateLink:function(item, token) {
 		$('#privateLinkCheckbox').attr('checked', true);
@@ -253,9 +253,9 @@ $(document).ready(function() {
 
 	$('a.share').live('click', function(event) {
 		event.stopPropagation();
-		if ($(this).data('item-type') !== undefined && $(this).data('item-source') !== undefined) {
+		if ($(this).data('item-type') !== undefined && $(this).data('item') !== undefined) {
 			var itemType = $(this).data('item-type');
-			var itemSource = $(this).data('item-source');
+			var itemSource = $(this).data('item');
 			var appendTo = $(this).parent().parent();
 			var privateLink = false;
 			var possiblePermissions = $(this).data('possible-permissions');
@@ -263,7 +263,7 @@ $(document).ready(function() {
 				privateLink = true;
 			}
 			if (OC.Share.droppedDown) {
-				if (item != $('#dropdown').data('item')) {
+				if (itemSource != $('#dropdown').data('item')) {
 					OC.Share.hideDropDown(function () {
 						OC.Share.showDropDown(itemType, itemSource, appendTo, privateLink, possiblePermissions);
 					});
@@ -286,7 +286,7 @@ $(document).ready(function() {
 		// Show permissions and unshare button
 		$(':hidden', this).filter(':not(.cruds)').show();
 	});
-	
+
 	$('#shareWithList li').live('mouseleave', function(event) {
 		// Hide permissions and unshare button
 		if (!$('.cruds', this).is(':visible')) {
@@ -314,10 +314,10 @@ $(document).ready(function() {
 			OC.Share.itemShares[shareType].splice(index, 1);
 		});
 	});
-	
+
 	$('.permissions').live('change', function() {
 		if ($(this).attr('name') == 'edit') {
-			var li = $(this).parent().parent() 
+			var li = $(this).parent().parent()
 			var checkboxes = $('.permissions', li);
 			var checked = $(this).is(':checked');
 			// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
@@ -341,7 +341,7 @@ $(document).ready(function() {
 		});
 		OC.Share.setPermissions($('#dropdown').data('item-type'), $('#dropdown').data('item-source'), $(li).data('share-type'), $(li).data('share-with'), permissions);
 	});
-	
+
 	$('#privateLinkCheckbox').live('change', function() {
 		var itemType = $('#dropdown').data('item-type');
 		var item = $('#dropdown').data('item');
@@ -365,7 +365,7 @@ $(document).ready(function() {
 			});
 		}
 	});
-	
+
 	$('#privateLinkText').live('click', function() {
 		$(this).focus();
 		$(this).select();
