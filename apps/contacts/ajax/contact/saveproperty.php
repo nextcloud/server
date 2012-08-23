@@ -162,9 +162,10 @@ if(!$value) {
 }
 //debug('New checksum: '.$checksum);
 
-if(!OC_Contacts_VCard::edit($id, $vcard)) {
-	bailOut(OC_Contacts_App::$l10n->t('Error updating contact property.'));
-	exit();
+try {
+	OC_Contacts_VCard::edit($id, $vcard);
+} catch(Exception $e) {
+	bailOut($e->getMessage());
 }
 
 OCP\JSON::success(array('data' => array(

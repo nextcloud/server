@@ -405,7 +405,7 @@ class OC_Contacts_VCard{
 		if ($addressbook['userid'] != OCP\User::getUser()) {
 			$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $id, OCP\Share::FORMAT_NONE, null, true);
 			if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_UPDATE)) {
-				return false;
+				throw new Exception(OC_Contacts_App::$l10n->t('You do not have the permissions to edit this contact.'));
 			}
 		}
 		OC_Contacts_App::loadCategoriesFromVCard($card);
@@ -423,7 +423,8 @@ class OC_Contacts_VCard{
 		try {
 			$result = $stmt->execute(array($fn,$data,time(),$id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '
+				. $e->getMessage(), OCP\Util::ERROR);
 			OCP\Util::writeLog('contacts', __METHOD__.', id'.$id, OCP\Util::DEBUG);
 			return false;
 		}
@@ -444,10 +445,21 @@ class OC_Contacts_VCard{
 		$oldcard = self::findWhereDAVDataIs($aid, $uri);
 		$card = OC_VObject::parse($data);
 		if(!$card) {
-			OCP\Util::writeLog('contacts', __METHOD__.', Unable to parse VCARD, uri: '.$uri, OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.
+				', Unable to parse VCARD, uri: '.$uri, OCP\Util::ERROR);
 			return false;
 		}
-		return self::edit($oldcard['id'], $card);
+		try {
+			self::edit($oldcard['id'], $card);
+			return true;
+		} catch(Exception $e) {
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '
+				. $e->getMessage() . ', '
+				. OCP\USER::getUser(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', uri'
+				. $uri, OCP\Util::DEBUG);
+			return false;
+		}
 	}
 
 	/**
@@ -462,18 +474,28 @@ class OC_Contacts_VCard{
 		}
 		$addressbook = OC_Contacts_Addressbook::find($card['addressbookid']);
 		if ($addressbook['userid'] != OCP\User::getUser()) {
-			$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $id, OCP\Share::FORMAT_NONE, null, true);
-			if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_DELETE)) {
-				return false;
+			$sharedContact = OCP\Share::getItemSharedWithBySource('contact',
+				$id, OCP\Share::FORMAT_NONE, null, true);
+			if (!$sharedContact
+				|| !($sharedContact['permissions'] & OCP\Share::PERMISSION_DELETE)) {
+				throw new Exception(
+					OC_Contacts_App::$l10n->t(
+						'You do not have the permissions to delete this contact.'
+					)
+				);
 			}
 		}
-		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard', array('aid' => null, 'id' => $id, 'uri' => null));
-		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
+		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard',
+			array('aid' => null, 'id' => $id, 'uri' => null)
+		);
+		$stmt = OCP\DB::prepare('DELETE FROM *PREFIX*contacts_cards WHERE id = ?');
 		try {
 			$stmt->execute(array($id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __METHOD__.', id: '.$id, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.
+				', exception: ' . $e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', id: '
+				. $id, OCP\Util::DEBUG);
 			return false;
 		}
 

@@ -398,12 +398,32 @@ OC.Contacts={
 				localLoadContact(newid, bookid);
 			}
 		},
+		setEnabled:function(enabled) {
+			console.log('setEnabled', enabled);
+			$('.contacts_property,.action').each(function () {
+				$(this).prop('disabled', !enabled);
+				OC.Contacts.Card.enabled = enabled;
+			});
+		},
 		doExport:function() {
 			document.location.href = OC.linkTo('contacts', 'export.php') + '?contactid=' + this.id;
 		},
 		editNew:function(){ // add a new contact
-			this.id = ''; this.fn = ''; this.fullname = ''; this.givname = ''; this.famname = ''; this.addname = ''; this.honpre = ''; this.honsuf = '';
-			OC.Contacts.Card.add(';;;;;', '', '', true);
+			var book = $('#contacts h3.active');
+			var permissions = parseInt(book.data('permissions'));
+			if(permissions == 0
+					|| permissions & OC.Share.PERMISSION_UPDATE
+					|| permissions & OC.Share.PERMISSION_DELETE) {
+				with(this) {
+					delete id; delete fn; delete fullname; delete givname; delete famname;
+					delete addname; delete honpre; delete honsuf;
+				}
+				this.bookid = book.data('id');
+				OC.Contacts.Card.add(';;;;;', '', '', true);
+			} else {
+				OC.dialogs.alert(t('contacts', 'You do not have permission to add contacts to ')
+					+ book.text() + '. ' + t('contacts', 'Please select one of your own address books.'), t('contacts', 'Permission error'));
+			}
 			return false;
 		},
 		add:function(n, fn, aid, isnew){ // add a new contact
@@ -497,11 +517,16 @@ OC.Contacts={
 			OC.Contacts.notify({
 				data:curlistitem,
 				message:t('contacts','Click to undo deletion of "') + curlistitem.find('a').text() + '"',
-				timeout:5,
+				//timeout:5,
 				timeouthandler:function(contact) {
 					console.log('timeout');
-					OC.Contacts.Card.doDelete(contact.data('id'), true);
-					delete contact;
+					OC.Contacts.Card.doDelete(contact.data('id'), true, function(res) {
+						if(!res) {
+							OC.Contacts.Contacts.insertContact({contact:contact});
+						} else {
+							delete contact;
+						}
+					});
 				},
 				clickhandler:function(contact) {
 					OC.Contacts.Contacts.insertContact({contact:contact});
@@ -510,7 +535,7 @@ OC.Contacts={
 				}
 			});
 		},
-		doDelete:function(id, removeFromQueue) {
+		doDelete:function(id, removeFromQueue, cb) {
 			var updateQueue = function(id, remove) {
 				if(removeFromQueue) {
 					OC.Contacts.Contacts.deletionQueue.splice(OC.Contacts.Contacts.deletionQueue.indexOf(parseInt(id)), 1);
@@ -523,14 +548,23 @@ OC.Contacts={
 			if(OC.Contacts.Contacts.deletionQueue.indexOf(parseInt(id)) == -1 && removeFromQueue) {
 				console.log('returning');
 				updateQueue(id, removeFromQueue);
+				if(typeof cb == 'function') {
+					cb(true);
+				}
 				return;
 			}
-			$.post(OC.filePath('contacts', 'ajax', 'contact/delete.php'),{'id':id},function(jsondata) {
+			$.post(OC.filePath('contacts', 'ajax', 'contact/delete.php'), {'id':id},function(jsondata) {
 				if(jsondata.status == 'error'){
-					OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
+					OC.Contacts.notify({message:jsondata.data.message});
+					if(typeof cb == 'function') {
+						cb(false);
+					}
 				}
 				updateQueue(id, removeFromQueue);
 			});
+			if(typeof cb == 'function') {
+				cb(true);
+			}
 		},
 		loadContact:function(jsondata, bookid){
 			this.data = jsondata;
@@ -563,6 +597,11 @@ OC.Contacts={
 				$('#contact_note').hide();
 				$('#contacts_propertymenu_dropdown a[data-type="NOTE"]').parent().show();
 			}
+			var permissions = OC.Contacts.Card.permissions = parseInt($('#contacts ul[data-id="' + bookid + '"]').data('permissions'));
+			console.log('permissions', permissions);
+			this.setEnabled(permissions == 0
+				|| permissions & OC.Share.PERMISSION_UPDATE
+				|| permissions & OC.Share.PERMISSION_DELETE);
 		},
 		loadSingleProperties:function() {
 			var props = ['BDAY', 'NICKNAME', 'ORG', 'URL', 'CATEGORIES'];
@@ -757,6 +796,13 @@ OC.Contacts={
 					console.log('Saving: ' + q);
 					$(obj).attr('disabled', 'disabled');
 					$.post(OC.filePath('contacts', 'ajax', 'contact/saveproperty.php'),q,function(jsondata){
+						if(!jsondata) {
+							OC.dialogs.alert(t('contacts', 'Unknown error. Please check logs.'), t('contacts', 'Error'));
+							OC.Contacts.loading(obj, false);
+							$(obj).removeAttr('disabled');
+							OC.Contacts.Card.update({cid:OC.Contacts.Card.id});
+							return false;
+						}
 						if(jsondata.status == 'success'){
 							container.data('checksum', jsondata.data.checksum);
 							OC.Contacts.Card.savePropertyInternal(name, fields, checksum, jsondata.data.checksum);
@@ -768,6 +814,7 @@ OC.Contacts={
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 							OC.Contacts.loading(obj, false);
 							$(obj).removeAttr('disabled');
+							OC.Contacts.Card.update({cid:OC.Contacts.Card.id});
 							return false;
 						}
 					},'json');
@@ -787,12 +834,16 @@ OC.Contacts={
 							OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 							OC.Contacts.loading(obj, false);
 							$(obj).removeAttr('disabled');
+							OC.Contacts.Card.update({cid:OC.Contacts.Card.id});
 							return false;
 						}
 					},'json');
 			}
 		},
 		addProperty:function(type) {
+			if(!this.enabled) {
+				return;
+			}
 			switch (type) {
 				case 'NOTE':
 					$('#contacts_propertymenu_dropdown a[data-type="'+type+'"]').parent().hide();
@@ -836,6 +887,9 @@ OC.Contacts={
 		},
 		deleteProperty:function(obj, type) {
 			console.log('deleteProperty');
+			if(!this.enabled) {
+				return;
+			}
 			OC.Contacts.loading(obj, true);
 			var checksum = OC.Contacts.checksumFor(obj);
 			if(checksum) {
@@ -887,6 +941,9 @@ OC.Contacts={
 			}
 		},
 		editName:function() {
+			if(!this.enabled) {
+				return;
+			}
 			var params = {id: this.id};
 			/* Initialize the name edit dialog */
 			if($('#edit_name_dialog').dialog('isOpen') == true) {
@@ -922,6 +979,9 @@ OC.Contacts={
 			}
 		},
 		saveName:function(dlg) {
+			if(!this.enabled) {
+				return;
+			}
 			//console.log('saveName, id: ' + this.id);
 			var n = new Array($(dlg).find('#fam').val().strip_tags(),$(dlg).find('#giv').val().strip_tags(),$(dlg).find('#add').val().strip_tags(),$(dlg).find('#pre').val().strip_tags(),$(dlg).find('#suf').val().strip_tags());
 			this.famname = n[0];
@@ -1010,6 +1070,9 @@ OC.Contacts={
 			return false;
 		},
 		editAddress:function(obj, isnew){
+			if(!this.enabled) {
+				return;
+			}
 			var container = undefined;
 			var params = {id: this.id};
 			if(obj === 'new') {
@@ -1135,6 +1198,9 @@ OC.Contacts={
 			}
 		},
 		saveAddress:function(dlg, obj, isnew){
+			if(!this.enabled) {
+				return;
+			}
 			if(isnew) {
 				container = $('#addresses dl').last();
 				obj = container.find('input').first();
@@ -1177,6 +1243,9 @@ OC.Contacts={
 			container.find('.addresslist').html(adrtxt);
 		},
 		uploadPhoto:function(filelist) {
+			if(!this.enabled) {
+				return;
+			}
 			if(!filelist) {
 				OC.dialogs.alert(t('contacts','No files selected for upload.'), t('contacts', 'Error'));
 				return;
@@ -1255,6 +1324,9 @@ OC.Contacts={
 			this.loadPhotoHandlers()
 		},
 		editCurrentPhoto:function(){
+			if(!this.enabled) {
+				return;
+			}
 			$.getJSON(OC.filePath('contacts', 'ajax', 'currentphoto.php'),{'id':this.id},function(jsondata){
 				if(jsondata.status == 'success'){
 					//alert(jsondata.data.page);
@@ -1268,6 +1340,9 @@ OC.Contacts={
 			});
 		},
 		editPhoto:function(id, tmpkey){
+			if(!this.enabled) {
+				return;
+			}
 			//alert('editPhoto: ' + tmpkey);
 			$.getJSON(OC.filePath('contacts', 'ajax', 'cropphoto.php'),{'tmpkey':tmpkey,'id':this.id, 'requesttoken':requesttoken},function(jsondata){
 				if(jsondata.status == 'success'){
@@ -1284,7 +1359,10 @@ OC.Contacts={
 				$('#edit_photo_dialog').dialog('open');
 			}
 		},
-		savePhoto:function(){
+		savePhoto:function() {
+			if(!this.enabled) {
+				return;
+			}
 			var target = $('#crop_target');
 			var form = $('#cropform');
 			var wrapper = $('#contacts_details_photo_wrapper');
@@ -1719,11 +1797,15 @@ OC.Contacts={
 							firstrun = true;
 							if($('#contacts h3').length == 0) {
 								$('#contacts').html('<h3 class="addressbook" contextmenu="addressbookmenu" data-id="'
-									+ b+'">'+book.displayname+'</h3><ul class="contacts hidden" data-id="'+b+'"></ul>');
+									+ b + '" data-permissions="' + book.permissions + '">' + book.displayname
+									+ '</h3><ul class="contacts hidden" data-id="'+b+'" data-permissions="'
+									+ book.permissions + '"></ul>');
 							} else {
-								if(!$('#contacts h3[data-id="'+b+'"]').length) {
-									var item = $('<h3 class="addressbook" contextmenu="addressbookmenu" data-id="'+b+'">'
-										+ book.displayname+'</h3><ul class="contacts hidden" data-id="'+b+'"></ul>')
+								if(!$('#contacts h3[data-id="' + b + '"]').length) {
+									var item = $('<h3 class="addressbook" contextmenu="addressbookmenu" data-id="'
+										+ b + '" data-permissions="' + book.permissions + '">'
+										+ book.displayname+'</h3><ul class="contacts hidden" data-id="' + b
+										+ '" data-permissions="' + book.permissions + '"></ul>');
 									var added = false;
 									$('#contacts h3').each(function(){
 										if ($(this).text().toLowerCase() > book.displayname.toLowerCase()) {

@@ -154,8 +154,10 @@ foreach ($parameters as $key=>$element) {
 }
 $checksum = md5($vcard->children[$line]->serialize());
 
-if(!OC_Contacts_VCard::edit($id, $vcard)) {
-	bailOut($l10n->t('Error adding contact property: '.$name));
+try {
+	OC_Contacts_VCard::edit($id, $vcard);
+} catch(Exception $e) {
+	bailOut($e->getMessage());
 }
 
 OCP\JSON::success(array(

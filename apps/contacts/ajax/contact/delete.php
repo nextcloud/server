@@ -4,6 +4,7 @@
  *
  * @author Jakob Sack
  * @copyright 2011 Jakob Sack mail@jakobsack.de
+ * @copyright 2012 Thomas Tanghus (thomas@tanghus.net)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -30,7 +31,14 @@ $id = isset($_POST['id'])?$_POST['id']:null;
 if(!$id) {
 	bailOut(OC_Contacts_App::$l10n->t('id is not set.'));
 }
-$card = OC_Contacts_App::getContactObject( $id );
 
-OC_Contacts_VCard::delete($id);
+try {
+	OC_Contacts_VCard::delete($id);
+} catch(Exception $e) {
+	$msg = $e->getMessage();
+	OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$msg,
+		OCP\Util::DEBUG);
+	OCP\Util::writeLog('contacts', __METHOD__.', id'.$id, OCP\Util::DEBUG);
+	bailOut($msg);
+}
 OCP\JSON::success(array('data' => array( 'id' => $id )));

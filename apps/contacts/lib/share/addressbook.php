@@ -73,6 +73,7 @@ class OC_Share_Backend_Addressbook implements OCP\Share_Backend_Collection {
 				$addressbook = OC_Contacts_Addressbook::find($item['item_source']);
 				if ($addressbook) {
 					$addressbook['displayname'] = $item['item_target'];
+					$addressbook['permissions'] = $item['permissions'];
 					$addressbooks[] = $addressbook;
 				}
 			}
