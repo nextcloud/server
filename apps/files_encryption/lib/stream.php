@@ -182,7 +182,7 @@ class Stream {
 	}
 	
 	/**
-	 * @brief 
+	 * @brief Write write plan data as encrypted data
 	 */
 	public function stream_write( $data ) {
 		
@@ -208,55 +208,60 @@ class Stream {
 			Keymanager::setFileKey( $this->rawPath, $this->keyfile, new \OC_FilesystemView( '/' ) );
 			
 		}
-
-		if ( $this->writeCache ) {
-
-			$data = $this->writeCache . $data;
-
-			$this->writeCache = '';
-
-		}
 		
-		// Make sure we always start on a block start
-		if ( $currentPos % 8192 != 0 ) {
+// 		// Set $data to contents of writeCache
+// 		// Concat writeCache to start of $data
+// 		if ( $this->writeCache ) {
+// 
+// 			$data = $this->writeCache . $data;
+// 
+// 			$this->writeCache = '';
+// 
+// 		}
+		
+// 		// Make sure we always start on a block start
+// 		if ( 0 != ( $currentPos % 8192 ) ) { // If we're not at the end of file yet (in the final chunk), if there will be no bytes left to read after the current chunk
+// 
+// 			fseek( $this->source, - ( $currentPos % 8192 ), SEEK_CUR );
+// 
+// 			$encryptedBlock = fread( $this->source, 8192 );
+// 
+// 			fseek( $this->source, - ( $currentPos % 8192 ), SEEK_CUR );
+// 
+// 			$block = Crypt::symmetricDecryptFileContent( $encryptedBlock, $this->keyfile );
+// 
+// 			$x =  substr( $block, 0, $currentPos % 8192 );
+// 
+// 			$data = $x . $data;
+// 			
+// 			fseek( $this->source, - ( $currentPos % 8192 ), SEEK_CUR );
+// 
+// 		}
 
-			fseek( $this->source, - ( $currentPos % 8192 ), SEEK_CUR );
-
-			$encryptedBlock = fread( $this->source, 8192 );
-
-			fseek( $this->source, - ( $currentPos % 8192 ), SEEK_CUR );
-
-			$block = Crypt::symmetricDecryptFileContent( $encryptedBlock, $this->keyfile );
-
-			$data = substr( $block, 0, $currentPos % 8192 ) . $data;
-
-			fseek( $this->source, - ( $currentPos % 8192 ), SEEK_CUR );
-
-		}
-
-		$currentPos = ftell( $this->source );
-
-		while( $remainingLength = strlen( $data ) > 0 ) {
-
-			if ( $remainingLength < 8192 ) {
-
-				$this->writeCache = $data;
-
-				$data = '';
-
-			} else {
-
+// 		$currentPos = ftell( $this->source );
+// 
+// 		while( $remainingLength = strlen( $data ) > 0 ) {
+// 
+// 			// Set writeCache to contents of $data
+// 			if ( $remainingLength < 8192 ) {
+// 
+// 				$this->writeCache = $data;
+// 
+// 				$data = '';
+// 
+// 			} else {
+				
 				$encrypted = Crypt::symmetricBlockEncryptFileContent( $data, $this->keyfile );
 				
 				//$encrypted = $data;
 				
 				fwrite( $this->source, $encrypted );
 
-				$data = substr( $data,8192 );
+				$data = substr( $data, 8192 );
 
-			}
-
-		}
+// 			}
+// 
+// 		}
 
 		$this->size = max( $this->size, $currentPos + $length );
 

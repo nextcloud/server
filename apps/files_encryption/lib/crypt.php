@@ -161,7 +161,7 @@ class Crypt {
          * @returns decrypted file
          */
 	public static function decrypt( $encryptedContent, $iv, $passphrase ) {
-
+	echo "\n\nJET \$passphrase = $passphrase , \$iv = $iv\n\n";
 		if ( $plainContent = openssl_decrypt( $encryptedContent, 'AES-128-CFB', $passphrase, false, $iv ) ) {
 
 			return $plainContent;
@@ -408,17 +408,29 @@ class Crypt {
 		
 		$remaining = $plainContent;
 		
+		$testarray = array();
+		
 		while( strlen( $remaining ) ) {
+		
+			//echo "\n\n\$block = ".substr( $remaining, 0, 8192 );
 		
 			// Encrypt a chunk of unencrypted data and add it to the rest
 			$block = self::symmetricEncryptFileContent( substr( $remaining, 0, 8192 ), $key );
 			
 			$crypted .= $block;
 			
+			$testarray[] = $block;
+			
 			// Remove the data already encrypted from remaining unencrypted data
 			$remaining = substr( $remaining, 8192 );
 		
 		}
+		
+		//echo "hags   ";
+		
+		//echo "\n\n\n\$crypted = $crypted\n\n\n";
+		
+		//print_r($testarray);
 		
 		return $crypted;
 
@@ -430,13 +442,17 @@ class Crypt {
 	*/
 	public static function symmetricBlockDecryptFileContent( $crypted, $key ) {
 
-		//echo "\n\n\nfags \$crypted = $crypted\n\n\n";
+		echo "\n\n\nfags \$crypted = $crypted\n\n\n";
 		
 		$decrypted = '';
 		
 		$remaining = $crypted;
 		
+		$testarray = array();
+		
 		while( strlen( $remaining ) ) {
+			
+			$testarray[] = substr( $remaining, 0, 10946 );
 		
 			// Encrypt a chunk of unencrypted data and add it to the rest
 			// 10946 is the length of a 8192 string once it has been encrypted
@@ -446,6 +462,10 @@ class Crypt {
 			$remaining = substr( $remaining, 10946 );
 			
 		}
+		
+		echo "nags   ";
+		
+		print_r($testarray);
 		
 		return $decrypted;
 		

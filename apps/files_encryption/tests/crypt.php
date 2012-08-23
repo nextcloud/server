@@ -25,8 +25,6 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		$this->view = new \OC_FilesystemView( '/' );
 	
-		//stream_wrapper_register( 'crypt', 'OCA_Encryption\Stream' );
-	
 	}
 	
 	function tearDown(){}
@@ -109,58 +107,72 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files_encryption/keyfiles/sscceEncrypt-1345649062.key' );
 		
-		$crypted = Crypt::symmetricBlockEncryptFileContent( substr( $this->dataLong, 0, 6500 ), $key );
+		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->dataLong, $key );
 		
 		$this->assertNotEquals( $this->dataLong, $crypted );
 		
-		//echo "\n\nCAT ".substr( $this->dataLong, 0, 7000 );
 
 		$decrypt = Crypt::symmetricBlockDecryptFileContent( $crypted, $key );
 
-		$this->assertEquals( substr( $this->dataLong, 0, 6500
-		
-		), $decrypt );
+		$this->assertEquals( $this->dataLong, $decrypt );
 		
 	}
 	
-// 	function testSymmetricBlockStreamEncryptFileContent() {
-// 	
-// 		\OC_User::setUserId( 'admin' );
-// 		
-// 		// Disable encryption proxy to prevent unwanted en/decryption
-// 		\OC_FileProxy::$enabled = false;
-// 		
-// 		$cryptedFile = file_put_contents( 'crypt://' . '/blockEncrypt', $this->dataUrl );
-// 		
-// 		// Test that data was successfully written
-// 		$this->assertTrue( is_int( $cryptedFile ) );
-// 		
-// 		// Disable encryption proxy to prevent unwanted en/decryption
-// 		\OC_FileProxy::$enabled = false;
-// 		
-// 		
-// 		
-// 		// Get file contents without using any wrapper to get it's actual contents on disk
-// 		$retreivedCryptedFile = $this->view->file_get_contents( '/blockEncrypt' );
-// 		
-// 		echo "\n\n\$retreivedCryptedFile = !! $retreivedCryptedFile !!";
-// 		
-// 		$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/files_encryption/keyfiles/tmp/testSetFileKey.key' );
-// 		
-// 		echo "\n\n\$key = !! $key !!";
-// 		
-// 		$manualDecrypt = Crypt::symmetricDecryptFileContent( $retreivedCryptedFile, $key );
-// 		
-// 		echo "\n\n\$manualDecrypt = !! $manualDecrypt !!";
-// 		
+	function testSymmetricStreamEncryptShortFileContent() {
+	
+		\OC_User::setUserId( 'admin' );
+		
+		$filename = 'flockEncrypt';
+		
+		$cryptedFile = file_put_contents( 'crypt://' . '/' . $filename, $this->dataShort );
+		
+		// Test that data was successfully written
+		$this->assertTrue( is_int( $cryptedFile ) );
+		
+		
+		// Get file contents without using any wrapper to get it's actual contents on disk
+		$retreivedCryptedFile = $this->view->file_get_contents( '/'. $filename );
+		
+		// Check that the file was encrypted before being written to disk
+		$this->assertNotEquals( $this->dataShort, $retreivedCryptedFile );
+		
+		
+		$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files_encryption/keyfiles/' . $filename . '.key' );
+		
+		$manualDecrypt = Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $key );
+		
+		$this->assertEquals( $this->dataShort, $manualDecrypt );
+		
+	}
+	
+	function testSymmetricStreamEncryptLongFileContent() {
+	
+		\OC_User::setUserId( 'admin' );
+		
+		$filename = 'clockEncrypt';
+		
+		$cryptedFile = file_put_contents( 'crypt://' . '/' . $filename, $this->dataLong );
+		
+		// Test that data was successfully written
+		$this->assertTrue( is_int( $cryptedFile ) );
+		
+		
+		// Get file contents without using any wrapper to get it's actual contents on disk
+		$retreivedCryptedFile = $this->view->file_get_contents( '/'. $filename );
+		
+		echo "\n\nsock $retreivedCryptedFile\n\n";
+		
 // 		// Check that the file was encrypted before being written to disk
-// 		$this->assertNotEquals( $this->dataUrl, $retreivedCryptedFile );
+// 		$this->assertNotEquals( $this->dataLong, $retreivedCryptedFile );
 // 		
-// 		$decrypt = Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $key);
 // 		
-// 		$this->assertEquals( $this->dataUrl, $decrypt );
+// 		$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files_encryption/keyfiles/' . $filename . '.key' );
 // 		
-// 	}
+// 		$manualDecrypt = Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $key );
+//  		
+// 		$this->assertEquals( $this->dataLong, $manualDecrypt );
+		
+	}	
 	
 // 	function testSymmetricBlockStreamDecryptFileContent() {
 // 	
