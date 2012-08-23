@@ -51,6 +51,7 @@
 "Create" => "Crear",
 "Default Quota" => "Cuota predeterminada",
 "Other" => "Otro",
+"Group Admin" => "Grupo admin",
 "Quota" => "Cuota",
 "Delete" => "Eliminar"
 );

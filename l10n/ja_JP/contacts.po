@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-22 02:04+0200\n"
-"PO-Revision-Date: 2012-08-21 01:50+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
+"POT-Creation-Date: 2012-08-23 02:03+0200\n"
+"PO-Revision-Date: 2012-08-23 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,7 +81,15 @@ msgstr "住所の項目のうち１つは入力して下さい。"
 msgid "Trying to add duplicate property: "
 msgstr "重複する属性を追加: "
 
-#: ajax/contact/addproperty.php:144
+#: ajax/contact/addproperty.php:115 ajax/contact/saveproperty.php:93
+msgid "Missing IM parameter."
+msgstr ""
+
+#: ajax/contact/addproperty.php:119 ajax/contact/saveproperty.php:97
+msgid "Unknown IM: "
+msgstr ""
+
+#: ajax/contact/addproperty.php:158
 msgid "Error adding contact property: "
 msgstr "コンタクト属性の追加エラー: "
 
@@ -113,7 +121,7 @@ msgstr "vCardの情報が正しくありません。ページを再読み込み�
 msgid "Something went FUBAR. "
 msgstr "何かがFUBARへ移動しました。"
 
-#: ajax/contact/saveproperty.php:144
+#: ajax/contact/saveproperty.php:166
 msgid "Error updating contact property."
 msgstr "連絡先の更新に失敗しました。"
 
@@ -237,58 +245,59 @@ msgid "Couldn't get a valid address."
 msgstr "有効なアドレスを取得できませんでした。"
 
 #: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
-#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:852
-#: js/contacts.js:858 js/contacts.js:870 js/contacts.js:904
-#: js/contacts.js:1167 js/contacts.js:1175 js/contacts.js:1184
-#: js/contacts.js:1219 js/contacts.js:1252 js/contacts.js:1264
-#: js/contacts.js:1287 js/contacts.js:1449 js/contacts.js:1484
-#: js/contacts.js:1504 js/settings.js:26 js/settings.js:43 js/settings.js:68
+#: js/contacts.js:676 js/contacts.js:716 js/contacts.js:742 js/contacts.js:859
+#: js/contacts.js:865 js/contacts.js:877 js/contacts.js:911
+#: js/contacts.js:1173 js/contacts.js:1181 js/contacts.js:1190
+#: js/contacts.js:1225 js/contacts.js:1258 js/contacts.js:1270
+#: js/contacts.js:1293 js/contacts.js:1523 js/contacts.js:1558
+#: js/contacts.js:1578 js/settings.js:26 js/settings.js:43 js/settings.js:68
 msgid "Error"
 msgstr "エラー"
 
-#: js/contacts.js:715
+#: js/contacts.js:716
 msgid "This property has to be non-empty."
 msgstr "この属性は空にできません。"
 
-#: js/contacts.js:741
+#: js/contacts.js:742
 msgid "Couldn't serialize elements."
 msgstr "要素をシリアライズできませんでした。"
 
-#: js/contacts.js:852 js/contacts.js:870
+#: js/contacts.js:859 js/contacts.js:877
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
 msgstr "'deleteProperty' は型の引数無しで呼び出されました。bugs.owncloud.org へ報告してください。"
 
-#: js/contacts.js:886
+#: js/contacts.js:893
 msgid "Edit name"
 msgstr "名前を編集"
 
-#: js/contacts.js:1167
+#: js/contacts.js:1173
 msgid "No files selected for upload."
 msgstr "アップロードするファイルが選択されていません。"
 
-#: js/contacts.js:1175
+#: js/contacts.js:1181
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "アップロードしようとしているファイルは、このサーバの最大ファイルアップロードサイズを超えています。"
 
-#: js/contacts.js:1239
+#: js/contacts.js:1245
 msgid "Error loading profile picture."
 msgstr "プロファイルの画像の読み込みエラー"
 
-#: js/contacts.js:1336 js/contacts.js:1356 js/contacts.js:1399
+#: js/contacts.js:1371 js/contacts.js:1412 js/contacts.js:1431
+#: js/contacts.js:1474
 msgid "Select type"
 msgstr "タイプを選択"
 
-#: js/contacts.js:1418
+#: js/contacts.js:1492
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
 msgstr "いくつかのコンタクトが削除とマークされていますが、まだ削除されていません。削除するまでお待ちください。"
 
-#: js/contacts.js:1489
+#: js/contacts.js:1563
 msgid "Do you want to merge these address books?"
 msgstr "これらのアドレス帳をマージしてもよろしいですか？"
 
@@ -320,117 +329,148 @@ msgstr "これはあなたの電話帳ではありません。"
 msgid "Contact could not be found."
 msgstr "連絡先を見つける事ができません。"
 
-#: lib/app.php:115 templates/part.contact.php:116
-msgid "Address"
-msgstr "住所"
-
 #: lib/app.php:116
-msgid "Telephone"
-msgstr "電話番号"
+msgid "Jabber"
+msgstr ""
 
-#: lib/app.php:117 templates/part.contact.php:115
-msgid "Email"
-msgstr "メールアドレス"
+#: lib/app.php:121
+msgid "AIM"
+msgstr ""
 
-#: lib/app.php:118 templates/part.contact.php:38 templates/part.contact.php:39
-#: templates/part.contact.php:111
-msgid "Organization"
-msgstr "所属"
+#: lib/app.php:126
+msgid "MSN"
+msgstr ""
 
-#: lib/app.php:130 lib/app.php:138 lib/app.php:149 lib/app.php:202
+#: lib/app.php:131
+msgid "Twitter"
+msgstr ""
+
+#: lib/app.php:136
+msgid "GoogleTalk"
+msgstr ""
+
+#: lib/app.php:141
+msgid "Facebook"
+msgstr ""
+
+#: lib/app.php:146
+msgid "XMPP"
+msgstr ""
+
+#: lib/app.php:151
+msgid "ICQ"
+msgstr ""
+
+#: lib/app.php:156
+msgid "Yahoo"
+msgstr ""
+
+#: lib/app.php:161
+msgid "Skype"
+msgstr ""
+
+#: lib/app.php:166
+msgid "QQ"
+msgstr ""
+
+#: lib/app.php:171
+msgid "GaduGadu"
+msgstr ""
+
+#: lib/app.php:194 lib/app.php:202 lib/app.php:213 lib/app.php:266
 msgid "Work"
 msgstr "勤務先"
 
-#: lib/app.php:131 lib/app.php:136 lib/app.php:150
+#: lib/app.php:195 lib/app.php:200 lib/app.php:214
 msgid "Home"
 msgstr "住居"
 
-#: lib/app.php:132 lib/app.php:145 lib/app.php:198 lib/vcard.php:568
+#: lib/app.php:196 lib/app.php:209 lib/app.php:262 lib/vcard.php:584
 msgid "Other"
 msgstr "その他"
 
-#: lib/app.php:137
+#: lib/app.php:201
 msgid "Mobile"
 msgstr "携帯電話"
 
-#: lib/app.php:139
+#: lib/app.php:203
 msgid "Text"
 msgstr "TTY TDD"
 
-#: lib/app.php:140
+#: lib/app.php:204
 msgid "Voice"
 msgstr "音声番号"
 
-#: lib/app.php:141
+#: lib/app.php:205
 msgid "Message"
 msgstr "メッセージ"
 
-#: lib/app.php:142
+#: lib/app.php:206
 msgid "Fax"
 msgstr "FAX"
 
-#: lib/app.php:143
+#: lib/app.php:207
 msgid "Video"
 msgstr "テレビ電話"
 
-#: lib/app.php:144
+#: lib/app.php:208
 msgid "Pager"
 msgstr "ポケベル"
 
-#: lib/app.php:151
+#: lib/app.php:215
 msgid "Internet"
 msgstr "インターネット"
 
-#: lib/app.php:188 templates/part.contact.php:44
-#: templates/part.contact.php:113
+#: lib/app.php:252 templates/part.contact.php:45
+#: templates/part.contact.php:128
 msgid "Birthday"
 msgstr "誕生日"
 
-#: lib/app.php:189
+#: lib/app.php:253
 msgid "Business"
 msgstr "ビジネス"
 
-#: lib/app.php:190
+#: lib/app.php:254
 msgid "Call"
 msgstr "電話"
 
-#: lib/app.php:191
+#: lib/app.php:255
 msgid "Clients"
 msgstr "顧客"
 
-#: lib/app.php:192
+#: lib/app.php:256
 msgid "Deliverer"
 msgstr "運送会社"
 
-#: lib/app.php:193
+#: lib/app.php:257
 msgid "Holidays"
 msgstr "休日"
 
-#: lib/app.php:194
+#: lib/app.php:258
 msgid "Ideas"
 msgstr "アイデア"
 
-#: lib/app.php:195
+#: lib/app.php:259
 msgid "Journey"
 msgstr "旅行"
 
-#: lib/app.php:196
+#: lib/app.php:260
 msgid "Jubilee"
 msgstr "記念祭"
 
-#: lib/app.php:197
+#: lib/app.php:261
 msgid "Meeting"
 msgstr "打ち合わせ"
 
-#: lib/app.php:199
+#: lib/app.php:263
 msgid "Personal"
 msgstr "個人"
 
-#: lib/app.php:200
+#: lib/app.php:264
 msgid "Projects"
 msgstr "プロジェクト"
 
-#: lib/app.php:201
+#: lib/app.php:265
 msgid "Questions"
 msgstr "質問"
 
@@ -530,113 +570,139 @@ msgstr "新しい写真をアップロード"
 msgid "Select photo from ownCloud"
 msgstr "ownCloudから写真を選択"
 
-#: templates/part.contact.php:34
+#: templates/part.contact.php:35
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
 msgstr "編集フォーマット、ショートネーム、フルネーム、逆順、カンマ区切りの逆順"
 
-#: templates/part.contact.php:35
+#: templates/part.contact.php:36
 msgid "Edit name details"
 msgstr "名前の詳細を編集"
 
-#: templates/part.contact.php:39 templates/part.contact.php:41
-#: templates/part.contact.php:43 templates/part.contact.php:45
-#: templates/part.contact.php:49 templates/settings.php:36
+#: templates/part.contact.php:39 templates/part.contact.php:40
+#: templates/part.contact.php:126
+msgid "Organization"
+msgstr "所属"
+
+#: templates/part.contact.php:40 templates/part.contact.php:42
+#: templates/part.contact.php:44 templates/part.contact.php:46
+#: templates/part.contact.php:50 templates/settings.php:36
 msgid "Delete"
 msgstr "削除"
 
-#: templates/part.contact.php:40 templates/part.contact.php:112
+#: templates/part.contact.php:41 templates/part.contact.php:127
 msgid "Nickname"
 msgstr "ニックネーム"
 
-#: templates/part.contact.php:41
+#: templates/part.contact.php:42
 msgid "Enter nickname"
 msgstr "ニックネームを入力"
 
-#: templates/part.contact.php:42 templates/part.contact.php:118
+#: templates/part.contact.php:43 templates/part.contact.php:134
 msgid "Web site"
 msgstr "ウェブサイト"
 
-#: templates/part.contact.php:43
+#: templates/part.contact.php:44
 msgid "http://www.somesite.com"
 msgstr "http://www.somesite.com"
 
-#: templates/part.contact.php:43
+#: templates/part.contact.php:44
 msgid "Go to web site"
 msgstr "Webサイトへ移動"
 
-#: templates/part.contact.php:45
+#: templates/part.contact.php:46
 msgid "dd-mm-yyyy"
 msgstr "yyyy-mm-dd"
 
-#: templates/part.contact.php:46 templates/part.contact.php:119
+#: templates/part.contact.php:47 templates/part.contact.php:135
 msgid "Groups"
 msgstr "グループ"
 
-#: templates/part.contact.php:48
+#: templates/part.contact.php:49
 msgid "Separate groups with commas"
 msgstr "コンマでグループを分割"
 
-#: templates/part.contact.php:49
+#: templates/part.contact.php:50
 msgid "Edit groups"
 msgstr "グループを編集"
 
-#: templates/part.contact.php:62 templates/part.contact.php:76
+#: templates/part.contact.php:59 templates/part.contact.php:73
+#: templates/part.contact.php:98
 msgid "Preferred"
 msgstr "推奨"
 
-#: templates/part.contact.php:63
+#: templates/part.contact.php:60
 msgid "Please specify a valid email address."
 msgstr "有効なメールアドレスを指定してください。"
 
-#: templates/part.contact.php:63
+#: templates/part.contact.php:60
 msgid "Enter email address"
 msgstr "メールアドレスを入力"
 
-#: templates/part.contact.php:67
+#: templates/part.contact.php:64
 msgid "Mail to address"
 msgstr "アドレスへメールを送る"
 
-#: templates/part.contact.php:68
+#: templates/part.contact.php:65
 msgid "Delete email address"
 msgstr "メールアドレスを削除"
 
-#: templates/part.contact.php:77
+#: templates/part.contact.php:75
 msgid "Enter phone number"
 msgstr "電話番号を入力"
 
-#: templates/part.contact.php:81
+#: templates/part.contact.php:79
 msgid "Delete phone number"
 msgstr "電話番号を削除"
 
-#: templates/part.contact.php:91
+#: templates/part.contact.php:100
+msgid "Instant Messenger"
+msgstr ""
+
+#: templates/part.contact.php:101
+msgid "Delete IM"
+msgstr ""
+
+#: templates/part.contact.php:110
 msgid "View on map"
 msgstr "地図で表示"
 
-#: templates/part.contact.php:91
+#: templates/part.contact.php:110
 msgid "Edit address details"
 msgstr "住所の詳細を編集"
 
-#: templates/part.contact.php:102
+#: templates/part.contact.php:116
 msgid "Add notes here."
 msgstr "ここにメモを追加。"
 
-#: templates/part.contact.php:109
+#: templates/part.contact.php:124
 msgid "Add field"
 msgstr "項目を追加"
 
-#: templates/part.contact.php:114
+#: templates/part.contact.php:129
 msgid "Phone"
 msgstr "電話番号"
 
-#: templates/part.contact.php:117
+#: templates/part.contact.php:130
+msgid "Email"
+msgstr "メールアドレス"
+
+#: templates/part.contact.php:131
+msgid "Instant Messaging"
+msgstr ""
+
+#: templates/part.contact.php:132
+msgid "Address"
+msgstr "住所"
+
+#: templates/part.contact.php:133
 msgid "Note"
 msgstr "メモ"
 
-#: templates/part.contact.php:122
+#: templates/part.contact.php:138
 msgid "Download contact"
 msgstr "連絡先のダウンロード"
 
-#: templates/part.contact.php:123
+#: templates/part.contact.php:139
 msgid "Delete contact"
 msgstr "連絡先の削除"
 

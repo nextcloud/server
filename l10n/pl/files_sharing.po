@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:05+0000\n"
+"POT-Creation-Date: 2012-08-23 02:03+0200\n"
+"PO-Revision-Date: 2012-08-23 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -20,48 +20,16 @@ msgstr ""
 
 #: templates/get.php:4
 msgid "Size"
-msgstr ""
+msgstr "Rozmiar"
 
 #: templates/get.php:5
 msgid "Modified"
-msgstr ""
+msgstr "Zmodyfikowane"
 
 #: templates/get.php:5
 msgid "Delete all"
-msgstr ""
+msgstr "Usuń wszystko"
 
-#: templates/get.php:5 templates/list.php:16 templates/list.php:17
+#: templates/get.php:5
 msgid "Delete"
 msgstr "Usuń"
-
-#: templates/list.php:2
-msgid "Your Shared Files"
-msgstr "Twoje udostępnione pliki"
-
-#: templates/list.php:6
-msgid "Item"
-msgstr "Element"
-
-#: templates/list.php:7
-msgid "Shared With"
-msgstr "Udostępnione dla"
-
-#: templates/list.php:8
-msgid "Permissions"
-msgstr "Uprawnienia"
-
-#: templates/list.php:16
-msgid "Read"
-msgstr "Odczyt"
-
-#: templates/list.php:16
-msgid "Edit"
-msgstr "Edycja"
-
-#: templates/settings.php:3
-msgid "Enable Resharing"
-msgstr "Włącz ponowne udostępnianie"
-
-#: templates/settings.php:4
-msgid "Allow users to reshare files they don't own"
-msgstr "Zezwalaj użytkownikom na ponowne udostępnienie plików, które są im udostępnione"

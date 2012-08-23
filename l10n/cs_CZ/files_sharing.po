@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:05+0000\n"
+"POT-Creation-Date: 2012-08-23 02:03+0200\n"
+"PO-Revision-Date: 2012-08-23 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -30,38 +30,6 @@ msgstr ""
 msgid "Delete all"
 msgstr ""
 
-#: templates/get.php:5 templates/list.php:16 templates/list.php:17
+#: templates/get.php:5
 msgid "Delete"
 msgstr "Smazat"
-
-#: templates/list.php:2
-msgid "Your Shared Files"
-msgstr "Vaše sdílené soubory"
-
-#: templates/list.php:6
-msgid "Item"
-msgstr "Položka"
-
-#: templates/list.php:7
-msgid "Shared With"
-msgstr "Sdíleno s:"
-
-#: templates/list.php:8
-msgid "Permissions"
-msgstr "Práva"
-
-#: templates/list.php:16
-msgid "Read"
-msgstr "Číst"
-
-#: templates/list.php:16
-msgid "Edit"
-msgstr "Editovat"
-
-#: templates/settings.php:3
-msgid "Enable Resharing"
-msgstr "Povolit další sdílení"
-
-#: templates/settings.php:4
-msgid "Allow users to reshare files they don't own"
-msgstr "Povolit uživatelům dále sdílet soubory, které sami nevlastní"

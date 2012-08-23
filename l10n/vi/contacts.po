@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:04+0000\n"
+"POT-Creation-Date: 2012-08-23 02:03+0200\n"
+"PO-Revision-Date: 2012-08-23 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,15 @@ msgstr ""
 msgid "Trying to add duplicate property: "
 msgstr ""
 
-#: ajax/contact/addproperty.php:144
+#: ajax/contact/addproperty.php:115 ajax/contact/saveproperty.php:93
+msgid "Missing IM parameter."
+msgstr ""
+
+#: ajax/contact/addproperty.php:119 ajax/contact/saveproperty.php:97
+msgid "Unknown IM: "
+msgstr ""
+
+#: ajax/contact/addproperty.php:158
 msgid "Error adding contact property: "
 msgstr ""
 
@@ -112,7 +120,7 @@ msgstr ""
 msgid "Something went FUBAR. "
 msgstr ""
 
-#: ajax/contact/saveproperty.php:144
+#: ajax/contact/saveproperty.php:166
 msgid "Error updating contact property."
 msgstr ""
 
@@ -236,58 +244,59 @@ msgid "Couldn't get a valid address."
 msgstr ""
 
 #: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
-#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:852
-#: js/contacts.js:858 js/contacts.js:870 js/contacts.js:904
-#: js/contacts.js:1167 js/contacts.js:1175 js/contacts.js:1184
-#: js/contacts.js:1219 js/contacts.js:1251 js/contacts.js:1263
-#: js/contacts.js:1286 js/contacts.js:1441 js/contacts.js:1476
-#: js/contacts.js:1496 js/settings.js:26 js/settings.js:43 js/settings.js:68
+#: js/contacts.js:676 js/contacts.js:716 js/contacts.js:742 js/contacts.js:859
+#: js/contacts.js:865 js/contacts.js:877 js/contacts.js:911
+#: js/contacts.js:1173 js/contacts.js:1181 js/contacts.js:1190
+#: js/contacts.js:1225 js/contacts.js:1258 js/contacts.js:1270
+#: js/contacts.js:1293 js/contacts.js:1523 js/contacts.js:1558
+#: js/contacts.js:1578 js/settings.js:26 js/settings.js:43 js/settings.js:68
 msgid "Error"
 msgstr ""
 
-#: js/contacts.js:715
+#: js/contacts.js:716
 msgid "This property has to be non-empty."
 msgstr ""
 
-#: js/contacts.js:741
+#: js/contacts.js:742
 msgid "Couldn't serialize elements."
 msgstr ""
 
-#: js/contacts.js:852 js/contacts.js:870
+#: js/contacts.js:859 js/contacts.js:877
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
 msgstr ""
 
-#: js/contacts.js:886
+#: js/contacts.js:893
 msgid "Edit name"
 msgstr ""
 
-#: js/contacts.js:1167
+#: js/contacts.js:1173
 msgid "No files selected for upload."
 msgstr ""
 
-#: js/contacts.js:1175
+#: js/contacts.js:1181
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr ""
 
-#: js/contacts.js:1238
+#: js/contacts.js:1245
 msgid "Error loading profile picture."
 msgstr ""
 
-#: js/contacts.js:1332 js/contacts.js:1352 js/contacts.js:1391
+#: js/contacts.js:1371 js/contacts.js:1412 js/contacts.js:1431
+#: js/contacts.js:1474
 msgid "Select type"
 msgstr ""
 
-#: js/contacts.js:1410
+#: js/contacts.js:1492
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
 msgstr ""
 
-#: js/contacts.js:1481
+#: js/contacts.js:1563
 msgid "Do you want to merge these address books?"
 msgstr ""
 
@@ -319,117 +328,148 @@ msgstr ""
 msgid "Contact could not be found."
 msgstr ""
 
-#: lib/app.php:115 templates/part.contact.php:116
-msgid "Address"
-msgstr "Địa chỉ"
-
 #: lib/app.php:116
-msgid "Telephone"
-msgstr "Điện thoại bàn"
+msgid "Jabber"
+msgstr ""
 
-#: lib/app.php:117 templates/part.contact.php:115
-msgid "Email"
-msgstr "Email"
+#: lib/app.php:121
+msgid "AIM"
+msgstr ""
 
-#: lib/app.php:118 templates/part.contact.php:38 templates/part.contact.php:39
-#: templates/part.contact.php:111
-msgid "Organization"
-msgstr "Tổ chức"
+#: lib/app.php:126
+msgid "MSN"
+msgstr ""
 
-#: lib/app.php:130 lib/app.php:137 lib/app.php:147 lib/app.php:200
-msgid "Work"
-msgstr "Công việc"
-
-#: lib/app.php:131 lib/app.php:135 lib/app.php:148
-msgid "Home"
-msgstr "Nhà"
+#: lib/app.php:131
+msgid "Twitter"
+msgstr ""
 
 #: lib/app.php:136
-msgid "Mobile"
-msgstr "Di động"
-
-#: lib/app.php:138
-msgid "Text"
-msgstr ""
-
-#: lib/app.php:139
-msgid "Voice"
-msgstr ""
-
-#: lib/app.php:140
-msgid "Message"
+msgid "GoogleTalk"
 msgstr ""
 
 #: lib/app.php:141
-msgid "Fax"
-msgstr "Fax"
-
-#: lib/app.php:142
-msgid "Video"
-msgstr "Video"
-
-#: lib/app.php:143
-msgid "Pager"
-msgstr "số trang"
-
-#: lib/app.php:149
-msgid "Internet"
+msgid "Facebook"
 msgstr ""
 
-#: lib/app.php:186 templates/part.contact.php:44
-#: templates/part.contact.php:113
-msgid "Birthday"
-msgstr "Ngày sinh nhật"
-
-#: lib/app.php:187
-msgid "Business"
+#: lib/app.php:146
+msgid "XMPP"
 msgstr ""
 
-#: lib/app.php:188
-msgid "Call"
+#: lib/app.php:151
+msgid "ICQ"
 msgstr ""
 
-#: lib/app.php:189
-msgid "Clients"
+#: lib/app.php:156
+msgid "Yahoo"
 msgstr ""
 
-#: lib/app.php:190
-msgid "Deliverer"
+#: lib/app.php:161
+msgid "Skype"
 msgstr ""
 
-#: lib/app.php:191
-msgid "Holidays"
+#: lib/app.php:166
+msgid "QQ"
 msgstr ""
 
-#: lib/app.php:192
-msgid "Ideas"
+#: lib/app.php:171
+msgid "GaduGadu"
 msgstr ""
 
-#: lib/app.php:193
-msgid "Journey"
-msgstr ""
+#: lib/app.php:194 lib/app.php:202 lib/app.php:213 lib/app.php:266
+msgid "Work"
+msgstr "Công việc"
 
-#: lib/app.php:194
-msgid "Jubilee"
-msgstr ""
+#: lib/app.php:195 lib/app.php:200 lib/app.php:214
+msgid "Home"
+msgstr "Nhà"
 
-#: lib/app.php:195
-msgid "Meeting"
-msgstr ""
-
-#: lib/app.php:196
+#: lib/app.php:196 lib/app.php:209 lib/app.php:262 lib/vcard.php:584
 msgid "Other"
 msgstr ""
 
-#: lib/app.php:197
+#: lib/app.php:201
+msgid "Mobile"
+msgstr "Di động"
+
+#: lib/app.php:203
+msgid "Text"
+msgstr ""
+
+#: lib/app.php:204
+msgid "Voice"
+msgstr ""
+
+#: lib/app.php:205
+msgid "Message"
+msgstr ""
+
+#: lib/app.php:206
+msgid "Fax"
+msgstr "Fax"
+
+#: lib/app.php:207
+msgid "Video"
+msgstr "Video"
+
+#: lib/app.php:208
+msgid "Pager"
+msgstr "số trang"
+
+#: lib/app.php:215
+msgid "Internet"
+msgstr ""
+
+#: lib/app.php:252 templates/part.contact.php:45
+#: templates/part.contact.php:128
+msgid "Birthday"
+msgstr "Ngày sinh nhật"
+
+#: lib/app.php:253
+msgid "Business"
+msgstr ""
+
+#: lib/app.php:254
+msgid "Call"
+msgstr ""
+
+#: lib/app.php:255
+msgid "Clients"
+msgstr ""
+
+#: lib/app.php:256
+msgid "Deliverer"
+msgstr ""
+
+#: lib/app.php:257
+msgid "Holidays"
+msgstr ""
+
+#: lib/app.php:258
+msgid "Ideas"
+msgstr ""
+
+#: lib/app.php:259
+msgid "Journey"
+msgstr ""
+
+#: lib/app.php:260
+msgid "Jubilee"
+msgstr ""
+
+#: lib/app.php:261
+msgid "Meeting"
+msgstr ""
+
+#: lib/app.php:263
 msgid "Personal"
 msgstr ""
 
-#: lib/app.php:198
+#: lib/app.php:264
 msgid "Projects"
 msgstr ""
 
-#: lib/app.php:199
+#: lib/app.php:265
 msgid "Questions"
 msgstr ""
 
@@ -529,113 +569,139 @@ msgstr ""
 msgid "Select photo from ownCloud"
 msgstr ""
 
-#: templates/part.contact.php:34
+#: templates/part.contact.php:35
 msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
 msgstr ""
 
-#: templates/part.contact.php:35
+#: templates/part.contact.php:36
 msgid "Edit name details"
 msgstr ""
 
-#: templates/part.contact.php:39 templates/part.contact.php:41
-#: templates/part.contact.php:43 templates/part.contact.php:45
-#: templates/part.contact.php:49 templates/settings.php:36
+#: templates/part.contact.php:39 templates/part.contact.php:40
+#: templates/part.contact.php:126
+msgid "Organization"
+msgstr "Tổ chức"
+
+#: templates/part.contact.php:40 templates/part.contact.php:42
+#: templates/part.contact.php:44 templates/part.contact.php:46
+#: templates/part.contact.php:50 templates/settings.php:36
 msgid "Delete"
 msgstr "Xóa"
 
-#: templates/part.contact.php:40 templates/part.contact.php:112
+#: templates/part.contact.php:41 templates/part.contact.php:127
 msgid "Nickname"
 msgstr ""
 
-#: templates/part.contact.php:41
+#: templates/part.contact.php:42
 msgid "Enter nickname"
 msgstr ""
 
-#: templates/part.contact.php:42 templates/part.contact.php:118
+#: templates/part.contact.php:43 templates/part.contact.php:134
 msgid "Web site"
 msgstr ""
 
-#: templates/part.contact.php:43
+#: templates/part.contact.php:44
 msgid "http://www.somesite.com"
 msgstr ""
 
-#: templates/part.contact.php:43
+#: templates/part.contact.php:44
 msgid "Go to web site"
 msgstr ""
 
-#: templates/part.contact.php:45
+#: templates/part.contact.php:46
 msgid "dd-mm-yyyy"
 msgstr ""
 
-#: templates/part.contact.php:46 templates/part.contact.php:119
+#: templates/part.contact.php:47 templates/part.contact.php:135
 msgid "Groups"
 msgstr ""
 
-#: templates/part.contact.php:48
+#: templates/part.contact.php:49
 msgid "Separate groups with commas"
 msgstr ""
 
-#: templates/part.contact.php:49
+#: templates/part.contact.php:50
 msgid "Edit groups"
 msgstr ""
 
-#: templates/part.contact.php:62 templates/part.contact.php:76
+#: templates/part.contact.php:59 templates/part.contact.php:73
+#: templates/part.contact.php:98
 msgid "Preferred"
 msgstr ""
 
-#: templates/part.contact.php:63
+#: templates/part.contact.php:60
 msgid "Please specify a valid email address."
 msgstr ""
 
-#: templates/part.contact.php:63
+#: templates/part.contact.php:60
 msgid "Enter email address"
 msgstr ""
 
-#: templates/part.contact.php:67
+#: templates/part.contact.php:64
 msgid "Mail to address"
 msgstr ""
 
-#: templates/part.contact.php:68
+#: templates/part.contact.php:65
 msgid "Delete email address"
 msgstr ""
 
-#: templates/part.contact.php:77
+#: templates/part.contact.php:75
 msgid "Enter phone number"
 msgstr ""
 
-#: templates/part.contact.php:81
+#: templates/part.contact.php:79
 msgid "Delete phone number"
 msgstr ""
 
-#: templates/part.contact.php:91
+#: templates/part.contact.php:100
+msgid "Instant Messenger"
+msgstr ""
+
+#: templates/part.contact.php:101
+msgid "Delete IM"
+msgstr ""
+
+#: templates/part.contact.php:110
 msgid "View on map"
 msgstr ""
 
-#: templates/part.contact.php:91
+#: templates/part.contact.php:110
 msgid "Edit address details"
 msgstr ""
 
-#: templates/part.contact.php:102
+#: templates/part.contact.php:116
 msgid "Add notes here."
 msgstr ""
 
-#: templates/part.contact.php:109
+#: templates/part.contact.php:124
 msgid "Add field"
 msgstr ""
 
-#: templates/part.contact.php:114
+#: templates/part.contact.php:129
 msgid "Phone"
 msgstr "Điện thoại"
 
-#: templates/part.contact.php:117
+#: templates/part.contact.php:130
+msgid "Email"
+msgstr "Email"
+
+#: templates/part.contact.php:131
+msgid "Instant Messaging"
+msgstr ""
+
+#: templates/part.contact.php:132
+msgid "Address"
+msgstr "Địa chỉ"
+
+#: templates/part.contact.php:133
 msgid "Note"
 msgstr ""
 
-#: templates/part.contact.php:122
+#: templates/part.contact.php:138
 msgid "Download contact"
 msgstr ""
 
-#: templates/part.contact.php:123
+#: templates/part.contact.php:139
 msgid "Delete contact"
 msgstr "Xóa liên lạc"
 

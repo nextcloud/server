@@ -41,7 +41,7 @@
 "Change password" => "Modifica password",
 "Email" => "Email",
 "Your email address" => "Il tuo indirizzo email",
-"Fill in an email address to enable password recovery" => "Inserici il tuo indirizzo email per abilitare il recupero della password",
+"Fill in an email address to enable password recovery" => "Inserisci il tuo indirizzo email per abilitare il recupero della password",
 "Language" => "Lingua",
 "Help translate" => "Migliora la traduzione",
 "use this address to connect to your ownCloud in your file manager" => "usa questo indirizzo per connetterti al tuo ownCloud dal gestore file",

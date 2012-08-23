@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:05+0000\n"
+"POT-Creation-Date: 2012-08-23 02:03+0200\n"
+"PO-Revision-Date: 2012-08-23 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -20,48 +20,16 @@ msgstr ""
 
 #: templates/get.php:4
 msgid "Size"
-msgstr ""
+msgstr "ขนาด"
 
 #: templates/get.php:5
 msgid "Modified"
-msgstr ""
+msgstr "แก้ไขแล้ว"
 
 #: templates/get.php:5
 msgid "Delete all"
-msgstr ""
+msgstr "ลบทั้งหมด"
 
-#: templates/get.php:5 templates/list.php:16 templates/list.php:17
+#: templates/get.php:5
 msgid "Delete"
 msgstr "ลบ"
-
-#: templates/list.php:2
-msgid "Your Shared Files"
-msgstr "ไฟล์ของคุณที่แชร์ไว้"
-
-#: templates/list.php:6
-msgid "Item"
-msgstr "ไอเท็ม"
-
-#: templates/list.php:7
-msgid "Shared With"
-msgstr "แชร์พร้อมกับ"
-
-#: templates/list.php:8
-msgid "Permissions"
-msgstr "สิทธิ์การเข้าใช้งาน"
-
-#: templates/list.php:16
-msgid "Read"
-msgstr "อ่าน"
-
-#: templates/list.php:16
-msgid "Edit"
-msgstr "แก้ไข"
-
-#: templates/settings.php:3
-msgid "Enable Resharing"
-msgstr "เปิดให้มีการแชร์ใหม่อีกครั้งได้"
-
-#: templates/settings.php:4
-msgid "Allow users to reshare files they don't own"
-msgstr "อนุญาตให้ผู้ใช้งานสามารถแชร์ไฟล์ที่ไม่ได้เป็นเจ้าของใหม่ได้"

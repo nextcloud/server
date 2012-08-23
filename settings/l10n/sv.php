@@ -43,7 +43,7 @@
 "Your email address" => "Din e-postadress",
 "Fill in an email address to enable password recovery" => "Fyll i en e-postadress för att aktivera återställning av lösenord",
 "Language" => "Språk",
-"Help translate" => "Hjälp med att översätta",
+"Help translate" => "Hjälp att översätta",
 "use this address to connect to your ownCloud in your file manager" => "använd denna adress för att ansluta ownCloud till din filhanterare",
 "Name" => "Namn",
 "Password" => "Lösenord",

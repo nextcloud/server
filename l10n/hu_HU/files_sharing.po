@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:05+0000\n"
+"POT-Creation-Date: 2012-08-23 02:03+0200\n"
+"PO-Revision-Date: 2012-08-23 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -29,38 +29,6 @@ msgstr ""
 msgid "Delete all"
 msgstr ""
 
-#: templates/get.php:5 templates/list.php:16 templates/list.php:17
+#: templates/get.php:5
 msgid "Delete"
-msgstr ""
-
-#: templates/list.php:2
-msgid "Your Shared Files"
-msgstr ""
-
-#: templates/list.php:6
-msgid "Item"
-msgstr ""
-
-#: templates/list.php:7
-msgid "Shared With"
-msgstr ""
-
-#: templates/list.php:8
-msgid "Permissions"
-msgstr ""
-
-#: templates/list.php:16
-msgid "Read"
-msgstr ""
-
-#: templates/list.php:16
-msgid "Edit"
-msgstr ""
-
-#: templates/settings.php:3
-msgid "Enable Resharing"
-msgstr ""
-
-#: templates/settings.php:4
-msgid "Allow users to reshare files they don't own"
 msgstr ""

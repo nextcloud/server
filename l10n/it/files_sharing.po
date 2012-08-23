@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-22 02:04+0200\n"
-"PO-Revision-Date: 2012-08-21 06:02+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
+"POT-Creation-Date: 2012-08-23 02:03+0200\n"
+"PO-Revision-Date: 2012-08-23 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,38 +30,6 @@ msgstr "Modificato"
 msgid "Delete all"
 msgstr "Elimina tutto"
 
-#: templates/get.php:5 templates/list.php:16 templates/list.php:17
+#: templates/get.php:5
 msgid "Delete"
 msgstr "Eliminazione"
-
-#: templates/list.php:2
-msgid "Your Shared Files"
-msgstr "I tuoi file condivisi"
-
-#: templates/list.php:6
-msgid "Item"
-msgstr "Elemento"
-
-#: templates/list.php:7
-msgid "Shared With"
-msgstr "Condiviso con"
-
-#: templates/list.php:8
-msgid "Permissions"
-msgstr "Permessi"
-
-#: templates/list.php:16
-msgid "Read"
-msgstr "Lettura"
-
-#: templates/list.php:16
-msgid "Edit"
-msgstr "Modifica"
-
-#: templates/settings.php:3
-msgid "Enable Resharing"
-msgstr "Abilita ri-condivisione"
-
-#: templates/settings.php:4
-msgid "Allow users to reshare files they don't own"
-msgstr "Consenti agli utenti di ri-condividere i file di cui non sono proprietari"
