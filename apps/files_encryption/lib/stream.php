@@ -34,11 +34,13 @@ class Stream {
 	public static $sourceStreams = array();
 	private $source;
 	private $path;
+	private $rawPath; // The raw path received by stream_open
 	private $readBuffer; // For streams that dont support seeking
 	private $meta = array(); // Header / meta for source stream
 	private $count;
 	private $writeCache;
 	private $size;
+	private $keyfile;
 	private static $view;
 
 	public function stream_open( $path, $mode, $options, &$opened_path ) {
@@ -52,7 +54,9 @@ class Stream {
 		
 		// Get the bare file path
 		$path = str_replace( 'crypt://', '', $path );
-
+		
+		$this->rawPath = $path;
+		
 		if ( 
 		dirname( $path ) == 'streams' 
 		and isset( self::$sourceStreams[basename( $path )] ) 
@@ -115,33 +119,77 @@ class Stream {
 		return ftell($this->source);
 	}
 	
-	public function stream_read($count) {
-		//$count will always be 8192 https://bugs.php.net/bug.php?id=21641
-		//This makes this function a lot simpler but will breake everything the moment it's fixed
-		$this->writeCache='';
-		if ($count!=8192) {
-			OCP\Util::writeLog('files_encryption','php bug 21641 no longer holds, decryption will not work',OCP\Util::FATAL);
+	public function stream_read( $count ) {
+
+		$this->writeCache = '';
+
+		if ( $count != 8192 ) {
+
+			// $count will always be 8192 https://bugs.php.net/bug.php?id=21641
+			// This makes this function a lot simpler, but will break this class if the above 'bug' gets 'fixed'
+			\OCP\Util::writeLog( 'files_encryption', 'PHP "bug" 21641 no longer holds, decryption system requires refactoring', OCP\Util::FATAL );
+
 			die();
+
 		}
-		$pos=ftell($this->source);
-		$data=fread($this->source,8192);
-		if (strlen($data)) {
-			$result=Crypt::decrypt($data);
-		}else{
-			$result='';
+
+		$pos = ftell( $this->source );
+
+		$data = fread( $this->source, 8192 );
+
+		if ( strlen( $data ) ) {
+			
+			$result = Crypt::symmetricDecryptFileContent( $data, $this->keyfile );
+
+		} else {
+
+			$result = '';
+
 		}
-		$length=$this->size-$pos;
-		if ($length<8192) {
-			$result=substr($result,0,$length);
+
+		$length = $this->size - $pos;
+
+		if ( $length < 8192 ) {
+
+			$result = substr( $result, 0, $length );
+
 		}
+
 		return $result;
+
+	}
+	
+	/**
+	 * @brief Get the keyfile for the current file, generate one if necessary
+	 */
+	public function getKey() {
+	
+		# TODO: Move this user call out of here - it belongs elsewhere
+		$user = \OCP\User::getUser();
+		
+		if ( self::$view->file_exists( $this->rawPath . $user ) ) {
+		
+			// If the data is to be written to an existing file, fetch its keyfile
+			$this->keyfile = Keymanager::getFileKey( $this->rawPath . $user );
+			
+		} else {
+		
+			// If the data is to be written to a new file, generate a new keyfile
+			$this->keyfile = Crypt::generateKey();
+			
+		}
+		
 	}
 	
 	/**
 	 * @brief 
 	 */
 	public function stream_write( $data ) {
-
+		
+		# TODO: Find a way to get path of file in order to know where to save its parallel keyfile
+		
+		\OC_FileProxy::$enabled = false;
+		
 		$length = strlen( $data );
 
 		$written = 0;
@@ -151,15 +199,13 @@ class Stream {
 		# TODO: Move this user call out of here - it belongs elsewhere
 		$user = \OCP\User::getUser();
 		
-		if ( self::$view->file_exists( $this->path . $user ) ) {
+		// Set keyfile property for file in question
+		$this->getKey();
 		
-			$key = Keymanager::getFileKey( $this->path . $user );
+		if ( ! self::$view->file_exists( $this->rawPath . $user ) ) {
 			
-		} else {
-		
-			$key = Crypt::generateKey();
-			
-			Keymanager::setFileKey( $path, $key, new \OC_FilesystemView );
+			// Save keyfile in parallel directory structure
+			Keymanager::setFileKey( $this->rawPath, $this->keyfile, new \OC_FilesystemView( '/' ) );
 			
 		}
 
@@ -180,7 +226,7 @@ class Stream {
 
 			fseek( $this->source, - ( $currentPos % 8192 ), SEEK_CUR );
 
-			$block = Crypt::symmetricDecryptFileContent( $encryptedBlock, $key );
+			$block = Crypt::symmetricDecryptFileContent( $encryptedBlock, $this->keyfile );
 
 			$data = substr( $block, 0, $currentPos % 8192 ) . $data;
 
@@ -190,9 +236,9 @@ class Stream {
 
 		$currentPos = ftell( $this->source );
 
-		while( $remainingLength = strlen( $data )>0 ) {
+		while( $remainingLength = strlen( $data ) > 0 ) {
 
-			if ( $remainingLength<8192 ) {
+			if ( $remainingLength < 8192 ) {
 
 				$this->writeCache = $data;
 
@@ -200,9 +246,11 @@ class Stream {
 
 			} else {
 
-				$encrypted = Crypt::symmetricBlockEncryptFileContent( $data, $key );
+				$encrypted = Crypt::symmetricBlockEncryptFileContent( $data, $this->keyfile );
 				
-				fwrite( $this->source . $user, $encrypted );
+				//$encrypted = $data;
+				
+				fwrite( $this->source, $encrypted );
 
 				$data = substr( $data,8192 );
 
@@ -255,10 +303,17 @@ class Stream {
 	}
 
 	public function stream_close() {
+	
 		$this->flush();
+
 		if ($this->meta['mode']!='r' and $this->meta['mode']!='rb') {
-			OC_FileCache::put($this->path,array('encrypted'=>true,'size'=>$this->size),'');
+
+			\OC_FileCache::put($this->path,array('encrypted'=>true,'size'=>$this->size),'');
+
 		}
+
 		return fclose($this->source);
+
 	}
+
 }

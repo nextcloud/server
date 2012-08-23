@@ -17,9 +17,13 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	function setUp() {
 		
 		// set content for encrypting / decrypting in tests
-		$this->data = realpath( dirname(__FILE__).'/../lib/crypt.php' );
+		$this->dataLong = file_get_contents( realpath( dirname(__FILE__).'/../lib/crypt.php' ) );
+		$this->dataShort = 'hats';
+		$this->dataUrl = realpath( dirname(__FILE__).'/../lib/crypt.php' );
 		$this->legacyData = realpath( dirname(__FILE__).'/legacy-text.txt' );
 		$this->legacyEncryptedData = realpath( dirname(__FILE__).'/legacy-encrypted-text.txt' );
+		
+		$this->view = new \OC_FilesystemView( '/' );
 	
 		//stream_wrapper_register( 'crypt', 'OCA_Encryption\Stream' );
 	
@@ -51,9 +55,9 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 
 		$iv = substr( base64_encode( $random ), 0, -4 ); // i.e. E5IG033j+mRNKrht
 
-		$crypted = Crypt::encrypt( $this->data, $iv, 'hat' );
+		$crypted = Crypt::encrypt( $this->dataUrl, $iv, 'hat' );
 
-		$this->assertNotEquals( $this->data, $crypted );
+		$this->assertNotEquals( $this->dataUrl, $crypted );
 	
 	}
 	
@@ -63,11 +67,11 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 
 		$iv = substr( base64_encode( $random ), 0, -4 ); // i.e. E5IG033j+mRNKrht
 
-		$crypted = Crypt::encrypt( $this->data, $iv, 'hat' );
+		$crypted = Crypt::encrypt( $this->dataUrl, $iv, 'hat' );
 	
 		$decrypt = Crypt::decrypt( $crypted, $iv, 'hat' );
 
-		$this->assertEquals( $this->data, $decrypt );
+		$this->assertEquals( $this->dataUrl, $decrypt );
 	
 	}
 	
@@ -75,81 +79,133 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
 		
-		$crypted = Crypt::symmetricEncryptFileContent( $this->data, 'hat' );
+		$crypted = Crypt::symmetricEncryptFileContent( $this->dataUrl, 'hat' );
 
-		$this->assertNotEquals( $this->data, $crypted );
+		$this->assertNotEquals( $this->dataUrl, $crypted );
 		
 
 		$decrypt = Crypt::symmetricDecryptFileContent( $crypted, 'hat' );
 
-		$this->assertEquals( $this->data, $decrypt );
+		$this->assertEquals( $this->dataUrl, $decrypt );
 		
 	}
 	
-	function testSymmetricBlockEncryptFileContent() {
+	function testSymmetricBlockEncryptShortFileContent() {
 		
-		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->data, 'hat' );
-
-		$this->assertNotEquals( $this->data, $crypted );
+		$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files_encryption/keyfiles/sscceEncrypt-1345649062.key' );
+		
+		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->dataShort, $key );
+		
+		$this->assertNotEquals( $this->dataShort, $crypted );
 		
 
-		$decrypt = Crypt::symmetricBlockDecryptFileContent( $crypted, 'hat' );
+		$decrypt = Crypt::symmetricBlockDecryptFileContent( $crypted, $key );
 
-		$this->assertEquals( $this->data, $decrypt );
+		$this->assertEquals( $this->dataShort, $decrypt );
+		
+	}
+	
+	function testSymmetricBlockEncryptLongFileContent() {
+		
+		$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files_encryption/keyfiles/sscceEncrypt-1345649062.key' );
+		
+		$crypted = Crypt::symmetricBlockEncryptFileContent( substr( $this->dataLong, 0, 6500 ), $key );
+		
+		$this->assertNotEquals( $this->dataLong, $crypted );
+		
+		//echo "\n\nCAT ".substr( $this->dataLong, 0, 7000 );
+
+		$decrypt = Crypt::symmetricBlockDecryptFileContent( $crypted, $key );
+
+		$this->assertEquals( substr( $this->dataLong, 0, 6500
+		
+		), $decrypt );
 		
 	}
 	
 // 	function testSymmetricBlockStreamEncryptFileContent() {
 // 	
-// 		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->data, 'hat' );
+// 		\OC_User::setUserId( 'admin' );
 // 		
-// 		$cryptedFile = file_put_contents( 'crypt://' . '/blockEncrypt', $crypted );
+// 		// Disable encryption proxy to prevent unwanted en/decryption
+// 		\OC_FileProxy::$enabled = false;
+// 		
+// 		$cryptedFile = file_put_contents( 'crypt://' . '/blockEncrypt', $this->dataUrl );
 // 		
 // 		// Test that data was successfully written
-// 		$this->assertTrue( $cryptedFile );
+// 		$this->assertTrue( is_int( $cryptedFile ) );
 // 		
-// 		$retreivedCryptedFile = file_get_contents( '/blockEncrypt' );
+// 		// Disable encryption proxy to prevent unwanted en/decryption
+// 		\OC_FileProxy::$enabled = false;
 // 		
-// 		$this->assertNotEquals( $this->data, $retreivedCryptedFile );
+// 		
+// 		
+// 		// Get file contents without using any wrapper to get it's actual contents on disk
+// 		$retreivedCryptedFile = $this->view->file_get_contents( '/blockEncrypt' );
+// 		
+// 		echo "\n\n\$retreivedCryptedFile = !! $retreivedCryptedFile !!";
+// 		
+// 		$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/files_encryption/keyfiles/tmp/testSetFileKey.key' );
+// 		
+// 		echo "\n\n\$key = !! $key !!";
+// 		
+// 		$manualDecrypt = Crypt::symmetricDecryptFileContent( $retreivedCryptedFile, $key );
+// 		
+// 		echo "\n\n\$manualDecrypt = !! $manualDecrypt !!";
+// 		
+// 		// Check that the file was encrypted before being written to disk
+// 		$this->assertNotEquals( $this->dataUrl, $retreivedCryptedFile );
+// 		
+// 		$decrypt = Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $key);
+// 		
+// 		$this->assertEquals( $this->dataUrl, $decrypt );
 // 		
 // 	}
 	
-	function testSymmetricBlockStreamDecryptFileContent() {
-	
-		\OC_User::setUserId( 'admin' );
-	
-		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->data, 'hat' );
-		
-		$cryptedFile = file_put_contents( 'crypt://' . '/blockEncrypt', $crypted );
-		
-		$retreivedCryptedFile = file_get_contents( 'crypt://' . '/blockEncrypt' );
-		
-		$this->assertEquals( $this->data, $retreivedCryptedFile );
-		
-	}
+// 	function testSymmetricBlockStreamDecryptFileContent() {
+// 	
+// 		\OC_User::setUserId( 'admin' );
+// 		
+// 		// Disable encryption proxy to prevent unwanted en/decryption
+// 		\OC_FileProxy::$enabled = false;
+// 		
+// 		$cryptedFile = file_put_contents( 'crypt://' . '/blockEncrypt', $this->dataUrl );
+// 		
+// 		// Disable encryption proxy to prevent unwanted en/decryption
+// 		\OC_FileProxy::$enabled = false;
+// 		
+// 		echo "\n\n\$cryptedFile = " . $this->view->file_get_contents( '/blockEncrypt' );
+// 		
+// 		$retreivedCryptedFile = file_get_contents( 'crypt://' . '/blockEncrypt' );
+// 		
+// 		$this->assertEquals( $this->dataUrl, $retreivedCryptedFile );
+// 		
+// 		\OC_FileProxy::$enabled = false;
+// 		
+// 	}
 
 	function testSymmetricEncryptFileContentKeyfile() {
 	
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
 	
-		$crypted = Crypt::symmetricEncryptFileContentKeyfile( $this->data );
+		$crypted = Crypt::symmetricEncryptFileContentKeyfile( $this->dataUrl );
 		
-		$this->assertNotEquals( $this->data, $crypted['encrypted'] );
+		$this->assertNotEquals( $this->dataUrl, $crypted['encrypted'] );
 		
 		
 		$decrypt = Crypt::symmetricDecryptFileContent( $crypted['encrypted'], $crypted['key'] );
 		
-		$this->assertEquals( $this->data, $decrypt );
+		$this->assertEquals( $this->dataUrl, $decrypt );
 	
 	}
 	
 	function testIsEncryptedContent() {
 		
-		$this->assertFalse( Crypt::isEncryptedContent( $this->data ) );
+		$this->assertFalse( Crypt::isEncryptedContent( $this->dataUrl ) );
 		
 		$this->assertFalse( Crypt::isEncryptedContent( $this->legacyEncryptedData ) );
 		
-		$keyfileContent = Crypt::symmetricEncryptFileContent( $this->data, 'hat' );
+		$keyfileContent = Crypt::symmetricEncryptFileContent( $this->dataUrl, 'hat' );
 
 		$this->assertTrue( Crypt::isEncryptedContent( $keyfileContent ) );
 		
@@ -168,14 +224,14 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue( strlen( $pair1['privateKey'] ) > 1 );
 		
 
-		$crypted = Crypt::multiKeyEncrypt( $this->data, array( $pair1['publicKey'] ) );
+		$crypted = Crypt::multiKeyEncrypt( $this->dataUrl, array( $pair1['publicKey'] ) );
 		
-		$this->assertNotEquals( $this->data, $crypted['encrypted'] );
+		$this->assertNotEquals( $this->dataUrl, $crypted['encrypted'] );
 		
 
 		$decrypt = Crypt::multiKeyDecrypt( $crypted['encrypted'], $crypted['keys'][0], $pair1['privateKey'] );
 		
- 		$this->assertEquals( $this->data, $decrypt );
+ 		$this->assertEquals( $this->dataUrl, $decrypt );
 	
 	}
 	
@@ -185,14 +241,14 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$pair1 = Crypt::createKeypair();
 		
 		// Encrypt data
-		$crypted = Crypt::keyEncrypt( $this->data, $pair1['publicKey'] );
+		$crypted = Crypt::keyEncrypt( $this->dataUrl, $pair1['publicKey'] );
 		
-		$this->assertNotEquals( $this->data, $crypted );
+		$this->assertNotEquals( $this->dataUrl, $crypted );
 		
 		// Decrypt data
 		$decrypt = Crypt::keyDecrypt( $crypted, $pair1['privateKey'] );
 		
-		$this->assertEquals( $this->data, $decrypt );
+		$this->assertEquals( $this->dataUrl, $decrypt );
 	
 	}
 	
@@ -204,7 +260,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$pair1 = Crypt::createKeypair();
 		
 		// Encrypt plain data, generate keyfile & encrypted file
-		$cryptedData = Crypt::symmetricEncryptFileContentKeyfile( $this->data );
+		$cryptedData = Crypt::symmetricEncryptFileContentKeyfile( $this->dataUrl );
 		
 		// Encrypt keyfile
 		$cryptedKey = Crypt::keyEncrypt( $cryptedData['key'], $pair1['publicKey'] );
@@ -215,7 +271,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		// Decrypt encrypted file
 		$decryptData = Crypt::symmetricDecryptFileContent( $cryptedData['encrypted'], $decryptKey );
 		
-		$this->assertEquals( $this->data, $decryptData );
+		$this->assertEquals( $this->dataUrl, $decryptData );
 	
 	}
 

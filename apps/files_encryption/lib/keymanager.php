@@ -197,45 +197,57 @@ class Keymanager {
 	 */
 	public static function setFileKey( $path, $key, $view = Null, $dbClassName = '\OC_DB') {
 
-		$targetpath = ltrim(  $path, '/'  );
+		$targetPath = ltrim(  $path, '/'  );
 		$user = \OCP\User::getUser();
 		
 		// update $keytarget and $user if key belongs to a file shared by someone else
 		$query = $dbClassName::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
 		
-		$result = $query->execute(  array ( '/'.$user.'/files/'.$targetpath, $user ) );
+		$result = $query->execute(  array ( '/'.$user.'/files/'.$targetPath, $user ) );
 		
 		if ( $row = $result->fetchRow(  ) ) {
 		
-			$targetpath = $row['source'];
+			$targetPath = $row['source'];
 			
-			$targetpath_parts=explode( '/',$targetpath );
+			$targetPath_parts = explode( '/', $targetPath );
 			
-			$user = $targetpath_parts[1];
+			$user = $targetPath_parts[1];
 
-			$rootview = new \OC_FilesystemView( '/');
-			if (!$rootview->is_writable($targetpath)) {
-				\OC_Log::write( 'Encryption library', "File Key not updated because you don't have write access for the corresponding file"  , \OC_Log::ERROR );
-				return false;
-			}	
+			$rootview = new \OC_FilesystemView( '/' );
 			
-			$targetpath = str_replace( '/'.$user.'/files/', '', $targetpath );
+			if ( ! $rootview->is_writable( $targetPath ) ) {
+			
+				\OC_Log::write( 'Encryption library', "File Key not updated because you don't have write access for the corresponding file", \OC_Log::ERROR );
+				
+				return false;
+				
+			}
+			
+			$targetPath = str_replace( '/'.$user.'/files/', '', $targetPath );
 			
 			//TODO: check for write permission on shared file once the new sharing API is in place
 			
 		}
 		
-		$path_parts = pathinfo( $targetpath );
-
-		if (!$view) {
+		$path_parts = pathinfo( $targetPath );
+		
+		if ( !$view ) {
+		
 			$view = new \OC_FilesystemView( '/' );
+			
 		}
 		
 		$view->chroot( '/' . $user . '/files_encryption/keyfiles' );
 		
-		if ( !$view->file_exists( $path_parts['dirname'] ) ) $view->mkdir( $path_parts['dirname'] );
+		// If the file resides within a subdirectory, create it
+		if ( ! $view->file_exists( $path_parts['dirname'] ) ) {
 		
-		return $view->file_put_contents( '/' . $targetpath . '.key', $key );
+			$view->mkdir( $path_parts['dirname'] );
+			
+		}
+		
+		// Save the keyfile in parallel directory
+		return $view->file_put_contents( '/' . $targetPath . '.key', $key );
 		
 	}
 	

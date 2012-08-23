@@ -177,6 +177,14 @@ class Crypt {
 	
 	}
 	
+	public static function concatIv ( $content, $iv ) {
+	
+		$combined = $content . '00iv00' . $iv;
+		
+		return $combined;
+	
+	}
+	
         /**
          * @brief Symmetrically encrypts a string and returns keyfile content
          * @param $plainContent content to be encrypted in keyfile
@@ -197,7 +205,7 @@ class Crypt {
 		if ( $encryptedContent = self::encrypt( $plainContent, $iv, $passphrase ) ) {
 			
 				// Combine content to encrypt with IV identifier and actual IV
-				$combinedKeyfile = $encryptedContent . '00iv00' . $iv;
+				$combinedKeyfile = self::concatIv( $encryptedContent, $iv );
 				
 				return $combinedKeyfile;
 		
@@ -398,13 +406,17 @@ class Crypt {
 	
 		$crypted = '';
 		
-		while( strlen( $plainContent ) ) {
+		$remaining = $plainContent;
+		
+		while( strlen( $remaining ) ) {
 		
 			// Encrypt a chunk of unencrypted data and add it to the rest
-			$crypted .= self::symmetricEncryptFileContent( substr( $plainContent, 0, 8192 ), $key );
+			$block = self::symmetricEncryptFileContent( substr( $remaining, 0, 8192 ), $key );
+			
+			$crypted .= $block;
 			
 			// Remove the data already encrypted from remaining unencrypted data
-			$plainContent = substr( $plainContent, 8192 );
+			$remaining = substr( $remaining, 8192 );
 		
 		}
 		
@@ -418,17 +430,24 @@ class Crypt {
 	*/
 	public static function symmetricBlockDecryptFileContent( $crypted, $key ) {
 
+		//echo "\n\n\nfags \$crypted = $crypted\n\n\n";
+		
 		$decrypted = '';
 		
-		while( strlen( $crypted ) ) {
+		$remaining = $crypted;
 		
-			$decrypted .= self::symmetricDecryptFileContent( substr( $crypted, 0, 8192 ), $key );
+		while( strlen( $remaining ) ) {
+		
+			// Encrypt a chunk of unencrypted data and add it to the rest
+			// 10946 is the length of a 8192 string once it has been encrypted
+			$decrypted .= self::symmetricDecryptFileContent( substr( $remaining, 0, 10946 ), $key );
 			
-			$crypted = substr( $crypted, 8192 );
+			// Remove the data already encrypted from remaining unencrypted data
+			$remaining = substr( $remaining, 10946 );
 			
 		}
 		
-		return rtrim( $decrypted, "\0" );
+		return $decrypted;
 		
 	}
 	

@@ -15,7 +15,8 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
 		
-		// set content for encrypting / decrypting in tests
+		// Set data for use in tests
+		$this->data = realpath( dirname(__FILE__).'/../lib/crypt.php' );
 		$this->user = 'admin';
 		$this->passphrase = 'admin';
 		$this->view = new \OC_FilesystemView( '' );
@@ -39,6 +40,22 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
 	}
 	
+	function testSetFileKey() {
+	
+		# NOTE: This cannot be tested until we are able to break out of the FileSystemView data directory root
+	
+// 		$key = Crypt::symmetricEncryptFileContentKeyfile( $this->data, 'hat' );
+// 		
+// 		$tmpPath = sys_get_temp_dir(). '/' . 'testSetFileKey';
+// 		
+// 		$view = new \OC_FilesystemView( '/tmp/' );
+// 		
+// 		//$view = new \OC_FilesystemView( '/' . $this->user . '/files_encryption/keyfiles' );
+// 		
+// 		Keymanager::setFileKey( $tmpPath, $key['key'], $view );
+	
+	}
+	
 	function testGetDecryptedPrivateKey() {
 	
 		$key = Keymanager::getPrivateKey( $this->user, $this->view );
@@ -51,5 +68,7 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( '-----BEGIN PRIVATE KEY-----', substr( $decrypted, 0, 27 ) );
 	
 	}
+	
+	
 	
 }
