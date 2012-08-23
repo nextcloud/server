@@ -50,11 +50,12 @@ abstract class Access {
 		$cr = $this->connection->getConnectionResource();
 		if(!is_resource($cr)) {
 			//LDAP not available
+			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
 			return false;
 		}
 		$rr = @ldap_read($cr, $dn, 'objectClass=*', array($attr));
 		if(!is_resource($rr)) {
-			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'readAttribute '.$attr.' failed for DN '.$dn, \OCP\Util::DEBUG);
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
@@ -70,6 +71,7 @@ abstract class Access {
 			}
 			return $values;
 		}
+		\OCP\Util::writeLog('user_ldap', 'Requested attribute '.$attr.' not found for '.$dn, \OCP\Util::DEBUG);
 		return false;
 	}
 
@@ -226,9 +228,30 @@ abstract class Access {
 			WHERE ldap_dn = ?
 		');
 
+		//let's try to retrieve the ownCloud name from the mappings table
 		$component = $query->execute(array($dn))->fetchOne();
 		if($component) {
 			return $component;
+		}
+
+		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
+		$uuid = $this->getUUID($dn);
+		if($uuid) {
+			$query = \OCP\DB::prepare('
+				SELECT owncloud_name
+				FROM '.$table.'
+				WHERE directory_uuid = ?
+			');
+			$component = $query->execute(array($uuid))->fetchOne();
+			if($component) {
+				$query = \OCP\DB::prepare('
+					UPDATE '.$table.'
+					SET ldap_dn = ?
+					WHERE directory_uuid = ?
+				');
+				$query->execute(array($dn, $uuid));
+				return $component;
+			}
 		}
 
 		if(is_null($ldapname)) {
@@ -389,17 +412,18 @@ abstract class Access {
 		}
 
 		$insert = \OCP\DB::prepare('
-			INSERT INTO '.$table.' (ldap_dn, owncloud_name)
-				SELECT ?,?
+			INSERT INTO '.$table.' (ldap_dn, owncloud_name, directory_uuid)
+				SELECT ?,?,?
 				'.$sqlAdjustment.'
 				WHERE NOT EXISTS (
 					SELECT 1
 					FROM '.$table.'
 					WHERE ldap_dn = ?
-						OR owncloud_name = ? )
+						OR owncloud_name = ?)
 		');
 
-		$res = $insert->execute(array($dn, $ocname, $dn, $ocname));
+		//feed the DB
+		$res = $insert->execute(array($dn, $ocname, $this->getUUID($dn), $dn, $ocname));
 
 		if(\OCP\DB::isError($res)) {
 			return false;
@@ -601,5 +625,52 @@ abstract class Access {
 			return false;
 		}
 		return $testConnection->bind();
+	}
+
+	/**
+	 * @brief auto-detects the directory's UUID attribute
+	 * @param $dn a known DN used to check against
+	 * @param $force the detection should be run, even if it is not set to auto
+	 * @returns true on success, false otherwise
+	 */
+	private function detectUuidAttribute($dn, $force = false) {
+		if(($this->connection->ldapUuidAttribute != 'auto') && !$force) {
+			return true;
+		}
+
+		//for now, supported (known) attributes are entryUUID, nsuniqueid, objectGUID
+		$testAttributes = array('entryuuid', 'nsuniqueid', 'objectguid');
+
+		foreach($testAttributes as $attribute) {
+			\OCP\Util::writeLog('user_ldap', 'Testing '.$attribute.' as UUID attr', \OCP\Util::DEBUG);
+
+		    $value = $this->readAttribute($dn, $attribute);
+		    if(is_array($value) && isset($value[0]) && !empty($value[0])) {
+				\OCP\Util::writeLog('user_ldap', 'Setting '.$attribute.' as UUID attr', \OCP\Util::DEBUG);
+				$this->connection->ldapUuidAttribute = $attribute;
+				return true;
+		    }
+		    \OCP\Util::writeLog('user_ldap', 'The looked for uuid attr is not '.$attribute.', result was '.print_r($value,true), \OCP\Util::DEBUG);
+		}
+
+		return false;
+	}
+
+	public function getUUID($dn) {
+		if($this->detectUuidAttribute($dn)) {
+			$uuid = $this->readAttribute($dn, $this->connection->ldapUuidAttribute);
+			if(!is_array($uuid) && $this->connection->ldapOverrideUuidAttribute) {
+				$this->detectUuidAttribute($dn, true);
+				$uuid = $this->readAttribute($dn, $this->connection->ldapUuidAttribute);
+			}
+			if(is_array($uuid) && isset($uuid[0]) && !empty($uuid[0])) {
+				$uuid = $uuid[0];
+			} else {
+				$uuid = false;
+			}
+		} else {
+			$uuid = false;
+		}
+		return $uuid;
 	}
 }

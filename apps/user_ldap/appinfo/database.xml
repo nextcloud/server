@@ -28,6 +28,14 @@
 	<default></default>
    </field>
 
+   <field>
+    <name>directory_uuid</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+	<default></default>
+   </field>
+
    <index>
     <name>ldap_dn_users</name>
     <unique>true</unique>
@@ -69,6 +77,14 @@
     <notnull>true</notnull>
     <length>255</length>
     <default></default>
+   </field>
+
+   <field>
+    <name>directory_uuid</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+	<default></default>
    </field>
 
    <index>
