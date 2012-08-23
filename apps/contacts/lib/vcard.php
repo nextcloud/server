@@ -560,19 +560,6 @@ class OC_Contacts_VCard{
 	public static function structureContact($object) {
 		$details = array();
 
-		$addIM = function($name, $temp, &$details) {
-			if(!array_key_exists('IMPP', $details)) {
-				$details['IMPP'] = array();
-			}
-
-			foreach($details['IMPP'] as $im) {
-				if(strtolower($im['value']) == strtolower($temp['value']) && $im['name'] == $name) {
-					return;
-				}
-			}
-			$details['IMPP'][] = $temp;
-		};
-
 		foreach($object->children as $property) {
 			$pname = $property->name;
 			$temp = self::structureProperty($property);
