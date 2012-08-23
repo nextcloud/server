@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 	if (typeof FileActions !== 'undefined') {
 		OC.Share.loadIcons('file');
-		FileActions.register('all', 'Share', FileActions.PERMISSION_SHARE, function(filename) {
+		FileActions.register('all', 'Share', FileActions.PERMISSION_READ, function(filename) {
 			// Return the correct sharing icon
 			if (scanFiles.scanning) { return; } // workaround to prevent additional http request block scanning feedback
 			if ($('#dir').val() == '/') {
@@ -36,13 +36,13 @@ $(document).ready(function() {
 			} else {
 				var item = $('#dir').val() + '/' + filename;
 			}
-			if ($('tr').filterAttr('data-file', filename).data('type') == 'dir') {
+			var tr = $('tr').filterAttr('data-file', filename);
+			if ($(tr).data('type') == 'dir') {
 				var itemType = 'folder';
-				var possiblePermissions = OC.Share.PERMISSION_CREATE | OC.Share.PERMISSION_UPDATE | OC.Share.PERMISSION_DELETE | OC.Share.PERMISSION_SHARE;
 			} else {
 				var itemType = 'file';
-				var possiblePermissions = OC.Share.PERMISSION_UPDATE | OC.Share.PERMISSION_DELETE | OC.Share.PERMISSION_SHARE;
 			}
+			var possiblePermissions = $(tr).data('permissions');
 			var appendTo = $('tr').filterAttr('data-file', filename).find('td.filename');
 			// Check if drop down is already visible for a different file
 			if (OC.Share.droppedDown) {

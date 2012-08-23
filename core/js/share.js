@@ -86,65 +86,71 @@ OC.Share={
 			}
 			html += '<br />';
 		}
-		html += '<input id="shareWith" type="text" placeholder="Share with" style="width:90%;"/>';
-		html += '<ul id="shareWithList">';
-		html += '</ul>';
-		if (privateLink) {
-			html += '<div id="privateLink">';
-			html += '<input type="checkbox" name="privateLinkCheckbox" id="privateLinkCheckbox" value="1" /><label for="privateLinkCheckbox">Share with private link</label>';
-			html += '<br />';
-			html += '<input id="privateLinkText" style="display:none; width:90%;" readonly="readonly" />';
+		if (possiblePermissions & OC.Share.PERMISSION_SHARE) {
+			html += '<input id="shareWith" type="text" placeholder="Share with" style="width:90%;"/>';
+			html += '<ul id="shareWithList">';
+			html += '</ul>';
+			if (privateLink) {
+				html += '<div id="privateLink">';
+				html += '<input type="checkbox" name="privateLinkCheckbox" id="privateLinkCheckbox" value="1" /><label for="privateLinkCheckbox">Share with private link</label>';
+				html += '<br />';
+				html += '<input id="privateLinkText" style="display:none; width:90%;" readonly="readonly" />';
+				html += '</div>';
+			}
 			html += '</div>';
-		}
-		html += '</div>';
-		$(html).appendTo(appendTo);
-		// Reset item shares
-		OC.Share.itemShares = [];
-		if (data.shares) {
-			$.each(data.shares, function(index, share) {
-				if (share.share_type == OC.Share.SHARE_TYPE_PRIVATE_LINK) {
-					OC.Share.showPrivateLink(item, share.share_with);
-				} else {
-					OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions);
-
-				}
-			});
-		}
-		$('#shareWith').autocomplete({minLength: 2, source: function(search, response) {
-// 			if (cache[search.term]) {
-// 				response(cache[search.term]);
-// 			} else {
-				$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term, itemShares: OC.Share.itemShares }, function(result) {
-					if (result.status == 'success' && result.data.length > 0) {
-						response(result.data);
+			$(html).appendTo(appendTo);
+			// Reset item shares
+			OC.Share.itemShares = [];
+			if (data.shares) {
+				$.each(data.shares, function(index, share) {
+					if (share.share_type == OC.Share.SHARE_TYPE_PRIVATE_LINK) {
+						OC.Share.showPrivateLink(item, share.share_with);
 					} else {
-						// Suggest sharing via email if valid email address
-						var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
-						if (pattern.test(search.term)) {
-							response([{label: 'Share via email: '+search.term, value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
-						} else {
-							response(['No people found']);
-						}
+						OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions);
+						
 					}
 				});
-// 			}
-		},
-		focus: function(event, focused) {
-			event.preventDefault();
-		},
-		select: function(event, selected) {
-			var shareType = selected.item.value.shareType;
-			var shareWith = selected.item.value.shareWith;
-			$(this).val(shareWith);
-			// Default permissions are Read and Share
-			var permissions = OC.Share.PERMISSION_READ | OC.Share.PERMISSION_SHARE;
-			OC.Share.share($('#dropdown').data('item-type'), $('#dropdown').data('item-source'), shareType, shareWith, permissions, function() {
-				OC.Share.addShareWith(shareType, shareWith, permissions, possiblePermissions);
-				$('#shareWith').val('');
+			}
+			$('#shareWith').autocomplete({minLength: 2, source: function(search, response) {
+	// 			if (cache[search.term]) {
+	// 				response(cache[search.term]);
+	// 			} else {
+					$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term, itemShares: OC.Share.itemShares }, function(result) {
+						if (result.status == 'success' && result.data.length > 0) {
+							response(result.data);
+						} else {
+							// Suggest sharing via email if valid email address
+							var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
+							if (pattern.test(search.term)) {
+								response([{label: 'Share via email: '+search.term, value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
+							} else {
+								response(['No people found']);
+							}
+						}
+					});
+	// 			}
+			},
+			focus: function(event, focused) {
+				event.preventDefault();
+			},
+			select: function(event, selected) {
+				var shareType = selected.item.value.shareType;
+				var shareWith = selected.item.value.shareWith;
+				$(this).val(shareWith);
+				// Default permissions are Read and Share
+				var permissions = OC.Share.PERMISSION_READ | OC.Share.PERMISSION_SHARE;
+				OC.Share.share($('#dropdown').data('item-type'), $('#dropdown').data('item-source'), shareType, shareWith, permissions, function() {
+					OC.Share.addShareWith(shareType, shareWith, permissions, possiblePermissions);
+					$('#shareWith').val('');
+				});
+				return false;
+			}
 			});
-			return false;
+		} else {
+			html += '<input id="shareWith" type="text" placeholder="Resharing is not allowed" style="width:90%;" disabled="disabled"/>';
+			html += '</div>';
+			$(html).appendTo(appendTo);
 		}
-		});
 		$('#dropdown').show('blind', function() {
 			OC.Share.droppedDown = true;
 		});
