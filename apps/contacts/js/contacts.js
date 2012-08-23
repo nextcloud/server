@@ -471,7 +471,7 @@ OC.Contacts={
 			}
 			$('#rightcontent').data('id', newid);
 
-			OC.Contacts.Contacts.deletionQueue.push(this.id);
+			OC.Contacts.Contacts.deletionQueue.push(parseInt(this.id));
 			if(!window.onbeforeunload) {
 				window.onbeforeunload = OC.Contacts.Contacts.warnNotDeleted;
 			}
@@ -497,7 +497,9 @@ OC.Contacts={
 			OC.Contacts.notify({
 				data:curlistitem,
 				message:t('contacts','Click to undo deletion of "') + curlistitem.find('a').text() + '"',
+				timeout:5,
 				timeouthandler:function(contact) {
+					console.log('timeout');
 					OC.Contacts.Card.doDelete(contact.data('id'), true);
 					delete contact;
 				},
@@ -509,19 +511,25 @@ OC.Contacts={
 			});
 		},
 		doDelete:function(id, removeFromQueue) {
-			if(OC.Contacts.Contacts.deletionQueue.indexOf(id) == -1 && removeFromQueue) {
+			var updateQueue = function(id, remove) {
+				if(removeFromQueue) {
+					OC.Contacts.Contacts.deletionQueue.splice(OC.Contacts.Contacts.deletionQueue.indexOf(parseInt(id)), 1);
+				}
+				if(OC.Contacts.Contacts.deletionQueue.length == 0) {
+					window.onbeforeunload = null;
+				}
+			}
+
+			if(OC.Contacts.Contacts.deletionQueue.indexOf(parseInt(id)) == -1 && removeFromQueue) {
+				console.log('returning');
+				updateQueue(id, removeFromQueue);
 				return;
 			}
 			$.post(OC.filePath('contacts', 'ajax', 'contact/delete.php'),{'id':id},function(jsondata) {
 				if(jsondata.status == 'error'){
 					OC.dialogs.alert(jsondata.data.message, t('contacts', 'Error'));
 				}
-				if(removeFromQueue) {
-					OC.Contacts.Contacts.deletionQueue.splice(OC.Contacts.Contacts.deletionQueue.indexOf(id), 1);
-				}
-				if(OC.Contacts.Contacts.deletionQueue.length == 0) {
-					window.onbeforeunload = null;
-				}
+				updateQueue(id, removeFromQueue);
 			});
 		},
 		loadContact:function(jsondata, bookid){
