@@ -63,9 +63,9 @@ class OC_Contacts_VCard{
 				$stmt = OCP\DB::prepare( $prep );
 				$result = $stmt->execute($id);
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', ids: '.join(',', $id), OCP\Util::DEBUG);
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.'SQL:'.$prep, OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts', __METHOD__.', ids: '.join(',', $id), OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.'SQL:'.$prep, OCP\Util::DEBUG);
 				return false;
 			}
 		} elseif(is_int($id) || is_string($id)) {
@@ -74,12 +74,12 @@ class OC_Contacts_VCard{
 				$stmt = OCP\DB::prepare( $sql );
 				$result = $stmt->execute(array($id));
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', ids: '. $id, OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts', __METHOD__.', ids: '. $id, OCP\Util::DEBUG);
 				return false;
 			}
 		} else {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.'. Addressbook id(s) argument is empty: '. print_r($id, true), OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.'. Addressbook id(s) argument is empty: '. print_r($id, true), OCP\Util::DEBUG);
 			return false;
 		}
 		$cards = array();
@@ -102,8 +102,8 @@ class OC_Contacts_VCard{
 			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE id = ?' );
 			$result = $stmt->execute(array($id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id: '. $id, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', id: '. $id, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -121,8 +121,8 @@ class OC_Contacts_VCard{
 			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri = ?' );
 			$result = $stmt->execute(array($aid,$uri));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', aid: '.$aid.' uri'.$uri, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', aid: '.$aid.' uri'.$uri, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -177,8 +177,8 @@ class OC_Contacts_VCard{
 		try {
 			$result = $stmt->execute(array($aid,$uri));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', aid: '.$aid.' uid'.$uid, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', aid: '.$aid.' uid'.$uid, OCP\Util::DEBUG);
 			return false;
 		}
 		if($result->numRows() > 0) {
@@ -329,8 +329,8 @@ class OC_Contacts_VCard{
 		try {
 			$result = $stmt->execute(array($aid,$fn,$data,$uri,time()));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', aid: '.$aid.' uri'.$uri, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', aid: '.$aid.' uri'.$uri, OCP\Util::DEBUG);
 			return false;
 		}
 		$newid = OCP\DB::insertid('*PREFIX*contacts_cards');
@@ -379,8 +379,8 @@ class OC_Contacts_VCard{
 					$result = $stmt->execute(array($data,time(),$object[0]));
 					//OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateDataByID, id: '.$object[0].': '.$object[1],OCP\Util::DEBUG);
 				} catch(Exception $e) {
-					OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-					OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id: '.$object[0], OCP\Util::DEBUG);
+					OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+					OCP\Util::writeLog('contacts', __METHOD__.', id: '.$object[0], OCP\Util::DEBUG);
 				}
 			}
 		}
@@ -423,8 +423,8 @@ class OC_Contacts_VCard{
 		try {
 			$result = $stmt->execute(array($fn,$data,time(),$id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id'.$id, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', id'.$id, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -444,7 +444,7 @@ class OC_Contacts_VCard{
 		$oldcard = self::findWhereDAVDataIs($aid, $uri);
 		$card = OC_VObject::parse($data);
 		if(!$card) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', Unable to parse VCARD, uri: '.$uri, OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', Unable to parse VCARD, uri: '.$uri, OCP\Util::ERROR);
 			return false;
 		}
 		return self::edit($oldcard['id'], $card);
@@ -472,8 +472,8 @@ class OC_Contacts_VCard{
 		try {
 			$stmt->execute(array($id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id: '.$id, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', id: '.$id, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -504,8 +504,8 @@ class OC_Contacts_VCard{
 		try {
 			$stmt->execute(array($aid,$uri));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', aid: '.$aid.' uri: '.$uri, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', aid: '.$aid.' uri: '.$uri, OCP\Util::DEBUG);
 			return false;
 		}
 		OC_Contacts_Addressbook::touch($aid);
@@ -680,9 +680,9 @@ class OC_Contacts_VCard{
 				$vals = array_merge((array)$aid, $id);
 				$result = $stmt->execute($vals);
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', ids: '.join(',', $vals), OCP\Util::DEBUG);
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', SQL:'.$prep, OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts', __METHOD__.', ids: '.join(',', $vals), OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.', SQL:'.$prep, OCP\Util::DEBUG);
 				return false;
 			}
 		} else {
@@ -706,8 +706,8 @@ class OC_Contacts_VCard{
 			try {
 				$result = $stmt->execute(array($aid, $id));
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::DEBUG);
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.' id: '.$id, OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.' id: '.$id, OCP\Util::DEBUG);
 				return false;
 			}
 		}
