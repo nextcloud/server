@@ -35,6 +35,12 @@ $maxUploadFilesize = min($maxUploadFilesize, $freeSpace);
 $adr_types = OC_Contacts_App::getTypesOfProperty('ADR');
 $phone_types = OC_Contacts_App::getTypesOfProperty('TEL');
 $email_types = OC_Contacts_App::getTypesOfProperty('EMAIL');
+$impp_types = OC_Contacts_App::getTypesOfProperty('IMPP');
+$ims = OC_Contacts_App::getIMOptions();
+$im_protocols = array();
+foreach($ims as $name => $values) {
+	$im_protocols[$name] = $values['displayname'];
+}
 
 $tmpl = new OCP\Template('contacts', 'part.contact');
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
@@ -42,6 +48,8 @@ $tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesi
 $tmpl->assign('adr_types', $adr_types);
 $tmpl->assign('phone_types', $phone_types);
 $tmpl->assign('email_types', $email_types);
+$tmpl->assign('impp_types', $impp_types, false);
+$tmpl->assign('im_protocols', $im_protocols, false);
 $tmpl->assign('requesttoken', $requesttoken);
 $tmpl->assign('id', '');
 $page = $tmpl->fetchPage();
