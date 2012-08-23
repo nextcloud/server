@@ -69,8 +69,10 @@ class Share {
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
 		if (!isset(self::$backendTypes[$itemType])) {
 			self::$backendTypes[$itemType] = array('class' => $class, 'collectionOf' => $collectionOf, 'supportedFileExtensions' => $supportedFileExtensions);
-			\OC_Util::addScript('core', 'share');
-			\OC_Util::addStyle('core', 'share');
+			if(count(self::$backendTypes) === 1) {
+				\OC_Util::addScript('core', 'share');
+				\OC_Util::addStyle('core', 'share');
+			}
 			return true;
 		}
 		\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class'].' is already registered for '.$itemType, \OC_Log::WARN);
@@ -278,7 +280,7 @@ class Share {
 			if ((int)$item['share_type'] === self::SHARE_TYPE_GROUP) {
 				// TODO
 			}
-			// Delete 
+			// Delete
 			return self::delete($item['id'], true);
 		}
 		return false;
@@ -844,7 +846,7 @@ class Share {
 	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
 	* @param string User or group the item is being shared with
 	* @return string Item target
-	* 
+	*
 	* TODO Use a suggested item target by default
 	*
 	*/
@@ -957,7 +959,7 @@ class Share {
 	/**
 	* Hook Listeners
 	*/
-	
+
 	public static function post_deleteUser($arguments) {
 		// Delete any items shared with the deleted user
 		$query = \OC_DB::prepare('DELETE FROM *PREFIX*share WHERE share_with = ? AND share_type = ? OR share_type = ?');
@@ -1023,11 +1025,11 @@ interface Share_Backend {
 	/**
 	* @brief Converts the shared item sources back into the item in the specified format
 	* @param array Shared items
-	* @param int Format 
+	* @param int Format
 	* @return ?
-	* 
+	*
 	* The items array is a 3-dimensional array with the item_source as the first key and the share id as the second key to an array with the share info.
-	* The key/value pairs included in the share info depend on the function originally called: 
+	* The key/value pairs included in the share info depend on the function originally called:
 	* If called by getItem(s)Shared: id, item_type, item, item_source, share_type, share_with, permissions, stime, file_source
 	* If called by getItem(s)SharedWith: id, item_type, item, item_source, item_target, share_type, share_with, permissions, stime, file_source, file_target
 	* This function allows the backend to control the output of shared items with custom formats.
@@ -1038,14 +1040,14 @@ interface Share_Backend {
 }
 
 /**
-* Interface for share backends that share content that is dependent on files. 
+* Interface for share backends that share content that is dependent on files.
 * Extends the Share_Backend interface.
 */
 interface Share_Backend_File_Dependent extends Share_Backend {
 
 	/**
 	* @brief Get the file path of the item
-	* @param 
+	* @param
 	* @param
 	* @return
 	*/
@@ -1065,7 +1067,7 @@ interface Share_Backend_Collection extends Share_Backend {
 	* @return array Returns an array of sources
 	*/
 	public function getChildren($itemSource);
-    
+
 }
 
 ?>
