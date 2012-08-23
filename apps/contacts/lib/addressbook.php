@@ -66,7 +66,8 @@ class OC_Contacts_Addressbook {
 		}
 		$addressbooks = array_merge($addressbooks, OCP\Share::getItemsSharedWith('addressbook', OC_Share_Backend_Addressbook::FORMAT_ADDRESSBOOKS));
 		if(!$active && !count($addressbooks)) {
-			self::addDefault($uid);
+			$id = self::addDefault($uid);
+			return array(self::find($id),);
 		}
 		return $addressbooks;
 	}
@@ -139,7 +140,7 @@ class OC_Contacts_Addressbook {
 		}
 		return $id;
 	}
-	
+
 	/**
 	 * @brief Creates a new address book
 	 * @param string $userid
@@ -290,7 +291,7 @@ class OC_Contacts_Addressbook {
 			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception for '.$id.': '.$e->getMessage(), OCP\Util::ERROR);
 			return false;
 		}
-		
+
 		$cards = OC_Contacts_VCard::all($id);
 		foreach($cards as $card){
 			OC_Contacts_VCard::delete($card['id']);
