@@ -145,6 +145,7 @@ class OC_Connector_Sabre_CardDAV extends Sabre_CardDAV_Backend_Abstract {
 		$data = OC_Contacts_VCard::all($addressbookid);
 		$cards = array();
 		foreach($data as $i){
+			//OCP\Util::writeLog('contacts', __METHOD__.', uri: ' . $i['uri'], OCP\Util::DEBUG);
 			$cards[] = array(
 				'id' => $i['id'],
 				//'carddata' => $i['carddata'],

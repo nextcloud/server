@@ -38,7 +38,7 @@
 /**
  * This class manages our vCards
  */
-class OC_Contacts_VCard{
+class OC_Contacts_VCard {
 	/**
 	 * @brief Returns all cards of an address book
 	 * @param integer $id
