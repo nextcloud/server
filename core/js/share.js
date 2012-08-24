@@ -95,9 +95,9 @@ OC.Share={
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
 		if (data.reshare) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
-				html += 'Shared with you and the group '+data.reshare.share_with+' by '+data.reshare.uid_owner;
+				html += '<span class="reshare">Shared with you and the group '+data.reshare.share_with+' by '+data.reshare.uid_owner+'</span>';
 			} else {
-				html += 'Shared with you by '+data.reshare.uid_owner;
+				html += '<span class="reshare">Shared with you by '+data.reshare.uid_owner+'</span>';
 			}
 			html += '<br />';
 		}
