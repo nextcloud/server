@@ -29,26 +29,29 @@
 */
 class OC_Connector_Sabre_CardDAV_AddressBook extends Sabre_CardDAV_AddressBook {
 
-    /**
-     * CardDAV backend
-     *
-     * @var Sabre_CardDAV_Backend_Abstract
-     */
-    private $carddavBackend;
+	/**
+	* CardDAV backend
+	*
+	* @var Sabre_CardDAV_Backend_Abstract
+	*/
+	private $carddavBackend;
 
-    /**
-     * Constructor
-     *
-     * @param Sabre_CardDAV_Backend_Abstract $carddavBackend
-     * @param array $addressBookInfo
-     */
-    public function __construct(Sabre_CardDAV_Backend_Abstract $carddavBackend, array $addressBookInfo) {
+	/**
+	* Constructor
+	*
+	* @param Sabre_CardDAV_Backend_Abstract $carddavBackend
+	* @param array $addressBookInfo
+	*/
+	public function __construct(
+		Sabre_CardDAV_Backend_Abstract $carddavBackend,
+		array $addressBookInfo) {
 
-        $this->carddavBackend = $carddavBackend;
-        $this->addressBookInfo = $addressBookInfo;
+		$this->carddavBackend = $carddavBackend;
+		$this->addressBookInfo = $addressBookInfo;
 		parent::__construct($carddavBackend, $addressBookInfo);
 
-    }
+	}
+
 	/**
 	* Returns a list of ACE's for this node.
 	*
@@ -93,19 +96,19 @@ class OC_Connector_Sabre_CardDAV_AddressBook extends Sabre_CardDAV_AddressBook {
 
 	}
 
-    /**
-     * Returns a card
-     *
-     * @param string $name
-     * @return OC_Connector_Sabre_DAV_Card
-     */
-    public function getChild($name) {
+	/**
+	* Returns a card
+	*
+	* @param string $name
+	* @return OC_Connector_Sabre_DAV_Card
+	*/
+	public function getChild($name) {
 
-        $obj = $this->carddavBackend->getCard($this->addressBookInfo['id'],$name);
-        if (!$obj) throw new Sabre_DAV_Exception_NotFound('Card not found');
-        return new OC_Connector_Sabre_CardDAV_Card($this->carddavBackend,$this->addressBookInfo,$obj);
+		$obj = $this->carddavBackend->getCard($this->addressBookInfo['id'],$name);
+		if (!$obj) throw new Sabre_DAV_Exception_NotFound('Card not found');
+		return new OC_Connector_Sabre_CardDAV_Card($this->carddavBackend,$this->addressBookInfo,$obj);
 
-    }
+	}
 
 	/**
 	* Returns the full list of cards
