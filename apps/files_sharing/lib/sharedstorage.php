@@ -312,21 +312,32 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	}
 	
 	public function rename($path1, $path2) {
-		if ($oldSource = $this->getSourcePath($path1)) {
-			$root1 = substr($path1, 0, strpos($path1, '/'));
-			$root2 = substr($path2, 0, strpos($path2, '/'));
-			// Moving/renaming is only allowed within the same shared folder
-			if ($root1 == $root2) {
-				$storage = OC_Filesystem::getStorage($oldSource);
-				$newSource = substr($oldSource, 0, strpos($oldSource, $root1)).$path2;
-				if (dirname($path1) == dirname($path2)) {
-					// Rename the file if UPDATE permission is granted
-					if ($this->isUpdatable($path1)) {
+		// Renaming/moving is only allowed within shared folders
+		$pos1 = strpos($path1, '/', 1);
+		$pos2 = strpos($path2, '/', 1);
+		if ($pos1 !== false && $pos2 !== false && ($oldSource = $this->getSourcePath($path1))) {
+			$newSource = $this->getSourcePath(dirname($path2)).'/'.basename($path2);
+			if (dirname($path1) == dirname($path2)) {
+				// Rename the file if UPDATE permission is granted
+				if ($this->isUpdatable($path1)) {
+					$storage = OC_Filesystem::getStorage($oldSource);
+					return $storage->rename($this->getInternalPath($oldSource), $this->getInternalPath($newSource));
+				}
+			} else {
+				// Move the file if DELETE and CREATE permissions are granted
+				if ($this->isDeletable($path1) && $this->isCreatable(dirname($path2))) {
+					// Get the root shared folder
+					$folder1 = substr($path1, 0, $pos1);
+					$folder2 = substr($path2, 0, $pos2);
+					// Copy and unlink the file if it exists in a different shared folder
+					if ($folder1 != $folder2) {
+						if ($this->copy($path1, $path2)) {
+							return $this->unlink($path1);
+						}
+					} else {
+						$storage = OC_Filesystem::getStorage($oldSource);
 						return $storage->rename($this->getInternalPath($oldSource), $this->getInternalPath($newSource));
 					}
-				// Move the file if DELETE and CREATE permissions are granted
-				} else if ($this->isDeletable($path1) && $this->isCreatable(dirname($path2))) {
-					return $storage->rename($this->getInternalPath($oldSource), $this->getInternalPath($newSource));
 				}
 			}
 		}
@@ -335,12 +346,12 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	
 	public function copy($path1, $path2) {
 		// Copy the file if CREATE permission is granted
-		if (($source = $this->getSourcePath($path1)) && $this->isCreatable(dirname($path2))) {
+		if ($this->isCreatable(dirname($path2))) {
 			$source = $this->fopen($path1, 'r');
 			$target = $this->fopen($path2, 'w');
 			return OC_Helper::streamCopy($source, $target);
 		}
-		return true;
+		return false;
 	}
 
 	public function fopen($path, $mode) {

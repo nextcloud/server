@@ -9,7 +9,7 @@
 			$name = str_replace('%2F','/', $name);
 			$directory = str_replace('+','%20',urlencode($file['directory']));
 			$directory = str_replace('%2F','/', $directory); ?>
-			<tr data-file="<?php echo $name;?>" data-type="<?php echo ($file['type'] == 'dir')?'dir':'file'?>" data-mime="<?php echo $file['mimetype']?>" data-size='<?php echo $file['size'];?>' data-permissions='<?php echo $file['permissions']; ?>'>
+			<tr data-id="<?php echo $file['id']; ?>" data-file="<?php echo $name;?>" data-type="<?php echo ($file['type'] == 'dir')?'dir':'file'?>" data-mime="<?php echo $file['mimetype']?>" data-size='<?php echo $file['size'];?>' data-permissions='<?php echo $file['permissions']; ?>'>
 				<td class="filename svg" style="background-image:url(<?php if($file['type'] == 'dir') echo OCP\mimetype_icon('dir'); else echo OCP\mimetype_icon($file['mimetype']); ?>)">
 					<?php if(!isset($_['readonly']) || !$_['readonly']) { ?><input type="checkbox" /><?php } ?>
 					<a class="name" href="<?php if($file['type'] == 'dir') echo $_['baseURL'].$directory.'/'.$name; else echo $_['downloadURL'].$directory.'/'.$name; ?>" title="">

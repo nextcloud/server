@@ -26,30 +26,40 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	const FORMAT_FILE_APP_ROOT = 2;
 	const FORMAT_OPENDIR = 3;
 
-	public function isValidSource($item, $uid) {
-		if (OC_Filesystem::file_exists($item)) {
+	private $path;
+	
+	public function isValidSource($itemSource, $uidOwner) {
+		$path = OC_FileCache::getPath($itemSource, $uidOwner);
+		if (OC_Filesystem::file_exists($path)) {
+			$this->path = $path;
 			return true;
 		}
 		return false;
 	}
 
-	public function getFilePath($item, $uid) {
-		return $item;
+	public function getFilePath($itemSource, $uidOwner) {
+		if (isset($this->path)) {
+			$path = $this->path;
+			$this->path = null;
+			return $path;
+		}
+		return false;
 	}
 
-	public function generateTarget($item, $uid, $exclude = null) {
+	public function generateTarget($itemSource, $shareWith, $exclude = null) {
 		// TODO Make sure target path doesn't exist already
-		return $item;
+		return $itemSource;
 	}
 
 	public function formatItems($items, $format, $parameters = null) {
 		if ($format == self::FORMAT_SHARED_STORAGE) {
 			// Only 1 item should come through for this format call
-			return array('path' => $items[key($items)]['file_source'], 'permissions' => $items[key($items)]['permissions']);
+			return array('path' => $items[key($items)]['path'], 'permissions' => $items[key($items)]['permissions']);
 		} else if ($format == self::FORMAT_FILE_APP) {
 			$files = array();
 			foreach ($items as $item) {
 				$file = array();
+				$file['id'] = $item['file_source'];
 				$file['path'] = $item['file_target'];
 				$file['name'] = basename($item['file_target']);
 				$file['ctime'] = $item['ctime'];
@@ -77,7 +87,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				}
 				$size += $item['size'];
 			}
-			return array(0 => array('name' => 'Shared', 'mtime' => $mtime, 'mimetype' => 'httpd/unix-directory', 'size' => $size, 'writable' => false, 'type' => 'dir', 'directory' => '', 'permissions' => OCP\Share::PERMISSION_READ));
+			return array(0 => array('id' => -1, 'name' => 'Shared', 'mtime' => $mtime, 'mimetype' => 'httpd/unix-directory', 'size' => $size, 'writable' => false, 'type' => 'dir', 'directory' => '', 'permissions' => OCP\Share::PERMISSION_READ));
 		} else if ($format == self::FORMAT_OPENDIR) {
 			$files = array();
 			foreach ($items as $item) {

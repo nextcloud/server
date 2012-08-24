@@ -77,6 +77,10 @@ FileActions={
 		parent.children('a.name').append('<span class="fileactions" />');
 		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 		for(name in actions){
+			// NOTE: Temporary fix to prevent rename action in root of Shared directory
+			if (name == 'Rename' && $('#dir').val() == '/Shared') {
+				continue;
+			}
 			if((name=='Download' || actions[name]!=defaultAction) && name!='Delete'){
 				var img=FileActions.icons[name];
 				if(img.call){
