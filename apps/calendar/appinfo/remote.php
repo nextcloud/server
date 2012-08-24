@@ -21,15 +21,15 @@ $principalBackend = new OC_Connector_Sabre_Principal();
 $caldavBackend    = new OC_Connector_Sabre_CalDAV();
 
 // Root nodes
-$Sabre_CalDAV_Principal_Collection = new Sabre_CalDAV_Principal_Collection($principalBackend); 
+$Sabre_CalDAV_Principal_Collection = new Sabre_CalDAV_Principal_Collection($principalBackend);
 $Sabre_CalDAV_Principal_Collection->disableListing = true; // Disable listening
 
-$Sabre_CalDAV_CalendarRootNode = new Sabre_CalDAV_CalendarRootNode($principalBackend, $caldavBackend); 
-$Sabre_CalDAV_CalendarRootNode->disableListing = true; // Disable listening
+$calendarRoot = new OC_Connector_Sabre_CalDAV_CalendarRoot($principalBackend, $caldavBackend);
+$calendarRoot->disableListing = true; // Disable listening
 
-$nodes = array( 
-	$Sabre_CalDAV_Principal_Collection, 
-	$Sabre_CalDAV_CalendarRootNode,
+$nodes = array(
+	$Sabre_CalDAV_Principal_Collection,
+	$calendarRoot,
 	);
 
 // Fire up server
