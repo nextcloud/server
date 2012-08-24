@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-23 02:03+0200\n"
-"PO-Revision-Date: 2012-08-23 00:03+0000\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-24 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgid "Error (de)activating addressbook."
 msgstr "เกิดข้อผิดพลาดใน (ยกเลิก)การเปิดใช้งานสมุดบันทึกที่อยู่"
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
-#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:32
 #: ajax/contact/saveproperty.php:39
 msgid "id is not set."
 msgstr "ยังไม่ได้กำหนดรหัส"
@@ -89,17 +89,9 @@ msgstr ""
 msgid "Unknown IM: "
 msgstr ""
 
-#: ajax/contact/addproperty.php:158
-msgid "Error adding contact property: "
-msgstr "เกิดข้อผิดพลาดในการเพิ่มคุณสมบัติข้อมูลผู้ติดต่อ"
-
 #: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "ข้อมูลเกี่ยวกับ vCard ไม่ถูกต้อง กรุณาโหลดหน้าเวปใหม่อีกครั้ง"
-
-#: ajax/contact/deleteproperty.php:44
-msgid "Error deleting contact property."
-msgstr "เกิดข้อผิดพลาดในการลบรายละเอียดการติดต่อ"
 
 #: ajax/contact/details.php:31
 msgid "Missing ID"
@@ -120,10 +112,6 @@ msgstr "ข้อมูล vCard ไม่ถูกต้อง กรุณา�
 #: ajax/contact/saveproperty.php:69
 msgid "Something went FUBAR. "
 msgstr "มีบางอย่างเกิดการ FUBAR. "
-
-#: ajax/contact/saveproperty.php:166
-msgid "Error updating contact property."
-msgstr "เกิดข้อผิดพลาดในการอัพเดทข้อมูลการติดต่อ"
 
 #: ajax/currentphoto.php:30 ajax/oc_photo.php:28 ajax/uploadphoto.php:36
 #: ajax/uploadphoto.php:68
@@ -245,59 +233,71 @@ msgid "Couldn't get a valid address."
 msgstr "ไม่สามารถดึงที่อยู่ที่ถูกต้องได้"
 
 #: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
-#: js/contacts.js:676 js/contacts.js:716 js/contacts.js:742 js/contacts.js:859
-#: js/contacts.js:865 js/contacts.js:877 js/contacts.js:911
-#: js/contacts.js:1173 js/contacts.js:1181 js/contacts.js:1190
-#: js/contacts.js:1225 js/contacts.js:1258 js/contacts.js:1270
-#: js/contacts.js:1293 js/contacts.js:1523 js/contacts.js:1558
-#: js/contacts.js:1578 js/settings.js:26 js/settings.js:43 js/settings.js:68
+#: js/contacts.js:723 js/contacts.js:763 js/contacts.js:789 js/contacts.js:921
+#: js/contacts.js:927 js/contacts.js:939 js/contacts.js:976
+#: js/contacts.js:1250 js/contacts.js:1258 js/contacts.js:1267
+#: js/contacts.js:1302 js/contacts.js:1338 js/contacts.js:1353
+#: js/contacts.js:1379 js/contacts.js:1609 js/contacts.js:1644
+#: js/contacts.js:1664 js/settings.js:26 js/settings.js:43 js/settings.js:68
 msgid "Error"
 msgstr "พบข้อผิดพลาด"
 
-#: js/contacts.js:716
+#: js/contacts.js:424
+msgid "You do not have permission to add contacts to "
+msgstr ""
+
+#: js/contacts.js:425
+msgid "Please select one of your own address books."
+msgstr ""
+
+#: js/contacts.js:425
+msgid "Permission error"
+msgstr ""
+
+#: js/contacts.js:763
 msgid "This property has to be non-empty."
 msgstr "คุณสมบัตินี้ต้องไม่มีข้อมูลว่างอยู่"
 
-#: js/contacts.js:742
+#: js/contacts.js:789
 msgid "Couldn't serialize elements."
 msgstr "ไม่สามารถทำสัญลักษณ์องค์ประกอบต่างๆให้เป็นตัวเลขตามลำดับได้"
 
-#: js/contacts.js:859 js/contacts.js:877
+#: js/contacts.js:921 js/contacts.js:939
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
 msgstr "'deleteProperty' ถูกเรียกใช้โดยไม่มีอาร์กิวเมนต์ กรุณาแจ้งได้ที่ bugs.owncloud.org"
 
-#: js/contacts.js:893
+#: js/contacts.js:958
 msgid "Edit name"
 msgstr "แก้ไขชื่อ"
 
-#: js/contacts.js:1173
+#: js/contacts.js:1250
 msgid "No files selected for upload."
 msgstr "ยังไม่ได้เลือกไฟล์ำสำหรับอัพโหลด"
 
-#: js/contacts.js:1181
+#: js/contacts.js:1258
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "ไฟล์ที่คุณกำลังพยายามที่จะอัพโหลดมีขนาดเกินจำนวนสูงสุดที่สามารถอัพโหลดได้สำหรับเซิร์ฟเวอร์นี้"
 
-#: js/contacts.js:1245
+#: js/contacts.js:1322
 msgid "Error loading profile picture."
 msgstr "เกิดข้อผิดพลาดในการโหลดรูปภาพประจำตัว"
 
-#: js/contacts.js:1371 js/contacts.js:1412 js/contacts.js:1431
-#: js/contacts.js:1474
+#: js/contacts.js:1457 js/contacts.js:1498 js/contacts.js:1517
+#: js/contacts.js:1560
 msgid "Select type"
 msgstr "เลือกชนิด"
 
-#: js/contacts.js:1492
+#: js/contacts.js:1578
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
 msgstr "ข้อมูลผู้ติดต่อบางรายการได้ถูกทำเครื่องหมายสำหรับลบทิ้งเอาไว้, แต่ยังไม่ได้ถูกลบทิ้ง, กรุณารอให้รายการดังกล่าวถูกลบทิ้งเสียก่อน"
 
-#: js/contacts.js:1563
+#: js/contacts.js:1649
 msgid "Do you want to merge these address books?"
 msgstr "คุณต้องการผสานข้อมูลสมุดบันทึกที่อยู่เหล่านี้หรือไม่?"
 
@@ -385,7 +385,7 @@ msgstr "ที่ทำงาน"
 msgid "Home"
 msgstr "บ้าน"
 
-#: lib/app.php:196 lib/app.php:209 lib/app.php:262 lib/vcard.php:584
+#: lib/app.php:196 lib/app.php:209 lib/app.php:262 lib/vcard.php:593
 msgid "Other"
 msgstr "อื่นๆ"
 
@@ -481,6 +481,14 @@ msgstr "วันเกิดของ {name}"
 #: lib/search.php:15
 msgid "Contact"
 msgstr "ข้อมูลการติดต่อ"
+
+#: lib/vcard.php:408
+msgid "You do not have the permissions to edit this contact."
+msgstr ""
+
+#: lib/vcard.php:483
+msgid "You do not have the permissions to delete this contact."
+msgstr ""
 
 #: templates/index.php:14
 msgid "Add Contact"
@@ -872,10 +880,6 @@ msgstr "คุณยังไม่มีข้อมูลการติดต
 #: templates/part.no_contacts.php:5
 msgid "Add contact"
 msgstr "เพิ่มชื่อผู้ติดต่อ"
-
-#: templates/part.no_contacts.php:6
-msgid "Configure addressbooks"
-msgstr "กำหนดค่าสมุดบันทึกที่อยู่"
 
 #: templates/part.selectaddressbook.php:1
 msgid "Select Address Books"

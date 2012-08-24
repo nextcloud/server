@@ -13,13 +13,14 @@
 #   <peddn@web.de>, 2012.
 # Phi Lieb <>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
+#   <transifex.3.mensaje@spamgourmet.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:02+0200\n"
-"PO-Revision-Date: 2012-08-14 11:28+0000\n"
-"Last-Translator: JamFX <niko@nik-o-mat.de>\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 09:20+0000\n"
+"Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,11 +38,11 @@ msgstr "Es sieht so aus, als wäre alles vollständig zwischengespeichert."
 
 #: ajax/categories/rescan.php:29
 msgid "No calendars found."
-msgstr "Keine Kalender gefunden"
+msgstr "Keine Kalender gefunden."
 
 #: ajax/categories/rescan.php:37
 msgid "No events found."
-msgstr "Keine Termine gefunden"
+msgstr "Keine Termine gefunden."
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -51,7 +52,7 @@ msgstr "Falscher Kalender"
 msgid ""
 "The file contained either no events or all events are already saved in your "
 "calendar."
-msgstr "Entweder enthielt die Datei keine Termine oder alle Termine waren schon im Kalender gespeichert."
+msgstr "Entweder enthielt die Datei keine Termine oder alle Termine waren bereits im Kalender gespeichert."
 
 #: ajax/import/dropimport.php:31 ajax/import/import.php:67
 msgid "events has been saved in the new calendar"
@@ -77,7 +78,7 @@ msgstr "Zeitzone geändert"
 msgid "Invalid request"
 msgstr "Fehlerhafte Anfrage"
 
-#: appinfo/app.php:35 templates/calendar.php:15
+#: appinfo/app.php:37 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:33
 msgid "Calendar"
 msgstr "Kalender"
@@ -499,7 +500,7 @@ msgstr "CalDAV-Link"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr "geteilte Kalender"
+msgstr "Geteilte Kalender"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
@@ -690,7 +691,7 @@ msgstr "Neuen Kalender anlegen"
 
 #: templates/part.import.php:17
 msgid "Import a calendar file"
-msgstr "Kalenderdatei Importieren"
+msgstr "Kalenderdatei importieren"
 
 #: templates/part.import.php:24
 msgid "Please choose a calendar"
@@ -708,7 +709,7 @@ msgstr "Wählen Sie einen verfügbaren Namen."
 msgid ""
 "A Calendar with this name already exists. If you continue anyhow, these "
 "calendars will be merged."
-msgstr "Ein Kalender mit diesem Namen existiert schon. Sollten Sie fortfahren, werden die beiden Kalender zusammengeführt."
+msgstr "Ein Kalender mit diesem Namen existiert bereits. Sollten Sie fortfahren, werden die beiden Kalender zusammengeführt."
 
 #: templates/part.import.php:47
 msgid "Import"
@@ -756,11 +757,11 @@ msgstr "Zeitformat"
 
 #: templates/settings.php:57
 msgid "24h"
-msgstr "24h"
+msgstr "24 Stunden"
 
 #: templates/settings.php:58
 msgid "12h"
-msgstr "12h"
+msgstr "12 Stunden"
 
 #: templates/settings.php:64
 msgid "Start week on"

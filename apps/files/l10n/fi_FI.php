@@ -29,6 +29,7 @@
 "files" => "tiedostoa",
 "File handling" => "Tiedostonhallinta",
 "Maximum upload size" => "Lähetettävän tiedoston suurin sallittu koko",
+"max. possible: " => "suurin mahdollinen:",
 "Needed for multi-file and folder downloads." => "Tarvitaan useampien tiedostojen ja kansioiden latausta varten.",
 "Enable ZIP-download" => "Ota ZIP-paketin lataaminen käytöön",
 "0 is unlimited" => "0 on rajoittamaton",

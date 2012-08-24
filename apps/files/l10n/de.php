@@ -5,7 +5,7 @@
 "The uploaded file was only partially uploaded" => "Die Datei wurde nur teilweise hochgeladen.",
 "No file was uploaded" => "Es wurde keine Datei hochgeladen.",
 "Missing a temporary folder" => "Temporärer Ordner fehlt.",
-"Failed to write to disk" => "Fehler beim Schreiben auf Festplatte",
+"Failed to write to disk" => "Fehler beim Schreiben auf die Festplatte",
 "Files" => "Dateien",
 "Delete" => "Löschen",
 "already exists" => "ist bereits vorhanden",
@@ -16,7 +16,7 @@
 "undo" => "rückgängig machen",
 "deleted" => "gelöscht",
 "generating ZIP-file, it may take some time." => "Erstelle ZIP-Datei. Dies kann eine Weile dauern.",
-"Unable to upload your file as it is a directory or has 0 bytes" => "Datei kann nicht hochgeladen werden da sie ein Verzeichnis ist oder 0 Bytes hat.",
+"Unable to upload your file as it is a directory or has 0 bytes" => "Ihre Datei kann nicht hochgeladen werden, da sie ein Verzeichnis ist oder 0 Bytes hat.",
 "Upload Error" => "Fehler beim Hochladen",
 "Pending" => "Ausstehend",
 "Upload cancelled." => "Hochladen abgebrochen.",
@@ -46,6 +46,6 @@
 "Download" => "Herunterladen",
 "Upload too large" => "Upload zu groß",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
-"Files are being scanned, please wait." => "Daten werden gescannt, bitte warten.",
+"Files are being scanned, please wait." => "Dateien werden gescannt, bitte warten.",
 "Current scanning" => "Scannen"
 );

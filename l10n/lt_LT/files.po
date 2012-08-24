@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 07:58+0000\n"
+"Last-Translator: Dr. ROX <to.dr.rox@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,7 +67,7 @@ msgstr ""
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "atšaukti"
 
 #: js/filelist.js:195
 msgid "replaced"
@@ -99,7 +99,7 @@ msgstr "Įkėlimo klaida"
 
 #: js/files.js:228 js/files.js:319 js/files.js:348
 msgid "Pending"
-msgstr ""
+msgstr "Laukiantis"
 
 #: js/files.js:333
 msgid "Upload cancelled."
@@ -135,11 +135,11 @@ msgstr "failai"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Failų tvarkymas"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Maksimalus failo dydis"
+msgstr "Maksimalus įkeliamo failo dydis"
 
 #: templates/admin.php:7
 msgid "max. possible: "

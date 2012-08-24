@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-17 00:44+0200\n"
-"PO-Revision-Date: 2012-08-16 11:01+0000\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 13:23+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Tehtävät"
 
 #: js/tasks.js:415
 msgid "No category"
-msgstr ""
+msgstr "Ei luokkaa"
 
 #: lib/app.php:33
 msgid "Unspecified"
@@ -48,7 +48,7 @@ msgstr "9=matalin"
 
 #: lib/app.php:81
 msgid "Empty Summary"
-msgstr ""
+msgstr "Tyhjä yhteenveto"
 
 #: lib/app.php:93
 msgid "Invalid percent complete"
@@ -92,7 +92,7 @@ msgstr "Ladataan tehtäviä..."
 
 #: templates/tasks.php:20
 msgid "Important"
-msgstr ""
+msgstr "Tärkeä"
 
 #: templates/tasks.php:23
 msgid "More"

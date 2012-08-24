@@ -5,8 +5,6 @@
 "Cannot add empty property." => "لا يمكنك اضافه صفه خاليه.",
 "At least one of the address fields has to be filled out." => "يجب ملء على الاقل خانه واحده من العنوان.",
 "Information about vCard is incorrect. Please reload the page." => "المعلومات الموجودة في ال vCard غير صحيحة. الرجاء إعادة تحديث الصفحة.",
-"Error deleting contact property." => "خطء خلال محي الصفه.",
-"Error updating contact property." => "خطء خلال تعديل الصفه.",
 "Contacts" => "المعارف",
 "This is not your addressbook." => "هذا ليس دفتر عناوينك.",
 "Contact could not be found." => "لم يتم العثور على الشخص.",

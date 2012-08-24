@@ -5,13 +5,14 @@
 # Translators:
 #   <niko@nik-o-mat.de>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
+#   <transifex.3.mensaje@spamgourmet.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 13:49+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 10:09+0000\n"
+"Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,15 +38,15 @@ msgstr "Nicht angegeben"
 
 #: lib/app.php:34
 msgid "1=highest"
-msgstr "1=am höchsten"
+msgstr "1 = am höchsten"
 
 #: lib/app.php:38
 msgid "5=medium"
-msgstr "5=Durchschnitt"
+msgstr "5 = Durchschnitt"
 
 #: lib/app.php:42
 msgid "9=lowest"
-msgstr "9=am niedrigsten"
+msgstr "9 = am niedrigsten"
 
 #: lib/app.php:81
 msgid "Empty Summary"
@@ -89,7 +90,7 @@ msgstr "Nach Label sortieren"
 
 #: templates/tasks.php:16
 msgid "Loading tasks..."
-msgstr "Lade Aufgaben..."
+msgstr "Lade Aufgaben ..."
 
 #: templates/tasks.php:20
 msgid "Important"

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-20 02:01+0200\n"
-"PO-Revision-Date: 2012-08-19 12:53+0000\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 12:07+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,7 @@ msgstr "Olet käyttänyt"
 
 #: templates/personal.php:8
 msgid "of the available"
-msgstr "käytettävissäsi on yhteensä"
+msgstr ", käytettävissäsi on yhteensä"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -189,7 +189,7 @@ msgstr "Sähköpostiosoitteesi"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr "Kirjoita sähköpostiosoitteesi alle, jotta unohdettu salasana voidaan palauttaa"
+msgstr "Anna sähköpostiosoitteesi, jotta unohdettu salasana on mahdollista palauttaa"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"

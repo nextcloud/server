@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jan Krejci <krejca85@gmail.com>, 2012.
+# Michal Hrušecký <Michal@hrusecky.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:34+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 23:53+0000\n"
+"Last-Translator: Jan Krejci <krejca85@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +21,11 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "Externí úložiště"
 
 #: templates/settings.php:7 templates/settings.php:19
 msgid "Mount point"
-msgstr ""
+msgstr "Přípojný bod"
 
 #: templates/settings.php:8
 msgid "Backend"
@@ -31,11 +33,11 @@ msgstr ""
 
 #: templates/settings.php:9
 msgid "Configuration"
-msgstr ""
+msgstr "Konfigurace"
 
 #: templates/settings.php:10
 msgid "Options"
-msgstr ""
+msgstr "Nastavení"
 
 #: templates/settings.php:11
 msgid "Applicable"
@@ -43,7 +45,7 @@ msgstr ""
 
 #: templates/settings.php:23
 msgid "Add mount point"
-msgstr ""
+msgstr "Přidat přípojný bod"
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
@@ -51,19 +53,19 @@ msgstr ""
 
 #: templates/settings.php:63
 msgid "All Users"
-msgstr ""
+msgstr "Všichni uživatelé"
 
 #: templates/settings.php:64
 msgid "Groups"
-msgstr ""
+msgstr "Skupiny"
 
 #: templates/settings.php:69
 msgid "Users"
-msgstr ""
+msgstr "Uživatelé"
 
 #: templates/settings.php:77 templates/settings.php:96
 msgid "Delete"
-msgstr ""
+msgstr "Smazat"
 
 #: templates/settings.php:88
 msgid "SSL root certificates"
@@ -75,8 +77,8 @@ msgstr ""
 
 #: templates/settings.php:108
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "Zapnout uživatelské externí úložiště"
 
 #: templates/settings.php:109
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "Povolit uživatelů připojit jejich vlastní externí úložiště"

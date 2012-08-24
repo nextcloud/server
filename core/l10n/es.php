@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Application name not provided." => "Nombre de la aplicación no provisto.",
-"No category to add?" => "¿Ninguna categoría para agregar?",
+"No category to add?" => "¿Ninguna categoría para añadir?",
 "This category already exists: " => "Esta categoría ya existe: ",
 "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Ajustes",
@@ -19,8 +19,8 @@
 "Cancel" => "Cancelar",
 "No" => "No",
 "Yes" => "Sí",
-"Ok" => "Vale",
-"No categories selected for deletion." => "No hay categorias seleccionadas para borrar.",
+"Ok" => "Aceptar",
+"No categories selected for deletion." => "No hay categorías seleccionadas para borrar.",
 "Error" => "Fallo",
 "ownCloud password reset" => "Reiniciar contraseña de ownCloud",
 "Use the following link to reset your password: {link}" => "Utiliza el siguiente enlace para restablecer tu contraseña: {link}",

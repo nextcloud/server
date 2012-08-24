@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:33+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-24 02:01+0200\n"
+"PO-Revision-Date: 2012-08-23 13:01+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,15 +32,15 @@ msgstr ""
 
 #: settings.php:45
 msgid "The php-gd module is needed to create thumbnails of your images"
-msgstr ""
+msgstr "php-gd-moduuli vaaditaan, jotta kuvista on mahdollista luoda esikatselukuvia"
 
 #: settings.php:51
 msgid "The php-ldap module is needed connect to your ldap server"
-msgstr ""
+msgstr "php-ldap-moduuli vaaditaan, jotta yhteys ldap-palvelimeen on mahdollista"
 
 #: settings.php:57
 msgid "The php-zip module is needed download multiple files at once"
-msgstr ""
+msgstr "php-zip-moduuli vaaditaan, jotta useiden tiedostojen samanaikainen lataus on mahdollista"
 
 #: settings.php:63
 msgid ""
@@ -52,7 +53,7 @@ msgstr ""
 
 #: settings.php:75
 msgid "The php-xml module is needed to share files with webdav."
-msgstr ""
+msgstr "php-xml-moduuli vaaditaan, jotta tiedostojen jako webdavia käyttäen on mahdollista"
 
 #: settings.php:81
 msgid ""
@@ -62,12 +63,12 @@ msgstr ""
 
 #: settings.php:87
 msgid "The php-pdo module is needed to store owncloud data into a database."
-msgstr ""
+msgstr "php-pdo-moduuli tarvitaan, jotta ownCloud-tietojen tallennus tietokantaan on mahdollista"
 
 #: templates/settings.php:2
 msgid "Dependencies status"
-msgstr ""
+msgstr "Riippuvuuksien tila"
 
 #: templates/settings.php:7
 msgid "Used by :"
-msgstr ""
+msgstr "Käyttökohde:"

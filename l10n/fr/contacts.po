@@ -9,6 +9,7 @@
 #   <gp4004@arghh.org>, 2011, 2012.
 #   <guiguidu31300@gmail.com>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
+#   <mathieu.payrol@gmail.com>, 2012.
 # Nahir Mohamed <nahirmoha@gmail.com>, 2012.
 # Nicolas  <boolet.is@free.fr>, 2012.
 # Robert Di Rosa <>, 2012.
@@ -18,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-23 02:03+0200\n"
-"PO-Revision-Date: 2012-08-23 00:03+0000\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-24 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +34,7 @@ msgid "Error (de)activating addressbook."
 msgstr "Des erreurs se sont produites lors de l'activation/désactivation du carnet d'adresses."
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
-#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:32
 #: ajax/contact/saveproperty.php:39
 msgid "id is not set."
 msgstr "L'ID n'est pas défini."
@@ -92,23 +93,15 @@ msgstr "Ajout d'une propriété en double:"
 
 #: ajax/contact/addproperty.php:115 ajax/contact/saveproperty.php:93
 msgid "Missing IM parameter."
-msgstr ""
+msgstr "Paramètre de Messagerie Instantanée manquants."
 
 #: ajax/contact/addproperty.php:119 ajax/contact/saveproperty.php:97
 msgid "Unknown IM: "
-msgstr ""
-
-#: ajax/contact/addproperty.php:158
-msgid "Error adding contact property: "
-msgstr "Erreur pendant l'ajout de la propriété du contact :"
+msgstr "Messagerie Instantanée inconnue"
 
 #: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "Les informations relatives à cette vCard sont incorrectes. Veuillez recharger la page."
-
-#: ajax/contact/deleteproperty.php:44
-msgid "Error deleting contact property."
-msgstr "Erreur lors de la suppression du champ."
 
 #: ajax/contact/details.php:31
 msgid "Missing ID"
@@ -129,10 +122,6 @@ msgstr "L'informatiion à propos de la vCard est incorrect. Merci de rafraichir 
 #: ajax/contact/saveproperty.php:69
 msgid "Something went FUBAR. "
 msgstr "Quelque chose est FUBAR."
-
-#: ajax/contact/saveproperty.php:166
-msgid "Error updating contact property."
-msgstr "Erreur lors de la mise à jour du champ."
 
 #: ajax/currentphoto.php:30 ajax/oc_photo.php:28 ajax/uploadphoto.php:36
 #: ajax/uploadphoto.php:68
@@ -243,7 +232,7 @@ msgstr "Contacts"
 
 #: js/contacts.js:71
 msgid "Sorry, this functionality has not been implemented yet"
-msgstr "Désolé cette fonctionnalité n'a pas encore été implementée"
+msgstr "Désolé cette fonctionnalité n'a pas encore été implémentée"
 
 #: js/contacts.js:71
 msgid "Not implemented"
@@ -254,59 +243,71 @@ msgid "Couldn't get a valid address."
 msgstr "Impossible de trouver une adresse valide."
 
 #: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
-#: js/contacts.js:676 js/contacts.js:716 js/contacts.js:742 js/contacts.js:859
-#: js/contacts.js:865 js/contacts.js:877 js/contacts.js:911
-#: js/contacts.js:1173 js/contacts.js:1181 js/contacts.js:1190
-#: js/contacts.js:1225 js/contacts.js:1258 js/contacts.js:1270
-#: js/contacts.js:1293 js/contacts.js:1523 js/contacts.js:1558
-#: js/contacts.js:1578 js/settings.js:26 js/settings.js:43 js/settings.js:68
+#: js/contacts.js:723 js/contacts.js:763 js/contacts.js:789 js/contacts.js:921
+#: js/contacts.js:927 js/contacts.js:939 js/contacts.js:976
+#: js/contacts.js:1250 js/contacts.js:1258 js/contacts.js:1267
+#: js/contacts.js:1302 js/contacts.js:1338 js/contacts.js:1353
+#: js/contacts.js:1379 js/contacts.js:1609 js/contacts.js:1644
+#: js/contacts.js:1664 js/settings.js:26 js/settings.js:43 js/settings.js:68
 msgid "Error"
 msgstr "Erreur"
 
-#: js/contacts.js:716
+#: js/contacts.js:424
+msgid "You do not have permission to add contacts to "
+msgstr ""
+
+#: js/contacts.js:425
+msgid "Please select one of your own address books."
+msgstr ""
+
+#: js/contacts.js:425
+msgid "Permission error"
+msgstr ""
+
+#: js/contacts.js:763
 msgid "This property has to be non-empty."
 msgstr "Cette valeur ne doit pas être vide"
 
-#: js/contacts.js:742
+#: js/contacts.js:789
 msgid "Couldn't serialize elements."
-msgstr "Impossible de sérialiser les éléments"
+msgstr "Impossible de sérialiser les éléments."
 
-#: js/contacts.js:859 js/contacts.js:877
+#: js/contacts.js:921 js/contacts.js:939
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
 msgstr "'deleteProperty' a été appelé sans type d'arguments. Merci de rapporter un bug à bugs.owncloud.org"
 
-#: js/contacts.js:893
+#: js/contacts.js:958
 msgid "Edit name"
 msgstr "Éditer le nom"
 
-#: js/contacts.js:1173
+#: js/contacts.js:1250
 msgid "No files selected for upload."
 msgstr "Aucun fichiers choisis pour être chargés"
 
-#: js/contacts.js:1181
+#: js/contacts.js:1258
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Le fichier que vous tenter de charger dépasse la taille maximum de fichier autorisé sur ce serveur."
+msgstr "Le fichier que vous tentez de charger dépasse la taille maximum de fichier autorisée sur ce serveur."
 
-#: js/contacts.js:1245
+#: js/contacts.js:1322
 msgid "Error loading profile picture."
 msgstr "Erreur pendant le chargement de la photo de profil."
 
-#: js/contacts.js:1371 js/contacts.js:1412 js/contacts.js:1431
-#: js/contacts.js:1474
+#: js/contacts.js:1457 js/contacts.js:1498 js/contacts.js:1517
+#: js/contacts.js:1560
 msgid "Select type"
 msgstr "Sélectionner un type"
 
-#: js/contacts.js:1492
+#: js/contacts.js:1578
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
-msgstr "Certains contacts sont marqués pour être supprimés mais sont encore présents, veuillez attendre que l'opération se termine."
+msgstr "Certains contacts sont marqués pour être supprimés, mais ne le sont pas encore. Veuillez attendre que l'opération se termine."
 
-#: js/contacts.js:1563
+#: js/contacts.js:1649
 msgid "Do you want to merge these address books?"
 msgstr "Voulez-vous fusionner ces carnets d'adresses ?"
 
@@ -340,51 +341,51 @@ msgstr "Ce contact n'a pu être trouvé."
 
 #: lib/app.php:116
 msgid "Jabber"
-msgstr ""
+msgstr "Jabber"
 
 #: lib/app.php:121
 msgid "AIM"
-msgstr ""
+msgstr "Messagerie Instantanée"
 
 #: lib/app.php:126
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: lib/app.php:131
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #: lib/app.php:136
 msgid "GoogleTalk"
-msgstr ""
+msgstr "GoogleTalk"
 
 #: lib/app.php:141
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: lib/app.php:146
 msgid "XMPP"
-msgstr ""
+msgstr "XMPP"
 
 #: lib/app.php:151
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: lib/app.php:156
 msgid "Yahoo"
-msgstr ""
+msgstr "Yahoo"
 
 #: lib/app.php:161
 msgid "Skype"
-msgstr ""
+msgstr "Skype"
 
 #: lib/app.php:166
 msgid "QQ"
-msgstr ""
+msgstr "QQ"
 
 #: lib/app.php:171
 msgid "GaduGadu"
-msgstr ""
+msgstr "GaduGadu"
 
 #: lib/app.php:194 lib/app.php:202 lib/app.php:213 lib/app.php:266
 msgid "Work"
@@ -394,7 +395,7 @@ msgstr "Travail"
 msgid "Home"
 msgstr "Maison"
 
-#: lib/app.php:196 lib/app.php:209 lib/app.php:262 lib/vcard.php:584
+#: lib/app.php:196 lib/app.php:209 lib/app.php:262 lib/vcard.php:593
 msgid "Other"
 msgstr "Autre"
 
@@ -490,6 +491,14 @@ msgstr "Anniversaire de {name}"
 #: lib/search.php:15
 msgid "Contact"
 msgstr "Contact"
+
+#: lib/vcard.php:408
+msgid "You do not have the permissions to edit this contact."
+msgstr ""
+
+#: lib/vcard.php:483
+msgid "You do not have the permissions to delete this contact."
+msgstr ""
 
 #: templates/index.php:14
 msgid "Add Contact"
@@ -665,11 +674,11 @@ msgstr "Supprimer le numéro de téléphone"
 
 #: templates/part.contact.php:100
 msgid "Instant Messenger"
-msgstr ""
+msgstr "Instant Messenger"
 
 #: templates/part.contact.php:101
 msgid "Delete IM"
-msgstr ""
+msgstr "Supprimer la Messagerie Instantanée"
 
 #: templates/part.contact.php:110
 msgid "View on map"
@@ -697,7 +706,7 @@ msgstr "E-mail"
 
 #: templates/part.contact.php:131
 msgid "Instant Messaging"
-msgstr ""
+msgstr "Messagerie instantanée"
 
 #: templates/part.contact.php:132
 msgid "Address"
@@ -882,10 +891,6 @@ msgstr "Il n'y a pas de contact dans votre carnet d'adresses."
 msgid "Add contact"
 msgstr "Ajouter un contact"
 
-#: templates/part.no_contacts.php:6
-msgid "Configure addressbooks"
-msgstr "Paramétrer carnet d'adresses"
-
 #: templates/part.selectaddressbook.php:1
 msgid "Select Address Books"
 msgstr "Choix du carnet d'adresses"
@@ -924,7 +929,7 @@ msgstr "Afficher les liens VCF en lecture seule"
 
 #: templates/settings.php:26
 msgid "Share"
-msgstr ""
+msgstr "Partager"
 
 #: templates/settings.php:29
 msgid "Download"

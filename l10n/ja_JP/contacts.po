@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-23 02:03+0200\n"
-"PO-Revision-Date: 2012-08-23 00:03+0000\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-24 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgid "Error (de)activating addressbook."
 msgstr "アドレス帳の有効／無効化に失敗しました。"
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
-#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:32
 #: ajax/contact/saveproperty.php:39
 msgid "id is not set."
 msgstr "idが設定されていません。"
@@ -83,23 +83,15 @@ msgstr "重複する属性を追加: "
 
 #: ajax/contact/addproperty.php:115 ajax/contact/saveproperty.php:93
 msgid "Missing IM parameter."
-msgstr ""
+msgstr "IMのパラメータが不足しています。"
 
 #: ajax/contact/addproperty.php:119 ajax/contact/saveproperty.php:97
 msgid "Unknown IM: "
-msgstr ""
-
-#: ajax/contact/addproperty.php:158
-msgid "Error adding contact property: "
-msgstr "コンタクト属性の追加エラー: "
+msgstr "不明なIM:"
 
 #: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "vCardの情報に誤りがあります。ページをリロードして下さい。"
-
-#: ajax/contact/deleteproperty.php:44
-msgid "Error deleting contact property."
-msgstr "連絡先の削除に失敗しました。"
 
 #: ajax/contact/details.php:31
 msgid "Missing ID"
@@ -120,10 +112,6 @@ msgstr "vCardの情報が正しくありません。ページを再読み込み�
 #: ajax/contact/saveproperty.php:69
 msgid "Something went FUBAR. "
 msgstr "何かがFUBARへ移動しました。"
-
-#: ajax/contact/saveproperty.php:166
-msgid "Error updating contact property."
-msgstr "連絡先の更新に失敗しました。"
 
 #: ajax/currentphoto.php:30 ajax/oc_photo.php:28 ajax/uploadphoto.php:36
 #: ajax/uploadphoto.php:68
@@ -245,59 +233,71 @@ msgid "Couldn't get a valid address."
 msgstr "有効なアドレスを取得できませんでした。"
 
 #: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
-#: js/contacts.js:676 js/contacts.js:716 js/contacts.js:742 js/contacts.js:859
-#: js/contacts.js:865 js/contacts.js:877 js/contacts.js:911
-#: js/contacts.js:1173 js/contacts.js:1181 js/contacts.js:1190
-#: js/contacts.js:1225 js/contacts.js:1258 js/contacts.js:1270
-#: js/contacts.js:1293 js/contacts.js:1523 js/contacts.js:1558
-#: js/contacts.js:1578 js/settings.js:26 js/settings.js:43 js/settings.js:68
+#: js/contacts.js:723 js/contacts.js:763 js/contacts.js:789 js/contacts.js:921
+#: js/contacts.js:927 js/contacts.js:939 js/contacts.js:976
+#: js/contacts.js:1250 js/contacts.js:1258 js/contacts.js:1267
+#: js/contacts.js:1302 js/contacts.js:1338 js/contacts.js:1353
+#: js/contacts.js:1379 js/contacts.js:1609 js/contacts.js:1644
+#: js/contacts.js:1664 js/settings.js:26 js/settings.js:43 js/settings.js:68
 msgid "Error"
 msgstr "エラー"
 
-#: js/contacts.js:716
+#: js/contacts.js:424
+msgid "You do not have permission to add contacts to "
+msgstr ""
+
+#: js/contacts.js:425
+msgid "Please select one of your own address books."
+msgstr ""
+
+#: js/contacts.js:425
+msgid "Permission error"
+msgstr ""
+
+#: js/contacts.js:763
 msgid "This property has to be non-empty."
 msgstr "この属性は空にできません。"
 
-#: js/contacts.js:742
+#: js/contacts.js:789
 msgid "Couldn't serialize elements."
 msgstr "要素をシリアライズできませんでした。"
 
-#: js/contacts.js:859 js/contacts.js:877
+#: js/contacts.js:921 js/contacts.js:939
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
 msgstr "'deleteProperty' は型の引数無しで呼び出されました。bugs.owncloud.org へ報告してください。"
 
-#: js/contacts.js:893
+#: js/contacts.js:958
 msgid "Edit name"
 msgstr "名前を編集"
 
-#: js/contacts.js:1173
+#: js/contacts.js:1250
 msgid "No files selected for upload."
 msgstr "アップロードするファイルが選択されていません。"
 
-#: js/contacts.js:1181
+#: js/contacts.js:1258
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "アップロードしようとしているファイルは、このサーバの最大ファイルアップロードサイズを超えています。"
 
-#: js/contacts.js:1245
+#: js/contacts.js:1322
 msgid "Error loading profile picture."
 msgstr "プロファイルの画像の読み込みエラー"
 
-#: js/contacts.js:1371 js/contacts.js:1412 js/contacts.js:1431
-#: js/contacts.js:1474
+#: js/contacts.js:1457 js/contacts.js:1498 js/contacts.js:1517
+#: js/contacts.js:1560
 msgid "Select type"
 msgstr "タイプを選択"
 
-#: js/contacts.js:1492
+#: js/contacts.js:1578
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
 msgstr "いくつかのコンタクトが削除とマークされていますが、まだ削除されていません。削除するまでお待ちください。"
 
-#: js/contacts.js:1563
+#: js/contacts.js:1649
 msgid "Do you want to merge these address books?"
 msgstr "これらのアドレス帳をマージしてもよろしいですか？"
 
@@ -331,51 +331,51 @@ msgstr "連絡先を見つける事ができません。"
 
 #: lib/app.php:116
 msgid "Jabber"
-msgstr ""
+msgstr "Jabber"
 
 #: lib/app.php:121
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: lib/app.php:126
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: lib/app.php:131
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #: lib/app.php:136
 msgid "GoogleTalk"
-msgstr ""
+msgstr "Googleトーク"
 
 #: lib/app.php:141
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: lib/app.php:146
 msgid "XMPP"
-msgstr ""
+msgstr "XMPP"
 
 #: lib/app.php:151
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: lib/app.php:156
 msgid "Yahoo"
-msgstr ""
+msgstr "Yahoo"
 
 #: lib/app.php:161
 msgid "Skype"
-msgstr ""
+msgstr "Skype"
 
 #: lib/app.php:166
 msgid "QQ"
-msgstr ""
+msgstr "QQ"
 
 #: lib/app.php:171
 msgid "GaduGadu"
-msgstr ""
+msgstr "GaduGadu"
 
 #: lib/app.php:194 lib/app.php:202 lib/app.php:213 lib/app.php:266
 msgid "Work"
@@ -385,7 +385,7 @@ msgstr "勤務先"
 msgid "Home"
 msgstr "住居"
 
-#: lib/app.php:196 lib/app.php:209 lib/app.php:262 lib/vcard.php:584
+#: lib/app.php:196 lib/app.php:209 lib/app.php:262 lib/vcard.php:593
 msgid "Other"
 msgstr "その他"
 
@@ -481,6 +481,14 @@ msgstr "{name}の誕生日"
 #: lib/search.php:15
 msgid "Contact"
 msgstr "連絡先"
+
+#: lib/vcard.php:408
+msgid "You do not have the permissions to edit this contact."
+msgstr ""
+
+#: lib/vcard.php:483
+msgid "You do not have the permissions to delete this contact."
+msgstr ""
 
 #: templates/index.php:14
 msgid "Add Contact"
@@ -656,11 +664,11 @@ msgstr "電話番号を削除"
 
 #: templates/part.contact.php:100
 msgid "Instant Messenger"
-msgstr ""
+msgstr "インスタントメッセンジャー"
 
 #: templates/part.contact.php:101
 msgid "Delete IM"
-msgstr ""
+msgstr "IMを削除"
 
 #: templates/part.contact.php:110
 msgid "View on map"
@@ -688,7 +696,7 @@ msgstr "メールアドレス"
 
 #: templates/part.contact.php:131
 msgid "Instant Messaging"
-msgstr ""
+msgstr "インスタントメッセージ"
 
 #: templates/part.contact.php:132
 msgid "Address"
@@ -872,10 +880,6 @@ msgstr "アドレス帳に連絡先が登録されていません。"
 #: templates/part.no_contacts.php:5
 msgid "Add contact"
 msgstr "連絡先を追加"
-
-#: templates/part.no_contacts.php:6
-msgid "Configure addressbooks"
-msgstr "アドレス帳を設定"
 
 #: templates/part.selectaddressbook.php:1
 msgid "Select Address Books"

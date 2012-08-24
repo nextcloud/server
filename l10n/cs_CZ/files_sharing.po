@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Martin  <fireball@atlas.cz>, 2012.
+# Michal Hrušecký <Michal@hrusecky.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-23 02:03+0200\n"
-"PO-Revision-Date: 2012-08-23 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 19:58+0000\n"
+"Last-Translator: Michal Hrušecký <Michal@hrusecky.net>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,15 +21,15 @@ msgstr ""
 
 #: templates/get.php:4
 msgid "Size"
-msgstr ""
+msgstr "Velikost"
 
 #: templates/get.php:5
 msgid "Modified"
-msgstr ""
+msgstr "Upraveno"
 
 #: templates/get.php:5
 msgid "Delete all"
-msgstr ""
+msgstr "Smazat vše"
 
 #: templates/get.php:5
 msgid "Delete"

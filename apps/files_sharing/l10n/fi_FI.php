@@ -1,3 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Delete" => "Poisto"
+"Size" => "Koko",
+"Modified" => "Muokattu",
+"Delete all" => "Poista kaikki",
+"Delete" => "Poista"
 );

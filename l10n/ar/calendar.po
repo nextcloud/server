@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 09:47+0000\n"
+"Last-Translator: blackcoder <tarek.taha@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,19 +20,19 @@ msgstr ""
 
 #: ajax/cache/status.php:19
 msgid "Not all calendars are completely cached"
-msgstr ""
+msgstr "ليس جميع الجداول الزمنيه محفوضه مؤقة"
 
 #: ajax/cache/status.php:21
 msgid "Everything seems to be completely cached"
-msgstr ""
+msgstr "كل شيء محفوض مؤقة"
 
 #: ajax/categories/rescan.php:29
 msgid "No calendars found."
-msgstr ""
+msgstr "لم يتم العثور على جدول الزمني"
 
 #: ajax/categories/rescan.php:37
 msgid "No events found."
-msgstr ""
+msgstr "لم يتم العثور على احداث"
 
 #: ajax/event/edit.form.php:20
 msgid "Wrong calendar"
@@ -68,34 +68,34 @@ msgstr "تم تغيير المنطقة الزمنية"
 msgid "Invalid request"
 msgstr "طلب غير مفهوم"
 
-#: appinfo/app.php:35 templates/calendar.php:15
+#: appinfo/app.php:37 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:33
 msgid "Calendar"
 msgstr "الجدول الزمني"
 
 #: js/calendar.js:832
 msgid "ddd"
-msgstr ""
+msgstr "ddd"
 
 #: js/calendar.js:833
 msgid "ddd M/d"
-msgstr ""
+msgstr "ddd M/d"
 
 #: js/calendar.js:834
 msgid "dddd M/d"
-msgstr ""
+msgstr "ddd M/d"
 
 #: js/calendar.js:837
 msgid "MMMM yyyy"
-msgstr ""
+msgstr "ddd M/d"
 
 #: js/calendar.js:839
 msgid "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
-msgstr ""
+msgstr "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
 
 #: js/calendar.js:841
 msgid "dddd, MMM d, yyyy"
-msgstr ""
+msgstr "dddd, MMM d, yyyy"
 
 #: lib/app.php:121
 msgid "Birthday"
@@ -159,11 +159,11 @@ msgstr "العمل"
 
 #: lib/app.php:351 lib/app.php:361
 msgid "by"
-msgstr ""
+msgstr "من قبل"
 
 #: lib/app.php:359 lib/app.php:399
 msgid "unnamed"
-msgstr ""
+msgstr "غير مسمى"
 
 #: lib/import.php:184 templates/calendar.php:12
 #: templates/part.choosecalendar.php:22
@@ -348,51 +348,51 @@ msgstr "تقويم"
 
 #: templates/calendar.php:6
 msgid "Sun."
-msgstr ""
+msgstr "أحد"
 
 #: templates/calendar.php:6
 msgid "Mon."
-msgstr ""
+msgstr "أثن."
 
 #: templates/calendar.php:6
 msgid "Tue."
-msgstr ""
+msgstr "ثلا."
 
 #: templates/calendar.php:6
 msgid "Wed."
-msgstr ""
+msgstr "أرب."
 
 #: templates/calendar.php:6
 msgid "Thu."
-msgstr ""
+msgstr "خمي."
 
 #: templates/calendar.php:6
 msgid "Fri."
-msgstr ""
+msgstr "جمع."
 
 #: templates/calendar.php:6
 msgid "Sat."
-msgstr ""
+msgstr "سبت"
 
 #: templates/calendar.php:8
 msgid "Jan."
-msgstr ""
+msgstr "ك2"
 
 #: templates/calendar.php:8
 msgid "Feb."
-msgstr ""
+msgstr "شبا."
 
 #: templates/calendar.php:8
 msgid "Mar."
-msgstr ""
+msgstr "آذا."
 
 #: templates/calendar.php:8
 msgid "Apr."
-msgstr ""
+msgstr "نيس."
 
 #: templates/calendar.php:8
 msgid "May."
-msgstr ""
+msgstr "أيا."
 
 #: templates/calendar.php:8
 msgid "Jun."
@@ -481,7 +481,7 @@ msgstr ""
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
-msgstr ""
+msgstr "جداولك الزمنيه"
 
 #: templates/part.choosecalendar.php:27
 #: templates/part.choosecalendar.rowfields.php:11
@@ -490,15 +490,15 @@ msgstr "وصلة CalDav"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr ""
+msgstr "جداول زمنيه مشتركه"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr ""
+msgstr "لا يوجد جداول زمنيه مشتركه"
 
 #: templates/part.choosecalendar.rowfields.php:8
 msgid "Share Calendar"
-msgstr ""
+msgstr "شارك الجدول الزمني"
 
 #: templates/part.choosecalendar.rowfields.php:14
 msgid "Download"
@@ -515,7 +515,7 @@ msgstr "حذف"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr ""
+msgstr "مشاركه من قبل"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -560,23 +560,23 @@ msgstr "تصدير المعلومات"
 
 #: templates/part.eventform.php:8 templates/part.showevent.php:3
 msgid "Eventinfo"
-msgstr ""
+msgstr "تفاصيل الحدث"
 
 #: templates/part.eventform.php:9 templates/part.showevent.php:4
 msgid "Repeating"
-msgstr ""
+msgstr "يعاد"
 
 #: templates/part.eventform.php:10 templates/part.showevent.php:5
 msgid "Alarm"
-msgstr ""
+msgstr "تنبيه"
 
 #: templates/part.eventform.php:11 templates/part.showevent.php:6
 msgid "Attendees"
-msgstr ""
+msgstr "الحضور"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr ""
+msgstr "شارك"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"
@@ -588,11 +588,11 @@ msgstr "فئة"
 
 #: templates/part.eventform.php:29
 msgid "Separate categories with commas"
-msgstr ""
+msgstr "افصل الفئات بالفواصل"
 
 #: templates/part.eventform.php:30
 msgid "Edit categories"
-msgstr ""
+msgstr "عدل الفئات"
 
 #: templates/part.eventform.php:56 templates/part.showevent.php:52
 msgid "All Day Event"
@@ -715,19 +715,19 @@ msgstr "إضافة حدث جديد"
 
 #: templates/part.showevent.php:1
 msgid "View an event"
-msgstr ""
+msgstr "شاهد الحدث"
 
 #: templates/part.showevent.php:23
 msgid "No categories selected"
-msgstr ""
+msgstr "لم يتم اختيار الفئات"
 
 #: templates/part.showevent.php:37
 msgid "of"
-msgstr ""
+msgstr "من"
 
 #: templates/part.showevent.php:59 templates/part.showevent.php:67
 msgid "at"
-msgstr ""
+msgstr "في"
 
 #: templates/settings.php:10
 msgid "General"
@@ -791,24 +791,24 @@ msgstr ""
 
 #: templates/share.dropdown.php:20
 msgid "Users"
-msgstr ""
+msgstr "المستخدمين"
 
 #: templates/share.dropdown.php:21
 msgid "select users"
-msgstr ""
+msgstr "اختر المستخدمين"
 
 #: templates/share.dropdown.php:36 templates/share.dropdown.php:62
 msgid "Editable"
-msgstr ""
+msgstr "يمكن تعديله"
 
 #: templates/share.dropdown.php:48
 msgid "Groups"
-msgstr ""
+msgstr "مجموعات"
 
 #: templates/share.dropdown.php:49
 msgid "select groups"
-msgstr ""
+msgstr "اختر المجموعات"
 
 #: templates/share.dropdown.php:75
 msgid "make public"
-msgstr ""
+msgstr "حدث عام"

@@ -32,6 +32,7 @@
 "Organization" => "Organizacija",
 "Delete" => "Trinti",
 "Nickname" => "Slapyvardis",
+"Enter nickname" => "Įveskite slapyvardį",
 "Phone" => "Telefonas",
 "Email" => "El. paštas",
 "Address" => "Adresas",

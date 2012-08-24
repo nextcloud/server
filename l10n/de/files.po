@@ -12,13 +12,14 @@
 # Phi Lieb <>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 # Thomas Müller <>, 2012.
+#   <transifex.3.mensaje@spamgourmet.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 09:11+0000\n"
+"Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,7 +55,7 @@ msgstr "Temporärer Ordner fehlt."
 
 #: ajax/upload.php:26
 msgid "Failed to write to disk"
-msgstr "Fehler beim Schreiben auf Festplatte"
+msgstr "Fehler beim Schreiben auf die Festplatte"
 
 #: appinfo/app.php:6
 msgid "Files"
@@ -98,7 +99,7 @@ msgstr "Erstelle ZIP-Datei. Dies kann eine Weile dauern."
 
 #: js/files.js:200
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Datei kann nicht hochgeladen werden da sie ein Verzeichnis ist oder 0 Bytes hat."
+msgstr "Ihre Datei kann nicht hochgeladen werden, da sie ein Verzeichnis ist oder 0 Bytes hat."
 
 #: js/files.js:200
 msgid "Upload Error"
@@ -220,7 +221,7 @@ msgstr "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Serv
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr "Daten werden gescannt, bitte warten."
+msgstr "Dateien werden gescannt, bitte warten."
 
 #: templates/index.php:74
 msgid "Current scanning"
