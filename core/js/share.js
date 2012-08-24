@@ -30,6 +30,34 @@ OC.Share={
 			}
 		});
 	},
+	updateIcon:function(itemType, itemSource) {
+		if (itemType == 'file' || itemType == 'folder') {
+			var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
+			if ($('#dir').val() == '/') {
+				itemSource = $('#dir').val() + filename;
+			} else {
+				itemSource = $('#dir').val() + '/' + filename;
+			}
+		}
+		var shares = false;
+		$.each(OC.Share.itemShares, function(index) {
+			if (OC.Share.itemShares[index].length > 0) {
+				shares = true;
+				return;
+			}
+		});
+		if (shares) {
+			$('a.share[data-item="'+itemSource+'"]').css('background', 'url('+OC.imagePath('core', 'actions/shared')+') no-repeat center');
+			if (typeof OC.Share.statuses[itemSource] === 'undefined') {
+				OC.Share.statuses[itemSource] = false;
+			}
+		} else {
+			if (itemType != 'file' && itemType != 'folder') {
+				$('a.share[data-item="'+itemSource+'"]').css('background', 'url('+OC.imagePath('core', 'actions/share')+') no-repeat center');
+			}
+			delete OC.Share.statuses[itemSource];
+		}
+	},
 	loadItem:function(itemType, itemSource) {
 		var data = '';
 		var checkReshare = true;
@@ -122,7 +150,6 @@ OC.Share={
 						OC.Share.showPrivateLink(item, share.share_with);
 					} else {
 						OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions);
-						
 					}
 				});
 			}
@@ -149,14 +176,17 @@ OC.Share={
 				event.preventDefault();
 			},
 			select: function(event, selected) {
+				var itemType = $('#dropdown').data('item-type');
+				var itemSource = $('#dropdown').data('item-source');
 				var shareType = selected.item.value.shareType;
 				var shareWith = selected.item.value.shareWith;
 				$(this).val(shareWith);
 				// Default permissions are Read and Share
 				var permissions = OC.Share.PERMISSION_READ | OC.Share.PERMISSION_SHARE;
-				OC.Share.share($('#dropdown').data('item-type'), $('#dropdown').data('item-source'), shareType, shareWith, permissions, function() {
+				OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, function() {
 					OC.Share.addShareWith(shareType, shareWith, permissions, possiblePermissions);
 					$('#shareWith').val('');
+					OC.Share.updateIcon(itemType, itemSource);
 				});
 				return false;
 			}
@@ -327,12 +357,15 @@ $(document).ready(function() {
 
 	$('.unshare').live('click', function() {
 		var li = $(this).parent();
+		var itemType = $('#dropdown').data('item-type');
+		var itemSource = $('#dropdown').data('item-source');
 		var shareType = $(li).data('share-type');
 		var shareWith = $(li).data('share-with');
-		OC.Share.unshare($('#dropdown').data('item-type'), $('#dropdown').data('item-source'), shareType, shareWith, function() {
+		OC.Share.unshare(itemType, itemSource, shareType, shareWith, function() {
 			$(li).remove();
 			var index = OC.Share.itemShares[shareType].indexOf(shareWith);
 			OC.Share.itemShares[shareType].splice(index, 1);
+			OC.Share.updateIcon(itemType, itemSource);
 		});
 	});
 
