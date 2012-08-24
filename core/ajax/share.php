@@ -56,9 +56,13 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			}
 			break;
 		case 'getItem':
-			if (isset($_GET['itemType']) && isset($_GET['itemSource']) && isset($_GET['checkShares'])) {
-				$reshare = OCP\Share::getItemSharedWithBySource($_GET['itemType'], $_GET['itemSource'], OCP\Share::FORMAT_NONE, null, true);
-				if ($_GET['checkShares'] == "true") {
+			if (isset($_GET['itemType']) && isset($_GET['itemSource']) && isset($_GET['checkReshare']) && isset($_GET['checkShares'])) {
+				if ($_GET['checkReshare'] == 'true') {
+					$reshare = OCP\Share::getItemSharedWithBySource($_GET['itemType'], $_GET['itemSource'], OCP\Share::FORMAT_NONE, null, true);
+				} else {
+					$reshare = false;
+				}
+				if ($_GET['checkShares'] == 'true') {
 					$shares = OCP\Share::getItemShared($_GET['itemType'], $_GET['itemSource']);
 				} else {
 					$shares = false;

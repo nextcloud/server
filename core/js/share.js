@@ -32,6 +32,7 @@ OC.Share={
 	},
 	loadItem:function(itemType, itemSource) {
 		var data = '';
+		var checkReshare = true;
 		// Switch file sources to path to check if status is set
 		if (itemType == 'file' || itemType == 'folder') {
 			var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
@@ -39,6 +40,9 @@ OC.Share={
 				var item = $('#dir').val() + filename;
 			} else {
 				var item = $('#dir').val() + '/' + filename;
+			}
+			if (item.substring(0, 8) != '/Shared/') {
+				checkReshare = false;
 			}
 		} else {
 			var item = itemSource;
@@ -48,7 +52,7 @@ OC.Share={
 		} else {
 			checkShares = true;
 		}
-		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, itemSource: itemSource, checkShares: checkShares }, async: false, success: function(result) {
+		$.ajax({type: 'GET', url: OC.filePath('core', 'ajax', 'share.php'), data: { fetch: 'getItem', itemType: itemType, itemSource: itemSource, checkReshare: checkReshare, checkShares: checkShares }, async: false, success: function(result) {
 			if (result && result.status === 'success') {
 				data = result.data;
 			} else {
