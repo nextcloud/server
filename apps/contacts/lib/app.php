@@ -10,7 +10,6 @@
  * This class manages our app actions
  */
 OC_Contacts_App::$l10n = OC_L10N::get('contacts');
-OC_Contacts_App::$categories = new OC_VCategories('contacts');
 class OC_Contacts_App {
 	/*
 	 * @brief language object for calendar app
@@ -23,17 +22,39 @@ class OC_Contacts_App {
 	public static $categories = null;
 
 	public static function getAddressbook($id) {
+		// TODO: Throw an exception instead of returning json.
 		$addressbook = OC_Contacts_Addressbook::find( $id );
-		if( $addressbook === false || $addressbook['userid'] != OCP\USER::getUser()) {
+		if($addressbook === false || $addressbook['userid'] != OCP\USER::getUser()) {
 			if ($addressbook === false) {
-				OCP\Util::writeLog('contacts', 'Addressbook not found: '. $id, OCP\Util::ERROR);
-				OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('Addressbook not found.'))));
+				OCP\Util::writeLog('contacts',
+					'Addressbook not found: '. $id,
+					OCP\Util::ERROR);
+				//throw new Exception('Addressbook not found: '. $id);
+				OCP\JSON::error(
+					array(
+						'data' => array(
+							'message' => self::$l10n->t('Addressbook not found: ' . $id)
+						)
+					)
+				);
+			} else {
+				$sharedAddressbook = OCP\Share::getItemSharedWithBySource('addressbook', $id, OC_Share_Backend_Addressbook::FORMAT_ADDRESSBOOKS);
+				if ($sharedAddressbook) {
+					return $sharedAddressbook;
+				} else {
+					OCP\Util::writeLog('contacts',
+						'Addressbook('.$id.') is not from '.OCP\USER::getUser(),
+						OCP\Util::ERROR);
+					//throw new Exception('This is not your addressbook.');
+					OCP\JSON::error(
+						array(
+							'data' => array(
+								'message' => self::$l10n->t('This is not your addressbook.')
+							)
+						)
+					);
+				}
 			}
-			else {
-				OCP\Util::writeLog('contacts', 'Addressbook('.$id.') is not from '.OCP\USER::getUser(), OCP\Util::ERROR);
-				OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('This is not your addressbook.'))));
-			}
-			exit();
 		}
 		return $addressbook;
 	}
@@ -41,8 +62,17 @@ class OC_Contacts_App {
 	public static function getContactObject($id) {
 		$card = OC_Contacts_VCard::find( $id );
 		if( $card === false ) {
-			OCP\Util::writeLog('contacts', 'Contact could not be found: '.$id, OCP\Util::ERROR);
-			OCP\JSON::error(array('data' => array( 'message' => self::$l10n->t('Contact could not be found.').' '.$id)));
+			OCP\Util::writeLog('contacts',
+				'Contact could not be found: '.$id,
+				OCP\Util::ERROR);
+			OCP\JSON::error(
+				array(
+					'data' => array(
+						'message' => self::$l10n->t('Contact could not be found.')
+							.' '.print_r($id, true)
+					)
+				)
+			);
 			exit();
 		}
 
@@ -58,22 +88,6 @@ class OC_Contacts_App {
 		$card = self::getContactObject( $id );
 
 		$vcard = OC_VObject::parse($card['carddata']);
-		// Try to fix cards with missing 'N' field from pre ownCloud 4. Hot damn, this is ugly...
-		if(!is_null($vcard) && !$vcard->__isset('N')) {
-			$version = OCP\App::getAppVersion('contacts');
-			if($version >= 5) {
-				OCP\Util::writeLog('contacts','OC_Contacts_App::getContactVCard. Deprecated check for missing N field', OCP\Util::DEBUG);
-			}
-			OCP\Util::writeLog('contacts','getContactVCard, Missing N field', OCP\Util::DEBUG);
-			if($vcard->__isset('FN')) {
-				OCP\Util::writeLog('contacts','getContactVCard, found FN field: '.$vcard->__get('FN'), OCP\Util::DEBUG);
-				$n = implode(';', array_reverse(array_slice(explode(' ', $vcard->__get('FN')), 0, 2))).';;;';
-				$vcard->setString('N', $n);
-				OC_Contacts_VCard::edit( $id, $vcard);
-			} else { // Else just add an empty 'N' field :-P
-				$vcard->setString('N', 'Unknown;Name;;;');
-			}
-		}
 		if (!is_null($vcard) && !isset($vcard->REV)) {
 			$rev = new DateTime('@'.$card['lastmodified']);
 			$vcard->setString('REV', $rev->format(DateTime::W3C));
@@ -95,14 +109,77 @@ class OC_Contacts_App {
 	/**
 	 * @return array of vcard prop => label
 	 */
-	public static function getAddPropertyOptions() {
+	public static function getIMOptions($im = null) {
 		$l10n = self::$l10n;
-		return array(
-				'ADR'   => $l10n->t('Address'),
-				'TEL'   => $l10n->t('Telephone'),
-				'EMAIL' => $l10n->t('Email'),
-				'ORG'   => $l10n->t('Organization'),
-		     );
+		$ims = array(
+				'jabber' => array(
+					'displayname' => (string)$l10n->t('Jabber'),
+					'xname' => 'X-JABBER',
+					'protocol' => 'xmpp',
+				),
+				'aim' => array(
+					'displayname' => (string)$l10n->t('AIM'),
+					'xname' => 'X-AIM',
+					'protocol' => 'aim',
+				),
+				'msn' => array(
+					'displayname' => (string)$l10n->t('MSN'),
+					'xname' => 'X-MSN',
+					'protocol' => 'msn',
+				),
+				'twitter' => array(
+					'displayname' => (string)$l10n->t('Twitter'),
+					'xname' => 'X-TWITTER',
+					'protocol' => null,
+				),
+				'googletalk' => array(
+					'displayname' => (string)$l10n->t('GoogleTalk'),
+					'xname' => null,
+					'protocol' => 'xmpp',
+				),
+				'facebook' => array(
+					'displayname' => (string)$l10n->t('Facebook'),
+					'xname' => null,
+					'protocol' => 'xmpp',
+				),
+				'xmpp' => array(
+					'displayname' => (string)$l10n->t('XMPP'),
+					'xname' => null,
+					'protocol' => 'xmpp',
+				),
+				'icq' => array(
+					'displayname' => (string)$l10n->t('ICQ'),
+					'xname' => 'X-ICQ',
+					'protocol' => 'icq',
+				),
+				'yahoo' => array(
+					'displayname' => (string)$l10n->t('Yahoo'),
+					'xname' => 'X-YAHOO',
+					'protocol' => 'ymsgr',
+				),
+				'skype' => array(
+					'displayname' => (string)$l10n->t('Skype'),
+					'xname' => 'X-SKYPE',
+					'protocol' => 'skype',
+				),
+				'qq' => array(
+					'displayname' => (string)$l10n->t('QQ'),
+					'xname' => 'X-SKYPE',
+					'protocol' => 'x-apple',
+				),
+				'gadugadu' => array(
+					'displayname' => (string)$l10n->t('GaduGadu'),
+					'xname' => 'X-SKYPE',
+					'protocol' => 'x-apple',
+				),
+		);
+		if(is_null($im)) {
+			return $ims;
+		} else {
+			$ims['ymsgr'] = $ims['yahoo'];
+			$ims['gtalk'] = $ims['googletalk'];
+			return isset($ims[$im]) ? $ims[$im] : null;
+		}
 	}
 
 	/**
@@ -111,54 +188,83 @@ class OC_Contacts_App {
 	public static function getTypesOfProperty($prop) {
 		$l = self::$l10n;
 		switch($prop) {
-		case 'ADR':
-			return array(
-				'WORK' => $l->t('Work'),
-				'HOME' => $l->t('Home'),
-			);
-		case 'TEL':
-			return array(
-				'HOME'  =>  $l->t('Home'),
-				'CELL'  =>  $l->t('Mobile'),
-				'WORK'  =>  $l->t('Work'),
-				'TEXT'  =>  $l->t('Text'),
-				'VOICE' =>  $l->t('Voice'),
-				'MSG'   =>  $l->t('Message'),
-				'FAX'   =>  $l->t('Fax'),
-				'VIDEO' =>  $l->t('Video'),
-				'PAGER' =>  $l->t('Pager'),
-			);
-		case 'EMAIL':
-			return array(
-				'WORK' => $l->t('Work'),
-				'HOME' => $l->t('Home'),
-				'INTERNET' => $l->t('Internet'),
-			);
+			case 'ADR':
+			case 'IMPP':
+				return array(
+					'WORK' => $l->t('Work'),
+					'HOME' => $l->t('Home'),
+					'OTHER' =>  $l->t('Other'),
+				);
+			case 'TEL':
+				return array(
+					'HOME'  =>  $l->t('Home'),
+					'CELL'  =>  $l->t('Mobile'),
+					'WORK'  =>  $l->t('Work'),
+					'TEXT'  =>  $l->t('Text'),
+					'VOICE' =>  $l->t('Voice'),
+					'MSG'   =>  $l->t('Message'),
+					'FAX'   =>  $l->t('Fax'),
+					'VIDEO' =>  $l->t('Video'),
+					'PAGER' =>  $l->t('Pager'),
+					'OTHER' =>  $l->t('Other'),
+				);
+			case 'EMAIL':
+				return array(
+					'WORK' => $l->t('Work'),
+					'HOME' => $l->t('Home'),
+					'INTERNET' => $l->t('Internet'),
+				);
 		}
 	}
 
-	/*
+	/**
 	 * @brief returns the vcategories object of the user
 	 * @return (object) $vcategories
 	 */
 	protected static function getVCategories() {
 		if (is_null(self::$categories)) {
-			self::$categories = new OC_VCategories('contacts');
+			self::$categories = new OC_VCategories('contacts',
+				null,
+				self::getDefaultCategories());
 		}
 		return self::$categories;
 	}
-	
-	/*
+
+	/**
 	 * @brief returns the categories for the user
 	 * @return (Array) $categories
 	 */
 	public static function getCategories() {
-		$categories = self::$categories->categories();
+		$categories = self::getVCategories()->categories();
 		if(count($categories) == 0) {
 			self::scanCategories();
 			$categories = self::$categories->categories();
 		}
-		return $categories;
+		return ($categories ? $categories : self::getDefaultCategories());
+	}
+
+	/**
+	 * @brief returns the default categories of ownCloud
+	 * @return (array) $categories
+	 */
+	public static function getDefaultCategories(){
+		return array(
+			(string)self::$l10n->t('Birthday'),
+			(string)self::$l10n->t('Business'),
+			(string)self::$l10n->t('Call'),
+			(string)self::$l10n->t('Clients'),
+			(string)self::$l10n->t('Deliverer'),
+			(string)self::$l10n->t('Holidays'),
+			(string)self::$l10n->t('Ideas'),
+			(string)self::$l10n->t('Journey'),
+			(string)self::$l10n->t('Jubilee'),
+			(string)self::$l10n->t('Meeting'),
+			(string)self::$l10n->t('Other'),
+			(string)self::$l10n->t('Personal'),
+			(string)self::$l10n->t('Projects'),
+			(string)self::$l10n->t('Questions'),
+			(string)self::$l10n->t('Work'),
+		);
 	}
 
 	/**
@@ -173,16 +279,25 @@ class OC_Contacts_App {
 				foreach($vcaddressbooks as $vcaddressbook) {
 					$vcaddressbookids[] = $vcaddressbook['id'];
 				}
-				$vccontacts = OC_Contacts_VCard::all($vcaddressbookids);
+				$start = 0;
+				$batchsize = 10;
+				while($vccontacts =
+					OC_Contacts_VCard::all($vcaddressbookids, $start, $batchsize)) {
+					$cards = array();
+					foreach($vccontacts as $vccontact) {
+						$cards[] = $vccontact['carddata'];
+					}
+					OCP\Util::writeLog('contacts',
+						__CLASS__.'::'.__METHOD__
+							.', scanning: '.$batchsize.' starting from '.$start,
+						OCP\Util::DEBUG);
+					// only reset on first batch.
+					self::getVCategories()->rescan($cards,
+						true,
+						($start == 0 ? true : false));
+					$start += $batchsize;
+				}
 			}
-		}
-		if(is_array($vccontacts) && count($vccontacts) > 0) {
-			$cards = array();
-			foreach($vccontacts as $vccontact) {
-				$cards[] = $vccontact['carddata'];
-			}
-
-			self::$categories->rescan($cards);
 		}
 	}
 
@@ -192,6 +307,18 @@ class OC_Contacts_App {
 	 */
 	public static function loadCategoriesFromVCard(OC_VObject $contact) {
 		self::getVCategories()->loadFromVObject($contact, true);
+	}
+
+	/**
+	 * @brief Get the last modification time.
+	 * @param $vcard OC_VObject
+	 * $return DateTime | null
+	 */
+	public static function lastModified($vcard) {
+		$rev = $vcard->getAsString('REV');
+		if ($rev) {
+			return DateTime::createFromFormat(DateTime::W3C, $rev);
+		}
 	}
 
 	public static function setLastModifiedHeader($contact) {

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+	 <name>*dbname*</name>
+	 <create>true</create>
+	 <overwrite>false</overwrite>
+	 <charset>utf8</charset>
+	 <table>
+		<name>*dbprefix*sharing_log</name>
+		<declaration>
+			<field>
+				<name>user_id</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>source</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>128</length>
+			</field>
+			<field>
+				<name>uid_who</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>when</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+			<field>
+				<name>mode</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+		</declaration>
+	</table>
+</database>

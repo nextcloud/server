@@ -1,7 +1,7 @@
 <?php
 class OC_Search_Provider_Calendar extends OC_Search_Provider{
 	function search($query){
-		$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), 1);
+		$calendars = OC_Calendar_Calendar::allCalendars(OCP\USER::getUser(), true);
 		if(count($calendars)==0 || !OCP\App::isEnabled('calendar')){
 			//return false;
 		}
@@ -12,7 +12,7 @@ class OC_Search_Provider_Calendar extends OC_Search_Provider{
 		}else{
 			$searchquery[] = $query;
 		}
-		$user_timezone = OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+		$user_timezone = OC_Calendar_App::getTimezone();
 		$l = new OC_l10n('calendar');
 		foreach($calendars as $calendar){
 			$objects = OC_Calendar_Object::all($calendar['id']);

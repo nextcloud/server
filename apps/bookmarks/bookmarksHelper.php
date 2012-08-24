@@ -90,7 +90,8 @@ function addBookmark($url, $title, $tags='') {
 	
 	if(empty($title)) {
 		$metadata = getURLMetadata($url);
-		$title = $metadata['title'];
+		if(isset($metadata['title'])) // Check for problems fetching the title
+			$title = $metadata['title'];
 	}
 	
 	if(empty($title)) {

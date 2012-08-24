@@ -28,7 +28,6 @@ if(!is_array($config) or !isset($config['google']) or !$config['google']['run'])
 	class Test_Filestorage_Google extends Test_FileStorage {
 		
 		private $config;
-		private $id;
 
 		public function setUp(){
 			$id=uniqid();

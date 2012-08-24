@@ -1,0 +1,33 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Xosé M. Lamas <correo.xmgz@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-13 23:12+0200\n"
+"PO-Revision-Date: 2012-08-13 06:27+0000\n"
+"Last-Translator: Xosé M. Lamas <correo.xmgz@gmail.com>\n"
+"Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: gl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: templates/settings.php:3
+msgid "Export this ownCloud instance"
+msgstr "Exporta esta instancia de ownCloud"
+
+#: templates/settings.php:4
+msgid ""
+"This will create a compressed file that contains the data of this owncloud instance.\n"
+"            Please choose the export type:"
+msgstr "Esto creará un ficheiro comprimido que contén os datos de esta instancia de ownCloud.\nPor favor escolla o modo de exportación:"
+
+#: templates/settings.php:12
+msgid "Export"
+msgstr "Exportar"

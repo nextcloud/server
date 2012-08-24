@@ -7,14 +7,14 @@
  */
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
-$view = $_GET['v'];
+$view = $_POST['v'];
 switch($view){
 	case 'agendaWeek':
 	case 'month';
 	case 'list':
 		break;
 	default:
-		OCP\JSON::error(array('message'=>'unexspected parameter: ' . $view));
+		OCP\JSON::error(array('message'=>'unexpected parameter: ' . $view));
 		exit;
 }
 OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'currentview', $view);

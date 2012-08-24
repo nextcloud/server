@@ -21,26 +21,14 @@
 * 
 */
 
-//we need to have the sha256 hash of passwords for ampache
-OCP\Util::connectHook('OC_User','post_login','OC_MEDIA','loginListener');
-
-//connect to the filesystem for auto updating
-OCP\Util::connectHook('OC_Filesystem','post_write','OC_MEDIA','updateFile');
-
-//listen for file deletions to clean the database if a song is deleted
-OCP\Util::connectHook('OC_Filesystem','post_delete','OC_MEDIA','deleteFile');
-
-//list for file moves to update the database
-OCP\Util::connectHook('OC_Filesystem','post_rename','OC_MEDIA','moveFile');
-
 class OC_MEDIA{
 	/**
 	 * get the sha256 hash of the password needed for ampache
 	 * @param array $params, parameters passed from OC_Hook
 	 */
 	public static function loginListener($params){
-		if(isset($_POST['user']) and $_POST['password']){
-			$name=$_POST['user'];
+		if(isset($params['uid']) and $params['password']){
+			$name=$params['uid'];
 			$query=OCP\DB::prepare("SELECT `user_id` from `*PREFIX*media_users` WHERE `user_id` LIKE ?");
 			$uid=$query->execute(array($name))->fetchAll();
 			if(count($uid)==0){

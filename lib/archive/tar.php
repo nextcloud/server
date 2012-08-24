@@ -56,14 +56,21 @@ class OC_Archive_TAR extends OC_Archive{
 	 * @return bool
 	 */
 	function addFolder($path){
-		$tmpBase=get_temp_dir().'/';
+		$tmpBase=OC_Helper::tmpFolder();
 		if(substr($path,-1,1)!='/'){
 			$path.='/';
 		}
 		if($this->fileExists($path)){
 			return false;
 		}
-		mkdir($tmpBase.$path);
+		$parts=explode('/',$path);
+		$folder=$tmpBase;
+		foreach($parts as $part){
+			$folder.='/'.$part;
+			if(!is_dir($folder)){
+				mkdir($folder);
+			}
+		}
 		$result=$this->tar->addModify(array($tmpBase.$path),'',$tmpBase);
 		rmdir($tmpBase.$path);
 		$this->fileList=false;
@@ -79,7 +86,7 @@ class OC_Archive_TAR extends OC_Archive{
 		if($this->fileExists($path)){
 			$this->remove($path);
 		}
-		if(file_exists($source)){
+		if($source and $source[0]=='/' and file_exists($source)){
 			$header=array();
 			$dummy='';
 			$this->tar->_openAppend();

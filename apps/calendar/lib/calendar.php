@@ -5,23 +5,10 @@
  * later.
  * See the COPYING-README file.
  */
-/*
+/**
  *
  * The following SQL statement is just a help for developers and will not be
  * executed!
- *
- * CREATE TABLE calendar_objects (
- *     id INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
- *     calendarid INTEGER UNSIGNED NOT NULL,
- *     objecttype VARCHAR(40) NOT NULL,
- *     startdate DATETIME,
- *     enddate DATETIME,
- *     repeating INT(1),
- *     summary VARCHAR(255),
- *     calendardata TEXT,
- *     uri VARCHAR(100),
- *     lastmodified INT(11)
- * );
  *
  * CREATE TABLE calendar_calendars (
  *     id INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -35,6 +22,7 @@
  *     timezone TEXT,
  *     components VARCHAR(20)
  * );
+ *
  */
 
 /**
@@ -44,10 +32,10 @@ class OC_Calendar_Calendar{
 	/**
 	 * @brief Returns the list of calendars for a specific user.
 	 * @param string $uid User ID
-	 * @param boolean $active Only return calendars with this $active state, default(=null) is don't care
+	 * @param boolean $active Only return calendars with this $active state, default(=false) is don't care
 	 * @return array
 	 */
-	public static function allCalendars($uid, $active=null){
+	public static function allCalendars($uid, $active=false){
 		$values = array($uid);
 		$active_where = '';
 		if (!is_null($active) && $active){
@@ -109,7 +97,10 @@ class OC_Calendar_Calendar{
 		$stmt = OCP\DB::prepare( 'INSERT INTO `*PREFIX*calendar_calendars` (`userid`,`displayname`,`uri`,`ctag`,`calendarorder`,`calendarcolor`,`timezone`,`components`) VALUES(?,?,?,?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OCP\DB::insertid('*PREFIX*calendar_calendars');
+		$insertid = OCP\DB::insertid('*PREFIX*calendar_calendars');
+		OCP\Util::emitHook('OC_Calendar', 'addCalendar', $insertid);
+
+		return $insertid;
 	}
 
 	/**
@@ -129,7 +120,10 @@ class OC_Calendar_Calendar{
 		$stmt = OCP\DB::prepare( 'INSERT INTO `*PREFIX*calendar_calendars` (`userid`,`displayname`,`uri`,`ctag`,`calendarorder`,`calendarcolor`,`timezone`,`components`) VALUES(?,?,?,?,?,?,?,?)' );
 		$result = $stmt->execute(array($userid,$name,$uri,1,$order,$color,$timezone,$components));
 
-		return OCP\DB::insertid('*PREFIX*calendar_calendars');
+		$insertid = OCP\DB::insertid('*PREFIX*calendar_calendars');
+		OCP\Util::emitHook('OC_Calendar', 'addCalendar', $insertid);
+
+		return $insertid;
 	}
 
 	/**
@@ -158,6 +152,7 @@ class OC_Calendar_Calendar{
 		$stmt = OCP\DB::prepare( 'UPDATE `*PREFIX*calendar_calendars` SET `displayname`=?,`calendarorder`=?,`calendarcolor`=?,`timezone`=?,`components`=?,`ctag`=`ctag`+1 WHERE `id`=?' );
 		$result = $stmt->execute(array($name,$order,$color,$timezone,$components,$id));
 
+		OCP\Util::emitHook('OC_Calendar', 'editCalendar', $id);
 		return true;
 	}
 
@@ -198,9 +193,27 @@ class OC_Calendar_Calendar{
 		$stmt = OCP\DB::prepare( 'DELETE FROM `*PREFIX*calendar_objects` WHERE `calendarid` = ?' );
 		$stmt->execute(array($id));
 
+		OCP\Util::emitHook('OC_Calendar', 'deleteCalendar', $id);
+		if(count(self::allCalendars(OCP\USER::getUser())) == 0) {
+			self::addCalendar(OCP\USER::getUser(),'Default calendar');
+		}
+
 		return true;
 	}
-
+	
+	/**
+	 * @brief merges two calendars
+	 * @param integer $id1
+	 * @param integer $id2
+	 * @return boolean
+	 */
+	public static function mergeCalendar($id1, $id2){
+		$stmt = OCP\DB::prepare('UPDATE `*PREFIX*calendar_objects` SET `calendarid` = ? WHERE `calendarid` = ?');
+		$stmt->execute(array($id1, $id2));
+		self::touchCalendar($id1);
+		self::deleteCalendar($id2);
+	}
+	
 	/**
 	 * @brief Creates a URI for Calendar
 	 * @param string $name name of the calendar
@@ -226,6 +239,11 @@ class OC_Calendar_Calendar{
 		list($prefix,$userid) = Sabre_DAV_URLUtil::splitPath($principaluri);
 		return $userid;
 	}
+	
+	/**
+	 * @brief returns the possible color for calendars
+	 * @return array
+	 */
 	public static function getCalendarColorOptions(){
 		return array(
 			'#ff0000', // "Red"
@@ -239,13 +257,52 @@ class OC_Calendar_Calendar{
 		);
 	}
 
+	/**
+	 * @brief generates the Event Source Info for our JS
+	 * @param array $calendar calendar data
+	 * @return array
+	 */
 	public static function getEventSourceInfo($calendar){
 		return array(
 			'url' => OCP\Util::linkTo('calendar', 'ajax/events.php').'?calendar_id='.$calendar['id'],
 			'backgroundColor' => $calendar['calendarcolor'],
 			'borderColor' => '#888',
-			'textColor' => 'black',
+			'textColor' => self::generateTextColor($calendar['calendarcolor']),
 			'cache' => true,
 		);
+	}
+	
+	/*
+	 * @brief checks if a calendar name is available for a user
+	 * @param string $calendarname 
+	 * @param string $userid
+	 * @return boolean
+	 */
+	public static function isCalendarNameavailable($calendarname, $userid){
+		$calendars = self::allCalendars($userid);
+		foreach($calendars as $calendar){
+			if($calendar['displayname'] == $calendarname){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/*
+	 * @brief generates the text color for the calendar
+	 * @param string $calendarcolor rgb calendar color code in hex format (with or without the leading #)
+	 * (this function doesn't pay attention on the alpha value of rgba color codes)
+	 * @return boolean
+	 */
+	public static function generateTextColor($calendarcolor){
+		if(substr_count($calendarcolor, '#') == 1){
+			$calendarcolor = substr($calendarcolor,1);
+		}
+		$red = hexdec(substr($calendarcolor,0,2));
+		$green = hexdec(substr($calendarcolor,2,2));
+		$blue = hexdec(substr($calendarcolor,2,2));
+		//recommendation by W3C
+		$computation = ((($red * 299) + ($green * 587) + ($blue * 114)) / 1000);
+		return ($computation > 130)?'#000000':'#FAFAFA';
 	}
 }

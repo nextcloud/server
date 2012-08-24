@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:14+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Czech (Czech Republic) (http://www.transifex.net/projects/p/owncloud/language/cs_CZ/)\n"
+"POT-Creation-Date: 2012-08-02 02:02+0200\n"
+"PO-Revision-Date: 2012-08-02 00:03+0000\n"
+"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,85 +34,85 @@ msgstr "Tato kategorie již existuje:"
 
 #: js/jquery-ui-1.8.16.custom.min.js:511
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr ""
+msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:520
+#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+msgid "Settings"
+msgstr "Nastavení"
+
+#: js/js.js:573
 msgid "January"
-msgstr ""
+msgstr "Leden"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "February"
-msgstr ""
+msgstr "Únor"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "March"
-msgstr ""
+msgstr "Březen"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "April"
-msgstr ""
+msgstr "Duben"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "May"
-msgstr ""
+msgstr "Květen"
 
-#: js/js.js:520
+#: js/js.js:573
 msgid "June"
-msgstr ""
+msgstr "Červen"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "July"
-msgstr ""
+msgstr "Červenec"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "August"
-msgstr ""
+msgstr "Srpen"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "September"
-msgstr ""
+msgstr "Září"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "October"
-msgstr ""
+msgstr "Říjen"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "November"
-msgstr ""
+msgstr "Listopad"
 
-#: js/js.js:521
+#: js/js.js:574
 msgid "December"
-msgstr ""
+msgstr "Prosinec"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "Ano"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "Budiž"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Žádné kategorie nebyly vybrány ke smazání."
 
 #: js/oc-vcategories.js:68
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: lostpassword/index.php:26
-msgid "Owncloud password reset"
-msgstr "Reset hesla Owncloud"
-
-#: lostpassword/index.php:27
 msgid "ownCloud password reset"
 msgstr "Reset hesla pro ownCloud"
 
@@ -242,13 +242,9 @@ msgstr "Dokončit instalaci"
 msgid "web services under your control"
 msgstr "webové služby pod Vaší kontrolou"
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "Odhlásit se"
-
-#: templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "Nastavení"
 
 #: templates/login.php:6
 msgid "Lost your password?"

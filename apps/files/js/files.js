@@ -56,7 +56,7 @@ $(document).ready(function() {
 
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {
-		FileActions.display($(this).children('td.filename'), $(this).attr('data-file'), $(this).attr('data-type'));
+		FileActions.display($(this).children('td.filename'));
 	});
 	$('tr').live('mouseleave',function(event) {
 		FileActions.hide();
@@ -106,7 +106,8 @@ $(document).ready(function() {
 			if(!renaming && !FileList.isLoading(filename)){
 				var mime=$(this).parent().parent().data('mime');
 				var type=$(this).parent().parent().data('type');
-				var action=FileActions.getDefault(mime,type);
+				var permissions = $(this).parent().parent().data('permissions');
+				var action=FileActions.getDefault(mime,type, permissions);
 				if(action){
 					action(filename);
 				}
@@ -194,6 +195,11 @@ $(document).ready(function() {
 				var totalSize=0;
 				if(files){
 					for(var i=0;i<files.length;i++){
+						if(files[i].size ==0 && files[i].type== '')
+						{
+							OC.dialogs.alert(t('files', 'Unable to upload your file as it is a directory or has 0 bytes'), t('files', 'Upload Error'));
+							return;
+						}
 						totalSize+=files[i].size;
 						if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
 							FileList.finishDelete(function(){
@@ -213,115 +219,6 @@ $(document).ready(function() {
 						}
 					});
 				}else{
-				if($.support.xhrFileUpload) {
-					for(var i=0;i<files.length;i++){
-						var fileName = files[i].name
-						var dropTarget = $(e.originalEvent.target).closest('tr');
-						if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
-							var dirName = dropTarget.attr('data-file')
-							var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i],
-									formData: function(form) {
-										var formArray = form.serializeArray();
-										formArray[1]['value'] = dirName;
-										return formArray;
-									}}).success(function(result, textStatus, jqXHR) {
-										var response;
-										response=jQuery.parseJSON(result);
-										if(response[0] == undefined || response[0].status != 'success') {
-											$('#notification').text(t('files', response.data.message));
-											$('#notification').fadeIn();
-										}
-										var file=response[0];
-										delete uploadingFiles[dirName][file.name];
-										var currentUploads = parseInt(uploadtext.attr('currentUploads'));
-										currentUploads -= 1;
-										uploadtext.attr('currentUploads', currentUploads);
-										if(currentUploads === 0) {
-											var img = OC.imagePath('core', 'filetypes/folder.png');
-											var tr=$('tr').filterAttr('data-file',dirName);
-											tr.find('td.filename').attr('style','background-image:url('+img+')');
-											uploadtext.text('');
-											uploadtext.hide();
-										} else {
-											uploadtext.text(currentUploads + ' files uploading')
-										}
-									})
-							.error(function(jqXHR, textStatus, errorThrown) {
-								if(errorThrown === 'abort') {
-									var currentUploads = parseInt(uploadtext.attr('currentUploads'));
-									currentUploads -= 1;
-									uploadtext.attr('currentUploads', currentUploads);
-									if(currentUploads === 0) {
-										var img = OC.imagePath('core', 'filetypes/folder.png');
-										var tr=$('tr').filterAttr('data-file',dirName);
-										tr.find('td.filename').attr('style','background-image:url('+img+')');
-										uploadtext.text('');
-										uploadtext.hide();
-									} else {
-										uploadtext.text(currentUploads + ' files uploading')
-									}
-									$('#notification').hide();
-									$('#notification').text(t('files', 'Upload cancelled.'));
-									$('#notification').fadeIn();
-								}
-							});
-							//TODO test with filenames containing slashes
-							if(uploadingFiles[dirName] === undefined) {
-								uploadingFiles[dirName] = {};
-							}
-							uploadingFiles[dirName][fileName] = jqXHR;
-						} else {
-							var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i]})
-									.success(function(result, textStatus, jqXHR) {
-										var response;
-										response=jQuery.parseJSON(result);
-										if(response[0] != undefined && response[0].status == 'success') {
-											var file=response[0];
-											delete uploadingFiles[file.name];
-											$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
-											var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
-											if(size==t('files','Pending')){
-												$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
-											}
-											FileList.loadingDone(file.name);
-										} else {
-											$('#notification').text(t('files', response.data.message));
-											$('#notification').fadeIn();
-											$('#fileList > tr').not('[data-mime]').fadeOut();
-											$('#fileList > tr').not('[data-mime]').remove();
-										}
-									})
-							.error(function(jqXHR, textStatus, errorThrown) {
-								if(errorThrown === 'abort') {
-									$('#notification').hide();
-									$('#notification').text(t('files', 'Upload cancelled.'));
-									$('#notification').fadeIn();
-								}
-							});
-							uploadingFiles[files[i].name] = jqXHR;
-						}
-					}
-				}else{
-					data.submit().success(function(data, status) {
-						response = jQuery.parseJSON(data[0].body.innerText);
-						if(response[0] != undefined && response[0].status == 'success') {
-							var file=response[0];
-							delete uploadingFiles[file.name];
-							$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
-							var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
-							if(size==t('files','Pending')){
-								$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
-							}
-							FileList.loadingDone(file.name);
-						} else {
-							$('#notification').text(t('files', response.data.message));
-							$('#notification').fadeIn();
-							$('#fileList > tr').not('[data-mime]').fadeOut();
-							$('#fileList > tr').not('[data-mime]').remove();
-						}
-					});
-				}
-									
 					var date=new Date();
 					if(files){
 						for(var i=0;i<files.length;i++){
@@ -331,7 +228,7 @@ $(document).ready(function() {
 								var size=t('files','Pending');
 							}
 							if(files && !dirName){
-						FileList.addFile(getUniqueName(files[i].name),size,date,true);
+								FileList.addFile(getUniqueName(files[i].name),size,date,true);
 							} else if(dirName) {
 								var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
 								var currentUploads = parseInt(uploadtext.attr('currentUploads'));
@@ -350,7 +247,115 @@ $(document).ready(function() {
 						}
 					}else{
 						var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
-				FileList.addFile(getUniqueName(filename),'Pending',date,true);
+						FileList.addFile(getUniqueName(filename),'Pending',date,true);
+					}
+					if($.support.xhrFileUpload) {
+						for(var i=0;i<files.length;i++){
+							var fileName = files[i].name
+							var dropTarget = $(e.originalEvent.target).closest('tr');
+							if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
+								var dirName = dropTarget.attr('data-file')
+								var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i],
+										formData: function(form) {
+											var formArray = form.serializeArray();
+											formArray[1]['value'] = dirName;
+											return formArray;
+										}}).success(function(result, textStatus, jqXHR) {
+											var response;
+											response=jQuery.parseJSON(result);
+											if(response[0] == undefined || response[0].status != 'success') {
+												$('#notification').text(t('files', response.data.message));
+												$('#notification').fadeIn();
+											}
+											var file=response[0];
+											delete uploadingFiles[dirName][file.name];
+											var currentUploads = parseInt(uploadtext.attr('currentUploads'));
+											currentUploads -= 1;
+											uploadtext.attr('currentUploads', currentUploads);
+											if(currentUploads === 0) {
+												var img = OC.imagePath('core', 'filetypes/folder.png');
+												var tr=$('tr').filterAttr('data-file',dirName);
+												tr.find('td.filename').attr('style','background-image:url('+img+')');
+												uploadtext.text('');
+												uploadtext.hide();
+											} else {
+												uploadtext.text(currentUploads + ' files uploading')
+											}
+										})
+								.error(function(jqXHR, textStatus, errorThrown) {
+									if(errorThrown === 'abort') {
+										var currentUploads = parseInt(uploadtext.attr('currentUploads'));
+										currentUploads -= 1;
+										uploadtext.attr('currentUploads', currentUploads);
+										if(currentUploads === 0) {
+											var img = OC.imagePath('core', 'filetypes/folder.png');
+											var tr=$('tr').filterAttr('data-file',dirName);
+											tr.find('td.filename').attr('style','background-image:url('+img+')');
+											uploadtext.text('');
+											uploadtext.hide();
+										} else {
+											uploadtext.text(currentUploads + ' files uploading')
+										}
+										$('#notification').hide();
+										$('#notification').text(t('files', 'Upload cancelled.'));
+										$('#notification').fadeIn();
+									}
+								});
+								//TODO test with filenames containing slashes
+								if(uploadingFiles[dirName] === undefined) {
+									uploadingFiles[dirName] = {};
+								}
+								uploadingFiles[dirName][fileName] = jqXHR;
+							} else {
+								var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i]})
+										.success(function(result, textStatus, jqXHR) {
+											var response;
+											response=jQuery.parseJSON(result);
+											if(response[0] != undefined && response[0].status == 'success') {
+												var file=response[0];
+												delete uploadingFiles[file.name];
+												$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
+												var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
+												if(size==t('files','Pending')){
+													$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+												}
+												FileList.loadingDone(file.name);
+											} else {
+												$('#notification').text(t('files', response.data.message));
+												$('#notification').fadeIn();
+												$('#fileList > tr').not('[data-mime]').fadeOut();
+												$('#fileList > tr').not('[data-mime]').remove();
+											}
+										})
+								.error(function(jqXHR, textStatus, errorThrown) {
+									if(errorThrown === 'abort') {
+										$('#notification').hide();
+										$('#notification').text(t('files', 'Upload cancelled.'));
+										$('#notification').fadeIn();
+									}
+								});
+								uploadingFiles[files[i].name] = jqXHR;
+							}
+						}
+					}else{
+						data.submit().success(function(data, status) {
+							response = jQuery.parseJSON(data[0].body.innerText);
+							if(response[0] != undefined && response[0].status == 'success') {
+								var file=response[0];
+								delete uploadingFiles[file.name];
+								$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
+								var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
+								if(size==t('files','Pending')){
+									$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+								}
+								FileList.loadingDone(file.name);
+							} else {
+								$('#notification').text(t('files', response.data.message));
+								$('#notification').fadeIn();
+								$('#fileList > tr').not('[data-mime]').fadeOut();
+								$('#fileList > tr').not('[data-mime]').remove();
+							}
+						});
 					}
 				}
 			},
@@ -447,7 +452,7 @@ $(document).ready(function() {
 		$(this).append(input);
 		input.focus();
 		input.change(function(){
-			var name=$(this).val();
+			var name=getUniqueName($(this).val());
 			if(type != 'web' && name.indexOf('/')!=-1){
 				$('#notification').text(t('files','Invalid name, \'/\' is not allowed.'));
 				$('#notification').fadeIn();
@@ -458,14 +463,18 @@ $(document).ready(function() {
 					$.post(
 						OC.filePath('files','ajax','newfile.php'),
 						{dir:$('#dir').val(),filename:name,content:" \n"},
-						function(data){
-							var date=new Date();
-							FileList.addFile(name,0,date);
-							var tr=$('tr').filterAttr('data-file',name);
-							tr.data('mime','text/plain');
-							getMimeIcon('text/plain',function(path){
-								tr.find('td.filename').attr('style','background-image:url('+path+')');
-							});
+						function(result){
+							if (result.status == 'success') {
+								var date=new Date();
+								FileList.addFile(name,0,date);
+								var tr=$('tr').filterAttr('data-file',name);
+								tr.data('mime','text/plain');
+								getMimeIcon('text/plain',function(path){
+									tr.find('td.filename').attr('style','background-image:url('+path+')');
+								});
+							} else {
+								OC.dialogs.alert(result.data.message, 'Error');
+							}
 						}
 					);
 					break;
@@ -473,9 +482,13 @@ $(document).ready(function() {
 					$.post(
 						OC.filePath('files','ajax','newfolder.php'),
 						{dir:$('#dir').val(),foldername:name},
-						function(data){
-							var date=new Date();
-							FileList.addDir(name,0,date);
+						function(result){
+							if (result.status == 'success') {
+								var date=new Date();
+								FileList.addDir(name,0,date);
+							} else {
+								OC.dialogs.alert(result.data.message, 'Error');
+							}
 						}
 					);
 					break;
@@ -492,23 +505,28 @@ $(document).ready(function() {
 					}else{//or the domain
 						localName=(localName.match(/:\/\/(.[^/]+)/)[1]).replace('www.','');
 					}
-					$.post(
-						OC.filePath('files','ajax','newfile.php'),
-						{dir:$('#dir').val(),source:name,filename:localName},
-						function(result){
-							if(result.status == 'success'){
-								var date=new Date();
-								FileList.addFile(localName,0,date);
-								var tr=$('tr').filterAttr('data-file',localName);
-								tr.data('mime',result.data.mime);
-								getMimeIcon(result.data.mime,function(path){
-									tr.find('td.filename').attr('style','background-image:url('+path+')');
-								});
-							}else{
+					localName = getUniqueName(localName);
+					$('#uploadprogressbar').progressbar({value:0});
+					$('#uploadprogressbar').fadeIn();
 
-							}
-						}
-					);
+					var eventSource=new OC.EventSource(OC.filePath('files','ajax','newfile.php'),{dir:$('#dir').val(),source:name,filename:localName});
+					eventSource.listen('progress',function(progress){
+						$('#uploadprogressbar').progressbar('value',progress);
+					});
+					eventSource.listen('success',function(mime){
+						$('#uploadprogressbar').fadeOut();
+						var date=new Date();
+						FileList.addFile(localName,0,date);
+						var tr=$('tr').filterAttr('data-file',localName);
+						tr.data('mime',mime);
+						getMimeIcon(mime,function(path){
+							tr.find('td.filename').attr('style','background-image:url('+path+')');
+						});
+					});
+					eventSource.listen('error',function(error){
+						$('#uploadprogressbar').fadeOut();
+						alert(error);
+					});
 					break;
 			}
 			var li=$(this).parent();
@@ -524,6 +542,69 @@ $(document).ready(function() {
 			scanFiles();
 		}
 	}, "json");
+	
+	var lastWidth = 0;
+	var breadcrumbs = [];
+	var breadcrumbsWidth = $('#navigation').get(0).offsetWidth;
+	var hiddenBreadcrumbs = 0;
+
+	$.each($('.crumb'), function(index, breadcrumb) {
+		breadcrumbs[index] = breadcrumb;
+		breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
+	});
+
+	if ($('#controls .actions').length > 0) {
+		breadcrumbsWidth += $('#controls .actions').get(0).offsetWidth;
+	}
+
+	function resizeBreadcrumbs(firstRun) {
+		var width = $(this).width();
+		if (width != lastWidth) {
+			if ((width < lastWidth || firstRun) && width < breadcrumbsWidth) {
+				if (hiddenBreadcrumbs == 0) {
+					breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
+					$(breadcrumbs[1]).find('a').hide();
+					$(breadcrumbs[1]).append('<span>...</span>');
+					breadcrumbsWidth += $(breadcrumbs[1]).get(0).offsetWidth;
+					hiddenBreadcrumbs = 2;
+				}
+				var i = hiddenBreadcrumbs;
+				while (width < breadcrumbsWidth && i > 1 && i < breadcrumbs.length - 1) {
+					breadcrumbsWidth -= $(breadcrumbs[i]).get(0).offsetWidth;
+					$(breadcrumbs[i]).hide();
+					hiddenBreadcrumbs = i;
+					i++
+				}
+			} else if (width > lastWidth && hiddenBreadcrumbs > 0) {
+				var i = hiddenBreadcrumbs;
+				while (width > breadcrumbsWidth && i > 0) {
+					if (hiddenBreadcrumbs == 1) {
+						breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
+						$(breadcrumbs[1]).find('span').remove();
+						$(breadcrumbs[1]).find('a').show();
+						breadcrumbsWidth += $(breadcrumbs[1]).get(0).offsetWidth;
+					} else {
+						$(breadcrumbs[i]).show();
+						breadcrumbsWidth += $(breadcrumbs[i]).get(0).offsetWidth;
+						if (breadcrumbsWidth > width) {
+							breadcrumbsWidth -= $(breadcrumbs[i]).get(0).offsetWidth;
+							$(breadcrumbs[i]).hide();
+							break;
+						}
+					}
+					i--;
+					hiddenBreadcrumbs = i;
+				}
+			}
+			lastWidth = width;
+		}
+	}
+
+	$(window).resize(function() {
+		resizeBreadcrumbs(false);
+	});
+	
+	resizeBreadcrumbs(true);
 });
 
 function scanFiles(force,dir){
@@ -733,7 +814,10 @@ getMimeIcon.cache={};
 function getUniqueName(name){
 	if($('tr').filterAttr('data-file',name).length>0){
 		var parts=name.split('.');
-		var extension=parts.pop();
+		var extension = "";
+		if (parts.length > 1) {
+			extension=parts.pop();
+		}
 		var base=parts.join('.');
 		numMatch=base.match(/\((\d+)\)/);
 		var num=2;
@@ -743,7 +827,10 @@ function getUniqueName(name){
 			base.pop();
 			base=base.join('(').trim();
 		}
-		name=base+' ('+num+').'+extension;
+		name=base+' ('+num+')';
+		if (extension) {
+			name = name+'.'+extension;
+		}
 		return getUniqueName(name);
 	}
 	return name;

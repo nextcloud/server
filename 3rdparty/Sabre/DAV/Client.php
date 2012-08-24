@@ -11,7 +11,7 @@
  * @package Sabre
  * @subpackage DAVClient
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_DAV_Client {
@@ -22,6 +22,28 @@ class Sabre_DAV_Client {
     protected $userName;
     protected $password;
     protected $proxy;
+
+    /**
+     * Basic authentication
+     */
+    const AUTH_BASIC = 1;
+
+    /**
+     * Digest authentication
+     */
+    const AUTH_DIGEST = 2;
+
+    /**
+     * The authentication type we're using.
+     *
+     * This is a bitmask of AUTH_BASIC and AUTH_DIGEST.
+     *
+     * If DIGEST is used, the client makes 1 extra request per request, to get
+     * the authentication tokens.
+     *
+     * @var int
+     */
+    protected $authType;
 
     /**
      * Constructor
@@ -46,13 +68,19 @@ class Sabre_DAV_Client {
             'baseUri',
             'userName',
             'password',
-            'proxy'
+            'proxy',
         );
 
         foreach($validSettings as $validSetting) {
             if (isset($settings[$validSetting])) {
                 $this->$validSetting = $settings[$validSetting];
             }
+        }
+
+        if (isset($settings['authType'])) {
+            $this->authType = $settings['authType'];
+        } else {
+            $this->authType = self::AUTH_BASIC | self::AUTH_DIGEST;
         }
 
         $this->propertyMap['{DAV:}resourcetype'] = 'Sabre_DAV_Property_ResourceType';
@@ -252,9 +280,6 @@ class Sabre_DAV_Client {
         );
 
         switch ($method) {
-            case 'PUT':
-                $curlSettings[CURLOPT_PUT] = true;
-                break;
             case 'HEAD' :
 
                 // do not read body with HEAD requests (this is neccessary because cURL does not ignore the body with HEAD
@@ -285,8 +310,15 @@ class Sabre_DAV_Client {
             $curlSettings[CURLOPT_PROXY] = $this->proxy;
         }
 
-        if ($this->userName) {
-            $curlSettings[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC | CURLAUTH_DIGEST;
+        if ($this->userName && $this->authType) {
+            $curlType = 0;
+            if ($this->authType & self::AUTH_BASIC) {
+                $curlType |= CURLAUTH_BASIC;
+            }
+            if ($this->authType & self::AUTH_DIGEST) {
+                $curlType |= CURLAUTH_DIGEST;
+            }
+            $curlSettings[CURLOPT_HTTPAUTH] = $curlType;
             $curlSettings[CURLOPT_USERPWD] = $this->userName . ':' . $this->password;
         }
 

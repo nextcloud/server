@@ -31,7 +31,7 @@ t.cache={};
 
 OC={
 	webroot:oc_webroot,
-	appswebroot:oc_appswebroot,
+	appswebroots:oc_appswebroots,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
 	/**
@@ -63,13 +63,12 @@ OC={
 				link+= file;
 			}
 		}else if(file.substring(file.length-3) != 'php' && !isCore){
-			link=OC.appswebroot;
-			link+='/';
-			link+='apps/';
-			link+=app+'/';
+			link=OC.appswebroots[app];
 			if(type){
-				link+=type+'/';
+				link+= '/'+type+'/';
 			}
+			if(link.substring(link.length-1) != '/')
+				link+='/';
 			link+=file;
 		}else{
 			link+='/';
@@ -83,7 +82,7 @@ OC={
 			if(type){
 				link+=type+'/';
 			}
-			link+=file;	
+			link+=file;
 		}
 		return link;
 	},
@@ -92,9 +91,9 @@ OC={
 	 * @param app the app id to which the image belongs
 	 * @param file the name of the image file
 	 * @return string
-	 * 
+	 *
 	 * if no extension is given for the image, it will automatically decide between .png and .svg based on what the browser supports
-	 */ 
+	 */
 	imagePath:function(app,file){
 		if(file.indexOf('.')==-1){//if no extension is given, use png or svg depending on browser support
 			file+=(SVGSupport())?'.svg':'.png';
@@ -106,7 +105,7 @@ OC={
 	 * @param app the app id to which the script belongs
 	 * @param script the filename of the script
 	 * @param ready event handeler to be called when the script is loaded
-	 * 
+	 *
 	 * if the script is already loaded, the event handeler will be called directly
 	 */
 	addScript:function(app,script,ready){
@@ -151,12 +150,68 @@ OC={
 		}
 	},
 	dialogs:OCdialogs,
-  mtime2date:function(mtime) {
-    mtime = parseInt(mtime);
-    var date = new Date(1000*mtime);
-    var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
-    return ret;
-  }
+	mtime2date:function(mtime) {
+		mtime = parseInt(mtime);
+		var date = new Date(1000*mtime);
+		var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
+		return ret;
+	},
+	/**
+	 * Opens a popup with the setting for an app.
+	 * @param appid String. The ID of the app e.g. 'calendar', 'contacts' or 'files'.
+	 * @param loadJS boolean or String. If true 'js/settings.js' is loaded. If it's a string
+	 * it will attempt to load a script by that name in the 'js' directory.
+	 * @param cache boolean. If true the javascript file won't be forced refreshed. Defaults to true.
+	 * @param scriptName String. The name of the PHP file to load. Defaults to 'settings.php' in
+	 * the root of the app directory hierarchy.
+	 */
+	appSettings:function(args) {
+		if(typeof args === 'undefined' || typeof args.appid === 'undefined') {
+			throw { name: 'MissingParameter', message: 'The parameter appid is missing' };
+		}
+		var props = {scriptName:'settings.php', cache:true};
+		$.extend(props, args);
+		var settings = $('#appsettings');
+		if(settings.length == 0) {
+			throw { name: 'MissingDOMElement', message: 'There has be be an element with id "appsettings" for the popup to show.' };
+		}
+		var popup = $('#appsettings_popup');
+		if(popup.length == 0) {
+			$('body').prepend('<div class="popup hidden" id="appsettings_popup"></div>');
+			popup = $('#appsettings_popup');
+			popup.addClass(settings.hasClass('topright') ? 'topright' : 'bottomleft');
+		}
+		if(popup.is(':visible')) {
+			popup.hide().remove();
+		} else {
+			var arrowclass = settings.hasClass('topright') ? 'up' : 'left';
+			var jqxhr = $.get(OC.filePath(props.appid, '', props.scriptName), function(data) {
+				popup.html(data).ready(function() {
+					popup.prepend('<span class="arrow '+arrowclass+'"></span><h2>'+t('core', 'Settings')+'</h2><a class="close svg"></a>').show();
+					popup.find('.close').bind('click', function() {
+						popup.remove();
+					})
+					if(typeof props.loadJS !== 'undefined') {
+						var scriptname;
+						if(props.loadJS === true) {
+							scriptname = 'settings.js';
+						} else if(typeof props.loadJS === 'string') {
+							scriptname = props.loadJS;
+						} else {
+							throw { name: 'InvalidParameter', message: 'The "loadJS" parameter must be either boolean or a string.' };
+						}
+						if(props.cache) {
+							$.ajaxSetup({cache: true});
+						}
+						$.getScript(OC.filePath(props.appid, 'js', scriptname))
+						.fail(function(jqxhr, settings, e) {
+							throw e;
+						});
+					}
+				}).show();
+			}, 'html');
+		}
+	}
 };
 OC.search.customResults={};
 OC.search.currentResult=-1;
@@ -203,7 +258,7 @@ if (!Array.prototype.filter) {
 		var len = this.length >>> 0;
 		if (typeof fun != "function")
 			throw new TypeError();
-		
+
 		var res = [];
 		var thisp = arguments[1];
 		for (var i = 0; i < len; i++) {
@@ -223,14 +278,14 @@ if (!Array.prototype.indexOf){
 	Array.prototype.indexOf = function(elt /*, from*/)
 	{
 		var len = this.length;
-		
+
 		var from = Number(arguments[1]) || 0;
 		from = (from < 0)
 		? Math.ceil(from)
 		: Math.floor(from);
 		if (from < 0)
 			from += len;
-		
+
 		for (; from < len; from++)
 		{
 			if (from in this &&
@@ -307,7 +362,7 @@ function replaceSVG(){
 
 /**
  * prototypal inharitence functions
- * 
+ *
  * usage:
  * MySubObject=object(MyObject)
  */
@@ -353,7 +408,7 @@ $(document).ready(function(){
 		fillWindow($('#rightcontent'));
 	});
 	$(window).trigger('resize');
-	
+
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
 	}else{
@@ -396,7 +451,7 @@ $(document).ready(function(){
 		}
 	});
 
-	// 'show password' checkbox	
+	// 'show password' checkbox
 	$('#pass2').showPassword();
 
 	//use infield labels
@@ -420,8 +475,9 @@ $(document).ready(function(){
 		}
 	}
 	// hide log in button etc. when form fields not filled
-	checkShowCredentials();
-	$('input#user, input#password').keyup(checkShowCredentials);
+	// commented out due to some browsers having issues with it
+	// checkShowCredentials();
+	// $('input#user, input#password').keyup(checkShowCredentials);
 
 	$('#settings #expand').keydown(function(event) {
 		if (event.which == 13 || event.which == 32) {
@@ -462,15 +518,15 @@ $(document).ready(function(){
 if (!Array.prototype.map){
 	Array.prototype.map = function(fun /*, thisp */){
 		"use strict";
-		
+
 		if (this === void 0 || this === null)
 			throw new TypeError();
-		
+
 		var t = Object(this);
 		var len = t.length >>> 0;
 		if (typeof fun !== "function")
 			throw new TypeError();
-		
+
 		var res = new Array(len);
 		var thisp = arguments[1];
 		for (var i = 0; i < len; i++){
@@ -478,16 +534,16 @@ if (!Array.prototype.map){
 				res[i] = fun.call(thisp, t[i], i, t);
 			}
 		}
-		
-	    return res;
+
+		return res;
 	};
 }
 
 /**
  * Filter Jquery selector by attribute value
  **/
-$.fn.filterAttr = function(attr_name, attr_value) {  
-   return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
+$.fn.filterAttr = function(attr_name, attr_value) {
+	return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
 };
 
 function humanFileSize(size) {

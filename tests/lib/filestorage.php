@@ -31,13 +31,13 @@ abstract class Test_FileStorage extends UnitTestCase {
 	 */
 	public function testRoot(){
 		$this->assertTrue($this->instance->file_exists('/'),'Root folder does not exist');
-		$this->assertTrue($this->instance->is_readable('/'),'Root folder is not readable');
+		$this->assertTrue($this->instance->isReadable('/'),'Root folder is not readable');
 		$this->assertTrue($this->instance->is_dir('/'),'Root folder is not a directory');
 		$this->assertFalse($this->instance->is_file('/'),'Root folder is a file');
 		$this->assertEqual('dir',$this->instance->filetype('/'));
 		
 		//without this, any further testing would be useless, not an acutal requirement for filestorage though
-		$this->assertTrue($this->instance->is_writable('/'),'Root folder is not writable');
+		$this->assertTrue($this->instance->isUpdatable('/'),'Root folder is not writable');
 	}
 	
 	public function testDirectories(){
@@ -50,8 +50,8 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertFalse($this->instance->is_file('/folder'));
 		$this->assertEqual('dir',$this->instance->filetype('/folder'));
 		$this->assertEqual(0,$this->instance->filesize('/folder'));
-		$this->assertTrue($this->instance->is_readable('/folder'));
-		$this->assertTrue($this->instance->is_writable('/folder'));
+		$this->assertTrue($this->instance->isReadable('/folder'));
+		$this->assertTrue($this->instance->isUpdatable('/folder'));
 		
 		$dh=$this->instance->opendir('/');
 		$content=array();
@@ -129,19 +129,32 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertEqual(file_get_contents($textFile),$this->instance->file_get_contents('/target.txt'));
 	}
 	
-	public function testLocalFile(){
+	public function testLocal(){
 		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/lorem.txt',file_get_contents($textFile));
 		$localFile=$this->instance->getLocalFile('/lorem.txt');
 		$this->assertTrue(file_exists($localFile));
 		$this->assertEqual(file_get_contents($localFile),file_get_contents($textFile));
+		
+		$this->instance->mkdir('/folder');
+		$this->instance->file_put_contents('/folder/lorem.txt',file_get_contents($textFile));
+		$this->instance->file_put_contents('/folder/bar.txt','asd');
+		$this->instance->mkdir('/folder/recursive');
+		$this->instance->file_put_contents('/folder/recursive/file.txt','foo');
+		$localFolder=$this->instance->getLocalFolder('/folder');
+
+		$this->assertTrue(is_dir($localFolder));
+		$this->assertTrue(file_exists($localFolder.'/lorem.txt'));
+		$this->assertEqual(file_get_contents($localFolder.'/lorem.txt'),file_get_contents($textFile));
+		$this->assertEqual(file_get_contents($localFolder.'/bar.txt'),'asd');
+		$this->assertEqual(file_get_contents($localFolder.'/recursive/file.txt'),'foo');
 	}
 
 	public function testStat(){
 		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$ctimeStart=time();
 		$this->instance->file_put_contents('/lorem.txt',file_get_contents($textFile));
-		$this->assertTrue($this->instance->is_readable('/lorem.txt'));
+		$this->assertTrue($this->instance->isReadable('/lorem.txt'));
 		$ctimeEnd=time();
 		$cTime=$this->instance->filectime('/lorem.txt');
 		$mTime=$this->instance->filemtime('/lorem.txt');
@@ -149,6 +162,9 @@ abstract class Test_FileStorage extends UnitTestCase {
 			$this->assertTrue(($ctimeStart-1)<=$cTime);
 			$this->assertTrue($cTime<=($ctimeEnd+1));
 		}
+		$this->assertTrue($this->instance->hasUpdated('/lorem.txt',$ctimeStart-1));
+		$this->assertTrue($this->instance->hasUpdated('/',$ctimeStart-1));
+		
 		$this->assertTrue(($ctimeStart-1)<=$mTime);
 		$this->assertTrue($mTime<=($ctimeEnd+1));
 		$this->assertEqual(filesize($textFile),$this->instance->filesize('/lorem.txt'));
@@ -168,6 +184,8 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertTrue(($mtimeStart-1)<=$mTime);
 		$this->assertTrue($mTime<=($mtimeEnd+1));
 		$this->assertEqual($cTime,$originalCTime);
+
+		$this->assertTrue($this->instance->hasUpdated('/lorem.txt',$mtimeStart-1));
 		
 		if($this->instance->touch('/lorem.txt',100)!==false){
 			$mTime=$this->instance->filemtime('/lorem.txt');
@@ -184,6 +202,9 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$mTime=$this->instance->filemtime('/lorem.txt');
 		$this->assertTrue(($mtimeStart-1)<=$mTime);
 		$this->assertTrue($mTime<=($mtimeEnd+1));
+
+		$this->instance->unlink('/lorem.txt');
+		$this->assertTrue($this->instance->hasUpdated('/',$mtimeStart-1));
 	}
 
 	public function testSearch(){

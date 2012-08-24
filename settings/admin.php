@@ -26,9 +26,10 @@ function compareEntries($a,$b){
 usort($entries, 'compareEntries');
 
 $tmpl->assign('loglevel',OC_Config::getValue( "loglevel", 2 ));
-$tmpl->assign('entries',OC_Util::sanitizeHTML($entries));
+$tmpl->assign('entries',$entries);
 $tmpl->assign('entriesremain', $entriesremain);
 $tmpl->assign('htaccessworking',$htaccessworking);
+$tmpl->assign('backgroundjobs_mode', OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax'));
 $tmpl->assign('forms',array());
 foreach($forms as $form){
 	$tmpl->append('forms',$form);

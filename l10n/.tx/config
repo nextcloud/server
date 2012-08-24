@@ -36,3 +36,75 @@ file_filter = <lang>/gallery.po
 source_file = templates/gallery.pot
 source_lang = en
 
+[owncloud.bookmarks]
+file_filter = <lang>/bookmarks.po
+source_file = templates/bookmarks.pot
+source_lang = en
+type = PO
+
+[owncloud.lib]
+file_filter = <lang>/lib.po
+source_file = templates/lib.pot
+source_lang = en
+type = PO
+
+[owncloud.admin_dependencies_chk]
+file_filter = <lang>/admin_dependencies_chk.po
+source_file = templates/admin_dependencies_chk.pot
+source_lang = en
+type = PO
+
+[owncloud.admin_migrate]
+file_filter = <lang>/admin_migrate.po
+source_file = templates/admin_migrate.pot
+source_lang = en
+type = PO
+
+[owncloud.files_encryption]
+file_filter = <lang>/files_encryption.po
+source_file = templates/files_encryption.pot
+source_lang = en
+type = PO
+
+[owncloud.files_external]
+file_filter = <lang>/files_external.po
+source_file = templates/files_external.pot
+source_lang = en
+type = PO
+
+[owncloud.files_sharing]
+file_filter = <lang>/files_sharing.po
+source_file = templates/files_sharing.pot
+source_lang = en
+type = PO
+
+[owncloud.files_versions]
+file_filter = <lang>/files_versions.po
+source_file = templates/files_versions.pot
+source_lang = en
+type = PO
+
+[owncloud.tasks]
+file_filter = <lang>/tasks.po
+source_file = templates/tasks.pot
+source_lang = en
+type = PO
+
+[owncloud.user_ldap]
+file_filter = <lang>/user_ldap.po
+source_file = templates/user_ldap.pot
+source_lang = en
+type = PO
+
+[owncloud.user_migrate]
+file_filter = <lang>/user_migrate.po
+source_file = templates/user_migrate.pot
+source_lang = en
+type = PO
+
+[owncloud.user_openid]
+file_filter = <lang>/user_openid.po
+source_file = templates/user_openid.pot
+source_lang = en
+type = PO
+

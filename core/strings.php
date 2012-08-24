@@ -7,4 +7,3 @@ $l->t("Users");
 $l->t("Apps");
 $l->t("Admin");
 $l->t("Help");
-?>

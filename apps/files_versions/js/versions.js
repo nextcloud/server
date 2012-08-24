@@ -11,7 +11,7 @@ $(document).ready(function() {
 $(document).ready(function(){
 	if (typeof FileActions !== 'undefined') {
 		// Add history button to files/index.php
-		FileActions.register('file','History',function(){return OC.imagePath('core','actions/history')},function(filename){
+		FileActions.register('file','History', FileActions.PERMISSION_UPDATE, function(){return OC.imagePath('core','actions/history')},function(filename){
 
 			if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
 			
@@ -33,7 +33,7 @@ $(document).ready(function(){
 });
 
 function createVersionsDropdown(filename, files) {
-	
+
 	var historyUrl = OC.linkTo('files_versions', 'history.php') + '?path='+encodeURIComponent( $( '#dir' ).val() ).replace( /%2F/g, '/' )+'/'+encodeURIComponent( filename );
 	
 	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
@@ -104,9 +104,9 @@ function createVersionsDropdown(filename, files) {
 	}
 	
 	function addVersion(revision ) {
-		name=formatDate(revision*1000);
+		name=formatDate(revision.version*1000);
 		var version=$('<option/>');
-		version.attr('value',revision);
+		version.attr('value',revision.version);
 		version.text(name);
 		
 // 		} else {

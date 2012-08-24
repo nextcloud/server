@@ -4,7 +4,7 @@
  * ownCloud
  *
  * @author Frank Karlitschek
- * @copyright 2010 Frank Karlitschek karlitschek@kde.org
+ * @copyright 2012 Frank Karlitschek frank@owncloud.org
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -35,20 +35,7 @@ abstract class OC_User_Example extends OC_User_Backend {
 		* Creates a new user. Basic checking of username is done in OC_User
 		* itself, not in its subclasses.
 		*/
-	public function createUser($uid, $password){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
-
-	/**
-		* @brief delete a user
-		* @param $uid The username of the user to delete
-		* @returns true/false
-		*
-		* Deletes a user
-		*/
-	public function deleteUser( $uid ){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
+	abstract public function createUser($uid, $password);
 
 	/**
 		* @brief Set password
@@ -58,9 +45,7 @@ abstract class OC_User_Example extends OC_User_Backend {
 		*
 		* Change the password of a user
 		*/
-	public function setPassword($uid, $password){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
+	abstract public function setPassword($uid, $password);
 
 	/**
 		* @brief Check if the password is correct
@@ -71,26 +56,5 @@ abstract class OC_User_Example extends OC_User_Backend {
 		* Check if the password is correct without logging in the user
 		* returns the user id or false
 		*/
-	public function checkPassword($uid, $password){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
-
-	/**
-		* @brief Get a list of all users
-		* @returns array with all uids
-		*
-		* Get a list of all users.
-		*/
-	public function getUsers(){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
-
-	/**
-		* @brief check if a user exists
-		* @param string $uid the username
-		* @return boolean
-		*/
-	public function userExists($uid){
-		return OC_USER_BACKEND_NOT_IMPLEMENTED;
-	}
+	abstract public function checkPassword($uid, $password);
 }

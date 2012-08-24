@@ -10,7 +10,7 @@
 		<tr>
 			<th width="75px"><?php echo $l->t("Title");?>:</th>
 			<td>
-				<?php echo isset($_['title']) ? htmlspecialchars($_['title']) : '' ?>
+				<?php echo isset($_['title']) ? $_['title'] : '' ?>
 			</td>
 		</tr>
 	</table>
@@ -76,7 +76,7 @@
 			<tr>
 				<th width="85px"><?php echo $l->t("Location");?>:</th>
 				<td>
-					<?php echo isset($_['location']) ? htmlspecialchars($_['location']) : '' ?>
+					<?php echo isset($_['location']) ? $_['location'] : '' ?>
 				</td>
 			</tr>
 		</table>
@@ -84,7 +84,7 @@
 			<tr>
 				<th width="85px" style="vertical-align: top;"><?php echo $l->t("Description");?>:</th>
 				<td>
-					<?php echo isset($_['description']) ? htmlspecialchars($_['description']) : '' ?></textarea>
+					<?php echo isset($_['description']) ? $_['description'] : '' ?></textarea>
 			</tr>
 		</table>
 	</div>

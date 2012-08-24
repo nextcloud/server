@@ -1,9 +1,30 @@
 <?php
 /**
  * Copyright (c) 2011 Jakob Sack <mail@jakobsack.de>
+ * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
+ * Copyright (c) 2012 Georg Ehrke <ownclouddev at georgswebsite dot de>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
+ */
+ /**
+ *
+ * The following SQL statement is just a help for developers and will not be
+ * executed!
+ *
+ * CREATE TABLE calendar_objects (
+ *     id INTEGER UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ *     calendarid INTEGER UNSIGNED NOT NULL,
+ *     objecttype VARCHAR(40) NOT NULL,
+ *     startdate DATETIME,
+ *     enddate DATETIME,
+ *     repeating INT(1),
+ *     summary VARCHAR(255),
+ *     calendardata TEXT,
+ *     uri VARCHAR(100),
+ *     lastmodified INT(11)
+ * );
+ *
  */
 
 /**
@@ -108,7 +129,7 @@ class OC_Calendar_Object{
 		$object_id = OCP\DB::insertid('*PREFIX*calendar_objects');
 
 		OC_Calendar_Calendar::touchCalendar($id);
-
+		OCP\Util::emitHook('OC_Calendar', 'addEvent', $object_id);
 		return $object_id;
 	}
 
@@ -128,7 +149,7 @@ class OC_Calendar_Object{
 		$object_id = OCP\DB::insertid('*PREFIX*calendar_objects');
 
 		OC_Calendar_Calendar::touchCalendar($id);
-
+		OCP\Util::emitHook('OC_Calendar', 'addEvent', $object_id);
 		return $object_id;
 	}
 
@@ -149,6 +170,7 @@ class OC_Calendar_Object{
 		$stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$id));
 
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
+		OCP\Util::emitHook('OC_Calendar', 'editEvent', $id);
 
 		return true;
 	}
@@ -170,6 +192,7 @@ class OC_Calendar_Object{
 		$stmt->execute(array($type,$startdate,$enddate,$repeating,$summary,$data,time(),$oldobject['id']));
 
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
+		OCP\Util::emitHook('OC_Calendar', 'editEvent', $oldobject['id']);
 
 		return true;
 	}
@@ -184,6 +207,7 @@ class OC_Calendar_Object{
 		$stmt = OCP\DB::prepare( 'DELETE FROM `*PREFIX*calendar_objects` WHERE `id` = ?' );
 		$stmt->execute(array($id));
 		OC_Calendar_Calendar::touchCalendar($oldobject['calendarid']);
+		OCP\Util::emitHook('OC_Calendar', 'deleteEvent', $id);
 
 		return true;
 	}
@@ -195,9 +219,11 @@ class OC_Calendar_Object{
 	 * @return boolean
 	 */
 	public static function deleteFromDAVData($cid,$uri){
+		$oldobject = self::findWhereDAVDataIs($cid, $uri);
 		$stmt = OCP\DB::prepare( 'DELETE FROM `*PREFIX*calendar_objects` WHERE `calendarid`= ? AND `uri`=?' );
 		$stmt->execute(array($cid,$uri));
 		OC_Calendar_Calendar::touchCalendar($cid);
+		OCP\Util::emitHook('OC_Calendar', 'deleteEvent', $oldobject['id']);
 
 		return true;
 	}
@@ -207,6 +233,7 @@ class OC_Calendar_Object{
 		$stmt->execute(array($calendarid,$id));
 
 		OC_Calendar_Calendar::touchCalendar($id);
+		OCP\Util::emitHook('OC_Calendar', 'moveEvent', $id);
 
 		return true;
 	}
@@ -302,12 +329,16 @@ class OC_Calendar_Object{
 	 * This function creates a date string that can be used by MDB2.
 	 * Furthermore it converts the time to UTC.
 	 */
-	protected static function getUTCforMDB($datetime){
+	public static function getUTCforMDB($datetime){
 		return date('Y-m-d H:i', $datetime->format('U') - $datetime->getOffset());
 	}
-
-	public static function getDTEndFromVEvent($vevent)
-	{
+	
+	/**
+	 * @brief returns the DTEND of an $vevent object
+	 * @param object $vevent vevent object
+	 * @return object
+	 */
+	public static function getDTEndFromVEvent($vevent){
 		if ($vevent->DTEND) {
 			$dtend = $vevent->DTEND;
 		}else{
@@ -331,9 +362,12 @@ class OC_Calendar_Object{
 		}
 		return $dtend;
 	}
-
-	public static function getRepeatOptions($l10n)
-	{
+	
+	/**
+	 * @brief returns the options for the repeat rule of an repeating event
+	 * @return array - valid inputs for the repeat rule of an repeating event
+	 */
+	public static function getRepeatOptions($l10n){
 		return array(
 			'doesnotrepeat' => $l10n->t('Does not repeat'),
 			'daily'         => $l10n->t('Daily'),
@@ -344,26 +378,35 @@ class OC_Calendar_Object{
 			'yearly'        => $l10n->t('Yearly')
 		);
 	}
-
-	public static function getEndOptions($l10n)
-	{
+	
+	/**
+	 * @brief returns the options for the end of an repeating event
+	 * @return array - valid inputs for the end of an repeating events
+	 */
+	public static function getEndOptions($l10n){
 		return array(
 			'never' => $l10n->t('never'),
 			'count' => $l10n->t('by occurrences'),
 			'date'  => $l10n->t('by date')
 		);
 	}
-
-	public static function getMonthOptions($l10n)
-	{
+	
+	/**
+	 * @brief returns the options for an monthly repeating event
+	 * @return array - valid inputs for monthly repeating events
+	 */
+	public static function getMonthOptions($l10n){
 		return array(
 			'monthday' => $l10n->t('by monthday'),
 			'weekday'  => $l10n->t('by weekday')
 		);
 	}
-
-	public static function getWeeklyOptions($l10n)
-	{
+	
+	/**
+	 * @brief returns the options for an weekly repeating event
+	 * @return array - valid inputs for weekly repeating events
+	 */
+	public static function getWeeklyOptions($l10n){
 		return array(
 			'MO' => $l10n->t('Monday'),
 			'TU' => $l10n->t('Tuesday'),
@@ -374,9 +417,12 @@ class OC_Calendar_Object{
 			'SU' => $l10n->t('Sunday')
 		);
 	}
-
-	public static function getWeekofMonth($l10n)
-	{
+	
+	/**
+	 * @brief returns the options for an monthly repeating event which occurs on specific weeks of the month
+	 * @return array - valid inputs for monthly repeating events
+	 */
+	public static function getWeekofMonth($l10n){
 		return array(
 			'auto' => $l10n->t('events week of month'),
 			'1' => $l10n->t('first'),
@@ -387,7 +433,11 @@ class OC_Calendar_Object{
 			'-1' => $l10n->t('last')
 		);
 	}
-
+	
+	/**
+	 * @brief returns the options for an yearly repeating event which occurs on specific days of the year
+	 * @return array - valid inputs for yearly repeating events
+	 */
 	public static function getByYearDayOptions(){
 		$return = array();
 		foreach(range(1,366) as $num){
@@ -395,7 +445,11 @@ class OC_Calendar_Object{
 		}
 		return $return;
 	}
-
+	
+	/**
+	 * @brief returns the options for an yearly or monthly repeating event which occurs on specific days of the month
+	 * @return array - valid inputs for yearly or monthly repeating events
+	 */
 	public static function getByMonthDayOptions(){
 		$return = array();
 		foreach(range(1,31) as $num){
@@ -403,7 +457,11 @@ class OC_Calendar_Object{
 		}
 		return $return;
 	}
-
+	
+	/**
+	 * @brief returns the options for an yearly repeating event which occurs on specific month of the year
+	 * @return array - valid inputs for yearly repeating events
+	 */
 	public static function getByMonthOptions($l10n){
 		return array(
 			'1'  => $l10n->t('January'),
@@ -420,7 +478,11 @@ class OC_Calendar_Object{
 			'12' => $l10n->t('December')
 		);
 	}
-
+	
+	/**
+	 * @brief returns the options for an yearly repeating event
+	 * @return array - valid inputs for yearly repeating events
+	 */
 	public static function getYearOptions($l10n){
 		return array(
 			'bydate' => $l10n->t('by events date'),
@@ -429,13 +491,21 @@ class OC_Calendar_Object{
 			'bydaymonth'  => $l10n->t('by day and month')
 		);
 	}
-
+	
+	/**
+	 * @brief returns the options for an yearly repeating event which occurs on specific week numbers of the year
+	 * @return array - valid inputs for yearly repeating events
+	 */
 	public static function getByWeekNoOptions(){
 		return range(1, 52);
 	}
-
-	public static function validateRequest($request)
-	{
+	
+	/**
+	 * @brief validates a request
+	 * @param array $request
+	 * @return mixed (array / boolean)
+	 */
+	public static function validateRequest($request){
 		$errnum = 0;
 		$errarr = array('title'=>'false', 'cal'=>'false', 'from'=>'false', 'fromtime'=>'false', 'to'=>'false', 'totime'=>'false', 'endbeforestart'=>'false');
 		if($request['title'] == ''){
@@ -582,17 +652,24 @@ class OC_Calendar_Object{
 		}
 		return false;
 	}
-
-	protected static function checkTime($time)
-	{
+	
+	/**
+	 * @brief validates time
+	 * @param string $time
+	 * @return boolean
+	 */	
+	protected static function checkTime($time){
 		list($hours, $minutes) = explode(':', $time);
 		return empty($time)
 			|| $hours < 0 || $hours > 24
 			|| $minutes < 0 || $minutes > 60;
 	}
-
-	public static function createVCalendarFromRequest($request)
-	{
+	
+	/**
+	 * @brief creates an VCalendar Object from the request data
+	 * @param array $request
+	 * @return object created $vcalendar
+	 */	public static function createVCalendarFromRequest($request){
 		$vcalendar = new OC_VObject('VCALENDAR');
 		$vcalendar->add('PRODID', 'ownCloud Calendar');
 		$vcalendar->add('VERSION', '2.0');
@@ -605,9 +682,14 @@ class OC_Calendar_Object{
 		$vevent->setUID();
 		return self::updateVCalendarFromRequest($request, $vcalendar);
 	}
-
-	public static function updateVCalendarFromRequest($request, $vcalendar)
-	{
+	
+	/**
+	 * @brief updates an VCalendar Object from the request data
+	 * @param array $request
+	 * @param object $vcalendar
+	 * @return object updated $vcalendar
+	 */
+	public static function updateVCalendarFromRequest($request, $vcalendar){
 		$title = $request["title"];
 		$location = $request["location"];
 		$categories = $request["categories"];
@@ -774,7 +856,7 @@ class OC_Calendar_Object{
 			$vevent->setDateTime('DTSTART', $start, Sabre_VObject_Property_DateTime::DATE);
 			$vevent->setDateTime('DTEND', $end, Sabre_VObject_Property_DateTime::DATE);
 		}else{
-			$timezone = OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+			$timezone = OC_Calendar_App::getTimezone();
 			$timezone = new DateTimeZone($timezone);
 			$start = new DateTime($from.' '.$fromtime, $timezone);
 			$end = new DateTime($to.' '.$totime, $timezone);
@@ -793,15 +875,63 @@ class OC_Calendar_Object{
 
 		return $vcalendar;
 	}
-
+	
+	/**
+	 * @brief returns the owner of an object
+	 * @param integer $id
+	 * @return string
+	 */
 	public static function getowner($id){
 		$event = self::find($id);
 		$cal = OC_Calendar_Calendar::find($event['calendarid']);
 		return $cal['userid'];
 	}
 	
+	/**
+	 * @brief returns the calendarid of an object
+	 * @param integer $id
+	 * @return integer
+	 */
 	public static function getCalendarid($id){
 		$event = self::find($id);
 		return $event['calendarid'];
+	}
+	
+	/**
+	 * @brief checks if an object is repeating
+	 * @param integer $id
+	 * @return boolean
+	 */
+	public static function isrepeating($id){
+		$event = self::find($id);
+		return ($event['repeating'] == 1)?true:false;
+	}
+	
+	/**
+	 * @brief converts the start_dt and end_dt to a new timezone 
+	 * @param object $dtstart
+	 * @param object $dtend
+	 * @param boolean $allday
+	 * @param string $tz
+	 * @return array
+	 */
+	public static function generateStartEndDate($dtstart, $dtend, $allday, $tz){
+		$start_dt = $dtstart->getDateTime();
+		$end_dt = $dtend->getDateTime();
+		$return = array();
+		if($allday){
+			$return['start'] = $start_dt->format('Y-m-d');
+			$end_dt->modify('-1 minute');
+			while($start_dt >= $end_dt){
+				$end_dt->modify('+1 day');
+			}
+			$return['end'] = $end_dt->format('Y-m-d');
+		}else{
+			$start_dt->setTimezone(new DateTimeZone($tz));
+			$end_dt->setTimezone(new DateTimeZone($tz));
+			$return['start'] = $start_dt->format('Y-m-d H:i:s');
+			$return['end'] = $end_dt->format('Y-m-d H:i:s');
+		}
+		return $return;
 	}
 }

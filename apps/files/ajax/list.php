@@ -38,9 +38,7 @@ foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
 }
 
 $list = new OCP\Template( "files", "part.list", "" );
-$list->assign( "files", $files );
+$list->assign( "files", $files, false );
 $data = array('files' => $list->fetchPage());
 
 OCP\JSON::success(array('data' => $data));
-
-?>

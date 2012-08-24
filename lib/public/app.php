@@ -3,7 +3,7 @@
 * ownCloud
 *
 * @author Frank Karlitschek
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+* @copyright 2012 Frank Karlitschek frank@owncloud.org
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -46,9 +46,8 @@ class App {
          *
          */
         public static function register( $data ){
-		return \OC_App::register( $data );
+		return true; // don't do anything
         }
-
 
         /**
          * @brief adds an entry to the navigation
@@ -152,6 +151,3 @@ class App {
 
 
 }
-
-
-?>

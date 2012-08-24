@@ -1,0 +1,107 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Mariano  <mstreet@kde.org.ar>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-19 02:02+0200\n"
+"PO-Revision-Date: 2012-08-18 14:52+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
+"Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: eo\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ajax/update_property.php:51 lib/app.php:89 lib/app.php:101
+msgid "Invalid date/time"
+msgstr "Nevalida dato/horo"
+
+#: appinfo/app.php:11
+msgid "Tasks"
+msgstr "Taskoj"
+
+#: js/tasks.js:415
+msgid "No category"
+msgstr "Neniu kategorio"
+
+#: lib/app.php:33
+msgid "Unspecified"
+msgstr "Nespecifita"
+
+#: lib/app.php:34
+msgid "1=highest"
+msgstr "1=plej alta"
+
+#: lib/app.php:38
+msgid "5=medium"
+msgstr "5=meza"
+
+#: lib/app.php:42
+msgid "9=lowest"
+msgstr "9=plej malalta"
+
+#: lib/app.php:81
+msgid "Empty Summary"
+msgstr "Malplena resumo"
+
+#: lib/app.php:93
+msgid "Invalid percent complete"
+msgstr "Nevalida plenuma elcento"
+
+#: lib/app.php:107
+msgid "Invalid priority"
+msgstr "Nevalida pligravo"
+
+#: templates/tasks.php:3
+msgid "Add Task"
+msgstr "Aldoni taskon"
+
+#: templates/tasks.php:4
+msgid "Order Due"
+msgstr "Ordigi laŭ limdato"
+
+#: templates/tasks.php:5
+msgid "Order List"
+msgstr "Ordigi laŭ listo"
+
+#: templates/tasks.php:6
+msgid "Order Complete"
+msgstr "Ordigi laŭ plenumo"
+
+#: templates/tasks.php:7
+msgid "Order Location"
+msgstr "Ordigi laŭ loko"
+
+#: templates/tasks.php:8
+msgid "Order Priority"
+msgstr "Ordigi laŭ pligravo"
+
+#: templates/tasks.php:9
+msgid "Order Label"
+msgstr "Ordigi laŭ etikedo"
+
+#: templates/tasks.php:16
+msgid "Loading tasks..."
+msgstr "Ŝargante taskojn..."
+
+#: templates/tasks.php:20
+msgid "Important"
+msgstr "Grava"
+
+#: templates/tasks.php:23
+msgid "More"
+msgstr "Pli"
+
+#: templates/tasks.php:26
+msgid "Less"
+msgstr "Malpli"
+
+#: templates/tasks.php:29
+msgid "Delete"
+msgstr "Forigi"

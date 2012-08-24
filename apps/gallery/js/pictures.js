@@ -1,4 +1,3 @@
-
 function constructSharingPath() {
   return document.location.protocol + '//' + document.location.host + OC.linkTo('', 'public.php') + '?service=gallery&token=' + Albums.token;
 }
@@ -34,4 +33,36 @@ function shareGallery() {
       }
     });
   });
+}
+
+function explode(element) {
+	$('div', element).each(function(index, elem) {
+		if ($(elem).hasClass('title')) {
+			$(elem).addClass('visible');
+		} else {
+			$(elem).css('margin-top', Math.floor(30-(Math.random()*60)) + 'px')
+			       .css('margin-left', Math.floor(30-(Math.random()*60))+ 'px')
+			       .css('z-index', '999');
+		}
+	});
+}
+
+function deplode(element) {
+	$('div', element).each(function(index, elem) {
+		if ($(elem).hasClass('title')) {
+			$(elem).removeClass('visible');
+		} else {
+			$(elem).css('margin-top', Math.floor(5-(Math.random()*10)) + 'px')
+			   .css('margin-left', Math.floor(5-(Math.random()*10))+ 'px')
+			   .css('z-index', '3');
+		}
+	});
+}
+
+function openNewGal(album_name) {
+	root = root + decodeURIComponent(album_name) + "/";
+	var url = window.location.protocol+"//"+window.location.hostname+OC.linkTo('gallery', 'index.php');
+	url = url + "?root="+encodeURIComponent(root);
+
+	window.location = url;
 }

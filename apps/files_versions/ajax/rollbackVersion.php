@@ -3,8 +3,6 @@
 OCP\JSON::checkAppEnabled('files_versions');
 OCP\JSON::callCheck();
 
-require_once('apps/files_versions/versions.php');
-
 $userDirectory = "/".OCP\USER::getUser()."/files";
 
 $file = $_GET['file'];

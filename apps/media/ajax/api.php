@@ -24,8 +24,6 @@
 header('Content-type: text/html; charset=UTF-8') ;
 
 OCP\JSON::checkAppEnabled('media');
-require_once(OC::$APPSROOT . '/apps/media/lib_collection.php');
-require_once(OC::$APPSROOT . '/apps/media/lib_scanner.php');
 
 error_reporting(E_ALL); //no script error reporting because of getID3
 
@@ -48,6 +46,9 @@ if(!isset($arguments['album'])){
 if(!isset($arguments['search'])){
 	$arguments['search']='';
 }
+
+session_write_close();
+
 OC_MEDIA_COLLECTION::$uid=OCP\USER::getUser();
 if($arguments['action']){
 	switch($arguments['action']){
@@ -105,6 +106,10 @@ if($arguments['action']){
 			@ob_end_clean();
 			
 			$ftype=OC_Filesystem::getMimeType( $arguments['path'] );
+			if(substr($ftype,0,5)!='audio' and $ftype!='application/ogg'){
+				echo 'Not an audio file';
+				exit();
+			}
 			
 			$songId=OC_MEDIA_COLLECTION::getSongByPath($arguments['path']);
 			OC_MEDIA_COLLECTION::registerPlay($songId);
@@ -126,4 +131,3 @@ if($arguments['action']){
 			exit;
 	}
 }
-?>

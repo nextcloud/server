@@ -11,7 +11,6 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @var ZipArchive zip
 	 */
 	private $zip=null;
-	private $success=false;
 	private $path;
 	
 	function __construct($source){
@@ -37,7 +36,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @return bool
 	 */
 	function addFile($path,$source=''){
-		if(file_exists($source)){
+		if($source and $source[0]=='/' and file_exists($source)){
 			$result=$this->zip->addFile($source,$path);
 		}else{
 			$result=$this->zip->addFromString($path,$source);
@@ -74,8 +73,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @return int
 	 */
 	function mtime($path){
-		$stat=$this->zip->statName($path);
-		return $stat['mtime'];
+		return filemtime($this->path);
 	}
 	/**
 	 * get the files in a folder

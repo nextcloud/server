@@ -1,10 +1,9 @@
 <?php 
 $id = $_['id'];
-$tmp_path = $_['tmp_path'];
+$tmpkey = $_['tmpkey'];
 $requesttoken = $_['requesttoken'];
-OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OCP\Util::DEBUG);
 ?>
-<script language="Javascript">
+<script type="text/javascript">
 	jQuery(function($) {
 		$('#cropbox').Jcrop({
 			onChange:	showCoords,
@@ -39,7 +38,8 @@ OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmp_path: '.$tmp_pa
 		return true;
 	});*/
 </script>
-<img id="cropbox" src="<?php echo OCP\Util::linkToAbsolute('contacts', 'dynphoto.php'); ?>?tmp_path=<?php echo urlencode($tmp_path); ?>" />
+<?php if(OC_Cache::hasKey($tmpkey)) { ?>
+<img id="cropbox" src="<?php echo OCP\Util::linkToAbsolute('contacts', 'tmpphoto.php'); ?>?tmpkey=<?php echo $tmpkey; ?>" />
 <form id="cropform"
 	class="coords"
 	method="post"
@@ -48,8 +48,8 @@ OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmp_path: '.$tmp_pa
 	action="<?php echo OCP\Util::linkToAbsolute('contacts', 'ajax/savecrop.php'); ?>">
 
 	<input type="hidden" id="id" name="id" value="<?php echo $id; ?>" />
-	<input type="hidden" id="requesttoken" name="requesttoken" value="<?php echo $requesttoken; ?>" />
-	<input type="hidden" id="tmp_path" name="tmp_path" value="<?php echo $tmp_path; ?>" />
+	<input type="hidden" name="requesttoken" value="<?php echo $requesttoken; ?>">
+	<input type="hidden" id="tmpkey" name="tmpkey" value="<?php echo $tmpkey; ?>" />
 	<fieldset id="coords">
 	<input type="hidden" id="x1" name="x1" value="" />
 	<input type="hidden" id="y1" name="y1" value="" />
@@ -60,5 +60,8 @@ OCP\Util::writeLog('contacts','templates/part.cropphoto.php: tmp_path: '.$tmp_pa
 	</fieldset>
 	<iframe name="crop_target" id='crop_target' src=""></iframe>
 </form>
-
-
+<?php
+} else { 
+	echo $l->t('The temporary image has been removed from cache.');
+}
+?>

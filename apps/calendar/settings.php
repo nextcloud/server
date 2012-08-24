@@ -10,7 +10,8 @@ $tmpl = new OCP\Template( 'calendar', 'settings');
 $timezone=OCP\Config::getUserValue(OCP\USER::getUser(),'calendar','timezone','');
 $tmpl->assign('timezone',$timezone);
 $tmpl->assign('timezones',DateTimeZone::listIdentifiers());
+$tmpl->assign('calendars', OC_Calendar_Calendar::allCalendars(OCP\USER::getUser()), false);
 
 OCP\Util::addscript('calendar','settings');
 
-return $tmpl->fetchPage();
+$tmpl->printPage();

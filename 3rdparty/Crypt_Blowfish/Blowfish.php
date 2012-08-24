@@ -221,7 +221,7 @@ class Crypt_Blowfish
     function decrypt($cipherText)
     {
         if (!is_string($cipherText)) {
-            PEAR::raiseError('Chiper text must be a string', 1, PEAR_ERROR_DIE);
+            PEAR::raiseError('Cipher text must be a string', 1, PEAR_ERROR_DIE);
         }
 
         if (extension_loaded('mcrypt')) {

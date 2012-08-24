@@ -20,12 +20,22 @@ if($checksum) {
 	$line = OC_Contacts_App::getPropertyLineByChecksum($vcard, $checksum);
 	$element = $vcard->children[$line];
 	$adr = OC_Contacts_VCard::structureProperty($element);
-	$tmpl->assign('adr',$adr);
+	$types = array();
+	if(isset($adr['parameters']['TYPE'])) {
+		if(is_array($adr['parameters']['TYPE'])) {
+			$types = array_map('htmlspecialchars', $adr['parameters']['TYPE']);
+			$types = array_map('strtoupper', $types);
+		} else {
+			$types = array(strtoupper(htmlspecialchars($adr['parameters']['TYPE'])));
+		}
+	}
+	$tmpl->assign('types', $types, false);
+	$adr = array_map('htmlspecialchars', $adr['value']);
+	$tmpl->assign('adr', $adr, false);
 }
 
-$tmpl->assign('id',$id);
-$tmpl->assign('adr_types',$adr_types);
+$tmpl->assign('id', $id);
+$tmpl->assign('adr_types', $adr_types);
 
-$tmpl->printpage();
-
-?>
+$page = $tmpl->fetchPage();
+OCP\JSON::success(array('data' => array('page'=>$page, 'checksum'=>$checksum)));

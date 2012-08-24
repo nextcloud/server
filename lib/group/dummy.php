@@ -4,7 +4,7 @@
 * ownCloud
 *
 * @author Frank Karlitschek
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+* @copyright 2012 Frank Karlitschek frank@owncloud.org
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -126,7 +126,8 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 */
 	public function getUserGroups($uid){
 		$groups=array();
-		foreach($this->groups as $group=>$user){
+		$allGroups=array_keys($this->groups);
+		foreach($allGroups as $group){
 			if($this->inGroup($uid,$group)){
 				$groups[]=$group;
 			}
@@ -140,7 +141,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups(){
+	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		return array_keys($this->groups);
 	}
 
@@ -148,7 +149,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public function usersInGroup($gid){
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(isset($this->groups[$gid])){
 			return $this->groups[$gid];
 		}else{

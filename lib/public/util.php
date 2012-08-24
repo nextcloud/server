@@ -3,7 +3,7 @@
 * ownCloud
 *
 * @author Frank Karlitschek
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+* @copyright 2012 Frank Karlitschek frank@owncloud.org
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -26,7 +26,7 @@
  *
  */
 
-// use OCP namespace for all classes that are considered public. 
+// use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
@@ -54,7 +54,7 @@ class Util {
 
 
 	/**
-	 * @brief send an email 
+	 * @brief send an email
 	 * @param string $toaddress
 	 * @param string $toname
 	 * @param string $subject
@@ -145,15 +145,15 @@ class Util {
 	}
 
 
-        /**
-         * @brief Creates an url
-         * @param $app app
-         * @param $file file
-         * @returns the url
-         *
-         * Returns a url to the given app and file.
-         */
-        public static function linkTo( $app, $file ){
+	/**
+	* @brief Creates an url
+	* @param $app app
+	* @param $file file
+	* @returns the url
+	*
+	* Returns a url to the given app and file.
+	*/
+	public static function linkTo( $app, $file ){
 		return(\OC_Helper::linkTo( $app, $file ));
 	}
 
@@ -165,9 +165,8 @@ class Util {
 	 * reverse proxies
 	 */
 	public static function getServerHost() {
-		return(\OC_Helper::serverHost());
+		return(\OC_Request::serverHost());
 	}
-
 
 	/**
 	 * @brief Returns the server protocol
@@ -175,10 +174,9 @@ class Util {
 	 *
 	 * Returns the server protocol. It respects reverse proxy servers and load balancers
 	 */
-	 public static function getServerProtocol() {
-		return(\OC_Helper::serverProtocol());
+	public static function getServerProtocol() {
+		return(\OC_Request::serverProtocol());
 	}
-
 
 	/**
 	 * @brief Creates path to an image
@@ -249,6 +247,7 @@ class Util {
 		return(\OC_Hook::emit( $signalclass, $signalname, $params ));
 	}
 
+
 	/**
  	 * Register an get/post call. This is important to prevent CSRF attacks
 	 * TODO: write example
@@ -277,6 +276,59 @@ class Util {
 	public static function sanitizeHTML( $value ){
 		return(\OC_Util::sanitizeHTML($value));
 	}
-}
 
-?>
+	/**
+	* @brief Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
+	*
+	* @param $input The array to work on
+	* @param $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
+	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @return array
+	*
+	*
+	*/
+	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8'){
+		return(\OC_Helper::mb_array_change_key_case($input, $case, $encoding));
+	}
+
+	/**
+	* @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
+	*
+	* @param $input The input string. .Opposite to the PHP build-in function does not accept an array.
+	* @param $replacement The replacement string.
+	* @param $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
+	* @param $length Length of the part to be replaced
+	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @return string
+	*
+	*/
+	public static function mb_substr_replace($string, $replacement, $start, $length = null, $encoding = 'UTF-8') {
+		return(\OC_Helper::mb_substr_replace($string, $replacement, $start, $length, $encoding));
+	}
+
+	/**
+	* @brief Replace all occurrences of the search string with the replacement string
+	*
+	* @param $search The value being searched for, otherwise known as the needle. String.
+	* @param $replace The replacement string.
+	* @param $subject The string or array being searched and replaced on, otherwise known as the haystack.
+	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @param $count If passed, this will be set to the number of replacements performed.
+	* @return string
+	*
+	*/
+	public static function mb_str_replace($search, $replace, $subject, $encoding = 'UTF-8', &$count = null) {
+		return(\OC_Helper::mb_str_replace($search, $replace, $subject, $encoding, $count));
+	}
+
+	/**
+	* @brief performs a search in a nested array
+	* @param haystack the array to be searched
+	* @param needle the search string
+	* @param $index optional, only search this key name
+	* @return the key of the matching field, otherwise false
+	*/
+	public static function recursiveArraySearch($haystack, $needle, $index = null) {
+		return(\OC_Helper::recursiveArraySearch($haystack, $needle, $index));
+	}
+}

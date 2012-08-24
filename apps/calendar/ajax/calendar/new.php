@@ -6,8 +6,6 @@
  * See the COPYING-README file.
  */
 
- 
-
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
@@ -32,6 +30,12 @@ OC_Calendar_Calendar::setCalendarActive($calendarid, 1);
 $calendar = OC_Calendar_Calendar::find($calendarid);
 $tmpl = new OCP\Template('calendar', 'part.choosecalendar.rowfields');
 $tmpl->assign('calendar', $calendar);
+if(OC_Calendar_Share::allUsersSharedwith($calendarid, OC_Calendar_Share::CALENDAR) == array()){
+	$shared = false;
+}else{
+	$shared = true;
+}
+$tmpl->assign('shared', $shared);
 OCP\JSON::success(array(
 	'page' => $tmpl->fetchPage(),
 	'eventSource' => OC_Calendar_Calendar::getEventSourceInfo($calendar),

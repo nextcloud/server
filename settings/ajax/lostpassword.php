@@ -2,7 +2,6 @@
 
 // Init owncloud
 require_once('../../lib/base.php');
-
 OC_JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
@@ -16,5 +15,3 @@ if( isset( $_POST['email'] ) && filter_var( $_POST['email'], FILTER_VALIDATE_EMA
 }else{
 	OC_JSON::error(array("data" => array( "message" => $l->t("Invalid email") )));
 }
-
-?>

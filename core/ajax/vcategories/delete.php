@@ -34,5 +34,3 @@ if(is_null($categories)) {
 $vcategories = new OC_VCategories($app);
 $vcategories->delete($categories);
 OC_JSON::success(array('data' => array('categories'=>$vcategories->categories())));
-
-?>

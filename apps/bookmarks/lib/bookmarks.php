@@ -145,4 +145,3 @@ class OC_Bookmarks_Bookmarks{
 		return true;
 	}
 }
-?>

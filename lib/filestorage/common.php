@@ -20,6 +20,18 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Storage backend class for providing common filesystem operation methods 
+ * which are not storage-backend specific.
+ *
+ * OC_Filestorage_Common is never used directly; it is extended by all other
+ * storage backends, where its methods may be overridden, and additional 
+ * (backend-specific) methods are defined.
+ *
+ * Some OC_Filestorage_Common methods call functions which are first defined
+ * in classes which extend it, e.g. $this->stat() .
+ */
+
 abstract class OC_Filestorage_Common extends OC_Filestorage {
 
 	public function __construct($parameters){}
@@ -42,8 +54,17 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 			return $stat['size'];
 		}
 	}
-// 	abstract public function is_readable($path);
-// 	abstract public function is_writable($path);
+	public function isCreatable($path) {
+		return $this->isUpdatable($path);
+	}
+// 	abstract public function isReadable($path);
+// 	abstract public function isUpdatable($path);
+	public function isDeletable($path) {
+		return $this->isUpdatable($path);
+	}
+	public function isSharable($path) {
+		return $this->isReadable($path);
+	}
 // 	abstract public function file_exists($path);
 	public function filectime($path) {
 		$stat = $this->stat($path);
@@ -87,6 +108,79 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		return $count>0;
 	}
 // 	abstract public function fopen($path,$mode);
+
+	/**
+	 * @brief Deletes all files and folders recursively within a directory
+	 * @param $directory The directory whose contents will be deleted
+	 * @param $empty Flag indicating whether directory will be emptied
+	 * @returns true/false
+	 *
+	 * @note By default the directory specified by $directory will be 
+	 * deleted together with its contents. To avoid this set $empty to true
+	 */
+	public function deleteAll( $directory, $empty = false ) {
+	
+		// strip leading slash
+		if( substr( $directory, 0, 1 ) == "/" ) {
+		
+			$directory = substr( $directory, 1 );
+			
+		}
+		
+		// strip trailing slash
+		if( substr( $directory, -1) == "/" ) {
+		
+			$directory = substr( $directory, 0, -1 );
+			
+		}
+		
+		if ( !$this->file_exists( \OCP\USER::getUser() . '/' . $directory ) || !$this->is_dir( \OCP\USER::getUser() . '/' . $directory ) ) {
+		
+			return false;
+			
+		} elseif( !$this->is_readable( \OCP\USER::getUser() . '/' . $directory ) ) {
+		
+			return false;
+			
+		} else {
+			
+			$directoryHandle = $this->opendir( \OCP\USER::getUser() . '/' . $directory );
+			
+			while ( $contents = readdir( $directoryHandle ) ) {
+			
+				if ( $contents != '.' && $contents != '..') {
+					
+					$path = $directory . "/" . $contents;
+				
+					if ( $this->is_dir( $path ) ) {
+						
+						deleteAll( $path );
+					
+					} else {
+						
+						$this->unlink( \OCP\USER::getUser() .'/' . $path ); // TODO: make unlink use same system path as is_dir
+					
+					}
+				}
+			
+			}
+		
+			//$this->closedir( $directoryHandle ); // TODO: implement closedir in OC_FSV
+
+			if ( $empty == false ) {
+			
+				if ( !$this->rmdir( $directory ) ) {
+				
+					return false;
+					
+				}
+				
+			}
+		
+			return true;
+		}
+		
+	}
 	public function getMimeType($path){
 		if(!$this->file_exists($path)){
 			return false;
@@ -135,8 +229,28 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		}
 		$tmpFile=OC_Helper::tmpFile($extension);
 		$target=fopen($tmpFile,'w');
-		$count=OC_Helper::streamCopy($source,$target);
+		OC_Helper::streamCopy($source,$target);
 		return $tmpFile;
+	}
+	public function getLocalFolder($path){
+		$baseDir=OC_Helper::tmpFolder();
+		$this->addLocalFolder($path,$baseDir);
+		return $baseDir;
+	}
+	private function addLocalFolder($path,$target){
+		if($dh=$this->opendir($path)){
+			while($file=readdir($dh)){
+				if($file!=='.' and $file!=='..'){
+					if($this->is_dir($path.'/'.$file)){
+						mkdir($target.'/'.$file);
+						$this->addLocalFolder($path.'/'.$file,$target.'/'.$file);
+					}else{
+						$tmp=$this->toTmpFile($path.'/'.$file);
+						rename($tmp,$target.'/'.$file);
+					}
+				}
+			}
+		}
 	}
 // 	abstract public function touch($path, $mtime=null);
 
@@ -155,5 +269,14 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 			}
 		}
 		return $files;
+	}
+
+	/**
+	 * check if a file or folder has been updated since $time
+	 * @param int $time
+	 * @return bool
+	 */
+	public function hasUpdated($path,$time){
+		return $this->filemtime($path)>$time;
 	}
 }

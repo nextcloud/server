@@ -1,0 +1,74 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Martin  <fireball@atlas.cz>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-18 02:01+0200\n"
+"PO-Revision-Date: 2012-08-17 15:37+0000\n"
+"Last-Translator: Martin <fireball@atlas.cz>\n"
+"Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cs_CZ\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+
+#: settings.php:33
+msgid ""
+"The php-json module is needed by the many applications for inter "
+"communications"
+msgstr "Modul php-json je třeba pro vzájemnou komunikaci mnoha aplikací"
+
+#: settings.php:39
+msgid ""
+"The php-curl modude is needed to fetch the page title when adding a "
+"bookmarks"
+msgstr "Modul php-curl je třeba pro zobrazení titulu strany v okamžiku přidání záložky"
+
+#: settings.php:45
+msgid "The php-gd module is needed to create thumbnails of your images"
+msgstr "Modul php-gd je třeba pro tvorbu náhledů Vašich obrázků"
+
+#: settings.php:51
+msgid "The php-ldap module is needed connect to your ldap server"
+msgstr "Modul php-ldap je třeba pro připojení na Váš ldap server"
+
+#: settings.php:57
+msgid "The php-zip module is needed download multiple files at once"
+msgstr "Modul php-zip je třeba pro souběžné stahování souborů"
+
+#: settings.php:63
+msgid ""
+"The php-mb_multibyte module is needed to manage correctly the encoding."
+msgstr "Modul php-mb_multibyte je třeba pro správnou funkci kódování."
+
+#: settings.php:69
+msgid "The php-ctype module is needed validate data."
+msgstr "Modul php-ctype je třeba k ověřování dat."
+
+#: settings.php:75
+msgid "The php-xml module is needed to share files with webdav."
+msgstr "Modul php-xml je třeba ke sdílení souborů prostřednictvím WebDAV."
+
+#: settings.php:81
+msgid ""
+"The allow_url_fopen directive of your php.ini should be set to 1 to retrieve"
+" knowledge base from OCS servers"
+msgstr "Příkaz allow_url_fopen ve Vašem php.ini souboru by měl být nastaven na 1 kvůli získávání informací z OCS serverů"
+
+#: settings.php:87
+msgid "The php-pdo module is needed to store owncloud data into a database."
+msgstr "Modul php-pdo je třeba pro ukládání dat ownCloud do databáze"
+
+#: templates/settings.php:2
+msgid "Dependencies status"
+msgstr "Status závislostí"
+
+#: templates/settings.php:7
+msgid "Used by :"
+msgstr "Používáno:"

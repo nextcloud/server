@@ -3,7 +3,7 @@
  * ownCloud
  *
  * @author Frank Karlitschek
- * @copyright 2010 Frank Karlitschek karlitschek@kde.org
+ * @copyright 2012 Frank Karlitschek frank@owncloud.org
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,7 +21,9 @@
  */
 
 /**
- * This class provides all methods for user management.
+ * This class provides wrapper methods for user management. Multiple backends are
+ * supported. User management operations are delegated to the configured backend for
+ * execution.
  *
  * Hooks provided:
  *   pre_createUser(&run, uid, password)
@@ -48,8 +50,8 @@ class OC_User {
 	 *
 	 * Makes a list of backends that can be used by other modules
 	 */
-	public static function registerBackend( $name ){
-		self::$_backends[] = $name;
+	public static function registerBackend( $backend ){
+		self::$_backends[] = $backend;
 		return true;
 	}
 
@@ -81,25 +83,35 @@ class OC_User {
 	 * Set the User Authentication Module
 	 */
 	public static function useBackend( $backend = 'database' ){
-		// You'll never know what happens
-		if( null === $backend OR !is_string( $backend )){
-			$backend = 'database';
-		}
+		if($backend instanceof OC_User_Interface){
+			self::$_usedBackends[get_class($backend)]=$backend;
+		}else{
+			// You'll never know what happens
+			if( null === $backend OR !is_string( $backend )){
+				$backend = 'database';
+			}
 
-		// Load backend
-		switch( $backend ){
-			case 'database':
-			case 'mysql':
-			case 'sqlite':
-				self::$_usedBackends[$backend] = new OC_User_Database();
-				break;
-			default:
-				$className = 'OC_USER_' . strToUpper($backend);
-				self::$_usedBackends[$backend] = new $className();
-				break;
+			// Load backend
+			switch( $backend ){
+				case 'database':
+				case 'mysql':
+				case 'sqlite':
+					self::$_usedBackends[$backend] = new OC_User_Database();
+					break;
+				default:
+					$className = 'OC_USER_' . strToUpper($backend);
+					self::$_usedBackends[$backend] = new $className();
+					break;
+			}
 		}
-
 		true;
+	}
+
+	/**
+	 * remove all used backends
+	 */
+	public static function clearBackends(){
+		self::$_usedBackends=array();
 	}
 
 	/**
@@ -166,9 +178,7 @@ class OC_User {
 		if( $run ){
 			//delete the user from all backends
 			foreach(self::$_usedBackends as $backend){
-				if($backend->implementsActions(OC_USER_BACKEND_DELETE_USER)){
-					$backend->deleteUser($uid);
-				}
+				$backend->deleteUser($uid);
 			}
 			// We have to delete the user from all groups
 			foreach( OC_Group::getUserGroups( $uid ) as $i ){
@@ -198,8 +208,9 @@ class OC_User {
 		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid ));
 
 		if( $run ){
-			$uid=self::checkPassword( $uid, $password );
-			if($uid){
+			$uid = self::checkPassword( $uid, $password );
+			$enabled = self::isEnabled($uid);
+			if($uid && $enabled){
 				session_regenerate_id(true);
 				self::setUserId($uid);
 				OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>$password ));
@@ -240,17 +251,13 @@ class OC_User {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn(){
-		static $is_login_checked = null;
-		if (!is_null($is_login_checked)) {
-			return $is_login_checked;
-		}
 		if( isset($_SESSION['user_id']) AND $_SESSION['user_id']) {
 			OC_App::loadApps(array('authentication'));
 			if (self::userExists($_SESSION['user_id']) ){
-				return $is_login_checked = true;
+				return true;
 			}
 		}
-		return $is_login_checked = false;
+		return false;
 	}
 
 	/**
@@ -331,14 +338,12 @@ class OC_User {
 	 *
 	 * Get a list of all users.
 	 */
-	public static function getUsers(){
-		$users=array();
-		foreach(self::$_usedBackends as $backend){
-			if($backend->implementsActions(OC_USER_BACKEND_GET_USERS)){
-				$backendUsers=$backend->getUsers();
-				if(is_array($backendUsers)){
-					$users=array_merge($users,$backendUsers);
-				}
+	public static function getUsers($search = '', $limit = null, $offset = null) {
+		$users = array();
+		foreach (self::$_usedBackends as $backend) {
+			$backendUsers = $backend->getUsers($search, $limit, $offset);
+			if (is_array($backendUsers)) {
+				$users = array_merge($users, $backendUsers);
 			}
 		}
 		asort($users);
@@ -352,14 +357,44 @@ class OC_User {
 	 */
 	public static function userExists($uid){
 		foreach(self::$_usedBackends as $backend){
-			if($backend->implementsActions(OC_USER_BACKEND_USER_EXISTS)){
-				$result=$backend->userExists($uid);
-				if($result===true){
-					return true;
-				}
+			$result=$backend->userExists($uid);
+			if($result===true){
+				return true;
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * disables a user
+	 * @param string $userid the user to disable
+	 */
+	public static function disableUser($userid){
+		$query = "INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, `configkey`, `configvalue`) VALUES(?, ?, ?, ?)";
+		$query = OC_DB::prepare($query);
+		$query->execute(array($userid, 'core', 'enabled', 'false'));
+	}
+	
+	/**
+	 * enable a user
+	 * @param string $userid
+	 */
+	public static function enableUser($userid){
+		$query = "DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
+		$query = OC_DB::prepare($query);
+		$query->execute(array($userid, 'core', 'enabled', 'false'));
+	}
+	
+	/**
+	 * checks if a user is enabled
+	 * @param string $userid
+	 * @return bool
+	 */
+	public static function isEnabled($userid){
+		$query = "SELECT `userid` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
+		$query = OC_DB::prepare($query);
+		$results = $query->execute(array($userid, 'core', 'enabled', 'false'));
+		return $results->numRows() ? false : true;
 	}
 
 	/**

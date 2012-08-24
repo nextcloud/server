@@ -5,25 +5,20 @@
  * later.
  * See the COPYING-README file.
  */
-
- 
-require_once('when/When.php');
-
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
 session_write_close();
 
 // Look for the calendar id
-$calendar_id = OC_Calendar_App::getCalendar($_GET['calendar_id'], false, false);
-if($calendar_id !== false){
-	if(! is_numeric($calendar_id['userid']) && $calendar_id['userid'] != OCP\User::getUser()){
-		OCP\JSON::error();
-		exit;
+$calendar_id = null;
+if (strval(intval($_GET['calendar_id'])) == strval($_GET['calendar_id'])) { // integer for sure.
+	$id = intval($_GET['calendar_id']);
+	$calendarrow = OC_Calendar_App::getCalendar($id, true, false); // Let's at least security check otherwise we might as well use OC_Calendar_Calendar::find()
+	if($calendarrow !== false && is_int($calendar_id['userid']) && $id == $calendar_id['userid']) {
+		$calendar_id = $id;
 	}
 }
-else {
-	$calendar_id = $_GET['calendar_id'];
-}
+$calendar_id = (is_null($calendar_id)?strip_tags($_GET['calendar_id']):$calendar_id);
 
 $start = (version_compare(PHP_VERSION, '5.3.0', '>='))?DateTime::createFromFormat('U', $_GET['start']):new DateTime('@' . $_GET['start']);
 $end = (version_compare(PHP_VERSION, '5.3.0', '>='))?DateTime::createFromFormat('U', $_GET['end']):new DateTime('@' . $_GET['end']);

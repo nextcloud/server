@@ -23,12 +23,12 @@
 
 //From user comments at http://dk2.php.net/manual/en/function.exif-imagetype.php
 if ( ! function_exists( 'exif_imagetype' ) ) {
-    function exif_imagetype ( $filename ) {
-        if ( ( list($width, $height, $type, $attr) = getimagesize( $filename ) ) !== false ) {
-            return $type;
-        }
-    return false;
-    }
+	function exif_imagetype ( $filename ) {
+		if ( ( $info = getimagesize( $filename ) ) !== false ) {
+			return $info[2];
+		}
+		return false;
+	}
 }
 
 function ellipsis($str, $maxlen) {
@@ -66,7 +66,6 @@ class OC_Image {
 	public function __construct($imageref = null) {
 		//OC_Log::write('core',__METHOD__.'(): start', OC_Log::DEBUG);
 		if(!extension_loaded('gd') || !function_exists('gd_info')) {
-		//if(!function_exists('imagecreatefromjpeg')) {
 			OC_Log::write('core',__METHOD__.'(): GD module not installed', OC_Log::ERROR);
 			return false;
 		}
@@ -105,6 +104,56 @@ class OC_Image {
 	*/
 	public function height() {
 		return $this->valid() ? imagesy($this->resource) : -1;
+	}
+
+	/**
+	* @brief Returns the width when the image orientation is top-left.
+	* @returns int
+	*/
+	public function widthTopLeft() {
+		$o = $this->getOrientation();
+		OC_Log::write('core','OC_Image->widthTopLeft() Orientation: '.$o, OC_Log::DEBUG);
+		switch($o) {
+			case -1:
+			case 1:
+			case 2: // Not tested
+			case 3:
+			case 4: // Not tested
+				return $this->width();
+				break;
+			case 5: // Not tested
+			case 6:
+			case 7: // Not tested
+			case 8:
+				return $this->height();
+				break;
+		}
+		return $this->width();
+	}
+
+	/**
+	* @brief Returns the height when the image orientation is top-left.
+	* @returns int
+	*/
+	public function heightTopLeft() {
+		$o = $this->getOrientation();
+		OC_Log::write('core','OC_Image->heightTopLeft() Orientation: '.$o, OC_Log::DEBUG);
+		switch($o) {
+			case -1:
+			case 1:
+			case 2: // Not tested
+			case 3:
+			case 4: // Not tested
+				return $this->height();
+				break;
+			case 5: // Not tested
+			case 6:
+			case 7: // Not tested
+			case 8:
+				return $this->width();
+				break;
+		}
+		return $this->height();
 	}
 
 	/**
@@ -189,15 +238,50 @@ class OC_Image {
 	}
 
 	/**
-	* @returns Returns a base64 encoded string suitable for embedding in a VCard.
+	* @returns Returns the raw image data.
 	*/
-	function __toString() {
+	function data() {
 		ob_start();
 		$res = imagepng($this->resource);
 		if (!$res) {
-			OC_Log::write('core','OC_Image->__toString. Error writing image',OC_Log::ERROR);
+			OC_Log::write('core','OC_Image->data. Error getting image data.',OC_Log::ERROR);
 		}
-		return base64_encode(ob_get_clean());
+		return ob_get_clean();
+	}
+
+	/**
+	* @returns Returns a base64 encoded string suitable for embedding in a VCard.
+	*/
+	function __toString() {
+		return base64_encode($this->data());
+	}
+
+	/**
+	* (I'm open for suggestions on better method name ;)
+	* @brief Get the orientation based on EXIF data.
+	* @returns The orientation or -1 if no EXIF data is available.
+	*/
+	public function getOrientation() {
+		if(!is_callable('exif_read_data')){
+			OC_Log::write('core','OC_Image->fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
+			return -1;
+		}
+		if(!$this->valid()) {
+			OC_Log::write('core','OC_Image->fixOrientation() No image loaded.', OC_Log::DEBUG);
+			return -1;
+		}
+		if(is_null($this->filepath) || !is_readable($this->filepath)) {
+			OC_Log::write('core','OC_Image->fixOrientation() No readable file path set.', OC_Log::DEBUG);
+			return -1;
+		}
+		$exif = @exif_read_data($this->filepath, 'IFD0');
+		if(!$exif) {
+			return -1;
+		}
+		if(!isset($exif['Orientation'])) {
+			return -1;
+		}
+		return $exif['Orientation'];
 	}
 
 	/**
@@ -206,30 +290,14 @@ class OC_Image {
 	* @returns bool.
 	*/
 	public function fixOrientation() {
-		if(!is_callable('exif_read_data')){
-			OC_Log::write('core','OC_Image->fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
-			return false;
-		}
-		if(!$this->valid()) {
-			OC_Log::write('core','OC_Image->fixOrientation() No image loaded.', OC_Log::DEBUG);
-			return false;
-		}
-		if(is_null($this->filepath) || !is_readable($this->filepath)) {
-			OC_Log::write('core','OC_Image->fixOrientation() No readable file path set.', OC_Log::DEBUG);
-			return false;
-		}
-		$exif = @exif_read_data($this->filepath, 'IFD0');
-		if(!$exif) {
-			return false;
-		}
-		if(!isset($exif['Orientation'])) {
-			return true; // Nothing to fix
-		}
-		$o = $exif['Orientation'];
+		$o = $this->getOrientation();
 		OC_Log::write('core','OC_Image->fixOrientation() Orientation: '.$o, OC_Log::DEBUG);
 		$rotate = 0;
 		$flip = false;
 		switch($o) {
+			case -1:
+				return false; //Nothing to fix
+				break;
 			case 1:
 				$rotate = 0;
 				$flip = false;
@@ -295,7 +363,7 @@ class OC_Image {
 	public function load($imageref) {
 		if(is_resource($imageref)) {
 			if(get_resource_type($imageref) == 'gd') {
-				$this->resource = $res;
+				$this->resource = $imageref;
 				return $this->resource;
 			} elseif(in_array(get_resource_type($imageref), array('file','stream'))) {
 				return $this->loadFromFileHandle($imageref);
@@ -581,9 +649,6 @@ class OC_Image {
 			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
 			return false;
 		}
-		$width_orig=imageSX($this->resource);
-		$height_orig=imageSY($this->resource);
-		//OC_Log::write('core',__METHOD__.'(): Original size: '.$width_orig.'x'.$height_orig, OC_Log::DEBUG);
 		$process = imagecreatetruecolor($w, $h);
 		if ($process == false) {
 			OC_Log::write('core',__METHOD__.'(): Error creating true color image',OC_Log::ERROR);

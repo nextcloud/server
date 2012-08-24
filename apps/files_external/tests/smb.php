@@ -14,7 +14,6 @@ if(!is_array($config) or !isset($config['smb']) or !$config['smb']['run']){
 }else{
 	class Test_Filestorage_SMB extends Test_FileStorage {
 		private $config;
-		private $id;
 
 		public function setUp(){
 			$id=uniqid();

@@ -49,5 +49,3 @@ foreach($results as $result){
 $tmpl = new OC_Template( 'search', 'index', 'user' );
 $tmpl->assign('resultTypes',$resultTypes);
 $tmpl->printPage();
-
-?>

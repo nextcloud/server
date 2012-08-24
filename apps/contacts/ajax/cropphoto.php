@@ -20,19 +20,15 @@
  *
  */
 
-// Init owncloud
- 
-
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
-$tmp_path = strip_tags($_GET['tmp_path']);
-$requesttoken = strip_tags($_GET['requesttoken']);
+$tmpkey = $_GET['tmpkey'];
+$requesttoken = $_GET['requesttoken'];
 $id = $_GET['id'];
-OCP\Util::writeLog('contacts','ajax/cropphoto.php: tmp_path: '.$tmp_path.', exists: '.file_exists($tmp_path), OCP\Util::DEBUG);
 $tmpl = new OCP\Template("contacts", "part.cropphoto");
-$tmpl->assign('tmp_path', $tmp_path);
+$tmpl->assign('tmpkey', $tmpkey);
 $tmpl->assign('id', $id);
 $tmpl->assign('requesttoken', $requesttoken);
 $page = $tmpl->fetchPage();

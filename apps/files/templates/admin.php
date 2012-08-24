@@ -3,7 +3,7 @@
 <form name="filesForm" action='#' method='post'>
 	<fieldset class="personalblock">
 		<legend><strong><?php echo $l->t('File handling');?></strong></legend>
-		<?php if($_['htaccessWorking']):?>
+		<?php if($_['uploadChangable']):?>
 			<label for="maxUploadSize"><?php echo $l->t( 'Maximum upload size' ); ?> </label><input name='maxUploadSize' id="maxUploadSize" value='<?php echo $_['uploadMaxFilesize'] ?>'/>(<?php echo $l->t('max. possible: '); echo $_['maxPossibleUploadSize'] ?>)<br/>
 		<?php endif;?>
 		<input type="checkbox" name="allowZipDownload" id="allowZipDownload" value="1" title="<?php echo $l->t( 'Needed for multi-file and folder downloads.' ); ?>"<?php if ($_['allowZipDownload']) echo ' checked="checked"'; ?> /> <label for="allowZipDownload"><?php echo $l->t( 'Enable ZIP-download' ); ?></label> <br/>

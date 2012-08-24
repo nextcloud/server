@@ -2,9 +2,8 @@
 /**
  * for local filestore, we only have to map the paths
  */
-class OC_Filestorage_Local extends OC_Filestorage{
+class OC_Filestorage_Local extends OC_Filestorage_Common{
 	protected $datadir;
-	private static $mimetypes=null;
 	public function __construct($arguments){
 		$this->datadir=$arguments['datadir'];
 		if(substr($this->datadir,-1)!=='/'){
@@ -41,15 +40,15 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	}
 	public function filesize($path){
 		if($this->is_dir($path)){
-			return $this->getFolderSize($path);
+			return 0;
 		}else{
 			return filesize($this->datadir.$path);
 		}
 	}
-	public function is_readable($path){
+	public function isReadable($path){
 		return is_readable($this->datadir.$path);
 	}
-	public function is_writable($path){
+	public function isUpdatable($path){
 		return is_writable($this->datadir.$path);
 	}
 	public function file_exists($path){
@@ -86,7 +85,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		return $this->delTree($path);
 	}
 	public function rename($path1,$path2){
-		if (!$this->is_writable($path1)) {
+		if (!$this->isUpdatable($path1)) {
 			OC_Log::write('core','unable to rename, file is not writable : '.$path1,OC_Log::ERROR);
 			return false;
 		}
@@ -129,7 +128,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	}
 
 	public function getMimeType($path){
-		if($this->is_readable($path)){
+		if($this->isReadable($path)){
 			return OC_Helper::getMimeType($this->datadir.$path);
 		}else{
 			return false;
@@ -157,7 +156,7 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		return $return;
 	}
 
-	public function hash($type,$path,$raw = false){
+	public function hash($path,$type,$raw=false){
 		return hash_file($type,$this->datadir.$path,$raw);
 	}
 
@@ -169,10 +168,13 @@ class OC_Filestorage_Local extends OC_Filestorage{
 		return $this->searchInDir($query);
 	}
 	public function getLocalFile($path){
-			return $this->datadir.$path;
+		return $this->datadir.$path;
+	}
+	public function getLocalFolder($path){
+		return $this->datadir.$path;
 	}
 
-	private function searchInDir($query,$dir=''){
+	protected function searchInDir($query,$dir=''){
 		$files=array();
 		foreach (scandir($this->datadir.$dir) as $item) {
 			if ($item == '.' || $item == '..') continue;
@@ -187,11 +189,11 @@ class OC_Filestorage_Local extends OC_Filestorage{
 	}
 
 	/**
-	 * @brief get the size of folder and it's content
-	 * @param string $path file path
-	 * @return int size of folder and it's content
+	 * check if a file or folder has been updated since $time
+	 * @param int $time
+	 * @return bool
 	 */
-	public function getFolderSize($path){
-		return 0;//depricated, use OC_FileCach instead
+	public function hasUpdated($path,$time){
+		return $this->filemtime($path)>$time;
 	}
 }

@@ -1,0 +1,83 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Mariano  <mstreet@kde.org.ar>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-15 22:09+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
+"Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: eo\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: templates/settings.php:3
+msgid "External Storage"
+msgstr "Malena memorilo"
+
+#: templates/settings.php:7 templates/settings.php:19
+msgid "Mount point"
+msgstr "Surmetingo"
+
+#: templates/settings.php:8
+msgid "Backend"
+msgstr "Motoro"
+
+#: templates/settings.php:9
+msgid "Configuration"
+msgstr "Agordo"
+
+#: templates/settings.php:10
+msgid "Options"
+msgstr "Malneproj"
+
+#: templates/settings.php:11
+msgid "Applicable"
+msgstr "Aplikebla"
+
+#: templates/settings.php:23
+msgid "Add mount point"
+msgstr "Aldoni surmetingon"
+
+#: templates/settings.php:54 templates/settings.php:62
+msgid "None set"
+msgstr "Nenio agordita"
+
+#: templates/settings.php:63
+msgid "All Users"
+msgstr "Ĉiuj uzantoj"
+
+#: templates/settings.php:64
+msgid "Groups"
+msgstr "Grupoj"
+
+#: templates/settings.php:69
+msgid "Users"
+msgstr "Uzantoj"
+
+#: templates/settings.php:77 templates/settings.php:96
+msgid "Delete"
+msgstr "Forigi"
+
+#: templates/settings.php:88
+msgid "SSL root certificates"
+msgstr "Radikaj SSL-atestoj"
+
+#: templates/settings.php:102
+msgid "Import Root Certificate"
+msgstr "Enporti radikan ateston"
+
+#: templates/settings.php:108
+msgid "Enable User External Storage"
+msgstr "Kapabligi malenan memorilon de uzanto"
+
+#: templates/settings.php:109
+msgid "Allow users to mount their own external storage"
+msgstr "Permesi al uzantoj surmeti siajn proprajn malenajn memorilojn"

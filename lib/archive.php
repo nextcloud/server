@@ -112,4 +112,25 @@ abstract class OC_Archive{
 	 * @return resource
 	 */
 	abstract function getStream($path,$mode);
+	/**
+	 * add a folder and all it's content
+	 * @param string $path
+	 * @param string source
+	 * @return bool
+	 */
+	function addRecursive($path,$source){
+		if($dh=opendir($source)){
+			$this->addFolder($path);
+			while($file=readdir($dh)){
+				if($file=='.' or $file=='..'){
+					continue;
+				}
+				if(is_dir($source.'/'.$file)){
+					$this->addRecursive($path.'/'.$file,$source.'/'.$file);
+				}else{
+					$this->addFile($path.'/'.$file,$source.'/'.$file);
+				}
+			}
+		}
+	}
 }

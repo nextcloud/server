@@ -4,7 +4,7 @@
 * ownCloud
 *
 * @author Frank Karlitschek
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+* @copyright 2012 Frank Karlitschek frank@owncloud.org
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -30,16 +30,45 @@ class OC_Files {
 
 	/**
 	* get the content of a directory
-	* @param dir $directory
+	* @param dir $directory path under datadirectory
 	*/
-  public static function getDirectoryContent($directory, $mimetype_filter = ''){
-		if(strpos($directory,OC::$CONFIG_DATADIRECTORY)===0){
-			$directory=substr($directory,strlen(OC::$CONFIG_DATADIRECTORY));
+	public static function getDirectoryContent($directory, $mimetype_filter = ''){
+		$directory=OC_Filesystem::normalizePath($directory);
+		if($directory=='/'){
+			$directory='';
 		}
-    $files=OC_FileCache::getFolderContent($directory, '', $mimetype_filter);
-		foreach($files as &$file){
-			$file['directory']=$directory;
-			$file['type']=($file['mimetype']=='httpd/unix-directory')?'dir':'file';
+		$files = array();
+		if (($directory == '/Shared' || substr($directory, 0, 8) == '/Shared/') && OC_App::isEnabled('files_sharing')) {
+			if ($directory == '/Shared') {
+				$files = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP, array('folder' => $directory, 'mimetype_filter' => $mimetype_filter));
+			} else {
+				$pos = strpos($directory, '/', 8);
+				// Get shared folder name
+				if ($pos !== false) {
+					$itemTarget = substr($directory, 7, $pos - 7);
+				} else {
+					$itemTarget = substr($directory, 7);
+				}
+				$files = OCP\Share::getItemSharedWith('folder', $itemTarget, OC_Share_Backend_File::FORMAT_FILE_APP, array('folder' => $directory, 'mimetype_filter' => $mimetype_filter));
+			}
+		} else {
+			$files = OC_FileCache::getFolderContent($directory, false, $mimetype_filter);
+			foreach ($files as &$file) {
+				$file['directory'] = $directory;
+				$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
+				$permissions = OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE;
+				if ($file['type'] == 'dir' && $file['writable']) {
+					$permissions |= OCP\Share::PERMISSION_CREATE;
+				}
+				if ($file['writable']) {
+					$permissions |= OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_DELETE;
+				}
+				$file['permissions'] = $permissions;
+			}
+			if ($directory == '' && OC_App::isEnabled('files_sharing')) {
+				// Add 'Shared' folder
+				$files = array_merge($files, OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT));
+			}
 		}
 		usort($files, "fileCmp");//TODO: remove this once ajax is merged
 		return $files;
@@ -107,8 +136,7 @@ class OC_Files {
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
 			}else{
-				$fileData=OC_FileCache::get($filename);
-				header('Content-Type: ' . $fileData['mimetype']);
+				header('Content-Type: '.OC_Filesystem::getMimeType($filename));
 			}
 		}elseif($zip or !OC_Filesystem::file_exists($filename)){
 			header("HTTP/1.0 404 Not Found");
@@ -170,10 +198,12 @@ class OC_Files {
 	* @param file $target
 	*/
 	public static function move($sourceDir,$source,$targetDir,$target){
-		if(OC_User::isLoggedIn() && ($sourceDir != '' || $source != 'Shared')){
+		if(OC_User::isLoggedIn() && ($sourceDir != '' || $source != 'Shared') && !OC_Filesystem::file_exists($targetDir.'/'.$target)){
 			$targetFile=self::normalizePath($targetDir.'/'.$target);
 			$sourceFile=self::normalizePath($sourceDir.'/'.$source);
 			return OC_Filesystem::rename($sourceFile,$targetFile);
+		} else {
+			return false;
 		}
 	}
 
@@ -373,10 +403,12 @@ class OC_Files {
 			}
 		}
 
-		//supress errors in case we don't have permissions for it
-		if(@file_put_contents(OC::$SERVERROOT.'/.htaccess', $htaccess)) {
-			return OC_Helper::computerFileSize($size);
-		}
+		//check for write permissions
+		if(is_writable(OC::$SERVERROOT.'/.htaccess')) {
+			file_put_contents(OC::$SERVERROOT.'/.htaccess', $htaccess);
+			return OC_Helper::computerFileSize($size);	
+		} else { OC_Log::write('files','Can\'t write upload limit to '.OC::$SERVERROOT.'/.htaccess. Please check the file permissions',OC_Log::WARN); }
+		
 		return false;
 	}
 

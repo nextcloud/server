@@ -7,6 +7,7 @@
 OCP\JSON::setContentTypeHeader('text/plain');
 
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 if (!isset($_FILES['files'])) {
 	OCP\JSON::error(array("data" => array( "message" => "No file was uploaded. Unknown error" )));
@@ -48,7 +49,7 @@ if(strpos($dir,'..') === false){
 	for($i=0;$i<$fileCount;$i++){
         $target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
 		if(is_uploaded_file($files['tmp_name'][$i]) and OC_Filesystem::fromTmpFile($files['tmp_name'][$i],$target)){
-			$meta=OC_FileCache::getCached($target);
+			$meta=OC_FileCache_Cached::get($target);
 			$result[]=array( "status" => "success", 'mime'=>$meta['mimetype'],'size'=>$meta['size'],'name'=>basename($target));
 		}
 	}
@@ -59,5 +60,3 @@ if(strpos($dir,'..') === false){
 }
 
 OCP\JSON::error(array('data' => array('error' => $error, "file" => $fileName)));
-
-?>

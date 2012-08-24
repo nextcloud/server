@@ -4,7 +4,7 @@
 * ownCloud
 *
 * @author Frank Karlitschek
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+* @copyright 2012 Frank Karlitschek frank@owncloud.org
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -100,7 +100,7 @@ class OC_User_Dummy extends OC_User_Backend {
 		*
 		* Get a list of all users.
 		*/
-	public function getUsers(){
+	public function getUsers($search = '', $limit = -1, $offset = 0) {
 		return array_keys($this->users);
 	}
 

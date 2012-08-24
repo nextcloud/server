@@ -60,5 +60,3 @@ function CroppedThumbnail($imgSrc,$thumbnail_width,$thumbnail_height, $tgtImg, $
     imagedestroy($process);
     imagedestroy($myImage);
 }
-
-?>

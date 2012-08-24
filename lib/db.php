@@ -3,7 +3,7 @@
  * ownCloud
  *
  * @author Frank Karlitschek
- * @copyright 2010 Frank Karlitschek karlitschek@kde.org
+ * @copyright 2012 Frank Karlitschek frank@owncloud.org
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -33,8 +33,6 @@ class OC_DB {
 	static private $MDB2=false;
 	static private $PDO=false;
 	static private $schema=false;
-	static private $affected=0;
-	static private $result=false;
 	static private $inTransaction=false;
 	static private $prefix=null;
 	static private $type=null;
@@ -44,18 +42,18 @@ class OC_DB {
 	 * @return BACKEND_MDB2 or BACKEND_PDO
 	 */
 	private static function getDBBackend(){
-		if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (instalation always needs to be done my mdb2)
+		if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (installation always needs to be done my mdb2)
 			$type = OC_Config::getValue( "dbtype", "sqlite" );
-                        if($type=='oci') { //oracle also always needs mdb2
-                                return self::BACKEND_MDB2;
-                        }
+			if($type=='oci') { //oracle also always needs mdb2
+				return self::BACKEND_MDB2;
+			}
 			if($type=='sqlite3') $type='sqlite';
 			$drivers=PDO::getAvailableDrivers();
 			if(array_search($type,$drivers)!==false){
 				return self::BACKEND_PDO;
 			}
 		}
-                return self::BACKEND_MDB2;
+		return self::BACKEND_MDB2;
 	}
 	
 	/**
@@ -131,15 +129,23 @@ class OC_DB {
 					}else{
 						$dsn='pgsql:dbname='.$name.';host='.$host;
 					}
+					/**
+					* Ugly fix for pg connections pbm when password use spaces
+					*/
+					$e_user = addslashes($user);
+					$e_password = addslashes($pass);
+					$pass = $user = null;
+					$dsn .= ";user='$e_user';password='$e_password'";
+					/** END OF FIX***/
 					break;
-                                case 'oci': // Oracle with PDO is unsupported
-                                        if ($port) {
-                                                $dsn = 'oci:dbname=//' . $host . ':' . $port . '/' . $name;
-                                        } else {
-                                                $dsn = 'oci:dbname=//' . $host . '/' . $name;
-                                        }
-                                        break;
-                        }
+				case 'oci': // Oracle with PDO is unsupported
+						if ($port) {
+								$dsn = 'oci:dbname=//' . $host . ':' . $port . '/' . $name;
+						} else {
+								$dsn = 'oci:dbname=//' . $host . '/' . $name;
+						}
+						break;
+			}
 			try{
 				self::$PDO=new PDO($dsn,$user,$pass,$opts);
 			}catch(PDOException $e){
@@ -214,18 +220,18 @@ class OC_DB {
 						'database' => $name
 					);
 					break;
-                                case 'oci':
-                                            $dsn = array(
-                                                    'phptype'  => 'oci8',
-                                                    'username' => $user,
-                                                    'password' => $pass,
-                                            );
-                                            if ($host != '') {
-                                                $dsn['hostspec'] = $host;
-                                                $dsn['database'] = $name;
-                                            } else { // use dbname for hostspec
-                                                $dsn['hostspec'] = $name;
-                                            }
+				case 'oci':
+					$dsn = array(
+							'phptype'  => 'oci8',
+							'username' => $user,
+							'password' => $pass,
+					);
+					if ($host != '') {
+						$dsn['hostspec'] = $host;
+						$dsn['database'] = $name;
+					} else { // use dbname for hostspec
+						$dsn['hostspec'] = $name;
+					}
 					break;
 			}
 			
@@ -256,32 +262,30 @@ class OC_DB {
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
 	static public function prepare( $query , $limit=null, $offset=null ){
-            
-            if (!is_null($limit)) {
-                if (self::$backend == self::BACKEND_MDB2) {
-                    //MDB2 uses or emulates limits & offset internally
-                    self::$MDB2->setLimit($limit, $offset);
-                } else {
-                    //PDO does not handle limit and offset.
-                    //FIXME: check limit notation for other dbs
-                    //the following sql thus might needs to take into account db ways of representing it
-                    //(oracle has no LIMIT / OFFSET)
-                        $limitsql = ' LIMIT ' . $limit;
-                    if (!is_null($offset)) {
-                        $limitsql .= ' OFFSET ' . $offset;
-                    }
-                    //insert limitsql
-                    if (substr($query, -1) == ';') { //if query ends with ;
-                        $query = substr($query, 0, -1) . $limitsql . ';';
-                    } else {
-                        $query.=$limitsql;
-                    }
-                }
-            }
+		
+		if (!is_null($limit)) {
+			if (self::$backend == self::BACKEND_MDB2) {
+				//MDB2 uses or emulates limits & offset internally
+				self::$MDB2->setLimit($limit, $offset);
+			} else {
+				//PDO does not handle limit and offset.
+				//FIXME: check limit notation for other dbs
+				//the following sql thus might needs to take into account db ways of representing it
+				//(oracle has no LIMIT / OFFSET)
+					$limitsql = ' LIMIT ' . $limit;
+				if (!is_null($offset)) {
+					$limitsql .= ' OFFSET ' . $offset;
+				}
+				//insert limitsql
+				if (substr($query, -1) == ';') { //if query ends with ;
+					$query = substr($query, 0, -1) . $limitsql . ';';
+				} else {
+					$query.=$limitsql;
+				}
+			}
+		}
 
-
-
-        // Optimize the query
+		// Optimize the query
 		$query = self::processQuery( $query );
 
 		self::connect();
@@ -395,17 +399,17 @@ class OC_DB {
 		$file2 = 'static://db_scheme';
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
-                /* FIXME: REMOVE this commented code
-                 * actually mysql, postgresql, sqlite and oracle support CUURENT_TIMESTAMP
-                 * http://dev.mysql.com/doc/refman/5.0/en/timestamp-initialization.html
-                 * http://www.postgresql.org/docs/8.1/static/functions-datetime.html
-                 * http://www.sqlite.org/lang_createtable.html
-                 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
+		/* FIXME: REMOVE this commented code
+		 * actually mysql, postgresql, sqlite and oracle support CURRENT_TIMESTAMP
+		 * http://dev.mysql.com/doc/refman/5.0/en/timestamp-initialization.html
+		 * http://www.postgresql.org/docs/8.1/static/functions-datetime.html
+		 * http://www.sqlite.org/lang_createtable.html
+		 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
 
-                 if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
-                         $content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
-                 }
-                 */
+		 if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
+				 $content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
+		 }
+		 */
 		file_put_contents( $file2, $content );
 
 		// Try to create tables
@@ -418,20 +422,17 @@ class OC_DB {
 		if( $definition instanceof MDB2_Schema_Error ){
 			die( $definition->getMessage().': '.$definition->getUserInfo());
 		}
-// 		if(OC_Config::getValue('dbtype','sqlite')=='sqlite'){
-// 			$definition['overwrite']=true;//always overwrite for sqlite
-// 		}
-                if(OC_Config::getValue('dbtype','sqlite')==='oci'){
-                        unset($definition['charset']); //or MDB2 tries SHUTDOWN IMMEDIATE
-                        $oldname = $definition['name'];
-                        $definition['name']=OC_Config::getValue( "dbuser", $oldname );
-                }
-                
+		if(OC_Config::getValue('dbtype','sqlite')==='oci'){
+			unset($definition['charset']); //or MDB2 tries SHUTDOWN IMMEDIATE
+			$oldname = $definition['name'];
+			$definition['name']=OC_Config::getValue( "dbuser", $oldname );
+		}
+		
 		$ret=self::$schema->createDatabase( $definition );
 
 		// Die in case something went wrong
 		if( $ret instanceof MDB2_Error ){
-                        echo (self::$MDB2->getDebugOutput());
+			echo (self::$MDB2->getDebugOutput());
 			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
 		}
 
@@ -462,16 +463,16 @@ class OC_DB {
 		$file2 = 'static://db_scheme';
 		$content = str_replace( '*dbname*', $previousSchema['name'], $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
-                /* FIXME: REMOVE this commented code
-                 * actually mysql, postgresql, sqlite and oracle support CUURENT_TIMESTAMP
-                 * http://dev.mysql.com/doc/refman/5.0/en/timestamp-initialization.html
-                 * http://www.postgresql.org/docs/8.1/static/functions-datetime.html
-                 * http://www.sqlite.org/lang_createtable.html
-                 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
+		/* FIXME: REMOVE this commented code
+		 * actually mysql, postgresql, sqlite and oracle support CUURENT_TIMESTAMP
+		 * http://dev.mysql.com/doc/refman/5.0/en/timestamp-initialization.html
+		 * http://www.postgresql.org/docs/8.1/static/functions-datetime.html
+		 * http://www.sqlite.org/lang_createtable.html
+		 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
 		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
 			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
 		}
-                 */
+		 */
 		file_put_contents( $file2, $content );
 		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
 		
@@ -581,8 +582,9 @@ class OC_DB {
 		
 		// Delete our temporary file
 		unlink( $file2 );
-		foreach($definition['tables'] as $name=>$table){
-			self::dropTable($name);
+		$tables=array_keys($definition['tables']);
+		foreach($tables as $table){
+			self::dropTable($table);
 		}
 	}
 	
@@ -590,15 +592,14 @@ class OC_DB {
 	 * @brief replaces the owncloud tables with a new set
 	 * @param $file string path to the MDB2 xml db export file
 	 */
-	 public static function replaceDB( $file ){
-	 	
+	public static function replaceDB( $file ){
 	 	$apps = OC_App::getAllApps();
 	 	self::beginTransaction();
 	 	// Delete the old tables
 	 	self::removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
 	 	
 	 	foreach($apps as $app){
-	 		$path = OC::$SERVERROOT.'/apps/'.$app.'/appinfo/database.xml';
+	 		$path = OC_App::getAppPath($app).'/appinfo/database.xml';
 	 		if(file_exists($path)){
 	 			self::removeDBStructure( $path );	
 	 		}

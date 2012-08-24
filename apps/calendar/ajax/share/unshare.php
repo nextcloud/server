@@ -5,10 +5,11 @@
  * later.
  * See the COPYING-README file.
  */
- OCP\JSON::callCheck();
 
-$id = strip_tags($_GET['id']);
-$idtype = strip_tags($_GET['idtype']);
+OCP\JSON::callCheck();
+
+$id = strip_tags($_POST['id']);
+$idtype = strip_tags($_POST['idtype']);
 switch($idtype){
 	case 'calendar':
 	case 'event':
@@ -25,8 +26,8 @@ if($idtype == 'event' && !OC_Calendar_App::getEventObject($id)){
 	OCP\JSON::error(array('message'=>'permission denied'));
 	exit;
 }
-$sharewith = $_GET['sharewith'];
-$sharetype = strip_tags($_GET['sharetype']);
+$sharewith = $_POST['sharewith'];
+$sharetype = strip_tags($_POST['sharetype']);
 switch($sharetype){
 	case 'user':
 	case 'group':

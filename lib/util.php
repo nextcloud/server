@@ -10,42 +10,20 @@ class OC_Util {
 	public static $headers=array();
 	private static $rootMounted=false;
 	private static $fsSetup=false;
+	public static $core_styles=array();
+	public static $core_scripts=array();
 
 	// Can be set up
-	public static function setupFS( $user = "", $root = "files" ){ // configure the initial filesystem based on the configuration
-		if(self::$fsSetup){ //setting up the filesystem twice can only lead to trouble
+	public static function setupFS( $user = '' ){// configure the initial filesystem based on the configuration
+		if(self::$fsSetup){//setting up the filesystem twice can only lead to trouble
 			return false;
 		}
 
-		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
-		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
-
-		// Check if config folder is writable.
-		if(!is_writable(OC::$SERVERROOT."/config/")) {
-			$tmpl = new OC_Template( '', 'error', 'guest' );
-			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
-			$tmpl->printPage();
-			exit;
-		}
-
-		// Check if apps folder is writable.
-		if(OC_Config::getValue('writable_appsdir', true) && !is_writable(OC::$SERVERROOT."/apps/")) {
-			$tmpl = new OC_Template( '', 'error', 'guest' );
-			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into apps directory 'apps'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
-			$tmpl->printPage();
-			exit;
-		}
-		
-		
-		// Create root dir.
-		if(!is_dir($CONFIG_DATADIRECTORY_ROOT)){
-			$success=@mkdir($CONFIG_DATADIRECTORY_ROOT);
-            if(!$success) {
-				$tmpl = new OC_Template( '', 'error', 'guest' );
-				$tmpl->assign('errors',array(1=>array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY_ROOT.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ")));
-				$tmpl->printPage();
-				exit;
-  			}
+		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
+		//first set up the local "root" storage
+		if(!self::$rootMounted){
+			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY),'/');
+			self::$rootMounted=true;
 		}
 
 		// If we are not forced to load a specific user we load the one that is logged in
@@ -53,23 +31,28 @@ class OC_Util {
 			$user = OC_User::getUser();
 		}
 
-		//first set up the local "root" storage
-		if(!self::$rootMounted){
-			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY_ROOT),'/');
-			self::$rootMounted=true;
-		}
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
-
-			OC::$CONFIG_DATADIRECTORY = $CONFIG_DATADIRECTORY_ROOT."/$user/$root";
-			if( !is_dir( OC::$CONFIG_DATADIRECTORY )){
-				mkdir( OC::$CONFIG_DATADIRECTORY, 0755, true );
+			$user_dir = '/'.$user.'/files';
+			$userdirectory = $CONFIG_DATADIRECTORY.$user_dir;
+			if( !is_dir( $userdirectory )){
+				mkdir( $userdirectory, 0755, true );
 			}
 
 			//jail the user into his "home" directory
-			OC_Filesystem::init('/'.$user.'/'.$root);
+			OC_Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
 			self::$fsSetup=true;
+			// Load personal mount config
+			if (is_file($CONFIG_DATADIRECTORY.'/'.$user.'/mount.php')) {
+				$mountConfig = include($CONFIG_DATADIRECTORY.'/'.$user.'/mount.php');
+				if (isset($mountConfig['user'][$user])) {
+					foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
+						OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
+					}
+				}
+			}
+			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $user_dir));
 		}
 	}
 
@@ -83,7 +66,7 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(4,00,7);
+		return array(4,82,4);
 	}
 
 	/**
@@ -91,16 +74,16 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString(){
-		return '4.0.7';
+		return '5 pre alpha 1';
 	}
 
-        /**
-         * get the current installed edition of ownCloud. There is the community edition that just returns an empty string and the enterprise edition that returns "Enterprise".
-         * @return string
-         */
-        public static function getEditionString(){
-                return '';
-        }
+	/**
+	 * get the current installed edition of ownCloud. There is the community edition that just returns an empty string and the enterprise edition that returns "Enterprise".
+	 * @return string
+	 */
+	public static function getEditionString(){
+			return '';
+	}
 
 	/**
 	 * add a javascript file
@@ -148,12 +131,12 @@ class OC_Util {
 		self::$headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
 	}
 
-   /**
-     * formats a timestamp in the "right" way
-     *
-     * @param int timestamp $timestamp
-     * @param bool dateOnly option to ommit time from the result
-     */
+	/**
+	 * formats a timestamp in the "right" way
+	 *
+	 * @param int timestamp $timestamp
+	 * @param bool dateOnly option to ommit time from the result
+	 */
     public static function formatDate( $timestamp,$dateOnly=false){
 		if(isset($_SESSION['timezone'])){//adjust to clients timezone if we know it
 			$systemTimeZone = intval(date('O'));
@@ -200,34 +183,44 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer(){
-		$CONFIG_DATADIRECTORY_ROOT = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
-		$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
-		$CONFIG_INSTALLED = OC_Config::getValue( "installed", false );
 		$errors=array();
 
 		//check for database drivers
 		if(!(is_callable('sqlite_open') or class_exists('SQLite3')) and !is_callable('mysql_connect') and !is_callable('pg_connect')){
 			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.<br/>','hint'=>'');//TODO: sane hint
 		}
-		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
-		$CONFIG_DBNAME = OC_Config::getValue( "dbname", "owncloud" );
 
 		//common hint for all file permissons error messages
 		$permissionsHint="Permissions can usually be fixed by giving the webserver write access to the ownCloud directory";
 
+		// Check if config folder is writable.
+		if(!is_writable(OC::$SERVERROOT."/config/")) {
+			$errors[]=array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
+		}
+
+		// Check if there is a writable install folder.
+		if(OC_Config::getValue('appstoreenabled', true)) {
+			if( OC_App::getInstallPath() === null  || !is_writable(OC_App::getInstallPath())) {
+				$errors[]=array('error'=>"Can't write into apps directory",'hint'=>"You can usually fix this by giving the webserver user write access to the apps directory 
+				in owncloud or disabling the appstore in the config file.");
+			}
+		}
+
+		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
                 	$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
-			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
+			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)),-3);
 			if(substr($prems,-1)!='0'){
-				OC_Helper::chmodr($CONFIG_DATADIRECTORY_ROOT,0770);
+				OC_Helper::chmodr($CONFIG_DATADIRECTORY,0770);
 				clearstatcache();
-				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY_ROOT)),-3);
+				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)),-3);
 				if(substr($prems,2,1)!='0'){
-					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') is readable for other users<br/>','hint'=>$permissionsModHint);
+					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') is readable for other users<br/>','hint'=>$permissionsModHint);
 				}
 			}
 			if( OC_Config::getValue( "enablebackup", false )){
+				$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
 				$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)),-3);
 				if(substr($prems,-1)!='0'){
 					OC_Helper::chmodr($CONFIG_BACKUPDIRECTORY,0770);
@@ -241,8 +234,14 @@ class OC_Util {
 		}else{
 			//TODO: permissions checks for windows hosts
 		}
-		if(is_dir($CONFIG_DATADIRECTORY_ROOT) and !is_writable($CONFIG_DATADIRECTORY_ROOT)){
-			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY_ROOT.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
+		// Create root dir.
+		if(!is_dir($CONFIG_DATADIRECTORY)){
+			$success=@mkdir($CONFIG_DATADIRECTORY);
+			if(!$success) {
+				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
+			}
+		} else if(!is_writable($CONFIG_DATADIRECTORY)){
+			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
 		}
 
 		// check if all required php modules are present
@@ -272,15 +271,26 @@ class OC_Util {
 		return $errors;
 	}
 
-	public static function displayLoginPage($parameters = array()){
-		if(isset($_COOKIE["username"])){
-			$parameters["username"] = $_COOKIE["username"];
+	public static function displayLoginPage($display_lostpassword) {
+		$parameters = array();
+		$parameters['display_lostpassword'] = $display_lostpassword;
+		if (!empty($_POST['user'])) {
+			$parameters["username"] =
+				OC_Util::sanitizeHTML($_POST['user']).'"';
+			$parameters['user_autofocus'] = false;
 		} else {
 			$parameters["username"] = '';
+			$parameters['user_autofocus'] = true;
 		}
 		$sectoken=rand(1000000,9999999);
 		$_SESSION['sectoken']=$sectoken;
 		$parameters["sectoken"] = $sectoken;
+		if (isset($_REQUEST['redirect_url'])) {
+			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
+		} else {
+			$redirect_url = $_SERVER['REQUEST_URI'];
+		}
+		$parameters['redirect_url'] = $redirect_url;
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
@@ -320,20 +330,57 @@ class OC_Util {
 	}
 
 	/**
+	* Check if the user is a subadmin, redirects to home if not
+	* @return array $groups where the current user is subadmin
+	*/
+	public static function checkSubAdminUser(){
+		// Check if we are a user
+		self::checkLoggedIn();
+		if(OC_Group::inGroup(OC_User::getUser(),'admin')){
+			return true;
+		}
+		if(!OC_SubAdmin::isSubAdmin(OC_User::getUser())){
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
+			exit();
+		}
+		return true;
+	}
+
+	/**
 	* Redirect to the user default page
 	*/
 	public static function redirectToDefaultPage(){
-		OC_Log::write('core','redirectToDefaultPage',OC_Log::DEBUG);
 		if(isset($_REQUEST['redirect_url']) && (substr($_REQUEST['redirect_url'], 0, strlen(OC::$WEBROOT)) == OC::$WEBROOT || $_REQUEST['redirect_url'][0] == '/')) {
-			header( 'Location: '.$_REQUEST['redirect_url']);
+			$location = $_REQUEST['redirect_url'];
 		}
 		else if (isset(OC::$REQUESTEDAPP) && !empty(OC::$REQUESTEDAPP)) {
-			header( 'Location: '.OC::$WEBROOT.'/?app='.OC::$REQUESTEDAPP );
+			$location = OC_Helper::linkToAbsolute( OC::$REQUESTEDAPP, 'index.php' );
 		}
 		else {
-			header( 'Location: '.OC::$WEBROOT.'/'.OC_Appconfig::getValue('core', 'defaultpage', '?app=files'));
+			$defaultpage = OC_Appconfig::getValue('core', 'defaultpage');
+			if ($defaultpage) {
+				$location = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/'.$defaultpage);
+			}
+			else {
+				$location = OC_Helper::linkToAbsolute( 'files', 'index.php' );
+			}
 		}
+		OC_Log::write('core', 'redirectToDefaultPage: '.$location, OC_Log::DEBUG);
+		header( 'Location: '.$location );
 		exit();
+	}
+
+	/**
+	 * get an id unqiue for this instance
+	 * @return string
+	 */
+	public static function getInstanceId(){
+		$id=OC_Config::getValue('instanceid',null);
+		if(is_null($id)){
+			$id=uniqid();
+			OC_Config::setValue('instanceid',$id);
+		}
+		return $id;
 	}
 
 	/**
@@ -367,6 +414,7 @@ class OC_Util {
 		// return the token
 		return($token);
 	}
+
 
 	/**
 	 * @brief Check an ajax get/post call if the request token is valid.
@@ -411,10 +459,11 @@ class OC_Util {
 	/**
 	 * @brief Public function to sanitize HTML
 	 *
-	 * This function is used to sanitize HTML and should be applied on any string or array of strings before displaying it on a web page.
-	 *
+	 * This function is used to sanitize HTML and should be applied on any
+	 * string or array of strings before displaying it on a web page.
+	 * 
 	 * @param string or array of strings
-	 * @return array with sanitized strings or a single sinitized string, depends on the input parameter.
+	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( &$value ){
 		if (is_array($value) || is_object($value)) array_walk_recursive($value,'OC_Util::sanitizeHTML');
@@ -423,44 +472,35 @@ class OC_Util {
 	}
 
 
-
-
-
-        /**
-	 * Check if the htaccess file is working buy creating a test file in the data directory and trying to access via http
-	*/
-        public static function ishtaccessworking() {
-	
+	/**
+	 * Check if the htaccess file is working by creating a test file in the data directory and trying to access via http
+	 */
+	public static function ishtaccessworking() {
 		// testdata
 		$filename='/htaccesstest.txt';
 		$testcontent='testcontent';
 
 		// creating a test file
-                $testfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$filename;
-                $fp = @fopen($testfile, 'w');
-                @fwrite($fp, $testcontent);
-                @fclose($fp);
-	
+		$testfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$filename;
+		$fp = @fopen($testfile, 'w');
+		@fwrite($fp, $testcontent);
+		@fclose($fp);
+
 		// accessing the file via http
-                $url = OC_Helper::serverProtocol(). '://'  . OC_Helper::serverHost() . OC::$WEBROOT.'/data'.$filename;
-                $fp = @fopen($url, 'r');
-                $content=@fread($fp, 2048);
-                @fclose($fp);
-	
+		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT.'/data'.$filename);
+		$fp = @fopen($url, 'r');
+		$content=@fread($fp, 2048);
+		@fclose($fp);
+
 		// cleanup
 		@unlink($testfile);
-	
+
 		// does it work ?
 		if($content==$testcontent) {
 			return(false);
 		}else{
 			return(true);
 		}
-	
- 	}
-	
-	
-
+	}
 
 }
-

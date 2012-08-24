@@ -7,27 +7,20 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/xrd+json");
 
 /**
- * To include your app in the webfinger XML, add a new script with file name
+ * To include your app in the webfinger JSON, add a new script with file name
  * 'webfinger.php' to /apps/yourapp/appinfo/, which prints out the XML parts
  * to be included. That script can make use of the constants WF_USER (e. g.
  * "user"), WF_ID (user@host) and WF_BASEURL (e. g. https://host/owncloud).
  * An example could look like this:
  * 
- * <Link
- * 	rel="myProfile"
- * 	type="text/html"
- * 	href="<?php echo WF_BASEURL; ?>/apps/myApp/profile.php?user=<?php echo WF_USER; ?>">
- * </Link>
+ * {
+ * 	"rel":"myProfile",
+ * 	"type":"text/html",
+ * 	"href":"<?php echo WF_BASEURL; ?>/apps/myApp/profile.php?user=<?php echo WF_USER; ?>"
+ * }
  *
  * but can also use complex database queries to generate the webfinger result
  **/
-// calculate the documentroot
-// modified version of the one in lib/base.php that takes the .well-known symlink into account
-/*$DOCUMENTROOT=realpath($_SERVER['DOCUMENT_ROOT']);
-$SERVERROOT=str_replace("\\",'/',dirname(dirname(dirname(dirname(__FILE__)))));
-$SUBURI=substr(realpath($_SERVER["SCRIPT_FILENAME"]),strlen($SERVERROOT));
-$WEBROOT=substr($SUBURI,0,-34);
-*/
 
 $userName = '';
 $hostName = '';
@@ -63,10 +56,9 @@ echo "{\"links\":[";
 $apps = OC_Appconfig::getApps();
 foreach($apps as $app) {
 	if(OCP\App::isEnabled($app)) {
-		if(is_file(OC::$APPSROOT . '/apps/' . $app . '/appinfo/webfinger.php')) {
+		if(is_file(OC_App::getAppPath($app). '/appinfo/webfinger.php')) {
 			require($app . '/appinfo/webfinger.php');
 		}
 	}
 }
 echo "]}";
-?>

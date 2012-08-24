@@ -4,7 +4,7 @@
  *
  * @author Frank Karlitschek
  * @author Jakob Sack
- * @copyright 2010 Frank Karlitschek karlitschek@kde.org
+ * @copyright 2012 Frank Karlitschek frank@owncloud.org
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -152,32 +152,25 @@ class OC_Config{
 	 *
 	 * Saves the config to the config file.
 	 *
-	 * Known flaws: Strings are not escaped properly
 	 */
 	public static function writeData(){
 		// Create a php file ...
-		$content = "<?php\n\$CONFIG = array(\n";
+		$content = "<?php\n\$CONFIG = ";
+		$content .= var_export(self::$cache, true);
+		$content .= ";\n";
 
-		foreach( self::$cache as $key => $value ){
-			if( is_bool( $value )){
-				$value = $value ? 'true' : 'false';
-				$content .= "\"$key\" => $value,\n";
-			}
-			else{
-				$value = str_replace( "'", "\\'", $value );
-				$content .= "\"$key\" => '$value',\n";
-			}
-		}
-		$content .= ");\n?>\n";
-
+		$filename = OC::$SERVERROOT."/config/config.php";
 		// Write the file
-		$result=@file_put_contents( OC::$SERVERROOT."/config/config.php", $content );
+		$result=@file_put_contents( $filename, $content );
 		if(!$result) {
 			$tmpl = new OC_Template( '', 'error', 'guest' );
 			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
 			$tmpl->printPage();
 			exit;
 		}
+		// Prevent others not to read the config
+		@chmod($filename, 0640);
+
 		return true;
 	}
 }

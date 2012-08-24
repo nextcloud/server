@@ -1,0 +1,83 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Magnus Höglund <magnus@linux.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-13 23:12+0200\n"
+"PO-Revision-Date: 2012-08-13 10:31+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: templates/settings.php:3
+msgid "External Storage"
+msgstr "Extern lagring"
+
+#: templates/settings.php:7 templates/settings.php:19
+msgid "Mount point"
+msgstr "Monteringspunkt"
+
+#: templates/settings.php:8
+msgid "Backend"
+msgstr "Källa"
+
+#: templates/settings.php:9
+msgid "Configuration"
+msgstr "Konfiguration"
+
+#: templates/settings.php:10
+msgid "Options"
+msgstr "Alternativ"
+
+#: templates/settings.php:11
+msgid "Applicable"
+msgstr "Tillämplig"
+
+#: templates/settings.php:23
+msgid "Add mount point"
+msgstr "Lägg till monteringspunkt"
+
+#: templates/settings.php:54 templates/settings.php:62
+msgid "None set"
+msgstr "Ingen angiven"
+
+#: templates/settings.php:63
+msgid "All Users"
+msgstr "Alla användare"
+
+#: templates/settings.php:64
+msgid "Groups"
+msgstr "Grupper"
+
+#: templates/settings.php:69
+msgid "Users"
+msgstr "Användare"
+
+#: templates/settings.php:77 templates/settings.php:96
+msgid "Delete"
+msgstr "Radera"
+
+#: templates/settings.php:88
+msgid "SSL root certificates"
+msgstr "SSL rotcertifikat"
+
+#: templates/settings.php:102
+msgid "Import Root Certificate"
+msgstr "Importera rotcertifikat"
+
+#: templates/settings.php:108
+msgid "Enable User External Storage"
+msgstr "Aktivera extern lagring för användare"
+
+#: templates/settings.php:109
+msgid "Allow users to mount their own external storage"
+msgstr "Tillåt användare att montera egen extern lagring"

@@ -31,9 +31,7 @@ class OC_CryptStream{
 	public static $sourceStreams=array();
 	private $source;
 	private $path;
-	private $readBuffer;//for streams that dont support seeking
 	private $meta=array();//header/meta for source stream
-	private $count;
 	private $writeCache;
 	private $size;
 	private static $rootView;
@@ -100,7 +98,6 @@ class OC_CryptStream{
 	
 	public function stream_write($data){
 		$length=strlen($data);
-		$written=0;
 		$currentPos=ftell($this->source);
 		if($this->writeCache){
 			$data=$this->writeCache.$data;
@@ -170,7 +167,7 @@ class OC_CryptStream{
 	public function stream_close(){
 		$this->flush();
 		if($this->meta['mode']!='r' and $this->meta['mode']!='rb'){
-			OC_FileCache::put($this->path,array('encrypted'=>true,'size'=>$this->size),'/');
+			OC_FileCache::put($this->path,array('encrypted'=>true,'size'=>$this->size),'');
 		}
 		return fclose($this->source);
 	}

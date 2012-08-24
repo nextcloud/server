@@ -1,0 +1,107 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <juanma@kde.org.ar>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-18 02:01+0200\n"
+"PO-Revision-Date: 2012-08-17 17:39+0000\n"
+"Last-Translator: juanman <juanma@kde.org.ar>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ajax/update_property.php:51 lib/app.php:89 lib/app.php:101
+msgid "Invalid date/time"
+msgstr "Fecha/hora inválida"
+
+#: appinfo/app.php:11
+msgid "Tasks"
+msgstr "Tareas"
+
+#: js/tasks.js:415
+msgid "No category"
+msgstr "Sin categoría"
+
+#: lib/app.php:33
+msgid "Unspecified"
+msgstr "Sin especificar"
+
+#: lib/app.php:34
+msgid "1=highest"
+msgstr "1=mayor"
+
+#: lib/app.php:38
+msgid "5=medium"
+msgstr "5=media"
+
+#: lib/app.php:42
+msgid "9=lowest"
+msgstr "9=menor"
+
+#: lib/app.php:81
+msgid "Empty Summary"
+msgstr "Resumen vacío"
+
+#: lib/app.php:93
+msgid "Invalid percent complete"
+msgstr "Porcentaje completado inválido"
+
+#: lib/app.php:107
+msgid "Invalid priority"
+msgstr "Prioridad inválida"
+
+#: templates/tasks.php:3
+msgid "Add Task"
+msgstr "Agregar tarea"
+
+#: templates/tasks.php:4
+msgid "Order Due"
+msgstr "Ordenar por"
+
+#: templates/tasks.php:5
+msgid "Order List"
+msgstr "Ordenar por lista"
+
+#: templates/tasks.php:6
+msgid "Order Complete"
+msgstr "Ordenar por completadas"
+
+#: templates/tasks.php:7
+msgid "Order Location"
+msgstr "Ordenar por ubicación"
+
+#: templates/tasks.php:8
+msgid "Order Priority"
+msgstr "Ordenar por prioridad"
+
+#: templates/tasks.php:9
+msgid "Order Label"
+msgstr "Ordenar por etiqueta"
+
+#: templates/tasks.php:16
+msgid "Loading tasks..."
+msgstr "Cargando tareas..."
+
+#: templates/tasks.php:20
+msgid "Important"
+msgstr "Importante"
+
+#: templates/tasks.php:23
+msgid "More"
+msgstr "Más"
+
+#: templates/tasks.php:26
+msgid "Less"
+msgstr "Menos"
+
+#: templates/tasks.php:29
+msgid "Delete"
+msgstr "Borrar"

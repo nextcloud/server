@@ -10,7 +10,20 @@ $oldPassword=isset($_POST["oldpassword"])?$_POST["oldpassword"]:'';
 
 // Check if we are a user
 OC_JSON::checkLoggedIn();
-if( (!OC_Group::inGroup( OC_User::getUser(), 'admin' ) && ($username!=OC_User::getUser() || !OC_User::checkPassword($username,$oldPassword)))) {
+OCP\JSON::callCheck();
+
+$userstatus = null;
+if(OC_Group::inGroup(OC_User::getUser(), 'admin')){
+	$userstatus = 'admin';
+}
+if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)){
+	$userstatus = 'subadmin';
+}
+if(OC_User::getUser() == $username && OC_User::checkPassword($username,$oldPassword)){
+	$userstatus = 'user';
+}
+
+if(is_null($userstatus)){
 	OC_JSON::error( array( "data" => array( "message" => "Authentication error" )));
 	exit();
 }
@@ -22,5 +35,3 @@ if( OC_User::setPassword( $username, $password )){
 else{
 	OC_JSON::error(array("data" => array( "message" => "Unable to change password" )));
 }
-
-?>

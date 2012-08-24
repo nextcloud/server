@@ -3,7 +3,7 @@
 // Init owncloud
 require_once('../../lib/base.php');
 
-OC_JSON::checkAdminUser();
+OC_JSON::checkSubAdminUser();
 OCP\JSON::callCheck();
 
 $success = true;
@@ -11,7 +11,13 @@ $error = "add user to";
 $action = "add";
 
 $username = $_POST["username"];
-$group = htmlentities($_POST["group"]);
+$group = OC_Util::sanitizeHTML($_POST["group"]);
+
+if(!OC_Group::inGroup(OC_User::getUser(), 'admin') && (!OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username) || !OC_SubAdmin::isGroupAccessible(OC_User::getUser(), $group))){
+	$l = OC_L10N::get('core');
+	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
+	exit();
+}
 
 if(!OC_Group::groupExists($group)){
 	OC_Group::createGroup($group);
@@ -38,5 +44,3 @@ if( $success ){
 else{
 	OC_JSON::error(array("data" => array( "message" => "Unable to $error group $group" )));
 }
-
-?>

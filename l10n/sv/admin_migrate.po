@@ -1,0 +1,33 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Magnus Höglund <magnus@linux.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-13 23:12+0200\n"
+"PO-Revision-Date: 2012-08-13 09:53+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: templates/settings.php:3
+msgid "Export this ownCloud instance"
+msgstr "Exportera denna instans av ownCloud"
+
+#: templates/settings.php:4
+msgid ""
+"This will create a compressed file that contains the data of this owncloud instance.\n"
+"            Please choose the export type:"
+msgstr "Detta kommer att skapa en komprimerad fil som innehåller all data från denna instans av ownCloud.\n            Välj exporttyp:"
+
+#: templates/settings.php:12
+msgid "Export"
+msgstr "Exportera"

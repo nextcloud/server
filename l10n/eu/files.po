@@ -9,43 +9,43 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Basque (http://www.transifex.net/projects/p/owncloud/language/eu/)\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-21 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
 msgstr "Ez da arazorik izan, fitxategia ongi igo da"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "Igotako fitxategiaren tamaina php.ini-ko upload_max_filesize direktiban adierazitakoa  baino handiagoa da"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Igotako fitxategiaren tamaina HTML inprimakiko MAX_FILESIZE direktiban adierazitakoa baino handiagoa da"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
 msgstr "Igotako fitxategiaren zati bat baino gehiago ez da igo"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid "No file was uploaded"
 msgstr "Ez da fitxategirik igo"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:25
 msgid "Missing a temporary folder"
 msgstr "Aldi baterako karpeta falta da"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "Failed to write to disk"
 msgstr "Errore bat izan da diskoan idazterakoan"
 
@@ -53,57 +53,85 @@ msgstr "Errore bat izan da diskoan idazterakoan"
 msgid "Files"
 msgstr "Fitxategiak"
 
-#: js/filelist.js:186
-msgid "undo deletion"
-msgstr ""
+#: js/fileactions.js:107 templates/index.php:56
+msgid "Delete"
+msgstr "Ezabatu"
 
-#: js/files.js:170
+#: js/filelist.js:141
+msgid "already exists"
+msgstr "dagoeneko existitzen da"
+
+#: js/filelist.js:141
+msgid "replace"
+msgstr "ordeztu"
+
+#: js/filelist.js:141
+msgid "cancel"
+msgstr "ezeztatu"
+
+#: js/filelist.js:195
+msgid "replaced"
+msgstr "ordeztua"
+
+#: js/filelist.js:195
+msgid "with"
+msgstr "honekin"
+
+#: js/filelist.js:195 js/filelist.js:246
+msgid "undo"
+msgstr "desegin"
+
+#: js/filelist.js:246
+msgid "deleted"
+msgstr "ezabatuta"
+
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "ZIP-fitxategia sortzen ari da, denbora har dezake"
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Ezin da zure fitxategia igo, karpeta bat da edo 0 byt ditu"
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Upload Error"
-msgstr ""
+msgstr "Igotzean errore bat suertatu da"
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:228 js/files.js:319 js/files.js:348
 msgid "Pending"
-msgstr ""
+msgstr "Zain"
 
-#: js/files.js:332
+#: js/files.js:333
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Igoera ezeztatuta"
 
-#: js/files.js:456
+#: js/files.js:457
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Baliogabeko izena, '/' ezin da erabili. "
 
-#: js/files.js:626 templates/index.php:55
+#: js/files.js:703 templates/index.php:55
 msgid "Size"
 msgstr "Tamaina"
 
-#: js/files.js:627 templates/index.php:56
+#: js/files.js:704 templates/index.php:56
 msgid "Modified"
 msgstr "Aldatuta"
 
-#: js/files.js:654
+#: js/files.js:731
 msgid "folder"
-msgstr ""
+msgstr "karpeta"
 
-#: js/files.js:656
+#: js/files.js:733
 msgid "folders"
-msgstr ""
+msgstr "Karpetak"
 
-#: js/files.js:664
+#: js/files.js:741
 msgid "file"
-msgstr ""
+msgstr "fitxategia"
 
-#: js/files.js:666
+#: js/files.js:743
 msgid "files"
-msgstr ""
+msgstr "fitxategiak"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -172,10 +200,6 @@ msgstr "Elkarbanatu"
 #: templates/index.php:51
 msgid "Download"
 msgstr "Deskargatu"
-
-#: templates/index.php:56
-msgid "Delete"
-msgstr "Ezabatu"
 
 #: templates/index.php:64
 msgid "Upload too large"

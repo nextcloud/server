@@ -64,6 +64,18 @@ class OC_JSON{
 			exit();
 		}
 	}
+        
+	/**
+	* Check if the user is a subadmin, send json error msg if not
+	*/
+	public static function checkSubAdminUser(){
+		self::checkLoggedIn();
+		if(!OC_Group::inGroup(OC_User::getUser(),'admin') && !OC_SubAdmin::isSubAdmin(OC_User::getUser())){
+			$l = OC_L10N::get('core');
+			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
+			exit();
+		}
+	}
 
 	/**
 	* Send json error msg
@@ -82,14 +94,24 @@ class OC_JSON{
 	}
 
 	/**
+	 * Convert OC_L10N_String to string, for use in json encodings
+	 */
+	protected static function to_string(&$value){
+		if ($value instanceof OC_L10N_String) {
+			$value = (string)$value;
+		}
+	}
+
+	/**
 	* Encode and print $data in json format
 	*/
 	public static function encodedPrint($data,$setContentType=true){
-			// Disable mimesniffing, don't move this to setContentTypeHeader!
-			header( 'X-Content-Type-Options: nosniff' );
-			if($setContentType){
-				self::setContentTypeHeader();
-			}
-			echo json_encode($data);
+		// Disable mimesniffing, don't move this to setContentTypeHeader!
+		header( 'X-Content-Type-Options: nosniff' );
+		if($setContentType){
+			self::setContentTypeHeader();
+		}
+		array_walk_recursive($data, array('OC_JSON', 'to_string'));
+		echo json_encode($data);
 	}
 }

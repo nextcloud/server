@@ -21,20 +21,18 @@
 * 
 */
 
-OC::$CLASSPATH['OC_Gallery_Album'] = 'apps/gallery/lib/album.php';
-OC::$CLASSPATH['OC_Gallery_Photo'] = 'apps/gallery/lib/photo.php';
-OC::$CLASSPATH['OC_Gallery_Scanner'] = 'apps/gallery/lib/scanner.php';
-OC::$CLASSPATH['OC_Gallery_Sharing'] = 'apps/gallery/lib/sharing.php';
-OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'apps/gallery/lib/hooks_handlers.php';
-OC::$CLASSPATH['Pictures_Managers'] = 'apps/gallery/lib/managers.php';
-OC::$CLASSPATH['Pictures_Tiles'] = 'apps/gallery/lib/tiles.php';
+OC::$CLASSPATH['OC_Gallery_Album'] = 'gallery/lib/album.php';
+OC::$CLASSPATH['OC_Gallery_Photo'] = 'gallery/lib/photo.php';
+OC::$CLASSPATH['OC_Gallery_Scanner'] = 'gallery/lib/scanner.php';
+OC::$CLASSPATH['OC_Gallery_Sharing'] = 'gallery/lib/sharing.php';
+OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'gallery/lib/hooks_handlers.php';
+OC::$CLASSPATH['Pictures_Managers'] = 'gallery/lib/managers.php';
+OC::$CLASSPATH['Pictures_Tiles'] = 'gallery/lib/tiles.php';
+OC::$CLASSPATH['OC_Share_Backend_Photo'] = 'gallery/lib/share.php';
+
+// OCP\Share::registerBackend('photo', new OC_Share_Backend_Photo());
 
 $l = OC_L10N::get('gallery');
-
-OCP\App::register(array(
-  'order' => 20,
-  'id' => 'gallery',
-  'name' => 'Pictures'));
 
 OCP\App::addNavigationEntry( array(
  'id' => 'gallery_index',
@@ -45,7 +43,7 @@ OCP\App::addNavigationEntry( array(
 
 class OC_GallerySearchProvider extends OC_Search_Provider{
 	function search($query){
-		$stmt = OCP\DB::prepare('SELECT * FROM `*PREFIX*gallery_albums` WHERE `uid_owner` = ? AND `album_name` LIKE ?');
+		$stmt = OCP\DB::prepare('SELECT * FROM *PREFIX*gallery_albums WHERE uid_owner = ? AND album_name LIKE ?');
 		$result = $stmt->execute(array(OCP\USER::getUser(),'%'.$query.'%'));
 		$results=array();
 		while($row=$result->fetchRow()){
@@ -57,4 +55,4 @@ class OC_GallerySearchProvider extends OC_Search_Provider{
 
 //OC_Search::registerProvider('OC_GallerySearchProvider');
 
-require_once('apps/gallery/lib/hooks_handlers.php');
+require_once('gallery/lib/hooks_handlers.php');

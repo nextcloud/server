@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<info>
+	<id>admin_audit</id>
+	<name>Log audit info</name>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Bart Visscher</author>
+	<require>4</require>
+	<description>Audit user actions in Owncloud</description>
+	<shipped>true</shipped>
+</info>

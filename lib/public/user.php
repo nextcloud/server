@@ -3,7 +3,7 @@
 * ownCloud
 *
 * @author Frank Karlitschek
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+* @copyright 2012 Frank Karlitschek frank@owncloud.org
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -51,7 +51,7 @@ class User {
 	 *
 	 * Get a list of all users.
 	 */
-	public static function getUsers(){
+	public static function getUsers($search = '', $limit = -1, $offset = 0) {
 		return \OC_USER::getUsers();
 	}
 
@@ -120,6 +120,3 @@ class User {
 
 
 }
-
-
-?>

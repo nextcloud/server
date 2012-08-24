@@ -33,7 +33,7 @@ echo OCP\html_select_options($allusers, array());
 </select><br>
 <ul id="sharewithuser_list">
 <?php foreach($users as $user): ?>
-	<li id="sharewithuser_<?php echo $user['share']; ?>"><input type="checkbox" width="12px" <?php echo ($user['permissions']?'checked="checked"':'')?> style="visibility:hidden;" title="<?php echo $l->t('Editable'); ?>"><?php echo $user['share']; ?><img src="<?php echo  OC::$WEBROOT; ?>/core/img/actions/delete.svg" class="svg action" style="display:none;float:right;"></li>
+	<li id="sharewithuser_<?php echo $user['share']; ?>"><input type="checkbox" width="12px" <?php echo ($user['permissions']?'checked="checked"':'')?> style="visibility:hidden;" title="<?php echo $l->t('Editable'); ?>"><?php echo $user['share']; ?><img src="<?php echo OCP\Util::imagePath('core', 'actions/delete.svg'); ?>" class="svg action" style="display:none;float:right;"></li>
 	<script>
 		$('#sharewithuser_<?php echo $user['share']; ?> > img').click(function(){
 			$('#share_user option[value="<?php echo $user['share']; ?>"]').removeAttr('disabled');
@@ -59,7 +59,7 @@ echo OCP\html_select_options($allgroups, array());
 </select><br>
 <ul id="sharewithgroup_list">
 <?php foreach($groups as $group): ?>
-	<li id="sharewithgroup_<?php echo $group['share']; ?>"><input type="checkbox" width="12px" <?php echo ($group['permissions']?'checked="checked"':'')?> style="visibility:hidden;" title="<?php echo $l->t('Editable'); ?>"><?php echo $group['share']; ?><img src="<?php echo  OC::$WEBROOT; ?>/core/img/actions/delete.svg" class="svg action" style="display:none;float:right;"></li>
+	<li id="sharewithgroup_<?php echo $group['share']; ?>"><input type="checkbox" width="12px" <?php echo ($group['permissions']?'checked="checked"':'')?> style="visibility:hidden;" title="<?php echo $l->t('Editable'); ?>"><?php echo $group['share']; ?><img src="<?php echo OCP\Util::imagePath('core', 'actions/delete.svg'); ?>" class="svg action" style="display:none;float:right;"></li>
 	<script>
 		$('#sharewithgroup_<?php echo $group['share']; ?> > img').click(function(){
 			$('#share_group option[value="<?php echo $group['share']; ?>"]').removeAttr('disabled');

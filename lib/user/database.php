@@ -4,7 +4,7 @@
  * ownCloud
  *
  * @author Frank Karlitschek
- * @copyright 2010 Frank Karlitschek karlitschek@kde.org
+ * @copyright 2012 Frank Karlitschek frank@owncloud.org
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -39,7 +39,6 @@ require_once 'phpass/PasswordHash.php';
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
 class OC_User_Database extends OC_User_Backend {
-	static private $userGroupCache=array();
 	/**
 	 * @var PasswordHash
 	 */
@@ -70,7 +69,7 @@ class OC_User_Database extends OC_User_Backend {
 		}else{
 			$hasher=$this->getHasher();
 			$hash = $hasher->HashPassword($password.OC_Config::getValue('passwordsalt', ''));
-			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
+			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )' );
 			$result = $query->execute( array( $uid, $hash));
 
 			return $result ? true : false;
@@ -86,8 +85,8 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function deleteUser( $uid ){
 		// Delete user-group-relation
-		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*users` WHERE `uid` = ?" );
-		$result = $query->execute( array( $uid ));
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*users` WHERE uid = ?' );
+		$query->execute( array( $uid ));
 		return true;
 	}
 
@@ -103,12 +102,11 @@ class OC_User_Database extends OC_User_Backend {
 		if( $this->userExists($uid) ){
 			$hasher=$this->getHasher();
 			$hash = $hasher->HashPassword($password.OC_Config::getValue('passwordsalt', ''));
-			$query = OC_DB::prepare( "UPDATE `*PREFIX*users` SET `password` = ? WHERE `uid` = ?" );
-			$result = $query->execute( array( $hash, $uid ));
+			$query = OC_DB::prepare( 'UPDATE `*PREFIX*users` SET `password` = ? WHERE `uid` = ?' );
+			$query->execute( array( $hash, $uid ));
 
 			return true;
-		}
-		else{
+		}else{
 			return false;
 		}
 	}
@@ -123,7 +121,7 @@ class OC_User_Database extends OC_User_Backend {
 	 * returns the user id or false
 	 */
 	public function checkPassword( $uid, $password ){
-		$query = OC_DB::prepare( "SELECT `uid`, `password` FROM `*PREFIX*users` WHERE `uid` = ?" );
+		$query = OC_DB::prepare( 'SELECT `uid`, `password` FROM `*PREFIX*users` WHERE `uid` = ?' );
 		$result = $query->execute( array( $uid));
 
 		$row=$result->fetchRow();
@@ -156,13 +154,12 @@ class OC_User_Database extends OC_User_Backend {
 	 *
 	 * Get a list of all users.
 	 */
-	public function getUsers(){
-		$query = OC_DB::prepare( "SELECT `uid` FROM `*PREFIX*users`" );
-		$result = $query->execute();
-
-		$users=array();
-		while( $row = $result->fetchRow()){
-			$users[] = $row["uid"];
+	public function getUsers($search = '', $limit = null, $offset = null) {
+		$query = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users` WHERE `uid` LIKE ? LIMIT',$limit,$offset);
+		$result = $query->execute(array($search.'%'));
+		$users = array();
+		while ($row = $result->fetchRow()) {
+			$users[] = $row['uid'];
 		}
 		return $users;
 	}
@@ -173,7 +170,7 @@ class OC_User_Database extends OC_User_Backend {
 	 * @return boolean
 	 */
 	public function userExists($uid){
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE `uid` = ?" );
+		$query = OC_DB::prepare( 'SELECT * FROM `*PREFIX*users` WHERE `uid` = ?' );
 		$result = $query->execute( array( $uid ));
 		
 		return $result->numRows() > 0;

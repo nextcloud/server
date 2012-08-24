@@ -10,6 +10,8 @@ if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' ))
 	exit();
 }
 
+OCP\JSON::callCheck();
+
 $groupname = $_POST["groupname"];
 
 // Does the group exist?
@@ -25,5 +27,3 @@ if( OC_Group::createGroup( $groupname )){
 else{
 	OC_JSON::error(array("data" => array( "message" => "Unable to add group" )));
 }
-
-?>

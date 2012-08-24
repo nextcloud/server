@@ -1,0 +1,113 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Mariano  <mstreet@kde.org.ar>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-04 02:02+0200\n"
+"PO-Revision-Date: 2012-08-03 22:37+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
+"Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: eo\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: app.php:287
+msgid "Help"
+msgstr "Helpo"
+
+#: app.php:294
+msgid "Personal"
+msgstr "Persona"
+
+#: app.php:299
+msgid "Settings"
+msgstr "Agordo"
+
+#: app.php:304
+msgid "Users"
+msgstr "Uzantoj"
+
+#: app.php:311
+msgid "Apps"
+msgstr "Aplikaĵoj"
+
+#: app.php:313
+msgid "Admin"
+msgstr ""
+
+#: files.php:245
+msgid "ZIP download is turned off."
+msgstr "ZIP-elŝuto estas malkapabligita."
+
+#: files.php:246
+msgid "Files need to be downloaded one by one."
+msgstr "Dosieroj devas elŝutiĝi unuope."
+
+#: files.php:246 files.php:271
+msgid "Back to Files"
+msgstr "Reen al la dosieroj"
+
+#: files.php:270
+msgid "Selected files too large to generate zip file."
+msgstr "La elektitaj dosieroj tro grandas por genero de ZIP-dosiero."
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr "La aplikaĵo ne estas kapabligita"
+
+#: json.php:39 json.php:63 json.php:75
+msgid "Authentication error"
+msgstr "Aŭtentiga eraro"
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr "Ĵetono eksvalidiĝis. Bonvolu reŝargi la paĝon."
+
+#: template.php:86
+msgid "seconds ago"
+msgstr "sekundojn antaŭe"
+
+#: template.php:87
+msgid "1 minute ago"
+msgstr "antaŭ 1 minuto"
+
+#: template.php:88
+#, php-format
+msgid "%d minutes ago"
+msgstr "antaŭ %d minutoj"
+
+#: template.php:91
+msgid "today"
+msgstr "hodiaŭ"
+
+#: template.php:92
+msgid "yesterday"
+msgstr "hieraŭ"
+
+#: template.php:93
+#, php-format
+msgid "%d days ago"
+msgstr "antaŭ %d tagoj"
+
+#: template.php:94
+msgid "last month"
+msgstr "lasta monato"
+
+#: template.php:95
+msgid "months ago"
+msgstr "monatojn antaŭe"
+
+#: template.php:96
+msgid "last year"
+msgstr "lasta jaro"
+
+#: template.php:97
+msgid "years ago"
+msgstr "jarojn antaŭe"

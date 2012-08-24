@@ -9,19 +9,9 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
+OCP\JSON::callCheck();
 
-foreach ($_POST as $key=>$element) {
-	debug('_POST: '.$key.'=>'.print_r($element, true));
-}
-
-function bailOut($msg) {
-	OCP\JSON::error(array('data' => array('message' => $msg)));
-	OCP\Util::writeLog('contacts','ajax/categories/delete.php: '.$msg, OCP\Util::DEBUG);
-	exit();
-}
-function debug($msg) {
-	OCP\Util::writeLog('contacts','ajax/categories/delete.php: '.$msg, OCP\Util::DEBUG);
-}
+require_once __DIR__.'/../loghandler.php';
 
 $categories = isset($_POST['categories'])?$_POST['categories']:null;
 
@@ -56,5 +46,3 @@ $catman->delete($categories, $cards);
 debug('After delete: '.print_r($catman->categories(), true));
 OC_Contacts_VCard::updateDataByID($cards);
 OCP\JSON::success(array('data' => array('categories'=>$catman->categories())));
-
-?>

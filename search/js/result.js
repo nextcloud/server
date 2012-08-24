@@ -41,23 +41,13 @@ OC.search.showResults=function(results){
 		for(var name in types){
 			var type=types[name];
 			if(type.length>0){
-				var row=$('#searchresults tr.template').clone();
-				row.removeClass('template');
-				row.addClass('result');
-				row.children('td.type').text(name);
-				row.find('td.result a').attr('href',type[0].link);
-				row.find('td.result div.name').text(type[0].name);
-				row.find('td.result div.text').text(type[0].text);
-				row.data('index',index);
-				index++;
-				if(OC.search.customResults[name]){//give plugins the ability to customize the entries in here
-					OC.search.customResults[name](row,type[0]);
-				}
-				$('#searchresults tbody').append(row);
-				for(var i=1;i<type.length;i++){
+				for(var i=0;i<type.length;i++){
 					var row=$('#searchresults tr.template').clone();
 					row.removeClass('template');
 					row.addClass('result');
+					if (index == 0){
+						row.children('td.type').text(name);
+					}
 					row.find('td.result a').attr('href',type[i].link);
 					row.find('td.result div.name').text(type[i].name);
 					row.find('td.result div.text').text(type[i].text);

@@ -7,82 +7,116 @@
 #   <mikkelbjerglarsen@gmail.com>, 2011.
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011, 2012.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
+#   <sr@ybnet.dk>, 2012.
 # Thomas Tanghus <>, 2012.
+# Thomas Tanghus <thomas@tanghus.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Danish (http://www.transifex.net/projects/p/owncloud/language/da/)\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-20 14:35+0000\n"
+"Last-Translator: ressel <sr@ybnet.dk>\n"
+"Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr "Kunne ikke indlæse listen fra App Store"
+
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "Email adresse gemt"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Ugyldig email adresse"
 
-#: ajax/openid.php:15
+#: ajax/openid.php:16
 msgid "OpenID Changed"
 msgstr "OpenID ændret"
 
-#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
 msgstr "Ugyldig forespørgsel"
 
-#: ajax/setlanguage.php:17
+#: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Adgangsfejl"
+
+#: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Sprog ændret"
 
-#: js/apps.js:31 js/apps.js:67
-msgid "Disable"
-msgstr ""
+#: js/apps.js:18
+msgid "Error"
+msgstr "Fejl"
 
-#: js/apps.js:31 js/apps.js:54
+#: js/apps.js:39 js/apps.js:73
+msgid "Disable"
+msgstr "Deaktiver"
+
+#: js/apps.js:39 js/apps.js:62
 msgid "Enable"
-msgstr ""
+msgstr "Aktiver"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Gemmer..."
 
-#: personal.php:40 personal.php:41
+#: personal.php:46 personal.php:47
 msgid "__language_name__"
 msgstr "Dansk"
 
-#: templates/admin.php:13
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr "Sikkerhedsadvarsel"
+
+#: templates/admin.php:29
+msgid "Cron"
+msgstr "Cron"
+
+#: templates/admin.php:31
+msgid "execute one task with each page loaded"
+msgstr ""
+
+#: templates/admin.php:33
+msgid "cron.php is registered at a webcron service"
+msgstr "cron.php er tilmeldt en webcron tjeneste"
+
+#: templates/admin.php:35
+msgid "use systems cron service"
+msgstr ""
+
+#: templates/admin.php:39
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:40
+#: templates/admin.php:67
 msgid "More"
 msgstr "Mere"
 
-#: templates/apps.php:8
+#: templates/apps.php:10
 msgid "Add your App"
 msgstr "Tilføj din App"
 
-#: templates/apps.php:22
+#: templates/apps.php:26
 msgid "Select an App"
 msgstr "Vælg en App"
 
-#: templates/apps.php:25
+#: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Se applikationens side på apps.owncloud.com"
 
-#: templates/apps.php:26
+#: templates/apps.php:30
 msgid "-licensed"
 msgstr "-licenseret"
 
-#: templates/apps.php:26
+#: templates/apps.php:30
 msgid "by"
 msgstr "af"
 
@@ -174,34 +208,38 @@ msgstr "Hjælp med oversættelsen"
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "benyt denne adresse til at forbinde til din ownCloud i din filbrowser"
 
-#: templates/users.php:15 templates/users.php:44
+#: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "Navn"
 
-#: templates/users.php:16 templates/users.php:45
+#: templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Kodeord"
 
-#: templates/users.php:17 templates/users.php:46 templates/users.php:60
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
 msgstr "Grupper"
 
-#: templates/users.php:22
+#: templates/users.php:32
 msgid "Create"
 msgstr "Ny"
 
-#: templates/users.php:25
+#: templates/users.php:35
 msgid "Default Quota"
 msgstr "Standard kvote"
 
-#: templates/users.php:35 templates/users.php:74
+#: templates/users.php:55 templates/users.php:138
 msgid "Other"
 msgstr "Andet"
 
-#: templates/users.php:47
+#: templates/users.php:80 templates/users.php:112
+msgid "Group Admin"
+msgstr ""
+
+#: templates/users.php:82
 msgid "Quota"
 msgstr "Kvote"
 
-#: templates/users.php:80
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Slet"

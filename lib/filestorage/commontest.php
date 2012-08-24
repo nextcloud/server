@@ -51,11 +51,11 @@ class OC_Filestorage_CommonTest extends OC_Filestorage_Common{
 	public function filetype($path){
 		return $this->storage->filetype($path);
 	}
-	public function is_readable($path){
-		return $this->storage->is_readable($path);
+	public function isReadable($path){
+		return $this->storage->isReadable($path);
 	}
-	public function is_writable($path){
-		return $this->storage->is_writable($path);
+	public function isUpdatable($path){
+		return $this->storage->isUpdatable($path);
 	}
 	public function file_exists($path){
 		return $this->storage->file_exists($path);

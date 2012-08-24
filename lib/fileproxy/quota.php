@@ -54,10 +54,10 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 	 * @return int
 	 */
 	private function getFreeSpace(){
-		$rootInfo=OC_FileCache::get('');
+		$rootInfo=OC_FileCache_Cached::get('');
 		// TODO Remove after merge of share_api
 		if (OC_FileCache::inCache('/Shared')) {
-			$sharedInfo=OC_FileCache::get('/Shared');
+			$sharedInfo=OC_FileCache_Cached::get('/Shared');
 		} else {
 			$sharedInfo = null;
 		}

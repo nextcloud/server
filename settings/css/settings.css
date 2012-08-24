@@ -22,14 +22,14 @@ form { display:inline; }
 table:not(.nostyle) th { height:2em; color:#999; }
 table:not(.nostyle) th, table:not(.nostyle) td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
 td.name, td.password { padding-left:.8em; }
-td.password>img, td.remove>img, td.quota>img { visibility:hidden; }
+td.password>img, td.remove>a, td.quota>img { visibility:hidden; }
 td.password, td.quota { width:12em; cursor:pointer; }
 td.password>span, td.quota>span { margin-right: 1.2em; color: #C7C7C7; }
 
 td.remove { width:1em; padding-right:1em; }
 tr:hover>td.password>span { margin:0; cursor:pointer; }
-tr:hover>td.remove>img, tr:hover>td.password>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
-tr:hover>td.remove>img { float:right; }
+tr:hover>td.remove>a, tr:hover>td.password>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
+tr:hover>td.remove>a { float:right; }
 li.selected { background-color:#ddd; }
 #content>table:not(.nostyle) { margin-top:3em; }
 table:not(.nostyle) { width:100%; }
@@ -43,16 +43,24 @@ div.quota>span { position:absolute; right:0em; white-space:nowrap; top: 0.7em }
 select.quota.active { background: #fff; }
 
 /* APPS */
+.appinfo { margin: 1em; }
+h3 { font-size: 1.4em; font-weight: bold; }
+ul.applist li { height: 2.2em; padding: 0.2em 0.2em 0.2em 0.8em !important; }
 li { color:#888; }
 li.active { color:#000; }
-small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size:6pt; padding:4px; border-radius: 4px;}
-span.version { margin-left:3em; color:#ddd; }
+small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 4px;}
+small.externalapp.list { float: right; }
+span.version { margin-left:3em; margin-right:3em; color:#555; }
+
+.app { position: relative; display: inline-block; padding: 0.2em 0 0.2em 0 !important; text-overflow: hidden; overflow: hidden; white-space: nowrap; /*transition: .2s max-width linear; -o-transition: .2s max-width linear; -moz-transition: .2s max-width linear; -webkit-transition: .2s max-width linear; -ms-transition: .2s max-width linear;*/ }
+.app.externalapp { max-width: 12.5em; z-index: 100; }
+/* Transition to complete width! */
+.app:hover, .app:active { max-width: inherit; }
 
 /* LOG */
 #log { white-space:normal; }
-/* Don't show blank images */
-img[src=""] { display:none}
 
 /* ADMIN */
 span.securitywarning {color:#C33; font-weight:bold; }
-
+h3.settingsNotice { font-size: 1.2em; }
+.settingsNotice { font-weight:bold; padding: 0.5em 0; }

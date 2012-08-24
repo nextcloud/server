@@ -38,11 +38,18 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 		return $this->archive->remove($path.'/');
 	}
 	public function opendir($path){
+		if(substr($path,-1)!=='/'){
+			$path.='/';
+		}
 		$path=$this->stripPath($path);
-		$content=$this->archive->getFolder($path);
-		foreach($content as &$file){
+		$files=$this->archive->getFolder($path);
+		$content=array();
+		foreach($files as $file){
 			if(substr($file,-1)=='/'){
 				$file=substr($file,0,-1);
+			}
+			if($file and strpos($file,'/')===false){
+				$content[]=$file;
 			}
 		}
 		$id=md5($this->path.$path);
@@ -50,10 +57,11 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 		return opendir('fakedir://'.$id);
 	}
 	public function stat($path){
-		$ctime=filectime($this->path);
+		$ctime=-1;
 		$path=$this->stripPath($path);
 		if($path==''){
 			$stat=stat($this->path);
+			$stat['size']=0;
 		}else{
 			if($this->is_dir($path)){
 				$stat=array('size'=>0);
@@ -62,6 +70,9 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 				$stat=array();
 				$stat['mtime']=$this->archive->mtime($path);
 				$stat['size']=$this->archive->filesize($path);
+				if(!$stat['mtime']){
+					$stat['mtime']=time();
+				}
 			}
 		}
 		$stat['ctime']=$ctime;
@@ -78,10 +89,10 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 			return $this->archive->fileExists($path.'/')?'dir':'file';
 		}
 	}
-	public function is_readable($path){
+	public function isReadable($path){
 		return is_readable($this->path);
 	}
-	public function is_writable($path){
+	public function isUpdatable($path){
 		return is_writable($this->path);
 	}
 	public function file_exists($path){
@@ -110,6 +121,19 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 		}else{
 			return false;//not supported
 		}
+	}
+	private function toTmpFile($path){
+		$tmpFile=OC_Helper::tmpFile($extension);
+		$this->archive->extractFile($path,$tmpFile);
+		return $tmpFile;
+	}
+	public function file_put_contents($path,$data) {
+		$path=$this->stripPath($path);
+		return $this->archive->addFile($path,$data);
+	}
+	public function file_get_contents($path) {
+		$path=$this->stripPath($path);
+		return $this->archive->getFile($path);
 	}
 
 	/**
@@ -142,5 +166,9 @@ class OC_Filestorage_Archive extends OC_Filestorage_Common{
 
 	public function rename($path1,$path2){
 		return $this->archive->rename($path1,$path2);
+	}
+
+	public function hasUpdated($path,$time){
+		return $this->filemtime($this->path)>$time;
 	}
 }

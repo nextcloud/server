@@ -5,91 +5,125 @@
 # Translators:
 # Ahmed Noor Kader Mustajir Md Eusoff <sir.ade@gmail.com>, 2012.
 #   <hadri.hilmi@gmail.com>, 2011, 2012.
+# Hadri Hilmi <hadri.hilmi@gmail.com>, 2012.
+# Zulhilmi Rosnin <zulhilmi.rosnin@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Malay (Malaysia) (http://www.transifex.net/projects/p/owncloud/language/ms_MY/)\n"
+"POT-Creation-Date: 2012-08-18 02:01+0200\n"
+"PO-Revision-Date: 2012-08-18 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ms_MY\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr ""
+
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "Emel disimpan"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Emel tidak sah"
 
-#: ajax/openid.php:15
+#: ajax/openid.php:16
 msgid "OpenID Changed"
-msgstr "OpenID ditukar"
+msgstr "OpenID diubah"
 
-#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
 msgstr "Permintaan tidak sah"
 
-#: ajax/setlanguage.php:17
+#: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Ralat pengesahan"
+
+#: ajax/setlanguage.php:18
 msgid "Language changed"
-msgstr "Bahasa ditukar"
+msgstr "Bahasa diubah"
 
-#: js/apps.js:31 js/apps.js:67
+#: js/apps.js:18
+msgid "Error"
+msgstr ""
+
+#: js/apps.js:39 js/apps.js:73
 msgid "Disable"
-msgstr ""
+msgstr "Nyahaktif"
 
-#: js/apps.js:31 js/apps.js:54
+#: js/apps.js:39 js/apps.js:62
 msgid "Enable"
-msgstr ""
+msgstr "Aktif"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Simpan..."
 
-#: personal.php:40 personal.php:41
+#: personal.php:46 personal.php:47
 msgid "__language_name__"
 msgstr "_nama_bahasa_"
 
-#: templates/admin.php:13
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr "Amaran keselamatan"
+
+#: templates/admin.php:29
+msgid "Cron"
+msgstr ""
+
+#: templates/admin.php:31
+msgid "execute one task with each page loaded"
+msgstr ""
+
+#: templates/admin.php:33
+msgid "cron.php is registered at a webcron service"
+msgstr ""
+
+#: templates/admin.php:35
+msgid "use systems cron service"
+msgstr ""
+
+#: templates/admin.php:39
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
-#: templates/admin.php:40
+#: templates/admin.php:67
 msgid "More"
-msgstr ""
+msgstr "Lanjutan"
 
-#: templates/apps.php:8
+#: templates/apps.php:10
 msgid "Add your App"
-msgstr ""
+msgstr "Tambah apps anda"
 
-#: templates/apps.php:22
+#: templates/apps.php:26
 msgid "Select an App"
 msgstr "Pilih aplikasi"
 
-#: templates/apps.php:25
+#: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Lihat halaman applikasi di apps.owncloud.com"
 
-#: templates/apps.php:26
+#: templates/apps.php:30
 msgid "-licensed"
 msgstr "-dilesen"
 
-#: templates/apps.php:26
+#: templates/apps.php:30
 msgid "by"
 msgstr "oleh"
 
 #: templates/help.php:8
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentasi"
 
 #: templates/help.php:9
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Mengurus Fail Besar"
 
 #: templates/help.php:10
 msgid "Ask a question"
@@ -117,23 +151,23 @@ msgstr "yang tersedia"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Klien Selarian untuk Desktop dan Mobile"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Muat turun"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
-msgstr "Kata laluan anda ditukar"
+msgstr "Kata laluan anda diubah"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr "Gagal menukar kata laluan anda "
+msgstr "Gagal mengubah kata laluan anda "
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr "Kata laluan terkini"
+msgstr "Kata laluan semasa"
 
 #: templates/personal.php:22
 msgid "New password"
@@ -145,7 +179,7 @@ msgstr "Papar"
 
 #: templates/personal.php:24
 msgid "Change password"
-msgstr "Tukar kata laluan"
+msgstr "Ubah kata laluan"
 
 #: templates/personal.php:30
 msgid "Email"
@@ -171,34 +205,38 @@ msgstr "Bantu terjemah"
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "guna alamat ini untuk menyambung owncloud anda dalam pengurus fail anda"
 
-#: templates/users.php:15 templates/users.php:44
+#: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "Nama"
 
-#: templates/users.php:16 templates/users.php:45
+#: templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Kata laluan "
 
-#: templates/users.php:17 templates/users.php:46 templates/users.php:60
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
 msgstr "Kumpulan"
 
-#: templates/users.php:22
+#: templates/users.php:32
 msgid "Create"
 msgstr "Buat"
 
-#: templates/users.php:25
+#: templates/users.php:35
 msgid "Default Quota"
-msgstr ""
+msgstr "Kuota Lalai"
 
-#: templates/users.php:35 templates/users.php:74
+#: templates/users.php:55 templates/users.php:138
 msgid "Other"
+msgstr "Lain"
+
+#: templates/users.php:80 templates/users.php:112
+msgid "Group Admin"
 msgstr ""
 
-#: templates/users.php:47
+#: templates/users.php:82
 msgid "Quota"
 msgstr "Kuota"
 
-#: templates/users.php:80
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Padam"

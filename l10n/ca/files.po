@@ -9,43 +9,43 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Catalan (http://www.transifex.net/projects/p/owncloud/language/ca/)\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-21 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
 msgstr "El fitxer s'ha pujat correctament"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "El fitxer de pujada excedeix la directiva upload_max_filesize establerta a php.ini"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "El fitxer de pujada excedeix la directiva MAX_FILE_SIZE especificada al formulari HTML"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
 msgstr "El fitxer només s'ha pujat parcialment"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid "No file was uploaded"
 msgstr "El fitxer no s'ha pujat"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:25
 msgid "Missing a temporary folder"
 msgstr "S'ha perdut un fitxer temporal"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "Failed to write to disk"
 msgstr "Ha fallat en escriure al disc"
 
@@ -53,57 +53,85 @@ msgstr "Ha fallat en escriure al disc"
 msgid "Files"
 msgstr "Fitxers"
 
-#: js/filelist.js:186
-msgid "undo deletion"
-msgstr ""
+#: js/fileactions.js:107 templates/index.php:56
+msgid "Delete"
+msgstr "Suprimeix"
 
-#: js/files.js:170
+#: js/filelist.js:141
+msgid "already exists"
+msgstr "ja existeix"
+
+#: js/filelist.js:141
+msgid "replace"
+msgstr "substitueix"
+
+#: js/filelist.js:141
+msgid "cancel"
+msgstr "cancel·la"
+
+#: js/filelist.js:195
+msgid "replaced"
+msgstr "substituït"
+
+#: js/filelist.js:195
+msgid "with"
+msgstr "per"
+
+#: js/filelist.js:195 js/filelist.js:246
+msgid "undo"
+msgstr "desfés"
+
+#: js/filelist.js:246
+msgid "deleted"
+msgstr "esborrat"
+
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "s'estan generant fitxers ZIP, pot trigar una estona."
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "No es pot pujar el fitxer perquè és una carpeta o té 0 bytes"
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Upload Error"
-msgstr ""
+msgstr "Error en la pujada"
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:228 js/files.js:319 js/files.js:348
 msgid "Pending"
-msgstr ""
+msgstr "Pendents"
 
-#: js/files.js:332
+#: js/files.js:333
 msgid "Upload cancelled."
-msgstr ""
+msgstr "La pujada s'ha cancel·lat."
 
-#: js/files.js:456
+#: js/files.js:457
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "El nom no és vàlid, no es permet '/'."
 
-#: js/files.js:626 templates/index.php:55
+#: js/files.js:703 templates/index.php:55
 msgid "Size"
 msgstr "Mida"
 
-#: js/files.js:627 templates/index.php:56
+#: js/files.js:704 templates/index.php:56
 msgid "Modified"
 msgstr "Modificat"
 
-#: js/files.js:654
+#: js/files.js:731
 msgid "folder"
-msgstr ""
+msgstr "carpeta"
 
-#: js/files.js:656
+#: js/files.js:733
 msgid "folders"
-msgstr ""
+msgstr "carpetes"
 
-#: js/files.js:664
+#: js/files.js:741
 msgid "file"
-msgstr ""
+msgstr "fitxer"
 
-#: js/files.js:666
+#: js/files.js:743
 msgid "files"
-msgstr ""
+msgstr "fitxers"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -172,10 +200,6 @@ msgstr "Comparteix"
 #: templates/index.php:51
 msgid "Download"
 msgstr "Baixa"
-
-#: templates/index.php:56
-msgid "Delete"
-msgstr "Suprimeix"
 
 #: templates/index.php:64
 msgid "Upload too large"

@@ -5,45 +5,77 @@
  * later.
  * See the COPYING-README file.
  */
-//check for calendar rights or create new one
-ob_start();
 OCP\JSON::checkLoggedIn();
-OCP\JSON::callCheck();
 OCP\App::checkAppEnabled('calendar');
-$nl="\r\n";
-$comps = array('VEVENT'=>true, 'VTODO'=>true, 'VJOURNAL'=>true);
-$progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '10');
-	fclose($progressfopen);
+OCP\JSON::callCheck();
+session_write_close();
+if (isset($_POST['progresskey']) && isset($_POST['getprogress'])) {
+	echo OCP\JSON::success(array('percent'=>OC_Cache::get($_POST['progresskey'])));
+	exit;
 }
 $file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
+if(!$file){
+	OCP\JSON::error(array('error'=>'404'));
+}
+$import = new OC_Calendar_Import($file);
+$import->setUserID(OCP\User::getUser());
+$import->setTimeZone(OC_Calendar_App::$tz);
+$import->enableProgressCache();
+$import->setProgresskey($_POST['progresskey']);
+if(!$import->isValid()){
+	OCP\JSON::error(array('error'=>'notvalid'));
+	exit;
+}
+$newcal = false;
 if($_POST['method'] == 'new'){
-	$id = OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(), $_POST['calname']);
-	OC_Calendar_Calendar::setCalendarActive($id, 1);
+	$calendars = OC_Calendar_Calendar::allCalendars(OCP\User::getUser());
+	foreach($calendars as $calendar){
+		if($calendar['displayname'] == $_POST['calname']){
+			$id = $calendar['id'];
+			$newcal = false;
+			break;
+		}
+		$newcal = true;
+	}
+	if($newcal){
+		$id = OC_Calendar_Calendar::addCalendar(OCP\USER::getUser(), strip_tags($_POST['calname']),'VEVENT,VTODO,VJOURNAL',null,0,strip_tags($_POST['calcolor']));
+		OC_Calendar_Calendar::setCalendarActive($id, 1);
+	}
 }else{
 	$calendar = OC_Calendar_App::getCalendar($_POST['id']);
 	if($calendar['userid'] != OCP\USER::getUser()){
-		OCP\JSON::error();
+		OCP\JSON::error(array('error'=>'missingcalendarrights'));
 		exit();
 	}
 	$id = $_POST['id'];
 }
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '20');
-	fclose($progressfopen);
+$import->setCalendarID($id);
+try{
+	$import->import();
+}catch (Exception $e) {
+	OCP\JSON::error(array('message'=>OC_Calendar_App::$l10n->t('Import failed'), 'debug'=>$e->getMessage()));
+	//write some log
 }
+$count = $import->getCount();
+if($count == 0){
+	if($newcal){
+		OC_Calendar_Calendar::deleteCalendar($id);
+	}
+	OCP\JSON::error(array('message'=>OC_Calendar_App::$l10n->t('The file contained either no events or all events are already saved in your calendar.')));
+}else{
+	if($newcal){
+		OCP\JSON::success(array('message'=>$count . ' ' . OC_Calendar_App::$l10n->t('events has been saved in the new calendar') . ' ' .  strip_tags($_POST['calname'])));
+	}else{
+		OCP\JSON::success(array('message'=>$count . ' ' . OC_Calendar_App::$l10n->t('events has been saved in your calendar')));
+	}
+}
+/*		//////////////////////////// Attention: following code is quite painfull !!! ///////////////////////
+writeProgress('20');
 // normalize the newlines
 $file = str_replace(array("\r","\n\n"), array("\n","\n"), $file);
 $lines = explode("\n", $file);
 unset($file);
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '30');
-	fclose($progressfopen);
-}
+writeProgress('30');
 // analyze the file, group components by uid, and keep refs to originating calendar object
 // $cals is array calendar objects, keys are 1st line# $cal, ie array( $cal => $caldata )
 //   $caldata is array( 'first' => 1st component line#, 'last' => last comp line#, 'end' => end line# )
@@ -87,13 +119,8 @@ foreach($lines as $line) {
 	$i++;
 }
 // import the calendar
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '60');
-	fclose($progressfopen);
-}
+writeProgress('60');
 foreach($uids as $uid) {
-	
 	$prefix=$suffix=$content=array();
 	foreach($uid as $begin=>$details) {
 		
@@ -118,13 +145,7 @@ foreach($uids as $uid) {
 	}
 }
 // finished import
-if(is_writable('import_tmp/')){
-	$progressfopen = fopen($progressfile, 'w');
-	fwrite($progressfopen, '100');
-	fclose($progressfopen);
-}
+writeProgress('100');
 sleep(3);
-if(is_writable('import_tmp/')){
-	unlink($progressfile);
-}
-OCP\JSON::success();
+OC_Cache::remove($progresskey);
+OCP\JSON::success();*/

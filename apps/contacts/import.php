@@ -12,131 +12,139 @@ OCP\JSON::checkLoggedIn();
 OCP\App::checkAppEnabled('contacts');
 session_write_close();
 
-$cr = "\r";
 $nl = "\n";
-$progressfile = 'import_tmp/' . md5(session_id()) . '.txt';
+
+global $progresskey;
+$progresskey = 'contacts.import-' . (isset($_GET['progresskey'])?$_GET['progresskey']:'');
+
+if (isset($_GET['progress']) && $_GET['progress']) {
+	echo OC_Cache::get($progresskey);
+	die;
+}
 
 function writeProgress($pct) {
-	if(is_writable('import_tmp/')){
-		$progressfopen = fopen($progressfile, 'w');
-		fwrite($progressfopen, $pct);
-		fclose($progressfopen);
-	}
+	global $progresskey;
+	OC_Cache::set($progresskey, $pct, 300);
 }
 writeProgress('10');
 $view = $file = null;
 if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
 	$view = OCP\Files::getStorage('contacts');
-	$file = $view->file_get_contents('/' . $_POST['file']);
+	$file = $view->file_get_contents('/imports/' . $_POST['file']);
 } else {
 	$file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
 }
 if(!$file) {
-	OCP\JSON::error(array('message' => 'Import file was empty.'));
+	OCP\JSON::error(array('data' => array('message' => 'Import file was empty.')));
 	exit();
 }
-if(isset($_POST['method']) && $_POST['method'] == 'new'){
-	$id = OC_Contacts_Addressbook::add(OCP\USER::getUser(), $_POST['addressbookname']);
+if(isset($_POST['method']) && $_POST['method'] == 'new') {
+	$id = OC_Contacts_Addressbook::add(OCP\USER::getUser(), 
+		$_POST['addressbookname']);
 	if(!$id) {
-		OCP\JSON::error(array('message' => 'Error creating address book.'));
+		OCP\JSON::error(
+			array(
+				'data' => array('message' => 'Error creating address book.')
+			)
+		);
 		exit();
 	}
 	OC_Contacts_Addressbook::setActive($id, 1);
 }else{
 	$id = $_POST['id'];
 	if(!$id) {
-		OCP\JSON::error(array('message' => 'Error getting the ID of the address book.'));
+		OCP\JSON::error(
+			array(
+				'data' => array(
+					'message' => 'Error getting the ID of the address book.', 
+					'file'=>$_POST['file']
+				)
+			)
+		);
 		exit();
 	}
 	OC_Contacts_App::getAddressbook($id); // is owner access check
 }
 //analyse the contacts file
-writeProgress('20');
-$searchfor = array('VCARD');
-$parts = $searchfor;
-$filearr = explode($nl, $file);
-if(count($filearr) == 1) { // Mac eol
-	$filearr = explode($cr, $file);
-}
+writeProgress('40');
+$file = str_replace(array("\r","\n\n"), array("\n","\n"), $file);
+$lines = explode($nl, $file);
 
 $inelement = false;
 $parts = array();
-$i = 0;
-foreach($filearr as $line){
-	foreach($searchfor as $search){
-		if(substr_count($line, $search) == 1){
-			list($attr, $val) = explode(':', $line);
-			if($attr == 'BEGIN'){
-				$parts[]['begin'] = $i;
-				$inelement = true;
-			}
-			if($attr == 'END'){
-				$parts[count($parts) - 1]['end'] = $i;
-				$inelement = false;
-			}
-		}
+$card = array();
+foreach($lines as $line){
+	if(strtoupper(trim($line)) == 'BEGIN:VCARD') {
+		$inelement = true;
+	} elseif (strtoupper(trim($line)) == 'END:VCARD') {
+		$card[] = $line;
+		$parts[] = implode($nl, $card);
+		$card = array();
+		$inelement = false;
 	}
-	$i++;
+	if ($inelement === true && trim($line) != '') {
+		$card[] = $line;
+	}
 }
 //import the contacts
-writeProgress('40');
-$start = '';
-for ($i = 0; $i < $parts[0]['begin']; $i++) { 
-	if($i == 0){
-		$start = $filearr[0];
-	}else{
-		$start .= $nl . $filearr[$i];
-	}
-}
-$end = '';
-for($i = $parts[count($parts) - 1]['end'] + 1;$i <= count($filearr) - 1; $i++){
-	if($i == $parts[count($parts) - 1]['end'] + 1){
-		$end = $filearr[$parts[count($parts) - 1]['end'] + 1];
-	}else{
-		$end .= $nl . $filearr[$i];
-	}
-}
-writeProgress('50');
-$importready = array();
-foreach($parts as $part){
-	for($i = $part['begin']; $i <= $part['end'];$i++){
-		if($i == $part['begin']){
-			$content = $filearr[$i];
-		}else{
-			$content .= $nl . $filearr[$i];
-		}
-	}
-	$importready[] = $start . $nl . $content . $nl . $end;
-}
 writeProgress('70');
-if(count($parts) == 1){
-	$importready = array($file);
-}
 $imported = 0;
 $failed = 0;
-if(!count($importready) > 0) {
-	OCP\JSON::error(array('data' => (array('message' => 'No contacts to import in .'.$_POST['file'].' Please check if the file is corrupted.'))));
+if(!count($parts) > 0) {
+	OCP\JSON::error(
+		array(
+			'data' => array(
+				'message' => 'No contacts to import in '
+					. $_POST['file'].'. Please check if the file is corrupted.', 
+				'file'=>$_POST['file']
+			)
+		)
+	);
+	if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
+		if(!$view->unlink('/imports/' . $_POST['file'])) {
+			OCP\Util::writeLog('contacts', 
+				'Import: Error unlinking OC_FilesystemView ' . '/' . $_POST['file'], 
+				OCP\Util::ERROR);
+		}
+	}
 	exit();
 }
-foreach($importready as $import){
-	$card = OC_VObject::parse($import);
+foreach($parts as $part){
+	$card = OC_VObject::parse($part);
 	if (!$card) {
 		$failed += 1;
-		OCP\Util::writeLog('contacts','Import: skipping card. Error parsing VCard: '.$import, OCP\Util::ERROR);
+		OCP\Util::writeLog('contacts', 
+			'Import: skipping card. Error parsing VCard: ' . $part, 
+				OCP\Util::ERROR);
 		continue; // Ditch cards that can't be parsed by Sabre.
 	}
-	$imported += 1;
-	OC_Contacts_VCard::add($id, $card);
+	try {
+		OC_Contacts_VCard::add($id, $card);
+		$imported += 1;
+	} catch (Exception $e) {
+		OCP\Util::writeLog('contacts', 
+			'Error importing vcard: ' . $e->getMessage() . $nl . $card, 
+			OCP\Util::ERROR);
+		$failed += 1;
+	}
 }
 //done the import
 writeProgress('100');
 sleep(3);
-if(is_writable('import_tmp/')){
-	unlink($progressfile);
-}
+OC_Cache::remove($progresskey);
 if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
-	if(!$view->unlink('/' . $_POST['file'])) {
-		OCP\Util::writeLog('contacts','Import: Error unlinking OC_FilesystemView ' . '/' . $_POST['file'], OCP\Util::ERROR);
+	if(!$view->unlink('/imports/' . $_POST['file'])) {
+		OCP\Util::writeLog('contacts', 
+			'Import: Error unlinking OC_FilesystemView ' . '/' . $_POST['file'], 
+			OCP\Util::ERROR);
 	}
 }
-OCP\JSON::success(array('data' => array('imported'=>$imported, 'failed'=>$failed)));
+OCP\JSON::success(
+	array(
+		'data' => array(
+			'imported'=>$imported, 
+			'failed'=>$failed, 
+			'file'=>$_POST['file'],
+		)
+	)
+);

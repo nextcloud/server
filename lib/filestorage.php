@@ -4,7 +4,7 @@
 * ownCloud
 *
 * @author Frank Karlitschek
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org
+* @copyright 2012 Frank Karlitschek frank@owncloud.org
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,10 +21,10 @@
 */
 
 /**
- * Privde a common interface to all different storage options
+ * Provde a common interface to all different storage options
  */
 abstract class OC_Filestorage{
-	public function __construct($parameters){}
+	abstract public function __construct($parameters);
 	abstract public function mkdir($path);
 	abstract public function rmdir($path);
 	abstract public function opendir($path);
@@ -33,8 +33,11 @@ abstract class OC_Filestorage{
 	abstract public function stat($path);
 	abstract public function filetype($path);
 	abstract public function filesize($path);
-	abstract public function is_readable($path);
-	abstract public function is_writable($path);
+	abstract public function isCreatable($path);
+	abstract public function isReadable($path);
+	abstract public function isUpdatable($path);
+	abstract public function isDeletable($path);
+	abstract public function isSharable($path);
 	abstract public function file_exists($path);
 	abstract public function filectime($path);
 	abstract public function filemtime($path);
@@ -50,4 +53,14 @@ abstract class OC_Filestorage{
 	abstract public function search($query);
 	abstract public function touch($path, $mtime=null);
 	abstract public function getLocalFile($path);// get a path to a local version of the file, whether the original file is local or remote
+	abstract public function getLocalFolder($path);// get a path to a local version of the folder, whether the original file is local or remote
+	/**
+	 * check if a file or folder has been updated since $time
+	 * @param int $time
+	 * @return bool
+	 *
+	 * hasUpdated for folders should return at least true if a file inside the folder is add, removed or renamed.
+	 * returning true for other changes in the folder is optional
+	 */
+	abstract public function hasUpdated($path,$time);
 }

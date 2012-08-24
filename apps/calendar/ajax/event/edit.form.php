@@ -13,7 +13,7 @@ if(!OCP\User::isLoggedIn()) {
 }
 OCP\JSON::checkAppEnabled('calendar');
 
-$id = $_GET['id'];
+$id = $_POST['id'];
 $data = OC_Calendar_App::getEventObject($id, true, true);
 
 if(!$data){

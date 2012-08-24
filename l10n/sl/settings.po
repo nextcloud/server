@@ -10,77 +10,109 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Slovenian (http://www.transifex.net/projects/p/owncloud/language/sl/)\n"
+"POT-Creation-Date: 2012-08-19 02:02+0200\n"
+"PO-Revision-Date: 2012-08-18 13:08+0000\n"
+"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
+"Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
 
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr "Ne morem naložiti seznama iz App Store"
+
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "E-poštni naslov je bil shranjen"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Neveljaven e-poštni naslov"
 
-#: ajax/openid.php:15
+#: ajax/openid.php:16
 msgid "OpenID Changed"
 msgstr "OpenID je bil spremenjen"
 
-#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
 msgstr "Neveljaven zahtevek"
 
-#: ajax/setlanguage.php:17
+#: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Napaka overitve"
+
+#: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Jezik je bil spremenjen"
 
-#: js/apps.js:31 js/apps.js:67
-msgid "Disable"
-msgstr ""
+#: js/apps.js:18
+msgid "Error"
+msgstr "Napaka"
 
-#: js/apps.js:31 js/apps.js:54
+#: js/apps.js:39 js/apps.js:73
+msgid "Disable"
+msgstr "Onemogoči"
+
+#: js/apps.js:39 js/apps.js:62
 msgid "Enable"
-msgstr ""
+msgstr "Omogoči"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Shranjevanje..."
 
-#: personal.php:40 personal.php:41
+#: personal.php:46 personal.php:47
 msgid "__language_name__"
 msgstr "__ime_jezika__"
 
-#: templates/admin.php:13
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr "Varnostno opozorilo"
+
+#: templates/admin.php:29
+msgid "Cron"
+msgstr "Periodično opravilo"
+
+#: templates/admin.php:31
+msgid "execute one task with each page loaded"
+msgstr "izvedi eno nalogo z vsako naloženo stranjo"
+
+#: templates/admin.php:33
+msgid "cron.php is registered at a webcron service"
+msgstr "cron.php je vpisan na storitev webcron"
+
+#: templates/admin.php:35
+msgid "use systems cron service"
+msgstr "uporabi sistemski servis za periodična opravila"
+
+#: templates/admin.php:39
 msgid "Log"
 msgstr "Dnevnik"
 
-#: templates/admin.php:40
+#: templates/admin.php:67
 msgid "More"
 msgstr "Več"
 
-#: templates/apps.php:8
+#: templates/apps.php:10
 msgid "Add your App"
 msgstr "Dodajte vašo aplikacijo"
 
-#: templates/apps.php:22
+#: templates/apps.php:26
 msgid "Select an App"
 msgstr "Izberite aplikacijo"
 
-#: templates/apps.php:25
+#: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Obiščite spletno stran aplikacije na apps.owncloud.com"
 
-#: templates/apps.php:26
+#: templates/apps.php:30
 msgid "-licensed"
 msgstr "-licencirana"
 
-#: templates/apps.php:26
+#: templates/apps.php:30
 msgid "by"
 msgstr "s strani"
 
@@ -172,34 +204,38 @@ msgstr "Pomagajte pri prevajanju"
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "Uporabite ta naslov za povezavo do ownCloud v vašem upravljalniku datotek."
 
-#: templates/users.php:15 templates/users.php:44
+#: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "Ime"
 
-#: templates/users.php:16 templates/users.php:45
+#: templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Geslo"
 
-#: templates/users.php:17 templates/users.php:46 templates/users.php:60
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
 msgstr "Skupine"
 
-#: templates/users.php:22
+#: templates/users.php:32
 msgid "Create"
 msgstr "Ustvari"
 
-#: templates/users.php:25
+#: templates/users.php:35
 msgid "Default Quota"
 msgstr "Privzeta količinska omejitev"
 
-#: templates/users.php:35 templates/users.php:74
+#: templates/users.php:55 templates/users.php:138
 msgid "Other"
 msgstr "Drugo"
 
-#: templates/users.php:47
+#: templates/users.php:80 templates/users.php:112
+msgid "Group Admin"
+msgstr "Administrator skupine"
+
+#: templates/users.php:82
 msgid "Quota"
 msgstr "Količinska omejitev"
 
-#: templates/users.php:80
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Izbriši"

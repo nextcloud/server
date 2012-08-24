@@ -9,6 +9,8 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('calendar');
+OCP\JSON::callCheck();
+
 $calendarid = $_POST['calendarid'];
 $calendar = OC_Calendar_App::getCalendar($calendarid, true);
 if(!$calendar){

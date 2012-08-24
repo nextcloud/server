@@ -37,6 +37,12 @@ OC_Calendar_Calendar::setCalendarActive($calendarid, $_POST['active']);
 $calendar = OC_Calendar_App::getCalendar($calendarid);
 $tmpl = new OCP\Template('calendar', 'part.choosecalendar.rowfields');
 $tmpl->assign('calendar', $calendar);
+if(OC_Calendar_Share::allUsersSharedwith($calendarid, OC_Calendar_Share::CALENDAR) == array()){
+	$shared = false;
+}else{
+	$shared = true;
+}
+$tmpl->assign('shared', $shared);
 OCP\JSON::success(array(
 	'page' => $tmpl->fetchPage(),
 	'eventSource' => OC_Calendar_Calendar::getEventSourceInfo($calendar),

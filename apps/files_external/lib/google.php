@@ -20,7 +20,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once 'common.inc.php';
+require_once 'Google/common.inc.php';
 
 class OC_Filestorage_Google extends OC_Filestorage_Common {
 
@@ -31,16 +31,20 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 
 	private static $tempFiles = array();
 
-	public function __construct($arguments) {
-		$consumer_key = isset($arguments['consumer_key']) ? $arguments['consumer_key'] : 'anonymous';
-		$consumer_secret = isset($arguments['consumer_secret']) ? $arguments['consumer_secret'] : 'anonymous';
-		$this->consumer = new OAuthConsumer($consumer_key, $consumer_secret);
-		$this->oauth_token = new OAuthToken($arguments['token'], $arguments['token_secret']);
-		$this->sig_method = new OAuthSignatureMethod_HMAC_SHA1();
-		$this->entries = array();
+	public function __construct($params) {
+		if (isset($params['configured']) && $params['configured'] == 'true' && isset($params['token']) && isset($params['token_secret'])) {
+			$consumer_key = isset($params['consumer_key']) ? $params['consumer_key'] : 'anonymous';
+			$consumer_secret = isset($params['consumer_secret']) ? $params['consumer_secret'] : 'anonymous';
+			$this->consumer = new OAuthConsumer($consumer_key, $consumer_secret);
+			$this->oauth_token = new OAuthToken($params['token'], $params['token_secret']);
+			$this->sig_method = new OAuthSignatureMethod_HMAC_SHA1();
+			$this->entries = array();
+		} else {
+			throw new Exception('Creating OC_Filestorage_Google storage failed');
+		}
 	}
 
-	private function sendRequest($uri, $httpMethod, $postData = null, $extraHeaders = null, $isDownload = false, $returnHeaders = false, $isContentXML = true) {
+	private function sendRequest($uri, $httpMethod, $postData = null, $extraHeaders = null, $isDownload = false, $returnHeaders = false, $isContentXML = true, $returnHTTPCode = false) {
 		$uri = trim($uri);
 		// create an associative array from each key/value url query param pair.
 		$params = array();
@@ -108,6 +112,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			if ($httpCode <= 308) {
 				if ($isDownload) {
 					return $tmpFile;
+				} else if ($returnHTTPCode) {
+					return array('result' => $result, 'code' => $httpCode);
 				} else {
 					return $result;
 				}
@@ -176,7 +182,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		if ($collection == '/' || $collection == '\.' || $collection == '.') {
 			$uri = 'https://docs.google.com/feeds/default/private/full';
 		// Get parent content link
-		} else if ($dom = $this->getResource(basename($dir))) {
+		} else if ($dom = $this->getResource(basename($collection))) {
 			$uri = $dom->getElementsByTagName('content')->item(0)->getAttribute('src');
 		}
 		if (isset($uri)) {
@@ -235,8 +241,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				$this->entries[$name] = $entry;
 			}
 		}
-		OC_FakeDirStream::$dirs['google'] = $files;
-		return opendir('fakedir://google');
+		OC_FakeDirStream::$dirs['google'.$path] = $files;
+		return opendir('fakedir://google'.$path);
 	}
 
 	public function stat($path) {
@@ -278,11 +284,11 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		return false;
 	}
 
-	public function is_readable($path) {
+	public function isReadable($path) {
 		return true;
 	}
 
-	public function is_writable($path) {
+	public function isUpdatable($path) {
 		if ($path == '' || $path == '/') {
 			return true;
 		} else if ($entry = $this->getResource($path)) {
@@ -339,7 +345,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 						break;
 					}
 				}
-				$title = basename($path);
+				$title = basename($path2);
 				// Construct post data
 				$postData = '<?xml version="1.0" encoding="UTF-8"?>';
 				$postData .= '<entry xmlns="http://www.w3.org/2005/Atom" xmlns:docs="http://schemas.google.com/docs/2007" xmlns:gd="http://schemas.google.com/g/2005" gd:etag='.$etag.'>';
@@ -350,13 +356,13 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			} else {
 				// Move to different collection
 				if ($collectionEntry = $this->getResource($collection)) {
-					$feedUri = $colelctionEntry->getElementsByTagName('content')->item(0)->getAttribute('src');
+					$feedUri = $collectionEntry->getElementsByTagName('content')->item(0)->getAttribute('src');
 					// Construct post data
 					$postData = '<?xml version="1.0" encoding="UTF-8"?>';
 					$postData .= '<entry xmlns="http://www.w3.org/2005/Atom">';
 					$postData .= '<id>'.$entry->getElementsByTagName('id')->item(0).'</id>';
 					$postData .= '</entry>';
-					$this->sendRequest($uri, 'POST', $postData);
+					$this->sendRequest($feedUri, 'POST', $postData);
 					return true;
 				}
 			}
@@ -422,10 +428,9 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			}
 		}
 		if (!isset($uploadUri) && $entry) {
-			$etag = $entry->getAttribute('gd:etag');
 			$links = $entry->getElementsByTagName('link');
 			foreach ($links as $link) {
-				if ($link->getAttribute('rel') == 'http://schemas.google.com/g/2005#resumable-edit-media') {
+				if ($link->getAttribute('rel') == 'http://schemas.google.com/g/2005#resumable-create-media') {
 					$uploadUri = $link->getAttribute('href');
 					break;
 				}
@@ -461,12 +466,12 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 					}
 				}
 				$end = $i + $chunkSize - 1;
-				$headers = array('Content-Length: '.$chunkSize, 'Content-Type: '.$mimetype, 'Content Range: bytes '.$i.'-'.$end.'/'.$size);
+				$headers = array('Content-Length: '.$chunkSize, 'Content-Type: '.$mimetype, 'Content-Range: bytes '.$i.'-'.$end.'/'.$size);
 				$postData = fread($handle, $chunkSize);
-				$result = $this->sendRequest($uploadUri, 'PUT', $postData, $headers, false, true, false);
-				if ($result) {
-					// Get next location to upload file chunk
-					if (preg_match('@^Location: (.*)$@m', $result, $matches)) {
+				$result = $this->sendRequest($uploadUri, 'PUT', $postData, $headers, false, true, false, true);
+				if ($result['code'] == '308') {
+					if (preg_match('@^Location: (.*)$@m', $result['result'], $matches)) {
+						// Get next location to upload file chunk
 						$uploadUri = trim($matches[1]);
 					}
 					$i += $chunkSize;

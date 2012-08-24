@@ -1,0 +1,74 @@
+/*
+
+	Supersized - Fullscreen Slideshow jQuery Plugin
+	Version : 3.2.7
+	Site	: www.buildinternet.com/project/supersized
+	
+	Theme 	: Shutter 1.2
+	Author	: Sam Dunn
+	Company : One Mighty Roar (www.onemightyroar.com)
+	License : MIT License / GPL License
+	
+*/
+
+/* Controls Bar
+----------------------------*/
+#slideshow-content #slideshow-controls-wrapper { margin:0 auto; height:42px; width:100%; bottom:0px; left:0; z-index:204; background:url('%appswebroot%/gallery/img/supersized/nav-bg.png') repeat-x; position:fixed; }
+#slideshow-content #slideshow-controls { overflow:hidden; height:100%; position:relative; text-align:left; z-index:205; }
+#slideshow-content #slidecounter { float:left; color:#999; font:14px "Helvetica Neue", Helvetica, Arial, sans-serif; text-shadow:#000 0 -1px 0; margin:0px 10px 0 15px; line-height:42px; }
+#slideshow-content #slidecaption { overflow:hidden; float:left; color:#FFF; font:400 14px "Helvetica Neue", Helvetica, Arial, sans-serif; text-shadow:#000 1px 1px 2px; margin:0 20px 0 0; line-height:42px; }
+
+/*#navigation { float:right; margin:0px 20px 0 0; }*/
+#slideshow-content #play-button{ float:left; margin-top:1px;border-right:1px solid #333; background:url('%appswebroot%/gallery/img/supersized/bg-hover.png') repeat-x 0 44px; }
+#slideshow-content #play-button:hover{ background-position:0 1px; cursor:pointer; }
+
+#slideshow-content #prevslide, #nextslide{ position:fixed; height:43px; width:43px; top:50%; margin-top:-21px; opacity:0.6; z-index:204; }
+#slideshow-content #prevslide{ left:10px; background:url('%appswebroot%/gallery/img/supersized/back.png'); }
+#slideshow-content #nextslide{ right:10px; background:url('%appswebroot%/gallery/img/supersized/forward.png'); }
+#slideshow-content #prevslide:active, #nextslide:active{ margin-top:-19px; }
+#slideshow-content #prevslide:hover, #nextslide:hover{ cursor:pointer; }
+
+#slideshow-content ul#slide-list{ padding:15px 0; float:left; position:absolute; left:50%; }
+#slideshow-content ul#slide-list li{ list-style:none; width:12px; height:12px; float:left; margin:0 5px 0 0; }
+#slideshow-content ul#slide-list li.current-slide a, ul#slide-list li.current-slide a:hover{ background-position:0 0px; }
+#slideshow-content ul#slide-list li a{ display:block; width:12px; height:12px; background:url('%appswebroot%/gallery/img/supersized/nav-dot.png') no-repeat 0 -24px; }
+#slideshow-content ul#slide-list li a:hover{ background-position:0 -12px; cursor:pointer; }
+
+#slideshow-content #tray-button{ float:right; margin-top:1px; border-left:1px solid #333; background:url('%appswebroot%/gallery/img/supersized/bg-hover.png') repeat-x 0 44px; }
+#slideshow-content #tray-button:hover{ background-position:0 1px; cursor:pointer; }
+
+
+/* Progress Bar
+----------------------------*/					
+#slideshow-content #progress-back{ z-index:205; position:fixed; bottom:42px; left:0; height:8px; width:100%; background:url('%appswebroot%/gallery/img/supersized/progress-back.png') repeat-x; }
+#slideshow-content #progress-bar{ position:relative; height:8px; width:100%; background:url('%appswebroot%/gallery/img/supersized/progress-bar.png') repeat-x; }
+
+
+/* Thumbnail Navigation
+----------------------------*/	
+#slideshow-content #nextthumb, #slideshow-content #prevthumb { z-index:202; display:none; position:fixed; bottom:61px; height:75px; width:100px; overflow:hidden; background:#ddd; border:1px solid #fff; -webkit-box-shadow:0 0 5px #000; }
+#slideshow-content #nextthumb { right:12px; }
+#slideshow-content #prevthumb { left:12px; }
+#slideshow-content #nextthumb img, #slideshow-content #prevthumb img { width:150px; height:auto;  }
+#slideshow-content #nextthumb:active, #slideshow-content #prevthumb:active { bottom:59px; }
+#slideshow-content #nextthumb:hover, #slideshow-content #prevthumb:hover { cursor:pointer; }
+
+
+/* Thumbnail Tray
+----------------------------*/			
+#slideshow-content #thumb-tray{ position:fixed; z-index:203; bottom:0; left:0; background:url('%appswebroot%/gallery/img/supersized/bg-black.png'); height:150px; width:100%; overflow:hidden; text-align:center; -moz-box-shadow: 0px 0px 4px #000; -webkit-box-shadow: 0px 0px 4px #000; box-shadow: 0px 0px 4px #000; }
+
+#slideshow-content #thumb-back, #slideshow-content #thumb-forward{ position:absolute; z-index:5; bottom:42px; height:108px; width:40px; }
+#slideshow-content #thumb-back{ left:0; background: url('%appswebroot%/gallery/img/supersized/thumb-back.png') no-repeat center center;}
+#slideshow-content #thumb-forward{ right:0; background:url('%appswebroot%/gallery/img/supersized/thumb-forward.png') no-repeat center center;}
+#slideshow-content #thumb-back:hover, #slideshow-content #thumb-forward:hover{ cursor:pointer; background-color:rgba(256,256,256, 0.1); }
+#slideshow-content #thumb-back:hover{ border-right:1px solid rgba(256,256,256, 0.2); }
+#slideshow-content #thumb-forward:hover{ border-left:1px solid rgba(256,256,256, 0.2); }
+
+
+#slideshow-content ul#thumb-list{ display:inline-block; list-style:none; position:relative; left:0px; padding:0 0px; }
+#slideshow-content ul#thumb-list li{ background:#111; list-style:none; display:inline; width:150px; height:108px; overflow:hidden; float:left; margin:0; }
+#slideshow-content ul#thumb-list li img { width:200px; height:auto; opacity:0.5; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)"; filter:alpha(opacity=60); -webkit-transition: all 100ms ease-in-out; -moz-transition: all 100ms ease-in-out; -o-transition: all 100ms ease-in-out; -ms-transition: all 100ms ease-in-out; transition: all 100ms ease-in-out; }
+#slideshow-content ul#thumb-list li.current-thumb img, #slideshow-content ul#thumb-list li:hover img{ opacity:1; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); }
+#slideshow-content ul#thumb-list li:hover{ cursor:pointer; }
+				

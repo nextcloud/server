@@ -4,7 +4,7 @@
 * ownCloud
 *
 * @author Frank Karlitschek 
-* @copyright 2010 Frank Karlitschek karlitschek@kde.org 
+* @copyright 2012 Frank Karlitschek frank@owncloud.org 
 * 
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -25,7 +25,7 @@
 /**
  * Class for abstraction of filesystem functions
  * This class won't call any filesystem functions for itself but but will pass them to the correct OC_Filestorage object
- * this class should also handle all the file premission related stuff
+ * this class should also handle all the file permission related stuff
  *
  * Hooks provided:
  *   read(path)
@@ -46,105 +46,106 @@
 class OC_Filesystem{
 	static private $storages=array();
 	static private $mounts=array();
-	static private $storageTypes=array();
 	public static $loaded=false;
-	private $fakeRoot='';
+	/**
+	 * @var OC_Filestorage $defaultInstance
+	 */
 	static private $defaultInstance;
 
 
-  /**
-   * classname which used for hooks handling
-   * used as signalclass in OC_Hooks::emit()
-   */
-  const CLASSNAME = 'OC_Filesystem';
+	/**
+	 * classname which used for hooks handling
+	 * used as signalclass in OC_Hooks::emit()
+	 */
+	const CLASSNAME = 'OC_Filesystem';
 
-  /**
-   * signalname emited before file renaming
-   * @param oldpath
-   * @param newpath
-   */
-  const signal_rename = 'rename';
+	/**
+	 * signalname emited before file renaming
+	 * @param oldpath
+	 * @param newpath
+	 */
+	const signal_rename = 'rename';
 
-  /**
-   * signal emited after file renaming
-   * @param oldpath
-   * @param newpath
-   */
-  const signal_post_rename = 'post_rename';
-	
-  /**
-   * signal emited before file/dir creation
-   * @param path
-   * @param run changing this flag to false in hook handler will cancel event
-   */
-  const signal_create = 'create';
+	/**
+	 * signal emited after file renaming
+	 * @param oldpath
+	 * @param newpath
+	 */
+	const signal_post_rename = 'post_rename';
 
-  /**
-   * signal emited after file/dir creation
-   * @param path
-   * @param run changing this flag to false in hook handler will cancel event
-   */
-  const signal_post_create = 'post_create';
+	/**
+	 * signal emited before file/dir creation
+	 * @param path
+	 * @param run changing this flag to false in hook handler will cancel event
+	 */
+	const signal_create = 'create';
 
-  /**
-   * signal emits before file/dir copy
-   * @param oldpath
-   * @param newpath
-   * @param run changing this flag to false in hook handler will cancel event
-   */
-  const signal_copy = 'copy';
+	/**
+	 * signal emited after file/dir creation
+	 * @param path
+	 * @param run changing this flag to false in hook handler will cancel event
+	 */
+	const signal_post_create = 'post_create';
 
-  /**
-   * signal emits after file/dir copy
-   * @param oldpath
-   * @param newpath
-   */
-  const signal_post_copy = 'post_copy';
+	/**
+	 * signal emits before file/dir copy
+	* @param oldpath
+	 * @param newpath
+	  * @param run changing this flag to false in hook handler will cancel event
+	 */
+	const signal_copy = 'copy';
 
-  /**
-   * signal emits before file/dir save
-   * @param path
-   * @param run changing this flag to false in hook handler will cancel event
-   */
-  const signal_write = 'write';
+	/**
+	 * signal emits after file/dir copy
+	 * @param oldpath
+	 * @param newpath
+	 */
+	const signal_post_copy = 'post_copy';
 
-  /**
-   * signal emits after file/dir save
-   * @param path
-   */
-  const signal_post_write = 'post_write';
-	
-  /**
-   * signal emits when reading file/dir
-   * @param path
-   */
-  const signal_read = 'read';
+	/**
+	 * signal emits before file/dir save
+	 * @param path
+	 * @param run changing this flag to false in hook handler will cancel event
+	 */
+	const signal_write = 'write';
 
-  /**
-   * signal emits when removing file/dir
-   * @param path
-   */
-  const signal_delete = 'delete';
+	/**
+	 * signal emits after file/dir save
+	 * @param path
+	 */
+	const signal_post_write = 'post_write';
 
-  /**
-   * parameters definitions for signals
-   */
-  const signal_param_path = 'path';
-  const signal_param_oldpath = 'oldpath';
-  const signal_param_newpath = 'newpath';
+	/**
+	 * signal emits when reading file/dir
+	 * @param path
+	 */
+	const signal_read = 'read';
 
-  /**
-   * run - changing this flag to false in hook handler will cancel event
-   */
-  const signal_param_run = 'run';
+	/**
+	 * signal emits when removing file/dir
+	 * @param path
+	 */
+	const signal_delete = 'delete';
 
-  /**
-	* get the mountpoint of the storage object for a path
-	( note: because a storage is not always mounted inside the fakeroot, the returned mountpoint is relative to the absolute root of the filesystem and doesn't take the chroot into account
-	*
-	* @param string path
-	* @return string
-	*/
+	/**
+	 * parameters definitions for signals
+	 */
+	const signal_param_path = 'path';
+	const signal_param_oldpath = 'oldpath';
+	const signal_param_newpath = 'newpath';
+
+	/**
+	 * run - changing this flag to false in hook handler will cancel event
+	 */
+	const signal_param_run = 'run';
+
+	/**
+	 * get the mountpoint of the storage object for a path
+	 ( note: because a storage is not always mounted inside the fakeroot, the returned mountpoint is relative to the absolute root of the filesystem and doesn't take the chroot into account
+	 *
+	 * @param string path
+	  * @return string
+	 */
 	static public function getMountPoint($path){
 		OC_Hook::emit(self::CLASSNAME,'get_mountpoint',array('path'=>$path));
 		if(!$path){
@@ -153,8 +154,10 @@ class OC_Filesystem{
 		if($path[0]!=='/'){
 			$path='/'.$path;
 		}
+		$path=str_replace('//', '/',$path);
 		$foundMountPoint='';
-		foreach(OC_Filesystem::$mounts as $mountpoint=>$storage){
+		$mountPoints=array_keys(OC_Filesystem::$mounts);
+		foreach($mountPoints as $mountpoint){
 			if($mountpoint==$path){
 				return $mountpoint;
 			}
@@ -259,10 +262,7 @@ class OC_Filesystem{
 	 * tear down the filesystem, removing all storage providers
 	 */
 	static public function tearDown(){
-		foreach(self::$storages as $mountpoint=>$storage){
-			unset(self::$storages[$mountpoint]);
-		}
-		$fakeRoot='';
+		self::$storages=array();
 	}
 	
 	/**
@@ -273,7 +273,12 @@ class OC_Filesystem{
 	*/
 	static private function createStorage($class,$arguments){
 		if(class_exists($class)){
-			return new $class($arguments);
+			try {
+				return new $class($arguments);
+			} catch (Exception $exception) {
+				OC_Log::write('core', $exception->getMessage(), OC_Log::ERROR);
+				return false;
+			}
 		}else{
 			OC_Log::write('core','storage backend '.$class.' not found',OC_Log::ERROR);
 			return false;
@@ -281,17 +286,19 @@ class OC_Filesystem{
 	}
 	
 	/**
-	* change the root to a fake toor
+	* change the root to a fake root
 	* @param  string  fakeRoot
 	* @return bool
 	*/
 	static public function chroot($fakeRoot){
-		return self::$defaultInstance->chroot($path);
+		return self::$defaultInstance->chroot($fakeRoot);
 	}
 
 	/**
-	 * get the fake root
+	 * @brief get the relative path of the root data directory for the current user
 	 * @return string
+	 *
+	 * Returns path like /admin/files
 	 */
 	static public function getRoot(){
 		return self::$defaultInstance->getRoot();
@@ -319,17 +326,6 @@ class OC_Filesystem{
 		}
 		self::$mounts[$mountpoint]=array('class'=>$class,'arguments'=>$arguments);
 	}
-
-	/**
-	 * create all storage backends mounted in the filesystem
-	 */
-	static private function mountAll(){
-		foreach(self::$mounts as $mountPoint=>$mount){
-			if(!isset(self::$storages[$mountPoint])){
-				self::$storages[$mountPoint]=self::createStorage($mount['type'],$mount['arguments']);
-			}
-		}
-	}
 	
 	/**
 	* return the path to a local version of the file
@@ -339,6 +335,27 @@ class OC_Filesystem{
 	*/
 	static public function getLocalFile($path){
 		return self::$defaultInstance->getLocalFile($path);
+	}
+	/**
+	 * @param string path
+	 * @return string
+	 */
+	static public function getLocalFolder($path){
+		return self::$defaultInstance->getLocalFolder($path);
+	}
+	
+	/**
+	* return path to file which reflects one visible in browser
+	* @param string path
+	* @return string
+	*/
+	static public function getLocalPath($path) {
+		$datadir = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser().'/files';
+		$newpath = $path;
+		if (strncmp($newpath, $datadir, strlen($datadir)) == 0) {
+			$newpath = substr($path, strlen($datadir));
+		}
+		return $newpath;
 	}
 	
 	/**
@@ -402,6 +419,9 @@ class OC_Filesystem{
 	static public function opendir($path){
 		return self::$defaultInstance->opendir($path);
 	}
+	static public function readdir($path){
+		return self::$defaultInstance->readdir($path);
+	}
 	static public function is_dir($path){
 		return self::$defaultInstance->is_dir($path);
 	}
@@ -420,11 +440,32 @@ class OC_Filesystem{
 	static public function readfile($path){
 		return self::$defaultInstance->readfile($path);
 	}
+	/**
+	* @deprecated Replaced by isReadable() as part of CRUDS
+	*/
 	static public function is_readable($path){
 		return self::$defaultInstance->is_readable($path);
 	}
+	/**
+	* @deprecated Replaced by isCreatable(), isUpdatable(), isDeletable() as part of CRUDS
+	*/
 	static public function is_writable($path){
 		return self::$defaultInstance->is_writable($path);
+	}
+	static public function isCreatable($path) {
+		return self::$defaultInstance->isCreatable($path);
+	}
+	static public function isReadable($path) {
+		return self::$defaultInstance->isReadable($path);
+	}
+	static public function isUpdatable($path) {
+		return self::$defaultInstance->isUpdatable($path);
+	}
+	static public function isDeletable($path) {
+		return self::$defaultInstance->isDeletable($path);
+	}
+	static public function isSharable($path) {
+		return self::$defaultInstance->isSharable($path);
 	}
 	static public function file_exists($path){
 		return self::$defaultInstance->file_exists($path);
@@ -477,6 +518,59 @@ class OC_Filesystem{
 	static public function search($query){
 		return OC_FileCache::search($query);
 	}
-}
 
+	/**
+	 * check if a file or folder has been updated since $time
+	 * @param int $time
+	 * @return bool
+	 */
+	static public function hasUpdated($path,$time){
+		return self::$defaultInstance->hasUpdated($path,$time);
+	}
+
+	static public function removeETagHook($params) {
+		if (isset($params['path'])) {
+			$path=$params['path'];
+		} else {
+			$path=$params['oldpath'];
+		}
+		OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
+	}
+
+	/**
+	 * normalize a path
+	 * @param string path
+	 * @param bool $stripTrailingSlash
+	 * @return string
+	 */
+	public static function normalizePath($path,$stripTrailingSlash=true){
+		if($path==''){
+			return '/';
+		}
+		//no windows style slashes
+		$path=str_replace('\\','/',$path);
+		//add leading slash
+		if($path[0]!=='/'){
+			$path='/'.$path;
+		}
+		//remove trainling slash
+		if($stripTrailingSlash and strlen($path)>1 and substr($path,-1,1)==='/'){
+			$path=substr($path,0,-1);
+		}
+		//remove duplicate slashes
+		while(strpos($path,'//')!==false){
+			$path=str_replace('//','/',$path);
+		}
+		//normalize unicode if possible
+		if(class_exists('Normalizer')){
+			$path=Normalizer::normalize($path);
+		}
+		return $path;
+	}
+}
+OC_Hook::connect('OC_Filesystem','post_write', 'OC_Filesystem','removeETagHook');
+OC_Hook::connect('OC_Filesystem','post_delete','OC_Filesystem','removeETagHook');
+OC_Hook::connect('OC_Filesystem','post_rename','OC_Filesystem','removeETagHook');
+
+OC_Util::setupFS();
 require_once('filecache.php');

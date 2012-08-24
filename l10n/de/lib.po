@@ -1,0 +1,115 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Phi Lieb <>, 2012.
+#   <thomas.mueller@tmit.eu>, 2012.
+#   <transifex.3.mensaje@spamgourmet.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 09:41+0000\n"
+"Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
+"Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: app.php:288
+msgid "Help"
+msgstr "Hilfe"
+
+#: app.php:295
+msgid "Personal"
+msgstr "Persönlich"
+
+#: app.php:300
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: app.php:305
+msgid "Users"
+msgstr "Benutzer"
+
+#: app.php:312
+msgid "Apps"
+msgstr "Apps"
+
+#: app.php:314
+msgid "Admin"
+msgstr "Administrator"
+
+#: files.php:276
+msgid "ZIP download is turned off."
+msgstr "Der ZIP-Download ist deaktiviert."
+
+#: files.php:277
+msgid "Files need to be downloaded one by one."
+msgstr "Die Dateien müssen einzeln heruntergeladen werden."
+
+#: files.php:277 files.php:302
+msgid "Back to Files"
+msgstr "Zurück zu \"Dateien\""
+
+#: files.php:301
+msgid "Selected files too large to generate zip file."
+msgstr "Die gewählten Dateien sind zu groß, um eine ZIP-Datei zu erstellen."
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr "Die Anwendung ist nicht aktiviert"
+
+#: json.php:39 json.php:63 json.php:75
+msgid "Authentication error"
+msgstr "Authentifizierungs-Fehler"
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr "Token abgelaufen. Bitte laden Sie die Seite neu."
+
+#: template.php:86
+msgid "seconds ago"
+msgstr "Vor wenigen Sekunden"
+
+#: template.php:87
+msgid "1 minute ago"
+msgstr "Vor einer Minute"
+
+#: template.php:88
+#, php-format
+msgid "%d minutes ago"
+msgstr "Vor %d Minuten"
+
+#: template.php:91
+msgid "today"
+msgstr "Heute"
+
+#: template.php:92
+msgid "yesterday"
+msgstr "Gestern"
+
+#: template.php:93
+#, php-format
+msgid "%d days ago"
+msgstr "Vor %d Tagen"
+
+#: template.php:94
+msgid "last month"
+msgstr "Letzten Monat"
+
+#: template.php:95
+msgid "months ago"
+msgstr "Vor Monaten"
+
+#: template.php:96
+msgid "last year"
+msgstr "Letztes Jahr"
+
+#: template.php:97
+msgid "years ago"
+msgstr "Vor Jahren"

@@ -101,7 +101,7 @@ if( $task eq 'read' ){
 		foreach my $file ( @totranslate ){
 			next if $ignore{$file};
 			my $keyword = ( $file =~ /\.js$/ ? 't:2' : 't');
-			my $language = ( $file =~ /\.js$/ ? 'C' : 'PHP');
+			my $language = ( $file =~ /\.js$/ ? 'Perl' : 'PHP');
 			my $joinexisting = ( -e $output ? '--join-existing' : '');
 			print "    Reading $file\n";
 			`xgettext --output="$output" $joinexisting --keyword=$keyword --language=$language "$file"`;

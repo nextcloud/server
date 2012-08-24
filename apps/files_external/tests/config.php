@@ -37,4 +37,10 @@ return array(
 		'share'=>'/test',
 		'root'=>'/test/',
 	),
+	'amazons3'=>array(
+		'run'=>false,
+		'key'=>'test',
+		'secret'=>'test',
+		'bucket'=>'bucket',
+	),
 );

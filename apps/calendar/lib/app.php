@@ -9,26 +9,26 @@
  * This class manages our app actions
  */
 OC_Calendar_App::$l10n = new OC_L10N('calendar');
-OC_Calendar_App::$tz = OCP\Config::getUserValue(OCP\USER::getUser(), 'calendar', 'timezone', date_default_timezone_get());
+OC_Calendar_App::$tz = OC_Calendar_App::getTimezone();
 class OC_Calendar_App{
 	const CALENDAR = 'calendar';
 	const EVENT = 'event';
-	/*
+	/**
 	 * @brief language object for calendar app
 	 */
 	public static $l10n;
 	
-	/*
+	/**
 	 * @brief categories of the user
 	 */
 	protected static $categories = null;
 
-	/*
+	/**
 	 * @brief timezone of the user
 	 */
 	public static $tz;
 	
-	/*
+	/**
 	 * @brief returns informations about a calendar
 	 * @param int $id - id of the calendar
 	 * @param bool $security - check access rights or not
@@ -50,13 +50,10 @@ class OC_Calendar_App{
 				return false;
 			}
 		}
-		if($calendar === false){
-			return false;
-		}
-		return OC_Calendar_Calendar::find($id);
+		return $calendar;
 	}
 	
-	/*
+	/**
 	 * @brief returns informations about an event
 	 * @param int $id - id of the event
 	 * @param bool $security - check access rights or not
@@ -82,7 +79,7 @@ class OC_Calendar_App{
 		return $event;
 	}
 	
-	/*
+	/**
 	 * @brief returns the parsed calendar data
 	 * @param int $id - id of the event
 	 * @param bool $security - check access rights or not
@@ -100,7 +97,7 @@ class OC_Calendar_App{
 		return $vobject;
 	}
 	
-	/*
+	/**
 	 * @brief checks if an event was edited and dies if it was
 	 * @param (object) $vevent - vevent object of the event
 	 * @param (int) $lastmodified - time of last modification as unix timestamp
@@ -115,12 +112,11 @@ class OC_Calendar_App{
 		return true;
 	}
 	
-	/*
+	/**
 	 * @brief returns the default categories of ownCloud
 	 * @return (array) $categories
 	 */
-	protected static function getDefaultCategories()
-	{
+	protected static function getDefaultCategories(){
 		return array(
 			self::$l10n->t('Birthday'),
 			self::$l10n->t('Business'),
@@ -140,7 +136,7 @@ class OC_Calendar_App{
 		);
 	}
 	
-	/*
+	/**
 	 * @brief returns the vcategories object of the user
 	 * @return (object) $vcategories
 	 */
@@ -151,12 +147,11 @@ class OC_Calendar_App{
 		return self::$categories;
 	}
 	
-	/*
+	/**
 	 * @brief returns the categories of the vcategories object
 	 * @return (array) $categories
 	 */
-	public static function getCategoryOptions()
-	{
+	public static function getCategoryOptions(){
 		$categories = self::getVCategories()->categories();
 		return $categories;
 	}
@@ -199,17 +194,24 @@ class OC_Calendar_App{
 		} else
 		if (isset($calendar->VTODO)) {
 			$object = $calendar->VTODO;
+		} else
+		if (isset($calendar->VJOURNAL)) {
+			$object = $calendar->VJOURNAL;
 		}
 		if ($object) {
 			self::getVCategories()->loadFromVObject($object, true);
 		}
 	}
-
+	
+	/**
+	 * @brief returns the options for the repeat rule of an repeating event
+	 * @return array - valid inputs for the repeat rule of an repeating event
+	 */
 	public static function getRepeatOptions(){
 		return OC_Calendar_Object::getRepeatOptions(self::$l10n);
 	}
 	
-	/*
+	/**
 	 * @brief returns the options for the end of an repeating event
 	 * @return array - valid inputs for the end of an repeating events
 	 */
@@ -217,7 +219,7 @@ class OC_Calendar_App{
 		return OC_Calendar_Object::getEndOptions(self::$l10n);
 	}
 	
-	/*
+	/**
 	 * @brief returns the options for an monthly repeating event
 	 * @return array - valid inputs for monthly repeating events
 	 */
@@ -225,7 +227,7 @@ class OC_Calendar_App{
 		return OC_Calendar_Object::getMonthOptions(self::$l10n);
 	}
 	
-	/*
+	/**
 	 * @brief returns the options for an weekly repeating event
 	 * @return array - valid inputs for weekly repeating events
 	 */
@@ -233,7 +235,7 @@ class OC_Calendar_App{
 		return OC_Calendar_Object::getWeeklyOptions(self::$l10n);
 	}
 	
-	/*
+	/**
 	 * @brief returns the options for an yearly repeating event
 	 * @return array - valid inputs for yearly repeating events
 	 */
@@ -241,7 +243,7 @@ class OC_Calendar_App{
 		return OC_Calendar_Object::getYearOptions(self::$l10n);
 	}
 	
-	/*
+	/**
 	 * @brief returns the options for an yearly repeating event which occurs on specific days of the year
 	 * @return array - valid inputs for yearly repeating events
 	 */
@@ -249,7 +251,7 @@ class OC_Calendar_App{
 		return OC_Calendar_Object::getByYearDayOptions();
 	}
 	
-	/*
+	/**
 	 * @brief returns the options for an yearly repeating event which occurs on specific month of the year
 	 * @return array - valid inputs for yearly repeating events
 	 */
@@ -257,7 +259,7 @@ class OC_Calendar_App{
 		return OC_Calendar_Object::getByMonthOptions(self::$l10n);
 	}
 	
-	/*
+	/**
 	 * @brief returns the options for an yearly repeating event which occurs on specific week numbers of the year
 	 * @return array - valid inputs for yearly repeating events
 	 */
@@ -265,7 +267,7 @@ class OC_Calendar_App{
 		return OC_Calendar_Object::getByWeekNoOptions();
 	}
 	
-	/*
+	/**
 	 * @brief returns the options for an yearly or monthly repeating event which occurs on specific days of the month
 	 * @return array - valid inputs for yearly or monthly repeating events
 	 */
@@ -273,15 +275,25 @@ class OC_Calendar_App{
 		return OC_Calendar_Object::getByMonthDayOptions();
 	}
 	
-	/*
+	/**
 	 * @brief returns the options for an monthly repeating event which occurs on specific weeks of the month
 	 * @return array - valid inputs for monthly repeating events
 	 */
 	public static function getWeekofMonth(){
 		return OC_Calendar_Object::getWeekofMonth(self::$l10n);
 	}
-	
-	/*
+
+	/**
+	 * @return (string) $timezone as set by user or the default timezone
+	 */
+	public static function getTimezone() {
+		return OCP\Config::getUserValue(OCP\User::getUser(),
+						'calendar',
+						'timezone',
+						date_default_timezone_get());
+	}
+
+	/**
 	 * @brief checks the access for a calendar / an event
 	 * @param (int) $id - id of the calendar / event
 	 * @param (string) $type - type of the id (calendar/event)
@@ -322,7 +334,7 @@ class OC_Calendar_App{
 		}
 	}
 	
-	/*
+	/**
 	 * @brief analyses the parameter for calendar parameter and returns the objects
 	 * @param (string) $calendarid - calendarid
 	 * @param (int) $start - unixtimestamp of start
@@ -362,97 +374,62 @@ class OC_Calendar_App{
 		return $events;
 	}
 	
-	/*
+	/**
 	 * @brief generates the output for an event which will be readable for our js
 	 * @param (mixed) $event - event object / array
-	 * @param (int) $start - unixtimestamp of start
-	 * @param (int) $end - unixtimestamp of end
+	 * @param (int) $start - DateTime object of start
+	 * @param (int) $end - DateTime object of end
 	 * @return (array) $output - readable output
 	 */
 	public static function generateEventOutput($event, $start, $end){
-		$output = array();
-		
-		if(isset($event['calendardata'])){
-			$object = OC_VObject::parse($event['calendardata']);
-			$vevent = $object->VEVENT;
-		}else{
-			$vevent = $event['vevent'];
+		if(!isset($event['calendardata']) && !isset($event['vevent'])){
+			return false;
 		}
-		
+		if(!isset($event['calendardata']) && isset($event['vevent'])){
+			$event['calendardata'] = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:ownCloud's Internal iCal System\n" . $event['vevent']->serialize() .  "END:VCALENDAR";
+		}
+		$object = OC_VObject::parse($event['calendardata']);
+		$vevent = $object->VEVENT;
+		$return = array();
+		$id = $event['id'];
+		$allday = ($vevent->DTSTART->getDateType() == Sabre_VObject_Element_DateTime::DATE)?true:false;
 		$last_modified = @$vevent->__get('LAST-MODIFIED');
 		$lastmodified = ($last_modified)?$last_modified->getDateTime()->format('U'):0;
-		
-		$output = array('id'=>(int)$event['id'],
+		$staticoutput = array('id'=>(int)$event['id'],
 						'title' => ($event['summary']!=NULL || $event['summary'] != '')?$event['summary']: self::$l10n->t('unnamed'),
 						'description' => isset($vevent->DESCRIPTION)?$vevent->DESCRIPTION->value:'',
-						'lastmodified'=>$lastmodified);
-		
-		$dtstart = $vevent->DTSTART;
-		$start_dt = $dtstart->getDateTime();
-		$dtend = OC_Calendar_Object::getDTEndFromVEvent($vevent);
-		$end_dt = $dtend->getDateTime();
-		
-		if ($dtstart->getDateType() == Sabre_VObject_Element_DateTime::DATE){
-			$output['allDay'] = true;
-		}else{
-			$output['allDay'] = false;
-			$start_dt->setTimezone(new DateTimeZone(self::$tz));
-			$end_dt->setTimezone(new DateTimeZone(self::$tz));
-		}
-
-		// Handle exceptions to recurring events
-		$exceptionDateObjects = $vevent->select('EXDATE');
-		$exceptionDateMap = Array();
-		foreach ($exceptionDateObjects as $exceptionObject) {
-			foreach($exceptionObject->getDateTimes() as $datetime) {
-				$ts = $datetime->getTimestamp();
-				$exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)] = true;
-			}
-		}
-
-		$return = array();
-		if($event['repeating'] == 1){
-			$duration = (double) $end_dt->format('U') - (double) $start_dt->format('U');
-			$r = new When();
-			$r->recur($start_dt)->rrule((string) $vevent->RRULE);
-			/*$r = new iCal_Repeat_Generator(array('RECUR'  => $start_dt,
-			 *									   'RRULE'  => (string)$vevent->RRULE
-			 *									   'RDATE'  => (string)$vevent->RDATE						
-			 *									   'EXRULE' => (string)$vevent->EXRULE
-			 *									   'EXDATE' => (string)$vevent->EXDATE));*/
-			while($result = $r->next()){
-				if($result < $start){
-					continue;
-				}
-				if($result > $end){
-					break;
-				}
-				// Check for exceptions to recurring events
-				$ts = $result->getTimestamp();
-				if (isset($exceptionDateMap[idate('Y',$ts)][idate('m', $ts)][idate('d', $ts)])) {
-					continue;
-				}
-				unset($ts);
-
-				if($output['allDay'] == true){
-					$output['start'] = $result->format('Y-m-d');
-					$output['end'] = date('Y-m-d', $result->format('U') + --$duration);
+						'lastmodified'=>$lastmodified,
+						'allDay'=>$allday);
+		if(OC_Calendar_Object::isrepeating($id) && OC_Calendar_Repeat::is_cached_inperiod($event['id'], $start, $end)){
+			$cachedinperiod = OC_Calendar_Repeat::get_inperiod($id, $start, $end);
+			foreach($cachedinperiod as $cachedevent){
+				$dynamicoutput = array();
+				if($allday){
+					$start_dt = new DateTime($cachedevent['startdate'], new DateTimeZone('UTC'));
+					$end_dt = new DateTime($cachedevent['enddate'], new DateTimeZone('UTC'));
+					$dynamicoutput['start'] = $start_dt->format('Y-m-d');
+					$dynamicoutput['end'] = $end_dt->format('Y-m-d');
 				}else{
-					$output['start'] = $result->format('Y-m-d H:i:s');
-					$output['end'] = date('Y-m-d H:i:s', $result->format('U') + $result->format('Z') + $duration);
+					$start_dt = new DateTime($cachedevent['startdate'], new DateTimeZone('UTC'));
+					$end_dt = new DateTime($cachedevent['enddate'], new DateTimeZone('UTC'));
+					$start_dt->setTimezone(new DateTimeZone(self::$tz));
+					$end_dt->setTimezone(new DateTimeZone(self::$tz));
+					$dynamicoutput['start'] = $start_dt->format('Y-m-d H:i:s');
+					$dynamicoutput['end'] = $end_dt->format('Y-m-d H:i:s');
 				}
-				$return[] = $output;
+				$return[] = array_merge($staticoutput, $dynamicoutput);
 			}
 		}else{
-			if($output['allDay'] == true){
-				$output['start'] = $start_dt->format('Y-m-d');
-				$end_dt->modify('-1 sec');
-				$output['end'] = $end_dt->format('Y-m-d');
-			}else{
-				$output['start'] = $start_dt->format('Y-m-d H:i:s');
-				$output['end'] = $end_dt->format('Y-m-d H:i:s');
+			if(OC_Calendar_Object::isrepeating($id) || $event['repeating'] == 1){
+				$object->expand($start, $end);
 			}
-			$return[] = $output;
+			foreach($object->getComponents() as $singleevent){
+				if(!($singleevent instanceof Sabre_VObject_Component_VEvent)){
+					continue;
+				}
+				$dynamicoutput = OC_Calendar_Object::generateStartEndDate($singleevent->DTSTART, OC_Calendar_Object::getDTEndFromVEvent($singleevent), $allday, self::$tz);
+				$return[] = array_merge($staticoutput, $dynamicoutput);			
+			}
 		}
 		return $return;
 	}

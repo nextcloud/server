@@ -22,8 +22,8 @@
 
 OCP\App::checkAppEnabled('contacts');
 
-if(substr($_SERVER["REQUEST_URI"],0,strlen(OC::$APPSWEBROOT . '/apps/contacts/carddav.php')) == OC::$APPSWEBROOT . '/apps/contacts/carddav.php'){
-	$baseuri = OC::$APPSWEBROOT . '/apps/contacts/carddav.php';
+if(substr($_SERVER["REQUEST_URI"], 0, strlen(OC_App::getAppWebPath('contacts').'/carddav.php')) == OC_App::getAppWebPath('contacts').'/carddav.php') {
+	$baseuri = OC_App::getAppWebPath('contacts').'/carddav.php';
 }
 
 // only need authentication apps
@@ -36,25 +36,26 @@ $principalBackend = new OC_Connector_Sabre_Principal();
 $carddavBackend   = new OC_Connector_Sabre_CardDAV();
 
 // Root nodes
-$Sabre_CalDAV_Principal_Collection = new Sabre_CalDAV_Principal_Collection($principalBackend); 
-$Sabre_CalDAV_Principal_Collection->disableListing = true; // Disable listening
+$principalCollection = new Sabre_CalDAV_Principal_Collection($principalBackend);
+$principalCollection->disableListing = true; // Disable listening
 
-$Sabre_CardDAV_AddressBookRoot = new Sabre_CardDAV_AddressBookRoot($principalBackend, $carddavBackend);
-$Sabre_CardDAV_AddressBookRoot->disableListing = true; // Disable listening
+$addressBookRoot = new OC_Connector_Sabre_CardDAV_AddressBookRoot($principalBackend, $carddavBackend);
+$addressBookRoot->disableListing = true; // Disable listening
 
-$nodes = array( 
-	$Sabre_CalDAV_Principal_Collection, 
-	$Sabre_CardDAV_AddressBookRoot,
+$nodes = array(
+	$principalCollection,
+	$addressBookRoot,
 	);
 
 // Fire up server
 $server = new Sabre_DAV_Server($nodes);
 $server->setBaseUri($baseuri);
 // Add plugins
-$server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend,'ownCloud'));
+$server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend, 'ownCloud'));
 $server->addPlugin(new Sabre_CardDAV_Plugin());
 $server->addPlugin(new Sabre_DAVACL_Plugin());
 $server->addPlugin(new Sabre_DAV_Browser_Plugin(false)); // Show something in the Browser, but no upload
+$server->addPlugin(new OC_Connector_Sabre_CardDAV_VCFExportPlugin());
 
 // And off we go!
 $server->exec();

@@ -107,7 +107,6 @@ class OC_Setup {
 				}
 				else {
 					$oldUser=OC_Config::getValue('dbuser', false);
-					$oldPassword=OC_Config::getValue('dbpassword', false);
 					
 					$query="SELECT user FROM mysql.user WHERE user='$dbuser'"; //this should be enough to check for admin rights in mysql
 					if(mysql_query($query, $connection)) {
@@ -160,8 +159,11 @@ class OC_Setup {
 				OC_CONFIG::setValue('dbhost', $dbhost);
 				OC_CONFIG::setValue('dbtableprefix', $dbtableprefix);
 
+				$e_host = addslashes($dbhost);
+				$e_user = addslashes($dbuser);
+				$e_password = addslashes($dbpass);
 				//check if the database user has admin right
-				$connection_string = "host=$dbhost dbname=postgres user=$dbuser password=$dbpass";
+				$connection_string = "host='$e_host' dbname=postgres user='$e_user' password='$e_password'";
 				$connection = @pg_connect($connection_string);
 				if(!$connection) {
 					$error[] = array(
@@ -171,8 +173,9 @@ class OC_Setup {
 					return $error;
 				}
 				else {
+					$e_user = pg_escape_string($dbuser);
 					//check for roles creation rights in postgresql
-					$query="SELECT 1 FROM pg_roles WHERE rolcreaterole=TRUE AND rolname='$dbuser'";
+					$query="SELECT 1 FROM pg_roles WHERE rolcreaterole=TRUE AND rolname='$e_user'";
 					$result = pg_query($connection, $query);
 					if($result and pg_num_rows($result) > 0) {
 						//use the admin login data for the new database user
@@ -204,7 +207,13 @@ class OC_Setup {
 					// connect to the ownCloud database (dbname=$dbname) an check if it needs to be filled
 					$dbuser = OC_CONFIG::getValue('dbuser');
 					$dbpass = OC_CONFIG::getValue('dbpassword');
-					$connection_string = "host=$dbhost dbname=$dbname user=$dbuser password=$dbpass";
+
+					$e_host = addslashes($dbhost);
+					$e_dbname = addslashes($dbname);
+					$e_user = addslashes($dbuser);
+					$e_password = addslashes($dbpass);
+
+					$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' password='$e_password'";
 					$connection = @pg_connect($connection_string);
 					if(!$connection) {
 						$error[] = array(
@@ -363,7 +372,7 @@ class OC_Setup {
 				OC_Installer::installShippedApps();
 
 				//create htaccess files for apache hosts
-				if (strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
+				if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 					self::createHtaccess();
 				}
 
@@ -401,12 +410,22 @@ class OC_Setup {
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
 		$e_name = pg_escape_string($name);
 		$e_user = pg_escape_string($user);
-		$query = "CREATE DATABASE \"$e_name\" OWNER \"$e_user\"";
+		$query = "select datname from pg_database where datname = '$e_name'";
 		$result = pg_query($connection, $query);
 		if(!$result) {
 			$entry='DB Error: "'.pg_last_error($connection).'"<br />';
 			$entry.='Offending command was: '.$query.'<br />';
 			echo($entry);
+		}
+		if(! pg_fetch_row($result)) {
+			//The database does not exists... let's create it
+			$query = "CREATE DATABASE \"$e_name\" OWNER \"$e_user\"";
+			$result = pg_query($connection, $query);
+			if(!$result) {
+				$entry='DB Error: "'.pg_last_error($connection).'"<br />';
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			}
 		}
 		$query = "REVOKE ALL PRIVILEGES ON DATABASE \"$e_name\" FROM PUBLIC";
 		$result = pg_query($connection, $query);		
@@ -415,12 +434,32 @@ class OC_Setup {
 	private static function pg_createDBUser($name,$password,$connection) {
 		$e_name = pg_escape_string($name);
 		$e_password = pg_escape_string($password);
-		$query = "CREATE USER \"$e_name\" CREATEDB PASSWORD '$e_password';";
+		$query = "select * from pg_roles where rolname='$e_name';";
 		$result = pg_query($connection, $query);
 		if(!$result) {
 			$entry='DB Error: "'.pg_last_error($connection).'"<br />';
 			$entry.='Offending command was: '.$query.'<br />';
 			echo($entry);
+		}
+
+		if(! pg_fetch_row($result)) {
+			//user does not exists let's create it :)
+			$query = "CREATE USER \"$e_name\" CREATEDB PASSWORD '$e_password';";
+			$result = pg_query($connection, $query);
+			if(!$result) {
+				$entry='DB Error: "'.pg_last_error($connection).'"<br />';
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			}
+		}
+		else { // change password of the existing role
+			$query = "ALTER ROLE \"$e_name\" WITH PASSWORD '$e_password';";
+			$result = pg_query($connection, $query);
+			if(!$result) {
+				$entry='DB Error: "'.pg_last_error($connection).'"<br />';
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			}
 		}
 	}
         /**
@@ -529,5 +568,3 @@ class OC_Setup {
 		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/index.html', '');
 	}
 }
-
-?>
