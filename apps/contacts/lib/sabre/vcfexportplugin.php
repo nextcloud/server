@@ -13,7 +13,7 @@
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Sabre_CardDAV_VCFExportPlugin extends Sabre_DAV_ServerPlugin {
+class OC_Connector_Sabre_CardDAV_VCFExportPlugin extends Sabre_DAV_ServerPlugin {
 
     /**
      * Reference to Server class
