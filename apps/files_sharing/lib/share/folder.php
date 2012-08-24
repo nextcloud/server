@@ -24,7 +24,7 @@ class OC_Share_Backend_Folder extends OC_Share_Backend_File {
 	public function formatItems($items, $format, $parameters = null) {
 		if ($format == self::FORMAT_SHARED_STORAGE) {
 			// Only 1 item should come through for this format call
-			return array('path' => $items[key($items)]['file_source'], 'permissions' => $items[key($items)]['permissions']);
+			return array('path' => $items[key($items)]['path'], 'permissions' => $items[key($items)]['permissions']);
 		} else if ($format == self::FORMAT_FILE_APP && isset($parameters['folder'])) {
 			// Only 1 item should come through for this format call
 			$folder = $items[key($items)];
@@ -33,7 +33,7 @@ class OC_Share_Backend_Folder extends OC_Share_Backend_File {
 			} else {
 				$mimetype_filter = '';
 			}
-			$path = $folder['file_source'].substr($parameters['folder'], 7 + strlen($folder['file_target']));
+			$path = $folder['path'].substr($parameters['folder'], 7 + strlen($folder['file_target']));
 			$files = OC_FileCache::getFolderContent($path, '', $mimetype_filter);
 			foreach ($files as &$file) {
 				$file['directory'] = $parameters['folder'];

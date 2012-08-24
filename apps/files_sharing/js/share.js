@@ -43,20 +43,20 @@ $(document).ready(function() {
 				var itemType = 'file';
 			}
 			var possiblePermissions = $(tr).data('permissions');
-			var appendTo = $('tr').filterAttr('data-file', filename).find('td.filename');
+			var appendTo = $(tr).find('td.filename');
 			// Check if drop down is already visible for a different file
 			if (OC.Share.droppedDown) {
 				if (item != $('#dropdown').data('item')) {
 					OC.Share.hideDropDown(function () {
-						$('tr').filterAttr('data-file', filename).addClass('mouseOver');
-						OC.Share.showDropDown(itemType, item, appendTo, true, possiblePermissions);
+						$(tr).addClass('mouseOver');
+						OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions);
 					});
 				} else {
 					OC.Share.hideDropDown();
 				}
 			} else {
-				$('tr').filterAttr('data-file',filename).addClass('mouseOver');
-				OC.Share.showDropDown(itemType, item, appendTo, true, possiblePermissions);
+				$(tr).addClass('mouseOver');
+				OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions);
 			}
 		});
 	}

@@ -32,7 +32,18 @@ OC.Share={
 	},
 	loadItem:function(itemType, itemSource) {
 		var data = '';
-		if (typeof OC.Share.statuses[itemSource] === 'undefined') {
+		// Switch file sources to path to check if status is set
+		if (itemType == 'file' || itemType == 'folder') {
+			var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
+			if ($('#dir').val() == '/') {
+				var item = $('#dir').val() + filename;
+			} else {
+				var item = $('#dir').val() + '/' + filename;
+			}
+		} else {
+			var item = itemSource;
+		}
+		if (typeof OC.Share.statuses[item] === 'undefined') {
 			checkShares = false;
 		} else {
 			checkShares = true;

@@ -237,8 +237,16 @@ class Share {
 						// Continue scanning into child folders
 						array_push($files, $children);
 					} else {
+						// Check file extension for an equivalent item type to convert to
+						$extension = strtolower(substr($itemSource, strrpos($itemSource, '.') + 1));
+						foreach (self::$backends as $type => $backend) {
+							if (isset($backend->dependsOn) && $backend->dependsOn == 'file' && isset($backend->supportedFileExtensions) && in_array($extension, $backend->supportedFileExtensions)) {
+								$itemType = $type;
+								break;
+							}
+						}
 						// Pass on to put() to check if this item should be converted, the item won't be inserted into the database unless it can be converted
-						self::put('file', $name, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder);
+						self::put($itemType, $name, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder);
 					}
 				}
 				return true;
@@ -425,7 +433,7 @@ class Share {
 		} else {
 			$fileDependent = false;
 			$root = '';
-			if ($includeCollections && !isset($item) && $collectionTypes = self::getCollectionItemTypes($itemType)) {
+			if ($includeCollections && !isset($item) && ($collectionTypes = self::getCollectionItemTypes($itemType))) {
 				// If includeCollections is true, find collections of this item type, e.g. a music album contains songs
 				$itemTypes = array_merge(array($itemType), $collectionTypes);
 				$placeholders = join(',', array_fill(0, count($itemTypes), '?'));
@@ -481,12 +489,11 @@ class Share {
 			if (isset($uidOwner) || $itemShareWithBySource) {
 				// If item type is a file, file source needs to be checked in case the item was converted
 				if ($itemType == 'file' || $itemType == 'folder') {
-					$where .= " AND path = ?";
-					$queryArgs[] = $root.$item;
+					$where .= ' AND file_source = ?';
+					$column = 'file_source';
 				} else {
 					$where .= " AND item_source = ?";
 					$column = 'item_source';
-					$queryArgs[] = $item;
 				}
 			} else {
 				if ($itemType == 'file' || $itemType == 'folder') {
@@ -494,8 +501,8 @@ class Share {
 				} else {
 					$where .= " AND item_target = ?";
 				}
-				$queryArgs[] = $item;
 			}
+			$queryArgs[] = $item;
 			if ($includeCollections && $collectionTypes = self::getCollectionItemTypes($itemType)) {
 				// TODO Bart - this doesn't work with only one argument
 // 				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
@@ -519,23 +526,23 @@ class Share {
 		// TODO Optimize selects
 		if ($format == self::FORMAT_STATUSES) {
 			if ($itemType == 'file' || $itemType == 'folder') {
-				$select = '*PREFIX*share.id, item_type, *PREFIX*share.parent, share_type, *PREFIX*fscache.path as file_source';
+				$select = '*PREFIX*share.id, item_type, *PREFIX*share.parent, share_type, file_source, path';
 			} else {
 				$select = 'id, item_type, item_source, parent, share_type';
 			}
 		} else {
 			if (isset($uidOwner)) {
 				if ($itemType == 'file' || $itemType == 'folder') {
-					$select = '*PREFIX*share.id, item_type, *PREFIX*fscache.path as file_source, *PREFIX*share.parent, share_type, share_with, permissions, stime';
+					$select = '*PREFIX*share.id, item_type, *PREFIX*share.parent, share_type, share_with, file_source, path, permissions, stime';
 				} else {
 					$select = 'id, item_type, item_source, parent, share_type, share_with, permissions, stime, file_source';
 				}
 			} else {
 				if ($fileDependent) {
 					if (($itemType == 'file' || $itemType == 'folder') && $format == \OC_Share_Backend_File::FORMAT_FILE_APP || $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT) {
-						$select = '*PREFIX*share.id, item_type, *PREFIX*share.parent, share_type, share_with, permissions, file_target, *PREFIX*fscache.id, path as file_source, name, ctime, mtime, mimetype, size, encrypted, versioned, writable';
+						$select = '*PREFIX*share.id, item_type, *PREFIX*share.parent, share_type, share_with, file_source, path, file_target, permissions, name, ctime, mtime, mimetype, size, encrypted, versioned, writable';
 					} else {
-						$select = '*PREFIX*share.id, item_type, item_source, item_target, *PREFIX*share.parent, share_type, share_with, uid_owner, permissions, stime, path as file_source, file_target';
+						$select = '*PREFIX*share.id, item_type, item_source, item_target, *PREFIX*share.parent, share_type, share_with, uid_owner, file_source, path, file_target, permissions, stime';
 					}
 				} else {
 					$select = '*';
@@ -580,11 +587,11 @@ class Share {
 				}
 			}
 			// Remove root from file source paths if retrieving own shared items
-			if (isset($uidOwner) && isset($row['file_source'])) {
+			if (isset($uidOwner) && isset($row['path'])) {
 				if (isset($row['parent'])) {
-					$row['file_source'] = '/Shared/'.basename($row['file_source']);
+					$row['path'] = '/Shared/'.basename($row['path']);
 				} else {
-					$row['file_source'] = substr($row['file_source'], $root);
+					$row['path'] = substr($row['path'], $root);
 				}
 			}
 			$items[$row['id']] = $row;
@@ -601,7 +608,7 @@ class Share {
 					}
 				}
 				// Check if this is a collection of the requested item type
-				if ($includeCollections && $row['item_type'] != $itemType && $collectionBackend = self::getBackend($row['item_type']) && $collectionBackend instanceof Share_Backend_Collection) {
+				if ($includeCollections && $row['item_type'] != $itemType && ($collectionBackend = self::getBackend($row['item_type'])) && $collectionBackend instanceof Share_Backend_Collection) {
 					$row['collection'] = array('item_type' => $itemType, $column => $row[$column]);
 					// Fetch all of the children sources
 					$children = $collectionBackend->getChildren($row[$column]);
@@ -636,6 +643,10 @@ class Share {
 				return $items;
 			} else if ($format == self::FORMAT_STATUSES) {
 				$statuses = array();
+				// Switch column to path for files and folders, used for determining statuses inside of folders
+				if ($itemType == 'file' || $itemType == 'folder') {
+					$column = 'path';
+				}
 				foreach ($items as $item) {
 					if ($item['share_type'] == self::SHARE_TYPE_PRIVATE_LINK) {
 						$statuses[$item[$column]] = true;
@@ -664,20 +675,6 @@ class Share {
 	* @return bool Returns true on success or false on failure
 	*/
 	private static function put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder = null) {
-		// Check file extension for an equivalent item type to convert to
-		if ($itemType == 'file') {
-			$extension = strtolower(substr($itemSource, strrpos($itemSource, '.') + 1));
-			foreach (self::$backends as $type => $backend) {
-				if (isset($backend->dependsOn) && $backend->dependsOn == 'file' && isset($backend->supportedFileExtensions) && in_array($extension, $backend->supportedFileExtensions)) {
-					$itemType = $type;
-					break;
-				}
-			}
-			// Exit if this is being called for a file inside a folder, and no equivalent item type is found
-			if (isset($parentFolder) && $itemType == 'file') {
-				return false;
-			}
-		}
 		$backend = self::getBackend($itemType);
 		// Check if this is a reshare
 		if ($checkReshare = self::getItemSharedWithBySource($itemType, $itemSource, self::FORMAT_NONE, null, true)) {
@@ -686,24 +683,6 @@ class Share {
 				$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is the original sharer';
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
-			// Check if attempting to share back to group TODO Check unique user target
-			} else if ($shareType == self::SHARE_TYPE_GROUP && $checkReshare['share_with'] == $shareWith['group']) {
-				$message = 'Sharing '.$itemSource.' failed, because the item was orignally shared with the group '.$shareWith['group'];
-				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-				throw new \Exception($message);
-			// Check if attempting to share back a group share to a member of the same group
-			} else if (($checkReshare['share_type'] == self::SHARE_TYPE_GROUP || $checkReshare['share_type'] == self::$shareTypeGroupUserUnique) && $shareType == self::SHARE_TYPE_USER) {
-				if ($checkReshare['share_type'] == self::$shareTypeGroupUserUnique) {
-					$query = \OC_DB::prepare('SELECT share_with FROM *PREFIX*share WHERE id = ?');
-					$group = $query->execute(array($checkReshare['parent']))->fetchOne();
-				} else {
-					$group = $checkReshare['share_with'];
-				}
-				if (\OC_Group::inGroup($shareWith, $group)) {
-					$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is a member of the original group share';
-					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-					throw new \Exception($message);
-				}
 			}
 			// Check if share permissions is granted
 			if ((int)$checkReshare['permissions'] & self::PERMISSION_SHARE) {
@@ -734,9 +713,12 @@ class Share {
 			}
 			$parent = null;
 			if ($backend instanceof Share_Backend_File_Dependent) {
-				// NOTE Apps should start using the file cache ids in their tables
 				$filePath = $backend->getFilePath($itemSource, $uidOwner);
-				$fileSource = \OC_FileCache::getId($filePath);
+				if ($itemType == 'file' && $itemType == 'folder') {
+					$fileSource = $itemSource;
+				} else {
+					$fileSource = \OC_FileCache::getId($filePath);
+				}
 				if ($fileSource == -1) {
 					$message = 'Sharing '.$itemSource.' failed, because the file could not be found in the file cache';
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
