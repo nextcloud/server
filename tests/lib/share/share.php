@@ -57,7 +57,7 @@ class Test_Share extends UnitTestCase {
 	}
 
 	public function tearDown() {
-		$query = OC_DB::prepare('DELETE FROM *PREFIX*share WHERE item_type = ?');
+		$query = OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `item_type` = ?');
 		$query->execute(array('test'));
 	}
 

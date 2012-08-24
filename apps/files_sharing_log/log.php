@@ -23,11 +23,11 @@ class OC_Files_Sharing_Log {
 	}
 
 	static public function log($target, $source, $mode) {
-		$query = OCP\DB::prepare("SELECT * FROM *PREFIX*sharing WHERE source = ? AND target = ?");
+		$query = OCP\DB::prepare('SELECT * FROM `*PREFIX*sharing` WHERE `source` = ? AND `target` = ?');
 		$info = $query->execute(array($source, $target))->fetchAll();
 		$info = $info[0];
 		//var_dump($info);
-		$query = OCP\DB::prepare("INSERT INTO *PREFIX*sharing_log VALUES (?,?,?,?,?)");
+		$query = OCP\DB::prepare('INSERT INTO `*PREFIX*sharing_log` VALUES (?,?,?,?,?)');
 		$query->execute(array($info['uid_owner'], $source, OCP\User::getUser(), time(), $mode));
 		//die;
 	}

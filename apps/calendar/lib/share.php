@@ -226,9 +226,9 @@ class OC_Calendar_Share{
          * @return: mixed - bool if false, array with type and id if true
          */
         public static function getElementByToken($token){
-            $stmt_calendar = OCP\DB::prepare("SELECT * FROM `*PREFIX*calendar_share_" . OC_Calendar_Share::CALENDAR . "` WHERE `sharetype` = 'public' AND `share` = ?");
+            $stmt_calendar = OCP\DB::prepare('SELECT * FROM `*PREFIX*calendar_share_' . OC_Calendar_Share::CALENDAR . '` WHERE `sharetype` = \'public\' AND `share` = ?');
             $result_calendar = $stmt_calendar->execute(array($token));
-            $stmt_event = OCP\DB::prepare("SELECT * FROM `*PREFIX*calendar_share_" . OC_Calendar_Share::EVENT . "` WHERE `sharetype` = 'public' AND `share` = ?");
+            $stmt_event = OCP\DB::prepare('SELECT * FROM `*PREFIX*calendar_share_' . OC_Calendar_Share::EVENT . '` WHERE `sharetype` = \'public\' AND `share` = ?');
             $result_event = $stmt_event->execute(array($token));
             $return = array();
             if($result_calendar->numRows() == 0 && $result_event->numRows() == 0){

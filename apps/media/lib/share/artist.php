@@ -22,7 +22,7 @@
 class OC_Share_Backend_Artist extends OCP\Share_Backend {
 
 	public function getSource($item, $uid) {
-		$query = OCP\DB::prepare('SELECT artist_id FROM *PREFIX*media_artists WHERE artist_id = ? AND song_user = ?');
+		$query = OCP\DB::prepare('SELECT `artist_id` FROM `*PREFIX*media_artists` WHERE `artist_id` = ? AND `song_user` = ?');
 		$result = $query->execute(array($item, $uid))->fetchRow();
 		if (is_array($result)) {
 			return array('item' => $item, 'file' => $result['song_path']);
@@ -43,10 +43,10 @@ class OC_Share_Backend_Artist extends OCP\Share_Backend {
 		$ids = "'".implode("','", $ids)."'";
 		switch ($format) {
 			case self::FORMAT_SOURCE_PATH:
-				$query = OCP\DB::prepare('SELECT path FROM *PREFIX*fscache WHERE id IN ('.$ids.')');
+				$query = OCP\DB::prepare('SELECT `path` FROM `*PREFIX*fscache` WHERE `id` IN ('.$ids.')');
 				return $query->execute()->fetchAll();
 			case self::FORMAT_FILE_APP:
-				$query = OCP\DB::prepare('SELECT id, path, name, ctime, mtime, mimetype, size, encrypted, versioned, writable FROM *PREFIX*fscache WHERE id IN ('.$ids.')');
+				$query = OCP\DB::prepare('SELECT `id`, `path`, `name`, `ctime`, `mtime`, `mimetype`, `size`, `encrypted`, `versioned`, `writable` FROM `*PREFIX*fscache` WHERE `id` IN ('.$ids.')');
 				$result = $query->execute();
 				$files = array();
 				while ($file = $result->fetchRow()) {

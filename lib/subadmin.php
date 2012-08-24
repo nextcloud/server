@@ -37,7 +37,7 @@ class OC_SubAdmin{
 	 * @return boolean
 	 */
 	public static function createSubAdmin($uid, $gid){
-		$stmt = OC_DB::prepare('INSERT INTO *PREFIX*group_admin (gid,uid) VALUES(?,?)');
+		$stmt = OC_DB::prepare('INSERT INTO `*PREFIX*group_admin` (`gid`,`uid`) VALUES(?,?)');
 		$result = $stmt->execute(array($gid, $uid));
 		OC_Hook::emit( "OC_SubAdmin", "post_createSubAdmin", array( "gid" => $gid ));
 		return true;
@@ -50,7 +50,7 @@ class OC_SubAdmin{
 	 * @return boolean
 	 */
 	public static function deleteSubAdmin($uid, $gid){
-		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*group_admin WHERE gid = ? AND uid = ?');
+		$stmt = OC_DB::prepare('DELETE FROM `*PREFIX*group_admin` WHERE `gid` = ? AND `uid` = ?');
 		$result = $stmt->execute(array($gid, $uid));
 		OC_Hook::emit( "OC_SubAdmin", "post_deleteSubAdmin", array( "gid" => $gid ));
 		return true;
@@ -62,7 +62,7 @@ class OC_SubAdmin{
 	 * @return array
 	 */
 	public static function getSubAdminsGroups($uid){
-		$stmt = OC_DB::prepare('SELECT gid FROM *PREFIX*group_admin WHERE uid = ?');
+		$stmt = OC_DB::prepare('SELECT `gid` FROM `*PREFIX*group_admin` WHERE `uid` = ?');
 		$result = $stmt->execute(array($uid));
 		$gids = array();
 		while($row = $result->fetchRow()){
@@ -77,7 +77,7 @@ class OC_SubAdmin{
 	 * @return array
 	 */
 	public static function getGroupsSubAdmins($gid){
-		$stmt = OC_DB::prepare('SELECT uid FROM *PREFIX*group_admin WHERE gid = ?');
+		$stmt = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_admin` WHERE `gid` = ?');
 		$result = $stmt->execute(array($gid));
 		$uids = array();
 		while($row = $result->fetchRow()){
@@ -91,7 +91,7 @@ class OC_SubAdmin{
 	 * @return array
 	 */
 	public static function getAllSubAdmins(){
-		$stmt = OC_DB::prepare('SELECT * FROM *PREFIX*group_admin');
+		$stmt = OC_DB::prepare('SELECT * FROM `*PREFIX*group_admin`');
 		$result = $stmt->execute();
 		$subadmins = array();
 		while($row = $result->fetchRow()){
@@ -107,7 +107,7 @@ class OC_SubAdmin{
 	 * @return bool
 	 */
 	public static function isSubAdminofGroup($uid, $gid){
-		$stmt = OC_DB::prepare('SELECT COUNT(*) as count FROM *PREFIX*group_admin where uid = ? AND gid = ?');
+		$stmt = OC_DB::prepare('SELECT COUNT(*) AS `count` FROM `*PREFIX*group_admin` WHERE `uid` = ? AND `gid` = ?');
 		$result = $stmt->execute(array($uid, $gid));
 		$result = $result->fetchRow();
 		if($result['count'] >= 1){
@@ -122,7 +122,7 @@ class OC_SubAdmin{
 	 * @return bool
 	 */
 	public static function isSubAdmin($uid){
-		$stmt = OC_DB::prepare('SELECT COUNT(*) as count FROM *PREFIX*group_admin WHERE uid = ?');
+		$stmt = OC_DB::prepare('SELECT COUNT(*) AS `count` FROM `*PREFIX*group_admin` WHERE `uid` = ?');
 		$result = $stmt->execute(array($uid));
 		$result = $result->fetchRow();
 		if($result['count'] > 0){
@@ -163,7 +163,7 @@ class OC_SubAdmin{
 	 * @return boolean
 	 */
 	public static function post_deleteUser($parameters){
-		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*group_admin WHERE uid = ?');
+		$stmt = OC_DB::prepare('DELETE FROM `*PREFIX*group_admin` WHERE `uid` = ?');
 		$result = $stmt->execute(array($parameters['uid']));
 		return true;
 	}
@@ -174,7 +174,7 @@ class OC_SubAdmin{
 	 * @return boolean
 	 */
 	public static function post_deleteGroup($parameters){
-		$stmt = OC_DB::prepare('DELETE FROM *PREFIX*group_admin WHERE gid = ?');
+		$stmt = OC_DB::prepare('DELETE FROM `*PREFIX*group_admin` WHERE `gid` = ?');
 		$result = $stmt->execute(array($parameters['gid']));
 		return true;
 	}

@@ -18,7 +18,7 @@ class OC_FileCache_Cached{
 			$root=OC_Filesystem::getRoot();
 		}
 		$path=$root.$path;
-		$query=OC_DB::prepare('SELECT path,ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE path_hash=?');
+		$query=OC_DB::prepare('SELECT `path`,`ctime`,`mtime`,`mimetype`,`size`,`encrypted`,`versioned`,`writable` FROM `*PREFIX*fscache` WHERE `path_hash`=?');
 		$result=$query->execute(array(md5($path)))->fetchRow();
 		if(is_array($result)){
 			if(isset(self::$savedData[$path])){
@@ -58,7 +58,7 @@ class OC_FileCache_Cached{
 		if($parent==-1){
 			return array();
 		}
-		$query=OC_DB::prepare('SELECT id,path,name,ctime,mtime,mimetype,size,encrypted,versioned,writable FROM *PREFIX*fscache WHERE parent=? AND (mimetype LIKE ? OR mimetype = ?)');
+		$query=OC_DB::prepare('SELECT `id`,`path`,`name`,`ctime`,`mtime`,`mimetype`,`size`,`encrypted`,`versioned`,`writable` FROM `*PREFIX*fscache` WHERE `parent`=? AND (`mimetype` LIKE ? OR `mimetype` = ?)');
 		$result=$query->execute(array($parent, $mimetype_filter.'%', 'httpd/unix-directory'))->fetchAll();
 		if(is_array($result)){
 			return $result;

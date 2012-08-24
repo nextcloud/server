@@ -263,7 +263,7 @@ class OC_DB {
 	 */
 	static public function prepare( $query , $limit=null, $offset=null ){
 		
-		if (!is_null($limit)) {
+		if (!is_null($limit) && limit != -1) {
 			if (self::$backend == self::BACKEND_MDB2) {
 				//MDB2 uses or emulates limits & offset internally
 				self::$MDB2->setLimit($limit, $offset);

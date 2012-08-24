@@ -165,9 +165,9 @@ abstract class Access {
 		$table = $this->getMapTable($isUser);
 
 		$query = \OCP\DB::prepare('
-			SELECT ldap_dn
-			FROM '.$table.'
-			WHERE owncloud_name = ?
+			SELECT `ldap_dn`
+			FROM `'.$table.'`
+			WHERE `owncloud_name` = ?
 		');
 
 		$record = $query->execute(array($name))->fetchOne();
@@ -223,9 +223,9 @@ abstract class Access {
 		}
 
 		$query = \OCP\DB::prepare('
-			SELECT owncloud_name
-			FROM '.$table.'
-			WHERE ldap_dn = ?
+			SELECT `owncloud_name`
+			FROM `'.$table.'`
+			WHERE `ldap_dn` = ?
 		');
 
 		//let's try to retrieve the ownCloud name from the mappings table
@@ -238,16 +238,16 @@ abstract class Access {
 		$uuid = $this->getUUID($dn);
 		if($uuid) {
 			$query = \OCP\DB::prepare('
-				SELECT owncloud_name
-				FROM '.$table.'
-				WHERE directory_uuid = ?
+				SELECT `owncloud_name`
+				FROM `'.$table.'`
+				WHERE `directory_uuid` = ?
 			');
 			$component = $query->execute(array($uuid))->fetchOne();
 			if($component) {
 				$query = \OCP\DB::prepare('
-					UPDATE '.$table.'
-					SET ldap_dn = ?
-					WHERE directory_uuid = ?
+					UPDATE `'.$table.'`
+					SET `ldap_dn` = ?
+					WHERE `directory_uuid` = ?
 				');
 				$query->execute(array($dn, $uuid));
 				return $component;
@@ -385,8 +385,8 @@ abstract class Access {
 		$table = $this->getMapTable($isUsers);
 
 		$query = \OCP\DB::prepare('
-			SELECT ldap_dn, owncloud_name
-			FROM '. $table
+			SELECT `ldap_dn`, `owncloud_name`
+			FROM `'. $table . '`'
 		);
 
 		return $query->execute()->fetchAll();
@@ -408,18 +408,18 @@ abstract class Access {
 		$sqlAdjustment = '';
 		$dbtype = \OCP\Config::getSystemValue('dbtype');
 		if($dbtype == 'mysql') {
-			$sqlAdjustment = 'FROM dual';
+			$sqlAdjustment = 'FROM `dual`';
 		}
 
 		$insert = \OCP\DB::prepare('
-			INSERT INTO '.$table.' (ldap_dn, owncloud_name, directory_uuid)
+			INSERT INTO `'.$table.'` (`ldap_dn`, `owncloud_name`, `directory_uuid`)
 				SELECT ?,?,?
 				'.$sqlAdjustment.'
 				WHERE NOT EXISTS (
 					SELECT 1
-					FROM '.$table.'
-					WHERE ldap_dn = ?
-						OR owncloud_name = ?)
+					FROM `'.$table.'`
+					WHERE `ldap_dn` = ?
+						OR `owncloud_name` = ?)
 		');
 
 		//feed the DB

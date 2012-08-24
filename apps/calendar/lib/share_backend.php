@@ -22,7 +22,7 @@
 class OC_Share_Backend_Calendar extends OCP\Share_Backend {
 
 	public function getSource($item, $uid) {
-		$query = OCP\DB::prepare('SELECT id FROM *PREFIX*calendar_calendars WHERE userid = ? AND displayname = ? LIMIT 1');
+		$query = OCP\DB::prepare('SELECT `id` FROM `*PREFIX*calendar_calendars` WHERE `userid` = ? AND `displayname` = ?',1);
 		return $query->execute(array($uid, $item))->fetchAll();
 	}
 

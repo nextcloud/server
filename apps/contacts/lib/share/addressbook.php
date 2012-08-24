@@ -82,7 +82,7 @@ class OC_Share_Backend_Addressbook implements OCP\Share_Backend_Collection {
 	}
 
 	public function getChildren($itemSource) {
-		$query = OCP\DB::prepare('SELECT id FROM *PREFIX*contacts_cards WHERE addressbookid = ?');
+		$query = OCP\DB::prepare('SELECT `id` FROM `*PREFIX*contacts_cards` WHERE `addressbookid` = ?');
 		$result = $query->execute(array($itemSource));
 		$sources = array();
 		while ($contact = $result->fetchRow()) {

@@ -64,9 +64,9 @@ class Jobs {
 	static private function handleKnownGroups($groups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – Dealing with known Groups.', \OCP\Util::DEBUG);
 		$query = \OCP\DB::prepare('
-			UPDATE *PREFIX*ldap_group_members
-			SET owncloudusers = ?
-			WHERE owncloudname = ?
+			UPDATE `*PREFIX*ldap_group_members`
+			SET `owncloudusers` = ?
+			WHERE `owncloudname` = ?
 		');
 		foreach($groups as $group) {
 			//we assume, that self::$groupsFromDB has been retrieved already
@@ -94,7 +94,7 @@ class Jobs {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with created Groups.', \OCP\Util::DEBUG);
 		$query = \OCP\DB::prepare('
 			INSERT
-			INTO *PREFIX*ldap_group_members (owncloudname, owncloudusers)
+			INTO `*PREFIX*ldap_group_members` (`owncloudname`, `owncloudusers`)
 			VALUES (?, ?)
 		');
 		foreach($createdGroups as $createdGroup) {
@@ -109,8 +109,8 @@ class Jobs {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with removed groups.', \OCP\Util::DEBUG);
 		$query = \OCP\DB::prepare('
 			DELETE
-			FROM *PREFIX*ldap_group_members
-			WHERE owncloudname = ?
+			FROM `*PREFIX*ldap_group_members`
+			WHERE `owncloudname` = ?
 		');
 		foreach($removedGroups as $removedGroup) {
 			\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – group "'.$createdGroup.'" was removed.', \OCP\Util::INFO);
@@ -143,8 +143,8 @@ class Jobs {
 			return self::$groupsFromDB;
 		}
 		$query = \OCP\DB::prepare('
-			SELECT owncloudname, owncloudusers
-			FROM *PREFIX*ldap_group_members
+			SELECT `owncloudname`, `owncloudusers`
+			FROM `*PREFIX*ldap_group_members`
 		');
 		$result = $query->execute()->fetchAll();
 		self::$groupsFromDB = array();

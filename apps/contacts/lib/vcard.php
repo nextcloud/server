@@ -512,7 +512,7 @@ class OC_Contacts_VCard {
 	public static function deleteFromDAVData($aid,$uri){
 		$addressbook = OC_Contacts_Addressbook::find($aid);
 		if ($addressbook['userid'] != OCP\User::getUser()) {
-			$query = OCP\DB::prepare( 'SELECT id FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri = ?' );
+			$query = OCP\DB::prepare( 'SELECT `id` FROM `*PREFIX*contacts_cards` WHERE `addressbookid` = ? AND `uri` = ?' );
 			$id = $query->execute(array($aid, $uri))->fetchOne();
 			if (!$id) {
 				return false;

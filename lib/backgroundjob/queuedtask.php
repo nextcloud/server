@@ -30,7 +30,7 @@ class OC_BackgroundJob_QueuedTask{
 	 * @return associative array
 	 */
 	public static function find( $id ){
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*queuedtasks WHERE id = ?' );
+		$stmt = OC_DB::prepare( 'SELECT * FROM `*PREFIX*queuedtasks` WHERE `id` = ?' );
 		$result = $stmt->execute(array($id));
 		return $result->fetchRow();
 	}
@@ -44,7 +44,7 @@ class OC_BackgroundJob_QueuedTask{
 		$return = array();
 
 		// Get Data
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*queuedtasks' );
+		$stmt = OC_DB::prepare( 'SELECT * FROM `*PREFIX*queuedtasks`' );
 		$result = $stmt->execute(array());
 		while( $row = $result->fetchRow()){
 			$return[] = $row;
@@ -63,7 +63,7 @@ class OC_BackgroundJob_QueuedTask{
 		$return = array();
 
 		// Get Data
-		$stmt = OC_DB::prepare( 'SELECT * FROM *PREFIX*queuedtasks WHERE app = ?' );
+		$stmt = OC_DB::prepare( 'SELECT * FROM `*PREFIX*queuedtasks` WHERE `app` = ?' );
 		$result = $stmt->execute(array($app));
 		while( $row = $result->fetchRow()){
 			$return[] = $row;
@@ -82,7 +82,7 @@ class OC_BackgroundJob_QueuedTask{
 	 * @return id of task
 	 */
 	public static function add( $app, $klass, $method, $parameters ){
-		$stmt = OC_DB::prepare( 'INSERT INTO *PREFIX*queuedtasks (app, klass, method, parameters) VALUES(?,?,?,?)' );
+		$stmt = OC_DB::prepare( 'INSERT INTO `*PREFIX*queuedtasks` (`app`, `klass`, `method`, `parameters`) VALUES(?,?,?,?)' );
 		$result = $stmt->execute(array($app, $klass, $method, $parameters ));
 
 		return OC_DB::insertid();
@@ -96,7 +96,7 @@ class OC_BackgroundJob_QueuedTask{
 	 * Deletes a report
 	 */
 	public static function delete( $id ){
-		$stmt = OC_DB::prepare( 'DELETE FROM *PREFIX*queuedtasks WHERE id = ?' );
+		$stmt = OC_DB::prepare( 'DELETE FROM `*PREFIX*queuedtasks` WHERE `id` = ?' );
 		$result = $stmt->execute(array($id));
 
 		return true;
