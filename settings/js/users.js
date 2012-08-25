@@ -88,8 +88,10 @@ UserList={
 		});
 		tr.find('td.groups').append(groupsSelect);
 		UserList.applyMultiplySelect(groupsSelect);
-		tr.find('td.subadmins').append(subadminSelect);
-		UserList.applyMultiplySelect(subadminSelect);
+		if (tr.find('td.subadmins').length > 0) {
+			tr.find('td.subadmins').append(subadminSelect);
+			UserList.applyMultiplySelect(subadminSelect);
+		}
 		if (tr.find('td.remove img').length == 0 && OC.currentUser != username) {
 			tr.find('td.remove').append($('<img alt="Delete" title="'+t('settings','Delete')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
 		} else if (OC.currentUser == username) {
