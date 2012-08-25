@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"POT-Creation-Date: 2012-08-26 00:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,7 +129,7 @@ msgstr ""
 msgid "Login failed!"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
 #: templates/login.php:9
 msgid "Username"
 msgstr ""
@@ -190,48 +190,52 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: templates/installation.php:23
+#: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
-#: templates/installation.php:29 templates/login.php:13
+#: templates/installation.php:30 templates/login.php:13
 msgid "Password"
 msgstr ""
 
-#: templates/installation.php:35
+#: templates/installation.php:36
 msgid "Advanced"
 msgstr ""
 
-#: templates/installation.php:37
+#: templates/installation.php:38
 msgid "Data folder"
 msgstr ""
 
-#: templates/installation.php:44
+#: templates/installation.php:45
 msgid "Configure the database"
 msgstr ""
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:50 templates/installation.php:61
+#: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
 msgstr ""
 
-#: templates/installation.php:82
+#: templates/installation.php:93
 msgid "Database user"
 msgstr ""
 
-#: templates/installation.php:86
+#: templates/installation.php:97
 msgid "Database password"
 msgstr ""
 
-#: templates/installation.php:90
+#: templates/installation.php:101
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:96
+#: templates/installation.php:109
+msgid "Database tablespace"
+msgstr ""
+
+#: templates/installation.php:115
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:101
+#: templates/installation.php:120
 msgid "Finish setup"
 msgstr ""
 

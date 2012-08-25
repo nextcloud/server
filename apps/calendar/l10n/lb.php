@@ -111,19 +111,13 @@
 "Interval" => "Intervall",
 "End" => "Enn",
 "occurrences" => "Virkommes",
-"Import a calendar file" => "E Kalenner Fichier importéieren",
-"Please choose the calendar" => "Wiel den Kalenner aus",
 "create a new calendar" => "E neie Kalenner uleeën",
+"Import a calendar file" => "E Kalenner Fichier importéieren",
 "Name of new calendar" => "Numm vum neie Kalenner",
 "Import" => "Import",
-"Importing calendar" => "Importéiert Kalenner",
-"Calendar imported successfully" => "Kalenner erfollegräich importéiert",
 "Close Dialog" => "Dialog zoumaachen",
 "Create a new event" => "En Evenement maachen",
-"Select category" => "Kategorie auswielen",
 "Timezone" => "Zäitzon",
-"Timeformat" => "Zäit Format",
 "24h" => "24h",
-"12h" => "12h",
-"Calendar CalDAV syncing address:" => "CalDAV Kalenner Synchronisatioun's Adress:"
+"12h" => "12h"
 );

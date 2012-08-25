@@ -166,8 +166,6 @@
 "Name of new calendar" => "Navn på ny kalender",
 "A Calendar with this name already exists. If you continue anyhow, these calendars will be merged." => "En kalender med dette navn findes allerede. Hvis du fortsætter alligevel, vil disse kalendere blive sammenlagt.",
 "Import" => "Importer",
-"Importing calendar" => "Importerer kalender",
-"Calendar imported successfully" => "Kalender importeret korrekt",
 "Close Dialog" => "Luk dialog",
 "Create a new event" => "Opret en ny begivenhed",
 "View an event" => "Vis en begivenhed",

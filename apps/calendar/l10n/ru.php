@@ -168,8 +168,6 @@
 "Take an available name!" => "Возьмите разрешенное имя!",
 "A Calendar with this name already exists. If you continue anyhow, these calendars will be merged." => "Календарь с таким именем уже существует. Если вы продолжите, одноименный календарь будет удален.",
 "Import" => "Импортировать",
-"Importing calendar" => "Импортируется календарь",
-"Calendar imported successfully" => "Календарь успешно импортирован",
 "Close Dialog" => "Закрыть Сообщение",
 "Create a new event" => "Создать новое событие",
 "View an event" => "Показать событие",
