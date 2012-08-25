@@ -498,7 +498,7 @@
 
    <field>
     <name>propertyvalue</name>
-    <type>test</type>
+    <type>text</type>
     <notnull>true</notnull>
    </field>
 
