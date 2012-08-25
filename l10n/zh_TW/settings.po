@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Donahue Chuang <soshinwu@gmail.com>, 2012.
+#   <weiyu871@ms14.url.com.tw>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-18 02:01+0200\n"
-"PO-Revision-Date: 2012-08-18 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 03:42+0000\n"
+"Last-Translator: weiyu <weiyu871@ms14.url.com.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -188,7 +189,7 @@ msgstr "你的電子郵件信箱"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr "請甜入店子郵件信箱以便回復密碼"
+msgstr "請填入電子郵件信箱以便回復密碼"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"

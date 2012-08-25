@@ -9,13 +9,14 @@
 #   <georg.stefan.germany@googlemail.com>, 2012.
 #   <jos@gelauff.net>, 2012.
 #   <pietje8501@gmail.com>, 2012.
+# Richard Bos <radoeka@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 08:53+0000\n"
+"Last-Translator: Richard Bos <radoeka@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,11 +26,11 @@ msgstr ""
 
 #: ajax/cache/status.php:19
 msgid "Not all calendars are completely cached"
-msgstr ""
+msgstr "Niet alle agenda's zijn volledig gecached"
 
 #: ajax/cache/status.php:21
 msgid "Everything seems to be completely cached"
-msgstr ""
+msgstr "Alles lijkt volledig gecached te zijn"
 
 #: ajax/categories/rescan.php:29
 msgid "No calendars found."
@@ -47,19 +48,19 @@ msgstr "Verkeerde kalender"
 msgid ""
 "The file contained either no events or all events are already saved in your "
 "calendar."
-msgstr ""
+msgstr "Het bestand bevat geen gebeurtenissen of alle gebeurtenissen worden al in uw agenda bewaard."
 
 #: ajax/import/dropimport.php:31 ajax/import/import.php:67
 msgid "events has been saved in the new calendar"
-msgstr ""
+msgstr "De gebeurtenissen worden in de nieuwe agenda bewaard"
 
 #: ajax/import/import.php:56
 msgid "Import failed"
-msgstr ""
+msgstr "import is gefaald"
 
 #: ajax/import/import.php:69
 msgid "events has been saved in your calendar"
-msgstr ""
+msgstr "de gebeurtenissen zijn in uw agenda opgeslagen "
 
 #: ajax/settings/guesstimezone.php:25
 msgid "New Timezone:"
@@ -73,7 +74,7 @@ msgstr "Tijdzone is veranderd"
 msgid "Invalid request"
 msgstr "Ongeldige aanvraag"
 
-#: appinfo/app.php:35 templates/calendar.php:15
+#: appinfo/app.php:41 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:33
 msgid "Calendar"
 msgstr "Kalender"
@@ -164,7 +165,7 @@ msgstr "Werk"
 
 #: lib/app.php:351 lib/app.php:361
 msgid "by"
-msgstr ""
+msgstr "door"
 
 #: lib/app.php:359 lib/app.php:399
 msgid "unnamed"
@@ -353,79 +354,79 @@ msgstr "Cal."
 
 #: templates/calendar.php:6
 msgid "Sun."
-msgstr ""
+msgstr "Zon."
 
 #: templates/calendar.php:6
 msgid "Mon."
-msgstr ""
+msgstr "Maa."
 
 #: templates/calendar.php:6
 msgid "Tue."
-msgstr ""
+msgstr "Din."
 
 #: templates/calendar.php:6
 msgid "Wed."
-msgstr ""
+msgstr "Woe."
 
 #: templates/calendar.php:6
 msgid "Thu."
-msgstr ""
+msgstr "Don."
 
 #: templates/calendar.php:6
 msgid "Fri."
-msgstr ""
+msgstr "Vrij."
 
 #: templates/calendar.php:6
 msgid "Sat."
-msgstr ""
+msgstr "Zat."
 
 #: templates/calendar.php:8
 msgid "Jan."
-msgstr ""
+msgstr "Jan."
 
 #: templates/calendar.php:8
 msgid "Feb."
-msgstr ""
+msgstr "Feb."
 
 #: templates/calendar.php:8
 msgid "Mar."
-msgstr ""
+msgstr "Maa."
 
 #: templates/calendar.php:8
 msgid "Apr."
-msgstr ""
+msgstr "Apr."
 
 #: templates/calendar.php:8
 msgid "May."
-msgstr ""
+msgstr "Mei."
 
 #: templates/calendar.php:8
 msgid "Jun."
-msgstr ""
+msgstr "Jun."
 
 #: templates/calendar.php:8
 msgid "Jul."
-msgstr ""
+msgstr "Jul."
 
 #: templates/calendar.php:8
 msgid "Aug."
-msgstr ""
+msgstr "Aug."
 
 #: templates/calendar.php:8
 msgid "Sep."
-msgstr ""
+msgstr "Sep."
 
 #: templates/calendar.php:8
 msgid "Oct."
-msgstr ""
+msgstr "Okt."
 
 #: templates/calendar.php:8
 msgid "Nov."
-msgstr ""
+msgstr "Nov."
 
 #: templates/calendar.php:8
 msgid "Dec."
-msgstr ""
+msgstr "Dec."
 
 #: templates/calendar.php:11
 msgid "All day"
@@ -482,7 +483,7 @@ msgstr "Vandaag"
 
 #: templates/calendar.php:46 templates/calendar.php:47
 msgid "Settings"
-msgstr ""
+msgstr "Instellingen"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
@@ -690,7 +691,7 @@ msgstr "Importeer een agenda bestand"
 
 #: templates/part.import.php:24
 msgid "Please choose a calendar"
-msgstr ""
+msgstr "Kies een agenda"
 
 #: templates/part.import.php:36
 msgid "Name of new calendar"
@@ -698,13 +699,13 @@ msgstr "Naam van de nieuwe agenda"
 
 #: templates/part.import.php:44
 msgid "Take an available name!"
-msgstr ""
+msgstr "Kies een beschikbare naam!"
 
 #: templates/part.import.php:45
 msgid ""
 "A Calendar with this name already exists. If you continue anyhow, these "
 "calendars will be merged."
-msgstr ""
+msgstr "Een agenda met deze naam bestaat al.  Als u doorgaat, worden deze agenda's samengevoegd"
 
 #: templates/part.import.php:47
 msgid "Import"
@@ -736,7 +737,7 @@ msgstr "op"
 
 #: templates/settings.php:10
 msgid "General"
-msgstr ""
+msgstr "Algemeen"
 
 #: templates/settings.php:15
 msgid "Timezone"
@@ -744,11 +745,11 @@ msgstr "Tijdzone"
 
 #: templates/settings.php:47
 msgid "Update timezone automatically"
-msgstr ""
+msgstr "Werk de tijdzone automatisch bij"
 
 #: templates/settings.php:52
 msgid "Time format"
-msgstr ""
+msgstr "Tijd formaat"
 
 #: templates/settings.php:57
 msgid "24h"
@@ -760,39 +761,39 @@ msgstr "12uur"
 
 #: templates/settings.php:64
 msgid "Start week on"
-msgstr ""
+msgstr "Begin de week op"
 
 #: templates/settings.php:76
 msgid "Cache"
-msgstr ""
+msgstr "Cache"
 
 #: templates/settings.php:80
 msgid "Clear cache for repeating events"
-msgstr ""
+msgstr "Leeg cache voor repeterende gebeurtenissen"
 
 #: templates/settings.php:85
 msgid "URLs"
-msgstr ""
+msgstr "URLs"
 
 #: templates/settings.php:87
 msgid "Calendar CalDAV syncing addresses"
-msgstr ""
+msgstr "Agenda CalDAV synchronisatie adres"
 
 #: templates/settings.php:87
 msgid "more info"
-msgstr ""
+msgstr "meer informatie"
 
 #: templates/settings.php:89
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "Primary adres (voor Kontact en dergelijke)"
 
 #: templates/settings.php:91
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"
 
 #: templates/settings.php:93
 msgid "Read only iCalendar link(s)"
-msgstr ""
+msgstr "Alleen lezen iCalendar link(en)"
 
 #: templates/share.dropdown.php:20
 msgid "Users"

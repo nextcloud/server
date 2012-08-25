@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-24 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 02:39+0000\n"
+"Last-Translator: ttyn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -132,7 +132,7 @@ msgstr "写真の読み込みは無効です。"
 
 #: ajax/editname.php:31
 msgid "Contact ID is missing."
-msgstr "コンタクトIDが見つかりません。"
+msgstr "連絡先 IDが見つかりません。"
 
 #: ajax/oc_photo.php:32
 msgid "No photo path was submitted."
@@ -148,7 +148,7 @@ msgstr "画像の読み込みエラー。"
 
 #: ajax/savecrop.php:69
 msgid "Error getting contact object."
-msgstr "コンタクトオブジェクトの取得エラー。"
+msgstr "連絡先オブジェクトの取得エラー。"
 
 #: ajax/savecrop.php:79
 msgid "Error getting PHOTO property."
@@ -156,7 +156,7 @@ msgstr "写真属性の取得エラー。"
 
 #: ajax/savecrop.php:98
 msgid "Error saving contact."
-msgstr "コンタクトの保存エラー。"
+msgstr "連絡先の保存エラー。"
 
 #: ajax/savecrop.php:109
 msgid "Error resizing image"
@@ -216,7 +216,7 @@ msgstr "一時的な画像の読み込みができませんでした: "
 msgid "No file was uploaded. Unknown error"
 msgstr "ファイルは何もアップロードされていません。不明なエラー"
 
-#: appinfo/app.php:21
+#: appinfo/app.php:25
 msgid "Contacts"
 msgstr "連絡先"
 
@@ -244,15 +244,15 @@ msgstr "エラー"
 
 #: js/contacts.js:424
 msgid "You do not have permission to add contacts to "
-msgstr ""
+msgstr "連絡先を追加する権限がありません"
 
 #: js/contacts.js:425
 msgid "Please select one of your own address books."
-msgstr ""
+msgstr "アドレス帳を一つ選択してください"
 
 #: js/contacts.js:425
 msgid "Permission error"
-msgstr ""
+msgstr "権限エラー"
 
 #: js/contacts.js:763
 msgid "This property has to be non-empty."
@@ -295,7 +295,7 @@ msgstr "タイプを選択"
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
-msgstr "いくつかのコンタクトが削除とマークされていますが、まだ削除されていません。削除するまでお待ちください。"
+msgstr "いくつかの連絡先が削除とマークされていますが、まだ削除されていません。削除するまでお待ちください。"
 
 #: js/contacts.js:1649
 msgid "Do you want to merge these address books?"
@@ -484,11 +484,11 @@ msgstr "連絡先"
 
 #: lib/vcard.php:408
 msgid "You do not have the permissions to edit this contact."
-msgstr ""
+msgstr "この連絡先を編集する権限がありません"
 
 #: lib/vcard.php:483
 msgid "You do not have the permissions to delete this contact."
-msgstr ""
+msgstr "この連絡先を削除する権限がありません"
 
 #: templates/index.php:14
 msgid "Add Contact"
@@ -520,11 +520,11 @@ msgstr "ナビゲーション"
 
 #: templates/index.php:42
 msgid "Next contact in list"
-msgstr "リスト内の次のコンタクト"
+msgstr "リスト内の次の連絡先"
 
 #: templates/index.php:44
 msgid "Previous contact in list"
-msgstr "リスト内の前のコンタクト"
+msgstr "リスト内の前の連絡先"
 
 #: templates/index.php:46
 msgid "Expand/collapse current addressbook"
@@ -548,7 +548,7 @@ msgstr "連絡先リストを再読込する"
 
 #: templates/index.php:59
 msgid "Add new contact"
-msgstr "新しいコンタクトを追加"
+msgstr "新しい連絡先を追加"
 
 #: templates/index.php:61
 msgid "Add new addressbook"
@@ -556,7 +556,7 @@ msgstr "新しいアドレス帳を追加"
 
 #: templates/index.php:63
 msgid "Delete current contact"
-msgstr "現在のコンタクトを削除"
+msgstr "現在の連絡先を削除"
 
 #: templates/part.contact.php:17
 msgid "Drop photo to upload"
@@ -855,7 +855,7 @@ msgstr "Sn."
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr "コンタクトファイルをインポート"
+msgstr "連絡先ファイルをインポート"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
@@ -871,7 +871,7 @@ msgstr "新しいアドレスブックの名前"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr "コンタクトをインポート"
+msgstr "連絡先をインポート"
 
 #: templates/part.no_contacts.php:3
 msgid "You have no contacts in your addressbook."

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-24 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 09:09+0000\n"
+"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -217,7 +217,7 @@ msgstr "Začasne slike ni bilo mogoče naložiti: "
 msgid "No file was uploaded. Unknown error"
 msgstr "Nobena datoteka ni bila naložena. Neznana napaka"
 
-#: appinfo/app.php:21
+#: appinfo/app.php:25
 msgid "Contacts"
 msgstr "Stiki"
 
@@ -245,15 +245,15 @@ msgstr "Napaka"
 
 #: js/contacts.js:424
 msgid "You do not have permission to add contacts to "
-msgstr ""
+msgstr "Nimate dovoljenja za dodajanje stikov v"
 
 #: js/contacts.js:425
 msgid "Please select one of your own address books."
-msgstr ""
+msgstr "Prosimo, če izberete enega izmed vaših adresarjev."
 
 #: js/contacts.js:425
 msgid "Permission error"
-msgstr ""
+msgstr "Napaka dovoljenj"
 
 #: js/contacts.js:763
 msgid "This property has to be non-empty."
@@ -485,11 +485,11 @@ msgstr "Stik"
 
 #: lib/vcard.php:408
 msgid "You do not have the permissions to edit this contact."
-msgstr ""
+msgstr "Nimate dovoljenj za urejanje tega stika."
 
 #: lib/vcard.php:483
 msgid "You do not have the permissions to delete this contact."
-msgstr ""
+msgstr "Nimate dovoljenj za izbris tega stika."
 
 #: templates/index.php:14
 msgid "Add Contact"

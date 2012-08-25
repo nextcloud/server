@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-23 17:08+0000\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 13:06+0000\n"
 "Last-Translator: Denis <reg.transifex.net@demitel.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "Ошибка записи на диск"
 msgid "Files"
 msgstr "Файлы"
 
-#: js/fileactions.js:107 templates/index.php:56
+#: js/fileactions.js:111 templates/index.php:56
 msgid "Delete"
 msgstr "Удалить"
 
@@ -119,7 +119,7 @@ msgstr "Размер"
 
 #: js/files.js:704 templates/index.php:56
 msgid "Modified"
-msgstr "Изменен"
+msgstr "Изменён"
 
 #: js/files.js:731
 msgid "folder"
@@ -143,7 +143,7 @@ msgstr "Управление файлами"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Максимальный размер файла"
+msgstr "Максимальный размер загружаемого файла"
 
 #: templates/admin.php:7
 msgid "max. possible: "
@@ -151,11 +151,11 @@ msgstr "макс. возможно: "
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr "Требуется для загрузки нескольких файорв и папок"
+msgstr "Требуется для скачивания нескольких файлов и папок"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr "Включить ZIP-загрузку"
+msgstr "Включить ZIP-скачивание"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
@@ -183,15 +183,15 @@ msgstr "С url"
 
 #: templates/index.php:21
 msgid "Upload"
-msgstr "Закачать"
+msgstr "Загрузить"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr "Отмена закачки"
+msgstr "Отмена загрузки"
 
 #: templates/index.php:39
 msgid "Nothing in here. Upload something!"
-msgstr "Здесь ничего нет. Закачайте что-нибудь!"
+msgstr "Здесь ничего нет. Загрузите что-нибудь!"
 
 #: templates/index.php:47
 msgid "Name"
@@ -199,7 +199,7 @@ msgstr "Название"
 
 #: templates/index.php:49
 msgid "Share"
-msgstr "Поделиться"
+msgstr "Опубликовать"
 
 #: templates/index.php:51
 msgid "Download"
@@ -213,7 +213,7 @@ msgstr "Файл слишком большой"
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Файлы, которые Вы пытаетесь закачать, превышают лимит для файлов на этом сервере."
+msgstr "Файлы, которые Вы пытаетесь загрузить, превышают лимит для файлов на этом сервере."
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
