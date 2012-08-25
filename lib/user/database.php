@@ -155,7 +155,7 @@ class OC_User_Database extends OC_User_Backend {
 	 * Get a list of all users.
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
-		$query = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users` WHERE `uid` LIKE ? LIMIT',$limit,$offset);
+		$query = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users` WHERE `uid` LIKE ?',$limit,$offset);
 		$result = $query->execute(array($search.'%'));
 		$users = array();
 		while ($row = $result->fetchRow()) {
