@@ -108,3 +108,15 @@ source_file = templates/user_openid.pot
 source_lang = en
 type = PO
 
+[owncloud.files_texteditor]
+file_filter = <lang>/files_texteditor.po
+source_file = templates/files_texteditor.pot
+source_lang = en
+type = PO
+
+[owncloud.impress]
+file_filter = <lang>/impress.po
+source_file = templates/impress.pot
+source_lang = en
+type = PO
+
