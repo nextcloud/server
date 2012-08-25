@@ -12,6 +12,7 @@
 "replace" => "替换",
 "cancel" => "取消",
 "replaced" => "已经替换",
+"with" => "随着",
 "undo" => "撤销",
 "deleted" => "已经删除",
 "generating ZIP-file, it may take some time." => "正在生成 ZIP 文件，可能需要一些时间",

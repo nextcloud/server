@@ -27,7 +27,7 @@
 "Change password" => "變更密碼",
 "Email" => "電子郵件",
 "Your email address" => "你的電子郵件信箱",
-"Fill in an email address to enable password recovery" => "請甜入店子郵件信箱以便回復密碼",
+"Fill in an email address to enable password recovery" => "請填入電子郵件信箱以便回復密碼",
 "Language" => "語言",
 "Help translate" => "幫助翻譯",
 "use this address to connect to your ownCloud in your file manager" => "使用這個位址去連接到你的私有雲檔案管理員",

@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-24 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 07:34+0000\n"
+"Last-Translator: Nisok Kosin <nikos.efthimiou@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -221,7 +221,7 @@ msgstr "Δεν ήταν δυνατή η φόρτωση της προσωρινή
 msgid "No file was uploaded. Unknown error"
 msgstr "Δεν ανέβηκε κάποιο αρχείο. Άγνωστο σφάλμα"
 
-#: appinfo/app.php:21
+#: appinfo/app.php:25
 msgid "Contacts"
 msgstr "Επαφές"
 
@@ -249,15 +249,15 @@ msgstr "Σφάλμα"
 
 #: js/contacts.js:424
 msgid "You do not have permission to add contacts to "
-msgstr ""
+msgstr "Δεν έχετε επαρκή δικαιώματα για προσθέσετε επαφές στο "
 
 #: js/contacts.js:425
 msgid "Please select one of your own address books."
-msgstr ""
+msgstr "Παρακαλούμε επιλέξτε ένα από τα δικάς σας βιβλία διευθύνσεων."
 
 #: js/contacts.js:425
 msgid "Permission error"
-msgstr ""
+msgstr "Σφάλμα δικαιωμάτων"
 
 #: js/contacts.js:763
 msgid "This property has to be non-empty."
@@ -489,11 +489,11 @@ msgstr "Επαφή"
 
 #: lib/vcard.php:408
 msgid "You do not have the permissions to edit this contact."
-msgstr ""
+msgstr "Δεν διαθέτε επαρκή δικαιώματα για την επεξεργασία αυτής της επαφής."
 
 #: lib/vcard.php:483
 msgid "You do not have the permissions to delete this contact."
-msgstr ""
+msgstr "Δεν διαθέτε επαρκή δικαιώματα για την διαγραφή αυτής της επαφής."
 
 #: templates/index.php:14
 msgid "Add Contact"

@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jan Krejci <krejca85@gmail.com>, 2011.
+# Jan Krejci <krejca85@gmail.com>, 2011, 2012.
 # Martin  <fireball@atlas.cz>, 2011, 2012.
 # Michal Hrušecký <Michal@hrusecky.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-24 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 07:58+0000\n"
+"Last-Translator: Jan Krejci <krejca85@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,11 +84,11 @@ msgstr "Pokoušíte se přidat duplicitní atribut: "
 
 #: ajax/contact/addproperty.php:115 ajax/contact/saveproperty.php:93
 msgid "Missing IM parameter."
-msgstr ""
+msgstr "Chybějící parametr IM"
 
 #: ajax/contact/addproperty.php:119 ajax/contact/saveproperty.php:97
 msgid "Unknown IM: "
-msgstr ""
+msgstr "Neznámý IM:"
 
 #: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
@@ -217,7 +217,7 @@ msgstr "Nemohu načíst dočasný obrázek: "
 msgid "No file was uploaded. Unknown error"
 msgstr "Soubor nebyl odeslán. Neznámá chyba"
 
-#: appinfo/app.php:21
+#: appinfo/app.php:25
 msgid "Contacts"
 msgstr "Kontakty"
 
@@ -245,15 +245,15 @@ msgstr "Chyba"
 
 #: js/contacts.js:424
 msgid "You do not have permission to add contacts to "
-msgstr ""
+msgstr "Nemáte práva přidat kontakt do"
 
 #: js/contacts.js:425
 msgid "Please select one of your own address books."
-msgstr ""
+msgstr "Prosím vyberte jeden z vašich adresářů"
 
 #: js/contacts.js:425
 msgid "Permission error"
-msgstr ""
+msgstr "Chyba přístupových práv"
 
 #: js/contacts.js:763
 msgid "This property has to be non-empty."
@@ -300,7 +300,7 @@ msgstr "Některé kontakty jsou označeny ke smazání. Počkete prosím na doko
 
 #: js/contacts.js:1649
 msgid "Do you want to merge these address books?"
-msgstr ""
+msgstr "Chcete spojit tyto adresáře?"
 
 #: js/loader.js:49
 msgid "Result: "
@@ -332,51 +332,51 @@ msgstr "Kontakt nebyl nalezen."
 
 #: lib/app.php:116
 msgid "Jabber"
-msgstr ""
+msgstr "Jabber"
 
 #: lib/app.php:121
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: lib/app.php:126
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: lib/app.php:131
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #: lib/app.php:136
 msgid "GoogleTalk"
-msgstr ""
+msgstr "GoogleTalk"
 
 #: lib/app.php:141
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: lib/app.php:146
 msgid "XMPP"
-msgstr ""
+msgstr "XMPP"
 
 #: lib/app.php:151
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: lib/app.php:156
 msgid "Yahoo"
-msgstr ""
+msgstr "Yahoo"
 
 #: lib/app.php:161
 msgid "Skype"
-msgstr ""
+msgstr "Skype"
 
 #: lib/app.php:166
 msgid "QQ"
-msgstr ""
+msgstr "QQ"
 
 #: lib/app.php:171
 msgid "GaduGadu"
-msgstr ""
+msgstr "GaduGadu"
 
 #: lib/app.php:194 lib/app.php:202 lib/app.php:213 lib/app.php:266
 msgid "Work"
@@ -485,11 +485,11 @@ msgstr "Kontakt"
 
 #: lib/vcard.php:408
 msgid "You do not have the permissions to edit this contact."
-msgstr ""
+msgstr "Nemáte práva editovat tento kontakt"
 
 #: lib/vcard.php:483
 msgid "You do not have the permissions to delete this contact."
-msgstr ""
+msgstr "Nemáte práva smazat tento kontakt"
 
 #: templates/index.php:14
 msgid "Add Contact"
@@ -665,11 +665,11 @@ msgstr "Smazat telefoní číslo"
 
 #: templates/part.contact.php:100
 msgid "Instant Messenger"
-msgstr ""
+msgstr "Instant Messenger"
 
 #: templates/part.contact.php:101
 msgid "Delete IM"
-msgstr ""
+msgstr "Smazat IM"
 
 #: templates/part.contact.php:110
 msgid "View on map"
@@ -697,7 +697,7 @@ msgstr "Email"
 
 #: templates/part.contact.php:131
 msgid "Instant Messaging"
-msgstr ""
+msgstr "Instant Messaging"
 
 #: templates/part.contact.php:132
 msgid "Address"
@@ -920,7 +920,7 @@ msgstr "Zobrazit odkaz VCF pouze pro čtení"
 
 #: templates/settings.php:26
 msgid "Share"
-msgstr ""
+msgstr "Sdílet"
 
 #: templates/settings.php:29
 msgid "Download"

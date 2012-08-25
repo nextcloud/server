@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-20 02:01+0200\n"
-"PO-Revision-Date: 2012-08-19 17:21+0000\n"
-"Last-Translator: rasperepodvipodvert <rasperepodvipodvert@gmail.com>\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 14:41+0000\n"
+"Last-Translator: Denis <reg.transifex.net@demitel.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,7 +73,7 @@ msgstr "Часовой пояс изменён"
 msgid "Invalid request"
 msgstr "Неверный запрос"
 
-#: appinfo/app.php:35 templates/calendar.php:15
+#: appinfo/app.php:41 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:33
 msgid "Calendar"
 msgstr "Календарь"
@@ -120,7 +120,7 @@ msgstr "Клиенты"
 
 #: lib/app.php:125
 msgid "Deliverer"
-msgstr "Доставщик"
+msgstr "Посыльный"
 
 #: lib/app.php:126
 msgid "Holidays"
@@ -495,15 +495,15 @@ msgstr "Ссылка для CalDav"
 
 #: templates/part.choosecalendar.php:31
 msgid "Shared calendars"
-msgstr "Общие календари"
+msgstr "Опубликованные"
 
 #: templates/part.choosecalendar.php:48
 msgid "No shared calendars"
-msgstr "Нет общих календарей"
+msgstr "Нет опубликованных календарей"
 
 #: templates/part.choosecalendar.rowfields.php:8
 msgid "Share Calendar"
-msgstr "Сделать календарь общим"
+msgstr "Опубликовать"
 
 #: templates/part.choosecalendar.rowfields.php:14
 msgid "Download"
@@ -520,7 +520,7 @@ msgstr "Удалить"
 
 #: templates/part.choosecalendar.rowfields.shared.php:4
 msgid "shared with you by"
-msgstr "с вами поделился"
+msgstr "опубликовал для вас"
 
 #: templates/part.editcalendar.php:9
 msgid "New calendar"
@@ -581,7 +581,7 @@ msgstr "Участники"
 
 #: templates/part.eventform.php:13
 msgid "Share"
-msgstr "Поделиться"
+msgstr "Опубликовать"
 
 #: templates/part.eventform.php:21
 msgid "Title of the Event"

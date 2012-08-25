@@ -25,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-24 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 08:07+0000\n"
+"Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -232,7 +232,7 @@ msgstr "Konnte das temporäre Bild nicht laden:"
 msgid "No file was uploaded. Unknown error"
 msgstr "Keine Datei hochgeladen. Unbekannter Fehler"
 
-#: appinfo/app.php:21
+#: appinfo/app.php:25
 msgid "Contacts"
 msgstr "Kontakte"
 
@@ -260,15 +260,15 @@ msgstr "Fehler"
 
 #: js/contacts.js:424
 msgid "You do not have permission to add contacts to "
-msgstr ""
+msgstr "Sie besitzen nicht die erforderlichen Rechte, um Kontakte hinzuzufügen"
 
 #: js/contacts.js:425
 msgid "Please select one of your own address books."
-msgstr ""
+msgstr "Bitte wählen Sie eines Ihrer Adressbücher aus."
 
 #: js/contacts.js:425
 msgid "Permission error"
-msgstr ""
+msgstr "Berechtigungsfehler"
 
 #: js/contacts.js:763
 msgid "This property has to be non-empty."
@@ -500,11 +500,11 @@ msgstr "Kontakt"
 
 #: lib/vcard.php:408
 msgid "You do not have the permissions to edit this contact."
-msgstr ""
+msgstr "Sie besitzen nicht die erforderlichen Rechte, um diesen Kontakt zu bearbeiten."
 
 #: lib/vcard.php:483
 msgid "You do not have the permissions to delete this contact."
-msgstr ""
+msgstr "Sie besitzen nicht die erforderlichen Rechte, um diesen Kontakte zu löschen."
 
 #: templates/index.php:14
 msgid "Add Contact"

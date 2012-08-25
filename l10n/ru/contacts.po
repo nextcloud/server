@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-24 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 13:10+0000\n"
+"Last-Translator: Denis <reg.transifex.net@demitel.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,7 +88,7 @@ msgstr "При попытке добавить дубликат:"
 
 #: ajax/contact/addproperty.php:115 ajax/contact/saveproperty.php:93
 msgid "Missing IM parameter."
-msgstr ""
+msgstr "Отсутствует параметр IM."
 
 #: ajax/contact/addproperty.php:119 ajax/contact/saveproperty.php:97
 msgid "Unknown IM: "
@@ -221,7 +221,7 @@ msgstr "Не удалось загрузить временное изображ
 msgid "No file was uploaded. Unknown error"
 msgstr "Файл не был загружен. Неизвестная ошибка"
 
-#: appinfo/app.php:21
+#: appinfo/app.php:25
 msgid "Contacts"
 msgstr "Контакты"
 
@@ -249,15 +249,15 @@ msgstr "Ошибка"
 
 #: js/contacts.js:424
 msgid "You do not have permission to add contacts to "
-msgstr ""
+msgstr "У вас нет разрешений добавлять контакты в"
 
 #: js/contacts.js:425
 msgid "Please select one of your own address books."
-msgstr ""
+msgstr "Выберите одну из ваших собственных адресных книг."
 
 #: js/contacts.js:425
 msgid "Permission error"
-msgstr ""
+msgstr "Ошибка доступа"
 
 #: js/contacts.js:763
 msgid "This property has to be non-empty."
@@ -445,7 +445,7 @@ msgstr "Клиенты"
 
 #: lib/app.php:256
 msgid "Deliverer"
-msgstr ""
+msgstr "Посыльный"
 
 #: lib/app.php:257
 msgid "Holidays"
@@ -489,11 +489,11 @@ msgstr "Контакт"
 
 #: lib/vcard.php:408
 msgid "You do not have the permissions to edit this contact."
-msgstr ""
+msgstr "У вас нет разрешений редактировать этот контакт."
 
 #: lib/vcard.php:483
 msgid "You do not have the permissions to delete this contact."
-msgstr ""
+msgstr "У вас нет разрешений удалять этот контакт."
 
 #: templates/index.php:14
 msgid "Add Contact"
@@ -669,7 +669,7 @@ msgstr "Удалить номер телефона"
 
 #: templates/part.contact.php:100
 msgid "Instant Messenger"
-msgstr ""
+msgstr "Instant Messenger"
 
 #: templates/part.contact.php:101
 msgid "Delete IM"
@@ -701,7 +701,7 @@ msgstr "Ящик эл. почты"
 
 #: templates/part.contact.php:131
 msgid "Instant Messaging"
-msgstr ""
+msgstr "Быстрые сообщения"
 
 #: templates/part.contact.php:132
 msgid "Address"
@@ -916,15 +916,15 @@ msgstr "iOS/OS X"
 
 #: templates/settings.php:20
 msgid "Show CardDav link"
-msgstr ""
+msgstr "Показать ссылку CardDav"
 
 #: templates/settings.php:23
 msgid "Show read-only VCF link"
-msgstr ""
+msgstr "Показать нередактируемую ссылку VCF"
 
 #: templates/settings.php:26
 msgid "Share"
-msgstr ""
+msgstr "Опубликовать"
 
 #: templates/settings.php:29
 msgid "Download"
