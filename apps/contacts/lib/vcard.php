@@ -48,31 +48,23 @@ class OC_Contacts_VCard {
 	 * ['carddata']
 	 */
 	public static function all($id, $start=null, $num=null){
-		//FIXME jfd: use limit & offset as OC_DB::prepare parameters for oracle support
-		$limitsql = '';
-		if(!is_null($num)) {
-			$limitsql = ' LIMIT '.$num;
-		}
-		if(!is_null($start) && !is_null($num)) {
-			$limitsql .= ' OFFSET '.$start.' ';
-		}
 		$result = null;
 		if(is_array($id) && count($id)) {
 			$id_sql = join(',', array_fill(0, count($id), '?'));
-			$prep = 'SELECT * FROM `*PREFIX*contacts_cards` WHERE `addressbookid` IN ('.$id_sql.') ORDER BY `fullname`'.$limitsql;
+			$sql = 'SELECT * FROM `*PREFIX*contacts_cards` WHERE `addressbookid` IN ('.$id_sql.') ORDER BY `fullname`';
 			try {
-				$stmt = OCP\DB::prepare( $prep );
+				$stmt = OCP\DB::prepare( $sql, $num, $start );
 				$result = $stmt->execute($id);
 			} catch(Exception $e) {
 				OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
 				OCP\Util::writeLog('contacts', __METHOD__.', ids: '.join(',', $id), OCP\Util::DEBUG);
-				OCP\Util::writeLog('contacts', __METHOD__.'SQL:'.$prep, OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.'SQL:'.$sql, OCP\Util::DEBUG);
 				return false;
 			}
 		} elseif(is_int($id) || is_string($id)) {
 			try {
-				$sql = 'SELECT * FROM `*PREFIX*contacts_cards` WHERE `addressbookid` = ? ORDER BY `fullname`'.$limitsql;
-				$stmt = OCP\DB::prepare( $sql );
+				$sql = 'SELECT * FROM `*PREFIX*contacts_cards` WHERE `addressbookid` = ? ORDER BY `fullname`';
+				$stmt = OCP\DB::prepare( $sql, $num, $start );
 				$result = $stmt->execute(array($id));
 			} catch(Exception $e) {
 				OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
