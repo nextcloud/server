@@ -51,6 +51,7 @@
 "Database user" => "Datenbank-Benutzer",
 "Database password" => "Datenbank-Passwort",
 "Database name" => "Datenbank-Name",
+"Database tablespace" => "Tablespace der Datenbank",
 "Database host" => "Datenbank-Host",
 "Finish setup" => "Installation abschließen",
 "web services under your control" => "Web-Services unter Ihrer Kontrolle",
