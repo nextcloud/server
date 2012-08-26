@@ -24,7 +24,7 @@
 require_once('lib/impress.php');
 
 OCP\User::checkLoggedIn();
-OCP\JSON::checkAppEnabled('impress');
+OC_Util::checkAppEnabled('impress');
 OCP\App::setActiveNavigationEntry( 'impress_index' );
 
 

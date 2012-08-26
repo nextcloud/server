@@ -25,7 +25,7 @@ require_once('lib/impress.php');
 
 // Check if we are a user
 OCP\User::checkLoggedIn();
-OCP\JSON::checkAppEnabled('impress');
+OC_Util::checkAppEnabled('impress');
 
 $filename = OCP\Util::sanitizeHTML($_GET['file']);
 $title = OCP\Util::sanitizeHTML($_GET['name']);
