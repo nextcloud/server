@@ -51,6 +51,7 @@
 "Database user" => "Andmebaasi kasutaja",
 "Database password" => "Andmebaasi parool",
 "Database name" => "Andmebasi nimi",
+"Database tablespace" => "Andmebaasi tabeliruum",
 "Database host" => "Andmebaasi host",
 "Finish setup" => "Lõpeta seadistamine",
 "web services under your control" => "veebiteenused sinu kontrolli all",

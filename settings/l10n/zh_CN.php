@@ -14,6 +14,7 @@
 "Security Warning" => "安全警告",
 "Cron" => "计划任务",
 "execute one task with each page loaded" => "为每个装入的页面执行任务",
+"cron.php is registered at a webcron service" => "crop.php 已",
 "use systems cron service" => "实现系统 cron 服务",
 "Log" => "日志",
 "More" => "更多",

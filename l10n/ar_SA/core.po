@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-02 02:02+0200\n"
-"PO-Revision-Date: 2012-08-02 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-26 19:46+0200\n"
+"PO-Revision-Date: 2012-08-26 17:34+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Arabic (Saudi Arabia) (http://www.transifex.com/projects/p/owncloud/language/ar_SA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,55 +33,55 @@ msgstr ""
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr ""
 
-#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:190 templates/layout.user.php:64 templates/layout.user.php:65
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "January"
 msgstr ""
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "February"
 msgstr ""
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "March"
 msgstr ""
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "April"
 msgstr ""
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "May"
 msgstr ""
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "June"
 msgstr ""
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "July"
 msgstr ""
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "August"
 msgstr ""
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "September"
 msgstr ""
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "October"
 msgstr ""
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "November"
 msgstr ""
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "December"
 msgstr ""
 
@@ -129,7 +129,7 @@ msgstr ""
 msgid "Login failed!"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
 #: templates/login.php:9
 msgid "Username"
 msgstr ""
@@ -190,48 +190,52 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: templates/installation.php:23
+#: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
-#: templates/installation.php:29 templates/login.php:13
+#: templates/installation.php:30 templates/login.php:13
 msgid "Password"
 msgstr ""
 
-#: templates/installation.php:35
+#: templates/installation.php:36
 msgid "Advanced"
 msgstr ""
 
-#: templates/installation.php:37
+#: templates/installation.php:38
 msgid "Data folder"
 msgstr ""
 
-#: templates/installation.php:44
+#: templates/installation.php:45
 msgid "Configure the database"
 msgstr ""
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:50 templates/installation.php:61
+#: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
 msgstr ""
 
-#: templates/installation.php:82
+#: templates/installation.php:93
 msgid "Database user"
 msgstr ""
 
-#: templates/installation.php:86
+#: templates/installation.php:97
 msgid "Database password"
 msgstr ""
 
-#: templates/installation.php:90
+#: templates/installation.php:101
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:96
+#: templates/installation.php:109
+msgid "Database tablespace"
+msgstr ""
+
+#: templates/installation.php:115
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:101
+#: templates/installation.php:120
 msgid "Finish setup"
 msgstr ""
 

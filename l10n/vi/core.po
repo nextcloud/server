@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-02 02:02+0200\n"
-"PO-Revision-Date: 2012-08-02 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-26 19:46+0200\n"
+"PO-Revision-Date: 2012-08-26 17:34+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,55 +34,55 @@ msgstr "Danh mục này đã được tạo :"
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:190 templates/layout.user.php:64 templates/layout.user.php:65
 msgid "Settings"
 msgstr "Cài đặt"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "January"
 msgstr "Tháng 1"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "February"
 msgstr "Tháng 2"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "March"
 msgstr "Tháng 3"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "April"
 msgstr "Tháng 4"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "May"
 msgstr "Tháng 5"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "June"
 msgstr "Tháng 6"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "July"
 msgstr "Tháng 7"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "August"
 msgstr "Tháng 8"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "September"
 msgstr "Tháng 9"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "October"
 msgstr "Tháng 10"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "November"
 msgstr "Tháng 11"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "December"
 msgstr "Tháng 12"
 
@@ -130,7 +130,7 @@ msgstr "Yêu cầu"
 msgid "Login failed!"
 msgstr "Bạn đã nhập sai mật khẩu hay tên người dùng !"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
 #: templates/login.php:9
 msgid "Username"
 msgstr "Tên người dùng"
@@ -191,48 +191,52 @@ msgstr "Sửa thể loại"
 msgid "Add"
 msgstr "Thêm"
 
-#: templates/installation.php:23
+#: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
 msgstr "Tạo một <strong>tài khoản quản trị</strong>"
 
-#: templates/installation.php:29 templates/login.php:13
+#: templates/installation.php:30 templates/login.php:13
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: templates/installation.php:35
+#: templates/installation.php:36
 msgid "Advanced"
 msgstr "Nâng cao"
 
-#: templates/installation.php:37
+#: templates/installation.php:38
 msgid "Data folder"
 msgstr "Thư mục dữ liệu"
 
-#: templates/installation.php:44
+#: templates/installation.php:45
 msgid "Configure the database"
 msgstr "Cấu hình Cơ Sở Dữ Liệu"
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:50 templates/installation.php:61
+#: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
 msgstr "được sử dụng"
 
-#: templates/installation.php:82
+#: templates/installation.php:93
 msgid "Database user"
 msgstr "Người dùng cơ sở dữ liệu"
 
-#: templates/installation.php:86
+#: templates/installation.php:97
 msgid "Database password"
 msgstr "Mật khẩu cơ sở dữ liệu"
 
-#: templates/installation.php:90
+#: templates/installation.php:101
 msgid "Database name"
 msgstr "Tên cơ sở dữ liệu"
 
-#: templates/installation.php:96
+#: templates/installation.php:109
+msgid "Database tablespace"
+msgstr ""
+
+#: templates/installation.php:115
 msgid "Database host"
 msgstr "Database host"
 
-#: templates/installation.php:101
+#: templates/installation.php:120
 msgid "Finish setup"
 msgstr "Cài đặt hoàn tất"
 

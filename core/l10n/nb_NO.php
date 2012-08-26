@@ -51,7 +51,6 @@
 "Database user" => "Databasebruker",
 "Database password" => "Databasepassord",
 "Database name" => "Databasenavn",
-"Database tablespace" => "Database tabellområde",
 "Database host" => "Databasevert",
 "Finish setup" => "Fullfør oppsetting",
 "web services under your control" => "nettjenester under din kontroll",

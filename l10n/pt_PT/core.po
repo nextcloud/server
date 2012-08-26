@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-02 02:02+0200\n"
-"PO-Revision-Date: 2012-08-02 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-26 19:46+0200\n"
+"PO-Revision-Date: 2012-08-26 17:34+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,55 +36,55 @@ msgstr "Esta categoria já existe:"
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:190 templates/layout.user.php:64 templates/layout.user.php:65
 msgid "Settings"
 msgstr "Definições"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "January"
 msgstr "Janeiro"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "February"
 msgstr "Fevereiro"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "March"
 msgstr "Março"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "April"
 msgstr "Abril"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "May"
 msgstr "Maio"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "June"
 msgstr "Junho"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "July"
 msgstr "Julho"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "August"
 msgstr "Agosto"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "September"
 msgstr "Setembro"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "October"
 msgstr "Outubro"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "November"
 msgstr "Novembro"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "December"
 msgstr "Dezembro"
 
@@ -132,7 +132,7 @@ msgstr "Pedido"
 msgid "Login failed!"
 msgstr "Conexão falhado!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
 #: templates/login.php:9
 msgid "Username"
 msgstr "Utilizador"
@@ -193,48 +193,52 @@ msgstr "Editar categorias"
 msgid "Add"
 msgstr "Adicionar"
 
-#: templates/installation.php:23
+#: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
 msgstr "Criar uma <strong>conta administrativa</strong>"
 
-#: templates/installation.php:29 templates/login.php:13
+#: templates/installation.php:30 templates/login.php:13
 msgid "Password"
 msgstr "Palavra chave"
 
-#: templates/installation.php:35
+#: templates/installation.php:36
 msgid "Advanced"
 msgstr "Avançado"
 
-#: templates/installation.php:37
+#: templates/installation.php:38
 msgid "Data folder"
 msgstr "Pasta de dados"
 
-#: templates/installation.php:44
+#: templates/installation.php:45
 msgid "Configure the database"
 msgstr "Configure a base de dados"
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:50 templates/installation.php:61
+#: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
 msgstr "vai ser usada"
 
-#: templates/installation.php:82
+#: templates/installation.php:93
 msgid "Database user"
 msgstr "Utilizador da base de dados"
 
-#: templates/installation.php:86
+#: templates/installation.php:97
 msgid "Database password"
 msgstr "Password da base de dados"
 
-#: templates/installation.php:90
+#: templates/installation.php:101
 msgid "Database name"
 msgstr "Nome da base de dados"
 
-#: templates/installation.php:96
+#: templates/installation.php:109
+msgid "Database tablespace"
+msgstr ""
+
+#: templates/installation.php:115
 msgid "Database host"
 msgstr "Host da base de dados"
 
-#: templates/installation.php:101
+#: templates/installation.php:120
 msgid "Finish setup"
 msgstr "Acabar instalação"
 
