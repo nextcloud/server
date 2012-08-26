@@ -141,6 +141,9 @@ class OC_SubAdmin{
 		if(!self::isSubAdmin($subadmin)){
 			return false;
 		}
+		if(OC_Group::inGroup($user, 'admin')){
+			return false;
+		}
 		$accessiblegroups = self::getSubAdminsGroups($subadmin);
 		foreach($accessiblegroups as $accessiblegroup){
 			if(OC_Group::inGroup($user, $accessiblegroup)){
