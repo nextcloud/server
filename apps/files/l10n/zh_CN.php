@@ -44,7 +44,6 @@
 "Name" => "名称",
 "Share" => "共享",
 "Download" => "下载",
-"Delete all" => "删除所有",
 "Upload too large" => "上传文件过大",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "您正尝试上传的文件超过了此服务器可以上传的最大大小",
 "Files are being scanned, please wait." => "文件正在被扫描，请稍候。",

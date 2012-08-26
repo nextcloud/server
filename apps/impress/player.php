@@ -25,9 +25,10 @@ require_once('lib/impress.php');
 
 // Check if we are a user
 OCP\User::checkLoggedIn();
+OC_Util::checkAppEnabled('impress');
 
-$filename = strip_tags($_GET['file']);
-$title = strip_tags($_GET['name']);
+$filename = OCP\Util::sanitizeHTML($_GET['file']);
+$title = OCP\Util::sanitizeHTML($_GET['name']);
 
 if(!OC_Filesystem::file_exists($filename)){
 	header("HTTP/1.0 404 Not Found");

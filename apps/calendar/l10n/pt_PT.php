@@ -168,8 +168,6 @@
 "Take an available name!" => "Escolha um nome disponível!",
 "A Calendar with this name already exists. If you continue anyhow, these calendars will be merged." => "Já existe um Calendário com esse nome. Se mesmo assim continuar, esses calendários serão fundidos.",
 "Import" => "Importar",
-"Importing calendar" => "A importar calendário",
-"Calendar imported successfully" => "Calendário importado com sucesso",
 "Close Dialog" => "Fechar diálogo",
 "Create a new event" => "Criar novo evento",
 "View an event" => "Ver um evento",

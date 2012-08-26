@@ -11,6 +11,7 @@
 "Selected files too large to generate zip file." => "De valgte filene er for store til å kunne generere ZIP-fil",
 "Application is not enabled" => "Applikasjon er ikke påslått",
 "Authentication error" => "Autentiseringsfeil",
+"Token expired. Please reload page." => "Symbol utløpt. Vennligst last inn siden på nytt.",
 "seconds ago" => "sekunder siden",
 "1 minute ago" => "1 minuitt siden",
 "%d minutes ago" => "%d minutter siden",

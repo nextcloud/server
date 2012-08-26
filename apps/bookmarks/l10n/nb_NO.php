@@ -7,5 +7,6 @@
 "Title" => "Tittel",
 "Tags" => "Etikett",
 "Save bookmark" => "Lagre bokmerke",
-"You have no bookmarks" => "Du har ingen bokmerker"
+"You have no bookmarks" => "Du har ingen bokmerker",
+"Bookmarklet <br />" => "Bokmerke <br />"
 );

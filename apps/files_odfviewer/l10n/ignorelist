@@ -1,0 +1,8 @@
+src/webodf/webodf/tests/core/Base64Tests.js
+src/webodf/webodf/tests/core/CursorTests.js
+src/webodf/webodf/tests/gui/CaretTests.js
+src/webodf/webodf/tests/gui/SelectionMoverTests.js
+src/webodf/webodf/tests/core/PointWalkerTests.js
+src/webodf/webodf/tests/core/ZipTests.js
+src/webodf/webodf/tests/xmldom/XPathTests.js
+src/webodf/webodf/tests/core/RuntimeTests.js
