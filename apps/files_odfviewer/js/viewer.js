@@ -6,7 +6,7 @@ function viewOdf(dir, file) {
 		// odf action toolbar
 		var odfToolbarHtml = 
 			'<div id="odf-toolbar">' +
-			'<input type="button" id="odf_close" value="Close">' +
+			'<input type="button" id="odf_close">'+t('files_odfviewer','Close')+
 			'</div>';
 		$('#controls').append(odfToolbarHtml);
 
