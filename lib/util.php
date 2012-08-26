@@ -33,19 +33,21 @@ class OC_Util {
 
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 			$user_dir = '/'.$user.'/files';
-			$userdirectory = $CONFIG_DATADIRECTORY.$user_dir;
+			$user_root = OC_User::getHome($user);
+			$userdirectory = $user_root . '/files';
 			if( !is_dir( $userdirectory )){
 				mkdir( $userdirectory, 0755, true );
 			}
 
 			//jail the user into his "home" directory
+			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$user_root), $user);
 			OC_Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
 			self::$fsSetup=true;
 			// Load personal mount config
-			if (is_file($CONFIG_DATADIRECTORY.'/'.$user.'/mount.php')) {
-				$mountConfig = include($CONFIG_DATADIRECTORY.'/'.$user.'/mount.php');
+			if (is_file($user_root.'/mount.php')) {
+				$mountConfig = include($user_root.'/mount.php');
 				if (isset($mountConfig['user'][$user])) {
 					foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
 						OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
