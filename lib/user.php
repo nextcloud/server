@@ -333,6 +333,27 @@ class OC_User {
 	}
 
 	/**
+	 * @brief Check if the password is correct
+	 * @param $uid The username
+	 * @param $password The password
+	 * @returns string
+	 *
+	 * Check if the password is correct without logging in the user
+	 * returns the user id or false
+	 */
+	public static function getHome($uid){
+		foreach(self::$_usedBackends as $backend){
+			if($backend->implementsActions(OC_USER_BACKEND_GET_HOME)){
+				$result=$backend->getHome($uid);
+				if($result){
+					return $result;
+				}
+			}
+		}
+		return OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/' . $user;
+	}
+
+	/**
 	 * @brief Get a list of all users
 	 * @returns array with all uids
 	 *

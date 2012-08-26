@@ -175,4 +175,17 @@ class OC_User_Database extends OC_User_Backend {
 		
 		return $result->numRows() > 0;
 	}
+
+	/**
+	* @brief get the user's home directory
+	* @param string $uid the username
+	* @return boolean
+	*/
+	public function getHome($uid){
+		if($this->userExists($uid)){
+			return OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/' . $user;
+		}else{
+			return false;
+		}
+	}
 }
