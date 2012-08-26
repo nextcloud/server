@@ -120,9 +120,15 @@ source_file = templates/impress.pot
 source_lang = en
 type = PO
 
-[owncloud.impress]
+[owncloud.files_odfviewer]
 file_filter = <lang>/files_odfviewer.po
 source_file = templates/files_odfviewer.pot
+source_lang = en
+type = PO
+
+[owncloud.files_pdfviewer]
+file_filter = <lang>/files_pdfviewer.po
+source_file = templates/files_pdfviewer.pot
 source_lang = en
 type = PO
 
