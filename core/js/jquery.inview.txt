@@ -1,0 +1,15 @@
+jQuery.inview is licensed Attribution-Non-Commercial-Share Alike 2.0 but the
+conditions has been waived by the author in the following tweet:
+
+https://twitter.com/#!/ChristopherBlum/status/148382899887013888 
+
+Saying:
+
+Thomas Tanghus @tanghus 18 Dec. 2011
+
+@ChristopherBlum Hi. Is it OK if I use https://github.com/protonet/jquery.inview in ownCloud? Preferably under an AGPL license ;-) owncloud.org
+
+
+Christopher Blum Christopher Blum @ChristopherBlum 18 Dec. 2011
+
+@tanghus Feel free to! :)
