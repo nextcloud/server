@@ -100,7 +100,6 @@
 "Nov." => "11月",
 "Dec." => "12月",
 "All day" => "終日",
-"New Calendar" => "新しくカレンダーを作成する",
 "Missing fields" => "項目がありません",
 "Title" => "タイトル",
 "From Date" => "開始日",

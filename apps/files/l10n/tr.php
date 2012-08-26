@@ -39,7 +39,6 @@
 "Name" => "Ad",
 "Share" => "Paylaş",
 "Download" => "İndir",
-"Delete all" => "Hepsini sil",
 "Upload too large" => "Yüklemeniz çok büyük",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Yüklemeye çalıştığınız dosyalar bu sunucudaki maksimum yükleme boyutunu aşıyor.",
 "Files are being scanned, please wait." => "Dosyalar taranıyor, lütfen bekleyin.",
