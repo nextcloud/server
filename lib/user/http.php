@@ -98,7 +98,7 @@ class OC_User_HTTP extends OC_User_Backend {
 	*/
 	public function getHome($uid){
 		if($this->userExists($uid)){
-			return OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/' . $user;
+			return OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/' . $uid;
 		}else{
 			return false;
 		}

@@ -350,7 +350,7 @@ class OC_User {
 				}
 			}
 		}
-		return OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/' . $user;
+		return OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/' . $uid;
 	}
 
 	/**
