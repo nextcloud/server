@@ -534,10 +534,9 @@ class OC_DB {
 			$query = str_replace( '`', '"', $query );
 			$query = str_replace( 'NOW()', 'datetime(\'now\')', $query );
 			$query = str_replace( 'now()', 'datetime(\'now\')', $query );
-		}elseif( $type == 'mysql' ){
-			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
-			$query = str_replace( 'now()', 'CURRENT_TIMESTAMP', $query );
-		}elseif( $type == 'pgsql' || $type == 'oci'  ){
+		}elseif( $type == 'pgsql' ){
+			$query = str_replace( '`', '"', $query );
+		}elseif( $type == 'oci'  ){
 			$query = str_replace( '`', '"', $query );
 			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
 			$query = str_replace( 'now()', 'CURRENT_TIMESTAMP', $query );
