@@ -51,6 +51,7 @@
 "Database user" => "Databasanvändare",
 "Database password" => "Lösenord till databasen",
 "Database name" => "Databasnamn",
+"Database tablespace" => "Tabellutrymme för databas",
 "Database host" => "Databasserver",
 "Finish setup" => "Avsluta installation",
 "web services under your control" => "webbtjänster under din kontroll",
