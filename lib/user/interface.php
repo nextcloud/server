@@ -57,11 +57,4 @@ interface OC_User_Interface {
 	*/
 	public function userExists($uid);
 
-	/**
-	* @brief get the user's home directory
-	* @param string $uid the username
-	* @return boolean
-	*/
-	public function getHome($uid);
-
 }
