@@ -144,6 +144,17 @@ class Util {
 		return(\OC_Helper::linkToRemote( $service ));
 	}
 
+	/**
+	 * @brief Creates an absolute url for public use
+	 * @param $service id
+	 * @returns the url
+	 *
+	 * Returns a absolute url to the given app and file.
+	 */
+	public static function linkToPublic($service) {
+		return \OC_Helper::linkToPublic($service);
+	}
+
 
 	/**
 	* @brief Creates an url

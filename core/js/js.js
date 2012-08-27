@@ -29,6 +29,16 @@ function t(app,text){
 }
 t.cache={};
 
+/**
+* Get the path to download a file
+* @param file The filename
+* @param dir The directory the file is in - e.g. $('#dir').val()
+* @return string
+*/
+function fileDownloadPath(dir, file) {
+	return OC.filePath('files', 'ajax', 'download.php')+encodeURIComponent('?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir));
+}
+
 OC={
 	webroot:oc_webroot,
 	appswebroots:oc_appswebroots,

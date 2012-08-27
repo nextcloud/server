@@ -32,7 +32,7 @@ class Share {
 
 	const SHARE_TYPE_USER = 0;
 	const SHARE_TYPE_GROUP = 1;
-	const SHARE_TYPE_PRIVATE_LINK = 3;
+	const SHARE_TYPE_LINK = 3;
 	const SHARE_TYPE_EMAIL = 4;
 	const SHARE_TYPE_CONTACT = 5;
 	const SHARE_TYPE_REMOTE = 6;
@@ -113,6 +113,17 @@ class Share {
 	}
 
 	/**
+	* @brief Get the item of item type shared by a link
+	* @param string Item type
+	* @param string Item source
+	* @param string Owner of link
+	* @return Item
+	*/
+	public static function getItemSharedWithByLink($itemType, $itemSource, $uidOwner) {
+		return self::getItems($itemType, $itemSource, self::SHARE_TYPE_LINK, null, $uidOwner, self::FORMAT_NONE, null, 1);
+	}
+
+	/**
 	* @brief Get the shared items of item type owned by the current user
 	* @param string Item type
 	* @param int Format (optional) Format type must be defined by the backend
@@ -138,7 +149,7 @@ class Share {
 	* @brief Share an item with a user, group, or via private link
 	* @param string Item type
 	* @param string Item source
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	* @param string User or group the item is being shared with
 	* @param int CRUDS permissions
 	* @return bool Returns true on success or false on failure
@@ -198,9 +209,14 @@ class Share {
 			$shareWith = array();
 			$shareWith['group'] = $group;
 			$shareWith['users'] = array_diff(\OC_Group::usersInGroup($group), array($uidOwner));
-		} else if ($shareType === self::SHARE_TYPE_PRIVATE_LINK) {
-				$shareWith = md5(uniqid($itemSource, true));
-				return self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions);
+		} else if ($shareType === self::SHARE_TYPE_LINK) {
+			// Generate hash of password - same method as user passwords
+			if (isset($shareWith)) {
+				$forcePortable = (CRYPT_BLOWFISH != 1);
+				$hasher = new \PasswordHash(8, $forcePortable);
+				$shareWith = $hasher->HashPassword($shareWith.\OC_Config::getValue('passwordsalt', ''));
+			}
+			return self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions);
 		} else if ($shareType === self::SHARE_TYPE_CONTACT) {
 			if (!\OC_App::isEnabled('contacts')) {
 				$message = 'Sharing '.$itemSource.' failed, because the contacts app is not enabled';
@@ -262,7 +278,7 @@ class Share {
 	* @brief Unshare an item from a user, group, or delete a private link
 	* @param string Item type
 	* @param string Item source
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	* @param string User or group the item is being shared with
 	* @return Returns true on success or false on failure
 	*/
@@ -298,7 +314,7 @@ class Share {
 	* @brief Set the permissions of an item for a specific user or group
 	* @param string Item type
 	* @param string Item source
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	* @param string User or group the item is being shared with
 	* @param int CRUDS permissions
 	* @return Returns true on success or false on failure
@@ -407,7 +423,7 @@ class Share {
 	* @brief Get shared items from the database
 	* @param string Item type
 	* @param string Item source or target (optional)
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, SHARE_TYPE_PRIVATE_LINK, $shareTypeUserAndGroups, or $shareTypeGroupUserUnique
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, SHARE_TYPE_LINK, $shareTypeUserAndGroups, or $shareTypeGroupUserUnique
 	* @param string User or group the item is being shared with
 	* @param string User that is the owner of shared items (optional)
 	* @param int Format to convert items to with formatItems()
@@ -444,9 +460,9 @@ class Share {
 				$queryArgs = array($itemType);
 			}
 		}
-		if (isset($shareType) && isset($shareWith)) {
+		if (isset($shareType)) {
 			// Include all user and group items
-			if ($shareType == self::$shareTypeUserAndGroups) {
+			if ($shareType == self::$shareTypeUserAndGroups && isset($shareWith)) {
 				$where .= ' AND `share_type` IN (?,?,?)';
 				$queryArgs[] = self::SHARE_TYPE_USER;
 				$queryArgs[] = self::SHARE_TYPE_GROUP;
@@ -459,9 +475,12 @@ class Share {
 				$where .= ' AND `uid_owner` != ?';
 				$queryArgs[] = $shareWith;
 			} else {
-				$where .= ' AND `share_type` = ? AND `share_with` = ?';
+				$where .= ' AND `share_type` = ?';
 				$queryArgs[] = $shareType;
-				$queryArgs[] = $shareWith;
+				if (isset($shareWith)) {
+					$where .= ' AND `share_with` = ?';
+					$queryArgs[] = $shareWith;
+				}
 			}
 		}
 		if (isset($uidOwner)) {
@@ -650,7 +669,7 @@ class Share {
 					$column = 'path';
 				}
 				foreach ($items as $item) {
-					if ($item['share_type'] == self::SHARE_TYPE_PRIVATE_LINK) {
+					if ($item['share_type'] == self::SHARE_TYPE_LINK) {
 						$statuses[$item[$column]] = true;
 					} else if (!isset($statuses[$item[$column]])) {
 						$statuses[$item[$column]] = false;
@@ -670,7 +689,7 @@ class Share {
 	* @brief Put shared item into the database
 	* @param string Item type
 	* @param string Item source
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	* @param string User or group the item is being shared with
 	* @param int CRUDS permissions
 	* @param bool|array Parent folder target (optional)
@@ -827,7 +846,7 @@ class Share {
 	* @brief Generate a unique target for the item
 	* @param string Item type
 	* @param string Item source
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	* @param string User or group the item is being shared with
 	* @return string Item target
 	*
@@ -836,7 +855,7 @@ class Share {
 	*/
 	private static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner) {
 		$backend = self::getBackend($itemType);
-		if ($shareType == self::SHARE_TYPE_PRIVATE_LINK) {
+		if ($shareType == self::SHARE_TYPE_LINK) {
 			return $backend->generateTarget($itemSource, false);
 		} else {
 			if ($itemType == 'file' || $itemType == 'folder') {

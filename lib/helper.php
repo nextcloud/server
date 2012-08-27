@@ -101,6 +101,17 @@ class OC_Helper {
 	}
 
 	/**
+	 * @brief Creates an absolute url for public use
+	 * @param $service id
+	 * @returns the url
+	 *
+	 * Returns a absolute url to the given service.
+	 */
+	public static function linkToPublic($service, $add_slash = false) {
+		return self::linkToAbsolute( '', 'public.php') . '?service=' . $service . (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
+	}
+
+	/**
 	 * @brief Creates path to an image
 	 * @param $app app
 	 * @param $image image name
