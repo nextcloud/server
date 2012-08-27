@@ -247,7 +247,6 @@ class Test_Share extends UnitTestCase {
 		$this->assertEqual(count($to_test), 2);
 		$this->assertTrue(in_array('test.txt', $to_test));
 		$this->assertTrue(in_array('test1.txt', $to_test));
-		//$this->assertEqual($to_test, array('test.txt', 'test1.txt'));
 
 		// Remove user
 		OC_User::deleteUser($this->user1);
@@ -363,7 +362,12 @@ class Test_Share extends UnitTestCase {
 		OC_User::setUserId($this->user3);
 		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
 		OC_User::setUserId($this->user2);
-		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt', 'test1.txt'));
+		$to_test = OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET);
+		$this->assertEqual(count($to_test), 2);
+		$this->assertTrue(in_array('test.txt', $to_test));
+		$this->assertTrue(in_array('test1.txt', $to_test));
+		$this->dump($to_test, "array of shared items in test");
+		//$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt', 'test1.txt'));
 		
 // 		// Valid reshare TODO Broken
 // 		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user4, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
