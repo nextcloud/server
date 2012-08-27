@@ -564,6 +564,10 @@ abstract class Access {
 			return $name;
 		}
 
+		// Translitaration
+		//latin characters to ASCII
+		$name = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
+
 		//REPLACEMENTS
 		$name = \OCP\Util::mb_str_replace(' ', '_', $name, 'UTF-8');
 
