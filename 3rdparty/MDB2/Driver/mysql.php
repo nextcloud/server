@@ -80,7 +80,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
 
     protected $start_transaction = false;
 
-    protected $varchar_max_length = 255;
+    public $varchar_max_length = 255;
 
     // }}}
     // {{{ constructor
