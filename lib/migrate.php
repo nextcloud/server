@@ -141,7 +141,7 @@ class OC_Migrate{
 	 			// Export the app info
 			    $exportdata = self::exportAppData();
 				// Add the data dir to the zip
-				self::$content->addDir( $datadir . '/' . self::$uid, true, '/' );
+				self::$content->addDir(OC_User::getHome(self::$uid), true, '/' );
 	 		break;
 	 		case 'instance':
 	 			self::$content = new OC_Migration_Content( self::$zip );
@@ -159,14 +159,14 @@ class OC_Migrate{
 				self::$content->addFromString( $dbexport, "dbexport.xml" );
 				// Add user data
 				foreach(OC_User::getUsers() as $user){
-					self::$content->addDir( $datadir . '/' . $user . '/', true, "/userdata/" );
+					self::$content->addDir(OC_User::getHome($user), true, "/userdata/" );
 				}
 			break;
 			case 'userfiles':
 				self::$content = new OC_Migration_Content( self::$zip );
 				// Creates a zip with all of the users files
 				foreach(OC_User::getUsers() as $user){
-					self::$content->addDir( $datadir . '/' . $user . '/', true, "/" );
+					self::$content->addDir(OC_User::getHome($user), true, "/" );
 				}
 			break;
 			case 'system':
