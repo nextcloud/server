@@ -42,9 +42,6 @@ class OC_Util {
 			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$user_root), $user);
 			
 			//jail the user into his "home" directory
-			foreach(OC_User::getUsers() as $singleuser){
-				OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>OC_User::getHome($singleuser)), $singleuser);
-			}
 			OC_Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
@@ -62,6 +59,12 @@ class OC_Util {
 		}
 	}
 
+	public static function setupFS4all(){
+		foreach(OC_User::getUsers() as $user){
+			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>OC_User::getHome($singleuser)), $user);
+		}	
+	}
+	
 	public static function tearDownFS(){
 		OC_Filesystem::tearDown();
 		self::$fsSetup=false;

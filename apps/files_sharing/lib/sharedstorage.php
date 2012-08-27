@@ -30,6 +30,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	
 	public function __construct($arguments) {
 		$this->sharedFolder = $arguments['sharedFolder'];
+		OC_Util::setupFS4all();
 	}
 
 	/**
