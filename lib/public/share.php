@@ -504,29 +504,33 @@ class Share {
 			}
 		}
 		if (isset($item)) {
+			if ($includeCollections && $collectionTypes = self::getCollectionItemTypes($itemType)) {
+				$where .= ' AND (';
+			} else {
+				$where .= ' AND';
+			}
 			// If looking for own shared items, check item_source else check item_target
 			if (isset($uidOwner) || $itemShareWithBySource) {
 				// If item type is a file, file source needs to be checked in case the item was converted
 				if ($itemType == 'file' || $itemType == 'folder') {
-					$where .= ' AND `file_source` = ?';
+					$where .= ' `file_source` = ?';
 					$column = 'file_source';
 				} else {
-					$where .= ' AND `item_source` = ?';
+					$where .= ' `item_source` = ?';
 					$column = 'item_source';
 				}
 			} else {
 				if ($itemType == 'file' || $itemType == 'folder') {
-					$where .= ' AND `file_target` = ?';
+					$where .= ' `file_target` = ?';
 				} else {
-					$where .= ' AND `item_target` = ?';
+					$where .= ' `item_target` = ?';
 				}
 			}
 			$queryArgs[] = $item;
 			if ($includeCollections && $collectionTypes = self::getCollectionItemTypes($itemType)) {
-				// TODO Bart - this doesn't work with only one argument
-// 				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
-// 				$where .= " OR item_type IN ('".$placeholders."')";
-// 				$queryArgs = array_merge($queryArgs, $collectionTypes);
+				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
+				$where .= ' OR item_type IN ('.$placeholders.'))';
+				$queryArgs = array_merge($queryArgs, $collectionTypes);
 			}
 		}
 		if ($limit != -1 && !$includeCollections) {
@@ -629,28 +633,30 @@ class Share {
 					}
 				}
 				// Check if this is a collection of the requested item type
-				if ($includeCollections && $row['item_type'] != $itemType && ($collectionBackend = self::getBackend($row['item_type'])) && $collectionBackend instanceof Share_Backend_Collection) {
-					$row['collection'] = array('item_type' => $itemType, $column => $row[$column]);
-					// Fetch all of the children sources
-					$children = $collectionBackend->getChildren($row[$column]);
-					foreach ($children as $child) {
-						$childItem = $row;
-						$childItem['item_source'] = $child;
-// 						$childItem['item_target'] = $child['target']; TODO
-						if (isset($item)) {
-							if ($childItem[$column] == $item) {
-								// Return only the item instead of a 2-dimensional array
-								if ($limit == 1 && $format == self::FORMAT_NONE) {
-									return $childItem;
-								} else {
-									// Unset the items array and break out of both loops
-									$items = array();
-									$items[] = $childItem;
-									break 2;
+				if ($includeCollections && $row['item_type'] != $itemType) {
+					if (($collectionBackend = self::getBackend($row['item_type'])) && $collectionBackend instanceof Share_Backend_Collection) {
+						$row['collection'] = array('item_type' => $itemType, $column => $row[$column]);
+						// Fetch all of the children sources
+						$children = $collectionBackend->getChildren($row[$column]);
+						foreach ($children as $child) {
+							$childItem = $row;
+							$childItem['item_source'] = $child;
+	// 						$childItem['item_target'] = $child['target']; TODO
+							if (isset($item)) {
+								if ($childItem[$column] == $item) {
+									// Return only the item instead of a 2-dimensional array
+									if ($limit == 1 && $format == self::FORMAT_NONE) {
+										return $childItem;
+									} else {
+										// Unset the items array and break out of both loops
+										$items = array();
+										$items[] = $childItem;
+										break 2;
+									}
 								}
+							} else {
+								$collectionItems[] = $childItem;
 							}
-						} else {
-							$collectionItems[] = $childItem;
 						}
 					}
 					// Remove collection item
