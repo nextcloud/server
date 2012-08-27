@@ -35,12 +35,16 @@ class OC_Util {
 			$user_dir = '/'.$user.'/files';
 			$user_root = OC_User::getHome($user);
 			$userdirectory = $user_root . '/files';
+			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$user_root), $user);
 			if( !is_dir( $userdirectory )){
 				mkdir( $userdirectory, 0755, true );
 			}
-
-			//jail the user into his "home" directory
 			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$user_root), $user);
+			
+			//jail the user into his "home" directory
+			foreach(OC_User::getUsers() as $singleuser){
+				OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>OC_User::getHome($singleuser)), $singleuser);
+			}
 			OC_Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
