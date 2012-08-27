@@ -516,6 +516,14 @@ class Share {
 				// If the limit is not 1, the filtering can be done later
 				$where .= ' ORDER BY `*PREFIX*share`.`id` DESC';
 			}
+			// The limit must be at least 3, because filtering needs to be done
+			if ($limit < 3) {
+				$queryLimit = 3;
+			} else {
+				$queryLimit = $limit;
+			}
+		} else {
+			$queryLimit = null;
 		}
 		// TODO Optimize selects
 		if ($format == self::FORMAT_STATUSES) {
@@ -544,8 +552,7 @@ class Share {
 			}
 		}
 		$root = strlen($root);
-                // The limit must be at least 3, because filtering needs to be done
-		$query = \OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*share` '.$where, ($limit < 3 ? 3 : $limit));
+		$query = \OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*share` '.$where, $queryLimit);
 		$result = $query->execute($queryArgs);
 		$items = array();
 		$targets = array();
