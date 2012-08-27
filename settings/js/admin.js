@@ -7,7 +7,10 @@ $(document).ready(function(){
 
 	$('#backgroundjobs input').change(function(){
 		if($(this).attr('checked')){
-			$.post(OC.filePath('settings','ajax','setbackgroundjobsmode.php'), { mode: $(this).val() });
+			var mode = $(this).val();
+			if (mode == 'ajax' || mode == 'webcron' || mode == 'cron') {
+				OC.AppConfig.setValue('core', 'backgroundjobs_mode', mode);
+			}
 		}
 	});
 });
