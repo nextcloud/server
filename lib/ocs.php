@@ -193,8 +193,8 @@ class OC_OCS {
 			
 		//keysetuser
 		}elseif(($method=='post') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-3]=='cloud') and ($ex[$paracount-2] == 'userkeys')){
-			$privatekey = self::readData('post', 'privatekey', 'string');
-			$publickey = self::readData('post', 'publickey', 'string');
+			$privatekey = urldecode(self::readData('post', 'privatekey', 'string'));
+			$publickey = urldecode(self::readData('post', 'publickey', 'string'));
 			OC_OCS::userKeysSet($format, $privatekey, $publickey);
 			
 		// keygetfiles
