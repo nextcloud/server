@@ -241,8 +241,13 @@ class Test_Share extends UnitTestCase {
 		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
 		OC_User::setUserId($this->user3);
 		$this->assertTrue(OCP\Share::shareItem('test', 'share.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ));
+
 		OC_User::setUserId($this->user2);
-		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt', 'test1.txt'));
+		$to_test = OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET);
+		$this->assertEqual(count($to_test), 2);
+		$this->assertTrue(in_array('test.txt', $to_test));
+		$this->assertTrue(in_array('test1.txt', $to_test));
+		//$this->assertEqual($to_test, array('test.txt', 'test1.txt'));
 
 		// Remove user
 		OC_User::deleteUser($this->user1);
