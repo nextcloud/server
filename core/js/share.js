@@ -130,7 +130,7 @@ OC.Share={
 			html += '<br />';
 		}
 		if (possiblePermissions & OC.Share.PERMISSION_SHARE) {
-			html += '<input id="shareWith" type="text" placeholder="Share with" style="width:90%;"/>';
+			html += '<input id="shareWith" type="text" placeholder="Share with" />';
 			html += '<ul id="shareWithList">';
 			html += '</ul>';
 			if (link) {
@@ -139,8 +139,10 @@ OC.Share={
 				// TODO Change to lock/unlock icon?
 				html += '<a href="#" id="showPassword" style="display:none;"><img class="svg" alt="Password protect" src="'+OC.imagePath('core', 'actions/triangle-n')+'"/></a>';
 				html += '<br />';
-				html += '<input id="linkText" style="display:none; width:90%;" readonly="readonly" />';
-				html += '<input id="linkPassText" type="password" placeholder="Password" style="display:none; width:90%;" />';
+				html += '<input id="linkText" type="text" readonly="readonly" />';
+				html += '<div id="linkPass">';
+				html += '<input id="linkPassText" type="password" placeholder="Password" />';
+				html += '</div>'
 				html += '</div>';
 			}
 			html += '</div>';
@@ -408,8 +410,7 @@ $(document).ready(function() {
 	});
 
 	$('#showPassword').live('click', function() {
-		$('#linkText').after('<br />');
-		$('#linkPassText').toggle('blind');
+		$('#linkPass').toggle('blind');
 	});
 
 	$('#linkPassText').live('keyup', function(event) {
