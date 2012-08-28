@@ -8,7 +8,7 @@
 
 
 class OC_Cache_File{
-	protected $storage;
+	protected static $storage;
 	protected function getStorage() {
 		if (isset(self::$storage)) {
 			return self::$storage;
