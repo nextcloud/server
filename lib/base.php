@@ -346,6 +346,9 @@ class OC{
 			}
 		}
 
+		// register cache cleanup
+		OC_BackgroundJob_RegularTask::register('OC_Cache_FileGlobal', 'gc');
+
 		// Check for blacklisted files
 		OC_Hook::connect('OC_Filesystem','write','OC_Filesystem','isBlacklisted');
 		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
