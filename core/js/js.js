@@ -120,18 +120,19 @@ OC={
 	 */
 	addScript:function(app,script,ready){
 		var path=OC.filePath(app,'js',script+'.js');
-		if(OC.addScript.loaded.indexOf(path)==-1){
-			OC.addScript.loaded.push(path);
+		if(!OC.addScript.loaded[path]){
 			if(ready){
-				$.getScript(path,ready);
+				var deferred=$.getScript(path,ready);
 			}else{
-				$.getScript(path);
+				var deferred=$.getScript(path);
 			}
+			OC.addScript.loaded[path]=deferred;
 		}else{
 			if(ready){
 				ready();
 			}
 		}
+		return OC.addScript.loaded[path];
 	},
 	/**
 	 * load a css file and load it
