@@ -1,6 +1,10 @@
 <?php
 $RUNTIME_NOAPPS = TRUE;
 require_once('lib/base.php');
+if (!isset($_GET['service'])) {
+	header('HTTP/1.0 404 Not Found');
+	exit;
+}
 $file = OCP\CONFIG::getAppValue('core', 'public_' . strip_tags($_GET['service']));
 if(is_null($file)){
 	header('HTTP/1.0 404 Not Found');
