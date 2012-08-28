@@ -145,8 +145,11 @@ abstract class Access {
 			));
 			$result = $this->searchUsers($filter, 'dn');
 			if(isset($result[0]['dn'])) {
-				$this->mapComponent($result[0], $name, true);
-				return $result[0];
+				//try mapping, if names equalize return DN
+				$uid = $this->dn2username($result[0]['dn']);
+				if($uid == $name) {
+					return $result[0]['dn'];
+				}
 			}
 		}
 
@@ -265,18 +268,24 @@ abstract class Access {
 		$ldapname = $this->sanitizeUsername($ldapname);
 
 		//a new user/group! Then let's try to add it. We're shooting into the blue with the user/group name, assuming that in most cases there will not be a conflict. Otherwise an error will occur and we will continue with our second shot.
-		if($this->mapComponent($dn, $ldapname, $isUser)) {
-			return $ldapname;
+		if(($isUser && !\OCP\User::userExists($ldapname)) || (!$isUser && !\OC_Group::groupExists($ldapname))) {
+			if($this->mapComponent($dn, $ldapname, $isUser)) {
+				\OCP\Util::writeLog('user_ldap', 'Username '.ldapname.' OK.', \OCP\Util::DEBUG);
+				return $ldapname;
+			}
 		}
 
 		//doh! There is a conflict. We need to distinguish between users/groups. Adding indexes is an idea, but not much of a help for the user. The DN is ugly, but for now the only reasonable way. But we transform it to a readable format and remove the first part to only give the path where this object is located.
 		$oc_name = $this->alternateOwnCloudName($ldapname, $dn);
-		if($this->mapComponent($dn, $oc_name, $isUser)) {
-			return $oc_name;
+		if(($isUser && !\OCP\User::userExists($oc_name)) || (!$isUser && !\OC_Group::groupExists($oc_name))) {
+			if($this->mapComponent($dn, $oc_name, $isUser)) {
+				return $oc_name;
+			}
 		}
 
 		//if everything else did not help..
 		\OCP\Util::writeLog('user_ldap', 'Could not create unique ownCloud name for '.$dn.'.', \OCP\Util::INFO);
+		return false;
 	}
 
 	/**
@@ -320,28 +329,11 @@ abstract class Access {
 				continue;
 			}
 
-			//we do not take empty usernames
-			if(!isset($ldapObject[$nameAttribute]) || empty($ldapObject[$nameAttribute])) {
-				\OCP\Util::writeLog('user_ldap', 'No or empty name for '.$ldapObject['dn'].', skipping.', \OCP\Util::INFO);
-				continue;
-			}
-
-			//a new group! Then let's try to add it. We're shooting into the blue with the group name, assuming that in most cases there will not be a conflict. But first make sure, that the display name contains only allowed characters.
-			$ocname = $this->sanitizeUsername($ldapObject[$nameAttribute]);
-			if($this->mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
+			$ocname = $this->dn2ocname($ldapObject['dn'], $ldapObject[$nameAttribute], $isUsers);
+			if($ocname) {
 				$ownCloudNames[] = $ocname;
-				continue;
 			}
-
-			//doh! There is a conflict. We need to distinguish between groups. Adding indexes is an idea, but not much of a help for the user. The DN is ugly, but for now the only reasonable way. But we transform it to a readable format and remove the first part to only give the path where this entry is located.
-			$ocname = $this->alternateOwnCloudName($ocname, $ldapObject['dn']);
-			if($this->mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
-				$ownCloudNames[] = $ocname;
-				continue;
-			}
-
-			//if everything else did not help..
-			\OCP\Util::writeLog('user_ldap', 'Could not create unique ownCloud name for '.$ldapObject['dn'].', skipping.', \OCP\Util::INFO);
+			continue;
 		}
 		return $ownCloudNames;
 	}
