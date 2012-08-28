@@ -1,7 +1,7 @@
 OC.Share={
 	SHARE_TYPE_USER:0,
 	SHARE_TYPE_GROUP:1,
-	SHARE_TYPE_PRIVATE_LINK:3,
+	SHARE_TYPE_LINK:3,
 	SHARE_TYPE_EMAIL:4,
 	PERMISSION_CREATE:4,
 	PERMISSION_READ:1,
@@ -118,7 +118,7 @@ OC.Share={
 			}
 		});
 	},
-	showDropDown:function(itemType, itemSource, appendTo, privateLink, possiblePermissions) {
+	showDropDown:function(itemType, itemSource, appendTo, link, possiblePermissions) {
 		var data = OC.Share.loadItem(itemType, itemSource);
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
 		if (data.reshare) {
@@ -133,11 +133,14 @@ OC.Share={
 			html += '<input id="shareWith" type="text" placeholder="Share with" style="width:90%;"/>';
 			html += '<ul id="shareWithList">';
 			html += '</ul>';
-			if (privateLink) {
-				html += '<div id="privateLink">';
-				html += '<input type="checkbox" name="privateLinkCheckbox" id="privateLinkCheckbox" value="1" /><label for="privateLinkCheckbox">Share with private link</label>';
+			if (link) {
+				html += '<div id="link">';
+				html += '<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">Share with link</label>';
+				// TODO Change to lock/unlock icon?
+				html += '<a href="#" id="showPassword" style="display:none;"><img class="svg" alt="Password protect" src="'+OC.imagePath('core', 'actions/triangle-n')+'"/></a>';
 				html += '<br />';
-				html += '<input id="privateLinkText" style="display:none; width:90%;" readonly="readonly" />';
+				html += '<input id="linkText" style="display:none; width:90%;" readonly="readonly" />';
+				html += '<input id="linkPassText" type="password" placeholder="Password" style="display:none; width:90%;" />';
 				html += '</div>';
 			}
 			html += '</div>';
@@ -146,8 +149,8 @@ OC.Share={
 			OC.Share.itemShares = [];
 			if (data.shares) {
 				$.each(data.shares, function(index, share) {
-					if (share.share_type == OC.Share.SHARE_TYPE_PRIVATE_LINK) {
-						OC.Share.showPrivateLink(item, share.share_with);
+					if (share.share_type == OC.Share.SHARE_TYPE_LINK) {
+						OC.Share.showLink(itemSource, share.share_with);
 					} else {
 						OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions);
 					}
@@ -264,36 +267,22 @@ OC.Share={
 		$(html).appendTo('#shareWithList');
 
 	},
-	showPrivateLink:function(item, token) {
-		$('#privateLinkCheckbox').attr('checked', true);
-		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&token='+token;
-		if (token.indexOf('&path=') == -1) {
-			link += '&file=' + encodeURIComponent(item).replace(/%2F/g, '/');
+	showLink:function(itemSource, password) {
+		$('#linkCheckbox').attr('checked', true);
+		var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
+		if ($('#dir').val() == '/') {
+			var file = $('#dir').val() + filename;
 		} else {
-			// Disable checkbox if inside a shared parent folder
-			$('#privateLinkCheckbox').attr('disabled', 'true');
+			var file = $('#dir').val() + '/' + filename;
 		}
-		$('#privateLinkText').val(link);
-		$('#privateLinkText').show('blind', function() {
-			$('#privateLinkText').after('<br id="emailBreak" />');
-			$('#email').show();
-			$('#emailButton').show();
-		});
+		file = '/'+OC.currentUser+'/files'+file;
+		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&file='+file;
+		$('#linkText').val(link);
+		$('#linkText').show('blind');
+		$('#showPassword').show();
 	},
-	hidePrivateLink:function() {
-		$('#privateLinkText').hide('blind');
-		$('#emailBreak').remove();
-		$('#email').hide();
-		$('#emailButton').hide();
-	},
-	emailPrivateLink:function() {
-		var link = $('#privateLinkText').val();
-		var file = link.substr(link.lastIndexOf('/') + 1).replace(/%20/g, ' ');
-		$.post(OC.filePath('files_sharing', 'ajax', 'email.php'), { toaddress: $('#email').val(), link: link, file: file } );
-		$('#email').css('font-weight', 'bold');
-		$('#email').animate({ fontWeight: 'normal' }, 2000, function() {
-			$(this).val('');
-		}).val('Email sent');
+	hideLink:function() {
+		$('#linkText').hide('blind');
 	},
 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
@@ -308,21 +297,21 @@ $(document).ready(function() {
 			var itemType = $(this).data('item-type');
 			var itemSource = $(this).data('item');
 			var appendTo = $(this).parent().parent();
-			var privateLink = false;
+			var link = false;
 			var possiblePermissions = $(this).data('possible-permissions');
-			if ($(this).data('private-link') !== undefined && $(this).data('private-link') == true) {
-				privateLink = true;
+			if ($(this).data('link') !== undefined && $(this).data('link') == true) {
+				link = true;
 			}
 			if (OC.Share.droppedDown) {
 				if (itemSource != $('#dropdown').data('item')) {
 					OC.Share.hideDropDown(function () {
-						OC.Share.showDropDown(itemType, itemSource, appendTo, privateLink, possiblePermissions);
+						OC.Share.showDropDown(itemType, itemSource, appendTo, link, possiblePermissions);
 					});
 				} else {
 					OC.Share.hideDropDown();
 				}
 			} else {
-				OC.Share.showDropDown(itemType, itemSource, appendTo, privateLink, possiblePermissions);
+				OC.Share.showDropDown(itemType, itemSource, appendTo, link, possiblePermissions);
 			}
 		}
 	});
@@ -396,33 +385,41 @@ $(document).ready(function() {
 		OC.Share.setPermissions($('#dropdown').data('item-type'), $('#dropdown').data('item-source'), $(li).data('share-type'), $(li).data('share-with'), permissions);
 	});
 
-	$('#privateLinkCheckbox').live('change', function() {
+	$('#linkCheckbox').live('change', function() {
 		var itemType = $('#dropdown').data('item-type');
-		var item = $('#dropdown').data('item');
+		var itemSource = $('#dropdown').data('item-source');
 		if (this.checked) {
-			// Create a private link
-			OC.Share.share(itemType, item, OC.Share.SHARE_TYPE_PRIVATE_LINK, 0, 0, function(token) {
-				OC.Share.showPrivateLink(item, 'foo');
-				// Change icon
-				OC.Share.icons[item] = OC.imagePath('core', 'actions/public');
+			// Create a link
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.Share.PERMISSION_READ, function() {
+				OC.Share.showLink(itemSource);
+				// TODO Change icon
 			});
 		} else {
 			// Delete private link
-			OC.Share.unshare(item, 'public', function() {
-				OC.Share.hidePrivateLink();
-				// Change icon
-				if (OC.Share.itemUsers || OC.Share.itemGroups) {
-					OC.Share.icons[item] = OC.imagePath('core', 'actions/shared');
-				} else {
-					OC.Share.icons[item] = OC.imagePath('core', 'actions/share');
-				}
+			OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', function() {
+				OC.Share.hideLink();
 			});
 		}
 	});
 
-	$('#privateLinkText').live('click', function() {
+	$('#linkText').live('click', function() {
 		$(this).focus();
 		$(this).select();
+	});
+
+	$('#showPassword').live('click', function() {
+		$('#linkText').after('<br />');
+		$('#linkPassText').toggle('blind');
+	});
+
+	$('#linkPassText').live('keyup', function(event) {
+		if (event.keyCode == 13) {
+			var itemType = $('#dropdown').data('item-type');
+			var itemSource = $('#dropdown').data('item-source');
+			// TODO Do this internally
+			OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '');
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.Share.PERMISSION_READ);
+		}
 	});
 
 	$('#emailPrivateLink').live('submit', function() {
