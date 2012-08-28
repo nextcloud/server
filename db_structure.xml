@@ -479,7 +479,7 @@
     <name>share_with</name>
     <type>text</type>
     <default></default>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <length>255</length>
    </field>
    
