@@ -346,8 +346,9 @@ class OC{
 			}
 		}
 
-		// register cache cleanup
+		// register cache cleanup jobs
 		OC_BackgroundJob_RegularTask::register('OC_Cache_FileGlobal', 'gc');
+		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
 
 		// Check for blacklisted files
 		OC_Hook::connect('OC_Filesystem','write','OC_Filesystem','isBlacklisted');

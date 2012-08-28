@@ -74,4 +74,25 @@ class OC_Cache_File{
 		}
 		return true;
 	}
+
+	public function gc() {
+		$storage = $this->getStorage();
+		if($storage and $storage->is_dir('/')) {
+			$now = time();
+			$dh=$storage->opendir('/');
+			while($file=readdir($dh)) {
+				if($file!='.' and $file!='..') {
+					$mtime = $storage->filemtime('/'.$file);
+					if ($mtime < $now) {
+						$storage->unlink('/'.$file);
+					}
+				}
+			}
+		}
+	}
+
+	public static function loginListener() {
+		$c = new self();
+		$c->gc();
+	}
 }
