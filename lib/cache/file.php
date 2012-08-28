@@ -8,14 +8,19 @@
 
 
 class OC_Cache_File{
+	protected $storage;
 	protected function getStorage() {
+		if (isset(self::$storage)) {
+			return self::$storage;
+		}
 		if(OC_User::isLoggedIn()){
 			$subdir = 'cache';
 			$view = new OC_FilesystemView('/'.OC_User::getUser());
 			if(!$view->file_exists($subdir)) {
 				$view->mkdir($subdir);
 			}
-			return new OC_FilesystemView('/'.OC_User::getUser().'/'.$subdir);
+			self::$storage = new OC_FilesystemView('/'.OC_User::getUser().'/'.$subdir);
+			return self::$storage;
 		}else{
 			OC_Log::write('core','Can\'t get cache storage, user not logged in', OC_Log::ERROR);
 			return false;
