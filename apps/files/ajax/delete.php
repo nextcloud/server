@@ -15,7 +15,7 @@ $filesWithError = '';
 $success = true;
 //Now delete
 foreach($files as $file) {
-    if( !OC_Files::delete( $dir, $file )){
+    if( !OC_Files::delete( $dir, $file )) {
 		$filesWithError .= $file . "\n";
 		$success = false;
 	}
