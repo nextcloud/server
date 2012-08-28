@@ -12,7 +12,7 @@
 		<filesystem/>
 	</types>
 	<public>
-		<files>get.php</files>
-		<webdav>get.php</webdav>
+		<files>pulblic.php</files>
+		<webdav>public.php</webdav>
 	</public>
 </info>
