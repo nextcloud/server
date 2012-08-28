@@ -19,12 +19,15 @@ $(document).ready(function(){
 	});
 
 	$('#shareAPI input').change(function() {
-		if ($(this).attr('type') == 'radio') {
-			console.log('radio');
-		} 
 		if ($(this).attr('type') == 'checkbox') {
-			console.log('checked');
+			if (this.checked) {
+				var value = 'yes';
+			} else {
+				var value = 'no';
+			}
+		} else {
+			var value = $(this).val()
 		}
-		OC.AppConfig.setValue('core', 'shareapi_', $(this).val());
+		OC.AppConfig.setValue('core', $(this).attr('name'), value);
 	});
 });
