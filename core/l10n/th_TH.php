@@ -51,7 +51,6 @@
 "Database user" => "ชื่อผู้ใช้งานฐานข้อมูล",
 "Database password" => "รหัสผ่านฐานข้อมูล",
 "Database name" => "ชื่อฐานข้อมูล",
-"Database tablespace" => "พื้นที่ตารางในฐานข้อมูล",
 "Database host" => "Database host",
 "Finish setup" => "ติดตั้งเรียบร้อยแล้ว",
 "web services under your control" => "web services under your control",

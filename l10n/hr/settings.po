@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Davor Kustec <dkustec@gmail.com>, 2011, 2012.
+#   <franz@franz-net.info>, 2012.
 # Thomas Silađi <thomas.siladi@net.hr>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-18 02:01+0200\n"
-"PO-Revision-Date: 2012-08-18 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-28 02:01+0200\n"
+"PO-Revision-Date: 2012-08-27 13:20+0000\n"
+"Last-Translator: fposavec <franz@franz-net.info>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Nemogićnost učitavanja liste sa Apps Stora"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -41,7 +42,7 @@ msgstr "Neispravan zahtjev"
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "Greška kod autorizacije"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -49,7 +50,7 @@ msgstr "Jezik promijenjen"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "Greška"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
@@ -73,7 +74,7 @@ msgstr ""
 
 #: templates/admin.php:29
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:31
 msgid "execute one task with each page loaded"
@@ -81,11 +82,11 @@ msgstr ""
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "cron.php je registriran kod webcron servisa"
 
 #: templates/admin.php:35
 msgid "use systems cron service"
-msgstr ""
+msgstr "koristi sistemski cron servis"
 
 #: templates/admin.php:39
 msgid "Log"
@@ -229,7 +230,7 @@ msgstr "ostali"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "Grupa Admin"
 
 #: templates/users.php:82
 msgid "Quota"

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-26 19:46+0200\n"
-"PO-Revision-Date: 2012-08-26 17:41+0000\n"
-"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
+"POT-Creation-Date: 2012-08-28 02:01+0200\n"
+"PO-Revision-Date: 2012-08-28 00:01+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -230,7 +230,7 @@ msgstr "Andmebasi nimi"
 
 #: templates/installation.php:109
 msgid "Database tablespace"
-msgstr "Andmebaasi tabeliruum"
+msgstr ""
 
 #: templates/installation.php:115
 msgid "Database host"

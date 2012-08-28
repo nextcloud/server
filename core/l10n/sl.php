@@ -51,7 +51,6 @@
 "Database user" => "Uporabnik zbirke",
 "Database password" => "Geslo podatkovne zbirke",
 "Database name" => "Ime podatkovne zbirke",
-"Database tablespace" => "Razpredelnica podatkovne zbirke",
 "Database host" => "Gostitelj podatkovne zbirke",
 "Finish setup" => "Dokončaj namestitev",
 "web services under your control" => "spletne storitve pod vašim nadzorom",

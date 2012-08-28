@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Richard Bos <radoeka@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:34+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-28 02:01+0200\n"
+"PO-Revision-Date: 2012-08-27 18:45+0000\n"
+"Last-Translator: Richard Bos <radoeka@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,64 +20,64 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "Externe opslag"
 
 #: templates/settings.php:7 templates/settings.php:19
 msgid "Mount point"
-msgstr ""
+msgstr "Aankoppelpunt"
 
 #: templates/settings.php:8
 msgid "Backend"
-msgstr ""
+msgstr "Backend"
 
 #: templates/settings.php:9
 msgid "Configuration"
-msgstr ""
+msgstr "Configuratie"
 
 #: templates/settings.php:10
 msgid "Options"
-msgstr ""
+msgstr "Opties"
 
 #: templates/settings.php:11
 msgid "Applicable"
-msgstr ""
+msgstr "Van toepassing"
 
 #: templates/settings.php:23
 msgid "Add mount point"
-msgstr ""
+msgstr "Voeg aankoppelpunt toe"
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
-msgstr ""
+msgstr "Niets ingesteld"
 
 #: templates/settings.php:63
 msgid "All Users"
-msgstr ""
+msgstr "Alle gebruikers"
 
 #: templates/settings.php:64
 msgid "Groups"
-msgstr ""
+msgstr "Groepen"
 
 #: templates/settings.php:69
 msgid "Users"
-msgstr ""
+msgstr "Gebruikers"
 
 #: templates/settings.php:77 templates/settings.php:96
 msgid "Delete"
-msgstr ""
+msgstr "Verwijder"
 
 #: templates/settings.php:88
 msgid "SSL root certificates"
-msgstr ""
+msgstr "SSL root certificaten"
 
 #: templates/settings.php:102
 msgid "Import Root Certificate"
-msgstr ""
+msgstr "Importeer root certificaat"
 
 #: templates/settings.php:108
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "Zet gebruiker's externe opslag aan"
 
 #: templates/settings.php:109
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "Sta gebruikers toe om hun eigen externe opslag aan te koppelen"

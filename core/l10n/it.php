@@ -51,7 +51,6 @@
 "Database user" => "Utente del database",
 "Database password" => "Password del database",
 "Database name" => "Nome del database",
-"Database tablespace" => "Spazio delle tabelle del database",
 "Database host" => "Host del database",
 "Finish setup" => "Termina la configurazione",
 "web services under your control" => "servizi web nelle tue mani",
