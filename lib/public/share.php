@@ -67,15 +67,31 @@ class Share {
 	* @return Returns true if backend is registered or false if error
 	*/
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
-		if (!isset(self::$backendTypes[$itemType])) {
-			self::$backendTypes[$itemType] = array('class' => $class, 'collectionOf' => $collectionOf, 'supportedFileExtensions' => $supportedFileExtensions);
-			if(count(self::$backendTypes) === 1) {
-				\OC_Util::addScript('core', 'share');
-				\OC_Util::addStyle('core', 'share');
+		if (self::isEnabled()) {
+			if (!isset(self::$backendTypes[$itemType])) {
+				self::$backendTypes[$itemType] = array('class' => $class, 'collectionOf' => $collectionOf, 'supportedFileExtensions' => $supportedFileExtensions);
+				if(count(self::$backendTypes) === 1) {
+					\OC_Util::addScript('core', 'share');
+					\OC_Util::addStyle('core', 'share');
+				}
+				return true;
 			}
+			\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class'].' is already registered for '.$itemType, \OC_Log::WARN);
+		}
+		return false;
+	}
+
+	/**
+	* @brief Check if the Share API is enabled
+	* @return Returns true if enabled or false
+	*
+	* The Share API is enabled by default if not configured
+	*
+	*/
+	public static function isEnabled() {
+		if (\OC_Appconfig::getValue('core', 'shareapi_enabled', 'yes') == 'yes') {
 			return true;
 		}
-		\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class'].' is already registered for '.$itemType, \OC_Log::WARN);
 		return false;
 	}
 
@@ -168,11 +184,13 @@ class Share {
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
 			}
-			$inGroup = array_intersect(\OC_Group::getUserGroups($uidOwner), \OC_Group::getUserGroups($shareWith));
-			if (empty($inGroup)) {
-				$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is not a member of any groups that '.$uidOwner.' is a member of';
-				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-				throw new \Exception($message);
+			if (\OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global') == 'groups_only') {
+				$inGroup = array_intersect(\OC_Group::getUserGroups($uidOwner), \OC_Group::getUserGroups($shareWith));
+				if (empty($inGroup)) {
+					$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is not a member of any groups that '.$uidOwner.' is a member of';
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message);
+				}
 			}
 			// Check if the item source is already shared with the user, either from the same owner or a different user
 			if ($checkExists = self::getItems($itemType, $itemSource, self::$shareTypeUserAndGroups, $shareWith, null, self::FORMAT_NONE, null, 1, true, true)) {
@@ -210,13 +228,19 @@ class Share {
 			$shareWith['group'] = $group;
 			$shareWith['users'] = array_diff(\OC_Group::usersInGroup($group), array($uidOwner));
 		} else if ($shareType === self::SHARE_TYPE_LINK) {
-			// Generate hash of password - same method as user passwords
-			if (isset($shareWith)) {
-				$forcePortable = (CRYPT_BLOWFISH != 1);
-				$hasher = new \PasswordHash(8, $forcePortable);
-				$shareWith = $hasher->HashPassword($shareWith.\OC_Config::getValue('passwordsalt', ''));
+			if (\OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes') == 'yes') {
+				// Generate hash of password - same method as user passwords
+				if (isset($shareWith)) {
+					$forcePortable = (CRYPT_BLOWFISH != 1);
+					$hasher = new \PasswordHash(8, $forcePortable);
+					$shareWith = $hasher->HashPassword($shareWith.\OC_Config::getValue('passwordsalt', ''));
+				}
+				return self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions);
 			}
-			return self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions);
+			$message = 'Sharing '.$itemSource.' failed, because sharing with links is not allowed';
+			\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+			throw new \Exception($message);
+			return false;
 		} else if ($shareType === self::SHARE_TYPE_CONTACT) {
 			if (!\OC_App::isEnabled('contacts')) {
 				$message = 'Sharing '.$itemSource.' failed, because the contacts app is not enabled';
@@ -436,6 +460,13 @@ class Share {
 	*
 	*/
 	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1, $includeCollections = false, $itemShareWithBySource = false) {
+		if (!self::isEnabled()) {
+			if ($limit == 1 || (isset($uidOwner) && isset($item))) {
+				return false;
+			} else {
+				return array();
+			}
+		}
 		$backend = self::getBackend($itemType);
 		// Get filesystem root to add it to the file target and remove from the file source, match file_source with the file cache
 		if ($itemType == 'file' || $itemType == 'folder') {

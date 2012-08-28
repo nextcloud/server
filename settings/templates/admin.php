@@ -35,6 +35,34 @@ if(!$_['htaccessworking']) {
 	<label for="backgroundjobs_cron" title="<?php echo $l->t("use systems cron service"); ?>">Cron</label><br />
 </fieldset>
 
+<fieldset class="personalblock" id="shareAPI">
+	<legend><strong><?php echo $l->t('Share API');?></strong></legend>
+	<table class="shareAPI nostyle">
+		<tr>
+			<td id="enable">
+				<input type="checkbox" name="shareapi_enabled" id="shareAPIEnabled" value="1" <?php if ($_['shareAPIEnabled'] == 'yes') echo 'checked="checked"'; ?> />
+				<label for="shareAPIEnabled"><?php echo $l->t('Enable Share API');?></label><br />
+				<em><?php echo $l->t('Allow apps to use the Share API'); ?></em>
+			</td>
+			<td <?php if ($_['shareAPIEnabled'] == 'no') echo 'style="display:none"';?>>
+				<input type="checkbox" name="shareapi_allow_links" id="allowLinks" value="1" <?php if ($_['allowLinks'] == 'yes') echo 'checked="checked"'; ?> />
+				<label for="allowLinks"><?php echo $l->t('Allow links');?></label><br />
+				<em><?php echo $l->t('Allow users to share items to the public with links'); ?></em>
+			</td>
+			<td <?php if ($_['shareAPIEnabled'] == 'no') echo 'style="display:none"';?>>
+				<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing" value="1" <?php if ($_['allowResharing'] == 'yes') echo 'checked="checked"'; ?> />
+				<label for="allowResharing"><?php echo $l->t('Allow resharing');?></label><br />
+				<em><?php echo $l->t('Allow users to share items shared with them again'); ?></em>
+			<td <?php if ($_['shareAPIEnabled'] == 'no') echo 'style="display:none"';?>>
+				<input type="radio" name="shareapi_share_policy" id="sharePolicyGlobal" value="global" <?php if ($_['sharePolicy'] == 'global') echo 'checked="checked"'; ?> />
+				<label for="sharePolicyGlobal"><?php echo $l->t('Allow users to share with anyone'); ?></label><br />
+				<input type="radio" name="shareapi_share_policy" id="sharePolicyGroupsOnly" value="groups_only" <?php if ($_['sharePolicy'] == 'groups_only') echo 'checked="checked"'; ?> />
+				<label for="sharePolicyGroupsOnly"><?php echo $l->t('Allow users to only share with users in their groups');?></label><br />
+			</td>
+		</tr>
+	</table>
+</fieldset>
+
 <fieldset class="personalblock">
 	<legend><strong><?php echo $l->t('Log');?></strong></legend>
 	Log level: <select name='loglevel' id='loglevel'>

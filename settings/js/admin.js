@@ -13,4 +13,18 @@ $(document).ready(function(){
 			}
 		}
 	});
+
+	$('#shareAPIEnabled').change(function() {
+		$('.shareAPI td:not(#enable)').toggle();
+	});
+
+	$('#shareAPI input').change(function() {
+		if ($(this).attr('type') == 'radio') {
+			console.log('radio');
+		} 
+		if ($(this).attr('type') == 'checkbox') {
+			console.log('checked');
+		}
+		OC.AppConfig.setValue('core', 'shareapi_', $(this).val());
+	});
 });
