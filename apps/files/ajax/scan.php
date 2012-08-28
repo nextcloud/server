@@ -36,7 +36,7 @@ if($force or !OC_FileCache::inCache('')) {
 		exit;
 	}
 	if(isset($eventSource)) {
-		$eventSource->send('success',false);
+		$eventSource->send('success', false);
 	} else {
 		exit;
 	}

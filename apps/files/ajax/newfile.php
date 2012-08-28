@@ -25,7 +25,7 @@ if($filename == '') {
 	OCP\JSON::error(array("data" => array( "message" => "Empty Filename" )));
 	exit();
 }
-if(strpos($filename,'/')!==false) {
+if(strpos($filename, '/')!==false) {
 	OCP\JSON::error(array("data" => array( "message" => "Invalid Filename" )));
 	exit();
 }
@@ -55,7 +55,7 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 	}
 }
 
-if($source){
+if($source) {
 	if(substr($source, 0, 8)!='https://' and substr($source, 0, 7)!='http://') {
 		OCP\JSON::error(array("data" => array( "message" => "Not a valid source" )));
 		exit();
