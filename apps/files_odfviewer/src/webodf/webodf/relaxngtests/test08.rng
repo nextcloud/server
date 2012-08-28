@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar
+	xmlns="http://relaxng.org/ns/structure/1.0"
+	xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+	xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0"
+>
+	<start>
+		<element name="office:document">
+			<attribute name="office:version">
+				<value>1.2</value>
+			</attribute>
+			<attribute name="office:mimetype">
+				<ref name="string"/>
+			</attribute>
+			<ref name="office-settings"/>
+			<ref name="office-body"/>
+		</element>
+	</start>
+	<define name="office-body">
+		<element name="office:body">
+			<element name="office:text">
+				<empty/>
+			</element>
+		</element>
+	</define>
+	<define name="office-settings">
+		<element name="office:settings">
+			<element name="config:config-item-set">
+				<attribute name="config:name">
+					<ref name="string"/>
+				</attribute>
+				<element name="config:config-item">
+					<interleave>
+						<attribute name="config:name">
+							<ref name="string"/>
+						</attribute>
+						<attribute name="config:type">
+							<choice>
+								<value>boolean</value>
+								<value>string</value>
+							</choice>
+						</attribute>
+					</interleave>
+					<text/>
+				</element>
+			</element>
+		</element>
+	</define>
+	<define name="string">
+		<data type="string"/>
+	</define>
+</grammar>

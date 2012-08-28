@@ -136,6 +136,7 @@
 "of" => "od",
 "at" => "na",
 "Timezone" => "Vremenska zona",
+"Timeformat" => "Format vremena",
 "24h" => "24h",
 "12h" => "12h",
 "Users" => "Korisnici",

@@ -12,7 +12,11 @@
 "Saving..." => "Konservante...",
 "__language_name__" => "Esperanto",
 "Security Warning" => "Sekureca averto",
-"Log" => "Registro",
+"Cron" => "Cron",
+"execute one task with each page loaded" => "lanĉi unu taskon po ĉiu paĝo ŝargita",
+"cron.php is registered at a webcron service" => "cron.php estas registrita kiel webcron-servilo",
+"use systems cron service" => "uzi la cron-servon de la sistemo",
+"Log" => "Protokolo",
 "More" => "Pli",
 "Add your App" => "Aldonu vian aplikaĵon",
 "Select an App" => "Elekti aplikaĵon",
@@ -47,7 +51,7 @@
 "Create" => "Krei",
 "Default Quota" => "Defaŭlta kvoto",
 "Other" => "Alia",
-"SubAdmin" => "Subadministranto",
+"Group Admin" => "Grupadministranto",
 "Quota" => "Kvoto",
 "Delete" => "Forigi"
 );

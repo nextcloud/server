@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+                 xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0"
+                 xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0"
+                 office:version="1.2"
+                 office:mimetype="application/vnd.oasis.opendocument.text">
+   <office:automatic-styles>
+      <number:boolean-style style:name="N99">
+      </number:boolean-style>
+      <number:text-style style:name="N100">
+      </number:text-style>
+      <number:boolean-style style:name="N5099">
+      </number:boolean-style>
+   </office:automatic-styles>
+   <office:body>
+      <office:text/>
+   </office:body>
+</office:document>

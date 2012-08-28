@@ -1,0 +1,137 @@
+XMLModel:
+ - list of all possible QNames
+ - list of valid attributes for each QName  
+ - node walker positions
+ - knowledge about where whitespace is meaningfull
+
+
+
+
+xmledit
+ - receives mouse and keyboard events
+     - simple editing
+     - inputs that might be interpreted higher up
+
+Tools:
+
+Features we want:
+ - ability to run code from Rhine, Node.JS and browsers
+ - type checking
+ - sanity checking
+ - javascript compilation
+ - unit tests
+ - unit test code coverage
+
+
+Closure seems a nice compiler. It should be optional.
+Unit testing should be as simple as doing a reload in a browser or calling a single command from the command-line.
+
+The only fundamental problem is the method of resolving dependencies. Closure does not understand require() commands that load modules. However, Node.JS needs this command to load modules.
+
+If require("mypackage.MyClass") would return just the class if it was already loaded, that would be perfect. Using eval() would solve this:
+    function require(module) {
+        var m;
+        try {
+            m = eval(module);
+        } catch (e) {
+        }
+        if (m === undefined) {
+            // load the module
+        }
+    }
+
+But then how to adapt the code in the modules themselves? Currenlty, no global objects are defined, but symbols are added to the exports variable. 
+Suppose that ideal javascript modules each define one class, then the code for class a.b.Class would be stored in the file a/b/Class.js and would look like this:
+====
+a.b.Class = function () {
+};
+====
+If this code should be loaded as a module, it should be executed with eval(). The environment in which the code is executed should already have 'package' a.b.
+
+function runModuleCode(modulename, code) {
+    var names = modulename.split("."),
+        evalcode;
+    if (!eval("typeof " + names[0] + " === 'undefined'")) {
+    }
+    evalcode = "if (typeof " + names[0] + " === 'undefined') {" +
+        
+    if 
+}
+
+function loadClass(modulename) {
+    // test if class already exists
+    var names = modulename.split("."),
+        evalcode, constructor;
+    evalcode = "(typeof " + names[0] + " !== 'undefined' ")
+    
+
+var code = "";
+if (typeof a === "undefined") {
+    code = code + "var a = {};";
+    if (!eval(
+
+
+Node does not have global context in eval() it seems.
+
+
+
+Running unit tests should be possible in a number of ways:
+ - single tests in
+   * browser
+   * browser with code coverage
+   * browser from js compiled with Closure Compiler
+   * node.js
+   * rhino
+ - 
+
+
+---
+
+
+Caret should work like a cursor.
+It should use the contentEditable property to advance the cursor within one text node.
+
+Isn't the current cursor sufficient? All that is missing is to use the native display when it is a text node.
+
+Using the contentEditable means that the cursor code can be simplified quite a bit if you want to 
+
+
+If the caret is in a text node, moving should be done by passing a move signal to the system.
+After the move it should be checked if the move made sense, i.e. if the caret is in an allowed position. If it is not, the position should be corrected manually.
+
+Determining if a caret is in a legal position is done with a special class.
+
+The current players:
+ - core.Cursor : insert a caret in the text if the selection calls for it
+ - gui.XMLEdit : 
+ - ...: moving of the cursor, taking into account skipping over/ignoring the cursor itself and also taking into account that the caret in an editable text must be moved by the browser
+
+move the cursor in a simple document with a wrapped text
+
+
+Contenteditable is perhaps not strictly necessary. It does not work well across browsers anyway. The only reason to use it would be to have a nice way to move the cursor up or down a line.
+
+To move the cursor or selection, a special class is needed for determining how to modify the selection upon different inputs. The visualization of the cursor is handled by the cursor class.
+
+stepForward
+stepBackward
+setPoint
+
+----
+
+Cursor and selection:
+ - cursor is foreign element of height but with no width
+ - handle mouse event to move or place the cursor at the right position
+ - handle key events to move the cursor
+
+webkit has nice functions for manipulating the selection
+selection/cursor position is the 'real' thing, the cursor (visible or not) is just the visualization
+
+The cursor must appear invisible to the normal dom functions, this is tricky because a cursor may split a text. This is however a separate concern.
+
+So there should be an event handler that translates mouse and key events into api calls. There already is moving of the cursor/selection on mouse events in Firefox and WebKit so only keyboard events need to be handled. So core.Cursor.updateToSelection should work ok for mouse events.
+
+Should we re-evaluate the use of JQuery? NO! first add editing functions to WebODF.
+
+So current top priorities: moving the cursor and saving.
+And not in the general xml editor, but in the odf editor.

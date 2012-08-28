@@ -42,7 +42,7 @@ class OC_Contacts_Hooks{
 		OC_Contacts_Addressbook::addDefault($parameters['uid']);
 		return true;
 	}
-	
+
 	/**
 	 * @brief Deletes all Addressbooks of a certain user
 	 * @param paramters parameters from postDeleteUser-Hook

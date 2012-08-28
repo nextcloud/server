@@ -1,0 +1,196 @@
+@namespace draw url(urn:oasis:names:tc:opendocument:xmlns:drawing:1.0);
+@namespace fo url(urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0);
+@namespace office url(urn:oasis:names:tc:opendocument:xmlns:office:1.0);
+@namespace presentation url(urn:oasis:names:tc:opendocument:xmlns:presentation:1.0);
+@namespace style url(urn:oasis:names:tc:opendocument:xmlns:style:1.0);
+@namespace svg url(urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0);
+@namespace table url(urn:oasis:names:tc:opendocument:xmlns:table:1.0);
+@namespace text url(urn:oasis:names:tc:opendocument:xmlns:text:1.0);
+@namespace runtimens url(urn:webodf); /* namespace for runtime only */
+
+office|document > *, office|document-content > * {
+  display: none;
+}
+office|body, office|document {
+  display: inline-block;
+  position: relative;
+}
+
+text|p, text|h {
+  display: block;
+  padding: 3px 3px 3px 3px;
+  margin: 5px 5px 5px 5px;
+}
+text|h {
+  font-weight: bold;
+}
+*[runtimens|containsparagraphanchor] {
+  position: relative;
+}
+text|s:before { /* this needs to be the number of spaces given by text:c */
+  content: ' ';
+}
+text|tab:before {
+  display: inline;
+  content: '        ';
+}
+text|line-break {
+  content: " ";
+  display: block;
+}
+text|tracked-changes {
+  /*Consumers that do not support change tracking, should ignore changes.*/
+  display: none;
+}
+office|binary-data {
+  display: none;
+}
+office|text {
+  display: block;
+  width: 216mm; /* default to A4 width */
+  min-height: 279mm;
+  padding-left: 32mm;
+  padding-right: 32mm;
+  padding-top: 25mm;
+  padding-bottom: 13mm;
+  margin: 2px;
+  text-align: left;
+  overflow: hidden;
+}
+office|spreadsheet {
+  display: block;
+  border-collapse: collapse;
+  empty-cells: show;
+  font-family: sans-serif;
+  font-size: 10pt;
+  text-align: left;
+  page-break-inside: avoid;
+  overflow: hidden;
+}
+office|presentation {
+  display: inline-block;
+  text-align: left;
+}
+draw|page {
+  display: block;
+  height: 21cm;
+  width: 28cm;
+  margin: 3px;
+  position: relative;
+  overflow: hidden;
+}
+presentation|notes {
+    display: none;
+}
+@media print {
+  draw|page {
+    border: 1pt solid black;
+    page-break-inside: avoid;
+  }
+  presentation|notes {
+    /*TODO*/
+  }
+}
+office|spreadsheet text|p {
+  border: 0px;
+  padding: 1px;
+  margin: 0px;
+}
+office|spreadsheet table|table {
+  margin: 3px;
+}
+office|spreadsheet table|table:after {
+  /* show sheet name the end of the sheet */
+  /*content: attr(table|name);*/ /* gives parsing error in opera */
+}
+office|spreadsheet table|table-row {
+  counter-increment: row;
+}
+office|spreadsheet table|table-row:before {
+  width: 3em;
+  background: #cccccc;
+  border: 1px solid black;
+  text-align: center;
+  content: counter(row);
+}
+office|spreadsheet table|table-cell {
+  border: 1px solid #cccccc;
+}
+table|table {
+  display: table;
+}
+draw|frame table|table {
+  width: 100%;
+  height: 100%;
+  background: white;
+}
+table|table-row {
+  display: table-row;
+}
+table|table-column {
+  display: table-column;
+}
+table|table-cell {
+  display: table-cell;
+}
+draw|frame {
+  display: block;
+}
+draw|image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
+}
+/* only show the first image in frame */
+draw|frame > draw|image:nth-of-type(n+2) {
+  display: none;
+}
+text|list {
+    display: block;
+    padding-left: 1.5em;
+    counter-reset: list;
+}
+text|list-item {
+    display: block;
+}
+text|list-item:before {
+    display: inline-block;
+    content: '•';
+    counter-increment: list;
+    width: 0.5em;
+    margin-left: -0.5em;
+    padding: 0px;
+    border: 0px;
+}
+text|list-item > *:first-child {
+    display: inline-block;
+}
+text|a {
+    color: blue;
+    text-decoration: underline;
+}
+text|note-citation {
+    vertical-align: super;
+    font-size: smaller;
+}
+text|note-body {
+    display: none;
+}
+text|note:hover text|note-citation {
+    background: #dddddd;
+}
+text|note:hover text|note-body {
+    display: block;
+    left:1em;
+    max-width: 80%;
+    position: absolute;
+    background: #ffffaa;
+}
+svg|title, svg|desc {
+    display: none;
+}

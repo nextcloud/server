@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:02+0200\n"
-"PO-Revision-Date: 2012-08-14 14:39+0000\n"
-"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-24 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgid "Error (de)activating addressbook."
 msgstr "เกิดข้อผิดพลาดใน (ยกเลิก)การเปิดใช้งานสมุดบันทึกที่อยู่"
 
 #: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
-#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:31
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:32
 #: ajax/contact/saveproperty.php:39
 msgid "id is not set."
 msgstr "ยังไม่ได้กำหนดรหัส"
@@ -81,17 +81,17 @@ msgstr "อย่างน้อยที่สุดช่องข้อมู
 msgid "Trying to add duplicate property: "
 msgstr "พยายามที่จะเพิ่มทรัพยากรที่ซ้ำซ้อนกัน: "
 
-#: ajax/contact/addproperty.php:144
-msgid "Error adding contact property: "
-msgstr "เกิดข้อผิดพลาดในการเพิ่มคุณสมบัติข้อมูลผู้ติดต่อ"
+#: ajax/contact/addproperty.php:115 ajax/contact/saveproperty.php:93
+msgid "Missing IM parameter."
+msgstr ""
+
+#: ajax/contact/addproperty.php:119 ajax/contact/saveproperty.php:97
+msgid "Unknown IM: "
+msgstr ""
 
 #: ajax/contact/deleteproperty.php:37
 msgid "Information about vCard is incorrect. Please reload the page."
 msgstr "ข้อมูลเกี่ยวกับ vCard ไม่ถูกต้อง กรุณาโหลดหน้าเวปใหม่อีกครั้ง"
-
-#: ajax/contact/deleteproperty.php:44
-msgid "Error deleting contact property."
-msgstr "เกิดข้อผิดพลาดในการลบรายละเอียดการติดต่อ"
 
 #: ajax/contact/details.php:31
 msgid "Missing ID"
@@ -112,10 +112,6 @@ msgstr "ข้อมูล vCard ไม่ถูกต้อง กรุณา�
 #: ajax/contact/saveproperty.php:69
 msgid "Something went FUBAR. "
 msgstr "มีบางอย่างเกิดการ FUBAR. "
-
-#: ajax/contact/saveproperty.php:144
-msgid "Error updating contact property."
-msgstr "เกิดข้อผิดพลาดในการอัพเดทข้อมูลการติดต่อ"
 
 #: ajax/currentphoto.php:30 ajax/oc_photo.php:28 ajax/uploadphoto.php:36
 #: ajax/uploadphoto.php:68
@@ -220,7 +216,7 @@ msgstr "ไม่สามารถโหลดรูปภาพชั่วค
 msgid "No file was uploaded. Unknown error"
 msgstr "ยังไม่มีไฟล์ใดที่ถูกอัพโหลด เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ"
 
-#: appinfo/app.php:19
+#: appinfo/app.php:21
 msgid "Contacts"
 msgstr "ข้อมูลการติดต่อ"
 
@@ -237,56 +233,73 @@ msgid "Couldn't get a valid address."
 msgstr "ไม่สามารถดึงที่อยู่ที่ถูกต้องได้"
 
 #: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
-#: js/contacts.js:675 js/contacts.js:715 js/contacts.js:741 js/contacts.js:850
-#: js/contacts.js:856 js/contacts.js:868 js/contacts.js:902
-#: js/contacts.js:1165 js/contacts.js:1173 js/contacts.js:1182
-#: js/contacts.js:1217 js/contacts.js:1249 js/contacts.js:1261
-#: js/contacts.js:1284 js/contacts.js:1421 js/contacts.js:1452
-#: js/settings.js:25 js/settings.js:42 js/settings.js:67
+#: js/contacts.js:723 js/contacts.js:763 js/contacts.js:789 js/contacts.js:921
+#: js/contacts.js:927 js/contacts.js:939 js/contacts.js:976
+#: js/contacts.js:1250 js/contacts.js:1258 js/contacts.js:1267
+#: js/contacts.js:1302 js/contacts.js:1338 js/contacts.js:1353
+#: js/contacts.js:1379 js/contacts.js:1609 js/contacts.js:1644
+#: js/contacts.js:1664 js/settings.js:26 js/settings.js:43 js/settings.js:68
 msgid "Error"
 msgstr "พบข้อผิดพลาด"
 
-#: js/contacts.js:715
+#: js/contacts.js:424
+msgid "You do not have permission to add contacts to "
+msgstr ""
+
+#: js/contacts.js:425
+msgid "Please select one of your own address books."
+msgstr ""
+
+#: js/contacts.js:425
+msgid "Permission error"
+msgstr ""
+
+#: js/contacts.js:763
 msgid "This property has to be non-empty."
 msgstr "คุณสมบัตินี้ต้องไม่มีข้อมูลว่างอยู่"
 
-#: js/contacts.js:741
+#: js/contacts.js:789
 msgid "Couldn't serialize elements."
 msgstr "ไม่สามารถทำสัญลักษณ์องค์ประกอบต่างๆให้เป็นตัวเลขตามลำดับได้"
 
-#: js/contacts.js:850 js/contacts.js:868
+#: js/contacts.js:921 js/contacts.js:939
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
 msgstr "'deleteProperty' ถูกเรียกใช้โดยไม่มีอาร์กิวเมนต์ กรุณาแจ้งได้ที่ bugs.owncloud.org"
 
-#: js/contacts.js:884
+#: js/contacts.js:958
 msgid "Edit name"
 msgstr "แก้ไขชื่อ"
 
-#: js/contacts.js:1165
+#: js/contacts.js:1250
 msgid "No files selected for upload."
 msgstr "ยังไม่ได้เลือกไฟล์ำสำหรับอัพโหลด"
 
-#: js/contacts.js:1173
+#: js/contacts.js:1258
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "ไฟล์ที่คุณกำลังพยายามที่จะอัพโหลดมีขนาดเกินจำนวนสูงสุดที่สามารถอัพโหลดได้สำหรับเซิร์ฟเวอร์นี้"
 
-#: js/contacts.js:1236
+#: js/contacts.js:1322
 msgid "Error loading profile picture."
 msgstr "เกิดข้อผิดพลาดในการโหลดรูปภาพประจำตัว"
 
-#: js/contacts.js:1337 js/contacts.js:1371
+#: js/contacts.js:1457 js/contacts.js:1498 js/contacts.js:1517
+#: js/contacts.js:1560
 msgid "Select type"
 msgstr "เลือกชนิด"
 
-#: js/contacts.js:1390
+#: js/contacts.js:1578
 msgid ""
 "Some contacts are marked for deletion, but not deleted yet. Please wait for "
 "them to be deleted."
 msgstr "ข้อมูลผู้ติดต่อบางรายการได้ถูกทำเครื่องหมายสำหรับลบทิ้งเอาไว้, แต่ยังไม่ได้ถูกลบทิ้ง, กรุณารอให้รายการดังกล่าวถูกลบทิ้งเสียก่อน"
+
+#: js/contacts.js:1649
+msgid "Do you want to merge these address books?"
+msgstr "คุณต้องการผสานข้อมูลสมุดบันทึกที่อยู่เหล่านี้หรือไม่?"
 
 #: js/loader.js:49
 msgid "Result: "
@@ -300,7 +313,7 @@ msgstr " นำเข้าข้อมูลแล้ว, "
 msgid " failed."
 msgstr " ล้มเหลว."
 
-#: js/settings.js:67
+#: js/settings.js:68
 msgid "Displayname cannot be empty."
 msgstr "ชื่อที่ใช้แสดงไม่สามารถเว้นว่างได้"
 
@@ -308,125 +321,156 @@ msgstr "ชื่อที่ใช้แสดงไม่สามารถเ
 msgid "Addressbook not found: "
 msgstr "ไม่พบสมุดบันทึกที่อยู่ที่ต้องการ"
 
-#: lib/app.php:49
+#: lib/app.php:52
 msgid "This is not your addressbook."
 msgstr "นี่ไม่ใช่สมุดบันทึกที่อยู่ของคุณ"
 
-#: lib/app.php:68
+#: lib/app.php:71
 msgid "Contact could not be found."
 msgstr "ไม่พบข้อมูลการติดต่อ"
 
-#: lib/app.php:112 templates/part.contact.php:117
-msgid "Address"
-msgstr "ที่อยู่"
+#: lib/app.php:116
+msgid "Jabber"
+msgstr ""
 
-#: lib/app.php:113
-msgid "Telephone"
-msgstr "โทรศัพท์"
+#: lib/app.php:121
+msgid "AIM"
+msgstr ""
 
-#: lib/app.php:114 templates/part.contact.php:116
-msgid "Email"
-msgstr "อีเมล์"
+#: lib/app.php:126
+msgid "MSN"
+msgstr ""
 
-#: lib/app.php:115 templates/part.contact.php:39 templates/part.contact.php:40
-#: templates/part.contact.php:112
-msgid "Organization"
-msgstr "หน่วยงาน"
+#: lib/app.php:131
+msgid "Twitter"
+msgstr ""
 
-#: lib/app.php:127 lib/app.php:134 lib/app.php:144 lib/app.php:197
+#: lib/app.php:136
+msgid "GoogleTalk"
+msgstr ""
+
+#: lib/app.php:141
+msgid "Facebook"
+msgstr ""
+
+#: lib/app.php:146
+msgid "XMPP"
+msgstr ""
+
+#: lib/app.php:151
+msgid "ICQ"
+msgstr ""
+
+#: lib/app.php:156
+msgid "Yahoo"
+msgstr ""
+
+#: lib/app.php:161
+msgid "Skype"
+msgstr ""
+
+#: lib/app.php:166
+msgid "QQ"
+msgstr ""
+
+#: lib/app.php:171
+msgid "GaduGadu"
+msgstr ""
+
+#: lib/app.php:194 lib/app.php:202 lib/app.php:213 lib/app.php:266
 msgid "Work"
 msgstr "ที่ทำงาน"
 
-#: lib/app.php:128 lib/app.php:132 lib/app.php:145
+#: lib/app.php:195 lib/app.php:200 lib/app.php:214
 msgid "Home"
 msgstr "บ้าน"
 
-#: lib/app.php:133
-msgid "Mobile"
-msgstr "มือถือ"
-
-#: lib/app.php:135
-msgid "Text"
-msgstr "ข้อความ"
-
-#: lib/app.php:136
-msgid "Voice"
-msgstr "เสียงพูด"
-
-#: lib/app.php:137
-msgid "Message"
-msgstr "ข้อความ"
-
-#: lib/app.php:138
-msgid "Fax"
-msgstr "โทรสาร"
-
-#: lib/app.php:139
-msgid "Video"
-msgstr "วีดีโอ"
-
-#: lib/app.php:140
-msgid "Pager"
-msgstr "เพจเจอร์"
-
-#: lib/app.php:146
-msgid "Internet"
-msgstr "อินเทอร์เน็ต"
-
-#: lib/app.php:183 templates/part.contact.php:45
-#: templates/part.contact.php:114
-msgid "Birthday"
-msgstr "วันเกิด"
-
-#: lib/app.php:184
-msgid "Business"
-msgstr "ธุรกิจ"
-
-#: lib/app.php:185
-msgid "Call"
-msgstr "โทร"
-
-#: lib/app.php:186
-msgid "Clients"
-msgstr "ลูกค้า"
-
-#: lib/app.php:187
-msgid "Deliverer"
-msgstr "ผู้จัดส่ง"
-
-#: lib/app.php:188
-msgid "Holidays"
-msgstr "วันหยุด"
-
-#: lib/app.php:189
-msgid "Ideas"
-msgstr "ไอเดีย"
-
-#: lib/app.php:190
-msgid "Journey"
-msgstr "การเดินทาง"
-
-#: lib/app.php:191
-msgid "Jubilee"
-msgstr "งานเฉลิมฉลอง"
-
-#: lib/app.php:192
-msgid "Meeting"
-msgstr "ประชุม"
-
-#: lib/app.php:193
+#: lib/app.php:196 lib/app.php:209 lib/app.php:262 lib/vcard.php:593
 msgid "Other"
 msgstr "อื่นๆ"
 
-#: lib/app.php:194
+#: lib/app.php:201
+msgid "Mobile"
+msgstr "มือถือ"
+
+#: lib/app.php:203
+msgid "Text"
+msgstr "ข้อความ"
+
+#: lib/app.php:204
+msgid "Voice"
+msgstr "เสียงพูด"
+
+#: lib/app.php:205
+msgid "Message"
+msgstr "ข้อความ"
+
+#: lib/app.php:206
+msgid "Fax"
+msgstr "โทรสาร"
+
+#: lib/app.php:207
+msgid "Video"
+msgstr "วีดีโอ"
+
+#: lib/app.php:208
+msgid "Pager"
+msgstr "เพจเจอร์"
+
+#: lib/app.php:215
+msgid "Internet"
+msgstr "อินเทอร์เน็ต"
+
+#: lib/app.php:252 templates/part.contact.php:45
+#: templates/part.contact.php:128
+msgid "Birthday"
+msgstr "วันเกิด"
+
+#: lib/app.php:253
+msgid "Business"
+msgstr "ธุรกิจ"
+
+#: lib/app.php:254
+msgid "Call"
+msgstr "โทร"
+
+#: lib/app.php:255
+msgid "Clients"
+msgstr "ลูกค้า"
+
+#: lib/app.php:256
+msgid "Deliverer"
+msgstr "ผู้จัดส่ง"
+
+#: lib/app.php:257
+msgid "Holidays"
+msgstr "วันหยุด"
+
+#: lib/app.php:258
+msgid "Ideas"
+msgstr "ไอเดีย"
+
+#: lib/app.php:259
+msgid "Journey"
+msgstr "การเดินทาง"
+
+#: lib/app.php:260
+msgid "Jubilee"
+msgstr "งานเฉลิมฉลอง"
+
+#: lib/app.php:261
+msgid "Meeting"
+msgstr "ประชุม"
+
+#: lib/app.php:263
 msgid "Personal"
 msgstr "ส่วนตัว"
 
-#: lib/app.php:195
+#: lib/app.php:264
 msgid "Projects"
 msgstr "โปรเจค"
 
-#: lib/app.php:196
+#: lib/app.php:265
 msgid "Questions"
 msgstr "คำถาม"
 
@@ -437,6 +481,14 @@ msgstr "วันเกิดของ {name}"
 #: lib/search.php:15
 msgid "Contact"
 msgstr "ข้อมูลการติดต่อ"
+
+#: lib/vcard.php:408
+msgid "You do not have the permissions to edit this contact."
+msgstr ""
+
+#: lib/vcard.php:483
+msgid "You do not have the permissions to delete this contact."
+msgstr ""
 
 #: templates/index.php:14
 msgid "Add Contact"
@@ -534,13 +586,18 @@ msgstr "กำหนดรูปแบบของชื่อย่อ, ชื�
 msgid "Edit name details"
 msgstr "แก้ไขรายละเอียดของชื่อ"
 
+#: templates/part.contact.php:39 templates/part.contact.php:40
+#: templates/part.contact.php:126
+msgid "Organization"
+msgstr "หน่วยงาน"
+
 #: templates/part.contact.php:40 templates/part.contact.php:42
 #: templates/part.contact.php:44 templates/part.contact.php:46
-#: templates/part.contact.php:50 templates/settings.php:33
+#: templates/part.contact.php:50 templates/settings.php:36
 msgid "Delete"
 msgstr "ลบ"
 
-#: templates/part.contact.php:41 templates/part.contact.php:113
+#: templates/part.contact.php:41 templates/part.contact.php:127
 msgid "Nickname"
 msgstr "ชื่อเล่น"
 
@@ -548,7 +605,7 @@ msgstr "ชื่อเล่น"
 msgid "Enter nickname"
 msgstr "กรอกชื่อเล่น"
 
-#: templates/part.contact.php:43 templates/part.contact.php:119
+#: templates/part.contact.php:43 templates/part.contact.php:134
 msgid "Web site"
 msgstr "เว็บไซต์"
 
@@ -564,7 +621,7 @@ msgstr "ไปที่เว็บไซต์"
 msgid "dd-mm-yyyy"
 msgstr "dd-mm-yyyy"
 
-#: templates/part.contact.php:47 templates/part.contact.php:120
+#: templates/part.contact.php:47 templates/part.contact.php:135
 msgid "Groups"
 msgstr "กลุ่ม"
 
@@ -576,63 +633,84 @@ msgstr "คั่นระหว่างรายชื่อกลุ่มด
 msgid "Edit groups"
 msgstr "แก้ไขกลุ่ม"
 
-#: templates/part.contact.php:63 templates/part.contact.php:77
+#: templates/part.contact.php:59 templates/part.contact.php:73
+#: templates/part.contact.php:98
 msgid "Preferred"
 msgstr "พิเศษ"
 
-#: templates/part.contact.php:64
+#: templates/part.contact.php:60
 msgid "Please specify a valid email address."
 msgstr "กรุณาระบุที่อยู่อีเมลที่ถูกต้อง"
 
-#: templates/part.contact.php:64
+#: templates/part.contact.php:60
 msgid "Enter email address"
 msgstr "กรอกที่อยู่อีเมล"
 
-#: templates/part.contact.php:68
+#: templates/part.contact.php:64
 msgid "Mail to address"
 msgstr "ส่งอีเมลไปที่"
 
-#: templates/part.contact.php:69
+#: templates/part.contact.php:65
 msgid "Delete email address"
 msgstr "ลบที่อยู่อีเมล"
 
-#: templates/part.contact.php:78
+#: templates/part.contact.php:75
 msgid "Enter phone number"
 msgstr "กรอกหมายเลขโทรศัพท์"
 
-#: templates/part.contact.php:82
+#: templates/part.contact.php:79
 msgid "Delete phone number"
 msgstr "ลบหมายเลขโทรศัพท์"
 
-#: templates/part.contact.php:92
+#: templates/part.contact.php:100
+msgid "Instant Messenger"
+msgstr ""
+
+#: templates/part.contact.php:101
+msgid "Delete IM"
+msgstr ""
+
+#: templates/part.contact.php:110
 msgid "View on map"
 msgstr "ดูบนแผนที่"
 
-#: templates/part.contact.php:92
+#: templates/part.contact.php:110
 msgid "Edit address details"
 msgstr "แก้ไขรายละเอียดที่อยู่"
 
-#: templates/part.contact.php:103
+#: templates/part.contact.php:116
 msgid "Add notes here."
 msgstr "เพิ่มหมายเหตุกำกับไว้ที่นี่"
 
-#: templates/part.contact.php:110
+#: templates/part.contact.php:124
 msgid "Add field"
 msgstr "เพิ่มช่องรับข้อมูล"
 
-#: templates/part.contact.php:115
+#: templates/part.contact.php:129
 msgid "Phone"
 msgstr "โทรศัพท์"
 
-#: templates/part.contact.php:118
+#: templates/part.contact.php:130
+msgid "Email"
+msgstr "อีเมล์"
+
+#: templates/part.contact.php:131
+msgid "Instant Messaging"
+msgstr ""
+
+#: templates/part.contact.php:132
+msgid "Address"
+msgstr "ที่อยู่"
+
+#: templates/part.contact.php:133
 msgid "Note"
 msgstr "หมายเหตุ"
 
-#: templates/part.contact.php:123
+#: templates/part.contact.php:138
 msgid "Download contact"
 msgstr "ดาวน์โหลดข้อมูลการติดต่อ"
 
-#: templates/part.contact.php:124
+#: templates/part.contact.php:139
 msgid "Delete contact"
 msgstr "ลบข้อมูลการติดต่อ"
 
@@ -803,10 +881,6 @@ msgstr "คุณยังไม่มีข้อมูลการติดต
 msgid "Add contact"
 msgstr "เพิ่มชื่อผู้ติดต่อ"
 
-#: templates/part.no_contacts.php:6
-msgid "Configure addressbooks"
-msgstr "กำหนดค่าสมุดบันทึกที่อยู่"
-
 #: templates/part.selectaddressbook.php:1
 msgid "Select Address Books"
 msgstr "เลือกสมุดบันทึกที่อยู่"
@@ -844,33 +918,37 @@ msgid "Show read-only VCF link"
 msgstr "แสดงลิงก์ VCF สำหรับอ่านเท่านั้น"
 
 #: templates/settings.php:26
+msgid "Share"
+msgstr "แชร์"
+
+#: templates/settings.php:29
 msgid "Download"
 msgstr "ดาวน์โหลด"
 
-#: templates/settings.php:30
+#: templates/settings.php:33
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: templates/settings.php:40
+#: templates/settings.php:43
 msgid "New Address Book"
 msgstr "สร้างสมุดบันทึกข้อมูลการติดต่อใหม่"
 
-#: templates/settings.php:41
+#: templates/settings.php:44
 msgid "Name"
 msgstr "ชื่อ"
 
-#: templates/settings.php:42
+#: templates/settings.php:45
 msgid "Description"
 msgstr "คำอธิบาย"
 
-#: templates/settings.php:43
+#: templates/settings.php:46
 msgid "Save"
 msgstr "บันทึก"
 
-#: templates/settings.php:44
+#: templates/settings.php:47
 msgid "Cancel"
 msgstr "ยกเลิก"
 
-#: templates/settings.php:49
+#: templates/settings.php:52
 msgid "More..."
 msgstr "เพิ่มเติม..."

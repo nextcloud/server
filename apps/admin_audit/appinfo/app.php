@@ -13,6 +13,9 @@ OCP\Util::connectHook(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_write, 'OC
 OCP\Util::connectHook(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_read, 'OC_Admin_Audit_Hooks_Handlers', 'read');
 OCP\Util::connectHook(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_delete, 'OC_Admin_Audit_Hooks_Handlers', 'delete');
 
+//FIXME OC_Share does no longer exist
+/*
 OCP\Util::connectHook('OC_Share', 'public', 'OC_Admin_Audit_Hooks_Handlers', 'share_public');
 OCP\Util::connectHook('OC_Share', 'public-download', 'OC_Admin_Audit_Hooks_Handlers', 'share_public_download');
 OCP\Util::connectHook('OC_Share', 'user', 'OC_Admin_Audit_Hooks_Handlers', 'share_user');
+*/

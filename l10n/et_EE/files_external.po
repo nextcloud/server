@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Rivo Zängov <eraser@eraser.ee>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:34+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-19 02:02+0200\n"
+"PO-Revision-Date: 2012-08-18 06:32+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +20,11 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "Väline salvestuskoht"
 
 #: templates/settings.php:7 templates/settings.php:19
 msgid "Mount point"
-msgstr ""
+msgstr "Ühenduspunkt"
 
 #: templates/settings.php:8
 msgid "Backend"
@@ -31,11 +32,11 @@ msgstr ""
 
 #: templates/settings.php:9
 msgid "Configuration"
-msgstr ""
+msgstr "Seadistamine"
 
 #: templates/settings.php:10
 msgid "Options"
-msgstr ""
+msgstr "Valikud"
 
 #: templates/settings.php:11
 msgid "Applicable"
@@ -43,27 +44,27 @@ msgstr ""
 
 #: templates/settings.php:23
 msgid "Add mount point"
-msgstr ""
+msgstr "Lisa ühenduspunkt"
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
-msgstr ""
+msgstr "Pole määratud"
 
 #: templates/settings.php:63
 msgid "All Users"
-msgstr ""
+msgstr "Kõik kasutajad"
 
 #: templates/settings.php:64
 msgid "Groups"
-msgstr ""
+msgstr "Grupid"
 
 #: templates/settings.php:69
 msgid "Users"
-msgstr ""
+msgstr "Kasutajad"
 
 #: templates/settings.php:77 templates/settings.php:96
 msgid "Delete"
-msgstr ""
+msgstr "Kustuta"
 
 #: templates/settings.php:88
 msgid "SSL root certificates"

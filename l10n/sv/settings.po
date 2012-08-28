@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-12 02:02+0200\n"
-"PO-Revision-Date: 2012-08-12 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-23 02:03+0200\n"
+"PO-Revision-Date: 2012-08-22 06:21+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +58,7 @@ msgstr "Fel"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
-msgstr "Avaktivera"
+msgstr "Deaktivera"
 
 #: js/apps.js:39 js/apps.js:62
 msgid "Enable"
@@ -78,19 +78,19 @@ msgstr "Säkerhetsvarning"
 
 #: templates/admin.php:29
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:31
 msgid "execute one task with each page loaded"
-msgstr ""
+msgstr "utför en uppgift vid varje sidladdning"
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "cron.php är registrerad på en webcron-tjänst"
 
 #: templates/admin.php:35
 msgid "use systems cron service"
-msgstr ""
+msgstr "använd systemets cron-tjänst"
 
 #: templates/admin.php:39
 msgid "Log"
@@ -134,11 +134,11 @@ msgstr "Ställ en fråga"
 
 #: templates/help.php:22
 msgid "Problems connecting to help database."
-msgstr "Problem med att ansluta till hjälp-databasen."
+msgstr "Problem med att ansluta till hjälpdatabasen."
 
 #: templates/help.php:23
 msgid "Go there manually."
-msgstr "Gå dit manuellt"
+msgstr "Gå dit manuellt."
 
 #: templates/help.php:31
 msgid "Answer"
@@ -162,7 +162,7 @@ msgstr "Ladda ner"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
-msgstr "Ditt lösenord ändrades"
+msgstr "Ditt lösenord har ändrats"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
@@ -233,8 +233,8 @@ msgid "Other"
 msgstr "Annat"
 
 #: templates/users.php:80 templates/users.php:112
-msgid "SubAdmin"
-msgstr "Underadministratör"
+msgid "Group Admin"
+msgstr "Gruppadministratör"
 
 #: templates/users.php:82
 msgid "Quota"
@@ -242,4 +242,4 @@ msgstr "Kvot"
 
 #: templates/users.php:146
 msgid "Delete"
-msgstr "Ta bort"
+msgstr "Radera"

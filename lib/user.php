@@ -338,7 +338,7 @@ class OC_User {
 	 *
 	 * Get a list of all users.
 	 */
-	public static function getUsers($search = '', $limit = -1, $offset = 0) {
+	public static function getUsers($search = '', $limit = null, $offset = null) {
 		$users = array();
 		foreach (self::$_usedBackends as $backend) {
 			$backendUsers = $backend->getUsers($search, $limit, $offset);
@@ -370,7 +370,7 @@ class OC_User {
 	 * @param string $userid the user to disable
 	 */
 	public static function disableUser($userid){
-		$query = "INSERT INTO *PREFIX*preferences (`userid`, `appid`, `configkey`, `configvalue`) VALUES(?, ?, ?, ?)";
+		$query = "INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, `configkey`, `configvalue`) VALUES(?, ?, ?, ?)";
 		$query = OC_DB::prepare($query);
 		$query->execute(array($userid, 'core', 'enabled', 'false'));
 	}
@@ -380,7 +380,7 @@ class OC_User {
 	 * @param string $userid
 	 */
 	public static function enableUser($userid){
-		$query = "DELETE FROM *PREFIX*preferences WHERE userid = ? AND appid = ? AND configkey = ? AND configvalue = ?";
+		$query = "DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
 		$query = OC_DB::prepare($query);
 		$query->execute(array($userid, 'core', 'enabled', 'false'));
 	}
@@ -391,7 +391,7 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function isEnabled($userid){
-		$query = "SELECT userid FROM *PREFIX*preferences WHERE userid = ? AND appid = ? AND configkey = ? AND configvalue = ?";
+		$query = "SELECT `userid` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
 		$query = OC_DB::prepare($query);
 		$results = $query->execute(array($userid, 'core', 'enabled', 'false'));
 		return $results->numRows() ? false : true;

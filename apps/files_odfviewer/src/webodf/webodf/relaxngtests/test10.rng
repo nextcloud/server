@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar
+	xmlns="http://relaxng.org/ns/structure/1.0"
+	datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
+	xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+	xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+	xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0"
+>
+	<start>
+		<element name="office:document">
+			<attribute name="office:version">
+				<value>1.2</value>
+			</attribute>
+			<attribute name="office:mimetype">
+				<data type="string"/>
+			</attribute>
+			<element name="office:styles">
+				<interleave>
+					<choice>
+						<empty/>
+						<oneOrMore>
+							<ref name="style-style"/>
+						</oneOrMore>
+					</choice>
+					<element name="style:default-style">
+						<ref name="style-style-content"/>
+					</element>
+				</interleave>
+			</element>
+			<element name="office:body">
+				<element name="office:text">
+					<empty/>
+				</element>
+			</element>
+		</element>
+	</start>
+	<define name="style-style">
+		<element name="style:style">
+			<attribute name="style:name">
+				<data type="NCName"/>
+			</attribute>
+			<ref name="style-style-content"/>
+		</element>
+	</define>
+	<define name="style-style-content">
+		<attribute name="style:family">
+			<value>text</value>
+		</attribute>
+	</define>
+</grammar>

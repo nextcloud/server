@@ -33,7 +33,7 @@
 "of the available" => "su un totale di",
 "Desktop and Mobile Syncing Clients" => "Client di sincronizzazione desktop e mobile",
 "Download" => "Scaricamento",
-"Your password got changed" => "La tua password è stata cambiat",
+"Your password got changed" => "La tua password è stata cambiata",
 "Unable to change your password" => "Modifica password non riuscita",
 "Current password" => "Password attuale",
 "New password" => "Nuova password",
@@ -41,7 +41,7 @@
 "Change password" => "Modifica password",
 "Email" => "Email",
 "Your email address" => "Il tuo indirizzo email",
-"Fill in an email address to enable password recovery" => "Inserici il tuo indirizzo email per abilitare il recupero della password",
+"Fill in an email address to enable password recovery" => "Inserisci il tuo indirizzo email per abilitare il recupero della password",
 "Language" => "Lingua",
 "Help translate" => "Migliora la traduzione",
 "use this address to connect to your ownCloud in your file manager" => "usa questo indirizzo per connetterti al tuo ownCloud dal gestore file",
@@ -51,7 +51,7 @@
 "Create" => "Crea",
 "Default Quota" => "Quota predefinita",
 "Other" => "Altro",
-"SubAdmin" => "SubAdmin",
+"Group Admin" => "Gruppo di amministrazione",
 "Quota" => "Quote",
 "Delete" => "Elimina"
 );

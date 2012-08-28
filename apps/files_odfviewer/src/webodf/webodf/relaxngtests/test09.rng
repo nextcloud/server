@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar
+	xmlns="http://relaxng.org/ns/structure/1.0"
+	xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+	xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+	xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0"
+>
+	<start>
+		<element name="office:document">
+			<attribute name="office:version">
+				<value>1.2</value>
+			</attribute>
+			<attribute name="office:mimetype">
+				<data type="string"/>
+			</attribute>
+			<element name="office:body">
+				<element name="office:text">
+					<element name="text:p">
+						<choice>
+							<text/>
+							<element name="draw:frame">
+								<empty/>
+							</element>
+						</choice>
+					</element>
+				</element>
+			</element>
+		</element>
+	</start>
+</grammar>

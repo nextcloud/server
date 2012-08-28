@@ -4,6 +4,7 @@ $RUNTIME_APPTYPES=array('authentication');
 OC_App::loadApps($RUNTIME_APPTYPES);
 
 OCP\JSON::checkAppEnabled('files_sharing');
+//FIXME lib_share / OC_Share no longer exists
 require_once 'lib_share.php';
 
 //get the path of the shared file
@@ -75,6 +76,7 @@ if (isset($_GET['token']) && $source = OC_Share::getSource($_GET['token'])) {
 		header("Content-Length: " . OC_Filesystem::filesize($source));
 		//download the file
 		@ob_clean();
+		//FIXME OC_Share no longer exists
 		OCP\Util::emitHook('OC_Share', 'public-download', array('source'=>$source, 'token'=>$token));
 		OC_Filesystem::readfile($source);
 	}

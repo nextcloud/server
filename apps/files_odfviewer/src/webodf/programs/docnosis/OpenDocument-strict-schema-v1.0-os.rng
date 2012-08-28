@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    OASIS OpenDocument v1.0
+    OASIS Standard, 1 May 2005
+    Strict Relax-NG Schema
+
+    $Id$
+
+    © 2002-2005 OASIS Open
+    © 1999-2005 Sun Microsystems, Inc.
+-->
+
+<grammar xmlns="http://relaxng.org/ns/structure/1.0">
+    <include href="OpenDocument-schema-v1.0-os.rng">
+        <define name="office-meta-content">
+            <ref name="office-meta-content-strict"/>
+        </define>
+        <define name="style-page-layout-properties-content">
+            <ref name="style-page-layout-properties-content-strict"/>
+        </define>
+        <define name="style-header-footer-properties-content">
+            <ref name="style-header-footer-properties-content-strict"/>
+        </define>
+        <define name="style-drawing-page-properties-content">
+            <ref name="style-drawing-page-properties-content-strict"/>
+        </define>
+        <define name="style-text-properties-content">
+            <ref name="style-text-properties-content-strict"/>
+        </define>
+        <define name="style-paragraph-properties-content">
+            <ref name="style-paragraph-properties-content-strict"/>
+        </define>
+        <define name="style-ruby-properties-content">
+            <ref name="style-ruby-properties-content-strict"/>
+        </define>
+        <define name="style-section-properties-content">
+            <ref name="style-section-properties-content-strict"/>
+        </define>
+        <define name="style-list-level-properties-content">
+            <ref name="style-list-level-properties-content-strict"/>
+        </define>
+        <define name="style-table-properties-content">
+            <ref name="style-table-properties-content-strict"/>
+        </define>
+        <define name="style-table-column-properties-content">
+            <ref name="style-table-column-properties-content-strict"/>
+        </define>
+        <define name="style-table-row-properties-content">
+            <ref name="style-table-row-properties-content-strict"/>
+        </define>
+        <define name="style-table-cell-properties-content">
+            <ref name="style-table-cell-properties-content-strict"/>
+        </define>
+        <define name="style-graphic-properties-content">
+            <ref name="style-graphic-properties-content-strict"/>
+        </define>
+        <define name="style-chart-properties-content">
+            <ref name="style-properties-content"/>
+        </define>
+    </include>
+</grammar>

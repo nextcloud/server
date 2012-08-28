@@ -33,10 +33,42 @@ class OC_Files {
 	* @param dir $directory path under datadirectory
 	*/
 	public static function getDirectoryContent($directory, $mimetype_filter = ''){
-		$files=OC_FileCache::getFolderContent($directory, false, $mimetype_filter);
-		foreach($files as &$file){
-			$file['directory']=$directory;
-			$file['type']=($file['mimetype']=='httpd/unix-directory')?'dir':'file';
+		$directory=OC_Filesystem::normalizePath($directory);
+		if($directory=='/'){
+			$directory='';
+		}
+		$files = array();
+		if (($directory == '/Shared' || substr($directory, 0, 8) == '/Shared/') && OC_App::isEnabled('files_sharing')) {
+			if ($directory == '/Shared') {
+				$files = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP, array('folder' => $directory, 'mimetype_filter' => $mimetype_filter));
+			} else {
+				$pos = strpos($directory, '/', 8);
+				// Get shared folder name
+				if ($pos !== false) {
+					$itemTarget = substr($directory, 7, $pos - 7);
+				} else {
+					$itemTarget = substr($directory, 7);
+				}
+				$files = OCP\Share::getItemSharedWith('folder', $itemTarget, OC_Share_Backend_File::FORMAT_FILE_APP, array('folder' => $directory, 'mimetype_filter' => $mimetype_filter));
+			}
+		} else {
+			$files = OC_FileCache::getFolderContent($directory, false, $mimetype_filter);
+			foreach ($files as &$file) {
+				$file['directory'] = $directory;
+				$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
+				$permissions = OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE;
+				if ($file['type'] == 'dir' && $file['writable']) {
+					$permissions |= OCP\Share::PERMISSION_CREATE;
+				}
+				if ($file['writable']) {
+					$permissions |= OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_DELETE;
+				}
+				$file['permissions'] = $permissions;
+			}
+			if ($directory == '' && OC_App::isEnabled('files_sharing')) {
+				// Add 'Shared' folder
+				$files = array_merge($files, OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT));
+			}
 		}
 		usort($files, "fileCmp");//TODO: remove this once ajax is merged
 		return $files;
@@ -104,8 +136,7 @@ class OC_Files {
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
 			}else{
-				$fileData=OC_FileCache::get($filename);
-				header('Content-Type: ' . $fileData['mimetype']);
+				header('Content-Type: '.OC_Filesystem::getMimeType($filename));
 			}
 		}elseif($zip or !OC_Filesystem::file_exists($filename)){
 			header("HTTP/1.0 404 Not Found");

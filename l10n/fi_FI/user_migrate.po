@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:45+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-17 00:44+0200\n"
+"PO-Revision-Date: 2012-08-16 11:06+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,28 +20,28 @@ msgstr ""
 
 #: js/export.js:14 js/export.js:20
 msgid "Export"
-msgstr ""
+msgstr "Vie"
 
 #: js/export.js:19
 msgid "Something went wrong while the export file was being generated"
-msgstr ""
+msgstr "Jokin meni pieleen vientiä suorittaessa"
 
 #: js/export.js:19
 msgid "An error has occurred"
-msgstr ""
+msgstr "Tapahtui virhe"
 
 #: templates/settings.php:2
 msgid "Export your user account"
-msgstr ""
+msgstr "Vie käyttäjätilisi"
 
 #: templates/settings.php:3
 msgid ""
 "This will create a compressed file that contains your ownCloud account."
-msgstr ""
+msgstr "Tämä luo ownCloud-käyttäjätilisi sisältävän pakatun tiedoston."
 
 #: templates/settings.php:13
 msgid "Import user account"
-msgstr ""
+msgstr "Tuo käyttäjätili"
 
 #: templates/settings.php:15
 msgid "ownCloud User Zip"
@@ -48,4 +49,4 @@ msgstr ""
 
 #: templates/settings.php:17
 msgid "Import"
-msgstr ""
+msgstr "Tuo"

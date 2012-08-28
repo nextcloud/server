@@ -12,6 +12,10 @@
 "Saving..." => "保存中...",
 "__language_name__" => "Japanese (日本語)",
 "Security Warning" => "セキュリティ警告",
+"Cron" => "cron(自動定期実行)",
+"execute one task with each page loaded" => "ページを開く毎にタスクを1つ実行",
+"cron.php is registered at a webcron service" => "cron.phpをwebcronサービスに登録しました",
+"use systems cron service" => "システムのcronサービスを使用",
 "Log" => "ログ",
 "More" => "もっと",
 "Add your App" => "アプリを追加",
@@ -47,7 +51,7 @@
 "Create" => "作成",
 "Default Quota" => "デフォルトのクォータサイズ",
 "Other" => "その他",
-"SubAdmin" => "サブ管理者",
+"Group Admin" => "グループ管理者",
 "Quota" => "クオータ",
 "Delete" => "削除"
 );

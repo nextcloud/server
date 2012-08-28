@@ -8,6 +8,8 @@
 "Password" => "Mot de passe",
 "For anonymous access, leave DN and Password empty." => "Pour l'accès anonyme, laisser le DN et le mot de passe vides.",
 "User Login Filter" => "Filtre d'identifiants utilisateur",
+"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Définit le filtre à appliquer lors d'une tentative de connexion. %%uid remplace le nom d'utilisateur lors de la connexion.",
+"use %%uid placeholder, e.g. \"uid=%%uid\"" => "veuillez utiliser le champ %%uid , ex.: \"uid=%%uid\"",
 "User List Filter" => "Filtre d'utilisateurs",
 "Defines the filter to apply, when retrieving users." => "Définit le filtre à appliquer lors de la récupération des utilisateurs.",
 "without any placeholder, e.g. \"objectClass=person\"." => "sans élément de substitution, par exemple \"objectClass=person\".",

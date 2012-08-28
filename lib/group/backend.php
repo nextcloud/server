@@ -105,6 +105,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	 *
 	 * Returns a list with all groups
 	 */
+
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		return array();
 	}
@@ -115,7 +116,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	 * @return bool
 	 */
 	public function groupExists($gid){
-		return in_array($gid, $this->getGroups());
+		return in_array($gid, $this->getGroups($gid, 1));
 	}
 
 	/**

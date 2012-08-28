@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+	datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
+	xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0"
+>
+	<start>
+		<element name="manifest:manifest">
+			<attribute name="manifest:version">
+				<value>1.2</value>
+			</attribute>
+			<oneOrMore>
+				<element name="manifest:file-entry">
+					<interleave>
+						<attribute name="manifest:full-path">
+							<data type="string"/>
+						</attribute>
+						<attribute name="manifest:media-type">
+							<data type="string"/>
+						</attribute>
+					</interleave>
+				</element>
+			</oneOrMore>
+		</element>
+	</start>
+</grammar>

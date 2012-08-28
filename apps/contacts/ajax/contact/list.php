@@ -41,6 +41,10 @@ foreach($active_addressbooks as $addressbook) {
 				= array('contacts' => array('type' => 'book',));
 		$contacts_addressbook[$addressbook['id']]['displayname']
 				= $addressbook['displayname'];
+		$contacts_addressbook[$addressbook['id']]['permissions']
+				= isset($addressbook['permissions'])
+				? $addressbook['permissions']
+				: '0';
 	}
 }
 
@@ -75,10 +79,14 @@ if($contacts_alphabet) {
 			}
 		}
 		$contacts_addressbook[$contact['addressbookid']]['contacts'][] = array(
-					'type' => 'contact',
-					'id' => $contact['id'],
-					'addressbookid' => $contact['addressbookid'],
-					'displayname' => htmlspecialchars($display)
+			'type' => 'contact',
+			'id' => $contact['id'],
+			'addressbookid' => $contact['addressbookid'],
+			'displayname' => htmlspecialchars($display),
+			'permissions' =>
+				isset($contacts_addressbook[$contact['addressbookid']]['permissions'])
+					? $contacts_addressbook[$contact['addressbookid']]['permissions']
+					: '0',
 		);
 	}
 }

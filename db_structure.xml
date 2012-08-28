@@ -31,7 +31,7 @@
 
    <field>
     <name>configvalue</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>true</notnull>
    </field>
 
@@ -388,7 +388,7 @@
    <field>
     <name>moment</name>
     <type>timestamp</type>
-    <default>0000-00-00 00:00:00</default>
+    <default>CURRENT_TIMESTAMP</default>
     <notnull>true</notnull>
    </field>
 
@@ -418,7 +418,7 @@
 
    <field>
     <name>info</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>true</notnull>
    </field>
 
@@ -458,7 +458,7 @@
 
    <field>
     <name>configvalue</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>true</notnull>
    </field>
 
@@ -498,7 +498,7 @@
 
    <field>
     <name>propertyvalue</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>true</notnull>
    </field>
 
@@ -506,6 +506,121 @@
 
  </table>
 
+  <table>
+
+  <name>*dbprefix*share</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <autoincrement>1</autoincrement>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>share_type</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>1</length>
+   </field>
+   
+   <field>
+    <name>share_with</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+   
+   <field>
+    <name>uid_owner</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+   
+   <field>
+    <name>parent</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>4</length>
+   </field>
+   
+   <field>
+    <name>item_type</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+   
+   <field>
+    <name>item_source</name>
+    <type>text</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>255</length>
+   </field>
+      
+   <field>
+    <name>item_target</name>
+    <type>text</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>255</length>
+   </field>
+   
+   <field>
+    <name>file_source</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>4</length>
+   </field>
+      
+   <field>
+    <name>file_target</name>
+    <type>text</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>512</length>
+   </field>
+
+   <field>
+    <name>permissions</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>1</length>
+   </field>
+   
+   <field>
+    <name>stime</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>8</length>
+   </field>
+   
+   <field>
+    <name>accepted</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <length>1</length>
+   </field>
+
+  </declaration>
+
+ </table>
+ 
  <table>
 
   <name>*dbprefix*queuedtasks</name>
@@ -548,7 +663,7 @@
 
    <field>
     <name>parameters</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>true</notnull>
    </field>
 

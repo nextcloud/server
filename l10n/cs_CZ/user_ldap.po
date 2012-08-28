@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Martin  <fireball@atlas.cz>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:45+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-18 02:01+0200\n"
+"PO-Revision-Date: 2012-08-17 16:01+0000\n"
+"Last-Translator: Martin <fireball@atlas.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,146 +20,146 @@ msgstr ""
 
 #: templates/settings.php:8
 msgid "Host"
-msgstr ""
+msgstr "Hostitel"
 
 #: templates/settings.php:8
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Nelze vynechat protokol vyžadující SSL. Začněte s ldaps://"
 
 #: templates/settings.php:9
 msgid "Base DN"
-msgstr ""
+msgstr "Base DN"
 
 #: templates/settings.php:9
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "V Rozšířeném nastavení můžete specifikovat pro své uživatele a skupiny element Base DN"
 
 #: templates/settings.php:10
 msgid "User DN"
-msgstr ""
+msgstr "DN uživatele"
 
 #: templates/settings.php:10
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "DN klentského uživatele ke kterému tvoříte vazbu, např. uid=agent,dc=example,dc=com. Pro anonymní přístup ponechte údaje DN and Heslo prázdné."
 
 #: templates/settings.php:11
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Pro anonymní přístup ponechte údaje DN and Heslo prázdné."
 
 #: templates/settings.php:12
 msgid "User Login Filter"
-msgstr ""
+msgstr "Filtr uživatelských loginů"
 
 #: templates/settings.php:12
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Definuje filtr, který je aplikován v průběhu logování. %%uid nahrazuje uživatelské jméno během logování."
 
 #: templates/settings.php:12
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "použijte %%uid pro rezervované místo, např. \"uid=%%uid\""
 
 #: templates/settings.php:13
 msgid "User List Filter"
-msgstr ""
+msgstr "Filtr uživateslkých seznamů"
 
 #: templates/settings.php:13
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Defunije filtr, který je plaikován při návratu uživatelů."
 
 #: templates/settings.php:13
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "bez rezervace místa, např. \"objectClass=person\"."
 
 #: templates/settings.php:14
 msgid "Group Filter"
-msgstr ""
+msgstr "Filtr skupiny"
 
 #: templates/settings.php:14
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Definuje filtr, který je aplikován při návratu skupin"
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "bez rezervace místa, např. \"objectClass=posixGroup\"."
 
 #: templates/settings.php:17
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: templates/settings.php:18
 msgid "Base User Tree"
-msgstr ""
+msgstr "Základní uživatelský strom"
 
 #: templates/settings.php:19
 msgid "Base Group Tree"
-msgstr ""
+msgstr "Základní skupinový strom"
 
 #: templates/settings.php:20
 msgid "Group-Member association"
-msgstr ""
+msgstr "Asociace člena skupiny"
 
 #: templates/settings.php:21
 msgid "Use TLS"
-msgstr ""
+msgstr "Použijte TLS"
 
 #: templates/settings.php:21
 msgid "Do not use it for SSL connections, it will fail."
-msgstr ""
+msgstr "Nepoužívejte pro SSL připojení, připojení selže."
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "LDAP server nerozlišující velikost znaků (Windows)"
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "Vypněte ověřování SSL certifikátu"
 
 #: templates/settings.php:23
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "pokud pracuje připojení pouze pokud je teto volba aktivní, importujte SSL certifikát LDAP serveru do Vašeho serveru ownCloud."
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "Není doporučeno, pouze pro účely testování."
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Pole pro zobrazované jméno uživatele"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "Atribut LDAP použitý k vytvoření jména uživatele ownCloud"
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Pole pro zobrazení jména skupiny"
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "Atribut LDAP použitý k vytvoření jména skupiny ownCloud"
 
 #: templates/settings.php:27
 msgid "in bytes"
-msgstr ""
+msgstr "v bytech"
 
 #: templates/settings.php:29
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "ve vteřinách. Změna vyprázdní dočasnou paměť."
 
 #: templates/settings.php:31
 msgid "Help"
-msgstr ""
+msgstr "Nápověda"

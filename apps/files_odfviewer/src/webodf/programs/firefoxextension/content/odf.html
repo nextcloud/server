@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+  <style type="text/css" media="screen">
+    body, html, div {
+      padding: 0px;
+      margin: 0px;
+      border: 0px;
+    }
+    body, html {
+      height: 100%;
+      text-align: center;
+    }
+    html > body {
+      background: black;
+    }
+    div#toolbar {
+      background: white;
+      padding: 7px;
+      border-bottom: 1px solid black;
+    }
+    div#toolbar > span {
+      border: 1px solid black;
+      padding: 2px;
+    }
+    div#toolbar > span:hover {
+      background: #CCCCCC;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="webodf.css"/>
+  <script src="webodf.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">//<![CDATA[
+var webodffirefox = {
+    url: undefined,
+    data: undefined,
+    odfcanvas: undefined
+};
+window.addEventListener('odfload', function webViewerLoad(evt) {
+    runtime.loadClass("odf.OdfCanvas");
+    var wf = webodffirefox,
+        params = document.location.search.substring(1).split('&'),
+        param,
+        odfelement = document.getElementById("odf"),
+        data = evt.detail;
+    for (i = 0; i < params.length; i += 1) {
+        param = params[i].split('=');
+        params[unescape(param[0])] = unescape(param[1]);
+    }
+    wf.url = params.file;
+    wf.data = data;
+    wf.odfcanvas = new odf.OdfCanvas(odfelement);
+
+    runtime.read = function (path, offset, length, callback) {
+        var d = data.slice(offset, offset + length);
+        callback(null, d);
+    }
+    runtime.getFileSize = function (path, callback) {
+        callback(data.length);
+    }
+    wf.odfcanvas.load(params.file);
+}, true);
+function addButton(parent, label, onclick) {
+    var doc = parent.ownerDocument,
+        button = doc.createElement("span");
+    button.appendChild(doc.createTextNode(label));
+    button.onclick = onclick;
+    parent.appendChild(button);
+}
+function init() {
+    runtime.loadClass("core.Base64");
+    var toolbar = document.getElementById("toolbar");
+    addButton(toolbar, "download", function onclick() {
+        window.location.href = webodffirefox.url + "#download";
+    });
+}
+window.setTimeout(function () {
+    init();
+}, 1);
+//--></script>
+  <title></title>
+</head>
+<body>
+  <div id="toolbar">
+  </div>
+  <div id="odf"/>
+</body>
+</html>

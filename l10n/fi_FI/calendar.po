@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 12:14+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +70,7 @@ msgstr "Aikavyöhyke vaihdettu"
 msgid "Invalid request"
 msgstr "Virheellinen pyyntö"
 
-#: appinfo/app.php:35 templates/calendar.php:15
+#: appinfo/app.php:37 templates/calendar.php:15
 #: templates/part.eventform.php:33 templates/part.showevent.php:33
 msgid "Calendar"
 msgstr "Kalenteri"
@@ -479,7 +479,7 @@ msgstr "Tänään"
 
 #: templates/calendar.php:46 templates/calendar.php:47
 msgid "Settings"
-msgstr ""
+msgstr "Asetukset"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
@@ -733,7 +733,7 @@ msgstr ""
 
 #: templates/settings.php:10
 msgid "General"
-msgstr ""
+msgstr "Yleiset"
 
 #: templates/settings.php:15
 msgid "Timezone"
@@ -741,11 +741,11 @@ msgstr "Aikavyöhyke"
 
 #: templates/settings.php:47
 msgid "Update timezone automatically"
-msgstr ""
+msgstr "Päivitä aikavyöhykkeet automaattisesti"
 
 #: templates/settings.php:52
 msgid "Time format"
-msgstr ""
+msgstr "Ajan näyttömuoto"
 
 #: templates/settings.php:57
 msgid "24h"
@@ -757,7 +757,7 @@ msgstr "12 tuntia"
 
 #: templates/settings.php:64
 msgid "Start week on"
-msgstr ""
+msgstr "Viikon alkamispäivä"
 
 #: templates/settings.php:76
 msgid "Cache"
@@ -781,7 +781,7 @@ msgstr ""
 
 #: templates/settings.php:89
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "Ensisijainen osoite (Kontact ja muut vastaavat)"
 
 #: templates/settings.php:91
 msgid "iOS/OS X"

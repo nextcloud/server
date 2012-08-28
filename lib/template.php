@@ -475,7 +475,7 @@ class OC_Template{
 	public static function printGuestPage( $application, $name, $parameters = array() ){
 		$content = new OC_Template( $application, $name, "guest" );
 		foreach( $parameters as $key => $value ){
-			$content->assign( $key, $value,false );
+			$content->assign( $key, $value, false );
 		}
 		return $content->printPage();
 	}

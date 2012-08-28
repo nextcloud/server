@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-02 02:02+0200\n"
-"PO-Revision-Date: 2012-08-02 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 09:17+0000\n"
+"Last-Translator: Javier Llorente <javier@opensuse.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,7 @@ msgstr "Nombre de la aplicación no provisto."
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr "¿Ninguna categoría para agregar?"
+msgstr "¿Ninguna categoría para añadir?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
@@ -39,55 +39,55 @@ msgstr "Esta categoría ya existe: "
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:190 templates/layout.user.php:64 templates/layout.user.php:65
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "January"
 msgstr "Enero"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "February"
 msgstr "Febrero"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "March"
 msgstr "Marzo"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "April"
 msgstr "Abril"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "May"
 msgstr "Mayo"
 
-#: js/js.js:573
+#: js/js.js:575
 msgid "June"
 msgstr "Junio"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "July"
 msgstr "Julio"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "August"
 msgstr "Agosto"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "September"
 msgstr "Septiembre"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "October"
 msgstr "Octubre"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "November"
 msgstr "Noviembre"
 
-#: js/js.js:574
+#: js/js.js:576
 msgid "December"
 msgstr "Diciembre"
 
@@ -105,11 +105,11 @@ msgstr "Sí"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr "Vale"
+msgstr "Aceptar"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr "No hay categorias seleccionadas para borrar."
+msgstr "No hay categorías seleccionadas para borrar."
 
 #: js/oc-vcategories.js:68
 msgid "Error"

@@ -4,6 +4,7 @@ $(document).ready(function() {
 		sqlite:!!$('#hasSQLite').val(),
 		mysql:!!$('#hasMySQL').val(),
 		postgresql:!!$('#hasPostgreSQL').val(),
+		oracle:!!$('#hasOracle').val(),
 	}
 	
 	$('#selectDbType').buttonset();
@@ -30,6 +31,12 @@ $(document).ready(function() {
 	});
 	
 	$('#pgsql').click(function() {
+		$('#use_other_db').slideDown(250);
+		$('#dbhost').show(250);
+		$('#dbhostlabel').show(250);
+	});
+	
+	$('#oci').click(function() {
 		$('#use_other_db').slideDown(250);
 		$('#dbhost').show(250);
 		$('#dbhostlabel').show(250);

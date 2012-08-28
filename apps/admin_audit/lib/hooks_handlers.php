@@ -63,7 +63,8 @@ class OC_Admin_Audit_Hooks_Handlers {
 		$permissions = $params['permissions'];
 		$with = $params['with'];
 		$user = OCP\User::getUser();
-		$rw = $permissions & OC_Share::WRITE ? 'w' : 'o';
+		//$rw = $permissions & OC_Share::WRITE ? 'w' : 'o'; //FIXME OC_Share no longer exists, hack to check permissions
+		$rw = $permissions & 1 ? 'w' : 'o';
 		self::log('Shared "'.$path.'" (r'.$rw.') with user "'.$with.'" by '.$user);
 	}
 	static protected function log($msg) {

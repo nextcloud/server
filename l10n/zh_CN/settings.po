@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-12 02:02+0200\n"
-"PO-Revision-Date: 2012-08-12 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-19 02:02+0200\n"
+"PO-Revision-Date: 2012-08-18 05:49+0000\n"
+"Last-Translator: leonfeng <rainofchaos@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "无法从应用商店载入列表"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -42,7 +42,7 @@ msgstr "非法请求"
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "认证错误"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -50,7 +50,7 @@ msgstr "语言已修改"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
@@ -70,15 +70,15 @@ msgstr "简体中文"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "安全警告"
 
 #: templates/admin.php:29
 msgid "Cron"
-msgstr ""
+msgstr "计划任务"
 
 #: templates/admin.php:31
 msgid "execute one task with each page loaded"
-msgstr ""
+msgstr "为每个装入的页面执行任务"
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
@@ -86,7 +86,7 @@ msgstr ""
 
 #: templates/admin.php:35
 msgid "use systems cron service"
-msgstr ""
+msgstr "实现系统 cron 服务"
 
 #: templates/admin.php:39
 msgid "Log"
@@ -229,8 +229,8 @@ msgid "Other"
 msgstr "其它"
 
 #: templates/users.php:80 templates/users.php:112
-msgid "SubAdmin"
-msgstr ""
+msgid "Group Admin"
+msgstr "组管理"
 
 #: templates/users.php:82
 msgid "Quota"

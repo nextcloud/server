@@ -13,5 +13,8 @@
 "Nothing in here. Upload something!" => "Nihil hic. Incarga alcun cosa!",
 "Name" => "Nomine",
 "Download" => "Discargar",
+"Size" => "Dimension",
+"Modified" => "Modificate",
+"Delete" => "Deler",
 "Upload too large" => "Incargamento troppo longe"
 );

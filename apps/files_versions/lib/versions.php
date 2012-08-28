@@ -64,14 +64,15 @@ class Storage {
 			$files_view = \OCP\Files::getStorage("files");
 			$users_view = \OCP\Files::getStorage("files_versions");
 			$users_view->chroot(\OCP\User::getUser().'/');
-				
-			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
-				$pos = strpos($source, '/files', 1);
-				$uid = substr($source, 1, $pos - 1);
-				$filename = substr($source, $pos + 6);
-			} else {
+                        
+			//FIXME OC_Share no longer exists
+			//if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
+			//	$pos = strpos($source, '/files', 1);
+			//	$uid = substr($source, 1, $pos - 1);
+			//	$filename = substr($source, $pos + 6);
+			//} else {
 				$uid = \OCP\User::getUser();
-			}
+			//}
 				
 			$versionsFolderName=\OCP\Config::getSystemValue('datadirectory') .  $this->view->getAbsolutePath('');
 				
@@ -134,13 +135,14 @@ class Storage {
 			$users_view = \OCP\Files::getStorage("files_versions");
 			$users_view->chroot(\OCP\User::getUser().'/');
 				
-			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
-				$pos = strpos($source, '/files', 1);
-				$uid = substr($source, 1, $pos - 1);
-				$filename = substr($source, $pos + 6);
-			} else {
+			//FIXME OC_Share no longer exists
+			//if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
+			//	$pos = strpos($source, '/files', 1);
+			//	$uid = substr($source, 1, $pos - 1);
+			//	$filename = substr($source, $pos + 6);
+			//} else {
 				$uid = \OCP\User::getUser();
-			}
+			//}
 				
 			// rollback
 			if( @$users_view->copy('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
@@ -163,10 +165,11 @@ class Storage {
 	public static function isversioned($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			$versions_fileview = \OCP\Files::getStorage("files_versions");
-			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
-				$pos = strpos($source, '/files', 1);
-				$filename = substr($source, $pos + 6);
-			}
+			//FIXME OC_Share no longer exists
+			//if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
+			//	$pos = strpos($source, '/files', 1);
+			//	$filename = substr($source, $pos + 6);
+			//}
 
 			$versionsFolderName=\OCP\Config::getSystemValue('datadirectory'). $versions_fileview->getAbsolutePath('');
 			
@@ -194,13 +197,14 @@ class Storage {
 
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
 
-			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
-				$pos = strpos($source, '/files', 1);
-				$uid = substr($source, 1, $pos - 1);
-				$filename = substr($source, $pos + 6);
-			} else {
+			//FIXME OC_Share no longer exists
+			//if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
+			//	$pos = strpos($source, '/files', 1);
+			//	$uid = substr($source, 1, $pos - 1);
+			//	$filename = substr($source, $pos + 6);
+			//} else {
 				$uid = \OCP\User::getUser();
-			}
+			//}
 			$versions_fileview = \OCP\Files::getStorage('files_versions');
 			$versionsFolderName = \OCP\Config::getSystemValue('datadirectory'). $versions_fileview->getAbsolutePath('');
 			$versions = array();
@@ -267,13 +271,14 @@ class Storage {
 	public static function expire($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 
-			if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
-				$pos = strpos($source, '/files', 1);
-				$uid = substr($source, 1, $pos - 1);
-				$filename = substr($source, $pos + 6);
-			} else {
+			//FIXME OC_Share no longer exists
+			//if (\OCP\App::isEnabled('files_sharing') && $source = \OC_Share::getSource('/'.\OCP\User::getUser().'/files'.$filename)) {
+			//	$pos = strpos($source, '/files', 1);
+			//	$uid = substr($source, 1, $pos - 1);
+			//	$filename = substr($source, $pos + 6);
+			//} else {
 				$uid = \OCP\User::getUser();
-			}
+			//}
 			$versions_fileview = \OCP\Files::getStorage("files_versions");
 			$versionsFolderName=\OCP\Config::getSystemValue('datadirectory'). $versions_fileview->getAbsolutePath('');
 

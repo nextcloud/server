@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 12:49+0000\n"
+"POT-Creation-Date: 2012-08-20 02:01+0200\n"
+"PO-Revision-Date: 2012-08-19 15:11+0000\n"
 "Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -229,8 +229,8 @@ msgid "Other"
 msgstr "อื่นๆ"
 
 #: templates/users.php:80 templates/users.php:112
-msgid "SubAdmin"
-msgstr "ผู้ดูแลย่อย"
+msgid "Group Admin"
+msgstr "ผู้ดูแลกลุ่ม"
 
 #: templates/users.php:82
 msgid "Quota"

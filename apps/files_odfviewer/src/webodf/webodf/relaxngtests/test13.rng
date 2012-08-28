@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar
+	xmlns="http://relaxng.org/ns/structure/1.0"
+	datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
+	xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+	xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+	xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0"
+>
+	<start>
+		<element name="office:document">
+			<attribute name="office:version">
+				<value>1.2</value>
+			</attribute>
+			<attribute name="office:mimetype">
+				<data type="string"/>
+			</attribute>
+			<ref name="office-styles"/>
+			<element name="office:body">
+				<element name="office:text">
+					<empty/>
+				</element>
+			</element>
+		</element>
+	</start>
+	<define name="office-styles">
+		<element name="office:styles">
+			<interleave>
+				<interleave>
+					<ref name="style-style"/>
+					<ref name="text-list-style"/>
+				</interleave>
+				<ref name="text-outline-style"/>
+			</interleave>
+		</element>
+	</define>
+	<define name="style-style">
+		<element name="style:style">
+			<attribute name="style:name">
+				<ref name="styleName"/>
+			</attribute>
+			<attribute name="style:family">
+				<value>text</value>
+			</attribute>
+		</element>
+	</define>
+	<define name="text-list-style">
+		<element name="text:list-style">
+			<attribute name="style:name">
+				<ref name="styleName"/>
+			</attribute>
+		</element>
+	</define>
+	<define name="text-outline-style">
+		<element name="text:outline-style">
+			<attribute name="style:name">
+				<ref name="styleName"/>
+			</attribute>
+			<element name="text:outline-level-style">
+				<attribute name="text:level">
+					<data type="positiveInteger"/>
+				</attribute>
+			</element>
+		</element>
+	</define>
+	<define name="string">
+		<data type="string"/>
+	</define>
+	<define name="styleName">
+		<data type="NCName"/>
+	</define>
+</grammar>

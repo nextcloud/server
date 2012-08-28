@@ -108,7 +108,17 @@ switch($name) {
 		$value = strtolower($value);
 		break;
 	case 'TEL':
-	case 'ADR': // should I delete the property if empty or throw an error?
+	case 'ADR':
+		break;
+	case 'IMPP':
+		if(is_null($parameters) || !isset($parameters['X-SERVICE-TYPE'])) {
+			bailOut(OC_Contacts_App::$l10n->t('Missing IM parameter.'));
+		}
+		$impp = OC_Contacts_App::getIMOptions($parameters['X-SERVICE-TYPE']);
+		if(is_null($impp)) {
+			bailOut(OC_Contacts_App::$l10n->t('Unknown IM: '.$parameters['X-SERVICE-TYPE']));
+		}
+		$value = $impp['protocol'] . ':' . $value;
 		break;
 }
 
@@ -126,22 +136,28 @@ $line = count($vcard->children) - 1;
 // Apparently Sabre_VObject_Parameter doesn't do well with
 // multiple values or I don't know how to do it. Tanghus.
 foreach ($parameters as $key=>$element) {
-	if(is_array($element) && strtoupper($key) == 'TYPE') {
+	if(is_array($element) /*&& strtoupper($key) == 'TYPE'*/) {
 		// NOTE: Maybe this doesn't only apply for TYPE?
 		// And it probably shouldn't be done here anyways :-/
 		foreach($element as $e) {
 			if($e != '' && !is_null($e)) {
-				$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key, $e);
+				if(trim($e)) {
+					$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key, $e);
+				}
 			}
 		}
 	} else {
+		if(trim($element)) {
 			$vcard->children[$line]->parameters[] = new Sabre_VObject_Parameter($key, $element);
+		}
 	}
 }
 $checksum = md5($vcard->children[$line]->serialize());
 
-if(!OC_Contacts_VCard::edit($id, $vcard)) {
-	bailOut($l10n->t('Error adding contact property: '.$name));
+try {
+	OC_Contacts_VCard::edit($id, $vcard);
+} catch(Exception $e) {
+	bailOut($e->getMessage());
 }
 
 OCP\JSON::success(array(

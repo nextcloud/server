@@ -40,8 +40,10 @@ if(is_null($line)) {
 
 unset($vcard->children[$line]);
 
-if(!OC_Contacts_VCard::edit($id, $vcard)) {
-	bailOut($l10n->t('Error deleting contact property.'));
+try {
+	OC_Contacts_VCard::edit($id, $vcard);
+} catch(Exception $e) {
+	bailOut($e->getMessage());
 }
 
 OCP\JSON::success(array(

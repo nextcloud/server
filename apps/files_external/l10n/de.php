@@ -13,6 +13,6 @@
 "Delete" => "Löschen",
 "SSL root certificates" => "SSL-Root-Zertifikate",
 "Import Root Certificate" => "Root-Zertifikate importieren",
-"Enable User External Storage" => "Externer Speicher für Benutzer aktivieren",
-"Allow users to mount their own external storage" => "Erlaubt Benutzern Ihre eigenen externen Speicher einzubinden"
+"Enable User External Storage" => "Externen Speicher für Benutzer aktivieren",
+"Allow users to mount their own external storage" => "Erlaubt Benutzern ihre eigenen externen Speicher einzubinden"
 );

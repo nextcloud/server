@@ -2,8 +2,8 @@
 
 class OC_remoteStorage {
 	public static function getValidTokens($ownCloudUser, $category) {
-		$query=OCP\DB::prepare("SELECT token,appUrl,category FROM *PREFIX*authtoken WHERE user=? LIMIT 100");
-		$result=$query->execute(array($ownCloudUser));
+		$stmt=OCP\DB::prepare("SELECT `token`,`appUrl`,`category` FROM `*PREFIX*authtoken` WHERE `user`=?",100);
+		$result=$stmt->execute(array($ownCloudUser));
 		$ret = array();
 		while($row=$result->fetchRow()){
 			if(in_array($category, explode(',', $row['category']))) {
@@ -15,8 +15,8 @@ class OC_remoteStorage {
 
   public static function getTokenFor($appUrl, $categories) {
 		$user=OCP\USER::getUser();
-		$query=OCP\DB::prepare("SELECT token FROM *PREFIX*authtoken WHERE user=? AND appUrl=? AND category=? LIMIT 1");
-		$result=$query->execute(array($user, $appUrl, $categories));
+		$stmt=OCP\DB::prepare("SELECT `token` FROM `*PREFIX*authtoken` WHERE `user`=? AND `appUrl`=? AND `category`=?",1);
+		$result=$stmt->execute(array($user, $appUrl, $categories));
 		if($row=$result->fetchRow()) {
 			return base64_encode('remoteStorage:'.$row['token']);
 		} else {
@@ -26,8 +26,8 @@ class OC_remoteStorage {
 
 	public static function getAllTokens() {
 		$user=OCP\USER::getUser();
-		$query=OCP\DB::prepare("SELECT token,appUrl,category FROM *PREFIX*authtoken WHERE user=? LIMIT 100");
-		$result=$query->execute(array($user));
+		$stmt=OCP\DB::prepare("SELECT `token`,`appUrl`,`category` FROM `*PREFIX*authtoken` WHERE `user`=?",100);
+		$result=$stmt->execute(array($user));
 		$ret = array();
 		while($row=$result->fetchRow()){
 			$ret[$row['token']] = array(
@@ -40,14 +40,14 @@ class OC_remoteStorage {
 
 	public static function deleteToken($token) {
 		$user=OCP\USER::getUser();
-		$query=OCP\DB::prepare("DELETE FROM *PREFIX*authtoken WHERE token=? AND user=?");
-		$query->execute(array($token,$user));
+		$stmt=OCP\DB::prepare("DELETE FROM `*PREFIX*authtoken` WHERE `token`=? AND `user`=?");
+		$stmt->execute(array($token,$user));
 		return 'unknown';//how can we see if any rows were affected?
 	}
 	private static function addToken($token, $appUrl, $categories){
 		$user=OCP\USER::getUser();
-		$query=OCP\DB::prepare("INSERT INTO *PREFIX*authtoken (`token`,`appUrl`,`user`,`category`) VALUES(?,?,?,?)");
-		$query->execute(array($token,$appUrl,$user,$categories));
+		$stmt=OCP\DB::prepare("INSERT INTO `*PREFIX*authtoken` (`token`,`appUrl`,`user`,`category`) VALUES(?,?,?,?)");
+		$stmt->execute(array($token,$appUrl,$user,$categories));
 	}
 	public static function createCategories($appUrl, $categories) {
 		$token=uniqid();

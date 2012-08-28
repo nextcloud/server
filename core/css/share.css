@@ -1,0 +1,18 @@
+/* Copyright (c) 2011, Jan-Christoph Borchardt, http://jancborchardt.net
+ This file is licensed under the Affero General Public License version 3 or later.
+ See the COPYING-README file. */
+
+#dropdown { display:block; position:absolute; z-index:500; width:19em; right:0; margin-right:7em; background:#eee; padding:1em;
+-moz-box-shadow:0 1px 1px #777; -webkit-box-shadow:0 1px 1px #777; box-shadow:0 1px 1px #777;
+-moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em;
+-moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
+.reshare { padding-left:0.5em; }
+#shareWithList { padding:0.5em; list-style-type: none; }
+#shareWithList li { padding-top:0.1em; }
+#dropdown label { font-weight:normal; }
+#dropdown input[type="checkbox"] { margin:0 0.2em 0 0.5em; }
+a.showCruds { display:inline; opacity:.5; }
+a.showCruds:hover { opacity:1; }
+a.unshare { float:right; display:inline; padding:.3em 0 0 .3em !important; opacity:.5; }
+a.unshare:hover { opacity:1; }
+#privateLink { border-top:1px solid #ddd; padding-top:0.5em; }

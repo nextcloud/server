@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:45+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 13:37+0000\n"
+"Last-Translator: Efstathios Iosifidis <diamond_gr@freemail.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: js/export.js:14 js/export.js:20
 msgid "Export"
-msgstr ""
+msgstr "Εξαγωγή"
 
 #: js/export.js:19
 msgid "Something went wrong while the export file was being generated"
@@ -27,20 +28,20 @@ msgstr ""
 
 #: js/export.js:19
 msgid "An error has occurred"
-msgstr ""
+msgstr "Παρουσιάστηκε σφάλμα"
 
 #: templates/settings.php:2
 msgid "Export your user account"
-msgstr ""
+msgstr "Εξαγωγή του λογαριασμού χρήστη σας"
 
 #: templates/settings.php:3
 msgid ""
 "This will create a compressed file that contains your ownCloud account."
-msgstr ""
+msgstr "Αυτό θα δημιουργήσει ένα συμπιεσμένο αρχείο που θα περιέχει τον λογαριασμό σας ownCloud."
 
 #: templates/settings.php:13
 msgid "Import user account"
-msgstr ""
+msgstr "Εισαγωγή λογαριασμού χρήστη"
 
 #: templates/settings.php:15
 msgid "ownCloud User Zip"
@@ -48,4 +49,4 @@ msgstr ""
 
 #: templates/settings.php:17
 msgid "Import"
-msgstr ""
+msgstr "Εισαγωγή"

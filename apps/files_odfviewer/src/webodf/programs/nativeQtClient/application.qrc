@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>www/app/app.js</file>
+        <file>www/app/controller/Files.js</file>
+        <file>www/app/model/FileSystem.js</file>
+        <file>www/app/store/FileStore.js</file>
+        <file>www/app/views/FileDetail.js</file>
+        <file>www/app/views/FilesList.js</file>
+        <file>www/app/views/OdfView.js</file>
+        <file>www/app/views/Viewport.js</file>
+        <file>www/index.html</file>
+        <file>www/scripts.js</file>
+        <file>www/sencha-touch.css</file>
+        <file>www/sencha-touch.js</file>
+        <file>www/webodf.css</file>
+        <file>www/webodf.js</file>
+    </qresource>
+</RCC>

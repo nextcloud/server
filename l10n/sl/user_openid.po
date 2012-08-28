@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 13:13+0000\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-15 00:29+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -24,11 +24,11 @@ msgstr "To je OpenID strežniška končna točka. Za več informacij si oglejte"
 
 #: templates/nomode.php:14
 msgid "Identity: <b>"
-msgstr "Istovetnost: <b>"
+msgstr "Identiteta: <b>"
 
 #: templates/nomode.php:15
 msgid "Realm: <b>"
-msgstr ""
+msgstr "Področje: <b>"
 
 #: templates/nomode.php:16
 msgid "User: <b>"
@@ -48,8 +48,8 @@ msgstr "s tem naslovom se lahko overite tudi na drugih straneh"
 
 #: templates/settings.php:5
 msgid "Authorized OpenID provider"
-msgstr "Odobren OpenID ponudnik"
+msgstr "Odobren ponudnik OpenID"
 
 #: templates/settings.php:6
 msgid "Your address at Wordpress, Identi.ca, &hellip;"
-msgstr "Vaš naslov na Wordpress, Identi.ca, &hellip;"
+msgstr "Vaš naslov pri Wordpress, Identi.ca, &hellip;"

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Magnus Höglund <magnus@linux.com>, 2012.
 #   <magnus@linux.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-30 02:03+0200\n"
-"PO-Revision-Date: 2012-07-29 07:56+0000\n"
-"Last-Translator: maghog <magnus@linux.com>\n"
+"POT-Creation-Date: 2012-08-22 02:04+0200\n"
+"PO-Revision-Date: 2012-08-21 08:40+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,43 +19,43 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: app.php:287
+#: app.php:288
 msgid "Help"
 msgstr "Hjälp"
 
-#: app.php:294
+#: app.php:295
 msgid "Personal"
 msgstr "Personligt"
 
-#: app.php:299
+#: app.php:300
 msgid "Settings"
 msgstr "Inställningar"
 
-#: app.php:304
+#: app.php:305
 msgid "Users"
 msgstr "Användare"
 
-#: app.php:311
+#: app.php:312
 msgid "Apps"
 msgstr "Program"
 
-#: app.php:313
+#: app.php:314
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:245
+#: files.php:276
 msgid "ZIP download is turned off."
-msgstr "Nedladdning av ZIP är avstängd."
+msgstr "Nerladdning av ZIP är avstängd."
 
-#: files.php:246
+#: files.php:277
 msgid "Files need to be downloaded one by one."
 msgstr "Filer laddas ner en åt gången."
 
-#: files.php:246 files.php:271
+#: files.php:277 files.php:302
 msgid "Back to Files"
 msgstr "Tillbaka till Filer"
 
-#: files.php:270
+#: files.php:301
 msgid "Selected files too large to generate zip file."
 msgstr "Valda filer är för stora för att skapa zip-fil."
 

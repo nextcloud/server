@@ -130,4 +130,12 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->instance->remove('target.txt');
 		$this->assertFalse($this->instance->fileExists('target.txt'));
 	}
+	public function testRecursive(){
+		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
+		$this->instance=$this->getNew();
+		$this->instance->addRecursive('/dir',$dir);
+		$this->assertTrue($this->instance->fileExists('/dir/lorem.txt'));
+		$this->assertTrue($this->instance->fileExists('/dir/data.zip'));
+		$this->assertTrue($this->instance->fileExists('/dir/data.tar.gz'));
+	}
 }

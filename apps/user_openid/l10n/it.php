@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"This is an OpenID server endpoint. For more information, see " => "Questo è un server OpenID. Per ulteriori informazioni, vedi",
+"This is an OpenID server endpoint. For more information, see " => "Questo è un server OpenID. Per ulteriori informazioni, vedi ",
 "Identity: <b>" => "Identità: <b>",
 "Realm: <b>" => "Dominio: <b>",
 "User: <b>" => "Utente: <b>",

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+	<id>impress</id>
+	<name>Impress</name>
+	<description>A Player for impress presentations. Many thanks to Bartek Szopka for creating the wonderful impress.js library who made this app possible.</description>
+	<licence>AGPL</licence>
+	<author>Frank Karlitschek</author>
+	<require>4</require>
+	<shipped>true</shipped>
+</info>

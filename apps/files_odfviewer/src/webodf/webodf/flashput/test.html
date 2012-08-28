@@ -1,0 +1,96 @@
+<html>
+	<head>
+		<title>hi</title>
+	</head>
+	<body onload="init()">
+		<script type="text/javascript">//<![CDATA[
+/**
+ * @constuctor
+ */
+function FlashPut(host, port, domelement) {
+    if (port <= 0) {
+        return;
+    }
+    var flashput = this,
+        ready = false,
+        id = "FlashPut" + String(Math.random()).substring(2),
+        jobnumber = 0,
+        queue = [],
+        runningCalls = {},
+        doc = domelement.ownerDocument,
+        flash = doc.createElement("object"),
+        param = doc.createElement("param");
+    flash.setAttribute("data", "PUT.swf");
+    flash.setAttribute("type", "application/x-shockwave-flash");
+    flash.setAttribute("width", "1");
+    flash.setAttribute("height", "1");
+    param.setAttribute("name", "allowNetworking");
+    param.setAttribute("value", "all");
+    flash.appendChild(param);
+    param = doc.createElement("param");
+    param.setAttribute("name", "allowScriptAccess");
+    param.setAttribute("value", "always");
+    flash.appendChild(param);
+    param.setAttribute("name", "FlashVars");
+    param.setAttribute("value", "readyCallback=" + id);
+    flash.appendChild(param);
+    domelement.appendChild(flash);
+
+    // function to be called when flash movie is ready
+    window[id] = function () {
+        window[id] = undefined;
+        ready = true;
+        var i, a;
+        for (i = 0; i < queue.length; i += 1) {
+            a = queue[i];
+            put(a[0], a[1], a[2]);
+        }
+        queue = undefined;
+    };
+    function put(path, data, callback) {
+        var id = Math.random();
+        runningCalls[id] = callback;
+        flash.put(host, port, path, data, "FlashPut.putCallback", id);
+    }
+    this.put = function (path, data, callback) {
+        if (!ready) {
+            queue.push([path, data, callback]);
+        } else {
+            put(path, data, callback);
+        }
+    }
+    FlashPut.putCallback = function (id, result) {
+        if (id in runningCalls) {
+            runningCalls[id](result);
+            runningCalls.remove(id);
+        } else {
+            console.log("running put call " + id + " was not found.");
+        }
+    }
+};
+
+function testFlash() {
+    var i, l = 1000000, str = "", now = new Date();
+    for (i = 0; i < l; i += 1) {
+        str += String.fromCharCode(i & 0xff);
+    }
+    now = new Date();
+    str = window.btoa(str);
+    flashput.put("/zz", str, function (result) {
+        alert("'" + result + "' " + now.toString() + " " + (new Date()).toString());
+	var z = "hmm";
+        try {
+            z = window.atob(result);
+        } catch (e) {
+        }
+        alert(z + " " + now.toString() + " " + (new Date()).toString());
+    });
+}
+var flashput;
+function init() {
+    flashput = new FlashPut("", 8123, document.body);
+    testFlash();
+}
+//]]>		</script>
+	</body>
+</html>

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 13:14+0000\n"
-"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
+"POT-Creation-Date: 2012-08-23 02:03+0200\n"
+"PO-Revision-Date: 2012-08-23 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,38 +18,18 @@ msgstr ""
 "Language: th_TH\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: templates/list.php:2
-msgid "Your Shared Files"
-msgstr "ไฟล์ของคุณที่แชร์ไว้"
+#: templates/get.php:4
+msgid "Size"
+msgstr "ขนาด"
 
-#: templates/list.php:6
-msgid "Item"
-msgstr "ไอเท็ม"
+#: templates/get.php:5
+msgid "Modified"
+msgstr "แก้ไขแล้ว"
 
-#: templates/list.php:7
-msgid "Shared With"
-msgstr "แชร์พร้อมกับ"
+#: templates/get.php:5
+msgid "Delete all"
+msgstr "ลบทั้งหมด"
 
-#: templates/list.php:8
-msgid "Permissions"
-msgstr "สิทธิ์การเข้าใช้งาน"
-
-#: templates/list.php:16
-msgid "Read"
-msgstr "อ่าน"
-
-#: templates/list.php:16
-msgid "Edit"
-msgstr "แก้ไข"
-
-#: templates/list.php:16 templates/list.php:17
+#: templates/get.php:5
 msgid "Delete"
 msgstr "ลบ"
-
-#: templates/settings.php:3
-msgid "Enable Resharing"
-msgstr "เปิดให้มีการแชร์ใหม่อีกครั้งได้"
-
-#: templates/settings.php:4
-msgid "Allow users to reshare files they don't own"
-msgstr "อนุญาตให้ผู้ใช้งานสามารถแชร์ไฟล์ที่ไม่ได้เป็นเจ้าของใหม่ได้"

@@ -43,14 +43,14 @@
    <field>
     <name>startdate</name>
     <type>timestamp</type>
-    <default>0000-00-00 00:00:00</default>
+    <default>CURRENT_TIMESTAMP</default>
     <notnull>false</notnull>
    </field>
 
    <field>
     <name>enddate</name>
     <type>timestamp</type>
-    <default>0000-00-00 00:00:00</default>
+    <default>CURRENT_TIMESTAMP</default>
     <notnull>false</notnull>
    </field>
 
@@ -72,7 +72,7 @@
 
    <field>
     <name>calendardata</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>false</notnull>
    </field>
 
@@ -172,7 +172,7 @@
 
    <field>
     <name>timezone</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>false</notnull>
    </field>
 

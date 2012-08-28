@@ -6,13 +6,14 @@
 # Maurice Preuß <>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
+#   <transifex.3.mensaje@spamgourmet.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:02+0200\n"
-"PO-Revision-Date: 2012-08-14 20:46+0000\n"
-"Last-Translator: Maurice Preuß <>\n"
+"POT-Creation-Date: 2012-08-24 02:01+0200\n"
+"PO-Revision-Date: 2012-08-23 10:05+0000\n"
+"Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 msgid ""
 "The php-json module is needed by the many applications for inter "
 "communications"
-msgstr "Das Modul  php-json wird von vielen Anwendungen zur internen Kommunikation benötigt."
+msgstr "Das Modul php-json wird von vielen Anwendungen zur internen Kommunikation benötigt."
 
 #: settings.php:39
 msgid ""
@@ -34,11 +35,11 @@ msgstr "Das Modul php-curl wird benötigt, um den Titel der Seite für die Lesez
 
 #: settings.php:45
 msgid "The php-gd module is needed to create thumbnails of your images"
-msgstr "Das Modul  php-gd wird für die Erzeugung der Vorschaubilder benötigt."
+msgstr "Das Modul php-gd wird für die Erzeugung der Vorschaubilder benötigt."
 
 #: settings.php:51
 msgid "The php-ldap module is needed connect to your ldap server"
-msgstr "Das Modul  php-ldap wird für die Verbindung mit dem LDAP-Server benötigt."
+msgstr "Das Modul php-ldap wird für die Verbindung mit dem LDAP-Server benötigt."
 
 #: settings.php:57
 msgid "The php-zip module is needed download multiple files at once"
@@ -47,7 +48,7 @@ msgstr "Das Modul php-zip wird für den gleichzeitigen Download mehrerer Dateien
 #: settings.php:63
 msgid ""
 "The php-mb_multibyte module is needed to manage correctly the encoding."
-msgstr "Das Modul  php_mb_multibyte wird benötigt, um das Encoding richtig zu handhaben."
+msgstr "Das Modul php_mb_multibyte wird benötigt, um das Encoding richtig zu handhaben."
 
 #: settings.php:69
 msgid "The php-ctype module is needed validate data."

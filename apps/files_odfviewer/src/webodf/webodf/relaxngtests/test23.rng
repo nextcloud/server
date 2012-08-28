@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar 
+    xmlns="http://relaxng.org/ns/structure/1.0"
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
+    xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0">
+<define name="manifest">
+    <element name="manifest:manifest">
+        <oneOrMore>
+            <ref name="file-entry"/>
+        </oneOrMore>
+    </element>
+</define>
+<start>
+    <choice>
+        <ref name="manifest"/>
+    </choice>
+</start>
+<define name="file-entry">
+    <element name="manifest:file-entry">
+        <ref name="file-entry-attlist"/>
+    </element>
+</define>
+<define name="file-entry-attlist" combine="interleave">
+    <attribute name="manifest:full-path">
+        <data type="string"/>
+    </attribute>
+</define>
+<define name="file-entry-attlist" combine="interleave">
+    <attribute name="manifest:media-type">
+        <data type="string"/>
+    </attribute>
+</define>
+</grammar>

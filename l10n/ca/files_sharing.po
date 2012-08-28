@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-13 18:21+0000\n"
-"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
+"POT-Creation-Date: 2012-08-23 02:03+0200\n"
+"PO-Revision-Date: 2012-08-23 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,38 +18,18 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: templates/list.php:2
-msgid "Your Shared Files"
-msgstr "Els vostres fitxers compartits"
+#: templates/get.php:4
+msgid "Size"
+msgstr "Mida"
 
-#: templates/list.php:6
-msgid "Item"
-msgstr "Element"
+#: templates/get.php:5
+msgid "Modified"
+msgstr "Modificat"
 
-#: templates/list.php:7
-msgid "Shared With"
-msgstr "Compartit amb"
+#: templates/get.php:5
+msgid "Delete all"
+msgstr "Esborra-ho tot"
 
-#: templates/list.php:8
-msgid "Permissions"
-msgstr "Permisos"
-
-#: templates/list.php:16
-msgid "Read"
-msgstr "Llegeix"
-
-#: templates/list.php:16
-msgid "Edit"
-msgstr "Edita"
-
-#: templates/list.php:16 templates/list.php:17
+#: templates/get.php:5
 msgid "Delete"
 msgstr "Elimina"
-
-#: templates/settings.php:3
-msgid "Enable Resharing"
-msgstr "Permet compartir amb tercers"
-
-#: templates/settings.php:4
-msgid "Allow users to reshare files they don't own"
-msgstr "Permet als usuaris compartir fitxers que no són seus"

@@ -34,12 +34,12 @@ class OC_Migration_Provider_Contacts extends OC_Migration_Provider{
 		switch( $this->appinfo->version ) {
 			default:
 				// All versions of the app have had the same db structure, so all can use the same import function
-				$query = $this->content->prepare( "SELECT * FROM contacts_addressbooks WHERE userid LIKE ?" );
+				$query = $this->content->prepare( 'SELECT * FROM `contacts_addressbooks` WHERE `userid` LIKE ?' );
 				$results = $query->execute( array( $this->olduid ) );
 				$idmap = array();
 				while( $row = $results->fetchRow() ) {
 					// Import each addressbook	
-					$addressbookquery = OCP\DB::prepare( "INSERT INTO *PREFIX*contacts_addressbooks (`userid`, `displayname`, `uri`, `description`, `ctag`) VALUES (?, ?, ?, ?, ?)" );
+					$addressbookquery = OCP\DB::prepare( 'INSERT INTO `*PREFIX*contacts_addressbooks` (`userid`, `displayname`, `uri`, `description`, `ctag`) VALUES (?, ?, ?, ?, ?)' );
 					$addressbookquery->execute( array( $this->uid, $row['displayname'], $row['uri'], $row['description'], $row['ctag'] ) );
 					// Map the id
 					$idmap[$row['id']] = OCP\DB::insertid('*PREFIX*contacts_addressbooks');
@@ -49,11 +49,11 @@ class OC_Migration_Provider_Contacts extends OC_Migration_Provider{
 				// Now tags
 				foreach($idmap as $oldid => $newid) {
 					
-					$query = $this->content->prepare( "SELECT * FROM contacts_cards WHERE addressbookid LIKE ?" );
+					$query = $this->content->prepare( 'SELECT * FROM `contacts_cards` WHERE `addressbookid` LIKE ?' );
 					$results = $query->execute( array( $oldid ) );
 					while( $row = $results->fetchRow() ){
 						// Import the contacts
-						$contactquery = OCP\DB::prepare( "INSERT INTO *PREFIX*contacts_cards (`addressbookid`, `fullname`, `carddata`, `uri`, `lastmodified`) VALUES (?, ?, ?, ?, ?)" );
+						$contactquery = OCP\DB::prepare( 'INSERT INTO `*PREFIX*contacts_cards` (`addressbookid`, `fullname`, `carddata`, `uri`, `lastmodified`) VALUES (?, ?, ?, ?, ?)' );
 						$contactquery->execute( array( $newid, $row['fullname'], $row['carddata'], $row['uri'], $row['lastmodified'] ) );	
 					}		
 				}

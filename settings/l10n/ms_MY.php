@@ -45,7 +45,6 @@
 "Create" => "Buat",
 "Default Quota" => "Kuota Lalai",
 "Other" => "Lain",
-"SubAdmin" => "SubAdmin",
 "Quota" => "Kuota",
 "Delete" => "Padam"
 );

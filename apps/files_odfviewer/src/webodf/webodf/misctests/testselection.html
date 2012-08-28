@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head><title></title>
+<script>
+function log(message) {
+    document.body.appendChild(document.createTextNode(message));
+}
+
+window.onload = function () {
+    if (!document.createElementNS) {
+        log("Error: there is no function 'document.createElementNS'.");
+        return;
+    }
+    if (!window.getSelection) {
+        log("Error: there is no function 'window.getSelection'.");
+        return;
+    }
+    var testarea = document.getElementById("testarea"),
+        selection = window.getSelection(),
+        p = document.createElementNS("http://www.w3.org/1999/xhtml", "p"),
+        text = document.createTextNode("hello");
+    testarea.appendChild(p);
+    p.appendChild(text);
+    selection.removeAllRanges();
+    if (selection.rangeCount !== 0) {
+        log("Error: not all ranges were removed.");
+        return;
+    }
+
+    var range = document.createRange();
+    range.setStart(p, 0);
+    range.setEnd(p, 0);
+    if (range.startContainer !== p) {
+        log("Error: the start of the range was not correct.");
+        return;
+    }
+    selection.addRange(range);
+
+    if (selection.rangeCount === 0) {
+        log("Error: no range was added to the selection.");
+        return;
+    }
+    if (selection.rangeCount > 1) {
+        log("Error: there are too many ranges in the selection.");
+        return;
+    }
+    if (selection.getRangeAt(0).startContainer !== p) {
+        log("Error: the start of the selection is not the right element." +
+            "It is " + selection.getRangeAt(0).startContainer.nodeName +
+            " instead of " + p.nodeName + ".");
+        return;
+    }
+    log("Success: selection test worked without error.");
+}
+</script>
+  </head>
+  <body>
+<div id="testarea"></div>
+  </body>
+</html>
+

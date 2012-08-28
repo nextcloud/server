@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-15 09:41+0000\n"
+"Last-Translator: Martin <fireball@atlas.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,11 +22,11 @@ msgstr ""
 
 #: ajax/cache/status.php:19
 msgid "Not all calendars are completely cached"
-msgstr ""
+msgstr "V paměti nejsou uloženy kompletně všechny kalendáře"
 
 #: ajax/cache/status.php:21
 msgid "Everything seems to be completely cached"
-msgstr ""
+msgstr "Zdá se, že vše je kompletně uloženo v paměti"
 
 #: ajax/categories/rescan.php:29
 msgid "No calendars found."
@@ -44,19 +44,19 @@ msgstr "Nesprávný kalendář"
 msgid ""
 "The file contained either no events or all events are already saved in your "
 "calendar."
-msgstr ""
+msgstr "Soubor, obsahující všechny záznamy nebo je prázdný, je již uložen ve Vašem kalendáři."
 
 #: ajax/import/dropimport.php:31 ajax/import/import.php:67
 msgid "events has been saved in the new calendar"
-msgstr ""
+msgstr "Záznam byl uložen v novém kalendáři"
 
 #: ajax/import/import.php:56
 msgid "Import failed"
-msgstr ""
+msgstr "Import selhal"
 
 #: ajax/import/import.php:69
 msgid "events has been saved in your calendar"
-msgstr ""
+msgstr "záznamů bylo uloženo ve Vašem kalendáři"
 
 #: ajax/settings/guesstimezone.php:25
 msgid "New Timezone:"
@@ -161,7 +161,7 @@ msgstr "Pracovní"
 
 #: lib/app.php:351 lib/app.php:361
 msgid "by"
-msgstr ""
+msgstr "od"
 
 #: lib/app.php:359 lib/app.php:399
 msgid "unnamed"
@@ -350,79 +350,79 @@ msgstr "Kal."
 
 #: templates/calendar.php:6
 msgid "Sun."
-msgstr ""
+msgstr "Ne"
 
 #: templates/calendar.php:6
 msgid "Mon."
-msgstr ""
+msgstr "Po"
 
 #: templates/calendar.php:6
 msgid "Tue."
-msgstr ""
+msgstr "Út"
 
 #: templates/calendar.php:6
 msgid "Wed."
-msgstr ""
+msgstr "St"
 
 #: templates/calendar.php:6
 msgid "Thu."
-msgstr ""
+msgstr "Čt"
 
 #: templates/calendar.php:6
 msgid "Fri."
-msgstr ""
+msgstr "Pá"
 
 #: templates/calendar.php:6
 msgid "Sat."
-msgstr ""
+msgstr "So"
 
 #: templates/calendar.php:8
 msgid "Jan."
-msgstr ""
+msgstr "Ne"
 
 #: templates/calendar.php:8
 msgid "Feb."
-msgstr ""
+msgstr "únor"
 
 #: templates/calendar.php:8
 msgid "Mar."
-msgstr ""
+msgstr "březen"
 
 #: templates/calendar.php:8
 msgid "Apr."
-msgstr ""
+msgstr "duben"
 
 #: templates/calendar.php:8
 msgid "May."
-msgstr ""
+msgstr "květen"
 
 #: templates/calendar.php:8
 msgid "Jun."
-msgstr ""
+msgstr "červen"
 
 #: templates/calendar.php:8
 msgid "Jul."
-msgstr ""
+msgstr "červenec"
 
 #: templates/calendar.php:8
 msgid "Aug."
-msgstr ""
+msgstr "srpen"
 
 #: templates/calendar.php:8
 msgid "Sep."
-msgstr ""
+msgstr "září"
 
 #: templates/calendar.php:8
 msgid "Oct."
-msgstr ""
+msgstr "říjen"
 
 #: templates/calendar.php:8
 msgid "Nov."
-msgstr ""
+msgstr "listopad"
 
 #: templates/calendar.php:8
 msgid "Dec."
-msgstr ""
+msgstr "prosinec"
 
 #: templates/calendar.php:11
 msgid "All day"
@@ -479,7 +479,7 @@ msgstr "dnes"
 
 #: templates/calendar.php:46 templates/calendar.php:47
 msgid "Settings"
-msgstr ""
+msgstr "Nastavení"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
@@ -687,7 +687,7 @@ msgstr "Importovat soubor kalendáře"
 
 #: templates/part.import.php:24
 msgid "Please choose a calendar"
-msgstr ""
+msgstr "Vyberte prosím kalendář"
 
 #: templates/part.import.php:36
 msgid "Name of new calendar"
@@ -695,13 +695,13 @@ msgstr "Název nového kalendáře"
 
 #: templates/part.import.php:44
 msgid "Take an available name!"
-msgstr ""
+msgstr "Použijte volné jméno!"
 
 #: templates/part.import.php:45
 msgid ""
 "A Calendar with this name already exists. If you continue anyhow, these "
 "calendars will be merged."
-msgstr ""
+msgstr "Kalendář s trímto názvem již existuje. Pokud název použijete, stejnojmenné kalendáře budou sloučeny."
 
 #: templates/part.import.php:47
 msgid "Import"
@@ -733,7 +733,7 @@ msgstr "v"
 
 #: templates/settings.php:10
 msgid "General"
-msgstr ""
+msgstr "Hlavní"
 
 #: templates/settings.php:15
 msgid "Timezone"
@@ -741,11 +741,11 @@ msgstr "Časové pásmo"
 
 #: templates/settings.php:47
 msgid "Update timezone automatically"
-msgstr ""
+msgstr "Obnovit auronaricky časovou zónu."
 
 #: templates/settings.php:52
 msgid "Time format"
-msgstr ""
+msgstr "Formát času"
 
 #: templates/settings.php:57
 msgid "24h"
@@ -757,39 +757,39 @@ msgstr "12h"
 
 #: templates/settings.php:64
 msgid "Start week on"
-msgstr ""
+msgstr "Týden začína v"
 
 #: templates/settings.php:76
 msgid "Cache"
-msgstr ""
+msgstr "Paměť"
 
 #: templates/settings.php:80
 msgid "Clear cache for repeating events"
-msgstr ""
+msgstr "Vymazat paměť pro opakuijísí se záznamy"
 
 #: templates/settings.php:85
 msgid "URLs"
-msgstr ""
+msgstr "URLs"
 
 #: templates/settings.php:87
 msgid "Calendar CalDAV syncing addresses"
-msgstr ""
+msgstr "Kalendář CalDAV synchronizuje adresy"
 
 #: templates/settings.php:87
 msgid "more info"
-msgstr ""
+msgstr "podrobnosti"
 
 #: templates/settings.php:89
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "Primární adresa (veřejná)"
 
 #: templates/settings.php:91
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"
 
 #: templates/settings.php:93
 msgid "Read only iCalendar link(s)"
-msgstr ""
+msgstr "Odkaz(y) kalendáře pouze pro čtení"
 
 #: templates/share.dropdown.php:20
 msgid "Users"

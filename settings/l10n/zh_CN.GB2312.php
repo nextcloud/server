@@ -48,7 +48,6 @@
 "Create" => "新建",
 "Default Quota" => "默认限额",
 "Other" => "其他的",
-"SubAdmin" => "子专辑",
 "Quota" => "限额",
 "Delete" => "删除"
 );

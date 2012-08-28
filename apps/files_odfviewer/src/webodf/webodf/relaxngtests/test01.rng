@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar
+	xmlns="http://relaxng.org/ns/structure/1.0"
+
+	xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+>
+	<start>
+		<ref name="office-document-content"/>
+	</start>
+	<define name="office-document-content">
+		<element name="office:document-content">
+			<ref name="office-document-common-attrs"/>
+			<ref name="office-scripts"/>
+			<ref name="office-body"/>
+		</element>
+	</define>
+	<define name="office-document-common-attrs">
+		<attribute name="office:version">
+			<value>1.2</value>
+		</attribute>
+	</define>
+	<define name="office-scripts">
+		<optional>
+			<element name="office:scripts">
+				<empty/>
+			</element>
+		</optional>
+	</define>
+	<define name="office-body">
+		<element name="office:body">
+			<element name="office:text">
+				<empty/>
+			</element>
+		</element>
+	</define>
+</grammar>

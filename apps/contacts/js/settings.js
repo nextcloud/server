@@ -4,6 +4,7 @@ OC.Contacts.Settings = OC.Contacts.Settings || {
 		this.Addressbook.adrsettings = $('.addressbooks-settings').first();
 		this.Addressbook.adractions = $('#contacts-settings').find('div.actions');
 		console.log('actions: ' + this.Addressbook.adractions.length);
+		OC.Share.loadIcons('addressbook');
 	},
 	Addressbook:{
 		showActions:function(act) {

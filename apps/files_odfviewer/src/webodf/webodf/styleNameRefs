@@ -1,0 +1,57 @@
+dash
+	draw:stroke-dash-names	style:graphic-properties
+
+graphic
+	draw:class-names	dr3d:cube
+	draw:class-names	dr3d:extrude
+	draw:class-names	dr3d:rotate
+	draw:class-names	dr3d:scene
+	draw:class-names	dr3d:sphere
+	draw:class-names	draw:caption
+	draw:class-names	draw:circle
+	draw:class-names	draw:connector
+	draw:class-names	draw:control
+	draw:class-names	draw:custom-shape
+	draw:class-names	draw:ellipse
+	draw:class-names	draw:frame
+	draw:class-names	draw:g
+	draw:class-names	draw:line
+	draw:class-names	draw:measure
+	draw:class-names	draw:page-thumbnail
+	draw:class-names	draw:path
+	draw:class-names	draw:polygon
+	draw:class-names	draw:polyline
+	draw:class-names	draw:rect
+	draw:class-names	draw:regular-polygon
+	draw:class-names	office:annotation
+
+paragraph
+	text:class-names	text:h
+	text:class-names	text:p
+
+presentation
+	presentation:class-names	dr3d:cube
+	presentation:class-names	dr3d:extrude
+	presentation:class-names	dr3d:rotate
+	presentation:class-names	dr3d:scene
+	presentation:class-names	dr3d:sphere
+	presentation:class-names	draw:caption
+	presentation:class-names	draw:circle
+	presentation:class-names	draw:connector
+	presentation:class-names	draw:control
+	presentation:class-names	draw:custom-shape
+	presentation:class-names	draw:ellipse
+	presentation:class-names	draw:frame
+	presentation:class-names	draw:g
+	presentation:class-names	draw:line
+	presentation:class-names	draw:measure
+	presentation:class-names	draw:page-thumbnail
+	presentation:class-names	draw:path
+	presentation:class-names	draw:polygon
+	presentation:class-names	draw:polyline
+	presentation:class-names	draw:rect
+	presentation:class-names	draw:regular-polygon
+	presentation:class-names	office:annotation
+
+text
+	text:class-names	text:span

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,51 +37,51 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:574
+#: js/js.js:575
 msgid "January"
 msgstr ""
 
-#: js/js.js:574
+#: js/js.js:575
 msgid "February"
 msgstr ""
 
-#: js/js.js:574
+#: js/js.js:575
 msgid "March"
 msgstr ""
 
-#: js/js.js:574
+#: js/js.js:575
 msgid "April"
 msgstr ""
 
-#: js/js.js:574
+#: js/js.js:575
 msgid "May"
 msgstr ""
 
-#: js/js.js:574
+#: js/js.js:575
 msgid "June"
 msgstr ""
 
-#: js/js.js:575
+#: js/js.js:576
 msgid "July"
 msgstr ""
 
-#: js/js.js:575
+#: js/js.js:576
 msgid "August"
 msgstr ""
 
-#: js/js.js:575
+#: js/js.js:576
 msgid "September"
 msgstr ""
 
-#: js/js.js:575
+#: js/js.js:576
 msgid "October"
 msgstr ""
 
-#: js/js.js:575
+#: js/js.js:576
 msgid "November"
 msgstr ""
 
-#: js/js.js:575
+#: js/js.js:576
 msgid "December"
 msgstr ""
 

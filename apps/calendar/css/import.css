@@ -11,4 +11,4 @@
 #calendar_import_mergewarning{clear: both;}
 #calendar_import_defaultcolors{clear:both;margin: 0 auto;text-align: center;}
 .calendar_import_warning{border-color: #fc3333;}
-.calendar-colorpicker-color{display:inline-block;width:20px;height:5px;margin: 0 auto;cursor:pointer;border:2px solid transparent;}
+.calendar-colorpicker-color{display:inline-block;width:20px;height:5px;margin: 0 auto;cursor:pointer;border:2px solid transparent;margin-top: 5px;}

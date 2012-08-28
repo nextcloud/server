@@ -21,6 +21,11 @@
 * 
 */
 
+//no apps or filesystem
+$RUNTIME_NOSETUPFS=true;
+
+ 
+
 // Check if we are a user
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();

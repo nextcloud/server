@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>FileLister demo</title>
+  <script src="filelister.js" type="text/javascript" charset="utf-8"></script>
+  <script src="base64.js" type="text/javascript" charset="utf-8"></script>
+  <script src="bytearray.js" type="text/javascript" charset="utf-8"></script>
+  <script src="rawinflate.js" type="text/javascript" charset="utf-8"></script>
+  <script src="zip.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+function listFilesCallback(directories, files) {
+  for (var i in files) {
+    var e = document.createElement('p');
+    var t = document.createTextNode(files[i]);
+    var img = document.createElement('img');
+    img.src = getThumbUrl(files[i]);
+    e.appendChild(img);
+    e.appendChild(t);
+    document.body.appendChild(e);
+  }
+}
+function getThumbUrl(url) {
+  var data;
+  try {
+    var zip = new Zip(url);
+    data = zip.load('Thumbnails/thumbnail.png');
+  } catch (e) {
+    return e;
+  }
+  if (data) {
+      return 'data:;base64,' + Base64.toBase64(data);
+  }
+  return null;
+}
+function init() {
+  listFiles('kofficetests/', /\.od[tps]$/i, listFilesCallback);
+}
+  </script>
+</head>
+<body onload="init()">
+</body>
+</html>

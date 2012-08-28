@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns		= "http://www.w3.org/ns/widgets"
+	xmlns:gap	= "http://phonegap.com/ns/1.0"
+	id		= "org.webodf.phonegap.one"
+	version 	= "1.0.0">
+
+	<name>WebODF: online/offline office</name>
+	<description>
+		A viewer for ODF files.
+	</description>
+	<author href="http://webodf.org/"
+		email="jos.van.den.oever@kogmbh.com">
+		Jos van den Oever
+	</author>
+	<gap:platforms>
+		<gap:platform name="android" minVersion="2.1" />
+		<gap:platform name="webos" />
+		<gap:platform name="symbian.wrt" />
+		<gap:platform name="blackberry" project="widgets"/>
+	</gap:platforms>
+	<icon src="icon.png" gap:role="default" />
+    <feature name="http://api.phonegap.com/1.0/file"/>
+	<preference name="autorotate" value="false" readonly="true"/>
+	<preference name="orientation" value="default"/>
+</widget>

@@ -47,14 +47,6 @@
    </field>
    
    <index>
-	   <name>album_index</name>
-	   <field>
-		   <name>album_id</name>
-		   <sorting>ascending</sorting>
-	   </field>
-   </index>
-   
-   <index>
 	   <name>album_name_index</name>
 	   <field>
 		   <name>album_name</name>
@@ -106,21 +98,6 @@
     </field>
    </index>
    
-   <index>
-	   <name>artist_index</name>
-	   <field>
-		   <name>artist_id</name>
-		   <sorting>ascending</sorting>
-	   </field>
-   </index>
-   <index>
-	   <name>artist_name_index</name>
-	   <field>
-		   <name>artist_name</name>
-		   <sorting>ascending</sorting>
-	   </field>
-   </index>
-
   </declaration>
 
  </table>
@@ -263,13 +240,6 @@
 	   <length>4</length>
    </field>
    
-   <index>
-	   <name>song_index</name>
-	   <field>
-		   <name>song_id</name>
-		   <sorting>ascending</sorting>
-	   </field>
-   </index>
    <index>
 	   <name>song_album_index</name>
 	   <field>

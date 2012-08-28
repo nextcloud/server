@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 12:07+0000\n"
+"POT-Creation-Date: 2012-08-19 02:02+0200\n"
+"PO-Revision-Date: 2012-08-18 06:00+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr "9=minima"
 
 #: lib/app.php:81
 msgid "Empty Summary"
-msgstr ""
+msgstr "Riepilogo vuoto"
 
 #: lib/app.php:93
 msgid "Invalid percent complete"
@@ -64,27 +64,27 @@ msgstr "Aggiungi attività"
 
 #: templates/tasks.php:4
 msgid "Order Due"
-msgstr ""
+msgstr "Ordina per scadenza"
 
 #: templates/tasks.php:5
 msgid "Order List"
-msgstr ""
+msgstr "Ordina per elenco"
 
 #: templates/tasks.php:6
 msgid "Order Complete"
-msgstr ""
+msgstr "Ordina per completamento"
 
 #: templates/tasks.php:7
 msgid "Order Location"
-msgstr ""
+msgstr "Ordina per posizione"
 
 #: templates/tasks.php:8
 msgid "Order Priority"
-msgstr ""
+msgstr "Ordina per priorità"
 
 #: templates/tasks.php:9
 msgid "Order Label"
-msgstr ""
+msgstr "Ordina per etichetta"
 
 #: templates/tasks.php:16
 msgid "Loading tasks..."
@@ -96,11 +96,11 @@ msgstr "Importante"
 
 #: templates/tasks.php:23
 msgid "More"
-msgstr ""
+msgstr "Più"
 
 #: templates/tasks.php:26
 msgid "Less"
-msgstr ""
+msgstr "Meno"
 
 #: templates/tasks.php:29
 msgid "Delete"

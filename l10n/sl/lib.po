@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-29 02:04+0200\n"
-"PO-Revision-Date: 2012-07-28 02:09+0000\n"
+"POT-Creation-Date: 2012-08-22 02:04+0200\n"
+"PO-Revision-Date: 2012-08-21 13:10+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,43 +18,43 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
 
-#: app.php:287
+#: app.php:288
 msgid "Help"
 msgstr "Pomoč"
 
-#: app.php:294
+#: app.php:295
 msgid "Personal"
 msgstr "Osebno"
 
-#: app.php:299
+#: app.php:300
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: app.php:304
+#: app.php:305
 msgid "Users"
 msgstr "Uporabniki"
 
-#: app.php:311
+#: app.php:312
 msgid "Apps"
 msgstr "Aplikacije"
 
-#: app.php:313
+#: app.php:314
 msgid "Admin"
 msgstr "Skrbnik"
 
-#: files.php:245
+#: files.php:276
 msgid "ZIP download is turned off."
 msgstr "ZIP prenos je onemogočen."
 
-#: files.php:246
+#: files.php:277
 msgid "Files need to be downloaded one by one."
 msgstr "Datoteke morajo biti prenešene posamezno."
 
-#: files.php:246 files.php:271
+#: files.php:277 files.php:302
 msgid "Back to Files"
 msgstr "Nazaj na datoteke"
 
-#: files.php:270
+#: files.php:301
 msgid "Selected files too large to generate zip file."
 msgstr "Izbrane datoteke so prevelike, da bi lahko ustvarili zip datoteko."
 
@@ -72,7 +72,7 @@ msgstr "Žeton je potekel. Prosimo, če spletno stran znova naložite."
 
 #: template.php:86
 msgid "seconds ago"
-msgstr ""
+msgstr "sekund nazaj"
 
 #: template.php:87
 msgid "1 minute ago"
@@ -102,7 +102,7 @@ msgstr "prejšnji mesec"
 
 #: template.php:95
 msgid "months ago"
-msgstr ""
+msgstr "mesecev nazaj"
 
 #: template.php:96
 msgid "last year"
@@ -110,4 +110,4 @@ msgstr "lani"
 
 #: template.php:97
 msgid "years ago"
-msgstr ""
+msgstr "let nazaj"

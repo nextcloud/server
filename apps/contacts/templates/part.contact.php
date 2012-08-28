@@ -11,7 +11,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<input id="file_upload_start" type="file" accept="image/*" name="imagefile" />
 	</form>
 
-	<div id="contact_photo" class="contactsection">
+	<div id="contact_photo">
 
 	<iframe name="file_upload_target" id='file_upload_target' src=""></iframe>
 	<div class="tip propertycontainer" id="contacts_details_photo_wrapper" title="<?php echo $l->t('Drop photo to upload'); ?> (max <?php echo $_['uploadMaxHumanFilesize']; ?>)" data-element="PHOTO">
@@ -22,11 +22,11 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<li><a class="svg cloud" title="<?php echo $l->t('Select photo from ownCloud'); ?>"></a></li>
 	</ul>
 	</div>
-	<img />
 	</div> <!-- contact_photo -->
 
-	<div id="contact_identity" class="contactsection">
 	<form method="post">
+
+	<div id="contact_identity">
 	<input type="hidden" name="id" value="<?php echo $_['id'] ?>">
 	<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken'] ?>">
 	<fieldset id="ident" class="contactpart">
@@ -50,60 +50,74 @@ $id = isset($_['id']) ? $_['id'] : '';
 		<a role="button" class="action delete" title="<?php echo $l->t('Delete'); ?>"></a><a role="button" class="action edit" title="<?php echo $l->t('Edit groups'); ?>"></a></dd>
 	</dl>
 	</fieldset>
-	</form>
 	</div> <!-- contact_identity -->
 
-	<!-- div class="delimiter"></div -->
-	<div id="contact_communication" class="contactsection">
-	<form method="post">
-		<!-- email addresses -->
-		<div id="emails">
-			<ul id="emaillist" class="propertylist">
-			<li class="template hidden" data-element="EMAIL">
-				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
-				<input type="email" required="required" class="nonempty contacts_property" name="value" value="" x-moz-errormessage="<?php echo $l->t('Please specify a valid email address.'); ?>" placeholder="<?php echo $l->t('Enter email address'); ?>" />
-				<select class="hidden" multiple="multiple" name="parameters[TYPE][]">
-					<?php echo OCP\html_select_options($_['email_types'], array()) ?>
-				</select>
-				<span class="listactions"><a class="action mail" title="<?php echo $l->t('Mail to address'); ?>"></a>
-				<a role="button" class="action delete" title="<?php echo $l->t('Delete email address'); ?>"></a></span></li>
-			</ul>
-		</div> <!-- email addresses-->
+	<!-- email addresses -->
+	<div id="emails" class="hidden contactsection">
+		<ul id="emaillist" class="propertylist">
+		<li class="template hidden" data-element="EMAIL">
+			<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
+			<input type="email" required="required" class="nonempty contacts_property" name="value" value="" x-moz-errormessage="<?php echo $l->t('Please specify a valid email address.'); ?>" placeholder="<?php echo $l->t('Enter email address'); ?>" />
+			<select multiple="multiple" name="parameters[TYPE][]">
+				<?php echo OCP\html_select_options($_['email_types'], array()) ?>
+			</select>
+			<span class="listactions"><a class="action mail" title="<?php echo $l->t('Mail to address'); ?>"></a>
+			<a role="button" class="action delete" title="<?php echo $l->t('Delete email address'); ?>"></a></span></li>
+		</ul>
+	</div> <!-- email addresses-->
 
-		<!-- Phone numbers -->
-		<div id="phones">
-			<ul id="phonelist" class="propertylist">
-				<li class="template hidden" data-element="TEL">
-				<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
-				<input type="text" required="required" class="nonempty contacts_property" name="value" value="" placeholder="<?php echo $l->t('Enter phone number'); ?>" />
-				<select multiple="multiple" name="parameters[TYPE][]">
-					<?php echo OCP\html_select_options($_['phone_types'], array()) ?>
-				</select>
-				<a role="button" class="action delete" title="<?php echo $l->t('Delete phone number'); ?>"></a></li>
-			</ul>
-		</div> <!-- Phone numbers -->
+	<!-- Phone numbers -->
+	<div id="phones" class="hidden contactsection">
+		<ul id="phonelist" class="propertylist">
+			<li class="template hidden" data-element="TEL">
+			<input type="checkbox" class="contacts_property tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
+			<input type="text" required="required" class="nonempty contacts_property" name="value" value=""
+					placeholder="<?php echo $l->t('Enter phone number'); ?>" />
+			<select multiple="multiple" name="parameters[TYPE][]">
+				<?php echo OCP\html_select_options($_['phone_types'], array()) ?>
+			</select>
+			<a role="button" class="action delete" title="<?php echo $l->t('Delete phone number'); ?>"></a></li>
+		</ul>
+	</div> <!-- Phone numbers -->
 
-		<!-- Addresses -->
-		<div id="addresses" class="hidden">
-		<div id="addressdisplay">
-			<dl class="addresscard template hidden" data-element="ADR"><dt>
-			<input class="adr contacts_property" name="value" type="hidden" value="" />
-			<input type="hidden" class="adr_type contacts_property" name="parameters[TYPE][]" value="" />
-			<span class="adr_type_label"></span><a class="action globe" title="<?php echo $l->t('View on map'); ?>"></a><a class="action edit" title="<?php echo $l->t('Edit address details'); ?>"></a><a role="button" class="action delete" title="Delete address"></a>
-			</dt><dd><ul class="addresslist"></ul></dd></dl>
+	<!-- IMPP -->
+	<div id="ims" class="hidden contactsection">
+		<ul id="imlist" class="propertylist">
+			<li class="template hidden" data-element="IMPP">
+			<div class="select_wrapper">
+			<select class="impp" name="parameters[X-SERVICE-TYPE]">
+				<?php echo OCP\html_select_options($_['im_protocols'], array()) ?>
+			</select>
+			</div>
+			<div class="select_wrapper">
+			<select class="types" name="parameters[TYPE][]">
+				<option></option>
+				<?php echo OCP\html_select_options($_['impp_types'], array()) ?>
+			</select>
+			</div>
+			<input type="checkbox" class="contacts_property impp tip" name="parameters[TYPE][]" value="PREF" title="<?php echo $l->t('Preferred'); ?>" />
+			<input type="text" required="required" class="nonempty contacts_property" name="value" value=""
+					placeholder="<?php echo $l->t('Instant Messenger'); ?>" />
+			<a role="button" class="action delete" title="<?php echo $l->t('Delete IM'); ?>"></a></li>
+		</ul>
+	</div> <!-- IMPP -->
 
-		</div> <!-- addressdisplay -->
-		</div> <!-- Addresses -->
-	</form>
-	</div> <!-- contact_communication -->
+	<!-- Addresses -->
+	<div id="addresses" class="hidden contactsection">
+		<dl class="addresscard template hidden" data-element="ADR"><dt>
+		<input class="adr contacts_property" name="value" type="hidden" value="" />
+		<input type="hidden" class="adr_type contacts_property" name="parameters[TYPE][]" value="" />
+		<span class="adr_type_label"></span><a class="action globe" title="<?php echo $l->t('View on map'); ?>"></a><a class="action edit" title="<?php echo $l->t('Edit address details'); ?>"></a><a role="button" class="action delete" title="Delete address"></a>
+		</dt><dd><ul class="addresslist"></ul></dd></dl>
+	</div> <!-- Addresses -->
 
-	<div id="contact_note" class="contactsection">
-	<form class="float" method="post">
+	<div id="contact_note" class="hidden contactsection">
 		<div id="note" class="propertycontainer" data-element="NOTE">
 			<textarea class="contacts_property" name="value" required="required" placeholder="<?php echo $l->t('Add notes here.'); ?>" cols="60" wrap="hard"></textarea>
 		</div>
-	</form>
 	</div> <!-- contact_note -->
+
+	</form>
 
 	<div id="actionbar">
 		<div id="contacts_propertymenu">
@@ -114,6 +128,7 @@ $id = isset($_['id']) ? $_['id'] : '';
 			<li><a role="menuitem" data-type="BDAY"><?php echo $l->t('Birthday'); ?></a></li>
 			<li><a role="menuitem" data-type="TEL"><?php echo $l->t('Phone'); ?></a></li>
 			<li><a role="menuitem" data-type="EMAIL"><?php echo $l->t('Email'); ?></a></li>
+			<li><a role="menuitem" data-type="IMPP"><?php echo $l->t('Instant Messaging'); ?></a></li>
 			<li><a role="menuitem" data-type="ADR"><?php echo $l->t('Address'); ?></a></li>
 			<li><a role="menuitem" data-type="NOTE"><?php echo $l->t('Note'); ?></a></li>
 			<li><a role="menuitem" data-type="URL"><?php echo $l->t('Web site'); ?></a></li>

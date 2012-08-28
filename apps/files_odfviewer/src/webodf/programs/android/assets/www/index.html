@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>WebODF</title>
+  <link href="sencha-touch.css" rel="stylesheet" type="text/css" />
+  <link href="webodf.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="phonegap-1.4.1.js"></script>
+  <script type="text/javascript" src="sencha-touch.js"></script>
+  <script type="text/javascript" src="webodf.js"></script>
+  <script type="text/javascript" src="app/app.js"></script>
+  <script type="text/javascript" src="app/controller/Files.js"></script>
+  <script type="text/javascript" src="app/model/FileSystem.js"></script>
+  <script type="text/javascript" src="app/store/FileStore.js"></script>
+  <script type="text/javascript" src="app/views/FileDetail.js"></script>
+  <script type="text/javascript" src="app/views/FilesList.js"></script>
+  <script type="text/javascript" src="app/views/OdfView.js"></script>
+  <script type="text/javascript" src="app/views/Viewport.js"></script>
+  <script type="text/javascript">
+var applicationReady = false,
+    deviceReady = false,
+    startScanningDirectories;
+document.addEventListener("deviceready", function () {
+    deviceReady = true;
+    if (applicationReady) {
+        startScanningDirectories();
+    }
+}, false);
+/**
+ * Override this function so it waits until the device is ready.
+ */
+onApplicationLaunch = function (app) {
+    "use strict";
+    applicationReady = true;
+    startScanningDirectories = function () {
+        if (typeof invokeString !== "undefined" && invokeString) {
+            app.openUrl(invokeString);
+        }
+        app.startScanningDirectories();
+    };
+    if (deviceReady) {
+        startScanningDirectories();
+    }
+};
+  </script>
+ </head><body></body>
+</html>

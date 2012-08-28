@@ -1,9 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Music" => "Muziko",
+"Add album to playlist" => "Aldoni albumon al ludlisto",
 "Play" => "Ludi",
 "Pause" => "Paŭzigi",
-"Previous" => "Antaŭa",
-"Next" => "Sekva",
+"Previous" => "Maljena",
+"Next" => "Jena",
 "Mute" => "Silentigi",
 "Unmute" => "Malsilentigi",
 "Rescan Collection" => "Reskani la aron",

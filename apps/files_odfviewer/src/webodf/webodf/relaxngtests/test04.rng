@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar
+	xmlns="http://relaxng.org/ns/structure/1.0"
+	xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+>
+	<start>
+		<element name="office:document-content">
+			<interleave>
+				<attribute name="office:version">
+					<value>1.2</value>
+				</attribute>
+			</interleave>
+			<element name="office:body">
+				<empty/>
+			</element>
+		</element>
+	</start>
+</grammar>

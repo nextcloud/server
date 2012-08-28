@@ -14,7 +14,7 @@ switch($view){
 	case 'list':
 		break;
 	default:
-		OCP\JSON::error(array('message'=>'unexspected parameter: ' . $view));
+		OCP\JSON::error(array('message'=>'unexpected parameter: ' . $view));
 		exit;
 }
 OCP\Config::setUserValue(OCP\USER::getUser(), 'calendar', 'currentview', $view);

@@ -42,15 +42,18 @@ class OC_DB {
 	 * @return BACKEND_MDB2 or BACKEND_PDO
 	 */
 	private static function getDBBackend(){
-		$backend=self::BACKEND_MDB2;
 		if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (installation always needs to be done my mdb2)
 			$type = OC_Config::getValue( "dbtype", "sqlite" );
+			if($type=='oci') { //oracle also always needs mdb2
+				return self::BACKEND_MDB2;
+			}
 			if($type=='sqlite3') $type='sqlite';
 			$drivers=PDO::getAvailableDrivers();
 			if(array_search($type,$drivers)!==false){
-				$backend=self::BACKEND_PDO;
+				return self::BACKEND_PDO;
 			}
 		}
+		return self::BACKEND_MDB2;
 	}
 	
 	/**
@@ -135,6 +138,13 @@ class OC_DB {
 					$dsn .= ";user='$e_user';password='$e_password'";
 					/** END OF FIX***/
 					break;
+				case 'oci': // Oracle with PDO is unsupported
+						if ($port) {
+								$dsn = 'oci:dbname=//' . $host . ':' . $port . '/' . $name;
+						} else {
+								$dsn = 'oci:dbname=//' . $host . '/' . $name;
+						}
+						break;
 			}
 			try{
 				self::$PDO=new PDO($dsn,$user,$pass,$opts);
@@ -210,6 +220,19 @@ class OC_DB {
 						'database' => $name
 					);
 					break;
+				case 'oci':
+					$dsn = array(
+							'phptype'  => 'oci8',
+							'username' => $user,
+							'password' => $pass,
+					);
+					if ($host != '') {
+						$dsn['hostspec'] = $host;
+						$dsn['database'] = $name;
+					} else { // use dbname for hostspec
+						$dsn['hostspec'] = $name;
+					}
+					break;
 			}
 			
 			// Try to establish connection
@@ -220,7 +243,7 @@ class OC_DB {
 				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
 				OC_Log::write('core',self::$MDB2->getUserInfo(),OC_Log::FATAL);
 				OC_Log::write('core',self::$MDB2->getMessage(),OC_Log::FATAL);
-				die();
+				die( $error );
 			}
 			
 			// We always, really always want associative arrays
@@ -238,7 +261,30 @@ class OC_DB {
 	 *
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
-	static public function prepare( $query ){
+	static public function prepare( $query , $limit=null, $offset=null ){
+		
+		if (!is_null($limit) && $limit != -1) {
+			if (self::$backend == self::BACKEND_MDB2) {
+				//MDB2 uses or emulates limits & offset internally
+				self::$MDB2->setLimit($limit, $offset);
+			} else {
+				//PDO does not handle limit and offset.
+				//FIXME: check limit notation for other dbs
+				//the following sql thus might needs to take into account db ways of representing it
+				//(oracle has no LIMIT / OFFSET)
+					$limitsql = ' LIMIT ' . $limit;
+				if (!is_null($offset)) {
+					$limitsql .= ' OFFSET ' . $offset;
+				}
+				//insert limitsql
+				if (substr($query, -1) == ';') { //if query ends with ;
+					$query = substr($query, 0, -1) . $limitsql . ';';
+				} else {
+					$query.=$limitsql;
+				}
+			}
+		}
+
 		// Optimize the query
 		$query = self::processQuery( $query );
 
@@ -353,9 +399,17 @@ class OC_DB {
 		$file2 = 'static://db_scheme';
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
-		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
-			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
-		}
+		/* FIXME: REMOVE this commented code
+		 * actually mysql, postgresql, sqlite and oracle support CURRENT_TIMESTAMP
+		 * http://dev.mysql.com/doc/refman/5.0/en/timestamp-initialization.html
+		 * http://www.postgresql.org/docs/8.1/static/functions-datetime.html
+		 * http://www.sqlite.org/lang_createtable.html
+		 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
+
+		 if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
+				 $content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
+		 }
+		 */
 		file_put_contents( $file2, $content );
 
 		// Try to create tables
@@ -368,10 +422,17 @@ class OC_DB {
 		if( $definition instanceof MDB2_Schema_Error ){
 			die( $definition->getMessage().': '.$definition->getUserInfo());
 		}
+		if(OC_Config::getValue('dbtype','sqlite')==='oci'){
+			unset($definition['charset']); //or MDB2 tries SHUTDOWN IMMEDIATE
+			$oldname = $definition['name'];
+			$definition['name']=OC_Config::getValue( "dbuser", $oldname );
+		}
+		
 		$ret=self::$schema->createDatabase( $definition );
 
 		// Die in case something went wrong
 		if( $ret instanceof MDB2_Error ){
+			echo (self::$MDB2->getDebugOutput());
 			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
 		}
 
@@ -402,9 +463,16 @@ class OC_DB {
 		$file2 = 'static://db_scheme';
 		$content = str_replace( '*dbname*', $previousSchema['name'], $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
+		/* FIXME: REMOVE this commented code
+		 * actually mysql, postgresql, sqlite and oracle support CUURENT_TIMESTAMP
+		 * http://dev.mysql.com/doc/refman/5.0/en/timestamp-initialization.html
+		 * http://www.postgresql.org/docs/8.1/static/functions-datetime.html
+		 * http://www.sqlite.org/lang_createtable.html
+		 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
 		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
 			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
 		}
+		 */
 		file_put_contents( $file2, $content );
 		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
 		
@@ -469,7 +537,7 @@ class OC_DB {
 		}elseif( $type == 'mysql' ){
 			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
 			$query = str_replace( 'now()', 'CURRENT_TIMESTAMP', $query );
-		}elseif( $type == 'pgsql' ){
+		}elseif( $type == 'pgsql' || $type == 'oci'  ){
 			$query = str_replace( '`', '"', $query );
 			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
 			$query = str_replace( 'now()', 'CURRENT_TIMESTAMP', $query );

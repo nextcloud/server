@@ -38,7 +38,7 @@
 /**
  * This class manages our vCards
  */
-class OC_Contacts_VCard{
+class OC_Contacts_VCard {
 	/**
 	 * @brief Returns all cards of an address book
 	 * @param integer $id
@@ -48,38 +48,31 @@ class OC_Contacts_VCard{
 	 * ['carddata']
 	 */
 	public static function all($id, $start=null, $num=null){
-		$limitsql = '';
-		if(!is_null($num)) {
-			$limitsql = ' LIMIT '.$num;
-		}
-		if(!is_null($start) && !is_null($num)) {
-			$limitsql .= ' OFFSET '.$start.' ';
-		}
 		$result = null;
 		if(is_array($id) && count($id)) {
 			$id_sql = join(',', array_fill(0, count($id), '?'));
-			$prep = 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid IN ('.$id_sql.') ORDER BY fullname '.$limitsql;
+			$sql = 'SELECT * FROM `*PREFIX*contacts_cards` WHERE `addressbookid` IN ('.$id_sql.') ORDER BY `fullname`';
 			try {
-				$stmt = OCP\DB::prepare( $prep );
+				$stmt = OCP\DB::prepare( $sql, $num, $start );
 				$result = $stmt->execute($id);
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', ids: '.join(',', $id), OCP\Util::DEBUG);
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.'SQL:'.$prep, OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts', __METHOD__.', ids: '.join(',', $id), OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.'SQL:'.$sql, OCP\Util::DEBUG);
 				return false;
 			}
 		} elseif(is_int($id) || is_string($id)) {
 			try {
-				$sql = 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? ORDER BY fullname'.$limitsql;
-				$stmt = OCP\DB::prepare( $sql );
+				$sql = 'SELECT * FROM `*PREFIX*contacts_cards` WHERE `addressbookid` = ? ORDER BY `fullname`';
+				$stmt = OCP\DB::prepare( $sql, $num, $start );
 				$result = $stmt->execute(array($id));
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', ids: '. $id, OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts', __METHOD__.', ids: '. $id, OCP\Util::DEBUG);
 				return false;
 			}
 		} else {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.'. Addressbook id(s) argument is empty: '. print_r($id, true), OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.'. Addressbook id(s) argument is empty: '. print_r($id, true), OCP\Util::DEBUG);
 			return false;
 		}
 		$cards = array();
@@ -99,11 +92,11 @@ class OC_Contacts_VCard{
 	 */
 	public static function find($id){
 		try {
-			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE id = ?' );
+			$stmt = OCP\DB::prepare( 'SELECT * FROM `*PREFIX*contacts_cards` WHERE `id` = ?' );
 			$result = $stmt->execute(array($id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id: '. $id, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', id: '. $id, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -118,11 +111,11 @@ class OC_Contacts_VCard{
 	 */
 	public static function findWhereDAVDataIs($aid,$uri){
 		try {
-			$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri = ?' );
+			$stmt = OCP\DB::prepare( 'SELECT * FROM `*PREFIX*contacts_cards` WHERE `addressbookid` = ? AND `uri` = ?' );
 			$result = $stmt->execute(array($aid,$uri));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', aid: '.$aid.' uri'.$uri, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', aid: '.$aid.' uri'.$uri, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -172,13 +165,13 @@ class OC_Contacts_VCard{
 	* @returns true if the UID has been changed.
 	*/
 	protected static function trueUID($aid, &$uid) {
-		$stmt = OCP\DB::prepare( 'SELECT * FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri = ?' );
+		$stmt = OCP\DB::prepare( 'SELECT * FROM `*PREFIX*contacts_cards` WHERE `addressbookid` = ? AND `uri` = ?' );
 		$uri = $uid.'.vcf';
 		try {
 			$result = $stmt->execute(array($aid,$uri));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', aid: '.$aid.' uid'.$uid, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', aid: '.$aid.' uid'.$uid, OCP\Util::DEBUG);
 			return false;
 		}
 		if($result->numRows() > 0) {
@@ -293,12 +286,17 @@ class OC_Contacts_VCard{
 			OCP\Util::writeLog('contacts', 'OC_Contacts_VCard::add. No vCard supplied', OCP\Util::ERROR);
 			return null;
 		};
-
+		$addressbook = OC_Contacts_Addressbook::find($aid);
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$sharedAddressbook = OCP\Share::getItemSharedWithBySource('addressbook', $aid);
+			if (!$sharedAddressbook || !($sharedAddressbook['permissions'] & OCP\Share::PERMISSION_CREATE)) {
+				return false;
+			}
+		}
 		if(!$isChecked) {
 			OC_Contacts_App::loadCategoriesFromVCard($card);
 			self::updateValuesFromAdd($aid, $card);
 		}
-
 		$card->setString('VERSION', '3.0');
 		// Add product ID is missing.
 		$prodid = trim($card->getAsString('PRODID'));
@@ -320,12 +318,12 @@ class OC_Contacts_VCard{
 		}
 
 		$data = $card->serialize();
-		$stmt = OCP\DB::prepare( 'INSERT INTO *PREFIX*contacts_cards (addressbookid,fullname,carddata,uri,lastmodified) VALUES(?,?,?,?,?)' );
+		$stmt = OCP\DB::prepare( 'INSERT INTO `*PREFIX*contacts_cards` (`addressbookid`,`fullname`,`carddata`,`uri`,`lastmodified`) VALUES(?,?,?,?,?)' );
 		try {
 			$result = $stmt->execute(array($aid,$fn,$data,$uri,time()));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', aid: '.$aid.' uri'.$uri, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', aid: '.$aid.' uri'.$uri, OCP\Util::DEBUG);
 			return false;
 		}
 		$newid = OCP\DB::insertid('*PREFIX*contacts_cards');
@@ -352,19 +350,30 @@ class OC_Contacts_VCard{
 	 * @param array $objects  An array of [id, carddata].
 	 */
 	public static function updateDataByID($objects){
-		$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_cards SET carddata = ?, lastmodified = ? WHERE id = ?' );
+		$stmt = OCP\DB::prepare( 'UPDATE `*PREFIX*contacts_cards` SET `carddata` = ?, `lastmodified` = ? WHERE `id` = ?' );
 		$now = new DateTime;
 		foreach($objects as $object) {
 			$vcard = OC_VObject::parse($object[1]);
 			if(!is_null($vcard)) {
+				$oldcard = self::find($object[0]);
+				if (!$oldcard) {
+					return false;
+				}
+				$addressbook = OC_Contacts_Addressbook::find($oldcard['addressbookid']);
+				if ($addressbook['userid'] != OCP\User::getUser()) {
+					$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $object[0], OCP\Share::FORMAT_NONE, null, true);
+					if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_UPDATE)) {
+						return false;
+					}
+				}
 				$vcard->setString('REV', $now->format(DateTime::W3C));
 				$data = $vcard->serialize();
 				try {
 					$result = $stmt->execute(array($data,time(),$object[0]));
 					//OCP\Util::writeLog('contacts','OC_Contacts_VCard::updateDataByID, id: '.$object[0].': '.$object[1],OCP\Util::DEBUG);
 				} catch(Exception $e) {
-					OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-					OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id: '.$object[0], OCP\Util::DEBUG);
+					OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+					OCP\Util::writeLog('contacts', __METHOD__.', id: '.$object[0], OCP\Util::DEBUG);
 				}
 			}
 		}
@@ -378,11 +387,20 @@ class OC_Contacts_VCard{
 	 */
 	public static function edit($id, OC_VObject $card){
 		$oldcard = self::find($id);
-
+		if (!$oldcard) {
+			return false;
+		}
 		if(is_null($card)) {
 			return false;
 		}
-
+		// NOTE: Owner checks are being made in the ajax files, which should be done inside the lib files to prevent any redundancies with sharing checks
+		$addressbook = OC_Contacts_Addressbook::find($oldcard['addressbookid']);
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $id, OCP\Share::FORMAT_NONE, null, true);
+			if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_UPDATE)) {
+				throw new Exception(OC_Contacts_App::$l10n->t('You do not have the permissions to edit this contact.'));
+			}
+		}
 		OC_Contacts_App::loadCategoriesFromVCard($card);
 
 		$fn = $card->getAsString('FN');
@@ -394,12 +412,13 @@ class OC_Contacts_VCard{
 		$card->setString('REV', $now->format(DateTime::W3C));
 
 		$data = $card->serialize();
-		$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_cards SET fullname = ?,carddata = ?, lastmodified = ? WHERE id = ?' );
+		$stmt = OCP\DB::prepare( 'UPDATE `*PREFIX*contacts_cards` SET `fullname` = ?,`carddata` = ?, `lastmodified` = ? WHERE `id` = ?' );
 		try {
 			$result = $stmt->execute(array($fn,$data,time(),$id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id'.$id, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '
+				. $e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', id'.$id, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -419,10 +438,21 @@ class OC_Contacts_VCard{
 		$oldcard = self::findWhereDAVDataIs($aid, $uri);
 		$card = OC_VObject::parse($data);
 		if(!$card) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', Unable to parse VCARD, uri: '.$uri, OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.
+				', Unable to parse VCARD, uri: '.$uri, OCP\Util::ERROR);
 			return false;
 		}
-		return self::edit($oldcard['id'], $card);
+		try {
+			self::edit($oldcard['id'], $card);
+			return true;
+		} catch(Exception $e) {
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '
+				. $e->getMessage() . ', '
+				. OCP\USER::getUser(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', uri'
+				. $uri, OCP\Util::DEBUG);
+			return false;
+		}
 	}
 
 	/**
@@ -431,13 +461,34 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 */
 	public static function delete($id){
-		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard', array('aid' => null, 'id' => $id, 'uri' => null));
-		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE id = ?' );
+		$card = self::find($id);
+		if (!$card) {
+			return false;
+		}
+		$addressbook = OC_Contacts_Addressbook::find($card['addressbookid']);
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$sharedContact = OCP\Share::getItemSharedWithBySource('contact',
+				$id, OCP\Share::FORMAT_NONE, null, true);
+			if (!$sharedContact
+				|| !($sharedContact['permissions'] & OCP\Share::PERMISSION_DELETE)) {
+				throw new Exception(
+					OC_Contacts_App::$l10n->t(
+						'You do not have the permissions to delete this contact.'
+					)
+				);
+			}
+		}
+		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard',
+			array('aid' => null, 'id' => $id, 'uri' => null)
+		);
+		$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*contacts_cards` WHERE `id` = ?');
 		try {
 			$stmt->execute(array($id));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', id: '.$id, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.
+				', exception: ' . $e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', id: '
+				. $id, OCP\Util::DEBUG);
 			return false;
 		}
 
@@ -451,13 +502,25 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 */
 	public static function deleteFromDAVData($aid,$uri){
+		$addressbook = OC_Contacts_Addressbook::find($aid);
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$query = OCP\DB::prepare( 'SELECT `id` FROM `*PREFIX*contacts_cards` WHERE `addressbookid` = ? AND `uri` = ?' );
+			$id = $query->execute(array($aid, $uri))->fetchOne();
+			if (!$id) {
+				return false;
+			}
+			$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $id, OCP\Share::FORMAT_NONE, null, true);
+			if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_DELETE)) {
+				return false;
+			}
+		}
 		OC_Hook::emit('OC_Contacts_VCard', 'pre_deleteVCard', array('aid' => $aid, 'id' => null, 'uri' => $uri));
-		$stmt = OCP\DB::prepare( 'DELETE FROM *PREFIX*contacts_cards WHERE addressbookid = ? AND uri=?' );
+		$stmt = OCP\DB::prepare( 'DELETE FROM `*PREFIX*contacts_cards` WHERE `addressbookid` = ? AND `uri`=?' );
 		try {
 			$stmt->execute(array($aid,$uri));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-			OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', aid: '.$aid.' uri: '.$uri, OCP\Util::DEBUG);
+			OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+			OCP\Util::writeLog('contacts', __METHOD__.', aid: '.$aid.' uri: '.$uri, OCP\Util::DEBUG);
 			return false;
 		}
 		OC_Contacts_Addressbook::touch($aid);
@@ -511,14 +574,23 @@ class OC_Contacts_VCard{
 	 */
 	public static function structureContact($object) {
 		$details = array();
-		foreach($object->children as $property){
+
+		foreach($object->children as $property) {
+			$pname = $property->name;
 			$temp = self::structureProperty($property);
 			if(!is_null($temp)) {
-				if(array_key_exists($property->name, $details)) {
-					$details[$property->name][] = $temp;
+				// Get Apple X-ABLabels
+				if(isset($object->{$property->group . '.X-ABLABEL'})) {
+					$temp['label'] = $object->{$property->group . '.X-ABLABEL'}->value;
+					if($temp['label'] == '_$!<Other>!$_') {
+						$temp['label'] = OC_Contacts_App::$l10n->t('Other');
+					}
+				}
+				if(array_key_exists($pname, $details)) {
+					$details[$pname][] = $temp;
 				}
 				else{
-					$details[$property->name] = array($temp);
+					$details[$pname] = array($temp);
 				}
 			}
 		}
@@ -552,6 +624,9 @@ class OC_Contacts_VCard{
 				}
 			}
 		}
+		if(is_string($value)) {
+			$value = strtr($value, array('\,' => ',', '\;' => ';'));
+		}
 		$temp = array(
 			'name' => $property->name,
 			'value' => $value,
@@ -561,7 +636,7 @@ class OC_Contacts_VCard{
 			// Faulty entries by kaddressbook
 			// Actually TYPE=PREF is correct according to RFC 2426
 			// but this way is more handy in the UI. Tanghus.
-			if($parameter->name == 'TYPE' && $parameter->value == 'PREF') {
+			if($parameter->name == 'TYPE' && strtoupper($parameter->value) == 'PREF') {
 				$parameter->name = 'PREF';
 				$parameter->value = '1';
 			}
@@ -589,29 +664,65 @@ class OC_Contacts_VCard{
 	 * @return boolean
 	 *
 	 */
-	public static function moveToAddressBook($aid, $id) {
+	public static function moveToAddressBook($aid, $id, $isAddressbook = false) {
 		OC_Contacts_App::getAddressbook($aid); // check for user ownership.
+		$addressbook = OC_Contacts_Addressbook::find($aid);
+		if ($addressbook['userid'] != OCP\User::getUser()) {
+			$sharedAddressbook = OCP\Share::getItemSharedWithBySource('addressbook', $aid);
+			if (!$sharedAddressbook || !($sharedAddressbook['permissions'] & OCP\Share::PERMISSION_CREATE)) {
+				return false;
+			}
+		}
 		if(is_array($id)) {
+			foreach ($id as $index => $cardId) {
+				$card = self::find($cardId);
+				if (!$card) {
+					unset($id[$index]);
+				}
+				$oldAddressbook = OC_Contacts_Addressbook::find($card['addressbookid']);
+				if ($oldAddressbook['userid'] != OCP\User::getUser()) {
+					$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $cardId, OCP\Share::FORMAT_NONE, null, true);
+					if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_DELETE)) {
+						unset($id[$index]);
+					}
+				}
+			}
 			$id_sql = join(',', array_fill(0, count($id), '?'));
-			$prep = 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id IN ('.$id_sql.')';
+			$prep = 'UPDATE `*PREFIX*contacts_cards` SET `addressbookid` = ? WHERE `id` IN ('.$id_sql.')';
 			try {
 				$stmt = OCP\DB::prepare( $prep );
 				//$aid = array($aid);
 				$vals = array_merge((array)$aid, $id);
 				$result = $stmt->execute($vals);
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', ids: '.join(',', $vals), OCP\Util::DEBUG);
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', SQL:'.$prep, OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::ERROR);
+				OCP\Util::writeLog('contacts', __METHOD__.', ids: '.join(',', $vals), OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.', SQL:'.$prep, OCP\Util::DEBUG);
 				return false;
 			}
 		} else {
+			$stmt = null;
+			if($isAddressbook) {
+				$stmt = OCP\DB::prepare( 'UPDATE `*PREFIX*contacts_cards` SET `addressbookid` = ? WHERE `addressbookid` = ?' );
+			} else {
+				$card = self::find($id);
+				if (!$card) {
+					return false;
+				}
+				$oldAddressbook = OC_Contacts_Addressbook::find($card['addressbookid']);
+				if ($oldAddressbook['userid'] != OCP\User::getUser()) {
+					$sharedContact = OCP\Share::getItemSharedWithBySource('contact', $id, OCP\Share::FORMAT_NONE, null, true);
+					if (!$sharedContact || !($sharedContact['permissions'] & OCP\Share::PERMISSION_DELETE)) {
+						return false;
+					}
+				}
+				$stmt = OCP\DB::prepare( 'UPDATE `*PREFIX*contacts_cards` SET `addressbookid` = ? WHERE `id` = ?' );
+			}
 			try {
-				$stmt = OCP\DB::prepare( 'UPDATE *PREFIX*contacts_cards SET addressbookid = ? WHERE id = ?' );
 				$result = $stmt->execute(array($aid, $id));
 			} catch(Exception $e) {
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.', exception: '.$e->getMessage(), OCP\Util::DEBUG);
-				OCP\Util::writeLog('contacts', __CLASS__.'::'.__METHOD__.' id: '.$id, OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.', exception: '.$e->getMessage(), OCP\Util::DEBUG);
+				OCP\Util::writeLog('contacts', __METHOD__.' id: '.$id, OCP\Util::DEBUG);
 				return false;
 			}
 		}

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Denis  <reg.transifex.net@demitel.ru>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:32+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 07:51+0000\n"
+"Last-Translator: Denis <reg.transifex.net@demitel.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,14 +20,14 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "Export this ownCloud instance"
-msgstr ""
+msgstr "Экспортировать этот экземпляр ownCloud"
 
 #: templates/settings.php:4
 msgid ""
 "This will create a compressed file that contains the data of this owncloud instance.\n"
 "            Please choose the export type:"
-msgstr ""
+msgstr "Будет создан сжатый файл, содержащий данные этого экземпляра owncloud.\n            Выберите тип экспорта:"
 
 #: templates/settings.php:12
 msgid "Export"
-msgstr ""
+msgstr "Экспорт"

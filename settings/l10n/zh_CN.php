@@ -1,13 +1,20 @@
 <?php $TRANSLATIONS = array(
+"Unable to load list from App Store" => "无法从应用商店载入列表",
 "Email saved" => "电子邮件已保存",
 "Invalid email" => "无效的电子邮件",
 "OpenID Changed" => "OpenID 已修改",
 "Invalid request" => "非法请求",
+"Authentication error" => "认证错误",
 "Language changed" => "语言已修改",
+"Error" => "错误",
 "Disable" => "禁用",
 "Enable" => "启用",
 "Saving..." => "正在保存",
 "__language_name__" => "简体中文",
+"Security Warning" => "安全警告",
+"Cron" => "计划任务",
+"execute one task with each page loaded" => "为每个装入的页面执行任务",
+"use systems cron service" => "实现系统 cron 服务",
 "Log" => "日志",
 "More" => "更多",
 "Add your App" => "添加应用",
@@ -43,6 +50,7 @@
 "Create" => "创建",
 "Default Quota" => "默认配额",
 "Other" => "其它",
+"Group Admin" => "组管理",
 "Quota" => "配额",
 "Delete" => "删除"
 );

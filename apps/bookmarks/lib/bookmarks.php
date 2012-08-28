@@ -71,16 +71,15 @@ class OC_Bookmarks_Bookmarks{
 
 		if($CONFIG_DBTYPE == 'pgsql' ){
 			$query = OCP\DB::prepare('
-				SELECT id, url, title, '.($filterTagOnly?'':'url || title ||').' array_to_string(array_agg(tag), \' \') as tags
-				FROM *PREFIX*bookmarks
-				LEFT JOIN *PREFIX*bookmarks_tags ON *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id 
+				SELECT `id`, `url`, `title`, '.($filterTagOnly?'':'`url` || `title` ||').' array_to_string(array_agg(`tag`), \' \') as `tags`
+				FROM `*PREFIX*bookmarks`
+				LEFT JOIN `*PREFIX*bookmarks_tags` ON `*PREFIX*bookmarks`.`id` = `*PREFIX*bookmarks_tags`.`bookmark_id` 
 				WHERE 
-					*PREFIX*bookmarks.user_id = ?
-				GROUP BY id, url, title
+					`*PREFIX*bookmarks`.`user_id` = ?
+				GROUP BY `id`, `url`, `title`
 				'.$sqlFilterTag.'
-				ORDER BY *PREFIX*bookmarks.'.$sqlSortColumn.' DESC 
-				LIMIT 10
-				OFFSET '. $offset);
+				ORDER BY `*PREFIX*bookmarks`.`'.$sqlSortColumn.'` DESC',
+				10,$offset);
 		} else {
 			if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' )
 				$concatFunction = '(url || title || ';
@@ -88,26 +87,26 @@ class OC_Bookmarks_Bookmarks{
 				$concatFunction = 'Concat(Concat( url, title), ';
 		
 			$query = OCP\DB::prepare('
-				SELECT id, url, title, '
+				SELECT `id`, `url`, `title`, '
 				.($filterTagOnly?'':$concatFunction).
-				'CASE WHEN *PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id
-						THEN GROUP_CONCAT( tag ' .$_gc_separator. ' )
+				'CASE WHEN `*PREFIX*bookmarks`.`id` = `*PREFIX*bookmarks_tags`.`bookmark_id`
+						THEN GROUP_CONCAT( `tag` ' .$_gc_separator. ' )
 						ELSE \' \'
 					END '
 				.($filterTagOnly?'':')').'
-					AS tags
-				FROM *PREFIX*bookmarks
-				LEFT JOIN *PREFIX*bookmarks_tags ON 1=1
-				WHERE (*PREFIX*bookmarks.id = *PREFIX*bookmarks_tags.bookmark_id 
-						OR *PREFIX*bookmarks.id NOT IN (
-							SELECT *PREFIX*bookmarks_tags.bookmark_id FROM *PREFIX*bookmarks_tags
+					AS `tags`
+				FROM `*PREFIX*bookmarks`
+				LEFT JOIN `*PREFIX*bookmarks_tags` ON 1=1
+				WHERE (`*PREFIX*bookmarks`.`id` = `*PREFIX*bookmarks_tags`.`bookmark_id` 
+						OR `*PREFIX*bookmarks`.`id` NOT IN (
+							SELECT `*PREFIX*bookmarks_tags`.`bookmark_id` FROM `*PREFIX*bookmarks_tags`
 						)
 					)
-					AND *PREFIX*bookmarks.user_id = ?
-				GROUP BY url
+					AND `*PREFIX*bookmarks`.`user_id` = ?
+				GROUP BY `url`
 				'.$sqlFilterTag.'
-				ORDER BY *PREFIX*bookmarks.'.$sqlSortColumn.' DESC
-				LIMIT '.$offset.',  10');
+				ORDER BY `*PREFIX*bookmarks`.`'.$sqlSortColumn.'` DESC',
+				10, $offset);
 		}
 
 		$bookmarks = $query->execute($params)->fetchAll();
@@ -119,9 +118,9 @@ class OC_Bookmarks_Bookmarks{
 		$user = OCP\USER::getUser();
 
 		$query = OCP\DB::prepare("
-				SELECT id FROM *PREFIX*bookmarks
-				WHERE id = ?
-				AND user_id = ?
+				SELECT `id` FROM `*PREFIX*bookmarks`
+				WHERE `id` = ?
+				AND `user_id` = ?
 				");
 
 		$result = $query->execute(array($id, $user));
@@ -131,15 +130,15 @@ class OC_Bookmarks_Bookmarks{
 		}
 
 		$query = OCP\DB::prepare("
-			DELETE FROM *PREFIX*bookmarks
-			WHERE id = $id
+			DELETE FROM `*PREFIX*bookmarks`
+			WHERE `id` = $id
 			");
 
 		$result = $query->execute();
 
 		$query = OCP\DB::prepare("
-			DELETE FROM *PREFIX*bookmarks_tags
-			WHERE bookmark_id = $id
+			DELETE FROM `*PREFIX*bookmarks_tags`
+			WHERE `bookmark_id` = $id
 			");
 
 		$result = $query->execute();

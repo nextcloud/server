@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# I Robot <thomas.mueller@tmit.eu>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 13:38+0000\n"
+"POT-Creation-Date: 2012-08-23 02:03+0200\n"
+"PO-Revision-Date: 2012-08-23 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -19,38 +20,18 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: templates/list.php:2
-msgid "Your Shared Files"
-msgstr "Ihre geteilten Dateien"
+#: templates/get.php:4
+msgid "Size"
+msgstr "Größe"
 
-#: templates/list.php:6
-msgid "Item"
-msgstr "Objekt"
+#: templates/get.php:5
+msgid "Modified"
+msgstr "Geändert"
 
-#: templates/list.php:7
-msgid "Shared With"
-msgstr "Teilen mit"
+#: templates/get.php:5
+msgid "Delete all"
+msgstr "Alle löschen"
 
-#: templates/list.php:8
-msgid "Permissions"
-msgstr "Berechtigungen"
-
-#: templates/list.php:16
-msgid "Read"
-msgstr "Lesen"
-
-#: templates/list.php:16
-msgid "Edit"
-msgstr "Bearbeiten"
-
-#: templates/list.php:16 templates/list.php:17
+#: templates/get.php:5
 msgid "Delete"
 msgstr "Löschen"
-
-#: templates/settings.php:3
-msgid "Enable Resharing"
-msgstr "Austausch ermöglichen"
-
-#: templates/settings.php:4
-msgid "Allow users to reshare files they don't own"
-msgstr "Benutzer dürfen Dateien nochmals teilen, auch wenn sie nicht der Besitzer dieser Dateien sind."

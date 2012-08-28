@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+        Open Document Format for Office Applications (OpenDocument) Version 1.2
+        Candidate OASIS Standard (COS) 01, 10 May 2011
+	Manifest Relax-NG Schema
+        Source: http://docs.oasis-open.org/office/v1.2/cos01/
+        Copyright (c) OASIS Open 2002-2011. All Rights Reserved.
+
+	All capitalized terms in the following text have the meanings assigned to them
+   	in the OASIS Intellectual Property Rights Policy (the "OASIS IPR Policy"). The
+	full Policy may be found at the OASIS website.
+
+	This document and translations of it may be copied and furnished to others, and
+	derivative works that comment on or otherwise explain it or assist in its
+	implementation may be prepared, copied, published, and distributed, in whole or
+	in part, without restriction of any kind, provided that the above copyright
+	notice and this section are included on all such copies and derivative works.
+	However, this document itself may not be modified in any way, including by
+	removing the copyright notice or references to OASIS, except as needed for the
+	purpose of developing any document or deliverable produced by an OASIS
+	Technical Committee (in which case the rules applicable to copyrights, as set
+	forth in the OASIS IPR Policy, must be followed) or as required to translate it
+	into languages other than English.
+
+	The limited permissions granted above are perpetual and will not be revoked by
+	OASIS or its successors or assigns.
+
+	This document and the information contained herein is provided on an "AS IS"
+	basis and OASIS DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+	LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT
+	INFRINGE ANY OWNERSHIP RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR
+	FITNESS FOR A PARTICULAR PURPOSE. 
+-->
+<grammar 
+	xmlns="http://relaxng.org/ns/structure/1.0"
+
+	datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
+
+	xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0"
+>
+<start>
+	<choice>
+		<ref name="manifest"/>
+	</choice>
+</start>
+<define name="manifest">
+	<element name="manifest:manifest">
+		<ref name="manifest-attlist"/>
+		<oneOrMore>
+			<ref name="file-entry"/>
+		</oneOrMore>
+	</element>
+</define>
+<define name="manifest-attlist">
+	<attribute name="manifest:version">
+		<value>1.2</value>
+	</attribute>
+</define>
+<define name="file-entry">
+	<element name="manifest:file-entry">
+		<ref name="file-entry-attlist"/>
+		<optional>
+			<ref name="encryption-data"/>
+		</optional>
+	</element>
+</define>
+<define name="file-entry-attlist">
+  <interleave>
+	<attribute name="manifest:full-path">
+		<ref name="string"/>
+	</attribute>
+	<optional>
+		<attribute name="manifest:size">
+			<ref name="nonNegativeInteger"/>
+		</attribute>
+	</optional>
+	<attribute name="manifest:media-type">
+		<ref name="string"/>
+	</attribute>
+	<optional>
+		<attribute name="manifest:preferred-view-mode">
+			<choice>
+				<value>edit</value>
+				<value>presentation-slide-show</value>
+				<value>read-only</value>
+				<ref name="namespacedToken"/> 
+			</choice> 
+		</attribute> 
+	</optional> 
+	<optional>
+		<attribute name="manifest:version">
+			<ref name="string"/>
+		</attribute>
+	</optional>
+  </interleave>
+</define>
+
+<define name="encryption-data">
+	<element name="manifest:encryption-data">
+		<ref name="encryption-data-attlist"/>
+		<ref name="algorithm"/>
+		<optional>
+			<ref name="start-key-generation"/>
+		</optional>
+		<ref name="key-derivation"/>
+	</element>
+</define>
+<define name="encryption-data-attlist">
+  <interleave>
+	<attribute name="manifest:checksum-type">
+		<choice>
+			<value>SHA1/1K</value>
+			<ref name="anyURI"/>
+		</choice>
+	</attribute>
+	<attribute name="manifest:checksum">
+		<ref name="base64Binary"/>
+	</attribute>
+  </interleave>
+</define>
+<define name="algorithm">
+	<element name="manifest:algorithm">
+		<ref name="algorithm-attlist"/>
+		<ref name="anyElements"/>
+	</element>
+</define>
+<define name="algorithm-attlist">
+  <interleave>
+	<attribute name="manifest:algorithm-name">
+		<choice>
+			<value>Blowfish CFB</value>
+			<ref name="anyURI"/>
+		</choice>
+	</attribute>
+	<attribute name="manifest:initialisation-vector">
+		<ref name="base64Binary"/>
+	</attribute>
+  </interleave>
+</define>
+<define name="anyAttListOrElements">
+	<zeroOrMore>
+		<attribute>
+			<anyName/>
+			<text/>
+		</attribute>
+	</zeroOrMore>
+	<ref name="anyElements"/>
+</define>
+<define name="anyElements">
+	<zeroOrMore>
+		<element>
+			<anyName/>
+			<mixed>
+				<ref name="anyAttListOrElements"/>
+			</mixed>
+		</element>
+	</zeroOrMore>
+</define>
+<define name="key-derivation">
+	<element name="manifest:key-derivation">
+		<ref name="key-derivation-attlist"/>
+		<empty/>
+	</element>
+</define>
+<define name="key-derivation-attlist">
+  <interleave>
+	<attribute name="manifest:key-derivation-name">
+		<choice>
+			<value>PBKDF2</value>
+			<ref name="anyURI"/>
+		</choice>
+	</attribute>
+	<attribute name="manifest:salt">
+		<ref name="base64Binary"/>
+	</attribute>
+	<attribute name="manifest:iteration-count">
+			<ref name="nonNegativeInteger"/>
+		</attribute>
+	<optional>
+		<attribute name="manifest:key-size">
+			<ref name="nonNegativeInteger"/>
+		</attribute>
+	</optional>
+  </interleave>
+</define>
+<define name="start-key-generation">
+	<element name="manifest:start-key-generation">
+		<ref name="start-key-generation-attlist"/>
+		<empty/>
+	</element>
+</define>
+<define name="start-key-generation-attlist">
+  <interleave>
+	<attribute name="manifest:start-key-generation-name">
+		<choice>
+			<value>SHA1</value>
+			<ref name="anyURI"/>
+		</choice>
+	</attribute>
+	<optional>
+		<attribute name="manifest:key-size">
+			<ref name="nonNegativeInteger"/>
+		</attribute>
+	</optional>
+  </interleave>
+</define>
+<define name="base64Binary">
+	<data type="base64Binary"/>
+</define>
+<define name="namespacedToken">
+	<data type="QName">
+		<param name="pattern">[^:]+:[^:]+</param>
+	</data>
+</define>
+<define name="nonNegativeInteger">
+	<data type="nonNegativeInteger"/>
+</define>
+<define name="string">
+	<data type="string"/>
+</define>
+<define name="anyURI">
+	<data type="anyURI"/>
+</define>
+</grammar>

@@ -9,8 +9,16 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('contacts');
 
-$addressbooks = OC_Contacts_Addressbook::all(OCP\USER::getUser());
-$tmpl = new OCP\Template("contacts", "part.selectaddressbook");
-$tmpl->assign('addressbooks', $addressbooks);
-$page = $tmpl->fetchPage();
-OCP\JSON::success(array('data' => array('page' => $page )));
+$books = OC_Contacts_Addressbook::all(OCP\USER::getUser());
+if(count($books) > 1) {
+	$addressbooks = array();
+	foreach($books as $book) {
+		$addressbooks[] = array('id' => $book['id'], 'name' => $book['displayname']);
+	}
+	$tmpl = new OCP\Template("contacts", "part.selectaddressbook");
+	$tmpl->assign('addressbooks', $addressbooks);
+	$page = $tmpl->fetchPage();
+	OCP\JSON::success(array('data' => array( 'type' => 'dialog', 'page' => $page )));
+} else {
+	OCP\JSON::success(array('data' => array( 'type' => 'result', 'id' => $books[0]['id'] )));
+}

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 14:56+0000\n"
+"POT-Creation-Date: 2012-08-23 02:03+0200\n"
+"PO-Revision-Date: 2012-08-22 20:01+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgstr "Scaricamento"
 
 #: templates/personal.php:19
 msgid "Your password got changed"
-msgstr "La tua password è stata cambiat"
+msgstr "La tua password è stata cambiata"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
@@ -194,7 +194,7 @@ msgstr "Il tuo indirizzo email"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr "Inserici il tuo indirizzo email per abilitare il recupero della password"
+msgstr "Inserisci il tuo indirizzo email per abilitare il recupero della password"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
@@ -233,8 +233,8 @@ msgid "Other"
 msgstr "Altro"
 
 #: templates/users.php:80 templates/users.php:112
-msgid "SubAdmin"
-msgstr "SubAdmin"
+msgid "Group Admin"
+msgstr "Gruppo di amministrazione"
 
 #: templates/users.php:82
 msgid "Quota"

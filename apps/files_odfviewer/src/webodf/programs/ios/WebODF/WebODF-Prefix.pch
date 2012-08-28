@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'WebODF' target in the 'WebODF' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+#endif

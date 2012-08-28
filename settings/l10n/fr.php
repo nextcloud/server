@@ -12,6 +12,10 @@
 "Saving..." => "Sauvegarde...",
 "__language_name__" => "Français",
 "Security Warning" => "Alertes de sécurité",
+"Cron" => "Cron",
+"execute one task with each page loaded" => "exécuter une tâche pour chaque page chargée",
+"cron.php is registered at a webcron service" => "cron.php est enregistré comme un service webcron",
+"use systems cron service" => "utiliser le service cron du système ",
 "Log" => "Journaux",
 "More" => "Plus",
 "Add your App" => "Ajoutez votre application",
@@ -47,7 +51,7 @@
 "Create" => "Créer",
 "Default Quota" => "Quota par défaut",
 "Other" => "Autre",
-"SubAdmin" => "SubAdmin",
+"Group Admin" => "Groupe Admin",
 "Quota" => "Quota",
 "Delete" => "Supprimer"
 );

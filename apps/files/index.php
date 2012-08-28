@@ -39,7 +39,7 @@ OCP\App::setActiveNavigationEntry( 'files_index' );
 $dir = isset( $_GET['dir'] ) ? stripslashes($_GET['dir']) : '';
 // Redirect if directory does not exist
 if(!OC_Filesystem::is_dir($dir.'/')) {
-	header('Location: '.$_SERVER['PHP_SELF'].'');
+	header('Location: '.$_SERVER['SCRIPT_NAME'].'');
 	exit();
 }
 
@@ -92,8 +92,8 @@ $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 $tmpl = new OCP\Template( 'files', 'index', 'user' );
 $tmpl->assign( 'fileList', $list->fetchPage(), false );
 $tmpl->assign( 'breadcrumb', $breadcrumbNav->fetchPage(), false );
-$tmpl->assign( 'dir', $dir);
-$tmpl->assign( 'readonly', !OC_Filesystem::is_writable($dir.'/'));
+$tmpl->assign( 'dir', OC_Filesystem::normalizePath($dir));
+$tmpl->assign( 'isCreatable', OC_Filesystem::isCreatable($dir.'/'));
 $tmpl->assign( 'files', $files );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));

@@ -28,6 +28,9 @@
 "Name" => "Име",
 "Share" => "Споделяне",
 "Download" => "Изтегляне",
+"Size" => "Размер",
+"Modified" => "Променено",
+"Delete" => "Изтриване",
 "Upload too large" => "Файлът е прекалено голям",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файловете които се опитвате да качите са по-големи от позволеното за сървъра.",
 "Files are being scanned, please wait." => "Файловете се претърсват, изчакайте."

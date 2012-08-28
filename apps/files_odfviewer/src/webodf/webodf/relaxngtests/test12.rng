@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar
+	xmlns="http://relaxng.org/ns/structure/1.0"
+	xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+	xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0"
+	xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0"
+>
+	<start>
+		<element name="office:document">
+			<attribute name="office:version">
+				<value>1.2</value>
+			</attribute>
+			<attribute name="office:mimetype">
+				<data type="string"/>
+			</attribute>
+			<element name="office:styles">
+				<interleave>
+					<element name="style:default-style">
+						<ref name="style-style-content"/>
+					</element>
+				</interleave>
+			</element>
+			<element name="office:body">
+				<element name="office:text">
+					<empty/>
+				</element>
+			</element>
+		</element>
+	</start>
+	<define name="style-style-content">
+		<group>
+			<attribute name="style:family">
+				<value>text</value>
+			</attribute>
+			<element name="style:text-properties">
+				<ref name="style-text-properties-attlist"/>
+			</element>
+		</group>
+	</define>
+	<define name="style-text-properties-attlist">
+		<interleave>
+			<optional>
+				<attribute name="style:text-line-through-text">
+					<ref name="string"/>
+				</attribute>
+			</optional>
+			<optional>
+				<attribute name="style:font-name">
+					<ref name="string"/>
+				</attribute>
+			</optional>
+			<optional>
+				<attribute name="style:font-name-asian">
+					<ref name="string"/>
+				</attribute>
+			</optional>
+			<optional>
+				<attribute name="style:font-name-complex">
+					<ref name="string"/>
+				</attribute>
+			</optional>
+			<optional>
+				<attribute name="fo:font-family">
+					<ref name="string"/>
+				</attribute>
+			</optional>
+			<optional>
+				<attribute name="style:font-family-asian">
+					<ref name="string"/>
+				</attribute>
+			</optional>
+			<optional>
+				<attribute name="style:font-family-complex">
+					<ref name="string"/>
+				</attribute>
+			</optional>
+			<optional>
+				<attribute name="style:font-style-name">
+					<ref name="string"/>
+				</attribute>
+			</optional>
+			<optional>
+				<attribute name="style:font-style-name-asian">
+					<ref name="string"/>
+				</attribute>
+			</optional>
+			<optional>
+				<attribute name="style:font-style-name-complex">
+					<ref name="string"/>
+				</attribute>
+			</optional>
+		</interleave>
+	</define>
+	<define name="string">
+		<data type="string"/>
+	</define>
+</grammar>

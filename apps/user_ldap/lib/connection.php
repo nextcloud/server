@@ -53,6 +53,8 @@ class Connection {
 		'ldapQuotaDefault' => null,
 		'ldapEmailAttribute' => null,
 		'ldapCacheTTL' => null,
+		'ldapUuidAttribute' => null,
+		'ldapOverrideUuidAttribute' => null,
 	);
 
 	public function __construct($configID = 'user_ldap') {
@@ -74,6 +76,22 @@ class Connection {
 		}
 	}
 
+	public function __set($name, $value) {
+		$changed = false;
+		//omly few options are writable
+		if($name == 'ldapUuidAttribute') {
+			\OCP\Util::writeLog('user_ldap', 'Set config ldapUuidAttribute to  '.$value, \OCP\Util::DEBUG);
+			$this->config[$name] = $value;
+			if(!empty($this->configID)) {
+				\OCP\Config::getAppValue($this->configID, 'ldap_uuid_attribute', $value);
+			}
+			$changed = true;
+		}
+		if($changed) {
+			$this->validateConfiguration();
+		}
+	}
+
 	/**
 	 * @brief initializes the LDAP backend
 	 * @param $force read the config settings no matter what
@@ -91,6 +109,9 @@ class Connection {
 	public function getConnectionResource() {
 		if(!$this->ldapConnectionRes) {
 			$this->init();
+		} else if(!is_resource($this->ldapConnectionRes)) {
+			$this->ldapConnectionRes = null;
+			$this->establishConnection();
 		}
 		if(is_null($this->ldapConnectionRes)) {
 			\OCP\Util::writeLog('user_ldap', 'Connection could not be established', \OCP\Util::ERROR);
@@ -177,6 +198,8 @@ class Connection {
 			$this->config['ldapGroupMemberAssocAttr'] = \OCP\Config::getAppValue($this->configID, 'ldap_group_member_assoc_attribute', 'uniqueMember');
 			$this->config['ldapIgnoreNamingRules'] = \OCP\Config::getSystemValue('ldapIgnoreNamingRules', false);
 			$this->config['ldapCacheTTL']          = \OCP\Config::getAppValue($this->configID, 'ldap_cache_ttl', 10*60);
+			$this->config['ldapUuidAttribute']     = \OCP\Config::getAppValue($this->configID, 'ldap_uuid_attribute', 'auto');
+			$this->config['ldapOverrideUuidAttribute'] = \OCP\Config::getAppValue($this->configID, 'ldap_override_uuid_attribute', 0);
 
 			$this->configured = $this->validateConfiguration();
 		}
@@ -233,6 +256,11 @@ class Connection {
 		if(empty($this->config['ldapGroupFilter']) && empty($this->config['ldapGroupMemberAssocAttr'])) {
 			\OCP\Util::writeLog('user_ldap', 'No group filter is specified, LDAP group feature will not be used.', \OCP\Util::INFO);
 		}
+		if(!in_array($this->config['ldapUuidAttribute'], array('auto','entryuuid', 'nsuniqueid', 'objectguid'))) {
+			\OCP\Config::setAppValue($this->configID, 'ldap_uuid_attribute', 'auto');
+			\OCP\Util::writeLog('user_ldap', 'Illegal value for the UUID Attribute, reset to autodetect.', \OCP\Util::INFO);
+		}
+
 
 		//second step: critical checks. If left empty or filled wrong, set as unconfigured and give a warning.
 		$configurationOK = true;

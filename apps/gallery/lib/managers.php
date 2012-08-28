@@ -14,8 +14,8 @@ class DatabaseManager {
 	}
 	
 	protected function getPathData($path) {
-		$stmt = \OCP\DB::prepare('SELECT * FROM *PREFIX*pictures_images_cache
-			WHERE uid_owner LIKE ? AND path like ? AND path not like ?');
+		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*pictures_images_cache`
+			WHERE `uid_owner` LIKE ? AND `path` LIKE ? AND `path` NOT LIKE ?');
 		$path_match = $path.'/%';
 		$path_notmatch = $path.'/%/%';
 		$result = $stmt->execute(array(\OCP\USER::getUser(), $path_match, $path_notmatch));
@@ -26,7 +26,7 @@ class DatabaseManager {
 	}
 
 	public function setFileData($path, $width, $height) {
-		$stmt = \OCP\DB::prepare('INSERT INTO *PREFIX*pictures_images_cache (uid_owner, path, width, height) VALUES (?, ?, ?, ?)');
+		$stmt = \OCP\DB::prepare('INSERT INTO `*PREFIX*pictures_images_cache` (`uid_owner`, `path`, `width`, `height`) VALUES (?, ?, ?, ?)');
 		$stmt->execute(array(\OCP\USER::getUser(), $path, $width, $height));
 		$ret = array('path' => $path, 'width' => $width, 'height' => $height);
 		$dir = dirname($path);

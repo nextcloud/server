@@ -27,6 +27,7 @@
 "Name" => "名稱",
 "Share" => "分享",
 "Download" => "下載",
+"Delete all" => "全部刪除",
 "Upload too large" => "上傳過大",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "你試圖上傳的檔案已超過伺服器的最大容量限制。　",
 "Files are being scanned, please wait." => "正在掃描檔案，請稍等。",

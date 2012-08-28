@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE requirements PUBLIC "WebODF requirements XML" "requirements.dtd">
+<!--
+     Designing an XML editor
+
+requirements:
+ - load xml document in a frame and visualize it with specified css
+  - load xml document in another (underwater) frame and show it as XML
+   - parse DTD of the document format into a JSON data structure
+    - edit the text content/character of the XML document
+
+-->
+
+<requirements xmlns="http://www.webodf.org/dtd/requirements" xmlns:hi="hello">
+ <requirement id="r1">
+  <desc>load xml document in a frame</desc>
+ </requirement> 
+ <requirement id="r2">
+  <desc>show xml in a frame with a specified css</desc>
+ </requirement>
+ <dependency parent="r1" child="r2"/>
+</requirements>

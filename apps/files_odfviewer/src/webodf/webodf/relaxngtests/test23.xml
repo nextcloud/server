@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest:manifest xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0">
+ <manifest:file-entry manifest:media-type="text/xml" manifest:full-path="settings.xml"/>
+</manifest:manifest>

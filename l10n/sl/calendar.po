@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-11 02:02+0200\n"
-"PO-Revision-Date: 2012-08-11 00:02+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-15 13:25+0000\n"
+"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +23,11 @@ msgstr ""
 
 #: ajax/cache/status.php:19
 msgid "Not all calendars are completely cached"
-msgstr ""
+msgstr "Vsi koledarji niso povsem predpomnjeni"
 
 #: ajax/cache/status.php:21
 msgid "Everything seems to be completely cached"
-msgstr ""
+msgstr "Izgleda, da je vse v predpomnilniku"
 
 #: ajax/categories/rescan.php:29
 msgid "No calendars found."
@@ -45,19 +45,19 @@ msgstr "Napačen koledar"
 msgid ""
 "The file contained either no events or all events are already saved in your "
 "calendar."
-msgstr ""
+msgstr "Datoteka ni vsebovala dogodkov ali pa so vsi dogodki že shranjeni v koledarju."
 
 #: ajax/import/dropimport.php:31 ajax/import/import.php:67
 msgid "events has been saved in the new calendar"
-msgstr ""
+msgstr "dogodki so bili shranjeni v nov koledar"
 
 #: ajax/import/import.php:56
 msgid "Import failed"
-msgstr ""
+msgstr "Uvoz je spodletel"
 
 #: ajax/import/import.php:69
 msgid "events has been saved in your calendar"
-msgstr ""
+msgstr "dogodki so bili shranjeni v vaš koledar"
 
 #: ajax/settings/guesstimezone.php:25
 msgid "New Timezone:"
@@ -162,7 +162,7 @@ msgstr "Delo"
 
 #: lib/app.php:351 lib/app.php:361
 msgid "by"
-msgstr ""
+msgstr "od"
 
 #: lib/app.php:359 lib/app.php:399
 msgid "unnamed"
@@ -351,79 +351,79 @@ msgstr "Kol."
 
 #: templates/calendar.php:6
 msgid "Sun."
-msgstr ""
+msgstr "ned."
 
 #: templates/calendar.php:6
 msgid "Mon."
-msgstr ""
+msgstr "pon."
 
 #: templates/calendar.php:6
 msgid "Tue."
-msgstr ""
+msgstr "tor."
 
 #: templates/calendar.php:6
 msgid "Wed."
-msgstr ""
+msgstr "sre."
 
 #: templates/calendar.php:6
 msgid "Thu."
-msgstr ""
+msgstr "čet."
 
 #: templates/calendar.php:6
 msgid "Fri."
-msgstr ""
+msgstr "pet."
 
 #: templates/calendar.php:6
 msgid "Sat."
-msgstr ""
+msgstr "sob."
 
 #: templates/calendar.php:8
 msgid "Jan."
-msgstr ""
+msgstr "jan."
 
 #: templates/calendar.php:8
 msgid "Feb."
-msgstr ""
+msgstr "feb."
 
 #: templates/calendar.php:8
 msgid "Mar."
-msgstr ""
+msgstr "mar."
 
 #: templates/calendar.php:8
 msgid "Apr."
-msgstr ""
+msgstr "apr."
 
 #: templates/calendar.php:8
 msgid "May."
-msgstr ""
+msgstr "maj"
 
 #: templates/calendar.php:8
 msgid "Jun."
-msgstr ""
+msgstr "jun."
 
 #: templates/calendar.php:8
 msgid "Jul."
-msgstr ""
+msgstr "jul."
 
 #: templates/calendar.php:8
 msgid "Aug."
-msgstr ""
+msgstr "avg."
 
 #: templates/calendar.php:8
 msgid "Sep."
-msgstr ""
+msgstr "sep."
 
 #: templates/calendar.php:8
 msgid "Oct."
-msgstr ""
+msgstr "okt."
 
 #: templates/calendar.php:8
 msgid "Nov."
-msgstr ""
+msgstr "nov."
 
 #: templates/calendar.php:8
 msgid "Dec."
-msgstr ""
+msgstr "dec."
 
 #: templates/calendar.php:11
 msgid "All day"
@@ -480,7 +480,7 @@ msgstr "Danes"
 
 #: templates/calendar.php:46 templates/calendar.php:47
 msgid "Settings"
-msgstr ""
+msgstr "Nastavitve"
 
 #: templates/part.choosecalendar.php:2
 msgid "Your calendars"
@@ -688,7 +688,7 @@ msgstr "Uvozi datoteko koledarja"
 
 #: templates/part.import.php:24
 msgid "Please choose a calendar"
-msgstr ""
+msgstr "Prosimo, če izberete koledar"
 
 #: templates/part.import.php:36
 msgid "Name of new calendar"
@@ -696,13 +696,13 @@ msgstr "Ime novega koledarja"
 
 #: templates/part.import.php:44
 msgid "Take an available name!"
-msgstr ""
+msgstr "Izberite prosto ime!"
 
 #: templates/part.import.php:45
 msgid ""
 "A Calendar with this name already exists. If you continue anyhow, these "
 "calendars will be merged."
-msgstr ""
+msgstr "Koledar s tem imenom že obstaja. Če nadaljujete, bosta koledarja združena."
 
 #: templates/part.import.php:47
 msgid "Import"
@@ -734,7 +734,7 @@ msgstr "pri"
 
 #: templates/settings.php:10
 msgid "General"
-msgstr ""
+msgstr "Splošno"
 
 #: templates/settings.php:15
 msgid "Timezone"
@@ -742,11 +742,11 @@ msgstr "Časovni pas"
 
 #: templates/settings.php:47
 msgid "Update timezone automatically"
-msgstr ""
+msgstr "Samodejno posodobi časovni pas"
 
 #: templates/settings.php:52
 msgid "Time format"
-msgstr ""
+msgstr "Oblika zapisa časa"
 
 #: templates/settings.php:57
 msgid "24h"
@@ -758,39 +758,39 @@ msgstr "12ur"
 
 #: templates/settings.php:64
 msgid "Start week on"
-msgstr ""
+msgstr "Začni teden z"
 
 #: templates/settings.php:76
 msgid "Cache"
-msgstr ""
+msgstr "Predpomnilnik"
 
 #: templates/settings.php:80
 msgid "Clear cache for repeating events"
-msgstr ""
+msgstr "Počisti predpomnilnik za ponavljajoče dogodke"
 
 #: templates/settings.php:85
 msgid "URLs"
-msgstr ""
+msgstr "URLji"
 
 #: templates/settings.php:87
 msgid "Calendar CalDAV syncing addresses"
-msgstr ""
+msgstr "CalDAV naslov za usklajevanje koledarjev"
 
 #: templates/settings.php:87
 msgid "more info"
-msgstr ""
+msgstr "dodatne informacije"
 
 #: templates/settings.php:89
 msgid "Primary address (Kontact et al)"
-msgstr ""
+msgstr "Glavni naslov (Kontakt et al)"
 
 #: templates/settings.php:91
 msgid "iOS/OS X"
-msgstr ""
+msgstr "iOS/OS X"
 
 #: templates/settings.php:93
 msgid "Read only iCalendar link(s)"
-msgstr ""
+msgstr "iCalendar povezava/e samo za branje"
 
 #: templates/share.dropdown.php:20
 msgid "Users"

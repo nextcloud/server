@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:02+0200\n"
-"PO-Revision-Date: 2012-08-14 12:47+0000\n"
-"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-21 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,11 +53,7 @@ msgstr "เขียนข้อมูลลงแผ่นดิสก์ล้
 msgid "Files"
 msgstr "ไฟล์"
 
-#: js/fileactions.js:95
-msgid "Unshare"
-msgstr "ยกเลิกการแชร์ข้อมูล"
-
-#: js/fileactions.js:97 templates/index.php:56
+#: js/fileactions.js:107 templates/index.php:56
 msgid "Delete"
 msgstr "ลบ"
 
@@ -81,59 +77,59 @@ msgstr "แทนที่แล้ว"
 msgid "with"
 msgstr "กับ"
 
-#: js/filelist.js:195 js/filelist.js:256
+#: js/filelist.js:195 js/filelist.js:246
 msgid "undo"
 msgstr "เลิกทำ"
 
-#: js/filelist.js:256
+#: js/filelist.js:246
 msgid "deleted"
 msgstr "ลบแล้ว"
 
-#: js/files.js:170
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "กำลังสร้างไฟล์บีบอัด ZIP อาจใช้เวลาสักครู่"
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "ไม่สามารถอัพโหลดไฟล์ของคุณได้ เนื่องจากไฟล์ดังกล่าวเป็นไดเร็กทอรี่หรือมีขนาด 0 ไบต์"
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Upload Error"
 msgstr "เกิดข้อผิดพลาดในการอัพโหลด"
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:228 js/files.js:319 js/files.js:348
 msgid "Pending"
 msgstr "อยู่ระหว่างดำเนินการ"
 
-#: js/files.js:332
+#: js/files.js:333
 msgid "Upload cancelled."
 msgstr "การอัพโหลดถูกยกเลิก"
 
-#: js/files.js:456
+#: js/files.js:457
 msgid "Invalid name, '/' is not allowed."
 msgstr "ชื่อที่ใช้ไม่ถูกต้อง '/' ไม่อนุญาตให้ใช้งาน"
 
-#: js/files.js:694 templates/index.php:55
+#: js/files.js:703 templates/index.php:55
 msgid "Size"
 msgstr "ขนาด"
 
-#: js/files.js:695 templates/index.php:56
+#: js/files.js:704 templates/index.php:56
 msgid "Modified"
 msgstr "ปรับปรุงล่าสุด"
 
-#: js/files.js:722
+#: js/files.js:731
 msgid "folder"
 msgstr "โฟลเดอร์"
 
-#: js/files.js:724
+#: js/files.js:733
 msgid "folders"
 msgstr "โฟลเดอร์"
 
-#: js/files.js:732
+#: js/files.js:741
 msgid "file"
 msgstr "ไฟล์"
 
-#: js/files.js:734
+#: js/files.js:743
 msgid "files"
 msgstr "ไฟล์"
 

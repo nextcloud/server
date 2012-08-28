@@ -24,6 +24,7 @@
  
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('gallery');
+OCP\JSON::callCheck();
 
 OC_Gallery_Album::create(OCP\USER::getUser(), $_GET['album_name']);
 

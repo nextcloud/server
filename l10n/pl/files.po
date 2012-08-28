@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-31 22:53+0200\n"
-"PO-Revision-Date: 2012-07-31 20:54+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-21 02:03+0200\n"
+"PO-Revision-Date: 2012-08-21 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,87 +55,83 @@ msgstr "Błąd zapisu na dysk"
 msgid "Files"
 msgstr "Pliki"
 
-#: js/fileactions.js:95
-msgid "Unshare"
-msgstr ""
-
-#: js/fileactions.js:97 templates/index.php:56
+#: js/fileactions.js:107 templates/index.php:56
 msgid "Delete"
 msgstr "Usuwa element"
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr ""
+msgstr "Już istnieje"
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr ""
+msgstr "zastap"
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "anuluj"
 
 #: js/filelist.js:195
 msgid "replaced"
-msgstr ""
+msgstr "zastąpione"
 
 #: js/filelist.js:195
 msgid "with"
-msgstr ""
+msgstr "z"
 
-#: js/filelist.js:195 js/filelist.js:256
+#: js/filelist.js:195 js/filelist.js:246
 msgid "undo"
 msgstr "wróć"
 
-#: js/filelist.js:256
+#: js/filelist.js:246
 msgid "deleted"
 msgstr "skasuj"
 
-#: js/files.js:170
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "Generowanie pliku ZIP, może potrwać pewien czas."
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Nie można wczytać pliku jeśli jest katalogiem lub ma 0 bajtów"
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Upload Error"
 msgstr "Błąd wczytywania"
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:228 js/files.js:319 js/files.js:348
 msgid "Pending"
 msgstr "Oczekujące"
 
-#: js/files.js:332
+#: js/files.js:333
 msgid "Upload cancelled."
 msgstr "Wczytywanie anulowane."
 
-#: js/files.js:456
+#: js/files.js:457
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nieprawidłowa nazwa '/' jest niedozwolone."
 
-#: js/files.js:631 templates/index.php:55
+#: js/files.js:703 templates/index.php:55
 msgid "Size"
 msgstr "Rozmiar"
 
-#: js/files.js:632 templates/index.php:56
+#: js/files.js:704 templates/index.php:56
 msgid "Modified"
 msgstr "Czas modyfikacji"
 
-#: js/files.js:659
+#: js/files.js:731
 msgid "folder"
 msgstr "folder"
 
-#: js/files.js:661
+#: js/files.js:733
 msgid "folders"
 msgstr "foldery"
 
-#: js/files.js:669
+#: js/files.js:741
 msgid "file"
 msgstr "plik"
 
-#: js/files.js:671
+#: js/files.js:743
 msgid "files"
 msgstr "pliki"
 

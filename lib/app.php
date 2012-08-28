@@ -147,7 +147,7 @@ class OC_App{
 		if(!OC_Config::getValue('installed', false))
 			return array();
 		$apps=array('files');
-		$query = OC_DB::prepare( 'SELECT appid FROM *PREFIX*appconfig WHERE configkey = \'enabled\' AND configvalue=\'yes\'' );
+		$query = OC_DB::prepare( 'SELECT `appid` FROM `*PREFIX*appconfig` WHERE `configkey` = \'enabled\' AND `configvalue`=\'yes\'' );
 		$result=$query->execute();
 		while($row=$result->fetchRow()){
 			if(array_search($row['appid'],$apps)===false){
@@ -586,7 +586,7 @@ class OC_App{
 			return $versions; // when function is used besides in checkUpgrade
 		}
 		$versions=array();
-		$query = OC_DB::prepare( 'SELECT appid, configvalue FROM *PREFIX*appconfig WHERE configkey = \'installed_version\'' );
+		$query = OC_DB::prepare( 'SELECT `appid`, `configvalue` FROM `*PREFIX*appconfig` WHERE `configkey` = \'installed_version\'' );
 		$result = $query->execute();
 		while($row = $result->fetchRow()){
 			$versions[$row['appid']]=$row['configvalue'];

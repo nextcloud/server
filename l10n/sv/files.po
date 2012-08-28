@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-06 02:01+0200\n"
-"PO-Revision-Date: 2012-08-05 17:06+0000\n"
+"POT-Creation-Date: 2012-08-22 02:04+0200\n"
+"PO-Revision-Date: 2012-08-21 08:24+0000\n"
 "Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr "Den uppladdade filen överstiger MAX_FILE_SIZE direktivet som anges i HT
 
 #: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
-msgstr "Den uppladdade filen var endast delvist uppladdad"
+msgstr "Den uppladdade filen var endast delvis uppladdad"
 
 #: ajax/upload.php:24
 msgid "No file was uploaded"
@@ -57,13 +57,9 @@ msgstr "Misslyckades spara till disk"
 msgid "Files"
 msgstr "Filer"
 
-#: js/fileactions.js:95
-msgid "Unshare"
-msgstr "Sluta dela"
-
-#: js/fileactions.js:97 templates/index.php:56
+#: js/fileactions.js:107 templates/index.php:56
 msgid "Delete"
-msgstr "Ta bort"
+msgstr "Radera"
 
 #: js/filelist.js:141
 msgid "already exists"
@@ -85,59 +81,59 @@ msgstr "ersatt"
 msgid "with"
 msgstr "med"
 
-#: js/filelist.js:195 js/filelist.js:256
+#: js/filelist.js:195 js/filelist.js:246
 msgid "undo"
 msgstr "ångra"
 
-#: js/filelist.js:256
+#: js/filelist.js:246
 msgid "deleted"
 msgstr "raderad"
 
-#: js/files.js:170
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
-msgstr "Gererar ZIP-fil. Det kan ta lite tid."
+msgstr "genererar ZIP-fil, det kan ta lite tid."
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Kunde inte ladda upp dina filer eftersom det antingen är en mapp eller har 0 bytes."
 
-#: js/files.js:199
+#: js/files.js:200
 msgid "Upload Error"
 msgstr "Uppladdningsfel"
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:228 js/files.js:319 js/files.js:348
 msgid "Pending"
 msgstr "Väntar"
 
-#: js/files.js:332
+#: js/files.js:333
 msgid "Upload cancelled."
 msgstr "Uppladdning avbruten."
 
-#: js/files.js:456
+#: js/files.js:457
 msgid "Invalid name, '/' is not allowed."
 msgstr "Ogiltigt namn, '/' är inte tillåten."
 
-#: js/files.js:690 templates/index.php:55
+#: js/files.js:703 templates/index.php:55
 msgid "Size"
 msgstr "Storlek"
 
-#: js/files.js:691 templates/index.php:56
+#: js/files.js:704 templates/index.php:56
 msgid "Modified"
 msgstr "Ändrad"
 
-#: js/files.js:718
+#: js/files.js:731
 msgid "folder"
 msgstr "mapp"
 
-#: js/files.js:720
+#: js/files.js:733
 msgid "folders"
 msgstr "mappar"
 
-#: js/files.js:728
+#: js/files.js:741
 msgid "file"
 msgstr "fil"
 
-#: js/files.js:730
+#: js/files.js:743
 msgid "files"
 msgstr "filer"
 
@@ -155,7 +151,7 @@ msgstr "max. möjligt:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr "Krävs för nerladdning av flera mappar och filer"
+msgstr "Krävs för nerladdning av flera mappar och filer."
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
@@ -163,11 +159,11 @@ msgstr "Aktivera ZIP-nerladdning"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr "0 är lika med oändligt"
+msgstr "0 är oändligt"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr "Största tillåtna storlek för ZIP filer"
+msgstr "Största tillåtna storlek för ZIP-filer"
 
 #: templates/index.php:7
 msgid "New"
@@ -207,7 +203,7 @@ msgstr "Dela"
 
 #: templates/index.php:51
 msgid "Download"
-msgstr "Ladda ned"
+msgstr "Ladda ner"
 
 #: templates/index.php:64
 msgid "Upload too large"
@@ -221,8 +217,8 @@ msgstr "Filerna du försöker ladda upp överstiger den maximala storleken för 
 
 #: templates/index.php:71
 msgid "Files are being scanned, please wait."
-msgstr "Filerna skannas, var god vänta"
+msgstr "Filer skannas, var god vänta"
 
 #: templates/index.php:74
 msgid "Current scanning"
-msgstr "Aktuell avsökning"
+msgstr "Aktuell skanning"

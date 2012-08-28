@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<info>
+	<id>files_odfviewer</id>
+	<name>ODF Viewer</name>
+	<description>Simple ODF viewer for owncloud</description>
+	<version>0.1</version>
+	<licence>AGPL</licence>
+	<author>Thomas Müller</author>
+	<require>4</require>
+	<shipped>true</shipped>
+	<default_enable/>
+</info>

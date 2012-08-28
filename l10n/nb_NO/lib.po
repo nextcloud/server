@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Arvid Nornes <arvid.nornes@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-28 02:02+0200\n"
-"PO-Revision-Date: 2012-07-27 22:23+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-23 17:31+0000\n"
+"Last-Translator: Arvid Nornes <arvid.nornes@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,53 +18,53 @@ msgstr ""
 "Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: app.php:287
+#: app.php:288
 msgid "Help"
-msgstr ""
+msgstr "Hjelp"
 
-#: app.php:294
+#: app.php:295
 msgid "Personal"
-msgstr ""
+msgstr "Personlig"
 
-#: app.php:299
+#: app.php:300
 msgid "Settings"
-msgstr ""
+msgstr "Innstillinger"
 
-#: app.php:304
+#: app.php:305
 msgid "Users"
-msgstr ""
+msgstr "Brukere"
 
-#: app.php:311
+#: app.php:312
 msgid "Apps"
-msgstr ""
+msgstr "Apper"
 
-#: app.php:313
+#: app.php:314
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
-#: files.php:245
+#: files.php:276
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "ZIP-nedlasting av avslått"
 
-#: files.php:246
+#: files.php:277
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Filene må lastes ned en om gangen"
 
-#: files.php:246 files.php:271
+#: files.php:277 files.php:302
 msgid "Back to Files"
-msgstr ""
+msgstr "Tilbake til filer"
 
-#: files.php:270
+#: files.php:301
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "De valgte filene er for store til å kunne generere ZIP-fil"
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "Applikasjon er ikke påslått"
 
 #: json.php:39 json.php:63 json.php:75
 msgid "Authentication error"
-msgstr ""
+msgstr "Autentiseringsfeil"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
@@ -71,42 +72,42 @@ msgstr ""
 
 #: template.php:86
 msgid "seconds ago"
-msgstr ""
+msgstr "sekunder siden"
 
 #: template.php:87
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 minuitt siden"
 
 #: template.php:88
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "%d minutter siden"
 
 #: template.php:91
 msgid "today"
-msgstr ""
+msgstr "i dag"
 
 #: template.php:92
 msgid "yesterday"
-msgstr ""
+msgstr "i går"
 
 #: template.php:93
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "%d dager siden"
 
 #: template.php:94
 msgid "last month"
-msgstr ""
+msgstr "forrige måned"
 
 #: template.php:95
 msgid "months ago"
-msgstr ""
+msgstr "måneder siden"
 
 #: template.php:96
 msgid "last year"
-msgstr ""
+msgstr "i fjor"
 
 #: template.php:97
 msgid "years ago"
-msgstr ""
+msgstr "år siden"

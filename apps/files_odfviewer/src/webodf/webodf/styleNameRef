@@ -1,0 +1,272 @@
+# cat styles.xml|xmlstarlet sel -N style=urn:oasis:names:tc:opendocument:xmlns:style:1.0 -t -m "//*[@style:family='graphic']/@style:name" -v . -
+
+gradient
+	draw:fill-gradient-name	style:drawing-page-properties
+	draw:fill-gradient-name	style:graphic-properties
+
+hatch
+	draw:fill-hatch-name	style:drawing-page-properties
+	draw:fill-hatch-name	style:graphic-properties
+
+fill-image
+	draw:fill-image-name	style:drawing-page-properties
+	draw:fill-image-name	style:graphic-properties
+
+marker
+	draw:marker-end	style:graphic-properties
+	draw:marker-start	style:graphic-properties
+
+dash
+	draw:stroke-dash	style:graphic-properties
+
+opacity
+	draw:opacity-name	style:drawing-page-properties
+	draw:opacity-name	style:graphic-properties
+
+master page
+	draw:master-page-name	draw:page
+	style:master-page-name	style:style
+	style:next-style-name	style:master-page
+	text:master-page-name	text:notes-configuration
+	text:master-page-name	text:page
+
+presentation-page-layout
+	presentation:presentation-page-layout-name	draw:page
+	presentation:presentation-page-layout-name	draw:handout-master
+
+page-layout
+	style:page-layout-name	presentation:notes
+	style:page-layout-name	style:handout-master
+	style:page-layout-name	style:master-page
+
+list
+	text:style-name	text:list
+	text:style-name	text:numbered-paragraph
+	text:style-override	text:list-item
+	style:list-style-name	style:style
+
+data
+	style:data-style-name	style:style
+	style:percentage-data-style-name	style:style
+	style:data-style-name	presentation:date-time-decl
+	style:data-style-name	text:creation-date
+	style:data-style-name	text:creation-time
+	style:data-style-name	text:database-display
+	style:data-style-name	text:date
+	style:data-style-name	text:editing-duration
+	style:data-style-name	text:expression
+	style:data-style-name	text:meta-field
+	style:data-style-name	text:modification-date
+	style:data-style-name	text:modification-time
+	style:data-style-name	text:print-date
+	style:data-style-name	text:print-time
+	style:data-style-name	text:table-formula
+	style:data-style-name	text:time
+	style:data-style-name	text:user-defined
+	style:data-style-name	text:user-field-get
+	style:data-style-name	text:user-field-input
+	style:data-style-name	text:variable-get
+	style:data-style-name	text:variable-input
+	style:data-style-name	text:variable-set
+
+chart
+	chart:style-name	chart:axis
+	chart:style-name	chart:chart
+	chart:style-name	chart:data-label
+	chart:style-name	chart:data-point
+	chart:style-name	chart:equation
+	chart:style-name	chart:error-indicator
+	chart:style-name	chart:floor
+	chart:style-name	chart:footer
+	chart:style-name	chart:grid
+	chart:style-name	chart:legend
+	chart:style-name	chart:mean-value
+	chart:style-name	chart:plot-area
+	chart:style-name	chart:regression-curve
+	chart:style-name	chart:series
+	chart:style-name	chart:stock-gain-marker
+	chart:style-name	chart:stock-loss-marker
+	chart:style-name	chart:stock-range-line
+	chart:style-name	chart:subtitle
+	chart:style-name	chart:title
+	chart:style-name	chart:wall
+
+----
+
+drawing-page
+	draw:style-name	draw:page
+	draw:style-name	presentation:notes
+	draw:style-name	style:handout-master
+	draw:style-name	style:master-page
+
+graphic
+	draw:style-name	dr3d:cube
+	draw:style-name	dr3d:extrude
+	draw:style-name	dr3d:rotate
+	draw:style-name	dr3d:scene
+	draw:style-name	dr3d:sphere
+	draw:style-name	draw:caption
+	draw:style-name	draw:circle
+	draw:style-name	draw:connector
+	draw:style-name	draw:control
+	draw:style-name	draw:custom-shape
+	draw:style-name	draw:ellipse
+	draw:style-name	draw:frame
+	draw:style-name	draw:g
+	draw:style-name	draw:line
+	draw:style-name	draw:measure
+	draw:style-name	draw:page-thumbnail
+	draw:style-name	draw:path
+	draw:style-name	draw:polygon
+	draw:style-name	draw:polyline
+	draw:style-name	draw:rect
+	draw:style-name	draw:regular-polygon
+	draw:style-name	office:annotation
+
+paragraph
+	draw:text-style-name	draw:caption
+	draw:text-style-name	draw:circle
+	draw:text-style-name	draw:connector
+	draw:text-style-name	draw:control
+	draw:text-style-name	draw:custom-shape
+	draw:text-style-name	draw:ellipse
+	draw:text-style-name	draw:frame
+	draw:text-style-name	draw:line
+	draw:text-style-name	draw:measure
+	draw:text-style-name	draw:path
+	draw:text-style-name	draw:polygon
+	draw:text-style-name	draw:polyline
+	draw:text-style-name	draw:rect
+	draw:text-style-name	draw:regular-polygon
+	draw:text-style-name	office:annotation
+	form:text-style-name	form:column
+	style:next-style-name	style:style
+	table:paragraph-style-name	table:body
+	table:paragraph-style-name	table:even-columns
+	table:paragraph-style-name	table:even-rows
+	table:paragraph-style-name	table:first-column
+	table:paragraph-style-name	table:first-row
+	table:paragraph-style-name	table:last-column
+	table:paragraph-style-name	table:last-row
+	table:paragraph-style-name	table:odd-columns
+	table:paragraph-style-name	table:odd-rows
+	text:default-style-name	text:notes-configuration
+	text:style-name	text:alphabetical-index-entry-template
+	text:style-name	text:bibliography-entry-template
+	text:style-name	text:h
+	text:style-name	text:illustration-index-entry-template
+	text:style-name	text:index-source-style
+	text:style-name	text:object-index-entry-template
+	text:style-name	text:p
+	text:style-name	text:table-index-entry-template
+	text:style-name	text:table-of-content-entry-template
+	text:style-name	text:table-index-entry-template
+	text:style-name	text:user-index-entry-template
+	style:register-truth-ref-style-name	style:page-layout-properties
+
+presentation
+	presentation:style-name	dr3d:cube
+	presentation:style-name	dr3d:extrude
+	presentation:style-name	dr3d:rotate
+	presentation:style-name	dr3d:scene
+	presentation:style-name	dr3d:sphere
+	presentation:style-name	draw:caption
+	presentation:style-name	draw:circle
+	presentation:style-name	draw:connector
+	presentation:style-name	draw:control
+	presentation:style-name	draw:custom-shape
+	presentation:style-name	draw:ellipse
+	presentation:style-name	draw:frame
+	presentation:style-name	draw:g
+	presentation:style-name	draw:line
+	presentation:style-name	draw:measure
+	presentation:style-name	draw:page-thumbnail
+	presentation:style-name	draw:path
+	presentation:style-name	draw:polygon
+	presentation:style-name	draw:polyline
+	presentation:style-name	draw:rect
+	presentation:style-name	draw:regular-polygon
+	presentation:style-name	office:annotation
+
+ruby
+	text:style-name	text:ruby
+
+section
+	text:style-name	text:alphabetical-index
+	text:style-name	text:bibliography
+	text:style-name	text:illustration-index
+	text:style-name	text:index-title
+	text:style-name	text:object-index
+	text:style-name	text:section
+	text:style-name	text:table-of-content
+	text:style-name	text:table-index
+	text:style-name	text:user-index
+
+table-cell
+	db:default-cell-style-name	db:column
+	table:default-cell-style-name	table:table-column
+	table:default-cell-style-name	table:table-row
+	table:style-name	table:body
+	table:style-name	table:covered-table-cell
+	table:style-name	table:even-columns
+	table:style-name	table:covered-table-cell
+	table:style-name	table:even-columns
+	table:style-name	table:even-rows
+	table:style-name	table:first-column
+	table:style-name	table:first-row
+	table:style-name	table:last-column
+	table:style-name	table:last-row
+	table:style-name	table:odd-columns
+	table:style-name	table:odd-rows
+	table:style-name	table:table-cell
+
+table-row
+	db:default-row-style-name	db:query
+	db:default-row-style-name	db:table-representation
+	table:style-name	table:table-row
+
+table-column
+	db:style-name	db:column
+	table:style-name	table:table-column
+
+table
+	db:style-name	db:query
+	db:style-name	db:table-representation
+	table:style-name	table:background
+	table:style-name	table:table
+
+text
+	style:leader-text-style	style:tab-stop
+	style:style-name	style:drop-cap
+	text:citation-body-style-name	text:notes-configuration
+	text:citation-style-name	text:notes-configuration
+	text:style-name	text:a
+	text:style-name	text:alphabetical-index
+	text:style-name	text:linenumbering-configuration
+	text:style-name	text:list-level-style-number
+	text:style-name	text:ruby-text
+	text:style-name	text:span
+	text:visited-style-name	text:a
+	style:text-line-through-text-style	style:text-properties
+	text:main-entry-style-name	text:alphabetical-index-source
+	text:style-name	text:index-entry-bibliography
+	text:style-name	text:index-entry-chapter
+	text:style-name	text:index-entry-link-end
+	text:style-name	text:index-entry-link-start
+	text:style-name	text:index-entry-page-number
+	text:style-name	text:index-entry-span
+	text:style-name	text:index-entry-tab-stop
+	text:style-name	text:index-entry-text
+	text:style-name	text:index-title-template
+	text:style-name	text:list-level-style-bullet
+	text:style-name	text:outline-level-style
+
+
+---
+
+conditional style
+	text:cond-style-name	text:h
+	text:cond-style-name	text:p
+
+style:apply-style-name # complicated!
+style:parent-style-name # complicated!

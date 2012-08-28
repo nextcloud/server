@@ -23,7 +23,7 @@
 
 class OC_Gallery_Album {
 	public static function create($owner, $name, $path){
-		$stmt = OCP\DB::prepare('INSERT INTO *PREFIX*gallery_albums (uid_owner, album_name, album_path, parent_path) VALUES (?, ?, ?, ?)');
+		$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*gallery_albums` (`uid_owner`, `album_name`, `album_path`, `parent_path`) ALUES (?, ?, ?, ?)');
 		$stmt->execute(array($owner, $name, $path, self::getParentPath($path)));
 	}
 
@@ -40,52 +40,52 @@ class OC_Gallery_Album {
 	}
 
 	public static function remove($owner, $name=null, $path=null, $parent=null) {
-		$sql = 'DELETE FROM *PREFIX*gallery_albums WHERE uid_owner LIKE ?';
+		$sql = 'DELETE FROM `*PREFIX*gallery_albums` WHERE `uid_owner` LIKE ?';
 		$args = array($owner);
 		if (!is_null($name)){
-			$sql .= ' AND album_name LIKE ?';
+			$sql .= ' AND `album_name` LIKE ?';
 			$args[] = $name;
 		}
 		if (!is_null($path)){
-			$sql .= ' AND album_path LIKE ?';
+			$sql .= ' AND `album_path` LIKE ?';
 			$args[] = $path;
 		}
 		if (!is_null($parent)){
-			$sql .= ' AND parent_path LIKE ?';
+			$sql .= ' AND `parent_path` LIKE ?';
 			$args[] = $parent;
 		}
 		$stmt = OCP\DB::prepare($sql);
 		return $stmt->execute($args);
 	}
 
-	public static function removeByName($owner, $name) { self::remove($owner, $name); }
+	public static function removeByName($owner, $name) { self::remove($ownmer, $name); }
 	public static function removeByPath($owner, $path) { self::remove($owner, null, $path); }
 	public static function removeByParentPath($owner, $parent) { self::remove($owner, null, null, $parent); }
 	
 	public static function find($owner, $name=null, $path=null, $parent=null){
-		$sql = 'SELECT * FROM *PREFIX*gallery_albums WHERE uid_owner = ?';
+		$sql = 'SELECT * FROM `*PREFIX*gallery_albums` WHERE `uid_owner` = ?';
 		$args = array($owner);
 		if (!is_null($name)){
-			$sql .= ' AND album_name = ?';
+			$sql .= ' AND `album_name` = ?';
 			$args[] = $name;
 		}
 		if (!is_null($path)){
-			$sql .= ' AND album_path = ?';
+			$sql .= ' AND `album_path` = ?';
 			$args[] = $path;
 		}
 		if (!is_null($parent)){
-			$sql .= ' AND parent_path = ?';
+			$sql .= ' AND `parent_path` = ?';
 			$args[] = $parent;
 		}
 		$order = OCP\Config::getUserValue($owner, 'gallery', 'order', 'ASC');
-		$sql .= ' ORDER BY album_name ' . $order;
+		$sql .= ' ORDER BY `album_name` ' . $order;
 
 		$stmt = OCP\DB::prepare($sql);
 		return $stmt->execute($args);
 	}
 
 	public static function changePath($oldname, $newname, $owner) {
-		$stmt = OCP\DB::prepare('UPDATE *PREFIX*gallery_albums SET album_path=? WHERE uid_owner=? AND album_path=?');
+		$stmt = OCP\DB::prepare('UPDATE `*PREFIX*gallery_albums` SET `album_path`=? WHERE `uid_owner`=? AND `album_path`=?');
 		$stmt->execute(array($newname, $owner, $oldname));
 	}
 
@@ -95,7 +95,7 @@ class OC_Gallery_Album {
 	}
 
 	public static function getAlbumSize($id){
-		$sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos WHERE album_id = ?';
+		$sql = 'SELECT COUNT(*) AS `size` FROM `*PREFIX*gallery_photos` WHERE `album_id` = ?';
 		$stmt = OCP\DB::prepare($sql);
 		$result=$stmt->execute(array($id))->fetchRow();
 		return $result['size'];
@@ -103,7 +103,7 @@ class OC_Gallery_Album {
 
 	public static function getIntermediateGallerySize($path) {
 		$path .= '%';
-		$sql = 'SELECT COUNT(*) as size FROM *PREFIX*gallery_photos photos, *PREFIX*gallery_albums albums WHERE photos.album_id = albums.album_id AND uid_owner = ? AND file_path LIKE ?';
+		$sql = 'SELECT COUNT(*) AS `size` FROM `*PREFIX*gallery_photos` AS `photos`, `*PREFIX*gallery_albums` AS `albums` WHERE `photos`.`album_id` = `albums`.`album_id` AND `uid_owner` = ? AND `file_path` LIKE ?';
 		$stmt = OCP\DB::prepare($sql);
 		$result = $stmt->execute(array(OCP\USER::getUser(), $path))->fetchRow();
 		return $result['size'];

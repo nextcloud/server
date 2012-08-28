@@ -71,6 +71,7 @@ class OC_Updater{
 		return($txt);
 	}
 
+
 	/**
 	 * do ownCloud update
 	 */

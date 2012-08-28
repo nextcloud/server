@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano  <mstreet@kde.org.ar>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:33+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-15 20:59+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,53 +22,53 @@ msgstr ""
 msgid ""
 "The php-json module is needed by the many applications for inter "
 "communications"
-msgstr ""
+msgstr "La modulo php-json necesas por komuniko inter la multaj aplikaĵoj"
 
 #: settings.php:39
 msgid ""
 "The php-curl modude is needed to fetch the page title when adding a "
 "bookmarks"
-msgstr ""
+msgstr "La modulo php-curl necesas por venigi la paĝotitolon dum aldono de legosigno"
 
 #: settings.php:45
 msgid "The php-gd module is needed to create thumbnails of your images"
-msgstr ""
+msgstr "La modulo php-gd necesas por krei bildetojn."
 
 #: settings.php:51
 msgid "The php-ldap module is needed connect to your ldap server"
-msgstr ""
+msgstr "La modulo php-ldap necesas por konekti al via LDAP-servilo."
 
 #: settings.php:57
 msgid "The php-zip module is needed download multiple files at once"
-msgstr ""
+msgstr "La modulo php-zip necesas por elŝuti plurajn dosierojn per unu fojo."
 
 #: settings.php:63
 msgid ""
 "The php-mb_multibyte module is needed to manage correctly the encoding."
-msgstr ""
+msgstr "La modulo php-mb_multibyte necesas por ĝuste administri la kodprezenton."
 
 #: settings.php:69
 msgid "The php-ctype module is needed validate data."
-msgstr ""
+msgstr "La modulo php-ctype necesas por validkontroli datumojn."
 
 #: settings.php:75
 msgid "The php-xml module is needed to share files with webdav."
-msgstr ""
+msgstr "La modulo php-xml necesas por kunhavigi dosierojn per WebDAV."
 
 #: settings.php:81
 msgid ""
 "The allow_url_fopen directive of your php.ini should be set to 1 to retrieve"
 " knowledge base from OCS servers"
-msgstr ""
+msgstr "La ordono allow_url_fopen de via php.ini devus valori 1 por ricevi scibazon el OCS-serviloj"
 
 #: settings.php:87
 msgid "The php-pdo module is needed to store owncloud data into a database."
-msgstr ""
+msgstr "La modulo php-pdo necesas por konservi datumojn de ownCloud en datumbazo."
 
 #: templates/settings.php:2
 msgid "Dependencies status"
-msgstr ""
+msgstr "Stato de dependoj"
 
 #: templates/settings.php:7
 msgid "Used by :"
-msgstr ""
+msgstr "Uzata de:"

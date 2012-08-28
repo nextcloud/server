@@ -475,8 +475,9 @@ $(document).ready(function(){
 		}
 	}
 	// hide log in button etc. when form fields not filled
-	checkShowCredentials();
-	$('input#user, input#password').keyup(checkShowCredentials);
+	// commented out due to some browsers having issues with it
+	// checkShowCredentials();
+	// $('input#user, input#password').keyup(checkShowCredentials);
 
 	$('#settings #expand').keydown(function(event) {
 		if (event.which == 13 || event.which == 32) {
@@ -534,7 +535,7 @@ if (!Array.prototype.map){
 			}
 		}
 
-	    return res;
+		return res;
 	};
 }
 
@@ -542,7 +543,7 @@ if (!Array.prototype.map){
  * Filter Jquery selector by attribute value
  **/
 $.fn.filterAttr = function(attr_name, attr_value) {
-   return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
+	return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
 };
 
 function humanFileSize(size) {
