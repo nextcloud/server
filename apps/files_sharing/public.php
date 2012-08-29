@@ -5,6 +5,7 @@ if (isset($_GET['file'])) {
 	$pos = strpos($_GET['file'], '/', 1);
 	$uidOwner = substr($_GET['file'], 1, $pos - 1);
 	if (OCP\User::userExists($uidOwner)) {
+		OC_Util::tearDownFS();
 		OC_Util::setupFS($uidOwner);
 		$file = substr($_GET['file'], $pos);
 		$fileSource = OC_Filecache::getId($_GET['file'], '');
@@ -18,14 +19,19 @@ if (isset($_GET['file'])) {
 					$hasher = new PasswordHash(8, $forcePortable);
 					if (!($hasher->CheckPassword($password.OC_Config::getValue('passwordsalt', ''), $storedHash))) {
 						$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
+						$tmpl->assign('URL', OCP\Util::linkToPublic('files').'&file='.$_GET['file']);
 						$tmpl->assign('error', true);
 						$tmpl->printPage();
 						exit();
+					} else {
+						// Save item id in session for future requests
+						$_SESSION['public_link_authenticated'] = $linkItem['id'];
 					}
-					// Continue on if password is valid
-				} else {
+				// Check if item id is set in session
+				} else if (!isset($_SESSION['public_link_authenticated']) || $_SESSION['public_link_authenticated'] !== $linkItem['id']) {
 					// Prompt for password
 					$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
+					$tmpl->assign('URL', OCP\Util::linkToPublic('files').'&file='.$_GET['file']);
 					$tmpl->printPage();
 					exit();
 				}
@@ -45,7 +51,8 @@ if (isset($_GET['file'])) {
 				OCP\Util::addStyle('files_sharing', 'public');
 				OCP\Util::addScript('files_sharing', 'public');
 				OCP\Util::addScript('files', 'fileactions');
-				$tmpl = new OCP\Template('files_sharing', 'public', 'guest');
+				$tmpl = new OCP\Template('files_sharing', 'public', 'base');
+				$tmpl->assign('details', $uidOwner.' shared the file '.basename($path).' with you');
 				$tmpl->assign('owner', $uidOwner);
 				$tmpl->assign('name', basename($path));
 				// Show file list

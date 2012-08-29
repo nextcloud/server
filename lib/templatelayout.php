@@ -29,14 +29,16 @@ class OC_TemplateLayout extends OC_Template {
 					break;
 				}
 			}
-		}else{
-			parent::__construct( 'core', 'layout.guest' );
+		} else if ($renderas == 'guest') {
+			parent::__construct('core', 'layout.guest');
+		} else {
+			parent::__construct('core', 'layout.base');
 		}
 
 		$apps_paths = array();
 		foreach(OC_App::getEnabledApps() as $app){
 			$apps_paths[$app] = OC_App::getAppWebPath($app);
-    }
+		}
 		$this->assign( 'apps_paths', str_replace('\\/', '/',json_encode($apps_paths)),false ); // Ugly unescape slashes waiting for better solution
 
 		// Add the js files
@@ -63,7 +65,7 @@ class OC_TemplateLayout extends OC_Template {
 			foreach(OC::$APPSROOTS as $app_root) {
 				if($root == $app_root['path']) {
 					$in_root = true;
-          break;
+					break;
 				}
 			}
 
