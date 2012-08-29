@@ -132,20 +132,7 @@ class OC_LDAP {
 		$dn = self::ocname2dn($name, true);
 		if($dn) {
 			return $dn;
-		} else {
-			//fallback: user is not mapped
-			self::init();
-			$filter = self::combineFilterWithAnd(array(
-				self::$ldapUserFilter,
-				self::$ldapUserDisplayName . '=' . $name,
-			));
-			$result = self::searchUsers($filter, 'dn');
-			if(isset($result[0]['dn'])) {
-				self::mapUser($result[0], $name);
-				return $result[0];
-			}
 		}
-
 		return false;
 	}
 
@@ -224,14 +211,18 @@ class OC_LDAP {
 		$ldapname = self::sanitizeUsername($ldapname);
 
 		//a new user/group! Then let's try to add it. We're shooting into the blue with the user/group name, assuming that in most cases there will not be a conflict. Otherwise an error will occur and we will continue with our second shot.
-		if(self::mapComponent($dn, $ldapname, $isUser)) {
-			return $ldapname;
+		if(($isUser && !\OCP\User::userExists($ldapname)) || (!$isUser && !\OC_Group::groupExists($ldapname))) {
+			if(self::mapComponent($dn, $ldapname, $isUser)) {
+				return $ldapname;
+			}
 		}
 
 		//doh! There is a conflict. We need to distinguish between users/groups. Adding indexes is an idea, but not much of a help for the user. The DN is ugly, but for now the only reasonable way. But we transform it to a readable format and remove the first part to only give the path where this object is located.
 		$oc_name = self::alternateOwnCloudName($ldapname, $dn);
-		if(self::mapComponent($dn, $oc_name, $isUser)) {
-			return $oc_name;
+		if(($isUser && !\OCP\User::userExists($oc_name)) || (!$isUser && !\OC_Group::groupExists($oc_name))) {
+			if(self::mapComponent($dn, $oc_name, $isUser)) {
+				return $oc_name;
+			}
 		}
 
 		//if everything else did not help..
@@ -287,16 +278,20 @@ class OC_LDAP {
 
 			//a new group! Then let's try to add it. We're shooting into the blue with the group name, assuming that in most cases there will not be a conflict. But first make sure, that the display name contains only allowed characters.
 			$ocname = self::sanitizeUsername($ldapObject[$nameAttribute]);
-			if(self::mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
-				$ownCloudNames[] = $ocname;
-				continue;
+			if(($isUsers && !\OCP\User::userExists($ocname)) || (!$isUsers && !\OC_Group::groupExists($ocname))) {
+				if(self::mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
+					$ownCloudNames[] = $ocname;
+					continue;
+				}
 			}
 
 			//doh! There is a conflict. We need to distinguish between groups. Adding indexes is an idea, but not much of a help for the user. The DN is ugly, but for now the only reasonable way. But we transform it to a readable format and remove the first part to only give the path where this entry is located.
 			$ocname = self::alternateOwnCloudName($ocname, $ldapObject['dn']);
-			if(self::mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
-				$ownCloudNames[] = $ocname;
-				continue;
+			if(($isUsers && !\OCP\User::userExists($ocname)) || (!$isUsers && !\OC_Group::groupExists($ocname))) {
+				if(self::mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
+					$ownCloudNames[] = $ocname;
+					continue;
+				}
 			}
 
 			//if everything else did not help..

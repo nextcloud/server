@@ -201,6 +201,18 @@ class OC_GROUP_LDAP extends OC_Group_Backend {
 	 * @return bool
 	 */
 	public function groupExists($gid){
-		return in_array($gid, $this->getGroups());
+		//getting dn, if false the group does not exist. If dn, it may be mapped only, requires more checking.
+		$dn = OC_LDAP::groupname2dn($gid);
+		if(!$dn) {
+			return false;
+		}
+
+		//if user really still exists, we will be able to read his cn
+		$exists = OC_LDAP::readAttribute($dn, 'objectclass');
+		if(!$exists || empty($exists)) {
+			return false;
+		}
+
+		return true;
 	}
 }
