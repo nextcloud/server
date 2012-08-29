@@ -42,7 +42,7 @@ class OC_FileCache_Update{
 			return true;
 		}
 	}
-	
+
 	/**
 	 * delete non existing files from the cache
 	 */
@@ -148,7 +148,7 @@ class OC_FileCache_Update{
 		}
 
 		$mimetype=$view->getMimeType($path);
-		
+
 		$size=0;
 		$cached=OC_FileCache_Cached::get($path,$root);
 		$cachedSize=isset($cached['size'])?$cached['size']:0;

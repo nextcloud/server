@@ -40,7 +40,7 @@ class OC_Util {
 				mkdir( $userdirectory, 0755, true );
 			}
 			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$user_root), $user);
-			
+
 			//jail the user into his "home" directory
 			OC_Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
@@ -62,9 +62,9 @@ class OC_Util {
 	public static function setupFS4all(){
 		foreach(OC_User::getUsers() as $user){
 			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>OC_User::getHome($singleuser)), $user);
-		}	
+		}
 	}
-	
+
 	public static function tearDownFS(){
 		OC_Filesystem::tearDown();
 		self::$fsSetup=false;
@@ -211,7 +211,7 @@ class OC_Util {
 		// Check if there is a writable install folder.
 		if(OC_Config::getValue('appstoreenabled', true)) {
 			if( OC_App::getInstallPath() === null  || !is_writable(OC_App::getInstallPath())) {
-				$errors[]=array('error'=>"Can't write into apps directory",'hint'=>"You can usually fix this by giving the webserver user write access to the apps directory 
+				$errors[]=array('error'=>"Can't write into apps directory",'hint'=>"You can usually fix this by giving the webserver user write access to the apps directory
 				in owncloud or disabling the appstore in the config file.");
 			}
 		}
@@ -410,15 +410,15 @@ class OC_Util {
 
 		// cleanup old tokens garbage collector
 		// only run every 20th time so we don't waste cpu cycles
-		if(rand(0,20)==0) {  
+		if(rand(0,20)==0) {
 			foreach($_SESSION as $key=>$value) {
 				// search all tokens in the session
 				if(substr($key,0,12)=='requesttoken') {
 					if($value+$maxtime<time()){
 						// remove outdated tokens
-						unset($_SESSION[$key]);						
+						unset($_SESSION[$key]);
 					}
-				}	
+				}
 			}
 		}
 		// return the token
@@ -465,13 +465,13 @@ class OC_Util {
 			exit;
 		}
 	}
-	
+
 	/**
 	 * @brief Public function to sanitize HTML
 	 *
 	 * This function is used to sanitize HTML and should be applied on any
 	 * string or array of strings before displaying it on a web page.
-	 * 
+	 *
 	 * @param string or array of strings
 	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
 	 */

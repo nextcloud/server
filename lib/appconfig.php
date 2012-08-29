@@ -100,7 +100,7 @@ class OC_Appconfig{
 			return $default;
 		}
 	}
-	
+
 	/**
 	 * @brief check if a key is set in the appconfig
 	 * @param string $app
@@ -111,7 +111,7 @@ class OC_Appconfig{
 		$exists = self::getKeys( $app );
 		return in_array( $key, $exists );
 	}
-	
+
 	/**
 	 * @brief sets a value in the appconfig
 	 * @param $app app
@@ -163,7 +163,7 @@ class OC_Appconfig{
 
 		return true;
 	}
-	
+
 	/**
 	 * get multiply values, either the app or key can be used as wildcard by setting it to false
 	 * @param app

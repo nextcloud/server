@@ -14,7 +14,7 @@ class OC_Archive_TAR extends OC_Archive{
 	const BZIP=2;
 
 	private $fileList;
-	
+
 	/**
 	 * @var Archive_Tar tar
 	 */
@@ -127,7 +127,7 @@ class OC_Archive_TAR extends OC_Archive{
 		}
 		return null;
 	}
-	
+
 	/**
 	 * get the uncompressed size of a file in the archive
 	 * @param string path
@@ -254,7 +254,7 @@ class OC_Archive_TAR extends OC_Archive{
 			return false;
 		}
 	}
-	
+
 	/**
 	 * remove a file or folder from the archive
 	 * @param string path

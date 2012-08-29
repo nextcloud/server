@@ -31,11 +31,11 @@ class OC_Filestorage_CommonTest extends OC_Filestorage_Common{
 	 * @var OC_FileStorage_Local
 	 */
 	private $storage;
-	
+
 	public function __construct($params){
 		$this->storage=new OC_Filestorage_Local($params);
 	}
-	
+
 	public function mkdir($path){
 		return $this->storage->mkdir($path);
 	}

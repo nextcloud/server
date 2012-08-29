@@ -24,7 +24,7 @@
  * Public interface of ownCloud forbackground jobs.
  */
 
-// use OCP namespace for all classes that are considered public. 
+// use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
@@ -42,7 +42,7 @@ namespace OCP;
  * An example of the queued task would be the creation of the thumbnail. As
  * soon as the user uploads a picture the gallery app registers the queued
  * task "create thumbnail" and saves the path in the parameter instead of doing
- * the work right away. This makes the app more responsive. As soon as the task 
+ * the work right away. This makes the app more responsive. As soon as the task
  * is done it will be deleted from the list.
  */
 class BackgroundJob {

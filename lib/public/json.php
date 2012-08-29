@@ -26,7 +26,7 @@
  *
  */
 
-// use OCP namespace for all classes that are considered public. 
+// use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
@@ -47,17 +47,17 @@ class JSON {
 
 	/**
 	* Check if the user is logged in, send json error msg if not.
-	* 
+	*
 	* This method checks if a user is logged in. If not, a json error
 	* response will be return and the method will exit from execution
 	* of the script.
 	* The returned json will be in the format:
-	* 
+	*
 	*     {"status":"error","data":{"message":"Authentication error."}}
-	* 
+	*
 	* Add this call to the start of all ajax method files that requires
 	* an authenticated user.
-	* 
+	*
 	* @return string json formatted error string if not authenticated.
 	*/
 	public static function checkLoggedIn(){
@@ -66,22 +66,22 @@ class JSON {
 
 	/**
 	* Check an ajax get/post call if the request token is valid.
-	* 
+	*
 	* This method checks for a valid variable 'requesttoken' in $_GET,
 	* $_POST and $_SERVER. If a valid token is not found, a json error
 	* response will be return and the method will exit from execution
 	* of the script.
 	* The returned json will be in the format:
-	* 
+	*
 	*     {"status":"error","data":{"message":"Token expired. Please reload page."}}
-	* 
-	* Add this call to the start of all ajax method files that creates, 
+	*
+	* Add this call to the start of all ajax method files that creates,
 	* updates or deletes anything.
 	* In cases where you e.g. use an ajax call to load a dialog containing
 	* a submittable form, you will need to add the requesttoken first as a
 	* parameter to the ajax call, then assign it to the template and finally
 	* add a hidden input field also named 'requesttoken' containing the value.
-	* 
+	*
 	* @return string json formatted error string if not valid.
 	*/
 	public static function callCheck(){
@@ -90,10 +90,10 @@ class JSON {
 
 	/**
 	* Send json success msg
-	* 
+	*
 	* Return a json success message with optional extra data.
 	* @see OCP\JSON::error() 		for the format to use.
-	* 
+	*
 	* @param array $data The data to use
 	* @return string json formatted string.
 	*/
@@ -103,19 +103,19 @@ class JSON {
 
 	/**
 	* Send json error msg
-	* 
-	* Return a json error message with optional extra data for 
+	*
+	* Return a json error message with optional extra data for
 	* error message or app specific data.
-	* 
+	*
 	* Example use:
-	* 
+	*
 	*     $id = [some value]
 	*     OCP\JSON::error(array('data':array('message':'An error happened', 'id': $id)));
-	* 
+	*
 	* Will return the json formatted string:
-	* 
+	*
 	*     {"status":"error","data":{"message":"An error happened", "id":[some value]}}
-	* 
+	*
 	* @param array $data The data to use
 	* @return string json formatted error string.
 	*/
@@ -134,17 +134,17 @@ class JSON {
 
 	/**
 	* Check if the App is enabled and send JSON error message instead
-	* 
+	*
 	* This method checks if a specific app is enabled. If not, a json error
 	* response will be return and the method will exit from execution
 	* of the script.
 	* The returned json will be in the format:
-	* 
+	*
 	*     {"status":"error","data":{"message":"Application is not enabled."}}
-	* 
+	*
 	* Add this call to the start of all ajax method files that requires
 	* a specific app to be enabled.
-	* 
+	*
 	* @param string $app The app to check
 	* @return string json formatted string if not enabled.
 	*/
@@ -154,17 +154,17 @@ class JSON {
 
 	/**
 	* Check if the user is a admin, send json error msg if not
-	* 
+	*
 	* This method checks if the current user has admin rights. If not, a json error
 	* response will be return and the method will exit from execution
 	* of the script.
 	* The returned json will be in the format:
-	* 
+	*
 	*     {"status":"error","data":{"message":"Authentication error."}}
-	* 
+	*
 	* Add this call to the start of all ajax method files that requires
 	* administrative rights.
-	* 
+	*
 	* @return string json formatted string if not admin user.
 	*/
 	public static function checkAdminUser(){

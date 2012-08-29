@@ -41,9 +41,9 @@ class OC_User_HTTP extends OC_User_Backend {
 			$url.='?'.$parts['query'];
 		}
 		return array($parts['user'],$url);
-		
+
 	}
-	
+
 	/**
 	 * check if an url is a valid login
 	 * @param string url
@@ -52,7 +52,7 @@ class OC_User_HTTP extends OC_User_Backend {
 	private function matchUrl($url){
 		return ! is_null(parse_url($url,PHP_URL_USER));
 	}
-	
+
 	/**
 	 * @brief Check if the password is correct
 	 * @param $uid The username
@@ -67,7 +67,7 @@ class OC_User_HTTP extends OC_User_Backend {
 			return false;
 		}
 		list($user,$url)=$this->parseUrl($uid);
-		
+
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_USERPWD, $user.':'.$password);
@@ -76,7 +76,7 @@ class OC_User_HTTP extends OC_User_Backend {
 		curl_exec($ch);
 
 		$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		
+
 		curl_close($ch);
 
 		return $status==200;

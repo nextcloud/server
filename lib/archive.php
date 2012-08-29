@@ -28,7 +28,7 @@ abstract class OC_Archive{
 				return new OC_Archive_TAR($path);
 		}
 	}
-	
+
 	abstract function __construct($source);
 	/**
 	 * add an empty folder to the archive

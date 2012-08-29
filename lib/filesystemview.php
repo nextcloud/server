@@ -56,7 +56,7 @@ class OC_FilesystemView {
 		}
 		return $this->fakeRoot.$path;
 	}
-	
+
 	/**
 	* change the root to a fake toor
 	* @param  string  fakeRoot
@@ -325,7 +325,7 @@ class OC_FilesystemView {
 		if(OC_FileProxy::runPreProxies('rename', $absolutePath1, $absolutePath2) and OC_Filesystem::isValidPath($path2)) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
-			
+
 			if($path1 == null or $path2 == null) {
 				return false;
 			}
@@ -352,7 +352,7 @@ class OC_FilesystemView {
 					$storage1 = $this->getStorage($path1);
 					$storage1->unlink($this->getInternalPath($path1.$postFix1));
 					$result = $count>0;
-				} 
+				}
 				OC_Hook::emit(
 					OC_Filesystem::CLASSNAME,
 					OC_Filesystem::signal_post_rename,
@@ -373,7 +373,7 @@ class OC_FilesystemView {
 		if(OC_FileProxy::runPreProxies('copy', $absolutePath1, $absolutePath2) and OC_Filesystem::isValidPath($path2)) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
-			
+
 			if($path1 == null or $path2 == null) {
 				return false;
 			}

@@ -30,7 +30,7 @@
 class OC_EventSource{
 	private $fallback;
 	private $fallBackId=0;
-	
+
 	public function __construct(){
 		@ob_end_clean();
 		header('Cache-Control: no-cache');

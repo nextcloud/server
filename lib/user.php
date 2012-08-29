@@ -385,7 +385,7 @@ class OC_User {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * disables a user
 	 * @param string $userid the user to disable
@@ -395,7 +395,7 @@ class OC_User {
 		$query = OC_DB::prepare($query);
 		$query->execute(array($userid, 'core', 'enabled', 'false'));
 	}
-	
+
 	/**
 	 * enable a user
 	 * @param string $userid
@@ -405,7 +405,7 @@ class OC_User {
 		$query = OC_DB::prepare($query);
 		$query->execute(array($userid, 'core', 'enabled', 'false'));
 	}
-	
+
 	/**
 	 * checks if a user is enabled
 	 * @param string $userid

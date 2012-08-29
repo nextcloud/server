@@ -239,7 +239,7 @@ class OC{
 				OC_Util::addScript( 'backgroundjobs' );
 			}
 		}
-		
+
 		OC_Util::addStyle( "styles" );
 		OC_Util::addStyle( "multiselect" );
 		OC_Util::addStyle( "jquery-ui-1.8.16.custom" );
@@ -473,7 +473,7 @@ class OC{
 		// Someone wants to log in :
 		} elseif (OC::tryFormLogin()) {
 			$error = true;
-		
+
 		// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
 		} elseif (OC::tryBasicAuthLogin()) {
 			$error = true;

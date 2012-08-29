@@ -42,7 +42,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		// pure sql. MySQL's non-standard string concatination prevents us
 		// from doing this though.
 		// NOTE: SQLite requires time() to be inserted directly. That's ugly
-		// but otherwise reading locks from SQLite Databases will return 
+		// but otherwise reading locks from SQLite Databases will return
 		// nothing
 		$query = 'SELECT * FROM `*PREFIX*locks` WHERE `userid` = ? AND (`created` + `timeout`) > '.time().' AND (( `uri` = ?)';
 		$params = array(OC_User::getUser(),$uri);
@@ -75,7 +75,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 
 		$stmt = OC_DB::prepare( $query );
 		$result = $stmt->execute( $params );
-		
+
 		$lockList = array();
 		while( $row = $result->fetchRow()){
 
@@ -114,7 +114,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		foreach($locks as $lock) {
 			if ($lock->token == $lockInfo->token) $exists = true;
 		}
-	
+
 		if ($exists) {
 			$query = OC_DB::prepare( 'UPDATE `*PREFIX*locks` SET `owner` = ?, `timeout` = ?, `scope` = ?, `depth` = ?, `uri` = ?, `created` = ? WHERE `userid` = ? AND `token` = ?' );
 			$result = $query->execute( array($lockInfo->owner,$lockInfo->timeout,$lockInfo->scope,$lockInfo->depth,$uri,$lockInfo->created,OC_User::getUser(),$lockInfo->token));

@@ -161,7 +161,7 @@ class OC_Template{
                 header('X-Frame-Options: Sameorigin');
                 header('X-XSS-Protection: 1; mode=block');
                 header('X-Content-Type-Options: nosniff');
- 
+
 		$this->findTemplate($name);
 	}
 
@@ -208,13 +208,13 @@ class OC_Template{
 			$_SESSION['formfactor']=$_GET['formfactor'];
 		}
 		$formfactor=$_SESSION['formfactor'];
-		if($formfactor=='default') { 
+		if($formfactor=='default') {
 			$fext='';
-		}elseif($formfactor=='mobile') { 
+		}elseif($formfactor=='mobile') {
 			$fext='.mobile';
-		}elseif($formfactor=='tablet') { 
+		}elseif($formfactor=='tablet') {
 			$fext='.tablet';
-		}elseif($formfactor=='standalone') { 
+		}elseif($formfactor=='standalone') {
 			$fext='.standalone';
 		}else{
 			$fext='';

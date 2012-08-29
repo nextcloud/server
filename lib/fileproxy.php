@@ -43,7 +43,7 @@
 class OC_FileProxy{
 	private static $proxies=array();
 	public static $enabled=true;
-	
+
 	/**
 	 * fallback function when a proxy operation is not implemented
 	 * @param string $function the name of the proxy operation
@@ -58,7 +58,7 @@ class OC_FileProxy{
 			return $arguments[1];
 		}
 	}
-	
+
 	/**
 	 * register a proxy to be used
 	 * @param OC_FileProxy $proxy
@@ -66,7 +66,7 @@ class OC_FileProxy{
 	public static function register($proxy){
 		self::$proxies[]=$proxy;
 	}
-	
+
 	public static function getProxies($operation){
 		$proxies=array();
 		foreach(self::$proxies as $proxy){

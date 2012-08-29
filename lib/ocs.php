@@ -153,27 +153,27 @@ class OC_OCS {
 			OC_OCS::privatedatadelete($format, $app, $key);
 
 		// CLOUD
-		// systemWebApps 
+		// systemWebApps
 		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-4]=='cloud') and ($ex[$paracount-3] == 'system') and ($ex[$paracount-2] == 'webapps')){
 			OC_OCS::systemwebapps($format);
 
-		// quotaget 
+		// quotaget
 		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'quota')){
 			$user=$ex[$paracount-3];
 			OC_OCS::quotaget($format,$user);
 
-		// quotaset 
+		// quotaset
 		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'quota')){
 			$user=$ex[$paracount-3];
 			$quota = self::readData('post', 'quota', 'int');
 			OC_OCS::quotaset($format,$user,$quota);
 
-		// keygetpublic 
+		// keygetpublic
 		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'publickey')){
 			$user=$ex[$paracount-3];
 			OC_OCS::publicKeyGet($format,$user);
 
-		// keygetprivate 
+		// keygetprivate
 		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'privatekey')){
 			$user=$ex[$paracount-3];
 			OC_OCS::privateKeyGet($format,$user);
@@ -501,7 +501,7 @@ class OC_OCS {
 			echo(OC_OCS::generatexml($format,'ok',100,''));
 		}
 	}
-	
+
 	/**
 	* get private data
 	* @param string $user

@@ -18,7 +18,7 @@ if(isset($_POST['install']) AND $_POST['install']=='true') {
 	// We have to launch the installation process :
 	$e = OC_Setup::install($_POST);
 	$errors = array('errors' => $e);
-	
+
 	if(count($e) > 0) {
 		//OC_Template::printGuestPage("", "error", array("errors" => $errors));
 		$options = array_merge($_POST, $opts, $errors);
@@ -37,7 +37,7 @@ class OC_Setup {
 	public static function install($options) {
 		$error = array();
 		$dbtype = $options['dbtype'];
-		
+
 		if(empty($options['adminlogin'])) {
 			$error[] = 'Set an admin username.';
 		}
@@ -72,7 +72,7 @@ class OC_Setup {
 			$username = htmlspecialchars_decode($options['adminlogin']);
 			$password = htmlspecialchars_decode($options['adminpass']);
 			$datadir = htmlspecialchars_decode($options['directory']);
-			
+
 			//use sqlite3 when available, otherise sqlite2 will be used.
 			if($dbtype=='sqlite' and class_exists('SQLite3')){
 				$dbtype='sqlite3';
@@ -107,7 +107,7 @@ class OC_Setup {
 				}
 				else {
 					$oldUser=OC_Config::getValue('dbuser', false);
-					
+
 					$query="SELECT user FROM mysql.user WHERE user='$dbuser'"; //this should be enough to check for admin rights in mysql
 					if(mysql_query($query, $connection)) {
 						//use the admin login data for the new database user
@@ -184,9 +184,9 @@ class OC_Setup {
 						$dbusername='oc_'.$username;
 						//create a new password so we don't need to store the admin config in the config file
 						$dbpassword=md5(time());
-						
+
 						self::pg_createDBUser($dbusername, $dbpassword, $connection);
-						
+
 						OC_CONFIG::setValue('dbuser', $dbusername);
 						OC_CONFIG::setValue('dbpassword', $dbpassword);
 
@@ -257,7 +257,7 @@ class OC_Setup {
                                         );
                                         return $error;
                                 } else {
-                                        //check for roles creation rights in oracle             
+                                        //check for roles creation rights in oracle
 
                                         $query="SELECT count(*) FROM user_role_privs, role_sys_privs WHERE user_role_privs.granted_role = role_sys_privs.role AND privilege = 'CREATE ROLE'";
                                         $stmt = oci_parse($connection, $query);
@@ -342,7 +342,7 @@ class OC_Setup {
                                                 }
                                         }
                                 }
-                        }                   
+                        }
 			else {
 				//delete the old sqlite database first, might cause infinte loops otherwise
 				if(file_exists("$datadir/owncloud.db")){
@@ -428,7 +428,7 @@ class OC_Setup {
 			}
 		}
 		$query = "REVOKE ALL PRIVILEGES ON DATABASE \"$e_name\" FROM PUBLIC";
-		$result = pg_query($connection, $query);		
+		$result = pg_query($connection, $query);
 	}
 
 	private static function pg_createDBUser($name,$password,$connection) {
@@ -463,7 +463,7 @@ class OC_Setup {
 		}
 	}
         /**
-         * 
+         *
          * @param String $name
          * @param String $password
          * @param String $tablespace

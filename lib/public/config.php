@@ -27,7 +27,7 @@
  */
 
 /**
- * @brief use OCP namespace for all classes that are considered public. 
+ * @brief use OCP namespace for all classes that are considered public.
  *
  * Classes that use this namespace are for use by apps, and not for use by internal
  * OC classes

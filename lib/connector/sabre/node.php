@@ -80,9 +80,9 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		$oldPath = $this->path;
 
 		OC_Filesystem::rename($this->path,$newPath);
-	
+
 		$this->path = $newPath;
-		
+
 		$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertypath` = ? WHERE `userid` = ? AND `propertypath` = ?' );
 		$query->execute( array( $newPath,OC_User::getUser(), $oldPath ));
 
@@ -123,8 +123,8 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 
 	}
 
-	/** 
-	 *  sets the last modification time of the file (mtime) to the value given 
+	/**
+	 *  sets the last modification time of the file (mtime) to the value given
 	 *  in the second parameter or to now if the second param is empty.
 	 *  Even if the modification time is set to a custom value the access time is set to now.
 	 */
@@ -195,7 +195,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		if(count($properties) == 0){
 			return $this->property_cache;
 		}
-		
+
 		$props = array();
 		foreach($properties as $property) {
 			if (isset($this->property_cache[$property])) $props[$property] = $this->property_cache[$property];

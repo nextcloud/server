@@ -22,7 +22,7 @@
 
 /**
  * This class does the dirty work.
- * 
+ *
  * TODO: locking in doAllSteps
  */
 class OC_BackgroundJob_Worker{
@@ -56,7 +56,7 @@ class OC_BackgroundJob_Worker{
 			OC_BackgroundJob_QueuedTask::delete( $task['id'] );
 			call_user_func( array( $task['klass'], $task['method'] ), $task['parameters'] );
 		}
-		
+
 		return true;
 	}
 
@@ -70,7 +70,7 @@ class OC_BackgroundJob_Worker{
 	 */
 	public static function doNextStep(){
 		$laststep = OC_Appconfig::getValue( 'core', 'backgroundjobs_step', 'regular_tasks' );
-		
+
 		if( $laststep == 'regular_tasks' ){
 			// get last app
 			$lasttask = OC_Appconfig::getValue( 'core', 'backgroundjobs_task', '' );
@@ -79,7 +79,7 @@ class OC_BackgroundJob_Worker{
 			$regular_tasks = OC_BackgroundJob_RegularTask::all();
 			ksort( $regular_tasks );
 			$done = false;
-			
+
 			// search for next background job
 			foreach( $regular_tasks as $key => $value ){
 				if( strcmp( $key, $lasttask ) > 0 ){
@@ -112,7 +112,7 @@ class OC_BackgroundJob_Worker{
 				OC_Appconfig::setValue( 'core', 'backgroundjobs_task', '' );
 			}
 		}
-		
+
 		return true;
 	}
 }

@@ -3,7 +3,7 @@
  * ownCloud
  *
  * @author Georg Ehrke
- * @copyright 2012 Georg Ehrke 
+ * @copyright 2012 Georg Ehrke
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -85,7 +85,7 @@ class OC_SubAdmin{
 		}
 		return $uids;
 	}
-	
+
 	/**
 	 * @brief get all SubAdmins
 	 * @return array
@@ -99,7 +99,7 @@ class OC_SubAdmin{
 		}
 		return $subadmins;
 	}
-	
+
 	/**
 	 * @brief checks if a user is a SubAdmin of a group
 	 * @param $uid uid of the subadmin
@@ -115,7 +115,7 @@ class OC_SubAdmin{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @brief checks if a user is a SubAdmin
 	 * @param $uid uid of the subadmin
@@ -130,7 +130,7 @@ class OC_SubAdmin{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @brief checks if a user is a accessible by a subadmin
 	 * @param $subadmin uid of the subadmin
@@ -152,7 +152,7 @@ class OC_SubAdmin{
 		}
 		return false;
 	}
-	
+
 	/*
 	 * @brief alias for self::isSubAdminofGroup()
 	 */
@@ -162,7 +162,7 @@ class OC_SubAdmin{
 
 	/**
 	 * @brief delete all SubAdmins by uid
-	 * @param $parameters 
+	 * @param $parameters
 	 * @return boolean
 	 */
 	public static function post_deleteUser($parameters){

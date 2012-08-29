@@ -43,7 +43,7 @@ class OC_User_Database extends OC_User_Backend {
 	 * @var PasswordHash
 	 */
 	static private $hasher=null;
-	
+
 	private function getHasher(){
 		if(!self::$hasher){
 			//we don't want to use DES based crypt(), since it doesn't return a has with a recognisable prefix
@@ -53,7 +53,7 @@ class OC_User_Database extends OC_User_Backend {
 		return self::$hasher;
 
 	}
-	
+
 	/**
 	 * @brief Create a new user
 	 * @param $uid The username of the user to create
@@ -172,7 +172,7 @@ class OC_User_Database extends OC_User_Backend {
 	public function userExists($uid){
 		$query = OC_DB::prepare( 'SELECT * FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)' );
 		$result = $query->execute( array( $uid ));
-		
+
 		return $result->numRows() > 0;
 	}
 
