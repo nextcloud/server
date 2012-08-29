@@ -270,7 +270,6 @@ abstract class Access {
 		//a new user/group! Then let's try to add it. We're shooting into the blue with the user/group name, assuming that in most cases there will not be a conflict. Otherwise an error will occur and we will continue with our second shot.
 		if(($isUser && !\OCP\User::userExists($ldapname)) || (!$isUser && !\OC_Group::groupExists($ldapname))) {
 			if($this->mapComponent($dn, $ldapname, $isUser)) {
-				\OCP\Util::writeLog('user_ldap', 'Username '.ldapname.' OK.', \OCP\Util::DEBUG);
 				return $ldapname;
 			}
 		}
