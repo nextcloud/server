@@ -29,7 +29,7 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 	private $objects = array();
 
 	private static $tempFiles = array();
-	
+
 	// TODO options: storage class, encryption server side, encrypt before upload?
 
 	public function __construct($params) {
@@ -216,7 +216,7 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 	}
 
 	public function free_space($path) {
-		// Infinite? 
+		// Infinite?
 		return false;
 	}
 

@@ -5,7 +5,7 @@
  * later.
  * See the COPYING-README file.
  */
- 
+
 $config=include('apps/files_external/tests/config.php');
 if(!is_array($config) or !isset($config['ftp']) or !$config['ftp']['run']){
 	abstract class Test_Filestorage_FTP extends Test_FileStorage{}
@@ -26,4 +26,3 @@ if(!is_array($config) or !isset($config['ftp']) or !$config['ftp']['run']){
 		}
 	}
 }
-

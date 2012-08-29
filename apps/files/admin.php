@@ -23,7 +23,7 @@
 
 
 // Init owncloud
- 
+
 
 OCP\User::checkAdminUser();
 

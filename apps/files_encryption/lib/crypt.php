@@ -188,7 +188,7 @@ class OC_Crypt {
 			fclose($handleread);
 		}
 	}
-	
+
 	/**
 	 * encrypt data in 8192b sized blocks
 	 */
@@ -200,7 +200,7 @@ class OC_Crypt {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * decrypt data in 8192b sized blocks
 	 */

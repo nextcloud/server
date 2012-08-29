@@ -9,18 +9,18 @@
 class Test_CryptProxy extends UnitTestCase {
 	private $oldConfig;
 	private $oldKey;
-	
+
 	public function setUp(){
 		$user=OC_User::getUser();
 
 		$this->oldConfig=OCP\Config::getAppValue('files_encryption','enable_encryption','true');
 		OCP\Config::setAppValue('files_encryption','enable_encryption','true');
 		$this->oldKey=isset($_SESSION['enckey'])?$_SESSION['enckey']:null;
-	
-		
+
+
 		//set testing key
 		$_SESSION['enckey']=md5(time());
-	
+
 		//clear all proxies and hooks so we can do clean testing
 		OC_FileProxy::clearProxies();
 		OC_Hook::clear('OC_Filesystem');
@@ -52,11 +52,11 @@ class Test_CryptProxy extends UnitTestCase {
 		$original=file_get_contents($file);
 
 		OC_Filesystem::file_put_contents('/file',$original);
-		
+
 		OC_FileProxy::$enabled=false;
 		$stored=OC_Filesystem::file_get_contents('/file');
 		OC_FileProxy::$enabled=true;
-		
+
 		$fromFile=OC_Filesystem::file_get_contents('/file');
 		$this->assertNotEqual($original,$stored);
 		$this->assertEqual(strlen($original),strlen($fromFile));

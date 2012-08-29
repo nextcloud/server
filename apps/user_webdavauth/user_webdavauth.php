@@ -23,11 +23,11 @@
 
 class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 	protected $webdavauth_url;
-	
+
 	public function __construct() {
 		$this->webdavauth_url = OC_Config::getValue( "user_webdavauth_url" );
 	}
-	
+
 	public function createUser() {
 		// Can't create user
 		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to create users from web frontend using WebDAV user backend',3);
@@ -45,14 +45,14 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to change password for users from web frontend using WebDAV user backend',3);
 		return false;
 	}
-	
+
 	public function checkPassword( $uid, $password ) {
 
 		$url= 'http://'.urlencode($uid).':'.urlencode($password).'@'.$this->webdavauth_url;
 		$headers = get_headers($url);
 		if($headers==false){
 			OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to connect to WebDAV Url: "'.$this->webdavauth_url.'" ' ,3);
-			return false;	
+			return false;
 
 		}
 		$returncode= substr($headers[0], 9, 3);
@@ -64,7 +64,7 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 		}
 
 	}
-	
+
 	/*
 	* we don´t know if a user exists without the password. so we have to return false all the time
 	*/
@@ -77,7 +77,7 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 	*/
 	public function getUsers(){
 		$returnArray = array();
-		
+
 		return $returnArray;
 	}
 }

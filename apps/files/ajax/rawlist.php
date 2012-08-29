@@ -11,7 +11,7 @@ OCP\JSON::checkLoggedIn();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
-$mimetype = isset($_GET['mimetype']) ? $_GET['mimetype'] : ''; 
+$mimetype = isset($_GET['mimetype']) ? $_GET['mimetype'] : '';
 
 // make filelist
 $files = array();

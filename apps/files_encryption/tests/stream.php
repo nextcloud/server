@@ -8,7 +8,7 @@
 
 class Test_CryptStream extends UnitTestCase {
 	private $tmpFiles=array();
-	
+
 	function testStream(){
 		$stream=$this->getStream('test1','w',strlen('foobar'));
 		fwrite($stream,'foobar');

@@ -14,7 +14,7 @@ $(document).ready(function(){
 		FileActions.register('file','History', FileActions.PERMISSION_UPDATE, function(){return OC.imagePath('core','actions/history')},function(filename){
 
 			if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
-			
+
 			var file = $('#dir').val()+'/'+filename;
 			// Check if drop down is already visible for a different file
 			if (($('#dropdown').length > 0)) {
@@ -35,7 +35,7 @@ $(document).ready(function(){
 function createVersionsDropdown(filename, files) {
 
 	var historyUrl = OC.linkTo('files_versions', 'history.php') + '?path='+encodeURIComponent( $( '#dir' ).val() ).replace( /%2F/g, '/' )+'/'+encodeURIComponent( filename );
-	
+
 	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
 	html += '<div id="private">';
 	html += '<select data-placeholder="Saved versions" id="found_versions" class="chzen-select" style="width:16em;">';
@@ -45,14 +45,14 @@ function createVersionsDropdown(filename, files) {
 	//html += '<input type="button" value="Revert file" onclick="revertFile()" />';
 	html += '<input type="button" value="All versions..." onclick="window.location=\''+historyUrl+'\'" name="makelink" id="makelink" />';
 	html += '<input id="link" style="display:none; width:90%;" />';
-	
+
 	if (filename) {
 		$('tr').filterAttr('data-file',filename).addClass('mouseOver');
 		$(html).appendTo($('tr').filterAttr('data-file',filename).find('td.filename'));
 	} else {
 		$(html).appendTo($('thead .share'));
 	}
-	
+
 	$.ajax({
 		type: 'GET',
 		url: OC.filePath('files_versions', 'ajax', 'getVersions.php'),
@@ -60,9 +60,9 @@ function createVersionsDropdown(filename, files) {
 		data: { source: files },
 		async: false,
 		success: function( versions ) {
-			
+
 			//alert("helo "+OC.linkTo('files_versions', 'ajax/getVersions.php'));
-			
+
 			if (versions) {
 				$.each( versions, function(index, row ) {
 					addVersion( row );
@@ -79,9 +79,9 @@ function createVersionsDropdown(filename, files) {
 			})
 		}
 	});
-	
+
 	function revertFile(file, revision) {
-		
+
 		$.ajax({
 			type: 'GET',
 			url: OC.linkTo('files_versions', 'ajax/rollbackVersion.php'),
@@ -99,16 +99,16 @@ function createVersionsDropdown(filename, files) {
 					});
 				}
 			}
-		});	
-	
+		});
+
 	}
-	
+
 	function addVersion(revision ) {
 		name=formatDate(revision.version*1000);
 		var version=$('<option/>');
 		version.attr('value',revision.version);
 		version.text(name);
-		
+
 // 		} else {
 // 			var checked = ((permissions > 0) ? 'checked="checked"' : 'style="display:none;"');
 // 			var style = ((permissions == 0) ? 'style="display:none;"' : '');
@@ -119,11 +119,11 @@ function createVersionsDropdown(filename, files) {
 // 			user += '<label for="'+uid_shared_with+'" '+style+'>can edit</label>';
 // 			user += '</li>';
 // 		}
-		
+
 		version.appendTo('#found_versions');
 	}
 
 	$('#dropdown').show('blind');
-	
-	
+
+
 }

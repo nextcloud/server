@@ -39,7 +39,7 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 		case STREAM_NOTIFY_FILE_SIZE_IS:
 			$filesize = $bytes_max;
 			break;
-			
+
 		case STREAM_NOTIFY_PROGRESS:
 			if ($bytes_transferred > 0) {
 				if (!isset($filesize)) {

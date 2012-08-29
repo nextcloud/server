@@ -23,10 +23,10 @@ if($doBreadcrumb) {
 			$breadcrumb[] = array( "dir" => $pathtohere, "name" => $i );
 		}
 	}
-	
+
 	$breadcrumbNav = new OCP\Template( "files", "part.breadcrumb", "" );
 	$breadcrumbNav->assign( "breadcrumb", $breadcrumb );
-	
+
 	$data['breadcrumb'] = $breadcrumbNav->fetchPage();
 }
 

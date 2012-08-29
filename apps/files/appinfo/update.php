@@ -41,5 +41,3 @@ foreach($filesToRemove as $file) {
 		break;
     }
 }
-
-

@@ -12,5 +12,5 @@ if (version_compare($installedVersion, '1.0.2', '<')) {
     		rename($oldPath, $newPath);
     	}
     }
-	
+
 }

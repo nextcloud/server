@@ -21,11 +21,10 @@ if(!is_array($config) or !isset($config['swift']) or !$config['swift']['run']){
 			$this->instance=new OC_Filestorage_SWIFT($this->config['swift']);
 		}
 
-		
+
 		public function tearDown(){
 		    $this->instance->rmdir('');
 		}
-		
+
 	}
 }
-

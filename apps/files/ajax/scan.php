@@ -16,13 +16,12 @@ session_write_close();
 if($force or !OC_FileCache::inCache('')) {
 	if(!$checkOnly) {
 		OCP\DB::beginTransaction();
-		
+
 		if(OC_Cache::isFast()) {
-			//make sure the old fileid's don't mess things up
-			OC_Cache::clear('fileid/');
+			OC_Cache::clear('fileid/'); //make sure the old fileid's don't mess things up
 		}
-		
-		OC_FileCache::scan($dir, $eventSource);
+
+		OC_FileCache::scan($dir,$eventSource);
 		OC_FileCache::clean();
 		OCP\DB::commit();
 		$eventSource->send('success', true);

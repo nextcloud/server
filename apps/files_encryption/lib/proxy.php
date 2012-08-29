@@ -28,7 +28,7 @@
 class OC_FileProxy_Encryption extends OC_FileProxy{
 	private static $blackList=null; //mimetypes blacklisted from encryption
 	private static $enableEncryption=null;
-	
+
 	/**
 	 * check if a file should be encrypted during write
 	 * @param string $path
@@ -62,7 +62,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		$metadata=OC_FileCache_Cached::get($path,'');
 		return isset($metadata['encrypted']) and (bool)$metadata['encrypted'];
 	}
-	
+
 	public function preFile_put_contents($path,&$data){
 		if(self::shouldEncrypt($path)){
 			if (!is_resource($data)) {//stream put contents should have been converter to fopen
@@ -72,7 +72,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 			}
 		}
 	}
-	
+
 	public function postFile_get_contents($path,$data){
 		if(self::isEncrypted($path)){
 			$cached=OC_FileCache_Cached::get($path,'');
@@ -80,7 +80,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		}
 		return $data;
 	}
-	
+
 	public function postFopen($path,&$result){
 		if(!$result){
 			return $result;

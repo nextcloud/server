@@ -119,7 +119,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				}
 			}
 		}
-		return false; 
+		return false;
 	}
 
 	private function getFeed($feedUri, $httpMethod, $postData = null) {
@@ -174,7 +174,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				return 'html';
 		}
 	}
-	
+
 
 	public function mkdir($path) {
 		$collection = dirname($path);
@@ -254,7 +254,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		} else if ($entry = $this->getResource($path)) {
 			// NOTE: Native resources don't have a file size
 			$stat['size'] = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'quotaBytesUsed')->item(0)->nodeValue;
-// 			if (isset($atime = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue)) 
+// 			if (isset($atime = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue))
 // 			$stat['atime'] = strtotime($entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue);
 			$stat['mtime'] = strtotime($entry->getElementsByTagName('updated')->item(0)->nodeValue);
 			$stat['ctime'] = strtotime($entry->getElementsByTagName('published')->item(0)->nodeValue);
@@ -304,7 +304,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 		return false;
 	}
-	
+
 	public function file_exists($path) {
 		if ($path == '' || $path == '/') {
 			return true;
@@ -313,7 +313,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 		return false;
 	}
-	
+
 	public function unlink($path) {
 		// Get resource self link to trash resource
 		if ($entry = $this->getResource($path)) {
@@ -482,7 +482,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			// TODO Wait for resource entry
 		}
 	}
-	
+
 	public function getMimeType($path, $entry = null) {
 		// Entry can be passed, because extension is required for opendir and the entry can't be cached without the extension
 		if ($entry == null) {
@@ -522,7 +522,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 		return false;
 	}
-	
+
 	public function free_space($path) {
 		if ($dom = $this->getFeed('https://docs.google.com/feeds/metadata/default', 'GET')) {
 			// NOTE: Native Google Docs resources don't count towards quota
@@ -532,9 +532,9 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 		return false;
 	}
-  
+
 	public function touch($path, $mtime = null) {
-	  
+
 	}
 
 }
