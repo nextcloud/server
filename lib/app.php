@@ -571,7 +571,7 @@ class OC_App{
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
 			if(!isset($info['require']) or ($version[0]>$info['require'])){
-				OC_Log::write('core','App "'.$info['name'].'" can\'t be used because it is not compatible with this version of ownCloud',OC_Log::ERROR);
+				OC_Log::write('core','App "'.$info['name'].'" ('.$app.') can\'t be used because it is not compatible with this version of ownCloud',OC_Log::ERROR);
 				OC_App::disable( $app );
 			}
 		}
