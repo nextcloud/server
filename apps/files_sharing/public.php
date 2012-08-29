@@ -5,7 +5,6 @@ if (isset($_GET['file'])) {
 	$pos = strpos($_GET['file'], '/', 1);
 	$uidOwner = substr($_GET['file'], 1, $pos - 1);
 	if (OCP\User::userExists($uidOwner)) {
-		OC_Util::tearDownFS();
 		OC_Util::setupFS($uidOwner);
 		$file = substr($_GET['file'], $pos);
 		$fileSource = OC_Filecache::getId($_GET['file'], '');

@@ -19,16 +19,23 @@ class OC_Util {
 			return false;
 		}
 
+		// If we are not forced to load a specific user we load the one that is logged in
+		if( $user == "" && OC_User::isLoggedIn()){
+			$user = OC_User::getUser();
+		}
+
+		// the filesystem will finish when $user is not empty,
+		// mark fs setup here to avoid doing the setup from loading
+		// OC_Filesystem
+		if ($user != '') {
+			self::$fsSetup=true;
+		}
+
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted){
 			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY),'/');
 			self::$rootMounted=true;
-		}
-
-		// If we are not forced to load a specific user we load the one that is logged in
-		if( $user == "" && OC_User::isLoggedIn()){
-			$user = OC_User::getUser();
 		}
 
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
@@ -43,7 +50,6 @@ class OC_Util {
 			OC_Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
-			self::$fsSetup=true;
 			// Load personal mount config
 			if (is_file($user_root.'/mount.php')) {
 				$mountConfig = include($user_root.'/mount.php');
