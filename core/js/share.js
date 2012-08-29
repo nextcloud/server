@@ -429,8 +429,4 @@ $(document).ready(function() {
 			});
 		}
 	});
-
-	$('#emailPrivateLink').live('submit', function() {
-		OC.Share.emailPrivateLink();
-	});
 });
