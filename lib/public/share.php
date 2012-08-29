@@ -229,6 +229,16 @@ class Share {
 			$shareWith['users'] = array_diff(\OC_Group::usersInGroup($group), array($uidOwner));
 		} else if ($shareType === self::SHARE_TYPE_LINK) {
 			if (\OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes') == 'yes') {
+				if ($checkExists = self::getItems($itemType, $itemSource, self::SHARE_TYPE_LINK, null, $uidOwner, self::FORMAT_NONE, null, 1)) {
+					// If password is set delete the old link
+					if (isset($shareWith)) {
+						self::delete($checkExists['id']);
+					} else {
+						$message = 'Sharing '.$itemSource.' failed, because this item is already shared with a link';
+						\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+						throw new \Exception($message);
+					}
+				}
 				// Generate hash of password - same method as user passwords
 				if (isset($shareWith)) {
 					$forcePortable = (CRYPT_BLOWFISH != 1);

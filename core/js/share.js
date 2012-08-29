@@ -417,8 +417,6 @@ $(document).ready(function() {
 		if (event.keyCode == 13) {
 			var itemType = $('#dropdown').data('item-type');
 			var itemSource = $('#dropdown').data('item-source');
-			// TODO Do this internally
-			OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '');
 			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.Share.PERMISSION_READ);
 		}
 	});
