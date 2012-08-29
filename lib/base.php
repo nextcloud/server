@@ -533,7 +533,7 @@ class OC{
 	protected static function tryBasicAuthLogin() {
 		if (!isset($_SERVER["PHP_AUTH_USER"])
 		 || !isset($_SERVER["PHP_AUTH_PW"])){
-		 	return false;
+			return false;
 		}
 		OC_App::loadApps(array('authentication'));
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"],$_SERVER["PHP_AUTH_PW"]))	{

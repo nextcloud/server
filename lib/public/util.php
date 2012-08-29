@@ -260,7 +260,7 @@ class Util {
 
 
 	/**
- 	 * Register an get/post call. This is important to prevent CSRF attacks
+	 * Register an get/post call. This is important to prevent CSRF attacks
 	 * TODO: write example
 	 */
 	public static function callRegister(){

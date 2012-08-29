@@ -171,8 +171,8 @@ class OC_Template{
 	 * mobile -> interface for smartphones
 	 * tablet -> interface for tablets
 	 * standalone -> the default interface but without header, footer and
-	 * 	sidebar, just the application. Useful to use just a specific
-	 * 	app on the desktop in a standalone window.
+	 *	sidebar, just the application. Useful to use just a specific
+	 *	app on the desktop in a standalone window.
 	 */
 	public static function detectFormfactor(){
 		// please add more useragent strings for other devices

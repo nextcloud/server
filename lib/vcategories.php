@@ -129,7 +129,7 @@ class OC_VCategories {
 	*			$objects[] = $row['carddata'];
 	*		}
 	*	}
-	* 	$categories->rescan($objects);
+	*	$categories->rescan($objects);
 	*/
 	public function rescan($objects, $sync=true, $reset=true) {
 		if($reset === true) {

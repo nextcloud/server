@@ -84,8 +84,8 @@ class OC_Setup {
 
 			//write the config file
 			OC_Config::setValue('datadirectory', $datadir);
- 			OC_Config::setValue('dbtype', $dbtype);
- 			OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
+			OC_Config::setValue('dbtype', $dbtype);
+			OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
 			if($dbtype == 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
@@ -552,7 +552,7 @@ class OC_Setup {
 		$content.= "</IfModule>\n";
 		$content.= "<IfModule mod_rewrite.c>\n";
 		$content.= "RewriteEngine on\n";
- 		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]\n";
+		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]\n";
 		$content.= "RewriteRule ^.well-known/host-meta /public.php?service=host-meta [QSA,L]\n";
 		$content.= "RewriteRule ^.well-known/carddav /remote.php/carddav/ [R]\n";
 		$content.= "RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]\n";

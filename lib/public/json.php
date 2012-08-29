@@ -92,7 +92,7 @@ class JSON {
 	* Send json success msg
 	*
 	* Return a json success message with optional extra data.
-	* @see OCP\JSON::error() 		for the format to use.
+	* @see OCP\JSON::error()		for the format to use.
 	*
 	* @param array $data The data to use
 	* @return string json formatted string.

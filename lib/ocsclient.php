@@ -187,7 +187,7 @@ class OC_OCSClient{
 		if(isset($tmp->downloadlink)) {
 			$app['downloadlink']=$tmp->downloadlink;
 		}else{
-	 		$app['downloadlink']='';
+			$app['downloadlink']='';
 		}
 		return $app;
 	}

@@ -82,7 +82,7 @@
 		<br />
 
 		<?php if (!$_['isAdminPage']):  ?>
-  		<table id="sslCertificate" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
+		<table id="sslCertificate" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
 			<thead>
 				<tr>
 					<th><?php echo $l->t('SSL root certificates'); ?></th>

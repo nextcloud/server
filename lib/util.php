@@ -219,7 +219,7 @@ class OC_Util {
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
-                	$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
+			$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
 			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)),-3);
 			if(substr($prems,-1)!='0'){
 				OC_Helper::chmodr($CONFIG_DATADIRECTORY,0770);

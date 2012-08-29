@@ -35,7 +35,7 @@ if ( isset( $_GET['path'] ) ) {
 	// roll back to old version if button clicked
         if( isset( $_GET['revert'] ) ) {
 
-        	if( $versions->rollback( $path, $_GET['revert'] ) ) {
+		if( $versions->rollback( $path, $_GET['revert'] ) ) {
 
 			$tmpl->assign( 'outcome_stat', 'success' );
 

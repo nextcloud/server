@@ -286,7 +286,7 @@ class OC_App{
 		if(OC_Config::getValue('knowledgebaseenabled', true)==true){
 			$settings = array(
 				array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" ))
- 			);
+			);
 		}
 
 		// if the user is logged-in
@@ -313,7 +313,7 @@ class OC_App{
 
 				$settings[]=array( "id" => "admin", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "admin.php" ), "name" => $l->t("Admin"), "icon" => OC_Helper::imagePath( "settings", "admin.svg" ));
 			}
- 		}
+		}
 
 		$navigation = self::proceedNavigation($settings);
 		return $navigation;
