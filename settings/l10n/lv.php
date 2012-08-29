@@ -1,14 +1,18 @@
 <?php $TRANSLATIONS = array(
+"Unable to load list from App Store" => "Nebija iespējams lejuplādēt sarakstu no aplikāciju veikala",
 "Email saved" => "Epasts tika saglabāts",
 "Invalid email" => "Nepareizs epasts",
 "OpenID Changed" => "OpenID nomainīts",
 "Invalid request" => "Nepareizs vaicājums",
+"Authentication error" => "Ielogošanās kļūme",
 "Language changed" => "Valoda tika nomainīta",
+"Error" => "Kļūme",
 "Disable" => "Atvienot",
 "Enable" => "Pievienot",
 "Saving..." => "Saglabā...",
 "__language_name__" => "__valodas_nosaukums__",
 "Security Warning" => "Brīdinājums par drošību",
+"Cron" => "Cron",
 "Log" => "Log",
 "More" => "Vairāk",
 "Add your App" => "Pievieno savu aplikāciju",
@@ -44,6 +48,7 @@
 "Create" => "Izveidot",
 "Default Quota" => "Apjoms pēc noklusējuma",
 "Other" => "Cits",
+"Group Admin" => "Grupas administrators",
 "Quota" => "Apjoms",
 "Delete" => "Izdzēst"
 );

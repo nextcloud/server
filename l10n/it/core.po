@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-28 02:01+0200\n"
-"PO-Revision-Date: 2012-08-28 00:01+0000\n"
+"POT-Creation-Date: 2012-08-29 02:01+0200\n"
+"PO-Revision-Date: 2012-08-29 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -38,55 +38,55 @@ msgstr "Questa categoria esiste già: "
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:190 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:201 templates/layout.user.php:64 templates/layout.user.php:65
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: js/js.js:575
+#: js/js.js:586
 msgid "January"
 msgstr "Gennaio"
 
-#: js/js.js:575
+#: js/js.js:586
 msgid "February"
 msgstr "Febbraio"
 
-#: js/js.js:575
+#: js/js.js:586
 msgid "March"
 msgstr "Marzo"
 
-#: js/js.js:575
+#: js/js.js:586
 msgid "April"
 msgstr "Aprile"
 
-#: js/js.js:575
+#: js/js.js:586
 msgid "May"
 msgstr "Maggio"
 
-#: js/js.js:575
+#: js/js.js:586
 msgid "June"
 msgstr "Giugno"
 
-#: js/js.js:576
+#: js/js.js:587
 msgid "July"
 msgstr "Luglio"
 
-#: js/js.js:576
+#: js/js.js:587
 msgid "August"
 msgstr "Agosto"
 
-#: js/js.js:576
+#: js/js.js:587
 msgid "September"
 msgstr "Settembre"
 
-#: js/js.js:576
+#: js/js.js:587
 msgid "October"
 msgstr "Ottobre"
 
-#: js/js.js:576
+#: js/js.js:587
 msgid "November"
 msgstr "Novembre"
 
-#: js/js.js:576
+#: js/js.js:587
 msgid "December"
 msgstr "Dicembre"
 
@@ -185,7 +185,7 @@ msgstr "Accesso negato"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "Cloud non trovata"
+msgstr "Nuvola non trovata"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -218,7 +218,7 @@ msgstr "Configura il database"
 #: templates/installation.php:50 templates/installation.php:61
 #: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
-msgstr "sarà usato"
+msgstr "sarà utilizzato"
 
 #: templates/installation.php:93
 msgid "Database user"

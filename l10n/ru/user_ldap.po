@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-25 02:04+0200\n"
-"PO-Revision-Date: 2012-08-24 15:13+0000\n"
-"Last-Translator: wpns <4671992@gmail.com>\n"
+"POT-Creation-Date: 2012-08-29 02:01+0200\n"
+"PO-Revision-Date: 2012-08-29 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,7 +93,7 @@ msgstr "Определяет фильтр для применения при п�
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "без заполнения, например \"objectClass=posixGroup\"."
 
 #: templates/settings.php:17
 msgid "Port"
@@ -101,15 +101,15 @@ msgstr "Порт"
 
 #: templates/settings.php:18
 msgid "Base User Tree"
-msgstr ""
+msgstr "База пользовательского дерева"
 
 #: templates/settings.php:19
 msgid "Base Group Tree"
-msgstr ""
+msgstr "База группового дерева"
 
 #: templates/settings.php:20
 msgid "Group-Member association"
-msgstr ""
+msgstr "Ассоциация Группа-Участник"
 
 #: templates/settings.php:21
 msgid "Use TLS"
@@ -121,7 +121,7 @@ msgstr "Не используйте для соединений SSL"
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "Нечувствительный к регистру сервер LDAP (Windows)"
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
@@ -131,7 +131,7 @@ msgstr "Отключить проверку сертификата SSL."
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "Если соединение работает только с этой опцией, импортируйте на ваш сервер ownCloud сертификат SSL сервера LDAP."
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
@@ -139,19 +139,19 @@ msgstr "Не рекомендуется, используйте только д�
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Поле отображаемого имени пользователя"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "Атрибут LDAP для генерации имени пользователя ownCloud."
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Поле отображаемого имени группы"
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "Атрибут LDAP для генерации имени группы ownCloud."
 
 #: templates/settings.php:27
 msgid "in bytes"
@@ -161,6 +161,12 @@ msgstr "в байтах"
 msgid "in seconds. A change empties the cache."
 msgstr "в секундах. Изменение очистит кэш."
 
-#: templates/settings.php:31
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr ""
+
+#: templates/settings.php:32
 msgid "Help"
 msgstr "Помощь"

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-28 02:01+0200\n"
-"PO-Revision-Date: 2012-08-27 13:20+0000\n"
-"Last-Translator: fposavec <franz@franz-net.info>\n"
+"POT-Creation-Date: 2012-08-29 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,10 +89,46 @@ msgid "use systems cron service"
 msgstr "koristi sistemski cron servis"
 
 #: templates/admin.php:39
+msgid "Share API"
+msgstr ""
+
+#: templates/admin.php:44
+msgid "Enable Share API"
+msgstr ""
+
+#: templates/admin.php:45
+msgid "Allow apps to use the Share API"
+msgstr ""
+
+#: templates/admin.php:49
+msgid "Allow links"
+msgstr ""
+
+#: templates/admin.php:50
+msgid "Allow users to share items to the public with links"
+msgstr ""
+
+#: templates/admin.php:54
+msgid "Allow resharing"
+msgstr ""
+
+#: templates/admin.php:55
+msgid "Allow users to share items shared with them again"
+msgstr ""
+
+#: templates/admin.php:58
+msgid "Allow users to share with anyone"
+msgstr ""
+
+#: templates/admin.php:60
+msgid "Allow users to only share with users in their groups"
+msgstr ""
+
+#: templates/admin.php:67
 msgid "Log"
 msgstr "dnevnik"
 
-#: templates/admin.php:67
+#: templates/admin.php:95
 msgid "More"
 msgstr "više"
 

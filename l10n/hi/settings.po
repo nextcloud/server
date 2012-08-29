@@ -1,0 +1,274 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-29 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Hindi (http://www.transifex.com/projects/p/owncloud/language/hi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr ""
+
+#: ajax/lostpassword.php:14
+msgid "Email saved"
+msgstr ""
+
+#: ajax/lostpassword.php:16
+msgid "Invalid email"
+msgstr ""
+
+#: ajax/openid.php:16
+msgid "OpenID Changed"
+msgstr ""
+
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+msgid "Invalid request"
+msgstr ""
+
+#: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr ""
+
+#: ajax/setlanguage.php:18
+msgid "Language changed"
+msgstr ""
+
+#: js/apps.js:18
+msgid "Error"
+msgstr ""
+
+#: js/apps.js:39 js/apps.js:73
+msgid "Disable"
+msgstr ""
+
+#: js/apps.js:39 js/apps.js:62
+msgid "Enable"
+msgstr ""
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr ""
+
+#: personal.php:46 personal.php:47
+msgid "__language_name__"
+msgstr ""
+
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr ""
+
+#: templates/admin.php:29
+msgid "Cron"
+msgstr ""
+
+#: templates/admin.php:31
+msgid "execute one task with each page loaded"
+msgstr ""
+
+#: templates/admin.php:33
+msgid "cron.php is registered at a webcron service"
+msgstr ""
+
+#: templates/admin.php:35
+msgid "use systems cron service"
+msgstr ""
+
+#: templates/admin.php:39
+msgid "Share API"
+msgstr ""
+
+#: templates/admin.php:44
+msgid "Enable Share API"
+msgstr ""
+
+#: templates/admin.php:45
+msgid "Allow apps to use the Share API"
+msgstr ""
+
+#: templates/admin.php:49
+msgid "Allow links"
+msgstr ""
+
+#: templates/admin.php:50
+msgid "Allow users to share items to the public with links"
+msgstr ""
+
+#: templates/admin.php:54
+msgid "Allow resharing"
+msgstr ""
+
+#: templates/admin.php:55
+msgid "Allow users to share items shared with them again"
+msgstr ""
+
+#: templates/admin.php:58
+msgid "Allow users to share with anyone"
+msgstr ""
+
+#: templates/admin.php:60
+msgid "Allow users to only share with users in their groups"
+msgstr ""
+
+#: templates/admin.php:67
+msgid "Log"
+msgstr ""
+
+#: templates/admin.php:95
+msgid "More"
+msgstr ""
+
+#: templates/apps.php:10
+msgid "Add your App"
+msgstr ""
+
+#: templates/apps.php:26
+msgid "Select an App"
+msgstr ""
+
+#: templates/apps.php:29
+msgid "See application page at apps.owncloud.com"
+msgstr ""
+
+#: templates/apps.php:30
+msgid "-licensed"
+msgstr ""
+
+#: templates/apps.php:30
+msgid "by"
+msgstr ""
+
+#: templates/help.php:8
+msgid "Documentation"
+msgstr ""
+
+#: templates/help.php:9
+msgid "Managing Big Files"
+msgstr ""
+
+#: templates/help.php:10
+msgid "Ask a question"
+msgstr ""
+
+#: templates/help.php:22
+msgid "Problems connecting to help database."
+msgstr ""
+
+#: templates/help.php:23
+msgid "Go there manually."
+msgstr ""
+
+#: templates/help.php:31
+msgid "Answer"
+msgstr ""
+
+#: templates/personal.php:8
+msgid "You use"
+msgstr ""
+
+#: templates/personal.php:8
+msgid "of the available"
+msgstr ""
+
+#: templates/personal.php:12
+msgid "Desktop and Mobile Syncing Clients"
+msgstr ""
+
+#: templates/personal.php:13
+msgid "Download"
+msgstr ""
+
+#: templates/personal.php:19
+msgid "Your password got changed"
+msgstr ""
+
+#: templates/personal.php:20
+msgid "Unable to change your password"
+msgstr ""
+
+#: templates/personal.php:21
+msgid "Current password"
+msgstr ""
+
+#: templates/personal.php:22
+msgid "New password"
+msgstr ""
+
+#: templates/personal.php:23
+msgid "show"
+msgstr ""
+
+#: templates/personal.php:24
+msgid "Change password"
+msgstr ""
+
+#: templates/personal.php:30
+msgid "Email"
+msgstr ""
+
+#: templates/personal.php:31
+msgid "Your email address"
+msgstr ""
+
+#: templates/personal.php:32
+msgid "Fill in an email address to enable password recovery"
+msgstr ""
+
+#: templates/personal.php:38 templates/personal.php:39
+msgid "Language"
+msgstr ""
+
+#: templates/personal.php:44
+msgid "Help translate"
+msgstr ""
+
+#: templates/personal.php:51
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr ""
+
+#: templates/users.php:21 templates/users.php:76
+msgid "Name"
+msgstr ""
+
+#: templates/users.php:23 templates/users.php:77
+msgid "Password"
+msgstr ""
+
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+msgid "Groups"
+msgstr ""
+
+#: templates/users.php:32
+msgid "Create"
+msgstr ""
+
+#: templates/users.php:35
+msgid "Default Quota"
+msgstr ""
+
+#: templates/users.php:55 templates/users.php:138
+msgid "Other"
+msgstr ""
+
+#: templates/users.php:80 templates/users.php:112
+msgid "Group Admin"
+msgstr ""
+
+#: templates/users.php:82
+msgid "Quota"
+msgstr ""
+
+#: templates/users.php:146
+msgid "Delete"
+msgstr ""

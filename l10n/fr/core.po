@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-28 02:01+0200\n"
-"PO-Revision-Date: 2012-08-28 00:01+0000\n"
+"POT-Creation-Date: 2012-08-29 02:01+0200\n"
+"PO-Revision-Date: 2012-08-29 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -37,55 +37,55 @@ msgstr "Cette catégorie existe déjà : "
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:190 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:201 templates/layout.user.php:64 templates/layout.user.php:65
 msgid "Settings"
 msgstr "Paramètres"
 
-#: js/js.js:575
+#: js/js.js:586
 msgid "January"
 msgstr "Janvier"
 
-#: js/js.js:575
+#: js/js.js:586
 msgid "February"
 msgstr "Février"
 
-#: js/js.js:575
+#: js/js.js:586
 msgid "March"
 msgstr "Mars"
 
-#: js/js.js:575
+#: js/js.js:586
 msgid "April"
 msgstr "Avril"
 
-#: js/js.js:575
+#: js/js.js:586
 msgid "May"
 msgstr "Mai"
 
-#: js/js.js:575
+#: js/js.js:586
 msgid "June"
 msgstr "Juin"
 
-#: js/js.js:576
+#: js/js.js:587
 msgid "July"
 msgstr "Juillet"
 
-#: js/js.js:576
+#: js/js.js:587
 msgid "August"
 msgstr "Août"
 
-#: js/js.js:576
+#: js/js.js:587
 msgid "September"
 msgstr "Septembre"
 
-#: js/js.js:576
+#: js/js.js:587
 msgid "October"
 msgstr "Octobre"
 
-#: js/js.js:576
+#: js/js.js:587
 msgid "November"
 msgstr "Novembre"
 
-#: js/js.js:576
+#: js/js.js:587
 msgid "December"
 msgstr "Décembre"
 
