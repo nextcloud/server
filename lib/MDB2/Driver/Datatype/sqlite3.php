@@ -383,5 +383,3 @@ class MDB2_Driver_Datatype_sqlite3 extends MDB2_Driver_Datatype_Common
 
     // }}}
 }
-
-?>

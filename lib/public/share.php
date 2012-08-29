@@ -1119,5 +1119,3 @@ interface Share_Backend_Collection extends Share_Backend {
 	public function getChildren($itemSource);
 
 }
-
-?>

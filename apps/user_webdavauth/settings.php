@@ -34,7 +34,3 @@ $tmpl = new OC_Template( 'user_webdavauth', 'settings');
 $tmpl->assign( 'webdav_url', OC_Config::getValue( "user_webdavauth_url" ));
 
 return $tmpl->fetchPage();
-
-
-
-?>

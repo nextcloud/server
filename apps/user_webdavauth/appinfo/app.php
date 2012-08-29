@@ -35,4 +35,3 @@ $entry = array(
 	'href' => OC_Helper::linkTo( "user_webdavauth", "settings.php" ),
 	'name' => 'WEBDAVAUTH'
 );
-?>

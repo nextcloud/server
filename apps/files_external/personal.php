@@ -31,5 +31,3 @@ $tmpl->assign('mounts', OC_Mount_Config::getPersonalMountPoints());
 $tmpl->assign('certs', OC_Mount_Config::getCertificates());
 $tmpl->assign('backends', $backends);
 return $tmpl->fetchPage();
-
-?>

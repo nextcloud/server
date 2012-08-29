@@ -232,5 +232,3 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 	}
 
 }
-
-?>
