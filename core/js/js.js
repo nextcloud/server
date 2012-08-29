@@ -587,3 +587,40 @@ function formatDate(date){
 	t('files','July'), t('files','August'), t('files','September'), t('files','October'), t('files','November'), t('files','December') ];
 	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
 }
+
+/**
+ * get a variable by name
+ * @param string name
+ */
+OC.get=function(name) {
+	var namespaces = name.split(".");
+	var tail = namespaces.pop();
+	var context=window;
+	
+	for(var i = 0; i < namespaces.length; i++) {
+		context = context[namespaces[i]];
+		if(!context){
+			return false;
+		}
+	}
+	return context[tail];
+}
+
+/**
+ * set a variable by name
+ * @param string name
+ * @param mixed value
+ */
+OC.set=function(name, value) {
+	var namespaces = name.split(".");
+	var tail = namespaces.pop();
+	var context=window;
+	
+	for(var i = 0; i < namespaces.length; i++) {
+		if(!context[namespaces[i]]){
+			context[namespaces[i]]={};
+		}
+		context = context[namespaces[i]];
+	}
+	context[tail]=value;
+}
