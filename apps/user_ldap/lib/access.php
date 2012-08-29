@@ -137,20 +137,6 @@ abstract class Access {
 		$dn = $this->ocname2dn($name, true);
 		if($dn) {
 			return $dn;
-		} else {
-			//fallback: user is not mapped
-			$filter = $this->combineFilterWithAnd(array(
-				$this->connection->ldapUserFilter,
-				$this->connection->ldapUserDisplayName . '=' . $name,
-			));
-			$result = $this->searchUsers($filter, 'dn');
-			if(isset($result[0]['dn'])) {
-				//try mapping, if names equalize return DN
-				$uid = $this->dn2username($result[0]['dn']);
-				if($uid == $name) {
-					return $result[0]['dn'];
-				}
-			}
 		}
 
 		return false;
