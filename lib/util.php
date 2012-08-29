@@ -35,13 +35,11 @@ class OC_Util {
 			$user_dir = '/'.$user.'/files';
 			$user_root = OC_User::getHome($user);
 			$userdirectory = $user_root . '/files';
-			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$user_root), $user);
 			if( !is_dir( $userdirectory )){
 				mkdir( $userdirectory, 0755, true );
 			}
-			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$user_root), $user);
-
 			//jail the user into his "home" directory
+			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir' => $user_root), $user);
 			OC_Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
@@ -56,12 +54,6 @@ class OC_Util {
 				}
 			}
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $user_dir));
-		}
-	}
-
-	public static function setupFS4all(){
-		foreach(OC_User::getUsers() as $user){
-			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>OC_User::getHome($singleuser)), $user);
 		}
 	}
 

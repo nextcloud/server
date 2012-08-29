@@ -30,7 +30,6 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 
 	public function __construct($arguments) {
 		$this->sharedFolder = $arguments['sharedFolder'];
-		OC_Util::setupFS4all();
 	}
 
 	/**
@@ -78,6 +77,8 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	private function getSourcePath($target) {
 		$file = $this->getFile($target);
 		if (isset($file['path'])) {
+			$uid = substr($file['path'], 1, strpos($file['path'], '/', 1) - 1);
+			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir' => OC_User::getHome($uid)), $uid);
 			return $file['path'];
 		}
 		return false;
