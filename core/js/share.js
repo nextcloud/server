@@ -282,6 +282,10 @@ OC.Share={
 		$('#linkText').val(link);
 		$('#linkText').show('blind');
 		$('#showPassword').show();
+		if (password.length > 0) {
+			$('#linkPass').show('blind');
+			$('#linkPassText').attr('placeholder', 'Password protected');
+		}
 	},
 	hideLink:function() {
 		$('#linkText').hide('blind');
@@ -419,7 +423,10 @@ $(document).ready(function() {
 		if (event.keyCode == 13) {
 			var itemType = $('#dropdown').data('item-type');
 			var itemSource = $('#dropdown').data('item-source');
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.Share.PERMISSION_READ);
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.Share.PERMISSION_READ, function() {
+				$('#linkPassText').val('');
+				$('#linkPassText').attr('placeholder', 'Password protected');
+			});
 		}
 	});
 
