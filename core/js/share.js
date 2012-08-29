@@ -285,6 +285,8 @@ OC.Share={
 	},
 	hideLink:function() {
 		$('#linkText').hide('blind');
+		$('#showPassword').hide();
+		$('#linkPass').hide();
 	},
 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
