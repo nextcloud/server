@@ -31,14 +31,10 @@
 			?>
 		<?php endforeach; ?>
 		<script type="text/javascript">
-			$(function() {
-				requesttoken = '<?php echo $_['requesttoken']; ?>';
-				OC.EventSource.requesttoken=requesttoken;
-				$(document).bind('ajaxSend', function(elm, xhr, s){
-					if(requesttoken) {
-						xhr.setRequestHeader('requesttoken', requesttoken);
-					}
-				});
+			requesttoken = '<?php echo $_['requesttoken']; ?>';
+			OC.EventSource.requesttoken=requesttoken;
+			$(document).bind('ajaxSend', function(elm, xhr, s){
+				xhr.setRequestHeader('requesttoken', requesttoken);
 			});
 		</script>
 	</head>
