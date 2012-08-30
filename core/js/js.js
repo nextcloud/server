@@ -40,6 +40,11 @@ function fileDownloadPath(dir, file) {
 }
 
 OC={
+	PERMISSION_CREATE:4,
+	PERMISSION_READ:1,
+	PERMISSION_UPDATE:2,
+	PERMISSION_DELETE:8,
+	PERMISSION_SHARE:16,
 	webroot:oc_webroot,
 	appswebroots:oc_appswebroots,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
