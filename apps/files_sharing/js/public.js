@@ -11,7 +11,11 @@ $(document).ready(function() {
 		if (mimetype.substr(0, mimetype.indexOf('/')) != 'image') {
 			// Trigger default action if not download TODO
 			var action = FileActions.getDefault(mimetype, 'file', FileActions.PERMISSION_READ);
-			action($('#filename').val());
+			if (typeof action === 'undefined') {
+				$('#noPreview').show();
+			} else {
+				action($('#filename').val());
+			}
 		}
 	}
 
