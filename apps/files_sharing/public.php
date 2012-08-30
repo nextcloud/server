@@ -6,9 +6,8 @@ if (isset($_GET['file'])) {
 	$uidOwner = substr($_GET['file'], 1, $pos - 1);
 	if (OCP\User::userExists($uidOwner)) {
 		OC_Util::setupFS($uidOwner);
-		$file = substr($_GET['file'], $pos);
 		$fileSource = OC_Filecache::getId($_GET['file'], '');
-		if ($linkItem = OCP\Share::getItemSharedWithByLink('file', $fileSource, $uidOwner)) {
+		if ($fileSource != -1 && ($linkItem = OCP\Share::getItemSharedWithByLink('file', $fileSource, $uidOwner))) {
 			if (isset($linkItem['share_with'])) {
 				// Check password
 				if (isset($_POST['password'])) {
