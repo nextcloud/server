@@ -29,7 +29,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		} else {
 			page.find('span.version').text('');
 		}
-		page.find('p.description').text(app.description);
+		page.find('p.description').html(app.description);
 		page.find('img.preview').attr('src', app.preview);
 		page.find('small.externalapp').attr('style', 'visibility:visible');
 		page.find('span.author').text(app.author);
@@ -100,7 +100,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 $(document).ready(function(){
 	$('#leftcontent li').each(function(index,li){
-		var app = $.parseJSON($(this).children('span').text());
+		var app = OC.get('appData_'+$(li).data('id'));
 		$(li).data('app',app);
 		$(this).find('span.hidden').remove();
 	});

@@ -437,6 +437,9 @@ class OC_App{
 				foreach($child->children() as $type){
 					$data['types'][]=$type->getName();
 				}
+			}elseif($child->getName()=='description'){
+				$xml=(string)$child->asXML();
+				$data[$child->getName()]=substr($xml,13,-14);//script <description> tags
 			}else{
 				$data[$child->getName()]=(string)$child;
 			}
