@@ -1,9 +1,4 @@
 FileActions={
-	PERMISSION_CREATE:4,
-	PERMISSION_READ:1,
-	PERMISSION_UPDATE:2,
-	PERMISSION_DELETE:8,
-	PERMISSION_SHARE:16,
 	actions:{},
 	defaults:{},
 	icons:{},
