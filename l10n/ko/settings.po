@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-29 02:02+0200\n"
-"PO-Revision-Date: 2012-08-29 00:03+0000\n"
+"POT-Creation-Date: 2012-08-30 02:02+0200\n"
+"PO-Revision-Date: 2012-08-30 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "앱 스토어에서 목록을 가져올 수 없습니다"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -41,7 +41,7 @@ msgstr "잘못된 요청"
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "인증 오류"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -49,7 +49,7 @@ msgstr "언어가 변경되었습니다"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "에러"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
@@ -69,23 +69,23 @@ msgstr "한국어"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "보안 경고"
 
 #: templates/admin.php:29
 msgid "Cron"
-msgstr ""
+msgstr "크론"
 
 #: templates/admin.php:31
 msgid "execute one task with each page loaded"
-msgstr ""
+msgstr "각 페이지가 로드 된 하나의 작업을 실행"
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "cron.php는 webcron 서비스에 등록이 되어 있습니다."
 
 #: templates/admin.php:35
 msgid "use systems cron service"
-msgstr ""
+msgstr "cron 시스템 서비스를 사용"
 
 #: templates/admin.php:39
 msgid "Share API"
@@ -265,7 +265,7 @@ msgstr "다른"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "그룹 관리자"
 
 #: templates/users.php:82
 msgid "Quota"

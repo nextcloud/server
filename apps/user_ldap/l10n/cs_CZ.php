@@ -32,5 +32,6 @@
 "The LDAP attribute to use to generate the groups`s ownCloud name." => "Atribut LDAP použitý k vytvoření jména skupiny ownCloud",
 "in bytes" => "v bytech",
 "in seconds. A change empties the cache." => "ve vteřinách. Změna vyprázdní dočasnou paměť.",
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Ponechte prázdné pro uživateslké jméno (výchozí). Jinak uveďte LDAP/AD paramerty",
 "Help" => "Nápověda"
 );

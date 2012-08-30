@@ -51,6 +51,7 @@
 "Create" => "Vytvořit",
 "Default Quota" => "Výchozí kvóta",
 "Other" => "Jiné",
+"Group Admin" => "Administrace skupiny",
 "Quota" => "Kvóta",
 "Delete" => "Vymazat"
 );

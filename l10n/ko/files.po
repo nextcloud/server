@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-30 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 18:40+0000\n"
+"Last-Translator: yunhye <limonade83@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,37 +53,37 @@ msgstr "디스크에 쓰지 못했습니다"
 msgid "Files"
 msgstr "파일"
 
-#: js/fileactions.js:107 templates/index.php:56
+#: js/fileactions.js:111 templates/index.php:56
 msgid "Delete"
 msgstr "삭제"
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr ""
+msgstr "이미 존재 합니다"
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr ""
+msgstr "대체"
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "취소"
 
 #: js/filelist.js:195
 msgid "replaced"
-msgstr ""
+msgstr "대체됨"
 
 #: js/filelist.js:195
 msgid "with"
-msgstr ""
+msgstr "와"
 
 #: js/filelist.js:195 js/filelist.js:246
 msgid "undo"
-msgstr ""
+msgstr "복구"
 
 #: js/filelist.js:246
 msgid "deleted"
-msgstr ""
+msgstr "삭제"
 
 #: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
@@ -91,7 +91,7 @@ msgstr "ZIP파일 생성에 시간이 걸릴 수 있습니다."
 
 #: js/files.js:200
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "이 파일은 디렉토리이거나 0 바이트이기 때문에 업로드 할 수 없습니다."
 
 #: js/files.js:200
 msgid "Upload Error"

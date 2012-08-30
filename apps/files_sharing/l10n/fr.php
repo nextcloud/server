@@ -1,6 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Size" => "Taille",
-"Modified" => "Modifié",
-"Delete all" => "Tout effacer",
-"Delete" => "Effacement"
+"Password" => "Mot de passe",
+"Submit" => "Envoyer"
 );
