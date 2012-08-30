@@ -166,7 +166,7 @@ class OC_API {
 	 */
 	public static function checkLoggedIn(){
 		// Check OAuth
-		if(!OC_OAuthServer::isAuthorised()){
+		if(!OC_OAuth_Server::isAuthorised()){
 			OC_Response::setStatus(401);
 			die();
 		}

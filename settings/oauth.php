@@ -22,7 +22,7 @@ switch($operation){
 			$token = $server->fetch_request_token($request);
 			echo $token;
 		} catch (OAuthException $exception) {
-			OC_Log::write('OC_OAuthServer', $exception->getMessage(), OC_LOG::ERROR);
+			OC_Log::write('OC_OAuth_Server', $exception->getMessage(), OC_LOG::ERROR);
 			echo $exception->getMessage();
 		}
 		break;
@@ -71,7 +71,7 @@ switch($operation){
 			$token = $server->fetch_access_token($request);
 			echo $token;
 		} catch (OAuthException $exception) {
-			OC_Log::write('OC_OAuthServer', $exception->getMessage(), OC_LOG::ERROR);
+			OC_Log::write('OC_OAuth_Server', $exception->getMessage(), OC_LOG::ERROR);
 			echo $exception->getMessage();
 		}
 		break;
