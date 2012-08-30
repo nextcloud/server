@@ -24,7 +24,7 @@ class OC_JSON{
 	*/
 	public static function checkAppEnabled($app){
 		if( !OC_App::isEnabled($app)){
-			$l = OC_L10N::get('core');
+			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Application is not enabled') )));
 			exit();
 		}
@@ -35,7 +35,7 @@ class OC_JSON{
 	*/
 	public static function checkLoggedIn(){
 		if( !OC_User::isLoggedIn()){
-			$l = OC_L10N::get('core');
+			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
 		}
@@ -47,7 +47,7 @@ class OC_JSON{
 	 */
 	public static function callCheck(){
 		if( !OC_Util::isCallRegistered()){
-			$l = OC_L10N::get('core');
+			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Token expired. Please reload page.') )));
 			exit();
 		}
@@ -59,7 +59,7 @@ class OC_JSON{
 	public static function checkAdminUser(){
 		self::checkLoggedIn();
 		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
-			$l = OC_L10N::get('core');
+			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
 		}
@@ -71,7 +71,7 @@ class OC_JSON{
 	public static function checkSubAdminUser(){
 		self::checkLoggedIn();
 		if(!OC_Group::inGroup(OC_User::getUser(),'admin') && !OC_SubAdmin::isSubAdmin(OC_User::getUser())){
-			$l = OC_L10N::get('core');
+			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
 		}

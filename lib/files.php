@@ -268,7 +268,7 @@ class OC_Files {
 	*/
 	static function validateZipDownload($dir, $files) {
 		if(!OC_Config::getValue('allowZipDownload', true)) {
-			$l = OC_L10N::get('files');
+			$l = OC_L10N::get('lib');
 			header("HTTP/1.0 409 Conflict");
 			$tmpl = new OC_Template( '', 'error', 'user' );
 			$errors = array(
@@ -293,7 +293,7 @@ class OC_Files {
 				$totalsize += OC_Filesystem::filesize($dir.'/'.$files);
 			}
 			if($totalsize > $zipLimit) {
-				$l = OC_L10N::get('files');
+				$l = OC_L10N::get('lib');
 				header("HTTP/1.0 409 Conflict");
 				$tmpl = new OC_Template( '', 'error', 'user' );
 				$errors = array(
