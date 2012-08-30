@@ -34,7 +34,7 @@ $groupBE = new \OCA\user_ldap\GROUP_LDAP();
 $groupBE->setConnector($connector);
 
 foreach($objects as $object) {
-	$fetchDNSql = 'SELECT `ldap_dn`, `owncloud_name` FROM `*PREFIX*ldap_'.$object.'_mapping`';
+	$fetchDNSql = 'SELECT `ldap_dn`, `owncloud_name` FROM `*PREFIX*ldap_'.$object.'_mapping` WHERE `directory_uuid` = ""';
 	$updateSql = 'UPDATE `*PREFIX*ldap_'.$object.'_mapping` SET `ldap_DN` = ?, `directory_uuid` = ? WHERE `ldap_dn` = ?';
 
 	$query = OCP\DB::prepare($fetchDNSql);
