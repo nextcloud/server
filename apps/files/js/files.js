@@ -389,6 +389,21 @@ $(document).ready(function() {
 		})
 	});
 
+	$.assocArraySize = function(obj) {
+		// http://stackoverflow.com/a/6700/11236
+		var size = 0, key;
+		for (key in obj) {
+		    if (obj.hasOwnProperty(key)) size++;
+		}
+		return size;
+	};
+
+	// warn user not to leave the page while upload is in progress
+	$(window).bind('beforeunload', function(e) {
+		if ($.assocArraySize(uploadingFiles) > 0)
+			return t('files','File upload is in progress. Leaving the page now will cancel the upload.');
+	});
+
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
 	if(navigator.userAgent.search(/konqueror/i)==-1){
 		$('.file_upload_start').attr('multiple','multiple')
