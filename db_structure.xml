@@ -399,6 +399,115 @@
   </declaration>
 
  </table>
+ 
+ <table>
+	 
+	 <name>*dbprefix*oauth_consumers</name>
+	 
+	 <declaration>
+		 
+		 <field>
+		 	<name>key</name>
+		 	<type>text</type>
+		 	<length>64</length>
+		 </field>
+		 
+		 <field>
+		 	<name>secret</name>
+		 	<type>text</type>
+		 	<length>64</length>
+		 </field>
+		 
+		 <field>
+		 	<name>callback</name>
+		 	<type>text</type>
+		 	<length>255</length>
+		 </field>
+		 
+		 <field>
+		 	<name>name</name>
+		 	<type>text</type>
+		 	<length>200</length>
+		 </field>
+		 
+		 <field>
+		 	<name>url</name>
+		 	<type>text</type>
+		 	<length>255</length>
+		 </field>
+		 
+		 
+	 </declaration>
+	 
+ </table>
+ 
+ <table>
+	 
+	 <name>*dbprefix*oauth_nonce</name>
+	 
+	 <declaration>
+		 
+		 <field>
+			 <name>consumer_key</name>
+			 <type>text</type>
+			 <length>64</length>
+		 </field>
+		 
+		 <field>
+			 <name>token</name>
+			 <type>text</type>
+			 <length>64</length>
+		 </field>
+		 
+		 <field>
+			 <name>timestamp</name>
+			 <type>integer</type>
+			 <length>11</length>
+		 </field>
+		 
+		 <field>
+			 <name>nonce</name>
+			 <type>text</type>
+			 <length>64</length>
+		 </field>
+		 
+	 </declaration>
+	 
+ </table>
+ 
+ <table>
+	 
+	 <name>*dbprefix*oauth_tokens</name>
+	 
+	 <declaration>
+		 
+		 <field>
+			 <name>consumer_key</name>
+			 <type>text</type>
+			 <length>64</length>
+		 </field>
+		 
+		 <field>
+		 	<name>key</name>
+		 	<type>text</type>
+		 	<length>64</length>
+		 </field>
+		 
+		 <field>
+		 	<name>secret</name>
+		 	<type>text</type>
+		 	<length>64</length>
+		 </field>
+		 
+		 <field>
+		 	<name>type></name>
+		 	<type>text</type>
+		 	<length>7</length>
+		 </field>
+		 
+	 </declaration>
+	 
+ </table>
 
  <table>
 
