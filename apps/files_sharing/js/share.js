@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	if (typeof FileActions !== 'undefined') {
+	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined') {
 		OC.Share.loadIcons('file');
 		FileActions.register('all', 'Share', FileActions.PERMISSION_READ, function(filename) {
 			// Return the correct sharing icon

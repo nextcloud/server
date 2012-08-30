@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-02 02:02+0200\n"
-"PO-Revision-Date: 2012-08-02 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-29 02:01+0200\n"
+"PO-Revision-Date: 2012-08-29 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,55 +37,55 @@ msgstr "Αυτή η κατηγορία υπάρχει ήδη"
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:201 templates/layout.user.php:64 templates/layout.user.php:65
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "January"
 msgstr "Ιανουάριος"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "February"
 msgstr "Φεβρουάριος"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "March"
 msgstr "Μάρτιος"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "April"
 msgstr "Απρίλιος"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "May"
 msgstr "Μάϊος"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "June"
 msgstr "Ιούνιος"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "July"
 msgstr "Ιούλιος"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "August"
 msgstr "Αύγουστος"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "September"
 msgstr "Σεπτέμβριος"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "October"
 msgstr "Οκτώβριος"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "November"
 msgstr "Νοέμβριος"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "December"
 msgstr "Δεκέμβριος"
 
@@ -133,7 +133,7 @@ msgstr "Ζητήθησαν"
 msgid "Login failed!"
 msgstr "Η σύνδεση απέτυχε!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
 #: templates/login.php:9
 msgid "Username"
 msgstr "Όνομα Χρήστη"
@@ -194,48 +194,52 @@ msgstr "Επεξεργασία κατηγορίας"
 msgid "Add"
 msgstr "Προσθήκη"
 
-#: templates/installation.php:23
+#: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
 msgstr "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>"
 
-#: templates/installation.php:29 templates/login.php:13
+#: templates/installation.php:30 templates/login.php:13
 msgid "Password"
 msgstr "Κωδικός"
 
-#: templates/installation.php:35
+#: templates/installation.php:36
 msgid "Advanced"
 msgstr "Για προχωρημένους"
 
-#: templates/installation.php:37
+#: templates/installation.php:38
 msgid "Data folder"
 msgstr "Φάκελος δεδομένων"
 
-#: templates/installation.php:44
+#: templates/installation.php:45
 msgid "Configure the database"
 msgstr "Διαμόρφωση της βάσης δεδομένων"
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:50 templates/installation.php:61
+#: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
 msgstr "θα χρησιμοποιηθούν"
 
-#: templates/installation.php:82
+#: templates/installation.php:93
 msgid "Database user"
 msgstr "Χρήστης της βάσης δεδομένων"
 
-#: templates/installation.php:86
+#: templates/installation.php:97
 msgid "Database password"
 msgstr "Κωδικός πρόσβασης βάσης δεδομένων"
 
-#: templates/installation.php:90
+#: templates/installation.php:101
 msgid "Database name"
 msgstr "Όνομα βάσης δεδομένων"
 
-#: templates/installation.php:96
+#: templates/installation.php:109
+msgid "Database tablespace"
+msgstr ""
+
+#: templates/installation.php:115
 msgid "Database host"
 msgstr "Διακομιστής βάσης δεδομένων"
 
-#: templates/installation.php:101
+#: templates/installation.php:120
 msgid "Finish setup"
 msgstr "Ολοκλήρωση εγκατάστασης"
 

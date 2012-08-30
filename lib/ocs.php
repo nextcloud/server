@@ -177,7 +177,7 @@ class OC_OCS {
 			->requirements(array('format'=>'xml|json'));
 
 		// CLOUD
-		// systemWebApps 
+		// systemWebApps
 		$router->create('system_webapps',
 				  '/cloud/system/webapps.{format}')
 			->defaults(array('format' => $format))
@@ -187,7 +187,7 @@ class OC_OCS {
 					})
 			->requirements(array('format'=>'xml|json'));
 
-		// quotaget 
+		// quotaget
 		$router->create('quota_get',
 				  '/cloud/user/{user}.{format}')
 			->defaults(array('format' => $format))
@@ -197,7 +197,7 @@ class OC_OCS {
 					OC_OCS::quotaGet($format, $user);
 					})
 			->requirements(array('format'=>'xml|json'));
-		// quotaset 
+		// quotaset
 		$router->create('quota_set',
 				  '/cloud/user/{user}.{format}')
 			->post()
@@ -210,7 +210,7 @@ class OC_OCS {
 					})
 			->requirements(array('format'=>'xml|json'));
 
-		// keygetpublic 
+		// keygetpublic
 		$router->create('keygetpublic',
 				  '/cloud/user/{user}/publickey.{format}')
 			->defaults(array('format' => $format))
@@ -221,7 +221,7 @@ class OC_OCS {
 					})
 			->requirements(array('format'=>'xml|json'));
 
-		// keygetprivate 
+		// keygetprivate
 		$router->create('keygetpublic',
 				  '/cloud/user/{user}/privatekey.{format}')
 			->defaults(array('format' => $format))
@@ -557,7 +557,7 @@ class OC_OCS {
 			echo(OC_OCS::generatexml($format,'ok',100,''));
 		}
 	}
-	
+
 	/**
 	* get private data
 	* @param string $user

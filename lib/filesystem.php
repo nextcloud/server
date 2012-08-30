@@ -3,22 +3,22 @@
 /**
 * ownCloud
 *
-* @author Frank Karlitschek 
-* @copyright 2012 Frank Karlitschek frank@owncloud.org 
-* 
+* @author Frank Karlitschek
+* @copyright 2012 Frank Karlitschek frank@owncloud.org
+*
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either 
+* License as published by the Free Software Foundation; either
 * version 3 of the License, or any later version.
-* 
+*
 * This library is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*  
-* You should have received a copy of the GNU Affero General Public 
+*
+* You should have received a copy of the GNU Affero General Public
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-* 
+*
 */
 
 
@@ -193,7 +193,7 @@ class OC_Filesystem{
 			return OC_Filesystem::$storages[$mountpoint];
 		}
 	}
-	
+
 	static public function init($root){
 		if(self::$defaultInstance){
 			return false;
@@ -237,7 +237,7 @@ class OC_Filesystem{
 				}
 			}
 		}
-		
+
 		self::$loaded=true;
 	}
 
@@ -257,14 +257,14 @@ class OC_Filesystem{
 	static public function getView(){
 		return self::$defaultInstance;
 	}
-	
+
 	/**
 	 * tear down the filesystem, removing all storage providers
 	 */
 	static public function tearDown(){
 		self::$storages=array();
 	}
-	
+
 	/**
 	* create a new storage of a specific type
 	* @param  string  type
@@ -284,7 +284,7 @@ class OC_Filesystem{
 			return false;
 		}
 	}
-	
+
 	/**
 	* change the root to a fake root
 	* @param  string  fakeRoot
@@ -326,7 +326,7 @@ class OC_Filesystem{
 		}
 		self::$mounts[$mountpoint]=array('class'=>$class,'arguments'=>$arguments);
 	}
-	
+
 	/**
 	* return the path to a local version of the file
 	* we need this because we can't know if a file is stored local or not from outside the filestorage and for some purposes a local file is needed
@@ -343,21 +343,21 @@ class OC_Filesystem{
 	static public function getLocalFolder($path){
 		return self::$defaultInstance->getLocalFolder($path);
 	}
-	
+
 	/**
 	* return path to file which reflects one visible in browser
 	* @param string path
 	* @return string
 	*/
 	static public function getLocalPath($path) {
-		$datadir = \OCP\Config::getSystemValue('datadirectory').'/'.\OC_User::getUser().'/files';
+		$datadir = OC_User::getHome($user).'/files';
 		$newpath = $path;
 		if (strncmp($newpath, $datadir, strlen($datadir)) == 0) {
 			$newpath = substr($path, strlen($datadir));
 		}
 		return $newpath;
 	}
-	
+
 	/**
 	 * check if the requested path is valid
 	 * @param string path
@@ -372,7 +372,7 @@ class OC_Filesystem{
 		}
 		return true;
 	}
-	
+
 	/**
 	 * checks if a file is blacklsited for storage in the filesystem
 	 * Listens to write and rename hooks
@@ -392,7 +392,7 @@ class OC_Filesystem{
 			}
 		}
 	}
-	
+
 	/**
 	 * following functions are equivilent to their php buildin equivilents for arguments/return values.
 	 */
@@ -496,11 +496,11 @@ class OC_Filesystem{
 	static public function hash($type,$path, $raw = false){
 		return self::$defaultInstance->hash($type,$path, $raw);
 	}
-	
+
 	static public function free_space($path='/'){
 		return self::$defaultInstance->free_space($path);
 	}
-	
+
 	static public function search($query){
 		return OC_FileCache::search($query);
 	}

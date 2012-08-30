@@ -116,7 +116,7 @@ class OC_Preferences{
 		// Try to fetch the value, return default if not exists.
 		$query = OC_DB::prepare( 'SELECT `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?' );
 		$result = $query->execute( array( $user, $app, $key ));
-		
+
 		$row = $result->fetchRow();
 		if($row){
 			return $row["configvalue"];

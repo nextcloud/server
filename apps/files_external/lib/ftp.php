@@ -14,7 +14,7 @@ class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
 	private $root;
 
 	private static $tempFiles=array();
-	
+
 	public function __construct($params){
 		$this->host=$params['host'];
 		$this->user=$params['user'];

@@ -17,7 +17,7 @@ require_once('class.phpmailer.php');
 class OC_Mail {
 
 	/**
-	 * send an email 
+	 * send an email
 	 *
 	 * @param string $toaddress
 	 * @param string $toname
@@ -31,9 +31,9 @@ class OC_Mail {
 
 		$SMTPMODE = OC_Config::getValue( 'mail_smtpmode', 'sendmail' );
 		$SMTPHOST = OC_Config::getValue( 'mail_smtphost', '127.0.0.1' );
-		$SMTPAUTH = OC_Config::getValue( 'mail_smtpauth', false ); 
-		$SMTPUSERNAME = OC_Config::getValue( 'mail_smtpname', '' ); 
-		$SMTPPASSWORD = OC_Config::getValue( 'mail_smtppassword', '' );  
+		$SMTPAUTH = OC_Config::getValue( 'mail_smtpauth', false );
+		$SMTPUSERNAME = OC_Config::getValue( 'mail_smtpname', '' );
+		$SMTPPASSWORD = OC_Config::getValue( 'mail_smtppassword', '' );
 
 
 		$mailo = new PHPMailer(true);

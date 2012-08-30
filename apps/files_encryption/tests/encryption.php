@@ -23,7 +23,7 @@ class Test_Encryption extends UnitTestCase {
 		$decrypted=OC_Crypt::decrypt($encrypted,$key);
 		$decrypted=rtrim($decrypted, "\0");
 		$this->assertEqual($decrypted,$chunk);
-		
+
 		$encrypted=OC_Crypt::blockEncrypt($source,$key);
 		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
 		$this->assertNotEqual($encrypted,$source);
@@ -56,7 +56,7 @@ class Test_Encryption extends UnitTestCase {
 
 	function testBinary(){
 		$key=uniqid();
-	
+
 		$file=__DIR__.'/binary';
 		$source=file_get_contents($file); //binary file
 		$encrypted=OC_Crypt::encrypt($source,$key);

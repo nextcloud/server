@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-02 02:02+0200\n"
-"PO-Revision-Date: 2012-08-02 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-29 02:01+0200\n"
+"PO-Revision-Date: 2012-08-29 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,55 +36,55 @@ msgstr "Kategori ini telah wujud"
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:201 templates/layout.user.php:64 templates/layout.user.php:65
 msgid "Settings"
 msgstr "Tetapan"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "January"
 msgstr "Januari"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "February"
 msgstr "Februari"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "March"
 msgstr "Mac"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "April"
 msgstr "April"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "May"
 msgstr "Mei"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "June"
 msgstr "Jun"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "July"
 msgstr "Julai"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "August"
 msgstr "Ogos"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "September"
 msgstr "September"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "October"
 msgstr "Oktober"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "November"
 msgstr "November"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "December"
 msgstr "Disember"
 
@@ -132,7 +132,7 @@ msgstr "Meminta"
 msgid "Login failed!"
 msgstr "Log masuk gagal!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
 #: templates/login.php:9
 msgid "Username"
 msgstr "Nama pengguna"
@@ -193,48 +193,52 @@ msgstr "Edit kategori"
 msgid "Add"
 msgstr "Tambah"
 
-#: templates/installation.php:23
+#: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
 msgstr "buat <strong>akaun admin</strong>"
 
-#: templates/installation.php:29 templates/login.php:13
+#: templates/installation.php:30 templates/login.php:13
 msgid "Password"
 msgstr "Kata laluan"
 
-#: templates/installation.php:35
+#: templates/installation.php:36
 msgid "Advanced"
 msgstr "Maju"
 
-#: templates/installation.php:37
+#: templates/installation.php:38
 msgid "Data folder"
 msgstr "Fail data"
 
-#: templates/installation.php:44
+#: templates/installation.php:45
 msgid "Configure the database"
 msgstr "Konfigurasi pangkalan data"
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:50 templates/installation.php:61
+#: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
 msgstr "akan digunakan"
 
-#: templates/installation.php:82
+#: templates/installation.php:93
 msgid "Database user"
 msgstr "Nama pengguna pangkalan data"
 
-#: templates/installation.php:86
+#: templates/installation.php:97
 msgid "Database password"
 msgstr "Kata laluan pangkalan data"
 
-#: templates/installation.php:90
+#: templates/installation.php:101
 msgid "Database name"
 msgstr "Nama pangkalan data"
 
-#: templates/installation.php:96
+#: templates/installation.php:109
+msgid "Database tablespace"
+msgstr ""
+
+#: templates/installation.php:115
 msgid "Database host"
 msgstr "Hos pangkalan data"
 
-#: templates/installation.php:101
+#: templates/installation.php:120
 msgid "Finish setup"
 msgstr "Setup selesai"
 

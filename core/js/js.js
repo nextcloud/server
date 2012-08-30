@@ -29,6 +29,16 @@ function t(app,text){
 }
 t.cache={};
 
+/**
+* Get the path to download a file
+* @param file The filename
+* @param dir The directory the file is in - e.g. $('#dir').val()
+* @return string
+*/
+function fileDownloadPath(dir, file) {
+	return OC.filePath('files', 'ajax', 'download.php')+encodeURIComponent('?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir));
+}
+
 OC={
 	webroot:oc_webroot,
 	appswebroots:oc_appswebroots,
@@ -110,18 +120,19 @@ OC={
 	 */
 	addScript:function(app,script,ready){
 		var path=OC.filePath(app,'js',script+'.js');
-		if(OC.addScript.loaded.indexOf(path)==-1){
-			OC.addScript.loaded.push(path);
+		if(!OC.addScript.loaded[path]){
 			if(ready){
-				$.getScript(path,ready);
+				var deferred=$.getScript(path,ready);
 			}else{
-				$.getScript(path);
+				var deferred=$.getScript(path);
 			}
+			OC.addScript.loaded[path]=deferred;
 		}else{
 			if(ready){
 				ready();
 			}
 		}
+		return OC.addScript.loaded[path];
 	},
 	/**
 	 * load a css file and load it

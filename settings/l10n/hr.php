@@ -1,13 +1,19 @@
 <?php $TRANSLATIONS = array(
+"Unable to load list from App Store" => "Nemogićnost učitavanja liste sa Apps Stora",
 "Email saved" => "Email spremljen",
 "Invalid email" => "Neispravan email",
 "OpenID Changed" => "OpenID promijenjen",
 "Invalid request" => "Neispravan zahtjev",
+"Authentication error" => "Greška kod autorizacije",
 "Language changed" => "Jezik promijenjen",
+"Error" => "Greška",
 "Disable" => "Isključi",
 "Enable" => "Uključi",
 "Saving..." => "Spremanje...",
 "__language_name__" => "__ime_jezika__",
+"Cron" => "Cron",
+"cron.php is registered at a webcron service" => "cron.php je registriran kod webcron servisa",
+"use systems cron service" => "koristi sistemski cron servis",
 "Log" => "dnevnik",
 "More" => "više",
 "Add your App" => "Dodajte vašu aplikaciju",
@@ -43,6 +49,7 @@
 "Create" => "Izradi",
 "Default Quota" => "standardni kvota",
 "Other" => "ostali",
+"Group Admin" => "Grupa Admin",
 "Quota" => "kvota",
 "Delete" => "Obriši"
 );

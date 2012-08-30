@@ -52,7 +52,7 @@ class OC_JSON{
 			exit();
 		}
 	}
-        
+
 	/**
 	* Check if the user is a admin, send json error msg if not
 	*/
@@ -64,7 +64,7 @@ class OC_JSON{
 			exit();
 		}
 	}
-        
+
 	/**
 	* Check if the user is a subadmin, send json error msg if not
 	*/

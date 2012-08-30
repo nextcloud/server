@@ -286,7 +286,7 @@ class OC_App{
 		if(OC_Config::getValue('knowledgebaseenabled', true)==true){
 			$settings = array(
 				array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" ))
- 			);
+			);
 		}
 
 		// if the user is logged-in
@@ -313,7 +313,7 @@ class OC_App{
 
 				$settings[]=array( "id" => "admin", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "admin.php" ), "name" => $l->t("Admin"), "icon" => OC_Helper::imagePath( "settings", "admin.svg" ));
 			}
- 		}
+		}
 
 		$navigation = self::proceedNavigation($settings);
 		return $navigation;
@@ -571,7 +571,7 @@ class OC_App{
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
 			if(!isset($info['require']) or ($version[0]>$info['require'])){
-				OC_Log::write('core','App "'.$info['name'].'" can\'t be used because it is not compatible with this version of ownCloud',OC_Log::ERROR);
+				OC_Log::write('core','App "'.$info['name'].'" ('.$app.') can\'t be used because it is not compatible with this version of ownCloud',OC_Log::ERROR);
 				OC_App::disable( $app );
 			}
 		}

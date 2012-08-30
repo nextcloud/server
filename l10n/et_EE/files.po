@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-26 19:46+0200\n"
+"PO-Revision-Date: 2012-08-26 17:20+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,37 +52,37 @@ msgstr "Kettale kirjutamine ebaõnnestus"
 msgid "Files"
 msgstr "Failid"
 
-#: js/fileactions.js:107 templates/index.php:56
+#: js/fileactions.js:111 templates/index.php:56
 msgid "Delete"
 msgstr "Kustuta"
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr ""
+msgstr "on juba olemas"
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr ""
+msgstr "asenda"
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "loobu"
 
 #: js/filelist.js:195
 msgid "replaced"
-msgstr ""
+msgstr "asendatud"
 
 #: js/filelist.js:195
 msgid "with"
-msgstr ""
+msgstr "millega"
 
 #: js/filelist.js:195 js/filelist.js:246
 msgid "undo"
-msgstr ""
+msgstr "tagasi"
 
 #: js/filelist.js:246
 msgid "deleted"
-msgstr ""
+msgstr "kustutatud"
 
 #: js/files.js:171
 msgid "generating ZIP-file, it may take some time."

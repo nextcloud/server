@@ -27,7 +27,7 @@
 class OC_DB {
 	const BACKEND_PDO=0;
 	const BACKEND_MDB2=1;
-	
+
 	static private $connection; //the prefered connection to use, either PDO or MDB2
 	static private $backend=null;
 	static private $MDB2=false;
@@ -55,7 +55,7 @@ class OC_DB {
 		}
 		return self::BACKEND_MDB2;
 	}
-	
+
 	/**
 	 * @brief connects to the database
 	 * @returns true if connection can be established or nothing (die())
@@ -104,7 +104,7 @@ class OC_DB {
 		}
 		$opts = array();
 		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
-		
+
 		// do nothing if the connection already has been established
 		if(!self::$PDO){
 			// Add the dsn according to the database type
@@ -158,7 +158,7 @@ class OC_DB {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * connect to the database using mdb2
 	 */
@@ -234,10 +234,10 @@ class OC_DB {
 					}
 					break;
 			}
-			
+
 			// Try to establish connection
 			self::$MDB2 = MDB2::factory( $dsn, $options );
-			
+
 			// Die if we could not connect
 			if( PEAR::isError( self::$MDB2 )){
 				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
@@ -245,11 +245,11 @@ class OC_DB {
 				OC_Log::write('core',self::$MDB2->getMessage(),OC_Log::FATAL);
 				die( $error );
 			}
-			
+
 			// We always, really always want associative arrays
 			self::$MDB2->setFetchMode(MDB2_FETCHMODE_ASSOC);
 		}
-		
+
 		// we are done. great!
 		return true;
 	}
@@ -262,7 +262,7 @@ class OC_DB {
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
 	static public function prepare( $query , $limit=null, $offset=null ){
-		
+
 		if (!is_null($limit) && $limit != -1) {
 			if (self::$backend == self::BACKEND_MDB2) {
 				//MDB2 uses or emulates limits & offset internally
@@ -394,7 +394,7 @@ class OC_DB {
 
 		// read file
 		$content = file_get_contents( $file );
-		
+
 		// Make changes and save them to an in-memory file
 		$file2 = 'static://db_scheme';
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
@@ -414,7 +414,7 @@ class OC_DB {
 
 		// Try to create tables
 		$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
-		
+
 		//clean up memory
 		unlink( $file2 );
 
@@ -427,7 +427,7 @@ class OC_DB {
 			$oldname = $definition['name'];
 			$definition['name']=OC_Config::getValue( "dbuser", $oldname );
 		}
-		
+
 		$ret=self::$schema->createDatabase( $definition );
 
 		// Die in case something went wrong
@@ -438,7 +438,7 @@ class OC_DB {
 
 		return true;
 	}
-	
+
 	/**
 	 * @brief update the database scheme
 	 * @param $file file to read structure from
@@ -451,7 +451,7 @@ class OC_DB {
 
 		// read file
 		$content = file_get_contents( $file );
-		
+
 		$previousSchema = self::$schema->getDefinitionFromDatabase();
 		if (PEAR::isError($previousSchema)) {
 			$error = $previousSchema->getMessage();
@@ -475,10 +475,10 @@ class OC_DB {
 		 */
 		file_put_contents( $file2, $content );
 		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
-		
+
 		//clean up memory
 		unlink( $file2 );
-		
+
 		if (PEAR::isError($op)) {
 			$error = $op->getMessage();
 			$detail = $op->getDebugInfo();
@@ -528,16 +528,15 @@ class OC_DB {
 			self::$prefix=OC_Config::getValue( "dbtableprefix", "oc_" );
 		}
 		$prefix = self::$prefix;
-		
+
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
 		if( $type == 'sqlite' || $type == 'sqlite3' ){
 			$query = str_replace( '`', '"', $query );
 			$query = str_replace( 'NOW()', 'datetime(\'now\')', $query );
 			$query = str_replace( 'now()', 'datetime(\'now\')', $query );
-		}elseif( $type == 'mysql' ){
-			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
-			$query = str_replace( 'now()', 'CURRENT_TIMESTAMP', $query );
-		}elseif( $type == 'pgsql' || $type == 'oci'  ){
+		}elseif( $type == 'pgsql' ){
+			$query = str_replace( '`', '"', $query );
+		}elseif( $type == 'oci'  ){
 			$query = str_replace( '`', '"', $query );
 			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
 			$query = str_replace( 'now()', 'CURRENT_TIMESTAMP', $query );
@@ -548,7 +547,7 @@ class OC_DB {
 
 		return $query;
 	}
-	
+
 	/**
 	 * @brief drop a table
 	 * @param string $tableNamme the table to drop
@@ -558,7 +557,7 @@ class OC_DB {
 		self::$MDB2->loadModule('Manager');
 		self::$MDB2->dropTable($tableName);
 	}
-	
+
 	/**
 	 * remove all tables defined in a database structure xml file
 	 * @param string $file the xml file describing the tables
@@ -579,7 +578,7 @@ class OC_DB {
 
 		// get the tables
 		$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
-		
+
 		// Delete our temporary file
 		unlink( $file2 );
 		$tables=array_keys($definition['tables']);
@@ -587,30 +586,30 @@ class OC_DB {
 			self::dropTable($table);
 		}
 	}
-	
+
 	/**
 	 * @brief replaces the owncloud tables with a new set
 	 * @param $file string path to the MDB2 xml db export file
 	 */
 	public static function replaceDB( $file ){
-	 	$apps = OC_App::getAllApps();
-	 	self::beginTransaction();
-	 	// Delete the old tables
-	 	self::removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
-	 	
-	 	foreach($apps as $app){
-	 		$path = OC_App::getAppPath($app).'/appinfo/database.xml';
-	 		if(file_exists($path)){
-	 			self::removeDBStructure( $path );	
-	 		}
-	 	}
-	 	
-	 	// Create new tables
-	 	self::createDBFromStructure( $file );
-	 	self::commit();
-	 	
+		$apps = OC_App::getAllApps();
+		self::beginTransaction();
+		// Delete the old tables
+		self::removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
+
+		foreach($apps as $app){
+			$path = OC_App::getAppPath($app).'/appinfo/database.xml';
+			if(file_exists($path)){
+				self::removeDBStructure( $path );
+			}
+		}
+
+		// Create new tables
+		self::createDBFromStructure( $file );
+		self::commit();
+
 	 }
-	
+
 	/**
 	 * Start a transaction
 	 */
@@ -661,7 +660,7 @@ class PDOStatementWrapper{
 	public function __construct($statement){
 		$this->statement=$statement;
 	}
-	
+
 	/**
 	 * make execute return the result instead of a bool
 	 */
@@ -678,7 +677,7 @@ class PDOStatementWrapper{
 			return false;
 		}
 	}
-	
+
 	/**
 	 * provide numRows
 	 */
@@ -691,21 +690,21 @@ class PDOStatementWrapper{
 			return $this->statement->rowCount();
 		}
 	}
-	
+
 	/**
 	 * provide an alias for fetch
 	 */
 	public function fetchRow(){
 		return $this->statement->fetch();
 	}
-	
+
 	/**
 	 * pass all other function directly to the PDOStatement
 	 */
 	public function __call($name,$arguments){
 		return call_user_func_array(array($this->statement,$name),$arguments);
 	}
-	
+
 	/**
 	 * Provide a simple fetchOne.
 	 * fetch single column from the next row
@@ -715,4 +714,3 @@ class PDOStatementWrapper{
 		return $this->statement->fetchColumn($colnum);
 	}
 }
-

@@ -6,24 +6,9 @@ file_filter = <lang>/core.po
 source_file = templates/core.pot
 source_lang = en
 
-[owncloud.calendar]
-file_filter = <lang>/calendar.po
-source_file = templates/calendar.pot
-source_lang = en
-
-[owncloud.contacts]
-file_filter = <lang>/contacts.po
-source_file = templates/contacts.pot
-source_lang = en
-
 [owncloud.files]
 file_filter = <lang>/files.po
 source_file = templates/files.pot
-source_lang = en
-
-[owncloud.media]
-file_filter = <lang>/media.po
-source_file = templates/media.pot
 source_lang = en
 
 [owncloud.settings]
@@ -31,32 +16,9 @@ file_filter = <lang>/settings.po
 source_file = templates/settings.pot
 source_lang = en
 
-[owncloud.gallery]
-file_filter = <lang>/gallery.po
-source_file = templates/gallery.pot
-source_lang = en
-
-[owncloud.bookmarks]
-file_filter = <lang>/bookmarks.po
-source_file = templates/bookmarks.pot
-source_lang = en
-type = PO
-
 [owncloud.lib]
 file_filter = <lang>/lib.po
 source_file = templates/lib.pot
-source_lang = en
-type = PO
-
-[owncloud.admin_dependencies_chk]
-file_filter = <lang>/admin_dependencies_chk.po
-source_file = templates/admin_dependencies_chk.pot
-source_lang = en
-type = PO
-
-[owncloud.admin_migrate]
-file_filter = <lang>/admin_migrate.po
-source_file = templates/admin_migrate.pot
 source_lang = en
 type = PO
 
@@ -84,27 +46,9 @@ source_file = templates/files_versions.pot
 source_lang = en
 type = PO
 
-[owncloud.tasks]
-file_filter = <lang>/tasks.po
-source_file = templates/tasks.pot
-source_lang = en
-type = PO
-
 [owncloud.user_ldap]
 file_filter = <lang>/user_ldap.po
 source_file = templates/user_ldap.pot
-source_lang = en
-type = PO
-
-[owncloud.user_migrate]
-file_filter = <lang>/user_migrate.po
-source_file = templates/user_migrate.pot
-source_lang = en
-type = PO
-
-[owncloud.user_openid]
-file_filter = <lang>/user_openid.po
-source_file = templates/user_openid.pot
 source_lang = en
 type = PO
 

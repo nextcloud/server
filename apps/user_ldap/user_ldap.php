@@ -161,6 +161,44 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	}
 
 	/**
+	* @brief determine the user's home directory
+	* @param string $uid the owncloud username
+	* @return boolean
+	*/
+	private function determineHomeDir($uid) {
+		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
+			$attr = substr($this->connection->homeFolderNamingRule, strlen('attr:'));
+			$homedir = $this->readAttribute($this->username2dn($uid), $attr);
+			if($homedir) {
+				$homedir = \OCP\Config::getSystemValue( "datadirectory", \OC::$SERVERROOT."/data" ) . '/' . $homedir[0];
+				\OCP\Config::setUserValue($uid, 'user_ldap', 'homedir', $homedir);
+				return $homedir;
+			}
+		}
+
+		//fallback and default: username
+		$homedir = \OCP\Config::getSystemValue( "datadirectory", \OC::$SERVERROOT."/data" ) . '/' . $uid;
+		\OCP\Config::setUserValue($uid, 'user_ldap', 'homedir', $homedir);
+		return $homedir;
+	}
+
+	/**
+	* @brief get the user's home directory
+	* @param string $uid the username
+	* @return boolean
+	*/
+	public function getHome($uid){
+		if($this->userExists($uid)) {
+			$homedir = \OCP\Config::getUserValue($uid, 'user_ldap', 'homedir', false);
+			if(!$homedir) {
+				$homedir = $this->determineHomeDir($uid);
+			}
+			return $homedir;
+		}
+		return false;
+	}
+
+		/**
 	* @brief Check if backend implements actions
 	* @param $actions bitwise-or'ed actions
 	* @returns boolean
@@ -169,7 +207,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)(OC_USER_BACKEND_CHECK_PASSWORD & $actions);
+		return (bool)((OC_USER_BACKEND_CHECK_PASSWORD | OC_USER_BACKEND_GET_HOME) & $actions);
 	}
 
 }

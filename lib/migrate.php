@@ -141,7 +141,7 @@ class OC_Migrate{
 	 			// Export the app info
 			    $exportdata = self::exportAppData();
 				// Add the data dir to the zip
-				self::$content->addDir( $datadir . '/' . self::$uid, true, '/' );
+				self::$content->addDir(OC_User::getHome(self::$uid), true, '/' );
 	 		break;
 	 		case 'instance':
 	 			self::$content = new OC_Migration_Content( self::$zip );
@@ -159,14 +159,14 @@ class OC_Migrate{
 				self::$content->addFromString( $dbexport, "dbexport.xml" );
 				// Add user data
 				foreach(OC_User::getUsers() as $user){
-					self::$content->addDir( $datadir . '/' . $user . '/', true, "/userdata/" );
+					self::$content->addDir(OC_User::getHome($user), true, "/userdata/" );
 				}
 			break;
 			case 'userfiles':
 				self::$content = new OC_Migration_Content( self::$zip );
 				// Creates a zip with all of the users files
 				foreach(OC_User::getUsers() as $user){
-					self::$content->addDir( $datadir . '/' . $user . '/', true, "/" );
+					self::$content->addDir(OC_User::getHome($user), true, "/" );
 				}
 			break;
 			case 'system':
@@ -196,7 +196,7 @@ class OC_Migrate{
 	* @param optional $uid userid of new user
 	*/
 	public static function import( $path, $type='user', $uid=null ){
-		
+
 		$datadir = OC_Config::getValue( 'datadirectory' );
 		// Extract the zip
 		if( !$extractpath = self::extractZip( $path ) ){
@@ -222,13 +222,13 @@ class OC_Migrate{
 		if( self::$exporttype == 'user' ){
 			self::$uid = !is_null($uid) ? $uid : $currentuser;
 		}
-		
+
 		// We need to be an admin if we are not importing our own data
 		if(($type == 'user' && self::$uid != $currentuser) || $type != 'user' ){
 			if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
 				// Naughty.
 				OC_Log::write( 'migration', 'Import not permitted.', OC_Log::ERROR );
-				return json_encode( array( 'success' => false ) ); 	
+				return json_encode( array( 'success' => false ) );
 			}
 		}
 
@@ -411,7 +411,7 @@ class OC_Migrate{
 						$success = false;
 					}
 				}
-	
+
 				// Run the export function?
 				if( $success ){
 					// Set the provider properties
@@ -421,7 +421,7 @@ class OC_Migrate{
 					$return['apps'][$provider->getID()]['success'] = false;
 					$return['apps'][$provider->getID()]['message'] = 'failed to create the app tables';
 				}
-	
+
 				// Now add some app info the the return array
 				$appinfo = OC_App::getAppInfo( $provider->getID() );
 				$return['apps'][$provider->getID()]['version'] = OC_App::getAppVersion($provider->getID());

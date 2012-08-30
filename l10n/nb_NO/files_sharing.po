@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-23 17:27+0000\n"
-"Last-Translator: Arvid Nornes <arvid.nornes@gmail.com>\n"
+"POT-Creation-Date: 2012-08-29 02:01+0200\n"
+"PO-Revision-Date: 2012-08-29 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,18 +18,10 @@ msgstr ""
 "Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: templates/get.php:4
-msgid "Size"
-msgstr "Størrelse"
+#: templates/authenticate.php:4
+msgid "Password"
+msgstr ""
 
-#: templates/get.php:5
-msgid "Modified"
-msgstr "Endret"
-
-#: templates/get.php:5
-msgid "Delete all"
-msgstr "Slett alle"
-
-#: templates/get.php:5
-msgid "Delete"
-msgstr "Slett"
+#: templates/authenticate.php:6
+msgid "Submit"
+msgstr ""

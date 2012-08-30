@@ -26,7 +26,7 @@
  *
  */
 
-// use OCP namespace for all classes that are considered public. 
+// use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
@@ -130,7 +130,7 @@ class App {
 
 
         /**
-         * @brief Check if the app is enabled, redirects to home if not 
+         * @brief Check if the app is enabled, redirects to home if not
          * @param $app app
          * @returns true/false
         */
@@ -140,7 +140,7 @@ class App {
 
 
         /**
-         * @brief Get the last version of the app, either from appinfo/version or from appinfo/info.xml 
+         * @brief Get the last version of the app, either from appinfo/version or from appinfo/info.xml
          * @param $app app
          * @returns true/false
          */

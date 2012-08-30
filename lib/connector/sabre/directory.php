@@ -203,4 +203,3 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 		return $props;
 	}
 }
-

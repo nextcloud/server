@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-02 02:02+0200\n"
-"PO-Revision-Date: 2012-08-02 00:03+0000\n"
-"Last-Translator: owncloud_robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-29 02:01+0200\n"
+"PO-Revision-Date: 2012-08-29 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,55 +36,55 @@ msgstr "Tato kategorie již existuje:"
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:185 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:201 templates/layout.user.php:64 templates/layout.user.php:65
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "January"
 msgstr "Leden"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "February"
 msgstr "Únor"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "March"
 msgstr "Březen"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "April"
 msgstr "Duben"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "May"
 msgstr "Květen"
 
-#: js/js.js:573
+#: js/js.js:586
 msgid "June"
 msgstr "Červen"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "July"
 msgstr "Červenec"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "August"
 msgstr "Srpen"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "September"
 msgstr "Září"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "October"
 msgstr "Říjen"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "November"
 msgstr "Listopad"
 
-#: js/js.js:574
+#: js/js.js:587
 msgid "December"
 msgstr "Prosinec"
 
@@ -132,7 +132,7 @@ msgstr "Požadováno"
 msgid "Login failed!"
 msgstr "Přihlášení selhalo"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
 #: templates/login.php:9
 msgid "Username"
 msgstr "Uživatelské jméno"
@@ -193,48 +193,52 @@ msgstr "Upravit kategorie"
 msgid "Add"
 msgstr "Přidat"
 
-#: templates/installation.php:23
+#: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvořit <strong>účet správce</strong>"
 
-#: templates/installation.php:29 templates/login.php:13
+#: templates/installation.php:30 templates/login.php:13
 msgid "Password"
 msgstr "Heslo"
 
-#: templates/installation.php:35
+#: templates/installation.php:36
 msgid "Advanced"
 msgstr "Rozšířené volby"
 
-#: templates/installation.php:37
+#: templates/installation.php:38
 msgid "Data folder"
 msgstr "Datový adresář"
 
-#: templates/installation.php:44
+#: templates/installation.php:45
 msgid "Configure the database"
 msgstr "Konfigurace databáze"
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:50 templates/installation.php:61
+#: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
 msgstr "bude použito"
 
-#: templates/installation.php:82
+#: templates/installation.php:93
 msgid "Database user"
 msgstr "Uživatel databáze"
 
-#: templates/installation.php:86
+#: templates/installation.php:97
 msgid "Database password"
 msgstr "Heslo k databázi"
 
-#: templates/installation.php:90
+#: templates/installation.php:101
 msgid "Database name"
 msgstr "Název databáze"
 
-#: templates/installation.php:96
+#: templates/installation.php:109
+msgid "Database tablespace"
+msgstr ""
+
+#: templates/installation.php:115
 msgid "Database host"
 msgstr "Hostitel databáze"
 
-#: templates/installation.php:101
+#: templates/installation.php:120
 msgid "Finish setup"
 msgstr "Dokončit instalaci"
 

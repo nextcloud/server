@@ -64,16 +64,16 @@ class OC_CryptStream{
 		}
 		return is_resource($this->source);
 	}
-	
+
 	public function stream_seek($offset, $whence=SEEK_SET){
 		$this->flush();
 		fseek($this->source,$offset,$whence);
 	}
-	
+
 	public function stream_tell(){
 		return ftell($this->source);
 	}
-	
+
 	public function stream_read($count){
 		//$count will always be 8192 https://bugs.php.net/bug.php?id=21641
 		//This makes this function a lot simpler but will breake everything the moment it's fixed
@@ -95,7 +95,7 @@ class OC_CryptStream{
 		}
 		return $result;
 	}
-	
+
 	public function stream_write($data){
 		$length=strlen($data);
 		$currentPos=ftell($this->source);
@@ -143,11 +143,11 @@ class OC_CryptStream{
 	public function stream_stat(){
 		return fstat($this->source);
 	}
-	
+
 	public function stream_lock($mode){
 		flock($this->source,$mode);
 	}
-	
+
 	public function stream_flush(){
 		return fflush($this->source);
 	}

@@ -129,7 +129,7 @@ class OC_VCategories {
 	*			$objects[] = $row['carddata'];
 	*		}
 	*	}
-	* 	$categories->rescan($objects);
+	*	$categories->rescan($objects);
 	*/
 	public function rescan($objects, $sync=true, $reset=true) {
 		if($reset === true) {
@@ -219,7 +219,7 @@ class OC_VCategories {
 		if(!is_array($haystack)) {
 			return false;
 		}
-		return array_search(strtolower($needle),array_map('strtolower',$haystack)); 
+		return array_search(strtolower($needle),array_map('strtolower',$haystack));
 	}
 
 }

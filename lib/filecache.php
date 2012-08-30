@@ -76,14 +76,14 @@ class OC_FileCache{
 			self::update($id,$data);
 			return;
 		}
-		
+
 		// add parent directory to the file cache if it does not exist yet.
 		if ($parent == -1 && $fullpath != $root) {
 			$parentDir = substr(dirname($path), 0, strrpos(dirname($path), DIRECTORY_SEPARATOR));
 			self::scanFile($parentDir);
 			$parent = self::getParentId($fullpath);
 		}
-		
+
 		if(!isset($data['size']) or !isset($data['mtime'])){//save incomplete data for the next time we write it
 			OC_FileCache_Cached::$savedData[$fullpath]=$data;
 			return;
@@ -136,7 +136,7 @@ class OC_FileCache{
 			$queryParts[]='`mimepart`=?';
 		}
 		$arguments[]=$id;
-		
+
 		$sql = 'UPDATE `*PREFIX*fscache` SET '.implode(' , ',$queryParts).' WHERE `id`=?';
 		$query=OC_DB::prepare($sql);
 		$result=$query->execute($arguments);
@@ -192,14 +192,14 @@ class OC_FileCache{
 		}
 		$query=OC_DB::prepare('DELETE FROM `*PREFIX*fscache` WHERE `path_hash`=?');
 		$query->execute(array(md5($root.$path)));
-		
+
 		//delete everything inside the folder
 		$query=OC_DB::prepare('DELETE FROM `*PREFIX*fscache` WHERE `path` LIKE ?');
 		$query->execute(array($root.$path.'/%'));
 
 		OC_Cache::remove('fileid/'.$root.$path);
 	}
-	
+
 	/**
 	 * return array of filenames matching the querty
 	 * @param string $query
@@ -277,14 +277,14 @@ class OC_FileCache{
 		if(($cache=OC_Cache::getUserCache(true)) && $cache->hasKey('fileid/'.$fullPath)){
 			return $cache->get('fileid/'.$fullPath);
 		}
-		
+
 		$query=OC_DB::prepare('SELECT `id` FROM `*PREFIX*fscache` WHERE `path_hash`=?');
 		$result=$query->execute(array(md5($fullPath)));
 		if(OC_DB::isError($result)){
 			OC_Log::write('files','error while getting file id of '.$path,OC_Log::ERROR);
 			return -1;
 		}
-		
+
 		$result=$result->fetchRow();
 		if(is_array($result)){
 			$id=$result['id'];
@@ -294,10 +294,10 @@ class OC_FileCache{
 		if($cache=OC_Cache::getUserCache(true)){
 			$cache->set('fileid/'.$fullPath,$id);
 		}
-		
+
 		return $id;
 	}
-	
+
 	/**
 	 * get the file path from the id, relative to the home folder of the user
 	 * @param int id
@@ -331,7 +331,7 @@ class OC_FileCache{
 			return self::getId(dirname($path),'');
 		}
 	}
-	
+
 	/**
 	 * adjust the size of the parent folders
 	 * @param string $path
@@ -390,7 +390,7 @@ class OC_FileCache{
 				}
 			}
 		}
-		
+
 		OC_FileCache_Update::cleanFolder($path,$root);
 		self::increaseSize($path,$totalSize,$root);
 	}

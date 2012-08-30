@@ -47,5 +47,3 @@ if (isset($_POST['step'])) {
 			break;
 	}
 }
-
-?>

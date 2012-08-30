@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Muhammad Fauzan <yosanpro@gmail.com>, 2012.
 # Muhammad Panji <sumodirjo@gmail.com>, 2012.
 # Muhammad Radifar <m_radifar05@yahoo.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-29 02:01+0200\n"
+"PO-Revision-Date: 2012-08-28 12:13+0000\n"
+"Last-Translator: Muhammad Fauzan <yosanpro@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,13 +26,13 @@ msgstr "Tidak ada galat, berkas sukses diunggah"
 
 #: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "File yang diunggah melampaui directive upload_max_filesize di php.ini"
 
 #: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "File yang diunggah melampaui directive MAX_FILE_SIZE yang disebutan dalam form HTML."
 
 #: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
@@ -53,61 +54,61 @@ msgstr "Gagal menulis ke disk"
 msgid "Files"
 msgstr "Berkas"
 
-#: js/fileactions.js:107 templates/index.php:56
+#: js/fileactions.js:111 templates/index.php:56
 msgid "Delete"
 msgstr "Hapus"
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr ""
+msgstr "sudah ada"
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr ""
+msgstr "mengganti"
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "batalkan"
 
 #: js/filelist.js:195
 msgid "replaced"
-msgstr ""
+msgstr "diganti"
 
 #: js/filelist.js:195
 msgid "with"
-msgstr ""
+msgstr "dengan"
 
 #: js/filelist.js:195 js/filelist.js:246
 msgid "undo"
-msgstr ""
+msgstr "batal dikerjakan"
 
 #: js/filelist.js:246
 msgid "deleted"
-msgstr ""
+msgstr "dihapus"
 
 #: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "membuat berkas ZIP, ini mungkin memakan waktu."
 
 #: js/files.js:200
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Gagal mengunggah berkas anda karena berupa direktori atau mempunyai ukuran 0 byte"
 
 #: js/files.js:200
 msgid "Upload Error"
-msgstr ""
+msgstr "Terjadi Galat Pengunggahan"
 
 #: js/files.js:228 js/files.js:319 js/files.js:348
 msgid "Pending"
-msgstr ""
+msgstr "Menunggu"
 
 #: js/files.js:333
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Pengunggahan dibatalkan."
 
 #: js/files.js:457
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Kesalahan nama, '/' tidak diijinkan."
 
 #: js/files.js:703 templates/index.php:55
 msgid "Size"
@@ -119,19 +120,19 @@ msgstr "Dimodifikasi"
 
 #: js/files.js:731
 msgid "folder"
-msgstr ""
+msgstr "folder"
 
 #: js/files.js:733
 msgid "folders"
-msgstr ""
+msgstr "folder-folder"
 
 #: js/files.js:741
 msgid "file"
-msgstr ""
+msgstr "berkas"
 
 #: js/files.js:743
 msgid "files"
-msgstr ""
+msgstr "berkas-berkas"
 
 #: templates/admin.php:5
 msgid "File handling"

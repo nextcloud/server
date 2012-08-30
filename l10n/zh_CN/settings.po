@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <appweb.cn@gmail.com>, 2012.
 # Phoenix Nemo <>, 2012.
 #   <rainofchaos@gmail.com>, 2012.
 #   <wengxt@gmail.com>, 2011, 2012.
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-19 02:02+0200\n"
-"PO-Revision-Date: 2012-08-18 05:49+0000\n"
-"Last-Translator: leonfeng <rainofchaos@gmail.com>\n"
+"POT-Creation-Date: 2012-08-29 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,17 +83,53 @@ msgstr "为每个装入的页面执行任务"
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "crop.php 已"
 
 #: templates/admin.php:35
 msgid "use systems cron service"
 msgstr "实现系统 cron 服务"
 
 #: templates/admin.php:39
+msgid "Share API"
+msgstr ""
+
+#: templates/admin.php:44
+msgid "Enable Share API"
+msgstr ""
+
+#: templates/admin.php:45
+msgid "Allow apps to use the Share API"
+msgstr ""
+
+#: templates/admin.php:49
+msgid "Allow links"
+msgstr ""
+
+#: templates/admin.php:50
+msgid "Allow users to share items to the public with links"
+msgstr ""
+
+#: templates/admin.php:54
+msgid "Allow resharing"
+msgstr ""
+
+#: templates/admin.php:55
+msgid "Allow users to share items shared with them again"
+msgstr ""
+
+#: templates/admin.php:58
+msgid "Allow users to share with anyone"
+msgstr ""
+
+#: templates/admin.php:60
+msgid "Allow users to only share with users in their groups"
+msgstr ""
+
+#: templates/admin.php:67
 msgid "Log"
 msgstr "日志"
 
-#: templates/admin.php:67
+#: templates/admin.php:95
 msgid "More"
 msgstr "更多"
 

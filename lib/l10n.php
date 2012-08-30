@@ -28,17 +28,17 @@ class OC_L10N{
 	 * cached instances
 	 */
 	protected static $instances=array();
-	
+
 	/**
 	 * cache
 	 */
 	protected static $cache = array();
-	
+
 	/**
 	 * The best language
 	 */
 	protected static $language = '';
-	
+
 	/**
 	 * App of this object
 	 */
@@ -53,7 +53,7 @@ class OC_L10N{
 	 * Translations
 	 */
 	private $translations = array();
-	
+
 	/**
 	 * Localization
 	 */
@@ -61,7 +61,7 @@ class OC_L10N{
 		'date' => 'd.m.Y',
 		'datetime' => 'd.m.Y H:i:s',
 		'time' => 'H:i:s');
-		
+
 	/**
 	 * get an L10N instance
 	 * @return OC_L10N
@@ -76,7 +76,7 @@ class OC_L10N{
 			return new OC_L10N($app,$lang);
 		}
 	}
-	
+
 	/**
 	 * @brief The constructor
 	 * @param $app the app requesting l10n
@@ -90,7 +90,7 @@ class OC_L10N{
 		$this->app = $app;
 		$this->lang = $lang;
 	}
-		
+
 	protected function init(){
 		if ($this->app === true) {
 			return;
@@ -119,7 +119,7 @@ class OC_L10N{
 				if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)){
 					$this->translations = $TRANSLATIONS;
 				}
-			} 
+			}
 
 			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php')){
 				// Include the file, save the data from $CONFIG
@@ -188,7 +188,7 @@ class OC_L10N{
 	 * @returns String or false
 	 *
 	 * Returns the localized data.
-	 * 
+	 *
 	 * Implemented types:
 	 *  - date
 	 *    - Creates a date
@@ -241,7 +241,7 @@ class OC_L10N{
 	 * @returns language
 	 *
 	 * If $app is an array, ownCloud assumes that these are the available
-	 * languages. Otherwise ownCloud tries to find the files in the l10n 
+	 * languages. Otherwise ownCloud tries to find the files in the l10n
 	 * folder.
 	 *
 	 * If nothing works it returns 'en'

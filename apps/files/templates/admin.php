@@ -14,6 +14,3 @@
 		<input type="submit" name="submitFilesAdminSettings" id="submitFilesAdminSettings" value="Save"/>
 	</fieldset>
 </form>
-
-
-

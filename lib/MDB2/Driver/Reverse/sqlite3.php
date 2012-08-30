@@ -584,5 +584,3 @@ class MDB2_Driver_Reverse_sqlite3 extends MDB2_Driver_Reverse_Common
            'This DBMS can not obtain tableInfo from result sets', __FUNCTION__);
     }
 }
-
-?>

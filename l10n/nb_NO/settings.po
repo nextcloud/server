@@ -8,12 +8,13 @@
 # Christer Eriksson <post@hc3web.com>, 2012.
 # Daniel  <i18n@daniel.priv.no>, 2012.
 #   <itssmail@yahoo.no>, 2012.
+#   <runesudden@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-18 02:01+0200\n"
-"PO-Revision-Date: 2012-08-18 00:02+0000\n"
+"POT-Creation-Date: 2012-08-29 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Lasting av liste fra App Store feilet."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -44,7 +45,7 @@ msgstr "Ugyldig forespørsel"
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "Autentikasjonsfeil"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -52,7 +53,7 @@ msgstr "Språk endret"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "Feil"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
@@ -72,29 +73,65 @@ msgstr "__language_name__"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "Sikkerhetsadvarsel"
 
 #: templates/admin.php:29
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:31
 msgid "execute one task with each page loaded"
-msgstr ""
+msgstr "utfør en oppgave med hver side som blir lastet"
 
 #: templates/admin.php:33
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "cron.php er registrert som en webcron tjeneste"
 
 #: templates/admin.php:35
 msgid "use systems cron service"
-msgstr ""
+msgstr "benytt systemets cron tjeneste"
 
 #: templates/admin.php:39
+msgid "Share API"
+msgstr ""
+
+#: templates/admin.php:44
+msgid "Enable Share API"
+msgstr ""
+
+#: templates/admin.php:45
+msgid "Allow apps to use the Share API"
+msgstr ""
+
+#: templates/admin.php:49
+msgid "Allow links"
+msgstr ""
+
+#: templates/admin.php:50
+msgid "Allow users to share items to the public with links"
+msgstr ""
+
+#: templates/admin.php:54
+msgid "Allow resharing"
+msgstr ""
+
+#: templates/admin.php:55
+msgid "Allow users to share items shared with them again"
+msgstr ""
+
+#: templates/admin.php:58
+msgid "Allow users to share with anyone"
+msgstr ""
+
+#: templates/admin.php:60
+msgid "Allow users to only share with users in their groups"
+msgstr ""
+
+#: templates/admin.php:67
 msgid "Log"
 msgstr "Logg"
 
-#: templates/admin.php:67
+#: templates/admin.php:95
 msgid "More"
 msgstr "Mer"
 
@@ -232,7 +269,7 @@ msgstr "Annet"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "Gruppeadministrator"
 
 #: templates/users.php:82
 msgid "Quota"

@@ -271,7 +271,7 @@ class OC_Group {
 		}
 		return $users;
 	}
-	
+
 	/**
 	 * @brief get a list of all users in several groups
 	 * @param array $gids

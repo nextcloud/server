@@ -11,8 +11,7 @@ OC_Util::checkSubAdminUser();
 // We have some javascript foo!
 OC_Util::addScript( 'settings', 'users' );
 OC_Util::addScript( 'core', 'multiselect' );
-// TODO Move script to core
-OC_Util::addScript('contacts', 'jquery.inview');
+OC_Util::addScript('core', 'jquery.inview');
 OC_Util::addStyle( 'settings', 'settings' );
 OC_App::setActiveNavigationEntry( 'core_users' );
 
@@ -46,14 +45,6 @@ foreach($quotaPreset as &$preset){
 
 $defaultQuota=OC_Appconfig::getValue('files','default_quota','none');
 
-$shareNotice = '';
-
-if (\OC_App::isEnabled( "files_sharing" ) ) {
-
-	$shareNotice = 'Note: users may only share to groups that they belong to, and their members';
-	
-}
-
 $tmpl = new OC_Template( "settings", "users", "user" );
 $tmpl->assign( "users", $users );
 $tmpl->assign( "groups", $groups );
@@ -62,5 +53,4 @@ $tmpl->assign( 'subadmins', $subadmins);
 $tmpl->assign( 'numofgroups', count($accessiblegroups));
 $tmpl->assign( 'quota_preset', $quotaPreset);
 $tmpl->assign( 'default_quota', $defaultQuota);
-$tmpl->assign( 'share_notice', $shareNotice);
 $tmpl->printPage();

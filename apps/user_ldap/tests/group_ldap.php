@@ -29,7 +29,7 @@ class Test_Group_Ldap extends UnitTestCase {
 		OC_Group::useBackend(new OCA\user_ldap\GROUP_LDAP());
 		$group_ldap = new OCA\user_ldap\GROUP_LDAP();
 
- 		$this->assertIsA(OC_Group::getGroups(),gettype(array()));
+		$this->assertIsA(OC_Group::getGroups(),gettype(array()));
 		$this->assertIsA($group_ldap->getGroups(),gettype(array()));
 
 		$this->assertFalse(OC_Group::inGroup('john','dosers'),gettype(false));

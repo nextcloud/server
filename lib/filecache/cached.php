@@ -12,7 +12,7 @@
  */
 class OC_FileCache_Cached{
 	public static $savedData=array();
-	
+
 	public static function get($path,$root=false){
 		if($root===false){
 			$root=OC_Filesystem::getRoot();

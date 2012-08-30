@@ -27,7 +27,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	const FORMAT_OPENDIR = 3;
 
 	private $path;
-	
+
 	public function isValidSource($itemSource, $uidOwner) {
 		$path = OC_FileCache::getPath($itemSource, $uidOwner);
 		if (OC_Filesystem::file_exists($path)) {
@@ -94,7 +94,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				$files[] = basename($item['file_target']);
 			}
 			return $files;
-		} 
+		}
 		return array();
 	}
 

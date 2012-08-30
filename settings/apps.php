@@ -32,7 +32,8 @@ OC_App::setActiveNavigationEntry( "core_apps" );
 $registeredApps=OC_App::getAllApps();
 $apps=array();
 
-$blacklist=array('files','files_imageviewer','files_textviewer');//we dont want to show configuration for these
+//TODO which apps do we want to blacklist and how do we integrate blacklisting with the multi apps folder feature
+$blacklist=array('files');//we dont want to show configuration for these
 
 foreach($registeredApps as $app){
 	if(array_search($app,$blacklist)===false){

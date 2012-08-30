@@ -246,7 +246,7 @@ class OC{
 				OC_Util::addScript( 'backgroundjobs' );
 			}
 		}
-		
+
 		OC_Util::addStyle( "styles" );
 		OC_Util::addStyle( "multiselect" );
 		OC_Util::addStyle( "jquery-ui-1.8.16.custom" );
@@ -361,6 +361,10 @@ class OC{
 				OC_App::loadApps();
 			}
 		}
+
+		// register cache cleanup jobs
+		OC_BackgroundJob_RegularTask::register('OC_Cache_FileGlobal', 'gc');
+		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
 
 		// Check for blacklisted files
 		OC_Hook::connect('OC_Filesystem','write','OC_Filesystem','isBlacklisted');
@@ -498,7 +502,7 @@ class OC{
 		// Someone wants to log in :
 		} elseif (OC::tryFormLogin()) {
 			$error = true;
-		
+
 		// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
 		} elseif (OC::tryBasicAuthLogin()) {
 			$error = true;
@@ -558,7 +562,7 @@ class OC{
 	protected static function tryBasicAuthLogin() {
 		if (!isset($_SERVER["PHP_AUTH_USER"])
 		 || !isset($_SERVER["PHP_AUTH_PW"])){
-		 	return false;
+			return false;
 		}
 		OC_App::loadApps(array('authentication'));
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"],$_SERVER["PHP_AUTH_PW"]))	{

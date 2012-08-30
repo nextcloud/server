@@ -1,12 +1,19 @@
 <?php $TRANSLATIONS = array(
+"Email saved" => "Email tersimpan",
+"Invalid email" => "Email tidak sah",
 "OpenID Changed" => "OpenID telah dirubah",
 "Invalid request" => "Permintaan tidak valid",
 "Language changed" => "Bahasa telah diganti",
+"Disable" => "NonAktifkan",
+"Enable" => "Aktifkan",
+"Saving..." => "Menyimpan...",
 "__language_name__" => "__language_name__",
+"Security Warning" => "Peringatan Keamanan",
 "Log" => "Log",
 "More" => "Lebih",
 "Add your App" => "Tambahkan App anda",
 "Select an App" => "Pilih satu aplikasi",
+"See application page at apps.owncloud.com" => "Lihat halaman aplikasi di apps.owncloud.com",
 "-licensed" => "-terlisensi",
 "by" => "oleh",
 "Documentation" => "Dokumentasi",
@@ -37,6 +44,7 @@
 "Create" => "Buat",
 "Default Quota" => "Kuota default",
 "Other" => "Lain-lain",
+"Group Admin" => "Admin Grup",
 "Quota" => "Quota",
 "Delete" => "Hapus"
 );

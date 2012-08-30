@@ -7,7 +7,27 @@ $(document).ready(function(){
 
 	$('#backgroundjobs input').change(function(){
 		if($(this).attr('checked')){
-			$.post(OC.filePath('settings','ajax','setbackgroundjobsmode.php'), { mode: $(this).val() });
+			var mode = $(this).val();
+			if (mode == 'ajax' || mode == 'webcron' || mode == 'cron') {
+				OC.AppConfig.setValue('core', 'backgroundjobs_mode', mode);
+			}
 		}
+	});
+
+	$('#shareAPIEnabled').change(function() {
+		$('.shareAPI td:not(#enable)').toggle();
+	});
+
+	$('#shareAPI input').change(function() {
+		if ($(this).attr('type') == 'checkbox') {
+			if (this.checked) {
+				var value = 'yes';
+			} else {
+				var value = 'no';
+			}
+		} else {
+			var value = $(this).val()
+		}
+		OC.AppConfig.setValue('core', $(this).attr('name'), value);
 	});
 });

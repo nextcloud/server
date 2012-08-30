@@ -18,7 +18,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	private $client;
 
 	private static $tempFiles=array();
-	
+
 	public function __construct($params){
 		$host = $params['host'];
 		//remove leading http[s], will be generated in createBaseUri()
@@ -35,7 +35,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		if(substr($this->root,-1,1)!='/'){
 			$this->root.='/';
 		}
-		
+
 		$settings = array(
 			'baseUri' => $this->createBaseUri(),
 			'userName' => $this->user,
@@ -43,7 +43,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		);
 
 		$this->client = new OC_Connector_Sabre_Client($settings);
-		
+
 		if($caview = \OCP\Files::getStorage('files_external')) {
 			$certPath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("").'rootcerts.crt';
 			if (file_exists($certPath))  {
@@ -296,4 +296,3 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		}
 	}
 }
-

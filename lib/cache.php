@@ -38,7 +38,7 @@ class OC_Cache {
 			if (!self::$global_cache_fast && function_exists('apc_store')) {
 				self::$global_cache_fast = new OC_Cache_APC(true);
 			}
-			
+
 			self::$global_cache = new OC_Cache_FileGlobal();
 			if (self::$global_cache_fast) {
 				self::$global_cache = new OC_Cache_Broker(self::$global_cache_fast, self::$global_cache);
@@ -67,7 +67,7 @@ class OC_Cache {
 			if (!self::$user_cache_fast && function_exists('apc_store')) {
 				self::$user_cache_fast = new OC_Cache_APC();
 			}
-			
+
 			self::$user_cache = new OC_Cache_File();
 			if (self::$user_cache_fast) {
 				self::$user_cache = new OC_Cache_Broker(self::$user_cache_fast, self::$user_cache);

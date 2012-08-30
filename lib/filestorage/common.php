@@ -21,11 +21,11 @@
 */
 
 /**
- * Storage backend class for providing common filesystem operation methods 
+ * Storage backend class for providing common filesystem operation methods
  * which are not storage-backend specific.
  *
  * OC_Filestorage_Common is never used directly; it is extended by all other
- * storage backends, where its methods may be overridden, and additional 
+ * storage backends, where its methods may be overridden, and additional
  * (backend-specific) methods are defined.
  *
  * Some OC_Filestorage_Common methods call functions which are first defined
@@ -115,71 +115,71 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 	 * @param $empty Flag indicating whether directory will be emptied
 	 * @returns true/false
 	 *
-	 * @note By default the directory specified by $directory will be 
+	 * @note By default the directory specified by $directory will be
 	 * deleted together with its contents. To avoid this set $empty to true
 	 */
 	public function deleteAll( $directory, $empty = false ) {
-	
+
 		// strip leading slash
 		if( substr( $directory, 0, 1 ) == "/" ) {
-		
+
 			$directory = substr( $directory, 1 );
-			
+
 		}
-		
+
 		// strip trailing slash
 		if( substr( $directory, -1) == "/" ) {
-		
+
 			$directory = substr( $directory, 0, -1 );
-			
+
 		}
-		
+
 		if ( !$this->file_exists( \OCP\USER::getUser() . '/' . $directory ) || !$this->is_dir( \OCP\USER::getUser() . '/' . $directory ) ) {
-		
+
 			return false;
-			
+
 		} elseif( !$this->is_readable( \OCP\USER::getUser() . '/' . $directory ) ) {
-		
+
 			return false;
-			
+
 		} else {
-			
+
 			$directoryHandle = $this->opendir( \OCP\USER::getUser() . '/' . $directory );
-			
+
 			while ( $contents = readdir( $directoryHandle ) ) {
-			
+
 				if ( $contents != '.' && $contents != '..') {
-					
+
 					$path = $directory . "/" . $contents;
-				
+
 					if ( $this->is_dir( $path ) ) {
-						
+
 						deleteAll( $path );
-					
+
 					} else {
-						
+
 						$this->unlink( \OCP\USER::getUser() .'/' . $path ); // TODO: make unlink use same system path as is_dir
-					
+
 					}
 				}
-			
+
 			}
-		
+
 			//$this->closedir( $directoryHandle ); // TODO: implement closedir in OC_FSV
 
 			if ( $empty == false ) {
-			
+
 				if ( !$this->rmdir( $directory ) ) {
-				
+
 					return false;
-					
+
 				}
-				
+
 			}
-		
+
 			return true;
 		}
-		
+
 	}
 	public function getMimeType($path){
 		if(!$this->file_exists($path)){

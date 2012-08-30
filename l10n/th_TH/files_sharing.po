@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-23 02:03+0200\n"
-"PO-Revision-Date: 2012-08-23 00:04+0000\n"
+"POT-Creation-Date: 2012-08-29 02:01+0200\n"
+"PO-Revision-Date: 2012-08-29 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -18,18 +18,10 @@ msgstr ""
 "Language: th_TH\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: templates/get.php:4
-msgid "Size"
-msgstr "ขนาด"
+#: templates/authenticate.php:4
+msgid "Password"
+msgstr ""
 
-#: templates/get.php:5
-msgid "Modified"
-msgstr "แก้ไขแล้ว"
-
-#: templates/get.php:5
-msgid "Delete all"
-msgstr "ลบทั้งหมด"
-
-#: templates/get.php:5
-msgid "Delete"
-msgstr "ลบ"
+#: templates/authenticate.php:6
+msgid "Submit"
+msgstr ""

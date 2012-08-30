@@ -274,7 +274,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		}
 		$this->auth = new CF_Authentication($this->user, $this->token, null, $this->host);
 		$this->auth->authenticate();
-		
+
 		$this->conn = new CF_Connection($this->auth);
 
 		if(!$this->containerExists($this->root)){
@@ -303,7 +303,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 				$parentContainer=$this->getContainer(dirname($path));
 				$this->removeSubContainer($parentContainer,basename($path));
 			}
-			
+
 			$this->conn->delete_container($this->getContainerName($path));
 			unset($this->containers[$path]);
 			return true;
@@ -410,7 +410,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 			case 'rb':
 				$fp = fopen('php://temp', 'r+');
 				$obj->stream($fp);
-				
+
 				rewind($fp);
 				return $fp;
 			case 'w':
@@ -451,7 +451,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		if(is_null($mtime)){
 			$mtime=time();
 		}
-		
+
 		//emulate setting mtime with metadata
 		$obj->metadata['Mtime']=$mtime;
 		$obj->sync_metadata();

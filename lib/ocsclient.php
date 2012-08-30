@@ -29,7 +29,7 @@
 class OC_OCSClient{
 
 	/**
-	 * @brief Get the url of the OCS AppStore server. 
+	 * @brief Get the url of the OCS AppStore server.
 	 * @returns string of the AppStore server
 	 *
 	 * This function returns the url of the OCS AppStore server. It´s possible to set it in the config file or it will fallback to the default
@@ -40,7 +40,7 @@ class OC_OCSClient{
 	}
 
         /**
-         * @brief Get the url of the OCS KB server. 
+         * @brief Get the url of the OCS KB server.
          * @returns string of the KB server
          * This function returns the url of the OCS knowledge base server. It´s possible to set it in the config file or it will fallback to the default
          */
@@ -61,13 +61,13 @@ class OC_OCSClient{
 			return NULL;
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/categories';
-	
+
 		$xml=@file_get_contents($url);
 		if($xml==FALSE){
 			return NULL;
 		}
 		$data=simplexml_load_string($xml);
-	
+
 		$tmp=$data->data;
 		$cats=array();
 
@@ -119,9 +119,9 @@ class OC_OCSClient{
 			$app['preview']=(string)$tmp[$i]->smallpreviewpic1;
 			$app['changed']=strtotime($tmp[$i]->changed);
 			$app['description']=(string)$tmp[$i]->description;
-	
+
 			$apps[]=$app;
-		} 
+		}
 		return $apps;
 	}
 
@@ -184,10 +184,10 @@ class OC_OCSClient{
 
 		$tmp=$data->data->content;
 		$app=array();
-		if(isset($tmp->downloadlink)) { 
+		if(isset($tmp->downloadlink)) {
 			$app['downloadlink']=$tmp->downloadlink;
 		}else{
-	 		$app['downloadlink']='';
+			$app['downloadlink']='';
 		}
 		return $app;
 	}
@@ -199,7 +199,7 @@ class OC_OCSClient{
 	 *
 	 * This function returns a list of all the knowledgebase entries from the OCS server
 	 */
-	public static function getKnownledgebaseEntries($page,$pagesize,$search=''){	
+	public static function getKnownledgebaseEntries($page,$pagesize,$search=''){
 		if(OC_Config::getValue('knowledgebaseenabled', true)==false){
 			$kbe=array();
 			$kbe['totalitems']=0;

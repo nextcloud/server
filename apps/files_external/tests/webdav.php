@@ -26,4 +26,3 @@ if(!is_array($config) or !isset($config['webdav']) or !$config['webdav']['run'])
 		}
 	}
 }
-

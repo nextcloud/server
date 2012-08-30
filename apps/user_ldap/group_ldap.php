@@ -232,7 +232,26 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 	 * @return bool
 	 */
 	public function groupExists($gid){
-		return in_array($gid, $this->getGroups());
+		if($this->connection->isCached('groupExists'.$gid)) {
+			return $this->connection->getFromCache('groupExists'.$gid);
+		}
+
+		//getting dn, if false the group does not exist. If dn, it may be mapped only, requires more checking.
+		$dn = $this->username2dn($gid);
+		if(!$dn) {
+			$this->connection->writeToCache('groupExists'.$gid, false);
+			return false;
+		}
+
+		//if group really still exists, we will be able to read its objectclass
+		$objcs = $this->readAttribute($dn, 'objectclass');
+		if(!$objcs || empty($objcs)) {
+			$this->connection->writeToCache('groupExists'.$gid, false);
+			return false;
+		}
+
+		$this->connection->writeToCache('groupExists'.$gid, true);
+		return true;
 	}
 
 	/**

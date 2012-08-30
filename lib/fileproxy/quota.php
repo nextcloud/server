@@ -27,7 +27,7 @@
 
 class OC_FileProxy_Quota extends OC_FileProxy{
 	private $userQuota=-1;
-	
+
 	/**
 	 * get the quota for the current user
 	 * @return int
@@ -46,9 +46,9 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 			$this->userQuota=OC_Helper::computerFileSize($userQuota);
 		}
 		return $this->userQuota;
-		
+
 	}
-	
+
 	/**
 	 * get the free space in the users home folder
 	 * @return int
@@ -69,7 +69,7 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 		}
 		return $totalSpace-$usedSpace;
 	}
-	
+
 	public function postFree_space($path,$space){
 		$free=$this->getFreeSpace();
 		if($free==0){

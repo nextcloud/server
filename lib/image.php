@@ -383,7 +383,7 @@ class OC_Image {
 	/**
 	* @brief Loads an image from an open file handle.
 	* It is the responsibility of the caller to position the pointer at the correct place and to close the handle again.
-	* @param $handle 
+	* @param $handle
 	* @returns An image resource or false on error
 	*/
 	public function loadFromFileHandle($handle) {
@@ -468,7 +468,7 @@ class OC_Image {
 				break;
 			*/
 			default:
-			
+
 				// this is mostly file created from encrypted file
 				$this->resource = imagecreatefromstring(\OC_Filesystem::file_get_contents(\OC_Filesystem::getLocalPath($imagepath)));
 				$itype = IMAGETYPE_PNG;
@@ -534,7 +534,7 @@ class OC_Image {
 		$width_orig=imageSX($this->resource);
 		$height_orig=imageSY($this->resource);
 		$ratio_orig = $width_orig/$height_orig;
-		
+
 		if ($ratio_orig > 1) {
 			$new_height = round($maxsize/$ratio_orig);
 			$new_width = $maxsize;
@@ -564,7 +564,7 @@ class OC_Image {
 	public function preciseResize($width, $height) {
 		if (!$this->valid()) {
 			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
-			return false;			
+			return false;
 		}
 		$width_orig=imageSX($this->resource);
 		$height_orig=imageSY($this->resource);

@@ -62,5 +62,5 @@ span.version { margin-left:3em; margin-right:3em; color:#555; }
 
 /* ADMIN */
 span.securitywarning {color:#C33; font-weight:bold; }
-h3.settingsNotice { font-size: 1.2em; }
-.settingsNotice { font-weight:bold; padding: 0.5em 0; }
+input[type=radio] { width:1em; }
+table.shareAPI td { padding-right: 2em; }

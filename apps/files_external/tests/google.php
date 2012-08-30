@@ -26,7 +26,7 @@ if(!is_array($config) or !isset($config['google']) or !$config['google']['run'])
 	return;
 }else{
 	class Test_Filestorage_Google extends Test_FileStorage {
-		
+
 		private $config;
 
 		public function setUp(){
@@ -41,4 +41,3 @@ if(!is_array($config) or !isset($config['google']) or !$config['google']['run'])
 		}
 	}
 }
-

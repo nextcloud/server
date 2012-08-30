@@ -14,19 +14,19 @@ $doBreadcrumb = isset( $_GET['breadcrumb'] ) ? true : false;
 $data = array();
 
 // Make breadcrumb
-if($doBreadcrumb){
+if($doBreadcrumb) {
 	$breadcrumb = array();
 	$pathtohere = "/";
 	foreach( explode( "/", $dir ) as $i ){
-		if( $i != "" ){
+		if( $i != "" ) {
 			$pathtohere .= "$i/";
 			$breadcrumb[] = array( "dir" => $pathtohere, "name" => $i );
 		}
 	}
-	
+
 	$breadcrumbNav = new OCP\Template( "files", "part.breadcrumb", "" );
 	$breadcrumbNav->assign( "breadcrumb", $breadcrumb );
-	
+
 	$data['breadcrumb'] = $breadcrumbNav->fetchPage();
 }
 

@@ -57,4 +57,14 @@ abstract class OC_User_Example extends OC_User_Backend {
 		* returns the user id or false
 		*/
 	abstract public function checkPassword($uid, $password);
+
+	/**
+		* @brief get the user's home directory
+		* @param $uid The username
+		* @returns string
+		*
+		* get the user's home directory
+		* returns the path or false
+		*/
+	abstract public function getHome($uid);
 }

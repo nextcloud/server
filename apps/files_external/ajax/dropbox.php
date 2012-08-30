@@ -37,5 +37,3 @@ if (isset($_POST['app_key']) && isset($_POST['app_secret'])) {
 } else {
 	OCP\JSON::error(array('data' => array('message' => 'Please provide a valid Dropbox app key and secret.')));
 }
-
-?>

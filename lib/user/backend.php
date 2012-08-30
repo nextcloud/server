@@ -34,6 +34,7 @@ define('OC_USER_BACKEND_NOT_IMPLEMENTED',   -501);
 define('OC_USER_BACKEND_CREATE_USER',       0x000001);
 define('OC_USER_BACKEND_SET_PASSWORD',      0x000010);
 define('OC_USER_BACKEND_CHECK_PASSWORD',    0x000100);
+define('OC_USER_BACKEND_GET_HOME',			0x001000);
 
 
 /**
@@ -48,6 +49,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 		OC_USER_BACKEND_CREATE_USER => 'createUser',
 		OC_USER_BACKEND_SET_PASSWORD => 'setPassword',
 		OC_USER_BACKEND_CHECK_PASSWORD => 'checkPassword',
+		OC_USER_BACKEND_GET_HOME => 'getHome',
 	);
 
 	/**
@@ -107,6 +109,15 @@ abstract class OC_User_Backend implements OC_User_Interface {
 	* @return boolean
 	*/
 	public function userExists($uid){
+		return false;
+	}
+
+	/**
+	* @brief get the user's home directory
+	* @param string $uid the username
+	* @return boolean
+	*/
+	public function getHome($uid){
 		return false;
 	}
 }

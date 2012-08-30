@@ -25,4 +25,3 @@ OC_Mount_Config::createCertificateBundle();
 
 header("Location: settings/personal.php");
 exit;
-?>

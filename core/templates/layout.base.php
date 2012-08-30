@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ownCloud</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="shortcut icon" href="<?php echo image_path('', 'favicon.png'); ?>" /><link rel="apple-touch-icon-precomposed" href="<?php echo image_path('', 'favicon-touch.png'); ?>" />
+		<?php if (!empty(OC_Util::$core_styles)): ?>
+			<link rel="stylesheet" href="<?php echo OC_Helper::linkToRemote('core.css', false) ?>" type="text/css" media="screen" />
+		<?php endif ?>
+		<?php foreach ($_['cssfiles'] as $cssfile): ?>
+			<link rel="stylesheet" href="<?php echo $cssfile; ?>" type="text/css" media="screen" />
+		<?php endforeach; ?>
+		<script type="text/javascript">
+			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
+			var oc_appswebroots = <?php echo $_['apps_paths'] ?>;
+		</script>
+		<?php if (!empty(OC_Util::$core_scripts)): ?>
+			<script type="text/javascript" src="<?php echo OC_Helper::linkToRemote('core.js', false) ?>"></script>
+		<?php endif ?>
+		<?php foreach ($_['jsfiles'] as $jsfile): ?>
+			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
+		<?php endforeach; ?>
+		<?php foreach ($_['headers'] as $header): ?>
+			<?php
+				echo '<'.$header['tag'].' ';
+				foreach ($header['attributes'] as $name => $value) {
+					echo "$name='$value' ";
+				};
+				echo '/>';
+			?>
+		<?php endforeach; ?>
+	</head>
+
+	<body>
+		<?php echo $_['content']; ?>
+	</body>
+</html>

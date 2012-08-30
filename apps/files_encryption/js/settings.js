@@ -11,7 +11,7 @@ $(document).ready(function(){
 		onuncheck:blackListChange,
 		createText:'...',
 	});
-	
+
 	function blackListChange(){
 		var blackList=$('#encryption_blacklist').val().join(',');
 		OC.AppConfig.setValue('files_encryption','type_blacklist',blackList);

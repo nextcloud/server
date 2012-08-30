@@ -379,7 +379,7 @@ $(document).ready(function() {
 			stop: function(e, data) {
 				if(data.dataType != 'iframe ') {
 					$('#upload input.stop').hide();
-				}	
+				}
 				$('#uploadprogressbar').progressbar('value',100);
 				$('#uploadprogressbar').fadeOut();
 			}
@@ -542,7 +542,7 @@ $(document).ready(function() {
 			scanFiles();
 		}
 	}, "json");
-	
+
 	var lastWidth = 0;
 	var breadcrumbs = [];
 	var breadcrumbsWidth = $('#navigation').get(0).offsetWidth;
@@ -603,7 +603,7 @@ $(document).ready(function() {
 	$(window).resize(function() {
 		resizeBreadcrumbs(false);
 	});
-	
+
 	resizeBreadcrumbs(true);
 });
 

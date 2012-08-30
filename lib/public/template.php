@@ -26,7 +26,7 @@
  *
  */
 
-// use OCP namespace for all classes that are considered public. 
+// use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
@@ -88,13 +88,13 @@ function simple_file_size($bytes) {
 
 /**
  * @brief Generate html code for an options block.
- * @param $options the options 
- * @param $selected which one is selected? 
- * @param $params the parameters 
+ * @param $options the options
+ * @param $selected which one is selected?
+ * @param $params the parameters
  * @returns html options
  */
 function html_select_options($options, $selected, $params=array()) {
-	return(\html_select_options($options, $selected, $params)); 
+	return(\html_select_options($options, $selected, $params));
 }
 
 

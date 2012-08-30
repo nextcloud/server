@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <database>
 
  <name>*dbname*</name>
@@ -33,6 +33,7 @@
     <name>configvalue</name>
     <type>text</type>
     <notnull>true</notnull>
+    <length>255</length>
    </field>
 
 
@@ -371,63 +372,6 @@
 
  <table>
 
-  <name>*dbprefix*log</name>
-
-  <declaration>
-
-   <field>
-    <name>id</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <autoincrement>1</autoincrement>
-    <unsigned>true</unsigned>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>moment</name>
-    <type>timestamp</type>
-    <default>CURRENT_TIMESTAMP</default>
-    <notnull>true</notnull>
-   </field>
-
-   <field>
-    <name>appid</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>user</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>action</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>info</name>
-    <type>text</type>
-    <notnull>true</notnull>
-   </field>
-
-  </declaration>
-
- </table>
-
- <table>
-
   <name>*dbprefix*preferences</name>
 
   <declaration>
@@ -460,6 +404,7 @@
     <name>configvalue</name>
     <type>text</type>
     <notnull>true</notnull>
+    <length>255</length>
    </field>
 
   </declaration>
@@ -500,6 +445,7 @@
     <name>propertyvalue</name>
     <type>text</type>
     <notnull>true</notnull>
+    <length>255</length>
    </field>
 
   </declaration>
@@ -533,7 +479,7 @@
     <name>share_with</name>
     <type>text</type>
     <default></default>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <length>255</length>
    </field>
    
@@ -665,6 +611,7 @@
     <name>parameters</name>
     <type>text</type>
     <notnull>true</notnull>
+    <length>255</length>
    </field>
 
 

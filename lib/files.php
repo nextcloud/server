@@ -406,9 +406,9 @@ class OC_Files {
 		//check for write permissions
 		if(is_writable(OC::$SERVERROOT.'/.htaccess')) {
 			file_put_contents(OC::$SERVERROOT.'/.htaccess', $htaccess);
-			return OC_Helper::computerFileSize($size);	
+			return OC_Helper::computerFileSize($size);
 		} else { OC_Log::write('files','Can\'t write upload limit to '.OC::$SERVERROOT.'/.htaccess. Please check the file permissions',OC_Log::WARN); }
-		
+
 		return false;
 	}
 

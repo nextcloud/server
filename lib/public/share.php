@@ -32,7 +32,7 @@ class Share {
 
 	const SHARE_TYPE_USER = 0;
 	const SHARE_TYPE_GROUP = 1;
-	const SHARE_TYPE_PRIVATE_LINK = 3;
+	const SHARE_TYPE_LINK = 3;
 	const SHARE_TYPE_EMAIL = 4;
 	const SHARE_TYPE_CONTACT = 5;
 	const SHARE_TYPE_REMOTE = 6;
@@ -67,15 +67,31 @@ class Share {
 	* @return Returns true if backend is registered or false if error
 	*/
 	public static function registerBackend($itemType, $class, $collectionOf = null, $supportedFileExtensions = null) {
-		if (!isset(self::$backendTypes[$itemType])) {
-			self::$backendTypes[$itemType] = array('class' => $class, 'collectionOf' => $collectionOf, 'supportedFileExtensions' => $supportedFileExtensions);
-			if(count(self::$backendTypes) === 1) {
-				\OC_Util::addScript('core', 'share');
-				\OC_Util::addStyle('core', 'share');
+		if (self::isEnabled()) {
+			if (!isset(self::$backendTypes[$itemType])) {
+				self::$backendTypes[$itemType] = array('class' => $class, 'collectionOf' => $collectionOf, 'supportedFileExtensions' => $supportedFileExtensions);
+				if(count(self::$backendTypes) === 1) {
+					\OC_Util::addScript('core', 'share');
+					\OC_Util::addStyle('core', 'share');
+				}
+				return true;
 			}
+			\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class'].' is already registered for '.$itemType, \OC_Log::WARN);
+		}
+		return false;
+	}
+
+	/**
+	* @brief Check if the Share API is enabled
+	* @return Returns true if enabled or false
+	*
+	* The Share API is enabled by default if not configured
+	*
+	*/
+	public static function isEnabled() {
+		if (\OC_Appconfig::getValue('core', 'shareapi_enabled', 'yes') == 'yes') {
 			return true;
 		}
-		\OC_Log::write('OCP\Share', 'Sharing backend '.$class.' not registered, '.self::$backendTypes[$itemType]['class'].' is already registered for '.$itemType, \OC_Log::WARN);
 		return false;
 	}
 
@@ -113,6 +129,17 @@ class Share {
 	}
 
 	/**
+	* @brief Get the item of item type shared by a link
+	* @param string Item type
+	* @param string Item source
+	* @param string Owner of link
+	* @return Item
+	*/
+	public static function getItemSharedWithByLink($itemType, $itemSource, $uidOwner) {
+		return self::getItems($itemType, $itemSource, self::SHARE_TYPE_LINK, null, $uidOwner, self::FORMAT_NONE, null, 1);
+	}
+
+	/**
 	* @brief Get the shared items of item type owned by the current user
 	* @param string Item type
 	* @param int Format (optional) Format type must be defined by the backend
@@ -138,7 +165,7 @@ class Share {
 	* @brief Share an item with a user, group, or via private link
 	* @param string Item type
 	* @param string Item source
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	* @param string User or group the item is being shared with
 	* @param int CRUDS permissions
 	* @return bool Returns true on success or false on failure
@@ -157,11 +184,13 @@ class Share {
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
 			}
-			$inGroup = array_intersect(\OC_Group::getUserGroups($uidOwner), \OC_Group::getUserGroups($shareWith));
-			if (empty($inGroup)) {
-				$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is not a member of any groups that '.$uidOwner.' is a member of';
-				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-				throw new \Exception($message);
+			if (\OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global') == 'groups_only') {
+				$inGroup = array_intersect(\OC_Group::getUserGroups($uidOwner), \OC_Group::getUserGroups($shareWith));
+				if (empty($inGroup)) {
+					$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is not a member of any groups that '.$uidOwner.' is a member of';
+					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+					throw new \Exception($message);
+				}
 			}
 			// Check if the item source is already shared with the user, either from the same owner or a different user
 			if ($checkExists = self::getItems($itemType, $itemSource, self::$shareTypeUserAndGroups, $shareWith, null, self::FORMAT_NONE, null, 1, true, true)) {
@@ -198,9 +227,30 @@ class Share {
 			$shareWith = array();
 			$shareWith['group'] = $group;
 			$shareWith['users'] = array_diff(\OC_Group::usersInGroup($group), array($uidOwner));
-		} else if ($shareType === self::SHARE_TYPE_PRIVATE_LINK) {
-				$shareWith = md5(uniqid($itemSource, true));
+		} else if ($shareType === self::SHARE_TYPE_LINK) {
+			if (\OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes') == 'yes') {
+				if ($checkExists = self::getItems($itemType, $itemSource, self::SHARE_TYPE_LINK, null, $uidOwner, self::FORMAT_NONE, null, 1)) {
+					// If password is set delete the old link
+					if (isset($shareWith)) {
+						self::delete($checkExists['id']);
+					} else {
+						$message = 'Sharing '.$itemSource.' failed, because this item is already shared with a link';
+						\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+						throw new \Exception($message);
+					}
+				}
+				// Generate hash of password - same method as user passwords
+				if (isset($shareWith)) {
+					$forcePortable = (CRYPT_BLOWFISH != 1);
+					$hasher = new \PasswordHash(8, $forcePortable);
+					$shareWith = $hasher->HashPassword($shareWith.\OC_Config::getValue('passwordsalt', ''));
+				}
 				return self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions);
+			}
+			$message = 'Sharing '.$itemSource.' failed, because sharing with links is not allowed';
+			\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+			throw new \Exception($message);
+			return false;
 		} else if ($shareType === self::SHARE_TYPE_CONTACT) {
 			if (!\OC_App::isEnabled('contacts')) {
 				$message = 'Sharing '.$itemSource.' failed, because the contacts app is not enabled';
@@ -262,7 +312,7 @@ class Share {
 	* @brief Unshare an item from a user, group, or delete a private link
 	* @param string Item type
 	* @param string Item source
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	* @param string User or group the item is being shared with
 	* @return Returns true on success or false on failure
 	*/
@@ -298,7 +348,7 @@ class Share {
 	* @brief Set the permissions of an item for a specific user or group
 	* @param string Item type
 	* @param string Item source
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	* @param string User or group the item is being shared with
 	* @param int CRUDS permissions
 	* @return Returns true on success or false on failure
@@ -407,7 +457,7 @@ class Share {
 	* @brief Get shared items from the database
 	* @param string Item type
 	* @param string Item source or target (optional)
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, SHARE_TYPE_PRIVATE_LINK, $shareTypeUserAndGroups, or $shareTypeGroupUserUnique
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, SHARE_TYPE_LINK, $shareTypeUserAndGroups, or $shareTypeGroupUserUnique
 	* @param string User or group the item is being shared with
 	* @param string User that is the owner of shared items (optional)
 	* @param int Format to convert items to with formatItems()
@@ -420,6 +470,13 @@ class Share {
 	*
 	*/
 	private static function getItems($itemType, $item = null, $shareType = null, $shareWith = null, $uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1, $includeCollections = false, $itemShareWithBySource = false) {
+		if (!self::isEnabled()) {
+			if ($limit == 1 || (isset($uidOwner) && isset($item))) {
+				return false;
+			} else {
+				return array();
+			}
+		}
 		$backend = self::getBackend($itemType);
 		// Get filesystem root to add it to the file target and remove from the file source, match file_source with the file cache
 		if ($itemType == 'file' || $itemType == 'folder') {
@@ -444,9 +501,9 @@ class Share {
 				$queryArgs = array($itemType);
 			}
 		}
-		if (isset($shareType) && isset($shareWith)) {
+		if (isset($shareType)) {
 			// Include all user and group items
-			if ($shareType == self::$shareTypeUserAndGroups) {
+			if ($shareType == self::$shareTypeUserAndGroups && isset($shareWith)) {
 				$where .= ' AND `share_type` IN (?,?,?)';
 				$queryArgs[] = self::SHARE_TYPE_USER;
 				$queryArgs[] = self::SHARE_TYPE_GROUP;
@@ -459,9 +516,12 @@ class Share {
 				$where .= ' AND `uid_owner` != ?';
 				$queryArgs[] = $shareWith;
 			} else {
-				$where .= ' AND `share_type` = ? AND `share_with` = ?';
+				$where .= ' AND `share_type` = ?';
 				$queryArgs[] = $shareType;
-				$queryArgs[] = $shareWith;
+				if (isset($shareWith)) {
+					$where .= ' AND `share_with` = ?';
+					$queryArgs[] = $shareWith;
+				}
 			}
 		}
 		if (isset($uidOwner)) {
@@ -485,29 +545,33 @@ class Share {
 			}
 		}
 		if (isset($item)) {
+			if ($includeCollections && $collectionTypes = self::getCollectionItemTypes($itemType)) {
+				$where .= ' AND (';
+			} else {
+				$where .= ' AND';
+			}
 			// If looking for own shared items, check item_source else check item_target
 			if (isset($uidOwner) || $itemShareWithBySource) {
 				// If item type is a file, file source needs to be checked in case the item was converted
 				if ($itemType == 'file' || $itemType == 'folder') {
-					$where .= ' AND `file_source` = ?';
+					$where .= ' `file_source` = ?';
 					$column = 'file_source';
 				} else {
-					$where .= ' AND `item_source` = ?';
+					$where .= ' `item_source` = ?';
 					$column = 'item_source';
 				}
 			} else {
 				if ($itemType == 'file' || $itemType == 'folder') {
-					$where .= ' AND `file_target` = ?';
+					$where .= ' `file_target` = ?';
 				} else {
-					$where .= ' AND `item_target` = ?';
+					$where .= ' `item_target` = ?';
 				}
 			}
 			$queryArgs[] = $item;
 			if ($includeCollections && $collectionTypes = self::getCollectionItemTypes($itemType)) {
-				// TODO Bart - this doesn't work with only one argument
-// 				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
-// 				$where .= " OR item_type IN ('".$placeholders."')";
-// 				$queryArgs = array_merge($queryArgs, $collectionTypes);
+				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
+				$where .= ' OR item_type IN ('.$placeholders.'))';
+				$queryArgs = array_merge($queryArgs, $collectionTypes);
 			}
 		}
 		if ($limit != -1 && !$includeCollections) {
@@ -518,8 +582,12 @@ class Share {
 			}
 			// The limit must be at least 3, because filtering needs to be done
 			if ($limit < 3) {
-				$limit = 3;
+				$queryLimit = 3;
+			} else {
+				$queryLimit = $limit;
 			}
+		} else {
+			$queryLimit = null;
 		}
 		// TODO Optimize selects
 		if ($format == self::FORMAT_STATUSES) {
@@ -548,7 +616,7 @@ class Share {
 			}
 		}
 		$root = strlen($root);
-		$query = \OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*share` '.$where, $limit);
+		$query = \OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*share` '.$where, $queryLimit);
 		$result = $query->execute($queryArgs);
 		$items = array();
 		$targets = array();
@@ -606,28 +674,30 @@ class Share {
 					}
 				}
 				// Check if this is a collection of the requested item type
-				if ($includeCollections && $row['item_type'] != $itemType && ($collectionBackend = self::getBackend($row['item_type'])) && $collectionBackend instanceof Share_Backend_Collection) {
-					$row['collection'] = array('item_type' => $itemType, $column => $row[$column]);
-					// Fetch all of the children sources
-					$children = $collectionBackend->getChildren($row[$column]);
-					foreach ($children as $child) {
-						$childItem = $row;
-						$childItem['item_source'] = $child;
-// 						$childItem['item_target'] = $child['target']; TODO
-						if (isset($item)) {
-							if ($childItem[$column] == $item) {
-								// Return only the item instead of a 2-dimensional array
-								if ($limit == 1 && $format == self::FORMAT_NONE) {
-									return $childItem;
-								} else {
-									// Unset the items array and break out of both loops
-									$items = array();
-									$items[] = $childItem;
-									break 2;
+				if ($includeCollections && $row['item_type'] != $itemType) {
+					if (($collectionBackend = self::getBackend($row['item_type'])) && $collectionBackend instanceof Share_Backend_Collection) {
+						$row['collection'] = array('item_type' => $itemType, $column => $row[$column]);
+						// Fetch all of the children sources
+						$children = $collectionBackend->getChildren($row[$column]);
+						foreach ($children as $child) {
+							$childItem = $row;
+							$childItem['item_source'] = $child;
+	// 						$childItem['item_target'] = $child['target']; TODO
+							if (isset($item)) {
+								if ($childItem[$column] == $item) {
+									// Return only the item instead of a 2-dimensional array
+									if ($limit == 1 && $format == self::FORMAT_NONE) {
+										return $childItem;
+									} else {
+										// Unset the items array and break out of both loops
+										$items = array();
+										$items[] = $childItem;
+										break 2;
+									}
 								}
+							} else {
+								$collectionItems[] = $childItem;
 							}
-						} else {
-							$collectionItems[] = $childItem;
 						}
 					}
 					// Remove collection item
@@ -646,7 +716,7 @@ class Share {
 					$column = 'path';
 				}
 				foreach ($items as $item) {
-					if ($item['share_type'] == self::SHARE_TYPE_PRIVATE_LINK) {
+					if ($item['share_type'] == self::SHARE_TYPE_LINK) {
 						$statuses[$item[$column]] = true;
 					} else if (!isset($statuses[$item[$column]])) {
 						$statuses[$item[$column]] = false;
@@ -666,7 +736,7 @@ class Share {
 	* @brief Put shared item into the database
 	* @param string Item type
 	* @param string Item source
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	* @param string User or group the item is being shared with
 	* @param int CRUDS permissions
 	* @param bool|array Parent folder target (optional)
@@ -823,7 +893,7 @@ class Share {
 	* @brief Generate a unique target for the item
 	* @param string Item type
 	* @param string Item source
-	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_PRIVATE_LINK
+	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	* @param string User or group the item is being shared with
 	* @return string Item target
 	*
@@ -832,7 +902,7 @@ class Share {
 	*/
 	private static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner) {
 		$backend = self::getBackend($itemType);
-		if ($shareType == self::SHARE_TYPE_PRIVATE_LINK) {
+		if ($shareType == self::SHARE_TYPE_LINK) {
 			return $backend->generateTarget($itemSource, false);
 		} else {
 			if ($itemType == 'file' || $itemType == 'folder') {
@@ -1049,5 +1119,3 @@ interface Share_Backend_Collection extends Share_Backend {
 	public function getChildren($itemSource);
 
 }
-
-?>

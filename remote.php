@@ -2,7 +2,7 @@
 $RUNTIME_NOAPPS = TRUE;
 require_once('lib/base.php');
 $path_info = OC_Request::getPathInfo();
-if ($path_info === false) {
+if ($path_info === false || $path_info === '') {
 	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
 	exit;
 }

@@ -19,6 +19,18 @@ class OC_Util {
 			return false;
 		}
 
+		// If we are not forced to load a specific user we load the one that is logged in
+		if( $user == "" && OC_User::isLoggedIn()){
+			$user = OC_User::getUser();
+		}
+
+		// the filesystem will finish when $user is not empty,
+		// mark fs setup here to avoid doing the setup from loading
+		// OC_Filesystem
+		if ($user != '') {
+			self::$fsSetup=true;
+		}
+
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted){
@@ -26,26 +38,21 @@ class OC_Util {
 			self::$rootMounted=true;
 		}
 
-		// If we are not forced to load a specific user we load the one that is logged in
-		if( $user == "" && OC_User::isLoggedIn()){
-			$user = OC_User::getUser();
-		}
-
 		if( $user != "" ){ //if we aren't logged in, there is no use to set up the filesystem
 			$user_dir = '/'.$user.'/files';
-			$userdirectory = $CONFIG_DATADIRECTORY.$user_dir;
+			$user_root = OC_User::getHome($user);
+			$userdirectory = $user_root . '/files';
 			if( !is_dir( $userdirectory )){
 				mkdir( $userdirectory, 0755, true );
 			}
-
 			//jail the user into his "home" directory
+			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir' => $user_root), $user);
 			OC_Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);
-			self::$fsSetup=true;
 			// Load personal mount config
-			if (is_file($CONFIG_DATADIRECTORY.'/'.$user.'/mount.php')) {
-				$mountConfig = include($CONFIG_DATADIRECTORY.'/'.$user.'/mount.php');
+			if (is_file($user_root.'/mount.php')) {
+				$mountConfig = include($user_root.'/mount.php');
 				if (isset($mountConfig['user'][$user])) {
 					foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
 						OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
@@ -66,7 +73,8 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion(){
-		return array(4,82,4);
+		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4,9,0. This is not visible to the user
+		return array(4,83,5);
 	}
 
 	/**
@@ -74,7 +82,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString(){
-		return '5 pre alpha 1';
+		return '4.5 beta 1';
 	}
 
 	/**
@@ -201,7 +209,7 @@ class OC_Util {
 		// Check if there is a writable install folder.
 		if(OC_Config::getValue('appstoreenabled', true)) {
 			if( OC_App::getInstallPath() === null  || !is_writable(OC_App::getInstallPath())) {
-				$errors[]=array('error'=>"Can't write into apps directory",'hint'=>"You can usually fix this by giving the webserver user write access to the apps directory 
+				$errors[]=array('error'=>"Can't write into apps directory",'hint'=>"You can usually fix this by giving the webserver user write access to the apps directory
 				in owncloud or disabling the appstore in the config file.");
 			}
 		}
@@ -209,7 +217,7 @@ class OC_Util {
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')){
-                	$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
+			$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
 			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)),-3);
 			if(substr($prems,-1)!='0'){
 				OC_Helper::chmodr($CONFIG_DATADIRECTORY,0770);
@@ -400,15 +408,15 @@ class OC_Util {
 
 		// cleanup old tokens garbage collector
 		// only run every 20th time so we don't waste cpu cycles
-		if(rand(0,20)==0) {  
+		if(rand(0,20)==0) {
 			foreach($_SESSION as $key=>$value) {
 				// search all tokens in the session
 				if(substr($key,0,12)=='requesttoken') {
 					if($value+$maxtime<time()){
 						// remove outdated tokens
-						unset($_SESSION[$key]);						
+						unset($_SESSION[$key]);
 					}
-				}	
+				}
 			}
 		}
 		// return the token
@@ -455,13 +463,13 @@ class OC_Util {
 			exit;
 		}
 	}
-	
+
 	/**
 	 * @brief Public function to sanitize HTML
 	 *
 	 * This function is used to sanitize HTML and should be applied on any
 	 * string or array of strings before displaying it on a web page.
-	 * 
+	 *
 	 * @param string or array of strings
 	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
