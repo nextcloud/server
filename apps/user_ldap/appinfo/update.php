@@ -34,7 +34,7 @@ $groupBE = new \OCA\user_ldap\GROUP_LDAP();
 $groupBE->setConnector($connector);
 
 foreach($objects as $object) {
-	$fetchDNSql = 'SELECT `ldap_dn` FROM `*PREFIX*ldap_'.$object.'_mapping`';
+	$fetchDNSql = 'SELECT `ldap_dn`, `owncloud_name` FROM `*PREFIX*ldap_'.$object.'_mapping`';
 	$updateSql = 'UPDATE `*PREFIX*ldap_'.$object.'_mapping` SET `ldap_DN` = ?, `directory_uuid` = ? WHERE `ldap_dn` = ?';
 
 	$query = OCP\DB::prepare($fetchDNSql);
@@ -45,6 +45,8 @@ foreach($objects as $object) {
 		$newDN = mb_strtolower($dn['ldap_dn'], 'UTF-8');
 		if($object == 'user') {
 			$uuid = $userBE->getUUID($newDN);
+			//fix home folder to avoid new ones depending on the configuration
+			$userBE->getHome($dn['owncloud_name']);
 		} else {
 			$uuid = $groupBE->getUUID($newDN);
 		}
