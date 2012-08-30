@@ -40,11 +40,16 @@ $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
 
 	//drag/drop of files
-	//TODO if we express permisions as "1 2 4 8 16" we can select create with [data-permissions~="4"]
-	$('#fileList tr[data-permissions="11"] td.filename').draggable(dragOptions);
-	$('#fileList tr[data-permissions="27"] td.filename').draggable(dragOptions);
-	$('#fileList tr[data-type="dir"][data-permissions="15"] td.filename').droppable(folderDropOptions);
-	$('#fileList tr[data-type="dir"][data-permissions="31"] td.filename').droppable(folderDropOptions);
+	$('#fileList tr td.filename').each(function(i,e){
+		if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
+			$(e).draggable(dragOptions);
+		}
+	});
+	$('#fileList tr[data-type="dir"] td.filename').each(function(i,e){
+		if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE){
+			$(e).droppable(folderDropOptions);
+		}
+	});
 	$('div.crumb:not(.last)').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
 	if($('div.crumb').length){
