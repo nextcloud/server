@@ -38,6 +38,10 @@ $blacklist=array('files');//we dont want to show configuration for these
 foreach($registeredApps as $app){
 	if(array_search($app,$blacklist)===false){
 		$info=OC_App::getAppInfo($app);
+		if (!isset($info['name'])) {
+			OC_Log::write('core','App id "'.$app.'" has no name in appinfo',OC_Log::ERROR);
+			continue;
+		}
 		$active=(OC_Appconfig::getValue($app,'enabled','no')=='yes')?true:false;
 		$info['active']=$active;
 		if(isset($info['shipped']) and ($info['shipped']=='true')) {
