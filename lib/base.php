@@ -78,20 +78,25 @@ class OC{
 			require_once $path;
 		}
 		elseif(strpos($className,'OC_')===0){
-			require_once strtolower(str_replace('_','/',substr($className,3)) . '.php');
+			$path = strtolower(str_replace('_','/',substr($className,3)) . '.php');
 		}
 		elseif(strpos($className,'OCP\\')===0){
-			require_once 'public/'.strtolower(str_replace('\\','/',substr($className,3)) . '.php');
+			$path = 'public/'.strtolower(str_replace('\\','/',substr($className,3)) . '.php');
 		}
 		elseif(strpos($className,'OCA\\')===0){
-			require_once 'apps/'.strtolower(str_replace('\\','/',substr($className,3)) . '.php');
+			$path = 'apps/'.strtolower(str_replace('\\','/',substr($className,3)) . '.php');
 		}
 		elseif(strpos($className,'Sabre_')===0) {
-			require_once str_replace('_','/',$className) . '.php';
+			$path =  str_replace('_','/',$className) . '.php';
 		}
 		elseif(strpos($className,'Test_')===0){
-			require_once 'tests/lib/'.strtolower(str_replace('_','/',substr($className,5)) . '.php');
+			$path =  'tests/lib/'.strtolower(str_replace('_','/',substr($className,5)) . '.php');
 		}
+		
+		if($fullPath = stream_resolve_include_path($path)){
+			require_once $path;
+		}
+		return false;
 	}
 
 	public static function initPaths(){
