@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-30 02:02+0200\n"
-"PO-Revision-Date: 2012-08-30 00:02+0000\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-31 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -37,55 +37,55 @@ msgstr "Αυτή η κατηγορία υπάρχει ήδη"
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:201 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:206 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "January"
 msgstr "Ιανουάριος"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "February"
 msgstr "Φεβρουάριος"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "March"
 msgstr "Μάρτιος"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "April"
 msgstr "Απρίλιος"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "May"
 msgstr "Μάϊος"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "June"
 msgstr "Ιούνιος"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "July"
 msgstr "Ιούλιος"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "August"
 msgstr "Αύγουστος"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "September"
 msgstr "Σεπτέμβριος"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "October"
 msgstr "Οκτώβριος"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "November"
 msgstr "Νοέμβριος"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "December"
 msgstr "Δεκέμβριος"
 
@@ -247,7 +247,7 @@ msgstr "Ολοκλήρωση εγκατάστασης"
 msgid "web services under your control"
 msgstr "Υπηρεσίες web υπό τον έλεγχό σας"
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Αποσύνδεση"
 

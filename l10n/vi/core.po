@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-30 02:02+0200\n"
-"PO-Revision-Date: 2012-08-30 00:02+0000\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-31 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -34,55 +34,55 @@ msgstr "Danh mục này đã được tạo :"
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:201 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:206 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Cài đặt"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "January"
 msgstr "Tháng 1"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "February"
 msgstr "Tháng 2"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "March"
 msgstr "Tháng 3"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "April"
 msgstr "Tháng 4"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "May"
 msgstr "Tháng 5"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "June"
 msgstr "Tháng 6"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "July"
 msgstr "Tháng 7"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "August"
 msgstr "Tháng 8"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "September"
 msgstr "Tháng 9"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "October"
 msgstr "Tháng 10"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "November"
 msgstr "Tháng 11"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "December"
 msgstr "Tháng 12"
 
@@ -244,7 +244,7 @@ msgstr "Cài đặt hoàn tất"
 msgid "web services under your control"
 msgstr "các dịch vụ web dưới sự kiểm soát của bạn"
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Đăng xuất"
 

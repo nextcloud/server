@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-30 02:02+0200\n"
-"PO-Revision-Date: 2012-08-29 18:40+0000\n"
-"Last-Translator: yunhye <limonade83@gmail.com>\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-31 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +53,7 @@ msgstr "디스크에 쓰지 못했습니다"
 msgid "Files"
 msgstr "파일"
 
-#: js/fileactions.js:111 templates/index.php:56
+#: js/fileactions.js:106 templates/index.php:56
 msgid "Delete"
 msgstr "삭제"
 
@@ -85,51 +85,56 @@ msgstr "복구"
 msgid "deleted"
 msgstr "삭제"
 
-#: js/files.js:171
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "ZIP파일 생성에 시간이 걸릴 수 있습니다."
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "이 파일은 디렉토리이거나 0 바이트이기 때문에 업로드 할 수 없습니다."
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Upload Error"
 msgstr "업로드 에러"
 
-#: js/files.js:228 js/files.js:319 js/files.js:348
+#: js/files.js:236 js/files.js:327 js/files.js:356
 msgid "Pending"
 msgstr "보류 중"
 
-#: js/files.js:333
+#: js/files.js:341
 msgid "Upload cancelled."
 msgstr "업로드 취소."
 
-#: js/files.js:457
+#: js/files.js:409
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr ""
+
+#: js/files.js:480
 msgid "Invalid name, '/' is not allowed."
 msgstr "잘못된 이름, '/' 은 허용이 되지 않습니다."
 
-#: js/files.js:703 templates/index.php:55
+#: js/files.js:726 templates/index.php:55
 msgid "Size"
 msgstr "크기"
 
-#: js/files.js:704 templates/index.php:56
+#: js/files.js:727 templates/index.php:56
 msgid "Modified"
 msgstr "수정됨"
 
-#: js/files.js:731
+#: js/files.js:754
 msgid "folder"
 msgstr "폴더"
 
-#: js/files.js:733
+#: js/files.js:756
 msgid "folders"
 msgstr "폴더"
 
-#: js/files.js:741
+#: js/files.js:764
 msgid "file"
 msgstr "파일"
 
-#: js/files.js:743
+#: js/files.js:766
 msgid "files"
 msgstr "파일"
 

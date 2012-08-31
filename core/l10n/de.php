@@ -20,7 +20,7 @@
 "No" => "Nein",
 "Yes" => "Ja",
 "Ok" => "OK",
-"No categories selected for deletion." => "Keine Kategorien zum Löschen angegeben.",
+"No categories selected for deletion." => "Es wurde keine Kategorien zum Löschen ausgewählt.",
 "Error" => "Fehler",
 "ownCloud password reset" => "ownCloud-Passwort zurücksetzen",
 "Use the following link to reset your password: {link}" => "Nutzen Sie den nachfolgenden Link, um Ihr Passwort zurückzusetzen: {link}",

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:04+0000\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-31 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,7 @@ msgstr "Ha fallat en escriure al disc"
 msgid "Files"
 msgstr "Fitxers"
 
-#: js/fileactions.js:107 templates/index.php:56
+#: js/fileactions.js:106 templates/index.php:56
 msgid "Delete"
 msgstr "Suprimeix"
 
@@ -85,51 +85,56 @@ msgstr "desfés"
 msgid "deleted"
 msgstr "esborrat"
 
-#: js/files.js:171
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "s'estan generant fitxers ZIP, pot trigar una estona."
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "No es pot pujar el fitxer perquè és una carpeta o té 0 bytes"
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Upload Error"
 msgstr "Error en la pujada"
 
-#: js/files.js:228 js/files.js:319 js/files.js:348
+#: js/files.js:236 js/files.js:327 js/files.js:356
 msgid "Pending"
 msgstr "Pendents"
 
-#: js/files.js:333
+#: js/files.js:341
 msgid "Upload cancelled."
 msgstr "La pujada s'ha cancel·lat."
 
-#: js/files.js:457
+#: js/files.js:409
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr ""
+
+#: js/files.js:480
 msgid "Invalid name, '/' is not allowed."
 msgstr "El nom no és vàlid, no es permet '/'."
 
-#: js/files.js:703 templates/index.php:55
+#: js/files.js:726 templates/index.php:55
 msgid "Size"
 msgstr "Mida"
 
-#: js/files.js:704 templates/index.php:56
+#: js/files.js:727 templates/index.php:56
 msgid "Modified"
 msgstr "Modificat"
 
-#: js/files.js:731
+#: js/files.js:754
 msgid "folder"
 msgstr "carpeta"
 
-#: js/files.js:733
+#: js/files.js:756
 msgid "folders"
 msgstr "carpetes"
 
-#: js/files.js:741
+#: js/files.js:764
 msgid "file"
 msgstr "fitxer"
 
-#: js/files.js:743
+#: js/files.js:766
 msgid "files"
 msgstr "fitxers"
 

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-30 02:02+0200\n"
-"PO-Revision-Date: 2012-08-30 00:03+0000\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-31 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr "Liste der Apps im Store konnte nicht geladen werden."
+msgstr "Die Liste der Apps im Store konnte nicht geladen werden."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -144,11 +144,11 @@ msgstr "Fügen Sie Ihre App hinzu"
 
 #: templates/apps.php:26
 msgid "Select an App"
-msgstr "Wähle eine Anwendung aus"
+msgstr "Wählen Sie eine Anwendung aus"
 
 #: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
-msgstr "Weitere Anwendungen auf apps.owncloud.com"
+msgstr "Weitere Anwendungen finden Sie auf apps.owncloud.com"
 
 #: templates/apps.php:30
 msgid "-licensed"
@@ -168,7 +168,7 @@ msgstr "Große Dateien verwalten"
 
 #: templates/help.php:10
 msgid "Ask a question"
-msgstr "Stell eine Frage"
+msgstr "Stellen Sie eine Frage"
 
 #: templates/help.php:22
 msgid "Problems connecting to help database."
@@ -244,7 +244,7 @@ msgstr "Helfen Sie bei der Übersetzung"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "Benutzen Sie diese Adresse, um Ihr ownCloud mit deinem Dateimanager zu verbinden."
+msgstr "Benutzen Sie diese Adresse, um Ihre ownCloud mit Ihrem Dateimanager zu verbinden."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-30 02:02+0200\n"
-"PO-Revision-Date: 2012-08-30 00:02+0000\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-31 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -35,55 +35,55 @@ msgstr ""
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr ""
 
-#: js/js.js:201 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:206 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Innstillingar"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "January"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "February"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "March"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "April"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "May"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "June"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "July"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "August"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "September"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "October"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "November"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "December"
 msgstr ""
 
@@ -245,7 +245,7 @@ msgstr "Fullfør oppsettet"
 msgid "web services under your control"
 msgstr "Vev tjenester under din kontroll"
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Logg ut"
 

@@ -4,14 +4,15 @@
 # 
 # Translators:
 #   <gp4004@arghh.org>, 2012.
+# Guillaume Paumier <guillom.pom@gmail.com>, 2012.
 # Romain DEP. <rom1dep@gmail.com>, 2012.
 #   <windes@tructor.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-30 02:02+0200\n"
-"PO-Revision-Date: 2012-08-30 00:03+0000\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-31 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -28,10 +29,14 @@ msgstr "Mot de passe"
 msgid "Submit"
 msgstr "Envoyer"
 
-#: templates/public.php:9
+#: templates/public.php:9 templates/public.php:19
 msgid "Download"
+msgstr "Télécharger"
+
+#: templates/public.php:18
+msgid "No preview available for"
 msgstr ""
 
-#: templates/public.php:17
+#: templates/public.php:23
 msgid "web services under your control"
-msgstr ""
+msgstr "services web sous votre contrôle"

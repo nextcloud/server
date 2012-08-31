@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-26 19:46+0200\n"
-"PO-Revision-Date: 2012-08-26 17:20+0000\n"
-"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-31 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,7 +52,7 @@ msgstr "Kettale kirjutamine ebaõnnestus"
 msgid "Files"
 msgstr "Failid"
 
-#: js/fileactions.js:111 templates/index.php:56
+#: js/fileactions.js:106 templates/index.php:56
 msgid "Delete"
 msgstr "Kustuta"
 
@@ -84,51 +84,56 @@ msgstr "tagasi"
 msgid "deleted"
 msgstr "kustutatud"
 
-#: js/files.js:171
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "ZIP-faili loomine, see võib veidi aega võtta."
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Sinu faili üleslaadimine ebaõnnestus, kuna see on kaust või selle suurus on 0 baiti"
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Upload Error"
 msgstr "Üleslaadimise viga"
 
-#: js/files.js:228 js/files.js:319 js/files.js:348
+#: js/files.js:236 js/files.js:327 js/files.js:356
 msgid "Pending"
 msgstr "Ootel"
 
-#: js/files.js:333
+#: js/files.js:341
 msgid "Upload cancelled."
 msgstr "Üleslaadimine tühistati."
 
-#: js/files.js:457
+#: js/files.js:409
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr ""
+
+#: js/files.js:480
 msgid "Invalid name, '/' is not allowed."
 msgstr "Vigane nimi, '/' pole lubatud."
 
-#: js/files.js:703 templates/index.php:55
+#: js/files.js:726 templates/index.php:55
 msgid "Size"
 msgstr "Suurus"
 
-#: js/files.js:704 templates/index.php:56
+#: js/files.js:727 templates/index.php:56
 msgid "Modified"
 msgstr "Muudetud"
 
-#: js/files.js:731
+#: js/files.js:754
 msgid "folder"
 msgstr "kaust"
 
-#: js/files.js:733
+#: js/files.js:756
 msgid "folders"
 msgstr "kausta"
 
-#: js/files.js:741
+#: js/files.js:764
 msgid "file"
 msgstr "fail"
 
-#: js/files.js:743
+#: js/files.js:766
 msgid "files"
 msgstr "faili"
 

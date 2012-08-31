@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "External Storage" => "Kanpoko Biltegiratzea",
 "Mount point" => "Montatze puntua",
+"Backend" => "Motorra",
 "Configuration" => "Konfigurazioa",
 "Options" => "Aukerak",
 "Add mount point" => "Gehitu muntatze puntua",

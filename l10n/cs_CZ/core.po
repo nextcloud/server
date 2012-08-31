@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-30 02:02+0200\n"
-"PO-Revision-Date: 2012-08-30 00:02+0000\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-31 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -36,55 +36,55 @@ msgstr "Tato kategorie již existuje:"
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
-#: js/js.js:201 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:206 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "January"
 msgstr "Leden"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "February"
 msgstr "Únor"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "March"
 msgstr "Březen"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "April"
 msgstr "Duben"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "May"
 msgstr "Květen"
 
-#: js/js.js:586
+#: js/js.js:591
 msgid "June"
 msgstr "Červen"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "July"
 msgstr "Červenec"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "August"
 msgstr "Srpen"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "September"
 msgstr "Září"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "October"
 msgstr "Říjen"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "November"
 msgstr "Listopad"
 
-#: js/js.js:587
+#: js/js.js:592
 msgid "December"
 msgstr "Prosinec"
 
@@ -246,7 +246,7 @@ msgstr "Dokončit instalaci"
 msgid "web services under your control"
 msgstr "webové služby pod Vaší kontrolou"
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Odhlásit se"
 

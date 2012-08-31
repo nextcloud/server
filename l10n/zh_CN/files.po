@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-25 02:04+0200\n"
-"PO-Revision-Date: 2012-08-24 01:52+0000\n"
-"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-31 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,7 +54,7 @@ msgstr "写入磁盘失败"
 msgid "Files"
 msgstr "文件"
 
-#: js/fileactions.js:111 templates/index.php:56
+#: js/fileactions.js:106 templates/index.php:56
 msgid "Delete"
 msgstr "删除"
 
@@ -86,51 +86,56 @@ msgstr "撤销"
 msgid "deleted"
 msgstr "已经删除"
 
-#: js/files.js:171
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "正在生成 ZIP 文件，可能需要一些时间"
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "无法上传文件，因为它是一个目录或者大小为 0 字节"
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Upload Error"
 msgstr "上传错误"
 
-#: js/files.js:228 js/files.js:319 js/files.js:348
+#: js/files.js:236 js/files.js:327 js/files.js:356
 msgid "Pending"
 msgstr "操作等待中"
 
-#: js/files.js:333
+#: js/files.js:341
 msgid "Upload cancelled."
 msgstr "上传已取消"
 
-#: js/files.js:457
+#: js/files.js:409
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr ""
+
+#: js/files.js:480
 msgid "Invalid name, '/' is not allowed."
 msgstr "非法的名称，不允许使用‘/’。"
 
-#: js/files.js:703 templates/index.php:55
+#: js/files.js:726 templates/index.php:55
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:704 templates/index.php:56
+#: js/files.js:727 templates/index.php:56
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:731
+#: js/files.js:754
 msgid "folder"
 msgstr "文件夹"
 
-#: js/files.js:733
+#: js/files.js:756
 msgid "folders"
 msgstr "文件夹"
 
-#: js/files.js:741
+#: js/files.js:764
 msgid "file"
 msgstr "文件"
 
-#: js/files.js:743
+#: js/files.js:766
 msgid "files"
 msgstr "文件"
 

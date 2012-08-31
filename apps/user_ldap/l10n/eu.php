@@ -32,5 +32,6 @@
 "The LDAP attribute to use to generate the groups`s ownCloud name." => "ownCloud taldearen izena sortzeko erabiliko den LDAP atributua",
 "in bytes" => "bytetan",
 "in seconds. A change empties the cache." => "segundutan. Aldaketak katxea husten du.",
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Utzi hutsik erabiltzaile izenarako (lehentsia). Bestela zehaztu LDAP/AD atributua.",
 "Help" => "Laguntza"
 );

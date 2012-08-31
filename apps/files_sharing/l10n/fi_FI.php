@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Size" => "Koko",
-"Modified" => "Muokattu",
-"Delete all" => "Poista kaikki",
-"Delete" => "Poista"
+"Password" => "Salasana",
+"Submit" => "Lähetä",
+"Download" => "Lataa",
+"web services under your control" => "verkkopalvelut hallinnassasi"
 );
