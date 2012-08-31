@@ -469,7 +469,7 @@ class OC{
 	}
 
 	protected static function handleLogin() {
-		OC_App::loadApps(array('prelogin'));
+		OC_App::loadApps(array('prelogin','authentication'));
 		$error = false;
 		// remember was checked after last login
 		if (OC::tryRememberLogin()) {
