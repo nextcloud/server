@@ -419,7 +419,13 @@
 		 </field>
 		 
 		 <field>
-		 	<name>callback</name>
+		 	<name>callback_success</name>
+		 	<type>text</type>
+		 	<length>255</length>
+		 </field>
+		 
+		 <field>
+		 	<name>callback_fail</name>
 		 	<type>text</type>
 		 	<length>255</length>
 		 </field>
@@ -473,6 +479,34 @@
 		 
 	 </declaration>
 	 
+ </table>
+ 
+ <table>
+ 
+ 	<name>*dbprefix*oauth_scopes</name>
+ 	
+ 	<declaration>
+ 	
+ 		<field>
+ 			<name>key</name>
+ 			<type>text</type>
+ 			<length>40</length>
+ 		</field>
+ 		
+ 		<field>
+ 			<name>type</name>
+ 			<type>text</type>
+ 			<length>7</length>
+ 		</field>
+ 		
+ 		<field>
+ 			<name>scopes</name>
+ 			<type>text</type>
+ 			<length>255</length>
+ 		</field>
+ 		
+ 	</declaration>
+ 	
  </table>
  
  <table>
