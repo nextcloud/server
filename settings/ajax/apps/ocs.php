@@ -30,7 +30,8 @@ $catagoryNames=OC_OCSClient::getCategories();
 if(is_array($catagoryNames)){
 	$categories=array_keys($catagoryNames);
 	$page=0;
-	$externalApps=OC_OCSClient::getApplications($categories,$page);
+	$filter='approved';
+	$externalApps=OC_OCSClient::getApplications($categories,$page,$filter);
 	foreach($externalApps as $app){
 		// show only external apps that aren't enabled yet
 		$local=false;
