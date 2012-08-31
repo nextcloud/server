@@ -58,15 +58,17 @@ class OC_Updater{
 	}
 
 	public static function ShowUpdatingHint(){
+		$l = OC_L10N::get('lib');
+
 		if(OC_Config::getValue('updatechecker', true)==true){
 			$data=OC_Updater::check();
 			if(isset($data['version']) and $data['version']<>'') {
-				$txt='<span style="color:#AA0000; font-weight:bold;">'.$data['versionstring'].' is available. Get <a href="'.$data['web'].'">more information</a></span>';
+				$txt='<span style="color:#AA0000; font-weight:bold;">'.$l->t('%s is available. Get <a href="%s">more information</a>',array($data['versionstring'], $data['web'])).'</span>';
 			}else{
-				$txt='up to date';
+				$txt=$l->t('up to date');
 			}
 		}else{
-			$txt='updates check is disabled';
+			$txt=$l->t('updates check is disabled');
 		}
 		return($txt);
 	}
