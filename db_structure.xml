@@ -539,6 +539,12 @@
 		 	<length>7</length>
 		 </field>
 		 
+		 <field>
+			 <name>authorised</name>
+			 <type>boolean</type>
+			 <default>0</default>
+		 </field>
+		 
 	 </declaration>
 	 
  </table>
