@@ -17,7 +17,7 @@ $_['subadmingroups'] = array_flip($items);
 var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 </script>
 <div id="controls">
-	<form id="newuser">
+	<form id="newuser" autocomplete="off">
 		<input id="newusername" type="text" placeholder="<?php echo $l->t('Name')?>" /> <input
 			type="password" id="newuserpassword"
 			placeholder="<?php echo $l->t('Password')?>" /> <select
