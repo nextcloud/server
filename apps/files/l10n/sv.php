@@ -20,6 +20,7 @@
 "Upload Error" => "Uppladdningsfel",
 "Pending" => "Väntar",
 "Upload cancelled." => "Uppladdning avbruten.",
+"File upload is in progress. Leaving the page now will cancel the upload." => "Filuppladdning pågår. Lämnar du sidan så avbryts uppladdningen.",
 "Invalid name, '/' is not allowed." => "Ogiltigt namn, '/' är inte tillåten.",
 "Size" => "Storlek",
 "Modified" => "Ändrad",

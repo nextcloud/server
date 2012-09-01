@@ -51,6 +51,7 @@
 "Database user" => "データベースのユーザ名",
 "Database password" => "データベースのパスワード",
 "Database name" => "データベース名",
+"Database tablespace" => "データベースの表領域",
 "Database host" => "データベースのホスト名",
 "Finish setup" => "セットアップを完了します",
 "web services under your control" => "管理下にあるウェブサービス",

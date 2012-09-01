@@ -20,6 +20,7 @@
 "Upload Error" => "Fehler beim Hochladen",
 "Pending" => "Ausstehend",
 "Upload cancelled." => "Hochladen abgebrochen.",
+"File upload is in progress. Leaving the page now will cancel the upload." => "Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload abgebrochen.",
 "Invalid name, '/' is not allowed." => "Ungültiger Name: \"/\" ist nicht erlaubt.",
 "Size" => "Größe",
 "Modified" => "Bearbeitet",

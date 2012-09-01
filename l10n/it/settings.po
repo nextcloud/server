@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-08-31 10:32+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -94,39 +94,39 @@ msgstr "usa il servizio cron di sistema"
 
 #: templates/admin.php:39
 msgid "Share API"
-msgstr ""
+msgstr "API di condivisione"
 
 #: templates/admin.php:44
 msgid "Enable Share API"
-msgstr ""
+msgstr "Abilita API di condivisione"
 
 #: templates/admin.php:45
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Consenti alle applicazioni di utilizzare le API di condivisione"
 
 #: templates/admin.php:49
 msgid "Allow links"
-msgstr ""
+msgstr "Consenti collegamenti"
 
 #: templates/admin.php:50
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Consenti agli utenti di condividere elementi al pubblico con collegamenti"
 
 #: templates/admin.php:54
 msgid "Allow resharing"
-msgstr ""
+msgstr "Consenti la ri-condivisione"
 
 #: templates/admin.php:55
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Consenti agli utenti di condividere elementi già condivisi"
 
 #: templates/admin.php:58
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Consenti agli utenti di condividere con chiunque"
 
 #: templates/admin.php:60
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Consenti agli utenti di condividere con gli utenti del proprio gruppo"
 
 #: templates/admin.php:67
 msgid "Log"

@@ -4,14 +4,14 @@
 # 
 # Translators:
 #   <joan@montane.cat>, 2012.
-#   <rcalvoi@yahoo.com>, 2011, 2012.
+#   <rcalvoi@yahoo.com>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-08-31 11:28+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,7 +108,7 @@ msgstr "La pujada s'ha cancel·lat."
 #: js/files.js:409
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà."
 
 #: js/files.js:480
 msgid "Invalid name, '/' is not allowed."

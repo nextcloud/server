@@ -5,13 +5,14 @@
 # Translators:
 # Donahue Chuang <soshinwu@gmail.com>, 2012.
 # Eddy Chang <taiwanmambo@gmail.com>, 2012.
+# ywang  <ywang1007@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-08-31 20:40+0000\n"
+"Last-Translator: ywang <ywang1007@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,15 +60,15 @@ msgstr "刪除"
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr ""
+msgstr "已經存在"
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr ""
+msgstr "取代"
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "取消"
 
 #: js/filelist.js:195
 msgid "replaced"
@@ -87,15 +88,15 @@ msgstr ""
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "產生壓縮檔, 它可能需要一段時間."
 
 #: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "無法上傳您的檔案因為它可能是一個目錄或檔案大小為0"
 
 #: js/files.js:208
 msgid "Upload Error"
-msgstr ""
+msgstr "上傳發生錯誤"
 
 #: js/files.js:236 js/files.js:327 js/files.js:356
 msgid "Pending"
@@ -103,16 +104,16 @@ msgstr ""
 
 #: js/files.js:341
 msgid "Upload cancelled."
-msgstr ""
+msgstr "上傳取消"
 
 #: js/files.js:409
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "檔案上傳中. 離開此頁面將會取消上傳."
 
 #: js/files.js:480
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "無效的名稱, '/'是不被允許的"
 
 #: js/files.js:726 templates/index.php:55
 msgid "Size"

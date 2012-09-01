@@ -51,6 +51,7 @@
 "Database user" => "Veritabanı kullanıcı adı",
 "Database password" => "Veritabanı parolası",
 "Database name" => "Veritabanı adı",
+"Database tablespace" => "Veritabanı tablo alanı",
 "Database host" => "Veritabanı sunucusu",
 "Finish setup" => "Kurulumu tamamla",
 "web services under your control" => "kontrolünüzdeki web servisleri",

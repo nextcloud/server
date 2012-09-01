@@ -51,6 +51,7 @@
 "Database user" => "Usuari de la base de dades",
 "Database password" => "Contrasenya de la base de dades",
 "Database name" => "Nom de la base de dades",
+"Database tablespace" => "Espai de taula de la base de dades",
 "Database host" => "Ordinador central de la base de dades",
 "Finish setup" => "Acaba la configuració",
 "web services under your control" => "controleu els vostres serveis web",

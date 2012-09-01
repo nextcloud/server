@@ -20,6 +20,7 @@
 "Upload Error" => "アップロードエラー",
 "Pending" => "保留",
 "Upload cancelled." => "アップロードはキャンセルされました。",
+"File upload is in progress. Leaving the page now will cancel the upload." => "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。",
 "Invalid name, '/' is not allowed." => "無効な名前、'/' は使用できません。",
 "Size" => "サイズ",
 "Modified" => "更新日時",

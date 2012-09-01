@@ -20,6 +20,7 @@
 "Upload Error" => "Erreur de chargement",
 "Pending" => "En cours",
 "Upload cancelled." => "Chargement annulé.",
+"File upload is in progress. Leaving the page now will cancel the upload." => "L'envoi du fichier est en cours. Quitter cette page maintenant annulera l'envoi du fichier.",
 "Invalid name, '/' is not allowed." => "Nom invalide, '/' n'est pas autorisé.",
 "Size" => "Taille",
 "Modified" => "Modifié",

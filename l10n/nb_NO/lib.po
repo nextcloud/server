@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-26 01:17+0200\n"
-"PO-Revision-Date: 2012-08-25 22:57+0000\n"
-"Last-Translator: runesudden <runesudden@gmail.com>\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-09-01 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,19 +43,19 @@ msgstr "Apper"
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:276
+#: files.php:280
 msgid "ZIP download is turned off."
 msgstr "ZIP-nedlasting av avslått"
 
-#: files.php:277
+#: files.php:281
 msgid "Files need to be downloaded one by one."
 msgstr "Filene må lastes ned en om gangen"
 
-#: files.php:277 files.php:302
+#: files.php:281 files.php:306
 msgid "Back to Files"
 msgstr "Tilbake til filer"
 
-#: files.php:301
+#: files.php:305
 msgid "Selected files too large to generate zip file."
 msgstr "De valgte filene er for store til å kunne generere ZIP-fil"
 
@@ -112,3 +112,16 @@ msgstr "i fjor"
 #: template.php:97
 msgid "years ago"
 msgstr "år siden"
+
+#: updater.php:66
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr ""
+
+#: updater.php:68
+msgid "up to date"
+msgstr ""
+
+#: updater.php:71
+msgid "updates check is disabled"
+msgstr ""

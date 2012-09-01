@@ -20,6 +20,7 @@
 "Upload Error" => "Napaka pri nalaganju",
 "Pending" => "Na čakanju",
 "Upload cancelled." => "Nalaganje je bilo preklicano.",
+"File upload is in progress. Leaving the page now will cancel the upload." => "Nalaganje datoteke je v teku. Če zapustite to stran zdaj, boste nalaganje preklicali.",
 "Invalid name, '/' is not allowed." => "Neveljavno ime. Znak '/' ni dovoljen.",
 "Size" => "Velikost",
 "Modified" => "Spremenjeno",

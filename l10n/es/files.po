@@ -5,14 +5,15 @@
 # Translators:
 # Javier Llorente <javier@opensuse.org>, 2012.
 #   <juanma@kde.org.ar>, 2012.
+# Rubén Trujillo <rubentrf@gmail.com>, 2012.
 #   <sergioballesterossolanas@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-08-31 22:38+0000\n"
+"Last-Translator: Rubén Trujillo <rubentrf@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -109,7 +110,7 @@ msgstr "Subida cancelada."
 #: js/files.js:409
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "La subida del archivo está en proceso. Salir de la página ahora cancelará la subida."
 
 #: js/files.js:480
 msgid "Invalid name, '/' is not allowed."

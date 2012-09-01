@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-08-31 14:24+0000\n"
+"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,39 +90,39 @@ msgstr "uporabi sistemski servis za periodična opravila"
 
 #: templates/admin.php:39
 msgid "Share API"
-msgstr ""
+msgstr "API souporabe"
 
 #: templates/admin.php:44
 msgid "Enable Share API"
-msgstr ""
+msgstr "Omogoči API souporabe"
 
 #: templates/admin.php:45
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Dovoli aplikacijam uporabo API-ja souporabe"
 
 #: templates/admin.php:49
 msgid "Allow links"
-msgstr ""
+msgstr "Dovoli povezave"
 
 #: templates/admin.php:50
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Uporabnikom dovoli souporabo z javnimi povezavami"
 
 #: templates/admin.php:54
 msgid "Allow resharing"
-msgstr ""
+msgstr "Dovoli nadaljnjo souporabo"
 
 #: templates/admin.php:55
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Uporabnikom dovoli nadaljnjo souporabo"
 
 #: templates/admin.php:58
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Uporabnikom dovoli souporabo s komerkoli"
 
 #: templates/admin.php:60
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Uporabnikom dovoli souporabo le znotraj njihove skupine"
 
 #: templates/admin.php:67
 msgid "Log"

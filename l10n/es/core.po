@@ -9,14 +9,15 @@
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2012.
 #   <rodrigo.calvo@gmail.com>, 2012.
 #   <rom1dep@gmail.com>, 2011.
+# Rubén Trujillo <rubentrf@gmail.com>, 2012.
 #   <sergioballesterossolanas@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-08-31 22:41+0000\n"
+"Last-Translator: Rubén Trujillo <rubentrf@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -236,7 +237,7 @@ msgstr "Nombre de la base de datos"
 
 #: templates/installation.php:109
 msgid "Database tablespace"
-msgstr ""
+msgstr "Espacio de tablas de la base de datos"
 
 #: templates/installation.php:115
 msgid "Database host"

@@ -51,6 +51,7 @@
 "Database user" => "Utilisateur pour la base de données",
 "Database password" => "Mot de passe de la base de données",
 "Database name" => "Nom de la base de données",
+"Database tablespace" => "Tablespaces de la base de données",
 "Database host" => "Serveur de la base de données",
 "Finish setup" => "Terminer l'installation",
 "web services under your control" => "services web sous votre contrôle",

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-23 12:13+0000\n"
-"Last-Translator: leonfeng <rainofchaos@gmail.com>\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-09-01 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,19 +42,19 @@ msgstr "应用"
 msgid "Admin"
 msgstr "管理"
 
-#: files.php:276
+#: files.php:280
 msgid "ZIP download is turned off."
 msgstr "ZIP 下载已经关闭"
 
-#: files.php:277
+#: files.php:281
 msgid "Files need to be downloaded one by one."
 msgstr "需要逐一下载文件"
 
-#: files.php:277 files.php:302
+#: files.php:281 files.php:306
 msgid "Back to Files"
 msgstr "回到文件"
 
-#: files.php:301
+#: files.php:305
 msgid "Selected files too large to generate zip file."
 msgstr "选择的文件太大，无法生成 zip 文件。"
 
@@ -111,3 +111,16 @@ msgstr "上年"
 #: template.php:97
 msgid "years ago"
 msgstr "几年前"
+
+#: updater.php:66
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr ""
+
+#: updater.php:68
+msgid "up to date"
+msgstr ""
+
+#: updater.php:71
+msgid "updates check is disabled"
+msgstr ""

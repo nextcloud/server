@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-08-31 17:08+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,39 +90,39 @@ msgstr "ใช้บริการ cron จากระบบ"
 
 #: templates/admin.php:39
 msgid "Share API"
-msgstr ""
+msgstr "API สำหรับคุณสมบัติแชร์ข้อมูล"
 
 #: templates/admin.php:44
 msgid "Enable Share API"
-msgstr ""
+msgstr "เปิดใช้งาน API สำหรับคุณสมบัติแชร์ข้อมูล"
 
 #: templates/admin.php:45
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "อนุญาตให้แอปฯสามารถใช้ API สำหรับแชร์ข้อมูลได้"
 
 #: templates/admin.php:49
 msgid "Allow links"
-msgstr ""
+msgstr "อนุญาตให้ใช้งานลิงก์ได้"
 
 #: templates/admin.php:50
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานสามารถแชร์ข้อมูลรายการต่างๆไปให้สาธารณะชนเป็นลิงก์ได้"
 
 #: templates/admin.php:54
 msgid "Allow resharing"
-msgstr ""
+msgstr "อนุญาตให้แชร์ข้อมูลซ้ำใหม่ได้"
 
 #: templates/admin.php:55
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลรายการต่างๆที่ถูกแชร์มาให้ตัวผู้ใช้งานได้เท่านั้น"
 
 #: templates/admin.php:58
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลถึงใครก็ได้"
 
 #: templates/admin.php:60
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลได้เฉพาะกับผู้ใช้งานที่อยู่ในกลุ่มเดียวกันเท่านั้น"
 
 #: templates/admin.php:67
 msgid "Log"

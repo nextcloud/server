@@ -23,7 +23,7 @@
 "Use TLS" => "Nutze TLS",
 "Do not use it for SSL connections, it will fail." => "Verwenden Sie es nicht für SSL-Verbindungen, es wird fehlschlagen.",
 "Case insensitve LDAP server (Windows)" => "LDAP-Server (Windows: Groß- und Kleinschreibung bleibt unbeachtet)",
-"Turn off SSL certificate validation." => "Schalte die SSL Zertifikatsprüfung aus.",
+"Turn off SSL certificate validation." => "Schalte die SSL-Zertifikatsprüfung aus.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Falls die Verbindung es erfordert, wird das SSL-Zertifikat des LDAP-Server importiert werden.",
 "Not recommended, use for testing only." => "Nicht empfohlen, nur zu Testzwecken.",
 "User Display Name Field" => "Feld für den Anzeigenamen des Benutzers",
@@ -32,5 +32,6 @@
 "The LDAP attribute to use to generate the groups`s ownCloud name." => "Das LDAP-Attribut für die Generierung des Gruppennamens in ownCloud. ",
 "in bytes" => "in Bytes",
 "in seconds. A change empties the cache." => "in Sekunden. Eine Änderung leert den Cache.",
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfalls geben Sie ein LDAP/AD-Attribut an.",
 "Help" => "Hilfe"
 );

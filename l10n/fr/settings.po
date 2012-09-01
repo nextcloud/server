@@ -5,6 +5,7 @@
 # Translators:
 # Cyril Glapa <kyriog@gmail.com>, 2012.
 #   <fboulogne@april.org>, 2011.
+#   <florentin.lemoal@gmail.com>, 2012.
 #   <gp4004@arghh.org>, 2012.
 #   <guiguidu31300@gmail.com>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-08-31 18:08+0000\n"
+"Last-Translator: Florentin Le Moal <florentin.lemoal@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,39 +97,39 @@ msgstr "utiliser le service cron du système "
 
 #: templates/admin.php:39
 msgid "Share API"
-msgstr ""
+msgstr "API de partage"
 
 #: templates/admin.php:44
 msgid "Enable Share API"
-msgstr ""
+msgstr "Activer l'API de partage"
 
 #: templates/admin.php:45
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Autoriser les applications à utiliser l'API de partage"
 
 #: templates/admin.php:49
 msgid "Allow links"
-msgstr ""
+msgstr "Autoriser les liens"
 
 #: templates/admin.php:50
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Autoriser les utilisateurs à partager du contenu public avec des liens"
 
 #: templates/admin.php:54
 msgid "Allow resharing"
-msgstr ""
+msgstr "Autoriser le re-partage"
 
 #: templates/admin.php:55
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Autoriser les utilisateurs à partager des éléments déjà partagés entre eux"
 
 #: templates/admin.php:58
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Autoriser les utilisateurs à partager avec tout le monde"
 
 #: templates/admin.php:60
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Autoriser les utilisateurs à ne partager qu'avec les utilisateurs dans leurs groupes"
 
 #: templates/admin.php:67
 msgid "Log"

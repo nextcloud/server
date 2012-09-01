@@ -20,6 +20,7 @@
 "Upload Error" => "Ошибка загрузки",
 "Pending" => "Ожидание",
 "Upload cancelled." => "Загрузка отменена.",
+"File upload is in progress. Leaving the page now will cancel the upload." => "Файл в процессе загрузки. Покинув страницу вы прервёте загрузку.",
 "Invalid name, '/' is not allowed." => "Неверное имя, '/' не допускается.",
 "Size" => "Размер",
 "Modified" => "Изменён",

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-04 02:02+0200\n"
-"PO-Revision-Date: 2012-08-03 22:37+0000\n"
-"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-09-01 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,43 +18,43 @@ msgstr ""
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: app.php:287
+#: app.php:288
 msgid "Help"
 msgstr "Helpo"
 
-#: app.php:294
+#: app.php:295
 msgid "Personal"
 msgstr "Persona"
 
-#: app.php:299
+#: app.php:300
 msgid "Settings"
 msgstr "Agordo"
 
-#: app.php:304
+#: app.php:305
 msgid "Users"
 msgstr "Uzantoj"
 
-#: app.php:311
+#: app.php:312
 msgid "Apps"
 msgstr "Aplikaĵoj"
 
-#: app.php:313
+#: app.php:314
 msgid "Admin"
-msgstr ""
+msgstr "Administranto"
 
-#: files.php:245
+#: files.php:280
 msgid "ZIP download is turned off."
 msgstr "ZIP-elŝuto estas malkapabligita."
 
-#: files.php:246
+#: files.php:281
 msgid "Files need to be downloaded one by one."
 msgstr "Dosieroj devas elŝutiĝi unuope."
 
-#: files.php:246 files.php:271
+#: files.php:281 files.php:306
 msgid "Back to Files"
 msgstr "Reen al la dosieroj"
 
-#: files.php:270
+#: files.php:305
 msgid "Selected files too large to generate zip file."
 msgstr "La elektitaj dosieroj tro grandas por genero de ZIP-dosiero."
 
@@ -111,3 +111,16 @@ msgstr "lasta jaro"
 #: template.php:97
 msgid "years ago"
 msgstr "jarojn antaŭe"
+
+#: updater.php:66
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr ""
+
+#: updater.php:68
+msgid "up to date"
+msgstr ""
+
+#: updater.php:71
+msgid "updates check is disabled"
+msgstr ""

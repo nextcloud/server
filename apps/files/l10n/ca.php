@@ -20,6 +20,7 @@
 "Upload Error" => "Error en la pujada",
 "Pending" => "Pendents",
 "Upload cancelled." => "La pujada s'ha cancel·lat.",
+"File upload is in progress. Leaving the page now will cancel the upload." => "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà.",
 "Invalid name, '/' is not allowed." => "El nom no és vàlid, no es permet '/'.",
 "Size" => "Mida",
 "Modified" => "Modificat",

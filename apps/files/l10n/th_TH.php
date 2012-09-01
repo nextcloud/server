@@ -20,6 +20,7 @@
 "Upload Error" => "เกิดข้อผิดพลาดในการอัพโหลด",
 "Pending" => "อยู่ระหว่างดำเนินการ",
 "Upload cancelled." => "การอัพโหลดถูกยกเลิก",
+"File upload is in progress. Leaving the page now will cancel the upload." => "การอัพโหลดไฟล์กำลังอยู่ในระหว่างดำเนินการ การออกจากหน้าเว็บนี้จะทำให้การอัพโหลดถูกยกเลิก",
 "Invalid name, '/' is not allowed." => "ชื่อที่ใช้ไม่ถูกต้อง '/' ไม่อนุญาตให้ใช้งาน",
 "Size" => "ขนาด",
 "Modified" => "ปรับปรุงล่าสุด",
