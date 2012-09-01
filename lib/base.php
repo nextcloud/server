@@ -351,6 +351,9 @@ class OC{
 			}
 		}
 
+		//setup extra user backends
+		OC_User::setupBackends();
+
 		// register cache cleanup jobs
 		OC_BackgroundJob_RegularTask::register('OC_Cache_FileGlobal', 'gc');
 		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
@@ -423,6 +426,7 @@ class OC{
 		// Someone is logged in :
 		if(OC_User::isLoggedIn()) {
 			OC_App::loadApps();
+			OC_User::setupBackends();
 			if(isset($_GET["logout"]) and ($_GET["logout"])) {
 				OC_User::logout();
 				header("Location: ".OC::$WEBROOT.'/');
@@ -469,7 +473,7 @@ class OC{
 	}
 
 	protected static function handleLogin() {
-		OC_App::loadApps(array('prelogin','authentication'));
+		OC_App::loadApps(array('prelogin'));
 		$error = false;
 		// remember was checked after last login
 		if (OC::tryRememberLogin()) {
@@ -517,7 +521,12 @@ class OC{
 		|| ($_SESSION['sectoken']!=$_POST['sectoken']) ) {
 			return false;
 		}
+
 		OC_App::loadApps();
+		
+		//setup extra user backends
+		OC_User::setupBackends();
+		
 		if(OC_User::login($_POST["user"], $_POST["password"])) {
 			if(!empty($_POST["remember_login"])){
 				if(defined("DEBUG") && DEBUG) {

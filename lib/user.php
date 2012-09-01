@@ -39,6 +39,8 @@
 class OC_User {
 	// The backend used for user management
 	private static $_usedBackends = array();
+	
+	private static $_setupedBackends = array();
 
 	// Backends available (except database)
 	private static $_backends = array();
@@ -112,6 +114,28 @@ class OC_User {
 	 */
 	public static function clearBackends(){
 		self::$_usedBackends=array();
+	}
+
+	/**
+	 * setup the configured backends in config.php
+	 */
+	public static function setupBackends(){
+		$backends=OC_Config::getValue('user_backends',array());
+		foreach($backends as $i=>$config){
+			$class=$config['class'];
+			$arguments=$config['arguments'];
+			if(class_exists($class) and array_search($i,self::$_setupedBackends)===false){
+				// make a reflection object
+				$reflectionObj = new ReflectionClass($class);
+
+				// use Reflection to create a new instance, using the $args
+				$backend = $reflectionObj->newInstanceArgs($arguments);
+				self::useBackend($backend);
+				$_setupedBackends[]=$i;
+			}else{
+				OC_Log::write('core','User backend '.$class.' not found.',OC_Log::ERROR);
+			}
+		}
 	}
 
 	/**
@@ -253,6 +277,7 @@ class OC_User {
 	public static function isLoggedIn(){
 		if( isset($_SESSION['user_id']) AND $_SESSION['user_id']) {
 			OC_App::loadApps(array('authentication'));
+			self::setupBackends();
 			if (self::userExists($_SESSION['user_id']) ){
 				return true;
 			}
