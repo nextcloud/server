@@ -20,6 +20,7 @@
 "Upload Error" => "Lähetysvirhe.",
 "Pending" => "Odottaa",
 "Upload cancelled." => "Lähetys peruttu.",
+"File upload is in progress. Leaving the page now will cancel the upload." => "Tiedoston lähetys on meneillään. Sivulta poistuminen nyt peruu tiedoston lähetyksen.",
 "Invalid name, '/' is not allowed." => "Virheellinen nimi, merkki '/' ei ole sallittu.",
 "Size" => "Koko",
 "Modified" => "Muutettu",

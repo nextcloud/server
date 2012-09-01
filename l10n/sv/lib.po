@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 02:01+0200\n"
-"PO-Revision-Date: 2012-09-01 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-01 13:35+0200\n"
+"PO-Revision-Date: 2012-09-01 10:13+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -116,12 +116,12 @@ msgstr "år sedan"
 #: updater.php:66
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s finns. Få <a href=\"%s\">mer information</a>"
 
 #: updater.php:68
 msgid "up to date"
-msgstr ""
+msgstr "uppdaterad"
 
 #: updater.php:71
 msgid "updates check is disabled"
-msgstr ""
+msgstr "uppdateringskontroll är inaktiverad"

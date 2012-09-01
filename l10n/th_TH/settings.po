@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 02:01+0200\n"
-"PO-Revision-Date: 2012-08-31 17:08+0000\n"
-"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
+"POT-Creation-Date: 2012-09-01 13:35+0200\n"
+"PO-Revision-Date: 2012-09-01 11:35+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,65 +72,84 @@ msgstr "ภาษาไทย"
 msgid "Security Warning"
 msgstr "คำเตือนเกี่ยวกับความปลอดภัย"
 
-#: templates/admin.php:29
+#: templates/admin.php:17
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/admin.php:31
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:31
+#: templates/admin.php:33
 msgid "execute one task with each page loaded"
 msgstr "ประมวลผลหนึ่งงานเมื่อโหลดหน้าเว็บแต่ละครั้ง"
 
-#: templates/admin.php:33
+#: templates/admin.php:35
 msgid "cron.php is registered at a webcron service"
 msgstr "cron.php ได้ถูกลงทะเบียนที่บริการ webcron"
 
-#: templates/admin.php:35
+#: templates/admin.php:37
 msgid "use systems cron service"
 msgstr "ใช้บริการ cron จากระบบ"
 
-#: templates/admin.php:39
+#: templates/admin.php:41
 msgid "Share API"
 msgstr "API สำหรับคุณสมบัติแชร์ข้อมูล"
 
-#: templates/admin.php:44
+#: templates/admin.php:46
 msgid "Enable Share API"
 msgstr "เปิดใช้งาน API สำหรับคุณสมบัติแชร์ข้อมูล"
 
-#: templates/admin.php:45
+#: templates/admin.php:47
 msgid "Allow apps to use the Share API"
 msgstr "อนุญาตให้แอปฯสามารถใช้ API สำหรับแชร์ข้อมูลได้"
 
-#: templates/admin.php:49
+#: templates/admin.php:51
 msgid "Allow links"
 msgstr "อนุญาตให้ใช้งานลิงก์ได้"
 
-#: templates/admin.php:50
+#: templates/admin.php:52
 msgid "Allow users to share items to the public with links"
 msgstr "อนุญาตให้ผู้ใช้งานสามารถแชร์ข้อมูลรายการต่างๆไปให้สาธารณะชนเป็นลิงก์ได้"
 
-#: templates/admin.php:54
+#: templates/admin.php:56
 msgid "Allow resharing"
 msgstr "อนุญาตให้แชร์ข้อมูลซ้ำใหม่ได้"
 
-#: templates/admin.php:55
+#: templates/admin.php:57
 msgid "Allow users to share items shared with them again"
 msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลรายการต่างๆที่ถูกแชร์มาให้ตัวผู้ใช้งานได้เท่านั้น"
 
-#: templates/admin.php:58
+#: templates/admin.php:60
 msgid "Allow users to share with anyone"
 msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลถึงใครก็ได้"
 
-#: templates/admin.php:60
+#: templates/admin.php:62
 msgid "Allow users to only share with users in their groups"
 msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลได้เฉพาะกับผู้ใช้งานที่อยู่ในกลุ่มเดียวกันเท่านั้น"
 
-#: templates/admin.php:67
+#: templates/admin.php:69
 msgid "Log"
 msgstr "บันทึกการเปลี่ยนแปลง"
 
-#: templates/admin.php:95
+#: templates/admin.php:97
 msgid "More"
 msgstr "เพิ่มเติม"
+
+#: templates/admin.php:105
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr ""
 
 #: templates/apps.php:10
 msgid "Add your App"
