@@ -315,6 +315,13 @@ class OC{
 
 		self::initPaths();
 
+		// set debug mode if an xdebug session is active
+		if (!defined('DEBUG') || !DEBUG){
+			if(isset($_COOKIE['XDEBUG_SESSION'])){
+				define('DEBUG',true);
+			}
+		}
+
 		// register the stream wrappers
 		require_once('streamwrappers.php');
 		stream_wrapper_register("fakedir", "OC_FakeDirStream");
