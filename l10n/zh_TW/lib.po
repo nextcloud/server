@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <ywang1007+transifex@gmail.com>, 2012.
 # ywang  <ywang1007@gmail.com>, 2012.
 msgid ""
 msgstr ""
