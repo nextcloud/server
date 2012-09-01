@@ -395,6 +395,16 @@ class Share {
 		throw new \Exception($message);
 	}
 
+	public static function setExpirationDate($itemType, $itemSource, $date) {
+		if ($item = self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), self::FORMAT_NONE, null, 1, false)) {
+			error_log('setting');
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `expiration` = ? WHERE `id` = ?');
+			$query->execute(array($date, $item['id']));
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	* @brief Get the backend class for the specified item type
 	* @param string Item type
@@ -582,23 +592,23 @@ class Share {
 		// TODO Optimize selects
 		if ($format == self::FORMAT_STATUSES) {
 			if ($itemType == 'file' || $itemType == 'folder') {
-				$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `file_source`, `path`';
+				$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `file_source`, `path`, `expiration`';
 			} else {
-				$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`';
+				$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `expiration`';
 			}
 		} else {
 			if (isset($uidOwner)) {
 				if ($itemType == 'file' || $itemType == 'folder') {
-					$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path`, `permissions`, `stime`';
+					$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path`, `permissions`, `stime`, `expiration`';
 				} else {
-					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `permissions`, `stime`, `file_source`';
+					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `permissions`, `stime`, `file_source`, `expiration`';
 				}
 			} else {
 				if ($fileDependent) {
 					if (($itemType == 'file' || $itemType == 'folder') && $format == \OC_Share_Backend_File::FORMAT_FILE_APP || $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT) {
-						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path`, `file_target`, `permissions`, `name`, `ctime`, `mtime`, `mimetype`, `size`, `encrypted`, `versioned`, `writable`';
+						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path`, `file_target`, `permissions`, `expiration`, `name`, `ctime`, `mtime`, `mimetype`, `size`, `encrypted`, `versioned`, `writable`';
 					} else {
-						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`, `file_source`, `path`, `file_target`, `permissions`, `stime`';
+						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`, `file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`';
 					}
 				} else {
 					$select = '*';
@@ -648,6 +658,13 @@ class Share {
 					$row['path'] = '/Shared/'.basename($row['path']);
 				} else {
 					$row['path'] = substr($row['path'], $root);
+				}
+			}
+			if (isset($row['expiration'])) {
+				$time = new \DateTime();
+				if ($row['expiration'] < date('Y-m-d H:i', $time->format('U') - $time->getOffset())) {
+					self::delete($row['id']);
+					continue;
 				}
 			}
 			$items[$row['id']] = $row;

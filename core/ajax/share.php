@@ -55,6 +55,12 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				($return) ? OC_JSON::success() : OC_JSON::error();
 			}
 			break;
+		case 'setExpirationDate':
+			if (isset($_POST['date'])) {
+				$return = OCP\Share::setExpirationDate($_POST['itemType'], $_POST['itemSource'], $_POST['date']);
+				($return) ? OC_JSON::success() : OC_JSON::error();
+			}
+			break;
 	}
 } else if (isset($_GET['fetch'])) {
 	switch ($_GET['fetch']) {

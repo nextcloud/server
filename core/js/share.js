@@ -143,6 +143,9 @@ OC.Share={
 				html += '<input id="linkPassText" type="password" placeholder="Password" style="display:none; width:90%;" />';
 				html += '</div>';
 			}
+			html += '<div id="expiration">';
+			html += '<input type="checkbox" name="expirationCheckbox" id="expirationCheckbox" value="1" /><label for="expirationCheckbox">Set expiration date</label>';
+			html += '<input id="expirationDate" type="text" placeholder="Expiration date" style="display:none; width:90%;" />';
 			html += '</div>';
 			$(html).appendTo(appendTo);
 			// Reset item shares
@@ -420,6 +423,30 @@ $(document).ready(function() {
 			OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '');
 			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.Share.PERMISSION_READ);
 		}
+	});
+
+	$('#expirationCheckbox').live('change', function() {
+		if (this.checked) {
+			console.log('checked');
+			$('#expirationDate').before('<br />');
+			$('#expirationDate').show();
+			$('#expirationDate').datepicker({
+				dateFormat : 'dd-mm-yy'
+			});
+		} else {
+			console.log('unchecled');
+			$('#expirationDate').hide();
+		}
+	});
+	
+	$('#expirationDate').live('change', function() {
+		var itemType = $('#dropdown').data('item-type');
+		var itemSource = $('#dropdown').data('item-source');
+		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setExpirationDate', itemType: itemType, itemSource: itemSource, date: $(this).val() }, function(result) {
+			if (!result || result.status !== 'success') {
+				OC.dialogs.alert('Error', 'Error setting expiration date');
+			}
+		});
 	});
 
 	$('#emailPrivateLink').live('submit', function() {
