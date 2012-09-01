@@ -277,7 +277,7 @@ OC.Share={
 		$('#linkText').val(link);
 		$('#linkText').show('blind');
 		$('#showPassword').show();
-		if (password.length > 0) {
+		if (password != null) {
 			$('#linkPass').show('blind');
 			$('#linkPassText').attr('placeholder', 'Password protected');
 		}
