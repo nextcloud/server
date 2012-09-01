@@ -99,7 +99,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 	*
 	* Get a list of all users.
 	*/
-	public function getUsers($search = '', $limit = -1, $offset = 0) {
+	public function getUsers($search = '', $limit = null, $offset = null) {
 		return array();
 	}
 
