@@ -535,8 +535,12 @@ class OC_DB {
 			$query = str_replace( '`', '"', $query );
 			$query = str_replace( 'NOW()', 'datetime(\'now\')', $query );
 			$query = str_replace( 'now()', 'datetime(\'now\')', $query );
+			$query = str_replace( 'UNIX_TIMESTAMP()', 'strftime(\'%s\',\'now\')', $query );
+			$query = str_replace( 'unix_timestamp()', 'strftime(\'%s\',\'now\')', $query );
 		}elseif( $type == 'pgsql' ){
 			$query = str_replace( '`', '"', $query );
+			$query = str_replace( 'UNIX_TIMESTAMP()', 'cast(extract(epoch from current_timestamp) as integer)', $query );
+			$query = str_replace( 'unix_timestamp()', 'cast(extract(epoch from current_timestamp) as integer)', $query );
 		}elseif( $type == 'oci'  ){
 			$query = str_replace( '`', '"', $query );
 			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
