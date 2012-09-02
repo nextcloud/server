@@ -891,6 +891,7 @@ class Share {
 	* @param int SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	* @param string User or group the item is being shared with
 	* @param string The suggested target originating from a reshare (optional)
+	* @param int The id of the parent group share (optional)
 	* @return string Item target
 	*/
 	private static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $suggestedTarget = null, $groupParent = null) {
