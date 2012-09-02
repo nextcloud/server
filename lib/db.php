@@ -533,18 +533,14 @@ class OC_DB {
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
 		if( $type == 'sqlite' || $type == 'sqlite3' ){
 			$query = str_replace( '`', '"', $query );
-			$query = str_replace( 'NOW()', 'datetime(\'now\')', $query );
-			$query = str_replace( 'now()', 'datetime(\'now\')', $query );
-			$query = str_replace( 'UNIX_TIMESTAMP()', 'strftime(\'%s\',\'now\')', $query );
-			$query = str_replace( 'unix_timestamp()', 'strftime(\'%s\',\'now\')', $query );
+			$query = str_ireplace( 'NOW()', 'datetime(\'now\')', $query );
+			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'strftime(\'%s\',\'now\')', $query );
 		}elseif( $type == 'pgsql' ){
 			$query = str_replace( '`', '"', $query );
-			$query = str_replace( 'UNIX_TIMESTAMP()', 'cast(extract(epoch from current_timestamp) as integer)', $query );
-			$query = str_replace( 'unix_timestamp()', 'cast(extract(epoch from current_timestamp) as integer)', $query );
+			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'cast(extract(epoch from current_timestamp) as integer)', $query );
 		}elseif( $type == 'oci'  ){
 			$query = str_replace( '`', '"', $query );
-			$query = str_replace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
-			$query = str_replace( 'now()', 'CURRENT_TIMESTAMP', $query );
+			$query = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
 		}
 
 		// replace table name prefix
