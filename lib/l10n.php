@@ -99,7 +99,7 @@ class OC_L10N{
 		$lang = $this->lang;
 		$this->app = true;
 		// Find the right language
-		if(is_null($lang)){
+		if(is_null($lang) || $lang == '') {
 			$lang = self::findLanguage($app);
 		}
 
