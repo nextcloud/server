@@ -366,21 +366,22 @@ class Test_Share extends UnitTestCase {
 		$this->assertEqual(count($to_test), 2);
 		$this->assertTrue(in_array('test.txt', $to_test));
 		$this->assertTrue(in_array('test1.txt', $to_test));
-		//$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt', 'test1.txt'));
 		
-// 		// Valid reshare TODO Broken
-// 		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user4, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
-// 		OC_User::setUserId($this->user4);
-// 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test1.txt'));
-// 		
-// 		// Remove user from group
-// 		OC_Group::removeFromGroup($this->user2, $this->group1);
-// 		OC_User::setUserId($this->user2);
-// 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
-// 		OC_User::setUserId($this->user4);
-// 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array());
+		// Valid reshare 
+		$this->assertTrue(OCP\Share::shareItem('test', 'share.txt', OCP\Share::SHARE_TYPE_USER, $this->user4, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
+		OC_User::setUserId($this->user4);
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test1.txt'));
+		
+		// Remove user from group
+		OC_Group::removeFromGroup($this->user2, $this->group1);
+		OC_User::setUserId($this->user2);
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
+		OC_User::setUserId($this->user4);
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array());
 		
 		// Add user to group
+		OC_Group::addToGroup($this->user4, $this->group1);
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
 		
 		// Remove group
 	}

@@ -823,14 +823,17 @@ class Share {
 			} else {
 				$groupFileTarget = null;
 			}
+			$query->execute(array($itemType, $itemSource, $groupItemTarget, $parent, $shareType, $shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget));
+			// Save this id, any extra rows for this group share will need to reference it
+			$parent = \OC_DB::insertid('*PREFIX*share');
 			$uniqueTargets = array();
 			// Loop through all users of this group in case we need to add an extra row
 			foreach ($shareWith['users'] as $uid) {
-				$itemTarget = self::generateTarget($itemType, $itemSource, self::SHARE_TYPE_USER, $uid, $uidOwner);
+				$itemTarget = self::generateTarget($itemType, $itemSource, self::SHARE_TYPE_USER, $uid, $uidOwner, $suggestedItemTarget, $parent);
 				if (isset($fileSource)) {
 					if ($parentFolder) {
 						if ($parentFolder === true) {
-							$fileTarget = self::generateTarget('file', $filePath, self::SHARE_TYPE_USER, $uid, $uidOwner);
+							$fileTarget = self::generateTarget('file', $filePath, self::SHARE_TYPE_USER, $uid, $uidOwner, $suggestedFileTarget, $parent);
 							if ($fileTarget != $groupFileTarget) {
 								$parentFolders[$uid]['folder'] = $fileTarget;
 							}
@@ -839,24 +842,14 @@ class Share {
 							$parent = $parentFolder[$uid]['id'];
 						}
 					} else {
-						$fileTarget = self::generateTarget('file', $filePath, self::SHARE_TYPE_USER, $uid, $uidOwner);
+						$fileTarget = self::generateTarget('file', $filePath, self::SHARE_TYPE_USER, $uid, $uidOwner, $suggestedFileTarget, $parent);
 					}
 				} else {
 					$fileTarget = null;
 				}
 				// Insert an extra row for the group share if the item or file target is unique for this user
 				if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
-					$uniqueTargets[] = array('uid' => $uid, 'item_target' => $itemTarget, 'file_target' => $fileTarget);
-				}
-			}
-			$query->execute(array($itemType, $itemSource, $groupItemTarget, $parent, $shareType, $shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget));
-			// Save this id, any extra rows for this group share will need to reference it
-			$parent = \OC_DB::insertid('*PREFIX*share');
-			foreach ($uniqueTargets as $unique) {
-				$query->execute(array($itemType, $itemSource, $unique['item_target'], $parent, self::$shareTypeGroupUserUnique, $unique['uid'], $uidOwner, $permissions, time(), $fileSource, $unique['file_target']));
-				$id = \OC_DB::insertid('*PREFIX*share');
-				if ($parentFolder === true) {
-					$parentFolders['id'] = $id;
+					$query->execute(array($itemType, $itemSource, $itemTarget, $parent, self::$shareTypeGroupUserUnique, $uid, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
 				}
 			}
 			if ($parentFolder === true) {
@@ -900,7 +893,7 @@ class Share {
 	* @param string The suggested target originating from a reshare (optional)
 	* @return string Item target
 	*/
-	private static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $suggestedTarget = null) {
+	private static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $suggestedTarget = null, $groupParent = null) {
 		$backend = self::getBackend($itemType);
 		if ($shareType == self::SHARE_TYPE_LINK) {
 			if (isset($suggestedTarget)) {
@@ -937,10 +930,21 @@ class Share {
 					}
 				}
 				// Check if target already exists
-				if ($checkTarget = self::getItems($itemType, $target, $shareType, $shareWith, null, self::FORMAT_NONE, null, 1)) {
-					// If matching target is from the same owner, use the same target. The share type will be different so this isn't the same share.
-					if ($checkTarget['uid_owner'] == $uidOwner) {
-						return $target;
+				$checkTarget = self::getItems($itemType, $target, $shareType, $shareWith);
+				if (!empty($checkTarget)) {
+					foreach ($checkTarget as $item) {
+						// Skip item if it is the group parent row
+						if (isset($groupParent) && $item['id'] == $groupParent) {
+							if (count($checkTarget) == 1) {
+								return $target;
+							} else {
+								continue;
+							}
+						}
+						// If matching target is from the same owner, use the same target. The share type will be different so this isn't the same share.
+						if ($item['uid_owner'] == $uidOwner) {
+							return $target;
+						}
 					}
 					if (!isset($exclude)) {
 						$exclude = array();
@@ -1031,7 +1035,27 @@ class Share {
 	}
 
 	public static function post_addToGroup($arguments) {
-		// TODO
+		// Find the group shares and check if the user needs a unique target
+		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `share_type` = ? AND `share_with` = ?');
+		$result = $query->execute(array(self::SHARE_TYPE_GROUP, $arguments['gid']));
+		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`, `item_target`, `parent`, `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`, `file_target`) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
+		while ($item = $result->fetchRow()) {
+			if ($item['item_type'] == 'file' || $item['item_type'] == 'file') {
+				$itemTarget = null;
+			} else {
+				$itemTarget = self::generateTarget($item['item_type'], $item['item_source'], self::SHARE_TYPE_USER, $arguments['uid'], $item['uid_owner'], $item['item_target'], $item['id']);
+			}
+			if (isset($item['file_source'])) {
+				$fileTarget = self::generateTarget($item['item_type'], $item['item_source'], self::SHARE_TYPE_USER, $arguments['uid'], $item['uid_owner'], $item['file_target'], $item['id']);
+			} else {
+				$fileTarget = null;
+			}
+			// Insert an extra row for the group share if the item or file target is unique for this user
+			if ($itemTarget != $item['item_target'] || $fileTarget != $item['file_target']) {
+				$query->execute(array($item['item_type'], $item['item_source'], $itemTarget, $item['id'], self::$shareTypeGroupUserUnique, $arguments['uid'], $item['uid_owner'], $item['permissions'], $item['stime'], $item['file_source'], $fileTarget));
+				$id = \OC_DB::insertid('*PREFIX*share');
+			}
+		}
 	}
 
 	public static function post_removeFromGroup($arguments) {
