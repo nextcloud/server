@@ -50,6 +50,7 @@
 "Database user" => "Gebruiker databank",
 "Database password" => "Wachtwoord databank",
 "Database name" => "Naam databank",
+"Database tablespace" => "Database tablespace",
 "Database host" => "Database server",
 "Finish setup" => "Installatie afronden",
 "web services under your control" => "webdiensten die je beheerst",

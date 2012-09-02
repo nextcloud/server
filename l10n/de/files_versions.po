@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# I Robot <thomas.mueller@tmit.eu>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 13:35+0200\n"
-"PO-Revision-Date: 2012-09-01 11:35+0000\n"
+"POT-Creation-Date: 2012-09-02 02:01+0200\n"
+"PO-Revision-Date: 2012-09-01 11:47+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +25,7 @@ msgstr "Alle Versionen löschen"
 
 #: templates/settings-personal.php:4
 msgid "Versions"
-msgstr ""
+msgstr "Versionen"
 
 #: templates/settings-personal.php:7
 msgid "This will delete all existing backup versions of your files"

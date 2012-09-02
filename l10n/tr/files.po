@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Aranel Surion <aranel@aranelsurion.org>, 2011, 2012.
+# Caner Başaran <basaran.caner@gmail.com>, 2012.
 # Emre  <emresaracoglu@live.com>, 2012.
 # Necdet Yücel <necdetyucel@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-02 02:01+0200\n"
+"PO-Revision-Date: 2012-09-01 13:44+0000\n"
+"Last-Translator: Caner Başaran <basaran.caner@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,23 +61,23 @@ msgstr "Sil"
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr ""
+msgstr "zaten mevcut"
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr ""
+msgstr "değiştir"
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "iptal"
 
 #: js/filelist.js:195
 msgid "replaced"
-msgstr ""
+msgstr "değiştirildi"
 
 #: js/filelist.js:195
 msgid "with"
-msgstr ""
+msgstr "ile"
 
 #: js/filelist.js:195 js/filelist.js:246
 msgid "undo"
@@ -109,7 +110,7 @@ msgstr "Yükleme iptal edildi."
 #: js/files.js:409
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Dosya yükleme işlemi sürüyor. Şimdi sayfadan ayrılırsanız işleminiz iptal olur."
 
 #: js/files.js:480
 msgid "Invalid name, '/' is not allowed."

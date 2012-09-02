@@ -27,6 +27,7 @@
 "Allow users to only share with users in their groups" => "Erlaube Nutzern nur das Teilen in ihrer Gruppe",
 "Log" => "Log",
 "More" => "Mehr",
+"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Entwickelt von der <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud-Community</a>, der <a href=\"https://github.com/owncloud\" target=\"_blank\">Quellcode</a> ist unter der <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> lizenziert.",
 "Add your App" => "Fügen Sie Ihre App hinzu",
 "Select an App" => "Wählen Sie eine Anwendung aus",
 "See application page at apps.owncloud.com" => "Weitere Anwendungen finden Sie auf apps.owncloud.com",
