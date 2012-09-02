@@ -357,7 +357,7 @@ class Share {
 		if ($item = self::getItems($itemType, $itemSource, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, null, 1, false)) {
 			// Check if this item is a reshare and verify that the permissions granted don't exceed the parent shared item
 			if (isset($item['parent'])) {
-				$query = \OC_DB::prepare('SELECT `permissions` FROM `*PREFIX*share` WHERE `id` = ?',1);
+				$query = \OC_DB::prepare('SELECT `permissions` FROM `*PREFIX*share` WHERE `id` = ?', 1);
 				$result = $query->execute(array($item['parent']))->fetchRow();
 				if (~(int)$result['permissions'] & $permissions) {
 					$message = 'Setting permissions for '.$itemSource.' failed, because the permissions exceed permissions granted to '.\OC_User::getUser();
@@ -813,9 +813,6 @@ class Share {
 						// Get group default file target
 						$groupFileTarget = $parentFolder[0]['folder'].$itemSource;
 						$parent = $parentFolder[0]['id'];
-						unset($parentFolder[0]);
-						// Only loop through users we know have different file target paths
-						$uidSharedWith = array_keys($parentFolder);
 					}
 				} else {
 					$groupFileTarget = self::generateTarget('file', $filePath, $shareType, $shareWith['group'], $uidOwner, $suggestedFileTarget);
@@ -826,7 +823,6 @@ class Share {
 			$query->execute(array($itemType, $itemSource, $groupItemTarget, $parent, $shareType, $shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget));
 			// Save this id, any extra rows for this group share will need to reference it
 			$parent = \OC_DB::insertid('*PREFIX*share');
-			$uniqueTargets = array();
 			// Loop through all users of this group in case we need to add an extra row
 			foreach ($shareWith['users'] as $uid) {
 				$itemTarget = self::generateTarget($itemType, $itemSource, self::SHARE_TYPE_USER, $uid, $uidOwner, $suggestedItemTarget, $parent);
@@ -1054,7 +1050,7 @@ class Share {
 			// Insert an extra row for the group share if the item or file target is unique for this user
 			if ($itemTarget != $item['item_target'] || $fileTarget != $item['file_target']) {
 				$query->execute(array($item['item_type'], $item['item_source'], $itemTarget, $item['id'], self::$shareTypeGroupUserUnique, $arguments['uid'], $item['uid_owner'], $item['permissions'], $item['stime'], $item['file_source'], $fileTarget));
-				$id = \OC_DB::insertid('*PREFIX*share');
+				\OC_DB::insertid('*PREFIX*share');
 			}
 		}
 	}
