@@ -124,12 +124,13 @@ class Util {
 	 * @brief Creates an absolute url
 	 * @param $app app
 	 * @param $file file
+	 * @param $args array with param=>value, will be appended to the returned url
 	 * @returns the url
 	 *
 	 * Returns a absolute url to the given app and file.
 	 */
-	public static function linkToAbsolute( $app, $file ) {
-		return(\OC_Helper::linkToAbsolute( $app, $file ));
+	public static function linkToAbsolute( $app, $file, $args = array() ) {
+		return(\OC_Helper::linkToAbsolute( $app, $file, $args ));
 	}
 
 
@@ -160,12 +161,13 @@ class Util {
 	* @brief Creates an url
 	* @param $app app
 	* @param $file file
+	* @param $args array with param=>value, will be appended to the returned url
 	* @returns the url
 	*
 	* Returns a url to the given app and file.
 	*/
-	public static function linkTo( $app, $file ){
-		return(\OC_Helper::linkTo( $app, $file ));
+	public static function linkTo( $app, $file, $args = array() ){
+		return(\OC_Helper::linkTo( $app, $file, $args ));
 	}
 
 	/**

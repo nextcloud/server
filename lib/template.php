@@ -25,12 +25,13 @@
  * @brief make OC_Helper::linkTo available as a simple function
  * @param $app app
  * @param $file file
+ * @param $args array with param=>value, will be appended to the returned url
  * @returns link to the file
  *
  * For further information have a look at OC_Helper::linkTo
  */
-function link_to( $app, $file ){
-	return OC_Helper::linkTo( $app, $file );
+function link_to( $app, $file, $args = array() ){
+	return OC_Helper::linkTo( $app, $file, $args );
 }
 
 /**

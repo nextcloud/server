@@ -32,11 +32,12 @@ class OC_Helper {
 	 * @brief Creates an url
 	 * @param $app app
 	 * @param $file file
+	 * @param $args array with param=>value, will be appended to the returned url
 	 * @returns the url
 	 *
 	 * Returns a url to the given app and file.
 	 */
-	public static function linkTo( $app, $file ){
+	public static function linkTo( $app, $file, $args = array() ){
 		if( $app != '' ){
 			$app_path = OC_App::getAppPath($app);
 			// Check if the app is in the app folder
@@ -61,6 +62,10 @@ class OC_Helper {
 			}
 		}
 
+		foreach($args as $k => $v) {
+			$urlLinkTo .= '&'.$k.'='.$v;
+		}
+
 		return $urlLinkTo;
 	}
 
@@ -68,12 +73,13 @@ class OC_Helper {
 	 * @brief Creates an absolute url
 	 * @param $app app
 	 * @param $file file
+	 * @param $args array with param=>value, will be appended to the returned url
 	 * @returns the url
 	 *
 	 * Returns a absolute url to the given app and file.
 	 */
-	public static function linkToAbsolute( $app, $file ) {
-		$urlLinkTo = self::linkTo( $app, $file );
+	public static function linkToAbsolute( $app, $file, $args = array() ) {
+		$urlLinkTo = self::linkTo( $app, $file, $args );
 		return self::makeURLAbsolute($urlLinkTo);
 	}
 
