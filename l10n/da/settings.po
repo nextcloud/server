@@ -7,6 +7,7 @@
 #   <mikkelbjerglarsen@gmail.com>, 2011.
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011, 2012.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
+#   <simon@rosmi.dk>, 2012.
 #   <sr@ybnet.dk>, 2012.
 # Thomas Tanghus <>, 2012.
 # Thomas Tanghus <thomas@tanghus.net>, 2012.
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 13:35+0200\n"
-"PO-Revision-Date: 2012-09-01 11:35+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-03 02:05+0200\n"
+"PO-Revision-Date: 2012-09-02 14:13+0000\n"
+"Last-Translator: muunsim <simon@rosmi.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -91,7 +92,7 @@ msgstr "Cron"
 
 #: templates/admin.php:33
 msgid "execute one task with each page loaded"
-msgstr ""
+msgstr "udfør en opgave for hver indlæst side"
 
 #: templates/admin.php:35
 msgid "cron.php is registered at a webcron service"
@@ -99,31 +100,31 @@ msgstr "cron.php er tilmeldt en webcron tjeneste"
 
 #: templates/admin.php:37
 msgid "use systems cron service"
-msgstr ""
+msgstr "brug systemets cron service"
 
 #: templates/admin.php:41
 msgid "Share API"
-msgstr ""
+msgstr "Del API"
 
 #: templates/admin.php:46
 msgid "Enable Share API"
-msgstr ""
+msgstr "Aktiver dele API"
 
 #: templates/admin.php:47
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Tillad apps a bruge dele APIen"
 
 #: templates/admin.php:51
 msgid "Allow links"
-msgstr ""
+msgstr "Tillad links"
 
 #: templates/admin.php:52
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Tillad brugere at dele elementer med offentligheden med links"
 
 #: templates/admin.php:56
 msgid "Allow resharing"
-msgstr ""
+msgstr "Tillad gendeling"
 
 #: templates/admin.php:57
 msgid "Allow users to share items shared with them again"
@@ -131,11 +132,11 @@ msgstr ""
 
 #: templates/admin.php:60
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Tillad brugere at dele med hvem som helst"
 
 #: templates/admin.php:62
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Tillad kun deling med brugere i brugerens egen gruppe"
 
 #: templates/admin.php:69
 msgid "Log"
@@ -289,7 +290,7 @@ msgstr "Andet"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "Gruppe Administrator"
 
 #: templates/users.php:82
 msgid "Quota"

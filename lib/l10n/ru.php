@@ -21,5 +21,6 @@
 "last month" => "в прошлом месяце",
 "months ago" => "месяцы назад",
 "last year" => "в прошлом году",
-"years ago" => "годы назад"
+"years ago" => "годы назад",
+"updates check is disabled" => "проверка обновлений отключена"
 );

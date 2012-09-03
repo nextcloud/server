@@ -5,15 +5,16 @@
 # Translators:
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011, 2012.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
+#   <simon@rosmi.dk>, 2012.
 # Thomas Tanghus <>, 2012.
 # Thomas Tanghus <thomas@tanghus.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-03 02:04+0200\n"
+"PO-Revision-Date: 2012-09-02 14:21+0000\n"
+"Last-Translator: muunsim <simon@rosmi.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -110,7 +111,7 @@ msgstr "Upload afbrudt."
 #: js/files.js:409
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Fil upload kører. Hvis du forlader siden nu, vil uploadet blive annuleret."
 
 #: js/files.js:480
 msgid "Invalid name, '/' is not allowed."

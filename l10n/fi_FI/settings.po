@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 13:35+0200\n"
-"PO-Revision-Date: 2012-09-01 11:35+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-03 02:05+0200\n"
+"PO-Revision-Date: 2012-09-02 15:47+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -110,15 +110,15 @@ msgstr ""
 
 #: templates/admin.php:51
 msgid "Allow links"
-msgstr ""
+msgstr "Salli linkit"
 
 #: templates/admin.php:52
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Salli käyttäjien jakaa kohteita julkisesti linkkejä käyttäen"
 
 #: templates/admin.php:56
 msgid "Allow resharing"
-msgstr ""
+msgstr "Salli uudelleenjako"
 
 #: templates/admin.php:57
 msgid "Allow users to share items shared with them again"
@@ -126,11 +126,11 @@ msgstr ""
 
 #: templates/admin.php:60
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Salli käyttäjien jakaa kohteita kenen tahansa kanssa"
 
 #: templates/admin.php:62
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Salli käyttäjien jakaa kohteita vain omien ryhmien jäsenten kesken"
 
 #: templates/admin.php:69
 msgid "Log"
@@ -148,7 +148,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Kehityksestä on vastannut <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud-yhteisö</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">lähdekoodi</a> on julkaistu lisenssin <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> alaisena."
 
 #: templates/apps.php:10
 msgid "Add your App"
