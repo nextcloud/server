@@ -19,5 +19,7 @@
 			<a href="<?php echo $_['downloadURL']; ?>" id="download"><img class="svg" alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /><?php echo $l->t('Download')?></a>
 		</li>
 	</ul>
+	<div id="content"></div>
+	<table></table>
 </div>
 <footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> &ndash; <?php echo $l->t('web services under your control'); ?></p></footer>
