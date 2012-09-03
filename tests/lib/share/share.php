@@ -384,6 +384,10 @@ class Test_Share extends UnitTestCase {
 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
 		
 		// Remove group
+		OC_Group::deleteGroup($this->group1);
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array());
+		OC_User::setUserId($this->user3);
+		$this->assertEqual(OCP\Share::getItemsShared('test'), array());
 	}
 
 }

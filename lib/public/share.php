@@ -23,6 +23,7 @@ namespace OCP;
 \OC_Hook::connect('OC_User', 'post_deleteUser', 'OCP\Share', 'post_deleteUser');
 \OC_Hook::connect('OC_User', 'post_addToGroup', 'OCP\Share', 'post_addToGroup');
 \OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OCP\Share', 'post_removeFromGroup');
+\OC_Hook::connect('OC_User', 'post_deleteGroup', 'OCP\Share', 'post_deleteGroup');
 
 /**
 * This class provides the ability for apps to share their content between users.
@@ -1066,6 +1067,14 @@ class Share {
 			} else {
 				self::delete($item['id']);
 			}
+		}
+	}
+
+	public static function post_deleteGroup($arguments) {
+		$query = \OC_DB::prepare('SELECT id FROM `*PREFIX*share` WHERE `share_type` = ? AND `share_with` = ?');
+		$result = $query->execute(array(self::SHARE_TYPE_GROUP, $arguments['gid']));
+		while ($item = $result->fetchRow()) {
+			self::delete($item['id']);
 		}
 	}
 
