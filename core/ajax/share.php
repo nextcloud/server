@@ -78,10 +78,6 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				}
 				OC_JSON::success(array('data' => array('reshare' => $reshare, 'shares' => $shares)));
 			}
-			if (isset($_GET['itemType']) && isset($_GET['itemSource']) && isset($_GET['getPermissions'])) {
-				$info = OCP\Share::getItemSharedWithBySource($_GET['itemType'], $_GET['itemSource']);
-				OC_JSON::success(array('data' => array('info' => $info)));
-			}
 			break;
 		case 'getShareWith':
 			if (isset($_GET['search'])) {
