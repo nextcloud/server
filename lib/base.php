@@ -511,6 +511,17 @@ class OC{
 		OC_Util::displayLoginPage($error);
 	}
 
+	protected static function cleanupLoginTokens($user) {
+		$cutoff = time() - 60*60*24*15;
+		$tokens = OC_Preferences::getKeys($_COOKIE['oc_username'], 'login_token');
+		foreach($tokens as $token) {
+			$time = OC_Preferences::getValue($user, 'login_token', $token);
+			if ($time < $cutoff) {
+				OC_Preferences::deleteKey($user, 'login_token', $token);
+			}
+		}
+	}
+
 	protected static function tryRememberLogin() {
 		if(!isset($_COOKIE["oc_remember_login"])
 			|| !isset($_COOKIE["oc_token"])
@@ -528,6 +539,7 @@ class OC{
 			$tokens = OC_Preferences::getKeys($_COOKIE['oc_username'], 'login_token');
 			$tokens[] = OC_Preferences::getValue($_COOKIE['oc_username'], 'login', 'token');
 			if (in_array($_COOKIE['oc_token'], $tokens, true)) {
+				self::cleanupLoginTokens($_COOKIE['oc_username']);
 				OC_User::setUserId($_COOKIE['oc_username']);
 				OC_Util::redirectToDefaultPage();
 				// doesn't return
@@ -549,6 +561,7 @@ class OC{
 		OC_User::setupBackends();
 
 		if(OC_User::login($_POST["user"], $_POST["password"])) {
+			self::cleanupLoginTokens($_POST['user']);
 			if(!empty($_POST["remember_login"])) {
 				if(defined("DEBUG") && DEBUG) {
 					OC_Log::write('core', 'Setting remember login to cookie', OC_Log::DEBUG);
