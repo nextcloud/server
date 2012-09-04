@@ -110,7 +110,7 @@ class OC{
 			$scriptName.='index.php';
 			//make sure suburi follows the same rules as scriptName
 			if(substr(OC::$SUBURI, -9)!='index.php') {
-				if(substr(OC::$SUBURI,-1)!='/' {
+				if(substr(OC::$SUBURI, -1)!='/') {
 					OC::$SUBURI=OC::$SUBURI.'/';
 				}
 				OC::$SUBURI=OC::$SUBURI.'index.php';
