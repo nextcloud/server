@@ -74,15 +74,15 @@ class OC_API {
 		foreach(self::$actions[$name] as $action){
 			$app = $action['app'];
 			// Check the consumer has permission to call this method.
-			if(OC_OAuth_Server::isAuthorised('app_'.$app)){
+			//if(OC_OAuth_Server::isAuthorised('app_'.$app)){
 				if(is_callable($action['action'])){
 					$responses[] = array('app' => $app, 'response' => call_user_func($action['action'], $parameters));
 				} else {
 					$responses[] = array('app' => $app, 'response' => 501);
 				}
-			} else {
-				$responses[] = array('app' => $app, 'response' => 401);
-			}
+			//} else {
+			//	$responses[] = array('app' => $app, 'response' => 401);
+			//}
 			
 		}
 		// Merge the responses
@@ -103,25 +103,39 @@ class OC_API {
 	 * @return array the final merged response
 	 */
 	private static function mergeResponses($responses){
-		$finalresponse = array();
+		$finalresponse = array(
+			'meta' => array(
+				'statuscode' => '',
+				),
+			'data' => array(),
+			);
 		$numresponses = count($responses);
 		
 		foreach($responses as $response){
-			if(is_int($response['response']) && empty($finalresponse)){
-				$finalresponse = $response['response'];
+			if(is_int($response['response']) && empty($finalresponse['meta']['statuscode'])){
+				$finalresponse['meta']['statuscode'] = $response['response'];
 				continue;
 			}
 			if(is_array($response['response'])){
 				// Shipped apps win
 				if(OC_App::isShipped($response['app'])){
-					$finalresponse = array_merge_recursive($finalresponse, $response['response']);
+					$finalresponse['data'] = array_merge_recursive($finalresponse['data'], $response['response']);
 				} else {
-					$finalresponse = array_merge_recursive($response['response'], $finalresponse);
+					$finalresponse['data'] = array_merge_recursive($response['response'], $finalresponse['data']);
 				}
+				$finalresponse['meta']['statuscode'] = 100;
 			}
 		}
-
-		return $finalresponse;
+		//Some tidying up
+		if($finalresponse['meta']['statuscode']=='100'){
+			$finalresponse['meta']['status'] = 'ok';
+		} else {
+			$finalresponse['meta']['status'] = 'failure';
+		}
+		if(empty($finalresponse['data'])){
+			unset($finalresponse['data']);
+		}
+		return array('ocs' => $finalresponse);
 	}
 	
 	/**
