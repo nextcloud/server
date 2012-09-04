@@ -8,14 +8,14 @@
 
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('core','ajax/vcategories/edit.php: '.$msg, OC_Log::DEBUG);
+	OC_Log::write('core', 'ajax/vcategories/edit.php: '.$msg, OC_Log::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('core','ajax/vcategories/edit.php: '.$msg, OC_Log::DEBUG);
+	OC_Log::write('core', 'ajax/vcategories/edit.php: '.$msg, OC_Log::DEBUG);
 }
 
-require_once('../../../lib/base.php');
+require_once '../../../lib/base.php';
 OC_JSON::checkLoggedIn();
 $app = isset($_GET['app'])?$_GET['app']:null;
 
@@ -29,5 +29,5 @@ $tmpl = new OC_TEMPLATE("core", "edit_categories_dialog");
 $vcategories = new OC_VCategories($app);
 $categories = $vcategories->categories();
 debug(print_r($categories, true));
-$tmpl->assign('categories',$categories);
+$tmpl->assign('categories', $categories);
 $tmpl->printpage();
