@@ -27,7 +27,7 @@
 	<p class="description"></p>
 	<img src="" class="preview" />
 	<p class="appslink hidden"><a href="#" target="_blank"><?php echo $l->t('See application page at apps.owncloud.com');?></a></p>
-	<p class="license hidden"><span class="licence"></span><?php echo $l->t('-licensed');?> <?php echo $l->t('by');?> <span class="author"></span></p>
+    <p class="license hidden"><?php echo $l->t('<span class="licence"></span>-licensed by <span class="author"></span>');?></p>
 	<input class="enable hidden" type="submit" />
 	</div>
 </div>
