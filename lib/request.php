@@ -49,7 +49,7 @@ class OC_Request {
 				$proto = 'http';
 			}
 		}
-		return($proto);
+		return $proto;
 	}
 
 	/**
