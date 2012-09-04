@@ -4,6 +4,8 @@
  * @param text the string to translate
  * @return string
  */
+var OC;
+
 function t(app,text){
 	if( !( app in t.cache )){
 		$.ajax(OC.filePath('core','ajax','translations.php'),{

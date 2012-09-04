@@ -1,4 +1,4 @@
-FileActions={
+var FileActions={
 	actions:{},
 	defaults:{},
 	icons:{},
@@ -20,20 +20,20 @@ FileActions={
 	get:function(mime,type,permissions){
 		var actions={};
 		if(FileActions.actions.all){
-			actions=$.extend( actions, FileActions.actions.all )
+			actions=$.extend( actions, FileActions.actions.all );
 		}
 		if(mime){
 			if(FileActions.actions[mime]){
-				actions=$.extend( actions, FileActions.actions[mime] )
+				actions=$.extend( actions, FileActions.actions[mime] );
 			}
 			var mimePart=mime.substr(0,mime.indexOf('/'));
 			if(FileActions.actions[mimePart]){
-				actions=$.extend( actions, FileActions.actions[mimePart] )
+				actions=$.extend( actions, FileActions.actions[mimePart] );
 			}
 		}
 		if(type){//type is 'dir' or 'file'
 			if(FileActions.actions[type]){
-				actions=$.extend( actions, FileActions.actions[type] )
+				actions=$.extend( actions, FileActions.actions[type] );
 			}
 		}
 		var filteredActions = {};
