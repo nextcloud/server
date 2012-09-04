@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Загрузка из App Store запрещена",
+"Authentication error" => "Ошибка авторизации",
 "Email saved" => "Email сохранен",
 "Invalid email" => "Неправильный Email",
 "OpenID Changed" => "OpenID изменён",
 "Invalid request" => "Неверный запрос",
-"Authentication error" => "Ошибка авторизации",
 "Language changed" => "Язык изменён",
 "Error" => "Ошибка",
 "Disable" => "Отключить",

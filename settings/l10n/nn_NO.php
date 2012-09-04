@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Klarer ikkje å laste inn liste fra App Store",
+"Authentication error" => "Feil i autentisering",
 "Email saved" => "E-postadresse lagra",
 "Invalid email" => "Ugyldig e-postadresse",
 "OpenID Changed" => "OpenID endra",
 "Invalid request" => "Ugyldig førespurnad",
-"Authentication error" => "Feil i autentisering",
 "Language changed" => "Språk endra",
 "Error" => "Feil",
 "Disable" => "Slå av",

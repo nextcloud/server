@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
+"Authentication error" => "Eşleşme hata",
 "Email saved" => "Eposta kaydedildi",
 "Invalid email" => "Geçersiz eposta",
 "OpenID Changed" => "OpenID Değiştirildi",
 "Invalid request" => "Geçersiz istek",
-"Authentication error" => "Eşleşme hata",
 "Language changed" => "Dil değiştirildi",
 "Disable" => "Etkin değil",
 "Enable" => "Etkin",

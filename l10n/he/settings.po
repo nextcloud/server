@@ -10,18 +10,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 13:35+0200\n"
-"PO-Revision-Date: 2012-09-01 11:35+0000\n"
+"POT-Creation-Date: 2012-09-04 12:42+0200\n"
+"PO-Revision-Date: 2012-09-04 10:42+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
+msgstr ""
+
+#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr ""
+
+#: ajax/creategroup.php:19
+msgid "Group already exists"
+msgstr ""
+
+#: ajax/creategroup.php:28
+msgid "Unable to add group"
 msgstr ""
 
 #: ajax/lostpassword.php:14
@@ -40,8 +53,12 @@ msgstr "OpenID השתנה"
 msgid "Invalid request"
 msgstr "בקשה לא חוקית"
 
-#: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
-msgid "Authentication error"
+#: ajax/removegroup.php:16
+msgid "Unable to delete group"
+msgstr ""
+
+#: ajax/removeuser.php:22
+msgid "Unable to delete user"
 msgstr ""
 
 #: ajax/setlanguage.php:18
@@ -171,27 +188,27 @@ msgstr "רשיון"
 msgid "by"
 msgstr "מאת"
 
-#: templates/help.php:8
+#: templates/help.php:9
 msgid "Documentation"
 msgstr "תיעוד"
 
-#: templates/help.php:9
+#: templates/help.php:10
 msgid "Managing Big Files"
 msgstr "ניהול קבצים גדולים"
 
-#: templates/help.php:10
+#: templates/help.php:11
 msgid "Ask a question"
 msgstr "שאל שאלה"
 
-#: templates/help.php:22
+#: templates/help.php:23
 msgid "Problems connecting to help database."
 msgstr "בעיות בהתחברות לבסיס נתוני העזרה"
 
-#: templates/help.php:23
+#: templates/help.php:24
 msgid "Go there manually."
 msgstr "גש לשם באופן ידני"
 
-#: templates/help.php:31
+#: templates/help.php:32
 msgid "Answer"
 msgstr "מענה"
 

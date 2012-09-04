@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "App Sotre'i nimekirja laadimine ebaõnnestus",
+"Authentication error" => "Autentimise viga",
 "Email saved" => "Kiri on salvestatud",
 "Invalid email" => "Vigane e-post",
 "OpenID Changed" => "OpenID on muudetud",
 "Invalid request" => "Vigane päring",
-"Authentication error" => "Autentimise viga",
 "Language changed" => "Keel on muudetud",
 "Error" => "Viga",
 "Disable" => "Lülita välja",

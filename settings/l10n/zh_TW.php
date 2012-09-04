@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "無法從 App Store 讀取清單",
+"Authentication error" => "認證錯誤",
 "Email saved" => "Email已儲存",
 "Invalid email" => "無效的email",
 "OpenID Changed" => "OpenID 已變更",
 "Invalid request" => "無效請求",
-"Authentication error" => "認證錯誤",
 "Language changed" => "語言已變更",
 "Error" => "錯誤",
 "Disable" => "停用",

@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Σφάλμα στην φόρτωση της λίστας από το App Store",
+"Authentication error" => "Σφάλμα πιστοποίησης",
 "Email saved" => "Το Email αποθηκεύτηκε ",
 "Invalid email" => "Μη έγκυρο email",
 "OpenID Changed" => "Το OpenID άλλαξε",
 "Invalid request" => "Μη έγκυρο αίτημα",
-"Authentication error" => "Σφάλμα πιστοποίησης",
 "Language changed" => "Η γλώσσα άλλαξε",
 "Error" => "Σφάλμα",
 "Disable" => "Απενεργοποίηση",

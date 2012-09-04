@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nebija iespējams lejuplādēt sarakstu no aplikāciju veikala",
+"Authentication error" => "Ielogošanās kļūme",
 "Email saved" => "Epasts tika saglabāts",
 "Invalid email" => "Nepareizs epasts",
 "OpenID Changed" => "OpenID nomainīts",
 "Invalid request" => "Nepareizs vaicājums",
-"Authentication error" => "Ielogošanās kļūme",
 "Language changed" => "Valoda tika nomainīta",
 "Error" => "Kļūme",
 "Disable" => "Atvienot",

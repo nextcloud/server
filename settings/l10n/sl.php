@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ne morem naložiti seznama iz App Store",
+"Authentication error" => "Napaka overitve",
 "Email saved" => "E-poštni naslov je bil shranjen",
 "Invalid email" => "Neveljaven e-poštni naslov",
 "OpenID Changed" => "OpenID je bil spremenjen",
 "Invalid request" => "Neveljaven zahtevek",
-"Authentication error" => "Napaka overitve",
 "Language changed" => "Jezik je bil spremenjen",
 "Error" => "Napaka",
 "Disable" => "Onemogoči",

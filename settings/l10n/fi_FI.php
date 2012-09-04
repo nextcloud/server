@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ei pystytä lataamaan listaa sovellusvarastosta (App Store)",
+"Authentication error" => "Todennusvirhe",
 "Email saved" => "Sähköposti tallennettu",
 "Invalid email" => "Virheellinen sähköposti",
 "OpenID Changed" => "OpenID on vaihdettu",
 "Invalid request" => "Virheellinen pyyntö",
-"Authentication error" => "Todennusvirhe",
 "Language changed" => "Kieli on vaihdettu",
 "Error" => "Virhe",
 "Disable" => "Poista käytöstä",

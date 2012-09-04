@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-04 02:01+0200\n"
+"POT-Creation-Date: 2012-09-04 12:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,19 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
+msgstr ""
+
+#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr ""
+
+#: ajax/creategroup.php:19
+msgid "Group already exists"
+msgstr ""
+
+#: ajax/creategroup.php:28
+msgid "Unable to add group"
 msgstr ""
 
 #: ajax/lostpassword.php:14
@@ -37,8 +50,12 @@ msgstr ""
 msgid "Invalid request"
 msgstr ""
 
-#: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
-msgid "Authentication error"
+#: ajax/removegroup.php:16
+msgid "Unable to delete group"
+msgstr ""
+
+#: ajax/removeuser.php:22
+msgid "Unable to delete user"
 msgstr ""
 
 #: ajax/setlanguage.php:18
@@ -167,27 +184,27 @@ msgstr ""
 msgid "by"
 msgstr ""
 
-#: templates/help.php:8
+#: templates/help.php:9
 msgid "Documentation"
 msgstr ""
 
-#: templates/help.php:9
+#: templates/help.php:10
 msgid "Managing Big Files"
 msgstr ""
 
-#: templates/help.php:10
+#: templates/help.php:11
 msgid "Ask a question"
 msgstr ""
 
-#: templates/help.php:22
+#: templates/help.php:23
 msgid "Problems connecting to help database."
 msgstr ""
 
-#: templates/help.php:23
+#: templates/help.php:24
 msgid "Go there manually."
 msgstr ""
 
-#: templates/help.php:31
+#: templates/help.php:32
 msgid "Answer"
 msgstr ""
 

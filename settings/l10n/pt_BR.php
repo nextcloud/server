@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
+"Authentication error" => "erro de autenticação",
 "Email saved" => "Email gravado",
 "Invalid email" => "Email inválido",
 "OpenID Changed" => "Mudou OpenID",
 "Invalid request" => "Pedido inválido",
-"Authentication error" => "erro de autenticação",
 "Language changed" => "Mudou Idioma",
 "Error" => "Erro",
 "Disable" => "Desabilitado",
