@@ -449,6 +449,7 @@ class OC{
 			OC_App::loadApps();
 			OC_User::setupBackends();
 			if(isset($_GET["logout"]) and ($_GET["logout"])) {
+				OC_Preferences::deleteKey(OC_User::getUser(), 'login_token', $_COOKIE['oc_token']);
 				OC_User::logout();
 				header("Location: ".OC::$WEBROOT.'/');
 			}else{
@@ -523,15 +524,17 @@ class OC{
 			OC_Log::write('core', 'Trying to login from cookie', OC_Log::DEBUG);
 		}
 		// confirm credentials in cookie
-		if(isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username']) &&
-			OC_Preferences::getValue($_COOKIE['oc_username'], "login", "token") === $_COOKIE['oc_token'])
-		{
-			OC_User::setUserId($_COOKIE['oc_username']);
-			OC_Util::redirectToDefaultPage();
+		if(isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username'])) {
+			$tokens = OC_Preferences::getKeys($_COOKIE['oc_username'], 'login_token');
+			$tokens[] = OC_Preferences::getValue($_COOKIE['oc_username'], 'login', 'token');
+			if (in_array($_COOKIE['oc_token'], $tokens, true)) {
+				OC_User::setUserId($_COOKIE['oc_username']);
+				OC_Util::redirectToDefaultPage();
+				// doesn't return
+			}
+			OC_Preferences::deleteKey($_POST['user'], 'login_token', $_COOKIE['oc_token']);
 		}
-		else {
-			OC_User::unsetMagicInCookie();
-		}
+		OC_User::unsetMagicInCookie();
 		return true;
 	}
 
@@ -551,7 +554,7 @@ class OC{
 					OC_Log::write('core', 'Setting remember login to cookie', OC_Log::DEBUG);
 				}
 				$token = md5($_POST["user"].time().$_POST['password']);
-				OC_Preferences::setValue($_POST['user'], 'login', 'token', $token);
+				OC_Preferences::setValue($_POST['user'], 'login_token', $token, time());
 				OC_User::setMagicInCookie($_POST["user"], $token);
 			}
 			else {
