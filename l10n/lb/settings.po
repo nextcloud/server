@@ -3,32 +3,32 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <sim0n@trypill.org>, 2011, 2012.
+#   <sim0n@trypill.org>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 13:35+0200\n"
-"PO-Revision-Date: 2012-09-01 11:35+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-04 02:01+0200\n"
+"PO-Revision-Date: 2012-09-03 21:57+0000\n"
+"Last-Translator: sim0n <sim0n@trypill.org>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: lb\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Konnt Lescht net vum App Store lueden"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "E-mail gespäichert"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Ongülteg e-mail"
 
 #: ajax/openid.php:16
 msgid "OpenID Changed"
@@ -40,7 +40,7 @@ msgstr "Ongülteg Requête"
 
 #: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "Authentifikatioun's Fehler"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -48,19 +48,19 @@ msgstr "Sprooch huet geännert"
 
 #: js/apps.js:18
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
-msgstr ""
+msgstr "Ofschalten"
 
 #: js/apps.js:39 js/apps.js:62
 msgid "Enable"
-msgstr ""
+msgstr "Aschalten"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Speicheren..."
 
 #: personal.php:46 personal.php:47
 msgid "__language_name__"
@@ -68,7 +68,7 @@ msgstr "__language_name__"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "Sécherheets Warnung"
 
 #: templates/admin.php:17
 msgid ""
@@ -81,7 +81,7 @@ msgstr ""
 
 #: templates/admin.php:31
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:33
 msgid "execute one task with each page loaded"
@@ -89,27 +89,27 @@ msgstr ""
 
 #: templates/admin.php:35
 msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "cron.php ass als en webcron Service registréiert"
 
 #: templates/admin.php:37
 msgid "use systems cron service"
-msgstr ""
+msgstr "benotz den systems cron Service"
 
 #: templates/admin.php:41
 msgid "Share API"
-msgstr ""
+msgstr "Share API"
 
 #: templates/admin.php:46
 msgid "Enable Share API"
-msgstr ""
+msgstr "Share API aschalten"
 
 #: templates/admin.php:47
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Erlab Apps d'Share API ze benotzen"
 
 #: templates/admin.php:51
 msgid "Allow links"
-msgstr ""
+msgstr "Links erlaben"
 
 #: templates/admin.php:52
 msgid "Allow users to share items to the public with links"
@@ -117,7 +117,7 @@ msgstr ""
 
 #: templates/admin.php:56
 msgid "Allow resharing"
-msgstr ""
+msgstr "Resharing erlaben"
 
 #: templates/admin.php:57
 msgid "Allow users to share items shared with them again"
@@ -125,11 +125,11 @@ msgstr ""
 
 #: templates/admin.php:60
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Useren erlaben mat egal wiem ze sharen"
 
 #: templates/admin.php:62
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Useren nëmmen erlaben mat Useren aus hirer Grupp ze sharen"
 
 #: templates/admin.php:69
 msgid "Log"
@@ -159,7 +159,7 @@ msgstr "Wiel eng Applikatioun aus"
 
 #: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Kuck dir d'Applicatioun's Säit op apps.owncloud.com un"
 
 #: templates/apps.php:30
 msgid "-licensed"
@@ -283,7 +283,7 @@ msgstr "Aner"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "Gruppen Admin"
 
 #: templates/users.php:82
 msgid "Quota"

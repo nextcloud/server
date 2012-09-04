@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <sim0n@trypill.org>, 2011, 2012.
+#   <sim0n@trypill.org>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-04 02:01+0200\n"
+"PO-Revision-Date: 2012-09-03 21:52+0000\n"
+"Last-Translator: sim0n <sim0n@trypill.org>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: lb\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
@@ -58,43 +58,43 @@ msgstr "Läschen"
 
 #: js/filelist.js:141
 msgid "already exists"
-msgstr ""
+msgstr "existéiert schonn"
 
 #: js/filelist.js:141
 msgid "replace"
-msgstr ""
+msgstr "ersetzen"
 
 #: js/filelist.js:141
 msgid "cancel"
-msgstr ""
+msgstr "ofbriechen"
 
 #: js/filelist.js:195
 msgid "replaced"
-msgstr ""
+msgstr "ersat"
 
 #: js/filelist.js:195
 msgid "with"
-msgstr ""
+msgstr "mat"
 
 #: js/filelist.js:195 js/filelist.js:246
 msgid "undo"
-msgstr ""
+msgstr "réckgängeg man"
 
 #: js/filelist.js:246
 msgid "deleted"
-msgstr ""
+msgstr "geläscht"
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "Et  gëtt eng ZIP-File generéiert, dëst ka bëssen daueren."
 
 #: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Kann deng Datei net eroplueden well et en Dossier ass oder 0 byte grouss ass."
 
 #: js/files.js:208
 msgid "Upload Error"
-msgstr ""
+msgstr "Fehler beim eroplueden"
 
 #: js/files.js:236 js/files.js:327 js/files.js:356
 msgid "Pending"
@@ -102,16 +102,16 @@ msgstr ""
 
 #: js/files.js:341
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Upload ofgebrach."
 
 #: js/files.js:409
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach."
 
 #: js/files.js:480
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Ongültege Numm, '/' net erlaabt."
 
 #: js/files.js:726 templates/index.php:55
 msgid "Size"
@@ -123,19 +123,19 @@ msgstr "Geännert"
 
 #: js/files.js:754
 msgid "folder"
-msgstr ""
+msgstr "Dossier"
 
 #: js/files.js:756
 msgid "folders"
-msgstr ""
+msgstr "Dossieren"
 
 #: js/files.js:764
 msgid "file"
-msgstr ""
+msgstr "Datei"
 
 #: js/files.js:766
 msgid "files"
-msgstr ""
+msgstr "Dateien"
 
 #: templates/admin.php:5
 msgid "File handling"

@@ -21,5 +21,8 @@
 "last month" => "joan den hilabetea",
 "months ago" => "orain dela hilabete batzuk",
 "last year" => "joan den urtea",
-"years ago" => "orain dela urte batzuk"
+"years ago" => "orain dela urte batzuk",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s eskuragarri dago. Lortu <a href=\"%s\">informazio gehiago</a>",
+"up to date" => "eguneratuta",
+"updates check is disabled" => "eguneraketen egiaztapena ez dago gaituta"
 );

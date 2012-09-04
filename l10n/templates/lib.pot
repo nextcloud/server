@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-03 02:04+0200\n"
+"POT-Creation-Date: 2012-09-04 02:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,45 +69,45 @@ msgstr ""
 msgid "Token expired. Please reload page."
 msgstr ""
 
-#: template.php:86
+#: template.php:87
 msgid "seconds ago"
 msgstr ""
 
-#: template.php:87
+#: template.php:88
 msgid "1 minute ago"
 msgstr ""
 
-#: template.php:88
+#: template.php:89
 #, php-format
 msgid "%d minutes ago"
 msgstr ""
 
-#: template.php:91
+#: template.php:92
 msgid "today"
 msgstr ""
 
-#: template.php:92
+#: template.php:93
 msgid "yesterday"
 msgstr ""
 
-#: template.php:93
+#: template.php:94
 #, php-format
 msgid "%d days ago"
 msgstr ""
 
-#: template.php:94
+#: template.php:95
 msgid "last month"
 msgstr ""
 
-#: template.php:95
+#: template.php:96
 msgid "months ago"
 msgstr ""
 
-#: template.php:96
+#: template.php:97
 msgid "last year"
 msgstr ""
 
-#: template.php:97
+#: template.php:98
 msgid "years ago"
 msgstr ""
 

@@ -7,20 +7,21 @@
 # Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
 # Johannes Korpela <>, 2012.
 # Pekka Sutela <pekka.sutela@gmail.com>, 2012.
+#   <tehoratopato@gmail.com>, 2012.
 #   <tscooter@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-04 02:01+0200\n"
+"PO-Revision-Date: 2012-09-03 16:24+0000\n"
+"Last-Translator: teho <tehoratopato@gmail.com>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi_FI\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
@@ -36,7 +37,7 @@ msgstr "Tämä luokka on jo olemassa: "
 
 #: js/jquery-ui-1.8.16.custom.min.js:511
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr ""
+msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 
 #: js/js.js:206 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
@@ -234,7 +235,7 @@ msgstr "Tietokannan nimi"
 
 #: templates/installation.php:109
 msgid "Database tablespace"
-msgstr ""
+msgstr "Tietokannan taulukkotila"
 
 #: templates/installation.php:115
 msgid "Database host"

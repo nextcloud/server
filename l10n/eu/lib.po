@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 02:01+0200\n"
-"PO-Revision-Date: 2012-09-01 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-04 02:01+0200\n"
+"PO-Revision-Date: 2012-09-03 13:06+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eu\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: app.php:288
 msgid "Help"
@@ -70,57 +70,57 @@ msgstr "Autentikazio errorea"
 msgid "Token expired. Please reload page."
 msgstr "Tokena iraungitu da. Mesedez birkargatu orria."
 
-#: template.php:86
+#: template.php:87
 msgid "seconds ago"
 msgstr "orain dela segundu batzuk"
 
-#: template.php:87
+#: template.php:88
 msgid "1 minute ago"
 msgstr "orain dela minutu 1"
 
-#: template.php:88
+#: template.php:89
 #, php-format
 msgid "%d minutes ago"
 msgstr "orain dela %d minutu"
 
-#: template.php:91
+#: template.php:92
 msgid "today"
 msgstr "gaur"
 
-#: template.php:92
+#: template.php:93
 msgid "yesterday"
 msgstr "atzo"
 
-#: template.php:93
+#: template.php:94
 #, php-format
 msgid "%d days ago"
 msgstr "orain dela %d egun"
 
-#: template.php:94
+#: template.php:95
 msgid "last month"
 msgstr "joan den hilabetea"
 
-#: template.php:95
+#: template.php:96
 msgid "months ago"
 msgstr "orain dela hilabete batzuk"
 
-#: template.php:96
+#: template.php:97
 msgid "last year"
 msgstr "joan den urtea"
 
-#: template.php:97
+#: template.php:98
 msgid "years ago"
 msgstr "orain dela urte batzuk"
 
 #: updater.php:66
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s eskuragarri dago. Lortu <a href=\"%s\">informazio gehiago</a>"
 
 #: updater.php:68
 msgid "up to date"
-msgstr ""
+msgstr "eguneratuta"
 
 #: updater.php:71
 msgid "updates check is disabled"
-msgstr ""
+msgstr "eguneraketen egiaztapena ez dago gaituta"

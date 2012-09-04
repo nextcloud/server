@@ -51,6 +51,7 @@
 "Database user" => "Użytkownik bazy danych",
 "Database password" => "Hasło do bazy danych",
 "Database name" => "Nazwa bazy danych",
+"Database tablespace" => "Obszar tabel bazy danych",
 "Database host" => "Komputer bazy danych",
 "Finish setup" => "Zakończ konfigurowanie",
 "web services under your control" => "usługi internetowe pod kontrolą",

@@ -21,5 +21,8 @@
 "last month" => "先月",
 "months ago" => "月前",
 "last year" => "昨年",
-"years ago" => "年前"
+"years ago" => "年前",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s が利用可能です。<a href=\"%s\">詳細情報</a> を確認ください",
+"up to date" => "最新です",
+"updates check is disabled" => "更新チェックは無効です"
 );

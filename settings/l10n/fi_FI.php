@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Unable to load list from App Store" => "Ei pystytä lataamaan listaa sovellusvarastosta (App Store)",
 "Email saved" => "Sähköposti tallennettu",
 "Invalid email" => "Virheellinen sähköposti",
 "OpenID Changed" => "OpenID on vaihdettu",
@@ -11,11 +12,18 @@
 "Saving..." => "Tallennetaan...",
 "__language_name__" => "_kielen_nimi_",
 "Security Warning" => "Turvallisuusvaroitus",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Data-kansio ja tiedostot ovat ehkä saavutettavissa Internetistä. .htaccess-tiedosto, jolla kontrolloidaan pääsyä, ei toimi. Suosittelemme, että muutat web-palvelimesi asetukset niin ettei data-kansio ole enää pääsyä tai siirrät data-kansion pois web-palvelimen tiedostojen juuresta.",
 "Cron" => "Cron",
+"execute one task with each page loaded" => "suorita yksi tehtävä jokaisella ladatulla sivulla",
+"cron.php is registered at a webcron service" => "cron.php on rekisteröity webcron-palvelulla",
 "use systems cron service" => "käytä järjestelmän cron-palvelua",
+"Share API" => "Jaon ohelmointirajapinta (Share API)",
+"Enable Share API" => "Ota käyttöön jaon ohjelmoitirajapinta (Share API)",
+"Allow apps to use the Share API" => "Salli sovellusten käyttää jaon ohjelmointirajapintaa (Share API)",
 "Allow links" => "Salli linkit",
 "Allow users to share items to the public with links" => "Salli käyttäjien jakaa kohteita julkisesti linkkejä käyttäen",
 "Allow resharing" => "Salli uudelleenjako",
+"Allow users to share items shared with them again" => "Salli käyttäjien jakaa heille itselleen jaettuja tietoja edelleen",
 "Allow users to share with anyone" => "Salli käyttäjien jakaa kohteita kenen tahansa kanssa",
 "Allow users to only share with users in their groups" => "Salli käyttäjien jakaa kohteita vain omien ryhmien jäsenten kesken",
 "Log" => "Loki",
@@ -54,6 +62,7 @@
 "Create" => "Luo",
 "Default Quota" => "Oletuskiintiö",
 "Other" => "Muu",
+"Group Admin" => "Ryhmän ylläpitäjä",
 "Quota" => "Kiintiö",
 "Delete" => "Poista"
 );

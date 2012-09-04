@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 02:01+0200\n"
-"PO-Revision-Date: 2012-09-01 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-04 02:01+0200\n"
+"PO-Revision-Date: 2012-09-03 10:11+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ca\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: app.php:288
 msgid "Help"
@@ -70,57 +70,57 @@ msgstr "Error d'autenticació"
 msgid "Token expired. Please reload page."
 msgstr "El testimoni ha expirat. Torneu a carregar la pàgina."
 
-#: template.php:86
+#: template.php:87
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: template.php:87
+#: template.php:88
 msgid "1 minute ago"
 msgstr "fa 1 minut"
 
-#: template.php:88
+#: template.php:89
 #, php-format
 msgid "%d minutes ago"
 msgstr "fa %d minuts"
 
-#: template.php:91
+#: template.php:92
 msgid "today"
 msgstr "avui"
 
-#: template.php:92
+#: template.php:93
 msgid "yesterday"
 msgstr "ahir"
 
-#: template.php:93
+#: template.php:94
 #, php-format
 msgid "%d days ago"
 msgstr "fa %d dies"
 
-#: template.php:94
+#: template.php:95
 msgid "last month"
 msgstr "el mes passat"
 
-#: template.php:95
+#: template.php:96
 msgid "months ago"
 msgstr "mesos enrere"
 
-#: template.php:96
+#: template.php:97
 msgid "last year"
 msgstr "l'any passat"
 
-#: template.php:97
+#: template.php:98
 msgid "years ago"
 msgstr "fa anys"
 
 #: updater.php:66
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s està disponible. Obtén <a href=\"%s\">més informació</a>"
 
 #: updater.php:68
 msgid "up to date"
-msgstr ""
+msgstr "actualitzat"
 
 #: updater.php:71
 msgid "updates check is disabled"
-msgstr ""
+msgstr "la comprovació d'actualitzacions està desactivada"

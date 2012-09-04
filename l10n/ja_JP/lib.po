@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 02:01+0200\n"
-"PO-Revision-Date: 2012-09-01 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-04 02:01+0200\n"
+"PO-Revision-Date: 2012-09-03 15:55+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ja_JP\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: app.php:288
 msgid "Help"
@@ -70,57 +70,57 @@ msgstr "認証エラー"
 msgid "Token expired. Please reload page."
 msgstr "トークンが無効になりました。ページを再読込してください。"
 
-#: template.php:86
+#: template.php:87
 msgid "seconds ago"
 msgstr "秒前"
 
-#: template.php:87
+#: template.php:88
 msgid "1 minute ago"
 msgstr "1分前"
 
-#: template.php:88
+#: template.php:89
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d 分前"
 
-#: template.php:91
+#: template.php:92
 msgid "today"
 msgstr "今日"
 
-#: template.php:92
+#: template.php:93
 msgid "yesterday"
 msgstr "昨日"
 
-#: template.php:93
+#: template.php:94
 #, php-format
 msgid "%d days ago"
 msgstr "%d 日前"
 
-#: template.php:94
+#: template.php:95
 msgid "last month"
 msgstr "先月"
 
-#: template.php:95
+#: template.php:96
 msgid "months ago"
 msgstr "月前"
 
-#: template.php:96
+#: template.php:97
 msgid "last year"
 msgstr "昨年"
 
-#: template.php:97
+#: template.php:98
 msgid "years ago"
 msgstr "年前"
 
 #: updater.php:66
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s が利用可能です。<a href=\"%s\">詳細情報</a> を確認ください"
 
 #: updater.php:68
 msgid "up to date"
-msgstr ""
+msgstr "最新です"
 
 #: updater.php:71
 msgid "updates check is disabled"
-msgstr ""
+msgstr "更新チェックは無効です"
