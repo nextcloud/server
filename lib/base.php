@@ -78,19 +78,19 @@ class OC{
 			require_once $path;
 		}
 		elseif(strpos($className, 'OC_')===0) {
-			$path = strtolower(str_replace('_', '/', substr($className,3)) . '.php');
+			$path = strtolower(str_replace('_', '/', substr($className, 3)) . '.php');
 		}
 		elseif(strpos($className, 'OCP\\')===0) {
-			$path = 'public/'.strtolower(str_replace('\\',' /',s ubstr($className,3)) . '.php');
+			$path = 'public/'.strtolower(str_replace('\\',' /', substr($className, 3)) . '.php');
 		}
 		elseif(strpos($className, 'OCA\\')===0) {
-			$path = 'apps/'.strtolower(str_replace('\\', '/', substr($className,3)) . '.php');
+			$path = 'apps/'.strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
 		}
 		elseif(strpos($className, 'Sabre_')===0) {
 			$path =  str_replace('_', '/', $className) . '.php';
 		}
 		elseif(strpos($className,'Test_')===0) {
-			$path =  'tests/lib/'.strtolower(str_replace('_', '/', substr($className,5 )) . '.php');
+			$path =  'tests/lib/'.strtolower(str_replace('_', '/', substr($className, 5)) . '.php');
 		}else{
 			return false;
 		}
