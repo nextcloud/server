@@ -135,5 +135,3 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			break;
 	}
 }
-
-?>
