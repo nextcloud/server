@@ -81,7 +81,7 @@ class OC{
 			$path = strtolower(str_replace('_', '/', substr($className, 3)) . '.php');
 		}
 		elseif(strpos($className, 'OCP\\')===0) {
-			$path = 'public/'.strtolower(str_replace('\\',' /', substr($className, 3)) . '.php');
+			$path = 'public/'.strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
 		}
 		elseif(strpos($className, 'OCA\\')===0) {
 			$path = 'apps/'.strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
