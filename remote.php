@@ -1,6 +1,6 @@
 <?php
 $RUNTIME_NOAPPS = TRUE;
-require_once('lib/base.php');
+require_once 'lib/base.php';
 $path_info = OC_Request::getPathInfo();
 if ($path_info === false || $path_info === '') {
 	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
@@ -13,12 +13,12 @@ $service=substr($path_info, 1, $pos-1);
 
 $file = OC_AppConfig::getValue('core', 'remote_' . $service);
 
-if(is_null($file)){
+if(is_null($file)) {
 	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
 	exit;
 }
 
-$file=ltrim($file,'/');
+$file=ltrim($file, '/');
 
 $parts=explode('/', $file, 2);
 $app=$parts[0];
@@ -33,4 +33,4 @@ switch ($app) {
 		break;
 }
 $baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
-require_once($file);
+require_once $file;
