@@ -7,7 +7,7 @@
 */
 
 $RUNTIME_NOAPPS = TRUE; //no apps
-require_once('../../lib/base.php');
+require_once '../../lib/base.php';
 
 
 // Someone lost their password:
@@ -23,20 +23,20 @@ if (isset($_POST['user'])) {
 			$msg = $tmpl->fetchPage();
 			$l = OC_L10N::get('core');
 			$from = 'lostpassword-noreply@' . OCP\Util::getServerHost();
-			OC_MAIL::send($email,$_POST['user'],$l->t('ownCloud password reset'),$msg,$from,'ownCloud');
+			OC_MAIL::send($email, $_POST['user'], $l->t('ownCloud password reset'), $msg, $from, 'ownCloud');
 			echo('sent');
 
 		}
-		$sectoken=rand(1000000,9999999);
+		$sectoken=rand(1000000, 9999999);
 		$_SESSION['sectoken']=$sectoken;
 		OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => false, 'requested' => true, 'sectoken' => $sectoken));
 	} else {
-		$sectoken=rand(1000000,9999999);
+		$sectoken=rand(1000000, 9999999);
 		$_SESSION['sectoken']=$sectoken;
 		OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => true, 'requested' => false, 'sectoken' => $sectoken));
 	}
 } else {
-	$sectoken=rand(1000000,9999999);
+	$sectoken=rand(1000000, 9999999);
 	$_SESSION['sectoken']=$sectoken;
 	OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => false, 'requested' => false, 'sectoken' => $sectoken));
 }
