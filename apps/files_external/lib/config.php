@@ -186,7 +186,7 @@ class OC_Mount_Config {
 	*/
 	private static function readData($isPersonal) {
 		if ($isPersonal) {
-			$file = OC::$SERVERROOT.'/data/'.OCP\User::getUser().'/mount.php';
+			$file = OC_User::getHome(OCP\User::getUser()).'/mount.php';
 		} else {
 			$file = OC::$SERVERROOT.'/config/mount.php';
 		}
@@ -206,7 +206,7 @@ class OC_Mount_Config {
 	*/
 	private static function writeData($isPersonal, $data) {
 		if ($isPersonal) {
-			$file = OC::$SERVERROOT.'/data/'.OCP\User::getUser().'/mount.php';
+			$file = OC_User::getHome(OCP\User::getUser()).'/mount.php';
 		} else {
 			$file = OC::$SERVERROOT.'/config/mount.php';
 		}
