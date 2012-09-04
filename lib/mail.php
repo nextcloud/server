@@ -55,6 +55,7 @@ class OC_Mail {
 
 		$mailo->From =$fromaddress;
 		$mailo->FromName = $fromname;;
+		$mailo->Sender =$fromaddress;
 		$a=explode(' ',$toaddress);
 		try {
 			foreach($a as $ad) {
