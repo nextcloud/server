@@ -7,13 +7,13 @@
  */
 
 // Init owncloud
-require_once('../../../lib/base.php');
+require_once '../../../lib/base.php';
 
 OC_JSON::checkAdminUser();
 
 $l = OC_L10N::get('core');
 
-if(OC_Config::getValue('appstoreenabled', true)==false){
+if(OC_Config::getValue('appstoreenabled', true)==false) {
 	OCP\JSON::success(array('type' => 'external', 'data' => array()));
 }
 
@@ -27,11 +27,11 @@ $apps=array();
 
 // apps from external repo via OCS
 $catagoryNames=OC_OCSClient::getCategories();
-if(is_array($catagoryNames)){
+if(is_array($catagoryNames)) {
 	$categories=array_keys($catagoryNames);
 	$page=0;
 	$filter='approved';
-	$externalApps=OC_OCSClient::getApplications($categories,$page,$filter);
+	$externalApps=OC_OCSClient::getApplications($categories, $page, $filter);
 	foreach($externalApps as $app){
 		// show only external apps that aren't enabled yet
 		$local=false;
