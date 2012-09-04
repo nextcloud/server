@@ -5,7 +5,7 @@
  * See the COPYING-README file.
  */
 
-require_once('../lib/base.php');
+require_once '../lib/base.php';
 OC_Util::checkLoggedIn();
 
 // Highlight navigation entry
@@ -29,21 +29,21 @@ $total=$free+$used;
 if($total==0) $total=1;  // prevent division by zero
 $relative=round(($used/$total)*10000)/100;
 
-$email=OC_Preferences::getValue(OC_User::getUser(), 'settings','email','');
+$email=OC_Preferences::getValue(OC_User::getUser(), 'settings', 'email', '');
 
 $lang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', OC_L10N::findLanguage() );
 $languageCodes=OC_L10N::findAvailableLanguages();
 sort ($languageCodes);
 
 //put the current language in the front
-unset($languageCodes[array_search($lang,$languageCodes)]);
+unset($languageCodes[array_search($lang, $languageCodes)]);
 array_unshift($languageCodes,$lang);
 
 $languageNames=include 'languageCodes.php';
 $languages=array();
 foreach($languageCodes as $lang){
 	$l=OC_L10N::get('settings',$lang);
-	if(substr($l->t('__language_name__'),0,1)!='_'){//first check if the language name is in the translation file
+	if(substr($l->t('__language_name__'), 0, 1)!='_') {//first check if the language name is in the translation file
 		$languages[]=array('code'=>$lang,'name'=>$l->t('__language_name__'));
 	}elseif(isset($languageNames[$lang])){
 		$languages[]=array('code'=>$lang,'name'=>$languageNames[$lang]);
@@ -54,15 +54,15 @@ foreach($languageCodes as $lang){
 
 // Return template
 $tmpl = new OC_Template( 'settings', 'personal', 'user');
-$tmpl->assign('usage',OC_Helper::humanFileSize($used));
-$tmpl->assign('total_space',OC_Helper::humanFileSize($total));
-$tmpl->assign('usage_relative',$relative);
-$tmpl->assign('email',$email);
-$tmpl->assign('languages',$languages);
+$tmpl->assign('usage', OC_Helper::humanFileSize($used));
+$tmpl->assign('total_space', OC_Helper::humanFileSize($total));
+$tmpl->assign('usage_relative', $relative);
+$tmpl->assign('email', $email);
+$tmpl->assign('languages', $languages);
 
 $forms=OC_App::getForms('personal');
-$tmpl->assign('forms',array());
+$tmpl->assign('forms', array());
 foreach($forms as $form){
-	$tmpl->append('forms',$form);
+	$tmpl->append('forms', $form);
 }
 $tmpl->printPage();
