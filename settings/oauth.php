@@ -6,27 +6,41 @@
  */
 
 require_once('../lib/base.php');
-
 // Logic
 $operation = isset($_GET['operation']) ? $_GET['operation'] : '';
-$server = new OC_OAuth_Server(new OC_OAuth_Store());
+$server = OC_OAuth_server::init();
+
 switch($operation){
 	
 	case 'register':
-		
+
+		// Here external apps can register with an ownCloud
+		if(empty($_GET['name']) || empty($_GET['url'])){
+			// Invalid request
+			echo 401;
+		} else {
+			$callbacksuccess = empty($_GET['callback_success']) ? null : $_GET['callback_success'];
+			$callbackfail = empty($_GET['callback_fail']) ? null : $_GET['callback_fail'];
+			$consumer = OC_OAuth_Server::register_consumer($_GET['name'], $_GET['url'], $callbacksuccess, $callbackfail);
+			
+			echo 'Registered consumer successfully! </br></br>Key: ' . $consumer->key . '</br>Secret: ' . $consumer->secret;
+		}
 	break;
 	
 	case 'request_token':
+		
 		try {
 			$request = OAuthRequest::from_request();
-			$token = $server->fetch_request_token($request);
+			$token = $server->get_request_token($request);
 			echo $token;
 		} catch (OAuthException $exception) {
 			OC_Log::write('OC_OAuth_Server', $exception->getMessage(), OC_LOG::ERROR);
 			echo $exception->getMessage();
 		}
-		break;
+	
+	break;
 	case 'authorise';
+	
 		OC_API::checkLoggedIn();
 		// Example
 		$consumer = array(
@@ -74,7 +88,8 @@ switch($operation){
 			OC_Log::write('OC_OAuth_Server', $exception->getMessage(), OC_LOG::ERROR);
 			echo $exception->getMessage();
 		}
-		break;
+		
+	break;
 	default:
 		// Something went wrong, we need an operation!
 		OC_Response::setStatus(400);

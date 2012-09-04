@@ -22,16 +22,18 @@
 * 
 */
 
-class OC_OAuth_Store {
+class OC_OAuth_Store extends OAuthDataStore {
+
+	static private $MAX_TIMESTAMP_DIFFERENCE = 300;
 
 	function lookup_consumer($consumer_key) {
-		$query = OC_DB::prepare("SELECT `key`, `secret`, `callback` FROM `*PREFIX*oauth_consumers` WHERE `key` = ?");
+		$query = OC_DB::prepare("SELECT `key`, `secret`, `callback_success` FROM `*PREFIX*oauth_consumers` WHERE `key` = ?");
 		$results = $query->execute(array($consumer_key));
 		if($results->numRows()==0){
 			return NULL;
 		} else {
 			$details = $results->fetchRow();
-			$callback = !empty($details['callback']) ? $details['callback'] : NULL;
+			$callback = !empty($details['callback_success']) ? $details['callback_success'] : NULL;
 			return new OAuthConsumer($details['key'], $details['secret'], $callback);
 		}
 	}
@@ -49,24 +51,24 @@ class OC_OAuth_Store {
 
 	function lookup_nonce($consumer, $token, $nonce, $timestamp) {
 		$query = OC_DB::prepare("INSERT INTO `*PREFIX*oauth_nonce` (`consumer_key`, `token`, `timestamp`, `nonce`) VALUES (?, ?, ?, ?)");
-		$affectedrows = $query->exec(array($consumer->key, $token->key, $timestamp, $nonce));
+		$affectedrows = $query->execute(array($consumer->key, $token, $timestamp, $nonce));
 		// Delete all timestamps older than the one passed
 		$query = OC_DB::prepare("DELETE FROM `*PREFIX*oauth_nonce` WHERE `consumer_key` = ? AND `token` = ? AND `timestamp` < ?");
-		$query->execute(array($consumer->key, $token->key, $timestamp - self::MAX_TIMESTAMP_DIFFERENCE));
+		$result = $query->exec(array($consumer->key, $token, $timestamp - self::$MAX_TIMESTAMP_DIFFERENCE));
 		return $result;
 	}
 
-	function new_token($consumer, $token_type, $scope = null) {
+	function new_token($consumer, $token_type) {
 		$key = md5(time());
 		$secret = time() + time();
 		$token = new OAuthToken($key, md5(md5($secret)));
-		$query = OC_DB::prepare("INSERT INTO `*PREFIX*oauth_tokens` (`consumer_key`, `key`, `secret`, `type`, `scope`, `timestamp`) VALUES (?, ?, ?, ?, ?, ?)");
-		$result = $query->execute(array($consumer->key, $key, $secret, $token_type, $scope, time()));
+		$query = OC_DB::prepare("INSERT INTO `*PREFIX*oauth_tokens` (`consumer_key`, `key`, `secret`, `type`, `timestamp`) VALUES (?, ?, ?, ?, ?, ?)");
+		$result = $query->execute(array($consumer->key, $key, $secret, $token_type, time()));
 		return $token;
 	}
 
-	function new_request_token($consumer, $scope, $callback = null) {
-		return $this->new_token($consumer, 'request', $scope);
+	function new_request_token($consumer, $callback = null) {
+		return $this->new_token($consumer, 'request');
 	}
 
 	function authorise_request_token($token, $consumer, $uid) {

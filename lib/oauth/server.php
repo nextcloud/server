@@ -26,15 +26,30 @@ require_once(OC::$THIRDPARTYROOT.'/3rdparty/OAuth/OAuth.php');
 
 class OC_OAuth_Server extends OAuthServer {
 
-	public function fetch_request_token(&$request) {
-		$this->get_version($request);
-		$consumer = $this->get_consumer($request);
-		$this->check_signature($request, $consumer, null);
-		$callback = $request->get_parameter('oauth_callback');
-		$scope = $request->get_parameter('scope');
-		// TODO Validate scopes
-		return $this->data_store->new_request_token($consumer, $scope, $callback);
+	/** 
+	 * sets up the server object
+	 */
+	public static function init(){
+		$server = new OC_OAuth_Server(new OC_OAuth_Store());
+		$server->add_signature_method(new OAuthSignatureMethod_HMAC_SHA1());
+		return $server;
 	}
+
+	public function get_request_token(&$request){
+		// Check the signature
+		$token = $this->fetch_request_token($request);
+		$scopes = $request->get_parameter('scopes');
+		// Add scopes to request token
+		$this->saveScopes($token, $scopes);
+		
+		return $token;
+	}
+	
+	public function saveScopes($token, $scopes){
+		$query = OC_DB::prepare("INSERT INTO `*PREFIX*oauth_scopes` (`key`, `scopes`) VALUES (?, ?)");
+		$result = $query->execute(array($token->key, $scopes));
+	}
+	
 	
 	/**
 	 * authorises a request token
@@ -72,6 +87,25 @@ class OC_OAuth_Server extends OAuthServer {
 // 		OC_User::setUserId($user);
 // 		OC_Hook::emit( "OC_User", "post_login", array( "uid" => $user ));
 // 		return $user;
+	}
+	
+	/**
+	 * registers a consumer with the ownCloud Instance
+	 * @param string $name the name of the external app
+	 * @param string $url the url to find out more info on the external app
+	 * @param string $callbacksuccess the url to redirect to after autorisation success
+	 * @param string $callbackfail the url to redirect to if the user does not authorise the application
+	 * @return false|OAuthConsumer object
+	 */
+	static function register_consumer($name, $url, $callbacksuccess=null, $callbackfail=null){
+		// TODO validation
+		// Check callback url is outside of ownCloud for security
+		// Generate key and secret
+		$key = sha1(md5(uniqid(rand(), true)));
+		$secret = sha1(md5(uniqid(rand(), true)));
+		$query = OC_DB::prepare("INSERT INTO `*PREFIX*oauth_consumers` (`key`, `secret`, `name`, `url`, `callback_success`, `callback_fail`) VALUES (?, ?, ?, ?, ?, ?)");
+		$result = $query->execute(array($key, $secret, $name, $url, $callbacksuccess, $callbackfail));
+		return new OAuthConsumer($key, $secret, $callbacksuccess);
 	}
 	
 }
