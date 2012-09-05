@@ -4,7 +4,7 @@
  * See the COPYING-README file.
  */
 
-UserList={
+var UserList={
 	useUndo:true,
 	
 	/**

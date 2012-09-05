@@ -1,4 +1,4 @@
-OCCategories={
+var OCCategories={
 	edit:function(){
 		if(OCCategories.app == undefined) {
 			OC.dialogs.alert('OCCategories.app is not set!');
