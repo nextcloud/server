@@ -26,7 +26,7 @@ OCP\API::register('get', '/cloud/users', array('OC_Provisioning_API_Users', 'get
 OCP\API::register('post', '/cloud/users', array('OC_Provisioning_API_Users', 'addUser'), 'provisioning_api');
 OCP\API::register('get', '/cloud/users/{userid}', array('OC_Provisioning_API_Users', 'getUser'), 'provisioning_api');
 OCP\API::register('put', '/cloud/users/{userid}', array('OC_Provisioning_API_Users', 'editUser'), 'provisioning_api');
-OCP\API::register('delete', '/cloud/users/{userid}', array('OC_Provisioning_API_Users', 'getUsers'), 'provisioning_api');
+OCP\API::register('delete', '/cloud/users/{userid}', array('OC_Provisioning_API_Users', 'deleteUser'), 'provisioning_api');
 OCP\API::register('get', '/cloud/users/{userid}/sharedwith', array('OC_Provisioning_API_Users', 'getSharedWithUser'), 'provisioning_api');
 OCP\API::register('get', '/cloud/users/{userid}/sharedby', array('OC_Provisioning_API_Users', 'getSharedByUser'), 'provisioning_api');
 OCP\API::register('delete', '/cloud/users/{userid}/sharedby', array('OC_Provisioning_API_Users', 'deleteSharedByUser'), 'provisioning_api');
@@ -40,7 +40,7 @@ OCP\API::register('get', '/cloud/groups/{groupid}', array('OC_Provisioning_API_G
 OCP\API::register('delete', '/cloud/groups/{groupid}', array('OC_Provisioning_API_Groups', 'deleteGroup'), 'provisioning_api');
 // apps
 OCP\API::register('get', '/cloud/apps', array('OC_Provisioning_API_Apps', 'getApps'), 'provisioning_api');
-OCP\API::register('get', '/cloud/apps/{appid}', array('OC_Provisioning_API_Apps', 'getApp'), 'provisioning_api');
+OCP\API::register('get', '/cloud/apps/{appid}', array('OC_Provisioning_API_Apps', 'getAppInfo'), 'provisioning_api');
 OCP\API::register('post', '/cloud/apps/{appid}', array('OC_Provisioning_API_Apps', 'enable'), 'provisioning_api');
 OCP\API::register('delete', '/cloud/apps/{appid}', array('OC_Provisioning_API_Apps', 'disable'), 'provisioning_api');
 ?>
