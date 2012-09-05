@@ -402,9 +402,8 @@
 
    <field>
     <name>configvalue</name>
-    <type>text</type>
-    <notnull>true</notnull>
-    <length>255</length>
+    <type>clob</type>
+    <notnull>false</notnull>
    </field>
 
   </declaration>
