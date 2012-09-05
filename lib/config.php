@@ -70,7 +70,7 @@ class OC_Config{
 	public static function getValue( $key, $default = null ){
 		self::readData();
 
-		if( array_key_exists( $key, self::$cache )){
+		if( array_key_exists( $key, self::$cache )) {
 			return self::$cache[$key];
 		}
 
@@ -108,7 +108,7 @@ class OC_Config{
 	public static function deleteKey( $key ){
 		self::readData();
 
-		if( array_key_exists( $key, self::$cache )){
+		if( array_key_exists( $key, self::$cache )) {
 			// Delete key from cache
 			unset( self::$cache[$key] );
 
@@ -126,17 +126,17 @@ class OC_Config{
 	 * Reads the config file and saves it to the cache
 	 */
 	private static function readData(){
-		if( self::$init ){
+		if( self::$init ) {
 			return true;
 		}
 
-		if( !file_exists( OC::$SERVERROOT."/config/config.php" )){
+		if( !file_exists( OC::$SERVERROOT."/config/config.php" )) {
 			return false;
 		}
 
 		// Include the file, save the data from $CONFIG
-		include( OC::$SERVERROOT."/config/config.php" );
-		if( isset( $CONFIG ) && is_array( $CONFIG )){
+		include OC::$SERVERROOT."/config/config.php";
+		if( isset( $CONFIG ) && is_array( $CONFIG )) {
 			self::$cache = $CONFIG;
 		}
 
@@ -164,7 +164,9 @@ class OC_Config{
 		$result=@file_put_contents( $filename, $content );
 		if(!$result) {
 			$tmpl = new OC_Template( '', 'error', 'guest' );
-			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
+			$tmpl->assign('errors', array(1=>array(
+				'error'=>"Can't write into config directory 'config'",
+				'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
 			$tmpl->printPage();
 			exit;
 		}
