@@ -24,19 +24,41 @@
 class OC_Provisioning_API_Apps {
 	
 	public static function getApps($parameters){
-		
+		$filter = isset($_GET['filter']) ? $_GET['filter'] : false;
+		if($filter){
+			switch($filter){
+				case 'enabled':
+					return array('apps' => OC_App::getEnabledApps());
+					break;
+				case 'disabled':
+					$apps = OC_App::getAllApps();
+					$enabled = OC_App::getEnabledApps();
+					return array('apps' => array_diff($apps, $enabled));
+					break;
+				default:
+					// Invalid filter variable
+					return 101;
+					break;
+			}
+			
+		} else {
+			return array('apps' => OC_App::getAllApps());
+		}
 	}
 	
 	public static function getAppInfo($parameters){
-		
+		$app = $parameters['appid'];
+		return OC_App::getAppInfo($app);
 	}
 	
 	public static function enable($parameters){
-		
+		$app = $parameters['appid'];
+		OC_App::enable($app);
 	}
 	
 	public static function diable($parameters){
-		
+		$app = $parameters['appid'];
+		OC_App::disable($app);
 	}
 	
 }
