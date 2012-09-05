@@ -15,8 +15,6 @@
 "Add your App" => "Uygulamanı Ekle",
 "Select an App" => "Bir uygulama seçin",
 "See application page at apps.owncloud.com" => "Uygulamanın sayfasına apps.owncloud.com adresinden bakın ",
-"-licensed" => "-lisanslı",
-"by" => "yapan",
 "Documentation" => "Dökümantasyon",
 "Managing Big Files" => "Büyük Dosyaların Yönetimi",
 "Ask a question" => "Bir soru sorun",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-04 12:42+0200\n"
+"POT-Creation-Date: 2012-09-05 02:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,6 +162,10 @@ msgstr ""
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
+msgstr ""
+
+#: templates/admin.php:14
+msgid "Save"
 msgstr ""
 
 #: templates/index.php:7

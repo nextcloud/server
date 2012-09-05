@@ -21,8 +21,6 @@
 "Add your App" => "Adaugă aplicația ta",
 "Select an App" => "Selectează o aplicație",
 "See application page at apps.owncloud.com" => "Vizualizează pagina applicației pe apps.owncloud.com",
-"-licensed" => "-autorizat",
-"by" => "de",
 "Documentation" => "Documetație",
 "Managing Big Files" => "Gestionînd fișiere mari",
 "Ask a question" => "Întreabă",

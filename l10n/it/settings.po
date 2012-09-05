@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-04 12:42+0200\n"
-"PO-Revision-Date: 2012-09-04 10:42+0000\n"
+"POT-Creation-Date: 2012-09-05 02:02+0200\n"
+"PO-Revision-Date: 2012-09-05 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -29,17 +29,17 @@ msgid "Unable to load list from App Store"
 msgstr "Impossibile caricare l'elenco dall'App Store"
 
 #: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:18
+#: ajax/togglegroups.php:15
 msgid "Authentication error"
 msgstr "Errore di autenticazione"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "Il gruppo esiste già"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "Impossibile aggiungere il gruppo"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -59,15 +59,25 @@ msgstr "Richiesta non valida"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Impossibile eliminare il gruppo"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Impossibile eliminare l'utente"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Lingua modificata"
+
+#: ajax/togglegroups.php:25
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr ""
+
+#: ajax/togglegroups.php:31
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr ""
 
 #: js/apps.js:18
 msgid "Error"
@@ -185,12 +195,8 @@ msgid "See application page at apps.owncloud.com"
 msgstr "Vedere la pagina dell'applicazione su apps.owncloud.com"
 
 #: templates/apps.php:30
-msgid "-licensed"
-msgstr "-rilasciato"
-
-#: templates/apps.php:30
-msgid "by"
-msgstr "da"
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Documentation"

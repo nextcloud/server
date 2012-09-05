@@ -21,8 +21,6 @@
 "Add your App" => "Добавить приложение",
 "Select an App" => "Выберите приложение",
 "See application page at apps.owncloud.com" => "Смотрите дополнения на apps.owncloud.com",
-"-licensed" => "-лицензия",
-"by" => "от",
 "Documentation" => "Документация",
 "Managing Big Files" => "Управление большими файлами",
 "Ask a question" => "Задать вопрос",

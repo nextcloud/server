@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-04 12:42+0200\n"
-"PO-Revision-Date: 2012-09-04 10:42+0000\n"
+"POT-Creation-Date: 2012-09-05 02:02+0200\n"
+"PO-Revision-Date: 2012-09-05 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgid "Unable to load list from App Store"
 msgstr "不能从App Store 中加载列表"
 
 #: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:18
+#: ajax/togglegroups.php:15
 msgid "Authentication error"
 msgstr "认证错误"
 
@@ -62,6 +62,16 @@ msgstr ""
 #: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "语言改变了"
+
+#: ajax/togglegroups.php:25
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr ""
+
+#: ajax/togglegroups.php:31
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr ""
 
 #: js/apps.js:18
 msgid "Error"
@@ -179,12 +189,8 @@ msgid "See application page at apps.owncloud.com"
 msgstr "在owncloud.com上查看应用程序"
 
 #: templates/apps.php:30
-msgid "-licensed"
-msgstr "-许可了"
-
-#: templates/apps.php:30
-msgid "by"
-msgstr "由"
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Documentation"

@@ -32,8 +32,6 @@
 "Add your App" => "เพิ่มแอปของคุณ",
 "Select an App" => "เลือก App",
 "See application page at apps.owncloud.com" => "ดูหน้าแอพพลิเคชั่นที่ apps.owncloud.com",
-"-licensed" => "-ได้รับอนุญาติแล้ว",
-"by" => "โดย",
 "Documentation" => "เอกสารคู่มือการใช้งาน",
 "Managing Big Files" => "การจัดการไฟล์ขนาดใหญ่",
 "Ask a question" => "สอบถามข้อมูล",

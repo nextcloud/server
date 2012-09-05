@@ -32,8 +32,6 @@
 "Add your App" => "アプリを追加",
 "Select an App" => "アプリを選択してください",
 "See application page at apps.owncloud.com" => "apps.owncloud.com でアプリケーションのページを見てください",
-"-licensed" => "ライセンス",
-"by" => "@",
 "Documentation" => "ドキュメント",
 "Managing Big Files" => "大きなファイルを扱うには",
 "Ask a question" => "質問してください",

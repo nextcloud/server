@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-04 12:42+0200\n"
+"POT-Creation-Date: 2012-09-05 02:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,55 +33,55 @@ msgstr ""
 msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
 msgstr ""
 
-#: js/js.js:206 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:591
+#: js/js.js:593
 msgid "January"
 msgstr ""
 
-#: js/js.js:591
+#: js/js.js:593
 msgid "February"
 msgstr ""
 
-#: js/js.js:591
+#: js/js.js:593
 msgid "March"
 msgstr ""
 
-#: js/js.js:591
+#: js/js.js:593
 msgid "April"
 msgstr ""
 
-#: js/js.js:591
+#: js/js.js:593
 msgid "May"
 msgstr ""
 
-#: js/js.js:591
+#: js/js.js:593
 msgid "June"
 msgstr ""
 
-#: js/js.js:592
+#: js/js.js:594
 msgid "July"
 msgstr ""
 
-#: js/js.js:592
+#: js/js.js:594
 msgid "August"
 msgstr ""
 
-#: js/js.js:592
+#: js/js.js:594
 msgid "September"
 msgstr ""
 
-#: js/js.js:592
+#: js/js.js:594
 msgid "October"
 msgstr ""
 
-#: js/js.js:592
+#: js/js.js:594
 msgid "November"
 msgstr ""
 
-#: js/js.js:592
+#: js/js.js:594
 msgid "December"
 msgstr ""
 

@@ -3,8 +3,6 @@
 "Invalid request" => "Помилковий запит",
 "Language changed" => "Мова змінена",
 "Select an App" => "Вибрати додаток",
-"-licensed" => "-ліцензовано",
-"by" => "по",
 "Ask a question" => "Запитати",
 "Problems connecting to help database." => "Проблема при з'єднані з базою допомоги",
 "You use" => "Ви використовуєте",

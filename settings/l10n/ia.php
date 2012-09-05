@@ -7,7 +7,6 @@
 "More" => "Plus",
 "Add your App" => "Adder tu application",
 "Select an App" => "Selectionar un app",
-"by" => "per",
 "Documentation" => "Documentation",
 "Ask a question" => "Facer un question",
 "Answer" => "Responsa",

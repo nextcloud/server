@@ -4,8 +4,6 @@
 "Language changed" => "تم تغيير اللغة",
 "__language_name__" => "__language_name__",
 "Select an App" => "إختر تطبيقاً",
-"-licensed" => "-مسجل",
-"by" => "من قبل",
 "Ask a question" => "إسأل سؤال",
 "Problems connecting to help database." => "الاتصال بقاعدة بيانات المساعدة لم يتم بنجاح",
 "Go there manually." => "إذهب هنالك بنفسك",

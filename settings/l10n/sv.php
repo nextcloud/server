@@ -32,8 +32,6 @@
 "Add your App" => "Lägg till din applikation",
 "Select an App" => "Välj en App",
 "See application page at apps.owncloud.com" => "Se programsida på apps.owncloud.com",
-"-licensed" => "-licensierat",
-"by" => "av",
 "Documentation" => "Dokumentation",
 "Managing Big Files" => "Hantering av stora filer",
 "Ask a question" => "Ställ en fråga",

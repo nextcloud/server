@@ -21,8 +21,6 @@
 "Add your App" => "앱 추가",
 "Select an App" => "프로그램 선택",
 "See application page at apps.owncloud.com" => "application page at apps.owncloud.com을 보시오.",
-"-licensed" => " 라이선스 사용",
-"by" => " by ",
 "Documentation" => "문서",
 "Managing Big Files" => "큰 파일 관리",
 "Ask a question" => "질문하기",

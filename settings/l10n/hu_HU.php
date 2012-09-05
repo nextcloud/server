@@ -17,8 +17,6 @@
 "Add your App" => "App hozzáadása",
 "Select an App" => "Egy App kiválasztása",
 "See application page at apps.owncloud.com" => "Lásd apps.owncloud.com, alkalmazások oldal",
-"-licensed" => "-licencelt",
-"by" => ":",
 "Documentation" => "Dokumentáció",
 "Managing Big Files" => "Nagy fájlok kezelése",
 "Ask a question" => "Tégy fel egy kérdést",

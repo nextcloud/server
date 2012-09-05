@@ -13,8 +13,6 @@
 "Add your App" => "הוספת היישום שלך",
 "Select an App" => "בחירת יישום",
 "See application page at apps.owncloud.com" => "צפה בעמוד הישום ב apps.owncloud.com",
-"-licensed" => "רשיון",
-"by" => "מאת",
 "Documentation" => "תיעוד",
 "Managing Big Files" => "ניהול קבצים גדולים",
 "Ask a question" => "שאל שאלה",
