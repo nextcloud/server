@@ -27,8 +27,7 @@ class OC_Provisioning_API_Groups{
 	 * returns a list of groups
 	 */
 	public static function getGroups($parameters){
-		$groups = OC_Group::getGroups();
-		return empty($groups) ? 404 : $groups;
+		return array('groups' => OC_Group::getGroups());
 	}
 	
 	/**
@@ -37,9 +36,9 @@ class OC_Provisioning_API_Groups{
 	public static function getGroup($parameters){
 		// Check the group exists
 		if(!OC_Group::groupExists($parameters['groupid'])){
-			return 404;
+			return 101;
 		}
-		return OC_Group::usersInGroup($parameters['groupid']);
+		return array('users' => OC_Group::usersInGroup($parameters['groupid']));
 	}
 	
 	/**
@@ -47,32 +46,33 @@ class OC_Provisioning_API_Groups{
 	 */
 	public static function addGroup($parameters){
 		// Validate name
-		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $parameters['groupid'] ) || empty($parameters['groupid'])){
-			return 401;
+		$groupid = isset($_POST['groupid']) ? $_POST['groupid'] : '';
+		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $groupid ) || empty($groupid)){
+			return 101;
 		}
 		// Check if it exists
-		if(OC_Group::groupExists($parameters['groupid'])){
-			return 409;
+		if(OC_Group::groupExists($groupid)){
+			return 102;
 		}
-		if(OC_Group::createGroup($parameters['groupid'])){
-			return 200;
+		if(OC_Group::createGroup($groupid)){
+			return 100;
 		} else {
-			return 500;
+			return 103;
 		}
 	}
 	
 	public static function deleteGroup($parameters){
 		// Check it exists
 		if(!OC_Group::groupExists($parameters['groupid'])){
-			return 404;
+			return 101;
 		} else if($parameters['groupid'] == 'admin'){
 			// Cannot delete admin group
-			return 403;
+			return 102;
 		} else {
 			if(OC_Group::deleteGroup($parameters['groupid'])){
-				return 200;
+				return 100;
 			} else {
-				return 500;
+				return 103;
 			}
 		}
 	}
