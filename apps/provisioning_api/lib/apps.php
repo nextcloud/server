@@ -54,11 +54,13 @@ class OC_Provisioning_API_Apps {
 	public static function enable($parameters){
 		$app = $parameters['appid'];
 		OC_App::enable($app);
+		return 100;
 	}
 	
-	public static function diable($parameters){
+	public static function disable($parameters){
 		$app = $parameters['appid'];
 		OC_App::disable($app);
+		return 100;
 	}
 	
 }
