@@ -236,7 +236,14 @@ $(document).ready(function() {
 								var size=t('files','Pending');
 							}
 							if(files && !dirName){
-								FileList.addFile(getUniqueName(files[i].name),size,date,true);
+								var uniqueName = getUniqueName(files[i].name);
+								if (uniqueName != files[i].name) {
+									FileList.checkName(uniqueName, files[i].name, true);
+									var hidden = true;
+								} else {
+									var hidden = false;
+								}
+								FileList.addFile(uniqueName,size,date,true,hidden);
 							} else if(dirName) {
 								var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
 								var currentUploads = parseInt(uploadtext.attr('currentUploads'));
@@ -255,7 +262,14 @@ $(document).ready(function() {
 						}
 					}else{
 						var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
-						FileList.addFile(getUniqueName(filename),'Pending',date,true);
+						var uniqueName = getUniqueName(filename);
+						if (uniqueName != filename) {
+							FileList.checkName(uniqueName, filename, true);
+							var hidden = true;
+						} else {
+							var hidden = false;
+						}
+						FileList.addFile(uniqueName,'Pending',date,true,hidden);
 					}
 					if($.support.xhrFileUpload) {
 						for(var i=0;i<files.length;i++){
@@ -475,11 +489,17 @@ $(document).ready(function() {
 		$(this).append(input);
 		input.focus();
 		input.change(function(){
-			var name=getUniqueName($(this).val());
-			if(type != 'web' && name.indexOf('/')!=-1){
+			if(type != 'web' && $(this).val().indexOf('/')!=-1){
 				$('#notification').text(t('files','Invalid name, \'/\' is not allowed.'));
 				$('#notification').fadeIn();
 				return;
+			}
+			var name = getUniqueName($(this).val());
+			if (name != $(this).val()) {
+				FileList.checkName(name, $(this).val(), true);
+				var hidden = true;
+			} else {
+				var hidden = false;
 			}
 			switch(type){
 				case 'file':
@@ -489,7 +509,7 @@ $(document).ready(function() {
 						function(result){
 							if (result.status == 'success') {
 								var date=new Date();
-								FileList.addFile(name,0,date);
+								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
 								tr.data('mime','text/plain');
 								getMimeIcon('text/plain',function(path){
@@ -508,7 +528,7 @@ $(document).ready(function() {
 						function(result){
 							if (result.status == 'success') {
 								var date=new Date();
-								FileList.addDir(name,0,date);
+								FileList.addDir(name,0,date,hidden);
 							} else {
 								OC.dialogs.alert(result.data.message, 'Error');
 							}
@@ -539,7 +559,7 @@ $(document).ready(function() {
 					eventSource.listen('success',function(mime){
 						$('#uploadprogressbar').fadeOut();
 						var date=new Date();
-						FileList.addFile(localName,0,date);
+						FileList.addFile(localName,0,date,false,hidden);
 						var tr=$('tr').filterAttr('data-file',localName);
 						tr.data('mime',mime);
 						getMimeIcon(mime,function(path){

@@ -18,8 +18,6 @@
 "Add your App" => "Adicione seu Aplicativo",
 "Select an App" => "Selecione uma Aplicação",
 "See application page at apps.owncloud.com" => "Ver página do aplicativo em apps.owncloud.com",
-"-licensed" => "-licenciados",
-"by" => "por",
 "Documentation" => "Documentação",
 "Managing Big Files" => "Gerênciando Arquivos Grandes",
 "Ask a question" => "Faça uma pergunta",

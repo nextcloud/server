@@ -21,8 +21,6 @@
 "Add your App" => "Legg til din App",
 "Select an App" => "Velg en app",
 "See application page at apps.owncloud.com" => "Se applikasjonens side på apps.owncloud.org",
-"-licensed" => "-lisensiert",
-"by" => "av",
 "Documentation" => "Dokumentasjon",
 "Managing Big Files" => "Håndtere store filer",
 "Ask a question" => "Still et spørsmål",

@@ -17,8 +17,6 @@
 "Add your App" => "Thêm ứng dụng của bạn",
 "Select an App" => "Chọn một ứng dụng",
 "See application page at apps.owncloud.com" => "Xem ứng dụng tại apps.owncloud.com",
-"-licensed" => "Giấy phép đã được cấp",
-"by" => "bởi",
 "Documentation" => "Tài liệu",
 "Managing Big Files" => "Quản lý tập tin lớn",
 "Ask a question" => "Đặt câu hỏi",

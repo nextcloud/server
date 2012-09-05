@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-04 12:42+0200\n"
-"PO-Revision-Date: 2012-09-04 10:42+0000\n"
+"POT-Creation-Date: 2012-09-05 02:02+0200\n"
+"PO-Revision-Date: 2012-09-05 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -25,17 +25,17 @@ msgid "Unable to load list from App Store"
 msgstr "Ne morem naložiti seznama iz App Store"
 
 #: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:18
+#: ajax/togglegroups.php:15
 msgid "Authentication error"
 msgstr "Napaka overitve"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "Skupina že obstaja"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "Ni mogoče dodati skupine"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -55,15 +55,25 @@ msgstr "Neveljaven zahtevek"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Ni mogoče izbrisati skupine"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Ni mogoče izbrisati uporabnika"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Jezik je bil spremenjen"
+
+#: ajax/togglegroups.php:25
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr ""
+
+#: ajax/togglegroups.php:31
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr ""
 
 #: js/apps.js:18
 msgid "Error"
@@ -181,12 +191,8 @@ msgid "See application page at apps.owncloud.com"
 msgstr "Obiščite spletno stran aplikacije na apps.owncloud.com"
 
 #: templates/apps.php:30
-msgid "-licensed"
-msgstr "-licencirana"
-
-#: templates/apps.php:30
-msgid "by"
-msgstr "s strani"
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Documentation"

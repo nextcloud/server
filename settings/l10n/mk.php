@@ -13,8 +13,6 @@
 "Add your App" => "Додадете ја Вашата апликација",
 "Select an App" => "Избери аппликација",
 "See application page at apps.owncloud.com" => "Види ја страницата со апликации на apps.owncloud.com",
-"-licensed" => "-licensed",
-"by" => "од",
 "Documentation" => "Документација",
 "Managing Big Files" => "Управување со големи датотеки",
 "Ask a question" => "Постави прашање",

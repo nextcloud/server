@@ -15,8 +15,6 @@
 "Add your App" => "برنامه خود را بیافزایید",
 "Select an App" => "یک برنامه انتخاب کنید",
 "See application page at apps.owncloud.com" => "صفحه این اٌپ را در apps.owncloud.com ببینید",
-"-licensed" => "مجوزنامه",
-"by" => "به وسیله",
 "Documentation" => "مستندات",
 "Managing Big Files" => "مدیریت پرونده های بزرگ",
 "Ask a question" => "یک سوال بپرسید",

@@ -30,8 +30,6 @@
 "Add your App" => "Voeg je App toe",
 "Select an App" => "Selecteer een app",
 "See application page at apps.owncloud.com" => "Zie de applicatiepagina op apps.owncloud.com",
-"-licensed" => "-gelicentieerd",
-"by" => "door",
 "Documentation" => "Documentatie",
 "Managing Big Files" => "Onderhoud van grote bestanden",
 "Ask a question" => "Stel een vraag",

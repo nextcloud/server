@@ -18,8 +18,6 @@
 "Add your App" => "Pievieno savu aplikāciju",
 "Select an App" => "Izvēlies aplikāciju",
 "See application page at apps.owncloud.com" => "Apskatie aplikāciju lapu - apps.owncloud.com",
-"-licensed" => "licenzēts",
-"by" => "no",
 "Documentation" => "Dokumentācija",
 "Managing Big Files" => "Rīkoties ar apjomīgiem failiem",
 "Ask a question" => "Uzdod jautajumu",

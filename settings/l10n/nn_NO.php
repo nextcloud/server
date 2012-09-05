@@ -11,8 +11,6 @@
 "Enable" => "Slå på",
 "__language_name__" => "Nynorsk",
 "Select an App" => "Vel ein applikasjon",
-"-licensed" => "-lisensiert",
-"by" => "av",
 "Ask a question" => "Spør om noko",
 "Problems connecting to help database." => "Problem ved tilkopling til hjelpedatabasen.",
 "Go there manually." => "Gå der på eigen hand.",

@@ -21,8 +21,6 @@
 "Add your App" => "Lisa oma rakendus",
 "Select an App" => "Vali programm",
 "See application page at apps.owncloud.com" => "Vaata rakenduste lehte aadressil apps.owncloud.com",
-"-licensed" => "-litsenseeritud",
-"by" => "kelle poolt",
 "Documentation" => "Dokumentatsioon",
 "Managing Big Files" => "Suurte failide haldamine",
 "Ask a question" => "Küsi küsimus",

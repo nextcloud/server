@@ -21,8 +21,6 @@
 "Add your App" => "Aldonu vian aplikaĵon",
 "Select an App" => "Elekti aplikaĵon",
 "See application page at apps.owncloud.com" => "Vidu la paĝon pri aplikaĵoj ĉe apps.owncloud.com",
-"-licensed" => "-permesila",
-"by" => "de",
 "Documentation" => "Dokumentaro",
 "Managing Big Files" => "Administrante grandajn dosierojn",
 "Ask a question" => "Faru demandon",

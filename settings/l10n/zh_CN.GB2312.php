@@ -18,8 +18,6 @@
 "Add your App" => "添加你的应用程序",
 "Select an App" => "选择一个程序",
 "See application page at apps.owncloud.com" => "在owncloud.com上查看应用程序",
-"-licensed" => "-许可了",
-"by" => "由",
 "Documentation" => "文档",
 "Managing Big Files" => "管理大文件",
 "Ask a question" => "提一个问题",

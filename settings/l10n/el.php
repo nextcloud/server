@@ -21,8 +21,6 @@
 "Add your App" => "Πρόσθεσε τη δικιά σου εφαρμογή ",
 "Select an App" => "Επιλέξτε μια εφαρμογή",
 "See application page at apps.owncloud.com" => "Η σελίδα εφαρμογών στο apps.owncloud.com",
-"-licensed" => "-με άδεια",
-"by" => "από",
 "Documentation" => "Τεκμηρίωση",
 "Managing Big Files" => "Διαχείριση μεγάλων αρχείων",
 "Ask a question" => "Ρωτήστε μια ερώτηση",

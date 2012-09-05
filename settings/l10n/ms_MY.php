@@ -15,8 +15,6 @@
 "Add your App" => "Tambah apps anda",
 "Select an App" => "Pilih aplikasi",
 "See application page at apps.owncloud.com" => "Lihat halaman applikasi di apps.owncloud.com",
-"-licensed" => "-dilesen",
-"by" => "oleh",
 "Documentation" => "Dokumentasi",
 "Managing Big Files" => "Mengurus Fail Besar",
 "Ask a question" => "Tanya soalan",

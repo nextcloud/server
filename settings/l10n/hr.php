@@ -19,8 +19,6 @@
 "Add your App" => "Dodajte vašu aplikaciju",
 "Select an App" => "Odaberite Aplikaciju",
 "See application page at apps.owncloud.com" => "Pogledajte stranicu s aplikacijama na apps.owncloud.com",
-"-licensed" => "-licencirano",
-"by" => "od",
 "Documentation" => "dokumentacija",
 "Managing Big Files" => "Upravljanje velikih datoteka",
 "Ask a question" => "Postavite pitanje",

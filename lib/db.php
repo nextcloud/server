@@ -42,14 +42,15 @@ class OC_DB {
 	 * @return BACKEND_MDB2 or BACKEND_PDO
 	 */
 	private static function getDBBackend(){
-		if(class_exists('PDO') && OC_Config::getValue('installed', false)){//check if we can use PDO, else use MDB2 (installation always needs to be done my mdb2)
+		//check if we can use PDO, else use MDB2 (installation always needs to be done my mdb2)
+		if(class_exists('PDO') && OC_Config::getValue('installed', false)) {
 			$type = OC_Config::getValue( "dbtype", "sqlite" );
 			if($type=='oci') { //oracle also always needs mdb2
 				return self::BACKEND_MDB2;
 			}
 			if($type=='sqlite3') $type='sqlite';
 			$drivers=PDO::getAvailableDrivers();
-			if(array_search($type,$drivers)!==false){
+			if(array_search($type, $drivers)!==false) {
 				return self::BACKEND_PDO;
 			}
 		}
@@ -63,13 +64,13 @@ class OC_DB {
 	 * Connects to the database as specified in config.php
 	 */
 	public static function connect($backend=null){
-		if(self::$connection){
+		if(self::$connection) {
 			return;
 		}
-		if(is_null($backend)){
+		if(is_null($backend)) {
 			$backend=self::getDBBackend();
 		}
-		if($backend==self::BACKEND_PDO){
+		if($backend==self::BACKEND_PDO) {
 			self::connectPDO();
 			self::$connection=self::$PDO;
 			self::$backend=self::BACKEND_PDO;
@@ -84,8 +85,8 @@ class OC_DB {
 	 * connect to the database using pdo
 	 */
 	public static function connectPDO(){
-		if(self::$connection){
-			if(self::$backend==self::BACKEND_MDB2){
+		if(self::$connection) {
+			if(self::$backend==self::BACKEND_MDB2) {
 				self::disconnect();
 			}else{
 				return;
@@ -97,8 +98,8 @@ class OC_DB {
 		$user = OC_Config::getValue( "dbuser", "" );
 		$pass = OC_Config::getValue( "dbpassword", "" );
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
-		if(strpos($host,':')){
-			list($host,$port)=explode(':',$host,2);
+		if(strpos($host, ':')) {
+			list($host, $port)=explode(':', $host,2);
 		}else{
 			$port=false;
 		}
@@ -106,9 +107,9 @@ class OC_DB {
 		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
 
 		// do nothing if the connection already has been established
-		if(!self::$PDO){
+		if(!self::$PDO) {
 			// Add the dsn according to the database type
-			switch($type){
+			switch($type) {
 				case 'sqlite':
 					$dsn='sqlite2:'.$datadir.'/'.$name.'.db';
 					break;
@@ -116,7 +117,7 @@ class OC_DB {
 					$dsn='sqlite:'.$datadir.'/'.$name.'.db';
 					break;
 				case 'mysql':
-					if($port){
+					if($port) {
 						$dsn='mysql:dbname='.$name.';host='.$host.';port='.$port;
 					}else{
 						$dsn='mysql:dbname='.$name.';host='.$host;
@@ -124,7 +125,7 @@ class OC_DB {
 					$opts[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
 					break;
 				case 'pgsql':
-					if($port){
+					if($port) {
 						$dsn='pgsql:dbname='.$name.';host='.$host.';port='.$port;
 					}else{
 						$dsn='pgsql:dbname='.$name.';host='.$host;
@@ -139,22 +140,22 @@ class OC_DB {
 					/** END OF FIX***/
 					break;
 				case 'oci': // Oracle with PDO is unsupported
-						if ($port) {
-								$dsn = 'oci:dbname=//' . $host . ':' . $port . '/' . $name;
-						} else {
-								$dsn = 'oci:dbname=//' . $host . '/' . $name;
-						}
-						break;
+					if ($port) {
+							$dsn = 'oci:dbname=//' . $host . ':' . $port . '/' . $name;
+					} else {
+							$dsn = 'oci:dbname=//' . $host . '/' . $name;
+					}
+					break;
 			}
 			try{
-				self::$PDO=new PDO($dsn,$user,$pass,$opts);
+				self::$PDO=new PDO($dsn, $user, $pass, $opts);
 			}catch(PDOException $e){
 				echo( '<b>can not connect to database, using '.$type.'. ('.$e->getMessage().')</center>');
 				die();
 			}
 			// We always, really always want associative arrays
-			self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
-			self::$PDO->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+			self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+			self::$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 		return true;
 	}
@@ -162,9 +163,9 @@ class OC_DB {
 	/**
 	 * connect to the database using mdb2
 	 */
-	public static function connectMDB2(){
-		if(self::$connection){
-			if(self::$backend==self::BACKEND_PDO){
+	public static function connectMDB2() {
+		if(self::$connection) {
+			if(self::$backend==self::BACKEND_PDO) {
 				self::disconnect();
 			}else{
 				return;
@@ -180,9 +181,9 @@ class OC_DB {
 		$datadir=OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
 
 		// do nothing if the connection already has been established
-		if(!self::$MDB2){
+		if(!self::$MDB2) {
 			// Require MDB2.php (not required in the head of the file so we only load it when needed)
-			require_once('MDB2.php');
+			require_once 'MDB2.php';
 
 			// Prepare options array
 			$options = array(
@@ -239,10 +240,10 @@ class OC_DB {
 			self::$MDB2 = MDB2::factory( $dsn, $options );
 
 			// Die if we could not connect
-			if( PEAR::isError( self::$MDB2 )){
+			if( PEAR::isError( self::$MDB2 )) {
 				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
-				OC_Log::write('core',self::$MDB2->getUserInfo(),OC_Log::FATAL);
-				OC_Log::write('core',self::$MDB2->getMessage(),OC_Log::FATAL);
+				OC_Log::write('core', self::$MDB2->getUserInfo(), OC_Log::FATAL);
+				OC_Log::write('core', self::$MDB2->getMessage(), OC_Log::FATAL);
 				die( $error );
 			}
 
@@ -290,14 +291,14 @@ class OC_DB {
 
 		self::connect();
 		// return the result
-		if(self::$backend==self::BACKEND_MDB2){
+		if(self::$backend==self::BACKEND_MDB2) {
 			$result = self::$connection->prepare( $query );
 
 			// Die if we have an error (error means: bad query, not 0 results!)
 			if( PEAR::isError($result)) {
 				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.$query.'<br />';
-				OC_Log::write('core',$entry,OC_Log::FATAL);
+				OC_Log::write('core', $entry,OC_Log::FATAL);
 				error_log('DB error: '.$entry);
 				die( $entry );
 			}
@@ -307,7 +308,7 @@ class OC_DB {
 			}catch(PDOException $e){
 				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.$query.'<br />';
-				OC_Log::write('core',$entry,OC_Log::FATAL);
+				OC_Log::write('core', $entry,OC_Log::FATAL);
 				error_log('DB error: '.$entry);
 				die( $entry );
 			}
@@ -328,7 +329,7 @@ class OC_DB {
 	 */
 	public static function insertid($table=null){
 		self::connect();
-		if($table !== null){
+		if($table !== null) {
 			$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
 			$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
 			$table = str_replace( '*PREFIX*', $prefix, $table );
@@ -344,8 +345,8 @@ class OC_DB {
 	 */
 	public static function disconnect(){
 		// Cut connection if required
-		if(self::$connection){
-			if(self::$backend==self::BACKEND_MDB2){
+		if(self::$connection) {
+			if(self::$backend==self::BACKEND_MDB2) {
 				self::$connection->disconnect();
 			}
 			self::$connection=false;
@@ -407,7 +408,7 @@ class OC_DB {
 		 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
 		 */
 
-		 if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
+		 if( $CONFIG_DBTYPE == 'pgsql' ) { //mysql support it too but sqlite doesn't
 				 $content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
 		 }
 		 
@@ -420,10 +421,10 @@ class OC_DB {
 		unlink( $file2 );
 
 		// Die in case something went wrong
-		if( $definition instanceof MDB2_Schema_Error ){
+		if( $definition instanceof MDB2_Schema_Error ) {
 			die( $definition->getMessage().': '.$definition->getUserInfo());
 		}
-		if(OC_Config::getValue('dbtype','sqlite')==='oci'){
+		if(OC_Config::getValue('dbtype', 'sqlite')==='oci') {
 			unset($definition['charset']); //or MDB2 tries SHUTDOWN IMMEDIATE
 			$oldname = $definition['name'];
 			$definition['name']=OC_Config::getValue( "dbuser", $oldname );
@@ -432,7 +433,7 @@ class OC_DB {
 		$ret=self::$schema->createDatabase( $definition );
 
 		// Die in case something went wrong
-		if( $ret instanceof MDB2_Error ){
+		if( $ret instanceof MDB2_Error ) {
 			echo (self::$MDB2->getDebugOutput());
 			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
 		}
@@ -456,7 +457,7 @@ class OC_DB {
 		$previousSchema = self::$schema->getDefinitionFromDatabase();
 		if (PEAR::isError($previousSchema)) {
 			$error = $previousSchema->getMessage();
-			OC_Log::write('core','Failed to get existing database structure for upgrading ('.$error.')',OC_Log::FATAL);
+			OC_Log::write('core', 'Failed to get existing database structure for upgrading ('.$error.')', OC_Log::FATAL);
 			return false;
 		}
 
@@ -483,7 +484,7 @@ class OC_DB {
 		if (PEAR::isError($op)) {
 			$error = $op->getMessage();
 			$detail = $op->getDebugInfo();
-			OC_Log::write('core','Failed to update database structure ('.$error.', '.$detail.')',OC_Log::FATAL);
+			OC_Log::write('core', 'Failed to update database structure ('.$error.', '.$detail.')', OC_Log::FATAL);
 			return false;
 		}
 		return true;
@@ -502,8 +503,8 @@ class OC_DB {
 		self::$MDB2->loadModule('Reverse');
 
 		// Connect if this did not happen before
-		if(!self::$schema){
-			require_once('MDB2/Schema.php');
+		if(!self::$schema) {
+			require_once 'MDB2/Schema.php';
 			self::$schema=MDB2_Schema::factory(self::$MDB2);
 		}
 
@@ -521,24 +522,24 @@ class OC_DB {
 	private static function processQuery( $query ){
 		self::connect();
 		// We need Database type and table prefix
-		if(is_null(self::$type)){
+		if(is_null(self::$type)) {
 			self::$type=OC_Config::getValue( "dbtype", "sqlite" );
 		}
 		$type = self::$type;
-		if(is_null(self::$prefix)){
+		if(is_null(self::$prefix)) {
 			self::$prefix=OC_Config::getValue( "dbtableprefix", "oc_" );
 		}
 		$prefix = self::$prefix;
 
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
-		if( $type == 'sqlite' || $type == 'sqlite3' ){
+		if( $type == 'sqlite' || $type == 'sqlite3' ) {
 			$query = str_replace( '`', '"', $query );
 			$query = str_ireplace( 'NOW()', 'datetime(\'now\')', $query );
 			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'strftime(\'%s\',\'now\')', $query );
-		}elseif( $type == 'pgsql' ){
+		}elseif( $type == 'pgsql' ) {
 			$query = str_replace( '`', '"', $query );
 			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'cast(extract(epoch from current_timestamp) as integer)', $query );
-		}elseif( $type == 'oci'  ){
+		}elseif( $type == 'oci'  ) {
 			$query = str_replace( '`', '"', $query );
 			$query = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
 		}
@@ -600,7 +601,7 @@ class OC_DB {
 
 		foreach($apps as $app){
 			$path = OC_App::getAppPath($app).'/appinfo/database.xml';
-			if(file_exists($path)){
+			if(file_exists($path)) {
 				self::removeDBStructure( $path );
 			}
 		}
@@ -608,8 +609,7 @@ class OC_DB {
 		// Create new tables
 		self::createDBFromStructure( $file );
 		self::commit();
-
-	 }
+	}
 
 	/**
 	 * Start a transaction
@@ -626,9 +626,9 @@ class OC_DB {
 	/**
 	 * Commit the database changes done during a transaction that is in progress
 	 */
-	public static function commit(){
+	public static function commit() {
 		self::connect();
-		if(!self::$inTransaction){
+		if(!self::$inTransaction) {
 			return false;
 		}
 		self::$connection->commit();
@@ -641,7 +641,7 @@ class OC_DB {
 	 * @return bool
 	 */
 	public static function isError($result){
-		if(!$result){
+		if(!$result) {
 			return true;
 		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)){
 			return true;
@@ -672,7 +672,7 @@ class PDOStatementWrapper{
 		}else{
 			$result=$this->statement->execute();
 		}
-		if($result){
+		if($result) {
 			return $this;
 		}else{
 			return false;
@@ -703,7 +703,7 @@ class PDOStatementWrapper{
 	 * pass all other function directly to the PDOStatement
 	 */
 	public function __call($name,$arguments){
-		return call_user_func_array(array($this->statement,$name),$arguments);
+		return call_user_func_array(array($this->statement,$name), $arguments);
 	}
 
 	/**

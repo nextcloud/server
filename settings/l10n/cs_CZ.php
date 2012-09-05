@@ -21,8 +21,6 @@
 "Add your App" => "Přidat vaší aplikaci",
 "Select an App" => "Vyberte aplikaci",
 "See application page at apps.owncloud.com" => "Více na stránce s aplikacemi na apps.owncloud.com",
-"-licensed" => "-licencováno",
-"by" => "podle",
 "Documentation" => "Dokumentace",
 "Managing Big Files" => "Spravování velkých souborů",
 "Ask a question" => "Zeptat se",

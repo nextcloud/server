@@ -32,8 +32,6 @@
 "Add your App" => "Gehitu zure aplikazioa",
 "Select an App" => "Aukeratu programa bat",
 "See application page at apps.owncloud.com" => "Ikusi programen orria apps.owncloud.com en",
-"-licensed" => "lizentziarekin",
-"by" => " Egilea:",
 "Documentation" => "Dokumentazioa",
 "Managing Big Files" => "Fitxategi handien kudeaketa",
 "Ask a question" => "Egin galdera bat",

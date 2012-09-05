@@ -8,8 +8,6 @@
 "Enable" => "Включване",
 "Saving..." => "Записване...",
 "Select an App" => "Изберете програма",
-"-licensed" => "-лицензирано",
-"by" => "от",
 "Documentation" => "Документация",
 "Ask a question" => "Задайте въпрос",
 "Problems connecting to help database." => "Проблеми при свързване с помощната база",
