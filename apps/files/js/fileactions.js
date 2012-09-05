@@ -143,7 +143,7 @@ var FileActions={
 	getCurrentPermissions:function() {
 		return FileActions.currentFile.parent().data('permissions');
 	}
-}
+};
 
 $(document).ready(function(){
 	if($('#allowZipDownload').val() == 1){
@@ -151,12 +151,12 @@ $(document).ready(function(){
 	} else {
 		var downloadScope = 'file';
 	}
-	FileActions.register(downloadScope,'Download', OC.PERMISSION_READ, function(){return OC.imagePath('core','actions/download')},function(filename){
+	FileActions.register(downloadScope,'Download', OC.PERMISSION_READ, function(){return OC.imagePath('core','actions/download');},function(filename){
 		window.location=OC.filePath('files', 'ajax', 'download.php') + encodeURIComponent('?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val()));
 	});
 });
 
-FileActions.register('all','Delete', OC.PERMISSION_DELETE, function(){return OC.imagePath('core','actions/delete')},function(filename){
+FileActions.register('all','Delete', OC.PERMISSION_DELETE, function(){return OC.imagePath('core','actions/delete');},function(filename){
 	if(Files.cancelUpload(filename)) {
 		if(filename.substr){
 			filename=[filename];
@@ -174,7 +174,7 @@ FileActions.register('all','Delete', OC.PERMISSION_DELETE, function(){return OC.
 	$('.tipsy').remove();
 });
 
-FileActions.register('all','Rename', OC.PERMISSION_UPDATE, function(){return OC.imagePath('core','actions/rename')},function(filename){
+FileActions.register('all','Rename', OC.PERMISSION_UPDATE, function(){return OC.imagePath('core','actions/rename');},function(filename){
 	FileList.rename(filename);
 });
 

@@ -83,4 +83,4 @@ OC.msg={
 			$(selector).html( data.data.message ).addClass('error');
 		}
 	}
-}
+};

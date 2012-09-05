@@ -1,11 +1,11 @@
-var dbtypes
+var dbtypes;
 $(document).ready(function() {
 	dbtypes={
 		sqlite:!!$('#hasSQLite').val(),
 		mysql:!!$('#hasMySQL').val(),
 		postgresql:!!$('#hasPostgreSQL').val(),
 		oracle:!!$('#hasOracle').val(),
-	}
+	};
 	
 	$('#selectDbType').buttonset();
 	$('#datadirContent').hide(250);

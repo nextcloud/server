@@ -26,7 +26,7 @@ Files={
 		});
 		procesSelection();
 	}
-}
+};
 $(document).ready(function() {
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute

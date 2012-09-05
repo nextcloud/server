@@ -137,7 +137,7 @@ OC.Share={
 				html += '<input id="linkText" type="text" readonly="readonly" />';
 				html += '<div id="linkPass">';
 				html += '<input id="linkPassText" type="password" placeholder="Password" />';
-				html += '</div>'
+				html += '</div>';
 				html += '</div>';
 			}
 			html += '</div>';

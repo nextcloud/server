@@ -208,7 +208,7 @@ OC={
 					popup.prepend('<span class="arrow '+arrowclass+'"></span><h2>'+t('core', 'Settings')+'</h2><a class="close svg"></a>').show();
 					popup.find('.close').bind('click', function() {
 						popup.remove();
-					})
+					});
 					if(typeof props.loadJS !== 'undefined') {
 						var scriptname;
 						if(props.loadJS === true) {

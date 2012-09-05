@@ -96,7 +96,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 		return app;
 	}
-}
+};
 
 $(document).ready(function(){
 	$('#leftcontent li').each(function(index,li){
@@ -106,7 +106,7 @@ $(document).ready(function(){
 	});
 	$('#leftcontent li').keydown(function(event) {
 		if (event.which == 13 || event.which == 32) {
-			$(event.target).click()
+			$(event.target).click();
 		}
 		return false;
 	});
