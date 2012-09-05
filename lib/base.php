@@ -512,7 +512,7 @@ class OC{
 	}
 
 	protected static function cleanupLoginTokens($user) {
-		$cutoff = time() - 60*60*24*15;
+		$cutoff = time() - OC_Config::getValue('remember_login_cookie_lifetime', 60*60*24*15);
 		$tokens = OC_Preferences::getKeys($_COOKIE['oc_username'], 'login_token');
 		foreach($tokens as $token) {
 			$time = OC_Preferences::getValue($user, 'login_token', $token);
