@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once('smb4php/smb.php');
+require_once 'smb4php/smb.php';
 
 class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 	private $password;

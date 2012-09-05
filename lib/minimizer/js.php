@@ -1,6 +1,6 @@
 <?php
 
-require_once('mediawiki/JavaScriptMinifier.php');
+require_once 'mediawiki/JavaScriptMinifier.php';
 
 class OC_Minimizer_JS extends OC_Minimizer
 {

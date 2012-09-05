@@ -20,7 +20,7 @@
  *
  */
 
-require_once('MDB2/Driver/Function/Common.php');
+require_once 'MDB2/Driver/Function/Common.php';
 
 /**
  * MDB2 SQLite driver for the function modules

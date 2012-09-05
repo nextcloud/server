@@ -20,7 +20,7 @@
  *
  */
 
-require_once('MDB2/Driver/Datatype/Common.php');
+require_once 'MDB2/Driver/Datatype/Common.php';
 
 /**
  * MDB2 SQLite driver

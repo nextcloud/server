@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once('php-cloudfiles/cloudfiles.php');
+require_once 'php-cloudfiles/cloudfiles.php';
 
 class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	private $host;

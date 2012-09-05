@@ -376,7 +376,7 @@ class OC_Migrate{
 
 		// Connect if this did not happen before
 		if( !self::$schema ){
-			require_once('MDB2/Schema.php');
+			require_once 'MDB2/Schema.php';
 			self::$schema=MDB2_Schema::factory( self::$MDB2 );
 		}
 
@@ -471,7 +471,7 @@ class OC_Migrate{
 		}
 		// Already connected
 		if(!self::$MDB2){
-			require_once('MDB2.php');
+			require_once 'MDB2.php';
 
 			$datadir = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 

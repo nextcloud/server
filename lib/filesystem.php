@@ -559,4 +559,4 @@ OC_Hook::connect('OC_Filesystem','post_delete','OC_Filesystem','removeETagHook')
 OC_Hook::connect('OC_Filesystem','post_rename','OC_Filesystem','removeETagHook');
 
 OC_Util::setupFS();
-require_once('filecache.php');
+require_once 'filecache.php';

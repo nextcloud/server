@@ -31,7 +31,7 @@
 //  - IMPORTANT! Check if the block lenght of the encrypted data stays the same
 
 
-require_once('Crypt_Blowfish/Blowfish.php');
+require_once 'Crypt_Blowfish/Blowfish.php';
 
 /**
  * This class is for crypting and decrypting

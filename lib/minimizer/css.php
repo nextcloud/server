@@ -1,6 +1,6 @@
 <?php
 
-require_once('mediawiki/CSSMin.php');
+require_once 'mediawiki/CSSMin.php';
 
 class OC_Minimizer_CSS extends OC_Minimizer
 {
