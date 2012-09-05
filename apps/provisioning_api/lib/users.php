@@ -30,22 +30,24 @@ class OC_Provisioning_API_Users {
 		return OC_User::getUsers();
 	}
 	
-	public static function addUser($parameters){
+	public static function addUser(){
+		$userid = isset($_POST['userid']) ? $_POST['userid'] : null;
+		$password = isset($_POST['password']) ? $_POST['password'] : null;
 		try {
-			OC_User::createUser($parameters['userid'], $parameters['password']);
-			return 200;
+			OC_User::createUser($userid, $password);
+			return 100;
 		} catch (Exception $e) {
 			switch($e->getMessage()){
 				case 'Only the following characters are allowed in a username: "a-z", "A-Z", "0-9", and "_.@-"':
 				case 'A valid username must be provided':
 				case 'A valid password must be provided':
-					return 400;
+					return 101;
 					break;
 				case 'The username is already being used';
-					return 409;
+					return 102;
 					break;
 				default:
-					return 500;
+					return 103;
 					break;
 			}
 		}
@@ -55,7 +57,12 @@ class OC_Provisioning_API_Users {
 	 * gets user info
 	 */
 	public static function getUser($parameters){
-		
+		$userid = $parameters['userid'];
+		$return = array();
+		$return['email'] = OC_Preferences::getValue($userid, 'settings', 'email', '');
+		$default = OC_Appconfig::getValue('files', 'default_quota', 0);
+		$return['quota'] = OC_Preferences::getValue($userid, 'files', 'quota', $default);
+		return $return;
 	}
 	
 	public static function editUser($parameters){
@@ -79,7 +86,8 @@ class OC_Provisioning_API_Users {
 	}
 	
 	public static function getUsersGroups($parameters){
-		
+		$userid = $parameters['userid'];
+		return array('groups' => OC_Group::getUserGroups($userid));
 	}
 	
 	public static function addToGroup($parameters){
