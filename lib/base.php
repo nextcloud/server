@@ -51,7 +51,8 @@ class OC{
 	 */
 	public static $THIRDPARTYWEBROOT = '';
 	/**
-	 * The installation path array of the apps folder on the server (e.g. /srv/http/owncloud) 'path' and web path in 'url'
+	 * The installation path array of the apps folder on the server (e.g. /srv/http/owncloud) 'path' and 
+	 * web path in 'url'
 	 */
 	public static $APPSROOTS = array();
 	/*
@@ -89,7 +90,7 @@ class OC{
 		elseif(strpos($className, 'Sabre_')===0) {
 			$path =  str_replace('_', '/', $className) . '.php';
 		}
-		elseif(strpos($className,'Test_')===0) {
+		elseif(strpos($className, 'Test_')===0) {
 			$path =  'tests/lib/'.strtolower(str_replace('_', '/', substr($className, 5)) . '.php');
 		}else{
 			return false;
@@ -241,7 +242,7 @@ class OC{
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search', 'result');
 
-		if( OC_Config::getValue( 'installed', false )){
+		if( OC_Config::getValue( 'installed', false )) {
 			if( OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax' ) {
 				OC_Util::addScript( 'backgroundjobs' );
 			}
@@ -316,7 +317,7 @@ class OC{
 		// set debug mode if an xdebug session is active
 		if (!defined('DEBUG') || !DEBUG) {
 			if(isset($_COOKIE['XDEBUG_SESSION'])) {
-				define('DEBUG',true);
+				define('DEBUG', true);
 			}
 		}
 
@@ -366,7 +367,7 @@ class OC{
 		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
 
 		// Check for blacklisted files
-		OC_Hook::connect('OC_Filesystem','write', 'OC_Filesystem', 'isBlacklisted');
+		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
 		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
 
 		//make sure temporary files are cleaned up
@@ -558,7 +559,7 @@ class OC{
 			return false;
 		}
 		OC_App::loadApps(array('authentication'));
-		if (OC_User::login($_SERVER["PHP_AUTH_USER"],$_SERVER["PHP_AUTH_PW"])) {
+		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
 			//OC_Log::write('core',"Logged in with HTTP Authentication",OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
 			$_REQUEST['redirect_url'] = (isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'');
