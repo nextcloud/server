@@ -95,7 +95,7 @@ var OCCategories={
 			}
 		}).error(function(xhr){
 			if (xhr.status == 404) {
-				OC.dialogs.alert('The required file ' + OC.filePath(Categories.app, 'ajax', 'categories/rescan.php') + ' is not installed!', 'Error');
+				OC.dialogs.alert('The required file ' + OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php') + ' is not installed!', 'Error');
 			}
 		});
 	},
