@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:01+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
+"POT-Creation-Date: 2012-09-06 02:01+0200\n"
+"PO-Revision-Date: 2012-09-06 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -58,31 +58,35 @@ msgstr "Αρχεία"
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "already exists"
 msgstr "υπάρχει ήδη"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "replace"
 msgstr "αντικατέστησε"
 
-#: js/filelist.js:141
+#: js/filelist.js:186
+msgid "suggest name"
+msgstr ""
+
+#: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
 msgstr "ακύρωση"
 
-#: js/filelist.js:195
+#: js/filelist.js:235 js/filelist.js:237
 msgid "replaced"
 msgstr "αντικαταστάθηκε"
 
-#: js/filelist.js:195
-msgid "with"
-msgstr "με"
-
-#: js/filelist.js:195 js/filelist.js:246
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
 msgid "undo"
 msgstr "αναίρεση"
 
-#: js/filelist.js:246
+#: js/filelist.js:237
+msgid "with"
+msgstr "με"
+
+#: js/filelist.js:271
 msgid "deleted"
 msgstr "διαγράφηκε"
 
@@ -98,44 +102,44 @@ msgstr "Αδυναμία στην μεταφόρτωση του αρχείου �
 msgid "Upload Error"
 msgstr "Σφάλμα Μεταφόρτωσης"
 
-#: js/files.js:236 js/files.js:327 js/files.js:356
+#: js/files.js:236 js/files.js:341 js/files.js:370
 msgid "Pending"
 msgstr "Εν αναμονή"
 
-#: js/files.js:341
+#: js/files.js:355
 msgid "Upload cancelled."
 msgstr "Η μεταφόρτωση ακυρώθηκε."
 
-#: js/files.js:409
+#: js/files.js:423
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:480
+#: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
 msgstr "Μη έγκυρο όνομα, το '/' δεν επιτρέπεται."
 
-#: js/files.js:726 templates/index.php:55
+#: js/files.js:746 templates/index.php:55
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: js/files.js:727 templates/index.php:56
+#: js/files.js:747 templates/index.php:56
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
-#: js/files.js:754
+#: js/files.js:774
 msgid "folder"
 msgstr "φάκελος"
 
-#: js/files.js:756
+#: js/files.js:776
 msgid "folders"
 msgstr "φάκελοι"
 
-#: js/files.js:764
+#: js/files.js:784
 msgid "file"
 msgstr "αρχείο"
 
-#: js/files.js:766
+#: js/files.js:786
 msgid "files"
 msgstr "αρχεία"
 

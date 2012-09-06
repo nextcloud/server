@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-06 02:02+0200\n"
+"PO-Revision-Date: 2012-09-05 16:14+0000\n"
+"Last-Translator: teho <tehoratopato@gmail.com>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,12 +68,12 @@ msgstr "Kieli on vaihdettu"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Käyttäjän tai ryhmän %s lisääminen ei onnistu"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Käyttäjän poistaminen ryhmästä %s ei onnistu"
 
 #: js/apps.js:18
 msgid "Error"
@@ -192,7 +192,7 @@ msgstr "Katso sovellussivu osoitteessa apps.owncloud.com"
 
 #: templates/apps.php:30
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-lisensoija <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"

@@ -5,13 +5,14 @@
 # Translators:
 #   <jarkko.moilanen@want3d.fi>, 2012.
 # Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
+#   <tehoratopato@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:01+0200\n"
-"PO-Revision-Date: 2012-09-04 14:29+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2012-09-06 02:02+0200\n"
+"PO-Revision-Date: 2012-09-05 16:49+0000\n"
+"Last-Translator: teho <tehoratopato@gmail.com>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +65,7 @@ msgstr "Login suodatus"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Määrittelee käytettävän suodattimen, kun sisäänkirjautumista yritetään. %%uid korvaa sisäänkirjautumisessa käyttäjätunnuksen."
 
 #: templates/settings.php:12
 #, php-format
@@ -139,19 +140,19 @@ msgstr "Ei suositella, käytä vain testausta varten."
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Käyttäjän näytettävän nimen kenttä"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "LDAP attribuutti, jota käytetään käyttäjän ownCloud käyttäjänimenä "
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Ryhmän \"näytettävä nimi\"-kenttä"
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "LDAP atribuutti, jota käytetään luomaan ryhmän ownCloud nimi"
 
 #: templates/settings.php:27
 msgid "in bytes"
@@ -165,7 +166,7 @@ msgstr "sekunneissa. Muutos tyhjentää välimuistin."
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr ""
+msgstr "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD atribuutti."
 
 #: templates/settings.php:32
 msgid "Help"

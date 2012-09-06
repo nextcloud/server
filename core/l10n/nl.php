@@ -28,7 +28,7 @@
 "Login failed!" => "Login mislukt!",
 "Username" => "Gebruikersnaam",
 "Request reset" => "Resetaanvraag",
-"Your password was reset" => "Je wachtwoord is geweizigd",
+"Your password was reset" => "Je wachtwoord is gewijzigd",
 "To login page" => "Naar de login-pagina",
 "New password" => "Nieuw wachtwoord",
 "Reset password" => "Reset wachtwoord",

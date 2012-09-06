@@ -6,13 +6,14 @@
 # Cyryl Sochacki <>, 2012.
 # Marcin Małecki <gerber@tkdami.net>, 2011, 2012.
 #   <mosslar@gmail.com>, 2011.
+#   <mplichta@gmail.com>, 2012.
 # Piotr Sokół <psokol@jabster.pl>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:01+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
+"POT-Creation-Date: 2012-09-06 02:01+0200\n"
+"PO-Revision-Date: 2012-09-06 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -59,31 +60,35 @@ msgstr "Pliki"
 msgid "Delete"
 msgstr "Usuwa element"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "already exists"
 msgstr "Już istnieje"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "replace"
 msgstr "zastap"
 
-#: js/filelist.js:141
+#: js/filelist.js:186
+msgid "suggest name"
+msgstr ""
+
+#: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
 msgstr "anuluj"
 
-#: js/filelist.js:195
+#: js/filelist.js:235 js/filelist.js:237
 msgid "replaced"
 msgstr "zastąpione"
 
-#: js/filelist.js:195
-msgid "with"
-msgstr "z"
-
-#: js/filelist.js:195 js/filelist.js:246
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
 msgid "undo"
 msgstr "wróć"
 
-#: js/filelist.js:246
+#: js/filelist.js:237
+msgid "with"
+msgstr "z"
+
+#: js/filelist.js:271
 msgid "deleted"
 msgstr "skasuj"
 
@@ -99,44 +104,44 @@ msgstr "Nie można wczytać pliku jeśli jest katalogiem lub ma 0 bajtów"
 msgid "Upload Error"
 msgstr "Błąd wczytywania"
 
-#: js/files.js:236 js/files.js:327 js/files.js:356
+#: js/files.js:236 js/files.js:341 js/files.js:370
 msgid "Pending"
 msgstr "Oczekujące"
 
-#: js/files.js:341
+#: js/files.js:355
 msgid "Upload cancelled."
 msgstr "Wczytywanie anulowane."
 
-#: js/files.js:409
+#: js/files.js:423
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Wysyłanie pliku jest w toku. Teraz opuszczając stronę wysyłanie zostanie anulowane."
 
-#: js/files.js:480
+#: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nieprawidłowa nazwa '/' jest niedozwolone."
 
-#: js/files.js:726 templates/index.php:55
+#: js/files.js:746 templates/index.php:55
 msgid "Size"
 msgstr "Rozmiar"
 
-#: js/files.js:727 templates/index.php:56
+#: js/files.js:747 templates/index.php:56
 msgid "Modified"
 msgstr "Czas modyfikacji"
 
-#: js/files.js:754
+#: js/files.js:774
 msgid "folder"
 msgstr "folder"
 
-#: js/files.js:756
+#: js/files.js:776
 msgid "folders"
 msgstr "foldery"
 
-#: js/files.js:764
+#: js/files.js:784
 msgid "file"
 msgstr "plik"
 
-#: js/files.js:766
+#: js/files.js:786
 msgid "files"
 msgstr "pliki"
 
@@ -170,7 +175,7 @@ msgstr "Maksymalna wielkość pliku wejściowego ZIP "
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "Zapisz"
 
 #: templates/index.php:7
 msgid "New"

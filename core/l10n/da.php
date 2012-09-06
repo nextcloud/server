@@ -2,7 +2,6 @@
 "Application name not provided." => "Applikationens navn ikke medsendt",
 "No category to add?" => "Ingen kategori at tilføje?",
 "This category already exists: " => "Denne kategori eksisterer allerede: ",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Indstillinger",
 "January" => "Januar",
 "February" => "Februar",

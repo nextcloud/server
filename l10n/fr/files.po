@@ -8,6 +8,7 @@
 #   <gp4004@arghh.org>, 2012.
 #   <guiguidu31300@gmail.com>, 2012.
 # Guillaume Paumier <guillom.pom@gmail.com>, 2012.
+#   <life_0n_mars@live.fr>, 2012.
 # Nahir Mohamed <nahirmoha@gmail.com>, 2012.
 #   <rom1dep@gmail.com>, 2011.
 # Romain DEP. <rom1dep@gmail.com>, 2012.
@@ -15,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:01+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
+"POT-Creation-Date: 2012-09-06 02:01+0200\n"
+"PO-Revision-Date: 2012-09-06 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -63,31 +64,35 @@ msgstr "Fichiers"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "already exists"
 msgstr "existe déjà"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "replace"
 msgstr "remplacer"
 
-#: js/filelist.js:141
+#: js/filelist.js:186
+msgid "suggest name"
+msgstr ""
+
+#: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
 msgstr "annuler"
 
-#: js/filelist.js:195
+#: js/filelist.js:235 js/filelist.js:237
 msgid "replaced"
 msgstr "remplacé"
 
-#: js/filelist.js:195
-msgid "with"
-msgstr "avec"
-
-#: js/filelist.js:195 js/filelist.js:246
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
 msgid "undo"
 msgstr "annuler"
 
-#: js/filelist.js:246
+#: js/filelist.js:237
+msgid "with"
+msgstr "avec"
+
+#: js/filelist.js:271
 msgid "deleted"
 msgstr "supprimé"
 
@@ -103,44 +108,44 @@ msgstr "Impossible de charger vos fichiers car il s'agit d'un dossier ou le fich
 msgid "Upload Error"
 msgstr "Erreur de chargement"
 
-#: js/files.js:236 js/files.js:327 js/files.js:356
+#: js/files.js:236 js/files.js:341 js/files.js:370
 msgid "Pending"
 msgstr "En cours"
 
-#: js/files.js:341
+#: js/files.js:355
 msgid "Upload cancelled."
 msgstr "Chargement annulé."
 
-#: js/files.js:409
+#: js/files.js:423
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "L'envoi du fichier est en cours. Quitter cette page maintenant annulera l'envoi du fichier."
 
-#: js/files.js:480
+#: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nom invalide, '/' n'est pas autorisé."
 
-#: js/files.js:726 templates/index.php:55
+#: js/files.js:746 templates/index.php:55
 msgid "Size"
 msgstr "Taille"
 
-#: js/files.js:727 templates/index.php:56
+#: js/files.js:747 templates/index.php:56
 msgid "Modified"
 msgstr "Modifié"
 
-#: js/files.js:754
+#: js/files.js:774
 msgid "folder"
 msgstr "dossier"
 
-#: js/files.js:756
+#: js/files.js:776
 msgid "folders"
 msgstr "dossiers"
 
-#: js/files.js:764
+#: js/files.js:784
 msgid "file"
 msgstr "fichier"
 
-#: js/files.js:766
+#: js/files.js:786
 msgid "files"
 msgstr "fichiers"
 
@@ -174,7 +179,7 @@ msgstr "Taille maximale pour les fichiers ZIP"
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "Sauvegarder"
 
 #: templates/index.php:7
 msgid "New"

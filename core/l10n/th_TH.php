@@ -2,7 +2,6 @@
 "Application name not provided." => "ยังไม่ได้ตั้งชื่อแอพพลิเคชั่น",
 "No category to add?" => "ไม่มีหมวดหมู่ที่ต้องการเพิ่ม?",
 "This category already exists: " => "หมวดหมู่นี้มีอยู่แล้ว: ",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "ตั้งค่า",
 "January" => "มกราคม",
 "February" => "กุมภาพันธ์",

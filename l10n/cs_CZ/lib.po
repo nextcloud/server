@@ -4,19 +4,20 @@
 # 
 # Translators:
 # Martin  <fireball@atlas.cz>, 2012.
+# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 02:01+0200\n"
-"PO-Revision-Date: 2012-09-01 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-06 02:02+0200\n"
+"PO-Revision-Date: 2012-09-05 13:37+0000\n"
+"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs_CZ\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: app.php:288
 msgid "Help"
@@ -40,7 +41,7 @@ msgstr "Aplikace"
 
 #: app.php:314
 msgid "Admin"
-msgstr "Admin"
+msgstr "Administrace"
 
 #: files.php:280
 msgid "ZIP download is turned off."
@@ -48,7 +49,7 @@ msgstr "Stahování ZIPu je vypnuto."
 
 #: files.php:281
 msgid "Files need to be downloaded one by one."
-msgstr "Soubory je nutno stahovat samostatně."
+msgstr "Soubory musí být stahovány jednotlivě."
 
 #: files.php:281 files.php:306
 msgid "Back to Files"
@@ -56,7 +57,7 @@ msgstr "Zpět k souborům"
 
 #: files.php:305
 msgid "Selected files too large to generate zip file."
-msgstr "Vybarné soubory jsou pro vytvoření zipu příliš velké."
+msgstr "Vybrané soubory jsou příliš velké pro vytvoření zip souboru."
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -64,63 +65,63 @@ msgstr "Aplikace není povolena"
 
 #: json.php:39 json.php:63 json.php:75
 msgid "Authentication error"
-msgstr "Chyba autorizace"
+msgstr "Chyba ověření"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr "Realce expirovala. Obnovte prosím stranu."
+msgstr "Token vypršel. Obnovte prosím stránku."
 
-#: template.php:86
+#: template.php:87
 msgid "seconds ago"
 msgstr "před vteřinami"
 
-#: template.php:87
+#: template.php:88
 msgid "1 minute ago"
 msgstr "před 1 minutou"
 
-#: template.php:88
+#: template.php:89
 #, php-format
 msgid "%d minutes ago"
 msgstr "před %d minutami"
 
-#: template.php:91
+#: template.php:92
 msgid "today"
 msgstr "dnes"
 
-#: template.php:92
+#: template.php:93
 msgid "yesterday"
 msgstr "včera"
 
-#: template.php:93
+#: template.php:94
 #, php-format
 msgid "%d days ago"
 msgstr "před %d dny"
 
-#: template.php:94
+#: template.php:95
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: template.php:95
+#: template.php:96
 msgid "months ago"
 msgstr "před měsíci"
 
-#: template.php:96
+#: template.php:97
 msgid "last year"
 msgstr "loni"
 
-#: template.php:97
+#: template.php:98
 msgid "years ago"
 msgstr "před lety"
 
 #: updater.php:66
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s je dostupná. Získat <a href=\"%s\">více informací</a>"
 
 #: updater.php:68
 msgid "up to date"
-msgstr ""
+msgstr "aktuální"
 
 #: updater.php:71
 msgid "updates check is disabled"
-msgstr ""
+msgstr "kontrola aktualizací je vypnuta"

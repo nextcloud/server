@@ -2,7 +2,6 @@
 "Application name not provided." => "Uygulama adı verilmedi.",
 "No category to add?" => "Eklenecek kategori yok?",
 "This category already exists: " => "Bu kategori zaten mevcut: ",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Ayarlar",
 "January" => "Ocak",
 "February" => "Şubat",

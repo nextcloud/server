@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
+"POT-Creation-Date: 2012-09-06 02:02+0200\n"
+"PO-Revision-Date: 2012-09-05 07:52+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -75,12 +75,12 @@ msgstr "Sprache geändert"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Der Benutzer konnte nicht zur Gruppe %s hinzugefügt werden"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden"
 
 #: js/apps.js:18
 msgid "Error"
@@ -199,7 +199,7 @@ msgstr "Weitere Anwendungen finden Sie auf apps.owncloud.com"
 
 #: templates/apps.php:30
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-lizenziert von <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"

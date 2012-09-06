@@ -13,15 +13,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 02:01+0200\n"
-"PO-Revision-Date: 2012-08-31 08:10+0000\n"
-"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"POT-Creation-Date: 2012-09-06 02:02+0200\n"
+"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
@@ -35,59 +35,55 @@ msgstr "Ingen kategori att lägga till?"
 msgid "This category already exists: "
 msgstr "Denna kategori finns redan:"
 
-#: js/jquery-ui-1.8.16.custom.min.js:511
-msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-
-#: js/js.js:206 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Inställningar"
 
-#: js/js.js:591
+#: js/js.js:593
 msgid "January"
 msgstr "Januari"
 
-#: js/js.js:591
+#: js/js.js:593
 msgid "February"
 msgstr "Februari"
 
-#: js/js.js:591
+#: js/js.js:593
 msgid "March"
 msgstr "Mars"
 
-#: js/js.js:591
+#: js/js.js:593
 msgid "April"
 msgstr "April"
 
-#: js/js.js:591
+#: js/js.js:593
 msgid "May"
 msgstr "Maj"
 
-#: js/js.js:591
+#: js/js.js:593
 msgid "June"
 msgstr "Juni"
 
-#: js/js.js:592
+#: js/js.js:594
 msgid "July"
 msgstr "Juli"
 
-#: js/js.js:592
+#: js/js.js:594
 msgid "August"
 msgstr "Augusti"
 
-#: js/js.js:592
+#: js/js.js:594
 msgid "September"
 msgstr "September"
 
-#: js/js.js:592
+#: js/js.js:594
 msgid "October"
 msgstr "Oktober"
 
-#: js/js.js:592
+#: js/js.js:594
 msgid "November"
 msgstr "November"
 
-#: js/js.js:592
+#: js/js.js:594
 msgid "December"
 msgstr "December"
 
@@ -119,7 +115,7 @@ msgstr "Fel"
 msgid "ownCloud password reset"
 msgstr "ownCloud lösenordsåterställning"
 
-#: lostpassword/templates/email.php:1
+#: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Använd följande länk för att återställa lösenordet: {link}"
 

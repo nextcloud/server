@@ -2,7 +2,6 @@
 "Application name not provided." => "Rakenduse nime pole sisestatud.",
 "No category to add?" => "Pole kategooriat, mida lisada?",
 "This category already exists: " => "See kategooria on juba olemas: ",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Seaded",
 "January" => "Jaanuar",
 "February" => "Veebruar",

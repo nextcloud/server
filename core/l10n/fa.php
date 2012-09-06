@@ -2,7 +2,6 @@
 "Application name not provided." => "نام برنامه پیدا نشد",
 "No category to add?" => "آیا گروه دیگری برای افزودن ندارید",
 "This category already exists: " => "این گروه از قبل اضافه شده",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "تنظیمات",
 "January" => "ژانویه",
 "February" => "فبریه",

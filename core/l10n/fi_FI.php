@@ -2,7 +2,6 @@
 "Application name not provided." => "Sovelluksen nimeä ei määritelty.",
 "No category to add?" => "Ei lisättävää luokkaa?",
 "This category already exists: " => "Tämä luokka on jo olemassa: ",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Asetukset",
 "January" => "Tammikuu",
 "February" => "Helmikuu",

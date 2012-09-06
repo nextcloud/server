@@ -2,7 +2,6 @@
 "Application name not provided." => "アプリケーション名は提供されていません。",
 "No category to add?" => "追加するカテゴリはありませんか？",
 "This category already exists: " => "このカテゴリはすでに存在します: ",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "設定",
 "January" => "1月",
 "February" => "2月",
