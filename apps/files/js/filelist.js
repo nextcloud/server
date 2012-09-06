@@ -240,22 +240,17 @@ var FileList={
 	},
 	finishReplace:function() {
 		if (!FileList.replaceCanceled && FileList.replaceOldName && FileList.replaceNewName) {
-			// Delete the file being replaced and rename the replacement
-			FileList.deleteCanceled = false;
-			FileList.deleteFiles = [FileList.replaceNewName];
-			FileList.finishDelete(function() {
-				$.ajax({url: OC.filePath('files', 'ajax', 'rename.php'), async: false, data: { dir: $('#dir').val(), newname: FileList.replaceNewName, file: FileList.replaceOldName }, success: function(result) {
-					if (result && result.status == 'success') {
-						$('tr').filterAttr('data-replace', 'true').removeAttr('data-replace');
-					} else {
-						OC.dialogs.alert(result.data.message, 'Error moving file');
-					}
-					FileList.replaceCanceled = true;
-					FileList.replaceOldName = null;
-					FileList.replaceNewName = null;
-					FileList.lastAction = null;
-				}});
-			}, true);
+			$.ajax({url: OC.filePath('files', 'ajax', 'rename.php'), async: false, data: { dir: $('#dir').val(), newname: FileList.replaceNewName, file: FileList.replaceOldName }, success: function(result) {
+				if (result && result.status == 'success') {
+					$('tr').filterAttr('data-replace', 'true').removeAttr('data-replace');
+				} else {
+					OC.dialogs.alert(result.data.message, 'Error moving file');
+				}
+				FileList.replaceCanceled = true;
+				FileList.replaceOldName = null;
+				FileList.replaceNewName = null;
+				FileList.lastAction = null;
+			}});
 		}
 	},
 	do_delete:function(files){

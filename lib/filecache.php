@@ -155,6 +155,10 @@ class OC_FileCache{
 		if($root===false){
 			$root=OC_Filesystem::getRoot();
 		}
+		// If replacing an existing file, delete the file
+		if (self::inCache($newPath, $root)) {
+			self::delete($newPath, $root);
+		}
 		$oldPath=$root.$oldPath;
 		$newPath=$root.$newPath;
 		$newParent=self::getParentId($newPath);
