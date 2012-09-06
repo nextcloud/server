@@ -505,7 +505,7 @@ $(document).ready(function() {
 				case 'file':
 					$.post(
 						OC.filePath('files','ajax','newfile.php'),
-						{dir:$('#dir').val(),filename:name,content:" \n"},
+						{dir:$('#dir').val(),filename:name},
 						function(result){
 							if (result.status == 'success') {
 								var date=new Date();
