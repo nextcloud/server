@@ -474,6 +474,20 @@ class OC_FileCache{
 		$query=OC_DB::prepare('DELETE FROM `*PREFIX*fscache` WHERE LENGTH(`path_hash`)<30');
 		$query->execute();
 	}
+
+	/**
+	 * clear filecache entries
+	 * @param string user (optonal)
+	 */
+	public static function clear($user=''){
+		if($user){
+			$query=OC_DB::prepare('DELETE FROM `*PREFIX*fscache` WHERE user=?');
+			$query->execute(array($user));
+		}else{
+			$query=OC_DB::prepare('DELETE FROM `*PREFIX*fscache`');
+			$query->execute();
+		}
+	}
 }
 
 //watch for changes and try to keep the cache up to date
