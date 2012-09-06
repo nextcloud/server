@@ -5,7 +5,7 @@ var FileList={
 	},
 	addFile:function(name,size,lastModified,loading,hidden){
 		var img=(loading)?OC.imagePath('core', 'loading.gif'):OC.imagePath('core', 'filetypes/file.png');
-		var html='<tr data-type="file" data-size="'+size+'">';
+		var html='<tr data-type="file" data-size="'+size+'" data-permissions="'+$('#permissions').val()+'">';
 		if(name.indexOf('.')!=-1){
 			var basename=name.substr(0,name.lastIndexOf('.'));
 			var extension=name.substr(name.lastIndexOf('.'));
@@ -41,7 +41,7 @@ var FileList={
 		}
 	},
 	addDir:function(name,size,lastModified,hidden){
-		html = $('<tr></tr>').attr({ "data-type": "dir", "data-size": size, "data-file": name});
+		html = $('<tr></tr>').attr({ "data-type": "dir", "data-size": size, "data-file": name, "data-permissions": $('#permissions').val()});
 		td = $('<td></td>').attr({"class": "filename", "style": 'background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')' });
 		td.append('<input type="checkbox" />');
 		var link_elem = $('<a></a>').attr({ "class": "name", "href": OC.linkTo('files', 'index.php')+"&dir="+ encodeURIComponent($('#dir').val()+'/'+name).replace(/%2F/g, '/') });

@@ -32,6 +32,7 @@
 	<?php else:?>
 		<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
 	<?php endif;?>
+	<input type="hidden" name="permissions" value="<?php echo $_['permissions']; ?>" id="permissions">
 </div>
 <div id='notification'></div>
 

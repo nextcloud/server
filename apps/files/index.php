@@ -89,11 +89,23 @@ $freeSpace=OC_Filesystem::free_space('/');
 $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 
+$permissions = OCP\Share::PERMISSION_READ;
+if (OC_Filesystem::isUpdatable($dir.'/')) {
+	$permissions |= OCP\Share::PERMISSION_UPDATE;
+}
+if (OC_Filesystem::isDeletable($dir.'/')) {
+	$permissions |= OCP\Share::PERMISSION_DELETE;
+}
+if (OC_Filesystem::isSharable($dir.'/')) {
+	$permissions |= OCP\Share::PERMISSION_SHARE;
+}
+
 $tmpl = new OCP\Template( 'files', 'index', 'user' );
 $tmpl->assign( 'fileList', $list->fetchPage(), false );
 $tmpl->assign( 'breadcrumb', $breadcrumbNav->fetchPage(), false );
 $tmpl->assign( 'dir', OC_Filesystem::normalizePath($dir));
 $tmpl->assign( 'isCreatable', OC_Filesystem::isCreatable($dir.'/'));
+$tmpl->assign('permissions', $permissions);
 $tmpl->assign( 'files', $files );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
