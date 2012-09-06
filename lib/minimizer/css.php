@@ -16,7 +16,7 @@ class OC_Minimizer_CSS extends OC_Minimizer
 
 			$in_root = false;
 			foreach(OC::$APPSROOTS as $app_root) {
-				if(strpos($file, $app_root['path']) === 0) {
+				if(strpos($file, $app_root['path'].'/') === 0) {
 					$in_root = rtrim($webroot.$app_root['url'], '/');
 					break;
 				}
