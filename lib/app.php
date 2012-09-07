@@ -62,7 +62,9 @@ class OC_App{
 		ob_end_clean();
 
 		if (!defined('DEBUG') || !DEBUG) {
-			if (is_null($types)) {
+			if (is_null($types)
+			    && empty(OC_Util::$core_scripts) 
+			    && empty(OC_Util::$core_styles)) {
 				OC_Util::$core_scripts = OC_Util::$scripts;
 				OC_Util::$scripts = array();
 				OC_Util::$core_styles = OC_Util::$styles;
