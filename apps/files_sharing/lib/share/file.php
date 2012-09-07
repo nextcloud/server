@@ -91,6 +91,8 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 					// Remove Create permission if type is file
 					$file['permissions'] &= ~OCP\Share::PERMISSION_CREATE;
 				}
+				// NOTE: Temporary fix to allow unsharing of files in root of Shared directory
+				$file['permissions'] |= OCP\Share::PERMISSION_DELETE;
 				$files[] = $file;
 			}
 			return $files;

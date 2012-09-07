@@ -340,7 +340,7 @@ class Share {
 				// TODO
 			}
 			// Delete
-			return self::delete($item['id'], true);
+			return self::delete($item['id']);
 		}
 		return false;
 	}
@@ -564,6 +564,7 @@ class Share {
 			} else {
 				if ($itemType == 'file' || $itemType == 'folder') {
 					$where .= ' `file_target` = ?';
+					$item = \OC_Filesystem::normalizePath($item);
 				} else {
 					$where .= ' `item_target` = ?';
 				}

@@ -263,7 +263,12 @@ var FileList={
 			return;
 		}
 		FileList.prepareDeletion(files);
-		$('#notification').html(t('files', 'deleted')+' '+files+'<span class="undo">'+t('files', 'undo')+'</span>');
+		// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
+		if ($('#dir').val() == '/Shared') {
+			$('#notification').html(t('files', 'unshared')+' '+files+'<span class="undo">'+t('files', 'undo')+'</span>');
+		} else {
+			$('#notification').html(t('files', 'deleted')+' '+files+'<span class="undo">'+t('files', 'undo')+'</span>');
+		}
 		$('#notification').fadeIn();
 	},
 	finishDelete:function(ready,sync){

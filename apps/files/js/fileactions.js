@@ -103,7 +103,12 @@ var FileActions={
 			if(img.call){
 				img=img(file);
 			}
-			var html='<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" style="display:none" />';
+			// NOTE: Temporary fix to allow unsharing of files in root of Shared folder
+			if ($('#dir').val() == '/Shared') {
+				var html = '<a href="#" original-title="' + t('files', 'Unshare') + '" class="action delete" style="display:none" />';
+			} else {
+				var html='<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" style="display:none" />';
+			}
 			var element=$(html);
 			if(img){
 				element.append($('<img src="'+img+'"/>'));
