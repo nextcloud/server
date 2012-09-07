@@ -465,7 +465,6 @@ class OC{
 			OC_App::loadApps();
 			OC_User::setupBackends();
 			if(isset($_GET["logout"]) and ($_GET["logout"])) {
-				OC_App::loadApps();
 				OC_User::logout();
 				header("Location: ".OC::$WEBROOT.'/');
 			}else{
