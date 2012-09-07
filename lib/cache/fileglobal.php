@@ -64,12 +64,13 @@ class OC_Cache_FileGlobal{
 		return unlink($cache_dir.$key);
 	}
 
-	public function clear(){
+	public function clear($prefix=''){
 		$cache_dir = self::getCacheDir();
+		$prefix = $this->fixKey($prefix);
 		if($cache_dir and is_dir($cache_dir)){
 			$dh=opendir($cache_dir);
 			while($file=readdir($dh)){
-				if($file!='.' and $file!='..'){
+				if($file!='.' and $file!='..' and ($prefix==='' || strpos($file, $prefix) === 0)){
 					unlink($cache_dir.$file);
 				}
 			}
