@@ -109,7 +109,7 @@ class OC_Mount_Config {
 		return $personal;
 	}
 
-	
+
 	/**
 	* Add a mount point to the filesystem
 	* @param string Mount point
@@ -217,7 +217,7 @@ class OC_Mount_Config {
 				$content .= "\t\t'".$group."' => array (\n";
 				foreach ($mounts as $mountPoint => $mount) {
 					$content .= "\t\t\t'".$mountPoint."' => ".str_replace("\n", '', var_export($mount, true)).",\n";
-					
+
 				}
 				$content .= "\t\t),\n";
 			}
@@ -237,7 +237,7 @@ class OC_Mount_Config {
 		$content .= ");\n?>";
 		@file_put_contents($file, $content);
 	}
-	
+
 	/**
 	 * Returns all user uploaded ssl root certificates
 	 * @return array
@@ -253,14 +253,14 @@ class OC_Mount_Config {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * creates certificate bundle
 	 */
 	public static function createCertificateBundle() {
 		$view = \OCP\Files::getStorage("files_external");
 		$path = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("");
-		
+
 		$certs = OC_Mount_Config::getCertificates();
 		$fh_certs = fopen($path."/rootcerts.crt", 'w');
 		foreach ($certs as $cert) {
@@ -272,12 +272,10 @@ class OC_Mount_Config {
 				fwrite($fh_certs, $data);
 			}
 		}
-		
+
 		fclose($fh_certs);
-		
+
 		return true;
-	} 
+	}
 
 }
-
-?>
