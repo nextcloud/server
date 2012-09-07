@@ -35,7 +35,7 @@
  * are triggered correctly.
  *
  * Filesystem functions are not called directly; they are passed to the correct
- * OC_Filestorage object
+ * \OC\Files\Storage\Storage object
  */
 
 class OC_FilesystemView {
@@ -115,7 +115,7 @@ class OC_FilesystemView {
 	/**
 	* get the storage object for a path
 	* @param string path
-	* @return OC_Filestorage
+	* @return \OC\Files\Storage\Storage
 	*/
 	public function getStorage($path) {
 		if (!isset($this->storage_cache[$path])) {
@@ -161,7 +161,7 @@ class OC_FilesystemView {
 	/**
 	 * the following functions operate with arguments and return values identical
 	 * to those of their PHP built-in equivalents. Mostly they are merely wrappers
-	 * for OC_Filestorage via basicOperation().
+	 * for \OC\Files\Storage\Storage via basicOperation().
 	 */
 	public function mkdir($path) {
 		return $this->basicOperation('mkdir', $path, array('create', 'write'));
@@ -173,7 +173,7 @@ class OC_FilesystemView {
 		return $this->basicOperation('opendir', $path, array('read'));
 	}
 	public function readdir($handle) {
-		$fsLocal= new OC_Filestorage_Local( array( 'datadir' => '/' ) );
+		$fsLocal= new \OC\Files\Storage\Local( array( 'datadir' => '/' ) );
 		return $fsLocal->readdir( $handle );
 	}
 	public function is_dir($path) {
@@ -540,7 +540,7 @@ class OC_FilesystemView {
 	}
 
 	/**
-	 * @brief abstraction layer for basic filesystem functions: wrapper for OC_Filestorage
+	 * @brief abstraction layer for basic filesystem functions: wrapper for \OC\Files\Storage\Storage
 	 * @param string $operation
 	 * @param string #path
 	 * @param array (optional) hooks
@@ -549,7 +549,7 @@ class OC_FilesystemView {
 	 *
 	 * This method takes requests for basic filesystem functions (e.g. reading & writing
 	 * files), processes hooks and proxies, sanitises paths, and finally passes them on to
-	 * OC_Filestorage for delegation to a storage backend for execution
+	 * \OC\Files\Storage\Storage for delegation to a storage backend for execution
 	 */
 	private function basicOperation($operation, $path, $hooks=array(), $extraParam=null) {
 		$postFix=(substr($path,-1,1)==='/')?'/':'';

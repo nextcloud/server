@@ -22,7 +22,9 @@
 
 require_once 'aws-sdk/sdk.class.php';
 
-class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
+namespace OC\Files\Storage;
+
+class AmazonS3 extends \OC\Files\Storage\Common {
 
 	private $s3;
 	private $bucket;
@@ -33,7 +35,7 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 	// TODO options: storage class, encryption server side, encrypt before upload?
 
 	public function __construct($params) {
-		$this->s3 = new AmazonS3(array('key' => $params['key'], 'secret' => $params['secret']));
+		$this->s3 = new \AmazonS3(array('key' => $params['key'], 'secret' => $params['secret']));
 		$this->bucket = $params['bucket'];
 	}
 
@@ -96,7 +98,7 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 			foreach ($response->body->CommonPrefixes as $object) {
 				$files[] = basename($object->Prefix);
 			}
-			OC_FakeDirStream::$dirs['amazons3'.$path] = $files;
+			\OC_FakeDirStream::$dirs['amazons3'.$path] = $files;
 			return opendir('fakedir://amazons3'.$path);
 		}
 		return false;
@@ -160,7 +162,7 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				$tmpFile = OC_Helper::tmpFile();
+				$tmpFile = \OC_Helper::tmpFile();
 				$handle = fopen($tmpFile, 'w');
 				$response = $this->s3->get_object($this->bucket, $path, array('fileDownload' => $handle));
 				if ($response->isOK()) {
@@ -184,8 +186,8 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 				} else {
 					$ext = '';
 				}
-				$tmpFile = OC_Helper::tmpFile($ext);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile] = array($this, 'writeBack');
+				$tmpFile = \OC_Helper::tmpFile($ext);
+				\OC_CloseStreamWrapper::$callBacks[$tmpFile] = array($this, 'writeBack');
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);

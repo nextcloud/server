@@ -30,7 +30,7 @@ class Test_CryptProxy extends UnitTestCase {
 
 		//set up temporary storage
 		OC_Filesystem::clearMounts();
-		OC_Filesystem::mount('OC_Filestorage_Temporary',array(),'/');
+		OC_Filesystem::mount('\OC\Files\Storage\Temporary',array(),'/');
 
 		OC_Filesystem::init('/'.$user.'/files');
 

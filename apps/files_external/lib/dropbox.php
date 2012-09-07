@@ -22,7 +22,9 @@
 
 require_once 'Dropbox/autoload.php';
 
-class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
+namespace OC\Files\Storage;
+
+class Dropbox extends \OC\Files\Storage\Common {
 
 	private $dropbox;
 	private $metaData = array();
@@ -31,11 +33,11 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 
 	public function __construct($params) {
 		if (isset($params['configured']) && $params['configured'] == 'true' && isset($params['app_key']) && isset($params['app_secret']) && isset($params['token']) && isset($params['token_secret'])) {
-			$oauth = new Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
+			$oauth = new \Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
 			$oauth->setToken($params['token'], $params['token_secret']);
-			$this->dropbox = new Dropbox_API($oauth, 'dropbox');
+			$this->dropbox = new \Dropbox_API($oauth, 'dropbox');
 		} else {
-			throw new Exception('Creating OC_Filestorage_Dropbox storage failed');
+			throw new \Exception('Creating \OC\Files\Storage\Dropbox storage failed');
 		}
 	}
 
@@ -95,7 +97,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 			foreach ($contents as $file) {
 				$files[] = basename($file['path']);
 			}
-			OC_FakeDirStream::$dirs['dropbox'.$path] = $files;
+			\OC_FakeDirStream::$dirs['dropbox'.$path] = $files;
 			return opendir('fakedir://dropbox'.$path);
 		}
 		return false;
@@ -177,7 +179,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				$tmpFile = OC_Helper::tmpFile();
+				$tmpFile = \OC_Helper::tmpFile();
 				try {
 					$data = $this->dropbox->getFile($path);
 					file_put_contents($tmpFile, $data);
@@ -203,8 +205,8 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 				} else {
 					$ext = '';
 				}
-				$tmpFile = OC_Helper::tmpFile($ext);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile] = array($this, 'writeBack');
+				$tmpFile = \OC_Helper::tmpFile($ext);
+				\OC_CloseStreamWrapper::$callBacks[$tmpFile] = array($this, 'writeBack');
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);

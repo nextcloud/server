@@ -30,7 +30,7 @@ class Test_Filestorage_CommonTest extends Test_FileStorage {
 		if(!file_exists($this->tmpDir)) {
 			mkdir($this->tmpDir);
 		}
-		$this->instance=new OC_Filestorage_CommonTest(array('datadir'=>$this->tmpDir));
+		$this->instance=new \OC\Files\Storage\CommonTest(array('datadir'=>$this->tmpDir));
 	}
 
 	public function tearDown() {

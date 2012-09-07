@@ -34,7 +34,7 @@ class OC_Util {
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted) {
-			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY),'/');
+			OC_Filesystem::mount('\OC\Files\Storage\Local',array('datadir'=>$CONFIG_DATADIRECTORY),'/');
 			self::$rootMounted=true;
 		}
 
@@ -46,7 +46,7 @@ class OC_Util {
 				mkdir( $userdirectory, 0755, true );
 			}
 			//jail the user into his "home" directory
-			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir' => $user_root), $user);
+			OC_Filesystem::mount('\OC\Files\Storage\Local', array('datadir' => $user_root), $user);
 			OC_Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
 			OC_FileProxy::register($quotaProxy);

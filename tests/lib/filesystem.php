@@ -46,13 +46,13 @@ class Test_Filesystem extends UnitTestCase{
 	}
 
 	public function testMount() {
-		OC_Filesystem::mount('OC_Filestorage_Local',self::getStorageData(),'/');
+		OC_Filesystem::mount('\OC\Files\Storage\Local',self::getStorageData(),'/');
 		$this->assertEqual('/',OC_Filesystem::getMountPoint('/'));
 		$this->assertEqual('/',OC_Filesystem::getMountPoint('/some/folder'));
 		$this->assertEqual('',OC_Filesystem::getInternalPath('/'));
 		$this->assertEqual('some/folder',OC_Filesystem::getInternalPath('/some/folder'));
 
-		OC_Filesystem::mount('OC_Filestorage_Local',self::getStorageData(),'/some');
+		OC_Filesystem::mount('\OC\Files\Storage\Local',self::getStorageData(),'/some');
 		$this->assertEqual('/',OC_Filesystem::getMountPoint('/'));
 		$this->assertEqual('/some/',OC_Filesystem::getMountPoint('/some/folder'));
 		$this->assertEqual('/some/',OC_Filesystem::getMountPoint('/some/'));

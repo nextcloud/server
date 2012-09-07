@@ -34,7 +34,7 @@ if (!is_array($config) or !isset($config['amazons3']) or !$config['amazons3']['r
 			$id = uniqid();
 			$this->config = include('apps/files_external/tests/config.php');
 			$this->config['amazons3']['bucket'] = $id; // Make sure we have a new empty bucket to work in
-			$this->instance = new OC_Filestorage_AmazonS3($this->config['amazons3']);
+			$this->instance = new \OC\Files\Storage\AmazonS3($this->config['amazons3']);
 		}
 
 		public function tearDown() {

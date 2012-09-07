@@ -18,7 +18,7 @@ if(!is_array($config) or !isset($config['swift']) or !$config['swift']['run']) {
 			$id=uniqid();
 			$this->config=include('apps/files_external/tests/config.php');
 			$this->config['swift']['root'].='/'.$id;//make sure we have an new empty folder to work in
-			$this->instance=new OC_Filestorage_SWIFT($this->config['swift']);
+			$this->instance=new \OC\Files\Storage\SWIFT($this->config['swift']);
 		}
 
 

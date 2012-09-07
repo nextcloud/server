@@ -1,8 +1,17 @@
 <?php
 /**
+ * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+
+namespace OC\Files\Storage;
+
+/**
  * for local filestore, we only have to map the paths
  */
-class OC_Filestorage_Local extends OC_Filestorage_Common{
+class Local extends \OC\Files\Storage\Common{
 	protected $datadir;
 	public function __construct($arguments) {
 		$this->datadir=$arguments['datadir'];
@@ -86,11 +95,11 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 	}
 	public function rename($path1,$path2) {
 		if (!$this->isUpdatable($path1)) {
-			OC_Log::write('core','unable to rename, file is not writable : '.$path1,OC_Log::ERROR);
+			\OC_Log::write('core','unable to rename, file is not writable : '.$path1,\OC_Log::ERROR);
 			return false;
 		}
 		if(! $this->file_exists($path1)) {
-			OC_Log::write('core','unable to rename, file does not exists : '.$path1,OC_Log::ERROR);
+			\OC_Log::write('core','unable to rename, file does not exists : '.$path1,\OC_Log::ERROR);
 			return false;
 		}
 
@@ -129,7 +138,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 
 	public function getMimeType($path) {
 		if($this->isReadable($path)) {
-			return OC_Helper::getMimeType($this->datadir.$path);
+			return \OC_Helper::getMimeType($this->datadir.$path);
 		}else{
 			return false;
 		}

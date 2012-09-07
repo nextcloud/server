@@ -8,7 +8,9 @@
 
 require_once 'smb4php/smb.php';
 
-class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
+namespace OC\Files\Storage;
+
+class SMB extends \OC\Files\Storage\StreamWrapper{
 	private $password;
 	private $user;
 	private $host;

@@ -48,7 +48,7 @@ class OC_Filesystem{
 	static private $mounts=array();
 	public static $loaded=false;
 	/**
-	 * @var OC_Filestorage $defaultInstance
+	 * @var \OC\Files\Storage\Storage $defaultInstance
 	 */
 	static private $defaultInstance;
 
@@ -181,7 +181,7 @@ class OC_Filesystem{
 	/**
 	* get the storage object for a path
 	* @param string path
-	* @return OC_Filestorage
+	* @return \OC\Files\Storage\Storage
 	*/
 	static public function getStorage($path) {
 		$mountpoint=self::getMountPoint($path);
@@ -276,7 +276,7 @@ class OC_Filesystem{
 	* create a new storage of a specific type
 	* @param  string  type
 	* @param  array  arguments
-	* @return OC_Filestorage
+	* @return \OC\Files\Storage\Storage
 	*/
 	static private function createStorage($class,$arguments) {
 		if(class_exists($class)) {
@@ -320,9 +320,9 @@ class OC_Filesystem{
 	}
 
 	/**
-	* mount an OC_Filestorage in our virtual filesystem
-	* @param OC_Filestorage storage
-	* @param string mountpoint
+	 * mount an \OC\Files\Storage\Storage in our virtual filesystem
+	 * @param \OC\Files\Storage\Storage storage
+	 * @param string mountpoint
 	*/
 	static public function mount($class,$arguments,$mountpoint) {
 		if($mountpoint[0]!='/') {

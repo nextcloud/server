@@ -22,7 +22,7 @@
 
 abstract class Test_FileStorage extends UnitTestCase {
 	/**
-	 * @var OC_Filestorage instance
+	 * @var \OC\Files\Storage\Storage instance
 	 */
 	protected $instance;
 

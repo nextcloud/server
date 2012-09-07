@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-class OC_FileStorage_DAV extends OC_Filestorage_Common{
+namespace OC\Files\Storage;
+
+class DAV extends \OC\Files\Storage\Common{
 	private $password;
 	private $user;
 	private $host;
@@ -42,7 +44,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			'password' => $this->password,
 		);
 
-		$this->client = new OC_Connector_Sabre_Client($settings);
+		$this->client = new \OC_Connector_Sabre_Client($settings);
 
 		if($caview = \OCP\Files::getStorage('files_external')) {
 			$certPath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("").'rootcerts.crt';
@@ -78,12 +80,12 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		try{
 			$response=$this->client->propfind($path, array(),1);
 			$id=md5('webdav'.$this->root.$path);
-			OC_FakeDirStream::$dirs[$id]=array();
+			\OC_FakeDirStream::$dirs[$id]=array();
 			$files=array_keys($response);
 			array_shift($files);//the first entry is the current directory
 			foreach($files as $file) {
 				$file = urldecode(basename($file));
-				OC_FakeDirStream::$dirs[$id][]=$file;
+				\OC_FakeDirStream::$dirs[$id][]=$file;
 			}
 			return opendir('fakedir://'.$id);
 		}catch(Exception $e) {
@@ -161,7 +163,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 					$ext='';
 				}
 				$tmpFile=OCP\Files::tmpFile($ext);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
+				\OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
 				if($this->file_exists($path)) {
 					$this->getFile($path,$tmpFile);
 				}

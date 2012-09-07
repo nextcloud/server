@@ -18,7 +18,7 @@ if(!is_array($config) or !isset($config['webdav']) or !$config['webdav']['run'])
 			$id=uniqid();
 			$this->config=include('apps/files_external/tests/config.php');
 			$this->config['webdav']['root'].='/'.$id;//make sure we have an new empty folder to work in
-			$this->instance=new OC_Filestorage_DAV($this->config['webdav']);
+			$this->instance=new \OC\Files\Storage\DAV($this->config['webdav']);
 		}
 
 		public function tearDown() {

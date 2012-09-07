@@ -1,38 +1,26 @@
 <?php
-
 /**
-* ownCloud
-*
-* @author Michael Gapczynski
-* @copyright 2012 Michael Gapczynski GapczynskiM@gmail.com
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+
+namespace OC\Files\Storage;
 
 /**
  * Storage backend class for providing common filesystem operation methods
  * which are not storage-backend specific.
  *
- * OC_Filestorage_Common is never used directly; it is extended by all other
+ * \OC\Files\Storage\Common is never used directly; it is extended by all other
  * storage backends, where its methods may be overridden, and additional
  * (backend-specific) methods are defined.
  *
- * Some OC_Filestorage_Common methods call functions which are first defined
+ * Some \OC\Files\Storage\Common methods call functions which are first defined
  * in classes which extend it, e.g. $this->stat() .
  */
 
-abstract class OC_Filestorage_Common extends OC_Filestorage {
+abstract class Common extends \OC\Files\Storage\Storage {
 
 	public function __construct($parameters) {}
 // 	abstract public function mkdir($path);
@@ -104,7 +92,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 	public function copy($path1,$path2) {
 		$source=$this->fopen($path1,'r');
 		$target=$this->fopen($path2,'w');
-		$count=OC_Helper::streamCopy($source,$target);
+		$count=\OC_Helper::streamCopy($source,$target);
 		return $count>0;
 	}
 // 	abstract public function fopen($path,$mode);
@@ -198,9 +186,9 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		}else{
 			$extension='';
 		}
-		$tmpFile=OC_Helper::tmpFile($extension);
+		$tmpFile=\OC_Helper::tmpFile($extension);
 		file_put_contents($tmpFile,$head);
-		$mime=OC_Helper::getMimeType($tmpFile);
+		$mime=\OC_Helper::getMimeType($tmpFile);
 		unlink($tmpFile);
 		return $mime;
 	}
@@ -227,13 +215,13 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		}else{
 			$extension='';
 		}
-		$tmpFile=OC_Helper::tmpFile($extension);
+		$tmpFile=\OC_Helper::tmpFile($extension);
 		$target=fopen($tmpFile,'w');
-		OC_Helper::streamCopy($source,$target);
+		\OC_Helper::streamCopy($source,$target);
 		return $tmpFile;
 	}
 	public function getLocalFolder($path) {
-		$baseDir=OC_Helper::tmpFolder();
+		$baseDir=\OC_Helper::tmpFolder();
 		$this->addLocalFolder($path,$baseDir);
 		return $baseDir;
 	}

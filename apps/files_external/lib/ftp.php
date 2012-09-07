@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
+namespace OC\Files\Storage;
+
+class FTP extends \OC\Files\Storage\StreamWrapper{
 	private $password;
 	private $user;
 	private $host;
@@ -69,7 +71,7 @@ class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
 					$ext='';
 				}
 				$tmpFile=OCP\Files::tmpFile($ext);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
+				\OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
 				if($this->file_exists($path)) {
 					$this->getFile($path,$tmpFile);
 				}

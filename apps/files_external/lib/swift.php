@@ -8,7 +8,9 @@
 
 require_once 'php-cloudfiles/cloudfiles.php';
 
-class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
+namespace OC\Files\Storage;
+
+class SWIFT extends \OC\Files\Storage\Common{
 	private $host;
 	private $root;
 	private $user;
@@ -272,10 +274,10 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		if(!$this->root || $this->root[0]!='/') {
 			$this->root='/'.$this->root;
 		}
-		$this->auth = new CF_Authentication($this->user, $this->token, null, $this->host);
+		$this->auth = new \CF_Authentication($this->user, $this->token, null, $this->host);
 		$this->auth->authenticate();
 
-		$this->conn = new CF_Connection($this->auth);
+		$this->conn = new \CF_Connection($this->auth);
 
 		if(!$this->containerExists($this->root)) {
 			$this->rootContainer=$this->createContainer('/');
@@ -341,7 +343,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		$subContainers=$this->getSubContainers($container);
 		$files=array_merge($files,$subContainers);
 		$id=$this->getContainerName($path);
-		OC_FakeDirStream::$dirs[$id]=$files;
+		\OC_FakeDirStream::$dirs[$id]=$files;
 		return opendir('fakedir://'.$id);
 	}
 
@@ -426,7 +428,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 			case 'c':
 			case 'c+':
 				$tmpFile=$this->getTmpFile($path);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
+				\OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
 				self::$tempFiles[$tmpFile]=$path;
 				return fopen('close://'.$tmpFile,$mode);
 		}

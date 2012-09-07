@@ -22,18 +22,20 @@
 */
 
 /**
- * test implementation for OC_FileStorage_Common with OC_FileStorage_Local
+ * test implementation for \OC\Files\Storage\Common with \OC\Files\Storage\Local
  */
 
-class OC_Filestorage_CommonTest extends OC_Filestorage_Common{
+namespace OC\Files\Storage;
+
+class CommonTest extends \OC\Files\Storage\Common{
 	/**
 	 * underlying local storage used for missing functions
-	 * @var OC_FileStorage_Local
+	 * @var \OC\Files\Storage\Local
 	 */
 	private $storage;
 
 	public function __construct($params) {
-		$this->storage=new OC_Filestorage_Local($params);
+		$this->storage=new \OC\Files\Storage\Local($params);
 	}
 
 	public function mkdir($path) {

@@ -18,7 +18,7 @@ if(!is_array($config) or !isset($config['ftp']) or !$config['ftp']['run']) {
 			$id=uniqid();
 			$this->config=include('apps/files_external/tests/config.php');
 			$this->config['ftp']['root'].='/'.$id;//make sure we have an new empty folder to work in
-			$this->instance=new OC_Filestorage_FTP($this->config['ftp']);
+			$this->instance=new \OC\Files\Storage\FTP($this->config['ftp']);
 		}
 
 		public function tearDown() {

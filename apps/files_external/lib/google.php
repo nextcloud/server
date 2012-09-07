@@ -22,7 +22,9 @@
 
 require_once 'Google/common.inc.php';
 
-class OC_Filestorage_Google extends OC_Filestorage_Common {
+namespace OC\Files\Storage;
+
+class Google extends \OC\Files\Storage\Common {
 
 	private $consumer;
 	private $oauth_token;
@@ -35,12 +37,12 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		if (isset($params['configured']) && $params['configured'] == 'true' && isset($params['token']) && isset($params['token_secret'])) {
 			$consumer_key = isset($params['consumer_key']) ? $params['consumer_key'] : 'anonymous';
 			$consumer_secret = isset($params['consumer_secret']) ? $params['consumer_secret'] : 'anonymous';
-			$this->consumer = new OAuthConsumer($consumer_key, $consumer_secret);
-			$this->oauth_token = new OAuthToken($params['token'], $params['token_secret']);
-			$this->sig_method = new OAuthSignatureMethod_HMAC_SHA1();
+			$this->consumer = new \OAuthConsumer($consumer_key, $consumer_secret);
+			$this->oauth_token = new \OAuthToken($params['token'], $params['token_secret']);
+			$this->sig_method = new \OAuthSignatureMethod_HMAC_SHA1();
 			$this->entries = array();
 		} else {
-			throw new Exception('Creating OC_Filestorage_Google storage failed');
+			throw new \Exception('Creating \OC\Files\Storage\Google storage failed');
 		}
 	}
 
@@ -96,7 +98,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 		}
 		if ($isDownload) {
-			$tmpFile = OC_Helper::tmpFile();
+			$tmpFile = \OC_Helper::tmpFile();
 			$handle = fopen($tmpFile, 'w');
 			curl_setopt($curl, CURLOPT_FILE, $handle);
 		}
@@ -399,7 +401,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				} else {
 					$ext = '';
 				}
-				$tmpFile = OC_Helper::tmpFile($ext);
+				$tmpFile = \OC_Helper::tmpFile($ext);
 				OC_CloseStreamWrapper::$callBacks[$tmpFile] = array($this, 'writeBack');
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
@@ -438,7 +440,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 		if (isset($uploadUri) && $handle = fopen($path, 'r')) {
 			$uploadUri .= '?convert=false';
-			$mimetype = OC_Helper::getMimeType($path);
+			$mimetype = \OC_Helper::getMimeType($path);
 			$size = filesize($path);
 			$headers = array('X-Upload-Content-Type: ' => $mimetype, 'X-Upload-Content-Length: ' => $size);
 			$postData = '<?xml version="1.0" encoding="UTF-8"?>';

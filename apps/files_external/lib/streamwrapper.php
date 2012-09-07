@@ -6,8 +6,9 @@
  * See the COPYING-README file.
  */
 
+namespace OC\Files\Storage;
 
-abstract class OC_FileStorage_StreamWrapper extends OC_Filestorage_Common{
+abstract class StreamWrapper extends \OC\Files\Storage\Common{
 	abstract public function constructUrl($path);
 
 	public function mkdir($path) {
@@ -83,7 +84,5 @@ abstract class OC_FileStorage_StreamWrapper extends OC_Filestorage_Common{
 	public function stat($path) {
 		return stat($this->constructUrl($path));
 	}
-
-
 
 }

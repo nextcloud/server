@@ -33,7 +33,7 @@ if(!is_array($config) or !isset($config['google']) or !$config['google']['run'])
 			$id=uniqid();
 			$this->config=include('apps/files_external/tests/config.php');
 			$this->config['google']['root'].='/'.$id;//make sure we have an new empty folder to work in
-			$this->instance=new OC_Filestorage_Google($this->config['google']);
+			$this->instance=new \OC\Files\Storage\Google($this->config['google']);
 		}
 
 		public function tearDown() {

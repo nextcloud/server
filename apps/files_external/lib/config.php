@@ -39,14 +39,14 @@ class OC_Mount_Config {
 	*/
 	public static function getBackends() {
 		return array(
-			'OC_Filestorage_Local' => array('backend' => 'Local', 'configuration' => array('datadir' => 'Location')),
-			'OC_Filestorage_AmazonS3' => array('backend' => 'Amazon S3', 'configuration' => array('key' => 'Key', 'secret' => '*Secret', 'bucket' => 'Bucket')),
-			'OC_Filestorage_Dropbox' => array('backend' => 'Dropbox', 'configuration' => array('configured' => '#configured','app_key' => 'App key', 'app_secret' => 'App secret', 'token' => '#token', 'token_secret' => '#token_secret'), 'custom' => 'dropbox'),
-			'OC_Filestorage_FTP' => array('backend' => 'FTP', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure ftps://')),
-			'OC_Filestorage_Google' => array('backend' => 'Google Drive', 'configuration' => array('configured' => '#configured', 'token' => '#token', 'token_secret' => '#token secret'), 'custom' => 'google'),
-			'OC_Filestorage_SWIFT' => array('backend' => 'OpenStack Swift', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'token' => '*Token', 'root' => '&Root', 'secure' => '!Secure ftps://')),
-			'OC_Filestorage_SMB' => array('backend' => 'SMB', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'share' => 'Share', 'root' => '&Root')),
-			'OC_Filestorage_DAV' => array('backend' => 'WebDAV', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure https://'))
+			'\OC\Files\Storage\Local' => array('backend' => 'Local', 'configuration' => array('datadir' => 'Location')),
+			'\OC\Files\Storage\AmazonS3' => array('backend' => 'Amazon S3', 'configuration' => array('key' => 'Key', 'secret' => '*Secret', 'bucket' => 'Bucket')),
+			'\OC\Files\Storage\Dropbox' => array('backend' => 'Dropbox', 'configuration' => array('configured' => '#configured','app_key' => 'App key', 'app_secret' => 'App secret', 'token' => '#token', 'token_secret' => '#token_secret'), 'custom' => 'dropbox'),
+			'\OC\Files\Storage\FTP' => array('backend' => 'FTP', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure ftps://')),
+			'\OC\Files\Storage\Google' => array('backend' => 'Google Drive', 'configuration' => array('configured' => '#configured', 'token' => '#token', 'token_secret' => '#token secret'), 'custom' => 'google'),
+			'\OC\Files\Storage\SWIFT' => array('backend' => 'OpenStack Swift', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'token' => '*Token', 'root' => '&Root', 'secure' => '!Secure ftps://')),
+			'\OC\Files\Storage\SMB' => array('backend' => 'SMB', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'share' => 'Share', 'root' => '&Root')),
+			'\OC\Files\Storage\DAV' => array('backend' => 'WebDAV', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure https://'))
 		);
 	}
 
@@ -124,7 +124,7 @@ class OC_Mount_Config {
 		if ($isPersonal) {
 			// Verify that the mount point applies for the current user
 			// Prevent non-admin users from mounting local storage
-			if ($applicable != OCP\User::getUser() || $class == 'OC_Filestorage_Local') {
+			if ($applicable != OCP\User::getUser() || $class == '\OC\Files\Storage\Local') {
 				return false;
 			}
 			$mountPoint = '/'.$applicable.'/files/'.ltrim($mountPoint, '/');
