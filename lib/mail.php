@@ -12,7 +12,7 @@
  * A class to handle mail sending.
  */
 
-require_once('class.phpmailer.php');
+require_once 'class.phpmailer.php';
 
 class OC_Mail {
 
@@ -39,9 +39,9 @@ class OC_Mail {
 		$mailo = new PHPMailer(true);
 		if($SMTPMODE=='sendmail') {
 			$mailo->IsSendmail();
-		}elseif($SMTPMODE=='smtp'){
+		}elseif($SMTPMODE=='smtp') {
 			$mailo->IsSMTP();
-		}elseif($SMTPMODE=='qmail'){
+		}elseif($SMTPMODE=='qmail') {
 			$mailo->IsQmail();
 		}else{
 			$mailo->IsMail();
@@ -55,6 +55,7 @@ class OC_Mail {
 
 		$mailo->From =$fromaddress;
 		$mailo->FromName = $fromname;;
+		$mailo->Sender =$fromaddress;
 		$a=explode(' ',$toaddress);
 		try {
 			foreach($a as $ad) {

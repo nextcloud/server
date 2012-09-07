@@ -26,7 +26,7 @@ Files={
 		});
 		procesSelection();
 	}
-}
+};
 $(document).ready(function() {
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
@@ -40,8 +40,16 @@ $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
 
 	//drag/drop of files
-	$('#fileList tr[data-write="true"] td.filename').draggable(dragOptions);
-	$('#fileList tr[data-type="dir"][data-write="true"] td.filename').droppable(folderDropOptions);
+	$('#fileList tr td.filename').each(function(i,e){
+		if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
+			$(e).draggable(dragOptions);
+		}
+	});
+	$('#fileList tr[data-type="dir"] td.filename').each(function(i,e){
+		if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE){
+			$(e).droppable(folderDropOptions);
+		}
+	});
 	$('div.crumb:not(.last)').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
 	if($('div.crumb').length){
@@ -228,7 +236,14 @@ $(document).ready(function() {
 								var size=t('files','Pending');
 							}
 							if(files && !dirName){
-								FileList.addFile(getUniqueName(files[i].name),size,date,true);
+								var uniqueName = getUniqueName(files[i].name);
+								if (uniqueName != files[i].name) {
+									FileList.checkName(uniqueName, files[i].name, true);
+									var hidden = true;
+								} else {
+									var hidden = false;
+								}
+								FileList.addFile(uniqueName,size,date,true,hidden);
 							} else if(dirName) {
 								var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
 								var currentUploads = parseInt(uploadtext.attr('currentUploads'));
@@ -247,7 +262,14 @@ $(document).ready(function() {
 						}
 					}else{
 						var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
-						FileList.addFile(getUniqueName(filename),'Pending',date,true);
+						var uniqueName = getUniqueName(filename);
+						if (uniqueName != filename) {
+							FileList.checkName(uniqueName, filename, true);
+							var hidden = true;
+						} else {
+							var hidden = false;
+						}
+						FileList.addFile(uniqueName,'Pending',date,true,hidden);
 					}
 					if($.support.xhrFileUpload) {
 						for(var i=0;i<files.length;i++){
@@ -386,6 +408,21 @@ $(document).ready(function() {
 		})
 	});
 
+	$.assocArraySize = function(obj) {
+		// http://stackoverflow.com/a/6700/11236
+		var size = 0, key;
+		for (key in obj) {
+		    if (obj.hasOwnProperty(key)) size++;
+		}
+		return size;
+	};
+
+	// warn user not to leave the page while upload is in progress
+	$(window).bind('beforeunload', function(e) {
+		if ($.assocArraySize(uploadingFiles) > 0)
+			return t('files','File upload is in progress. Leaving the page now will cancel the upload.');
+	});
+
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
 	if(navigator.userAgent.search(/konqueror/i)==-1){
 		$('.file_upload_start').attr('multiple','multiple')
@@ -452,21 +489,27 @@ $(document).ready(function() {
 		$(this).append(input);
 		input.focus();
 		input.change(function(){
-			var name=getUniqueName($(this).val());
-			if(type != 'web' && name.indexOf('/')!=-1){
+			if(type != 'web' && $(this).val().indexOf('/')!=-1){
 				$('#notification').text(t('files','Invalid name, \'/\' is not allowed.'));
 				$('#notification').fadeIn();
 				return;
+			}
+			var name = getUniqueName($(this).val());
+			if (name != $(this).val()) {
+				FileList.checkName(name, $(this).val(), true);
+				var hidden = true;
+			} else {
+				var hidden = false;
 			}
 			switch(type){
 				case 'file':
 					$.post(
 						OC.filePath('files','ajax','newfile.php'),
-						{dir:$('#dir').val(),filename:name,content:" \n"},
+						{dir:$('#dir').val(),filename:name},
 						function(result){
 							if (result.status == 'success') {
 								var date=new Date();
-								FileList.addFile(name,0,date);
+								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
 								tr.data('mime','text/plain');
 								getMimeIcon('text/plain',function(path){
@@ -485,7 +528,7 @@ $(document).ready(function() {
 						function(result){
 							if (result.status == 'success') {
 								var date=new Date();
-								FileList.addDir(name,0,date);
+								FileList.addDir(name,0,date,hidden);
 							} else {
 								OC.dialogs.alert(result.data.message, 'Error');
 							}
@@ -516,7 +559,7 @@ $(document).ready(function() {
 					eventSource.listen('success',function(mime){
 						$('#uploadprogressbar').fadeOut();
 						var date=new Date();
-						FileList.addFile(localName,0,date);
+						FileList.addFile(localName,0,date,false,hidden);
 						var tr=$('tr').filterAttr('data-file',localName);
 						tr.data('mime',mime);
 						getMimeIcon(mime,function(path){

@@ -11,15 +11,15 @@ ListView.generateTable=function(collumns){
 	html+='<thead>';
 	html+='</head>';
 	html+='<tbody>';
-	html+'<tr class="template">'
+	html+'<tr class="template">';
 	$.each(collumns,function(index,collumn){
 		html+='<th class="'+collumn.toLower()+'"</th>';
 	});
-	html+'</tr>'
+	html+'</tr>';
 	html+='</tbody>';
 	html='</table>';
 	return $(html);
-}
+};
 
 ListView.prototype={
 	rows:{},
@@ -49,7 +49,7 @@ ListView.prototype={
 				var element=$(html);
 				element.append($('<img src="'+element.icon+'"/>'));
 				element.click(element.callback);
-				tr.children('td.'+collumn).append(element)
+				tr.children('td.'+collumn).append(element);
 			});
 		});
 		if(this.deleteCallback){
@@ -68,4 +68,4 @@ ListView.prototype={
 	empty:function(){
 		this.element.children('tr:not(.template)').remove();
 	}
-}
+};

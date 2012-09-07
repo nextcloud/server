@@ -35,7 +35,7 @@ $dir = $_POST['dir'];
 $error='';
 
 $totalSize=0;
-foreach($files['size'] as $size){
+foreach($files['size'] as $size) {
 	$totalSize+=$size;
 }
 if($totalSize>OC_Filesystem::free_space('/')) {
@@ -46,7 +46,7 @@ if($totalSize>OC_Filesystem::free_space('/')) {
 $result=array();
 if(strpos($dir, '..') === false) {
 	$fileCount=count($files['name']);
-	for($i=0;$i<$fileCount;$i++){
+	for($i=0;$i<$fileCount;$i++) {
         $target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
 		if(is_uploaded_file($files['tmp_name'][$i]) and OC_Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
 			$meta=OC_FileCache_Cached::get($target);

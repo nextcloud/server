@@ -284,7 +284,7 @@ class OC_OCS {
 		if(isset($_SERVER['PHP_AUTH_PW']))   $authpw=$_SERVER['PHP_AUTH_PW']; else $authpw='';
 
 		if(empty($authuser)) {
-			if($forceuser){
+			if($forceuser) {
 				header('WWW-Authenticate: Basic realm="your valid user account or api key"');
 				header('HTTP/1.0 401 Unauthorized');
 				exit;
@@ -292,8 +292,8 @@ class OC_OCS {
 				$identifieduser='';
 			}
 		}else{
-			if(!OC_User::login($authuser,$authpw)){
-				if($forceuser){
+			if(!OC_User::login($authuser,$authpw)) {
+				if($forceuser) {
 					header('WWW-Authenticate: Basic realm="your valid user account or api key"');
 					header('HTTP/1.0 401 Unauthorized');
 					exit;
@@ -365,7 +365,7 @@ class OC_OCS {
 				xmlwriter_write_attribute($writer,'details',$tagattribute);
 				}
 				foreach($entry as $key=>$value) {
-				if(is_array($value)){
+				if(is_array($value)) {
 				foreach($value as $k=>$v) {
 					xmlwriter_write_element($writer,$k,$v);
 				}
@@ -385,7 +385,7 @@ class OC_OCS {
 				xmlwriter_write_attribute($writer,'details',$tagattribute);
 				}
 				foreach($entry as $key=>$value) {
-				if(is_array($value)){
+				if(is_array($value)) {
 				xmlwriter_start_element($writer,$entrykey);
 				foreach($value as $k=>$v) {
 					xmlwriter_write_element($writer,$k,$v);
@@ -418,7 +418,7 @@ class OC_OCS {
 			if (is_numeric($key)) {
 				$key = $node;
 			}
-			if (is_array($value)){
+			if (is_array($value)) {
 				xmlwriter_start_element($writer,$key);
 				OC_OCS::toxml($writer,$value,$node);
 				xmlwriter_end_element($writer);
@@ -458,8 +458,8 @@ class OC_OCS {
 	* @return string xml/json
 	*/
 	private static function personCheck($format,$login,$passwd) {
-		if($login<>''){
-			if(OC_User::login($login,$passwd)){
+		if($login<>'') {
+			if(OC_User::login($login,$passwd)) {
 				$xml['person']['personid']=$login;
 				echo(OC_OCS::generatexml($format,'ok',100,'',$xml,'person','check',2));
 			}else{
@@ -536,7 +536,7 @@ class OC_OCS {
 	*/
 	private static function privateDataSet($format, $app, $key, $value) {
 		$user=OC_OCS::checkpassword();
-		if(OC_OCS::setData($user,$app,$key,$value)){
+		if(OC_OCS::setData($user,$app,$key,$value)) {
 			echo(OC_OCS::generatexml($format,'ok',100,''));
 		}
 	}
@@ -549,11 +549,11 @@ class OC_OCS {
 	* @return string xml/json
 	*/
 	private static function privateDataDelete($format, $app, $key) {
-		if($key=="" or $app==""){
+		if($key=="" or $app=="") {
 			return; //key and app are NOT optional here
 		}
 		$user=OC_OCS::checkpassword();
-		if(OC_OCS::deleteData($user,$app,$key)){
+		if(OC_OCS::deleteData($user,$app,$key)) {
 			echo(OC_OCS::generatexml($format,'ok',100,''));
 		}
 	}
@@ -567,21 +567,21 @@ class OC_OCS {
 	* @return array
 	*/
 	public static function getData($user,$app="",$key="") {
-		if($app){
+		if($app) {
 			$apps=array($app);
 		}else{
 			$apps=OC_Preferences::getApps($user);
 		}
-		if($key){
+		if($key) {
 			$keys=array($key);
 		}else{
-			foreach($apps as $app){
+			foreach($apps as $app) {
 				$keys=OC_Preferences::getKeys($user,$app);
 			}
 		}
 		$result=array();
-		foreach($apps as $app){
-			foreach($keys as $key){
+		foreach($apps as $app) {
+			foreach($keys as $key) {
 				$value=OC_Preferences::getValue($user,$app,$key);
 				$result[]=array('app'=>$app,'key'=>$key,'value'=>$value);
 			}
@@ -648,7 +648,7 @@ class OC_OCS {
                 $login=OC_OCS::checkpassword();
 		if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
 
-			if(OC_User::userExists($user)){
+			if(OC_User::userExists($user)) {
 				// calculate the disc space
 				$user_dir = '/'.$user.'/files';
 				OC_Filesystem::init($user_dir);
@@ -709,7 +709,7 @@ class OC_OCS {
         private static function publicKeyGet($format,$user) {
                 $login=OC_OCS::checkpassword();
 
-		if(OC_User::userExists($user)){
+		if(OC_User::userExists($user)) {
 			// calculate the disc space
 			$txt='this is the public key of '.$user;
 			echo($txt);
@@ -728,7 +728,7 @@ class OC_OCS {
                 $login=OC_OCS::checkpassword();
                 if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
 
-                        if(OC_User::userExists($user)){
+                        if(OC_User::userExists($user)) {
                                 // calculate the disc space
                                 $txt='this is the private key of '.$user;
                                 echo($txt);

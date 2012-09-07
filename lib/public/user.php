@@ -40,7 +40,7 @@ class User {
 	 * @brief get the user id of the user currently logged in.
 	 * @return string uid or false
 	 */
-	public static function getUser(){
+	public static function getUser() {
 		return \OC_USER::getUser();
 	}
 
@@ -51,7 +51,7 @@ class User {
 	 *
 	 * Get a list of all users.
 	 */
-	public static function getUsers($search = '', $limit = -1, $offset = 0) {
+	public static function getUsers($search = '', $limit = null, $offset = null) {
 		return \OC_USER::getUsers();
 	}
 
@@ -62,7 +62,7 @@ class User {
 	 *
 	 * Checks if the user is logged in
 	 */
-	public static function isLoggedIn(){
+	public static function isLoggedIn() {
 		return \OC_USER::isLoggedIn();
 	}
 
@@ -72,7 +72,7 @@ class User {
 	 * @param string $uid the username
 	 * @return boolean
 	 */
-	public static function userExists( $uid ){
+	public static function userExists( $uid ) {
 		return \OC_USER::userExists( $uid );
 	}
 
@@ -83,7 +83,7 @@ class User {
 	 *
 	 * Logout, destroys session
 	 */
-	public static function logout(){
+	public static function logout() {
 		return \OC_USER::logout();
 	}
 
@@ -96,7 +96,7 @@ class User {
 	 *
 	 * Check if the password is correct without logging in the user
 	 */
-	public static function checkPassword( $uid, $password ){
+	public static function checkPassword( $uid, $password ) {
 		return \OC_USER::checkPassword( $uid, $password );
 	}
 
@@ -104,7 +104,7 @@ class User {
         /**
         * Check if the user is a admin, redirects to home if not
         */
-        public static function checkAdminUser(){
+        public static function checkAdminUser() {
                 \OC_Util::checkAdminUser();
         }
 
@@ -113,7 +113,7 @@ class User {
         * Check if the user is logged in, redirects to home if not. With
         * redirect URL parameter to the request URI.
         */
-        public static function checkLoggedIn(){
+        public static function checkLoggedIn() {
                 \OC_Util::checkLoggedIn();
         }
 

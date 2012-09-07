@@ -32,5 +32,6 @@
 "The LDAP attribute to use to generate the groups`s ownCloud name." => "Атрибут LDAP для генерации имени группы ownCloud.",
 "in bytes" => "в байтах",
 "in seconds. A change empties the cache." => "в секундах. Изменение очистит кэш.",
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Оставьте имя пользователя пустым (по умолчанию). Иначе укажите атрибут LDAP/AD.",
 "Help" => "Помощь"
 );

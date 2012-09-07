@@ -26,7 +26,7 @@ $(document).ready(function(){
 				var value = 'no';
 			}
 		} else {
-			var value = $(this).val()
+			var value = $(this).val();
 		}
 		OC.AppConfig.setValue('core', $(this).attr('name'), value);
 	});

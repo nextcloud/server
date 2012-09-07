@@ -21,5 +21,8 @@
 "last month" => "เดือนที่แล้ว",
 "months ago" => "เดือนมาแล้ว",
 "last year" => "ปีที่แล้ว",
-"years ago" => "ปีที่ผ่านมา"
+"years ago" => "ปีที่ผ่านมา",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s พร้อมให้ใช้งานได้แล้ว. <a href=\"%s\">ดูรายละเอียดเพิ่มเติม</a>",
+"up to date" => "ทันสมัย",
+"updates check is disabled" => "การตรวจสอบชุดอัพเดทถูกปิดใช้งานไว้"
 );

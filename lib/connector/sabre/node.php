@@ -145,7 +145,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			$propertyName = preg_replace("/^{.*}/", "", $propertyName); // remove leading namespace from property name
 			// If it was null, we need to delete the property
 			if (is_null($propertyValue)) {
-				if(array_key_exists( $propertyName, $existing )){
+				if(array_key_exists( $propertyName, $existing )) {
 					$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?' );
 					$query->execute( array( OC_User::getUser(), $this->path, $propertyName ));
 				}
@@ -154,7 +154,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 				if( strcmp( $propertyName, "lastmodified") === 0) {
 					$this->touch($propertyValue);
 				} else {
-					if(!array_key_exists( $propertyName, $existing )){
+					if(!array_key_exists( $propertyName, $existing )) {
 						$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*properties` (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)' );
 						$query->execute( array( OC_User::getUser(), $this->path, $propertyName,$propertyValue ));
 					} else {
@@ -186,13 +186,13 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			$result = $query->execute( array( OC_User::getUser(), $this->path ));
 
 			$this->property_cache = array();
-			while( $row = $result->fetchRow()){
+			while( $row = $result->fetchRow()) {
 				$this->property_cache[$row['propertyname']] = $row['propertyvalue'];
 			}
 		}
 
 		// if the array was empty, we need to return everything
-		if(count($properties) == 0){
+		if(count($properties) == 0) {
 			return $this->property_cache;
 		}
 

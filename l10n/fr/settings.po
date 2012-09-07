@@ -5,9 +5,11 @@
 # Translators:
 # Cyril Glapa <kyriog@gmail.com>, 2012.
 #   <fboulogne@april.org>, 2011.
+#   <florentin.lemoal@gmail.com>, 2012.
 #   <gp4004@arghh.org>, 2012.
 #   <guiguidu31300@gmail.com>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
+#   <life_0n_mars@live.fr>, 2012.
 # Nahir Mohamed <nahirmoha@gmail.com>, 2012.
 #   <pierreamiel.giraud@gmail.com>, 2012.
 #   <rom1dep@gmail.com>, 2011, 2012.
@@ -16,19 +18,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-29 02:02+0200\n"
-"PO-Revision-Date: 2012-08-29 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-06 02:02+0200\n"
+"PO-Revision-Date: 2012-09-05 13:18+0000\n"
+"Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
 msgstr "Impossible de charger la liste depuis l'App Store"
+
+#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Erreur d'authentification"
+
+#: ajax/creategroup.php:19
+msgid "Group already exists"
+msgstr "Ce groupe existe déjà"
+
+#: ajax/creategroup.php:28
+msgid "Unable to add group"
+msgstr "Impossible d'ajouter le groupe"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -46,13 +61,27 @@ msgstr "Identifiant OpenID changé"
 msgid "Invalid request"
 msgstr "Requête invalide"
 
-#: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Erreur d'authentification"
+#: ajax/removegroup.php:16
+msgid "Unable to delete group"
+msgstr "Impossible de supprimer le groupe"
+
+#: ajax/removeuser.php:22
+msgid "Unable to delete user"
+msgstr "Impossible de supprimer l'utilisateur"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Langue changée"
+
+#: ajax/togglegroups.php:25
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr "Impossible d'ajouter l'utilisateur au groupe %s"
+
+#: ajax/togglegroups.php:31
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr "Impossible de supprimer l'utilisateur du groupe %s"
 
 #: js/apps.js:18
 msgid "Error"
@@ -78,65 +107,84 @@ msgstr "Français"
 msgid "Security Warning"
 msgstr "Alertes de sécurité"
 
-#: templates/admin.php:29
+#: templates/admin.php:17
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "Votre répertoire de données et vos fichiers sont probablement accessibles depuis internet. Le fichier .htaccess fourni avec ownCloud ne fonctionne pas. Nous vous recommandons vivement de configurer votre serveur web de façon à ce que ce répertoire ne soit plus accessible, ou bien de déplacer le répertoire de données à l'extérieur de la racine du serveur web."
+
+#: templates/admin.php:31
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:31
+#: templates/admin.php:33
 msgid "execute one task with each page loaded"
 msgstr "exécuter une tâche pour chaque page chargée"
 
-#: templates/admin.php:33
+#: templates/admin.php:35
 msgid "cron.php is registered at a webcron service"
 msgstr "cron.php est enregistré comme un service webcron"
 
-#: templates/admin.php:35
+#: templates/admin.php:37
 msgid "use systems cron service"
 msgstr "utiliser le service cron du système "
 
-#: templates/admin.php:39
+#: templates/admin.php:41
 msgid "Share API"
-msgstr ""
+msgstr "API de partage"
 
-#: templates/admin.php:44
+#: templates/admin.php:46
 msgid "Enable Share API"
-msgstr ""
+msgstr "Activer l'API de partage"
 
-#: templates/admin.php:45
+#: templates/admin.php:47
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Autoriser les applications à utiliser l'API de partage"
 
-#: templates/admin.php:49
+#: templates/admin.php:51
 msgid "Allow links"
-msgstr ""
+msgstr "Autoriser les liens"
 
-#: templates/admin.php:50
+#: templates/admin.php:52
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Autoriser les utilisateurs à partager du contenu public avec des liens"
 
-#: templates/admin.php:54
+#: templates/admin.php:56
 msgid "Allow resharing"
-msgstr ""
+msgstr "Autoriser le re-partage"
 
-#: templates/admin.php:55
+#: templates/admin.php:57
 msgid "Allow users to share items shared with them again"
-msgstr ""
-
-#: templates/admin.php:58
-msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Autoriser les utilisateurs à partager des éléments déjà partagés entre eux"
 
 #: templates/admin.php:60
-msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgid "Allow users to share with anyone"
+msgstr "Autoriser les utilisateurs à partager avec tout le monde"
 
-#: templates/admin.php:67
+#: templates/admin.php:62
+msgid "Allow users to only share with users in their groups"
+msgstr "Autoriser les utilisateurs à ne partager qu'avec les utilisateurs dans leurs groupes"
+
+#: templates/admin.php:69
 msgid "Log"
 msgstr "Journaux"
 
-#: templates/admin.php:95
+#: templates/admin.php:97
 msgid "More"
 msgstr "Plus"
+
+#: templates/admin.php:105
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Développé par la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">communauté ownCloud</a>, le <a href=\"https://github.com/owncloud\" target=\"_blank\">code source</a> est publié sous license <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -151,34 +199,30 @@ msgid "See application page at apps.owncloud.com"
 msgstr "Voir la page des applications à l'url apps.owncloud.com"
 
 #: templates/apps.php:30
-msgid "-licensed"
-msgstr "sous licence"
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span>-sous licence, par <span class=\"author\"></span>"
 
-#: templates/apps.php:30
-msgid "by"
-msgstr "par"
-
-#: templates/help.php:8
+#: templates/help.php:9
 msgid "Documentation"
 msgstr "Documentation"
 
-#: templates/help.php:9
+#: templates/help.php:10
 msgid "Managing Big Files"
 msgstr "Gérer les gros fichiers"
 
-#: templates/help.php:10
+#: templates/help.php:11
 msgid "Ask a question"
 msgstr "Poser une question"
 
-#: templates/help.php:22
+#: templates/help.php:23
 msgid "Problems connecting to help database."
 msgstr "Problème de connexion à la base de données d'aide."
 
-#: templates/help.php:23
+#: templates/help.php:24
 msgid "Go there manually."
 msgstr "S'y rendre manuellement."
 
-#: templates/help.php:31
+#: templates/help.php:32
 msgid "Answer"
 msgstr "Réponse"
 

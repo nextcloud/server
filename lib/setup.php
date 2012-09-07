@@ -74,7 +74,7 @@ class OC_Setup {
 			$datadir = htmlspecialchars_decode($options['directory']);
 
 			//use sqlite3 when available, otherise sqlite2 will be used.
-			if($dbtype=='sqlite' and class_exists('SQLite3')){
+			if($dbtype=='sqlite' and class_exists('SQLite3')) {
 				$dbtype='sqlite3';
 			}
 
@@ -114,7 +114,7 @@ class OC_Setup {
 
 						//add prefix to the mysql user name to prevent collisions
 						$dbusername=substr('oc_'.$username,0,16);
-						if($dbusername!=$oldUser){
+						if($dbusername!=$oldUser) {
 							//hash the password so we don't need to store the admin config in the config file
 							$dbpassword=md5(time().$password);
 
@@ -128,7 +128,7 @@ class OC_Setup {
 						self::createDatabase($dbname, $dbusername, $connection);
 					}
 					else {
-						if($dbuser!=$oldUser){
+						if($dbuser!=$oldUser) {
 							OC_Config::setValue('dbuser', $dbuser);
 							OC_Config::setValue('dbpassword', $dbpass);
 						}
@@ -140,7 +140,7 @@ class OC_Setup {
 					//fill the database if needed
 					$query="select count(*) from information_schema.tables where table_schema='$dbname' AND table_name = '{$dbtableprefix}users';";
 					$result = mysql_query($query,$connection);
-					if($result){
+					if($result) {
 						$row=mysql_fetch_row($result);
 					}
 					if(!$result or $row[0]==0) {
@@ -345,7 +345,7 @@ class OC_Setup {
                         }
 			else {
 				//delete the old sqlite database first, might cause infinte loops otherwise
-				if(file_exists("$datadir/owncloud.db")){
+				if(file_exists("$datadir/owncloud.db")) {
 					unlink("$datadir/owncloud.db");
 				}
 				//in case of sqlite, we can always fill the database

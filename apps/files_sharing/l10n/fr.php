@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Size" => "Taille",
-"Modified" => "Modifié",
-"Delete all" => "Tout effacer",
-"Delete" => "Effacement"
+"Password" => "Mot de passe",
+"Submit" => "Envoyer",
+"Download" => "Télécharger",
+"No preview available for" => "Pas d'aperçu disponible pour",
+"web services under your control" => "services web sous votre contrôle"
 );

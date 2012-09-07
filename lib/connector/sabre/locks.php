@@ -77,7 +77,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		$result = $stmt->execute( $params );
 
 		$lockList = array();
-		while( $row = $result->fetchRow()){
+		while( $row = $result->fetchRow()) {
 
 			$lockInfo = new Sabre_DAV_Locks_LockInfo();
 			$lockInfo->owner = $row['owner'];

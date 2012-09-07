@@ -5,7 +5,7 @@
 abstract class OC_Search_Provider {
 	private $options;
 
-	public function __construct($options){
+	public function __construct($options) {
 		$this->options=$options;
 	}
 

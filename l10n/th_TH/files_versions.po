@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 13:11+0000\n"
+"POT-Creation-Date: 2012-09-03 02:04+0200\n"
+"PO-Revision-Date: 2012-09-02 22:45+0000\n"
 "Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -18,9 +18,17 @@ msgstr ""
 "Language: th_TH\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: js/settings-personal.js:31
+#: js/settings-personal.js:31 templates/settings-personal.php:10
 msgid "Expire all versions"
 msgstr "หมดอายุทุกรุ่น"
+
+#: templates/settings-personal.php:4
+msgid "Versions"
+msgstr "รุ่น"
+
+#: templates/settings-personal.php:7
+msgid "This will delete all existing backup versions of your files"
+msgstr "นี่จะเป็นลบทิ้งไฟล์รุ่นที่ทำการสำรองข้อมูลทั้งหมดที่มีอยู่ของคุณทิ้งไป"
 
 #: templates/settings.php:3
 msgid "Enable Files Versioning"

@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Delete" => "Forigi"
+"Password" => "Pasvorto",
+"Submit" => "Sendi"
 );

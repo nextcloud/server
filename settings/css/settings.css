@@ -57,6 +57,8 @@ span.version { margin-left:3em; margin-right:3em; color:#555; }
 /* Transition to complete width! */
 .app:hover, .app:active { max-width: inherit; }
 
+.appslink { text-decoration: underline; }
+
 /* LOG */
 #log { white-space:normal; }
 

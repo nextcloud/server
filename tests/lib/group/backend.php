@@ -31,7 +31,7 @@ abstract class Test_Group_Backend extends UnitTestCase {
 	 * test cases can override this in order to clean up created groups
 	 * @return array
 	 */
-	public function getGroupName(){
+	public function getGroupName() {
 		return uniqid('test_');
 	}
 
@@ -40,11 +40,11 @@ abstract class Test_Group_Backend extends UnitTestCase {
 	 * test cases can override this in order to clean up created user
 	 * @return array
 	 */
-	public function getUserName(){
+	public function getUserName() {
 		return uniqid('test_');
 	}
 
-	public function testAddRemove(){
+	public function testAddRemove() {
 		//get the number of groups we start with, in case there are exising groups
 		$startCount=count($this->backend->getGroups());
 
@@ -68,7 +68,7 @@ abstract class Test_Group_Backend extends UnitTestCase {
 		$this->assertFalse((array_search($name2,$this->backend->getGroups())!==false));
 	}
 
-	public function testUser(){
+	public function testUser() {
 		$group1=$this->getGroupName();
 		$group2=$this->getGroupName();
 		$this->backend->createGroup($group1);

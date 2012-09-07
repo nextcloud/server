@@ -31,7 +31,7 @@ class OC_Search{
 	/**
 	 * remove all registered search providers
 	 */
-	public static function clearProviders(){
+	public static function clearProviders() {
 		self::$providers=array();
 		self::$registeredProviders=array();
 	}
@@ -40,7 +40,7 @@ class OC_Search{
 	 * register a new search provider to be used
 	 * @param string $provider class name of a OC_Search_Provider
 	 */
-	public static function registerProvider($class,$options=array()){
+	public static function registerProvider($class,$options=array()) {
 		self::$registeredProviders[]=array('class'=>$class,'options'=>$options);
 	}
 
@@ -49,10 +49,10 @@ class OC_Search{
 	 * @param string query
 	 * @return array An array of OC_Search_Result's
 	 */
-	public static function search($query){
+	public static function search($query) {
 		self::initProviders();
 		$results=array();
-		foreach(self::$providers as $provider){
+		foreach(self::$providers as $provider) {
 			$results=array_merge($results, $provider->search($query));
 		}
 		return $results;
@@ -61,11 +61,11 @@ class OC_Search{
 	/**
 	 * create instances of all the registered search providers
 	 */
-	private static function initProviders(){
-		if(count(self::$providers)>0){
+	private static function initProviders() {
+		if(count(self::$providers)>0) {
 			return;
 		}
-		foreach(self::$registeredProviders as $provider){
+		foreach(self::$registeredProviders as $provider) {
 			$class=$provider['class'];
 			$options=$provider['options'];
 			self::$providers[]=new $class($options);

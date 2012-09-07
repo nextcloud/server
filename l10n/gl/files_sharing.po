@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-29 02:01+0200\n"
-"PO-Revision-Date: 2012-08-29 00:03+0000\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-31 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -23,4 +23,16 @@ msgstr ""
 
 #: templates/authenticate.php:6
 msgid "Submit"
+msgstr ""
+
+#: templates/public.php:9 templates/public.php:19
+msgid "Download"
+msgstr ""
+
+#: templates/public.php:18
+msgid "No preview available for"
+msgstr ""
+
+#: templates/public.php:23
+msgid "web services under your control"
 msgstr ""

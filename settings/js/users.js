@@ -4,7 +4,7 @@
  * See the COPYING-README file.
  */
 
-UserList={
+var UserList={
 	useUndo:true,
 	
 	/**
@@ -182,7 +182,7 @@ UserList={
 			};
 			var label;
 			if(isadmin){
-				label = t('files', 'add group');
+				label = t('core', 'add group');
 			}else{
 				label = null;
 			}

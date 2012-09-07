@@ -3,8 +3,6 @@
 "Invalid request" => "Neispravan zahtev",
 "Language changed" => "Jezik je izmenjen",
 "Select an App" => "Izaberite program",
-"-licensed" => "-licenciran",
-"by" => "od",
 "Ask a question" => "Postavite pitanje",
 "Problems connecting to help database." => "Problem u povezivanju sa bazom pomoći",
 "Go there manually." => "Otiđite tamo ručno.",

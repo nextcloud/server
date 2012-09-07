@@ -31,7 +31,7 @@
 //  - IMPORTANT! Check if the block lenght of the encrypted data stays the same
 
 
-require_once('Crypt_Blowfish/Blowfish.php');
+require_once 'Crypt_Blowfish/Blowfish.php';
 
 /**
  * This class is for crypting and decrypting
@@ -39,18 +39,18 @@ require_once('Crypt_Blowfish/Blowfish.php');
 class OC_Crypt {
 	static private $bf = null;
 
-	public static function loginListener($params){
+	public static function loginListener($params) {
 		self::init($params['uid'],$params['password']);
 	}
 
 	public static function init($login,$password) {
 		$view=new OC_FilesystemView('/');
-		if(!$view->file_exists('/'.$login)){
+		if(!$view->file_exists('/'.$login)) {
 			$view->mkdir('/'.$login);
 		}
 
 		OC_FileProxy::$enabled=false;
-		if(!$view->file_exists('/'.$login.'/encryption.key')){// does key exist?
+		if(!$view->file_exists('/'.$login.'/encryption.key')) {// does key exist?
 			OC_Crypt::createkey($login,$password);
 		}
 		$key=$view->file_get_contents('/'.$login.'/encryption.key');
@@ -66,14 +66,14 @@ class OC_Crypt {
 	 *
 	 * if the key is left out, the default handeler will be used
 	 */
-	public static function getBlowfish($key=''){
-		if($key){
+	public static function getBlowfish($key='') {
+		if($key) {
 			return new Crypt_Blowfish($key);
 		}else{
-			if(!isset($_SESSION['enckey'])){
+			if(!isset($_SESSION['enckey'])) {
 				return false;
 			}
-			if(!self::$bf){
+			if(!self::$bf) {
 				self::$bf=new Crypt_Blowfish($_SESSION['enckey']);
 			}
 			return self::$bf;
@@ -96,7 +96,7 @@ class OC_Crypt {
 	}
 
 	public static function changekeypasscode($oldPassword, $newPassword) {
-		if(OCP\User::isLoggedIn()){
+		if(OCP\User::isLoggedIn()) {
 			$username=OCP\USER::getUser();
 			$view=new OC_FilesystemView('/'.$username);
 
@@ -179,7 +179,7 @@ class OC_Crypt {
 			while (!feof($handleread)) {
 				$content = fread($handleread, 8192);
 				$enccontent=OC_CRYPT::decrypt( $content, $key);
-				if(feof($handleread)){
+				if(feof($handleread)) {
 					$enccontent=rtrim($enccontent, "\0");
 				}
 				fwrite($handlewrite, $enccontent);
@@ -192,9 +192,9 @@ class OC_Crypt {
 	/**
 	 * encrypt data in 8192b sized blocks
 	 */
-	public static function blockEncrypt($data, $key=''){
+	public static function blockEncrypt($data, $key='') {
 		$result='';
-		while(strlen($data)){
+		while(strlen($data)) {
 			$result.=self::encrypt(substr($data,0,8192),$key);
 			$data=substr($data,8192);
 		}
@@ -204,13 +204,13 @@ class OC_Crypt {
 	/**
 	 * decrypt data in 8192b sized blocks
 	 */
-	public static function blockDecrypt($data, $key='',$maxLength=0){
+	public static function blockDecrypt($data, $key='',$maxLength=0) {
 		$result='';
-		while(strlen($data)){
+		while(strlen($data)) {
 			$result.=self::decrypt(substr($data,0,8192),$key);
 			$data=substr($data,8192);
 		}
-		if($maxLength>0){
+		if($maxLength>0) {
 			return substr($result,0,$maxLength);
 		}else{
 			return rtrim($result, "\0");

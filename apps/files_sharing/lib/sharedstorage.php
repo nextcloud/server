@@ -209,7 +209,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 
 	public function isDeletable($path) {
 		if ($path == '') {
-			return false;
+			return true;
 		}
 		return ($this->getPermissions($path) & OCP\Share::PERMISSION_DELETE);
 	}
@@ -306,9 +306,19 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 
 	public function unlink($path) {
 		// Delete the file if DELETE permission is granted
-		if (($source = $this->getSourcePath($path)) && $this->isDeletable($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->unlink($this->getInternalPath($source));
+		if ($source = $this->getSourcePath($path)) {
+			if ($this->isDeletable($path)) {
+				$storage = OC_Filesystem::getStorage($source);
+				return $storage->unlink($this->getInternalPath($source));
+			} else if (dirname($path) == '/' || dirname($path) == '.') {
+				// Unshare the file from the user if in the root of the Shared folder
+				if ($this->is_dir($path)) {
+					$itemType = 'folder';
+				} else {
+					$itemType = 'file';
+				}
+				return OCP\Share::unshareFromSelf($itemType, $path);
+			}
 		}
 		return false;
 	}
@@ -433,7 +443,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	 * @param int $time
 	 * @return bool
 	 */
-	public function hasUpdated($path,$time){
+	public function hasUpdated($path,$time) {
 		//TODO
 		return false;
 	}

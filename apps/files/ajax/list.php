@@ -17,7 +17,7 @@ $data = array();
 if($doBreadcrumb) {
 	$breadcrumb = array();
 	$pathtohere = "/";
-	foreach( explode( "/", $dir ) as $i ){
+	foreach( explode( "/", $dir ) as $i ) {
 		if( $i != "" ) {
 			$pathtohere .= "$i/";
 			$breadcrumb[] = array( "dir" => $pathtohere, "name" => $i );
@@ -32,7 +32,7 @@ if($doBreadcrumb) {
 
 // make filelist
 $files = array();
-foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
+foreach( OC_Files::getdirectorycontent( $dir ) as $i ) {
 	$i["date"] = OCP\Util::formatDate($i["mtime"] );
 	$files[] = $i;
 }

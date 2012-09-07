@@ -125,7 +125,7 @@ class OC_VCategories {
 	*	$result = $stmt->execute();
 	*	$objects = array();
 	*	if(!is_null($result)) {
-	*		while( $row = $result->fetchRow()){
+	*		while( $row = $result->fetchRow()) {
 	*			$objects[] = $row['carddata'];
 	*		}
 	*	}
@@ -183,7 +183,7 @@ class OC_VCategories {
 		if(!is_null($objects)) {
 			foreach($objects as $key=>&$value) {
 				$vobject = OC_VObject::parse($value[1]);
-				if(!is_null($vobject)){
+				if(!is_null($vobject)) {
 					$categories = $vobject->getAsArray('CATEGORIES');
 					//OC_Log::write('core','OC_VCategories::delete, before: '.$key.': '.print_r($categories, true), OC_Log::DEBUG);
 					foreach($names as $name) {

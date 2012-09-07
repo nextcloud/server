@@ -46,9 +46,25 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 		return false;
 	}
 
-	public function generateTarget($itemSource, $shareWith, $exclude = null) {
-		// TODO Make sure target path doesn't exist already
-		return $itemSource;
+	public function generateTarget($filePath, $shareWith, $exclude = null) {
+		$target = $filePath;
+		if (isset($exclude)) {
+			if ($pos = strrpos($target, '.')) {
+				$name = substr($target, 0, $pos);
+				$ext = substr($target, $pos);
+			} else {
+				$name = $filePath;
+				$ext = '';
+			}
+			$i = 2;
+			$append = '';
+			while (in_array($name.$append.$ext, $exclude)) {
+				$append = ' ('.$i.')';
+				$i++;
+			}
+			$target = $name.$append.$ext;
+		}
+		return $target;
 	}
 
 	public function formatItems($items, $format, $parameters = null) {
@@ -75,6 +91,8 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 					// Remove Create permission if type is file
 					$file['permissions'] &= ~OCP\Share::PERMISSION_CREATE;
 				}
+				// NOTE: Temporary fix to allow unsharing of files in root of Shared directory
+				$file['permissions'] |= OCP\Share::PERMISSION_DELETE;
 				$files[] = $file;
 			}
 			return $files;

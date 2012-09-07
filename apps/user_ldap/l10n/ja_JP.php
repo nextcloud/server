@@ -32,5 +32,6 @@
 "The LDAP attribute to use to generate the groups`s ownCloud name." => "グループのownCloud名の生成に利用するLDAP属性。",
 "in bytes" => "バイト",
 "in seconds. A change empties the cache." => "秒。変更後にキャッシュがクリアされます。",
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "ユーザ名を空のままにしてください（デフォルト）。そうでない場合は、LDAPもしくはADの属性を指定してください．",
 "Help" => "ヘルプ"
 );

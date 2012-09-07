@@ -115,6 +115,6 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	public function setGroupMemberSet($principal, array $members) {
 		throw new Sabre_DAV_Exception('Setting members of the group is not supported yet');
 	}
-	function updatePrincipal($path, $mutations){return 0;}
-	function searchPrincipals($prefixPath, array $searchProperties){return 0;}
+	function updatePrincipal($path, $mutations) {return 0;}
+	function searchPrincipals($prefixPath, array $searchProperties) {return 0;}
 }

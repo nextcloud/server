@@ -28,7 +28,7 @@ class Test_Group_Database extends Test_Group_Backend {
 	 * test cases can override this in order to clean up created groups
 	 * @return array
 	 */
-	public function getGroupName(){
+	public function getGroupName() {
 		$name=uniqid('test_');
 		$this->groups[]=$name;
 		return $name;
@@ -39,16 +39,16 @@ class Test_Group_Database extends Test_Group_Backend {
 	 * test cases can override this in order to clean up created user
 	 * @return array
 	 */
-	public function getUserName(){
+	public function getUserName() {
 		return uniqid('test_');
 	}
 	
-	public function setUp(){
+	public function setUp() {
 		$this->backend=new OC_Group_Database();
 	}
 
-	public function tearDown(){
-		foreach($this->groups as $group){
+	public function tearDown() {
+		foreach($this->groups as $group) {
 			$this->backend->deleteGroup($group);
 		}
 	}

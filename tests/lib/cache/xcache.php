@@ -25,11 +25,11 @@ class Test_Cache_XCache extends Test_Cache {
 		$this->skipUnless(function_exists('xcache_get'));
 	}
 
-	public function setUp(){
+	public function setUp() {
 		$this->instance=new OC_Cache_XCache();
 	}
 
-	function testTTL(){
+	function testTTL() {
 		// ttl doesn't work correctly in the same request
 	}
 }

@@ -26,8 +26,8 @@ OCP\Util::addscript('user_ldap', 'settings');
 OCP\Util::addstyle('user_ldap', 'settings');
 
 if ($_POST) {
-	foreach($params as $param){
-		if(isset($_POST[$param])){
+	foreach($params as $param) {
+		if(isset($_POST[$param])) {
 			if('ldap_agent_password' == $param) {
 				OCP\Config::setAppValue('user_ldap', $param, base64_encode($_POST[$param]));
 			} elseif('ldap_cache_ttl' == $param) {
@@ -58,7 +58,7 @@ if ($_POST) {
 
 // fill template
 $tmpl = new OCP\Template( 'user_ldap', 'settings');
-foreach($params as $param){
+foreach($params as $param) {
 		$value = OCP\Config::getAppValue('user_ldap', $param,'');
 		$tmpl->assign($param, $value);
 }

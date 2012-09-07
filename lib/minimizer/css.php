@@ -1,6 +1,6 @@
 <?php
 
-require_once('mediawiki/CSSMin.php');
+require_once 'mediawiki/CSSMin.php';
 
 class OC_Minimizer_CSS extends OC_Minimizer
 {
@@ -16,7 +16,7 @@ class OC_Minimizer_CSS extends OC_Minimizer
 
 			$in_root = false;
 			foreach(OC::$APPSROOTS as $app_root) {
-				if(strpos($file, $app_root['path']) === 0) {
+				if(strpos($file, $app_root['path'].'/') === 0) {
 					$in_root = rtrim($webroot.$app_root['url'], '/');
 					break;
 				}
@@ -30,7 +30,7 @@ class OC_Minimizer_CSS extends OC_Minimizer
 			$remote .= dirname($file_info[2]);
 			$css_out .= CSSMin::remap($css, dirname($file), $remote, true);
 		}
-		if (!defined('DEBUG') || !DEBUG){
+		if (!defined('DEBUG') || !DEBUG) {
 			$css_out = CSSMin::minify($css_out);
 		}
 		return $css_out;

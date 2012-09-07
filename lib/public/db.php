@@ -43,7 +43,7 @@ class DB {
 	 *
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
-	static public function prepare( $query, $limit=null, $offset=null ){
+	static public function prepare( $query, $limit=null, $offset=null ) {
 		return(\OC_DB::prepare($query,$limit,$offset));
 	}
 
@@ -58,7 +58,7 @@ class DB {
 	 * Call this method right after the insert command or other functions may
 	 * cause trouble!
 	 */
-	public static function insertid($table=null){
+	public static function insertid($table=null) {
 		return(\OC_DB::insertid($table));
 	}
 
@@ -66,7 +66,7 @@ class DB {
 	/**
 	 * @brief Start a transaction
 	 */
-	public static function beginTransaction(){
+	public static function beginTransaction() {
 		return(\OC_DB::beginTransaction());
 	}
 
@@ -74,7 +74,7 @@ class DB {
 	/**
 	 * @brief Commit the database changes done during a transaction that is in progress
 	 */
-	public static function commit(){
+	public static function commit() {
 		return(\OC_DB::commit());
 	}
 
@@ -84,7 +84,7 @@ class DB {
 	 * @param mixed $result
 	 * @return bool
 	 */
-	public static function isError($result){
+	public static function isError($result) {
 		return(\OC_DB::isError($result));
 	}
 

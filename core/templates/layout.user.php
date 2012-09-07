@@ -24,21 +24,17 @@
 		<?php foreach($_['headers'] as $header): ?>
 			<?php
 				echo '<'.$header['tag'].' ';
-				foreach($header['attributes'] as $name=>$value){
+				foreach($header['attributes'] as $name=>$value) {
 					echo "$name='$value' ";
 				};
 				echo '/>';
 			?>
 		<?php endforeach; ?>
 		<script type="text/javascript">
-			$(function() {
-				requesttoken = '<?php echo $_['requesttoken']; ?>';
-				OC.EventSource.requesttoken=requesttoken;
-				$(document).bind('ajaxSend', function(elm, xhr, s){
-					if(requesttoken) {
-						xhr.setRequestHeader('requesttoken', requesttoken);
-					}
-				});
+			requesttoken = '<?php echo $_['requesttoken']; ?>';
+			OC.EventSource.requesttoken=requesttoken;
+			$(document).bind('ajaxSend', function(elm, xhr, s) {
+				xhr.setRequestHeader('requesttoken', requesttoken);
 			});
 		</script>
 	</head>
@@ -48,7 +44,7 @@
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img class="svg" src="<?php echo image_path('', 'logo-wide.svg'); ?>" alt="ownCloud" /></a>
 			<a class="header-right header-action" id="logout" href="<?php echo link_to('', 'index.php'); ?>?logout=true"><img class="svg" alt="<?php echo $l->t('Log out');?>" title="<?php echo $l->t('Log out');?>" src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a>
 			<form class="searchbox header-right" action="#" method="post">
-				<input id="searchbox" class="svg" type="search" name="query" value="<?php if(isset($_POST['query'])){echo OC_Util::sanitizeHTML($_POST['query']);};?>" autocomplete="off" x-webkit-speech />
+				<input id="searchbox" class="svg" type="search" name="query" value="<?php if(isset($_POST['query'])) {echo OC_Util::sanitizeHTML($_POST['query']);};?>" autocomplete="off" x-webkit-speech />
 			</form>
 		</div></header>
 

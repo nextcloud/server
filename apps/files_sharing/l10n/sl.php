@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Size" => "Velikost",
-"Modified" => "Spremenjeno",
-"Delete all" => "Izbriši vse",
-"Delete" => "Izbriši"
+"Password" => "Geslo",
+"Submit" => "Pošlji",
+"Download" => "Prenesi",
+"No preview available for" => "Predogled ni na voljo za",
+"web services under your control" => "spletne storitve pod vašim nadzorom"
 );

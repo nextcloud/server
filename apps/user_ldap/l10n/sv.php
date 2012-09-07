@@ -32,5 +32,6 @@
 "The LDAP attribute to use to generate the groups`s ownCloud name." => "Attribut som används för att generera gruppnamn i ownCloud.",
 "in bytes" => "i bytes",
 "in seconds. A change empties the cache." => "i sekunder. En förändring tömmer cache.",
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lämnas tomt för användarnamn (standard). Ange annars ett LDAP/AD-attribut.",
 "Help" => "Hjälp"
 );

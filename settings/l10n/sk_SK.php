@@ -13,8 +13,6 @@
 "Add your App" => "Pridať vašu aplikáciu",
 "Select an App" => "Vyberte aplikáciu",
 "See application page at apps.owncloud.com" => "Pozrite si stránku aplikácie na apps.owncloud.com",
-"-licensed" => "-licencované",
-"by" => "od",
 "Documentation" => "Dokumentácia",
 "Managing Big Files" => "Spravovanie veľké súbory",
 "Ask a question" => "Opýtajte sa otázku",

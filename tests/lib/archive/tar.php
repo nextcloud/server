@@ -6,16 +6,16 @@
  * See the COPYING-README file.
  */
 
-require_once('archive.php');
+require_once 'archive.php';
 
-if(is_dir(OC::$SERVERROOT.'/apps/files_archive/tests/data')){
+if(is_dir(OC::$SERVERROOT.'/apps/files_archive/tests/data')) {
 	class Test_Archive_TAR extends Test_Archive{
-		protected function getExisting(){
+		protected function getExisting() {
 			$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
 			return new OC_Archive_TAR($dir.'/data.tar.gz');
 		}
 
-		protected function getNew(){
+		protected function getNew() {
 			return new OC_Archive_TAR(OCP\Files::tmpFile('.tar.gz'));
 		}
 	}

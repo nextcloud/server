@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Size" => "Размер",
-"Modified" => "Изменён",
-"Delete all" => "Удалить все",
-"Delete" => "Удалить"
+"Password" => "Пароль",
+"Submit" => "Отправить",
+"Download" => "Скачать",
+"web services under your control" => "веб-сервисы под вашим управлением"
 );

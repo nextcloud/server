@@ -45,7 +45,7 @@ class App {
          * It'll remain in our public API for compatibility reasons
          *
          */
-        public static function register( $data ){
+        public static function register( $data ) {
 		return true; // don't do anything
         }
 
@@ -66,7 +66,7 @@ class App {
          *   - order: integer, that influences the position of your application in
          *     the navigation. Lower values come first.
          */
-        public static function addNavigationEntry( $data ){
+        public static function addNavigationEntry( $data ) {
 		return \OC_App::addNavigationEntry( $data );
 	}
 
@@ -80,7 +80,7 @@ class App {
          * property from all other entries. The templates can use this for
          * highlighting the current position of the user.
          */
-        public static function setActiveNavigationEntry( $id ){
+        public static function setActiveNavigationEntry( $id ) {
 		return \OC_App::setActiveNavigationEntry( $id );
 	}
 
@@ -90,7 +90,7 @@ class App {
          * @param $app string appid
          * @param $page string page to be included
         */
-        public static function registerPersonal( $app, $page ){
+        public static function registerPersonal( $app, $page ) {
 		return \OC_App::registerPersonal( $app, $page );
 	}
 
@@ -100,7 +100,7 @@ class App {
          * @param $app string appid
          * @param $page string page to be included
 	 */
-	public static function registerAdmin( $app, $page ){
+	public static function registerAdmin( $app, $page ) {
 		return \OC_App::registerAdmin( $app, $page );
 	}
 
@@ -111,7 +111,7 @@ class App {
          * @param boolean path (optional)
          * @returns array
         */
-        public static function getAppInfo( $app, $path=false ){
+        public static function getAppInfo( $app, $path=false ) {
 		return \OC_App::getAppInfo( $app, $path);
 	}
 
@@ -124,7 +124,7 @@ class App {
          *
          * This function checks whether or not an app is enabled.
          */
-        public static function isEnabled( $app ){
+        public static function isEnabled( $app ) {
 		return \OC_App::isEnabled( $app );
 	}
 
@@ -134,7 +134,7 @@ class App {
          * @param $app app
          * @returns true/false
         */
-        public static function checkAppEnabled( $app ){
+        public static function checkAppEnabled( $app ) {
                 return \OC_Util::checkAppEnabled( $app );
         }
 
@@ -144,7 +144,7 @@ class App {
          * @param $app app
          * @returns true/false
          */
-        public static function getAppVersion( $app ){
+        public static function getAppVersion( $app ) {
 		return \OC_App::getAppVersion( $app );
 	}
 

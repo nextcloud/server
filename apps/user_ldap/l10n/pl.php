@@ -32,5 +32,6 @@
 "The LDAP attribute to use to generate the groups`s ownCloud name." => "Atrybut LDAP służy do generowania nazwy grup ownCloud.",
 "in bytes" => "w bajtach",
 "in seconds. A change empties the cache." => "w sekundach. Zmiana opróżnia pamięć podręczną.",
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Pozostaw puste dla user name (domyślnie). W przeciwnym razie podaj atrybut LDAP/AD.",
 "Help" => "Pomoc"
 );

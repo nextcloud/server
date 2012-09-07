@@ -50,6 +50,7 @@
 "Database user" => "Tietokannan käyttäjä",
 "Database password" => "Tietokannan salasana",
 "Database name" => "Tietokannan nimi",
+"Database tablespace" => "Tietokannan taulukkotila",
 "Database host" => "Tietokantapalvelin",
 "Finish setup" => "Viimeistele asennus",
 "web services under your control" => "verkkopalvelut hallinnassasi",

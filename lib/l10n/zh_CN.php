@@ -21,5 +21,8 @@
 "last month" => "上月",
 "months ago" => "几月前",
 "last year" => "上年",
-"years ago" => "几年前"
+"years ago" => "几年前",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s 已存在. 点此 <a href=\"%s\">获取更多信息</a>",
+"up to date" => "已更新。",
+"updates check is disabled" => "检查更新功能被关闭。"
 );

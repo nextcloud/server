@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "External Storage" => "Almacenamiento externo",
+"Mount point" => "Punto de montaje",
 "Backend" => "Motor",
 "Configuration" => "Configuración",
 "Options" => "Opciones",
@@ -9,5 +10,9 @@
 "All Users" => "Todos los usuarios",
 "Groups" => "Grupos",
 "Users" => "Usuarios",
-"Delete" => "Eliiminar"
+"Delete" => "Eliiminar",
+"SSL root certificates" => "Raíz de certificados SSL  ",
+"Import Root Certificate" => "Importar certificado raíz",
+"Enable User External Storage" => "Habilitar almacenamiento de usuario externo",
+"Allow users to mount their own external storage" => "Permitir a los usuarios montar su propio almacenamiento externo"
 );

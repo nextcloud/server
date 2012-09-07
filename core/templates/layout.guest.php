@@ -24,7 +24,7 @@
 		<?php foreach($_['headers'] as $header): ?>
 			<?php
 				echo '<'.$header['tag'].' ';
-				foreach($header['attributes'] as $name=>$value){
+				foreach($header['attributes'] as $name=>$value) {
 					echo "$name='$value' ";
 				};
 				echo '/>';

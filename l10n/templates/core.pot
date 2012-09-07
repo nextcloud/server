@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-29 02:01+0200\n"
+"POT-Creation-Date: 2012-09-07 02:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,59 +29,55 @@ msgstr ""
 msgid "This category already exists: "
 msgstr ""
 
-#: js/jquery-ui-1.8.16.custom.min.js:511
-msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr ""
-
-#: js/js.js:201 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:593
 msgid "January"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:593
 msgid "February"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:593
 msgid "March"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:593
 msgid "April"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:593
 msgid "May"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:593
 msgid "June"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:594
 msgid "July"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:594
 msgid "August"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:594
 msgid "September"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:594
 msgid "October"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:594
 msgid "November"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:594
 msgid "December"
 msgstr ""
 
@@ -113,7 +109,7 @@ msgstr ""
 msgid "ownCloud password reset"
 msgstr ""
 
-#: lostpassword/templates/email.php:1
+#: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr ""
 
@@ -243,7 +239,7 @@ msgstr ""
 msgid "web services under your control"
 msgstr ""
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr ""
 

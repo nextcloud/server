@@ -19,10 +19,12 @@ _darcs/*
 CVS/*
 .svn/*
 RCS/*
+*.backup*
 
 # kdevelop
 .kdev
 *.kdev4
+*.kate-swp
 
 # Lokalize
 *lokalize*

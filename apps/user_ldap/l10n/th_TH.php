@@ -32,5 +32,6 @@
 "The LDAP attribute to use to generate the groups`s ownCloud name." => "คุณลักษณะ LDAP ที่ต้องการใช้สร้างชื่อกลุ่มของ ownCloud",
 "in bytes" => "ในหน่วยไบต์",
 "in seconds. A change empties the cache." => "ในอีกไม่กี่วินาที ระบบจะเปลี่ยนแปลงข้อมูลในแคชให้ว่างเปล่า",
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "เว้นว่างไว้สำหรับ ชื่อผู้ใช้ (ค่าเริ่มต้น) หรือไม่กรุณาระบุคุณลักษณะของ LDAP/AD",
 "Help" => "ช่วยเหลือ"
 );

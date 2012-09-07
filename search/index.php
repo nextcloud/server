@@ -23,7 +23,7 @@
 
 
 // Init owncloud
-require_once('../lib/base.php');
+require_once '../lib/base.php';
 
 // Check if we are a user
 OC_Util::checkLoggedIn();
@@ -32,20 +32,20 @@ OC_Util::checkLoggedIn();
 OC_Util::addStyle( 'search', 'search' );
 
 $query=(isset($_POST['query']))?$_POST['query']:'';
-if($query){
+if($query) {
 	$results=OC_Search::search($query);
 }else{
 	OC_Util::redirectToDefaultPage();
 }
 
 $resultTypes=array();
-foreach($results as $result){
-	if(!isset($resultTypes[$result->type])){
+foreach($results as $result) {
+	if(!isset($resultTypes[$result->type])) {
 		$resultTypes[$result->type]=array();
 	}
 	$resultTypes[$result->type][]=$result;
 }
 
 $tmpl = new OC_Template( 'search', 'index', 'user' );
-$tmpl->assign('resultTypes',$resultTypes);
+$tmpl->assign('resultTypes', $resultTypes);
 $tmpl->printPage();

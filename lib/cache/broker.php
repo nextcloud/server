@@ -46,7 +46,7 @@ class OC_Cache_Broker {
 		return $this->slow_cache->remove($key);
 	}
 
-	public function clear($prefix=''){
+	public function clear($prefix='') {
 		$this->fast_cache->clear($prefix);
 		$this->slow_cache->clear($prefix);
 	}

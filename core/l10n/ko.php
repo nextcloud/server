@@ -2,7 +2,6 @@
 "Application name not provided." => "응용 프로그램의 이름이 규정되어 있지 않습니다. ",
 "No category to add?" => "추가할 카테고리가 없습니까?",
 "This category already exists: " => "이 카테고리는 이미 존재합니다:",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "설정",
 "January" => "1월",
 "February" => "2월",

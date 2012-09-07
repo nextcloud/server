@@ -12,11 +12,11 @@ abstract class Test_Cache extends UnitTestCase {
 	 */
 	protected $instance;
 
-	public function tearDown(){
+	public function tearDown() {
 		$this->instance->clear();
 	}
 
-	function testSimple(){
+	function testSimple() {
 		$this->assertNull($this->instance->get('value1'));
 		$this->assertFalse($this->instance->hasKey('value1'));
 		
@@ -45,7 +45,7 @@ abstract class Test_Cache extends UnitTestCase {
 		$this->assertFalse($this->instance->hasKey('value1'));
 	}
 
-	function testClear(){
+	function testClear() {
 		$value='ipsum lorum';
 		$this->instance->set('1_value1',$value);
 		$this->instance->set('1_value2',$value);
@@ -65,7 +65,7 @@ abstract class Test_Cache extends UnitTestCase {
 		$this->assertFalse($this->instance->hasKey('3_value1'));
 	}
 
-	function testTTL(){
+	function testTTL() {
 		$value='foobar';
 		$this->instance->set('value1',$value,1);
 		$value2='foobar';

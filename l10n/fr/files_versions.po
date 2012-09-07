@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-15 02:03+0200\n"
-"PO-Revision-Date: 2012-08-14 16:49+0000\n"
+"POT-Creation-Date: 2012-09-02 02:01+0200\n"
+"PO-Revision-Date: 2012-09-01 16:41+0000\n"
 "Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,9 +18,17 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
-#: js/settings-personal.js:31
+#: js/settings-personal.js:31 templates/settings-personal.php:10
 msgid "Expire all versions"
 msgstr "Supprimer les versions intermédiaires"
+
+#: templates/settings-personal.php:4
+msgid "Versions"
+msgstr "Versions"
+
+#: templates/settings-personal.php:7
+msgid "This will delete all existing backup versions of your files"
+msgstr "Cette opération va effacer toutes les versions intermédiaires de vos fichiers (et ne garder que la dernière version en date)."
 
 #: templates/settings.php:3
 msgid "Enable Files Versioning"

@@ -26,18 +26,18 @@ class Test_User_Database extends Test_User_Backend {
 	 * test cases can override this in order to clean up created user
 	 * @return array
 	 */
-	public function getUser(){
+	public function getUser() {
 		$user=uniqid('test_');
 		$this->users[]=$user;
 		return $user;
 	}
 	
-	public function setUp(){
+	public function setUp() {
 		$this->backend=new OC_User_Dummy();
 	}
 	
-	public function tearDown(){
-		foreach($this->users as $user){
+	public function tearDown() {
+		foreach($this->users as $user) {
 			$this->backend->deleteUser($user);
 		}
 	}

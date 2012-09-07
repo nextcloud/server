@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-07-31 22:53+0200\n"
-"PO-Revision-Date: 2012-07-31 10:25+0000\n"
-"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-09-01 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,43 +18,43 @@ msgstr ""
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: app.php:287
+#: app.php:288
 msgid "Help"
 msgstr "Abiinfo"
 
-#: app.php:294
+#: app.php:295
 msgid "Personal"
 msgstr "Isiklik"
 
-#: app.php:299
+#: app.php:300
 msgid "Settings"
 msgstr "Seaded"
 
-#: app.php:304
+#: app.php:305
 msgid "Users"
 msgstr "Kasutajad"
 
-#: app.php:311
+#: app.php:312
 msgid "Apps"
 msgstr "Rakendused"
 
-#: app.php:313
+#: app.php:314
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:245
+#: files.php:280
 msgid "ZIP download is turned off."
 msgstr "ZIP-ina allalaadimine on välja lülitatud."
 
-#: files.php:246
+#: files.php:281
 msgid "Files need to be downloaded one by one."
 msgstr "Failid tuleb alla laadida ükshaaval."
 
-#: files.php:246 files.php:271
+#: files.php:281 files.php:306
 msgid "Back to Files"
 msgstr "Tagasi failide juurde"
 
-#: files.php:270
+#: files.php:305
 msgid "Selected files too large to generate zip file."
 msgstr "Valitud failid on ZIP-faili loomiseks liiga suured."
 
@@ -111,3 +111,16 @@ msgstr "eelmisel aastal"
 #: template.php:97
 msgid "years ago"
 msgstr "aastat tagasi"
+
+#: updater.php:66
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr ""
+
+#: updater.php:68
+msgid "up to date"
+msgstr ""
+
+#: updater.php:71
+msgid "updates check is disabled"
+msgstr ""

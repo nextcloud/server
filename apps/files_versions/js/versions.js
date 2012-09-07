@@ -11,7 +11,7 @@ $(document).ready(function() {
 $(document).ready(function(){
 	if (typeof FileActions !== 'undefined') {
 		// Add history button to files/index.php
-		FileActions.register('file','History', FileActions.PERMISSION_UPDATE, function(){return OC.imagePath('core','actions/history')},function(filename){
+		FileActions.register('file','History', OC.PERMISSION_UPDATE, function(){return OC.imagePath('core','actions/history');},function(filename){
 
 			if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
 
@@ -76,7 +76,7 @@ function createVersionsDropdown(filename, files) {
 			$('#found_versions').change(function(){
 				var revision=parseInt($(this).val());
 				revertFile(files,revision);
-			})
+			});
 		}
 	});
 

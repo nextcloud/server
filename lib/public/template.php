@@ -39,7 +39,7 @@ namespace OCP;
  *
  * For further information have a look at OC_Helper::imagePath
  */
-function image_path( $app, $image ){
+function image_path( $app, $image ) {
 	return(\image_path( $app, $image ));
 }
 
@@ -50,7 +50,7 @@ function image_path( $app, $image ){
  * @param $mimetype mimetype
  * @returns link to the image
  */
-function mimetype_icon( $mimetype ){
+function mimetype_icon( $mimetype ) {
 	return(\mimetype_icon( $mimetype ));
 }
 
@@ -61,7 +61,7 @@ function mimetype_icon( $mimetype ){
  * @param $bytes size in bytes
  * @returns size as string
  */
-function human_file_size( $bytes ){
+function human_file_size( $bytes ) {
 	return(\human_file_size( $bytes ));
 }
 

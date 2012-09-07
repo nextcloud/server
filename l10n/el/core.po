@@ -11,15 +11,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-29 02:01+0200\n"
-"PO-Revision-Date: 2012-08-29 00:02+0000\n"
+"POT-Creation-Date: 2012-09-06 02:02+0200\n"
+"PO-Revision-Date: 2012-09-06 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: el\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
@@ -33,59 +33,55 @@ msgstr "Δεν έχετε να προστέσθέσεται μια κα"
 msgid "This category already exists: "
 msgstr "Αυτή η κατηγορία υπάρχει ήδη"
 
-#: js/jquery-ui-1.8.16.custom.min.js:511
-msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-
-#: js/js.js:201 templates/layout.user.php:64 templates/layout.user.php:65
+#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:586
+#: js/js.js:593
 msgid "January"
 msgstr "Ιανουάριος"
 
-#: js/js.js:586
+#: js/js.js:593
 msgid "February"
 msgstr "Φεβρουάριος"
 
-#: js/js.js:586
+#: js/js.js:593
 msgid "March"
 msgstr "Μάρτιος"
 
-#: js/js.js:586
+#: js/js.js:593
 msgid "April"
 msgstr "Απρίλιος"
 
-#: js/js.js:586
+#: js/js.js:593
 msgid "May"
 msgstr "Μάϊος"
 
-#: js/js.js:586
+#: js/js.js:593
 msgid "June"
 msgstr "Ιούνιος"
 
-#: js/js.js:587
+#: js/js.js:594
 msgid "July"
 msgstr "Ιούλιος"
 
-#: js/js.js:587
+#: js/js.js:594
 msgid "August"
 msgstr "Αύγουστος"
 
-#: js/js.js:587
+#: js/js.js:594
 msgid "September"
 msgstr "Σεπτέμβριος"
 
-#: js/js.js:587
+#: js/js.js:594
 msgid "October"
 msgstr "Οκτώβριος"
 
-#: js/js.js:587
+#: js/js.js:594
 msgid "November"
 msgstr "Νοέμβριος"
 
-#: js/js.js:587
+#: js/js.js:594
 msgid "December"
 msgstr "Δεκέμβριος"
 
@@ -117,7 +113,7 @@ msgstr "Σφάλμα"
 msgid "ownCloud password reset"
 msgstr "Επαναφορά κωδικού ownCloud"
 
-#: lostpassword/templates/email.php:1
+#: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επανεκδόσετε τον κωδικό: {link}"
 
@@ -247,7 +243,7 @@ msgstr "Ολοκλήρωση εγκατάστασης"
 msgid "web services under your control"
 msgstr "Υπηρεσίες web υπό τον έλεγχό σας"
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Αποσύνδεση"
 

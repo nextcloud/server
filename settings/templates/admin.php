@@ -13,7 +13,9 @@ if(!$_['htaccessworking']) {
 <fieldset class="personalblock">
 	<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
 
-	<span class="securitywarning">Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.</span>
+	<span class="securitywarning">
+        <?php echo $l->t('Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.'); ?>
+    </span>
 	
 </fieldset>	
 <?php	
@@ -21,17 +23,17 @@ if(!$_['htaccessworking']) {
 ?>
 
 
-<?php foreach($_['forms'] as $form){
+<?php foreach($_['forms'] as $form) {
 	echo $form;
 };?>
 
 <fieldset class="personalblock" id="backgroundjobs">
 	<legend><strong><?php echo $l->t('Cron');?></strong></legend>
-	<input type="radio" name="mode" value="ajax" id="backgroundjobs_ajax" <?php if( $_['backgroundjobs_mode'] == "ajax" ){ echo 'checked="checked"'; } ?>>
+	<input type="radio" name="mode" value="ajax" id="backgroundjobs_ajax" <?php if( $_['backgroundjobs_mode'] == "ajax" ) { echo 'checked="checked"'; } ?>>
 	<label for="backgroundjobs_ajax" title="<?php echo $l->t("execute one task with each page loaded"); ?>">AJAX</label><br />
-	<input type="radio" name="mode" value="webcron" id="backgroundjobs_webcron" <?php if( $_['backgroundjobs_mode'] == "webcron" ){ echo 'checked="checked"'; } ?>>
+	<input type="radio" name="mode" value="webcron" id="backgroundjobs_webcron" <?php if( $_['backgroundjobs_mode'] == "webcron" ) { echo 'checked="checked"'; } ?>>
 	<label for="backgroundjobs_webcron" title="<?php echo $l->t("cron.php is registered at a webcron service"); ?>">Webcron</label><br />
-	<input type="radio" name="mode" value="cron" id="backgroundjobs_cron" <?php if( $_['backgroundjobs_mode'] == "cron" ){ echo 'checked="checked"'; } ?>>
+	<input type="radio" name="mode" value="cron" id="backgroundjobs_cron" <?php if( $_['backgroundjobs_mode'] == "cron" ) { echo 'checked="checked"'; } ?>>
 	<label for="backgroundjobs_cron" title="<?php echo $l->t("use systems cron service"); ?>">Cron</label><br />
 </fieldset>
 
@@ -100,6 +102,6 @@ if(!$_['htaccessworking']) {
 
 <p class="personalblock">
 	<strong>ownCloud</strong> <?php echo(OC_Util::getVersionString()); ?> <?php echo(OC_Util::getEditionString()); ?> (<?php echo(OC_Updater::ShowUpdatingHint()); ?>)<br />
-	Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.
+    <?php echo $l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.'); ?>
 </p>
 

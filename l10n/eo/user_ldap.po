@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-29 02:01+0200\n"
-"PO-Revision-Date: 2012-08-29 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-08-30 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 20:31+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,7 +108,7 @@ msgstr "Baza gruparbo"
 
 #: templates/settings.php:20
 msgid "Group-Member association"
-msgstr ""
+msgstr "Asocio de grupo kaj membro"
 
 #: templates/settings.php:21
 msgid "Use TLS"
@@ -164,7 +164,7 @@ msgstr "sekunde. Ajna ŝanĝo malplenigas la kaŝmemoron."
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr ""
+msgstr "Lasu malplena por uzantonomo (defaŭlto). Alie, specifu LDAP/AD-atributon."
 
 #: templates/settings.php:32
 msgid "Help"

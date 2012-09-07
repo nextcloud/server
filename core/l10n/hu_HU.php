@@ -2,7 +2,6 @@
 "Application name not provided." => "Alkalmazásnév hiányzik",
 "No category to add?" => "Nincs hozzáadandó kategória?",
 "This category already exists: " => "Ez a kategória már létezik",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Beállítások",
 "January" => "Január",
 "February" => "Február",

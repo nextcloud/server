@@ -66,7 +66,7 @@ OC.MountConfig={
 			return true;
 		}
 	}
-}
+};
 
 $(document).ready(function() {
 	$('.chzn-select').chosen();

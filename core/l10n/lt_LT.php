@@ -2,7 +2,6 @@
 "Application name not provided." => "Nepateiktas programos pavadinimas.",
 "No category to add?" => "Nepridėsite jokios kategorijos?",
 "This category already exists: " => "Tokia kategorija jau yra:",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Nustatymai",
 "January" => "Sausis",
 "February" => "Vasaris",

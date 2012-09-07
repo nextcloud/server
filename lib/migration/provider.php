@@ -10,7 +10,7 @@ abstract class OC_Migration_Provider{
 	protected $olduid=false;
 	protected $appinfo=false;
 
-	public function __construct( $appid ){
+	public function __construct( $appid ) {
 		// Set the id
 		$this->id = $appid;
 		OC_Migrate::registerProvider( $this );
@@ -32,11 +32,11 @@ abstract class OC_Migration_Provider{
 	* @brief sets the OC_Migration_Content object to $this->content
 	* @param $content a OC_Migration_Content object
 	*/
-	public function setData( $uid, $content, $info=null ){
+	public function setData( $uid, $content, $info=null ) {
 		$this->content = $content;
 		$this->uid = $uid;
 		$id = $this->id;
-		if( !is_null( $info ) ){
+		if( !is_null( $info ) ) {
 			$this->olduid = $info->exporteduser;
 			$this->appinfo = $info->apps->$id;
 		}
@@ -46,7 +46,7 @@ abstract class OC_Migration_Provider{
 	* @brief returns the appid of the provider
 	* @return string
 	*/
-	public function getID(){
+	public function getID() {
 		return $this->id;
 	}
 }
