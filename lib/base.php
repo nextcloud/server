@@ -51,7 +51,7 @@ class OC{
 	 */
 	public static $THIRDPARTYWEBROOT = '';
 	/**
-	 * The installation path array of the apps folder on the server (e.g. /srv/http/owncloud) 'path' and 
+	 * The installation path array of the apps folder on the server (e.g. /srv/http/owncloud) 'path' and
 	 * web path in 'url'
 	 */
 	public static $APPSROOTS = array();
@@ -95,7 +95,7 @@ class OC{
 		}else{
 			return false;
 		}
-		
+
 		if($fullPath = stream_resolve_include_path($path)) {
 			require_once $path;
 		}
@@ -533,10 +533,10 @@ class OC{
 		}
 
 		OC_App::loadApps();
-		
+
 		//setup extra user backends
 		OC_User::setupBackends();
-		
+
 		if(OC_User::login($_POST["user"], $_POST["password"])) {
 			if(!empty($_POST["remember_login"])) {
 				if(defined("DEBUG") && DEBUG) {

@@ -39,7 +39,7 @@
 class OC_User {
 	// The backend used for user management
 	private static $_usedBackends = array();
-	
+
 	private static $_setupedBackends = array();
 
 	// Backends available (except database)
