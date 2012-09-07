@@ -9,7 +9,7 @@
 /**
  * This class contains all hooks.
  */
- 
+
 namespace OCA_Versions;
 
 class Hooks {
@@ -18,18 +18,18 @@ class Hooks {
 	 * listen to write event.
 	 */
 	public static function write_hook( $params ) {
-	
+
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			
+
 			$versions = new Storage( new \OC_FilesystemView('') );
-			
+
 			$path = $params[\OC_Filesystem::signal_param_path];
-			
+
 			if($path<>'') $versions->store( $path );
-			
+
 		}
 	}
-	
+
 
 	/**
 	 * @brief Erase versions of deleted file
@@ -49,7 +49,7 @@ class Hooks {
 			}
 		}
 	}
-	
+
 	/**
 	 * @brief rename/move versions of renamed/moved files
 	 * @param array with oldpath and newpath
@@ -71,5 +71,5 @@ class Hooks {
 			}
 		}
 	}
-	
+
 }
