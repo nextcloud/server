@@ -10,6 +10,7 @@
 "Delete" => "Izbriši",
 "already exists" => "že obstaja",
 "replace" => "nadomesti",
+"suggest name" => "predlagaj ime",
 "cancel" => "ekliči",
 "replaced" => "nadomeščen",
 "undo" => "razveljavi",

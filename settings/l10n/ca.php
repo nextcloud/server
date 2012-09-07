@@ -46,7 +46,7 @@
 "Go there manually." => "Vés-hi manualment.",
 "Answer" => "Resposta",
 "You use" => "Esteu usant",
-"of the available" => "del disponible",
+"of the available" => "d'un total disponible de",
 "Desktop and Mobile Syncing Clients" => "Clients de sincronització d'escriptori i de mòbil",
 "Download" => "Baixada",
 "Your password got changed" => "La contrasenya ha canviat",

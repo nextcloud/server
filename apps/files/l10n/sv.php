@@ -10,6 +10,7 @@
 "Delete" => "Radera",
 "already exists" => "finns redan",
 "replace" => "ersätt",
+"suggest name" => "föreslå namn",
 "cancel" => "avbryt",
 "replaced" => "ersatt",
 "undo" => "ångra",

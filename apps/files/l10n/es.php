@@ -10,6 +10,7 @@
 "Delete" => "Eliminado",
 "already exists" => "ya existe",
 "replace" => "reemplazar",
+"suggest name" => "sugerir nombre",
 "cancel" => "cancelar",
 "replaced" => "reemplazado",
 "undo" => "deshacer",

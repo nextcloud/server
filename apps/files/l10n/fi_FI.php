@@ -10,6 +10,7 @@
 "Delete" => "Poista",
 "already exists" => "on jo olemassa",
 "replace" => "korvaa",
+"suggest name" => "ehdota nimeä",
 "cancel" => "peru",
 "replaced" => "korvattu",
 "undo" => "kumoa",

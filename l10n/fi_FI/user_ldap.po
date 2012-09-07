@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 16:49+0000\n"
-"Last-Translator: teho <tehoratopato@gmail.com>\n"
+"POT-Creation-Date: 2012-09-07 02:04+0200\n"
+"PO-Revision-Date: 2012-09-06 10:56+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -110,7 +110,7 @@ msgstr "Ryhmien juuri"
 
 #: templates/settings.php:20
 msgid "Group-Member association"
-msgstr "Ryhmä-jäsen assosiaatio (yhteys)"
+msgstr "Ryhmän ja jäsenen assosiaatio (yhteys)"
 
 #: templates/settings.php:21
 msgid "Use TLS"
@@ -144,7 +144,7 @@ msgstr "Käyttäjän näytettävän nimen kenttä"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr "LDAP attribuutti, jota käytetään käyttäjän ownCloud käyttäjänimenä "
+msgstr "LDAP-attribuutti, jota käytetään käyttäjän ownCloud-käyttäjänimenä "
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
@@ -152,7 +152,7 @@ msgstr "Ryhmän \"näytettävä nimi\"-kenttä"
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr "LDAP atribuutti, jota käytetään luomaan ryhmän ownCloud nimi"
+msgstr "LDAP-attribuutti, jota käytetään luomaan ryhmän ownCloud-nimi"
 
 #: templates/settings.php:27
 msgid "in bytes"
@@ -166,7 +166,7 @@ msgstr "sekunneissa. Muutos tyhjentää välimuistin."
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD atribuutti."
+msgstr "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD-atribuutti."
 
 #: templates/settings.php:32
 msgid "Help"

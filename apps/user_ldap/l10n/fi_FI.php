@@ -19,7 +19,7 @@
 "Port" => "Portti",
 "Base User Tree" => "Oletuskäyttäjäpuu",
 "Base Group Tree" => "Ryhmien juuri",
-"Group-Member association" => "Ryhmä-jäsen assosiaatio (yhteys)",
+"Group-Member association" => "Ryhmän ja jäsenen assosiaatio (yhteys)",
 "Use TLS" => "Käytä TLS:ää",
 "Do not use it for SSL connections, it will fail." => "Älä käytä SSL-yhteyttä varten, se epäonnistuu. ",
 "Case insensitve LDAP server (Windows)" => "Kirjainkoosta piittamaton LDAP-palvelin (Windows)",
@@ -27,11 +27,11 @@
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Jos yhteys toimii vain tällä valinnalla, siirrä LDAP-palvelimen SSL-varmenne ownCloud-palvelimellesi.",
 "Not recommended, use for testing only." => "Ei suositella, käytä vain testausta varten.",
 "User Display Name Field" => "Käyttäjän näytettävän nimen kenttä",
-"The LDAP attribute to use to generate the user`s ownCloud name." => "LDAP attribuutti, jota käytetään käyttäjän ownCloud käyttäjänimenä ",
+"The LDAP attribute to use to generate the user`s ownCloud name." => "LDAP-attribuutti, jota käytetään käyttäjän ownCloud-käyttäjänimenä ",
 "Group Display Name Field" => "Ryhmän \"näytettävä nimi\"-kenttä",
-"The LDAP attribute to use to generate the groups`s ownCloud name." => "LDAP atribuutti, jota käytetään luomaan ryhmän ownCloud nimi",
+"The LDAP attribute to use to generate the groups`s ownCloud name." => "LDAP-attribuutti, jota käytetään luomaan ryhmän ownCloud-nimi",
 "in bytes" => "tavuissa",
 "in seconds. A change empties the cache." => "sekunneissa. Muutos tyhjentää välimuistin.",
-"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD atribuutti.",
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD-atribuutti.",
 "Help" => "Ohje"
 );

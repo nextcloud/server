@@ -3,36 +3,37 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <intense.feel@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-31 02:02+0200\n"
-"PO-Revision-Date: 2012-08-31 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-07 02:04+0200\n"
+"PO-Revision-Date: 2012-09-06 17:47+0000\n"
+"Last-Translator: intense <intense.feel@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk_SK\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: templates/authenticate.php:6
 msgid "Submit"
-msgstr ""
+msgstr "Odoslať"
 
 #: templates/public.php:9 templates/public.php:19
 msgid "Download"
-msgstr ""
+msgstr "Stiahnuť"
 
 #: templates/public.php:18
 msgid "No preview available for"
-msgstr ""
+msgstr "Žiaden náhľad k dispozícii pre"
 
-#: templates/public.php:23
+#: templates/public.php:25
 msgid "web services under your control"
-msgstr ""
+msgstr "webové služby pod Vašou kontrolou"

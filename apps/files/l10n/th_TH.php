@@ -10,6 +10,7 @@
 "Delete" => "ลบ",
 "already exists" => "มีอยู่แล้ว",
 "replace" => "แทนที่",
+"suggest name" => "แนะนำชื่อ",
 "cancel" => "ยกเลิก",
 "replaced" => "แทนที่แล้ว",
 "undo" => "เลิกทำ",

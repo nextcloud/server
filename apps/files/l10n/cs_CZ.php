@@ -10,6 +10,7 @@
 "Delete" => "Smazat",
 "already exists" => "již existuje",
 "replace" => "nahradit",
+"suggest name" => "navrhnout název",
 "cancel" => "zrušit",
 "replaced" => "nahrazeno",
 "undo" => "zpět",

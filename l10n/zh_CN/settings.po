@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-07 02:04+0200\n"
+"PO-Revision-Date: 2012-09-06 08:01+0000\n"
+"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,11 +32,11 @@ msgstr "认证错误"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "已存在组"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "不能添加组"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -56,11 +56,11 @@ msgstr "非法请求"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "不能删除组"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr ""
+msgstr "不能删除用户"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -69,12 +69,12 @@ msgstr "语言已修改"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "不能把用户添加到组 %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "不能从组%s中移除用户"
 
 #: js/apps.js:18
 msgid "Error"
@@ -107,7 +107,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "您的数据文件夹和文件可由互联网访问。OwnCloud提供的.htaccess文件未生效。我们强烈建议您配置服务器，以使数据文件夹不可被访问，或者将数据文件夹移到web服务器以外。"
 
 #: templates/admin.php:31
 msgid "Cron"
@@ -127,39 +127,39 @@ msgstr "实现系统 cron 服务"
 
 #: templates/admin.php:41
 msgid "Share API"
-msgstr ""
+msgstr "共享API"
 
 #: templates/admin.php:46
 msgid "Enable Share API"
-msgstr ""
+msgstr "开启共享API"
 
 #: templates/admin.php:47
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "允许 应用 使用共享API"
 
 #: templates/admin.php:51
 msgid "Allow links"
-msgstr ""
+msgstr "允许连接"
 
 #: templates/admin.php:52
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "允许用户使用连接向公众共享"
 
 #: templates/admin.php:56
 msgid "Allow resharing"
-msgstr ""
+msgstr "允许再次共享"
 
 #: templates/admin.php:57
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "允许用户将共享给他们的项目再次共享"
 
 #: templates/admin.php:60
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "允许用户向任何人共享"
 
 #: templates/admin.php:62
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "允许用户只向同组用户共享"
 
 #: templates/admin.php:69
 msgid "Log"
@@ -177,7 +177,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud社区</a>开发，  <a href=\"https://github.com/owncloud\" target=\"_blank\">源代码</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>许可证下发布。"
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -193,7 +193,7 @@ msgstr "查看在 app.owncloud.com 的应用程序页面"
 
 #: templates/apps.php:30
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-核准： <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"

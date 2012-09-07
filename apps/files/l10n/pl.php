@@ -10,6 +10,7 @@
 "Delete" => "Usuwa element",
 "already exists" => "Już istnieje",
 "replace" => "zastap",
+"suggest name" => "zasugeruj nazwę",
 "cancel" => "anuluj",
 "replaced" => "zastąpione",
 "undo" => "wróć",
