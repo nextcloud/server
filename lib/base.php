@@ -219,6 +219,7 @@ class OC{
 					$tmpl->printPage();
 					exit;
 				}
+				OC_Minimizer::clearCache();
 
 				OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
 				OC_App::checkAppsRequirements();

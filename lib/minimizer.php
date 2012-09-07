@@ -45,6 +45,12 @@ abstract class OC_Minimizer {
 		header('Content-Length: '.strlen($out));
 		echo $out;
 	}
+
+	public function clearCache() {
+		$cache = OC_Cache::getGlobalCache();
+		$cache->delete('core.css.gz');
+		$cache->delete('core.js.gz');
+	}
 }
 
 if (!function_exists('gzdecode')) {
