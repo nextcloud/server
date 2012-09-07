@@ -49,7 +49,7 @@ class Config {
 	 * This function gets the value from config.php. If it does not exist,
 	 * $default will be returned.
 	 */
-	public static function getSystemValue( $key, $default = null ){
+	public static function getSystemValue( $key, $default = null ) {
 		return(\OC_Config::getValue( $key, $default ));
 	}
 
@@ -63,7 +63,7 @@ class Config {
 	 * This function sets the value and writes the config.php. If the file can
 	 * not be written, false will be returned.
 	 */
-	public static function setSystemValue( $key, $value ){
+	public static function setSystemValue( $key, $value ) {
 		return(\OC_Config::setValue( $key, $value ));
 	}
 
@@ -78,7 +78,7 @@ class Config {
          * This function gets a value from the appconfig table. If the key does
          * not exist the default value will be returnes
          */
-        public static function getAppValue( $app, $key, $default = null ){
+        public static function getAppValue( $app, $key, $default = null ) {
 		return(\OC_Appconfig::getValue( $app, $key, $default ));
 	}
 
@@ -92,7 +92,7 @@ class Config {
          *
          * Sets a value. If the key did not exist before it will be created.
          */
-        public static function setAppValue( $app, $key, $value ){
+        public static function setAppValue( $app, $key, $value ) {
 		return(\OC_Appconfig::setValue( $app, $key, $value ));
 	}
 
@@ -108,7 +108,7 @@ class Config {
          * This function gets a value from the prefernces table. If the key does
          * not exist the default value will be returnes
          */
-        public static function getUserValue( $user, $app, $key, $default = null ){
+        public static function getUserValue( $user, $app, $key, $default = null ) {
 		return(\OC_Preferences::getValue( $user, $app, $key, $default ));
 	}
 
@@ -124,7 +124,7 @@ class Config {
          * Adds a value to the preferences. If the key did not exist before, it
          * will be added automagically.
          */
-        public static function setUserValue( $user, $app, $key, $value ){
+        public static function setUserValue( $user, $app, $key, $value ) {
 		return(\OC_Preferences::setValue(  $user, $app, $key, $value ));
 	}
 

@@ -11,8 +11,8 @@ class OC_JSON{
 	/**
 	 * set Content-Type header to jsonrequest
 	 */
-	public static function setContentTypeHeader($type='application/json'){
-		if (!self::$send_content_type_header){
+	public static function setContentTypeHeader($type='application/json') {
+		if (!self::$send_content_type_header) {
 			// We send json data
 			header( 'Content-Type: '.$type );
 			self::$send_content_type_header = true;
@@ -22,8 +22,8 @@ class OC_JSON{
 	/**
 	* Check if the app is enabled, send json error msg if not
 	*/
-	public static function checkAppEnabled($app){
-		if( !OC_App::isEnabled($app)){
+	public static function checkAppEnabled($app) {
+		if( !OC_App::isEnabled($app)) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Application is not enabled') )));
 			exit();
@@ -33,8 +33,8 @@ class OC_JSON{
 	/**
 	* Check if the user is logged in, send json error msg if not
 	*/
-	public static function checkLoggedIn(){
-		if( !OC_User::isLoggedIn()){
+	public static function checkLoggedIn() {
+		if( !OC_User::isLoggedIn()) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
@@ -45,8 +45,8 @@ class OC_JSON{
 	 * @brief Check an ajax get/post call if the request token is valid.
 	 * @return json Error msg if not valid.
 	 */
-	public static function callCheck(){
-		if( !OC_Util::isCallRegistered()){
+	public static function callCheck() {
+		if( !OC_Util::isCallRegistered()) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Token expired. Please reload page.') )));
 			exit();
@@ -56,9 +56,9 @@ class OC_JSON{
 	/**
 	* Check if the user is a admin, send json error msg if not
 	*/
-	public static function checkAdminUser(){
+	public static function checkAdminUser() {
 		self::checkLoggedIn();
-		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )){
+		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
@@ -68,9 +68,9 @@ class OC_JSON{
 	/**
 	* Check if the user is a subadmin, send json error msg if not
 	*/
-	public static function checkSubAdminUser(){
+	public static function checkSubAdminUser() {
 		self::checkLoggedIn();
-		if(!OC_Group::inGroup(OC_User::getUser(),'admin') && !OC_SubAdmin::isSubAdmin(OC_User::getUser())){
+		if(!OC_Group::inGroup(OC_User::getUser(),'admin') && !OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
@@ -80,7 +80,7 @@ class OC_JSON{
 	/**
 	* Send json error msg
 	*/
-	public static function error($data = array()){
+	public static function error($data = array()) {
 		$data['status'] = 'error';
 		self::encodedPrint($data);
 	}
@@ -88,7 +88,7 @@ class OC_JSON{
 	/**
 	* Send json success msg
 	*/
-	public static function success($data = array()){
+	public static function success($data = array()) {
 		$data['status'] = 'success';
 		self::encodedPrint($data);
 	}
@@ -96,7 +96,7 @@ class OC_JSON{
 	/**
 	 * Convert OC_L10N_String to string, for use in json encodings
 	 */
-	protected static function to_string(&$value){
+	protected static function to_string(&$value) {
 		if ($value instanceof OC_L10N_String) {
 			$value = (string)$value;
 		}
@@ -105,10 +105,10 @@ class OC_JSON{
 	/**
 	* Encode and print $data in json format
 	*/
-	public static function encodedPrint($data,$setContentType=true){
+	public static function encodedPrint($data,$setContentType=true) {
 		// Disable mimesniffing, don't move this to setContentTypeHeader!
 		header( 'X-Content-Type-Options: nosniff' );
-		if($setContentType){
+		if($setContentType) {
 			self::setContentTypeHeader();
 		}
 		array_walk_recursive($data, array('OC_JSON', 'to_string'));

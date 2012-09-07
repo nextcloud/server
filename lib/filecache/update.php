@@ -18,25 +18,25 @@ class OC_FileCache_Update{
 	 * @param boolean folder
 	 * @return bool
 	 */
-	public static function hasUpdated($path,$root=false,$folder=false){
-		if($root===false){
+	public static function hasUpdated($path,$root=false,$folder=false) {
+		if($root===false) {
 			$view=OC_Filesystem::getView();
 		}else{
 			$view=new OC_FilesystemView($root);
 		}
-		if(!$view->file_exists($path)){
+		if(!$view->file_exists($path)) {
 			return false;
 		}
 		$cachedData=OC_FileCache_Cached::get($path,$root);
-		if(isset($cachedData['mtime'])){
+		if(isset($cachedData['mtime'])) {
 			$cachedMTime=$cachedData['mtime'];
-			if($folder){
+			if($folder) {
 				return $view->hasUpdated($path.'/',$cachedMTime);
 			}else{
 				return $view->hasUpdated($path,$cachedMTime);
 			}
 		}else{//file not in cache, so it has to be updated
-			if(($path=='/' or $path=='') and $root===false){//dont auto update the home folder, it will be scanned
+			if(($path=='/' or $path=='') and $root===false) {//dont auto update the home folder, it will be scanned
 				return false;
 			}
 			return true;
@@ -46,19 +46,19 @@ class OC_FileCache_Update{
 	/**
 	 * delete non existing files from the cache
 	 */
-	public static function cleanFolder($path,$root=false){
-		if($root===false){
+	public static function cleanFolder($path,$root=false) {
+		if($root===false) {
 			$view=OC_Filesystem::getView();
 		}else{
 			$view=new OC_FilesystemView($root);
 		}
 
 		$cachedContent=OC_FileCache_Cached::getFolderContent($path,$root);
-		foreach($cachedContent as $fileData){
+		foreach($cachedContent as $fileData) {
 			$path=$fileData['path'];
 			$file=$view->getRelativePath($path);
-			if(!$view->file_exists($file)){
-				if($root===false){//filesystem hooks are only valid for the default root
+			if(!$view->file_exists($file)) {
+				if($root===false) {//filesystem hooks are only valid for the default root
 					OC_Hook::emit('OC_Filesystem','post_delete',array('path'=>$file));
 				}else{
 					self::delete($file,$root);
@@ -72,19 +72,19 @@ class OC_FileCache_Update{
 	 * @param string path
 	 * @param string root (optional)
 	 */
-	public static function updateFolder($path,$root=false){
-		if($root===false){
+	public static function updateFolder($path,$root=false) {
+		if($root===false) {
 			$view=OC_Filesystem::getView();
 		}else{
 			$view=new OC_FilesystemView($root);
 		}
 		$dh=$view->opendir($path.'/');
-		if($dh){//check for changed/new files
+		if($dh) {//check for changed/new files
 			while (($filename = readdir($dh)) !== false) {
-				if($filename != '.' and $filename != '..'){
+				if($filename != '.' and $filename != '..') {
 					$file=$path.'/'.$filename;
-					if(self::hasUpdated($file,$root)){
-						if($root===false){//filesystem hooks are only valid for the default root
+					if(self::hasUpdated($file,$root)) {
+						if($root===false) {//filesystem hooks are only valid for the default root
 							OC_Hook::emit('OC_Filesystem','post_write',array('path'=>$file));
 						}else{
 							self::update($file,$root);
@@ -97,7 +97,7 @@ class OC_FileCache_Update{
 		self::cleanFolder($path,$root);
 
 		//update the folder last, so we can calculate the size correctly
-		if($root===false){//filesystem hooks are only valid for the default root
+		if($root===false) {//filesystem hooks are only valid for the default root
 			OC_Hook::emit('OC_Filesystem','post_write',array('path'=>$path));
 		}else{
 			self::update($path,$root);
@@ -109,7 +109,7 @@ class OC_FileCache_Update{
 	 * @param array $params
 	 * @param string root (optional)
 	 */
-	public static function fileSystemWatcherWrite($params){
+	public static function fileSystemWatcherWrite($params) {
 		$path=$params['path'];
 		self::update($path);
 	}
@@ -119,7 +119,7 @@ class OC_FileCache_Update{
 	 * @param array $params
 	 * @param string root (optional)
 	 */
-	public static function fileSystemWatcherDelete($params){
+	public static function fileSystemWatcherDelete($params) {
 		$path=$params['path'];
 		self::delete($path);
 	}
@@ -129,7 +129,7 @@ class OC_FileCache_Update{
 	 * @param array $params
 	 * @param string root (optional)
 	 */
-	public static function fileSystemWatcherRename($params){
+	public static function fileSystemWatcherRename($params) {
 		$oldPath=$params['oldpath'];
 		$newPath=$params['newpath'];
 		self::rename($oldPath,$newPath);
@@ -140,8 +140,8 @@ class OC_FileCache_Update{
 	 * @param string path
 	 * @param string root (optional)
 	 */
-	public static function update($path,$root=false){
-		if($root===false){
+	public static function update($path,$root=false) {
+		if($root===false) {
 			$view=OC_Filesystem::getView();
 		}else{
 			$view=new OC_FilesystemView($root);
@@ -153,10 +153,10 @@ class OC_FileCache_Update{
 		$cached=OC_FileCache_Cached::get($path,$root);
 		$cachedSize=isset($cached['size'])?$cached['size']:0;
 
-		if($view->is_dir($path.'/')){
-			if(OC_FileCache::inCache($path,$root)){
+		if($view->is_dir($path.'/')) {
+			if(OC_FileCache::inCache($path,$root)) {
 				$cachedContent=OC_FileCache_Cached::getFolderContent($path,$root);
-				foreach($cachedContent as $file){
+				foreach($cachedContent as $file) {
 					$size+=$file['size'];
 				}
 				$mtime=$view->filemtime($path.'/');
@@ -179,9 +179,9 @@ class OC_FileCache_Update{
 	 * @param string path
 	 * @param string root (optional)
 	 */
-	public static function delete($path,$root=false){
+	public static function delete($path,$root=false) {
 		$cached=OC_FileCache_Cached::get($path,$root);
-		if(!isset($cached['size'])){
+		if(!isset($cached['size'])) {
 			return;
 		}
 		$size=$cached['size'];
@@ -195,11 +195,11 @@ class OC_FileCache_Update{
 	 * @param string newPath
 	 * @param string root (optional)
 	 */
-	public static function rename($oldPath,$newPath,$root=false){
-		if(!OC_FileCache::inCache($oldPath,$root)){
+	public static function rename($oldPath,$newPath,$root=false) {
+		if(!OC_FileCache::inCache($oldPath,$root)) {
 			return;
 		}
-		if($root===false){
+		if($root===false) {
 			$view=OC_Filesystem::getView();
 		}else{
 			$view=new OC_FilesystemView($root);

@@ -57,20 +57,20 @@ class OC_Cache_FileGlobal{
 
 	public function remove($key) {
 		$cache_dir = self::getCacheDir();
-		if(!$cache_dir){
+		if(!$cache_dir) {
 			return false;
 		}
 		$key = $this->fixKey($key);
 		return unlink($cache_dir.$key);
 	}
 
-	public function clear($prefix=''){
+	public function clear($prefix='') {
 		$cache_dir = self::getCacheDir();
 		$prefix = $this->fixKey($prefix);
-		if($cache_dir and is_dir($cache_dir)){
+		if($cache_dir and is_dir($cache_dir)) {
 			$dh=opendir($cache_dir);
-			while($file=readdir($dh)){
-				if($file!='.' and $file!='..' and ($prefix==='' || strpos($file, $prefix) === 0)){
+			while($file=readdir($dh)) {
+				if($file!='.' and $file!='..' and ($prefix==='' || strpos($file, $prefix) === 0)) {
 					unlink($cache_dir.$file);
 				}
 			}

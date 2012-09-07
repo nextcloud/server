@@ -35,8 +35,8 @@ class OC_User_Dummy extends OC_User_Backend {
 		* Creates a new user. Basic checking of username is done in OC_User
 		* itself, not in its subclasses.
 		*/
-	public function createUser($uid, $password){
-		if(isset($this->users[$uid])){
+	public function createUser($uid, $password) {
+		if(isset($this->users[$uid])) {
 			return false;
 		}else{
 			$this->users[$uid]=$password;
@@ -51,8 +51,8 @@ class OC_User_Dummy extends OC_User_Backend {
 		*
 		* Deletes a user
 		*/
-	public function deleteUser( $uid ){
-		if(isset($this->users[$uid])){
+	public function deleteUser( $uid ) {
+		if(isset($this->users[$uid])) {
 			unset($this->users[$uid]);
 			return true;
 		}else{
@@ -68,8 +68,8 @@ class OC_User_Dummy extends OC_User_Backend {
 		*
 		* Change the password of a user
 		*/
-	public function setPassword($uid, $password){
-		if(isset($this->users[$uid])){
+	public function setPassword($uid, $password) {
+		if(isset($this->users[$uid])) {
 			$this->users[$uid]=$password;
 			return true;
 		}else{
@@ -86,8 +86,8 @@ class OC_User_Dummy extends OC_User_Backend {
 		* Check if the password is correct without logging in the user
 		* returns the user id or false
 		*/
-	public function checkPassword($uid, $password){
-		if(isset($this->users[$uid])){
+	public function checkPassword($uid, $password) {
+		if(isset($this->users[$uid])) {
 			return ($this->users[$uid]==$password);
 		}else{
 			return false;
@@ -109,7 +109,7 @@ class OC_User_Dummy extends OC_User_Backend {
 		* @param string $uid the username
 		* @return boolean
 		*/
-	public function userExists($uid){
+	public function userExists($uid) {
 		return isset($this->users[$uid]);
 	}
 }

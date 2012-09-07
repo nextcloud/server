@@ -31,7 +31,7 @@ OCP\Util::addscript( 'files', 'jquery.fileupload' );
 OCP\Util::addscript( 'files', 'files' );
 OCP\Util::addscript( 'files', 'filelist' );
 OCP\Util::addscript( 'files', 'fileactions' );
-if(!isset($_SESSION['timezone'])){
+if(!isset($_SESSION['timezone'])) {
 	OCP\Util::addscript( 'files', 'timezone' );
 }
 OCP\App::setActiveNavigationEntry( 'files_index' );
@@ -44,9 +44,9 @@ if(!OC_Filesystem::is_dir($dir.'/')) {
 }
 
 $files = array();
-foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
+foreach( OC_Files::getdirectorycontent( $dir ) as $i ) {
 	$i['date'] = OCP\Util::formatDate($i['mtime'] );
-	if($i['type']=='file'){
+	if($i['type']=='file') {
 		$fileinfo=pathinfo($i['name']);
 		$i['basename']=$fileinfo['filename'];
 		if (!empty($fileinfo['extension'])) {
@@ -56,7 +56,7 @@ foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
 			$i['extension']='';
 		}
 	}
-	if($i['directory']=='/'){
+	if($i['directory']=='/') {
 		$i['directory']='';
 	}
 	$files[] = $i;
@@ -65,8 +65,8 @@ foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
 // Make breadcrumb
 $breadcrumb = array();
 $pathtohere = '';
-foreach( explode( '/', $dir ) as $i ){
-	if( $i != '' ){
+foreach( explode( '/', $dir ) as $i ) {
+	if( $i != '' ) {
 		$pathtohere .= '/'.str_replace('+','%20', urlencode($i));
 		$breadcrumb[] = array( 'dir' => $pathtohere, 'name' => $i );
 	}

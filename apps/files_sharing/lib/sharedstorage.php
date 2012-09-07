@@ -443,7 +443,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	 * @param int $time
 	 * @return bool
 	 */
-	public function hasUpdated($path,$time){
+	public function hasUpdated($path,$time) {
 		//TODO
 		return false;
 	}

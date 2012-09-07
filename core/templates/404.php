@@ -1,5 +1,5 @@
 <?php
-if(!isset($_)){//also provide standalone error page
+if(!isset($_)) {//also provide standalone error page
 	require_once '../../lib/base.php';
 	
 	$tmpl = new OC_Template( '', '404', 'guest' );

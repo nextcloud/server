@@ -36,7 +36,7 @@ class OC_SubAdmin{
 	 * @param $gid gid of the group
 	 * @return boolean
 	 */
-	public static function createSubAdmin($uid, $gid){
+	public static function createSubAdmin($uid, $gid) {
 		$stmt = OC_DB::prepare('INSERT INTO `*PREFIX*group_admin` (`gid`,`uid`) VALUES(?,?)');
 		$result = $stmt->execute(array($gid, $uid));
 		OC_Hook::emit( "OC_SubAdmin", "post_createSubAdmin", array( "gid" => $gid ));
@@ -49,7 +49,7 @@ class OC_SubAdmin{
 	 * @param $gid gid of the group
 	 * @return boolean
 	 */
-	public static function deleteSubAdmin($uid, $gid){
+	public static function deleteSubAdmin($uid, $gid) {
 		$stmt = OC_DB::prepare('DELETE FROM `*PREFIX*group_admin` WHERE `gid` = ? AND `uid` = ?');
 		$result = $stmt->execute(array($gid, $uid));
 		OC_Hook::emit( "OC_SubAdmin", "post_deleteSubAdmin", array( "gid" => $gid ));
@@ -61,11 +61,11 @@ class OC_SubAdmin{
 	 * @param $uid uid of the SubAdmin
 	 * @return array
 	 */
-	public static function getSubAdminsGroups($uid){
+	public static function getSubAdminsGroups($uid) {
 		$stmt = OC_DB::prepare('SELECT `gid` FROM `*PREFIX*group_admin` WHERE `uid` = ?');
 		$result = $stmt->execute(array($uid));
 		$gids = array();
-		while($row = $result->fetchRow()){
+		while($row = $result->fetchRow()) {
 			$gids[] = $row['gid'];
 		}
 		return $gids;
@@ -76,11 +76,11 @@ class OC_SubAdmin{
 	 * @param $gid gid of the group
 	 * @return array
 	 */
-	public static function getGroupsSubAdmins($gid){
+	public static function getGroupsSubAdmins($gid) {
 		$stmt = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_admin` WHERE `gid` = ?');
 		$result = $stmt->execute(array($gid));
 		$uids = array();
-		while($row = $result->fetchRow()){
+		while($row = $result->fetchRow()) {
 			$uids[] = $row['uid'];
 		}
 		return $uids;
@@ -90,11 +90,11 @@ class OC_SubAdmin{
 	 * @brief get all SubAdmins
 	 * @return array
 	 */
-	public static function getAllSubAdmins(){
+	public static function getAllSubAdmins() {
 		$stmt = OC_DB::prepare('SELECT * FROM `*PREFIX*group_admin`');
 		$result = $stmt->execute();
 		$subadmins = array();
-		while($row = $result->fetchRow()){
+		while($row = $result->fetchRow()) {
 			$subadmins[] = $row;
 		}
 		return $subadmins;
@@ -106,11 +106,11 @@ class OC_SubAdmin{
 	 * @param $gid gid of the group
 	 * @return bool
 	 */
-	public static function isSubAdminofGroup($uid, $gid){
+	public static function isSubAdminofGroup($uid, $gid) {
 		$stmt = OC_DB::prepare('SELECT COUNT(*) AS `count` FROM `*PREFIX*group_admin` WHERE `uid` = ? AND `gid` = ?');
 		$result = $stmt->execute(array($uid, $gid));
 		$result = $result->fetchRow();
-		if($result['count'] >= 1){
+		if($result['count'] >= 1) {
 			return true;
 		}
 		return false;
@@ -121,11 +121,11 @@ class OC_SubAdmin{
 	 * @param $uid uid of the subadmin
 	 * @return bool
 	 */
-	public static function isSubAdmin($uid){
+	public static function isSubAdmin($uid) {
 		$stmt = OC_DB::prepare('SELECT COUNT(*) AS `count` FROM `*PREFIX*group_admin` WHERE `uid` = ?');
 		$result = $stmt->execute(array($uid));
 		$result = $result->fetchRow();
-		if($result['count'] > 0){
+		if($result['count'] > 0) {
 			return true;
 		}
 		return false;
@@ -137,16 +137,16 @@ class OC_SubAdmin{
 	 * @param $user uid of the user
 	 * @return bool
 	 */
-	public static function isUserAccessible($subadmin, $user){
-		if(!self::isSubAdmin($subadmin)){
+	public static function isUserAccessible($subadmin, $user) {
+		if(!self::isSubAdmin($subadmin)) {
 			return false;
 		}
-		if(OC_Group::inGroup($user, 'admin')){
+		if(OC_Group::inGroup($user, 'admin')) {
 			return false;
 		}
 		$accessiblegroups = self::getSubAdminsGroups($subadmin);
-		foreach($accessiblegroups as $accessiblegroup){
-			if(OC_Group::inGroup($user, $accessiblegroup)){
+		foreach($accessiblegroups as $accessiblegroup) {
+			if(OC_Group::inGroup($user, $accessiblegroup)) {
 				return true;
 			}
 		}
@@ -156,7 +156,7 @@ class OC_SubAdmin{
 	/*
 	 * @brief alias for self::isSubAdminofGroup()
 	 */
-	public static function isGroupAccessible($subadmin, $group){
+	public static function isGroupAccessible($subadmin, $group) {
 		return self::isSubAdminofGroup($subadmin, $group);
 	}
 
@@ -165,7 +165,7 @@ class OC_SubAdmin{
 	 * @param $parameters
 	 * @return boolean
 	 */
-	public static function post_deleteUser($parameters){
+	public static function post_deleteUser($parameters) {
 		$stmt = OC_DB::prepare('DELETE FROM `*PREFIX*group_admin` WHERE `uid` = ?');
 		$result = $stmt->execute(array($parameters['uid']));
 		return true;
@@ -176,7 +176,7 @@ class OC_SubAdmin{
 	 * @param $parameters
 	 * @return boolean
 	 */
-	public static function post_deleteGroup($parameters){
+	public static function post_deleteGroup($parameters) {
 		$stmt = OC_DB::prepare('DELETE FROM `*PREFIX*group_admin` WHERE `gid` = ?');
 		$result = $stmt->execute(array($parameters['gid']));
 		return true;

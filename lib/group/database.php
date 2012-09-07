@@ -50,12 +50,12 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * Trys to create a new group. If the group name already exists, false will
 	 * be returned.
 	 */
-	public function createGroup( $gid ){
+	public function createGroup( $gid ) {
 		// Check for existence
 		$stmt = OC_DB::prepare( "SELECT `gid` FROM `*PREFIX*groups` WHERE `gid` = ?" );
 		$result = $stmt->execute( array( $gid ));
 
-		if( $result->fetchRow() ){
+		if( $result->fetchRow() ) {
 			// Can not add an existing group
 			return false;
 		}
@@ -75,7 +75,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
-	public function deleteGroup( $gid ){
+	public function deleteGroup( $gid ) {
 		// Delete the group
 		$stmt = OC_DB::prepare( "DELETE FROM `*PREFIX*groups` WHERE `gid` = ?" );
 		$result = $stmt->execute( array( $gid ));
@@ -95,7 +95,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public function inGroup( $uid, $gid ){
+	public function inGroup( $uid, $gid ) {
 		// check
 		$stmt = OC_DB::prepare( "SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` = ?" );
 		$result = $stmt->execute( array( $gid, $uid ));
@@ -111,9 +111,9 @@ class OC_Group_Database extends OC_Group_Backend {
 	 *
 	 * Adds a user to a group.
 	 */
-	public function addToGroup( $uid, $gid ){
+	public function addToGroup( $uid, $gid ) {
 		// No duplicate entries!
-		if( !$this->inGroup( $uid, $gid )){
+		if( !$this->inGroup( $uid, $gid )) {
 			$stmt = OC_DB::prepare( "INSERT INTO `*PREFIX*group_user` ( `uid`, `gid` ) VALUES( ?, ? )" );
 			$stmt->execute( array( $uid, $gid ));
 			return true;
@@ -130,7 +130,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 *
 	 * removes the user from a group.
 	 */
-	public function removeFromGroup( $uid, $gid ){
+	public function removeFromGroup( $uid, $gid ) {
 		$stmt = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE `uid` = ? AND `gid` = ?" );
 		$stmt->execute( array( $uid, $gid ));
 
@@ -145,13 +145,13 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public function getUserGroups( $uid ){
+	public function getUserGroups( $uid ) {
 		// No magic!
 		$stmt = OC_DB::prepare( "SELECT `gid` FROM `*PREFIX*group_user` WHERE `uid` = ?" );
 		$result = $stmt->execute( array( $uid ));
 
 		$groups = array();
-		while( $row = $result->fetchRow()){
+		while( $row = $result->fetchRow()) {
 			$groups[] = $row["gid"];
 		}
 

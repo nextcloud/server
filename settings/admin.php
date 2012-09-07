@@ -20,7 +20,7 @@ $htaccessworking=OC_Util::ishtaccessworking();
 $entries=OC_Log_Owncloud::getEntries(3);
 $entriesremain=(count(OC_Log_Owncloud::getEntries(4)) > 3)?true:false;
 
-function compareEntries($a,$b){
+function compareEntries($a,$b) {
 	return $b->time - $a->time;
 }
 usort($entries, 'compareEntries');
@@ -35,7 +35,7 @@ $tmpl->assign('allowLinks', OC_Appconfig::getValue('core', 'shareapi_allow_links
 $tmpl->assign('allowResharing', OC_Appconfig::getValue('core', 'shareapi_allow_resharing', 'yes'));
 $tmpl->assign('sharePolicy', OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global'));
 $tmpl->assign('forms',array());
-foreach($forms as $form){
+foreach($forms as $form) {
 	$tmpl->append('forms',$form);
 }
 $tmpl->printPage();

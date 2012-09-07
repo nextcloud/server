@@ -13,20 +13,20 @@
 class OC_FileCache_Cached{
 	public static $savedData=array();
 
-	public static function get($path,$root=false){
-		if($root===false){
+	public static function get($path,$root=false) {
+		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
 		$path=$root.$path;
 		$query=OC_DB::prepare('SELECT `path`,`ctime`,`mtime`,`mimetype`,`size`,`encrypted`,`versioned`,`writable` FROM `*PREFIX*fscache` WHERE `path_hash`=?');
 		$result=$query->execute(array(md5($path)))->fetchRow();
-		if(is_array($result)){
-			if(isset(self::$savedData[$path])){
+		if(is_array($result)) {
+			if(isset(self::$savedData[$path])) {
 				$result=array_merge($result,self::$savedData[$path]);
 			}
 			return $result;
 		}else{
-			if(isset(self::$savedData[$path])){
+			if(isset(self::$savedData[$path])) {
 				return self::$savedData[$path];
 			}else{
 				return array();
@@ -50,17 +50,17 @@ class OC_FileCache_Cached{
 	 * - encrypted
 	 * - versioned
 	 */
-	public static function getFolderContent($path,$root=false,$mimetype_filter=''){
-		if($root===false){
+	public static function getFolderContent($path,$root=false,$mimetype_filter='') {
+		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
 		$parent=OC_FileCache::getId($path,$root);
-		if($parent==-1){
+		if($parent==-1) {
 			return array();
 		}
 		$query=OC_DB::prepare('SELECT `id`,`path`,`name`,`ctime`,`mtime`,`mimetype`,`size`,`encrypted`,`versioned`,`writable` FROM `*PREFIX*fscache` WHERE `parent`=? AND (`mimetype` LIKE ? OR `mimetype` = ?)');
 		$result=$query->execute(array($parent, $mimetype_filter.'%', 'httpd/unix-directory'))->fetchAll();
-		if(is_array($result)){
+		if(is_array($result)) {
 			return $result;
 		}else{
 			OC_Log::write('files','getFolderContent(): file not found in cache ('.$path.')',OC_Log::DEBUG);

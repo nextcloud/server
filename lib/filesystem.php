@@ -146,22 +146,22 @@ class OC_Filesystem{
 	 * @param string path
 	  * @return string
 	 */
-	static public function getMountPoint($path){
+	static public function getMountPoint($path) {
 		OC_Hook::emit(self::CLASSNAME,'get_mountpoint',array('path'=>$path));
-		if(!$path){
+		if(!$path) {
 			$path='/';
 		}
-		if($path[0]!=='/'){
+		if($path[0]!=='/') {
 			$path='/'.$path;
 		}
 		$path=str_replace('//', '/',$path);
 		$foundMountPoint='';
 		$mountPoints=array_keys(OC_Filesystem::$mounts);
-		foreach($mountPoints as $mountpoint){
-			if($mountpoint==$path){
+		foreach($mountPoints as $mountpoint) {
+			if($mountpoint==$path) {
 				return $mountpoint;
 			}
-			if(strpos($path,$mountpoint)===0 and strlen($mountpoint)>strlen($foundMountPoint)){
+			if(strpos($path,$mountpoint)===0 and strlen($mountpoint)>strlen($foundMountPoint)) {
 				$foundMountPoint=$mountpoint;
 			}
 		}
@@ -173,7 +173,7 @@ class OC_Filesystem{
 	* @param  string  path
 	* @return bool
 	*/
-	static public function getInternalPath($path){
+	static public function getInternalPath($path) {
 		$mountPoint=self::getMountPoint($path);
 		$internalPath=substr($path,strlen($mountPoint));
 		return $internalPath;
@@ -183,10 +183,10 @@ class OC_Filesystem{
 	* @param string path
 	* @return OC_Filestorage
 	*/
-	static public function getStorage($path){
+	static public function getStorage($path) {
 		$mountpoint=self::getMountPoint($path);
-		if($mountpoint){
-			if(!isset(OC_Filesystem::$storages[$mountpoint])){
+		if($mountpoint) {
+			if(!isset(OC_Filesystem::$storages[$mountpoint])) {
 				$mount=OC_Filesystem::$mounts[$mountpoint];
 				OC_Filesystem::$storages[$mountpoint]=OC_Filesystem::createStorage($mount['class'],$mount['arguments']);
 			}
@@ -194,27 +194,27 @@ class OC_Filesystem{
 		}
 	}
 
-	static public function init($root){
-		if(self::$defaultInstance){
+	static public function init($root) {
+		if(self::$defaultInstance) {
 			return false;
 		}
 		self::$defaultInstance=new OC_FilesystemView($root);
 
 		//load custom mount config
-		if(is_file(OC::$SERVERROOT.'/config/mount.php')){
+		if(is_file(OC::$SERVERROOT.'/config/mount.php')) {
 			$mountConfig=include(OC::$SERVERROOT.'/config/mount.php');
-			if(isset($mountConfig['global'])){
-				foreach($mountConfig['global'] as $mountPoint=>$options){
+			if(isset($mountConfig['global'])) {
+				foreach($mountConfig['global'] as $mountPoint=>$options) {
 					self::mount($options['class'],$options['options'],$mountPoint);
 				}
 			}
 
-			if(isset($mountConfig['group'])){
-				foreach($mountConfig['group'] as $group=>$mounts){
-					if(OC_Group::inGroup(OC_User::getUser(),$group)){
-						foreach($mounts as $mountPoint=>$options){
+			if(isset($mountConfig['group'])) {
+				foreach($mountConfig['group'] as $group=>$mounts) {
+					if(OC_Group::inGroup(OC_User::getUser(),$group)) {
+						foreach($mounts as $mountPoint=>$options) {
 							$mountPoint=self::setUserVars($mountPoint);
-							foreach($options as &$option){
+							foreach($options as &$option) {
 								$option=self::setUserVars($option);
 							}
 							self::mount($options['class'],$options['options'],$mountPoint);
@@ -223,12 +223,12 @@ class OC_Filesystem{
 				}
 			}
 
-			if(isset($mountConfig['user'])){
-				foreach($mountConfig['user'] as $user=>$mounts){
-					if($user==='all' or strtolower($user)===strtolower(OC_User::getUser())){
-						foreach($mounts as $mountPoint=>$options){
+			if(isset($mountConfig['user'])) {
+				foreach($mountConfig['user'] as $user=>$mounts) {
+					if($user==='all' or strtolower($user)===strtolower(OC_User::getUser())) {
+						foreach($mounts as $mountPoint=>$options) {
 							$mountPoint=self::setUserVars($mountPoint);
-							foreach($options as &$option){
+							foreach($options as &$option) {
 								$option=self::setUserVars($option);
 							}
 							self::mount($options['class'],$options['options'],$mountPoint);
@@ -239,7 +239,7 @@ class OC_Filesystem{
 
 			$mtime=filemtime(OC::$SERVERROOT.'/config/mount.php');
 			$previousMTime=OC_Appconfig::getValue('files','mountconfigmtime',0);
-			if($mtime>$previousMTime){//mount config has changed, filecache needs to be updated
+			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
 				OC_FileCache::clear();
 				OC_Appconfig::setValue('files','mountconfigmtime',$mtime);
 			}
@@ -253,7 +253,7 @@ class OC_Filesystem{
 	 * @param string intput
 	 * @return string
 	 */
-	private static function setUserVars($input){
+	private static function setUserVars($input) {
 		return str_replace('$user',OC_User::getUser(),$input);
 	}
 
@@ -261,14 +261,14 @@ class OC_Filesystem{
 	 * get the default filesystem view
 	 * @return OC_FilesystemView
 	 */
-	static public function getView(){
+	static public function getView() {
 		return self::$defaultInstance;
 	}
 
 	/**
 	 * tear down the filesystem, removing all storage providers
 	 */
-	static public function tearDown(){
+	static public function tearDown() {
 		self::$storages=array();
 	}
 
@@ -278,8 +278,8 @@ class OC_Filesystem{
 	* @param  array  arguments
 	* @return OC_Filestorage
 	*/
-	static private function createStorage($class,$arguments){
-		if(class_exists($class)){
+	static private function createStorage($class,$arguments) {
+		if(class_exists($class)) {
 			try {
 				return new $class($arguments);
 			} catch (Exception $exception) {
@@ -297,7 +297,7 @@ class OC_Filesystem{
 	* @param  string  fakeRoot
 	* @return bool
 	*/
-	static public function chroot($fakeRoot){
+	static public function chroot($fakeRoot) {
 		return self::$defaultInstance->chroot($fakeRoot);
 	}
 
@@ -307,14 +307,14 @@ class OC_Filesystem{
 	 *
 	 * Returns path like /admin/files
 	 */
-	static public function getRoot(){
+	static public function getRoot() {
 		return self::$defaultInstance->getRoot();
 	}
 
 	/**
 	 * clear all mounts and storage backends
 	 */
-	public static function clearMounts(){
+	public static function clearMounts() {
 		self::$mounts=array();
 		self::$storages=array();
 	}
@@ -324,11 +324,11 @@ class OC_Filesystem{
 	* @param OC_Filestorage storage
 	* @param string mountpoint
 	*/
-	static public function mount($class,$arguments,$mountpoint){
-		if($mountpoint[0]!='/'){
+	static public function mount($class,$arguments,$mountpoint) {
+		if($mountpoint[0]!='/') {
 			$mountpoint='/'.$mountpoint;
 		}
-		if(substr($mountpoint,-1)!=='/'){
+		if(substr($mountpoint,-1)!=='/') {
 			$mountpoint=$mountpoint.'/';
 		}
 		self::$mounts[$mountpoint]=array('class'=>$class,'arguments'=>$arguments);
@@ -340,14 +340,14 @@ class OC_Filesystem{
 	* @param string path
 	* @return string
 	*/
-	static public function getLocalFile($path){
+	static public function getLocalFile($path) {
 		return self::$defaultInstance->getLocalFile($path);
 	}
 	/**
 	 * @param string path
 	 * @return string
 	 */
-	static public function getLocalFolder($path){
+	static public function getLocalFolder($path) {
 		return self::$defaultInstance->getLocalFolder($path);
 	}
 
@@ -370,11 +370,11 @@ class OC_Filesystem{
 	 * @param string path
 	 * @return bool
 	 */
-	static public function isValidPath($path){
-		if(!$path || $path[0]!=='/'){
+	static public function isValidPath($path) {
+		if(!$path || $path[0]!=='/') {
 			$path='/'.$path;
 		}
-		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ){
+		if(strstr($path,'/../') || strrchr($path, '/') === '/..' ) {
 			return false;
 		}
 		return true;
@@ -385,7 +385,7 @@ class OC_Filesystem{
 	 * Listens to write and rename hooks
 	 * @param array $data from hook
 	 */
-	static public function isBlacklisted($data){
+	static public function isBlacklisted($data) {
 		$blacklist = array('.htaccess');
 		if (isset($data['path'])) {
 			$path = $data['path'];
@@ -403,46 +403,46 @@ class OC_Filesystem{
 	/**
 	 * following functions are equivilent to their php buildin equivilents for arguments/return values.
 	 */
-	static public function mkdir($path){
+	static public function mkdir($path) {
 		return self::$defaultInstance->mkdir($path);
 	}
-	static public function rmdir($path){
+	static public function rmdir($path) {
 		return self::$defaultInstance->rmdir($path);
 	}
-	static public function opendir($path){
+	static public function opendir($path) {
 		return self::$defaultInstance->opendir($path);
 	}
-	static public function readdir($path){
+	static public function readdir($path) {
 		return self::$defaultInstance->readdir($path);
 	}
-	static public function is_dir($path){
+	static public function is_dir($path) {
 		return self::$defaultInstance->is_dir($path);
 	}
-	static public function is_file($path){
+	static public function is_file($path) {
 		return self::$defaultInstance->is_file($path);
 	}
-	static public function stat($path){
+	static public function stat($path) {
 		return self::$defaultInstance->stat($path);
 	}
-	static public function filetype($path){
+	static public function filetype($path) {
 		return self::$defaultInstance->filetype($path);
 	}
-	static public function filesize($path){
+	static public function filesize($path) {
 		return self::$defaultInstance->filesize($path);
 	}
-	static public function readfile($path){
+	static public function readfile($path) {
 		return self::$defaultInstance->readfile($path);
 	}
 	/**
 	* @deprecated Replaced by isReadable() as part of CRUDS
 	*/
-	static public function is_readable($path){
+	static public function is_readable($path) {
 		return self::$defaultInstance->is_readable($path);
 	}
 	/**
 	* @deprecated Replaced by isCreatable(), isUpdatable(), isDeletable() as part of CRUDS
 	*/
-	static public function is_writable($path){
+	static public function is_writable($path) {
 		return self::$defaultInstance->is_writable($path);
 	}
 	static public function isCreatable($path) {
@@ -460,55 +460,55 @@ class OC_Filesystem{
 	static public function isSharable($path) {
 		return self::$defaultInstance->isSharable($path);
 	}
-	static public function file_exists($path){
+	static public function file_exists($path) {
 		return self::$defaultInstance->file_exists($path);
 	}
-	static public function filectime($path){
+	static public function filectime($path) {
 		return self::$defaultInstance->filectime($path);
 	}
-	static public function filemtime($path){
+	static public function filemtime($path) {
 		return self::$defaultInstance->filemtime($path);
 	}
-	static public function touch($path, $mtime=null){
+	static public function touch($path, $mtime=null) {
 		return self::$defaultInstance->touch($path, $mtime);
 	}
-	static public function file_get_contents($path){
+	static public function file_get_contents($path) {
 		return self::$defaultInstance->file_get_contents($path);
 	}
-	static public function file_put_contents($path,$data){
+	static public function file_put_contents($path,$data) {
 		return self::$defaultInstance->file_put_contents($path,$data);
 	}
-	static public function unlink($path){
+	static public function unlink($path) {
 		return self::$defaultInstance->unlink($path);
 	}
-	static public function rename($path1,$path2){
+	static public function rename($path1,$path2) {
 		return self::$defaultInstance->rename($path1,$path2);
 	}
-	static public function copy($path1,$path2){
+	static public function copy($path1,$path2) {
 		return self::$defaultInstance->copy($path1,$path2);
 	}
-	static public function fopen($path,$mode){
+	static public function fopen($path,$mode) {
 		return self::$defaultInstance->fopen($path,$mode);
 	}
-	static public function toTmpFile($path){
+	static public function toTmpFile($path) {
 		return self::$defaultInstance->toTmpFile($path);
 	}
-	static public function fromTmpFile($tmpFile,$path){
+	static public function fromTmpFile($tmpFile,$path) {
 		return self::$defaultInstance->fromTmpFile($tmpFile,$path);
 	}
 
-	static public function getMimeType($path){
+	static public function getMimeType($path) {
 		return self::$defaultInstance->getMimeType($path);
 	}
-	static public function hash($type,$path, $raw = false){
+	static public function hash($type,$path, $raw = false) {
 		return self::$defaultInstance->hash($type,$path, $raw);
 	}
 
-	static public function free_space($path='/'){
+	static public function free_space($path='/') {
 		return self::$defaultInstance->free_space($path);
 	}
 
-	static public function search($query){
+	static public function search($query) {
 		return OC_FileCache::search($query);
 	}
 
@@ -517,7 +517,7 @@ class OC_Filesystem{
 	 * @param int $time
 	 * @return bool
 	 */
-	static public function hasUpdated($path,$time){
+	static public function hasUpdated($path,$time) {
 		return self::$defaultInstance->hasUpdated($path,$time);
 	}
 
@@ -536,26 +536,26 @@ class OC_Filesystem{
 	 * @param bool $stripTrailingSlash
 	 * @return string
 	 */
-	public static function normalizePath($path,$stripTrailingSlash=true){
-		if($path==''){
+	public static function normalizePath($path,$stripTrailingSlash=true) {
+		if($path=='') {
 			return '/';
 		}
 		//no windows style slashes
 		$path=str_replace('\\','/',$path);
 		//add leading slash
-		if($path[0]!=='/'){
+		if($path[0]!=='/') {
 			$path='/'.$path;
 		}
 		//remove trainling slash
-		if($stripTrailingSlash and strlen($path)>1 and substr($path,-1,1)==='/'){
+		if($stripTrailingSlash and strlen($path)>1 and substr($path,-1,1)==='/') {
 			$path=substr($path,0,-1);
 		}
 		//remove duplicate slashes
-		while(strpos($path,'//')!==false){
+		while(strpos($path,'//')!==false) {
 			$path=str_replace('//','/',$path);
 		}
 		//normalize unicode if possible
-		if(class_exists('Normalizer')){
+		if(class_exists('Normalizer')) {
 			$path=Normalizer::normalize($path);
 		}
 		return $path;

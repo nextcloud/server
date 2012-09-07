@@ -21,7 +21,7 @@ if($isadmin) {
 }else{
 	if(isset( $_POST["groups"] )) {
 		$groups = array();
-		foreach($_POST["groups"] as $group){
+		foreach($_POST["groups"] as $group) {
 			if(OC_SubAdmin::isGroupAccessible(OC_User::getUser(), $group)) {
 				$groups[] = $group;
 			}
@@ -45,7 +45,7 @@ if( in_array( $username, OC_User::getUsers())) {
 // Return Success story
 try {
 	OC_User::createUser($username, $password);
-	foreach( $groups as $i ){
+	foreach( $groups as $i ) {
 		if(!OC_Group::groupExists($i)) {
 			OC_Group::createGroup($i);
 		}

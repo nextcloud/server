@@ -39,7 +39,7 @@ if($query) {
 }
 
 $resultTypes=array();
-foreach($results as $result){
+foreach($results as $result) {
 	if(!isset($resultTypes[$result->type])) {
 		$resultTypes[$result->type]=array();
 	}

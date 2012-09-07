@@ -531,7 +531,7 @@ class MDB2_Driver_Manager_sqlite3 extends MDB2_Driver_Manager_Common
             return MDB2_OK;
         }
 
-        if (empty($changes['remove']) and empty($changes['rename']) and empty($changes['change']) ){//if only rename or add changes are required, we can use ALTER TABLE
+        if (empty($changes['remove']) and empty($changes['rename']) and empty($changes['change']) ) {//if only rename or add changes are required, we can use ALTER TABLE
 			$query = '';
 			if (!empty($changes['name'])) {
 				$change_name = $db->quoteIdentifier($changes['name'], true);

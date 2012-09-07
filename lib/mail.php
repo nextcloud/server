@@ -39,9 +39,9 @@ class OC_Mail {
 		$mailo = new PHPMailer(true);
 		if($SMTPMODE=='sendmail') {
 			$mailo->IsSendmail();
-		}elseif($SMTPMODE=='smtp'){
+		}elseif($SMTPMODE=='smtp') {
 			$mailo->IsSMTP();
-		}elseif($SMTPMODE=='qmail'){
+		}elseif($SMTPMODE=='qmail') {
 			$mailo->IsQmail();
 		}else{
 			$mailo->IsMail();

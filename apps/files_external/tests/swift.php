@@ -7,14 +7,14 @@
  */
 
 $config=include('apps/files_external/tests/config.php');
-if(!is_array($config) or !isset($config['swift']) or !$config['swift']['run']){
+if(!is_array($config) or !isset($config['swift']) or !$config['swift']['run']) {
 	abstract class Test_Filestorage_SWIFT extends Test_FileStorage{}
 	return;
 }else{
 	class Test_Filestorage_SWIFT extends Test_FileStorage {
 		private $config;
 
-		public function setUp(){
+		public function setUp() {
 			$id=uniqid();
 			$this->config=include('apps/files_external/tests/config.php');
 			$this->config['swift']['root'].='/'.$id;//make sure we have an new empty folder to work in
@@ -22,7 +22,7 @@ if(!is_array($config) or !isset($config['swift']) or !$config['swift']['run']){
 		}
 
 
-		public function tearDown(){
+		public function tearDown() {
 		    $this->instance->rmdir('');
 		}
 

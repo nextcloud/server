@@ -31,14 +31,14 @@ require_once 'simpletest/default_reporter.php';
 $testSuiteName="ownCloud Unit Test Suite";
 
 // prepare the reporter
-if(OC::$CLI){
+if(OC::$CLI) {
 	$reporter=new TextReporter;
 	$test=isset($_SERVER['argv'][1])?$_SERVER['argv'][1]:false;
-	if($test=='xml'){
+	if($test=='xml') {
 		$reporter= new XmlReporter;
 		$test=false;
 
-		if(isset($_SERVER['argv'][2])){
+		if(isset($_SERVER['argv'][2])) {
 			$testSuiteName=$testSuiteName." (".$_SERVER['argv'][2].")";
 		}
 	}
@@ -60,30 +60,30 @@ loadTests(dirname(__FILE__), $testSuite, $test, 'lib');
 //
 
 $apps=OC_App::getEnabledApps();
-foreach($apps as $app){
+foreach($apps as $app) {
 	$testDir=OC_App::getAppPath($app).'/tests';
-	if(is_dir($testDir)){
+	if(is_dir($testDir)) {
 		loadTests($testDir, $testSuite, $test, $app);
 	}
 }
 
 // run the suite
-if($testSuite->getSize()>0){
+if($testSuite->getSize()>0) {
 	$testSuite->run($reporter);
 }
 
 // helper below
-function loadTests($dir,$testSuite, $test, $app){
+function loadTests($dir,$testSuite, $test, $app) {
 	$root=($app=='lib')?OC::$SERVERROOT.'/tests/lib/':OC_App::getAppPath($app).'/tests/';
-	if($dh=opendir($dir)){
-		while($name=readdir($dh)){
-			if($name[0]!='.'){//no hidden files, '.' or '..'
+	if($dh=opendir($dir)) {
+		while($name=readdir($dh)) {
+			if($name[0]!='.') {//no hidden files, '.' or '..'
 				$file=$dir.'/'.$name;
-				if(is_dir($file)){
+				if(is_dir($file)) {
 					loadTests($file, $testSuite, $test, $app);
-				}elseif(substr($file,-4)=='.php' and $file!=__FILE__){
+				}elseif(substr($file,-4)=='.php' and $file!=__FILE__) {
 					$name=$app.'/'.getTestName($file,$root);
-					if($test===false or $test==$name or substr($name,0,strlen($test))==$test){
+					if($test===false or $test==$name or substr($name,0,strlen($test))==$test) {
 						$extractor = new SimpleFileLoader();
 						$loadedSuite=$extractor->load($file);
 						if ($loadedSuite->getSize() > 0)
@@ -95,7 +95,7 @@ function loadTests($dir,$testSuite, $test, $app){
 	}
 }
 
-function getTestName($file,$root){
+function getTestName($file,$root) {
 // 	//TODO: get better test names
 	$file=substr($file,strlen($root));
 	return substr($file,0,-4);//strip .php

@@ -38,12 +38,12 @@ class OC_Migration_Content{
 	* @param optional $db a MDB2 database object (required for exporttype user)
 	* @return bool
 	*/
-	public function __construct( $zip, $db=null ){
+	public function __construct( $zip, $db=null ) {
 
 		$this->zip = $zip;
 		$this->db = $db;
 
-		if( !is_null( $db ) ){
+		if( !is_null( $db ) ) {
 			// Get db path
 			$db = $this->db->getDatabase();
 			$this->tmpfiles[] = $db;
@@ -53,7 +53,7 @@ class OC_Migration_Content{
 
 	// @brief prepares the db
 	// @param $query the sql query to prepare
-	public function prepare( $query ){
+	public function prepare( $query ) {
 
 		// Optimize the query
 		$query = $this->processQuery( $query );
@@ -78,7 +78,7 @@ class OC_Migration_Content{
 	* @param $query the query to process
 	* @return string of processed query
 	*/
-	private function processQuery( $query ){
+	private function processQuery( $query ) {
 		$query = str_replace( '`', '\'', $query );
 		$query = str_replace( 'NOW()', 'datetime(\'now\')', $query );
 		$query = str_replace( 'now()', 'datetime(\'now\')', $query );
@@ -92,22 +92,22 @@ class OC_Migration_Content{
 	* @param $options array of options.
 	* @return bool
 	*/
-	public function copyRows( $options ){
-		if( !array_key_exists( 'table', $options ) ){
+	public function copyRows( $options ) {
+		if( !array_key_exists( 'table', $options ) ) {
 			return false;
 		}
 
 		$return = array();
 
 		// Need to include 'where' in the query?
-		if( array_key_exists( 'matchval', $options ) && array_key_exists( 'matchcol', $options ) ){
+		if( array_key_exists( 'matchval', $options ) && array_key_exists( 'matchcol', $options ) ) {
 
 			// If only one matchval, create an array
-			if(!is_array($options['matchval'])){
+			if(!is_array($options['matchval'])) {
 				$options['matchval'] = array( $options['matchval'] );
 			}
 
-			foreach( $options['matchval'] as $matchval ){
+			foreach( $options['matchval'] as $matchval ) {
 				// Run the query for this match value (where x = y value)
 				$sql = 'SELECT * FROM `*PREFIX*' . $options['table'] . '` WHERE `' . $options['matchcol'] . '` LIKE ?';
 				$query = OC_DB::prepare( $sql );
@@ -135,12 +135,12 @@ class OC_Migration_Content{
 	* @param $options array of copyRows options
 	* @return void
 	*/
-	private function insertData( $data, $options ){
+	private function insertData( $data, $options ) {
 		$return = array();
 		// Foreach row of data to insert
-		while( $row = $data->fetchRow() ){
+		while( $row = $data->fetchRow() ) {
 			// Now save all this to the migration.db
-			foreach($row as $field=>$value){
+			foreach($row as $field=>$value) {
 				$fields[] = $field;
 				$values[] = $value;
 			}
@@ -153,14 +153,14 @@ class OC_Migration_Content{
 			$sql .= $valuessql . " )";
 			// Make the query
 			$query = $this->prepare( $sql );
-			if( !$query ){
+			if( !$query ) {
 				OC_Log::write( 'migration', 'Invalid sql produced: '.$sql, OC_Log::FATAL );
 				return false;
 				exit();
 			} else {
 				$query->execute( $values );
 				// Do we need to return some values?
-				if( array_key_exists( 'idcol', $options ) ){
+				if( array_key_exists( 'idcol', $options ) ) {
 					// Yes we do
 					$return[] = $row[$options['idcol']];
 				} else {
@@ -185,7 +185,7 @@ class OC_Migration_Content{
 	    $dirname = basename($dir);
 	    $this->zip->addEmptyDir($internaldir . $dirname);
 	    $internaldir.=$dirname.='/';
-		if( !file_exists( $dir ) ){
+		if( !file_exists( $dir ) ) {
 			return false;
 		}
 	    if ($dirhandle = opendir($dir)) {
@@ -214,11 +214,11 @@ class OC_Migration_Content{
 	* @param $path the relative path inside of the zip to save the file to
 	* @return bool
 	*/
-	public function addFromString( $data, $path ){
+	public function addFromString( $data, $path ) {
 		// Create a temp file
 		$file = tempnam( get_temp_dir(). '/', 'oc_export_tmp_' );
 		$this->tmpfiles[] = $file;
-		if( !file_put_contents( $file, $data ) ){
+		if( !file_put_contents( $file, $data ) ) {
 			OC_Log::write( 'migation', 'Failed to save data to a temporary file', OC_Log::ERROR );
 			return false;
 		}
@@ -231,8 +231,8 @@ class OC_Migration_Content{
 	* @brief closes the zip, removes temp files
 	* @return bool
 	*/
-	public function finish(){
-		if( !$this->zip->close() ){
+	public function finish() {
+		if( !$this->zip->close() ) {
 			OC_Log::write( 'migration', 'Failed to write the zip file with error: '.$this->zip->getStatusString(), OC_Log::ERROR );
 			return false;
 		}
@@ -243,9 +243,9 @@ class OC_Migration_Content{
 		/**
 	* @brief cleans up after the zip
 	*/
-	private function cleanup(){
+	private function cleanup() {
 		// Delete tmp files
-		foreach($this->tmpfiles as $i){
+		foreach($this->tmpfiles as $i) {
 			unlink( $i );
 		}
 	}

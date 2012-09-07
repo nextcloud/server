@@ -70,7 +70,7 @@ class OC{
 	/**
 	 * SPL autoload
 	 */
-	public static function autoload($className){
+	public static function autoload($className) {
 		if(array_key_exists($className, OC::$CLASSPATH)) {
 			/** @TODO: Remove this when necessary
 			 Remove "apps/" from inclusion path for smooth migration to mutli app dir
@@ -102,7 +102,7 @@ class OC{
 		return false;
 	}
 
-	public static function initPaths(){
+	public static function initPaths() {
 		// calculate the root directories
 		OC::$SERVERROOT=str_replace("\\", '/', substr(__FILE__, 0, -13));
 		OC::$SUBURI= str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
@@ -260,7 +260,7 @@ class OC{
 		session_start();
 	}
 
-	public static function init(){
+	public static function init() {
 		// register autoloader
 		spl_autoload_register(array('OC','autoload'));
 		setlocale(LC_ALL, 'en_US.UTF-8');
@@ -556,7 +556,7 @@ class OC{
 
 	protected static function tryBasicAuthLogin() {
 		if (!isset($_SERVER["PHP_AUTH_USER"])
-		 || !isset($_SERVER["PHP_AUTH_PW"])){
+		 || !isset($_SERVER["PHP_AUTH_PW"])) {
 			return false;
 		}
 		OC_App::loadApps(array('authentication'));

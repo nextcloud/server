@@ -32,7 +32,7 @@ class OC_BackgroundJob_RegularTask{
 	 * @param $method method name
 	 * @return true
 	 */
-	static public function register( $klass, $method ){
+	static public function register( $klass, $method ) {
 		// Create the data structure
 		self::$registered["$klass-$method"] = array( $klass, $method );
 
@@ -46,7 +46,7 @@ class OC_BackgroundJob_RegularTask{
 	 *
 	 * key is string "$klass-$method", value is array( $klass, $method )
 	 */
-	static public function all(){
+	static public function all() {
 		return self::$registered;
 	}
 }

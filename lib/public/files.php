@@ -52,7 +52,7 @@ class Files {
 	 * @return string
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 */
-	static function getMimeType( $path ){
+	static function getMimeType( $path ) {
 		return(\OC_Helper::getMimeType( $path ));
 	}
 
@@ -63,7 +63,7 @@ class Files {
 	 * @param resource target
 	 * @return int the number of bytes copied
 	 */
-	public static function streamCopy( $source, $target ){
+	public static function streamCopy( $source, $target ) {
 		return(\OC_Helper::streamCopy( $source, $target ));
 	}
 
@@ -75,7 +75,7 @@ class Files {
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
-	public static function tmpFile( $postfix='' ){
+	public static function tmpFile( $postfix='' ) {
 		return(\OC_Helper::tmpFile( $postfix ));
 	}
 
@@ -86,7 +86,7 @@ class Files {
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
-	public static function tmpFolder(){
+	public static function tmpFolder() {
 		return(\OC_Helper::tmpFolder());
 	}
 
@@ -98,7 +98,7 @@ class Files {
 	 * @param $filename
 	 * @return string
 	 */
-	public static function buildNotExistingFileName( $path, $filename ){
+	public static function buildNotExistingFileName( $path, $filename ) {
 		return(\OC_Helper::buildNotExistingFileName( $path, $filename ));
 	}
 
@@ -107,7 +107,7 @@ class Files {
          * @param $app app
          * @return OC_FilesystemView
          */
-        public static function getStorage( $app ){
+        public static function getStorage( $app ) {
 		return \OC_App::getStorage( $app );
 	}
 

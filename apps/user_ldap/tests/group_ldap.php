@@ -21,11 +21,11 @@
 */
 
 class Test_Group_Ldap extends UnitTestCase {
-	function setUp(){
+	function setUp() {
 		OC_Group::clearBackends();
 	}
 
-	function testSingleBackend(){
+	function testSingleBackend() {
 		OC_Group::useBackend(new OCA\user_ldap\GROUP_LDAP());
 		$group_ldap = new OCA\user_ldap\GROUP_LDAP();
 

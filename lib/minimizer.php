@@ -22,7 +22,7 @@ abstract class OC_Minimizer {
 
 		$gzout = false;
 		$cache = OC_Cache::getGlobalCache();
-		if (!OC_Request::isNoCache() && (!defined('DEBUG') || !DEBUG)){
+		if (!OC_Request::isNoCache() && (!defined('DEBUG') || !DEBUG)) {
 			OC_Response::setETagHeader($etag);
 			$gzout = $cache->get($cache_key.'.gz');
 		}

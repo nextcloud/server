@@ -11,7 +11,7 @@ OCP\JSON::callCheck();
 
 $action=isset($_POST['action'])?$_POST['action']:$_GET['action'];
 $result=false;
-switch($action){
+switch($action) {
 	case 'getValue':
 		$result=OC_Appconfig::getValue($_GET['app'], $_GET['key'], $_GET['defaultValue']);
 		break;

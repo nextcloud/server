@@ -48,7 +48,7 @@ class Util {
 	 * @brief get the current installed version of ownCloud
 	 * @return array
 	 */
-	public static function getVersion(){
+	public static function getVersion() {
 		return(\OC_Util::getVersion());
 	}
 
@@ -85,7 +85,7 @@ class Util {
 	 * @brief add a css file
 	 * @param url  $url
 	 */
-	public static function addStyle( $application, $file = null ){
+	public static function addStyle( $application, $file = null ) {
 		\OC_Util::addStyle( $application, $file );
         }
 
@@ -95,7 +95,7 @@ class Util {
 	 * @param appid  $application
 	 * @param filename  $file
 	 */
-	public static function addScript( $application, $file = null ){
+	public static function addScript( $application, $file = null ) {
 		\OC_Util::addScript( $application, $file );
         }
 
@@ -105,7 +105,7 @@ class Util {
 	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element
 	 */
-	public static function addHeader( $tag, $attributes, $text=''){
+	public static function addHeader( $tag, $attributes, $text='') {
 		\OC_Util::addHeader( $tag, $attributes, $text );
 	}
 
@@ -114,7 +114,7 @@ class Util {
 	 * @param int timestamp $timestamp
 	 * @param bool dateOnly option to ommit time from the result
 	 */
-	public static function formatDate( $timestamp,$dateOnly=false){
+	public static function formatDate( $timestamp,$dateOnly=false) {
 		return(\OC_Util::formatDate( $timestamp,$dateOnly ));
 	}
 
@@ -166,7 +166,7 @@ class Util {
 	*
 	* Returns a url to the given app and file.
 	*/
-	public static function linkTo( $app, $file, $args = array() ){
+	public static function linkTo( $app, $file, $args = array() ) {
 		return(\OC_Helper::linkTo( $app, $file, $args ));
 	}
 
@@ -199,7 +199,7 @@ class Util {
 	 *
 	 * Returns the path to the image.
 	 */
-        public static function imagePath( $app, $image ){
+        public static function imagePath( $app, $image ) {
 		return(\OC_Helper::imagePath( $app, $image ));
 	}
 
@@ -211,7 +211,7 @@ class Util {
 	 *
 	 * Makes 2048 to 2 kB.
 	 */
-	public static function humanFileSize( $bytes ){
+	public static function humanFileSize( $bytes ) {
 		return(\OC_Helper::humanFileSize( $bytes ));
 	}
 
@@ -224,7 +224,7 @@ class Util {
 	 *
 	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
 	 */
-	public static function computerFileSize( $str ){
+	public static function computerFileSize( $str ) {
 		return(\OC_Helper::computerFileSize( $str ));
 	}
 
@@ -240,7 +240,7 @@ class Util {
 	 *
 	 * TODO: write example
 	 */
-	static public function connectHook( $signalclass, $signalname, $slotclass, $slotname ){
+	static public function connectHook( $signalclass, $signalname, $slotclass, $slotname ) {
 		return(\OC_Hook::connect( $signalclass, $signalname, $slotclass, $slotname ));
 	}
 
@@ -256,7 +256,7 @@ class Util {
 	 *
 	 * TODO: write example
 	 */
-	static public function emitHook( $signalclass, $signalname, $params = array()){
+	static public function emitHook( $signalclass, $signalname, $params = array()) {
 		return(\OC_Hook::emit( $signalclass, $signalname, $params ));
 	}
 
@@ -265,7 +265,7 @@ class Util {
 	 * Register an get/post call. This is important to prevent CSRF attacks
 	 * TODO: write example
 	 */
-	public static function callRegister(){
+	public static function callRegister() {
 		return(\OC_Util::callRegister());
 	}
 
@@ -274,7 +274,7 @@ class Util {
 	 * Check an ajax get/post call if the request token is valid. exit if not.
 	 * Todo: Write howto
 	 */
-	public static function callCheck(){
+	public static function callCheck() {
 		return(\OC_Util::callCheck());
 	}
 
@@ -286,7 +286,7 @@ class Util {
 	 * @param string or array of strings
 	 * @return array with sanitized strings or a single sinitized string, depends on the input parameter.
 	 */
-	public static function sanitizeHTML( $value ){
+	public static function sanitizeHTML( $value ) {
 		return(\OC_Util::sanitizeHTML($value));
 	}
 
@@ -300,7 +300,7 @@ class Util {
 	*
 	*
 	*/
-	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8'){
+	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
 		return(\OC_Helper::mb_array_change_key_case($input, $case, $encoding));
 	}
 

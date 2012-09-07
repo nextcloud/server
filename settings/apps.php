@@ -57,7 +57,7 @@ foreach($registeredApps as $app) {
 	}
 }
 
-function app_sort($a, $b){
+function app_sort($a, $b) {
 	if ($a['active'] != $b['active']) {
 		return $b['active'] - $a['active'];
 	}

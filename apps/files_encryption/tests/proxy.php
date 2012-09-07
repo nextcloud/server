@@ -10,7 +10,7 @@ class Test_CryptProxy extends UnitTestCase {
 	private $oldConfig;
 	private $oldKey;
 
-	public function setUp(){
+	public function setUp() {
 		$user=OC_User::getUser();
 
 		$this->oldConfig=OCP\Config::getAppValue('files_encryption','enable_encryption','true');
@@ -40,14 +40,14 @@ class Test_CryptProxy extends UnitTestCase {
 		$rootView->mkdir('/'.$user.'/files');
 	}
 
-	public function tearDown(){
+	public function tearDown() {
 		OCP\Config::setAppValue('files_encryption','enable_encryption',$this->oldConfig);
-		if(!is_null($this->oldKey)){
+		if(!is_null($this->oldKey)) {
 			$_SESSION['enckey']=$this->oldKey;
 		}
 	}
 
-	public function testSimple(){
+	public function testSimple() {
 		$file=OC::$SERVERROOT.'/3rdparty/MDB2.php';
 		$original=file_get_contents($file);
 
@@ -64,7 +64,7 @@ class Test_CryptProxy extends UnitTestCase {
 
 	}
 
-	public function testView(){
+	public function testView() {
 		$file=OC::$SERVERROOT.'/3rdparty/MDB2.php';
 		$original=file_get_contents($file);
 
@@ -86,7 +86,7 @@ class Test_CryptProxy extends UnitTestCase {
 		$this->assertEqual($original,$fromFile);
 	}
 
-	public function testBinary(){
+	public function testBinary() {
 		$file=__DIR__.'/binary';
 		$original=file_get_contents($file);
 

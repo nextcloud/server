@@ -41,7 +41,7 @@ class JSON {
 	* @param string $setContentType the optional content type
 	* @return string json formatted string.
 	*/
-	public static function encodedPrint( $data, $setContentType=true ){
+	public static function encodedPrint( $data, $setContentType=true ) {
 		return(\OC_JSON::encodedPrint( $data, $setContentType ));
 	}
 
@@ -60,7 +60,7 @@ class JSON {
 	*
 	* @return string json formatted error string if not authenticated.
 	*/
-	public static function checkLoggedIn(){
+	public static function checkLoggedIn() {
 		return(\OC_JSON::checkLoggedIn());
 	}
 
@@ -84,7 +84,7 @@ class JSON {
 	*
 	* @return string json formatted error string if not valid.
 	*/
-	public static function callCheck(){
+	public static function callCheck() {
 		return(\OC_JSON::callCheck());
 	}
 
@@ -97,7 +97,7 @@ class JSON {
 	* @param array $data The data to use
 	* @return string json formatted string.
 	*/
-	public static function success( $data = array() ){
+	public static function success( $data = array() ) {
 		return(\OC_JSON::success( $data ));
 	}
 
@@ -119,7 +119,7 @@ class JSON {
 	* @param array $data The data to use
 	* @return string json formatted error string.
 	*/
-	public static function error( $data = array() ){
+	public static function error( $data = array() ) {
 		return(\OC_JSON::error( $data ));
 	}
 
@@ -128,7 +128,7 @@ class JSON {
 	* @param array $type The contwnt type header
 	* @return string json formatted string.
 	*/
-	public static function setContentTypeHeader( $type='application/json' ){
+	public static function setContentTypeHeader( $type='application/json' ) {
 		return(\OC_JSON::setContentTypeHeader( $type ));
 	}
 
@@ -148,7 +148,7 @@ class JSON {
 	* @param string $app The app to check
 	* @return string json formatted string if not enabled.
 	*/
-	public static function checkAppEnabled( $app ){
+	public static function checkAppEnabled( $app ) {
 		return(\OC_JSON::checkAppEnabled( $app ));
 	}
 
@@ -167,7 +167,7 @@ class JSON {
 	*
 	* @return string json formatted string if not admin user.
 	*/
-	public static function checkAdminUser(){
+	public static function checkAdminUser() {
 		return(\OC_JSON::checkAdminUser());
 	}
 

@@ -231,7 +231,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 	 * @param string $gid
 	 * @return bool
 	 */
-	public function groupExists($gid){
+	public function groupExists($gid) {
 		if($this->connection->isCached('groupExists'.$gid)) {
 			return $this->connection->getFromCache('groupExists'.$gid);
 		}

@@ -82,7 +82,7 @@ class Storage {
 			}
 
 			// check if filename is a directory
-			if($files_view->is_dir($filename)){
+			if($files_view->is_dir($filename)) {
 				return false;
 			}
 
@@ -97,7 +97,7 @@ class Storage {
 			}
 
 			// check filesize
-			if($files_view->filesize($filename)>\OCP\Config::getSystemValue('files_versionsmaxfilesize', Storage::DEFAULTMAXFILESIZE)){
+			if($files_view->filesize($filename)>\OCP\Config::getSystemValue('files_versionsmaxfilesize', Storage::DEFAULTMAXFILESIZE)) {
 				return false;
 			}
 
@@ -107,7 +107,7 @@ class Storage {
 				$matches=glob($versionsFolderName.'/'.$filename.'.v*');
 				sort($matches);
 				$parts=explode('.v',end($matches));
-				if((end($parts)+Storage::DEFAULTMININTERVAL)>time()){
+				if((end($parts)+Storage::DEFAULTMININTERVAL)>time()) {
 					return false;
 				}
 			}
@@ -175,7 +175,7 @@ class Storage {
 
 			// check for old versions
 			$matches=glob($versionsFolderName.$filename.'.v*');
-			if(count($matches)>0){
+			if(count($matches)>0) {
 				return true;
 			}else{
 				return false;

@@ -34,20 +34,20 @@
 
 abstract class OC_Filestorage_Common extends OC_Filestorage {
 
-	public function __construct($parameters){}
+	public function __construct($parameters) {}
 // 	abstract public function mkdir($path);
 // 	abstract public function rmdir($path);
 // 	abstract public function opendir($path);
-	public function is_dir($path){
+	public function is_dir($path) {
 		return $this->filetype($path)=='dir';
 	}
-	public function is_file($path){
+	public function is_file($path) {
 		return $this->filetype($path)=='file';
 	}
 // 	abstract public function stat($path);
 // 	abstract public function filetype($path);
 	public function filesize($path) {
-		if($this->is_dir($path)){
+		if($this->is_dir($path)) {
 			return 0;//by definition
 		}else{
 			$stat = $this->stat($path);
@@ -80,11 +80,11 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 	}
 	public function file_get_contents($path) {
 		$handle = $this->fopen($path, "r");
-		if(!$handle){
+		if(!$handle) {
 			return false;
 		}
 		$size=$this->filesize($path);
-		if($size==0){
+		if($size==0) {
 			return '';
 		}
 		return fread($handle, $size);
@@ -94,8 +94,8 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		return fwrite($handle, $data);
 	}
 // 	abstract public function unlink($path);
-	public function rename($path1,$path2){
-		if($this->copy($path1,$path2)){
+	public function rename($path1,$path2) {
+		if($this->copy($path1,$path2)) {
 			return $this->unlink($path1);
 		}else{
 			return false;
@@ -181,19 +181,19 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		}
 
 	}
-	public function getMimeType($path){
-		if(!$this->file_exists($path)){
+	public function getMimeType($path) {
+		if(!$this->file_exists($path)) {
 			return false;
 		}
-		if($this->is_dir($path)){
+		if($this->is_dir($path)) {
 			return 'httpd/unix-directory';
 		}
 		$source=$this->fopen($path,'r');
-		if(!$source){
+		if(!$source) {
 			return false;
 		}
 		$head=fread($source,8192);//8kb should suffice to determine a mimetype
-		if($pos=strrpos($path,'.')){
+		if($pos=strrpos($path,'.')) {
 			$extension=substr($path,$pos);
 		}else{
 			$extension='';
@@ -204,25 +204,25 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		unlink($tmpFile);
 		return $mime;
 	}
-	public function hash($type,$path,$raw = false){
+	public function hash($type,$path,$raw = false) {
 		$tmpFile=$this->getLocalFile();
 		$hash=hash($type,$tmpFile,$raw);
 		unlink($tmpFile);
 		return $hash;
 	}
 // 	abstract public function free_space($path);
-	public function search($query){
+	public function search($query) {
 		return $this->searchInDir($query);
 	}
-	public function getLocalFile($path){
+	public function getLocalFile($path) {
 		return $this->toTmpFile($path);
 	}
-	private function toTmpFile($path){//no longer in the storage api, still usefull here
+	private function toTmpFile($path) {//no longer in the storage api, still usefull here
 		$source=$this->fopen($path,'r');
-		if(!$source){
+		if(!$source) {
 			return false;
 		}
-		if($pos=strrpos($path,'.')){
+		if($pos=strrpos($path,'.')) {
 			$extension=substr($path,$pos);
 		}else{
 			$extension='';
@@ -232,16 +232,16 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		OC_Helper::streamCopy($source,$target);
 		return $tmpFile;
 	}
-	public function getLocalFolder($path){
+	public function getLocalFolder($path) {
 		$baseDir=OC_Helper::tmpFolder();
 		$this->addLocalFolder($path,$baseDir);
 		return $baseDir;
 	}
-	private function addLocalFolder($path,$target){
-		if($dh=$this->opendir($path)){
-			while($file=readdir($dh)){
-				if($file!=='.' and $file!=='..'){
-					if($this->is_dir($path.'/'.$file)){
+	private function addLocalFolder($path,$target) {
+		if($dh=$this->opendir($path)) {
+			while($file=readdir($dh)) {
+				if($file!=='.' and $file!=='..') {
+					if($this->is_dir($path.'/'.$file)) {
 						mkdir($target.'/'.$file);
 						$this->addLocalFolder($path.'/'.$file,$target.'/'.$file);
 					}else{
@@ -254,16 +254,16 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 	}
 // 	abstract public function touch($path, $mtime=null);
 
-	protected function searchInDir($query,$dir=''){
+	protected function searchInDir($query,$dir='') {
 		$files=array();
 		$dh=$this->opendir($dir);
-		if($dh){
-			while($item=readdir($dh)){
+		if($dh) {
+			while($item=readdir($dh)) {
 				if ($item == '.' || $item == '..') continue;
-				if(strstr(strtolower($item),strtolower($query))!==false){
+				if(strstr(strtolower($item),strtolower($query))!==false) {
 					$files[]=$dir.'/'.$item;
 				}
-				if($this->is_dir($dir.'/'.$item)){
+				if($this->is_dir($dir.'/'.$item)) {
 					$files=array_merge($files,$this->searchInDir($query,$dir.'/'.$item));
 				}
 			}
@@ -276,7 +276,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 	 * @param int $time
 	 * @return bool
 	 */
-	public function hasUpdated($path,$time){
+	public function hasUpdated($path,$time) {
 		return $this->filemtime($path)>$time;
 	}
 }

@@ -29,7 +29,7 @@ if($isadmin) {
 	$subadmins = false;
 }
 
-foreach($accessibleusers as $i){
+foreach($accessibleusers as $i) {
 	$users[] = array(
 		"name" => $i, 
 		"groups" => join( ", ", /*array_intersect(*/OC_Group::getUserGroups($i)/*, OC_SubAdmin::getSubAdminsGroups(OC_User::getUser()))*/),
@@ -37,13 +37,13 @@ foreach($accessibleusers as $i){
 		'subadmin'=>implode(', ', OC_SubAdmin::getSubAdminsGroups($i)));
 }
 
-foreach( $accessiblegroups as $i ){
+foreach( $accessiblegroups as $i ) {
 	// Do some more work here soon
 	$groups[] = array( "name" => $i );
 }
 $quotaPreset=OC_Appconfig::getValue('files', 'quota_preset', 'default,none,1 GB, 5 GB, 10 GB');
 $quotaPreset=explode(',',$quotaPreset);
-foreach($quotaPreset as &$preset){
+foreach($quotaPreset as &$preset) {
 	$preset=trim($preset);
 }
 

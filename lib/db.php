@@ -41,7 +41,7 @@ class OC_DB {
 	 * check which backend we should use
 	 * @return BACKEND_MDB2 or BACKEND_PDO
 	 */
-	private static function getDBBackend(){
+	private static function getDBBackend() {
 		//check if we can use PDO, else use MDB2 (installation always needs to be done my mdb2)
 		if(class_exists('PDO') && OC_Config::getValue('installed', false)) {
 			$type = OC_Config::getValue( "dbtype", "sqlite" );
@@ -63,7 +63,7 @@ class OC_DB {
 	 *
 	 * Connects to the database as specified in config.php
 	 */
-	public static function connect($backend=null){
+	public static function connect($backend=null) {
 		if(self::$connection) {
 			return;
 		}
@@ -84,7 +84,7 @@ class OC_DB {
 	/**
 	 * connect to the database using pdo
 	 */
-	public static function connectPDO(){
+	public static function connectPDO() {
 		if(self::$connection) {
 			if(self::$backend==self::BACKEND_MDB2) {
 				self::disconnect();
@@ -149,7 +149,7 @@ class OC_DB {
 			}
 			try{
 				self::$PDO=new PDO($dsn, $user, $pass, $opts);
-			}catch(PDOException $e){
+			}catch(PDOException $e) {
 				echo( '<b>can not connect to database, using '.$type.'. ('.$e->getMessage().')</center>');
 				die();
 			}
@@ -194,7 +194,7 @@ class OC_DB {
 			  'quote_identifier' => true  );
 
 			// Add the dsn according to the database type
-			switch($type){
+			switch($type) {
 				case 'sqlite':
 				case 'sqlite3':
 					$dsn = array(
@@ -262,7 +262,7 @@ class OC_DB {
 	 *
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
-	static public function prepare( $query , $limit=null, $offset=null ){
+	static public function prepare( $query , $limit=null, $offset=null ) {
 
 		if (!is_null($limit) && $limit != -1) {
 			if (self::$backend == self::BACKEND_MDB2) {
@@ -305,7 +305,7 @@ class OC_DB {
 		}else{
 			try{
 				$result=self::$connection->prepare($query);
-			}catch(PDOException $e){
+			}catch(PDOException $e) {
 				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.$query.'<br />';
 				OC_Log::write('core', $entry,OC_Log::FATAL);
@@ -327,7 +327,7 @@ class OC_DB {
 	 * Call this method right after the insert command or other functions may
 	 * cause trouble!
 	 */
-	public static function insertid($table=null){
+	public static function insertid($table=null) {
 		self::connect();
 		if($table !== null) {
 			$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
@@ -343,7 +343,7 @@ class OC_DB {
 	 *
 	 * This is good bye, good bye, yeah!
 	 */
-	public static function disconnect(){
+	public static function disconnect() {
 		// Cut connection if required
 		if(self::$connection) {
 			if(self::$backend==self::BACKEND_MDB2) {
@@ -364,7 +364,7 @@ class OC_DB {
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function getDbStructure( $file ,$mode=MDB2_SCHEMA_DUMP_STRUCTURE){
+	public static function getDbStructure( $file ,$mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
 		self::connectScheme();
 
 		// write the scheme
@@ -386,7 +386,7 @@ class OC_DB {
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function createDbFromStructure( $file ){
+	public static function createDbFromStructure( $file ) {
 		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
 		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
@@ -445,7 +445,7 @@ class OC_DB {
 	 * @brief update the database scheme
 	 * @param $file file to read structure from
 	 */
-	public static function updateDbFromStructure($file){
+	public static function updateDbFromStructure($file) {
 		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 
@@ -471,7 +471,7 @@ class OC_DB {
 		 * http://www.postgresql.org/docs/8.1/static/functions-datetime.html
 		 * http://www.sqlite.org/lang_createtable.html
 		 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
-		if( $CONFIG_DBTYPE == 'pgsql' ){ //mysql support it too but sqlite doesn't
+		if( $CONFIG_DBTYPE == 'pgsql' ) { //mysql support it too but sqlite doesn't
 			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
 		}
 		 */
@@ -496,7 +496,7 @@ class OC_DB {
 	 *
 	 * Connects to a MDB2 database scheme
 	 */
-	private static function connectScheme(){
+	private static function connectScheme() {
 		// We need a mdb2 database connection
 		self::connectMDB2();
 		self::$MDB2->loadModule('Manager');
@@ -519,7 +519,7 @@ class OC_DB {
 	 * This function replaces *PREFIX* with the value of $CONFIG_DBTABLEPREFIX
 	 * and replaces the ` woth ' or " according to the database driver.
 	 */
-	private static function processQuery( $query ){
+	private static function processQuery( $query ) {
 		self::connect();
 		// We need Database type and table prefix
 		if(is_null(self::$type)) {
@@ -554,7 +554,7 @@ class OC_DB {
 	 * @brief drop a table
 	 * @param string $tableNamme the table to drop
 	 */
-	public static function dropTable($tableName){
+	public static function dropTable($tableName) {
 		self::connectMDB2();
 		self::$MDB2->loadModule('Manager');
 		self::$MDB2->dropTable($tableName);
@@ -564,7 +564,7 @@ class OC_DB {
 	 * remove all tables defined in a database structure xml file
 	 * @param string $file the xml file describing the tables
 	 */
-	public static function removeDBStructure($file){
+	public static function removeDBStructure($file) {
 		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
 		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
 		self::connectScheme();
@@ -584,7 +584,7 @@ class OC_DB {
 		// Delete our temporary file
 		unlink( $file2 );
 		$tables=array_keys($definition['tables']);
-		foreach($tables as $table){
+		foreach($tables as $table) {
 			self::dropTable($table);
 		}
 	}
@@ -593,13 +593,13 @@ class OC_DB {
 	 * @brief replaces the owncloud tables with a new set
 	 * @param $file string path to the MDB2 xml db export file
 	 */
-	public static function replaceDB( $file ){
+	public static function replaceDB( $file ) {
 		$apps = OC_App::getAllApps();
 		self::beginTransaction();
 		// Delete the old tables
 		self::removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
 
-		foreach($apps as $app){
+		foreach($apps as $app) {
 			$path = OC_App::getAppPath($app).'/appinfo/database.xml';
 			if(file_exists($path)) {
 				self::removeDBStructure( $path );
@@ -614,7 +614,7 @@ class OC_DB {
 	/**
 	 * Start a transaction
 	 */
-	public static function beginTransaction(){
+	public static function beginTransaction() {
 		self::connect();
 		if (self::$backend==self::BACKEND_MDB2 && !self::$connection->supports('transactions')) {
 			return false;
@@ -640,10 +640,10 @@ class OC_DB {
 	 * @param mixed $result
 	 * @return bool
 	 */
-	public static function isError($result){
+	public static function isError($result) {
 		if(!$result) {
 			return true;
-		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)){
+		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)) {
 			return true;
 		}else{
 			return false;
@@ -658,16 +658,16 @@ class PDOStatementWrapper{
 	private $statement=null;
 	private $lastArguments=array();
 
-	public function __construct($statement){
+	public function __construct($statement) {
 		$this->statement=$statement;
 	}
 
 	/**
 	 * make execute return the result instead of a bool
 	 */
-	public function execute($input=array()){
+	public function execute($input=array()) {
 		$this->lastArguments=$input;
-		if(count($input)>0){
+		if(count($input)>0) {
 			$result=$this->statement->execute($input);
 		}else{
 			$result=$this->statement->execute();
@@ -682,7 +682,7 @@ class PDOStatementWrapper{
 	/**
 	 * provide numRows
 	 */
-	public function numRows(){
+	public function numRows() {
 		$regex = '/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/i';
 		if (preg_match($regex, $this->statement->queryString, $output) > 0) {
 			$query = OC_DB::prepare("SELECT COUNT(*) FROM {$output[1]}", PDO::FETCH_NUM);
@@ -695,14 +695,14 @@ class PDOStatementWrapper{
 	/**
 	 * provide an alias for fetch
 	 */
-	public function fetchRow(){
+	public function fetchRow() {
 		return $this->statement->fetch();
 	}
 
 	/**
 	 * pass all other function directly to the PDOStatement
 	 */
-	public function __call($name,$arguments){
+	public function __call($name,$arguments) {
 		return call_user_func_array(array($this->statement,$name), $arguments);
 	}
 
@@ -711,7 +711,7 @@ class PDOStatementWrapper{
 	 * fetch single column from the next row
 	 * @param int $colnum the column number to fetch
 	 */
-	public function fetchOne($colnum = 0){
+	public function fetchOne($colnum = 0) {
 		return $this->statement->fetchColumn($colnum);
 	}
 }

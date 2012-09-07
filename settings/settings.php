@@ -14,7 +14,7 @@ OC_App::setActiveNavigationEntry( 'settings' );
 $tmpl = new OC_Template( 'settings', 'settings', 'user');
 $forms=OC_App::getForms('settings');
 $tmpl->assign('forms', array());
-foreach($forms as $form){
+foreach($forms as $form) {
 	$tmpl->append('forms', $form);
 }
 $tmpl->printPage();

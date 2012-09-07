@@ -262,7 +262,7 @@ class OC_Image {
 	* @returns The orientation or -1 if no EXIF data is available.
 	*/
 	public function getOrientation() {
-		if(!is_callable('exif_read_data')){
+		if(!is_callable('exif_read_data')) {
 			OC_Log::write('core','OC_Image->fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
 			return -1;
 		}
@@ -612,7 +612,7 @@ class OC_Image {
 			$y = ($height_orig/2) - ($height/2);
 			$x = 0;
 		}
-		if($size>0){
+		if($size>0) {
 			$targetWidth=$size;
 			$targetHeight=$size;
 		}else{
@@ -666,14 +666,14 @@ class OC_Image {
 		return true;
 	}
 
-	public function destroy(){
-		if($this->valid()){
+	public function destroy() {
+		if($this->valid()) {
 			imagedestroy($this->resource);
 		}
 		$this->resource=null;
 	}
 
-	public function __destruct(){
+	public function __destruct() {
 		$this->destroy();
 	}
 }

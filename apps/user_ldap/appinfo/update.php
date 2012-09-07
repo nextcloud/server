@@ -18,7 +18,7 @@ if(!is_null($pw)) {
 //detect if we can switch on naming guidelines. We won't do it on conflicts.
 //it's a bit spaghetti, but hey.
 $state = OCP\Config::getSystemValue('ldapIgnoreNamingRules', 'unset');
-if($state == 'unset'){
+if($state == 'unset') {
 	OCP\Config::setSystemValue('ldapIgnoreNamingRules', false);
 }
 

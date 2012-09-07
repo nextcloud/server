@@ -29,7 +29,7 @@ require_once '../../lib/base.php';
 OC_JSON::checkLoggedIn();
 
 $query=(isset($_GET['query']))?$_GET['query']:'';
-if($query){
+if($query) {
 	$result=OC_Search::search($query);
 	OC_JSON::encodedPrint($result);
 }else{

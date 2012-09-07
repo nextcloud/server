@@ -41,11 +41,11 @@ array_unshift($languageCodes, $lang);
 
 $languageNames=include 'languageCodes.php';
 $languages=array();
-foreach($languageCodes as $lang){
+foreach($languageCodes as $lang) {
 	$l=OC_L10N::get('settings', $lang);
 	if(substr($l->t('__language_name__'), 0, 1)!='_') {//first check if the language name is in the translation file
 		$languages[]=array('code'=>$lang,'name'=>$l->t('__language_name__'));
-	}elseif(isset($languageNames[$lang])){
+	}elseif(isset($languageNames[$lang])) {
 		$languages[]=array('code'=>$lang,'name'=>$languageNames[$lang]);
 	}else{//fallback to language code
 		$languages[]=array('code'=>$lang,'name'=>$lang);
@@ -62,7 +62,7 @@ $tmpl->assign('languages', $languages);
 
 $forms=OC_App::getForms('personal');
 $tmpl->assign('forms', array());
-foreach($forms as $form){
+foreach($forms as $form) {
 	$tmpl->append('forms', $form);
 }
 $tmpl->printPage();

@@ -66,9 +66,9 @@ class OC_L10N{
 	 * get an L10N instance
 	 * @return OC_L10N
 	 */
-	public static function get($app,$lang=null){
-		if(is_null($lang)){
-			if(!isset(self::$instances[$app])){
+	public static function get($app,$lang=null) {
+		if(is_null($lang)) {
+			if(!isset(self::$instances[$app])) {
 				self::$instances[$app]=new OC_L10N($app);
 			}
 			return self::$instances[$app];
@@ -86,12 +86,12 @@ class OC_L10N{
 	 * If language is not set, the constructor tries to find the right
 	 * language.
 	 */
-	public function __construct($app, $lang = null){
+	public function __construct($app, $lang = null) {
 		$this->app = $app;
 		$this->lang = $lang;
 	}
 
-	protected function init(){
+	protected function init() {
 		if ($this->app === true) {
 			return;
 		}
@@ -104,7 +104,7 @@ class OC_L10N{
 		}
 
 		// Use cache if possible
-		if(array_key_exists($app.'::'.$lang, self::$cache)){
+		if(array_key_exists($app.'::'.$lang, self::$cache)) {
 
 			$this->translations = self::$cache[$app.'::'.$lang]['t'];
 			$this->localizations = self::$cache[$app.'::'.$lang]['l'];
@@ -119,15 +119,15 @@ class OC_L10N{
 				OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/settings')) && file_exists($i18ndir.$lang.'.php')) {
 				// Include the file, save the data from $CONFIG
 				include(strip_tags($i18ndir).strip_tags($lang).'.php');
-				if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)){
+				if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
 					$this->translations = $TRANSLATIONS;
 				}
 			}
 
-			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php')){
+			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php')) {
 				// Include the file, save the data from $CONFIG
 				include(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php');
-				if(isset($LOCALIZATIONS) && is_array($LOCALIZATIONS)){
+				if(isset($LOCALIZATIONS) && is_array($LOCALIZATIONS)) {
 					$this->localizations = array_merge($this->localizations, $LOCALIZATIONS);
 				}
 			}
@@ -146,7 +146,7 @@ class OC_L10N{
      * Returns the translation. If no translation is found, $text will be
      * returned.
      */
-	public function t($text, $parameters = array()){
+	public function t($text, $parameters = array()) {
 		return new OC_L10N_String($this, $text, $parameters);
 	}
 
@@ -164,10 +164,10 @@ class OC_L10N{
 	 *
 	 *
 	 */
-	public function tA($textArray){
+	public function tA($textArray) {
 		OC_Log::write('core', 'DEPRECATED: the method tA is deprecated and will be removed soon.',OC_Log::WARN);
 		$result = array();
-		foreach($textArray as $key => $text){
+		foreach($textArray as $key => $text) {
 			$result[$key] = (string)$this->t($text);
 		}
 		return $result;
@@ -179,7 +179,7 @@ class OC_L10N{
 	 *
 	 * Returns an associative array with all translations
 	 */
-	public function getTranslations(){
+	public function getTranslations() {
 		$this->init();
 		return $this->translations;
 	}
@@ -206,9 +206,9 @@ class OC_L10N{
 	 *    - l10n-field: time
 	 *    - params: timestamp (int/string)
 	 */
-	public function l($type, $data){
+	public function l($type, $data) {
 		$this->init();
-		switch($type){
+		switch($type) {
 			// If you add something don't forget to add it to $localizations
 			// at the top of the page
 			case 'date':
@@ -233,7 +233,7 @@ class OC_L10N{
 	 * This function is useful to avoid loading thousands of files if only one
 	 * simple string is needed, for example in appinfo.php
 	 */
-	public static function selectLanguage($text){
+	public static function selectLanguage($text) {
 		$lang = self::findLanguage(array_keys($text));
 		return $text[$lang];
 	}
@@ -249,37 +249,37 @@ class OC_L10N{
 	 *
 	 * If nothing works it returns 'en'
 	 */
-	public static function findLanguage($app = null){
-		if(!is_array($app) && self::$language != ''){
+	public static function findLanguage($app = null) {
+		if(!is_array($app) && self::$language != '') {
 			return self::$language;
 		}
 
-		if(OC_User::getUser() && OC_Preferences::getValue(OC_User::getUser(), 'core', 'lang')){
+		if(OC_User::getUser() && OC_Preferences::getValue(OC_User::getUser(), 'core', 'lang')) {
 			$lang = OC_Preferences::getValue(OC_User::getUser(), 'core', 'lang');
 			self::$language = $lang;
-			if(is_array($app)){
+			if(is_array($app)) {
 				$available = $app;
 				$lang_exists = array_search($lang, $available) !== false;
 			}
 			else {
 				$lang_exists = self::languageExists($app, $lang);
 			}
-			if($lang_exists){
+			if($lang_exists) {
 				return $lang;
 			}
 		}
 
-		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])){
+		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 			$accepted_languages = preg_split('/,\s*/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-			if(is_array($app)){
+			if(is_array($app)) {
 				$available = $app;
 			}
 			else{
 				$available = self::findAvailableLanguages($app);
 			}
-			foreach($accepted_languages as $i){
+			foreach($accepted_languages as $i) {
 				$temp = explode(';', $i);
-				if(array_search($temp[0], $available) !== false){
+				if(array_search($temp[0], $available) !== false) {
 					return $temp[0];
 				}
 			}
@@ -294,12 +294,12 @@ class OC_L10N{
 	 * @param $app App that needs to be translated
 	 * @returns directory
 	 */
-	protected static function findI18nDir($app){
+	protected static function findI18nDir($app) {
 		// find the i18n dir
 		$i18ndir = OC::$SERVERROOT.'/core/l10n/';
-		if($app != ''){
+		if($app != '') {
 			// Check if the app is in the app folder
-			if(file_exists(OC_App::getAppPath($app).'/l10n/')){
+			if(file_exists(OC_App::getAppPath($app).'/l10n/')) {
 				$i18ndir = OC_App::getAppPath($app).'/l10n/';
 			}
 			else{
@@ -314,13 +314,13 @@ class OC_L10N{
 	 * @param $app App that needs to be translated
 	 * @returns array an array of available languages
 	 */
-	public static function findAvailableLanguages($app=null){
+	public static function findAvailableLanguages($app=null) {
 		$available=array('en');//english is always available
 		$dir = self::findI18nDir($app);
-		if(is_dir($dir)){
+		if(is_dir($dir)) {
 			$files=scandir($dir);
-			foreach($files as $file){
-				if(substr($file, -4, 4) == '.php'){
+			foreach($files as $file) {
+				if(substr($file, -4, 4) == '.php') {
 					$i = substr($file, 0, -4);
 					$available[] = $i;
 				}
@@ -329,12 +329,12 @@ class OC_L10N{
 		return $available;
 	}
 
-	public static function languageExists($app, $lang){
-		if ($lang == 'en'){//english is always available
+	public static function languageExists($app, $lang) {
+		if ($lang == 'en') {//english is always available
 			return true;
 		}
 		$dir = self::findI18nDir($app);
-		if(is_dir($dir)){
+		if(is_dir($dir)) {
 			return file_exists($dir.'/'.$lang.'.php');
 		}
 		return false;

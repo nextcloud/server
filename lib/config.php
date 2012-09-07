@@ -52,7 +52,7 @@ class OC_Config{
 	 * This function returns all keys saved in config.php. Please note that it
 	 * does not return the values.
 	 */
-	public static function getKeys(){
+	public static function getKeys() {
 		self::readData();
 
 		return array_keys( self::$cache );
@@ -67,7 +67,7 @@ class OC_Config{
 	 * This function gets the value from config.php. If it does not exist,
 	 * $default will be returned.
 	 */
-	public static function getValue( $key, $default = null ){
+	public static function getValue( $key, $default = null ) {
 		self::readData();
 
 		if( array_key_exists( $key, self::$cache )) {
@@ -86,7 +86,7 @@ class OC_Config{
 	 * This function sets the value and writes the config.php. If the file can
 	 * not be written, false will be returned.
 	 */
-	public static function setValue( $key, $value ){
+	public static function setValue( $key, $value ) {
 		self::readData();
 
 		// Add change
@@ -105,7 +105,7 @@ class OC_Config{
 	 * This function removes a key from the config.php. If owncloud has no
 	 * write access to config.php, the function will return false.
 	 */
-	public static function deleteKey( $key ){
+	public static function deleteKey( $key ) {
 		self::readData();
 
 		if( array_key_exists( $key, self::$cache )) {
@@ -125,7 +125,7 @@ class OC_Config{
 	 *
 	 * Reads the config file and saves it to the cache
 	 */
-	private static function readData(){
+	private static function readData() {
 		if( self::$init ) {
 			return true;
 		}
@@ -153,7 +153,7 @@ class OC_Config{
 	 * Saves the config to the config file.
 	 *
 	 */
-	public static function writeData(){
+	public static function writeData() {
 		// Create a php file ...
 		$content = "<?php\n\$CONFIG = ";
 		$content .= var_export(self::$cache, true);

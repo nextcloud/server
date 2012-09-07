@@ -48,10 +48,10 @@ class OC_FilesystemView {
 	}
 
 	public function getAbsolutePath($path) {
-		if(!$path){
+		if(!$path) {
 			$path='/';
 		}
-		if($path[0]!=='/'){
+		if($path[0]!=='/') {
 			$path='/'.$path;
 		}
 		return $this->fakeRoot.$path;
@@ -63,7 +63,7 @@ class OC_FilesystemView {
 	* @return bool
 	*/
 	public function chroot($fakeRoot) {
-		if(!$fakeRoot==''){
+		if(!$fakeRoot=='') {
 			if($fakeRoot[0]!=='/') {
 				$fakeRoot='/'.$fakeRoot;
 			}
@@ -104,7 +104,7 @@ class OC_FilesystemView {
 			return null;
 		}else{
 			$path=substr($path, strlen($this->fakeRoot));
-			if(strlen($path)===0){
+			if(strlen($path)===0) {
 				return '/';
 			}else{
 				return $path;
@@ -177,13 +177,13 @@ class OC_FilesystemView {
 		return $fsLocal->readdir( $handle );
 	}
 	public function is_dir($path) {
-		if($path=='/'){
+		if($path=='/') {
 			return true;
 		}
 		return $this->basicOperation('is_dir', $path);
 	}
 	public function is_file($path) {
-		if($path=='/'){
+		if($path=='/') {
 			return false;
 		}
 		return $this->basicOperation('is_file', $path);
@@ -214,13 +214,13 @@ class OC_FilesystemView {
 	/**
 	* @deprecated Replaced by isReadable() as part of CRUDS
 	*/
-	public function is_readable($path){
+	public function is_readable($path) {
 		return $this->basicOperation('isReadable',$path);
 	}
 	/**
 	* @deprecated Replaced by isCreatable(), isUpdatable(), isDeletable() as part of CRUDS
 	*/
-	public function is_writable($path){
+	public function is_writable($path) {
 		return $this->basicOperation('isUpdatable',$path);
 	}
 	public function isCreatable($path) {
@@ -239,7 +239,7 @@ class OC_FilesystemView {
 		return $this->basicOperation('isSharable', $path);
 	}
 	public function file_exists($path) {
-		if($path=='/'){
+		if($path=='/') {
 			return true;
 		}
 		return $this->basicOperation('file_exists', $path);
@@ -411,7 +411,7 @@ class OC_FilesystemView {
 			if($run) {
 				$mp1=$this->getMountPoint($path1.$postFix1);
 				$mp2=$this->getMountPoint($path2.$postFix2);
-				if($mp1 == $mp2){
+				if($mp1 == $mp2) {
 					if($storage = $this->getStorage($path1.$postFix1)) {
 						$result=$storage->copy($this->getInternalPath($path1.$postFix1), $this->getInternalPath($path2.$postFix2));
 					}
@@ -579,7 +579,7 @@ class OC_FilesystemView {
 		return null;
 	}
 
-	private function runHooks($hooks,$path,$post=false){
+	private function runHooks($hooks,$path,$post=false) {
 		$prefix=($post)?'post_':'';
 		$run=true;
 		if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()) {

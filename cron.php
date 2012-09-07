@@ -77,7 +77,7 @@ if( OC::$CLI ) {
 	OC_BackgroundJob_Worker::doAllSteps();
 }
 else{
-	if( $appmode == 'cron' ){
+	if( $appmode == 'cron' ) {
 		OC_JSON::error( array( 'data' => array( 'message' => 'Backgroundjobs are using system cron!')));
 	}
 	else{
