@@ -161,7 +161,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 	}
 
 	public function free_space($path) {
-		return disk_free_space($this->datadir.$path);
+		return @disk_free_space($this->datadir.$path);
 	}
 
 	public function search($query) {
