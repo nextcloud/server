@@ -154,6 +154,12 @@ OC={
 			$('head').append(style);
 		}
 	},
+	basename: function(path) {
+		return path.replace(/\\/g,'/').replace( /.*\//, '' );
+	},
+	dirname: function(path) {
+		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');;
+	}
 	/**
 	 * do a search query and display the results
 	 * @param query the search query
