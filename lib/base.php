@@ -75,7 +75,7 @@ class OC{
 			/** @TODO: Remove this when necessary
 			 Remove "apps/" from inclusion path for smooth migration to mutli app dir
 			*/
-			$path = preg_replace('/apps\//', '', OC::$CLASSPATH[$className]);
+			$path = str_replace('apps/', '', OC::$CLASSPATH[$className]);
 			require_once $path;
 		}
 		elseif(strpos($className, 'OC_')===0) {
