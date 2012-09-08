@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:01+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,11 @@ msgstr "写磁盘失败"
 msgid "Files"
 msgstr "文件"
 
-#: js/fileactions.js:106 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "删除"
 
@@ -76,7 +80,7 @@ msgstr "取消"
 msgid "replaced"
 msgstr "替换过了"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr "撤销"
 
@@ -84,7 +88,11 @@ msgstr "撤销"
 msgid "with"
 msgstr "随着"
 
-#: js/filelist.js:271
+#: js/filelist.js:268
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr "删除"
 
@@ -117,11 +125,11 @@ msgstr ""
 msgid "Invalid name, '/' is not allowed."
 msgstr "非法文件名,\"/\"是不被许可的"
 
-#: js/files.js:746 templates/index.php:55
+#: js/files.js:746 templates/index.php:56
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:747 templates/index.php:56
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "修改日期"
 
@@ -197,36 +205,36 @@ msgstr "上传"
 msgid "Cancel upload"
 msgstr "取消上传"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "这里没有东西.上传点什么!"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "名字"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "分享"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "下载"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "上传的文件太大了"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "你正在试图上传的文件超过了此服务器支持的最大的文件大小."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "正在扫描文件,请稍候."
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "正在扫描"

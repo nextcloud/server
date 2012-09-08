@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:01+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,11 @@ msgstr "Η εγγραφή στο δίσκο απέτυχε"
 msgid "Files"
 msgstr "Αρχεία"
 
-#: js/fileactions.js:106 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "Διαγραφή"
 
@@ -78,7 +82,7 @@ msgstr "ακύρωση"
 msgid "replaced"
 msgstr "αντικαταστάθηκε"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr "αναίρεση"
 
@@ -86,7 +90,11 @@ msgstr "αναίρεση"
 msgid "with"
 msgstr "με"
 
-#: js/filelist.js:271
+#: js/filelist.js:268
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr "διαγράφηκε"
 
@@ -119,11 +127,11 @@ msgstr ""
 msgid "Invalid name, '/' is not allowed."
 msgstr "Μη έγκυρο όνομα, το '/' δεν επιτρέπεται."
 
-#: js/files.js:746 templates/index.php:55
+#: js/files.js:746 templates/index.php:56
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: js/files.js:747 templates/index.php:56
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
@@ -199,36 +207,36 @@ msgstr "Μεταφόρτωση"
 msgid "Cancel upload"
 msgstr "Ακύρωση ανεβάσματος"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "Όνομα"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "Διαμοίρασε"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "Λήψη"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "Πολύ μεγάλο το αρχείο προς μεταφόρτωση"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος μεταφόρτωσης αρχείων σε αυτόν το διακομιστή."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "Τα αρχεία ανιχνεύονται, παρακαλώ περιμένετε"
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "Τρέχουσα αναζήτηση "

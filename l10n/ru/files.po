@@ -9,12 +9,13 @@
 # Nick Remeslennikov <homolibere@gmail.com>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
+#   <victor.dubiniuk@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:01+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +58,11 @@ msgstr "Ошибка записи на диск"
 msgid "Files"
 msgstr "Файлы"
 
-#: js/fileactions.js:106 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "Удалить"
 
@@ -71,7 +76,7 @@ msgstr "заменить"
 
 #: js/filelist.js:186
 msgid "suggest name"
-msgstr ""
+msgstr "предложить название"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
@@ -81,7 +86,7 @@ msgstr "отмена"
 msgid "replaced"
 msgstr "заменён"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr "отмена"
 
@@ -89,7 +94,11 @@ msgstr "отмена"
 msgid "with"
 msgstr "с"
 
-#: js/filelist.js:271
+#: js/filelist.js:268
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr "удален"
 
@@ -122,11 +131,11 @@ msgstr "Файл в процессе загрузки. Покинув стран
 msgid "Invalid name, '/' is not allowed."
 msgstr "Неверное имя, '/' не допускается."
 
-#: js/files.js:746 templates/index.php:55
+#: js/files.js:746 templates/index.php:56
 msgid "Size"
 msgstr "Размер"
 
-#: js/files.js:747 templates/index.php:56
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "Изменён"
 
@@ -176,7 +185,7 @@ msgstr "Максимальный исходный размер для ZIP фай
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: templates/index.php:7
 msgid "New"
@@ -202,36 +211,36 @@ msgstr "Загрузить"
 msgid "Cancel upload"
 msgstr "Отмена загрузки"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Здесь ничего нет. Загрузите что-нибудь!"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "Название"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "Опубликовать"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "Скачать"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "Файл слишком большой"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Файлы, которые Вы пытаетесь загрузить, превышают лимит для файлов на этом сервере."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "Подождите, файлы сканируются."
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "Текущее сканирование"

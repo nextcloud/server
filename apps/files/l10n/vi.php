@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"There is no error, the file uploaded with success" => "Không có lỗi, các tập tin đã được tải lên thành công",
 "Files" => "Tập tin",
 "Delete" => "Xóa",
 "Upload Error" => "Tải lên lỗi",
@@ -27,5 +28,6 @@
 "Share" => "Chia sẻ",
 "Download" => "Tải xuống",
 "Upload too large" => "File tải lên quá lớn",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Các tập tin bạn đang cố gắng tải lên vượt quá kích thước tối đa cho phép trên máy chủ này.",
 "Files are being scanned, please wait." => "Tập tin đang được quét ,vui lòng chờ."
 );

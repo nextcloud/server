@@ -10,6 +10,7 @@
 "Delete" => "Verwijder",
 "already exists" => "bestaat al",
 "replace" => "vervang",
+"suggest name" => "Stel een naam voor",
 "cancel" => "annuleren",
 "replaced" => "vervangen",
 "undo" => "ongedaan maken",

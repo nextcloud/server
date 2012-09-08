@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-07 02:04+0200\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,7 +51,11 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: js/fileactions.js:106 templates/index.php:57
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr ""
 
@@ -75,7 +79,7 @@ msgstr ""
 msgid "replaced"
 msgstr ""
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:266
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr ""
 
@@ -83,7 +87,11 @@ msgstr ""
 msgid "with"
 msgstr ""
 
-#: js/filelist.js:266
+#: js/filelist.js:268
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr ""
 
@@ -120,7 +128,7 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-#: js/files.js:747 templates/index.php:57
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr ""
 
@@ -212,20 +220,20 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: templates/index.php:65
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr ""
 
-#: templates/index.php:67
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr ""
 
-#: templates/index.php:72
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr ""
 
-#: templates/index.php:75
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr ""

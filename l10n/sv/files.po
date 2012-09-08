@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-07 02:04+0200\n"
-"PO-Revision-Date: 2012-09-06 13:34+0000\n"
-"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +57,11 @@ msgstr "Misslyckades spara till disk"
 msgid "Files"
 msgstr "Filer"
 
-#: js/fileactions.js:106 templates/index.php:57
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "Radera"
 
@@ -81,7 +85,7 @@ msgstr "avbryt"
 msgid "replaced"
 msgstr "ersatt"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:266
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr "ångra"
 
@@ -89,7 +93,11 @@ msgstr "ångra"
 msgid "with"
 msgstr "med"
 
-#: js/filelist.js:266
+#: js/filelist.js:268
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr "raderad"
 
@@ -126,7 +134,7 @@ msgstr "Ogiltigt namn, '/' är inte tillåten."
 msgid "Size"
 msgstr "Storlek"
 
-#: js/files.js:747 templates/index.php:57
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "Ändrad"
 
@@ -218,20 +226,20 @@ msgstr "Dela"
 msgid "Download"
 msgstr "Ladda ner"
 
-#: templates/index.php:65
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "För stor uppladdning"
 
-#: templates/index.php:67
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern."
 
-#: templates/index.php:72
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "Filer skannas, var god vänta"
 
-#: templates/index.php:75
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "Aktuell skanning"

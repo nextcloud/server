@@ -18,6 +18,7 @@
 "Saving..." => "Aan het bewaren.....",
 "__language_name__" => "Nederlands",
 "Security Warning" => "Veiligheidswaarschuwing",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Uw data folder en uw bestanden zijn hoogst waarschijnlijk vanaf het internet bereikbaar.  Het .htaccess bestand dat ownCloud meelevert werkt niet.  Het is ten zeerste aangeraden om uw webserver zodanig te configureren, dat de data folder niet bereikbaar is vanaf het internet of verplaatst uw data folder naar een locatie buiten de webserver document root.",
 "Cron" => "Cron",
 "execute one task with each page loaded" => "Voer 1 taak uit bij elke geladen pagina",
 "cron.php is registered at a webcron service" => "cron.php is geregistreerd bij een webcron service",

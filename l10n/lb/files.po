@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:01+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,11 @@ msgstr "Konnt net op den Disk schreiwen"
 msgid "Files"
 msgstr "Dateien"
 
-#: js/fileactions.js:106 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "Läschen"
 
@@ -76,7 +80,7 @@ msgstr "ofbriechen"
 msgid "replaced"
 msgstr "ersat"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr "réckgängeg man"
 
@@ -84,7 +88,11 @@ msgstr "réckgängeg man"
 msgid "with"
 msgstr "mat"
 
-#: js/filelist.js:271
+#: js/filelist.js:268
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr "geläscht"
 
@@ -117,11 +125,11 @@ msgstr "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofg
 msgid "Invalid name, '/' is not allowed."
 msgstr "Ongültege Numm, '/' net erlaabt."
 
-#: js/files.js:746 templates/index.php:55
+#: js/files.js:746 templates/index.php:56
 msgid "Size"
 msgstr "Gréisst"
 
-#: js/files.js:747 templates/index.php:56
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "Geännert"
 
@@ -197,36 +205,36 @@ msgstr "Eroplueden"
 msgid "Cancel upload"
 msgstr "Upload ofbriechen"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Hei ass näischt. Lued eppes rop!"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "Numm"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "Share"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "Eroflueden"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "Upload ze grouss"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Déi Dateien déi Dir probéiert erop ze lueden sinn méi grouss wei déi Maximal Gréisst déi op dësem Server erlaabt ass."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "Fichieren gi gescannt, war weg."
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "Momentane Scan"

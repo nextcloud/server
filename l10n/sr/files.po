@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:01+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,11 @@ msgstr ""
 msgid "Files"
 msgstr "Фајлови"
 
-#: js/fileactions.js:106 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "Обриши"
 
@@ -76,7 +80,7 @@ msgstr ""
 msgid "replaced"
 msgstr ""
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr ""
 
@@ -84,7 +88,11 @@ msgstr ""
 msgid "with"
 msgstr ""
 
-#: js/filelist.js:271
+#: js/filelist.js:268
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr ""
 
@@ -117,11 +125,11 @@ msgstr ""
 msgid "Invalid name, '/' is not allowed."
 msgstr ""
 
-#: js/files.js:746 templates/index.php:55
+#: js/files.js:746 templates/index.php:56
 msgid "Size"
 msgstr "Величина"
 
-#: js/files.js:747 templates/index.php:56
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "Задња измена"
 
@@ -197,36 +205,36 @@ msgstr "Пошаљи"
 msgid "Cancel upload"
 msgstr ""
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Овде нема ничег. Пошаљите нешто!"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "Име"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr ""
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "Преузми"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "Пошиљка је превелика"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Фајлови које желите да пошаљете превазилазе ограничење максималне величине пошиљке на овом серверу."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr ""
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr ""

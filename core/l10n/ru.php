@@ -50,6 +50,7 @@
 "Database user" => "Имя пользователя для базы данных",
 "Database password" => "Пароль для базы данных",
 "Database name" => "Название базы данных",
+"Database tablespace" => "Табличое пространство базы данных",
 "Database host" => "Хост базы данных",
 "Finish setup" => "Завершить установку",
 "web services under your control" => "Сетевые службы под твоим контролем",

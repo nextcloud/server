@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:01+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,11 @@ msgstr "Diske yazılamadı"
 msgid "Files"
 msgstr "Dosyalar"
 
-#: js/fileactions.js:106 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "Sil"
 
@@ -79,7 +83,7 @@ msgstr "iptal"
 msgid "replaced"
 msgstr "değiştirildi"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr "geri al"
 
@@ -87,7 +91,11 @@ msgstr "geri al"
 msgid "with"
 msgstr "ile"
 
-#: js/filelist.js:271
+#: js/filelist.js:268
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr "silindi"
 
@@ -120,11 +128,11 @@ msgstr "Dosya yükleme işlemi sürüyor. Şimdi sayfadan ayrılırsanız işlem
 msgid "Invalid name, '/' is not allowed."
 msgstr "Geçersiz isim, '/' işaretine izin verilmiyor."
 
-#: js/files.js:746 templates/index.php:55
+#: js/files.js:746 templates/index.php:56
 msgid "Size"
 msgstr "Boyut"
 
-#: js/files.js:747 templates/index.php:56
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "Değiştirilme"
 
@@ -200,36 +208,36 @@ msgstr "Yükle"
 msgid "Cancel upload"
 msgstr "Yüklemeyi iptal et"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Burada hiçbir şey yok. Birşeyler yükleyin!"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "Ad"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "Paylaş"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "İndir"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "Yüklemeniz çok büyük"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Yüklemeye çalıştığınız dosyalar bu sunucudaki maksimum yükleme boyutunu aşıyor."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "Dosyalar taranıyor, lütfen bekleyin."
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "Güncel tarama"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:01+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,11 @@ msgstr "寫入硬碟失敗"
 msgid "Files"
 msgstr "檔案"
 
-#: js/fileactions.js:106 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "刪除"
 
@@ -78,7 +82,7 @@ msgstr "取消"
 msgid "replaced"
 msgstr ""
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr ""
 
@@ -86,7 +90,11 @@ msgstr ""
 msgid "with"
 msgstr ""
 
-#: js/filelist.js:271
+#: js/filelist.js:268
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr ""
 
@@ -119,11 +127,11 @@ msgstr "檔案上傳中. 離開此頁面將會取消上傳."
 msgid "Invalid name, '/' is not allowed."
 msgstr "無效的名稱, '/'是不被允許的"
 
-#: js/files.js:746 templates/index.php:55
+#: js/files.js:746 templates/index.php:56
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:747 templates/index.php:56
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "修改"
 
@@ -199,36 +207,36 @@ msgstr "上傳"
 msgid "Cancel upload"
 msgstr "取消上傳"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "沒有任何東西。請上傳內容!"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "名稱"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "分享"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "下載"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "上傳過大"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "你試圖上傳的檔案已超過伺服器的最大容量限制。　"
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "正在掃描檔案，請稍等。"
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "目前掃描"
