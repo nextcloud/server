@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-09 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 21:41+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,55 +32,55 @@ msgstr "Ĉu neniu kategorio estas aldonota?"
 msgid "This category already exists: "
 msgstr "Ĉi tiu kategorio jam ekzistas: "
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:214 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr "Agordo"
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "January"
 msgstr "Januaro"
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "February"
 msgstr "Februaro"
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "March"
 msgstr "Marto"
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "April"
 msgstr "Aprilo"
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "May"
 msgstr "Majo"
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "June"
 msgstr "Junio"
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "July"
 msgstr "Julio"
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "August"
 msgstr "Aŭgusto"
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "September"
 msgstr "Septembro"
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "October"
 msgstr "Oktobro"
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "November"
 msgstr "Novembro"
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "December"
 msgstr "Decembro"
 
@@ -228,7 +228,7 @@ msgstr "Datumbaza nomo"
 
 #: templates/installation.php:109
 msgid "Database tablespace"
-msgstr ""
+msgstr "Datumbaza tabelospaco"
 
 #: templates/installation.php:115
 msgid "Database host"
@@ -238,11 +238,11 @@ msgstr "Datumbaza gastigo"
 msgid "Finish setup"
 msgstr "Fini la instalon"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "TTT-servoj sub via kontrolo"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:39
 msgid "Log out"
 msgstr "Elsaluti"
 

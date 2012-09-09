@@ -11,13 +11,14 @@
 #   <rasperepodvipodvert@gmail.com>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
+#   <victor.dubiniuk@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-09 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 12:08+0000\n"
+"Last-Translator: VicDeo <victor.dubiniuk@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,11 +37,11 @@ msgstr "Ошибка авторизации"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "Группа уже существует"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "Невозможно добавить группу"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -60,11 +61,11 @@ msgstr "Неверный запрос"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Невозможно удалить группу"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Невозможно удалить пользователя"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -73,12 +74,12 @@ msgstr "Язык изменён"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Невозможно добавить пользователя в группу %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Невозможно удалить пользователя из группы %s"
 
 #: js/apps.js:18
 msgid "Error"
@@ -111,7 +112,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Похоже, что каталог data и ваши файлы в нем доступны из интернета. Предоставляемый ownCloud файл htaccess не работает. Настоятельно рекомендуем настроить сервер таким образом, чтобы закрыть доступ к каталогу data или перенести каталог data за пределы корневого каталога веб-сервера."
 
 #: templates/admin.php:31
 msgid "Cron"
@@ -131,39 +132,39 @@ msgstr "использовать системные задания"
 
 #: templates/admin.php:41
 msgid "Share API"
-msgstr ""
+msgstr "API общего доступа"
 
 #: templates/admin.php:46
 msgid "Enable Share API"
-msgstr ""
+msgstr "Включить API общего доступа"
 
 #: templates/admin.php:47
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Разрешить приложениям доступ к API общего доступа"
 
 #: templates/admin.php:51
 msgid "Allow links"
-msgstr ""
+msgstr "Разрешить ссылки"
 
 #: templates/admin.php:52
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Разрешить пользователям предоставлять публичный доступ при помощи ссылок"
 
 #: templates/admin.php:56
 msgid "Allow resharing"
-msgstr ""
+msgstr "Включить расширенный общий доступ"
 
 #: templates/admin.php:57
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Разрешить пользователям отдавать в общий доступ доступные им элементы других пользователей"
 
 #: templates/admin.php:60
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Разрешить предоставлять общий доступ любым пользователям"
 
 #: templates/admin.php:62
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Ограничить общий доступ группами пользователя"
 
 #: templates/admin.php:69
 msgid "Log"
@@ -181,7 +182,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Разрабатывается <a href=\"http://ownCloud.org/contact\" target=\"_blank\">сообществом ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">исходный код</a> доступен под лицензией <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -197,7 +198,7 @@ msgstr "Смотрите дополнения на apps.owncloud.com"
 
 #: templates/apps.php:30
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span> лицензия. Автор <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"

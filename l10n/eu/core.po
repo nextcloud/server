@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-09 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 19:24+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,55 +31,55 @@ msgstr "Ez dago gehitzeko kategoriarik?"
 msgid "This category already exists: "
 msgstr "Kategoria hau dagoeneko existitzen da:"
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:214 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr "Ezarpenak"
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "January"
 msgstr "Urtarrila"
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "February"
 msgstr "Otsaila"
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "March"
 msgstr "Martxoa"
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "April"
 msgstr "Apirila"
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "May"
 msgstr "Maiatza"
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "June"
 msgstr "Ekaina"
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "July"
 msgstr "Uztaila"
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "August"
 msgstr "Abuztua"
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "September"
 msgstr "Iraila"
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "October"
 msgstr "Urria"
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "November"
 msgstr "Azaroa"
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "December"
 msgstr "Abendua"
 
@@ -227,7 +227,7 @@ msgstr "Datubasearen izena"
 
 #: templates/installation.php:109
 msgid "Database tablespace"
-msgstr ""
+msgstr "Datu basearen taula-lekua"
 
 #: templates/installation.php:115
 msgid "Database host"
@@ -237,11 +237,11 @@ msgstr "Datubasearen hostalaria"
 msgid "Finish setup"
 msgstr "Bukatu konfigurazioa"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "web zerbitzuak zure kontrolpean"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:39
 msgid "Log out"
 msgstr "Saioa bukatu"
 

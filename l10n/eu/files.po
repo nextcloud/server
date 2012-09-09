@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-08 02:01+0200\n"
-"PO-Revision-Date: 2012-09-08 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-09 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 19:20+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr "Fitxategiak"
 
 #: js/fileactions.js:108 templates/index.php:62
 msgid "Unshare"
-msgstr ""
+msgstr "Ez partekatu"
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
@@ -71,7 +71,7 @@ msgstr "ordeztu"
 
 #: js/filelist.js:186
 msgid "suggest name"
-msgstr ""
+msgstr "aholkatu izena"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
@@ -91,7 +91,7 @@ msgstr "honekin"
 
 #: js/filelist.js:268
 msgid "unshared"
-msgstr ""
+msgstr "Ez partekatuta"
 
 #: js/filelist.js:270
 msgid "deleted"
@@ -120,7 +120,7 @@ msgstr "Igoera ezeztatuta"
 #: js/files.js:423
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du."
 
 #: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
@@ -180,7 +180,7 @@ msgstr "ZIP fitxategien gehienezko tamaina"
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "Gorde"
 
 #: templates/index.php:7
 msgid "New"

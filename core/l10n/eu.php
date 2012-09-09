@@ -50,6 +50,7 @@
 "Database user" => "Datubasearen erabiltzailea",
 "Database password" => "Datubasearen pasahitza",
 "Database name" => "Datubasearen izena",
+"Database tablespace" => "Datu basearen taula-lekua",
 "Database host" => "Datubasearen hostalaria",
 "Finish setup" => "Bukatu konfigurazioa",
 "web services under your control" => "web zerbitzuak zure kontrolpean",

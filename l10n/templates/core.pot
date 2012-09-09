@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-08 02:02+0200\n"
+"POT-Creation-Date: 2012-09-09 02:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,55 +29,55 @@ msgstr ""
 msgid "This category already exists: "
 msgstr ""
 
-#: js/js.js:208 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:214 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "January"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "February"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "March"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "April"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "May"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:599
 msgid "June"
 msgstr ""
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "July"
 msgstr ""
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "August"
 msgstr ""
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "September"
 msgstr ""
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "October"
 msgstr ""
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "November"
 msgstr ""
 
-#: js/js.js:594
+#: js/js.js:600
 msgid "December"
 msgstr ""
 

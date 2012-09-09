@@ -50,6 +50,7 @@
 "Database user" => "Datumbaza uzanto",
 "Database password" => "Datumbaza pasvorto",
 "Database name" => "Datumbaza nomo",
+"Database tablespace" => "Datumbaza tabelospaco",
 "Database host" => "Datumbaza gastigo",
 "Finish setup" => "Fini la instalon",
 "web services under your control" => "TTT-servoj sub via kontrolo",
