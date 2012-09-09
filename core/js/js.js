@@ -244,6 +244,49 @@ OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
+OC.Breadcrumb={
+	container:null,
+	crumbs:[],
+	push:function(name, link){
+		if(!OC.Breadcrumb.container){//default
+			OC.Breadcrumb.container=$('#controls');
+		}
+		var crumb=$('<div/>');
+		crumb.addClass('crumb').addClass('last');
+		crumb.attr('style','background-image:url("'+OC.imagePath('core','breadcrumb')+'")');
+
+		var crumbLink=$('<a/>');
+		crumbLink.attr('href',link);
+		crumbLink.text(name);
+		crumb.append(crumbLink);
+
+		var existing=OC.Breadcrumb.container.find('div.crumb');
+		if(existing.length){
+			existing.removeClass('last');
+			existing.last().after(crumb);
+		}else{
+			OC.Breadcrumb.container.append(crumb);
+		}
+		OC.Breadcrumb.crumbs.push(crumb);
+		return crumb;
+	},
+	pop:function(){
+		if(!OC.Breadcrumb.container){//default
+			OC.Breadcrumb.container=$('#controls');
+		}
+		OC.Breadcrumb.container.find('div.crumb').last().remove();
+		OC.Breadcrumb.container.find('div.crumb').last().addClass('last');
+		OC.Breadcrumb.crumbs.pop();
+	},
+	clear:function(){
+		if(!OC.Breadcrumb.container){//default
+			OC.Breadcrumb.container=$('#controls');
+		}
+		OC.Breadcrumb.container.find('div.crumb').remove();
+		OC.Breadcrumb.crumbs=[];
+	}
+}
+
 if(typeof localStorage !='undefined' && localStorage != null){
 	//user and instance awere localstorage
 	OC.localStorage={
