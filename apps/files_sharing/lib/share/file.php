@@ -30,7 +30,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 
 	public function isValidSource($itemSource, $uidOwner) {
 		$path = OC_FileCache::getPath($itemSource, $uidOwner);
-		if (OC_Filesystem::file_exists($path)) {
+		if ($path) {
 			$this->path = $path;
 			return true;
 		}
