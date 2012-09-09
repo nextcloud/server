@@ -695,7 +695,12 @@ class Share {
 						if (isset($item) && $row['item_type'] == $itemType && $row[$column] == $item) {
 							$collectionItems[] = $row;
 						} else {
-							$row['collection'] = array('item_type' => $row['item_type'], $column => $row[$column]);
+							$collection = array();
+							$collection['item_type'] = $row['item_type'];
+							if ($row['item_type'] == 'file' || $row['item_type'] == 'folder') {
+								$collection['path'] = basename($row['path']);
+							}
+							$row['collection'] = $collection;
 							// Fetch all of the children sources
 							$children = $collectionBackend->getChildren($row[$column]);
 							foreach ($children as $child) {
