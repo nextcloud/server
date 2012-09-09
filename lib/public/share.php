@@ -458,8 +458,8 @@ class Share {
 				$collectionTypes[] = $type;
 			}
 		}
-		if (count($collectionTypes) > 1) {
-			unset($collectionTypes[0]);
+		// Return array if collections were found or the item type is a collection itself - collections can be inside collections
+		if (count($collectionTypes) > 1 || self::getBackend($itemType) instanceof Share_Backend_Collection) {
 			return $collectionTypes;
 		}
 		return false;
@@ -504,10 +504,9 @@ class Share {
 			$root = '';
 			if ($includeCollections && !isset($item) && ($collectionTypes = self::getCollectionItemTypes($itemType))) {
 				// If includeCollections is true, find collections of this item type, e.g. a music album contains songs
-				$itemTypes = array_merge(array($itemType), $collectionTypes);
-				$placeholders = join(',', array_fill(0, count($itemTypes), '?'));
-				$where = ' WHERE `item_type` IN ('.$placeholders.')';
-				$queryArgs = $itemTypes;
+				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
+				$where .= ' OR item_type IN ('.$placeholders.'))';
+				$queryArgs = $collectionTypes;
 			} else {
 				$where = ' WHERE `item_type` = ?';
 				$queryArgs = array($itemType);
@@ -690,15 +689,25 @@ class Share {
 					}
 				}
 				// Check if this is a collection of the requested item type
-				if ($includeCollections && $row['item_type'] != $itemType) {
+				if ($includeCollections && in_array($row['item_type'], $collectionTypes)) {
 					if (($collectionBackend = self::getBackend($row['item_type'])) && $collectionBackend instanceof Share_Backend_Collection) {
 						$row['collection'] = array('item_type' => $itemType, $column => $row[$column]);
 						// Fetch all of the children sources
 						$children = $collectionBackend->getChildren($row[$column]);
 						foreach ($children as $child) {
 							$childItem = $row;
-							$childItem['item_source'] = $child;
-	// 						$childItem['item_target'] = $child['target']; TODO
+							if ($row['item_type'] != 'file' && $row['item_type'] != 'folder') {
+								$childItem['item_source'] = $child['source'];
+								$childItem['item_target'] = $child['target'];
+							}
+							if ($backend instanceof Share_Backend_File_Dependent) {
+								if ($row['item_type'] == 'file' || $row['item_type'] == 'folder') {
+									$childItem['file_source'] = $child['source'];
+								} else {
+									$childItem['file_source'] = \OC_FileCache::getId($child['file_path']);
+								}
+								$childItem['file_target'] = $child['file_path'];
+							}
 							if (isset($item)) {
 								if ($childItem[$column] == $item) {
 									// Return only the item instead of a 2-dimensional array
@@ -1167,7 +1176,7 @@ interface Share_Backend_Collection extends Share_Backend {
 	/**
 	* @brief Get the sources of the children of the item
 	* @param string Item source
-	* @return array Returns an array of sources
+	* @return array Returns an array of children each inside an array with the keys: source, target, and file_path if applicable
 	*/
 	public function getChildren($itemSource);
 
