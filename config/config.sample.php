@@ -38,6 +38,9 @@ $CONFIG = array(
 /* The automatic protocol detection of ownCloud can fail in certain reverse proxy situations. This option allows to manually override the protocol detection. For example "https" */
 "overwriteprotocol" => "",
 
+/* The automatic webroot detection of ownCloud can fail in certain reverse proxy situations. This option allows to manually override the automatic detection. For example "/domain.tld/ownCloud" */
+"overwritewebroot" => "",
+
 /* A proxy to use to connect to the internet. For example "myproxy.org:88" */
 "proxy" => "",
 

@@ -59,6 +59,38 @@ class OC_Request {
 	}
 
 	/**
+	 * @brief Returns the request uri
+	 * @returns the request uri
+	 *
+	 * Returns the request uri, even if the website uses one or more
+	 * reverse proxies
+	 */
+	public static function requestUri() {
+		$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+		if (OC_Config::getValue('overwritewebroot', '') <> '') {
+			$uri = self::scriptName() . substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+		}
+		return $uri;
+	}
+
+	/**
+	 * @brief Returns the script name
+	 * @returns the script name
+	 *
+	 * Returns the script name, even if the website uses one or more
+	 * reverse proxies
+	 */
+	public static function scriptName() {
+		$name = $_SERVER['SCRIPT_NAME'];
+		if (OC_Config::getValue('overwritewebroot', '') <> '') {
+			$serverroot = str_replace("\\", '/', substr(__DIR__, 0, -4));
+			$suburi = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen($serverroot)));
+			$name = OC_Config::getValue('overwritewebroot', '') . $suburi;
+		}
+		return $name;
+	}
+
+	/**
 	 * @brief get Path info from request
 	 * @returns string Path info or false when not found
 	 */
