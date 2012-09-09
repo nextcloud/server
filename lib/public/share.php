@@ -629,7 +629,6 @@ class Share {
 		}
 		$root = strlen($root);
 		$query = \OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*share` '.$where, $queryLimit);
-		
 		$result = $query->execute($queryArgs);
 		$items = array();
 		$targets = array();
@@ -692,37 +691,47 @@ class Share {
 				// Check if this is a collection of the requested item type
 				if ($includeCollections && in_array($row['item_type'], $collectionTypes)) {
 					if (($collectionBackend = self::getBackend($row['item_type'])) && $collectionBackend instanceof Share_Backend_Collection) {
-						$row['collection'] = array('item_type' => $itemType, $column => $row[$column]);
-						// Fetch all of the children sources
-						$children = $collectionBackend->getChildren($row[$column]);
-						foreach ($children as $child) {
-							$childItem = $row;
-							if ($row['item_type'] != 'file' && $row['item_type'] != 'folder') {
-								$childItem['item_source'] = $child['source'];
-								$childItem['item_target'] = $child['target'];
-							}
-							if ($backend instanceof Share_Backend_File_Dependent) {
-								if ($row['item_type'] == 'file' || $row['item_type'] == 'folder') {
-									$childItem['file_source'] = $child['source'];
-								} else {
-									$childItem['file_source'] = \OC_FileCache::getId($child['file_path']);
+						// Collections can be inside collections, check if the item is a collection
+						if (isset($item) && $row['item_type'] == $itemType && $row[$column] == $item) {
+							$collectionItems[] = $row;
+						} else {
+							$row['collection'] = array('item_type' => $row['item_type'], $column => $row[$column]);
+							// Fetch all of the children sources
+							$children = $collectionBackend->getChildren($row[$column]);
+							foreach ($children as $child) {
+								$childItem = $row;
+								$childItem['item_type'] = $itemType;
+								if ($row['item_type'] != 'file' && $row['item_type'] != 'folder') {
+									$childItem['item_source'] = $child['source'];
+									$childItem['item_target'] = $child['target'];
 								}
-								$childItem['file_target'] = \OC_Filesystem::normalizePath($child['file_path']);
-							}
-							if (isset($item)) {
-								if ($childItem[$column] == $item) {
-									// Return only the item instead of a 2-dimensional array
-									if ($limit == 1 && $format == self::FORMAT_NONE) {
-										return $childItem;
+								if ($backend instanceof Share_Backend_File_Dependent) {
+									if ($row['item_type'] == 'file' || $row['item_type'] == 'folder') {
+										$childItem['file_source'] = $child['source'];
 									} else {
-										// Unset the items array and break out of both loops
-										$items = array();
-										$items[] = $childItem;
-										break 2;
+										$childItem['file_source'] = \OC_FileCache::getId($child['file_path']);
 									}
+									$childItem['file_target'] = \OC_Filesystem::normalizePath($child['file_path']);
 								}
-							} else {
-								$collectionItems[] = $childItem;
+								if (isset($item)) {
+									if ($childItem[$column] == $item) {
+										// Return only the item instead of a 2-dimensional array
+										if ($limit == 1) {
+											if ($format == self::FORMAT_NONE) {
+												return $childItem;
+											} else {
+												// Unset the items array and break out of both loops
+												$items = array();
+												$items[] = $childItem;
+												break 2;
+											}
+										} else {
+											$collectionItems[] = $childItem;
+										}
+									}
+								} else {
+									$collectionItems[] = $childItem;
+								}
 							}
 						}
 					}

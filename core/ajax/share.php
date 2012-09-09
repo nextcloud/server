@@ -72,7 +72,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					$reshare = false;
 				}
 				if ($_GET['checkShares'] == 'true') {
-					$shares = OCP\Share::getItemShared($_GET['itemType'], $_GET['itemSource']);
+					$shares = OCP\Share::getItemShared($_GET['itemType'], $_GET['itemSource'], OCP\Share::FORMAT_NONE, null, true);
 				} else {
 					$shares = false;
 				}
