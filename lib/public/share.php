@@ -337,10 +337,21 @@ class Share {
 	public static function unshareFromSelf($itemType, $itemTarget) {
 		if ($item = self::getItemSharedWith($itemType, $itemTarget)) {
 			if ((int)$item['share_type'] === self::SHARE_TYPE_GROUP) {
-				// TODO
+				// Insert an extra row for the group share and set permission to 0 to prevent it from showing up for the user
+				$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`, `item_target`, `parent`, `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`, `file_target`) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
+				$query->execute(array($item['item_type'], $item['item_source'], $item['item_target'], $item['id'], self::$shareTypeGroupUserUnique, \OC_User::getUser(), $item['uid_owner'], 0, $item['stime'], $item['file_source'], $item['file_target']));
+				\OC_DB::insertid('*PREFIX*share');
+				// Delete all reshares by this user of the group share
+				self::delete($item['id'], true, \OC_User::getUser());
+			} else if ((int)$item['share_type'] === self::$shareTypeGroupUserUnique) {
+				// Set permission to 0 to prevent it from showing up for the user
+				$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = ? WHERE `id` = ?');
+				$query->execute(array(0, $item['id']));
+				self::delete($item['id'], true);
+			} else {
+				self::delete($item['id']);
 			}
-			// Delete
-			return self::delete($item['id']);
+			return true;
 		}
 		return false;
 	}
@@ -629,6 +640,9 @@ class Share {
 				$row['share_with'] = $items[$row['parent']]['share_with'];
 				// Remove the parent group share
 				unset($items[$row['parent']]);
+				if ($row['permissions'] == 0) {
+					continue;
+				}
 			} else if (!isset($uidOwner)) {
 				// Check if the same target already exists
 				if (isset($targets[$row[$column]])) {
