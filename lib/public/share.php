@@ -629,6 +629,7 @@ class Share {
 		}
 		$root = strlen($root);
 		$query = \OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*share` '.$where, $queryLimit);
+		
 		$result = $query->execute($queryArgs);
 		$items = array();
 		$targets = array();
@@ -706,7 +707,7 @@ class Share {
 								} else {
 									$childItem['file_source'] = \OC_FileCache::getId($child['file_path']);
 								}
-								$childItem['file_target'] = $child['file_path'];
+								$childItem['file_target'] = \OC_Filesystem::normalizePath($child['file_path']);
 							}
 							if (isset($item)) {
 								if ($childItem[$column] == $item) {
