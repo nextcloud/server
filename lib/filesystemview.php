@@ -295,12 +295,12 @@ class OC_FilesystemView {
 							OC_Filesystem::signal_post_create,
 							array( OC_Filesystem::signal_param_path => $path)
 						);
-					}
+					}/*
 					OC_Hook::emit(
 						OC_Filesystem::CLASSNAME,
 						OC_Filesystem::signal_post_write,
 						array( OC_Filesystem::signal_param_path => $path)
-					);
+					);*/
 					OC_FileProxy::runPostProxies('file_put_contents', $absolutePath, $count);
 					return $count > 0;
 				}else{
