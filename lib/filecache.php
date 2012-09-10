@@ -23,7 +23,7 @@
  * provide caching for filesystem info in the database
  *
  * not used by OC_Filesystem for reading filesystem info,
- * instread apps should use OC_FileCache::get where possible
+ * instead apps should use OC_FileCache::get where possible
  *
  * It will try to keep the data up to date but changes from outside ownCloud can invalidate the cache
  */
@@ -217,7 +217,7 @@ class OC_FileCache{
 	}
 	
 	/**
-	 * return array of filenames matching the querty
+	 * return array of filenames matching the query
 	 * @param string $query
 	 * @param boolean $returnData
 	 * @param string root (optional)
@@ -308,7 +308,7 @@ class OC_FileCache{
 
 	/**
 	 * get the file id as used in the cache
-	 * unlike the public getId, full paths are used here (/usename/files/foo instead of /foo)
+	 * unlike the public getId, full paths are used here (/username/files/foo instead of /foo)
 	 * @param string $path
 	 * @return int
 	 */
@@ -491,7 +491,7 @@ class OC_FileCache{
 	}
 
 	/**
-	 * called when files are deleted
+	 * called when files are renamed
 	 * @param array $params
 	 * @param string root (optional)
 	 */
@@ -506,12 +506,12 @@ class OC_FileCache{
 		$newPath=$params['newpath'];
 		$fullOldPath=$root.$oldPath;
 		$fullNewPath=$root.$newPath;
-		if(($id=self::getFileId($fullOldPath))!=-1){
+		if(($id=self::getFileId($fullOldPath))!=-1){ // $id is unused later on!
 			$oldSize=self::getCachedSize($oldPath,$root);
 		}else{
 			return;
 		}
-		$size=OC_Filesystem::filesize($newPath);
+		$size=OC_Filesystem::filesize($newPath); // $size is unused later on!
 		self::increaseSize(dirname($fullOldPath),-$oldSize);
 		self::increaseSize(dirname($fullNewPath),$oldSize);
 		self::move($oldPath,$newPath);
