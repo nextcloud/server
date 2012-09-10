@@ -27,13 +27,13 @@ class OC_FileCache_Update{
 		if(!$view->file_exists($path)) {
 			return false;
 		}
-		$cachedData=OC_FileCache_Cached::get($path,$root);
+		$cachedData=OC_FileCache_Cached::get($path, $root);
 		if(isset($cachedData['mtime'])) {
 			$cachedMTime=$cachedData['mtime'];
 			if($folder) {
-				return $view->hasUpdated($path.'/',$cachedMTime);
+				return $view->hasUpdated($path.'/', $cachedMTime);
 			}else{
-				return $view->hasUpdated($path,$cachedMTime);
+				return $view->hasUpdated($path, $cachedMTime);
 			}
 		}else{//file not in cache, so it has to be updated
 			if(($path=='/' or $path=='') and $root===false) {//dont auto update the home folder, it will be scanned
@@ -59,9 +59,9 @@ class OC_FileCache_Update{
 			$file=$view->getRelativePath($path);
 			if(!$view->file_exists($file)) {
 				if($root===false) {//filesystem hooks are only valid for the default root
-					OC_Hook::emit('OC_Filesystem','post_delete',array('path'=>$file));
+					OC_Hook::emit('OC_Filesystem', 'post_delete', array('path'=>$file));
 				}else{
-					self::delete($file,$root);
+					self::delete($file, $root);
 				}
 			}
 		}
@@ -83,24 +83,24 @@ class OC_FileCache_Update{
 			while (($filename = readdir($dh)) !== false) {
 				if($filename != '.' and $filename != '..') {
 					$file=$path.'/'.$filename;
-					if(self::hasUpdated($file,$root)) {
+					if(self::hasUpdated($file, $root)) {
 						if($root===false) {//filesystem hooks are only valid for the default root
-							OC_Hook::emit('OC_Filesystem','post_write',array('path'=>$file));
+							OC_Hook::emit('OC_Filesystem', 'post_write', array('path'=>$file));
 						}else{
-							self::update($file,$root);
+							self::update($file, $root);
 						}
 					}
 				}
 			}
 		}
 
-		self::cleanFolder($path,$root);
+		self::cleanFolder($path, $root);
 
 		//update the folder last, so we can calculate the size correctly
 		if($root===false) {//filesystem hooks are only valid for the default root
-			OC_Hook::emit('OC_Filesystem','post_write',array('path'=>$path));
+			OC_Hook::emit('OC_Filesystem', 'post_write', array('path'=>$path));
 		}else{
-			self::update($path,$root);
+			self::update($path, $root);
 		}
 	}
 
@@ -132,7 +132,7 @@ class OC_FileCache_Update{
 	public static function fileSystemWatcherRename($params) {
 		$oldPath=$params['oldpath'];
 		$newPath=$params['newpath'];
-		self::rename($oldPath,$newPath);
+		self::rename($oldPath, $newPath);
 	}
 
 	/**
@@ -154,24 +154,24 @@ class OC_FileCache_Update{
 		$cachedSize=isset($cached['size'])?$cached['size']:0;
 
 		if($view->is_dir($path.'/')) {
-			if(OC_FileCache::inCache($path,$root)) {
-				$cachedContent=OC_FileCache_Cached::getFolderContent($path,$root);
+			if(OC_FileCache::inCache($path, $root)) {
+				$cachedContent=OC_FileCache_Cached::getFolderContent($path, $root);
 				foreach($cachedContent as $file) {
 					$size+=$file['size'];
 				}
 				$mtime=$view->filemtime($path.'/');
 				$ctime=$view->filectime($path.'/');
 				$writable=$view->is_writable($path.'/');
-				OC_FileCache::put($path,array('size'=>$size,'mtime'=>$mtime,'ctime'=>$ctime,'mimetype'=>$mimetype,'writable'=>$writable));
+				OC_FileCache::put($path, array('size'=>$size,'mtime'=>$mtime,'ctime'=>$ctime,'mimetype'=>$mimetype,'writable'=>$writable));
 			}else{
 				$count=0;
-				OC_FileCache::scan($path,null,$count,$root);
+				OC_FileCache::scan($path, null, $count, $root);
 				return; //increaseSize is already called inside scan
 			}
 		}else{
-			$size=OC_FileCache::scanFile($path,$root);
+			$size=OC_FileCache::scanFile($path, $root);
 		}
-		OC_FileCache::increaseSize(dirname($path),$size-$cachedSize,$root);
+		OC_FileCache::increaseSize(dirname($path), $size-$cachedSize, $root);
 	}
 
 	/**
@@ -180,13 +180,13 @@ class OC_FileCache_Update{
 	 * @param string root (optional)
 	 */
 	public static function delete($path,$root=false) {
-		$cached=OC_FileCache_Cached::get($path,$root);
+		$cached=OC_FileCache_Cached::get($path, $root);
 		if(!isset($cached['size'])) {
 			return;
 		}
 		$size=$cached['size'];
-		OC_FileCache::increaseSize(dirname($path),-$size,$root);
-		OC_FileCache::delete($path,$root);
+		OC_FileCache::increaseSize(dirname($path), -$size, $root);
+		OC_FileCache::delete($path, $root);
 	}
 
 	/**
@@ -196,7 +196,7 @@ class OC_FileCache_Update{
 	 * @param string root (optional)
 	 */
 	public static function rename($oldPath,$newPath,$root=false) {
-		if(!OC_FileCache::inCache($oldPath,$root)) {
+		if(!OC_FileCache::inCache($oldPath, $root)) {
 			return;
 		}
 		if($root===false) {
@@ -205,10 +205,10 @@ class OC_FileCache_Update{
 			$view=new OC_FilesystemView($root);
 		}
 
-		$cached=OC_FileCache_Cached::get($oldPath,$root);
+		$cached=OC_FileCache_Cached::get($oldPath, $root);
 		$oldSize=$cached['size'];
-		OC_FileCache::increaseSize(dirname($oldPath),-$oldSize,$root);
-		OC_FileCache::increaseSize(dirname($newPath),$oldSize,$root);
-		OC_FileCache::move($oldPath,$newPath);
+		OC_FileCache::increaseSize(dirname($oldPath), -$oldSize, $root);
+		OC_FileCache::increaseSize(dirname($newPath), $oldSize, $root);
+		OC_FileCache::move($oldPath, $newPath);
 	}
 }
