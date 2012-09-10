@@ -22,7 +22,7 @@ class OC_FileCache_Cached{
 		$result=$query->execute(array(md5($path)))->fetchRow();
 		if(is_array($result)) {
 			if(isset(self::$savedData[$path])) {
-				$result=array_merge($result,self::$savedData[$path]);
+				$result=array_merge($result, self::$savedData[$path]);
 			}
 			return $result;
 		}else{
@@ -54,7 +54,7 @@ class OC_FileCache_Cached{
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
-		$parent=OC_FileCache::getId($path,$root);
+		$parent=OC_FileCache::getId($path, $root);
 		if($parent==-1) {
 			return array();
 		}
@@ -63,7 +63,7 @@ class OC_FileCache_Cached{
 		if(is_array($result)) {
 			return $result;
 		}else{
-			OC_Log::write('files','getFolderContent(): file not found in cache ('.$path.')',OC_Log::DEBUG);
+			OC_Log::write('files', 'getFolderContent(): file not found in cache ('.$path.')', OC_Log::DEBUG);
 			return false;
 		}
 	}
