@@ -22,7 +22,7 @@ class OC_Cache_File{
 			$this->storage = new OC_FilesystemView('/'.OC_User::getUser().'/'.$subdir);
 			return $this->storage;
 		}else{
-			OC_Log::write('core','Can\'t get cache storage, user not logged in', OC_Log::ERROR);
+			OC_Log::write('core', 'Can\'t get cache storage, user not logged in', OC_Log::ERROR);
 			return false;
 		}
 	}
