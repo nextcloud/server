@@ -57,6 +57,8 @@ class Hooks {
 
 			\OC_FileProxy::$enabled = true;
 			
+			# TODO: dont manually encrypt the private keyfile - use the config options of openssl_pkey_export instead for better mobile compatibility
+			
 			$_SESSION['enckey'] = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
 			
 		}

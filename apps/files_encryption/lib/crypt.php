@@ -161,7 +161,7 @@ class Crypt {
          * @returns decrypted file
          */
 	public static function decrypt( $encryptedContent, $iv, $passphrase ) {
-	echo "\n\nJET \$passphrase = $passphrase , \$iv = $iv\n\n";
+	
 		if ( $plainContent = openssl_decrypt( $encryptedContent, 'AES-128-CFB', $passphrase, false, $iv ) ) {
 
 			return $plainContent;

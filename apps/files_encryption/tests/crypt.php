@@ -24,6 +24,8 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->legacyEncryptedData = realpath( dirname(__FILE__).'/legacy-encrypted-text.txt' );
 		
 		$this->view = new \OC_FilesystemView( '/' );
+		
+		\OC_User::setUserId( 'admin' );
 	
 	}
 	
@@ -146,29 +148,38 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 	
 	function testSymmetricStreamEncryptLongFileContent() {
-	
-		\OC_User::setUserId( 'admin' );
 		
-		$filename = 'clockEncrypt';
+		$filename = 'tmp-'.time();
 		
-		$cryptedFile = file_put_contents( 'crypt://' . '/' . $filename, $this->dataLong );
+		echo "\n\n\$filename = $filename\n\n";
+		
+		$cryptedFile = file_put_contents( 'crypt://' . '/' . '/home/samtuke/owncloud/git/oc3/data/' . $filename, $this->dataLong.$this->dataLong );
 		
 		// Test that data was successfully written
 		$this->assertTrue( is_int( $cryptedFile ) );
 		
 		
 		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( '/'. $filename );
+		$retreivedCryptedFile = $this->view->file_get_contents( '/' . $filename );
 		
-		echo "\n\nsock $retreivedCryptedFile\n\n";
+		//echo "\n\nsock $retreivedCryptedFile\n\n";
 		
-// 		// Check that the file was encrypted before being written to disk
-// 		$this->assertNotEquals( $this->dataLong, $retreivedCryptedFile );
-// 		
-// 		
+		// Check that the file was encrypted before being written to disk
+		$this->assertNotEquals( $this->dataLong.$this->dataLong, $retreivedCryptedFile );
+		
+		$autoDecrypted = file_get_contents( 'crypt:////home/samtuke/owncloud/git/oc3/data/' . $filename );
+		
+		//file_get_contents('crypt:///home/samtuke/tmp-1346255589');
+		
+		$this->assertEquals( $this->dataLong.$this->dataLong, $autoDecrypted );
+		
+		
 // 		$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files_encryption/keyfiles/' . $filename . '.key' );
 // 		
 // 		$manualDecrypt = Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $key );
+// 		
+// 		echo "\n\n\n\n\n\n\n\n\n\n\$manualDecrypt =  $manualDecrypt\n\n";
+
 //  		
 // 		$this->assertEquals( $this->dataLong, $manualDecrypt );
 		
