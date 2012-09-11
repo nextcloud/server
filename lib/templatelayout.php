@@ -41,7 +41,7 @@ class OC_TemplateLayout extends OC_Template {
 		}
 		$this->assign( 'apps_paths', str_replace('\\/', '/',json_encode($apps_paths)),false ); // Ugly unescape slashes waiting for better solution
 
-		if (!OC_AppConfig::getValue('core', 'remote_core.css', false)) {
+		if (OC_Config::getValue('installed', false) && !OC_AppConfig::getValue('core', 'remote_core.css', false)) {
 			OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
 			OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
 		}
