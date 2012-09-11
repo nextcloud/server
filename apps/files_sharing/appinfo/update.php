@@ -1,6 +1,6 @@
 <?php
 $installedVersion = OCP\Config::getAppValue('files_sharing', 'installed_version');
-if (version_compare($installedVersion, '0.3.2', '<')) {
+if (version_compare($installedVersion, '0.3', '<')) {
 	$query = OCP\DB::prepare('SELECT * FROM `*PREFIX*sharing`');
 	$result = $query->execute();
 	$groupShares = array();
