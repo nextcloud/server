@@ -63,7 +63,7 @@ class OC_Setup {
 			if(empty($options['dbname'])) {
 				$error[] = "$dbprettyname enter the database name.";
 			}
-			if(empty($options['dbhost'])) {
+			if($dbtype != 'oci' && empty($options['dbhost'])) {
 				$error[] = "$dbprettyname set the database host.";
 			}
 		}
@@ -237,7 +237,7 @@ class OC_Setup {
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
 				$dbtablespace = $options['dbtablespace'];
-				$dbhost = $options['dbhost'];
+				$dbhost = isset($options['dbhost'])?$options['dbhost']:'';
 				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
 				OC_CONFIG::setValue('dbname', $dbname);
 				OC_CONFIG::setValue('dbtablespace', $dbtablespace);
@@ -247,8 +247,12 @@ class OC_Setup {
 				$e_host = addslashes($dbhost);
 				$e_dbname = addslashes($dbname);
 				//check if the database user has admin right
-				$connection_string = '//'.$e_host.'/'.$e_dbname;
-				$connection = @oci_connect($dbuser, $dbpass, $connection_string);
+				if ($e_host == '') {
+					$easy_connect_string = $e_dbname; // use dbname as easy connect name
+				} else {
+					$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
+				}
+				$connection = @oci_connect($dbuser, $dbpass, $easy_connect_string);
 				if(!$connection) {
 					$e = oci_error();
 					$error[] = array(
@@ -314,8 +318,12 @@ class OC_Setup {
 					$e_host = addslashes($dbhost);
 					$e_dbname = addslashes($dbname);
 
-					$connection_string = '//'.$e_host.'/'.$e_dbname;
-					$connection = @oci_connect($dbuser, $dbpass, $connection_string);
+					if ($e_host == '') {
+						$easy_connect_string = $e_dbname; // use dbname as easy connect name
+					} else {
+						$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
+					}
+					$connection = @oci_connect($dbuser, $dbpass, $easy_connect_string);
 					if(!$connection) {
 						$error[] = array(
 							'error' => 'Oracle username and/or password not valid',
