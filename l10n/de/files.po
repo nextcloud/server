@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <admin@s-goecker.de>, 2012.
+# I Robot <thomas.mueller@tmit.eu>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan-Christoph Borchardt <jan@unhosted.org>, 2011.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2012.
@@ -18,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-08 02:01+0200\n"
-"PO-Revision-Date: 2012-09-08 00:02+0000\n"
+"POT-Creation-Date: 2012-09-11 02:02+0200\n"
+"PO-Revision-Date: 2012-09-10 13:09+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +65,7 @@ msgstr "Dateien"
 
 #: js/fileactions.js:108 templates/index.php:62
 msgid "Unshare"
-msgstr ""
+msgstr "Nicht mehr teilen"
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
@@ -100,7 +101,7 @@ msgstr "mit"
 
 #: js/filelist.js:268
 msgid "unshared"
-msgstr ""
+msgstr "Nicht mehr teilen"
 
 #: js/filelist.js:270
 msgid "deleted"

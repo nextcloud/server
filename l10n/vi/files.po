@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-08 02:01+0200\n"
-"PO-Revision-Date: 2012-09-08 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-11 02:02+0200\n"
+"PO-Revision-Date: 2012-09-10 09:22+0000\n"
+"Last-Translator: mattheu_9x <mattheu_9x@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,29 +25,29 @@ msgstr "Không có lỗi, các tập tin đã được tải lên thành công"
 
 #: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "Những tập tin được tải lên vượt quá upload_max_filesize được chỉ định trong php.ini"
 
 #: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Kích thước những tập tin tải lên vượt quá MAX_FILE_SIZE đã được quy định"
 
 #: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Tập tin tải lên mới chỉ tải lên được một phần"
 
 #: ajax/upload.php:24
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Không có tập tin nào được tải lên"
 
 #: ajax/upload.php:25
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Không tìm thấy thư mục tạm"
 
 #: ajax/upload.php:26
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Không thể ghi vào đĩa cứng"
 
 #: appinfo/app.php:6
 msgid "Files"
@@ -55,7 +55,7 @@ msgstr "Tập tin"
 
 #: js/fileactions.js:108 templates/index.php:62
 msgid "Unshare"
-msgstr ""
+msgstr "Không chia sẽ"
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
@@ -63,31 +63,31 @@ msgstr "Xóa"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "already exists"
-msgstr ""
+msgstr "đã tồn tại"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "replace"
-msgstr ""
+msgstr "thay thế"
 
 #: js/filelist.js:186
 msgid "suggest name"
-msgstr ""
+msgstr "tên gợi ý"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
-msgstr ""
+msgstr "hủy"
 
 #: js/filelist.js:235 js/filelist.js:237
 msgid "replaced"
-msgstr ""
+msgstr "đã được thay thế"
 
 #: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
-msgstr ""
+msgstr "lùi lại"
 
 #: js/filelist.js:237
 msgid "with"
-msgstr ""
+msgstr "với"
 
 #: js/filelist.js:268
 msgid "unshared"
@@ -95,15 +95,15 @@ msgstr ""
 
 #: js/filelist.js:270
 msgid "deleted"
-msgstr ""
+msgstr "đã xóa"
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "Tạo tập tinh ZIP, điều này có thể mất một ít thời gian"
 
 #: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Không thể tải lên tập tin này do nó là một thư mục hoặc kích thước tập tin bằng 0 byte"
 
 #: js/files.js:208
 msgid "Upload Error"
@@ -120,7 +120,7 @@ msgstr "Hủy tải lên"
 #: js/files.js:423
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này."
 
 #: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
@@ -164,7 +164,7 @@ msgstr ""
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Cần thiết cho tải nhiều tập tin và thư mục."
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
@@ -180,7 +180,7 @@ msgstr "Kích thước tối đa cho các tập tin ZIP"
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "Lưu"
 
 #: templates/index.php:7
 msgid "New"
@@ -238,4 +238,4 @@ msgstr "Tập tin đang được quét ,vui lòng chờ."
 
 #: templates/index.php:85
 msgid "Current scanning"
-msgstr ""
+msgstr "Hiện tại đang quét"

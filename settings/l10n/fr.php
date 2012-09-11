@@ -38,7 +38,7 @@
 "Add your App" => "Ajoutez votre application",
 "Select an App" => "Sélectionner une Application",
 "See application page at apps.owncloud.com" => "Voir la page des applications à l'url apps.owncloud.com",
-"<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-sous licence, par <span class=\"author\"></span>",
+"<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "Distribué sous licence <span class=\"licence\"></span>, par <span class=\"author\"></span>",
 "Documentation" => "Documentation",
 "Managing Big Files" => "Gérer les gros fichiers",
 "Ask a question" => "Poser une question",

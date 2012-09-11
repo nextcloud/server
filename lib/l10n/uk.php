@@ -20,5 +20,6 @@
 "last month" => "минулого місяця",
 "months ago" => "місяці тому",
 "last year" => "минулого року",
-"years ago" => "роки тому"
+"years ago" => "роки тому",
+"updates check is disabled" => "перевірка оновлень відключена"
 );
