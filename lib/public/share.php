@@ -458,8 +458,11 @@ class Share {
 				$collectionTypes[] = $type;
 			}
 		}
+		if (!self::getBackend($itemType) instanceof Share_Backend_Collection) {
+			unset($collectionTypes[0]);
+		}
 		// Return array if collections were found or the item type is a collection itself - collections can be inside collections
-		if (count($collectionTypes) > 1 || self::getBackend($itemType) instanceof Share_Backend_Collection) {
+		if (count($collectionTypes) > 0) {
 			return $collectionTypes;
 		}
 		return false;
@@ -504,9 +507,14 @@ class Share {
 			$root = '';
 			if ($includeCollections && !isset($item) && ($collectionTypes = self::getCollectionItemTypes($itemType))) {
 				// If includeCollections is true, find collections of this item type, e.g. a music album contains songs
-				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
-				$where .= ' OR item_type IN ('.$placeholders.'))';
-				$queryArgs = $collectionTypes;
+				if (!in_array($itemType, $collectionTypes)) {
+					$itemTypes = array_merge(array($itemType), $collectionTypes);
+				} else {
+					$itemTypes = $collectionTypes;
+				}
+				$placeholders = join(',', array_fill(0, count($itemTypes), '?'));
+				$where .= ' WHERE item_type IN ('.$placeholders.'))';
+				$queryArgs = $itemTypes;
 			} else {
 				$where = ' WHERE `item_type` = ?';
 				$queryArgs = array($itemType);
@@ -580,7 +588,7 @@ class Share {
 				}
 			}
 			$queryArgs[] = $item;
-			if ($includeCollections && $collectionTypes = self::getCollectionItemTypes($itemType)) {
+			if ($includeCollections && $collectionTypes) {
 				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
 				$where .= ' OR item_type IN ('.$placeholders.'))';
 				$queryArgs = array_merge($queryArgs, $collectionTypes);
@@ -689,7 +697,7 @@ class Share {
 					}
 				}
 				// Check if this is a collection of the requested item type
-				if ($includeCollections && in_array($row['item_type'], $collectionTypes)) {
+				if ($includeCollections && $collectionTypes && in_array($row['item_type'], $collectionTypes)) {
 					if (($collectionBackend = self::getBackend($row['item_type'])) && $collectionBackend instanceof Share_Backend_Collection) {
 						// Collections can be inside collections, check if the item is a collection
 						if (isset($item) && $row['item_type'] == $itemType && $row[$column] == $item) {
