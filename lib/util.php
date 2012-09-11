@@ -200,9 +200,11 @@ class OC_Util {
 	public static function checkServer() {
 		$errors=array();
 
+		$web_server_restart= false;
 		//check for database drivers
 		if(!(is_callable('sqlite_open') or class_exists('SQLite3')) and !is_callable('mysql_connect') and !is_callable('pg_connect')) {
 			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.<br/>','hint'=>'');//TODO: sane hint
+			$web_server_restart= true;
 		}
 
 		//common hint for all file permissons error messages
@@ -262,28 +264,40 @@ class OC_Util {
 		// check if all required php modules are present
 		if(!class_exists('ZipArchive')) {
 			$errors[]=array('error'=>'PHP module zip not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
 		}
 
 		if(!function_exists('mb_detect_encoding')) {
 			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
 		}
 		if(!function_exists('ctype_digit')) {
 			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
 		}
 		if(!function_exists('json_encode')) {
 			$errors[]=array('error'=>'PHP module JSON is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
 		}
 		if(!function_exists('imagepng')) {
 			$errors[]=array('error'=>'PHP module GD is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
 		}
 		if(!function_exists('gzencode')) {
 			$errors[]=array('error'=>'PHP module zlib is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
 		}
 		if(floatval(phpversion())<5.3) {
 			$errors[]=array('error'=>'PHP 5.3 is required.<br/>','hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
+			$web_server_restart= false;
 		}
 		if(!defined('PDO::ATTR_DRIVER_NAME')) {
 			$errors[]=array('error'=>'PHP PDO module is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
+		}
+
+		if($web_server_restart) {
+			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?<br/>','hint'=>'Please ask your server administrator to restart the web server.');
 		}
 
 		return $errors;
