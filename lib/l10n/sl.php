@@ -21,5 +21,8 @@
 "last month" => "prejšnji mesec",
 "months ago" => "mesecev nazaj",
 "last year" => "lani",
-"years ago" => "let nazaj"
+"years ago" => "let nazaj",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s je na voljo. <a href=\"%s\">Več informacij.</a>",
+"up to date" => "ažuren",
+"updates check is disabled" => "preverjanje za posodobitve je onemogočeno"
 );

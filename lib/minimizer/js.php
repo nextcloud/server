@@ -1,6 +1,6 @@
 <?php
 
-require_once('mediawiki/JavaScriptMinifier.php');
+require_once 'mediawiki/JavaScriptMinifier.php';
 
 class OC_Minimizer_JS extends OC_Minimizer
 {
@@ -13,7 +13,7 @@ class OC_Minimizer_JS extends OC_Minimizer
 			$js_out .= '/* ' . $file . ' */' . "\n";
 			$js_out .= file_get_contents($file);
 		}
-		if (!defined('DEBUG') || !DEBUG){
+		if (!defined('DEBUG') || !DEBUG) {
 			$js_out = JavaScriptMinifier::minify($js_out);
 		}
 		return $js_out;

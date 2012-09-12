@@ -2,7 +2,6 @@
 "Application name not provided." => "Meno aplikácie nezadané.",
 "No category to add?" => "Žiadna kategória pre pridanie?",
 "This category already exists: " => "Táto kategória už existuje:",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Nastavenia",
 "January" => "Január",
 "February" => "Február",

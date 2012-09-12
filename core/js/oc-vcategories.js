@@ -1,4 +1,4 @@
-OCCategories={
+var OCCategories={
 	edit:function(){
 		if(OCCategories.app == undefined) {
 			OC.dialogs.alert('OCCategories.app is not set!');
@@ -95,7 +95,7 @@ OCCategories={
 			}
 		}).error(function(xhr){
 			if (xhr.status == 404) {
-				OC.dialogs.alert('The required file ' + OC.filePath(Categories.app, 'ajax', 'categories/rescan.php') + ' is not installed!', 'Error');
+				OC.dialogs.alert('The required file ' + OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php') + ' is not installed!', 'Error');
 			}
 		});
 	},

@@ -1,9 +1,4 @@
-FileActions={
-	PERMISSION_CREATE:4,
-	PERMISSION_READ:1,
-	PERMISSION_UPDATE:2,
-	PERMISSION_DELETE:8,
-	PERMISSION_SHARE:16,
+var FileActions={
 	actions:{},
 	defaults:{},
 	icons:{},
@@ -25,20 +20,20 @@ FileActions={
 	get:function(mime,type,permissions){
 		var actions={};
 		if(FileActions.actions.all){
-			actions=$.extend( actions, FileActions.actions.all )
+			actions=$.extend( actions, FileActions.actions.all );
 		}
 		if(mime){
 			if(FileActions.actions[mime]){
-				actions=$.extend( actions, FileActions.actions[mime] )
+				actions=$.extend( actions, FileActions.actions[mime] );
 			}
 			var mimePart=mime.substr(0,mime.indexOf('/'));
 			if(FileActions.actions[mimePart]){
-				actions=$.extend( actions, FileActions.actions[mimePart] )
+				actions=$.extend( actions, FileActions.actions[mimePart] );
 			}
 		}
 		if(type){//type is 'dir' or 'file'
 			if(FileActions.actions[type]){
-				actions=$.extend( actions, FileActions.actions[type] )
+				actions=$.extend( actions, FileActions.actions[type] );
 			}
 		}
 		var filteredActions = {};
@@ -108,7 +103,12 @@ FileActions={
 			if(img.call){
 				img=img(file);
 			}
-			var html='<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" style="display:none" />';
+			// NOTE: Temporary fix to allow unsharing of files in root of Shared folder
+			if ($('#dir').val() == '/Shared') {
+				var html = '<a href="#" original-title="' + t('files', 'Unshare') + '" class="action delete" style="display:none" />';
+			} else {
+				var html='<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" style="display:none" />';
+			}
 			var element=$(html);
 			if(img){
 				element.append($('<img src="'+img+'"/>'));
@@ -148,7 +148,7 @@ FileActions={
 	getCurrentPermissions:function() {
 		return FileActions.currentFile.parent().data('permissions');
 	}
-}
+};
 
 $(document).ready(function(){
 	if($('#allowZipDownload').val() == 1){
@@ -156,12 +156,12 @@ $(document).ready(function(){
 	} else {
 		var downloadScope = 'file';
 	}
-	FileActions.register(downloadScope,'Download', FileActions.PERMISSION_READ, function(){return OC.imagePath('core','actions/download')},function(filename){
+	FileActions.register(downloadScope,'Download', OC.PERMISSION_READ, function(){return OC.imagePath('core','actions/download');},function(filename){
 		window.location=OC.filePath('files', 'ajax', 'download.php') + encodeURIComponent('?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val()));
 	});
 });
 
-FileActions.register('all','Delete', FileActions.PERMISSION_DELETE, function(){return OC.imagePath('core','actions/delete')},function(filename){
+FileActions.register('all','Delete', OC.PERMISSION_DELETE, function(){return OC.imagePath('core','actions/delete');},function(filename){
 	if(Files.cancelUpload(filename)) {
 		if(filename.substr){
 			filename=[filename];
@@ -179,11 +179,11 @@ FileActions.register('all','Delete', FileActions.PERMISSION_DELETE, function(){r
 	$('.tipsy').remove();
 });
 
-FileActions.register('all','Rename', FileActions.PERMISSION_UPDATE, function(){return OC.imagePath('core','actions/rename')},function(filename){
+FileActions.register('all','Rename', OC.PERMISSION_UPDATE, function(){return OC.imagePath('core','actions/rename');},function(filename){
 	FileList.rename(filename);
 });
 
-FileActions.register('dir','Open', FileActions.PERMISSION_READ, '', function(filename){
+FileActions.register('dir','Open', OC.PERMISSION_READ, '', function(filename){
 	window.location=OC.linkTo('files', 'index.php') + '&dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
 });
 

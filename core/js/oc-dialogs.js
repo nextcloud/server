@@ -22,7 +22,7 @@
 /**
  * this class to ease the usage of jquery dialogs
  */
-OCdialogs = {
+var OCdialogs = {
 	/**
 	* displays alert dialog
 	* @param text content of dialog

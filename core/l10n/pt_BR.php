@@ -2,7 +2,6 @@
 "Application name not provided." => "Nome da aplicação não foi fornecido.",
 "No category to add?" => "Nenhuma categoria adicionada?",
 "This category already exists: " => "Essa categoria já existe",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Configurações",
 "January" => "Janeiro",
 "February" => "Fevereiro",

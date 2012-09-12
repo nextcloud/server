@@ -402,9 +402,8 @@
 
    <field>
     <name>configvalue</name>
-    <type>text</type>
-    <notnull>true</notnull>
-    <length>255</length>
+    <type>clob</type>
+    <notnull>false</notnull>
    </field>
 
   </declaration>
@@ -479,7 +478,7 @@
     <name>share_with</name>
     <type>text</type>
     <default></default>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <length>255</length>
    </field>
    

@@ -1,4 +1,4 @@
-<form action="index.php" method="post">
+<form action="<?php echo $_['URL']; ?>" method="post">
 	<fieldset>
 		<p>
 			<label for="password" class="infield"><?php echo $l->t('Password'); ?></label>

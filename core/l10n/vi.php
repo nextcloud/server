@@ -2,7 +2,6 @@
 "Application name not provided." => "Tên ứng dụng không tồn tại",
 "No category to add?" => "Không có danh mục được thêm?",
 "This category already exists: " => "Danh mục này đã được tạo :",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Cài đặt",
 "January" => "Tháng 1",
 "February" => "Tháng 2",

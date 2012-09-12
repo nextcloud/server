@@ -17,6 +17,7 @@
 "Port" => "Pordo",
 "Base User Tree" => "Baza uzantarbo",
 "Base Group Tree" => "Baza gruparbo",
+"Group-Member association" => "Asocio de grupo kaj membro",
 "Use TLS" => "Uzi TLS-on",
 "Do not use it for SSL connections, it will fail." => "Ne uzu ĝin por SSL-konektoj, ĝi malsukcesos.",
 "Case insensitve LDAP server (Windows)" => "LDAP-servilo blinda je litergrandeco (Vindozo)",
@@ -28,5 +29,6 @@
 "The LDAP attribute to use to generate the groups`s ownCloud name." => "La atributo de LDAP uzota por generi la ownCloud-an nomon de la grupo.",
 "in bytes" => "duumoke",
 "in seconds. A change empties the cache." => "sekunde. Ajna ŝanĝo malplenigas la kaŝmemoron.",
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lasu malplena por uzantonomo (defaŭlto). Alie, specifu LDAP/AD-atributon.",
 "Help" => "Helpo"
 );

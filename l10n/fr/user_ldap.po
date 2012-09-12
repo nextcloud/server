@@ -3,15 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Cyril Glapa <kyriog@gmail.com>, 2012.
+#   <mathieu.payrol@gmail.com>, 2012.
 # Romain DEP. <rom1dep@gmail.com>, 2012.
+#   <windes@tructor.net>, 2012.
 #   <zrk951@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-23 17:01+0000\n"
-"Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
+"POT-Creation-Date: 2012-08-30 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 08:51+0000\n"
+"Last-Translator: Windes <windes@tructor.net>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,15 +33,15 @@ msgstr "Vous pouvez omettre le protocole, sauf si vous avez besoin de SSL. Dans 
 
 #: templates/settings.php:9
 msgid "Base DN"
-msgstr "DN de base"
+msgstr "DN Racine"
 
 #: templates/settings.php:9
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr "Vous pouvez spécifier le DN de base pour les utilisateurs et les groupes dans l'onglet Avancé"
+msgstr "Vous pouvez détailler les DN Racines de vos utilisateurs et groupes dans l'onglet Avancé"
 
 #: templates/settings.php:10
 msgid "User DN"
-msgstr "DN Utilisateur"
+msgstr "DN Utilisateur (Autorisé à consulter l'annuaire)"
 
 #: templates/settings.php:10
 msgid ""
@@ -53,18 +56,18 @@ msgstr "Mot de passe"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "Pour l'accès anonyme, laisser le DN et le mot de passe vides."
+msgstr "Pour un accès anonyme, laisser le DN Utilisateur et le mot de passe vides."
 
 #: templates/settings.php:12
 msgid "User Login Filter"
-msgstr "Filtre d'identifiants utilisateur"
+msgstr "Modèle d'authentification utilisateurs"
 
 #: templates/settings.php:12
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr "Définit le filtre à appliquer lors d'une tentative de connexion. %%uid remplace le nom d'utilisateur lors de la connexion."
+msgstr "Définit le motif à appliquer, lors d'une tentative de connexion. %%uid est remplacé par le nom d'utilisateur lors de la connexion."
 
 #: templates/settings.php:12
 #, php-format
@@ -101,11 +104,11 @@ msgstr "Port"
 
 #: templates/settings.php:18
 msgid "Base User Tree"
-msgstr ""
+msgstr "DN racine de l'arbre utilisateurs"
 
 #: templates/settings.php:19
 msgid "Base Group Tree"
-msgstr ""
+msgstr "DN racine de l'arbre groupes"
 
 #: templates/settings.php:20
 msgid "Group-Member association"
@@ -125,7 +128,7 @@ msgstr "Serveur LDAP insensible à la casse (Windows)"
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
-msgstr "Désactiver la validation du certificat SSL"
+msgstr "Désactiver la validation du certificat SSL."
 
 #: templates/settings.php:23
 msgid ""
@@ -135,23 +138,23 @@ msgstr "Si la connexion ne fonctionne qu'avec cette option, importez le certific
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
-msgstr "Non recommendé, utilisation pour tests uniquement."
+msgstr "Non recommandé, utilisation pour tests uniquement."
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Champ \"nom d'affichage\" de l'utilisateur"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr "L'attribut LDAP utilisé pour générer les noms d'utilisateurs d'ownCloud"
+msgstr "L'attribut LDAP utilisé pour générer les noms d'utilisateurs d'ownCloud."
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Champ \"nom d'affichage\" du groupe"
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr "L'attribut LDAP utilisé pour générer les noms de groupes d'ownCloud"
+msgstr "L'attribut LDAP utilisé pour générer les noms de groupes d'ownCloud."
 
 #: templates/settings.php:27
 msgid "in bytes"
@@ -161,6 +164,12 @@ msgstr "en octets"
 msgid "in seconds. A change empties the cache."
 msgstr "en secondes. Tout changement vide le cache."
 
-#: templates/settings.php:31
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Laisser vide "
+
+#: templates/settings.php:32
 msgid "Help"
 msgstr "Aide"

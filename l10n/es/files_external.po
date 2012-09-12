@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Javier Llorente <javier@opensuse.org>, 2012.
+#   <pedro.navia@etecsa.cu>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-23 09:26+0000\n"
-"Last-Translator: Javier Llorente <javier@opensuse.org>\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-30 20:26+0000\n"
+"Last-Translator: pedro.navia <pedro.navia@etecsa.cu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr "Almacenamiento externo"
 
 #: templates/settings.php:7 templates/settings.php:19
 msgid "Mount point"
-msgstr ""
+msgstr "Punto de montaje"
 
 #: templates/settings.php:8
 msgid "Backend"
@@ -68,16 +69,16 @@ msgstr "Eliiminar"
 
 #: templates/settings.php:88
 msgid "SSL root certificates"
-msgstr ""
+msgstr "Raíz de certificados SSL  "
 
 #: templates/settings.php:102
 msgid "Import Root Certificate"
-msgstr ""
+msgstr "Importar certificado raíz"
 
 #: templates/settings.php:108
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "Habilitar almacenamiento de usuario externo"
 
 #: templates/settings.php:109
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "Permitir a los usuarios montar su propio almacenamiento externo"

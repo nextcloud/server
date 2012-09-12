@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-23 02:03+0200\n"
-"PO-Revision-Date: 2012-08-22 18:47+0000\n"
+"POT-Creation-Date: 2012-08-30 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 18:29+0000\n"
 "Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -160,6 +160,12 @@ msgstr "ในหน่วยไบต์"
 msgid "in seconds. A change empties the cache."
 msgstr "ในอีกไม่กี่วินาที ระบบจะเปลี่ยนแปลงข้อมูลในแคชให้ว่างเปล่า"
 
-#: templates/settings.php:31
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "เว้นว่างไว้สำหรับ ชื่อผู้ใช้ (ค่าเริ่มต้น) หรือไม่กรุณาระบุคุณลักษณะของ LDAP/AD"
+
+#: templates/settings.php:32
 msgid "Help"
 msgstr "ช่วยเหลือ"

@@ -2,7 +2,6 @@
 "Application name not provided." => "应用程序并没有被提供.",
 "No category to add?" => "没有分类添加了?",
 "This category already exists: " => "这个分类已经存在了:",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "设置",
 "January" => "一月",
 "February" => "二月",

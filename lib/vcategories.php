@@ -125,11 +125,11 @@ class OC_VCategories {
 	*	$result = $stmt->execute();
 	*	$objects = array();
 	*	if(!is_null($result)) {
-	*		while( $row = $result->fetchRow()){
+	*		while( $row = $result->fetchRow()) {
 	*			$objects[] = $row['carddata'];
 	*		}
 	*	}
-	* 	$categories->rescan($objects);
+	*	$categories->rescan($objects);
 	*/
 	public function rescan($objects, $sync=true, $reset=true) {
 		if($reset === true) {
@@ -183,7 +183,7 @@ class OC_VCategories {
 		if(!is_null($objects)) {
 			foreach($objects as $key=>&$value) {
 				$vobject = OC_VObject::parse($value[1]);
-				if(!is_null($vobject)){
+				if(!is_null($vobject)) {
 					$categories = $vobject->getAsArray('CATEGORIES');
 					//OC_Log::write('core','OC_VCategories::delete, before: '.$key.': '.print_r($categories, true), OC_Log::DEBUG);
 					foreach($names as $name) {
@@ -219,7 +219,7 @@ class OC_VCategories {
 		if(!is_array($haystack)) {
 			return false;
 		}
-		return array_search(strtolower($needle),array_map('strtolower',$haystack)); 
+		return array_search(strtolower($needle),array_map('strtolower',$haystack));
 	}
 
 }

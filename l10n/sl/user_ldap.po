@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-22 02:04+0200\n"
-"PO-Revision-Date: 2012-08-21 11:45+0000\n"
+"POT-Creation-Date: 2012-08-30 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 06:02+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -160,6 +160,12 @@ msgstr "v bajtih"
 msgid "in seconds. A change empties the cache."
 msgstr "v sekundah. Sprememba izprazni predpomnilnik."
 
-#: templates/settings.php:31
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Pustite prazno za uporabniško ime (privzeto). V nasprotnem primeru navedite LDAP/AD atribut."
+
+#: templates/settings.php:32
 msgid "Help"
 msgstr "Pomoč"

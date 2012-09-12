@@ -24,7 +24,7 @@
  * Public interface of ownCloud forbackground jobs.
  */
 
-// use OCP namespace for all classes that are considered public. 
+// use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
@@ -42,7 +42,7 @@ namespace OCP;
  * An example of the queued task would be the creation of the thumbnail. As
  * soon as the user uploads a picture the gallery app registers the queued
  * task "create thumbnail" and saves the path in the parameter instead of doing
- * the work right away. This makes the app more responsive. As soon as the task 
+ * the work right away. This makes the app more responsive. As soon as the task
  * is done it will be deleted from the list.
  */
 class BackgroundJob {
@@ -52,7 +52,7 @@ class BackgroundJob {
 	 * @param $method method name
 	 * @return true
 	 */
-	public static function addRegularTask( $klass, $method ){
+	public static function addRegularTask( $klass, $method ) {
 		return \OC_BackgroundJob_RegularTask::register( $klass, $method );
 	}
 
@@ -62,7 +62,7 @@ class BackgroundJob {
 	 *
 	 * key is string "$klass-$method", value is array( $klass, $method )
 	 */
-	static public function allRegularTasks(){
+	static public function allRegularTasks() {
 		return \OC_BackgroundJob_RegularTask::all();
 	}
 
@@ -71,7 +71,7 @@ class BackgroundJob {
 	 * @param $id ID of the task
 	 * @return associative array
 	 */
-	public static function findQueuedTask( $id ){
+	public static function findQueuedTask( $id ) {
 		return \OC_BackgroundJob_QueuedTask::find( $id );
 	}
 
@@ -79,7 +79,7 @@ class BackgroundJob {
 	 * @brief Gets all queued tasks
 	 * @return array with associative arrays
 	 */
-	public static function allQueuedTasks(){
+	public static function allQueuedTasks() {
 		return \OC_BackgroundJob_QueuedTask::all();
 	}
 
@@ -88,7 +88,7 @@ class BackgroundJob {
 	 * @param $app app name
 	 * @return array with associative arrays
 	 */
-	public static function queuedTaskWhereAppIs( $app ){
+	public static function queuedTaskWhereAppIs( $app ) {
 		return \OC_BackgroundJob_QueuedTask::whereAppIs( $app );
 	}
 
@@ -100,7 +100,7 @@ class BackgroundJob {
 	 * @param $parameters all useful data as text
 	 * @return id of task
 	 */
-	public static function addQueuedTask( $app, $klass, $method, $parameters ){
+	public static function addQueuedTask( $app, $klass, $method, $parameters ) {
 		return \OC_BackgroundJob_QueuedTask::add( $app, $klass, $method, $parameters );
 	}
 
@@ -111,7 +111,7 @@ class BackgroundJob {
 	 *
 	 * Deletes a report
 	 */
-	public static function deleteQueuedTask( $id ){
+	public static function deleteQueuedTask( $id ) {
 		return \OC_BackgroundJob_QueuedTask::delete( $id );
 	}
 }

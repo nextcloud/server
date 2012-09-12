@@ -9,7 +9,7 @@
 /**
  * This class contains all hooks.
  */
- 
+
 namespace OCA_Versions;
 
 class Hooks {
@@ -18,18 +18,18 @@ class Hooks {
 	 * listen to write event.
 	 */
 	public static function write_hook( $params ) {
-	
+
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			
+
 			$versions = new Storage( new \OC_FilesystemView('') );
-			
+
 			$path = $params[\OC_Filesystem::signal_param_path];
-			
+
 			if($path<>'') $versions->store( $path );
-			
+
 		}
 	}
-	
+
 
 	/**
 	 * @brief Erase versions of deleted file
@@ -44,12 +44,12 @@ class Hooks {
 		$abs_path = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('').$rel_path.'.v';
 		if(Storage::isversioned($rel_path)) {
 			$versions = Storage::getVersions($rel_path);
-			foreach ($versions as $v){
+			foreach ($versions as $v) {
 				unlink($abs_path . $v['version']);
 			}
 		}
 	}
-	
+
 	/**
 	 * @brief rename/move versions of renamed/moved files
 	 * @param array with oldpath and newpath
@@ -66,10 +66,10 @@ class Hooks {
 			$info=pathinfo($abs_newpath);
 			if(!file_exists($info['dirname'])) mkdir($info['dirname'],0700,true);
 			$versions = Storage::getVersions($rel_oldpath);
-			foreach ($versions as $v){
+			foreach ($versions as $v) {
 				rename($abs_oldpath.$v['version'], $abs_newpath.$v['version']);
 			}
 		}
 	}
-	
+
 }

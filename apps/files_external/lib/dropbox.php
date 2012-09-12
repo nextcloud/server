@@ -251,5 +251,3 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	}
 
 }
-
-?>

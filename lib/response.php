@@ -111,12 +111,13 @@ class OC_Response {
 		if (empty($etag)) {
 			return;
 		}
+		$etag = '"'.$etag.'"';
 		if (isset($_SERVER['HTTP_IF_NONE_MATCH']) &&
 		    trim($_SERVER['HTTP_IF_NONE_MATCH']) == $etag) {
 			self::setStatus(self::STATUS_NOT_MODIFIED);
 			exit;
 		}
-		header('ETag: "'.$etag.'"');
+		header('ETag: '.$etag);
 	}
 
 	/**

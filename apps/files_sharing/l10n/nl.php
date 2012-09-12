@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Size" => "Grootte",
-"Modified" => "Aangepast",
-"Delete all" => "Verwijder alles",
-"Delete" => "Vewijder"
+"Password" => "Wachtwoord",
+"Submit" => "Verzenden",
+"Download" => "Downloaden",
+"No preview available for" => "Geen voorbeeldweergave beschikbaar voor",
+"web services under your control" => "Webdiensten in eigen beheer"
 );

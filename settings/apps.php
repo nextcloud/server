@@ -21,7 +21,7 @@
 *
 */
 
-require_once('../lib/base.php');
+require_once '../lib/base.php';
 OC_Util::checkAdminUser();
 
 // Load the files we need
@@ -35,10 +35,14 @@ $apps=array();
 //TODO which apps do we want to blacklist and how do we integrate blacklisting with the multi apps folder feature
 $blacklist=array('files');//we dont want to show configuration for these
 
-foreach($registeredApps as $app){
-	if(array_search($app,$blacklist)===false){
+foreach($registeredApps as $app) {
+	if(array_search($app, $blacklist)===false) {
 		$info=OC_App::getAppInfo($app);
-		$active=(OC_Appconfig::getValue($app,'enabled','no')=='yes')?true:false;
+		if (!isset($info['name'])) {
+			OC_Log::write('core', 'App id "'.$app.'" has no name in appinfo', OC_Log::ERROR);
+			continue;
+		}
+		$active=(OC_Appconfig::getValue($app, 'enabled', 'no')=='yes')?true:false;
 		$info['active']=$active;
 		if(isset($info['shipped']) and ($info['shipped']=='true')) {
 			$info['internal']=true;
@@ -53,8 +57,8 @@ foreach($registeredApps as $app){
 	}
 }
 
-function app_sort($a, $b){
-	if ($a['active'] != $b['active']){
+function app_sort($a, $b) {
+	if ($a['active'] != $b['active']) {
 		return $b['active'] - $a['active'];
 	}
 	return strcmp($a['name'], $b['name']);
@@ -62,8 +66,8 @@ function app_sort($a, $b){
 usort($apps, 'app_sort');
 
 $tmpl = new OC_Template( "settings", "apps", "user" );
-$tmpl->assign('apps',$apps, false);
+$tmpl->assign('apps', $apps, false);
 $appid = (isset($_GET['appid'])?strip_tags($_GET['appid']):'');
-$tmpl->assign('appid',$appid);
+$tmpl->assign('appid', $appid);
 
 $tmpl->printPage();

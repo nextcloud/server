@@ -66,11 +66,11 @@ OC.MountConfig={
 			return true;
 		}
 	}
-}
+};
 
 $(document).ready(function() {
 	$('.chzn-select').chosen();
-	
+
 	$('#selectBackend').live('change', function() {
 		var tr = $(this).parent().parent();
 		$('#externalStorage tbody').append($(tr).clone());
@@ -133,7 +133,7 @@ $(document).ready(function() {
 			}
 		}
 		return defaultMountPoint+append;
-	} 
+	}
 
 	$('#externalStorage td').live('change', function() {
 		OC.MountConfig.saveStorage($(this).parent());

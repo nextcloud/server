@@ -60,7 +60,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 			}
 		} else {
 			$newPath = $this->path . '/' . $name;
-			OC_Filesystem::file_put_contents($newPath,$data);
+			OC_Filesystem::file_put_contents($newPath, $data);
 			return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 		}
 
@@ -119,7 +119,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 			$paths[] = $this->path.'/'.$info['name'];
 		}
 		$properties = array_fill_keys($paths, array());
-		if(count($paths)>0){
+		if(count($paths)>0) {
 			$placeholders = join(',', array_fill(0, count($paths), '?'));
 			$query = OC_DB::prepare( 'SELECT * FROM `*PREFIX*properties` WHERE `userid` = ?' . ' AND `propertypath` IN ('.$placeholders.')' );
 			array_unshift($paths, OC_User::getUser()); // prepend userid
@@ -195,12 +195,10 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function getProperties($properties) {
 		$props = parent::getProperties($properties);
-		if (in_array(self::GETETAG_PROPERTYNAME, $properties)
-		    && !isset($props[self::GETETAG_PROPERTYNAME])) {
-			$props[self::GETETAG_PROPERTYNAME] =
-				OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
+		if (in_array(self::GETETAG_PROPERTYNAME, $properties) && !isset($props[self::GETETAG_PROPERTYNAME])) {
+			$props[self::GETETAG_PROPERTYNAME] 
+				= OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
 		}
 		return $props;
 	}
 }
-

@@ -26,8 +26,8 @@ class my_temporary_cron_class {
 }
 
 function handleUnexpectedShutdown() {
-	if( !my_temporary_cron_class::$sent ){
-		if( OC::$CLI ){
+	if( !my_temporary_cron_class::$sent ) {
+		if( OC::$CLI ) {
 			echo 'Unexpected error!'.PHP_EOL;
 		}
 		else{
@@ -37,10 +37,10 @@ function handleUnexpectedShutdown() {
 }
 
 $RUNTIME_NOSETUPFS = true;
-require_once('lib/base.php');
+require_once 'lib/base.php';
 
 // Don't do anything if ownCloud has not been installed
-if( !OC_Config::getValue( 'installed', false )){
+if( !OC_Config::getValue( 'installed', false )) {
 	exit( 0 );
 }
 
@@ -49,9 +49,9 @@ register_shutdown_function('handleUnexpectedShutdown');
 
 // Exit if background jobs are disabled!
 $appmode = OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' );
-if( $appmode == 'none' ){
+if( $appmode == 'none' ) {
 	my_temporary_cron_class::$sent = true;
-	if( OC::$CLI ){
+	if( OC::$CLI ) {
 		echo 'Background Jobs are disabled!'.PHP_EOL;
 	}
 	else{
@@ -60,14 +60,14 @@ if( $appmode == 'none' ){
 	exit( 1 );
 }
 
-if( OC::$CLI ){
-	if( $appmode != 'cron' ){
+if( OC::$CLI ) {
+	if( $appmode != 'cron' ) {
 		OC_Appconfig::setValue( 'core', 'backgroundjobs_mode', 'cron' );
 	}
 
 	// check if backgroundjobs is still running
 	$pid = OC_Appconfig::getValue( 'core', 'backgroundjobs_pid', false );
-	if( $pid !== false ){
+	if( $pid !== false ) {
 		// FIXME: check if $pid is still alive (*nix/mswin). if so then exit
 	}
 	// save pid
@@ -77,7 +77,7 @@ if( OC::$CLI ){
 	OC_BackgroundJob_Worker::doAllSteps();
 }
 else{
-	if( $appmode == 'cron' ){
+	if( $appmode == 'cron' ) {
 		OC_JSON::error( array( 'data' => array( 'message' => 'Backgroundjobs are using system cron!')));
 	}
 	else{

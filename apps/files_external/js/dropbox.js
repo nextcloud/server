@@ -10,7 +10,7 @@ $(document).ready(function() {
 			var app_secret = $(this).find('.configuration [data-parameter="app_secret"]').val();
 			var config = $(this).find('.configuration');
 			if (app_key != '' && app_secret != '') {
-				var pos = window.location.search.indexOf('oauth_token') + 12
+				var pos = window.location.search.indexOf('oauth_token') + 12;
 				var token = $(this).find('.configuration [data-parameter="token"]');
 				if (pos != -1 && window.location.search.substr(pos, $(token).val().length) == $(token).val()) {
 					var token_secret = $(this).find('.configuration [data-parameter="token_secret"]');
@@ -73,7 +73,7 @@ $(document).ready(function() {
 				}
 			});
 		} else {
-			OC.dialogs.alert('Please provide a valid Dropbox app key and secret.', 'Error configuring Dropbox storage')
+			OC.dialogs.alert('Please provide a valid Dropbox app key and secret.', 'Error configuring Dropbox storage');
 		}
 	});
 

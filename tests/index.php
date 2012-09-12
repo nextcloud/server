@@ -20,6 +20,8 @@
 *
 */
 
+//to run only specific tests, use the test parameter to specify an app or 'lib'. e.g. http://localhost/owncloud/tests/?test=user_external
+
 require_once '../lib/base.php';
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/mock_objects.php';
@@ -29,14 +31,14 @@ require_once 'simpletest/default_reporter.php';
 $testSuiteName="ownCloud Unit Test Suite";
 
 // prepare the reporter
-if(OC::$CLI){
+if(OC::$CLI) {
 	$reporter=new TextReporter;
 	$test=isset($_SERVER['argv'][1])?$_SERVER['argv'][1]:false;
-	if($test=='xml'){
+	if($test=='xml') {
 		$reporter= new XmlReporter;
 		$test=false;
 
-		if(isset($_SERVER['argv'][2])){
+		if(isset($_SERVER['argv'][2])) {
 			$testSuiteName=$testSuiteName." (".$_SERVER['argv'][2].")";
 		}
 	}
@@ -49,7 +51,7 @@ if(OC::$CLI){
 $testSuite=new TestSuite($testSuiteName);
 
 //load core test cases
-loadTests(dirname(__FILE__), $testSuite, $test);
+loadTests(dirname(__FILE__), $testSuite, $test, 'lib');
 
 //load app test cases
 
@@ -58,28 +60,30 @@ loadTests(dirname(__FILE__), $testSuite, $test);
 //
 
 $apps=OC_App::getEnabledApps();
-foreach($apps as $app){
-	if(is_dir(OC::$SERVERROOT.'/apps/'.$app.'/tests')){
-		loadTests(OC::$SERVERROOT.'/apps/'.$app.'/tests', $testSuite, $test);
+foreach($apps as $app) {
+	$testDir=OC_App::getAppPath($app).'/tests';
+	if(is_dir($testDir)) {
+		loadTests($testDir, $testSuite, $test, $app);
 	}
 }
 
 // run the suite
-if($testSuite->getSize()>0){
+if($testSuite->getSize()>0) {
 	$testSuite->run($reporter);
 }
 
 // helper below
-function loadTests($dir,$testSuite, $test){
-	if($dh=opendir($dir)){
-		while($name=readdir($dh)){
-			if($name[0]!='.'){//no hidden files, '.' or '..'
+function loadTests($dir,$testSuite, $test, $app) {
+	$root=($app=='lib')?OC::$SERVERROOT.'/tests/lib/':OC_App::getAppPath($app).'/tests/';
+	if($dh=opendir($dir)) {
+		while($name=readdir($dh)) {
+			if($name[0]!='.') {//no hidden files, '.' or '..'
 				$file=$dir.'/'.$name;
-				if(is_dir($file)){
-					loadTests($file, $testSuite, $test);
-				}elseif(substr($file,-4)=='.php' and $file!=__FILE__){
-					$name=getTestName($file);
-					if($test===false or $test==$name or substr($name,0,strlen($test))==$test){
+				if(is_dir($file)) {
+					loadTests($file, $testSuite, $test, $app);
+				}elseif(substr($file,-4)=='.php' and $file!=__FILE__) {
+					$name=$app.'/'.getTestName($file,$root);
+					if($test===false or $test==$name or substr($name,0,strlen($test))==$test) {
 						$extractor = new SimpleFileLoader();
 						$loadedSuite=$extractor->load($file);
 						if ($loadedSuite->getSize() > 0)
@@ -91,8 +95,8 @@ function loadTests($dir,$testSuite, $test){
 	}
 }
 
-function getTestName($file){
+function getTestName($file,$root) {
 // 	//TODO: get better test names
-	$file=substr($file,strlen(OC::$SERVERROOT));
+	$file=substr($file,strlen($root));
 	return substr($file,0,-4);//strip .php
 }

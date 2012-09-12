@@ -21,5 +21,8 @@
 "last month" => "Letzten Monat",
 "months ago" => "Vor Monaten",
 "last year" => "Letztes Jahr",
-"years ago" => "Vor Jahren"
+"years ago" => "Vor Jahren",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s ist verfügbar. <a href=\"%s\">Weitere Informationen</a>",
+"up to date" => "aktuell",
+"updates check is disabled" => "Die Update-Überprüfung ist ausgeschaltet"
 );

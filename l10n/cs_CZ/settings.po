@@ -4,27 +4,41 @@
 # 
 # Translators:
 #   <icewind1991@gmail.com>, 2012.
-# Jan Krejci <krejca85@gmail.com>, 2011, 2012.
-# Martin  <fireball@atlas.cz>, 2011, 2012.
+# Jan Krejci <krejca85@gmail.com>, 2011-2012.
+# Martin  <fireball@atlas.cz>, 2011-2012.
 # Michal Hrušecký <Michal@hrusecky.net>, 2012.
 #   <Michal@hrusecky.net>, 2012.
+# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-18 02:01+0200\n"
-"PO-Revision-Date: 2012-08-18 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-06 02:02+0200\n"
+"PO-Revision-Date: 2012-09-05 13:36+0000\n"
+"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs_CZ\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr "Nepodařílo se stáhnout seznam z App Store"
+msgstr "Nelze načíst seznam z App Store"
+
+#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Chyba ověření"
+
+#: ajax/creategroup.php:19
+msgid "Group already exists"
+msgstr "Skupina již existuje"
+
+#: ajax/creategroup.php:28
+msgid "Unable to add group"
+msgstr "Nelze přidat skupinu"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -36,19 +50,33 @@ msgstr "Neplatný e-mail"
 
 #: ajax/openid.php:16
 msgid "OpenID Changed"
-msgstr "OpenID změněn"
+msgstr "OpenID změněno"
 
 #: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
-msgstr "Chybný dotaz"
+msgstr "Neplatný požadavek"
 
-#: ajax/removeuser.php:13 ajax/setquota.php:18 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Chyba autorizace"
+#: ajax/removegroup.php:16
+msgid "Unable to delete group"
+msgstr "Nelze smazat skupinu"
+
+#: ajax/removeuser.php:22
+msgid "Unable to delete user"
+msgstr "Nelze smazat uživatele"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Jazyk byl změněn"
+
+#: ajax/togglegroups.php:25
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr "Nelze přidat uživatele do skupiny %s"
+
+#: ajax/togglegroups.php:31
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr "Nelze odstranit uživatele ze skupiny %s"
 
 #: js/apps.js:18
 msgid "Error"
@@ -56,11 +84,11 @@ msgstr "Chyba"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
-msgstr "Vypnout"
+msgstr "Zakázat"
 
 #: js/apps.js:39 js/apps.js:62
 msgid "Enable"
-msgstr "Zapnout"
+msgstr "Povolit"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -72,35 +100,90 @@ msgstr "Česky"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr "Bezpečnostní upozornění"
+msgstr "Bezpečnostní varování"
 
-#: templates/admin.php:29
+#: templates/admin.php:17
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "Váš adresář dat a soubory jsou pravděpodobně přístupné z internetu. Soubor .htacces, který ownCloud poskytuje nefunguje. Doporučujeme Vám abyste nastavili Váš webový server tak, aby nebylo možno přistupovat do adresáře s daty, nebo přesunuli adresář dat mimo kořenovou složku dokumentů webového serveru."
+
+#: templates/admin.php:31
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:31
-msgid "execute one task with each page loaded"
-msgstr "spustit jednu úlohu s každou nataženou stranou"
-
 #: templates/admin.php:33
+msgid "execute one task with each page loaded"
+msgstr "spustit jednu úlohu s každou načtenou stránkou"
+
+#: templates/admin.php:35
 msgid "cron.php is registered at a webcron service"
 msgstr "cron.php je registrován jako služba webcron"
 
-#: templates/admin.php:35
+#: templates/admin.php:37
 msgid "use systems cron service"
-msgstr "použijte systémovou službu cron"
+msgstr "použít systémovou službu cron"
 
-#: templates/admin.php:39
+#: templates/admin.php:41
+msgid "Share API"
+msgstr "API sdílení"
+
+#: templates/admin.php:46
+msgid "Enable Share API"
+msgstr "Povolit API sdílení"
+
+#: templates/admin.php:47
+msgid "Allow apps to use the Share API"
+msgstr "Povolit aplikacím používat API sdílení"
+
+#: templates/admin.php:51
+msgid "Allow links"
+msgstr "Povolit odkazy"
+
+#: templates/admin.php:52
+msgid "Allow users to share items to the public with links"
+msgstr "Povolit uživatelům sdílet položky s veřejností pomocí odkazů"
+
+#: templates/admin.php:56
+msgid "Allow resharing"
+msgstr "Povolit znovu-sdílení"
+
+#: templates/admin.php:57
+msgid "Allow users to share items shared with them again"
+msgstr "Povolit uživatelům znovu sdílet položky, které jsou pro ně sdíleny"
+
+#: templates/admin.php:60
+msgid "Allow users to share with anyone"
+msgstr "Povolit uživatelům sdílet s kýmkoliv"
+
+#: templates/admin.php:62
+msgid "Allow users to only share with users in their groups"
+msgstr "Povolit uživatelům sdílet pouze s uživateli v jejich skupinách"
+
+#: templates/admin.php:69
 msgid "Log"
-msgstr "Log"
+msgstr "Záznam"
 
-#: templates/admin.php:67
+#: templates/admin.php:97
 msgid "More"
 msgstr "Více"
 
+#: templates/admin.php:105
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Vyvinuto <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitou ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">zdrojový kód</a> je licencován pod <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr "Přidat vaší aplikaci"
+msgstr "Přidat Vaší aplikaci"
 
 #: templates/apps.php:26
 msgid "Select an App"
@@ -111,34 +194,30 @@ msgid "See application page at apps.owncloud.com"
 msgstr "Více na stránce s aplikacemi na apps.owncloud.com"
 
 #: templates/apps.php:30
-msgid "-licensed"
-msgstr "-licencováno"
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span>-licencováno <span class=\"author\"></span>"
 
-#: templates/apps.php:30
-msgid "by"
-msgstr "podle"
-
-#: templates/help.php:8
+#: templates/help.php:9
 msgid "Documentation"
 msgstr "Dokumentace"
 
-#: templates/help.php:9
-msgid "Managing Big Files"
-msgstr "Spravování velkých souborů"
-
 #: templates/help.php:10
+msgid "Managing Big Files"
+msgstr "Správa velkých souborů"
+
+#: templates/help.php:11
 msgid "Ask a question"
 msgstr "Zeptat se"
 
-#: templates/help.php:22
+#: templates/help.php:23
 msgid "Problems connecting to help database."
 msgstr "Problémy s připojením k databázi s nápovědou."
 
-#: templates/help.php:23
+#: templates/help.php:24
 msgid "Go there manually."
 msgstr "Přejít ručně."
 
-#: templates/help.php:31
+#: templates/help.php:32
 msgid "Answer"
 msgstr "Odpověď"
 
@@ -164,11 +243,11 @@ msgstr "Vaše heslo bylo změněno"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr "Vaše heslo se nepodařilo změnit"
+msgstr "Vaše heslo nelze změnit"
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr "Aktuální heslo"
+msgstr "Současné heslo"
 
 #: templates/personal.php:22
 msgid "New password"
@@ -184,15 +263,15 @@ msgstr "Změnit heslo"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr "Vaše emailová adresa"
+msgstr "Vaše e-mailová adresa"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr "Pro povolení změny hesla vyplňte email adresu"
+msgstr "Pro povolení změny hesla vyplňte adresu e-mailu"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
@@ -200,7 +279,7 @@ msgstr "Jazyk"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr "Pomoci překládat"
+msgstr "Pomoci s překladem"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
@@ -228,11 +307,11 @@ msgstr "Výchozí kvóta"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
-msgstr "Jiné"
+msgstr "Jiná"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "Správa skupiny"
 
 #: templates/users.php:82
 msgid "Quota"
@@ -240,4 +319,4 @@ msgstr "Kvóta"
 
 #: templates/users.php:146
 msgid "Delete"
-msgstr "Vymazat"
+msgstr "Smazat"

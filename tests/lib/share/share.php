@@ -249,6 +249,7 @@ class Test_Share extends UnitTestCase {
 		$this->assertTrue(in_array('test1.txt', $to_test));
 
 		// Remove user
+		OC_User::setUserId($this->user1);
 		OC_User::deleteUser($this->user1);
 		OC_User::setUserId($this->user2);
 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test1.txt'));
@@ -360,30 +361,41 @@ class Test_Share extends UnitTestCase {
 		
 		// Attempt user specific target conflict
 		OC_User::setUserId($this->user3);
-		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
+		$this->assertTrue(OCP\Share::shareItem('test', 'share.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group1, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
 		OC_User::setUserId($this->user2);
 		$to_test = OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET);
 		$this->assertEqual(count($to_test), 2);
 		$this->assertTrue(in_array('test.txt', $to_test));
 		$this->assertTrue(in_array('test1.txt', $to_test));
-		$this->dump($to_test, "array of shared items in test");
-		//$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt', 'test1.txt'));
 		
-// 		// Valid reshare TODO Broken
-// 		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user4, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
-// 		OC_User::setUserId($this->user4);
-// 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test1.txt'));
-// 		
-// 		// Remove user from group
-// 		OC_Group::removeFromGroup($this->user2, $this->group1);
-// 		OC_User::setUserId($this->user2);
-// 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
-// 		OC_User::setUserId($this->user4);
-// 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array());
+		// Valid reshare 
+		$this->assertTrue(OCP\Share::shareItem('test', 'share.txt', OCP\Share::SHARE_TYPE_USER, $this->user4, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
+		OC_User::setUserId($this->user4);
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test1.txt'));
+		
+		// Remove user from group
+		OC_Group::removeFromGroup($this->user2, $this->group1);
+		OC_User::setUserId($this->user2);
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
+		OC_User::setUserId($this->user4);
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array());
 		
 		// Add user to group
+		OC_Group::addToGroup($this->user4, $this->group1);
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
+		
+		// Unshare from self
+		$this->assertTrue(OCP\Share::unshareFromSelf('test', 'test.txt'));
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array());
+		OC_User::setUserId($this->user2);
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
 		
 		// Remove group
+		OC_Group::deleteGroup($this->group1);
+		OC_User::setUserId($this->user4);
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array());
+		OC_User::setUserId($this->user3);
+		$this->assertEqual(OCP\Share::getItemsShared('test'), array());
 	}
 
 }

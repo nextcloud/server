@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-03 02:02+0200\n"
-"PO-Revision-Date: 2012-08-02 18:23+0000\n"
+"POT-Creation-Date: 2012-09-01 13:35+0200\n"
+"PO-Revision-Date: 2012-09-01 10:01+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -18,43 +18,43 @@ msgstr ""
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: app.php:287
+#: app.php:288
 msgid "Help"
 msgstr "Ohje"
 
-#: app.php:294
+#: app.php:295
 msgid "Personal"
 msgstr "Henkilökohtainen"
 
-#: app.php:299
+#: app.php:300
 msgid "Settings"
 msgstr "Asetukset"
 
-#: app.php:304
+#: app.php:305
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: app.php:311
+#: app.php:312
 msgid "Apps"
 msgstr "Sovellukset"
 
-#: app.php:313
+#: app.php:314
 msgid "Admin"
 msgstr "Ylläpitäjä"
 
-#: files.php:245
+#: files.php:280
 msgid "ZIP download is turned off."
 msgstr "ZIP-lataus on poistettu käytöstä."
 
-#: files.php:246
+#: files.php:281
 msgid "Files need to be downloaded one by one."
 msgstr "Tiedostot on ladattava yksittäin."
 
-#: files.php:246 files.php:271
+#: files.php:281 files.php:306
 msgid "Back to Files"
 msgstr "Takaisin tiedostoihin"
 
-#: files.php:270
+#: files.php:305
 msgid "Selected files too large to generate zip file."
 msgstr "Valitut tiedostot ovat liian suurikokoisia mahtuakseen zip-tiedostoon."
 
@@ -111,3 +111,16 @@ msgstr "viime vuonna"
 #: template.php:97
 msgid "years ago"
 msgstr "vuotta sitten"
+
+#: updater.php:66
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr "%s on saatavilla. Lue <a href=\"%s\">lisätietoja</a>"
+
+#: updater.php:68
+msgid "up to date"
+msgstr "ajan tasalla"
+
+#: updater.php:71
+msgid "updates check is disabled"
+msgstr "päivitysten tarkistus on pois käytöstä"

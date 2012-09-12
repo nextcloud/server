@@ -51,7 +51,7 @@
 	<em><?php echo $l->t('use this address to connect to your ownCloud in your file manager');?></em>
 </p>
 
-<?php foreach($_['forms'] as $form){
+<?php foreach($_['forms'] as $form) {
 	echo $form;
 };?>
 

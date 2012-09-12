@@ -22,7 +22,7 @@
 
 /**
  * This class does the dirty work.
- * 
+ *
  * TODO: locking in doAllSteps
  */
 class OC_BackgroundJob_Worker{
@@ -34,14 +34,14 @@ class OC_BackgroundJob_Worker{
 	 * This method should be called by cli scripts that do not let the user
 	 * wait.
 	 */
-	public static function doAllSteps(){
+	public static function doAllSteps() {
 		// Do our regular work
 		$lasttask = OC_Appconfig::getValue( 'core', 'backgroundjobs_task', '' );
 
 		$regular_tasks = OC_BackgroundJob_RegularTask::all();
 		ksort( $regular_tasks );
-		foreach( $regular_tasks as $key => $value ){
-			if( strcmp( $key, $lasttask ) > 0 ){
+		foreach( $regular_tasks as $key => $value ) {
+			if( strcmp( $key, $lasttask ) > 0 ) {
 				// Set "restart here" config value
 				OC_Appconfig::setValue( 'core', 'backgroundjobs_task', $key );
 				call_user_func( $value );
@@ -52,11 +52,11 @@ class OC_BackgroundJob_Worker{
 
 		// Do our queued tasks
 		$queued_tasks = OC_BackgroundJob_QueuedTask::all();
-		foreach( $queued_tasks as $task ){
+		foreach( $queued_tasks as $task ) {
 			OC_BackgroundJob_QueuedTask::delete( $task['id'] );
 			call_user_func( array( $task['klass'], $task['method'] ), $task['parameters'] );
 		}
-		
+
 		return true;
 	}
 
@@ -68,10 +68,10 @@ class OC_BackgroundJob_Worker{
 	 * with the next step. This method should be used by webcron and ajax
 	 * services.
 	 */
-	public static function doNextStep(){
+	public static function doNextStep() {
 		$laststep = OC_Appconfig::getValue( 'core', 'backgroundjobs_step', 'regular_tasks' );
-		
-		if( $laststep == 'regular_tasks' ){
+
+		if( $laststep == 'regular_tasks' ) {
 			// get last app
 			$lasttask = OC_Appconfig::getValue( 'core', 'backgroundjobs_task', '' );
 
@@ -79,10 +79,10 @@ class OC_BackgroundJob_Worker{
 			$regular_tasks = OC_BackgroundJob_RegularTask::all();
 			ksort( $regular_tasks );
 			$done = false;
-			
+
 			// search for next background job
-			foreach( $regular_tasks as $key => $value ){
-				if( strcmp( $key, $lasttask ) > 0 ){
+			foreach( $regular_tasks as $key => $value ) {
+				if( strcmp( $key, $lasttask ) > 0 ) {
 					OC_Appconfig::setValue( 'core', 'backgroundjobs_task', $key );
 					$done = true;
 					call_user_func( $value );
@@ -90,14 +90,14 @@ class OC_BackgroundJob_Worker{
 				}
 			}
 
-			if( $done == false ){
+			if( $done == false ) {
 				// Next time load queued tasks
 				OC_Appconfig::setValue( 'core', 'backgroundjobs_step', 'queued_tasks' );
 			}
 		}
 		else{
 			$tasks = OC_BackgroundJob_QueuedTask::all();
-			if( count( $tasks )){
+			if( count( $tasks )) {
 				$task = $tasks[0];
 				// delete job before we execute it. This prevents endless loops
 				// of failing jobs.
@@ -112,7 +112,7 @@ class OC_BackgroundJob_Worker{
 				OC_Appconfig::setValue( 'core', 'backgroundjobs_task', '' );
 			}
 		}
-		
+
 		return true;
 	}
 }

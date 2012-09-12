@@ -12,15 +12,15 @@ abstract class OC_Archive{
 	 * @param string path
 	 * @return OC_Archive
 	 */
-	public static function open($path){
+	public static function open($path) {
 		$ext=substr($path,strrpos($path,'.'));
-		switch($ext){
+		switch($ext) {
 			case '.zip':
 				return new OC_Archive_ZIP($path);
 			case '.gz':
 			case '.bz':
 			case '.bz2':
-				if(strpos($path,'.tar.')){
+				if(strpos($path,'.tar.')) {
 					return new OC_Archive_TAR($path);
 				}
 				break;
@@ -28,7 +28,7 @@ abstract class OC_Archive{
 				return new OC_Archive_TAR($path);
 		}
 	}
-	
+
 	abstract function __construct($source);
 	/**
 	 * add an empty folder to the archive
@@ -118,14 +118,14 @@ abstract class OC_Archive{
 	 * @param string source
 	 * @return bool
 	 */
-	function addRecursive($path,$source){
-		if($dh=opendir($source)){
+	function addRecursive($path,$source) {
+		if($dh=opendir($source)) {
 			$this->addFolder($path);
-			while($file=readdir($dh)){
-				if($file=='.' or $file=='..'){
+			while($file=readdir($dh)) {
+				if($file=='.' or $file=='..') {
 					continue;
 				}
-				if(is_dir($source.'/'.$file)){
+				if(is_dir($source.'/'.$file)) {
 					$this->addRecursive($path.'/'.$file,$source.'/'.$file);
 				}else{
 					$this->addFile($path.'/'.$file,$source.'/'.$file);

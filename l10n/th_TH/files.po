@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-09 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 03:31+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: th_TH\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
@@ -53,83 +53,100 @@ msgstr "เขียนข้อมูลลงแผ่นดิสก์ล้
 msgid "Files"
 msgstr "ไฟล์"
 
-#: js/fileactions.js:107 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr "ยกเลิกการแชร์ข้อมูล"
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "ลบ"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "already exists"
 msgstr "มีอยู่แล้ว"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "replace"
 msgstr "แทนที่"
 
-#: js/filelist.js:141
+#: js/filelist.js:186
+msgid "suggest name"
+msgstr "แนะนำชื่อ"
+
+#: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
 msgstr "ยกเลิก"
 
-#: js/filelist.js:195
+#: js/filelist.js:235 js/filelist.js:237
 msgid "replaced"
 msgstr "แทนที่แล้ว"
 
-#: js/filelist.js:195
-msgid "with"
-msgstr "กับ"
-
-#: js/filelist.js:195 js/filelist.js:246
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr "เลิกทำ"
 
-#: js/filelist.js:246
+#: js/filelist.js:237
+msgid "with"
+msgstr "กับ"
+
+#: js/filelist.js:268
+msgid "unshared"
+msgstr "ยกเลิกการแชร์ข้อมูลแล้ว"
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr "ลบแล้ว"
 
-#: js/files.js:171
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "กำลังสร้างไฟล์บีบอัด ZIP อาจใช้เวลาสักครู่"
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "ไม่สามารถอัพโหลดไฟล์ของคุณได้ เนื่องจากไฟล์ดังกล่าวเป็นไดเร็กทอรี่หรือมีขนาด 0 ไบต์"
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Upload Error"
 msgstr "เกิดข้อผิดพลาดในการอัพโหลด"
 
-#: js/files.js:228 js/files.js:319 js/files.js:348
+#: js/files.js:236 js/files.js:341 js/files.js:370
 msgid "Pending"
 msgstr "อยู่ระหว่างดำเนินการ"
 
-#: js/files.js:333
+#: js/files.js:355
 msgid "Upload cancelled."
 msgstr "การอัพโหลดถูกยกเลิก"
 
-#: js/files.js:457
+#: js/files.js:423
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "การอัพโหลดไฟล์กำลังอยู่ในระหว่างดำเนินการ การออกจากหน้าเว็บนี้จะทำให้การอัพโหลดถูกยกเลิก"
+
+#: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
 msgstr "ชื่อที่ใช้ไม่ถูกต้อง '/' ไม่อนุญาตให้ใช้งาน"
 
-#: js/files.js:703 templates/index.php:55
+#: js/files.js:746 templates/index.php:56
 msgid "Size"
 msgstr "ขนาด"
 
-#: js/files.js:704 templates/index.php:56
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "ปรับปรุงล่าสุด"
 
-#: js/files.js:731
+#: js/files.js:774
 msgid "folder"
 msgstr "โฟลเดอร์"
 
-#: js/files.js:733
+#: js/files.js:776
 msgid "folders"
 msgstr "โฟลเดอร์"
 
-#: js/files.js:741
+#: js/files.js:784
 msgid "file"
 msgstr "ไฟล์"
 
-#: js/files.js:743
+#: js/files.js:786
 msgid "files"
 msgstr "ไฟล์"
 
@@ -161,6 +178,10 @@ msgstr "0 หมายถึงไม่จำกัด"
 msgid "Maximum input size for ZIP files"
 msgstr "ขนาดไฟล์ ZIP สูงสุด"
 
+#: templates/admin.php:14
+msgid "Save"
+msgstr "บันทึก"
+
 #: templates/index.php:7
 msgid "New"
 msgstr "อัพโหลดไฟล์ใหม่"
@@ -185,36 +206,36 @@ msgstr "อัพโหลด"
 msgid "Cancel upload"
 msgstr "ยกเลิกการอัพโหลด"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "ยังไม่มีไฟล์ใดๆอยู่ที่นี่ กรุณาอัพโหลดไฟล์!"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "ชื่อ"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "แชร์"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "ดาวน์โหลด"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "ไฟล์ที่อัพโหลดมีขนาดใหญ่เกินไป"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้"
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "ไฟล์กำลังอยู่ระหว่างการสแกน, กรุณารอสักครู่."
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "ไฟล์ที่กำลังสแกนอยู่ขณะนี้"

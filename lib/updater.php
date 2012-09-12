@@ -28,7 +28,7 @@ class OC_Updater{
 	/**
 	 * Check if a new version is available
 	 */
-	public static function check(){
+	public static function check() {
 		OC_Appconfig::setValue('core', 'lastupdatedat',microtime(true));
 		if(OC_Appconfig::getValue('core', 'installedat','')=='') OC_Appconfig::setValue('core', 'installedat',microtime(true));
 
@@ -43,7 +43,7 @@ class OC_Updater{
 		//fetch xml data from updater
 		$url=$updaterurl.'?version='.$versionstring;
                 $xml=@file_get_contents($url);
-                if($xml==FALSE){
+                if($xml==FALSE) {
                         return array();
                 }
                 $data=@simplexml_load_string($xml);
@@ -57,16 +57,18 @@ class OC_Updater{
                 return $tmp;
 	}
 
-	public static function ShowUpdatingHint(){
-		if(OC_Config::getValue('updatechecker', true)==true){
+	public static function ShowUpdatingHint() {
+		$l = OC_L10N::get('lib');
+
+		if(OC_Config::getValue('updatechecker', true)==true) {
 			$data=OC_Updater::check();
 			if(isset($data['version']) and $data['version']<>'') {
-				$txt='<span style="color:#AA0000; font-weight:bold;">'.$data['versionstring'].' is available. Get <a href="'.$data['web'].'">more information</a></span>';
+				$txt='<span style="color:#AA0000; font-weight:bold;">'.$l->t('%s is available. Get <a href="%s">more information</a>',array($data['versionstring'], $data['web'])).'</span>';
 			}else{
-				$txt='up to date';
+				$txt=$l->t('up to date');
 			}
 		}else{
-			$txt='updates check is disabled';
+			$txt=$l->t('updates check is disabled');
 		}
 		return($txt);
 	}
@@ -75,7 +77,7 @@ class OC_Updater{
 	/**
 	 * do ownCloud update
 	 */
-	public static function doUpdate(){
+	public static function doUpdate() {
 
 		//update ownCloud core
 

@@ -29,7 +29,7 @@ class OC_BackgroundJob_QueuedTask{
 	 * @param $id ID of the task
 	 * @return associative array
 	 */
-	public static function find( $id ){
+	public static function find( $id ) {
 		$stmt = OC_DB::prepare( 'SELECT * FROM `*PREFIX*queuedtasks` WHERE `id` = ?' );
 		$result = $stmt->execute(array($id));
 		return $result->fetchRow();
@@ -39,14 +39,14 @@ class OC_BackgroundJob_QueuedTask{
 	 * @brief Gets all queued tasks
 	 * @return array with associative arrays
 	 */
-	public static function all(){
+	public static function all() {
 		// Array for objects
 		$return = array();
 
 		// Get Data
 		$stmt = OC_DB::prepare( 'SELECT * FROM `*PREFIX*queuedtasks`' );
 		$result = $stmt->execute(array());
-		while( $row = $result->fetchRow()){
+		while( $row = $result->fetchRow()) {
 			$return[] = $row;
 		}
 
@@ -58,14 +58,14 @@ class OC_BackgroundJob_QueuedTask{
 	 * @param $app app name
 	 * @return array with associative arrays
 	 */
-	public static function whereAppIs( $app ){
+	public static function whereAppIs( $app ) {
 		// Array for objects
 		$return = array();
 
 		// Get Data
 		$stmt = OC_DB::prepare( 'SELECT * FROM `*PREFIX*queuedtasks` WHERE `app` = ?' );
 		$result = $stmt->execute(array($app));
-		while( $row = $result->fetchRow()){
+		while( $row = $result->fetchRow()) {
 			$return[] = $row;
 		}
 
@@ -81,7 +81,7 @@ class OC_BackgroundJob_QueuedTask{
 	 * @param $parameters all useful data as text
 	 * @return id of task
 	 */
-	public static function add( $app, $klass, $method, $parameters ){
+	public static function add( $app, $klass, $method, $parameters ) {
 		$stmt = OC_DB::prepare( 'INSERT INTO `*PREFIX*queuedtasks` (`app`, `klass`, `method`, `parameters`) VALUES(?,?,?,?)' );
 		$result = $stmt->execute(array($app, $klass, $method, $parameters ));
 
@@ -95,7 +95,7 @@ class OC_BackgroundJob_QueuedTask{
 	 *
 	 * Deletes a report
 	 */
-	public static function delete( $id ){
+	public static function delete( $id ) {
 		$stmt = OC_DB::prepare( 'DELETE FROM `*PREFIX*queuedtasks` WHERE `id` = ?' );
 		$result = $stmt->execute(array($id));
 

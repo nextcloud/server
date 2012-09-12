@@ -2,7 +2,6 @@
 "Application name not provided." => "nama applikasi tidak disediakan",
 "No category to add?" => "Tiada kategori untuk di tambah?",
 "This category already exists: " => "Kategori ini telah wujud",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Tetapan",
 "January" => "Januari",
 "February" => "Februari",

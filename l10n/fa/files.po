@@ -10,15 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-23 20:17+0000\n"
-"Last-Translator: Mohammad Dashtizadeh <mohammad@dashtizadeh.net>\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fa\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
@@ -54,83 +54,100 @@ msgstr "نوشتن بر روی دیسک سخت ناموفق بود"
 msgid "Files"
 msgstr "فایل ها"
 
-#: js/fileactions.js:107 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "پاک کردن"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "already exists"
 msgstr "وجود دارد"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "replace"
 msgstr "جایگزین"
 
-#: js/filelist.js:141
+#: js/filelist.js:186
+msgid "suggest name"
+msgstr ""
+
+#: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
 msgstr "لغو"
 
-#: js/filelist.js:195
+#: js/filelist.js:235 js/filelist.js:237
 msgid "replaced"
 msgstr "جایگزین‌شده"
 
-#: js/filelist.js:195
-msgid "with"
-msgstr "همراه"
-
-#: js/filelist.js:195 js/filelist.js:246
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr "بازگشت"
 
-#: js/filelist.js:246
+#: js/filelist.js:237
+msgid "with"
+msgstr "همراه"
+
+#: js/filelist.js:268
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr "حذف شده"
 
-#: js/files.js:171
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "در حال ساخت فایل فشرده ممکن است زمان زیادی به طول بیانجامد"
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "ناتوان در بارگذاری یا فایل یک پوشه است یا 0بایت دارد"
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Upload Error"
 msgstr "خطا در بار گذاری"
 
-#: js/files.js:228 js/files.js:319 js/files.js:348
+#: js/files.js:236 js/files.js:341 js/files.js:370
 msgid "Pending"
 msgstr "در انتظار"
 
-#: js/files.js:333
+#: js/files.js:355
 msgid "Upload cancelled."
 msgstr "بار گذاری لغو شد"
 
-#: js/files.js:457
+#: js/files.js:423
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr ""
+
+#: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
 msgstr "نام نامناسب '/' غیرفعال است"
 
-#: js/files.js:703 templates/index.php:55
+#: js/files.js:746 templates/index.php:56
 msgid "Size"
 msgstr "اندازه"
 
-#: js/files.js:704 templates/index.php:56
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "تغییر یافته"
 
-#: js/files.js:731
+#: js/files.js:774
 msgid "folder"
 msgstr "پوشه"
 
-#: js/files.js:733
+#: js/files.js:776
 msgid "folders"
 msgstr "پوشه ها"
 
-#: js/files.js:741
+#: js/files.js:784
 msgid "file"
 msgstr "پرونده"
 
-#: js/files.js:743
+#: js/files.js:786
 msgid "files"
 msgstr "پرونده ها"
 
@@ -162,6 +179,10 @@ msgstr "0 نامحدود است"
 msgid "Maximum input size for ZIP files"
 msgstr "حداکثرمقدار برای بار گزاری پرونده های فشرده"
 
+#: templates/admin.php:14
+msgid "Save"
+msgstr ""
+
 #: templates/index.php:7
 msgid "New"
 msgstr "جدید"
@@ -186,36 +207,36 @@ msgstr "بارگذاری"
 msgid "Cancel upload"
 msgstr "متوقف کردن بار گذاری"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "اینجا هیچ چیز نیست."
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "نام"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "به اشتراک گذاری"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "بارگیری"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "حجم بارگذاری بسیار زیاد است"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد"
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "پرونده ها در حال بازرسی هستند لطفا صبر کنید"
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "بازرسی کنونی"

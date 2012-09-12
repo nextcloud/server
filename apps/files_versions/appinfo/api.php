@@ -32,5 +32,3 @@ return array(
 		)
 	)
 );
-
-?>

@@ -7,4 +7,5 @@
 	<licence>AGPL</licence>
 	<author>Frank Karlitschek</author>
 	<require>3</require>
+	<shipped>true</shipped>
 </info>

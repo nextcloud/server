@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-23 02:03+0200\n"
-"PO-Revision-Date: 2012-08-22 20:31+0000\n"
+"POT-Creation-Date: 2012-08-30 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 05:37+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -161,6 +161,12 @@ msgstr "in byte"
 msgid "in seconds. A change empties the cache."
 msgstr "in secondi. Il cambio svuota la cache."
 
-#: templates/settings.php:31
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Lascia vuoto per il nome utente (predefinito). Altrimenti, specifica un attributo LDAP/AD."
+
+#: templates/settings.php:32
 msgid "Help"
 msgstr "Aiuto"

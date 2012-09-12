@@ -4,6 +4,8 @@
  * @param text the string to translate
  * @return string
  */
+var OC;
+
 function t(app,text){
 	if( !( app in t.cache )){
 		$.ajax(OC.filePath('core','ajax','translations.php'),{
@@ -40,6 +42,11 @@ function fileDownloadPath(dir, file) {
 }
 
 OC={
+	PERMISSION_CREATE:4,
+	PERMISSION_READ:1,
+	PERMISSION_UPDATE:2,
+	PERMISSION_DELETE:8,
+	PERMISSION_SHARE:16,
 	webroot:oc_webroot,
 	appswebroots:oc_appswebroots,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
@@ -120,18 +127,19 @@ OC={
 	 */
 	addScript:function(app,script,ready){
 		var path=OC.filePath(app,'js',script+'.js');
-		if(OC.addScript.loaded.indexOf(path)==-1){
-			OC.addScript.loaded.push(path);
+		if(!OC.addScript.loaded[path]){
 			if(ready){
-				$.getScript(path,ready);
+				var deferred=$.getScript(path,ready);
 			}else{
-				$.getScript(path);
+				var deferred=$.getScript(path);
 			}
+			OC.addScript.loaded[path]=deferred;
 		}else{
 			if(ready){
 				ready();
 			}
 		}
+		return OC.addScript.loaded[path];
 	},
 	/**
 	 * load a css file and load it
@@ -145,6 +153,12 @@ OC={
 			var style=$('<link rel="stylesheet" type="text/css" href="'+path+'"/>');
 			$('head').append(style);
 		}
+	},
+	basename: function(path) {
+		return path.replace(/\\/g,'/').replace( /.*\//, '' );
+	},
+	dirname: function(path) {
+		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');;
 	},
 	/**
 	 * do a search query and display the results
@@ -200,7 +214,7 @@ OC={
 					popup.prepend('<span class="arrow '+arrowclass+'"></span><h2>'+t('core', 'Settings')+'</h2><a class="close svg"></a>').show();
 					popup.find('.close').bind('click', function() {
 						popup.remove();
-					})
+					});
 					if(typeof props.loadJS !== 'undefined') {
 						var scriptname;
 						if(props.loadJS === true) {
@@ -229,6 +243,49 @@ OC.search.lastQuery='';
 OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
+
+OC.Breadcrumb={
+	container:null,
+	crumbs:[],
+	push:function(name, link){
+		if(!OC.Breadcrumb.container){//default
+			OC.Breadcrumb.container=$('#controls');
+		}
+		var crumb=$('<div/>');
+		crumb.addClass('crumb').addClass('last');
+		crumb.attr('style','background-image:url("'+OC.imagePath('core','breadcrumb')+'")');
+
+		var crumbLink=$('<a/>');
+		crumbLink.attr('href',link);
+		crumbLink.text(name);
+		crumb.append(crumbLink);
+
+		var existing=OC.Breadcrumb.container.find('div.crumb');
+		if(existing.length){
+			existing.removeClass('last');
+			existing.last().after(crumb);
+		}else{
+			OC.Breadcrumb.container.append(crumb);
+		}
+		OC.Breadcrumb.crumbs.push(crumb);
+		return crumb;
+	},
+	pop:function(){
+		if(!OC.Breadcrumb.container){//default
+			OC.Breadcrumb.container=$('#controls');
+		}
+		OC.Breadcrumb.container.find('div.crumb').last().remove();
+		OC.Breadcrumb.container.find('div.crumb').last().addClass('last');
+		OC.Breadcrumb.crumbs.pop();
+	},
+	clear:function(){
+		if(!OC.Breadcrumb.container){//default
+			OC.Breadcrumb.container=$('#controls');
+		}
+		OC.Breadcrumb.container.find('div.crumb').remove();
+		OC.Breadcrumb.crumbs=[];
+	}
+}
 
 if(typeof localStorage !='undefined' && localStorage != null){
 	//user and instance awere localstorage
@@ -585,4 +642,41 @@ function formatDate(date){
 	var monthNames = [ t('files','January'), t('files','February'), t('files','March'), t('files','April'), t('files','May'), t('files','June'),
 	t('files','July'), t('files','August'), t('files','September'), t('files','October'), t('files','November'), t('files','December') ];
 	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
+}
+
+/**
+ * get a variable by name
+ * @param string name
+ */
+OC.get=function(name) {
+	var namespaces = name.split(".");
+	var tail = namespaces.pop();
+	var context=window;
+	
+	for(var i = 0; i < namespaces.length; i++) {
+		context = context[namespaces[i]];
+		if(!context){
+			return false;
+		}
+	}
+	return context[tail];
+}
+
+/**
+ * set a variable by name
+ * @param string name
+ * @param mixed value
+ */
+OC.set=function(name, value) {
+	var namespaces = name.split(".");
+	var tail = namespaces.pop();
+	var context=window;
+	
+	for(var i = 0; i < namespaces.length; i++) {
+		if(!context[namespaces[i]]){
+			context[namespaces[i]]={};
+		}
+		context = context[namespaces[i]];
+	}
+	context[tail]=value;
 }

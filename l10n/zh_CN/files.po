@@ -10,15 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-25 02:04+0200\n"
-"PO-Revision-Date: 2012-08-24 01:52+0000\n"
-"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
@@ -54,83 +54,100 @@ msgstr "写入磁盘失败"
 msgid "Files"
 msgstr "文件"
 
-#: js/fileactions.js:111 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "删除"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "already exists"
 msgstr "已经存在"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "replace"
 msgstr "替换"
 
-#: js/filelist.js:141
+#: js/filelist.js:186
+msgid "suggest name"
+msgstr "建议名称"
+
+#: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
 msgstr "取消"
 
-#: js/filelist.js:195
+#: js/filelist.js:235 js/filelist.js:237
 msgid "replaced"
 msgstr "已经替换"
 
-#: js/filelist.js:195
-msgid "with"
-msgstr "随着"
-
-#: js/filelist.js:195 js/filelist.js:246
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr "撤销"
 
-#: js/filelist.js:246
+#: js/filelist.js:237
+msgid "with"
+msgstr "随着"
+
+#: js/filelist.js:268
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr "已经删除"
 
-#: js/files.js:171
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "正在生成 ZIP 文件，可能需要一些时间"
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "无法上传文件，因为它是一个目录或者大小为 0 字节"
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Upload Error"
 msgstr "上传错误"
 
-#: js/files.js:228 js/files.js:319 js/files.js:348
+#: js/files.js:236 js/files.js:341 js/files.js:370
 msgid "Pending"
 msgstr "操作等待中"
 
-#: js/files.js:333
+#: js/files.js:355
 msgid "Upload cancelled."
 msgstr "上传已取消"
 
-#: js/files.js:457
+#: js/files.js:423
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "文件正在上传中。现在离开此页会导致上传动作被取消。"
+
+#: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
 msgstr "非法的名称，不允许使用‘/’。"
 
-#: js/files.js:703 templates/index.php:55
+#: js/files.js:746 templates/index.php:56
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:704 templates/index.php:56
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:731
+#: js/files.js:774
 msgid "folder"
 msgstr "文件夹"
 
-#: js/files.js:733
+#: js/files.js:776
 msgid "folders"
 msgstr "文件夹"
 
-#: js/files.js:741
+#: js/files.js:784
 msgid "file"
 msgstr "文件"
 
-#: js/files.js:743
+#: js/files.js:786
 msgid "files"
 msgstr "文件"
 
@@ -162,6 +179,10 @@ msgstr "0 为无限制"
 msgid "Maximum input size for ZIP files"
 msgstr "ZIP 文件的最大输入大小"
 
+#: templates/admin.php:14
+msgid "Save"
+msgstr "保存"
+
 #: templates/index.php:7
 msgid "New"
 msgstr "新建"
@@ -186,36 +207,36 @@ msgstr "上传"
 msgid "Cancel upload"
 msgstr "取消上传"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "这里还什么都没有。上传些东西吧！"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "名称"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "共享"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "下载"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "上传文件过大"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "您正尝试上传的文件超过了此服务器可以上传的最大大小"
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "文件正在被扫描，请稍候。"
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "当前扫描"

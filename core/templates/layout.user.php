@@ -4,9 +4,6 @@
 		<title><?php echo isset($_['application']) && !empty($_['application'])?$_['application'].' | ':'' ?>ownCloud <?php echo OC_User::getUser()?' ('.OC_User::getUser().') ':'' ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="shortcut icon" href="<?php echo image_path('', 'favicon.png'); ?>" /><link rel="apple-touch-icon-precomposed" href="<?php echo image_path('', 'favicon-touch.png'); ?>" />
-		<?php if (!empty(OC_Util::$core_styles)): ?>
-		<link rel="stylesheet" href="<?php echo OC_Helper::linkToRemote('core.css', false) ?>" type="text/css" media="screen" />
-		<?php endif ?>
 		<?php foreach($_['cssfiles'] as $cssfile): ?>
 			<link rel="stylesheet" href="<?php echo $cssfile; ?>" type="text/css" media="screen" />
 		<?php endforeach; ?>
@@ -15,30 +12,23 @@
 			var oc_appswebroots = <?php echo $_['apps_paths'] ?>;
 			var oc_current_user = '<?php echo OC_User::getUser() ?>';
 		</script>
-		<?php if (!empty(OC_Util::$core_scripts)): ?>
-		<script type="text/javascript" src="<?php echo OC_Helper::linkToRemote('core.js', false) ?>"></script>
-		<?php endif ?>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
 		<?php endforeach; ?>
 		<?php foreach($_['headers'] as $header): ?>
 			<?php
 				echo '<'.$header['tag'].' ';
-				foreach($header['attributes'] as $name=>$value){
+				foreach($header['attributes'] as $name=>$value) {
 					echo "$name='$value' ";
 				};
 				echo '/>';
 			?>
 		<?php endforeach; ?>
 		<script type="text/javascript">
-			$(function() {
-				requesttoken = '<?php echo $_['requesttoken']; ?>';
-				OC.EventSource.requesttoken=requesttoken;
-				$(document).bind('ajaxSend', function(elm, xhr, s){
-					if(requesttoken) {
-						xhr.setRequestHeader('requesttoken', requesttoken);
-					}
-				});
+			requesttoken = '<?php echo $_['requesttoken']; ?>';
+			OC.EventSource.requesttoken=requesttoken;
+			$(document).bind('ajaxSend', function(elm, xhr, s) {
+				xhr.setRequestHeader('requesttoken', requesttoken);
 			});
 		</script>
 	</head>
@@ -48,7 +38,7 @@
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img class="svg" src="<?php echo image_path('', 'logo-wide.svg'); ?>" alt="ownCloud" /></a>
 			<a class="header-right header-action" id="logout" href="<?php echo link_to('', 'index.php'); ?>?logout=true"><img class="svg" alt="<?php echo $l->t('Log out');?>" title="<?php echo $l->t('Log out');?>" src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a>
 			<form class="searchbox header-right" action="#" method="post">
-				<input id="searchbox" class="svg" type="search" name="query" value="<?php if(isset($_POST['query'])){echo OC_Util::sanitizeHTML($_POST['query']);};?>" autocomplete="off" x-webkit-speech />
+				<input id="searchbox" class="svg" type="search" name="query" value="<?php if(isset($_POST['query'])) {echo OC_Util::sanitizeHTML($_POST['query']);};?>" autocomplete="off" x-webkit-speech />
 			</form>
 		</div></header>
 

@@ -4,19 +4,20 @@
 # 
 # Translators:
 # Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
+#   <tehoratopato@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-17 00:44+0200\n"
-"PO-Revision-Date: 2012-08-16 11:04+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2012-09-06 02:01+0200\n"
+"PO-Revision-Date: 2012-09-05 16:30+0000\n"
+"Last-Translator: teho <tehoratopato@gmail.com>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi_FI\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/settings.php:3
 msgid "External Storage"
@@ -40,7 +41,7 @@ msgstr "Valinnat"
 
 #: templates/settings.php:11
 msgid "Applicable"
-msgstr ""
+msgstr "Sovellettavissa"
 
 #: templates/settings.php:23
 msgid "Add mount point"
@@ -76,7 +77,7 @@ msgstr "Tuo juurivarmenne"
 
 #: templates/settings.php:108
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "Ota käyttöön ulkopuoliset tallennuspaikat"
 
 #: templates/settings.php:109
 msgid "Allow users to mount their own external storage"

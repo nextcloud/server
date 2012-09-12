@@ -2,7 +2,6 @@
 "Application name not provided." => "Име за апликацијата не е доставено.",
 "No category to add?" => "Нема категорија да се додаде?",
 "This category already exists: " => "Оваа категорија веќе постои:",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Поставки",
 "January" => "Јануари",
 "February" => "Февруари",

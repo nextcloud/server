@@ -21,5 +21,8 @@
 "last month" => "в прошлом месяце",
 "months ago" => "месяцы назад",
 "last year" => "в прошлом году",
-"years ago" => "годы назад"
+"years ago" => "годы назад",
+"%s is available. Get <a href=\"%s\">more information</a>" => "Возможно обновление до %s. <a href=\"%s\">Подробнее</a>",
+"up to date" => "актуальная версия",
+"updates check is disabled" => "проверка обновлений отключена"
 );

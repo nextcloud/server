@@ -113,7 +113,7 @@ class Jobs {
 			WHERE `owncloudname` = ?
 		');
 		foreach($removedGroups as $removedGroup) {
-			\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – group "'.$createdGroup.'" was removed.', \OCP\Util::INFO);
+			\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – group "'.$removedGroup.'" was removed.', \OCP\Util::INFO);
 		    $query->execute(array($removedGroup));
 		}
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – FINISHED dealing with removed groups.', \OCP\Util::DEBUG);

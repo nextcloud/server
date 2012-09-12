@@ -32,5 +32,6 @@
 "The LDAP attribute to use to generate the groups`s ownCloud name." => "Atributul LDAP folosit pentru a genera numele grupurilor din ownCloud",
 "in bytes" => "în octeți",
 "in seconds. A change empties the cache." => "în secunde. O schimbare curăță memoria tampon.",
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lăsați gol pentru numele de utilizator (implicit). În caz contrar, specificați un atribut LDAP / AD.",
 "Help" => "Ajutor"
 );

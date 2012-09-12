@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-28 02:01+0200\n"
-"PO-Revision-Date: 2012-08-27 10:45+0000\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-30 21:29+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -160,6 +160,12 @@ msgstr "bytetan"
 msgid "in seconds. A change empties the cache."
 msgstr "segundutan. Aldaketak katxea husten du."
 
-#: templates/settings.php:31
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Utzi hutsik erabiltzaile izenarako (lehentsia). Bestela zehaztu LDAP/AD atributua."
+
+#: templates/settings.php:32
 msgid "Help"
 msgstr "Laguntza"

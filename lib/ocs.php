@@ -84,7 +84,7 @@ class OC_OCS {
 			$method='get';
 		}elseif($_SERVER['REQUEST_METHOD'] == 'PUT') {
 			$method='put';
-			parse_str(file_get_contents("php://input"),$put_vars);
+			parse_str(file_get_contents("php://input"), $put_vars);
 		}elseif($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$method='post';
 		}else{
@@ -94,89 +94,89 @@ class OC_OCS {
 
 		// preprocess url
 		$url = strtolower($_SERVER['REQUEST_URI']);
-		if(substr($url,(strlen($url)-1))<>'/') $url.='/';
-		$ex=explode('/',$url);
+		if(substr($url, (strlen($url)-1))<>'/') $url.='/';
+		$ex=explode('/', $url);
 		$paracount=count($ex);
 		$format = self::readData($method, 'format', 'text', '');
 
 		// eventhandler
 		// CONFIG
 		// apiconfig - GET - CONFIG
-		if(($method=='get') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'config')){
+		if(($method=='get') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'config')) {
 			OC_OCS::apiconfig($format);
 
 		// PERSON
 		// personcheck - POST - PERSON/CHECK
-		}elseif(($method=='post') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-3]=='person') and ($ex[$paracount-2] == 'check')){
+		} elseif(($method=='post') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-3]=='person') and ($ex[$paracount-2] == 'check')) {
 			$login = self::readData($method, 'login', 'text');
 			$passwd = self::readData($method, 'password', 'text');
-			OC_OCS::personcheck($format,$login,$passwd);
+			OC_OCS::personcheck($format, $login, $passwd);
 
 		// ACTIVITY
 		// activityget - GET ACTIVITY   page,pagesize als urlparameter
-		}elseif(($method=='get') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'activity')){
+		}elseif(($method=='get') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'activity')) {
 			$page = self::readData($method, 'page', 'int', 0);
-			$pagesize = self::readData($method, 'pagesize','int', 10);
+			$pagesize = self::readData($method, 'pagesize', 'int', 10);
 			if($pagesize<1 or $pagesize>100) $pagesize=10;
-			OC_OCS::activityget($format,$page,$pagesize);
+			OC_OCS::activityget($format, $page, $pagesize);
 
 		// activityput - POST ACTIVITY
-		}elseif(($method=='post') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'activity')){
+		}elseif(($method=='post') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'activity')) {
 			$message = self::readData($method, 'message', 'text');
-			OC_OCS::activityput($format,$message);
+			OC_OCS::activityput($format, $message);
 
 
 		// PRIVATEDATA
 		// get - GET DATA
-		}elseif(($method=='get') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-2] == 'getattribute')){
+		}elseif(($method=='get') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-2] == 'getattribute')) {
 			OC_OCS::privateDataGet($format);
 
-		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-3] == 'getattribute')){
+		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-3] == 'getattribute')) {
 			$app=$ex[$paracount-2];
 			OC_OCS::privateDataGet($format, $app);
-		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-4] == 'getattribute')){
+		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-4] == 'getattribute')) {
 
 			$key=$ex[$paracount-2];
 			$app=$ex[$paracount-3];
-			OC_OCS::privateDataGet($format, $app,$key);
+			OC_OCS::privateDataGet($format, $app, $key);
 
 		// set - POST DATA
-		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-4] == 'setattribute')){
+		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-4] == 'setattribute')) {
 			$key=$ex[$paracount-2];
 			$app=$ex[$paracount-3];
 			$value = self::readData($method, 'value', 'text');
 			OC_OCS::privatedataset($format, $app, $key, $value);
 		// delete - POST DATA
-		}elseif(($method=='post') and ($ex[$paracount-6] =='v1.php') and ($ex[$paracount-4] == 'deleteattribute')){
+		}elseif(($method=='post') and ($ex[$paracount-6] =='v1.php') and ($ex[$paracount-4] == 'deleteattribute')) {
 			$key=$ex[$paracount-2];
 			$app=$ex[$paracount-3];
 			OC_OCS::privatedatadelete($format, $app, $key);
 
 		// CLOUD
-		// systemWebApps 
-		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-4]=='cloud') and ($ex[$paracount-3] == 'system') and ($ex[$paracount-2] == 'webapps')){
+		// systemWebApps
+		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-4]=='cloud') and ($ex[$paracount-3] == 'system') and ($ex[$paracount-2] == 'webapps')) {
 			OC_OCS::systemwebapps($format);
 
-		// quotaget 
-		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'quota')){
+		// quotaget
+		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'quota')) {
 			$user=$ex[$paracount-3];
-			OC_OCS::quotaget($format,$user);
+			OC_OCS::quotaget($format, $user);
 
-		// quotaset 
-		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'quota')){
+		// quotaset
+		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'quota')) {
 			$user=$ex[$paracount-3];
 			$quota = self::readData('post', 'quota', 'int');
-			OC_OCS::quotaset($format,$user,$quota);
+			OC_OCS::quotaset($format, $user, $quota);
 
-		// keygetpublic 
-		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'publickey')){
+		// keygetpublic
+		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'publickey')) {
 			$user=$ex[$paracount-3];
-			OC_OCS::publicKeyGet($format,$user);
+			OC_OCS::publicKeyGet($format, $user);
 
-		// keygetprivate 
-		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'privatekey')){
+		// keygetprivate
+		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'privatekey')) {
 			$user=$ex[$paracount-3];
-			OC_OCS::privateKeyGet($format,$user);
+			OC_OCS::privateKeyGet($format, $user);
 
 
 // add more calls here
@@ -196,7 +196,7 @@ class OC_OCS {
 		}else{
 			$txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 			$txt.=OC_OCS::getdebugoutput();
-			echo(OC_OCS::generatexml($format,'failed',999,$txt));
+			echo(OC_OCS::generatexml($format, 'failed', 999, $txt));
 		}
 		exit();
 	}
@@ -229,7 +229,7 @@ class OC_OCS {
 		if(isset($_SERVER['PHP_AUTH_PW']))   $authpw=$_SERVER['PHP_AUTH_PW']; else $authpw='';
 
 		if(empty($authuser)) {
-			if($forceuser){
+			if($forceuser) {
 				header('WWW-Authenticate: Basic realm="your valid user account or api key"');
 				header('HTTP/1.0 401 Unauthorized');
 				exit;
@@ -237,8 +237,8 @@ class OC_OCS {
 				$identifieduser='';
 			}
 		}else{
-			if(!OC_User::login($authuser,$authpw)){
-				if($forceuser){
+			if(!OC_User::login($authuser, $authpw)) {
+				if($forceuser) {
 					header('WWW-Authenticate: Basic realm="your valid user account or api key"');
 					header('HTTP/1.0 401 Unauthorized');
 					exit;
@@ -283,69 +283,69 @@ class OC_OCS {
 			$writer = xmlwriter_open_memory();
 			xmlwriter_set_indent( $writer, 2 );
 			xmlwriter_start_document($writer );
-			xmlwriter_start_element($writer,'ocs');
-			xmlwriter_start_element($writer,'meta');
-			xmlwriter_write_element($writer,'status',$status);
-			xmlwriter_write_element($writer,'statuscode',$statuscode);
-			xmlwriter_write_element($writer,'message',$message);
+			xmlwriter_start_element($writer, 'ocs');
+			xmlwriter_start_element($writer, 'meta');
+			xmlwriter_write_element($writer, 'status', $status);
+			xmlwriter_write_element($writer, 'statuscode', $statuscode);
+			xmlwriter_write_element($writer, 'message', $message);
 			if($itemscount<>'') xmlwriter_write_element($writer,'totalitems',$itemscount);
-			if(!empty($itemsperpage)) xmlwriter_write_element($writer,'itemsperpage',$itemsperpage);
+			if(!empty($itemsperpage)) xmlwriter_write_element($writer, 'itemsperpage', $itemsperpage);
 			xmlwriter_end_element($writer);
 			if($dimension=='0') {
 				// 0 dimensions
-				xmlwriter_write_element($writer,'data',$data);
+				xmlwriter_write_element($writer, 'data', $data);
 
 			}elseif($dimension=='1') {
-				xmlwriter_start_element($writer,'data');
+				xmlwriter_start_element($writer, 'data');
 				foreach($data as $key=>$entry) {
-				xmlwriter_write_element($writer,$key,$entry);
+					xmlwriter_write_element($writer, $key, $entry);
 				}
 				xmlwriter_end_element($writer);
 
 			}elseif($dimension=='2') {
 				xmlwriter_start_element($writer,'data');
 				foreach($data as $entry) {
-				xmlwriter_start_element($writer,$tag);
-				if(!empty($tagattribute)) {
-				xmlwriter_write_attribute($writer,'details',$tagattribute);
-				}
-				foreach($entry as $key=>$value) {
-				if(is_array($value)){
-				foreach($value as $k=>$v) {
-					xmlwriter_write_element($writer,$k,$v);
-				}
-				} else {
-				xmlwriter_write_element($writer,$key,$value);
-				}
-				}
-				xmlwriter_end_element($writer);
-				}
+					xmlwriter_start_element($writer, $tag);
+					if(!empty($tagattribute)) {
+						xmlwriter_write_attribute($writer, 'details', $tagattribute);
+					}
+					foreach($entry as $key=>$value) {
+						if(is_array($value)) {
+							foreach($value as $k=>$v) {
+								xmlwriter_write_element($writer, $k, $v);
+							}
+						} else {
+							xmlwriter_write_element($writer, $key, $value);
+						}
+					}
+					xmlwriter_end_element($writer);
+					}
 				xmlwriter_end_element($writer);
 
 			}elseif($dimension=='3') {
-				xmlwriter_start_element($writer,'data');
+				xmlwriter_start_element($writer, 'data');
 				foreach($data as $entrykey=>$entry) {
-				xmlwriter_start_element($writer,$tag);
-				if(!empty($tagattribute)) {
-				xmlwriter_write_attribute($writer,'details',$tagattribute);
-				}
-				foreach($entry as $key=>$value) {
-				if(is_array($value)){
-				xmlwriter_start_element($writer,$entrykey);
-				foreach($value as $k=>$v) {
-					xmlwriter_write_element($writer,$k,$v);
-				}
-				xmlwriter_end_element($writer);
-				} else {
-				xmlwriter_write_element($writer,$key,$value);
-				}
-				}
-				xmlwriter_end_element($writer);
+					xmlwriter_start_element($writer, $tag);
+					if(!empty($tagattribute)) {
+						xmlwriter_write_attribute($writer, 'details', $tagattribute);
+					}
+					foreach($entry as $key=>$value) {
+						if(is_array($value)) {
+							xmlwriter_start_element($writer, $entrykey);
+							foreach($value as $k=>$v) {
+								xmlwriter_write_element($writer, $k, $v);
+							}
+							xmlwriter_end_element($writer);
+						} else {
+							xmlwriter_write_element($writer, $key, $value);
+						}
+					}
+					xmlwriter_end_element($writer);
 				}
 				xmlwriter_end_element($writer);
 			}elseif($dimension=='dynamic') {
-				xmlwriter_start_element($writer,'data');
-				OC_OCS::toxml($writer,$data,'comment');
+				xmlwriter_start_element($writer, 'data');
+				OC_OCS::toxml($writer, $data, 'comment');
 				xmlwriter_end_element($writer);
 			}
 
@@ -363,18 +363,15 @@ class OC_OCS {
 			if (is_numeric($key)) {
 				$key = $node;
 			}
-			if (is_array($value)){
-				xmlwriter_start_element($writer,$key);
-				OC_OCS::toxml($writer,$value,$node);
+			if (is_array($value)) {
+				xmlwriter_start_element($writer, $key);
+				OC_OCS::toxml($writer,$value, $node);
 				xmlwriter_end_element($writer);
 			}else{
-				xmlwriter_write_element($writer,$key,$value);
+				xmlwriter_write_element($writer, $key, $value);
 			}
 		}
 	}
-
-
-
 
 	/**
 	* return the config data of this server
@@ -383,16 +380,15 @@ class OC_OCS {
 	*/
 	private static function apiConfig($format) {
 		$user=OC_OCS::checkpassword(false);
-		$url=substr(OCP\Util::getServerHost().$_SERVER['SCRIPT_NAME'],0,-11).'';
+		$url=substr(OCP\Util::getServerHost().$_SERVER['SCRIPT_NAME'], 0, -11).'';
 
 		$xml['version']='1.7';
 		$xml['website']='ownCloud';
 		$xml['host']=OCP\Util::getServerHost();
 		$xml['contact']='';
 		$xml['ssl']='false';
-		echo(OC_OCS::generatexml($format,'ok',100,'',$xml,'config','',1));
+		echo(OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'config', '', 1));
 	}
-
 
 	/**
 	* check if the provided login/apikey/password is valid
@@ -402,19 +398,17 @@ class OC_OCS {
 	* @return string xml/json
 	*/
 	private static function personCheck($format,$login,$passwd) {
-		if($login<>''){
-			if(OC_User::login($login,$passwd)){
+		if($login<>'') {
+			if(OC_User::login($login, $passwd)) {
 				$xml['person']['personid']=$login;
-				echo(OC_OCS::generatexml($format,'ok',100,'',$xml,'person','check',2));
+				echo(OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'person', 'check', 2));
 			}else{
-				echo(OC_OCS::generatexml($format,'failed',102,'login not valid'));
+				echo(OC_OCS::generatexml($format, 'failed', 102, 'login not valid'));
 			}
 		}else{
-			echo(OC_OCS::generatexml($format,'failed',101,'please specify all mandatory fields'));
+			echo(OC_OCS::generatexml($format, 'failed', 101, 'please specify all mandatory fields'));
 		}
 	}
-
-
 
 	// ACTIVITY API #############################################
 
@@ -425,12 +419,12 @@ class OC_OCS {
 	* @param string $pagesize
 	* @return string xml/json
 	*/
-	private static function activityGet($format,$page,$pagesize) {
+	private static function activityGet($format, $page, $pagesize) {
 		$user=OC_OCS::checkpassword();
 
 			//TODO
 
-		$txt=OC_OCS::generatexml($format,'ok',100,'',$xml,'activity','full',2,$totalcount,$pagesize);
+		$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'activity', 'full', 2, $totalcount,$pagesize);
 		echo($txt);
 	}
 
@@ -443,7 +437,7 @@ class OC_OCS {
 	private static function activityPut($format,$message) {
 		// not implemented in ownCloud
 		$user=OC_OCS::checkpassword();
-		echo(OC_OCS::generatexml($format,'ok',100,''));
+		echo(OC_OCS::generatexml($format, 'ok', 100, ''));
 	}
 
 	// PRIVATEDATA API #############################################
@@ -455,9 +449,9 @@ class OC_OCS {
 	* @param string $key
 	* @return string xml/json
 	*/
-	private static function privateDataGet($format,$app="",$key="") {
+	private static function privateDataGet($format, $app="", $key="") {
 		$user=OC_OCS::checkpassword();
-		$result=OC_OCS::getData($user,$app,$key);
+		$result=OC_OCS::getData($user, $app, $key);
 		$xml=array();
 		foreach($result as $i=>$log) {
 			$xml[$i]['key']=$log['key'];
@@ -480,8 +474,8 @@ class OC_OCS {
 	*/
 	private static function privateDataSet($format, $app, $key, $value) {
 		$user=OC_OCS::checkpassword();
-		if(OC_OCS::setData($user,$app,$key,$value)){
-			echo(OC_OCS::generatexml($format,'ok',100,''));
+		if(OC_OCS::setData($user, $app, $key, $value)) {
+			echo(OC_OCS::generatexml($format, 'ok', 100, ''));
 		}
 	}
 
@@ -493,15 +487,15 @@ class OC_OCS {
 	* @return string xml/json
 	*/
 	private static function privateDataDelete($format, $app, $key) {
-		if($key=="" or $app==""){
+		if($key=="" or $app=="") {
 			return; //key and app are NOT optional here
 		}
 		$user=OC_OCS::checkpassword();
-		if(OC_OCS::deleteData($user,$app,$key)){
-			echo(OC_OCS::generatexml($format,'ok',100,''));
+		if(OC_OCS::deleteData($user, $app, $key)) {
+			echo(OC_OCS::generatexml($format, 'ok', 100, ''));
 		}
 	}
-	
+
 	/**
 	* get private data
 	* @param string $user
@@ -510,24 +504,24 @@ class OC_OCS {
 	* @param bool $like use LIKE instead of = when comparing keys
 	* @return array
 	*/
-	public static function getData($user,$app="",$key="") {
-		if($app){
+	public static function getData($user, $app="", $key="") {
+		if($app) {
 			$apps=array($app);
 		}else{
 			$apps=OC_Preferences::getApps($user);
 		}
-		if($key){
+		if($key) {
 			$keys=array($key);
 		}else{
-			foreach($apps as $app){
-				$keys=OC_Preferences::getKeys($user,$app);
+			foreach($apps as $app) {
+				$keys=OC_Preferences::getKeys($user, $app);
 			}
 		}
 		$result=array();
-		foreach($apps as $app){
-			foreach($keys as $key){
-				$value=OC_Preferences::getValue($user,$app,$key);
-				$result[]=array('app'=>$app,'key'=>$key,'value'=>$value);
+		foreach($apps as $app) {
+			foreach($keys as $key) {
+				$value=OC_Preferences::getValue($user, $app, $key);
+				$result[]=array('app'=>$app, 'key'=>$key, 'value'=>$value);
 			}
 		}
 		return $result;
@@ -542,7 +536,7 @@ class OC_OCS {
 	* @return bool
 	*/
 	public static function setData($user, $app, $key, $value) {
-		return OC_Preferences::setValue($user,$app,$key,$value);
+		return OC_Preferences::setValue($user, $app, $key, $value);
 	}
 
 	/**
@@ -553,7 +547,7 @@ class OC_OCS {
 	* @return string xml/json
 	*/
 	public static function deleteData($user, $app, $key) {
-		return OC_Preferences::deleteKey($user,$app,$key);
+		return OC_Preferences::deleteKey($user, $app, $key);
 	}
 
 
@@ -592,7 +586,7 @@ class OC_OCS {
                 $login=OC_OCS::checkpassword();
 		if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
 
-			if(OC_User::userExists($user)){
+			if(OC_User::userExists($user)) {
 				// calculate the disc space
 				$user_dir = '/'.$user.'/files';
 				OC_Filesystem::init($user_dir);
@@ -653,7 +647,7 @@ class OC_OCS {
         private static function publicKeyGet($format,$user) {
                 $login=OC_OCS::checkpassword();
 
-		if(OC_User::userExists($user)){
+		if(OC_User::userExists($user)) {
 			// calculate the disc space
 			$txt='this is the public key of '.$user;
 			echo($txt);
@@ -672,7 +666,7 @@ class OC_OCS {
                 $login=OC_OCS::checkpassword();
                 if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
 
-                        if(OC_User::userExists($user)){
+                        if(OC_User::userExists($user)) {
                                 // calculate the disc space
                                 $txt='this is the private key of '.$user;
                                 echo($txt);

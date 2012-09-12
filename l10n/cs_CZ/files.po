@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Martin  <fireball@atlas.cz>, 2011, 2012.
+# Martin  <fireball@atlas.cz>, 2011-2012.
 # Michal Hrušecký <Michal@hrusecky.net>, 2012.
+# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-21 02:03+0200\n"
-"PO-Revision-Date: 2012-08-21 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-10 02:02+0200\n"
+"PO-Revision-Date: 2012-09-09 10:25+0000\n"
+"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs_CZ\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
@@ -25,13 +26,13 @@ msgstr "Soubor byl odeslán úspěšně"
 
 #: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "Odeslaný soubor přesáhl velikostí parametr upload_max_filesize v php.ini"
+msgstr "Odeslaný soubor přesáhl svou velikostí parametr upload_max_filesize v php.ini"
 
 #: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Odeslaný soubor přesáhl velikostí parametr MAX_FILE_SIZE specifikovaný v HTML formuláři"
+msgstr "Odeslaný soubor přesáhl svou velikostí parametr MAX_FILE_SIZE specifikovaný v formuláři HTML"
 
 #: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
@@ -39,115 +40,132 @@ msgstr "Soubor byl odeslán pouze částečně"
 
 #: ajax/upload.php:24
 msgid "No file was uploaded"
-msgstr "Soubor nebyl odeslán"
+msgstr "Žádný soubor nebyl odeslán"
 
 #: ajax/upload.php:25
 msgid "Missing a temporary folder"
-msgstr "Chybí adresář pro sočasné soubory"
+msgstr "Chybí adresář pro dočasné soubory"
 
 #: ajax/upload.php:26
 msgid "Failed to write to disk"
-msgstr "Zápis na disk se nezdařil"
+msgstr "Zápis na disk selhal"
 
 #: appinfo/app.php:6
 msgid "Files"
 msgstr "Soubory"
 
-#: js/fileactions.js:107 templates/index.php:56
-msgid "Delete"
-msgstr "Vymazat"
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr "Zrušit sdílení"
 
-#: js/filelist.js:141
+#: js/fileactions.js:110 templates/index.php:64
+msgid "Delete"
+msgstr "Smazat"
+
+#: js/filelist.js:186 js/filelist.js:188
 msgid "already exists"
 msgstr "již existuje"
 
-#: js/filelist.js:141
+#: js/filelist.js:186 js/filelist.js:188
 msgid "replace"
-msgstr "zaměnit"
+msgstr "nahradit"
 
-#: js/filelist.js:141
+#: js/filelist.js:186
+msgid "suggest name"
+msgstr "navrhnout název"
+
+#: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
-msgstr "storno"
+msgstr "zrušit"
 
-#: js/filelist.js:195
+#: js/filelist.js:235 js/filelist.js:237
 msgid "replaced"
-msgstr "zaměněno"
+msgstr "nahrazeno"
 
-#: js/filelist.js:195
-msgid "with"
-msgstr "s"
-
-#: js/filelist.js:195 js/filelist.js:246
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
 msgstr "zpět"
 
-#: js/filelist.js:246
+#: js/filelist.js:237
+msgid "with"
+msgstr "s"
+
+#: js/filelist.js:268
+msgid "unshared"
+msgstr "sdílení zrušeno"
+
+#: js/filelist.js:270
 msgid "deleted"
 msgstr "smazáno"
 
-#: js/files.js:171
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
-msgstr "generuji ZIP soubor, může to chvíli trvat"
+msgstr "generuji ZIP soubor, může to nějakou dobu trvat."
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Nemohu nahrát váš soubor neboť to je adresář a nebo má nulovou délku."
+msgstr "Nelze odeslat Váš soubor, protože je to adresář nebo má velikost 0 bajtů"
 
-#: js/files.js:200
+#: js/files.js:208
 msgid "Upload Error"
-msgstr "Chyba při nahrávání"
+msgstr "Chyba odesílání"
 
-#: js/files.js:228 js/files.js:319 js/files.js:348
+#: js/files.js:236 js/files.js:341 js/files.js:370
 msgid "Pending"
-msgstr "Očekává se"
+msgstr "Čekající"
 
-#: js/files.js:333
+#: js/files.js:355
 msgid "Upload cancelled."
-msgstr "Nahrávání zrušeno"
+msgstr "Odesílání zrušeno."
 
-#: js/files.js:457
+#: js/files.js:423
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Probíhá odesílání souboru. Opuštění stránky vyústí ve zrušení nahrávání."
+
+#: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
-msgstr "Špatné jméno, znak '/' není povolen"
+msgstr "Neplatný název, znak '/' není povolen"
 
-#: js/files.js:703 templates/index.php:55
+#: js/files.js:746 templates/index.php:56
 msgid "Size"
 msgstr "Velikost"
 
-#: js/files.js:704 templates/index.php:56
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "Změněno"
 
-#: js/files.js:731
+#: js/files.js:774
 msgid "folder"
-msgstr "adresář"
+msgstr "složka"
 
-#: js/files.js:733
+#: js/files.js:776
 msgid "folders"
-msgstr "adresáře"
+msgstr "složky"
 
-#: js/files.js:741
+#: js/files.js:784
 msgid "file"
 msgstr "soubor"
 
-#: js/files.js:743
+#: js/files.js:786
 msgid "files"
 msgstr "soubory"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr "Nastavení chování k souborům"
+msgstr "Zacházení se soubory"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Maximální velikost ukládaných souborů"
+msgstr "Maximální velikost pro odesílání"
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr "největší možná:"
+msgstr "největší možná: "
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr "Potřeba pro vícesoborvé stahování a stahování adresářů"
+msgstr "Potřebné pro více-souborové stahování a stahování složek."
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
@@ -161,6 +179,10 @@ msgstr "0 znamená bez omezení"
 msgid "Maximum input size for ZIP files"
 msgstr "Maximální velikost vstupu pro ZIP soubory"
 
+#: templates/admin.php:14
+msgid "Save"
+msgstr "Uložit"
+
 #: templates/index.php:7
 msgid "New"
 msgstr "Nový"
@@ -171,7 +193,7 @@ msgstr "Textový soubor"
 
 #: templates/index.php:10
 msgid "Folder"
-msgstr "Adresář"
+msgstr "Složka"
 
 #: templates/index.php:11
 msgid "From url"
@@ -179,42 +201,42 @@ msgstr "Z url"
 
 #: templates/index.php:21
 msgid "Upload"
-msgstr "Uložit"
+msgstr "Odeslat"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr "Zrušit upload"
+msgstr "Zrušit odesílání"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
-msgstr "Žádný obsah. Uložte si něco!"
+msgstr "Žádný obsah. Nahrajte něco."
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "Název"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "Sdílet"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "Stáhnout"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
-msgstr "Příliš velký soubor"
+msgstr "Odeslaný soubor je příliš velký"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Soubory, které se snažíte uložit, překračují maximální velikosti uploadu na tomto serveru."
+msgstr "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "Soubory se prohledávají, prosím čekejte."
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "Aktuální prohledávání"

@@ -17,7 +17,6 @@
 "More" => "Daugiau",
 "Add your App" => "Pridėti programėlę",
 "Select an App" => "Pasirinkite programą",
-"-licensed" => "-licencijuota",
 "Documentation" => "Dokumentacija",
 "Ask a question" => "Užduoti klausimą",
 "Problems connecting to help database." => "Problemos jungiantis prie duomenų bazės",

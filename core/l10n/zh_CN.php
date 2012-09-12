@@ -50,6 +50,7 @@
 "Database user" => "数据库用户",
 "Database password" => "数据库密码",
 "Database name" => "数据库名",
+"Database tablespace" => "数据库表空间",
 "Database host" => "数据库主机",
 "Finish setup" => "安装完成",
 "web services under your control" => "由您掌控的网络服务",

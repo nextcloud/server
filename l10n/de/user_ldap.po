@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-23 10:14+0000\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-08-31 15:48+0000\n"
 "Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -128,7 +128,7 @@ msgstr "LDAP-Server (Windows: Groß- und Kleinschreibung bleibt unbeachtet)"
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
-msgstr "Schalte die SSL Zertifikatsprüfung aus."
+msgstr "Schalte die SSL-Zertifikatsprüfung aus."
 
 #: templates/settings.php:23
 msgid ""
@@ -164,6 +164,12 @@ msgstr "in Bytes"
 msgid "in seconds. A change empties the cache."
 msgstr "in Sekunden. Eine Änderung leert den Cache."
 
-#: templates/settings.php:31
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfalls geben Sie ein LDAP/AD-Attribut an."
+
+#: templates/settings.php:32
 msgid "Help"
 msgstr "Hilfe"

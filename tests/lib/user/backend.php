@@ -41,11 +41,11 @@ abstract class Test_User_Backend extends UnitTestCase {
 	 * test cases can override this in order to clean up created user
 	 * @return array
 	 */
-	public function getUser(){
+	public function getUser() {
 		return uniqid('test_');
 	}
 
-	public function testAddRemove(){
+	public function testAddRemove() {
 		//get the number of groups we start with, in case there are exising groups
 		$startCount=count($this->backend->getUsers());
 
@@ -69,7 +69,7 @@ abstract class Test_User_Backend extends UnitTestCase {
 		$this->assertFalse((array_search($name2,$this->backend->getUsers())!==false));
 	}
 	
-	public function testLogin(){
+	public function testLogin() {
 		$name1=$this->getUser();
 		$name2=$this->getUser();
 		

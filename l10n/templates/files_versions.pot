@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-28 02:01+0200\n"
+"POT-Creation-Date: 2012-09-12 02:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,8 +17,16 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: js/settings-personal.js:31
+#: js/settings-personal.js:31 templates/settings-personal.php:10
 msgid "Expire all versions"
+msgstr ""
+
+#: templates/settings-personal.php:4
+msgid "Versions"
+msgstr ""
+
+#: templates/settings-personal.php:7
+msgid "This will delete all existing backup versions of your files"
 msgstr ""
 
 #: templates/settings.php:3

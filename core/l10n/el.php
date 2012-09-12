@@ -2,7 +2,6 @@
 "Application name not provided." => "Δε προσδιορίστηκε όνομα εφαρμογής",
 "No category to add?" => "Δεν έχετε να προστέσθέσεται μια κα",
 "This category already exists: " => "Αυτή η κατηγορία υπάρχει ήδη",
-"ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=" => "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+=",
 "Settings" => "Ρυθμίσεις",
 "January" => "Ιανουάριος",
 "February" => "Φεβρουάριος",

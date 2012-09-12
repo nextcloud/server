@@ -15,7 +15,7 @@ class OC_Request {
 	 * reverse proxies
 	 */
 	public static function serverHost() {
-		if(OC::$CLI){
+		if(OC::$CLI) {
 			return 'localhost';
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
@@ -49,7 +49,7 @@ class OC_Request {
 				$proto = 'http';
 			}
 		}
-		return($proto);
+		return $proto;
 	}
 
 	/**
@@ -57,7 +57,7 @@ class OC_Request {
 	 * @returns string Path info or false when not found
 	 */
 	public static function getPathInfo() {
-		if (array_key_exists('PATH_INFO', $_SERVER)){
+		if (array_key_exists('PATH_INFO', $_SERVER)) {
 			$path_info = $_SERVER['PATH_INFO'];
 		}else{
 			$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));

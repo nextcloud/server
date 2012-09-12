@@ -17,7 +17,7 @@ $_['subadmingroups'] = array_flip($items);
 var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 </script>
 <div id="controls">
-	<form id="newuser">
+	<form id="newuser" autocomplete="off">
 		<input id="newusername" type="text" placeholder="<?php echo $l->t('Name')?>" /> <input
 			type="password" id="newuserpassword"
 			placeholder="<?php echo $l->t('Password')?>" /> <select
@@ -45,7 +45,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 				</option>
 				<?php endif;?>
 				<?php endforeach;?>
-				<?php if(array_search($_['default_quota'],$_['quota_preset'])===false):?>
+				<?php if(array_search($_['default_quota'], $_['quota_preset'])===false):?>
 				<option selected="selected"
 					value='<?php echo $_['default_quota'];?>'>
 					<?php echo $_['default_quota'];?>
@@ -70,7 +70,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 
 <div id='notification'></div>
 
-<table data-groups="<?php echo implode(', ',$allGroups);?>">
+<table data-groups="<?php echo implode(', ', $allGroups);?>">
 	<thead>
 		<tr>
 			<th id='headerName'><?php echo $l->t('Name')?></th>
@@ -88,7 +88,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 		<tr data-uid="<?php echo $user["name"] ?>">
 			<td class="name"><?php echo $user["name"]; ?></td>
 			<td class="password"><span>●●●●●●●</span> <img class="svg action"
-				src="<?php echo image_path('core','actions/rename.svg')?>"
+				src="<?php echo image_path('core', 'actions/rename.svg')?>"
 				alt="set new password" title="set new password"/>
 			</td>
 			<td class="groups"><select
@@ -129,7 +129,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 							<?php echo $preset;?>
 						</option>
 						<?php endforeach;?>
-						<?php if(array_search($user['quota'],$_['quota_preset'])===false):?>
+						<?php if(array_search($user['quota'], $_['quota_preset'])===false):?>
 						<option selected="selected" value='<?php echo $user['quota'];?>'>
 							<?php echo $user['quota'];?>
 						</option>
@@ -144,7 +144,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 			<td class="remove">
 				<?php if($user['name']!=OC_User::getUser()):?> 
 					<a href="#" class="action delete" original-title="<?php echo $l->t('Delete')?>">
-						<img src="<?php echo image_path('core','actions/delete.svg') ?>" />
+						<img src="<?php echo image_path('core', 'actions/delete.svg') ?>" />
 					</a>
 				<?php endif;?>
 			</td>
