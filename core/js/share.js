@@ -132,8 +132,7 @@ OC.Share={
 			if (link) {
 				html += '<div id="link">';
 				html += '<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">Share with link</label>';
-				// TODO Change to lock/unlock icon?
-				html += '<a href="#" id="showPassword" style="display:none;"><img class="svg" alt="Password protect" src="'+OC.imagePath('core', 'actions/triangle-n')+'"/></a>';
+				html += '<a href="#" id="showPassword" style="display:none;"><img class="svg" alt="Password protect" src="'+OC.imagePath('core', 'actions/lock')+'"/></a>';
 				html += '<br />';
 				html += '<input id="linkText" type="text" readonly="readonly" />';
 				html += '<div id="linkPass">';
