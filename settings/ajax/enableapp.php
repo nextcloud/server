@@ -10,5 +10,5 @@ $appid = OC_App::enable($_POST['appid']);
 if($appid !== false) {
 	OC_JSON::success(array('data' => array('appid' => $appid)));
 } else {
-	OC_JSON::error();
+	OC_JSON::error(array("data" => array( "message" => $l->t("Could not enable app. ") )));
 }
