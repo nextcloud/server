@@ -32,9 +32,9 @@ if(!$_['htaccessworking']) {
 	<input type="radio" name="mode" value="ajax" id="backgroundjobs_ajax" <?php if( $_['backgroundjobs_mode'] == "ajax" ) { echo 'checked="checked"'; } ?>>
 	<label for="backgroundjobs_ajax" title="<?php echo $l->t("execute one task with each page loaded"); ?>">AJAX</label><br />
 	<input type="radio" name="mode" value="webcron" id="backgroundjobs_webcron" <?php if( $_['backgroundjobs_mode'] == "webcron" ) { echo 'checked="checked"'; } ?>>
-	<label for="backgroundjobs_webcron" title="<?php echo $l->t("cron.php is registered at a webcron service"); ?>">Webcron</label><br />
+	<label for="backgroundjobs_webcron" title="<?php echo $l->t("cron.php is registered at a webcron service. Call the cron.php page in the owncloud root once a minute over http."); ?>">Webcron</label><br />
 	<input type="radio" name="mode" value="cron" id="backgroundjobs_cron" <?php if( $_['backgroundjobs_mode'] == "cron" ) { echo 'checked="checked"'; } ?>>
-	<label for="backgroundjobs_cron" title="<?php echo $l->t("use systems cron service"); ?>">Cron</label><br />
+	<label for="backgroundjobs_cron" title="<?php echo $l->t("use systems cron service. Call the cron.php file in the owncloud folder via a system cronjob once a minute."); ?>">Cron</label><br />
 </fieldset>
 
 <fieldset class="personalblock" id="shareAPI">
