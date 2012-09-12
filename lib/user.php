@@ -416,9 +416,16 @@ class OC_User {
 	 * @param string $userid the user to disable
 	 */
 	public static function disableUser($userid) {
-		$query = "INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, `configkey`, `configvalue`) VALUES(?, ?, ?, ?)";
-		$query = OC_DB::prepare($query);
-		$query->execute(array($userid, 'core', 'enabled', 'false'));
+		$sql = "INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, `configkey`, `configvalue`) VALUES(?, ?, ?, ?)";
+		$stmt = OC_DB::prepare($sql);
+		if ( ! OC_DB::isError($stmt) ) {
+			$result = $stmt->execute(array($userid, 'core', 'enabled', 'false'));
+			if ( OC_DB::isError($result) ) {
+				OC_Log::write('OC_User', 'could not enable user: '. OC_DB::getErrorMessage($result), OC_Log::ERROR);
+			}
+		} else {
+			OC_Log::write('OC_User', 'could not disable user: '. OC_DB::getErrorMessage($stmt), OC_Log::ERROR);
+		}
 	}
 
 	/**
@@ -426,9 +433,16 @@ class OC_User {
 	 * @param string $userid
 	 */
 	public static function enableUser($userid) {
-		$query = "DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
-		$query = OC_DB::prepare($query);
-		$query->execute(array($userid, 'core', 'enabled', 'false'));
+		$sql = "DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
+		$stmt = OC_DB::prepare($sql);
+		if ( ! OC_DB::isError($stmt) ) {
+			$result = $stmt->execute(array($userid, 'core', 'enabled', 'false'));
+			if ( OC_DB::isError($result) ) {
+				OC_Log::write('OC_User', 'could not enable user: '. OC_DB::getErrorMessage($result), OC_Log::ERROR);
+			}
+		} else {
+			OC_Log::write('OC_User', 'could not enable user: '. OC_DB::getErrorMessage($stmt), OC_Log::ERROR);
+		}
 	}
 
 	/**
@@ -437,10 +451,19 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function isEnabled($userid) {
-		$query = "SELECT `userid` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
-		$query = OC_DB::prepare($query);
-		$results = $query->execute(array($userid, 'core', 'enabled', 'false'));
-		return $results->numRows() ? false : true;
+		$sql = "SELECT `userid` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
+		$stmt = OC_DB::prepare($sql);
+		if ( ! OC_DB::isError($stmt) ) {
+			$result = $stmt->execute(array($userid, 'core', 'enabled', 'false'));
+			if ( ! OC_DB::isError($result) ) {
+				return $result->numRows() ? false : true;
+			} else {
+				OC_Log::write('OC_User', 'could not check if enabled: '. OC_DB::getErrorMessage($result), OC_Log::ERROR);
+			}
+		} else {
+			OC_Log::write('OC_User', 'could not check if enabled: '. OC_DB::getErrorMessage($stmt), OC_Log::ERROR);
+		}
+		return false;
 	}
 
 	/**
