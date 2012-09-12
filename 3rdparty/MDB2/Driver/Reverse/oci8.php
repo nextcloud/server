@@ -84,12 +84,12 @@ class MDB2_Driver_Reverse_oci8 extends MDB2_Driver_Reverse_Common
             $owner = $db->dsn['username'];
         }
 
-        $query = 'SELECT column_name name,
-                         data_type "type",
-                         nullable,
-                         data_default "default",
-                         COALESCE(data_precision, data_length) "length",
-                         data_scale "scale"
+        $query = 'SELECT column_name AS "name",
+                         data_type AS "type",
+                         nullable AS "nullable",
+                         data_default AS "default",
+                         COALESCE(data_precision, data_length) AS "length",
+                         data_scale AS "scale"
                     FROM all_tab_columns
                    WHERE (table_name=? OR table_name=?)
                      AND (owner=? OR owner=?)
@@ -146,6 +146,10 @@ class MDB2_Driver_Reverse_oci8 extends MDB2_Driver_Reverse_Common
             if ($default === 'NULL') {
                 $default = null;
             }
+			//ugly hack, but works for the reverse direction
+			if ($default == "''") {
+				$default = '';
+			}
             if ((null === $default) && $notnull) {
                 $default = '';
             }
@@ -221,11 +225,11 @@ class MDB2_Driver_Reverse_oci8 extends MDB2_Driver_Reverse_Common
             $owner = $db->dsn['username'];
         }
 
-        $query = "SELECT aic.column_name,
-                         aic.column_position,
-                         aic.descend,
-                         aic.table_owner,
-                         alc.constraint_type
+        $query = 'SELECT aic.column_name AS "column_name",
+                         aic.column_position AS "column_position",
+                         aic.descend AS "descend",
+                         aic.table_owner AS "table_owner",
+                         alc.constraint_type AS "constraint_type"
                     FROM all_ind_columns aic
                LEFT JOIN all_constraints alc
                       ON aic.index_name = alc.constraint_name
@@ -234,7 +238,7 @@ class MDB2_Driver_Reverse_oci8 extends MDB2_Driver_Reverse_Common
                    WHERE (aic.table_name=? OR aic.table_name=?)
                      AND (aic.index_name=? OR aic.index_name=?)
                      AND (aic.table_owner=? OR aic.table_owner=?)
-                ORDER BY column_position";
+                ORDER BY column_position';
         $stmt = $db->prepare($query);
         if (PEAR::isError($stmt)) {
             return $stmt;
@@ -331,9 +335,9 @@ class MDB2_Driver_Reverse_oci8 extends MDB2_Driver_Reverse_Common
                          \'SIMPLE\' "match",
                          CASE alc.deferrable WHEN \'NOT DEFERRABLE\' THEN 0 ELSE 1 END "deferrable",
                          CASE alc.deferred WHEN \'IMMEDIATE\' THEN 0 ELSE 1 END "initiallydeferred",
-                         alc.search_condition,
+                         alc.search_condition AS "search_condition",
                          alc.table_name,
-                         cols.column_name,
+                         cols.column_name AS "column_name",
                          cols.position,
                          r_alc.table_name "references_table",
                          r_cols.column_name "references_field",
@@ -509,14 +513,14 @@ class MDB2_Driver_Reverse_oci8 extends MDB2_Driver_Reverse_Common
             return $db;
         }
 
-        $query = 'SELECT trigger_name,
-                         table_name,
-                         trigger_body,
-                         trigger_type,
-                         triggering_event trigger_event,
-                         description trigger_comment,
-                         1 trigger_enabled,
-                         when_clause
+        $query = 'SELECT trigger_name AS "trigger_name",
+                         table_name AS "table_name",
+                         trigger_body AS "trigger_body",
+                         trigger_type AS "trigger_type",
+                         triggering_event AS "trigger_event",
+                         description AS "trigger_comment",
+                         1 AS "trigger_enabled",
+                         when_clause AS "when_clause"
                     FROM user_triggers
                    WHERE trigger_name = \''. strtoupper($trigger).'\'';
         $types = array(
