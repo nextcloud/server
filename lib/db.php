@@ -649,6 +649,30 @@ class OC_DB {
 			return false;
 		}
 	}
+	
+	/**
+	 * returns the error code and message as a string for logging
+	 * works with MDB2 and PDOException
+	 * @param mixed $error
+	 * @return string
+	 */
+	public static function getErrorMessage($error) {
+		if ( self::$backend==self::BACKEND_MDB2 and PEAR::isError($error) ) {
+			$msg = $error->getCode() . ': ' . $error->getMessage();
+			if (defined('DEBUG') && DEBUG) {
+				$msg .= '(' . $error->getDebugInfo() . ')';
+			}
+		} elseif (self::$backend==self::BACKEND_PDO and self::$PDO) {
+			$msg = self::$PDO->errorCode() . ': ';
+			$errorInfo = self::$PDO->errorInfo();
+			if (is_array($errorInfo)) {
+				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
+				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
+				$msg .= 'Driver Message = '.$errorInfo[2];
+			}
+		}
+		return $msg;
+	}
 }
 
 /**
