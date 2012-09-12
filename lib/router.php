@@ -7,6 +7,7 @@
  */
 
 use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 //use Symfony\Component\Routing\Route;
@@ -16,7 +17,14 @@ class OC_Router {
 	protected $collection = null;
 	protected $root = null;
 
+	protected $generator= null;
+
 	public function __construct() {
+		$baseUrl = OC_Helper::linkTo('', 'index.php');
+		$method = $_SERVER['REQUEST_METHOD'];
+		$host = OC_Request::serverHost();
+		$schema = OC_Request::serverProtocol();
+		$this->context = new RequestContext($baseUrl, $method, $host, $schema);
 		// TODO cache
 		$this->root = $this->getCollection('root');
 	}
@@ -56,12 +64,7 @@ class OC_Router {
 	}
 
     	public function match($url) {
-		$baseUrl = OC_Helper::linkTo('', 'index.php');
-		$method = $_SERVER['REQUEST_METHOD'];
-		$host = OC_Request::serverHost();
-		$schema = OC_Request::serverProtocol();
-		$context = new RequestContext($baseUrl, $method, $host, $schema);
-		$matcher = new UrlMatcher($this->root, $context);
+		$matcher = new UrlMatcher($this->root, $this->context);
 		$parameters = $matcher->match($url);
 		if (isset($parameters['action'])) {
 			$action = $parameters['action'];
@@ -76,5 +79,19 @@ class OC_Router {
 		} else {
 			throw new Exception('no action available');
 		}
+	}
+
+	public function getGenerator()
+	{
+		if (null !== $this->generator) {
+			return $this->generator;
+		}
+
+		return $this->generator = new UrlGenerator($this->root, $this->context);
+	}
+
+	public function generate($name, $parameters = array(), $absolute = false)
+	{
+		return $this->getGenerator()->generate($name, $parameters, $absolute);
 	}
 }

@@ -29,6 +29,20 @@ class OC_Helper {
 	private static $tmpFiles=array();
 
 	/**
+	 * @brief Creates an url using a defined route
+	 * @param $route
+	 * @param $parameters
+	 * @param $args array with param=>value, will be appended to the returned url
+	 * @returns the url
+	 *
+	 * Returns a url to the given app and file.
+	 */
+	public static function linkToRoute( $route, $parameters = array() ) {
+		$urlLinkTo = OC::getRouter()->generate($route, $parameters);
+		return $urlLinkTo;
+	}
+
+	/**
 	 * @brief Creates an url
 	 * @param $app app
 	 * @param $file file
