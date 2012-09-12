@@ -194,6 +194,24 @@ class OC_Filesystem{
 		}
 	}
 
+	/**
+	 * resolve a path to a storage and internal path
+	 * @param string $path
+	 * @return array consisting of the storage and the internal path
+	 */
+	static public function resolvePath($path){
+		$mountpoint=self::getMountPoint($path);
+		if($mountpoint) {
+			if(!isset(OC_Filesystem::$storages[$mountpoint])) {
+				$mount=OC_Filesystem::$mounts[$mountpoint];
+				OC_Filesystem::$storages[$mountpoint]=OC_Filesystem::createStorage($mount['class'],$mount['arguments']);
+			}
+			$storage = OC_Filesystem::$storages[$mountpoint];
+			$internalPath=substr($path,strlen($mountpoint));
+			return array($storage, $internalPath);
+		}
+	}
+
 	static public function init($root) {
 		if(self::$defaultInstance) {
 			return false;
