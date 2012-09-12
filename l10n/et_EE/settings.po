@@ -4,14 +4,14 @@
 # 
 # Translators:
 #   <icewind1991@gmail.com>, 2012.
-# Rivo Zängov <eraser@eraser.ee>, 2011, 2012.
+# Rivo Zängov <eraser@eraser.ee>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-12 02:01+0200\n"
+"PO-Revision-Date: 2012-09-11 11:12+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,11 +30,11 @@ msgstr "Autentimise viga"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "Grupp on juba olemas"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "Keela grupi lisamine"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -54,11 +54,11 @@ msgstr "Vigane päring"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Keela grupi kustutamine"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Keela kasutaja kustutamine"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -67,12 +67,12 @@ msgstr "Keel on muudetud"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Kasutajat ei saa lisada gruppi %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Kasutajat ei saa eemaldada grupist %s"
 
 #: js/apps.js:18
 msgid "Error"
@@ -125,39 +125,39 @@ msgstr "kasuta süsteemide cron teenuseid"
 
 #: templates/admin.php:41
 msgid "Share API"
-msgstr ""
+msgstr "Jagamise API"
 
 #: templates/admin.php:46
 msgid "Enable Share API"
-msgstr ""
+msgstr "Luba jagamise API"
 
 #: templates/admin.php:47
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Luba rakendustel kasutada jagamise API-t"
 
 #: templates/admin.php:51
 msgid "Allow links"
-msgstr ""
+msgstr "Luba linke"
 
 #: templates/admin.php:52
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Luba kasutajatel jagada kirjeid avalike linkidega"
 
 #: templates/admin.php:56
 msgid "Allow resharing"
-msgstr ""
+msgstr "Luba edasijagamine"
 
 #: templates/admin.php:57
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Luba kasutajatel jagada edasi kirjeid, mida on neile jagatud"
 
 #: templates/admin.php:60
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Luba kasutajatel kõigiga jagada"
 
 #: templates/admin.php:62
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Luba kasutajatel jagada kirjeid ainult nende grupi liikmetele, millesse nad ise kuuluvad"
 
 #: templates/admin.php:69
 msgid "Log"
@@ -191,7 +191,7 @@ msgstr "Vaata rakenduste lehte aadressil apps.owncloud.com"
 
 #: templates/apps.php:30
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-litsenseeritud <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"

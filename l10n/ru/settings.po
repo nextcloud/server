@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-09 02:01+0200\n"
-"PO-Revision-Date: 2012-09-08 12:08+0000\n"
+"POT-Creation-Date: 2012-09-12 02:01+0200\n"
+"PO-Revision-Date: 2012-09-11 01:35+0000\n"
 "Last-Translator: VicDeo <victor.dubiniuk@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +87,7 @@ msgstr "Ошибка"
 
 #: js/apps.js:39 js/apps.js:73
 msgid "Disable"
-msgstr "Отключить"
+msgstr "Выключить"
 
 #: js/apps.js:39 js/apps.js:62
 msgid "Enable"
@@ -112,7 +112,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Похоже, что каталог data и ваши файлы в нем доступны из интернета. Предоставляемый ownCloud файл htaccess не работает. Настоятельно рекомендуем настроить сервер таким образом, чтобы закрыть доступ к каталогу data или перенести каталог data за пределы корневого каталога веб-сервера."
+msgstr "Похоже, что каталог data и ваши файлы в нем доступны из интернета. Предоставляемый ownCloud файл htaccess не работает. Настоятельно рекомендуем настроить сервер таким образом, чтобы закрыть доступ к каталогу data или вынести каталог data за пределы корневого каталога веб-сервера."
 
 #: templates/admin.php:31
 msgid "Cron"
@@ -124,7 +124,7 @@ msgstr "Запускать задание при загрузке каждой �
 
 #: templates/admin.php:35
 msgid "cron.php is registered at a webcron service"
-msgstr "cron.php зарегистрирован в webcron сервисе"
+msgstr "cron.php зарегистрирован в службе webcron"
 
 #: templates/admin.php:37
 msgid "use systems cron service"
@@ -132,15 +132,15 @@ msgstr "использовать системные задания"
 
 #: templates/admin.php:41
 msgid "Share API"
-msgstr "API общего доступа"
+msgstr "API публикации"
 
 #: templates/admin.php:46
 msgid "Enable Share API"
-msgstr "Включить API общего доступа"
+msgstr "Включить API публикации"
 
 #: templates/admin.php:47
 msgid "Allow apps to use the Share API"
-msgstr "Разрешить приложениям доступ к API общего доступа"
+msgstr "Разрешить API публикации для приложений"
 
 #: templates/admin.php:51
 msgid "Allow links"
@@ -148,23 +148,23 @@ msgstr "Разрешить ссылки"
 
 #: templates/admin.php:52
 msgid "Allow users to share items to the public with links"
-msgstr "Разрешить пользователям предоставлять публичный доступ при помощи ссылок"
+msgstr "Разрешить пользователям публикацию при помощи ссылок"
 
 #: templates/admin.php:56
 msgid "Allow resharing"
-msgstr "Включить расширенный общий доступ"
+msgstr "Включить повторную публикацию"
 
 #: templates/admin.php:57
 msgid "Allow users to share items shared with them again"
-msgstr "Разрешить пользователям отдавать в общий доступ доступные им элементы других пользователей"
+msgstr "Разрешить пользователям публиковать доступные им элементы других пользователей"
 
 #: templates/admin.php:60
 msgid "Allow users to share with anyone"
-msgstr "Разрешить предоставлять общий доступ любым пользователям"
+msgstr "Разрешить публиковать для любых пользователей"
 
 #: templates/admin.php:62
 msgid "Allow users to only share with users in their groups"
-msgstr "Ограничить общий доступ группами пользователя"
+msgstr "Ограничить публикацию группами пользователя"
 
 #: templates/admin.php:69
 msgid "Log"

@@ -5,14 +5,15 @@
 # Translators:
 # Donahue Chuang <soshinwu@gmail.com>, 2012.
 #   <weiyu871@ms14.url.com.tw>, 2012.
+#   <wu0809@msn.com>, 2012.
 # ywang  <ywang1007@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-12 02:01+0200\n"
+"PO-Revision-Date: 2012-09-11 15:49+0000\n"
+"Last-Translator: Jeff5555 <wu0809@msn.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,11 +32,11 @@ msgstr "認證錯誤"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "群組已存在"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "群組增加失敗"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -55,11 +56,11 @@ msgstr "無效請求"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "群組刪除錯誤"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr ""
+msgstr "使用者刪除錯誤"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -68,12 +69,12 @@ msgstr "語言已變更"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "使用者加入群組%s錯誤"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "使用者移出群組%s錯誤"
 
 #: js/apps.js:18
 msgid "Error"
@@ -110,11 +111,11 @@ msgstr ""
 
 #: templates/admin.php:31
 msgid "Cron"
-msgstr ""
+msgstr "定期執行"
 
 #: templates/admin.php:33
 msgid "execute one task with each page loaded"
-msgstr ""
+msgstr "當頁面載入時，執行"
 
 #: templates/admin.php:35
 msgid "cron.php is registered at a webcron service"
@@ -122,7 +123,7 @@ msgstr ""
 
 #: templates/admin.php:37
 msgid "use systems cron service"
-msgstr ""
+msgstr "使用系統定期執行服務"
 
 #: templates/admin.php:41
 msgid "Share API"
@@ -138,27 +139,27 @@ msgstr ""
 
 #: templates/admin.php:51
 msgid "Allow links"
-msgstr ""
+msgstr "允許連結"
 
 #: templates/admin.php:52
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "允許使用者以結連公開分享檔案"
 
 #: templates/admin.php:56
 msgid "Allow resharing"
-msgstr ""
+msgstr "允許轉貼分享"
 
 #: templates/admin.php:57
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "允許使用者轉貼共享檔案"
 
 #: templates/admin.php:60
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "允許使用者公開分享"
 
 #: templates/admin.php:62
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "僅允許使用者在群組內分享"
 
 #: templates/admin.php:69
 msgid "Log"
@@ -308,7 +309,7 @@ msgstr "其他"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "群組 管理員"
 
 #: templates/users.php:82
 msgid "Quota"
