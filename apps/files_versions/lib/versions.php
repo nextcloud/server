@@ -118,7 +118,7 @@ class Storage {
 			if(!file_exists($versionsFolderName.'/'.$info['dirname'])) mkdir($versionsFolderName.'/'.$info['dirname'],0700,true);
 
 			// store a new version of a file
-			@$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.time());
+			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.time());
 
 			// expire old revisions if necessary
 			Storage::expire($filename);
