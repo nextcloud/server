@@ -49,7 +49,7 @@ if(strpos($dir, '..') === false) {
 	for($i=0;$i<$fileCount;$i++) {
         $target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
 		if(is_uploaded_file($files['tmp_name'][$i]) and OC_Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
-			$meta=OC_FileCache_Cached::get($target);
+			$meta = OC_FileCache::get($target);
 			$result[]=array( "status" => "success", 'mime'=>$meta['mimetype'],'size'=>$meta['size'],'name'=>basename($target));
 		}
 	}
