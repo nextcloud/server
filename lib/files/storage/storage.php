@@ -13,6 +13,7 @@ namespace OC\Files\Storage;
  */
 abstract class Storage{
 	abstract public function __construct($parameters);
+	abstract public function getId();
 	abstract public function mkdir($path);
 	abstract public function rmdir($path);
 	abstract public function opendir($path);

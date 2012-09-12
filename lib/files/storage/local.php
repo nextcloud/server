@@ -19,6 +19,9 @@ class Local extends \OC\Files\Storage\Common{
 			$this->datadir.='/';
 		}
 	}
+	public function getId(){
+		return 'local::'.$this->datadir;
+	}
 	public function mkdir($path) {
 		return @mkdir($this->datadir.$path);
 	}

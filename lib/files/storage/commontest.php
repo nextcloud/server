@@ -38,6 +38,9 @@ class CommonTest extends \OC\Files\Storage\Common{
 		$this->storage=new \OC\Files\Storage\Local($params);
 	}
 
+	public function getId(){
+		return 'test::'.$this->storage->getId();
+	}
 	public function mkdir($path) {
 		return $this->storage->mkdir($path);
 	}
