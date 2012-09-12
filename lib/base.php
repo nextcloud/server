@@ -219,8 +219,10 @@ class OC{
 					$tmpl->printPage();
 					exit;
 				}
-				OC_Minimizer::clearCache();
-
+				$minimizerCSS = new OC_Minimizer_CSS();
+				$minimizerCSS->clearCache();
+				$minimizerJS = new OC_Minimizer_JS();
+				$minimizerJS->clearCache();
 				OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
 				OC_App::checkAppsRequirements();
 				// load all apps to also upgrade enabled apps
