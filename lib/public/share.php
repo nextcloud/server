@@ -252,26 +252,26 @@ class Share {
 			\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 			throw new \Exception($message);
 			return false;
-		} else if ($shareType === self::SHARE_TYPE_CONTACT) {
-			if (!\OC_App::isEnabled('contacts')) {
-				$message = 'Sharing '.$itemSource.' failed, because the contacts app is not enabled';
-				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-				return false;
-			}
-			$vcard = \OC_Contacts_App::getContactVCard($shareWith);
-			if (!isset($vcard)) {
-				$message = 'Sharing '.$itemSource.' failed, because the contact does not exist';
-				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-				throw new \Exception($message);
-			}
-			$details = \OC_Contacts_VCard::structureContact($vcard);
-			// TODO Add ownCloud user to contacts vcard
-			if (!isset($details['EMAIL'])) {
-				$message = 'Sharing '.$itemSource.' failed, because no email address is associated with the contact';
-				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-				throw new \Exception($message);
-			}
-			return self::shareItem($itemType, $itemSource, self::SHARE_TYPE_EMAIL, $details['EMAIL'], $permissions);
+// 		} else if ($shareType === self::SHARE_TYPE_CONTACT) {
+// 			if (!\OC_App::isEnabled('contacts')) {
+// 				$message = 'Sharing '.$itemSource.' failed, because the contacts app is not enabled';
+// 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+// 				return false;
+// 			}
+// 			$vcard = \OC_Contacts_App::getContactVCard($shareWith);
+// 			if (!isset($vcard)) {
+// 				$message = 'Sharing '.$itemSource.' failed, because the contact does not exist';
+// 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+// 				throw new \Exception($message);
+// 			}
+// 			$details = \OC_Contacts_VCard::structureContact($vcard);
+// 			// TODO Add ownCloud user to contacts vcard
+// 			if (!isset($details['EMAIL'])) {
+// 				$message = 'Sharing '.$itemSource.' failed, because no email address is associated with the contact';
+// 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+// 				throw new \Exception($message);
+// 			}
+// 			return self::shareItem($itemType, $itemSource, self::SHARE_TYPE_EMAIL, $details['EMAIL'], $permissions);
 		} else {
 			// Future share types need to include their own conditions
 			$message = 'Share type '.$shareType.' is not valid for '.$itemSource;

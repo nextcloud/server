@@ -82,23 +82,23 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 		case 'getShareWith':
 			if (isset($_GET['search'])) {
 				$shareWith = array();
-				if (OC_App::isEnabled('contacts')) {
-					// TODO Add function to contacts to only get the 'fullname' column to improve performance
-					$ids = OC_Contacts_Addressbook::activeIds();
-					foreach ($ids as $id) {
-						$vcards = OC_Contacts_VCard::all($id);
-						foreach ($vcards as $vcard) {
-							$contact = $vcard['fullname'];
-							if (stripos($contact, $_GET['search']) !== false
-								&& (!isset($_GET['itemShares'])
-								|| !isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT])
-								|| !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT])
-								|| !in_array($contact, $_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT]))) {
-								$shareWith[] = array('label' => $contact, 'value' => array('shareType' => 5, 'shareWith' => $vcard['id']));
-							}
-						}
-					}
-				}
+// 				if (OC_App::isEnabled('contacts')) {
+// 					// TODO Add function to contacts to only get the 'fullname' column to improve performance
+// 					$ids = OC_Contacts_Addressbook::activeIds();
+// 					foreach ($ids as $id) {
+// 						$vcards = OC_Contacts_VCard::all($id);
+// 						foreach ($vcards as $vcard) {
+// 							$contact = $vcard['fullname'];
+// 							if (stripos($contact, $_GET['search']) !== false
+// 								&& (!isset($_GET['itemShares'])
+// 								|| !isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT])
+// 								|| !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT])
+// 								|| !in_array($contact, $_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT]))) {
+// 								$shareWith[] = array('label' => $contact, 'value' => array('shareType' => 5, 'shareWith' => $vcard['id']));
+// 							}
+// 						}
+// 					}
+// 				}
 				$count = 0;
 				$users = array();
 				$limit = 0;

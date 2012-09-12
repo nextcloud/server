@@ -167,12 +167,12 @@ OC.Share={
 							response(result.data);
 						} else {
 							// Suggest sharing via email if valid email address
-							var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
-							if (pattern.test(search.term)) {
-								response([{label: 'Share via email: '+search.term, value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
-							} else {
+// 							var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
+// 							if (pattern.test(search.term)) {
+// 								response([{label: 'Share via email: '+search.term, value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
+// 							} else {
 								response(['No people found']);
-							}
+// 							}
 						}
 					});
 	// 			}
