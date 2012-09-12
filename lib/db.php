@@ -457,7 +457,8 @@ class OC_DB {
 		$previousSchema = self::$schema->getDefinitionFromDatabase();
 		if (PEAR::isError($previousSchema)) {
 			$error = $previousSchema->getMessage();
-			OC_Log::write('core', 'Failed to get existing database structure for upgrading ('.$error.')', OC_Log::FATAL);
+			$detail = $previousSchema->getDebugInfo();
+			OC_Log::write('core', 'Failed to get existing database structure for upgrading ('.$error.', '.$detail.')', OC_Log::FATAL);
 			return false;
 		}
 
