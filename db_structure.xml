@@ -563,6 +563,13 @@
     <length>1</length>
    </field>
 
+   <field>
+    <name>expiration</name>
+    <type>timestamp</type>
+    <default></default>
+    <notnull>false</notnull>
+   </field>
+   
   </declaration>
 
  </table>
