@@ -27,6 +27,7 @@ abstract class Storage{
 	abstract public function isUpdatable($path);
 	abstract public function isDeletable($path);
 	abstract public function isSharable($path);
+	abstract public function getPermissions($path);
 	abstract public function file_exists($path);
 	abstract public function filectime($path);
 	abstract public function filemtime($path);

@@ -54,6 +54,25 @@ abstract class Common extends \OC\Files\Storage\Storage {
 	public function isSharable($path) {
 		return $this->isReadable($path);
 	}
+	public function getPermissions($path){
+		$permissions = 0;
+		if($this->isCreatable($path)){
+			$permissions |= OCP\Share::PERMISSION_CREATE;
+		}
+		if($this->isReadable($path)){
+			$permissions |= OCP\Share::PERMISSION_READ;
+		}
+		if($this->isUpdatable($path)){
+			$permissions |= OCP\Share::PERMISSION_UPDATE;
+		}
+		if($this->isDeletable($path)){
+			$permissions |= OCP\Share::PERMISSION_DELETE;
+		}
+		if($this->isSharable($path)){
+			$permissions |= OCP\Share::PERMISSION_SHARE;
+		}
+		return $permissions;
+	}
 // 	abstract public function file_exists($path);
 	public function filectime($path) {
 		$stat = $this->stat($path);
