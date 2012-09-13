@@ -26,6 +26,14 @@
 
 class OC_API {
 
+	/**
+	 * API authentication levels
+	 */
+	const GUEST_AUTH = 0;
+	const USER_AUTH = 1;
+	const SUBADMIN_AUTH = 2;
+	const ADMIN_AUTH = 3;
+
 	private static $server;
 
 	/**
@@ -46,8 +54,12 @@ class OC_API {
 	* @param string $url the url to match
 	* @param callable $action the function to run
 	* @param string $app the id of the app registering the call
+	* @param int $authlevel the level of authentication required for the call
+	* @param array $defaults
+	* @param array $requirements
 	*/
-	public static function register($method, $url, $action, $app,
+	public static function register($method, $url, $action, $app, 
+				$authlevel = OC_API::USER_AUTH,
 				$defaults = array(),
 				$requirements = array()){
 		$name = strtolower($method).$url;
@@ -61,7 +73,7 @@ class OC_API {
 				->action('OC_API', 'call');
 			self::$actions[$name] = array();
 		}
-		self::$actions[$name][] = array('app' => $app, 'action' => $action);
+		self::$actions[$name][] = array('app' => $app, 'action' => $action, 'authlevel' => $authlevel);
 	}
 	
 	/**
@@ -73,16 +85,16 @@ class OC_API {
 		// Loop through registered actions
 		foreach(self::$actions[$name] as $action){
 			$app = $action['app'];
-			// Check the consumer has permission to call this method.
-			//if(OC_OAuth_Server::isAuthorised('app_'.$app)){
+			// Authorsie this call
+			if($this->isAuthorised($action)){
 				if(is_callable($action['action'])){
 					$responses[] = array('app' => $app, 'response' => call_user_func($action['action'], $parameters));
 				} else {
 					$responses[] = array('app' => $app, 'response' => 501);
 				}
-			//} else {
-			//	$responses[] = array('app' => $app, 'response' => 401);
-			//}
+			} else {
+				$responses[] = array('app' => $app, 'response' => 401);
+			}
 			
 		}
 		// Merge the responses
@@ -95,6 +107,43 @@ class OC_API {
 		}
 		// logout the user to be stateles
 		OC_User::logout();
+	}
+	
+	/**
+	 * authenticate the api call
+	 * @param array $action the action details as supplied to OC_API::register()
+	 * @return bool
+	 */
+	private function isAuthorised($action){
+		$level = $action['authlevel'];
+		switch($level){
+			case OC_API::GUEST_AUTH:
+				// Anyone can access
+				return true;
+				break;
+			case OC_API::USER_AUTH:
+				// User required
+				// Check url for username and password
+				break;
+			case OC_API::SUBADMIN_AUTH:
+				// Check for subadmin
+				break;
+			case OC_API::ADMIN_AUTH:
+				// Check for admin
+				break;
+			default:
+				// oops looks like invalid level supplied
+				return false;
+				break;
+		}
+	} 
+	
+	/**
+	 * gets login details from url and logs in the user
+	 * @return bool
+	 */
+	public function loginUser(){
+		// Todo
 	}
 	
 	/**
