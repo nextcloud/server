@@ -86,7 +86,7 @@ class OC_API {
 		foreach(self::$actions[$name] as $action){
 			$app = $action['app'];
 			// Authorsie this call
-			if($this->isAuthorised($action)){
+			if(self::isAuthorised($action)){
 				if(is_callable($action['action'])){
 					$responses[] = array('app' => $app, 'response' => call_user_func($action['action'], $parameters));
 				} else {
@@ -105,7 +105,7 @@ class OC_API {
 		} else {
 			self::respond($response);
 		}
-		// logout the user to be stateles
+		// logout the user to be stateless
 		OC_User::logout();
 	}
 	
@@ -114,7 +114,7 @@ class OC_API {
 	 * @param array $action the action details as supplied to OC_API::register()
 	 * @return bool
 	 */
-	private function isAuthorised($action){
+	private static function isAuthorised($action){
 		$level = $action['authlevel'];
 		switch($level){
 			case OC_API::GUEST_AUTH:
@@ -123,13 +123,25 @@ class OC_API {
 				break;
 			case OC_API::USER_AUTH:
 				// User required
-				// Check url for username and password
+				return self::loginUser();
 				break;
 			case OC_API::SUBADMIN_AUTH:
 				// Check for subadmin
+				$user = self::loginUser();
+				if(!$user){
+					return false;
+				} else {
+					return OC_SubAdmin::isSubAdmin($user);
+				}
 				break;
 			case OC_API::ADMIN_AUTH:
 				// Check for admin
+				$user = self::loginUser();
+				if(!$user){
+					return false;
+				} else {
+					return OC_Group::inGroup($user, 'admin');
+				}
 				break;
 			default:
 				// oops looks like invalid level supplied
@@ -139,11 +151,13 @@ class OC_API {
 	} 
 	
 	/**
-	 * gets login details from url and logs in the user
-	 * @return bool
+	 * http basic auth
+	 * @return string|false (username, or false on failure)
 	 */
-	public function loginUser(){
-		// Todo
+	private static function loginUser(){
+		$authuser = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '';
+		$authpw = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
+		return OC_User::login($authuser, $authpw) ? $authuser : false;
 	}
 	
 	/**
@@ -222,17 +236,6 @@ class OC_API {
 				$writer->writeElement($k, $v);
 			}
 		}
-	}
 	
-	/**
-	 * check if the user is authenticated
-	 */
-	public static function checkLoggedIn(){
-		// Check OAuth
-		if(!OC_OAuth_Server::isAuthorised()){
-			OC_Response::setStatus(401);
-			die();
-		}
-	}
 	
 }
