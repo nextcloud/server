@@ -21,8 +21,6 @@
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Vaša mapa data in vaše datoteke so verjetno vsem dostopne preko interneta. Datoteka .htaccess vključena v ownCloud ni omogočena. Močno vam priporočamo, da nastavite vaš spletni strežnik tako, da mapa data ne bo več na voljo vsem, ali pa jo preselite izven korenske mape spletnega strežnika.",
 "Cron" => "Periodično opravilo",
 "execute one task with each page loaded" => "izvedi eno nalogo z vsako naloženo stranjo",
-"cron.php is registered at a webcron service" => "cron.php je vpisan na storitev webcron",
-"use systems cron service" => "uporabi sistemski servis za periodična opravila",
 "Share API" => "API souporabe",
 "Enable Share API" => "Omogoči API souporabe",
 "Allow apps to use the Share API" => "Dovoli aplikacijam uporabo API-ja souporabe",

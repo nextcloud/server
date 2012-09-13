@@ -14,8 +14,6 @@
 "Security Warning" => "Aviso de seguridade",
 "Cron" => "Cron",
 "execute one task with each page loaded" => "executar unha tarefa con cada páxina cargada",
-"cron.php is registered at a webcron service" => "cron.php está rexistrada como un servizo webcron",
-"use systems cron service" => "utilice o servizo cron do sistema",
 "Log" => "Conectar",
 "More" => "Máis",
 "Add your App" => "Engade o teu aplicativo",

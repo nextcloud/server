@@ -21,8 +21,6 @@
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "您的数据文件夹和文件可由互联网访问。OwnCloud提供的.htaccess文件未生效。我们强烈建议您配置服务器，以使数据文件夹不可被访问，或者将数据文件夹移到web服务器以外。",
 "Cron" => "计划任务",
 "execute one task with each page loaded" => "为每个装入的页面执行任务",
-"cron.php is registered at a webcron service" => "crop.php 已",
-"use systems cron service" => "实现系统 cron 服务",
 "Share API" => "共享API",
 "Enable Share API" => "开启共享API",
 "Allow apps to use the Share API" => "允许 应用 使用共享API",

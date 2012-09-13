@@ -21,8 +21,6 @@
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "ไดเร็กทอรี่ข้อมูลและไฟล์ของคุณสามารถเข้าถึงได้จากอินเทอร์เน็ต ไฟล์ .htaccess ที่ ownCloud มีให้ไม่สามารถทำงานได้อย่างเหมาะสม เราขอแนะนำให้คุณกำหนดค่าเว็บเซิร์ฟเวอร์ใหม่ในรูปแบบที่ไดเร็กทอรี่เก็บข้อมูลไม่สามารถเข้าถึงได้อีกต่อไป หรือคุณได้ย้ายไดเร็กทอรี่ที่ใช้เก็บข้อมูลไปอยู่ภายนอกตำแหน่ง root ของเว็บเซิร์ฟเวอร์แล้ว",
 "Cron" => "Cron",
 "execute one task with each page loaded" => "ประมวลผลหนึ่งงานเมื่อโหลดหน้าเว็บแต่ละครั้ง",
-"cron.php is registered at a webcron service" => "cron.php ได้ถูกลงทะเบียนที่บริการ webcron",
-"use systems cron service" => "ใช้บริการ cron จากระบบ",
 "Share API" => "API สำหรับคุณสมบัติแชร์ข้อมูล",
 "Enable Share API" => "เปิดใช้งาน API สำหรับคุณสมบัติแชร์ข้อมูล",
 "Allow apps to use the Share API" => "อนุญาตให้แอปฯสามารถใช้ API สำหรับแชร์ข้อมูลได้",

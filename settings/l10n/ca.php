@@ -21,8 +21,6 @@
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "La carpeta de dades i els vostres fitxersprobablement són accessibles des d'Internet. La fitxer .htaccess que ownCloud proporciona no funciona. Us recomanem que configureu el servidor web de tal manera que la carpeta de dades no sigui accessible o que moveu la carpeta de dades fora de l'arrel de documents del servidor web.",
 "Cron" => "Cron",
 "execute one task with each page loaded" => "executa una tasca en carregar cada pàgina",
-"cron.php is registered at a webcron service" => "cron.php està registrat en un servei web cron",
-"use systems cron service" => "usa el servei cron del sistema",
 "Share API" => "API de compartir",
 "Enable Share API" => "Activa l'API de compartir",
 "Allow apps to use the Share API" => "Permet que les aplicacions usin l'API de compartir",

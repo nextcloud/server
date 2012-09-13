@@ -14,8 +14,6 @@
 "Security Warning" => "Avertisment de securitate",
 "Cron" => "Cron",
 "execute one task with each page loaded" => "executâ o sarcină cu fiecare pagină încărcată",
-"cron.php is registered at a webcron service" => "cron.php e înregistrat la un serviciu de webcron",
-"use systems cron service" => "utilizează serviciul de cron al sistemului",
 "Log" => "Jurnal de activitate",
 "More" => "Mai mult",
 "Add your App" => "Adaugă aplicația ta",

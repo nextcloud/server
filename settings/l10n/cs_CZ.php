@@ -21,8 +21,6 @@
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Váš adresář dat a soubory jsou pravděpodobně přístupné z internetu. Soubor .htacces, který ownCloud poskytuje nefunguje. Doporučujeme Vám abyste nastavili Váš webový server tak, aby nebylo možno přistupovat do adresáře s daty, nebo přesunuli adresář dat mimo kořenovou složku dokumentů webového serveru.",
 "Cron" => "Cron",
 "execute one task with each page loaded" => "spustit jednu úlohu s každou načtenou stránkou",
-"cron.php is registered at a webcron service" => "cron.php je registrován jako služba webcron",
-"use systems cron service" => "použít systémovou službu cron",
 "Share API" => "API sdílení",
 "Enable Share API" => "Povolit API sdílení",
 "Allow apps to use the Share API" => "Povolit aplikacím používat API sdílení",

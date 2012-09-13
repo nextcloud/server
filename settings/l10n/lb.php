@@ -13,8 +13,6 @@
 "__language_name__" => "__language_name__",
 "Security Warning" => "Sécherheets Warnung",
 "Cron" => "Cron",
-"cron.php is registered at a webcron service" => "cron.php ass als en webcron Service registréiert",
-"use systems cron service" => "benotz den systems cron Service",
 "Share API" => "Share API",
 "Enable Share API" => "Share API aschalten",
 "Allow apps to use the Share API" => "Erlab Apps d'Share API ze benotzen",

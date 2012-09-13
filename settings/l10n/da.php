@@ -14,8 +14,6 @@
 "Security Warning" => "Sikkerhedsadvarsel",
 "Cron" => "Cron",
 "execute one task with each page loaded" => "udfør en opgave for hver indlæst side",
-"cron.php is registered at a webcron service" => "cron.php er tilmeldt en webcron tjeneste",
-"use systems cron service" => "brug systemets cron service",
 "Share API" => "Del API",
 "Enable Share API" => "Aktiver dele API",
 "Allow apps to use the Share API" => "Tillad apps a bruge dele APIen",

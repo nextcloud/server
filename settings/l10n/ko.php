@@ -14,8 +14,6 @@
 "Security Warning" => "보안 경고",
 "Cron" => "크론",
 "execute one task with each page loaded" => "각 페이지가 로드 된 하나의 작업을 실행",
-"cron.php is registered at a webcron service" => "cron.php는 webcron 서비스에 등록이 되어 있습니다.",
-"use systems cron service" => "cron 시스템 서비스를 사용",
 "Log" => "로그",
 "More" => "더",
 "Add your App" => "앱 추가",

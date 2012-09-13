@@ -14,8 +14,6 @@
 "Security Warning" => "Προειδοποίηση Ασφαλείας",
 "Cron" => "Cron",
 "execute one task with each page loaded" => "Εκτέλεση μίας εργασίας με κάθε σελίδα που φορτώνεται",
-"cron.php is registered at a webcron service" => "Το cron.php έχει καταχωρηθεί σε μια webcron υπηρεσία",
-"use systems cron service" => "Χρήση της υπηρεσίας cron του συστήματος",
 "Log" => "Αρχείο καταγραφής",
 "More" => "Περισσότερο",
 "Add your App" => "Πρόσθεσε τη δικιά σου εφαρμογή ",

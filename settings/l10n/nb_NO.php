@@ -14,8 +14,6 @@
 "Security Warning" => "Sikkerhetsadvarsel",
 "Cron" => "Cron",
 "execute one task with each page loaded" => "utfør en oppgave med hver side som blir lastet",
-"cron.php is registered at a webcron service" => "cron.php er registrert som en webcron tjeneste",
-"use systems cron service" => "benytt systemets cron tjeneste",
 "Log" => "Logg",
 "More" => "Mer",
 "Add your App" => "Legg til din App",

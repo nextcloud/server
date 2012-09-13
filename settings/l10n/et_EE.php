@@ -20,8 +20,6 @@
 "Security Warning" => "Turvahoiatus",
 "Cron" => "Ajastatud töö",
 "execute one task with each page loaded" => "käivita iga laetud lehe juures üks ülesanne",
-"cron.php is registered at a webcron service" => "cron.php on webcron teenuses registreeritud",
-"use systems cron service" => "kasuta süsteemide cron teenuseid",
 "Share API" => "Jagamise API",
 "Enable Share API" => "Luba jagamise API",
 "Allow apps to use the Share API" => "Luba rakendustel kasutada jagamise API-t",

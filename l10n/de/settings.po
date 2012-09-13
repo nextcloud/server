@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 07:52+0000\n"
+"POT-Creation-Date: 2012-09-13 02:01+0200\n"
+"PO-Revision-Date: 2012-09-13 00:01+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -43,6 +43,10 @@ msgstr "Gruppe existiert bereits"
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
 msgstr "Gruppe konnte nicht angelegt werden"
+
+#: ajax/enableapp.php:13
+msgid "Could not enable app. "
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -124,12 +128,16 @@ msgid "execute one task with each page loaded"
 msgstr "Führe eine Aufgabe pro geladener Seite aus."
 
 #: templates/admin.php:35
-msgid "cron.php is registered at a webcron service"
-msgstr "cron.php ist beim Webcron-Service registriert"
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr ""
 
 #: templates/admin.php:37
-msgid "use systems cron service"
-msgstr "Nutze System-Cron-Service"
+msgid ""
+"use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr ""
 
 #: templates/admin.php:41
 msgid "Share API"

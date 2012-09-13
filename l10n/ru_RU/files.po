@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <cdewqazxsqwe@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-08 02:01+0200\n"
-"PO-Revision-Date: 2012-09-08 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-13 02:01+0200\n"
+"PO-Revision-Date: 2012-09-12 13:55+0000\n"
+"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,37 +20,37 @@ msgstr ""
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Ошибка отсутствует, файл загружен успешно."
 
 #: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "Размер загруженного файла превышает заданный в директиве upload_max_filesize в php.ini"
 
 #: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Размер загруженного"
 
 #: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Загружаемый файл был загружен частично"
 
 #: ajax/upload.php:24
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Файл не был загружен"
 
 #: ajax/upload.php:25
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Отсутствует временная папка"
 
 #: ajax/upload.php:26
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Не удалось записать на диск"
 
 #: appinfo/app.php:6
 msgid "Files"
-msgstr ""
+msgstr "Файлы"
 
 #: js/fileactions.js:108 templates/index.php:62
 msgid "Unshare"
@@ -57,15 +58,15 @@ msgstr ""
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "already exists"
-msgstr ""
+msgstr "уже существует"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "replace"
-msgstr ""
+msgstr "отмена"
 
 #: js/filelist.js:186
 msgid "suggest name"
@@ -73,19 +74,19 @@ msgstr ""
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
-msgstr ""
+msgstr "отменить"
 
 #: js/filelist.js:235 js/filelist.js:237
 msgid "replaced"
-msgstr ""
+msgstr "заменено"
 
 #: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
 msgid "undo"
-msgstr ""
+msgstr "отменить действие"
 
 #: js/filelist.js:237
 msgid "with"
-msgstr ""
+msgstr "с"
 
 #: js/filelist.js:268
 msgid "unshared"
@@ -93,7 +94,7 @@ msgstr ""
 
 #: js/filelist.js:270
 msgid "deleted"
-msgstr ""
+msgstr "удалено"
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
@@ -105,7 +106,7 @@ msgstr ""
 
 #: js/files.js:208
 msgid "Upload Error"
-msgstr ""
+msgstr "Ошибка загрузки"
 
 #: js/files.js:236 js/files.js:341 js/files.js:370
 msgid "Pending"
@@ -113,7 +114,7 @@ msgstr ""
 
 #: js/files.js:355
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Загрузка отменена"
 
 #: js/files.js:423
 msgid ""
@@ -122,15 +123,15 @@ msgstr ""
 
 #: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Неправильное имя, '/' не допускается."
 
 #: js/files.js:746 templates/index.php:56
 msgid "Size"
-msgstr ""
+msgstr "Размер"
 
 #: js/files.js:747 templates/index.php:58
 msgid "Modified"
-msgstr ""
+msgstr "Изменен"
 
 #: js/files.js:774
 msgid "folder"
@@ -150,15 +151,15 @@ msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Работа с файлами"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Максимальный размер загружаемого файла"
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "Максимально возможный"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
@@ -178,19 +179,19 @@ msgstr ""
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Новый"
 
 #: templates/index.php:9
 msgid "Text file"
-msgstr ""
+msgstr "Текстовый файл"
 
 #: templates/index.php:10
 msgid "Folder"
-msgstr ""
+msgstr "Папка"
 
 #: templates/index.php:11
 msgid "From url"
@@ -198,19 +199,19 @@ msgstr ""
 
 #: templates/index.php:21
 msgid "Upload"
-msgstr ""
+msgstr "Загрузить "
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "Отмена загрузки"
 
 #: templates/index.php:40
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Здесь ничего нет. Загрузите что-нибудь!"
 
 #: templates/index.php:48
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 #: templates/index.php:50
 msgid "Share"
@@ -218,17 +219,17 @@ msgstr ""
 
 #: templates/index.php:52
 msgid "Download"
-msgstr ""
+msgstr "Загрузить"
 
 #: templates/index.php:75
 msgid "Upload too large"
-msgstr ""
+msgstr "Загрузка слишком велика"
 
 #: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Размер файлов, которые Вы пытаетесь загрузить, превышает максимально допустимый размер для загрузки на данный сервер."
 
 #: templates/index.php:82
 msgid "Files are being scanned, please wait."
@@ -236,4 +237,4 @@ msgstr ""
 
 #: templates/index.php:85
 msgid "Current scanning"
-msgstr ""
+msgstr "Текущее сканирование"

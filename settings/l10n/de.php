@@ -21,8 +21,6 @@
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Ihr Datenverzeichnis ist möglicher Weise aus dem Internet erreichbar. Die .htaccess-Datei von OwnCloud funktioniert nicht. Wir raten Ihnen dringend, dass Sie Ihren Webserver dahingehend konfigurieren, dass Ihr Datenverzeichnis nicht länger aus dem Internet erreichbar ist, oder Sie verschieben das Datenverzeichnis außerhalb des Wurzelverzeichnisses des Webservers.",
 "Cron" => "Cron",
 "execute one task with each page loaded" => "Führe eine Aufgabe pro geladener Seite aus.",
-"cron.php is registered at a webcron service" => "cron.php ist beim Webcron-Service registriert",
-"use systems cron service" => "Nutze System-Cron-Service",
 "Share API" => "Teilungs-API",
 "Enable Share API" => "Teilungs-API aktivieren",
 "Allow apps to use the Share API" => "Erlaubt Nutzern, die Teilungs-API zu nutzen",

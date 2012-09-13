@@ -20,7 +20,6 @@
 "Security Warning" => "安全性警告",
 "Cron" => "定期執行",
 "execute one task with each page loaded" => "當頁面載入時，執行",
-"use systems cron service" => "使用系統定期執行服務",
 "Allow links" => "允許連結",
 "Allow users to share items to the public with links" => "允許使用者以結連公開分享檔案",
 "Allow resharing" => "允許轉貼分享",
