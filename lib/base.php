@@ -268,7 +268,6 @@ class OC{
 		session_start();
 	}
 
-<<<<<<< HEAD
 	public static function loadapp(){
 		if(file_exists(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php')){
 			require_once(OC_App::getAppPath(OC::$REQUESTEDAPP) . '/index.php');
@@ -304,9 +303,7 @@ class OC{
 	}
 
 	public static function init(){
-=======
-	public static function init() {
->>>>>>> master
+
 		// register autoloader
 		spl_autoload_register(array('OC','autoload'));
 		setlocale(LC_ALL, 'en_US.UTF-8');
