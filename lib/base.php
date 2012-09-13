@@ -95,11 +95,13 @@ class OC{
 			$path =  str_replace('_', '/', $className) . '.php';
 		}
 		elseif(strpos($className,'Symfony\\')===0){
-			require_once str_replace('\\','/',$className) . '.php';
+			$path =  str_replace('\\','/',$className) . '.php';
 		}
 		elseif(strpos($className,'Test_')===0){
-			require_once 'tests/lib/'.strtolower(str_replace('_','/',substr($className,5)) . '.php');
+			$path =  'tests/lib/'.strtolower(str_replace('_','/',substr($className,5)) . '.php');
 
+		} else {
+			return false;
 		}
 
 		if($fullPath = stream_resolve_include_path($path)) {
