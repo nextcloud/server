@@ -34,8 +34,8 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 * Trys to create a new group. If the group name already exists, false will
 	 * be returned.
 	 */
-	public function createGroup($gid){
-		if(!isset($this->groups[$gid])){
+	public function createGroup($gid) {
+		if(!isset($this->groups[$gid])) {
 			$this->groups[$gid]=array();
 			return true;
 		}else{
@@ -50,8 +50,8 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
-	public function deleteGroup($gid){
-		if(isset($this->groups[$gid])){
+	public function deleteGroup($gid) {
+		if(isset($this->groups[$gid])) {
 			unset($this->groups[$gid]);
 			return true;
 		}else{
@@ -67,8 +67,8 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public function inGroup($uid, $gid){
-		if(isset($this->groups[$gid])){
+	public function inGroup($uid, $gid) {
+		if(isset($this->groups[$gid])) {
 			return (array_search($uid,$this->groups[$gid])!==false);
 		}else{
 			return false;
@@ -83,9 +83,9 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 *
 	 * Adds a user to a group.
 	 */
-	public function addToGroup($uid, $gid){
-		if(isset($this->groups[$gid])){
-			if(array_search($uid,$this->groups[$gid])===false){
+	public function addToGroup($uid, $gid) {
+		if(isset($this->groups[$gid])) {
+			if(array_search($uid,$this->groups[$gid])===false) {
 				$this->groups[$gid][]=$uid;
 				return true;
 			}else{
@@ -104,9 +104,9 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 *
 	 * removes the user from a group.
 	 */
-	public function removeFromGroup($uid,$gid){
-		if(isset($this->groups[$gid])){
-			if(($index=array_search($uid,$this->groups[$gid]))!==false){
+	public function removeFromGroup($uid,$gid) {
+		if(isset($this->groups[$gid])) {
+			if(($index=array_search($uid,$this->groups[$gid]))!==false) {
 				unset($this->groups[$gid][$index]);
 			}else{
 				return false;
@@ -124,11 +124,11 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public function getUserGroups($uid){
+	public function getUserGroups($uid) {
 		$groups=array();
 		$allGroups=array_keys($this->groups);
-		foreach($allGroups as $group){
-			if($this->inGroup($uid,$group)){
+		foreach($allGroups as $group) {
+			if($this->inGroup($uid,$group)) {
 				$groups[]=$group;
 			}
 		}
@@ -141,7 +141,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups(){
+	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		return array_keys($this->groups);
 	}
 
@@ -149,8 +149,8 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public function usersInGroup($gid){
-		if(isset($this->groups[$gid])){
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+		if(isset($this->groups[$gid])) {
 			return $this->groups[$gid];
 		}else{
 			return array();

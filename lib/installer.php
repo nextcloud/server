@@ -55,97 +55,97 @@ class OC_Installer{
 	 * It is the task of oc_app_install to create the tables and do whatever is
 	 * needed to get the app working.
 	 */
-	public static function installApp( $data = array()){
-		if(!isset($data['source'])){
+	public static function installApp( $data = array()) {
+		if(!isset($data['source'])) {
 			OC_Log::write('core','No source specified when installing app',OC_Log::ERROR);
 			return false;
 		}
-		
+
 		//download the file if necesary
-		if($data['source']=='http'){
+		if($data['source']=='http') {
 			$path=OC_Helper::tmpFile();
-			if(!isset($data['href'])){
+			if(!isset($data['href'])) {
 				OC_Log::write('core','No href specified when installing app from http',OC_Log::ERROR);
 				return false;
 			}
 			copy($data['href'],$path);
 		}else{
-			if(!isset($data['path'])){
+			if(!isset($data['path'])) {
 				OC_Log::write('core','No path specified when installing app from local file',OC_Log::ERROR);
 				return false;
 			}
 			$path=$data['path'];
 		}
-		
+
 		//detect the archive type
 		$mime=OC_Helper::getMimeType($path);
-		if($mime=='application/zip'){
+		if($mime=='application/zip') {
 			rename($path,$path.'.zip');
 			$path.='.zip';
-		}elseif($mime=='application/x-gzip'){
+		}elseif($mime=='application/x-gzip') {
 			rename($path,$path.'.tgz');
 			$path.='.tgz';
 		}else{
 			OC_Log::write('core','Archives of type '.$mime.' are not supported',OC_Log::ERROR);
 			return false;
 		}
-		
+
 		//extract the archive in a temporary folder
 		$extractDir=OC_Helper::tmpFolder();
 		OC_Helper::rmdirr($extractDir);
 		mkdir($extractDir);
-		if($archive=OC_Archive::open($path)){
+		if($archive=OC_Archive::open($path)) {
 			$archive->extract($extractDir);
 		} else {
 			OC_Log::write('core','Failed to open archive when installing app',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
-			if($data['source']=='http'){
+			if($data['source']=='http') {
 				unlink($path);
 			}
 			return false;
 		}
-	
+
 		//load the info.xml file of the app
-		if(!is_file($extractDir.'/appinfo/info.xml')){
+		if(!is_file($extractDir.'/appinfo/info.xml')) {
 			//try to find it in a subdir
 			$dh=opendir($extractDir);
-			while($folder=readdir($dh)){
-				if($folder[0]!='.' and is_dir($extractDir.'/'.$folder)){
-					if(is_file($extractDir.'/'.$folder.'/appinfo/info.xml')){
+			while($folder=readdir($dh)) {
+				if($folder[0]!='.' and is_dir($extractDir.'/'.$folder)) {
+					if(is_file($extractDir.'/'.$folder.'/appinfo/info.xml')) {
 						$extractDir.='/'.$folder;
 					}
 				}
 			}
 		}
-		if(!is_file($extractDir.'/appinfo/info.xml')){
+		if(!is_file($extractDir.'/appinfo/info.xml')) {
 			OC_Log::write('core','App does not provide an info.xml file',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
-			if($data['source']=='http'){
+			if($data['source']=='http') {
 				unlink($path);
 			}
 			return false;
 		}
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml',true);
 		// check the code for not allowed calls
-		if(!OC_Installer::checkCode($info['id'],$extractDir)){
+		if(!OC_Installer::checkCode($info['id'],$extractDir)) {
 			OC_Log::write('core','App can\'t be installed because of not allowed code in the App',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
 			return false;
 		}
 
 		// check if the app is compatible with this version of ownCloud
-		$version=OC_Util::getVersion();	
-		if(!isset($info['require']) or ($version[0]>$info['require'])){
+		$version=OC_Util::getVersion();
+		if(!isset($info['require']) or ($version[0]>$info['require'])) {
 			OC_Log::write('core','App can\'t be installed because it is not compatible with this version of ownCloud',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
 			return false;
 		}
 
 		//check if an app with the same id is already installed
-		if(self::isInstalled( $info['id'] )){
+		if(self::isInstalled( $info['id'] )) {
 			OC_Log::write('core','App already installed',OC_Log::WARN);
 			OC_Helper::rmdirr($extractDir);
-			if($data['source']=='http'){
+			if($data['source']=='http') {
 				unlink($path);
 			}
 			return false;
@@ -153,57 +153,57 @@ class OC_Installer{
 
 		$basedir=OC_App::getInstallPath().'/'.$info['id'];
 		//check if the destination directory already exists
-		if(is_dir($basedir)){
+		if(is_dir($basedir)) {
 			OC_Log::write('core','App directory already exists',OC_Log::WARN);
 			OC_Helper::rmdirr($extractDir);
-			if($data['source']=='http'){
+			if($data['source']=='http') {
 				unlink($path);
 			}
 			return false;
 		}
-		
-		if(isset($data['pretent']) and $data['pretent']==true){
+
+		if(isset($data['pretent']) and $data['pretent']==true) {
 			return false;
 		}
-		
+
 		//copy the app to the correct place
-		if(@!mkdir($basedir)){
+		if(@!mkdir($basedir)) {
 			OC_Log::write('core','Can\'t create app folder. Please fix permissions. ('.$basedir.')',OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
-			if($data['source']=='http'){
+			if($data['source']=='http') {
 				unlink($path);
 			}
 			return false;
 		}
 		OC_Helper::copyr($extractDir,$basedir);
-		
+
 		//remove temporary files
 		OC_Helper::rmdirr($extractDir);
-		
+
 		//install the database
-		if(is_file($basedir.'/appinfo/database.xml')){
+		if(is_file($basedir.'/appinfo/database.xml')) {
 			OC_DB::createDbFromStructure($basedir.'/appinfo/database.xml');
 		}
-		
+
 		//run appinfo/install.php
-		if((!isset($data['noinstall']) or $data['noinstall']==false) and file_exists($basedir.'/appinfo/install.php')){
+		if((!isset($data['noinstall']) or $data['noinstall']==false) and file_exists($basedir.'/appinfo/install.php')) {
 			include($basedir.'/appinfo/install.php');
 		}
-		
+
 		//set the installed version
 		OC_Appconfig::setValue($info['id'],'installed_version',OC_App::getAppVersion($info['id']));
 		OC_Appconfig::setValue($info['id'],'enabled','no');
 
 		//set remote/public handelers
-		foreach($info['remote'] as $name=>$path){
-			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $app.'/'.$path);
+		foreach($info['remote'] as $name=>$path) {
+			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
 		}
-		foreach($info['public'] as $name=>$path){
-			OCP\CONFIG::setAppValue('core', 'public_'.$name, $app.'/'.$path);
+		foreach($info['public'] as $name=>$path) {
+			OCP\CONFIG::setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
 		}
 
 		OC_App::setAppTypes($info['id']);
-		
+
 		return $info['id'];
 	}
 
@@ -214,9 +214,9 @@ class OC_Installer{
 	 *
 	 * Checks whether or not an app is installed, i.e. registered in apps table.
 	 */
-	public static function isInstalled( $app ){
+	public static function isInstalled( $app ) {
 
-		if( null == OC_Appconfig::getValue( $app, "installed_version" )){
+		if( null == OC_Appconfig::getValue( $app, "installed_version" )) {
 			return false;
 		}
 
@@ -250,7 +250,7 @@ class OC_Installer{
 	 *
 	 * upgrade.php can determine the current installed version of the app using "OC_Appconfig::getValue($appid,'installed_version')"
 	 */
-	public static function upgradeApp( $data = array()){
+	public static function upgradeApp( $data = array()) {
 		// TODO: write function
 		return true;
 	}
@@ -275,7 +275,7 @@ class OC_Installer{
 	 * The function will not delete preferences, tables and the configuration,
 	 * this has to be done by the function oc_app_uninstall().
 	 */
-	public static function removeApp( $name, $options = array()){
+	public static function removeApp( $name, $options = array()) {
 		// TODO: write function
 		return true;
 	}
@@ -285,16 +285,16 @@ class OC_Installer{
 	 *
 	 * This function installs all apps found in the 'apps' directory that should be enabled by default;
 	 */
-	public static function installShippedApps(){
+	public static function installShippedApps() {
 		foreach(OC::$APPSROOTS as $app_dir) {
-			if($dir = opendir( $app_dir['path'] )){
-				while( false !== ( $filename = readdir( $dir ))){
-					if( substr( $filename, 0, 1 ) != '.' and is_dir($app_dir['path']."/$filename") ){
-						if( file_exists( $app_dir['path']."/$filename/appinfo/app.php" )){
-							if(!OC_Installer::isInstalled($filename)){
+			if($dir = opendir( $app_dir['path'] )) {
+				while( false !== ( $filename = readdir( $dir ))) {
+					if( substr( $filename, 0, 1 ) != '.' and is_dir($app_dir['path']."/$filename") ) {
+						if( file_exists( $app_dir['path']."/$filename/appinfo/app.php" )) {
+							if(!OC_Installer::isInstalled($filename)) {
 								$info=OC_App::getAppInfo($filename);
 								$enabled = isset($info['default_enable']);
-								if( $enabled ){
+								if( $enabled ) {
 									OC_Installer::installShippedApp($filename);
 									OC_Appconfig::setValue($filename,'enabled','yes');
 								}
@@ -312,30 +312,30 @@ class OC_Installer{
 	 * @param string $app id of the app to install
 	 * @returns array see OC_App::getAppInfo
 	 */
-	public static function installShippedApp($app){
+	public static function installShippedApp($app) {
 		//install the database
-		if(is_file(OC_App::getAppPath($app)."/appinfo/database.xml")){
+		if(is_file(OC_App::getAppPath($app)."/appinfo/database.xml")) {
 			OC_DB::createDbFromStructure(OC_App::getAppPath($app)."/appinfo/database.xml");
 		}
 
 		//run appinfo/install.php
-		if(is_file(OC_App::getAppPath($app)."/appinfo/install.php")){
+		if(is_file(OC_App::getAppPath($app)."/appinfo/install.php")) {
 			include(OC_App::getAppPath($app)."/appinfo/install.php");
 		}
 		$info=OC_App::getAppInfo($app);
 		OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));
-		
+
 		//set remote/public handelers
-		foreach($info['remote'] as $name=>$path){
+		foreach($info['remote'] as $name=>$path) {
 			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $app.'/'.$path);
 		}
-		foreach($info['public'] as $name=>$path){
+		foreach($info['public'] as $name=>$path) {
 			OCP\CONFIG::setAppValue('core', 'public_'.$name, $app.'/'.$path);
 		}
-		
+
 		OC_App::setAppTypes($info['id']);
-		
-		return $info;
+
+		return $info['id'];
 	}
 
 
@@ -344,7 +344,7 @@ class OC_Installer{
 	 * @param string $folder the folder of the app to check
 	 * @returns true for app is o.k. and false for app is not o.k.
 	 */
-	public static function checkCode($appname,$folder){
+	public static function checkCode($appname,$folder) {
 
 		$blacklist=array(
 			'exec(',
@@ -355,7 +355,7 @@ class OC_Installer{
 		);
 
 		// is the code checker enabled?
-		if(OC_Config::getValue('appcodechecker', false)){   
+		if(OC_Config::getValue('appcodechecker', false)) {
 
 			// check if grep is installed
 			$grep = exec('which grep');
@@ -375,7 +375,7 @@ class OC_Installer{
 				}
 			}
 			return true;
-			
+
 		}else{
 			return true;
 		}

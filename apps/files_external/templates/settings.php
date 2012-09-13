@@ -15,7 +15,7 @@
 			<tbody width="100%">
 			<?php $_['mounts'] = array_merge($_['mounts'], array('' => array())); ?>
 			<?php foreach ($_['mounts'] as $mountPoint => $mount): ?>
-				<tr <?php if ($mountPoint == '') echo 'id="addMountPoint"'; ?>>
+				<tr <?php echo ($mountPoint != '') ? 'class="'.$mount['class'].'"' : 'id="addMountPoint"'; ?>>
 					<td class="mountPoint"><input type="text" name="mountPoint" value="<?php echo $mountPoint; ?>" placeholder="<?php echo $l->t('Mount point'); ?>" /></td>
 					<?php if ($mountPoint == ''): ?>
 						<td class="backend">
@@ -80,9 +80,9 @@
 			</tbody>
 		</table>
 		<br />
-		
+
 		<?php if (!$_['isAdminPage']):  ?>
-  		<table id="sslCertificate" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
+		<table id="sslCertificate" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
 			<thead>
 				<tr>
 					<th><?php echo $l->t('SSL root certificates'); ?></th>
@@ -91,17 +91,17 @@
 			</thead>
 			<tbody width="100%">
 			<?php foreach ($_['certs'] as $rootCert): ?>
-			<tr id="<?php echo $rootCert ?>">	
+			<tr id="<?php echo $rootCert ?>">
 			<td class="rootCert"><?php echo $rootCert ?></td>
 			<td <?php echo ($rootCert != '') ? 'class="remove"' : 'style="visibility:hidden;"'; ?>><img alt="<?php echo $l->t('Delete'); ?>" title="<?php echo $l->t('Delete'); ?>" class="svg action" src="<?php echo image_path('core', 'actions/delete.svg'); ?>" /></td>
 			</tr>
 			<?php endforeach; ?>
 			</tbody>
-		</table>		
+		</table>
         <input type="file" id="rootcert_import" name="rootcert_import" style="width:230px;">
-        <input type="submit" name="cert_import" value="<?php echo $l->t('Import Root Certificate'); ?>" />		
+        <input type="submit" name="cert_import" value="<?php echo $l->t('Import Root Certificate'); ?>" />
 		<?php endif; ?>
-		
+
 		<?php if ($_['isAdminPage']): ?>
 			<br />
 			<input type="checkbox" name="allowUserMounting" id="allowUserMounting" value="1" <?php if ($_['allowUserMounting'] == 'yes') echo ' checked="checked"'; ?> />

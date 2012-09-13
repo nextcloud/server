@@ -27,13 +27,13 @@ class Test_Cache_File extends Test_Cache {
 		//$this->skipUnless(OC_User::isLoggedIn());
 	}
 	
-	public function setUp(){
+	public function setUp() {
 		//clear all proxies and hooks so we can do clean testing
 		OC_FileProxy::clearProxies();
 		OC_Hook::clear('OC_Filesystem');
 		
 		//enable only the encryption hook if needed
-		if(OC_App::isEnabled('files_encryption')){
+		if(OC_App::isEnabled('files_encryption')) {
 			OC_FileProxy::register(new OC_FileProxy_Encryption());
 		}
 		
@@ -57,7 +57,7 @@ class Test_Cache_File extends Test_Cache {
 		$this->instance=new OC_Cache_File();
 	}
 
-	public function tearDown(){
+	public function tearDown() {
 		OC_User::setUserId($this->user);
 	}
 }

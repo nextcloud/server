@@ -6,21 +6,24 @@
 # Javier Llorente <javier@opensuse.org>, 2012.
 #   <juanma@kde.org.ar>, 2011, 2012.
 # oSiNaReF  <>, 2012.
+# Raul Fernandez Garcia <raulfg3@gmail.com>, 2012.
+#   <rodrigo.calvo@gmail.com>, 2012.
 #   <rom1dep@gmail.com>, 2011.
+# Rubén Trujillo <rubentrf@gmail.com>, 2012.
 #   <sergioballesterossolanas@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:14+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Spanish (Castilian) (http://www.transifex.net/projects/p/owncloud/language/es/)\n"
+"POT-Creation-Date: 2012-09-06 02:02+0200\n"
+"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
@@ -28,97 +31,93 @@ msgstr "Nombre de la aplicación no provisto."
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr "¿Ninguna categoría para agregar?"
+msgstr "¿Ninguna categoría para añadir?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
 msgstr "Esta categoría ya existe: "
 
-#: js/jquery-ui-1.8.16.custom.min.js:511
-msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr ""
+#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+msgid "Settings"
+msgstr "Ajustes"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "January"
-msgstr ""
+msgstr "Enero"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "February"
-msgstr ""
+msgstr "Febrero"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "March"
-msgstr ""
+msgstr "Marzo"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "April"
-msgstr ""
+msgstr "Abril"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "May"
-msgstr ""
+msgstr "Mayo"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "June"
-msgstr ""
+msgstr "Junio"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "July"
-msgstr ""
+msgstr "Julio"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "August"
-msgstr ""
+msgstr "Agosto"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "September"
-msgstr ""
+msgstr "Septiembre"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "October"
-msgstr ""
+msgstr "Octubre"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "November"
-msgstr ""
+msgstr "Noviembre"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "December"
-msgstr ""
+msgstr "Diciembre"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "Aceptar"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "No hay categorías seleccionadas para borrar."
 
 #: js/oc-vcategories.js:68
 msgid "Error"
-msgstr ""
+msgstr "Fallo"
 
 #: lostpassword/index.php:26
-msgid "Owncloud password reset"
-msgstr "Restablecer contraseña de ownCloud"
-
-#: lostpassword/index.php:27
 msgid "ownCloud password reset"
 msgstr "Reiniciar contraseña de ownCloud"
 
-#: lostpassword/templates/email.php:1
+#: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Utiliza el siguiente enlace para restablecer tu contraseña: {link}"
 
@@ -134,7 +133,7 @@ msgstr "Pedido"
 msgid "Login failed!"
 msgstr "¡Fallo al iniciar sesión!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
 #: templates/login.php:9
 msgid "Username"
 msgstr "Nombre de usuario"
@@ -195,48 +194,52 @@ msgstr "Editar categorías"
 msgid "Add"
 msgstr "Añadir"
 
-#: templates/installation.php:23
+#: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crea una <strong>cuenta de administrador</strong>"
 
-#: templates/installation.php:29 templates/login.php:13
+#: templates/installation.php:30 templates/login.php:13
 msgid "Password"
 msgstr "Contraseña"
 
-#: templates/installation.php:35
+#: templates/installation.php:36
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: templates/installation.php:37
+#: templates/installation.php:38
 msgid "Data folder"
 msgstr "Directorio de almacenamiento"
 
-#: templates/installation.php:44
+#: templates/installation.php:45
 msgid "Configure the database"
 msgstr "Configurar la base de datos"
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:50 templates/installation.php:61
+#: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
 msgstr "se utilizarán"
 
-#: templates/installation.php:82
+#: templates/installation.php:93
 msgid "Database user"
 msgstr "Usuario de la base de datos"
 
-#: templates/installation.php:86
+#: templates/installation.php:97
 msgid "Database password"
 msgstr "Contraseña de la base de datos"
 
-#: templates/installation.php:90
+#: templates/installation.php:101
 msgid "Database name"
 msgstr "Nombre de la base de datos"
 
-#: templates/installation.php:96
+#: templates/installation.php:109
+msgid "Database tablespace"
+msgstr "Espacio de tablas de la base de datos"
+
+#: templates/installation.php:115
 msgid "Database host"
 msgstr "Host de la base de datos"
 
-#: templates/installation.php:101
+#: templates/installation.php:120
 msgid "Finish setup"
 msgstr "Completar la instalación"
 
@@ -244,13 +247,9 @@ msgstr "Completar la instalación"
 msgid "web services under your control"
 msgstr "servicios web bajo tu control"
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Salir"
-
-#: templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "Ajustes"
 
 #: templates/login.php:6
 msgid "Lost your password?"

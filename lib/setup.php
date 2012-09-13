@@ -3,11 +3,13 @@
 $hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
 $hasMySQL = is_callable('mysql_connect');
 $hasPostgreSQL = is_callable('pg_connect');
+$hasOracle = is_callable('oci_connect');
 $datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
 $opts = array(
 	'hasSQLite' => $hasSQLite,
 	'hasMySQL' => $hasMySQL,
 	'hasPostgreSQL' => $hasPostgreSQL,
+	'hasOracle' => $hasOracle,
 	'directory' => $datadir,
 	'errors' => array(),
 );
@@ -16,7 +18,7 @@ if(isset($_POST['install']) AND $_POST['install']=='true') {
 	// We have to launch the installation process :
 	$e = OC_Setup::install($_POST);
 	$errors = array('errors' => $e);
-	
+
 	if(count($e) > 0) {
 		//OC_Template::printGuestPage("", "error", array("errors" => $errors));
 		$options = array_merge($_POST, $opts, $errors);
@@ -35,7 +37,7 @@ class OC_Setup {
 	public static function install($options) {
 		$error = array();
 		$dbtype = $options['dbtype'];
-		
+
 		if(empty($options['adminlogin'])) {
 			$error[] = 'Set an admin username.';
 		}
@@ -46,11 +48,14 @@ class OC_Setup {
 			$error[] = 'Specify a data folder.';
 		}
 
-		if($dbtype=='mysql' or $dbtype=='pgsql') { //mysql and postgresql needs more config options
+		if($dbtype=='mysql' or $dbtype == 'pgsql' or $dbtype == 'oci') { //mysql and postgresql needs more config options
 			if($dbtype=='mysql')
 				$dbprettyname = 'MySQL';
+			else if($dbtype=='pgsql')
+					$dbprettyname = 'PostgreSQL';
 			else
-				$dbprettyname = 'PostgreSQL';
+					$dbprettyname = 'Oracle';
+
 
 			if(empty($options['dbuser'])) {
 				$error[] = "$dbprettyname enter the database username.";
@@ -58,7 +63,7 @@ class OC_Setup {
 			if(empty($options['dbname'])) {
 				$error[] = "$dbprettyname enter the database name.";
 			}
-			if(empty($options['dbhost'])) {
+			if($dbtype != 'oci' && empty($options['dbhost'])) {
 				$error[] = "$dbprettyname set the database host.";
 			}
 		}
@@ -67,9 +72,9 @@ class OC_Setup {
 			$username = htmlspecialchars_decode($options['adminlogin']);
 			$password = htmlspecialchars_decode($options['adminpass']);
 			$datadir = htmlspecialchars_decode($options['directory']);
-			
+
 			//use sqlite3 when available, otherise sqlite2 will be used.
-			if($dbtype=='sqlite' and class_exists('SQLite3')){
+			if($dbtype=='sqlite' and class_exists('SQLite3')) {
 				$dbtype='sqlite3';
 			}
 
@@ -79,8 +84,8 @@ class OC_Setup {
 
 			//write the config file
 			OC_Config::setValue('datadirectory', $datadir);
- 			OC_Config::setValue('dbtype', $dbtype);
- 			OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
+			OC_Config::setValue('dbtype', $dbtype);
+			OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
 			if($dbtype == 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
@@ -102,14 +107,14 @@ class OC_Setup {
 				}
 				else {
 					$oldUser=OC_Config::getValue('dbuser', false);
-					
+
 					$query="SELECT user FROM mysql.user WHERE user='$dbuser'"; //this should be enough to check for admin rights in mysql
 					if(mysql_query($query, $connection)) {
 						//use the admin login data for the new database user
 
-						//add prefix to the mysql user name to prevent collissions
+						//add prefix to the mysql user name to prevent collisions
 						$dbusername=substr('oc_'.$username,0,16);
-						if($dbusername!=$oldUser){
+						if($dbusername!=$oldUser) {
 							//hash the password so we don't need to store the admin config in the config file
 							$dbpassword=md5(time().$password);
 
@@ -123,7 +128,7 @@ class OC_Setup {
 						self::createDatabase($dbname, $dbusername, $connection);
 					}
 					else {
-						if($dbuser!=$oldUser){
+						if($dbuser!=$oldUser) {
 							OC_Config::setValue('dbuser', $dbuser);
 							OC_Config::setValue('dbpassword', $dbpass);
 						}
@@ -135,7 +140,7 @@ class OC_Setup {
 					//fill the database if needed
 					$query="select count(*) from information_schema.tables where table_schema='$dbname' AND table_name = '{$dbtableprefix}users';";
 					$result = mysql_query($query,$connection);
-					if($result){
+					if($result) {
 						$row=mysql_fetch_row($result);
 					}
 					if(!$result or $row[0]==0) {
@@ -175,13 +180,13 @@ class OC_Setup {
 					if($result and pg_num_rows($result) > 0) {
 						//use the admin login data for the new database user
 
-						//add prefix to the postgresql user name to prevent collissions
+						//add prefix to the postgresql user name to prevent collisions
 						$dbusername='oc_'.$username;
 						//create a new password so we don't need to store the admin config in the config file
 						$dbpassword=md5(time());
-						
+
 						self::pg_createDBUser($dbusername, $dbpassword, $connection);
-						
+
 						OC_CONFIG::setValue('dbuser', $dbusername);
 						OC_CONFIG::setValue('dbpassword', $dbpassword);
 
@@ -227,9 +232,128 @@ class OC_Setup {
 					}
 				}
 			}
+			elseif($dbtype == 'oci') {
+				$dbuser = $options['dbuser'];
+				$dbpass = $options['dbpass'];
+				$dbname = $options['dbname'];
+				$dbtablespace = $options['dbtablespace'];
+				$dbhost = isset($options['dbhost'])?$options['dbhost']:'';
+				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
+				OC_CONFIG::setValue('dbname', $dbname);
+				OC_CONFIG::setValue('dbtablespace', $dbtablespace);
+				OC_CONFIG::setValue('dbhost', $dbhost);
+				OC_CONFIG::setValue('dbtableprefix', $dbtableprefix);
+
+				$e_host = addslashes($dbhost);
+				$e_dbname = addslashes($dbname);
+				//check if the database user has admin right
+				if ($e_host == '') {
+					$easy_connect_string = $e_dbname; // use dbname as easy connect name
+				} else {
+					$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
+				}
+				$connection = @oci_connect($dbuser, $dbpass, $easy_connect_string);
+				if(!$connection) {
+					$e = oci_error();
+					$error[] = array(
+						'error' => 'Oracle username and/or password not valid',
+						'hint' => 'You need to enter either an existing account or the administrator.'
+					);
+					return $error;
+				} else {
+					//check for roles creation rights in oracle
+
+					$query="SELECT count(*) FROM user_role_privs, role_sys_privs WHERE user_role_privs.granted_role = role_sys_privs.role AND privilege = 'CREATE ROLE'";
+					$stmt = oci_parse($connection, $query);
+					if (!$stmt) {
+						$entry='DB Error: "'.oci_last_error($connection).'"<br />';
+						$entry.='Offending command was: '.$query.'<br />';
+						echo($entry);
+					}
+					$result = oci_execute($stmt);
+					if($result) {
+						$row = oci_fetch_row($stmt);
+					}
+					if($result and $row[0] > 0) {
+						//use the admin login data for the new database user
+
+						//add prefix to the oracle user name to prevent collisions
+						$dbusername='oc_'.$username;
+						//create a new password so we don't need to store the admin config in the config file
+						$dbpassword=md5(time().$dbpass);
+
+						//oracle passwords are treated as identifiers:
+						//  must start with aphanumeric char
+						//  needs to be shortened to 30 bytes, as the two " needed to escape the identifier count towards the identifier length.
+						$dbpassword=substr($dbpassword, 0, 30);
+
+						self::oci_createDBUser($dbusername, $dbpassword, $dbtablespace, $connection);
+
+						OC_CONFIG::setValue('dbuser', $dbusername);
+						OC_CONFIG::setValue('dbname', $dbusername);
+						OC_CONFIG::setValue('dbpassword', $dbpassword);
+
+						//create the database not neccessary, oracle implies user = schema
+						//self::oci_createDatabase($dbname, $dbusername, $connection);
+					} else {
+
+						OC_CONFIG::setValue('dbuser', $dbuser);
+						OC_CONFIG::setValue('dbname', $dbname);
+						OC_CONFIG::setValue('dbpassword', $dbpass);
+
+						//create the database not neccessary, oracle implies user = schema
+						//self::oci_createDatabase($dbname, $dbuser, $connection);
+					}
+
+					//FIXME check tablespace exists: select * from user_tablespaces
+
+					// the connection to dbname=oracle is not needed anymore
+					oci_close($connection);
+
+					// connect to the oracle database (schema=$dbuser) an check if the schema needs to be filled
+					$dbuser = OC_CONFIG::getValue('dbuser');
+					//$dbname = OC_CONFIG::getValue('dbname');
+					$dbpass = OC_CONFIG::getValue('dbpassword');
+
+					$e_host = addslashes($dbhost);
+					$e_dbname = addslashes($dbname);
+
+					if ($e_host == '') {
+						$easy_connect_string = $e_dbname; // use dbname as easy connect name
+					} else {
+						$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
+					}
+					$connection = @oci_connect($dbuser, $dbpass, $easy_connect_string);
+					if(!$connection) {
+						$error[] = array(
+							'error' => 'Oracle username and/or password not valid',
+							'hint' => 'You need to enter either an existing account or the administrator.'
+						);
+						return $error;
+					} else {
+						$query = "SELECT count(*) FROM user_tables WHERE table_name = :un";
+						$stmt = oci_parse($connection, $query);
+						$un = $dbtableprefix.'users';
+						oci_bind_by_name($stmt, ':un', $un);
+						if (!$stmt) {
+							$entry='DB Error: "'.oci_last_error($connection).'"<br />';
+							$entry.='Offending command was: '.$query.'<br />';
+							echo($entry);
+						}
+						$result = oci_execute($stmt);
+
+						if($result) {
+							$row = oci_fetch_row($stmt);
+						}
+						if(!$result or $row[0]==0) {
+							OC_DB::createDbFromStructure('db_structure.xml');
+						}
+					}
+				}
+			}
 			else {
 				//delete the old sqlite database first, might cause infinte loops otherwise
-				if(file_exists("$datadir/owncloud.db")){
+				if(file_exists("$datadir/owncloud.db")) {
 					unlink("$datadir/owncloud.db");
 				}
 				//in case of sqlite, we can always fill the database
@@ -312,7 +436,7 @@ class OC_Setup {
 			}
 		}
 		$query = "REVOKE ALL PRIVILEGES ON DATABASE \"$e_name\" FROM PUBLIC";
-		$result = pg_query($connection, $query);		
+		$result = pg_query($connection, $query);
 	}
 
 	private static function pg_createDBUser($name,$password,$connection) {
@@ -346,6 +470,79 @@ class OC_Setup {
 			}
 		}
 	}
+	/**
+	 *
+	 * @param String $name
+	 * @param String $password
+	 * @param String $tablespace
+	 * @param resource $connection
+	 */
+	private static function oci_createDBUser($name, $password, $tablespace, $connection) {
+
+		$query = "SELECT * FROM all_users WHERE USERNAME = :un";
+		$stmt = oci_parse($connection, $query);
+		if (!$stmt) {
+			$entry='DB Error: "'.oci_error($connection).'"<br />';
+			$entry.='Offending command was: '.$query.'<br />';
+			echo($entry);
+		}
+		oci_bind_by_name($stmt, ':un', $name);
+		$result = oci_execute($stmt);
+		if(!$result) {
+			$entry='DB Error: "'.oci_error($connection).'"<br />';
+			$entry.='Offending command was: '.$query.'<br />';
+			echo($entry);
+		}
+
+		if(! oci_fetch_row($stmt)) {
+			//user does not exists let's create it :)
+			//password must start with alphabetic character in oracle
+			$query = 'CREATE USER '.$name.' IDENTIFIED BY "'.$password.'" DEFAULT TABLESPACE '.$tablespace; //TODO set default tablespace
+			$stmt = oci_parse($connection, $query);
+			if (!$stmt) {
+				$entry='DB Error: "'.oci_error($connection).'"<br />';
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			}
+			//oci_bind_by_name($stmt, ':un', $name);
+			$result = oci_execute($stmt);
+			if(!$result) {
+				$entry='DB Error: "'.oci_error($connection).'"<br />';
+				$entry.='Offending command was: '.$query.', name:'.$name.', password:'.$password.'<br />';
+				echo($entry);
+			}
+		} else { // change password of the existing role
+			$query = "ALTER USER :un IDENTIFIED BY :pw";
+			$stmt = oci_parse($connection, $query);
+			if (!$stmt) {
+				$entry='DB Error: "'.oci_error($connection).'"<br />';
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			}
+			oci_bind_by_name($stmt, ':un', $name);
+			oci_bind_by_name($stmt, ':pw', $password);
+			$result = oci_execute($stmt);
+			if(!$result) {
+				$entry='DB Error: "'.oci_error($connection).'"<br />';
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			}
+		}
+		// grant neccessary roles
+		$query = 'GRANT CREATE SESSION, CREATE TABLE, CREATE SEQUENCE, CREATE TRIGGER, UNLIMITED TABLESPACE TO '.$name;
+		$stmt = oci_parse($connection, $query);
+		if (!$stmt) {
+			$entry='DB Error: "'.oci_error($connection).'"<br />';
+			$entry.='Offending command was: '.$query.'<br />';
+			echo($entry);
+		}
+		$result = oci_execute($stmt);
+		if(!$result) {
+			$entry='DB Error: "'.oci_error($connection).'"<br />';
+			$entry.='Offending command was: '.$query.', name:'.$name.', password:'.$password.'<br />';
+			echo($entry);
+		}
+	}
 
 	/**
 	 * create .htaccess files for apache hosts
@@ -363,7 +560,7 @@ class OC_Setup {
 		$content.= "</IfModule>\n";
 		$content.= "<IfModule mod_rewrite.c>\n";
 		$content.= "RewriteEngine on\n";
- 		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]\n";
+		$content.= "RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]\n";
 		$content.= "RewriteRule ^.well-known/host-meta /public.php?service=host-meta [QSA,L]\n";
 		$content.= "RewriteRule ^.well-known/carddav /remote.php/carddav/ [R]\n";
 		$content.= "RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]\n";

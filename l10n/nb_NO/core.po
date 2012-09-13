@@ -7,19 +7,20 @@
 # Christer Eriksson <post@hc3web.com>, 2012.
 # Daniel  <i18n@daniel.priv.no>, 2012.
 #   <itssmail@yahoo.no>, 2012.
+#   <runesudden@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:14+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.net/projects/p/owncloud/language/nb_NO/)\n"
+"POT-Creation-Date: 2012-09-06 02:02+0200\n"
+"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nb_NO\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
@@ -33,91 +34,87 @@ msgstr "Ingen kategorier å legge til?"
 msgid "This category already exists: "
 msgstr "Denne kategorien finnes allerede:"
 
-#: js/jquery-ui-1.8.16.custom.min.js:511
-msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr ""
+#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+msgid "Settings"
+msgstr "Innstillinger"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "January"
-msgstr ""
+msgstr "Januar"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "February"
-msgstr ""
+msgstr "Februar"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "March"
-msgstr ""
+msgstr "Mars"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "April"
-msgstr ""
+msgstr "April"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "May"
-msgstr ""
+msgstr "Mai"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "June"
-msgstr ""
+msgstr "Juni"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "July"
-msgstr ""
+msgstr "Juli"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "August"
-msgstr ""
+msgstr "August"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "September"
-msgstr ""
+msgstr "September"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "October"
-msgstr ""
+msgstr "Oktober"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "November"
-msgstr ""
+msgstr "November"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "December"
-msgstr ""
+msgstr "Desember"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "Nei"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Ingen kategorier merket for sletting."
 
 #: js/oc-vcategories.js:68
 msgid "Error"
-msgstr ""
+msgstr "Feil"
 
 #: lostpassword/index.php:26
-msgid "Owncloud password reset"
-msgstr "OwnCloud passordtilbakestilling"
-
-#: lostpassword/index.php:27
 msgid "ownCloud password reset"
 msgstr "Tilbakestill ownCloud passord"
 
-#: lostpassword/templates/email.php:1
+#: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Bruk følgende lenke for å tilbakestille passordet ditt: {link}"
 
@@ -133,7 +130,7 @@ msgstr "Anmodning"
 msgid "Login failed!"
 msgstr "Innloggingen var ikke vellykket."
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
 #: templates/login.php:9
 msgid "Username"
 msgstr "Brukernavn"
@@ -194,48 +191,52 @@ msgstr "Rediger kategorier"
 msgid "Add"
 msgstr "Legg til"
 
-#: templates/installation.php:23
+#: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
 msgstr "opprett en <strong>administrator-konto</strong>"
 
-#: templates/installation.php:29 templates/login.php:13
+#: templates/installation.php:30 templates/login.php:13
 msgid "Password"
 msgstr "Passord"
 
-#: templates/installation.php:35
+#: templates/installation.php:36
 msgid "Advanced"
 msgstr "Avansert"
 
-#: templates/installation.php:37
+#: templates/installation.php:38
 msgid "Data folder"
 msgstr "Datamappe"
 
-#: templates/installation.php:44
+#: templates/installation.php:45
 msgid "Configure the database"
 msgstr "Konfigurer databasen"
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:50 templates/installation.php:61
+#: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
 msgstr "vil bli brukt"
 
-#: templates/installation.php:82
+#: templates/installation.php:93
 msgid "Database user"
 msgstr "Databasebruker"
 
-#: templates/installation.php:86
+#: templates/installation.php:97
 msgid "Database password"
 msgstr "Databasepassord"
 
-#: templates/installation.php:90
+#: templates/installation.php:101
 msgid "Database name"
 msgstr "Databasenavn"
 
-#: templates/installation.php:96
+#: templates/installation.php:109
+msgid "Database tablespace"
+msgstr ""
+
+#: templates/installation.php:115
 msgid "Database host"
 msgstr "Databasevert"
 
-#: templates/installation.php:101
+#: templates/installation.php:120
 msgid "Finish setup"
 msgstr "Fullfør oppsetting"
 
@@ -243,13 +244,9 @@ msgstr "Fullfør oppsetting"
 msgid "web services under your control"
 msgstr "nettjenester under din kontroll"
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Logg ut"
-
-#: templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "Innstillinger"
 
 #: templates/login.php:6
 msgid "Lost your password?"

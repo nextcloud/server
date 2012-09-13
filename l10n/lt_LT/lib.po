@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Dr. ROX  <to.dr.rox@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-09-01 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: lt_LT\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: app.php:288
+msgid "Help"
+msgstr "Pagalba"
+
+#: app.php:295
+msgid "Personal"
+msgstr "Asmeniniai"
+
+#: app.php:300
+msgid "Settings"
+msgstr "Nustatymai"
+
+#: app.php:305
+msgid "Users"
+msgstr "Vartotojai"
+
+#: app.php:312
+msgid "Apps"
+msgstr "Programos"
+
+#: app.php:314
+msgid "Admin"
+msgstr "Administravimas"
+
+#: files.php:280
+msgid "ZIP download is turned off."
+msgstr "ZIP atsisiuntimo galimybė yra išjungta."
+
+#: files.php:281
+msgid "Files need to be downloaded one by one."
+msgstr "Failai turi būti parsiunčiami vienas po kito."
+
+#: files.php:281 files.php:306
+msgid "Back to Files"
+msgstr "Atgal į Failus"
+
+#: files.php:305
+msgid "Selected files too large to generate zip file."
+msgstr "Pasirinkti failai per dideli archyvavimui į ZIP."
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr "Programa neįjungta"
+
+#: json.php:39 json.php:63 json.php:75
+msgid "Authentication error"
+msgstr "Autentikacijos klaida"
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr ""
+
+#: template.php:86
+msgid "seconds ago"
+msgstr ""
+
+#: template.php:87
+msgid "1 minute ago"
+msgstr "prieš 1 minutę"
+
+#: template.php:88
+#, php-format
+msgid "%d minutes ago"
+msgstr "prieš %d minučių"
+
+#: template.php:91
+msgid "today"
+msgstr "šiandien"
+
+#: template.php:92
+msgid "yesterday"
+msgstr "vakar"
+
+#: template.php:93
+#, php-format
+msgid "%d days ago"
+msgstr "prieš %d dienų"
+
+#: template.php:94
+msgid "last month"
+msgstr "praėjusį mėnesį"
+
+#: template.php:95
+msgid "months ago"
+msgstr ""
+
+#: template.php:96
+msgid "last year"
+msgstr "pereitais metais"
+
+#: template.php:97
+msgid "years ago"
+msgstr ""
+
+#: updater.php:66
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr ""
+
+#: updater.php:68
+msgid "up to date"
+msgstr ""
+
+#: updater.php:71
+msgid "updates check is disabled"
+msgstr ""

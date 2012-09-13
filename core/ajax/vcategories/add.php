@@ -7,14 +7,14 @@
  */
 function bailOut($msg) {
 	OC_JSON::error(array('data' => array('message' => $msg)));
-	OC_Log::write('core','ajax/vcategories/add.php: '.$msg, OC_Log::DEBUG);
+	OC_Log::write('core', 'ajax/vcategories/add.php: '.$msg, OC_Log::DEBUG);
 	exit();
 }
 function debug($msg) {
-	OC_Log::write('core','ajax/vcategories/add.php: '.$msg, OC_Log::DEBUG);
+	OC_Log::write('core', 'ajax/vcategories/add.php: '.$msg, OC_Log::DEBUG);
 }
 
-require_once('../../../lib/base.php');
+require_once '../../../lib/base.php';
 OC_JSON::checkLoggedIn();
 $category = isset($_GET['category'])?strip_tags($_GET['category']):null;
 $app = isset($_GET['app'])?$_GET['app']:null;

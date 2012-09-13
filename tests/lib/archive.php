@@ -23,12 +23,12 @@ abstract class Test_Archive extends UnitTestCase {
 	 */
 	abstract protected function getNew();
 	
-	public function testGetFiles(){
+	public function testGetFiles() {
 		$this->instance=$this->getExisting();
 		$allFiles=$this->instance->getFiles();
 		$expected=array('lorem.txt','logo-wide.png','dir/','dir/lorem.txt');
 		$this->assertEqual(4,count($allFiles),'only found '.count($allFiles).' out of 4 expected files');
-		foreach($expected as $file){
+		foreach($expected as $file) {
 			$this->assertNotIdentical(false,array_search($file,$allFiles),'cant find '.$file.' in archive');
 			$this->assertTrue($this->instance->fileExists($file),'file '.$file.' does not exist in archive');
 		}
@@ -37,19 +37,19 @@ abstract class Test_Archive extends UnitTestCase {
 		$rootContent=$this->instance->getFolder('');
 		$expected=array('lorem.txt','logo-wide.png','dir/');
 		$this->assertEqual(3,count($rootContent));
-		foreach($expected as $file){
+		foreach($expected as $file) {
 			$this->assertNotIdentical(false,array_search($file,$rootContent),'cant find '.$file.' in archive');
 		}
 
 		$dirContent=$this->instance->getFolder('dir/');
 		$expected=array('lorem.txt');
 		$this->assertEqual(1,count($dirContent));
-		foreach($expected as $file){
+		foreach($expected as $file) {
 			$this->assertNotIdentical(false,array_search($file,$dirContent),'cant find '.$file.' in archive');
 		}
 	}
 	
-	public function testContent(){
+	public function testContent() {
 		$this->instance=$this->getExisting();
 		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
 		$textFile=$dir.'/lorem.txt';
@@ -60,7 +60,7 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->assertEqual(file_get_contents($textFile),file_get_contents($tmpFile));
 	}
 
-	public function testWrite(){
+	public function testWrite() {
 		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
 		$textFile=$dir.'/lorem.txt';
 		$this->instance=$this->getNew();
@@ -75,7 +75,7 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->assertEqual('foobar',$this->instance->getFile('lorem.txt'));
 	}
 
-	public function testReadStream(){
+	public function testReadStream() {
 		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
 		$this->instance=$this->getExisting();
 		$fh=$this->instance->getStream('lorem.txt','r');
@@ -84,7 +84,7 @@ abstract class Test_Archive extends UnitTestCase {
 		fclose($fh);
 		$this->assertEqual(file_get_contents($dir.'/lorem.txt'),$content);
 	}
-	public function testWriteStream(){
+	public function testWriteStream() {
 		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
 		$this->instance=$this->getNew();
 		$fh=$this->instance->getStream('lorem.txt','w');
@@ -95,7 +95,7 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->assertTrue($this->instance->fileExists('lorem.txt'));
 		$this->assertEqual(file_get_contents($dir.'/lorem.txt'),$this->instance->getFile('lorem.txt'));
 	}
-	public function testFolder(){
+	public function testFolder() {
 		$this->instance=$this->getNew();
 		$this->assertFalse($this->instance->fileExists('/test'));
 		$this->assertFalse($this->instance->fileExists('/test/'));
@@ -106,7 +106,7 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->assertFalse($this->instance->fileExists('/test'));
 		$this->assertFalse($this->instance->fileExists('/test/'));
 	}
-	public function testExtract(){
+	public function testExtract() {
 		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
 		$this->instance=$this->getExisting();
 		$tmpDir=OCP\Files::tmpFolder();
@@ -117,7 +117,7 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->assertEqual(file_get_contents($dir.'/lorem.txt'),file_get_contents($tmpDir.'lorem.txt'));
 		OCP\Files::rmdirr($tmpDir);
 	}
-	public function testMoveRemove(){
+	public function testMoveRemove() {
 		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
 		$textFile=$dir.'/lorem.txt';
 		$this->instance=$this->getNew();
@@ -129,5 +129,13 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->assertEqual(file_get_contents($textFile),$this->instance->getFile('target.txt'));
 		$this->instance->remove('target.txt');
 		$this->assertFalse($this->instance->fileExists('target.txt'));
+	}
+	public function testRecursive() {
+		$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
+		$this->instance=$this->getNew();
+		$this->instance->addRecursive('/dir',$dir);
+		$this->assertTrue($this->instance->fileExists('/dir/lorem.txt'));
+		$this->assertTrue($this->instance->fileExists('/dir/data.zip'));
+		$this->assertTrue($this->instance->fileExists('/dir/data.tar.gz'));
 	}
 }

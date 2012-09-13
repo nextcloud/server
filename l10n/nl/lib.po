@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Richard Bos <radoeka@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-02 02:01+0200\n"
+"PO-Revision-Date: 2012-09-01 20:12+0000\n"
+"Last-Translator: Richard Bos <radoeka@gmail.com>\n"
+"Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: app.php:288
+msgid "Help"
+msgstr "Help"
+
+#: app.php:295
+msgid "Personal"
+msgstr "Persoonlijk"
+
+#: app.php:300
+msgid "Settings"
+msgstr "Instellingen"
+
+#: app.php:305
+msgid "Users"
+msgstr "Gebruikers"
+
+#: app.php:312
+msgid "Apps"
+msgstr "Apps"
+
+#: app.php:314
+msgid "Admin"
+msgstr "Administrator"
+
+#: files.php:280
+msgid "ZIP download is turned off."
+msgstr "ZIP download is uitgeschakeld."
+
+#: files.php:281
+msgid "Files need to be downloaded one by one."
+msgstr "Bestanden moeten één voor één worden gedownload."
+
+#: files.php:281 files.php:306
+msgid "Back to Files"
+msgstr "Terug naar bestanden"
+
+#: files.php:305
+msgid "Selected files too large to generate zip file."
+msgstr "De geselecteerde bestanden zijn te groot om een zip bestand te maken."
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr "De applicatie is niet actief"
+
+#: json.php:39 json.php:63 json.php:75
+msgid "Authentication error"
+msgstr "Authenticatie fout"
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr "Token verlopen.  Herlaad de pagina."
+
+#: template.php:86
+msgid "seconds ago"
+msgstr "seconden geleden"
+
+#: template.php:87
+msgid "1 minute ago"
+msgstr "1 minuut geleden"
+
+#: template.php:88
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d minuten geleden"
+
+#: template.php:91
+msgid "today"
+msgstr "vandaag"
+
+#: template.php:92
+msgid "yesterday"
+msgstr "gisteren"
+
+#: template.php:93
+#, php-format
+msgid "%d days ago"
+msgstr "%d dagen geleden"
+
+#: template.php:94
+msgid "last month"
+msgstr "vorige maand"
+
+#: template.php:95
+msgid "months ago"
+msgstr "maanden geleden"
+
+#: template.php:96
+msgid "last year"
+msgstr "vorig jaar"
+
+#: template.php:97
+msgid "years ago"
+msgstr "jaar geleden"
+
+#: updater.php:66
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr "%s is beschikbaar. Verkrijg <a href=\"%s\">meer informatie</a>"
+
+#: updater.php:68
+msgid "up to date"
+msgstr "Bijgewerkt"
+
+#: updater.php:71
+msgid "updates check is disabled"
+msgstr "Meest recente versie controle is uitgeschakeld"

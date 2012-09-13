@@ -1,0 +1,127 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Magnus Höglund <magnus@linux.com>, 2012.
+#   <magnus@linux.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-01 13:35+0200\n"
+"PO-Revision-Date: 2012-09-01 10:13+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: app.php:288
+msgid "Help"
+msgstr "Hjälp"
+
+#: app.php:295
+msgid "Personal"
+msgstr "Personligt"
+
+#: app.php:300
+msgid "Settings"
+msgstr "Inställningar"
+
+#: app.php:305
+msgid "Users"
+msgstr "Användare"
+
+#: app.php:312
+msgid "Apps"
+msgstr "Program"
+
+#: app.php:314
+msgid "Admin"
+msgstr "Admin"
+
+#: files.php:280
+msgid "ZIP download is turned off."
+msgstr "Nerladdning av ZIP är avstängd."
+
+#: files.php:281
+msgid "Files need to be downloaded one by one."
+msgstr "Filer laddas ner en åt gången."
+
+#: files.php:281 files.php:306
+msgid "Back to Files"
+msgstr "Tillbaka till Filer"
+
+#: files.php:305
+msgid "Selected files too large to generate zip file."
+msgstr "Valda filer är för stora för att skapa zip-fil."
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr "Applikationen är inte aktiverad"
+
+#: json.php:39 json.php:63 json.php:75
+msgid "Authentication error"
+msgstr "Fel vid autentisering"
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr "Ogiltig token. Ladda om sidan."
+
+#: template.php:86
+msgid "seconds ago"
+msgstr "sekunder sedan"
+
+#: template.php:87
+msgid "1 minute ago"
+msgstr "1 minut sedan"
+
+#: template.php:88
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d minuter sedan"
+
+#: template.php:91
+msgid "today"
+msgstr "idag"
+
+#: template.php:92
+msgid "yesterday"
+msgstr "igår"
+
+#: template.php:93
+#, php-format
+msgid "%d days ago"
+msgstr "%d dagar sedan"
+
+#: template.php:94
+msgid "last month"
+msgstr "förra månaden"
+
+#: template.php:95
+msgid "months ago"
+msgstr "månader sedan"
+
+#: template.php:96
+msgid "last year"
+msgstr "förra året"
+
+#: template.php:97
+msgid "years ago"
+msgstr "år sedan"
+
+#: updater.php:66
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr "%s finns. Få <a href=\"%s\">mer information</a>"
+
+#: updater.php:68
+msgid "up to date"
+msgstr "uppdaterad"
+
+#: updater.php:71
+msgid "updates check is disabled"
+msgstr "uppdateringskontroll är inaktiverad"

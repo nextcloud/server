@@ -48,9 +48,14 @@ abstract class Access {
 			return false;
 		}
 		$cr = $this->connection->getConnectionResource();
+		if(!is_resource($cr)) {
+			//LDAP not available
+			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
+			return false;
+		}
 		$rr = @ldap_read($cr, $dn, 'objectClass=*', array($attr));
 		if(!is_resource($rr)) {
-			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'readAttribute '.$attr.' failed for DN '.$dn, \OCP\Util::DEBUG);
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
@@ -66,6 +71,7 @@ abstract class Access {
 			}
 			return $values;
 		}
+		\OCP\Util::writeLog('user_ldap', 'Requested attribute '.$attr.' not found for '.$dn, \OCP\Util::DEBUG);
 		return false;
 	}
 
@@ -131,17 +137,6 @@ abstract class Access {
 		$dn = $this->ocname2dn($name, true);
 		if($dn) {
 			return $dn;
-		} else {
-			//fallback: user is not mapped
-			$filter = $this->combineFilterWithAnd(array(
-				$this->connection->ldapUserFilter,
-				$this->connection->ldapUserDisplayName . '=' . $name,
-			));
-			$result = $this->searchUsers($filter, 'dn');
-			if(isset($result[0]['dn'])) {
-				$this->mapComponent($result[0], $name, true);
-				return $result[0];
-			}
 		}
 
 		return false;
@@ -159,9 +154,9 @@ abstract class Access {
 		$table = $this->getMapTable($isUser);
 
 		$query = \OCP\DB::prepare('
-			SELECT ldap_dn
-			FROM '.$table.'
-			WHERE owncloud_name = ?
+			SELECT `ldap_dn`
+			FROM `'.$table.'`
+			WHERE `owncloud_name` = ?
 		');
 
 		$record = $query->execute(array($name))->fetchOne();
@@ -174,10 +169,10 @@ abstract class Access {
 	 * @param $ldapname optional, the display name of the object
 	 * @returns string with with the name to use in ownCloud, false on DN outside of search DN
 	 *
-	 * returns the internal ownCloud name for the given LDAP DN of the group
+	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
 	 */
 	public function dn2groupname($dn, $ldapname = null) {
-		if(mb_strripos($dn, $this->connection->ldapBaseGroups, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->connection->ldapBaseGroups, 'UTF-8'))) {
+		if(mb_strripos($dn, $this->sanitizeDN($this->connection->ldapBaseGroups), 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->sanitizeDN($this->connection->ldapBaseGroups), 'UTF-8'))) {
 			return false;
 		}
 		return $this->dn2ocname($dn, $ldapname, false);
@@ -189,10 +184,10 @@ abstract class Access {
 	 * @param $ldapname optional, the display name of the object
 	 * @returns string with with the name to use in ownCloud
 	 *
-	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN
+	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 */
 	public function dn2username($dn, $ldapname = null) {
-		if(mb_strripos($dn, $this->connection->ldapBaseUsers, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->connection->ldapBaseUsers, 'UTF-8'))) {
+		if(mb_strripos($dn, $this->sanitizeDN($this->connection->ldapBaseUsers), 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->sanitizeDN($this->connection->ldapBaseUsers), 'UTF-8'))) {
 			return false;
 		}
 		return $this->dn2ocname($dn, $ldapname, true);
@@ -217,36 +212,65 @@ abstract class Access {
 		}
 
 		$query = \OCP\DB::prepare('
-			SELECT owncloud_name
-			FROM '.$table.'
-			WHERE ldap_dn = ?
+			SELECT `owncloud_name`
+			FROM `'.$table.'`
+			WHERE `ldap_dn` = ?
 		');
 
+		//let's try to retrieve the ownCloud name from the mappings table
 		$component = $query->execute(array($dn))->fetchOne();
 		if($component) {
 			return $component;
 		}
 
+		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
+		$uuid = $this->getUUID($dn);
+		if($uuid) {
+			$query = \OCP\DB::prepare('
+				SELECT `owncloud_name`
+				FROM `'.$table.'`
+				WHERE `directory_uuid` = ?
+			');
+			$component = $query->execute(array($uuid))->fetchOne();
+			if($component) {
+				$query = \OCP\DB::prepare('
+					UPDATE `'.$table.'`
+					SET `ldap_dn` = ?
+					WHERE `directory_uuid` = ?
+				');
+				$query->execute(array($dn, $uuid));
+				return $component;
+			}
+		}
+
 		if(is_null($ldapname)) {
 			$ldapname = $this->readAttribute($dn, $nameAttribute);
+			if(!isset($ldapname[0]) && empty($ldapname[0])) {
+				\OCP\Util::writeLog('user_ldap', 'No or empty name for '.$dn.'.', \OCP\Util::INFO);
+				return false;
+			}
 			$ldapname = $ldapname[0];
 		}
 		$ldapname = $this->sanitizeUsername($ldapname);
 
 		//a new user/group! Then let's try to add it. We're shooting into the blue with the user/group name, assuming that in most cases there will not be a conflict. Otherwise an error will occur and we will continue with our second shot.
-		if($this->mapComponent($dn, $ldapname, $isUser)) {
-			return $ldapname;
+		if(($isUser && !\OCP\User::userExists($ldapname)) || (!$isUser && !\OC_Group::groupExists($ldapname))) {
+			if($this->mapComponent($dn, $ldapname, $isUser)) {
+				return $ldapname;
+			}
 		}
 
 		//doh! There is a conflict. We need to distinguish between users/groups. Adding indexes is an idea, but not much of a help for the user. The DN is ugly, but for now the only reasonable way. But we transform it to a readable format and remove the first part to only give the path where this object is located.
 		$oc_name = $this->alternateOwnCloudName($ldapname, $dn);
-		if($this->mapComponent($dn, $oc_name, $isUser)) {
-			return $oc_name;
+		if(($isUser && !\OCP\User::userExists($oc_name)) || (!$isUser && !\OC_Group::groupExists($oc_name))) {
+			if($this->mapComponent($dn, $oc_name, $isUser)) {
+				return $oc_name;
+			}
 		}
 
-		//TODO: do not simple die away!
-		//and this of course should never been thrown :)
-		throw new Exception('LDAP backend: unexpected collision of DN and ownCloud Name.');
+		//if everything else did not help..
+		\OCP\Util::writeLog('user_ldap', 'Could not create unique ownCloud name for '.$dn.'.', \OCP\Util::INFO);
+		return false;
 	}
 
 	/**
@@ -290,23 +314,11 @@ abstract class Access {
 				continue;
 			}
 
-			//a new group! Then let's try to add it. We're shooting into the blue with the group name, assuming that in most cases there will not be a conflict. But first make sure, that the display name contains only allowed characters.
-			$ocname = $this->sanitizeUsername($ldapObject[$nameAttribute]);
-			if($this->mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
+			$ocname = $this->dn2ocname($ldapObject['dn'], $ldapObject[$nameAttribute], $isUsers);
+			if($ocname) {
 				$ownCloudNames[] = $ocname;
-				continue;
 			}
-
-			//doh! There is a conflict. We need to distinguish between groups. Adding indexes is an idea, but not much of a help for the user. The DN is ugly, but for now the only reasonable way. But we transform it to a readable format and remove the first part to only give the path where this entry is located.
-			$ocname = $this->alternateOwnCloudName($ocname, $ldapObject['dn']);
-			if($this->mapComponent($ldapObject['dn'], $ocname, $isUsers)) {
-				$ownCloudNames[] = $ocname;
-				continue;
-			}
-
-			//TODO: do not simple die away
-			//and this of course should never been thrown :)
-			throw new Exception('LDAP backend: unexpected collision of DN and ownCloud Name.');
+			continue;
 		}
 		return $ownCloudNames;
 	}
@@ -350,8 +362,8 @@ abstract class Access {
 		$table = $this->getMapTable($isUsers);
 
 		$query = \OCP\DB::prepare('
-			SELECT ldap_dn, owncloud_name
-			FROM '. $table
+			SELECT `ldap_dn`, `owncloud_name`
+			FROM `'. $table . '`'
 		);
 
 		return $query->execute()->fetchAll();
@@ -373,21 +385,22 @@ abstract class Access {
 		$sqlAdjustment = '';
 		$dbtype = \OCP\Config::getSystemValue('dbtype');
 		if($dbtype == 'mysql') {
-			$sqlAdjustment = 'FROM dual';
+			$sqlAdjustment = 'FROM `dual`';
 		}
 
 		$insert = \OCP\DB::prepare('
-			INSERT INTO '.$table.' (ldap_dn, owncloud_name)
-				SELECT ?,?
+			INSERT INTO `'.$table.'` (`ldap_dn`, `owncloud_name`, `directory_uuid`)
+				SELECT ?,?,?
 				'.$sqlAdjustment.'
 				WHERE NOT EXISTS (
 					SELECT 1
-					FROM '.$table.'
-					WHERE ldap_dn = ?
-						OR owncloud_name = ? )
+					FROM `'.$table.'`
+					WHERE `ldap_dn` = ?
+						OR `owncloud_name` = ?)
 		');
 
-		$res = $insert->execute(array($dn, $ocname, $dn, $ocname));
+		//feed the DB
+		$res = $insert->execute(array($dn, $ocname, $this->getUUID($dn), $dn, $ocname));
 
 		if(\OCP\DB::isError($res)) {
 			return false;
@@ -528,6 +541,10 @@ abstract class Access {
 			return $name;
 		}
 
+		// Translitaration
+		//latin characters to ASCII
+		$name = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
+
 		//REPLACEMENTS
 		$name = \OCP\Util::mb_str_replace(' ', '_', $name, 'UTF-8');
 
@@ -589,5 +606,52 @@ abstract class Access {
 			return false;
 		}
 		return $testConnection->bind();
+	}
+
+	/**
+	 * @brief auto-detects the directory's UUID attribute
+	 * @param $dn a known DN used to check against
+	 * @param $force the detection should be run, even if it is not set to auto
+	 * @returns true on success, false otherwise
+	 */
+	private function detectUuidAttribute($dn, $force = false) {
+		if(($this->connection->ldapUuidAttribute != 'auto') && !$force) {
+			return true;
+		}
+
+		//for now, supported (known) attributes are entryUUID, nsuniqueid, objectGUID
+		$testAttributes = array('entryuuid', 'nsuniqueid', 'objectguid');
+
+		foreach($testAttributes as $attribute) {
+			\OCP\Util::writeLog('user_ldap', 'Testing '.$attribute.' as UUID attr', \OCP\Util::DEBUG);
+
+		    $value = $this->readAttribute($dn, $attribute);
+		    if(is_array($value) && isset($value[0]) && !empty($value[0])) {
+				\OCP\Util::writeLog('user_ldap', 'Setting '.$attribute.' as UUID attr', \OCP\Util::DEBUG);
+				$this->connection->ldapUuidAttribute = $attribute;
+				return true;
+		    }
+		    \OCP\Util::writeLog('user_ldap', 'The looked for uuid attr is not '.$attribute.', result was '.print_r($value,true), \OCP\Util::DEBUG);
+		}
+
+		return false;
+	}
+
+	public function getUUID($dn) {
+		if($this->detectUuidAttribute($dn)) {
+			$uuid = $this->readAttribute($dn, $this->connection->ldapUuidAttribute);
+			if(!is_array($uuid) && $this->connection->ldapOverrideUuidAttribute) {
+				$this->detectUuidAttribute($dn, true);
+				$uuid = $this->readAttribute($dn, $this->connection->ldapUuidAttribute);
+			}
+			if(is_array($uuid) && isset($uuid[0]) && !empty($uuid[0])) {
+				$uuid = $uuid[0];
+			} else {
+				$uuid = false;
+			}
+		} else {
+			$uuid = false;
+		}
+		return $uuid;
 	}
 }

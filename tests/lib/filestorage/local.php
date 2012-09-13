@@ -25,12 +25,12 @@ class Test_Filestorage_Local extends Test_FileStorage {
 	 * @var string tmpDir
 	 */
 	private $tmpDir;
-	public function setUp(){
+	public function setUp() {
 		$this->tmpDir=OC_Helper::tmpFolder();
 		$this->instance=new OC_Filestorage_Local(array('datadir'=>$this->tmpDir));
 	}
 
-	public function tearDown(){
+	public function tearDown() {
 		OC_Helper::rmdirr($this->tmpDir);
 	}
 }

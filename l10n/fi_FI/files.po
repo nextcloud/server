@@ -6,48 +6,49 @@
 # Jesse Jaara <jesse.jaara@gmail.com>, 2012.
 # Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
 # Johannes Korpela <>, 2012.
+#   <tehoratopato@gmail.com>, 2012.
 #   <tscooter@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Finnish (Finland) (http://www.transifex.net/projects/p/owncloud/language/fi_FI/)\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
+"PO-Revision-Date: 2012-09-08 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi_FI\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
 msgstr "Ei virheitä, tiedosto lähetettiin onnistuneesti"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "Lähetetty tiedosto ylittää upload_max_filesize-arvon rajan php.ini-tiedostossa"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Lähetetty tiedosto ylittää HTML-lomakkeessa määritetyn MAX_FILE_SIZE-arvon ylärajan"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
 msgstr "Tiedoston lähetys onnistui vain osittain"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid "No file was uploaded"
 msgstr "Yhtäkään tiedostoa ei lähetetty"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:25
 msgid "Missing a temporary folder"
 msgstr "Väliaikaiskansiota ei ole olemassa"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "Failed to write to disk"
 msgstr "Levylle kirjoitus epäonnistui"
 
@@ -55,57 +56,102 @@ msgstr "Levylle kirjoitus epäonnistui"
 msgid "Files"
 msgstr "Tiedostot"
 
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
+msgid "Delete"
+msgstr "Poista"
+
+#: js/filelist.js:186 js/filelist.js:188
+msgid "already exists"
+msgstr "on jo olemassa"
+
+#: js/filelist.js:186 js/filelist.js:188
+msgid "replace"
+msgstr "korvaa"
+
 #: js/filelist.js:186
-msgid "undo deletion"
+msgid "suggest name"
+msgstr "ehdota nimeä"
+
+#: js/filelist.js:186 js/filelist.js:188
+msgid "cancel"
+msgstr "peru"
+
+#: js/filelist.js:235 js/filelist.js:237
+msgid "replaced"
+msgstr "korvattu"
+
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
+msgid "undo"
+msgstr "kumoa"
+
+#: js/filelist.js:237
+msgid "with"
+msgstr "käyttäen"
+
+#: js/filelist.js:268
+msgid "unshared"
 msgstr ""
 
-#: js/files.js:170
+#: js/filelist.js:270
+msgid "deleted"
+msgstr "poistettu"
+
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "luodaan ZIP-tiedostoa, tämä saattaa kestää hetken."
 
-#: js/files.js:199
+#: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Tiedoston lähetys epäonnistui, koska sen koko on 0 tavua tai kyseessä on kansio"
 
-#: js/files.js:199
+#: js/files.js:208
 msgid "Upload Error"
-msgstr ""
+msgstr "Lähetysvirhe."
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:236 js/files.js:341 js/files.js:370
 msgid "Pending"
-msgstr ""
+msgstr "Odottaa"
 
-#: js/files.js:332
+#: js/files.js:355
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Lähetys peruttu."
 
-#: js/files.js:456
+#: js/files.js:423
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Tiedoston lähetys on meneillään. Sivulta poistuminen nyt peruu tiedoston lähetyksen."
+
+#: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Virheellinen nimi, merkki '/' ei ole sallittu."
 
-#: js/files.js:626 templates/index.php:55
+#: js/files.js:746 templates/index.php:56
 msgid "Size"
 msgstr "Koko"
 
-#: js/files.js:627 templates/index.php:56
+#: js/files.js:747 templates/index.php:58
 msgid "Modified"
 msgstr "Muutettu"
 
-#: js/files.js:654
+#: js/files.js:774
 msgid "folder"
-msgstr ""
+msgstr "kansio"
 
-#: js/files.js:656
+#: js/files.js:776
 msgid "folders"
-msgstr ""
+msgstr "kansiota"
 
-#: js/files.js:664
+#: js/files.js:784
 msgid "file"
-msgstr ""
+msgstr "tiedosto"
 
-#: js/files.js:666
+#: js/files.js:786
 msgid "files"
-msgstr ""
+msgstr "tiedostoa"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -117,7 +163,7 @@ msgstr "Lähetettävän tiedoston suurin sallittu koko"
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "suurin mahdollinen:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
@@ -134,6 +180,10 @@ msgstr "0 on rajoittamaton"
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
 msgstr "ZIP-tiedostojen enimmäiskoko"
+
+#: templates/admin.php:14
+msgid "Save"
+msgstr "Tallenna"
 
 #: templates/index.php:7
 msgid "New"
@@ -159,40 +209,36 @@ msgstr "Lähetä"
 msgid "Cancel upload"
 msgstr "Peru lähetys"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Täällä ei ole mitään. Lähetä tänne jotakin!"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "Nimi"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "Jaa"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "Lataa"
 
-#: templates/index.php:56
-msgid "Delete"
-msgstr "Poista"
-
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "Lähetettävä tiedosto on liian suuri"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "Tiedostoja tarkistetaan, odota hetki."
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
-msgstr ""
+msgstr "Tämänhetkinen tutkinta"

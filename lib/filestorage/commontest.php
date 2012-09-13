@@ -31,45 +31,45 @@ class OC_Filestorage_CommonTest extends OC_Filestorage_Common{
 	 * @var OC_FileStorage_Local
 	 */
 	private $storage;
-	
-	public function __construct($params){
+
+	public function __construct($params) {
 		$this->storage=new OC_Filestorage_Local($params);
 	}
-	
-	public function mkdir($path){
+
+	public function mkdir($path) {
 		return $this->storage->mkdir($path);
 	}
-	public function rmdir($path){
+	public function rmdir($path) {
 		return $this->storage->rmdir($path);
 	}
-	public function opendir($path){
+	public function opendir($path) {
 		return $this->storage->opendir($path);
 	}
-	public function stat($path){
+	public function stat($path) {
 		return $this->storage->stat($path);
 	}
-	public function filetype($path){
+	public function filetype($path) {
 		return $this->storage->filetype($path);
 	}
-	public function is_readable($path){
-		return $this->storage->is_readable($path);
+	public function isReadable($path) {
+		return $this->storage->isReadable($path);
 	}
-	public function is_writable($path){
-		return $this->storage->is_writable($path);
+	public function isUpdatable($path) {
+		return $this->storage->isUpdatable($path);
 	}
-	public function file_exists($path){
+	public function file_exists($path) {
 		return $this->storage->file_exists($path);
 	}
-	public function unlink($path){
+	public function unlink($path) {
 		return $this->storage->unlink($path);
 	}
-	public function fopen($path,$mode){
+	public function fopen($path,$mode) {
 		return $this->storage->fopen($path,$mode);
 	}
-	public function free_space($path){
+	public function free_space($path) {
 		return $this->storage->free_space($path);
 	}
-	public function touch($path, $mtime=null){
+	public function touch($path, $mtime=null) {
 		return $this->storage->touch($path,$mtime);
 	}
 }

@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-08 02:02+0200\n"
+"PO-Revision-Date: 2012-09-07 14:09+0000\n"
+"Last-Translator: Sơn Nguyễn <sonnghit@gmail.com>\n"
+"Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: app.php:285
+msgid "Help"
+msgstr "Giúp đỡ"
+
+#: app.php:292
+msgid "Personal"
+msgstr "Cá nhân"
+
+#: app.php:297
+msgid "Settings"
+msgstr "Cài đặt"
+
+#: app.php:302
+msgid "Users"
+msgstr "Người dùng"
+
+#: app.php:309
+msgid "Apps"
+msgstr "Ứng dụng"
+
+#: app.php:311
+msgid "Admin"
+msgstr "Quản trị"
+
+#: files.php:280
+msgid "ZIP download is turned off."
+msgstr "Tải về ZIP đã bị tắt."
+
+#: files.php:281
+msgid "Files need to be downloaded one by one."
+msgstr "Tập tin cần phải được tải về từng người một."
+
+#: files.php:281 files.php:306
+msgid "Back to Files"
+msgstr "Trở lại tập tin"
+
+#: files.php:305
+msgid "Selected files too large to generate zip file."
+msgstr "Tập tin được chọn quá lớn để tạo tập tin ZIP."
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr "Ứng dụng không được BẬT"
+
+#: json.php:39 json.php:63 json.php:75
+msgid "Authentication error"
+msgstr "Lỗi xác thực"
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr "Mã Token đã hết hạn. Hãy tải lại trang."
+
+#: template.php:87
+msgid "seconds ago"
+msgstr "1 giây trước"
+
+#: template.php:88
+msgid "1 minute ago"
+msgstr "1 phút trước"
+
+#: template.php:89
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d phút trước"
+
+#: template.php:92
+msgid "today"
+msgstr "hôm nay"
+
+#: template.php:93
+msgid "yesterday"
+msgstr "hôm qua"
+
+#: template.php:94
+#, php-format
+msgid "%d days ago"
+msgstr "%d ngày trước"
+
+#: template.php:95
+msgid "last month"
+msgstr "tháng trước"
+
+#: template.php:96
+msgid "months ago"
+msgstr "tháng trước"
+
+#: template.php:97
+msgid "last year"
+msgstr "năm trước"
+
+#: template.php:98
+msgid "years ago"
+msgstr "năm trước"
+
+#: updater.php:66
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr "%s có sẵn.  <a href=\"%s\">xem thêm ở đây</a>"
+
+#: updater.php:68
+msgid "up to date"
+msgstr "đến ngày"
+
+#: updater.php:71
+msgid "updates check is disabled"
+msgstr "đã TĂT chức năng cập nhật "

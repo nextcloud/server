@@ -26,7 +26,7 @@
  *
  */
 
-// use OCP namespace for all classes that are considered public. 
+// use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
@@ -39,7 +39,7 @@ namespace OCP;
  *
  * For further information have a look at OC_Helper::imagePath
  */
-function image_path( $app, $image ){
+function image_path( $app, $image ) {
 	return(\image_path( $app, $image ));
 }
 
@@ -50,7 +50,7 @@ function image_path( $app, $image ){
  * @param $mimetype mimetype
  * @returns link to the image
  */
-function mimetype_icon( $mimetype ){
+function mimetype_icon( $mimetype ) {
 	return(\mimetype_icon( $mimetype ));
 }
 
@@ -61,7 +61,7 @@ function mimetype_icon( $mimetype ){
  * @param $bytes size in bytes
  * @returns size as string
  */
-function human_file_size( $bytes ){
+function human_file_size( $bytes ) {
 	return(\human_file_size( $bytes ));
 }
 
@@ -88,13 +88,13 @@ function simple_file_size($bytes) {
 
 /**
  * @brief Generate html code for an options block.
- * @param $options the options 
- * @param $selected which one is selected? 
- * @param $params the parameters 
+ * @param $options the options
+ * @param $selected which one is selected?
+ * @param $params the parameters
  * @returns html options
  */
 function html_select_options($options, $selected, $params=array()) {
-	return(\html_select_options($options, $selected, $params)); 
+	return(\html_select_options($options, $selected, $params));
 }
 
 

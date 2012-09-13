@@ -25,11 +25,11 @@ class Test_Cache_APC extends Test_Cache {
 		$this->skipUnless(function_exists('apc_store'));
 	}
 
-	public function setUp(){
+	public function setUp() {
 		$this->instance=new OC_Cache_APC();
 	}
 
-	function testTTL(){
+	function testTTL() {
 		// ttl doesn't work correctly in the same request
 		// see https://bugs.php.net/bug.php?id=58084
 	}

@@ -8,16 +8,16 @@
 
 class OC_L10N_String{
 	protected $l10n;
-	public function __construct($l10n, $text, $parameters){
+	public function __construct($l10n, $text, $parameters) {
 		$this->l10n = $l10n;
 		$this->text = $text;
 		$this->parameters = $parameters;
 
 	}
 
-	public function __toString(){
+	public function __toString() {
 		$translations = $this->l10n->getTranslations();
-		if(array_key_exists($this->text, $translations)){
+		if(array_key_exists($this->text, $translations)) {
 			return vsprintf($translations[$this->text], $this->parameters);
 		}
 		return vsprintf($this->text, $this->parameters);

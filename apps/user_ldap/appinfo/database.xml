@@ -28,6 +28,14 @@
 	<default></default>
    </field>
 
+   <field>
+    <name>directory_uuid</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+	<default></default>
+   </field>
+
    <index>
     <name>ldap_dn_users</name>
     <unique>true</unique>
@@ -71,6 +79,14 @@
     <default></default>
    </field>
 
+   <field>
+    <name>directory_uuid</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+	<default></default>
+   </field>
+
    <index>
     <name>ldap_dn_groups</name>
     <unique>true</unique>
@@ -85,6 +101,39 @@
     <field>
      <name>owncloud_name</name>
      <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+
+ <table>
+
+  <name>*dbprefix*ldap_group_members</name>
+
+  <declaration>
+
+   <field>
+    <name>owncloudname</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+    <default></default>
+   </field>
+
+   <field>
+    <name>owncloudusers</name>
+    <type>clob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>ldap_group_members</name>
+    <unique>true</unique>
+    <field>
+     <name>owncloudname</name>
     </field>
    </index>
 

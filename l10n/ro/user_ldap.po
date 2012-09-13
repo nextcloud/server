@@ -1,0 +1,172 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Dumitru Ursu <>, 2012.
+#   <iuranemo@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-30 17:51+0000\n"
+"Last-Translator: iuranemo <iuranemo@gmail.com>\n"
+"Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1))\n"
+
+#: templates/settings.php:8
+msgid "Host"
+msgstr "Gazdă"
+
+#: templates/settings.php:8
+msgid ""
+"You can omit the protocol, except you require SSL. Then start with ldaps://"
+msgstr "Puteți omite protocolul, decât dacă folosiți SSL. Atunci se începe cu ldaps://"
+
+#: templates/settings.php:9
+msgid "Base DN"
+msgstr "DN de bază"
+
+#: templates/settings.php:9
+msgid "You can specify Base DN for users and groups in the Advanced tab"
+msgstr "Puteți să specificați DN de bază pentru utilizatori și grupuri în fila Avansat"
+
+#: templates/settings.php:10
+msgid "User DN"
+msgstr "DN al utilizatorului"
+
+#: templates/settings.php:10
+msgid ""
+"The DN of the client user with which the bind shall be done, e.g. "
+"uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
+"empty."
+msgstr "DN-ul clientului utilizator cu care se va efectua conectarea, d.e. uid=agent,dc=example,dc=com. Pentru acces anonim, lăsăți DN și Parolă libere."
+
+#: templates/settings.php:11
+msgid "Password"
+msgstr "Parolă"
+
+#: templates/settings.php:11
+msgid "For anonymous access, leave DN and Password empty."
+msgstr "Pentru acces anonim, lăsați DN și Parolă libere."
+
+#: templates/settings.php:12
+msgid "User Login Filter"
+msgstr "Filtrare după Nume Utilizator"
+
+#: templates/settings.php:12
+#, php-format
+msgid ""
+"Defines the filter to apply, when login is attempted. %%uid replaces the "
+"username in the login action."
+msgstr "Definește fitrele care trebuie aplicate, când se încearcă conectarea. %%uid înlocuiește numele utilizatorului în procesul de conectare."
+
+#: templates/settings.php:12
+#, php-format
+msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
+msgstr "folosiți substituentul %%uid , d.e. \"uid=%%uid\""
+
+#: templates/settings.php:13
+msgid "User List Filter"
+msgstr "Filtrarea după lista utilizatorilor"
+
+#: templates/settings.php:13
+msgid "Defines the filter to apply, when retrieving users."
+msgstr "Definește filtrele care trebui aplicate, când se peiau utilzatorii."
+
+#: templates/settings.php:13
+msgid "without any placeholder, e.g. \"objectClass=person\"."
+msgstr "fără substituenți, d.e. \"objectClass=person\"."
+
+#: templates/settings.php:14
+msgid "Group Filter"
+msgstr "Fitrare Grup"
+
+#: templates/settings.php:14
+msgid "Defines the filter to apply, when retrieving groups."
+msgstr "Definește filtrele care se aplică, când se preiau grupurile."
+
+#: templates/settings.php:14
+msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
+msgstr "fără substituenți, d.e. \"objectClass=posixGroup\""
+
+#: templates/settings.php:17
+msgid "Port"
+msgstr "Portul"
+
+#: templates/settings.php:18
+msgid "Base User Tree"
+msgstr "Arborele de bază al Utilizatorilor"
+
+#: templates/settings.php:19
+msgid "Base Group Tree"
+msgstr "Arborele de bază al Grupurilor"
+
+#: templates/settings.php:20
+msgid "Group-Member association"
+msgstr "Asocierea Grup-Membru"
+
+#: templates/settings.php:21
+msgid "Use TLS"
+msgstr "Utilizează TLS"
+
+#: templates/settings.php:21
+msgid "Do not use it for SSL connections, it will fail."
+msgstr "A nu se utiliza pentru conexiuni SSL, va eșua."
+
+#: templates/settings.php:22
+msgid "Case insensitve LDAP server (Windows)"
+msgstr "Server LDAP insensibil la majuscule (Windows)"
+
+#: templates/settings.php:23
+msgid "Turn off SSL certificate validation."
+msgstr "Oprește validarea certificatelor SSL "
+
+#: templates/settings.php:23
+msgid ""
+"If connection only works with this option, import the LDAP server's SSL "
+"certificate in your ownCloud server."
+msgstr "Dacă conexiunea lucrează doar cu această opțiune, importează certificatul SSL al serverului LDAP în serverul ownCloud."
+
+#: templates/settings.php:23
+msgid "Not recommended, use for testing only."
+msgstr "Nu este recomandat, a se utiliza doar pentru testare."
+
+#: templates/settings.php:24
+msgid "User Display Name Field"
+msgstr "Câmpul cu numele vizibil al utilizatorului"
+
+#: templates/settings.php:24
+msgid "The LDAP attribute to use to generate the user`s ownCloud name."
+msgstr "Atributul LDAP folosit pentru a genera numele de utilizator din ownCloud."
+
+#: templates/settings.php:25
+msgid "Group Display Name Field"
+msgstr "Câmpul cu numele grupului"
+
+#: templates/settings.php:25
+msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
+msgstr "Atributul LDAP folosit pentru a genera numele grupurilor din ownCloud"
+
+#: templates/settings.php:27
+msgid "in bytes"
+msgstr "în octeți"
+
+#: templates/settings.php:29
+msgid "in seconds. A change empties the cache."
+msgstr "în secunde. O schimbare curăță memoria tampon."
+
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Lăsați gol pentru numele de utilizator (implicit). În caz contrar, specificați un atribut LDAP / AD."
+
+#: templates/settings.php:32
+msgid "Help"
+msgstr "Ajutor"

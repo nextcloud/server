@@ -31,13 +31,17 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 
 	private static $tempFiles = array();
 
-	public function __construct($arguments) {
-		$consumer_key = isset($arguments['consumer_key']) ? $arguments['consumer_key'] : 'anonymous';
-		$consumer_secret = isset($arguments['consumer_secret']) ? $arguments['consumer_secret'] : 'anonymous';
-		$this->consumer = new OAuthConsumer($consumer_key, $consumer_secret);
-		$this->oauth_token = new OAuthToken($arguments['token'], $arguments['token_secret']);
-		$this->sig_method = new OAuthSignatureMethod_HMAC_SHA1();
-		$this->entries = array();
+	public function __construct($params) {
+		if (isset($params['configured']) && $params['configured'] == 'true' && isset($params['token']) && isset($params['token_secret'])) {
+			$consumer_key = isset($params['consumer_key']) ? $params['consumer_key'] : 'anonymous';
+			$consumer_secret = isset($params['consumer_secret']) ? $params['consumer_secret'] : 'anonymous';
+			$this->consumer = new OAuthConsumer($consumer_key, $consumer_secret);
+			$this->oauth_token = new OAuthToken($params['token'], $params['token_secret']);
+			$this->sig_method = new OAuthSignatureMethod_HMAC_SHA1();
+			$this->entries = array();
+		} else {
+			throw new Exception('Creating OC_Filestorage_Google storage failed');
+		}
 	}
 
 	private function sendRequest($uri, $httpMethod, $postData = null, $extraHeaders = null, $isDownload = false, $returnHeaders = false, $isContentXML = true, $returnHTTPCode = false) {
@@ -115,7 +119,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				}
 			}
 		}
-		return false; 
+		return false;
 	}
 
 	private function getFeed($feedUri, $httpMethod, $postData = null) {
@@ -170,7 +174,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				return 'html';
 		}
 	}
-	
+
 
 	public function mkdir($path) {
 		$collection = dirname($path);
@@ -250,7 +254,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		} else if ($entry = $this->getResource($path)) {
 			// NOTE: Native resources don't have a file size
 			$stat['size'] = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'quotaBytesUsed')->item(0)->nodeValue;
-// 			if (isset($atime = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue)) 
+// 			if (isset($atime = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue))
 // 			$stat['atime'] = strtotime($entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue);
 			$stat['mtime'] = strtotime($entry->getElementsByTagName('updated')->item(0)->nodeValue);
 			$stat['ctime'] = strtotime($entry->getElementsByTagName('published')->item(0)->nodeValue);
@@ -280,11 +284,11 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		return false;
 	}
 
-	public function is_readable($path) {
+	public function isReadable($path) {
 		return true;
 	}
 
-	public function is_writable($path) {
+	public function isUpdatable($path) {
 		if ($path == '' || $path == '/') {
 			return true;
 		} else if ($entry = $this->getResource($path)) {
@@ -300,7 +304,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 		return false;
 	}
-	
+
 	public function file_exists($path) {
 		if ($path == '' || $path == '/') {
 			return true;
@@ -309,7 +313,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 		return false;
 	}
-	
+
 	public function unlink($path) {
 		// Get resource self link to trash resource
 		if ($entry = $this->getResource($path)) {
@@ -478,7 +482,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			// TODO Wait for resource entry
 		}
 	}
-	
+
 	public function getMimeType($path, $entry = null) {
 		// Entry can be passed, because extension is required for opendir and the entry can't be cached without the extension
 		if ($entry == null) {
@@ -518,7 +522,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 		return false;
 	}
-	
+
 	public function free_space($path) {
 		if ($dom = $this->getFeed('https://docs.google.com/feeds/metadata/default', 'GET')) {
 			// NOTE: Native Google Docs resources don't count towards quota
@@ -528,9 +532,9 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 		return false;
 	}
-  
+
 	public function touch($path, $mtime = null) {
-	  
+
 	}
 
 }

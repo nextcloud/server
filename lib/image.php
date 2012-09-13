@@ -262,7 +262,7 @@ class OC_Image {
 	* @returns The orientation or -1 if no EXIF data is available.
 	*/
 	public function getOrientation() {
-		if(!is_callable('exif_read_data')){
+		if(!is_callable('exif_read_data')) {
 			OC_Log::write('core','OC_Image->fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
 			return -1;
 		}
@@ -383,7 +383,7 @@ class OC_Image {
 	/**
 	* @brief Loads an image from an open file handle.
 	* It is the responsibility of the caller to position the pointer at the correct place and to close the handle again.
-	* @param $handle 
+	* @param $handle
 	* @returns An image resource or false on error
 	*/
 	public function loadFromFileHandle($handle) {
@@ -468,7 +468,7 @@ class OC_Image {
 				break;
 			*/
 			default:
-			
+
 				// this is mostly file created from encrypted file
 				$this->resource = imagecreatefromstring(\OC_Filesystem::file_get_contents(\OC_Filesystem::getLocalPath($imagepath)));
 				$itype = IMAGETYPE_PNG;
@@ -534,7 +534,7 @@ class OC_Image {
 		$width_orig=imageSX($this->resource);
 		$height_orig=imageSY($this->resource);
 		$ratio_orig = $width_orig/$height_orig;
-		
+
 		if ($ratio_orig > 1) {
 			$new_height = round($maxsize/$ratio_orig);
 			$new_width = $maxsize;
@@ -543,28 +543,14 @@ class OC_Image {
 			$new_height = $maxsize;
 		}
 
-		$process = imagecreatetruecolor(round($new_width), round($new_height));
-		if ($process == false) {
-			OC_Log::write('core',__METHOD__.'(): Error creating true color image',OC_Log::ERROR);
-			imagedestroy($process);
-			return false;
-		}
-
-		imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $new_width, $new_height, $width_orig, $height_orig);
-		if ($process == false) {
-			OC_Log::write('core',__METHOD__.'(): Error resampling process image '.$new_width.'x'.$new_height,OC_Log::ERROR);
-			imagedestroy($process);
-			return false;
-		}
-		imagedestroy($this->resource);
-		$this->resource = $process;
+		$this->preciseResize(round($new_width), round($new_height));
 		return true;
 	}
 
 	public function preciseResize($width, $height) {
 		if (!$this->valid()) {
 			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
-			return false;			
+			return false;
 		}
 		$width_orig=imageSX($this->resource);
 		$height_orig=imageSY($this->resource);
@@ -612,7 +598,7 @@ class OC_Image {
 			$y = ($height_orig/2) - ($height/2);
 			$x = 0;
 		}
-		if($size>0){
+		if($size>0) {
 			$targetWidth=$size;
 			$targetHeight=$size;
 		}else{
@@ -666,14 +652,36 @@ class OC_Image {
 		return true;
 	}
 
-	public function destroy(){
-		if($this->valid()){
+	/**
+	 * @brief Resizes the image to fit within a boundry while preserving ratio.
+	 * @param $maxWidth
+	 * @param $maxHeight
+	 * @returns bool
+	 */
+	public function fitIn($maxWidth, $maxHeight) {
+		if(!$this->valid()) {
+			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
+			return false;
+		}
+		$width_orig=imageSX($this->resource);
+		$height_orig=imageSY($this->resource);
+		$ratio = $width_orig/$height_orig;
+
+		$newWidth = min($maxWidth, $ratio*$maxHeight);
+		$newHeight = min($maxHeight, $maxWidth/$ratio);
+		
+		$this->preciseResize(round($newWidth), round($newHeight));
+		return true;
+	}
+
+	public function destroy() {
+		if($this->valid()) {
 			imagedestroy($this->resource);
 		}
 		$this->resource=null;
 	}
 
-	public function __destruct(){
+	public function __destruct() {
 		$this->destroy();
 	}
 }

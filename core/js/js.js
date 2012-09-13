@@ -4,6 +4,8 @@
  * @param text the string to translate
  * @return string
  */
+var OC;
+
 function t(app,text){
 	if( !( app in t.cache )){
 		$.ajax(OC.filePath('core','ajax','translations.php'),{
@@ -29,7 +31,22 @@ function t(app,text){
 }
 t.cache={};
 
+/**
+* Get the path to download a file
+* @param file The filename
+* @param dir The directory the file is in - e.g. $('#dir').val()
+* @return string
+*/
+function fileDownloadPath(dir, file) {
+	return OC.filePath('files', 'ajax', 'download.php')+encodeURIComponent('?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir));
+}
+
 OC={
+	PERMISSION_CREATE:4,
+	PERMISSION_READ:1,
+	PERMISSION_UPDATE:2,
+	PERMISSION_DELETE:8,
+	PERMISSION_SHARE:16,
 	webroot:oc_webroot,
 	appswebroots:oc_appswebroots,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
@@ -82,7 +99,7 @@ OC={
 			if(type){
 				link+=type+'/';
 			}
-			link+=file;	
+			link+=file;
 		}
 		return link;
 	},
@@ -91,9 +108,9 @@ OC={
 	 * @param app the app id to which the image belongs
 	 * @param file the name of the image file
 	 * @return string
-	 * 
+	 *
 	 * if no extension is given for the image, it will automatically decide between .png and .svg based on what the browser supports
-	 */ 
+	 */
 	imagePath:function(app,file){
 		if(file.indexOf('.')==-1){//if no extension is given, use png or svg depending on browser support
 			file+=(SVGSupport())?'.svg':'.png';
@@ -105,23 +122,24 @@ OC={
 	 * @param app the app id to which the script belongs
 	 * @param script the filename of the script
 	 * @param ready event handeler to be called when the script is loaded
-	 * 
+	 *
 	 * if the script is already loaded, the event handeler will be called directly
 	 */
 	addScript:function(app,script,ready){
 		var path=OC.filePath(app,'js',script+'.js');
-		if(OC.addScript.loaded.indexOf(path)==-1){
-			OC.addScript.loaded.push(path);
+		if(!OC.addScript.loaded[path]){
 			if(ready){
-				$.getScript(path,ready);
+				var deferred=$.getScript(path,ready);
 			}else{
-				$.getScript(path);
+				var deferred=$.getScript(path);
 			}
+			OC.addScript.loaded[path]=deferred;
 		}else{
 			if(ready){
 				ready();
 			}
 		}
+		return OC.addScript.loaded[path];
 	},
 	/**
 	 * load a css file and load it
@@ -135,6 +153,12 @@ OC={
 			var style=$('<link rel="stylesheet" type="text/css" href="'+path+'"/>');
 			$('head').append(style);
 		}
+	},
+	basename: function(path) {
+		return path.replace(/\\/g,'/').replace( /.*\//, '' );
+	},
+	dirname: function(path) {
+		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');;
 	},
 	/**
 	 * do a search query and display the results
@@ -150,12 +174,68 @@ OC={
 		}
 	},
 	dialogs:OCdialogs,
-  mtime2date:function(mtime) {
-    mtime = parseInt(mtime);
-    var date = new Date(1000*mtime);
-    var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
-    return ret;
-  }
+	mtime2date:function(mtime) {
+		mtime = parseInt(mtime);
+		var date = new Date(1000*mtime);
+		var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
+		return ret;
+	},
+	/**
+	 * Opens a popup with the setting for an app.
+	 * @param appid String. The ID of the app e.g. 'calendar', 'contacts' or 'files'.
+	 * @param loadJS boolean or String. If true 'js/settings.js' is loaded. If it's a string
+	 * it will attempt to load a script by that name in the 'js' directory.
+	 * @param cache boolean. If true the javascript file won't be forced refreshed. Defaults to true.
+	 * @param scriptName String. The name of the PHP file to load. Defaults to 'settings.php' in
+	 * the root of the app directory hierarchy.
+	 */
+	appSettings:function(args) {
+		if(typeof args === 'undefined' || typeof args.appid === 'undefined') {
+			throw { name: 'MissingParameter', message: 'The parameter appid is missing' };
+		}
+		var props = {scriptName:'settings.php', cache:true};
+		$.extend(props, args);
+		var settings = $('#appsettings');
+		if(settings.length == 0) {
+			throw { name: 'MissingDOMElement', message: 'There has be be an element with id "appsettings" for the popup to show.' };
+		}
+		var popup = $('#appsettings_popup');
+		if(popup.length == 0) {
+			$('body').prepend('<div class="popup hidden" id="appsettings_popup"></div>');
+			popup = $('#appsettings_popup');
+			popup.addClass(settings.hasClass('topright') ? 'topright' : 'bottomleft');
+		}
+		if(popup.is(':visible')) {
+			popup.hide().remove();
+		} else {
+			var arrowclass = settings.hasClass('topright') ? 'up' : 'left';
+			var jqxhr = $.get(OC.filePath(props.appid, '', props.scriptName), function(data) {
+				popup.html(data).ready(function() {
+					popup.prepend('<span class="arrow '+arrowclass+'"></span><h2>'+t('core', 'Settings')+'</h2><a class="close svg"></a>').show();
+					popup.find('.close').bind('click', function() {
+						popup.remove();
+					});
+					if(typeof props.loadJS !== 'undefined') {
+						var scriptname;
+						if(props.loadJS === true) {
+							scriptname = 'settings.js';
+						} else if(typeof props.loadJS === 'string') {
+							scriptname = props.loadJS;
+						} else {
+							throw { name: 'InvalidParameter', message: 'The "loadJS" parameter must be either boolean or a string.' };
+						}
+						if(props.cache) {
+							$.ajaxSetup({cache: true});
+						}
+						$.getScript(OC.filePath(props.appid, 'js', scriptname))
+						.fail(function(jqxhr, settings, e) {
+							throw e;
+						});
+					}
+				}).show();
+			}, 'html');
+		}
+	}
 };
 OC.search.customResults={};
 OC.search.currentResult=-1;
@@ -163,6 +243,49 @@ OC.search.lastQuery='';
 OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
+
+OC.Breadcrumb={
+	container:null,
+	crumbs:[],
+	push:function(name, link){
+		if(!OC.Breadcrumb.container){//default
+			OC.Breadcrumb.container=$('#controls');
+		}
+		var crumb=$('<div/>');
+		crumb.addClass('crumb').addClass('last');
+		crumb.attr('style','background-image:url("'+OC.imagePath('core','breadcrumb')+'")');
+
+		var crumbLink=$('<a/>');
+		crumbLink.attr('href',link);
+		crumbLink.text(name);
+		crumb.append(crumbLink);
+
+		var existing=OC.Breadcrumb.container.find('div.crumb');
+		if(existing.length){
+			existing.removeClass('last');
+			existing.last().after(crumb);
+		}else{
+			OC.Breadcrumb.container.append(crumb);
+		}
+		OC.Breadcrumb.crumbs.push(crumb);
+		return crumb;
+	},
+	pop:function(){
+		if(!OC.Breadcrumb.container){//default
+			OC.Breadcrumb.container=$('#controls');
+		}
+		OC.Breadcrumb.container.find('div.crumb').last().remove();
+		OC.Breadcrumb.container.find('div.crumb').last().addClass('last');
+		OC.Breadcrumb.crumbs.pop();
+	},
+	clear:function(){
+		if(!OC.Breadcrumb.container){//default
+			OC.Breadcrumb.container=$('#controls');
+		}
+		OC.Breadcrumb.container.find('div.crumb').remove();
+		OC.Breadcrumb.crumbs=[];
+	}
+}
 
 if(typeof localStorage !='undefined' && localStorage != null){
 	//user and instance awere localstorage
@@ -202,7 +325,7 @@ if (!Array.prototype.filter) {
 		var len = this.length >>> 0;
 		if (typeof fun != "function")
 			throw new TypeError();
-		
+
 		var res = [];
 		var thisp = arguments[1];
 		for (var i = 0; i < len; i++) {
@@ -222,14 +345,14 @@ if (!Array.prototype.indexOf){
 	Array.prototype.indexOf = function(elt /*, from*/)
 	{
 		var len = this.length;
-		
+
 		var from = Number(arguments[1]) || 0;
 		from = (from < 0)
 		? Math.ceil(from)
 		: Math.floor(from);
 		if (from < 0)
 			from += len;
-		
+
 		for (; from < len; from++)
 		{
 			if (from in this &&
@@ -306,7 +429,7 @@ function replaceSVG(){
 
 /**
  * prototypal inharitence functions
- * 
+ *
  * usage:
  * MySubObject=object(MyObject)
  */
@@ -352,7 +475,7 @@ $(document).ready(function(){
 		fillWindow($('#rightcontent'));
 	});
 	$(window).trigger('resize');
-	
+
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
 	}else{
@@ -395,17 +518,13 @@ $(document).ready(function(){
 		}
 	});
 
-	// 'show password' checkbox	
+	// 'show password' checkbox
 	$('#pass2').showPassword();
 
 	//use infield labels
 	$("label.infield").inFieldLabels();
 
-	// hide log in button etc. when form fields not filled
-	$('#submit').hide();
-	$('#remember_login').hide();
-	$('#remember_login+label').hide();
-	$('input#user, input#password').keyup(function() {
+	checkShowCredentials = function() {
 		var empty = false;
 		$('input#user, input#password').each(function() {
 			if ($(this).val() == '') {
@@ -421,7 +540,11 @@ $(document).ready(function(){
 			$('#remember_login').show();
 			$('#remember_login+label').fadeIn();
 		}
-	});
+	}
+	// hide log in button etc. when form fields not filled
+	// commented out due to some browsers having issues with it
+	// checkShowCredentials();
+	// $('input#user, input#password').keyup(checkShowCredentials);
 
 	$('#settings #expand').keydown(function(event) {
 		if (event.which == 13 || event.which == 32) {
@@ -462,15 +585,15 @@ $(document).ready(function(){
 if (!Array.prototype.map){
 	Array.prototype.map = function(fun /*, thisp */){
 		"use strict";
-		
+
 		if (this === void 0 || this === null)
 			throw new TypeError();
-		
+
 		var t = Object(this);
 		var len = t.length >>> 0;
 		if (typeof fun !== "function")
 			throw new TypeError();
-		
+
 		var res = new Array(len);
 		var thisp = arguments[1];
 		for (var i = 0; i < len; i++){
@@ -478,16 +601,16 @@ if (!Array.prototype.map){
 				res[i] = fun.call(thisp, t[i], i, t);
 			}
 		}
-		
-	    return res;
+
+		return res;
 	};
 }
 
 /**
  * Filter Jquery selector by attribute value
  **/
-$.fn.filterAttr = function(attr_name, attr_value) {  
-   return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
+$.fn.filterAttr = function(attr_name, attr_value) {
+	return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
 };
 
 function humanFileSize(size) {
@@ -519,4 +642,41 @@ function formatDate(date){
 	var monthNames = [ t('files','January'), t('files','February'), t('files','March'), t('files','April'), t('files','May'), t('files','June'),
 	t('files','July'), t('files','August'), t('files','September'), t('files','October'), t('files','November'), t('files','December') ];
 	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
+}
+
+/**
+ * get a variable by name
+ * @param string name
+ */
+OC.get=function(name) {
+	var namespaces = name.split(".");
+	var tail = namespaces.pop();
+	var context=window;
+	
+	for(var i = 0; i < namespaces.length; i++) {
+		context = context[namespaces[i]];
+		if(!context){
+			return false;
+		}
+	}
+	return context[tail];
+}
+
+/**
+ * set a variable by name
+ * @param string name
+ * @param mixed value
+ */
+OC.set=function(name, value) {
+	var namespaces = name.split(".");
+	var tail = namespaces.pop();
+	var context=window;
+	
+	for(var i = 0; i < namespaces.length; i++) {
+		if(!context[namespaces[i]]){
+			context[namespaces[i]]={};
+		}
+		context = context[namespaces[i]];
+	}
+	context[tail]=value;
 }

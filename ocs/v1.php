@@ -32,3 +32,4 @@ try {
 } catch (MethodNotAllowedException $e) {
 	OC_Response::setStatus(405);
 }
+

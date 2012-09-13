@@ -26,7 +26,7 @@ Files={
 		});
 		procesSelection();
 	}
-}
+};
 $(document).ready(function() {
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
@@ -40,8 +40,16 @@ $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
 
 	//drag/drop of files
-	$('#fileList tr[data-write="true"] td.filename').draggable(dragOptions);
-	$('#fileList tr[data-type="dir"][data-write="true"] td.filename').droppable(folderDropOptions);
+	$('#fileList tr td.filename').each(function(i,e){
+		if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
+			$(e).draggable(dragOptions);
+		}
+	});
+	$('#fileList tr[data-type="dir"] td.filename').each(function(i,e){
+		if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE){
+			$(e).droppable(folderDropOptions);
+		}
+	});
 	$('div.crumb:not(.last)').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
 	if($('div.crumb').length){
@@ -56,7 +64,7 @@ $(document).ready(function() {
 
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {
-		FileActions.display($(this).children('td.filename'), $(this).attr('data-file'), $(this).attr('data-type'));
+		FileActions.display($(this).children('td.filename'));
 	});
 	$('tr').live('mouseleave',function(event) {
 		FileActions.hide();
@@ -106,7 +114,8 @@ $(document).ready(function() {
 			if(!renaming && !FileList.isLoading(filename)){
 				var mime=$(this).parent().parent().data('mime');
 				var type=$(this).parent().parent().data('type');
-				var action=FileActions.getDefault(mime,type);
+				var permissions = $(this).parent().parent().data('permissions');
+				var action=FileActions.getDefault(mime,type, permissions);
 				if(action){
 					action(filename);
 				}
@@ -227,7 +236,14 @@ $(document).ready(function() {
 								var size=t('files','Pending');
 							}
 							if(files && !dirName){
-								FileList.addFile(getUniqueName(files[i].name),size,date,true);
+								var uniqueName = getUniqueName(files[i].name);
+								if (uniqueName != files[i].name) {
+									FileList.checkName(uniqueName, files[i].name, true);
+									var hidden = true;
+								} else {
+									var hidden = false;
+								}
+								FileList.addFile(uniqueName,size,date,true,hidden);
 							} else if(dirName) {
 								var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
 								var currentUploads = parseInt(uploadtext.attr('currentUploads'));
@@ -246,7 +262,14 @@ $(document).ready(function() {
 						}
 					}else{
 						var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
-						FileList.addFile(getUniqueName(filename),'Pending',date,true);
+						var uniqueName = getUniqueName(filename);
+						if (uniqueName != filename) {
+							FileList.checkName(uniqueName, filename, true);
+							var hidden = true;
+						} else {
+							var hidden = false;
+						}
+						FileList.addFile(uniqueName,'Pending',date,true,hidden);
 					}
 					if($.support.xhrFileUpload) {
 						for(var i=0;i<files.length;i++){
@@ -378,11 +401,26 @@ $(document).ready(function() {
 			stop: function(e, data) {
 				if(data.dataType != 'iframe ') {
 					$('#upload input.stop').hide();
-				}	
+				}
 				$('#uploadprogressbar').progressbar('value',100);
 				$('#uploadprogressbar').fadeOut();
 			}
 		})
+	});
+
+	$.assocArraySize = function(obj) {
+		// http://stackoverflow.com/a/6700/11236
+		var size = 0, key;
+		for (key in obj) {
+		    if (obj.hasOwnProperty(key)) size++;
+		}
+		return size;
+	};
+
+	// warn user not to leave the page while upload is in progress
+	$(window).bind('beforeunload', function(e) {
+		if ($.assocArraySize(uploadingFiles) > 0)
+			return t('files','File upload is in progress. Leaving the page now will cancel the upload.');
 	});
 
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
@@ -451,25 +489,35 @@ $(document).ready(function() {
 		$(this).append(input);
 		input.focus();
 		input.change(function(){
-			var name=getUniqueName($(this).val());
-			if(type != 'web' && name.indexOf('/')!=-1){
+			if(type != 'web' && $(this).val().indexOf('/')!=-1){
 				$('#notification').text(t('files','Invalid name, \'/\' is not allowed.'));
 				$('#notification').fadeIn();
 				return;
+			}
+			var name = getUniqueName($(this).val());
+			if (name != $(this).val()) {
+				FileList.checkName(name, $(this).val(), true);
+				var hidden = true;
+			} else {
+				var hidden = false;
 			}
 			switch(type){
 				case 'file':
 					$.post(
 						OC.filePath('files','ajax','newfile.php'),
-						{dir:$('#dir').val(),filename:name,content:" \n"},
-						function(data){
-							var date=new Date();
-							FileList.addFile(name,0,date);
-							var tr=$('tr').filterAttr('data-file',name);
-							tr.data('mime','text/plain');
-							getMimeIcon('text/plain',function(path){
-								tr.find('td.filename').attr('style','background-image:url('+path+')');
-							});
+						{dir:$('#dir').val(),filename:name},
+						function(result){
+							if (result.status == 'success') {
+								var date=new Date();
+								FileList.addFile(name,0,date,false,hidden);
+								var tr=$('tr').filterAttr('data-file',name);
+								tr.data('mime','text/plain');
+								getMimeIcon('text/plain',function(path){
+									tr.find('td.filename').attr('style','background-image:url('+path+')');
+								});
+							} else {
+								OC.dialogs.alert(result.data.message, 'Error');
+							}
 						}
 					);
 					break;
@@ -477,9 +525,13 @@ $(document).ready(function() {
 					$.post(
 						OC.filePath('files','ajax','newfolder.php'),
 						{dir:$('#dir').val(),foldername:name},
-						function(data){
-							var date=new Date();
-							FileList.addDir(name,0,date);
+						function(result){
+							if (result.status == 'success') {
+								var date=new Date();
+								FileList.addDir(name,0,date,hidden);
+							} else {
+								OC.dialogs.alert(result.data.message, 'Error');
+							}
 						}
 					);
 					break;
@@ -507,7 +559,7 @@ $(document).ready(function() {
 					eventSource.listen('success',function(mime){
 						$('#uploadprogressbar').fadeOut();
 						var date=new Date();
-						FileList.addFile(localName,0,date);
+						FileList.addFile(localName,0,date,false,hidden);
 						var tr=$('tr').filterAttr('data-file',localName);
 						tr.data('mime',mime);
 						getMimeIcon(mime,function(path){
@@ -533,6 +585,69 @@ $(document).ready(function() {
 			scanFiles();
 		}
 	}, "json");
+
+	var lastWidth = 0;
+	var breadcrumbs = [];
+	var breadcrumbsWidth = $('#navigation').get(0).offsetWidth;
+	var hiddenBreadcrumbs = 0;
+
+	$.each($('.crumb'), function(index, breadcrumb) {
+		breadcrumbs[index] = breadcrumb;
+		breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
+	});
+
+	if ($('#controls .actions').length > 0) {
+		breadcrumbsWidth += $('#controls .actions').get(0).offsetWidth;
+	}
+
+	function resizeBreadcrumbs(firstRun) {
+		var width = $(this).width();
+		if (width != lastWidth) {
+			if ((width < lastWidth || firstRun) && width < breadcrumbsWidth) {
+				if (hiddenBreadcrumbs == 0) {
+					breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
+					$(breadcrumbs[1]).find('a').hide();
+					$(breadcrumbs[1]).append('<span>...</span>');
+					breadcrumbsWidth += $(breadcrumbs[1]).get(0).offsetWidth;
+					hiddenBreadcrumbs = 2;
+				}
+				var i = hiddenBreadcrumbs;
+				while (width < breadcrumbsWidth && i > 1 && i < breadcrumbs.length - 1) {
+					breadcrumbsWidth -= $(breadcrumbs[i]).get(0).offsetWidth;
+					$(breadcrumbs[i]).hide();
+					hiddenBreadcrumbs = i;
+					i++
+				}
+			} else if (width > lastWidth && hiddenBreadcrumbs > 0) {
+				var i = hiddenBreadcrumbs;
+				while (width > breadcrumbsWidth && i > 0) {
+					if (hiddenBreadcrumbs == 1) {
+						breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
+						$(breadcrumbs[1]).find('span').remove();
+						$(breadcrumbs[1]).find('a').show();
+						breadcrumbsWidth += $(breadcrumbs[1]).get(0).offsetWidth;
+					} else {
+						$(breadcrumbs[i]).show();
+						breadcrumbsWidth += $(breadcrumbs[i]).get(0).offsetWidth;
+						if (breadcrumbsWidth > width) {
+							breadcrumbsWidth -= $(breadcrumbs[i]).get(0).offsetWidth;
+							$(breadcrumbs[i]).hide();
+							break;
+						}
+					}
+					i--;
+					hiddenBreadcrumbs = i;
+				}
+			}
+			lastWidth = width;
+		}
+	}
+
+	$(window).resize(function() {
+		resizeBreadcrumbs(false);
+	});
+
+	resizeBreadcrumbs(true);
 });
 
 function scanFiles(force,dir){

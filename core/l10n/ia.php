@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "This category already exists: " => "Iste categoria jam existe:",
-"Owncloud password reset" => "Reinitialisation del contrasigno de Owncloud",
+"Settings" => "Configurationes",
 "ownCloud password reset" => "Reinitialisation del contrasigno de ownCLoud",
 "Requested" => "Requestate",
 "Login failed!" => "Initio de session fallite!",
@@ -31,7 +31,6 @@
 "Database host" => "Hospite de base de datos",
 "web services under your control" => "servicios web sub tu controlo",
 "Log out" => "Clauder le session",
-"Settings" => "Configurationes",
 "Lost your password?" => "Tu perdeva le contrasigno?",
 "remember" => "memora",
 "Log in" => "Aperir session",

@@ -29,23 +29,23 @@ class Test_Filesystem extends UnitTestCase{
 	/**
 	 * @return array
 	 */
-	private function getStorageData(){
+	private function getStorageData() {
 		$dir=OC_Helper::tmpFolder();
 		$this->tmpDirs[]=$dir;
 		return array('datadir'=>$dir);
 	}
 
-	public function tearDown(){
-		foreach($this->tmpDirs as $dir){
+	public function tearDown() {
+		foreach($this->tmpDirs as $dir) {
 			OC_Helper::rmdirr($dir);
 		}
 	}
 	
-	public function setUp(){
+	public function setUp() {
 		OC_Filesystem::clearMounts();
 	}
 
-	public function testMount(){
+	public function testMount() {
 		OC_Filesystem::mount('OC_Filestorage_Local',self::getStorageData(),'/');
 		$this->assertEqual('/',OC_Filesystem::getMountPoint('/'));
 		$this->assertEqual('/',OC_Filesystem::getMountPoint('/some/folder'));
@@ -58,6 +58,18 @@ class Test_Filesystem extends UnitTestCase{
 		$this->assertEqual('/some/',OC_Filesystem::getMountPoint('/some/'));
 		$this->assertEqual('/',OC_Filesystem::getMountPoint('/some'));
 		$this->assertEqual('folder',OC_Filesystem::getInternalPath('/some/folder'));
+	}
+
+	public function testNormalize() {
+		$this->assertEqual('/path',OC_Filesystem::normalizePath('/path/'));
+		$this->assertEqual('/path/',OC_Filesystem::normalizePath('/path/',false));
+		$this->assertEqual('/path',OC_Filesystem::normalizePath('path'));
+		$this->assertEqual('/path',OC_Filesystem::normalizePath('\path'));
+		$this->assertEqual('/foo/bar',OC_Filesystem::normalizePath('/foo//bar/'));
+		$this->assertEqual('/foo/bar',OC_Filesystem::normalizePath('/foo////bar'));
+		if(class_exists('Normalizer')) {
+			$this->assertEqual("/foo/bar\xC3\xBC",OC_Filesystem::normalizePath("/foo/baru\xCC\x88"));
+		}
 	}
 }
 

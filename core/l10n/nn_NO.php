@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Owncloud password reset" => "Owncloud Passord tilbakestilling",
+"Settings" => "Innstillingar",
 "Use the following link to reset your password: {link}" => "Bruk føljane link til å tilbakestille passordet ditt: {link}",
 "You will receive a link to reset your password via Email." => "Du vil få ei lenkje for å nullstilla passordet via epost.",
 "Requested" => "Førespurt",
@@ -29,7 +29,6 @@
 "Finish setup" => "Fullfør oppsettet",
 "web services under your control" => "Vev tjenester under din kontroll",
 "Log out" => "Logg ut",
-"Settings" => "Innstillingar",
 "Lost your password?" => "Gløymt passordet?",
 "remember" => "hugs",
 "Log in" => "Logg inn",

@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <ido.parag@gmail.com>, 2012.
 #   <tomerc+transifex.net@gmail.com>, 2011.
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:14+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Hebrew (http://www.transifex.net/projects/p/owncloud/language/he/)\n"
+"POT-Creation-Date: 2012-09-06 02:02+0200\n"
+"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
@@ -31,91 +32,87 @@ msgstr "אין קטגוריה להוספה?"
 msgid "This category already exists: "
 msgstr "קטגוריה זאת כבר קיימת: "
 
-#: js/jquery-ui-1.8.16.custom.min.js:511
-msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr ""
+#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+msgid "Settings"
+msgstr "הגדרות"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "January"
-msgstr ""
+msgstr "ינואר"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "February"
-msgstr ""
+msgstr "פברואר"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "March"
-msgstr ""
+msgstr "מרץ"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "April"
-msgstr ""
+msgstr "אפריל"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "May"
-msgstr ""
+msgstr "מאי"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "June"
-msgstr ""
+msgstr "יוני"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "July"
-msgstr ""
+msgstr "יולי"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "August"
-msgstr ""
+msgstr "אוגוסט"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "September"
-msgstr ""
+msgstr "ספטמבר"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "October"
-msgstr ""
+msgstr "אוקטובר"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "November"
-msgstr ""
+msgstr "נובמבר"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "December"
-msgstr ""
+msgstr "דצמבר"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "ביטול"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "לא"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "כן"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "בסדר"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "לא נבחרו קטגוריות למחיקה"
 
 #: js/oc-vcategories.js:68
 msgid "Error"
-msgstr ""
+msgstr "שגיאה"
 
 #: lostpassword/index.php:26
-msgid "Owncloud password reset"
-msgstr "איפוס הססמה של ownCloud"
-
-#: lostpassword/index.php:27
 msgid "ownCloud password reset"
 msgstr "איפוס הססמה של ownCloud"
 
-#: lostpassword/templates/email.php:1
+#: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "יש להשתמש בקישור הבא כדי לאפס את הססמה שלך: {link}"
 
@@ -131,7 +128,7 @@ msgstr "נדרש"
 msgid "Login failed!"
 msgstr "הכניסה נכשלה!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
 #: templates/login.php:9
 msgid "Username"
 msgstr "שם משתמש"
@@ -192,48 +189,52 @@ msgstr "עריכת הקטגוריות"
 msgid "Add"
 msgstr "הוספה"
 
-#: templates/installation.php:23
+#: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
 msgstr "יצירת <strong>חשבון מנהל</strong>"
 
-#: templates/installation.php:29 templates/login.php:13
+#: templates/installation.php:30 templates/login.php:13
 msgid "Password"
 msgstr "ססמה"
 
-#: templates/installation.php:35
+#: templates/installation.php:36
 msgid "Advanced"
 msgstr "מתקדם"
 
-#: templates/installation.php:37
+#: templates/installation.php:38
 msgid "Data folder"
 msgstr "תיקיית נתונים"
 
-#: templates/installation.php:44
+#: templates/installation.php:45
 msgid "Configure the database"
 msgstr "הגדרת מסד הנתונים"
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:50 templates/installation.php:61
+#: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
 msgstr "ינוצלו"
 
-#: templates/installation.php:82
+#: templates/installation.php:93
 msgid "Database user"
 msgstr "שם משתמש במסד הנתונים"
 
-#: templates/installation.php:86
+#: templates/installation.php:97
 msgid "Database password"
 msgstr "ססמת מסד הנתונים"
 
-#: templates/installation.php:90
+#: templates/installation.php:101
 msgid "Database name"
 msgstr "שם מסד הנתונים"
 
-#: templates/installation.php:96
+#: templates/installation.php:109
+msgid "Database tablespace"
+msgstr ""
+
+#: templates/installation.php:115
 msgid "Database host"
 msgstr "שרת בסיס נתונים"
 
-#: templates/installation.php:101
+#: templates/installation.php:120
 msgid "Finish setup"
 msgstr "סיום התקנה"
 
@@ -241,13 +242,9 @@ msgstr "סיום התקנה"
 msgid "web services under your control"
 msgstr "שירותי רשת בשליטתך"
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "התנתקות"
-
-#: templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "הגדרות"
 
 #: templates/login.php:6
 msgid "Lost your password?"

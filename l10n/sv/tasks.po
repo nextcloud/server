@@ -1,0 +1,107 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Magnus Höglund <magnus@linux.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-13 23:12+0200\n"
+"PO-Revision-Date: 2012-08-13 13:36+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ajax/update_property.php:51 lib/app.php:89 lib/app.php:101
+msgid "Invalid date/time"
+msgstr "Felaktigt datum/tid"
+
+#: appinfo/app.php:11
+msgid "Tasks"
+msgstr "Uppgifter"
+
+#: js/tasks.js:415
+msgid "No category"
+msgstr "Ingen kategori"
+
+#: lib/app.php:33
+msgid "Unspecified"
+msgstr "Ospecificerad "
+
+#: lib/app.php:34
+msgid "1=highest"
+msgstr "1=högsta"
+
+#: lib/app.php:38
+msgid "5=medium"
+msgstr "5=mellan"
+
+#: lib/app.php:42
+msgid "9=lowest"
+msgstr "9=lägsta"
+
+#: lib/app.php:81
+msgid "Empty Summary"
+msgstr "Tom sammanfattning"
+
+#: lib/app.php:93
+msgid "Invalid percent complete"
+msgstr "Ogiltig andel procent klar"
+
+#: lib/app.php:107
+msgid "Invalid priority"
+msgstr "Felaktig prioritet"
+
+#: templates/tasks.php:3
+msgid "Add Task"
+msgstr "Lägg till uppgift"
+
+#: templates/tasks.php:4
+msgid "Order Due"
+msgstr "Förfaller"
+
+#: templates/tasks.php:5
+msgid "Order List"
+msgstr "Kategori"
+
+#: templates/tasks.php:6
+msgid "Order Complete"
+msgstr "Slutförd"
+
+#: templates/tasks.php:7
+msgid "Order Location"
+msgstr "Plats"
+
+#: templates/tasks.php:8
+msgid "Order Priority"
+msgstr "Prioritet"
+
+#: templates/tasks.php:9
+msgid "Order Label"
+msgstr "Etikett"
+
+#: templates/tasks.php:16
+msgid "Loading tasks..."
+msgstr "Laddar uppgifter..."
+
+#: templates/tasks.php:20
+msgid "Important"
+msgstr "Viktigt"
+
+#: templates/tasks.php:23
+msgid "More"
+msgstr "Mer"
+
+#: templates/tasks.php:26
+msgid "Less"
+msgstr "Mindre"
+
+#: templates/tasks.php:29
+msgid "Delete"
+msgstr "Radera"

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <database>
 
  <name>*dbname*</name>
@@ -31,8 +31,9 @@
 
    <field>
     <name>configvalue</name>
-    <type>clob</type>
+    <type>text</type>
     <notnull>true</notnull>
+    <length>255</length>
    </field>
 
 
@@ -235,6 +236,32 @@
 
  <table>
 
+  <name>*dbprefix*group_admin</name>
+
+  <declaration>
+
+   <field>
+    <name>gid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+   <field>
+    <name>uid</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>64</length>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
   <name>*dbprefix*groups</name>
 
   <declaration>
@@ -345,25 +372,16 @@
 
  <table>
 
-  <name>*dbprefix*log</name>
+  <name>*dbprefix*preferences</name>
 
   <declaration>
 
    <field>
-    <name>id</name>
-    <type>integer</type>
-    <default>0</default>
+    <name>userid</name>
+    <type>text</type>
+    <default></default>
     <notnull>true</notnull>
-    <autoincrement>1</autoincrement>
-    <unsigned>true</unsigned>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>moment</name>
-    <type>timestamp</type>
-    <default>0000-00-00 00:00:00</default>
-    <notnull>true</notnull>
+    <length>255</length>
    </field>
 
    <field>
@@ -375,7 +393,7 @@
    </field>
 
    <field>
-    <name>user</name>
+    <name>configkey</name>
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
@@ -383,17 +401,50 @@
    </field>
 
    <field>
-    <name>action</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>info</name>
+    <name>configvalue</name>
     <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*properties</name>
+
+  <declaration>
+
+   <field>
+    <name>userid</name>
+    <type>text</type>
+    <default></default>
     <notnull>true</notnull>
+    <length>200</length>
+   </field>
+
+   <field>
+    <name>propertypath</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>propertyname</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>propertyvalue</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
    </field>
 
   </declaration>
@@ -549,70 +600,146 @@
 	 
  </table>
 
- <table>
+  <table>
 
-  <name>*dbprefix*preferences</name>
+  <name>*dbprefix*share</name>
 
   <declaration>
 
    <field>
-    <name>userid</name>
+    <name>id</name>
+    <autoincrement>1</autoincrement>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <length>4</length>
+   </field>
+
+   <field>
+    <name>share_type</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>1</length>
+   </field>
+   
+   <field>
+    <name>share_with</name>
+    <type>text</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>255</length>
+   </field>
+   
+   <field>
+    <name>uid_owner</name>
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
     <length>255</length>
    </field>
-
+   
    <field>
-    <name>appid</name>
+    <name>parent</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>4</length>
+   </field>
+   
+   <field>
+    <name>item_type</name>
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
-    <length>255</length>
+    <length>64</length>
    </field>
-
+   
    <field>
-    <name>configkey</name>
+    <name>item_source</name>
     <type>text</type>
     <default></default>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <length>255</length>
+   </field>
+      
+   <field>
+    <name>item_target</name>
+    <type>text</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>255</length>
+   </field>
+   
+   <field>
+    <name>file_source</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>4</length>
+   </field>
+      
+   <field>
+    <name>file_target</name>
+    <type>text</type>
+    <default></default>
+    <notnull>false</notnull>
+    <length>512</length>
    </field>
 
    <field>
-    <name>configvalue</name>
-    <type>clob</type>
+    <name>permissions</name>
+    <type>integer</type>
+    <default></default>
     <notnull>true</notnull>
+    <length>1</length>
+   </field>
+   
+   <field>
+    <name>stime</name>
+    <type>integer</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>8</length>
+   </field>
+   
+   <field>
+    <name>accepted</name>
+    <type>integer</type>
+    <default>0</default>
+    <notnull>true</notnull>
+    <length>1</length>
    </field>
 
+   <field>
+    <name>expiration</name>
+    <type>timestamp</type>
+    <default></default>
+    <notnull>false</notnull>
+   </field>
+   
   </declaration>
 
  </table>
-
+ 
  <table>
 
-  <name>*dbprefix*properties</name>
+  <name>*dbprefix*queuedtasks</name>
 
   <declaration>
 
    <field>
-    <name>userid</name>
-    <type>text</type>
-    <default></default>
+    <name>id</name>
+    <type>integer</type>
+    <default>0</default>
     <notnull>true</notnull>
-    <length>200</length>
+    <autoincrement>1</autoincrement>
+    <unsigned>true</unsigned>
+    <length>4</length>
    </field>
 
    <field>
-    <name>propertypath</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>propertyname</name>
+    <name>app</name>
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
@@ -620,10 +747,29 @@
    </field>
 
    <field>
-    <name>propertyvalue</name>
-    <type>clob</type>
+    <name>klass</name>
+    <type>text</type>
+    <default></default>
     <notnull>true</notnull>
+    <length>255</length>
    </field>
+
+   <field>
+    <name>method</name>
+    <type>text</type>
+    <default></default>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+   <field>
+    <name>parameters</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+   </field>
+
+
 
   </declaration>
 

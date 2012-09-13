@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-01 02:01+0200\n"
+"PO-Revision-Date: 2012-09-01 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: app.php:288
+msgid "Help"
+msgstr "Βοήθεια"
+
+#: app.php:295
+msgid "Personal"
+msgstr "Προσωπικά"
+
+#: app.php:300
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: app.php:305
+msgid "Users"
+msgstr "Χρήστες"
+
+#: app.php:312
+msgid "Apps"
+msgstr "Εφαρμογές"
+
+#: app.php:314
+msgid "Admin"
+msgstr "Διαχειριστής"
+
+#: files.php:280
+msgid "ZIP download is turned off."
+msgstr "Η λήψη ZIP απενεργοποιήθηκε."
+
+#: files.php:281
+msgid "Files need to be downloaded one by one."
+msgstr "Τα αρχεία πρέπει να ληφθούν ένα-ένα."
+
+#: files.php:281 files.php:306
+msgid "Back to Files"
+msgstr "Πίσω στα Αρχεία"
+
+#: files.php:305
+msgid "Selected files too large to generate zip file."
+msgstr "Τα επιλεγμένα αρχεία είναι μεγάλα ώστε να δημιουργηθεί αρχείο zip."
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr "Δεν ενεργοποιήθηκε η εφαρμογή"
+
+#: json.php:39 json.php:63 json.php:75
+msgid "Authentication error"
+msgstr "Σφάλμα πιστοποίησης"
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr "Το αναγνωριστικό έληξε. Παρακαλώ επανα-φορτώστε την σελίδα."
+
+#: template.php:86
+msgid "seconds ago"
+msgstr "δευτερόλεπτα πριν"
+
+#: template.php:87
+msgid "1 minute ago"
+msgstr "1 λεπτό πριν"
+
+#: template.php:88
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d λεπτά πριν"
+
+#: template.php:91
+msgid "today"
+msgstr "σήμερα"
+
+#: template.php:92
+msgid "yesterday"
+msgstr "χθές"
+
+#: template.php:93
+#, php-format
+msgid "%d days ago"
+msgstr "%d ημέρες πριν"
+
+#: template.php:94
+msgid "last month"
+msgstr "τον προηγούμενο μήνα"
+
+#: template.php:95
+msgid "months ago"
+msgstr "μήνες πριν"
+
+#: template.php:96
+msgid "last year"
+msgstr "τον προηγούμενο χρόνο"
+
+#: template.php:97
+msgid "years ago"
+msgstr "χρόνια πριν"
+
+#: updater.php:66
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr ""
+
+#: updater.php:68
+msgid "up to date"
+msgstr ""
+
+#: updater.php:71
+msgid "updates check is disabled"
+msgstr ""

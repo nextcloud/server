@@ -21,7 +21,7 @@
 */
 
 class Test_User_Dummy extends Test_User_Backend {
-	public function setUp(){
+	public function setUp() {
 		$this->backend=new OC_User_Dummy();
 	}
 }

@@ -30,5 +30,3 @@ $tmpl->assign('groups', OC_Group::getGroups());
 $tmpl->assign('users', OCP\User::getUsers());
 $tmpl->assign('allowUserMounting', OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes'));
 return $tmpl->fetchPage();
-
-?>

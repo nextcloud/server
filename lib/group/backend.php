@@ -52,9 +52,9 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	* Returns the supported actions as int to be
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
-	public function getSupportedActions(){
+	public function getSupportedActions() {
 		$actions = 0;
-		foreach($this->possibleActions AS $action => $methodName){
+		foreach($this->possibleActions AS $action => $methodName) {
 			if(method_exists($this, $methodName)) {
 				$actions |= $action;
 			}
@@ -71,7 +71,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	* Returns the supported actions as int to be
 	* compared with OC_GROUP_BACKEND_CREATE_GROUP etc.
 	*/
-	public function implementsActions($actions){
+	public function implementsActions($actions) {
 		return (bool)($this->getSupportedActions() & $actions);
 	}
 
@@ -83,7 +83,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public function inGroup($uid, $gid){
+	public function inGroup($uid, $gid) {
 		return in_array($gid, $this->getUserGroups($uid));
 	}
 
@@ -95,7 +95,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public function getUserGroups($uid){
+	public function getUserGroups($uid) {
 		return array();
 	}
 
@@ -105,7 +105,8 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups(){
+
+	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		return array();
 	}
 
@@ -114,15 +115,15 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	 * @param string $gid
 	 * @return bool
 	 */
-	public function groupExists($gid){
-		return in_array($gid, $this->getGroups());
+	public function groupExists($gid) {
+		return in_array($gid, $this->getGroups($gid, 1));
 	}
 
 	/**
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public function usersInGroup($gid){
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		return array();
 	}
 

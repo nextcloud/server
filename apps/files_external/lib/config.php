@@ -41,9 +41,9 @@ class OC_Mount_Config {
 		return array(
 			'OC_Filestorage_Local' => array('backend' => 'Local', 'configuration' => array('datadir' => 'Location')),
 			'OC_Filestorage_AmazonS3' => array('backend' => 'Amazon S3', 'configuration' => array('key' => 'Key', 'secret' => '*Secret', 'bucket' => 'Bucket')),
-			'OC_Filestorage_Dropbox' => array('backend' => 'Dropbox', 'configuration' => array('app_key' => 'App key', 'app_secret' => 'App secret', 'token' => '#token', 'token_secret' => '#token_secret'), 'custom' => 'dropbox'),
+			'OC_Filestorage_Dropbox' => array('backend' => 'Dropbox', 'configuration' => array('configured' => '#configured','app_key' => 'App key', 'app_secret' => 'App secret', 'token' => '#token', 'token_secret' => '#token_secret'), 'custom' => 'dropbox'),
 			'OC_Filestorage_FTP' => array('backend' => 'FTP', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure ftps://')),
-			'OC_Filestorage_Google' => array('backend' => 'Google Drive', 'configuration' => array('token' => '#token', 'token_secret' => '#token secret'), 'custom' => 'google'),
+			'OC_Filestorage_Google' => array('backend' => 'Google Drive', 'configuration' => array('configured' => '#configured', 'token' => '#token', 'token_secret' => '#token secret'), 'custom' => 'google'),
 			'OC_Filestorage_SWIFT' => array('backend' => 'OpenStack Swift', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'token' => '*Token', 'root' => '&Root', 'secure' => '!Secure ftps://')),
 			'OC_Filestorage_SMB' => array('backend' => 'SMB', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'share' => 'Share', 'root' => '&Root')),
 			'OC_Filestorage_DAV' => array('backend' => 'WebDAV', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure https://'))
@@ -109,7 +109,7 @@ class OC_Mount_Config {
 		return $personal;
 	}
 
-	
+
 	/**
 	* Add a mount point to the filesystem
 	* @param string Mount point
@@ -186,7 +186,7 @@ class OC_Mount_Config {
 	*/
 	private static function readData($isPersonal) {
 		if ($isPersonal) {
-			$file = OC::$SERVERROOT.'/data/'.OCP\User::getUser().'/mount.php';
+			$file = OC_User::getHome(OCP\User::getUser()).'/mount.php';
 		} else {
 			$file = OC::$SERVERROOT.'/config/mount.php';
 		}
@@ -206,7 +206,7 @@ class OC_Mount_Config {
 	*/
 	private static function writeData($isPersonal, $data) {
 		if ($isPersonal) {
-			$file = OC::$SERVERROOT.'/data/'.OCP\User::getUser().'/mount.php';
+			$file = OC_User::getHome(OCP\User::getUser()).'/mount.php';
 		} else {
 			$file = OC::$SERVERROOT.'/config/mount.php';
 		}
@@ -217,7 +217,7 @@ class OC_Mount_Config {
 				$content .= "\t\t'".$group."' => array (\n";
 				foreach ($mounts as $mountPoint => $mount) {
 					$content .= "\t\t\t'".$mountPoint."' => ".str_replace("\n", '', var_export($mount, true)).",\n";
-					
+
 				}
 				$content .= "\t\t),\n";
 			}
@@ -237,7 +237,7 @@ class OC_Mount_Config {
 		$content .= ");\n?>";
 		@file_put_contents($file, $content);
 	}
-	
+
 	/**
 	 * Returns all user uploaded ssl root certificates
 	 * @return array
@@ -253,14 +253,14 @@ class OC_Mount_Config {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * creates certificate bundle
 	 */
 	public static function createCertificateBundle() {
 		$view = \OCP\Files::getStorage("files_external");
 		$path = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("");
-		
+
 		$certs = OC_Mount_Config::getCertificates();
 		$fh_certs = fopen($path."/rootcerts.crt", 'w');
 		foreach ($certs as $cert) {
@@ -272,12 +272,10 @@ class OC_Mount_Config {
 				fwrite($fh_certs, $data);
 			}
 		}
-		
+
 		fclose($fh_certs);
-		
+
 		return true;
-	} 
+	}
 
 }
-
-?>

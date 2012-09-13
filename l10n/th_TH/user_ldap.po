@@ -1,0 +1,171 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-30 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 18:29+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
+"Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: th_TH\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: templates/settings.php:8
+msgid "Host"
+msgstr "โฮสต์"
+
+#: templates/settings.php:8
+msgid ""
+"You can omit the protocol, except you require SSL. Then start with ldaps://"
+msgstr "คุณสามารถปล่อยช่องโปรโตคอลเว้นไว้ได้, ยกเว้นกรณีที่คุณต้องการใช้ SSL จากนั้นเริ่มต้นด้วย ldaps://"
+
+#: templates/settings.php:9
+msgid "Base DN"
+msgstr "DN ฐาน"
+
+#: templates/settings.php:9
+msgid "You can specify Base DN for users and groups in the Advanced tab"
+msgstr "คุณสามารถระบุ DN หลักสำหรับผู้ใช้งานและกลุ่มต่างๆในแท็บขั้นสูงได้"
+
+#: templates/settings.php:10
+msgid "User DN"
+msgstr "DN ของผู้ใช้งาน"
+
+#: templates/settings.php:10
+msgid ""
+"The DN of the client user with which the bind shall be done, e.g. "
+"uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
+"empty."
+msgstr "DN ของผู้ใช้งานที่เป็นลูกค้าอะไรก็ตามที่ผูกอยู่ด้วย เช่น uid=agent, dc=example, dc=com, สำหรับการเข้าถึงโดยบุคคลนิรนาม, ให้เว้นว่าง DN และ รหัสผ่านเอาไว้"
+
+#: templates/settings.php:11
+msgid "Password"
+msgstr "รหัสผ่าน"
+
+#: templates/settings.php:11
+msgid "For anonymous access, leave DN and Password empty."
+msgstr "สำหรับการเข้าถึงโดยบุคคลนิรนาม ให้เว้นว่าง DN และรหัสผ่านไว้"
+
+#: templates/settings.php:12
+msgid "User Login Filter"
+msgstr "ตัวกรองข้อมูลการเข้าสู่ระบบของผู้ใช้งาน"
+
+#: templates/settings.php:12
+#, php-format
+msgid ""
+"Defines the filter to apply, when login is attempted. %%uid replaces the "
+"username in the login action."
+msgstr "กำหนดตัวกรองข้อมูลที่ต้องการนำไปใช้งาน, เมื่อมีความพยายามในการเข้าสู่ระบบ %%uid จะถูกนำไปแทนที่ชื่อผู้ใช้งานในการกระทำของการเข้าสู่ระบบ"
+
+#: templates/settings.php:12
+#, php-format
+msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
+msgstr "ใช้ตัวยึด %%uid, เช่น \"uid=%%uid\""
+
+#: templates/settings.php:13
+msgid "User List Filter"
+msgstr "ตัวกรองข้อมูลรายชื่อผู้ใช้งาน"
+
+#: templates/settings.php:13
+msgid "Defines the filter to apply, when retrieving users."
+msgstr "ระบุตัวกรองข้อมูลที่ต้องการนำไปใช้งาน, เมื่อดึงข้อมูลผู้ใช้งาน"
+
+#: templates/settings.php:13
+msgid "without any placeholder, e.g. \"objectClass=person\"."
+msgstr "โดยไม่ต้องมีตัวยึดใดๆ, เช่น \"objectClass=person\","
+
+#: templates/settings.php:14
+msgid "Group Filter"
+msgstr "ตัวกรองข้อมูลกลุ่ม"
+
+#: templates/settings.php:14
+msgid "Defines the filter to apply, when retrieving groups."
+msgstr "ระบุตัวกรองข้อมูลที่ต้องการนำไปใช้งาน, เมื่อดึงข้อมูลกลุ่ม"
+
+#: templates/settings.php:14
+msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
+msgstr "โดยไม่ต้องมีตัวยึดใดๆ, เช่น \"objectClass=posixGroup\","
+
+#: templates/settings.php:17
+msgid "Port"
+msgstr "พอร์ต"
+
+#: templates/settings.php:18
+msgid "Base User Tree"
+msgstr "รายการผู้ใช้งานหลักแบบ Tree"
+
+#: templates/settings.php:19
+msgid "Base Group Tree"
+msgstr "รายการกลุ่มหลักแบบ Tree"
+
+#: templates/settings.php:20
+msgid "Group-Member association"
+msgstr "ความสัมพันธ์ของสมาชิกในกลุ่ม"
+
+#: templates/settings.php:21
+msgid "Use TLS"
+msgstr "ใช้ TLS"
+
+#: templates/settings.php:21
+msgid "Do not use it for SSL connections, it will fail."
+msgstr "กรุณาอย่าใช้การเชื่อมต่อแบบ SSL การเชื่อมต่อจะเกิดการล้มเหลว"
+
+#: templates/settings.php:22
+msgid "Case insensitve LDAP server (Windows)"
+msgstr "เซิร์ฟเวอร์ LDAP ประเภท Case insensitive (วินโดวส์)"
+
+#: templates/settings.php:23
+msgid "Turn off SSL certificate validation."
+msgstr "ปิดใช้งานการตรวจสอบความถูกต้องของใบรับรองความปลอดภัย SSL"
+
+#: templates/settings.php:23
+msgid ""
+"If connection only works with this option, import the LDAP server's SSL "
+"certificate in your ownCloud server."
+msgstr "หากการเชื่อมต่อสามารถทำงานได้เฉพาะกับตัวเลือกนี้เท่านั้น, ให้นำเข้าข้อมูลใบรับรองความปลอดภัยแบบ SSL ของเซิร์ฟเวอร์ LDAP ดังกล่าวเข้าไปไว้ในเซิร์ฟเวอร์ ownCloud"
+
+#: templates/settings.php:23
+msgid "Not recommended, use for testing only."
+msgstr "ไม่แนะนำให้ใช้งาน, ใช้สำหรับการทดสอบเท่านั้น"
+
+#: templates/settings.php:24
+msgid "User Display Name Field"
+msgstr "ช่องแสดงชื่อผู้ใช้งานที่ต้องการ"
+
+#: templates/settings.php:24
+msgid "The LDAP attribute to use to generate the user`s ownCloud name."
+msgstr "คุณลักษณะ LDAP ที่ต้องการใช้สำหรับสร้างชื่อของผู้ใช้งาน ownCloud"
+
+#: templates/settings.php:25
+msgid "Group Display Name Field"
+msgstr "ช่องแสดงชื่อกลุ่มที่ต้องการ"
+
+#: templates/settings.php:25
+msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
+msgstr "คุณลักษณะ LDAP ที่ต้องการใช้สร้างชื่อกลุ่มของ ownCloud"
+
+#: templates/settings.php:27
+msgid "in bytes"
+msgstr "ในหน่วยไบต์"
+
+#: templates/settings.php:29
+msgid "in seconds. A change empties the cache."
+msgstr "ในอีกไม่กี่วินาที ระบบจะเปลี่ยนแปลงข้อมูลในแคชให้ว่างเปล่า"
+
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "เว้นว่างไว้สำหรับ ชื่อผู้ใช้ (ค่าเริ่มต้น) หรือไม่กรุณาระบุคุณลักษณะของ LDAP/AD"
+
+#: templates/settings.php:32
+msgid "Help"
+msgstr "ช่วยเหลือ"

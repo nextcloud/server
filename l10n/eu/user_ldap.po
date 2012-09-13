@@ -1,0 +1,171 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <asieriko@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-31 02:02+0200\n"
+"PO-Revision-Date: 2012-08-30 21:29+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
+"Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: eu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: templates/settings.php:8
+msgid "Host"
+msgstr "Hostalaria"
+
+#: templates/settings.php:8
+msgid ""
+"You can omit the protocol, except you require SSL. Then start with ldaps://"
+msgstr "Protokoloa ez da beharrezkoa, SSL behar baldin ez baduzu. Honela bada hasi ldaps://"
+
+#: templates/settings.php:9
+msgid "Base DN"
+msgstr "Oinarrizko DN"
+
+#: templates/settings.php:9
+msgid "You can specify Base DN for users and groups in the Advanced tab"
+msgstr "Erabiltzaile eta taldeentzako Oinarrizko DN zehaztu dezakezu Aurreratu fitxan"
+
+#: templates/settings.php:10
+msgid "User DN"
+msgstr "Erabiltzaile DN"
+
+#: templates/settings.php:10
+msgid ""
+"The DN of the client user with which the bind shall be done, e.g. "
+"uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
+"empty."
+msgstr "Lotura egingo den bezero erabiltzailearen DNa, adb. uid=agent,dc=example,dc=com. Sarrera anonimoak gaitzeko utzi DN eta Pasahitza hutsik."
+
+#: templates/settings.php:11
+msgid "Password"
+msgstr "Pasahitza"
+
+#: templates/settings.php:11
+msgid "For anonymous access, leave DN and Password empty."
+msgstr "Sarrera anonimoak gaitzeko utzi DN eta Pasahitza hutsik."
+
+#: templates/settings.php:12
+msgid "User Login Filter"
+msgstr "Erabiltzaileen saioa hasteko iragazkia"
+
+#: templates/settings.php:12
+#, php-format
+msgid ""
+"Defines the filter to apply, when login is attempted. %%uid replaces the "
+"username in the login action."
+msgstr "Saioa hastean erabiliko den iragazkia zehazten du. %%uid-ek erabiltzaile izena ordezkatzen du saioa hasterakoan."
+
+#: templates/settings.php:12
+#, php-format
+msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
+msgstr "erabili %%uid txantiloia, adb. \"uid=%%uid\""
+
+#: templates/settings.php:13
+msgid "User List Filter"
+msgstr "Erabiltzaile zerrendaren Iragazkia"
+
+#: templates/settings.php:13
+msgid "Defines the filter to apply, when retrieving users."
+msgstr "Erabiltzaileak jasotzen direnean ezarriko den iragazkia zehazten du."
+
+#: templates/settings.php:13
+msgid "without any placeholder, e.g. \"objectClass=person\"."
+msgstr "txantiloirik gabe, adb. \"objectClass=person\"."
+
+#: templates/settings.php:14
+msgid "Group Filter"
+msgstr "Taldeen iragazkia"
+
+#: templates/settings.php:14
+msgid "Defines the filter to apply, when retrieving groups."
+msgstr "Taldeak jasotzen direnean ezarriko den iragazkia zehazten du."
+
+#: templates/settings.php:14
+msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
+msgstr "txantiloirik gabe, adb. \"objectClass=posixGroup\"."
+
+#: templates/settings.php:17
+msgid "Port"
+msgstr "Portua"
+
+#: templates/settings.php:18
+msgid "Base User Tree"
+msgstr "Oinarrizko Erabiltzaile Zuhaitza"
+
+#: templates/settings.php:19
+msgid "Base Group Tree"
+msgstr "Oinarrizko Talde Zuhaitza"
+
+#: templates/settings.php:20
+msgid "Group-Member association"
+msgstr "Talde-Kide elkarketak"
+
+#: templates/settings.php:21
+msgid "Use TLS"
+msgstr "Erabili TLS"
+
+#: templates/settings.php:21
+msgid "Do not use it for SSL connections, it will fail."
+msgstr "Ez erabili SSL konexioetan, huts egingo du."
+
+#: templates/settings.php:22
+msgid "Case insensitve LDAP server (Windows)"
+msgstr "Maiuskulak eta minuskulak ezberditzen ez dituen LDAP zerbitzaria (windows)"
+
+#: templates/settings.php:23
+msgid "Turn off SSL certificate validation."
+msgstr "Ezgaitu SSL ziurtagirien egiaztapena."
+
+#: templates/settings.php:23
+msgid ""
+"If connection only works with this option, import the LDAP server's SSL "
+"certificate in your ownCloud server."
+msgstr "Konexioa aukera hau ezinbestekoa badu, inportatu LDAP zerbitzariaren SSL ziurtagiria zure ownCloud zerbitzarian."
+
+#: templates/settings.php:23
+msgid "Not recommended, use for testing only."
+msgstr "Ez da aholkatzen, erabili bakarrik frogak egiteko."
+
+#: templates/settings.php:24
+msgid "User Display Name Field"
+msgstr "Erabiltzaileen bistaratzeko izena duen eremua"
+
+#: templates/settings.php:24
+msgid "The LDAP attribute to use to generate the user`s ownCloud name."
+msgstr "ownCloud erabiltzailearen izena sortzeko erabiliko den LDAP atributua"
+
+#: templates/settings.php:25
+msgid "Group Display Name Field"
+msgstr "Taldeen bistaratzeko izena duen eremua"
+
+#: templates/settings.php:25
+msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
+msgstr "ownCloud taldearen izena sortzeko erabiliko den LDAP atributua"
+
+#: templates/settings.php:27
+msgid "in bytes"
+msgstr "bytetan"
+
+#: templates/settings.php:29
+msgid "in seconds. A change empties the cache."
+msgstr "segundutan. Aldaketak katxea husten du."
+
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Utzi hutsik erabiltzaile izenarako (lehentsia). Bestela zehaztu LDAP/AD atributua."
+
+#: templates/settings.php:32
+msgid "Help"
+msgstr "Laguntza"

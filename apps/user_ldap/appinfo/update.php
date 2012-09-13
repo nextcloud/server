@@ -2,6 +2,11 @@
 
 //from version 0.1 to 0.2
 
+//ATTENTION
+//Upgrade from ownCloud 3 (LDAP backend 0.1) to ownCloud 4.5 (LDAP backend 0.3) is not supported!!
+//You must do upgrade to ownCloud 4.0 first!
+//The upgrade stuff in the section from 0.1 to 0.2 is just to minimize the bad efffects.
+
 //settings
 $pw = OCP\Config::getAppValue('user_ldap', 'ldap_password');
 if(!is_null($pw)) {
@@ -12,33 +17,25 @@ if(!is_null($pw)) {
 
 //detect if we can switch on naming guidelines. We won't do it on conflicts.
 //it's a bit spaghetti, but hey.
-$state = OCP\Config::getSystemValue('ldapIgnoreNamingRules', 'doCheck');
-if($state == 'doCheck'){
-	$sqlCleanMap = 'DELETE FROM *PREFIX*ldap_user_mapping';
-
-	OCP\Config::setSystemValue('ldapIgnoreNamingRules', true);
-	$LDAP_USER = new OC_USER_LDAP();
-	$users_old = $LDAP_USER->getUsers();
-	$query = OCP\DB::prepare($sqlCleanMap);
-	$query->execute();
+$state = OCP\Config::getSystemValue('ldapIgnoreNamingRules', 'unset');
+if($state == 'unset') {
 	OCP\Config::setSystemValue('ldapIgnoreNamingRules', false);
-	OC_LDAP::init(true);
-	$users_new = $LDAP_USER->getUsers();
-	$query = OCP\DB::prepare($sqlCleanMap);
-	$query->execute();
-	if($users_old !== $users_new) {
-		//we don't need to check Groups, because they were not supported in 3'
-		OCP\Config::setSystemValue('ldapIgnoreNamingRules', true);
-	}
 }
 
+// ### SUPPORTED upgrade path starts here ###
 
-//from version 0.2 to 0.2.1
+//from version 0.2 to 0.3 (0.2.0.x dev version)
 $objects = array('user', 'group');
 
+$connector = new \OCA\user_ldap\lib\Connection('user_ldap');
+$userBE = new \OCA\user_ldap\USER_LDAP();
+$userBE->setConnector($connector);
+$groupBE = new \OCA\user_ldap\GROUP_LDAP();
+$groupBE->setConnector($connector);
+
 foreach($objects as $object) {
-	$fetchDNSql = 'SELECT ldap_dn from *PREFIX*ldap_'.$object.'_mapping';
-	$updateSql = 'UPDATE *PREFIX*ldap_'.$object.'_mapping SET ldap_DN = ? WHERE ldap_dn = ?';
+	$fetchDNSql = 'SELECT `ldap_dn`, `owncloud_name` FROM `*PREFIX*ldap_'.$object.'_mapping` WHERE `directory_uuid` = ""';
+	$updateSql = 'UPDATE `*PREFIX*ldap_'.$object.'_mapping` SET `ldap_DN` = ?, `directory_uuid` = ? WHERE `ldap_dn` = ?';
 
 	$query = OCP\DB::prepare($fetchDNSql);
 	$res = $query->execute();
@@ -46,6 +43,13 @@ foreach($objects as $object) {
 	$updateQuery = OCP\DB::prepare($updateSql);
 	foreach($DNs as $dn) {
 		$newDN = mb_strtolower($dn['ldap_dn'], 'UTF-8');
-		$updateQuery->execute(array($newDN, $dn['ldap_dn']));
+		if($object == 'user') {
+			$uuid = $userBE->getUUID($newDN);
+			//fix home folder to avoid new ones depending on the configuration
+			$userBE->getHome($dn['owncloud_name']);
+		} else {
+			$uuid = $groupBE->getUUID($newDN);
+		}
+		$updateQuery->execute(array($newDN, $uuid, $dn['ldap_dn']));
 	}
 }

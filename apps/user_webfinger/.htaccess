@@ -1,5 +1,0 @@
-<IfModule mod_rewrite.c>
-RewriteEngine on
-RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-RewriteRule ^host-meta host-meta.php [QSA,L]
-</IfModule>

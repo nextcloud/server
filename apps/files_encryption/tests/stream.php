@@ -8,8 +8,8 @@
 
 class Test_CryptStream extends UnitTestCase {
 	private $tmpFiles=array();
-	
-	function testStream(){
+
+	function testStream() {
 		$stream=$this->getStream('test1','w',strlen('foobar'));
 		fwrite($stream,'foobar');
 		fclose($stream);
@@ -40,11 +40,11 @@ class Test_CryptStream extends UnitTestCase {
 	 * @param int size
 	 * @return resource
 	 */
-	function getStream($id,$mode,$size){
-		if($id===''){
+	function getStream($id,$mode,$size) {
+		if($id==='') {
 			$id=uniqid();
 		}
-		if(!isset($this->tmpFiles[$id])){
+		if(!isset($this->tmpFiles[$id])) {
 			$file=OCP\Files::tmpFile();
 			$this->tmpFiles[$id]=$file;
 		}else{
@@ -55,7 +55,7 @@ class Test_CryptStream extends UnitTestCase {
 		return fopen('crypt://streams/'.$id,$mode);
 	}
 
-	function testBinary(){
+	function testBinary() {
 		$file=__DIR__.'/binary';
 		$source=file_get_contents($file);
 

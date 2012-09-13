@@ -11,9 +11,6 @@
 			<input name="maxZipInputSize" id="maxZipInputSize" style="width:180px;" value='<?php echo $_['maxZipInputSize'] ?>' title="<?php echo $l->t( '0 is unlimited' ); ?>"<?php if (!$_['allowZipDownload']) echo ' disabled="disabled"'; ?> />
 			<label for="maxZipInputSize"><?php echo $l->t( 'Maximum input size for ZIP files' ); ?> </label><br />
 
-		<input type="submit" name="submitFilesAdminSettings" id="submitFilesAdminSettings" value="Save"/>
+		<input type="submit" name="submitFilesAdminSettings" id="submitFilesAdminSettings" value="<?php echo $l->t( 'Save' ); ?>"/>
 	</fieldset>
 </form>
-
-
-

@@ -1,0 +1,10 @@
+#ldap fieldset p label {
+	width: 20%;
+	max-width: 200px;
+	display: inline-block;
+}
+
+#ldap fieldset input {
+	width: 70%;
+	display: inline-block;
+}

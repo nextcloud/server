@@ -26,11 +26,6 @@ namespace OCA\user_ldap;
 class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 	protected $enabled = false;
 
-	protected $_group_user = array();
-	protected $_user_groups = array();
-	protected $_group_users = array();
-	protected $_groups = array();
-
 	public function setConnector(lib\Connection &$connection) {
 		parent::setConnector($connection);
 		if(empty($this->connection->ldapGroupFilter) || empty($this->connection->ldapGroupMemberAssocAttr)) {
@@ -51,18 +46,20 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		if(!$this->enabled) {
 			return false;
 		}
-		if(isset($this->_group_user[$gid][$uid])) {
-			return $this->_group_user[$gid][$uid];
+		if($this->connection->isCached('inGroup'.$uid.':'.$gid)) {
+			return $this->connection->getFromCache('inGroup'.$uid.':'.$gid);
 		}
 		$dn_user = $this->username2dn($uid);
 		$dn_group = $this->groupname2dn($gid);
 		// just in case
 		if(!$dn_group || !$dn_user) {
+			$this->connection->writeToCache('inGroup'.$uid.':'.$gid, false);
 			return false;
 		}
 		//usually, LDAP attributes are said to be case insensitive. But there are exceptions of course.
 		$members = $this->readAttribute($dn_group, $this->connection->ldapGroupMemberAssocAttr);
 		if(!$members) {
+			$this->connection->writeToCache('inGroup'.$uid.':'.$gid, false);
 			return false;
 		}
 
@@ -81,8 +78,10 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 			$members = $dns;
 		}
 
-		$this->_group_user[$gid][$uid] = in_array($dn_user, $members);
-		return $this->_group_user[$gid][$uid];
+		$isInGroup = in_array($dn_user, $members);
+		$this->connection->writeToCache('inGroup'.$uid.':'.$gid, $isInGroup);
+
+		return $isInGroup;
 	}
 
 	/**
@@ -97,12 +96,12 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		if(!$this->enabled) {
 			return array();
 		}
-		if(isset($this->_user_groups[$uid])) {
-			return $this->_user_groups[$uid];
+		if($this->connection->isCached('getUserGroups'.$uid)) {
+			return $this->connection->getFromCache('getUserGroups'.$uid);
 		}
 		$userDN = $this->username2dn($uid);
 		if(!$userDN) {
-			$this->_user_groups[$uid] = array();
+			$this->connection->writeToCache('getUserGroups'.$uid, array());
 			return array();
 		}
 
@@ -124,32 +123,41 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 			$this->connection->ldapGroupMemberAssocAttr.'='.$uid
 		));
 		$groups = $this->fetchListOfGroups($filter, array($this->connection->ldapGroupDisplayName,'dn'));
-		$this->_user_groups[$uid] = array_unique($this->ownCloudGroupNames($groups), SORT_LOCALE_STRING);
+		$groups = array_unique($this->ownCloudGroupNames($groups), SORT_LOCALE_STRING);
+		$this->connection->writeToCache('getUserGroups'.$uid, $groups);
 
-		return $this->_user_groups[$uid];
+		return $groups;
 	}
 
 	/**
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public function usersInGroup($gid) {
+	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(!$this->enabled) {
 			return array();
 		}
-		if(isset($this->_group_users[$gid])) {
-			return $this->_group_users[$gid];
+		$this->groupSearch = $search;
+		if($this->connection->isCached('usersInGroup'.$gid)) {
+			$groupUsers = $this->connection->getFromCache('usersInGroup'.$gid);
+			if(!empty($this->groupSearch)) {
+				$groupUsers = array_filter($groupUsers, array($this, 'groupMatchesFilter'));
+			}
+			if($limit = -1) {
+				$limit = null;
+			}
+			return array_slice($groupUsers, $offset, $limit);
 		}
 
 		$groupDN = $this->groupname2dn($gid);
 		if(!$groupDN) {
-			$this->_group_users[$gid] = array();
+			$this->connection->writeToCache('usersInGroup'.$gid, array());
 			return array();
 		}
 
 		$members = $this->readAttribute($groupDN, $this->connection->ldapGroupMemberAssocAttr);
 		if(!$members) {
-			$this->_group_users[$gid] = array();
+			$this->connection->writeToCache('usersInGroup'.$gid, array());
 			return array();
 		}
 
@@ -173,8 +181,17 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		if(!$isMemberUid) {
 			$result = array_intersect($result, \OCP\User::getUsers());
 		}
-		$this->_group_users[$gid] = array_unique($result, SORT_LOCALE_STRING);
-		return $this->_group_users[$gid];
+		$groupUsers = array_unique($result, SORT_LOCALE_STRING);
+		$this->connection->writeToCache('usersInGroup'.$gid, $groupUsers);
+
+		if(!empty($this->groupSearch)) {
+			$groupUsers = array_filter($groupUsers, array($this, 'groupMatchesFilter'));
+		}
+		if($limit = -1) {
+			$limit = null;
+		}
+		return array_slice($groupUsers, $offset, $limit);
+
 	}
 
 	/**
@@ -183,15 +200,30 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 	 *
 	 * Returns a list with all groups
 	 */
-	public function getGroups() {
+	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		if(!$this->enabled) {
 			return array();
 		}
-		if(empty($this->_groups)) {
+
+		if($this->connection->isCached('getGroups')) {
+			$ldap_groups = $this->connection->getFromCache('getGroups');
+		} else {
 			$ldap_groups = $this->fetchListOfGroups($this->connection->ldapGroupFilter, array($this->connection->ldapGroupDisplayName, 'dn'));
-			$this->_groups = $this->ownCloudGroupNames($ldap_groups);
+			$ldap_groups = $this->ownCloudGroupNames($ldap_groups);
+			$this->connection->writeToCache('getGroups', $ldap_groups);
 		}
-		return $this->_groups;
+		$this->groupSearch = $search;
+		if(!empty($this->groupSearch)) {
+			$ldap_groups = array_filter($ldap_groups, array($this, 'groupMatchesFilter'));
+		}
+		if($limit = -1) {
+			$limit = null;
+		}
+		return array_slice($ldap_groups, $offset, $limit);
+	}
+
+	public function groupMatchesFilter($group) {
+		return (strripos($group, $this->groupSearch) !== false);
 	}
 
 	/**
@@ -199,8 +231,27 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 	 * @param string $gid
 	 * @return bool
 	 */
-	public function groupExists($gid){
-		return in_array($gid, $this->getGroups());
+	public function groupExists($gid) {
+		if($this->connection->isCached('groupExists'.$gid)) {
+			return $this->connection->getFromCache('groupExists'.$gid);
+		}
+
+		//getting dn, if false the group does not exist. If dn, it may be mapped only, requires more checking.
+		$dn = $this->username2dn($gid);
+		if(!$dn) {
+			$this->connection->writeToCache('groupExists'.$gid, false);
+			return false;
+		}
+
+		//if group really still exists, we will be able to read its objectclass
+		$objcs = $this->readAttribute($dn, 'objectclass');
+		if(!$objcs || empty($objcs)) {
+			$this->connection->writeToCache('groupExists'.$gid, false);
+			return false;
+		}
+
+		$this->connection->writeToCache('groupExists'.$gid, true);
+		return true;
 	}
 
 	/**

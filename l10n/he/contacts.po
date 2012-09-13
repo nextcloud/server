@@ -3,226 +3,213 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <ido.parag@gmail.com>, 2012.
 #   <tomerc+transifex.net@gmail.com>, 2011.
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:14+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Hebrew (http://www.transifex.net/projects/p/owncloud/language/he/)\n"
+"POT-Creation-Date: 2012-08-24 02:02+0200\n"
+"PO-Revision-Date: 2012-08-24 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: ajax/activation.php:19 ajax/updateaddressbook.php:32
+#: ajax/addressbook/activate.php:24 ajax/addressbook/update.php:32
 msgid "Error (de)activating addressbook."
 msgstr "שגיאה בהפעלה או בנטרול פנקס הכתובות."
 
-#: ajax/addcontact.php:59
-msgid "There was an error adding the contact."
-msgstr "אירעה שגיאה בעת הוספת איש הקשר."
-
-#: ajax/addproperty.php:40
-msgid "Cannot add empty property."
-msgstr "לא ניתן להוסיף מאפיין ריק."
-
-#: ajax/addproperty.php:52
-msgid "At least one of the address fields has to be filled out."
-msgstr "יש למלא לפחות אחד משדות הכתובת."
-
-#: ajax/addproperty.php:62
-msgid "Trying to add duplicate property: "
-msgstr "ניסיון להוספת מאפיין כפול: "
-
-#: ajax/addproperty.php:120
-msgid "Error adding contact property."
-msgstr "שגיאה בהוספת מאפיין לאיש הקשר."
-
-#: ajax/categories/categoriesfor.php:15
-msgid "No ID provided"
-msgstr "לא צוין מזהה"
-
-#: ajax/categories/categoriesfor.php:27
-msgid "Error setting checksum."
-msgstr "שגיאה בהגדרת נתוני הביקורת."
-
-#: ajax/categories/delete.php:29
-msgid "No categories selected for deletion."
-msgstr "לא נבחור קטגוריות למחיקה."
-
-#: ajax/categories/delete.php:36 ajax/categories/rescan.php:28
-msgid "No address books found."
-msgstr "לא נמצאו פנקסי כתובות."
-
-#: ajax/categories/delete.php:44 ajax/categories/rescan.php:36
-msgid "No contacts found."
-msgstr "לא נמצאו אנשי קשר."
-
-#: ajax/contactdetails.php:37
-msgid "Missing ID"
-msgstr "מזהה חסר"
-
-#: ajax/contactdetails.php:41
-msgid "Error parsing VCard for ID: \""
-msgstr ""
-
-#: ajax/createaddressbook.php:18
-msgid "Cannot add addressbook with an empty name."
-msgstr ""
-
-#: ajax/createaddressbook.php:24
-msgid "Error adding addressbook."
-msgstr "שגיאה בהוספת פנקס הכתובות."
-
-#: ajax/createaddressbook.php:30
-msgid "Error activating addressbook."
-msgstr "שגיאה בהפעלת פנקס הכתובות."
-
-#: ajax/currentphoto.php:34 ajax/oc_photo.php:37 ajax/uploadphoto.php:41
-#: ajax/uploadphoto.php:68
-msgid "No contact ID was submitted."
-msgstr ""
-
-#: ajax/currentphoto.php:40
-msgid "Error reading contact photo."
-msgstr ""
-
-#: ajax/currentphoto.php:52
-msgid "Error saving temporary file."
-msgstr ""
-
-#: ajax/currentphoto.php:55
-msgid "The loading photo is not valid."
-msgstr ""
-
-#: ajax/deletecard.php:37 ajax/saveproperty.php:58
+#: ajax/addressbook/delete.php:31 ajax/addressbook/update.php:20
+#: ajax/contact/addproperty.php:42 ajax/contact/delete.php:32
+#: ajax/contact/saveproperty.php:39
 msgid "id is not set."
-msgstr ""
+msgstr "מספר מזהה לא נקבע."
 
-#: ajax/deleteproperty.php:36
-msgid "Information about vCard is incorrect. Please reload the page."
-msgstr "המידע אודות vCard אינו נכון. נא לטעון מחדש את הדף."
-
-#: ajax/deleteproperty.php:43
-msgid "Error deleting contact property."
-msgstr "שגיאה במחיקת מאפיין של איש הקשר."
-
-#: ajax/editname.php:37
-msgid "Contact ID is missing."
-msgstr ""
-
-#: ajax/loadphoto.php:44
-msgid "Missing contact id."
-msgstr ""
-
-#: ajax/oc_photo.php:41
-msgid "No photo path was submitted."
-msgstr ""
-
-#: ajax/oc_photo.php:48
-msgid "File doesn't exist:"
-msgstr ""
-
-#: ajax/oc_photo.php:54 ajax/oc_photo.php:57
-msgid "Error loading image."
-msgstr ""
-
-#: ajax/savecrop.php:68
-msgid "Error getting contact object."
-msgstr ""
-
-#: ajax/savecrop.php:75
-msgid "Error getting PHOTO property."
-msgstr ""
-
-#: ajax/savecrop.php:88
-msgid "Error saving contact."
-msgstr ""
-
-#: ajax/savecrop.php:98
-msgid "Error resizing image"
-msgstr ""
-
-#: ajax/savecrop.php:101
-msgid "Error cropping image"
-msgstr ""
-
-#: ajax/savecrop.php:104
-msgid "Error creating temporary image"
-msgstr ""
-
-#: ajax/savecrop.php:107
-msgid "Error finding image: "
-msgstr ""
-
-#: ajax/saveproperty.php:55
-msgid "element name is not set."
-msgstr ""
-
-#: ajax/saveproperty.php:61
-msgid "checksum is not set."
-msgstr ""
-
-#: ajax/saveproperty.php:78
-msgid "Information about vCard is incorrect. Please reload the page: "
-msgstr ""
-
-#: ajax/saveproperty.php:83
-msgid "Something went FUBAR. "
-msgstr ""
-
-#: ajax/saveproperty.php:150
-msgid "Error updating contact property."
-msgstr "שגיאה בעדכון המאפיין של איש הקשר."
-
-#: ajax/updateaddressbook.php:20
+#: ajax/addressbook/update.php:24
 msgid "Cannot update addressbook with an empty name."
-msgstr ""
+msgstr "אי אפשר לעדכן ספר כתובות ללא שם"
 
-#: ajax/updateaddressbook.php:26
+#: ajax/addressbook/update.php:28
 msgid "Error updating addressbook."
 msgstr "שגיאה בעדכון פנקס הכתובות."
 
-#: ajax/uploadimport.php:46 ajax/uploadimport.php:76
+#: ajax/categories/categoriesfor.php:17
+msgid "No ID provided"
+msgstr "לא צוין מזהה"
+
+#: ajax/categories/categoriesfor.php:34
+msgid "Error setting checksum."
+msgstr "שגיאה בהגדרת נתוני הביקורת."
+
+#: ajax/categories/delete.php:19
+msgid "No categories selected for deletion."
+msgstr "לא נבחור קטגוריות למחיקה."
+
+#: ajax/categories/delete.php:26
+msgid "No address books found."
+msgstr "לא נמצאו פנקסי כתובות."
+
+#: ajax/categories/delete.php:34
+msgid "No contacts found."
+msgstr "לא נמצאו אנשי קשר."
+
+#: ajax/contact/add.php:47
+msgid "There was an error adding the contact."
+msgstr "אירעה שגיאה בעת הוספת איש הקשר."
+
+#: ajax/contact/addproperty.php:39 ajax/contact/saveproperty.php:36
+msgid "element name is not set."
+msgstr "שם האלמנט לא נקבע."
+
+#: ajax/contact/addproperty.php:46
+msgid "Could not parse contact: "
+msgstr ""
+
+#: ajax/contact/addproperty.php:56
+msgid "Cannot add empty property."
+msgstr "לא ניתן להוסיף מאפיין ריק."
+
+#: ajax/contact/addproperty.php:67
+msgid "At least one of the address fields has to be filled out."
+msgstr "יש למלא לפחות אחד משדות הכתובת."
+
+#: ajax/contact/addproperty.php:76
+msgid "Trying to add duplicate property: "
+msgstr "ניסיון להוספת מאפיין כפול: "
+
+#: ajax/contact/addproperty.php:115 ajax/contact/saveproperty.php:93
+msgid "Missing IM parameter."
+msgstr ""
+
+#: ajax/contact/addproperty.php:119 ajax/contact/saveproperty.php:97
+msgid "Unknown IM: "
+msgstr ""
+
+#: ajax/contact/deleteproperty.php:37
+msgid "Information about vCard is incorrect. Please reload the page."
+msgstr "המידע אודות vCard אינו נכון. נא לטעון מחדש את הדף."
+
+#: ajax/contact/details.php:31
+msgid "Missing ID"
+msgstr "מזהה חסר"
+
+#: ajax/contact/details.php:36
+msgid "Error parsing VCard for ID: \""
+msgstr "שגיאה בפענוח ה VCard עבור מספר המזהה: \""
+
+#: ajax/contact/saveproperty.php:42
+msgid "checksum is not set."
+msgstr "סיכום ביקורת לא נקבע."
+
+#: ajax/contact/saveproperty.php:62
+msgid "Information about vCard is incorrect. Please reload the page: "
+msgstr "המידע עבור ה vCard אינו נכון. אנא טען את העמוד: "
+
+#: ajax/contact/saveproperty.php:69
+msgid "Something went FUBAR. "
+msgstr "משהו לא התנהל כצפוי."
+
+#: ajax/currentphoto.php:30 ajax/oc_photo.php:28 ajax/uploadphoto.php:36
+#: ajax/uploadphoto.php:68
+msgid "No contact ID was submitted."
+msgstr "מספר מזהה של אישר הקשר לא נשלח."
+
+#: ajax/currentphoto.php:36
+msgid "Error reading contact photo."
+msgstr "שגיאה בקריאת תמונת איש הקשר."
+
+#: ajax/currentphoto.php:48
+msgid "Error saving temporary file."
+msgstr "שגיאה בשמירת קובץ זמני."
+
+#: ajax/currentphoto.php:51
+msgid "The loading photo is not valid."
+msgstr "התמונה הנטענת אינה תקנית."
+
+#: ajax/editname.php:31
+msgid "Contact ID is missing."
+msgstr "מספר מזהה של אישר הקשר חסר."
+
+#: ajax/oc_photo.php:32
+msgid "No photo path was submitted."
+msgstr "כתובת התמונה לא נשלחה"
+
+#: ajax/oc_photo.php:39
+msgid "File doesn't exist:"
+msgstr "קובץ לא קיים:"
+
+#: ajax/oc_photo.php:44 ajax/oc_photo.php:47
+msgid "Error loading image."
+msgstr "שגיאה בטעינת התמונה."
+
+#: ajax/savecrop.php:69
+msgid "Error getting contact object."
+msgstr "שגיאה בקבלת אוביאקט איש הקשר"
+
+#: ajax/savecrop.php:79
+msgid "Error getting PHOTO property."
+msgstr "שגיאה בקבלת מידע של תמונה"
+
+#: ajax/savecrop.php:98
+msgid "Error saving contact."
+msgstr "שגיאה בשמירת איש הקשר"
+
+#: ajax/savecrop.php:109
+msgid "Error resizing image"
+msgstr "שגיאה בשינוי גודל התמונה"
+
+#: ajax/savecrop.php:112
+msgid "Error cropping image"
+msgstr ""
+
+#: ajax/savecrop.php:115
+msgid "Error creating temporary image"
+msgstr ""
+
+#: ajax/savecrop.php:118
+msgid "Error finding image: "
+msgstr ""
+
+#: ajax/uploadimport.php:44 ajax/uploadimport.php:76
 msgid "Error uploading contacts to storage."
-msgstr ""
+msgstr "התרשה שגיאה בהעלאת אנשי הקשר לאכסון."
 
-#: ajax/uploadimport.php:59 ajax/uploadphoto.php:77
+#: ajax/uploadimport.php:61 ajax/uploadphoto.php:77
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "לא התרחשה שגיאה, הקובץ הועלה בהצלחה"
 
-#: ajax/uploadimport.php:60 ajax/uploadphoto.php:78
+#: ajax/uploadimport.php:62 ajax/uploadphoto.php:78
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "גודל הקובץ שהועלה גדול מהערך upload_max_filesize שמוגדר בקובץ php.ini"
 
-#: ajax/uploadimport.php:61 ajax/uploadphoto.php:79
+#: ajax/uploadimport.php:63 ajax/uploadphoto.php:79
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "הקובץ שהועלה גדוך מהערך MAX_FILE_SIZE שהוגדר בתופס HTML"
 
-#: ajax/uploadimport.php:62 ajax/uploadphoto.php:80
+#: ajax/uploadimport.php:64 ajax/uploadphoto.php:80
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "הקובץ הועלה באופן חלקי בלבד"
 
-#: ajax/uploadimport.php:63 ajax/uploadphoto.php:81
+#: ajax/uploadimport.php:65 ajax/uploadphoto.php:81
 msgid "No file was uploaded"
-msgstr ""
+msgstr "שום קובץ לא הועלה"
 
-#: ajax/uploadimport.php:64 ajax/uploadphoto.php:82
+#: ajax/uploadimport.php:66 ajax/uploadphoto.php:82
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "תקיה זמנית חסרה"
 
-#: ajax/uploadphoto.php:59 ajax/uploadphoto.php:102
+#: ajax/uploadphoto.php:59 ajax/uploadphoto.php:109
 msgid "Couldn't save temporary image: "
 msgstr ""
 
-#: ajax/uploadphoto.php:62 ajax/uploadphoto.php:105
+#: ajax/uploadphoto.php:62 ajax/uploadphoto.php:112
 msgid "Couldn't load temporary image: "
 msgstr ""
 
@@ -230,111 +217,89 @@ msgstr ""
 msgid "No file was uploaded. Unknown error"
 msgstr ""
 
-#: appinfo/app.php:17 templates/settings.php:3
+#: appinfo/app.php:21
 msgid "Contacts"
 msgstr "אנשי קשר"
 
-#: js/contacts.js:24
+#: js/contacts.js:71
 msgid "Sorry, this functionality has not been implemented yet"
 msgstr ""
 
-#: js/contacts.js:24
+#: js/contacts.js:71
 msgid "Not implemented"
 msgstr ""
 
-#: js/contacts.js:29
+#: js/contacts.js:76
 msgid "Couldn't get a valid address."
 msgstr ""
 
-#: js/contacts.js:29 js/contacts.js:334 js/contacts.js:341 js/contacts.js:355
-#: js/contacts.js:393 js/contacts.js:399 js/contacts.js:565 js/contacts.js:605
-#: js/contacts.js:631 js/contacts.js:668 js/contacts.js:747 js/contacts.js:753
-#: js/contacts.js:765 js/contacts.js:799 js/contacts.js:1056
-#: js/contacts.js:1064 js/contacts.js:1073 js/contacts.js:1130
-#: js/contacts.js:1146 js/contacts.js:1161 js/contacts.js:1173
-#: js/contacts.js:1196 js/contacts.js:1449 js/contacts.js:1457
-#: js/contacts.js:1483 js/contacts.js:1494 js/contacts.js:1509
-#: js/contacts.js:1526 js/contacts.js:1596 js/contacts.js:1644
-#: js/contacts.js:1654 js/contacts.js:1657
+#: js/contacts.js:76 js/contacts.js:365 js/contacts.js:381 js/contacts.js:393
+#: js/contacts.js:723 js/contacts.js:763 js/contacts.js:789 js/contacts.js:921
+#: js/contacts.js:927 js/contacts.js:939 js/contacts.js:976
+#: js/contacts.js:1250 js/contacts.js:1258 js/contacts.js:1267
+#: js/contacts.js:1302 js/contacts.js:1338 js/contacts.js:1353
+#: js/contacts.js:1379 js/contacts.js:1609 js/contacts.js:1644
+#: js/contacts.js:1664 js/settings.js:26 js/settings.js:43 js/settings.js:68
 msgid "Error"
 msgstr ""
 
-#: js/contacts.js:364
-msgid "Are you sure you want to delete this contact?"
+#: js/contacts.js:424
+msgid "You do not have permission to add contacts to "
 msgstr ""
 
-#: js/contacts.js:364
-msgid "Warning"
+#: js/contacts.js:425
+msgid "Please select one of your own address books."
 msgstr ""
 
-#: js/contacts.js:605
+#: js/contacts.js:425
+msgid "Permission error"
+msgstr ""
+
+#: js/contacts.js:763
 msgid "This property has to be non-empty."
 msgstr ""
 
-#: js/contacts.js:631
+#: js/contacts.js:789
 msgid "Couldn't serialize elements."
 msgstr ""
 
-#: js/contacts.js:747 js/contacts.js:765
+#: js/contacts.js:921 js/contacts.js:939
 msgid ""
 "'deleteProperty' called without type argument. Please report at "
 "bugs.owncloud.org"
 msgstr ""
 
-#: js/contacts.js:781
+#: js/contacts.js:958
 msgid "Edit name"
 msgstr ""
 
-#: js/contacts.js:1056
+#: js/contacts.js:1250
 msgid "No files selected for upload."
 msgstr ""
 
-#: js/contacts.js:1064 js/contacts.js:1449 js/contacts.js:1634
+#: js/contacts.js:1258
 msgid ""
 "The file you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr ""
 
-#: js/contacts.js:1119
-msgid "Select photo"
+#: js/contacts.js:1322
+msgid "Error loading profile picture."
 msgstr ""
 
-#: js/contacts.js:1257 js/contacts.js:1290
+#: js/contacts.js:1457 js/contacts.js:1498 js/contacts.js:1517
+#: js/contacts.js:1560
 msgid "Select type"
 msgstr ""
 
-#: js/contacts.js:1305 templates/part.importaddressbook.php:25
-msgid "Drop a VCF file to import contacts."
-msgstr ""
-
-#: js/contacts.js:1475
-msgid "Import done. Success/Failure: "
-msgstr ""
-
-#: js/contacts.js:1476
-msgid "OK"
-msgstr ""
-
-#: js/contacts.js:1494
-msgid "Displayname cannot be empty."
-msgstr ""
-
-#: js/contacts.js:1634
-msgid "Upload too large"
-msgstr ""
-
-#: js/contacts.js:1638
-msgid "Only image files can be used as profile picture."
-msgstr ""
-
-#: js/contacts.js:1638
-msgid "Wrong file type"
-msgstr ""
-
-#: js/contacts.js:1644
+#: js/contacts.js:1578
 msgid ""
-"Your browser doesn't support AJAX upload. Please click on the profile "
-"picture to select a photo to upload."
+"Some contacts are marked for deletion, but not deleted yet. Please wait for "
+"them to be deleted."
+msgstr ""
+
+#: js/contacts.js:1649
+msgid "Do you want to merge these address books?"
 msgstr ""
 
 #: js/loader.js:49
@@ -349,296 +314,465 @@ msgstr ""
 msgid " failed."
 msgstr ""
 
-#: lib/app.php:30
-msgid "Addressbook not found."
+#: js/settings.js:68
+msgid "Displayname cannot be empty."
 msgstr ""
 
-#: lib/app.php:34
+#: lib/app.php:36
+msgid "Addressbook not found: "
+msgstr ""
+
+#: lib/app.php:52
 msgid "This is not your addressbook."
 msgstr "זהו אינו ספר הכתובות שלך"
 
-#: lib/app.php:45
+#: lib/app.php:71
 msgid "Contact could not be found."
 msgstr "לא ניתן לאתר איש קשר"
 
-#: lib/app.php:101 templates/part.contact.php:109
-msgid "Address"
-msgstr "כתובת"
+#: lib/app.php:116
+msgid "Jabber"
+msgstr ""
 
-#: lib/app.php:102
-msgid "Telephone"
-msgstr "טלפון"
+#: lib/app.php:121
+msgid "AIM"
+msgstr ""
 
-#: lib/app.php:103 templates/part.contact.php:108
-msgid "Email"
-msgstr "דואר אלקטרוני"
+#: lib/app.php:126
+msgid "MSN"
+msgstr ""
 
-#: lib/app.php:104 templates/part.contact.php:33 templates/part.contact.php:34
-#: templates/part.contact.php:104
-msgid "Organization"
-msgstr "ארגון"
+#: lib/app.php:131
+msgid "Twitter"
+msgstr ""
 
-#: lib/app.php:116 lib/app.php:123 lib/app.php:133
+#: lib/app.php:136
+msgid "GoogleTalk"
+msgstr ""
+
+#: lib/app.php:141
+msgid "Facebook"
+msgstr ""
+
+#: lib/app.php:146
+msgid "XMPP"
+msgstr ""
+
+#: lib/app.php:151
+msgid "ICQ"
+msgstr ""
+
+#: lib/app.php:156
+msgid "Yahoo"
+msgstr ""
+
+#: lib/app.php:161
+msgid "Skype"
+msgstr ""
+
+#: lib/app.php:166
+msgid "QQ"
+msgstr ""
+
+#: lib/app.php:171
+msgid "GaduGadu"
+msgstr ""
+
+#: lib/app.php:194 lib/app.php:202 lib/app.php:213 lib/app.php:266
 msgid "Work"
 msgstr "עבודה"
 
-#: lib/app.php:117 lib/app.php:121 lib/app.php:134
+#: lib/app.php:195 lib/app.php:200 lib/app.php:214
 msgid "Home"
 msgstr "בית"
 
-#: lib/app.php:122
+#: lib/app.php:196 lib/app.php:209 lib/app.php:262 lib/vcard.php:593
+msgid "Other"
+msgstr ""
+
+#: lib/app.php:201
 msgid "Mobile"
 msgstr "נייד"
 
-#: lib/app.php:124
+#: lib/app.php:203
 msgid "Text"
 msgstr "טקסט"
 
-#: lib/app.php:125
+#: lib/app.php:204
 msgid "Voice"
 msgstr "קולי"
 
-#: lib/app.php:126
+#: lib/app.php:205
 msgid "Message"
-msgstr ""
+msgstr "הודעה"
 
-#: lib/app.php:127
+#: lib/app.php:206
 msgid "Fax"
 msgstr "פקס"
 
-#: lib/app.php:128
+#: lib/app.php:207
 msgid "Video"
 msgstr "וידאו"
 
-#: lib/app.php:129
+#: lib/app.php:208
 msgid "Pager"
 msgstr "זימונית"
 
-#: lib/app.php:135
+#: lib/app.php:215
 msgid "Internet"
-msgstr ""
+msgstr "אינטרנט"
 
-#: lib/hooks.php:79
-msgid "{name}'s Birthday"
-msgstr ""
-
-#: lib/search.php:22
-msgid "Contact"
-msgstr "איש קשר"
-
-#: templates/index.php:13
-msgid "Add Contact"
-msgstr "הוספת איש קשר"
-
-#: templates/index.php:14
-msgid "Addressbooks"
-msgstr "פנקסי כתובות"
-
-#: templates/part.chooseaddressbook.php:1
-msgid "Configure Address Books"
-msgstr ""
-
-#: templates/part.chooseaddressbook.php:16
-msgid "New Address Book"
-msgstr "פנקס כתובות חדש"
-
-#: templates/part.chooseaddressbook.php:17
-msgid "Import from VCF"
-msgstr ""
-
-#: templates/part.chooseaddressbook.php:22
-#: templates/part.chooseaddressbook.rowfields.php:8
-msgid "CardDav Link"
-msgstr "קישור "
-
-#: templates/part.chooseaddressbook.rowfields.php:11
-msgid "Download"
-msgstr "הורדה"
-
-#: templates/part.chooseaddressbook.rowfields.php:14
-msgid "Edit"
-msgstr "עריכה"
-
-#: templates/part.chooseaddressbook.rowfields.php:17
-#: templates/part.contact.php:34 templates/part.contact.php:36
-#: templates/part.contact.php:38 templates/part.contact.php:42
-msgid "Delete"
-msgstr "מחיקה"
-
-#: templates/part.contact.php:12
-msgid "Download contact"
-msgstr "הורדת איש קשר"
-
-#: templates/part.contact.php:13
-msgid "Delete contact"
-msgstr "מחיקת איש קשר"
-
-#: templates/part.contact.php:19
-msgid "Drop photo to upload"
-msgstr ""
-
-#: templates/part.contact.php:29
-msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
-msgstr ""
-
-#: templates/part.contact.php:30
-msgid "Edit name details"
-msgstr ""
-
-#: templates/part.contact.php:35 templates/part.contact.php:105
-msgid "Nickname"
-msgstr ""
-
-#: templates/part.contact.php:36
-msgid "Enter nickname"
-msgstr ""
-
-#: templates/part.contact.php:37 templates/part.contact.php:106
+#: lib/app.php:252 templates/part.contact.php:45
+#: templates/part.contact.php:128
 msgid "Birthday"
 msgstr "יום הולדת"
 
-#: templates/part.contact.php:38
-msgid "dd-mm-yyyy"
+#: lib/app.php:253
+msgid "Business"
 msgstr ""
 
-#: templates/part.contact.php:39 templates/part.contact.php:111
-msgid "Groups"
+#: lib/app.php:254
+msgid "Call"
 msgstr ""
 
-#: templates/part.contact.php:41
-msgid "Separate groups with commas"
+#: lib/app.php:255
+msgid "Clients"
 msgstr ""
+
+#: lib/app.php:256
+msgid "Deliverer"
+msgstr ""
+
+#: lib/app.php:257
+msgid "Holidays"
+msgstr ""
+
+#: lib/app.php:258
+msgid "Ideas"
+msgstr ""
+
+#: lib/app.php:259
+msgid "Journey"
+msgstr ""
+
+#: lib/app.php:260
+msgid "Jubilee"
+msgstr ""
+
+#: lib/app.php:261
+msgid "Meeting"
+msgstr ""
+
+#: lib/app.php:263
+msgid "Personal"
+msgstr ""
+
+#: lib/app.php:264
+msgid "Projects"
+msgstr ""
+
+#: lib/app.php:265
+msgid "Questions"
+msgstr ""
+
+#: lib/hooks.php:102
+msgid "{name}'s Birthday"
+msgstr "יום ההולדת של {name}"
+
+#: lib/search.php:15
+msgid "Contact"
+msgstr "איש קשר"
+
+#: lib/vcard.php:408
+msgid "You do not have the permissions to edit this contact."
+msgstr ""
+
+#: lib/vcard.php:483
+msgid "You do not have the permissions to delete this contact."
+msgstr ""
+
+#: templates/index.php:14
+msgid "Add Contact"
+msgstr "הוספת איש קשר"
+
+#: templates/index.php:15 templates/index.php:16 templates/part.import.php:17
+msgid "Import"
+msgstr "יבא"
+
+#: templates/index.php:18
+msgid "Settings"
+msgstr ""
+
+#: templates/index.php:18 templates/settings.php:9
+msgid "Addressbooks"
+msgstr "פנקסי כתובות"
+
+#: templates/index.php:36 templates/part.import.php:24
+msgid "Close"
+msgstr ""
+
+#: templates/index.php:37
+msgid "Keyboard shortcuts"
+msgstr ""
+
+#: templates/index.php:39
+msgid "Navigation"
+msgstr ""
+
+#: templates/index.php:42
+msgid "Next contact in list"
+msgstr ""
+
+#: templates/index.php:44
+msgid "Previous contact in list"
+msgstr ""
+
+#: templates/index.php:46
+msgid "Expand/collapse current addressbook"
+msgstr ""
+
+#: templates/index.php:48
+msgid "Next addressbook"
+msgstr ""
+
+#: templates/index.php:50
+msgid "Previous addressbook"
+msgstr ""
+
+#: templates/index.php:54
+msgid "Actions"
+msgstr ""
+
+#: templates/index.php:57
+msgid "Refresh contacts list"
+msgstr ""
+
+#: templates/index.php:59
+msgid "Add new contact"
+msgstr ""
+
+#: templates/index.php:61
+msgid "Add new addressbook"
+msgstr ""
+
+#: templates/index.php:63
+msgid "Delete current contact"
+msgstr ""
+
+#: templates/part.contact.php:17
+msgid "Drop photo to upload"
+msgstr "גרור ושחרר תמונה בשביל להעלות"
+
+#: templates/part.contact.php:19
+msgid "Delete current photo"
+msgstr "מחק תמונה נוכחית"
+
+#: templates/part.contact.php:20
+msgid "Edit current photo"
+msgstr "ערוך תמונה נוכחית"
+
+#: templates/part.contact.php:21
+msgid "Upload new photo"
+msgstr "העלה תמונה חדשה"
+
+#: templates/part.contact.php:22
+msgid "Select photo from ownCloud"
+msgstr "בחר תמונה מ ownCloud"
+
+#: templates/part.contact.php:35
+msgid "Format custom, Short name, Full name, Reverse or Reverse with comma"
+msgstr ""
+
+#: templates/part.contact.php:36
+msgid "Edit name details"
+msgstr "ערוך פרטי שם"
+
+#: templates/part.contact.php:39 templates/part.contact.php:40
+#: templates/part.contact.php:126
+msgid "Organization"
+msgstr "ארגון"
+
+#: templates/part.contact.php:40 templates/part.contact.php:42
+#: templates/part.contact.php:44 templates/part.contact.php:46
+#: templates/part.contact.php:50 templates/settings.php:36
+msgid "Delete"
+msgstr "מחיקה"
+
+#: templates/part.contact.php:41 templates/part.contact.php:127
+msgid "Nickname"
+msgstr "כינוי"
 
 #: templates/part.contact.php:42
-msgid "Edit groups"
+msgid "Enter nickname"
+msgstr "הכנס כינוי"
+
+#: templates/part.contact.php:43 templates/part.contact.php:134
+msgid "Web site"
 msgstr ""
 
-#: templates/part.contact.php:55 templates/part.contact.php:69
+#: templates/part.contact.php:44
+msgid "http://www.somesite.com"
+msgstr ""
+
+#: templates/part.contact.php:44
+msgid "Go to web site"
+msgstr ""
+
+#: templates/part.contact.php:46
+msgid "dd-mm-yyyy"
+msgstr "dd-mm-yyyy"
+
+#: templates/part.contact.php:47 templates/part.contact.php:135
+msgid "Groups"
+msgstr "קבוצות"
+
+#: templates/part.contact.php:49
+msgid "Separate groups with commas"
+msgstr "הפרד קבוצות עם פסיקים"
+
+#: templates/part.contact.php:50
+msgid "Edit groups"
+msgstr "ערוך קבוצות"
+
+#: templates/part.contact.php:59 templates/part.contact.php:73
+#: templates/part.contact.php:98
 msgid "Preferred"
 msgstr "מועדף"
 
-#: templates/part.contact.php:56
+#: templates/part.contact.php:60
 msgid "Please specify a valid email address."
-msgstr ""
-
-#: templates/part.contact.php:56
-msgid "Enter email address"
-msgstr ""
+msgstr "אנא הזן כתובת דוא\"ל חוקית"
 
 #: templates/part.contact.php:60
+msgid "Enter email address"
+msgstr "הזן כתובת דוא\"ל"
+
+#: templates/part.contact.php:64
 msgid "Mail to address"
-msgstr ""
+msgstr "כתובת"
 
-#: templates/part.contact.php:61
+#: templates/part.contact.php:65
 msgid "Delete email address"
-msgstr ""
+msgstr "מחק כתובת דוא\"ל"
 
-#: templates/part.contact.php:70
+#: templates/part.contact.php:75
 msgid "Enter phone number"
-msgstr ""
+msgstr "הכנס מספר טלפון"
 
-#: templates/part.contact.php:74
+#: templates/part.contact.php:79
 msgid "Delete phone number"
-msgstr ""
+msgstr "מחק מספר טלפון"
 
-#: templates/part.contact.php:84
-msgid "View on map"
-msgstr ""
-
-#: templates/part.contact.php:84
-msgid "Edit address details"
-msgstr ""
-
-#: templates/part.contact.php:95
-msgid "Add notes here."
+#: templates/part.contact.php:100
+msgid "Instant Messenger"
 msgstr ""
 
 #: templates/part.contact.php:101
+msgid "Delete IM"
+msgstr ""
+
+#: templates/part.contact.php:110
+msgid "View on map"
+msgstr "ראה במפה"
+
+#: templates/part.contact.php:110
+msgid "Edit address details"
+msgstr "ערוך פרטי כתובת"
+
+#: templates/part.contact.php:116
+msgid "Add notes here."
+msgstr "הוסף הערות כאן."
+
+#: templates/part.contact.php:124
 msgid "Add field"
-msgstr ""
+msgstr "הוסף שדה"
 
-#: templates/part.contact.php:103
-msgid "Profile picture"
-msgstr ""
-
-#: templates/part.contact.php:107
+#: templates/part.contact.php:129
 msgid "Phone"
 msgstr "טלפון"
 
-#: templates/part.contact.php:110
+#: templates/part.contact.php:130
+msgid "Email"
+msgstr "דואר אלקטרוני"
+
+#: templates/part.contact.php:131
+msgid "Instant Messaging"
+msgstr ""
+
+#: templates/part.contact.php:132
+msgid "Address"
+msgstr "כתובת"
+
+#: templates/part.contact.php:133
 msgid "Note"
-msgstr ""
+msgstr "הערה"
 
-#: templates/part.contactphoto.php:8
-msgid "Delete current photo"
-msgstr ""
+#: templates/part.contact.php:138
+msgid "Download contact"
+msgstr "הורדת איש קשר"
 
-#: templates/part.contactphoto.php:9
-msgid "Edit current photo"
-msgstr ""
+#: templates/part.contact.php:139
+msgid "Delete contact"
+msgstr "מחיקת איש קשר"
 
-#: templates/part.contactphoto.php:10
-msgid "Upload new photo"
-msgstr ""
-
-#: templates/part.contactphoto.php:11
-msgid "Select photo from ownCloud"
-msgstr ""
-
-#: templates/part.cropphoto.php:64
+#: templates/part.cropphoto.php:65
 msgid "The temporary image has been removed from cache."
 msgstr ""
 
-#: templates/part.edit_address_dialog.php:9
+#: templates/part.edit_address_dialog.php:6
 msgid "Edit address"
-msgstr ""
+msgstr "ערוך כתובת"
 
-#: templates/part.edit_address_dialog.php:14
+#: templates/part.edit_address_dialog.php:10
 msgid "Type"
 msgstr "סוג"
 
-#: templates/part.edit_address_dialog.php:22
-#: templates/part.edit_address_dialog.php:25
+#: templates/part.edit_address_dialog.php:18
+#: templates/part.edit_address_dialog.php:21
 msgid "PO Box"
 msgstr "תא דואר"
 
-#: templates/part.edit_address_dialog.php:29
-#: templates/part.edit_address_dialog.php:32
+#: templates/part.edit_address_dialog.php:24
+msgid "Street address"
+msgstr ""
+
+#: templates/part.edit_address_dialog.php:27
+msgid "Street and number"
+msgstr ""
+
+#: templates/part.edit_address_dialog.php:30
 msgid "Extended"
 msgstr "מורחב"
 
-#: templates/part.edit_address_dialog.php:35
-#: templates/part.edit_address_dialog.php:38
-msgid "Street"
-msgstr "רחוב"
+#: templates/part.edit_address_dialog.php:33
+msgid "Apartment number etc."
+msgstr ""
 
-#: templates/part.edit_address_dialog.php:41
-#: templates/part.edit_address_dialog.php:44
+#: templates/part.edit_address_dialog.php:36
+#: templates/part.edit_address_dialog.php:39
 msgid "City"
 msgstr "עיר"
 
-#: templates/part.edit_address_dialog.php:47
-#: templates/part.edit_address_dialog.php:50
+#: templates/part.edit_address_dialog.php:42
 msgid "Region"
 msgstr "אזור"
 
-#: templates/part.edit_address_dialog.php:53
-#: templates/part.edit_address_dialog.php:56
+#: templates/part.edit_address_dialog.php:45
+msgid "E.g. state or province"
+msgstr ""
+
+#: templates/part.edit_address_dialog.php:48
 msgid "Zipcode"
 msgstr "מיקוד"
 
-#: templates/part.edit_address_dialog.php:59
-#: templates/part.edit_address_dialog.php:62
-msgid "Country"
-msgstr "מדינה"
-
-#: templates/part.edit_categories_dialog.php:4
-msgid "Edit categories"
+#: templates/part.edit_address_dialog.php:51
+msgid "Postal code"
 msgstr ""
 
-#: templates/part.edit_categories_dialog.php:14
-msgid "Add"
-msgstr "הוספה"
+#: templates/part.edit_address_dialog.php:54
+#: templates/part.edit_address_dialog.php:57
+msgid "Country"
+msgstr "מדינה"
 
 #: templates/part.edit_name_dialog.php:16
 msgid "Addressbook"
@@ -646,176 +780,176 @@ msgstr "פנקס כתובות"
 
 #: templates/part.edit_name_dialog.php:23
 msgid "Hon. prefixes"
-msgstr ""
+msgstr "קידומות שם"
 
 #: templates/part.edit_name_dialog.php:27
 msgid "Miss"
-msgstr ""
+msgstr "גב'"
 
 #: templates/part.edit_name_dialog.php:28
 msgid "Ms"
-msgstr ""
+msgstr "גב'"
 
 #: templates/part.edit_name_dialog.php:29
 msgid "Mr"
-msgstr ""
+msgstr "מר'"
 
 #: templates/part.edit_name_dialog.php:30
 msgid "Sir"
-msgstr ""
+msgstr "אדון"
 
 #: templates/part.edit_name_dialog.php:31
 msgid "Mrs"
-msgstr ""
+msgstr "גב'"
 
 #: templates/part.edit_name_dialog.php:32
 msgid "Dr"
-msgstr ""
+msgstr "ד\"ר"
 
 #: templates/part.edit_name_dialog.php:35
 msgid "Given name"
-msgstr ""
+msgstr "שם"
 
 #: templates/part.edit_name_dialog.php:37
 msgid "Additional names"
-msgstr ""
+msgstr "שמות נוספים"
 
 #: templates/part.edit_name_dialog.php:39
 msgid "Family name"
-msgstr ""
+msgstr "שם משפחה"
 
 #: templates/part.edit_name_dialog.php:41
 msgid "Hon. suffixes"
-msgstr ""
+msgstr "סיומות שם"
 
 #: templates/part.edit_name_dialog.php:45
 msgid "J.D."
-msgstr ""
+msgstr "J.D."
 
 #: templates/part.edit_name_dialog.php:46
 msgid "M.D."
-msgstr ""
+msgstr "M.D."
 
 #: templates/part.edit_name_dialog.php:47
 msgid "D.O."
-msgstr ""
+msgstr "D.O."
 
 #: templates/part.edit_name_dialog.php:48
 msgid "D.C."
-msgstr ""
+msgstr "D.C."
 
 #: templates/part.edit_name_dialog.php:49
 msgid "Ph.D."
-msgstr ""
+msgstr "Ph.D."
 
 #: templates/part.edit_name_dialog.php:50
 msgid "Esq."
-msgstr ""
+msgstr "Esq."
 
 #: templates/part.edit_name_dialog.php:51
 msgid "Jr."
-msgstr ""
+msgstr "Jr."
 
 #: templates/part.edit_name_dialog.php:52
 msgid "Sn."
-msgstr ""
-
-#: templates/part.editaddressbook.php:9
-msgid "New Addressbook"
-msgstr "פנקס כתובות חדש"
-
-#: templates/part.editaddressbook.php:9
-msgid "Edit Addressbook"
-msgstr "עריכת פנקס הכתובות"
-
-#: templates/part.editaddressbook.php:12
-msgid "Displayname"
-msgstr "שם התצוגה"
-
-#: templates/part.editaddressbook.php:23
-msgid "Active"
-msgstr "פעיל"
-
-#: templates/part.editaddressbook.php:29
-msgid "Save"
-msgstr "שמירה"
-
-#: templates/part.editaddressbook.php:29
-msgid "Submit"
-msgstr "ביצוע"
-
-#: templates/part.editaddressbook.php:30
-#: templates/part.importaddressbook.php:34
-msgid "Cancel"
-msgstr "ביטול"
+msgstr "Sn."
 
 #: templates/part.import.php:1
 msgid "Import a contacts file"
-msgstr ""
+msgstr "יבא קובץ אנשי קשר"
 
 #: templates/part.import.php:6
 msgid "Please choose the addressbook"
-msgstr ""
+msgstr "אנא בחר ספר כתובות"
 
 #: templates/part.import.php:10
 msgid "create a new addressbook"
-msgstr ""
+msgstr "צור ספר כתובות חדש"
 
 #: templates/part.import.php:15
 msgid "Name of new addressbook"
-msgstr ""
-
-#: templates/part.import.php:17
-msgid "Import"
-msgstr ""
+msgstr "שם ספר כתובות החדש"
 
 #: templates/part.import.php:20
 msgid "Importing contacts"
-msgstr ""
+msgstr "מיבא אנשי קשר"
 
-#: templates/part.import.php:24
-msgid "Close"
-msgstr ""
-
-#: templates/part.importaddressbook.php:12
-msgid ""
-"Currently this import function doesn't work while encryption is enabled.<br "
-"/>Please upload your VCF file with the file manager and click on it to "
-"import."
-msgstr ""
-
-#: templates/part.importaddressbook.php:16
-msgid "Select address book to import to:"
-msgstr ""
-
-#: templates/part.importaddressbook.php:26
-msgid "Select from HD"
-msgstr ""
-
-#: templates/part.no_contacts.php:2
+#: templates/part.no_contacts.php:3
 msgid "You have no contacts in your addressbook."
-msgstr ""
-
-#: templates/part.no_contacts.php:4
-msgid "Add contact"
-msgstr ""
+msgstr "איך לך אנשי קשר בספר הכתובות"
 
 #: templates/part.no_contacts.php:5
-msgid "Configure addressbooks"
+msgid "Add contact"
+msgstr "הוסף איש קשר"
+
+#: templates/part.selectaddressbook.php:1
+msgid "Select Address Books"
 msgstr ""
 
-#: templates/settings.php:4
+#: templates/part.selectaddressbook.php:27
+msgid "Enter name"
+msgstr ""
+
+#: templates/part.selectaddressbook.php:29
+msgid "Enter description"
+msgstr ""
+
+#: templates/settings.php:3
 msgid "CardDAV syncing addresses"
-msgstr ""
+msgstr "CardDAV מסנכרן כתובות"
 
-#: templates/settings.php:4
+#: templates/settings.php:3
 msgid "more info"
-msgstr ""
+msgstr "מידע נוסף"
 
-#: templates/settings.php:6
+#: templates/settings.php:5
 msgid "Primary address (Kontact et al)"
+msgstr "כתובת ראשית"
+
+#: templates/settings.php:7
+msgid "iOS/OS X"
+msgstr "iOS/OS X"
+
+#: templates/settings.php:20
+msgid "Show CardDav link"
 msgstr ""
 
-#: templates/settings.php:8
-msgid "iOS/OS X"
+#: templates/settings.php:23
+msgid "Show read-only VCF link"
+msgstr ""
+
+#: templates/settings.php:26
+msgid "Share"
+msgstr ""
+
+#: templates/settings.php:29
+msgid "Download"
+msgstr "הורדה"
+
+#: templates/settings.php:33
+msgid "Edit"
+msgstr "עריכה"
+
+#: templates/settings.php:43
+msgid "New Address Book"
+msgstr "פנקס כתובות חדש"
+
+#: templates/settings.php:44
+msgid "Name"
+msgstr ""
+
+#: templates/settings.php:45
+msgid "Description"
+msgstr ""
+
+#: templates/settings.php:46
+msgid "Save"
+msgstr "שמירה"
+
+#: templates/settings.php:47
+msgid "Cancel"
+msgstr "ביטול"
+
+#: templates/settings.php:52
+msgid "More..."
 msgstr ""

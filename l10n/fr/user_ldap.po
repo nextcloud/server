@@ -1,0 +1,175 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Cyril Glapa <kyriog@gmail.com>, 2012.
+#   <mathieu.payrol@gmail.com>, 2012.
+# Romain DEP. <rom1dep@gmail.com>, 2012.
+#   <windes@tructor.net>, 2012.
+#   <zrk951@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-30 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 08:51+0000\n"
+"Last-Translator: Windes <windes@tructor.net>\n"
+"Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#: templates/settings.php:8
+msgid "Host"
+msgstr "Hôte"
+
+#: templates/settings.php:8
+msgid ""
+"You can omit the protocol, except you require SSL. Then start with ldaps://"
+msgstr "Vous pouvez omettre le protocole, sauf si vous avez besoin de SSL. Dans ce cas préfixez avec ldaps://"
+
+#: templates/settings.php:9
+msgid "Base DN"
+msgstr "DN Racine"
+
+#: templates/settings.php:9
+msgid "You can specify Base DN for users and groups in the Advanced tab"
+msgstr "Vous pouvez détailler les DN Racines de vos utilisateurs et groupes dans l'onglet Avancé"
+
+#: templates/settings.php:10
+msgid "User DN"
+msgstr "DN Utilisateur (Autorisé à consulter l'annuaire)"
+
+#: templates/settings.php:10
+msgid ""
+"The DN of the client user with which the bind shall be done, e.g. "
+"uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
+"empty."
+msgstr "Le DN de l'utilisateur client avec lequel la liaison doit se faire, par exemple uid=agent,dc=example,dc=com. Pour l'accès anonyme, laisser le DN et le mot de passe vides."
+
+#: templates/settings.php:11
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates/settings.php:11
+msgid "For anonymous access, leave DN and Password empty."
+msgstr "Pour un accès anonyme, laisser le DN Utilisateur et le mot de passe vides."
+
+#: templates/settings.php:12
+msgid "User Login Filter"
+msgstr "Modèle d'authentification utilisateurs"
+
+#: templates/settings.php:12
+#, php-format
+msgid ""
+"Defines the filter to apply, when login is attempted. %%uid replaces the "
+"username in the login action."
+msgstr "Définit le motif à appliquer, lors d'une tentative de connexion. %%uid est remplacé par le nom d'utilisateur lors de la connexion."
+
+#: templates/settings.php:12
+#, php-format
+msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
+msgstr "veuillez utiliser le champ %%uid , ex.: \"uid=%%uid\""
+
+#: templates/settings.php:13
+msgid "User List Filter"
+msgstr "Filtre d'utilisateurs"
+
+#: templates/settings.php:13
+msgid "Defines the filter to apply, when retrieving users."
+msgstr "Définit le filtre à appliquer lors de la récupération des utilisateurs."
+
+#: templates/settings.php:13
+msgid "without any placeholder, e.g. \"objectClass=person\"."
+msgstr "sans élément de substitution, par exemple \"objectClass=person\"."
+
+#: templates/settings.php:14
+msgid "Group Filter"
+msgstr "Filtre de groupes"
+
+#: templates/settings.php:14
+msgid "Defines the filter to apply, when retrieving groups."
+msgstr "Définit le filtre à appliquer lors de la récupération des groupes."
+
+#: templates/settings.php:14
+msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
+msgstr "sans élément de substitution, par exemple \"objectClass=posixGroup\"."
+
+#: templates/settings.php:17
+msgid "Port"
+msgstr "Port"
+
+#: templates/settings.php:18
+msgid "Base User Tree"
+msgstr "DN racine de l'arbre utilisateurs"
+
+#: templates/settings.php:19
+msgid "Base Group Tree"
+msgstr "DN racine de l'arbre groupes"
+
+#: templates/settings.php:20
+msgid "Group-Member association"
+msgstr "Association groupe-membre"
+
+#: templates/settings.php:21
+msgid "Use TLS"
+msgstr "Utiliser TLS"
+
+#: templates/settings.php:21
+msgid "Do not use it for SSL connections, it will fail."
+msgstr "Ne pas utiliser pour les connexions SSL, car cela échouera."
+
+#: templates/settings.php:22
+msgid "Case insensitve LDAP server (Windows)"
+msgstr "Serveur LDAP insensible à la casse (Windows)"
+
+#: templates/settings.php:23
+msgid "Turn off SSL certificate validation."
+msgstr "Désactiver la validation du certificat SSL."
+
+#: templates/settings.php:23
+msgid ""
+"If connection only works with this option, import the LDAP server's SSL "
+"certificate in your ownCloud server."
+msgstr "Si la connexion ne fonctionne qu'avec cette option, importez le certificat SSL du serveur LDAP dans le serveur ownCloud."
+
+#: templates/settings.php:23
+msgid "Not recommended, use for testing only."
+msgstr "Non recommandé, utilisation pour tests uniquement."
+
+#: templates/settings.php:24
+msgid "User Display Name Field"
+msgstr "Champ \"nom d'affichage\" de l'utilisateur"
+
+#: templates/settings.php:24
+msgid "The LDAP attribute to use to generate the user`s ownCloud name."
+msgstr "L'attribut LDAP utilisé pour générer les noms d'utilisateurs d'ownCloud."
+
+#: templates/settings.php:25
+msgid "Group Display Name Field"
+msgstr "Champ \"nom d'affichage\" du groupe"
+
+#: templates/settings.php:25
+msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
+msgstr "L'attribut LDAP utilisé pour générer les noms de groupes d'ownCloud."
+
+#: templates/settings.php:27
+msgid "in bytes"
+msgstr "en octets"
+
+#: templates/settings.php:29
+msgid "in seconds. A change empties the cache."
+msgstr "en secondes. Tout changement vide le cache."
+
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Laisser vide "
+
+#: templates/settings.php:32
+msgid "Help"
+msgstr "Aide"

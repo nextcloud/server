@@ -31,14 +31,14 @@ OCP\JSON::callCheck();
 
 $versions = new OCA_Versions\Storage();
 
-if( $versions->expireAll() ){
-	
+if( $versions->expireAll() ) {
+
 	OCP\JSON::success();
 	die();
-	
+
 } else {
-	
+
 	OCP\JSON::error();
 	die();
-	
+
 }

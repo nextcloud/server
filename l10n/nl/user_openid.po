@@ -1,0 +1,55 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Richard Bos <radoeka@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 19:20+0000\n"
+"Last-Translator: Richard Bos <radoeka@gmail.com>\n"
+"Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: templates/nomode.php:12
+msgid "This is an OpenID server endpoint. For more information, see "
+msgstr "Dit is een OpenID server.  Voor meer informatie, zie"
+
+#: templates/nomode.php:14
+msgid "Identity: <b>"
+msgstr "Identiteit: <b>"
+
+#: templates/nomode.php:15
+msgid "Realm: <b>"
+msgstr "Realm: <b>"
+
+#: templates/nomode.php:16
+msgid "User: <b>"
+msgstr "Gebruiker: <b>"
+
+#: templates/nomode.php:17
+msgid "Login"
+msgstr "Login"
+
+#: templates/nomode.php:22
+msgid "Error: <b>No user Selected"
+msgstr "Fout: <b>Geen gebruiker geselecteerd"
+
+#: templates/settings.php:4
+msgid "you can authenticate to other sites with this address"
+msgstr "u kan met dit adres bij andere sites authenticeren"
+
+#: templates/settings.php:5
+msgid "Authorized OpenID provider"
+msgstr "Geautoriseerde OpenID provider"
+
+#: templates/settings.php:6
+msgid "Your address at Wordpress, Identi.ca, &hellip;"
+msgstr "Uw adres bij Wordpress, Identi.ca, &hellip;"

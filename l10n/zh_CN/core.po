@@ -3,20 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <appweb.cn@gmail.com>, 2012.
+# Phoenix Nemo <>, 2012.
 #   <wengxt@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:14+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/language/zh_CN/)\n"
+"POT-Creation-Date: 2012-09-07 02:04+0200\n"
+"PO-Revision-Date: 2012-09-06 07:30+0000\n"
+"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
@@ -30,91 +32,87 @@ msgstr "没有可添加分类？"
 msgid "This category already exists: "
 msgstr "此分类已存在: "
 
-#: js/jquery-ui-1.8.16.custom.min.js:511
-msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr ""
+#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+msgid "Settings"
+msgstr "设置"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "January"
-msgstr ""
+msgstr "一月"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "February"
-msgstr ""
+msgstr "二月"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "March"
-msgstr ""
+msgstr "三月"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "April"
-msgstr ""
+msgstr "四月"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "May"
-msgstr ""
+msgstr "五月"
 
-#: js/js.js:520
+#: js/js.js:593
 msgid "June"
-msgstr ""
+msgstr "六月"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "July"
-msgstr ""
+msgstr "七月"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "August"
-msgstr ""
+msgstr "八月"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "September"
-msgstr ""
+msgstr "九月"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "October"
-msgstr ""
+msgstr "十月"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "November"
-msgstr ""
+msgstr "十一月"
 
-#: js/js.js:521
+#: js/js.js:594
 msgid "December"
-msgstr ""
+msgstr "十二月"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "否"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "好"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "没有选择要删除的类别"
 
 #: js/oc-vcategories.js:68
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: lostpassword/index.php:26
-msgid "Owncloud password reset"
-msgstr "重置 Owncloud 密码"
-
-#: lostpassword/index.php:27
 msgid "ownCloud password reset"
 msgstr "重置 ownCloud 密码"
 
-#: lostpassword/templates/email.php:1
+#: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "使用以下链接重置您的密码：{link}"
 
@@ -130,7 +128,7 @@ msgstr "已请求"
 msgid "Login failed!"
 msgstr "登录失败！"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
 #: templates/login.php:9
 msgid "Username"
 msgstr "用户名"
@@ -191,48 +189,52 @@ msgstr "编辑分类"
 msgid "Add"
 msgstr "添加"
 
-#: templates/installation.php:23
+#: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
 msgstr "创建<strong>管理员账号</strong>"
 
-#: templates/installation.php:29 templates/login.php:13
+#: templates/installation.php:30 templates/login.php:13
 msgid "Password"
 msgstr "密码"
 
-#: templates/installation.php:35
+#: templates/installation.php:36
 msgid "Advanced"
 msgstr "高级"
 
-#: templates/installation.php:37
+#: templates/installation.php:38
 msgid "Data folder"
 msgstr "数据目录"
 
-#: templates/installation.php:44
+#: templates/installation.php:45
 msgid "Configure the database"
 msgstr "配置数据库"
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:50 templates/installation.php:61
+#: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
 msgstr "将被使用"
 
-#: templates/installation.php:82
+#: templates/installation.php:93
 msgid "Database user"
 msgstr "数据库用户"
 
-#: templates/installation.php:86
+#: templates/installation.php:97
 msgid "Database password"
 msgstr "数据库密码"
 
-#: templates/installation.php:90
+#: templates/installation.php:101
 msgid "Database name"
 msgstr "数据库名"
 
-#: templates/installation.php:96
+#: templates/installation.php:109
+msgid "Database tablespace"
+msgstr "数据库表空间"
+
+#: templates/installation.php:115
 msgid "Database host"
 msgstr "数据库主机"
 
-#: templates/installation.php:101
+#: templates/installation.php:120
 msgid "Finish setup"
 msgstr "安装完成"
 
@@ -240,13 +242,9 @@ msgstr "安装完成"
 msgid "web services under your control"
 msgstr "由您掌控的网络服务"
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "注销"
-
-#: templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "设置"
 
 #: templates/login.php:6
 msgid "Lost your password?"

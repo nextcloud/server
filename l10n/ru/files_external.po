@@ -1,0 +1,83 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Denis  <reg.transifex.net@demitel.ru>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 07:35+0000\n"
+"Last-Translator: Denis <reg.transifex.net@demitel.ru>\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: templates/settings.php:3
+msgid "External Storage"
+msgstr "Внешний носитель"
+
+#: templates/settings.php:7 templates/settings.php:19
+msgid "Mount point"
+msgstr "Точка монтирования"
+
+#: templates/settings.php:8
+msgid "Backend"
+msgstr "Подсистема"
+
+#: templates/settings.php:9
+msgid "Configuration"
+msgstr "Конфигурация"
+
+#: templates/settings.php:10
+msgid "Options"
+msgstr "Опции"
+
+#: templates/settings.php:11
+msgid "Applicable"
+msgstr "Применимый"
+
+#: templates/settings.php:23
+msgid "Add mount point"
+msgstr "Добавить точку монтирования"
+
+#: templates/settings.php:54 templates/settings.php:62
+msgid "None set"
+msgstr "Не установлено"
+
+#: templates/settings.php:63
+msgid "All Users"
+msgstr "Все пользователи"
+
+#: templates/settings.php:64
+msgid "Groups"
+msgstr "Группы"
+
+#: templates/settings.php:69
+msgid "Users"
+msgstr "Пользователи"
+
+#: templates/settings.php:77 templates/settings.php:96
+msgid "Delete"
+msgstr "Удалить"
+
+#: templates/settings.php:88
+msgid "SSL root certificates"
+msgstr "Корневые сертификаты SSL"
+
+#: templates/settings.php:102
+msgid "Import Root Certificate"
+msgstr "Импортировать корневые сертификаты"
+
+#: templates/settings.php:108
+msgid "Enable User External Storage"
+msgstr "Включить пользовательские внешние носители"
+
+#: templates/settings.php:109
+msgid "Allow users to mount their own external storage"
+msgstr "Разрешить пользователям монтировать их собственные внешние носители"

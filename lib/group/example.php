@@ -91,7 +91,7 @@ abstract class OC_Group_Example {
 	 *
 	 * Returns a list with all groups
 	 */
-	abstract public static function getGroups();
+	abstract public static function getGroups($search = '', $limit = -1, $offset = 0);
 
 	/**
 	 * check if a group exists
@@ -104,6 +104,6 @@ abstract class OC_Group_Example {
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	abstract public static function usersInGroup($gid);
+	abstract public static function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
 
 }

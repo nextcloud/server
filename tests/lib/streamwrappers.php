@@ -21,19 +21,19 @@
 */
 
 class Test_StreamWrappers extends UnitTestCase {
-	public function testFakeDir(){
+	public function testFakeDir() {
 		$items=array('foo','bar');
 		OC_FakeDirStream::$dirs['test']=$items;
 		$dh=opendir('fakedir://test');
 		$result=array();
-		while($file=readdir($dh)){
+		while($file=readdir($dh)) {
 			$result[]=$file;
 			$this->assertNotIdentical(false,array_search($file,$items));
 		}
 		$this->assertEqual(count($items),count($result));
 	}
 
-	public function testStaticStream(){
+	public function testStaticStream() {
 		$sourceFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$staticFile='static://test';
 		$this->assertFalse(file_exists($staticFile));
@@ -45,7 +45,7 @@ class Test_StreamWrappers extends UnitTestCase {
 		$this->assertFalse(file_exists($staticFile));
 	}
 
-	public function testCloseStream(){
+	public function testCloseStream() {
 		//ensure all basic stream stuff works
 		$sourceFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$tmpFile=OC_Helper::TmpFile('.txt');
@@ -66,13 +66,13 @@ class Test_StreamWrappers extends UnitTestCase {
 		try{
 			fclose($fh);
 			$this->fail('Expected exception');
-		}catch(Exception $e){
+		}catch(Exception $e) {
 			$path=$e->getMessage();
 			$this->assertEqual($path,$tmpFile);
 		}
 	}
 
-	public static function closeCallBack($path){
+	public static function closeCallBack($path) {
 		throw new Exception($path);
 	}
 }

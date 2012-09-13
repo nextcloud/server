@@ -1,0 +1,35 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-08 02:01+0200\n"
+"PO-Revision-Date: 2012-09-07 14:56+0000\n"
+"Last-Translator: Sơn Nguyễn <sonnghit@gmail.com>\n"
+"Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: templates/settings.php:3
+msgid "Encryption"
+msgstr "Mã hóa"
+
+#: templates/settings.php:4
+msgid "Exclude the following file types from encryption"
+msgstr "Loại trừ các loại tập tin sau đây từ mã hóa"
+
+#: templates/settings.php:5
+msgid "None"
+msgstr "none"
+
+#: templates/settings.php:10
+msgid "Enable Encryption"
+msgstr "BẬT mã hóa"

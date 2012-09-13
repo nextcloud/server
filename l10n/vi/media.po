@@ -1,0 +1,67 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-07-26 08:03+0200\n"
+"PO-Revision-Date: 2012-07-23 06:41+0000\n"
+"Last-Translator: Sơn Nguyễn <sonnghit@gmail.com>\n"
+"Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: appinfo/app.php:45 templates/player.php:8
+msgid "Music"
+msgstr "Âm nhạc"
+
+#: js/music.js:18
+msgid "Add album to playlist"
+msgstr "Thêm album vào playlist"
+
+#: templates/music.php:3 templates/player.php:12
+msgid "Play"
+msgstr "Play"
+
+#: templates/music.php:4 templates/music.php:26 templates/player.php:13
+msgid "Pause"
+msgstr "Tạm dừng"
+
+#: templates/music.php:5
+msgid "Previous"
+msgstr "Trang trước"
+
+#: templates/music.php:6 templates/player.php:14
+msgid "Next"
+msgstr "Tiếp theo"
+
+#: templates/music.php:7
+msgid "Mute"
+msgstr "Tắt"
+
+#: templates/music.php:8
+msgid "Unmute"
+msgstr "Bật"
+
+#: templates/music.php:25
+msgid "Rescan Collection"
+msgstr "Quét lại bộ sưu tập"
+
+#: templates/music.php:37
+msgid "Artist"
+msgstr "Nghệ sỹ"
+
+#: templates/music.php:38
+msgid "Album"
+msgstr "Album"
+
+#: templates/music.php:39
+msgid "Title"
+msgstr "Tiêu đề"
