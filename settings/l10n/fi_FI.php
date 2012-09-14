@@ -3,6 +3,7 @@
 "Authentication error" => "Todennusvirhe",
 "Group already exists" => "Ryhmä on jo olemassa",
 "Unable to add group" => "Ryhmän lisäys epäonnistui",
+"Could not enable app. " => "Sovelluksen käyttöönotto epäonnistui.",
 "Email saved" => "Sähköposti tallennettu",
 "Invalid email" => "Virheellinen sähköposti",
 "OpenID Changed" => "OpenID on vaihdettu",

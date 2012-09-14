@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-13 02:01+0200\n"
-"PO-Revision-Date: 2012-09-13 00:01+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-14 02:01+0200\n"
+"PO-Revision-Date: 2012-09-13 09:09+0000\n"
+"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,7 +39,7 @@ msgstr "Ni mogoče dodati skupine"
 
 #: ajax/enableapp.php:13
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Aplikacije ni bilo mogoče omogočiti."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -124,13 +124,13 @@ msgstr "izvedi eno nalogo z vsako naloženo stranjo"
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "Datoteka cron.php je prijavljena pri enem od spletnih cron servisov. Preko protokola http pokličite datoteko cron.php, ki se nahaja v ownCloud korenski mapi, enkrat na minuto."
 
 #: templates/admin.php:37
 msgid ""
 "use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Uporabi sistemski cron servis. Preko sistemskega cron servisa pokličite datoteko cron.php, ki se nahaja v ownCloud korenski mapi, enkrat na minuto."
 
 #: templates/admin.php:41
 msgid "Share API"

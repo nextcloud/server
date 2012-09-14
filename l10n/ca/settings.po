@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-13 02:01+0200\n"
-"PO-Revision-Date: 2012-09-13 00:01+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-14 02:01+0200\n"
+"PO-Revision-Date: 2012-09-13 07:48+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,7 +39,7 @@ msgstr "No es pot afegir el grup"
 
 #: ajax/enableapp.php:13
 msgid "Could not enable app. "
-msgstr ""
+msgstr "No s'ha pogut activar l'apliació"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -124,13 +124,13 @@ msgstr "executa una tasca en carregar cada pàgina"
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php està registrat en un servei webcron. Feu una crida a la pàgina cron.php a l'arrel de ownCloud cada minut a través de http."
 
 #: templates/admin.php:37
 msgid ""
 "use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "usa el servei cron del sistema. Feu una crida al fitxer cron.php a la carpeta ownCloud cada minut mitjançant el cronjob del sistema."
 
 #: templates/admin.php:41
 msgid "Share API"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-13 02:01+0200\n"
-"PO-Revision-Date: 2012-09-12 13:55+0000\n"
+"POT-Creation-Date: 2012-09-14 02:01+0200\n"
+"PO-Revision-Date: 2012-09-13 10:17+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "Файлы"
 
 #: js/fileactions.js:108 templates/index.php:62
 msgid "Unshare"
-msgstr ""
+msgstr "Скрыть"
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
@@ -70,7 +70,7 @@ msgstr "отмена"
 
 #: js/filelist.js:186
 msgid "suggest name"
-msgstr ""
+msgstr "подобрать название"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
@@ -90,7 +90,7 @@ msgstr "с"
 
 #: js/filelist.js:268
 msgid "unshared"
-msgstr ""
+msgstr "скрытый"
 
 #: js/filelist.js:270
 msgid "deleted"
@@ -98,11 +98,11 @@ msgstr "удалено"
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "Создание ZIP-файла, это может занять некоторое время."
 
 #: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Невозможно загрузить файл,\n так как он имеет нулевой размер или является директорией"
 
 #: js/files.js:208
 msgid "Upload Error"
@@ -110,7 +110,7 @@ msgstr "Ошибка загрузки"
 
 #: js/files.js:236 js/files.js:341 js/files.js:370
 msgid "Pending"
-msgstr ""
+msgstr "Ожидающий решения"
 
 #: js/files.js:355
 msgid "Upload cancelled."
@@ -119,7 +119,7 @@ msgstr "Загрузка отменена"
 #: js/files.js:423
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Процесс загрузки файла. Если покинуть страницу сейчас, загрузка будет отменена."
 
 #: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
@@ -135,19 +135,19 @@ msgstr "Изменен"
 
 #: js/files.js:774
 msgid "folder"
-msgstr ""
+msgstr "папка"
 
 #: js/files.js:776
 msgid "folders"
-msgstr ""
+msgstr "папки"
 
 #: js/files.js:784
 msgid "file"
-msgstr ""
+msgstr "файл"
 
 #: js/files.js:786
 msgid "files"
-msgstr ""
+msgstr "файлы"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -163,19 +163,19 @@ msgstr "Максимально возможный"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Необходимо для множественной загрузки."
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Включение ZIP-загрузки"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 без ограничений"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Максимальный размер входящих ZIP-файлов "
 
 #: templates/admin.php:14
 msgid "Save"
@@ -195,7 +195,7 @@ msgstr "Папка"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr ""
+msgstr "Из url"
 
 #: templates/index.php:21
 msgid "Upload"
@@ -215,7 +215,7 @@ msgstr "Имя"
 
 #: templates/index.php:50
 msgid "Share"
-msgstr ""
+msgstr "Сделать общим"
 
 #: templates/index.php:52
 msgid "Download"
@@ -233,7 +233,7 @@ msgstr "Размер файлов, которые Вы пытаетесь заг
 
 #: templates/index.php:82
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Файлы сканируются, пожалуйста, подождите."
 
 #: templates/index.php:85
 msgid "Current scanning"
