@@ -131,7 +131,13 @@ class OC_API {
 				if(!$user){
 					return false;
 				} else {
-					return OC_SubAdmin::isSubAdmin($user);
+					$subadmin = OC_SubAdmin::isSubAdmin($user);
+					$admin = OC_Group::inGroup($user, 'admin');
+					if($subadmin || $admin){
+						return true;
+					} else {
+						return false;
+					}
 				}
 				break;
 			case OC_API::ADMIN_AUTH:
@@ -236,6 +242,6 @@ class OC_API {
 				$writer->writeElement($k, $v);
 			}
 		}
-	
+	}
 	
 }
