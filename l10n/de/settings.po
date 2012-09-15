@@ -7,6 +7,7 @@
 #   <icewind1991@gmail.com>, 2012.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
+# Jan T <jan-temesinko@web.de>, 2012.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-13 02:01+0200\n"
-"PO-Revision-Date: 2012-09-13 00:01+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-15 02:03+0200\n"
+"PO-Revision-Date: 2012-09-14 10:09+0000\n"
+"Last-Translator: Jan T <jan-temesinko@web.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +47,7 @@ msgstr "Gruppe konnte nicht angelegt werden"
 
 #: ajax/enableapp.php:13
 msgid "Could not enable app. "
-msgstr ""
+msgstr "App konnte nicht aktiviert werden."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -131,13 +132,13 @@ msgstr "Führe eine Aufgabe pro geladener Seite aus."
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php ist bei einem Webcron-Dienst registriert. Rufen Sie die Seite cron.php im owncloud Root eine Minute lang über http auf."
 
 #: templates/admin.php:37
 msgid ""
 "use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Benutzen Sie den System-Crondienst. Rufen Sie die cron.php im owncloud-Ordner über einen System-Cronjob eine Minute lang auf."
 
 #: templates/admin.php:41
 msgid "Share API"
