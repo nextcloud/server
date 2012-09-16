@@ -38,7 +38,7 @@ if(!$_['htaccessworking']) {
 </fieldset>
 
 <fieldset class="personalblock" id="shareAPI">
-	<legend><strong><?php echo $l->t('Share API');?></strong></legend>
+	<legend><strong><?php echo $l->t('Sharing');?></strong></legend>
 	<table class="shareAPI nostyle">
 		<tr>
 			<td id="enable">
@@ -46,15 +46,19 @@ if(!$_['htaccessworking']) {
 				<label for="shareAPIEnabled"><?php echo $l->t('Enable Share API');?></label><br />
 				<em><?php echo $l->t('Allow apps to use the Share API'); ?></em>
 			</td>
+		</tr><tr>
 			<td <?php if ($_['shareAPIEnabled'] == 'no') echo 'style="display:none"';?>>
 				<input type="checkbox" name="shareapi_allow_links" id="allowLinks" value="1" <?php if ($_['allowLinks'] == 'yes') echo 'checked="checked"'; ?> />
 				<label for="allowLinks"><?php echo $l->t('Allow links');?></label><br />
 				<em><?php echo $l->t('Allow users to share items to the public with links'); ?></em>
 			</td>
+		</tr><tr>
 			<td <?php if ($_['shareAPIEnabled'] == 'no') echo 'style="display:none"';?>>
 				<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing" value="1" <?php if ($_['allowResharing'] == 'yes') echo 'checked="checked"'; ?> />
 				<label for="allowResharing"><?php echo $l->t('Allow resharing');?></label><br />
 				<em><?php echo $l->t('Allow users to share items shared with them again'); ?></em>
+			</td>
+		</tr><tr>
 			<td <?php if ($_['shareAPIEnabled'] == 'no') echo 'style="display:none"';?>>
 				<input type="radio" name="shareapi_share_policy" id="sharePolicyGlobal" value="global" <?php if ($_['sharePolicy'] == 'global') echo 'checked="checked"'; ?> />
 				<label for="sharePolicyGlobal"><?php echo $l->t('Allow users to share with anyone'); ?></label><br />
