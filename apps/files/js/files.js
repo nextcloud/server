@@ -556,10 +556,12 @@ $(document).ready(function() {
 					eventSource.listen('progress',function(progress){
 						$('#uploadprogressbar').progressbar('value',progress);
 					});
-					eventSource.listen('success',function(mime){
+					eventSource.listen('success',function(data){
+						var mime=data.mime;
+						var size=data.size;
 						$('#uploadprogressbar').fadeOut();
 						var date=new Date();
-						FileList.addFile(localName,0,date,false,hidden);
+						FileList.addFile(localName,size,date,false,hidden);
 						var tr=$('tr').filterAttr('data-file',localName);
 						tr.data('mime',mime);
 						getMimeIcon(mime,function(path){
