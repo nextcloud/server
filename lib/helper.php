@@ -62,8 +62,11 @@ class OC_Helper {
 			}
 		}
 
-		foreach($args as $k => $v) {
-			$urlLinkTo .= '&'.$k.'='.$v;
+		if (!empty($args)) {
+			$urlLinkTo .= '?';
+			foreach($args as $k => $v) {
+				$urlLinkTo .= '&'.$k.'='.$v;
+			}
 		}
 
 		return $urlLinkTo;
