@@ -263,24 +263,26 @@ class OC_FilesystemView {
 				$path = $this->getRelativePath($absolutePath);
 				$exists = $this->file_exists($path);
 				$run = true;
-				if(!$exists) {
+				if( $this->fakeRoot==OC_Filesystem::getRoot() ){
+					if(!$exists) {
+						OC_Hook::emit(
+							OC_Filesystem::CLASSNAME,
+							OC_Filesystem::signal_create,
+							array(
+								OC_Filesystem::signal_param_path => $path,
+								OC_Filesystem::signal_param_run => &$run
+							)
+						);
+					}
 					OC_Hook::emit(
 						OC_Filesystem::CLASSNAME,
-						OC_Filesystem::signal_create,
+						OC_Filesystem::signal_write,
 						array(
 							OC_Filesystem::signal_param_path => $path,
 							OC_Filesystem::signal_param_run => &$run
 						)
 					);
 				}
-				OC_Hook::emit(
-					OC_Filesystem::CLASSNAME,
-					OC_Filesystem::signal_write,
-					array(
-						OC_Filesystem::signal_param_path => $path,
-						OC_Filesystem::signal_param_run => &$run
-					)
-				);
 				if(!$run) {
 					return false;
 				}
@@ -289,18 +291,20 @@ class OC_FilesystemView {
 					$count=OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
-					if(!$exists) {
+					if( $this->fakeRoot==OC_Filesystem::getRoot() ){
+						if(!$exists) {
+							OC_Hook::emit(
+								OC_Filesystem::CLASSNAME,
+								OC_Filesystem::signal_post_create,
+								array( OC_Filesystem::signal_param_path => $path)
+							);
+						}
 						OC_Hook::emit(
 							OC_Filesystem::CLASSNAME,
-							OC_Filesystem::signal_post_create,
+							OC_Filesystem::signal_post_write,
 							array( OC_Filesystem::signal_param_path => $path)
 						);
 					}
-					OC_Hook::emit(
-						OC_Filesystem::CLASSNAME,
-						OC_Filesystem::signal_post_write,
-						array( OC_Filesystem::signal_param_path => $path)
-					);
 					OC_FileProxy::runPostProxies('file_put_contents', $absolutePath, $count);
 					return $count > 0;
 				}else{
@@ -330,14 +334,16 @@ class OC_FilesystemView {
 				return false;
 			}
 			$run=true;
-			OC_Hook::emit(
-				OC_Filesystem::CLASSNAME, OC_Filesystem::signal_rename,
-					array(
-						OC_Filesystem::signal_param_oldpath => $path1,
-						OC_Filesystem::signal_param_newpath => $path2,
-						OC_Filesystem::signal_param_run => &$run
-					)
-			);
+			if( $this->fakeRoot==OC_Filesystem::getRoot() ){
+				OC_Hook::emit(
+					OC_Filesystem::CLASSNAME, OC_Filesystem::signal_rename,
+						array(
+							OC_Filesystem::signal_param_oldpath => $path1,
+							OC_Filesystem::signal_param_newpath => $path2,
+							OC_Filesystem::signal_param_run => &$run
+						)
+				);
+			}
 			if($run) {
 				$mp1 = $this->getMountPoint($path1.$postFix1);
 				$mp2 = $this->getMountPoint($path2.$postFix2);
@@ -353,14 +359,16 @@ class OC_FilesystemView {
 					$storage1->unlink($this->getInternalPath($path1.$postFix1));
 					$result = $count>0;
 				}
-				OC_Hook::emit(
-					OC_Filesystem::CLASSNAME,
-					OC_Filesystem::signal_post_rename,
-					array(
-						OC_Filesystem::signal_param_oldpath => $path1,
-						OC_Filesystem::signal_param_newpath => $path2
-					)
-				);
+				if( $this->fakeRoot==OC_Filesystem::getRoot() ){
+					OC_Hook::emit(
+						OC_Filesystem::CLASSNAME,
+						OC_Filesystem::signal_post_rename,
+						array(
+							OC_Filesystem::signal_param_oldpath => $path1,
+							OC_Filesystem::signal_param_newpath => $path2
+						)
+					);
+				}
 				return $result;
 			}
 		}
@@ -378,35 +386,37 @@ class OC_FilesystemView {
 				return false;
 			}
 			$run=true;
-			OC_Hook::emit(
-				OC_Filesystem::CLASSNAME,
-				OC_Filesystem::signal_copy,
-				array(
-					OC_Filesystem::signal_param_oldpath => $path1,
-					OC_Filesystem::signal_param_newpath=>$path2,
-					OC_Filesystem::signal_param_run => &$run
-				)
-			);
-			$exists=$this->file_exists($path2);
-			if($run and !$exists) {
+			if( $this->fakeRoot==OC_Filesystem::getRoot() ){
 				OC_Hook::emit(
 					OC_Filesystem::CLASSNAME,
-					OC_Filesystem::signal_create,
+					OC_Filesystem::signal_copy,
 					array(
-						OC_Filesystem::signal_param_path => $path2,
+						OC_Filesystem::signal_param_oldpath => $path1,
+						OC_Filesystem::signal_param_newpath=>$path2,
 						OC_Filesystem::signal_param_run => &$run
 					)
 				);
-			}
-			if($run) {
-				OC_Hook::emit(
-					OC_Filesystem::CLASSNAME,
-					OC_Filesystem::signal_write,
-					array(
-						OC_Filesystem::signal_param_path => $path2,
-						OC_Filesystem::signal_param_run => &$run
-					)
-				);
+				$exists=$this->file_exists($path2);
+				if($run and !$exists) {
+					OC_Hook::emit(
+						OC_Filesystem::CLASSNAME,
+						OC_Filesystem::signal_create,
+						array(
+							OC_Filesystem::signal_param_path => $path2,
+							OC_Filesystem::signal_param_run => &$run
+						)
+					);
+				}
+				if($run) {
+					OC_Hook::emit(
+						OC_Filesystem::CLASSNAME,
+						OC_Filesystem::signal_write,
+						array(
+							OC_Filesystem::signal_param_path => $path2,
+							OC_Filesystem::signal_param_run => &$run
+						)
+					);
+				}
 			}
 			if($run) {
 				$mp1=$this->getMountPoint($path1.$postFix1);
@@ -420,26 +430,28 @@ class OC_FilesystemView {
 					$target = $this->fopen($path2.$postFix2, 'w');
 					$result = OC_Helper::streamCopy($source, $target);
 				}
-				OC_Hook::emit(
-					OC_Filesystem::CLASSNAME,
-					OC_Filesystem::signal_post_copy,
-					array(
-						OC_Filesystem::signal_param_oldpath => $path1,
-						OC_Filesystem::signal_param_newpath=>$path2
-					)
-				);
-				if(!$exists) {
+				if( $this->fakeRoot==OC_Filesystem::getRoot() ){
 					OC_Hook::emit(
 						OC_Filesystem::CLASSNAME,
-						OC_Filesystem::signal_post_create,
-						array(OC_Filesystem::signal_param_path => $path2)
+						OC_Filesystem::signal_post_copy,
+						array(
+							OC_Filesystem::signal_param_oldpath => $path1,
+							OC_Filesystem::signal_param_newpath=>$path2
+						)
+					);
+					if(!$exists) {
+						OC_Hook::emit(
+							OC_Filesystem::CLASSNAME,
+							OC_Filesystem::signal_post_create,
+							array(OC_Filesystem::signal_param_path => $path2)
+						);
+					}
+					OC_Hook::emit(
+						OC_Filesystem::CLASSNAME,
+						OC_Filesystem::signal_post_write,
+						array( OC_Filesystem::signal_param_path => $path2)
 					);
 				}
-				OC_Hook::emit(
-					OC_Filesystem::CLASSNAME,
-					OC_Filesystem::signal_post_write,
-					array( OC_Filesystem::signal_param_path => $path2)
-				);
 				return $result;
 			}
 		}
