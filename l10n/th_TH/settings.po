@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-13 02:01+0200\n"
-"PO-Revision-Date: 2012-09-13 00:01+0000\n"
+"POT-Creation-Date: 2012-09-17 02:03+0200\n"
+"PO-Revision-Date: 2012-09-17 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr "ไม่สามารถเพิ่มกลุ่มได้"
 
 #: ajax/enableapp.php:13
 msgid "Could not enable app. "
-msgstr ""
+msgstr "ไม่สามารถเปิดใช้งานแอปได้"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -116,67 +116,67 @@ msgstr "ไดเร็กทอรี่ข้อมูลและไฟล์
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
-msgstr "ประมวลผลหนึ่งงานเมื่อโหลดหน้าเว็บแต่ละครั้ง"
+#: templates/admin.php:37
+msgid "Execute one task with each page loaded"
+msgstr ""
 
-#: templates/admin.php:35
+#: templates/admin.php:43
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php ได้รับการลงทะเบียนแล้วกับเว็บผู้ให้บริการ webcron เรียกหน้าเว็บ cron.php ที่ตำแหน่ง root ของ owncloud หลังจากนี้สักครู่ผ่านทาง http"
 
-#: templates/admin.php:37
+#: templates/admin.php:49
 msgid ""
-"use systems cron service. Call the cron.php file in the owncloud folder via "
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
 msgstr ""
 
-#: templates/admin.php:41
-msgid "Share API"
-msgstr "API สำหรับคุณสมบัติแชร์ข้อมูล"
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr ""
 
-#: templates/admin.php:46
+#: templates/admin.php:61
 msgid "Enable Share API"
 msgstr "เปิดใช้งาน API สำหรับคุณสมบัติแชร์ข้อมูล"
 
-#: templates/admin.php:47
+#: templates/admin.php:62
 msgid "Allow apps to use the Share API"
 msgstr "อนุญาตให้แอปฯสามารถใช้ API สำหรับแชร์ข้อมูลได้"
 
-#: templates/admin.php:51
+#: templates/admin.php:67
 msgid "Allow links"
 msgstr "อนุญาตให้ใช้งานลิงก์ได้"
 
-#: templates/admin.php:52
+#: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
 msgstr "อนุญาตให้ผู้ใช้งานสามารถแชร์ข้อมูลรายการต่างๆไปให้สาธารณะชนเป็นลิงก์ได้"
 
-#: templates/admin.php:56
+#: templates/admin.php:73
 msgid "Allow resharing"
 msgstr "อนุญาตให้แชร์ข้อมูลซ้ำใหม่ได้"
 
-#: templates/admin.php:57
+#: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
 msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลรายการต่างๆที่ถูกแชร์มาให้ตัวผู้ใช้งานได้เท่านั้น"
 
-#: templates/admin.php:60
+#: templates/admin.php:79
 msgid "Allow users to share with anyone"
 msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลถึงใครก็ได้"
 
-#: templates/admin.php:62
+#: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
 msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลได้เฉพาะกับผู้ใช้งานที่อยู่ในกลุ่มเดียวกันเท่านั้น"
 
-#: templates/admin.php:69
+#: templates/admin.php:88
 msgid "Log"
 msgstr "บันทึกการเปลี่ยนแปลง"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
 msgstr "เพิ่มเติม"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

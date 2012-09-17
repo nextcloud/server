@@ -13,7 +13,6 @@
 "__language_name__" => "__language_name__",
 "Security Warning" => "Sikkerhetsadvarsel",
 "Cron" => "Cron",
-"execute one task with each page loaded" => "utfør en oppgave med hver side som blir lastet",
 "Log" => "Logg",
 "More" => "Mer",
 "Add your App" => "Legg til din App",

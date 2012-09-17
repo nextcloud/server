@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-13 02:01+0200\n"
-"PO-Revision-Date: 2012-09-13 00:01+0000\n"
+"POT-Creation-Date: 2012-09-17 02:03+0200\n"
+"PO-Revision-Date: 2012-09-17 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgstr "Niet in staat om groep toe te voegen"
 
 #: ajax/enableapp.php:13
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Kan de app. niet activeren"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -121,67 +121,67 @@ msgstr "Uw data folder en uw bestanden zijn hoogst waarschijnlijk vanaf het inte
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
-msgstr "Voer 1 taak uit bij elke geladen pagina"
+#: templates/admin.php:37
+msgid "Execute one task with each page loaded"
+msgstr ""
 
-#: templates/admin.php:35
+#: templates/admin.php:43
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php is bij een webcron dienst geregistreerd.  Roep de cron.php pagina in de owncloud root via http één maal per minuut op."
 
-#: templates/admin.php:37
+#: templates/admin.php:49
 msgid ""
-"use systems cron service. Call the cron.php file in the owncloud folder via "
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
 msgstr ""
 
-#: templates/admin.php:41
-msgid "Share API"
-msgstr "Deel API"
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr ""
 
-#: templates/admin.php:46
+#: templates/admin.php:61
 msgid "Enable Share API"
 msgstr "Zet de Deel API aan"
 
-#: templates/admin.php:47
+#: templates/admin.php:62
 msgid "Allow apps to use the Share API"
 msgstr "Sta apps toe om de Deel API te gebruiken"
 
-#: templates/admin.php:51
+#: templates/admin.php:67
 msgid "Allow links"
 msgstr "Sta links toe"
 
-#: templates/admin.php:52
+#: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
 msgstr "Sta gebruikers toe om items via links publiekelijk te maken"
 
-#: templates/admin.php:56
+#: templates/admin.php:73
 msgid "Allow resharing"
 msgstr "Sta verder delen toe"
 
-#: templates/admin.php:57
+#: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
 msgstr "Sta gebruikers toe om items nogmaals te delen"
 
-#: templates/admin.php:60
+#: templates/admin.php:79
 msgid "Allow users to share with anyone"
 msgstr "Sta gebruikers toe om met iedereen te delen"
 
-#: templates/admin.php:62
+#: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
 msgstr "Sta gebruikers toe om alleen met gebruikers in hun groepen te delen"
 
-#: templates/admin.php:69
+#: templates/admin.php:88
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
 msgstr "Meer"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

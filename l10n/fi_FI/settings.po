@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-13 02:01+0200\n"
-"PO-Revision-Date: 2012-09-13 00:01+0000\n"
+"POT-Creation-Date: 2012-09-17 02:03+0200\n"
+"PO-Revision-Date: 2012-09-17 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr "Ryhmän lisäys epäonnistui"
 
 #: ajax/enableapp.php:13
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Sovelluksen käyttöönotto epäonnistui."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -116,67 +116,67 @@ msgstr "Data-kansio ja tiedostot ovat ehkä saavutettavissa Internetistä. .htac
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
-msgstr "suorita yksi tehtävä jokaisella ladatulla sivulla"
+#: templates/admin.php:37
+msgid "Execute one task with each page loaded"
+msgstr ""
 
-#: templates/admin.php:35
+#: templates/admin.php:43
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
 msgstr ""
 
-#: templates/admin.php:37
+#: templates/admin.php:49
 msgid ""
-"use systems cron service. Call the cron.php file in the owncloud folder via "
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
 msgstr ""
 
-#: templates/admin.php:41
-msgid "Share API"
-msgstr "Jaon ohelmointirajapinta (Share API)"
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr ""
 
-#: templates/admin.php:46
+#: templates/admin.php:61
 msgid "Enable Share API"
 msgstr "Ota käyttöön jaon ohjelmoitirajapinta (Share API)"
 
-#: templates/admin.php:47
+#: templates/admin.php:62
 msgid "Allow apps to use the Share API"
 msgstr "Salli sovellusten käyttää jaon ohjelmointirajapintaa (Share API)"
 
-#: templates/admin.php:51
+#: templates/admin.php:67
 msgid "Allow links"
 msgstr "Salli linkit"
 
-#: templates/admin.php:52
+#: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
 msgstr "Salli käyttäjien jakaa kohteita julkisesti linkkejä käyttäen"
 
-#: templates/admin.php:56
+#: templates/admin.php:73
 msgid "Allow resharing"
 msgstr "Salli uudelleenjako"
 
-#: templates/admin.php:57
+#: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
 msgstr "Salli käyttäjien jakaa heille itselleen jaettuja tietoja edelleen"
 
-#: templates/admin.php:60
+#: templates/admin.php:79
 msgid "Allow users to share with anyone"
 msgstr "Salli käyttäjien jakaa kohteita kenen tahansa kanssa"
 
-#: templates/admin.php:62
+#: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
 msgstr "Salli käyttäjien jakaa kohteita vain omien ryhmien jäsenten kesken"
 
-#: templates/admin.php:69
+#: templates/admin.php:88
 msgid "Log"
 msgstr "Loki"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
 msgstr "Lisää"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

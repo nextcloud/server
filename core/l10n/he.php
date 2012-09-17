@@ -50,6 +50,7 @@
 "Database user" => "שם משתמש במסד הנתונים",
 "Database password" => "ססמת מסד הנתונים",
 "Database name" => "שם מסד הנתונים",
+"Database tablespace" => "מרחב הכתובות של מסד הנתונים",
 "Database host" => "שרת בסיס נתונים",
 "Finish setup" => "סיום התקנה",
 "web services under your control" => "שירותי רשת בשליטתך",

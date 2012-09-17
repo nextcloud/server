@@ -11,7 +11,6 @@
 "Saving..." => "Gravando...",
 "__language_name__" => "Português",
 "Security Warning" => "Aviso de Segurança",
-"execute one task with each page loaded" => "executar uma tarefa com cada página em aberto",
 "Log" => "Log",
 "More" => "Mais",
 "Add your App" => "Adicione seu Aplicativo",

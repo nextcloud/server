@@ -19,8 +19,6 @@
 "__language_name__" => "Eesti",
 "Security Warning" => "Turvahoiatus",
 "Cron" => "Ajastatud töö",
-"execute one task with each page loaded" => "käivita iga laetud lehe juures üks ülesanne",
-"Share API" => "Jagamise API",
 "Enable Share API" => "Luba jagamise API",
 "Allow apps to use the Share API" => "Luba rakendustel kasutada jagamise API-t",
 "Allow links" => "Luba linke",
