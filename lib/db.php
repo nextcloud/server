@@ -232,6 +232,7 @@ class OC_DB {
 						$dsn['database'] = $name;
 					} else { // use dbname for hostspec
 						$dsn['hostspec'] = $name;
+						$dsn['database'] = $user;
 					}
 					break;
 			}
