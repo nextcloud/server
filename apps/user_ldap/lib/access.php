@@ -385,7 +385,7 @@ abstract class Access {
 		$sqlAdjustment = '';
 		$dbtype = \OCP\Config::getSystemValue('dbtype');
 		if($dbtype == 'mysql') {
-			$sqlAdjustment = 'FROM `dual`';
+			$sqlAdjustment = 'FROM DUAL';
 		}
 
 		$insert = \OCP\DB::prepare('
