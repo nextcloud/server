@@ -260,7 +260,6 @@ var FileList={
 				FileList.prepareDeletion(files);
 			}
 			FileList.lastAction();
-			return;
 		}
 		FileList.prepareDeletion(files);
 		// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
