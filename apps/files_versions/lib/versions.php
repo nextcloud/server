@@ -77,6 +77,7 @@ class Storage {
 			$versionsFolderName=\OCP\Config::getSystemValue('datadirectory') .  $this->view->getAbsolutePath('');
 
 			//check if source file already exist as version to avoid recursions.
+			// todo does this check work?
 			if ($users_view->file_exists($filename)) {
 				return false;
 			}
@@ -94,6 +95,11 @@ class Storage {
 				if(strtolower($ext)==$bl) {
 					return false;
 				}
+			}
+
+			// we should have a source file to work with
+			if (!$files_view->file_exists($filename)) {
+				return false;
 			}
 
 			// check filesize
