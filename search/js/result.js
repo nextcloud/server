@@ -45,7 +45,7 @@ OC.search.showResults=function(results){
 					var row=$('#searchresults tr.template').clone();
 					row.removeClass('template');
 					row.addClass('result');
-					if (index == 0){
+					if (i == 0){
 						row.children('td.type').text(name);
 					}
 					row.find('td.result a').attr('href',type[i].link);
