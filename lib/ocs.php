@@ -82,7 +82,6 @@ class OC_OCS {
 			echo('internal server error: method not supported');
 			exit();
 		}
-<<<<<<< HEAD
 		$format = self::readData($method, 'format', 'text', '');
 		$txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 		$txt.=OC_OCS::getDebugOutput();
