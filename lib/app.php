@@ -640,7 +640,7 @@ class OC_App{
 			}
 		}else{
 			OC_Log::write('core', 'Can\'t get app storage, app '.$appid.' not enabled', OC_Log::ERROR);
-			false;
+			return false;
 		}
 	}
 }
