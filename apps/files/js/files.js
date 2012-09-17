@@ -253,10 +253,10 @@ $(document).ready(function() {
 									var img = OC.imagePath('core', 'loading.gif');
 									var tr=$('tr').filterAttr('data-file',dirName);
 									tr.find('td.filename').attr('style','background-image:url('+img+')');
-									uploadtext.text('1 file uploading');
+									uploadtext.text(t('files', '1 file uploading'));
 									uploadtext.show();
 								} else {
-									uploadtext.text(currentUploads + ' files uploading')
+									uploadtext.text(currentUploads + t('files', ' files uploading'));
 								}
 							}
 						}
@@ -301,7 +301,7 @@ $(document).ready(function() {
 												uploadtext.text('');
 												uploadtext.hide();
 											} else {
-												uploadtext.text(currentUploads + ' files uploading')
+												uploadtext.text(currentUploads + t('files', ' files uploading'));
 											}
 										})
 								.error(function(jqXHR, textStatus, errorThrown) {
@@ -316,7 +316,7 @@ $(document).ready(function() {
 											uploadtext.text('');
 											uploadtext.hide();
 										} else {
-											uploadtext.text(currentUploads + ' files uploading')
+											uploadtext.text(currentUploads + t('files', ' files uploading'));
 										}
 										$('#notification').hide();
 										$('#notification').text(t('files', 'Upload cancelled.'));
@@ -663,7 +663,7 @@ function scanFiles(force,dir){
 	var scannerEventSource=new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force,dir:dir});
 	scanFiles.cancel=scannerEventSource.close.bind(scannerEventSource);
 	scannerEventSource.listen('scanning',function(data){
-		$('#scan-count').text(data.count+' files scanned');
+		$('#scan-count').text(data.count+t('files',' files scanned'));
 		$('#scan-current').text(data.file+'/');
 	});
 	scannerEventSource.listen('success',function(success){
@@ -671,7 +671,7 @@ function scanFiles(force,dir){
 		if(success){
 			window.location.reload();
 		}else{
-			alert('error while scanning');
+			alert(t('files', 'error while scanning'));
 		}
 	});
 }
