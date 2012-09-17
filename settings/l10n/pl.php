@@ -20,8 +20,6 @@
 "Security Warning" => "Ostrzeżenia bezpieczeństwa",
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Twój katalog danych i pliki są prawdopodobnie dostępne z Internetu. Plik .htaccess, który dostarcza ownCloud nie działa. Sugerujemy, aby skonfigurować serwer WWW w taki sposób, aby katalog danych nie był dostępny lub przenieść katalog danych poza główny katalog serwera WWW.",
 "Cron" => "Cron",
-"execute one task with each page loaded" => "wykonanie jednego zadania z każdej  załadowanej strony",
-"Share API" => "Udostępnij API",
 "Enable Share API" => "Włącz udostępniane API",
 "Allow apps to use the Share API" => "Zezwalaj aplikacjom na używanie API",
 "Allow links" => "Zezwalaj na łącza",

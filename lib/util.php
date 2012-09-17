@@ -211,13 +211,13 @@ class OC_Util {
 		$permissionsHint="Permissions can usually be fixed by giving the webserver write access to the ownCloud directory";
 
 		// Check if config folder is writable.
-		if(!is_writable(OC::$SERVERROOT."/config/")) {
+		if(!is_writable(OC::$SERVERROOT."/config/") or !is_readable(OC::$SERVERROOT."/config/")) {
 			$errors[]=array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
 		}
 
 		// Check if there is a writable install folder.
 		if(OC_Config::getValue('appstoreenabled', true)) {
-			if( OC_App::getInstallPath() === null  || !is_writable(OC_App::getInstallPath())) {
+			if( OC_App::getInstallPath() === null  || !is_writable(OC_App::getInstallPath()) || !is_readable(OC_App::getInstallPath()) ) {
 				$errors[]=array('error'=>"Can't write into apps directory",'hint'=>"You can usually fix this by giving the webserver user write access to the apps directory
 				in owncloud or disabling the appstore in the config file.");
 			}
@@ -257,7 +257,7 @@ class OC_Util {
 			if(!$success) {
 				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
 			}
-		} else if(!is_writable($CONFIG_DATADIRECTORY)) {
+		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
 		}
 

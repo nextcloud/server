@@ -13,8 +13,6 @@
 "__language_name__" => "Dansk",
 "Security Warning" => "Sikkerhedsadvarsel",
 "Cron" => "Cron",
-"execute one task with each page loaded" => "udfør en opgave for hver indlæst side",
-"Share API" => "Del API",
 "Enable Share API" => "Aktiver dele API",
 "Allow apps to use the Share API" => "Tillad apps a bruge dele APIen",
 "Allow links" => "Tillad links",

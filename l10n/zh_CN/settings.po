@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-16 02:02+0200\n"
-"PO-Revision-Date: 2012-09-15 15:20+0000\n"
-"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
+"POT-Creation-Date: 2012-09-17 02:03+0200\n"
+"PO-Revision-Date: 2012-09-17 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -117,67 +117,67 @@ msgstr "您的数据文件夹和文件可由互联网访问。OwnCloud提供的.
 msgid "Cron"
 msgstr "计划任务"
 
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
-msgstr "为每个装入的页面执行任务"
+#: templates/admin.php:37
+msgid "Execute one task with each page loaded"
+msgstr ""
 
-#: templates/admin.php:35
+#: templates/admin.php:43
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
 msgstr "cron.php已被注册到网络定时任务服务。通过http每分钟调用owncloud根目录的cron.php网页。"
 
-#: templates/admin.php:37
+#: templates/admin.php:49
 msgid ""
-"use systems cron service. Call the cron.php file in the owncloud folder via "
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr "使用系统定时任务服务。通过系统定时任务每分钟调用owncloud文件夹中的cron.php文件"
+msgstr ""
 
-#: templates/admin.php:41
-msgid "Share API"
-msgstr "共享API"
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr ""
 
-#: templates/admin.php:46
+#: templates/admin.php:61
 msgid "Enable Share API"
 msgstr "开启共享API"
 
-#: templates/admin.php:47
+#: templates/admin.php:62
 msgid "Allow apps to use the Share API"
 msgstr "允许 应用 使用共享API"
 
-#: templates/admin.php:51
+#: templates/admin.php:67
 msgid "Allow links"
 msgstr "允许连接"
 
-#: templates/admin.php:52
+#: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
 msgstr "允许用户使用连接向公众共享"
 
-#: templates/admin.php:56
+#: templates/admin.php:73
 msgid "Allow resharing"
 msgstr "允许再次共享"
 
-#: templates/admin.php:57
+#: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
 msgstr "允许用户将共享给他们的项目再次共享"
 
-#: templates/admin.php:60
+#: templates/admin.php:79
 msgid "Allow users to share with anyone"
 msgstr "允许用户向任何人共享"
 
-#: templates/admin.php:62
+#: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
 msgstr "允许用户只向同组用户共享"
 
-#: templates/admin.php:69
+#: templates/admin.php:88
 msgid "Log"
 msgstr "日志"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

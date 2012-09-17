@@ -29,16 +29,31 @@ if(!$_['htaccessworking']) {
 
 <fieldset class="personalblock" id="backgroundjobs">
 	<legend><strong><?php echo $l->t('Cron');?></strong></legend>
-	<input type="radio" name="mode" value="ajax" id="backgroundjobs_ajax" <?php if( $_['backgroundjobs_mode'] == "ajax" ) { echo 'checked="checked"'; } ?>>
-	<label for="backgroundjobs_ajax" title="<?php echo $l->t("execute one task with each page loaded"); ?>">AJAX</label><br />
-	<input type="radio" name="mode" value="webcron" id="backgroundjobs_webcron" <?php if( $_['backgroundjobs_mode'] == "webcron" ) { echo 'checked="checked"'; } ?>>
-	<label for="backgroundjobs_webcron" title="<?php echo $l->t("cron.php is registered at a webcron service. Call the cron.php page in the owncloud root once a minute over http."); ?>">Webcron</label><br />
-	<input type="radio" name="mode" value="cron" id="backgroundjobs_cron" <?php if( $_['backgroundjobs_mode'] == "cron" ) { echo 'checked="checked"'; } ?>>
-	<label for="backgroundjobs_cron" title="<?php echo $l->t("use systems cron service. Call the cron.php file in the owncloud folder via a system cronjob once a minute."); ?>">Cron</label><br />
+	<table class="nostyle">
+		<tr>
+			<td>
+				<input type="radio" name="mode" value="ajax" id="backgroundjobs_ajax" <?php if( $_['backgroundjobs_mode'] == "ajax" ) { echo 'checked="checked"'; } ?>>
+				<label for="backgroundjobs_ajax">AJAX</label><br />
+				<em><?php echo $l->t("Execute one task with each page loaded"); ?></em>
+			</td>
+		</tr><tr>
+			<td>
+				<input type="radio" name="mode" value="webcron" id="backgroundjobs_webcron" <?php if( $_['backgroundjobs_mode'] == "webcron" ) { echo 'checked="checked"'; } ?>>
+				<label for="backgroundjobs_webcron">Webcron</label><br />
+				<em><?php echo $l->t("cron.php is registered at a webcron service. Call the cron.php page in the owncloud root once a minute over http."); ?></em>
+			</td>
+		</tr><tr>
+			<td>
+				<input type="radio" name="mode" value="cron" id="backgroundjobs_cron" <?php if( $_['backgroundjobs_mode'] == "cron" ) { echo 'checked="checked"'; } ?>>
+				<label for="backgroundjobs_cron">Cron</label><br />
+				<em><?php echo $l->t("Use systems cron service. Call the cron.php file in the owncloud folder via a system cronjob once a minute."); ?></em>
+			</td>
+		</tr>
+	</table>
 </fieldset>
 
 <fieldset class="personalblock" id="shareAPI">
-	<legend><strong><?php echo $l->t('Share API');?></strong></legend>
+	<legend><strong><?php echo $l->t('Sharing');?></strong></legend>
 	<table class="shareAPI nostyle">
 		<tr>
 			<td id="enable">
@@ -46,15 +61,19 @@ if(!$_['htaccessworking']) {
 				<label for="shareAPIEnabled"><?php echo $l->t('Enable Share API');?></label><br />
 				<em><?php echo $l->t('Allow apps to use the Share API'); ?></em>
 			</td>
+		</tr><tr>
 			<td <?php if ($_['shareAPIEnabled'] == 'no') echo 'style="display:none"';?>>
 				<input type="checkbox" name="shareapi_allow_links" id="allowLinks" value="1" <?php if ($_['allowLinks'] == 'yes') echo 'checked="checked"'; ?> />
 				<label for="allowLinks"><?php echo $l->t('Allow links');?></label><br />
 				<em><?php echo $l->t('Allow users to share items to the public with links'); ?></em>
 			</td>
+		</tr><tr>
 			<td <?php if ($_['shareAPIEnabled'] == 'no') echo 'style="display:none"';?>>
 				<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing" value="1" <?php if ($_['allowResharing'] == 'yes') echo 'checked="checked"'; ?> />
 				<label for="allowResharing"><?php echo $l->t('Allow resharing');?></label><br />
 				<em><?php echo $l->t('Allow users to share items shared with them again'); ?></em>
+			</td>
+		</tr><tr>
 			<td <?php if ($_['shareAPIEnabled'] == 'no') echo 'style="display:none"';?>>
 				<input type="radio" name="shareapi_share_policy" id="sharePolicyGlobal" value="global" <?php if ($_['sharePolicy'] == 'global') echo 'checked="checked"'; ?> />
 				<label for="sharePolicyGlobal"><?php echo $l->t('Allow users to share with anyone'); ?></label><br />
