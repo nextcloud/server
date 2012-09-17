@@ -13,7 +13,6 @@
 "__language_name__" => "Esperanto",
 "Security Warning" => "Sekureca averto",
 "Cron" => "Cron",
-"execute one task with each page loaded" => "lanĉi unu taskon po ĉiu paĝo ŝargita",
 "Log" => "Protokolo",
 "More" => "Pli",
 "Add your App" => "Aldonu vian aplikaĵon",

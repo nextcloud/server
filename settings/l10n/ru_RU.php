@@ -19,7 +19,6 @@
 "__language_name__" => "__язык_имя__",
 "Security Warning" => "Предупреждение системы безопасности",
 "Cron" => "Cron",
-"Share API" => "Сделать общим API",
 "Enable Share API" => "Включить разделяемые API",
 "Allow links" => "Предоставить ссылки",
 "Log" => "Вход",

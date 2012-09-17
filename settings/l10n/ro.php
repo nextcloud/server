@@ -13,7 +13,6 @@
 "__language_name__" => "_language_name_",
 "Security Warning" => "Avertisment de securitate",
 "Cron" => "Cron",
-"execute one task with each page loaded" => "executâ o sarcină cu fiecare pagină încărcată",
 "Log" => "Jurnal de activitate",
 "More" => "Mai mult",
 "Add your App" => "Adaugă aplicația ta",

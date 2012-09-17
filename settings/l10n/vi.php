@@ -20,8 +20,6 @@
 "Security Warning" => "Cảnh bảo bảo mật",
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Thư mục dữ liệu và những tập tin của bạn có thể dễ dàng bị truy cập từ internet. Tập tin .htaccess của ownCloud cung cấp không hoạt động. Chúng tôi đề nghị bạn nên cấu hình lại máy chủ webserver của bạn để thư mục dữ liệu không  còn bị truy cập hoặc bạn di chuyển thư mục dữ liệu ra bên ngoài thư mục gốc của máy chủ.",
 "Cron" => "Cron",
-"execute one task with each page loaded" => "Thực thi một nhiệm vụ với mỗi trang được nạp",
-"Share API" => "Chia sẻ API",
 "Enable Share API" => "Bật chia sẻ API",
 "Allow apps to use the Share API" => "Cho phép các ứng dụng sử dụng chia sẻ API",
 "Allow links" => "Cho phép liên kết",

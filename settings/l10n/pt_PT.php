@@ -13,7 +13,6 @@
 "__language_name__" => "__language_name__",
 "Security Warning" => "Aviso de Segurança",
 "Cron" => "Cron",
-"execute one task with each page loaded" => "Executar uma tarefa com cada página carregada",
 "Log" => "Log",
 "More" => "Mais",
 "Add your App" => "Adicione a sua aplicação",

@@ -13,7 +13,6 @@
 "__language_name__" => "한국어",
 "Security Warning" => "보안 경고",
 "Cron" => "크론",
-"execute one task with each page loaded" => "각 페이지가 로드 된 하나의 작업을 실행",
 "Log" => "로그",
 "More" => "더",
 "Add your App" => "앱 추가",

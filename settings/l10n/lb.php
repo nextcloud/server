@@ -13,7 +13,6 @@
 "__language_name__" => "__language_name__",
 "Security Warning" => "Sécherheets Warnung",
 "Cron" => "Cron",
-"Share API" => "Share API",
 "Enable Share API" => "Share API aschalten",
 "Allow apps to use the Share API" => "Erlab Apps d'Share API ze benotzen",
 "Allow links" => "Links erlaben",
