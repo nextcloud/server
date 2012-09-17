@@ -513,6 +513,55 @@ class OC_DB {
 	}
 
 	/**
+	 * @brief Insert a row if a matching row doesn't exists.
+	 * @returns true/false
+	 *
+	 */
+	public static function insertIfNotExist($table, $input) {
+		self::connect();
+		$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
+		$table = str_replace( '*PREFIX*', $prefix, $table );
+
+		if(is_null(self::$type)) {
+			self::$type=OC_Config::getValue( "dbtype", "sqlite" );
+		}
+		$type = self::$type;
+
+		$query = '';
+		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
+		if( $type == 'sqlite' || $type == 'sqlite3' ) {
+			$query = 'REPLACE OR INSERT INTO "' . $table . '" ("' 
+				. implode('","', array_keys($input)) . '") VALUES("' 
+				. implode('","', array_values($input)) . '")';
+		} elseif( $type == 'pgsql' || $type == 'oci' || $type == 'mysql') {
+			$query = 'INSERT INTO `' .$table . '` (' 
+				. implode(',', array_keys($input)) . ') SELECT \'' 
+				. implode('\',\'', array_values($input)) . '\' FROM ' . $table . ' WHERE ';
+				
+			foreach($input as $key => $value) {
+				$query .= $key . " = '" . $value . '\' AND ';
+			}
+			$query = substr($query, 0, strlen($query) - 5);
+			$query .= ' HAVING COUNT(*) = 0';
+		}
+		// TODO: oci should be use " (quote) instead of ` (backtick).
+		//OC_Log::write('core', __METHOD__ . ', type: ' . $type . ', query: ' . $query, OC_Log::DEBUG);
+
+		try {
+			$result=self::$connection->prepare($query);
+		} catch(PDOException $e) {
+			$entry = 'DB Error: "'.$e->getMessage().'"<br />';
+			$entry .= 'Offending command was: '.$query.'<br />';
+			OC_Log::write('core', $entry,OC_Log::FATAL);
+			error_log('DB error: '.$entry);
+			die( $entry );
+		}
+
+		$result = new PDOStatementWrapper($result);
+		$result->execute();
+	}
+	
+	/**
 	 * @brief does minor chages to query
 	 * @param $query Query string
 	 * @returns corrected query string
