@@ -588,6 +588,10 @@ class OC_LDAP {
 			return $name;
 		}
 
+		// Translitaration
+		//latin characters to ASCII
+		$name = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
+
 		//REPLACEMENTS
 		$name = str_replace(' ', '_', $name);
 
