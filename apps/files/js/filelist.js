@@ -157,7 +157,7 @@ var FileList={
 			tr.attr('data-file', newname);
 			var path = td.children('a.name').attr('href');
 			td.children('a.name').attr('href', path.replace(encodeURIComponent(name), encodeURIComponent(newname)));
-			if (newname.indexOf('.') > 0) {
+			if (newname.indexOf('.') > 0 && tr.data('type') != 'dir') {
 				var basename=newname.substr(0,newname.lastIndexOf('.'));
 			} else {
 				var basename=newname;
@@ -166,7 +166,7 @@ var FileList={
 			var span=$('<span class="nametext"></span>');
 			span.text(basename);
 			td.children('a.name').append(span);
-			if (newname.indexOf('.') > 0) {
+			if (newname.indexOf('.') > 0 && tr.data('type') != 'dir') {
 				span.append($('<span class="extension">'+newname.substr(newname.lastIndexOf('.'))+'</span>'));
 			}
 			tr.data('renaming',false);
