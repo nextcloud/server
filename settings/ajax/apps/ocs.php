@@ -11,7 +11,7 @@ require_once '../../../lib/base.php';
 
 OC_JSON::checkAdminUser();
 
-$l = OC_L10N::get('core');
+$l = OC_L10N::get('settings');
 
 if(OC_Config::getValue('appstoreenabled', true)==false) {
 	OCP\JSON::success(array('type' => 'external', 'data' => array()));
@@ -63,4 +63,3 @@ if(is_array($catagoryNames)) {
 }
 
 OCP\JSON::success(array('type' => 'external', 'data' => $apps));
-
