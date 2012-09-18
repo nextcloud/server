@@ -53,7 +53,7 @@ class OC_OCSClient{
 	/**
 	 * @brief Get all the categories from the OCS server
 	 * @returns array with category ids
-	 *
+	 * @note returns NULL if config value appstoreenabled is set to false
 	 * This function returns a list of all the application categories on the OCS server
 	 */
 	public static function getCategories() {
