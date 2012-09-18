@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 13:37+0000\n"
+"POT-Creation-Date: 2012-09-18 02:01+0200\n"
+"PO-Revision-Date: 2012-09-17 14:45+0000\n"
 "Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -32,5 +32,9 @@ msgid "This will delete all existing backup versions of your files"
 msgstr "Odstraní všechny existující zálohované verze Vašich souborů"
 
 #: templates/settings.php:3
-msgid "Enable Files Versioning"
-msgstr "Povolit verzování souborů"
+msgid "Files Versioning"
+msgstr "Verzování souborů"
+
+#: templates/settings.php:4
+msgid "Enable"
+msgstr "Povolit"

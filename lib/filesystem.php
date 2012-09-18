@@ -527,6 +527,7 @@ class OC_Filesystem{
 		} else {
 			$path=$params['oldpath'];
 		}
+		$path = self::normalizePath($path);
 		OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
 	}
 

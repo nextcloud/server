@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-08 02:01+0200\n"
-"PO-Revision-Date: 2012-09-08 00:02+0000\n"
+"POT-Creation-Date: 2012-09-18 02:01+0200\n"
+"PO-Revision-Date: 2012-09-18 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -82,7 +82,7 @@ msgstr ""
 msgid "replaced"
 msgstr ""
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:267 js/filelist.js:269
 msgid "undo"
 msgstr ""
 
@@ -90,11 +90,11 @@ msgstr ""
 msgid "with"
 msgstr ""
 
-#: js/filelist.js:268
+#: js/filelist.js:267
 msgid "unshared"
 msgstr ""
 
-#: js/filelist.js:270
+#: js/filelist.js:269
 msgid "deleted"
 msgstr ""
 
@@ -127,27 +127,35 @@ msgstr ""
 msgid "Invalid name, '/' is not allowed."
 msgstr "неисправно име, '/' не е дозволено."
 
-#: js/files.js:746 templates/index.php:56
+#: js/files.js:666
+msgid "files scanned"
+msgstr ""
+
+#: js/files.js:674
+msgid "error while scanning"
+msgstr ""
+
+#: js/files.js:748 templates/index.php:56
 msgid "Size"
 msgstr "Големина"
 
-#: js/files.js:747 templates/index.php:58
+#: js/files.js:749 templates/index.php:58
 msgid "Modified"
 msgstr "Променето"
 
-#: js/files.js:774
+#: js/files.js:776
 msgid "folder"
 msgstr "фолдер"
 
-#: js/files.js:776
+#: js/files.js:778
 msgid "folders"
 msgstr "фолдери"
 
-#: js/files.js:784
+#: js/files.js:786
 msgid "file"
 msgstr "датотека"
 
-#: js/files.js:786
+#: js/files.js:788
 msgid "files"
 msgstr "датотеки"
 

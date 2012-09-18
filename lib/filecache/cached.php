@@ -18,8 +18,19 @@ class OC_FileCache_Cached{
 			$root=OC_Filesystem::getRoot();
 		}
 		$path=$root.$path;
-		$query=OC_DB::prepare('SELECT `path`,`ctime`,`mtime`,`mimetype`,`size`,`encrypted`,`versioned`,`writable` FROM `*PREFIX*fscache` WHERE `path_hash`=?');
-		$result=$query->execute(array(md5($path)))->fetchRow();
+		$stmt=OC_DB::prepare('SELECT `path`,`ctime`,`mtime`,`mimetype`,`size`,`encrypted`,`versioned`,`writable` FROM `*PREFIX*fscache` WHERE `path_hash`=?');
+		if ( ! OC_DB::isError($stmt) ) {
+			$result=$stmt->execute(array(md5($path)));
+			if ( ! OC_DB::isError($result) ) {
+				$result = $result->fetchRow();
+			} else {
+				OC:Log::write('OC_FileCache_Cached', 'could not execute get: '. OC_DB::getErrorMessage($result), OC_Log::ERROR);
+				$result = false;
+			}
+		} else {
+			OC_Log::write('OC_FileCache_Cached', 'could not prepare get: '. OC_DB::getErrorMessage($stmt), OC_Log::ERROR);
+			$result = false;
+		}
 		if(is_array($result)) {
 			if(isset(self::$savedData[$path])) {
 				$result=array_merge($result, self::$savedData[$path]);

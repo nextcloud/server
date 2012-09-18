@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-11 02:02+0200\n"
-"PO-Revision-Date: 2012-09-10 09:22+0000\n"
-"Last-Translator: mattheu_9x <mattheu_9x@yahoo.com>\n"
+"POT-Creation-Date: 2012-09-18 02:01+0200\n"
+"PO-Revision-Date: 2012-09-18 00:02+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,7 +81,7 @@ msgstr "hủy"
 msgid "replaced"
 msgstr "đã được thay thế"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:267 js/filelist.js:269
 msgid "undo"
 msgstr "lùi lại"
 
@@ -89,11 +89,11 @@ msgstr "lùi lại"
 msgid "with"
 msgstr "với"
 
-#: js/filelist.js:268
+#: js/filelist.js:267
 msgid "unshared"
 msgstr ""
 
-#: js/filelist.js:270
+#: js/filelist.js:269
 msgid "deleted"
 msgstr "đã xóa"
 
@@ -126,27 +126,35 @@ msgstr "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi t
 msgid "Invalid name, '/' is not allowed."
 msgstr "Tên không hợp lệ ,không được phép dùng '/'"
 
-#: js/files.js:746 templates/index.php:56
+#: js/files.js:666
+msgid "files scanned"
+msgstr ""
+
+#: js/files.js:674
+msgid "error while scanning"
+msgstr ""
+
+#: js/files.js:748 templates/index.php:56
 msgid "Size"
 msgstr "Kích cỡ"
 
-#: js/files.js:747 templates/index.php:58
+#: js/files.js:749 templates/index.php:58
 msgid "Modified"
 msgstr "Thay đổi"
 
-#: js/files.js:774
+#: js/files.js:776
 msgid "folder"
 msgstr "folder"
 
-#: js/files.js:776
+#: js/files.js:778
 msgid "folders"
 msgstr "folders"
 
-#: js/files.js:784
+#: js/files.js:786
 msgid "file"
 msgstr "file"
 
-#: js/files.js:786
+#: js/files.js:788
 msgid "files"
 msgstr "files"
 

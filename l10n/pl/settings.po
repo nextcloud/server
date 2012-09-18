@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 12:06+0000\n"
-"Last-Translator: emc <mplichta@gmail.com>\n"
+"POT-Creation-Date: 2012-09-17 02:03+0200\n"
+"PO-Revision-Date: 2012-09-17 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,6 +41,10 @@ msgstr "Grupa już istnieje"
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
 msgstr "Nie można dodać grupy"
+
+#: ajax/enableapp.php:13
+msgid "Could not enable app. "
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -117,63 +121,67 @@ msgstr "Twój katalog danych i pliki są prawdopodobnie dostępne z Internetu. P
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
-msgstr "wykonanie jednego zadania z każdej  załadowanej strony"
-
-#: templates/admin.php:35
-msgid "cron.php is registered at a webcron service"
-msgstr "cron.php jest zarejestrowany w usłudze webcron"
-
 #: templates/admin.php:37
-msgid "use systems cron service"
-msgstr "korzystaj z usługi systemowej cron"
+msgid "Execute one task with each page loaded"
+msgstr ""
 
-#: templates/admin.php:41
-msgid "Share API"
-msgstr "Udostępnij API"
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr ""
 
-#: templates/admin.php:46
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr ""
+
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr ""
+
+#: templates/admin.php:61
 msgid "Enable Share API"
 msgstr "Włącz udostępniane API"
 
-#: templates/admin.php:47
+#: templates/admin.php:62
 msgid "Allow apps to use the Share API"
 msgstr "Zezwalaj aplikacjom na używanie API"
 
-#: templates/admin.php:51
+#: templates/admin.php:67
 msgid "Allow links"
 msgstr "Zezwalaj na łącza"
 
-#: templates/admin.php:52
+#: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
 msgstr "Zezwalaj użytkownikom na puliczne współdzielenie elementów za pomocą linków"
 
-#: templates/admin.php:56
+#: templates/admin.php:73
 msgid "Allow resharing"
 msgstr "Zezwól na ponowne udostępnianie"
 
-#: templates/admin.php:57
+#: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
 msgstr "Zezwalaj użytkownikom na ponowne współdzielenie elementów już z nimi współdzilonych"
 
-#: templates/admin.php:60
+#: templates/admin.php:79
 msgid "Allow users to share with anyone"
 msgstr "Zezwalaj użytkownikom na współdzielenie z kimkolwiek"
 
-#: templates/admin.php:62
+#: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
 msgstr "Zezwalaj użytkownikom współdzielić z użytkownikami ze swoich grup"
 
-#: templates/admin.php:69
+#: templates/admin.php:88
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
 msgstr "Więcej"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

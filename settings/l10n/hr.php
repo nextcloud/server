@@ -12,8 +12,6 @@
 "Saving..." => "Spremanje...",
 "__language_name__" => "__ime_jezika__",
 "Cron" => "Cron",
-"cron.php is registered at a webcron service" => "cron.php je registriran kod webcron servisa",
-"use systems cron service" => "koristi sistemski cron servis",
 "Log" => "dnevnik",
 "More" => "više",
 "Add your App" => "Dodajte vašu aplikaciju",

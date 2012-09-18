@@ -187,7 +187,7 @@ class OC_DB {
 
 			// Prepare options array
 			$options = array(
-			  'portability' => MDB2_PORTABILITY_ALL & (!MDB2_PORTABILITY_FIX_CASE),
+			  'portability' => MDB2_PORTABILITY_ALL - MDB2_PORTABILITY_FIX_CASE,
 			  'log_line_break' => '<br>',
 			  'idxname_format' => '%s',
 			  'debug' => true,
@@ -232,6 +232,7 @@ class OC_DB {
 						$dsn['database'] = $name;
 					} else { // use dbname for hostspec
 						$dsn['hostspec'] = $name;
+						$dsn['database'] = $user;
 					}
 					break;
 			}
@@ -457,7 +458,8 @@ class OC_DB {
 		$previousSchema = self::$schema->getDefinitionFromDatabase();
 		if (PEAR::isError($previousSchema)) {
 			$error = $previousSchema->getMessage();
-			OC_Log::write('core', 'Failed to get existing database structure for upgrading ('.$error.')', OC_Log::FATAL);
+			$detail = $previousSchema->getDebugInfo();
+			OC_Log::write('core', 'Failed to get existing database structure for upgrading ('.$error.', '.$detail.')', OC_Log::FATAL);
 			return false;
 		}
 

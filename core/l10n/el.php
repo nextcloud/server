@@ -50,6 +50,7 @@
 "Database user" => "Χρήστης της βάσης δεδομένων",
 "Database password" => "Κωδικός πρόσβασης βάσης δεδομένων",
 "Database name" => "Όνομα βάσης δεδομένων",
+"Database tablespace" => "Κενά Πινάκων Βάσης Δεδομένων",
 "Database host" => "Διακομιστής βάσης δεδομένων",
 "Finish setup" => "Ολοκλήρωση εγκατάστασης",
 "web services under your control" => "Υπηρεσίες web υπό τον έλεγχό σας",

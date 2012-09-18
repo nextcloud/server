@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
+"POT-Creation-Date: 2012-09-17 02:03+0200\n"
+"PO-Revision-Date: 2012-09-17 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -34,6 +34,10 @@ msgstr ""
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
+msgstr ""
+
+#: ajax/enableapp.php:13
+msgid "Could not enable app. "
 msgstr ""
 
 #: ajax/lostpassword.php:14
@@ -111,63 +115,67 @@ msgstr ""
 msgid "Cron"
 msgstr ""
 
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
-msgstr ""
-
-#: templates/admin.php:35
-msgid "cron.php is registered at a webcron service"
-msgstr ""
-
 #: templates/admin.php:37
-msgid "use systems cron service"
+msgid "Execute one task with each page loaded"
 msgstr ""
 
-#: templates/admin.php:41
-msgid "Share API"
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
 msgstr ""
 
-#: templates/admin.php:46
-msgid "Enable Share API"
-msgstr ""
-
-#: templates/admin.php:47
-msgid "Allow apps to use the Share API"
-msgstr ""
-
-#: templates/admin.php:51
-msgid "Allow links"
-msgstr ""
-
-#: templates/admin.php:52
-msgid "Allow users to share items to the public with links"
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
 msgstr ""
 
 #: templates/admin.php:56
-msgid "Allow resharing"
+msgid "Sharing"
 msgstr ""
 
-#: templates/admin.php:57
-msgid "Allow users to share items shared with them again"
-msgstr ""
-
-#: templates/admin.php:60
-msgid "Allow users to share with anyone"
+#: templates/admin.php:61
+msgid "Enable Share API"
 msgstr ""
 
 #: templates/admin.php:62
+msgid "Allow apps to use the Share API"
+msgstr ""
+
+#: templates/admin.php:67
+msgid "Allow links"
+msgstr ""
+
+#: templates/admin.php:68
+msgid "Allow users to share items to the public with links"
+msgstr ""
+
+#: templates/admin.php:73
+msgid "Allow resharing"
+msgstr ""
+
+#: templates/admin.php:74
+msgid "Allow users to share items shared with them again"
+msgstr ""
+
+#: templates/admin.php:79
+msgid "Allow users to share with anyone"
+msgstr ""
+
+#: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
 msgstr ""
 
-#: templates/admin.php:69
+#: templates/admin.php:88
 msgid "Log"
 msgstr "Napló"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
 msgstr "Tovább"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

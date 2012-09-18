@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Applikationsname nicht angegeben",
+"Application name not provided." => "Anwendungsname nicht angegeben",
 "No category to add?" => "Keine Kategorie hinzuzufügen?",
 "This category already exists: " => "Kategorie existiert bereits:",
 "Settings" => "Einstellungen",

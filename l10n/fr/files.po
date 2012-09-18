@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-12 02:01+0200\n"
-"PO-Revision-Date: 2012-09-11 14:35+0000\n"
-"Last-Translator: Geoffrey Guerrier <geoffrey.guerrier@gmail.com>\n"
+"POT-Creation-Date: 2012-09-18 02:01+0200\n"
+"PO-Revision-Date: 2012-09-18 00:01+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +62,7 @@ msgstr "Fichiers"
 
 #: js/fileactions.js:108 templates/index.php:62
 msgid "Unshare"
-msgstr ""
+msgstr "Ne plus partager"
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
@@ -88,7 +88,7 @@ msgstr "annuler"
 msgid "replaced"
 msgstr "remplacé"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:267 js/filelist.js:269
 msgid "undo"
 msgstr "annuler"
 
@@ -96,11 +96,11 @@ msgstr "annuler"
 msgid "with"
 msgstr "avec"
 
-#: js/filelist.js:268
+#: js/filelist.js:267
 msgid "unshared"
 msgstr "non partagée"
 
-#: js/filelist.js:270
+#: js/filelist.js:269
 msgid "deleted"
 msgstr "supprimé"
 
@@ -133,27 +133,35 @@ msgstr "L'envoi du fichier est en cours. Quitter cette page maintenant annulera 
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nom invalide, '/' n'est pas autorisé."
 
-#: js/files.js:746 templates/index.php:56
+#: js/files.js:666
+msgid "files scanned"
+msgstr ""
+
+#: js/files.js:674
+msgid "error while scanning"
+msgstr ""
+
+#: js/files.js:748 templates/index.php:56
 msgid "Size"
 msgstr "Taille"
 
-#: js/files.js:747 templates/index.php:58
+#: js/files.js:749 templates/index.php:58
 msgid "Modified"
 msgstr "Modifié"
 
-#: js/files.js:774
+#: js/files.js:776
 msgid "folder"
 msgstr "dossier"
 
-#: js/files.js:776
+#: js/files.js:778
 msgid "folders"
 msgstr "dossiers"
 
-#: js/files.js:784
+#: js/files.js:786
 msgid "file"
 msgstr "fichier"
 
-#: js/files.js:786
+#: js/files.js:788
 msgid "files"
 msgstr "fichiers"
 

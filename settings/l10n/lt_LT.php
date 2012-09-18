@@ -12,7 +12,6 @@
 "__language_name__" => "Kalba",
 "Security Warning" => "Saugumo įspėjimas",
 "Cron" => "Cron",
-"use systems cron service" => "naudoti sistemos cron servisą",
 "Log" => "Žurnalas",
 "More" => "Daugiau",
 "Add your App" => "Pridėti programėlę",
