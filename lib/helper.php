@@ -657,7 +657,7 @@ class OC_Helper {
 	public static function mb_str_replace($search, $replace, $subject, $encoding = 'UTF-8', &$count = null) {
 		$offset = -1;
 		$length = mb_strlen($search, $encoding);
-		while(($i = mb_strrpos($subject, $search, $offset, $encoding))) {
+		while(($i = mb_strrpos($subject, $search, $offset, $encoding)) !== false ) {
 			$subject = OC_Helper::mb_substr_replace($subject, $replace, $i, $length);
 			$offset = $i - mb_strlen($subject, $encoding) - 1;
 			$count++;
