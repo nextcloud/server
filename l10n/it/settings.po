@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:03+0200\n"
-"PO-Revision-Date: 2012-09-17 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-18 02:01+0200\n"
+"PO-Revision-Date: 2012-09-17 15:51+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,7 +41,7 @@ msgstr "Il gruppo esiste già"
 msgid "Unable to add group"
 msgstr "Impossibile aggiungere il gruppo"
 
-#: ajax/enableapp.php:13
+#: ajax/enableapp.php:14
 msgid "Could not enable app. "
 msgstr "Impossibile abilitare l'applicazione."
 
@@ -122,7 +122,7 @@ msgstr "Cron"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Esegui un'operazione per ogni pagina caricata"
 
 #: templates/admin.php:43
 msgid ""
@@ -134,11 +134,11 @@ msgstr "cron.php è registrato su un servizio webcron. Chiama la pagina cron.php
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Usa il servizio cron di sistema. Chiama il file cron.php nella cartella di owncloud tramite una pianificazione del cron di sistema ogni minuto."
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "Condivisione"
 
 #: templates/admin.php:61
 msgid "Enable Share API"

@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Dimitris M. <monopatis@gmail.com>, 2012.
+# Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
 # Marios Bekatoros <>, 2012.
 # Petros Kyladitis <petros.kyladitis@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-08 02:01+0200\n"
-"PO-Revision-Date: 2012-09-08 00:02+0000\n"
+"POT-Creation-Date: 2012-09-18 02:01+0200\n"
+"PO-Revision-Date: 2012-09-18 00:01+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +57,7 @@ msgstr "Αρχεία"
 
 #: js/fileactions.js:108 templates/index.php:62
 msgid "Unshare"
-msgstr ""
+msgstr "Διακοπή κοινής χρήσης"
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
@@ -72,7 +73,7 @@ msgstr "αντικατέστησε"
 
 #: js/filelist.js:186
 msgid "suggest name"
-msgstr ""
+msgstr "συνιστώμενο όνομα"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
@@ -82,7 +83,7 @@ msgstr "ακύρωση"
 msgid "replaced"
 msgstr "αντικαταστάθηκε"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:267 js/filelist.js:269
 msgid "undo"
 msgstr "αναίρεση"
 
@@ -90,11 +91,11 @@ msgstr "αναίρεση"
 msgid "with"
 msgstr "με"
 
-#: js/filelist.js:268
+#: js/filelist.js:267
 msgid "unshared"
-msgstr ""
+msgstr "Διακόπηκε η κοινή χρήση"
 
-#: js/filelist.js:270
+#: js/filelist.js:269
 msgid "deleted"
 msgstr "διαγράφηκε"
 
@@ -121,33 +122,41 @@ msgstr "Η μεταφόρτωση ακυρώθηκε."
 #: js/files.js:423
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Η μεταφόρτωση του αρχείου βρίσκεται σε εξέλιξη.  Έξοδος από την σελίδα τώρα θα ακυρώσει την μεταφόρτωση."
 
 #: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
 msgstr "Μη έγκυρο όνομα, το '/' δεν επιτρέπεται."
 
-#: js/files.js:746 templates/index.php:56
+#: js/files.js:666
+msgid "files scanned"
+msgstr ""
+
+#: js/files.js:674
+msgid "error while scanning"
+msgstr ""
+
+#: js/files.js:748 templates/index.php:56
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: js/files.js:747 templates/index.php:58
+#: js/files.js:749 templates/index.php:58
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
-#: js/files.js:774
+#: js/files.js:776
 msgid "folder"
 msgstr "φάκελος"
 
-#: js/files.js:776
+#: js/files.js:778
 msgid "folders"
 msgstr "φάκελοι"
 
-#: js/files.js:784
+#: js/files.js:786
 msgid "file"
 msgstr "αρχείο"
 
-#: js/files.js:786
+#: js/files.js:788
 msgid "files"
 msgstr "αρχεία"
 
@@ -181,7 +190,7 @@ msgstr "Μέγιστο μέγεθος για αρχεία ZIP"
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "Αποθήκευση"
 
 #: templates/index.php:7
 msgid "New"

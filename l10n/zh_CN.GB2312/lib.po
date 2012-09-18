@@ -3,123 +3,124 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# marguerite su <i@marguerite.su>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 02:01+0200\n"
-"PO-Revision-Date: 2012-09-01 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-18 02:01+0200\n"
+"PO-Revision-Date: 2012-09-17 12:19+0000\n"
+"Last-Translator: marguerite su <i@marguerite.su>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN.GB2312\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
-#: app.php:288
+#: app.php:285
 msgid "Help"
-msgstr ""
+msgstr "帮助"
 
-#: app.php:295
+#: app.php:292
 msgid "Personal"
-msgstr ""
+msgstr "私人"
 
-#: app.php:300
+#: app.php:297
 msgid "Settings"
-msgstr ""
+msgstr "设置"
 
-#: app.php:305
+#: app.php:302
 msgid "Users"
-msgstr ""
+msgstr "用户"
 
-#: app.php:312
+#: app.php:309
 msgid "Apps"
-msgstr ""
+msgstr "程序"
 
-#: app.php:314
+#: app.php:311
 msgid "Admin"
-msgstr ""
+msgstr "管理员"
 
 #: files.php:280
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "ZIP 下载已关闭"
 
 #: files.php:281
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "需要逐个下载文件。"
 
 #: files.php:281 files.php:306
 msgid "Back to Files"
-msgstr ""
+msgstr "返回到文件"
 
 #: files.php:305
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "选择的文件太大而不能生成 zip 文件。"
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "应用未启用"
 
 #: json.php:39 json.php:63 json.php:75
 msgid "Authentication error"
-msgstr ""
+msgstr "验证错误"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
-
-#: template.php:86
-msgid "seconds ago"
-msgstr ""
+msgstr "会话过期。请刷新页面。"
 
 #: template.php:87
-msgid "1 minute ago"
-msgstr ""
+msgid "seconds ago"
+msgstr "秒前"
 
 #: template.php:88
+msgid "1 minute ago"
+msgstr "1 分钟前"
+
+#: template.php:89
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
-
-#: template.php:91
-msgid "today"
-msgstr ""
+msgstr "%d 分钟前"
 
 #: template.php:92
-msgid "yesterday"
-msgstr ""
+msgid "today"
+msgstr "今天"
 
 #: template.php:93
-#, php-format
-msgid "%d days ago"
-msgstr ""
+msgid "yesterday"
+msgstr "昨天"
 
 #: template.php:94
-msgid "last month"
-msgstr ""
+#, php-format
+msgid "%d days ago"
+msgstr "%d 天前"
 
 #: template.php:95
-msgid "months ago"
-msgstr ""
+msgid "last month"
+msgstr "上个月"
 
 #: template.php:96
-msgid "last year"
-msgstr ""
+msgid "months ago"
+msgstr "月前"
 
 #: template.php:97
+msgid "last year"
+msgstr "去年"
+
+#: template.php:98
 msgid "years ago"
-msgstr ""
+msgstr "年前"
 
 #: updater.php:66
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s 不可用。获知 <a href=\"%s\">详情</a>"
 
 #: updater.php:68
 msgid "up to date"
-msgstr ""
+msgstr "最新"
 
 #: updater.php:71
 msgid "updates check is disabled"
-msgstr ""
+msgstr "更新检测已禁用"

@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-10 02:02+0200\n"
-"PO-Revision-Date: 2012-09-09 07:08+0000\n"
-"Last-Translator: Richard Bos <radoeka@gmail.com>\n"
+"POT-Creation-Date: 2012-09-18 02:01+0200\n"
+"PO-Revision-Date: 2012-09-18 00:01+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,7 +88,7 @@ msgstr "annuleren"
 msgid "replaced"
 msgstr "vervangen"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:267 js/filelist.js:269
 msgid "undo"
 msgstr "ongedaan maken"
 
@@ -96,11 +96,11 @@ msgstr "ongedaan maken"
 msgid "with"
 msgstr "door"
 
-#: js/filelist.js:268
+#: js/filelist.js:267
 msgid "unshared"
 msgstr "niet gedeeld"
 
-#: js/filelist.js:270
+#: js/filelist.js:269
 msgid "deleted"
 msgstr "verwijderd"
 
@@ -133,27 +133,35 @@ msgstr "Bestands upload is bezig. Wanneer de pagina nu verlaten wordt, stopt de 
 msgid "Invalid name, '/' is not allowed."
 msgstr "Ongeldige naam, '/' is niet toegestaan."
 
-#: js/files.js:746 templates/index.php:56
+#: js/files.js:666
+msgid "files scanned"
+msgstr ""
+
+#: js/files.js:674
+msgid "error while scanning"
+msgstr ""
+
+#: js/files.js:748 templates/index.php:56
 msgid "Size"
 msgstr "Bestandsgrootte"
 
-#: js/files.js:747 templates/index.php:58
+#: js/files.js:749 templates/index.php:58
 msgid "Modified"
 msgstr "Laatst aangepast"
 
-#: js/files.js:774
+#: js/files.js:776
 msgid "folder"
 msgstr "map"
 
-#: js/files.js:776
+#: js/files.js:778
 msgid "folders"
 msgstr "mappen"
 
-#: js/files.js:784
+#: js/files.js:786
 msgid "file"
 msgstr "bestand"
 
-#: js/files.js:786
+#: js/files.js:788
 msgid "files"
 msgstr "bestanden"
 

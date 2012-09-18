@@ -4,12 +4,13 @@
 # 
 # Translators:
 #   <bluehattree@126.com>, 2012.
+# marguerite su <i@marguerite.su>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-08 02:01+0200\n"
-"PO-Revision-Date: 2012-09-08 00:02+0000\n"
+"POT-Creation-Date: 2012-09-18 02:01+0200\n"
+"PO-Revision-Date: 2012-09-18 00:02+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +55,7 @@ msgstr "文件"
 
 #: js/fileactions.js:108 templates/index.php:62
 msgid "Unshare"
-msgstr ""
+msgstr "取消共享"
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
@@ -70,7 +71,7 @@ msgstr "替换"
 
 #: js/filelist.js:186
 msgid "suggest name"
-msgstr ""
+msgstr "推荐名称"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
@@ -80,7 +81,7 @@ msgstr "取消"
 msgid "replaced"
 msgstr "替换过了"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
+#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:267 js/filelist.js:269
 msgid "undo"
 msgstr "撤销"
 
@@ -88,11 +89,11 @@ msgstr "撤销"
 msgid "with"
 msgstr "随着"
 
-#: js/filelist.js:268
+#: js/filelist.js:267
 msgid "unshared"
-msgstr ""
+msgstr "已取消共享"
 
-#: js/filelist.js:270
+#: js/filelist.js:269
 msgid "deleted"
 msgstr "删除"
 
@@ -119,33 +120,41 @@ msgstr "上传取消了"
 #: js/files.js:423
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "文件正在上传。关闭页面会取消上传。"
 
 #: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
 msgstr "非法文件名,\"/\"是不被许可的"
 
-#: js/files.js:746 templates/index.php:56
+#: js/files.js:666
+msgid "files scanned"
+msgstr ""
+
+#: js/files.js:674
+msgid "error while scanning"
+msgstr ""
+
+#: js/files.js:748 templates/index.php:56
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:747 templates/index.php:58
+#: js/files.js:749 templates/index.php:58
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:774
+#: js/files.js:776
 msgid "folder"
 msgstr "文件夹"
 
-#: js/files.js:776
+#: js/files.js:778
 msgid "folders"
 msgstr "文件夹"
 
-#: js/files.js:784
+#: js/files.js:786
 msgid "file"
 msgstr "文件"
 
-#: js/files.js:786
+#: js/files.js:788
 msgid "files"
 msgstr "文件"
 
@@ -179,7 +188,7 @@ msgstr "最大的ZIP文件输入大小"
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
 #: templates/index.php:7
 msgid "New"

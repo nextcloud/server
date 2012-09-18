@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Dimitris M. <monopatis@gmail.com>, 2012.
+# Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
 # Marios Bekatoros <>, 2012.
 #   <petros.kyladitis@gmail.com>, 2011.
 # Petros Kyladitis <petros.kyladitis@gmail.com>, 2011, 2012.
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-18 02:01+0200\n"
+"PO-Revision-Date: 2012-09-17 19:33+0000\n"
+"Last-Translator: Efstathios Iosifidis <diamond_gr@freemail.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,55 +34,55 @@ msgstr "Δεν έχετε να προστέσθέσεται μια κα"
 msgid "This category already exists: "
 msgstr "Αυτή η κατηγορία υπάρχει ήδη"
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:214 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "January"
 msgstr "Ιανουάριος"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "February"
 msgstr "Φεβρουάριος"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "March"
 msgstr "Μάρτιος"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "April"
 msgstr "Απρίλιος"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "May"
 msgstr "Μάϊος"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "June"
 msgstr "Ιούνιος"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "July"
 msgstr "Ιούλιος"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "August"
 msgstr "Αύγουστος"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "September"
 msgstr "Σεπτέμβριος"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "October"
 msgstr "Οκτώβριος"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "November"
 msgstr "Νοέμβριος"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "December"
 msgstr "Δεκέμβριος"
 
@@ -229,7 +230,7 @@ msgstr "Όνομα βάσης δεδομένων"
 
 #: templates/installation.php:109
 msgid "Database tablespace"
-msgstr ""
+msgstr "Κενά Πινάκων Βάσης Δεδομένων"
 
 #: templates/installation.php:115
 msgid "Database host"
@@ -239,11 +240,11 @@ msgstr "Διακομιστής βάσης δεδομένων"
 msgid "Finish setup"
 msgstr "Ολοκλήρωση εγκατάστασης"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "Υπηρεσίες web υπό τον έλεγχό σας"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:39
 msgid "Log out"
 msgstr "Αποσύνδεση"
 
