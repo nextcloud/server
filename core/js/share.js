@@ -283,6 +283,7 @@ OC.Share={
 			html += '</div>';
 			html += '</li>';
 			$(html).appendTo('#shareWithList');
+			$('#expiration').show();
 		}
 	},
 	showLink:function(itemSource, password) {
@@ -302,6 +303,7 @@ OC.Share={
 			$('#linkPass').show('blind');
 			$('#linkPassText').attr('placeholder', 'Password protected');
 		}
+		$('#expiration').show();
 	},
 	hideLink:function() {
 		$('#linkText').hide('blind');
@@ -379,6 +381,9 @@ $(document).ready(function() {
 			var index = OC.Share.itemShares[shareType].indexOf(shareWith);
 			OC.Share.itemShares[shareType].splice(index, 1);
 			OC.Share.updateIcon(itemType, itemSource);
+			if (typeof OC.Share.statuses[itemSource] === 'undefined') {
+				$('#expiration').hide();
+			}
 		});
 	});
 
@@ -422,6 +427,9 @@ $(document).ready(function() {
 			// Delete private link
 			OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', function() {
 				OC.Share.hideLink();
+				if (typeof OC.Share.statuses[itemSource] === 'undefined') {
+					$('#expiration').hide();
+				}
 			});
 		}
 	});
