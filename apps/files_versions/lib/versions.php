@@ -254,7 +254,7 @@ class Storage {
 
 			if( count( $matches ) > \OCP\Config::getSystemValue( 'files_versionmaxversions', Storage::DEFAULTMAXVERSIONS ) ) {
 
-				$numberToDelete = count( $matches-\OCP\Config::getSystemValue( 'files_versionmaxversions', Storage::DEFAULTMAXVERSIONS ) );
+				$numberToDelete = count($matches) - \OCP\Config::getSystemValue( 'files_versionmaxversions', Storage::DEFAULTMAXVERSIONS );
 
 				// delete old versions of a file
 				$deleteItems = array_slice( $matches, 0, $numberToDelete );
