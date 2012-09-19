@@ -17,6 +17,11 @@ $(document).ready(function() {
 			var action = FileActions.getDefault(mimetype, 'file', OC.PERMISSION_READ);
 			if (typeof action === 'undefined') {
 				$('#noPreview').show();
+				if (mimetype != 'httpd/unix-directory') {
+					// NOTE: Remove when a better file previewer solution exists
+					$('#content').remove();
+					$('table').remove();
+				}
 			} else {
 				action($('#filename').val());
 			}
