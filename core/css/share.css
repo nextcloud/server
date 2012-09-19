@@ -18,3 +18,5 @@ a.unshare:hover { opacity:1; }
 #link { border-top:1px solid #ddd; padding-top:0.5em; }
 #dropdown input[type="text"], #dropdown input[type="password"] { width:90%; }
 #linkText, #linkPass, #expiration { display:none; }
+#link #showPassword img { width:12px; padding-left: 0.3em; }
+#link label, #expiration label{ padding-left: 0.5em; }
