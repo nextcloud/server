@@ -255,20 +255,23 @@ var FileList={
 	},
 	do_delete:function(files){
 		// Finish any existing actions
-		if (FileList.lastAction || !FileList.useUndo) {
-			if(!FileList.deleteFiles) {
-				FileList.prepareDeletion(files);
-			}
+		if (FileList.lastAction) {
 			FileList.lastAction();
 		}
+		
 		FileList.prepareDeletion(files);
-		// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
-		if ($('#dir').val() == '/Shared') {
-			$('#notification').html(t('files', 'unshared')+' '+files+'<span class="undo">'+t('files', 'undo')+'</span>');
+		
+		if (!FileList.useUndo) {
+			FileList.lastAction();
 		} else {
-			$('#notification').html(t('files', 'deleted')+' '+files+'<span class="undo">'+t('files', 'undo')+'</span>');
+			// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
+			if ($('#dir').val() == '/Shared') {
+				$('#notification').html(t('files', 'unshared')+' '+files+'<span class="undo">'+t('files', 'undo')+'</span>');
+			} else {
+				$('#notification').html(t('files', 'deleted')+' '+files+'<span class="undo">'+t('files', 'undo')+'</span>');
+			}
+			$('#notification').fadeIn();
 		}
-		$('#notification').fadeIn();
 	},
 	finishDelete:function(ready,sync){
 		if(!FileList.deleteCanceled && FileList.deleteFiles){
