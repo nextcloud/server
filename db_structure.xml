@@ -31,9 +31,8 @@
 
    <field>
     <name>configvalue</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>true</notnull>
-    <length>255</length>
    </field>
 
 
