@@ -84,21 +84,15 @@ class OC_Migrate{
 	 	$types = array( 'user', 'instance', 'system', 'userfiles' );
 	 	if( !in_array( $type, $types ) ) {
 	 		OC_Log::write( 'migration', 'Invalid export type', OC_Log::ERROR );
-	 		return json_encode( array( array( 'success' => false ) ) );
+	 		return json_encode( array( 'success' => false )  );
 	 	}
 	 	self::$exporttype = $type;
 	 	// Userid?
 	 	if( self::$exporttype == 'user' ) {
 	 		// Check user exists
-	 		if( !is_null($uid) ) {
-				$db = new OC_User_Database;
-		 		if( !$db->userExists( $uid ) ) {
-					OC_Log::write('migration', 'User: '.$uid.' is not in the database and so cannot be exported.', OC_Log::ERROR);
-					return json_encode( array( 'success' => false ) );
-				}
-				self::$uid = $uid;
-	 		} else {
-	 			self::$uid = OC_User::getUser();
+	 		self::$uid = is_null($uid) ? OC_User::getUser() : $uid;
+	 		if(!OC_User::userExists(self::$uid)){
+		 		return json_encode( array( 'success' => false) );
 	 		}
 	 	}
 	 	// Calculate zipname

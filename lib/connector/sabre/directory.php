@@ -57,8 +57,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 			$chunk_handler->store($info['index'], $data);
 			if ($chunk_handler->isComplete()) {
 				$newPath = $this->path . '/' . $info['name'];
-				$f = OC_Filesystem::fopen($newPath, 'w');
-				$chunk_handler->assemble($f);
+				$chunk_handler->file_assemble($newPath);
 				return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 			}
 		} else {

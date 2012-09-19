@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-18 02:01+0200\n"
-"PO-Revision-Date: 2012-09-18 00:01+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-18 10:31+0000\n"
+"Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -114,7 +114,7 @@ msgstr "Erstelle ZIP-Datei. Dies kann eine Weile dauern."
 
 #: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Ihre Datei kann nicht hochgeladen werden, da sie ein Verzeichnis ist oder 0 Bytes hat."
+msgstr "Ihre Datei kann nicht hochgeladen werden, da sie entweder ein Verzeichnis ist oder 0 Bytes hat."
 
 #: js/files.js:208
 msgid "Upload Error"
@@ -139,11 +139,11 @@ msgstr "Ungültiger Name: \"/\" ist nicht erlaubt."
 
 #: js/files.js:666
 msgid "files scanned"
-msgstr ""
+msgstr "Dateien gescannt"
 
 #: js/files.js:674
 msgid "error while scanning"
-msgstr ""
+msgstr "Fehler beim Scannen"
 
 #: js/files.js:748 templates/index.php:56
 msgid "Size"

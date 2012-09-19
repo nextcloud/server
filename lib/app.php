@@ -563,7 +563,12 @@ class OC_App{
 		
 		if ( is_array( $catagoryNames ) ) {
 			
-			$categories = array_keys( $catagoryNames );
+			// Check that categories of apps were retrieved correctly
+			if ( ! $categories = array_keys( $catagoryNames ) ) {
+			
+				return false;
+				
+			}
 			
 			$page = 0;
 		
@@ -589,7 +594,15 @@ class OC_App{
 		
 		}
 		
-		return $app1;
+		if ( empty( $app1 ) ) {
+		
+			return false;
+			
+		} else {
+		
+			return $app1;
+			
+		}
 	}
 
 	/**

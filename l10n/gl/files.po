@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-18 02:01+0200\n"
-"PO-Revision-Date: 2012-09-18 00:01+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-18 07:48+0000\n"
+"Last-Translator: Xosé M. Lamas <correo.xmgz@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr "Ficheiros"
 
 #: js/fileactions.js:108 templates/index.php:62
 msgid "Unshare"
-msgstr ""
+msgstr "Deixar de compartir"
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
@@ -71,7 +71,7 @@ msgstr "substituír"
 
 #: js/filelist.js:186
 msgid "suggest name"
-msgstr ""
+msgstr "suxira nome"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
@@ -91,7 +91,7 @@ msgstr "con"
 
 #: js/filelist.js:267
 msgid "unshared"
-msgstr ""
+msgstr "non compartido"
 
 #: js/filelist.js:269
 msgid "deleted"
@@ -120,7 +120,7 @@ msgstr "Subida cancelada."
 #: js/files.js:423
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "A subida do ficheiro está en curso. Saír agora da páxina cancelará a subida."
 
 #: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
@@ -128,11 +128,11 @@ msgstr "Nome non válido, '/' non está permitido."
 
 #: js/files.js:666
 msgid "files scanned"
-msgstr ""
+msgstr "ficheiros analizados"
 
 #: js/files.js:674
 msgid "error while scanning"
-msgstr ""
+msgstr "erro mentras analizaba"
 
 #: js/files.js:748 templates/index.php:56
 msgid "Size"
@@ -188,7 +188,7 @@ msgstr "Tamaño máximo de descarga para os ZIP"
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "Gardar"
 
 #: templates/index.php:7
 msgid "New"

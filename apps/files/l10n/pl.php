@@ -25,6 +25,8 @@
 "Upload cancelled." => "Wczytywanie anulowane.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Wysyłanie pliku jest w toku. Teraz opuszczając stronę wysyłanie zostanie anulowane.",
 "Invalid name, '/' is not allowed." => "Nieprawidłowa nazwa '/' jest niedozwolone.",
+"files scanned" => "Pliki skanowane",
+"error while scanning" => "Wystąpił błąd podczas skanowania",
 "Size" => "Rozmiar",
 "Modified" => "Czas modyfikacji",
 "folder" => "folder",

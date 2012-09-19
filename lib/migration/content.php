@@ -30,7 +30,7 @@ class OC_Migration_Content{
 	// Holds the MDB2 object
 	private $db=null;
 	// Holds an array of tmpfiles to delete after zip creation
-	private $tmpfiles=false;
+	private $tmpfiles=array();
 
 	/**
 	* @brief sets up the
@@ -43,18 +43,21 @@ class OC_Migration_Content{
 		$this->zip = $zip;
 		$this->db = $db;
 
-		if( !is_null( $db ) ) {
-			// Get db path
-			$db = $this->db->getDatabase();
-			$this->tmpfiles[] = $db;
-		}
-
 	}
 
 	// @brief prepares the db
 	// @param $query the sql query to prepare
 	public function prepare( $query ) {
-
+		
+		// Only add database to tmpfiles if actually used
+		if( !is_null( $this->db ) ) {
+			// Get db path
+			$db = $this->db->getDatabase();
+			if(!in_array($db, $this->tmpfiles)){
+				$this->tmpfiles[] = $db;
+			}
+		}
+		
 		// Optimize the query
 		$query = $this->processQuery( $query );
 

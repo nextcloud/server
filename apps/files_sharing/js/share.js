@@ -39,10 +39,8 @@ $(document).ready(function() {
 			var tr = $('tr').filterAttr('data-file', filename);
 			if ($(tr).data('type') == 'dir') {
 				var itemType = 'folder';
-				var link = false;
 			} else {
 				var itemType = 'file';
-				var link = true;
 			}
 			var possiblePermissions = $(tr).data('permissions');
 			var appendTo = $(tr).find('td.filename');
@@ -51,14 +49,14 @@ $(document).ready(function() {
 				if (item != $('#dropdown').data('item')) {
 					OC.Share.hideDropDown(function () {
 						$(tr).addClass('mouseOver');
-						OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, link, possiblePermissions);
+						OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions);
 					});
 				} else {
 					OC.Share.hideDropDown();
 				}
 			} else {
 				$(tr).addClass('mouseOver');
-				OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, link, possiblePermissions);
+				OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions);
 			}
 		});
 	}

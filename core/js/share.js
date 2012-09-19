@@ -35,21 +35,29 @@ OC.Share={
 			}
 		}
 		var shares = false;
+		var link = false;
+		var image = OC.imagePath('core', 'actions/share');
 		$.each(OC.Share.itemShares, function(index) {
-			if (OC.Share.itemShares[index].length > 0) {
-				shares = true;
-				return;
+			if (OC.Share.itemShares[index]) {
+				if (index == OC.Share.SHARE_TYPE_LINK) {
+					if (OC.Share.itemShares[index] == true) {
+						shares = true;
+						image = OC.imagePath('core', 'actions/public');
+						link = true;
+						return;
+					}
+				} else if (OC.Share.itemShares[index].length > 0) {
+					shares = true;
+					image = OC.imagePath('core', 'actions/shared');
+				}
 			}
 		});
+		if (itemType != 'file' && itemType != 'folder') {
+			$('a.share[data-item="'+itemSource+'"]').css('background', 'url('+image+') no-repeat center');
+		}
 		if (shares) {
-			$('a.share[data-item="'+itemSource+'"]').css('background', 'url('+OC.imagePath('core', 'actions/shared')+') no-repeat center');
-			if (typeof OC.Share.statuses[itemSource] === 'undefined') {
-				OC.Share.statuses[itemSource] = false;
-			}
+			OC.Share.statuses[itemSource] = link;
 		} else {
-			if (itemType != 'file' && itemType != 'folder') {
-				$('a.share[data-item="'+itemSource+'"]').css('background', 'url('+OC.imagePath('core', 'actions/share')+') no-repeat center');
-			}
 			delete OC.Share.statuses[itemSource];
 		}
 	},
@@ -283,9 +291,11 @@ OC.Share={
 			html += '</div>';
 			html += '</li>';
 			$(html).appendTo('#shareWithList');
+			$('#expiration').show();
 		}
 	},
 	showLink:function(itemSource, password) {
+		OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = true;
 		$('#linkCheckbox').attr('checked', true);
 		var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
 		if ($('#dir').val() == '/') {
@@ -302,6 +312,7 @@ OC.Share={
 			$('#linkPass').show('blind');
 			$('#linkPassText').attr('placeholder', 'Password protected');
 		}
+		$('#expiration').show();
 	},
 	hideLink:function() {
 		$('#linkText').hide('blind');
@@ -379,6 +390,9 @@ $(document).ready(function() {
 			var index = OC.Share.itemShares[shareType].indexOf(shareWith);
 			OC.Share.itemShares[shareType].splice(index, 1);
 			OC.Share.updateIcon(itemType, itemSource);
+			if (typeof OC.Share.statuses[itemSource] === 'undefined') {
+				$('#expiration').hide();
+			}
 		});
 	});
 
@@ -416,12 +430,17 @@ $(document).ready(function() {
 			// Create a link
 			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, function() {
 				OC.Share.showLink(itemSource);
-				// TODO Change icon
+				OC.Share.updateIcon(itemType, itemSource);
 			});
 		} else {
 			// Delete private link
 			OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', function() {
 				OC.Share.hideLink();
+				OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = false;
+				OC.Share.updateIcon(itemType, itemSource);
+				if (typeof OC.Share.statuses[itemSource] === 'undefined') {
+					$('#expiration').hide();
+				}
 			});
 		}
 	});

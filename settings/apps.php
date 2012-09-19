@@ -31,10 +31,6 @@ OC_App::setActiveNavigationEntry( "core_apps" );
 
 $installedApps = OC_App::getAllApps();
 
-$remoteApps = OC_App::getAppstoreApps();
-
-//$remoteApps = array();
-
 //TODO which apps do we want to blacklist and how do we integrate blacklisting with the multi apps folder feature?
 
 $blacklist = array('files');//we dont want to show configuration for these
@@ -90,28 +86,38 @@ foreach ( $installedApps as $app ) {
 	}
 }
 
-// Remove duplicates
-foreach ( $appList as $app ) {
+$remoteApps = OC_App::getAppstoreApps();
 
-	foreach ( $remoteApps AS $key => $remote ) {
-	
-		if ( 
-		$app['name'] == $remote['name']
-		// To set duplicate detection to use OCS ID instead of string name, 
-		// enable this code, remove the line of code above, 
-		// and add <ocs_id>[ID]</ocs_id> to info.xml of each 3rd party app: 
-		// OR $app['ocs_id'] == $remote['ocs_id']
-		) {
+if ( $remoteApps ) {
+
+	// Remove duplicates
+	foreach ( $appList as $app ) {
+
+		foreach ( $remoteApps AS $key => $remote ) {
+		
+			if ( 
+			$app['name'] == $remote['name']
+			// To set duplicate detection to use OCS ID instead of string name, 
+			// enable this code, remove the line of code above, 
+			// and add <ocs_id>[ID]</ocs_id> to info.xml of each 3rd party app: 
+			// OR $app['ocs_id'] == $remote['ocs_id']
+			) {
+				
+				unset( $remoteApps[$key]);
 			
-			unset( $remoteApps[$key]);
+			}
 		
 		}
-	
+		
 	}
+
+	$combinedApps = array_merge( $appList, $remoteApps );
+
+} else {
+
+	$combinedApps = $appList;
 	
 }
-
-$combinedApps = array_merge( $appList, $remoteApps );
 
 function app_sort( $a, $b ) {
 

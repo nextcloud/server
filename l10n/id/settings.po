@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:03+0200\n"
-"PO-Revision-Date: 2012-09-17 00:03+0000\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-19 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr ""
 msgid "Unable to add group"
 msgstr ""
 
-#: ajax/enableapp.php:13
+#: ajax/enableapp.php:14
 msgid "Could not enable app. "
 msgstr ""
 
@@ -79,15 +79,11 @@ msgstr ""
 msgid "Unable to remove user from group %s"
 msgstr ""
 
-#: js/apps.js:18
-msgid "Error"
-msgstr ""
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:27 js/apps.js:61
 msgid "Disable"
 msgstr "NonAktifkan"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:27 js/apps.js:50
 msgid "Enable"
 msgstr "Aktifkan"
 
@@ -227,12 +223,9 @@ msgid "Answer"
 msgstr "Jawab"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Anda menggunakan"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "dari yang tersedia"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -243,8 +236,8 @@ msgid "Download"
 msgstr "Unduh"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "Password anda telah dirubah"
+msgid "Your password was changed"
+msgstr ""
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
