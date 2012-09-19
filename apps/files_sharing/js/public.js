@@ -1,6 +1,10 @@
 // Override download path to files_sharing/public.php
 function fileDownloadPath(dir, file) {
-	return $('#downloadURL').val();
+	var url = $('#downloadURL').val();
+	if (url.indexOf('&path=') != -1) {
+		url += '/'+file;
+	}
+	return url;
 }
 
 $(document).ready(function() {
@@ -17,6 +21,12 @@ $(document).ready(function() {
 				action($('#filename').val());
 			}
 		}
+		FileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function(filename) {
+			var tr = $('tr').filterAttr('data-file', filename)
+			if (tr.length > 0) {
+				window.location = $(tr).find('a.name').attr('href');
+			}
+		});
 	}
 
 });
