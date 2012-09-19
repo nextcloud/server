@@ -35,6 +35,18 @@
 				<notnull>true</notnull>
 			</field>
 
+			<index>
+				<name>appconfig_appid_key_index</name>
+				<field>
+					<name>appid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>configkey</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
 		</declaration>
 
 	</table>
@@ -391,6 +403,22 @@
 				<type>clob</type>
 				<notnull>false</notnull>
 			</field>
+
+			<index>
+				<name>preferences_userid_appid_key_index</name>
+				<field>
+					<name>userid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>appid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>configkey</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 
