@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:02+0200\n"
-"PO-Revision-Date: 2012-09-17 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-18 19:46+0000\n"
+"Last-Translator: Richard Bos <radoeka@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,8 +32,8 @@ msgstr "Dit zal alle bestaande backup versies van uw bestanden verwijderen"
 
 #: templates/settings.php:3
 msgid "Files Versioning"
-msgstr ""
+msgstr "Bestand versies"
 
 #: templates/settings.php:4
 msgid "Enable"
-msgstr ""
+msgstr "Zet aan"

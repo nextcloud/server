@@ -25,6 +25,8 @@
 "Upload cancelled." => "Odesílání zrušeno.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Probíhá odesílání souboru. Opuštění stránky vyústí ve zrušení nahrávání.",
 "Invalid name, '/' is not allowed." => "Neplatný název, znak '/' není povolen",
+"files scanned" => "soubory prohledány",
+"error while scanning" => "chyba při prohledávání",
 "Size" => "Velikost",
 "Modified" => "Změněno",
 "folder" => "složka",

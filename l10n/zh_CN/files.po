@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-18 02:01+0200\n"
-"PO-Revision-Date: 2012-09-18 00:01+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-18 05:43+0000\n"
+"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -129,11 +129,11 @@ msgstr "非法的名称，不允许使用‘/’。"
 
 #: js/files.js:666
 msgid "files scanned"
-msgstr ""
+msgstr "已扫描文件"
 
 #: js/files.js:674
 msgid "error while scanning"
-msgstr ""
+msgstr "扫描时出错"
 
 #: js/files.js:748 templates/index.php:56
 msgid "Size"

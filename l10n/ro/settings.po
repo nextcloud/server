@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-18 02:01+0200\n"
-"PO-Revision-Date: 2012-09-17 08:42+0000\n"
-"Last-Translator: g.ciprian <g.ciprian@osn.ro>\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-19 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,15 +82,11 @@ msgstr "Nu s-a putut adăuga utilizatorul la grupul %s"
 msgid "Unable to remove user from group %s"
 msgstr "Nu s-a putut elimina utilizatorul din grupul %s"
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "Erroare"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:27 js/apps.js:61
 msgid "Disable"
 msgstr "Dezactivați"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:27 js/apps.js:50
 msgid "Enable"
 msgstr "Activați"
 
@@ -121,19 +117,19 @@ msgstr "Cron"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Execută o sarcină la fiecare pagină încărcată"
 
 #: templates/admin.php:43
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php este înregistrat în serviciul webcron. Accesează pagina cron.php din root-ul owncloud odată pe minut prin http."
 
 #: templates/admin.php:49
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Folosește serviciul cron al sistemului. Accesează fișierul cron.php din directorul owncloud printr-un cronjob de sistem odată la fiecare minut."
 
 #: templates/admin.php:56
 msgid "Sharing"
@@ -153,7 +149,7 @@ msgstr "Pemite legături"
 
 #: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Permite utilizatorilor să partajeze fișiere în mod public prin legături"
 
 #: templates/admin.php:73
 msgid "Allow resharing"
@@ -161,7 +157,7 @@ msgstr "Permite repartajarea"
 
 #: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Permite utilizatorilor să repartajeze fișiere partajate cu ei"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
@@ -230,12 +226,9 @@ msgid "Answer"
 msgstr "Răspuns"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Utilizezi"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "din cele diponibile"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -246,8 +239,8 @@ msgid "Download"
 msgstr "Descărcări"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "Parola ta s-a schimbat"
+msgid "Your password was changed"
+msgstr ""
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

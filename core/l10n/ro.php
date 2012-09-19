@@ -50,6 +50,7 @@
 "Database user" => "Utilizatorul bazei de date",
 "Database password" => "Parola bazei de date",
 "Database name" => "Numele bazei de date",
+"Database tablespace" => "Tabela de spațiu a bazei de date",
 "Database host" => "Bază date",
 "Finish setup" => "Finalizează instalarea",
 "web services under your control" => "servicii web controlate de tine",

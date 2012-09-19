@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-18 02:01+0200\n"
-"PO-Revision-Date: 2012-09-18 00:01+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-18 08:41+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -128,11 +128,11 @@ msgstr "ชื่อที่ใช้ไม่ถูกต้อง '/' ไม�
 
 #: js/files.js:666
 msgid "files scanned"
-msgstr ""
+msgstr "ไฟล์ต่างๆได้รับการสแกนแล้ว"
 
 #: js/files.js:674
 msgid "error while scanning"
-msgstr ""
+msgstr "พบข้อผิดพลาดในระหว่างการสแกนไฟล์"
 
 #: js/files.js:748 templates/index.php:56
 msgid "Size"

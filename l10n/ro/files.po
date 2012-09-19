@@ -6,13 +6,14 @@
 # Claudiu  <claudiu@tanaselia.ro>, 2011, 2012.
 # Dimon Pockemon <>, 2012.
 # Eugen Mihalache <eugemjj@gmail.com>, 2012.
+#   <g.ciprian@osn.ro>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-18 02:01+0200\n"
-"PO-Revision-Date: 2012-09-18 00:01+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-18 12:40+0000\n"
+"Last-Translator: g.ciprian <g.ciprian@osn.ro>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,7 +57,7 @@ msgstr "Fișiere"
 
 #: js/fileactions.js:108 templates/index.php:62
 msgid "Unshare"
-msgstr ""
+msgstr "Anulează partajarea"
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
@@ -64,76 +65,76 @@ msgstr "Șterge"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "already exists"
-msgstr ""
+msgstr "deja există"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "replace"
-msgstr ""
+msgstr "înlocuire"
 
 #: js/filelist.js:186
 msgid "suggest name"
-msgstr ""
+msgstr "sugerează nume"
 
 #: js/filelist.js:186 js/filelist.js:188
 msgid "cancel"
-msgstr ""
+msgstr "anulare"
 
 #: js/filelist.js:235 js/filelist.js:237
 msgid "replaced"
-msgstr ""
+msgstr "înlocuit"
 
 #: js/filelist.js:235 js/filelist.js:237 js/filelist.js:267 js/filelist.js:269
 msgid "undo"
-msgstr ""
+msgstr "Anulează ultima acțiune"
 
 #: js/filelist.js:237
 msgid "with"
-msgstr ""
+msgstr "cu"
 
 #: js/filelist.js:267
 msgid "unshared"
-msgstr ""
+msgstr "nepartajat"
 
 #: js/filelist.js:269
 msgid "deleted"
-msgstr ""
+msgstr "șters"
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "se generază fișierul ZIP, va dura ceva timp."
 
 #: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Nu s-a putut încărca fișierul tău deoarece pare să fie un director sau are 0 bytes."
 
 #: js/files.js:208
 msgid "Upload Error"
-msgstr ""
+msgstr "Eroare la încărcare"
 
 #: js/files.js:236 js/files.js:341 js/files.js:370
 msgid "Pending"
-msgstr ""
+msgstr "În așteptare"
 
 #: js/files.js:355
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Încărcare anulată."
 
 #: js/files.js:423
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Fișierul este în curs de încărcare. Părăsirea paginii va întrerupe încărcarea."
 
 #: js/files.js:493
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Nume invalid, '/' nu este permis."
 
 #: js/files.js:666
 msgid "files scanned"
-msgstr ""
+msgstr "fișiere scanate"
 
 #: js/files.js:674
 msgid "error while scanning"
-msgstr ""
+msgstr "eroare la scanarea"
 
 #: js/files.js:748 templates/index.php:56
 msgid "Size"
@@ -145,19 +146,19 @@ msgstr "Modificat"
 
 #: js/files.js:776
 msgid "folder"
-msgstr ""
+msgstr "director"
 
 #: js/files.js:778
 msgid "folders"
-msgstr ""
+msgstr "directoare"
 
 #: js/files.js:786
 msgid "file"
-msgstr ""
+msgstr "fișier"
 
 #: js/files.js:788
 msgid "files"
-msgstr ""
+msgstr "fișiere"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -189,7 +190,7 @@ msgstr "Dimensiunea maximă de intrare pentru fișiere compresate"
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "Salvare"
 
 #: templates/index.php:7
 msgid "New"

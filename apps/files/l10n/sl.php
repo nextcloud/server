@@ -25,6 +25,8 @@
 "Upload cancelled." => "Nalaganje je bilo preklicano.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Nalaganje datoteke je v teku. Če zapustite to stran zdaj, boste nalaganje preklicali.",
 "Invalid name, '/' is not allowed." => "Neveljavno ime. Znak '/' ni dovoljen.",
+"files scanned" => "pregledanih datotek",
+"error while scanning" => "napaka med pregledovanjem datotek",
 "Size" => "Velikost",
 "Modified" => "Spremenjeno",
 "folder" => "mapa",

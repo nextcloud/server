@@ -25,6 +25,8 @@
 "Upload cancelled." => "上传已取消",
 "File upload is in progress. Leaving the page now will cancel the upload." => "文件正在上传中。现在离开此页会导致上传动作被取消。",
 "Invalid name, '/' is not allowed." => "非法的名称，不允许使用‘/’。",
+"files scanned" => "已扫描文件",
+"error while scanning" => "扫描时出错",
 "Size" => "大小",
 "Modified" => "修改日期",
 "folder" => "文件夹",
