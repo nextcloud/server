@@ -47,7 +47,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	}
 
 	public function generateTarget($filePath, $shareWith, $exclude = null) {
-		$target = $filePath;
+		$target = '/'.basename($filePath);
 		if (isset($exclude)) {
 			if ($pos = strrpos($target, '.')) {
 				$name = substr($target, 0, $pos);
