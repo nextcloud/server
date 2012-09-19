@@ -16,7 +16,9 @@
 		<?php echo $_['folder']; ?>
 	<?php else: ?>
 		<?php if (substr($_['mimetype'], 0 , strpos($_['mimetype'], '/')) == 'image'): ?>
-			<img src="<?php echo $_['downloadURL']; ?>" />
+			<div id="imgframe">
+				<img src="<?php echo $_['downloadURL']; ?>" />
+			</div>
 		<?php endif; ?>
 		<ul id="noPreview">
 			<li class="error">

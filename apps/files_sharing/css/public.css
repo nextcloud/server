@@ -6,3 +6,5 @@ body { background:#ddd; }
 #noPreview { display:none; padding-top:5em; }
 p.info { width:22em; text-align: center; margin:2em auto; color:#777; text-shadow:#fff 0 1px 0; }
 p.info a { font-weight:bold; color:#777; }
+#imgframe{ width:80%; height: 75%; margin: 0 auto; padding-bottom:2em; }
+#imgframe img{ max-height:100%; max-width: 100%; }
