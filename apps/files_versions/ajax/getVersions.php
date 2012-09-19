@@ -5,7 +5,7 @@ $userDirectory = "/".OCP\USER::getUser()."/files";
 $source = $_GET['source'];
 
 $count = 5; //show the newest revisions
-if( ($versions = OCA_Versions\Storage::getVersions( $source, $count)) ) {
+if( ($versions = OCA\Files_Versions\Storage::getVersions( $source, $count)) ) {
 
 	$versionsFormatted = array();
 
