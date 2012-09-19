@@ -356,7 +356,7 @@ $(document).ready(function() {
 										$('#notification').fadeIn();
 									}
 								});
-								uploadingFiles[files[i].name] = jqXHR;
+								uploadingFiles[uniqueName] = jqXHR;
 							}
 						}
 					}else{
