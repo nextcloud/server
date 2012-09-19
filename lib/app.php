@@ -532,7 +532,10 @@ class OC_App{
 		$apps=array();
 		
 		foreach ( OC::$APPSROOTS as $apps_dir ) {
-		
+			if(! is_readable($apps_dir['path'])) {
+				OC_Log::write('core', 'unable to read app folder : ' .$apps_dir['path'] , OC_Log::WARN);
+				continue;
+			}
 			$dh = opendir( $apps_dir['path'] );
 			
 			while( $file = readdir( $dh ) ) {
