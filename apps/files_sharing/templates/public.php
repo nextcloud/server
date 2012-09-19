@@ -7,7 +7,7 @@
 	<div class="header-right">
 		<span id="details"><?php echo $_['details']; ?></span>
 		<?php if (!isset($_['folder']) || $_['allowZipDownload']): ?>
-			<a href="<?php echo $_['downloadURL']; ?>" id="download"><img class="svg" alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /><?php echo $l->t('Download')?></a>
+			<a href="<?php echo $_['downloadURL']; ?>" class="button" id="download"><img class="svg" alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /><?php echo $l->t('Download')?></a>
 		<?php endif; ?>
 	</div>
 </div></header>
