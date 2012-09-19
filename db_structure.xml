@@ -1,650 +1,646 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <database>
 
- <name>*dbname*</name>
- <create>true</create>
- <overwrite>false</overwrite>
-
- <charset>utf8</charset>
-
- <table>
-
-  <name>*dbprefix*appconfig</name>
-
-  <declaration>
-
-   <field>
-    <name>appid</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>configkey</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>configvalue</name>
-    <type>clob</type>
-    <notnull>true</notnull>
-   </field>
-
-
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>*dbprefix*fscache</name>
-
-  <declaration>
-
-   <field>
-	   <name>id</name>
-	   <autoincrement>1</autoincrement>
-	   <type>integer</type>
-	   <default>0</default>
-	   <notnull>true</notnull>
-	   <length>4</length>
-   </field>
-
-   <field>
-    <name>path</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>512</length>
-   </field>
-
-   <field>
-	   <name>path_hash</name>
-	   <type>text</type>
-	   <default></default>
-	   <notnull>true</notnull>
-	   <length>32</length>
-   </field>
-
-   <field>
-	   <name>parent</name>
-	   <type>integer</type>
-	   <default>0</default>
-	   <notnull>true</notnull>
-	   <length>8</length>
-   </field>
-
-   <field>
-	   <name>name</name>
-	   <type>text</type>
-	   <default></default>
-	   <notnull>true</notnull>
-	   <length>300</length>
-   </field>
-
-   <field>
-	   <name>user</name>
-	   <type>text</type>
-	   <default></default>
-	   <notnull>true</notnull>
-	   <length>64</length>
-   </field>
-
-   <field>
-    <name>size</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <length>8</length>
-   </field>
-
-   <field>
-	   <name>ctime</name>
-	   <type>integer</type>
-	   <default>0</default>
-	   <notnull>true</notnull>
-	   <length>8</length>
-   </field>
-
-   <field>
-	   <name>mtime</name>
-	   <type>integer</type>
-	   <default>0</default>
-	   <notnull>true</notnull>
-	   <length>8</length>
-   </field>
-
-   <field>
-	   <name>mimetype</name>
-	   <type>text</type>
-	   <default></default>
-	   <notnull>true</notnull>
-	   <length>96</length>
-   </field>
-
-   <field>
-	   <name>mimepart</name>
-	   <type>text</type>
-	   <default></default>
-	   <notnull>true</notnull>
-	   <length>32</length>
-   </field>
-
-   <field>
-	   <name>encrypted</name>
-	   <type>integer</type>
-	   <default>0</default>
-	   <notnull>true</notnull>
-	   <length>1</length>
-   </field>
-
-   <field>
-	   <name>versioned</name>
-	   <type>integer</type>
-	   <default>0</default>
-	   <notnull>true</notnull>
-	   <length>1</length>
-   </field>
-
-   <field>
-	   <name>writable</name>
-	   <type>integer</type>
-	   <default>0</default>
-	   <notnull>true</notnull>
-	   <length>1</length>
-   </field>
-
-   <index>
-	   <name>fscache_path_hash_index</name>
-    <field>
-     <name>path_hash</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-   <index>
-	   <name>parent_index</name>
-	   <field>
-		   <name>parent</name>
-		   <sorting>ascending</sorting>
-	   </field>
-   </index>
-
-   <index>
-	   <name>name_index</name>
-	   <field>
-		   <name>name</name>
-		   <sorting>ascending</sorting>
-	   </field>
-   </index>
-
-   <index>
-	   <name>parent_name_index</name>
-	   <field>
-		   <name>parent</name>
-		   <sorting>ascending</sorting>
-	   </field>
-	   <field>
-		   <name>name</name>
-		   <sorting>ascending</sorting>
-	   </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>*dbprefix*group_user</name>
-
-  <declaration>
-
-   <field>
-    <name>gid</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>64</length>
-   </field>
-
-   <field>
-    <name>uid</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>64</length>
-   </field>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>*dbprefix*group_admin</name>
-
-  <declaration>
-
-   <field>
-    <name>gid</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>64</length>
-   </field>
-
-   <field>
-    <name>uid</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>64</length>
-   </field>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>*dbprefix*groups</name>
-
-  <declaration>
-
-   <field>
-    <name>gid</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>64</length>
-   </field>
-
-   <index>
-    <name>groups_pKey</name>
-    <primary>true</primary>
-    <field>
-     <name>gid</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>*dbprefix*locks</name>
-
-  <declaration>
-
-   <field>
-    <name>id</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <autoincrement>1</autoincrement>
-    <unsigned>true</unsigned>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>userid</name>
-    <type>text</type>
-    <default></default>
-    <notnull>false</notnull>
-    <length>200</length>
-   </field>
-
-   <field>
-    <name>owner</name>
-    <type>text</type>
-    <default></default>
-    <notnull>false</notnull>
-    <length>100</length>
-   </field>
-
-   <field>
-    <name>timeout</name>
-    <type>integer</type>
-    <notnull>false</notnull>
-    <unsigned>true</unsigned>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>created</name>
-    <type>integer</type>
-    <notnull>false</notnull>
-    <length>8</length>
-   </field>
-
-   <field>
-    <name>token</name>
-    <type>text</type>
-    <default></default>
-    <notnull>false</notnull>
-    <length>100</length>
-   </field>
-
-   <field>
-    <name>scope</name>
-    <type>integer</type>
-    <notnull>false</notnull>
-    <length>1</length>
-   </field>
-
-   <field>
-    <name>depth</name>
-    <type>integer</type>
-    <notnull>false</notnull>
-    <length>1</length>
-   </field>
-
-   <field>
-    <name>uri</name>
-    <type>clob</type>
-    <notnull>false</notnull>
-   </field>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>*dbprefix*preferences</name>
-
-  <declaration>
-
-   <field>
-    <name>userid</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>appid</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>configkey</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>configvalue</name>
-    <type>clob</type>
-    <notnull>false</notnull>
-   </field>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>*dbprefix*properties</name>
-
-  <declaration>
-
-   <field>
-    <name>userid</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>200</length>
-   </field>
-
-   <field>
-    <name>propertypath</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>propertyname</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>propertyvalue</name>
-    <type>text</type>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-  </declaration>
-
- </table>
-
-  <table>
-
-  <name>*dbprefix*share</name>
-
-  <declaration>
-
-   <field>
-    <name>id</name>
-    <autoincrement>1</autoincrement>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>share_type</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <length>1</length>
-   </field>
-   
-   <field>
-    <name>share_with</name>
-    <type>text</type>
-    <default></default>
-    <notnull>false</notnull>
-    <length>255</length>
-   </field>
-   
-   <field>
-    <name>uid_owner</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-   
-   <field>
-    <name>parent</name>
-    <type>integer</type>
-    <notnull>false</notnull>
-    <length>4</length>
-   </field>
-   
-   <field>
-    <name>item_type</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>64</length>
-   </field>
-   
-   <field>
-    <name>item_source</name>
-    <type>text</type>
-    <default></default>
-    <notnull>false</notnull>
-    <length>255</length>
-   </field>
-      
-   <field>
-    <name>item_target</name>
-    <type>text</type>
-    <default></default>
-    <notnull>false</notnull>
-    <length>255</length>
-   </field>
-   
-   <field>
-    <name>file_source</name>
-    <type>integer</type>
-    <notnull>false</notnull>
-    <length>4</length>
-   </field>
-      
-   <field>
-    <name>file_target</name>
-    <type>text</type>
-    <default></default>
-    <notnull>false</notnull>
-    <length>512</length>
-   </field>
-
-   <field>
-    <name>permissions</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <length>1</length>
-   </field>
-   
-   <field>
-    <name>stime</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <length>8</length>
-   </field>
-   
-   <field>
-    <name>accepted</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <length>1</length>
-   </field>
-
-   <field>
-    <name>expiration</name>
-    <type>timestamp</type>
-    <default></default>
-    <notnull>false</notnull>
-   </field>
-   
-  </declaration>
-
- </table>
- 
- <table>
-
-  <name>*dbprefix*queuedtasks</name>
-
-  <declaration>
-
-   <field>
-    <name>id</name>
-    <type>integer</type>
-    <default>0</default>
-    <notnull>true</notnull>
-    <autoincrement>1</autoincrement>
-    <unsigned>true</unsigned>
-    <length>4</length>
-   </field>
-
-   <field>
-    <name>app</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>klass</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>method</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <field>
-    <name>parameters</name>
-    <type>text</type>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>*dbprefix*users</name>
-
-  <declaration>
-
-   <field>
-    <name>uid</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>64</length>
-   </field>
-
-   <field>
-    <name>password</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>255</length>
-   </field>
-
-   <index>
-    <name>users_pKey</name>
-    <primary>true</primary>
-    <field>
-     <name>uid</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
+	<name>*dbname*</name>
+	<create>true</create>
+	<overwrite>false</overwrite>
+
+	<charset>utf8</charset>
+
+	<table>
+
+		<name>*dbprefix*appconfig</name>
+
+		<declaration>
+
+			<field>
+				<name>appid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>configkey</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>configvalue</name>
+				<type>clob</type>
+				<notnull>true</notnull>
+			</field>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*fscache</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<autoincrement>1</autoincrement>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>path</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>512</length>
+			</field>
+
+			<field>
+				<name>path_hash</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+
+			<field>
+				<name>parent</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>8</length>
+			</field>
+
+			<field>
+				<name>name</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>300</length>
+			</field>
+
+			<field>
+				<name>user</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>size</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>8</length>
+			</field>
+
+			<field>
+				<name>ctime</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>8</length>
+			</field>
+
+			<field>
+				<name>mtime</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>8</length>
+			</field>
+
+			<field>
+				<name>mimetype</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>96</length>
+			</field>
+
+			<field>
+				<name>mimepart</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+
+			<field>
+				<name>encrypted</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<field>
+				<name>versioned</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<field>
+				<name>writable</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<index>
+				<name>fscache_path_hash_index</name>
+				<field>
+					<name>path_hash</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>parent_index</name>
+				<field>
+					<name>parent</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>name_index</name>
+				<field>
+					<name>name</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>parent_name_index</name>
+				<field>
+					<name>parent</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>name</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*group_user</name>
+
+		<declaration>
+
+			<field>
+				<name>gid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*group_admin</name>
+
+		<declaration>
+
+			<field>
+				<name>gid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*groups</name>
+
+		<declaration>
+
+			<field>
+				<name>gid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<index>
+				<name>groups_pKey</name>
+				<primary>true</primary>
+				<field>
+					<name>gid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*locks</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>userid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>200</length>
+			</field>
+
+			<field>
+				<name>owner</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>100</length>
+			</field>
+
+			<field>
+				<name>timeout</name>
+				<type>integer</type>
+				<notnull>false</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>created</name>
+				<type>integer</type>
+				<notnull>false</notnull>
+				<length>8</length>
+			</field>
+
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>100</length>
+			</field>
+
+			<field>
+				<name>scope</name>
+				<type>integer</type>
+				<notnull>false</notnull>
+				<length>1</length>
+			</field>
+
+			<field>
+				<name>depth</name>
+				<type>integer</type>
+				<notnull>false</notnull>
+				<length>1</length>
+			</field>
+
+			<field>
+				<name>uri</name>
+				<type>clob</type>
+				<notnull>false</notnull>
+			</field>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*preferences</name>
+
+		<declaration>
+
+			<field>
+				<name>userid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>appid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>configkey</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>configvalue</name>
+				<type>clob</type>
+				<notnull>false</notnull>
+			</field>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*properties</name>
+
+		<declaration>
+
+			<field>
+				<name>userid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>200</length>
+			</field>
+
+			<field>
+				<name>propertypath</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>propertyname</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>propertyvalue</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*share</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<autoincrement>1</autoincrement>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>share_type</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<field>
+				<name>share_with</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>uid_owner</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>parent</name>
+				<type>integer</type>
+				<notnull>false</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>item_type</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>item_source</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>item_target</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>file_source</name>
+				<type>integer</type>
+				<notnull>false</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>file_target</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>512</length>
+			</field>
+
+			<field>
+				<name>permissions</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<field>
+				<name>stime</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>8</length>
+			</field>
+
+			<field>
+				<name>accepted</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>1</length>
+			</field>
+
+			<field>
+				<name>expiration</name>
+				<type>timestamp</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*queuedtasks</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>app</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>klass</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>method</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<field>
+				<name>parameters</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*users</name>
+
+		<declaration>
+
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>password</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<index>
+				<name>users_pKey</name>
+				<primary>true</primary>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
 
 </database>
