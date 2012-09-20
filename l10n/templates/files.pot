@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"POT-Creation-Date: 2012-09-20 02:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,39 +59,39 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "already exists"
 msgstr ""
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "replace"
 msgstr ""
 
-#: js/filelist.js:186
+#: js/filelist.js:188
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "cancel"
 msgstr ""
 
-#: js/filelist.js:235 js/filelist.js:237
+#: js/filelist.js:237 js/filelist.js:239
 msgid "replaced"
 msgstr ""
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:267 js/filelist.js:269
+#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:237
+#: js/filelist.js:239
 msgid "with"
 msgstr ""
 
-#: js/filelist.js:267
+#: js/filelist.js:271
 msgid "unshared"
 msgstr ""
 
-#: js/filelist.js:269
+#: js/filelist.js:273
 msgid "deleted"
 msgstr ""
 

@@ -11,7 +11,7 @@
 "Selected files too large to generate zip file." => "Τα επιλεγμένα αρχεία είναι μεγάλα ώστε να δημιουργηθεί αρχείο zip.",
 "Application is not enabled" => "Δεν ενεργοποιήθηκε η εφαρμογή",
 "Authentication error" => "Σφάλμα πιστοποίησης",
-"Token expired. Please reload page." => "Το αναγνωριστικό έληξε. Παρακαλώ επανα-φορτώστε την σελίδα.",
+"Token expired. Please reload page." => "Το αναγνωριστικό έληξε. Παρακαλώ φορτώστε ξανά την σελίδα.",
 "seconds ago" => "δευτερόλεπτα πριν",
 "1 minute ago" => "1 λεπτό πριν",
 "%d minutes ago" => "%d λεπτά πριν",
@@ -21,5 +21,8 @@
 "last month" => "τον προηγούμενο μήνα",
 "months ago" => "μήνες πριν",
 "last year" => "τον προηγούμενο χρόνο",
-"years ago" => "χρόνια πριν"
+"years ago" => "χρόνια πριν",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s είναι διαθέσιμα. Δείτε <a href=\"%s\">περισσότερες πληροφορίες</a>",
+"up to date" => "ενημερωμένο",
+"updates check is disabled" => "ο έλεγχος ενημερώσεων είναι απενεργοποιημένος"
 );

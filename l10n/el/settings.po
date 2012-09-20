@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-19 02:02+0200\n"
-"PO-Revision-Date: 2012-09-19 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-20 02:05+0200\n"
+"PO-Revision-Date: 2012-09-19 22:58+0000\n"
+"Last-Translator: Efstathios Iosifidis <diamond_gr@freemail.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -230,7 +230,7 @@ msgstr "Απάντηση"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
+msgstr "Έχετε χρησιμοποιήσει <strong>%s</strong> από τα διαθέσιμα <strong>%s<strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -238,11 +238,11 @@ msgstr "Πελάτες συγχρονισμού για Desktop και Mobile"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr "Κατέβασε"
+msgstr "Λήψη"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "Το συνθηματικό σας έχει αλλάξει"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
@@ -250,11 +250,11 @@ msgstr "Δεν ήταν δυνατή η αλλαγή του κωδικού πρ�
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr "Τρέχων κωδικός πρόσβασης"
+msgstr "Τρέχων συνθηματικό"
 
 #: templates/personal.php:22
 msgid "New password"
-msgstr "Νέος κωδικός"
+msgstr "Νέο συνθηματικό"
 
 #: templates/personal.php:23
 msgid "show"
@@ -262,7 +262,7 @@ msgstr "εμφάνιση"
 
 #: templates/personal.php:24
 msgid "Change password"
-msgstr "Αλλαγή κωδικού πρόσβασης"
+msgstr "Αλλαγή συνθηματικού"
 
 #: templates/personal.php:30
 msgid "Email"
@@ -274,7 +274,7 @@ msgstr "Διεύθυνση ηλεκτρονικού ταχυδρομείου σ�
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr "Συμπληρώστε μια διεύθυνση ηλεκτρονικού ταχυδρομείου για να ενεργοποιηθεί η ανάκτηση κωδικού πρόσβασης"
+msgstr "Συμπληρώστε μια διεύθυνση ηλεκτρονικού ταχυδρομείου για να ενεργοποιηθεί η ανάκτηση συνθηματικού"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
@@ -294,7 +294,7 @@ msgstr "Όνομα"
 
 #: templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr "Κωδικός"
+msgstr "Συνθηματικό"
 
 #: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
