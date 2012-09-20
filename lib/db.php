@@ -226,6 +226,7 @@ class OC_DB {
 							'phptype'  => 'oci8',
 							'username' => $user,
 							'password' => $pass,
+							'charset' => 'AL32UTF8',
 					);
 					if ($host != '') {
 						$dsn['hostspec'] = $host;
