@@ -361,7 +361,8 @@ $(document).ready(function() {
 						}
 					}else{
 						data.submit().success(function(data, status) {
-							response = jQuery.parseJSON(data[0].body.innerText);
+							// in safari data is a string
+							response = jQuery.parseJSON(typeof data === 'string' ? data : data[0].body.innerText);
 							if(response[0] != undefined && response[0].status == 'success') {
 								var file=response[0];
 								delete uploadingFiles[file.name];
