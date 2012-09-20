@@ -405,7 +405,7 @@
 			</field>
 
 			<index>
-				<name>preferences_userid_appid_key_index</name>
+				<name>pref_userid_appid_key_index</name>
 				<field>
 					<name>userid</name>
 					<sorting>ascending</sorting>
