@@ -54,6 +54,7 @@ class OC_Files {
 		else {
 			$info = OC_FileCache::get($path);
 		}
+		return $info;
 	}
 
 	/**
