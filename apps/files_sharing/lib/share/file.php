@@ -72,8 +72,14 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 			// Only 1 item should come through for this format call
 			return array('path' => $items[key($items)]['path'], 'permissions' => $items[key($items)]['permissions']);
 		} else if ($format == self::FORMAT_FILE_APP) {
+			if (isset($parameters['mimetype_filter'])) {
+				$mimetype_filter = $parameters['mimetype_filter'];
+			}
 			$files = array();
 			foreach ($items as $item) {
+				if (isset($mimetype_filter) && strpos($item['mimetype'], $mimetype_filter) !== 0) {
+					continue;
+				}
 				$file = array();
 				$file['id'] = $item['file_source'];
 				$file['path'] = $item['file_target'];
