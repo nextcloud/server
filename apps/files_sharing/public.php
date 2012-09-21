@@ -119,7 +119,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					$folder->assign('uploadMaxHumanFilesize', 0);
 					$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 					$tmpl->assign('folder', $folder->fetchPage(), false);
-					$tmpl->assign('details', $uidOwner.' shared the folder '.$baseDir.' with you');
+					$tmpl->assign('uidOwner', $uidOwner);
 					$tmpl->assign('dir', basename($dir));
 					$tmpl->assign('filename', basename($path));
 					$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
@@ -132,7 +132,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.$_GET['dir'].'&path='.$getPath, false);
 				} else {
 					// Show file preview if viewer is available
-					$tmpl->assign('details', $uidOwner.' shared the file '.basename($path).' with you');
+					$tmpl->assign('uidOwner', $uidOwner);
 					$tmpl->assign('dir', dirname($path));
 					$tmpl->assign('filename', basename($path));
 					$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
