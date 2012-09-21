@@ -343,6 +343,14 @@ OC.Share={
 }
 
 $(document).ready(function() {
+	$.datepicker.setDefaults({
+		monthNames: monthNames,
+		monthNamesShort: $.map(monthNames, function(v) { return v.slice(0,3)+'.'; }),
+		dayNames: dayNames,
+		dayNamesMin: $.map(dayNames, function(v) { return v.slice(0,2); }),
+		dayNamesShort: $.map(dayNames, function(v) { return v.slice(0,3)+'.'; }),
+		firstDay: firstDay
+	});
 
 	$('a.share').live('click', function(event) {
 		event.stopPropagation();

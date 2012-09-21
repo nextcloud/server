@@ -60,7 +60,8 @@ class OC_L10N{
 	private $localizations = array(
 		'date' => '%d.%m.%Y',
 		'datetime' => '%d.%m.%Y %H:%M:%S',
-		'time' => '%H:%M:%S');
+		'time' => '%H:%M:%S',
+		'firstday' => 0);
 
 	/**
 	 * get an L10N instance
@@ -221,6 +222,8 @@ class OC_L10N{
 				setlocale(LC_TIME, $locales);
 				return strftime($this->localizations[$type], $data);
 				break;
+			case 'firstday':
+				return $this->localizations[$type];
 			default:
 				return false;
 		}
