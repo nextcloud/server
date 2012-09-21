@@ -270,6 +270,7 @@ class OC_Mount_Config {
 			fclose($fh);
 			if (strpos($data, 'BEGIN CERTIFICATE')) {
 				fwrite($fh_certs, $data);
+				fwrite($fh_certs, "\r\n");
 			}
 		}
 
