@@ -622,7 +622,13 @@ class OC_App{
 			$installedVersion = $versions[$app];
 			if (version_compare($currentVersion, $installedVersion, '>')) {
 				OC_Log::write($app, 'starting app upgrade from '.$installedVersion.' to '.$currentVersion, OC_Log::DEBUG);
-				OC_App::updateApp($app);
+				try {
+					OC_App::updateApp($app);
+				}
+				catch (Exception $e) {
+					echo 'Failed to upgrade "'.$app.'". Exception="'.$e->getMessage().'"';
+					die;
+				}
 				OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
 			}
 		}
