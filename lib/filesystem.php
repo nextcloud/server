@@ -357,7 +357,7 @@ class OC_Filesystem{
 	* @return string
 	*/
 	static public function getLocalPath($path) {
-		$datadir = OC_User::getHome($user).'/files';
+		$datadir = OC_User::getHome(OC_User::getUser()).'/files';
 		$newpath = $path;
 		if (strncmp($newpath, $datadir, strlen($datadir)) == 0) {
 			$newpath = substr($path, strlen($datadir));
