@@ -106,7 +106,7 @@ var OCdialogs = {
 		var c_name = 'oc-dialog-'+OCdialogs.dialogs_counter+'-content';
 		var c_id = '#'+c_name;
 		var d = '<div id="'+c_name+'" title="'+title+'"><select id="dirtree"><option value="0">'+OC.currentUser+'</option></select><div id="filelist"></div><div class="filepicker_loader"><img src="'+OC.filePath('gallery','img','loading.gif')+'"></div></div>';
-		if (!modal) modal = false; // Huh..?
+		if (!modal) modal = false; // Huh..
 		if (!multiselect) multiselect = false;
 		$('body').append(d);
 		$(c_id + ' #dirtree').focus(function() {

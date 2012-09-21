@@ -79,7 +79,7 @@ OC.Share={
 			var item = itemSource;
 		}
 		if (typeof OC.Share.statuses[item] === 'undefined') {
-			// NOTE: Check doesn't always work and misses some shares, fix later
+			// NOTE: Check does not always work and misses some shares, fix later
 			checkShares = true;
 		} else {
 			checkShares = true;
@@ -100,7 +100,7 @@ OC.Share={
 					callback(result.data);
 				}
 			} else {
-				OC.dialogs.alert(result.data.message, t('core', 'Error while sharing');
+				OC.dialogs.alert(result.data.message, t('core', 'Error while sharing'));
 			}
 		});
 	},
@@ -126,7 +126,7 @@ OC.Share={
 		var data = OC.Share.loadItem(itemType, itemSource);
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
 		if (data.reshare) {
-			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) { // %s
+			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
 				html += '<span class="reshare">'+t('core', 'Shared with you and the group %s by %s', data.reshare.share_with, data.reshare.uid_owner)+'</span>';
 			} else {
 				html += '<span class="reshare">'+t('core', 'Shared with you by %s', data.reshare.uid_owner)+'</span>';
