@@ -120,7 +120,7 @@ var OCdialogs = {
 		}).data('multiselect', multiselect).data('mimetype',mimetype_filter);
 		// build buttons
 		var b = [{
-			text: t('dialogs', 'Choose'), 
+			text: t('core', 'Choose'), 
 			click: function(){
 				if (callback != undefined) {
 					var p;
@@ -140,7 +140,7 @@ var OCdialogs = {
 			}
 		},
 		{
-			text: t('dialogs', 'Cancel'), 
+			text: t('core', 'Cancel'), 
 			click: function(){$(c_id).dialog('close'); }}
 		];
 		$(c_id).dialog({width: ((4*$('body').width())/9), height: 400, modal: modal, buttons: b});
@@ -156,11 +156,11 @@ var OCdialogs = {
 		var b = [];
 		switch (buttons) {
 			case OCdialogs.YES_NO_BUTTONS:
-				b[1] = {text: t('dialogs', 'No'), click: function(){ if (callback != undefined) callback(false); $(c_id).dialog('close'); }};
-				b[0] = {text: t('dialogs', 'Yes'), click: function(){ if (callback != undefined) callback(true); $(c_id).dialog('close');}};
+				b[1] = {text: t('core', 'No'), click: function(){ if (callback != undefined) callback(false); $(c_id).dialog('close'); }};
+				b[0] = {text: t('core', 'Yes'), click: function(){ if (callback != undefined) callback(true); $(c_id).dialog('close');}};
 			break;
 			case OCdialogs.OK_CANCEL_BUTTONS:
-				b[1] = {text: t('dialogs', 'Cancel'), click: function(){$(c_id).dialog('close'); }};
+				b[1] = {text: t('core', 'Cancel'), click: function(){$(c_id).dialog('close'); }};
 			case OCdialogs.OK_BUTTON: // fallthrough
 				var f;
 				switch(dialog_type) {
@@ -174,7 +174,7 @@ var OCdialogs = {
 						f = function(){OCdialogs.form_ok_handler(callback, c_id)};
 					break;
 				}
-				b[0] = {text: t('dialogs', 'Ok'), click: f};
+				b[0] = {text: t('core', 'Ok'), click: f};
 			break;
 		}
 		var possible_height = ($('tr', d).size()+1)*30;
