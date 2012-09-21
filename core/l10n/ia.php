@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "This category already exists: " => "Iste categoria jam existe:",
 "Settings" => "Configurationes",
+"Password" => "Contrasigno",
 "ownCloud password reset" => "Reinitialisation del contrasigno de ownCLoud",
 "Requested" => "Requestate",
 "Login failed!" => "Initio de session fallite!",
@@ -20,7 +21,6 @@
 "Edit categories" => "Modificar categorias",
 "Add" => "Adder",
 "Create an <strong>admin account</strong>" => "Crear un <strong>conto de administration</strong>",
-"Password" => "Contrasigno",
 "Advanced" => "Avantiate",
 "Data folder" => "Dossier de datos",
 "Configure the database" => "Configurar le base de datos",

@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-20 02:05+0200\n"
-"PO-Revision-Date: 2012-09-19 23:08+0000\n"
-"Last-Translator: Efstathios Iosifidis <diamond_gr@freemail.gr>\n"
+"POT-Creation-Date: 2012-09-22 01:13+0200\n"
+"PO-Revision-Date: 2012-09-21 23:14+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,6 +64,10 @@ msgstr "Διακοπή κοινής χρήσης"
 msgid "Delete"
 msgstr "Διαγραφή"
 
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr ""
+
 #: js/filelist.js:188 js/filelist.js:190
 msgid "already exists"
 msgstr "υπάρχει ήδη"
@@ -112,7 +116,7 @@ msgstr "Αδυναμία στην μεταφόρτωση του αρχείου �
 msgid "Upload Error"
 msgstr "Σφάλμα Μεταφόρτωσης"
 
-#: js/files.js:236 js/files.js:341 js/files.js:370
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
 msgstr "Εκκρεμεί"
 
@@ -120,44 +124,44 @@ msgstr "Εκκρεμεί"
 msgid "Upload cancelled."
 msgstr "Η μεταφόρτωση ακυρώθηκε."
 
-#: js/files.js:423
+#: js/files.js:424
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Η μεταφόρτωση του αρχείου βρίσκεται σε εξέλιξη.  Έξοδος από την σελίδα τώρα θα ακυρώσει την μεταφόρτωση."
 
-#: js/files.js:493
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
 msgstr "Μη έγκυρο όνομα, το '/' δεν επιτρέπεται."
 
-#: js/files.js:666
+#: js/files.js:667
 msgid "files scanned"
 msgstr "αρχεία σαρώθηκαν"
 
-#: js/files.js:674
+#: js/files.js:675
 msgid "error while scanning"
 msgstr "σφάλμα κατά την ανίχνευση"
 
-#: js/files.js:748 templates/index.php:56
+#: js/files.js:749 templates/index.php:56
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: js/files.js:749 templates/index.php:58
+#: js/files.js:750 templates/index.php:58
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
-#: js/files.js:776
+#: js/files.js:777
 msgid "folder"
 msgstr "φάκελος"
 
-#: js/files.js:778
+#: js/files.js:779
 msgid "folders"
 msgstr "φάκελοι"
 
-#: js/files.js:786
+#: js/files.js:787
 msgid "file"
 msgstr "αρχείο"
 
-#: js/files.js:788
+#: js/files.js:789
 msgid "files"
 msgstr "αρχεία"
 
@@ -209,7 +213,7 @@ msgstr "Φάκελος"
 msgid "From url"
 msgstr "Από την διεύθυνση"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Μεταφόρτωση"
 

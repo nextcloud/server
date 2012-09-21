@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-19 02:02+0200\n"
-"PO-Revision-Date: 2012-09-19 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 08:28+0000\n"
+"Last-Translator: g.ciprian <g.ciprian@osn.ro>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -228,7 +228,7 @@ msgstr "Răspuns"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
+msgstr "Ai utilizat <strong>%s</strong> din <strong>%s<strong> spațiu disponibil"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -240,7 +240,7 @@ msgstr "Descărcări"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "Parola a fost modificată"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

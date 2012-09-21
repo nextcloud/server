@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 23:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Armenian (http://www.transifex.com/projects/p/owncloud/language/hy/)\n"
 "MIME-Version: 1.0\n"
@@ -29,56 +29,60 @@ msgstr ""
 msgid "This category already exists: "
 msgstr ""
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:214 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "January"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "February"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "March"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "April"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "May"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "June"
 msgstr ""
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "July"
 msgstr ""
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "August"
 msgstr ""
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "September"
 msgstr ""
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "October"
 msgstr ""
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "November"
 msgstr ""
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "December"
+msgstr ""
+
+#: js/oc-dialogs.js:123
+msgid "Choose"
 msgstr ""
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
@@ -101,8 +105,108 @@ msgstr ""
 msgid "No categories selected for deletion."
 msgstr ""
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:485
 msgid "Error"
+msgstr ""
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr ""
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr ""
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr ""
+
+#: js/share.js:130
+#, perl-format
+msgid "Shared with you and the group %s by %s"
+msgstr ""
+
+#: js/share.js:132
+#, perl-format
+msgid "Shared with you by %s"
+msgstr ""
+
+#: js/share.js:137
+msgid "Share with"
+msgstr ""
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr ""
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr ""
+
+#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+msgid "Password"
+msgstr ""
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr ""
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr ""
+
+#: js/share.js:182
+#, perl-format
+msgid "Share via email: %s"
+msgstr ""
+
+#: js/share.js:184
+msgid "No people found"
+msgstr ""
+
+#: js/share.js:210
+msgid "Resharing is not allowed"
+msgstr ""
+
+#: js/share.js:246
+#, perl-format
+msgid "Shared in %s with %s"
+msgstr ""
+
+#: js/share.js:267
+msgid "Unshare"
+msgstr ""
+
+#: js/share.js:275
+msgid "can edit"
+msgstr ""
+
+#: js/share.js:277
+msgid "access control"
+msgstr ""
+
+#: js/share.js:280
+msgid "create"
+msgstr ""
+
+#: js/share.js:283
+msgid "update"
+msgstr ""
+
+#: js/share.js:286
+msgid "delete"
+msgstr ""
+
+#: js/share.js:289
+msgid "share"
+msgstr ""
+
+#: js/share.js:313 js/share.js:463
+msgid "Password protected"
+msgstr ""
+
+#: js/share.js:485
+msgid "Error setting expiration date"
 msgstr ""
 
 #: lostpassword/index.php:26
@@ -190,10 +294,6 @@ msgstr ""
 msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr ""
-
 #: templates/installation.php:36
 msgid "Advanced"
 msgstr ""
@@ -235,11 +335,11 @@ msgstr ""
 msgid "Finish setup"
 msgstr ""
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr ""
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:39
 msgid "Log out"
 msgstr ""
 

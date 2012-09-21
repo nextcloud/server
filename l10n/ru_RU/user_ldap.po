@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-21 02:02+0200\n"
-"PO-Revision-Date: 2012-09-20 13:17+0000\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 12:37+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Хост"
 #: templates/settings.php:8
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Вы можете пропустить протокол, если Вам не требуется SSL. Затем начните с ldaps://"
 
 #: templates/settings.php:9
 msgid "Base DN"
@@ -68,7 +68,7 @@ msgstr ""
 #: templates/settings.php:12
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "используйте %%uid заполнитель, например, \"uid=%%uid\""
 
 #: templates/settings.php:13
 msgid "User List Filter"
@@ -80,7 +80,7 @@ msgstr ""
 
 #: templates/settings.php:13
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "без каких-либо заполнителей, например, \"objectClass=person\"."
 
 #: templates/settings.php:14
 msgid "Group Filter"
@@ -92,7 +92,7 @@ msgstr ""
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "без каких-либо заполнителей, например, \"objectClass=posixGroup\"."
 
 #: templates/settings.php:17
 msgid "Port"
@@ -134,7 +134,7 @@ msgstr ""
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "Не рекомендовано, используйте только для тестирования."
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
@@ -142,7 +142,7 @@ msgstr ""
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "Атрибут LDAP, используемый для создания имени пользователя в ownCloud."
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
@@ -150,7 +150,7 @@ msgstr ""
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "Атрибут LDAP, используемый для создания группового имени в ownCloud."
 
 #: templates/settings.php:27
 msgid "in bytes"

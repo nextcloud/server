@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:02+0200\n"
-"PO-Revision-Date: 2012-09-17 00:04+0000\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 23:15+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Basque (Spain) (http://www.transifex.com/projects/p/owncloud/language/eu_ES/)\n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,10 @@ msgstr ""
 
 #: js/settings-personal.js:31 templates/settings-personal.php:10
 msgid "Expire all versions"
+msgstr ""
+
+#: js/versions.js:16
+msgid "History"
 msgstr ""
 
 #: templates/settings-personal.php:4

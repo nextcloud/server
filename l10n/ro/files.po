@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-19 02:02+0200\n"
-"PO-Revision-Date: 2012-09-18 12:40+0000\n"
-"Last-Translator: g.ciprian <g.ciprian@osn.ro>\n"
+"POT-Creation-Date: 2012-09-22 01:13+0200\n"
+"PO-Revision-Date: 2012-09-21 23:14+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,39 +63,43 @@ msgstr "Anulează partajarea"
 msgid "Delete"
 msgstr "Șterge"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr ""
+
+#: js/filelist.js:188 js/filelist.js:190
 msgid "already exists"
 msgstr "deja există"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "replace"
 msgstr "înlocuire"
 
-#: js/filelist.js:186
+#: js/filelist.js:188
 msgid "suggest name"
 msgstr "sugerează nume"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "cancel"
 msgstr "anulare"
 
-#: js/filelist.js:235 js/filelist.js:237
+#: js/filelist.js:237 js/filelist.js:239
 msgid "replaced"
 msgstr "înlocuit"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:267 js/filelist.js:269
+#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
 msgid "undo"
 msgstr "Anulează ultima acțiune"
 
-#: js/filelist.js:237
+#: js/filelist.js:239
 msgid "with"
 msgstr "cu"
 
-#: js/filelist.js:267
+#: js/filelist.js:271
 msgid "unshared"
 msgstr "nepartajat"
 
-#: js/filelist.js:269
+#: js/filelist.js:273
 msgid "deleted"
 msgstr "șters"
 
@@ -111,7 +115,7 @@ msgstr "Nu s-a putut încărca fișierul tău deoarece pare să fie un director 
 msgid "Upload Error"
 msgstr "Eroare la încărcare"
 
-#: js/files.js:236 js/files.js:341 js/files.js:370
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
 msgstr "În așteptare"
 
@@ -119,44 +123,44 @@ msgstr "În așteptare"
 msgid "Upload cancelled."
 msgstr "Încărcare anulată."
 
-#: js/files.js:423
+#: js/files.js:424
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Fișierul este în curs de încărcare. Părăsirea paginii va întrerupe încărcarea."
 
-#: js/files.js:493
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nume invalid, '/' nu este permis."
 
-#: js/files.js:666
+#: js/files.js:667
 msgid "files scanned"
 msgstr "fișiere scanate"
 
-#: js/files.js:674
+#: js/files.js:675
 msgid "error while scanning"
 msgstr "eroare la scanarea"
 
-#: js/files.js:748 templates/index.php:56
+#: js/files.js:749 templates/index.php:56
 msgid "Size"
 msgstr "Dimensiune"
 
-#: js/files.js:749 templates/index.php:58
+#: js/files.js:750 templates/index.php:58
 msgid "Modified"
 msgstr "Modificat"
 
-#: js/files.js:776
+#: js/files.js:777
 msgid "folder"
 msgstr "director"
 
-#: js/files.js:778
+#: js/files.js:779
 msgid "folders"
 msgstr "directoare"
 
-#: js/files.js:786
+#: js/files.js:787
 msgid "file"
 msgstr "fișier"
 
-#: js/files.js:788
+#: js/files.js:789
 msgid "files"
 msgstr "fișiere"
 
@@ -208,7 +212,7 @@ msgstr "Dosar"
 msgid "From url"
 msgstr "De la URL"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Încarcă"
 

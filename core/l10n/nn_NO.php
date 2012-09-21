@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Settings" => "Innstillingar",
+"Password" => "Passord",
 "Use the following link to reset your password: {link}" => "Bruk føljane link til å tilbakestille passordet ditt: {link}",
 "You will receive a link to reset your password via Email." => "Du vil få ei lenkje for å nullstilla passordet via epost.",
 "Requested" => "Førespurt",
@@ -17,7 +18,6 @@
 "Help" => "Hjelp",
 "Cloud not found" => "Fann ikkje skyen",
 "Create an <strong>admin account</strong>" => "Lag ein <strong>admin-konto</strong>",
-"Password" => "Passord",
 "Advanced" => "Avansert",
 "Data folder" => "Datamappe",
 "Configure the database" => "Konfigurer databasen",

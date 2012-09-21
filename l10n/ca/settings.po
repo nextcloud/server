@@ -5,14 +5,15 @@
 # Translators:
 #   <bury1000@gmail.com>, 2012.
 #   <joan@montane.cat>, 2012.
+#   <josep_tomas@hotmail.com>, 2012.
 #   <rcalvoi@yahoo.com>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-19 02:02+0200\n"
-"PO-Revision-Date: 2012-09-19 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 22:01+0000\n"
+"Last-Translator: Josep Tomàs <jtomas.binsoft@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -114,7 +115,7 @@ msgstr "Cron"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Executar una tasca de cada pàgina carregada"
 
 #: templates/admin.php:43
 msgid ""
@@ -126,11 +127,11 @@ msgstr "cron.php està registrat en un servei webcron. Feu una crida a la pàgin
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Utilitzeu el sistema de servei cron. Cridar el arxiu cron.php de la carpeta owncloud cada minut utilitzant el sistema de tasques cron."
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "Compartir"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
@@ -225,7 +226,7 @@ msgstr "Resposta"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
+msgstr "Ha utilitzat <strong>%s</strong> de la <strong>%s</strong> disponible"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -237,7 +238,7 @@ msgstr "Baixada"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "La seva contrasenya s'ha canviat"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

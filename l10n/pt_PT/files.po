@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-18 02:01+0200\n"
-"PO-Revision-Date: 2012-09-18 00:01+0000\n"
+"POT-Creation-Date: 2012-09-22 01:13+0200\n"
+"PO-Revision-Date: 2012-09-21 23:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -62,39 +62,43 @@ msgstr ""
 msgid "Delete"
 msgstr "Apagar"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr ""
+
+#: js/filelist.js:188 js/filelist.js:190
 msgid "already exists"
 msgstr "Já existe"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "replace"
 msgstr "substituir"
 
-#: js/filelist.js:186
+#: js/filelist.js:188
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "cancel"
 msgstr "cancelar"
 
-#: js/filelist.js:235 js/filelist.js:237
+#: js/filelist.js:237 js/filelist.js:239
 msgid "replaced"
 msgstr "substituido"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:267 js/filelist.js:269
+#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
 msgid "undo"
 msgstr "desfazer"
 
-#: js/filelist.js:237
+#: js/filelist.js:239
 msgid "with"
 msgstr "com"
 
-#: js/filelist.js:267
+#: js/filelist.js:271
 msgid "unshared"
 msgstr ""
 
-#: js/filelist.js:269
+#: js/filelist.js:273
 msgid "deleted"
 msgstr "apagado"
 
@@ -110,7 +114,7 @@ msgstr "Não é possivel fazer o upload do ficheiro devido a ser uma pasta ou te
 msgid "Upload Error"
 msgstr "Erro no upload"
 
-#: js/files.js:236 js/files.js:341 js/files.js:370
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
 msgstr "Pendente"
 
@@ -118,44 +122,44 @@ msgstr "Pendente"
 msgid "Upload cancelled."
 msgstr "O upload foi cancelado."
 
-#: js/files.js:423
+#: js/files.js:424
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:493
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
 msgstr "nome inválido, '/' não permitido."
 
-#: js/files.js:666
+#: js/files.js:667
 msgid "files scanned"
 msgstr ""
 
-#: js/files.js:674
+#: js/files.js:675
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:748 templates/index.php:56
+#: js/files.js:749 templates/index.php:56
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/files.js:749 templates/index.php:58
+#: js/files.js:750 templates/index.php:58
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:776
+#: js/files.js:777
 msgid "folder"
 msgstr "pasta"
 
-#: js/files.js:778
+#: js/files.js:779
 msgid "folders"
 msgstr "pastas"
 
-#: js/files.js:786
+#: js/files.js:787
 msgid "file"
 msgstr "ficheiro"
 
-#: js/files.js:788
+#: js/files.js:789
 msgid "files"
 msgstr "ficheiros"
 
@@ -207,7 +211,7 @@ msgstr "Pasta"
 msgid "From url"
 msgstr "Do endereço"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Enviar"
 

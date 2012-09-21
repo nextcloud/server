@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-14 02:01+0200\n"
-"PO-Revision-Date: 2012-09-13 12:09+0000\n"
-"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 23:14+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,6 +82,10 @@ msgstr "Ноябрь"
 msgid "December"
 msgstr "Декабрь"
 
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr ""
+
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
 msgstr "Отмена"
@@ -102,9 +106,109 @@ msgstr "Да"
 msgid "No categories selected for deletion."
 msgstr "Нет категорий, выбранных для удаления."
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:485
 msgid "Error"
 msgstr "Ошибка"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr ""
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr ""
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr ""
+
+#: js/share.js:130
+#, perl-format
+msgid "Shared with you and the group %s by %s"
+msgstr ""
+
+#: js/share.js:132
+#, perl-format
+msgid "Shared with you by %s"
+msgstr ""
+
+#: js/share.js:137
+msgid "Share with"
+msgstr ""
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr ""
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr ""
+
+#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+msgid "Password"
+msgstr "Пароль"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr ""
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr ""
+
+#: js/share.js:182
+#, perl-format
+msgid "Share via email: %s"
+msgstr ""
+
+#: js/share.js:184
+msgid "No people found"
+msgstr ""
+
+#: js/share.js:210
+msgid "Resharing is not allowed"
+msgstr ""
+
+#: js/share.js:246
+#, perl-format
+msgid "Shared in %s with %s"
+msgstr ""
+
+#: js/share.js:267
+msgid "Unshare"
+msgstr ""
+
+#: js/share.js:275
+msgid "can edit"
+msgstr ""
+
+#: js/share.js:277
+msgid "access control"
+msgstr ""
+
+#: js/share.js:280
+msgid "create"
+msgstr ""
+
+#: js/share.js:283
+msgid "update"
+msgstr ""
+
+#: js/share.js:286
+msgid "delete"
+msgstr ""
+
+#: js/share.js:289
+msgid "share"
+msgstr ""
+
+#: js/share.js:313 js/share.js:463
+msgid "Password protected"
+msgstr ""
+
+#: js/share.js:485
+msgid "Error setting expiration date"
+msgstr ""
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -190,10 +294,6 @@ msgstr "Добавить"
 #: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
 msgstr "Создать <strong>admin account</strong>"
-
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr "Пароль"
 
 #: templates/installation.php:36
 msgid "Advanced"

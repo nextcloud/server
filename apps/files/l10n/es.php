@@ -8,7 +8,7 @@
 "Failed to write to disk" => "La escritura en disco ha fallado",
 "Files" => "Archivos",
 "Unshare" => "Dejar de compartir",
-"Delete" => "Eliminado",
+"Delete" => "Eliminar",
 "already exists" => "ya existe",
 "replace" => "reemplazar",
 "suggest name" => "sugerir nombre",
