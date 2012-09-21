@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-18 02:01+0200\n"
-"PO-Revision-Date: 2012-09-18 00:01+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-21 02:02+0200\n"
+"PO-Revision-Date: 2012-09-20 01:00+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,39 +61,39 @@ msgstr "共有しない"
 msgid "Delete"
 msgstr "削除"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "already exists"
 msgstr "既に存在します"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "replace"
 msgstr "置き換え"
 
-#: js/filelist.js:186
+#: js/filelist.js:188
 msgid "suggest name"
 msgstr "推奨名称"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "cancel"
 msgstr "キャンセル"
 
-#: js/filelist.js:235 js/filelist.js:237
+#: js/filelist.js:237 js/filelist.js:239
 msgid "replaced"
 msgstr "置換："
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:267 js/filelist.js:269
+#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
 msgid "undo"
 msgstr "元に戻す"
 
-#: js/filelist.js:237
+#: js/filelist.js:239
 msgid "with"
 msgstr "←"
 
-#: js/filelist.js:267
+#: js/filelist.js:271
 msgid "unshared"
 msgstr "未共有"
 
-#: js/filelist.js:269
+#: js/filelist.js:273
 msgid "deleted"
 msgstr "削除"
 
@@ -109,7 +109,7 @@ msgstr "アップロード使用としているファイルがディレクトリ
 msgid "Upload Error"
 msgstr "アップロードエラー"
 
-#: js/files.js:236 js/files.js:341 js/files.js:370
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
 msgstr "保留"
 
@@ -117,44 +117,44 @@ msgstr "保留"
 msgid "Upload cancelled."
 msgstr "アップロードはキャンセルされました。"
 
-#: js/files.js:423
+#: js/files.js:424
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。"
 
-#: js/files.js:493
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
 msgstr "無効な名前、'/' は使用できません。"
 
-#: js/files.js:666
+#: js/files.js:667
 msgid "files scanned"
-msgstr ""
+msgstr "ファイルをスキャンしました"
 
-#: js/files.js:674
+#: js/files.js:675
 msgid "error while scanning"
-msgstr ""
+msgstr "スキャン中のエラー"
 
-#: js/files.js:748 templates/index.php:56
+#: js/files.js:749 templates/index.php:56
 msgid "Size"
 msgstr "サイズ"
 
-#: js/files.js:749 templates/index.php:58
+#: js/files.js:750 templates/index.php:58
 msgid "Modified"
 msgstr "更新日時"
 
-#: js/files.js:776
+#: js/files.js:777
 msgid "folder"
 msgstr "フォルダ"
 
-#: js/files.js:778
+#: js/files.js:779
 msgid "folders"
 msgstr "フォルダ"
 
-#: js/files.js:786
+#: js/files.js:787
 msgid "file"
 msgstr "ファイル"
 
-#: js/files.js:788
+#: js/files.js:789
 msgid "files"
 msgstr "ファイル"
 

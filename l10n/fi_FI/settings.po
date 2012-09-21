@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-19 02:02+0200\n"
-"PO-Revision-Date: 2012-09-19 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-21 02:02+0200\n"
+"PO-Revision-Date: 2012-09-20 18:06+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -225,7 +225,7 @@ msgstr "Vastaus"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
+msgstr "Käytössäsi on <strong>%s</strong>/<strong>%s<strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -237,7 +237,7 @@ msgstr "Lataa"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "Salasanasi vaihdettiin"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

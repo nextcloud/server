@@ -25,6 +25,8 @@
 "Upload cancelled." => "Igoera ezeztatuta",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du.",
 "Invalid name, '/' is not allowed." => "Baliogabeko izena, '/' ezin da erabili. ",
+"files scanned" => "fitxategiak eskaneatuta",
+"error while scanning" => "errore bat egon da eskaneatzen zen bitartean",
 "Size" => "Tamaina",
 "Modified" => "Aldatuta",
 "folder" => "karpeta",
