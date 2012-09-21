@@ -58,6 +58,7 @@ class OC_L10N{
 	 * Localization
 	 */
 	private $localizations = array(
+		'jsdate' => 'dd.mm.yy',
 		'date' => '%d.%m.%Y',
 		'datetime' => '%d.%m.%Y %H:%M:%S',
 		'time' => '%H:%M:%S',
@@ -223,6 +224,7 @@ class OC_L10N{
 				return strftime($this->localizations[$type], $data);
 				break;
 			case 'firstday':
+			case 'jsdate':
 				return $this->localizations[$type];
 			default:
 				return false;
