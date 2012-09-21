@@ -29,6 +29,34 @@ class OC_Files {
 	static $tmpFiles=array();
 
 	/**
+	 * get the filesystem info
+	 * @param string path
+	 * @return array
+	 *
+	 * returns an associative array with the following keys:
+	 * - size
+	 * - mtime
+	 * - ctime
+	 * - mimetype
+	 * - encrypted
+	 * - versioned
+	 */
+	public static function getFileInfo($path) {
+		if (($path == '/Shared' || substr($path, 0, 8) == '/Shared/') && OC_App::isEnabled('files_sharing')) {
+			if ($path == '/Shared') {
+				$info = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
+			}
+			else {
+				$info = OCP\Share::getItemSharedWith('file', '/'.$name, OC_Share_Backend_File::FORMAT_FILE_APP);
+			}
+			$info = $info[0];
+		}
+		else {
+			$info = OC_FileCache::get($path);
+		}
+	}
+
+	/**
 	* get the content of a directory
 	* @param dir $directory path under datadirectory
 	*/

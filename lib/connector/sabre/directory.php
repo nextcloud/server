@@ -93,10 +93,12 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 
 		$path = $this->path . '/' . $name;
 		if (is_null($info)) {
-			$info = OC_FileCache::get($path);
+			OC_Files::getFileInfo($path);
 		}
 
-		if (!$info) throw new Sabre_DAV_Exception_NotFound('File with name ' . $path . ' could not be located');
+		if (!$info) {
+			throw new Sabre_DAV_Exception_NotFound('File with name ' . $path . ' could not be located');
+		}
 
 		if ($info['mimetype'] == 'httpd/unix-directory') {
 			$node = new OC_Connector_Sabre_Directory($path);
@@ -115,7 +117,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function getChildren() {
 
-		$folder_content = OC_FileCache::getFolderContent($this->path);
+		$folder_content = OC_Files::getDirectoryContent($this->path);
 		$paths = array();
 		foreach($folder_content as $info) {
 			$paths[] = $this->path.'/'.$info['name'];
