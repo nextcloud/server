@@ -1,6 +1,7 @@
 <?php
 $installedVersion = OCP\Config::getAppValue('files_sharing', 'installed_version');
 if (version_compare($installedVersion, '0.3', '<')) {
+	$update_error = false;
 	$query = OCP\DB::prepare('SELECT * FROM `*PREFIX*sharing`');
 	$result = $query->execute();
 	$groupShares = array();
@@ -38,8 +39,17 @@ if (version_compare($installedVersion, '0.3', '<')) {
 				$shareWith = $row['uid_shared_with'];
 			}
 			OC_User::setUserId($row['uid_owner']);
-			OCP\Share::shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions);
+			try {
+				OCP\Share::shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions);
+			}
+			catch (Exception $e) {
+				$update_error = true;
+				echo 'Skipping sharing "'.$row['source'].'" to "'.$shareWith.'" (error is "'.$e->getMessage().'")<br/>';
+			}
 		}
+	}
+	if ($update_error) {
+		throw new Exception('There were some problems upgrading the sharing of files');
 	}
 	// NOTE: Let's drop the table after more testing
 // 	$query = OCP\DB::prepare('DROP TABLE `*PREFIX*sharing`');
