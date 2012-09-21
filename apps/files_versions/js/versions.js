@@ -10,10 +10,10 @@ $(document).ready(function() {
 
 $(document).ready(function(){
 	if (typeof FileActions !== 'undefined') {
-		// Add history button to files/index.php
+		// Add history button to 'files/index.php'
 		FileActions.register(
 			'file'
-			,'History'
+			, t('files_versions', 'History')
 			, OC.PERMISSION_UPDATE
 			, function() {
 				// Specify icon for hitory button
