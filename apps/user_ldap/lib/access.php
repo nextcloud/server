@@ -206,21 +206,17 @@ abstract class Access {
 		$dn = $this->sanitizeDN($dn);
 		$table = $this->getMapTable($isUser);
 		if($isUser) {
+			$fncFindMappedName = 'findMappedUser';
 			$nameAttribute = $this->connection->ldapUserDisplayName;
 		} else {
+			$fncFindMappedName = 'findMappedGroup';
 			$nameAttribute = $this->connection->ldapGroupDisplayName;
 		}
 
-		$query = \OCP\DB::prepare('
-			SELECT `owncloud_name`
-			FROM `'.$table.'`
-			WHERE `ldap_dn` = ?
-		');
-
 		//let's try to retrieve the ownCloud name from the mappings table
-		$component = $query->execute(array($dn))->fetchOne();
-		if($component) {
-			return $component;
+		$ocname = $this->$fncFindMappedName($dn);
+		if($ocname) {
+			return $ocname;
 		}
 
 		//second try: get the UUID and check if it is known. Then, update the DN and return the name.
@@ -295,25 +291,48 @@ abstract class Access {
 		return $this->ldap2ownCloudNames($ldapGroups, false);
 	}
 
+	private function findMappedUser($dn) {
+		static $query = null;
+		if(is_null($query)) {
+			$query = \OCP\DB::prepare('
+				SELECT `owncloud_name`
+				FROM `'.$this->getMapTable(true).'`
+				WHERE `ldap_dn` = ?'
+			);
+		}
+		$res = $query->execute(array($dn))->fetchOne();
+		if($res) {
+			return  $res;
+		}
+		return false;
+	}
+
+	private function findMappedGroup($dn) {
+                static $query = null;
+		if(is_null($query)) {
+			$query = \OCP\DB::prepare('
+                        	SELECT `owncloud_name`
+	                        FROM `'.$this->getMapTable(false).'`
+        	                WHERE `ldap_dn` = ?'
+                	);
+		}
+                $res = $query->execute(array($dn))->fetchOne();
+                if($res) {
+                        return  $res;
+                }
+		return false;
+        }
+
+
 	private function ldap2ownCloudNames($ldapObjects, $isUsers) {
 		if($isUsers) {
-			$knownObjects = $this->mappedUsers();
 			$nameAttribute = $this->connection->ldapUserDisplayName;
 		} else {
-			$knownObjects = $this->mappedGroups();
 			$nameAttribute = $this->connection->ldapGroupDisplayName;
 		}
 		$ownCloudNames = array();
 
 		foreach($ldapObjects as $ldapObject) {
-			$key = \OCP\Util::recursiveArraySearch($knownObjects, $ldapObject['dn']);
-
-			//everything is fine when we know the group
-			if($key !== false) {
-				$ownCloudNames[] = $knownObjects[$key]['owncloud_name'];
-				continue;
-			}
-
 			$ocname = $this->dn2ocname($ldapObject['dn'], $ldapObject[$nameAttribute], $isUsers);
 			if($ocname) {
 				$ownCloudNames[] = $ocname;
