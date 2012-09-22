@@ -6,12 +6,14 @@
  * See the COPYING-README file.
  */
 
+namespace Test\Files\Storage;
+
 $config=include('apps/files_external/tests/config.php');
 if(!is_array($config) or !isset($config['webdav']) or !$config['webdav']['run']) {
-	abstract class Test_Filestorage_DAV extends Test_FileStorage{}
+	abstract class DAV extends Storage{}
 	return;
 }else{
-	class Test_Filestorage_DAV extends Test_FileStorage {
+	class DAV extends Storage {
 		private $config;
 
 		public function setUp() {

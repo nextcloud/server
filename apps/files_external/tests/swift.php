@@ -6,12 +6,14 @@
  * See the COPYING-README file.
  */
 
+namespace Test\Files\Storage;
+
 $config=include('apps/files_external/tests/config.php');
 if(!is_array($config) or !isset($config['swift']) or !$config['swift']['run']) {
-	abstract class Test_Filestorage_SWIFT extends Test_FileStorage{}
+	abstract class SWIFT extends Storage{}
 	return;
 }else{
-	class Test_Filestorage_SWIFT extends Test_FileStorage {
+	class SWIFT extends Storage {
 		private $config;
 
 		public function setUp() {

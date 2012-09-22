@@ -20,7 +20,9 @@
 *
 */
 
-abstract class Test_FileStorage extends UnitTestCase {
+namespace Test\Files\Storage;
+
+abstract class Storage extends \UnitTestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage instance
 	 */
@@ -83,7 +85,7 @@ abstract class Test_FileStorage extends UnitTestCase {
 	 * test the various uses of file_get_contents and file_put_contents
 	 */
 	public function testGetPutContents() {
-		$sourceFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
+		$sourceFile=\OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$sourceText=file_get_contents($sourceFile);
 		
 		//fill a file with string data
@@ -103,21 +105,21 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertEqual('httpd/unix-directory',$this->instance->getMimeType('/'));
 		$this->assertEqual(false,$this->instance->getMimeType('/non/existing/file'));
 		
-		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
+		$textFile=\OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/lorem.txt',file_get_contents($textFile,'r'));
 		$this->assertEqual('text/plain',$this->instance->getMimeType('/lorem.txt'));
 		
-		$pngFile=OC::$SERVERROOT.'/tests/data/logo-wide.png';
+		$pngFile=\OC::$SERVERROOT.'/tests/data/logo-wide.png';
 		$this->instance->file_put_contents('/logo-wide.png',file_get_contents($pngFile,'r'));
 		$this->assertEqual('image/png',$this->instance->getMimeType('/logo-wide.png'));
 		
-		$svgFile=OC::$SERVERROOT.'/tests/data/logo-wide.svg';
+		$svgFile=\OC::$SERVERROOT.'/tests/data/logo-wide.svg';
 		$this->instance->file_put_contents('/logo-wide.svg',file_get_contents($svgFile,'r'));
 		$this->assertEqual('image/svg+xml',$this->instance->getMimeType('/logo-wide.svg'));
 	}
 	
 	public function testCopyAndMove() {
-		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
+		$textFile=\OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/source.txt',file_get_contents($textFile));
 		$this->instance->copy('/source.txt','/target.txt');
 		$this->assertTrue($this->instance->file_exists('/target.txt'));
@@ -130,7 +132,7 @@ abstract class Test_FileStorage extends UnitTestCase {
 	}
 	
 	public function testLocal() {
-		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
+		$textFile=\OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/lorem.txt',file_get_contents($textFile));
 		$localFile=$this->instance->getLocalFile('/lorem.txt');
 		$this->assertTrue(file_exists($localFile));
@@ -151,7 +153,7 @@ abstract class Test_FileStorage extends UnitTestCase {
 	}
 
 	public function testStat() {
-		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
+		$textFile=\OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$ctimeStart=time();
 		$this->instance->file_put_contents('/lorem.txt',file_get_contents($textFile));
 		$this->assertTrue($this->instance->isReadable('/lorem.txt'));
@@ -198,7 +200,6 @@ abstract class Test_FileStorage extends UnitTestCase {
 		fclose($fh);
 		clearstatcache();
 		$mtimeEnd=time();
-		$originalCTime=$cTime;
 		$mTime=$this->instance->filemtime('/lorem.txt');
 		$this->assertTrue(($mtimeStart-1)<=$mTime);
 		$this->assertTrue($mTime<=($mtimeEnd+1));
@@ -208,11 +209,11 @@ abstract class Test_FileStorage extends UnitTestCase {
 	}
 
 	public function testSearch() {
-		$textFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
+		$textFile=\OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/lorem.txt',file_get_contents($textFile,'r'));
-		$pngFile=OC::$SERVERROOT.'/tests/data/logo-wide.png';
+		$pngFile=\OC::$SERVERROOT.'/tests/data/logo-wide.png';
 		$this->instance->file_put_contents('/logo-wide.png',file_get_contents($pngFile,'r'));
-		$svgFile=OC::$SERVERROOT.'/tests/data/logo-wide.svg';
+		$svgFile=\OC::$SERVERROOT.'/tests/data/logo-wide.svg';
 		$this->instance->file_put_contents('/logo-wide.svg',file_get_contents($svgFile,'r'));
 		$result=$this->instance->search('logo');
 		$this->assertEqual(2,count($result));

@@ -8,11 +8,13 @@
 
 $config=include('apps/files_external/tests/config.php');
 
+namespace Test\Files\Storage;
+
 if(!is_array($config) or !isset($config['smb']) or !$config['smb']['run']) {
-	abstract class Test_Filestorage_SMB extends Test_FileStorage{}
+	abstract class SMB extends Storage{}
 	return;
 }else{
-	class Test_Filestorage_SMB extends Test_FileStorage {
+	class SMB extends Storage {
 		private $config;
 
 		public function setUp() {
@@ -23,7 +25,7 @@ if(!is_array($config) or !isset($config['smb']) or !$config['smb']['run']) {
 		}
 
 		public function tearDown() {
-			OCP\Files::rmdirr($this->instance->constructUrl(''));
+			\OCP\Files::rmdirr($this->instance->constructUrl(''));
 		}
 	}
 }

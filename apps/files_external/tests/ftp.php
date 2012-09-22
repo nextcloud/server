@@ -6,12 +6,14 @@
  * See the COPYING-README file.
  */
 
+namespace Test\Files\Storage;
+
 $config=include('apps/files_external/tests/config.php');
 if(!is_array($config) or !isset($config['ftp']) or !$config['ftp']['run']) {
-	abstract class Test_Filestorage_FTP extends Test_FileStorage{}
+	abstract class FTP extends Storage{}
 	return;
 }else{
-	class Test_Filestorage_FTP extends Test_FileStorage {
+	class FTP extends Storage {
 		private $config;
 
 		public function setUp() {
@@ -22,7 +24,7 @@ if(!is_array($config) or !isset($config['ftp']) or !$config['ftp']['run']) {
 		}
 
 		public function tearDown() {
-			OCP\Files::rmdirr($this->instance->constructUrl(''));
+			\OCP\Files::rmdirr($this->instance->constructUrl(''));
 		}
 	}
 }

@@ -20,12 +20,14 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+namespace Test\Files\Storage;
+
 $config=include('apps/files_external/tests/config.php');
 if(!is_array($config) or !isset($config['google']) or !$config['google']['run']) {
-	abstract class Test_Filestorage_Google extends Test_FileStorage{}
+	abstract class Google extends Storage{}
 	return;
 }else{
-	class Test_Filestorage_Google extends Test_FileStorage {
+	class Google extends Storage {
 
 		private $config;
 

@@ -20,7 +20,9 @@
 *
 */
 
-class Test_Filestorage_CommonTest extends Test_FileStorage {
+namespace Test\Files\Storage;
+
+class CommonTest extends Storage {
 	/**
 	 * @var string tmpDir
 	 */
@@ -34,7 +36,7 @@ class Test_Filestorage_CommonTest extends Test_FileStorage {
 	}
 
 	public function tearDown() {
-		OC_Helper::rmdirr($this->tmpDir);
+		\OC_Helper::rmdirr($this->tmpDir);
 	}
 }
 
