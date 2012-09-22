@@ -95,6 +95,9 @@ class OC{
 		}
 		elseif(strpos($className, 'Test_')===0) {
 			$path =  'tests/lib/'.strtolower(str_replace('_', '/', substr($className, 5)) . '.php');
+		}
+		elseif(strpos($className, 'Test\\')===0) {
+				$path =  'tests/lib/'.strtolower(str_replace('\\', '/', substr($className, 5)) . '.php');
 		}else{
 			return false;
 		}
