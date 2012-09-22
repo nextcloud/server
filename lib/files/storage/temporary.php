@@ -11,7 +11,7 @@ namespace OC\Files\Storage;
 /**
  * local storage backnd in temporary folder for testing purpores
  */
-class Temporary extends OC\Files\Storage\Local{
+class Temporary extends Local{
 	public function __construct($arguments) {
 		$this->datadir=\OC_Helper::tmpFolder();
 	}
