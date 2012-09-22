@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:14+0200\n"
-"PO-Revision-Date: 2012-09-21 23:14+0000\n"
+"POT-Creation-Date: 2012-09-22 02:00+0200\n"
+"PO-Revision-Date: 2012-09-21 23:24+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "Dezember"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Auswählen"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -123,7 +123,7 @@ msgstr "Fehler"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Fehler beim Teilen"
 
 #: js/share.js:114
 msgid "Error while unsharing"
@@ -131,7 +131,7 @@ msgstr ""
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Fehler beim Ändern  der Rechte"
 
 #: js/share.js:130
 #, perl-format
@@ -191,31 +191,31 @@ msgstr ""
 
 #: js/share.js:275
 msgid "can edit"
-msgstr ""
+msgstr "kann bearbeiten"
 
 #: js/share.js:277
 msgid "access control"
-msgstr ""
+msgstr "Zugriffskontrolle"
 
 #: js/share.js:280
 msgid "create"
-msgstr ""
+msgstr "erstellen"
 
 #: js/share.js:283
 msgid "update"
-msgstr ""
+msgstr "aktualisieren"
 
 #: js/share.js:286
 msgid "delete"
-msgstr ""
+msgstr "löschen"
 
 #: js/share.js:289
 msgid "share"
-msgstr ""
+msgstr "teilen"
 
 #: js/share.js:313 js/share.js:463
 msgid "Password protected"
-msgstr ""
+msgstr "Passwort geschützt"
 
 #: js/share.js:485
 msgid "Error setting expiration date"

@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:13+0200\n"
-"PO-Revision-Date: 2012-09-21 23:14+0000\n"
+"POT-Creation-Date: 2012-09-22 02:00+0200\n"
+"PO-Revision-Date: 2012-09-21 23:22+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +74,7 @@ msgstr "Löschen"
 
 #: js/fileactions.js:182
 msgid "Rename"
-msgstr ""
+msgstr "Umbenennen"
 
 #: js/filelist.js:188 js/filelist.js:190
 msgid "already exists"
