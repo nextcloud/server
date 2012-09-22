@@ -21,5 +21,8 @@
 "last month" => "lasta monato",
 "months ago" => "monatojn antaŭe",
 "last year" => "lasta jaro",
-"years ago" => "jarojn antaŭe"
+"years ago" => "jarojn antaŭe",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s haveblas. Ekhavu <a href=\"%s\">pli da informo</a>",
+"up to date" => "ĝisdata",
+"updates check is disabled" => "ĝisdateckontrolo estas malkapabligita"
 );

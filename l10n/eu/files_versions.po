@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-04 02:01+0200\n"
-"PO-Revision-Date: 2012-09-03 12:58+0000\n"
-"Last-Translator: asieriko <asieriko@gmail.com>\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 23:15+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,6 +22,10 @@ msgstr ""
 msgid "Expire all versions"
 msgstr "Iraungi bertsio guztiak"
 
+#: js/versions.js:16
+msgid "History"
+msgstr ""
+
 #: templates/settings-personal.php:4
 msgid "Versions"
 msgstr "Bertsioak"
@@ -31,5 +35,9 @@ msgid "This will delete all existing backup versions of your files"
 msgstr "Honek zure fitxategien bertsio guztiak ezabatuko ditu"
 
 #: templates/settings.php:3
-msgid "Enable Files Versioning"
-msgstr "Gaitu fitxategien bertsioak"
+msgid "Files Versioning"
+msgstr "Fitxategien Bertsioak"
+
+#: templates/settings.php:4
+msgid "Enable"
+msgstr "Gaitu"

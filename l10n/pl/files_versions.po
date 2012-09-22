@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Cyryl Sochacki <>, 2012.
+#   <mplichta@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-04 02:01+0200\n"
-"PO-Revision-Date: 2012-09-03 06:57+0000\n"
-"Last-Translator: Cyryl Sochacki <>\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 23:15+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,6 +23,10 @@ msgstr ""
 msgid "Expire all versions"
 msgstr "Wygasają wszystkie wersje"
 
+#: js/versions.js:16
+msgid "History"
+msgstr ""
+
 #: templates/settings-personal.php:4
 msgid "Versions"
 msgstr "Wersje"
@@ -31,5 +36,9 @@ msgid "This will delete all existing backup versions of your files"
 msgstr "Spowoduje to usunięcie wszystkich istniejących wersji kopii zapasowych plików"
 
 #: templates/settings.php:3
-msgid "Enable Files Versioning"
-msgstr "Włącz wersjonowanie plików"
+msgid "Files Versioning"
+msgstr "Wersjonowanie plików"
+
+#: templates/settings.php:4
+msgid "Enable"
+msgstr "Włącz"

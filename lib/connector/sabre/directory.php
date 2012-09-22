@@ -50,17 +50,19 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	public function createFile($name, $data = null) {
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			$info = OC_FileChunking::decodeName($name);
+			if (empty($info)) {
+				throw new Sabre_DAV_Exception_NotImplemented();
+			}
 			$chunk_handler = new OC_FileChunking($info);
 			$chunk_handler->store($info['index'], $data);
 			if ($chunk_handler->isComplete()) {
 				$newPath = $this->path . '/' . $info['name'];
-				$f = OC_Filesystem::fopen($newPath, 'w');
-				$chunk_handler->assemble($f);
+				$chunk_handler->file_assemble($newPath);
 				return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 			}
 		} else {
 			$newPath = $this->path . '/' . $name;
-			OC_Filesystem::file_put_contents($newPath,$data);
+			OC_Filesystem::file_put_contents($newPath, $data);
 			return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 		}
 
@@ -91,10 +93,12 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 
 		$path = $this->path . '/' . $name;
 		if (is_null($info)) {
-			$info = OC_FileCache::get($path);
+			$info = OC_Files::getFileInfo($path);
 		}
 
-		if (!$info) throw new Sabre_DAV_Exception_NotFound('File with name ' . $path . ' could not be located');
+		if (!$info) {
+			throw new Sabre_DAV_Exception_NotFound('File with name ' . $path . ' could not be located');
+		}
 
 		if ($info['mimetype'] == 'httpd/unix-directory') {
 			$node = new OC_Connector_Sabre_Directory($path);
@@ -113,7 +117,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function getChildren() {
 
-		$folder_content = OC_FileCache::getFolderContent($this->path);
+		$folder_content = OC_Files::getDirectoryContent($this->path);
 		$paths = array();
 		foreach($folder_content as $info) {
 			$paths[] = $this->path.'/'.$info['name'];
@@ -195,10 +199,9 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function getProperties($properties) {
 		$props = parent::getProperties($properties);
-		if (in_array(self::GETETAG_PROPERTYNAME, $properties)
-		    && !isset($props[self::GETETAG_PROPERTYNAME])) {
-			$props[self::GETETAG_PROPERTYNAME] =
-				OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
+		if (in_array(self::GETETAG_PROPERTYNAME, $properties) && !isset($props[self::GETETAG_PROPERTYNAME])) {
+			$props[self::GETETAG_PROPERTYNAME] 
+				= OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
 		}
 		return $props;
 	}

@@ -252,26 +252,26 @@ class Share {
 			\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 			throw new \Exception($message);
 			return false;
-		} else if ($shareType === self::SHARE_TYPE_CONTACT) {
-			if (!\OC_App::isEnabled('contacts')) {
-				$message = 'Sharing '.$itemSource.' failed, because the contacts app is not enabled';
-				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-				return false;
-			}
-			$vcard = \OC_Contacts_App::getContactVCard($shareWith);
-			if (!isset($vcard)) {
-				$message = 'Sharing '.$itemSource.' failed, because the contact does not exist';
-				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-				throw new \Exception($message);
-			}
-			$details = \OC_Contacts_VCard::structureContact($vcard);
-			// TODO Add ownCloud user to contacts vcard
-			if (!isset($details['EMAIL'])) {
-				$message = 'Sharing '.$itemSource.' failed, because no email address is associated with the contact';
-				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-				throw new \Exception($message);
-			}
-			return self::shareItem($itemType, $itemSource, self::SHARE_TYPE_EMAIL, $details['EMAIL'], $permissions);
+// 		} else if ($shareType === self::SHARE_TYPE_CONTACT) {
+// 			if (!\OC_App::isEnabled('contacts')) {
+// 				$message = 'Sharing '.$itemSource.' failed, because the contacts app is not enabled';
+// 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+// 				return false;
+// 			}
+// 			$vcard = \OC_Contacts_App::getContactVCard($shareWith);
+// 			if (!isset($vcard)) {
+// 				$message = 'Sharing '.$itemSource.' failed, because the contact does not exist';
+// 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+// 				throw new \Exception($message);
+// 			}
+// 			$details = \OC_Contacts_VCard::structureContact($vcard);
+// 			// TODO Add ownCloud user to contacts vcard
+// 			if (!isset($details['EMAIL'])) {
+// 				$message = 'Sharing '.$itemSource.' failed, because no email address is associated with the contact';
+// 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+// 				throw new \Exception($message);
+// 			}
+// 			return self::shareItem($itemType, $itemSource, self::SHARE_TYPE_EMAIL, $details['EMAIL'], $permissions);
 		} else {
 			// Future share types need to include their own conditions
 			$message = 'Share type '.$shareType.' is not valid for '.$itemSource;
@@ -337,10 +337,21 @@ class Share {
 	public static function unshareFromSelf($itemType, $itemTarget) {
 		if ($item = self::getItemSharedWith($itemType, $itemTarget)) {
 			if ((int)$item['share_type'] === self::SHARE_TYPE_GROUP) {
-				// TODO
+				// Insert an extra row for the group share and set permission to 0 to prevent it from showing up for the user
+				$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`, `item_target`, `parent`, `share_type`, `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`, `file_target`) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
+				$query->execute(array($item['item_type'], $item['item_source'], $item['item_target'], $item['id'], self::$shareTypeGroupUserUnique, \OC_User::getUser(), $item['uid_owner'], 0, $item['stime'], $item['file_source'], $item['file_target']));
+				\OC_DB::insertid('*PREFIX*share');
+				// Delete all reshares by this user of the group share
+				self::delete($item['id'], true, \OC_User::getUser());
+			} else if ((int)$item['share_type'] === self::$shareTypeGroupUserUnique) {
+				// Set permission to 0 to prevent it from showing up for the user
+				$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = ? WHERE `id` = ?');
+				$query->execute(array(0, $item['id']));
+				self::delete($item['id'], true);
+			} else {
+				self::delete($item['id']);
 			}
-			// Delete
-			return self::delete($item['id']);
+			return true;
 		}
 		return false;
 	}
@@ -406,6 +417,16 @@ class Share {
 		throw new \Exception($message);
 	}
 
+	public static function setExpirationDate($itemType, $itemSource, $date) {
+		if ($item = self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), self::FORMAT_NONE, null, 1, false)) {
+			error_log('setting');
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `expiration` = ? WHERE `id` = ?');
+			$query->execute(array($date, $item['id']));
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	* @brief Get the backend class for the specified item type
 	* @param string Item type
@@ -447,8 +468,11 @@ class Share {
 				$collectionTypes[] = $type;
 			}
 		}
-		if (count($collectionTypes) > 1) {
+		if (!self::getBackend($itemType) instanceof Share_Backend_Collection) {
 			unset($collectionTypes[0]);
+		}
+		// Return array if collections were found or the item type is a collection itself - collections can be inside collections
+		if (count($collectionTypes) > 0) {
 			return $collectionTypes;
 		}
 		return false;
@@ -493,9 +517,13 @@ class Share {
 			$root = '';
 			if ($includeCollections && !isset($item) && ($collectionTypes = self::getCollectionItemTypes($itemType))) {
 				// If includeCollections is true, find collections of this item type, e.g. a music album contains songs
-				$itemTypes = array_merge(array($itemType), $collectionTypes);
+				if (!in_array($itemType, $collectionTypes)) {
+					$itemTypes = array_merge(array($itemType), $collectionTypes);
+				} else {
+					$itemTypes = $collectionTypes;
+				}
 				$placeholders = join(',', array_fill(0, count($itemTypes), '?'));
-				$where = ' WHERE `item_type` IN ('.$placeholders.')';
+				$where .= ' WHERE item_type IN ('.$placeholders.'))';
 				$queryArgs = $itemTypes;
 			} else {
 				$where = ' WHERE `item_type` = ?';
@@ -570,7 +598,7 @@ class Share {
 				}
 			}
 			$queryArgs[] = $item;
-			if ($includeCollections && $collectionTypes = self::getCollectionItemTypes($itemType)) {
+			if ($includeCollections && $collectionTypes) {
 				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
 				$where .= ' OR item_type IN ('.$placeholders.'))';
 				$queryArgs = array_merge($queryArgs, $collectionTypes);
@@ -594,23 +622,23 @@ class Share {
 		// TODO Optimize selects
 		if ($format == self::FORMAT_STATUSES) {
 			if ($itemType == 'file' || $itemType == 'folder') {
-				$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `file_source`, `path`';
+				$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `file_source`, `path`, `expiration`';
 			} else {
-				$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`';
+				$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `expiration`';
 			}
 		} else {
 			if (isset($uidOwner)) {
 				if ($itemType == 'file' || $itemType == 'folder') {
-					$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path`, `permissions`, `stime`';
+					$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path`, `permissions`, `stime`, `expiration`';
 				} else {
-					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `permissions`, `stime`, `file_source`';
+					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `permissions`, `stime`, `file_source`, `expiration`';
 				}
 			} else {
 				if ($fileDependent) {
 					if (($itemType == 'file' || $itemType == 'folder') && $format == \OC_Share_Backend_File::FORMAT_FILE_APP || $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT) {
-						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path`, `file_target`, `permissions`, `name`, `ctime`, `mtime`, `mimetype`, `size`, `encrypted`, `versioned`, `writable`';
+						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path`, `file_target`, `permissions`, `expiration`, `name`, `ctime`, `mtime`, `mimetype`, `size`, `encrypted`, `versioned`, `writable`';
 					} else {
-						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`, `file_source`, `path`, `file_target`, `permissions`, `stime`';
+						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`, `file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`';
 					}
 				} else {
 					$select = '*';
@@ -629,6 +657,9 @@ class Share {
 				$row['share_with'] = $items[$row['parent']]['share_with'];
 				// Remove the parent group share
 				unset($items[$row['parent']]);
+				if ($row['permissions'] == 0) {
+					continue;
+				}
 			} else if (!isset($uidOwner)) {
 				// Check if the same target already exists
 				if (isset($targets[$row[$column]])) {
@@ -662,6 +693,13 @@ class Share {
 					$row['path'] = substr($row['path'], $root);
 				}
 			}
+			if (isset($row['expiration'])) {
+				$time = new \DateTime();
+				if ($row['expiration'] < date('Y-m-d H:i', $time->format('U') - $time->getOffset())) {
+					self::delete($row['id']);
+					continue;
+				}
+			}
 			$items[$row['id']] = $row;
 		}
 		if (!empty($items)) {
@@ -676,29 +714,54 @@ class Share {
 					}
 				}
 				// Check if this is a collection of the requested item type
-				if ($includeCollections && $row['item_type'] != $itemType) {
+				if ($includeCollections && $collectionTypes && in_array($row['item_type'], $collectionTypes)) {
 					if (($collectionBackend = self::getBackend($row['item_type'])) && $collectionBackend instanceof Share_Backend_Collection) {
-						$row['collection'] = array('item_type' => $itemType, $column => $row[$column]);
-						// Fetch all of the children sources
-						$children = $collectionBackend->getChildren($row[$column]);
-						foreach ($children as $child) {
-							$childItem = $row;
-							$childItem['item_source'] = $child;
-	// 						$childItem['item_target'] = $child['target']; TODO
-							if (isset($item)) {
-								if ($childItem[$column] == $item) {
-									// Return only the item instead of a 2-dimensional array
-									if ($limit == 1 && $format == self::FORMAT_NONE) {
-										return $childItem;
-									} else {
-										// Unset the items array and break out of both loops
-										$items = array();
-										$items[] = $childItem;
-										break 2;
-									}
+						// Collections can be inside collections, check if the item is a collection
+						if (isset($item) && $row['item_type'] == $itemType && $row[$column] == $item) {
+							$collectionItems[] = $row;
+						} else {
+							$collection = array();
+							$collection['item_type'] = $row['item_type'];
+							if ($row['item_type'] == 'file' || $row['item_type'] == 'folder') {
+								$collection['path'] = basename($row['path']);
+							}
+							$row['collection'] = $collection;
+							// Fetch all of the children sources
+							$children = $collectionBackend->getChildren($row[$column]);
+							foreach ($children as $child) {
+								$childItem = $row;
+								$childItem['item_type'] = $itemType;
+								if ($row['item_type'] != 'file' && $row['item_type'] != 'folder') {
+									$childItem['item_source'] = $child['source'];
+									$childItem['item_target'] = $child['target'];
 								}
-							} else {
-								$collectionItems[] = $childItem;
+								if ($backend instanceof Share_Backend_File_Dependent) {
+									if ($row['item_type'] == 'file' || $row['item_type'] == 'folder') {
+										$childItem['file_source'] = $child['source'];
+									} else {
+										$childItem['file_source'] = \OC_FileCache::getId($child['file_path']);
+									}
+									$childItem['file_target'] = \OC_Filesystem::normalizePath($child['file_path']);
+								}
+								if (isset($item)) {
+									if ($childItem[$column] == $item) {
+										// Return only the item instead of a 2-dimensional array
+										if ($limit == 1) {
+											if ($format == self::FORMAT_NONE) {
+												return $childItem;
+											} else {
+												// Unset the items array and break out of both loops
+												$items = array();
+												$items[] = $childItem;
+												break 2;
+											}
+										} else {
+											$collectionItems[] = $childItem;
+										}
+									}
+								} else {
+									$collectionItems[] = $childItem;
+								}
 							}
 						}
 					}
@@ -848,6 +911,7 @@ class Share {
 				// Insert an extra row for the group share if the item or file target is unique for this user
 				if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
 					$query->execute(array($itemType, $itemSource, $itemTarget, $parent, self::$shareTypeGroupUserUnique, $uid, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
+					\OC_DB::insertid('*PREFIX*share');
 				}
 			}
 			if ($parentFolder === true) {
@@ -1153,7 +1217,7 @@ interface Share_Backend_Collection extends Share_Backend {
 	/**
 	* @brief Get the sources of the children of the item
 	* @param string Item source
-	* @return array Returns an array of sources
+	* @return array Returns an array of children each inside an array with the keys: source, target, and file_path if applicable
 	*/
 	public function getChildren($itemSource);
 

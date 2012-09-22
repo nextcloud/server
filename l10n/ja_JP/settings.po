@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 02:09+0000\n"
+"POT-Creation-Date: 2012-09-21 02:02+0200\n"
+"PO-Revision-Date: 2012-09-20 01:05+0000\n"
 "Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -35,6 +35,10 @@ msgstr "グループは既に存在しています"
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
 msgstr "グループを追加できません"
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
+msgstr "アプリを有効にできませんでした。"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -74,15 +78,11 @@ msgstr "ユーザをグループ %s に追加できません"
 msgid "Unable to remove user from group %s"
 msgstr "ユーザをグループ %s から削除できません"
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "エラー"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:27 js/apps.js:61
 msgid "Disable"
 msgstr "無効"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:27 js/apps.js:50
 msgid "Enable"
 msgstr "有効"
 
@@ -111,63 +111,67 @@ msgstr "データディレクトリとファイルが恐らくインターネッ
 msgid "Cron"
 msgstr "cron(自動定期実行)"
 
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
-msgstr "ページを開く毎にタスクを1つ実行"
-
-#: templates/admin.php:35
-msgid "cron.php is registered at a webcron service"
-msgstr "cron.phpをwebcronサービスに登録しました"
-
 #: templates/admin.php:37
-msgid "use systems cron service"
-msgstr "システムのcronサービスを使用"
+msgid "Execute one task with each page loaded"
+msgstr "各ページの読み込み時にタスクを1つ実行する"
 
-#: templates/admin.php:41
-msgid "Share API"
-msgstr "Share API"
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr "cron.php は webcron サービスとして登録されています。HTTP経由で1分間に1回の頻度で owncloud のルートページ内の cron.php ページを呼び出します。"
 
-#: templates/admin.php:46
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr "システムのcronサービスを利用する。1分に1回の頻度でシステムのcronジョブによりowncloudフォルダ内のcron.phpファイルを呼び出してください。"
+
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr "共有中"
+
+#: templates/admin.php:61
 msgid "Enable Share API"
 msgstr "Share APIを有効"
 
-#: templates/admin.php:47
+#: templates/admin.php:62
 msgid "Allow apps to use the Share API"
 msgstr "Share APIの使用をアプリケーションに許可"
 
-#: templates/admin.php:51
+#: templates/admin.php:67
 msgid "Allow links"
 msgstr "リンクを許可"
 
-#: templates/admin.php:52
+#: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
 msgstr "ユーザーがリンクによる公開でアイテムを共有することが出来るようにする"
 
-#: templates/admin.php:56
+#: templates/admin.php:73
 msgid "Allow resharing"
 msgstr "再共有を許可"
 
-#: templates/admin.php:57
+#: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
 msgstr "ユーザーが共有されているアイテムをさらに共有することが出来るようにする"
 
-#: templates/admin.php:60
+#: templates/admin.php:79
 msgid "Allow users to share with anyone"
 msgstr "ユーザーが誰にでも共有出来るようにする"
 
-#: templates/admin.php:62
+#: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
 msgstr "ユーザーがグループの人にしか共有出来ないようにする"
 
-#: templates/admin.php:69
+#: templates/admin.php:88
 msgid "Log"
 msgstr "ログ"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
 msgstr "もっと"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -218,12 +222,9 @@ msgid "Answer"
 msgstr "解答"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "あなたは"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "を利用しています。利用可能容量："
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "現在､<strong>%s</strong> / <strong>%s<strong> を利用しています"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -234,8 +235,8 @@ msgid "Download"
 msgstr "ダウンロード"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "パスワードは変更されました"
+msgid "Your password was changed"
+msgstr "パスワードを変更しました"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

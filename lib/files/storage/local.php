@@ -173,7 +173,7 @@ class Local extends \OC\Files\Storage\Common{
 	}
 
 	public function free_space($path) {
-		return disk_free_space($this->datadir.$path);
+		return @disk_free_space($this->datadir.$path);
 	}
 
 	public function search($query) {

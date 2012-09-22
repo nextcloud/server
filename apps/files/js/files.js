@@ -253,10 +253,10 @@ $(document).ready(function() {
 									var img = OC.imagePath('core', 'loading.gif');
 									var tr=$('tr').filterAttr('data-file',dirName);
 									tr.find('td.filename').attr('style','background-image:url('+img+')');
-									uploadtext.text('1 file uploading');
+									uploadtext.text(t('files', '1 file uploading'));
 									uploadtext.show();
 								} else {
-									uploadtext.text(currentUploads + ' files uploading')
+									uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
 								}
 							}
 						}
@@ -301,7 +301,7 @@ $(document).ready(function() {
 												uploadtext.text('');
 												uploadtext.hide();
 											} else {
-												uploadtext.text(currentUploads + ' files uploading')
+												uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
 											}
 										})
 								.error(function(jqXHR, textStatus, errorThrown) {
@@ -316,7 +316,7 @@ $(document).ready(function() {
 											uploadtext.text('');
 											uploadtext.hide();
 										} else {
-											uploadtext.text(currentUploads + ' files uploading')
+											uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
 										}
 										$('#notification').hide();
 										$('#notification').text(t('files', 'Upload cancelled.'));
@@ -356,12 +356,13 @@ $(document).ready(function() {
 										$('#notification').fadeIn();
 									}
 								});
-								uploadingFiles[files[i].name] = jqXHR;
+								uploadingFiles[uniqueName] = jqXHR;
 							}
 						}
 					}else{
 						data.submit().success(function(data, status) {
-							response = jQuery.parseJSON(data[0].body.innerText);
+							// in safari data is a string
+							response = jQuery.parseJSON(typeof data === 'string' ? data : data[0].body.innerText);
 							if(response[0] != undefined && response[0].status == 'success') {
 								var file=response[0];
 								delete uploadingFiles[file.name];
@@ -556,10 +557,12 @@ $(document).ready(function() {
 					eventSource.listen('progress',function(progress){
 						$('#uploadprogressbar').progressbar('value',progress);
 					});
-					eventSource.listen('success',function(mime){
+					eventSource.listen('success',function(data){
+						var mime=data.mime;
+						var size=data.size;
 						$('#uploadprogressbar').fadeOut();
 						var date=new Date();
-						FileList.addFile(localName,0,date,false,hidden);
+						FileList.addFile(localName,size,date,false,hidden);
 						var tr=$('tr').filterAttr('data-file',localName);
 						tr.data('mime',mime);
 						getMimeIcon(mime,function(path){
@@ -661,7 +664,7 @@ function scanFiles(force,dir){
 	var scannerEventSource=new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force,dir:dir});
 	scanFiles.cancel=scannerEventSource.close.bind(scannerEventSource);
 	scannerEventSource.listen('scanning',function(data){
-		$('#scan-count').text(data.count+' files scanned');
+		$('#scan-count').text(data.count + ' ' + t('files', 'files scanned'));
 		$('#scan-current').text(data.file+'/');
 	});
 	scannerEventSource.listen('success',function(success){
@@ -669,7 +672,7 @@ function scanFiles(force,dir){
 		if(success){
 			window.location.reload();
 		}else{
-			alert('error while scanning');
+			alert(t('files', 'error while scanning'));
 		}
 	});
 }

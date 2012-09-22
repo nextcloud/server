@@ -19,6 +19,7 @@ $(document).ready(function() {
 						if (result && result.status == 'success') {
 							$(token).val(result.access_token);
 							$(token_secret).val(result.access_token_secret);
+							$(configured).val('true');
 							OC.MountConfig.saveStorage(tr);
 							$(tr).find('.configuration input').attr('disabled', 'disabled');
 							$(tr).find('.configuration').append('<span id="access" style="padding-left:0.5em;">Access granted</span>');

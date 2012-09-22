@@ -8,19 +8,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-03 02:04+0200\n"
-"PO-Revision-Date: 2012-09-02 02:04+0000\n"
-"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 23:15+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #: js/settings-personal.js:31 templates/settings-personal.php:10
 msgid "Expire all versions"
 msgstr "Zastaraj vse različice"
+
+#: js/versions.js:16
+msgid "History"
+msgstr ""
 
 #: templates/settings-personal.php:4
 msgid "Versions"
@@ -31,5 +35,9 @@ msgid "This will delete all existing backup versions of your files"
 msgstr "To bo izbrisalo vse obstoječe različice varnostnih kopij vaših datotek"
 
 #: templates/settings.php:3
-msgid "Enable Files Versioning"
-msgstr "Omogoči sledenje različicam datotek"
+msgid "Files Versioning"
+msgstr "Sledenje različicam"
+
+#: templates/settings.php:4
+msgid "Enable"
+msgstr "Omogoči"

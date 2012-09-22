@@ -34,15 +34,12 @@ namespace OCP;
  * This class provides different helper functions to make the life of a developer easier
  */
 class Util {
-
-
 	// consts for Logging
 	const DEBUG=0;
 	const INFO=1;
 	const WARN=2;
 	const ERROR=3;
 	const FATAL=4;
-
 
 	/**
 	 * @brief get the current installed version of ownCloud
@@ -51,7 +48,6 @@ class Util {
 	public static function getVersion() {
 		return(\OC_Util::getVersion());
 	}
-
 
 	/**
 	 * @brief send an email
@@ -68,18 +64,16 @@ class Util {
 		\OC_MAIL::send( $toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html=0, $altbody='', $ccaddress='', $ccname='', $bcc='');
 	}
 
-
-        /**
+	/**
 	 * @brief write a message in the log
 	 * @param string $app
 	 * @param string $message
 	 * @param int level
-         */
-        public static function writeLog( $app, $message, $level ) {
-                // call the internal log class
-                \OC_LOG::write( $app, $message, $level );
-        }
-
+	 */
+	public static function writeLog( $app, $message, $level ) {
+		// call the internal log class
+		\OC_LOG::write( $app, $message, $level );
+	}
 
 	/**
 	 * @brief add a css file
@@ -87,8 +81,7 @@ class Util {
 	 */
 	public static function addStyle( $application, $file = null ) {
 		\OC_Util::addStyle( $application, $file );
-        }
-
+	}
 
 	/**
 	 * @brief add a javascript file
@@ -97,7 +90,7 @@ class Util {
 	 */
 	public static function addScript( $application, $file = null ) {
 		\OC_Util::addScript( $application, $file );
-        }
+	}
 
 	/**
 	 * @brief Add a custom element to the header
@@ -118,8 +111,6 @@ class Util {
 		return(\OC_Util::formatDate( $timestamp,$dateOnly ));
 	}
 
-
-
 	/**
 	 * @brief Creates an absolute url
 	 * @param $app app
@@ -132,7 +123,6 @@ class Util {
 	public static function linkToAbsolute( $app, $file, $args = array() ) {
 		return(\OC_Helper::linkToAbsolute( $app, $file, $args ));
 	}
-
 
 	/**
 	 * @brief Creates an absolute url for remote use
@@ -155,7 +145,6 @@ class Util {
 	public static function linkToPublic($service) {
 		return \OC_Helper::linkToPublic($service);
 	}
-
 
 	/**
 	* @brief Creates an url
@@ -199,10 +188,9 @@ class Util {
 	 *
 	 * Returns the path to the image.
 	 */
-        public static function imagePath( $app, $image ) {
+	public static function imagePath( $app, $image ) {
 		return(\OC_Helper::imagePath( $app, $image ));
 	}
-
 
 	/**
 	 * @brief Make a human file size
@@ -244,7 +232,6 @@ class Util {
 		return(\OC_Hook::connect( $signalclass, $signalname, $slotclass, $slotname ));
 	}
 
-
 	/**
 	 * @brief emitts a signal
 	 * @param $signalclass class name of emitter
@@ -260,7 +247,6 @@ class Util {
 		return(\OC_Hook::emit( $signalclass, $signalname, $params ));
 	}
 
-
 	/**
 	 * Register an get/post call. This is important to prevent CSRF attacks
 	 * TODO: write example
@@ -268,7 +254,6 @@ class Util {
 	public static function callRegister() {
 		return(\OC_Util::callRegister());
 	}
-
 
 	/**
 	 * Check an ajax get/post call if the request token is valid. exit if not.

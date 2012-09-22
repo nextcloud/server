@@ -34,8 +34,6 @@ namespace OCP;
  * This class provides access to the internal database system. Use this class exlusively if you want to access databases
  */
 class DB {
-
-
 	/**
 	 * @brief Prepare a SQL query
 	 * @param $query Query string
@@ -46,7 +44,6 @@ class DB {
 	static public function prepare( $query, $limit=null, $offset=null ) {
 		return(\OC_DB::prepare($query,$limit,$offset));
 	}
-
 
 	/**
 	 * @brief gets last value of autoincrement
@@ -62,7 +59,6 @@ class DB {
 		return(\OC_DB::insertid($table));
 	}
 
-
 	/**
 	 * @brief Start a transaction
 	 */
@@ -70,14 +66,12 @@ class DB {
 		return(\OC_DB::beginTransaction());
 	}
 
-
 	/**
 	 * @brief Commit the database changes done during a transaction that is in progress
 	 */
 	public static function commit() {
 		return(\OC_DB::commit());
 	}
-
 
 	/**
 	 * @brief check if a result is an error, works with MDB2 and PDOException
@@ -87,7 +81,4 @@ class DB {
 	public static function isError($result) {
 		return(\OC_DB::isError($result));
 	}
-
-
-
 }

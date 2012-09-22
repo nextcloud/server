@@ -29,9 +29,9 @@ class OC_Cache_XCache {
 
 	public function set($key, $value, $ttl=0) {
 		if($ttl>0) {
-			return xcache_set($this->getNamespace().$key,$value,$ttl);
+			return xcache_set($this->getNamespace().$key, $value, $ttl);
 		}else{
-			return xcache_set($this->getNamespace().$key,$value);
+			return xcache_set($this->getNamespace().$key, $value);
 		}
 	}
 

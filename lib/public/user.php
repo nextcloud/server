@@ -34,8 +34,6 @@ namespace OCP;
  * This class provides access to the user management. You can get information about the currently logged in user and the permissions for example
  */
 class User {
-
-
 	/**
 	 * @brief get the user id of the user currently logged in.
 	 * @return string uid or false
@@ -43,7 +41,6 @@ class User {
 	public static function getUser() {
 		return \OC_USER::getUser();
 	}
-
 
 	/**
 	 * @brief Get a list of all users
@@ -55,7 +52,6 @@ class User {
 		return \OC_USER::getUsers();
 	}
 
-
 	/**
 	 * @brief Check if the user is logged in
 	 * @returns true/false
@@ -66,7 +62,6 @@ class User {
 		return \OC_USER::isLoggedIn();
 	}
 
-
 	/**
 	 * @brief check if a user exists
 	 * @param string $uid the username
@@ -75,7 +70,6 @@ class User {
 	public static function userExists( $uid ) {
 		return \OC_USER::userExists( $uid );
 	}
-
 
 	/**
 	 * @brief Loggs the user out including all the session data
@@ -86,7 +80,6 @@ class User {
 	public static function logout() {
 		return \OC_USER::logout();
 	}
-
 
 	/**
 	 * @brief Check if the password is correct
@@ -100,23 +93,18 @@ class User {
 		return \OC_USER::checkPassword( $uid, $password );
 	}
 
+	/**
+	* Check if the user is a admin, redirects to home if not
+	*/
+	public static function checkAdminUser() {
+		\OC_Util::checkAdminUser();
+	}
 
-        /**
-        * Check if the user is a admin, redirects to home if not
-        */
-        public static function checkAdminUser() {
-                \OC_Util::checkAdminUser();
-        }
-
-
-        /**
-        * Check if the user is logged in, redirects to home if not. With
-        * redirect URL parameter to the request URI.
-        */
-        public static function checkLoggedIn() {
-                \OC_Util::checkLoggedIn();
-        }
-
-
-
+	/**
+	* Check if the user is logged in, redirects to home if not. With
+	* redirect URL parameter to the request URI.
+	*/
+	public static function checkLoggedIn() {
+		\OC_Util::checkLoggedIn();
+	}
 }

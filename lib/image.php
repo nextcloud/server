@@ -543,21 +543,7 @@ class OC_Image {
 			$new_height = $maxsize;
 		}
 
-		$process = imagecreatetruecolor(round($new_width), round($new_height));
-		if ($process == false) {
-			OC_Log::write('core',__METHOD__.'(): Error creating true color image',OC_Log::ERROR);
-			imagedestroy($process);
-			return false;
-		}
-
-		imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $new_width, $new_height, $width_orig, $height_orig);
-		if ($process == false) {
-			OC_Log::write('core',__METHOD__.'(): Error resampling process image '.$new_width.'x'.$new_height,OC_Log::ERROR);
-			imagedestroy($process);
-			return false;
-		}
-		imagedestroy($this->resource);
-		$this->resource = $process;
+		$this->preciseResize(round($new_width), round($new_height));
 		return true;
 	}
 
@@ -663,6 +649,28 @@ class OC_Image {
 		}
 		imagedestroy($this->resource);
 		$this->resource = $process;
+		return true;
+	}
+
+	/**
+	 * @brief Resizes the image to fit within a boundry while preserving ratio.
+	 * @param $maxWidth
+	 * @param $maxHeight
+	 * @returns bool
+	 */
+	public function fitIn($maxWidth, $maxHeight) {
+		if(!$this->valid()) {
+			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
+			return false;
+		}
+		$width_orig=imageSX($this->resource);
+		$height_orig=imageSY($this->resource);
+		$ratio = $width_orig/$height_orig;
+
+		$newWidth = min($maxWidth, $ratio*$maxHeight);
+		$newHeight = min($maxHeight, $maxWidth/$ratio);
+		
+		$this->preciseResize(round($newWidth), round($newHeight));
 		return true;
 	}
 

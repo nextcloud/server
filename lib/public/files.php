@@ -34,8 +34,6 @@ namespace OCP;
  * This class provides access to the internal filesystem abstraction layer. Use this class exlusively if you want to access files
  */
 class Files {
-
-
 	/**
 	 * @brief Recusive deletion of folders
 	 * @param string $dir path to the folder
@@ -44,7 +42,6 @@ class Files {
 	static function rmdirr( $dir ) {
 		\OC_Helper::rmdirr( $dir );
 	}
-
 
 	/**
 	 * get the mimetype form a local file
@@ -56,7 +53,6 @@ class Files {
 		return(\OC_Helper::getMimeType( $path ));
 	}
 
-
 	/**
 	 * copy the contents of one stream to another
 	 * @param resource source
@@ -66,7 +62,6 @@ class Files {
 	public static function streamCopy( $source, $target ) {
 		return(\OC_Helper::streamCopy( $source, $target ));
 	}
-
 
 	/**
 	 * create a temporary file with an unique filename
@@ -79,7 +74,6 @@ class Files {
 		return(\OC_Helper::tmpFile( $postfix ));
 	}
 
-
 	/**
 	 * create a temporary folder with an unique filename
 	 * @return string
@@ -89,7 +83,6 @@ class Files {
 	public static function tmpFolder() {
 		return(\OC_Helper::tmpFolder());
 	}
-
 
 	/**
 	 * Adds a suffix to the name in case the file exists
@@ -102,16 +95,12 @@ class Files {
 		return(\OC_Helper::buildNotExistingFileName( $path, $filename ));
 	}
 
-        /**
-         * @param string appid
-         * @param $app app
-         * @return OC_FilesystemView
-         */
-        public static function getStorage( $app ) {
+	/**
+	 * @param string appid
+	 * @param $app app
+	 * @return OC_FilesystemView
+	 */
+	public static function getStorage( $app ) {
 		return \OC_App::getStorage( $app );
 	}
-
-
-
-
 }

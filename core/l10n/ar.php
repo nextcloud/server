@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Settings" => "تعديلات",
+"Password" => "كلمة السر",
 "Use the following link to reset your password: {link}" => "استخدم هذه الوصلة لاسترجاع كلمة السر: {link}",
 "You will receive a link to reset your password via Email." => "سوف نرسل لك بريد يحتوي على وصلة لتجديد كلمة السر.",
 "Requested" => "تم طلب",
@@ -17,7 +18,6 @@
 "Help" => "المساعدة",
 "Cloud not found" => "لم يتم إيجاد",
 "Create an <strong>admin account</strong>" => "أضف </strong>مستخدم رئيسي <strong>",
-"Password" => "كلمة السر",
 "Advanced" => "خيارات متقدمة",
 "Data folder" => "مجلد المعلومات",
 "Configure the database" => "أسس قاعدة البيانات",

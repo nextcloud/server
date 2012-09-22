@@ -8,37 +8,37 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 02:01+0200\n"
-"PO-Revision-Date: 2012-09-01 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-20 02:05+0200\n"
+"PO-Revision-Date: 2012-09-19 23:21+0000\n"
+"Last-Translator: Efstathios Iosifidis <diamond_gr@freemail.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: el\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:288
+#: app.php:285
 msgid "Help"
 msgstr "Βοήθεια"
 
-#: app.php:295
+#: app.php:292
 msgid "Personal"
 msgstr "Προσωπικά"
 
-#: app.php:300
+#: app.php:297
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: app.php:305
+#: app.php:302
 msgid "Users"
 msgstr "Χρήστες"
 
-#: app.php:312
+#: app.php:309
 msgid "Apps"
 msgstr "Εφαρμογές"
 
-#: app.php:314
+#: app.php:311
 msgid "Admin"
 msgstr "Διαχειριστής"
 
@@ -68,59 +68,59 @@ msgstr "Σφάλμα πιστοποίησης"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr "Το αναγνωριστικό έληξε. Παρακαλώ επανα-φορτώστε την σελίδα."
+msgstr "Το αναγνωριστικό έληξε. Παρακαλώ φορτώστε ξανά την σελίδα."
 
-#: template.php:86
+#: template.php:87
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: template.php:87
+#: template.php:88
 msgid "1 minute ago"
 msgstr "1 λεπτό πριν"
 
-#: template.php:88
+#: template.php:89
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d λεπτά πριν"
 
-#: template.php:91
+#: template.php:92
 msgid "today"
 msgstr "σήμερα"
 
-#: template.php:92
+#: template.php:93
 msgid "yesterday"
 msgstr "χθές"
 
-#: template.php:93
+#: template.php:94
 #, php-format
 msgid "%d days ago"
 msgstr "%d ημέρες πριν"
 
-#: template.php:94
+#: template.php:95
 msgid "last month"
 msgstr "τον προηγούμενο μήνα"
 
-#: template.php:95
+#: template.php:96
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: template.php:96
+#: template.php:97
 msgid "last year"
 msgstr "τον προηγούμενο χρόνο"
 
-#: template.php:97
+#: template.php:98
 msgid "years ago"
 msgstr "χρόνια πριν"
 
 #: updater.php:66
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s είναι διαθέσιμα. Δείτε <a href=\"%s\">περισσότερες πληροφορίες</a>"
 
 #: updater.php:68
 msgid "up to date"
-msgstr ""
+msgstr "ενημερωμένο"
 
 #: updater.php:71
 msgid "updates check is disabled"
-msgstr ""
+msgstr "ο έλεγχος ενημερώσεων είναι απενεργοποιημένος"

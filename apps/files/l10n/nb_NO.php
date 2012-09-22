@@ -34,6 +34,7 @@
 "Enable ZIP-download" => "Aktiver nedlasting av ZIP",
 "0 is unlimited" => "0 er ubegrenset",
 "Maximum input size for ZIP files" => "Maksimal størrelse på ZIP-filer",
+"Save" => "Lagre",
 "New" => "Ny",
 "Text file" => "Tekstfil",
 "Folder" => "Mappe",

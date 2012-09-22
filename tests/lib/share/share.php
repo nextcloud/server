@@ -249,6 +249,7 @@ class Test_Share extends UnitTestCase {
 		$this->assertTrue(in_array('test1.txt', $to_test));
 
 		// Remove user
+		OC_User::setUserId($this->user1);
 		OC_User::deleteUser($this->user1);
 		OC_User::setUserId($this->user2);
 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test1.txt'));
@@ -383,8 +384,15 @@ class Test_Share extends UnitTestCase {
 		OC_Group::addToGroup($this->user4, $this->group1);
 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
 		
+		// Unshare from self
+		$this->assertTrue(OCP\Share::unshareFromSelf('test', 'test.txt'));
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array());
+		OC_User::setUserId($this->user2);
+		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array('test.txt'));
+		
 		// Remove group
 		OC_Group::deleteGroup($this->group1);
+		OC_User::setUserId($this->user4);
 		$this->assertEqual(OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET), array());
 		OC_User::setUserId($this->user3);
 		$this->assertEqual(OCP\Share::getItemsShared('test'), array());

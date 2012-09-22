@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <mattheu_9x@yahoo.com>, 2012.
 # Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:01+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-22 01:13+0200\n"
+"PO-Revision-Date: 2012-09-21 23:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -20,87 +21,99 @@ msgstr ""
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Không có lỗi, các tập tin đã được tải lên thành công"
 
 #: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "Những tập tin được tải lên vượt quá upload_max_filesize được chỉ định trong php.ini"
 
 #: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Kích thước những tập tin tải lên vượt quá MAX_FILE_SIZE đã được quy định"
 
 #: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Tập tin tải lên mới chỉ tải lên được một phần"
 
 #: ajax/upload.php:24
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Không có tập tin nào được tải lên"
 
 #: ajax/upload.php:25
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Không tìm thấy thư mục tạm"
 
 #: ajax/upload.php:26
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Không thể ghi vào đĩa cứng"
 
 #: appinfo/app.php:6
 msgid "Files"
 msgstr "Tập tin"
 
-#: js/fileactions.js:106 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr "Không chia sẽ"
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "Xóa"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr ""
+
+#: js/filelist.js:188 js/filelist.js:190
 msgid "already exists"
-msgstr ""
+msgstr "đã tồn tại"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "replace"
-msgstr ""
+msgstr "thay thế"
 
-#: js/filelist.js:186
+#: js/filelist.js:188
 msgid "suggest name"
-msgstr ""
+msgstr "tên gợi ý"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "cancel"
-msgstr ""
+msgstr "hủy"
 
-#: js/filelist.js:235 js/filelist.js:237
+#: js/filelist.js:237 js/filelist.js:239
 msgid "replaced"
-msgstr ""
+msgstr "đã được thay thế"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
+#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
 msgid "undo"
-msgstr ""
+msgstr "lùi lại"
 
-#: js/filelist.js:237
+#: js/filelist.js:239
 msgid "with"
-msgstr ""
+msgstr "với"
 
 #: js/filelist.js:271
-msgid "deleted"
+msgid "unshared"
 msgstr ""
+
+#: js/filelist.js:273
+msgid "deleted"
+msgstr "đã xóa"
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "Tạo tập tinh ZIP, điều này có thể mất một ít thời gian"
 
 #: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Không thể tải lên tập tin này do nó là một thư mục hoặc kích thước tập tin bằng 0 byte"
 
 #: js/files.js:208
 msgid "Upload Error"
 msgstr "Tải lên lỗi"
 
-#: js/files.js:236 js/files.js:341 js/files.js:370
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
 msgstr "Chờ"
 
@@ -108,36 +121,44 @@ msgstr "Chờ"
 msgid "Upload cancelled."
 msgstr "Hủy tải lên"
 
-#: js/files.js:423
+#: js/files.js:424
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này."
 
-#: js/files.js:493
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
 msgstr "Tên không hợp lệ ,không được phép dùng '/'"
 
-#: js/files.js:746 templates/index.php:55
+#: js/files.js:667
+msgid "files scanned"
+msgstr ""
+
+#: js/files.js:675
+msgid "error while scanning"
+msgstr ""
+
+#: js/files.js:749 templates/index.php:56
 msgid "Size"
 msgstr "Kích cỡ"
 
-#: js/files.js:747 templates/index.php:56
+#: js/files.js:750 templates/index.php:58
 msgid "Modified"
 msgstr "Thay đổi"
 
-#: js/files.js:774
+#: js/files.js:777
 msgid "folder"
 msgstr "folder"
 
-#: js/files.js:776
+#: js/files.js:779
 msgid "folders"
 msgstr "folders"
 
-#: js/files.js:784
+#: js/files.js:787
 msgid "file"
 msgstr "file"
 
-#: js/files.js:786
+#: js/files.js:789
 msgid "files"
 msgstr "files"
 
@@ -155,7 +176,7 @@ msgstr ""
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Cần thiết cho tải nhiều tập tin và thư mục."
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
@@ -171,7 +192,7 @@ msgstr "Kích thước tối đa cho các tập tin ZIP"
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "Lưu"
 
 #: templates/index.php:7
 msgid "New"
@@ -189,7 +210,7 @@ msgstr "Folder"
 msgid "From url"
 msgstr "Từ url"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Tải lên"
 
@@ -197,36 +218,36 @@ msgstr "Tải lên"
 msgid "Cancel upload"
 msgstr "Hủy upload"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Không có gì ở đây .Hãy tải lên một cái gì đó !"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "Tên"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "Chia sẻ"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "Tải xuống"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "File tải lên quá lớn"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Các tập tin bạn đang cố gắng tải lên vượt quá kích thước tối đa cho phép trên máy chủ này."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "Tập tin đang được quét ,vui lòng chờ."
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
-msgstr ""
+msgstr "Hiện tại đang quét"

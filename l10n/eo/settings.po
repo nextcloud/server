@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-19 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -34,6 +34,10 @@ msgstr ""
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
+msgstr ""
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
 msgstr ""
 
 #: ajax/lostpassword.php:14
@@ -74,15 +78,11 @@ msgstr ""
 msgid "Unable to remove user from group %s"
 msgstr ""
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "Eraro"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:27 js/apps.js:61
 msgid "Disable"
 msgstr "Malkapabligi"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:27 js/apps.js:50
 msgid "Enable"
 msgstr "Kapabligi"
 
@@ -111,63 +111,67 @@ msgstr ""
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
-msgstr "lanĉi unu taskon po ĉiu paĝo ŝargita"
-
-#: templates/admin.php:35
-msgid "cron.php is registered at a webcron service"
-msgstr "cron.php estas registrita kiel webcron-servilo"
-
 #: templates/admin.php:37
-msgid "use systems cron service"
-msgstr "uzi la cron-servon de la sistemo"
-
-#: templates/admin.php:41
-msgid "Share API"
+msgid "Execute one task with each page loaded"
 msgstr ""
 
-#: templates/admin.php:46
-msgid "Enable Share API"
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
 msgstr ""
 
-#: templates/admin.php:47
-msgid "Allow apps to use the Share API"
-msgstr ""
-
-#: templates/admin.php:51
-msgid "Allow links"
-msgstr ""
-
-#: templates/admin.php:52
-msgid "Allow users to share items to the public with links"
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
 msgstr ""
 
 #: templates/admin.php:56
-msgid "Allow resharing"
+msgid "Sharing"
 msgstr ""
 
-#: templates/admin.php:57
-msgid "Allow users to share items shared with them again"
-msgstr ""
-
-#: templates/admin.php:60
-msgid "Allow users to share with anyone"
+#: templates/admin.php:61
+msgid "Enable Share API"
 msgstr ""
 
 #: templates/admin.php:62
+msgid "Allow apps to use the Share API"
+msgstr ""
+
+#: templates/admin.php:67
+msgid "Allow links"
+msgstr ""
+
+#: templates/admin.php:68
+msgid "Allow users to share items to the public with links"
+msgstr ""
+
+#: templates/admin.php:73
+msgid "Allow resharing"
+msgstr ""
+
+#: templates/admin.php:74
+msgid "Allow users to share items shared with them again"
+msgstr ""
+
+#: templates/admin.php:79
+msgid "Allow users to share with anyone"
+msgstr ""
+
+#: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
 msgstr ""
 
-#: templates/admin.php:69
+#: templates/admin.php:88
 msgid "Log"
 msgstr "Protokolo"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
 msgstr "Pli"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -218,12 +222,9 @@ msgid "Answer"
 msgstr "Respondi"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Vi uzas"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "el la disponeblaj"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -234,8 +235,8 @@ msgid "Download"
 msgstr "Elŝuti"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "Via pasvorto ŝanĝiĝis"
+msgid "Your password was changed"
+msgstr ""
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

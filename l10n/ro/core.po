@@ -6,12 +6,13 @@
 # Claudiu  <claudiu@tanaselia.ro>, 2011, 2012.
 # Dimon Pockemon <>, 2012.
 # Eugen Mihalache <eugemjj@gmail.com>, 2012.
+#   <g.ciprian@osn.ro>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 23:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -32,80 +33,184 @@ msgstr "Nici o categorie de adăugat?"
 msgid "This category already exists: "
 msgstr "Această categorie deja există:"
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:214 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr "Configurări"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "January"
-msgstr ""
+msgstr "Ianuarie"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "February"
-msgstr ""
+msgstr "Februarie"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "March"
-msgstr ""
+msgstr "Martie"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "April"
-msgstr ""
+msgstr "Aprilie"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "May"
-msgstr ""
+msgstr "Mai"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "June"
-msgstr ""
+msgstr "Iunie"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "July"
-msgstr ""
+msgstr "Iulie"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "August"
-msgstr ""
+msgstr "August"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "September"
-msgstr ""
+msgstr "Septembrie"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "October"
-msgstr ""
+msgstr "Octombrie"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "November"
-msgstr ""
+msgstr "Noiembrie"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "December"
+msgstr "Decembrie"
+
+#: js/oc-dialogs.js:123
+msgid "Choose"
 msgstr ""
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Anulare"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "Nu"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
+msgstr "Nici o categorie selectată pentru ștergere."
+
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:485
+msgid "Error"
+msgstr "Eroare"
+
+#: js/share.js:103
+msgid "Error while sharing"
 msgstr ""
 
-#: js/oc-vcategories.js:68
-msgid "Error"
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr ""
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr ""
+
+#: js/share.js:130
+#, perl-format
+msgid "Shared with you and the group %s by %s"
+msgstr ""
+
+#: js/share.js:132
+#, perl-format
+msgid "Shared with you by %s"
+msgstr ""
+
+#: js/share.js:137
+msgid "Share with"
+msgstr ""
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr ""
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr ""
+
+#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+msgid "Password"
+msgstr "Parola"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr ""
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr ""
+
+#: js/share.js:182
+#, perl-format
+msgid "Share via email: %s"
+msgstr ""
+
+#: js/share.js:184
+msgid "No people found"
+msgstr ""
+
+#: js/share.js:210
+msgid "Resharing is not allowed"
+msgstr ""
+
+#: js/share.js:246
+#, perl-format
+msgid "Shared in %s with %s"
+msgstr ""
+
+#: js/share.js:267
+msgid "Unshare"
+msgstr ""
+
+#: js/share.js:275
+msgid "can edit"
+msgstr ""
+
+#: js/share.js:277
+msgid "access control"
+msgstr ""
+
+#: js/share.js:280
+msgid "create"
+msgstr ""
+
+#: js/share.js:283
+msgid "update"
+msgstr ""
+
+#: js/share.js:286
+msgid "delete"
+msgstr ""
+
+#: js/share.js:289
+msgid "share"
+msgstr ""
+
+#: js/share.js:313 js/share.js:463
+msgid "Password protected"
+msgstr ""
+
+#: js/share.js:485
+msgid "Error setting expiration date"
 msgstr ""
 
 #: lostpassword/index.php:26
@@ -193,10 +298,6 @@ msgstr "Adaugă"
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crează un <strong>cont de administrator</strong>"
 
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr "Parola"
-
 #: templates/installation.php:36
 msgid "Advanced"
 msgstr "Avansat"
@@ -228,7 +329,7 @@ msgstr "Numele bazei de date"
 
 #: templates/installation.php:109
 msgid "Database tablespace"
-msgstr ""
+msgstr "Tabela de spațiu a bazei de date"
 
 #: templates/installation.php:115
 msgid "Database host"
@@ -238,11 +339,11 @@ msgstr "Bază date"
 msgid "Finish setup"
 msgstr "Finalizează instalarea"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "servicii web controlate de tine"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:39
 msgid "Log out"
 msgstr "Ieșire"
 

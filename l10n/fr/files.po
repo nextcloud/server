@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:01+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-22 01:13+0200\n"
+"PO-Revision-Date: 2012-09-21 23:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -60,39 +60,51 @@ msgstr "Erreur d'écriture sur le disque"
 msgid "Files"
 msgstr "Fichiers"
 
-#: js/fileactions.js:106 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr "Ne plus partager"
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "Supprimer"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr ""
+
+#: js/filelist.js:188 js/filelist.js:190
 msgid "already exists"
 msgstr "existe déjà"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "replace"
 msgstr "remplacer"
 
-#: js/filelist.js:186
+#: js/filelist.js:188
 msgid "suggest name"
-msgstr ""
+msgstr "Suggérer un nom"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "cancel"
 msgstr "annuler"
 
-#: js/filelist.js:235 js/filelist.js:237
+#: js/filelist.js:237 js/filelist.js:239
 msgid "replaced"
 msgstr "remplacé"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
+#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
 msgid "undo"
 msgstr "annuler"
 
-#: js/filelist.js:237
+#: js/filelist.js:239
 msgid "with"
 msgstr "avec"
 
 #: js/filelist.js:271
+msgid "unshared"
+msgstr "non partagée"
+
+#: js/filelist.js:273
 msgid "deleted"
 msgstr "supprimé"
 
@@ -108,7 +120,7 @@ msgstr "Impossible de charger vos fichiers car il s'agit d'un dossier ou le fich
 msgid "Upload Error"
 msgstr "Erreur de chargement"
 
-#: js/files.js:236 js/files.js:341 js/files.js:370
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
 msgstr "En cours"
 
@@ -116,36 +128,44 @@ msgstr "En cours"
 msgid "Upload cancelled."
 msgstr "Chargement annulé."
 
-#: js/files.js:423
+#: js/files.js:424
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "L'envoi du fichier est en cours. Quitter cette page maintenant annulera l'envoi du fichier."
 
-#: js/files.js:493
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nom invalide, '/' n'est pas autorisé."
 
-#: js/files.js:746 templates/index.php:55
+#: js/files.js:667
+msgid "files scanned"
+msgstr ""
+
+#: js/files.js:675
+msgid "error while scanning"
+msgstr ""
+
+#: js/files.js:749 templates/index.php:56
 msgid "Size"
 msgstr "Taille"
 
-#: js/files.js:747 templates/index.php:56
+#: js/files.js:750 templates/index.php:58
 msgid "Modified"
 msgstr "Modifié"
 
-#: js/files.js:774
+#: js/files.js:777
 msgid "folder"
 msgstr "dossier"
 
-#: js/files.js:776
+#: js/files.js:779
 msgid "folders"
 msgstr "dossiers"
 
-#: js/files.js:784
+#: js/files.js:787
 msgid "file"
 msgstr "fichier"
 
-#: js/files.js:786
+#: js/files.js:789
 msgid "files"
 msgstr "fichiers"
 
@@ -197,7 +217,7 @@ msgstr "Dossier"
 msgid "From url"
 msgstr "Depuis URL"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Envoyer"
 
@@ -205,36 +225,36 @@ msgstr "Envoyer"
 msgid "Cancel upload"
 msgstr "Annuler l'envoi"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Il n'y a rien ici ! Envoyez donc quelque chose :)"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "Nom"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "Partager"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "Téléchargement"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "Fichier trop volumineux"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Les fichiers que vous essayez d'envoyer dépassent la taille maximale permise par ce serveur."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "Les fichiers sont en cours d'analyse, veuillez patienter."
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "Analyse en cours"

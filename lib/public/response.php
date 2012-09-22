@@ -34,8 +34,6 @@ namespace OCP;
  * This class provides convinient functions to send the correct http response headers
  */
 class Response {
-
-
 	/**
 	* @brief Enable response caching by sending correct HTTP headers
 	* @param $cache_time time to cache the response
@@ -47,7 +45,6 @@ class Response {
 		return(\OC_Response::enableCaching( $cache_time ));
 	}
 
-
 	/**
 	* Checks and set Last-Modified header, when the request matches sends a
 	* 'not modified' response
@@ -57,7 +54,6 @@ class Response {
 		return(\OC_Response::setLastModifiedHeader( $lastModified ));
 	}
 
-
 	/**
 	* @brief disable browser caching
 	* @see enableCaching with cache_time = 0
@@ -65,7 +61,6 @@ class Response {
 	static public function disableCaching() {
 		return(\OC_Response::disableCaching());
 	}
-
 
 	/**
 	* Checks and set ETag header, when the request matches sends a
@@ -75,7 +70,6 @@ class Response {
 	static public function setETagHeader( $etag ) {
 		return(\OC_Response::setETagHeader( $etag ));
 	}
-
 
 	/**
 	* @brief Send file as response, checking and setting caching headers
@@ -102,6 +96,4 @@ class Response {
 	static public function redirect( $location ) {
 		return(\OC_Response::redirect( $location ));
 	}
-
-
 }

@@ -67,7 +67,7 @@ if($source) {
 	$result=OC_Filesystem::file_put_contents($target, $sourceStream);
 	if($result) {
 		$mime=OC_Filesystem::getMimetype($target);
-		$eventSource->send('success', $mime);
+		$eventSource->send('success', array('mime'=>$mime, 'size'=>OC_Filesystem::filesize($target)));
 	} else {
 		$eventSource->send('error', "Error while downloading ".$source. ' to '.$target);
 	}

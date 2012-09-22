@@ -19,7 +19,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class OC_Share_Backend_Folder extends OC_Share_Backend_File {
+class OC_Share_Backend_Folder extends OC_Share_Backend_File implements OCP\Share_Backend_Collection {
 
 	public function formatItems($items, $format, $parameters = null) {
 		if ($format == self::FORMAT_SHARED_STORAGE) {
@@ -50,12 +50,22 @@ class OC_Share_Backend_Folder extends OC_Share_Backend_File {
 	}
 
 	public function getChildren($itemSource) {
-		$files = OC_FileCache::getFolderContent($itemSource);
-		$sources = array();
-		foreach ($files as $file) {
-			$sources[] = $file['path'];
+		$children = array();
+		$parents = array($itemSource);
+		while (!empty($parents)) {
+			$parents = "'".implode("','", $parents)."'";
+			$query = OC_DB::prepare('SELECT `id`, `name`, `mimetype` FROM `*PREFIX*fscache` WHERE `parent` IN ('.$parents.')');
+			$result = $query->execute();
+			$parents = array();
+			while ($file = $result->fetchRow()) {
+				$children[] = array('source' => $file['id'], 'file_path' => $file['name']);
+				// If a child folder is found look inside it 
+				if ($file['mimetype'] == 'httpd/unix-directory') {
+					$parents[] = $file['id'];
+				}
+			}
 		}
-		return $sources;
+		return $children;
 	}
 
 }

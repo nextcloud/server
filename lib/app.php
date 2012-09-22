@@ -397,10 +397,11 @@ class OC_App{
 	}
 
 	/**
-	 * @brief Read app metadata from the info.xml file
+	 * @brief Read all app metadata from the info.xml file
 	 * @param string $appid id of the app or the path of the info.xml file
 	 * @param boolean path (optional)
 	 * @returns array
+	 * @note all data is read from info.xml, not just pre-defined fields
 	*/
 	public static function getAppInfo($appid,$path=false) {
 		if($path) {
@@ -442,6 +443,7 @@ class OC_App{
 			}
 		}
 		self::$appInfo[$appid]=$data;
+		
 		return $data;
 	}
 
@@ -521,19 +523,89 @@ class OC_App{
 	}
 
 	/**
-	 * get a list of all apps in the apps folder
+	 * @brief: get a list of all apps in the apps folder
+	 * @return array or app names (string IDs)
+	 * @todo: change the name of this method to getInstalledApps, which is more accurate
 	 */
 	public static function getAllApps() {
+	
 		$apps=array();
-		foreach(OC::$APPSROOTS as $apps_dir) {
-			$dh=opendir($apps_dir['path']);
-			while($file=readdir($dh)) {
-				if($file[0]!='.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')) {
-					$apps[]=$file;
-				}
+		
+		foreach ( OC::$APPSROOTS as $apps_dir ) {
+			if(! is_readable($apps_dir['path'])) {
+				OC_Log::write('core', 'unable to read app folder : ' .$apps_dir['path'] , OC_Log::WARN);
+				continue;
 			}
+			$dh = opendir( $apps_dir['path'] );
+			
+			while( $file = readdir( $dh ) ) {
+			
+				if ( 
+				$file[0] != '.' 
+				and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php' ) 
+				) {
+				
+					$apps[] = $file;
+					
+				}
+				
+			}
+			
 		}
+		
 		return $apps;
+	}
+	
+	/**
+	 * @brief: get a list of all apps on apps.owncloud.com
+	 * @return multi-dimensional array of apps. Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
+	 */
+	public static function getAppstoreApps( $filter = 'approved' ) {
+		
+		$catagoryNames = OC_OCSClient::getCategories();
+		
+		if ( is_array( $catagoryNames ) ) {
+			
+			// Check that categories of apps were retrieved correctly
+			if ( ! $categories = array_keys( $catagoryNames ) ) {
+			
+				return false;
+				
+			}
+			
+			$page = 0;
+		
+			$remoteApps = OC_OCSClient::getApplications( $categories, $page, $filter );
+			
+			$app1 = array();
+			
+			$i = 0;
+			
+			foreach ( $remoteApps as $app ) {
+			
+				$app1[$i] = $app;
+			
+				$app1[$i]['author'] = $app['personid'];
+				
+				$app1[$i]['ocs_id'] = $app['id'];
+				
+				$app1[$i]['internal'] = $app1[$i]['active'] = 0;
+				
+				$i++;
+			
+			}
+		
+		}
+		
+		if ( empty( $app1 ) ) {
+		
+			return false;
+			
+		} else {
+		
+			return $app1;
+			
+		}
 	}
 
 	/**
@@ -550,7 +622,13 @@ class OC_App{
 			$installedVersion = $versions[$app];
 			if (version_compare($currentVersion, $installedVersion, '>')) {
 				OC_Log::write($app, 'starting app upgrade from '.$installedVersion.' to '.$currentVersion, OC_Log::DEBUG);
-				OC_App::updateApp($app);
+				try {
+					OC_App::updateApp($app);
+				}
+				catch (Exception $e) {
+					echo 'Failed to upgrade "'.$app.'". Exception="'.$e->getMessage().'"';
+					die;
+				}
 				OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
 			}
 		}
@@ -640,7 +718,7 @@ class OC_App{
 			}
 		}else{
 			OC_Log::write('core', 'Can\'t get app storage, app '.$appid.' not enabled', OC_Log::ERROR);
-			false;
+			return false;
 		}
 	}
 }

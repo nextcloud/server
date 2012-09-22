@@ -187,7 +187,7 @@ class OC_DB {
 
 			// Prepare options array
 			$options = array(
-			  'portability' => MDB2_PORTABILITY_ALL & (!MDB2_PORTABILITY_FIX_CASE),
+			  'portability' => MDB2_PORTABILITY_ALL - MDB2_PORTABILITY_FIX_CASE,
 			  'log_line_break' => '<br>',
 			  'idxname_format' => '%s',
 			  'debug' => true,
@@ -226,12 +226,14 @@ class OC_DB {
 							'phptype'  => 'oci8',
 							'username' => $user,
 							'password' => $pass,
+							'charset' => 'AL32UTF8',
 					);
 					if ($host != '') {
 						$dsn['hostspec'] = $host;
 						$dsn['database'] = $name;
 					} else { // use dbname for hostspec
 						$dsn['hostspec'] = $name;
+						$dsn['database'] = $user;
 					}
 					break;
 			}
@@ -297,7 +299,7 @@ class OC_DB {
 			// Die if we have an error (error means: bad query, not 0 results!)
 			if( PEAR::isError($result)) {
 				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
-				$entry .= 'Offending command was: '.$query.'<br />';
+				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
 				OC_Log::write('core', $entry,OC_Log::FATAL);
 				error_log('DB error: '.$entry);
 				die( $entry );
@@ -307,7 +309,7 @@ class OC_DB {
 				$result=self::$connection->prepare($query);
 			}catch(PDOException $e) {
 				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
-				$entry .= 'Offending command was: '.$query.'<br />';
+				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
 				OC_Log::write('core', $entry,OC_Log::FATAL);
 				error_log('DB error: '.$entry);
 				die( $entry );
@@ -457,7 +459,8 @@ class OC_DB {
 		$previousSchema = self::$schema->getDefinitionFromDatabase();
 		if (PEAR::isError($previousSchema)) {
 			$error = $previousSchema->getMessage();
-			OC_Log::write('core', 'Failed to get existing database structure for upgrading ('.$error.')', OC_Log::FATAL);
+			$detail = $previousSchema->getDebugInfo();
+			OC_Log::write('core', 'Failed to get existing database structure for upgrading ('.$error.', '.$detail.')', OC_Log::FATAL);
 			return false;
 		}
 
@@ -648,6 +651,30 @@ class OC_DB {
 		}else{
 			return false;
 		}
+	}
+	
+	/**
+	 * returns the error code and message as a string for logging
+	 * works with MDB2 and PDOException
+	 * @param mixed $error
+	 * @return string
+	 */
+	public static function getErrorMessage($error) {
+		if ( self::$backend==self::BACKEND_MDB2 and PEAR::isError($error) ) {
+			$msg = $error->getCode() . ': ' . $error->getMessage();
+			if (defined('DEBUG') && DEBUG) {
+				$msg .= '(' . $error->getDebugInfo() . ')';
+			}
+		} elseif (self::$backend==self::BACKEND_PDO and self::$PDO) {
+			$msg = self::$PDO->errorCode() . ': ';
+			$errorInfo = self::$PDO->errorInfo();
+			if (is_array($errorInfo)) {
+				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
+				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
+				$msg .= 'Driver Message = '.$errorInfo[2];
+			}
+		}
+		return $msg;
 	}
 }
 

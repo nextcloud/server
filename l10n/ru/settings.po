@@ -11,12 +11,13 @@
 #   <rasperepodvipodvert@gmail.com>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
+#   <victor.dubiniuk@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-19 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -36,10 +37,14 @@ msgstr "Ошибка авторизации"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "Группа уже существует"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
+msgstr "Невозможно добавить группу"
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
 msgstr ""
 
 #: ajax/lostpassword.php:14
@@ -60,11 +65,11 @@ msgstr "Неверный запрос"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Невозможно удалить группу"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Невозможно удалить пользователя"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -73,22 +78,18 @@ msgstr "Язык изменён"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Невозможно добавить пользователя в группу %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Невозможно удалить пользователя из группы %s"
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "Ошибка"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:27 js/apps.js:61
 msgid "Disable"
-msgstr "Отключить"
+msgstr "Выключить"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:27 js/apps.js:50
 msgid "Enable"
 msgstr "Включить"
 
@@ -111,69 +112,73 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Похоже, что каталог data и ваши файлы в нем доступны из интернета. Предоставляемый ownCloud файл htaccess не работает. Настоятельно рекомендуем настроить сервер таким образом, чтобы закрыть доступ к каталогу data или вынести каталог data за пределы корневого каталога веб-сервера."
 
 #: templates/admin.php:31
 msgid "Cron"
 msgstr "Задание"
 
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
-msgstr "Запускать задание при загрузке каждой страницы"
-
-#: templates/admin.php:35
-msgid "cron.php is registered at a webcron service"
-msgstr "cron.php зарегистрирован в webcron сервисе"
-
 #: templates/admin.php:37
-msgid "use systems cron service"
-msgstr "использовать системные задания"
-
-#: templates/admin.php:41
-msgid "Share API"
+msgid "Execute one task with each page loaded"
 msgstr ""
 
-#: templates/admin.php:46
-msgid "Enable Share API"
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
 msgstr ""
 
-#: templates/admin.php:47
-msgid "Allow apps to use the Share API"
-msgstr ""
-
-#: templates/admin.php:51
-msgid "Allow links"
-msgstr ""
-
-#: templates/admin.php:52
-msgid "Allow users to share items to the public with links"
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
 msgstr ""
 
 #: templates/admin.php:56
-msgid "Allow resharing"
+msgid "Sharing"
 msgstr ""
 
-#: templates/admin.php:57
-msgid "Allow users to share items shared with them again"
-msgstr ""
-
-#: templates/admin.php:60
-msgid "Allow users to share with anyone"
-msgstr ""
+#: templates/admin.php:61
+msgid "Enable Share API"
+msgstr "Включить API публикации"
 
 #: templates/admin.php:62
-msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgid "Allow apps to use the Share API"
+msgstr "Разрешить API публикации для приложений"
 
-#: templates/admin.php:69
+#: templates/admin.php:67
+msgid "Allow links"
+msgstr "Разрешить ссылки"
+
+#: templates/admin.php:68
+msgid "Allow users to share items to the public with links"
+msgstr "Разрешить пользователям публикацию при помощи ссылок"
+
+#: templates/admin.php:73
+msgid "Allow resharing"
+msgstr "Включить повторную публикацию"
+
+#: templates/admin.php:74
+msgid "Allow users to share items shared with them again"
+msgstr "Разрешить пользователям публиковать доступные им элементы других пользователей"
+
+#: templates/admin.php:79
+msgid "Allow users to share with anyone"
+msgstr "Разрешить публиковать для любых пользователей"
+
+#: templates/admin.php:81
+msgid "Allow users to only share with users in their groups"
+msgstr "Ограничить публикацию группами пользователя"
+
+#: templates/admin.php:88
 msgid "Log"
 msgstr "Журнал"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
 msgstr "Ещё"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -181,7 +186,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Разрабатывается <a href=\"http://ownCloud.org/contact\" target=\"_blank\">сообществом ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">исходный код</a> доступен под лицензией <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -197,7 +202,7 @@ msgstr "Смотрите дополнения на apps.owncloud.com"
 
 #: templates/apps.php:30
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span> лицензия. Автор <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"
@@ -224,12 +229,9 @@ msgid "Answer"
 msgstr "Ответ"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Вы используете"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "из доступных"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -240,8 +242,8 @@ msgid "Download"
 msgstr "Загрузка"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "Ваш пароль был изменён"
+msgid "Your password was changed"
+msgstr ""
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

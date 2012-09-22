@@ -34,7 +34,6 @@ namespace OCP;
  * This class provides convinient functions to generate and send JSON data. Usefull for Ajax calls
  */
 class JSON {
-
 	/**
 	* @brief Encode and print $data in JSON format
 	* @param array $data The data to use
@@ -170,5 +169,4 @@ class JSON {
 	public static function checkAdminUser() {
 		return(\OC_JSON::checkAdminUser());
 	}
-
 }

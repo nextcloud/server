@@ -7,18 +7,6 @@
 
 OC.Settings = OC.Settings || {};
 OC.Settings.Apps = OC.Settings.Apps || {
-	loadOCS:function() {
-		$.getJSON(OC.filePath('settings', 'ajax', 'apps/ocs.php'), function(jsondata) {
-			if(jsondata.status == 'success'){
-				var apps = jsondata.data;
-				$.each(apps, function(b, appdata) {
-					OC.Settings.Apps.insertApp(appdata);
-				});
-			} else {
-				OC.dialogs.alert(jsondata.data.message, t('core', 'Error'));
-			}
-		});
-	},
 	loadApp:function(app) {
 		var page = $('#rightcontent');
 		page.find('p.license').show();
@@ -137,6 +125,4 @@ $(document).ready(function(){
 			$('#leftcontent').animate({scrollTop: $(item).offset().top-70}, 'slow','swing');
 		}
 	}
-
-	OC.Settings.Apps.loadOCS();
 });

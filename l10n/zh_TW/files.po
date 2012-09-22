@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:01+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-22 01:13+0200\n"
+"PO-Revision-Date: 2012-09-21 23:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -54,39 +54,51 @@ msgstr "寫入硬碟失敗"
 msgid "Files"
 msgstr "檔案"
 
-#: js/fileactions.js:106 templates/index.php:56
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "刪除"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr ""
+
+#: js/filelist.js:188 js/filelist.js:190
 msgid "already exists"
 msgstr "已經存在"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "replace"
 msgstr "取代"
 
-#: js/filelist.js:186
+#: js/filelist.js:188
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "cancel"
 msgstr "取消"
 
-#: js/filelist.js:235 js/filelist.js:237
+#: js/filelist.js:237 js/filelist.js:239
 msgid "replaced"
 msgstr ""
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:271
+#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:237
+#: js/filelist.js:239
 msgid "with"
 msgstr ""
 
 #: js/filelist.js:271
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:273
 msgid "deleted"
 msgstr ""
 
@@ -102,7 +114,7 @@ msgstr "無法上傳您的檔案因為它可能是一個目錄或檔案大小為
 msgid "Upload Error"
 msgstr "上傳發生錯誤"
 
-#: js/files.js:236 js/files.js:341 js/files.js:370
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
 msgstr ""
 
@@ -110,36 +122,44 @@ msgstr ""
 msgid "Upload cancelled."
 msgstr "上傳取消"
 
-#: js/files.js:423
+#: js/files.js:424
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "檔案上傳中. 離開此頁面將會取消上傳."
 
-#: js/files.js:493
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
 msgstr "無效的名稱, '/'是不被允許的"
 
-#: js/files.js:746 templates/index.php:55
+#: js/files.js:667
+msgid "files scanned"
+msgstr ""
+
+#: js/files.js:675
+msgid "error while scanning"
+msgstr ""
+
+#: js/files.js:749 templates/index.php:56
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:747 templates/index.php:56
+#: js/files.js:750 templates/index.php:58
 msgid "Modified"
 msgstr "修改"
 
-#: js/files.js:774
+#: js/files.js:777
 msgid "folder"
 msgstr ""
 
-#: js/files.js:776
+#: js/files.js:779
 msgid "folders"
 msgstr ""
 
-#: js/files.js:784
+#: js/files.js:787
 msgid "file"
 msgstr ""
 
-#: js/files.js:786
+#: js/files.js:789
 msgid "files"
 msgstr ""
 
@@ -191,7 +211,7 @@ msgstr "資料夾"
 msgid "From url"
 msgstr "由 url "
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "上傳"
 
@@ -199,36 +219,36 @@ msgstr "上傳"
 msgid "Cancel upload"
 msgstr "取消上傳"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "沒有任何東西。請上傳內容!"
 
-#: templates/index.php:47
+#: templates/index.php:48
 msgid "Name"
 msgstr "名稱"
 
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "分享"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "下載"
 
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "上傳過大"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "你試圖上傳的檔案已超過伺服器的最大容量限制。　"
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "正在掃描檔案，請稍等。"
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "目前掃描"

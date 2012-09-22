@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Settings" => "Podešavanja",
+"Password" => "Lozinka",
 "You will receive a link to reset your password via Email." => "Dobićete vezu za resetovanje lozinke putem e-pošte.",
 "Requested" => "Zahtevano",
 "Login failed!" => "Nesupela prijava!",
@@ -15,7 +16,6 @@
 "Help" => "Pomoć",
 "Cloud not found" => "Oblak nije nađen",
 "Create an <strong>admin account</strong>" => "Napravi <strong>administrativni nalog</strong>",
-"Password" => "Lozinka",
 "Advanced" => "Napredno",
 "Data folder" => "Facikla podataka",
 "Configure the database" => "Podešavanje baze",

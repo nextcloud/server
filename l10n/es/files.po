@@ -7,13 +7,14 @@
 #   <juanma@kde.org.ar>, 2012.
 # Rubén Trujillo <rubentrf@gmail.com>, 2012.
 #   <sergioballesterossolanas@gmail.com>, 2011, 2012.
+#   <sergio@entrecables.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-07 02:04+0200\n"
-"PO-Revision-Date: 2012-09-06 05:09+0000\n"
-"Last-Translator: juanman <juanma@kde.org.ar>\n"
+"POT-Creation-Date: 2012-09-22 01:13+0200\n"
+"PO-Revision-Date: 2012-09-21 23:14+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,39 +56,51 @@ msgstr "La escritura en disco ha fallado"
 msgid "Files"
 msgstr "Archivos"
 
-#: js/fileactions.js:106 templates/index.php:57
-msgid "Delete"
-msgstr "Eliminado"
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr "Dejar de compartir"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/fileactions.js:110 templates/index.php:64
+msgid "Delete"
+msgstr "Eliminar"
+
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr ""
+
+#: js/filelist.js:188 js/filelist.js:190
 msgid "already exists"
 msgstr "ya existe"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "replace"
 msgstr "reemplazar"
 
-#: js/filelist.js:186
+#: js/filelist.js:188
 msgid "suggest name"
 msgstr "sugerir nombre"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:188 js/filelist.js:190
 msgid "cancel"
 msgstr "cancelar"
 
-#: js/filelist.js:235 js/filelist.js:237
+#: js/filelist.js:237 js/filelist.js:239
 msgid "replaced"
 msgstr "reemplazado"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:266
+#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
 msgid "undo"
 msgstr "deshacer"
 
-#: js/filelist.js:237
+#: js/filelist.js:239
 msgid "with"
 msgstr "con"
 
-#: js/filelist.js:266
+#: js/filelist.js:271
+msgid "unshared"
+msgstr "no compartido"
+
+#: js/filelist.js:273
 msgid "deleted"
 msgstr "borrado"
 
@@ -103,7 +116,7 @@ msgstr "No ha sido posible subir tu archivo porque es un directorio o tiene 0 by
 msgid "Upload Error"
 msgstr "Error al subir el archivo"
 
-#: js/files.js:236 js/files.js:341 js/files.js:370
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
 msgstr "Pendiente"
 
@@ -111,36 +124,44 @@ msgstr "Pendiente"
 msgid "Upload cancelled."
 msgstr "Subida cancelada."
 
-#: js/files.js:423
+#: js/files.js:424
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "La subida del archivo está en proceso. Salir de la página ahora cancelará la subida."
 
-#: js/files.js:493
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nombre no válido, '/' no está permitido."
 
-#: js/files.js:746 templates/index.php:56
+#: js/files.js:667
+msgid "files scanned"
+msgstr ""
+
+#: js/files.js:675
+msgid "error while scanning"
+msgstr ""
+
+#: js/files.js:749 templates/index.php:56
 msgid "Size"
 msgstr "Tamaño"
 
-#: js/files.js:747 templates/index.php:57
+#: js/files.js:750 templates/index.php:58
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:774
+#: js/files.js:777
 msgid "folder"
 msgstr "carpeta"
 
-#: js/files.js:776
+#: js/files.js:779
 msgid "folders"
 msgstr "carpetas"
 
-#: js/files.js:784
+#: js/files.js:787
 msgid "file"
 msgstr "archivo"
 
-#: js/files.js:786
+#: js/files.js:789
 msgid "files"
 msgstr "archivos"
 
@@ -192,7 +213,7 @@ msgstr "Carpeta"
 msgid "From url"
 msgstr "Desde la URL"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Subir"
 
@@ -216,20 +237,20 @@ msgstr "Compartir"
 msgid "Download"
 msgstr "Descargar"
 
-#: templates/index.php:65
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "El archivo es demasiado grande"
 
-#: templates/index.php:67
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido por este servidor."
 
-#: templates/index.php:72
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "Se están escaneando los archivos, por favor espere."
 
-#: templates/index.php:75
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "Escaneo actual"

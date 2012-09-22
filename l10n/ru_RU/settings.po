@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <cdewqazxsqwe@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-19 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -19,82 +20,82 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Невозможно загрузить список из App Store"
 
 #: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
 #: ajax/togglegroups.php:15
 msgid "Authentication error"
-msgstr ""
+msgstr "Ошибка авторизации"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "Группа уже существует"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "Невозможно добавить группу"
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
+msgstr "Не удалось запустить приложение"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "Email сохранен"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Неверный email"
 
 #: ajax/openid.php:16
 msgid "OpenID Changed"
-msgstr ""
+msgstr "OpenID изменен"
 
 #: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
-msgstr ""
+msgstr "Неверный запрос"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Невозможно удалить группу"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Невозможно удалить пользователя"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
-msgstr ""
+msgstr "Язык изменен"
 
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Невозможно добавить пользователя в группу %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Невозможно удалить пользователя из группы %s"
 
-#: js/apps.js:18
-msgid "Error"
-msgstr ""
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:27 js/apps.js:61
 msgid "Disable"
-msgstr ""
+msgstr "Отключить"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:27 js/apps.js:50
 msgid "Enable"
-msgstr ""
+msgstr "Включить"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Сохранение"
 
 #: personal.php:46 personal.php:47
 msgid "__language_name__"
-msgstr ""
+msgstr "__язык_имя__"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "Предупреждение системы безопасности"
 
 #: templates/admin.php:17
 msgid ""
@@ -103,69 +104,73 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Ваш каталог данных и файлы возможно доступны из Интернета. Файл .htaccess, предоставляемый ownCloud, не работает. Мы настоятельно рекомендуем Вам настроить сервер таким образом, чтобы каталог данных был бы больше не доступен, или переместить каталог данных за пределы корневой папки веб-сервера."
 
 #: templates/admin.php:31
 msgid "Cron"
-msgstr ""
-
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
-msgstr ""
-
-#: templates/admin.php:35
-msgid "cron.php is registered at a webcron service"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:37
-msgid "use systems cron service"
-msgstr ""
+msgid "Execute one task with each page loaded"
+msgstr "Выполняйте одну задачу на каждой загружаемой странице"
 
-#: templates/admin.php:41
-msgid "Share API"
-msgstr ""
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr "cron.php зарегистрирован в службе webcron. Обращайтесь к странице cron.php в корне owncloud раз в минуту по http."
 
-#: templates/admin.php:46
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr "Используйте системный сервис cron. Исполняйте файл cron.php в папке owncloud с помощью системы cronjob раз в минуту."
+
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr "Совместное использование"
+
+#: templates/admin.php:61
 msgid "Enable Share API"
-msgstr ""
+msgstr "Включить разделяемые API"
 
-#: templates/admin.php:47
+#: templates/admin.php:62
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Разрешить приложениям использовать Share API"
 
-#: templates/admin.php:51
+#: templates/admin.php:67
 msgid "Allow links"
-msgstr ""
+msgstr "Предоставить ссылки"
 
-#: templates/admin.php:52
+#: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
 msgstr ""
 
-#: templates/admin.php:56
+#: templates/admin.php:73
 msgid "Allow resharing"
-msgstr ""
+msgstr "Разрешить повторное совместное использование"
 
-#: templates/admin.php:57
+#: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
 msgstr ""
 
-#: templates/admin.php:60
+#: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Разрешить пользователям разделение с кем-либо"
 
-#: templates/admin.php:62
+#: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Разрешить пользователям разделение только с пользователями в их группах"
 
-#: templates/admin.php:69
+#: templates/admin.php:88
 msgid "Log"
-msgstr ""
+msgstr "Вход"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
-msgstr ""
+msgstr "Подробнее"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -173,144 +178,141 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Разработанный <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr ""
+msgstr "Добавить Ваше приложение"
 
 #: templates/apps.php:26
 msgid "Select an App"
-msgstr ""
+msgstr "Выбрать приложение"
 
 #: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Обратитесь к странице приложений на apps.owncloud.com"
 
 #: templates/apps.php:30
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"
-msgstr ""
+msgstr "Документация"
 
 #: templates/help.php:10
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Управление большими файлами"
 
 #: templates/help.php:11
 msgid "Ask a question"
-msgstr ""
+msgstr "Задать вопрос"
 
 #: templates/help.php:23
 msgid "Problems connecting to help database."
-msgstr ""
+msgstr "Проблемы, связанные с разделом Помощь базы данных"
 
 #: templates/help.php:24
 msgid "Go there manually."
-msgstr ""
+msgstr "Сделать вручную."
 
 #: templates/help.php:32
 msgid "Answer"
-msgstr ""
+msgstr "Ответ"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr ""
-
-#: templates/personal.php:8
-msgid "of the available"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
 msgstr ""
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Клиенты синхронизации настольной и мобильной систем"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Загрузка"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
+msgid "Your password was changed"
 msgstr ""
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Невозможно изменить Ваш пароль"
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr ""
+msgstr "Текущий пароль"
 
 #: templates/personal.php:22
 msgid "New password"
-msgstr ""
+msgstr "Новый пароль"
 
 #: templates/personal.php:23
 msgid "show"
-msgstr ""
+msgstr "показать"
 
 #: templates/personal.php:24
 msgid "Change password"
-msgstr ""
+msgstr "Изменить пароль"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr ""
+msgstr "Электронная почта"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr ""
+msgstr "Адрес Вашей электронной почты"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Введите адрес электронной почты для возможности восстановления пароля"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr ""
+msgstr "Помогите перевести"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Используйте этот адрес для соединения с Вашим ownCloud в файловом менеджере"
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 #: templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 #: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
-msgstr ""
+msgstr "Группы"
 
 #: templates/users.php:32
 msgid "Create"
-msgstr ""
+msgstr "Создать"
 
 #: templates/users.php:35
 msgid "Default Quota"
-msgstr ""
+msgstr "Квота по умолчанию"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
-msgstr ""
+msgstr "Другой"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "Группа Admin"
 
 #: templates/users.php:82
 msgid "Quota"
-msgstr ""
+msgstr "квота"
 
 #: templates/users.php:146
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"

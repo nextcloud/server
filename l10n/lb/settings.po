@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-19 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -33,6 +33,10 @@ msgstr ""
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
+msgstr ""
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
 msgstr ""
 
 #: ajax/lostpassword.php:14
@@ -73,15 +77,11 @@ msgstr ""
 msgid "Unable to remove user from group %s"
 msgstr ""
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "Fehler"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:27 js/apps.js:61
 msgid "Disable"
 msgstr "Ofschalten"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:27 js/apps.js:50
 msgid "Enable"
 msgstr "Aschalten"
 
@@ -110,63 +110,67 @@ msgstr ""
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
+#: templates/admin.php:37
+msgid "Execute one task with each page loaded"
 msgstr ""
 
-#: templates/admin.php:35
-msgid "cron.php is registered at a webcron service"
-msgstr "cron.php ass als en webcron Service registréiert"
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr ""
 
-#: templates/admin.php:37
-msgid "use systems cron service"
-msgstr "benotz den systems cron Service"
-
-#: templates/admin.php:41
-msgid "Share API"
-msgstr "Share API"
-
-#: templates/admin.php:46
-msgid "Enable Share API"
-msgstr "Share API aschalten"
-
-#: templates/admin.php:47
-msgid "Allow apps to use the Share API"
-msgstr "Erlab Apps d'Share API ze benotzen"
-
-#: templates/admin.php:51
-msgid "Allow links"
-msgstr "Links erlaben"
-
-#: templates/admin.php:52
-msgid "Allow users to share items to the public with links"
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
 msgstr ""
 
 #: templates/admin.php:56
+msgid "Sharing"
+msgstr ""
+
+#: templates/admin.php:61
+msgid "Enable Share API"
+msgstr "Share API aschalten"
+
+#: templates/admin.php:62
+msgid "Allow apps to use the Share API"
+msgstr "Erlab Apps d'Share API ze benotzen"
+
+#: templates/admin.php:67
+msgid "Allow links"
+msgstr "Links erlaben"
+
+#: templates/admin.php:68
+msgid "Allow users to share items to the public with links"
+msgstr ""
+
+#: templates/admin.php:73
 msgid "Allow resharing"
 msgstr "Resharing erlaben"
 
-#: templates/admin.php:57
+#: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
 msgstr ""
 
-#: templates/admin.php:60
+#: templates/admin.php:79
 msgid "Allow users to share with anyone"
 msgstr "Useren erlaben mat egal wiem ze sharen"
 
-#: templates/admin.php:62
+#: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
 msgstr "Useren nëmmen erlaben mat Useren aus hirer Grupp ze sharen"
 
-#: templates/admin.php:69
+#: templates/admin.php:88
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
 msgstr "Méi"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -217,12 +221,9 @@ msgid "Answer"
 msgstr "Äntwert"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Du benotz"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "vun den disponibelen"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -233,8 +234,8 @@ msgid "Download"
 msgstr "Download"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "Däin Passwuert ass geännert ginn"
+msgid "Your password was changed"
+msgstr ""
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

@@ -8,6 +8,7 @@
 #   <georg.stefan.germany@googlemail.com>, 2011.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
+#   <mail@felixmoeller.de>, 2012.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2012.
 #   <m.fresel@sysangels.com>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
@@ -18,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-22 02:00+0200\n"
+"PO-Revision-Date: 2012-09-21 23:24+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +31,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr "Applikationsname nicht angegeben"
+msgstr "Der Anwendungsname wurde nicht angegeben."
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
@@ -40,57 +41,61 @@ msgstr "Keine Kategorie hinzuzufügen?"
 msgid "This category already exists: "
 msgstr "Kategorie existiert bereits:"
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:214 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "January"
 msgstr "Januar"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "February"
 msgstr "Februar"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "March"
 msgstr "März"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "April"
 msgstr "April"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "May"
 msgstr "Mai"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "June"
 msgstr "Juni"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "July"
 msgstr "Juli"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "August"
 msgstr "August"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "September"
 msgstr "September"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "October"
 msgstr "Oktober"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "November"
 msgstr "November"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "December"
 msgstr "Dezember"
+
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr "Auswählen"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -112,9 +117,109 @@ msgstr "OK"
 msgid "No categories selected for deletion."
 msgstr "Es wurde keine Kategorien zum Löschen ausgewählt."
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:485
 msgid "Error"
 msgstr "Fehler"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr "Fehler beim Teilen"
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr ""
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr "Fehler beim Ändern  der Rechte"
+
+#: js/share.js:130
+#, perl-format
+msgid "Shared with you and the group %s by %s"
+msgstr ""
+
+#: js/share.js:132
+#, perl-format
+msgid "Shared with you by %s"
+msgstr ""
+
+#: js/share.js:137
+msgid "Share with"
+msgstr ""
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr ""
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr ""
+
+#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+msgid "Password"
+msgstr "Passwort"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr ""
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr ""
+
+#: js/share.js:182
+#, perl-format
+msgid "Share via email: %s"
+msgstr ""
+
+#: js/share.js:184
+msgid "No people found"
+msgstr ""
+
+#: js/share.js:210
+msgid "Resharing is not allowed"
+msgstr ""
+
+#: js/share.js:246
+#, perl-format
+msgid "Shared in %s with %s"
+msgstr ""
+
+#: js/share.js:267
+msgid "Unshare"
+msgstr ""
+
+#: js/share.js:275
+msgid "can edit"
+msgstr "kann bearbeiten"
+
+#: js/share.js:277
+msgid "access control"
+msgstr "Zugriffskontrolle"
+
+#: js/share.js:280
+msgid "create"
+msgstr "erstellen"
+
+#: js/share.js:283
+msgid "update"
+msgstr "aktualisieren"
+
+#: js/share.js:286
+msgid "delete"
+msgstr "löschen"
+
+#: js/share.js:289
+msgid "share"
+msgstr "teilen"
+
+#: js/share.js:313 js/share.js:463
+msgid "Password protected"
+msgstr "Passwort geschützt"
+
+#: js/share.js:485
+msgid "Error setting expiration date"
+msgstr ""
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -201,10 +306,6 @@ msgstr "Hinzufügen"
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>Administrator-Konto</strong> anlegen"
 
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr "Passwort"
-
 #: templates/installation.php:36
 msgid "Advanced"
 msgstr "Erweitert"
@@ -246,11 +347,11 @@ msgstr "Datenbank-Host"
 msgid "Finish setup"
 msgstr "Installation abschließen"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "Web-Services unter Ihrer Kontrolle"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:39
 msgid "Log out"
 msgstr "Abmelden"
 

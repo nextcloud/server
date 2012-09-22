@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Dimitris M. <monopatis@gmail.com>, 2012.
+# Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
 # Marios Bekatoros <>, 2012.
 #   <petros.kyladitis@gmail.com>, 2011.
 # Petros Kyladitis <petros.kyladitis@gmail.com>, 2011, 2012.
@@ -11,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 23:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -33,57 +34,61 @@ msgstr "Δεν έχετε να προστέσθέσεται μια κα"
 msgid "This category already exists: "
 msgstr "Αυτή η κατηγορία υπάρχει ήδη"
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:214 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "January"
 msgstr "Ιανουάριος"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "February"
 msgstr "Φεβρουάριος"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "March"
 msgstr "Μάρτιος"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "April"
 msgstr "Απρίλιος"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "May"
 msgstr "Μάϊος"
 
-#: js/js.js:593
+#: js/js.js:642
 msgid "June"
 msgstr "Ιούνιος"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "July"
 msgstr "Ιούλιος"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "August"
 msgstr "Αύγουστος"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "September"
 msgstr "Σεπτέμβριος"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "October"
 msgstr "Οκτώβριος"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "November"
 msgstr "Νοέμβριος"
 
-#: js/js.js:594
+#: js/js.js:643
 msgid "December"
 msgstr "Δεκέμβριος"
+
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr ""
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -105,9 +110,109 @@ msgstr "Οκ"
 msgid "No categories selected for deletion."
 msgstr "Δεν επιλέχτηκαν κατηγορίες για διαγραφή"
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:485
 msgid "Error"
 msgstr "Σφάλμα"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr ""
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr ""
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr ""
+
+#: js/share.js:130
+#, perl-format
+msgid "Shared with you and the group %s by %s"
+msgstr ""
+
+#: js/share.js:132
+#, perl-format
+msgid "Shared with you by %s"
+msgstr ""
+
+#: js/share.js:137
+msgid "Share with"
+msgstr ""
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr ""
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr ""
+
+#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+msgid "Password"
+msgstr "Κωδικός"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr ""
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr ""
+
+#: js/share.js:182
+#, perl-format
+msgid "Share via email: %s"
+msgstr ""
+
+#: js/share.js:184
+msgid "No people found"
+msgstr ""
+
+#: js/share.js:210
+msgid "Resharing is not allowed"
+msgstr ""
+
+#: js/share.js:246
+#, perl-format
+msgid "Shared in %s with %s"
+msgstr ""
+
+#: js/share.js:267
+msgid "Unshare"
+msgstr ""
+
+#: js/share.js:275
+msgid "can edit"
+msgstr ""
+
+#: js/share.js:277
+msgid "access control"
+msgstr ""
+
+#: js/share.js:280
+msgid "create"
+msgstr ""
+
+#: js/share.js:283
+msgid "update"
+msgstr ""
+
+#: js/share.js:286
+msgid "delete"
+msgstr ""
+
+#: js/share.js:289
+msgid "share"
+msgstr ""
+
+#: js/share.js:313 js/share.js:463
+msgid "Password protected"
+msgstr ""
+
+#: js/share.js:485
+msgid "Error setting expiration date"
+msgstr ""
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -194,10 +299,6 @@ msgstr "Προσθήκη"
 msgid "Create an <strong>admin account</strong>"
 msgstr "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>"
 
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr "Κωδικός"
-
 #: templates/installation.php:36
 msgid "Advanced"
 msgstr "Για προχωρημένους"
@@ -229,7 +330,7 @@ msgstr "Όνομα βάσης δεδομένων"
 
 #: templates/installation.php:109
 msgid "Database tablespace"
-msgstr ""
+msgstr "Κενά Πινάκων Βάσης Δεδομένων"
 
 #: templates/installation.php:115
 msgid "Database host"
@@ -239,11 +340,11 @@ msgstr "Διακομιστής βάσης δεδομένων"
 msgid "Finish setup"
 msgstr "Ολοκλήρωση εγκατάστασης"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "Υπηρεσίες web υπό τον έλεγχό σας"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:39
 msgid "Log out"
 msgstr "Αποσύνδεση"
 

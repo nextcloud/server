@@ -26,6 +26,7 @@
  */
 
 class OC_FileProxy_Quota extends OC_FileProxy{
+	static $rootView;
 	private $userQuota=-1;
 
 	/**
@@ -86,7 +87,10 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 	}
 
 	public function preCopy($path1,$path2) {
-		return (OC_Filesystem::filesize($path1)<$this->getFreeSpace() or $this->getFreeSpace()==0);
+		if(!self::$rootView){
+			self::$rootView = new OC_FilesystemView('');
+		}
+		return (self::$rootView->filesize($path1)<$this->getFreeSpace() or $this->getFreeSpace()==0);
 	}
 
 	public function preFromTmpFile($tmpfile,$path) {
