@@ -129,7 +129,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					} else {
 						$getPath = '';
 					}
-					$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.$_GET['dir'].'&path='.$getPath, false);
+					$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.$_GET['dir'].'&path='.$getPath);
 				} else {
 					// Show file preview if viewer is available
 					$tmpl->assign('uidOwner', $uidOwner);
@@ -137,14 +137,14 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					$tmpl->assign('filename', basename($path));
 					$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
 					if ($type == 'file') {
-						$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&file='.$_GET['file'].'&download', false);
+						$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&file='.$_GET['file'].'&download');
 					} else {
 						if (isset($_GET['path'])) {
 							$getPath = $_GET['path'];
 						} else {
 							$getPath = '';
 						}
-						$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.$_GET['dir'].'&path='.$getPath, false);
+						$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.$_GET['dir'].'&path='.$getPath);
 					}
 				}
 				$tmpl->printPage();
