@@ -91,7 +91,7 @@ class Shared extends \OC\Files\Storage\Common {
 	* @param string Shared target file path
 	* @return Returns CRUDS permissions granted or false if not found
 	*/
-	private function getPermissions($target) {
+	public function getPermissions($target) {
 		$file = $this->getFile($target);
 		if (isset($file['permissions'])) {
 			return $file['permissions'];
@@ -448,5 +448,9 @@ class Shared extends \OC\Files\Storage\Common {
 	public function hasUpdated($path,$time) {
 		//TODO
 		return false;
+	}
+
+	public function getId(){
+		return 'shared::' . $this->sharedFolder;
 	}
 }
