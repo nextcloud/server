@@ -23,7 +23,6 @@ class Scanner {
 		$storage = $file->getStorage();
 		$path = $file->getInternalPath();
 		if (!$storage->isReadable($path)) return null; //cant read, nothing we can do
-		clearstatcache();
 		$data['mimetype'] = $storage->getMimeType($path);
 		$data['mtime'] = $storage->filemtime($path);
 		if ($data['mimetype'] == 'httpd/unix-directory') {

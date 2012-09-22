@@ -152,7 +152,7 @@ class Cache {
 	 * get the id of the parent folder of a file
 	 *
 	 * @param \OC\Files\File $file
-	 * return int
+	 * @return int
 	 */
 	static public function getParentId(\OC\Files\File $file) {
 		$path = $file->getInternalPath();
