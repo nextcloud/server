@@ -21,6 +21,8 @@
 require_once '../../lib/base.php';
 
 OC_JSON::checkLoggedIn();
+OCP\JSON::callCheck();
+
 if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSource'])) {
 	switch ($_POST['action']) {
 		case 'share':
