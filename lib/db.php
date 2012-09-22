@@ -244,7 +244,7 @@ class OC_DB {
 			// Die if we have an error (error means: bad query, not 0 results!)
 			if( PEAR::isError($result)) {
 				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
-				$entry .= 'Offending command was: '.$query.'<br />';
+				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
 				OC_Log::write('core',$entry,OC_Log::FATAL);
 				die( $entry );
 			}
@@ -253,7 +253,7 @@ class OC_DB {
 				$result=self::$connection->prepare($query);
 			}catch(PDOException $e){
 				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
-				$entry .= 'Offending command was: '.$query.'<br />';
+				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
 				OC_Log::write('core',$entry,OC_Log::FATAL);
 				die( $entry );
 			}
