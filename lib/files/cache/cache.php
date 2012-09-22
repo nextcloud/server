@@ -23,22 +23,25 @@ class Cache {
 	static public function get($file) {
 		if ($file instanceof \OC\Files\File) {
 			$where = 'WHERE `storage` = ? AND `path_hash` = ?';
-			$params = array($file->getStorageId(), $file->getInternalPath());
+			$params = array($file->getStorageId(), md5($file->getInternalPath()));
 		} else { //file id
 			$where = 'WHERE `fileid` = ?';
 			$params = array($file);
 		}
 		$query = \OC_DB::prepare(
-			'SELECT `id`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`
+			'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`
 			 FROM `*PREFIX*filecache` ' . $where);
 		$result = $query->execute($params);
+		$data = $result->fetchRow();
 
 		//merge partial data
-		$key = $file->getStorageId() . '::' . $file->getInternalPath();
-		if (isset(self::$partial[$key])) {
-			$result=array_merge($result, self::$partial[$key]);
+		if (!$data and  $file instanceof \OC\Files\File) {
+			$key = $file->getStorageId() . '::' . $file->getInternalPath();
+			if (isset(self::$partial[$key])) {
+				$data = self::$partial[$key];
+			}
 		}
-		return $result->fetchRow();
+		return $data;
 	}
 
 	/**
@@ -50,13 +53,13 @@ class Cache {
 	 * @return int file id
 	 */
 	static public function put(\OC\Files\File $file, array $data) {
-		if ($id = self::getId($file) > -1) {
+		if (($id = self::getId($file)) > -1) {
 			self::update($id, $data);
 			return $id;
 		} else {
 			$key = $file->getStorageId() . '::' . $file->getInternalPath();
 			if (isset(self::$partial[$key])) { //add any saved partial data
-				$data = array_merge($data, self::$partial[$key]);
+				$data = array_merge(self::$partial[$key], $data);
 				unset(self::$partial[$key]);
 			}
 
@@ -77,7 +80,7 @@ class Cache {
 			$params[] = $file->getStorageId();
 			$valuesPlaceholder = array_fill(0, count($queryParts), '?');
 
-			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache`(' . implode(', ', $queryParts) . ' VALUES(' . implode(', ', $valuesPlaceholder) . ')');
+			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache`(' . implode(', ', $queryParts) . ') VALUES(' . implode(', ', $valuesPlaceholder) . ')');
 			$query->execute($params);
 
 			return \OC_DB::insertid('*PREFIX*filecache');
@@ -135,11 +138,11 @@ class Cache {
 		$storageId = $file->getStorageId();
 		$pathHash = md5($file->getInternalPath());
 
-		$query = \OC_DB::prepare('SELECT id FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
+		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
 		$result = $query->execute(array($storageId, $pathHash));
 
 		if ($row = $result->fetchRow()) {
-			return $row['id'];
+			return $row['fileid'];
 		} else {
 			return -1;
 		}
@@ -175,7 +178,7 @@ class Cache {
 	 *
 	 * @param \OC\Files\File $file
 	 */
-	public function remove(\OC\Files\File $file) {
+	static public function remove(\OC\Files\File $file) {
 		$storageId = $file->getStorageId();
 		$pathHash = md5($file->getInternalPath());
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
@@ -187,7 +190,7 @@ class Cache {
 	 *
 	 * @param \OC\Files\Storage\Storage $storage
 	 */
-	public function removeStorage(\OC\Files\Storage\Storage $storage) {
+	static public function removeStorage(\OC\Files\Storage\Storage $storage) {
 		$storageId = $storage->getId();
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE storage=?');
 		$query->execute(array($storageId));
