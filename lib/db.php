@@ -28,18 +28,30 @@ class OC_DB {
 	const BACKEND_PDO=0;
 	const BACKEND_MDB2=1;
 
+	/**
+	 * @var MDB2_Driver_Common
+	 */
 	static private $connection; //the prefered connection to use, either PDO or MDB2
 	static private $backend=null;
-	static private $MDB2=false;
-	static private $PDO=false;
-	static private $schema=false;
+	/**
+	 * @var MDB2_Driver_Common
+	 */
+	static private $MDB2=null;
+	/**
+	 * @var PDO
+	 */
+	static private $PDO=null;
+	/**
+	 * @var MDB2_Schema
+	 */
+	static private $schema=null;
 	static private $inTransaction=false;
 	static private $prefix=null;
 	static private $type=null;
 
 	/**
 	 * check which backend we should use
-	 * @return BACKEND_MDB2 or BACKEND_PDO
+	 * @return int BACKEND_MDB2 or BACKEND_PDO
 	 */
 	private static function getDBBackend() {
 		//check if we can use PDO, else use MDB2 (installation always needs to be done my mdb2)
@@ -59,37 +71,41 @@ class OC_DB {
 
 	/**
 	 * @brief connects to the database
-	 * @returns true if connection can be established or nothing (die())
+	 * @param int $backend
+	 * @return bool true if connection can be established or false on error
 	 *
 	 * Connects to the database as specified in config.php
 	 */
 	public static function connect($backend=null) {
 		if(self::$connection) {
-			return;
+			return true;
 		}
 		if(is_null($backend)) {
 			$backend=self::getDBBackend();
 		}
 		if($backend==self::BACKEND_PDO) {
-			self::connectPDO();
+			$success = self::connectPDO();
 			self::$connection=self::$PDO;
 			self::$backend=self::BACKEND_PDO;
 		}else{
-			self::connectMDB2();
+			$success = self::connectMDB2();
 			self::$connection=self::$MDB2;
 			self::$backend=self::BACKEND_MDB2;
 		}
+		return $success;
 	}
 
 	/**
 	 * connect to the database using pdo
+	 *
+	 * @return bool
 	 */
 	public static function connectPDO() {
 		if(self::$connection) {
 			if(self::$backend==self::BACKEND_MDB2) {
 				self::disconnect();
 			}else{
-				return;
+				return true;
 			}
 		}
 		// The global data we need
@@ -146,6 +162,8 @@ class OC_DB {
 							$dsn = 'oci:dbname=//' . $host . '/' . $name;
 					}
 					break;
+				default:
+					return false;
 			}
 			try{
 				self::$PDO=new PDO($dsn, $user, $pass, $opts);
@@ -168,7 +186,7 @@ class OC_DB {
 			if(self::$backend==self::BACKEND_PDO) {
 				self::disconnect();
 			}else{
-				return;
+				return true;
 			}
 		}
 		// The global data we need
@@ -236,6 +254,8 @@ class OC_DB {
 						$dsn['database'] = $user;
 					}
 					break;
+				default:
+					return false;
 			}
 
 			// Try to establish connection
@@ -246,7 +266,7 @@ class OC_DB {
 				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
 				OC_Log::write('core', self::$MDB2->getUserInfo(), OC_Log::FATAL);
 				OC_Log::write('core', self::$MDB2->getMessage(), OC_Log::FATAL);
-				die( $error );
+				die();
 			}
 
 			// We always, really always want associative arrays
@@ -259,8 +279,10 @@ class OC_DB {
 
 	/**
 	 * @brief Prepare a SQL query
-	 * @param $query Query string
-	 * @returns prepared SQL query
+	 * @param string $query Query string
+	 * @param int $limit
+	 * @param int $offset
+	 * @return MDB2_Statement_Common prepared SQL query
 	 *
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
@@ -275,8 +297,10 @@ class OC_DB {
 				//FIXME: check limit notation for other dbs
 				//the following sql thus might needs to take into account db ways of representing it
 				//(oracle has no LIMIT / OFFSET)
-					$limitsql = ' LIMIT ' . $limit;
+				$limit = (int)$limit;
+				$limitsql = ' LIMIT ' . $limit;
 				if (!is_null($offset)) {
+					$offset = (int)$offset;
 					$limitsql .= ' OFFSET ' . $offset;
 				}
 				//insert limitsql
@@ -321,8 +345,8 @@ class OC_DB {
 
 	/**
 	 * @brief gets last value of autoincrement
-	 * @param $table string The optional table name (will replace *PREFIX*) and add sequence suffix
-	 * @returns id
+	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
+	 * @return int id
 	 *
 	 * MDB2 lastInsertID()
 	 *
@@ -334,14 +358,14 @@ class OC_DB {
 		if($table !== null) {
 			$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
 			$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
-			$table = str_replace( '*PREFIX*', $prefix, $table );
+			$table = str_replace( '*PREFIX*', $prefix, $table ).$suffix;
 		}
-		return self::$connection->lastInsertId($table.$suffix);
+		return self::$connection->lastInsertId($table);
 	}
 
 	/**
 	 * @brief Disconnect
-	 * @returns true/false
+	 * @return bool
 	 *
 	 * This is good bye, good bye, yeah!
 	 */
@@ -361,8 +385,9 @@ class OC_DB {
 
 	/**
 	 * @brief saves database scheme to xml file
-	 * @param $file name of file
-	 * @returns true/false
+	 * @param string $file name of file
+	 * @param int $mode
+	 * @return bool
 	 *
 	 * TODO: write more documentation
 	 */
@@ -383,8 +408,8 @@ class OC_DB {
 
 	/**
 	 * @brief Creates tables from XML file
-	 * @param $file file to read structure from
-	 * @returns true/false
+	 * @param string $file file to read structure from
+	 * @return bool
 	 *
 	 * TODO: write more documentation
 	 */
@@ -445,11 +470,11 @@ class OC_DB {
 
 	/**
 	 * @brief update the database scheme
-	 * @param $file file to read structure from
+	 * @param string $file file to read structure from
+	 * @return bool
 	 */
 	public static function updateDbFromStructure($file) {
 		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
-		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 
 		self::connectScheme();
 
@@ -495,7 +520,7 @@ class OC_DB {
 
 	/**
 	 * @brief connects to a MDB2 database scheme
-	 * @returns true/false
+	 * @returns bool
 	 *
 	 * Connects to a MDB2 database scheme
 	 */
@@ -515,12 +540,12 @@ class OC_DB {
 	}
 
 	/**
-	 * @brief does minor chages to query
-	 * @param $query Query string
-	 * @returns corrected query string
+	 * @brief does minor changes to query
+	 * @param string $query Query string
+	 * @return string corrected query string
 	 *
 	 * This function replaces *PREFIX* with the value of $CONFIG_DBTABLEPREFIX
-	 * and replaces the ` woth ' or " according to the database driver.
+	 * and replaces the ` with ' or " according to the database driver.
 	 */
 	private static function processQuery( $query ) {
 		self::connect();
@@ -555,7 +580,7 @@ class OC_DB {
 
 	/**
 	 * @brief drop a table
-	 * @param string $tableNamme the table to drop
+	 * @param string $tableName the table to drop
 	 */
 	public static function dropTable($tableName) {
 		self::connectMDB2();
@@ -616,6 +641,7 @@ class OC_DB {
 
 	/**
 	 * Start a transaction
+	 * @return bool
 	 */
 	public static function beginTransaction() {
 		self::connect();
@@ -624,10 +650,12 @@ class OC_DB {
 		}
 		self::$connection->beginTransaction();
 		self::$inTransaction=true;
+		return true;
 	}
 
 	/**
 	 * Commit the database changes done during a transaction that is in progress
+	 * @return bool
 	 */
 	public static function commit() {
 		self::connect();
@@ -636,6 +664,7 @@ class OC_DB {
 		}
 		self::$connection->commit();
 		self::$inTransaction=false;
+		return true;
 	}
 
 	/**
@@ -672,7 +701,11 @@ class OC_DB {
 				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
 				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
 				$msg .= 'Driver Message = '.$errorInfo[2];
+			}else{
+				$msg = '';
 			}
+		}else{
+			$msg = '';
 		}
 		return $msg;
 	}
@@ -682,6 +715,9 @@ class OC_DB {
  * small wrapper around PDOStatement to make it behave ,more like an MDB2 Statement
  */
 class PDOStatementWrapper{
+	/**
+	 * @var PDOStatement
+	 */
 	private $statement=null;
 	private $lastArguments=array();
 
