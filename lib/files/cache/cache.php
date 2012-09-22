@@ -31,7 +31,13 @@ class Cache {
 		$query = \OC_DB::prepare(
 			'SELECT `id`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`
 			 FROM `*PREFIX*filecache` ' . $where);
-		$result=$query->execute($params);
+		$result = $query->execute($params);
+
+		//merge partial data
+		$key = $file->getStorageId() . '::' . $file->getInternalPath();
+		if (isset(self::$partial[$key])) {
+			$result=array_merge($result, self::$partial[$key]);
+		}
 		return $result->fetchRow();
 	}
 
