@@ -9,6 +9,7 @@
 "Files" => "ファイル",
 "Unshare" => "共有しない",
 "Delete" => "削除",
+"Rename" => "名称変更",
 "already exists" => "既に存在します",
 "replace" => "置き換え",
 "suggest name" => "推奨名称",

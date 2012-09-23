@@ -30,10 +30,10 @@ class OC_Helper {
 
 	/**
 	 * @brief Creates an url
-	 * @param $app app
-	 * @param $file file
-	 * @param $args array with param=>value, will be appended to the returned url
-	 * @returns the url
+	 * @param string $app app
+	 * @param string $file file
+	 * @param array $args array with param=>value, will be appended to the returned url
+	 * @return string the url
 	 *
 	 * Returns a url to the given app and file.
 	 */
@@ -74,10 +74,10 @@ class OC_Helper {
 
 	/**
 	 * @brief Creates an absolute url
-	 * @param $app app
-	 * @param $file file
-	 * @param $args array with param=>value, will be appended to the returned url
-	 * @returns the url
+	 * @param string $app app
+	 * @param string $file file
+	 * @param array $args array with param=>value, will be appended to the returned url
+	 * @return string the url
 	 *
 	 * Returns a absolute url to the given app and file.
 	 */
@@ -88,8 +88,8 @@ class OC_Helper {
 
 	/**
 	 * @brief Makes an $url absolute
-	 * @param $url the url
-	 * @returns the absolute url
+	 * @param string $url the url
+	 * @return string the absolute url
 	 *
 	 * Returns a absolute url to the given app and file.
 	 */
@@ -100,8 +100,8 @@ class OC_Helper {
 
 	/**
 	 * @brief Creates an absolute url for remote use
-	 * @param $service id
-	 * @returns the url
+	 * @param string $service id
+	 * @return string the url
 	 *
 	 * Returns a absolute url to the given service.
 	 */
@@ -111,8 +111,8 @@ class OC_Helper {
 
 	/**
 	 * @brief Creates an absolute url for public use
-	 * @param $service id
-	 * @returns the url
+	 * @param string $service id
+	 * @return string the url
 	 *
 	 * Returns a absolute url to the given service.
 	 */
@@ -122,9 +122,9 @@ class OC_Helper {
 
 	/**
 	 * @brief Creates path to an image
-	 * @param $app app
-	 * @param $image image name
-	 * @returns the url
+	 * @param string $app app
+	 * @param string $image image name
+	 * @return string the url
 	 *
 	 * Returns the path to the image.
 	 */
@@ -153,8 +153,8 @@ class OC_Helper {
 
 	/**
 	 * @brief get path to icon of file type
-	 * @param $mimetype mimetype
-	 * @returns the url
+	 * @param string $mimetype mimetype
+	 * @return string the url
 	 *
 	 * Returns the path to the image of this file type.
 	 */
@@ -187,8 +187,8 @@ class OC_Helper {
 
 	/**
 	 * @brief Make a human file size
-	 * @param $bytes file size in bytes
-	 * @returns a human readable file size
+	 * @param int $bytes file size in bytes
+	 * @return string a human readable file size
 	 *
 	 * Makes 2048 to 2 kB.
 	 */
@@ -212,15 +212,14 @@ class OC_Helper {
 
 	/**
 	 * @brief Make a computer file size
-	 * @param $str file size in a fancy format
-	 * @returns a file size in bytes
+	 * @param string $str file size in a fancy format
+	 * @return int a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
 	 *
 	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
 	 */
 	public static function computerFileSize( $str ) {
-		$bytes = 0;
 		$str=strtolower($str);
 
 		$bytes_array = array(
@@ -249,10 +248,10 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Recusive editing of file permissions
-	 * @param $path path to file or folder
-	 * @param $filemode unix style file permissions as integer
-	 *
+	 * @brief Recursive editing of file permissions
+	 * @param string $path path to file or folder
+	 * @param int $filemode unix style file permissions
+	 * @return bool
 	 */
 	static function chmodr($path, $filemode) {
 		if (!is_dir($path))
@@ -277,7 +276,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Recusive copying of folders
+	 * @brief Recursive copying of folders
 	 * @param string $src source folder
 	 * @param string $dest target folder
 	 *
@@ -299,9 +298,9 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Recusive deletion of folders
+	 * @brief Recursive deletion of folders
 	 * @param string $dir path to the folder
-	 *
+	 * @return bool
 	 */
 	static function rmdirr($dir) {
 		if(is_dir($dir)) {
@@ -317,12 +316,14 @@ class OC_Helper {
 		}
 		if(file_exists($dir)) {
 			return false;
+		}else{
+			return true;
 		}
 	}
 
 	/**
 	 * get the mimetype form a local file
-	 * @param string path
+	 * @param string $path
 	 * @return string
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 */
@@ -379,7 +380,7 @@ class OC_Helper {
 
 	/**
 	 * get the mimetype form a data string
-	 * @param string data
+	 * @param string $data
 	 * @return string
 	 */
 	static function getStringMimeType($data) {
@@ -399,9 +400,9 @@ class OC_Helper {
 
 	/**
 	 * @brief Checks $_REQUEST contains a var for the $s key. If so, returns the html-escaped value of this var; otherwise returns the default value provided by $d.
-	 * @param $s name of the var to escape, if set.
-	 * @param $d default value.
-	 * @returns the print-safe value.
+	 * @param string $s name of the var to escape, if set.
+	 * @param string $d default value.
+	 * @return string the print-safe value.
 	 *
 	 */
 
@@ -415,7 +416,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * returns "checked"-attribut if request contains selected radio element OR if radio element is the default one -- maybe?
+	 * returns "checked"-attribute if request contains selected radio element OR if radio element is the default one -- maybe?
 	 * @param string $s Name of radio-button element name
 	 * @param string $v Value of current radio-button element
 	 * @param string $d Value of default radio-button element
@@ -428,8 +429,8 @@ class OC_Helper {
 	/**
 	* detect if a given program is found in the search PATH
 	*
-	* @param  string  program name
-	* @param  string  optional search path, defaults to $PATH
+	* @param  string  $program name
+	* @param  string  $optional search path, defaults to $PATH
 	* @return bool    true if executable program found in path
 	*/
 	public static function canExecute($name, $path = false) {
@@ -451,18 +452,16 @@ class OC_Helper {
 		$dirs = explode(PATH_SEPARATOR, $path);
 		// WARNING : We have to check if open_basedir is enabled :
 		$obd = ini_get('open_basedir');
-		if($obd != "none")
+		if($obd != "none"){
 			$obd_values = explode(PATH_SEPARATOR, $obd);
-		if(count($obd_values) > 0 and $obd_values[0])
-		{
-			// open_basedir is in effect !
-			// We need to check if the program is in one of these dirs :
-			$dirs = $obd_values;
+			if(count($obd_values) > 0 and $obd_values[0]){
+				// open_basedir is in effect !
+				// We need to check if the program is in one of these dirs :
+				$dirs = $obd_values;
+			}
 		}
-		foreach($dirs as $dir)
-		{
-			foreach($exts as $ext)
-			{
+		foreach($dirs as $dir){
+			foreach($exts as $ext){
 				if($check_fn("$dir/$name".$ext))
 					return true;
 			}
@@ -472,8 +471,8 @@ class OC_Helper {
 
 	/**
 	 * copy the contents of one stream to another
-	 * @param resource source
-	 * @param resource target
+	 * @param resource $source
+	 * @param resource $target
 	 * @return int the number of bytes copied
 	 */
 	public static function streamCopy($source,$target) {
@@ -489,7 +488,7 @@ class OC_Helper {
 
 	/**
 	 * create a temporary file with an unique filename
-	 * @param string postfix
+	 * @param string $postfix
 	 * @return string
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
@@ -553,10 +552,10 @@ class OC_Helper {
 			$ext = substr($filename, $pos);
 		} else {
 			$name = $filename;
+			$ext = '';
 		}
 
 		$newpath = $path . '/' . $filename;
-		$newname = $filename;
 		$counter = 2;
 		while (OC_Filesystem::file_exists($newpath)) {
 			$newname = $name . ' (' . $counter . ')' . $ext;
@@ -570,8 +569,8 @@ class OC_Helper {
 	/*
 	 * checks if $sub is a subdirectory of $parent
 	 *
-	 * @param $sub
-	 * @param $parent
+	 * @param string $sub
+	 * @param string $parent
 	 * @return bool
 	 */
 	public static function issubdirectory($sub, $parent) {
@@ -604,9 +603,9 @@ class OC_Helper {
 	/**
 	* @brief Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
 	*
-	* @param $input The array to work on
-	* @param $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
-	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @param array $input The array to work on
+	* @param int $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
+	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
 	* @return array
 	*
 	* Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
@@ -625,11 +624,11 @@ class OC_Helper {
 	/**
 	* @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
 	*
-	* @param $input The input string. .Opposite to the PHP build-in function does not accept an array.
-	* @param $replacement The replacement string.
-	* @param $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
-	* @param $length Length of the part to be replaced
-	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @param string $input The input string. .Opposite to the PHP build-in function does not accept an array.
+	* @param string $replacement The replacement string.
+	* @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
+	* @param int $length Length of the part to be replaced
+	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
 	* @return string
 	*
 	*/
@@ -646,11 +645,11 @@ class OC_Helper {
 	/**
 	* @brief Replace all occurrences of the search string with the replacement string
 	*
-	* @param $search The value being searched for, otherwise known as the needle. String.
-	* @param $replace The replacement string.
-	* @param $subject The string or array being searched and replaced on, otherwise known as the haystack.
-	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	* @param $count If passed, this will be set to the number of replacements performed.
+	* @param string $search The value being searched for, otherwise known as the needle.
+	* @param string $replace The replacement
+	* @param string $subject The string or array being searched and replaced on, otherwise known as the haystack.
+	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @param int $count If passed, this will be set to the number of replacements performed.
 	* @return string
 	*
 	*/
@@ -667,10 +666,10 @@ class OC_Helper {
 
 	/**
 	* @brief performs a search in a nested array
-	* @param haystack the array to be searched
-	* @param needle the search string
-	* @param $index optional, only search this key name
-	* @return the key of the matching field, otherwise false
+	* @param array $haystack the array to be searched
+	* @param string $needle the search string
+	* @param string $index optional, only search this key name
+	* @return mixed the key of the matching field, otherwise false
 	*
 	* performs a search in a nested array
 	*

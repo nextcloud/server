@@ -9,6 +9,7 @@
 "Files" => "File",
 "Unshare" => "Rimuovi condivisione",
 "Delete" => "Elimina",
+"Rename" => "Rinomina",
 "already exists" => "esiste già",
 "replace" => "sostituisci",
 "suggest name" => "suggerisci nome",

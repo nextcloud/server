@@ -9,6 +9,7 @@
 "Files" => "ไฟล์",
 "Unshare" => "ยกเลิกการแชร์ข้อมูล",
 "Delete" => "ลบ",
+"Rename" => "เปลี่ยนชื่อ",
 "already exists" => "มีอยู่แล้ว",
 "replace" => "แทนที่",
 "suggest name" => "แนะนำชื่อ",

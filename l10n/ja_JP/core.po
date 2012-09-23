@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:14+0200\n"
-"PO-Revision-Date: 2012-09-21 23:14+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-23 02:01+0200\n"
+"PO-Revision-Date: 2012-09-22 00:54+0000\n"
+"Last-Translator: ttyn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,7 +85,7 @@ msgstr "12月"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "選択"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -113,37 +113,37 @@ msgstr "エラー"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "共有でエラー発生"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "共有解除でエラー発生"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "権限変更でエラー発生"
 
 #: js/share.js:130
 #, perl-format
 msgid "Shared with you and the group %s by %s"
-msgstr ""
+msgstr "あなたと %s グループが %s で共有しています"
 
 #: js/share.js:132
 #, perl-format
 msgid "Shared with you by %s"
-msgstr ""
+msgstr "あなたと %s で共有しています"
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "と共有"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "URLリンクで共有"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "パスワード保護"
 
 #: js/share.js:147 templates/installation.php:30 templates/login.php:13
 msgid "Password"
@@ -151,65 +151,65 @@ msgstr "パスワード"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "期限日設定"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "期限日"
 
 #: js/share.js:182
 #, perl-format
 msgid "Share via email: %s"
-msgstr ""
+msgstr "メール経由で共有: %s"
 
 #: js/share.js:184
 msgid "No people found"
-msgstr ""
+msgstr "ユーザーが見つかりません"
 
 #: js/share.js:210
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "再共有は許可されていません"
 
 #: js/share.js:246
 #, perl-format
 msgid "Shared in %s with %s"
-msgstr ""
+msgstr "%s 内で %s と共有"
 
 #: js/share.js:267
 msgid "Unshare"
-msgstr ""
+msgstr "共有解除"
 
 #: js/share.js:275
 msgid "can edit"
-msgstr ""
+msgstr "編集可能"
 
 #: js/share.js:277
 msgid "access control"
-msgstr ""
+msgstr "アクセス権限"
 
 #: js/share.js:280
 msgid "create"
-msgstr ""
+msgstr "作成"
 
 #: js/share.js:283
 msgid "update"
-msgstr ""
+msgstr "更新"
 
 #: js/share.js:286
 msgid "delete"
-msgstr ""
+msgstr "削除"
 
 #: js/share.js:289
 msgid "share"
-msgstr ""
+msgstr "共有"
 
 #: js/share.js:313 js/share.js:463
 msgid "Password protected"
-msgstr ""
+msgstr "パスワード保護"
 
 #: js/share.js:485
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "期限日設定でエラー発生"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"

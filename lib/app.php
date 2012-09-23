@@ -40,7 +40,7 @@ class OC_App{
 	/**
 	 * @brief loads all apps
 	 * @param array $types
-	 * @returns true/false
+	 * @return bool
 	 *
 	 * This function walks through the owncloud directory and loads all apps
 	 * it can find. A directory contains an app if the file /appinfo/app.php
@@ -77,7 +77,7 @@ class OC_App{
 
 	/**
 	 * load a single app
-	 * @param string app
+	 * @param string $app
 	 */
 	public static function loadApp($app) {
 		if(is_file(self::getAppPath($app).'/appinfo/app.php')) {
@@ -90,6 +90,7 @@ class OC_App{
 	 * check if an app is of a specific type
 	 * @param string $app
 	 * @param string/array $types
+	 * @return bool
 	 */
 	public static function isType($app,$types) {
 		if(is_string($types)) {
@@ -156,8 +157,8 @@ class OC_App{
 
 	/**
 	 * @brief checks whether or not an app is enabled
-	 * @param $app app
-	 * @returns true/false
+	 * @param string $app app
+	 * @return bool
 	 *
 	 * This function checks whether or not an app is enabled.
 	 */
@@ -171,8 +172,8 @@ class OC_App{
 
 	/**
 	 * @brief enables an app
-	 * @param $app app
-	 * @returns true/false
+	 * @param mixed $app app
+	 * @return bool
 	 *
 	 * This function set an app as enabled in appconfig.
 	 */
@@ -202,13 +203,12 @@ class OC_App{
 		}else{
 			return false;
 		}
-		return $app;
 	}
 
 	/**
 	 * @brief disables an app
-	 * @param $app app
-	 * @returns true/false
+	 * @param string $app app
+	 * @return bool
 	 *
 	 * This function set an app as disabled in appconfig.
 	 */
@@ -219,8 +219,8 @@ class OC_App{
 
 	/**
 	 * @brief adds an entry to the navigation
-	 * @param $data array containing the data
-	 * @returns true/false
+	 * @param string $data array containing the data
+	 * @return bool
 	 *
 	 * This function adds a new entry to the navigation visible to users. $data
 	 * is an associative array.
@@ -245,8 +245,8 @@ class OC_App{
 
 	/**
 	 * @brief marks a navigation entry as active
-	 * @param $id id of the entry
-	 * @returns true/false
+	 * @param string $id id of the entry
+	 * @return bool
 	 *
 	 * This function sets a navigation entry as active and removes the 'active'
 	 * property from all other entries. The templates can use this for
@@ -259,7 +259,7 @@ class OC_App{
 
 	/**
 	 * @brief gets the active Menu entry
-	 * @returns id or empty string
+	 * @return string id or empty string
 	 *
 	 * This function returns the id of the active navigation entry (set by
 	 * setActiveNavigationEntry
@@ -270,7 +270,7 @@ class OC_App{
 
 	/**
 	 * @brief Returns the Settings Navigation
-	 * @returns associative array
+	 * @return array
 	 *
 	 * This function returns an array containing all settings pages added. The
 	 * entries are sorted by the key 'order' ascending.
@@ -291,7 +291,7 @@ class OC_App{
 			// personal menu
 			$settings[] = array( "id" => "personal", "order" => 1, "href" => OC_Helper::linkTo( "settings", "personal.php" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ));
 
-			// if there're some settings forms
+			// if there are some settings forms
 			if(!empty(self::$settingsForms))
 				// settings menu
 				$settings[]=array( "id" => "settings", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "settings.php" ), "name" => $l->t("Settings"), "icon" => OC_Helper::imagePath( "settings", "settings.svg" ));
@@ -361,6 +361,7 @@ class OC_App{
 				return $app_dir[$appid]=$dir;
 			}
 		}
+		return false;
 	}
 	/**
 	* Get the directory for the given app.
@@ -370,6 +371,7 @@ class OC_App{
 		if( ($dir = self::findAppInDirectories($appid)) != false) {
 			return $dir['path'].'/'.$appid;
 		}
+		return false;
 	}
 
 	/**
@@ -380,6 +382,7 @@ class OC_App{
 		if( ($dir = self::findAppInDirectories($appid)) != false) {
 			return OC::$WEBROOT.$dir['url'].'/'.$appid;
 		}
+		return false;
 	}
 
 	/**
@@ -399,8 +402,8 @@ class OC_App{
 	/**
 	 * @brief Read all app metadata from the info.xml file
 	 * @param string $appid id of the app or the path of the info.xml file
-	 * @param boolean path (optional)
-	 * @returns array
+	 * @param boolean $path (optional)
+	 * @return array
 	 * @note all data is read from info.xml, not just pre-defined fields
 	*/
 	public static function getAppInfo($appid,$path=false) {
@@ -415,24 +418,36 @@ class OC_App{
 		$data=array();
 		$content=@file_get_contents($file);
 		if(!$content) {
-			return;
+			return null;
 		}
 		$xml = new SimpleXMLElement($content);
 		$data['info']=array();
 		$data['remote']=array();
 		$data['public']=array();
 		foreach($xml->children() as $child) {
+			/**
+			 * @var $child SimpleXMLElement
+			 */
 			if($child->getName()=='remote') {
 				foreach($child->children() as $remote) {
+					/**
+					 * @var $remote SimpleXMLElement
+					 */
 					$data['remote'][$remote->getName()]=(string)$remote;
 				}
 			}elseif($child->getName()=='public') {
 				foreach($child->children() as $public) {
+					/**
+					 * @var $public SimpleXMLElement
+					 */
 					$data['public'][$public->getName()]=(string)$public;
 				}
 			}elseif($child->getName()=='types') {
 				$data['types']=array();
 				foreach($child->children() as $type) {
+					/**
+					 * @var $type SimpleXMLElement
+					 */
 					$data['types'][]=$type->getName();
 				}
 			}elseif($child->getName()=='description') {
@@ -449,7 +464,7 @@ class OC_App{
 
 	/**
 	 * @brief Returns the navigation
-	 * @returns associative array
+	 * @return array
 	 *
 	 * This function returns an array containing all entries added. The
 	 * entries are sorted by the key 'order' ascending. Additional to the keys
@@ -494,6 +509,8 @@ class OC_App{
 			case 'personal':
 				$source=self::$personalForms;
 				break;
+			default:
+				return array();
 		}
 		foreach($source as $form) {
 			$forms[]=include $form;
@@ -558,7 +575,7 @@ class OC_App{
 	
 	/**
 	 * @brief: get a list of all apps on apps.owncloud.com
-	 * @return multi-dimensional array of apps. Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
+	 * @return array, multi-dimensional array of apps. Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
 	 */
 	public static function getAppstoreApps( $filter = 'approved' ) {
 		
@@ -674,7 +691,7 @@ class OC_App{
 
 	/**
 	 * update the database for the app and call the update script
-	 * @param string appid
+	 * @param string $appid
 	 */
 	public static function updateApp($appid) {
 		if(file_exists(self::getAppPath($appid).'/appinfo/database.xml')) {
@@ -688,7 +705,7 @@ class OC_App{
 			include self::getAppPath($appid).'/appinfo/update.php';
 		}
 
-		//set remote/public handelers
+		//set remote/public handlers
 		$appData=self::getAppInfo($appid);
 		foreach($appData['remote'] as $name=>$path) {
 			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $appid.'/'.$path);
@@ -701,7 +718,7 @@ class OC_App{
 	}
 
 	/**
-	 * @param string appid
+	 * @param string $appid
 	 * @return OC_FilesystemView
 	 */
 	public static function getStorage($appid) {
