@@ -4,14 +4,15 @@ var FileList={
 		$('#fileList').empty().html(fileListHtml);
 	},
 	addFile:function(name,size,lastModified,loading,hidden){
-		var img=(loading)?OC.imagePath('core', 'loading.gif'):OC.imagePath('core', 'filetypes/file.png');
-		var html='<tr data-type="file" data-size="'+size+'" data-permissions="'+$('#permissions').val()+'">';
+		var basename, extension, simpleSize, sizeColor, lastModifiedTime, modifiedColor,
+			img=(loading)?OC.imagePath('core', 'loading.gif'):OC.imagePath('core', 'filetypes/file.png'),
+			html='<tr data-type="file" data-size="'+size+'" data-permissions="'+$('#permissions').val()+'">';
 		if(name.indexOf('.')!=-1){
-			var basename=name.substr(0,name.lastIndexOf('.'));
-			var extension=name.substr(name.lastIndexOf('.'));
+			basename=name.substr(0,name.lastIndexOf('.'));
+			extension=name.substr(name.lastIndexOf('.'));
 		}else{
-			var basename=name;
-			var extension=false;
+			basename=name;
+			extension=false;
 		}
 		html+='<td class="filename" style="background-image:url('+img+')"><input type="checkbox" />';
 		html+='<a class="name" href="download.php?file='+$('#dir').val().replace(/</, '&lt;').replace(/>/, '&gt;')+'/'+name+'"><span class="nametext">'+basename;
@@ -41,10 +42,11 @@ var FileList={
 		}
 	},
 	addDir:function(name,size,lastModified,hidden){
+		var html, td, link_elem, sizeColor, lastModifiedTime, modifiedColor;
 		html = $('<tr></tr>').attr({ "data-type": "dir", "data-size": size, "data-file": name, "data-permissions": $('#permissions').val()});
 		td = $('<td></td>').attr({"class": "filename", "style": 'background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')' });
 		td.append('<input type="checkbox" />');
-		var link_elem = $('<a></a>').attr({ "class": "name", "href": OC.linkTo('files', 'index.php')+"&dir="+ encodeURIComponent($('#dir').val()+'/'+name).replace(/%2F/g, '/') });
+		link_elem = $('<a></a>').attr({ "class": "name", "href": OC.linkTo('files', 'index.php')+"&dir="+ encodeURIComponent($('#dir').val()+'/'+name).replace(/%2F/g, '/') });
 		link_elem.append($('<span></span>').addClass('nametext').text(name));
 		link_elem.append($('<span></span>').attr({'class': 'uploadtext', 'currentUploads': 0}));
 		td.append(link_elem);
@@ -71,7 +73,7 @@ var FileList={
 		}
 	},
 	refresh:function(data) {
-		result = jQuery.parseJSON(data.responseText);
+		var result = jQuery.parseJSON(data.responseText);
 		if(typeof(result.data.breadcrumb) != 'undefined'){
 			updateBreadcrumb(result.data.breadcrumb);
 		}
@@ -88,14 +90,13 @@ var FileList={
 	},
 	insertElement:function(name,type,element){
 		//find the correct spot to insert the file or folder
-		var fileElements=$('tr[data-file][data-type="'+type+'"]:visible');
-		var pos;
+		var pos, fileElements=$('tr[data-file][data-type="'+type+'"]:visible');
 		if(name.localeCompare($(fileElements[0]).attr('data-file'))<0){
 			pos=-1;
 		}else if(name.localeCompare($(fileElements[fileElements.length-1]).attr('data-file'))>0){
 			pos=fileElements.length-1;
 		}else{
-			for(var pos=0;pos<fileElements.length-1;pos++){
+			for(pos=0;pos<fileElements.length-1;pos++){
 				if(name.localeCompare($(fileElements[pos]).attr('data-file'))>0 && name.localeCompare($(fileElements[pos+1]).attr('data-file'))<0){
 					break;
 				}
@@ -116,9 +117,9 @@ var FileList={
 		$('.file_upload_filename').removeClass('highlight');
 	},
 	loadingDone:function(name){
-		var tr=$('tr').filterAttr('data-file',name);
+		var mime, tr=$('tr').filterAttr('data-file',name);
 		tr.data('loading',false);
-		var mime=tr.data('mime');
+		mime=tr.data('mime');
 		tr.attr('data-mime',mime);
 		getMimeIcon(mime,function(path){
 			tr.find('td.filename').attr('style','background-image:url('+path+')');
@@ -129,14 +130,15 @@ var FileList={
 		return $('tr').filterAttr('data-file',name).data('loading');
 	},
 	rename:function(name){
-		var tr=$('tr').filterAttr('data-file',name);
+		var tr, td, input, form;
+		tr=$('tr').filterAttr('data-file',name);
 		tr.data('renaming',true);
-		var td=tr.children('td.filename');
-		var input=$('<input class="filename"></input>').val(name);
-		var form=$('<form></form>')
+		td=tr.children('td.filename');
+		input=$('<input class="filename"></input>').val(name);
+		form=$('<form></form>');
 		form.append(input);
 		td.children('a.name').text('');
-		td.children('a.name').append(form)
+		td.children('a.name').append(form);
 		input.focus();
 		form.submit(function(event){
 			event.stopPropagation();
@@ -317,7 +319,7 @@ var FileList={
 			FileList.finishDelete(null, true);
 		};
 	}
-}
+};
 
 $(document).ready(function(){
 	$('#notification').hide();
@@ -363,7 +365,7 @@ $(document).ready(function(){
 			FileList.finishDelete(null, true);
 		}
 	});
-	FileList.useUndo=('onbeforeunload' in window)
+	FileList.useUndo=(window.onbeforeunload)?true:false;
 	$(window).bind('beforeunload', function (){
 		if (FileList.lastAction) {
 			FileList.lastAction();

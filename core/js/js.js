@@ -4,21 +4,20 @@
  * @param text the string to translate
  * @return string
  */
-var OC;
 
 function t(app,text){
-	if( !( app in t.cache )){
+	if( !( t.cache[app] )){
 		$.ajax(OC.filePath('core','ajax','translations.php'),{
 			async:false,//todo a proper sollution for this without sync ajax calls
 			data:{'app': app},
 			type:'POST',
 			success:function(jsondata){
 				t.cache[app] = jsondata.data;
-			},
+			}
 		});
 
 		// Bad answer ...
-		if( !( app in t.cache )){
+		if( !( t.cache[app] )){
 			t.cache[app] = [];
 		}
 	}
@@ -41,7 +40,7 @@ function fileDownloadPath(dir, file) {
 	return OC.filePath('files', 'ajax', 'download.php')+encodeURIComponent('?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir));
 }
 
-OC={
+var OC={
 	PERMISSION_CREATE:4,
 	PERMISSION_READ:1,
 	PERMISSION_UPDATE:2,
@@ -68,9 +67,9 @@ OC={
 	 * @return string
 	 */
 	filePath:function(app,type,file){
-		var isCore=OC.coreApps.indexOf(app)!=-1;
-		var link=OC.webroot;
-		if((file.substring(file.length-3) == 'php' || file.substring(file.length-3) == 'css') && !isCore){
+		var isCore=OC.coreApps.indexOf(app)!==-1,
+			link=OC.webroot;
+		if((file.substring(file.length-3) === 'php' || file.substring(file.length-3) === 'css') && !isCore){
 			link+='/?app=' + app;
 			if (file != 'index.php') {
 				link+='&getfile=';
@@ -79,20 +78,21 @@ OC={
 				}
 				link+= file;
 			}
-		}else if(file.substring(file.length-3) != 'php' && !isCore){
+		}else if(file.substring(file.length-3) !== 'php' && !isCore){
 			link=OC.appswebroots[app];
 			if(type){
 				link+= '/'+type+'/';
 			}
-			if(link.substring(link.length-1) != '/')
+			if(link.substring(link.length-1) !== '/'){
 				link+='/';
+			}
 			link+=file;
 		}else{
 			link+='/';
 			if(!isCore){
 				link+='apps/';
 			}
-			if (app != '') {
+			if (app !== '') {
 				app+='/';
 				link+=app;
 			}
@@ -126,12 +126,12 @@ OC={
 	 * if the script is already loaded, the event handeler will be called directly
 	 */
 	addScript:function(app,script,ready){
-		var path=OC.filePath(app,'js',script+'.js');
+		var deferred, path=OC.filePath(app,'js',script+'.js');
 		if(!OC.addScript.loaded[path]){
 			if(ready){
-				var deferred=$.getScript(path,ready);
+				deferred=$.getScript(path,ready);
 			}else{
-				var deferred=$.getScript(path);
+				deferred=$.getScript(path);
 			}
 			OC.addScript.loaded[path]=deferred;
 		}else{
@@ -148,9 +148,9 @@ OC={
 	 */
 	addStyle:function(app,style){
 		var path=OC.filePath(app,'css',style+'.css');
-		if(OC.addStyle.loaded.indexOf(path)==-1){
+		if(OC.addStyle.loaded.indexOf(path)===-1){
 			OC.addStyle.loaded.push(path);
-			var style=$('<link rel="stylesheet" type="text/css" href="'+path+'"/>');
+			style=$('<link rel="stylesheet" type="text/css" href="'+path+'"/>');
 			$('head').append(style);
 		}
 	},
@@ -158,7 +158,7 @@ OC={
 		return path.replace(/\\/g,'/').replace( /.*\//, '' );
 	},
 	dirname: function(path) {
-		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');;
+		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
 	},
 	/**
 	 * do a search query and display the results
@@ -175,10 +175,9 @@ OC={
 	},
 	dialogs:OCdialogs,
 	mtime2date:function(mtime) {
-		mtime = parseInt(mtime);
+		mtime = parseInt(mtime,10);
 		var date = new Date(1000*mtime);
-		var ret = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
-		return ret;
+		return date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
 	},
 	/**
 	 * Opens a popup with the setting for an app.
@@ -285,33 +284,33 @@ OC.Breadcrumb={
 		OC.Breadcrumb.container.find('div.crumb').remove();
 		OC.Breadcrumb.crumbs=[];
 	}
-}
+};
 
-if(typeof localStorage !='undefined' && localStorage != null){
-	//user and instance awere localstorage
+if(typeof localStorage !=='undefined' && localStorage !== null){
+	//user and instance aware localstorage
 	OC.localStorage={
 		namespace:'oc_'+OC.currentUser+'_'+OC.webroot+'_',
 		hasItem:function(name){
-			return OC.localStorage.getItem(name)!=null;
+			return OC.localStorage.getItem(name)!==null;
 		},
 		setItem:function(name,item){
 			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
 		},
 		getItem:function(name){
-			if(localStorage.getItem(OC.localStorage.namespace+name)==null){return null;}
+			if(localStorage.getItem(OC.localStorage.namespace+name)===null){return null;}
 			return JSON.parse(localStorage.getItem(OC.localStorage.namespace+name));
 		}
 	};
 }else{
 	//dummy localstorage
 	OC.localStorage={
-		hasItem:function(name){
+		hasItem:function(){
 			return false;
 		},
-		setItem:function(name,item){
+		setItem:function(){
 			return false;
 		},
-		getItem:function(name){
+		getItem:function(){
 			return null;
 		}
 	};
@@ -323,8 +322,9 @@ if(typeof localStorage !='undefined' && localStorage != null){
 if (!Array.prototype.filter) {
 	Array.prototype.filter = function(fun /*, thisp*/) {
 		var len = this.length >>> 0;
-		if (typeof fun != "function")
+		if (typeof fun !== "function"){
 			throw new TypeError();
+		}
 
 		var res = [];
 		var thisp = arguments[1];
@@ -347,17 +347,16 @@ if (!Array.prototype.indexOf){
 		var len = this.length;
 
 		var from = Number(arguments[1]) || 0;
-		from = (from < 0)
-		? Math.ceil(from)
-		: Math.floor(from);
-		if (from < 0)
+		from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+		if (from < 0){
 			from += len;
+		}
 
 		for (; from < len; from++)
 		{
-			if (from in this &&
-				this[from] === elt)
+			if (from in this && this[from] === elt){
 				return from;
+			}
 		}
 		return -1;
 	};
@@ -378,16 +377,16 @@ SVGSupport.checkMimeType=function(){
 			$.each(headerParts,function(i,text){
 				if(text){
 					var parts=text.split(':',2);
-					if(parts.length==2){
+					if(parts.length===2){
 						var value=parts[1].trim();
-						if(value[0]=='"'){
+						if(value[0]==='"'){
 							value=value.substr(1,value.length-2);
 						}
 						headers[parts[0]]=value;
 					}
 				}
 			});
-			if(headers["Content-Type"]!='image/svg+xml'){
+			if(headers["Content-Type"]!=='image/svg+xml'){
 				replaceSVG();
 				SVGSupport.checkMimeType.correct=false;
 			}
@@ -444,27 +443,29 @@ function object(o) {
  * Fills height of window. (more precise than height: 100%;)
  */
 function fillHeight(selector) {
-	if (selector.length == 0) {
+	if (selector.length === 0) {
 		return;
 	}
 	var height = parseFloat($(window).height())-selector.offset().top;
 	selector.css('height', height + 'px');
-	if(selector.outerHeight() > selector.height())
+	if(selector.outerHeight() > selector.height()){
 		selector.css('height', height-(selector.outerHeight()-selector.height()) + 'px');
+	}
 }
 
 /**
  * Fills height and width of window. (more precise than height: 100%; or width: 100%;)
  */
 function fillWindow(selector) {
-	if (selector.length == 0) {
+	if (selector.length === 0) {
 		return;
 	}
 	fillHeight(selector);
 	var width = parseFloat($(window).width())-selector.offset().left;
 	selector.css('width', width + 'px');
-	if(selector.outerWidth() > selector.width())
+	if(selector.outerWidth() > selector.width()){
 		selector.css('width', width-(selector.outerWidth()-selector.width()) + 'px');
+	}
 }
 
 $(document).ready(function(){
@@ -485,26 +486,26 @@ $(document).ready(function(){
 		event.preventDefault();
 	});
 	$('#searchbox').keyup(function(event){
-		if(event.keyCode==13){//enter
+		if(event.keyCode===13){//enter
 			if(OC.search.currentResult>-1){
 				var result=$('#searchresults tr.result a')[OC.search.currentResult];
 				window.location = $(result).attr('href');
 			}
-		}else if(event.keyCode==38){//up
+		}else if(event.keyCode===38){//up
 			if(OC.search.currentResult>0){
 				OC.search.currentResult--;
 				OC.search.renderCurrent();
 			}
-		}else if(event.keyCode==40){//down
+		}else if(event.keyCode===40){//down
 			if(OC.search.lastResults.length>OC.search.currentResult+1){
 				OC.search.currentResult++;
 				OC.search.renderCurrent();
 			}
-		}else if(event.keyCode==27){//esc
+		}else if(event.keyCode===27){//esc
 			OC.search.hide();
 		}else{
 			var query=$('#searchbox').val();
-			if(OC.search.lastQuery!=query){
+			if(OC.search.lastQuery!==query){
 				OC.search.lastQuery=query;
 				OC.search.currentResult=-1;
 				if(query.length>2){
@@ -524,10 +525,10 @@ $(document).ready(function(){
 	//use infield labels
 	$("label.infield").inFieldLabels();
 
-	checkShowCredentials = function() {
+	var checkShowCredentials = function() {
 		var empty = false;
 		$('input#user, input#password').each(function() {
-			if ($(this).val() == '') {
+			if ($(this).val() === '') {
 				empty = true;
 			}
 		});
@@ -540,14 +541,14 @@ $(document).ready(function(){
 			$('#remember_login').show();
 			$('#remember_login+label').fadeIn();
 		}
-	}
+	};
 	// hide log in button etc. when form fields not filled
 	// commented out due to some browsers having issues with it
 	// checkShowCredentials();
 	// $('input#user, input#password').keyup(checkShowCredentials);
 
 	$('#settings #expand').keydown(function(event) {
-		if (event.which == 13 || event.which == 32) {
+		if (event.which === 13 || event.which === 32) {
 			$('#expand').click()
 		}
 	});
@@ -558,8 +559,8 @@ $(document).ready(function(){
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
 	});
-	$(window).click(function(){//hide the settings menu when clicking oustide it
-		if($('body').attr("id")=="body-user"){
+	$(window).click(function(){//hide the settings menu when clicking outside it
+		if($('body').attr("id")==="body-user"){
 			$('#settings #expanddiv').slideUp();
 		}
 	});
@@ -586,13 +587,15 @@ if (!Array.prototype.map){
 	Array.prototype.map = function(fun /*, thisp */){
 		"use strict";
 
-		if (this === void 0 || this === null)
+		if (this === void 0 || this === null){
 			throw new TypeError();
+		}
 
 		var t = Object(this);
 		var len = t.length >>> 0;
-		if (typeof fun !== "function")
+		if (typeof fun !== "function"){
 			throw new TypeError();
+		}
 
 		var res = new Array(len);
 		var thisp = arguments[1];
@@ -614,13 +617,13 @@ $.fn.filterAttr = function(attr_name, attr_value) {
 };
 
 function humanFileSize(size) {
-	humanList = ['B', 'kB', 'MB', 'GB', 'TB'];
+	var humanList = ['B', 'kB', 'MB', 'GB', 'TB'];
 	// Calculate Log with base 1024: size = 1024 ** order
-	order = Math.floor(Math.log(size) / Math.log(1024));
+	var order = Math.floor(Math.log(size) / Math.log(1024));
 	// Stay in range of the byte sizes that are defined
 	order = Math.min(humanList.length - 1, order);
-	readableFormat = humanList[order];
-	relativeSize = (size / Math.pow(1024, order)).toFixed(1);
+	var readableFormat = humanList[order];
+	var relativeSize = (size / Math.pow(1024, order)).toFixed(1);
 	if(relativeSize.substr(relativeSize.length-2,2)=='.0'){
 		relativeSize=relativeSize.substr(0,relativeSize.length-2);
 	}
@@ -628,7 +631,7 @@ function humanFileSize(size) {
 }
 
 function simpleFileSize(bytes) {
-	mbytes = Math.round(bytes/(1024*1024/10))/10;
+	var mbytes = Math.round(bytes/(1024*1024/10))/10;
 	if(bytes == 0) { return '0'; }
 	else if(mbytes < 0.1) { return '< 0.1'; }
 	else if(mbytes > 1000) { return '> 1000'; }
@@ -660,7 +663,7 @@ OC.get=function(name) {
 		}
 	}
 	return context[tail];
-}
+};
 
 /**
  * set a variable by name
@@ -679,4 +682,4 @@ OC.set=function(name, value) {
 		context = context[namespaces[i]];
 	}
 	context[tail]=value;
-}
+};
