@@ -9,11 +9,11 @@ class OC_Hook{
 
 	/**
 	 * @brief connects a function to a hook
-	 * @param $signalclass class name of emitter
-	 * @param $signalname name of signal
-	 * @param $slotclass class name of slot
-	 * @param $slotname name of slot
-	 * @returns true/false
+	 * @param string $signalclass class name of emitter
+	 * @param string $signalname name of signal
+	 * @param string $slotclass class name of slot
+	 * @param string $slotname name of slot
+	 * @return bool
 	 *
 	 * This function makes it very easy to connect to use hooks.
 	 *
@@ -38,11 +38,11 @@ class OC_Hook{
 	}
 
 	/**
-	 * @brief emitts a signal
-	 * @param $signalclass class name of emitter
-	 * @param $signalname name of signal
-	 * @param $params defautl: array() array with additional data
-	 * @returns true if slots exists or false if not
+	 * @brief emits a signal
+	 * @param string $signalclass class name of emitter
+	 * @param string $signalname name of signal
+	 * @param array $params defautl: array() array with additional data
+	 * @return bool, true if slots exists or false if not
 	 *
 	 * Emits a signal. To get data from the slot use references!
 	 *
@@ -68,8 +68,8 @@ class OC_Hook{
 
 	/**
 	 * clear hooks
-	 * @param string signalclass
-	 * @param string signalname
+	 * @param string $signalclass
+	 * @param string $signalname
 	 */
 	static public function clear($signalclass='', $signalname='') {
 		if($signalclass) {

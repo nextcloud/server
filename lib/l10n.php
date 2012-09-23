@@ -140,7 +140,7 @@ class OC_L10N{
     /**
      * @brief Translating
      * @param $text String The text we need a translation for
-     * @param array|\default $parameters default:array() Parameters for sprintf
+     * @param array $parameters default:array() Parameters for sprintf
      * @return \OC_L10N_String Translation or the same text
      *
      * Returns the translation. If no translation is found, $text will be
