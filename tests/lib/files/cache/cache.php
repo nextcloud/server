@@ -78,6 +78,29 @@ class Cache extends \UnitTestCase {
 		$this->assertEqual(array('size' => 12, 'mtime' => 15), FileCache::get($file1));
 	}
 
+	public function testFolder() {
+		$file1 = $this->createPath('folder');
+		$file2 = $this->createPath('folder/bar');
+		$file3 = $this->createPath('folder/foo');
+		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder');
+		$fileData = array();
+		$fileData['bar'] = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
+		$fileData['foo'] = array('size' => 20, 'mtime' => 25, 'mimetype' => 'foo/file');
+
+		FileCache::put($file1, $data1);
+		FileCache::put($file2, $fileData['bar']);
+		FileCache::put($file3, $fileData['foo']);
+
+		$content = FileCache::getFolderContents($file1);
+		$this->assertEqual(count($content), 2);
+		foreach ($content as $cachedData) {
+			$data = $fileData[$cachedData['name']];
+			foreach ($data as $name => $value) {
+				$this->assertEqual($value, $cachedData[$name]);
+			}
+		}
+	}
+
 	public function tearDown() {
 		FileCache::removeStorage($this->storage);
 	}

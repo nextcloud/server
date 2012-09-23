@@ -45,6 +45,25 @@ class Cache {
 	}
 
 	/**
+	 * get the metadata of all files stored in $folder
+	 *
+	 * @param \OC\Files\File $folder
+	 * @return array
+	 */
+	static public function getFolderContents($folder) {
+		$fileId = self::getId($folder);
+		if ($fileId > -1) {
+			$query = \OC_DB::prepare(
+				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`
+			 	 FROM `*PREFIX*filecache` WHERE parent = ?');
+			$result = $query->execute(array($fileId));
+			return $result->fetchAll();
+		} else {
+			return array();
+		}
+	}
+
+	/**
 	 * store meta data for a file or folder
 	 *
 	 * @param \OC\Files\File $file
