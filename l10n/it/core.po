@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:14+0200\n"
-"PO-Revision-Date: 2012-09-21 23:14+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-23 02:01+0200\n"
+"PO-Revision-Date: 2012-09-22 06:49+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,7 +88,7 @@ msgstr "Dicembre"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Scegli"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -116,37 +116,37 @@ msgstr "Errore"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Errore durante la condivisione"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Errore durante la rimozione della condivisione"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Errore durante la modifica dei permessi"
 
 #: js/share.js:130
 #, perl-format
 msgid "Shared with you and the group %s by %s"
-msgstr ""
+msgstr "Condivisa con te e con il gruppo %s da %s"
 
 #: js/share.js:132
 #, perl-format
 msgid "Shared with you by %s"
-msgstr ""
+msgstr "Condiviso con te da %s"
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "Condividi con"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Condividi con collegamento"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "Proteggi con password"
 
 #: js/share.js:147 templates/installation.php:30 templates/login.php:13
 msgid "Password"
@@ -154,65 +154,65 @@ msgstr "Password"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "Imposta data di scadenza"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "Data di scadenza"
 
 #: js/share.js:182
 #, perl-format
 msgid "Share via email: %s"
-msgstr ""
+msgstr "Condividi tramite email: %s"
 
 #: js/share.js:184
 msgid "No people found"
-msgstr ""
+msgstr "Non sono state trovate altre persone"
 
 #: js/share.js:210
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "La ri-condivisione non è consentita"
 
 #: js/share.js:246
 #, perl-format
 msgid "Shared in %s with %s"
-msgstr ""
+msgstr "Condiviso in %s con %s"
 
 #: js/share.js:267
 msgid "Unshare"
-msgstr ""
+msgstr "Rimuovi condivisione"
 
 #: js/share.js:275
 msgid "can edit"
-msgstr ""
+msgstr "può modificare"
 
 #: js/share.js:277
 msgid "access control"
-msgstr ""
+msgstr "controllo d'accesso"
 
 #: js/share.js:280
 msgid "create"
-msgstr ""
+msgstr "creare"
 
 #: js/share.js:283
 msgid "update"
-msgstr ""
+msgstr "aggiornare"
 
 #: js/share.js:286
 msgid "delete"
-msgstr ""
+msgstr "eliminare"
 
 #: js/share.js:289
 msgid "share"
-msgstr ""
+msgstr "condividere"
 
 #: js/share.js:313 js/share.js:463
 msgid "Password protected"
-msgstr ""
+msgstr "Protetta da password"
 
 #: js/share.js:485
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Errore durante l'impostazione della data di scadenza"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"

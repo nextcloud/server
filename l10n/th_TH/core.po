@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:14+0200\n"
-"PO-Revision-Date: 2012-09-21 23:14+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-23 02:01+0200\n"
+"PO-Revision-Date: 2012-09-22 11:15+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,7 +85,7 @@ msgstr "ธันวาคม"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "เลือก"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -113,37 +113,37 @@ msgstr "พบข้อผิดพลาด"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในระหว่างการแชร์ข้อมูล"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการยกเลิกการแชร์ข้อมูล"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการเปลี่ยนสิทธิ์การเข้าใช้งาน"
 
 #: js/share.js:130
 #, perl-format
 msgid "Shared with you and the group %s by %s"
-msgstr ""
+msgstr "ได้แชร์ให้กับคุณและกลุ่ม %s โดย %s"
 
 #: js/share.js:132
 #, perl-format
 msgid "Shared with you by %s"
-msgstr ""
+msgstr "แชร์ให้กับคุณโดย %s"
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "แชร์ให้กับ"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "แชร์ด้วยลิงก์"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "ใส่รหัสผ่านไว้"
 
 #: js/share.js:147 templates/installation.php:30 templates/login.php:13
 msgid "Password"
@@ -151,65 +151,65 @@ msgstr "รหัสผ่าน"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "กำหนดวันที่หมดอายุ"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "วันที่หมดอายุ"
 
 #: js/share.js:182
 #, perl-format
 msgid "Share via email: %s"
-msgstr ""
+msgstr "แชร์ผ่านทางอีเมล: %s"
 
 #: js/share.js:184
 msgid "No people found"
-msgstr ""
+msgstr "ไม่พบบุคคลที่ต้องการ"
 
 #: js/share.js:210
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "ไม่อนุญาตให้แชร์ข้อมูลซ้ำได้"
 
 #: js/share.js:246
 #, perl-format
 msgid "Shared in %s with %s"
-msgstr ""
+msgstr "ถูกแชร์ใน %s ด้วย %s"
 
 #: js/share.js:267
 msgid "Unshare"
-msgstr ""
+msgstr "ยกเลิกการแชร์"
 
 #: js/share.js:275
 msgid "can edit"
-msgstr ""
+msgstr "สามารถแก้ไข"
 
 #: js/share.js:277
 msgid "access control"
-msgstr ""
+msgstr "ระดับควบคุมการเข้าใช้งาน"
 
 #: js/share.js:280
 msgid "create"
-msgstr ""
+msgstr "สร้าง"
 
 #: js/share.js:283
 msgid "update"
-msgstr ""
+msgstr "อัพเดท"
 
 #: js/share.js:286
 msgid "delete"
-msgstr ""
+msgstr "ลบ"
 
 #: js/share.js:289
 msgid "share"
-msgstr ""
+msgstr "แชร์"
 
 #: js/share.js:313 js/share.js:463
 msgid "Password protected"
-msgstr ""
+msgstr "ใส่รหัสผ่านไว้"
 
 #: js/share.js:485
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"

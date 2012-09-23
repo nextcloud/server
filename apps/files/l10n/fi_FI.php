@@ -8,6 +8,7 @@
 "Failed to write to disk" => "Levylle kirjoitus epäonnistui",
 "Files" => "Tiedostot",
 "Delete" => "Poista",
+"Rename" => "Nimeä uudelleen",
 "already exists" => "on jo olemassa",
 "replace" => "korvaa",
 "suggest name" => "ehdota nimeä",

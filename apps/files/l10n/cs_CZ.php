@@ -9,6 +9,7 @@
 "Files" => "Soubory",
 "Unshare" => "Zrušit sdílení",
 "Delete" => "Smazat",
+"Rename" => "Přejmenovat",
 "already exists" => "již existuje",
 "replace" => "nahradit",
 "suggest name" => "navrhnout název",
