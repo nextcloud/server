@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:13+0200\n"
-"PO-Revision-Date: 2012-09-21 23:14+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-24 02:01+0200\n"
+"PO-Revision-Date: 2012-09-23 14:44+0000\n"
+"Last-Translator: Richard Bos <radoeka@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,41 +70,41 @@ msgstr "Verwijder"
 
 #: js/fileactions.js:182
 msgid "Rename"
-msgstr ""
+msgstr "Hernoem"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "already exists"
 msgstr "bestaat al"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "replace"
 msgstr "vervang"
 
-#: js/filelist.js:188
+#: js/filelist.js:190
 msgid "suggest name"
 msgstr "Stel een naam voor"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "cancel"
 msgstr "annuleren"
 
-#: js/filelist.js:237 js/filelist.js:239
+#: js/filelist.js:239 js/filelist.js:241
 msgid "replaced"
 msgstr "vervangen"
 
-#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
 msgid "undo"
 msgstr "ongedaan maken"
 
-#: js/filelist.js:239
+#: js/filelist.js:241
 msgid "with"
 msgstr "door"
 
-#: js/filelist.js:271
+#: js/filelist.js:273
 msgid "unshared"
 msgstr "niet gedeeld"
 
-#: js/filelist.js:273
+#: js/filelist.js:275
 msgid "deleted"
 msgstr "verwijderd"
 
@@ -139,11 +139,11 @@ msgstr "Ongeldige naam, '/' is niet toegestaan."
 
 #: js/files.js:667
 msgid "files scanned"
-msgstr ""
+msgstr "Gescande bestanden"
 
 #: js/files.js:675
 msgid "error while scanning"
-msgstr ""
+msgstr "Fout tijdens het scannen"
 
 #: js/files.js:749 templates/index.php:56
 msgid "Size"

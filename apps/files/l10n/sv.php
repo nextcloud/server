@@ -9,6 +9,7 @@
 "Files" => "Filer",
 "Unshare" => "Sluta dela",
 "Delete" => "Radera",
+"Rename" => "Byt namn",
 "already exists" => "finns redan",
 "replace" => "ersätt",
 "suggest name" => "föreslå namn",

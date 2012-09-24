@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
+#   <philippi.sedir@gmail.com>, 2012.
 #   <targinosilveira@gmail.com>, 2012.
 # Thiago Vicente <thiagovice@gmail.com>, 2012.
 # Unforgiving Fallout <>, 2012.
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:13+0200\n"
-"PO-Revision-Date: 2012-09-21 23:14+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-24 02:01+0200\n"
+"PO-Revision-Date: 2012-09-23 15:12+0000\n"
+"Last-Translator: sedir <philippi.sedir@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +59,7 @@ msgstr "Arquivos"
 
 #: js/fileactions.js:108 templates/index.php:62
 msgid "Unshare"
-msgstr ""
+msgstr "Descompartilhar"
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
@@ -66,41 +67,41 @@ msgstr "Excluir"
 
 #: js/fileactions.js:182
 msgid "Rename"
-msgstr ""
+msgstr "Renomear"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "already exists"
 msgstr "já existe"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "replace"
 msgstr "substituir"
 
-#: js/filelist.js:188
+#: js/filelist.js:190
 msgid "suggest name"
-msgstr ""
+msgstr "sugerir nome"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "cancel"
 msgstr "cancelar"
 
-#: js/filelist.js:237 js/filelist.js:239
+#: js/filelist.js:239 js/filelist.js:241
 msgid "replaced"
 msgstr "substituido "
 
-#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
 msgid "undo"
 msgstr "desfazer"
 
-#: js/filelist.js:239
+#: js/filelist.js:241
 msgid "with"
 msgstr "com"
 
-#: js/filelist.js:271
-msgid "unshared"
-msgstr ""
-
 #: js/filelist.js:273
+msgid "unshared"
+msgstr "descompartilhado"
+
+#: js/filelist.js:275
 msgid "deleted"
 msgstr "deletado"
 
@@ -127,7 +128,7 @@ msgstr "Envio cancelado."
 #: js/files.js:424
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Upload em andamento. Sair da página agora resultará no cancelamento do envio."
 
 #: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
@@ -135,11 +136,11 @@ msgstr "Nome inválido, '/' não é permitido."
 
 #: js/files.js:667
 msgid "files scanned"
-msgstr ""
+msgstr "arquivos verificados"
 
 #: js/files.js:675
 msgid "error while scanning"
-msgstr ""
+msgstr "erro durante verificação"
 
 #: js/files.js:749 templates/index.php:56
 msgid "Size"
@@ -195,7 +196,7 @@ msgstr "Tamanho máximo para arquivo ZIP"
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "Salvar"
 
 #: templates/index.php:7
 msgid "New"

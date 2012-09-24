@@ -3,80 +3,81 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <philippi.sedir@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:34+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-09-24 02:01+0200\n"
+"PO-Revision-Date: 2012-09-23 16:48+0000\n"
+"Last-Translator: sedir <philippi.sedir@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "Armazenamento Externo"
 
 #: templates/settings.php:7 templates/settings.php:19
 msgid "Mount point"
-msgstr ""
+msgstr "Ponto de montagem"
 
 #: templates/settings.php:8
 msgid "Backend"
-msgstr ""
+msgstr "Backend"
 
 #: templates/settings.php:9
 msgid "Configuration"
-msgstr ""
+msgstr "Configuração"
 
 #: templates/settings.php:10
 msgid "Options"
-msgstr ""
+msgstr "Opções"
 
 #: templates/settings.php:11
 msgid "Applicable"
-msgstr ""
+msgstr "Aplicável"
 
 #: templates/settings.php:23
 msgid "Add mount point"
-msgstr ""
+msgstr "Adicionar ponto de montagem"
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
-msgstr ""
+msgstr "Nenhum definido"
 
 #: templates/settings.php:63
 msgid "All Users"
-msgstr ""
+msgstr "Todos os Usuários"
 
 #: templates/settings.php:64
 msgid "Groups"
-msgstr ""
+msgstr "Grupos"
 
 #: templates/settings.php:69
 msgid "Users"
-msgstr ""
+msgstr "Usuários"
 
 #: templates/settings.php:77 templates/settings.php:96
 msgid "Delete"
-msgstr ""
+msgstr "Remover"
 
 #: templates/settings.php:88
 msgid "SSL root certificates"
-msgstr ""
+msgstr "Certificados SSL raíz"
 
 #: templates/settings.php:102
 msgid "Import Root Certificate"
-msgstr ""
+msgstr "Importar Certificado Raíz"
 
 #: templates/settings.php:108
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "Habilitar Armazenamento Externo do Usuário"
 
 #: templates/settings.php:109
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "Permitir usuários a montar seus próprios armazenamentos externos"
