@@ -5,6 +5,10 @@ if (version_compare($installedVersion, '0.3', '<')) {
 	$query = OCP\DB::prepare('SELECT * FROM `*PREFIX*sharing`');
 	$result = $query->execute();
 	$groupShares = array();
+	//we need to set up user backends, otherwise creating the shares will fail with "because user does not exist"
+	OC_User::useBackend(new OC_User_Database());
+	OC_Group::useBackend(new OC_Group_Database());
+	OC_App::loadApps(array('authentication'));
 	while ($row = $result->fetchRow()) {
 		$itemSource = OC_FileCache::getId($row['source'], '');
 		if ($itemSource != -1) {
@@ -39,6 +43,8 @@ if (version_compare($installedVersion, '0.3', '<')) {
 				$shareWith = $row['uid_shared_with'];
 			}
 			OC_User::setUserId($row['uid_owner']);
+			//we need to setup the filesystem for the user, otherwise OC_FileSystem::getRoot will fail and break
+			OC_Util::setupFS($row['uid_owner']);
 			try {
 				OCP\Share::shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions);
 			}
@@ -46,6 +52,7 @@ if (version_compare($installedVersion, '0.3', '<')) {
 				$update_error = true;
 				echo 'Skipping sharing "'.$row['source'].'" to "'.$shareWith.'" (error is "'.$e->getMessage().'")<br/>';
 			}
+			OC_Util::tearDownFS();
 		}
 	}
 	if ($update_error) {
