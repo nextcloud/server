@@ -19,7 +19,7 @@ if (version_compare($installedVersion, '0.3', '<')) {
 				$itemType = 'file';
 			}
 			if ($row['permissions'] == 0) {
-				$permissions = OCP\Share::PERMISSION_READ;
+				$permissions = OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE;
 			} else {
 				$permissions = OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_SHARE;
 				if ($itemType == 'folder') {
