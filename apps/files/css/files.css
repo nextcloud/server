@@ -3,7 +3,7 @@
  See the COPYING-README file. */
 
 /* FILE MENU */
-.actions { padding:.3em; float:left; height:2em; width:10em; }
+.actions { padding:.3em; float:left; height:2em; }
 .actions input, .actions button, .actions .button { margin:0; }
 #file_menu { right:0; position:absolute; top:0; }
 #file_menu a { display:block; float:left; background-image:none; text-decoration:none; }

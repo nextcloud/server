@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:14+0200\n"
-"PO-Revision-Date: 2012-09-21 23:14+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-25 02:02+0200\n"
+"PO-Revision-Date: 2012-09-24 13:34+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,61 +31,61 @@ msgstr "Ez dago gehitzeko kategoriarik?"
 msgid "This category already exists: "
 msgstr "Kategoria hau dagoeneko existitzen da:"
 
-#: js/js.js:214 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr "Ezarpenak"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "January"
 msgstr "Urtarrila"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "February"
 msgstr "Otsaila"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "March"
 msgstr "Martxoa"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "April"
 msgstr "Apirila"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "May"
 msgstr "Maiatza"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "June"
 msgstr "Ekaina"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "July"
 msgstr "Uztaila"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "August"
 msgstr "Abuztua"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "September"
 msgstr "Iraila"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "October"
 msgstr "Urria"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "November"
 msgstr "Azaroa"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "December"
 msgstr "Abendua"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Aukeratu"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -113,37 +113,37 @@ msgstr "Errorea"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Errore bat egon da elkarbanatzean"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Errore bat egon da elkarbanaketa desegitean"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Errore bat egon da baimenak aldatzean"
 
 #: js/share.js:130
 #, perl-format
 msgid "Shared with you and the group %s by %s"
-msgstr ""
+msgstr "Zurekin eta %s taldearekin %sk elkarbanatuta"
 
 #: js/share.js:132
 #, perl-format
 msgid "Shared with you by %s"
-msgstr ""
+msgstr "%sk zurekin elkarbanatuta"
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "Elkarbanatu honekin"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Elkarbanatu lotura batekin"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "Babestu pasahitzarekin"
 
 #: js/share.js:147 templates/installation.php:30 templates/login.php:13
 msgid "Password"
@@ -151,65 +151,65 @@ msgstr "Pasahitza"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "Ezarri muga data"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "Muga data"
 
 #: js/share.js:182
 #, perl-format
 msgid "Share via email: %s"
-msgstr ""
+msgstr "Elkarbanatu eposta bidez: %s"
 
 #: js/share.js:184
 msgid "No people found"
-msgstr ""
+msgstr "Ez da inor aurkitu"
 
 #: js/share.js:210
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Berriz elkarbanatzea ez dago baimendua"
 
 #: js/share.js:246
 #, perl-format
 msgid "Shared in %s with %s"
-msgstr ""
+msgstr "Elkarbanatuta hemen %s %srekin"
 
 #: js/share.js:267
 msgid "Unshare"
-msgstr ""
+msgstr "Ez elkarbanatu"
 
 #: js/share.js:275
 msgid "can edit"
-msgstr ""
+msgstr "editatu dezake"
 
 #: js/share.js:277
 msgid "access control"
-msgstr ""
+msgstr "sarrera kontrola"
 
 #: js/share.js:280
 msgid "create"
-msgstr ""
+msgstr "sortu"
 
 #: js/share.js:283
 msgid "update"
-msgstr ""
+msgstr "eguneratu"
 
 #: js/share.js:286
 msgid "delete"
-msgstr ""
+msgstr "ezabatu"
 
 #: js/share.js:289
 msgid "share"
-msgstr ""
+msgstr "elkarbanatu"
 
 #: js/share.js:313 js/share.js:463
 msgid "Password protected"
-msgstr ""
+msgstr "Pasahitzarekin babestuta"
 
 #: js/share.js:485
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Errore bat egon da muga data ezartzean"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"

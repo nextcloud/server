@@ -47,7 +47,8 @@ class OC_Files {
 				$info = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
 			}
 			else {
-				$info = OCP\Share::getItemSharedWith('file', '/'.$name, OC_Share_Backend_File::FORMAT_FILE_APP);
+				$path = substr($path, 7);
+				$info = OCP\Share::getItemSharedWith('file', $path, OC_Share_Backend_File::FORMAT_FILE_APP);
 			}
 			$info = $info[0];
 		}

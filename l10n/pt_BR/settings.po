@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-24 02:02+0200\n"
-"PO-Revision-Date: 2012-09-23 15:48+0000\n"
+"POT-Creation-Date: 2012-09-25 02:03+0200\n"
+"PO-Revision-Date: 2012-09-24 01:31+0000\n"
 "Last-Translator: sedir <philippi.sedir@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr "Incapaz de carregar lista da App Store"
+msgstr "Não foi possivel carregar lista da App Store"
 
 #: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
 #: ajax/togglegroups.php:15
@@ -39,7 +39,7 @@ msgstr "Grupo já existe"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr "Incapaz de adicionar grupo"
+msgstr "Não foi possivel adicionar grupo"
 
 #: ajax/enableapp.php:14
 msgid "Could not enable app. "
@@ -63,11 +63,11 @@ msgstr "Pedido inválido"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr "Incapaz de remover grupo"
+msgstr "Não foi possivel remover grupo"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr "Incapaz de remover usuário"
+msgstr "Não foi possivel remover usuário"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -76,12 +76,12 @@ msgstr "Mudou Idioma"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "Incapaz de adicionar usuário ao grupo %s"
+msgstr "Não foi possivel adicionar usuário ao grupo %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "Incapaz de remover usuário ao grupo %s"
+msgstr "Não foi possivel remover usuário ao grupo %s"
 
 #: js/apps.js:27 js/apps.js:61
 msgid "Disable"
@@ -118,7 +118,7 @@ msgstr "Cron"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr "Executar uma tarefa com cada página carregada"
+msgstr "Executa uma tarefa com cada página carregada"
 
 #: templates/admin.php:43
 msgid ""
