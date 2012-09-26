@@ -317,8 +317,9 @@ class OC{
 
 		self::initPaths();
 
-		register_shutdown_function(array('OC_Log', 'onShutdown'));		
-		set_error_handler(array('OC_Log', 'onError' ));
+		register_shutdown_function(array('OC_Log', 'onShutdown'));
+		set_error_handler(array('OC_Log', 'onError'));
+		set_exception_handler(array('OC_Log', 'onException'));
 
 		// set debug mode if an xdebug session is active
 		if (!defined('DEBUG') || !DEBUG) {

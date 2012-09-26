@@ -47,6 +47,11 @@ class OC_Log {
 			return true; 
 		}
 	}
+	
+	// Uncaught exception handler
+	public static function onException($exception){
+		self::write('PHP', $exception->getMessage() . ' at ' . $exception->getFile() . '#' . $exception->getLine(), self::FATAL);
+	}
 
 	//Recoverable errors handler
 	public static function onError($number, $message, $file, $line){
