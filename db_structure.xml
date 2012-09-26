@@ -84,8 +84,7 @@
    <field>
 	   <name>name</name>
 	   <type>text</type>
-	   <default>
-	   </default>
+	   <default></default>
 	   <notnull>true</notnull>
 	   <length>300</length>
    </field>
@@ -93,8 +92,7 @@
    <field>
 	   <name>user</name>
 	   <type>text</type>
-	   <default>
-	   </default>
+	   <default></default>
 	   <notnull>true</notnull>
 	   <length>64</length>
    </field>
@@ -128,8 +126,7 @@
    <field>
 	   <name>mimetype</name>
 	   <type>text</type>
-	   <default>
-	   </default>
+	   <default></default>
 	   <notnull>true</notnull>
 	   <length>96</length>
    </field>
@@ -137,8 +134,7 @@
    <field>
 	   <name>mimepart</name>
 	   <type>text</type>
-	   <default>
-	   </default>
+	   <default></default>
 	   <notnull>true</notnull>
 	   <length>32</length>
    </field>
