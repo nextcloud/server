@@ -15,6 +15,7 @@ class Scanner {
 	/**
 	 * get all the metadata of a file or folder
 	 * *
+	 *
 	 * @param \OC\Files\File $file
 	 * @return array with metadata of the file
 	 */

@@ -10,20 +10,35 @@ namespace OC\Files\Cache;
 
 class Cache {
 	/**
+	 * @var \OC\Files\Storage\Storage
+	 */
+	private $storage;
+
+	/**
 	 * @var array partial data for the cache
 	 */
-	private static $partial = array();
+	private $partial = array();
+
+	private $storageId;
+
+	/**
+	 * @param \OC\Files\Storage\Storage $storage
+	 */
+	public function __construct(\OC\Files\Storage\Storage $storage) {
+		$this->storage = $storage;
+		$this->storageId = $storage->getId();
+	}
 
 	/**
 	 * get the stored metadata of a file or folder
 	 *
-	 * @param \OC\Files\File or int $file
+	 * @param string/int $file
 	 * @return array
 	 */
-	static public function get($file) {
-		if ($file instanceof \OC\Files\File) {
+	public function get($file) {
+		if (is_string($file)) {
 			$where = 'WHERE `storage` = ? AND `path_hash` = ?';
-			$params = array($file->getStorageId(), md5($file->getInternalPath()));
+			$params = array($this->storageId, md5($file));
 		} else { //file id
 			$where = 'WHERE `fileid` = ?';
 			$params = array($file);
@@ -35,23 +50,28 @@ class Cache {
 		$data = $result->fetchRow();
 
 		//merge partial data
-		if (!$data and  $file instanceof \OC\Files\File) {
-			$key = $file->getStorageId() . '::' . $file->getInternalPath();
-			if (isset(self::$partial[$key])) {
-				$data = self::$partial[$key];
+		if (!$data and  is_string($file)) {
+			if (isset($this->partial[$file])) {
+				$data = $this->partial[$file];
 			}
+		} else {
+			//fix types
+			$data['fileid'] = (int)$data['fileid'];
+			$data['size'] = (int)$data['size'];
+			$data['mtime'] = (int)$data['mtime'];
 		}
+
 		return $data;
 	}
 
 	/**
 	 * get the metadata of all files stored in $folder
 	 *
-	 * @param \OC\Files\File $folder
+	 * @param string $folder
 	 * @return array
 	 */
-	static public function getFolderContents($folder) {
-		$fileId = self::getId($folder);
+	public function getFolderContents($folder) {
+		$fileId = $this->getId($folder);
 		if ($fileId > -1) {
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`
@@ -66,43 +86,42 @@ class Cache {
 	/**
 	 * store meta data for a file or folder
 	 *
-	 * @param \OC\Files\File $file
+	 * @param string $file
 	 * @param array $data
 	 *
 	 * @return int file id
 	 */
-	static public function put(\OC\Files\File $file, array $data) {
-		if (($id = self::getId($file)) > -1) {
-			self::update($id, $data);
+	public function put($file, array $data) {
+		if (($id = $this->getId($file)) > -1) {
+			$this->update($id, $data);
 			return $id;
 		} else {
-			$key = $file->getStorageId() . '::' . $file->getInternalPath();
-			if (isset(self::$partial[$key])) { //add any saved partial data
-				$data = array_merge(self::$partial[$key], $data);
-				unset(self::$partial[$key]);
+			if (isset($this->partial[$file])) { //add any saved partial data
+				$data = array_merge($this->partial[$file], $data);
+				unset($this->partial[$file]);
 			}
 
 			$requiredFields = array('size', 'mtime', 'mimetype');
 			foreach ($requiredFields as $field) {
 				if (!isset($data[$field])) { //data not complete save as partial and return
-					self::$partial[$key] = $data;
+					$this->partial[$file] = $data;
 					return -1;
 				}
 			}
 
-			$data['path'] = $file->getInternalPath();
-			$data['parent'] = self::getParentId($file);
-			$data['name'] = basename($file->getInternalPath());
+			$data['path'] = $file;
+			$data['parent'] = $this->getParentId($file);
+			$data['name'] = basename($file);
 
-			list($queryParts, $params) = self::buildParts($data);
+			list($queryParts, $params) = $this->buildParts($data);
 			$queryParts[] = '`storage`';
-			$params[] = $file->getStorageId();
+			$params[] = $this->storageId;
 			$valuesPlaceholder = array_fill(0, count($queryParts), '?');
 
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache`(' . implode(', ', $queryParts) . ') VALUES(' . implode(', ', $valuesPlaceholder) . ')');
 			$query->execute($params);
 
-			return \OC_DB::insertid('*PREFIX*filecache');
+			return (int) \OC_DB::insertid('*PREFIX*filecache');
 		}
 	}
 
@@ -112,8 +131,8 @@ class Cache {
 	 * @param int $id
 	 * @param array $data
 	 */
-	static public function update($id, array $data) {
-		list($queryParts, $params) = self::buildParts($data);
+	public function update($id, array $data) {
+		list($queryParts, $params) = $this->buildParts($data);
 		$params[] = $id;
 
 		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET ' . implode(' = ?, ', $queryParts) . '=? WHERE fileid = ?');
@@ -126,7 +145,7 @@ class Cache {
 	 * @param array $data
 	 * @return array
 	 */
-	private static function buildParts(array $data) {
+	static function buildParts(array $data) {
 		$fields = array('path', 'parent', 'name', 'mimetype', 'size', 'mtime');
 
 		$params = array();
@@ -150,15 +169,14 @@ class Cache {
 	/**
 	 * get the file id for a file
 	 *
-	 * @param \OC\Files\File $file
+	 * @param string $file
 	 * @return int
 	 */
-	static public function getId(\OC\Files\File $file) {
-		$storageId = $file->getStorageId();
-		$pathHash = md5($file->getInternalPath());
+	public function getId($file) {
+		$pathHash = md5($file);
 
 		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
-		$result = $query->execute(array($storageId, $pathHash));
+		$result = $query->execute(array($this->storageId, $pathHash));
 
 		if ($row = $result->fetchRow()) {
 			return $row['fileid'];
@@ -170,48 +188,43 @@ class Cache {
 	/**
 	 * get the id of the parent folder of a file
 	 *
-	 * @param \OC\Files\File $file
+	 * @param string $file
 	 * @return int
 	 */
-	static public function getParentId(\OC\Files\File $file) {
-		$path = $file->getInternalPath();
-		if ($path === '/' or $path === '') {
+	public function getParentId($file) {
+		if ($file === '/' or $file === '') {
 			return -1;
 		} else {
-			return self::getId(new \OC\Files\File($file->getStorage(), dirname($path)));
+			return $this->getId(dirname($file));
 		}
 	}
 
 	/**
 	 * check if a file is available in the cache
 	 *
-	 * @param \OC\Files\File $file
+	 * @param string $file
 	 * @return bool
 	 */
-	static public function inCache(\OC\Files\File $file) {
-		return self::getId($file) != -1;
+	public function inCache($file) {
+		return $this->getId($file) != -1;
 	}
 
 	/**
 	 * remove a file or folder from the cache
 	 *
-	 * @param \OC\Files\File $file
+	 * @param string $file
 	 */
-	static public function remove(\OC\Files\File $file) {
-		$storageId = $file->getStorageId();
-		$pathHash = md5($file->getInternalPath());
+	public function remove($file) {
+		$pathHash = md5($file);
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
-		$query->execute(array($storageId, $pathHash));
+		$query->execute(array($this->storageId, $pathHash));
 	}
 
 	/**
-	 * remove all entries for files that are stored on $storage form the cache
-	 *
-	 * @param \OC\Files\Storage\Storage $storage
+	 * remove all entries for files that are stored on the storage from the cache
 	 */
-	static public function removeStorage(\OC\Files\Storage\Storage $storage) {
-		$storageId = $storage->getId();
+	public function clear() {
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE storage=?');
-		$query->execute(array($storageId));
+		$query->execute(array($this->storageId));
 	}
 }
