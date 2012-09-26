@@ -9,6 +9,7 @@
 "Files" => "Datoteke",
 "Unshare" => "Odstrani iz souporabe",
 "Delete" => "Izbriši",
+"Rename" => "Preimenuj",
 "already exists" => "že obstaja",
 "replace" => "nadomesti",
 "suggest name" => "predlagaj ime",
