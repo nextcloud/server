@@ -191,6 +191,7 @@ OC.Share={
 				event.preventDefault();
 			},
 			select: function(event, selected) {
+				event.stopPropagation();
 				var itemType = $('#dropdown').data('item-type');
 				var itemSource = $('#dropdown').data('item-source');
 				var shareType = selected.item.value.shareType;
