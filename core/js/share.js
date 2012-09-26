@@ -166,6 +166,9 @@ OC.Share={
 							OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions, false);
 						}
 					}
+					if (share.expiration.length > 0) {
+						OC.Share.showExpirationDate(share.expiration);
+					}
 				});
 			}
 			$('#shareWith').autocomplete({minLength: 2, source: function(search, response) {
@@ -322,6 +325,15 @@ OC.Share={
 	},
 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
+	},
+	showExpirationDate:function(date) {
+		$('#expirationCheckbox').attr('checked', true);
+		$('#expirationDate').before('<br />');
+		$('#expirationDate').val(date);
+		$('#expirationDate').show();
+		$('#expirationDate').datepicker({
+			dateFormat : 'dd-mm-yy'
+		});
 	}
 }
 
@@ -468,11 +480,7 @@ $(document).ready(function() {
 
 	$('#expirationCheckbox').live('click', function() {
 		if (this.checked) {
-			$('#expirationDate').before('<br />');
-			$('#expirationDate').show();
-			$('#expirationDate').datepicker({
-				dateFormat : 'dd-mm-yy'
-			});
+			OC.Share.showExpirationDate('');
 		} else {
 			$('#expirationDate').hide();
 		}
