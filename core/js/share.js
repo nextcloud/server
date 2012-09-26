@@ -482,7 +482,14 @@ $(document).ready(function() {
 		if (this.checked) {
 			OC.Share.showExpirationDate('');
 		} else {
-			$('#expirationDate').hide();
+			var itemType = $('#dropdown').data('item-type');
+			var itemSource = $('#dropdown').data('item-source');
+			$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setExpirationDate', itemType: itemType, itemSource: itemSource, date: '' }, function(result) {
+				if (!result || result.status !== 'success') {
+					OC.dialogs.alert(t('core', 'Error'), t('core', 'Error unsetting expiration date'));
+				}
+				$('#expirationDate').hide();
+			});
 		}
 	});
 	

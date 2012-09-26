@@ -420,8 +420,12 @@ class Share {
 	public static function setExpirationDate($itemType, $itemSource, $date) {
 		if ($items = self::getItems($itemType, $itemSource, null, null, \OC_User::getUser(), self::FORMAT_NONE, null, -1, false)) {
 			if (!empty($items)) {
-				$date = new \DateTime($date);
-				$date = date('Y-m-d H:i', $date->format('U') - $date->getOffset());
+				if ($date == '') {
+					$date = null;
+				} else {
+					$date = new \DateTime($date);
+					$date = date('Y-m-d H:i', $date->format('U') - $date->getOffset());
+				}
 				$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `expiration` = ? WHERE `id` = ?');
 				foreach ($items as $item) {
 					$query->execute(array($date, $item['id']));
