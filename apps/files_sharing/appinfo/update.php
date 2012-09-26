@@ -5,6 +5,10 @@ if (version_compare($installedVersion, '0.3', '<')) {
 	$query = OCP\DB::prepare('SELECT * FROM `*PREFIX*sharing`');
 	$result = $query->execute();
 	$groupShares = array();
+	//we need to set up user backends, otherwise creating the shares will fail with "because user does not exist"
+	OC_User::useBackend(new OC_User_Database());
+	OC_Group::useBackend(new OC_Group_Database());
+	OC_App::loadApps(array('authentication'));
 	while ($row = $result->fetchRow()) {
 		$itemSource = OC_FileCache::getId($row['source'], '');
 		if ($itemSource != -1) {
@@ -15,9 +19,9 @@ if (version_compare($installedVersion, '0.3', '<')) {
 				$itemType = 'file';
 			}
 			if ($row['permissions'] == 0) {
-				$permissions = OCP\Share::PERMISSION_READ;
+				$permissions = OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE;
 			} else {
-				$permissions = OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE;
+				$permissions = OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_SHARE;
 				if ($itemType == 'folder') {
 					$permissions |= OCP\Share::PERMISSION_CREATE;
 				}
@@ -39,17 +43,20 @@ if (version_compare($installedVersion, '0.3', '<')) {
 				$shareWith = $row['uid_shared_with'];
 			}
 			OC_User::setUserId($row['uid_owner']);
+			//we need to setup the filesystem for the user, otherwise OC_FileSystem::getRoot will fail and break
+			OC_Util::setupFS($row['uid_owner']);
 			try {
 				OCP\Share::shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions);
 			}
 			catch (Exception $e) {
 				$update_error = true;
-				echo 'Skipping sharing "'.$row['source'].'" to "'.$shareWith.'" (error is "'.$e->getMessage().'")<br/>';
+				OCP\Util::writeLog('files_sharing', 'Upgrade Routine: Skipping sharing "'.$row['source'].'" to "'.$shareWith.'" (error is "'.$e->getMessage().'")', OCP\Util::WARN);
 			}
+			OC_Util::tearDownFS();
 		}
 	}
 	if ($update_error) {
-		throw new Exception('There were some problems upgrading the sharing of files');
+		OCP\Util::writeLog('files_sharing', 'There were some problems upgrading the sharing of files', OCP\Util::ERROR);
 	}
 	// NOTE: Let's drop the table after more testing
 // 	$query = OCP\DB::prepare('DROP TABLE `*PREFIX*sharing`');

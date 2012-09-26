@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:13+0200\n"
-"PO-Revision-Date: 2012-09-21 23:14+0000\n"
+"POT-Creation-Date: 2012-09-26 13:19+0200\n"
+"PO-Revision-Date: 2012-09-26 11:20+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -66,41 +66,41 @@ msgstr "Eliminar"
 
 #: js/fileactions.js:182
 msgid "Rename"
-msgstr ""
+msgstr "Renombrar"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "already exists"
 msgstr "ya existe"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "replace"
 msgstr "reemplazar"
 
-#: js/filelist.js:188
+#: js/filelist.js:190
 msgid "suggest name"
 msgstr "sugerir nombre"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "cancel"
 msgstr "cancelar"
 
-#: js/filelist.js:237 js/filelist.js:239
+#: js/filelist.js:239 js/filelist.js:241
 msgid "replaced"
 msgstr "reemplazado"
 
-#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
 msgid "undo"
 msgstr "deshacer"
 
-#: js/filelist.js:239
+#: js/filelist.js:241
 msgid "with"
 msgstr "con"
 
-#: js/filelist.js:271
+#: js/filelist.js:273
 msgid "unshared"
 msgstr "no compartido"
 
-#: js/filelist.js:273
+#: js/filelist.js:275
 msgid "deleted"
 msgstr "borrado"
 
@@ -120,7 +120,15 @@ msgstr "Error al subir el archivo"
 msgid "Pending"
 msgstr "Pendiente"
 
-#: js/files.js:355
+#: js/files.js:256
+msgid "1 file uploading"
+msgstr ""
+
+#: js/files.js:259 js/files.js:304 js/files.js:319
+msgid "files uploading"
+msgstr ""
+
+#: js/files.js:322 js/files.js:355
 msgid "Upload cancelled."
 msgstr "Subida cancelada."
 
@@ -135,11 +143,15 @@ msgstr "Nombre no válido, '/' no está permitido."
 
 #: js/files.js:667
 msgid "files scanned"
-msgstr ""
+msgstr "archivos escaneados"
 
 #: js/files.js:675
 msgid "error while scanning"
-msgstr ""
+msgstr "error escaneando"
+
+#: js/files.js:748 templates/index.php:48
+msgid "Name"
+msgstr "Nombre"
 
 #: js/files.js:749 templates/index.php:56
 msgid "Size"
@@ -164,6 +176,46 @@ msgstr "archivo"
 #: js/files.js:789
 msgid "files"
 msgstr "archivos"
+
+#: js/files.js:833
+msgid "seconds ago"
+msgstr ""
+
+#: js/files.js:834
+msgid "minute ago"
+msgstr ""
+
+#: js/files.js:835
+msgid "minutes ago"
+msgstr ""
+
+#: js/files.js:838
+msgid "today"
+msgstr ""
+
+#: js/files.js:839
+msgid "yesterday"
+msgstr ""
+
+#: js/files.js:840
+msgid "days ago"
+msgstr ""
+
+#: js/files.js:841
+msgid "last month"
+msgstr ""
+
+#: js/files.js:843
+msgid "months ago"
+msgstr ""
+
+#: js/files.js:844
+msgid "last year"
+msgstr ""
+
+#: js/files.js:845
+msgid "years ago"
+msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -225,10 +277,6 @@ msgstr "Cancelar subida"
 msgid "Nothing in here. Upload something!"
 msgstr "Aquí no hay nada. ¡Sube algo!"
 
-#: templates/index.php:48
-msgid "Name"
-msgstr "Nombre"
-
 #: templates/index.php:50
 msgid "Share"
 msgstr "Compartir"
@@ -253,4 +301,4 @@ msgstr "Se están escaneando los archivos, por favor espere."
 
 #: templates/index.php:85
 msgid "Current scanning"
-msgstr "Escaneo actual"
+msgstr "Ahora escaneando"

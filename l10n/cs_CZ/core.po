@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-23 02:01+0200\n"
-"PO-Revision-Date: 2012-09-22 12:15+0000\n"
-"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
+"POT-Creation-Date: 2012-09-26 13:19+0200\n"
+"PO-Revision-Date: 2012-09-26 11:19+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,55 +33,55 @@ msgstr "Žádná kategorie k přidání?"
 msgid "This category already exists: "
 msgstr "Tato kategorie již existuje: "
 
-#: js/js.js:214 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "January"
 msgstr "Leden"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "February"
 msgstr "Únor"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "March"
 msgstr "Březen"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "April"
 msgstr "Duben"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "May"
 msgstr "Květen"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "June"
 msgstr "Červen"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "July"
 msgstr "Červenec"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "August"
 msgstr "Srpen"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "September"
 msgstr "Září"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "October"
 msgstr "Říjen"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "November"
 msgstr "Listopad"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "December"
 msgstr "Prosinec"
 
@@ -109,7 +109,8 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Žádné kategorie nebyly vybrány ke smazání."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:485
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
+#: js/share.js:501
 msgid "Error"
 msgstr "Chyba"
 
@@ -126,12 +127,12 @@ msgid "Error while changing permissions"
 msgstr "Chyba při změně oprávnění"
 
 #: js/share.js:130
-#, perl-format
+#, python-format
 msgid "Shared with you and the group %s by %s"
 msgstr "Sdíleno s Vámi a skupinou %s od %s"
 
 #: js/share.js:132
-#, perl-format
+#, python-format
 msgid "Shared with you by %s"
 msgstr "Sdíleno s Vámi od %s"
 
@@ -159,57 +160,61 @@ msgstr "Nastavit datum vypršení platnosti"
 msgid "Expiration date"
 msgstr "Datum vypršení platnosti"
 
-#: js/share.js:182
-#, perl-format
+#: js/share.js:185
+#, python-format
 msgid "Share via email: %s"
 msgstr "Sdílet e-mailem: %s"
 
-#: js/share.js:184
+#: js/share.js:187
 msgid "No people found"
 msgstr "Žádní lidé nenalezeni"
 
-#: js/share.js:210
+#: js/share.js:214
 msgid "Resharing is not allowed"
 msgstr "Sdílení již sdílené položky není povoleno"
 
-#: js/share.js:246
-#, perl-format
+#: js/share.js:250
+#, python-format
 msgid "Shared in %s with %s"
 msgstr "Sdíleno v %s s %s"
 
-#: js/share.js:267
+#: js/share.js:271
 msgid "Unshare"
 msgstr "Zrušit sdílení"
 
-#: js/share.js:275
+#: js/share.js:279
 msgid "can edit"
 msgstr "lze upravovat"
 
-#: js/share.js:277
+#: js/share.js:281
 msgid "access control"
 msgstr "řízení přístupu"
 
-#: js/share.js:280
+#: js/share.js:284
 msgid "create"
 msgstr "vytvořit"
 
-#: js/share.js:283
+#: js/share.js:287
 msgid "update"
 msgstr "aktualizovat"
 
-#: js/share.js:286
+#: js/share.js:290
 msgid "delete"
 msgstr "smazat"
 
-#: js/share.js:289
+#: js/share.js:293
 msgid "share"
 msgstr "sdílet"
 
-#: js/share.js:313 js/share.js:463
+#: js/share.js:317 js/share.js:476
 msgid "Password protected"
 msgstr "Chráněno heslem"
 
-#: js/share.js:485
+#: js/share.js:489
+msgid "Error unsetting expiration date"
+msgstr ""
+
+#: js/share.js:501
 msgid "Error setting expiration date"
 msgstr "Chyba při nastavení data vypršení platnosti"
 

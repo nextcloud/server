@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-14 02:01+0200\n"
-"PO-Revision-Date: 2012-09-13 09:43+0000\n"
-"Last-Translator: osos <osos@openeyes.dk>\n"
+"POT-Creation-Date: 2012-09-24 02:02+0200\n"
+"PO-Revision-Date: 2012-09-23 06:51+0000\n"
+"Last-Translator: Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,19 +43,19 @@ msgstr "Apps"
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:280
+#: files.php:309
 msgid "ZIP download is turned off."
 msgstr "ZIP-download er slået fra."
 
-#: files.php:281
+#: files.php:310
 msgid "Files need to be downloaded one by one."
 msgstr "Filer skal downloades en for en."
 
-#: files.php:281 files.php:306
+#: files.php:310 files.php:335
 msgid "Back to Files"
 msgstr "Tilbage til Filer"
 
-#: files.php:305
+#: files.php:334
 msgid "Selected files too large to generate zip file."
 msgstr "De markerede filer er for store til at generere en ZIP-fil."
 
@@ -124,4 +124,4 @@ msgstr "opdateret"
 
 #: updater.php:71
 msgid "updates check is disabled"
-msgstr ""
+msgstr "Check for opdateringer er deaktiveret"

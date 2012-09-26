@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:14+0200\n"
-"PO-Revision-Date: 2012-09-21 23:14+0000\n"
+"POT-Creation-Date: 2012-09-26 13:19+0200\n"
+"PO-Revision-Date: 2012-09-26 11:19+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -35,61 +35,61 @@ msgstr "Ingen kategori att lägga till?"
 msgid "This category already exists: "
 msgstr "Denna kategori finns redan:"
 
-#: js/js.js:214 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr "Inställningar"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "January"
 msgstr "Januari"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "February"
 msgstr "Februari"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "March"
 msgstr "Mars"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "April"
 msgstr "April"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "May"
 msgstr "Maj"
 
-#: js/js.js:642
+#: js/js.js:645
 msgid "June"
 msgstr "Juni"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "July"
 msgstr "Juli"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "August"
 msgstr "Augusti"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "September"
 msgstr "September"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "October"
 msgstr "Oktober"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "November"
 msgstr "November"
 
-#: js/js.js:643
+#: js/js.js:646
 msgid "December"
 msgstr "December"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Välj"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -111,43 +111,44 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Inga kategorier valda för radering."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:485
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
+#: js/share.js:501
 msgid "Error"
 msgstr "Fel"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Fel vid delning"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Fel när delning skulle avslutas"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Fel vid ändring av rättigheter"
 
 #: js/share.js:130
-#, perl-format
+#, python-format
 msgid "Shared with you and the group %s by %s"
-msgstr ""
+msgstr "Delad med dig och gruppen %s av %s"
 
 #: js/share.js:132
-#, perl-format
+#, python-format
 msgid "Shared with you by %s"
-msgstr ""
+msgstr "Delad med dig av %s"
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "Delad med"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Delad med länk"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "Lösenordsskydda"
 
 #: js/share.js:147 templates/installation.php:30 templates/login.php:13
 msgid "Password"
@@ -155,65 +156,69 @@ msgstr "Lösenord"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "Sätt utgångsdatum"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "Utgångsdatum"
 
-#: js/share.js:182
-#, perl-format
+#: js/share.js:185
+#, python-format
 msgid "Share via email: %s"
-msgstr ""
+msgstr "Dela via e-post: %s"
 
-#: js/share.js:184
+#: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "Hittar inga användare"
 
-#: js/share.js:210
+#: js/share.js:214
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Dela vidare är inte tillåtet"
 
-#: js/share.js:246
-#, perl-format
+#: js/share.js:250
+#, python-format
 msgid "Shared in %s with %s"
-msgstr ""
+msgstr "Delad i %s med %s"
 
-#: js/share.js:267
+#: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Sluta dela"
 
-#: js/share.js:275
+#: js/share.js:279
 msgid "can edit"
-msgstr ""
+msgstr "kan redigera"
 
-#: js/share.js:277
+#: js/share.js:281
 msgid "access control"
-msgstr ""
+msgstr "åtkomstkontroll"
 
-#: js/share.js:280
+#: js/share.js:284
 msgid "create"
-msgstr ""
+msgstr "skapa"
 
-#: js/share.js:283
+#: js/share.js:287
 msgid "update"
-msgstr ""
+msgstr "uppdatera"
 
-#: js/share.js:286
+#: js/share.js:290
 msgid "delete"
-msgstr ""
+msgstr "radera"
 
-#: js/share.js:289
+#: js/share.js:293
 msgid "share"
-msgstr ""
+msgstr "dela"
 
-#: js/share.js:313 js/share.js:463
+#: js/share.js:317 js/share.js:476
 msgid "Password protected"
+msgstr "Lösenordsskyddad"
+
+#: js/share.js:489
+msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:485
+#: js/share.js:501
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Fel vid sättning av utgångsdatum"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"

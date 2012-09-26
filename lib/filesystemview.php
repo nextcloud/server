@@ -451,6 +451,8 @@ class OC_FilesystemView {
 						OC_Filesystem::signal_post_write,
 						array( OC_Filesystem::signal_param_path => $path2)
 					);
+				} else { // no real copy, file comes from somewhere else, e.g. version rollback -> just update the file cache without all the other post_write actions
+					OC_FileCache_Update::update($path2, $this->fakeRoot);
 				}
 				return $result;
 			}

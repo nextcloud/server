@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-23 02:01+0200\n"
-"PO-Revision-Date: 2012-09-22 11:08+0000\n"
-"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
+"POT-Creation-Date: 2012-09-26 13:19+0200\n"
+"PO-Revision-Date: 2012-09-26 11:20+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,39 +65,39 @@ msgstr "ลบ"
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "already exists"
 msgstr "มีอยู่แล้ว"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "replace"
 msgstr "แทนที่"
 
-#: js/filelist.js:188
+#: js/filelist.js:190
 msgid "suggest name"
 msgstr "แนะนำชื่อ"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "cancel"
 msgstr "ยกเลิก"
 
-#: js/filelist.js:237 js/filelist.js:239
+#: js/filelist.js:239 js/filelist.js:241
 msgid "replaced"
 msgstr "แทนที่แล้ว"
 
-#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
 msgid "undo"
 msgstr "เลิกทำ"
 
-#: js/filelist.js:239
+#: js/filelist.js:241
 msgid "with"
 msgstr "กับ"
 
-#: js/filelist.js:271
+#: js/filelist.js:273
 msgid "unshared"
 msgstr "ยกเลิกการแชร์ข้อมูลแล้ว"
 
-#: js/filelist.js:273
+#: js/filelist.js:275
 msgid "deleted"
 msgstr "ลบแล้ว"
 
@@ -117,7 +117,15 @@ msgstr "เกิดข้อผิดพลาดในการอัพโห
 msgid "Pending"
 msgstr "อยู่ระหว่างดำเนินการ"
 
-#: js/files.js:355
+#: js/files.js:256
+msgid "1 file uploading"
+msgstr ""
+
+#: js/files.js:259 js/files.js:304 js/files.js:319
+msgid "files uploading"
+msgstr ""
+
+#: js/files.js:322 js/files.js:355
 msgid "Upload cancelled."
 msgstr "การอัพโหลดถูกยกเลิก"
 
@@ -137,6 +145,10 @@ msgstr "ไฟล์ต่างๆได้รับการสแกนแล
 #: js/files.js:675
 msgid "error while scanning"
 msgstr "พบข้อผิดพลาดในระหว่างการสแกนไฟล์"
+
+#: js/files.js:748 templates/index.php:48
+msgid "Name"
+msgstr "ชื่อ"
 
 #: js/files.js:749 templates/index.php:56
 msgid "Size"
@@ -161,6 +173,46 @@ msgstr "ไฟล์"
 #: js/files.js:789
 msgid "files"
 msgstr "ไฟล์"
+
+#: js/files.js:833
+msgid "seconds ago"
+msgstr ""
+
+#: js/files.js:834
+msgid "minute ago"
+msgstr ""
+
+#: js/files.js:835
+msgid "minutes ago"
+msgstr ""
+
+#: js/files.js:838
+msgid "today"
+msgstr ""
+
+#: js/files.js:839
+msgid "yesterday"
+msgstr ""
+
+#: js/files.js:840
+msgid "days ago"
+msgstr ""
+
+#: js/files.js:841
+msgid "last month"
+msgstr ""
+
+#: js/files.js:843
+msgid "months ago"
+msgstr ""
+
+#: js/files.js:844
+msgid "last year"
+msgstr ""
+
+#: js/files.js:845
+msgid "years ago"
+msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -221,10 +273,6 @@ msgstr "ยกเลิกการอัพโหลด"
 #: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "ยังไม่มีไฟล์ใดๆอยู่ที่นี่ กรุณาอัพโหลดไฟล์!"
-
-#: templates/index.php:48
-msgid "Name"
-msgstr "ชื่อ"
 
 #: templates/index.php:50
 msgid "Share"

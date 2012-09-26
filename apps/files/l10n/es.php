@@ -9,6 +9,7 @@
 "Files" => "Archivos",
 "Unshare" => "Dejar de compartir",
 "Delete" => "Eliminar",
+"Rename" => "Renombrar",
 "already exists" => "ya existe",
 "replace" => "reemplazar",
 "suggest name" => "sugerir nombre",
@@ -25,6 +26,9 @@
 "Upload cancelled." => "Subida cancelada.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "La subida del archivo está en proceso. Salir de la página ahora cancelará la subida.",
 "Invalid name, '/' is not allowed." => "Nombre no válido, '/' no está permitido.",
+"files scanned" => "archivos escaneados",
+"error while scanning" => "error escaneando",
+"Name" => "Nombre",
 "Size" => "Tamaño",
 "Modified" => "Modificado",
 "folder" => "carpeta",
@@ -46,11 +50,10 @@
 "Upload" => "Subir",
 "Cancel upload" => "Cancelar subida",
 "Nothing in here. Upload something!" => "Aquí no hay nada. ¡Sube algo!",
-"Name" => "Nombre",
 "Share" => "Compartir",
 "Download" => "Descargar",
 "Upload too large" => "El archivo es demasiado grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido por este servidor.",
 "Files are being scanned, please wait." => "Se están escaneando los archivos, por favor espere.",
-"Current scanning" => "Escaneo actual"
+"Current scanning" => "Ahora escaneando"
 );

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:13+0200\n"
-"PO-Revision-Date: 2012-09-21 23:14+0000\n"
+"POT-Creation-Date: 2012-09-26 13:19+0200\n"
+"PO-Revision-Date: 2012-09-26 11:20+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -64,41 +64,41 @@ msgstr "删除"
 
 #: js/fileactions.js:182
 msgid "Rename"
-msgstr ""
+msgstr "重命名"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "already exists"
 msgstr "已经存在"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "replace"
 msgstr "替换"
 
-#: js/filelist.js:188
+#: js/filelist.js:190
 msgid "suggest name"
 msgstr "建议名称"
 
-#: js/filelist.js:188 js/filelist.js:190
+#: js/filelist.js:190 js/filelist.js:192
 msgid "cancel"
 msgstr "取消"
 
-#: js/filelist.js:237 js/filelist.js:239
+#: js/filelist.js:239 js/filelist.js:241
 msgid "replaced"
 msgstr "已经替换"
 
-#: js/filelist.js:237 js/filelist.js:239 js/filelist.js:271 js/filelist.js:273
+#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
 msgid "undo"
 msgstr "撤销"
 
-#: js/filelist.js:239
+#: js/filelist.js:241
 msgid "with"
 msgstr "随着"
 
-#: js/filelist.js:271
+#: js/filelist.js:273
 msgid "unshared"
 msgstr "已取消分享"
 
-#: js/filelist.js:273
+#: js/filelist.js:275
 msgid "deleted"
 msgstr "已经删除"
 
@@ -118,7 +118,15 @@ msgstr "上传错误"
 msgid "Pending"
 msgstr "操作等待中"
 
-#: js/files.js:355
+#: js/files.js:256
+msgid "1 file uploading"
+msgstr ""
+
+#: js/files.js:259 js/files.js:304 js/files.js:319
+msgid "files uploading"
+msgstr ""
+
+#: js/files.js:322 js/files.js:355
 msgid "Upload cancelled."
 msgstr "上传已取消"
 
@@ -138,6 +146,10 @@ msgstr "已扫描文件"
 #: js/files.js:675
 msgid "error while scanning"
 msgstr "扫描时出错"
+
+#: js/files.js:748 templates/index.php:48
+msgid "Name"
+msgstr "名称"
 
 #: js/files.js:749 templates/index.php:56
 msgid "Size"
@@ -162,6 +174,46 @@ msgstr "文件"
 #: js/files.js:789
 msgid "files"
 msgstr "文件"
+
+#: js/files.js:833
+msgid "seconds ago"
+msgstr ""
+
+#: js/files.js:834
+msgid "minute ago"
+msgstr ""
+
+#: js/files.js:835
+msgid "minutes ago"
+msgstr ""
+
+#: js/files.js:838
+msgid "today"
+msgstr ""
+
+#: js/files.js:839
+msgid "yesterday"
+msgstr ""
+
+#: js/files.js:840
+msgid "days ago"
+msgstr ""
+
+#: js/files.js:841
+msgid "last month"
+msgstr ""
+
+#: js/files.js:843
+msgid "months ago"
+msgstr ""
+
+#: js/files.js:844
+msgid "last year"
+msgstr ""
+
+#: js/files.js:845
+msgid "years ago"
+msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -222,10 +274,6 @@ msgstr "取消上传"
 #: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "这里还什么都没有。上传些东西吧！"
-
-#: templates/index.php:48
-msgid "Name"
-msgstr "名称"
 
 #: templates/index.php:50
 msgid "Share"

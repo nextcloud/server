@@ -3,32 +3,33 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <philippi.sedir@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:33+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-09-24 02:01+0200\n"
+"PO-Revision-Date: 2012-09-23 16:57+0000\n"
+"Last-Translator: sedir <philippi.sedir@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: templates/settings.php:3
 msgid "Encryption"
-msgstr ""
+msgstr "Criptografia"
 
 #: templates/settings.php:4
 msgid "Exclude the following file types from encryption"
-msgstr ""
+msgstr "Excluir os seguintes tipos de arquivo da criptografia"
 
 #: templates/settings.php:5
 msgid "None"
-msgstr ""
+msgstr "Nenhuma"
 
 #: templates/settings.php:10
 msgid "Enable Encryption"
-msgstr ""
+msgstr "Habilitar Criptografia"
