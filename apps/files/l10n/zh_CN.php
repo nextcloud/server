@@ -9,6 +9,7 @@
 "Files" => "文件",
 "Unshare" => "取消分享",
 "Delete" => "删除",
+"Rename" => "重命名",
 "already exists" => "已经存在",
 "replace" => "替换",
 "suggest name" => "建议名称",

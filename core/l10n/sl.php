@@ -22,6 +22,7 @@
 "No categories selected for deletion." => "Za izbris ni bila izbrana nobena kategorija.",
 "Error" => "Napaka",
 "Password" => "Geslo",
+"Password protected" => "Zaščiteno z geslom",
 "ownCloud password reset" => "Ponastavitev gesla ownCloud",
 "Use the following link to reset your password: {link}" => "Uporabite sledečo povezavo za ponastavitev gesla: {link}",
 "You will receive a link to reset your password via Email." => "Na e-pošto boste prejeli povezavo s katero lahko ponastavite vaše geslo.",

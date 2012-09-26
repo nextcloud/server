@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-24 02:01+0200\n"
-"PO-Revision-Date: 2012-09-23 09:05+0000\n"
+"POT-Creation-Date: 2012-09-26 02:02+0200\n"
+"PO-Revision-Date: 2012-09-25 14:09+0000\n"
 "Last-Translator: Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -36,48 +36,48 @@ msgstr "Opsætning"
 
 #: templates/settings.php:10
 msgid "Options"
-msgstr ""
+msgstr "Valgmuligheder"
 
 #: templates/settings.php:11
 msgid "Applicable"
-msgstr ""
+msgstr "Kan anvendes"
 
 #: templates/settings.php:23
 msgid "Add mount point"
-msgstr ""
+msgstr "Tilføj monteringspunkt"
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
-msgstr ""
+msgstr "Ingen sat"
 
 #: templates/settings.php:63
 msgid "All Users"
-msgstr ""
+msgstr "Alle brugere"
 
 #: templates/settings.php:64
 msgid "Groups"
-msgstr ""
+msgstr "Grupper"
 
 #: templates/settings.php:69
 msgid "Users"
-msgstr ""
+msgstr "Brugere"
 
-#: templates/settings.php:77 templates/settings.php:96
+#: templates/settings.php:77 templates/settings.php:107
 msgid "Delete"
-msgstr ""
+msgstr "Slet"
+
+#: templates/settings.php:87
+msgid "Enable User External Storage"
+msgstr "Aktiver ekstern opbevaring for brugere"
 
 #: templates/settings.php:88
-msgid "SSL root certificates"
-msgstr ""
-
-#: templates/settings.php:102
-msgid "Import Root Certificate"
-msgstr ""
-
-#: templates/settings.php:108
-msgid "Enable User External Storage"
-msgstr ""
-
-#: templates/settings.php:109
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "Tillad brugere at montere deres egne eksterne opbevaring"
+
+#: templates/settings.php:99
+msgid "SSL root certificates"
+msgstr "SSL-rodcertifikater"
+
+#: templates/settings.php:113
+msgid "Import Root Certificate"
+msgstr "Importer rodcertifikat"
