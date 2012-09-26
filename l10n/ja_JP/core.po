@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-25 02:02+0200\n"
-"PO-Revision-Date: 2012-09-24 12:24+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
+"POT-Creation-Date: 2012-09-26 13:19+0200\n"
+"PO-Revision-Date: 2012-09-26 11:19+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -107,7 +107,8 @@ msgstr "OK"
 msgid "No categories selected for deletion."
 msgstr "削除するカテゴリが選択されていません。"
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:485
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
+#: js/share.js:501
 msgid "Error"
 msgstr "エラー"
 
@@ -124,12 +125,12 @@ msgid "Error while changing permissions"
 msgstr "権限変更でエラー発生"
 
 #: js/share.js:130
-#, perl-format
+#, python-format
 msgid "Shared with you and the group %s by %s"
 msgstr "あなたと %s グループが %s で共有しています"
 
 #: js/share.js:132
-#, perl-format
+#, python-format
 msgid "Shared with you by %s"
 msgstr "あなたと %s で共有しています"
 
@@ -157,57 +158,61 @@ msgstr "有効期限を設定"
 msgid "Expiration date"
 msgstr "有効期限"
 
-#: js/share.js:182
-#, perl-format
+#: js/share.js:185
+#, python-format
 msgid "Share via email: %s"
 msgstr "メール経由で共有: %s"
 
-#: js/share.js:184
+#: js/share.js:187
 msgid "No people found"
 msgstr "ユーザーが見つかりません"
 
-#: js/share.js:210
+#: js/share.js:214
 msgid "Resharing is not allowed"
 msgstr "再共有は許可されていません"
 
-#: js/share.js:246
-#, perl-format
+#: js/share.js:250
+#, python-format
 msgid "Shared in %s with %s"
 msgstr "%s 内で %s と共有"
 
-#: js/share.js:267
+#: js/share.js:271
 msgid "Unshare"
 msgstr "共有解除"
 
-#: js/share.js:275
+#: js/share.js:279
 msgid "can edit"
 msgstr "編集可能"
 
-#: js/share.js:277
+#: js/share.js:281
 msgid "access control"
 msgstr "アクセス権限"
 
-#: js/share.js:280
+#: js/share.js:284
 msgid "create"
 msgstr "作成"
 
-#: js/share.js:283
+#: js/share.js:287
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:286
+#: js/share.js:290
 msgid "delete"
 msgstr "削除"
 
-#: js/share.js:289
+#: js/share.js:293
 msgid "share"
 msgstr "共有"
 
-#: js/share.js:313 js/share.js:463
+#: js/share.js:317 js/share.js:476
 msgid "Password protected"
 msgstr "パスワード保護"
 
-#: js/share.js:485
+#: js/share.js:489
+msgid "Error unsetting expiration date"
+msgstr ""
+
+#: js/share.js:501
 msgid "Error setting expiration date"
 msgstr "有効期限の設定でエラー発生"
 

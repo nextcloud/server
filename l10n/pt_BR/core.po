@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-24 02:01+0200\n"
-"PO-Revision-Date: 2012-09-23 15:29+0000\n"
-"Last-Translator: sedir <philippi.sedir@gmail.com>\n"
+"POT-Creation-Date: 2012-09-26 13:19+0200\n"
+"PO-Revision-Date: 2012-09-26 11:19+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -111,7 +111,8 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Nenhuma categoria selecionada para deletar."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:485
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
+#: js/share.js:501
 msgid "Error"
 msgstr "Erro"
 
@@ -128,12 +129,12 @@ msgid "Error while changing permissions"
 msgstr "Erro ao mudar permissões"
 
 #: js/share.js:130
-#, perl-format
+#, python-format
 msgid "Shared with you and the group %s by %s"
 msgstr "Compartilhado com você e o grupo %s por %s"
 
 #: js/share.js:132
-#, perl-format
+#, python-format
 msgid "Shared with you by %s"
 msgstr "Compartilhado com você por %s"
 
@@ -161,57 +162,61 @@ msgstr "Definir data de expiração"
 msgid "Expiration date"
 msgstr "Data de expiração"
 
-#: js/share.js:182
-#, perl-format
+#: js/share.js:185
+#, python-format
 msgid "Share via email: %s"
 msgstr "Compartilhar via email: %s"
 
-#: js/share.js:184
+#: js/share.js:187
 msgid "No people found"
 msgstr "Nenhuma pessoa encontrada"
 
-#: js/share.js:210
+#: js/share.js:214
 msgid "Resharing is not allowed"
 msgstr "Não é permitido re-compartilhar"
 
-#: js/share.js:246
-#, perl-format
+#: js/share.js:250
+#, python-format
 msgid "Shared in %s with %s"
 msgstr "Compartilhado em %s com %s"
 
-#: js/share.js:267
+#: js/share.js:271
 msgid "Unshare"
 msgstr "Descompartilhar"
 
-#: js/share.js:275
+#: js/share.js:279
 msgid "can edit"
 msgstr "pode editar"
 
-#: js/share.js:277
+#: js/share.js:281
 msgid "access control"
 msgstr "controle de acesso"
 
-#: js/share.js:280
+#: js/share.js:284
 msgid "create"
 msgstr "criar"
 
-#: js/share.js:283
+#: js/share.js:287
 msgid "update"
 msgstr "atualizar"
 
-#: js/share.js:286
+#: js/share.js:290
 msgid "delete"
 msgstr "remover"
 
-#: js/share.js:289
+#: js/share.js:293
 msgid "share"
 msgstr "compartilhar"
 
-#: js/share.js:313 js/share.js:463
+#: js/share.js:317 js/share.js:476
 msgid "Password protected"
 msgstr "Protegido com senha"
 
-#: js/share.js:485
+#: js/share.js:489
+msgid "Error unsetting expiration date"
+msgstr ""
+
+#: js/share.js:501
 msgid "Error setting expiration date"
 msgstr "Erro ao definir data de expiração"
 
