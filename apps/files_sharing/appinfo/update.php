@@ -50,13 +50,13 @@ if (version_compare($installedVersion, '0.3', '<')) {
 			}
 			catch (Exception $e) {
 				$update_error = true;
-				echo 'Skipping sharing "'.$row['source'].'" to "'.$shareWith.'" (error is "'.$e->getMessage().'")<br/>';
+				OCP\Util::writeLog('files_sharing', 'Upgrade Routine: Skipping sharing "'.$row['source'].'" to "'.$shareWith.'" (error is "'.$e->getMessage().'")', OCP\Util::WARN);
 			}
 			OC_Util::tearDownFS();
 		}
 	}
 	if ($update_error) {
-		throw new Exception('There were some problems upgrading the sharing of files');
+		OCP\Util::writeLog('files_sharing', 'There were some problems upgrading the sharing of files', OCP\Util::ERROR);
 	}
 	// NOTE: Let's drop the table after more testing
 // 	$query = OCP\DB::prepare('DROP TABLE `*PREFIX*sharing`');
