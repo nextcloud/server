@@ -45,6 +45,7 @@
 "delete" => "remover",
 "share" => "compartilhar",
 "Password protected" => "Protegido com senha",
+"Error unsetting expiration date" => "Erro ao remover data de expiração",
 "Error setting expiration date" => "Erro ao definir data de expiração",
 "ownCloud password reset" => "Redefinir senha ownCloud",
 "Use the following link to reset your password: {link}" => "Use o seguinte link para redefinir sua senha: {link}",

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:20+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-27 02:01+0200\n"
+"PO-Revision-Date: 2012-09-26 11:27+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -119,11 +119,11 @@ msgstr "อยู่ระหว่างดำเนินการ"
 
 #: js/files.js:256
 msgid "1 file uploading"
-msgstr ""
+msgstr "กำลังอัพโหลดไฟล์ 1 ไฟล์"
 
 #: js/files.js:259 js/files.js:304 js/files.js:319
 msgid "files uploading"
-msgstr ""
+msgstr "การอัพโหลดไฟล์"
 
 #: js/files.js:322 js/files.js:355
 msgid "Upload cancelled."
@@ -138,81 +138,81 @@ msgstr "การอัพโหลดไฟล์กำลังอยู่ใ
 msgid "Invalid name, '/' is not allowed."
 msgstr "ชื่อที่ใช้ไม่ถูกต้อง '/' ไม่อนุญาตให้ใช้งาน"
 
-#: js/files.js:667
+#: js/files.js:668
 msgid "files scanned"
 msgstr "ไฟล์ต่างๆได้รับการสแกนแล้ว"
 
-#: js/files.js:675
+#: js/files.js:676
 msgid "error while scanning"
 msgstr "พบข้อผิดพลาดในระหว่างการสแกนไฟล์"
 
-#: js/files.js:748 templates/index.php:48
+#: js/files.js:749 templates/index.php:48
 msgid "Name"
 msgstr "ชื่อ"
 
-#: js/files.js:749 templates/index.php:56
+#: js/files.js:750 templates/index.php:56
 msgid "Size"
 msgstr "ขนาด"
 
-#: js/files.js:750 templates/index.php:58
+#: js/files.js:751 templates/index.php:58
 msgid "Modified"
 msgstr "ปรับปรุงล่าสุด"
 
-#: js/files.js:777
+#: js/files.js:778
 msgid "folder"
 msgstr "โฟลเดอร์"
 
-#: js/files.js:779
+#: js/files.js:780
 msgid "folders"
 msgstr "โฟลเดอร์"
 
-#: js/files.js:787
+#: js/files.js:788
 msgid "file"
 msgstr "ไฟล์"
 
-#: js/files.js:789
+#: js/files.js:790
 msgid "files"
 msgstr "ไฟล์"
 
-#: js/files.js:833
-msgid "seconds ago"
-msgstr ""
-
 #: js/files.js:834
-msgid "minute ago"
-msgstr ""
+msgid "seconds ago"
+msgstr "วินาที ก่อนหน้านี้"
 
 #: js/files.js:835
-msgid "minutes ago"
-msgstr ""
+msgid "minute ago"
+msgstr "นาที ที่ผ่านมา"
 
-#: js/files.js:838
-msgid "today"
-msgstr ""
+#: js/files.js:836
+msgid "minutes ago"
+msgstr "นาที ที่ผ่านมา"
 
 #: js/files.js:839
-msgid "yesterday"
-msgstr ""
+msgid "today"
+msgstr "วันนี้"
 
 #: js/files.js:840
-msgid "days ago"
-msgstr ""
+msgid "yesterday"
+msgstr "เมื่อวานนี้"
 
 #: js/files.js:841
-msgid "last month"
-msgstr ""
+msgid "days ago"
+msgstr "วัน ที่ผ่านมา"
 
-#: js/files.js:843
-msgid "months ago"
-msgstr ""
+#: js/files.js:842
+msgid "last month"
+msgstr "เดือนที่แล้ว"
 
 #: js/files.js:844
-msgid "last year"
-msgstr ""
+msgid "months ago"
+msgstr "เดือน ที่ผ่านมา"
 
 #: js/files.js:845
+msgid "last year"
+msgstr "ปีที่แล้ว"
+
+#: js/files.js:846
 msgid "years ago"
-msgstr ""
+msgstr "ปี ที่ผ่านมา"
 
 #: templates/admin.php:5
 msgid "File handling"

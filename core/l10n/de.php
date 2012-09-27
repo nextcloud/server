@@ -45,6 +45,7 @@
 "delete" => "löschen",
 "share" => "teilen",
 "Password protected" => "Passwort geschützt",
+"Error unsetting expiration date" => "Fehler beim entfernen des Ablaufdatums",
 "Error setting expiration date" => "Fehler beim Setzen des Ablaufdatums",
 "ownCloud password reset" => "ownCloud-Passwort zurücksetzen",
 "Use the following link to reset your password: {link}" => "Nutzen Sie den nachfolgenden Link, um Ihr Passwort zurückzusetzen: {link}",

@@ -45,6 +45,7 @@
 "delete" => "smazat",
 "share" => "sdílet",
 "Password protected" => "Chráněno heslem",
+"Error unsetting expiration date" => "Chyba při odstraňování data vypršení platnosti",
 "Error setting expiration date" => "Chyba při nastavení data vypršení platnosti",
 "ownCloud password reset" => "Obnovení hesla pro ownCloud",
 "Use the following link to reset your password: {link}" => "Heslo obnovíte použitím následujícího odkazu: {link}",

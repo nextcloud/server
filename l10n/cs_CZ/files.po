@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:20+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-27 02:01+0200\n"
+"PO-Revision-Date: 2012-09-26 12:01+0000\n"
+"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,11 +120,11 @@ msgstr "Čekající"
 
 #: js/files.js:256
 msgid "1 file uploading"
-msgstr ""
+msgstr "odesílá se 1 soubor"
 
 #: js/files.js:259 js/files.js:304 js/files.js:319
 msgid "files uploading"
-msgstr ""
+msgstr "souborů se odesílá"
 
 #: js/files.js:322 js/files.js:355
 msgid "Upload cancelled."
@@ -139,81 +139,81 @@ msgstr "Probíhá odesílání souboru. Opuštění stránky vyústí ve zrušen
 msgid "Invalid name, '/' is not allowed."
 msgstr "Neplatný název, znak '/' není povolen"
 
-#: js/files.js:667
+#: js/files.js:668
 msgid "files scanned"
 msgstr "soubory prohledány"
 
-#: js/files.js:675
+#: js/files.js:676
 msgid "error while scanning"
 msgstr "chyba při prohledávání"
 
-#: js/files.js:748 templates/index.php:48
+#: js/files.js:749 templates/index.php:48
 msgid "Name"
 msgstr "Název"
 
-#: js/files.js:749 templates/index.php:56
+#: js/files.js:750 templates/index.php:56
 msgid "Size"
 msgstr "Velikost"
 
-#: js/files.js:750 templates/index.php:58
+#: js/files.js:751 templates/index.php:58
 msgid "Modified"
 msgstr "Změněno"
 
-#: js/files.js:777
+#: js/files.js:778
 msgid "folder"
 msgstr "složka"
 
-#: js/files.js:779
+#: js/files.js:780
 msgid "folders"
 msgstr "složky"
 
-#: js/files.js:787
+#: js/files.js:788
 msgid "file"
 msgstr "soubor"
 
-#: js/files.js:789
+#: js/files.js:790
 msgid "files"
 msgstr "soubory"
 
-#: js/files.js:833
-msgid "seconds ago"
-msgstr ""
-
 #: js/files.js:834
-msgid "minute ago"
-msgstr ""
+msgid "seconds ago"
+msgstr "před pár sekundami"
 
 #: js/files.js:835
-msgid "minutes ago"
-msgstr ""
+msgid "minute ago"
+msgstr "před minutou"
 
-#: js/files.js:838
-msgid "today"
-msgstr ""
+#: js/files.js:836
+msgid "minutes ago"
+msgstr "před pár minutami"
 
 #: js/files.js:839
-msgid "yesterday"
-msgstr ""
+msgid "today"
+msgstr "dnes"
 
 #: js/files.js:840
-msgid "days ago"
-msgstr ""
+msgid "yesterday"
+msgstr "včera"
 
 #: js/files.js:841
-msgid "last month"
-msgstr ""
+msgid "days ago"
+msgstr "před pár dny"
 
-#: js/files.js:843
-msgid "months ago"
-msgstr ""
+#: js/files.js:842
+msgid "last month"
+msgstr "minulý měsíc"
 
 #: js/files.js:844
-msgid "last year"
-msgstr ""
+msgid "months ago"
+msgstr "před pár měsíci"
 
 #: js/files.js:845
+msgid "last year"
+msgstr "minulý rok"
+
+#: js/files.js:846
 msgid "years ago"
-msgstr ""
+msgstr "před pár lety"
 
 #: templates/admin.php:5
 msgid "File handling"

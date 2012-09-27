@@ -45,6 +45,7 @@
 "delete" => "ลบ",
 "share" => "แชร์",
 "Password protected" => "ใส่รหัสผ่านไว้",
+"Error unsetting expiration date" => "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ",
 "Error setting expiration date" => "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ",
 "ownCloud password reset" => "รีเซ็ตรหัสผ่าน ownCloud",
 "Use the following link to reset your password: {link}" => "ใช้ลิงค์ต่อไปนี้เพื่อเปลี่ยนรหัสผ่านของคุณใหม่: {link}",

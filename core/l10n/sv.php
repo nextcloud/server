@@ -45,6 +45,7 @@
 "delete" => "radera",
 "share" => "dela",
 "Password protected" => "Lösenordsskyddad",
+"Error unsetting expiration date" => "Fel vid borttagning av utgångsdatum",
 "Error setting expiration date" => "Fel vid sättning av utgångsdatum",
 "ownCloud password reset" => "ownCloud lösenordsåterställning",
 "Use the following link to reset your password: {link}" => "Använd följande länk för att återställa lösenordet: {link}",
