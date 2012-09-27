@@ -18,7 +18,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>255</length>
+				<length>32</length>
 			</field>
 
 			<field>
@@ -26,7 +26,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>255</length>
+				<length>64</length>
 			</field>
 
 			<field>
@@ -310,7 +310,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>false</notnull>
-				<length>200</length>
+				<length>64</length>
 			</field>
 
 			<field>
@@ -379,7 +379,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>255</length>
+				<length>64</length>
 			</field>
 
 			<field>
@@ -387,7 +387,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>255</length>
+				<length>32</length>
 			</field>
 
 			<field>
@@ -395,7 +395,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>255</length>
+				<length>64</length>
 			</field>
 
 			<field>
@@ -435,7 +435,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>200</length>
+				<length>64</length>
 			</field>
 
 			<field>
