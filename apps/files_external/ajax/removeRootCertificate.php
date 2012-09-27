@@ -5,7 +5,10 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
 $view = \OCP\Files::getStorage("files_external");
-$cert = ltrim($_POST['cert'], "/\\.");
-$file = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("").'uploads/'.$cert;
-unlink($file);
-OC_Mount_Config::createCertificateBundle();
+$file = 'uploads/'.ltrim($_POST['cert'], "/\\.");
+
+if ( $view->file_exists($file) ) {
+	$view->unlink($file);
+	OC_Mount_Config::createCertificateBundle();
+}
+

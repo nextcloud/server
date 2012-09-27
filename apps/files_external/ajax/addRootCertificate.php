@@ -2,6 +2,11 @@
 
 OCP\JSON::checkAppEnabled('files_external');
 
+if ( !($filename = $_FILES['rootcert_import']['name']) ) {
+	header("Location: settings/personal.php");
+	exit;
+}
+
 $fh = fopen($_FILES['rootcert_import']['tmp_name'], 'r');
 $data = fread($fh, filesize($_FILES['rootcert_import']['tmp_name']));
 fclose($fh);
