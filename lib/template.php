@@ -157,6 +157,7 @@ class OC_Template{
 		$this->vars = array();
 		if($renderas == 'user') {
 			$this->vars['requesttoken'] = OC_Util::callRegister();
+			$this->vars['requestlifespan'] = OC_Util::$callLifespan;
 		}
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$this->l10n = OC_L10N::get($parts[0]);
@@ -374,6 +375,7 @@ class OC_Template{
 			$page = new OC_TemplateLayout($this->renderas);
 			if($this->renderas == 'user') {
 				$page->assign('requesttoken', $this->vars['requesttoken']);
+				$page->assign('requestlifespan', $this->vars['requestlifespan']);
 			}
 
 			// Add custom headers
