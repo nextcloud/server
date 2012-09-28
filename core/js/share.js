@@ -127,9 +127,9 @@ OC.Share={
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
 		if (data.reshare) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
-				html += '<span class="reshare">'+t('core', 'Shared with you and the group %s by %s', data.reshare.share_with, data.reshare.uid_owner)+'</span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you and the group')+' '+data.reshare.share_with+' '+t('core', 'by')+' '+data.reshare.uid_owner+'</span>';
 			} else {
-				html += '<span class="reshare">'+t('core', 'Shared with you by %s', data.reshare.uid_owner)+'</span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you by')+' '+data.reshare.uid_owner+'</span>';
 			}
 			html += '<br />';
 		}
@@ -182,7 +182,7 @@ OC.Share={
 							// Suggest sharing via email if valid email address
 // 							var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
 // 							if (pattern.test(search.term)) {
-// 								response([{label: t('core', 'Share via email: %s', search.term), value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
+// 								response([{label: t('core', 'Share via email:')+' '+search.term, value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
 // 							} else {
 								response([t('core', 'No people found')]);
 // 							}
@@ -247,7 +247,7 @@ OC.Share={
 			if (collectionList.length > 0) {
 				$(collectionList).append(', '+shareWith);
 			} else {
-				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in %s with %s', item, shareWith)+'</li>';
+				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in')+' '+item+' '+t('core', 'with')+' '+shareWith+'</li>';
 				$('#shareWithList').prepend(html);
 			}
 		} else {
