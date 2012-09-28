@@ -25,6 +25,7 @@ OC.search.showResults=function(results){
 		parent.load(OC.filePath('search','templates','part.results.php'),function(){
 			OC.search.showResults.loaded=true;
 			$('#searchresults').click(function(event){
+				OC.search.hide();
 				event.stopPropagation();
 			});
 			$(window).click(function(event){

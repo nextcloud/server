@@ -247,6 +247,8 @@ class OC{
 		OC_Util::addScript( "jquery-tipsy" );
 		OC_Util::addScript( "oc-dialogs" );
 		OC_Util::addScript( "js" );
+		// request protection token MUST be defined after the jquery library but before any $('document').ready()
+		OC_Util::addScript( "requesttoken" );
 		OC_Util::addScript( "eventsource" );
 		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );

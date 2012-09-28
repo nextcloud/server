@@ -40,7 +40,7 @@ OC.EventSource=function(src,data){
 			dataStr+=name+'='+encodeURIComponent(data[name])+'&';
 		}
 	}
-	dataStr+='requesttoken='+OC.EventSource.requesttoken;
+	dataStr+='requesttoken='+OC.Request.Token;
 	if(!this.useFallBack && typeof EventSource !='undefined'){
 		this.source=new EventSource(src+'?'+dataStr);
 		this.source.onmessage=function(e){
