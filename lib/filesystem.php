@@ -527,13 +527,13 @@ class OC_Filesystem{
 		} else {
 			$path=$params['oldpath'];
 		}
-		
-		if (root) { // reduce path to the required part of it (no 'username/files')
-			$fakeRootView = new OC_FilesystemView($root);					
+
+		if ($root) { // reduce path to the required part of it (no 'username/files')
+			$fakeRootView = new OC_FilesystemView($root);
 			$count = 1;
 			$path=str_replace(OC_App::getStorage("files")->getAbsolutePath(), "", $fakeRootView->getAbsolutePath($path), $count);
 		}
-		
+
 		$path = self::normalizePath($path);
 		OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
 	}
