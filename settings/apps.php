@@ -21,8 +21,8 @@
 *
 */
 
-require_once '../lib/base.php';
 OC_Util::checkAdminUser();
+OC_App::loadApps();
 
 // Load the files we need
 OC_Util::addStyle( "settings", "settings" );
