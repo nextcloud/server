@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:19+0000\n"
+"POT-Creation-Date: 2012-09-28 23:34+0200\n"
+"PO-Revision-Date: 2012-09-28 21:34+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "Δεν έχετε να προστέσθέσεται μια κα"
 msgid "This category already exists: "
 msgstr "Αυτή η κατηγορία υπάρχει ήδη"
 
-#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
@@ -88,7 +88,7 @@ msgstr "Δεκέμβριος"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Επιλέξτε"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -117,37 +117,39 @@ msgstr "Σφάλμα"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Σφάλμα κατά τον διαμοιρασμό"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Σφάλμα κατά το σταμάτημα του διαμοιρασμού"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
+msgstr "Σφάλμα κατά την αλλαγή των δικαιωμάτων"
+
+#: js/share.js:130
+msgid "Shared with you and the group"
 msgstr ""
 
 #: js/share.js:130
-#, python-format
-msgid "Shared with you and the group %s by %s"
+msgid "by"
 msgstr ""
 
 #: js/share.js:132
-#, python-format
-msgid "Shared with you by %s"
+msgid "Shared with you by"
 msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "Διαμοιρασμός με"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Διαμοιρασμός με σύνδεσμο"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "Προστασία κωδικού"
 
 #: js/share.js:147 templates/installation.php:30 templates/login.php:13
 msgid "Password"
@@ -155,69 +157,71 @@ msgstr "Κωδικός"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "Ορισμός ημ. λήξης"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "Ημερομηνία λήξης"
 
 #: js/share.js:185
-#, python-format
-msgid "Share via email: %s"
+msgid "Share via email:"
 msgstr ""
 
 #: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "Δεν βρέθηκε άνθρωπος"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
+msgstr "Ξαναμοιρασμός δεν επιτρέπεται"
+
+#: js/share.js:250
+msgid "Shared in"
 msgstr ""
 
 #: js/share.js:250
-#, python-format
-msgid "Shared in %s with %s"
+msgid "with"
 msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Σταμάτημα μοιράσματος"
 
 #: js/share.js:279
 msgid "can edit"
-msgstr ""
+msgstr "δυνατότητα αλλαγής"
 
 #: js/share.js:281
 msgid "access control"
-msgstr ""
+msgstr "έλεγχος πρόσβασης"
 
 #: js/share.js:284
 msgid "create"
-msgstr ""
+msgstr "δημιουργία"
 
 #: js/share.js:287
 msgid "update"
-msgstr ""
+msgstr "ανανέωση"
 
 #: js/share.js:290
 msgid "delete"
-msgstr ""
+msgstr "διαγραφή"
 
 #: js/share.js:293
 msgid "share"
-msgstr ""
+msgstr "διαμοιρασμός"
 
 #: js/share.js:317 js/share.js:476
 msgid "Password protected"
-msgstr ""
+msgstr "Προστασία με κωδικό"
 
 #: js/share.js:489
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Σφάλμα κατά την διαγραφή της ημ. λήξης"
 
 #: js/share.js:501
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Σφάλμα κατά τον ορισμό ημ. λήξης"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -349,7 +353,7 @@ msgstr "Ολοκλήρωση εγκατάστασης"
 msgid "web services under your control"
 msgstr "Υπηρεσίες web υπό τον έλεγχό σας"
 
-#: templates/layout.user.php:39
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "Αποσύνδεση"
 

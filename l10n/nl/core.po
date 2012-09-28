@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:19+0000\n"
+"POT-Creation-Date: 2012-09-28 23:34+0200\n"
+"PO-Revision-Date: 2012-09-28 21:34+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr "Geen categorie toevoegen?"
 msgid "This category already exists: "
 msgstr "De categorie bestaat al."
 
-#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Instellingen"
 
@@ -131,14 +131,16 @@ msgid "Error while changing permissions"
 msgstr "Fout tijdens het veranderen van permissies"
 
 #: js/share.js:130
-#, python-format
-msgid "Shared with you and the group %s by %s"
-msgstr "Gedeeld met u en de group %s door %s"
+msgid "Shared with you and the group"
+msgstr ""
+
+#: js/share.js:130
+msgid "by"
+msgstr ""
 
 #: js/share.js:132
-#, python-format
-msgid "Shared with you by %s"
-msgstr "Gedeeld met u door %s"
+msgid "Shared with you by"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -165,9 +167,8 @@ msgid "Expiration date"
 msgstr "Vervaldatum"
 
 #: js/share.js:185
-#, python-format
-msgid "Share via email: %s"
-msgstr "Deel via email: %s"
+msgid "Share via email:"
+msgstr ""
 
 #: js/share.js:187
 msgid "No people found"
@@ -178,9 +179,12 @@ msgid "Resharing is not allowed"
 msgstr "Verder delen is niet toegestaan"
 
 #: js/share.js:250
-#, python-format
-msgid "Shared in %s with %s"
-msgstr "Deel in %s met %s"
+msgid "Shared in"
+msgstr ""
+
+#: js/share.js:250
+msgid "with"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
@@ -352,7 +356,7 @@ msgstr "Installatie afronden"
 msgid "web services under your control"
 msgstr "webdiensten die je beheerst"
 
-#: templates/layout.user.php:39
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "Afmelden"
 

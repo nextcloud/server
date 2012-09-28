@@ -27,7 +27,6 @@
 "Password" => "Salasana",
 "Set expiration date" => "Aseta päättymispäivä",
 "Expiration date" => "Päättymispäivä",
-"Share via email: %s" => "Jaa sähköpostitse: %s",
 "Resharing is not allowed" => "Jakaminen uudelleen ei ole salittu",
 "can edit" => "voi muokata",
 "create" => "luo",

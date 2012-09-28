@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-27 02:01+0200\n"
-"PO-Revision-Date: 2012-09-26 13:12+0000\n"
-"Last-Translator: g.ciprian <g.ciprian@osn.ro>\n"
+"POT-Creation-Date: 2012-09-28 23:34+0200\n"
+"PO-Revision-Date: 2012-09-28 21:34+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +33,7 @@ msgstr "Nici o categorie de adăugat?"
 msgid "This category already exists: "
 msgstr "Această categorie deja există:"
 
-#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Configurări"
 
@@ -127,14 +127,16 @@ msgid "Error while changing permissions"
 msgstr "Eroare la modificarea permisiunilor"
 
 #: js/share.js:130
-#, python-format
-msgid "Shared with you and the group %s by %s"
-msgstr "Partajat cu tine și grupul %s de %s"
+msgid "Shared with you and the group"
+msgstr ""
+
+#: js/share.js:130
+msgid "by"
+msgstr ""
 
 #: js/share.js:132
-#, python-format
-msgid "Shared with you by %s"
-msgstr "Partajat cu tine de %s"
+msgid "Shared with you by"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -161,9 +163,8 @@ msgid "Expiration date"
 msgstr "Data expirării"
 
 #: js/share.js:185
-#, python-format
-msgid "Share via email: %s"
-msgstr "Partajare prin email: %s"
+msgid "Share via email:"
+msgstr ""
 
 #: js/share.js:187
 msgid "No people found"
@@ -174,9 +175,12 @@ msgid "Resharing is not allowed"
 msgstr "Repartajarea nu este permisă"
 
 #: js/share.js:250
-#, python-format
-msgid "Shared in %s with %s"
-msgstr "Partajat în %s cu %s"
+msgid "Shared in"
+msgstr ""
+
+#: js/share.js:250
+msgid "with"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
@@ -348,7 +352,7 @@ msgstr "Finalizează instalarea"
 msgid "web services under your control"
 msgstr "servicii web controlate de tine"
 
-#: templates/layout.user.php:39
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "Ieșire"
 

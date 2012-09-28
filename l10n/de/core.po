@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 02:02+0200\n"
-"PO-Revision-Date: 2012-09-27 22:12+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2012-09-28 23:34+0200\n"
+"PO-Revision-Date: 2012-09-28 21:34+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +42,7 @@ msgstr "Keine Kategorie hinzuzufügen?"
 msgid "This category already exists: "
 msgstr "Kategorie existiert bereits:"
 
-#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -136,14 +136,16 @@ msgid "Error while changing permissions"
 msgstr "Fehler beim Ändern  der Rechte"
 
 #: js/share.js:130
-#, python-format
-msgid "Shared with you and the group %s by %s"
-msgstr "%s hat dies für dich und die Gruppe %s freigegeben."
+msgid "Shared with you and the group"
+msgstr ""
+
+#: js/share.js:130
+msgid "by"
+msgstr ""
 
 #: js/share.js:132
-#, python-format
-msgid "Shared with you by %s"
-msgstr "%s hat dies mit dir geteilt."
+msgid "Shared with you by"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -170,9 +172,8 @@ msgid "Expiration date"
 msgstr "Ablaufdatum"
 
 #: js/share.js:185
-#, python-format
-msgid "Share via email: %s"
-msgstr "Über eine E-Mail freigeben: %s"
+msgid "Share via email:"
+msgstr ""
 
 #: js/share.js:187
 msgid "No people found"
@@ -183,9 +184,12 @@ msgid "Resharing is not allowed"
 msgstr "Weiterverteilen ist nicht erlaubt"
 
 #: js/share.js:250
-#, python-format
-msgid "Shared in %s with %s"
-msgstr "In %s für %s freigegeben"
+msgid "Shared in"
+msgstr ""
+
+#: js/share.js:250
+msgid "with"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
@@ -357,7 +361,7 @@ msgstr "Installation abschließen"
 msgid "web services under your control"
 msgstr "Web-Services unter Ihrer Kontrolle"
 
-#: templates/layout.user.php:39
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "Abmelden"
 

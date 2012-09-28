@@ -25,7 +25,6 @@
 "Error while sharing" => "Ошибка создания общего доступа",
 "Error while unsharing" => "Ошибка отключения общего доступа",
 "Error while changing permissions" => "Ошибка при изменении прав доступа",
-"Shared with you and the group %s by %s" => "Общий доступ для Вас и группы %s к %s",
 "Password protect" => "Защитить паролем",
 "Password" => "Пароль",
 "No people found" => "Не найдено людей",
