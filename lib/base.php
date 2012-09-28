@@ -104,7 +104,7 @@ class OC{
 
 	public static function initPaths() {
 		// calculate the root directories
-		OC::$SERVERROOT=str_replace("\\", '/', substr(__FILE__, 0, -13));
+		OC::$SERVERROOT=str_replace("\\", '/', substr(__DIR__, 0, -4));
 		OC::$SUBURI= str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
 		$scriptName=$_SERVER["SCRIPT_NAME"];
 		if(substr($scriptName, -1)=='/') {
