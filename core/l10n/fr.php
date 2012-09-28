@@ -45,6 +45,7 @@
 "delete" => "supprimer",
 "share" => "partager",
 "Password protected" => "Protégé par un mot de passe",
+"Error unsetting expiration date" => "Un erreur est survenue pendant la suppression de la date d'expiration",
 "Error setting expiration date" => "Erreur lors de la spécification de la date d'expiration",
 "ownCloud password reset" => "Réinitialisation de votre mot de passe Owncloud",
 "Use the following link to reset your password: {link}" => "Utilisez le lien suivant pour réinitialiser votre mot de passe : {link}",

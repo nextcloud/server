@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:19+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-27 02:01+0200\n"
+"PO-Revision-Date: 2012-09-26 13:12+0000\n"
+"Last-Translator: g.ciprian <g.ciprian@osn.ro>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,7 +87,7 @@ msgstr "Decembrie"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Alege"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -116,37 +116,37 @@ msgstr "Eroare"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Eroare la partajare"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Eroare la anularea partajării"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Eroare la modificarea permisiunilor"
 
 #: js/share.js:130
 #, python-format
 msgid "Shared with you and the group %s by %s"
-msgstr ""
+msgstr "Partajat cu tine și grupul %s de %s"
 
 #: js/share.js:132
 #, python-format
 msgid "Shared with you by %s"
-msgstr ""
+msgstr "Partajat cu tine de %s"
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "Partajat cu"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Partajare cu legătură"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "Protejare cu parolă"
 
 #: js/share.js:147 templates/installation.php:30 templates/login.php:13
 msgid "Password"
@@ -154,69 +154,69 @@ msgstr "Parola"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "Specifică data expirării"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "Data expirării"
 
 #: js/share.js:185
 #, python-format
 msgid "Share via email: %s"
-msgstr ""
+msgstr "Partajare prin email: %s"
 
 #: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "Nici o persoană găsită"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Repartajarea nu este permisă"
 
 #: js/share.js:250
 #, python-format
 msgid "Shared in %s with %s"
-msgstr ""
+msgstr "Partajat în %s cu %s"
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Anulare partajare"
 
 #: js/share.js:279
 msgid "can edit"
-msgstr ""
+msgstr "poate edita"
 
 #: js/share.js:281
 msgid "access control"
-msgstr ""
+msgstr "control acces"
 
 #: js/share.js:284
 msgid "create"
-msgstr ""
+msgstr "creare"
 
 #: js/share.js:287
 msgid "update"
-msgstr ""
+msgstr "actualizare"
 
 #: js/share.js:290
 msgid "delete"
-msgstr ""
+msgstr "ștergere"
 
 #: js/share.js:293
 msgid "share"
-msgstr ""
+msgstr "partajare"
 
 #: js/share.js:317 js/share.js:476
 msgid "Password protected"
-msgstr ""
+msgstr "Protejare cu parolă"
 
 #: js/share.js:489
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Eroare la anularea datei de expirare"
 
 #: js/share.js:501
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Eroare la specificarea datei de expirare"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
