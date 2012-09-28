@@ -21,6 +21,8 @@
 require_once '../../lib/base.php';
 
 OC_JSON::checkLoggedIn();
+OCP\JSON::callCheck();
+
 if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSource'])) {
 	switch ($_POST['action']) {
 		case 'share':
@@ -55,6 +57,12 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				($return) ? OC_JSON::success() : OC_JSON::error();
 			}
 			break;
+		case 'setExpirationDate':
+			if (isset($_POST['date'])) {
+				$return = OCP\Share::setExpirationDate($_POST['itemType'], $_POST['itemSource'], $_POST['date']);
+				($return) ? OC_JSON::success() : OC_JSON::error();
+			}
+			break;
 	}
 } else if (isset($_GET['fetch'])) {
 	switch ($_GET['fetch']) {
@@ -72,7 +80,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					$reshare = false;
 				}
 				if ($_GET['checkShares'] == 'true') {
-					$shares = OCP\Share::getItemShared($_GET['itemType'], $_GET['itemSource']);
+					$shares = OCP\Share::getItemShared($_GET['itemType'], $_GET['itemSource'], OCP\Share::FORMAT_NONE, null, true);
 				} else {
 					$shares = false;
 				}
@@ -82,23 +90,23 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 		case 'getShareWith':
 			if (isset($_GET['search'])) {
 				$shareWith = array();
-				if (OC_App::isEnabled('contacts')) {
-					// TODO Add function to contacts to only get the 'fullname' column to improve performance
-					$ids = OC_Contacts_Addressbook::activeIds();
-					foreach ($ids as $id) {
-						$vcards = OC_Contacts_VCard::all($id);
-						foreach ($vcards as $vcard) {
-							$contact = $vcard['fullname'];
-							if (stripos($contact, $_GET['search']) !== false
-								&& (!isset($_GET['itemShares'])
-								|| !isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT])
-								|| !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT])
-								|| !in_array($contact, $_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT]))) {
-								$shareWith[] = array('label' => $contact, 'value' => array('shareType' => 5, 'shareWith' => $vcard['id']));
-							}
-						}
-					}
-				}
+// 				if (OC_App::isEnabled('contacts')) {
+// 					// TODO Add function to contacts to only get the 'fullname' column to improve performance
+// 					$ids = OC_Contacts_Addressbook::activeIds();
+// 					foreach ($ids as $id) {
+// 						$vcards = OC_Contacts_VCard::all($id);
+// 						foreach ($vcards as $vcard) {
+// 							$contact = $vcard['fullname'];
+// 							if (stripos($contact, $_GET['search']) !== false
+// 								&& (!isset($_GET['itemShares'])
+// 								|| !isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT])
+// 								|| !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT])
+// 								|| !in_array($contact, $_GET['itemShares'][OCP\Share::SHARE_TYPE_CONTACT]))) {
+// 								$shareWith[] = array('label' => $contact, 'value' => array('shareType' => 5, 'shareWith' => $vcard['id']));
+// 							}
+// 						}
+// 					}
+// 				}
 				$count = 0;
 				$users = array();
 				$limit = 0;

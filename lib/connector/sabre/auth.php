@@ -36,7 +36,7 @@ class OC_Connector_Sabre_Auth extends Sabre_DAV_Auth_Backend_AbstractBasic {
 			return true;
 		} else {
 			OC_Util::setUpFS();//login hooks may need early access to the filesystem
-			if(OC_User::login($username,$password)) {
+			if(OC_User::login($username, $password)) {
 				OC_Util::setUpFS($username);
 				return true;
 			}

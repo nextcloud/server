@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012.
 #   <sr@ybnet.dk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-29 02:01+0200\n"
-"PO-Revision-Date: 2012-08-29 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-26 02:02+0200\n"
+"PO-Revision-Date: 2012-09-25 14:13+0000\n"
+"Last-Translator: Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: da\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/settings.php:8
 msgid "Host"
@@ -25,7 +26,7 @@ msgstr "Host"
 #: templates/settings.php:8
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Du kan udelade protokollen, medmindre du skal bruge SSL. Start i så fald med ldaps://"
 
 #: templates/settings.php:9
 msgid "Base DN"

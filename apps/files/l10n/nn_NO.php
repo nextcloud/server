@@ -7,6 +7,7 @@
 "Missing a temporary folder" => "Manglar ei mellombels mappe",
 "Files" => "Filer",
 "Delete" => "Slett",
+"Name" => "Namn",
 "Size" => "Storleik",
 "Modified" => "Endra",
 "Maximum upload size" => "Maksimal opplastingsstorleik",
@@ -15,7 +16,6 @@
 "Folder" => "Mappe",
 "Upload" => "Last opp",
 "Nothing in here. Upload something!" => "Ingenting her. Last noko opp!",
-"Name" => "Namn",
 "Download" => "Last ned",
 "Upload too large" => "For stor opplasting",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filene du prøver å laste opp er større enn maksgrensa til denne tenaren."

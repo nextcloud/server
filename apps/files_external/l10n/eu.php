@@ -4,6 +4,7 @@
 "Backend" => "Motorra",
 "Configuration" => "Konfigurazioa",
 "Options" => "Aukerak",
+"Applicable" => "Aplikagarria",
 "Add mount point" => "Gehitu muntatze puntua",
 "None set" => "Ezarri gabe",
 "All Users" => "Erabiltzaile guztiak",

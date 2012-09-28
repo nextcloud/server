@@ -55,7 +55,10 @@ class OC_VCategories {
 		$this->app = $app;
 		$this->user = is_null($user) ? OC_User::getUser() : $user;
 		$categories = trim(OC_Preferences::getValue($this->user, $app, self::PREF_CATEGORIES_LABEL, ''));
-		$this->categories = $categories != '' ? @unserialize($categories) : $defcategories;
+		if ($categories) {
+			$categories = @unserialize($categories);
+		}
+		$this->categories = is_array($categories) ? $categories : $defcategories;
 	}
 
 	/**

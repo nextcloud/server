@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Expire all versions" => "Kõikide versioonide aegumine",
-"Enable Files Versioning" => "Luba failide versioonihaldus"
+"Versions" => "Versioonid",
+"This will delete all existing backup versions of your files" => "See kustutab kõik sinu failidest tehtud varuversiooni"
 );

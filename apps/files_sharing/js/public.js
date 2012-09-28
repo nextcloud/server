@@ -1,6 +1,10 @@
 // Override download path to files_sharing/public.php
 function fileDownloadPath(dir, file) {
-	return $('#downloadURL').val();
+	var url = $('#downloadURL').val();
+	if (url.indexOf('&path=') != -1) {
+		url += '/'+file;
+	}
+	return url;
 }
 
 $(document).ready(function() {
@@ -13,10 +17,21 @@ $(document).ready(function() {
 			var action = FileActions.getDefault(mimetype, 'file', OC.PERMISSION_READ);
 			if (typeof action === 'undefined') {
 				$('#noPreview').show();
+				if (mimetype != 'httpd/unix-directory') {
+					// NOTE: Remove when a better file previewer solution exists
+					$('#content').remove();
+					$('table').remove();
+				}
 			} else {
 				action($('#filename').val());
 			}
 		}
+		FileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function(filename) {
+			var tr = $('tr').filterAttr('data-file', filename)
+			if (tr.length > 0) {
+				window.location = $(tr).find('a.name').attr('href');
+			}
+		});
 	}
 
 });

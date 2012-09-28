@@ -1,7 +1,7 @@
 <?php
 
 /**
-* ownCloud status page. usefull if you want to check from the outside if an owncloud installation exists
+* ownCloud status page. Useful if you want to check from the outside if an ownCloud installation exists
 *
 * @author Frank Karlitschek
 * @copyright 2012 Frank Karlitschek frank@owncloud.org

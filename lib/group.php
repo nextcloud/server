@@ -35,12 +35,15 @@
  */
 class OC_Group {
 	// The backend used for group management
+	/**
+	 * @var OC_Group_Interface[]
+	 */
 	private static $_usedBackends = array();
 
 	/**
 	 * @brief set the group backend
 	 * @param  string  $backend  The backend to use for user managment
-	 * @returns true/false
+	 * @return bool
 	 */
 	public static function useBackend( $backend ) {
 		if($backend instanceof OC_Group_Interface) {
@@ -57,10 +60,10 @@ class OC_Group {
 
 	/**
 	 * @brief Try to create a new group
-	 * @param $gid The name of the group to create
-	 * @returns true/false
+	 * @param string $gid The name of the group to create
+	 * @return bool
 	 *
-	 * Trys to create a new group. If the group name already exists, false will
+	 * Tries to create a new group. If the group name already exists, false will
 	 * be returned. Basic checking of Group name
 	 *
 	 * Allowed characters in the username are: "a-z", "A-Z", "0-9" and "_.@-"
@@ -94,6 +97,7 @@ class OC_Group {
 
 				return true;
 			}
+			return false;
 		}else{
 			return false;
 		}
@@ -101,8 +105,8 @@ class OC_Group {
 
 	/**
 	 * @brief delete a group
-	 * @param $gid gid of the group to delete
-	 * @returns true/false
+	 * @param string $gid gid of the group to delete
+	 * @return bool
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
@@ -126,6 +130,7 @@ class OC_Group {
 
 				return true;
 			}
+			return false;
 		}else{
 			return false;
 		}
@@ -133,9 +138,9 @@ class OC_Group {
 
 	/**
 	 * @brief is user in group?
-	 * @param $uid uid of the user
-	 * @param $gid gid of the group
-	 * @returns true/false
+	 * @param string $uid uid of the user
+	 * @param string $gid gid of the group
+	 * @return bool
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
@@ -150,9 +155,9 @@ class OC_Group {
 
 	/**
 	 * @brief Add a user to a group
-	 * @param $uid Name of the user to add to group
-	 * @param $gid Name of the group in which add the user
-	 * @returns true/false
+	 * @param string $uid Name of the user to add to group
+	 * @param string $gid Name of the group in which add the user
+	 * @return bool
 	 *
 	 * Adds a user to a group.
 	 */
@@ -167,7 +172,7 @@ class OC_Group {
 		OC_Hook::emit( "OC_Group", "pre_addToGroup", array( "run" => &$run, "uid" => $uid, "gid" => $gid ));
 
 		if($run) {
-			$succes=false;
+			$success=false;
 
 			//add the user to the all backends that have the group
 			foreach(self::$_usedBackends as $backend) {
@@ -175,13 +180,13 @@ class OC_Group {
 					continue;
 
 				if($backend->groupExists($gid)) {
-					$succes|=$backend->addToGroup($uid, $gid);
+					$success|=$backend->addToGroup($uid, $gid);
 				}
 			}
-			if($succes) {
+			if($success) {
 				OC_Hook::emit( "OC_User", "post_addToGroup", array( "uid" => $uid, "gid" => $gid ));
 			}
-			return $succes;
+			return $success;
 		}else{
 			return false;
 		}
@@ -189,9 +194,9 @@ class OC_Group {
 
 	/**
 	 * @brief Removes a user from a group
-	 * @param $uid Name of the user to remove from group
-	 * @param $gid Name of the group from which remove the user
-	 * @returns true/false
+	 * @param string $uid Name of the user to remove from group
+	 * @param string $gid Name of the group from which remove the user
+	 * @return bool
 	 *
 	 * removes the user from a group.
 	 */
@@ -216,8 +221,8 @@ class OC_Group {
 
 	/**
 	 * @brief Get all groups a user belongs to
-	 * @param $uid Name of the user
-	 * @returns array with group names
+	 * @param string $uid Name of the user
+	 * @return array with group names
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
@@ -275,7 +280,10 @@ class OC_Group {
 	/**
 	 * @brief get a list of all users in several groups
 	 * @param array $gids
-	 * @returns array with user ids
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array with user ids
 	 */
 	public static function usersInGroups($gids, $search = '', $limit = -1, $offset = 0) {
 		$users = array();

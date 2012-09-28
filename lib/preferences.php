@@ -40,7 +40,7 @@
 class OC_Preferences{
 	/**
 	 * @brief Get all users using the preferences
-	 * @returns array with user ids
+	 * @return array with user ids
 	 *
 	 * This function returns a list of all users that have at least one entry
 	 * in the preferences table.
@@ -60,8 +60,8 @@ class OC_Preferences{
 
 	/**
 	 * @brief Get all apps of a user
-	 * @param $user user
-	 * @returns array with app ids
+	 * @param string $user user
+	 * @return array with app ids
 	 *
 	 * This function returns a list of all apps of the user that have at least
 	 * one entry in the preferences table.
@@ -81,9 +81,9 @@ class OC_Preferences{
 
 	/**
 	 * @brief Get the available keys for an app
-	 * @param $user user
-	 * @param $app the app we are looking for
-	 * @returns array with key names
+	 * @param string $user user
+	 * @param string $app the app we are looking for
+	 * @return array with key names
 	 *
 	 * This function gets all keys of an app of an user. Please note that the
 	 * values are not returned.
@@ -103,14 +103,14 @@ class OC_Preferences{
 
 	/**
 	 * @brief Gets the preference
-	 * @param $user user
-	 * @param $app app
-	 * @param $key key
-	 * @param $default = null, default value if the key does not exist
-	 * @returns the value or $default
+	 * @param string $user user
+	 * @param string $app app
+	 * @param string $key key
+	 * @param string $default = null, default value if the key does not exist
+	 * @return string the value or $default
 	 *
-	 * This function gets a value from the prefernces table. If the key does
-	 * not exist the default value will be returnes
+	 * This function gets a value from the preferences table. If the key does
+	 * not exist the default value will be returned
 	 */
 	public static function getValue( $user, $app, $key, $default = null ) {
 		// Try to fetch the value, return default if not exists.
@@ -127,11 +127,11 @@ class OC_Preferences{
 
 	/**
 	 * @brief sets a value in the preferences
-	 * @param $user user
-	 * @param $app app
-	 * @param $key key
-	 * @param $value value
-	 * @returns true/false
+	 * @param string $user user
+	 * @param string $app app
+	 * @param string $key key
+	 * @param string $value value
+	 * @return bool
 	 *
 	 * Adds a value to the preferences. If the key did not exist before, it
 	 * will be added automagically.
@@ -155,63 +155,63 @@ class OC_Preferences{
 
 	/**
 	 * @brief Deletes a key
-	 * @param $user user
-	 * @param $app app
-	 * @param $key key
-	 * @returns true/false
+	 * @param string $user user
+	 * @param string $app app
+	 * @param string $key key
+	 * @return bool
 	 *
 	 * Deletes a key.
 	 */
 	public static function deleteKey( $user, $app, $key ) {
 		// No need for more comments
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?' );
-		$result = $query->execute( array( $user, $app, $key ));
+		$query->execute( array( $user, $app, $key ));
 
 		return true;
 	}
 
 	/**
 	 * @brief Remove app of user from preferences
-	 * @param $user user
-	 * @param $app app
-	 * @returns true/false
+	 * @param string $user user
+	 * @param string $app app
+	 * @return bool
 	 *
 	 * Removes all keys in appconfig belonging to the app and the user.
 	 */
 	public static function deleteApp( $user, $app ) {
 		// No need for more comments
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?' );
-		$result = $query->execute( array( $user, $app ));
+		$query->execute( array( $user, $app ));
 
 		return true;
 	}
 
 	/**
 	 * @brief Remove user from preferences
-	 * @param $user user
-	 * @returns true/false
+	 * @param string $user user
+	 * @return bool
 	 *
 	 * Removes all keys in appconfig belonging to the user.
 	 */
 	public static function deleteUser( $user ) {
 		// No need for more comments
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `userid` = ?' );
-		$result = $query->execute( array( $user ));
+		$query->execute( array( $user ));
 
 		return true;
 	}
 
 	/**
 	 * @brief Remove app from all users
-	 * @param $app app
-	 * @returns true/false
+	 * @param string $app app
+	 * @return bool
 	 *
 	 * Removes all keys in preferences belonging to the app.
 	 */
 	public static function deleteAppFromAllUsers( $app ) {
 		// No need for more comments
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*preferences` WHERE `appid` = ?' );
-		$result = $query->execute( array( $app ));
+		$query->execute( array( $app ));
 
 		return true;
 	}

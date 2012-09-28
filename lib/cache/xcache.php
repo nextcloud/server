@@ -29,9 +29,9 @@ class OC_Cache_XCache {
 
 	public function set($key, $value, $ttl=0) {
 		if($ttl>0) {
-			return xcache_set($this->getNamespace().$key,$value,$ttl);
+			return xcache_set($this->getNamespace().$key, $value, $ttl);
 		}else{
-			return xcache_set($this->getNamespace().$key,$value);
+			return xcache_set($this->getNamespace().$key, $value);
 		}
 	}
 
@@ -44,6 +44,12 @@ class OC_Cache_XCache {
 	}
 
 	public function clear($prefix='') {
+		if(!function_exists('xcache_unset_by_prefix')) {
+			function xcache_unset_by_prefix($prefix) {
+				// Since we can't clear targetted cache, we'll clear all. :(
+				xcache_clear_cache(XC_TYPE_VAR, 0);
+			}
+		}
 		xcache_unset_by_prefix($this->getNamespace().$prefix);
 		return true;
 	}

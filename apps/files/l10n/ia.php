@@ -3,6 +3,7 @@
 "No file was uploaded" => "Nulle file esseva incargate",
 "Files" => "Files",
 "Delete" => "Deler",
+"Name" => "Nomine",
 "Size" => "Dimension",
 "Modified" => "Modificate",
 "Maximum upload size" => "Dimension maxime de incargamento",
@@ -11,7 +12,6 @@
 "Folder" => "Dossier",
 "Upload" => "Incargar",
 "Nothing in here. Upload something!" => "Nihil hic. Incarga alcun cosa!",
-"Name" => "Nomine",
 "Download" => "Discargar",
 "Upload too large" => "Incargamento troppo longe"
 );

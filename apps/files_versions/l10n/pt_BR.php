@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Expire all versions" => "Expirar todas as versões",
-"Enable Files Versioning" => "Habilitar versionamento de arquivos"
+"History" => "Histórico",
+"Versions" => "Versões",
+"This will delete all existing backup versions of your files" => "Isso removerá todas as versões de backup existentes dos seus arquivos",
+"Files Versioning" => "Versionamento de Arquivos",
+"Enable" => "Habilitar"
 );

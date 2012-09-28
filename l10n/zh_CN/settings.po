@@ -6,14 +6,15 @@
 #   <appweb.cn@gmail.com>, 2012.
 # Phoenix Nemo <>, 2012.
 #   <rainofchaos@gmail.com>, 2012.
+#   <suiy02@gmail.com>, 2012.
 #   <wengxt@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-07 02:04+0200\n"
-"PO-Revision-Date: 2012-09-06 08:01+0000\n"
-"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
+"POT-Creation-Date: 2012-09-28 02:03+0200\n"
+"PO-Revision-Date: 2012-09-27 14:13+0000\n"
+"Last-Translator: waterone <suiy02@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,11 +33,15 @@ msgstr "认证错误"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr "已存在组"
+msgstr "已存在该组"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr "不能添加组"
+msgstr "无法添加组"
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
+msgstr "无法开启App"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -56,11 +61,11 @@ msgstr "非法请求"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr "不能删除组"
+msgstr "无法删除组"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr "不能删除用户"
+msgstr "无法删除用户"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -69,22 +74,18 @@ msgstr "语言已修改"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "不能把用户添加到组 %s"
+msgstr "无法把用户添加到组 %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "不能从组%s中移除用户"
+msgstr "无法从组%s中移除用户"
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "错误"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:27 js/apps.js:61
 msgid "Disable"
 msgstr "禁用"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:27 js/apps.js:50
 msgid "Enable"
 msgstr "启用"
 
@@ -107,69 +108,73 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "您的数据文件夹和文件可由互联网访问。OwnCloud提供的.htaccess文件未生效。我们强烈建议您配置服务器，以使数据文件夹不可被访问，或者将数据文件夹移到web服务器以外。"
+msgstr "您的数据文件夹和文件可由互联网访问。OwnCloud提供的.htaccess文件未生效。我们强烈建议您配置服务器，以使数据文件夹不可被访问，或者将数据文件夹移到web服务器根目录以外。"
 
 #: templates/admin.php:31
 msgid "Cron"
 msgstr "计划任务"
 
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
-msgstr "为每个装入的页面执行任务"
-
-#: templates/admin.php:35
-msgid "cron.php is registered at a webcron service"
-msgstr "crop.php 已"
-
 #: templates/admin.php:37
-msgid "use systems cron service"
-msgstr "实现系统 cron 服务"
+msgid "Execute one task with each page loaded"
+msgstr "每次页面加载完成后执行任务"
 
-#: templates/admin.php:41
-msgid "Share API"
-msgstr "共享API"
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr "cron.php已被注册到网络定时任务服务。通过http每分钟调用owncloud根目录的cron.php网页。"
 
-#: templates/admin.php:46
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr "使用系统定时任务服务。每分钟通过系统定时任务调用owncloud文件夹中的cron.php文件"
+
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr "分享"
+
+#: templates/admin.php:61
 msgid "Enable Share API"
 msgstr "开启共享API"
 
-#: templates/admin.php:47
+#: templates/admin.php:62
 msgid "Allow apps to use the Share API"
 msgstr "允许 应用 使用共享API"
 
-#: templates/admin.php:51
+#: templates/admin.php:67
 msgid "Allow links"
 msgstr "允许连接"
 
-#: templates/admin.php:52
+#: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
 msgstr "允许用户使用连接向公众共享"
 
-#: templates/admin.php:56
+#: templates/admin.php:73
 msgid "Allow resharing"
 msgstr "允许再次共享"
 
-#: templates/admin.php:57
+#: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
 msgstr "允许用户将共享给他们的项目再次共享"
 
-#: templates/admin.php:60
+#: templates/admin.php:79
 msgid "Allow users to share with anyone"
 msgstr "允许用户向任何人共享"
 
-#: templates/admin.php:62
+#: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
 msgstr "允许用户只向同组用户共享"
 
-#: templates/admin.php:69
+#: templates/admin.php:88
 msgid "Log"
 msgstr "日志"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -220,12 +225,9 @@ msgid "Answer"
 msgstr "回答"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "您使用了"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "的空间，总容量为"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "您已使用空间: <strong>%s</strong>，总空间: <strong>%s</strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -236,7 +238,7 @@ msgid "Download"
 msgstr "下载"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
+msgid "Your password was changed"
 msgstr "密码已修改"
 
 #: templates/personal.php:20
@@ -281,7 +283,7 @@ msgstr "帮助翻译"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "在文件管理器中使用这个地址来连接到您的 ownCloud"
+msgstr "您可在文件管理器中使用该地址连接到ownCloud"
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

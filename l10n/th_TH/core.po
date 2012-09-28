@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-27 02:01+0200\n"
+"PO-Revision-Date: 2012-09-26 11:22+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,57 +31,61 @@ msgstr "ไม่มีหมวดหมู่ที่ต้องการเ
 msgid "This category already exists: "
 msgstr "หมวดหมู่นี้มีอยู่แล้ว: "
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr "ตั้งค่า"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "January"
 msgstr "มกราคม"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "February"
 msgstr "กุมภาพันธ์"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "March"
 msgstr "มีนาคม"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "April"
 msgstr "เมษายน"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "May"
 msgstr "พฤษภาคม"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "June"
 msgstr "มิถุนายน"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "July"
 msgstr "กรกฏาคม"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "August"
 msgstr "สิงหาคม"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "September"
 msgstr "กันยายน"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "October"
 msgstr "ตุลาคม"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "November"
 msgstr "พฤศจิกายน"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "December"
 msgstr "ธันวาคม"
+
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr "เลือก"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -103,9 +107,114 @@ msgstr "ตกลง"
 msgid "No categories selected for deletion."
 msgstr "ยังไม่ได้เลือกหมวดหมู่ที่ต้องการลบ"
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
+#: js/share.js:501
 msgid "Error"
 msgstr "พบข้อผิดพลาด"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr "เกิดข้อผิดพลาดในระหว่างการแชร์ข้อมูล"
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr "เกิดข้อผิดพลาดในการยกเลิกการแชร์ข้อมูล"
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr "เกิดข้อผิดพลาดในการเปลี่ยนสิทธิ์การเข้าใช้งาน"
+
+#: js/share.js:130
+#, python-format
+msgid "Shared with you and the group %s by %s"
+msgstr "ได้แชร์ให้กับคุณและกลุ่ม %s โดย %s"
+
+#: js/share.js:132
+#, python-format
+msgid "Shared with you by %s"
+msgstr "แชร์ให้กับคุณโดย %s"
+
+#: js/share.js:137
+msgid "Share with"
+msgstr "แชร์ให้กับ"
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr "แชร์ด้วยลิงก์"
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr "ใส่รหัสผ่านไว้"
+
+#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+msgid "Password"
+msgstr "รหัสผ่าน"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr "กำหนดวันที่หมดอายุ"
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr "วันที่หมดอายุ"
+
+#: js/share.js:185
+#, python-format
+msgid "Share via email: %s"
+msgstr "แชร์ผ่านทางอีเมล: %s"
+
+#: js/share.js:187
+msgid "No people found"
+msgstr "ไม่พบบุคคลที่ต้องการ"
+
+#: js/share.js:214
+msgid "Resharing is not allowed"
+msgstr "ไม่อนุญาตให้แชร์ข้อมูลซ้ำได้"
+
+#: js/share.js:250
+#, python-format
+msgid "Shared in %s with %s"
+msgstr "ถูกแชร์ใน %s ด้วย %s"
+
+#: js/share.js:271
+msgid "Unshare"
+msgstr "ยกเลิกการแชร์"
+
+#: js/share.js:279
+msgid "can edit"
+msgstr "สามารถแก้ไข"
+
+#: js/share.js:281
+msgid "access control"
+msgstr "ระดับควบคุมการเข้าใช้งาน"
+
+#: js/share.js:284
+msgid "create"
+msgstr "สร้าง"
+
+#: js/share.js:287
+msgid "update"
+msgstr "อัพเดท"
+
+#: js/share.js:290
+msgid "delete"
+msgstr "ลบ"
+
+#: js/share.js:293
+msgid "share"
+msgstr "แชร์"
+
+#: js/share.js:317 js/share.js:476
+msgid "Password protected"
+msgstr "ใส่รหัสผ่านไว้"
+
+#: js/share.js:489
+msgid "Error unsetting expiration date"
+msgstr "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ"
+
+#: js/share.js:501
+msgid "Error setting expiration date"
+msgstr "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -192,10 +301,6 @@ msgstr "เพิ่ม"
 msgid "Create an <strong>admin account</strong>"
 msgstr "สร้าง <strong>บัญชีผู้ดูแลระบบ</strong>"
 
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr "รหัสผ่าน"
-
 #: templates/installation.php:36
 msgid "Advanced"
 msgstr "ขั้นสูง"
@@ -237,11 +342,11 @@ msgstr "Database host"
 msgid "Finish setup"
 msgstr "ติดตั้งเรียบร้อยแล้ว"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "web services under your control"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:39
 msgid "Log out"
 msgstr "ออกจากระบบ"
 

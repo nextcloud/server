@@ -3,32 +3,41 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Xosé M. Lamas <correo.xmgz@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 13:35+0200\n"
-"PO-Revision-Date: 2012-09-01 11:35+0000\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 23:15+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: gl\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: js/settings-personal.js:31 templates/settings-personal.php:10
 msgid "Expire all versions"
+msgstr "Caducar todas as versións"
+
+#: js/versions.js:16
+msgid "History"
 msgstr ""
 
 #: templates/settings-personal.php:4
 msgid "Versions"
-msgstr ""
+msgstr "Versións"
 
 #: templates/settings-personal.php:7
 msgid "This will delete all existing backup versions of your files"
-msgstr ""
+msgstr "Esto eliminará todas as copias de respaldo existentes dos seus ficheiros"
 
 #: templates/settings.php:3
-msgid "Enable Files Versioning"
-msgstr ""
+msgid "Files Versioning"
+msgstr "Versionado de ficheiros"
+
+#: templates/settings.php:4
+msgid "Enable"
+msgstr "Habilitar"

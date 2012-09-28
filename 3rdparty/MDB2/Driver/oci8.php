@@ -634,6 +634,59 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
         return $query;
     }
 
+    /**
+     * Obtain DBMS specific SQL code portion needed to declare a generic type
+     * field to be used in statement like CREATE TABLE, without the field name
+     * and type values (ie. just the character set, default value, if the
+     * field is permitted to be NULL or not, and the collation options).
+     *
+     * @param array  $field  associative array with the name of the properties
+     *      of the field being declared as array indexes. Currently, the types
+     *      of supported field properties are as follows:
+     *
+     *      default
+     *          Text value to be used as default for this field.
+     *      notnull
+     *          Boolean flag that indicates whether this field is constrained
+     *          to not be set to null.
+     *      charset
+     *          Text value with the default CHARACTER SET for this field.
+     *      collation
+     *          Text value with the default COLLATION for this field.
+     * @return string  DBMS specific SQL code portion that should be used to
+     *      declare the specified field's options.
+     * @access protected
+     */
+    function _getDeclarationOptions($field)
+    {
+        $charset = empty($field['charset']) ? '' :
+            ' '.$this->_getCharsetFieldDeclaration($field['charset']);
+
+        $notnull = empty($field['notnull']) ? ' NULL' : ' NOT NULL';
+        $default = '';
+        if (array_key_exists('default', $field)) {
+            if ($field['default'] === '') {
+                $db = $this->getDBInstance();
+                if (PEAR::isError($db)) {
+                    return $db;
+                }
+                $valid_default_values = $this->getValidTypes();
+                $field['default'] = $valid_default_values[$field['type']];
+                if ($field['default'] === '' && ($db->options['portability'] & MDB2_PORTABILITY_EMPTY_TO_NULL)) {
+                    $field['default'] = ' ';
+                }
+            }
+            if (null !== $field['default']) {
+                $default = ' DEFAULT ' . $this->quote($field['default'], $field['type']);
+            }
+        }
+
+        $collation = empty($field['collation']) ? '' :
+            ' '.$this->_getCollationFieldDeclaration($field['collation']);
+
+        return $charset.$default.$notnull.$collation;
+    }
+
     // }}}
     // {{{ _doQuery()
 

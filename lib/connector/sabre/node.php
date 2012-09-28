@@ -23,7 +23,9 @@
 
 abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IProperties {
 	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
-
+	const LASTMODIFIED_PROPERTYNAME_DEPRECIATED = '{DAV:}lastmodified'; // FIXME: keept for the  transition period, can be removed for OC 4.5.1 if the sync client update too
+	const GETLASTMODIFIED_PROPERTYNAME = '{DAV:}getlastmodified';
+	
 	/**
 	 * The path to the current node
 	 *
@@ -142,7 +144,6 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	public function updateProperties($properties) {
 		$existing = $this->getProperties(array());
 		foreach($properties as $propertyName => $propertyValue) {
-			$propertyName = preg_replace("/^{.*}/", "", $propertyName); // remove leading namespace from property name
 			// If it was null, we need to delete the property
 			if (is_null($propertyValue)) {
 				if(array_key_exists( $propertyName, $existing )) {
@@ -150,8 +151,9 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 					$query->execute( array( OC_User::getUser(), $this->path, $propertyName ));
 				}
 			}
-			else {
-				if( strcmp( $propertyName, "lastmodified") === 0) {
+			else { //FIXME: first part of if statement can be removed together with the LASTMODIFIED_PROPERTYNAME_DEPRECIATED const for oc4.5.1 if the sync client was updated too
+				if( strcmp( $propertyName, self::LASTMODIFIED_PROPERTYNAME_DEPRECIATED) === 0 ||
+					strcmp( $propertyName, self::GETLASTMODIFIED_PROPERTYNAME) === 0	) {
 					$this->touch($propertyValue);
 				} else {
 					if(!array_key_exists( $propertyName, $existing )) {
@@ -235,7 +237,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	static public function removeETagPropertyForPath($path) {
 		// remove tags from this and parent paths
 		$paths = array();
-		while ($path != '/' && $path != '') {
+		while ($path != '/' && $path != '.' && $path != '') {
 			$paths[] = $path;
 			$path = dirname($path);
 		}

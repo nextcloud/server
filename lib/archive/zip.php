@@ -16,9 +16,9 @@ class OC_Archive_ZIP extends OC_Archive{
 	function __construct($source) {
 		$this->path=$source;
 		$this->zip=new ZipArchive();
-		if($this->zip->open($source,ZipArchive::CREATE)) {
+		if($this->zip->open($source, ZipArchive::CREATE)) {
 		}else{
-			OCP\Util::writeLog('files_archive','Error while opening archive '.$source,OCP\Util::WARN);
+			OCP\Util::writeLog('files_archive', 'Error while opening archive '.$source, OCP\Util::WARN);
 		}
 	}
 	/**
@@ -37,9 +37,9 @@ class OC_Archive_ZIP extends OC_Archive{
 	 */
 	function addFile($path,$source='') {
 		if($source and $source[0]=='/' and file_exists($source)) {
-			$result=$this->zip->addFile($source,$path);
+			$result=$this->zip->addFile($source, $path);
 		}else{
-			$result=$this->zip->addFromString($path,$source);
+			$result=$this->zip->addFromString($path, $source);
 		}
 		if($result) {
 			$this->zip->close();//close and reopen to save the zip
@@ -56,7 +56,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	function rename($source,$dest) {
 		$source=$this->stripPath($source);
 		$dest=$this->stripPath($dest);
-		$this->zip->renameName($source,$dest);
+		$this->zip->renameName($source, $dest);
 	}
 	/**
 	 * get the uncompressed size of a file in the archive
@@ -85,9 +85,9 @@ class OC_Archive_ZIP extends OC_Archive{
 		$folderContent=array();
 		$pathLength=strlen($path);
 		foreach($files as $file) {
-			if(substr($file,0,$pathLength)==$path and $file!=$path) {
-				if(strrpos(substr($file,0,-1),'/')<=$pathLength) {
-					$folderContent[]=substr($file,$pathLength);
+			if(substr($file, 0, $pathLength)==$path and $file!=$path) {
+				if(strrpos(substr($file, 0, -1),'/')<=$pathLength) {
+					$folderContent[]=substr($file, $pathLength);
 				}
 			}
 		}
@@ -121,7 +121,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	 */
 	function extractFile($path,$dest) {
 		$fp = $this->zip->getStream($path);
-		file_put_contents($dest,$fp);
+		file_put_contents($dest, $fp);
 	}
 	/**
 	 * extract the archive
@@ -162,18 +162,18 @@ class OC_Archive_ZIP extends OC_Archive{
 		if($mode=='r' or $mode=='rb') {
 			return $this->zip->getStream($path);
 		}else{//since we cant directly get a writable stream, make a temp copy of the file and put it back in the archive when the stream is closed
-			if(strrpos($path,'.')!==false) {
-				$ext=substr($path,strrpos($path,'.'));
+			if(strrpos($path, '.')!==false) {
+				$ext=substr($path, strrpos($path, '.'));
 			}else{
 				$ext='';
 			}
 			$tmpFile=OCP\Files::tmpFile($ext);
 			OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
 			if($this->fileExists($path)) {
-				$this->extractFile($path,$tmpFile);
+				$this->extractFile($path, $tmpFile);
 			}
 			self::$tempFiles[$tmpFile]=$path;
-			return fopen('close://'.$tmpFile,$mode);
+			return fopen('close://'.$tmpFile, $mode);
 		}
 	}
 
@@ -183,14 +183,14 @@ class OC_Archive_ZIP extends OC_Archive{
 	 */
 	function writeBack($tmpFile) {
 		if(isset(self::$tempFiles[$tmpFile])) {
-			$this->addFile(self::$tempFiles[$tmpFile],$tmpFile);
+			$this->addFile(self::$tempFiles[$tmpFile], $tmpFile);
 			unlink($tmpFile);
 		}
 	}
 
 	private function stripPath($path) {
 		if(!$path || $path[0]=='/') {
-			return substr($path,1);
+			return substr($path, 1);
 		}else{
 			return $path;
 		}

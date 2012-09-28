@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <cdewqazxsqwe@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-26 13:19+0200\n"
+"PO-Revision-Date: 2012-09-26 11:19+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -19,250 +20,355 @@ msgstr ""
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr ""
+msgstr "Имя приложения не предоставлено."
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr ""
+msgstr "Нет категории для добавления?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
-msgstr ""
+msgstr "Эта категория уже существует:"
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "January"
-msgstr ""
+msgstr "Январь"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "February"
-msgstr ""
+msgstr "Февраль"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "March"
-msgstr ""
+msgstr "Март"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "April"
-msgstr ""
+msgstr "Апрель"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "May"
-msgstr ""
+msgstr "Май"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "June"
-msgstr ""
+msgstr "Июнь"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "July"
-msgstr ""
+msgstr "Июль"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "August"
-msgstr ""
+msgstr "Август"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "September"
-msgstr ""
+msgstr "Сентябрь"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "October"
-msgstr ""
+msgstr "Октябрь"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "November"
-msgstr ""
+msgstr "Ноябрь"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "December"
-msgstr ""
+msgstr "Декабрь"
+
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr "Выбрать"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "Нет"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "Да"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "Да"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
+msgstr "Нет категорий, выбранных для удаления."
+
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
+#: js/share.js:501
+msgid "Error"
+msgstr "Ошибка"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr "Ошибка создания общего доступа"
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr "Ошибка отключения общего доступа"
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr "Ошибка при изменении прав доступа"
+
+#: js/share.js:130
+#, python-format
+msgid "Shared with you and the group %s by %s"
+msgstr "Общий доступ для Вас и группы %s к %s"
+
+#: js/share.js:132
+#, python-format
+msgid "Shared with you by %s"
 msgstr ""
 
-#: js/oc-vcategories.js:68
-msgid "Error"
+#: js/share.js:137
+msgid "Share with"
+msgstr ""
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr ""
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr "Защитить паролем"
+
+#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+msgid "Password"
+msgstr "Пароль"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr ""
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr ""
+
+#: js/share.js:185
+#, python-format
+msgid "Share via email: %s"
+msgstr ""
+
+#: js/share.js:187
+msgid "No people found"
+msgstr "Не найдено людей"
+
+#: js/share.js:214
+msgid "Resharing is not allowed"
+msgstr ""
+
+#: js/share.js:250
+#, python-format
+msgid "Shared in %s with %s"
+msgstr ""
+
+#: js/share.js:271
+msgid "Unshare"
+msgstr "Отключить общий доступ"
+
+#: js/share.js:279
+msgid "can edit"
+msgstr ""
+
+#: js/share.js:281
+msgid "access control"
+msgstr "контроль доступа"
+
+#: js/share.js:284
+msgid "create"
+msgstr "создать"
+
+#: js/share.js:287
+msgid "update"
+msgstr "обновить"
+
+#: js/share.js:290
+msgid "delete"
+msgstr "удалить"
+
+#: js/share.js:293
+msgid "share"
+msgstr "сделать общим"
+
+#: js/share.js:317 js/share.js:476
+msgid "Password protected"
+msgstr ""
+
+#: js/share.js:489
+msgid "Error unsetting expiration date"
+msgstr ""
+
+#: js/share.js:501
+msgid "Error setting expiration date"
 msgstr ""
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "Переназначение пароля"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "Воспользуйтесь следующей ссылкой для переназначения пароля: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Вы получите ссылку для восстановления пароля по электронной почте."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "Запрашиваемое"
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Login failed!"
-msgstr ""
+msgstr "Войти не удалось!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
 #: templates/login.php:9
 msgid "Username"
-msgstr ""
+msgstr "Имя пользователя"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request reset"
-msgstr ""
+msgstr "Сброс запроса"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Ваш пароль был переустановлен"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "На страницу входа"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "Новый пароль"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "Переназначение пароля"
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "Персональный"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "Пользователи"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "Приложения"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "Администратор"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "Помощь"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Доступ запрещен"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "Облако не найдено"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Редактирование категорий"
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: templates/installation.php:24
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
-
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr ""
+msgstr "Создать <strong>admin account</strong>"
 
 #: templates/installation.php:36
 msgid "Advanced"
-msgstr ""
+msgstr "Расширенный"
 
 #: templates/installation.php:38
 msgid "Data folder"
-msgstr ""
+msgstr "Папка данных"
 
 #: templates/installation.php:45
 msgid "Configure the database"
-msgstr ""
+msgstr "Настроить базу данных"
 
 #: templates/installation.php:50 templates/installation.php:61
 #: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
-msgstr ""
+msgstr "будет использоваться"
 
 #: templates/installation.php:93
 msgid "Database user"
-msgstr ""
+msgstr "Пользователь базы данных"
 
 #: templates/installation.php:97
 msgid "Database password"
-msgstr ""
+msgstr "Пароль базы данных"
 
 #: templates/installation.php:101
 msgid "Database name"
-msgstr ""
+msgstr "Имя базы данных"
 
 #: templates/installation.php:109
 msgid "Database tablespace"
-msgstr ""
+msgstr "Табличная область базы данных"
 
 #: templates/installation.php:115
 msgid "Database host"
-msgstr ""
+msgstr "Сервер базы данных"
 
 #: templates/installation.php:120
 msgid "Finish setup"
-msgstr ""
+msgstr "Завершение настройки"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:36
 msgid "web services under your control"
-msgstr ""
+msgstr "веб-сервисы под Вашим контролем"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:39
 msgid "Log out"
-msgstr ""
+msgstr "Выйти"
 
 #: templates/login.php:6
 msgid "Lost your password?"
-msgstr ""
+msgstr "Забыли пароль?"
 
 #: templates/login.php:17
 msgid "remember"
-msgstr ""
+msgstr "запомнить"
 
 #: templates/login.php:18
 msgid "Log in"
-msgstr ""
+msgstr "Войти"
 
 #: templates/logout.php:1
 msgid "You are logged out."
-msgstr ""
+msgstr "Вы вышли из системы."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "предыдущий"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr ""
+msgstr "следующий"

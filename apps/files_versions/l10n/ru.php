@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Expire all versions" => "Просрочить все версии",
-"Enable Files Versioning" => "Включить ведение версий файлов"
+"Versions" => "Версии",
+"This will delete all existing backup versions of your files" => "Очистить список версий ваших файлов"
 );

@@ -3,43 +3,44 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <cdewqazxsqwe@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 02:01+0200\n"
-"PO-Revision-Date: 2012-09-01 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-20 02:05+0200\n"
+"PO-Revision-Date: 2012-09-19 12:09+0000\n"
+"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru_RU\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: app.php:288
+#: app.php:285
 msgid "Help"
-msgstr ""
+msgstr "Помощь"
 
-#: app.php:295
+#: app.php:292
 msgid "Personal"
-msgstr ""
+msgstr "Персональный"
 
-#: app.php:300
+#: app.php:297
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
-#: app.php:305
+#: app.php:302
 msgid "Users"
-msgstr ""
+msgstr "Пользователи"
 
-#: app.php:312
+#: app.php:309
 msgid "Apps"
-msgstr ""
+msgstr "Приложения"
 
-#: app.php:314
+#: app.php:311
 msgid "Admin"
-msgstr ""
+msgstr "Админ"
 
 #: files.php:280
 msgid "ZIP download is turned off."
@@ -47,79 +48,79 @@ msgstr ""
 
 #: files.php:281
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Файлы должны быть загружены один за другим."
 
 #: files.php:281 files.php:306
 msgid "Back to Files"
-msgstr ""
+msgstr "Обратно к файлам"
 
 #: files.php:305
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "Выбранные файлы слишком велики для генерации zip-архива."
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "Приложение не запущено"
 
 #: json.php:39 json.php:63 json.php:75
 msgid "Authentication error"
-msgstr ""
+msgstr "Ошибка аутентификации"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
-
-#: template.php:86
-msgid "seconds ago"
-msgstr ""
+msgstr "Маркер истек. Пожалуйста, перезагрузите страницу."
 
 #: template.php:87
-msgid "1 minute ago"
-msgstr ""
+msgid "seconds ago"
+msgstr "секунд назад"
 
 #: template.php:88
+msgid "1 minute ago"
+msgstr "1 минуту назад"
+
+#: template.php:89
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
-
-#: template.php:91
-msgid "today"
-msgstr ""
+msgstr "%d минут назад"
 
 #: template.php:92
-msgid "yesterday"
-msgstr ""
+msgid "today"
+msgstr "сегодня"
 
 #: template.php:93
-#, php-format
-msgid "%d days ago"
-msgstr ""
+msgid "yesterday"
+msgstr "вчера"
 
 #: template.php:94
-msgid "last month"
-msgstr ""
+#, php-format
+msgid "%d days ago"
+msgstr "%d дней назад"
 
 #: template.php:95
-msgid "months ago"
-msgstr ""
+msgid "last month"
+msgstr "в прошлом месяце"
 
 #: template.php:96
-msgid "last year"
-msgstr ""
+msgid "months ago"
+msgstr "месяц назад"
 
 #: template.php:97
+msgid "last year"
+msgstr "в прошлом году"
+
+#: template.php:98
 msgid "years ago"
-msgstr ""
+msgstr "год назад"
 
 #: updater.php:66
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s доступно. Получите <a href=\"%s\">more information</a>"
 
 #: updater.php:68
 msgid "up to date"
-msgstr ""
+msgstr "до настоящего времени"
 
 #: updater.php:71
 msgid "updates check is disabled"
-msgstr ""
+msgstr "Проверка обновлений отключена"

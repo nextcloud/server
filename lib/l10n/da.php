@@ -21,5 +21,8 @@
 "last month" => "Sidste måned",
 "months ago" => "måneder siden",
 "last year" => "Sidste år",
-"years ago" => "år siden"
+"years ago" => "år siden",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s er tilgængelig. Få <a href=\"%s\">mere information</a>",
+"up to date" => "opdateret",
+"updates check is disabled" => "Check for opdateringer er deaktiveret"
 );

@@ -8,37 +8,37 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 13:35+0200\n"
-"PO-Revision-Date: 2012-09-01 09:04+0000\n"
+"POT-Creation-Date: 2012-09-15 02:02+0200\n"
+"PO-Revision-Date: 2012-09-14 08:53+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: app.php:288
+#: app.php:285
 msgid "Help"
 msgstr "Pomoč"
 
-#: app.php:295
+#: app.php:292
 msgid "Personal"
 msgstr "Osebno"
 
-#: app.php:300
+#: app.php:297
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: app.php:305
+#: app.php:302
 msgid "Users"
 msgstr "Uporabniki"
 
-#: app.php:312
+#: app.php:309
 msgid "Apps"
 msgstr "Aplikacije"
 
-#: app.php:314
+#: app.php:311
 msgid "Admin"
 msgstr "Skrbnik"
 
@@ -70,47 +70,47 @@ msgstr "Napaka overitve"
 msgid "Token expired. Please reload page."
 msgstr "Žeton je potekel. Prosimo, če spletno stran znova naložite."
 
-#: template.php:86
-msgid "seconds ago"
-msgstr "sekund nazaj"
-
 #: template.php:87
+msgid "seconds ago"
+msgstr "pred nekaj sekundami"
+
+#: template.php:88
 msgid "1 minute ago"
 msgstr "pred minuto"
 
-#: template.php:88
+#: template.php:89
 #, php-format
 msgid "%d minutes ago"
 msgstr "pred %d minutami"
 
-#: template.php:91
+#: template.php:92
 msgid "today"
 msgstr "danes"
 
-#: template.php:92
+#: template.php:93
 msgid "yesterday"
 msgstr "včeraj"
 
-#: template.php:93
+#: template.php:94
 #, php-format
 msgid "%d days ago"
 msgstr "pred %d dnevi"
 
-#: template.php:94
+#: template.php:95
 msgid "last month"
 msgstr "prejšnji mesec"
 
-#: template.php:95
-msgid "months ago"
-msgstr "mesecev nazaj"
-
 #: template.php:96
+msgid "months ago"
+msgstr "pred nekaj meseci"
+
+#: template.php:97
 msgid "last year"
 msgstr "lani"
 
-#: template.php:97
+#: template.php:98
 msgid "years ago"
-msgstr "let nazaj"
+msgstr "pred nekaj leti"
 
 #: updater.php:66
 #, php-format

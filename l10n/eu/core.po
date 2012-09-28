@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-26 13:19+0200\n"
+"PO-Revision-Date: 2012-09-26 11:19+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -31,57 +31,61 @@ msgstr "Ez dago gehitzeko kategoriarik?"
 msgid "This category already exists: "
 msgstr "Kategoria hau dagoeneko existitzen da:"
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr "Ezarpenak"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "January"
 msgstr "Urtarrila"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "February"
 msgstr "Otsaila"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "March"
 msgstr "Martxoa"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "April"
 msgstr "Apirila"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "May"
 msgstr "Maiatza"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "June"
 msgstr "Ekaina"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "July"
 msgstr "Uztaila"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "August"
 msgstr "Abuztua"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "September"
 msgstr "Iraila"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "October"
 msgstr "Urria"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "November"
 msgstr "Azaroa"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "December"
 msgstr "Abendua"
+
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr "Aukeratu"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -103,9 +107,114 @@ msgstr "Ados"
 msgid "No categories selected for deletion."
 msgstr "Ez da ezabatzeko kategoriarik hautatu."
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
+#: js/share.js:501
 msgid "Error"
 msgstr "Errorea"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr "Errore bat egon da elkarbanatzean"
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr "Errore bat egon da elkarbanaketa desegitean"
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr "Errore bat egon da baimenak aldatzean"
+
+#: js/share.js:130
+#, python-format
+msgid "Shared with you and the group %s by %s"
+msgstr "Zurekin eta %s taldearekin %sk elkarbanatuta"
+
+#: js/share.js:132
+#, python-format
+msgid "Shared with you by %s"
+msgstr "%sk zurekin elkarbanatuta"
+
+#: js/share.js:137
+msgid "Share with"
+msgstr "Elkarbanatu honekin"
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr "Elkarbanatu lotura batekin"
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr "Babestu pasahitzarekin"
+
+#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+msgid "Password"
+msgstr "Pasahitza"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr "Ezarri muga data"
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr "Muga data"
+
+#: js/share.js:185
+#, python-format
+msgid "Share via email: %s"
+msgstr "Elkarbanatu eposta bidez: %s"
+
+#: js/share.js:187
+msgid "No people found"
+msgstr "Ez da inor aurkitu"
+
+#: js/share.js:214
+msgid "Resharing is not allowed"
+msgstr "Berriz elkarbanatzea ez dago baimendua"
+
+#: js/share.js:250
+#, python-format
+msgid "Shared in %s with %s"
+msgstr "Elkarbanatuta hemen %s %srekin"
+
+#: js/share.js:271
+msgid "Unshare"
+msgstr "Ez elkarbanatu"
+
+#: js/share.js:279
+msgid "can edit"
+msgstr "editatu dezake"
+
+#: js/share.js:281
+msgid "access control"
+msgstr "sarrera kontrola"
+
+#: js/share.js:284
+msgid "create"
+msgstr "sortu"
+
+#: js/share.js:287
+msgid "update"
+msgstr "eguneratu"
+
+#: js/share.js:290
+msgid "delete"
+msgstr "ezabatu"
+
+#: js/share.js:293
+msgid "share"
+msgstr "elkarbanatu"
+
+#: js/share.js:317 js/share.js:476
+msgid "Password protected"
+msgstr "Pasahitzarekin babestuta"
+
+#: js/share.js:489
+msgid "Error unsetting expiration date"
+msgstr ""
+
+#: js/share.js:501
+msgid "Error setting expiration date"
+msgstr "Errore bat egon da muga data ezartzean"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -192,10 +301,6 @@ msgstr "Gehitu"
 msgid "Create an <strong>admin account</strong>"
 msgstr "Sortu <strong>kudeatzaile kontu<strong> bat"
 
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr "Pasahitza"
-
 #: templates/installation.php:36
 msgid "Advanced"
 msgstr "Aurreratua"
@@ -227,7 +332,7 @@ msgstr "Datubasearen izena"
 
 #: templates/installation.php:109
 msgid "Database tablespace"
-msgstr ""
+msgstr "Datu basearen taula-lekua"
 
 #: templates/installation.php:115
 msgid "Database host"
@@ -237,11 +342,11 @@ msgstr "Datubasearen hostalaria"
 msgid "Finish setup"
 msgstr "Bukatu konfigurazioa"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "web zerbitzuak zure kontrolpean"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:39
 msgid "Log out"
 msgstr "Saioa bukatu"
 

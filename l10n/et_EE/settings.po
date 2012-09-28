@@ -4,13 +4,13 @@
 # 
 # Translators:
 #   <icewind1991@gmail.com>, 2012.
-# Rivo Zängov <eraser@eraser.ee>, 2011, 2012.
+# Rivo Zängov <eraser@eraser.ee>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-05 02:02+0200\n"
-"PO-Revision-Date: 2012-09-05 00:02+0000\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-19 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -30,10 +30,14 @@ msgstr "Autentimise viga"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "Grupp on juba olemas"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
+msgstr "Keela grupi lisamine"
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
 msgstr ""
 
 #: ajax/lostpassword.php:14
@@ -54,11 +58,11 @@ msgstr "Vigane päring"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Keela grupi kustutamine"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Keela kasutaja kustutamine"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -67,22 +71,18 @@ msgstr "Keel on muudetud"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Kasutajat ei saa lisada gruppi %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Kasutajat ei saa eemaldada grupist %s"
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "Viga"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:27 js/apps.js:61
 msgid "Disable"
 msgstr "Lülita välja"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:27 js/apps.js:50
 msgid "Enable"
 msgstr "Lülita sisse"
 
@@ -111,63 +111,67 @@ msgstr ""
 msgid "Cron"
 msgstr "Ajastatud töö"
 
-#: templates/admin.php:33
-msgid "execute one task with each page loaded"
-msgstr "käivita iga laetud lehe juures üks ülesanne"
-
-#: templates/admin.php:35
-msgid "cron.php is registered at a webcron service"
-msgstr "cron.php on webcron teenuses registreeritud"
-
 #: templates/admin.php:37
-msgid "use systems cron service"
-msgstr "kasuta süsteemide cron teenuseid"
-
-#: templates/admin.php:41
-msgid "Share API"
+msgid "Execute one task with each page loaded"
 msgstr ""
 
-#: templates/admin.php:46
-msgid "Enable Share API"
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
 msgstr ""
 
-#: templates/admin.php:47
-msgid "Allow apps to use the Share API"
-msgstr ""
-
-#: templates/admin.php:51
-msgid "Allow links"
-msgstr ""
-
-#: templates/admin.php:52
-msgid "Allow users to share items to the public with links"
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
 msgstr ""
 
 #: templates/admin.php:56
-msgid "Allow resharing"
+msgid "Sharing"
 msgstr ""
 
-#: templates/admin.php:57
-msgid "Allow users to share items shared with them again"
-msgstr ""
-
-#: templates/admin.php:60
-msgid "Allow users to share with anyone"
-msgstr ""
+#: templates/admin.php:61
+msgid "Enable Share API"
+msgstr "Luba jagamise API"
 
 #: templates/admin.php:62
-msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgid "Allow apps to use the Share API"
+msgstr "Luba rakendustel kasutada jagamise API-t"
 
-#: templates/admin.php:69
+#: templates/admin.php:67
+msgid "Allow links"
+msgstr "Luba linke"
+
+#: templates/admin.php:68
+msgid "Allow users to share items to the public with links"
+msgstr "Luba kasutajatel jagada kirjeid avalike linkidega"
+
+#: templates/admin.php:73
+msgid "Allow resharing"
+msgstr "Luba edasijagamine"
+
+#: templates/admin.php:74
+msgid "Allow users to share items shared with them again"
+msgstr "Luba kasutajatel jagada edasi kirjeid, mida on neile jagatud"
+
+#: templates/admin.php:79
+msgid "Allow users to share with anyone"
+msgstr "Luba kasutajatel kõigiga jagada"
+
+#: templates/admin.php:81
+msgid "Allow users to only share with users in their groups"
+msgstr "Luba kasutajatel jagada kirjeid ainult nende grupi liikmetele, millesse nad ise kuuluvad"
+
+#: templates/admin.php:88
 msgid "Log"
 msgstr "Logi"
 
-#: templates/admin.php:97
+#: templates/admin.php:116
 msgid "More"
 msgstr "Veel"
 
-#: templates/admin.php:105
+#: templates/admin.php:124
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -191,7 +195,7 @@ msgstr "Vaata rakenduste lehte aadressil apps.owncloud.com"
 
 #: templates/apps.php:30
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-litsenseeritud <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"
@@ -218,12 +222,9 @@ msgid "Answer"
 msgstr "Vasta"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Sa kasutad"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "saadaolevast"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -234,8 +235,8 @@ msgid "Download"
 msgstr "Lae alla"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "Sinu parooli on muudetud"
+msgid "Your password was changed"
+msgstr ""
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

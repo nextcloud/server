@@ -23,10 +23,10 @@
 
 /**
  * @brief make OC_Helper::linkTo available as a simple function
- * @param $app app
- * @param $file file
- * @param $args array with param=>value, will be appended to the returned url
- * @returns link to the file
+ * @param string $app app
+ * @param string $file file
+ * @param array $args array with param=>value, will be appended to the returned url
+ * @return string link to the file
  *
  * For further information have a look at OC_Helper::linkTo
  */
@@ -36,9 +36,9 @@ function link_to( $app, $file, $args = array() ) {
 
 /**
  * @brief make OC_Helper::imagePath available as a simple function
- * @param $app app
- * @param $image image
- * @returns link to the image
+ * @param string $app app
+ * @param string $image image
+ * @return string link to the image
  *
  * For further information have a look at OC_Helper::imagePath
  */
@@ -48,8 +48,8 @@ function image_path( $app, $image ) {
 
 /**
  * @brief make OC_Helper::mimetypeIcon available as a simple function
- * @param $mimetype mimetype
- * @returns link to the image
+ * @param string $mimetype mimetype
+ * @return string link to the image
  *
  * For further information have a look at OC_Helper::mimetypeIcon
  */
@@ -59,8 +59,8 @@ function mimetype_icon( $mimetype ) {
 
 /**
  * @brief make OC_Helper::humanFileSize available as a simple function
- * @param $bytes size in bytes
- * @returns size as string
+ * @param int $bytes size in bytes
+ * @return string size as string
  *
  * For further information have a look at OC_Helper::humanFileSize
  */
@@ -139,10 +139,10 @@ class OC_Template{
 
 	/**
 	 * @brief Constructor
-	 * @param $app app providing the template
-	 * @param $file name of the template file (without suffix)
-	 * @param $renderas = ""; produce a full page
-	 * @returns OC_Template object
+	 * @param string $app app providing the template
+	 * @param string $file name of the template file (without suffix)
+	 * @param string $renderas = ""; produce a full page
+	 * @return OC_Template object
 	 *
 	 * This function creates an OC_Template object.
 	 *
@@ -158,7 +158,8 @@ class OC_Template{
 		if($renderas == 'user') {
 			$this->vars['requesttoken'] = OC_Util::callRegister();
 		}
-		$this->l10n = OC_L10N::get($app);
+		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
+		$this->l10n = OC_L10N::get($parts[0]);
                 header('X-Frame-Options: Sameorigin');
                 header('X-XSS-Protection: 1; mode=block');
                 header('X-Content-Type-Options: nosniff');
@@ -167,7 +168,7 @@ class OC_Template{
 	}
 
 	/**
-	 * autodetects the formfactor of the used device
+	 * autodetect the formfactor of the used device
 	 * default -> the normal desktop browser interface
 	 * mobile -> interface for smartphones
 	 * tablet -> interface for tablets
@@ -225,7 +226,7 @@ class OC_Template{
 
 	/**
 	 * @brief find the template with the given name
-	 * @param $name of the template file (without suffix)
+	 * @param string $name of the template file (without suffix)
 	 *
 	 * Will select the template file for the selected theme and formfactor.
 	 * Checking all the possible locations.
@@ -270,13 +271,13 @@ class OC_Template{
 
 	/**
 	 * @brief check Path For Template with and without $fext
-	 * @param $path to check
-	 * @param $name of the template file (without suffix)
-	 * @param $fext formfactor extension
+	 * @param string $path to check
+	 * @param string $name of the template file (without suffix)
+	 * @param string $fext formfactor extension
 	 * @return bool true when found
 	 *
 	 * Will set $this->template and $this->path if there is a template at
-	 * the specifief $path
+	 * the specific $path
 	 */
 	protected function checkPathForTemplate($path, $name, $fext)
 	{
@@ -297,10 +298,10 @@ class OC_Template{
 
 	/**
 	 * @brief Assign variables
-	 * @param $key key
-	 * @param $value value
-	 * @param $sanitizeHTML false, if data shouldn't get passed through htmlentities
-	 * @returns true
+	 * @param string $key key
+	 * @param string $value value
+	 * @param bool $sanitizeHTML false, if data shouldn't get passed through htmlentities
+	 * @return bool
 	 *
 	 * This function assigns a variable. It can be accessed via $_[$key] in
 	 * the template.
@@ -315,9 +316,9 @@ class OC_Template{
 
 	/**
 	 * @brief Appends a variable
-	 * @param $key key
-	 * @param $value value
-	 * @returns true
+	 * @param string $key key
+	 * @param string $value value
+	 * @return bool
 	 *
 	 * This function assigns a variable in an array context. If the key already
 	 * exists, the value will be appended. It can be accessed via
@@ -334,7 +335,7 @@ class OC_Template{
 
 	/**
 	 * @brief Add a custom element to the header
-	 * @param string tag tag name of the element
+	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attrobutes for the element
 	 * @param string $text the text content for the element
 	 */
@@ -344,7 +345,7 @@ class OC_Template{
 
 	/**
 	 * @brief Prints the proceeded template
-	 * @returns true/false
+	 * @return bool
 	 *
 	 * This function proceeds the template and prints its output.
 	 */
@@ -361,7 +362,7 @@ class OC_Template{
 
 	/**
 	 * @brief Proceeds the template
-	 * @returns content
+	 * @return bool
 	 *
 	 * This function proceeds the template. If $this->renderas is set, it
 	 * will produce a full page.
@@ -391,7 +392,7 @@ class OC_Template{
 
 	/**
 	 * @brief doing the actual work
-	 * @returns content
+	 * @return string content
 	 *
 	 * Includes the template file, fetches its output
 	 */
@@ -412,13 +413,12 @@ class OC_Template{
 
 	/**
 	 * @brief Include template
-	 * @returns returns content of included template
+	 * @return string returns content of included template
 	 *
 	 * Includes another template. use <?php echo $this->inc('template'); ?> to
 	 * do this.
 	 */
 	public function inc( $file, $additionalparams = null ) {
-		// $_ erstellen
 		$_ = $this->vars;
 		$l = $this->l10n;
 
@@ -438,10 +438,10 @@ class OC_Template{
 
 	/**
 	 * @brief Shortcut to print a simple page for users
-	 * @param $application The application we render the template for
-	 * @param $name Name of the template
-	 * @param $parameters Parameters for the template
-	 * @returns true/false
+	 * @param string $application The application we render the template for
+	 * @param string $name Name of the template
+	 * @param array $parameters Parameters for the template
+	 * @return bool
 	 */
 	public static function printUserPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "user" );
@@ -453,10 +453,10 @@ class OC_Template{
 
 	/**
 	 * @brief Shortcut to print a simple page for admins
-	 * @param $application The application we render the template for
-	 * @param $name Name of the template
-	 * @param $parameters Parameters for the template
-	 * @returns true/false
+	 * @param string $application The application we render the template for
+	 * @param string $name Name of the template
+	 * @param array $parameters Parameters for the template
+	 * @return bool
 	 */
 	public static function printAdminPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "admin" );
@@ -468,10 +468,10 @@ class OC_Template{
 
 	/**
 	 * @brief Shortcut to print a simple page for guests
-	 * @param $application The application we render the template for
-	 * @param $name Name of the template
-	 * @param $parameters Parameters for the template
-	 * @returns true/false
+	 * @param string $application The application we render the template for
+	 * @param string $name Name of the template
+	 * @param string $parameters Parameters for the template
+	 * @return bool
 	 */
 	public static function printGuestPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "guest" );

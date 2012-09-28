@@ -5,14 +5,15 @@
 # Translators:
 #   <appweb.cn@gmail.com>, 2012.
 # Phoenix Nemo <>, 2012.
+#   <suiy02@gmail.com>, 2012.
 #   <wengxt@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-07 02:04+0200\n"
-"PO-Revision-Date: 2012-09-06 07:30+0000\n"
-"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
+"POT-Creation-Date: 2012-09-28 02:02+0200\n"
+"PO-Revision-Date: 2012-09-27 14:37+0000\n"
+"Last-Translator: waterone <suiy02@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,57 +33,61 @@ msgstr "没有可添加分类？"
 msgid "This category already exists: "
 msgstr "此分类已存在: "
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
 msgid "Settings"
 msgstr "设置"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "January"
 msgstr "一月"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "February"
 msgstr "二月"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "March"
 msgstr "三月"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "April"
 msgstr "四月"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "May"
 msgstr "五月"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "June"
 msgstr "六月"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "July"
 msgstr "七月"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "August"
 msgstr "八月"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "September"
 msgstr "九月"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "October"
 msgstr "十月"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "November"
 msgstr "十一月"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "December"
 msgstr "十二月"
+
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr "选择(&C)..."
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -104,9 +109,114 @@ msgstr "好"
 msgid "No categories selected for deletion."
 msgstr "没有选择要删除的类别"
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
+#: js/share.js:501
 msgid "Error"
 msgstr "错误"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr "共享时出错"
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr "取消共享时出错"
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr "修改权限时出错"
+
+#: js/share.js:130
+#, python-format
+msgid "Shared with you and the group %s by %s"
+msgstr "与你及%s组共享，共享人: %s"
+
+#: js/share.js:132
+#, python-format
+msgid "Shared with you by %s"
+msgstr "共享人: %s"
+
+#: js/share.js:137
+msgid "Share with"
+msgstr "共享"
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr "共享链接"
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr "密码保护"
+
+#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+msgid "Password"
+msgstr "密码"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr "设置过期日期"
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr "过期日期"
+
+#: js/share.js:185
+#, python-format
+msgid "Share via email: %s"
+msgstr "发电子邮件分享: %s"
+
+#: js/share.js:187
+msgid "No people found"
+msgstr "未找到此人"
+
+#: js/share.js:214
+msgid "Resharing is not allowed"
+msgstr "不允许二次共享"
+
+#: js/share.js:250
+#, python-format
+msgid "Shared in %s with %s"
+msgstr "在%s中与%s共享"
+
+#: js/share.js:271
+msgid "Unshare"
+msgstr "取消共享"
+
+#: js/share.js:279
+msgid "can edit"
+msgstr "可以修改"
+
+#: js/share.js:281
+msgid "access control"
+msgstr "访问控制"
+
+#: js/share.js:284
+msgid "create"
+msgstr "创建"
+
+#: js/share.js:287
+msgid "update"
+msgstr "更新"
+
+#: js/share.js:290
+msgid "delete"
+msgstr "删除"
+
+#: js/share.js:293
+msgid "share"
+msgstr "共享"
+
+#: js/share.js:317 js/share.js:476
+msgid "Password protected"
+msgstr "密码已受保护"
+
+#: js/share.js:489
+msgid "Error unsetting expiration date"
+msgstr "取消设置过期日期时出错"
+
+#: js/share.js:501
+msgid "Error setting expiration date"
+msgstr "设置过期日期时出错"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -193,10 +303,6 @@ msgstr "添加"
 msgid "Create an <strong>admin account</strong>"
 msgstr "创建<strong>管理员账号</strong>"
 
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr "密码"
-
 #: templates/installation.php:36
 msgid "Advanced"
 msgstr "高级"
@@ -238,11 +344,11 @@ msgstr "数据库主机"
 msgid "Finish setup"
 msgstr "安装完成"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "由您掌控的网络服务"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:39
 msgid "Log out"
 msgstr "注销"
 

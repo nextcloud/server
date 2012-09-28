@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-07 02:04+0200\n"
+"POT-Creation-Date: 2012-09-28 02:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,22 +61,22 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: templates/settings.php:77 templates/settings.php:96
+#: templates/settings.php:77 templates/settings.php:107
 msgid "Delete"
 msgstr ""
 
-#: templates/settings.php:88
-msgid "SSL root certificates"
-msgstr ""
-
-#: templates/settings.php:102
-msgid "Import Root Certificate"
-msgstr ""
-
-#: templates/settings.php:108
+#: templates/settings.php:87
 msgid "Enable User External Storage"
 msgstr ""
 
-#: templates/settings.php:109
+#: templates/settings.php:88
 msgid "Allow users to mount their own external storage"
+msgstr ""
+
+#: templates/settings.php:99
+msgid "SSL root certificates"
+msgstr ""
+
+#: templates/settings.php:113
+msgid "Import Root Certificate"
 msgstr ""

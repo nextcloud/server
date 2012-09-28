@@ -21,5 +21,8 @@
 "last month" => "eelmisel kuul",
 "months ago" => "kuud tagasi",
 "last year" => "eelmisel aastal",
-"years ago" => "aastat tagasi"
+"years ago" => "aastat tagasi",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s on saadaval. Vaata <a href=\"%s\">lisainfot</a>",
+"up to date" => "ajakohane",
+"updates check is disabled" => "uuenduste kontrollimine on välja lülitatud"
 );
