@@ -155,9 +155,6 @@ class OC_Template{
 		$this->renderas = $renderas;
 		$this->application = $app;
 		$this->vars = array();
-		if($renderas == 'user') {
-			$this->vars['requesttoken'] = OC_Util::callRegister();
-		}
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$this->l10n = OC_L10N::get($parts[0]);
                 header('X-Frame-Options: Sameorigin');
@@ -372,9 +369,6 @@ class OC_Template{
 
 		if( $this->renderas ) {
 			$page = new OC_TemplateLayout($this->renderas);
-			if($this->renderas == 'user') {
-				$page->assign('requesttoken', $this->vars['requesttoken']);
-			}
 
 			// Add custom headers
 			$page->assign('headers',$this->headers, false);

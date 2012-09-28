@@ -416,14 +416,29 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Register an get/post call. This is important to prevent CSRF attacks
-	 * Todo: Write howto
+	 * @brief Static lifespan (in seconds) when a request token expires.
+	 * @see OC_Util::callRegister()
+	 * @see OC_Util::isCallRegistered()
+	 * @description
+	 * Also required for the client side to compute the piont in time when to
+	 * request a fresh token. The client will do so when nearly 97% of the
+	 * timespan coded here has expired. 
+	 */
+	public static $callLifespan = 3600; // 3600 secs = 1 hour
+
+	/**
+	 * @brief Register an get/post call. Important to prevent CSRF attacks.
+	 * @todo Write howto: CSRF protection guide
 	 * @return $token Generated token.
+	 * @description
+	 * Creates a 'request token' (random) and stores it inside the session.
+	 * Ever subsequent (ajax) request must use such a valid token to succeed,
+	 * otherwise the request will be denied as a protection against CSRF.
+	 * The tokens expire after a fixed lifespan.
+	 * @see OC_Util::$callLifespan
+	 * @see OC_Util::isCallRegistered()
 	 */
 	public static function callRegister() {
-		//mamimum time before token exires
-		$maxtime=(60*60);  // 1 hour
-
 		// generate a random token.
 		$token=mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000);
 
@@ -436,7 +451,8 @@ class OC_Util {
 			foreach($_SESSION as $key=>$value) {
 				// search all tokens in the session
 				if(substr($key,0,12)=='requesttoken') {
-					if($value+$maxtime<time()) {
+					// check if static lifespan has expired
+					if($value+self::$callLifespan<time()) {
 						// remove outdated tokens
 						unset($_SESSION[$key]);
 					}
@@ -447,14 +463,13 @@ class OC_Util {
 		return($token);
 	}
 
-
 	/**
 	 * @brief Check an ajax get/post call if the request token is valid.
 	 * @return boolean False if request token is not set or is invalid.
+	 * @see OC_Util::$callLifespan
+	 * @see OC_Util::calLRegister()
 	 */
 	public static function isCallRegistered() {
-		//mamimum time before token exires
-		$maxtime=(60*60);  // 1 hour
 		if(isset($_GET['requesttoken'])) {
 			$token=$_GET['requesttoken'];
 		}elseif(isset($_POST['requesttoken'])) {
@@ -467,7 +482,8 @@ class OC_Util {
 		}
 		if(isset($_SESSION['requesttoken-'.$token])) {
 			$timestamp=$_SESSION['requesttoken-'.$token];
-			if($timestamp+$maxtime<time()) {
+			// check if static lifespan has expired
+			if($timestamp+self::$callLifespan<time()) {
 				return false;
 			}else{
 				//token valid
