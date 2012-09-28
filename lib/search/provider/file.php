@@ -10,12 +10,11 @@ class OC_Search_Provider_File extends OC_Search_Provider{
 
 			$name = basename($path);
 			$text = '';
-			$path = urlencode($path);
 			if($mime=='httpd/unix-directory') {
 				$link = OC_Helper::linkTo( 'files', 'index.php', array('dir' => $path));
 				$type = 'Files';
 			}else{
-				$link = OC_Helper::linkTo( 'files', 'download.php', array('file' => $path));
+				$link = OC_Helper::linkToRoute( 'download', array('file' => $path));
 				$mimeBase = $fileData['mimepart'];
 				switch($mimeBase) {
 					case 'audio':
