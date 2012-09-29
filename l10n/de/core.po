@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
+"POT-Creation-Date: 2012-09-29 02:02+0200\n"
+"PO-Revision-Date: 2012-09-28 21:40+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -137,15 +137,15 @@ msgstr "Fehler beim Ändern  der Rechte"
 
 #: js/share.js:130
 msgid "Shared with you and the group"
-msgstr ""
+msgstr "Mit Dir und der Gruppe geteilt"
 
 #: js/share.js:130
 msgid "by"
-msgstr ""
+msgstr "mit"
 
 #: js/share.js:132
 msgid "Shared with you by"
-msgstr ""
+msgstr "Dies wurde mit dir geteilt von"
 
 #: js/share.js:137
 msgid "Share with"
@@ -173,7 +173,7 @@ msgstr "Ablaufdatum"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Über eine E-Mail freigeben:"
 
 #: js/share.js:187
 msgid "No people found"
@@ -185,11 +185,11 @@ msgstr "Weiterverteilen ist nicht erlaubt"
 
 #: js/share.js:250
 msgid "Shared in"
-msgstr ""
+msgstr "Geteilt mit"
 
 #: js/share.js:250
 msgid "with"
-msgstr ""
+msgstr "mit"
 
 #: js/share.js:271
 msgid "Unshare"
