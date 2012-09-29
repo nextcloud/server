@@ -172,7 +172,7 @@ class OC_SubAdmin{
 	}
 
 	/**
-	 * @brief delete all SubAdmins8 by gid
+	 * @brief delete all SubAdmins by gid
 	 * @param $parameters
 	 * @return boolean
 	 */
