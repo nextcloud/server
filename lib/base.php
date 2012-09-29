@@ -528,11 +528,7 @@ class OC{
 	}
 
 	protected static function tryFormLogin() {
-		if(!isset($_POST["user"])
-		|| !isset($_POST['password'])
-		|| !isset($_SESSION['sectoken'])
-		|| !isset($_POST['sectoken'])
-		|| ($_SESSION['sectoken']!=$_POST['sectoken']) ) {
+		if(!isset($_POST["user"]) || !isset($_POST['password'])) {
 			return false;
 		}
 

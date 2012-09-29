@@ -314,9 +314,6 @@ class OC_Util {
 			$parameters["username"] = '';
 			$parameters['user_autofocus'] = true;
 		}
-		$sectoken=rand(1000000,9999999);
-		$_SESSION['sectoken']=$sectoken;
-		$parameters["sectoken"] = $sectoken;
 		if (isset($_REQUEST['redirect_url'])) {
 			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
 		} else {
