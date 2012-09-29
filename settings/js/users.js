@@ -130,7 +130,7 @@ var UserList={
 		if (typeof UserList.offset === 'undefined') {
 			UserList.offset = $('tbody tr').length;
 		}
-		$.get(OC.filePath('settings', 'ajax', 'userlist.php'), { offset: UserList.offset }, function(result) {
+		$.get(OC.filePath('settings', 'ajax', 'userlist'), { offset: UserList.offset }, function(result) {
 			if (result.status === 'success') {
 				$.each(result.data, function(index, user) {
 					var tr = UserList.add(user.name, user.groups, user.subadmin, user.quota, false);

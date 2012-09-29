@@ -88,7 +88,12 @@ var OC={
 			}
 			link+=file;
 		}else{
-			link+='/';
+			if (app == 'settings' && type == 'ajax') {
+				link+='/index.php/';
+			}
+			else {
+				link+='/';
+			}
 			if(!isCore){
 				link+='apps/';
 			}

@@ -1,7 +1,5 @@
 <?php
 
-// Init owncloud
-require_once '../../lib/base.php';
 OCP\JSON::callCheck();
 
 $username = isset($_POST["username"]) ? $_POST["username"] : OC_User::getUser();
