@@ -440,7 +440,9 @@ class OC_Util {
 	 */
 	public static function callRegister() {
 		// generate a random token.
-		$token=mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000);
+		$bytes = openssl_random_pseudo_bytes(10, $cstrong);
+		$hex = bin2hex($bytes);
+		$token = $hex;
 
 		// store the token together with a timestamp in the session.
 		$_SESSION['requesttoken-'.$token]=time();
