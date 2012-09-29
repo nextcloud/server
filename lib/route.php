@@ -66,7 +66,7 @@ class OC_Route extends Route {
 	}
 
 	public function actionInclude($file) {
-		$function = create_function('$param', 'unset($param["_route"]);$_GET=$param;unset($param);require_once "'.$file.'";');
+		$function = create_function('$param', 'unset($param["_route"]);$_GET=array_merge($_GET,$param);unset($param);require_once "'.$file.'";');
 		$this->action($function);
 	}
 }
