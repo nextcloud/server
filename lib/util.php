@@ -437,9 +437,7 @@ class OC_Util {
 	 */
 	public static function callRegister() {
 		// generate a random token.
-		$bytes = openssl_random_pseudo_bytes(10, $cstrong);
-		$hex = bin2hex($bytes);
-		$token = $hex;
+		$token = self::generate_random_bytes(20);
 
 		// store the token together with a timestamp in the session.
 		$_SESSION['requesttoken-'.$token]=time();
@@ -550,4 +548,30 @@ class OC_Util {
 		}
 	}
 
+	/*
+	* @brief Generates random bytes with "openssl_random_pseudo_bytes" with a fallback for systems without openssl
+	* Inspired by gorgo on php.net
+	* @param Int with the length of the random
+	* @return String with the random bytes
+	*/
+	public static function generate_random_bytes($length = 30) {
+		if(function_exists('openssl_random_pseudo_bytes')) { 
+			$pseudo_byte = bin2hex(openssl_random_pseudo_bytes($length, $strong));
+			if($strong == TRUE) {
+				return substr($pseudo_byte, 0, $length); // Truncate it to match the length
+			}
+		}
+
+		// fallback to mt_rand() 
+		$characters = '0123456789';
+		$characters .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; 
+		$charactersLength = strlen($characters)-1;
+		$pseudo_byte = "";
+
+		// Select some random characters
+		for ($i = 0; $i < $length; $i++) {
+			$pseudo_byte .= $characters[mt_rand(0, $charactersLength)];
+		}        
+		return $pseudo_byte;
+	}
 }

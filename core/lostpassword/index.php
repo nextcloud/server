@@ -13,7 +13,7 @@ require_once '../../lib/base.php';
 // Someone lost their password:
 if (isset($_POST['user'])) {
 	if (OC_User::userExists($_POST['user'])) {
-		$token = hash("sha256", $_POST['user'].openssl_random_pseudo_bytes(10, $cstrong));
+		$token = hash("sha256", $_POST['user'].OC_Util::generate_random_bytes(10));
 		OC_Preferences::setValue($_POST['user'], 'owncloud', 'lostpassword', $token);
 		$email = OC_Preferences::getValue($_POST['user'], 'settings', 'email', '');
 		if (!empty($email)) {
