@@ -12,7 +12,6 @@ class OC_TemplateLayout extends OC_Template {
 
 		if( $renderas == 'user' ) {
 			parent::__construct( 'core', 'layout.user' );
-			$this->assign('searchurl',OC_Helper::linkTo( 'search', 'index.php' ), false);
 			if(in_array(OC_APP::getCurrentApp(),array('settings','admin','help'))!==false) {
 				$this->assign('bodyid','body-settings', false);
 			}else{
