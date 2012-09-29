@@ -37,7 +37,7 @@ t.cache={};
 * @return string
 */
 function fileDownloadPath(dir, file) {
-	return OC.filePath('files', 'ajax', 'download.php')+encodeURIComponent('?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir));
+	return OC.filePath('files', 'ajax', 'download.php')+'&files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
 }
 
 var OC={
