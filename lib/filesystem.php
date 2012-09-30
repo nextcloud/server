@@ -240,7 +240,7 @@ class OC_Filesystem{
 			$mtime=filemtime(OC::$SERVERROOT.'/config/mount.php');
 			$previousMTime=OC_Appconfig::getValue('files','mountconfigmtime',0);
 			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-				OC_FileCache::clear();
+				OC_FileCache::triggerUpdate();
 				OC_Appconfig::setValue('files','mountconfigmtime',$mtime);
 			}
 		}
@@ -531,7 +531,7 @@ class OC_Filesystem{
 		if ($root) { // reduce path to the required part of it (no 'username/files')
 			$fakeRootView = new OC_FilesystemView($root);
 			$count = 1;
-			$path=str_replace(OC_App::getStorage("files")->getAbsolutePath(), "", $fakeRootView->getAbsolutePath($path), $count);
+			$path=str_replace(OC_App::getStorage("files")->getAbsolutePath($path), "", $fakeRootView->getAbsolutePath($path), $count);
 		}
 
 		$path = self::normalizePath($path);
