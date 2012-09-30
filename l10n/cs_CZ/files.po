@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-10 02:02+0200\n"
-"PO-Revision-Date: 2012-09-09 10:25+0000\n"
+"POT-Creation-Date: 2012-09-27 02:01+0200\n"
+"PO-Revision-Date: 2012-09-26 12:01+0000\n"
 "Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -62,39 +62,43 @@ msgstr "Zrušit sdílení"
 msgid "Delete"
 msgstr "Smazat"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr "Přejmenovat"
+
+#: js/filelist.js:190 js/filelist.js:192
 msgid "already exists"
 msgstr "již existuje"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:190 js/filelist.js:192
 msgid "replace"
 msgstr "nahradit"
 
-#: js/filelist.js:186
+#: js/filelist.js:190
 msgid "suggest name"
 msgstr "navrhnout název"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:190 js/filelist.js:192
 msgid "cancel"
 msgstr "zrušit"
 
-#: js/filelist.js:235 js/filelist.js:237
+#: js/filelist.js:239 js/filelist.js:241
 msgid "replaced"
 msgstr "nahrazeno"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
+#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
 msgid "undo"
 msgstr "zpět"
 
-#: js/filelist.js:237
+#: js/filelist.js:241
 msgid "with"
 msgstr "s"
 
-#: js/filelist.js:268
+#: js/filelist.js:273
 msgid "unshared"
 msgstr "sdílení zrušeno"
 
-#: js/filelist.js:270
+#: js/filelist.js:275
 msgid "deleted"
 msgstr "smazáno"
 
@@ -110,46 +114,106 @@ msgstr "Nelze odeslat Váš soubor, protože je to adresář nebo má velikost 0
 msgid "Upload Error"
 msgstr "Chyba odesílání"
 
-#: js/files.js:236 js/files.js:341 js/files.js:370
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
 msgstr "Čekající"
 
-#: js/files.js:355
+#: js/files.js:256
+msgid "1 file uploading"
+msgstr "odesílá se 1 soubor"
+
+#: js/files.js:259 js/files.js:304 js/files.js:319
+msgid "files uploading"
+msgstr "souborů se odesílá"
+
+#: js/files.js:322 js/files.js:355
 msgid "Upload cancelled."
 msgstr "Odesílání zrušeno."
 
-#: js/files.js:423
+#: js/files.js:424
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Probíhá odesílání souboru. Opuštění stránky vyústí ve zrušení nahrávání."
 
-#: js/files.js:493
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
 msgstr "Neplatný název, znak '/' není povolen"
 
-#: js/files.js:746 templates/index.php:56
+#: js/files.js:668
+msgid "files scanned"
+msgstr "soubory prohledány"
+
+#: js/files.js:676
+msgid "error while scanning"
+msgstr "chyba při prohledávání"
+
+#: js/files.js:749 templates/index.php:48
+msgid "Name"
+msgstr "Název"
+
+#: js/files.js:750 templates/index.php:56
 msgid "Size"
 msgstr "Velikost"
 
-#: js/files.js:747 templates/index.php:58
+#: js/files.js:751 templates/index.php:58
 msgid "Modified"
 msgstr "Změněno"
 
-#: js/files.js:774
+#: js/files.js:778
 msgid "folder"
 msgstr "složka"
 
-#: js/files.js:776
+#: js/files.js:780
 msgid "folders"
 msgstr "složky"
 
-#: js/files.js:784
+#: js/files.js:788
 msgid "file"
 msgstr "soubor"
 
-#: js/files.js:786
+#: js/files.js:790
 msgid "files"
 msgstr "soubory"
+
+#: js/files.js:834
+msgid "seconds ago"
+msgstr "před pár sekundami"
+
+#: js/files.js:835
+msgid "minute ago"
+msgstr "před minutou"
+
+#: js/files.js:836
+msgid "minutes ago"
+msgstr "před pár minutami"
+
+#: js/files.js:839
+msgid "today"
+msgstr "dnes"
+
+#: js/files.js:840
+msgid "yesterday"
+msgstr "včera"
+
+#: js/files.js:841
+msgid "days ago"
+msgstr "před pár dny"
+
+#: js/files.js:842
+msgid "last month"
+msgstr "minulý měsíc"
+
+#: js/files.js:844
+msgid "months ago"
+msgstr "před pár měsíci"
+
+#: js/files.js:845
+msgid "last year"
+msgstr "minulý rok"
+
+#: js/files.js:846
+msgid "years ago"
+msgstr "před pár lety"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -199,7 +263,7 @@ msgstr "Složka"
 msgid "From url"
 msgstr "Z url"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Odeslat"
 
@@ -210,10 +274,6 @@ msgstr "Zrušit odesílání"
 #: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Žádný obsah. Nahrajte něco."
-
-#: templates/index.php:48
-msgid "Name"
-msgstr "Název"
 
 #: templates/index.php:50
 msgid "Share"

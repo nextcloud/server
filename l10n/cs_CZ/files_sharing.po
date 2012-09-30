@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:01+0200\n"
-"PO-Revision-Date: 2012-09-05 13:37+0000\n"
+"POT-Creation-Date: 2012-09-23 02:01+0200\n"
+"PO-Revision-Date: 2012-09-22 11:59+0000\n"
 "Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -28,14 +28,24 @@ msgstr "Heslo"
 msgid "Submit"
 msgstr "Odeslat"
 
-#: templates/public.php:9 templates/public.php:19
+#: templates/public.php:9
+#, php-format
+msgid "%s shared the folder %s with you"
+msgstr "%s s Vámi sdílí složku %s"
+
+#: templates/public.php:11
+#, php-format
+msgid "%s shared the file %s with you"
+msgstr "%s s Vámi sdílí soubor %s"
+
+#: templates/public.php:14 templates/public.php:30
 msgid "Download"
 msgstr "Stáhnout"
 
-#: templates/public.php:18
+#: templates/public.php:29
 msgid "No preview available for"
 msgstr "Náhled není dostupný pro"
 
-#: templates/public.php:25
+#: templates/public.php:37
 msgid "web services under your control"
 msgstr "služby webu pod Vaší kontrolou"

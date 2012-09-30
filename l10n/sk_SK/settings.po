@@ -4,15 +4,16 @@
 # 
 # Translators:
 #   <intense.feel@gmail.com>, 2011, 2012.
+#   <martin.babik@gmail.com>, 2012.
 # Roman Priesol <roman@priesol.net>, 2012.
 #   <typhoon@zoznam.sk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:03+0200\n"
-"PO-Revision-Date: 2012-09-17 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 10:33+0000\n"
+"Last-Translator: martinb <martin.babik@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,24 +23,24 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Nie je možné nahrať zoznam z App Store"
 
 #: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
 #: ajax/togglegroups.php:15
 msgid "Authentication error"
-msgstr ""
+msgstr "Chyba pri autentifikácii"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "Skupina už existuje"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "Nie je možné pridať skupinu"
 
-#: ajax/enableapp.php:13
+#: ajax/enableapp.php:14
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Nie je možné zapnúť aplikáciu."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -59,11 +60,11 @@ msgstr "Neplatná požiadavka"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Nie je možné zmazať skupinu"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Nie je možné zmazať užívateľa"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -72,22 +73,18 @@ msgstr "Jazyk zmenený"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Nie je možné pridať užívateľa do skupiny %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Nie je možné zmazať užívateľa zo skupiny %s"
 
-#: js/apps.js:18
-msgid "Error"
-msgstr ""
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:27 js/apps.js:61
 msgid "Disable"
 msgstr "Zakázať"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:27 js/apps.js:50
 msgid "Enable"
 msgstr "Povoliť"
 
@@ -101,7 +98,7 @@ msgstr "Slovensky"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "Bezpečnostné varovanie"
 
 #: templates/admin.php:17
 msgid ""
@@ -134,27 +131,27 @@ msgstr ""
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "Zdieľanie"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
-msgstr ""
+msgstr "Zapnúť API zdieľania"
 
 #: templates/admin.php:62
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Povoliť aplikáciam používať API pre zdieľanie"
 
 #: templates/admin.php:67
 msgid "Allow links"
-msgstr ""
+msgstr "Povoliť odkazy"
 
 #: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Povoliť užívateľom zdieľať obsah pomocou verejných odkazov"
 
 #: templates/admin.php:73
 msgid "Allow resharing"
-msgstr ""
+msgstr "Povoliť opakované zdieľanie"
 
 #: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
@@ -162,11 +159,11 @@ msgstr ""
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Povoliť užívateľom zdieľať s každým"
 
 #: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Povoliť užívateľom zdieľanie iba s užívateľmi ich vlastnej skupiny"
 
 #: templates/admin.php:88
 msgid "Log"
@@ -200,7 +197,7 @@ msgstr "Pozrite si stránku aplikácie na apps.owncloud.com"
 
 #: templates/apps.php:30
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-licencované <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"
@@ -227,12 +224,9 @@ msgid "Answer"
 msgstr "Odpoveď"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Používate"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "z dostupných"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "Použili ste <strong>%s</strong> dostupného <strong>%s<strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -243,8 +237,8 @@ msgid "Download"
 msgstr "Stiahnúť"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "Vaše heslo sa zmenilo"
+msgid "Your password was changed"
+msgstr "Heslo bolo zmenené"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
@@ -316,7 +310,7 @@ msgstr "Iné"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "Správca skupiny"
 
 #: templates/users.php:82
 msgid "Quota"

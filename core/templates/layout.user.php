@@ -11,6 +11,8 @@
 			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
 			var oc_appswebroots = <?php echo $_['apps_paths'] ?>;
 			var oc_current_user = '<?php echo OC_User::getUser() ?>';
+			var oc_requesttoken = '<?php echo $_['requesttoken']; ?>';
+			var oc_requestlifespan = '<?php echo $_['requestlifespan']; ?>';
 		</script>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
@@ -24,13 +26,6 @@
 				echo '/>';
 			?>
 		<?php endforeach; ?>
-		<script type="text/javascript">
-			requesttoken = '<?php echo $_['requesttoken']; ?>';
-			OC.EventSource.requesttoken=requesttoken;
-			$(document).bind('ajaxSend', function(elm, xhr, s) {
-				xhr.setRequestHeader('requesttoken', requesttoken);
-			});
-		</script>
 	</head>
 
 	<body id="<?php echo $_['bodyid'];?>">

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-09-28 23:34+0200\n"
+"PO-Revision-Date: 2012-09-28 21:34+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -31,57 +31,61 @@ msgstr "追加するカテゴリはありませんか？"
 msgid "This category already exists: "
 msgstr "このカテゴリはすでに存在します: "
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "January"
 msgstr "1月"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "February"
 msgstr "2月"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "March"
 msgstr "3月"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "April"
 msgstr "4月"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "May"
 msgstr "5月"
 
-#: js/js.js:593
+#: js/js.js:645
 msgid "June"
 msgstr "6月"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "July"
 msgstr "7月"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "August"
 msgstr "8月"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "September"
 msgstr "9月"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "October"
 msgstr "10月"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "November"
 msgstr "11月"
 
-#: js/js.js:594
+#: js/js.js:646
 msgid "December"
 msgstr "12月"
+
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr "選択"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -103,9 +107,118 @@ msgstr "OK"
 msgid "No categories selected for deletion."
 msgstr "削除するカテゴリが選択されていません。"
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
+#: js/share.js:501
 msgid "Error"
 msgstr "エラー"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr "共有でエラー発生"
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr "共有解除でエラー発生"
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr "権限変更でエラー発生"
+
+#: js/share.js:130
+msgid "Shared with you and the group"
+msgstr ""
+
+#: js/share.js:130
+msgid "by"
+msgstr ""
+
+#: js/share.js:132
+msgid "Shared with you by"
+msgstr ""
+
+#: js/share.js:137
+msgid "Share with"
+msgstr "共有者"
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr "URLリンクで共有"
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr "パスワード保護"
+
+#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+msgid "Password"
+msgstr "パスワード"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr "有効期限を設定"
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr "有効期限"
+
+#: js/share.js:185
+msgid "Share via email:"
+msgstr ""
+
+#: js/share.js:187
+msgid "No people found"
+msgstr "ユーザーが見つかりません"
+
+#: js/share.js:214
+msgid "Resharing is not allowed"
+msgstr "再共有は許可されていません"
+
+#: js/share.js:250
+msgid "Shared in"
+msgstr ""
+
+#: js/share.js:250
+msgid "with"
+msgstr ""
+
+#: js/share.js:271
+msgid "Unshare"
+msgstr "共有解除"
+
+#: js/share.js:279
+msgid "can edit"
+msgstr "編集可能"
+
+#: js/share.js:281
+msgid "access control"
+msgstr "アクセス権限"
+
+#: js/share.js:284
+msgid "create"
+msgstr "作成"
+
+#: js/share.js:287
+msgid "update"
+msgstr "更新"
+
+#: js/share.js:290
+msgid "delete"
+msgstr "削除"
+
+#: js/share.js:293
+msgid "share"
+msgstr "共有"
+
+#: js/share.js:317 js/share.js:476
+msgid "Password protected"
+msgstr "パスワード保護"
+
+#: js/share.js:489
+msgid "Error unsetting expiration date"
+msgstr "有効期限の未設定エラー"
+
+#: js/share.js:501
+msgid "Error setting expiration date"
+msgstr "有効期限の設定でエラー発生"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -192,10 +305,6 @@ msgstr "追加"
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>管理者アカウント</strong>を作成してください"
 
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr "パスワード"
-
 #: templates/installation.php:36
 msgid "Advanced"
 msgstr "詳細設定"
@@ -237,11 +346,11 @@ msgstr "データベースのホスト名"
 msgid "Finish setup"
 msgstr "セットアップを完了します"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:36
 msgid "web services under your control"
 msgstr "管理下にあるウェブサービス"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "ログアウト"
 

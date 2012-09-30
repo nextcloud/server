@@ -4,14 +4,15 @@
 # 
 # Translators:
 # I Robot <thomas.mueller@tmit.eu>, 2012.
+#   <mail@felixmoeller.de>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:02+0200\n"
-"PO-Revision-Date: 2012-09-17 00:04+0000\n"
+"POT-Creation-Date: 2012-09-22 02:00+0200\n"
+"PO-Revision-Date: 2012-09-21 23:21+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -24,6 +25,10 @@ msgstr ""
 msgid "Expire all versions"
 msgstr "Alle Versionen löschen"
 
+#: js/versions.js:16
+msgid "History"
+msgstr "Historie"
+
 #: templates/settings-personal.php:4
 msgid "Versions"
 msgstr "Versionen"
@@ -34,8 +39,8 @@ msgstr "Dies löscht alle vorhandenen Sicherungsversionen Ihrer Dateien."
 
 #: templates/settings.php:3
 msgid "Files Versioning"
-msgstr ""
+msgstr "Dateiversionierung"
 
 #: templates/settings.php:4
 msgid "Enable"
-msgstr ""
+msgstr "Aktivieren"

@@ -5,20 +5,32 @@
 <header><div id="header">
 	<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img class="svg" src="<?php echo image_path('', 'logo-wide.svg'); ?>" alt="ownCloud" /></a>
 	<div class="header-right">
-		<span id="details"><?php echo $_['details']; ?></span>
-		<a href="<?php echo $_['downloadURL']; ?>" id="download"><img class="svg" alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /><?php echo $l->t('Download')?></a>
+	<?php if (isset($_['folder'])): ?>
+		<span id="details"><?php echo $l->t('%s shared the folder %s with you', array($_['uidOwner'], $_['filename'])) ?></span>
+	<?php else: ?>
+		<span id="details"><?php echo $l->t('%s shared the file %s with you', array($_['uidOwner'], $_['filename'])) ?></span>
+	<?php endif; ?>
+		<?php if (!isset($_['folder']) || $_['allowZipDownload']): ?>
+			<a href="<?php echo $_['downloadURL']; ?>" class="button" id="download"><img class="svg" alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /><?php echo $l->t('Download')?></a>
+		<?php endif; ?>
 	</div>
 </div></header>
 <div id="preview">
-	<?php if (substr($_['mimetype'], 0 , strpos($_['mimetype'], '/')) == 'image'): ?>
-		<img src="<?php echo $_['downloadURL']; ?>" />
+	<?php if (isset($_['folder'])): ?>
+		<?php echo $_['folder']; ?>
+	<?php else: ?>
+		<?php if (substr($_['mimetype'], 0 , strpos($_['mimetype'], '/')) == 'image'): ?>
+			<div id="imgframe">
+				<img src="<?php echo $_['downloadURL']; ?>" />
+			</div>
+		<?php endif; ?>
+		<ul id="noPreview">
+			<li class="error">
+				<?php echo $l->t('No preview available for').' '.$_['filename']; ?><br />
+				<a href="<?php echo $_['downloadURL']; ?>" id="download"><img class="svg" alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /><?php echo $l->t('Download')?></a>
+			</li>
+		</ul>
 	<?php endif; ?>
-	<ul id="noPreview">
-		<li class="error">
-			<?php echo $l->t('No preview available for').' '.$_['filename']; ?><br />
-			<a href="<?php echo $_['downloadURL']; ?>" id="download"><img class="svg" alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /><?php echo $l->t('Download')?></a>
-		</li>
-	</ul>
 	<div id="content"></div>
 	<table></table>
 </div>

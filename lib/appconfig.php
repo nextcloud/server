@@ -40,7 +40,7 @@
 class OC_Appconfig{
 	/**
 	 * @brief Get all apps using the config
-	 * @returns array with app ids
+	 * @return array with app ids
 	 *
 	 * This function returns a list of all apps that have at least one
 	 * entry in the appconfig table.
@@ -60,8 +60,8 @@ class OC_Appconfig{
 
 	/**
 	 * @brief Get the available keys for an app
-	 * @param $app the app we are looking for
-	 * @returns array with key names
+	 * @param string $app the app we are looking for
+	 * @return array with key names
 	 *
 	 * This function gets all keys of an app. Please note that the values are
 	 * not returned.
@@ -81,13 +81,13 @@ class OC_Appconfig{
 
 	/**
 	 * @brief Gets the config value
-	 * @param $app app
-	 * @param $key key
-	 * @param $default = null, default value if the key does not exist
-	 * @returns the value or $default
+	 * @param string $app app
+	 * @param string $key key
+	 * @param string $default = null, default value if the key does not exist
+	 * @return string the value or $default
 	 *
 	 * This function gets a value from the appconfig table. If the key does
-	 * not exist the default value will be returnes
+	 * not exist the default value will be returned
 	 */
 	public static function getValue( $app, $key, $default = null ) {
 		// At least some magic in here :-)
@@ -114,10 +114,10 @@ class OC_Appconfig{
 
 	/**
 	 * @brief sets a value in the appconfig
-	 * @param $app app
-	 * @param $key key
-	 * @param $value value
-	 * @returns true/false
+	 * @param string $app app
+	 * @param string $key key
+	 * @param string $value value
+	 * @return bool
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
 	 */
@@ -135,9 +135,9 @@ class OC_Appconfig{
 
 	/**
 	 * @brief Deletes a key
-	 * @param $app app
-	 * @param $key key
-	 * @returns true/false
+	 * @param string $app app
+	 * @param string $key key
+	 * @return bool
 	 *
 	 * Deletes a key.
 	 */
@@ -151,8 +151,8 @@ class OC_Appconfig{
 
 	/**
 	 * @brief Remove app from appconfig
-	 * @param $app app
-	 * @returns true/false
+	 * @param string $app app
+	 * @return bool
 	 *
 	 * Removes all keys in appconfig belonging to the app.
 	 */

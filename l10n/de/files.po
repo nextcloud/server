@@ -4,9 +4,11 @@
 # 
 # Translators:
 #   <admin@s-goecker.de>, 2012.
+#   <blobbyjj@ymail.com>, 2012.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan-Christoph Borchardt <jan@unhosted.org>, 2011.
+#   <lukas@statuscode.ch>, 2012.
 #   <mail@felixmoeller.de>, 2012.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2012.
 # Michael Krell <m4dmike.mni@gmail.com>, 2012.
@@ -20,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:02+0200\n"
-"PO-Revision-Date: 2012-09-16 23:04+0000\n"
-"Last-Translator: fmms <mail@felixmoeller.de>\n"
+"POT-Creation-Date: 2012-09-28 02:02+0200\n"
+"PO-Revision-Date: 2012-09-27 22:31+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,45 +68,49 @@ msgstr "Dateien"
 
 #: js/fileactions.js:108 templates/index.php:62
 msgid "Unshare"
-msgstr "Nicht mehr teilen"
+msgstr "Nicht mehr freigeben"
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
 msgstr "Löschen"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr "Umbenennen"
+
+#: js/filelist.js:190 js/filelist.js:192
 msgid "already exists"
 msgstr "ist bereits vorhanden"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:190 js/filelist.js:192
 msgid "replace"
 msgstr "ersetzen"
 
-#: js/filelist.js:186
+#: js/filelist.js:190
 msgid "suggest name"
 msgstr "Name vorschlagen"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:190 js/filelist.js:192
 msgid "cancel"
 msgstr "abbrechen"
 
-#: js/filelist.js:235 js/filelist.js:237
+#: js/filelist.js:239 js/filelist.js:241
 msgid "replaced"
 msgstr "ersetzt"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
+#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
 msgid "undo"
 msgstr "rückgängig machen"
 
-#: js/filelist.js:237
+#: js/filelist.js:241
 msgid "with"
 msgstr "mit"
 
-#: js/filelist.js:268
+#: js/filelist.js:273
 msgid "unshared"
-msgstr "Nicht mehr teilen"
+msgstr "Nicht mehr freigegeben"
 
-#: js/filelist.js:270
+#: js/filelist.js:275
 msgid "deleted"
 msgstr "gelöscht"
 
@@ -114,52 +120,112 @@ msgstr "Erstelle ZIP-Datei. Dies kann eine Weile dauern."
 
 #: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Ihre Datei kann nicht hochgeladen werden, da sie ein Verzeichnis ist oder 0 Bytes hat."
+msgstr "Ihre Datei kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist."
 
 #: js/files.js:208
 msgid "Upload Error"
-msgstr "Fehler beim Hochladen"
+msgstr "Fehler beim Upload"
 
-#: js/files.js:236 js/files.js:341 js/files.js:370
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
 msgstr "Ausstehend"
 
-#: js/files.js:355
-msgid "Upload cancelled."
-msgstr "Hochladen abgebrochen."
+#: js/files.js:256
+msgid "1 file uploading"
+msgstr "Eine Datei wird hoch geladen"
 
-#: js/files.js:423
+#: js/files.js:259 js/files.js:304 js/files.js:319
+msgid "files uploading"
+msgstr "Dateien werden hoch geladen"
+
+#: js/files.js:322 js/files.js:355
+msgid "Upload cancelled."
+msgstr "Upload abgebrochen."
+
+#: js/files.js:424
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload abgebrochen."
 
-#: js/files.js:493
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
 msgstr "Ungültiger Name: \"/\" ist nicht erlaubt."
 
-#: js/files.js:748 templates/index.php:56
+#: js/files.js:668
+msgid "files scanned"
+msgstr "Dateien gescannt"
+
+#: js/files.js:676
+msgid "error while scanning"
+msgstr "Fehler beim Scannen"
+
+#: js/files.js:749 templates/index.php:48
+msgid "Name"
+msgstr "Name"
+
+#: js/files.js:750 templates/index.php:56
 msgid "Size"
 msgstr "Größe"
 
-#: js/files.js:749 templates/index.php:58
+#: js/files.js:751 templates/index.php:58
 msgid "Modified"
 msgstr "Bearbeitet"
 
-#: js/files.js:776
+#: js/files.js:778
 msgid "folder"
 msgstr "Ordner"
 
-#: js/files.js:778
+#: js/files.js:780
 msgid "folders"
 msgstr "Ordner"
 
-#: js/files.js:786
+#: js/files.js:788
 msgid "file"
 msgstr "Datei"
 
-#: js/files.js:788
+#: js/files.js:790
 msgid "files"
 msgstr "Dateien"
+
+#: js/files.js:834
+msgid "seconds ago"
+msgstr "Sekunden her"
+
+#: js/files.js:835
+msgid "minute ago"
+msgstr "Minute her"
+
+#: js/files.js:836
+msgid "minutes ago"
+msgstr "Minuten her"
+
+#: js/files.js:839
+msgid "today"
+msgstr "Heute"
+
+#: js/files.js:840
+msgid "yesterday"
+msgstr "Gestern"
+
+#: js/files.js:841
+msgid "days ago"
+msgstr "Tage her"
+
+#: js/files.js:842
+msgid "last month"
+msgstr "Letzten Monat"
+
+#: js/files.js:844
+msgid "months ago"
+msgstr "Monate her"
+
+#: js/files.js:845
+msgid "last year"
+msgstr "Letztes Jahr"
+
+#: js/files.js:846
+msgid "years ago"
+msgstr "Jahre her"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -207,9 +273,9 @@ msgstr "Ordner"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr "Von der URL"
+msgstr "Von einer URL"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Hochladen"
 
@@ -220,10 +286,6 @@ msgstr "Upload abbrechen"
 #: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Alles leer. Lade etwas hoch!"
-
-#: templates/index.php:48
-msgid "Name"
-msgstr "Name"
 
 #: templates/index.php:50
 msgid "Share"

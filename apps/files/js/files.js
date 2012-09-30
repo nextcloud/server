@@ -336,7 +336,7 @@ $(document).ready(function() {
 											if(response[0] != undefined && response[0].status == 'success') {
 												var file=response[0];
 												delete uploadingFiles[file.name];
-												$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
+												$('tr').filterAttr('data-file',file.name).data('mime',file.mime).data('id',file.id);
 												var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
 												if(size==t('files','Pending')){
 													$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
@@ -356,16 +356,17 @@ $(document).ready(function() {
 										$('#notification').fadeIn();
 									}
 								});
-								uploadingFiles[files[i].name] = jqXHR;
+								uploadingFiles[uniqueName] = jqXHR;
 							}
 						}
 					}else{
 						data.submit().success(function(data, status) {
-							response = jQuery.parseJSON(data[0].body.innerText);
+							// in safari data is a string
+							response = jQuery.parseJSON(typeof data === 'string' ? data : data[0].body.innerText);
 							if(response[0] != undefined && response[0].status == 'success') {
 								var file=response[0];
 								delete uploadingFiles[file.name];
-								$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
+								$('tr').filterAttr('data-file',file.name).data('mime',file.mime).data('id',file.id);
 								var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
 								if(size==t('files','Pending')){
 									$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
@@ -511,7 +512,7 @@ $(document).ready(function() {
 								var date=new Date();
 								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
-								tr.data('mime','text/plain');
+								tr.data('mime','text/plain').data('id',result.data.id);
 								getMimeIcon('text/plain',function(path){
 									tr.find('td.filename').attr('style','background-image:url('+path+')');
 								});
@@ -559,11 +560,12 @@ $(document).ready(function() {
 					eventSource.listen('success',function(data){
 						var mime=data.mime;
 						var size=data.size;
+						var id=data.id;
 						$('#uploadprogressbar').fadeOut();
 						var date=new Date();
 						FileList.addFile(localName,size,date,false,hidden);
 						var tr=$('tr').filterAttr('data-file',localName);
-						tr.data('mime',mime);
+						tr.data('mime',mime).data('id',id);
 						getMimeIcon(mime,function(path){
 							tr.find('td.filename').attr('style','background-image:url('+path+')');
 						});

@@ -1,0 +1,318 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <claudio.tessone@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-25 02:03+0200\n"
+"PO-Revision-Date: 2012-09-24 23:02+0000\n"
+"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
+"Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es_AR\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr "Imposible cargar la lista desde el App Store"
+
+#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Error al autenticar"
+
+#: ajax/creategroup.php:19
+msgid "Group already exists"
+msgstr "El grupo ya existe"
+
+#: ajax/creategroup.php:28
+msgid "Unable to add group"
+msgstr "No fue posible añadir el grupo"
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
+msgstr "No se puede  habilitar la aplicación."
+
+#: ajax/lostpassword.php:14
+msgid "Email saved"
+msgstr "e-mail guardado"
+
+#: ajax/lostpassword.php:16
+msgid "Invalid email"
+msgstr "el e-mail no es válido "
+
+#: ajax/openid.php:16
+msgid "OpenID Changed"
+msgstr "OpenID cambiado"
+
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+msgid "Invalid request"
+msgstr "Solicitud no válida"
+
+#: ajax/removegroup.php:16
+msgid "Unable to delete group"
+msgstr "No fue posible eliminar el grupo"
+
+#: ajax/removeuser.php:22
+msgid "Unable to delete user"
+msgstr "No fue posible eliminar el usuario"
+
+#: ajax/setlanguage.php:18
+msgid "Language changed"
+msgstr "Idioma cambiado"
+
+#: ajax/togglegroups.php:25
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr "No fue posible añadir el usuario al grupo %s"
+
+#: ajax/togglegroups.php:31
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr "No es posible eliminar al usuario del grupo %s"
+
+#: js/apps.js:27 js/apps.js:61
+msgid "Disable"
+msgstr "Desactivar"
+
+#: js/apps.js:27 js/apps.js:50
+msgid "Enable"
+msgstr "Activar"
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr "Guardando..."
+
+#: personal.php:46 personal.php:47
+msgid "__language_name__"
+msgstr "Castellano (Argentina)"
+
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr "Advertencia de seguridad"
+
+#: templates/admin.php:17
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "El directorio de datos -data- y los archivos que contiene, probablemente son accesibles desde internet. El archivo .htaccess que provee ownCloud no está funcionando. Recomendamos fuertemente que configures su servidor web de forma que el directorio de datos ya no sea accesible o que muevas el directorio de datos fuera de la raíz de documentos del servidor web."
+
+#: templates/admin.php:31
+msgid "Cron"
+msgstr "Cron"
+
+#: templates/admin.php:37
+msgid "Execute one task with each page loaded"
+msgstr "Ejecutar una tarea con cada página cargada"
+
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr "cron.php está registrado como un servicio del webcron. Llamá a la página de cron.php en la raíz de ownCloud cada minuto sobre http."
+
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr "Usar el servicio de cron del sistema. Llamá al archivo cron.php en la carpeta de ownCloud via servidor cronjob cada minuto."
+
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr "Compartir"
+
+#: templates/admin.php:61
+msgid "Enable Share API"
+msgstr "Activar API de compartición"
+
+#: templates/admin.php:62
+msgid "Allow apps to use the Share API"
+msgstr "Permitir a las aplicaciones usar la API de compartición"
+
+#: templates/admin.php:67
+msgid "Allow links"
+msgstr "Permitir enlaces"
+
+#: templates/admin.php:68
+msgid "Allow users to share items to the public with links"
+msgstr "Permitir a los usuarios compartir elementos públicamente con enlaces"
+
+#: templates/admin.php:73
+msgid "Allow resharing"
+msgstr "Permitir re-compartir"
+
+#: templates/admin.php:74
+msgid "Allow users to share items shared with them again"
+msgstr "Permitir a los usuarios compartir elementos ya compartidos"
+
+#: templates/admin.php:79
+msgid "Allow users to share with anyone"
+msgstr "Permitir a los usuarios compartir con cualquiera"
+
+#: templates/admin.php:81
+msgid "Allow users to only share with users in their groups"
+msgstr "Permitir a los usuarios compartir con usuarios en sus grupos"
+
+#: templates/admin.php:88
+msgid "Log"
+msgstr "Registro"
+
+#: templates/admin.php:116
+msgid "More"
+msgstr "Más"
+
+#: templates/admin.php:124
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Desarrollado por la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunidad ownCloud</a>, el <a href=\"https://github.com/owncloud\" target=\"_blank\">código fuente</a> está bajo licencia <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+
+#: templates/apps.php:10
+msgid "Add your App"
+msgstr "Añadí tu aplicación"
+
+#: templates/apps.php:26
+msgid "Select an App"
+msgstr "Seleccionar una aplicación"
+
+#: templates/apps.php:29
+msgid "See application page at apps.owncloud.com"
+msgstr "Mirá la web de aplicaciones apps.owncloud.com"
+
+#: templates/apps.php:30
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\">"
+
+#: templates/help.php:9
+msgid "Documentation"
+msgstr "Documentación"
+
+#: templates/help.php:10
+msgid "Managing Big Files"
+msgstr "Administrar archivos grandes"
+
+#: templates/help.php:11
+msgid "Ask a question"
+msgstr "Hacer una pregunta"
+
+#: templates/help.php:23
+msgid "Problems connecting to help database."
+msgstr "Problemas al conectar con la base de datos de ayuda."
+
+#: templates/help.php:24
+msgid "Go there manually."
+msgstr "Ir de forma manual"
+
+#: templates/help.php:32
+msgid "Answer"
+msgstr "Respuesta"
+
+#: templates/personal.php:8
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "Usaste <strong>%s</strong> de <strong>%s<strong> disponible"
+
+#: templates/personal.php:12
+msgid "Desktop and Mobile Syncing Clients"
+msgstr "Clientes de sincronización para celulares, tablets y de escritorio"
+
+#: templates/personal.php:13
+msgid "Download"
+msgstr "Descargar"
+
+#: templates/personal.php:19
+msgid "Your password was changed"
+msgstr "Tu contraseña fue cambiada"
+
+#: templates/personal.php:20
+msgid "Unable to change your password"
+msgstr "No fue posible cambiar tu contraseña"
+
+#: templates/personal.php:21
+msgid "Current password"
+msgstr "Contraseña actual"
+
+#: templates/personal.php:22
+msgid "New password"
+msgstr "Nueva contraseña:"
+
+#: templates/personal.php:23
+msgid "show"
+msgstr "mostrar"
+
+#: templates/personal.php:24
+msgid "Change password"
+msgstr "Cambiar contraseña"
+
+#: templates/personal.php:30
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: templates/personal.php:31
+msgid "Your email address"
+msgstr "Tu dirección de e-mail"
+
+#: templates/personal.php:32
+msgid "Fill in an email address to enable password recovery"
+msgstr "Escribí una dirección de correo electrónico para restablecer la contraseña"
+
+#: templates/personal.php:38 templates/personal.php:39
+msgid "Language"
+msgstr "Idioma"
+
+#: templates/personal.php:44
+msgid "Help translate"
+msgstr "Ayudanos a traducir"
+
+#: templates/personal.php:51
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr "usá esta dirección para conectarte a tu ownCloud desde tu gestor de archivos"
+
+#: templates/users.php:21 templates/users.php:76
+msgid "Name"
+msgstr "Nombre"
+
+#: templates/users.php:23 templates/users.php:77
+msgid "Password"
+msgstr "Contraseña"
+
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+msgid "Groups"
+msgstr "Grupos"
+
+#: templates/users.php:32
+msgid "Create"
+msgstr "Crear"
+
+#: templates/users.php:35
+msgid "Default Quota"
+msgstr "Cuota predeterminada"
+
+#: templates/users.php:55 templates/users.php:138
+msgid "Other"
+msgstr "Otro"
+
+#: templates/users.php:80 templates/users.php:112
+msgid "Group Admin"
+msgstr "Grupo admin"
+
+#: templates/users.php:82
+msgid "Quota"
+msgstr "Cuota"
+
+#: templates/users.php:146
+msgid "Delete"
+msgstr "Borrar"

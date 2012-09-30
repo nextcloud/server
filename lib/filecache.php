@@ -481,7 +481,7 @@ class OC_FileCache{
 	 */
 	public static function clear($user='') {
 		if($user) {
-			$query=OC_DB::prepare('DELETE FROM `*PREFIX*fscache` WHERE user=?');
+			$query=OC_DB::prepare('DELETE FROM `*PREFIX*fscache` WHERE `user`=?');
 			$query->execute(array($user));
 		}else{
 			$query=OC_DB::prepare('DELETE FROM `*PREFIX*fscache`');

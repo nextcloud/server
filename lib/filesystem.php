@@ -357,7 +357,7 @@ class OC_Filesystem{
 	* @return string
 	*/
 	static public function getLocalPath($path) {
-		$datadir = OC_User::getHome($user).'/files';
+		$datadir = OC_User::getHome(OC_User::getUser()).'/files';
 		$newpath = $path;
 		if (strncmp($newpath, $datadir, strlen($datadir)) == 0) {
 			$newpath = substr($path, strlen($datadir));
@@ -521,12 +521,20 @@ class OC_Filesystem{
 		return self::$defaultInstance->hasUpdated($path,$time);
 	}
 
-	static public function removeETagHook($params) {
+	static public function removeETagHook($params, $root = false) {
 		if (isset($params['path'])) {
 			$path=$params['path'];
 		} else {
 			$path=$params['oldpath'];
 		}
+
+		if ($root) { // reduce path to the required part of it (no 'username/files')
+			$fakeRootView = new OC_FilesystemView($root);
+			$count = 1;
+			$path=str_replace(OC_App::getStorage("files")->getAbsolutePath(), "", $fakeRootView->getAbsolutePath($path), $count);
+		}
+
+		$path = self::normalizePath($path);
 		OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
 	}
 

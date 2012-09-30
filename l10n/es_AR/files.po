@@ -1,0 +1,300 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <claudio.tessone@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-28 23:34+0200\n"
+"PO-Revision-Date: 2012-09-28 09:21+0000\n"
+"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
+"Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es_AR\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/upload.php:20
+msgid "There is no error, the file uploaded with success"
+msgstr "No se han producido errores, el archivo se ha subido con éxito"
+
+#: ajax/upload.php:21
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr "El archivo que intentás subir sobrepasa el tamaño definido por la variable upload_max_filesize en php.ini"
+
+#: ajax/upload.php:22
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr "El archivo que intentás subir sobrepasa el tamaño definido por la variable MAX_FILE_SIZE especificada en el formulario HTML"
+
+#: ajax/upload.php:23
+msgid "The uploaded file was only partially uploaded"
+msgstr "El archivo que intentás subir solo se subió parcialmente"
+
+#: ajax/upload.php:24
+msgid "No file was uploaded"
+msgstr "El archivo no fue subido"
+
+#: ajax/upload.php:25
+msgid "Missing a temporary folder"
+msgstr "Falta un directorio temporal"
+
+#: ajax/upload.php:26
+msgid "Failed to write to disk"
+msgstr "La escritura en disco falló"
+
+#: appinfo/app.php:6
+msgid "Files"
+msgstr "Archivos"
+
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr "Dejar de compartir"
+
+#: js/fileactions.js:110 templates/index.php:64
+msgid "Delete"
+msgstr "Borrar"
+
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr "cambiar nombre"
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "already exists"
+msgstr "ya existe"
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "replace"
+msgstr "reemplazar"
+
+#: js/filelist.js:190
+msgid "suggest name"
+msgstr "sugerir nombre"
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "cancel"
+msgstr "cancelar"
+
+#: js/filelist.js:239 js/filelist.js:241
+msgid "replaced"
+msgstr "reemplazado"
+
+#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
+msgid "undo"
+msgstr "deshacer"
+
+#: js/filelist.js:241
+msgid "with"
+msgstr "con"
+
+#: js/filelist.js:273
+msgid "unshared"
+msgstr "no compartido"
+
+#: js/filelist.js:275
+msgid "deleted"
+msgstr "borrado"
+
+#: js/files.js:179
+msgid "generating ZIP-file, it may take some time."
+msgstr "generando un archivo ZIP, puede llevar un tiempo."
+
+#: js/files.js:208
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "No fue posible subir tu archivo porque es un directorio o su tamaño es 0 bytes"
+
+#: js/files.js:208
+msgid "Upload Error"
+msgstr "Error al subir el archivo"
+
+#: js/files.js:236 js/files.js:341 js/files.js:371
+msgid "Pending"
+msgstr "Pendiente"
+
+#: js/files.js:256
+msgid "1 file uploading"
+msgstr "Subiendo 1 archivo"
+
+#: js/files.js:259 js/files.js:304 js/files.js:319
+msgid "files uploading"
+msgstr "Subiendo archivos"
+
+#: js/files.js:322 js/files.js:355
+msgid "Upload cancelled."
+msgstr "La subida fue cancelada"
+
+#: js/files.js:424
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "La subida del archivo está en proceso. Si salís de la página ahora, la subida se cancelará."
+
+#: js/files.js:494
+msgid "Invalid name, '/' is not allowed."
+msgstr "Nombre no válido, '/' no está permitido."
+
+#: js/files.js:668
+msgid "files scanned"
+msgstr "archivos escaneados"
+
+#: js/files.js:676
+msgid "error while scanning"
+msgstr "error mientras se escaneaba"
+
+#: js/files.js:749 templates/index.php:48
+msgid "Name"
+msgstr "Nombre"
+
+#: js/files.js:750 templates/index.php:56
+msgid "Size"
+msgstr "Tamaño"
+
+#: js/files.js:751 templates/index.php:58
+msgid "Modified"
+msgstr "Modificado"
+
+#: js/files.js:778
+msgid "folder"
+msgstr "carpeta"
+
+#: js/files.js:780
+msgid "folders"
+msgstr "carpetas"
+
+#: js/files.js:788
+msgid "file"
+msgstr "archivo"
+
+#: js/files.js:790
+msgid "files"
+msgstr "archivos"
+
+#: js/files.js:834
+msgid "seconds ago"
+msgstr "segundos atrás"
+
+#: js/files.js:835
+msgid "minute ago"
+msgstr "hace un minuto"
+
+#: js/files.js:836
+msgid "minutes ago"
+msgstr "minutos atrás"
+
+#: js/files.js:839
+msgid "today"
+msgstr "hoy"
+
+#: js/files.js:840
+msgid "yesterday"
+msgstr "ayer"
+
+#: js/files.js:841
+msgid "days ago"
+msgstr "días atrás"
+
+#: js/files.js:842
+msgid "last month"
+msgstr "el mes pasado"
+
+#: js/files.js:844
+msgid "months ago"
+msgstr "meses atrás"
+
+#: js/files.js:845
+msgid "last year"
+msgstr "el año pasado"
+
+#: js/files.js:846
+msgid "years ago"
+msgstr "años atrás"
+
+#: templates/admin.php:5
+msgid "File handling"
+msgstr "Tratamiento de archivos"
+
+#: templates/admin.php:7
+msgid "Maximum upload size"
+msgstr "Tamaño máximo de subida"
+
+#: templates/admin.php:7
+msgid "max. possible: "
+msgstr "máx. posible:"
+
+#: templates/admin.php:9
+msgid "Needed for multi-file and folder downloads."
+msgstr "Se necesita para descargas multi-archivo y de carpetas"
+
+#: templates/admin.php:9
+msgid "Enable ZIP-download"
+msgstr "Habilitar descarga en formato ZIP"
+
+#: templates/admin.php:11
+msgid "0 is unlimited"
+msgstr "0 significa ilimitado"
+
+#: templates/admin.php:12
+msgid "Maximum input size for ZIP files"
+msgstr "Tamaño máximo para archivos ZIP de entrada"
+
+#: templates/admin.php:14
+msgid "Save"
+msgstr "Guardar"
+
+#: templates/index.php:7
+msgid "New"
+msgstr "Nuevo"
+
+#: templates/index.php:9
+msgid "Text file"
+msgstr "Archivo de texto"
+
+#: templates/index.php:10
+msgid "Folder"
+msgstr "Carpeta"
+
+#: templates/index.php:11
+msgid "From url"
+msgstr "Desde la URL"
+
+#: templates/index.php:20
+msgid "Upload"
+msgstr "Subir"
+
+#: templates/index.php:27
+msgid "Cancel upload"
+msgstr "Cancelar subida"
+
+#: templates/index.php:40
+msgid "Nothing in here. Upload something!"
+msgstr "Aquí no hay nada. ¡Subí contenido!"
+
+#: templates/index.php:50
+msgid "Share"
+msgstr "Compartir"
+
+#: templates/index.php:52
+msgid "Download"
+msgstr "Descargar"
+
+#: templates/index.php:75
+msgid "Upload too large"
+msgstr "El archivo es demasiado grande"
+
+#: templates/index.php:77
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr "Los archivos que intentás subir sobrepasan el tamaño máximo "
+
+#: templates/index.php:82
+msgid "Files are being scanned, please wait."
+msgstr "Se están escaneando los archivos, por favor espere."
+
+#: templates/index.php:85
+msgid "Current scanning"
+msgstr "Escaneo actual"

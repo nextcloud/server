@@ -240,6 +240,8 @@ class OC{
 		OC_Util::addScript( "jquery-tipsy" );
 		OC_Util::addScript( "oc-dialogs" );
 		OC_Util::addScript( "js" );
+		// request protection token MUST be defined after the jquery library but before any $('document').ready()
+		OC_Util::addScript( "requesttoken" );
 		OC_Util::addScript( "eventsource" );
 		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );
@@ -303,14 +305,14 @@ class OC{
 
 		//set http auth headers for apache+php-cgi work around
 		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
-			list($name, $password) = explode(':', base64_decode($matches[1]));
+			list($name, $password) = explode(':', base64_decode($matches[1]), 2);
 			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
 			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
 		}
 
 		//set http auth headers for apache+php-cgi work around if variable gets renamed by apache
 		if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches)) {
-			list($name, $password) = explode(':', base64_decode($matches[1]));
+			list($name, $password) = explode(':', base64_decode($matches[1]), 2);
 			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
 			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
 		}
@@ -526,11 +528,7 @@ class OC{
 	}
 
 	protected static function tryFormLogin() {
-		if(!isset($_POST["user"])
-		|| !isset($_POST['password'])
-		|| !isset($_SESSION['sectoken'])
-		|| !isset($_POST['sectoken'])
-		|| ($_SESSION['sectoken']!=$_POST['sectoken']) ) {
+		if(!isset($_POST["user"]) || !isset($_POST['password'])) {
 			return false;
 		}
 
@@ -551,7 +549,8 @@ class OC{
 			else {
 				OC_User::unsetMagicInCookie();
 			}
-			OC_Util::redirectToDefaultPage();
+			header( 'Location: '.$_SERVER['REQUEST_URI'] );
+			exit();
 		}
 		return true;
 	}

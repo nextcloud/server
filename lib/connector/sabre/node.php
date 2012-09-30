@@ -23,7 +23,8 @@
 
 abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IProperties {
 	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
-
+	const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
+	
 	/**
 	 * The path to the current node
 	 *
@@ -142,7 +143,6 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	public function updateProperties($properties) {
 		$existing = $this->getProperties(array());
 		foreach($properties as $propertyName => $propertyValue) {
-			$propertyName = preg_replace("/^{.*}/", "", $propertyName); // remove leading namespace from property name
 			// If it was null, we need to delete the property
 			if (is_null($propertyValue)) {
 				if(array_key_exists( $propertyName, $existing )) {
@@ -151,7 +151,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 				}
 			}
 			else {
-				if( strcmp( $propertyName, "lastmodified") === 0) {
+				if( strcmp( $propertyName, self::LASTMODIFIED_PROPERTYNAME) === 0 ) {
 					$this->touch($propertyValue);
 				} else {
 					if(!array_key_exists( $propertyName, $existing )) {
