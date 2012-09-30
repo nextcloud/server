@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-30 02:02+0200\n"
+"PO-Revision-Date: 2012-09-29 05:31+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -129,15 +129,15 @@ msgstr "Errore durante la modifica dei permessi"
 
 #: js/share.js:130
 msgid "Shared with you and the group"
-msgstr ""
+msgstr "Condiviso con te e con il gruppo"
 
 #: js/share.js:130
 msgid "by"
-msgstr ""
+msgstr "da"
 
 #: js/share.js:132
 msgid "Shared with you by"
-msgstr ""
+msgstr "Condiviso con te da"
 
 #: js/share.js:137
 msgid "Share with"
@@ -165,7 +165,7 @@ msgstr "Data di scadenza"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Condividi tramite email:"
 
 #: js/share.js:187
 msgid "No people found"
@@ -177,11 +177,11 @@ msgstr "La ri-condivisione non è consentita"
 
 #: js/share.js:250
 msgid "Shared in"
-msgstr ""
+msgstr "Condiviso in"
 
 #: js/share.js:250
 msgid "with"
-msgstr ""
+msgstr "con"
 
 #: js/share.js:271
 msgid "Unshare"
@@ -248,7 +248,7 @@ msgstr "Accesso non riuscito!"
 msgid "Username"
 msgstr "Nome utente"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Richiesta di ripristino"
 
@@ -361,11 +361,11 @@ msgstr "Esci"
 msgid "Lost your password?"
 msgstr "Hai perso la password?"
 
-#: templates/login.php:17
+#: templates/login.php:16
 msgid "remember"
 msgstr "ricorda"
 
-#: templates/login.php:18
+#: templates/login.php:17
 msgid "Log in"
 msgstr "Accedi"
 

@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-30 02:02+0200\n"
+"PO-Revision-Date: 2012-09-29 11:11+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -130,15 +130,15 @@ msgstr "Fel vid ändring av rättigheter"
 
 #: js/share.js:130
 msgid "Shared with you and the group"
-msgstr ""
+msgstr "Delas med dig och gruppen"
 
 #: js/share.js:130
 msgid "by"
-msgstr ""
+msgstr "av"
 
 #: js/share.js:132
 msgid "Shared with you by"
-msgstr ""
+msgstr "Delas med dig av"
 
 #: js/share.js:137
 msgid "Share with"
@@ -166,7 +166,7 @@ msgstr "Utgångsdatum"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Dela via e-post:"
 
 #: js/share.js:187
 msgid "No people found"
@@ -178,11 +178,11 @@ msgstr "Dela vidare är inte tillåtet"
 
 #: js/share.js:250
 msgid "Shared in"
-msgstr ""
+msgstr "Delas i"
 
 #: js/share.js:250
 msgid "with"
-msgstr ""
+msgstr "med"
 
 #: js/share.js:271
 msgid "Unshare"
@@ -249,7 +249,7 @@ msgstr "Misslyckad inloggning!"
 msgid "Username"
 msgstr "Användarnamn"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Begär återställning"
 
@@ -362,11 +362,11 @@ msgstr "Logga ut"
 msgid "Lost your password?"
 msgstr "Glömt ditt lösenord?"
 
-#: templates/login.php:17
+#: templates/login.php:16
 msgid "remember"
 msgstr "kom ihåg"
 
-#: templates/login.php:18
+#: templates/login.php:17
 msgid "Log in"
 msgstr "Logga in"
 
