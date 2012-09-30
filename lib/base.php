@@ -549,7 +549,8 @@ class OC{
 			else {
 				OC_User::unsetMagicInCookie();
 			}
-			OC_Util::redirectToDefaultPage();
+			header( 'Location: '.$_SERVER['REQUEST_URI'] );
+			exit();
 		}
 		return true;
 	}

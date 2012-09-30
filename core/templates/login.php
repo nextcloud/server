@@ -1,5 +1,5 @@
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
-<form action="index.php" method="post">
+<form method="post">
 	<fieldset>
 		<?php if(!empty($_['redirect'])) { echo '<input type="hidden" name="redirect_url" value="'.$_['redirect'].'" />'; } ?>
 		<?php if($_['display_lostpassword']): ?>
