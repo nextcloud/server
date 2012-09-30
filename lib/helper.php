@@ -370,6 +370,7 @@ class OC_Helper {
 
 			//trim the character set from the end of the response
 			$mimeType=substr($reply,0,strrpos($reply,' '));
+			$mimeType=substr($mimeType,0,strrpos($mimeType,"\n"));
 
 			//trim ;
 			if (strpos($mimeType, ';') !== false) {
