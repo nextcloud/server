@@ -1,6 +1,26 @@
 <?php
 // Load other apps for file previews
 OC_App::loadApps();
+
+// Compatibility with shared-by-link items from ownCloud 4.0
+// requires old Sharing table !
+// support will be removed in OC 5.0,a
+if (isset($_GET['token'])) {
+	unset($_GET['file']);
+	$qry = \OC_DB::prepare('SELECT `source` FROM `*PREFIX*sharing` WHERE `target` = ? LIMIT 1');
+	$filepath = $qry->execute(array($_GET['token']))->fetchOne();
+	if(isset($filepath)) {
+		$info = OC_FileCache_Cached::get($filepath, '');
+		if(strtolower($info['mimetype']) == 'httpd/unix-directory') {
+			$_GET['dir'] = $filepath;
+		} else {
+			$_GET['file'] = $filepath;
+		}
+		\OCP\Util::writeLog('files_sharing', 'You have files that are shared by link originating from ownCloud 4.0. Redistribute the new links, because backwards compatibility will be removed in ownCloud 5.', \OCP\Util::WARN);
+	}
+}
+// Enf of backward compatibility
+
 if (isset($_GET['file']) || isset($_GET['dir'])) {
 	if (isset($_GET['dir'])) {
 		$type = 'folder';

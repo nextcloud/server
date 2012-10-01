@@ -81,10 +81,13 @@ class OC_FileCache_Update{
 		$dh=$view->opendir($path.'/');
 		if($dh) {//check for changed/new files
 			while (($filename = readdir($dh)) !== false) {
-				if($filename != '.' and $filename != '..') {
+				if($filename != '.' and $filename != '..' and $filename != '') {
 					$file=$path.'/'.$filename;
-					if(self::hasUpdated($file, $root)) {
-						if($root===false) {//filesystem hooks are only valid for the default root
+					$isDir=$view->is_dir($file);
+					if(self::hasUpdated($file, $root, $isDir)) {
+						if($isDir){
+							self::updateFolder($file, $root);
+						}elseif($root===false) {//filesystem hooks are only valid for the default root
 							OC_Hook::emit('OC_Filesystem', 'post_write', array('path'=>$file));
 						}else{
 							self::update($file, $root);
@@ -136,7 +139,7 @@ class OC_FileCache_Update{
 	}
 
 	/**
-	 * update the filecache according to changes to the fileysystem
+	 * update the filecache according to changes to the filesystem
 	 * @param string path
 	 * @param string root (optional)
 	 */

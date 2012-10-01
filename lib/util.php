@@ -62,7 +62,7 @@ class OC_Util {
 				$mtime=filemtime($user_root.'/mount.php');
 				$previousMTime=OC_Preferences::getValue($user,'files','mountconfigmtime',0);
 				if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-					OC_FileCache::clear($user);
+					OC_FileCache::triggerUpdate($user);
 					OC_Preferences::setValue($user,'files','mountconfigmtime',$mtime);
 				}
 			}

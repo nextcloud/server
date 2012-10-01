@@ -267,9 +267,13 @@ OC.Share={
 			if (permissions & OC.PERMISSION_SHARE) {
 				shareChecked = 'checked="checked"';
 			}
-			var html = '<li style="clear: both;" data-share-type="'+shareType+'" data-share-with="'+shareWith+'">';
+			var html = '<li style="clear: both;" data-share-type="'+shareType+'" data-share-with="'+shareWith+'" title="' + shareWith + '">';
 			html += '<a href="#" class="unshare" style="display:none;"><img class="svg" alt="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
-			html += shareWith;
+			if(shareWith.length > 14){
+				html += shareWith.substr(0,11) + '...';
+			}else{
+				html += shareWith;
+			}
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
 				if (editChecked == '') {
 					html += '<label style="display:none;">';
