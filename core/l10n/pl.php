@@ -30,7 +30,6 @@
 "Password" => "Hasło",
 "Set expiration date" => "Ustaw datę wygaśnięcia",
 "Expiration date" => "Data wygaśnięcia",
-"Share via email: %s" => "Współdziel przez email: %s",
 "No people found" => "Nie znaleziono ludzi",
 "Resharing is not allowed" => "Współdzielenie nie jest możliwe",
 "can edit" => "można edytować",

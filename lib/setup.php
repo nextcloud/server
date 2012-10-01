@@ -79,7 +79,7 @@ class OC_Setup {
 			}
 
 			//generate a random salt that is used to salt the local user passwords
-			$salt=mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000);
+			$salt = OC_Util::generate_random_bytes(30);
 			OC_Config::setValue('passwordsalt', $salt);
 
 			//write the config file

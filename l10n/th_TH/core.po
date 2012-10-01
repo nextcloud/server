@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:19+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-01 02:04+0200\n"
+"PO-Revision-Date: 2012-09-30 07:07+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgstr "ไม่มีหมวดหมู่ที่ต้องการเ
 msgid "This category already exists: "
 msgstr "หมวดหมู่นี้มีอยู่แล้ว: "
 
-#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "ตั้งค่า"
 
@@ -125,14 +125,16 @@ msgid "Error while changing permissions"
 msgstr "เกิดข้อผิดพลาดในการเปลี่ยนสิทธิ์การเข้าใช้งาน"
 
 #: js/share.js:130
-#, python-format
-msgid "Shared with you and the group %s by %s"
-msgstr "ได้แชร์ให้กับคุณและกลุ่ม %s โดย %s"
+msgid "Shared with you and the group"
+msgstr "แชร์ให้คุณและกลุ่ม"
+
+#: js/share.js:130
+msgid "by"
+msgstr "โดย"
 
 #: js/share.js:132
-#, python-format
-msgid "Shared with you by %s"
-msgstr "แชร์ให้กับคุณโดย %s"
+msgid "Shared with you by"
+msgstr "แชร์ให้คุณโดย"
 
 #: js/share.js:137
 msgid "Share with"
@@ -159,9 +161,8 @@ msgid "Expiration date"
 msgstr "วันที่หมดอายุ"
 
 #: js/share.js:185
-#, python-format
-msgid "Share via email: %s"
-msgstr "แชร์ผ่านทางอีเมล: %s"
+msgid "Share via email:"
+msgstr "แชร์ผ่านทางอีเมล"
 
 #: js/share.js:187
 msgid "No people found"
@@ -172,9 +173,12 @@ msgid "Resharing is not allowed"
 msgstr "ไม่อนุญาตให้แชร์ข้อมูลซ้ำได้"
 
 #: js/share.js:250
-#, python-format
-msgid "Shared in %s with %s"
-msgstr "ถูกแชร์ใน %s ด้วย %s"
+msgid "Shared in"
+msgstr "แชร์ไว้ใน"
+
+#: js/share.js:250
+msgid "with"
+msgstr "ด้วย"
 
 #: js/share.js:271
 msgid "Unshare"
@@ -210,7 +214,7 @@ msgstr "ใส่รหัสผ่านไว้"
 
 #: js/share.js:489
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ"
 
 #: js/share.js:501
 msgid "Error setting expiration date"
@@ -241,7 +245,7 @@ msgstr "ไม่สามารถเข้าสู่ระบบได้!"
 msgid "Username"
 msgstr "ชื่อผู้ใช้งาน"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "ขอเปลี่ยนรหัสใหม่"
 
@@ -346,7 +350,7 @@ msgstr "ติดตั้งเรียบร้อยแล้ว"
 msgid "web services under your control"
 msgstr "web services under your control"
 
-#: templates/layout.user.php:39
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "ออกจากระบบ"
 
@@ -354,11 +358,11 @@ msgstr "ออกจากระบบ"
 msgid "Lost your password?"
 msgstr "ลืมรหัสผ่าน?"
 
-#: templates/login.php:17
+#: templates/login.php:16
 msgid "remember"
 msgstr "จำรหัสผ่าน"
 
-#: templates/login.php:18
+#: templates/login.php:17
 msgid "Log in"
 msgstr "เข้าสู่ระบบ"
 

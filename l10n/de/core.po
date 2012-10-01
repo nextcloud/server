@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:19+0000\n"
+"POT-Creation-Date: 2012-09-29 02:02+0200\n"
+"PO-Revision-Date: 2012-09-28 21:40+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgstr "Keine Kategorie hinzuzufügen?"
 msgid "This category already exists: "
 msgstr "Kategorie existiert bereits:"
 
-#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -125,7 +125,7 @@ msgstr "Fehler"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr "Fehler beim Teilen"
+msgstr "Fehler beim Freigeben"
 
 #: js/share.js:114
 msgid "Error while unsharing"
@@ -136,14 +136,16 @@ msgid "Error while changing permissions"
 msgstr "Fehler beim Ändern  der Rechte"
 
 #: js/share.js:130
-#, python-format
-msgid "Shared with you and the group %s by %s"
-msgstr "%s hat dies für dich und die Gruppe %s freigegeben."
+msgid "Shared with you and the group"
+msgstr "Mit Dir und der Gruppe geteilt"
+
+#: js/share.js:130
+msgid "by"
+msgstr "mit"
 
 #: js/share.js:132
-#, python-format
-msgid "Shared with you by %s"
-msgstr "%s hat dies mit dir geteilt."
+msgid "Shared with you by"
+msgstr "Dies wurde mit dir geteilt von"
 
 #: js/share.js:137
 msgid "Share with"
@@ -170,9 +172,8 @@ msgid "Expiration date"
 msgstr "Ablaufdatum"
 
 #: js/share.js:185
-#, python-format
-msgid "Share via email: %s"
-msgstr "Über eine E-Mail freigeben: %s"
+msgid "Share via email:"
+msgstr "Über eine E-Mail freigeben:"
 
 #: js/share.js:187
 msgid "No people found"
@@ -183,9 +184,12 @@ msgid "Resharing is not allowed"
 msgstr "Weiterverteilen ist nicht erlaubt"
 
 #: js/share.js:250
-#, python-format
-msgid "Shared in %s with %s"
-msgstr "In %s für %s freigegeben"
+msgid "Shared in"
+msgstr "Geteilt mit"
+
+#: js/share.js:250
+msgid "with"
+msgstr "mit"
 
 #: js/share.js:271
 msgid "Unshare"
@@ -217,11 +221,11 @@ msgstr "teilen"
 
 #: js/share.js:317 js/share.js:476
 msgid "Password protected"
-msgstr "Passwort geschützt"
+msgstr "Durch ein Passwort geschützt"
 
 #: js/share.js:489
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Fehler beim entfernen des Ablaufdatums"
 
 #: js/share.js:501
 msgid "Error setting expiration date"
@@ -237,7 +241,7 @@ msgstr "Nutzen Sie den nachfolgenden Link, um Ihr Passwort zurückzusetzen: {lin
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Sie erhalten einen Link, um Ihr Passwort per E-Mail zurückzusetzen."
+msgstr "Du erhälst einen Link per E-Mail, um Dein Passwort zurückzusetzen."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Requested"
@@ -254,7 +258,7 @@ msgstr "Benutzername"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Request reset"
-msgstr "Anfrage zurückgesetzt"
+msgstr "Beantrage Zurücksetzung"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -314,7 +318,7 @@ msgstr "<strong>Administrator-Konto</strong> anlegen"
 
 #: templates/installation.php:36
 msgid "Advanced"
-msgstr "Erweitert"
+msgstr "Fortgeschritten"
 
 #: templates/installation.php:38
 msgid "Data folder"
@@ -327,7 +331,7 @@ msgstr "Datenbank einrichten"
 #: templates/installation.php:50 templates/installation.php:61
 #: templates/installation.php:71 templates/installation.php:81
 msgid "will be used"
-msgstr "wird genutzt"
+msgstr "wird verwendet"
 
 #: templates/installation.php:93
 msgid "Database user"
@@ -357,7 +361,7 @@ msgstr "Installation abschließen"
 msgid "web services under your control"
 msgstr "Web-Services unter Ihrer Kontrolle"
 
-#: templates/layout.user.php:39
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "Abmelden"
 
@@ -375,7 +379,7 @@ msgstr "Einloggen"
 
 #: templates/logout.php:1
 msgid "You are logged out."
-msgstr "Sie wurden abgemeldet."
+msgstr "Du wurdest abgemeldet."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

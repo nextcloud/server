@@ -246,6 +246,8 @@ class OC{
 		OC_Util::addScript( "jquery-tipsy" );
 		OC_Util::addScript( "oc-dialogs" );
 		OC_Util::addScript( "js" );
+		// request protection token MUST be defined after the jquery library but before any $('document').ready()
+		OC_Util::addScript( "requesttoken" );
 		OC_Util::addScript( "eventsource" );
 		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );
@@ -532,11 +534,7 @@ class OC{
 	}
 
 	protected static function tryFormLogin() {
-		if(!isset($_POST["user"])
-		|| !isset($_POST['password'])
-		|| !isset($_SESSION['sectoken'])
-		|| !isset($_POST['sectoken'])
-		|| ($_SESSION['sectoken']!=$_POST['sectoken']) ) {
+		if(!isset($_POST["user"]) || !isset($_POST['password'])) {
 			return false;
 		}
 
@@ -557,7 +555,8 @@ class OC{
 			else {
 				OC_User::unsetMagicInCookie();
 			}
-			OC_Util::redirectToDefaultPage();
+			header( 'Location: '.$_SERVER['REQUEST_URI'] );
+			exit();
 		}
 		return true;
 	}

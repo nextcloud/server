@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <d.chateau@laposte.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-19 02:02+0200\n"
-"PO-Revision-Date: 2012-09-19 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-28 23:34+0200\n"
+"PO-Revision-Date: 2012-09-28 14:00+0000\n"
+"Last-Translator: tartafione <d.chateau@laposte.net>\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,82 +20,82 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Pas possible de cargar la tièra dempuèi App Store"
 
 #: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
 #: ajax/togglegroups.php:15
 msgid "Authentication error"
-msgstr ""
+msgstr "Error d'autentificacion"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "Lo grop existís ja"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "Pas capable d'apondre  un grop"
 
 #: ajax/enableapp.php:14
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Pòt pas activar app. "
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "Corrièl enregistrat"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Corrièl incorrècte"
 
 #: ajax/openid.php:16
 msgid "OpenID Changed"
-msgstr ""
+msgstr "OpenID cambiat"
 
 #: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
-msgstr ""
+msgstr "Demanda invalida"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Pas capable d'escafar un grop"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Pas capable d'escafar un usancièr"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
-msgstr ""
+msgstr "Lengas cambiadas"
 
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Pas capable d'apondre un usancièr al grop %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Pas capable de tira un usancièr del grop %s"
 
 #: js/apps.js:27 js/apps.js:61
 msgid "Disable"
-msgstr ""
+msgstr "Desactiva"
 
 #: js/apps.js:27 js/apps.js:50
 msgid "Enable"
-msgstr ""
+msgstr "Activa"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Enregistra..."
 
 #: personal.php:46 personal.php:47
 msgid "__language_name__"
-msgstr ""
+msgstr "__language_name__"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "Avertiment de securitat"
 
 #: templates/admin.php:17
 msgid ""
@@ -107,11 +108,11 @@ msgstr ""
 
 #: templates/admin.php:31
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Executa un prètfach amb cada pagina cargada"
 
 #: templates/admin.php:43
 msgid ""
@@ -123,15 +124,15 @@ msgstr ""
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Utiliza lo servici cron de ton sistèm operatiu. Executa lo fichièr cron.php dins lo dorsier owncloud tras cronjob del sistèm cada minuta."
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "Al partejar"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
-msgstr ""
+msgstr "Activa API partejada"
 
 #: templates/admin.php:62
 msgid "Allow apps to use the Share API"
@@ -163,11 +164,11 @@ msgstr ""
 
 #: templates/admin.php:88
 msgid "Log"
-msgstr ""
+msgstr "Jornal"
 
 #: templates/admin.php:116
 msgid "More"
-msgstr ""
+msgstr "Mai d'aquò"
 
 #: templates/admin.php:124
 msgid ""
@@ -181,48 +182,48 @@ msgstr ""
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr ""
+msgstr "Ajusta ton App"
 
 #: templates/apps.php:26
 msgid "Select an App"
-msgstr ""
+msgstr "Selecciona una applicacion"
 
 #: templates/apps.php:29
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Agacha la pagina d'applications en cò de apps.owncloud.com"
 
 #: templates/apps.php:30
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-licençiat per <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"
-msgstr ""
+msgstr "Documentacion"
 
 #: templates/help.php:10
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Al bailejar de fichièrs pesucasses"
 
 #: templates/help.php:11
 msgid "Ask a question"
-msgstr ""
+msgstr "Respond a una question"
 
 #: templates/help.php:23
 msgid "Problems connecting to help database."
-msgstr ""
+msgstr "Problemas al connectar de la basa de donadas d'ajuda"
 
 #: templates/help.php:24
 msgid "Go there manually."
-msgstr ""
+msgstr "Vas çai manualament"
 
 #: templates/help.php:32
 msgid "Answer"
-msgstr ""
+msgstr "Responsa"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
+msgstr "As utilizat <strong>%s</strong> dels <strong>%s<strong> disponibles"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -230,88 +231,88 @@ msgstr ""
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Avalcarga"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "Ton senhal a cambiat"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Pas possible de cambiar ton senhal"
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr ""
+msgstr "Senhal en cors"
 
 #: templates/personal.php:22
 msgid "New password"
-msgstr ""
+msgstr "Senhal novèl"
 
 #: templates/personal.php:23
 msgid "show"
-msgstr ""
+msgstr "mòstra"
 
 #: templates/personal.php:24
 msgid "Change password"
-msgstr ""
+msgstr "Cambia lo senhal"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr ""
+msgstr "Corrièl"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr ""
+msgstr "Ton adreiça de corrièl"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Emplena una adreiça de corrièl per permetre lo mandadís del senhal perdut"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
-msgstr ""
+msgstr "Lenga"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr ""
+msgstr "Ajuda a la revirada"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "utiliza aquela adreiça per te connectar al ownCloud amb ton explorator de fichièrs"
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "Senhal"
 
 #: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
-msgstr ""
+msgstr "Grops"
 
 #: templates/users.php:32
 msgid "Create"
-msgstr ""
+msgstr "Crea"
 
 #: templates/users.php:35
 msgid "Default Quota"
-msgstr ""
+msgstr "Quota per defaut"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
-msgstr ""
+msgstr "Autres"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "Grop Admin"
 
 #: templates/users.php:82
 msgid "Quota"
-msgstr ""
+msgstr "Quota"
 
 #: templates/users.php:146
 msgid "Delete"
-msgstr ""
+msgstr "Escafa"

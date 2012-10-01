@@ -116,6 +116,7 @@ class Util {
 	 * @param $app app
 	 * @param $file file
 	 * @param $args array with param=>value, will be appended to the returned url
+	 * 	The value of $args will be urlencoded
 	 * @returns the url
 	 *
 	 * Returns a absolute url to the given app and file.
@@ -151,6 +152,7 @@ class Util {
 	* @param $app app
 	* @param $file file
 	* @param $args array with param=>value, will be appended to the returned url
+	* 	The value of $args will be urlencoded
 	* @returns the url
 	*
 	* Returns a url to the given app and file.

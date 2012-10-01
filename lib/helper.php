@@ -33,6 +33,7 @@ class OC_Helper {
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
+	 * 	The value of $args will be urlencoded
 	 * @return string the url
 	 *
 	 * Returns a url to the given app and file.
@@ -65,7 +66,7 @@ class OC_Helper {
 		if (!empty($args)) {
 			$urlLinkTo .= '?';
 			foreach($args as $k => $v) {
-				$urlLinkTo .= '&'.$k.'='.$v;
+				$urlLinkTo .= '&'.$k.'='.urlencode($v);
 			}
 		}
 
@@ -77,6 +78,7 @@ class OC_Helper {
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
+	 * 	The value of $args will be urlencoded
 	 * @return string the url
 	 *
 	 * Returns a absolute url to the given app and file.
@@ -368,6 +370,7 @@ class OC_Helper {
 
 			//trim the character set from the end of the response
 			$mimeType=substr($reply,0,strrpos($reply,' '));
+			$mimeType=substr($mimeType,0,strrpos($mimeType,"\n"));
 
 			//trim ;
 			if (strpos($mimeType, ';') !== false) {

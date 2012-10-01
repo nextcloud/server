@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:19+0000\n"
+"POT-Creation-Date: 2012-09-28 23:34+0200\n"
+"PO-Revision-Date: 2012-09-28 21:34+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "¿Ninguna categoría para añadir?"
 msgid "This category already exists: "
 msgstr "Esta categoría ya existe: "
 
-#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Ajustes"
 
@@ -124,14 +124,16 @@ msgid "Error while changing permissions"
 msgstr "Error al cambiar permisos"
 
 #: js/share.js:130
-#, python-format
-msgid "Shared with you and the group %s by %s"
-msgstr "Compartido con vos y con el grupo %s por %s"
+msgid "Shared with you and the group"
+msgstr ""
+
+#: js/share.js:130
+msgid "by"
+msgstr ""
 
 #: js/share.js:132
-#, python-format
-msgid "Shared with you by %s"
-msgstr "Compartido con vos por %s"
+msgid "Shared with you by"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -158,9 +160,8 @@ msgid "Expiration date"
 msgstr "Fecha de vencimiento"
 
 #: js/share.js:185
-#, python-format
-msgid "Share via email: %s"
-msgstr "Compartir por e-mail: %s"
+msgid "Share via email:"
+msgstr ""
 
 #: js/share.js:187
 msgid "No people found"
@@ -171,9 +172,12 @@ msgid "Resharing is not allowed"
 msgstr "No se permite volver a compartir"
 
 #: js/share.js:250
-#, python-format
-msgid "Shared in %s with %s"
-msgstr "Compartido en %s con %s"
+msgid "Shared in"
+msgstr ""
+
+#: js/share.js:250
+msgid "with"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
@@ -209,7 +213,7 @@ msgstr "Protegido por contraseña"
 
 #: js/share.js:489
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Error al remover la fecha de caducidad"
 
 #: js/share.js:501
 msgid "Error setting expiration date"
@@ -345,7 +349,7 @@ msgstr "Completar la instalación"
 msgid "web services under your control"
 msgstr "servicios web sobre los que tenés control"
 
-#: templates/layout.user.php:39
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "Cerrar la sesión"
 

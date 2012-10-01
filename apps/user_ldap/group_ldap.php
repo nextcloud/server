@@ -143,7 +143,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 			if(!empty($this->groupSearch)) {
 				$groupUsers = array_filter($groupUsers, array($this, 'groupMatchesFilter'));
 			}
-			if($limit = -1) {
+			if($limit == -1) {
 				$limit = null;
 			}
 			return array_slice($groupUsers, $offset, $limit);
@@ -187,7 +187,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		if(!empty($this->groupSearch)) {
 			$groupUsers = array_filter($groupUsers, array($this, 'groupMatchesFilter'));
 		}
-		if($limit = -1) {
+		if($limit == -1) {
 			$limit = null;
 		}
 		return array_slice($groupUsers, $offset, $limit);

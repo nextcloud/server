@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <blobbyjj@ymail.com>, 2012.
 # Phi Lieb <>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-18 02:01+0200\n"
-"PO-Revision-Date: 2012-09-17 21:03+0000\n"
-"Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
+"POT-Creation-Date: 2012-09-28 02:03+0200\n"
+"PO-Revision-Date: 2012-09-27 22:40+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,19 +45,19 @@ msgstr "Apps"
 msgid "Admin"
 msgstr "Administrator"
 
-#: files.php:280
+#: files.php:327
 msgid "ZIP download is turned off."
 msgstr "Der ZIP-Download ist deaktiviert."
 
-#: files.php:281
+#: files.php:328
 msgid "Files need to be downloaded one by one."
 msgstr "Die Dateien müssen einzeln heruntergeladen werden."
 
-#: files.php:281 files.php:306
+#: files.php:328 files.php:353
 msgid "Back to Files"
 msgstr "Zurück zu \"Dateien\""
 
-#: files.php:305
+#: files.php:352
 msgid "Selected files too large to generate zip file."
 msgstr "Die gewählten Dateien sind zu groß, um eine ZIP-Datei zu erstellen."
 
@@ -70,7 +71,7 @@ msgstr "Authentifizierungs-Fehler"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr "Token abgelaufen. Bitte laden Sie die Seite neu."
+msgstr "Token abgelaufen. Bitte lade die Seite neu."
 
 #: template.php:87
 msgid "seconds ago"
@@ -83,7 +84,7 @@ msgstr "Vor einer Minute"
 #: template.php:89
 #, php-format
 msgid "%d minutes ago"
-msgstr "Vor %d Minute(n)"
+msgstr "Vor %d Minuten"
 
 #: template.php:92
 msgid "today"

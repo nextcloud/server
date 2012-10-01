@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:20+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-09-27 02:01+0200\n"
+"PO-Revision-Date: 2012-09-26 12:31+0000\n"
+"Last-Translator: sedir <philippi.sedir@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,11 +123,11 @@ msgstr "Pendente"
 
 #: js/files.js:256
 msgid "1 file uploading"
-msgstr ""
+msgstr "enviando 1 arquivo"
 
 #: js/files.js:259 js/files.js:304 js/files.js:319
 msgid "files uploading"
-msgstr ""
+msgstr "enviando arquivos"
 
 #: js/files.js:322 js/files.js:355
 msgid "Upload cancelled."
@@ -142,81 +142,81 @@ msgstr "Upload em andamento. Sair da página agora resultará no cancelamento do
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nome inválido, '/' não é permitido."
 
-#: js/files.js:667
+#: js/files.js:668
 msgid "files scanned"
 msgstr "arquivos verificados"
 
-#: js/files.js:675
+#: js/files.js:676
 msgid "error while scanning"
 msgstr "erro durante verificação"
 
-#: js/files.js:748 templates/index.php:48
+#: js/files.js:749 templates/index.php:48
 msgid "Name"
 msgstr "Nome"
 
-#: js/files.js:749 templates/index.php:56
+#: js/files.js:750 templates/index.php:56
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/files.js:750 templates/index.php:58
+#: js/files.js:751 templates/index.php:58
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:777
+#: js/files.js:778
 msgid "folder"
 msgstr "pasta"
 
-#: js/files.js:779
+#: js/files.js:780
 msgid "folders"
 msgstr "pastas"
 
-#: js/files.js:787
+#: js/files.js:788
 msgid "file"
 msgstr "arquivo"
 
-#: js/files.js:789
+#: js/files.js:790
 msgid "files"
 msgstr "arquivos"
 
-#: js/files.js:833
-msgid "seconds ago"
-msgstr ""
-
 #: js/files.js:834
-msgid "minute ago"
-msgstr ""
+msgid "seconds ago"
+msgstr "segundos atrás"
 
 #: js/files.js:835
-msgid "minutes ago"
-msgstr ""
+msgid "minute ago"
+msgstr "minuto atrás"
 
-#: js/files.js:838
-msgid "today"
-msgstr ""
+#: js/files.js:836
+msgid "minutes ago"
+msgstr "minutos atrás"
 
 #: js/files.js:839
-msgid "yesterday"
-msgstr ""
+msgid "today"
+msgstr "hoje"
 
 #: js/files.js:840
-msgid "days ago"
-msgstr ""
+msgid "yesterday"
+msgstr "ontem"
 
 #: js/files.js:841
-msgid "last month"
-msgstr ""
+msgid "days ago"
+msgstr "dias atrás"
 
-#: js/files.js:843
-msgid "months ago"
-msgstr ""
+#: js/files.js:842
+msgid "last month"
+msgstr "último mês"
 
 #: js/files.js:844
-msgid "last year"
-msgstr ""
+msgid "months ago"
+msgstr "meses atrás"
 
 #: js/files.js:845
+msgid "last year"
+msgstr "último ano"
+
+#: js/files.js:846
 msgid "years ago"
-msgstr ""
+msgstr "anos atrás"
 
 #: templates/admin.php:5
 msgid "File handling"

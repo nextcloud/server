@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
+"POT-Creation-Date: 2012-10-01 02:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,79 +136,79 @@ msgstr ""
 msgid "Invalid name, '/' is not allowed."
 msgstr ""
 
-#: js/files.js:667
+#: js/files.js:668
 msgid "files scanned"
 msgstr ""
 
-#: js/files.js:675
+#: js/files.js:676
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:748 templates/index.php:48
+#: js/files.js:749 templates/index.php:48
 msgid "Name"
 msgstr ""
 
-#: js/files.js:749 templates/index.php:56
+#: js/files.js:750 templates/index.php:56
 msgid "Size"
 msgstr ""
 
-#: js/files.js:750 templates/index.php:58
+#: js/files.js:751 templates/index.php:58
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:777
+#: js/files.js:778
 msgid "folder"
 msgstr ""
 
-#: js/files.js:779
+#: js/files.js:780
 msgid "folders"
 msgstr ""
 
-#: js/files.js:787
+#: js/files.js:788
 msgid "file"
 msgstr ""
 
-#: js/files.js:789
+#: js/files.js:790
 msgid "files"
 msgstr ""
 
-#: js/files.js:833
+#: js/files.js:834
 msgid "seconds ago"
 msgstr ""
 
-#: js/files.js:834
+#: js/files.js:835
 msgid "minute ago"
 msgstr ""
 
-#: js/files.js:835
+#: js/files.js:836
 msgid "minutes ago"
 msgstr ""
 
-#: js/files.js:838
+#: js/files.js:839
 msgid "today"
 msgstr ""
 
-#: js/files.js:839
+#: js/files.js:840
 msgid "yesterday"
 msgstr ""
 
-#: js/files.js:840
+#: js/files.js:841
 msgid "days ago"
 msgstr ""
 
-#: js/files.js:841
+#: js/files.js:842
 msgid "last month"
 msgstr ""
 
-#: js/files.js:843
+#: js/files.js:844
 msgid "months ago"
 msgstr ""
 
-#: js/files.js:844
+#: js/files.js:845
 msgid "last year"
 msgstr ""
 
-#: js/files.js:845
+#: js/files.js:846
 msgid "years ago"
 msgstr ""
 

@@ -62,7 +62,7 @@ class OC_Util {
 				$mtime=filemtime($user_root.'/mount.php');
 				$previousMTime=OC_Preferences::getValue($user,'files','mountconfigmtime',0);
 				if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-					OC_FileCache::clear($user);
+					OC_FileCache::triggerUpdate($user);
 					OC_Preferences::setValue($user,'files','mountconfigmtime',$mtime);
 				}
 			}
@@ -81,7 +81,7 @@ class OC_Util {
 	 */
 	public static function getVersion() {
 		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4,9,0. This is not visible to the user
-		return array(4,84,10);
+		return array(4,85,11);
 	}
 
 	/**
@@ -89,7 +89,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString() {
-		return '4.5 beta 4';
+		return '4.5 RC 1';
 	}
 
 	/**
@@ -314,9 +314,6 @@ class OC_Util {
 			$parameters["username"] = '';
 			$parameters['user_autofocus'] = true;
 		}
-		$sectoken=rand(1000000,9999999);
-		$_SESSION['sectoken']=$sectoken;
-		$parameters["sectoken"] = $sectoken;
 		if (isset($_REQUEST['redirect_url'])) {
 			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
 		} else {
@@ -344,7 +341,7 @@ class OC_Util {
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()) {
-			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php', array('redirect_url' => urlencode($_SERVER["REQUEST_URI"]))));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php', array('redirect_url' => $_SERVER["REQUEST_URI"])));
 			exit();
 		}
 	}
@@ -416,16 +413,31 @@ class OC_Util {
 	}
 
 	/**
-	 * @brief Register an get/post call. This is important to prevent CSRF attacks
-	 * Todo: Write howto
+	 * @brief Static lifespan (in seconds) when a request token expires.
+	 * @see OC_Util::callRegister()
+	 * @see OC_Util::isCallRegistered()
+	 * @description
+	 * Also required for the client side to compute the piont in time when to
+	 * request a fresh token. The client will do so when nearly 97% of the
+	 * timespan coded here has expired. 
+	 */
+	public static $callLifespan = 3600; // 3600 secs = 1 hour
+
+	/**
+	 * @brief Register an get/post call. Important to prevent CSRF attacks.
+	 * @todo Write howto: CSRF protection guide
 	 * @return $token Generated token.
+	 * @description
+	 * Creates a 'request token' (random) and stores it inside the session.
+	 * Ever subsequent (ajax) request must use such a valid token to succeed,
+	 * otherwise the request will be denied as a protection against CSRF.
+	 * The tokens expire after a fixed lifespan.
+	 * @see OC_Util::$callLifespan
+	 * @see OC_Util::isCallRegistered()
 	 */
 	public static function callRegister() {
-		//mamimum time before token exires
-		$maxtime=(60*60);  // 1 hour
-
 		// generate a random token.
-		$token=mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000);
+		$token = self::generate_random_bytes(20);
 
 		// store the token together with a timestamp in the session.
 		$_SESSION['requesttoken-'.$token]=time();
@@ -436,7 +448,8 @@ class OC_Util {
 			foreach($_SESSION as $key=>$value) {
 				// search all tokens in the session
 				if(substr($key,0,12)=='requesttoken') {
-					if($value+$maxtime<time()) {
+					// check if static lifespan has expired
+					if($value+self::$callLifespan<time()) {
 						// remove outdated tokens
 						unset($_SESSION[$key]);
 					}
@@ -447,14 +460,13 @@ class OC_Util {
 		return($token);
 	}
 
-
 	/**
 	 * @brief Check an ajax get/post call if the request token is valid.
 	 * @return boolean False if request token is not set or is invalid.
+	 * @see OC_Util::$callLifespan
+	 * @see OC_Util::calLRegister()
 	 */
 	public static function isCallRegistered() {
-		//mamimum time before token exires
-		$maxtime=(60*60);  // 1 hour
 		if(isset($_GET['requesttoken'])) {
 			$token=$_GET['requesttoken'];
 		}elseif(isset($_POST['requesttoken'])) {
@@ -467,7 +479,8 @@ class OC_Util {
 		}
 		if(isset($_SESSION['requesttoken-'.$token])) {
 			$timestamp=$_SESSION['requesttoken-'.$token];
-			if($timestamp+$maxtime<time()) {
+			// check if static lifespan has expired
+			if($timestamp+self::$callLifespan<time()) {
 				return false;
 			}else{
 				//token valid
@@ -535,4 +548,30 @@ class OC_Util {
 		}
 	}
 
+	/*
+	* @brief Generates random bytes with "openssl_random_pseudo_bytes" with a fallback for systems without openssl
+	* Inspired by gorgo on php.net
+	* @param Int with the length of the random
+	* @return String with the random bytes
+	*/
+	public static function generate_random_bytes($length = 30) {
+		if(function_exists('openssl_random_pseudo_bytes')) { 
+			$pseudo_byte = bin2hex(openssl_random_pseudo_bytes($length, $strong));
+			if($strong == TRUE) {
+				return substr($pseudo_byte, 0, $length); // Truncate it to match the length
+			}
+		}
+
+		// fallback to mt_rand() 
+		$characters = '0123456789';
+		$characters .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; 
+		$charactersLength = strlen($characters)-1;
+		$pseudo_byte = "";
+
+		// Select some random characters
+		for ($i = 0; $i < $length; $i++) {
+			$pseudo_byte .= $characters[mt_rand(0, $charactersLength)];
+		}        
+		return $pseudo_byte;
+	}
 }
