@@ -123,7 +123,13 @@ abstract class Access {
 	 * returns the LDAP DN for the given internal ownCloud name of the group
 	 */
 	public function groupname2dn($name) {
-		return $this->ocname2dn($name, false);
+		$dn = $this->ocname2dn($name, false);
+
+		if($dn) {
+			return $dn;
+		}
+
+		return false;
 	}
 
 	/**

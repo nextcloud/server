@@ -237,7 +237,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		}
 
 		//getting dn, if false the group does not exist. If dn, it may be mapped only, requires more checking.
-		$dn = $this->username2dn($gid);
+		$dn = $this->groupname2dn($gid);
 		if(!$dn) {
 			$this->connection->writeToCache('groupExists'.$gid, false);
 			return false;
