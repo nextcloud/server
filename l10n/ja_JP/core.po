@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-01 02:04+0200\n"
+"PO-Revision-Date: 2012-09-30 12:40+0000\n"
+"Last-Translator: ttyn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -126,15 +126,15 @@ msgstr "権限変更でエラー発生"
 
 #: js/share.js:130
 msgid "Shared with you and the group"
-msgstr ""
+msgstr "あなたとグループで共有中"
 
 #: js/share.js:130
 msgid "by"
-msgstr ""
+msgstr "により"
 
 #: js/share.js:132
 msgid "Shared with you by"
-msgstr ""
+msgstr "あなたと共有"
 
 #: js/share.js:137
 msgid "Share with"
@@ -162,7 +162,7 @@ msgstr "有効期限"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "メール経由で共有: %s"
 
 #: js/share.js:187
 msgid "No people found"
@@ -174,11 +174,11 @@ msgstr "再共有は許可されていません"
 
 #: js/share.js:250
 msgid "Shared in"
-msgstr ""
+msgstr "の中で共有中"
 
 #: js/share.js:250
 msgid "with"
-msgstr ""
+msgstr "と"
 
 #: js/share.js:271
 msgid "Unshare"
@@ -245,7 +245,7 @@ msgstr "ログインに失敗しました！"
 msgid "Username"
 msgstr "ユーザ名"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "リセットを要求します。"
 
@@ -358,11 +358,11 @@ msgstr "ログアウト"
 msgid "Lost your password?"
 msgstr "パスワードを忘れましたか？"
 
-#: templates/login.php:17
+#: templates/login.php:16
 msgid "remember"
 msgstr "パスワードを記憶する"
 
-#: templates/login.php:18
+#: templates/login.php:17
 msgid "Log in"
 msgstr "ログイン"
 
