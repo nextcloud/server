@@ -71,4 +71,27 @@ class Test_Filesystem extends UnitTestCase {
 			$this->assertEqual("/foo/bar\xC3\xBC", OC_Filesystem::normalizePath("/foo/baru\xCC\x88"));
 		}
 	}
+
+	public function testHooks() {
+		$user = OC_User::getUser();
+		OC_Hook::clear('OC_Filesystem');
+		OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');
+
+		OC_Filesystem::mount('OC_Filestorage_Temporary', array(), '/');
+
+		OC_Filesystem::init('');
+		OC_Filesystem::file_put_contents('/foo', 'foo');
+		OC_Filesystem::mkdir('/bar');
+		OC_Filesystem::file_put_contents('/bar//foo', 'foo');
+
+		$tmpFile = OC_Helper::tmpFile();
+		file_put_contents($tmpFile, 'foo');
+		$fh = fopen($tmpFile, 'r');
+		OC_Filesystem::file_put_contents('/bar//foo', $fh);
+	}
+
+	public function dummyHook($arguments) {
+		$path = $arguments['path'];
+		$this->assertEqual($path, OC_Filesystem::normalizePath($path)); //the path passed to the hook should already be normalized
+	}
 }
