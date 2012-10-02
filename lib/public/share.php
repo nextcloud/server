@@ -975,8 +975,10 @@ class Share {
 		} else {
 			if ($itemType == 'file' || $itemType == 'folder') {
 				$column = 'file_target';
+				$columnSource = 'file_source';
 			} else {
 				$column = 'item_target';
+				$columnSource = 'item_source';
 			}
 			if ($shareType == self::SHARE_TYPE_USER) {
 				// Share with is a user, so set share type to user and groups
@@ -1003,8 +1005,7 @@ class Share {
 				}
 				// Check if target already exists
 				$checkTarget = self::getItems($itemType, $target, $shareType, $shareWith);
-
-				if ( !empty($checkTarget) ) {
+				if (!empty($checkTarget)) {
 					foreach ($checkTarget as $item) {
 						// Skip item if it is the group parent row
 						if (isset($groupParent) && $item['id'] == $groupParent) {
@@ -1014,7 +1015,7 @@ class Share {
 								continue;
 							}
 						}
-						if ($item['uid_owner'] == $uidOwner && $item['item_source'] == \OC_FileCache::getId($itemSource) ) {
+						if ($item['uid_owner'] == $uidOwner && $item[$columnSource] == $itemSource) {
 							return $target;
 						}
 					}
