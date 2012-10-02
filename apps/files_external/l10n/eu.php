@@ -11,8 +11,8 @@
 "Groups" => "Taldeak",
 "Users" => "Erabiltzaileak",
 "Delete" => "Ezabatu",
-"SSL root certificates" => "SSL erro ziurtagiriak",
-"Import Root Certificate" => "Inportatu Erro Ziurtagiria",
 "Enable User External Storage" => "Gaitu erabiltzaileentzako Kanpo Biltegiratzea",
-"Allow users to mount their own external storage" => "Baimendu erabiltzaileak bere kanpo biltegiratzeak muntatzen"
+"Allow users to mount their own external storage" => "Baimendu erabiltzaileak bere kanpo biltegiratzeak muntatzen",
+"SSL root certificates" => "SSL erro ziurtagiriak",
+"Import Root Certificate" => "Inportatu Erro Ziurtagiria"
 );

@@ -24,7 +24,7 @@
 abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IProperties {
 	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
 	const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
-	
+
 	/**
 	 * The path to the current node
 	 *
@@ -235,7 +235,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	static public function removeETagPropertyForPath($path) {
 		// remove tags from this and parent paths
 		$paths = array();
-		while ($path != '/' && $path != '.' && $path != '') {
+		while ($path != '/' && $path != '.' && $path != '' && $path != '\\') {
 			$paths[] = $path;
 			$path = dirname($path);
 		}

@@ -11,8 +11,8 @@
 "Groups" => "Nhóm",
 "Users" => "Người dùng",
 "Delete" => "Xóa",
-"SSL root certificates" => "Chứng chỉ SSL root",
-"Import Root Certificate" => "Nhập Root Certificate",
 "Enable User External Storage" => "Kích hoạt tính năng lưu trữ ngoài",
-"Allow users to mount their own external storage" => "Cho phép người dùng kết nối với lưu trữ riêng bên ngoài của họ"
+"Allow users to mount their own external storage" => "Cho phép người dùng kết nối với lưu trữ riêng bên ngoài của họ",
+"SSL root certificates" => "Chứng chỉ SSL root",
+"Import Root Certificate" => "Nhập Root Certificate"
 );

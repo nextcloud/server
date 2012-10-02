@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 01:27+0000\n"
-"Last-Translator: Dimitris M. <monopatis@gmail.com>\n"
+"POT-Creation-Date: 2012-10-02 23:16+0200\n"
+"PO-Revision-Date: 2012-10-02 06:46+0000\n"
+"Last-Translator: Efstathios Iosifidis <diamond_gr@freemail.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -140,7 +140,7 @@ msgstr "Δεν προτείνεται, χρήση μόνο για δοκιμές
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
-msgstr "User Display Name Field"
+msgstr "Πεδίο Ονόματος Χρήστη"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."

@@ -11,8 +11,8 @@
 "Groups" => "群组",
 "Users" => "用户",
 "Delete" => "删除",
-"SSL root certificates" => "SSL 根证书",
-"Import Root Certificate" => "导入根证书",
 "Enable User External Storage" => "启用用户外部存储",
-"Allow users to mount their own external storage" => "允许用户挂载他们的外部存储"
+"Allow users to mount their own external storage" => "允许用户挂载他们的外部存储",
+"SSL root certificates" => "SSL 根证书",
+"Import Root Certificate" => "导入根证书"
 );

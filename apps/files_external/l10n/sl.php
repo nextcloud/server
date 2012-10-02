@@ -11,8 +11,8 @@
 "Groups" => "Skupine",
 "Users" => "Uporabniki",
 "Delete" => "Izbriši",
-"SSL root certificates" => "SSL korenski certifikati",
-"Import Root Certificate" => "Uvozi korenski certifikat",
 "Enable User External Storage" => "Omogoči uporabo zunanje podatkovne shrambe za uporabnike",
-"Allow users to mount their own external storage" => "Dovoli uporabnikom priklop lastne zunanje podatkovne shrambe"
+"Allow users to mount their own external storage" => "Dovoli uporabnikom priklop lastne zunanje podatkovne shrambe",
+"SSL root certificates" => "SSL korenski certifikati",
+"Import Root Certificate" => "Uvozi korenski certifikat"
 );
