@@ -1002,8 +1002,22 @@ class Share {
 					}
 				}
 				// Check if target already exists
-				$checkTarget = self::getItems($itemType, $target, $shareType, $shareWith);
-				if (!empty($checkTarget)) {
+				$targetConflict = false;
+				
+				if( $itemType == "file" or $itemType == "folder") {
+					$itemList1 = self::getItems("file", $target, $shareType, $shareWith);
+					$itemList2 = self::getItems("folder", $target, $shareType, $shareWith);
+					if ( !empty($itemList1) or !empty($itemList2)) {
+						$targetConflict = true;						
+					} 
+				} else {
+					$itemList = self::getItems($itemType, $target, $shareType, $shareWith);
+					if ( !empty($itemList) ) {
+						$targetConflict = true;
+					}
+				}	
+
+				if ($targetConflict) {
 					foreach ($checkTarget as $item) {
 						// Skip item if it is the group parent row
 						if (isset($groupParent) && $item['id'] == $groupParent) {
@@ -1013,21 +1027,27 @@ class Share {
 								continue;
 							}
 						}
-						// If matching target is from the same owner, use the same target. The share type will be different so this isn't the same share.
-						if ($item['uid_owner'] == $uidOwner) {
-							return $target;
-						}
 					}
 					if (!isset($exclude)) {
 						$exclude = array();
 					}
 					// Find similar targets to improve backend's chances to generate a unqiue target
 					if ($userAndGroups) {
-						$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` = ? AND `share_type` IN (?,?,?) AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\') AND `'.$column.'` LIKE ?');
-						$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique, '%'.$target.'%'));
+						if ($column == 'file_target') {
+							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` IN (\'file\', \'folder\') AND `share_type` IN (?,?,?) AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\')');
+							$result = $checkTargets->execute(array(self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique));
+						} else {
+							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` = ? AND `share_type` IN (?,?,?) AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\')');
+							$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique));
+						}
 					} else {
-						$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` = ? AND `share_type` = ? AND `share_with` = ? AND `'.$column.'` LIKE ?');
-						$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_GROUP, $shareWith, '%'.$target.'%'));
+						if ($column == 'file_target') {
+							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` IN (\'file\', \'folder\') AND `share_type` = ? AND `share_with` = ?');
+							$result = $checkTargets->execute(array(self::SHARE_TYPE_GROUP, $shareWith));
+						} else {
+							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` = ? AND `share_type` = ? AND `share_with` = ?');
+							$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_GROUP, $shareWith));
+						}
 					}
 					while ($row = $result->fetchRow()) {
 						$exclude[] = $row[$column];
