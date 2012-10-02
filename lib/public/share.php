@@ -1002,22 +1002,21 @@ class Share {
 					}
 				}
 				// Check if target already exists
-				$targetConflict = false;
-				
+				$checkTarget = array();
 				if( $itemType == "file" or $itemType == "folder") {
 					$itemList1 = self::getItems("file", $target, $shareType, $shareWith);
 					$itemList2 = self::getItems("folder", $target, $shareType, $shareWith);
-					if ( !empty($itemList1) or !empty($itemList2)) {
-						$targetConflict = true;						
-					} 
-				} else {
-					$itemList = self::getItems($itemType, $target, $shareType, $shareWith);
-					if ( !empty($itemList) ) {
-						$targetConflict = true;
+					if ( !empty($itemList1) ) {
+						$checkTarget = array_merge($checkTarget, $itemList1);
 					}
+					if ( !empty($itemList2) ) {
+						$checkTarget = array_merge($checkTarget, $itemList2);	
+					}
+				} else {
+					$checkTarget = self::getItems($itemType, $target, $shareType, $shareWith);
 				}	
 
-				if ($targetConflict) {
+				if ( !empty($checkTarget) ) {
 					foreach ($checkTarget as $item) {
 						// Skip item if it is the group parent row
 						if (isset($groupParent) && $item['id'] == $groupParent) {
