@@ -44,7 +44,7 @@ class Cache {
 			$params = array($file);
 		}
 		$query = \OC_DB::prepare(
-			'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`
+			'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`
 			 FROM `*PREFIX*filecache` ' . $where);
 		$result = $query->execute($params);
 		$data = $result->fetchRow();
@@ -59,6 +59,7 @@ class Cache {
 			$data['fileid'] = (int)$data['fileid'];
 			$data['size'] = (int)$data['size'];
 			$data['mtime'] = (int)$data['mtime'];
+			$data['encrypted'] = (bool)$data['encrypted'];
 		}
 
 		return $data;
@@ -74,7 +75,7 @@ class Cache {
 		$fileId = $this->getId($folder);
 		if ($fileId > -1) {
 			$query = \OC_DB::prepare(
-				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`
+				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`
 			 	 FROM `*PREFIX*filecache` WHERE parent = ?');
 			$result = $query->execute(array($fileId));
 			return $result->fetchAll();
@@ -112,6 +113,7 @@ class Cache {
 			$data['path'] = $file;
 			$data['parent'] = $this->getParentId($file);
 			$data['name'] = basename($file);
+			$data['encrypted'] = isset($data['encrypted']) ? ((int)$data['encrypted']) : 0;
 
 			list($queryParts, $params) = $this->buildParts($data);
 			$queryParts[] = '`storage`';
@@ -121,7 +123,7 @@ class Cache {
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache`(' . implode(', ', $queryParts) . ') VALUES(' . implode(', ', $valuesPlaceholder) . ')');
 			$query->execute($params);
 
-			return (int) \OC_DB::insertid('*PREFIX*filecache');
+			return (int)\OC_DB::insertid('*PREFIX*filecache');
 		}
 	}
 
@@ -146,7 +148,7 @@ class Cache {
 	 * @return array
 	 */
 	static function buildParts(array $data) {
-		$fields = array('path', 'parent', 'name', 'mimetype', 'size', 'mtime');
+		$fields = array('path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'encrypted');
 
 		$params = array();
 		$queryParts = array();
