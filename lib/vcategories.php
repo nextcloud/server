@@ -21,6 +21,7 @@
 *
 */
 
+OC_Hook::connect('OC_User', 'post_deleteUser', 'OC_VCategories', 'post_deleteUser');
 
 /**
  * Class for easy access to categories in VCARD, VEVENT, VTODO and VJOURNAL.
@@ -147,7 +148,7 @@ class OC_VCategories {
 	/**
 	* @brief Get the a list if items belonging to $category.
 	* @param string|integer $category Category id or name.
-	* @param string $table The name of table to query.
+	* @param array $tableinfo Array in the form {'tablename' => table, 'fields' => ['field1', 'field2']}
 	* @param int $limit
 	* @param int $offset
 	* 
@@ -327,7 +328,7 @@ class OC_VCategories {
 	private function save() {
 		if(is_array($this->categories)) {
 			foreach($this->categories as $category) {
-				OCP\DB::insertIfNotExist('*PREFIX*vcategory', 
+				OCP\DB::insertIfNotExist(self::$category_table, 
 					array(
 						'uid' => $this->user,
 						'type' => $this->type,
@@ -345,7 +346,7 @@ class OC_VCategories {
 				$catid = $this->array_searchi($relation['category'], $categories);
 				OC_Log::write('core', __METHOD__ . 'catid, ' . $relation['category'] . ' ' . $catid, OC_Log::DEBUG);
 				if($catid) {
-					OCP\DB::insertIfNotExist('*PREFIX*vcategory_to_object', 
+					OCP\DB::insertIfNotExist(self::$relation_table, 
 						array(
 							'objid' => $relation['objid'],
 							'categoryid' => $catid,
@@ -361,21 +362,124 @@ class OC_VCategories {
 	}
 	
 	/**
+	* @brief Delete categories and category/object relations for a user.
+	* For hooking up on post_deleteUser
+	* @param string $uid The user id for which entries should be purged.
+	*/
+	public static function post_deleteUser($arguments) {
+		// Find all objectid/categoryid pairs.
+		$result = null;
+		try {
+			$stmt = OCP\DB::prepare('SELECT `id` FROM `*PREFIX*vcategory` '
+				. 'WHERE `uid` = ?');
+			$result = $stmt->execute(array($arguments['uid']));
+		} catch(Exception $e) {
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+				OCP\Util::ERROR);
+		}
+		
+		if(!is_null($result)) {
+			try {
+				$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*vcategory_to_object` '
+					. 'WHERE `categoryid` = ?');
+				while( $row = $result->fetchRow()) {
+					try {
+						$stmt->execute(array($row['id']));
+					} catch(Exception $e) {
+						OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+							OCP\Util::ERROR);
+					}
+				}
+			} catch(Exception $e) {
+				OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+					OCP\Util::ERROR);
+			}
+		}
+		try {
+			$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*vcategory` '
+				. 'WHERE `uid` = ? AND');
+			$result = $stmt->execute(array($arguments['uid']));
+		} catch(Exception $e) {
+			OCP\Util::writeLog('core', __METHOD__ . ', exception: ' 
+				. $e->getMessage(), OCP\Util::ERROR);
+		}
+	}
+	
+	/**
 	* @brief Delete category/object relations from the db
-	* @param $id The id of the object
-	* @param $type The type of object (event/contact/task/journal).
+	* @param int $id The id of the object
+	* @param string $type The type of object (event/contact/task/journal).
 	* 	Defaults to the type set in the instance
+	* @returns boolean
 	*/
 	public function purgeObject($id, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
 		try {
-			$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*vcategory_to_object` '
+			$stmt = OCP\DB::prepare('DELETE FROM `' . self::$relation_table . '` '
 					. 'WHERE `objid` = ? AND `type`= ?');
 			$stmt->execute(array($id, $type));
 		} catch(Exception $e) {
 			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
 				OCP\Util::ERROR);
+			return false;
 		}
+		return true;
+	}
+	
+	/**
+	* @brief Creates a category/object relation.
+	* @param int $objid The id of the object
+	* @param int|string $category The id or name of the category
+	* @param string $type The type of object (event/contact/task/journal).
+	* 	Defaults to the type set in the instance
+	* @returns boolean
+	*/
+	public function createRelation($objid, $category, $type = null) {
+		$type = is_null($type) ? $this->type : $type;
+		$categoryid = (is_string($category) && !is_numeric($category))
+			? $this->array_searchi($category, $this->categories) 
+			: $category;
+		try {
+			OCP\DB::insertIfNotExist(self::$relation_table, 
+				array(
+					'objid' => $objid,
+					'categoryid' => $categoryid,
+					'type' => $type,
+				));
+		} catch(Exception $e) {
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+				OCP\Util::ERROR);
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	* @brief Delete single category/object relation from the db
+	* @param int $objid The id of the object
+	* @param int|string $category The id or name of the category
+	* @param string $type The type of object (event/contact/task/journal).
+	* 	Defaults to the type set in the instance
+	* @returns boolean
+	*/
+	public function removeRelation($objid, $category, $type = null) {
+		$type = is_null($type) ? $this->type : $type;
+		$categoryid = (is_string($category) && !is_numeric($category))
+			? $this->array_searchi($category, $this->categories) 
+			: $category;
+		try {
+			$sql = 'DELETE FROM `' . self::$relation_table . '` '
+					. 'WHERE `objid` = ? AND `categoryid` = ? AND `type` = ?';
+			OCP\Util::writeLog('core', __METHOD__.', sql: ' . $objid . ' ' . $categoryid . ' ' . $type, 
+				OCP\Util::DEBUG);
+			$stmt = OCP\DB::prepare($sql);
+			$stmt->execute(array($objid, $categoryid, $type));
+		} catch(Exception $e) {
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+				OCP\Util::ERROR);
+			return false;
+		}
+		return true;
 	}
 	
 	/**
