@@ -975,8 +975,10 @@ class Share {
 		} else {
 			if ($itemType == 'file' || $itemType == 'folder') {
 				$column = 'file_target';
+				$columnSource = 'file_source';
 			} else {
 				$column = 'item_target';
+				$columnSource = 'item_source';
 			}
 			if ($shareType == self::SHARE_TYPE_USER) {
 				// Share with is a user, so set share type to user and groups
@@ -1013,8 +1015,7 @@ class Share {
 								continue;
 							}
 						}
-						// If matching target is from the same owner, use the same target. The share type will be different so this isn't the same share.
-						if ($item['uid_owner'] == $uidOwner) {
+						if ($item['uid_owner'] == $uidOwner && $item[$columnSource] == $itemSource) {
 							return $target;
 						}
 					}
@@ -1023,11 +1024,21 @@ class Share {
 					}
 					// Find similar targets to improve backend's chances to generate a unqiue target
 					if ($userAndGroups) {
-						$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` = ? AND `share_type` IN (?,?,?) AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\') AND `'.$column.'` LIKE ?');
-						$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique, '%'.$target.'%'));
+						if ($column == 'file_target') {
+							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` IN (\'file\', \'folder\') AND `share_type` IN (?,?,?) AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\')');
+							$result = $checkTargets->execute(array(self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique));
+						} else {
+							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` = ? AND `share_type` IN (?,?,?) AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\')');
+							$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique));
+						}
 					} else {
-						$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` = ? AND `share_type` = ? AND `share_with` = ? AND `'.$column.'` LIKE ?');
-						$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_GROUP, $shareWith, '%'.$target.'%'));
+						if ($column == 'file_target') {
+							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` IN (\'file\', \'folder\') AND `share_type` = ? AND `share_with` = ?');
+							$result = $checkTargets->execute(array(self::SHARE_TYPE_GROUP, $shareWith));
+						} else {
+							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` = ? AND `share_type` = ? AND `share_with` = ?');
+							$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_GROUP, $shareWith));
+						}
 					}
 					while ($row = $result->fetchRow()) {
 						$exclude[] = $row[$column];
@@ -1055,7 +1066,7 @@ class Share {
 			$parents = "'".implode("','", $parents)."'";
 			// Check the owner on the first search of reshares, useful for finding and deleting the reshares by a single user of a group share
 			if (count($ids) == 1 && isset($uidOwner)) {
-				$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') AND `uid_owner` = ?');
+				$query = \OC_DB::prepare('SELECT `id`, `uid_owner`, `item_type`, `item_target`, `parent` FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') AND `uid_owner` = ?');
 				$result = $query->execute(array($uidOwner));
 			} else {
 				$query = \OC_DB::prepare('SELECT `id`, `item_type`, `item_target`, `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.')');

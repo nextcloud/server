@@ -11,8 +11,8 @@
 "Groups" => "グループ",
 "Users" => "ユーザ",
 "Delete" => "削除",
-"SSL root certificates" => "SSLルート証明書",
-"Import Root Certificate" => "ルート証明書をインポート",
 "Enable User External Storage" => "ユーザの外部ストレージを有効にする",
-"Allow users to mount their own external storage" => "ユーザに外部ストレージのマウントを許可する"
+"Allow users to mount their own external storage" => "ユーザに外部ストレージのマウントを許可する",
+"SSL root certificates" => "SSLルート証明書",
+"Import Root Certificate" => "ルート証明書をインポート"
 );

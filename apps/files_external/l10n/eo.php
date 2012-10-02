@@ -11,8 +11,8 @@
 "Groups" => "Grupoj",
 "Users" => "Uzantoj",
 "Delete" => "Forigi",
-"SSL root certificates" => "Radikaj SSL-atestoj",
-"Import Root Certificate" => "Enporti radikan ateston",
 "Enable User External Storage" => "Kapabligi malenan memorilon de uzanto",
-"Allow users to mount their own external storage" => "Permesi al uzantoj surmeti siajn proprajn malenajn memorilojn"
+"Allow users to mount their own external storage" => "Permesi al uzantoj surmeti siajn proprajn malenajn memorilojn",
+"SSL root certificates" => "Radikaj SSL-atestoj",
+"Import Root Certificate" => "Enporti radikan ateston"
 );

@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Duarte Velez Grilo <duartegrilo@gmail.com>, 2012.
 #   <geral@ricardolameiro.pt>, 2012.
 # Helder Meneses <helder.meneses@gmail.com>, 2012.
 #   <rjgpp.1994@gmail.com>, 2012.
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-19 02:02+0200\n"
-"PO-Revision-Date: 2012-09-19 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-02 23:16+0200\n"
+"PO-Revision-Date: 2012-10-02 11:15+0000\n"
+"Last-Translator: Duarte Velez Grilo <duartegrilo@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,11 +32,11 @@ msgstr "Erro de autenticação"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "O grupo já existe"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "Impossível acrescentar o grupo"
 
 #: ajax/enableapp.php:14
 msgid "Could not enable app. "
@@ -59,7 +60,7 @@ msgstr "Pedido inválido"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Impossível apagar grupo"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
@@ -142,7 +143,7 @@ msgstr ""
 
 #: templates/admin.php:67
 msgid "Allow links"
-msgstr ""
+msgstr "Permitir ligações"
 
 #: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
@@ -150,7 +151,7 @@ msgstr ""
 
 #: templates/admin.php:73
 msgid "Allow resharing"
-msgstr ""
+msgstr "Permitir voltar a partilhar"
 
 #: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
@@ -237,7 +238,7 @@ msgstr "Transferir"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "A sua palavra-passe foi alterada"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

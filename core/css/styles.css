@@ -160,7 +160,7 @@ a.bookmarklet { background-color: #ddd; border:1px solid #ccc; padding: 5px;padd
 #categoryform .bottombuttons * { float: left;}
 /*#categorylist { border:1px solid #ddd;}*/
 #categorylist li { background:#f8f8f8; padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
-#categorylist li:hover, li:active { background:#eee; }
+#categorylist li:hover, #categorylist li:active { background:#eee; }
 #category_addinput { width: 10em; }
 
 /* ---- APP SETTINGS ---- */
