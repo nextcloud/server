@@ -1014,6 +1014,9 @@ class Share {
 								continue;
 							}
 						}
+						if ($item['uid_owner'] == $uidOwner && $item['item_source'] == \OC_FileCache::getId($itemSource) ) {
+							return $target;
+						}
 					}
 					if (!isset($exclude)) {
 						$exclude = array();
