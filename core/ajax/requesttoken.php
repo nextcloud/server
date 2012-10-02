@@ -26,7 +26,6 @@
  * @return json: success/error state indicator including a fresh request token
  * @author Christian Reiner
  */
-require_once '../../lib/base.php';
 
 // don't load apps or filesystem for this task
 $RUNTIME_NOAPPS    = TRUE;

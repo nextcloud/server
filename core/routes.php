@@ -8,6 +8,27 @@
 
 require_once('settings/routes.php');
 
+// Core ajax actions
+// AppConfig
+$this->create('core_ajax_appconfig', '/core/ajax/appconfig.php')
+	->actionInclude('core/ajax/appconfig.php');
+// RequestToken
+$this->create('core_ajax_requesttoken', '/core/ajax/requesttoken.php')
+	->actionInclude('core/ajax/requesttoken.php');
+// Share
+$this->create('core_ajax_share', '/core/ajax/share.php')
+	->actionInclude('core/ajax/share.php');
+// Translations
+$this->create('core_ajax_translations', '/core/ajax/translations.php')
+	->actionInclude('core/ajax/translations.php');
+// VCategories
+$this->create('core_ajax_vcategories_add', '/core/ajax/vcategories/add.php')
+	->actionInclude('core/ajax/vcategories/add.php');
+$this->create('core_ajax_vcategories_delete', '/core/ajax/vcategories/delete.php')
+	->actionInclude('core/ajax/vcategories/delete.php');
+$this->create('core_ajax_vcategories_edit', '/core/ajax/vcategories/edit.php')
+	->actionInclude('core/ajax/vcategories/edit.php');
+
 // Not specifically routed
 $this->create('app_css', '/apps/{app}/{file}')
 	->requirements(array('file' => '.*.css'))

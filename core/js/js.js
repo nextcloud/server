@@ -88,7 +88,7 @@ var OC={
 			}
 			link+=file;
 		}else{
-			if (app == 'settings' && type == 'ajax') {
+			if ((app == 'settings' || app == 'core') && type == 'ajax') {
 				link+='/index.php/';
 			}
 			else {
