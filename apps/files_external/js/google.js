@@ -3,7 +3,8 @@ $(document).ready(function() {
 	$('#externalStorage tbody tr.OC_Filestorage_Google').each(function() {
 		var configured = $(this).find('[data-parameter="configured"]');
 		if ($(configured).val() == 'true') {
-			$(this).find('.configuration').append('<span id="access" style="padding-left:0.5em;">Access granted</span>');
+			$(this).find('.configuration')
+                .append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
 		} else {
 			var token = $(this).find('[data-parameter="token"]');
 			var token_secret = $(this).find('[data-parameter="token_secret"]');
@@ -19,13 +20,15 @@ $(document).ready(function() {
 						$(token_secret).val(result.access_token_secret);
 						$(configured).val('true');
 						OC.MountConfig.saveStorage(tr);
-						$(tr).find('.configuration').append('<span id="access" style="padding-left:0.5em;">Access granted</span>');
+						$(tr).find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
 					} else {
-						OC.dialogs.alert(result.data.message, 'Error configuring Google Drive storage');
+						OC.dialogs.alert(result.data.message,
+                            t('files_external', 'Error configuring Google Drive storage')
+                        );
 					}
 				});
 			} else if ($(this).find('.google').length == 0) {
-				$(this).find('.configuration').append('<a class="button google">Grant access</a>');
+				$(this).find('.configuration').append('<a class="button google">'+t('files_external', 'Grant access')+'</a>');
 			}
 		}
 	});
@@ -34,7 +37,7 @@ $(document).ready(function() {
 		if ($(this).hasClass('OC_Filestorage_Google') && $(this).find('[data-parameter="configured"]').val() != 'true') {
 			if ($(this).find('.mountPoint input').val() != '') {
 				if ($(this).find('.google').length == 0) {
-					$(this).find('.configuration').append('<a class="button google">Grant access</a>');
+					$(this).find('.configuration').append('<a class="button google">'+t('files_external', 'Grant access')+'</a>');
 				}
 			}
 		}
@@ -65,10 +68,15 @@ $(document).ready(function() {
 				if (OC.MountConfig.saveStorage(tr)) {
 					window.location = result.data.url;
 				} else {
-					OC.dialogs.alert('Fill out all required fields', 'Error configuring Google Drive storage');
+					OC.dialogs.alert(
+                        t('files_external', 'Fill out all required fields'),
+                        t('files_external', 'Error configuring Google Drive storage')
+                    );
 				}
 			} else {
-				OC.dialogs.alert(result.data.message, 'Error configuring Google Drive storage');
+				OC.dialogs.alert(result.data.message,
+                    t('files_external', 'Error configuring Google Drive storage')
+                );
 			}
 		});
 	});
