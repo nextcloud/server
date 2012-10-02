@@ -11,8 +11,8 @@
 "Groups" => "Grupper",
 "Users" => "Användare",
 "Delete" => "Radera",
-"SSL root certificates" => "SSL rotcertifikat",
-"Import Root Certificate" => "Importera rotcertifikat",
 "Enable User External Storage" => "Aktivera extern lagring för användare",
-"Allow users to mount their own external storage" => "Tillåt användare att montera egen extern lagring"
+"Allow users to mount their own external storage" => "Tillåt användare att montera egen extern lagring",
+"SSL root certificates" => "SSL rotcertifikat",
+"Import Root Certificate" => "Importera rotcertifikat"
 );

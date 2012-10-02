@@ -11,8 +11,8 @@
 "Groups" => "Skupiny",
 "Users" => "Uživatelé",
 "Delete" => "Smazat",
-"SSL root certificates" => "Kořenové certifikáty SSL",
-"Import Root Certificate" => "Importovat kořenového certifikátu",
 "Enable User External Storage" => "Zapnout externí uživatelské úložiště",
-"Allow users to mount their own external storage" => "Povolit uživatelům připojení jejich vlastních externích úložišť"
+"Allow users to mount their own external storage" => "Povolit uživatelům připojení jejich vlastních externích úložišť",
+"SSL root certificates" => "Kořenové certifikáty SSL",
+"Import Root Certificate" => "Importovat kořenového certifikátu"
 );

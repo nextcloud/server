@@ -11,8 +11,8 @@
 "Groups" => "Ομάδες",
 "Users" => "Χρήστες",
 "Delete" => "Διαγραφή",
-"SSL root certificates" => "Πιστοποιητικά SSL root",
-"Import Root Certificate" => "Εισαγωγή Πιστοποιητικού Root",
 "Enable User External Storage" => "Ενεργοποίηση Εξωτερικού Αποθηκευτικού Χώρου Χρήστη",
-"Allow users to mount their own external storage" => "Να επιτρέπεται στους χρήστες να προσαρτούν δικό τους εξωτερικό αποθηκευτικό χώρο"
+"Allow users to mount their own external storage" => "Να επιτρέπεται στους χρήστες να προσαρτούν δικό τους εξωτερικό αποθηκευτικό χώρο",
+"SSL root certificates" => "Πιστοποιητικά SSL root",
+"Import Root Certificate" => "Εισαγωγή Πιστοποιητικού Root"
 );

@@ -11,8 +11,8 @@
 "Groups" => "Grupos",
 "Users" => "Usuarios",
 "Delete" => "Eliiminar",
-"SSL root certificates" => "Raíz de certificados SSL  ",
-"Import Root Certificate" => "Importar certificado raíz",
 "Enable User External Storage" => "Habilitar almacenamiento de usuario externo",
-"Allow users to mount their own external storage" => "Permitir a los usuarios montar su propio almacenamiento externo"
+"Allow users to mount their own external storage" => "Permitir a los usuarios montar su propio almacenamiento externo",
+"SSL root certificates" => "Raíz de certificados SSL  ",
+"Import Root Certificate" => "Importar certificado raíz"
 );

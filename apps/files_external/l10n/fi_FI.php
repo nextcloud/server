@@ -11,8 +11,8 @@
 "Groups" => "Ryhmät",
 "Users" => "Käyttäjät",
 "Delete" => "Poista",
-"SSL root certificates" => "SSL-juurivarmenteet",
-"Import Root Certificate" => "Tuo juurivarmenne",
 "Enable User External Storage" => "Ota käyttöön ulkopuoliset tallennuspaikat",
-"Allow users to mount their own external storage" => "Salli käyttäjien liittää omia erillisiä tallennusvälineitä"
+"Allow users to mount their own external storage" => "Salli käyttäjien liittää omia erillisiä tallennusvälineitä",
+"SSL root certificates" => "SSL-juurivarmenteet",
+"Import Root Certificate" => "Tuo juurivarmenne"
 );
