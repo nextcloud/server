@@ -8,8 +8,6 @@
 
 namespace Test\Files\Cache;
 
-use \OC\Files\Cache\Cache as FileCache;
-
 class Cache extends \UnitTestCase {
 	/**
 	 * @var \OC\Files\Storage\Temporary $storage;
