@@ -53,17 +53,25 @@
 
 	<table>
 
-		<name>*dbprefix*fscache</name>
+		<name>*dbprefix*filecache</name>
 
 		<declaration>
 
 			<field>
-				<name>id</name>
-				<autoincrement>1</autoincrement>
+				<name>fileid</name>
 				<type>integer</type>
 				<default>0</default>
 				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
 				<length>4</length>
+			</field>
+
+			<field>
+				<name>storage</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
 			</field>
 
 			<field>
@@ -85,9 +93,9 @@
 			<field>
 				<name>parent</name>
 				<type>integer</type>
-				<default>0</default>
+				<default></default>
 				<notnull>true</notnull>
-				<length>8</length>
+				<length>4</length>
 			</field>
 
 			<field>
@@ -95,39 +103,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>300</length>
-			</field>
-
-			<field>
-				<name>user</name>
-				<type>text</type>
-				<default></default>
-				<notnull>true</notnull>
-				<length>64</length>
-			</field>
-
-			<field>
-				<name>size</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<length>8</length>
-			</field>
-
-			<field>
-				<name>ctime</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<length>8</length>
-			</field>
-
-			<field>
-				<name>mtime</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<length>8</length>
+				<length>250</length>
 			</field>
 
 			<field>
@@ -135,7 +111,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>96</length>
+				<length>64</length>
 			</field>
 
 			<field>
@@ -147,31 +123,36 @@
 			</field>
 
 			<field>
+				<name>size</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>mtime</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
 				<name>encrypted</name>
 				<type>integer</type>
 				<default>0</default>
 				<notnull>true</notnull>
-				<length>1</length>
-			</field>
-
-			<field>
-				<name>versioned</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<length>1</length>
-			</field>
-
-			<field>
-				<name>writable</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<length>1</length>
+				<length>4</length>
 			</field>
 
 			<index>
-				<name>fscache_path_hash_index</name>
+				<name>storage_path_hash</name>
+				<unique>true</unique>
+				<field>
+					<name>storage</name>
+					<sorting>ascending</sorting>
+				</field>
 				<field>
 					<name>path_hash</name>
 					<sorting>ascending</sorting>
@@ -179,23 +160,8 @@
 			</index>
 
 			<index>
-				<name>parent_index</name>
-				<field>
-					<name>parent</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-
-			<index>
-				<name>name_index</name>
-				<field>
-					<name>name</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-
-			<index>
-				<name>parent_name_index</name>
+				<name>parent_name_hash</name>
+				<unique>true</unique>
 				<field>
 					<name>parent</name>
 					<sorting>ascending</sorting>
