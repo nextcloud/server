@@ -1002,19 +1002,7 @@ class Share {
 					}
 				}
 				// Check if target already exists
-				$checkTarget = array();
-				if( $itemType == "file" or $itemType == "folder") {
-					$itemList1 = self::getItems("file", $target, $shareType, $shareWith);
-					$itemList2 = self::getItems("folder", $target, $shareType, $shareWith);
-					if ( !empty($itemList1) ) {
-						$checkTarget = array_merge($checkTarget, $itemList1);
-					}
-					if ( !empty($itemList2) ) {
-						$checkTarget = array_merge($checkTarget, $itemList2);	
-					}
-				} else {
-					$checkTarget = self::getItems($itemType, $target, $shareType, $shareWith);
-				}	
+				$checkTarget = self::getItems($itemType, $target, $shareType, $shareWith);
 
 				if ( !empty($checkTarget) ) {
 					foreach ($checkTarget as $item) {
@@ -1074,7 +1062,7 @@ class Share {
 			$parents = "'".implode("','", $parents)."'";
 			// Check the owner on the first search of reshares, useful for finding and deleting the reshares by a single user of a group share
 			if (count($ids) == 1 && isset($uidOwner)) {
-				$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') AND `uid_owner` = ?');
+				$query = \OC_DB::prepare('SELECT `id`, `uid_owner`, `item_type`, `item_target`, `parent` FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') AND `uid_owner` = ?');
 				$result = $query->execute(array($uidOwner));
 			} else {
 				$query = \OC_DB::prepare('SELECT `id`, `item_type`, `item_target`, `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.')');
