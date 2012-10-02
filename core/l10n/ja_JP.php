@@ -34,7 +34,7 @@
 "Password" => "パスワード",
 "Set expiration date" => "有効期限を設定",
 "Expiration date" => "有効期限",
-"Share via email:" => "メール経由で共有: %s",
+"Share via email:" => "メール経由で共有:",
 "No people found" => "ユーザーが見つかりません",
 "Resharing is not allowed" => "再共有は許可されていません",
 "Shared in" => "の中で共有中",

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:14+0200\n"
-"PO-Revision-Date: 2012-09-21 10:33+0000\n"
+"POT-Creation-Date: 2012-10-02 02:03+0200\n"
+"PO-Revision-Date: 2012-10-01 08:34+0000\n"
 "Last-Translator: martinb <martin.babik@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -115,7 +115,7 @@ msgstr ""
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Vykonať jednu úlohu každým nahraním stránky"
 
 #: templates/admin.php:43
 msgid ""
@@ -127,7 +127,7 @@ msgstr ""
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Používať systémovú službu cron. Každú minútu bude spustený súbor cron.php v priečinku owncloud pomocou systémového programu cronjob."
 
 #: templates/admin.php:56
 msgid "Sharing"
@@ -155,7 +155,7 @@ msgstr "Povoliť opakované zdieľanie"
 
 #: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Povoliť zdieľanie zdielaného obsahu iného užívateľa"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-02 02:03+0200\n"
+"PO-Revision-Date: 2012-10-01 08:49+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,7 +85,7 @@ msgstr "Desembre"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Escull"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -107,46 +107,46 @@ msgstr "D'acord"
 msgid "No categories selected for deletion."
 msgstr "No hi ha categories per eliminar."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:493
+#: js/share.js:505
 msgid "Error"
 msgstr "Error"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Error en compartir"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Error en deixar de compartir"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Error en canviar els permisos"
 
 #: js/share.js:130
 msgid "Shared with you and the group"
-msgstr ""
+msgstr "Compartit amb vós i amb el grup"
 
 #: js/share.js:130
 msgid "by"
-msgstr ""
+msgstr "per"
 
 #: js/share.js:132
 msgid "Shared with you by"
-msgstr ""
+msgstr "compartit amb vós per"
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "Comparteix amb"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Comparteix amb enllaç"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "Protegir amb contrasenya"
 
 #: js/share.js:147 templates/installation.php:30 templates/login.php:13
 msgid "Password"
@@ -154,71 +154,71 @@ msgstr "Contrasenya"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "Estableix la data d'expiració"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "Data d'expiració"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Comparteix per correu electrònic"
 
 #: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "No s'ha trobat ningú"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "No es permet compartir de nou"
 
 #: js/share.js:250
 msgid "Shared in"
-msgstr ""
+msgstr "Compartit en"
 
 #: js/share.js:250
 msgid "with"
-msgstr ""
+msgstr "amb"
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Deixa de compartir"
 
-#: js/share.js:279
+#: js/share.js:283
 msgid "can edit"
-msgstr ""
+msgstr "pot editar"
 
-#: js/share.js:281
+#: js/share.js:285
 msgid "access control"
-msgstr ""
+msgstr "control d'accés"
 
-#: js/share.js:284
+#: js/share.js:288
 msgid "create"
-msgstr ""
+msgstr "crea"
 
-#: js/share.js:287
+#: js/share.js:291
 msgid "update"
-msgstr ""
+msgstr "actualitza"
 
-#: js/share.js:290
+#: js/share.js:294
 msgid "delete"
-msgstr ""
+msgstr "elimina"
 
-#: js/share.js:293
+#: js/share.js:297
 msgid "share"
-msgstr ""
+msgstr "comparteix"
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:321 js/share.js:480
 msgid "Password protected"
-msgstr ""
+msgstr "Protegeix amb contrasenya"
 
-#: js/share.js:489
+#: js/share.js:493
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Error en eliminar la data d'expiració"
 
-#: js/share.js:501
+#: js/share.js:505
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Error en establir la data d'expiració"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -245,7 +245,7 @@ msgstr "No s'ha pogut iniciar la sessió"
 msgid "Username"
 msgstr "Nom d'usuari"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Sol·licita reinicialització"
 
@@ -358,11 +358,11 @@ msgstr "Surt"
 msgid "Lost your password?"
 msgstr "Heu perdut la contrasenya?"
 
-#: templates/login.php:17
+#: templates/login.php:16
 msgid "remember"
 msgstr "recorda'm"
 
-#: templates/login.php:18
+#: templates/login.php:17
 msgid "Log in"
 msgstr "Inici de sessió"
 
