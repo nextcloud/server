@@ -161,7 +161,6 @@
 
 			<index>
 				<name>parent_name_hash</name>
-				<unique>true</unique>
 				<field>
 					<name>parent</name>
 					<sorting>ascending</sorting>
