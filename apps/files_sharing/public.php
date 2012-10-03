@@ -36,6 +36,13 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 		OC_Util::setupFS($uidOwner);
 		$fileSource = OC_Filecache::getId($path, '');
 		if ($fileSource != -1 && ($linkItem = OCP\Share::getItemSharedWithByLink($type, $fileSource, $uidOwner))) {
+			// TODO Fix in the getItems
+			if (!isset($linkItem['item_type']) || $linkItem['item_type'] != $type) {
+				header('HTTP/1.0 404 Not Found');
+				$tmpl = new OCP\Template('', '404', 'guest');
+				$tmpl->printPage();
+				exit();
+			}
 			if (isset($linkItem['share_with'])) {
 				// Check password
 				if (isset($_POST['password'])) {
