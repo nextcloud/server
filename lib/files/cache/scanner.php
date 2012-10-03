@@ -9,29 +9,42 @@
 namespace OC\Files\Cache;
 
 class Scanner {
+	/**
+	 * @var \OC\Files\Storage\Storage $storage
+	 */
+	private $storage;
+
+	/**
+	 * @var \OC\Files\Cache\Cache $cache
+	 */
+	private $cache;
+
 	const SCAN_RECURSIVE = true;
 	const SCAN_SHALLOW = false;
+
+	public function __construct(\OC\Files\Storage\Storage $storage) {
+		$this->storage = $storage;
+		$this->cache = new Cache($storage);
+	}
 
 	/**
 	 * get all the metadata of a file or folder
 	 * *
 	 *
-	 * @param \OC\Files\File $file
+	 * @param string $path
 	 * @return array with metadata of the file
 	 */
-	public static function getData(\OC\Files\File $file) {
+	public function getData($path) {
 		$data = array();
-		$storage = $file->getStorage();
-		$path = $file->getInternalPath();
-		if (!$storage->isReadable($path)) return null; //cant read, nothing we can do
-		$data['mimetype'] = $storage->getMimeType($path);
-		$data['mtime'] = $storage->filemtime($path);
+		if (!$this->storage->isReadable($path)) return null; //cant read, nothing we can do
+		$data['mimetype'] = $this->storage->getMimeType($path);
+		$data['mtime'] = $this->storage->filemtime($path);
 		if ($data['mimetype'] == 'httpd/unix-directory') {
 			$data['size'] = -1; //unknown
-			$data['permissions'] = $storage->getPermissions($path . '/');
+			$data['permissions'] = $this->storage->getPermissions($path . '/');
 		} else {
-			$data['size'] = $storage->filesize($path);
-			$data['permissions'] = $storage->getPermissions($path);
+			$data['size'] = $this->storage->filesize($path);
+			$data['permissions'] = $this->storage->getPermissions($path);
 		}
 		return $data;
 	}
@@ -39,33 +52,40 @@ class Scanner {
 	/**
 	 * scan a single file and store it in the cache
 	 *
-	 * @param \OC\Files\File $file
+	 * @param string $file
 	 * @return array with metadata of the scanned file
 	 */
-	public static function scanFile(\OC\Files\File $file) {
-		$data = self::getData($file);
-		Cache::put($file, $data);
+	public function scanFile($file) {
+		$data = $this->getData($file);
+		if ($file !== '') {
+			$parent = dirname($file);
+			if ($parent === '.') {
+				$parent = '';
+			}
+			if (!$this->cache->inCache($parent)) {
+				$this->scanFile($parent);
+			}
+		}
+		$this->cache->put($file, $data);
 		return $data;
 	}
 
 	/**
 	 * scan all the files in a folder and store them in the cache
 	 *
-	 * @param \OC\Files\File $folder
+	 * @param string $path
 	 * @param SCAN_RECURSIVE/SCAN_SHALLOW $recursive
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	public static function scan(\OC\Files\File $folder, $recursive) {
+	public function scan($path, $recursive) {
 		$size = 0;
-		$storage = $folder->getStorage();
-		$path = $folder->getInternalPath();
-		if ($dh = $storage->opendir($path)) {
+		if ($dh = $this->storage->opendir($path)) {
 			while ($file = readdir($dh)) {
 				if ($file !== '.' and $file !== '..') {
-					$child = new \OC\Files\File($storage, $path . '/' . $file);
-					$data = self::scanFile($child);
+					$child = $path . '/' . $file;
+					$data = $this->scanFile($child);
 					if ($recursive === self::SCAN_RECURSIVE and $data['mimetype'] === 'httpd/unix-directory') {
-						$data['size'] = self::scan($child, self::SCAN_RECURSIVE);
+						$data['size'] = $this->scan($child, self::SCAN_RECURSIVE);
 					}
 					if ($data['size'] >= 0 and $size >= 0) {
 						$size += $data['size'];

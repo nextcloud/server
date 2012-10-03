@@ -34,6 +34,7 @@ class Cache extends \UnitTestCase {
 		foreach ($data1 as $key => $value) {
 			$this->assertEqual($value, $cacheData1[$key]);
 		}
+		$this->assertEqual($cacheData1['mimepart'], 'foo');
 		$this->assertEqual($cacheData1['fileid'], $id1);
 		$this->assertEqual($id1, $this->cache->getId($file1));
 
