@@ -28,8 +28,4 @@ class Test_Cache_XCache extends Test_Cache {
 		}
 		$this->instance=new OC_Cache_XCache();
 	}
-
-	function testTTL() {
-		// ttl doesn't work correctly in the same request
-	}
 }

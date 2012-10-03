@@ -28,9 +28,4 @@ class Test_Cache_APC extends Test_Cache {
 		}
 		$this->instance=new OC_Cache_APC();
 	}
-
-	function testTTL() {
-		// ttl doesn't work correctly in the same request
-		// see https://bugs.php.net/bug.php?id=58084
-	}
 }
