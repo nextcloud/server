@@ -86,14 +86,23 @@ class Scanner {
 				if ($file !== '.' and $file !== '..') {
 					$child = ($path !== '') ? $path . '/' . $file : $file;
 					$data = $this->scanFile($child);
-					if ($recursive === self::SCAN_RECURSIVE and $data['mimetype'] === 'httpd/unix-directory') {
-						$data['size'] = $this->scan($child, self::SCAN_RECURSIVE);
+					if ($data['mimetype'] === 'httpd/unix-directory') {
+						if ($recursive === self::SCAN_RECURSIVE) {
+							$data['size'] = $this->scan($child, self::SCAN_RECURSIVE);
+						} else {
+							$data['size'] = -1;
+						}
 					}
-					if ($data['size'] >= 0 and $size >= 0) {
+					if ($data['size'] === -1) {
+						$size = -1;
+					} elseif ($size !== -1) {
 						$size += $data['size'];
 					}
 				}
 			}
+		}
+		if ($size !== -1) {
+			$this->cache->put($path, array('size' => $size));
 		}
 		return $size;
 	}

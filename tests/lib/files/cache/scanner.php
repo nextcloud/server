@@ -45,15 +45,52 @@ class Scanner extends \UnitTestCase {
 		$this->assertEqual($cachedData['mimetype'], 'image/png');
 	}
 
-	function testFolder() {
+	private function fillTestFolders() {
 		$textData = "dummy file data\n";
 		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
+		$this->storage->mkdir('folder');
 		$this->storage->file_put_contents('foo.txt', $textData);
 		$this->storage->file_put_contents('foo.png', $imgData);
+		$this->storage->file_put_contents('folder/bar.txt', $textData);
+	}
+
+	function testFolder() {
+		$this->fillTestFolders();
 
 		$this->scanner->scan('');
+		$this->assertEqual($this->cache->inCache(''), true);
 		$this->assertEqual($this->cache->inCache('foo.txt'), true);
 		$this->assertEqual($this->cache->inCache('foo.png'), true);
+		$this->assertEqual($this->cache->inCache('folder'), true);
+		$this->assertEqual($this->cache->inCache('folder/bar.txt'), true);
+
+		$cachedDataText = $this->cache->get('foo.txt');
+		$cachedDataText2 = $this->cache->get('foo.txt');
+		$cachedDataImage = $this->cache->get('foo.png');
+		$cachedDataFolder = $this->cache->get('');
+		$cachedDataFolder2 = $this->cache->get('folder');
+
+		$this->assertEqual($cachedDataImage['parent'], $cachedDataText['parent']);
+		$this->assertEqual($cachedDataFolder['fileid'], $cachedDataImage['parent']);
+		$this->assertEqual($cachedDataFolder['size'], $cachedDataImage['size'] + $cachedDataText['size'] + $cachedDataText2['size']);
+		$this->assertEqual($cachedDataFolder2['size'], $cachedDataText2['size']);
+	}
+
+	function testShallow() {
+		$this->fillTestFolders();
+
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+		$this->assertEqual($this->cache->inCache(''), true);
+		$this->assertEqual($this->cache->inCache('foo.txt'), true);
+		$this->assertEqual($this->cache->inCache('foo.png'), true);
+		$this->assertEqual($this->cache->inCache('folder'), true);
+		$this->assertEqual($this->cache->inCache('folder/bar.txt'), false);
+
+		$cachedDataFolder = $this->cache->get('');
+		$cachedDataFolder2 = $this->cache->get('folder');
+
+		$this->assertEqual($cachedDataFolder['size'], -1);
+		$this->assertEqual($cachedDataFolder2['size'], -1);
 	}
 
 	function setUp() {
