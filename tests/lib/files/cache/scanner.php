@@ -33,6 +33,27 @@ class Scanner extends \UnitTestCase {
 		$cachedData = $this->cache->get('foo.txt');
 		$this->assertEqual($cachedData['size'], strlen($data));
 		$this->assertEqual($cachedData['mimetype'], 'text/plain');
+		$this->assertNotEqual($cachedData['parent'], -1); //parent folders should be scanned automatically
+
+		$data = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
+		$this->storage->file_put_contents('foo.png', $data);
+		$this->scanner->scanFile('foo.png');
+
+		$this->assertEqual($this->cache->inCache('foo.png'), true);
+		$cachedData = $this->cache->get('foo.png');
+		$this->assertEqual($cachedData['size'], strlen($data));
+		$this->assertEqual($cachedData['mimetype'], 'image/png');
+	}
+
+	function testFolder() {
+		$textData = "dummy file data\n";
+		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
+		$this->storage->file_put_contents('foo.txt', $textData);
+		$this->storage->file_put_contents('foo.png', $imgData);
+
+		$this->scanner->scan('');
+		$this->assertEqual($this->cache->inCache('foo.txt'), true);
+		$this->assertEqual($this->cache->inCache('foo.png'), true);
 	}
 
 	function setUp() {
@@ -42,6 +63,6 @@ class Scanner extends \UnitTestCase {
 	}
 
 	function tearDown() {
-//		$this->cache->clear();
+		$this->cache->clear();
 	}
 }

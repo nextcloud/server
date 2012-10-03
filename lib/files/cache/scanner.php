@@ -77,12 +77,14 @@ class Scanner {
 	 * @param SCAN_RECURSIVE/SCAN_SHALLOW $recursive
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	public function scan($path, $recursive) {
+	public function scan($path, $recursive = self::SCAN_RECURSIVE) {
+		$this->scanFile($path);
+
 		$size = 0;
 		if ($dh = $this->storage->opendir($path)) {
 			while ($file = readdir($dh)) {
 				if ($file !== '.' and $file !== '..') {
-					$child = $path . '/' . $file;
+					$child = ($path !== '') ? $path . '/' . $file : $file;
 					$data = $this->scanFile($child);
 					if ($recursive === self::SCAN_RECURSIVE and $data['mimetype'] === 'httpd/unix-directory') {
 						$data['size'] = $this->scan($child, self::SCAN_RECURSIVE);
