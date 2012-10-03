@@ -216,7 +216,7 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->instance->file_put_contents('/logo-wide.svg',file_get_contents($svgFile,'r'));
 		$result=$this->instance->search('logo');
 		$this->assertEqual(2,count($result));
-		$this->assertNotIdentical(false,array_search('/logo-wide.svg',$result));
-		$this->assertNotIdentical(false,array_search('/logo-wide.png',$result));
+		$this->assertContains('/logo-wide.svg',$result);
+		$this->assertContains('/logo-wide.png',$result);
 	}
 }

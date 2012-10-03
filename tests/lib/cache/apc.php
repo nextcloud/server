@@ -21,11 +21,11 @@
 */
 
 class Test_Cache_APC extends Test_Cache {
-	function skip() {
-		$this->skipUnless(function_exists('apc_store'));
-	}
-
 	public function setUp() {
+		if(!function_exists('apc_store')){
+			$this->markTestSkipped('The apc extension is not available.');
+			return;
+		}
 		$this->instance=new OC_Cache_APC();
 	}
 

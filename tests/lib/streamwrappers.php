@@ -28,7 +28,7 @@ class Test_StreamWrappers extends UnitTestCase {
 		$result=array();
 		while($file=readdir($dh)) {
 			$result[]=$file;
-			$this->assertNotIdentical(false,array_search($file,$items));
+			$this->assertContains($file, $items);
 		}
 		$this->assertEqual(count($items),count($result));
 	}
