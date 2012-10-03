@@ -194,10 +194,14 @@ class Cache {
 	 * @return int
 	 */
 	public function getParentId($file) {
-		if ($file === '/' or $file === '') {
+		if ($file === '') {
 			return -1;
 		} else {
-			return $this->getId(dirname($file));
+			$parent = dirname($file);
+			if ($parent === '.') {
+				$parent = '';
+			}
+			return $this->getId($parent);
 		}
 	}
 
