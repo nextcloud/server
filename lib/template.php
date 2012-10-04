@@ -155,10 +155,8 @@ class OC_Template{
 		$this->renderas = $renderas;
 		$this->application = $app;
 		$this->vars = array();
-		if($renderas == 'user') {
-			$this->vars['requesttoken'] = OC_Util::callRegister();
-			$this->vars['requestlifespan'] = OC_Util::$callLifespan;
-		}
+		$this->vars['requesttoken'] = OC_Util::callRegister();
+		$this->vars['requestlifespan'] = OC_Util::$callLifespan;
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$this->l10n = OC_L10N::get($parts[0]);
                 header('X-Frame-Options: Sameorigin');

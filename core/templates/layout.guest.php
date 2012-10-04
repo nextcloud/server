@@ -10,6 +10,8 @@
 		<script type="text/javascript">
 			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
 			var oc_appswebroots = <?php echo $_['apps_paths'] ?>;
+			var oc_requesttoken = '<?php echo $_['requesttoken']; ?>';
+			var oc_requestlifespan = '<?php echo $_['requestlifespan']; ?>';
 		</script>
 		<?php foreach($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
