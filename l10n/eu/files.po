@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:20+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-04 02:04+0200\n"
+"PO-Revision-Date: 2012-10-03 07:58+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,41 +63,41 @@ msgstr "Ezabatu"
 
 #: js/fileactions.js:182
 msgid "Rename"
-msgstr ""
+msgstr "Berrizendatu"
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:189 js/filelist.js:191
 msgid "already exists"
 msgstr "dagoeneko existitzen da"
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:189 js/filelist.js:191
 msgid "replace"
 msgstr "ordeztu"
 
-#: js/filelist.js:190
+#: js/filelist.js:189
 msgid "suggest name"
 msgstr "aholkatu izena"
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:189 js/filelist.js:191
 msgid "cancel"
 msgstr "ezeztatu"
 
-#: js/filelist.js:239 js/filelist.js:241
+#: js/filelist.js:238 js/filelist.js:240
 msgid "replaced"
 msgstr "ordeztua"
 
-#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
+#: js/filelist.js:238 js/filelist.js:240 js/filelist.js:272 js/filelist.js:274
 msgid "undo"
 msgstr "desegin"
 
-#: js/filelist.js:241
+#: js/filelist.js:240
 msgid "with"
 msgstr "honekin"
 
-#: js/filelist.js:273
+#: js/filelist.js:272
 msgid "unshared"
 msgstr "Ez partekatuta"
 
-#: js/filelist.js:275
+#: js/filelist.js:274
 msgid "deleted"
 msgstr "ezabatuta"
 
@@ -119,11 +119,11 @@ msgstr "Zain"
 
 #: js/files.js:256
 msgid "1 file uploading"
-msgstr ""
+msgstr "fitxategi 1 igotzen"
 
 #: js/files.js:259 js/files.js:304 js/files.js:319
 msgid "files uploading"
-msgstr ""
+msgstr "fitxategiak igotzen"
 
 #: js/files.js:322 js/files.js:355
 msgid "Upload cancelled."
@@ -138,81 +138,81 @@ msgstr "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du.
 msgid "Invalid name, '/' is not allowed."
 msgstr "Baliogabeko izena, '/' ezin da erabili. "
 
-#: js/files.js:667
+#: js/files.js:668
 msgid "files scanned"
 msgstr "fitxategiak eskaneatuta"
 
-#: js/files.js:675
+#: js/files.js:676
 msgid "error while scanning"
 msgstr "errore bat egon da eskaneatzen zen bitartean"
 
-#: js/files.js:748 templates/index.php:48
+#: js/files.js:749 templates/index.php:48
 msgid "Name"
 msgstr "Izena"
 
-#: js/files.js:749 templates/index.php:56
+#: js/files.js:750 templates/index.php:56
 msgid "Size"
 msgstr "Tamaina"
 
-#: js/files.js:750 templates/index.php:58
+#: js/files.js:751 templates/index.php:58
 msgid "Modified"
 msgstr "Aldatuta"
 
-#: js/files.js:777
+#: js/files.js:778
 msgid "folder"
 msgstr "karpeta"
 
-#: js/files.js:779
+#: js/files.js:780
 msgid "folders"
 msgstr "Karpetak"
 
-#: js/files.js:787
+#: js/files.js:788
 msgid "file"
 msgstr "fitxategia"
 
-#: js/files.js:789
+#: js/files.js:790
 msgid "files"
 msgstr "fitxategiak"
 
-#: js/files.js:833
-msgid "seconds ago"
-msgstr ""
-
 #: js/files.js:834
-msgid "minute ago"
-msgstr ""
+msgid "seconds ago"
+msgstr "segundu"
 
 #: js/files.js:835
-msgid "minutes ago"
-msgstr ""
+msgid "minute ago"
+msgstr "minutu"
 
-#: js/files.js:838
-msgid "today"
-msgstr ""
+#: js/files.js:836
+msgid "minutes ago"
+msgstr "minutu"
 
 #: js/files.js:839
-msgid "yesterday"
-msgstr ""
+msgid "today"
+msgstr "gaur"
 
 #: js/files.js:840
-msgid "days ago"
-msgstr ""
+msgid "yesterday"
+msgstr "atzo"
 
 #: js/files.js:841
-msgid "last month"
-msgstr ""
+msgid "days ago"
+msgstr "egun"
 
-#: js/files.js:843
-msgid "months ago"
-msgstr ""
+#: js/files.js:842
+msgid "last month"
+msgstr "joan den hilabetean"
 
 #: js/files.js:844
-msgid "last year"
-msgstr ""
+msgid "months ago"
+msgstr "hilabete"
 
 #: js/files.js:845
+msgid "last year"
+msgstr "joan den urtean"
+
+#: js/files.js:846
 msgid "years ago"
-msgstr ""
+msgstr "urte"
 
 #: templates/admin.php:5
 msgid "File handling"

@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Error configuring Dropbox storage" => "Errore bat egon da Dropbox biltegiratzea konfiguratzean",
+"Fill out all required fields" => "Bete eskatutako eremu guztiak",
+"Please provide a valid Dropbox app key and secret." => "Mesedez eman baliozkoa den Dropbox app giltza eta sekretua",
+"Error configuring Google Drive storage" => "Errore bat egon da Google Drive biltegiratzea konfiguratzean",
 "External Storage" => "Kanpoko Biltegiratzea",
 "Mount point" => "Montatze puntua",
 "Backend" => "Motorra",
