@@ -166,7 +166,7 @@ OC.Share={
 							OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions, false);
 						}
 					}
-					if (share.expiration.length > 0) {
+					if (share.expiration != null) {
 						OC.Share.showExpirationDate(share.expiration);
 					}
 				});
