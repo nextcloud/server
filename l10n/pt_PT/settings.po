@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-02 23:16+0200\n"
-"PO-Revision-Date: 2012-10-02 11:15+0000\n"
+"POT-Creation-Date: 2012-10-04 02:04+0200\n"
+"PO-Revision-Date: 2012-10-03 13:10+0000\n"
 "Last-Translator: Duarte Velez Grilo <duartegrilo@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Impossível acrescentar o grupo"
 
 #: ajax/enableapp.php:14
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Não foi possível activar a app."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -64,7 +64,7 @@ msgstr "Impossível apagar grupo"
 
 #: ajax/removeuser.php:22
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Impossível apagar utilizador"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -73,12 +73,12 @@ msgstr "Idioma alterado"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Impossível acrescentar utilizador ao grupo %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Impossível apagar utilizador do grupo %s"
 
 #: js/apps.js:27 js/apps.js:61
 msgid "Disable"
@@ -107,7 +107,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "A sua pasta com os dados e os seus ficheiros estão provavelmente acessíveis a partir das internet. Sugerimos veementemente que configure o seu servidor web de maneira a que a pasta com os dados deixe de ficar acessível, ou mova a pasta com os dados para fora da raiz de documentos do servidor web."
 
 #: templates/admin.php:31
 msgid "Cron"
@@ -115,31 +115,31 @@ msgstr "Cron"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Executar uma tarefa ao carregar cada página"
 
 #: templates/admin.php:43
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php está registado num serviço webcron. Chame a página cron.php na raiz owncloud por http uma vez por minuto."
 
 #: templates/admin.php:49
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Usar o serviço cron do sistema. Chame a página cron.php na pasta owncloud via um cronjob do sistema uma vez por minuto."
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "Partilhando"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
-msgstr ""
+msgstr "Activar API de partilha"
 
 #: templates/admin.php:62
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Permitir que apps usem a API de partilha"
 
 #: templates/admin.php:67
 msgid "Allow links"
@@ -147,7 +147,7 @@ msgstr "Permitir ligações"
 
 #: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Permitir que os utilizadores partilhem itens com o público com ligações"
 
 #: templates/admin.php:73
 msgid "Allow resharing"
@@ -155,15 +155,15 @@ msgstr "Permitir voltar a partilhar"
 
 #: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Permitir que os utilizadores partilhem itens que foram partilhados com eles"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Permitir que os utilizadores partilhem com toda a gente"
 
 #: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Permitir que os utilizadores apenas partilhem com utilizadores do seu grupo"
 
 #: templates/admin.php:88
 msgid "Log"
@@ -181,7 +181,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Desenvolvido pela <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunidade ownCloud</a>, o<a href=\"https://github.com/owncloud\" target=\"_blank\">código fonte</a> está licenciado sob a <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -197,7 +197,7 @@ msgstr "Ver a página da aplicação em apps.owncloud.com"
 
 #: templates/apps.php:30
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"
@@ -226,7 +226,7 @@ msgstr "Resposta"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
+msgstr "Usou <strong>%s</strong> dos <strong>%s<strong> disponíveis."
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
