@@ -83,8 +83,12 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 			// Download the file
 			if (isset($_GET['download'])) {
 				if (isset($_GET['dir'])) {
-					OC_Files::get($path, '', $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
-				} else {
+					if (isset($_GET['path']) &&  $_GET['path'] != '' ) { // download a file from a shared directory
+						OC_Files::get('', $path, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+					} else { // download the whole shared directory
+						OC_Files::get($path, '', $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+					}
+				} else { // download a single shared file
 					OC_Files::get("", $path, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
 				}
 				
@@ -108,7 +112,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 							$i['basename'] = $fileinfo['filename'];
 							$i['extension'] = isset($fileinfo['extension']) ? ('.'.$fileinfo['extension']) : '';
 						}
-						$i['directory'] = substr($i['directory'], $rootLength);
+						$i['directory'] = '/'.substr('/'.$uidOwner.'/files'.$i['directory'], $rootLength);
 						if ($i['directory'] == '/') {
 							$i['directory'] = '';
 						}
