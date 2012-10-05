@@ -420,6 +420,7 @@ class OC_FileCache{
 		$mimetype=$view->getMimeType($path);
 		$stat=$view->stat($path);
 		if($mimetype=='httpd/unix-directory') {
+			$stat['size'] = 0;
 			$writable=$view->is_writable($path.'/');
 		}else{
 			$writable=$view->is_writable($path);
