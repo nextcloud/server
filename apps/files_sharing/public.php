@@ -122,12 +122,16 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					// Make breadcrumb
 					$breadcrumb = array();
 					$pathtohere = '';
+					$count = 1;
 					foreach (explode('/', $dir) as $i) {
 						if ($i != '') {
 							if ($i != $baseDir) {
 								$pathtohere .= '/'.$i;
+							}						
+							if ( strlen($pathtohere) <  strlen($_GET['dir'])) {
+								continue;
 							}
-							$breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
+							$breadcrumb[] = array('dir' => str_replace($_GET['dir'], "", $pathtohere, $count), 'name' => $i);
 						}
 					}
 					$list = new OCP\Template('files', 'part.list', '');
