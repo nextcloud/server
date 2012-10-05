@@ -94,4 +94,22 @@ class OC_Router {
 	{
 		return $this->getGenerator()->generate($name, $parameters, $absolute);
 	}
+
+	public static function JSRoutes()
+	{
+		// TODO: http caching
+		$routes = array();
+		$router = OC::getRouter();
+		$root = $router->getCollection('root');
+		foreach($root->all() as $name => $route) {
+			$compiled_route = $route->compile();
+			$defaults = $route->getDefaults();
+			unset($defaults['action']);
+			$routes[$name] = array(
+				'tokens' => $compiled_route->getTokens(),
+				'defaults' => $defaults,
+			);
+		}
+		OCP\JSON::success ( array( 'data' => $routes ) );
+	}
 }

@@ -253,6 +253,7 @@ class OC{
 		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search', 'result');
+		OC_Util::addScript('router');
 
 		if( OC_Config::getValue( 'installed', false )) {
 			if( OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax' ) {

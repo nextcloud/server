@@ -28,6 +28,9 @@ $this->create('core_ajax_vcategories_delete', '/core/ajax/vcategories/delete.php
 	->actionInclude('core/ajax/vcategories/delete.php');
 $this->create('core_ajax_vcategories_edit', '/core/ajax/vcategories/edit.php')
 	->actionInclude('core/ajax/vcategories/edit.php');
+// Routing
+$this->create('core_ajax_routes', '/core/routes.json')
+	->action('OC_Router', 'JSRoutes');
 
 // Not specifically routed
 $this->create('app_css', '/apps/{app}/{file}')
