@@ -21,7 +21,7 @@ $this->create('settings_admin', '/settings/admin')
 	->actionInclude('settings/admin.php');
 // Settings ajax actions
 // users
-$this->create('settings_admin', '/settings/ajax/userlist')
+$this->create('settings_ajax_userlist', '/settings/ajax/userlist')
 	->actionInclude('settings/ajax/userlist.php');
 $this->create('settings_ajax_createuser', '/settings/ajax/createuser.php')
 	->actionInclude('settings_ajax_createuser');
