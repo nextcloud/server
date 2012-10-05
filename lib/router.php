@@ -53,16 +53,34 @@ class OC_Router {
 		return $this->collections[$name];
 	}
 
+	/**
+	 * Sets the collection to use for adding routes
+	 *
+	 * @param string $name Name of the colletion to use.
+	 */
 	public function useCollection($name) {
 		$this->collection = $this->getCollection($name);
 	}
 
+	/**
+	 * Create a OC_Route.
+	 *
+	 * @param string $name Name of the route to create.
+	 * @param string $pattern The pattern to match
+	 * @param array  $defaults     An array of default parameter values
+	 * @param array  $requirements An array of requirements for parameters (regexes)
+	 */
 	public function create($name, $pattern, array $defaults = array(), array $requirements = array()) {
 		$route = new OC_Route($pattern, $defaults, $requirements);
 		$this->collection->add($name, $route);
 		return $route;
 	}
 
+	/**
+	 * Find the route matching $url.
+	 *
+	 * @param string $url The url to find
+	 */
     	public function match($url) {
 		$matcher = new UrlMatcher($this->root, $this->context);
 		$parameters = $matcher->match($url);
@@ -81,6 +99,10 @@ class OC_Router {
 		}
 	}
 
+	/**
+	 * Get the url generator
+	 *
+	 */
 	public function getGenerator()
 	{
 		if (null !== $this->generator) {
@@ -90,11 +112,20 @@ class OC_Router {
 		return $this->generator = new UrlGenerator($this->root, $this->context);
 	}
 
+	/**
+	 * Generate url based on $name and $parameters
+	 *
+	 * @param string $name Name of the route to use.
+	 * @param array $parameters Parameters for the route
+	 */
 	public function generate($name, $parameters = array(), $absolute = false)
 	{
 		return $this->getGenerator()->generate($name, $parameters, $absolute);
 	}
 
+	/**
+	 * Generate JSON response for routing in javascript
+	 */
 	public static function JSRoutes()
 	{
 		// TODO: http caching
