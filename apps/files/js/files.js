@@ -178,7 +178,12 @@ $(document).ready(function() {
 		var dir=$('#dir').val()||'/';
 		$('#notification').text(t('files','generating ZIP-file, it may take some time.'));
 		$('#notification').fadeIn();
-		window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: files });
+		// use special download URL if provided, e.g. for public shared files
+		if ( (downloadURL = document.getElementById("downloadURL")) ) {
+			window.location=downloadURL.value+"&download&files="+files;
+		} else {
+			window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: files });
+		}
 		return false;
 	});
 
