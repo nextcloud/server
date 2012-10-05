@@ -32,6 +32,18 @@ $(document).ready(function() {
 				window.location = $(tr).find('a.name').attr('href');
 			}
 		});
+		FileActions.register('file', 'Download', OC.PERMISSION_READ, '', function(filename) {
+			var tr = $('tr').filterAttr('data-file', filename)
+			if (tr.length > 0) {
+				window.location = $(tr).find('a.name').attr('href');
+			}
+		});
+		FileActions.register('dir', 'Download', OC.PERMISSION_READ, '', function(filename) {
+			var tr = $('tr').filterAttr('data-file', filename)
+			if (tr.length > 0) {
+				window.location = $(tr).find('a.name').attr('href')+'&download';
+			}
+		});
 	}
 
 });

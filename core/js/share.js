@@ -166,7 +166,7 @@ OC.Share={
 							OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions, false);
 						}
 					}
-					if (share.expiration.length > 0) {
+					if (share.expiration != null) {
 						OC.Share.showExpirationDate(share.expiration);
 					}
 				});
@@ -306,13 +306,14 @@ OC.Share={
 		OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = true;
 		$('#linkCheckbox').attr('checked', true);
 		var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
+		var type = $('tr').filterAttr('data-id', String(itemSource)).data('type');
 		if ($('#dir').val() == '/') {
 			var file = $('#dir').val() + filename;
 		} else {
 			var file = $('#dir').val() + '/' + filename;
 		}
 		file = '/'+OC.currentUser+'/files'+file;
-		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&file='+file;
+		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&'+type+'='+file;
 		$('#linkText').val(link);
 		$('#linkText').show('blind');
 		$('#showPassword').show();

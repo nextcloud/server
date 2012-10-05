@@ -24,6 +24,7 @@ if (!isset($sharedInfo['size'])) {
 	$sharedSize = $sharedInfo['size'];
 }
 $used=$rootInfo['size']-$sharedSize;
+if($used<0) $used=0;
 $free=OC_Filesystem::free_space();
 $total=$free+$used;
 if($total==0) $total=1;  // prevent division by zero
