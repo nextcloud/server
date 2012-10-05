@@ -82,7 +82,12 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 			}
 			// Download the file
 			if (isset($_GET['download'])) {
-				OC_Files::get($path, '', $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+				if (isset($_GET['dir'])) {
+					OC_Files::get($path, '', $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+				} else {
+					OC_Files::get("", $path, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+				}
+				
 			} else {
 				OCP\Util::addStyle('files_sharing', 'public');
 				OCP\Util::addScript('files_sharing', 'public');
