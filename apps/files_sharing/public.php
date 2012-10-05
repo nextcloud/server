@@ -82,14 +82,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 			}
 			// Download the file
 			if (isset($_GET['download'])) {
-				$mimetype = OC_Filesystem::getMimeType($path);
-				header('Content-Transfer-Encoding: binary');
-				header('Content-Disposition: attachment; filename="'.basename($path).'"');
-				header('Content-Type: '.$mimetype);
-				header('Content-Length: '.OC_Filesystem::filesize($path));
-				OCP\Response::disableCaching();
-				@ob_clean();
-				OC_Filesystem::readfile($path);
+				OC_Files::get($path, '', $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
 			} else {
 				OCP\Util::addStyle('files_sharing', 'public');
 				OCP\Util::addScript('files_sharing', 'public');
