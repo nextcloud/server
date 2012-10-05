@@ -127,7 +127,10 @@ class OC_Archive_TAR extends OC_Archive{
 			$this->cachedHeaders = $this->tar->listContent();
 		}
 		foreach($this->cachedHeaders as $header) {
-			if($file==$header['filename'] or $file.'/'==$header['filename'] or '/'.$file.'/'==$header['filename'] or '/'.$file==$header['filename']) {
+			if(        $file     == $header['filename']
+				or     $file.'/' == $header['filename']
+				or '/'.$file.'/' == $header['filename']
+				or '/'.$file     == $header['filename']) {
 				return $header;
 			}
 		}
