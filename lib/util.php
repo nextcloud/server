@@ -287,6 +287,11 @@ class OC_Util {
 			$errors[]=array('error'=>'PHP module zlib is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
+
+		if(!function_exists('simplexml_load_string')) {
+			$errors[]=array('error'=>'PHP module SimpleXML is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
+		}
 		if(floatval(phpversion())<5.3) {
 			$errors[]=array('error'=>'PHP 5.3 is required.<br/>','hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
 			$web_server_restart= false;
