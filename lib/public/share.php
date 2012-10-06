@@ -1015,8 +1015,14 @@ class Share {
 								continue;
 							}
 						}
-						if ($item['uid_owner'] == $uidOwner && $item[$columnSource] == $itemSource) {
-							return $target;
+						if ($item['uid_owner'] == $uidOwner) {
+							if ($itemType == 'file' || $itemType == 'folder') {
+								if ($item['file_source'] == \OC_FileCache::getId($itemSource)) {
+									return $target;
+								}
+							} else if ($item['item_source'] == $itemSource) {
+								return $target;
+							}
 						}
 					}
 					if (!isset($exclude)) {
