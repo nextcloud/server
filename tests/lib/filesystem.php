@@ -73,7 +73,12 @@ class Test_Filesystem extends UnitTestCase {
 	}
 
 	public function testHooks() {
-		$user = OC_User::getUser();
+		if(OC_User::isLoggedIn()){
+			$user = OC_User::getUser();
+		}else{
+			$user=uniqid();
+			OC_Filesystem::init('/'.$user.'/files');
+		}
 		OC_Hook::clear('OC_Filesystem');
 		OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');
 
