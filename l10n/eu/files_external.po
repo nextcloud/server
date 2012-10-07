@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-04 02:04+0200\n"
-"PO-Revision-Date: 2012-10-03 07:31+0000\n"
+"POT-Creation-Date: 2012-10-07 02:03+0200\n"
+"PO-Revision-Date: 2012-10-06 13:01+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
 msgid "Access granted"
-msgstr ""
+msgstr "Sarrera baimendua"
 
 #: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
 msgid "Error configuring Dropbox storage"
@@ -28,7 +28,7 @@ msgstr "Errore bat egon da Dropbox biltegiratzea konfiguratzean"
 
 #: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
 msgid "Grant access"
-msgstr ""
+msgstr "Baimendu sarrera"
 
 #: js/dropbox.js:73 js/google.js:72
 msgid "Fill out all required fields"
