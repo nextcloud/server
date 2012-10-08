@@ -116,11 +116,12 @@ var FileList={
 		$('#emptyfolder').hide();
 		$('.file_upload_filename').removeClass('highlight');
 	},
-	loadingDone:function(name){
+	loadingDone:function(name, id){
 		var mime, tr=$('tr').filterAttr('data-file',name);
 		tr.data('loading',false);
 		mime=tr.data('mime');
 		tr.attr('data-mime',mime);
+		tr.attr('data-id', id);
 		getMimeIcon(mime,function(path){
 			tr.find('td.filename').attr('style','background-image:url('+path+')');
 		});
