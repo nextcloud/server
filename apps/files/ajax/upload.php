@@ -2,7 +2,7 @@
 
 // Init owncloud
 
-error_log("upload!!!");
+
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
 OCP\JSON::setContentTypeHeader('text/plain');
 
