@@ -645,7 +645,7 @@ class Share {
 			} else {
 				if ($fileDependent) {
 					if (($itemType == 'file' || $itemType == 'folder') && $format == \OC_Share_Backend_File::FORMAT_FILE_APP || $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT) {
-						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path`, `file_target`, `permissions`, `expiration`, `name`, `ctime`, `mtime`, `mimetype`, `size`, `encrypted`, `versioned`, `writable`';
+						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `uid_owner`, `share_type`, `share_with`, `file_source`, `path`, `file_target`, `permissions`, `expiration`, `name`, `ctime`, `mtime`, `mimetype`, `size`, `encrypted`, `versioned`, `writable`';
 					} else {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`, `file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`';
 					}
