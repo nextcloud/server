@@ -121,7 +121,9 @@ var FileList={
 		tr.data('loading',false);
 		mime=tr.data('mime');
 		tr.attr('data-mime',mime);
-		tr.attr('data-id', id);
+		if (id != null) {
+			tr.attr('data-id', id);
+		}
 		getMimeIcon(mime,function(path){
 			tr.find('td.filename').attr('style','background-image:url('+path+')');
 		});
