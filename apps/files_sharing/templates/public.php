@@ -31,7 +31,5 @@
 			</li>
 		</ul>
 	<?php endif; ?>
-	<div id="content"></div>
-	<table></table>
 </div>
 <footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> &ndash; <?php echo $l->t('web services under your control'); ?></p></footer>

@@ -25,7 +25,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 	if (isset($_GET['dir'])) {
 		$type = 'folder';
 		$path = $_GET['dir'];
-		$baseDir = basename($path);
+		$baseDir = $path;
 		$dir = $baseDir;
 	} else {
 		$type = 'file';
@@ -36,6 +36,13 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 		OC_Util::setupFS($uidOwner);
 		$fileSource = OC_Filecache::getId($path, '');
 		if ($fileSource != -1 && ($linkItem = OCP\Share::getItemSharedWithByLink($type, $fileSource, $uidOwner))) {
+			// TODO Fix in the getItems
+			if (!isset($linkItem['item_type']) || $linkItem['item_type'] != $type) {
+				header('HTTP/1.0 404 Not Found');
+				$tmpl = new OCP\Template('', '404', 'guest');
+				$tmpl->printPage();
+				exit();
+			}
 			if (isset($linkItem['share_with'])) {
 				// Check password
 				if (isset($_POST['password'])) {
@@ -75,14 +82,18 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 			}
 			// Download the file
 			if (isset($_GET['download'])) {
-				$mimetype = OC_Filesystem::getMimeType($path);
-				header('Content-Transfer-Encoding: binary');
-				header('Content-Disposition: attachment; filename="'.basename($path).'"');
-				header('Content-Type: '.$mimetype);
-				header('Content-Length: '.OC_Filesystem::filesize($path));
-				OCP\Response::disableCaching();
-				@ob_clean();
-				OC_Filesystem::readfile($path);
+				if (isset($_GET['dir'])) {
+					if ( isset($_GET['files']) ) { // download selected files
+						OC_Files::get($path, $_GET['files'], $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+					} else 	if (isset($_GET['path']) &&  $_GET['path'] != '' ) { // download a file from a shared directory
+						OC_Files::get('', $path, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+					} else { // download the whole shared directory
+						OC_Files::get($path, '', $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+					}
+				} else { // download a single shared file
+					OC_Files::get("", $path, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+				}
+				
 			} else {
 				OCP\Util::addStyle('files_sharing', 'public');
 				OCP\Util::addScript('files_sharing', 'public');
@@ -103,7 +114,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 							$i['basename'] = $fileinfo['filename'];
 							$i['extension'] = isset($fileinfo['extension']) ? ('.'.$fileinfo['extension']) : '';
 						}
-						$i['directory'] = substr($i['directory'], $rootLength);
+						$i['directory'] = '/'.substr('/'.$uidOwner.'/files'.$i['directory'], $rootLength);
 						if ($i['directory'] == '/') {
 							$i['directory'] = '';
 						}
@@ -113,12 +124,16 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					// Make breadcrumb
 					$breadcrumb = array();
 					$pathtohere = '';
+					$count = 1;
 					foreach (explode('/', $dir) as $i) {
 						if ($i != '') {
 							if ($i != $baseDir) {
 								$pathtohere .= '/'.$i;
+							}						
+							if ( strlen($pathtohere) <  strlen($_GET['dir'])) {
+								continue;
 							}
-							$breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
+							$breadcrumb[] = array('dir' => str_replace($_GET['dir'], "", $pathtohere, $count), 'name' => $i);
 						}
 					}
 					$list = new OCP\Template('files', 'part.list', '');

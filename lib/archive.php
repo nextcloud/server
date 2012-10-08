@@ -13,14 +13,14 @@ abstract class OC_Archive{
 	 * @return OC_Archive
 	 */
 	public static function open($path) {
-		$ext=substr($path,strrpos($path,'.'));
+		$ext=substr($path, strrpos($path, '.'));
 		switch($ext) {
 			case '.zip':
 				return new OC_Archive_ZIP($path);
 			case '.gz':
 			case '.bz':
 			case '.bz2':
-				if(strpos($path,'.tar.')) {
+				if(strpos($path, '.tar.')) {
 					return new OC_Archive_TAR($path);
 				}
 				break;
@@ -126,9 +126,9 @@ abstract class OC_Archive{
 					continue;
 				}
 				if(is_dir($source.'/'.$file)) {
-					$this->addRecursive($path.'/'.$file,$source.'/'.$file);
+					$this->addRecursive($path.'/'.$file, $source.'/'.$file);
 				}else{
-					$this->addFile($path.'/'.$file,$source.'/'.$file);
+					$this->addFile($path.'/'.$file, $source.'/'.$file);
 				}
 			}
 		}

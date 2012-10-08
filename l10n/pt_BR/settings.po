@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-25 02:03+0200\n"
-"PO-Revision-Date: 2012-09-24 01:31+0000\n"
+"POT-Creation-Date: 2012-10-07 02:04+0200\n"
+"PO-Revision-Date: 2012-10-06 14:30+0000\n"
 "Last-Translator: sedir <philippi.sedir@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "Habilitado"
 msgid "Saving..."
 msgstr "Gravando..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "Português"
 
@@ -229,7 +229,7 @@ msgstr "Resposta"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr "Você usou <strong>%s</strong> do <strong>%s</strong> disponível"
+msgstr "Você usou <strong>%s</strong> do espaço disponível de <strong>%s</strong> "
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"

@@ -358,6 +358,10 @@ class OC{
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
 
+		if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SESSION['user_id']) && $_SERVER['PHP_AUTH_USER'] != $_SESSION['user_id']) {
+			OC_User::logout();
+		}
+
 		// Load Apps
 		// This includes plugins for users and filesystems as well
 		global $RUNTIME_NOAPPS;

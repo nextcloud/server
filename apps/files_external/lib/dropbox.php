@@ -27,29 +27,33 @@ namespace OC\Files\Storage;
 class Dropbox extends \OC\Files\Storage\Common {
 
 	private $dropbox;
+	private $root;
 	private $metaData = array();
 
 	private static $tempFiles = array();
 
 	public function __construct($params) {
 		if (isset($params['configured']) && $params['configured'] == 'true' && isset($params['app_key']) && isset($params['app_secret']) && isset($params['token']) && isset($params['token_secret'])) {
+			$this->root=isset($params['root'])?$params['root']:'';
 			$oauth = new \Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
 			$oauth->setToken($params['token'], $params['token_secret']);
 			$this->dropbox = new \Dropbox_API($oauth, 'dropbox');
+			$this->mkdir('');
 		} else {
 			throw new \Exception('Creating \OC\Files\Storage\Dropbox storage failed');
 		}
 	}
 
 	private function getMetaData($path, $list = false) {
+		$path = $this->root.$path;
 		if (!$list && isset($this->metaData[$path])) {
 			return $this->metaData[$path];
 		} else {
 			if ($list) {
 				try {
 					$response = $this->dropbox->getMetaData($path);
-				} catch (Exception $exception) {
-					OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
+				} catch (\Exception $exception) {
+					\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 					return false;
 				}
 				if ($response && isset($response['contents'])) {
@@ -69,8 +73,8 @@ class Dropbox extends \OC\Files\Storage\Common {
 					$response = $this->dropbox->getMetaData($path, 'false');
 					$this->metaData[$path] = $response;
 					return $response;
-				} catch (Exception $exception) {
-					OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
+				} catch (\Exception $exception) {
+					\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 					return false;
 				}
 			}
@@ -78,11 +82,12 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function mkdir($path) {
+		$path = $this->root.$path;
 		try {
 			$this->dropbox->createFolder($path);
 			return true;
-		} catch (Exception $exception) {
-			OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
+		} catch (\Exception $exception) {
+			\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -146,36 +151,42 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function unlink($path) {
+		$path = $this->root.$path;
 		try {
 			$this->dropbox->delete($path);
 			return true;
-		} catch (Exception $exception) {
-			OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
+		} catch (\Exception $exception) {
+			\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 	}
 
 	public function rename($path1, $path2) {
+		$path1 = $this->root.$path1;
+		$path2 = $this->root.$path2;
 		try {
 			$this->dropbox->move($path1, $path2);
 			return true;
-		} catch (Exception $exception) {
-			OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
+		} catch (\Exception $exception) {
+			\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 	}
 
 	public function copy($path1, $path2) {
+		$path1 = $this->root.$path1;
+		$path2 = $this->root.$path2;
 		try {
 			$this->dropbox->copy($path1, $path2);
 			return true;
-		} catch (Exception $exception) {
-			OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
+		} catch (\Exception $exception) {
+			\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 	}
 
 	public function fopen($path, $mode) {
+		$path = $this->root.$path;
 		switch ($mode) {
 			case 'r':
 			case 'rb':
@@ -184,8 +195,8 @@ class Dropbox extends \OC\Files\Storage\Common {
 					$data = $this->dropbox->getFile($path);
 					file_put_contents($tmpFile, $data);
 					return fopen($tmpFile, 'r');
-				} catch (Exception $exception) {
-					OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
+				} catch (\Exception $exception) {
+					\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 					return false;
 				}
 			case 'w':
@@ -223,8 +234,8 @@ class Dropbox extends \OC\Files\Storage\Common {
 			try {
 				$this->dropbox->putFile(self::$tempFiles[$tmpFile], $handle);
 				unlink($tmpFile);
-			} catch (Exception $exception) {
-				OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
+			} catch (\Exception $exception) {
+				\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 			}
 		}
 	}
@@ -242,8 +253,8 @@ class Dropbox extends \OC\Files\Storage\Common {
 		try {
 			$info = $this->dropbox->getAccountInfo();
 			return $info['quota_info']['quota'] - $info['quota_info']['normal'];
-		} catch (Exception $exception) {
-			OCP\Util::writeLog('files_external', $exception->getMessage(), OCP\Util::ERROR);
+		} catch (\Exception $exception) {
+			\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 	}

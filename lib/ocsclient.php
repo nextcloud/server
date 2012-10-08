@@ -62,7 +62,15 @@ class OC_OCSClient{
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/categories';
 
-		$xml=@file_get_contents($url);
+                // set a sensible timeout of 10 sec to stay responsive even if the server is down.
+                $ctx = stream_context_create(
+                        array(
+                                'http' => array(
+                                        'timeout' => 10
+                                )
+                        )
+                );      
+                $xml=@file_get_contents($url, 0, $ctx); 
 		if($xml==FALSE) {
 			return NULL;
 		}
@@ -103,7 +111,17 @@ class OC_OCSClient{
 		$filterurl='&filter='.urlencode($filter);
 		$url=OC_OCSClient::getAppStoreURL().'/content/data?categories='.urlencode($categoriesstring).'&sortmode=new&page='.urlencode($page).'&pagesize=100'.$filterurl.$version;
 		$apps=array();
-		$xml=@file_get_contents($url);
+
+                // set a sensible timeout of 10 sec to stay responsive even if the server is down.
+                $ctx = stream_context_create(
+                        array(
+                                'http' => array(
+                                        'timeout' => 10
+                                )
+                        )
+                );      
+                $xml=@file_get_contents($url, 0, $ctx);
+
 		if($xml==FALSE) {
 			return NULL;
 		}
@@ -141,7 +159,15 @@ class OC_OCSClient{
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/data/'.urlencode($id);
 
-		$xml=@file_get_contents($url);
+                // set a sensible timeout of 10 sec to stay responsive even if the server is down.
+                $ctx = stream_context_create(
+                        array(
+                                'http' => array(
+                                        'timeout' => 10
+                                )
+                        )
+                );      
+                $xml=@file_get_contents($url, 0, $ctx);
 		if($xml==FALSE) {
 			OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
 			return NULL;
@@ -178,7 +204,16 @@ class OC_OCSClient{
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/download/'.urlencode($id).'/'.urlencode($item);
 
-		$xml=@file_get_contents($url);
+                // set a sensible timeout of 10 sec to stay responsive even if the server is down.
+                $ctx = stream_context_create(
+                        array(
+                                'http' => array(
+                                        'timeout' => 10
+                                )
+                        )
+                );      
+                $xml=@file_get_contents($url, 0, $ctx);
+
 		if($xml==FALSE) {
 			OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
 			return NULL;
@@ -215,7 +250,17 @@ class OC_OCSClient{
 		$url=OC_OCSClient::getKBURL().'/knowledgebase/data?type=150&page='.$p.'&pagesize='.$s.$searchcmd;
 
 		$kbe=array();
-		$xml=@file_get_contents($url);
+
+                // set a sensible timeout of 10 sec to stay responsive even if the server is down.
+                $ctx = stream_context_create(
+                        array(
+                                'http' => array(
+                                        'timeout' => 10
+                                )
+                        )
+                );      
+                $xml=@file_get_contents($url, 0, $ctx);
+
 		if($xml==FALSE) {
 			OC_Log::write('core','Unable to parse knowledgebase content',OC_Log::FATAL);
 			return NULL;
