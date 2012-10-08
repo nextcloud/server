@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-07 02:03+0200\n"
+"POT-Creation-Date: 2012-10-08 02:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -103,112 +103,112 @@ msgstr ""
 msgid "generating ZIP-file, it may take some time."
 msgstr ""
 
-#: js/files.js:215
+#: js/files.js:213
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/files.js:215
+#: js/files.js:213
 msgid "Upload Error"
 msgstr ""
 
-#: js/files.js:243 js/files.js:348 js/files.js:378
+#: js/files.js:241 js/files.js:346 js/files.js:376
 msgid "Pending"
 msgstr ""
 
-#: js/files.js:263
+#: js/files.js:261
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:266 js/files.js:311 js/files.js:326
+#: js/files.js:264 js/files.js:309 js/files.js:324
 msgid "files uploading"
 msgstr ""
 
-#: js/files.js:329 js/files.js:362
+#: js/files.js:327 js/files.js:360
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/files.js:432
+#: js/files.js:429
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:502
+#: js/files.js:499
 msgid "Invalid name, '/' is not allowed."
 msgstr ""
 
-#: js/files.js:679
+#: js/files.js:676
 msgid "files scanned"
 msgstr ""
 
-#: js/files.js:687
+#: js/files.js:684
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:760 templates/index.php:48
+#: js/files.js:757 templates/index.php:48
 msgid "Name"
 msgstr ""
 
-#: js/files.js:761 templates/index.php:56
+#: js/files.js:758 templates/index.php:56
 msgid "Size"
 msgstr ""
 
-#: js/files.js:762 templates/index.php:58
+#: js/files.js:759 templates/index.php:58
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:789
+#: js/files.js:786
 msgid "folder"
 msgstr ""
 
-#: js/files.js:791
+#: js/files.js:788
 msgid "folders"
 msgstr ""
 
-#: js/files.js:799
+#: js/files.js:796
 msgid "file"
 msgstr ""
 
-#: js/files.js:801
+#: js/files.js:798
 msgid "files"
 msgstr ""
 
-#: js/files.js:845
+#: js/files.js:842
 msgid "seconds ago"
 msgstr ""
 
-#: js/files.js:846
+#: js/files.js:843
 msgid "minute ago"
 msgstr ""
 
-#: js/files.js:847
+#: js/files.js:844
 msgid "minutes ago"
 msgstr ""
 
-#: js/files.js:850
+#: js/files.js:847
 msgid "today"
 msgstr ""
 
-#: js/files.js:851
+#: js/files.js:848
 msgid "yesterday"
 msgstr ""
 
-#: js/files.js:852
+#: js/files.js:849
 msgid "days ago"
 msgstr ""
 
-#: js/files.js:853
+#: js/files.js:850
 msgid "last month"
 msgstr ""
 
-#: js/files.js:855
+#: js/files.js:852
 msgid "months ago"
 msgstr ""
 
-#: js/files.js:856
+#: js/files.js:853
 msgid "last year"
 msgstr ""
 
-#: js/files.js:857
+#: js/files.js:854
 msgid "years ago"
 msgstr ""
 
