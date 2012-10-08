@@ -47,8 +47,14 @@ class OC_Files {
 				$info = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
 			}
 			else {
-				$path = substr($path, 7);
-				$info = OCP\Share::getItemSharedWith('file', $path, OC_Share_Backend_File::FORMAT_FILE_APP);
+				$pos = strpos($path, '/', 8);
+				// Get shared folder name
+				if ($pos !== false) {
+					$itemTarget = substr($path, 7, $pos - 7);
+				} else {
+					$itemTarget = substr($path, 7);
+				}
+				$info = OCP\Share::getItemSharedWith('file', $itemTarget, OC_Share_Backend_File::FORMAT_FILE_APP, array('folder' => $path));
 			}
 			$info = $info[0];
 		}
