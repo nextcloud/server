@@ -101,6 +101,16 @@ class Cache extends \UnitTestCase {
 		}
 	}
 
+	function testStatus() {
+		$this->assertEquals(\OC\Files\Cache\Cache::NOT_FOUND, $this->cache->getStatus('foo'));
+		$this->cache->put('foo', array('size' => -1));
+		$this->assertEquals(\OC\Files\Cache\Cache::PARTIAL, $this->cache->getStatus('foo'));
+		$this->cache->put('foo', array('size' => -1, 'mtime' => 20, 'mimetype' => 'foo/file'));
+		$this->assertEquals(\OC\Files\Cache\Cache::SHALLOW, $this->cache->getStatus('foo'));
+		$this->cache->put('foo', array('size' => 10));
+		$this->assertEquals(\OC\Files\Cache\Cache::COMPLETE, $this->cache->getStatus('foo'));
+	}
+
 	public function tearDown() {
 		$this->cache->clear();
 	}

@@ -9,6 +9,11 @@
 namespace OC\Files\Cache;
 
 class Cache {
+	const NOT_FOUND = 0;
+	const PARTIAL = 1; //only partial data available, file not cached in the database
+	const SHALLOW = 2; //folder in cache, but not all child files are completely scanned
+	const COMPLETE = 3;
+
 	/**
 	 * @var \OC\Files\Storage\Storage
 	 */
@@ -232,5 +237,29 @@ class Cache {
 	public function clear() {
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE storage=?');
 		$query->execute(array($this->storageId));
+	}
+
+	/**
+	 * @param string $file
+	 *
+	 * @return int, Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
+	 */
+	public function getStatus($file) {
+		$pathHash = md5($file);
+		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
+		$result = $query->execute(array($this->storageId, $pathHash));
+		if ($row = $result->fetchRow()) {
+			if ((int)$row['size'] === -1) {
+				return self::SHALLOW;
+			} else {
+				return self::COMPLETE;
+			}
+		} else {
+			if (isset($this->partial[$file])) {
+				return self::PARTIAL;
+			} else {
+				return self::NOT_FOUND;
+			}
+		}
 	}
 }
