@@ -370,7 +370,10 @@ $(document).ready(function() {
 	});
 
 	$(this).click(function(event) {
-		if (OC.Share.droppedDown && !($(event.target).hasClass('drop')) && $('#dropdown').has(event.target).length === 0) {
+		var target = $(event.target);
+		var isMatched = !target.hasClass('drop') && !target.hasClass('ui-datepicker-next')
+			&& !target.hasClass('ui-datepicker-prev') && !target.hasClass('ui-icon');
+		if (OC.Share.droppedDown && isMatched && $('#dropdown').has(event.target).length === 0) {
 			OC.Share.hideDropDown();
 		}
 	});
