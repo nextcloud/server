@@ -140,6 +140,7 @@ class OC_OCSClient{
 			$app['preview']=(string)$tmp[$i]->smallpreviewpic1;
 			$app['changed']=strtotime($tmp[$i]->changed);
 			$app['description']=(string)$tmp[$i]->description;
+			$app['score']=(string)$tmp[$i]->score;
 
 			$apps[]=$app;
 		}
@@ -188,6 +189,7 @@ class OC_OCSClient{
 		$app['changed']=strtotime($tmp->changed);
 		$app['description']=$tmp->description;
 		$app['detailpage']=$tmp->detailpage;
+		$app['score']=$tmp->score;
 
 		return $app;
 	}

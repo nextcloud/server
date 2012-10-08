@@ -8,6 +8,7 @@
 </script>
 <div id="controls">
 	<a class="button" target="_blank" href="http://owncloud.org/dev/apps/getting-started/"><?php echo $l->t('Add your App');?></a>
+	<a class="button" target="_blank" href="http://apps.owncloud.com"><?php echo $l->t('More Apps');?></a>
 </div>
 <ul id="leftcontent" class="applist">
 	<?php foreach($_['apps'] as $app):?>
@@ -24,6 +25,7 @@
 <div id="rightcontent">
 	<div class="appinfo">
 	<h3><strong><span class="name"><?php echo $l->t('Select an App');?></span></strong><span class="version"></span><small class="externalapp" style="visibility:hidden;"></small></h3>
+	<span class="score"></span>
 	<p class="description"></p>
 	<img src="" class="preview" />
 	<p class="appslink hidden"><a href="#" target="_blank"><?php echo $l->t('See application page at apps.owncloud.com');?></a></p>

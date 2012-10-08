@@ -578,50 +578,45 @@ class OC_App{
 	 * @return array, multi-dimensional array of apps. Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
 	 */
 	public static function getAppstoreApps( $filter = 'approved' ) {
-		
 		$catagoryNames = OC_OCSClient::getCategories();
-		
 		if ( is_array( $catagoryNames ) ) {
-			
 			// Check that categories of apps were retrieved correctly
 			if ( ! $categories = array_keys( $catagoryNames ) ) {
-			
 				return false;
-				
 			}
 			
 			$page = 0;
-		
 			$remoteApps = OC_OCSClient::getApplications( $categories, $page, $filter );
-			
 			$app1 = array();
-			
 			$i = 0;
-			
 			foreach ( $remoteApps as $app ) {
-			
 				$app1[$i] = $app;
-			
 				$app1[$i]['author'] = $app['personid'];
-				
 				$app1[$i]['ocs_id'] = $app['id'];
-				
 				$app1[$i]['internal'] = $app1[$i]['active'] = 0;
-				
+
+				// rating img
+				if($app['score']>=0     and $app['score']<5) 	$img=OC_Helper::imagePath( "core", "rating/s1.png" );
+				elseif($app['score']>=5 and $app['score']<15) 	$img=OC_Helper::imagePath( "core", "rating/s2.png" );
+				elseif($app['score']>=15 and $app['score']<25) 	$img=OC_Helper::imagePath( "core", "rating/s3.png" );
+				elseif($app['score']>=25 and $app['score']<35) 	$img=OC_Helper::imagePath( "core", "rating/s4.png" );
+				elseif($app['score']>=35 and $app['score']<45) 	$img=OC_Helper::imagePath( "core", "rating/s5.png" );
+				elseif($app['score']>=45 and $app['score']<55) 	$img=OC_Helper::imagePath( "core", "rating/s6.png" );
+				elseif($app['score']>=55 and $app['score']<65) 	$img=OC_Helper::imagePath( "core", "rating/s7.png" );
+				elseif($app['score']>=65 and $app['score']<75) 	$img=OC_Helper::imagePath( "core", "rating/s8.png" );
+				elseif($app['score']>=75 and $app['score']<85) 	$img=OC_Helper::imagePath( "core", "rating/s9.png" );
+				elseif($app['score']>=85 and $app['score']<95) 	$img=OC_Helper::imagePath( "core", "rating/s10.png" );
+				elseif($app['score']>=95 and $app['score']<100)	$img=OC_Helper::imagePath( "core", "rating/s11.png" );
+
+				$app1[$i]['score'] = '<img src="'.$img.'"> Score: '.$app['score'].'%';
 				$i++;
-			
 			}
-		
 		}
-		
+
 		if ( empty( $app1 ) ) {
-		
 			return false;
-			
 		} else {
-		
 			return $app1;
-			
 		}
 	}
 
