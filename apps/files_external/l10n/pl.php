@@ -1,4 +1,10 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Dostęp do",
+"Error configuring Dropbox storage" => "Wystąpił błąd podczas konfigurowania zasobu Dropbox",
+"Grant access" => "Udziel dostępu",
+"Fill out all required fields" => "Wypełnij wszystkie wymagane pola",
+"Please provide a valid Dropbox app key and secret." => "Proszę podać prawidłowy klucz aplikacji Dropbox i klucz sekretny.",
+"Error configuring Google Drive storage" => "Wystąpił błąd podczas konfigurowania zasobu Google Drive",
 "External Storage" => "Zewnętrzna zasoby dyskowe",
 "Mount point" => "Punkt montowania",
 "Backend" => "Zaplecze",

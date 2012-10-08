@@ -73,7 +73,7 @@ class Test_Filesystem extends UnitTestCase {
 	}
 
 	public function testHooks() {
-		if(OC_User::isLoggedIn()){
+		if(OC_Filesystem::getView()){
 			$user = OC_User::getUser();
 		}else{
 			$user=uniqid();
