@@ -371,8 +371,8 @@ $(document).ready(function() {
 
 	$(this).click(function(event) {
 		var target = $(event.target);
-		var isMatched = !target.hasClass('drop') && !target.hasClass('ui-datepicker-next')
-			&& !target.hasClass('ui-datepicker-prev') && !target.hasClass('ui-icon');
+		var isMatched = !target.is('.drop, .ui-datepicker-next, .ui-datepicker-prev, .ui-icon') 
+			&& !target.closest('#ui-datepicker-div').length;
 		if (OC.Share.droppedDown && isMatched && $('#dropdown').has(event.target).length === 0) {
 			OC.Share.hideDropDown();
 		}
