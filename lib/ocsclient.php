@@ -49,6 +49,24 @@ class OC_OCSClient{
                 return($url);
         }
 
+	/**
+	 * @brief Get the content of an OCS url call.
+	 * @returns string of the response
+	 * This function calls an OCS server and returns the response. It also sets a sane timeout
+	*/
+	private static function getOCSresponse($url) {
+		// set a sensible timeout of 10 sec to stay responsive even if the server is down.
+		$ctx = stream_context_create(
+			array(
+				'http' => array(
+					'timeout' => 10
+				)
+			)
+		);      
+		$data=@file_get_contents($url, 0, $ctx);
+		return($data);
+	}
+
 
 	/**
 	 * @brief Get all the categories from the OCS server
@@ -61,16 +79,7 @@ class OC_OCSClient{
 			return NULL;
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/categories';
-
-                // set a sensible timeout of 10 sec to stay responsive even if the server is down.
-                $ctx = stream_context_create(
-                        array(
-                                'http' => array(
-                                        'timeout' => 10
-                                )
-                        )
-                );      
-                $xml=@file_get_contents($url, 0, $ctx); 
+		$xml=OC_OCSClient::getOCSresponse($url);
 		if($xml==FALSE) {
 			return NULL;
 		}
@@ -111,16 +120,7 @@ class OC_OCSClient{
 		$filterurl='&filter='.urlencode($filter);
 		$url=OC_OCSClient::getAppStoreURL().'/content/data?categories='.urlencode($categoriesstring).'&sortmode=new&page='.urlencode($page).'&pagesize=100'.$filterurl.$version;
 		$apps=array();
-
-                // set a sensible timeout of 10 sec to stay responsive even if the server is down.
-                $ctx = stream_context_create(
-                        array(
-                                'http' => array(
-                                        'timeout' => 10
-                                )
-                        )
-                );      
-                $xml=@file_get_contents($url, 0, $ctx);
+		$xml=OC_OCSClient::getOCSresponse($url);
 
 		if($xml==FALSE) {
 			return NULL;
@@ -159,16 +159,8 @@ class OC_OCSClient{
 			return NULL;
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/data/'.urlencode($id);
+		$xml=OC_OCSClient::getOCSresponse($url);
 
-                // set a sensible timeout of 10 sec to stay responsive even if the server is down.
-                $ctx = stream_context_create(
-                        array(
-                                'http' => array(
-                                        'timeout' => 10
-                                )
-                        )
-                );      
-                $xml=@file_get_contents($url, 0, $ctx);
 		if($xml==FALSE) {
 			OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
 			return NULL;
@@ -205,16 +197,7 @@ class OC_OCSClient{
 			return NULL;
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/download/'.urlencode($id).'/'.urlencode($item);
-
-                // set a sensible timeout of 10 sec to stay responsive even if the server is down.
-                $ctx = stream_context_create(
-                        array(
-                                'http' => array(
-                                        'timeout' => 10
-                                )
-                        )
-                );      
-                $xml=@file_get_contents($url, 0, $ctx);
+		$xml=OC_OCSClient::getOCSresponse($url);
 
 		if($xml==FALSE) {
 			OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
@@ -252,16 +235,7 @@ class OC_OCSClient{
 		$url=OC_OCSClient::getKBURL().'/knowledgebase/data?type=150&page='.$p.'&pagesize='.$s.$searchcmd;
 
 		$kbe=array();
-
-                // set a sensible timeout of 10 sec to stay responsive even if the server is down.
-                $ctx = stream_context_create(
-                        array(
-                                'http' => array(
-                                        'timeout' => 10
-                                )
-                        )
-                );      
-                $xml=@file_get_contents($url, 0, $ctx);
+		$xml=OC_OCSClient::getOCSresponse($url);
 
 		if($xml==FALSE) {
 			OC_Log::write('core','Unable to parse knowledgebase content',OC_Log::FATAL);
