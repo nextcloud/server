@@ -6,9 +6,10 @@
  * See the COPYING-README file.
  */
 
+namespace Test\Files\Storage;
+
 $config=include('apps/files_external/tests/config.php');
 
-namespace Test\Files\Storage;
 
 if(!is_array($config) or !isset($config['smb']) or !$config['smb']['run']) {
 	abstract class SMB extends Storage{}
