@@ -2,5 +2,6 @@
 <phpunit bootstrap="bootstrap.php">
 	<testsuite name='ownCloud'>
 		<directory suffix='.php'>lib/</directory>
+		<file>apps.php</file>
 	</testsuite>
 </phpunit>
