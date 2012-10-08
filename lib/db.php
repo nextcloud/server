@@ -427,14 +427,14 @@ class OC_DB {
 		$file2 = 'static://db_scheme';
 		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
-		/* FIXME: REMOVE this commented code
-		 * actually mysql, postgresql, sqlite and oracle support CURRENT_TIMESTAMP
+		/* FIXME: use CURRENT_TIMESTAMP for all databases. mysql supports it as a default for DATETIME since 5.6.5 [1]
+		 * as a fallback we could use <default>0000-01-01 00:00:00</default> everywhere
+		 * [1] http://bugs.mysql.com/bug.php?id=27645
 		 * http://dev.mysql.com/doc/refman/5.0/en/timestamp-initialization.html
 		 * http://www.postgresql.org/docs/8.1/static/functions-datetime.html
 		 * http://www.sqlite.org/lang_createtable.html
 		 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
 		 */
-
 		 if( $CONFIG_DBTYPE == 'pgsql' ) { //mysql support it too but sqlite doesn't
 				 $content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
 		 }
@@ -493,16 +493,17 @@ class OC_DB {
 		$file2 = 'static://db_scheme';
 		$content = str_replace( '*dbname*', $previousSchema['name'], $content );
 		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
-		/* FIXME: REMOVE this commented code
-		 * actually mysql, postgresql, sqlite and oracle support CUURENT_TIMESTAMP
+		/* FIXME: use CURRENT_TIMESTAMP for all databases. mysql supports it as a default for DATETIME since 5.6.5 [1]
+		 * as a fallback we could use <default>0000-01-01 00:00:00</default> everywhere
+		 * [1] http://bugs.mysql.com/bug.php?id=27645
 		 * http://dev.mysql.com/doc/refman/5.0/en/timestamp-initialization.html
 		 * http://www.postgresql.org/docs/8.1/static/functions-datetime.html
 		 * http://www.sqlite.org/lang_createtable.html
 		 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
+		 */
 		if( $CONFIG_DBTYPE == 'pgsql' ) { //mysql support it too but sqlite doesn't
 			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
 		}
-		 */
 		file_put_contents( $file2, $content );
 		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
 
