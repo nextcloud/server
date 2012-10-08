@@ -199,7 +199,8 @@ $(document).ready(function() {
 	$(document).bind('drop dragover', function (e) {
 			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
 	});
-
+	 
+	if ( document.getElementById("data-upload-form") ) {
 	$(function() {
 		$('.file_upload_start').fileupload({
 			dropZone: $('#content'), // restrict dropZone to content div
@@ -413,7 +414,7 @@ $(document).ready(function() {
 			}
 		})
 	});
-
+	}
 	$.assocArraySize = function(obj) {
 		// http://stackoverflow.com/a/6700/11236
 		var size = 0, key;
