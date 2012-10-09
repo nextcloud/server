@@ -123,7 +123,11 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					}
 				}
 				$count = 0;
-				$groups = OC_Group::getUserGroups(OC_User::getUser());
+				if (\OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global') == 'groups_only') {
+					$groups = OC_Group::getUserGroups(OC_User::getUser());
+				} else {
+					$groups = OC_Group::getGroups();
+				}
 				foreach ($groups as $group) {
 					if ($count < 4) {
 						if (stripos($group, $_GET['search']) !== false
