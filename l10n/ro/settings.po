@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:14+0200\n"
-"PO-Revision-Date: 2012-09-21 08:28+0000\n"
-"Last-Translator: g.ciprian <g.ciprian@osn.ro>\n"
+"POT-Creation-Date: 2012-10-09 02:03+0200\n"
+"PO-Revision-Date: 2012-10-09 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,11 +82,11 @@ msgstr "Nu s-a putut adăuga utilizatorul la grupul %s"
 msgid "Unable to remove user from group %s"
 msgstr "Nu s-a putut elimina utilizatorul din grupul %s"
 
-#: js/apps.js:27 js/apps.js:61
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "Dezactivați"
 
-#: js/apps.js:27 js/apps.js:50
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "Activați"
 
@@ -94,7 +94,7 @@ msgstr "Activați"
 msgid "Saving..."
 msgstr "Salvez..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "_language_name_"
 
@@ -189,15 +189,19 @@ msgstr "Dezvoltat de the <a href=\"http://ownCloud.org/contact\" target=\"_blank
 msgid "Add your App"
 msgstr "Adaugă aplicația ta"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr ""
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Selectează o aplicație"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr "Vizualizează pagina applicației pe apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licențiat <span class=\"author\"></span>"
 
