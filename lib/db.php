@@ -27,6 +27,7 @@
 class OC_DB {
 	const BACKEND_PDO=0;
 	const BACKEND_MDB2=1;
+	const BACKEND_DOCTRINE=2;
 
 	/**
 	 * @var MDB2_Driver_Common
@@ -37,6 +38,10 @@ class OC_DB {
 	 * @var MDB2_Driver_Common
 	 */
 	static private $MDB2=null;
+	/**
+	 * @var Doctrine
+	 */
+	static private $DOCTRINE=null;
 	/**
 	 * @var PDO
 	 */
@@ -54,6 +59,7 @@ class OC_DB {
 	 * @return int BACKEND_MDB2 or BACKEND_PDO
 	 */
 	private static function getDBBackend() {
+		return self::BACKEND_DOCTRINE;
 		//check if we can use PDO, else use MDB2 (installation always needs to be done my mdb2)
 		if(class_exists('PDO') && OC_Config::getValue('installed', false)) {
 			$type = OC_Config::getValue( "dbtype", "sqlite" );
@@ -83,6 +89,11 @@ class OC_DB {
 		if(is_null($backend)) {
 			$backend=self::getDBBackend();
 		}
+		if($backend==self::BACKEND_DOCTRINE) {
+			$success = self::connectDoctrine();
+			self::$connection=self::$DOCTRINE;
+			self::$backend=self::BACKEND_DOCTRINE;
+		} else
 		if($backend==self::BACKEND_PDO) {
 			$success = self::connectPDO();
 			self::$connection=self::$PDO;
@@ -93,6 +104,93 @@ class OC_DB {
 			self::$backend=self::BACKEND_MDB2;
 		}
 		return $success;
+	}
+
+	/**
+	 * connect to the database using doctrine
+	 *
+	 * @return bool
+	 */
+	public static function connectDoctrine() {
+		if(self::$connection) {
+			if(self::$backend!=self::BACKEND_DOCTRINE) {
+				self::disconnect();
+			}else{
+				return true;
+			}
+		}
+		// The global data we need
+		$name = OC_Config::getValue( "dbname", "owncloud" );
+		$host = OC_Config::getValue( "dbhost", "" );
+		$user = OC_Config::getValue( "dbuser", "" );
+		$pass = OC_Config::getValue( "dbpassword", "" );
+		$type = OC_Config::getValue( "dbtype", "sqlite" );
+		if(strpos($host, ':')) {
+			list($host, $port)=explode(':', $host,2);
+		}else{
+			$port=false;
+		}
+
+		// do nothing if the connection already has been established
+		if(!self::$DOCTRINE) {
+			$config = new \Doctrine\DBAL\Configuration();
+			switch($type) {
+				case 'sqlite':
+					if (!self::connectPDO()) {
+						return false;
+					}
+					$connectionParams = array(
+							'driver' => 'pdo',
+							'pdo' => self::$PDO,
+					);
+					break;
+				case 'sqlite3':
+					$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
+					$connectionParams = array(
+							'user' => $user,
+							'password' => $pass,
+							'path' => $datadir.'/'.$name.'.db',
+							'driver' => 'pdo_sqlite',
+					);
+					break;
+				case 'mysql':
+					$connectionParams = array(
+							'user' => $user,
+							'password' => $pass,
+							'host' => $host,
+							'port' => $port,
+							'dbname' => $name,
+							'charset' => 'UTF8',
+							'driver' => 'pdo_mysql',
+					);
+					break;
+				case 'pgsql':
+					$connectionParams = array(
+							'user' => $user,
+							'password' => $pass,
+							'host' => $host,
+							'port' => $port,
+							'dbname' => $name,
+							'driver' => 'pdo_mysql',
+					);
+					break;
+				case 'oci':
+					$connectionParams = array(
+							'user' => $user,
+							'password' => $pass,
+							'host' => $host,
+							'port' => $port,
+							'dbname' => $name,
+							'charset' => 'AL32UTF8',
+							'driver' => 'oci8',
+					);
+					break;
+				default:
+					return false;
+			}
+			self::$DOCTRINE = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+		}
+		return true;
 	}
 
 	/**
@@ -317,6 +415,18 @@ class OC_DB {
 
 		self::connect();
 		// return the result
+		if (self::$backend == self::BACKEND_DOCTRINE) {
+			try{
+				$result=self::$connection->prepare($query);
+			}catch(PDOException $e) {
+				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
+				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
+				OC_Log::write('core', $entry,OC_Log::FATAL);
+				error_log('DB error: '.$entry);
+				die( $entry );
+			}
+			$result=new DoctrineStatementWrapper($result);
+		} else
 		if(self::$backend==self::BACKEND_MDB2) {
 			$result = self::$connection->prepare( $query );
 
@@ -376,6 +486,7 @@ class OC_DB {
 				self::$connection->disconnect();
 			}
 			self::$connection=false;
+			self::$DOCTRINE=false;
 			self::$MDB2=false;
 			self::$PDO=false;
 		}
@@ -713,6 +824,67 @@ class OC_DB {
 	}
 }
 
+/**
+ * small wrapper around \Doctrine\DBAL\Driver\Statement to make it behave, more like an MDB2 Statement
+ */
+class DoctrineStatementWrapper {
+	/**
+	 * @var \Doctrine\DBAL\Driver\Statement
+	 */
+	private $statement=null;
+	private $lastArguments=array();
+
+	public function __construct($statement) {
+		$this->statement=$statement;
+	}
+
+	/**
+	 * pass all other function directly to the \Doctrine\DBAL\Driver\Statement
+	 */
+	public function __call($name,$arguments) {
+		return call_user_func_array(array($this->statement,$name), $arguments);
+	}
+
+	/**
+	 * provide numRows
+	 */
+	public function numRows() {
+		return $this->statement->rowCount();
+	}
+
+	/**
+	 * make execute return the result instead of a bool
+	 */
+	public function execute($input=array()) {
+		$this->lastArguments=$input;
+		if(count($input)>0) {
+			$result=$this->statement->execute($input);
+		}else{
+			$result=$this->statement->execute();
+		}
+		if($result) {
+			return $this;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * provide an alias for fetch
+	 */
+	public function fetchRow() {
+		return $this->statement->fetch();
+	}
+
+	/**
+	 * Provide a simple fetchOne.
+	 * fetch single column from the next row
+	 * @param int $colnum the column number to fetch
+	 */
+	public function fetchOne($colnum = 0) {
+		return $this->statement->fetchColumn($colnum);
+	}
+}
 /**
  * small wrapper around PDOStatement to make it behave ,more like an MDB2 Statement
  */
