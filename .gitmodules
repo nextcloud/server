@@ -1,0 +1,6 @@
+[submodule "3rdparty/doctrine-common"]
+	path = 3rdparty/doctrine-common
+	url = git://github.com/doctrine/common.git
+[submodule "3rdparty/doctrine-dbal"]
+	path = 3rdparty/doctrine-dbal
+	url = git://github.com/doctrine/dbal.git
