@@ -475,7 +475,8 @@ class OC_DB {
 	 */
 	public static function updateDbFromStructure($file) {
 		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
-
+		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
+		
 		self::connectScheme();
 
 		// read file
