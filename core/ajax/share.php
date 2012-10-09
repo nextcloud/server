@@ -89,6 +89,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			break;
 		case 'getShareWith':
 			if (isset($_GET['search'])) {
+				$sharePolicy = OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global');
 				$shareWith = array();
 // 				if (OC_App::isEnabled('contacts')) {
 // 					// TODO Add function to contacts to only get the 'fullname' column to improve performance
@@ -107,13 +108,22 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 // 						}
 // 					}
 // 				}
+				if ($sharePolicy == 'groups_only') {
+					$groups = OC_Group::getUserGroups(OC_User::getUser());
+				} else {
+					$groups = OC_Group::getGroups();
+				}
 				$count = 0;
 				$users = array();
 				$limit = 0;
 				$offset = 0;
 				while ($count < 4 && count($users) == $limit) {
 					$limit = 4 - $count;
-					$users = OC_User::getUsers($_GET['search'], $limit, $offset);
+					if ($sharePolicy == 'groups_only') {
+						$users = OC_Group::usersInGroups($groups, $_GET['search'], $limit, $offset);
+					} else {
+						$users = OC_User::getUsers($_GET['search'], $limit, $offset);
+					}
 					$offset += $limit;
 					foreach ($users as $user) {
 						if ((!isset($_GET['itemShares']) || !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_USER]) || !in_array($user, $_GET['itemShares'][OCP\Share::SHARE_TYPE_USER])) && $user != OC_User::getUser()) {
@@ -123,11 +133,6 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					}
 				}
 				$count = 0;
-				if (\OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global') == 'groups_only') {
-					$groups = OC_Group::getUserGroups(OC_User::getUser());
-				} else {
-					$groups = OC_Group::getGroups();
-				}
 				foreach ($groups as $group) {
 					if ($count < 4) {
 						if (stripos($group, $_GET['search']) !== false
