@@ -72,11 +72,14 @@ class OC{
 	 */
 	public static function autoload($className) {
 		if(array_key_exists($className, OC::$CLASSPATH)) {
+			$path = OC::$CLASSPATH[$className];
 			/** @TODO: Remove this when necessary
 			 Remove "apps/" from inclusion path for smooth migration to mutli app dir
 			*/
-			$path = str_replace('apps/', '', OC::$CLASSPATH[$className]);
-			require_once $path;
+			if (strpos($path, 'apps/')===0) {
+				OC_Log::write('core', 'include path for class "'.$className.'" starts with "apps/"', OC_Log::DEBUG);
+				$path = str_replace('apps/', '', $path);
+			}
 		}
 		elseif(strpos($className, 'OC_')===0) {
 			$path = strtolower(str_replace('_', '/', substr($className, 3)) . '.php');
