@@ -86,7 +86,7 @@ class OC_Archive_ZIP extends OC_Archive{
 		$pathLength=strlen($path);
 		foreach($files as $file) {
 			if(substr($file, 0, $pathLength)==$path and $file!=$path) {
-				if(strrpos(substr($file, 0, -1),'/')<=$pathLength) {
+				if(strrpos(substr($file, 0, -1), '/')<=$pathLength) {
 					$folderContent[]=substr($file, $pathLength);
 				}
 			}
@@ -161,7 +161,10 @@ class OC_Archive_ZIP extends OC_Archive{
 	function getStream($path,$mode) {
 		if($mode=='r' or $mode=='rb') {
 			return $this->zip->getStream($path);
-		}else{//since we cant directly get a writable stream, make a temp copy of the file and put it back in the archive when the stream is closed
+		} else {
+			//since we cant directly get a writable stream,
+			//make a temp copy of the file and put it back
+			//in the archive when the stream is closed
 			if(strrpos($path, '.')!==false) {
 				$ext=substr($path, strrpos($path, '.'));
 			}else{

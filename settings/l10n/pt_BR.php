@@ -45,7 +45,7 @@
 "Problems connecting to help database." => "Problemas ao conectar na base de dados.",
 "Go there manually." => "Ir manualmente.",
 "Answer" => "Resposta",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Você usou <strong>%s</strong> do <strong>%s</strong> disponível",
+"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Você usou <strong>%s</strong> do espaço disponível de <strong>%s</strong> ",
 "Desktop and Mobile Syncing Clients" => "Sincronizando Desktop e Mobile",
 "Download" => "Download",
 "Your password was changed" => "Sua senha foi alterada",

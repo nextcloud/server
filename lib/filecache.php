@@ -79,7 +79,7 @@ class OC_FileCache{
 
 		// add parent directory to the file cache if it does not exist yet.
 		if ($parent == -1 && $fullpath != $root) {
-			$parentDir = substr(dirname($path), 0, strrpos(dirname($path), DIRECTORY_SEPARATOR));
+			$parentDir = dirname($path);
 			self::scanFile($parentDir);
 			$parent = self::getParentId($fullpath);
 		}
@@ -420,6 +420,7 @@ class OC_FileCache{
 		$mimetype=$view->getMimeType($path);
 		$stat=$view->stat($path);
 		if($mimetype=='httpd/unix-directory') {
+			$stat['size'] = 0;
 			$writable=$view->is_writable($path.'/');
 		}else{
 			$writable=$view->is_writable($path);

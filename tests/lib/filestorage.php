@@ -176,22 +176,24 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertEqual($stat['ctime'],$cTime);
 		
 		$mtimeStart=time();
-		$this->instance->touch('/lorem.txt');
+		$supportsTouch = $this->instance->touch('/lorem.txt');
 		$mtimeEnd=time();
-		$originalCTime=$cTime;
-		$cTime=$this->instance->filectime('/lorem.txt');
-		$mTime=$this->instance->filemtime('/lorem.txt');
-		$this->assertTrue(($mtimeStart-1)<=$mTime);
-		$this->assertTrue($mTime<=($mtimeEnd+1));
-		$this->assertEqual($cTime,$originalCTime);
-
-		$this->assertTrue($this->instance->hasUpdated('/lorem.txt',$mtimeStart-1));
-		
-		if($this->instance->touch('/lorem.txt',100)!==false) {
+		if($supportsTouch !== false){
+			$originalCTime=$cTime;
+			$cTime=$this->instance->filectime('/lorem.txt');
 			$mTime=$this->instance->filemtime('/lorem.txt');
-			$this->assertEqual($mTime,100);
+			$this->assertTrue(($mtimeStart-1)<=$mTime);
+			$this->assertTrue($mTime<=($mtimeEnd+1));
+			$this->assertEqual($cTime,$originalCTime);
+
+			$this->assertTrue($this->instance->hasUpdated('/lorem.txt',$mtimeStart-1));
+
+			if($this->instance->touch('/lorem.txt',100)!==false) {
+				$mTime=$this->instance->filemtime('/lorem.txt');
+				$this->assertEqual($mTime,100);
+			}
 		}
-		
+
 		$mtimeStart=time();
 		$fh=$this->instance->fopen('/lorem.txt','a');
 		fwrite($fh,' ');
@@ -216,7 +218,7 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->instance->file_put_contents('/logo-wide.svg',file_get_contents($svgFile,'r'));
 		$result=$this->instance->search('logo');
 		$this->assertEqual(2,count($result));
-		$this->assertNotIdentical(false,array_search('/logo-wide.svg',$result));
-		$this->assertNotIdentical(false,array_search('/logo-wide.png',$result));
+		$this->assertContains('/logo-wide.svg',$result);
+		$this->assertContains('/logo-wide.png',$result);
 	}
 }

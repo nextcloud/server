@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-20 02:05+0200\n"
-"PO-Revision-Date: 2012-09-19 17:40+0000\n"
+"POT-Creation-Date: 2012-10-10 02:05+0200\n"
+"PO-Revision-Date: 2012-10-09 08:35+0000\n"
 "Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -82,11 +82,11 @@ msgstr "Nelze přidat uživatele do skupiny %s"
 msgid "Unable to remove user from group %s"
 msgstr "Nelze odstranit uživatele ze skupiny %s"
 
-#: js/apps.js:27 js/apps.js:61
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "Zakázat"
 
-#: js/apps.js:27 js/apps.js:50
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "Povolit"
 
@@ -94,7 +94,7 @@ msgstr "Povolit"
 msgid "Saving..."
 msgstr "Ukládám..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "Česky"
 
@@ -189,15 +189,19 @@ msgstr "Vyvinuto <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komun
 msgid "Add your App"
 msgstr "Přidat Vaší aplikaci"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Více aplikací"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Vyberte aplikaci"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr "Více na stránce s aplikacemi na apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licencováno <span class=\"author\"></span>"
 

@@ -1,4 +1,9 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Prístup povolený",
+"Grant access" => "Povoliť prístup",
+"Fill out all required fields" => "Vyplňte všetky vyžadované kolónky",
+"Please provide a valid Dropbox app key and secret." => "Zadajte platný kľúč aplikácie a heslo Dropbox",
+"Error configuring Google Drive storage" => "Chyba pri konfigurácii úložiska Google drive",
 "External Storage" => "Externé úložisko",
 "Mount point" => "Prípojný bod",
 "Backend" => "Backend",

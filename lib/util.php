@@ -80,8 +80,8 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion() {
-		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.9.0. This is not visible to the user
-		return array(4,87,12);
+		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
+		return array(4,91,00);
 	}
 
 	/**
@@ -89,7 +89,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString() {
-		return '4.5 RC 2';
+		return '5.0 pre alpha';
 	}
 
 	/**
@@ -285,6 +285,11 @@ class OC_Util {
 		}
 		if(!function_exists('gzencode')) {
 			$errors[]=array('error'=>'PHP module zlib is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
+		}
+
+		if(!function_exists('simplexml_load_string')) {
+			$errors[]=array('error'=>'PHP module SimpleXML is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(floatval(phpversion())<5.3) {

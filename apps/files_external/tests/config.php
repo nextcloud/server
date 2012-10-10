@@ -43,4 +43,13 @@ return array(
 		'secret'=>'test',
 		'bucket'=>'bucket',
 	),
+	'dropbox' => array (
+		'run'=>false,
+		'root'=>'owncloud',
+		'configured' => 'true',
+		'app_key' => '',
+		'app_secret' => '',
+		'token' => '',
+		'token_secret' => ''
+	)
 );

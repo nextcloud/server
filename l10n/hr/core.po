@@ -5,14 +5,15 @@
 # Translators:
 # Davor Kustec <dkustec@gmail.com>, 2011, 2012.
 # Domagoj Delimar <transifex.net@domdelimar.com>, 2012.
+#   <franz@franz-net.info>, 2012.
 # Thomas Silađi <thomas.siladi@net.hr>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-08 02:03+0200\n"
+"PO-Revision-Date: 2012-10-07 15:56+0000\n"
+"Last-Translator: fposavec <franz@franz-net.info>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,7 +87,7 @@ msgstr "Prosinac"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Izaberi"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -108,46 +109,46 @@ msgstr "U redu"
 msgid "No categories selected for deletion."
 msgstr "Nema odabranih kategorija za brisanje."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:494
+#: js/share.js:506
 msgid "Error"
 msgstr "Pogreška"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Greška prilikom djeljenja"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Greška prilikom isključivanja djeljenja"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Greška prilikom promjena prava"
 
 #: js/share.js:130
 msgid "Shared with you and the group"
-msgstr ""
+msgstr "Dijeli sa tobom i grupom"
 
 #: js/share.js:130
 msgid "by"
-msgstr ""
+msgstr "preko"
 
 #: js/share.js:132
 msgid "Shared with you by"
-msgstr ""
+msgstr "Dijeljeno sa tobom preko "
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "Djeli sa"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Djeli preko link-a"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "Zaštiti lozinkom"
 
 #: js/share.js:147 templates/installation.php:30 templates/login.php:13
 msgid "Password"
@@ -155,71 +156,71 @@ msgstr "Lozinka"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "Postavi datum isteka"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "Datum isteka"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Dijeli preko email-a:"
 
 #: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "Osobe nisu pronađene"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Ponovo dijeljenje nije dopušteno"
 
 #: js/share.js:250
 msgid "Shared in"
-msgstr ""
+msgstr "Dijeljeno u"
 
 #: js/share.js:250
 msgid "with"
-msgstr ""
+msgstr "sa"
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Makni djeljenje"
 
-#: js/share.js:279
+#: js/share.js:283
 msgid "can edit"
-msgstr ""
+msgstr "može mjenjat"
 
-#: js/share.js:281
+#: js/share.js:285
 msgid "access control"
-msgstr ""
+msgstr "kontrola pristupa"
 
-#: js/share.js:284
+#: js/share.js:288
 msgid "create"
-msgstr ""
+msgstr "kreiraj"
 
-#: js/share.js:287
+#: js/share.js:291
 msgid "update"
-msgstr ""
+msgstr "ažuriraj"
 
-#: js/share.js:290
+#: js/share.js:294
 msgid "delete"
-msgstr ""
+msgstr "izbriši"
 
-#: js/share.js:293
+#: js/share.js:297
 msgid "share"
-msgstr ""
+msgstr "djeli"
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:322 js/share.js:481
 msgid "Password protected"
-msgstr ""
+msgstr "Zaštita lozinkom"
 
-#: js/share.js:489
+#: js/share.js:494
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Greška prilikom brisanja datuma isteka"
 
-#: js/share.js:501
+#: js/share.js:506
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Greška prilikom postavljanja datuma isteka"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -246,7 +247,7 @@ msgstr "Prijava nije uspjela!"
 msgid "Username"
 msgstr "Korisničko ime"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Zahtjev za resetiranjem"
 
@@ -337,7 +338,7 @@ msgstr "Ime baze podataka"
 
 #: templates/installation.php:109
 msgid "Database tablespace"
-msgstr ""
+msgstr "Database tablespace"
 
 #: templates/installation.php:115
 msgid "Database host"
@@ -347,7 +348,7 @@ msgstr "Poslužitelj baze podataka"
 msgid "Finish setup"
 msgstr "Završi postavljanje"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "web usluge pod vašom kontrolom"
 
@@ -359,11 +360,11 @@ msgstr "Odjava"
 msgid "Lost your password?"
 msgstr "Izgubili ste lozinku?"
 
-#: templates/login.php:17
+#: templates/login.php:16
 msgid "remember"
 msgstr "zapamtiti"
 
-#: templates/login.php:18
+#: templates/login.php:17
 msgid "Log in"
 msgstr "Prijava"
 

@@ -62,3 +62,11 @@ if (version_compare($installedVersion, '0.3', '<')) {
 // 	$query = OCP\DB::prepare('DROP TABLE `*PREFIX*sharing`');
 // 	$query->execute();
 }
+if (version_compare($installedVersion, '0.3.3', '<')) {
+	OC_User::useBackend(new OC_User_Database());
+	OC_App::loadApps(array('authentication'));
+	$users = OC_User::getUsers();
+	foreach ($users as $user) {
+		OC_FileCache::delete('Shared', '/'.$user.'/files/');
+	}
+}
