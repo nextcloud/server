@@ -84,7 +84,7 @@ class Test_Filesystem extends UnitTestCase {
 
 		OC_Filesystem::mount('OC\Files\Storage\Temporary', array(), '/');
 
-		$rootView=new OC_FilesystemView('');
+		$rootView=new \OC\Files\View('');
 		$rootView->mkdir('/'.$user);
 		$rootView->mkdir('/'.$user.'/files');
 

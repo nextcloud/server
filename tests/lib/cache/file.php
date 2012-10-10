@@ -51,7 +51,7 @@ class Test_Cache_File extends Test_Cache {
 		OC_User::setUserId('test');
 
 		//set up the users dir
-		$rootView=new OC_FilesystemView('');
+		$rootView=new \OC\Files\View('');
 		$rootView->mkdir('/test');
 		
 		$this->instance=new OC_Cache_File();
