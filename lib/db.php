@@ -20,6 +20,7 @@
  *
  */
 
+define('MDB2_SCHEMA_DUMP_STRUCTURE', '1');
 /**
  * This class manages the access to the database. It basically is a wrapper for
  * MDB2 with some adaptions.
@@ -503,18 +504,8 @@ class OC_DB {
 	 * TODO: write more documentation
 	 */
 	public static function getDbStructure( $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
-		self::connectScheme();
-
-		// write the scheme
-		$definition = self::$schema->getDefinitionFromDatabase();
-		$dump_options = array(
-			'output_mode' => 'file',
-			'output' => $file,
-			'end_of_line' => "\n"
-		);
-		self::$schema->dumpDatabase( $definition, $dump_options, $mode );
-
-		return true;
+		self::connectDoctrine();
+		return OC_DB_Schema::getDbStructure(self::$connection, $file);
 	}
 
 	/**
@@ -525,19 +516,8 @@ class OC_DB {
 	 * TODO: write more documentation
 	 */
 	public static function createDbFromStructure( $file ) {
-		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
-		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
-		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
-
-		self::connectScheme();
-
-		// read file
-		$content = file_get_contents( $file );
-
-		// Make changes and save them to an in-memory file
-		$file2 = 'static://db_scheme';
-		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
-		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
+		self::connectDoctrine();
+		return OC_DB_Schema::createDbFromStructure(self::$connection, $file);
 		/* FIXME: use CURRENT_TIMESTAMP for all databases. mysql supports it as a default for DATETIME since 5.6.5 [1]
 		 * as a fallback we could use <default>0000-01-01 00:00:00</default> everywhere
 		 * [1] http://bugs.mysql.com/bug.php?id=27645
@@ -549,34 +529,6 @@ class OC_DB {
 		 if( $CONFIG_DBTYPE == 'pgsql' ) { //mysql support it too but sqlite doesn't
 				 $content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
 		 }
-
-		file_put_contents( $file2, $content );
-
-		// Try to create tables
-		$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
-
-		//clean up memory
-		unlink( $file2 );
-
-		// Die in case something went wrong
-		if( $definition instanceof MDB2_Schema_Error ) {
-			die( $definition->getMessage().': '.$definition->getUserInfo());
-		}
-		if(OC_Config::getValue('dbtype', 'sqlite')==='oci') {
-			unset($definition['charset']); //or MDB2 tries SHUTDOWN IMMEDIATE
-			$oldname = $definition['name'];
-			$definition['name']=OC_Config::getValue( "dbuser", $oldname );
-		}
-
-		$ret=self::$schema->createDatabase( $definition );
-
-		// Die in case something went wrong
-		if( $ret instanceof MDB2_Error ) {
-			echo (self::$MDB2->getDebugOutput());
-			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
-		}
-
-		return true;
 	}
 
 	/**
@@ -585,26 +537,14 @@ class OC_DB {
 	 * @return bool
 	 */
 	public static function updateDbFromStructure($file) {
-		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
-		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
-		
-		self::connectScheme();
-
-		// read file
-		$content = file_get_contents( $file );
-
-		$previousSchema = self::$schema->getDefinitionFromDatabase();
-		if (PEAR::isError($previousSchema)) {
-			$error = $previousSchema->getMessage();
-			$detail = $previousSchema->getDebugInfo();
-			OC_Log::write('core', 'Failed to get existing database structure for upgrading ('.$error.', '.$detail.')', OC_Log::FATAL);
+		self::connectDoctrine();
+		try {
+			$result = OC_DB_Schema::updateDbFromStructure(self::$connection, $file);
+		} catch (Exception $e) {
+			OC_Log::write('core', 'Failed to update database structure ('.$e.')', OC_Log::FATAL);
 			return false;
 		}
-
-		// Make changes and save them to an in-memory file
-		$file2 = 'static://db_scheme';
-		$content = str_replace( '*dbname*', $previousSchema['name'], $content );
-		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
+		return $result;
 		/* FIXME: use CURRENT_TIMESTAMP for all databases. mysql supports it as a default for DATETIME since 5.6.5 [1]
 		 * as a fallback we could use <default>0000-01-01 00:00:00</default> everywhere
 		 * [1] http://bugs.mysql.com/bug.php?id=27645
@@ -616,40 +556,6 @@ class OC_DB {
 		if( $CONFIG_DBTYPE == 'pgsql' ) { //mysql support it too but sqlite doesn't
 			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
 		}
-		file_put_contents( $file2, $content );
-		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
-
-		//clean up memory
-		unlink( $file2 );
-
-		if (PEAR::isError($op)) {
-			$error = $op->getMessage();
-			$detail = $op->getDebugInfo();
-			OC_Log::write('core', 'Failed to update database structure ('.$error.', '.$detail.')', OC_Log::FATAL);
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * @brief connects to a MDB2 database scheme
-	 * @returns bool
-	 *
-	 * Connects to a MDB2 database scheme
-	 */
-	private static function connectScheme() {
-		// We need a mdb2 database connection
-		self::connectMDB2();
-		self::$MDB2->loadModule('Manager');
-		self::$MDB2->loadModule('Reverse');
-
-		// Connect if this did not happen before
-		if(!self::$schema) {
-			require_once 'MDB2/Schema.php';
-			self::$schema=MDB2_Schema::factory(self::$MDB2);
-		}
-
-		return true;
 	}
 
 	/**
@@ -696,9 +602,8 @@ class OC_DB {
 	 * @param string $tableName the table to drop
 	 */
 	public static function dropTable($tableName) {
-		self::connectMDB2();
-		self::$MDB2->loadModule('Manager');
-		self::$MDB2->dropTable($tableName);
+		self::connectDoctrine();
+		OC_DB_Schema::dropTable(self::$connection, $tableName);
 	}
 
 	/**
@@ -706,28 +611,8 @@ class OC_DB {
 	 * @param string $file the xml file describing the tables
 	 */
 	public static function removeDBStructure($file) {
-		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
-		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
-		self::connectScheme();
-
-		// read file
-		$content = file_get_contents( $file );
-
-		// Make changes and save them to a temporary file
-		$file2 = tempnam( get_temp_dir(), 'oc_db_scheme_' );
-		$content = str_replace( '*dbname*', $CONFIG_DBNAME, $content );
-		$content = str_replace( '*dbprefix*', $CONFIG_DBTABLEPREFIX, $content );
-		file_put_contents( $file2, $content );
-
-		// get the tables
-		$definition = self::$schema->parseDatabaseDefinitionFile( $file2 );
-
-		// Delete our temporary file
-		unlink( $file2 );
-		$tables=array_keys($definition['tables']);
-		foreach($tables as $table) {
-			self::dropTable($table);
-		}
+		self::connectDoctrine();
+		OC_DB_Schema::removeDBStructure(self::$connection, $file);
 	}
 
 	/**
@@ -735,21 +620,8 @@ class OC_DB {
 	 * @param $file string path to the MDB2 xml db export file
 	 */
 	public static function replaceDB( $file ) {
-		$apps = OC_App::getAllApps();
-		self::beginTransaction();
-		// Delete the old tables
-		self::removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
-
-		foreach($apps as $app) {
-			$path = OC_App::getAppPath($app).'/appinfo/database.xml';
-			if(file_exists($path)) {
-				self::removeDBStructure( $path );
-			}
-		}
-
-		// Create new tables
-		self::createDBFromStructure( $file );
-		self::commit();
+		self::connectDoctrine();
+		OC_DB_Schema::replaceDB(self::$connection, $file);
 	}
 
 	/**
@@ -810,6 +682,16 @@ class OC_DB {
 		} elseif (self::$backend==self::BACKEND_PDO and self::$PDO) {
 			$msg = self::$PDO->errorCode() . ': ';
 			$errorInfo = self::$PDO->errorInfo();
+			if (is_array($errorInfo)) {
+				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
+				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
+				$msg .= 'Driver Message = '.$errorInfo[2];
+			}else{
+				$msg = '';
+			}
+		} elseif (self::$backend==self::BACKEND_DOCTRINE and self::$DOCTRINE) {
+			$msg = self::$DOCTRINE->errorCode() . ': ';
+			$errorInfo = self::$DOCTRINE->errorInfo();
 			if (is_array($errorInfo)) {
 				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
 				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
