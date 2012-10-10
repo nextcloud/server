@@ -193,6 +193,7 @@ class OC{
 	public static function checkSSL() {
 		// redirect to https site if configured
 		if( OC_Config::getValue( "forcessl", false )) {
+			header('Strict-Transport-Security: max-age=31536000');
 			ini_set("session.cookie_secure", "on");
 			if(OC_Request::serverProtocol()<>'https' and !OC::$CLI) {
 				$url = "https://". OC_Request::serverHost() . $_SERVER['REQUEST_URI'];
