@@ -560,7 +560,7 @@ class OC_Helper {
 
 		$newpath = $path . '/' . $filename;
 		$counter = 2;
-		while (OC_Filesystem::file_exists($newpath)) {
+		while (\OC\Files\Filesystem::file_exists($newpath)) {
 			$newname = $name . ' (' . $counter . ')' . $ext;
 			$newpath = $path . '/' . $newname;
 			$counter++;

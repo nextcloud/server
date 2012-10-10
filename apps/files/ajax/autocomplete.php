@@ -33,8 +33,8 @@ $query=strtolower($query);
 
 $files=array();
 
-if(OC_Filesystem::file_exists($base) and OC_Filesystem::is_dir($base)) {
-	$dh = OC_Filesystem::opendir($base);
+if(\OC\Files\Filesystem::file_exists($base) and \OC\Files\Filesystem::is_dir($base)) {
+	$dh = \OC\Files\Filesystem::opendir($base);
 	if($dh) {
 		if(substr($base, -1, 1)!='/') {
 			$base=$base.'/';
@@ -43,7 +43,7 @@ if(OC_Filesystem::file_exists($base) and OC_Filesystem::is_dir($base)) {
 			if ($file != "." && $file != "..") {
 				if(substr(strtolower($file), 0, $queryLen)==$query) {
 					$item=$base.$file;
-					if((!$dirOnly or OC_Filesystem::is_dir($item))) {
+					if((!$dirOnly or \OC\Files\Filesystem::is_dir($item))) {
 						$files[]=(object)array('id'=>$item,'label'=>$item,'name'=>$item);
 					}
 				}

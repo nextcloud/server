@@ -62,7 +62,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 			}
 		} else {
 			$newPath = $this->path . '/' . $name;
-			OC_Filesystem::file_put_contents($newPath, $data);
+			\OC\Files\Filesystem::file_put_contents($newPath, $data);
 			return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 		}
 
@@ -78,7 +78,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	public function createDirectory($name) {
 
 		$newPath = $this->path . '/' . $name;
-		OC_Filesystem::mkdir($newPath);
+		\OC\Files\Filesystem::mkdir($newPath);
 
 	}
 
@@ -154,7 +154,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	public function childExists($name) {
 
 		$path = $this->path . '/' . $name;
-		return OC_Filesystem::file_exists($path);
+		return \OC\Files\Filesystem::file_exists($path);
 
 	}
 
@@ -167,7 +167,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 
 		if ($this->path != "/Shared") {
 			foreach($this->getChildren() as $child) $child->delete();
-			OC_Filesystem::rmdir($this->path);
+			\OC\Files\Filesystem::rmdir($this->path);
 		}
 
 	}
@@ -181,7 +181,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 		$rootInfo=OC_FileCache_Cached::get('');
 		return array(
 			$rootInfo['size'],
-			OC_Filesystem::free_space()
+			\OC\Files\Filesystem::free_space()
 		);
 
 	}

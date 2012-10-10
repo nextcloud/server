@@ -73,7 +73,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 			if (isset($_GET['path'])) {
 				$path .= $_GET['path'];
 				$dir .= $_GET['path'];
-				if (!OC_Filesystem::file_exists($path)) {
+				if (!\OC\Files\Filesystem::file_exists($path)) {
 					header('HTTP/1.0 404 Not Found');
 					$tmpl = new OCP\Template('', '404', 'guest');
 					$tmpl->printPage();
@@ -101,7 +101,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 				$tmpl = new OCP\Template('files_sharing', 'public', 'base');
 				$tmpl->assign('owner', $uidOwner);
 				// Show file list
-				if (OC_Filesystem::is_dir($path)) {
+				if (\OC\Files\Filesystem::is_dir($path)) {
 					OCP\Util::addStyle('files', 'files');
 					OCP\Util::addScript('files', 'files');
 					OCP\Util::addScript('files', 'filelist');
@@ -157,7 +157,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					$tmpl->assign('uidOwner', $uidOwner);
 					$tmpl->assign('dir', basename($dir));
 					$tmpl->assign('filename', basename($path));
-					$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
+					$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 					$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 					if (isset($_GET['path'])) {
 						$getPath = $_GET['path'];
@@ -170,7 +170,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					$tmpl->assign('uidOwner', $uidOwner);
 					$tmpl->assign('dir', dirname($path));
 					$tmpl->assign('filename', basename($path));
-					$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
+					$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 					if ($type == 'file') {
 						$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&file='.$_GET['file'].'&download');
 					} else {

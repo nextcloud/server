@@ -142,11 +142,11 @@ class OC_Mount_Config {
 			if ($applicable != OCP\User::getUser() || $class == '\OC\Files\Storage\Local') {
 				return false;
 			}
-			$view = new OC_FilesystemView('/'.OCP\User::getUser().'/files');
+			$view = new \OC\Files\View('/'.OCP\User::getUser().'/files');
 			self::addMountPointDirectory($view, ltrim($mountPoint, '/'));
 			$mountPoint = '/'.$applicable.'/files/'.ltrim($mountPoint, '/');
 		} else {
-			$view = new OC_FilesystemView('/');
+			$view = new \OC\Files\View('/');
 			switch ($mountType) {
 				case 'user':
 					if ($applicable == "all") {

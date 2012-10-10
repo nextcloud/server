@@ -29,13 +29,13 @@ class Test_CryptProxy extends UnitTestCase {
 		OC_FileProxy::register(new OC_FileProxy_Encryption());
 
 		//set up temporary storage
-		OC_Filesystem::clearMounts();
-		OC_Filesystem::mount('\OC\Files\Storage\Temporary',array(),'/');
+		\OC\Files\Filesystem::clearMounts();
+		\OC\Files\Filesystem::mount('\OC\Files\Storage\Temporary',array(),'/');
 
-		OC_Filesystem::init('/'.$user.'/files');
+		\OC\Files\Filesystem::init('/'.$user.'/files');
 
 		//set up the users home folder in the temp storage
-		$rootView=new OC_FilesystemView('');
+		$rootView=new \OC\Files\View('');
 		$rootView->mkdir('/'.$user);
 		$rootView->mkdir('/'.$user.'/files');
 	}
@@ -51,13 +51,13 @@ class Test_CryptProxy extends UnitTestCase {
 		$file=OC::$SERVERROOT.'/3rdparty/MDB2.php';
 		$original=file_get_contents($file);
 
-		OC_Filesystem::file_put_contents('/file',$original);
+		\OC\Files\Filesystem::file_put_contents('/file',$original);
 
 		OC_FileProxy::$enabled=false;
-		$stored=OC_Filesystem::file_get_contents('/file');
+		$stored=\OC\Files\Filesystem::file_get_contents('/file');
 		OC_FileProxy::$enabled=true;
 
-		$fromFile=OC_Filesystem::file_get_contents('/file');
+		$fromFile=\OC\Files\Filesystem::file_get_contents('/file');
 		$this->assertNotEqual($original,$stored);
 		$this->assertEqual(strlen($original),strlen($fromFile));
 		$this->assertEqual($original,$fromFile);
@@ -68,8 +68,8 @@ class Test_CryptProxy extends UnitTestCase {
 		$file=OC::$SERVERROOT.'/3rdparty/MDB2.php';
 		$original=file_get_contents($file);
 
-		$rootView=new OC_FilesystemView('');
-		$view=new OC_FilesystemView('/'.OC_User::getUser());
+		$rootView=new \OC\Files\View('');
+		$view=new \OC\Files\View('/'.OC_User::getUser());
 		$userDir='/'.OC_User::getUser().'/files';
 
 		$rootView->file_put_contents($userDir.'/file',$original);
@@ -90,13 +90,13 @@ class Test_CryptProxy extends UnitTestCase {
 		$file=__DIR__.'/binary';
 		$original=file_get_contents($file);
 
-		OC_Filesystem::file_put_contents('/file',$original);
+		\OC\Files\Filesystem::file_put_contents('/file',$original);
 
 		OC_FileProxy::$enabled=false;
-		$stored=OC_Filesystem::file_get_contents('/file');
+		$stored=\OC\Files\Filesystem::file_get_contents('/file');
 		OC_FileProxy::$enabled=true;
 
-		$fromFile=OC_Filesystem::file_get_contents('/file');
+		$fromFile=\OC\Files\Filesystem::file_get_contents('/file');
 		$this->assertNotEqual($original,$stored);
 		$this->assertEqual(strlen($original),strlen($fromFile));
 		$this->assertEqual($original,$fromFile);
@@ -104,13 +104,13 @@ class Test_CryptProxy extends UnitTestCase {
 		$file=__DIR__.'/zeros';
 		$original=file_get_contents($file);
 
-		OC_Filesystem::file_put_contents('/file',$original);
+		\OC\Files\Filesystem::file_put_contents('/file',$original);
 
 		OC_FileProxy::$enabled=false;
-		$stored=OC_Filesystem::file_get_contents('/file');
+		$stored=\OC\Files\Filesystem::file_get_contents('/file');
 		OC_FileProxy::$enabled=true;
 
-		$fromFile=OC_Filesystem::file_get_contents('/file');
+		$fromFile=\OC\Files\Filesystem::file_get_contents('/file');
 		$this->assertNotEqual($original,$stored);
 		$this->assertEqual(strlen($original),strlen($fromFile));
 	}

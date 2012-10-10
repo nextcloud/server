@@ -38,7 +38,7 @@ OCP\App::setActiveNavigationEntry( 'files_index' );
 // Load the files
 $dir = isset( $_GET['dir'] ) ? stripslashes($_GET['dir']) : '';
 // Redirect if directory does not exist
-if(!OC_Filesystem::is_dir($dir.'/')) {
+if(!\OC\Files\Filesystem::is_dir($dir.'/')) {
 	header('Location: '.$_SERVER['SCRIPT_NAME'].'');
 	exit();
 }
@@ -85,26 +85,26 @@ $upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize')
 $post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
 $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
-$freeSpace=OC_Filesystem::free_space('/');
+$freeSpace=\OC\Files\Filesystem::free_space('/');
 $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 
 $permissions = OCP\Share::PERMISSION_READ;
-if (OC_Filesystem::isUpdatable($dir.'/')) {
+if (\OC\Files\Filesystem::isUpdatable($dir.'/')) {
 	$permissions |= OCP\Share::PERMISSION_UPDATE;
 }
-if (OC_Filesystem::isDeletable($dir.'/')) {
+if (\OC\Files\Filesystem::isDeletable($dir.'/')) {
 	$permissions |= OCP\Share::PERMISSION_DELETE;
 }
-if (OC_Filesystem::isSharable($dir.'/')) {
+if (\OC\Files\Filesystem::isSharable($dir.'/')) {
 	$permissions |= OCP\Share::PERMISSION_SHARE;
 }
 
 $tmpl = new OCP\Template( 'files', 'index', 'user' );
 $tmpl->assign( 'fileList', $list->fetchPage(), false );
 $tmpl->assign( 'breadcrumb', $breadcrumbNav->fetchPage(), false );
-$tmpl->assign( 'dir', OC_Filesystem::normalizePath($dir));
-$tmpl->assign( 'isCreatable', OC_Filesystem::isCreatable($dir.'/'));
+$tmpl->assign( 'dir', \OC\Files\Filesystem::normalizePath($dir));
+$tmpl->assign( 'isCreatable', \OC\Files\Filesystem::isCreatable($dir.'/'));
 $tmpl->assign('permissions', $permissions);
 $tmpl->assign( 'files', $files );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);

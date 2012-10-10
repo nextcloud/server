@@ -30,7 +30,7 @@ class File{
 	public static function resolve($fullPath){
 		$storage = null;
 		$internalPath = '';
-		list($storage, $internalPath) = \OC_Filesystem::resolvePath($fullPath);
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($fullPath);
 		return new File($storage, $internalPath);
 	}
 

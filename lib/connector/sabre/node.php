@@ -80,7 +80,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		$newPath = $parentPath . '/' . $newName;
 		$oldPath = $this->path;
 
-		OC_Filesystem::rename($this->path,$newPath);
+		\OC\Files\Filesystem::rename($this->path,$newPath);
 
 		$this->path = $newPath;
 
@@ -99,9 +99,9 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 */
 	protected function getFileinfoCache() {
 		if (!isset($this->fileinfo_cache)) {
-			if ($fileinfo_cache = OC_FileCache::get($this->path)) {
+			if ($fileinfo_cache = \OC\Files\Filesystem::get($this->path)) {
 			} else {
-				$fileinfo_cache = OC_Filesystem::stat($this->path);
+				$fileinfo_cache = \OC\Files\Filesystem::stat($this->path);
 			}
 
 			$this->fileinfo_cache = $fileinfo_cache;
@@ -130,7 +130,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 *  Even if the modification time is set to a custom value the access time is set to now.
 	 */
 	public function touch($mtime) {
-		OC_Filesystem::touch($this->path, $mtime);
+		\OC\Files\Filesystem::touch($this->path, $mtime);
 	}
 
 	/**

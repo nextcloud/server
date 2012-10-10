@@ -46,10 +46,10 @@ class OC_Files {
 			if ($path == '/Shared') {
 				list($info) = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
 			}else{
-				$info['size'] = OC_Filesystem::filesize($path);
-				$info['mtime'] = OC_Filesystem::filemtime($path);
-				$info['ctime'] = OC_Filesystem::filectime($path);
-				$info['mimetype'] = OC_Filesystem::getMimeType($path);
+				$info['size'] = \OC\Files\Filesystem::filesize($path);
+				$info['mtime'] = \OC\Files\Filesystem::filemtime($path);
+				$info['ctime'] = \OC\Files\Filesystem::filectime($path);
+				$info['mimetype'] = \OC\Files\Filesystem::getMimeType($path);
 				$info['encrypted'] = false;
 				$info['versioned'] = false;
 			}
@@ -64,7 +64,7 @@ class OC_Files {
 	* @param dir $directory path under datadirectory
 	*/
 	public static function getDirectoryContent($directory, $mimetype_filter = '') {
-		$directory=OC_Filesystem::normalizePath($directory);
+		$directory=\OC\Files\Filesystem::normalizePath($directory);
 		if($directory=='/') {
 			$directory='';
 		}
@@ -151,17 +151,17 @@ class OC_Files {
 			}
 			foreach($files as $file) {
 				$file=$dir.'/'.$file;
-				if(OC_Filesystem::is_file($file)) {
-					$tmpFile=OC_Filesystem::toTmpFile($file);
+				if(\OC\Files\Filesystem::is_file($file)) {
+					$tmpFile=OC_F\OC\Files\Filesystemilesystem::toTmpFile($file);
 					self::$tmpFiles[]=$tmpFile;
 					$zip->addFile($tmpFile,basename($file));
-				}elseif(OC_Filesystem::is_dir($file)) {
+				}elseif(\OC\Files\Filesystem::is_dir($file)) {
 					self::zipAddDir($file,$zip);
 				}
 			}
 			$zip->close();
 			set_time_limit($executionTime);
-		}elseif(OC_Filesystem::is_dir($dir.'/'.$files)) {
+		}elseif(\OC\Files\Filesystem::is_dir($dir.'/'.$files)) {
 			self::validateZipDownload($dir,$files);
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
@@ -179,7 +179,7 @@ class OC_Files {
 			$filename=$dir.'/'.$files;
 		}
 		@ob_end_clean();
-		if($zip or OC_Filesystem::is_readable($filename)) {
+		if($zip or \OC\Files\Filesystem::is_readable($filename)) {
 			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 			header('Content-Transfer-Encoding: binary');
 			OC_Response::disableCaching();
@@ -188,9 +188,9 @@ class OC_Files {
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
 			}else{
-				header('Content-Type: '.OC_Filesystem::getMimeType($filename));
+				header('Content-Type: '.\OC\Files\Filesystem::getMimeType($filename));
 			}
-		}elseif($zip or !OC_Filesystem::file_exists($filename)) {
+		}elseif($zip or !\OC\Files\Filesystem::file_exists($filename)) {
 			header("HTTP/1.0 404 Not Found");
 			$tmpl = new OC_Template( '', '404', 'guest' );
 			$tmpl->assign('file',$filename);
@@ -201,7 +201,7 @@ class OC_Files {
 		}
 		if($only_header) {
 			if(!$zip)
-				header("Content-Length: ".OC_Filesystem::filesize($filename));
+				header("Content-Length: ".\OC\Files\Filesystem::filesize($filename));
 			return ;
 		}
 		if($zip) {
@@ -215,7 +215,7 @@ class OC_Files {
 			}
 			unlink($filename);
 		}else{
-			OC_Filesystem::readfile($filename);
+			\OC\Files\Filesystem::readfile($filename);
 		}
 		foreach(self::$tmpFiles as $tmpFile) {
 			if(file_exists($tmpFile) and is_file($tmpFile)) {
@@ -232,11 +232,11 @@ class OC_Files {
 		foreach($files as $file) {
 			$filename=$file['name'];
 			$file=$dir.'/'.$filename;
-			if(OC_Filesystem::is_file($file)) {
-				$tmpFile=OC_Filesystem::toTmpFile($file);
+			if(\OC\Files\Filesystem::is_file($file)) {
+				$tmpFile=\OC\Files\Filesystem::toTmpFile($file);
 				OC_Files::$tmpFiles[]=$tmpFile;
 				$zip->addFile($tmpFile,$internalDir.$filename);
-			}elseif(OC_Filesystem::is_dir($file)) {
+			}elseif(\OC\Files\Filesystem::is_dir($file)) {
 				self::zipAddDir($file,$zip,$internalDir);
 			}
 		}
@@ -253,7 +253,7 @@ class OC_Files {
 		if(OC_User::isLoggedIn() && ($sourceDir != '' || $source != 'Shared')) {
 			$targetFile=self::normalizePath($targetDir.'/'.$target);
 			$sourceFile=self::normalizePath($sourceDir.'/'.$source);
-			return OC_Filesystem::rename($sourceFile,$targetFile);
+			return \OC\Files\Filesystem::rename($sourceFile,$targetFile);
 		} else {
 			return false;
 		}
@@ -271,7 +271,7 @@ class OC_Files {
 		if(OC_User::isLoggedIn()) {
 			$targetFile=$targetDir.'/'.$target;
 			$sourceFile=$sourceDir.'/'.$source;
-			return OC_Filesystem::copy($sourceFile,$targetFile);
+			return \OC\Files\Filesystem::copy($sourceFile,$targetFile);
 		}
 	}
 
@@ -286,9 +286,9 @@ class OC_Files {
 		if(OC_User::isLoggedIn()) {
 			$file=$dir.'/'.$name;
 			if($type=='dir') {
-				return OC_Filesystem::mkdir($file);
+				return \OC\Files\Filesystem::mkdir($file);
 			}elseif($type=='file') {
-				$fileHandle=OC_Filesystem::fopen($file, 'w');
+				$fileHandle=\OC\Files\Filesystem::fopen($file, 'w');
 				if($fileHandle) {
 					fclose($fileHandle);
 					return true;
@@ -308,7 +308,7 @@ class OC_Files {
 	public static function delete($dir,$file) {
 		if(OC_User::isLoggedIn() && ($dir!= '' || $file != 'Shared')) {
 			$file=$dir.'/'.$file;
-			return OC_Filesystem::unlink($file);
+			return \OC\Files\Filesystem::unlink($file);
 		}
 	}
 
@@ -339,10 +339,10 @@ class OC_Files {
 			$totalsize = 0;
 			if(is_array($files)) {
 				foreach($files as $file) {
-					$totalsize += OC_Filesystem::filesize($dir.'/'.$file);
+					$totalsize += \OC\Files\Filesystem::filesize($dir.'/'.$file);
 				}
 			}else{
-				$totalsize += OC_Filesystem::filesize($dir.'/'.$files);
+				$totalsize += \OC\Files\Filesystem::filesize($dir.'/'.$files);
 			}
 			if($totalsize > $zipLimit) {
 				$l = OC_L10N::get('lib');
@@ -368,7 +368,7 @@ class OC_Files {
 	* @return string  guessed mime type
 	*/
 	static function getMimeType($path) {
-		return OC_Filesystem::getMimeType($path);
+		return \OC\Files\Filesystem::getMimeType($path);
 	}
 
 	/**
@@ -378,7 +378,7 @@ class OC_Files {
 	* @return array
 	*/
 	static function getTree($path) {
-		return OC_Filesystem::getTree($path);
+		return \OC\Files\Filesystem::getTree($path);
 	}
 
 	/**
@@ -402,7 +402,7 @@ class OC_Files {
 		$httpCode=$info['http_code'];
 		curl_close($ch);
 		if($httpCode==200 or $httpCode==0) {
-			OC_Filesystem::fromTmpFile($tmpfile,$dir.'/'.$file);
+			\OC\Files\Filesystem::fromTmpFile($tmpfile,$dir.'/'.$file);
 			return true;
 		}else{
 			return false;

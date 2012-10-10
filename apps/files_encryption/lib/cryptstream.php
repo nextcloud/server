@@ -38,7 +38,7 @@ class OC_CryptStream{
 
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		if(!self::$rootView) {
-			self::$rootView=new OC_FilesystemView('');
+			self::$rootView=new \OC\Files\View('');
 		}
 		$path=str_replace('crypt://','',$path);
 		if(dirname($path)=='streams' and isset(self::$sourceStreams[basename($path)])) {

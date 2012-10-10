@@ -20,6 +20,8 @@
  *
  */
 
+use \OC\Files\Filesystem as Filesystem;
+
 class Test_Filesystem extends UnitTestCase {
 	/**
 	 * @var array tmpDirs
@@ -42,64 +44,64 @@ class Test_Filesystem extends UnitTestCase {
 	}
 
 	public function setUp() {
-		OC_Filesystem::clearMounts();
+		Filesystem::clearMounts();
 	}
 
 	public function testMount() {
-		OC_Filesystem::mount('\OC\Files\Storage\Local',self::getStorageData(),'/');
-		$this->assertEqual('/',OC_Filesystem::getMountPoint('/'));
-		$this->assertEqual('/',OC_Filesystem::getMountPoint('/some/folder'));
-		$this->assertEqual('',OC_Filesystem::getInternalPath('/'));
-		$this->assertEqual('some/folder',OC_Filesystem::getInternalPath('/some/folder'));
+		Filesystem::mount('\OC\Files\Storage\Local',self::getStorageData(),'/');
+		$this->assertEqual('/',Filesystem::getMountPoint('/'));
+		$this->assertEqual('/',Filesystem::getMountPoint('/some/folder'));
+		$this->assertEqual('',Filesystem::getInternalPath('/'));
+		$this->assertEqual('some/folder',Filesystem::getInternalPath('/some/folder'));
 
-		OC_Filesystem::mount('\OC\Files\Storage\Local',self::getStorageData(),'/some');
-		$this->assertEqual('/',OC_Filesystem::getMountPoint('/'));
-		$this->assertEqual('/some/',OC_Filesystem::getMountPoint('/some/folder'));
-		$this->assertEqual('/some/',OC_Filesystem::getMountPoint('/some/'));
-		$this->assertEqual('/',OC_Filesystem::getMountPoint('/some'));
-		$this->assertEqual('folder',OC_Filesystem::getInternalPath('/some/folder'));
+		Filesystem::mount('\OC\Files\Storage\Local',self::getStorageData(),'/some');
+		$this->assertEqual('/',Filesystem::getMountPoint('/'));
+		$this->assertEqual('/some/',Filesystem::getMountPoint('/some/folder'));
+		$this->assertEqual('/some/',Filesystem::getMountPoint('/some/'));
+		$this->assertEqual('/',Filesystem::getMountPoint('/some'));
+		$this->assertEqual('folder',Filesystem::getInternalPath('/some/folder'));
 	}
 
 	public function testNormalize() {
-		$this->assertEqual('/path', OC_Filesystem::normalizePath('/path/'));
-		$this->assertEqual('/path/', OC_Filesystem::normalizePath('/path/', false));
-		$this->assertEqual('/path', OC_Filesystem::normalizePath('path'));
-		$this->assertEqual('/path', OC_Filesystem::normalizePath('\path'));
-		$this->assertEqual('/foo/bar', OC_Filesystem::normalizePath('/foo//bar/'));
-		$this->assertEqual('/foo/bar', OC_Filesystem::normalizePath('/foo////bar'));
+		$this->assertEqual('/path', Filesystem::normalizePath('/path/'));
+		$this->assertEqual('/path/', Filesystem::normalizePath('/path/', false));
+		$this->assertEqual('/path', Filesystem::normalizePath('path'));
+		$this->assertEqual('/path', Filesystem::normalizePath('\path'));
+		$this->assertEqual('/foo/bar', Filesystem::normalizePath('/foo//bar/'));
+		$this->assertEqual('/foo/bar', Filesystem::normalizePath('/foo////bar'));
 		if (class_exists('Normalizer')) {
-			$this->assertEqual("/foo/bar\xC3\xBC", OC_Filesystem::normalizePath("/foo/baru\xCC\x88"));
+			$this->assertEqual("/foo/bar\xC3\xBC", Filesystem::normalizePath("/foo/baru\xCC\x88"));
 		}
 	}
 
 	public function testHooks() {
-		if(OC_Filesystem::getView()){
+		if(Filesystem::getView()){
 			$user = OC_User::getUser();
 		}else{
 			$user=uniqid();
-			OC_Filesystem::init('/'.$user.'/files');
+			Filesystem::init('/'.$user.'/files');
 		}
 		OC_Hook::clear('OC_Filesystem');
 		OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');
 
-		OC_Filesystem::mount('OC\Files\Storage\Temporary', array(), '/');
+		Filesystem::mount('OC\Files\Storage\Temporary', array(), '/');
 
 		$rootView=new \OC\Files\View('');
 		$rootView->mkdir('/'.$user);
 		$rootView->mkdir('/'.$user.'/files');
 
-		OC_Filesystem::file_put_contents('/foo', 'foo');
-		OC_Filesystem::mkdir('/bar');
-		OC_Filesystem::file_put_contents('/bar//foo', 'foo');
+		Filesystem::file_put_contents('/foo', 'foo');
+		Filesystem::mkdir('/bar');
+		Filesystem::file_put_contents('/bar//foo', 'foo');
 
 		$tmpFile = OC_Helper::tmpFile();
 		file_put_contents($tmpFile, 'foo');
 		$fh = fopen($tmpFile, 'r');
-		OC_Filesystem::file_put_contents('/bar//foo', $fh);
+		Filesystem::file_put_contents('/bar//foo', $fh);
 	}
 
 	public function dummyHook($arguments) {
 		$path = $arguments['path'];
-		$this->assertEqual($path, OC_Filesystem::normalizePath($path)); //the path passed to the hook should already be normalized
+		$this->assertEqual($path, Filesystem::normalizePath($path)); //the path passed to the hook should already be normalized
 	}
 }

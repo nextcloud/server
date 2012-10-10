@@ -44,7 +44,7 @@ class OC_Crypt {
 	}
 
 	public static function init($login,$password) {
-		$view=new OC_FilesystemView('/');
+		$view=new \OC\Files\View('/');
 		if(!$view->file_exists('/'.$login)) {
 			$view->mkdir('/'.$login);
 		}
@@ -90,7 +90,7 @@ class OC_Crypt {
 		// Write the file
 		$proxyEnabled=OC_FileProxy::$enabled;
 		OC_FileProxy::$enabled=false;
-		$view=new OC_FilesystemView('/'.$username);
+		$view=new \OC\Files\View('/'.$username);
 		$view->file_put_contents('/encryption.key',$enckey);
 		OC_FileProxy::$enabled=$proxyEnabled;
 	}
@@ -98,7 +98,7 @@ class OC_Crypt {
 	public static function changekeypasscode($oldPassword, $newPassword) {
 		if(OCP\User::isLoggedIn()) {
 			$username=OCP\USER::getUser();
-			$view=new OC_FilesystemView('/'.$username);
+			$view=new \OC\Files\View('/'.$username);
 
 			// read old key
 			$key=$view->file_get_contents('/encryption.key');
