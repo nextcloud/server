@@ -441,8 +441,6 @@ class Crypt {
 	* @brief Symmetrically decrypt a file by combining encrypted component data blocks
 	*/
 	public static function symmetricBlockDecryptFileContent( $crypted, $key ) {
-
-		echo "\n\n\nfags \$crypted = $crypted\n\n\n";
 		
 		$decrypted = '';
 		
@@ -463,9 +461,7 @@ class Crypt {
 			
 		}
 		
-		echo "nags   ";
-		
-		print_r($testarray);
+		//print_r($testarray);
 		
 		return $decrypted;
 		

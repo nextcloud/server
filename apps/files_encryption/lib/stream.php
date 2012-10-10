@@ -3,7 +3,7 @@
  * ownCloud
  *
  * @author Robin Appelman
- * @copyright 2011 Robin Appelman icewind1991@gmail.com
+ * @copyright 2012 Sam Tuke samtuke@owncloud.com, 2011 Robin Appelman icewind1991@gmail.com
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -29,6 +29,11 @@
 
 namespace OCA_Encryption;
 
+/**
+ * @brief Provides 'crypt://' stream wrapper protocol.
+ * @note Paths used with this protocol MUST BE RELATIVE, due to limitations of OC_FilesystemView. crypt:///home/user/owncloud/data <- will put keyfiles in [owncloud]/data/user/files_encryption/keyfiles/home/user/owncloud/data and will not be accessible by other functions.
+ * @note Data read and written must always be 8192 bytes long, as this is the buffer size used internally by PHP. The encryption process makes the input data longer, and input is chunked into smaller pieces in order to result in a 8192 encrypted block size.
+ */
 class Stream {
 
 	public static $sourceStreams = array();
@@ -94,9 +99,9 @@ class Stream {
 			// Disable fileproxies so we can open the source file without recursive encryption
 			\OC_FileProxy::$enabled = false;
 
-			$this->handle = fopen( $path, $mode );
+			//$this->handle = fopen( $path, $mode );
 			
-			//$this->handle = self::$view->fopen( $path, $mode );
+			$this->handle = self::$view->fopen( \OCP\USER::getUser() . '/' . 'files' . '/' . $path, $mode );
 
 			\OC_FileProxy::$enabled = true;
 
@@ -156,7 +161,7 @@ class Stream {
 			
 			echo "\n\nGROWL {$this->keyfile}\n\n";
 			
-			$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files_encryption/keyfiles/tmp-1346255589.key' );
+			//$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files_encryption/keyfiles/tmp-1346255589.key' );
 			
 			$result = Crypt::symmetricDecryptFileContent( $data, $this->keyfile );
 			
@@ -201,17 +206,20 @@ class Stream {
 		# TODO: Move this user call out of here - it belongs elsewhere
 		$user = \OCP\User::getUser();
 		
-		if ( self::$view->file_exists( $this->rawPath ) ) {
-			
+		//echo "\n\$this->rawPath = {$this->rawPath}";
+		
+		// If a keyfile already exists for a file named identically to file to be written
+		if ( self::$view->file_exists( $user . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->rawPath . '.key' ) ) {
+		
 			# TODO: add error handling for when file exists but no keyfile
 			
-			// If the data is to be written to an existing file, fetch its keyfile
+			// Fetch existing keyfile
 			$this->keyfile = Keymanager::getFileKey( $this->rawPath );
 			
 		} else {
 		
 			if ( $generate ) {
-		
+				
 				// If the data is to be written to a new file, generate a new keyfile
 				$this->keyfile = Crypt::generateKey();
 				
@@ -223,16 +231,23 @@ class Stream {
 	
 	/**
 	 * @brief Take plain data destined to be written, encrypt it, and write it block by block
+	 * @param string $data data to be written to disk
+	 * @note the data will be written to the path stored in the stream handle, set in stream_open()
+	 * @note $data is only ever x bytes long. stream_write() is called multiple times on data larger than x to process it x byte chunks.
 	 */
 	public function stream_write( $data ) {
 		
 		\OC_FileProxy::$enabled = false;
 		
 		$length = strlen( $data );
-
+		
 		$written = 0;
 
-		$currentPos = ftell( $this->handle );
+		$pointer = ftell( $this->handle );
+		
+		echo "\n\n\$length = $length\n";
+		
+		echo "\$pointer = $pointer\n";
 		
 		# TODO: Move this user call out of here - it belongs elsewhere
 		$user = \OCP\User::getUser();
@@ -247,10 +262,10 @@ class Stream {
 			
 		}
 
-// 		// If data exists in the writeCache
+		// If data exists in the writeCache
 // 		if ( $this->writeCache ) {
 // 		
-// 			trigger_error("write cache is set");
+// 			//trigger_error("write cache is set");
 // 			
 // 			// Concat writeCache to start of $data
 // 			$data = $this->writeCache . $data;
@@ -260,15 +275,30 @@ class Stream {
 // 		}
 // 		
 // 		// Make sure we always start on a block start
-// 		if ( 0 != ( $currentPos % 8192 ) ) { // If we're not at the end of file yet (in the final chunk), if there will be no bytes left to read after the current chunk
+		if ( 0 != ( $pointer % 8192 ) ) { // if the current positoin of file indicator is not aligned to a 8192 byte block, fix it so that it is
+// 		
+// 			echo "\n\nNOT ON BLOCK START ";
+// 			echo $pointer % 8192;
+// 			
+// 			echo "\n\n1. $currentPos\n\n";
+// // 			
+// 			echo "ftell() = ".ftell($this->handle)."\n";
+
+// 			fseek( $this->handle, - ( $pointer % 8192 ), SEEK_CUR );
+// 			
+// 			$pointer = ftell( $this->handle );
+			
+// 			echo "ftell() = ".ftell($this->handle)."\n";
 // 
+// 			$unencryptedNewBlock = fread( $this->handle, 8192 );
+// 
+// 			echo "\n\n2. $currentPos\n\n";
+// 			
 // 			fseek( $this->handle, - ( $currentPos % 8192 ), SEEK_CUR );
+// 			
+// 			echo "\n\n3. $currentPos\n\n";
 // 
-// 			$encryptedBlock = fread( $this->handle, 8192 );
-// 
-// 			fseek( $this->handle, - ( $currentPos % 8192 ), SEEK_CUR );
-// 
-// 			$block = Crypt::symmetricDecryptFileContent( $encryptedBlock, $this->keyfile );
+// 			$block = Crypt::symmetricDecryptFileContent( $unencryptedNewBlock, $this->keyfile );
 // 
 // 			$x =  substr( $block, 0, $currentPos % 8192 );
 // 
@@ -276,13 +306,14 @@ class Stream {
 // 			
 // 			fseek( $this->handle, - ( $currentPos % 8192 ), SEEK_CUR );
 // 
-// 		}
-/*
-		$currentPos = ftell( $this->handle );*/
+		}
+
+// 		$currentPos = ftell( $this->handle );
 		
-// 		// While there still remains somed data to be written
-// 		while( strlen( $data ) > 0 ) {
+// 		// While there still remains somed data to be processed & written
+		while( strlen( $data ) > 0 ) {
 // 			
+// 			// Remaining length for this iteration, not of the entire file (may be greater than 8192 bytes)
 // 			$remainingLength = strlen( $data );
 // 			
 // 			// If data remaining to be written is less than the size of 1 block
@@ -294,25 +325,56 @@ class Stream {
 // 				$this->writeCache = $data;
 // 
 // 				$data = '';
-// 
+// // 
 // 			} else {
 				
-				$encrypted = Crypt::symmetricEncryptFileContent( $data, $this->keyfile );
+				//echo "\n\nbefore before ".strlen($data)."\n";
 				
-				file_put_contents('/home/samtuke/tmp.txt', $encrypted);
+				// Read the chunk from the start of $data
+				$chunk = substr( $data, 0, 6126 );
 				
-				//echo "\n\nFRESHLY ENCRYPTED = $encrypted\n\n";
+				//echo "before ".strlen($data)."\n";
 				
-				fwrite( $this->handle, $encrypted );
+				//echo "\n\$this->keyfile 1 = {$this->keyfile}";
+				
+				$encrypted = Crypt::symmetricEncryptFileContent( $chunk, $this->keyfile );
+				
+				//echo "\n\n\$rawEnc = $encrypted\n\n";
+				
+				//echo "\$encrypted = ".strlen($encrypted)."\n";
+				
+				$padded = $encrypted  . 'xx';
+				
+				//echo "\$padded = ".strlen($padded)."\n";
+				
+				//echo "after ".strlen($encrypted)."\n\n";
+				
+				//file_put_contents('/home/samtuke/tmp.txt', $encrypted);
+				
+				fwrite( $this->handle, $padded );
+				
+				$bef = ftell( $this->handle );
+				//echo "ftell before = $bef\n";
+				
+				$writtenLen = strlen( $padded );
+				//fseek( $this->handle, $writtenLen, SEEK_CUR );
+				
+// 				$aft = ftell( $this->handle );
+// 				echo "ftell after = $aft\n";
+// 				echo "ftell sum = ";
+// 				echo $aft - $bef."\n";
 
-				$data = substr( $data, 8192 );
+				// Remove the chunk we just processed from $data, leaving only unprocessed data in $data var
+				$data = substr( $data, 6126 );
 
 // 			}
 // 
-// 		}
+		}
 
-		$this->size = max( $this->size, $currentPos + $length );
-
+		$this->size = max( $this->size, $pointer + $length );
+		
+		echo "\$this->size = $this->size\n\n";
+		
 		return $length;
 
 	}

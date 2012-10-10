@@ -124,7 +124,130 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 		\OC_User::setUserId( 'admin' );
 		
-		$filename = 'flockEncrypt';
+		$filename = 'tmp-'.time();
+		
+		$cryptedFile = file_put_contents( 'crypt://' . $filename, $this->dataShort );
+		
+		// Test that data was successfully written
+		$this->assertTrue( is_int( $cryptedFile ) );
+		
+		
+		// Get file contents without using any wrapper to get it's actual contents on disk
+		$retreivedCryptedFile = $this->view->file_get_contents( '/admin/files/' . $filename );
+		
+		// Manually remove padding from end of each chunk
+		$retreivedCryptedFile = substr( $retreivedCryptedFile, 0, -2 );
+		
+		// Check that the file was encrypted before being written to disk
+		$this->assertNotEquals( $this->dataShort, $retreivedCryptedFile );
+		
+		
+		$key = Keymanager::getFileKey( $filename );
+		
+		$manualDecrypt = Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $key );
+		
+		$this->assertEquals( $this->dataShort, $manualDecrypt );
+		
+	}
+	
+	function testSymmetricStreamEncryptLongFileContent() {
+		
+		// Generate a a random filename
+		$filename = 'tmp-'.time();
+		
+		echo "\n\n\$filename = $filename\n\n";
+		
+		// Save long data as encrypted file using stream wrapper
+		$cryptedFile = file_put_contents( 'crypt://' . $filename, $this->dataLong.$this->dataLong );
+		
+		// Test that data was successfully written
+		$this->assertTrue( is_int( $cryptedFile ) );
+		
+		// Get file contents without using any wrapper to get it's actual contents on disk
+		$retreivedCryptedFile = $this->view->file_get_contents( '/admin/files/' . $filename );
+		
+		// Check that the file was encrypted before being written to disk
+		$this->assertNotEquals( $this->dataLong.$this->dataLong, $retreivedCryptedFile );
+		
+		// Get file contents without using any wrapper to get it's actual contents on disk
+		$undecrypted = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files/' . $filename );
+		
+		//echo "\n\n\$undecrypted = $undecrypted\n\n";
+		
+		// Manuallly split saved file into separate IVs and encrypted chunks
+		$r = preg_split('/(00iv00.{16,18})/', $undecrypted, NULL, PREG_SPLIT_DELIM_CAPTURE);
+		
+		//print_r($r);
+		
+		// Join IVs and their respective data chunks
+		$e = array( $r[0].$r[1], $r[2].$r[3], $r[4].$r[5], $r[6].$r[7], $r[8].$r[9], $r[10].$r[11], $r[12].$r[13], $r[14] );
+		
+// 		print_r($e);
+		
+		$f = array();
+		
+		// Manually remove padding from end of each chunk
+		foreach ( $e as $e ) {
+			
+			$f[] = substr( $e, 0, -2 );
+		
+		}
+		
+// 		print_r($f);
+		
+		// Manually fetch keyfile
+		$keyfile = Keymanager::getFileKey( $filename );
+		
+		// Set var for reassembling decrypted content
+		$decrypt = '';
+		
+		// Manually decrypt chunk
+		foreach ($f as $f) {
+		
+// 			echo "\n\$encryptMe = $f";
+			
+			$chunkDecrypt = Crypt::symmetricDecryptFileContent( $f, $keyfile );
+			
+			// Assemble decrypted chunks
+			$decrypt .= $chunkDecrypt;
+			
+// 			echo "\n\$chunkDecrypt = $chunkDecrypt";
+			
+		}
+		
+		$this->assertEquals( $this->dataLong.$this->dataLong, $decrypt );
+		
+		// Teadown
+		
+		$this->view->unlink( '/admin/files/' . $filename );
+		
+		Keymanager::deleteFileKey( $filename );
+		
+		// Fetch the saved encrypted file using stream wrapper to decrypt it
+// 		$autoDecrypted = file_get_contents( 'crypt:////home/samtuke/owncloud/git/oc3/data/' . $filename );
+// 		
+// 		//file_get_contents('crypt:///home/samtuke/tmp-1346255589');
+// 		
+// 		// Check that the retreived decrypted contents match the original
+// 		$this->assertEquals( $this->dataLong.$this->dataLong, $autoDecrypted );
+		
+		
+// 		$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files_encryption/keyfiles/' . $filename . '.key' );
+// 		
+// 		$manualDecrypt = Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $key );
+// 		
+// 		echo "\n\n\n\n\n\n\n\n\n\n\$manualDecrypt =  $manualDecrypt\n\n";
+
+//  		
+// 		$this->assertEquals( $this->dataLong, $manualDecrypt );
+		
+	}
+	
+	function testSymmetricStreamDecryptShortFileContent() {
+	
+		\OC_User::setUserId( 'admin' );
+		
+		$filename = 'tmp-'.time();
 		
 		$cryptedFile = file_put_contents( 'crypt://' . '/' . $filename, $this->dataShort );
 		
@@ -147,44 +270,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 	}
 	
-	function testSymmetricStreamEncryptLongFileContent() {
-		
-		$filename = 'tmp-'.time();
-		
-		echo "\n\n\$filename = $filename\n\n";
-		
-		$cryptedFile = file_put_contents( 'crypt://' . '/' . '/home/samtuke/owncloud/git/oc3/data/' . $filename, $this->dataLong.$this->dataLong );
-		
-		// Test that data was successfully written
-		$this->assertTrue( is_int( $cryptedFile ) );
-		
-		
-		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( '/' . $filename );
-		
-		//echo "\n\nsock $retreivedCryptedFile\n\n";
-		
-		// Check that the file was encrypted before being written to disk
-		$this->assertNotEquals( $this->dataLong.$this->dataLong, $retreivedCryptedFile );
-		
-		$autoDecrypted = file_get_contents( 'crypt:////home/samtuke/owncloud/git/oc3/data/' . $filename );
-		
-		//file_get_contents('crypt:///home/samtuke/tmp-1346255589');
-		
-		$this->assertEquals( $this->dataLong.$this->dataLong, $autoDecrypted );
-		
-		
-// 		$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files_encryption/keyfiles/' . $filename . '.key' );
-// 		
-// 		$manualDecrypt = Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $key );
-// 		
-// 		echo "\n\n\n\n\n\n\n\n\n\n\$manualDecrypt =  $manualDecrypt\n\n";
-
-//  		
-// 		$this->assertEquals( $this->dataLong, $manualDecrypt );
-		
-	}	
-	
+	// Is this test still necessary?
 // 	function testSymmetricBlockStreamDecryptFileContent() {
 // 	
 // 		\OC_User::setUserId( 'admin' );

@@ -38,6 +38,9 @@
  * OC_Filestorage object
  */
 
+ /**
+ * @note default root (if $root is empty or '/') is /data/[user]/
+ */
 class OC_FilesystemView {
 	private $fakeRoot='';
 	private $internal_path_cache=array();
