@@ -80,8 +80,8 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion() {
-		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.9.0. This is not visible to the user
-		return array(4,87,13);
+		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
+		return array(4,91,00);
 	}
 
 	/**
@@ -89,7 +89,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString() {
-		return '4.5 RC 2';
+		return '4.5';
 	}
 
 	/**

@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-23 02:01+0200\n"
-"PO-Revision-Date: 2012-09-22 10:45+0000\n"
-"Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>\n"
+"POT-Creation-Date: 2012-10-10 02:05+0200\n"
+"PO-Revision-Date: 2012-10-09 15:22+0000\n"
+"Last-Translator: Rubén Trujillo <rubentrf@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,11 +86,11 @@ msgstr "Imposible añadir el usuario al grupo %s"
 msgid "Unable to remove user from group %s"
 msgstr "Imposible eliminar al usuario del grupo %s"
 
-#: js/apps.js:27 js/apps.js:61
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "Desactivar"
 
-#: js/apps.js:27 js/apps.js:50
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "Activar"
 
@@ -98,7 +98,7 @@ msgstr "Activar"
 msgid "Saving..."
 msgstr "Guardando..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "Castellano"
 
@@ -193,15 +193,19 @@ msgstr "Desarrollado por la <a href=\"http://ownCloud.org/contact\" target=\"_bl
 msgid "Add your App"
 msgstr "Añade tu aplicación"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Más aplicaciones"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Seleccionar una aplicación"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr "Echa un vistazo a la web de aplicaciones apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></span>"
 

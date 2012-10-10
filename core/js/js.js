@@ -5,7 +5,7 @@
  * @return string
  */
 
-function t(app,text){
+function t(app,text, vars){
 	if( !( t.cache[app] )){
 		$.ajax(OC.filePath('core','ajax','translations.php'),{
 			async:false,//todo a proper sollution for this without sync ajax calls
@@ -21,11 +21,27 @@ function t(app,text){
 			t.cache[app] = [];
 		}
 	}
+	var _build = function(text, vars) {
+		return text.replace(/{([^{}]*)}/g,
+			function (a, b) {
+				var r = vars[b];
+				return typeof r === 'string' || typeof r === 'number' ? r : a;
+			}
+		);
+	}
 	if( typeof( t.cache[app][text] ) !== 'undefined' ){
-		return t.cache[app][text];
+		if(typeof vars === 'object') {
+			return _build(t.cache[app][text], vars);
+		} else {
+			return t.cache[app][text];
+		}
 	}
 	else{
-		return text;
+		if(typeof vars === 'object') {
+			return _build(text, vars);
+		} else {
+			return text;
+		}
 	}
 }
 t.cache={};

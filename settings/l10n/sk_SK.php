@@ -32,6 +32,7 @@
 "Log" => "Záznam",
 "More" => "Viac",
 "Add your App" => "Pridať vašu aplikáciu",
+"More Apps" => "Viac aplikácií",
 "Select an App" => "Vyberte aplikáciu",
 "See application page at apps.owncloud.com" => "Pozrite si stránku aplikácie na apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licencované <span class=\"author\"></span>",

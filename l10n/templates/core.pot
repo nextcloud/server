@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-08 02:03+0200\n"
+"POT-Creation-Date: 2012-10-10 02:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,8 +105,8 @@ msgstr ""
 msgid "No categories selected for deletion."
 msgstr ""
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:494
-#: js/share.js:506
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
 msgstr ""
 
@@ -206,15 +206,15 @@ msgstr ""
 msgid "share"
 msgstr ""
 
-#: js/share.js:322 js/share.js:481
+#: js/share.js:322 js/share.js:484
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:494
+#: js/share.js:497
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:506
+#: js/share.js:509
 msgid "Error setting expiration date"
 msgstr ""
 

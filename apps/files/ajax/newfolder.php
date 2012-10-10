@@ -20,7 +20,13 @@ if(strpos($foldername, '/')!==false) {
 }
 
 if(OC_Files::newFile($dir, stripslashes($foldername), 'dir')) {
-	OCP\JSON::success(array("data" => array()));
+	if ( $dir != '/') {
+		$path = $dir.'/'.$foldername;
+	} else {
+		$path = '/'.$foldername;
+	}
+	$id = OC_FileCache::getId($path);
+	OCP\JSON::success(array("data" => array('id'=>$id)));
 	exit();
 }
 

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-04 02:04+0200\n"
-"PO-Revision-Date: 2012-10-03 13:10+0000\n"
+"POT-Creation-Date: 2012-10-10 02:05+0200\n"
+"PO-Revision-Date: 2012-10-09 15:29+0000\n"
 "Last-Translator: Duarte Velez Grilo <duartegrilo@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -80,19 +80,19 @@ msgstr "Impossível acrescentar utilizador ao grupo %s"
 msgid "Unable to remove user from group %s"
 msgstr "Impossível apagar utilizador do grupo %s"
 
-#: js/apps.js:27 js/apps.js:61
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
-msgstr "Desativar"
+msgstr "Desactivar"
 
-#: js/apps.js:27 js/apps.js:50
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
-msgstr "Ativar"
+msgstr "Activar"
 
 #: js/personal.js:69
 msgid "Saving..."
 msgstr "A guardar..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -139,7 +139,7 @@ msgstr "Activar API de partilha"
 
 #: templates/admin.php:62
 msgid "Allow apps to use the Share API"
-msgstr "Permitir que apps usem a API de partilha"
+msgstr "Permitir que as aplicações usem a API de partilha"
 
 #: templates/admin.php:67
 msgid "Allow links"
@@ -187,15 +187,19 @@ msgstr "Desenvolvido pela <a href=\"http://ownCloud.org/contact\" target=\"_blan
 msgid "Add your App"
 msgstr "Adicione a sua aplicação"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Mais Aplicações"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Selecione uma aplicação"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr "Ver a página da aplicação em apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></span>"
 
@@ -213,7 +217,7 @@ msgstr "Coloque uma questão"
 
 #: templates/help.php:23
 msgid "Problems connecting to help database."
-msgstr "Problemas ao conectar à base de dados de ajuda"
+msgstr "Problemas ao ligar à base de dados de ajuda"
 
 #: templates/help.php:24
 msgid "Go there manually."
@@ -230,7 +234,7 @@ msgstr "Usou <strong>%s</strong> dos <strong>%s<strong> disponíveis."
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr "Clientes de sincronização desktop e movel"
+msgstr "Clientes de sincronização desktop e móvel"
 
 #: templates/personal.php:13
 msgid "Download"
@@ -246,7 +250,7 @@ msgstr "Não foi possivel alterar a sua palavra-chave"
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr "Palavra-chave atual"
+msgstr "Palavra-chave actual"
 
 #: templates/personal.php:22
 msgid "New password"
@@ -282,7 +286,7 @@ msgstr "Ajude a traduzir"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "utilize este endereço para conectar ao seu ownCloud através do seu gerenciador de ficheiros"
+msgstr "utilize este endereço para ligar ao seu ownCloud através do seu gestor de ficheiros"
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
@@ -302,7 +306,7 @@ msgstr "Criar"
 
 #: templates/users.php:35
 msgid "Default Quota"
-msgstr "Quota por defeito"
+msgstr "Quota por padrão"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
