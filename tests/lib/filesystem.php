@@ -24,7 +24,7 @@ class Test_Filesystem extends UnitTestCase {
 	/**
 	 * @var array tmpDirs
 	 */
-	private $tmpDirs;
+	private $tmpDirs=array();
 
 	/**
 	 * @return array
