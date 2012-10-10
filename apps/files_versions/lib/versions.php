@@ -106,9 +106,9 @@ class Storage {
 
 
 			// create all parent folders
-			$dirname = dirname($filename);
-			if(!$users_view->file_exists('/files_versions/'.$dirname)) {
-				$users_view->mkdir('/files_versions/'.$dirname,0700,true);
+			$info=pathinfo($filename);
+			if(!file_exists($versionsFolderName.'/'.$info['dirname'])) {
+				mkdir($versionsFolderName.'/'.$info['dirname'],0750,true);
 			}
 
 			// store a new version of a file
