@@ -254,13 +254,6 @@ class OC_Filesystem{
 					}
 				}
 			}
-
-			$mtime=filemtime(OC::$SERVERROOT.'/config/mount.php');
-			$previousMTime=OC_Appconfig::getValue('files','mountconfigmtime',0);
-			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-				OC_FileCache::triggerUpdate();
-				OC_Appconfig::setValue('files','mountconfigmtime',$mtime);
-			}
 		}
 
 		self::$loaded=true;
@@ -399,7 +392,7 @@ class OC_Filesystem{
 	}
 
 	/**
-	 * checks if a file is blacklsited for storage in the filesystem
+	 * checks if a file is blacklisted for storage in the filesystem
 	 * Listens to write and rename hooks
 	 * @param array $data from hook
 	 */
@@ -419,7 +412,7 @@ class OC_Filesystem{
 	}
 
 	/**
-	 * following functions are equivilent to their php buildin equivilents for arguments/return values.
+	 * following functions are equivalent to their php builtin equivalents for arguments/return values.
 	 */
 	static public function mkdir($path) {
 		return self::$defaultInstance->mkdir($path);
@@ -592,4 +585,3 @@ OC_Hook::connect('OC_Filesystem','post_delete','OC_Filesystem','removeETagHook')
 OC_Hook::connect('OC_Filesystem','post_rename','OC_Filesystem','removeETagHook');
 
 OC_Util::setupFS();
-require_once 'filecache.php';
