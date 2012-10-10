@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-09 02:03+0200\n"
-"PO-Revision-Date: 2012-10-09 00:03+0000\n"
+"POT-Creation-Date: 2012-10-10 02:05+0200\n"
+"PO-Revision-Date: 2012-10-09 10:11+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -199,7 +199,7 @@ msgstr "Füge Deine Anwendung hinzu"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "Weitere Apps"
 
 #: templates/apps.php:27
 msgid "Select an App"

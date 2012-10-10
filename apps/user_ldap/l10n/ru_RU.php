@@ -2,6 +2,7 @@
 "Host" => "Хост",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Вы можете пропустить протокол, если Вам не требуется SSL. Затем начните с ldaps://",
 "Base DN" => "База DN",
+"You can specify Base DN for users and groups in the Advanced tab" => "Вы можете задать Base DN для пользователей и групп во вкладке «Дополнительно»",
 "User DN" => "DN пользователя",
 "Password" => "Пароль",
 "For anonymous access, leave DN and Password empty." => "Для анонимного доступа оставьте поля DN и пароль пустыми.",

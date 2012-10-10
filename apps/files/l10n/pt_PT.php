@@ -50,7 +50,7 @@
 "File handling" => "Manuseamento de ficheiros",
 "Maximum upload size" => "Tamanho máximo de envio",
 "max. possible: " => "max. possivel: ",
-"Needed for multi-file and folder downloads." => "Necessário para multi download de ficheiros e pastas",
+"Needed for multi-file and folder downloads." => "Necessário para descarregamento múltiplo de ficheiros e pastas",
 "Enable ZIP-download" => "Permitir descarregar em ficheiro ZIP",
 "0 is unlimited" => "0 é ilimitado",
 "Maximum input size for ZIP files" => "Tamanho máximo para ficheiros ZIP",
@@ -65,7 +65,7 @@
 "Share" => "Partilhar",
 "Download" => "Transferir",
 "Upload too large" => "Envio muito grande",
-"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os ficheiro que está a tentar enviar excedem o tamanho máximo de envio neste servidor.",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os ficheiros que está a tentar enviar excedem o tamanho máximo de envio permitido neste servidor.",
 "Files are being scanned, please wait." => "Os ficheiros estão a ser analisados, por favor aguarde.",
 "Current scanning" => "Análise actual"
 );

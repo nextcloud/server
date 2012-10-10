@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-09 02:02+0200\n"
-"PO-Revision-Date: 2012-10-08 16:35+0000\n"
+"POT-Creation-Date: 2012-10-10 02:04+0200\n"
+"PO-Revision-Date: 2012-10-09 15:25+0000\n"
 "Last-Translator: Duarte Velez Grilo <duartegrilo@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -230,7 +230,7 @@ msgstr "max. possivel: "
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr "Necessário para multi download de ficheiros e pastas"
+msgstr "Necessário para descarregamento múltiplo de ficheiros e pastas"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
@@ -292,7 +292,7 @@ msgstr "Envio muito grande"
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Os ficheiro que está a tentar enviar excedem o tamanho máximo de envio neste servidor."
+msgstr "Os ficheiros que está a tentar enviar excedem o tamanho máximo de envio permitido neste servidor."
 
 #: templates/index.php:82
 msgid "Files are being scanned, please wait."
