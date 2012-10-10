@@ -15,16 +15,16 @@
  *   read(path)
  *   write(path, &run)
  *   post_write(path)
- *   create(path, &run) (when a file is created, both create and write will be emited in that order)
+ *   create(path, &run) (when a file is created, both create and write will be emitted in that order)
  *   post_create(path)
  *   delete(path, &run)
  *   post_delete(path)
  *   rename(oldpath,newpath, &run)
  *   post_rename(oldpath,newpath)
- *   copy(oldpath,newpath, &run) (if the newpath doesn't exists yes, copy, create and write will be emited in that order)
+ *   copy(oldpath,newpath, &run) (if the newpath doesn't exists yes, copy, create and write will be emitted in that order)
  *   post_rename(oldpath,newpath)
  *
- *   the &run parameter can be set to false to prevent the operation from occuring
+ *   the &run parameter can be set to false to prevent the operation from occurring
  */
 
 namespace OC\Files;
@@ -34,7 +34,7 @@ class Filesystem {
 	static private $mounts = array();
 	public static $loaded = false;
 	/**
-	 * @var \OC\Files\Storage\Storage $defaultInstance
+	 * @var \OC\Files\View $defaultInstance
 	 */
 	static private $defaultInstance;
 
@@ -46,80 +46,80 @@ class Filesystem {
 	const CLASSNAME = 'OC_Filesystem';
 
 	/**
-	 * signalname emited before file renaming
+	 * signalname emitted before file renaming
 	 *
-	 * @param oldpath
-	 * @param newpath
+	 * @param string $oldpath
+	 * @param string $newpath
 	 */
 	const signal_rename = 'rename';
 
 	/**
-	 * signal emited after file renaming
+	 * signal emitted after file renaming
 	 *
-	 * @param oldpath
-	 * @param newpath
+	 * @param string $oldpath
+	 * @param string $newpath
 	 */
 	const signal_post_rename = 'post_rename';
 
 	/**
-	 * signal emited before file/dir creation
+	 * signal emitted before file/dir creation
 	 *
-	 * @param path
-	 * @param run changing this flag to false in hook handler will cancel event
+	 * @param string $path
+	 * @param bool $run changing this flag to false in hook handler will cancel event
 	 */
 	const signal_create = 'create';
 
 	/**
-	 * signal emited after file/dir creation
+	 * signal emitted after file/dir creation
 	 *
-	 * @param path
-	 * @param run changing this flag to false in hook handler will cancel event
+	 * @param string $path
+	 * @param bool $run changing this flag to false in hook handler will cancel event
 	 */
 	const signal_post_create = 'post_create';
 
 	/**
 	 * signal emits before file/dir copy
 	 *
-	 * @param oldpath
-	 * @param newpath
-	 * @param run changing this flag to false in hook handler will cancel event
+	 * @param string $oldpath
+	 * @param string $newpath
+	 * @param bool $run changing this flag to false in hook handler will cancel event
 	 */
 	const signal_copy = 'copy';
 
 	/**
 	 * signal emits after file/dir copy
 	 *
-	 * @param oldpath
-	 * @param newpath
+	 * @param string $oldpath
+	 * @param string $newpath
 	 */
 	const signal_post_copy = 'post_copy';
 
 	/**
 	 * signal emits before file/dir save
 	 *
-	 * @param path
-	 * @param run changing this flag to false in hook handler will cancel event
+	 * @param string $path
+	 * @param bool $run changing this flag to false in hook handler will cancel event
 	 */
 	const signal_write = 'write';
 
 	/**
 	 * signal emits after file/dir save
 	 *
-	 * @param path
+	 * @param string $path
 	 */
 	const signal_post_write = 'post_write';
 
 	/**
 	 * signal emits when reading file/dir
 	 *
-	 * @param path
+	 * @param string $path
 	 */
 	const signal_read = 'read';
 
 	/**
 	 * signal emits when removing file/dir
 	 *
-	 * @param path
+	 * @param string $path
 	 */
 	const signal_delete = 'delete';
 
@@ -139,11 +139,11 @@ class Filesystem {
 	 * get the mountpoint of the storage object for a path
 	( note: because a storage is not always mounted inside the fakeroot, the returned mountpoint is relative to the absolute root of the filesystem and doesn't take the chroot into account
 	 *
-	 * @param string path
+	 * @param string $path
 	 * @return string
 	 */
 	static public function getMountPoint($path) {
-		OC_Hook::emit(self::CLASSNAME, 'get_mountpoint', array('path' => $path));
+		\OC_Hook::emit(self::CLASSNAME, 'get_mountpoint', array('path' => $path));
 		if (!$path) {
 			$path = '/';
 		}
@@ -152,7 +152,7 @@ class Filesystem {
 		}
 		$path = str_replace('//', '/', $path);
 		$foundMountPoint = '';
-		$mountPoints = array_keys(OC_Filesystem::$mounts);
+		$mountPoints = array_keys(self::$mounts);
 		foreach ($mountPoints as $mountpoint) {
 			if ($mountpoint == $path) {
 				return $mountpoint;
@@ -167,7 +167,7 @@ class Filesystem {
 	/**
 	 * get the part of the path relative to the mountpoint of the storage it's stored in
 	 *
-	 * @param  string  path
+	 * @param  string $path
 	 * @return bool
 	 */
 	static public function getInternalPath($path) {
@@ -179,17 +179,19 @@ class Filesystem {
 	/**
 	 * get the storage object for a path
 	 *
-	 * @param string path
+	 * @param string $path
 	 * @return \OC\Files\Storage\Storage
 	 */
 	static public function getStorage($path) {
 		$mountpoint = self::getMountPoint($path);
 		if ($mountpoint) {
-			if (!isset(OC_Filesystem::$storages[$mountpoint])) {
-				$mount = OC_Filesystem::$mounts[$mountpoint];
-				OC_Filesystem::$storages[$mountpoint] = OC_Filesystem::createStorage($mount['class'], $mount['arguments']);
+			if (!isset(self::$storages[$mountpoint])) {
+				$mount = self::$mounts[$mountpoint];
+				self::$storages[$mountpoint] = self::createStorage($mount['class'], $mount['arguments']);
 			}
-			return OC_Filesystem::$storages[$mountpoint];
+			return self::$storages[$mountpoint];
+		}else{
+			return null;
 		}
 	}
 
@@ -202,13 +204,15 @@ class Filesystem {
 	static public function resolvePath($path) {
 		$mountpoint = self::getMountPoint($path);
 		if ($mountpoint) {
-			if (!isset(OC_Filesystem::$storages[$mountpoint])) {
-				$mount = OC_Filesystem::$mounts[$mountpoint];
-				OC_Filesystem::$storages[$mountpoint] = OC_Filesystem::createStorage($mount['class'], $mount['arguments']);
+			if (!isset(self::$storages[$mountpoint])) {
+				$mount = self::$mounts[$mountpoint];
+				self::$storages[$mountpoint] = self::createStorage($mount['class'], $mount['arguments']);
 			}
-			$storage = OC_Filesystem::$storages[$mountpoint];
+			$storage = self::$storages[$mountpoint];
 			$internalPath = substr($path, strlen($mountpoint));
 			return array($storage, $internalPath);
+		}else{
+			return array(null, null);
 		}
 	}
 
@@ -216,11 +220,11 @@ class Filesystem {
 		if (self::$defaultInstance) {
 			return false;
 		}
-		self::$defaultInstance = new OC_FilesystemView($root);
+		self::$defaultInstance = new View($root);
 
-//load custom mount config
-		if (is_file(OC::$SERVERROOT . '/config/mount.php')) {
-			$mountConfig = include(OC::$SERVERROOT . '/config/mount.php');
+		//load custom mount config
+		if (is_file(\OC::$SERVERROOT . '/config/mount.php')) {
+			$mountConfig = include 'config/mount.php';
 			if (isset($mountConfig['global'])) {
 				foreach ($mountConfig['global'] as $mountPoint => $options) {
 					self::mount($options['class'], $options['options'], $mountPoint);
@@ -229,7 +233,7 @@ class Filesystem {
 
 			if (isset($mountConfig['group'])) {
 				foreach ($mountConfig['group'] as $group => $mounts) {
-					if (OC_Group::inGroup(OC_User::getUser(), $group)) {
+					if (\OC_Group::inGroup(\OC_User::getUser(), $group)) {
 						foreach ($mounts as $mountPoint => $options) {
 							$mountPoint = self::setUserVars($mountPoint);
 							foreach ($options as &$option) {
@@ -243,7 +247,7 @@ class Filesystem {
 
 			if (isset($mountConfig['user'])) {
 				foreach ($mountConfig['user'] as $user => $mounts) {
-					if ($user === 'all' or strtolower($user) === strtolower(OC_User::getUser())) {
+					if ($user === 'all' or strtolower($user) === strtolower(\OC_User::getUser())) {
 						foreach ($mounts as $mountPoint => $options) {
 							$mountPoint = self::setUserVars($mountPoint);
 							foreach ($options as &$option) {
@@ -257,22 +261,24 @@ class Filesystem {
 		}
 
 		self::$loaded = true;
+
+		return true;
 	}
 
 	/**
 	 * fill in the correct values for $user, and $password placeholders
 	 *
-	 * @param string intput
+	 * @param string $input
 	 * @return string
 	 */
 	private static function setUserVars($input) {
-		return str_replace('$user', OC_User::getUser(), $input);
+		return str_replace('$user', \OC_User::getUser(), $input);
 	}
 
 	/**
 	 * get the default filesystem view
 	 *
-	 * @return OC_FilesystemView
+	 * @return View
 	 */
 	static public function getView() {
 		return self::$defaultInstance;
@@ -288,20 +294,20 @@ class Filesystem {
 	/**
 	 * create a new storage of a specific type
 	 *
-	 * @param  string  type
-	 * @param  array  arguments
+	 * @param  string $type
+	 * @param  array $arguments
 	 * @return \OC\Files\Storage\Storage
 	 */
 	static private function createStorage($class, $arguments) {
 		if (class_exists($class)) {
 			try {
 				return new $class($arguments);
-			} catch (Exception $exception) {
-				OC_Log::write('core', $exception->getMessage(), OC_Log::ERROR);
+			} catch (\Exception $exception) {
+				\OC_Log::write('core', $exception->getMessage(), \OC_Log::ERROR);
 				return false;
 			}
 		} else {
-			OC_Log::write('core', 'storage backend ' . $class . ' not found', OC_Log::ERROR);
+			\OC_Log::write('core', 'storage backend ' . $class . ' not found', \OC_Log::ERROR);
 			return false;
 		}
 	}
@@ -309,7 +315,7 @@ class Filesystem {
 	/**
 	 * change the root to a fake root
 	 *
-	 * @param  string  fakeRoot
+	 * @param  string $fakeRoot
 	 * @return bool
 	 */
 	static public function chroot($fakeRoot) {
@@ -337,8 +343,9 @@ class Filesystem {
 	/**
 	 * mount an \OC\Files\Storage\Storage in our virtual filesystem
 	 *
-	 * @param \OC\Files\Storage\Storage storage
-	 * @param string mountpoint
+	 * @param \OC\Files\Storage\Storage $storage
+	 * @param array $arguments
+	 * @param string $mountpoint
 	 */
 	static public function mount($class, $arguments, $mountpoint) {
 		if ($mountpoint[0] != '/') {
@@ -354,7 +361,7 @@ class Filesystem {
 	 * return the path to a local version of the file
 	 * we need this because we can't know if a file is stored local or not from outside the filestorage and for some purposes a local file is needed
 	 *
-	 * @param string path
+	 * @param string $path
 	 * @return string
 	 */
 	static public function getLocalFile($path) {
@@ -362,7 +369,7 @@ class Filesystem {
 	}
 
 	/**
-	 * @param string path
+	 * @param string $path
 	 * @return string
 	 */
 	static public function getLocalFolder($path) {
@@ -372,11 +379,11 @@ class Filesystem {
 	/**
 	 * return path to file which reflects one visible in browser
 	 *
-	 * @param string path
+	 * @param string $path
 	 * @return string
 	 */
 	static public function getLocalPath($path) {
-		$datadir = OC_User::getHome(OC_User::getUser()) . '/files';
+		$datadir = \OC_User::getHome(\OC_User::getUser()) . '/files';
 		$newpath = $path;
 		if (strncmp($newpath, $datadir, strlen($datadir)) == 0) {
 			$newpath = substr($path, strlen($datadir));
@@ -387,7 +394,7 @@ class Filesystem {
 	/**
 	 * check if the requested path is valid
 	 *
-	 * @param string path
+	 * @param string $path
 	 * @return bool
 	 */
 	static public function isValidPath($path) {
@@ -468,7 +475,7 @@ class Filesystem {
 	 * @deprecated Replaced by isReadable() as part of CRUDS
 	 */
 	static public function is_readable($path) {
-		return self::$defaultInstance->is_readable($path);
+		return self::$defaultInstance->isReadable($path);
 	}
 
 	/**
@@ -559,7 +566,7 @@ class Filesystem {
 	}
 
 	static public function search($query) {
-		return OC_FileCache::search($query);
+		return Cache\Cache::search($query);
 	}
 
 	/**
@@ -580,19 +587,19 @@ class Filesystem {
 		}
 
 		if ($root) { // reduce path to the required part of it (no 'username/files')
-			$fakeRootView = new OC_FilesystemView($root);
+			$fakeRootView = new View($root);
 			$count = 1;
-			$path = str_replace(OC_App::getStorage("files")->getAbsolutePath($path), "", $fakeRootView->getAbsolutePath($path), $count);
+			$path = str_replace(\OC_App::getStorage("files")->getAbsolutePath($path), "", $fakeRootView->getAbsolutePath($path), $count);
 		}
 
 		$path = self::normalizePath($path);
-		OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
+		\OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
 	}
 
 	/**
 	 * normalize a path
 	 *
-	 * @param string path
+	 * @param string $path
 	 * @param bool $stripTrailingSlash
 	 * @return string
 	 */
@@ -606,7 +613,7 @@ class Filesystem {
 		if ($path[0] !== '/') {
 			$path = '/' . $path;
 		}
-//remove trainling slash
+//remove trailing slash
 		if ($stripTrailingSlash and strlen($path) > 1 and substr($path, -1, 1) === '/') {
 			$path = substr($path, 0, -1);
 		}
@@ -616,14 +623,14 @@ class Filesystem {
 		}
 //normalize unicode if possible
 		if (class_exists('Normalizer')) {
-			$path = Normalizer::normalize($path);
+			$path = \Normalizer::normalize($path);
 		}
 		return $path;
 	}
 }
 
-OC_Hook::connect('OC_Filesystem', 'post_write', 'OC_Filesystem', 'removeETagHook');
-OC_Hook::connect('OC_Filesystem', 'post_delete', 'OC_Filesystem', 'removeETagHook');
-OC_Hook::connect('OC_Filesystem', 'post_rename', 'OC_Filesystem', 'removeETagHook');
+\OC_Hook::connect('OC_Filesystem', 'post_write', 'OC_Filesystem', 'removeETagHook');
+\OC_Hook::connect('OC_Filesystem', 'post_delete', 'OC_Filesystem', 'removeETagHook');
+\OC_Hook::connect('OC_Filesystem', 'post_rename', 'OC_Filesystem', 'removeETagHook');
 
-OC_Util::setupFS();
+\OC_Util::setupFS();
