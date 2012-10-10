@@ -159,9 +159,11 @@ class OC_Template{
 		$this->vars['requestlifespan'] = OC_Util::$callLifespan;
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$this->l10n = OC_L10N::get($parts[0]);
-                header('X-Frame-Options: Sameorigin');
-                header('X-XSS-Protection: 1; mode=block');
-                header('X-Content-Type-Options: nosniff');
+
+		// Some headers to enhance security
+		header('X-Frame-Options: Sameorigin');
+		header('X-XSS-Protection: 1; mode=block');
+		header('X-Content-Type-Options: nosniff');
 
 		$this->findTemplate($name);
 	}
