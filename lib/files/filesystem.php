@@ -165,37 +165,6 @@ class Filesystem {
 	}
 
 	/**
-	 * get the part of the path relative to the mountpoint of the storage it's stored in
-	 *
-	 * @param  string $path
-	 * @return bool
-	 */
-	static public function getInternalPath($path) {
-		$mountPoint = self::getMountPoint($path);
-		$internalPath = substr($path, strlen($mountPoint));
-		return $internalPath;
-	}
-
-	/**
-	 * get the storage object for a path
-	 *
-	 * @param string $path
-	 * @return \OC\Files\Storage\Storage
-	 */
-	static public function getStorage($path) {
-		$mountpoint = self::getMountPoint($path);
-		if ($mountpoint) {
-			if (!isset(self::$storages[$mountpoint])) {
-				$mount = self::$mounts[$mountpoint];
-				self::$storages[$mountpoint] = self::createStorage($mount['class'], $mount['arguments']);
-			}
-			return self::$storages[$mountpoint];
-		}else{
-			return null;
-		}
-	}
-
-	/**
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path

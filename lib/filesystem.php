@@ -45,28 +45,6 @@ class OC_Filesystem {
 	}
 
 	/**
-	 * get the part of the path relative to the mountpoint of the storage it's stored in
-	 *
-	 * @deprecated OC_Filesystem is replaced by \OC\Files\Filesystem
-	 * @param  string $path
-	 * @return bool
-	 */
-	static public function getInternalPath($path) {
-		return \OC\Files\Filesystem::getInternalPath($path);
-	}
-
-	/**
-	 * get the storage object for a path
-	 *
-	 * @deprecated OC_Filesystem is replaced by \OC\Files\Filesystem
-	 * @param string $path
-	 * @return \OC\Files\Storage\Storage
-	 */
-	static public function getStorage($path) {
-		return \OC\Files\Filesystem::getStorage($path);
-	}
-
-	/**
 	 * resolve a path to a storage and internal path
 	 *
 	 * @deprecated OC_Filesystem is replaced by \OC\Files\Filesystem

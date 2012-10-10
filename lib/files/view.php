@@ -69,19 +69,6 @@ class View {
 	}
 
 	/**
-	 * get the part of the path relative to the mountpoint of the storage it's stored in
-	 *
-	 * @param string $path
-	 * @return bool
-	 */
-	public function getInternalPath($path) {
-		if (!isset($this->internal_path_cache[$path])) {
-			$this->internal_path_cache[$path] = Filesystem::getInternalPath($this->getAbsolutePath($path));
-		}
-		return $this->internal_path_cache[$path];
-	}
-
-	/**
 	 * get path relative to the root of the view
 	 *
 	 * @param string $path
@@ -104,19 +91,6 @@ class View {
 	}
 
 	/**
-	 * get the storage object for a path
-	 *
-	 * @param string $path
-	 * @return \OC\Files\Storage\Storage
-	 */
-	public function getStorage($path) {
-		if (!isset($this->storage_cache[$path])) {
-			$this->storage_cache[$path] = Filesystem::getStorage($this->getAbsolutePath($path));
-		}
-		return $this->storage_cache[$path];
-	}
-
-	/**
 	 * get the mountpoint of the storage object for a path
 	( note: because a storage is not always mounted inside the fakeroot, the returned mountpoint is relative to the absolute root of the filesystem and doesn't take the chroot into account
 	 *
@@ -136,8 +110,9 @@ class View {
 	 */
 	public function getLocalFile($path) {
 		$parent = substr($path, 0, strrpos($path, '/'));
-		if (Filesystem::isValidPath($parent) and $storage = $this->getStorage($path)) {
-			return $storage->getLocalFile($this->getInternalPath($path));
+		list($storage, $internalPath)=\OC\Files\Filesystem::resolvePath($path);
+		if (Filesystem::isValidPath($parent) and $storage) {
+			return $storage->getLocalFile($internalPath);
 		} else {
 			return null;
 		}
@@ -149,8 +124,9 @@ class View {
 	 */
 	public function getLocalFolder($path) {
 		$parent = substr($path, 0, strrpos($path, '/'));
-		if (Filesystem::isValidPath($parent) and $storage = $this->getStorage($path)) {
-			return $storage->getLocalFolder($this->getInternalPath($path));
+		list($storage, $internalPath)=\OC\Files\Filesystem::resolvePath($path);
+		if (Filesystem::isValidPath($parent) and $storage) {
+			return $storage->getLocalFolder($internalPath);
 		} else {
 			return null;
 		}
@@ -373,8 +349,10 @@ class View {
 				$mp1 = $this->getMountPoint($path1 . $postFix1);
 				$mp2 = $this->getMountPoint($path2 . $postFix2);
 				if ($mp1 == $mp2) {
-					if ($storage = $this->getStorage($path1)) {
-						$result = $storage->rename($this->getInternalPath($path1 . $postFix1), $this->getInternalPath($path2 . $postFix2));
+					list($storage, $internalPath1)=\OC\Files\Filesystem::resolvePath($path1 . $postFix1);
+					list( , $internalPath2)=\OC\Files\Filesystem::resolvePath($path2 . $postFix2);
+					if ($storage) {
+						$result = $storage->rename($internalPath1, $internalPath2);
 					} else {
 						$result = false;
 					}
@@ -382,8 +360,8 @@ class View {
 					$source = $this->fopen($path1 . $postFix1, 'r');
 					$target = $this->fopen($path2 . $postFix2, 'w');
 					$count = \OC_Helper::streamCopy($source, $target);
-					$storage1 = $this->getStorage($path1);
-					$storage1->unlink($this->getInternalPath($path1 . $postFix1));
+					list($storage1, $internalPath1)=\OC\Files\Filesystem::resolvePath($path1 . $postFix1);
+					$storage1->unlink($internalPath1);
 					$result = $count > 0;
 				}
 				if ($this->fakeRoot == Filesystem::getRoot()) {
@@ -454,8 +432,10 @@ class View {
 				$mp1 = $this->getMountPoint($path1 . $postFix1);
 				$mp2 = $this->getMountPoint($path2 . $postFix2);
 				if ($mp1 == $mp2) {
-					if ($storage = $this->getStorage($path1 . $postFix1)) {
-						$result = $storage->copy($this->getInternalPath($path1 . $postFix1), $this->getInternalPath($path2 . $postFix2));
+					list($storage, $internalPath1)=\OC\Files\Filesystem::resolvePath($path1 . $postFix1);
+					list( , $internalPath2)=\OC\Files\Filesystem::resolvePath($path2 . $postFix2);
+					if ($storage) {
+						$result = $storage->copy($internalPath1, $internalPath2);
 					} else {
 						$result = false;
 					}
@@ -588,8 +568,9 @@ class View {
 					array(Filesystem::signal_param_path => $path)
 				);
 			}
-			if ($storage = $this->getStorage($path . $postFix)) {
-				$result = $storage->hash($type, $this->getInternalPath($path . $postFix), $raw);
+			list($storage, $internalPath)=\OC\Files\Filesystem::resolvePath($path . $postFix);
+			if ($storage) {
+				$result = $storage->hash($type, $internalPath, $raw);
 				$result = \OC_FileProxy::runPostProxies('hash', $absolutePath, $result);
 				return $result;
 			}
@@ -621,9 +602,9 @@ class View {
 			if ($path == null) {
 				return false;
 			}
-			$internalPath = $this->getInternalPath($path . $postFix);
 			$run = $this->runHooks($hooks, $path);
-			if ($run and $storage = $this->getStorage($path . $postFix)) {
+			list($storage, $internalPath)=\OC\Files\Filesystem::resolvePath($path . $postFix);
+			if ($run and $storage) {
 				if (!is_null($extraParam)) {
 					$result = $storage->$operation($internalPath, $extraParam);
 				} else {

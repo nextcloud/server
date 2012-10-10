@@ -51,15 +51,18 @@ class Test_Filesystem extends UnitTestCase {
 		Filesystem::mount('\OC\Files\Storage\Local',self::getStorageData(),'/');
 		$this->assertEqual('/',Filesystem::getMountPoint('/'));
 		$this->assertEqual('/',Filesystem::getMountPoint('/some/folder'));
-		$this->assertEqual('',Filesystem::getInternalPath('/'));
-		$this->assertEqual('some/folder',Filesystem::getInternalPath('/some/folder'));
+		list( , $internalPath)=\OC\Files\Filesystem::resolvePath('/');
+		$this->assertEqual('',$internalPath);
+		list( , $internalPath)=\OC\Files\Filesystem::resolvePath('/some/folder');
+		$this->assertEqual('some/folder',$internalPath);
 
 		Filesystem::mount('\OC\Files\Storage\Local',self::getStorageData(),'/some');
 		$this->assertEqual('/',Filesystem::getMountPoint('/'));
 		$this->assertEqual('/some/',Filesystem::getMountPoint('/some/folder'));
 		$this->assertEqual('/some/',Filesystem::getMountPoint('/some/'));
 		$this->assertEqual('/',Filesystem::getMountPoint('/some'));
-		$this->assertEqual('folder',Filesystem::getInternalPath('/some/folder'));
+		list( , $internalPath)=\OC\Files\Filesystem::resolvePath('/some/folder');
+		$this->assertEqual('folder',$internalPath);
 	}
 
 	public function testNormalize() {
