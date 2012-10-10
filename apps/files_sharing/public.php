@@ -138,6 +138,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					}
 					$list = new OCP\Template('files', 'part.list', '');
 					$list->assign('files', $files, false);
+					$list->assign('publicListView', true);
 					$list->assign('baseURL', OCP\Util::linkToPublic('files').'&dir='.$_GET['dir'].'&path=', false);
 					$list->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.$_GET['dir'].'&path=', false);
 					$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '' );
