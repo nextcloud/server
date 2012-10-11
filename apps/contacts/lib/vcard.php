@@ -315,6 +315,9 @@ class OC_Contacts_VCard{
 	 */
 	public static function addFromDAVData($id,$uri,$data){
 		$card = OC_VObject::parse($data);
+		if(!$card) {
+			return false;
+		}
 		return self::add($id, $card, $uri);
 	}
 
