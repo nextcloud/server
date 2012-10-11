@@ -8,22 +8,21 @@
 
 namespace Test\Files\Storage;
 
-$config=include('files_external/tests/config.php');
-if(!is_array($config) or !isset($config['dropbox']) or !$config['dropbox']['run']) {
-	abstract class Dropbox extends Storage{}
-	return;
-}else{
-	class Dropbox extends Storage {
-		private $config;
+class Dropbox extends Storage {
+	private $config;
 
-		public function setUp() {
-			$id=uniqid();
-			$this->config=include('files_external/tests/config.php');
-			$this->config['dropbox']['root'].='/'.$id;//make sure we have an new empty folder to work in
-			$this->instance=new \OC\Files\Storage\Dropbox($this->config['dropbox']);
+	public function setUp() {
+		$id = uniqid();
+		$this->config = include('files_external/tests/config.php');
+		if (!is_array($this->config) or !isset($this->config['dropbox']) or !$this->config['dropbox']['run']) {
+			$this->markTestSkipped('Dropbox backend not configured');
 		}
+		$this->config['dropbox']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
+		$this->instance = new \OC\Files\Storage\Dropbox($this->config['dropbox']);
+	}
 
-		public function tearDown() {
+	public function tearDown() {
+		if ($this->instance) {
 			$this->instance->unlink('/');
 		}
 	}

@@ -21,11 +21,11 @@ $(document).ready(function(){
 			}
 			,function(filename){
 				// Action to perform when clicked
-				if (scanFiles.scanning || !$('#dropdown').hasClass('drop-versions')){return;}//workaround to prevent additional http request block scanning feedback
+				if (scanFiles.scanning){return;}//workaround to prevent additional http request block scanning feedback
 
 				var file = $('#dir').val()+'/'+filename;
 				// Check if drop down is already visible for a different file
-				if (($('#dropdown').length > 0)) {
+				if (($('#dropdown').length > 0) && $('#dropdown').hasClass('drop-versions') ) {
 					if (file != $('#dropdown').data('file')) {
 						$('#dropdown').hide('blind', function() {
 							$('#dropdown').remove();

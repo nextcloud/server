@@ -72,11 +72,14 @@ class OC{
 	 */
 	public static function autoload($className) {
 		if(array_key_exists($className, OC::$CLASSPATH)) {
+			$path = OC::$CLASSPATH[$className];
 			/** @TODO: Remove this when necessary
 			 Remove "apps/" from inclusion path for smooth migration to mutli app dir
 			*/
-			$path = str_replace('apps/', '', OC::$CLASSPATH[$className]);
-			require_once $path;
+			if (strpos($path, 'apps/')===0) {
+				OC_Log::write('core', 'include path for class "'.$className.'" starts with "apps/"', OC_Log::DEBUG);
+				$path = str_replace('apps/', '', $path);
+			}
 		}
 		elseif(strpos($className, 'OC_')===0) {
 			$path = strtolower(str_replace('_', '/', substr($className, 3)) . '.php');
@@ -110,7 +113,7 @@ class OC{
 
 	public static function initPaths() {
 		// calculate the root directories
-		OC::$SERVERROOT=str_replace("\\", '/', substr(__FILE__, 0, -13));
+		OC::$SERVERROOT=str_replace("\\", '/', substr(__DIR__, 0, -4));
 		OC::$SUBURI= str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
 		$scriptName=$_SERVER["SCRIPT_NAME"];
 		if(substr($scriptName, -1)=='/') {
@@ -199,6 +202,7 @@ class OC{
 	public static function checkSSL() {
 		// redirect to https site if configured
 		if( OC_Config::getValue( "forcessl", false )) {
+			header('Strict-Transport-Security: max-age=31536000');
 			ini_set("session.cookie_secure", "on");
 			if(OC_Request::serverProtocol()<>'https' and !OC::$CLI) {
 				$url = "https://". OC_Request::serverHost() . $_SERVER['REQUEST_URI'];

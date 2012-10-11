@@ -8,24 +8,22 @@
 
 namespace Test\Files\Storage;
 
-$config=include('apps/files_external/tests/config.php');
+class SMB extends Storage {
 
+	private $config;
 
-if(!is_array($config) or !isset($config['smb']) or !$config['smb']['run']) {
-	abstract class SMB extends Storage{}
-	return;
-}else{
-	class SMB extends Storage {
-		private $config;
-
-		public function setUp() {
-			$id=uniqid();
-			$this->config=include('apps/files_external/tests/config.php');
-			$this->config['smb']['root'].=$id;//make sure we have an new empty folder to work in
-			$this->instance=new \OC\Files\Storage\SMB($this->config['smb']);
+	public function setUp() {
+		$id = uniqid();
+		$this->config = include('files_external/tests/config.php');
+		if (!is_array($this->config) or !isset($this->config['smb']) or !$this->config['smb']['run']) {
+			$this->markTestSkipped('Samba backend not configured');
 		}
+		$this->config['smb']['root'] .= $id; //make sure we have an new empty folder to work in
+		$this->instance = new \OC\Files\Storage\SMB($this->config['smb']);
+	}
 
-		public function tearDown() {
+	public function tearDown() {
+		if ($this->instance) {
 			\OCP\Files::rmdirr($this->instance->constructUrl(''));
 		}
 	}

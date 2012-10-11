@@ -8,22 +8,21 @@
 
 namespace Test\Files\Storage;
 
-$config=include('apps/files_external/tests/config.php');
-if(!is_array($config) or !isset($config['ftp']) or !$config['ftp']['run']) {
-	abstract class FTP extends Storage{}
-	return;
-}else{
-	class FTP extends Storage {
-		private $config;
+class FTP extends Storage {
+	private $config;
 
-		public function setUp() {
-			$id=uniqid();
-			$this->config=include('apps/files_external/tests/config.php');
-			$this->config['ftp']['root'].='/'.$id;//make sure we have an new empty folder to work in
-			$this->instance=new \OC\Files\Storage\FTP($this->config['ftp']);
+	public function setUp() {
+		$id = uniqid();
+		$this->config = include('files_external/tests/config.php');
+		if (!is_array($this->config) or !isset($this->config['ftp']) or !$this->config['ftp']['run']) {
+			$this->markTestSkipped('FTP backend not configured');
 		}
+		$this->config['ftp']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
+		$this->instance = new \OC\Files\Storage\FTP($this->config['ftp']);
+	}
 
-		public function tearDown() {
+	public function tearDown() {
+		if ($this->instance) {
 			\OCP\Files::rmdirr($this->instance->constructUrl(''));
 		}
 	}
