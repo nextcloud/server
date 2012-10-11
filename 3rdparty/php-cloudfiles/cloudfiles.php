@@ -2000,7 +2000,7 @@ class CF_Object
 //         }
 
 		//use OC's mimetype detection for files
-		if(is_file($handle)){
+		if(@is_file($handle)){
 			$this->content_type=OC_Helper::getMimeType($handle);
 		}else{
 			$this->content_type=OC_Helper::getStringMimeType($handle);
@@ -2537,7 +2537,7 @@ class CF_Object
             }
             $md5 = hash_final($ctx, false);
             rewind($data);
-        } elseif ((string)is_file($data)) {
+        } elseif ((string)@is_file($data)) {
             $md5 = md5_file($data);
         } else {
             $md5 = md5($data);
