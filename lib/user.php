@@ -329,6 +329,8 @@ class OC_User {
 					}
 				}
 			}
+			// invalidate all login cookies
+			OC_Preferences::deleteApp($uid, 'login_token');
 			OC_Hook::emit( "OC_User", "post_setPassword", array( "uid" => $uid, "password" => $password ));
 			return $success;
 		}

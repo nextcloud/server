@@ -552,9 +552,11 @@ class OC{
 				OC_Util::redirectToDefaultPage();
 				// doesn't return
 			}
-			// if you reach this point you are an attacker
-			// we remove all tokens to be save
-			OC_Preferences::deleteApp($_POST['user'], 'login_token');
+			// if you reach this point you have changed your password 
+			// or you are an attacker
+			// we can not delete tokens here because users will reach 
+			// this point multible times after a password change
+			//OC_Preferences::deleteApp($_POST['user'], 'login_token');
 		}
 		OC_User::unsetMagicInCookie();
 		return true;
