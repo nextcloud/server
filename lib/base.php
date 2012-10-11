@@ -554,9 +554,9 @@ class OC{
 			}
 			// if you reach this point you have changed your password 
 			// or you are an attacker
-			// we can not delete tokens here because users will reach 
+			// we can not delete tokens here because users may reach 
 			// this point multible times after a password change
-			//OC_Preferences::deleteApp($_POST['user'], 'login_token');
+			OC_User::unsetMagicInCookie();
 		}
 		OC_User::unsetMagicInCookie();
 		return true;
