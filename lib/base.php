@@ -537,8 +537,8 @@ class OC{
 		// confirm credentials in cookie
 		if(isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username'])) {
 			// delete outdated cookies
-			cleanupLoginTokens($_COOKIE['oc_username']);
-			// get new tokens
+			self::cleanupLoginTokens($_COOKIE['oc_username']);
+			// get stored tokens
 			$tokens = OC_Preferences::getKeys($_COOKIE['oc_username'], 'login_token');
 			// test cookies token against stored tokens
 			if (in_array($_COOKIE['oc_token'], $tokens, true)) {
