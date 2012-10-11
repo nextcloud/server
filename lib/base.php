@@ -513,7 +513,7 @@ class OC{
 
 	protected static function cleanupLoginTokens($user) {
 		$cutoff = time() - OC_Config::getValue('remember_login_cookie_lifetime', 60*60*24*15);
-		$tokens = OC_Preferences::getKeys($_COOKIE['oc_username'], 'login_token');
+		$tokens = OC_Preferences::getKeys($user, 'login_token');
 		foreach($tokens as $token) {
 			$time = OC_Preferences::getValue($user, 'login_token', $token);
 			if ($time < $cutoff) {
@@ -543,10 +543,10 @@ class OC{
 			// test cookies token against stored tokens
 			if (in_array($_COOKIE['oc_token'], $tokens, true)) {
 				// replace successfully used token with a new one
-				OC_Preferences::deleteKey($_POST['user'], 'login_token', $_COOKIE['oc_token']);
-				$token = md5($_POST["user"].OC_Util::generate_random_bytes(10).$_COOKIE['oc_token']);
-				OC_Preferences::setValue($_POST['user'], 'login_token', $token, time());
-				OC_User::setMagicInCookie($_POST['user'], $token);
+				OC_Preferences::deleteKey($_COOKIE['oc_username'], 'login_token', $_COOKIE['oc_token']);
+				$token = md5($_COOKIE['oc_username'].OC_Util::generate_random_bytes(10).$_COOKIE['oc_token']);
+				OC_Preferences::setValue($_COOKIE['oc_username'], 'login_token', $token, time());
+				OC_User::setMagicInCookie($_COOKIE['oc_username'], $token);
 				// login
 				OC_User::setUserId($_COOKIE['oc_username']);
 				OC_Util::redirectToDefaultPage();
