@@ -536,15 +536,25 @@ class OC{
 		}
 		// confirm credentials in cookie
 		if(isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username'])) {
+			// delete outdated cookies
+			cleanupLoginTokens($_COOKIE['oc_username']);
+			// get new tokens
 			$tokens = OC_Preferences::getKeys($_COOKIE['oc_username'], 'login_token');
-			$tokens[] = OC_Preferences::getValue($_COOKIE['oc_username'], 'login', 'token');
+			// test cookies token against stored tokens
 			if (in_array($_COOKIE['oc_token'], $tokens, true)) {
-				self::cleanupLoginTokens($_COOKIE['oc_username']);
+				// replace successfully used token with a new one
+				OC_Preferences::deleteKey($_POST['user'], 'login_token', $_COOKIE['oc_token']);
+				$token = md5($_POST["user"].OC_Util::generate_random_bytes(10).$_COOKIE['oc_token']);
+				OC_Preferences::setValue($_POST['user'], 'login_token', $token, time());
+				OC_User::setMagicInCookie($_POST['user'], $token);
+				// login
 				OC_User::setUserId($_COOKIE['oc_username']);
 				OC_Util::redirectToDefaultPage();
 				// doesn't return
 			}
-			OC_Preferences::deleteKey($_POST['user'], 'login_token', $_COOKIE['oc_token']);
+			// if you reach this point you are an attacker
+			// we remove all tokens to be save
+			OC_Preferences::deleteApp($_POST['user'], 'login_token');
 		}
 		OC_User::unsetMagicInCookie();
 		return true;
