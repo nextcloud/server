@@ -221,4 +221,24 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertContains('/logo-wide.svg', $result);
 		$this->assertContains('/logo-wide.png', $result);
 	}
+
+	public function testFOpen() {
+		$textFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
+
+		$fh = @$this->instance->fopen('foo', 'r');
+		if ($fh) {
+			fclose($fh);
+		}
+		$this->assertFalse($fh);
+		$this->assertFalse($this->instance->file_exists('foo'));
+
+		$fh = $this->instance->fopen('foo', 'w');
+		fwrite($fh, file_get_contents($textFile));
+		fclose($fh);
+		$this->assertTrue($this->instance->file_exists('foo'));
+
+		$fh = $this->instance->fopen('foo', 'r');
+		$content = stream_get_contents($fh);
+		$this->assertEqual(file_get_contents($textFile), $content);
+	}
 }
