@@ -566,7 +566,7 @@ class OC{
 				if(defined("DEBUG") && DEBUG) {
 					OC_Log::write('core', 'Setting remember login to cookie', OC_Log::DEBUG);
 				}
-				$token = md5($_POST["user"].time().$_POST['password']);
+				$token = md5($_POST["user"].OC_Util::generate_random_bytes(10).$_POST['password']);
 				OC_Preferences::setValue($_POST['user'], 'login_token', $token, time());
 				OC_User::setMagicInCookie($_POST["user"], $token);
 			}
