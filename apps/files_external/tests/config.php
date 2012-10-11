@@ -26,7 +26,7 @@ return array(
 		'run'=>false,
 		'user'=>'test:tester',
 		'token'=>'testing',
-		'host'=>'localhost:8080/auth',
+		'host'=>'localhost.local:8080/auth',
 		'root'=>'/',
 	),
 	'smb'=>array(

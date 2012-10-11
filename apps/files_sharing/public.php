@@ -45,6 +45,11 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 			}
 			if (isset($linkItem['share_with'])) {
 				// Check password
+				if (isset($_GET['file'])) {
+					$url = OCP\Util::linkToPublic('files').'&file='.$_GET['file'];
+				} else {
+					$url = OCP\Util::linkToPublic('files').'&dir='.$_GET['dir'];
+				}
 				if (isset($_POST['password'])) {
 					$password = $_POST['password'];
 					$storedHash = $linkItem['share_with'];
@@ -52,7 +57,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					$hasher = new PasswordHash(8, $forcePortable);
 					if (!($hasher->CheckPassword($password.OC_Config::getValue('passwordsalt', ''), $storedHash))) {
 						$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
-						$tmpl->assign('URL', OCP\Util::linkToPublic('files').'&file='.$_GET['file']);
+						$tmpl->assign('URL', $url);
 						$tmpl->assign('error', true);
 						$tmpl->printPage();
 						exit();
@@ -64,7 +69,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 				} else if (!isset($_SESSION['public_link_authenticated']) || $_SESSION['public_link_authenticated'] !== $linkItem['id']) {
 					// Prompt for password
 					$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
-					$tmpl->assign('URL', OCP\Util::linkToPublic('files').'&file='.$_GET['file']);
+					$tmpl->assign('URL', $url);
 					$tmpl->printPage();
 					exit();
 				}

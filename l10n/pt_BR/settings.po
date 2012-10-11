@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-09 02:03+0200\n"
-"PO-Revision-Date: 2012-10-09 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-11 02:04+0200\n"
+"PO-Revision-Date: 2012-10-10 03:46+0000\n"
+"Last-Translator: sedir <philippi.sedir@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Não foi possivel carregar lista da App Store"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/creategroup.php:9 ajax/removeuser.php:18 ajax/setquota.php:18
 #: ajax/togglegroups.php:15
 msgid "Authentication error"
 msgstr "erro de autenticação"
@@ -65,7 +65,7 @@ msgstr "Pedido inválido"
 msgid "Unable to delete group"
 msgstr "Não foi possivel remover grupo"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr "Não foi possivel remover usuário"
 
@@ -192,7 +192,7 @@ msgstr "Adicione seu Aplicativo"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "Mais Apps"
 
 #: templates/apps.php:27
 msgid "Select an App"

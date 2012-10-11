@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-10 02:04+0200\n"
-"PO-Revision-Date: 2012-10-09 13:45+0000\n"
+"POT-Creation-Date: 2012-10-11 02:04+0200\n"
+"PO-Revision-Date: 2012-10-10 12:58+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -158,7 +158,7 @@ msgstr "в байтах"
 
 #: templates/settings.php:29
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "в секундах. Изменение очищает кэш."
 
 #: templates/settings.php:30
 msgid ""

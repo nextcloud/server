@@ -131,6 +131,9 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		switch($mode) {
 			case 'r':
 			case 'rb':
+				if(!$this->file_exists($path)) {
+					return false;
+				}
 				//straight up curl instead of sabredav here, sabredav put's the entire get result in memory
 				$curl = curl_init();
 				$fp = fopen('php://temp', 'r+');

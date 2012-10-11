@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <itkurd0@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-07 02:03+0200\n"
-"PO-Revision-Date: 2011-07-25 16:05+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-10-11 02:04+0200\n"
+"PO-Revision-Date: 2012-10-10 15:25+0000\n"
+"Last-Translator: kurdboy <itkurd0@gmail.com>\n"
 "Language-Team: Kurdish (Iraq) (http://www.transifex.com/projects/p/owncloud/language/ku_IQ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,55 +30,55 @@ msgstr ""
 msgid "This category already exists: "
 msgstr ""
 
-#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:229 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
-msgstr ""
+msgstr "ده‌ستكاری"
 
-#: js/js.js:645
+#: js/js.js:661
 msgid "January"
 msgstr ""
 
-#: js/js.js:645
+#: js/js.js:661
 msgid "February"
 msgstr ""
 
-#: js/js.js:645
+#: js/js.js:661
 msgid "March"
 msgstr ""
 
-#: js/js.js:645
+#: js/js.js:661
 msgid "April"
 msgstr ""
 
-#: js/js.js:645
+#: js/js.js:661
 msgid "May"
 msgstr ""
 
-#: js/js.js:645
+#: js/js.js:661
 msgid "June"
 msgstr ""
 
-#: js/js.js:646
+#: js/js.js:662
 msgid "July"
 msgstr ""
 
-#: js/js.js:646
+#: js/js.js:662
 msgid "August"
 msgstr ""
 
-#: js/js.js:646
+#: js/js.js:662
 msgid "September"
 msgstr ""
 
-#: js/js.js:646
+#: js/js.js:662
 msgid "October"
 msgstr ""
 
-#: js/js.js:646
+#: js/js.js:662
 msgid "November"
 msgstr ""
 
-#: js/js.js:646
+#: js/js.js:662
 msgid "December"
 msgstr ""
 
@@ -105,8 +106,8 @@ msgstr ""
 msgid "No categories selected for deletion."
 msgstr ""
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:494
-#: js/share.js:506
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
 msgstr ""
 
@@ -148,7 +149,7 @@ msgstr ""
 
 #: js/share.js:147 templates/installation.php:30 templates/login.php:13
 msgid "Password"
-msgstr ""
+msgstr "وشەی تێپەربو"
 
 #: js/share.js:152
 msgid "Set expiration date"
@@ -206,15 +207,15 @@ msgstr ""
 msgid "share"
 msgstr ""
 
-#: js/share.js:322 js/share.js:481
+#: js/share.js:322 js/share.js:484
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:494
+#: js/share.js:497
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:506
+#: js/share.js:509
 msgid "Error setting expiration date"
 msgstr ""
 
@@ -257,11 +258,11 @@ msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "وشەی نهێنی نوێ"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "دووباره‌ كردنه‌وه‌ی وشه‌ی نهێنی"
 
 #: strings.php:5
 msgid "Personal"
@@ -269,19 +270,19 @@ msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "به‌كارهێنه‌ر"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "به‌رنامه‌كان"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "به‌ڕێوه‌به‌ری سه‌ره‌كی"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "یارمەتی"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -289,7 +290,7 @@ msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "هیچ نه‌دۆزرایه‌وه‌"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -305,11 +306,11 @@ msgstr ""
 
 #: templates/installation.php:36
 msgid "Advanced"
-msgstr ""
+msgstr "هه‌ڵبژاردنی پیشكه‌وتوو"
 
 #: templates/installation.php:38
 msgid "Data folder"
-msgstr ""
+msgstr "زانیاری فۆڵده‌ر"
 
 #: templates/installation.php:45
 msgid "Configure the database"
@@ -322,15 +323,15 @@ msgstr ""
 
 #: templates/installation.php:93
 msgid "Database user"
-msgstr ""
+msgstr "به‌كارهێنه‌ری داتابه‌یس"
 
 #: templates/installation.php:97
 msgid "Database password"
-msgstr ""
+msgstr "وشه‌ی نهێنی داتا به‌یس"
 
 #: templates/installation.php:101
 msgid "Database name"
-msgstr ""
+msgstr "ناوی داتابه‌یس"
 
 #: templates/installation.php:109
 msgid "Database tablespace"
@@ -338,11 +339,11 @@ msgstr ""
 
 #: templates/installation.php:115
 msgid "Database host"
-msgstr ""
+msgstr "هۆستی داتابه‌یس"
 
 #: templates/installation.php:120
 msgid "Finish setup"
-msgstr ""
+msgstr "كۆتایی هات ده‌ستكاریه‌كان"
 
 #: templates/layout.guest.php:38
 msgid "web services under your control"
@@ -350,7 +351,7 @@ msgstr ""
 
 #: templates/layout.user.php:34
 msgid "Log out"
-msgstr ""
+msgstr "چوونەدەرەوە"
 
 #: templates/login.php:6
 msgid "Lost your password?"
@@ -370,8 +371,8 @@ msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "پێشتر"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr ""
+msgstr "دواتر"
