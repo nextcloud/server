@@ -173,11 +173,9 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$supportsTouch = $this->instance->touch('/lorem.txt');
 		$mtimeEnd = time();
 		if ($supportsTouch !== false) {
-			$originalCTime = $cTime;
 			$mTime = $this->instance->filemtime('/lorem.txt');
 			$this->assertTrue(($mtimeStart - 1) <= $mTime);
 			$this->assertTrue($mTime <= ($mtimeEnd + 1));
-			$this->assertEqual($cTime, $originalCTime);
 
 			$this->assertTrue($this->instance->hasUpdated('/lorem.txt', $mtimeStart - 1));
 
@@ -193,7 +191,6 @@ abstract class Test_FileStorage extends UnitTestCase {
 		fclose($fh);
 		clearstatcache();
 		$mtimeEnd = time();
-		$originalCTime = $cTime;
 		$mTime = $this->instance->filemtime('/lorem.txt');
 		$this->assertTrue(($mtimeStart - 1) <= $mTime);
 		$this->assertTrue($mTime <= ($mtimeEnd + 1));
