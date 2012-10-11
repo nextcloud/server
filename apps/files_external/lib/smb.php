@@ -6,9 +6,9 @@
  * See the COPYING-README file.
  */
 
-require_once 'smb4php/smb.php';
-
 namespace OC\Files\Storage;
+
+require_once 'smb4php/smb.php';
 
 class SMB extends \OC\Files\Storage\StreamWrapper{
 	private $password;
@@ -70,6 +70,7 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 
 	/**
 	 * check if a file or folder has been updated since $time
+	 * @param string $path
 	 * @param int $time
 	 * @return bool
 	 */

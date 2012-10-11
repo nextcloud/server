@@ -20,9 +20,9 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once 'aws-sdk/sdk.class.php';
-
 namespace OC\Files\Storage;
+
+require_once 'aws-sdk/sdk.class.php';
 
 class AmazonS3 extends \OC\Files\Storage\Common {
 

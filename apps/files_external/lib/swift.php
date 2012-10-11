@@ -6,9 +6,9 @@
  * See the COPYING-README file.
  */
 
-require_once 'php-cloudfiles/cloudfiles.php';
-
 namespace OC\Files\Storage;
+
+require_once 'php-cloudfiles/cloudfiles.php';
 
 class SWIFT extends \OC\Files\Storage\Common{
 	private $id;
@@ -18,15 +18,15 @@ class SWIFT extends \OC\Files\Storage\Common{
 	private $token;
 	private $secure;
 	/**
-	 * @var CF_Authentication auth
+	 * @var \CF_Authentication auth
 	 */
 	private $auth;
 	/**
-	 * @var CF_Connection conn
+	 * @var \CF_Connection conn
 	 */
 	private $conn;
 	/**
-	 * @var CF_Container rootContainer
+	 * @var \CF_Container rootContainer
 	 */
 	private $rootContainer;
 
@@ -38,7 +38,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	/**
 	 * translate directory path to container name
-	 * @param string path
+	 * @param string $path
 	 * @return string
 	 */
 	private function getContainerName($path) {
@@ -48,8 +48,8 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	/**
 	 * get container by path
-	 * @param string path
-	 * @return CF_Container
+	 * @param string $path
+	 * @return \CF_Container
 	 */
 	private function getContainer($path) {
 		if($path=='' or $path=='/') {
@@ -62,15 +62,15 @@ class SWIFT extends \OC\Files\Storage\Common{
 			$container=$this->conn->get_container($this->getContainerName($path));
 			$this->containers[$path]=$container;
 			return $container;
-		}catch(NoSuchContainerException $e) {
+		}catch(\NoSuchContainerException $e) {
 			return null;
 		}
 	}
 
 	/**
 	 * create container
-	 * @param string path
-	 * @return CF_Container
+	 * @param string $path
+	 * @return \CF_Container
 	 */
 	private function createContainer($path) {
 		if($path=='' or $path=='/' or $path=='.') {
@@ -92,8 +92,8 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	/**
 	 * get object by path
-	 * @param string path
-	 * @return CF_Object
+	 * @param string $path
+	 * @return \CF_Object
 	 */
 	private function getObject($path) {
 		if(isset($this->objects[$path])) {
@@ -110,7 +110,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 				$obj=$container->get_object(basename($path));
 				$this->objects[$path]=$obj;
 				return $obj;
-			}catch(NoSuchObjectException $e) {
+			}catch(\NoSuchObjectException $e) {
 				return null;
 			}
 		}
@@ -135,8 +135,8 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	/**
 	 * create object
-	 * @param string path
-	 * @return CF_Object
+	 * @param string $path
+	 * @return \CF_Object
 	 */
 	private function createObject($path) {
 		$container=$this->getContainer(dirname($path));
@@ -157,7 +157,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	/**
 	 * check if container for path exists
-	 * @param string path
+	 * @param string $path
 	 * @return bool
 	 */
 	private function containerExists($path) {
@@ -166,15 +166,15 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	/**
 	 * get the list of emulated sub containers
-	 * @param CF_Container container
+	 * @param \CF_Container $container
 	 * @return array
 	 */
 	private function getSubContainers($container) {
-		$tmpFile=OCP\Files::tmpFile();
+		$tmpFile=\OCP\Files::tmpFile();
 		$obj=$this->getSubContainerFile($container);
 		try{
 			$obj->save_to_filename($tmpFile);
-		}catch(Exception $e) {
+		}catch(\Exception $e) {
 			return array();
 		}
 		$obj->save_to_filename($tmpFile);
@@ -188,15 +188,15 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	/**
 	 * add an emulated sub container
-	 * @param CF_Container container
-	 * @param string name
+	 * @param CF_Container $container
+	 * @param string $name
 	 * @return bool
 	 */
 	private function addSubContainer($container,$name) {
 		if(!$name) {
 			return false;
 		}
-		$tmpFile=OCP\Files::tmpFile();
+		$tmpFile=\OCP\Files::tmpFile();
 		$obj=$this->getSubContainerFile($container);
 		try{
 			$obj->save_to_filename($tmpFile);
@@ -211,8 +211,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 				$fh=fopen($tmpFile,'a');
 				fwrite($fh,$name."\n");
 			}
-		}catch(Exception $e) {
-			$containers=array();
+		}catch(\Exception $e) {
 			file_put_contents($tmpFile,$name."\n");
 		}
 
@@ -223,20 +222,20 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	/**
 	 * remove an emulated sub container
-	 * @param CF_Container container
-	 * @param string name
+	 * @param CF_Container $container
+	 * @param string $name
 	 * @return bool
 	 */
 	private function removeSubContainer($container,$name) {
 		if(!$name) {
 			return false;
 		}
-		$tmpFile=OCP\Files::tmpFile();
+		$tmpFile=\OCP\Files::tmpFile();
 		$obj=$this->getSubContainerFile($container);
 		try{
 			$obj->save_to_filename($tmpFile);
 			$containers=file($tmpFile);
-		}catch(Exception $e) {
+		}catch(\Exception $e) {
 			return false;
 		}
 		foreach($containers as &$sub) {
@@ -258,13 +257,13 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	/**
 	 * ensure a subcontainer file exists and return it's object
-	 * @param CF_Container container
-	 * @return CF_Object
+	 * @param \CF_Container $container
+	 * @return \CF_Object
 	 */
 	private function getSubContainerFile($container) {
 		try{
 			return $container->get_object(self::SUBCONTAINER_FILE);
-		}catch(NoSuchObjectException $e) {
+		}catch(\NoSuchObjectException $e) {
 			return $container->create_object(self::SUBCONTAINER_FILE);
 		}
 	}
@@ -526,11 +525,11 @@ class SWIFT extends \OC\Files\Storage\Common{
 	private function getTmpFile($path) {
 		$obj=$this->getObject($path);
 		if(!is_null($obj)) {
-			$tmpFile=OCP\Files::tmpFile();
+			$tmpFile=\OCP\Files::tmpFile();
 			$obj->save_to_filename($tmpFile);
 			return $tmpFile;
 		}else{
-			return OCP\Files::tmpFile();
+			return \OCP\Files::tmpFile();
 		}
 	}
 
@@ -545,7 +544,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	/**
 	 * remove custom mtime metadata
-	 * @param CF_Object obj
+	 * @param \CF_Object $obj
 	 */
 	private function resetMTime($obj) {
 		if(isset($obj->metadata['Mtime'])) {

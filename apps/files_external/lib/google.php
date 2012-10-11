@@ -20,9 +20,9 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once 'Google/common.inc.php';
-
 namespace OC\Files\Storage;
+
+require_once 'Google/common.inc.php';
 
 class Google extends \OC\Files\Storage\Common {
 
@@ -62,7 +62,7 @@ class Google extends \OC\Files\Storage\Common {
 			$tempStr .= '&' . urlencode($key) . '=' . urlencode($value);
 		}
 		$uri = preg_replace('/&/', '?', $tempStr, 1);
-		$request = OAuthRequest::from_consumer_and_token($this->consumer, $this->oauth_token, $httpMethod, $uri, $params);
+		$request = \OAuthRequest::from_consumer_and_token($this->consumer, $this->oauth_token, $httpMethod, $uri, $params);
 		$request->sign_request($this->sig_method, $this->consumer, $this->oauth_token);
 		$auth_header = $request->to_header();
 		$headers = array($auth_header, 'GData-Version: 3.0');
@@ -129,7 +129,7 @@ class Google extends \OC\Files\Storage\Common {
 	private function getFeed($feedUri, $httpMethod, $postData = null) {
 		$result = $this->sendRequest($feedUri, $httpMethod, $postData);
 		if ($result) {
-			$dom = new DOMDocument();
+			$dom = new \DOMDocument();
 			$dom->loadXML($result);
 			return $dom;
 		}
@@ -248,7 +248,7 @@ class Google extends \OC\Files\Storage\Common {
 				$this->entries[$name] = $entry;
 			}
 		}
-		OC_FakeDirStream::$dirs['google'.$path] = $files;
+		\OC_FakeDirStream::$dirs['google'.$path] = $files;
 		return opendir('fakedir://google'.$path);
 	}
 
@@ -407,7 +407,7 @@ class Google extends \OC\Files\Storage\Common {
 					$ext = '';
 				}
 				$tmpFile = \OC_Helper::tmpFile($ext);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile] = array($this, 'writeBack');
+				\OC_CloseStreamWrapper::$callBacks[$tmpFile] = array($this, 'writeBack');
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);

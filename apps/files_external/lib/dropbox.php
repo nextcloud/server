@@ -20,9 +20,9 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once 'Dropbox/autoload.php';
-
 namespace OC\Files\Storage;
+
+require_once 'Dropbox/autoload.php';
 
 class Dropbox extends \OC\Files\Storage\Common {
 

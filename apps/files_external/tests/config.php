@@ -8,7 +8,7 @@ return array(
 		'root'=>'/test',
 	),
 	'webdav'=>array(
-		'run'=>false,
+		'run'=>true,
 		'host'=>'localhost',
 		'user'=>'test',
 		'password'=>'test',

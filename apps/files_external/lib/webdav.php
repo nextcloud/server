@@ -15,7 +15,7 @@ class DAV extends \OC\Files\Storage\Common{
 	private $secure;
 	private $root;
 	/**
-	 * @var Sabre_DAV_Client
+	 * @var \Sabre_DAV_Client
 	 */
 	private $client;
 
@@ -92,7 +92,7 @@ class DAV extends \OC\Files\Storage\Common{
 				\OC_FakeDirStream::$dirs[$id][]=$file;
 			}
 			return opendir('fakedir://'.$id);
-		}catch(Exception $e) {
+		}catch(\Exception $e) {
 			return false;
 		}
 	}
@@ -103,7 +103,7 @@ class DAV extends \OC\Files\Storage\Common{
 			$response=$this->client->propfind($path, array('{DAV:}resourcetype'));
 			$responseType=$response["{DAV:}resourcetype"]->resourceType;
 			return (count($responseType)>0 and $responseType[0]=="{DAV:}collection")?'dir':'file';
-		}catch(Exception $e) {
+		}catch(\Exception $e) {
 			error_log($e->getMessage());
 			\OCP\Util::writeLog("webdav client", \OCP\Util::sanitizeHTML($e->getMessage()), \OCP\Util::ERROR);
 			return false;
@@ -123,7 +123,7 @@ class DAV extends \OC\Files\Storage\Common{
 		try{
 			$this->client->propfind($path, array('{DAV:}resourcetype'));
 			return true;//no 404 exception
-		}catch(Exception $e) {
+		}catch(\Exception $e) {
 			return false;
 		}
 	}
@@ -169,7 +169,7 @@ class DAV extends \OC\Files\Storage\Common{
 				}else{
 					$ext='';
 				}
-				$tmpFile=OCP\Files::tmpFile($ext);
+				$tmpFile=\OCP\Files::tmpFile($ext);
 				\OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
 				if($this->file_exists($path)) {
 					$this->getFile($path,$tmpFile);
@@ -195,7 +195,7 @@ class DAV extends \OC\Files\Storage\Common{
 			}else{
 				return 0;
 			}
-		}catch(Exception $e) {
+		}catch(\Exception $e) {
 			return 0;
 		}
 	}
@@ -231,12 +231,9 @@ class DAV extends \OC\Files\Storage\Common{
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try{
-			$response=$this->client->request('MOVE',$path1,null,array('Destination'=>$path2));
+			$this->client->request('MOVE',$path1,null,array('Destination'=>$path2));
 			return true;
-		}catch(Exception $e) {
-			echo $e;
-			echo 'fail';
-			var_dump($response);
+		}catch(\Exception $e) {
 			return false;
 		}
 	}
@@ -245,12 +242,9 @@ class DAV extends \OC\Files\Storage\Common{
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try{
-			$response=$this->client->request('COPY',$path1,null,array('Destination'=>$path2));
+			$this->client->request('COPY',$path1,null,array('Destination'=>$path2));
 			return true;
-		}catch(Exception $e) {
-			echo $e;
-			echo 'fail';
-			var_dump($response);
+		}catch(\Exception $e) {
 			return false;
 		}
 	}
@@ -264,7 +258,7 @@ class DAV extends \OC\Files\Storage\Common{
 				'size'=>(int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
 				'ctime'=>-1,
 			);
-		}catch(Exception $e) {
+		}catch(\Exception $e) {
 			return array();
 		}
 	}
@@ -282,7 +276,7 @@ class DAV extends \OC\Files\Storage\Common{
 			}else{
 				return false;
 			}
-		}catch(Exception $e) {
+		}catch(\Exception $e) {
 			return false;
 		}
 	}
@@ -300,7 +294,7 @@ class DAV extends \OC\Files\Storage\Common{
 		try{
 			$response=$this->client->request($method,$path,$body);
 			return $response['statusCode']==$expected;
-		}catch(Exception $e) {
+		}catch(\Exception $e) {
 			return false;
 		}
 	}
