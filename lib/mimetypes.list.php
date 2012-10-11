@@ -94,4 +94,5 @@ return array(
 	'sgf' => 'application/sgf',
 	'cdr' => 'application/coreldraw',
 	'impress' => 'text/impress',
+	'ai' => 'application/illustrator',
 );
