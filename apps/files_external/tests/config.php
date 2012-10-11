@@ -8,7 +8,7 @@ return array(
 		'root'=>'/test',
 	),
 	'webdav'=>array(
-		'run'=>true,
+		'run'=>false,
 		'host'=>'localhost',
 		'user'=>'test',
 		'password'=>'test',
@@ -26,11 +26,11 @@ return array(
 		'run'=>false,
 		'user'=>'test:tester',
 		'token'=>'testing',
-		'host'=>'ubuntu.local:8080/auth',
+		'host'=>'localhost.local:8080/auth',
 		'root'=>'/',
 	),
 	'smb'=>array(
-		'run'=>true,
+		'run'=>false,
 		'user'=>'test',
 		'password'=>'test',
 		'host'=>'localhost',
