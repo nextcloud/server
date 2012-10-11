@@ -556,6 +556,7 @@ class OC{
 			// or you are an attacker
 			// we can not delete tokens here because users may reach 
 			// this point multible times after a password change
+			OC_Log::write('core', 'Authentication cookie rejected for user '.$_COOKIE['oc_username'], OC_Log::WARN);
 			OC_User::unsetMagicInCookie();
 		}
 		OC_User::unsetMagicInCookie();
