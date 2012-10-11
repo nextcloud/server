@@ -156,12 +156,7 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile));
 		$this->assertTrue($this->instance->isReadable('/lorem.txt'));
 		$ctimeEnd = time();
-		$cTime = $this->instance->filectime('/lorem.txt');
 		$mTime = $this->instance->filemtime('/lorem.txt');
-		if ($cTime != -1) { //not everything can support ctime
-			$this->assertTrue(($ctimeStart - 1) <= $cTime);
-			$this->assertTrue($cTime <= ($ctimeEnd + 1));
-		}
 		$this->assertTrue($this->instance->hasUpdated('/lorem.txt', $ctimeStart - 1));
 		$this->assertTrue($this->instance->hasUpdated('/', $ctimeStart - 1));
 
@@ -170,17 +165,15 @@ abstract class Test_FileStorage extends UnitTestCase {
 		$this->assertEqual(filesize($textFile), $this->instance->filesize('/lorem.txt'));
 
 		$stat = $this->instance->stat('/lorem.txt');
-		//only size, mtime and ctime are requered in the result
+		//only size and mtime are requered in the result
 		$this->assertEqual($stat['size'], $this->instance->filesize('/lorem.txt'));
 		$this->assertEqual($stat['mtime'], $mTime);
-		$this->assertEqual($stat['ctime'], $cTime);
 
 		$mtimeStart = time();
 		$supportsTouch = $this->instance->touch('/lorem.txt');
 		$mtimeEnd = time();
 		if ($supportsTouch !== false) {
 			$originalCTime = $cTime;
-			$cTime = $this->instance->filectime('/lorem.txt');
 			$mTime = $this->instance->filemtime('/lorem.txt');
 			$this->assertTrue(($mtimeStart - 1) <= $mTime);
 			$this->assertTrue($mTime <= ($mtimeEnd + 1));
