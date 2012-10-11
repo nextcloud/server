@@ -39,7 +39,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	 * @return string
 	 */
 	private function getContainerName($path) {
-		$path=trim($this->root.$path,'/');
+		$path=trim(trim($this->root,'/')."/".$path,'/.');
 		return str_replace('/','\\',$path);
 	}
 
@@ -70,11 +70,11 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	 * @return CF_Container
 	 */
 	private function createContainer($path) {
-		if($path=='' or $path=='/') {
+		if($path=='' or $path=='/' or $path=='.') {
 			return $this->conn->create_container($this->getContainerName($path));
 		}
 		$parent=dirname($path);
-		if($parent=='' or $parent=='/') {
+		if($parent=='' or $parent=='/' or $parent=='.') {
 			$parentContainer=$this->rootContainer;
 		}else{
 			if(!$this->containerExists($parent)) {
@@ -100,6 +100,9 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		if(is_null($container)) {
 			return null;
 		}else{
+			if ($path=="/" or $path=='') {
+				return null;
+			}
 			try{
 				$obj=$container->get_object(basename($path));
 				$this->objects[$path]=$obj;
@@ -135,7 +138,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	private function createObject($path) {
 		$container=$this->getContainer(dirname($path));
 		if(!is_null($container)) {
-			$container=$this->createContainer($path);
+			$container=$this->createContainer(dirname($path));
 		}
 		return $container->create_object(basename($path));
 	}
@@ -277,7 +280,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 
 		$this->conn = new CF_Connection($this->auth);
 
-		if(!$this->containerExists($this->root)) {
+		if(!$this->containerExists('/')) {
 			$this->rootContainer=$this->createContainer('/');
 		}else{
 			$this->rootContainer=$this->getContainer('/');
@@ -391,6 +394,9 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	}
 
 	public function unlink($path) {
+		if($this->containerExists($path)) {
+			return $this->rmdir($path);
+		}
 		if($this->objectExists($path)) {
 			$container=$this->getContainer(dirname($path));
 			$container->delete_object(basename($path));
@@ -401,13 +407,13 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	}
 
 	public function fopen($path,$mode) {
-		$obj=$this->getObject($path);
-		if(is_null($obj)) {
-			return false;
-		}
 		switch($mode) {
 			case 'r':
 			case 'rb':
+				$obj=$this->getObject($path);
+				if (is_null($obj)) {
+					return false;
+				}
 				$fp = fopen('php://temp', 'r+');
 				$obj->stream($fp);
 
@@ -440,7 +446,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	}
 
 	public function free_space($path) {
-		return 0;
+		return 1024*1024*1024*8;
 	}
 
 	public function touch($path,$mtime=null) {
@@ -481,7 +487,17 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	}
 
 	public function stat($path) {
+		$container=$this->getContainer($path);
+		if (!is_null($container)) {
+			return array(
+				'mtime'=>-1,
+				'size'=>$container->bytes_used,
+				'ctime'=>-1
+			);
+		}
+
 		$obj=$this->getObject($path);
+
 		if(is_null($obj)) {
 			return false;
 		}
@@ -505,7 +521,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 			$obj->save_to_filename($tmpFile);
 			return $tmpFile;
 		}else{
-			return false;
+			return OCP\Files::tmpFile();
 		}
 	}
 
