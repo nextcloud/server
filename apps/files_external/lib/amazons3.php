@@ -29,12 +29,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	private $s3;
 	private $bucket;
 	private $objects = array();
+	private $id;
 
 	private static $tempFiles = array();
 
 	// TODO options: storage class, encryption server side, encrypt before upload?
 
 	public function __construct($params) {
+		$this->id = 'amazon::'.$params['key'] . md5($params['secret']);
 		$this->s3 = new \AmazonS3(array('key' => $params['key'], 'secret' => $params['secret']));
 		$this->bucket = $params['bucket'];
 	}
@@ -57,6 +59,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			}
 		}
 		return false;
+	}
+
+	public function getId(){
+		return $this->id;
 	}
 
 	public function mkdir($path) {

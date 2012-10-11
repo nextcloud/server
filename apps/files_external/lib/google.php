@@ -30,6 +30,7 @@ class Google extends \OC\Files\Storage\Common {
 	private $oauth_token;
 	private $sig_method;
 	private $entries;
+	private $id;
 
 	private static $tempFiles = array();
 
@@ -37,6 +38,7 @@ class Google extends \OC\Files\Storage\Common {
 		if (isset($params['configured']) && $params['configured'] == 'true' && isset($params['token']) && isset($params['token_secret'])) {
 			$consumer_key = isset($params['consumer_key']) ? $params['consumer_key'] : 'anonymous';
 			$consumer_secret = isset($params['consumer_secret']) ? $params['consumer_secret'] : 'anonymous';
+			$this->id = 'google::' . $consumer_key . $consumer_secret;
 			$this->consumer = new \OAuthConsumer($consumer_key, $consumer_secret);
 			$this->oauth_token = new \OAuthToken($params['token'], $params['token_secret']);
 			$this->sig_method = new \OAuthSignatureMethod_HMAC_SHA1();
@@ -177,6 +179,9 @@ class Google extends \OC\Files\Storage\Common {
 		}
 	}
 
+	public function getId(){
+		return $this->id;
+	}
 
 	public function mkdir($path) {
 		$collection = dirname($path);

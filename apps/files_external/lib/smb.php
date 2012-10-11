@@ -42,6 +42,10 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 		}
 	}
 
+	public function getId(){
+		return 'smb::' . $this->user . '@' . $this->host . '/' . $this->share . '/' . $this->root;
+	}
+
 	public function constructUrl($path) {
 		if(substr($path,-1)=='/') {
 			$path=substr($path,0,-1);

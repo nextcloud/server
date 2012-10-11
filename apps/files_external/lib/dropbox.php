@@ -28,12 +28,14 @@ class Dropbox extends \OC\Files\Storage\Common {
 
 	private $dropbox;
 	private $root;
+	private $id;
 	private $metaData = array();
 
 	private static $tempFiles = array();
 
 	public function __construct($params) {
 		if (isset($params['configured']) && $params['configured'] == 'true' && isset($params['app_key']) && isset($params['app_secret']) && isset($params['token']) && isset($params['token_secret'])) {
+			$this->id = 'dropbox::'.$params['app_key'] . $params['token']. '/' . $params['root'];
 			$this->root=isset($params['root'])?$params['root']:'';
 			$oauth = new \Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
 			$oauth->setToken($params['token'], $params['token_secret']);
@@ -79,6 +81,10 @@ class Dropbox extends \OC\Files\Storage\Common {
 				}
 			}
 		}
+	}
+
+	public function getId(){
+		return $this->id;
 	}
 
 	public function mkdir($path) {

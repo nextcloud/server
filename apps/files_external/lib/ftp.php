@@ -32,6 +32,10 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 		}
 	}
 
+	public function getId(){
+		return 'ftp::' . $this->user . '@' . $this->host . '/' . $this->root;
+	}
+
 	/**
 	 * construct the ftp url
 	 * @param string path

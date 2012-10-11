@@ -56,6 +56,10 @@ class DAV extends \OC\Files\Storage\Common{
 		$this->mkdir('');
 	}
 
+	public function getId(){
+		return 'webdav::' . $this->user . '@' . $this->host . '/' . $this->root;
+	}
+
 	private function createBaseUri() {
 		$baseUri='http';
 		if($this->secure) {

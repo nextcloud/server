@@ -11,6 +11,7 @@ require_once 'php-cloudfiles/cloudfiles.php';
 namespace OC\Files\Storage;
 
 class SWIFT extends \OC\Files\Storage\Common{
+	private $id;
 	private $host;
 	private $root;
 	private $user;
@@ -274,6 +275,8 @@ class SWIFT extends \OC\Files\Storage\Common{
 		$this->user=$params['user'];
 		$this->root=isset($params['root'])?$params['root']:'/';
 		$this->secure=isset($params['secure'])?(bool)$params['secure']:true;
+
+		$this->id = 'swift::' . $this->user . '@' . $this->host . '/' . $this->root;
 		if(!$this->root || $this->root[0]!='/') {
 			$this->root='/'.$this->root;
 		}
@@ -287,6 +290,10 @@ class SWIFT extends \OC\Files\Storage\Common{
 		}else{
 			$this->rootContainer=$this->getContainer('/');
 		}
+	}
+
+	public function getId(){
+		return $this->id;
 	}
 
 
