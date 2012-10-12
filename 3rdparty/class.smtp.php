@@ -2,7 +2,7 @@
 /*~ class.smtp.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
-|   Version: 5.2                                                            |
+|   Version: 5.2.1                                                          |
 |      Site: https://code.google.com/a/apache-extras.org/p/phpmailer/       |
 | ------------------------------------------------------------------------- |
 |     Admin: Jim Jagielski (project admininistrator)                        |
@@ -10,7 +10,7 @@
 |          : Marcus Bointon (coolbru) coolbru@users.sourceforge.net         |
 |          : Jim Jagielski (jimjag) jimjag@gmail.com                        |
 |   Founder: Brent R. Matzelle (original founder)                           |
-| Copyright (c) 2010-2011, Jim Jagielski. All Rights Reserved.               |
+| Copyright (c) 2010-2012, Jim Jagielski. All Rights Reserved.              |
 | Copyright (c) 2004-2009, Andy Prevost. All Rights Reserved.               |
 | Copyright (c) 2001-2003, Brent R. Matzelle                                |
 | ------------------------------------------------------------------------- |
@@ -30,7 +30,7 @@
  * @author Marcus Bointon
  * @copyright 2004 - 2008 Andy Prevost
  * @author Jim Jagielski
- * @copyright 2010 - 2011 Jim Jagielski
+ * @copyright 2010 - 2012 Jim Jagielski
  * @license http://www.gnu.org/copyleft/lesser.html Distributed under the Lesser General Public License (LGPL)
  * @version $Id: class.smtp.php 450 2010-06-23 16:46:33Z coolbru $
  */
@@ -72,7 +72,7 @@ class SMTP {
    * Sets the SMTP PHPMailer Version number
    * @var string
    */
-  public $Version         = '5.2';
+  public $Version         = '5.2.1';
 
   /////////////////////////////////////////////////
   // PROPERTIES, PRIVATE AND PROTECTED
@@ -797,7 +797,8 @@ class SMTP {
    */
   private function get_lines() {
     $data = "";
-    while($str = @fgets($this->smtp_conn,515)) {
+    while(!feof($this->smtp_conn)) {
+      $str = @fgets($this->smtp_conn,515);
       if($this->do_debug >= 4) {
         echo "SMTP -> get_lines(): \$data was \"$data\"" . $this->CRLF . '<br />';
         echo "SMTP -> get_lines(): \$str is \"$str\"" . $this->CRLF . '<br />';
