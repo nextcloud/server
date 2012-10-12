@@ -391,7 +391,7 @@ class OC_DB {
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function getDbStructure( $file ,$mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
+	public static function getDbStructure( $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
 		self::connectScheme();
 
 		// write the scheme

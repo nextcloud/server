@@ -1,9 +1,9 @@
 <?php
-
 /**
  * Class for utility functions
  *
  */
+
 class OC_Util {
 	public static $scripts=array();
 	public static $styles=array();
