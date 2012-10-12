@@ -24,3 +24,5 @@ abstract class UnitTestCase extends PHPUnit_Framework_TestCase{
 		parent::assertFalse((bool)$actual, $string);
 	}
 }
+
+OC_Hook::clear();
