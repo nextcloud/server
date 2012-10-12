@@ -288,6 +288,9 @@ class OC_Mount_Config {
 		if (!is_dir($path)) mkdir($path);
 		$result = array();
 		$handle = opendir($path);
+		if (!$handle) {
+			return array();
+		}
 		while (false !== ($file = readdir($handle))) {
 			if($file != '.' && $file != '..') $result[] = $file;
 		}
