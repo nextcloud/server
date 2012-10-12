@@ -308,9 +308,11 @@ class OC_Util {
 		return $errors;
 	}
 
-	public static function displayLoginPage($display_lostpassword) {
+	public static function displayLoginPage($errors = array()) {
 		$parameters = array();
-		$parameters['display_lostpassword'] = $display_lostpassword;
+		foreach( $errors as $key => $value ) {
+			$parameters[$value] = true;
+		}
 		if (!empty($_POST['user'])) {
 			$parameters["username"] =
 				OC_Util::sanitizeHTML($_POST['user']).'"';
