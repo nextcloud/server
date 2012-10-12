@@ -100,7 +100,7 @@ class OC{
 		}
 
 		if($fullPath = stream_resolve_include_path($path)) {
-			require_once $path;
+			require_once $fullPath;
 		}
 		return false;
 	}
