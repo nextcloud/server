@@ -29,6 +29,15 @@ function t(app,text){
 }
 t.cache={};
 
+/*
+* Sanitizes a HTML string
+* @param string
+* @return Sanitized string
+*/
+function escapeHTML(s) {
+		return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('"').join('&quot;');
+}
+
 OC={
 	webroot:oc_webroot,
 	appswebroot:oc_appswebroot,
