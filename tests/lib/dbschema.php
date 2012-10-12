@@ -35,7 +35,7 @@ class Test_DBSchema extends UnitTestCase {
 		unlink(self::$schema_file2);
 	}
 
-	// every thing in one test, phpunit messes with MDB2
+	// everything in one test, they depend on each other
 	public function testSchema() {
 		$this->doTestSchemaCreating();
 		$this->doTestSchemaChanging();
