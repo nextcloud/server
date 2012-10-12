@@ -26,3 +26,4 @@ abstract class UnitTestCase extends PHPUnit_Framework_TestCase{
 }
 
 OC_Hook::clear();
+OC_Log::$enabled = false;
