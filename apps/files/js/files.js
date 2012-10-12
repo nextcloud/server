@@ -209,7 +209,7 @@ $(document).ready(function() {
 				var totalSize=0;
 				if(files){
 					for(var i=0;i<files.length;i++){
-						if(files[i].size ==0 && files[i].type== '')
+						if(files[i].size ==0 || files[i].type== '')
 						{
 							OC.dialogs.alert(t('files', 'Unable to upload your file as it is a directory or has 0 bytes'), t('files', 'Upload Error'));
 							return;
@@ -282,7 +282,7 @@ $(document).ready(function() {
 							var fileName = files[i].name
 							var dropTarget = $(e.originalEvent.target).closest('tr');
 							if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
-								var dirName = dropTarget.attr('data-file')
+								var dirName = dropTarget.attr('data-file');
 								var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i],
 										formData: function(form) {
 											var formArray = form.serializeArray();
