@@ -27,6 +27,7 @@
 "Enable Share API" => "Включить разделяемые API",
 "Allow apps to use the Share API" => "Разрешить приложениям использовать Share API",
 "Allow links" => "Предоставить ссылки",
+"Allow users to share items to the public with links" => "Позволяет пользователям добавлять объекты в общий доступ по ссылке",
 "Allow resharing" => "Разрешить повторное совместное использование",
 "Allow users to share with anyone" => "Разрешить пользователям разделение с кем-либо",
 "Allow users to only share with users in their groups" => "Разрешить пользователям разделение только с пользователями в их группах",

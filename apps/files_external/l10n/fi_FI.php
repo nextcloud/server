@@ -1,4 +1,9 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Pääsy sallittu",
+"Error configuring Dropbox storage" => "Virhe Dropbox levyn asetuksia tehtäessä",
+"Grant access" => "Salli pääsy",
+"Fill out all required fields" => "Täytä kaikki vaaditut kentät",
+"Error configuring Google Drive storage" => "Virhe Google Drive levyn asetuksia tehtäessä",
 "External Storage" => "Erillinen tallennusväline",
 "Mount point" => "Liitospiste",
 "Backend" => "Taustaosa",
