@@ -93,7 +93,7 @@ class Test_DBSchema extends UnitTestCase {
 				$sql = "SELECT tablename AS table_name, schemaname AS schema_name "
 				. "FROM pg_tables WHERE schemaname NOT LIKE 'pg_%' "
 				.  "AND schemaname != 'information_schema' "
-				.  "AND tablename == '".$table."'";
+				.  "AND tablename = '".$table."'";
 				$query = OC_DB::prepare($sql);
 				$result = $query->execute(array());
 				$exists = $result && $result->fetchOne();
