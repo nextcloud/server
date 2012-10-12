@@ -26,7 +26,6 @@
  
 class OC_FileProxy_FileOperations extends OC_FileProxy{
 	static $rootView;
-	private $userQuota=-1;
 
 	public function premkdir($path) {
 		if(!self::$rootView){
