@@ -62,9 +62,6 @@ class OC_FileCache{
 	 * $data is an assiciative array in the same format as returned by get
 	 */
 	public static function put($path,$data,$root=false) {
-		if ($path != '') {
-			$path = OC_Filesystem::normalizePath($path);
-		}
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
