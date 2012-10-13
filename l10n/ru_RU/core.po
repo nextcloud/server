@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-11 02:04+0200\n"
-"PO-Revision-Date: 2012-10-10 13:35+0000\n"
+"POT-Creation-Date: 2012-10-12 02:04+0200\n"
+"PO-Revision-Date: 2012-10-11 08:47+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -169,7 +169,7 @@ msgstr "Не найдено людей"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Рекурсивный общий доступ не разрешен"
 
 #: js/share.js:250
 msgid "Shared in"
@@ -185,7 +185,7 @@ msgstr "Отключить общий доступ"
 
 #: js/share.js:283
 msgid "can edit"
-msgstr ""
+msgstr "возможно редактирование"
 
 #: js/share.js:285
 msgid "access control"

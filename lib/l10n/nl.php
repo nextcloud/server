@@ -23,6 +23,6 @@
 "last year" => "vorig jaar",
 "years ago" => "jaar geleden",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s is beschikbaar. Verkrijg <a href=\"%s\">meer informatie</a>",
-"up to date" => "Bijgewerkt",
+"up to date" => "bijgewerkt",
 "updates check is disabled" => "Meest recente versie controle is uitgeschakeld"
 );

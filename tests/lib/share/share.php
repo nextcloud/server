@@ -61,11 +61,13 @@ class Test_Share extends UnitTestCase {
 		$query->execute(array('test'));
 	}
 
-	/**
-	 * @expectedException Exception
-	 */
 	public function testShareInvalidShareType() {
-		OCP\Share::shareItem('test', 'test.txt', 'foobar', $this->user2, OCP\Share::PERMISSION_READ);
+		$message = 'Share type foobar is not valid for test.txt';
+		try {
+			OCP\Share::shareItem('test', 'test.txt', 'foobar', $this->user2, OCP\Share::PERMISSION_READ);
+		} catch (Exception $exception) {
+			$this->assertEqual($exception->getMessage(), $message);
+		}
 	}
 
 	public function testInvalidItemType() {

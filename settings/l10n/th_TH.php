@@ -36,6 +36,7 @@
 "More" => "เพิ่มเติม",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "พัฒนาโดย the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ชุมชนผู้ใช้งาน ownCloud</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">ซอร์สโค้ด</a>อยู่ภายใต้สัญญาอนุญาตของ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
 "Add your App" => "เพิ่มแอปของคุณ",
+"More Apps" => "แอปฯอื่นเพิ่มเติม",
 "Select an App" => "เลือก App",
 "See application page at apps.owncloud.com" => "ดูหน้าแอพพลิเคชั่นที่ apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-ลิขสิทธิ์การใช้งานโดย <span class=\"author\"></span>",

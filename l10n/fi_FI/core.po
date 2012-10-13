@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <ari.takalo@iki.fi>, 2012.
 # Jesse Jaara <jesse.jaara@gmail.com>, 2012.
 # Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
 # Johannes Korpela <>, 2012.
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-12 02:04+0200\n"
+"PO-Revision-Date: 2012-10-11 18:01+0000\n"
+"Last-Translator: variaatiox <ari.takalo@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,55 +36,55 @@ msgstr "Ei lisättävää luokkaa?"
 msgid "This category already exists: "
 msgstr "Tämä luokka on jo olemassa: "
 
-#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:229 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Asetukset"
 
-#: js/js.js:645
+#: js/js.js:661
 msgid "January"
 msgstr "Tammikuu"
 
-#: js/js.js:645
+#: js/js.js:661
 msgid "February"
 msgstr "Helmikuu"
 
-#: js/js.js:645
+#: js/js.js:661
 msgid "March"
 msgstr "Maaliskuu"
 
-#: js/js.js:645
+#: js/js.js:661
 msgid "April"
 msgstr "Huhtikuu"
 
-#: js/js.js:645
+#: js/js.js:661
 msgid "May"
 msgstr "Toukokuu"
 
-#: js/js.js:645
+#: js/js.js:661
 msgid "June"
 msgstr "Kesäkuu"
 
-#: js/js.js:646
+#: js/js.js:662
 msgid "July"
 msgstr "Heinäkuu"
 
-#: js/js.js:646
+#: js/js.js:662
 msgid "August"
 msgstr "Elokuu"
 
-#: js/js.js:646
+#: js/js.js:662
 msgid "September"
 msgstr "Syyskuu"
 
-#: js/js.js:646
+#: js/js.js:662
 msgid "October"
 msgstr "Lokakuu"
 
-#: js/js.js:646
+#: js/js.js:662
 msgid "November"
 msgstr "Marraskuu"
 
-#: js/js.js:646
+#: js/js.js:662
 msgid "December"
 msgstr "Joulukuu"
 
@@ -111,18 +112,18 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Luokkia ei valittu poistettavaksi."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
 msgstr "Virhe"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Virhe jaettaessa"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Virhe jakoa peruttaessa"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
@@ -130,7 +131,7 @@ msgstr "Virhe oikeuksia muuttaessa"
 
 #: js/share.js:130
 msgid "Shared with you and the group"
-msgstr ""
+msgstr "Jaettu sinulle ja ryhmälle"
 
 #: js/share.js:130
 msgid "by"
@@ -146,7 +147,7 @@ msgstr ""
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Jaa linkillä"
 
 #: js/share.js:143
 msgid "Password protect"
@@ -166,11 +167,11 @@ msgstr "Päättymispäivä"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Jaa sähköpostilla:"
 
 #: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "Henkilöitä ei löytynyt"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
@@ -182,45 +183,45 @@ msgstr ""
 
 #: js/share.js:250
 msgid "with"
-msgstr ""
+msgstr "kanssa"
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Peru jakaminen"
 
-#: js/share.js:279
+#: js/share.js:283
 msgid "can edit"
 msgstr "voi muokata"
 
-#: js/share.js:281
+#: js/share.js:285
 msgid "access control"
-msgstr ""
+msgstr "Pääsyn hallinta"
 
-#: js/share.js:284
+#: js/share.js:288
 msgid "create"
 msgstr "luo"
 
-#: js/share.js:287
+#: js/share.js:291
 msgid "update"
 msgstr "päivitä"
 
-#: js/share.js:290
+#: js/share.js:294
 msgid "delete"
 msgstr "poista"
 
-#: js/share.js:293
+#: js/share.js:297
 msgid "share"
 msgstr "jaa"
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:322 js/share.js:484
 msgid "Password protected"
 msgstr "Salasanasuojattu"
 
-#: js/share.js:489
+#: js/share.js:497
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Virhe purettaessa eräpäivää"
 
-#: js/share.js:501
+#: js/share.js:509
 msgid "Error setting expiration date"
 msgstr "Virhe päättymispäivää asettaessa"
 
@@ -249,7 +250,7 @@ msgstr "Kirjautuminen epäonnistui!"
 msgid "Username"
 msgstr "Käyttäjätunnus"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Tilaus lähetetty"
 
@@ -350,7 +351,7 @@ msgstr "Tietokantapalvelin"
 msgid "Finish setup"
 msgstr "Viimeistele asennus"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "verkkopalvelut hallinnassasi"
 
@@ -362,11 +363,11 @@ msgstr "Kirjaudu ulos"
 msgid "Lost your password?"
 msgstr "Unohditko salasanasi?"
 
-#: templates/login.php:17
+#: templates/login.php:16
 msgid "remember"
 msgstr "muista"
 
-#: templates/login.php:18
+#: templates/login.php:17
 msgid "Log in"
 msgstr "Kirjaudu sisään"
 

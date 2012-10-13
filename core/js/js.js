@@ -46,6 +46,15 @@ function t(app,text, vars){
 }
 t.cache={};
 
+/*
+* Sanitizes a HTML string
+* @param string
+* @return Sanitized string
+*/
+function escapeHTML(s) {
+		return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('"').join('&quot;');
+}
+
 /**
 * Get the path to download a file
 * @param file The filename

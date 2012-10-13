@@ -1,9 +1,9 @@
 <?php
-
 /**
  * Class for utility functions
  *
  */
+
 class OC_Util {
 	public static $scripts=array();
 	public static $styles=array();
@@ -49,7 +49,9 @@ class OC_Util {
 			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir' => $user_root), $user);
 			\OC\Files\Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
+			$fileOperationProxy = new OC_FileProxy_FileOperations();
 			OC_FileProxy::register($quotaProxy);
+			OC_FileProxy::register($fileOperationProxy);
 			// Load personal mount config
 			if (is_file($user_root.'/mount.php')) {
 				$mountConfig = include($user_root.'/mount.php');

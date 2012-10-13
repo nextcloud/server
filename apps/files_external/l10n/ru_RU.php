@@ -3,6 +3,8 @@
 "Error configuring Dropbox storage" => "Ошибка при конфигурировании хранилища Dropbox",
 "Grant access" => "Предоставить доступ",
 "Fill out all required fields" => "Заполните все требуемые поля",
+"Please provide a valid Dropbox app key and secret." => "Пожалуйста представьте допустимый ключ приложения Dropbox и пароль.",
+"Error configuring Google Drive storage" => "Ошибка настройки хранилища Google Drive",
 "External Storage" => "Внешние системы хранения данных",
 "Mount point" => "Точка монтирования",
 "Backend" => "Бэкэнд",
