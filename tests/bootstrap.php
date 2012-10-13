@@ -1,5 +1,7 @@
 <?php
 
+global $RUNTIME_NOAPPS;
+$RUNTIME_NOAPPS = true;
 require_once __DIR__.'/../lib/base.php';
 
 if(!class_exists('PHPUnit_Framework_TestCase')){
