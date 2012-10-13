@@ -51,30 +51,24 @@ class Sabre_DAV_ObjectTree extends Sabre_DAV_Tree {
         $path = trim($path,'/');
         if (isset($this->cache[$path])) return $this->cache[$path];
 
-        // Is it the root node?
-        if (!strlen($path)) {
-            return $this->rootNode;
-        }
+        //if (!$path || $path=='.') return $this->rootNode;
+        $currentNode = $this->rootNode;
 
-        // Attempting to fetch its parent
-        list($parentName, $baseName) = Sabre_DAV_URLUtil::splitPath($path);
+        // We're splitting up the path variable into folder/subfolder components and traverse to the correct node..
+        foreach(explode('/',$path) as $pathPart) {
 
-        // If there was no parent, we must simply ask it from the root node.
-        if ($parentName==="") {
-            $node = $this->rootNode->getChild($baseName);
-        } else {
-            // Otherwise, we recursively grab the parent and ask him/her.
-            $parent = $this->getNodeForPath($parentName);
+            // If this part of the path is just a dot, it actually means we can skip it
+            if ($pathPart=='.' || $pathPart=='') continue;
 
-            if (!($parent instanceof Sabre_DAV_ICollection))
+            if (!($currentNode instanceof Sabre_DAV_ICollection))
                 throw new Sabre_DAV_Exception_NotFound('Could not find node at path: ' . $path);
 
-            $node = $parent->getChild($baseName);
+            $currentNode = $currentNode->getChild($pathPart);
 
         }
 
-        $this->cache[$path] = $node;
-        return $node;
+        $this->cache[$path] = $currentNode;
+        return $currentNode;
 
     }
 

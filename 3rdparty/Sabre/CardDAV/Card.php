@@ -6,7 +6,7 @@
  * @package Sabre
  * @subpackage CardDAV
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/)
+ * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_CardDAV_Card extends Sabre_DAV_File implements Sabre_CardDAV_ICard, Sabre_DAVACL_IACL {
@@ -78,7 +78,7 @@ class Sabre_CardDAV_Card extends Sabre_DAV_File implements Sabre_CardDAV_ICard, 
      * Updates the VCard-formatted object
      *
      * @param string $cardData
-     * @return string|null
+     * @return void
      */
     public function put($cardData) {
 
@@ -114,7 +114,7 @@ class Sabre_CardDAV_Card extends Sabre_DAV_File implements Sabre_CardDAV_ICard, 
      */
     public function getContentType() {
 
-        return 'text/x-vcard; charset=utf-8';
+        return 'text/x-vcard';
 
     }
 
@@ -128,13 +128,7 @@ class Sabre_CardDAV_Card extends Sabre_DAV_File implements Sabre_CardDAV_ICard, 
         if (isset($this->cardData['etag'])) {
             return $this->cardData['etag'];
         } else {
-            $data = $this->get();
-            if (is_string($data)) {
-                return '"' . md5($data) . '"';
-            } else {
-                // We refuse to calculate the md5 if it's a stream.
-                return null;
-            }
+            return '"' . md5($this->get()) . '"';
         }
 
     }
@@ -142,7 +136,7 @@ class Sabre_CardDAV_Card extends Sabre_DAV_File implements Sabre_CardDAV_ICard, 
     /**
      * Returns the last modification date as a unix timestamp
      *
-     * @return int
+     * @return time
      */
     public function getLastModified() {
 

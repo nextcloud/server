@@ -82,7 +82,7 @@ class Sabre_DAV_Property_Href extends Sabre_DAV_Property implements Sabre_DAV_Pr
      */
     static function unserialize(DOMElement $dom) {
 
-        if ($dom->firstChild && Sabre_DAV_XMLUtil::toClarkNotation($dom->firstChild)==='{DAV:}href') {
+        if (Sabre_DAV_XMLUtil::toClarkNotation($dom->firstChild)==='{DAV:}href') {
             return new self($dom->firstChild->textContent,false);
         }
 

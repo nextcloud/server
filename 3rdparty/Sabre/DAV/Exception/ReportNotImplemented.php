@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ReportNotSupported
+ * ReportNotImplemented
  *
  * This exception is thrown when the client requested an unknown report through the REPORT method
  *
@@ -11,7 +11,7 @@
  * @author Evert Pot (http://www.rooftopsolutions.nl/) 
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Sabre_DAV_Exception_ReportNotSupported extends Sabre_DAV_Exception_Forbidden {
+class Sabre_DAV_Exception_ReportNotImplemented extends Sabre_DAV_Exception_NotImplemented {
 
     /**
      * This method allows the exception to include additional information into the WebDAV error response
