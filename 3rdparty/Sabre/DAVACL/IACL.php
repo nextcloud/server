@@ -48,7 +48,7 @@ interface Sabre_DAVACL_IACL extends Sabre_DAV_INode {
     /**
      * Updates the ACL
      *
-     * This method will receive a list of new ACE's.
+     * This method will receive a list of new ACE's as an array argument.
      *
      * @param array $acl
      * @return void

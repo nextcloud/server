@@ -152,6 +152,7 @@ class Sabre_DAV_Locks_Plugin extends Sabre_DAV_ServerPlugin {
             case 'MKCOL' :
             case 'PROPPATCH' :
             case 'PUT' :
+            case 'PATCH' :
                 $lastLock = null;
                 if (!$this->validateLock($uri,$lastLock))
                     throw new Sabre_DAV_Exception_Locked($lastLock);

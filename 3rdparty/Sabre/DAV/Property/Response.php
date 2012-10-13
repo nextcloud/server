@@ -138,7 +138,7 @@ class Sabre_DAV_Property_Response extends Sabre_DAV_Property implements Sabre_DA
                 if (is_scalar($propertyValue)) {
                     $text = $document->createTextNode($propertyValue);
                     $currentProperty->appendChild($text);
-                } elseif ($propertyValue instanceof Sabre_DAV_Property) {
+                } elseif ($propertyValue instanceof Sabre_DAV_PropertyInterface) {
                     $propertyValue->serialize($server,$currentProperty);
                 } elseif (!is_null($propertyValue)) {
                     throw new Sabre_DAV_Exception('Unknown property value type: ' . gettype($propertyValue) . ' for property: ' . $propertyName);

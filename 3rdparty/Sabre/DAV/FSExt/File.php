@@ -9,15 +9,15 @@
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Sabre_DAV_FSExt_File extends Sabre_DAV_FSExt_Node implements Sabre_DAV_IFile {
+class Sabre_DAV_FSExt_File extends Sabre_DAV_FSExt_Node implements Sabre_DAV_PartialUpdate_IFile {
 
     /**
      * Updates the data
      *
      * data is a readable stream resource.
      *
-     * @param resource $data
-     * @return void
+     * @param resource|string $data
+     * @return string
      */
     public function put($data) {
 
@@ -27,9 +27,33 @@ class Sabre_DAV_FSExt_File extends Sabre_DAV_FSExt_Node implements Sabre_DAV_IFi
     }
 
     /**
+     * Updates the data at a given offset
+     *
+     * The data argument is a readable stream resource.
+     * The offset argument is a 0-based offset where the data should be
+     * written.
+     *
+     * param resource|string $data
+     * @return void
+     */
+    public function putRange($data, $offset) {
+
+        $f = fopen($this->path, 'c');
+        fseek($f,$offset-1);
+        if (is_string($data)) {
+            fwrite($f, $data);
+        } else {
+            stream_copy_to_stream($data,$f);
+        }
+        fclose($f);
+        return '"' . md5_file($this->path) . '"';
+
+    }
+
+    /**
      * Returns the data
      *
-     * @return string
+     * @return resource
      */
     public function get() {
 
