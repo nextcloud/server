@@ -45,23 +45,24 @@ class Test_Helper extends UnitTestCase {
 	}
 
 	function testGetMimeType() {
-		$result = OC_Helper::getMimeType("./data/");
+		$dir=OC::$SERVERROOT.'/tests/data';
+		$result = OC_Helper::getMimeType($dir."/");
 		$expected = 'httpd/unix-directory';
 		$this->assertEquals($result, $expected);
 
-		$result = OC_Helper::getMimeType("./data/data.tar.gz");
+		$result = OC_Helper::getMimeType($dir."/data.tar.gz");
 		$expected = 'application/x-gzip';
 		$this->assertEquals($result, $expected);
 
-		$result = OC_Helper::getMimeType("./data/data.zip");
+		$result = OC_Helper::getMimeType($dir."/data.zip");
 		$expected = 'application/zip';
 		$this->assertEquals($result, $expected);
 
-		$result = OC_Helper::getMimeType("./data/logo-wide.svg");
+		$result = OC_Helper::getMimeType($dir."/logo-wide.svg");
 		$expected = 'image/svg+xml';
 		$this->assertEquals($result, $expected);
 
-		$result = OC_Helper::getMimeType("./data/logo-wide.png");
+		$result = OC_Helper::getMimeType($dir."/logo-wide.png");
 		$expected = 'image/png';
 		$this->assertEquals($result, $expected);
 	}
