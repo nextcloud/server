@@ -33,10 +33,10 @@ class Test_Share extends UnitTestCase {
 	public function setUp() {
 		OC_User::clearBackends();
 		OC_User::useBackend('dummy');
-		$this->user1 = uniqid('user_');
-		$this->user2 = uniqid('user_');
-		$this->user3 = uniqid('user_');
-		$this->user4 = uniqid('user_');
+		$this->user1 = uniqid('user1_');
+		$this->user2 = uniqid('user2_');
+		$this->user3 = uniqid('user3_');
+		$this->user4 = uniqid('user4_');
 		OC_User::createUser($this->user1, 'pass');
 		OC_User::createUser($this->user2, 'pass');
 		OC_User::createUser($this->user3, 'pass');
