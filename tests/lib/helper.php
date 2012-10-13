@@ -7,11 +7,6 @@
  */
 
 class Test_Helper extends UnitTestCase {
-	function testMakeURLAbsolute() {
-		$result = OC_Helper::makeURLAbsolute("/index.php?someParameter=value");
-		$expected = 'http://localhost/index.php?someParameter=value';
-		$this->assertEquals($result, $expected);
-	}
 
 	function testHumanFileSize() {
 		$result = OC_Helper::humanFileSize(0);
