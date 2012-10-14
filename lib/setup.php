@@ -4,11 +4,13 @@ $hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
 $hasMySQL = is_callable('mysql_connect');
 $hasPostgreSQL = is_callable('pg_connect');
 $datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
+
 $opts = array(
 	'hasSQLite' => $hasSQLite,
 	'hasMySQL' => $hasMySQL,
 	'hasPostgreSQL' => $hasPostgreSQL,
 	'directory' => $datadir,
+	'secureRNG' => OC_Util::secureRNG_available(),
 	'errors' => array(),
 );
 
