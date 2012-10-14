@@ -264,8 +264,30 @@ class OC{
 	}
 
 	public static function initSession() {
+		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', '1;');
+
+		// (re)-initialize session
 		session_start();
+		
+		// regenerate session id periodically to avoid session fixation
+		if (!isset($_SESSION['SID_CREATED'])) {
+			$_SESSION['SID_CREATED'] = time();
+		} else if (time() - $_SESSION['SID_CREATED'] > 900) {
+			session_regenerate_id(true);
+			$_SESSION['SID_CREATED'] = time();
+		}
+
+		// session timeout
+		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 3600)) {
+			if (isset($_COOKIE[session_name()])) {
+				setcookie(session_name(), '', time() - 42000, '/');
+			}
+			session_unset();
+			session_destroy();
+			session_start();
+		}
+		$_SESSION['LAST_ACTIVITY'] = time();
 	}
 
 	public static function init() {
