@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-13 02:05+0200\n"
-"PO-Revision-Date: 2012-10-12 20:43+0000\n"
+"POT-Creation-Date: 2012-10-14 02:05+0200\n"
+"PO-Revision-Date: 2012-10-13 09:09+0000\n"
 "Last-Translator: Richard Bos <radoeka@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Apps"
 
 #: app.php:311
 msgid "Admin"
-msgstr "Administrator"
+msgstr "Beheerder"
 
 #: files.php:328
 msgid "ZIP download is turned off."

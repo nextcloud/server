@@ -4,7 +4,7 @@
 "Settings" => "Instellingen",
 "Users" => "Gebruikers",
 "Apps" => "Apps",
-"Admin" => "Administrator",
+"Admin" => "Beheerder",
 "ZIP download is turned off." => "ZIP download is uitgeschakeld.",
 "Files need to be downloaded one by one." => "Bestanden moeten één voor één worden gedownload.",
 "Back to Files" => "Terug naar bestanden",

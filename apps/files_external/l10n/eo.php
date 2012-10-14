@@ -1,4 +1,10 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Alirpermeso donita",
+"Error configuring Dropbox storage" => "Eraro dum agordado de la memorservo Dropbox",
+"Grant access" => "Doni alirpermeson",
+"Fill out all required fields" => "Plenigu ĉiujn neprajn kampojn",
+"Please provide a valid Dropbox app key and secret." => "Bonvolu provizi ŝlosilon de la aplikaĵo Dropbox validan kaj sekretan.",
+"Error configuring Google Drive storage" => "Eraro dum agordado de la memorservo Google Drive",
 "External Storage" => "Malena memorilo",
 "Mount point" => "Surmetingo",
 "Backend" => "Motoro",

@@ -67,7 +67,7 @@
 "Create" => "Creëer",
 "Default Quota" => "Standaard limiet",
 "Other" => "Andere",
-"Group Admin" => "Groep Administrator",
+"Group Admin" => "Groep beheerder",
 "Quota" => "Limieten",
 "Delete" => "verwijderen"
 );
