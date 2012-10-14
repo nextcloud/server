@@ -98,7 +98,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 				} else { // download a single shared file
 					OC_Files::get("", $path, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
 				}
-				
+
 			} else {
 				OCP\Util::addStyle('files_sharing', 'public');
 				OCP\Util::addScript('files_sharing', 'public');
@@ -134,7 +134,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 						if ($i != '') {
 							if ($i != $baseDir) {
 								$pathtohere .= '/'.$i;
-							}						
+							}
 							if ( strlen($pathtohere) <  strlen($_GET['dir'])) {
 								continue;
 							}

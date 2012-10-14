@@ -23,7 +23,7 @@
 /**
  * check if standard file operations
  */
- 
+
 class OC_FileProxy_FileOperations extends OC_FileProxy{
 	static $rootView;
 
@@ -33,5 +33,5 @@ class OC_FileProxy_FileOperations extends OC_FileProxy{
 		}
 		return !self::$rootView->file_exists($path);
 	}
-	
+
 }

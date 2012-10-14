@@ -48,7 +48,7 @@ class OC_Migration_Content{
 	// @brief prepares the db
 	// @param $query the sql query to prepare
 	public function prepare( $query ) {
-		
+
 		// Only add database to tmpfiles if actually used
 		if( !is_null( $this->db ) ) {
 			// Get db path
@@ -57,7 +57,7 @@ class OC_Migration_Content{
 				$this->tmpfiles[] = $db;
 			}
 		}
-		
+
 		// Optimize the query
 		$query = $this->processQuery( $query );
 

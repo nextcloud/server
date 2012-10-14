@@ -120,10 +120,10 @@ class OC_Mount_Config {
 			$dir = $dir.'/'.$pathPart;
 			if ( !$view->file_exists($dir)) {
 				$view->mkdir($dir);
-			}		
+			}
 		}
 	}
-	
+
 
 	/**
 	* Add a mount point to the filesystem
@@ -160,7 +160,7 @@ class OC_Mount_Config {
 						self::addMountPointDirectory($view, $path);
 					}
 					break;
-				case 'group' : 
+				case 'group' :
 					$groupMembers = OC_Group::usersInGroups(array($applicable));
 					foreach ( $groupMembers as $user ) {
 						$path =  $user.'/files/'.ltrim($mountPoint, '/');

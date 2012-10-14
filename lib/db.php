@@ -476,7 +476,7 @@ class OC_DB {
 	public static function updateDbFromStructure($file) {
 		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
-		
+
 		self::connectScheme();
 
 		// read file
@@ -683,7 +683,7 @@ class OC_DB {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * returns the error code and message as a string for logging
 	 * works with MDB2 and PDOException

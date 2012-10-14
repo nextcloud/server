@@ -426,7 +426,7 @@ class OC_Util {
 	 * @description
 	 * Also required for the client side to compute the piont in time when to
 	 * request a fresh token. The client will do so when nearly 97% of the
-	 * timespan coded here has expired. 
+	 * timespan coded here has expired.
 	 */
 	public static $callLifespan = 3600; // 3600 secs = 1 hour
 
@@ -564,7 +564,7 @@ class OC_Util {
 	public static function generate_random_bytes($length = 30) {
 
 		// Try to use openssl_random_pseudo_bytes
-		if(function_exists('openssl_random_pseudo_bytes')) { 
+		if(function_exists('openssl_random_pseudo_bytes')) {
 			$pseudo_byte = bin2hex(openssl_random_pseudo_bytes($length, $strong));
 			if($strong == TRUE) {
 				return substr($pseudo_byte, 0, $length); // Truncate it to match the length
@@ -574,31 +574,31 @@ class OC_Util {
 		// Try to use /dev/random
 		$fp = @file_get_contents('/dev/random', false, null, 0, $length);
 		if ($fp !== FALSE) {
-			$string = substr(bin2hex($fp), 0, $length);  
+			$string = substr(bin2hex($fp), 0, $length);
 			return $string;
 		}
 
-		// Fallback to mt_rand() 
+		// Fallback to mt_rand()
 		$characters = '0123456789';
-		$characters .= 'abcdefghijklmnopqrstuvwxyz'; 
+		$characters .= 'abcdefghijklmnopqrstuvwxyz';
 		$charactersLength = strlen($characters)-1;
 		$pseudo_byte = "";
 
 		// Select some random characters
 		for ($i = 0; $i < $length; $i++) {
 			$pseudo_byte .= $characters[mt_rand(0, $charactersLength)];
-		}        
+		}
 		return $pseudo_byte;
 	}
-	
+
 	/*
 	* @brief Checks if a secure random number generator is available
-	* @return bool 
+	* @return bool
 	*/
 	public static function secureRNG_available() {
 
 		// Check openssl_random_pseudo_bytes
-		if(function_exists('openssl_random_pseudo_bytes')) { 
+		if(function_exists('openssl_random_pseudo_bytes')) {
 			openssl_random_pseudo_bytes(1, $strong);
 			if($strong == TRUE) {
 				return true;
@@ -612,5 +612,5 @@ class OC_Util {
 		}
 
 		return false;
-	}	
+	}
 }

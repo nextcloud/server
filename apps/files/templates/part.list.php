@@ -6,7 +6,7 @@
 		}
 		?>
 		</script>
-		
+
 		<?php foreach($_['files'] as $file):
 			$simple_file_size = OCP\simple_file_size($file['size']);
 			$simple_size_color = intval(200-$file['size']/(1024*1024)*2); // the bigger the file, the darker the shade of grey; megabytes*2

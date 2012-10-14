@@ -63,7 +63,7 @@ class OC_App{
 
 		if (!defined('DEBUG') || !DEBUG) {
 			if (is_null($types)
-			    && empty(OC_Util::$core_scripts) 
+			    && empty(OC_Util::$core_scripts)
 			    && empty(OC_Util::$core_styles)) {
 				OC_Util::$core_scripts = OC_Util::$scripts;
 				OC_Util::$scripts = array();
@@ -458,7 +458,7 @@ class OC_App{
 			}
 		}
 		self::$appInfo[$appid]=$data;
-		
+
 		return $data;
 	}
 
@@ -545,34 +545,34 @@ class OC_App{
 	 * @todo: change the name of this method to getInstalledApps, which is more accurate
 	 */
 	public static function getAllApps() {
-	
+
 		$apps=array();
-		
+
 		foreach ( OC::$APPSROOTS as $apps_dir ) {
 			if(! is_readable($apps_dir['path'])) {
 				OC_Log::write('core', 'unable to read app folder : ' .$apps_dir['path'] , OC_Log::WARN);
 				continue;
 			}
 			$dh = opendir( $apps_dir['path'] );
-			
+
 			while( $file = readdir( $dh ) ) {
-			
-				if ( 
-				$file[0] != '.' 
-				and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php' ) 
+
+				if (
+				$file[0] != '.'
+				and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php' )
 				) {
-				
+
 					$apps[] = $file;
-					
+
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		return $apps;
 	}
-	
+
 	/**
 	 * @brief: get a list of all apps on apps.owncloud.com
 	 * @return array, multi-dimensional array of apps. Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
@@ -584,7 +584,7 @@ class OC_App{
 			if ( ! $categories = array_keys( $catagoryNames ) ) {
 				return false;
 			}
-			
+
 			$page = 0;
 			$remoteApps = OC_OCSClient::getApplications( $categories, $page, $filter );
 			$app1 = array();
@@ -659,7 +659,7 @@ class OC_App{
 		$version = OC_Util::getVersion();
 		foreach($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
-			$info = OC_App::getAppInfo($app);			
+			$info = OC_App::getAppInfo($app);
 			if(!isset($info['require']) or (($version[0].'.'.$version[1])>$info['require'])) {
 				OC_Log::write('core', 'App "'.$info['name'].'" ('.$app.') can\'t be used because it is not compatible with this version of ownCloud', OC_Log::ERROR);
 				OC_App::disable( $app );
