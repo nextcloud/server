@@ -559,6 +559,7 @@ class OC_Util {
 	* @brief Generates a cryptographical secure pseudorandom string
 	* @param Int with the length of the random string
 	* @return String
+	* Please also update secureRNG_available if you change something here
 	*/
 	public static function generate_random_bytes($length = 30) {
 
@@ -589,4 +590,27 @@ class OC_Util {
 		}        
 		return $pseudo_byte;
 	}
+	
+	/*
+	* @brief Checks if a secure random number generator is available
+	* @return bool 
+	*/
+	public static function secureRNG_available() {
+
+		// Check openssl_random_pseudo_bytes
+		if(function_exists('openssl_random_pseudo_bytes')) { 
+			openssl_random_pseudo_bytes(1, $strong);
+			if($strong == TRUE) {
+				return true;
+			}
+		}
+
+		// Check /dev/random
+		$fp = @file_get_contents('/dev/random', false, null, 0, 1);
+		if ($fp !== FALSE) {
+			return true;
+		}
+
+		return false;
+	}	
 }
