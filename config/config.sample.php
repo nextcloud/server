@@ -30,6 +30,9 @@ $CONFIG = array(
 /* Force use of HTTPS connection (true = use HTTPS) */
 "forcessl" => false,
 
+/* Enhanced auth forces users to enter their password again when performing potential sensitive actions like creating or deleting users */
+"enhancedauth" => true,
+
 /* Time in seconds how long an user is authenticated without entering his password again before performing sensitive actions like creating or deleting users etc...*/
 "enhancedauthtime" => 15 * 60,
 

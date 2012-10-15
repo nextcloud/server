@@ -391,17 +391,19 @@ class OC_Util {
 	* If not, the user will be shown a password verification page
 	*/
 	public static function verifyUser() {
-		// Check password to set session
-		if(isset($_POST['password'])) {
-			if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
-				$_SESSION['verifiedLogin']=time() + OC_Config::getValue('enhancedauthtime', 15 * 60);
+		if(OC_Config::getValue('enhancedauth', true) === true) {
+					// Check password to set session
+			if(isset($_POST['password'])) {
+				if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
+					$_SESSION['verifiedLogin']=time() + OC_Config::getValue('enhancedauthtime', 15 * 60);
+				}
 			}
-		}
 
 		// Check if the user verified his password
-		if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
-			OC_Template::printGuestPage("", "verify",  array('username' => OC_User::getUser()));
-			exit();
+			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
+				OC_Template::printGuestPage("", "verify",  array('username' => OC_User::getUser()));
+				exit();
+			}
 		}
 	}
 
@@ -410,10 +412,12 @@ class OC_Util {
 	* @return bool
 	*/
 	public static function isUserVerified() {
-		if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
-			return false;
+		if(OC_Config::getValue('enhancedauth', true) === true) {
+			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
+				return false;
+			}
+			return true;
 		}
-		return true;
 	}
 	
 	/**
