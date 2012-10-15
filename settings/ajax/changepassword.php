@@ -10,6 +10,7 @@ OC_JSON::verifyUser();
 
 $username = isset($_POST["username"]) ? $_POST["username"] : OC_User::getUser();
 $password = $_POST["password"];
+$oldPassword=isset($_POST["oldpassword"])?$_POST["oldpassword"]:'';
 
 $userstatus = null;
 if(OC_Group::inGroup(OC_User::getUser(), 'admin')) {
@@ -18,7 +19,7 @@ if(OC_Group::inGroup(OC_User::getUser(), 'admin')) {
 if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
 	$userstatus = 'subadmin';
 }
-if(OC_User::getUser() == $username) {
+if(OC_User::getUser() == $username && OC_User::checkPassword($username, $oldPassword)) {
 	$userstatus = 'user';
 }
 
