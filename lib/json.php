@@ -90,18 +90,7 @@ class OC_JSON{
 			exit();
 		}
 	}
-	/**
-	* Check if the user verified the login with his password in the last 15 minutes
-	* @return bool
-	*/
-	public static function isUserVerified() {
-		// Check if the user verified his password in the last 15 minutes
-		if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
-			return false;
-		}
-		return true;
-	}
-
+	
 	/**
 	* Send json error msg
 	*/

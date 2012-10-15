@@ -23,7 +23,7 @@ if(OC_User::getUser() === $username) {
 	{
 		$userstatus = 'user';
 	}  else {
-		if (!OC_JSON::isUserVerified()) {
+		if (!OC_Util::isUserVerified()) {
 			$userstatus = null;
 		}
 	}
