@@ -571,8 +571,8 @@ class OC_Util {
 			}
 		}
 
-		// Try to use /dev/random
-		$fp = @file_get_contents('/dev/random', false, null, 0, $length);
+		// Try to use /dev/urandom
+		$fp = @file_get_contents('/dev/urandom', false, null, 0, $length);
 		if ($fp !== FALSE) {
 			$string = substr(bin2hex($fp), 0, $length);  
 			return $string;
@@ -605,8 +605,8 @@ class OC_Util {
 			}
 		}
 
-		// Check /dev/random
-		$fp = @file_get_contents('/dev/random', false, null, 0, 1);
+		// Check /dev/urandom
+		$fp = @file_get_contents('/dev/urandom', false, null, 0, 1);
 		if ($fp !== FALSE) {
 			return true;
 		}
