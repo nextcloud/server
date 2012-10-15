@@ -557,7 +557,7 @@ class OC_Util {
 		}
 	}
 
-	/*
+	/**
 	* @brief Generates a cryptographical secure pseudorandom string
 	* @param Int with the length of the random string
 	* @return String
@@ -593,7 +593,7 @@ class OC_Util {
 		return $pseudo_byte;
 	}
 
-	/*
+	/**
 	* @brief Checks if a secure random number generator is available
 	* @return bool
 	*/
