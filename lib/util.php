@@ -394,7 +394,7 @@ class OC_Util {
 		// Check password to set session
 		if(isset($_POST['password'])) {
 			if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
-				$_SESSION['verifiedLogin']=time() + OC_Config::getValue('enhancedauthtime');
+				$_SESSION['verifiedLogin']=time() + OC_Config::getValue('enhancedauthtime', 15 * 60);
 			}
 		}
 
