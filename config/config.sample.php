@@ -30,6 +30,9 @@ $CONFIG = array(
 /* Force use of HTTPS connection (true = use HTTPS) */
 "forcessl" => false,
 
+/* Time in seconds how long an user is authenticated without entering his password again before performing sensitive actions like creating or deleting users etc...*/
+"enhancedauthtime" => 15 * 60,
+
 /* Theme to use for ownCloud */
 "theme" => "",
 

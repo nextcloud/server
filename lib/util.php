@@ -394,11 +394,11 @@ class OC_Util {
 		// Check password to set session
 		if(isset($_POST['password'])) {
 			if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
-				$_SESSION['verifiedLogin']=time() + (15 * 60);
+				$_SESSION['verifiedLogin']=time() + OC_Config::getValue('enhancedauthtime');
 			}
 		}
 
-		// Check if the user verified his password in the last 15 minutes
+		// Check if the user verified his password
 		if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
 			OC_Template::printGuestPage("", "verify",  array('username' => OC_User::getUser()));
 			exit();
@@ -406,11 +406,10 @@ class OC_Util {
 	}
 
 	/**
-	* Check if the user verified the login with his password in the last 15 minutes
+	* Check if the user verified the login with his password
 	* @return bool
 	*/
 	public static function isUserVerified() {
-		// Check if the user verified his password in the last 15 minutes
 		if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
 			return false;
 		}

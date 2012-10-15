@@ -391,6 +391,9 @@ class OC_Setup {
 					self::createHtaccess();
 				}
 
+				// Set the admin auth time
+				OC_Config::setValue('enhancedauthtime', 15 * 60);
+
 				//and we are done
 				OC_Config::setValue('installed', true);
 			}
