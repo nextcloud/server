@@ -392,8 +392,10 @@ class OC_Util {
 	*/
 	public static function verifyUser() {
 		// Check password to set session
-		if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
-			$_SESSION['verifiedLogin']=time() + (15 * 60);
+		if(isset($_POST['password'])) {
+			if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
+				$_SESSION['verifiedLogin']=time() + (15 * 60);
+			}
 		}
 
 		// Check if the user verified his password in the last 15 minutes
