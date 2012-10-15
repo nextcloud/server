@@ -5,12 +5,19 @@ $hasMySQL = is_callable('mysql_connect');
 $hasPostgreSQL = is_callable('pg_connect');
 $datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
 
+// Test if  .htaccess is working
+$content = "<Directory /data>\n";
+$content.= "Deny from All\n";
+$content.= "</Directory>";
+file_put_contents(OC::$SERVERROOT.'/data/.htaccess', $content);
+
 $opts = array(
 	'hasSQLite' => $hasSQLite,
 	'hasMySQL' => $hasMySQL,
 	'hasPostgreSQL' => $hasPostgreSQL,
 	'directory' => $datadir,
 	'secureRNG' => OC_Util::secureRNG_available(),
+	'htaccessWorking' => OC_Util::ishtaccessworking(),
 	'errors' => array(),
 );
 
