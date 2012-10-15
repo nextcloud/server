@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-11 02:04+0200\n"
-"PO-Revision-Date: 2012-10-10 21:26+0000\n"
-"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
+"POT-Creation-Date: 2012-10-15 02:04+0200\n"
+"PO-Revision-Date: 2012-10-14 01:19+0000\n"
+"Last-Translator: Duarte Velez Grilo <duartegrilo@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,11 +26,11 @@ msgstr "Anfitrião"
 #: templates/settings.php:8
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Pode omitir o protocolo, excepto se necessitar de SSL. Neste caso, comece com ldaps://"
 
 #: templates/settings.php:9
 msgid "Base DN"
-msgstr ""
+msgstr "DN base"
 
 #: templates/settings.php:9
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -38,7 +38,7 @@ msgstr "Pode especificar o ND Base para utilizadores e grupos no separador Avan�
 
 #: templates/settings.php:10
 msgid "User DN"
-msgstr ""
+msgstr "DN do utilizador"
 
 #: templates/settings.php:10
 msgid ""
@@ -53,7 +53,7 @@ msgstr "Palavra-passe"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Para acesso anónimo, deixe DN e a Palavra-passe vazios."
 
 #: templates/settings.php:12
 msgid "User Login Filter"
@@ -113,11 +113,11 @@ msgstr ""
 
 #: templates/settings.php:21
 msgid "Use TLS"
-msgstr ""
+msgstr "Usar TLS"
 
 #: templates/settings.php:21
 msgid "Do not use it for SSL connections, it will fail."
-msgstr ""
+msgstr "Não use para ligações SSL, irá falhar."
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
@@ -125,7 +125,7 @@ msgstr ""
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "Desligar a validação de certificado SSL."
 
 #: templates/settings.php:23
 msgid ""
@@ -165,7 +165,7 @@ msgstr "em segundos. Uma alteração esvazia a cache."
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr ""
+msgstr "Deixe vazio para nome de utilizador (padrão). De outro modo, especifique um atributo LDAP/AD."
 
 #: templates/settings.php:32
 msgid "Help"

@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-02 23:16+0200\n"
-"PO-Revision-Date: 2012-10-02 07:55+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2012-10-15 02:04+0200\n"
+"PO-Revision-Date: 2012-10-15 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,55 +42,55 @@ msgstr "Keine Kategorie hinzuzufügen?"
 msgid "This category already exists: "
 msgstr "Kategorie existiert bereits:"
 
-#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "January"
 msgstr "Januar"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "February"
 msgstr "Februar"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "March"
 msgstr "März"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "April"
 msgstr "April"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "May"
 msgstr "Mai"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "June"
 msgstr "Juni"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "July"
 msgstr "Juli"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "August"
 msgstr "August"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "September"
 msgstr "September"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "October"
 msgstr "Oktober"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "November"
 msgstr "November"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "December"
 msgstr "Dezember"
 
@@ -118,8 +118,8 @@ msgstr "OK"
 msgid "No categories selected for deletion."
 msgstr "Es wurde keine Kategorien zum Löschen ausgewählt."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:493
-#: js/share.js:505
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
 msgstr "Fehler"
 
@@ -159,7 +159,7 @@ msgstr "Über einen Link freigeben"
 msgid "Password protect"
 msgstr "Passwortschutz"
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:147 templates/installation.php:36 templates/login.php:13
 msgid "Password"
 msgstr "Passwort"
 
@@ -219,15 +219,15 @@ msgstr "löschen"
 msgid "share"
 msgstr "teilen"
 
-#: js/share.js:321 js/share.js:480
+#: js/share.js:322 js/share.js:484
 msgid "Password protected"
 msgstr "Durch ein Passwort geschützt"
 
-#: js/share.js:493
+#: js/share.js:497
 msgid "Error unsetting expiration date"
 msgstr "Fehler beim entfernen des Ablaufdatums"
 
-#: js/share.js:505
+#: js/share.js:509
 msgid "Error setting expiration date"
 msgstr "Fehler beim Setzen des Ablaufdatums"
 
@@ -251,7 +251,7 @@ msgstr "Angefragt"
 msgid "Login failed!"
 msgstr "Login fehlgeschlagen!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:32
 #: templates/login.php:9
 msgid "Username"
 msgstr "Benutzername"
@@ -312,52 +312,68 @@ msgstr "Kategorien bearbeiten"
 msgid "Add"
 msgstr "Hinzufügen"
 
+#: templates/installation.php:23
+msgid "Security Warning"
+msgstr ""
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:30
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>Administrator-Konto</strong> anlegen"
 
-#: templates/installation.php:36
+#: templates/installation.php:42
 msgid "Advanced"
 msgstr "Fortgeschritten"
 
-#: templates/installation.php:38
+#: templates/installation.php:44
 msgid "Data folder"
 msgstr "Datenverzeichnis"
 
-#: templates/installation.php:45
+#: templates/installation.php:51
 msgid "Configure the database"
 msgstr "Datenbank einrichten"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:56 templates/installation.php:67
+#: templates/installation.php:77 templates/installation.php:87
 msgid "will be used"
 msgstr "wird verwendet"
 
-#: templates/installation.php:93
+#: templates/installation.php:99
 msgid "Database user"
 msgstr "Datenbank-Benutzer"
 
-#: templates/installation.php:97
+#: templates/installation.php:103
 msgid "Database password"
 msgstr "Datenbank-Passwort"
 
-#: templates/installation.php:101
+#: templates/installation.php:107
 msgid "Database name"
 msgstr "Datenbank-Name"
 
-#: templates/installation.php:109
+#: templates/installation.php:115
 msgid "Database tablespace"
 msgstr "Datenbank-Tablespace"
 
-#: templates/installation.php:115
+#: templates/installation.php:121
 msgid "Database host"
 msgstr "Datenbank-Host"
 
-#: templates/installation.php:120
+#: templates/installation.php:126
 msgid "Finish setup"
 msgstr "Installation abschließen"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "Web-Services unter Ihrer Kontrolle"
 
