@@ -7,9 +7,7 @@ $hasOracle = is_callable('oci_connect');
 $datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
 
 // Test if  .htaccess is working
-$content = "<Directory /data>\n";
-$content.= "Deny from All\n";
-$content.= "</Directory>";
+$content = "deny from all";
 file_put_contents(OC::$SERVERROOT.'/data/.htaccess', $content);
 
 $opts = array(
