@@ -18,9 +18,8 @@
 	<fieldset class="personalblock">
 		<div id="passwordchanged"><?php echo $l->t('Your password was changed');?></div>
 		<div id="passworderror"><?php echo $l->t('Unable to change your password');?></div>
-		<input type="password" id="pass1" name="oldpassword" placeholder="<?php echo $l->t('Current password');?>" />
-		<input type="password" id="pass2" name="password" placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#show" />
-		<input type="checkbox" id="show" name="show" /><label for="show"><?php echo $l->t('show');?></label>
+		<input type="password" id="pass1" name="password" placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#show" />
+		<input type="password" id="pass2" name="password" placeholder="<?php echo $l->t('Verify password');?>" data-typetoggle="#show" />
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	</fieldset>
 </form>

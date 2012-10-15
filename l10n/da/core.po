@@ -5,6 +5,7 @@
 # Translators:
 #   <mikkelbjerglarsen@gmail.com>, 2011, 2012.
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011-2012.
+# Ole Holm Frandsen <froksen@gmail.com>, 2012.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
 #   <simon@rosmi.dk>, 2012.
 # Thomas Tanghus <>, 2012.
@@ -13,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
+"POT-Creation-Date: 2012-10-15 02:04+0200\n"
+"PO-Revision-Date: 2012-10-15 00:05+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -35,55 +36,55 @@ msgstr "Ingen kategori at tilføje?"
 msgid "This category already exists: "
 msgstr "Denne kategori eksisterer allerede: "
 
-#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "January"
 msgstr "Januar"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "February"
 msgstr "Februar"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "March"
 msgstr "Marts"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "April"
 msgstr "April"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "May"
 msgstr "Maj"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "June"
 msgstr "Juni"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "July"
 msgstr "Juli"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "August"
 msgstr "August"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "September"
 msgstr "September"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "October"
 msgstr "Oktober"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "November"
 msgstr "November"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "December"
 msgstr "December"
 
@@ -111,8 +112,8 @@ msgstr "OK"
 msgid "No categories selected for deletion."
 msgstr "Ingen kategorier valgt"
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
 msgstr "Fejl"
 
@@ -130,15 +131,15 @@ msgstr "Fejl under justering af rettigheder"
 
 #: js/share.js:130
 msgid "Shared with you and the group"
-msgstr ""
+msgstr "Delt med dig og gruppen"
 
 #: js/share.js:130
 msgid "by"
-msgstr ""
+msgstr "af"
 
 #: js/share.js:132
 msgid "Shared with you by"
-msgstr ""
+msgstr "Delt med dig af"
 
 #: js/share.js:137
 msgid "Share with"
@@ -152,7 +153,7 @@ msgstr "Del med link"
 msgid "Password protect"
 msgstr "Beskyt med adgangskode"
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:147 templates/installation.php:36 templates/login.php:13
 msgid "Password"
 msgstr "Kodeord"
 
@@ -166,7 +167,7 @@ msgstr "Udløbsdato"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Del via email:"
 
 #: js/share.js:187
 msgid "No people found"
@@ -178,49 +179,49 @@ msgstr "Videredeling ikke tilladt"
 
 #: js/share.js:250
 msgid "Shared in"
-msgstr ""
+msgstr "Delt i"
 
 #: js/share.js:250
 msgid "with"
-msgstr ""
+msgstr "med"
 
 #: js/share.js:271
 msgid "Unshare"
 msgstr "Fjern deling"
 
-#: js/share.js:279
+#: js/share.js:283
 msgid "can edit"
 msgstr "kan redigere"
 
-#: js/share.js:281
+#: js/share.js:285
 msgid "access control"
 msgstr "Adgangskontrol"
 
-#: js/share.js:284
+#: js/share.js:288
 msgid "create"
 msgstr "opret"
 
-#: js/share.js:287
+#: js/share.js:291
 msgid "update"
 msgstr "opdater"
 
-#: js/share.js:290
+#: js/share.js:294
 msgid "delete"
 msgstr "slet"
 
-#: js/share.js:293
+#: js/share.js:297
 msgid "share"
 msgstr "del"
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:322 js/share.js:484
 msgid "Password protected"
 msgstr "Beskyttet med adgangskode"
 
-#: js/share.js:489
+#: js/share.js:497
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Fejl ved fjernelse af udløbsdato"
 
-#: js/share.js:501
+#: js/share.js:509
 msgid "Error setting expiration date"
 msgstr "Fejl under sætning af udløbsdato"
 
@@ -244,12 +245,12 @@ msgstr "Forespugt"
 msgid "Login failed!"
 msgstr "Login fejlede!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:32
 #: templates/login.php:9
 msgid "Username"
 msgstr "Brugernavn"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Anmod om nulstilling"
 
@@ -305,52 +306,68 @@ msgstr "Rediger kategorier"
 msgid "Add"
 msgstr "Tilføj"
 
+#: templates/installation.php:23
+msgid "Security Warning"
+msgstr ""
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:30
 msgid "Create an <strong>admin account</strong>"
 msgstr "Opret en <strong>administratorkonto</strong>"
 
-#: templates/installation.php:36
+#: templates/installation.php:42
 msgid "Advanced"
 msgstr "Avanceret"
 
-#: templates/installation.php:38
+#: templates/installation.php:44
 msgid "Data folder"
 msgstr "Datamappe"
 
-#: templates/installation.php:45
+#: templates/installation.php:51
 msgid "Configure the database"
 msgstr "Konfigurer databasen"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:56 templates/installation.php:67
+#: templates/installation.php:77 templates/installation.php:87
 msgid "will be used"
 msgstr "vil blive brugt"
 
-#: templates/installation.php:93
+#: templates/installation.php:99
 msgid "Database user"
 msgstr "Databasebruger"
 
-#: templates/installation.php:97
+#: templates/installation.php:103
 msgid "Database password"
 msgstr "Databasekodeord"
 
-#: templates/installation.php:101
+#: templates/installation.php:107
 msgid "Database name"
 msgstr "Navn på database"
 
-#: templates/installation.php:109
+#: templates/installation.php:115
 msgid "Database tablespace"
 msgstr "Database tabelplads"
 
-#: templates/installation.php:115
+#: templates/installation.php:121
 msgid "Database host"
 msgstr "Databasehost"
 
-#: templates/installation.php:120
+#: templates/installation.php:126
 msgid "Finish setup"
 msgstr "Afslut opsætning"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "Webtjenester under din kontrol"
 
@@ -362,11 +379,11 @@ msgstr "Log ud"
 msgid "Lost your password?"
 msgstr "Mistet dit kodeord?"
 
-#: templates/login.php:17
+#: templates/login.php:16
 msgid "remember"
 msgstr "husk"
 
-#: templates/login.php:18
+#: templates/login.php:17
 msgid "Log in"
 msgstr "Log ind"
 

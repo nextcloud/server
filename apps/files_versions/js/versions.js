@@ -45,7 +45,7 @@ function createVersionsDropdown(filename, files) {
 
 	var historyUrl = OC.linkTo('files_versions', 'history.php') + '?path='+encodeURIComponent( $( '#dir' ).val() ).replace( /%2F/g, '/' )+'/'+encodeURIComponent( filename );
 
-	var html = '<div id="dropdown" class="drop drop-versions" data-file="'+files+'">';
+	var html = '<div id="dropdown" class="drop drop-versions" data-file="'+escapeHTML(files)+'">';
 	html += '<div id="private">';
 	html += '<select data-placeholder="Saved versions" id="found_versions" class="chzen-select" style="width:16em;">';
 	html += '<option value=""></option>';
@@ -68,7 +68,7 @@ function createVersionsDropdown(filename, files) {
 		data: { source: files },
 		async: false,
 		success: function( versions ) {
-			
+
 			if (versions) {
 				$.each( versions, function(index, row ) {
 					addVersion( row );
@@ -128,7 +128,7 @@ function createVersionsDropdown(filename, files) {
 
 		version.appendTo('#found_versions');
 	}
-	
+
 	$('tr').filterAttr('data-file',filename).addClass('mouseOver');
 	$('#dropdown').show('blind');
 
@@ -144,6 +144,6 @@ $(this).click(
 		});
 	}
 
-	
+
 	}
 );

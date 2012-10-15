@@ -4,6 +4,7 @@
 require_once '../../lib/base.php';
 OC_JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+OC_JSON::verifyUser();
 
 $l=OC_L10N::get('core');
 

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
+"POT-Creation-Date: 2012-10-15 02:04+0200\n"
+"PO-Revision-Date: 2012-10-15 00:05+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -30,55 +30,55 @@ msgstr "Keng Kategorie fir bäizesetzen?"
 msgid "This category already exists: "
 msgstr "Des Kategorie existéiert schonn:"
 
-#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Astellungen"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "January"
 msgstr "Januar"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "February"
 msgstr "Februar"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "March"
 msgstr "Mäerz"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "April"
 msgstr "Abrëll"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "May"
 msgstr "Mee"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "June"
 msgstr "Juni"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "July"
 msgstr "Juli"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "August"
 msgstr "August"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "September"
 msgstr "September"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "October"
 msgstr "Oktober"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "November"
 msgstr "November"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "December"
 msgstr "Dezember"
 
@@ -106,8 +106,8 @@ msgstr "OK"
 msgid "No categories selected for deletion."
 msgstr "Keng Kategorien ausgewielt fir ze läschen."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
 msgstr "Fehler"
 
@@ -147,7 +147,7 @@ msgstr ""
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:147 templates/installation.php:36 templates/login.php:13
 msgid "Password"
 msgstr "Passwuert"
 
@@ -183,39 +183,39 @@ msgstr ""
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:279
+#: js/share.js:283
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:281
+#: js/share.js:285
 msgid "access control"
 msgstr ""
 
-#: js/share.js:284
+#: js/share.js:288
 msgid "create"
 msgstr ""
 
-#: js/share.js:287
+#: js/share.js:291
 msgid "update"
 msgstr ""
 
-#: js/share.js:290
+#: js/share.js:294
 msgid "delete"
 msgstr ""
 
-#: js/share.js:293
+#: js/share.js:297
 msgid "share"
 msgstr ""
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:322 js/share.js:484
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:489
+#: js/share.js:497
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:501
+#: js/share.js:509
 msgid "Error setting expiration date"
 msgstr ""
 
@@ -239,12 +239,12 @@ msgstr "Gefrot"
 msgid "Login failed!"
 msgstr "Falschen Login!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:32
 #: templates/login.php:9
 msgid "Username"
 msgstr "Benotzernumm"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Reset ufroen"
 
@@ -300,52 +300,68 @@ msgstr "Kategorien editéieren"
 msgid "Add"
 msgstr "Bäisetzen"
 
+#: templates/installation.php:23
+msgid "Security Warning"
+msgstr ""
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:30
 msgid "Create an <strong>admin account</strong>"
 msgstr "En <strong>Admin Account</strong> uleeën"
 
-#: templates/installation.php:36
+#: templates/installation.php:42
 msgid "Advanced"
 msgstr "Advanced"
 
-#: templates/installation.php:38
+#: templates/installation.php:44
 msgid "Data folder"
 msgstr "Daten Dossier"
 
-#: templates/installation.php:45
+#: templates/installation.php:51
 msgid "Configure the database"
 msgstr "Datebank konfiguréieren"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:56 templates/installation.php:67
+#: templates/installation.php:77 templates/installation.php:87
 msgid "will be used"
 msgstr "wärt benotzt ginn"
 
-#: templates/installation.php:93
+#: templates/installation.php:99
 msgid "Database user"
 msgstr "Datebank Benotzer"
 
-#: templates/installation.php:97
+#: templates/installation.php:103
 msgid "Database password"
 msgstr "Datebank Passwuert"
 
-#: templates/installation.php:101
+#: templates/installation.php:107
 msgid "Database name"
 msgstr "Datebank Numm"
 
-#: templates/installation.php:109
+#: templates/installation.php:115
 msgid "Database tablespace"
 msgstr "Datebank Tabelle-Gréisst"
 
-#: templates/installation.php:115
+#: templates/installation.php:121
 msgid "Database host"
 msgstr "Datebank Server"
 
-#: templates/installation.php:120
+#: templates/installation.php:126
 msgid "Finish setup"
 msgstr "Installatioun ofschléissen"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "Web Servicer ënnert denger Kontroll"
 
@@ -357,11 +373,11 @@ msgstr "Ausloggen"
 msgid "Lost your password?"
 msgstr "Passwuert vergiess?"
 
-#: templates/login.php:17
+#: templates/login.php:16
 msgid "remember"
 msgstr "verhalen"
 
-#: templates/login.php:18
+#: templates/login.php:17
 msgid "Log in"
 msgstr "Log dech an"
 

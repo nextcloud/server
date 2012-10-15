@@ -1,4 +1,10 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Toegang toegestaan",
+"Error configuring Dropbox storage" => "Fout tijdens het configureren van Dropbox opslag",
+"Grant access" => "Sta toegang toe",
+"Fill out all required fields" => "Vul alle verplichte in",
+"Please provide a valid Dropbox app key and secret." => "Geef een geldige Dropbox key en secret.",
+"Error configuring Google Drive storage" => "Fout tijdens het configureren van Google Drive opslag",
 "External Storage" => "Externe opslag",
 "Mount point" => "Aankoppelpunt",
 "Backend" => "Backend",

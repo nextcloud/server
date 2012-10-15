@@ -36,6 +36,7 @@
 "More" => "もっと",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>により開発されています、<a href=\"https://github.com/owncloud\" target=\"_blank\">ソースコード</a>ライセンスは、<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> ライセンスにより提供されています。",
 "Add your App" => "アプリを追加",
+"More Apps" => "さらにアプリを表示",
 "Select an App" => "アプリを選択してください",
 "See application page at apps.owncloud.com" => "apps.owncloud.com でアプリケーションのページを見てください",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-ライセンス: <span class=\"author\"></span>",

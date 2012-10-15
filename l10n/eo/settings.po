@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-09 02:03+0200\n"
-"PO-Revision-Date: 2012-10-09 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-14 02:05+0200\n"
+"PO-Revision-Date: 2012-10-13 05:05+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,22 +23,22 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Ne eblis ŝargi liston el aplikaĵovendejo"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/creategroup.php:9 ajax/removeuser.php:18 ajax/setquota.php:18
 #: ajax/togglegroups.php:15
 msgid "Authentication error"
 msgstr "Aŭtentiga eraro"
 
 #: ajax/creategroup.php:19
 msgid "Group already exists"
-msgstr ""
+msgstr "La grupo jam ekzistas"
 
 #: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "Ne eblis aldoni la grupon"
 
 #: ajax/enableapp.php:14
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Ne eblis kapabligi la aplikaĵon."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -58,11 +58,11 @@ msgstr "Nevalida peto"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Ne eblis forigi la grupon"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Ne eblis forigi la uzanton"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -71,12 +71,12 @@ msgstr "La lingvo estas ŝanĝita"
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Ne eblis aldoni la uzanton al la grupo %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Ne eblis forigi la uzantan el la grupo %s"
 
 #: js/apps.js:28 js/apps.js:65
 msgid "Disable"
@@ -90,7 +90,7 @@ msgstr "Kapabligi"
 msgid "Saving..."
 msgstr "Konservante..."
 
-#: personal.php:47 personal.php:48
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "Esperanto"
 
@@ -129,39 +129,39 @@ msgstr ""
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "Kunhavigo"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
-msgstr ""
+msgstr "Kapabligi API-on por Kunhavigo"
 
 #: templates/admin.php:62
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Kapabligi aplikaĵojn uzi la API-on pri Kunhavigo"
 
 #: templates/admin.php:67
 msgid "Allow links"
-msgstr ""
+msgstr "Kapabligi ligilojn"
 
 #: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Kapabligi uzantojn kunhavigi erojn kun la publiko perligile"
 
 #: templates/admin.php:73
 msgid "Allow resharing"
-msgstr ""
+msgstr "Kapabligi rekunhavigon"
 
 #: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Kapabligi uzantojn rekunhavigi erojn kunhavigitajn kun ili"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Kapabligi uzantojn kunhavigi kun ĉiu ajn"
 
 #: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Kapabligi uzantojn nur kunhavigi kun uzantoj el siaj grupoj"
 
 #: templates/admin.php:88
 msgid "Log"
@@ -187,7 +187,7 @@ msgstr "Aldonu vian aplikaĵon"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "Pli da aplikaĵoj"
 
 #: templates/apps.php:27
 msgid "Select an App"
@@ -199,7 +199,7 @@ msgstr "Vidu la paĝon pri aplikaĵoj ĉe apps.owncloud.com"
 
 #: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"</span>-permesilhavigita de <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"
@@ -228,7 +228,7 @@ msgstr "Respondi"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
+msgstr "Vi uzas <strong>%s</strong> el la haveblaj <strong>%s</strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -240,7 +240,7 @@ msgstr "Elŝuti"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "Via pasvorto ŝanĝiĝis"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

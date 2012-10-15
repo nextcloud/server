@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
+"POT-Creation-Date: 2012-10-15 02:04+0200\n"
+"PO-Revision-Date: 2012-10-15 00:05+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -32,55 +32,55 @@ msgstr "Eklenecek kategori yok?"
 msgid "This category already exists: "
 msgstr "Bu kategori zaten mevcut: "
 
-#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "January"
 msgstr "Ocak"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "February"
 msgstr "Şubat"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "March"
 msgstr "Mart"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "April"
 msgstr "Nisan"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "May"
 msgstr "Mayıs"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "June"
 msgstr "Haziran"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "July"
 msgstr "Temmuz"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "August"
 msgstr "Ağustos"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "September"
 msgstr "Eylül"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "October"
 msgstr "Ekim"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "November"
 msgstr "Kasım"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "December"
 msgstr "Aralık"
 
@@ -108,8 +108,8 @@ msgstr "Tamam"
 msgid "No categories selected for deletion."
 msgstr "Silmek için bir kategori seçilmedi"
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
 msgstr "Hata"
 
@@ -149,7 +149,7 @@ msgstr ""
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:147 templates/installation.php:36 templates/login.php:13
 msgid "Password"
 msgstr "Parola"
 
@@ -185,39 +185,39 @@ msgstr ""
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:279
+#: js/share.js:283
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:281
+#: js/share.js:285
 msgid "access control"
 msgstr ""
 
-#: js/share.js:284
+#: js/share.js:288
 msgid "create"
 msgstr ""
 
-#: js/share.js:287
+#: js/share.js:291
 msgid "update"
 msgstr ""
 
-#: js/share.js:290
+#: js/share.js:294
 msgid "delete"
 msgstr ""
 
-#: js/share.js:293
+#: js/share.js:297
 msgid "share"
 msgstr ""
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:322 js/share.js:484
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:489
+#: js/share.js:497
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:501
+#: js/share.js:509
 msgid "Error setting expiration date"
 msgstr ""
 
@@ -241,12 +241,12 @@ msgstr "İstendi"
 msgid "Login failed!"
 msgstr "Giriş başarısız!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:32
 #: templates/login.php:9
 msgid "Username"
 msgstr "Kullanıcı adı"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Sıfırlama iste"
 
@@ -302,52 +302,68 @@ msgstr "Kategorileri düzenle"
 msgid "Add"
 msgstr "Ekle"
 
+#: templates/installation.php:23
+msgid "Security Warning"
+msgstr ""
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:30
 msgid "Create an <strong>admin account</strong>"
 msgstr "Bir <strong>yönetici hesabı</strong> oluşturun"
 
-#: templates/installation.php:36
+#: templates/installation.php:42
 msgid "Advanced"
 msgstr "Gelişmiş"
 
-#: templates/installation.php:38
+#: templates/installation.php:44
 msgid "Data folder"
 msgstr "Veri klasörü"
 
-#: templates/installation.php:45
+#: templates/installation.php:51
 msgid "Configure the database"
 msgstr "Veritabanını ayarla"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:56 templates/installation.php:67
+#: templates/installation.php:77 templates/installation.php:87
 msgid "will be used"
 msgstr "kullanılacak"
 
-#: templates/installation.php:93
+#: templates/installation.php:99
 msgid "Database user"
 msgstr "Veritabanı kullanıcı adı"
 
-#: templates/installation.php:97
+#: templates/installation.php:103
 msgid "Database password"
 msgstr "Veritabanı parolası"
 
-#: templates/installation.php:101
+#: templates/installation.php:107
 msgid "Database name"
 msgstr "Veritabanı adı"
 
-#: templates/installation.php:109
+#: templates/installation.php:115
 msgid "Database tablespace"
 msgstr "Veritabanı tablo alanı"
 
-#: templates/installation.php:115
+#: templates/installation.php:121
 msgid "Database host"
 msgstr "Veritabanı sunucusu"
 
-#: templates/installation.php:120
+#: templates/installation.php:126
 msgid "Finish setup"
 msgstr "Kurulumu tamamla"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "kontrolünüzdeki web servisleri"
 
@@ -359,11 +375,11 @@ msgstr "Çıkış yap"
 msgid "Lost your password?"
 msgstr "Parolanızı mı unuttunuz?"
 
-#: templates/login.php:17
+#: templates/login.php:16
 msgid "remember"
 msgstr "hatırla"
 
-#: templates/login.php:18
+#: templates/login.php:17
 msgid "Log in"
 msgstr "Giriş yap"
 

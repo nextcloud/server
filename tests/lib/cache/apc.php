@@ -22,8 +22,12 @@
 
 class Test_Cache_APC extends Test_Cache {
 	public function setUp() {
-		if(!function_exists('apc_store')){
+		if(!extension_loaded('apc')){
 			$this->markTestSkipped('The apc extension is not available.');
+			return;
+		}
+		if(!ini_get('apc.enable_cli') && OC::$CLI){
+			$this->markTestSkipped('apc not available in CLI.');
 			return;
 		}
 		$this->instance=new OC_Cache_APC();

@@ -22,6 +22,7 @@
 "Do not use it for SSL connections, it will fail." => "Ne uzu ĝin por SSL-konektoj, ĝi malsukcesos.",
 "Case insensitve LDAP server (Windows)" => "LDAP-servilo blinda je litergrandeco (Vindozo)",
 "Turn off SSL certificate validation." => "Malkapabligi validkontrolon de SSL-atestiloj.",
+"If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Se la konekto nur funkcias kun ĉi tiu malnepro, enportu la SSL-atestilo de la LDAP-servilo en via ownCloud-servilo.",
 "Not recommended, use for testing only." => "Ne rekomendata, uzu ĝin nur por testoj.",
 "User Display Name Field" => "Kampo de vidignomo de uzanto",
 "The LDAP attribute to use to generate the user`s ownCloud name." => "La atributo de LDAP uzota por generi la ownCloud-an nomon de la uzanto.",

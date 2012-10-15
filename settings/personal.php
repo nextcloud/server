@@ -7,6 +7,7 @@
 
 require_once '../lib/base.php';
 OC_Util::checkLoggedIn();
+OC_Util::verifyUser();
 
 // Highlight navigation entry
 OC_Util::addScript( 'settings', 'personal' );
@@ -18,12 +19,7 @@ OC_App::setActiveNavigationEntry( 'personal' );
 // calculate the disc space
 $rootInfo=OC_FileCache::get('');
 $sharedInfo=OC_FileCache::get('/Shared');
-if (!isset($sharedInfo['size'])) {
-	$sharedSize = 0;
-} else {
-	$sharedSize = $sharedInfo['size'];
-}
-$used=$rootInfo['size']-$sharedSize;
+$used=$rootInfo['size'];
 if($used<0) $used=0;
 $free=OC_Filesystem::free_space();
 $total=$free+$used;

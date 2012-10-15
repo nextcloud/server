@@ -13,8 +13,8 @@ require_once '../../lib/base.php';
 // Someone lost their password:
 if (isset($_POST['user'])) {
 	if (OC_User::userExists($_POST['user'])) {
-		$token = hash("sha256", $_POST['user'].OC_Util::generate_random_bytes(10));
-		OC_Preferences::setValue($_POST['user'], 'owncloud', 'lostpassword', $token);
+		$token = hash("sha256", OC_Util::generate_random_bytes(30).OC_Config::getValue('passwordsalt', ''));
+		OC_Preferences::setValue($_POST['user'], 'owncloud', 'lostpassword', hash("sha256", $token)); // Hash the token again to prevent timing attacks
 		$email = OC_Preferences::getValue($_POST['user'], 'settings', 'email', '');
 		if (!empty($email)) {
 			$link = OC_Helper::linkToAbsolute('core/lostpassword', 'resetpassword.php', array('user' => $_POST['user'], 'token' => $token));

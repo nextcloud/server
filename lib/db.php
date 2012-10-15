@@ -391,7 +391,7 @@ class OC_DB {
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function getDbStructure( $file ,$mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
+	public static function getDbStructure( $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
 		self::connectScheme();
 
 		// write the scheme
@@ -476,7 +476,7 @@ class OC_DB {
 	public static function updateDbFromStructure($file) {
 		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
-		
+
 		self::connectScheme();
 
 		// read file
@@ -732,7 +732,7 @@ class OC_DB {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * returns the error code and message as a string for logging
 	 * works with MDB2 and PDOException

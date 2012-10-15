@@ -3,7 +3,6 @@
 <input type='hidden' id='hasPostgreSQL' value='<?php echo $_['hasPostgreSQL'] ?>'></input>
 <input type='hidden' id='hasOracle' value='<?php echo $_['hasOracle'] ?>'></input>
 <form action="index.php" method="post">
-
 <input type="hidden" name="install" value="true" />
 	<?php if(count($_['errors']) > 0): ?>
 	<ul class="errors">
@@ -19,7 +18,14 @@
 		<?php endforeach; ?>
 	</ul>
 	<?php endif; ?>
-
+	<?php if(!$_['secureRNG']): ?>
+	<fieldset style="color: #B94A48; background-color: #F2DEDE; border-color: #EED3D7;">
+		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
+		<span><?php echo $l->t('No secure random number generator is available, please enable the PHP OpenSSL extension.');?></span>		
+		<br/>
+		<span><?php echo $l->t('Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account.');?></span>		
+	</fieldset>
+	<?php endif; ?>
 	<fieldset>
 		<legend><?php echo $l->t( 'Create an <strong>admin account</strong>' ); ?></legend>
 		<p class="infield">

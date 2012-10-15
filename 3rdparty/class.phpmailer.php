@@ -2,7 +2,7 @@
 /*~ class.phpmailer.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
-|   Version: 5.2                                                            |
+|   Version: 5.2.1                                                          |
 |      Site: https://code.google.com/a/apache-extras.org/p/phpmailer/       |
 | ------------------------------------------------------------------------- |
 |     Admin: Jim Jagielski (project admininistrator)                        |
@@ -10,7 +10,7 @@
 |          : Marcus Bointon (coolbru) coolbru@users.sourceforge.net         |
 |          : Jim Jagielski (jimjag) jimjag@gmail.com                        |
 |   Founder: Brent R. Matzelle (original founder)                           |
-| Copyright (c) 2010-2011, Jim Jagielski. All Rights Reserved.               |
+| Copyright (c) 2010-2012, Jim Jagielski. All Rights Reserved.              |
 | Copyright (c) 2004-2009, Andy Prevost. All Rights Reserved.               |
 | Copyright (c) 2001-2003, Brent R. Matzelle                                |
 | ------------------------------------------------------------------------- |
@@ -29,7 +29,7 @@
  * @author Andy Prevost
  * @author Marcus Bointon
  * @author Jim Jagielski
- * @copyright 2010 - 2011 Jim Jagielski
+ * @copyright 2010 - 2012 Jim Jagielski
  * @copyright 2004 - 2009 Andy Prevost
  * @version $Id: class.phpmailer.php 450 2010-06-23 16:46:33Z coolbru $
  * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
@@ -128,6 +128,13 @@ class PHPMailer {
    * @access protected
    */
   protected $MIMEHeader     = '';
+
+  /**
+   * Stores the complete sent MIME message (Body and Headers)
+   * @var string
+   * @access protected
+  */
+  protected $SentMIMEMessage     = '';
 
   /**
    * Sets word wrapping on the body of the message to a given number of
@@ -317,7 +324,7 @@ class PHPMailer {
    * Sets the PHPMailer Version number
    * @var string
    */
-  public $Version         = '5.2';
+  public $Version         = '5.2.1';
 
   /**
    * What to use in the X-Mailer header
@@ -460,7 +467,7 @@ class PHPMailer {
    * @return boolean
    */
   public function AddReplyTo($address, $name = '') {
-    return $this->AddAnAddress('ReplyTo', $address, $name);
+    return $this->AddAnAddress('Reply-To', $address, $name);
   }
 
   /**
@@ -473,12 +480,14 @@ class PHPMailer {
    * @access protected
    */
   protected function AddAnAddress($kind, $address, $name = '') {
-    if (!preg_match('/^(to|cc|bcc|ReplyTo)$/', $kind)) {
+    if (!preg_match('/^(to|cc|bcc|Reply-To)$/', $kind)) {
       $this->SetError($this->Lang('Invalid recipient array').': '.$kind);
       if ($this->exceptions) {
         throw new phpmailerException('Invalid recipient array: ' . $kind);
       }
-      echo $this->Lang('Invalid recipient array').': '.$kind;
+	  if ($this->SMTPDebug) {
+        echo $this->Lang('Invalid recipient array').': '.$kind;
+      }
       return false;
     }
     $address = trim($address);
@@ -488,10 +497,12 @@ class PHPMailer {
       if ($this->exceptions) {
         throw new phpmailerException($this->Lang('invalid_address').': '.$address);
       }
-      echo $this->Lang('invalid_address').': '.$address;
+	  if ($this->SMTPDebug) {
+        echo $this->Lang('invalid_address').': '.$address;
+      }
       return false;
     }
-    if ($kind != 'ReplyTo') {
+    if ($kind != 'Reply-To') {
       if (!isset($this->all_recipients[strtolower($address)])) {
         array_push($this->$kind, array($address, $name));
         $this->all_recipients[strtolower($address)] = true;
@@ -520,14 +531,16 @@ class PHPMailer {
       if ($this->exceptions) {
         throw new phpmailerException($this->Lang('invalid_address').': '.$address);
       }
-      echo $this->Lang('invalid_address').': '.$address;
+	  if ($this->SMTPDebug) {
+        echo $this->Lang('invalid_address').': '.$address;
+      }
       return false;
     }
     $this->From = $address;
     $this->FromName = $name;
     if ($auto) {
       if (empty($this->ReplyTo)) {
-        $this->AddAnAddress('ReplyTo', $address, $name);
+        $this->AddAnAddress('Reply-To', $address, $name);
       }
       if (empty($this->Sender)) {
         $this->Sender = $address;
@@ -574,6 +587,7 @@ class PHPMailer {
       if(!$this->PreSend()) return false;
       return $this->PostSend();
     } catch (phpmailerException $e) {
+	  $this->SentMIMEMessage = '';
       $this->SetError($e->getMessage());
       if ($this->exceptions) {
         throw $e;
@@ -584,6 +598,7 @@ class PHPMailer {
 
   protected function PreSend() {
     try {
+	  $mailHeader = "";
       if ((count($this->to) + count($this->cc) + count($this->bcc)) < 1) {
         throw new phpmailerException($this->Lang('provide_address'), self::STOP_CRITICAL);
       }
@@ -603,6 +618,19 @@ class PHPMailer {
       $this->MIMEHeader = $this->CreateHeader();
       $this->MIMEBody = $this->CreateBody();
 
+      // To capture the complete message when using mail(), create
+	  // an extra header list which CreateHeader() doesn't fold in
+      if ($this->Mailer == 'mail') {
+        if (count($this->to) > 0) {
+          $mailHeader .= $this->AddrAppend("To", $this->to);
+        } else {
+          $mailHeader .= $this->HeaderLine("To", "undisclosed-recipients:;");
+        }
+        $mailHeader .= $this->HeaderLine('Subject', $this->EncodeHeader($this->SecureHeader(trim($this->Subject))));
+        // if(count($this->cc) > 0) {
+            // $mailHeader .= $this->AddrAppend("Cc", $this->cc);
+        // }
+      }
 
       // digitally sign with DKIM if enabled
       if ($this->DKIM_domain && $this->DKIM_private) {
@@ -610,7 +638,9 @@ class PHPMailer {
         $this->MIMEHeader = str_replace("\r\n", "\n", $header_dkim) . $this->MIMEHeader;
       }
 
+      $this->SentMIMEMessage = sprintf("%s%s\r\n\r\n%s",$this->MIMEHeader,$mailHeader,$this->MIMEBody);
       return true;
+
     } catch (phpmailerException $e) {
       $this->SetError($e->getMessage());
       if ($this->exceptions) {
@@ -628,6 +658,8 @@ class PHPMailer {
           return $this->SendmailSend($this->MIMEHeader, $this->MIMEBody);
         case 'smtp':
           return $this->SmtpSend($this->MIMEHeader, $this->MIMEBody);
+        case 'mail':
+          return $this->MailSend($this->MIMEHeader, $this->MIMEBody);
         default:
           return $this->MailSend($this->MIMEHeader, $this->MIMEBody);
       }
@@ -637,7 +669,9 @@ class PHPMailer {
       if ($this->exceptions) {
         throw $e;
       }
-      echo $e->getMessage()."\n";
+	  if ($this->SMTPDebug) {
+        echo $e->getMessage()."\n";
+      }
       return false;
     }
   }
@@ -703,7 +737,7 @@ class PHPMailer {
     $to = implode(', ', $toArr);
 
     if (empty($this->Sender)) {
-      $params = "-oi -f %s";
+      $params = "-oi ";
     } else {
       $params = sprintf("-oi -f %s", $this->Sender);
     }
@@ -732,7 +766,7 @@ class PHPMailer {
           $this->doCallback($isSent, $val, $this->cc, $this->bcc, $this->Subject, $body);
         }
       } else {
-        $rt = @mail($to, $this->EncodeHeader($this->SecureHeader($this->Subject)), $body, $header);
+        $rt = @mail($to, $this->EncodeHeader($this->SecureHeader($this->Subject)), $body, $header, $params);
         // implement call back function if it exists
         $isSent = ($rt == 1) ? 1 : 0;
         $this->doCallback($isSent, $to, $this->cc, $this->bcc, $this->Subject, $body);
@@ -880,7 +914,9 @@ class PHPMailer {
       }
     } catch (phpmailerException $e) {
       $this->smtp->Reset();
-      throw $e;
+	  if ($this->exceptions) {
+        throw $e;
+      }
     }
     return true;
   }
@@ -1159,7 +1195,7 @@ class PHPMailer {
           $result .= $this->HeaderLine('To', 'undisclosed-recipients:;');
         }
       }
-    }
+	}
 
     $from = array();
     $from[0][0] = trim($this->From);
@@ -1177,7 +1213,7 @@ class PHPMailer {
     }
 
     if(count($this->ReplyTo) > 0) {
-      $result .= $this->AddrAppend('Reply-to', $this->ReplyTo);
+      $result .= $this->AddrAppend('Reply-To', $this->ReplyTo);
     }
 
     // mail() sets the subject itself
@@ -1249,6 +1285,16 @@ class PHPMailer {
 
     return $result;
   }
+
+  /**
+   * Returns the MIME message (headers and body). Only really valid post PreSend().
+   * @access public
+   * @return string
+   */
+  public function GetSentMIMEMessage() {
+    return $this->SentMIMEMessage;
+  }
+
 
   /**
    * Assembles the message body.  Returns an empty string on failure.
@@ -1363,8 +1409,8 @@ class PHPMailer {
         $signed = tempnam("", "signed");
         if (@openssl_pkcs7_sign($file, $signed, "file://".$this->sign_cert_file, array("file://".$this->sign_key_file, $this->sign_key_pass), NULL)) {
           @unlink($file);
-          @unlink($signed);
           $body = file_get_contents($signed);
+          @unlink($signed);
         } else {
           @unlink($file);
           @unlink($signed);
@@ -1487,7 +1533,9 @@ class PHPMailer {
       if ($this->exceptions) {
         throw $e;
       }
-      echo $e->getMessage()."\n";
+	  if ($this->SMTPDebug) {
+        echo $e->getMessage()."\n";
+      }
       if ( $e->getCode() == self::STOP_CRITICAL ) {
         return false;
       }
@@ -1590,15 +1638,23 @@ class PHPMailer {
           return false;
         }
       }
-      if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-        $magic_quotes = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(0);
-      }
+	  $magic_quotes = get_magic_quotes_runtime();
+	  if ($magic_quotes) {
+        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+          set_magic_quotes_runtime(0);
+        } else {
+		  ini_set('magic_quotes_runtime', 0); 
+		}
+	  }
       $file_buffer  = file_get_contents($path);
       $file_buffer  = $this->EncodeString($file_buffer, $encoding);
-      if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-        set_magic_quotes_runtime($magic_quotes);
-      }
+	  if ($magic_quotes) {
+        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+          set_magic_quotes_runtime($magic_quotes);
+        } else {
+		  ini_set('magic_quotes_runtime', $magic_quotes); 
+	    }
+	  }
       return $file_buffer;
     } catch (Exception $e) {
       $this->SetError($e->getMessage());
@@ -2154,7 +2210,7 @@ class PHPMailer {
    * @return $message
    */
   public function MsgHTML($message, $basedir = '') {
-    preg_match_all("/(src|background)=\"(.*)\"/Ui", $message, $images);
+    preg_match_all("/(src|background)=[\"'](.*)[\"']/Ui", $message, $images);
     if(isset($images[2])) {
       foreach($images[2] as $i => $url) {
         // do not change urls for absolute images (thanks to corvuscorax)
@@ -2168,20 +2224,23 @@ class PHPMailer {
           if ( strlen($basedir) > 1 && substr($basedir, -1) != '/') { $basedir .= '/'; }
           if ( strlen($directory) > 1 && substr($directory, -1) != '/') { $directory .= '/'; }
           if ( $this->AddEmbeddedImage($basedir.$directory.$filename, md5($filename), $filename, 'base64', $mimeType) ) {
-            $message = preg_replace("/".$images[1][$i]."=\"".preg_quote($url, '/')."\"/Ui", $images[1][$i]."=\"".$cid."\"", $message);
+            $message = preg_replace("/".$images[1][$i]."=[\"']".preg_quote($url, '/')."[\"']/Ui", $images[1][$i]."=\"".$cid."\"", $message);
           }
         }
       }
     }
     $this->IsHTML(true);
     $this->Body = $message;
-    $textMsg = trim(strip_tags(preg_replace('/<(head|title|style|script)[^>]*>.*?<\/\\1>/s', '', $message)));
-    if (!empty($textMsg) && empty($this->AltBody)) {
-      $this->AltBody = html_entity_decode($textMsg);
-    }
+	if (empty($this->AltBody)) {
+		$textMsg = trim(strip_tags(preg_replace('/<(head|title|style|script)[^>]*>.*?<\/\\1>/s', '', $message)));
+		if (!empty($textMsg)) {
+			$this->AltBody = html_entity_decode($textMsg, ENT_QUOTES, $this->CharSet);
+		}
+	}
     if (empty($this->AltBody)) {
       $this->AltBody = 'To view this email message, open it in a program that understands HTML!' . "\n\n";
     }
+	return $message;
   }
 
   /**

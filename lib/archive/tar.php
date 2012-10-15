@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once 'Archive/Tar.php';
+require_once '3rdparty/Archive/Tar.php';
 
 class OC_Archive_TAR extends OC_Archive{
 	const PLAIN=0;

@@ -5,6 +5,7 @@
 "Users" => "Пользователи",
 "Apps" => "Приложения",
 "Admin" => "Админ",
+"ZIP download is turned off." => "Загрузка ZIP выключена.",
 "Files need to be downloaded one by one." => "Файлы должны быть загружены один за другим.",
 "Back to Files" => "Обратно к файлам",
 "Selected files too large to generate zip file." => "Выбранные файлы слишком велики для генерации zip-архива.",

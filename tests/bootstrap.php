@@ -1,5 +1,7 @@
 <?php
 
+global $RUNTIME_NOAPPS;
+$RUNTIME_NOAPPS = true;
 require_once __DIR__.'/../lib/base.php';
 
 if(!class_exists('PHPUnit_Framework_TestCase')){
@@ -24,3 +26,6 @@ abstract class UnitTestCase extends PHPUnit_Framework_TestCase{
 		parent::assertFalse((bool)$actual, $string);
 	}
 }
+
+OC_Hook::clear();
+OC_Log::$enabled = false;

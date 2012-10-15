@@ -36,6 +36,7 @@
 "More" => "Mere",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Udviklet af <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownClouds community</a>, og <a href=\"https://github.com/owncloud\" target=\"_blank\">kildekoden</a> er underlagt licensen <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
 "Add your App" => "Tilføj din App",
+"More Apps" => "Flere Apps",
 "Select an App" => "Vælg en App",
 "See application page at apps.owncloud.com" => "Se applikationens side på apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licenseret af <span class=\"author\"></span>",

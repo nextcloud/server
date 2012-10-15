@@ -63,4 +63,3 @@ $tmpl->assign( 'maxPossibleUploadSize', $maxUploadFilesizePossible);
 $tmpl->assign( 'allowZipDownload', $allowZipDownload);
 $tmpl->assign( 'maxZipInputSize', $maxZipInputSize);
 return $tmpl->fetchPage();
-

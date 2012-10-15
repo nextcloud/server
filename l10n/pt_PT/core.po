@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Duarte Velez Grilo <duartegrilo@gmail.com>, 2012.
 #   <helder.meneses@gmail.com>, 2011, 2012.
 # Helder Meneses <helder.meneses@gmail.com>, 2012.
 #   <rjgpp.1994@gmail.com>, 2012.
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
+"POT-Creation-Date: 2012-10-15 02:04+0200\n"
+"PO-Revision-Date: 2012-10-15 00:05+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -32,61 +33,61 @@ msgstr "Nenhuma categoria para adicionar?"
 msgid "This category already exists: "
 msgstr "Esta categoria já existe:"
 
-#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Definições"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "January"
 msgstr "Janeiro"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "February"
 msgstr "Fevereiro"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "March"
 msgstr "Março"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "April"
 msgstr "Abril"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "May"
 msgstr "Maio"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "June"
 msgstr "Junho"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "July"
 msgstr "Julho"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "August"
 msgstr "Agosto"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "September"
 msgstr "Setembro"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "October"
 msgstr "Outubro"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "November"
 msgstr "Novembro"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "December"
 msgstr "Dezembro"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Escolha"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -108,118 +109,118 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Nenhuma categoria seleccionar para eliminar"
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
 msgstr "Erro"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Erro ao partilhar"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Erro ao deixar de partilhar"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Erro ao mudar permissões"
 
 #: js/share.js:130
 msgid "Shared with you and the group"
-msgstr ""
+msgstr "Partilhado consigo e o grupo"
 
 #: js/share.js:130
 msgid "by"
-msgstr ""
+msgstr "por"
 
 #: js/share.js:132
 msgid "Shared with you by"
-msgstr ""
+msgstr "Partilhado consigo por"
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "Partilhar com"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Partilhar com link"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "Proteger com palavra-passe"
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:147 templates/installation.php:36 templates/login.php:13
 msgid "Password"
 msgstr "Palavra chave"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "Especificar data de expiração"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "Data de expiração"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Partilhar via email:"
 
 #: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "Não foi encontrado ninguém"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Não é permitido partilhar de novo"
 
 #: js/share.js:250
 msgid "Shared in"
-msgstr ""
+msgstr "Partilhado em"
 
 #: js/share.js:250
 msgid "with"
-msgstr ""
+msgstr "com"
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Deixar de partilhar"
 
-#: js/share.js:279
+#: js/share.js:283
 msgid "can edit"
-msgstr ""
+msgstr "pode editar"
 
-#: js/share.js:281
+#: js/share.js:285
 msgid "access control"
-msgstr ""
+msgstr "Controlo de acesso"
 
-#: js/share.js:284
+#: js/share.js:288
 msgid "create"
-msgstr ""
+msgstr "criar"
 
-#: js/share.js:287
+#: js/share.js:291
 msgid "update"
-msgstr ""
+msgstr "actualizar"
 
-#: js/share.js:290
+#: js/share.js:294
 msgid "delete"
-msgstr ""
+msgstr "apagar"
 
-#: js/share.js:293
+#: js/share.js:297
 msgid "share"
-msgstr ""
+msgstr "partilhar"
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:322 js/share.js:484
 msgid "Password protected"
-msgstr ""
+msgstr "Protegido com palavra-passe"
 
-#: js/share.js:489
+#: js/share.js:497
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Erro ao retirar a data de expiração"
 
-#: js/share.js:501
+#: js/share.js:509
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Erro ao aplicar a data de expiração"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -241,12 +242,12 @@ msgstr "Pedido"
 msgid "Login failed!"
 msgstr "Conexão falhado!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:32
 #: templates/login.php:9
 msgid "Username"
 msgstr "Utilizador"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Pedir reposição"
 
@@ -302,52 +303,68 @@ msgstr "Editar categorias"
 msgid "Add"
 msgstr "Adicionar"
 
+#: templates/installation.php:23
+msgid "Security Warning"
+msgstr ""
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:30
 msgid "Create an <strong>admin account</strong>"
 msgstr "Criar uma <strong>conta administrativa</strong>"
 
-#: templates/installation.php:36
+#: templates/installation.php:42
 msgid "Advanced"
 msgstr "Avançado"
 
-#: templates/installation.php:38
+#: templates/installation.php:44
 msgid "Data folder"
 msgstr "Pasta de dados"
 
-#: templates/installation.php:45
+#: templates/installation.php:51
 msgid "Configure the database"
 msgstr "Configure a base de dados"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:56 templates/installation.php:67
+#: templates/installation.php:77 templates/installation.php:87
 msgid "will be used"
 msgstr "vai ser usada"
 
-#: templates/installation.php:93
+#: templates/installation.php:99
 msgid "Database user"
 msgstr "Utilizador da base de dados"
 
-#: templates/installation.php:97
+#: templates/installation.php:103
 msgid "Database password"
 msgstr "Password da base de dados"
 
-#: templates/installation.php:101
+#: templates/installation.php:107
 msgid "Database name"
 msgstr "Nome da base de dados"
 
-#: templates/installation.php:109
-msgid "Database tablespace"
-msgstr ""
-
 #: templates/installation.php:115
+msgid "Database tablespace"
+msgstr "Tablespace da base de dados"
+
+#: templates/installation.php:121
 msgid "Database host"
 msgstr "Host da base de dados"
 
-#: templates/installation.php:120
+#: templates/installation.php:126
 msgid "Finish setup"
 msgstr "Acabar instalação"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "serviços web sob o seu controlo"
 
@@ -359,11 +376,11 @@ msgstr "Sair"
 msgid "Lost your password?"
 msgstr "Esqueceu a sua password?"
 
-#: templates/login.php:17
+#: templates/login.php:16
 msgid "remember"
 msgstr "lembrar"
 
-#: templates/login.php:18
+#: templates/login.php:17
 msgid "Log in"
 msgstr "Entrar"
 

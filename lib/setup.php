@@ -5,12 +5,14 @@ $hasMySQL = is_callable('mysql_connect');
 $hasPostgreSQL = is_callable('pg_connect');
 $hasOracle = is_callable('oci_connect');
 $datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
+
 $opts = array(
 	'hasSQLite' => $hasSQLite,
 	'hasMySQL' => $hasMySQL,
 	'hasPostgreSQL' => $hasPostgreSQL,
 	'hasOracle' => $hasOracle,
 	'directory' => $datadir,
+	'secureRNG' => OC_Util::secureRNG_available(),
 	'errors' => array(),
 );
 

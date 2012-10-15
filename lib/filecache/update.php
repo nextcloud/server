@@ -174,7 +174,9 @@ class OC_FileCache_Update{
 		}else{
 			$size=OC_FileCache::scanFile($path, $root);
 		}
-		OC_FileCache::increaseSize(dirname($path), $size-$cachedSize, $root);
+		if($path !== '' and $path !== '/'){
+			OC_FileCache::increaseSize(dirname($path), $size-$cachedSize, $root);
+		}
 	}
 
 	/**

@@ -100,7 +100,7 @@ class OC{
 		}
 
 		if($fullPath = stream_resolve_include_path($path)) {
-			require_once $path;
+			require_once $fullPath;
 		}
 		return false;
 	}
@@ -494,20 +494,20 @@ class OC{
 
 	protected static function handleLogin() {
 		OC_App::loadApps(array('prelogin'));
-		$error = false;
+		$error = array();
 		// remember was checked after last login
 		if (OC::tryRememberLogin()) {
-			// nothing more to do
+			$error[] = 'invalidcookie';
 
 		// Someone wants to log in :
 		} elseif (OC::tryFormLogin()) {
-			$error = true;
+			$error[] = 'invalidpassword';
 
 		// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
 		} elseif (OC::tryBasicAuthLogin()) {
-			$error = true;
+			$error[] = 'invalidpassword';
 		}
-		OC_Util::displayLoginPage($error);
+		OC_Util::displayLoginPage(array_unique($error));
 	}
 
 	protected static function tryRememberLogin() {

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-11 02:04+0200\n"
-"PO-Revision-Date: 2012-10-10 12:58+0000\n"
+"POT-Creation-Date: 2012-10-12 02:03+0200\n"
+"PO-Revision-Date: 2012-10-11 08:03+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr "Для анонимного доступа оставьте поля DN 
 
 #: templates/settings.php:12
 msgid "User Login Filter"
-msgstr ""
+msgstr "Фильтр имен пользователей"
 
 #: templates/settings.php:12
 #, php-format
@@ -100,7 +100,7 @@ msgstr "Порт"
 
 #: templates/settings.php:18
 msgid "Base User Tree"
-msgstr ""
+msgstr "Базовое дерево пользователей"
 
 #: templates/settings.php:19
 msgid "Base Group Tree"
@@ -108,7 +108,7 @@ msgstr ""
 
 #: templates/settings.php:20
 msgid "Group-Member association"
-msgstr ""
+msgstr "Связь член-группа"
 
 #: templates/settings.php:21
 msgid "Use TLS"
@@ -120,7 +120,7 @@ msgstr "Не используйте это SSL-соединений, это не
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "Нечувствительный к регистру LDAP-сервер (Windows)"
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
@@ -138,7 +138,7 @@ msgstr "Не рекомендовано, используйте только д�
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Поле, отображаемое как имя пользователя"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."

@@ -10,7 +10,7 @@
 
 .ui-timepicker-inline { display: inline; }
 
-#ui-timepicker-div { padding: 0.2em }
+#ui-timepicker-div { padding: 0.2em; background-color: #fff; }
 .ui-timepicker-table { display: inline-table; width: 0; }
 .ui-timepicker-table table { margin:0.15em 0 0 0; border-collapse: collapse; }
 

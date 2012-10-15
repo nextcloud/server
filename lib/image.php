@@ -669,7 +669,7 @@ class OC_Image {
 
 		$newWidth = min($maxWidth, $ratio*$maxHeight);
 		$newHeight = min($maxHeight, $maxWidth/$ratio);
-		
+
 		$this->preciseResize(round($newWidth), round($newHeight));
 		return true;
 	}
