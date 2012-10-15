@@ -3,7 +3,7 @@
 		<ul>
 			<li class="errors">
 				<?php echo $l->t('Security Warning!'); ?><br>
-				<small><?php echo $l->t("Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again. "); ?></small>
+				<small><?php echo $l->t("Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again."); ?></small>
 			</li>
 		</ul>
 		<p class="infield">
