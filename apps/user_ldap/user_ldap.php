@@ -29,11 +29,13 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 
 	private function updateQuota($dn) {
 		$quota = null;
-		if(!empty($this->connection->ldapQuotaDefault)) {
-			$quota = $this->connection->ldapQuotaDefault;
+		$quotaDefault = $this->connection->ldapQuotaDefault;
+		$quotaAttribute = $this->connection->ldapQuotaAttribute;
+		if(!empty($quotaDefault)) {
+			$quota = $quotaDefault;
 		}
-		if(!empty($this->connection->ldapQuotaAttribute)) {
-			$aQuota = $this->readAttribute($dn, $this->connection->ldapQuotaAttribute);
+		if(!empty($quotaAttribute)) {
+			$aQuota = $this->readAttribute($dn, $quotaAttribute);
 
 			if($aQuota && (count($aQuota) > 0)) {
 				$quota = $aQuota[0];
@@ -46,8 +48,9 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 
 	private function updateEmail($dn) {
 		$email = null;
-		if(!empty($this->connection->ldapEmailAttribute)) {
-			$aEmail = $this->readAttribute($dn, $this->connection->ldapEmailAttribute);
+		$emailAttribute = $this->connection->ldapEmailAttribute;
+		if(!empty($emailAttribute)) {
+			$aEmail = $this->readAttribute($dn, $emailAttribute);
 			if($aEmail && (count($aEmail) > 0)) {
 				$email = $aEmail[0];
 			}
