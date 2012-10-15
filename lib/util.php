@@ -399,7 +399,7 @@ class OC_Util {
 		}
 
 		// Check if the user verified his password in the last 15 minutes
-		if($_SESSION['verifiedLogin'] < time() OR !isset($_SESSION['verifiedLogin'])) {
+		if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
 			OC_Template::printGuestPage("", "verify",  array('username' => OC_User::getUser()));
 			exit();
 		}
