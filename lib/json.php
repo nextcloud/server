@@ -84,7 +84,7 @@ class OC_JSON{
 	*/
 	public static function verifyUser() {
 		// Check if the user verified his password in the last 15 minutes
-		if($_SESSION['verifiedLogin'] < time() OR !isset($_SESSION['verifiedLogin'])) {
+		if(!isset($_SESSION['verifiedLogin'] OR $_SESSION['verifiedLogin'] < time())) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
@@ -96,7 +96,7 @@ class OC_JSON{
 	*/
 	public static function isUserVerified() {
 		// Check if the user verified his password in the last 15 minutes
-		if($_SESSION['verifiedLogin'] < time() OR !isset($_SESSION['verifiedLogin'])) {
+		if(!isset($_SESSION['verifiedLogin'] OR $_SESSION['verifiedLogin'] < time())) {
 			return false;
 		}
 		return true;
