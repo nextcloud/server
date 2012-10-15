@@ -2,9 +2,20 @@
 <form method="post">
 	<fieldset>
 		<?php if(!empty($_['redirect'])) { echo '<input type="hidden" name="redirect_url" value="'.$_['redirect'].'" />'; } ?>
-		<?php if($_['display_lostpassword']): ?>
-			<a href="./core/lostpassword/"><?php echo $l->t('Lost your password?'); ?></a>
+		<ul>
+		<?php if($_['invalidcookie']): ?>
+			<li class="errors">
+				<?php echo $l->t('Automatic logon rejected!'); ?><br>
+				<small><?php echo $l->t('If you did not change your password recently, your account may be compromised!'); ?></small><br>
+				<small><?php echo $l->t('Please change your password to secure your account again.'); ?></small>
+			</li>
 		<?php endif; ?>
+		<?php if($_['invalidpassword']): ?>
+			<a href="./core/lostpassword/"><li class="errors">
+				<?php echo $l->t('Lost your password?'); ?>
+			</li></a>
+		<?php endif; ?>
+		</ul>
 		<p class="infield">
 			<label for="user" class="infield"><?php echo $l->t( 'Username' ); ?></label>
 			<input type="text" name="user" id="user" value="<?php echo $_['username']; ?>"<?php echo $_['user_autofocus']?' autofocus':''; ?> autocomplete="on" required />
