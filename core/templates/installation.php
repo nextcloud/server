@@ -26,6 +26,12 @@
 		<span><?php echo $l->t('Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account.');?></span>		
 	</fieldset>
 	<?php endif; ?>
+	<?php if(!$_['htaccessWorking']): ?>
+	<fieldset style="color: #B94A48; background-color: #F2DEDE; border-color: #EED3D7;">
+		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
+		<span><?php echo $l->t('Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.');?></span>		
+	</fieldset>
+	<?php endif; ?>
 	<fieldset>
 		<legend><?php echo $l->t( 'Create an <strong>admin account</strong>' ); ?></legend>
 		<p class="infield">
