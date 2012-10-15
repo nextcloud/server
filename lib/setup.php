@@ -390,10 +390,7 @@ class OC_Setup {
 				if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 					self::createHtaccess();
 				}
-
-				// Set the admin auth time
-				OC_Config::setValue('enhancedauthtime', 15 * 60);
-
+				
 				//and we are done
 				OC_Config::setValue('installed', true);
 			}
