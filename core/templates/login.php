@@ -3,14 +3,14 @@
 	<fieldset>
 		<?php if(!empty($_['redirect'])) { echo '<input type="hidden" name="redirect_url" value="'.$_['redirect'].'" />'; } ?>
 		<ul>
-		<?php if($_['invalidcookie']): ?>
+		<?php if(isset($_['invalidcookie']) && ($_['invalidcookie'])): ?>
 			<li class="errors">
 				<?php echo $l->t('Automatic logon rejected!'); ?><br>
 				<small><?php echo $l->t('If you did not change your password recently, your account may be compromised!'); ?></small><br>
 				<small><?php echo $l->t('Please change your password to secure your account again.'); ?></small>
 			</li>
 		<?php endif; ?>
-		<?php if($_['invalidpassword']): ?>
+		<?php if(isset($_['invalidpassword']) && ($_['invalidpassword'])): ?>
 			<a href="./core/lostpassword/"><li class="errors">
 				<?php echo $l->t('Lost your password?'); ?>
 			</li></a>
