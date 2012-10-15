@@ -395,7 +395,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>128</length>
+				<length>64</length>
 			</field>
 
 			<field>

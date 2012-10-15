@@ -566,7 +566,7 @@ class OC{
 			if (in_array($_COOKIE['oc_token'], $tokens, true)) {
 				// replace successfully used token with a new one
 				OC_Preferences::deleteKey($_COOKIE['oc_username'], 'login_token', $_COOKIE['oc_token']);
-				$token = OC_Util::generate_random_bytes(128);
+				$token = OC_Util::generate_random_bytes(32);
 				OC_Preferences::setValue($_COOKIE['oc_username'], 'login_token', $token, time());
 				OC_User::setMagicInCookie($_COOKIE['oc_username'], $token);
 				// login
@@ -600,7 +600,7 @@ class OC{
 				if(defined("DEBUG") && DEBUG) {
 					OC_Log::write('core', 'Setting remember login to cookie', OC_Log::DEBUG);
 				}
-				$token = OC_Util::generate_random_bytes(128);
+				$token = OC_Util::generate_random_bytes(32);
 				OC_Preferences::setValue($_POST['user'], 'login_token', $token, time());
 				OC_User::setMagicInCookie($_POST["user"], $token);
 			}
