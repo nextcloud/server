@@ -7,6 +7,7 @@
 
 require_once '../lib/base.php';
 OC_Util::checkLoggedIn();
+OC_Util::verifyUser();
 
 // Highlight navigation entry
 OC_Util::addScript( 'settings', 'personal' );

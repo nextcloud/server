@@ -7,6 +7,7 @@
 
 require_once '../lib/base.php';
 OC_Util::checkLoggedIn();
+OC_Util::verifyUser();
 
 OC_Util::addStyle( 'settings', 'settings' );
 OC_App::setActiveNavigationEntry( 'settings' );
