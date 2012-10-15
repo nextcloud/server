@@ -19,10 +19,14 @@ if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
 	$userstatus = 'subadmin';
 }
 if(OC_User::getUser() === $username) {
-	if (OC_User::checkPassword($username, $oldPassword) && ($userstatus === null || !OC_JSON::isUserVerified()))
+	if (OC_User::checkPassword($username, $oldPassword))
 	{
 		$userstatus = 'user';
-	} 
+	}  else {
+		if (!OC_JSON::isUserVerified()) {
+			$userstatus = null;
+		}
+	}
 }
 
 if(is_null($userstatus)) {
