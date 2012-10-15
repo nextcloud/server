@@ -58,7 +58,8 @@ class OC_JSON{
 	*/
 	public static function checkAdminUser() {
 		self::checkLoggedIn();
-		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' ) || self::verifyUser() === false) {
+		self::verifyUser();
+		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
@@ -70,7 +71,8 @@ class OC_JSON{
 	*/
 	public static function checkSubAdminUser() {
 		self::checkLoggedIn();
-		if(!OC_Group::inGroup(OC_User::getUser(),'admin') && !OC_SubAdmin::isSubAdmin(OC_User::getUser()) || self::verifyUser() === false) {
+		self::verifyUser();
+		if(!OC_Group::inGroup(OC_User::getUser(),'admin') && !OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
@@ -84,9 +86,9 @@ class OC_JSON{
 	public static function verifyUser() {
 		// Check if the user verified his password in the last 15 minutes
 		if($_SESSION['verifiedLogin'] < time() OR !isset($_SESSION['verifiedLogin'])) {
-			return false;
+			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
+			exit();
 		}
-		return true;
 	}
 
 	/**
