@@ -90,9 +90,9 @@ class Stream {
 
 			} else {
 
-				//$this->size = self::$view->filesize( $path, $mode );
-
-				$this->size = filesize( $path );
+				$this->size = self::$view->filesize( \OCP\USER::getUser() . '/' . 'files' . '/' . $path, $mode );
+				
+				//$this->size = filesize( $path );
 				
 			}
 
@@ -140,7 +140,7 @@ class Stream {
 		$this->writeCache = '';
 
 		if ( $count != 8192 ) {
-
+			
 			// $count will always be 8192 https://bugs.php.net/bug.php?id=21641
 			// This makes this function a lot simpler, but will break this class if the above 'bug' gets 'fixed'
 			\OCP\Util::writeLog( 'files_encryption', 'PHP "bug" 21641 no longer holds, decryption system requires refactoring', OCP\Util::FATAL );
@@ -151,15 +151,17 @@ class Stream {
 
 // 		$pos = ftell( $this->handle );
 // 
-		$data = fread( $this->handle, 8192 );
+		// Get the data from the file handle, including IV and padding
+		$padded = fread( $this->handle, 8192 );
+		
+		// Remove padding, leaving data and IV
+		$data = substr( $padded, 0, -2 );
 		
 		//echo "\n\nPRE DECRYPTION = $data\n\n";
 // 
 // 		if ( strlen( $data ) ) {
 			
 			$this->getKey();
-			
-			echo "\n\nGROWL {$this->keyfile}\n\n";
 			
 			//$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files_encryption/keyfiles/tmp-1346255589.key' );
 			
@@ -169,7 +171,7 @@ class Stream {
 			
 			echo "\n\n\$data = $data";
 			
-			echo "\n\n\$key = $key";
+			echo "\n\n\$key = {$this->keyfile}";
 			
 			echo "\n\n\$result = $result";
 			
@@ -198,8 +200,33 @@ class Stream {
 	}
 	
 	/**
+	 * @brief Encrypt and pad data ready for writting to disk
+	 * @param string $plainData data to be encrypted
+	 * @param string $key key to use for encryption
+	 * @return encrypted data on success, false on failure
+	 */
+	public function preWriteEncrypt( $plainData, $key ) {
+		
+		// Encrypt data to 'catfile', which includes IV
+		if ( $encrypted = Crypt::symmetricBlockEncryptFileContent( $plainData, $key ) ) {
+		
+			// Add padding. In order to end up with data exactly 8192 bytes long we must add two letters. Something about the encryption process always results in 8190 or 8194 byte length, hence the letters must be added manually after encryption takes place. They get removed in the stream read process
+			$padded = $encrypted  . 'xx';
+			
+			return $padded;
+			
+		} else {
+		
+			return false;
+			
+		}
+		
+	}
+	
+	/**
 	 * @brief Get the keyfile for the current file, generate one if necessary
 	 * @param bool $generate if true, a new key will be generated if none can be found
+	 * @return bool true on key found and set, false on key not found and new key generated and set
 	 */
 	public function getKey( $generate = true ) {
 	
@@ -216,12 +243,16 @@ class Stream {
 			// Fetch existing keyfile
 			$this->keyfile = Keymanager::getFileKey( $this->rawPath );
 			
+			return true;
+			
 		} else {
 		
 			if ( $generate ) {
 				
 				// If the data is to be written to a new file, generate a new keyfile
 				$this->keyfile = Crypt::generateKey();
+				
+				return false;
 				
 			}
 			
@@ -230,54 +261,61 @@ class Stream {
 	}
 	
 	/**
-	 * @brief Take plain data destined to be written, encrypt it, and write it block by block
+	 * @brief Handle plain data from the stream, and write it in 8192 byte blocks
 	 * @param string $data data to be written to disk
 	 * @note the data will be written to the path stored in the stream handle, set in stream_open()
-	 * @note $data is only ever x bytes long. stream_write() is called multiple times on data larger than x to process it x byte chunks.
+	 * @note $data is only ever be a maximum of 8192 bytes long. This is set by PHP internally. stream_write() is called multiple times in a loop on data larger than 8192 bytes
+	 * @note Because the encryption process used increases the length of $data, a writeCache is used to carry over data which would not fit in the required block size
+	 * @note Padding is added to each encrypted block to ensure that the resulting block is exactly 8192 bytes. This is removed during stream_read
+	 * @note PHP automatically updates the file pointer after writing data to reflect it's length. There is generally no need to update the poitner manually using fseek
 	 */
 	public function stream_write( $data ) {
 		
+		// Disable the file proxies so that encryption is not automatically attempted when the file is written to disk - we are handling that separately here and we don't want to get into an infinite loop
 		\OC_FileProxy::$enabled = false;
 		
+		// Get the length of the unencrypted data that we are handling
 		$length = strlen( $data );
 		
+		// So far this round, no data has been written
 		$written = 0;
-
+		
+		// Find out where we are up to in the writing of data to the file
 		$pointer = ftell( $this->handle );
 		
-		echo "\n\n\$length = $length\n";
+		//echo "\n\n\$rawLength = $length\n";
 		
-		echo "\$pointer = $pointer\n";
+		//echo "\$pointer = $pointer\n";
 		
 		# TODO: Move this user call out of here - it belongs elsewhere
 		$user = \OCP\User::getUser();
 		
-		// Set keyfile property for file in question
-		$this->getKey();
-		
-		if ( ! self::$view->file_exists( $this->rawPath . $user ) ) {
+		// Get / generate the keyfile for the file we're handling
+		// If we're writing a new file (not overwriting an existing one), save the newly generated keyfile
+		if ( ! $this->getKey() ) {
 			
 			// Save keyfile in parallel directory structure
 			Keymanager::setFileKey( $this->rawPath, $this->keyfile, new \OC_FilesystemView( '/' ) );
 			
 		}
 
-		// If data exists in the writeCache
-// 		if ( $this->writeCache ) {
-// 		
-// 			//trigger_error("write cache is set");
-// 			
-// 			// Concat writeCache to start of $data
-// 			$data = $this->writeCache . $data;
-// 
-// 			$this->writeCache = '';
-// 
-// 		}
+		// If extra data is left over from the last round, make sure it is integrated into the next 6126 / 8192 block
+		if ( $this->writeCache ) {
+			
+			// Concat writeCache to start of $data
+			$data = $this->writeCache . $data;
+			
+			//echo "\n\ncache + data length = ".strlen($data)."\n";
+			
+			// Clear the write cache, ready for resuse - it has been flushed and its old contents processed
+			$this->writeCache = '';
+
+		}
 // 		
 // 		// Make sure we always start on a block start
 		if ( 0 != ( $pointer % 8192 ) ) { // if the current positoin of file indicator is not aligned to a 8192 byte block, fix it so that it is
 // 		
-// 			echo "\n\nNOT ON BLOCK START ";
+			//echo "\n\nNOT ON BLOCK START ";
 // 			echo $pointer % 8192;
 // 			
 // 			echo "\n\n1. $currentPos\n\n";
@@ -316,17 +354,17 @@ class Stream {
 // 			// Remaining length for this iteration, not of the entire file (may be greater than 8192 bytes)
 // 			$remainingLength = strlen( $data );
 // 			
-// 			// If data remaining to be written is less than the size of 1 block
-// 			if ( $remainingLength < 8192 ) {
-// 			
-// 				//trigger_error("remaining length < 8192");
-// 				
-// 				// Set writeCache to contents of $data
-// 				$this->writeCache = $data;
+// 			// If data remaining to be written is less than the size of 1 6126 byte block
+			if ( strlen( $data ) < 6126 ) {
+				
+				// Set writeCache to contents of $data
+				// The writeCache will be carried over to the next write round, and added to the start of $data to ensure that written blocks are always the correct length. If there is still data in writeCache after the writing round has finished, then the data will be written to disk by $this->flush().
+				$this->writeCache = $data;
+
+				// Clear $data ready for next round
+				$data = '';
 // 
-// 				$data = '';
-// // 
-// 			} else {
+			} else {
 				
 				//echo "\n\nbefore before ".strlen($data)."\n";
 				
@@ -337,26 +375,25 @@ class Stream {
 				
 				//echo "\n\$this->keyfile 1 = {$this->keyfile}";
 				
-				$encrypted = Crypt::symmetricEncryptFileContent( $chunk, $this->keyfile );
+				$encrypted = $this->preWriteEncrypt( $chunk, $this->keyfile );
 				
 				//echo "\n\n\$rawEnc = $encrypted\n\n";
 				
 				//echo "\$encrypted = ".strlen($encrypted)."\n";
 				
-				$padded = $encrypted  . 'xx';
-				
-				//echo "\$padded = ".strlen($padded)."\n";
+				//echo "written = ".strlen($encrypted)."\n";
 				
 				//echo "after ".strlen($encrypted)."\n\n";
 				
 				//file_put_contents('/home/samtuke/tmp.txt', $encrypted);
 				
-				fwrite( $this->handle, $padded );
+				// Write the data chunk to disk. This will be addended to the last data chunk if the file being handled totals more than 6126 bytes
+				fwrite( $this->handle, $encrypted );
 				
-				$bef = ftell( $this->handle );
+				//$bef = ftell( $this->handle );
 				//echo "ftell before = $bef\n";
 				
-				$writtenLen = strlen( $padded );
+				$writtenLen = strlen( $encrypted );
 				//fseek( $this->handle, $writtenLen, SEEK_CUR );
 				
 // 				$aft = ftell( $this->handle );
@@ -364,16 +401,16 @@ class Stream {
 // 				echo "ftell sum = ";
 // 				echo $aft - $bef."\n";
 
-				// Remove the chunk we just processed from $data, leaving only unprocessed data in $data var
+				// Remove the chunk we just processed from $data, leaving only unprocessed data in $data var, for handling on the next round
 				$data = substr( $data, 6126 );
 
-// 			}
-// 
+			}
+		
 		}
 
 		$this->size = max( $this->size, $pointer + $length );
 		
-		echo "\$this->size = $this->size\n\n";
+		//echo "\$this->size = $this->size\n\n";
 		
 		return $length;
 
@@ -418,11 +455,7 @@ class Stream {
 			// Set keyfile property for file in question
 			$this->getKey();
 			
-			//echo "\n\nFLUSH = {$this->writeCache}\n\n";
-			
-			$encrypted = Crypt::symmetricBlockEncryptFileContent( $this->writeCache, $this->keyfile );
-			
-			//echo "\n\nENCFLUSH = $encrypted\n\n";
+			$encrypted = $this->preWriteEncrypt( $this->writeCache, $this->keyfile );
 			
 			fwrite( $this->handle, $encrypted );
 			
