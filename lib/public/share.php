@@ -333,8 +333,10 @@ class Share {
 	* @return Returns true on success or false on failure
 	*/
 	public static function unshareAll($itemType, $itemSource) {
-		if ($item = self::getItemShared($itemType, $itemSource)) {
-			self::delete($item['id']);
+		if ($shares = self::getItemShared($itemType, $itemSource)) {
+			foreach ($shares as $share) {
+				self::delete($share['id']);
+			}
 			return true;
 		}
 		return false;
