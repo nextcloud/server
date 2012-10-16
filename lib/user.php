@@ -210,6 +210,10 @@ class OC_User {
 			}
 			// Delete the user's keys in preferences
 			OC_Preferences::deleteUser($uid);
+
+			// Delete user files in /data/
+			OC_Helper::rmdirr(OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/'.$uid.'/');
+
 			// Emit and exit
 			OC_Hook::emit( "OC_User", "post_deleteUser", array( "uid" => $uid ));
 			return true;

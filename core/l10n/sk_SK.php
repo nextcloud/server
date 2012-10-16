@@ -38,6 +38,7 @@
 "No people found" => "Užívateľ nenájdený",
 "with" => "s",
 "Unshare" => "Zrušiť zdieľanie",
+"can edit" => "môže upraviť",
 "access control" => "riadenie prístupu",
 "create" => "vytvoriť",
 "delete" => "zmazať",
@@ -63,6 +64,7 @@
 "Cloud not found" => "Nenájdené",
 "Edit categories" => "Úprava kategórií",
 "Add" => "Pridať",
+"Security Warning" => "Bezpečnostné varovanie",
 "Create an <strong>admin account</strong>" => "Vytvoriť <strong>administrátorský účet</strong>",
 "Advanced" => "Pokročilé",
 "Data folder" => "Priečinok dát",
@@ -75,10 +77,13 @@
 "Finish setup" => "Dokončiť inštaláciu",
 "web services under your control" => "webové služby pod vašou kontrolou",
 "Log out" => "Odhlásiť",
+"Automatic logon rejected!" => "Automatické prihlásenie bolo zamietnuté!",
 "Lost your password?" => "Zabudli ste heslo?",
 "remember" => "zapamätať",
 "Log in" => "Prihlásiť sa",
 "You are logged out." => "Ste odhlásený.",
 "prev" => "späť",
-"next" => "ďalej"
+"next" => "ďalej",
+"Security Warning!" => "Bezpečnostné varovanie!",
+"Verify" => "Overenie"
 );

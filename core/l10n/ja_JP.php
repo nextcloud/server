@@ -72,6 +72,7 @@
 "Security Warning" => "セキュリティ警告",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "セキュアな乱数生成器が利用可能ではありません。PHPのOpenSSL拡張を有効にして下さい。",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "セキュアな乱数生成器が無い場合、攻撃者はパスワードリセットのトークンを予測してアカウントを乗っ取られる可能性があります。",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "データディレクトリとファイルが恐らくインターネットからアクセスできるようになっています。ownCloudが提供する .htaccessファイルが機能していません。データディレクトリを全くアクセスできないようにするか、データディレクトリをウェブサーバのドキュメントルートの外に置くようにウェブサーバを設定することを強くお勧めします。 ",
 "Create an <strong>admin account</strong>" => "<strong>管理者アカウント</strong>を作成してください",
 "Advanced" => "詳細設定",
 "Data folder" => "データフォルダ",
@@ -85,10 +86,16 @@
 "Finish setup" => "セットアップを完了します",
 "web services under your control" => "管理下にあるウェブサービス",
 "Log out" => "ログアウト",
+"Automatic logon rejected!" => "自動ログインは拒否されました！",
+"If you did not change your password recently, your account may be compromised!" => "最近パスワードを変更していない場合、あなたのアカウントは危険にさらされているかもしれません。",
+"Please change your password to secure your account again." => "アカウント保護の為、パスワードを再度の変更をお願いいたします。",
 "Lost your password?" => "パスワードを忘れましたか？",
 "remember" => "パスワードを記憶する",
 "Log in" => "ログイン",
 "You are logged out." => "ログアウトしました。",
 "prev" => "前",
-"next" => "次"
+"next" => "次",
+"Security Warning!" => "セキュリティ警告！",
+"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "パスワードの確認をお願いします。<br/>セキュリティ上の理由により、時々パスワードの再入力をお願いする場合があります。",
+"Verify" => "確認"
 );
