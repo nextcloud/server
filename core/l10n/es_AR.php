@@ -69,6 +69,10 @@
 "Cloud not found" => "No se encontró owncloud",
 "Edit categories" => "Editar categorías",
 "Add" => "Añadir",
+"Security Warning" => "Advertencia de seguridad",
+"No secure random number generator is available, please enable the PHP OpenSSL extension." => "No hay disponible ningún generador de números aleatorios seguro. Por favor habilitá la extensión OpenSSL de PHP.",
+"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Sin un generador de números aleatorios seguro un atacante podría predecir los tokens de reinicio de tu contraseña y tomar control de tu cuenta.",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Tu directorio de datos y tus archivos son probablemente accesibles desde internet. El archivo .htaccess provisto por ownCloud no está funcionando. Te sugerimos que configures tu servidor web de manera que el directorio de datos ya no esté accesible, o que muevas el directorio de datos afuera del directorio raíz de tu servidor web.",
 "Create an <strong>admin account</strong>" => "Creá una <strong>cuenta de administrador</strong>",
 "Advanced" => "Avanzado",
 "Data folder" => "Directorio de almacenamiento",
@@ -82,10 +86,16 @@
 "Finish setup" => "Completar la instalación",
 "web services under your control" => "servicios web sobre los que tenés control",
 "Log out" => "Cerrar la sesión",
+"Automatic logon rejected!" => "¡El inicio de sesión automático fue rechazado!",
+"If you did not change your password recently, your account may be compromised!" => "¡Si no cambiaste tu contraseña recientemente, puede ser que tu cuenta esté comprometida!",
+"Please change your password to secure your account again." => "Por favor, cambiá tu contraseña para fortalecer nuevamente la seguridad de tu cuenta.",
 "Lost your password?" => "¿Perdiste tu contraseña?",
 "remember" => "recordame",
 "Log in" => "Entrar",
 "You are logged out." => "Terminaste la sesión.",
 "prev" => "anterior",
-"next" => "siguiente"
+"next" => "siguiente",
+"Security Warning!" => "¡Advertencia de seguridad!",
+"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Por favor, verificá tu contraseña. <br/>Por razones de seguridad, puede ser que que te pregunte ocasionalmente la contraseña.",
+"Verify" => "Verificar"
 );

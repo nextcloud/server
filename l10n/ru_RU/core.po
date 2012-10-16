@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-16 23:38+0200\n"
+"PO-Revision-Date: 2012-10-16 13:26+0000\n"
+"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -162,7 +162,7 @@ msgstr "Дата истечения срока действия"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Сделать общедоступным посредством email:"
 
 #: js/share.js:187
 msgid "No people found"
@@ -214,11 +214,11 @@ msgstr "Пароль защищен"
 
 #: js/share.js:497
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Ошибка при отключении даты истечения срока действия"
 
 #: js/share.js:509
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Ошибка при установке даты истечения срока действия"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -303,7 +303,7 @@ msgstr "Добавить"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Предупреждение системы безопасности"
 
 #: templates/installation.php:24
 msgid ""
@@ -324,7 +324,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Ваши каталоги данных и файлы, вероятно, доступны из Интернета. Файл .htaccess, предоставляемый ownCloud, не работает. Мы настоятельно рекомендуем Вам настроить вебсервер таким образом, чтобы каталоги данных больше не были доступны, или переместить их за пределы корневого каталога документов веб-сервера."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -381,17 +381,17 @@ msgstr "Выйти"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Автоматический вход в систему отклонен!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Если Вы недавно не меняли пароль, Ваш аккаунт может быть подвергнут опасности!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Пожалуйста, измените пароль, чтобы защитить ваш аккаунт еще раз."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -419,14 +419,14 @@ msgstr "следующий"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "Предупреждение системы безопасности!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Пожалуйста, проверьте свой ​​пароль. <br/>По соображениям безопасности Вам может быть иногда предложено ввести пароль еще раз."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Проверить"

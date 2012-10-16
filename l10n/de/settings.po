@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-13 02:05+0200\n"
-"PO-Revision-Date: 2012-10-12 22:12+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2012-10-16 23:38+0200\n"
+"PO-Revision-Date: 2012-10-16 21:35+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,16 +35,11 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Die Liste der Anwendungen im Store konnte nicht geladen werden."
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:18 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Fehler bei der Anmeldung"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr "Gruppe existiert bereits"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr "Gruppe konnte nicht angelegt werden"
 
@@ -71,6 +66,10 @@ msgstr "Ungültige Anfrage"
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
 msgstr "Gruppe konnte nicht gelöscht werden"
+
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Fehler bei der Anmeldung"
 
 #: ajax/removeuser.php:27
 msgid "Unable to delete user"
@@ -102,9 +101,9 @@ msgstr "Aktivieren"
 msgid "Saving..."
 msgstr "Speichern..."
 
-#: personal.php:47 personal.php:48
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
-msgstr "Deutsch"
+msgstr "Deutsch (Persönlich)"
 
 #: templates/admin.php:14
 msgid "Security Warning"
@@ -117,7 +116,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Ihr Datenverzeichnis ist möglicher Weise aus dem Internet erreichbar. Die .htaccess-Datei von ownCloud funktioniert nicht. Wir raten Ihnen dringend, dass Sie Ihren Webserver dahingehend konfigurieren, dass Ihr Datenverzeichnis nicht länger aus dem Internet erreichbar ist, oder Sie verschieben das Datenverzeichnis außerhalb des Wurzelverzeichnisses des Webservers."
+msgstr "Dein Datenverzeichnis ist möglicherweise aus dem Internet erreichbar. Die .htaccess-Datei von ownCloud funktioniert nicht. Wir raten Dir dringend, dass Du Deinen Webserver dahingehend konfigurieren, dass Dein Datenverzeichnis nicht länger aus dem Internet erreichbar ist, oder Du verschiebst das Datenverzeichnis außerhalb des Wurzelverzeichnisses des Webservers."
 
 #: templates/admin.php:31
 msgid "Cron"
@@ -296,7 +295,7 @@ msgstr "Hilf bei der Übersetzung"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "Benutzen Sie diese Adresse, um Ihre ownCloud mit Ihrem Dateimanager zu verbinden."
+msgstr "Verwende diese Adresse, um Deine ownCloud mit Deinem Dateimanager zu verbinden."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

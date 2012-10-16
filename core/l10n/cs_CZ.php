@@ -72,6 +72,7 @@
 "Security Warning" => "Bezpečnostní upozornění",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Není dostupný žádný bezpečný generátor náhodných čísel. Povolte, prosím, rozšíření OpenSSL v PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Bez bezpečného generátoru náhodných čísel může útočník předpovědět token pro obnovu hesla a převzít kontrolu nad Vaším účtem.",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Váš adresář dat a všechny Vaše soubory jsou pravděpodobně přístupné z internetu. Soubor .htaccess, který je poskytován ownCloud, nefunguje. Důrazně Vám doporučujeme nastavit váš webový server tak, aby nebyl adresář dat přístupný, nebo přesunout adresář dat mimo kořenovou složku dokumentů webového serveru.",
 "Create an <strong>admin account</strong>" => "Vytvořit <strong>účet správce</strong>",
 "Advanced" => "Pokročilé",
 "Data folder" => "Složka s daty",
@@ -85,10 +86,16 @@
 "Finish setup" => "Dokončit nastavení",
 "web services under your control" => "webové služby pod Vaší kontrolou",
 "Log out" => "Odhlásit se",
+"Automatic logon rejected!" => "Automatické přihlášení odmítnuto.",
+"If you did not change your password recently, your account may be compromised!" => "V nedávné době jste nezměnili své heslo, Váš účet může být kompromitován.",
+"Please change your password to secure your account again." => "Změňte, prosím, své heslo pro opětovné zabezpečení Vašeho účtu.",
 "Lost your password?" => "Ztratili jste své heslo?",
 "remember" => "zapamatovat si",
 "Log in" => "Přihlásit",
 "You are logged out." => "Jste odhlášeni.",
 "prev" => "předchozí",
-"next" => "následující"
+"next" => "následující",
+"Security Warning!" => "Bezpečnostní upozornění.",
+"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Ověřte, prosím, své heslo. <br/>Z bezpečnostních důvodů můžete být občas požádáni o jeho opětovné zadání.",
+"Verify" => "Ověřit"
 );

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <khanhnd@kenhgiaiphap.vn>, 2012.
 # Son Nguyen <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-16 23:38+0200\n"
+"PO-Revision-Date: 2012-10-16 06:30+0000\n"
+"Last-Translator: khanhnd <khanhnd@kenhgiaiphap.vn>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +85,7 @@ msgstr "Tháng 12"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Chọn"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -113,19 +114,19 @@ msgstr "Lỗi"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Lỗi trong quá trình chia sẻ"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Lỗi trong quá trình gỡ chia sẻ"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Lỗi trong quá trình phân quyền"
 
 #: js/share.js:130
 msgid "Shared with you and the group"
-msgstr ""
+msgstr "Được chia sẻ với bạn và Nhóm"
 
 #: js/share.js:130
 msgid "by"
@@ -133,15 +134,15 @@ msgstr ""
 
 #: js/share.js:132
 msgid "Shared with you by"
-msgstr ""
+msgstr "Được chia sẻ với bạn qua"
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "Chia sẻ với"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Chia sẻ với link"
 
 #: js/share.js:143
 msgid "Password protect"
@@ -154,19 +155,19 @@ msgstr "Mật khẩu"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "Đặt ngày kết thúc"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "Ngày kết thúc"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Chia sẻ thông qua email"
 
 #: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "Không tìm thấy người nào"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
@@ -174,15 +175,15 @@ msgstr ""
 
 #: js/share.js:250
 msgid "Shared in"
-msgstr ""
+msgstr "Chi sẻ trong"
 
 #: js/share.js:250
 msgid "with"
-msgstr ""
+msgstr "với"
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Gỡ bỏ chia sẻ"
 
 #: js/share.js:283
 msgid "can edit"
@@ -190,35 +191,35 @@ msgstr ""
 
 #: js/share.js:285
 msgid "access control"
-msgstr ""
+msgstr "quản lý truy cập"
 
 #: js/share.js:288
 msgid "create"
-msgstr ""
+msgstr "tạo"
 
 #: js/share.js:291
 msgid "update"
-msgstr ""
+msgstr "cập nhật"
 
 #: js/share.js:294
 msgid "delete"
-msgstr ""
+msgstr "xóa"
 
 #: js/share.js:297
 msgid "share"
-msgstr ""
+msgstr "chia sẻ"
 
 #: js/share.js:322 js/share.js:484
 msgid "Password protected"
-msgstr ""
+msgstr "Mật khẩu bảo vệ"
 
 #: js/share.js:497
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Lỗi trong quá trình gỡ bỏ ngày kết thúc"
 
 #: js/share.js:509
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Lỗi cấu hình ngày kết thúc"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"

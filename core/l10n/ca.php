@@ -72,6 +72,7 @@
 "Security Warning" => "Avís de seguretat",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "No està disponible el generador de nombres aleatoris segurs, habiliteu l'extensió de PHP OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Sense un generador de nombres aleatoris segurs un atacant podria predir els senyals per restablir la contrasenya i prendre-us el compte.",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "La carpeta de dades i els fitxers provablement són accessibles des d'internet. El fitxer .htaccess que proporciona ownCloud no funciona. Us recomanem que configureu el vostre servidor web de manera que la carpeta de dades no sigui accessible o que moveu la carpeta de dades fora de la carpeta arrel del servidor web.",
 "Create an <strong>admin account</strong>" => "Crea un <strong>compte d'administrador</strong>",
 "Advanced" => "Avançat",
 "Data folder" => "Carpeta de dades",
@@ -85,10 +86,16 @@
 "Finish setup" => "Acaba la configuració",
 "web services under your control" => "controleu els vostres serveis web",
 "Log out" => "Surt",
+"Automatic logon rejected!" => "L'ha rebutjat l'acceditació automàtica!",
+"If you did not change your password recently, your account may be compromised!" => "Se no heu canviat la contrasenya recentment el vostre compte pot estar compromès!",
+"Please change your password to secure your account again." => "Canvieu la contrasenya de nou per assegurar el vostre compte.",
 "Lost your password?" => "Heu perdut la contrasenya?",
 "remember" => "recorda'm",
 "Log in" => "Inici de sessió",
 "You are logged out." => "Heu tancat la sessió.",
 "prev" => "anterior",
-"next" => "següent"
+"next" => "següent",
+"Security Warning!" => "Avís de seguretat!",
+"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Comproveu la vostra contrasenya. <br/>Per raons de seguretat se us pot demanar escriure de nou la vostra contrasenya.",
+"Verify" => "Comprova"
 );

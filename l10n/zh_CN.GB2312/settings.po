@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-09 02:03+0200\n"
-"PO-Revision-Date: 2012-10-09 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-16 23:38+0200\n"
+"PO-Revision-Date: 2012-10-16 12:18+0000\n"
+"Last-Translator: marguerite su <i@marguerite.su>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,16 +23,11 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "不能从App Store 中加载列表"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "认证错误"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr "群组已存在"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr "未能添加群组"
 
@@ -60,7 +55,11 @@ msgstr "非法请求"
 msgid "Unable to delete group"
 msgstr "未能删除群组"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "认证错误"
+
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr "未能删除用户"
 
@@ -90,7 +89,7 @@ msgstr "启用"
 msgid "Saving..."
 msgstr "保存中..."
 
-#: personal.php:47 personal.php:48
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "Chinese"
 
@@ -187,7 +186,7 @@ msgstr "添加你的应用程序"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "更多应用"
 
 #: templates/apps.php:27
 msgid "Select an App"

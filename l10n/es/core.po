@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Javier Llorente <javier@opensuse.org>, 2012.
-#   <juanma@kde.org.ar>, 2011, 2012.
+#   <juanma@kde.org.ar>, 2011-2012.
 # oSiNaReF  <>, 2012.
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2012.
 #   <rodrigo.calvo@gmail.com>, 2012.
@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-16 23:38+0200\n"
+"PO-Revision-Date: 2012-10-16 20:22+0000\n"
+"Last-Translator: scambra <sergio@entrecables.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -149,7 +149,7 @@ msgstr "Compartir con"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr "Enlace de compartir con "
+msgstr "Compartir con enlace"
 
 #: js/share.js:143
 msgid "Password protect"
@@ -311,19 +311,19 @@ msgstr "Añadir"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Advertencia de seguridad"
 
 #: templates/installation.php:24
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "No está disponible un generador de números aleatorios seguro, por favor habilite la extensión OpenSSL de PHP."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Sin un generador de números aleatorios seguro un atacante podría predecir los tokens de reinicio de su contraseña y tomar control de su cuenta."
 
 #: templates/installation.php:32
 msgid ""
@@ -332,7 +332,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Su directorio de datos y sus archivos están probablemente accesibles desde internet. El archivo .htaccess que ownCloud provee no está funcionando. Sugerimos fuertemente que configure su servidor web de manera que el directorio de datos ya no esté accesible o mueva el directorio de datos fuera del documento raíz de su servidor web."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -389,17 +389,17 @@ msgstr "Salir"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "¡Inicio de sesión automático rechazado!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Si usted no ha cambiado su contraseña recientemente, ¡puede que su cuenta esté comprometida!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Por favor cambie su contraseña para asegurar su cuenta nuevamente."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -427,14 +427,14 @@ msgstr "siguiente"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "¡Advertencia de seguridad!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Por favor verifique su contraseña. <br/>Por razones de seguridad se le puede volver a preguntar ocasionalmente la contraseña."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Verificar"

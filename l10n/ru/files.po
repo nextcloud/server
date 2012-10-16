@@ -7,6 +7,7 @@
 #   <jekader@gmail.com>, 2012.
 #   <lankme@gmail.com>, 2012.
 # Nick Remeslennikov <homolibere@gmail.com>, 2012.
+#   <skoptev@ukr.net>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
 #   <victor.dubiniuk@gmail.com>, 2012.
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:20+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-16 23:37+0200\n"
+"PO-Revision-Date: 2012-10-16 12:08+0000\n"
+"Last-Translator: skoptev <skoptev@ukr.net>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,41 +69,41 @@ msgstr "Удалить"
 
 #: js/fileactions.js:182
 msgid "Rename"
-msgstr ""
+msgstr "Переименовать"
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:192 js/filelist.js:194
 msgid "already exists"
 msgstr "уже существует"
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:192 js/filelist.js:194
 msgid "replace"
 msgstr "заменить"
 
-#: js/filelist.js:190
+#: js/filelist.js:192
 msgid "suggest name"
 msgstr "предложить название"
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:192 js/filelist.js:194
 msgid "cancel"
 msgstr "отмена"
 
-#: js/filelist.js:239 js/filelist.js:241
+#: js/filelist.js:241 js/filelist.js:243
 msgid "replaced"
 msgstr "заменён"
 
-#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
+#: js/filelist.js:241 js/filelist.js:243 js/filelist.js:275 js/filelist.js:277
 msgid "undo"
 msgstr "отмена"
 
-#: js/filelist.js:241
+#: js/filelist.js:243
 msgid "with"
 msgstr "с"
 
-#: js/filelist.js:273
+#: js/filelist.js:275
 msgid "unshared"
 msgstr "публикация отменена"
 
-#: js/filelist.js:275
+#: js/filelist.js:277
 msgid "deleted"
 msgstr "удален"
 
@@ -110,112 +111,112 @@ msgstr "удален"
 msgid "generating ZIP-file, it may take some time."
 msgstr "создание ZIP-файла, это может занять некоторое время."
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Не удается загрузить файл размером 0 байт в каталог"
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Upload Error"
 msgstr "Ошибка загрузки"
 
-#: js/files.js:236 js/files.js:341 js/files.js:371
+#: js/files.js:242 js/files.js:347 js/files.js:377
 msgid "Pending"
 msgstr "Ожидание"
 
-#: js/files.js:256
+#: js/files.js:262
 msgid "1 file uploading"
-msgstr ""
+msgstr "загружается 1 файл"
 
-#: js/files.js:259 js/files.js:304 js/files.js:319
+#: js/files.js:265 js/files.js:310 js/files.js:325
 msgid "files uploading"
-msgstr ""
+msgstr "загружаются файлы"
 
-#: js/files.js:322 js/files.js:355
+#: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
 msgstr "Загрузка отменена."
 
-#: js/files.js:424
+#: js/files.js:430
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Файл в процессе загрузки. Покинув страницу вы прервёте загрузку."
 
-#: js/files.js:494
+#: js/files.js:500
 msgid "Invalid name, '/' is not allowed."
 msgstr "Неверное имя, '/' не допускается."
 
-#: js/files.js:667
+#: js/files.js:681
 msgid "files scanned"
 msgstr ""
 
-#: js/files.js:675
+#: js/files.js:689
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:748 templates/index.php:48
+#: js/files.js:762 templates/index.php:48
 msgid "Name"
 msgstr "Название"
 
-#: js/files.js:749 templates/index.php:56
+#: js/files.js:763 templates/index.php:56
 msgid "Size"
 msgstr "Размер"
 
-#: js/files.js:750 templates/index.php:58
+#: js/files.js:764 templates/index.php:58
 msgid "Modified"
 msgstr "Изменён"
 
-#: js/files.js:777
+#: js/files.js:791
 msgid "folder"
 msgstr "папка"
 
-#: js/files.js:779
+#: js/files.js:793
 msgid "folders"
 msgstr "папки"
 
-#: js/files.js:787
+#: js/files.js:801
 msgid "file"
 msgstr "файл"
 
-#: js/files.js:789
+#: js/files.js:803
 msgid "files"
 msgstr "файлы"
 
-#: js/files.js:833
+#: js/files.js:847
 msgid "seconds ago"
 msgstr ""
 
-#: js/files.js:834
+#: js/files.js:848
 msgid "minute ago"
-msgstr ""
+msgstr "минуту назад"
 
-#: js/files.js:835
+#: js/files.js:849
 msgid "minutes ago"
 msgstr ""
 
-#: js/files.js:838
+#: js/files.js:852
 msgid "today"
-msgstr ""
+msgstr "сегодня"
 
-#: js/files.js:839
+#: js/files.js:853
 msgid "yesterday"
-msgstr ""
+msgstr "вчера"
 
-#: js/files.js:840
+#: js/files.js:854
 msgid "days ago"
 msgstr ""
 
-#: js/files.js:841
+#: js/files.js:855
 msgid "last month"
-msgstr ""
+msgstr "в прошлом месяце"
 
-#: js/files.js:843
+#: js/files.js:857
 msgid "months ago"
 msgstr ""
 
-#: js/files.js:844
+#: js/files.js:858
 msgid "last year"
 msgstr ""
 
-#: js/files.js:845
+#: js/files.js:859
 msgid "years ago"
 msgstr ""
 
