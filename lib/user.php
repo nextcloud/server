@@ -329,6 +329,8 @@ class OC_User {
 					}
 				}
 			}
+			// invalidate all login cookies
+			OC_Preferences::deleteApp($uid, 'login_token');
 			OC_Hook::emit( "OC_User", "post_setPassword", array( "uid" => $uid, "password" => $password ));
 			return $success;
 		}
@@ -472,9 +474,10 @@ class OC_User {
 	 */
 	public static function setMagicInCookie($username, $token) {
 		$secure_cookie = OC_Config::getValue("forcessl", false);
-		setcookie("oc_username", $username, time()+60*60*24*15, '', '', $secure_cookie);
-		setcookie("oc_token", $token, time()+60*60*24*15, '', '', $secure_cookie);
-		setcookie("oc_remember_login", true, time()+60*60*24*15, '', '', $secure_cookie);
+		$expires = time() + OC_Config::getValue('remember_login_cookie_lifetime', 60*60*24*15);
+		setcookie("oc_username", $username, $expires, '', '', $secure_cookie);
+		setcookie("oc_token", $token, $expires, '', '', $secure_cookie);
+		setcookie("oc_remember_login", true, $expires, '', '', $secure_cookie);
 	}
 
 	/**
