@@ -216,4 +216,12 @@ class OC_FileCache_Update{
 		OC_FileCache::increaseSize(dirname($newPath), $oldSize, $root);
 		OC_FileCache::move($oldPath, $newPath);
 	}
+
+	/**
+	 * delete files owned by user from the cache
+	 * @param string $parameters$parameters["uid"])
+	 */
+	public static function deleteFromUser($parameters) {
+		OC_FileCache::clear($parameters["uid"]);
+	}
 }

@@ -203,7 +203,7 @@ class OC_FileCache{
 
 		OC_Cache::remove('fileid/'.$root.$path);
 	}
-
+	
 	/**
 	 * return array of filenames matching the querty
 	 * @param string $query
@@ -509,3 +509,4 @@ class OC_FileCache{
 OC_Hook::connect('OC_Filesystem','post_write','OC_FileCache_Update','fileSystemWatcherWrite');
 OC_Hook::connect('OC_Filesystem','post_delete','OC_FileCache_Update','fileSystemWatcherDelete');
 OC_Hook::connect('OC_Filesystem','post_rename','OC_FileCache_Update','fileSystemWatcherRename');
+OC_Hook::connect('OC_User','post_deleteUser','OC_FileCache_Update','deleteFromUser');
