@@ -20,7 +20,7 @@
  *
  */
 
-require_once('MDB2/Driver/Function/Common.php');
+require_once 'MDB2/Driver/Function/Common.php';
 
 /**
  * MDB2 SQLite driver for the function modules
@@ -55,12 +55,12 @@ class MDB2_Driver_Function_sqlite3 extends MDB2_Driver_Function_Common
     {
         switch ($type) {
         case 'time':
-            return 'time(\'now\')';
+            return 'CURRENT_TIME';
         case 'date':
-            return 'date(\'now\')';
+            return 'CURRENT_DATE';
         case 'timestamp':
         default:
-            return 'datetime(\'now\')';
+            return 'CURRENT_TIMESTAMP';
         }
     }
 

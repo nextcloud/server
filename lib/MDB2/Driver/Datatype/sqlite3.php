@@ -20,7 +20,7 @@
  *
  */
 
-require_once('MDB2/Driver/Datatype/Common.php');
+require_once 'MDB2/Driver/Datatype/Common.php';
 
 /**
  * MDB2 SQLite driver
@@ -191,7 +191,7 @@ class MDB2_Driver_Datatype_sqlite3 extends MDB2_Driver_Datatype_Common
         $notnull = empty($field['notnull']) ? '' : ' NOT NULL';
         $unsigned = empty($field['unsigned']) ? '' : ' UNSIGNED';
         $name = $db->quoteIdentifier($name, true);
-        if($autoinc){
+        if($autoinc) {
 			return $name.' '.$this->getTypeDeclaration($field).$autoinc;
         }else{
 			return $name.' '.$this->getTypeDeclaration($field).$unsigned.$default.$notnull.$autoinc;
@@ -383,5 +383,3 @@ class MDB2_Driver_Datatype_sqlite3 extends MDB2_Driver_Datatype_Common
 
     // }}}
 }
-
-?>

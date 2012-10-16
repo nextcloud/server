@@ -6,6 +6,8 @@
 "No file was uploaded" => "Ниједан фајл није послат",
 "Missing a temporary folder" => "Недостаје привремена фасцикла",
 "Files" => "Фајлови",
+"Delete" => "Обриши",
+"Name" => "Име",
 "Size" => "Величина",
 "Modified" => "Задња измена",
 "Maximum upload size" => "Максимална величина пошиљке",
@@ -14,9 +16,7 @@
 "Folder" => "фасцикла",
 "Upload" => "Пошаљи",
 "Nothing in here. Upload something!" => "Овде нема ничег. Пошаљите нешто!",
-"Name" => "Име",
 "Download" => "Преузми",
-"Delete" => "Обриши",
 "Upload too large" => "Пошиљка је превелика",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Фајлови које желите да пошаљете превазилазе ограничење максималне величине пошиљке на овом серверу."
 );

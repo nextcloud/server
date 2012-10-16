@@ -1,0 +1,107 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <cdewqazxsqwe@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-10-12 02:03+0200\n"
+"PO-Revision-Date: 2012-10-11 08:45+0000\n"
+"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
+"Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
+msgid "Access granted"
+msgstr "Доступ разрешен"
+
+#: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
+msgid "Error configuring Dropbox storage"
+msgstr "Ошибка при конфигурировании хранилища Dropbox"
+
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+msgid "Grant access"
+msgstr "Предоставить доступ"
+
+#: js/dropbox.js:73 js/google.js:72
+msgid "Fill out all required fields"
+msgstr "Заполните все требуемые поля"
+
+#: js/dropbox.js:85
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr "Пожалуйста представьте допустимый ключ приложения Dropbox и пароль."
+
+#: js/google.js:26 js/google.js:73 js/google.js:78
+msgid "Error configuring Google Drive storage"
+msgstr "Ошибка настройки хранилища Google Drive"
+
+#: templates/settings.php:3
+msgid "External Storage"
+msgstr "Внешние системы хранения данных"
+
+#: templates/settings.php:7 templates/settings.php:19
+msgid "Mount point"
+msgstr "Точка монтирования"
+
+#: templates/settings.php:8
+msgid "Backend"
+msgstr "Бэкэнд"
+
+#: templates/settings.php:9
+msgid "Configuration"
+msgstr "Конфигурация"
+
+#: templates/settings.php:10
+msgid "Options"
+msgstr "Опции"
+
+#: templates/settings.php:11
+msgid "Applicable"
+msgstr "Применимый"
+
+#: templates/settings.php:23
+msgid "Add mount point"
+msgstr "Добавить точку монтирования"
+
+#: templates/settings.php:54 templates/settings.php:62
+msgid "None set"
+msgstr "Не задан"
+
+#: templates/settings.php:63
+msgid "All Users"
+msgstr "Все пользователи"
+
+#: templates/settings.php:64
+msgid "Groups"
+msgstr "Группы"
+
+#: templates/settings.php:69
+msgid "Users"
+msgstr "Пользователи"
+
+#: templates/settings.php:77 templates/settings.php:107
+msgid "Delete"
+msgstr "Удалить"
+
+#: templates/settings.php:87
+msgid "Enable User External Storage"
+msgstr "Включить пользовательскую внешнюю систему хранения данных"
+
+#: templates/settings.php:88
+msgid "Allow users to mount their own external storage"
+msgstr "Разрешить пользователям монтировать их собственную внешнюю систему хранения данных"
+
+#: templates/settings.php:99
+msgid "SSL root certificates"
+msgstr "Корневые сертификаты SSL"
+
+#: templates/settings.php:113
+msgid "Import Root Certificate"
+msgstr "Импортировать корневые сертификаты"

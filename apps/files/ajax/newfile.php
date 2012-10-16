@@ -1,50 +1,91 @@
 <?php
 
 // Init owncloud
+global $eventSource;
 
+if(!OC_User::isLoggedIn()) {
+	exit;
+}
 
-OCP\JSON::checkLoggedIn();
-OCP\JSON::callCheck();
-
+session_write_close();
 // Get the params
-$dir = isset( $_POST['dir'] ) ? stripslashes($_POST['dir']) : '';
-$filename = isset( $_POST['filename'] ) ? stripslashes($_POST['filename']) : '';
-$content = isset( $_POST['content'] ) ? $_POST['content'] : '';
-$source = isset( $_POST['source'] ) ? stripslashes($_POST['source']) : '';
+$dir = isset( $_REQUEST['dir'] ) ? trim($_REQUEST['dir'], '/\\') : '';
+$filename = isset( $_REQUEST['filename'] ) ? trim($_REQUEST['filename'], '/\\') : '';
+$content = isset( $_REQUEST['content'] ) ? $_REQUEST['content'] : '';
+$source = isset( $_REQUEST['source'] ) ? trim($_REQUEST['source'], '/\\') : '';
+
+if($source) {
+	$eventSource=new OC_EventSource();
+} else {
+	OC_JSON::callCheck();
+}
 
 if($filename == '') {
 	OCP\JSON::error(array("data" => array( "message" => "Empty Filename" )));
 	exit();
 }
-if(strpos($filename,'/')!==false){
+if(strpos($filename, '/')!==false) {
 	OCP\JSON::error(array("data" => array( "message" => "Invalid Filename" )));
 	exit();
 }
 
-if($source){
-	if(substr($source,0,8)!='https://' and substr($source,0,7)!='http://'){
+function progress($notification_code, $severity, $message, $message_code, $bytes_transferred, $bytes_max) {
+	static $filesize = 0;
+	static $lastsize = 0;
+	global $eventSource;
+
+	switch($notification_code) {
+		case STREAM_NOTIFY_FILE_SIZE_IS:
+			$filesize = $bytes_max;
+			break;
+
+		case STREAM_NOTIFY_PROGRESS:
+			if ($bytes_transferred > 0) {
+				if (!isset($filesize)) {
+				} else {
+					$progress = (int)(($bytes_transferred/$filesize)*100);
+					if($progress>$lastsize) {//limit the number or messages send
+						$eventSource->send('progress', $progress);
+					}
+					$lastsize=$progress;
+				}
+			}
+			break;
+	}
+}
+
+if($source) {
+	if(substr($source, 0, 8)!='https://' and substr($source, 0, 7)!='http://') {
 		OCP\JSON::error(array("data" => array( "message" => "Not a valid source" )));
 		exit();
 	}
-	$sourceStream=fopen($source,'rb');
+
+	$ctx = stream_context_create(null, array('notification' =>'progress'));
+	$sourceStream=fopen($source, 'rb', false, $ctx);
 	$target=$dir.'/'.$filename;
-	$result=OC_Filesystem::file_put_contents($target,$sourceStream);
-	if($result){
-		$mime=OC_Filesystem::getMimetype($target);
-		OCP\JSON::success(array("data" => array('mime'=>$mime)));
-		exit();
-	}else{
-		OCP\JSON::error(array("data" => array( "message" => "Error while downloading ".$source. ' to '.$target )));
-		exit();
+	$result=OC_Filesystem::file_put_contents($target, $sourceStream);
+	if($result) {
+		$meta = OC_FileCache::get($target);
+		$mime=$meta['mimetype'];
+		$id = OC_FileCache::getId($target);
+		$eventSource->send('success', array('mime'=>$mime, 'size'=>OC_Filesystem::filesize($target), 'id' => $id));
+	} else {
+		$eventSource->send('error', "Error while downloading ".$source. ' to '.$target);
 	}
-}else{
-	if($content){
-		if(OC_Filesystem::file_put_contents($dir.'/'.$filename,$content)){
-			OCP\JSON::success(array("data" => array('content'=>$content)));
+	$eventSource->close();
+	exit();
+} else {
+	if($content) {
+		if(OC_Filesystem::file_put_contents($dir.'/'.$filename, $content)) {
+			$meta = OC_FileCache::get($dir.'/'.$filename);
+			$id = OC_FileCache::getId($dir.'/'.$filename);
+			OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
 			exit();
 		}
-	}elseif(OC_Files::newFile($dir, $filename, 'file')){
-		OCP\JSON::success(array("data" => array('content'=>$content)));
+	}elseif(OC_Files::newFile($dir, $filename, 'file')) {
+		$meta = OC_FileCache::get($dir.'/'.$filename);
+		$id = OC_FileCache::getId($dir.'/'.$filename);
+		OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
 		exit();
 	}
 }

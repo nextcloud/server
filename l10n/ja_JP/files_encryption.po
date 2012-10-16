@@ -1,0 +1,35 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-16 02:04+0200\n"
+"PO-Revision-Date: 2012-08-15 02:43+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
+"Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: templates/settings.php:3
+msgid "Encryption"
+msgstr "暗号化"
+
+#: templates/settings.php:4
+msgid "Exclude the following file types from encryption"
+msgstr "暗号化から除外するファイルタイプ"
+
+#: templates/settings.php:5
+msgid "None"
+msgstr "なし"
+
+#: templates/settings.php:10
+msgid "Enable Encryption"
+msgstr "暗号化を有効にする"

@@ -1,0 +1,106 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-10-02 23:16+0200\n"
+"PO-Revision-Date: 2012-10-02 21:17+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Arabic (Saudi Arabia) (http://www.transifex.com/projects/p/owncloud/language/ar_SA/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar_SA\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
+msgid "Access granted"
+msgstr ""
+
+#: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
+msgid "Error configuring Dropbox storage"
+msgstr ""
+
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+msgid "Grant access"
+msgstr ""
+
+#: js/dropbox.js:73 js/google.js:72
+msgid "Fill out all required fields"
+msgstr ""
+
+#: js/dropbox.js:85
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr ""
+
+#: js/google.js:26 js/google.js:73 js/google.js:78
+msgid "Error configuring Google Drive storage"
+msgstr ""
+
+#: templates/settings.php:3
+msgid "External Storage"
+msgstr ""
+
+#: templates/settings.php:7 templates/settings.php:19
+msgid "Mount point"
+msgstr ""
+
+#: templates/settings.php:8
+msgid "Backend"
+msgstr ""
+
+#: templates/settings.php:9
+msgid "Configuration"
+msgstr ""
+
+#: templates/settings.php:10
+msgid "Options"
+msgstr ""
+
+#: templates/settings.php:11
+msgid "Applicable"
+msgstr ""
+
+#: templates/settings.php:23
+msgid "Add mount point"
+msgstr ""
+
+#: templates/settings.php:54 templates/settings.php:62
+msgid "None set"
+msgstr ""
+
+#: templates/settings.php:63
+msgid "All Users"
+msgstr ""
+
+#: templates/settings.php:64
+msgid "Groups"
+msgstr ""
+
+#: templates/settings.php:69
+msgid "Users"
+msgstr ""
+
+#: templates/settings.php:77 templates/settings.php:107
+msgid "Delete"
+msgstr ""
+
+#: templates/settings.php:87
+msgid "Enable User External Storage"
+msgstr ""
+
+#: templates/settings.php:88
+msgid "Allow users to mount their own external storage"
+msgstr ""
+
+#: templates/settings.php:99
+msgid "SSL root certificates"
+msgstr ""
+
+#: templates/settings.php:113
+msgid "Import Root Certificate"
+msgstr ""

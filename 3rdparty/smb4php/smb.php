@@ -166,6 +166,8 @@ class smb {
 						return false;
 					}elseif(substr($regs[0],0,31)=='NT_STATUS_OBJECT_PATH_NOT_FOUND'){
 						return false;
+					}elseif(substr($regs[0],0,29)=='NT_STATUS_FILE_IS_A_DIRECTORY'){
+						return false;
 					}
 					trigger_error($regs[0].' params('.$params.')', E_USER_ERROR);
 			}
@@ -227,6 +229,8 @@ class smb {
 	}
 
 	function addstatcache ($url, $info) {
+		$url = str_replace('//', '/', $url);
+		$url = rtrim($url, '/');
 		global $__smb_cache;
 		$is_file = (strpos ($info['attr'],'D') === FALSE);
 		$s = ($is_file) ? stat ('/etc/passwd') : stat ('/tmp');
@@ -236,11 +240,15 @@ class smb {
 	}
 
 	function getstatcache ($url) {
+		$url = str_replace('//', '/', $url);
+		$url = rtrim($url, '/');
 		global $__smb_cache;
 		return isset ($__smb_cache['stat'][$url]) ? $__smb_cache['stat'][$url] : FALSE;
 	}
 
 	function clearstatcache ($url='') {
+		$url = str_replace('//', '/', $url);
+		$url = rtrim($url, '/');
 		global $__smb_cache;
 		if ($url == '') $__smb_cache['stat'] = array (); else unset ($__smb_cache['stat'][$url]);
 	}
@@ -356,16 +364,22 @@ class smb_stream_wrapper extends smb {
 	# cache
 
 	function adddircache ($url, $content) {
+		$url = str_replace('//', '/', $url);
+		$url = rtrim($url, '/');
 		global $__smb_cache;
 		return $__smb_cache['dir'][$url] = $content;
 	}
 
 	function getdircache ($url) {
+		$url = str_replace('//', '/', $url);
+		$url = rtrim($url, '/');
 		global $__smb_cache;
 		return isset ($__smb_cache['dir'][$url]) ? $__smb_cache['dir'][$url] : FALSE;
 	}
 
 	function cleardircache ($url='') {
+		$url = str_replace('//', '/', $url);
+		$url = rtrim($url, '/');
 		global $__smb_cache;
 		if ($url == ''){
 			$__smb_cache['dir'] = array ();

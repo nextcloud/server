@@ -23,47 +23,48 @@
 
 /**
  * @brief make OC_Helper::linkTo available as a simple function
- * @param $app app
- * @param $file file
- * @returns link to the file
+ * @param string $app app
+ * @param string $file file
+ * @param array $args array with param=>value, will be appended to the returned url
+ * @return string link to the file
  *
  * For further information have a look at OC_Helper::linkTo
  */
-function link_to( $app, $file ){
-	return OC_Helper::linkTo( $app, $file );
+function link_to( $app, $file, $args = array() ) {
+	return OC_Helper::linkTo( $app, $file, $args );
 }
 
 /**
  * @brief make OC_Helper::imagePath available as a simple function
- * @param $app app
- * @param $image image
- * @returns link to the image
+ * @param string $app app
+ * @param string $image image
+ * @return string link to the image
  *
  * For further information have a look at OC_Helper::imagePath
  */
-function image_path( $app, $image ){
+function image_path( $app, $image ) {
 	return OC_Helper::imagePath( $app, $image );
 }
 
 /**
  * @brief make OC_Helper::mimetypeIcon available as a simple function
- * @param $mimetype mimetype
- * @returns link to the image
+ * @param string $mimetype mimetype
+ * @return string link to the image
  *
  * For further information have a look at OC_Helper::mimetypeIcon
  */
-function mimetype_icon( $mimetype ){
+function mimetype_icon( $mimetype ) {
 	return OC_Helper::mimetypeIcon( $mimetype );
 }
 
 /**
  * @brief make OC_Helper::humanFileSize available as a simple function
- * @param $bytes size in bytes
- * @returns size as string
+ * @param int $bytes size in bytes
+ * @return string size as string
  *
  * For further information have a look at OC_Helper::humanFileSize
  */
-function human_file_size( $bytes ){
+function human_file_size( $bytes ) {
 	return OC_Helper::humanFileSize( $bytes );
 }
 
@@ -76,13 +77,12 @@ function simple_file_size($bytes) {
 }
 
 function relative_modified_date($timestamp) {
-    $l=OC_L10N::get('template');
+    $l=OC_L10N::get('lib');
 	$timediff = time() - $timestamp;
 	$diffminutes = round($timediff/60);
 	$diffhours = round($diffminutes/60);
 	$diffdays = round($diffhours/24);
 	$diffmonths = round($diffdays/31);
-	$diffyears = round($diffdays/365);
 
 	if($timediff < 60) { return $l->t('seconds ago'); }
 	else if($timediff < 120) { return $l->t('1 minute ago'); }
@@ -99,25 +99,25 @@ function relative_modified_date($timestamp) {
 }
 
 function html_select_options($options, $selected, $params=array()) {
-	if (!is_array($selected)){
+	if (!is_array($selected)) {
 		$selected=array($selected);
 	}
-	if (isset($params['combine']) && $params['combine']){
+	if (isset($params['combine']) && $params['combine']) {
 		$options = array_combine($options, $options);
 	}
 	$value_name = $label_name = false;
-	if (isset($params['value'])){
+	if (isset($params['value'])) {
 		$value_name = $params['value'];
 	}
-	if (isset($params['label'])){
+	if (isset($params['label'])) {
 		$label_name = $params['label'];
 	}
 	$html = '';
-	foreach($options as $value => $label){
-		if ($value_name && is_array($label)){
+	foreach($options as $value => $label) {
+		if ($value_name && is_array($label)) {
 			$value = $label[$value_name];
 		}
-		if ($label_name && is_array($label)){
+		if ($label_name && is_array($label)) {
 			$label = $label[$label_name];
 		}
 		$select = in_array($value, $selected) ? ' selected="selected"' : '';
@@ -139,10 +139,10 @@ class OC_Template{
 
 	/**
 	 * @brief Constructor
-	 * @param $app app providing the template
-	 * @param $file name of the template file (without suffix)
-	 * @param $renderas = ""; produce a full page
-	 * @returns OC_Template object
+	 * @param string $app app providing the template
+	 * @param string $file name of the template file (without suffix)
+	 * @param string $renderas = ""; produce a full page
+	 * @return OC_Template object
 	 *
 	 * This function creates an OC_Template object.
 	 *
@@ -150,39 +150,41 @@ class OC_Template{
 	 * according layout. For now, renderas can be set to "guest", "user" or
 	 * "admin".
 	 */
-	public function __construct( $app, $name, $renderas = "" ){
+	public function __construct( $app, $name, $renderas = "" ) {
 		// Set the private data
 		$this->renderas = $renderas;
 		$this->application = $app;
 		$this->vars = array();
-		if($renderas == 'user') {
-			$this->vars['requesttoken'] = OC_Util::callRegister();
-		}
-		$this->l10n = OC_L10N::get($app);
-                header('X-Frame-Options: Sameorigin');
-                header('X-XSS-Protection: 1; mode=block');
-                header('X-Content-Type-Options: nosniff');
- 
+		$this->vars['requesttoken'] = OC_Util::callRegister();
+		$this->vars['requestlifespan'] = OC_Util::$callLifespan;
+		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
+		$this->l10n = OC_L10N::get($parts[0]);
+
+		// Some headers to enhance security
+		header('X-Frame-Options: Sameorigin');
+		header('X-XSS-Protection: 1; mode=block');
+		header('X-Content-Type-Options: nosniff');
+
 		$this->findTemplate($name);
 	}
 
 	/**
-	 * autodetects the formfactor of the used device
+	 * autodetect the formfactor of the used device
 	 * default -> the normal desktop browser interface
 	 * mobile -> interface for smartphones
 	 * tablet -> interface for tablets
 	 * standalone -> the default interface but without header, footer and
-	 * 	sidebar, just the application. Useful to use just a specific
-	 * 	app on the desktop in a standalone window.
+	 *	sidebar, just the application. Useful to use just a specific
+	 *	app on the desktop in a standalone window.
 	 */
-	public static function detectFormfactor(){
+	public static function detectFormfactor() {
 		// please add more useragent strings for other devices
-		if(isset($_SERVER['HTTP_USER_AGENT'])){
+		if(isset($_SERVER['HTTP_USER_AGENT'])) {
 			if(stripos($_SERVER['HTTP_USER_AGENT'],'ipad')>0) {
 				$mode='tablet';
-			}elseif(stripos($_SERVER['HTTP_USER_AGENT'],'iphone')>0){
+			}elseif(stripos($_SERVER['HTTP_USER_AGENT'],'iphone')>0) {
 				$mode='mobile';
-			}elseif((stripos($_SERVER['HTTP_USER_AGENT'],'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'],'nokia')>0)){
+			}elseif((stripos($_SERVER['HTTP_USER_AGENT'],'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'],'nokia')>0)) {
 				$mode='mobile';
 			}else{
 				$mode='default';
@@ -201,21 +203,21 @@ class OC_Template{
 		// if the formfactor is not yet autodetected do the
 		// autodetection now. For possible formfactors check the
 		// detectFormfactor documentation
-		if(!isset($_SESSION['formfactor'])){
+		if(!isset($_SESSION['formfactor'])) {
 			$_SESSION['formfactor'] = self::detectFormfactor();
 		}
 		// allow manual override via GET parameter
-		if(isset($_GET['formfactor'])){
+		if(isset($_GET['formfactor'])) {
 			$_SESSION['formfactor']=$_GET['formfactor'];
 		}
 		$formfactor=$_SESSION['formfactor'];
-		if($formfactor=='default') { 
+		if($formfactor=='default') {
 			$fext='';
-		}elseif($formfactor=='mobile') { 
+		}elseif($formfactor=='mobile') {
 			$fext='.mobile';
-		}elseif($formfactor=='tablet') { 
+		}elseif($formfactor=='tablet') {
 			$fext='.tablet';
-		}elseif($formfactor=='standalone') { 
+		}elseif($formfactor=='standalone') {
 			$fext='.standalone';
 		}else{
 			$fext='';
@@ -225,7 +227,7 @@ class OC_Template{
 
 	/**
 	 * @brief find the template with the given name
-	 * @param $name of the template file (without suffix)
+	 * @param string $name of the template file (without suffix)
 	 *
 	 * Will select the template file for the selected theme and formfactor.
 	 * Checking all the possible locations.
@@ -240,9 +242,9 @@ class OC_Template{
 
 		$app = $this->application;
 		// Check if it is a app template or not.
-		if( $app != "" ){
+		if( $app != "" ) {
 			// Check if the app is in the app folder or in the root
-			if( file_exists(OC_App::getAppPath($app)."/templates/" )){
+			if( file_exists(OC_App::getAppPath($app)."/templates/" )) {
 				// Check if the template is overwritten by the selected theme
 				if ($this->checkPathForTemplate(OC::$SERVERROOT."/themes/$theme/apps/$app/templates/", $name, $fext)) {
 				}elseif ($this->checkPathForTemplate(OC_App::getAppPath($app)."/templates/", $name, $fext)) {
@@ -270,21 +272,21 @@ class OC_Template{
 
 	/**
 	 * @brief check Path For Template with and without $fext
-	 * @param $path to check
-	 * @param $name of the template file (without suffix)
-	 * @param $fext formfactor extension
+	 * @param string $path to check
+	 * @param string $name of the template file (without suffix)
+	 * @param string $fext formfactor extension
 	 * @return bool true when found
 	 *
 	 * Will set $this->template and $this->path if there is a template at
-	 * the specifief $path
+	 * the specific $path
 	 */
 	protected function checkPathForTemplate($path, $name, $fext)
 	{
 		if ($name =='') return false;
 		$template = null;
-		if( is_file( $path.$name.$fext.'.php' )){
+		if( is_file( $path.$name.$fext.'.php' )) {
 			$template = $path.$name.$fext.'.php';
-		}elseif( is_file( $path.$name.'.php' )){
+		}elseif( is_file( $path.$name.'.php' )) {
 			$template = $path.$name.'.php';
 		}
 		if ($template) {
@@ -297,17 +299,17 @@ class OC_Template{
 
 	/**
 	 * @brief Assign variables
-	 * @param $key key
-	 * @param $value value
-	 * @param $sanitizeHTML false, if data shouldn't get passed through htmlentities
-	 * @returns true
+	 * @param string $key key
+	 * @param string $value value
+	 * @param bool $sanitizeHTML false, if data shouldn't get passed through htmlentities
+	 * @return bool
 	 *
 	 * This function assigns a variable. It can be accessed via $_[$key] in
 	 * the template.
 	 *
 	 * If the key existed before, it will be overwritten
 	 */
-	public function assign( $key, $value, $sanitizeHTML=true ){
+	public function assign( $key, $value, $sanitizeHTML=true ) {
 		if($sanitizeHTML == true) $value=OC_Util::sanitizeHTML($value);
 		$this->vars[$key] = $value;
 		return true;
@@ -315,16 +317,16 @@ class OC_Template{
 
 	/**
 	 * @brief Appends a variable
-	 * @param $key key
-	 * @param $value value
-	 * @returns true
+	 * @param string $key key
+	 * @param string $value value
+	 * @return bool
 	 *
 	 * This function assigns a variable in an array context. If the key already
 	 * exists, the value will be appended. It can be accessed via
 	 * $_[$key][$position] in the template.
 	 */
-	public function append( $key, $value ){
-		if( array_key_exists( $key, $this->vars )){
+	public function append( $key, $value ) {
+		if( array_key_exists( $key, $this->vars )) {
 			$this->vars[$key][] = $value;
 		}
 		else{
@@ -334,23 +336,23 @@ class OC_Template{
 
 	/**
 	 * @brief Add a custom element to the header
-	 * @param string tag tag name of the element
+	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attrobutes for the element
 	 * @param string $text the text content for the element
 	 */
-	public function addHeader( $tag, $attributes, $text=''){
+	public function addHeader( $tag, $attributes, $text='') {
 		$this->headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
 	}
 
 	/**
 	 * @brief Prints the proceeded template
-	 * @returns true/false
+	 * @return bool
 	 *
 	 * This function proceeds the template and prints its output.
 	 */
-	public function printPage(){
+	public function printPage() {
 		$data = $this->fetchPage();
-		if( $data === false ){
+		if( $data === false ) {
 			return false;
 		}
 		else{
@@ -361,23 +363,24 @@ class OC_Template{
 
 	/**
 	 * @brief Proceeds the template
-	 * @returns content
+	 * @return bool
 	 *
 	 * This function proceeds the template. If $this->renderas is set, it
 	 * will produce a full page.
 	 */
-	public function fetchPage(){
+	public function fetchPage() {
 		$data = $this->_fetch();
 
-		if( $this->renderas ){
+		if( $this->renderas ) {
 			$page = new OC_TemplateLayout($this->renderas);
 			if($this->renderas == 'user') {
 				$page->assign('requesttoken', $this->vars['requesttoken']);
+				$page->assign('requestlifespan', $this->vars['requestlifespan']);
 			}
 
 			// Add custom headers
 			$page->assign('headers',$this->headers, false);
-			foreach(OC_Util::$headers as $header){
+			foreach(OC_Util::$headers as $header) {
 				$page->append('headers',$header);
 			}
 
@@ -391,11 +394,11 @@ class OC_Template{
 
 	/**
 	 * @brief doing the actual work
-	 * @returns content
+	 * @return string content
 	 *
 	 * Includes the template file, fetches its output
 	 */
-	private function _fetch(){
+	private function _fetch() {
 		// Register the variables
 		$_ = $this->vars;
 		$l = $this->l10n;
@@ -412,17 +415,16 @@ class OC_Template{
 
 	/**
 	 * @brief Include template
-	 * @returns returns content of included template
+	 * @return string returns content of included template
 	 *
 	 * Includes another template. use <?php echo $this->inc('template'); ?> to
 	 * do this.
 	 */
-	public function inc( $file, $additionalparams = null ){
-		// $_ erstellen
+	public function inc( $file, $additionalparams = null ) {
 		$_ = $this->vars;
 		$l = $this->l10n;
 
-		if( !is_null($additionalparams)){
+		if( !is_null($additionalparams)) {
 			$_ = array_merge( $additionalparams, $this->vars );
 		}
 
@@ -438,14 +440,14 @@ class OC_Template{
 
 	/**
 	 * @brief Shortcut to print a simple page for users
-	 * @param $application The application we render the template for
-	 * @param $name Name of the template
-	 * @param $parameters Parameters for the template
-	 * @returns true/false
+	 * @param string $application The application we render the template for
+	 * @param string $name Name of the template
+	 * @param array $parameters Parameters for the template
+	 * @return bool
 	 */
-	public static function printUserPage( $application, $name, $parameters = array() ){
+	public static function printUserPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "user" );
-		foreach( $parameters as $key => $value ){
+		foreach( $parameters as $key => $value ) {
 			$content->assign( $key, $value, false );
 		}
 		print $content->printPage();
@@ -453,14 +455,14 @@ class OC_Template{
 
 	/**
 	 * @brief Shortcut to print a simple page for admins
-	 * @param $application The application we render the template for
-	 * @param $name Name of the template
-	 * @param $parameters Parameters for the template
-	 * @returns true/false
+	 * @param string $application The application we render the template for
+	 * @param string $name Name of the template
+	 * @param array $parameters Parameters for the template
+	 * @return bool
 	 */
-	public static function printAdminPage( $application, $name, $parameters = array() ){
+	public static function printAdminPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "admin" );
-		foreach( $parameters as $key => $value ){
+		foreach( $parameters as $key => $value ) {
 			$content->assign( $key, $value, false );
 		}
 		return $content->printPage();
@@ -468,15 +470,15 @@ class OC_Template{
 
 	/**
 	 * @brief Shortcut to print a simple page for guests
-	 * @param $application The application we render the template for
-	 * @param $name Name of the template
-	 * @param $parameters Parameters for the template
-	 * @returns true/false
+	 * @param string $application The application we render the template for
+	 * @param string $name Name of the template
+	 * @param string $parameters Parameters for the template
+	 * @return bool
 	 */
-	public static function printGuestPage( $application, $name, $parameters = array() ){
+	public static function printGuestPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "guest" );
-		foreach( $parameters as $key => $value ){
-			$content->assign( $key, $value,false );
+		foreach( $parameters as $key => $value ) {
+			$content->assign( $key, $value, false );
 		}
 		return $content->printPage();
 	}

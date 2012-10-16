@@ -6,19 +6,15 @@
  * See the COPYING-README file.
  */
 
-require_once('archive.php');
+require_once 'archive.php';
 
-if(is_dir(OC::$SERVERROOT.'/apps/files_archive/tests/data')){
-	class Test_Archive_ZIP extends Test_Archive{
-		protected function getExisting(){
-			$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
-			return new OC_Archive_ZIP($dir.'/data.zip');
-		}
-
-		protected function getNew(){
-			return new OC_Archive_ZIP(OCP\Files::tmpFile('.zip'));
-		}
+class Test_Archive_ZIP extends Test_Archive {
+	protected function getExisting() {
+		$dir = OC::$SERVERROOT . '/tests/data';
+		return new OC_Archive_ZIP($dir . '/data.zip');
 	}
-}else{
-	abstract class Test_Archive_ZIP extends Test_Archive{}
+
+	protected function getNew() {
+		return new OC_Archive_ZIP(OCP\Files::tmpFile('.zip'));
+	}
 }

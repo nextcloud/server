@@ -5,14 +5,14 @@
 	<description>File sharing between users</description>
 	<licence>AGPL</licence>
 	<author>Michael Gapczynski</author>
-	<require>4</require>
+	<require>4.9</require>
 	<shipped>true</shipped>
 	<default_enable/>
 	<types>
 		<filesystem/>
 	</types>
 	<public>
-		<files>get.php</files>
-		<webdav>get.php</webdav>
+		<files>public.php</files>
+		<webdav>public.php</webdav>
 	</public>
 </info>

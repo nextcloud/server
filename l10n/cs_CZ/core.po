@@ -4,25 +4,26 @@
 # 
 # Translators:
 # Jan Krejci <krejca85@gmail.com>, 2011.
-# Martin  <fireball@atlas.cz>, 2011, 2012.
+# Martin  <fireball@atlas.cz>, 2011-2012.
 # Michal Hrušecký <Michal@hrusecky.net>, 2012.
+# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:14+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Czech (Czech Republic) (http://www.transifex.net/projects/p/owncloud/language/cs_CZ/)\n"
+"POT-Creation-Date: 2012-10-16 02:04+0200\n"
+"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs_CZ\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr "Jméno aplikace nezadáno."
+msgstr "Nezadán název aplikace."
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
@@ -30,99 +31,209 @@ msgstr "Žádná kategorie k přidání?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
-msgstr "Tato kategorie již existuje:"
+msgstr "Tato kategorie již existuje: "
 
-#: js/jquery-ui-1.8.16.custom.min.js:511
-msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr ""
+#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
+msgid "Settings"
+msgstr "Nastavení"
 
-#: js/js.js:520
+#: js/js.js:670
 msgid "January"
-msgstr ""
+msgstr "Leden"
 
-#: js/js.js:520
+#: js/js.js:670
 msgid "February"
-msgstr ""
+msgstr "Únor"
 
-#: js/js.js:520
+#: js/js.js:670
 msgid "March"
-msgstr ""
+msgstr "Březen"
 
-#: js/js.js:520
+#: js/js.js:670
 msgid "April"
-msgstr ""
+msgstr "Duben"
 
-#: js/js.js:520
+#: js/js.js:670
 msgid "May"
-msgstr ""
+msgstr "Květen"
 
-#: js/js.js:520
+#: js/js.js:670
 msgid "June"
-msgstr ""
+msgstr "Červen"
 
-#: js/js.js:521
+#: js/js.js:671
 msgid "July"
-msgstr ""
+msgstr "Červenec"
 
-#: js/js.js:521
+#: js/js.js:671
 msgid "August"
-msgstr ""
+msgstr "Srpen"
 
-#: js/js.js:521
+#: js/js.js:671
 msgid "September"
-msgstr ""
+msgstr "Září"
 
-#: js/js.js:521
+#: js/js.js:671
 msgid "October"
-msgstr ""
+msgstr "Říjen"
 
-#: js/js.js:521
+#: js/js.js:671
 msgid "November"
-msgstr ""
+msgstr "Listopad"
 
-#: js/js.js:521
+#: js/js.js:671
 msgid "December"
-msgstr ""
+msgstr "Prosinec"
+
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr "Vybrat"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "Ano"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Žádné kategorie nebyly vybrány ke smazání."
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr "Chyba při sdílení"
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr "Chyba při rušení sdílení"
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr "Chyba při změně oprávnění"
+
+#: js/share.js:130
+msgid "Shared with you and the group"
+msgstr "S Vámi a skupinou"
+
+#: js/share.js:130
+msgid "by"
+msgstr "sdílí"
+
+#: js/share.js:132
+msgid "Shared with you by"
+msgstr "S Vámi sdílí"
+
+#: js/share.js:137
+msgid "Share with"
+msgstr "Sdílet s"
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr "Sdílet s odkazem"
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr "Chránit heslem"
+
+#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
+msgid "Password"
+msgstr "Heslo"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr "Nastavit datum vypršení platnosti"
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr "Datum vypršení platnosti"
+
+#: js/share.js:185
+msgid "Share via email:"
+msgstr "Sdílet e-mailem:"
+
+#: js/share.js:187
+msgid "No people found"
+msgstr "Žádní lidé nenalezeni"
+
+#: js/share.js:214
+msgid "Resharing is not allowed"
+msgstr "Sdílení již sdílené položky není povoleno"
+
+#: js/share.js:250
+msgid "Shared in"
+msgstr "Sdíleno v"
+
+#: js/share.js:250
+msgid "with"
+msgstr "s"
+
+#: js/share.js:271
+msgid "Unshare"
+msgstr "Zrušit sdílení"
+
+#: js/share.js:283
+msgid "can edit"
+msgstr "lze upravovat"
+
+#: js/share.js:285
+msgid "access control"
+msgstr "řízení přístupu"
+
+#: js/share.js:288
+msgid "create"
+msgstr "vytvořit"
+
+#: js/share.js:291
+msgid "update"
+msgstr "aktualizovat"
+
+#: js/share.js:294
+msgid "delete"
+msgstr "smazat"
+
+#: js/share.js:297
+msgid "share"
+msgstr "sdílet"
+
+#: js/share.js:322 js/share.js:484
+msgid "Password protected"
+msgstr "Chráněno heslem"
+
+#: js/share.js:497
+msgid "Error unsetting expiration date"
+msgstr "Chyba při odstraňování data vypršení platnosti"
+
+#: js/share.js:509
+msgid "Error setting expiration date"
+msgstr "Chyba při nastavení data vypršení platnosti"
 
 #: lostpassword/index.php:26
-msgid "Owncloud password reset"
-msgstr "Reset hesla Owncloud"
-
-#: lostpassword/index.php:27
 msgid "ownCloud password reset"
-msgstr "Reset hesla pro ownCloud"
+msgstr "Obnovení hesla pro ownCloud"
 
-#: lostpassword/templates/email.php:1
+#: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "Heslo vyresetujete použitím následujícího odkazu: {link}"
+msgstr "Heslo obnovíte použitím následujícího odkazu: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Bude Vám zaslán odkaz pro obnovu hesla"
+msgstr "Bude Vám e-mailem zaslán odkaz pro obnovu hesla."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Requested"
@@ -130,14 +241,14 @@ msgstr "Požadováno"
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Login failed!"
-msgstr "Přihlášení selhalo"
+msgstr "Přihlášení selhalo."
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Vyžádat obnovu"
 
@@ -171,7 +282,7 @@ msgstr "Aplikace"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Admin"
+msgstr "Administrace"
 
 #: strings.php:9
 msgid "Help"
@@ -179,7 +290,7 @@ msgstr "Nápověda"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Přístup odmítnut"
+msgstr "Přístup zakázán"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -193,74 +304,109 @@ msgstr "Upravit kategorie"
 msgid "Add"
 msgstr "Přidat"
 
-#: templates/installation.php:23
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr "Bezpečnostní upozornění"
+
+#: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr "Není dostupný žádný bezpečný generátor náhodných čísel. Povolte, prosím, rozšíření OpenSSL v PHP."
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr "Bez bezpečného generátoru náhodných čísel může útočník předpovědět token pro obnovu hesla a převzít kontrolu nad Vaším účtem."
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvořit <strong>účet správce</strong>"
 
-#: templates/installation.php:29 templates/login.php:13
-msgid "Password"
-msgstr "Heslo"
-
-#: templates/installation.php:35
+#: templates/installation.php:48
 msgid "Advanced"
-msgstr "Rozšířené volby"
+msgstr "Pokročilé"
 
-#: templates/installation.php:37
+#: templates/installation.php:50
 msgid "Data folder"
-msgstr "Datový adresář"
+msgstr "Složka s daty"
 
-#: templates/installation.php:44
+#: templates/installation.php:57
 msgid "Configure the database"
-msgstr "Konfigurace databáze"
+msgstr "Nastavit databázi"
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "bude použito"
 
-#: templates/installation.php:82
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Uživatel databáze"
 
-#: templates/installation.php:86
+#: templates/installation.php:109
 msgid "Database password"
-msgstr "Heslo k databázi"
+msgstr "Heslo databáze"
 
-#: templates/installation.php:90
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Název databáze"
 
-#: templates/installation.php:96
+#: templates/installation.php:121
+msgid "Database tablespace"
+msgstr "Tabulkový prostor databáze"
+
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Hostitel databáze"
 
-#: templates/installation.php:101
+#: templates/installation.php:132
 msgid "Finish setup"
-msgstr "Dokončit instalaci"
+msgstr "Dokončit nastavení"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "webové služby pod Vaší kontrolou"
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "Odhlásit se"
 
-#: templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "Nastavení"
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr ""
 
-#: templates/login.php:6
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr ""
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr ""
+
+#: templates/login.php:15
 msgid "Lost your password?"
-msgstr "Zapomenuté heslo?"
+msgstr "Ztratili jste své heslo?"
 
-#: templates/login.php:17
+#: templates/login.php:27
 msgid "remember"
 msgstr "zapamatovat si"
 
-#: templates/login.php:18
+#: templates/login.php:28
 msgid "Log in"
-msgstr "Login"
+msgstr "Přihlásit"
 
 #: templates/logout.php:1
 msgid "You are logged out."
@@ -268,8 +414,22 @@ msgstr "Jste odhlášeni."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "zpět"
+msgstr "předchozí"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "vpřed"
+msgstr "následující"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr ""
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr ""
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr ""

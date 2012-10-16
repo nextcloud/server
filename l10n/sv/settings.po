@@ -4,118 +4,236 @@
 # 
 # Translators:
 # Christer Eriksson <post@hc3web.com>, 2012.
+# Daniel Sandman <revoltism@gmail.com>, 2012.
 #   <hakan.thn@gmail.com>, 2011.
+# Magnus Höglund <magnus@linux.com>, 2012.
+#   <magnus@linux.com>, 2012.
 #   <revoltism@gmail.com>, 2011, 2012.
 #   <tscooter@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Swedish (http://www.transifex.net/projects/p/owncloud/language/sv/)\n"
+"POT-Creation-Date: 2012-10-10 02:05+0200\n"
+"PO-Revision-Date: 2012-10-09 12:28+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr "Kan inte ladda listan från App Store"
+
+#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Autentiseringsfel"
+
+#: ajax/creategroup.php:19
+msgid "Group already exists"
+msgstr "Gruppen finns redan"
+
+#: ajax/creategroup.php:28
+msgid "Unable to add group"
+msgstr "Kan inte lägga till grupp"
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
+msgstr "Kunde inte aktivera appen."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "E-post sparad"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Ogiltig e-post"
 
-#: ajax/openid.php:15
+#: ajax/openid.php:16
 msgid "OpenID Changed"
 msgstr "OpenID ändrat"
 
-#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
 msgstr "Ogiltig begäran"
 
-#: ajax/setlanguage.php:17
+#: ajax/removegroup.php:16
+msgid "Unable to delete group"
+msgstr "Kan inte radera grupp"
+
+#: ajax/removeuser.php:22
+msgid "Unable to delete user"
+msgstr "Kan inte radera användare"
+
+#: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Språk ändrades"
 
-#: js/apps.js:31 js/apps.js:67
-msgid "Disable"
-msgstr ""
+#: ajax/togglegroups.php:25
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr "Kan inte lägga till användare i gruppen %s"
 
-#: js/apps.js:31 js/apps.js:54
+#: ajax/togglegroups.php:31
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr "Kan inte radera användare från gruppen %s"
+
+#: js/apps.js:28 js/apps.js:65
+msgid "Disable"
+msgstr "Deaktivera"
+
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
-msgstr ""
+msgstr "Aktivera"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Sparar..."
 
-#: personal.php:40 personal.php:41
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "__language_name__"
 
-#: templates/admin.php:13
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr "Säkerhetsvarning"
+
+#: templates/admin.php:17
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "Din datamapp och dina filer kan möjligen vara nåbara från internet. Filen .htaccess som ownCloud tillhandahåller fungerar inte. Vi rekommenderar starkt att du ställer in din webbserver på ett sätt så att datamappen inte är nåbar. Alternativt att ni flyttar datamappen utanför webbservern."
+
+#: templates/admin.php:31
+msgid "Cron"
+msgstr "Cron"
+
+#: templates/admin.php:37
+msgid "Execute one task with each page loaded"
+msgstr "Exekvera en uppgift vid varje sidladdning"
+
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr "cron.php är registrerad som en webcron-tjänst. Anropa cron.php sidan i ownCloud en gång i minuten över HTTP."
+
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr "Använd system-tjänsten cron. Anropa filen cron.php i ownCloud-mappen via ett cronjobb varje minut."
+
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr "Dela"
+
+#: templates/admin.php:61
+msgid "Enable Share API"
+msgstr "Aktivera delat API"
+
+#: templates/admin.php:62
+msgid "Allow apps to use the Share API"
+msgstr "Tillåt applikationer att använda delat API"
+
+#: templates/admin.php:67
+msgid "Allow links"
+msgstr "Tillåt länkar"
+
+#: templates/admin.php:68
+msgid "Allow users to share items to the public with links"
+msgstr "Tillåt delning till allmänheten via publika länkar"
+
+#: templates/admin.php:73
+msgid "Allow resharing"
+msgstr "Tillåt dela vidare"
+
+#: templates/admin.php:74
+msgid "Allow users to share items shared with them again"
+msgstr "Tillåt användare att dela vidare filer som delats med dom"
+
+#: templates/admin.php:79
+msgid "Allow users to share with anyone"
+msgstr "Tillåt delning med alla"
+
+#: templates/admin.php:81
+msgid "Allow users to only share with users in their groups"
+msgstr "Tillåt bara delning med användare i egna grupper"
+
+#: templates/admin.php:88
 msgid "Log"
 msgstr "Logg"
 
-#: templates/admin.php:40
+#: templates/admin.php:116
 msgid "More"
 msgstr "Mera"
 
-#: templates/apps.php:8
+#: templates/admin.php:124
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Utvecklad av <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud kommunity</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">källkoden</a> är licenserad under <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+
+#: templates/apps.php:10
 msgid "Add your App"
 msgstr "Lägg till din applikation"
 
-#: templates/apps.php:22
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Fler Appar"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Välj en App"
 
-#: templates/apps.php:25
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Se programsida på apps.owncloud.com"
 
-#: templates/apps.php:26
-msgid "-licensed"
-msgstr "-licensierat"
+#: templates/apps.php:32
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span>-licensierad av <span class=\"author\"></span>"
 
-#: templates/apps.php:26
-msgid "by"
-msgstr "av"
-
-#: templates/help.php:8
+#: templates/help.php:9
 msgid "Documentation"
 msgstr "Dokumentation"
 
-#: templates/help.php:9
+#: templates/help.php:10
 msgid "Managing Big Files"
 msgstr "Hantering av stora filer"
 
-#: templates/help.php:10
+#: templates/help.php:11
 msgid "Ask a question"
 msgstr "Ställ en fråga"
 
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "Problem med att ansluta till hjälp-databasen."
-
 #: templates/help.php:23
-msgid "Go there manually."
-msgstr "Gå dit manuellt"
+msgid "Problems connecting to help database."
+msgstr "Problem med att ansluta till hjälpdatabasen."
 
-#: templates/help.php:31
+#: templates/help.php:24
+msgid "Go there manually."
+msgstr "Gå dit manuellt."
+
+#: templates/help.php:32
 msgid "Answer"
 msgstr "Svar"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Du använder"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "av tillgängliga"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "Du har använt <strong>%s</strong> av tillgängliga <strong>%s<strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -126,8 +244,8 @@ msgid "Download"
 msgstr "Ladda ner"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "Ditt lösenord ändrades"
+msgid "Your password was changed"
+msgstr "Ditt lösenord har ändrats"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
@@ -173,34 +291,38 @@ msgstr "Hjälp att översätta"
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "använd denna adress för att ansluta ownCloud till din filhanterare"
 
-#: templates/users.php:15 templates/users.php:44
+#: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "Namn"
 
-#: templates/users.php:16 templates/users.php:45
+#: templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Lösenord"
 
-#: templates/users.php:17 templates/users.php:46 templates/users.php:60
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
 msgstr "Grupper"
 
-#: templates/users.php:22
+#: templates/users.php:32
 msgid "Create"
 msgstr "Skapa"
 
-#: templates/users.php:25
+#: templates/users.php:35
 msgid "Default Quota"
 msgstr "Förvald datakvot"
 
-#: templates/users.php:35 templates/users.php:74
+#: templates/users.php:55 templates/users.php:138
 msgid "Other"
 msgstr "Annat"
 
-#: templates/users.php:47
+#: templates/users.php:80 templates/users.php:112
+msgid "Group Admin"
+msgstr "Gruppadministratör"
+
+#: templates/users.php:82
 msgid "Quota"
 msgstr "Kvot"
 
-#: templates/users.php:80
+#: templates/users.php:146
 msgid "Delete"
-msgstr "Ta bort"
+msgstr "Radera"

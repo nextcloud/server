@@ -3,49 +3,51 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Duarte Velez Grilo <duartegrilo@gmail.com>, 2012.
+#   <geral@ricardolameiro.pt>, 2012.
 # Helder Meneses <helder.meneses@gmail.com>, 2012.
 #   <rjgpp.1994@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Portuguese (Portugal) (http://www.transifex.net/projects/p/owncloud/language/pt_PT/)\n"
+"POT-Creation-Date: 2012-10-10 02:04+0200\n"
+"PO-Revision-Date: 2012-10-09 15:25+0000\n"
+"Last-Translator: Duarte Velez Grilo <duartegrilo@gmail.com>\n"
+"Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_PT\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
 msgstr "Sem erro, ficheiro enviado com sucesso"
 
-#: ajax/upload.php:20
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "O ficheiro enviado escede o diretivo upload_max_filesize no php.ini"
-
 #: ajax/upload.php:21
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr "O ficheiro enviado excede a directiva upload_max_filesize no php.ini"
+
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "O ficheiro enviado excede o diretivo MAX_FILE_SIZE especificado no formulário HTML"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
 msgstr "O ficheiro enviado só foi enviado parcialmente"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid "No file was uploaded"
 msgstr "Não foi enviado nenhum ficheiro"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:25
 msgid "Missing a temporary folder"
 msgstr "Falta uma pasta temporária"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "Failed to write to disk"
 msgstr "Falhou a escrita no disco"
 
@@ -53,57 +55,166 @@ msgstr "Falhou a escrita no disco"
 msgid "Files"
 msgstr "Ficheiros"
 
-#: js/filelist.js:186
-msgid "undo deletion"
-msgstr ""
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr "Deixar de partilhar"
 
-#: js/files.js:170
+#: js/fileactions.js:110 templates/index.php:64
+msgid "Delete"
+msgstr "Apagar"
+
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr "Renomear"
+
+#: js/filelist.js:192 js/filelist.js:194
+msgid "already exists"
+msgstr "já existe"
+
+#: js/filelist.js:192 js/filelist.js:194
+msgid "replace"
+msgstr "substituir"
+
+#: js/filelist.js:192
+msgid "suggest name"
+msgstr "Sugira um nome"
+
+#: js/filelist.js:192 js/filelist.js:194
+msgid "cancel"
+msgstr "cancelar"
+
+#: js/filelist.js:241 js/filelist.js:243
+msgid "replaced"
+msgstr "substituído"
+
+#: js/filelist.js:241 js/filelist.js:243 js/filelist.js:275 js/filelist.js:277
+msgid "undo"
+msgstr "desfazer"
+
+#: js/filelist.js:243
+msgid "with"
+msgstr "com"
+
+#: js/filelist.js:275
+msgid "unshared"
+msgstr "não partilhado"
+
+#: js/filelist.js:277
+msgid "deleted"
+msgstr "apagado"
+
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "a gerar o ficheiro ZIP, poderá demorar algum tempo."
 
-#: js/files.js:199
+#: js/files.js:214
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Não é possível fazer o envio do ficheiro devido a ser uma pasta ou ter 0 bytes"
 
-#: js/files.js:199
+#: js/files.js:214
 msgid "Upload Error"
-msgstr ""
+msgstr "Erro no envio"
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:242 js/files.js:347 js/files.js:377
 msgid "Pending"
-msgstr ""
+msgstr "Pendente"
 
-#: js/files.js:332
+#: js/files.js:262
+msgid "1 file uploading"
+msgstr "A enviar 1 ficheiro"
+
+#: js/files.js:265 js/files.js:310 js/files.js:325
+msgid "files uploading"
+msgstr "ficheiros a serem enviados"
+
+#: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
-msgstr ""
+msgstr "O envio foi cancelado."
 
-#: js/files.js:456
+#: js/files.js:430
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Envio de ficheiro em progresso. Irá cancelar o envio se sair da página agora."
+
+#: js/files.js:500
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Nome inválido, '/' não permitido."
 
-#: js/files.js:626 templates/index.php:55
+#: js/files.js:681
+msgid "files scanned"
+msgstr "ficheiros analisados"
+
+#: js/files.js:689
+msgid "error while scanning"
+msgstr "erro ao analisar"
+
+#: js/files.js:762 templates/index.php:48
+msgid "Name"
+msgstr "Nome"
+
+#: js/files.js:763 templates/index.php:56
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/files.js:627 templates/index.php:56
+#: js/files.js:764 templates/index.php:58
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:654
+#: js/files.js:791
 msgid "folder"
-msgstr ""
+msgstr "pasta"
 
-#: js/files.js:656
+#: js/files.js:793
 msgid "folders"
-msgstr ""
+msgstr "pastas"
 
-#: js/files.js:664
+#: js/files.js:801
 msgid "file"
-msgstr ""
+msgstr "ficheiro"
 
-#: js/files.js:666
+#: js/files.js:803
 msgid "files"
-msgstr ""
+msgstr "ficheiros"
+
+#: js/files.js:847
+msgid "seconds ago"
+msgstr "há segundos"
+
+#: js/files.js:848
+msgid "minute ago"
+msgstr "há um minuto"
+
+#: js/files.js:849
+msgid "minutes ago"
+msgstr "há minutos"
+
+#: js/files.js:852
+msgid "today"
+msgstr "hoje"
+
+#: js/files.js:853
+msgid "yesterday"
+msgstr "ontem"
+
+#: js/files.js:854
+msgid "days ago"
+msgstr "há dias"
+
+#: js/files.js:855
+msgid "last month"
+msgstr "mês passado"
+
+#: js/files.js:857
+msgid "months ago"
+msgstr "há meses"
+
+#: js/files.js:858
+msgid "last year"
+msgstr "ano passado"
+
+#: js/files.js:859
+msgid "years ago"
+msgstr "há anos"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -119,11 +230,11 @@ msgstr "max. possivel: "
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr "Necessário para multi download de ficheiros e pastas"
+msgstr "Necessário para descarregamento múltiplo de ficheiros e pastas"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr "Ativar dowload de ficheiros ZIP"
+msgstr "Permitir descarregar em ficheiro ZIP"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
@@ -132,6 +243,10 @@ msgstr "0 é ilimitado"
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
 msgstr "Tamanho máximo para ficheiros ZIP"
+
+#: templates/admin.php:14
+msgid "Save"
+msgstr "Guardar"
 
 #: templates/index.php:7
 msgid "New"
@@ -149,48 +264,40 @@ msgstr "Pasta"
 msgid "From url"
 msgstr "Do endereço"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Enviar"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr "Cancelar upload"
+msgstr "Cancelar envio"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
-msgstr "Vazio. Envia alguma coisa!"
+msgstr "Vazio. Envie alguma coisa!"
 
-#: templates/index.php:47
-msgid "Name"
-msgstr "Nome"
-
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "Partilhar"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "Transferir"
 
-#: templates/index.php:56
-msgid "Delete"
-msgstr "Apagar"
-
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "Envio muito grande"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Os ficheiro que estás a tentar enviar excedem o tamanho máximo de envio neste servidor."
+msgstr "Os ficheiros que está a tentar enviar excedem o tamanho máximo de envio permitido neste servidor."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "Os ficheiros estão a ser analisados, por favor aguarde."
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "Análise actual"

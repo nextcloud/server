@@ -21,16 +21,15 @@
 */
 
 class Test_Cache_APC extends Test_Cache {
-	function skip() {
-		$this->skipUnless(function_exists('apc_store'));
-	}
-
-	public function setUp(){
+	public function setUp() {
+		if(!extension_loaded('apc')){
+			$this->markTestSkipped('The apc extension is not available.');
+			return;
+		}
+		if(!ini_get('apc.enable_cli') && OC::$CLI){
+			$this->markTestSkipped('apc not available in CLI.');
+			return;
+		}
 		$this->instance=new OC_Cache_APC();
-	}
-
-	function testTTL(){
-		// ttl doesn't work correctly in the same request
-		// see https://bugs.php.net/bug.php?id=58084
 	}
 }

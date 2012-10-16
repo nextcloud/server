@@ -21,9 +21,9 @@
 * 
 */
 
-require_once('../lib/base.php');
+require_once '../lib/base.php';
 
-$url='http://'.substr(OCP\Util::getServerHost().$_SERVER['REQUEST_URI'],0,-17).'ocs/v1.php/';
+$url='http://'.substr(OCP\Util::getServerHost().$_SERVER['REQUEST_URI'], 0, -17).'ocs/v1.php/';
 
 echo('
 <providers>
@@ -35,7 +35,9 @@ echo('
  <termsofuse></termsofuse>
  <register></register>
  <services>
-   <activity ocsversion="1.5" />
+   <config ocsversion="1.7" />
+   <activity ocsversion="1.7" />
+   <cloud ocsversion="1.7" />
  </services>
 </provider>
 </providers>

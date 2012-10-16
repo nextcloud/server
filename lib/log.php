@@ -20,6 +20,7 @@ class OC_Log {
 	const ERROR=3;
 	const FATAL=4;
 
+	static public $enabled = true;
 	static protected $class = null;
 
 	/**
@@ -29,11 +30,35 @@ class OC_Log {
 	 * @param int level
 	 */
 	public static function write($app, $message, $level) {
-		if (!self::$class) {
-			self::$class = 'OC_Log_'.ucfirst(OC_Config::getValue('log_type', 'owncloud'));
-			call_user_func(array(self::$class, 'init'));
+		if (self::$enabled) {
+			if (!self::$class) {
+				self::$class = 'OC_Log_'.ucfirst(OC_Config::getValue('log_type', 'owncloud'));
+				call_user_func(array(self::$class, 'init'));
+			}
+			$log_class=self::$class;
+			$log_class::write($app, $message, $level);
 		}
-		$log_class=self::$class;
-		$log_class::write($app, $message, $level);
+	}
+	
+	//Fatal errors handler
+	public static function onShutdown(){
+		$error = error_get_last();
+		if($error) {
+			//ob_end_clean();
+			self::write('PHP', $error['message'] . ' at ' . $error['file'] . '#' . $error['line'], self::FATAL);
+		} else {
+			return true; 
+		}
+	}
+	
+	// Uncaught exception handler
+	public static function onException($exception){
+		self::write('PHP', $exception->getMessage() . ' at ' . $exception->getFile() . '#' . $exception->getLine(), self::FATAL);
+	}
+
+	//Recoverable errors handler
+	public static function onError($number, $message, $file, $line){
+		self::write('PHP', $message . ' at ' . $file . '#' . $line, self::WARN);
+
 	}
 }

@@ -1,0 +1,23 @@
+<?php $TRANSLATIONS = array(
+"Access granted" => "Prístup povolený",
+"Grant access" => "Povoliť prístup",
+"Fill out all required fields" => "Vyplňte všetky vyžadované kolónky",
+"Please provide a valid Dropbox app key and secret." => "Zadajte platný kľúč aplikácie a heslo Dropbox",
+"Error configuring Google Drive storage" => "Chyba pri konfigurácii úložiska Google drive",
+"External Storage" => "Externé úložisko",
+"Mount point" => "Prípojný bod",
+"Backend" => "Backend",
+"Configuration" => "Nastavenia",
+"Options" => "Možnosti",
+"Applicable" => "Aplikovateľné",
+"Add mount point" => "Pridať prípojný bod",
+"None set" => "Žiadne nastavené",
+"All Users" => "Všetci užívatelia",
+"Groups" => "Skupiny",
+"Users" => "Užívatelia",
+"Delete" => "Odstrániť",
+"Enable User External Storage" => "Povoliť externé úložisko",
+"Allow users to mount their own external storage" => "Povoliť užívateľom pripojiť ich vlastné externé úložisko",
+"SSL root certificates" => "Koreňové SSL certifikáty",
+"Import Root Certificate" => "Importovať koreňový certifikát"
+);

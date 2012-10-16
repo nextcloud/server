@@ -25,6 +25,7 @@ OC.search.showResults=function(results){
 		parent.load(OC.filePath('search','templates','part.results.php'),function(){
 			OC.search.showResults.loaded=true;
 			$('#searchresults').click(function(event){
+				OC.search.hide();
 				event.stopPropagation();
 			});
 			$(window).click(function(event){
@@ -45,7 +46,7 @@ OC.search.showResults=function(results){
 					var row=$('#searchresults tr.template').clone();
 					row.removeClass('template');
 					row.addClass('result');
-					if (index == 0){
+					if (i == 0){
 						row.children('td.type').text(name);
 					}
 					row.find('td.result a').attr('href',type[i].link);

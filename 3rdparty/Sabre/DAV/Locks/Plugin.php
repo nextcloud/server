@@ -292,7 +292,10 @@ class Sabre_DAV_Locks_Plugin extends Sabre_DAV_ServerPlugin {
             $this->server->tree->getNodeForPath($uri);
 
             // We need to call the beforeWriteContent event for RFC3744
-            $this->server->broadcastEvent('beforeWriteContent',array($uri));
+            // Edit: looks like this is not used, and causing problems now.
+            //
+            // See Issue 222
+            // $this->server->broadcastEvent('beforeWriteContent',array($uri));
 
         } catch (Sabre_DAV_Exception_NotFound $e) {
 

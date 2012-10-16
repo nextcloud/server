@@ -215,7 +215,7 @@ class Sabre_DAV_Server {
             $DOM->appendChild($error);
 
             $error->appendChild($DOM->createElement('s:exception',get_class($e)));
-            $error->appendChild($DOM->createElement('s:message',htmlentities($e->getMessage())));
+            $error->appendChild($DOM->createElement('s:message',$e->getMessage()));
             if ($this->debugExceptions) {
                 $error->appendChild($DOM->createElement('s:file',$e->getFile()));
                 $error->appendChild($DOM->createElement('s:line',$e->getLine()));
@@ -1784,7 +1784,14 @@ class Sabre_DAV_Server {
                     $etag = $node->getETag();
                     if ($etag===$ifMatchItem) {
                         $haveMatch = true;
+                    } else {
+                        // Evolution has a bug where it sometimes prepends the "
+                        // with a \. This is our workaround.
+                        if (str_replace('\\"','"', $ifMatchItem) === $etag) {
+                            $haveMatch = true;
+                        }
                     }
+
                 }
                 if (!$haveMatch) {
                      throw new Sabre_DAV_Exception_PreconditionFailed('An If-Match header was specified, but none of the specified the ETags matched.','If-Match');

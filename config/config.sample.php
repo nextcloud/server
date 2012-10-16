@@ -3,25 +3,25 @@
 define("DEBUG", true);
 
 $CONFIG = array(
-/* Flag to indicate OwnCloud is successfully installed (true = installed) */
+/* Flag to indicate ownCloud is successfully installed (true = installed) */
 "installed" => false,
 
 /* Type of database, can be sqlite, mysql or pgsql */
 "dbtype" => "sqlite",
 
-/* Name of the OwnCloud database */
+/* Name of the ownCloud database */
 "dbname" => "owncloud",
 
-/* User to access the OwnCloud database */
+/* User to access the ownCloud database */
 "dbuser" => "",
 
-/* Password to access the OwnCloud database */
+/* Password to access the ownCloud database */
 "dbpassword" => "",
 
-/* Host running the OwnCloud database */
+/* Host running the ownCloud database */
 "dbhost" => "",
 
-/* Prefix for the OwnCloud tables in the database */
+/* Prefix for the ownCloud tables in the database */
 "dbtableprefix" => "",
 
 /* Define the salt used to hash the user passwords. All your user passwords are lost if you lose this string. */
@@ -30,7 +30,13 @@ $CONFIG = array(
 /* Force use of HTTPS connection (true = use HTTPS) */
 "forcessl" => false,
 
-/* Theme to use for OwnCloud */
+/* Enhanced auth forces users to enter their password again when performing potential sensitive actions like creating or deleting users */
+"enhancedauth" => true,
+
+/* Time in seconds how long an user is authenticated without entering his password again before performing sensitive actions like creating or deleting users etc...*/
+"enhancedauthtime" => 15 * 60,
+
+/* Theme to use for ownCloud */
 "theme" => "",
 
 /* Path to the 3rdparty directory */
@@ -86,6 +92,9 @@ $CONFIG = array(
 /* Loglevel to start logging at. 0=DEBUG, 1=INFO, 2=WARN, 3=ERROR (default is WARN) */
 "loglevel" => "",
 
+/* Lifetime of the remember login cookie, default is 15 days */
+"remember_login_cookie_lifetime" => 60*60*24*15,
+
 /* The directory where the user data is stored, default to data in the owncloud
  * directory. The sqlite database is also stored here, when sqlite is used.
  */
@@ -94,7 +103,7 @@ $CONFIG = array(
 "apps_paths" => array(
 
 /* Set an array of path for your apps directories
- key 'path' is for the fs path an the key 'url' is for the http path to your
+ key 'path' is for the fs path and the key 'url' is for the http path to your
  applications paths. 'writable' indicate if the user can install apps in this folder.
  You must have at least 1 app folder writable or you must set the parameter : appstoreenabled to false
 */
@@ -105,4 +114,3 @@ $CONFIG = array(
   ),
  ),
 );
-

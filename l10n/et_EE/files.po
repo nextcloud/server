@@ -3,48 +3,48 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Rivo Zängov <eraser@eraser.ee>, 2011, 2012.
+# Rivo Zängov <eraser@eraser.ee>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Estonian (Estonia) (http://www.transifex.net/projects/p/owncloud/language/et_EE/)\n"
+"POT-Creation-Date: 2012-09-26 13:19+0200\n"
+"PO-Revision-Date: 2012-09-26 11:20+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: et_EE\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
 msgstr "Ühtegi viga pole, fail on üles laetud"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "Üles laetud faili suurus ületab php.ini määratud upload_max_filesize suuruse"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Üles laetud faili suurus ületab HTML vormis määratud upload_max_filesize suuruse"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
 msgstr "Fail laeti üles ainult osaliselt"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid "No file was uploaded"
 msgstr "Ühtegi faili ei laetud üles"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:25
 msgid "Missing a temporary folder"
 msgstr "Ajutiste failide kaust puudub"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "Failed to write to disk"
 msgstr "Kettale kirjutamine ebaõnnestus"
 
@@ -52,56 +52,165 @@ msgstr "Kettale kirjutamine ebaõnnestus"
 msgid "Files"
 msgstr "Failid"
 
-#: js/filelist.js:186
-msgid "undo deletion"
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr "Lõpeta jagamine"
+
+#: js/fileactions.js:110 templates/index.php:64
+msgid "Delete"
+msgstr "Kustuta"
+
+#: js/fileactions.js:182
+msgid "Rename"
 msgstr ""
 
-#: js/files.js:170
+#: js/filelist.js:190 js/filelist.js:192
+msgid "already exists"
+msgstr "on juba olemas"
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "replace"
+msgstr "asenda"
+
+#: js/filelist.js:190
+msgid "suggest name"
+msgstr "soovita nime"
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "cancel"
+msgstr "loobu"
+
+#: js/filelist.js:239 js/filelist.js:241
+msgid "replaced"
+msgstr "asendatud"
+
+#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
+msgid "undo"
+msgstr "tagasi"
+
+#: js/filelist.js:241
+msgid "with"
+msgstr "millega"
+
+#: js/filelist.js:273
+msgid "unshared"
+msgstr "jagamata"
+
+#: js/filelist.js:275
+msgid "deleted"
+msgstr "kustutatud"
+
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "ZIP-faili loomine, see võib veidi aega võtta."
 
-#: js/files.js:199
+#: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Sinu faili üleslaadimine ebaõnnestus, kuna see on kaust või selle suurus on 0 baiti"
 
-#: js/files.js:199
+#: js/files.js:208
 msgid "Upload Error"
-msgstr ""
+msgstr "Üleslaadimise viga"
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
+msgstr "Ootel"
+
+#: js/files.js:256
+msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:332
+#: js/files.js:259 js/files.js:304 js/files.js:319
+msgid "files uploading"
+msgstr ""
+
+#: js/files.js:322 js/files.js:355
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Üleslaadimine tühistati."
 
-#: js/files.js:456
+#: js/files.js:424
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Faili üleslaadimine on töös.  Lehelt lahkumine katkestab selle üleslaadimise."
+
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
+msgstr "Vigane nimi, '/' pole lubatud."
+
+#: js/files.js:667
+msgid "files scanned"
 msgstr ""
 
-#: js/files.js:626 templates/index.php:55
+#: js/files.js:675
+msgid "error while scanning"
+msgstr ""
+
+#: js/files.js:748 templates/index.php:48
+msgid "Name"
+msgstr "Nimi"
+
+#: js/files.js:749 templates/index.php:56
 msgid "Size"
 msgstr "Suurus"
 
-#: js/files.js:627 templates/index.php:56
+#: js/files.js:750 templates/index.php:58
 msgid "Modified"
 msgstr "Muudetud"
 
-#: js/files.js:654
+#: js/files.js:777
 msgid "folder"
-msgstr ""
+msgstr "kaust"
 
-#: js/files.js:656
+#: js/files.js:779
 msgid "folders"
-msgstr ""
+msgstr "kausta"
 
-#: js/files.js:664
+#: js/files.js:787
 msgid "file"
+msgstr "fail"
+
+#: js/files.js:789
+msgid "files"
+msgstr "faili"
+
+#: js/files.js:833
+msgid "seconds ago"
 msgstr ""
 
-#: js/files.js:666
-msgid "files"
+#: js/files.js:834
+msgid "minute ago"
+msgstr ""
+
+#: js/files.js:835
+msgid "minutes ago"
+msgstr ""
+
+#: js/files.js:838
+msgid "today"
+msgstr ""
+
+#: js/files.js:839
+msgid "yesterday"
+msgstr ""
+
+#: js/files.js:840
+msgid "days ago"
+msgstr ""
+
+#: js/files.js:841
+msgid "last month"
+msgstr ""
+
+#: js/files.js:843
+msgid "months ago"
+msgstr ""
+
+#: js/files.js:844
+msgid "last year"
+msgstr ""
+
+#: js/files.js:845
+msgid "years ago"
 msgstr ""
 
 #: templates/admin.php:5
@@ -132,6 +241,10 @@ msgstr "0 tähendab piiramatut"
 msgid "Maximum input size for ZIP files"
 msgstr "Maksimaalne ZIP-faili sisestatava faili suurus"
 
+#: templates/admin.php:14
+msgid "Save"
+msgstr "Salvesta"
+
 #: templates/index.php:7
 msgid "New"
 msgstr "Uus"
@@ -148,7 +261,7 @@ msgstr "Kaust"
 msgid "From url"
 msgstr "URL-ilt"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Lae üles"
 
@@ -156,40 +269,32 @@ msgstr "Lae üles"
 msgid "Cancel upload"
 msgstr "Tühista üleslaadimine"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Siin pole midagi. Lae midagi üles!"
 
-#: templates/index.php:47
-msgid "Name"
-msgstr "Nimi"
-
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr "Jaga"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "Lae alla"
 
-#: templates/index.php:56
-msgid "Delete"
-msgstr "Kustuta"
-
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "Üleslaadimine on liiga suur"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Failid, mida sa proovid üles laadida, ületab serveri poolt üleslaetavatele failidele määratud maksimaalse suuruse."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr "Faile skannitakse, palun oota"
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "Praegune skannimine"

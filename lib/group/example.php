@@ -34,7 +34,7 @@ abstract class OC_Group_Example {
 	 * Trys to create a new group. If the group name already exists, false will
 	 * be returned.
 	 */
-	public static function createGroup($gid){}
+	abstract public static function createGroup($gid);
 
 	/**
 	 * @brief delete a group
@@ -43,7 +43,7 @@ abstract class OC_Group_Example {
 	 *
 	 * Deletes a group and removes it from the group_user-table
 	 */
-	public static function deleteGroup($gid){}
+	abstract public static function deleteGroup($gid);
 
 	/**
 	 * @brief is user in group?
@@ -53,7 +53,7 @@ abstract class OC_Group_Example {
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public static function inGroup($uid, $gid){}
+	abstract public static function inGroup($uid, $gid);
 
 	/**
 	 * @brief Add a user to a group
@@ -63,7 +63,7 @@ abstract class OC_Group_Example {
 	 *
 	 * Adds a user to a group.
 	 */
-	public static function addToGroup($uid, $gid){}
+	abstract public static function addToGroup($uid, $gid);
 
 	/**
 	 * @brief Removes a user from a group
@@ -73,7 +73,7 @@ abstract class OC_Group_Example {
 	 *
 	 * removes the user from a group.
 	 */
-	public static function removeFromGroup($uid,$gid){}
+	abstract public static function removeFromGroup($uid,$gid);
 
 	/**
 	 * @brief Get all groups a user belongs to
@@ -83,7 +83,7 @@ abstract class OC_Group_Example {
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public static function getUserGroups($uid){}
+	abstract public static function getUserGroups($uid);
 
 	/**
 	 * @brief get a list of all groups
@@ -91,19 +91,19 @@ abstract class OC_Group_Example {
 	 *
 	 * Returns a list with all groups
 	 */
-	public static function getGroups(){}
+	abstract public static function getGroups($search = '', $limit = -1, $offset = 0);
 
 	/**
 	 * check if a group exists
 	 * @param string $gid
 	 * @return bool
 	 */
-	public function groupExists($gid){}
+	abstract public function groupExists($gid);
 
 	/**
 	 * @brief get a list of all users in a group
 	 * @returns array with user ids
 	 */
-	public static function usersInGroup($gid){}
+	abstract public static function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
 
 }

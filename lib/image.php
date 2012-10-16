@@ -23,12 +23,12 @@
 
 //From user comments at http://dk2.php.net/manual/en/function.exif-imagetype.php
 if ( ! function_exists( 'exif_imagetype' ) ) {
-    function exif_imagetype ( $filename ) {
-        if ( ( list($width, $height, $type, $attr) = getimagesize( $filename ) ) !== false ) {
-            return $type;
-        }
-    return false;
-    }
+	function exif_imagetype ( $filename ) {
+		if ( ( $info = getimagesize( $filename ) ) !== false ) {
+			return $info[2];
+		}
+		return false;
+	}
 }
 
 function ellipsis($str, $maxlen) {
@@ -66,7 +66,6 @@ class OC_Image {
 	public function __construct($imageref = null) {
 		//OC_Log::write('core',__METHOD__.'(): start', OC_Log::DEBUG);
 		if(!extension_loaded('gd') || !function_exists('gd_info')) {
-		//if(!function_exists('imagecreatefromjpeg')) {
 			OC_Log::write('core',__METHOD__.'(): GD module not installed', OC_Log::ERROR);
 			return false;
 		}
@@ -105,6 +104,56 @@ class OC_Image {
 	*/
 	public function height() {
 		return $this->valid() ? imagesy($this->resource) : -1;
+	}
+
+	/**
+	* @brief Returns the width when the image orientation is top-left.
+	* @returns int
+	*/
+	public function widthTopLeft() {
+		$o = $this->getOrientation();
+		OC_Log::write('core','OC_Image->widthTopLeft() Orientation: '.$o, OC_Log::DEBUG);
+		switch($o) {
+			case -1:
+			case 1:
+			case 2: // Not tested
+			case 3:
+			case 4: // Not tested
+				return $this->width();
+				break;
+			case 5: // Not tested
+			case 6:
+			case 7: // Not tested
+			case 8:
+				return $this->height();
+				break;
+		}
+		return $this->width();
+	}
+
+	/**
+	* @brief Returns the height when the image orientation is top-left.
+	* @returns int
+	*/
+	public function heightTopLeft() {
+		$o = $this->getOrientation();
+		OC_Log::write('core','OC_Image->heightTopLeft() Orientation: '.$o, OC_Log::DEBUG);
+		switch($o) {
+			case -1:
+			case 1:
+			case 2: // Not tested
+			case 3:
+			case 4: // Not tested
+				return $this->height();
+				break;
+			case 5: // Not tested
+			case 6:
+			case 7: // Not tested
+			case 8:
+				return $this->width();
+				break;
+		}
+		return $this->height();
 	}
 
 	/**
@@ -209,34 +258,46 @@ class OC_Image {
 
 	/**
 	* (I'm open for suggestions on better method name ;)
+	* @brief Get the orientation based on EXIF data.
+	* @returns The orientation or -1 if no EXIF data is available.
+	*/
+	public function getOrientation() {
+		if(!is_callable('exif_read_data')) {
+			OC_Log::write('core','OC_Image->fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
+			return -1;
+		}
+		if(!$this->valid()) {
+			OC_Log::write('core','OC_Image->fixOrientation() No image loaded.', OC_Log::DEBUG);
+			return -1;
+		}
+		if(is_null($this->filepath) || !is_readable($this->filepath)) {
+			OC_Log::write('core','OC_Image->fixOrientation() No readable file path set.', OC_Log::DEBUG);
+			return -1;
+		}
+		$exif = @exif_read_data($this->filepath, 'IFD0');
+		if(!$exif) {
+			return -1;
+		}
+		if(!isset($exif['Orientation'])) {
+			return -1;
+		}
+		return $exif['Orientation'];
+	}
+
+	/**
+	* (I'm open for suggestions on better method name ;)
 	* @brief Fixes orientation based on EXIF data.
 	* @returns bool.
 	*/
 	public function fixOrientation() {
-		if(!is_callable('exif_read_data')){
-			OC_Log::write('core','OC_Image->fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
-			return false;
-		}
-		if(!$this->valid()) {
-			OC_Log::write('core','OC_Image->fixOrientation() No image loaded.', OC_Log::DEBUG);
-			return false;
-		}
-		if(is_null($this->filepath) || !is_readable($this->filepath)) {
-			OC_Log::write('core','OC_Image->fixOrientation() No readable file path set.', OC_Log::DEBUG);
-			return false;
-		}
-		$exif = @exif_read_data($this->filepath, 'IFD0');
-		if(!$exif) {
-			return false;
-		}
-		if(!isset($exif['Orientation'])) {
-			return true; // Nothing to fix
-		}
-		$o = $exif['Orientation'];
+		$o = $this->getOrientation();
 		OC_Log::write('core','OC_Image->fixOrientation() Orientation: '.$o, OC_Log::DEBUG);
 		$rotate = 0;
 		$flip = false;
 		switch($o) {
+			case -1:
+				return false; //Nothing to fix
+				break;
 			case 1:
 				$rotate = 0;
 				$flip = false;
@@ -302,7 +363,7 @@ class OC_Image {
 	public function load($imageref) {
 		if(is_resource($imageref)) {
 			if(get_resource_type($imageref) == 'gd') {
-				$this->resource = $res;
+				$this->resource = $imageref;
 				return $this->resource;
 			} elseif(in_array(get_resource_type($imageref), array('file','stream'))) {
 				return $this->loadFromFileHandle($imageref);
@@ -322,7 +383,7 @@ class OC_Image {
 	/**
 	* @brief Loads an image from an open file handle.
 	* It is the responsibility of the caller to position the pointer at the correct place and to close the handle again.
-	* @param $handle 
+	* @param $handle
 	* @returns An image resource or false on error
 	*/
 	public function loadFromFileHandle($handle) {
@@ -407,7 +468,7 @@ class OC_Image {
 				break;
 			*/
 			default:
-			
+
 				// this is mostly file created from encrypted file
 				$this->resource = imagecreatefromstring(\OC_Filesystem::file_get_contents(\OC_Filesystem::getLocalPath($imagepath)));
 				$itype = IMAGETYPE_PNG;
@@ -473,7 +534,7 @@ class OC_Image {
 		$width_orig=imageSX($this->resource);
 		$height_orig=imageSY($this->resource);
 		$ratio_orig = $width_orig/$height_orig;
-		
+
 		if ($ratio_orig > 1) {
 			$new_height = round($maxsize/$ratio_orig);
 			$new_width = $maxsize;
@@ -482,28 +543,14 @@ class OC_Image {
 			$new_height = $maxsize;
 		}
 
-		$process = imagecreatetruecolor(round($new_width), round($new_height));
-		if ($process == false) {
-			OC_Log::write('core',__METHOD__.'(): Error creating true color image',OC_Log::ERROR);
-			imagedestroy($process);
-			return false;
-		}
-
-		imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $new_width, $new_height, $width_orig, $height_orig);
-		if ($process == false) {
-			OC_Log::write('core',__METHOD__.'(): Error resampling process image '.$new_width.'x'.$new_height,OC_Log::ERROR);
-			imagedestroy($process);
-			return false;
-		}
-		imagedestroy($this->resource);
-		$this->resource = $process;
+		$this->preciseResize(round($new_width), round($new_height));
 		return true;
 	}
 
 	public function preciseResize($width, $height) {
 		if (!$this->valid()) {
 			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
-			return false;			
+			return false;
 		}
 		$width_orig=imageSX($this->resource);
 		$height_orig=imageSY($this->resource);
@@ -551,7 +598,7 @@ class OC_Image {
 			$y = ($height_orig/2) - ($height/2);
 			$x = 0;
 		}
-		if($size>0){
+		if($size>0) {
 			$targetWidth=$size;
 			$targetHeight=$size;
 		}else{
@@ -588,9 +635,6 @@ class OC_Image {
 			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
 			return false;
 		}
-		$width_orig=imageSX($this->resource);
-		$height_orig=imageSY($this->resource);
-		//OC_Log::write('core',__METHOD__.'(): Original size: '.$width_orig.'x'.$height_orig, OC_Log::DEBUG);
 		$process = imagecreatetruecolor($w, $h);
 		if ($process == false) {
 			OC_Log::write('core',__METHOD__.'(): Error creating true color image',OC_Log::ERROR);
@@ -608,14 +652,36 @@ class OC_Image {
 		return true;
 	}
 
-	public function destroy(){
-		if($this->valid()){
+	/**
+	 * @brief Resizes the image to fit within a boundry while preserving ratio.
+	 * @param $maxWidth
+	 * @param $maxHeight
+	 * @returns bool
+	 */
+	public function fitIn($maxWidth, $maxHeight) {
+		if(!$this->valid()) {
+			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
+			return false;
+		}
+		$width_orig=imageSX($this->resource);
+		$height_orig=imageSY($this->resource);
+		$ratio = $width_orig/$height_orig;
+
+		$newWidth = min($maxWidth, $ratio*$maxHeight);
+		$newHeight = min($maxHeight, $maxWidth/$ratio);
+
+		$this->preciseResize(round($newWidth), round($newHeight));
+		return true;
+	}
+
+	public function destroy() {
+		if($this->valid()) {
 			imagedestroy($this->resource);
 		}
 		$this->resource=null;
 	}
 
-	public function __destruct(){
+	public function __destruct() {
 		$this->destroy();
 	}
 }

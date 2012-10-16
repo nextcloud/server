@@ -11,6 +11,7 @@ namespace OCA_Encryption;
 
 require_once "PHPUnit/Framework/TestCase.php";
 require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
+require_once realpath( dirname(__FILE__).'/../lib/crypt.php' );
 
 class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	

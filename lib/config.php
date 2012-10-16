@@ -47,12 +47,12 @@ class OC_Config{
 
 	/**
 	 * @brief Lists all available config keys
-	 * @returns array with key names
+	 * @return array with key names
 	 *
 	 * This function returns all keys saved in config.php. Please note that it
 	 * does not return the values.
 	 */
-	public static function getKeys(){
+	public static function getKeys() {
 		self::readData();
 
 		return array_keys( self::$cache );
@@ -60,17 +60,17 @@ class OC_Config{
 
 	/**
 	 * @brief Gets a value from config.php
-	 * @param $key key
-	 * @param $default = null default value
-	 * @returns the value or $default
+	 * @param string $key key
+	 * @param string $default = null default value
+	 * @return string the value or $default
 	 *
 	 * This function gets the value from config.php. If it does not exist,
 	 * $default will be returned.
 	 */
-	public static function getValue( $key, $default = null ){
+	public static function getValue( $key, $default = null ) {
 		self::readData();
 
-		if( array_key_exists( $key, self::$cache )){
+		if( array_key_exists( $key, self::$cache )) {
 			return self::$cache[$key];
 		}
 
@@ -79,14 +79,14 @@ class OC_Config{
 
 	/**
 	 * @brief Sets a value
-	 * @param $key key
-	 * @param $value value
-	 * @returns true/false
+	 * @param string $key key
+	 * @param string $value value
+	 * @return bool
 	 *
 	 * This function sets the value and writes the config.php. If the file can
 	 * not be written, false will be returned.
 	 */
-	public static function setValue( $key, $value ){
+	public static function setValue( $key, $value ) {
 		self::readData();
 
 		// Add change
@@ -99,16 +99,16 @@ class OC_Config{
 
 	/**
 	 * @brief Removes a key from the config
-	 * @param $key key
-	 * @returns true/false
+	 * @param string $key key
+	 * @return bool
 	 *
 	 * This function removes a key from the config.php. If owncloud has no
 	 * write access to config.php, the function will return false.
 	 */
-	public static function deleteKey( $key ){
+	public static function deleteKey( $key ) {
 		self::readData();
 
-		if( array_key_exists( $key, self::$cache )){
+		if( array_key_exists( $key, self::$cache )) {
 			// Delete key from cache
 			unset( self::$cache[$key] );
 
@@ -121,22 +121,22 @@ class OC_Config{
 
 	/**
 	 * @brief Loads the config file
-	 * @returns true/false
+	 * @return bool
 	 *
 	 * Reads the config file and saves it to the cache
 	 */
-	private static function readData(){
-		if( self::$init ){
+	private static function readData() {
+		if( self::$init ) {
 			return true;
 		}
 
-		if( !file_exists( OC::$SERVERROOT."/config/config.php" )){
+		if( !file_exists( OC::$SERVERROOT."/config/config.php" )) {
 			return false;
 		}
 
 		// Include the file, save the data from $CONFIG
-		include( OC::$SERVERROOT."/config/config.php" );
-		if( isset( $CONFIG ) && is_array( $CONFIG )){
+		include OC::$SERVERROOT."/config/config.php";
+		if( isset( $CONFIG ) && is_array( $CONFIG )) {
 			self::$cache = $CONFIG;
 		}
 
@@ -148,12 +148,12 @@ class OC_Config{
 
 	/**
 	 * @brief Writes the config file
-	 * @returns true/false
+	 * @return bool
 	 *
 	 * Saves the config to the config file.
 	 *
 	 */
-	public static function writeData(){
+	public static function writeData() {
 		// Create a php file ...
 		$content = "<?php\n\$CONFIG = ";
 		$content .= var_export(self::$cache, true);
@@ -164,7 +164,9 @@ class OC_Config{
 		$result=@file_put_contents( $filename, $content );
 		if(!$result) {
 			$tmpl = new OC_Template( '', 'error', 'guest' );
-			$tmpl->assign('errors',array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
+			$tmpl->assign('errors', array(1=>array(
+				'error'=>"Can't write into config directory 'config'",
+				'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
 			$tmpl->printPage();
 			exit;
 		}

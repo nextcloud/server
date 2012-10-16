@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Owncloud password reset" => "Ресетовање лозинке за Оунклауд",
+"Settings" => "Подешавања",
+"Password" => "Лозинка",
 "Use the following link to reset your password: {link}" => "Овом везом ресетујте своју лозинку: {link}",
 "You will receive a link to reset your password via Email." => "Добићете везу за ресетовање лозинке путем е-поште.",
 "Requested" => "Захтевано",
@@ -17,7 +18,6 @@
 "Help" => "Помоћ",
 "Cloud not found" => "Облак није нађен",
 "Create an <strong>admin account</strong>" => "Направи <strong>административни налог</strong>",
-"Password" => "Лозинка",
 "Advanced" => "Напредно",
 "Data folder" => "Фацикла података",
 "Configure the database" => "Подешавање базе",
@@ -29,7 +29,6 @@
 "Finish setup" => "Заврши подешавање",
 "web services under your control" => "веб сервиси под контролом",
 "Log out" => "Одјава",
-"Settings" => "Подешавања",
 "Lost your password?" => "Изгубили сте лозинку?",
 "remember" => "упамти",
 "Log in" => "Пријава",

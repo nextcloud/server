@@ -1,0 +1,53 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <florentin.lemoal@gmail.com>, 2012.
+#   <gp4004@arghh.org>, 2012.
+# Guillaume Paumier <guillom.pom@gmail.com>, 2012.
+# Romain DEP. <rom1dep@gmail.com>, 2012.
+#   <windes@tructor.net>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-25 02:02+0200\n"
+"PO-Revision-Date: 2012-09-24 14:21+0000\n"
+"Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
+"Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: templates/authenticate.php:4
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates/authenticate.php:6
+msgid "Submit"
+msgstr "Envoyer"
+
+#: templates/public.php:9
+#, php-format
+msgid "%s shared the folder %s with you"
+msgstr "%s a partagé le répertoire %s avec vous"
+
+#: templates/public.php:11
+#, php-format
+msgid "%s shared the file %s with you"
+msgstr "%s a partagé le fichier %s avec vous"
+
+#: templates/public.php:14 templates/public.php:30
+msgid "Download"
+msgstr "Télécharger"
+
+#: templates/public.php:29
+msgid "No preview available for"
+msgstr "Pas d'aperçu disponible pour"
+
+#: templates/public.php:37
+msgid "web services under your control"
+msgstr "services web sous votre contrôle"

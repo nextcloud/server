@@ -1,25 +1,21 @@
 <?php
-global $FAKEDIRS;
-$FAKEDIRS=array();
 
 class OC_FakeDirStream{
 	public static $dirs=array();
 	private $name;
 	private $index;
 
-	public function dir_opendir($path,$options){
-		global $FAKEDIRS;
-		$url=parse_url($path);
+	public function dir_opendir($path,$options) {
 		$this->name=substr($path,strlen('fakedir://'));
 		$this->index=0;
-		if(!isset(self::$dirs[$this->name])){
+		if(!isset(self::$dirs[$this->name])) {
 			self::$dirs[$this->name]=array();
 		}
 		return true;
 	}
 
-	public function dir_readdir(){
-		if($this->index>=count(self::$dirs[$this->name])){
+	public function dir_readdir() {
+		if($this->index>=count(self::$dirs[$this->name])) {
 			return false;
 		}
 		$filename=self::$dirs[$this->name][$this->index];
@@ -161,7 +157,6 @@ class OC_StaticStreamWrapper {
 	public function stream_write($data) {
 		if (!$this->writable) return 0;
 		$size = strlen($data);
-		$len = strlen(self::$data[$this->path]);
 		if ($this->stream_eof()) {
 			self::$data[$this->path] .= $data;
 		} else {
@@ -227,35 +222,35 @@ class OC_CloseStreamWrapper{
 	private $path='';
 	private $source;
 	private static $open=array();
-	public function stream_open($path, $mode, $options, &$opened_path){
+	public function stream_open($path, $mode, $options, &$opened_path) {
 		$path=substr($path,strlen('close://'));
 		$this->path=$path;
 		$this->source=fopen($path,$mode);
-		if(is_resource($this->source)){
+		if(is_resource($this->source)) {
 			$this->meta=stream_get_meta_data($this->source);
 		}
 		self::$open[]=$path;
 		return is_resource($this->source);
 	}
 
-	public function stream_seek($offset, $whence=SEEK_SET){
+	public function stream_seek($offset, $whence=SEEK_SET) {
 		fseek($this->source,$offset,$whence);
 	}
 
-	public function stream_tell(){
+	public function stream_tell() {
 		return ftell($this->source);
 	}
 
-	public function stream_read($count){
+	public function stream_read($count) {
 		return fread($this->source,$count);
 	}
 
-	public function stream_write($data){
+	public function stream_write($data) {
 		return fwrite($this->source,$data);
 	}
 
-	public function stream_set_option($option,$arg1,$arg2){
-		switch($option){
+	public function stream_set_option($option,$arg1,$arg2) {
+		switch($option) {
 			case STREAM_OPTION_BLOCKING:
 				stream_set_blocking($this->source,$arg1);
 				break;
@@ -267,39 +262,39 @@ class OC_CloseStreamWrapper{
 		}
 	}
 
-	public function stream_stat(){
+	public function stream_stat() {
 		return fstat($this->source);
 	}
 
-	public function stream_lock($mode){
+	public function stream_lock($mode) {
 		flock($this->source,$mode);
 	}
 
-	public function stream_flush(){
+	public function stream_flush() {
 		return fflush($this->source);
 	}
 
-	public function stream_eof(){
+	public function stream_eof() {
 		return feof($this->source);
 	}
 
 	public function url_stat($path) {
 		$path=substr($path,strlen('close://'));
-		if(file_exists($path)){
+		if(file_exists($path)) {
 			return stat($path);
 		}else{
 			return false;
 		}
 	}
 
-	public function stream_close(){
+	public function stream_close() {
 		fclose($this->source);
-		if(isset(self::$callBacks[$this->path])){
+		if(isset(self::$callBacks[$this->path])) {
 			call_user_func(self::$callBacks[$this->path],$this->path);
 		}
 	}
 
-	public function unlink($path){
+	public function unlink($path) {
 		$path=substr($path,strlen('close://'));
 		return unlink($path);
 	}

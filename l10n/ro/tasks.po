@@ -1,0 +1,107 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Dumitru Ursu <>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-15 02:03+0200\n"
+"PO-Revision-Date: 2012-08-14 20:30+0000\n"
+"Last-Translator: Dumitru Ursu <>\n"
+"Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1))\n"
+
+#: ajax/update_property.php:51 lib/app.php:89 lib/app.php:101
+msgid "Invalid date/time"
+msgstr "Data/timpul invalid"
+
+#: appinfo/app.php:11
+msgid "Tasks"
+msgstr "Sarcini"
+
+#: js/tasks.js:415
+msgid "No category"
+msgstr "Fără categorie"
+
+#: lib/app.php:33
+msgid "Unspecified"
+msgstr "Nespecificat"
+
+#: lib/app.php:34
+msgid "1=highest"
+msgstr "1=cel mai înalt"
+
+#: lib/app.php:38
+msgid "5=medium"
+msgstr "5=mediu"
+
+#: lib/app.php:42
+msgid "9=lowest"
+msgstr "9=cel mai jos"
+
+#: lib/app.php:81
+msgid "Empty Summary"
+msgstr "Rezumat gol"
+
+#: lib/app.php:93
+msgid "Invalid percent complete"
+msgstr "Completare procentuală greșită"
+
+#: lib/app.php:107
+msgid "Invalid priority"
+msgstr "Prioritare greșită"
+
+#: templates/tasks.php:3
+msgid "Add Task"
+msgstr "Adaugă sarcină"
+
+#: templates/tasks.php:4
+msgid "Order Due"
+msgstr "Comandă până la"
+
+#: templates/tasks.php:5
+msgid "Order List"
+msgstr "Lista de comenzi"
+
+#: templates/tasks.php:6
+msgid "Order Complete"
+msgstr "Comandă executată"
+
+#: templates/tasks.php:7
+msgid "Order Location"
+msgstr "Locația comenzii"
+
+#: templates/tasks.php:8
+msgid "Order Priority"
+msgstr "Prioritarea comenzii"
+
+#: templates/tasks.php:9
+msgid "Order Label"
+msgstr "Eticheta comenzii"
+
+#: templates/tasks.php:16
+msgid "Loading tasks..."
+msgstr "Încărcare sarcini"
+
+#: templates/tasks.php:20
+msgid "Important"
+msgstr "Important"
+
+#: templates/tasks.php:23
+msgid "More"
+msgstr "Mai mult"
+
+#: templates/tasks.php:26
+msgid "Less"
+msgstr "Mai puțin"
+
+#: templates/tasks.php:29
+msgid "Delete"
+msgstr "Șterge"

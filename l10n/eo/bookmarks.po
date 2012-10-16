@@ -1,0 +1,61 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Mariano  <mstreet@kde.org.ar>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-04 02:02+0200\n"
+"PO-Revision-Date: 2012-08-03 22:44+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
+"Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: eo\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: appinfo/app.php:14
+msgid "Bookmarks"
+msgstr "Legosignoj"
+
+#: bookmarksHelper.php:99
+msgid "unnamed"
+msgstr "nenomita"
+
+#: templates/bookmarklet.php:5
+msgid ""
+"Drag this to your browser bookmarks and click it, when you want to bookmark "
+"a webpage quickly:"
+msgstr "Ŝovu tion ĉi al la legosignoj de via TTT-legilo kaj klaku ĝin, se vi volas rapide legosignigi TTT-paĝon:"
+
+#: templates/bookmarklet.php:7
+msgid "Read later"
+msgstr "Legi poste"
+
+#: templates/list.php:13
+msgid "Address"
+msgstr "Adreso"
+
+#: templates/list.php:14
+msgid "Title"
+msgstr "Titolo"
+
+#: templates/list.php:15
+msgid "Tags"
+msgstr "Etikedoj"
+
+#: templates/list.php:16
+msgid "Save bookmark"
+msgstr "Konservi legosignon"
+
+#: templates/list.php:22
+msgid "You have no bookmarks"
+msgstr "Vi havas neniun legosignon"
+
+#: templates/settings.php:11
+msgid "Bookmarklet <br />"
+msgstr ""

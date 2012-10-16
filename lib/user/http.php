@@ -30,29 +30,29 @@ class OC_User_HTTP extends OC_User_Backend {
 	 * @param string path
 	 * @return array
 	 */
-	private function parseUrl($url){
+	private function parseUrl($url) {
 		$parts=parse_url($url);
 		$url=$parts['scheme'].'://'.$parts['host'];
-		if(isset($parts['port'])){
+		if(isset($parts['port'])) {
 			$url.=':'.$parts['port'];
 		}
 		$url.=$parts['path'];
-		if(isset($parts['query'])){
+		if(isset($parts['query'])) {
 			$url.='?'.$parts['query'];
 		}
 		return array($parts['user'],$url);
-		
+
 	}
-	
+
 	/**
 	 * check if an url is a valid login
 	 * @param string url
 	 * @return boolean
 	 */
-	private function matchUrl($url){
+	private function matchUrl($url) {
 		return ! is_null(parse_url($url,PHP_URL_USER));
 	}
-	
+
 	/**
 	 * @brief Check if the password is correct
 	 * @param $uid The username
@@ -62,12 +62,12 @@ class OC_User_HTTP extends OC_User_Backend {
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false
 	 */
-	public function checkPassword($uid, $password){
-		if(!$this->matchUrl($uid)){
+	public function checkPassword($uid, $password) {
+		if(!$this->matchUrl($uid)) {
 			return false;
 		}
 		list($user,$url)=$this->parseUrl($uid);
-		
+
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_USERPWD, $user.':'.$password);
@@ -76,7 +76,7 @@ class OC_User_HTTP extends OC_User_Backend {
 		curl_exec($ch);
 
 		$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		
+
 		curl_close($ch);
 
 		return $status==200;
@@ -87,7 +87,20 @@ class OC_User_HTTP extends OC_User_Backend {
 	 * @param string $uid the username
 	 * @return boolean
 	 */
-	public function userExists($uid){
+	public function userExists($uid) {
 		return $this->matchUrl($uid);
+	}
+
+	/**
+	* @brief get the user's home directory
+	* @param string $uid the username
+	* @return boolean
+	*/
+	public function getHome($uid) {
+		if($this->userExists($uid)) {
+			return OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/' . $uid;
+		}else{
+			return false;
+		}
 	}
 }

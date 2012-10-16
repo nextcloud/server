@@ -20,7 +20,7 @@
  *
  */
 
-require_once('MDB2/Driver/Reverse/Common.php');
+require_once 'MDB2/Driver/Reverse/Common.php';
 
 /**
  * MDB2 SQlite driver for the schema reverse engineering module
@@ -584,5 +584,3 @@ class MDB2_Driver_Reverse_sqlite3 extends MDB2_Driver_Reverse_Common
            'This DBMS can not obtain tableInfo from result sets', __FUNCTION__);
     }
 }
-
-?>

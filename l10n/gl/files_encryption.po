@@ -1,0 +1,35 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Xosé M. Lamas <correo.xmgz@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-19 02:02+0200\n"
+"PO-Revision-Date: 2012-09-18 10:02+0000\n"
+"Last-Translator: Xosé M. Lamas <correo.xmgz@gmail.com>\n"
+"Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: gl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/settings.php:3
+msgid "Encryption"
+msgstr "Encriptado"
+
+#: templates/settings.php:4
+msgid "Exclude the following file types from encryption"
+msgstr "Excluír os seguintes tipos de ficheiro da encriptación"
+
+#: templates/settings.php:5
+msgid "None"
+msgstr "Nada"
+
+#: templates/settings.php:10
+msgid "Enable Encryption"
+msgstr "Habilitar encriptación"

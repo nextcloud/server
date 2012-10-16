@@ -1,0 +1,173 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <jarkko.moilanen@want3d.fi>, 2012.
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
+#   <tehoratopato@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-07 02:04+0200\n"
+"PO-Revision-Date: 2012-09-06 10:56+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi_FI\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/settings.php:8
+msgid "Host"
+msgstr "Isäntä"
+
+#: templates/settings.php:8
+msgid ""
+"You can omit the protocol, except you require SSL. Then start with ldaps://"
+msgstr "Voit jättää protokollan määrittämättä, paitsi kun vaadit SSL:ää. Aloita silloin ldaps://"
+
+#: templates/settings.php:9
+msgid "Base DN"
+msgstr "Oletus DN"
+
+#: templates/settings.php:9
+msgid "You can specify Base DN for users and groups in the Advanced tab"
+msgstr "Voit määrittää käyttäjien ja ryhmien oletus DN:n (distinguished name) 'tarkemmat asetukset'-välilehdeltä  "
+
+#: templates/settings.php:10
+msgid "User DN"
+msgstr "Käyttäjän DN"
+
+#: templates/settings.php:10
+msgid ""
+"The DN of the client user with which the bind shall be done, e.g. "
+"uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
+"empty."
+msgstr "Asiakasohjelman DN, jolla yhdistäminen tehdään, ts. uid=agent,dc=example,dc=com. Mahdollistaaksesi anonyymin yhteyden, jätä DN ja salasana tyhjäksi."
+
+#: templates/settings.php:11
+msgid "Password"
+msgstr "Salasana"
+
+#: templates/settings.php:11
+msgid "For anonymous access, leave DN and Password empty."
+msgstr "Jos haluat mahdollistaa anonyymin pääsyn, jätä DN ja Salasana tyhjäksi "
+
+#: templates/settings.php:12
+msgid "User Login Filter"
+msgstr "Login suodatus"
+
+#: templates/settings.php:12
+#, php-format
+msgid ""
+"Defines the filter to apply, when login is attempted. %%uid replaces the "
+"username in the login action."
+msgstr "Määrittelee käytettävän suodattimen, kun sisäänkirjautumista yritetään. %%uid korvaa sisäänkirjautumisessa käyttäjätunnuksen."
+
+#: templates/settings.php:12
+#, php-format
+msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
+msgstr "käytä %%uid paikanvaraajaa, ts. \"uid=%%uid\""
+
+#: templates/settings.php:13
+msgid "User List Filter"
+msgstr "Käyttäjien suodatus"
+
+#: templates/settings.php:13
+msgid "Defines the filter to apply, when retrieving users."
+msgstr "Määrittelee käytettävän suodattimen, kun käyttäjiä haetaan.  "
+
+#: templates/settings.php:13
+msgid "without any placeholder, e.g. \"objectClass=person\"."
+msgstr "ilman paikanvaraustermiä, ts. \"objectClass=person\"."
+
+#: templates/settings.php:14
+msgid "Group Filter"
+msgstr "Ryhmien suodatus"
+
+#: templates/settings.php:14
+msgid "Defines the filter to apply, when retrieving groups."
+msgstr "Määrittelee käytettävän suodattimen, kun ryhmiä haetaan.  "
+
+#: templates/settings.php:14
+msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
+msgstr "ilman paikanvaraustermiä, ts. \"objectClass=posixGroup\"."
+
+#: templates/settings.php:17
+msgid "Port"
+msgstr "Portti"
+
+#: templates/settings.php:18
+msgid "Base User Tree"
+msgstr "Oletuskäyttäjäpuu"
+
+#: templates/settings.php:19
+msgid "Base Group Tree"
+msgstr "Ryhmien juuri"
+
+#: templates/settings.php:20
+msgid "Group-Member association"
+msgstr "Ryhmän ja jäsenen assosiaatio (yhteys)"
+
+#: templates/settings.php:21
+msgid "Use TLS"
+msgstr "Käytä TLS:ää"
+
+#: templates/settings.php:21
+msgid "Do not use it for SSL connections, it will fail."
+msgstr "Älä käytä SSL-yhteyttä varten, se epäonnistuu. "
+
+#: templates/settings.php:22
+msgid "Case insensitve LDAP server (Windows)"
+msgstr "Kirjainkoosta piittamaton LDAP-palvelin (Windows)"
+
+#: templates/settings.php:23
+msgid "Turn off SSL certificate validation."
+msgstr "Poista käytöstä SSL-varmenteen vahvistus"
+
+#: templates/settings.php:23
+msgid ""
+"If connection only works with this option, import the LDAP server's SSL "
+"certificate in your ownCloud server."
+msgstr "Jos yhteys toimii vain tällä valinnalla, siirrä LDAP-palvelimen SSL-varmenne ownCloud-palvelimellesi."
+
+#: templates/settings.php:23
+msgid "Not recommended, use for testing only."
+msgstr "Ei suositella, käytä vain testausta varten."
+
+#: templates/settings.php:24
+msgid "User Display Name Field"
+msgstr "Käyttäjän näytettävän nimen kenttä"
+
+#: templates/settings.php:24
+msgid "The LDAP attribute to use to generate the user`s ownCloud name."
+msgstr "LDAP-attribuutti, jota käytetään käyttäjän ownCloud-käyttäjänimenä "
+
+#: templates/settings.php:25
+msgid "Group Display Name Field"
+msgstr "Ryhmän \"näytettävä nimi\"-kenttä"
+
+#: templates/settings.php:25
+msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
+msgstr "LDAP-attribuutti, jota käytetään luomaan ryhmän ownCloud-nimi"
+
+#: templates/settings.php:27
+msgid "in bytes"
+msgstr "tavuissa"
+
+#: templates/settings.php:29
+msgid "in seconds. A change empties the cache."
+msgstr "sekunneissa. Muutos tyhjentää välimuistin."
+
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD-atribuutti."
+
+#: templates/settings.php:32
+msgid "Help"
+msgstr "Ohje"

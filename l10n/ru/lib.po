@@ -1,0 +1,128 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Denis  <reg.transifex.net@demitel.ru>, 2012.
+#   <mpolr21@gmail.com>, 2012.
+#   <victor.dubiniuk@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-08 02:02+0200\n"
+"PO-Revision-Date: 2012-09-07 11:22+0000\n"
+"Last-Translator: VicDeo <victor.dubiniuk@gmail.com>\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: app.php:285
+msgid "Help"
+msgstr "Помощь"
+
+#: app.php:292
+msgid "Personal"
+msgstr "Личное"
+
+#: app.php:297
+msgid "Settings"
+msgstr "Настройки"
+
+#: app.php:302
+msgid "Users"
+msgstr "Пользователи"
+
+#: app.php:309
+msgid "Apps"
+msgstr "Приложения"
+
+#: app.php:311
+msgid "Admin"
+msgstr "Admin"
+
+#: files.php:280
+msgid "ZIP download is turned off."
+msgstr "ZIP-скачивание отключено."
+
+#: files.php:281
+msgid "Files need to be downloaded one by one."
+msgstr "Файлы должны быть загружены по одному."
+
+#: files.php:281 files.php:306
+msgid "Back to Files"
+msgstr "Назад к файлам"
+
+#: files.php:305
+msgid "Selected files too large to generate zip file."
+msgstr "Выбранные файлы слишком велики, чтобы создать zip файл."
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr "Приложение не разрешено"
+
+#: json.php:39 json.php:63 json.php:75
+msgid "Authentication error"
+msgstr "Ошибка аутентификации"
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr "Токен просрочен. Перезагрузите страницу."
+
+#: template.php:87
+msgid "seconds ago"
+msgstr "менее минуты"
+
+#: template.php:88
+msgid "1 minute ago"
+msgstr "1 минуту назад"
+
+#: template.php:89
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d минут назад"
+
+#: template.php:92
+msgid "today"
+msgstr "сегодня"
+
+#: template.php:93
+msgid "yesterday"
+msgstr "вчера"
+
+#: template.php:94
+#, php-format
+msgid "%d days ago"
+msgstr "%d дней назад"
+
+#: template.php:95
+msgid "last month"
+msgstr "в прошлом месяце"
+
+#: template.php:96
+msgid "months ago"
+msgstr "месяцы назад"
+
+#: template.php:97
+msgid "last year"
+msgstr "в прошлом году"
+
+#: template.php:98
+msgid "years ago"
+msgstr "годы назад"
+
+#: updater.php:66
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr "Возможно обновление до %s. <a href=\"%s\">Подробнее</a>"
+
+#: updater.php:68
+msgid "up to date"
+msgstr "актуальная версия"
+
+#: updater.php:71
+msgid "updates check is disabled"
+msgstr "проверка обновлений отключена"

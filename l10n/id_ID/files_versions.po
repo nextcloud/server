@@ -1,0 +1,42 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-22 01:14+0200\n"
+"PO-Revision-Date: 2012-09-21 23:15+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Indonesian (Indonesia) (http://www.transifex.com/projects/p/owncloud/language/id_ID/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: id_ID\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: js/settings-personal.js:31 templates/settings-personal.php:10
+msgid "Expire all versions"
+msgstr ""
+
+#: js/versions.js:16
+msgid "History"
+msgstr ""
+
+#: templates/settings-personal.php:4
+msgid "Versions"
+msgstr ""
+
+#: templates/settings-personal.php:7
+msgid "This will delete all existing backup versions of your files"
+msgstr ""
+
+#: templates/settings.php:3
+msgid "Files Versioning"
+msgstr ""
+
+#: templates/settings.php:4
+msgid "Enable"
+msgstr ""

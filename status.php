@@ -1,7 +1,7 @@
 <?php
 
 /**
-* ownCloud status page. usefull if you want to check from the outside if an owncloud installation exists
+* ownCloud status page. Useful if you want to check from the outside if an ownCloud installation exists
 *
 * @author Frank Karlitschek
 * @copyright 2012 Frank Karlitschek frank@owncloud.org
@@ -23,9 +23,13 @@
 
 $RUNTIME_NOAPPS = TRUE; //no apps, yet
 
-require_once('lib/base.php');
+require_once 'lib/base.php';
 
 if(OC_Config::getValue('installed')==1) $installed='true'; else $installed='false';
-$values=array('installed'=>$installed,'version'=>implode('.',OC_Util::getVersion()),'versionstring'=>OC_Util::getVersionString(),'edition'=>OC_Util::getEditionString());
+$values=array(
+	'installed'=>$installed,
+	'version'=>implode('.', OC_Util::getVersion()),
+	'versionstring'=>OC_Util::getVersionString(),
+	'edition'=>OC_Util::getEditionString());
 
 echo(json_encode($values));

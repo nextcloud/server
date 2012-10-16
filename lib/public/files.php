@@ -26,7 +26,7 @@
  *
  */
 
-// use OCP namespace for all classes that are considered public. 
+// use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
@@ -34,8 +34,6 @@ namespace OCP;
  * This class provides access to the internal filesystem abstraction layer. Use this class exlusively if you want to access files
  */
 class Files {
-
-
 	/**
 	 * @brief Recusive deletion of folders
 	 * @param string $dir path to the folder
@@ -45,17 +43,15 @@ class Files {
 		\OC_Helper::rmdirr( $dir );
 	}
 
-
 	/**
 	 * get the mimetype form a local file
 	 * @param string path
 	 * @return string
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 */
-	static function getMimeType( $path ){
+	static function getMimeType( $path ) {
 		return(\OC_Helper::getMimeType( $path ));
 	}
-
 
 	/**
 	 * copy the contents of one stream to another
@@ -63,10 +59,9 @@ class Files {
 	 * @param resource target
 	 * @return int the number of bytes copied
 	 */
-	public static function streamCopy( $source, $target ){
+	public static function streamCopy( $source, $target ) {
 		return(\OC_Helper::streamCopy( $source, $target ));
 	}
-
 
 	/**
 	 * create a temporary file with an unique filename
@@ -75,10 +70,9 @@ class Files {
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
-	public static function tmpFile( $postfix='' ){
+	public static function tmpFile( $postfix='' ) {
 		return(\OC_Helper::tmpFile( $postfix ));
 	}
-
 
 	/**
 	 * create a temporary folder with an unique filename
@@ -86,10 +80,9 @@ class Files {
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
-	public static function tmpFolder(){
+	public static function tmpFolder() {
 		return(\OC_Helper::tmpFolder());
 	}
-
 
 	/**
 	 * Adds a suffix to the name in case the file exists
@@ -98,20 +91,16 @@ class Files {
 	 * @param $filename
 	 * @return string
 	 */
-	public static function buildNotExistingFileName( $path, $filename ){
+	public static function buildNotExistingFileName( $path, $filename ) {
 		return(\OC_Helper::buildNotExistingFileName( $path, $filename ));
 	}
 
-        /**
-         * @param string appid
-         * @param $app app
-         * @return OC_FilesystemView
-         */
-        public static function getStorage( $app ){
+	/**
+	 * @param string appid
+	 * @param $app app
+	 * @return OC_FilesystemView
+	 */
+	public static function getStorage( $app ) {
 		return \OC_App::getStorage( $app );
 	}
-
-
-
-
 }

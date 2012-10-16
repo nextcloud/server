@@ -8,7 +8,7 @@
 
 
 class OC_Cache_FileGlobal{
-	protected function getCacheDir() {
+	static protected function getCacheDir() {
 		$cache_dir = get_temp_dir().'/owncloud-'.OC_Util::getInstanceId().'/';
 		if (!is_dir($cache_dir)) {
 			mkdir($cache_dir);
@@ -23,7 +23,7 @@ class OC_Cache_FileGlobal{
 	public function get($key) {
 		$key = $this->fixKey($key);
 		if ($this->hasKey($key)) {
-			$cache_dir = $this->getCacheDir();
+			$cache_dir = self::getCacheDir();
 			return file_get_contents($cache_dir.$key);
 		}
 		return null;
@@ -31,7 +31,7 @@ class OC_Cache_FileGlobal{
 
 	public function set($key, $value, $ttl=0) {
 		$key = $this->fixKey($key);
-		$cache_dir = $this->getCacheDir();
+		$cache_dir = self::getCacheDir();
 		if ($cache_dir and file_put_contents($cache_dir.$key, $value)) {
 			if ($ttl === 0) {
 				$ttl = 86400; // 60*60*24
@@ -43,7 +43,7 @@ class OC_Cache_FileGlobal{
 
 	public function hasKey($key) {
 		$key = $this->fixKey($key);
-		$cache_dir = $this->getCacheDir();
+		$cache_dir = self::getCacheDir();
 		if ($cache_dir && is_file($cache_dir.$key)) {
 			$mtime = filemtime($cache_dir.$key);
 			if ($mtime < time()) {
@@ -56,21 +56,44 @@ class OC_Cache_FileGlobal{
 	}
 
 	public function remove($key) {
-		$cache_dir = $this->getCacheDir();
-		if(!$cache_dir){
+		$cache_dir = self::getCacheDir();
+		if(!$cache_dir) {
 			return false;
 		}
 		$key = $this->fixKey($key);
 		return unlink($cache_dir.$key);
 	}
 
-	public function clear(){
-		$cache_dir = $this->getCacheDir();
-		if($cache_dir and is_dir($cache_dir)){
+	public function clear($prefix='') {
+		$cache_dir = self::getCacheDir();
+		$prefix = $this->fixKey($prefix);
+		if($cache_dir and is_dir($cache_dir)) {
 			$dh=opendir($cache_dir);
-			while($file=readdir($dh)){
-				if($file!='.' and $file!='..'){
+			while($file=readdir($dh)) {
+				if($file!='.' and $file!='..' and ($prefix==='' || strpos($file, $prefix) === 0)) {
 					unlink($cache_dir.$file);
+				}
+			}
+		}
+	}
+
+	static public function gc() {
+		$last_run = OC_AppConfig::getValue('core', 'global_cache_gc_lastrun', 0);
+		$now = time();
+		if (($now - $last_run) < 300) {
+			// only do cleanup every 5 minutes
+			return;
+		}
+		OC_AppConfig::setValue('core', 'global_cache_gc_lastrun', $now);
+		$cache_dir = self::getCacheDir();
+		if($cache_dir and is_dir($cache_dir)) {
+			$dh=opendir($cache_dir);
+			while($file=readdir($dh)) {
+				if($file!='.' and $file!='..') {
+					$mtime = filemtime($cache_dir.$file);
+					if ($mtime < $now) {
+						unlink($cache_dir.$file);
+					}
 				}
 			}
 		}

@@ -14,13 +14,19 @@ if(trim($foldername) == '') {
 	OCP\JSON::error(array("data" => array( "message" => "Empty Foldername" )));
 	exit();
 }
-if(strpos($foldername,'/')!==false){
+if(strpos($foldername, '/')!==false) {
 	OCP\JSON::error(array("data" => array( "message" => "Invalid Foldername" )));
 	exit();
 }
 
 if(OC_Files::newFile($dir, stripslashes($foldername), 'dir')) {
-	OCP\JSON::success(array("data" => array()));
+	if ( $dir != '/') {
+		$path = $dir.'/'.$foldername;
+	} else {
+		$path = '/'.$foldername;
+	}
+	$id = OC_FileCache::getId($path);
+	OCP\JSON::success(array("data" => array('id'=>$id)));
 	exit();
 }
 

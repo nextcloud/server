@@ -34,6 +34,7 @@ define('OC_USER_BACKEND_NOT_IMPLEMENTED',   -501);
 define('OC_USER_BACKEND_CREATE_USER',       0x000001);
 define('OC_USER_BACKEND_SET_PASSWORD',      0x000010);
 define('OC_USER_BACKEND_CHECK_PASSWORD',    0x000100);
+define('OC_USER_BACKEND_GET_HOME',			0x001000);
 
 
 /**
@@ -42,12 +43,13 @@ define('OC_USER_BACKEND_CHECK_PASSWORD',    0x000100);
  *
  * Subclass this for your own backends, and see OC_User_Example for descriptions
  */
-abstract class OC_User_Backend {
+abstract class OC_User_Backend implements OC_User_Interface {
 
 	protected $possibleActions = array(
 		OC_USER_BACKEND_CREATE_USER => 'createUser',
 		OC_USER_BACKEND_SET_PASSWORD => 'setPassword',
 		OC_USER_BACKEND_CHECK_PASSWORD => 'checkPassword',
+		OC_USER_BACKEND_GET_HOME => 'getHome',
 	);
 
 	/**
@@ -57,9 +59,9 @@ abstract class OC_User_Backend {
 	* Returns the supported actions as int to be
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
-	public function getSupportedActions(){
+	public function getSupportedActions() {
 		$actions = 0;
-		foreach($this->possibleActions AS $action => $methodName){
+		foreach($this->possibleActions AS $action => $methodName) {
 			if(method_exists($this, $methodName)) {
 				$actions |= $action;
 			}
@@ -76,7 +78,7 @@ abstract class OC_User_Backend {
 	* Returns the supported actions as int to be
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
-	public function implementsActions($actions){
+	public function implementsActions($actions) {
 		return (bool)($this->getSupportedActions() & $actions);
 	}
 
@@ -87,7 +89,7 @@ abstract class OC_User_Backend {
 	*
 	* Deletes a user
 	*/
-	public function deleteUser( $uid ){
+	public function deleteUser( $uid ) {
 		return false;
 	}
 
@@ -97,7 +99,7 @@ abstract class OC_User_Backend {
 	*
 	* Get a list of all users.
 	*/
-	public function getUsers(){
+	public function getUsers($search = '', $limit = null, $offset = null) {
 		return array();
 	}
 
@@ -106,7 +108,16 @@ abstract class OC_User_Backend {
 	* @param string $uid the username
 	* @return boolean
 	*/
-	public function userExists($uid){
+	public function userExists($uid) {
+		return false;
+	}
+
+	/**
+	* @brief get the user's home directory
+	* @param string $uid the username
+	* @return boolean
+	*/
+	public function getHome($uid) {
 		return false;
 	}
 }

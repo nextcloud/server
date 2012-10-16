@@ -3,107 +3,219 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Dimitris M. <monopatis@gmail.com>, 2012.
+# Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
 # Marios Bekatoros <>, 2012.
-# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011, 2012.
+# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/language/el/)\n"
+"POT-Creation-Date: 2012-09-28 23:34+0200\n"
+"PO-Revision-Date: 2012-09-28 01:41+0000\n"
+"Last-Translator: Dimitris M. <monopatis@gmail.com>\n"
+"Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: el\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
 msgstr "Δεν υπάρχει λάθος, το αρχείο μεταφορτώθηκε επιτυχώς"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "Το αρχείο που μεταφορτώθηκε υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"upload_max_filesize\" του php.ini"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Το αρχείο υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"MAX_FILE_SIZE\" που έχει οριστεί στην HTML φόρμα"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
 msgstr "Το αρχείο μεταφορώθηκε μόνο εν μέρει"
 
-#: ajax/upload.php:23
-msgid "No file was uploaded"
-msgstr "Το αρχείο δεν μεταφορτώθηκε"
-
 #: ajax/upload.php:24
-msgid "Missing a temporary folder"
-msgstr "Λείπει ένας προσωρινός φάκελος"
+msgid "No file was uploaded"
+msgstr "Κανένα αρχείο δεν μεταφορτώθηκε"
 
 #: ajax/upload.php:25
+msgid "Missing a temporary folder"
+msgstr "Λείπει ο προσωρινός φάκελος"
+
+#: ajax/upload.php:26
 msgid "Failed to write to disk"
-msgstr "Η εγγραφή στο δίσκο απέτυχε"
+msgstr "Αποτυχία εγγραφής στο δίσκο"
 
 #: appinfo/app.php:6
 msgid "Files"
 msgstr "Αρχεία"
 
-#: js/filelist.js:186
-msgid "undo deletion"
-msgstr ""
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr "Διακοπή κοινής χρήσης"
 
-#: js/files.js:170
+#: js/fileactions.js:110 templates/index.php:64
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr "Μετονομασία"
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "already exists"
+msgstr "υπάρχει ήδη"
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "replace"
+msgstr "αντικατέστησε"
+
+#: js/filelist.js:190
+msgid "suggest name"
+msgstr "συνιστώμενο όνομα"
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "cancel"
+msgstr "ακύρωση"
+
+#: js/filelist.js:239 js/filelist.js:241
+msgid "replaced"
+msgstr "αντικαταστάθηκε"
+
+#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
+msgid "undo"
+msgstr "αναίρεση"
+
+#: js/filelist.js:241
+msgid "with"
+msgstr "με"
+
+#: js/filelist.js:273
+msgid "unshared"
+msgstr "Διακόπηκε ο διαμοιρασμός"
+
+#: js/filelist.js:275
+msgid "deleted"
+msgstr "διαγράφηκε"
+
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "παραγωγή αρχείου ZIP, ίσως διαρκέσει αρκετά."
 
-#: js/files.js:199
+#: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Αδυναμία στην μεταφόρτωση του αρχείου σας αφού είναι φάκελος ή έχει 0 bytes"
 
-#: js/files.js:199
+#: js/files.js:208
 msgid "Upload Error"
-msgstr ""
+msgstr "Σφάλμα Μεταφόρτωσης"
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
-msgstr ""
+msgstr "Εκκρεμεί"
 
-#: js/files.js:332
+#: js/files.js:256
+msgid "1 file uploading"
+msgstr "1 αρχείο ανεβαίνει"
+
+#: js/files.js:259 js/files.js:304 js/files.js:319
+msgid "files uploading"
+msgstr "αρχεία ανεβαίνουν"
+
+#: js/files.js:322 js/files.js:355
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Η μεταφόρτωση ακυρώθηκε."
 
-#: js/files.js:456
+#: js/files.js:424
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Η μεταφόρτωση του αρχείου βρίσκεται σε εξέλιξη.  Έξοδος από την σελίδα τώρα θα ακυρώσει την μεταφόρτωση."
+
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Μη έγκυρο όνομα, το '/' δεν επιτρέπεται."
 
-#: js/files.js:626 templates/index.php:55
+#: js/files.js:668
+msgid "files scanned"
+msgstr "αρχεία σαρώθηκαν"
+
+#: js/files.js:676
+msgid "error while scanning"
+msgstr "σφάλμα κατά την ανίχνευση"
+
+#: js/files.js:749 templates/index.php:48
+msgid "Name"
+msgstr "Όνομα"
+
+#: js/files.js:750 templates/index.php:56
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: js/files.js:627 templates/index.php:56
+#: js/files.js:751 templates/index.php:58
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
-#: js/files.js:654
+#: js/files.js:778
 msgid "folder"
-msgstr ""
+msgstr "φάκελος"
 
-#: js/files.js:656
+#: js/files.js:780
 msgid "folders"
-msgstr ""
+msgstr "φάκελοι"
 
-#: js/files.js:664
+#: js/files.js:788
 msgid "file"
-msgstr ""
+msgstr "αρχείο"
 
-#: js/files.js:666
+#: js/files.js:790
 msgid "files"
-msgstr ""
+msgstr "αρχεία"
+
+#: js/files.js:834
+msgid "seconds ago"
+msgstr "δευτερόλεπτα πριν"
+
+#: js/files.js:835
+msgid "minute ago"
+msgstr "λεπτό πριν"
+
+#: js/files.js:836
+msgid "minutes ago"
+msgstr "λεπτά πριν"
+
+#: js/files.js:839
+msgid "today"
+msgstr "σήμερα"
+
+#: js/files.js:840
+msgid "yesterday"
+msgstr "χτες"
+
+#: js/files.js:841
+msgid "days ago"
+msgstr "μέρες πριν"
+
+#: js/files.js:842
+msgid "last month"
+msgstr "τελευταίο μήνα"
+
+#: js/files.js:844
+msgid "months ago"
+msgstr "μήνες πριν"
+
+#: js/files.js:845
+msgid "last year"
+msgstr "τελευταίο χρόνο"
+
+#: js/files.js:846
+msgid "years ago"
+msgstr "χρόνια πριν"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -133,6 +245,10 @@ msgstr "0 για απεριόριστο"
 msgid "Maximum input size for ZIP files"
 msgstr "Μέγιστο μέγεθος για αρχεία ZIP"
 
+#: templates/admin.php:14
+msgid "Save"
+msgstr "Αποθήκευση"
+
 #: templates/index.php:7
 msgid "New"
 msgstr "Νέο"
@@ -149,48 +265,40 @@ msgstr "Φάκελος"
 msgid "From url"
 msgstr "Από την διεύθυνση"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Μεταφόρτωση"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr "Ακύρωση ανεβάσματος"
+msgstr "Ακύρωση μεταφόρτωσης"
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!"
 
-#: templates/index.php:47
-msgid "Name"
-msgstr "Όνομα"
-
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
-msgstr "Διαμοίρασε"
+msgstr "Διαμοιρασμός"
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "Λήψη"
 
-#: templates/index.php:56
-msgid "Delete"
-msgstr "Διαγραφή"
-
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
-msgstr "Πολύ μεγάλο το αρχείο προς μεταφόρτωση"
+msgstr "Πολύ μεγάλο αρχείο προς μεταφόρτωση"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος μεταφόρτωσης αρχείων σε αυτόν το διακομιστή."
+msgstr "Τα αρχεία που προσπαθείτε να μεταφορτώσετε υπερβαίνουν το μέγιστο μέγεθος μεταφόρτωσης αρχείων σε αυτόν το διακομιστή."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
-msgstr "Τα αρχεία ανιχνεύονται, παρακαλώ περιμένετε"
+msgstr "Τα αρχεία σαρώνονται, παρακαλώ περιμένετε"
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr "Τρέχουσα αναζήτηση "

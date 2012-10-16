@@ -1,0 +1,301 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <bluehattree@126.com>, 2012.
+# marguerite su <i@marguerite.su>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-10-12 02:03+0200\n"
+"PO-Revision-Date: 2012-10-11 23:48+0000\n"
+"Last-Translator: marguerite su <i@marguerite.su>\n"
+"Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN.GB2312\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ajax/upload.php:20
+msgid "There is no error, the file uploaded with success"
+msgstr "没有任何错误,文件上传成功了"
+
+#: ajax/upload.php:21
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr "上传的文件超过了php.ini指定的upload_max_filesize"
+
+#: ajax/upload.php:22
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr "上传的文件超过了HTML表单指定的MAX_FILE_SIZE"
+
+#: ajax/upload.php:23
+msgid "The uploaded file was only partially uploaded"
+msgstr "文件只有部分被上传"
+
+#: ajax/upload.php:24
+msgid "No file was uploaded"
+msgstr "没有上传完成的文件"
+
+#: ajax/upload.php:25
+msgid "Missing a temporary folder"
+msgstr "丢失了一个临时文件夹"
+
+#: ajax/upload.php:26
+msgid "Failed to write to disk"
+msgstr "写磁盘失败"
+
+#: appinfo/app.php:6
+msgid "Files"
+msgstr "文件"
+
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr "取消共享"
+
+#: js/fileactions.js:110 templates/index.php:64
+msgid "Delete"
+msgstr "删除"
+
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr "重命名"
+
+#: js/filelist.js:192 js/filelist.js:194
+msgid "already exists"
+msgstr "已经存在了"
+
+#: js/filelist.js:192 js/filelist.js:194
+msgid "replace"
+msgstr "替换"
+
+#: js/filelist.js:192
+msgid "suggest name"
+msgstr "推荐名称"
+
+#: js/filelist.js:192 js/filelist.js:194
+msgid "cancel"
+msgstr "取消"
+
+#: js/filelist.js:241 js/filelist.js:243
+msgid "replaced"
+msgstr "替换过了"
+
+#: js/filelist.js:241 js/filelist.js:243 js/filelist.js:275 js/filelist.js:277
+msgid "undo"
+msgstr "撤销"
+
+#: js/filelist.js:243
+msgid "with"
+msgstr "随着"
+
+#: js/filelist.js:275
+msgid "unshared"
+msgstr "已取消共享"
+
+#: js/filelist.js:277
+msgid "deleted"
+msgstr "删除"
+
+#: js/files.js:179
+msgid "generating ZIP-file, it may take some time."
+msgstr "正在生成ZIP文件,这可能需要点时间"
+
+#: js/files.js:214
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "不能上传你指定的文件,可能因为它是个文件夹或者大小为0"
+
+#: js/files.js:214
+msgid "Upload Error"
+msgstr "上传错误"
+
+#: js/files.js:242 js/files.js:347 js/files.js:377
+msgid "Pending"
+msgstr "Pending"
+
+#: js/files.js:262
+msgid "1 file uploading"
+msgstr "1 个文件正在上传"
+
+#: js/files.js:265 js/files.js:310 js/files.js:325
+msgid "files uploading"
+msgstr "个文件正在上传"
+
+#: js/files.js:328 js/files.js:361
+msgid "Upload cancelled."
+msgstr "上传取消了"
+
+#: js/files.js:430
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "文件正在上传。关闭页面会取消上传。"
+
+#: js/files.js:500
+msgid "Invalid name, '/' is not allowed."
+msgstr "非法文件名,\"/\"是不被许可的"
+
+#: js/files.js:681
+msgid "files scanned"
+msgstr "文件已扫描"
+
+#: js/files.js:689
+msgid "error while scanning"
+msgstr "扫描出错"
+
+#: js/files.js:762 templates/index.php:48
+msgid "Name"
+msgstr "名字"
+
+#: js/files.js:763 templates/index.php:56
+msgid "Size"
+msgstr "大小"
+
+#: js/files.js:764 templates/index.php:58
+msgid "Modified"
+msgstr "修改日期"
+
+#: js/files.js:791
+msgid "folder"
+msgstr "文件夹"
+
+#: js/files.js:793
+msgid "folders"
+msgstr "文件夹"
+
+#: js/files.js:801
+msgid "file"
+msgstr "文件"
+
+#: js/files.js:803
+msgid "files"
+msgstr "文件"
+
+#: js/files.js:847
+msgid "seconds ago"
+msgstr "秒前"
+
+#: js/files.js:848
+msgid "minute ago"
+msgstr "分钟前"
+
+#: js/files.js:849
+msgid "minutes ago"
+msgstr "分钟前"
+
+#: js/files.js:852
+msgid "today"
+msgstr "今天"
+
+#: js/files.js:853
+msgid "yesterday"
+msgstr "昨天"
+
+#: js/files.js:854
+msgid "days ago"
+msgstr "天前"
+
+#: js/files.js:855
+msgid "last month"
+msgstr "上个月"
+
+#: js/files.js:857
+msgid "months ago"
+msgstr "月前"
+
+#: js/files.js:858
+msgid "last year"
+msgstr "去年"
+
+#: js/files.js:859
+msgid "years ago"
+msgstr "年前"
+
+#: templates/admin.php:5
+msgid "File handling"
+msgstr "文件处理中"
+
+#: templates/admin.php:7
+msgid "Maximum upload size"
+msgstr "最大上传大小"
+
+#: templates/admin.php:7
+msgid "max. possible: "
+msgstr "最大可能"
+
+#: templates/admin.php:9
+msgid "Needed for multi-file and folder downloads."
+msgstr "需要多文件和文件夹下载."
+
+#: templates/admin.php:9
+msgid "Enable ZIP-download"
+msgstr "支持ZIP下载"
+
+#: templates/admin.php:11
+msgid "0 is unlimited"
+msgstr "0是无限的"
+
+#: templates/admin.php:12
+msgid "Maximum input size for ZIP files"
+msgstr "最大的ZIP文件输入大小"
+
+#: templates/admin.php:14
+msgid "Save"
+msgstr "保存"
+
+#: templates/index.php:7
+msgid "New"
+msgstr "新建"
+
+#: templates/index.php:9
+msgid "Text file"
+msgstr "文本文档"
+
+#: templates/index.php:10
+msgid "Folder"
+msgstr "文件夹"
+
+#: templates/index.php:11
+msgid "From url"
+msgstr "从URL:"
+
+#: templates/index.php:20
+msgid "Upload"
+msgstr "上传"
+
+#: templates/index.php:27
+msgid "Cancel upload"
+msgstr "取消上传"
+
+#: templates/index.php:40
+msgid "Nothing in here. Upload something!"
+msgstr "这里没有东西.上传点什么!"
+
+#: templates/index.php:50
+msgid "Share"
+msgstr "分享"
+
+#: templates/index.php:52
+msgid "Download"
+msgstr "下载"
+
+#: templates/index.php:75
+msgid "Upload too large"
+msgstr "上传的文件太大了"
+
+#: templates/index.php:77
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr "你正在试图上传的文件超过了此服务器支持的最大的文件大小."
+
+#: templates/index.php:82
+msgid "Files are being scanned, please wait."
+msgstr "正在扫描文件,请稍候."
+
+#: templates/index.php:85
+msgid "Current scanning"
+msgstr "正在扫描"

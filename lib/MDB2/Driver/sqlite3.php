@@ -150,7 +150,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
      */
     public function escape($text, $escape_wildcards = false)
     {
-		if($this->connection){
+		if($this->connection) {
 			return $this->connection->escapeString($text);
 		}else{
 			return str_replace("'","''",$text);//TODO; more
@@ -324,7 +324,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
      **/
     function connect()
     {
-		if($this->connection instanceof SQLite3){
+		if($this->connection instanceof SQLite3) {
 			return MDB2_OK;
 		}
 		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
@@ -351,7 +351,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
         }
 
         if ($database_file !== ':memory:') {
-			if(!strpos($database_file,'.db')){
+			if(!strpos($database_file,'.db')) {
 				$database_file="$datadir/$database_file.db";
 			}
             if (!file_exists($database_file)) {
@@ -387,7 +387,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
 
         $php_errormsg = '';
 		$this->connection = new SQLite3($database_file);
-		if(is_callable(array($this->connection,'busyTimeout'))){//busy timout is only available in php>=5.3
+		if(is_callable(array($this->connection,'busyTimeout'))) {//busy timout is only available in php>=5.3
 			$this->connection->busyTimeout(100);
 		}
         $this->_lasterror = $this->connection->lastErrorMsg();
@@ -1055,7 +1055,7 @@ class MDB2_BufferedResult_sqlite3 extends MDB2_Result_sqlite3
     function seek($rownum = 0)
     {
 		$this->result->reset();
-		for($i=0;$i<$rownum;$i++){
+		for($i=0;$i<$rownum;$i++) {
 			$this->result->fetchArray();
 		}
         $this->rownum = $rownum - 1;
@@ -1093,7 +1093,7 @@ class MDB2_BufferedResult_sqlite3 extends MDB2_Result_sqlite3
     {
         $rows = 0;
         $this->result->reset();
-        while($this->result->fetchArray()){
+        while($this->result->fetchArray()) {
 			$rows++;
         }
         $this->result->reset();
@@ -1113,8 +1113,8 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
 	// }}}
     // {{{ function bindValue($parameter, &$value, $type = null)
 
-	private function getParamType($type){
-		switch(strtolower($type)){
+	private function getParamType($type) {
+		switch(strtolower($type)) {
 			case 'text':
 				return SQLITE3_TEXT;
 			case 'boolean':
@@ -1139,8 +1139,8 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
      *
      * @access  public
      */
-    function bindValue($parameter, $value, $type = null){
-		if($type){
+    function bindValue($parameter, $value, $type = null) {
+		if($type) {
 			$type=$this->getParamType($type);
 			$this->statement->bindValue($parameter,$value,$type);
 		}else{
@@ -1162,8 +1162,8 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
      *
      * @access  public
      */
-    function bindParam($parameter, &$value, $type = null){
-        if($type){
+    function bindParam($parameter, &$value, $type = null) {
+        if($type) {
 			$type=$this->getParamType($type);
 			$this->statement->bindParam($parameter,$value,$type);
 		}else{
@@ -1193,7 +1193,7 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
      *               a MDB2 error on failure
      * @access private
      */
-    function _execute($result_class = true, $result_wrap_class = false){
+    function _execute($result_class = true, $result_wrap_class = false) {
 		if (is_null($this->statement)) {
             $result =& parent::_execute($result_class, $result_wrap_class);
             return $result;
@@ -1221,7 +1221,7 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
             return $affected_rows;
         }
 
-        $result =& $this->db->_wrapResult($result, $this->result_types,
+        $result = $this->db->_wrapResult($result, $this->result_types,
             $result_class, $result_wrap_class, $this->limit, $this->offset);
         $this->db->debug($this->query, 'execute', array('is_manip' => $this->is_manip, 'when' => 'post', 'result' => $result));
         return $result;
@@ -1313,7 +1313,7 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
         }
         $values = (array)$values;
         if (!empty($values)) {
-			if(count($this->types)){
+			if(count($this->types)) {
 				$types=$this->types;
 			}else{
 				$types=null;

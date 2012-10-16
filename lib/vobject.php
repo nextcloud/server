@@ -30,7 +30,7 @@ class OC_VObject{
 	/**
 	 * @returns Sabre_VObject_Component
 	 */
-	public function getVObject(){
+	public function getVObject() {
 		return $this->vobject;
 	}
 
@@ -39,11 +39,11 @@ class OC_VObject{
 	 * @param string VObject as string
 	 * @returns Sabre_VObject or null
 	 */
-	public static function parse($data){
+	public static function parse($data) {
 		try {
 			Sabre_VObject_Property::$classMap['LAST-MODIFIED'] = 'Sabre_VObject_Property_DateTime';
 			$vobject = Sabre_VObject_Reader::read($data);
-			if ($vobject instanceof Sabre_VObject_Component){
+			if ($vobject instanceof Sabre_VObject_Component) {
 				$vobject = new OC_VObject($vobject);
 			}
 			return $vobject;
@@ -58,8 +58,8 @@ class OC_VObject{
 	 * @param string $value
 	 * @return string
 	 */
-	public static function escapeSemicolons($value){
-		foreach($value as &$i ){
+	public static function escapeSemicolons($value) {
+		foreach($value as &$i ) {
 			$i = implode("\\\\;", explode(';', $i));
 		}
 		return implode(';',$value);
@@ -70,11 +70,11 @@ class OC_VObject{
 	 * @param string $value
 	 * @return array
 	 */
-	public static function unescapeSemicolons($value){
+	public static function unescapeSemicolons($value) {
 		$array = explode(';',$value);
-		for($i=0;$i<count($array);$i++){
-			if(substr($array[$i],-2,2)=="\\\\"){
-				if(isset($array[$i+1])){
+		for($i=0;$i<count($array);$i++) {
+			if(substr($array[$i],-2,2)=="\\\\") {
+				if(isset($array[$i+1])) {
 					$array[$i] = substr($array[$i],0,count($array[$i])-2).';'.$array[$i+1];
 					unset($array[$i+1]);
 				}
@@ -91,16 +91,16 @@ class OC_VObject{
 	 * Constuctor
 	 * @param Sabre_VObject_Component or string
 	 */
-	public function __construct($vobject_or_name){
-		if (is_object($vobject_or_name)){
+	public function __construct($vobject_or_name) {
+		if (is_object($vobject_or_name)) {
 			$this->vobject = $vobject_or_name;
 		} else {
 			$this->vobject = new Sabre_VObject_Component($vobject_or_name);
 		}
 	}
 
-	public function add($item, $itemValue = null){
-		if ($item instanceof OC_VObject){
+	public function add($item, $itemValue = null) {
+		if ($item instanceof OC_VObject) {
 			$item = $item->getVObject();
 		}
 		$this->vobject->add($item, $itemValue);
@@ -113,12 +113,12 @@ class OC_VObject{
 	 * @param object $parameters of property
 	 * @returns Sabre_VObject_Property newly created
 	 */
-	public function addProperty($name, $value, $parameters=array()){
-		if(is_array($value)){
+	public function addProperty($name, $value, $parameters=array()) {
+		if(is_array($value)) {
 			$value = OC_VObject::escapeSemicolons($value);
 		}
 		$property = new Sabre_VObject_Property( $name, $value );
-		foreach($parameters as $name => $value){
+		foreach($parameters as $name => $value) {
 			$property->parameters[] = new Sabre_VObject_Parameter($name, $value);
 		}
 
@@ -126,13 +126,13 @@ class OC_VObject{
 		return $property;
 	}
 
-	public function setUID(){
+	public function setUID() {
 		$uid = substr(md5(rand().time()),0,10);
 		$this->vobject->add('UID',$uid);
 	}
 
-	public function setString($name, $string){
-		if ($string != ''){
+	public function setString($name, $string) {
+		if ($string != '') {
 			$string = strtr($string, array("\r\n"=>"\n"));
 			$this->vobject->__set($name, $string);
 		}else{
@@ -150,11 +150,11 @@ class OC_VObject{
 	 * @param int $dateType
 	 * @return void
 	 */
-	public function setDateTime($name, $datetime, $dateType=Sabre_VObject_Property_DateTime::LOCALTZ){
-		if ($datetime == 'now'){
+	public function setDateTime($name, $datetime, $dateType=Sabre_VObject_Property_DateTime::LOCALTZ) {
+		if ($datetime == 'now') {
 			$datetime = new DateTime();
 		}
-		if ($datetime instanceof DateTime){
+		if ($datetime instanceof DateTime) {
 			$datetime_element = new Sabre_VObject_Property_DateTime($name);
 			$datetime_element->setDateTime($datetime, $dateType);
 			$this->vobject->__set($name, $datetime_element);
@@ -163,45 +163,45 @@ class OC_VObject{
 		}
 	}
 
-	public function getAsString($name){
+	public function getAsString($name) {
 		return $this->vobject->__isset($name) ?
 			$this->vobject->__get($name)->value :
 			'';
 	}
 
-	public function getAsArray($name){
+	public function getAsArray($name) {
 		$values = array();
-		if ($this->vobject->__isset($name)){
+		if ($this->vobject->__isset($name)) {
 			$values = explode(',', $this->getAsString($name));
 			$values = array_map('trim', $values);
 		}
 		return $values;
 	}
 
-	public function &__get($name){
-		if ($name == 'children'){
+	public function &__get($name) {
+		if ($name == 'children') {
 			return $this->vobject->children;
 		}
 		$return = $this->vobject->__get($name);
-		if ($return instanceof Sabre_VObject_Component){
+		if ($return instanceof Sabre_VObject_Component) {
 			$return = new OC_VObject($return);
 		}
 		return $return;
 	}
 
-	public function __set($name, $value){
+	public function __set($name, $value) {
 		return $this->vobject->__set($name, $value);
 	}
 
-	public function __unset($name){
+	public function __unset($name) {
 		return $this->vobject->__unset($name);
 	}
 
-	public function __isset($name){
+	public function __isset($name) {
 		return $this->vobject->__isset($name);
 	}
 
-	public function __call($function,$arguments){
+	public function __call($function,$arguments) {
 		return call_user_func_array(array($this->vobject, $function), $arguments);
 	}
 }

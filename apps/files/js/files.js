@@ -26,7 +26,7 @@ Files={
 		});
 		procesSelection();
 	}
-}
+};
 $(document).ready(function() {
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
@@ -40,8 +40,16 @@ $(document).ready(function() {
 	$('#file_action_panel').attr('activeAction', false);
 
 	//drag/drop of files
-	$('#fileList tr[data-write="true"] td.filename').draggable(dragOptions);
-	$('#fileList tr[data-type="dir"][data-write="true"] td.filename').droppable(folderDropOptions);
+	$('#fileList tr td.filename').each(function(i,e){
+		if ($(e).parent().data('permissions') & OC.PERMISSION_DELETE) {
+			$(e).draggable(dragOptions);
+		}
+	});
+	$('#fileList tr[data-type="dir"] td.filename').each(function(i,e){
+		if ($(e).parent().data('permissions') & OC.PERMISSION_CREATE){
+			$(e).droppable(folderDropOptions);
+		}
+	});
 	$('div.crumb:not(.last)').droppable(crumbDropOptions);
 	$('ul#apps>li:first-child').data('dir','');
 	if($('div.crumb').length){
@@ -56,7 +64,7 @@ $(document).ready(function() {
 
 	// Sets the file-action buttons behaviour :
 	$('tr').live('mouseenter',function(event) {
-		FileActions.display($(this).children('td.filename'), $(this).attr('data-file'), $(this).attr('data-type'));
+		FileActions.display($(this).children('td.filename'));
 	});
 	$('tr').live('mouseleave',function(event) {
 		FileActions.hide();
@@ -106,7 +114,8 @@ $(document).ready(function() {
 			if(!renaming && !FileList.isLoading(filename)){
 				var mime=$(this).parent().parent().data('mime');
 				var type=$(this).parent().parent().data('type');
-				var action=FileActions.getDefault(mime,type);
+				var permissions = $(this).parent().parent().data('permissions');
+				var action=FileActions.getDefault(mime,type, permissions);
 				if(action){
 					action(filename);
 				}
@@ -169,7 +178,12 @@ $(document).ready(function() {
 		var dir=$('#dir').val()||'/';
 		$('#notification').text(t('files','generating ZIP-file, it may take some time.'));
 		$('#notification').fadeIn();
-		window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: files });
+		// use special download URL if provided, e.g. for public shared files
+		if ( (downloadURL = document.getElementById("downloadURL")) ) {
+			window.location=downloadURL.value+"&download&files="+files;
+		} else {
+			window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: files });
+		}
 		return false;
 	});
 
@@ -186,6 +200,7 @@ $(document).ready(function() {
 			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
 	});
 
+	if ( document.getElementById("data-upload-form") ) {
 	$(function() {
 		$('.file_upload_start').fileupload({
 			dropZone: $('#content'), // restrict dropZone to content div
@@ -194,7 +209,7 @@ $(document).ready(function() {
 				var totalSize=0;
 				if(files){
 					for(var i=0;i<files.length;i++){
-						if(files[i].size ==0 && files[i].type== '')
+						if(files[i].size ==0 || files[i].type== '')
 						{
 							OC.dialogs.alert(t('files', 'Unable to upload your file as it is a directory or has 0 bytes'), t('files', 'Upload Error'));
 							return;
@@ -227,7 +242,14 @@ $(document).ready(function() {
 								var size=t('files','Pending');
 							}
 							if(files && !dirName){
-								FileList.addFile(getUniqueName(files[i].name),size,date,true);
+								var uniqueName = getUniqueName(files[i].name);
+								if (uniqueName != files[i].name) {
+									FileList.checkName(uniqueName, files[i].name, true);
+									var hidden = true;
+								} else {
+									var hidden = false;
+								}
+								FileList.addFile(uniqueName,size,date,true,hidden);
 							} else if(dirName) {
 								var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
 								var currentUploads = parseInt(uploadtext.attr('currentUploads'));
@@ -237,23 +259,30 @@ $(document).ready(function() {
 									var img = OC.imagePath('core', 'loading.gif');
 									var tr=$('tr').filterAttr('data-file',dirName);
 									tr.find('td.filename').attr('style','background-image:url('+img+')');
-									uploadtext.text('1 file uploading');
+									uploadtext.text(t('files', '1 file uploading'));
 									uploadtext.show();
 								} else {
-									uploadtext.text(currentUploads + ' files uploading')
+									uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
 								}
 							}
 						}
 					}else{
 						var filename=this.value.split('\\').pop(); //ie prepends C:\fakepath\ in front of the filename
-						FileList.addFile(getUniqueName(filename),'Pending',date,true);
+						var uniqueName = getUniqueName(filename);
+						if (uniqueName != filename) {
+							FileList.checkName(uniqueName, filename, true);
+							var hidden = true;
+						} else {
+							var hidden = false;
+						}
+						FileList.addFile(uniqueName,'Pending',date,true,hidden);
 					}
 					if($.support.xhrFileUpload) {
 						for(var i=0;i<files.length;i++){
 							var fileName = files[i].name
 							var dropTarget = $(e.originalEvent.target).closest('tr');
 							if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
-								var dirName = dropTarget.attr('data-file')
+								var dirName = dropTarget.attr('data-file');
 								var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i],
 										formData: function(form) {
 											var formArray = form.serializeArray();
@@ -278,7 +307,7 @@ $(document).ready(function() {
 												uploadtext.text('');
 												uploadtext.hide();
 											} else {
-												uploadtext.text(currentUploads + ' files uploading')
+												uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
 											}
 										})
 								.error(function(jqXHR, textStatus, errorThrown) {
@@ -293,7 +322,7 @@ $(document).ready(function() {
 											uploadtext.text('');
 											uploadtext.hide();
 										} else {
-											uploadtext.text(currentUploads + ' files uploading')
+											uploadtext.text(currentUploads + ' ' + t('files', 'files uploading'));
 										}
 										$('#notification').hide();
 										$('#notification').text(t('files', 'Upload cancelled.'));
@@ -313,12 +342,12 @@ $(document).ready(function() {
 											if(response[0] != undefined && response[0].status == 'success') {
 												var file=response[0];
 												delete uploadingFiles[file.name];
-												$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
+												$('tr').filterAttr('data-file',file.name).data('mime',file.mime).data('id',file.id);
 												var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
 												if(size==t('files','Pending')){
 													$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 												}
-												FileList.loadingDone(file.name);
+												FileList.loadingDone(file.name, file.id);
 											} else {
 												$('#notification').text(t('files', response.data.message));
 												$('#notification').fadeIn();
@@ -333,21 +362,22 @@ $(document).ready(function() {
 										$('#notification').fadeIn();
 									}
 								});
-								uploadingFiles[files[i].name] = jqXHR;
+								uploadingFiles[uniqueName] = jqXHR;
 							}
 						}
 					}else{
 						data.submit().success(function(data, status) {
-							response = jQuery.parseJSON(data[0].body.innerText);
+							// in safari data is a string
+							response = jQuery.parseJSON(typeof data === 'string' ? data : data[0].body.innerText);
 							if(response[0] != undefined && response[0].status == 'success') {
 								var file=response[0];
 								delete uploadingFiles[file.name];
-								$('tr').filterAttr('data-file',file.name).data('mime',file.mime);
+								$('tr').filterAttr('data-file',file.name).data('mime',file.mime).data('id',file.id);
 								var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
 								if(size==t('files','Pending')){
 									$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 								}
-								FileList.loadingDone(file.name);
+								FileList.loadingDone(file.name, file.id);
 							} else {
 								$('#notification').text(t('files', response.data.message));
 								$('#notification').fadeIn();
@@ -378,11 +408,26 @@ $(document).ready(function() {
 			stop: function(e, data) {
 				if(data.dataType != 'iframe ') {
 					$('#upload input.stop').hide();
-				}	
+				}
 				$('#uploadprogressbar').progressbar('value',100);
 				$('#uploadprogressbar').fadeOut();
 			}
 		})
+	});
+	}
+	$.assocArraySize = function(obj) {
+		// http://stackoverflow.com/a/6700/11236
+		var size = 0, key;
+		for (key in obj) {
+		    if (obj.hasOwnProperty(key)) size++;
+		}
+		return size;
+	};
+
+	// warn user not to leave the page while upload is in progress
+	$(window).bind('beforeunload', function(e) {
+		if ($.assocArraySize(uploadingFiles) > 0)
+			return t('files','File upload is in progress. Leaving the page now will cancel the upload.');
 	});
 
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
@@ -451,25 +496,36 @@ $(document).ready(function() {
 		$(this).append(input);
 		input.focus();
 		input.change(function(){
-			var name=getUniqueName($(this).val());
-			if(type != 'web' && name.indexOf('/')!=-1){
+			if(type != 'web' && $(this).val().indexOf('/')!=-1){
 				$('#notification').text(t('files','Invalid name, \'/\' is not allowed.'));
 				$('#notification').fadeIn();
 				return;
+			}
+			var name = getUniqueName($(this).val());
+			if (name != $(this).val()) {
+				FileList.checkName(name, $(this).val(), true);
+				var hidden = true;
+			} else {
+				var hidden = false;
 			}
 			switch(type){
 				case 'file':
 					$.post(
 						OC.filePath('files','ajax','newfile.php'),
-						{dir:$('#dir').val(),filename:name,content:" \n"},
-						function(data){
-							var date=new Date();
-							FileList.addFile(name,0,date);
-							var tr=$('tr').filterAttr('data-file',name);
-							tr.data('mime','text/plain');
-							getMimeIcon('text/plain',function(path){
-								tr.find('td.filename').attr('style','background-image:url('+path+')');
-							});
+						{dir:$('#dir').val(),filename:name},
+						function(result){
+							if (result.status == 'success') {
+								var date=new Date();
+								FileList.addFile(name,0,date,false,hidden);
+								var tr=$('tr').filterAttr('data-file',name);
+								tr.data('mime','text/plain').data('id',result.data.id);
+								tr.attr('data-id', result.data.id);
+								getMimeIcon('text/plain',function(path){
+									tr.find('td.filename').attr('style','background-image:url('+path+')');
+								});
+							} else {
+								OC.dialogs.alert(result.data.message, 'Error');
+							}
 						}
 					);
 					break;
@@ -477,9 +533,15 @@ $(document).ready(function() {
 					$.post(
 						OC.filePath('files','ajax','newfolder.php'),
 						{dir:$('#dir').val(),foldername:name},
-						function(data){
-							var date=new Date();
-							FileList.addDir(name,0,date);
+						function(result){
+							if (result.status == 'success') {
+								var date=new Date();
+								FileList.addDir(name,0,date,hidden);
+								var tr=$('tr').filterAttr('data-file',name);
+								tr.attr('data-id', result.data.id);
+							} else {
+								OC.dialogs.alert(result.data.message, 'Error');
+							}
 						}
 					);
 					break;
@@ -497,23 +559,31 @@ $(document).ready(function() {
 						localName=(localName.match(/:\/\/(.[^/]+)/)[1]).replace('www.','');
 					}
 					localName = getUniqueName(localName);
-					$.post(
-						OC.filePath('files','ajax','newfile.php'),
-						{dir:$('#dir').val(),source:name,filename:localName},
-						function(result){
-							if(result.status == 'success'){
-								var date=new Date();
-								FileList.addFile(localName,0,date);
-								var tr=$('tr').filterAttr('data-file',localName);
-								tr.data('mime',result.data.mime);
-								getMimeIcon(result.data.mime,function(path){
-									tr.find('td.filename').attr('style','background-image:url('+path+')');
-								});
-							}else{
+					$('#uploadprogressbar').progressbar({value:0});
+					$('#uploadprogressbar').fadeIn();
 
-							}
-						}
-					);
+					var eventSource=new OC.EventSource(OC.filePath('files','ajax','newfile.php'),{dir:$('#dir').val(),source:name,filename:localName});
+					eventSource.listen('progress',function(progress){
+						$('#uploadprogressbar').progressbar('value',progress);
+					});
+					eventSource.listen('success',function(data){
+						var mime=data.mime;
+						var size=data.size;
+						var id=data.id;
+						$('#uploadprogressbar').fadeOut();
+						var date=new Date();
+						FileList.addFile(localName,size,date,false,hidden);
+						var tr=$('tr').filterAttr('data-file',localName);
+						tr.data('mime',mime).data('id',id);
+						tr.attr('data-id', id);
+						getMimeIcon(mime,function(path){
+							tr.find('td.filename').attr('style','background-image:url('+path+')');
+						});
+					});
+					eventSource.listen('error',function(error){
+						$('#uploadprogressbar').fadeOut();
+						alert(error);
+					});
 					break;
 			}
 			var li=$(this).parent();
@@ -529,6 +599,72 @@ $(document).ready(function() {
 			scanFiles();
 		}
 	}, "json");
+
+	var lastWidth = 0;
+	var breadcrumbs = [];
+	var breadcrumbsWidth = 0;
+	if ( document.getElementById("navigation") ) {
+		breadcrumbsWidth = $('#navigation').get(0).offsetWidth;
+	}
+	var hiddenBreadcrumbs = 0;
+
+	$.each($('.crumb'), function(index, breadcrumb) {
+		breadcrumbs[index] = breadcrumb;
+		breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
+	});
+
+	if ($('#controls .actions').length > 0) {
+		breadcrumbsWidth += $('#controls .actions').get(0).offsetWidth;
+	}
+
+	function resizeBreadcrumbs(firstRun) {
+		var width = $(this).width();
+		if (width != lastWidth) {
+			if ((width < lastWidth || firstRun) && width < breadcrumbsWidth) {
+				if (hiddenBreadcrumbs == 0) {
+					breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
+					$(breadcrumbs[1]).find('a').hide();
+					$(breadcrumbs[1]).append('<span>...</span>');
+					breadcrumbsWidth += $(breadcrumbs[1]).get(0).offsetWidth;
+					hiddenBreadcrumbs = 2;
+				}
+				var i = hiddenBreadcrumbs;
+				while (width < breadcrumbsWidth && i > 1 && i < breadcrumbs.length - 1) {
+					breadcrumbsWidth -= $(breadcrumbs[i]).get(0).offsetWidth;
+					$(breadcrumbs[i]).hide();
+					hiddenBreadcrumbs = i;
+					i++
+				}
+			} else if (width > lastWidth && hiddenBreadcrumbs > 0) {
+				var i = hiddenBreadcrumbs;
+				while (width > breadcrumbsWidth && i > 0) {
+					if (hiddenBreadcrumbs == 1) {
+						breadcrumbsWidth -= $(breadcrumbs[1]).get(0).offsetWidth;
+						$(breadcrumbs[1]).find('span').remove();
+						$(breadcrumbs[1]).find('a').show();
+						breadcrumbsWidth += $(breadcrumbs[1]).get(0).offsetWidth;
+					} else {
+						$(breadcrumbs[i]).show();
+						breadcrumbsWidth += $(breadcrumbs[i]).get(0).offsetWidth;
+						if (breadcrumbsWidth > width) {
+							breadcrumbsWidth -= $(breadcrumbs[i]).get(0).offsetWidth;
+							$(breadcrumbs[i]).hide();
+							break;
+						}
+					}
+					i--;
+					hiddenBreadcrumbs = i;
+				}
+			}
+			lastWidth = width;
+		}
+	}
+
+	$(window).resize(function() {
+		resizeBreadcrumbs(false);
+	});
+
+	resizeBreadcrumbs(true);
 });
 
 function scanFiles(force,dir){
@@ -542,7 +678,7 @@ function scanFiles(force,dir){
 	var scannerEventSource=new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force,dir:dir});
 	scanFiles.cancel=scannerEventSource.close.bind(scannerEventSource);
 	scannerEventSource.listen('scanning',function(data){
-		$('#scan-count').text(data.count+' files scanned');
+		$('#scan-count').text(data.count + ' ' + t('files', 'files scanned'));
 		$('#scan-current').text(data.file+'/');
 	});
 	scannerEventSource.listen('success',function(success){
@@ -550,7 +686,7 @@ function scanFiles(force,dir){
 		if(success){
 			window.location.reload();
 		}else{
-			alert('error while scanning');
+			alert(t('files', 'error while scanning'));
 		}
 	});
 }

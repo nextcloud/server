@@ -3,6 +3,8 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Dimitris M. <monopatis@gmail.com>, 2012.
+# Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
 # Marios Bekatoros <>, 2012.
 #   <petros.kyladitis@gmail.com>, 2011.
 # Petros Kyladitis <petros.kyladitis@gmail.com>, 2011, 2012.
@@ -10,15 +12,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:14+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.net/projects/p/owncloud/language/el/)\n"
+"POT-Creation-Date: 2012-10-16 02:04+0200\n"
+"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: el\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
@@ -32,91 +34,201 @@ msgstr "Δεν έχετε να προστέσθέσεται μια κα"
 msgid "This category already exists: "
 msgstr "Αυτή η κατηγορία υπάρχει ήδη"
 
-#: js/jquery-ui-1.8.16.custom.min.js:511
-msgid "ui-datepicker-group';if(i[1]>1)switch(G){case 0:y+="
-msgstr ""
+#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
+msgid "Settings"
+msgstr "Ρυθμίσεις"
 
-#: js/js.js:520
+#: js/js.js:670
 msgid "January"
-msgstr ""
+msgstr "Ιανουάριος"
 
-#: js/js.js:520
+#: js/js.js:670
 msgid "February"
-msgstr ""
+msgstr "Φεβρουάριος"
 
-#: js/js.js:520
+#: js/js.js:670
 msgid "March"
-msgstr ""
+msgstr "Μάρτιος"
 
-#: js/js.js:520
+#: js/js.js:670
 msgid "April"
-msgstr ""
+msgstr "Απρίλιος"
 
-#: js/js.js:520
+#: js/js.js:670
 msgid "May"
-msgstr ""
+msgstr "Μάϊος"
 
-#: js/js.js:520
+#: js/js.js:670
 msgid "June"
-msgstr ""
+msgstr "Ιούνιος"
 
-#: js/js.js:521
+#: js/js.js:671
 msgid "July"
-msgstr ""
+msgstr "Ιούλιος"
 
-#: js/js.js:521
+#: js/js.js:671
 msgid "August"
-msgstr ""
+msgstr "Αύγουστος"
 
-#: js/js.js:521
+#: js/js.js:671
 msgid "September"
-msgstr ""
+msgstr "Σεπτέμβριος"
 
-#: js/js.js:521
+#: js/js.js:671
 msgid "October"
-msgstr ""
+msgstr "Οκτώβριος"
 
-#: js/js.js:521
+#: js/js.js:671
 msgid "November"
-msgstr ""
+msgstr "Νοέμβριος"
 
-#: js/js.js:521
+#: js/js.js:671
 msgid "December"
-msgstr ""
+msgstr "Δεκέμβριος"
+
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr "Επιλέξτε"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Ακύρωση"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "Όχι"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "Ναι"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "Οκ"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Δεν επιλέχτηκαν κατηγορίες για διαγραφή"
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
-msgstr ""
+msgstr "Σφάλμα"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr "Σφάλμα κατά τον διαμοιρασμό"
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr "Σφάλμα κατά το σταμάτημα του διαμοιρασμού"
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr "Σφάλμα κατά την αλλαγή των δικαιωμάτων"
+
+#: js/share.js:130
+msgid "Shared with you and the group"
+msgstr "Διαμοιρασμένο με εσένα και την ομάδα"
+
+#: js/share.js:130
+msgid "by"
+msgstr "από"
+
+#: js/share.js:132
+msgid "Shared with you by"
+msgstr "Μοιράστηκε μαζί σας από "
+
+#: js/share.js:137
+msgid "Share with"
+msgstr "Διαμοιρασμός με"
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr "Διαμοιρασμός με σύνδεσμο"
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr "Προστασία κωδικού"
+
+#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
+msgid "Password"
+msgstr "Κωδικός"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr "Ορισμός ημ. λήξης"
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr "Ημερομηνία λήξης"
+
+#: js/share.js:185
+msgid "Share via email:"
+msgstr "Διαμοιρασμός μέσω email:"
+
+#: js/share.js:187
+msgid "No people found"
+msgstr "Δεν βρέθηκε άνθρωπος"
+
+#: js/share.js:214
+msgid "Resharing is not allowed"
+msgstr "Ξαναμοιρασμός δεν επιτρέπεται"
+
+#: js/share.js:250
+msgid "Shared in"
+msgstr "Διαμοιράστηκε με"
+
+#: js/share.js:250
+msgid "with"
+msgstr "με"
+
+#: js/share.js:271
+msgid "Unshare"
+msgstr "Σταμάτημα μοιράσματος"
+
+#: js/share.js:283
+msgid "can edit"
+msgstr "δυνατότητα αλλαγής"
+
+#: js/share.js:285
+msgid "access control"
+msgstr "έλεγχος πρόσβασης"
+
+#: js/share.js:288
+msgid "create"
+msgstr "δημιουργία"
+
+#: js/share.js:291
+msgid "update"
+msgstr "ανανέωση"
+
+#: js/share.js:294
+msgid "delete"
+msgstr "διαγραφή"
+
+#: js/share.js:297
+msgid "share"
+msgstr "διαμοιρασμός"
+
+#: js/share.js:322 js/share.js:484
+msgid "Password protected"
+msgstr "Προστασία με κωδικό"
+
+#: js/share.js:497
+msgid "Error unsetting expiration date"
+msgstr "Σφάλμα κατά την διαγραφή της ημ. λήξης"
+
+#: js/share.js:509
+msgid "Error setting expiration date"
+msgstr "Σφάλμα κατά τον ορισμό ημ. λήξης"
 
 #: lostpassword/index.php:26
-msgid "Owncloud password reset"
-msgstr "Επανέκδοση κωδικού για το Owncloud"
-
-#: lostpassword/index.php:27
 msgid "ownCloud password reset"
 msgstr "Επαναφορά κωδικού ownCloud"
 
-#: lostpassword/templates/email.php:1
+#: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επανεκδόσετε τον κωδικό: {link}"
 
@@ -132,12 +244,12 @@ msgstr "Ζητήθησαν"
 msgid "Login failed!"
 msgstr "Η σύνδεση απέτυχε!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:25
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Όνομα Χρήστη"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Επαναφορά αίτησης"
 
@@ -193,72 +305,107 @@ msgstr "Επεξεργασία κατηγορίας"
 msgid "Add"
 msgstr "Προσθήκη"
 
-#: templates/installation.php:23
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr "Προειδοποίηση Ασφαλείας"
+
+#: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>"
 
-#: templates/installation.php:29 templates/login.php:13
-msgid "Password"
-msgstr "Κωδικός"
-
-#: templates/installation.php:35
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "Για προχωρημένους"
 
-#: templates/installation.php:37
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "Φάκελος δεδομένων"
 
-#: templates/installation.php:44
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "Διαμόρφωση της βάσης δεδομένων"
 
-#: templates/installation.php:49 templates/installation.php:60
-#: templates/installation.php:70
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "θα χρησιμοποιηθούν"
 
-#: templates/installation.php:82
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Χρήστης της βάσης δεδομένων"
 
-#: templates/installation.php:86
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "Κωδικός πρόσβασης βάσης δεδομένων"
 
-#: templates/installation.php:90
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Όνομα βάσης δεδομένων"
 
-#: templates/installation.php:96
+#: templates/installation.php:121
+msgid "Database tablespace"
+msgstr "Κενά Πινάκων Βάσης Δεδομένων"
+
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Διακομιστής βάσης δεδομένων"
 
-#: templates/installation.php:101
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "Ολοκλήρωση εγκατάστασης"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "Υπηρεσίες web υπό τον έλεγχό σας"
 
-#: templates/layout.user.php:41
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "Αποσύνδεση"
 
-#: templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "Ρυθμίσεις"
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr ""
 
-#: templates/login.php:6
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr ""
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr ""
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "Ξεχάσατε τον κωδικό σας;"
 
-#: templates/login.php:17
+#: templates/login.php:27
 msgid "remember"
 msgstr "να με θυμάσαι"
 
-#: templates/login.php:18
+#: templates/login.php:28
 msgid "Log in"
 msgstr "Είσοδος"
 
@@ -273,3 +420,17 @@ msgstr "προηγούμενο"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "επόμενο"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr ""
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr ""
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr ""

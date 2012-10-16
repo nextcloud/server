@@ -9,43 +9,43 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.net/projects/p/owncloud/language/nn_NO/)\n"
+"POT-Creation-Date: 2012-09-26 13:19+0200\n"
+"PO-Revision-Date: 2012-09-26 11:20+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nn_NO\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/upload.php:19
+#: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
 msgstr "Ingen feil, fila vart lasta opp"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "Den opplasta fila er større enn variabelen upload_max_filesize i php.ini"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Den opplasta fila er større enn variabelen MAX_FILE_SIZE i HTML-skjemaet"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
 msgstr "Fila vart berre delvis lasta opp"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid "No file was uploaded"
 msgstr "Ingen filer vart lasta opp"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:25
 msgid "Missing a temporary folder"
 msgstr "Manglar ei mellombels mappe"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "Failed to write to disk"
 msgstr ""
 
@@ -53,56 +53,165 @@ msgstr ""
 msgid "Files"
 msgstr "Filer"
 
-#: js/filelist.js:186
-msgid "undo deletion"
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
 msgstr ""
 
-#: js/files.js:170
+#: js/fileactions.js:110 templates/index.php:64
+msgid "Delete"
+msgstr "Slett"
+
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr ""
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "already exists"
+msgstr ""
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "replace"
+msgstr ""
+
+#: js/filelist.js:190
+msgid "suggest name"
+msgstr ""
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "cancel"
+msgstr ""
+
+#: js/filelist.js:239 js/filelist.js:241
+msgid "replaced"
+msgstr ""
+
+#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
+msgid "undo"
+msgstr ""
+
+#: js/filelist.js:241
+msgid "with"
+msgstr ""
+
+#: js/filelist.js:273
+msgid "unshared"
+msgstr ""
+
+#: js/filelist.js:275
+msgid "deleted"
+msgstr ""
+
+#: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr ""
 
-#: js/files.js:199
+#: js/files.js:208
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/files.js:199
+#: js/files.js:208
 msgid "Upload Error"
 msgstr ""
 
-#: js/files.js:227 js/files.js:318 js/files.js:347
+#: js/files.js:236 js/files.js:341 js/files.js:371
 msgid "Pending"
 msgstr ""
 
-#: js/files.js:332
+#: js/files.js:256
+msgid "1 file uploading"
+msgstr ""
+
+#: js/files.js:259 js/files.js:304 js/files.js:319
+msgid "files uploading"
+msgstr ""
+
+#: js/files.js:322 js/files.js:355
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/files.js:456
+#: js/files.js:424
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr ""
+
+#: js/files.js:494
 msgid "Invalid name, '/' is not allowed."
 msgstr ""
 
-#: js/files.js:626 templates/index.php:55
+#: js/files.js:667
+msgid "files scanned"
+msgstr ""
+
+#: js/files.js:675
+msgid "error while scanning"
+msgstr ""
+
+#: js/files.js:748 templates/index.php:48
+msgid "Name"
+msgstr "Namn"
+
+#: js/files.js:749 templates/index.php:56
 msgid "Size"
 msgstr "Storleik"
 
-#: js/files.js:627 templates/index.php:56
+#: js/files.js:750 templates/index.php:58
 msgid "Modified"
 msgstr "Endra"
 
-#: js/files.js:654
+#: js/files.js:777
 msgid "folder"
 msgstr ""
 
-#: js/files.js:656
+#: js/files.js:779
 msgid "folders"
 msgstr ""
 
-#: js/files.js:664
+#: js/files.js:787
 msgid "file"
 msgstr ""
 
-#: js/files.js:666
+#: js/files.js:789
 msgid "files"
+msgstr ""
+
+#: js/files.js:833
+msgid "seconds ago"
+msgstr ""
+
+#: js/files.js:834
+msgid "minute ago"
+msgstr ""
+
+#: js/files.js:835
+msgid "minutes ago"
+msgstr ""
+
+#: js/files.js:838
+msgid "today"
+msgstr ""
+
+#: js/files.js:839
+msgid "yesterday"
+msgstr ""
+
+#: js/files.js:840
+msgid "days ago"
+msgstr ""
+
+#: js/files.js:841
+msgid "last month"
+msgstr ""
+
+#: js/files.js:843
+msgid "months ago"
+msgstr ""
+
+#: js/files.js:844
+msgid "last year"
+msgstr ""
+
+#: js/files.js:845
+msgid "years ago"
 msgstr ""
 
 #: templates/admin.php:5
@@ -133,6 +242,10 @@ msgstr ""
 msgid "Maximum input size for ZIP files"
 msgstr ""
 
+#: templates/admin.php:14
+msgid "Save"
+msgstr ""
+
 #: templates/index.php:7
 msgid "New"
 msgstr "Ny"
@@ -149,7 +262,7 @@ msgstr "Mappe"
 msgid "From url"
 msgstr ""
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Last opp"
 
@@ -157,40 +270,32 @@ msgstr "Last opp"
 msgid "Cancel upload"
 msgstr ""
 
-#: templates/index.php:39
+#: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Ingenting her. Last noko opp!"
 
-#: templates/index.php:47
-msgid "Name"
-msgstr "Namn"
-
-#: templates/index.php:49
+#: templates/index.php:50
 msgid "Share"
 msgstr ""
 
-#: templates/index.php:51
+#: templates/index.php:52
 msgid "Download"
 msgstr "Last ned"
 
-#: templates/index.php:56
-msgid "Delete"
-msgstr "Slett"
-
-#: templates/index.php:64
+#: templates/index.php:75
 msgid "Upload too large"
 msgstr "For stor opplasting"
 
-#: templates/index.php:66
+#: templates/index.php:77
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Filene du prøver å laste opp er større enn maksgrensa til denne tenaren."
 
-#: templates/index.php:71
+#: templates/index.php:82
 msgid "Files are being scanned, please wait."
 msgstr ""
 
-#: templates/index.php:74
+#: templates/index.php:85
 msgid "Current scanning"
 msgstr ""

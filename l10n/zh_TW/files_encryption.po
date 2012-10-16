@@ -1,0 +1,35 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# ywang  <ywang1007@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-02 02:01+0200\n"
+"PO-Revision-Date: 2012-09-01 14:48+0000\n"
+"Last-Translator: ywang <ywang1007@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: templates/settings.php:3
+msgid "Encryption"
+msgstr "加密"
+
+#: templates/settings.php:4
+msgid "Exclude the following file types from encryption"
+msgstr "下列的檔案類型不加密"
+
+#: templates/settings.php:5
+msgid "None"
+msgstr "無"
+
+#: templates/settings.php:10
+msgid "Enable Encryption"
+msgstr "啟用加密"

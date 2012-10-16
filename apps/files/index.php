@@ -31,7 +31,7 @@ OCP\Util::addscript( 'files', 'jquery.fileupload' );
 OCP\Util::addscript( 'files', 'files' );
 OCP\Util::addscript( 'files', 'filelist' );
 OCP\Util::addscript( 'files', 'fileactions' );
-if(!isset($_SESSION['timezone'])){
+if(!isset($_SESSION['timezone'])) {
 	OCP\Util::addscript( 'files', 'timezone' );
 }
 OCP\App::setActiveNavigationEntry( 'files_index' );
@@ -39,13 +39,14 @@ OCP\App::setActiveNavigationEntry( 'files_index' );
 $dir = isset( $_GET['dir'] ) ? stripslashes($_GET['dir']) : '';
 // Redirect if directory does not exist
 if(!OC_Filesystem::is_dir($dir.'/')) {
-	header('Location: '.$_SERVER['PHP_SELF'].'');
+	header('Location: '.$_SERVER['SCRIPT_NAME'].'');
+	exit();
 }
 
 $files = array();
-foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
+foreach( OC_Files::getdirectorycontent( $dir ) as $i ) {
 	$i['date'] = OCP\Util::formatDate($i['mtime'] );
-	if($i['type']=='file'){
+	if($i['type']=='file') {
 		$fileinfo=pathinfo($i['name']);
 		$i['basename']=$fileinfo['filename'];
 		if (!empty($fileinfo['extension'])) {
@@ -55,7 +56,7 @@ foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
 			$i['extension']='';
 		}
 	}
-	if($i['directory']=='/'){
+	if($i['directory']=='/') {
 		$i['directory']='';
 	}
 	$files[] = $i;
@@ -64,8 +65,8 @@ foreach( OC_Files::getdirectorycontent( $dir ) as $i ){
 // Make breadcrumb
 $breadcrumb = array();
 $pathtohere = '';
-foreach( explode( '/', $dir ) as $i ){
-	if( $i != '' ){
+foreach( explode( '/', $dir ) as $i ) {
+	if( $i != '' ) {
 		$pathtohere .= '/'.str_replace('+','%20', urlencode($i));
 		$breadcrumb[] = array( 'dir' => $pathtohere, 'name' => $i );
 	}
@@ -88,11 +89,23 @@ $freeSpace=OC_Filesystem::free_space('/');
 $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 
+$permissions = OCP\Share::PERMISSION_READ;
+if (OC_Filesystem::isUpdatable($dir.'/')) {
+	$permissions |= OCP\Share::PERMISSION_UPDATE;
+}
+if (OC_Filesystem::isDeletable($dir.'/')) {
+	$permissions |= OCP\Share::PERMISSION_DELETE;
+}
+if (OC_Filesystem::isSharable($dir.'/')) {
+	$permissions |= OCP\Share::PERMISSION_SHARE;
+}
+
 $tmpl = new OCP\Template( 'files', 'index', 'user' );
 $tmpl->assign( 'fileList', $list->fetchPage(), false );
 $tmpl->assign( 'breadcrumb', $breadcrumbNav->fetchPage(), false );
-$tmpl->assign( 'dir', $dir);
-$tmpl->assign( 'readonly', !OC_Filesystem::is_writable($dir.'/'));
+$tmpl->assign( 'dir', OC_Filesystem::normalizePath($dir));
+$tmpl->assign( 'isCreatable', OC_Filesystem::isCreatable($dir.'/'));
+$tmpl->assign('permissions', $permissions);
 $tmpl->assign( 'files', $files );
 $tmpl->assign( 'uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign( 'uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));

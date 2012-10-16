@@ -3,117 +3,235 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <appweb.cn@gmail.com>, 2012.
+# Phoenix Nemo <>, 2012.
 #   <rainofchaos@gmail.com>, 2012.
+#   <suiy02@gmail.com>, 2012.
 #   <wengxt@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.net/projects/p/owncloud/language/zh_CN/)\n"
+"POT-Creation-Date: 2012-10-09 02:03+0200\n"
+"PO-Revision-Date: 2012-10-09 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr "无法从应用商店载入列表"
+
+#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "认证错误"
+
+#: ajax/creategroup.php:19
+msgid "Group already exists"
+msgstr "已存在该组"
+
+#: ajax/creategroup.php:28
+msgid "Unable to add group"
+msgstr "无法添加组"
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
+msgstr "无法开启App"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "电子邮件已保存"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "无效的电子邮件"
 
-#: ajax/openid.php:15
+#: ajax/openid.php:16
 msgid "OpenID Changed"
 msgstr "OpenID 已修改"
 
-#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
 msgstr "非法请求"
 
-#: ajax/setlanguage.php:17
+#: ajax/removegroup.php:16
+msgid "Unable to delete group"
+msgstr "无法删除组"
+
+#: ajax/removeuser.php:22
+msgid "Unable to delete user"
+msgstr "无法删除用户"
+
+#: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "语言已修改"
 
-#: js/apps.js:31 js/apps.js:67
-msgid "Disable"
-msgstr ""
+#: ajax/togglegroups.php:25
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr "无法把用户添加到组 %s"
 
-#: js/apps.js:31 js/apps.js:54
+#: ajax/togglegroups.php:31
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr "无法从组%s中移除用户"
+
+#: js/apps.js:28 js/apps.js:65
+msgid "Disable"
+msgstr "禁用"
+
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
-msgstr ""
+msgstr "启用"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "正在保存"
 
-#: personal.php:40 personal.php:41
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "简体中文"
 
-#: templates/admin.php:13
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr "安全警告"
+
+#: templates/admin.php:17
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "您的数据文件夹和文件可由互联网访问。OwnCloud提供的.htaccess文件未生效。我们强烈建议您配置服务器，以使数据文件夹不可被访问，或者将数据文件夹移到web服务器根目录以外。"
+
+#: templates/admin.php:31
+msgid "Cron"
+msgstr "计划任务"
+
+#: templates/admin.php:37
+msgid "Execute one task with each page loaded"
+msgstr "每次页面加载完成后执行任务"
+
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr "cron.php已被注册到网络定时任务服务。通过http每分钟调用owncloud根目录的cron.php网页。"
+
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr "使用系统定时任务服务。每分钟通过系统定时任务调用owncloud文件夹中的cron.php文件"
+
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr "分享"
+
+#: templates/admin.php:61
+msgid "Enable Share API"
+msgstr "开启共享API"
+
+#: templates/admin.php:62
+msgid "Allow apps to use the Share API"
+msgstr "允许 应用 使用共享API"
+
+#: templates/admin.php:67
+msgid "Allow links"
+msgstr "允许连接"
+
+#: templates/admin.php:68
+msgid "Allow users to share items to the public with links"
+msgstr "允许用户使用连接向公众共享"
+
+#: templates/admin.php:73
+msgid "Allow resharing"
+msgstr "允许再次共享"
+
+#: templates/admin.php:74
+msgid "Allow users to share items shared with them again"
+msgstr "允许用户将共享给他们的项目再次共享"
+
+#: templates/admin.php:79
+msgid "Allow users to share with anyone"
+msgstr "允许用户向任何人共享"
+
+#: templates/admin.php:81
+msgid "Allow users to only share with users in their groups"
+msgstr "允许用户只向同组用户共享"
+
+#: templates/admin.php:88
 msgid "Log"
 msgstr "日志"
 
-#: templates/admin.php:40
+#: templates/admin.php:116
 msgid "More"
 msgstr "更多"
 
-#: templates/apps.php:8
+#: templates/admin.php:124
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud社区</a>开发，  <a href=\"https://github.com/owncloud\" target=\"_blank\">源代码</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>许可证下发布。"
+
+#: templates/apps.php:10
 msgid "Add your App"
 msgstr "添加应用"
 
-#: templates/apps.php:22
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr ""
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "选择一个应用"
 
-#: templates/apps.php:25
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "查看在 app.owncloud.com 的应用程序页面"
 
-#: templates/apps.php:26
-msgid "-licensed"
-msgstr "-许可证"
+#: templates/apps.php:32
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span>-核准： <span class=\"author\"></span>"
 
-#: templates/apps.php:26
-msgid "by"
-msgstr "由"
-
-#: templates/help.php:8
+#: templates/help.php:9
 msgid "Documentation"
 msgstr "文档"
 
-#: templates/help.php:9
+#: templates/help.php:10
 msgid "Managing Big Files"
 msgstr "管理大文件"
 
-#: templates/help.php:10
+#: templates/help.php:11
 msgid "Ask a question"
 msgstr "提问"
 
-#: templates/help.php:22
+#: templates/help.php:23
 msgid "Problems connecting to help database."
 msgstr "连接帮助数据库错误 "
 
-#: templates/help.php:23
+#: templates/help.php:24
 msgid "Go there manually."
 msgstr "手动访问"
 
-#: templates/help.php:31
+#: templates/help.php:32
 msgid "Answer"
 msgstr "回答"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "您使用了"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "的空间，总容量为"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "您已使用空间: <strong>%s</strong>，总空间: <strong>%s</strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -124,7 +242,7 @@ msgid "Download"
 msgstr "下载"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
+msgid "Your password was changed"
 msgstr "密码已修改"
 
 #: templates/personal.php:20
@@ -169,36 +287,40 @@ msgstr "帮助翻译"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "在文件管理器中使用这个地址来连接到您的 ownCloud"
+msgstr "您可在文件管理器中使用该地址连接到ownCloud"
 
-#: templates/users.php:15 templates/users.php:44
+#: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "名称"
 
-#: templates/users.php:16 templates/users.php:45
+#: templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "密码"
 
-#: templates/users.php:17 templates/users.php:46 templates/users.php:60
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
 msgstr "组"
 
-#: templates/users.php:22
+#: templates/users.php:32
 msgid "Create"
 msgstr "创建"
 
-#: templates/users.php:25
+#: templates/users.php:35
 msgid "Default Quota"
 msgstr "默认配额"
 
-#: templates/users.php:35 templates/users.php:74
+#: templates/users.php:55 templates/users.php:138
 msgid "Other"
 msgstr "其它"
 
-#: templates/users.php:47
+#: templates/users.php:80 templates/users.php:112
+msgid "Group Admin"
+msgstr "组管理"
+
+#: templates/users.php:82
 msgid "Quota"
 msgstr "配额"
 
-#: templates/users.php:80
+#: templates/users.php:146
 msgid "Delete"
 msgstr "删除"

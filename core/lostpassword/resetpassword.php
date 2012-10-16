@@ -7,10 +7,10 @@
 */
 
 $RUNTIME_NOAPPS = TRUE; //no apps
-require_once('../../lib/base.php');
+require_once '../../lib/base.php';
 
 // Someone wants to reset their password:
-if(isset($_GET['token']) && isset($_GET['user']) && OC_Preferences::getValue($_GET['user'], 'owncloud', 'lostpassword') === $_GET['token']) {
+if(isset($_GET['token']) && isset($_GET['user']) && OC_Preferences::getValue($_GET['user'], 'owncloud', 'lostpassword') === hash("sha256", $_GET['token'])) {
 	if (isset($_POST['password'])) {
 		if (OC_User::setPassword($_GET['user'], $_POST['password'])) {
 			OC_Preferences::deleteKey($_GET['user'], 'owncloud', 'lostpassword');

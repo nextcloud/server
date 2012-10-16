@@ -21,11 +21,11 @@
 */
 
 class Test_Group extends UnitTestCase {
-	function setUp(){
+	function setUp() {
 		OC_Group::clearBackends();
 	}
 
-	function testSingleBackend(){
+	function testSingleBackend() {
 		OC_Group::useBackend(new OC_Group_Dummy());
 		
 		$group1=uniqid();
@@ -62,7 +62,7 @@ class Test_Group extends UnitTestCase {
 		$this->assertFalse(OC_Group::inGroup($user1,$group1));
 	}
 
-	function testMultiBackend(){
+	function testMultiBackend() {
 		$backend1=new OC_Group_Dummy();
 		$backend2=new OC_Group_Dummy();
 		OC_Group::useBackend($backend1);

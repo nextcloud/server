@@ -1,0 +1,300 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <d.chateau@laposte.net>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-28 23:34+0200\n"
+"PO-Revision-Date: 2012-09-28 11:55+0000\n"
+"Last-Translator: tartafione <d.chateau@laposte.net>\n"
+"Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: oc\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ajax/upload.php:20
+msgid "There is no error, the file uploaded with success"
+msgstr "Amontcargament capitat, pas d'errors"
+
+#: ajax/upload.php:21
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
+msgstr "Lo fichièr amontcargat es tròp bèl per la directiva «upload_max_filesize » del php.ini"
+
+#: ajax/upload.php:22
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr "Lo fichièr amontcargat es mai gròs que la directiva «MAX_FILE_SIZE» especifiada dins lo formulari HTML"
+
+#: ajax/upload.php:23
+msgid "The uploaded file was only partially uploaded"
+msgstr "Lo fichièr foguèt pas completament amontcargat"
+
+#: ajax/upload.php:24
+msgid "No file was uploaded"
+msgstr "Cap de fichièrs son estats amontcargats"
+
+#: ajax/upload.php:25
+msgid "Missing a temporary folder"
+msgstr "Un dorsièr temporari manca"
+
+#: ajax/upload.php:26
+msgid "Failed to write to disk"
+msgstr "L'escriptura sul disc a fracassat"
+
+#: appinfo/app.php:6
+msgid "Files"
+msgstr "Fichièrs"
+
+#: js/fileactions.js:108 templates/index.php:62
+msgid "Unshare"
+msgstr "Non parteja"
+
+#: js/fileactions.js:110 templates/index.php:64
+msgid "Delete"
+msgstr "Escafa"
+
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr "Torna nomenar"
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "already exists"
+msgstr "existís jà"
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "replace"
+msgstr "remplaça"
+
+#: js/filelist.js:190
+msgid "suggest name"
+msgstr "nom prepausat"
+
+#: js/filelist.js:190 js/filelist.js:192
+msgid "cancel"
+msgstr "anulla"
+
+#: js/filelist.js:239 js/filelist.js:241
+msgid "replaced"
+msgstr "remplaçat"
+
+#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
+msgid "undo"
+msgstr "defar"
+
+#: js/filelist.js:241
+msgid "with"
+msgstr "amb"
+
+#: js/filelist.js:273
+msgid "unshared"
+msgstr "Non partejat"
+
+#: js/filelist.js:275
+msgid "deleted"
+msgstr "escafat"
+
+#: js/files.js:179
+msgid "generating ZIP-file, it may take some time."
+msgstr "Fichièr ZIP a se far, aquò pòt trigar un briu."
+
+#: js/files.js:208
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "Impossible d'amontcargar lo teu fichièr qu'es un repertòri o que ten pas que 0 octet."
+
+#: js/files.js:208
+msgid "Upload Error"
+msgstr "Error d'amontcargar"
+
+#: js/files.js:236 js/files.js:341 js/files.js:371
+msgid "Pending"
+msgstr "Al esperar"
+
+#: js/files.js:256
+msgid "1 file uploading"
+msgstr "1 fichièr al amontcargar"
+
+#: js/files.js:259 js/files.js:304 js/files.js:319
+msgid "files uploading"
+msgstr "fichièrs al amontcargar"
+
+#: js/files.js:322 js/files.js:355
+msgid "Upload cancelled."
+msgstr "Amontcargar anullat."
+
+#: js/files.js:424
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "Un amontcargar es a se far. Daissar aquesta pagina ara tamparà lo cargament. "
+
+#: js/files.js:494
+msgid "Invalid name, '/' is not allowed."
+msgstr "Nom invalid, '/' es pas permis."
+
+#: js/files.js:668
+msgid "files scanned"
+msgstr "Fichièr explorat"
+
+#: js/files.js:676
+msgid "error while scanning"
+msgstr "error pendant l'exploracion"
+
+#: js/files.js:749 templates/index.php:48
+msgid "Name"
+msgstr "Nom"
+
+#: js/files.js:750 templates/index.php:56
+msgid "Size"
+msgstr "Talha"
+
+#: js/files.js:751 templates/index.php:58
+msgid "Modified"
+msgstr "Modificat"
+
+#: js/files.js:778
+msgid "folder"
+msgstr "Dorsièr"
+
+#: js/files.js:780
+msgid "folders"
+msgstr "Dorsièrs"
+
+#: js/files.js:788
+msgid "file"
+msgstr "fichièr"
+
+#: js/files.js:790
+msgid "files"
+msgstr "fichièrs"
+
+#: js/files.js:834
+msgid "seconds ago"
+msgstr "secondas"
+
+#: js/files.js:835
+msgid "minute ago"
+msgstr "minuta"
+
+#: js/files.js:836
+msgid "minutes ago"
+msgstr "minutas"
+
+#: js/files.js:839
+msgid "today"
+msgstr "uèi"
+
+#: js/files.js:840
+msgid "yesterday"
+msgstr "ièr"
+
+#: js/files.js:841
+msgid "days ago"
+msgstr "jorns"
+
+#: js/files.js:842
+msgid "last month"
+msgstr "mes passat"
+
+#: js/files.js:844
+msgid "months ago"
+msgstr "meses"
+
+#: js/files.js:845
+msgid "last year"
+msgstr "an passat"
+
+#: js/files.js:846
+msgid "years ago"
+msgstr "ans"
+
+#: templates/admin.php:5
+msgid "File handling"
+msgstr "Manejament de fichièr"
+
+#: templates/admin.php:7
+msgid "Maximum upload size"
+msgstr "Talha maximum d'amontcargament"
+
+#: templates/admin.php:7
+msgid "max. possible: "
+msgstr "max. possible: "
+
+#: templates/admin.php:9
+msgid "Needed for multi-file and folder downloads."
+msgstr "Requesit per avalcargar gropat de fichièrs e dorsièr"
+
+#: templates/admin.php:9
+msgid "Enable ZIP-download"
+msgstr "Activa l'avalcargament de ZIP"
+
+#: templates/admin.php:11
+msgid "0 is unlimited"
+msgstr "0 es pas limitat"
+
+#: templates/admin.php:12
+msgid "Maximum input size for ZIP files"
+msgstr "Talha maximum de dintrada per fichièrs ZIP"
+
+#: templates/admin.php:14
+msgid "Save"
+msgstr "Enregistra"
+
+#: templates/index.php:7
+msgid "New"
+msgstr "Nòu"
+
+#: templates/index.php:9
+msgid "Text file"
+msgstr "Fichièr de tèxte"
+
+#: templates/index.php:10
+msgid "Folder"
+msgstr "Dorsièr"
+
+#: templates/index.php:11
+msgid "From url"
+msgstr "Dempuèi l'URL"
+
+#: templates/index.php:20
+msgid "Upload"
+msgstr "Amontcarga"
+
+#: templates/index.php:27
+msgid "Cancel upload"
+msgstr " Anulla l'amontcargar"
+
+#: templates/index.php:40
+msgid "Nothing in here. Upload something!"
+msgstr "Pas res dedins. Amontcarga qualquaren"
+
+#: templates/index.php:50
+msgid "Share"
+msgstr "Parteja"
+
+#: templates/index.php:52
+msgid "Download"
+msgstr "Avalcarga"
+
+#: templates/index.php:75
+msgid "Upload too large"
+msgstr "Amontcargament tròp gròs"
+
+#: templates/index.php:77
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr "Los fichièrs que sias a amontcargar son tròp pesucs per la talha maxi pel servidor."
+
+#: templates/index.php:82
+msgid "Files are being scanned, please wait."
+msgstr "Los fiichièrs son a èsser explorats, "
+
+#: templates/index.php:85
+msgid "Current scanning"
+msgstr "Exploracion en cors"

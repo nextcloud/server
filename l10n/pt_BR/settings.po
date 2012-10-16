@@ -5,117 +5,235 @@
 # Translators:
 #   <duda.nogueira@metasys.com.br>, 2011.
 # Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
+#   <philippi.sedir@gmail.com>, 2012.
+# Sandro Venezuela <sandrovenezuela@gmail.com>, 2012.
+#   <targinosilveira@gmail.com>, 2012.
 # Thiago Vicente <thiagovice@gmail.com>, 2012.
 # Van Der Fran <transifex@vanderland.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.net/projects/p/owncloud/language/pt_BR/)\n"
+"POT-Creation-Date: 2012-10-11 02:04+0200\n"
+"PO-Revision-Date: 2012-10-10 03:46+0000\n"
+"Last-Translator: sedir <philippi.sedir@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr "Não foi possivel carregar lista da App Store"
+
+#: ajax/creategroup.php:9 ajax/removeuser.php:18 ajax/setquota.php:18
+#: ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "erro de autenticação"
+
+#: ajax/creategroup.php:19
+msgid "Group already exists"
+msgstr "Grupo já existe"
+
+#: ajax/creategroup.php:28
+msgid "Unable to add group"
+msgstr "Não foi possivel adicionar grupo"
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
+msgstr "Não pôde habilitar aplicação"
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "Email gravado"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "Email inválido"
 
-#: ajax/openid.php:15
+#: ajax/openid.php:16
 msgid "OpenID Changed"
 msgstr "Mudou OpenID"
 
-#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
 msgstr "Pedido inválido"
 
-#: ajax/setlanguage.php:17
+#: ajax/removegroup.php:16
+msgid "Unable to delete group"
+msgstr "Não foi possivel remover grupo"
+
+#: ajax/removeuser.php:27
+msgid "Unable to delete user"
+msgstr "Não foi possivel remover usuário"
+
+#: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Mudou Idioma"
 
-#: js/apps.js:31 js/apps.js:67
-msgid "Disable"
-msgstr ""
+#: ajax/togglegroups.php:25
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr "Não foi possivel adicionar usuário ao grupo %s"
 
-#: js/apps.js:31 js/apps.js:54
+#: ajax/togglegroups.php:31
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr "Não foi possivel remover usuário ao grupo %s"
+
+#: js/apps.js:28 js/apps.js:65
+msgid "Disable"
+msgstr "Desabilitado"
+
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
-msgstr ""
+msgstr "Habilitado"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Gravando..."
 
-#: personal.php:40 personal.php:41
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "Português"
 
-#: templates/admin.php:13
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr "Aviso de Segurança"
+
+#: templates/admin.php:17
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "Seu diretório de dados e seus arquivos estão, provavelmente, acessíveis a partir da internet. O .htaccess que o ownCloud fornece não está funcionando. Nós sugerimos que você configure o seu servidor web de uma forma que o diretório de dados esteja mais acessível ou que você mova o diretório de dados para fora da raiz do servidor web."
+
+#: templates/admin.php:31
+msgid "Cron"
+msgstr "Cron"
+
+#: templates/admin.php:37
+msgid "Execute one task with each page loaded"
+msgstr "Executa uma tarefa com cada página carregada"
+
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr "cron.php está registrado no serviço webcron. Chama a página cron.php na raíz do owncloud uma vez por minuto via http."
+
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr "Usa o serviço cron do sistema. Chama o arquivo cron.php na pasta do owncloud através do cronjob do sistema uma vez a cada minuto."
+
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr "Compartilhamento"
+
+#: templates/admin.php:61
+msgid "Enable Share API"
+msgstr "Habilitar API de Compartilhamento"
+
+#: templates/admin.php:62
+msgid "Allow apps to use the Share API"
+msgstr "Permitir aplicações a usar a API de Compartilhamento"
+
+#: templates/admin.php:67
+msgid "Allow links"
+msgstr "Permitir links"
+
+#: templates/admin.php:68
+msgid "Allow users to share items to the public with links"
+msgstr "Permitir usuários a compartilhar itens para o público com links"
+
+#: templates/admin.php:73
+msgid "Allow resharing"
+msgstr "Permitir re-compartilhamento"
+
+#: templates/admin.php:74
+msgid "Allow users to share items shared with them again"
+msgstr "Permitir usuário a compartilhar itens compartilhados com eles novamente"
+
+#: templates/admin.php:79
+msgid "Allow users to share with anyone"
+msgstr "Permitir usuários a compartilhar com qualquer um"
+
+#: templates/admin.php:81
+msgid "Allow users to only share with users in their groups"
+msgstr "Permitir usuários a somente compartilhar com usuários em seus respectivos grupos"
+
+#: templates/admin.php:88
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:40
+#: templates/admin.php:116
 msgid "More"
 msgstr "Mais"
 
-#: templates/apps.php:8
+#: templates/admin.php:124
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Desenvolvido pela <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunidade ownCloud</a>, o <a href=\"https://github.com/owncloud\" target=\"_blank\">código fonte</a> está licenciado sob <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+
+#: templates/apps.php:10
 msgid "Add your App"
 msgstr "Adicione seu Aplicativo"
 
-#: templates/apps.php:22
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Mais Apps"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Selecione uma Aplicação"
 
-#: templates/apps.php:25
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Ver página do aplicativo em apps.owncloud.com"
 
-#: templates/apps.php:26
-msgid "-licensed"
-msgstr "-licenciados"
+#: templates/apps.php:32
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></span>"
 
-#: templates/apps.php:26
-msgid "by"
-msgstr "por"
-
-#: templates/help.php:8
+#: templates/help.php:9
 msgid "Documentation"
 msgstr "Documentação"
 
-#: templates/help.php:9
+#: templates/help.php:10
 msgid "Managing Big Files"
 msgstr "Gerênciando Arquivos Grandes"
 
-#: templates/help.php:10
+#: templates/help.php:11
 msgid "Ask a question"
 msgstr "Faça uma pergunta"
 
-#: templates/help.php:22
+#: templates/help.php:23
 msgid "Problems connecting to help database."
 msgstr "Problemas ao conectar na base de dados."
 
-#: templates/help.php:23
+#: templates/help.php:24
 msgid "Go there manually."
 msgstr "Ir manualmente."
 
-#: templates/help.php:31
+#: templates/help.php:32
 msgid "Answer"
 msgstr "Resposta"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Você usa"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "do disponível"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "Você usou <strong>%s</strong> do espaço disponível de <strong>%s</strong> "
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -126,8 +244,8 @@ msgid "Download"
 msgstr "Download"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "Sua senha foi modificada"
+msgid "Your password was changed"
+msgstr "Sua senha foi alterada"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
@@ -173,34 +291,38 @@ msgstr "Ajude a traduzir"
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "use este endereço para se conectar ao seu ownCloud no seu gerenciador de arquvos"
 
-#: templates/users.php:15 templates/users.php:44
+#: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "Nome"
 
-#: templates/users.php:16 templates/users.php:45
+#: templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Senha"
 
-#: templates/users.php:17 templates/users.php:46 templates/users.php:60
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
 msgstr "Grupos"
 
-#: templates/users.php:22
+#: templates/users.php:32
 msgid "Create"
 msgstr "Criar"
 
-#: templates/users.php:25
+#: templates/users.php:35
 msgid "Default Quota"
 msgstr "Quota Padrão"
 
-#: templates/users.php:35 templates/users.php:74
+#: templates/users.php:55 templates/users.php:138
 msgid "Other"
 msgstr "Outro"
 
-#: templates/users.php:47
+#: templates/users.php:80 templates/users.php:112
+msgid "Group Admin"
+msgstr "Grupo Administrativo"
+
+#: templates/users.php:82
 msgid "Quota"
 msgstr "Cota"
 
-#: templates/users.php:80
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Apagar"

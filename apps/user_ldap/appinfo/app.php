@@ -21,15 +21,17 @@
 *
 */
 
-require_once('apps/user_ldap/lib_ldap.php');
-require_once('apps/user_ldap/user_ldap.php');
-require_once('apps/user_ldap/group_ldap.php');
+OCP\App::registerAdmin('user_ldap', 'settings');
 
-OCP\App::registerAdmin('user_ldap','settings');
+$connector = new OCA\user_ldap\lib\Connection('user_ldap');
+$userBackend  = new OCA\user_ldap\USER_LDAP();
+$userBackend->setConnector($connector);
+$groupBackend = new OCA\user_ldap\GROUP_LDAP();
+$groupBackend->setConnector($connector);
 
 // register user backend
-OC_User::useBackend( 'LDAP' );
-OC_Group::useBackend( new OC_GROUP_LDAP() );
+OC_User::useBackend($userBackend);
+OC_Group::useBackend($groupBackend);
 
 // add settings page to navigation
 $entry = array(
@@ -38,3 +40,5 @@ $entry = array(
 	'href' => OCP\Util::linkTo( 'user_ldap', 'settings.php' ),
 	'name' => 'LDAP'
 );
+
+OCP\Backgroundjob::addRegularTask('OCA\user_ldap\lib\Jobs', 'updateGroups');

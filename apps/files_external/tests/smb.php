@@ -6,24 +6,21 @@
  * See the COPYING-README file.
  */
 
-$config=include('apps/files_external/tests/config.php');
+class Test_Filestorage_SMB extends Test_FileStorage {
+	private $config;
 
-if(!is_array($config) or !isset($config['smb']) or !$config['smb']['run']){
-	abstract class Test_Filestorage_SMB extends Test_FileStorage{}
-	return;
-}else{
-	class Test_Filestorage_SMB extends Test_FileStorage {
-		private $config;
-		private $id;
-
-		public function setUp(){
-			$id=uniqid();
-			$this->config=include('apps/files_external/tests/config.php');
-			$this->config['smb']['root'].=$id;//make sure we have an new empty folder to work in
-			$this->instance=new OC_Filestorage_SMB($this->config['smb']);
+	public function setUp() {
+		$id = uniqid();
+		$this->config = include('files_external/tests/config.php');
+		if (!is_array($this->config) or !isset($this->config['smb']) or !$this->config['smb']['run']) {
+			$this->markTestSkipped('Samba backend not configured');
 		}
+		$this->config['smb']['root'] .= $id; //make sure we have an new empty folder to work in
+		$this->instance = new OC_Filestorage_SMB($this->config['smb']);
+	}
 
-		public function tearDown(){
+	public function tearDown() {
+		if ($this->instance) {
 			OCP\Files::rmdirr($this->instance->constructUrl(''));
 		}
 	}

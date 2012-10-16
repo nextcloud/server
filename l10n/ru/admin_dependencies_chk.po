@@ -1,0 +1,74 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Denis  <reg.transifex.net@demitel.ru>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-25 02:04+0200\n"
+"PO-Revision-Date: 2012-08-24 09:02+0000\n"
+"Last-Translator: Denis <reg.transifex.net@demitel.ru>\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: settings.php:33
+msgid ""
+"The php-json module is needed by the many applications for inter "
+"communications"
+msgstr "Модуль php-json необходим многим приложениям для внутренних связей"
+
+#: settings.php:39
+msgid ""
+"The php-curl modude is needed to fetch the page title when adding a "
+"bookmarks"
+msgstr "Модуль php-curl необходим для получения заголовка страницы при добавлении закладок"
+
+#: settings.php:45
+msgid "The php-gd module is needed to create thumbnails of your images"
+msgstr "Модуль php-gd необходим для создания уменьшенной копии для предпросмотра ваших картинок."
+
+#: settings.php:51
+msgid "The php-ldap module is needed connect to your ldap server"
+msgstr "Модуль php-ldap необходим для соединения с вашим ldap сервером"
+
+#: settings.php:57
+msgid "The php-zip module is needed download multiple files at once"
+msgstr "Модуль php-zip необходим для загрузки нескольких файлов за раз"
+
+#: settings.php:63
+msgid ""
+"The php-mb_multibyte module is needed to manage correctly the encoding."
+msgstr "Модуль php-mb_multibyte необходим для корректного управления кодировками."
+
+#: settings.php:69
+msgid "The php-ctype module is needed validate data."
+msgstr "Модуль php-ctype необходим для проверки данных."
+
+#: settings.php:75
+msgid "The php-xml module is needed to share files with webdav."
+msgstr "Модуль php-xml необходим для открытия файлов через webdav."
+
+#: settings.php:81
+msgid ""
+"The allow_url_fopen directive of your php.ini should be set to 1 to retrieve"
+" knowledge base from OCS servers"
+msgstr "Директива allow_url_fopen в файле php.ini должна быть установлена в 1 для получения базы знаний с серверов OCS"
+
+#: settings.php:87
+msgid "The php-pdo module is needed to store owncloud data into a database."
+msgstr "Модуль php-pdo необходим для хранения данных ownСloud в базе данных."
+
+#: templates/settings.php:2
+msgid "Dependencies status"
+msgstr "Статус зависимостей"
+
+#: templates/settings.php:7
+msgid "Used by :"
+msgstr "Используется:"

@@ -29,20 +29,104 @@ class OC_Files {
 	static $tmpFiles=array();
 
 	/**
+	 * get the filesystem info
+	 * @param string path
+	 * @return array
+	 *
+	 * returns an associative array with the following keys:
+	 * - size
+	 * - mtime
+	 * - ctime
+	 * - mimetype
+	 * - encrypted
+	 * - versioned
+	 */
+	public static function getFileInfo($path) {
+		if (($path == '/Shared' || substr($path, 0, 8) == '/Shared/') && OC_App::isEnabled('files_sharing')) {
+			if ($path == '/Shared') {
+				list($info) = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
+			}else{
+				$info['size'] = OC_Filesystem::filesize($path);
+				$info['mtime'] = OC_Filesystem::filemtime($path);
+				$info['ctime'] = OC_Filesystem::filectime($path);
+				$info['mimetype'] = OC_Filesystem::getMimeType($path);
+				$info['encrypted'] = false;
+				$info['versioned'] = false;
+			}
+		} else {
+			$info = OC_FileCache::get($path);
+		}
+		return $info;
+	}
+
+	/**
 	* get the content of a directory
 	* @param dir $directory path under datadirectory
 	*/
-	public static function getDirectoryContent($directory, $mimetype_filter = ''){
-		$files=OC_FileCache::getFolderContent($directory, false, $mimetype_filter);
-		foreach($files as &$file){
-			$file['directory']=$directory;
-			$file['type']=($file['mimetype']=='httpd/unix-directory')?'dir':'file';
+	public static function getDirectoryContent($directory, $mimetype_filter = '') {
+		$directory=OC_Filesystem::normalizePath($directory);
+		if($directory=='/') {
+			$directory='';
+		}
+		$files = array();
+		if (($directory == '/Shared' || substr($directory, 0, 8) == '/Shared/') && OC_App::isEnabled('files_sharing')) {
+			if ($directory == '/Shared') {
+				$files = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP, array('folder' => $directory, 'mimetype_filter' => $mimetype_filter));
+			} else {
+				$pos = strpos($directory, '/', 8);
+				// Get shared folder name
+				if ($pos !== false) {
+					$itemTarget = substr($directory, 7, $pos - 7);
+				} else {
+					$itemTarget = substr($directory, 7);
+				}
+				$files = OCP\Share::getItemSharedWith('folder', $itemTarget, OC_Share_Backend_File::FORMAT_FILE_APP, array('folder' => $directory, 'mimetype_filter' => $mimetype_filter));
+			}
+		} else {
+			$files = OC_FileCache::getFolderContent($directory, false, $mimetype_filter);
+			foreach ($files as &$file) {
+				$file['directory'] = $directory;
+				$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
+				$permissions = OCP\Share::PERMISSION_READ;
+				// NOTE: Remove check when new encryption is merged
+				if (!$file['encrypted']) {
+					$permissions |= OCP\Share::PERMISSION_SHARE;
+				}
+				if ($file['type'] == 'dir' && $file['writable']) {
+					$permissions |= OCP\Share::PERMISSION_CREATE;
+				}
+				if ($file['writable']) {
+					$permissions |= OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_DELETE;
+				}
+				$file['permissions'] = $permissions;
+			}
+			if ($directory == '' && OC_App::isEnabled('files_sharing')) {
+				// Add 'Shared' folder
+				$files = array_merge($files, OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT));
+			}
 		}
 		usort($files, "fileCmp");//TODO: remove this once ajax is merged
 		return $files;
 	}
 
-
+	public static function searchByMime($mimetype_filter) {
+		$files = array();
+		$dirs_to_check = array('');
+		while (!empty($dirs_to_check)) {
+			// get next subdir to check
+			$dir = array_pop($dirs_to_check);
+			$dir_content = self::getDirectoryContent($dir, $mimetype_filter);
+			foreach($dir_content as $file) {
+				if ($file['type'] == 'file') {
+					$files[] = $dir.'/'.$file['name'];
+				}
+				else {
+					$dirs_to_check[] = $dir.'/'.$file['name'];
+				}
+			}
+		}
+		return $files;
+	}
 
 	/**
 	* return the content of a file or return a zip file containning multiply files
@@ -51,12 +135,12 @@ class OC_Files {
 	* @param file $file ; seperated list of files to download
 	* @param boolean $only_header ; boolean to only send header of the request
 	*/
-	public static function get($dir,$files, $only_header = false){
-		if(strpos($files,';')){
+	public static function get($dir,$files, $only_header = false) {
+		if(strpos($files,';')) {
 			$files=explode(';',$files);
 		}
 
-		if(is_array($files)){
+		if(is_array($files)) {
 			self::validateZipDownload($dir,$files);
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
@@ -65,19 +149,19 @@ class OC_Files {
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
 				exit("cannot open <$filename>\n");
 			}
-			foreach($files as $file){
+			foreach($files as $file) {
 				$file=$dir.'/'.$file;
-				if(OC_Filesystem::is_file($file)){
+				if(OC_Filesystem::is_file($file)) {
 					$tmpFile=OC_Filesystem::toTmpFile($file);
 					self::$tmpFiles[]=$tmpFile;
 					$zip->addFile($tmpFile,basename($file));
-				}elseif(OC_Filesystem::is_dir($file)){
+				}elseif(OC_Filesystem::is_dir($file)) {
 					self::zipAddDir($file,$zip);
 				}
 			}
 			$zip->close();
 			set_time_limit($executionTime);
-		}elseif(OC_Filesystem::is_dir($dir.'/'.$files)){
+		}elseif(OC_Filesystem::is_dir($dir.'/'.$files)) {
 			self::validateZipDownload($dir,$files);
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
@@ -95,19 +179,18 @@ class OC_Files {
 			$filename=$dir.'/'.$files;
 		}
 		@ob_end_clean();
-		if($zip or OC_Filesystem::is_readable($filename)){
+		if($zip or OC_Filesystem::is_readable($filename)) {
 			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 			header('Content-Transfer-Encoding: binary');
 			OC_Response::disableCaching();
-			if($zip){
+			if($zip) {
 				ini_set('zlib.output_compression', 'off');
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
 			}else{
-				$fileData=OC_FileCache::get($filename);
-				header('Content-Type: ' . $fileData['mimetype']);
+				header('Content-Type: '.OC_Filesystem::getMimeType($filename));
 			}
-		}elseif($zip or !OC_Filesystem::file_exists($filename)){
+		}elseif($zip or !OC_Filesystem::file_exists($filename)) {
 			header("HTTP/1.0 404 Not Found");
 			$tmpl = new OC_Template( '', '404', 'guest' );
 			$tmpl->assign('file',$filename);
@@ -116,12 +199,12 @@ class OC_Files {
 			header("HTTP/1.0 403 Forbidden");
 			die('403 Forbidden');
 		}
-		if($only_header){
+		if($only_header) {
 			if(!$zip)
 				header("Content-Length: ".OC_Filesystem::filesize($filename));
 			return ;
 		}
-		if($zip){
+		if($zip) {
 			$handle=fopen($filename,'r');
 			if ($handle) {
 				$chunkSize = 8*1024;// 1 MB chunks
@@ -134,26 +217,26 @@ class OC_Files {
 		}else{
 			OC_Filesystem::readfile($filename);
 		}
-		foreach(self::$tmpFiles as $tmpFile){
-			if(file_exists($tmpFile) and is_file($tmpFile)){
+		foreach(self::$tmpFiles as $tmpFile) {
+			if(file_exists($tmpFile) and is_file($tmpFile)) {
 				unlink($tmpFile);
 			}
 		}
 	}
 
-	public static function zipAddDir($dir,$zip,$internalDir=''){
+	public static function zipAddDir($dir,$zip,$internalDir='') {
 		$dirname=basename($dir);
 		$zip->addEmptyDir($internalDir.$dirname);
 		$internalDir.=$dirname.='/';
 		$files=OC_Files::getdirectorycontent($dir);
-		foreach($files as $file){
+		foreach($files as $file) {
 			$filename=$file['name'];
 			$file=$dir.'/'.$filename;
-			if(OC_Filesystem::is_file($file)){
+			if(OC_Filesystem::is_file($file)) {
 				$tmpFile=OC_Filesystem::toTmpFile($file);
 				OC_Files::$tmpFiles[]=$tmpFile;
 				$zip->addFile($tmpFile,$internalDir.$filename);
-			}elseif(OC_Filesystem::is_dir($file)){
+			}elseif(OC_Filesystem::is_dir($file)) {
 				self::zipAddDir($file,$zip,$internalDir);
 			}
 		}
@@ -166,8 +249,8 @@ class OC_Files {
 	* @param dir  $targetDir
 	* @param file $target
 	*/
-	public static function move($sourceDir,$source,$targetDir,$target){
-		if(OC_User::isLoggedIn() && ($sourceDir != '' || $source != 'Shared') && !OC_Filesystem::file_exists($targetDir.'/'.$target)){
+	public static function move($sourceDir,$source,$targetDir,$target) {
+		if(OC_User::isLoggedIn() && ($sourceDir != '' || $source != 'Shared')) {
 			$targetFile=self::normalizePath($targetDir.'/'.$target);
 			$sourceFile=self::normalizePath($sourceDir.'/'.$source);
 			return OC_Filesystem::rename($sourceFile,$targetFile);
@@ -184,8 +267,8 @@ class OC_Files {
 	* @param dir  $targetDir
 	* @param file $target
 	*/
-	public static function copy($sourceDir,$source,$targetDir,$target){
-		if(OC_User::isLoggedIn()){
+	public static function copy($sourceDir,$source,$targetDir,$target) {
+		if(OC_User::isLoggedIn()) {
 			$targetFile=$targetDir.'/'.$target;
 			$sourceFile=$sourceDir.'/'.$source;
 			return OC_Filesystem::copy($sourceFile,$targetFile);
@@ -199,14 +282,14 @@ class OC_Files {
 	* @param file $name
 	* @param type $type
 	*/
-	public static function newFile($dir,$name,$type){
-		if(OC_User::isLoggedIn()){
+	public static function newFile($dir,$name,$type) {
+		if(OC_User::isLoggedIn()) {
 			$file=$dir.'/'.$name;
-			if($type=='dir'){
+			if($type=='dir') {
 				return OC_Filesystem::mkdir($file);
-			}elseif($type=='file'){
+			}elseif($type=='file') {
 				$fileHandle=OC_Filesystem::fopen($file, 'w');
-				if($fileHandle){
+				if($fileHandle) {
 					fclose($fileHandle);
 					return true;
 				}else{
@@ -222,7 +305,7 @@ class OC_Files {
 	* @param dir  $dir
 	* @param file $name
 	*/
-	public static function delete($dir,$file){
+	public static function delete($dir,$file) {
 		if(OC_User::isLoggedIn() && ($dir!= '' || $file != 'Shared')) {
 			$file=$dir.'/'.$file;
 			return OC_Filesystem::unlink($file);
@@ -237,7 +320,7 @@ class OC_Files {
 	*/
 	static function validateZipDownload($dir, $files) {
 		if(!OC_Config::getValue('allowZipDownload', true)) {
-			$l = OC_L10N::get('files');
+			$l = OC_L10N::get('lib');
 			header("HTTP/1.0 409 Conflict");
 			$tmpl = new OC_Template( '', 'error', 'user' );
 			$errors = array(
@@ -254,15 +337,15 @@ class OC_Files {
 		$zipLimit = OC_Config::getValue('maxZipInputSize', OC_Helper::computerFileSize('800 MB'));
 		if($zipLimit > 0) {
 			$totalsize = 0;
-			if(is_array($files)){
-				foreach($files as $file){
+			if(is_array($files)) {
+				foreach($files as $file) {
 					$totalsize += OC_Filesystem::filesize($dir.'/'.$file);
 				}
 			}else{
 				$totalsize += OC_Filesystem::filesize($dir.'/'.$files);
 			}
 			if($totalsize > $zipLimit) {
-				$l = OC_L10N::get('files');
+				$l = OC_L10N::get('lib');
 				header("HTTP/1.0 409 Conflict");
 				$tmpl = new OC_Template( '', 'error', 'user' );
 				$errors = array(
@@ -284,7 +367,7 @@ class OC_Files {
 	* @param  string  path
 	* @return string  guessed mime type
 	*/
-	static function getMimeType($path){
+	static function getMimeType($path) {
 		return OC_Filesystem::getMimeType($path);
 	}
 
@@ -294,7 +377,7 @@ class OC_Files {
 	* @param  string  path
 	* @return array
 	*/
-	static function getTree($path){
+	static function getTree($path) {
 		return OC_Filesystem::getTree($path);
 	}
 
@@ -306,7 +389,7 @@ class OC_Files {
 	* @param  string  file
 	* @return string  guessed mime type
 	*/
-	static function pull($source,$token,$dir,$file){
+	static function pull($source,$token,$dir,$file) {
 		$tmpfile=tempnam(get_temp_dir(),'remoteCloudFile');
 		$fp=fopen($tmpfile,'w+');
 		$url=$source.="/files/pull.php?token=$token";
@@ -318,7 +401,7 @@ class OC_Files {
 		$info=curl_getinfo($ch);
 		$httpCode=$info['http_code'];
 		curl_close($ch);
-		if($httpCode==200 or $httpCode==0){
+		if($httpCode==200 or $httpCode==0) {
 			OC_Filesystem::fromTmpFile($tmpfile,$dir.'/'.$file);
 			return true;
 		}else{
@@ -331,7 +414,7 @@ class OC_Files {
 	 * @param int size filesisze in bytes
 	 * @return false on failure, size on success
 	 */
-	static function setUploadLimit($size){
+	static function setUploadLimit($size) {
 		//don't allow user to break his config -- upper boundary
 		if($size > PHP_INT_MAX) {
 			//max size is always 1 byte lower than computerFileSize returns
@@ -375,9 +458,9 @@ class OC_Files {
 		//check for write permissions
 		if(is_writable(OC::$SERVERROOT.'/.htaccess')) {
 			file_put_contents(OC::$SERVERROOT.'/.htaccess', $htaccess);
-			return OC_Helper::computerFileSize($size);	
+			return OC_Helper::computerFileSize($size);
 		} else { OC_Log::write('files','Can\'t write upload limit to '.OC::$SERVERROOT.'/.htaccess. Please check the file permissions',OC_Log::WARN); }
-		
+
 		return false;
 	}
 
@@ -386,10 +469,10 @@ class OC_Files {
 	 * @param string $path
 	 * @return string
 	 */
-	static public function normalizePath($path){
+	static public function normalizePath($path) {
 		$path='/'.$path;
 		$old='';
-		while($old!=$path){//replace any multiplicity of slashes with a single one
+		while($old!=$path) {//replace any multiplicity of slashes with a single one
 			$old=$path;
 			$path=str_replace('//','/',$path);
 		}
@@ -397,10 +480,10 @@ class OC_Files {
 	}
 }
 
-function fileCmp($a,$b){
-	if($a['type']=='dir' and $b['type']!='dir'){
+function fileCmp($a,$b) {
+	if($a['type']=='dir' and $b['type']!='dir') {
 		return -1;
-	}elseif($a['type']!='dir' and $b['type']=='dir'){
+	}elseif($a['type']!='dir' and $b['type']=='dir') {
 		return 1;
 	}else{
 		return strnatcasecmp($a['name'],$b['name']);

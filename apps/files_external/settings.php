@@ -21,7 +21,9 @@
 */
 
 OCP\Util::addScript('files_external', 'settings');
+OCP\Util::addscript('3rdparty', 'chosen/chosen.jquery.min');
 OCP\Util::addStyle('files_external', 'settings');
+OCP\Util::addStyle('3rdparty', 'chosen/chosen');
 $tmpl = new OCP\Template('files_external', 'settings');
 $tmpl->assign('isAdminPage', true, false);
 $tmpl->assign('mounts', OC_Mount_Config::getSystemMountPoints());
@@ -30,5 +32,3 @@ $tmpl->assign('groups', OC_Group::getGroups());
 $tmpl->assign('users', OCP\User::getUsers());
 $tmpl->assign('allowUserMounting', OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes'));
 return $tmpl->fetchPage();
-
-?>

@@ -1,0 +1,107 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Mariano  <mstreet@kde.org.ar>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-10-14 02:05+0200\n"
+"PO-Revision-Date: 2012-10-13 05:00+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
+"Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: eo\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
+msgid "Access granted"
+msgstr "Alirpermeso donita"
+
+#: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
+msgid "Error configuring Dropbox storage"
+msgstr "Eraro dum agordado de la memorservo Dropbox"
+
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+msgid "Grant access"
+msgstr "Doni alirpermeson"
+
+#: js/dropbox.js:73 js/google.js:72
+msgid "Fill out all required fields"
+msgstr "Plenigu ĉiujn neprajn kampojn"
+
+#: js/dropbox.js:85
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr "Bonvolu provizi ŝlosilon de la aplikaĵo Dropbox validan kaj sekretan."
+
+#: js/google.js:26 js/google.js:73 js/google.js:78
+msgid "Error configuring Google Drive storage"
+msgstr "Eraro dum agordado de la memorservo Google Drive"
+
+#: templates/settings.php:3
+msgid "External Storage"
+msgstr "Malena memorilo"
+
+#: templates/settings.php:7 templates/settings.php:19
+msgid "Mount point"
+msgstr "Surmetingo"
+
+#: templates/settings.php:8
+msgid "Backend"
+msgstr "Motoro"
+
+#: templates/settings.php:9
+msgid "Configuration"
+msgstr "Agordo"
+
+#: templates/settings.php:10
+msgid "Options"
+msgstr "Malneproj"
+
+#: templates/settings.php:11
+msgid "Applicable"
+msgstr "Aplikebla"
+
+#: templates/settings.php:23
+msgid "Add mount point"
+msgstr "Aldoni surmetingon"
+
+#: templates/settings.php:54 templates/settings.php:62
+msgid "None set"
+msgstr "Nenio agordita"
+
+#: templates/settings.php:63
+msgid "All Users"
+msgstr "Ĉiuj uzantoj"
+
+#: templates/settings.php:64
+msgid "Groups"
+msgstr "Grupoj"
+
+#: templates/settings.php:69
+msgid "Users"
+msgstr "Uzantoj"
+
+#: templates/settings.php:77 templates/settings.php:107
+msgid "Delete"
+msgstr "Forigi"
+
+#: templates/settings.php:87
+msgid "Enable User External Storage"
+msgstr "Kapabligi malenan memorilon de uzanto"
+
+#: templates/settings.php:88
+msgid "Allow users to mount their own external storage"
+msgstr "Permesi al uzantoj surmeti siajn proprajn malenajn memorilojn"
+
+#: templates/settings.php:99
+msgid "SSL root certificates"
+msgstr "Radikaj SSL-atestoj"
+
+#: templates/settings.php:113
+msgid "Import Root Certificate"
+msgstr "Enporti radikan ateston"

@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-01 13:35+0200\n"
+"PO-Revision-Date: 2012-09-01 10:01+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fi_FI\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: app.php:288
+msgid "Help"
+msgstr "Ohje"
+
+#: app.php:295
+msgid "Personal"
+msgstr "Henkilökohtainen"
+
+#: app.php:300
+msgid "Settings"
+msgstr "Asetukset"
+
+#: app.php:305
+msgid "Users"
+msgstr "Käyttäjät"
+
+#: app.php:312
+msgid "Apps"
+msgstr "Sovellukset"
+
+#: app.php:314
+msgid "Admin"
+msgstr "Ylläpitäjä"
+
+#: files.php:280
+msgid "ZIP download is turned off."
+msgstr "ZIP-lataus on poistettu käytöstä."
+
+#: files.php:281
+msgid "Files need to be downloaded one by one."
+msgstr "Tiedostot on ladattava yksittäin."
+
+#: files.php:281 files.php:306
+msgid "Back to Files"
+msgstr "Takaisin tiedostoihin"
+
+#: files.php:305
+msgid "Selected files too large to generate zip file."
+msgstr "Valitut tiedostot ovat liian suurikokoisia mahtuakseen zip-tiedostoon."
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr "Sovellusta ei ole otettu käyttöön"
+
+#: json.php:39 json.php:63 json.php:75
+msgid "Authentication error"
+msgstr "Todennusvirhe"
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr "Valtuutus vanheni. Lataa sivu uudelleen."
+
+#: template.php:86
+msgid "seconds ago"
+msgstr "sekuntia sitten"
+
+#: template.php:87
+msgid "1 minute ago"
+msgstr "1 minuutti sitten"
+
+#: template.php:88
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d minuuttia sitten"
+
+#: template.php:91
+msgid "today"
+msgstr "tänään"
+
+#: template.php:92
+msgid "yesterday"
+msgstr "eilen"
+
+#: template.php:93
+#, php-format
+msgid "%d days ago"
+msgstr "%d päivää sitten"
+
+#: template.php:94
+msgid "last month"
+msgstr "viime kuussa"
+
+#: template.php:95
+msgid "months ago"
+msgstr "kuukautta sitten"
+
+#: template.php:96
+msgid "last year"
+msgstr "viime vuonna"
+
+#: template.php:97
+msgid "years ago"
+msgstr "vuotta sitten"
+
+#: updater.php:66
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr "%s on saatavilla. Lue <a href=\"%s\">lisätietoja</a>"
+
+#: updater.php:68
+msgid "up to date"
+msgstr "ajan tasalla"
+
+#: updater.php:71
+msgid "updates check is disabled"
+msgstr "päivitysten tarkistus on pois käytöstä"

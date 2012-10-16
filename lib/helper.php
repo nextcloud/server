@@ -30,18 +30,20 @@ class OC_Helper {
 
 	/**
 	 * @brief Creates an url
-	 * @param $app app
-	 * @param $file file
-	 * @returns the url
+	 * @param string $app app
+	 * @param string $file file
+	 * @param array $args array with param=>value, will be appended to the returned url
+	 * 	The value of $args will be urlencoded
+	 * @return string the url
 	 *
 	 * Returns a url to the given app and file.
 	 */
-	public static function linkTo( $app, $file ){
-		if( $app != '' ){
+	public static function linkTo( $app, $file, $args = array() ) {
+		if( $app != '' ) {
 			$app_path = OC_App::getAppPath($app);
 			// Check if the app is in the app folder
-			if( $app_path && file_exists( $app_path.'/'.$file )){
-				if(substr($file, -3) == 'php' || substr($file, -3) == 'css'){
+			if( $app_path && file_exists( $app_path.'/'.$file )) {
+				if(substr($file, -3) == 'php' || substr($file, -3) == 'css') {
 					$urlLinkTo =  OC::$WEBROOT . '/?app=' . $app;
 					$urlLinkTo .= ($file!='index.php')?'&getfile=' . urlencode($file):'';
 				}else{
@@ -53,7 +55,7 @@ class OC_Helper {
 			}
 		}
 		else{
-			if( file_exists( OC::$SERVERROOT . '/core/'. $file )){
+			if( file_exists( OC::$SERVERROOT . '/core/'. $file )) {
 				$urlLinkTo =  OC::$WEBROOT . '/core/'.$file;
 			}
 			else{
@@ -61,73 +63,47 @@ class OC_Helper {
 			}
 		}
 
+		if (!empty($args)) {
+			$urlLinkTo .= '?';
+			foreach($args as $k => $v) {
+				$urlLinkTo .= '&'.$k.'='.urlencode($v);
+			}
+		}
+
 		return $urlLinkTo;
 	}
-
-	/**
-	 * @brief Returns the server host
-	 * @returns the server host
-	 *
-	 * Returns the server host, even if the website uses one or more
-	 * reverse proxies
-	 */
-	public static function serverHost() {
-		if(OC::$CLI){
-			return 'localhost';
-		}
-		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-			if (strpos($_SERVER['HTTP_X_FORWARDED_HOST'], ",") !== false) {
-				$host = trim(array_pop(explode(",", $_SERVER['HTTP_X_FORWARDED_HOST'])));
-			}
-			else{
-				$host=$_SERVER['HTTP_X_FORWARDED_HOST'];
-			}
-		}
-		else{
-			$host = $_SERVER['HTTP_HOST'];
-		}
-		return $host;
-	}
-
-
-	/**
-	* @brief Returns the server protocol
-	* @returns the server protocol
-	*
-	* Returns the server protocol. It respects reverse proxy servers and load balancers
-	*/
-	public static function serverProtocol() {
-		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-			$proto = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);
-		}else{
-			if(isset($_SERVER['HTTPS']) and !empty($_SERVER['HTTPS']) and ($_SERVER['HTTPS']!='off')) {
-				$proto = 'https';
-			}else{
-				$proto = 'http';
-			}
-		}
-		return($proto);
-	}
-
 
 	/**
 	 * @brief Creates an absolute url
-	 * @param $app app
-	 * @param $file file
-	 * @returns the url
+	 * @param string $app app
+	 * @param string $file file
+	 * @param array $args array with param=>value, will be appended to the returned url
+	 * 	The value of $args will be urlencoded
+	 * @return string the url
 	 *
 	 * Returns a absolute url to the given app and file.
 	 */
-	public static function linkToAbsolute( $app, $file ) {
-		$urlLinkTo = self::linkTo( $app, $file );
-		$urlLinkTo = self::serverProtocol(). '://'  . self::serverHost() . $urlLinkTo;
-		return $urlLinkTo;
+	public static function linkToAbsolute( $app, $file, $args = array() ) {
+		$urlLinkTo = self::linkTo( $app, $file, $args );
+		return self::makeURLAbsolute($urlLinkTo);
+	}
+
+	/**
+	 * @brief Makes an $url absolute
+	 * @param string $url the url
+	 * @return string the absolute url
+	 *
+	 * Returns a absolute url to the given app and file.
+	 */
+	public static function makeURLAbsolute( $url )
+	{
+		return OC_Request::serverProtocol(). '://'  . OC_Request::serverHost() . $url;
 	}
 
 	/**
 	 * @brief Creates an absolute url for remote use
-	 * @param $service id
-	 * @returns the url
+	 * @param string $service id
+	 * @return string the url
 	 *
 	 * Returns a absolute url to the given service.
 	 */
@@ -136,29 +112,40 @@ class OC_Helper {
 	}
 
 	/**
+	 * @brief Creates an absolute url for public use
+	 * @param string $service id
+	 * @return string the url
+	 *
+	 * Returns a absolute url to the given service.
+	 */
+	public static function linkToPublic($service, $add_slash = false) {
+		return self::linkToAbsolute( '', 'public.php') . '?service=' . $service . (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
+	}
+
+	/**
 	 * @brief Creates path to an image
-	 * @param $app app
-	 * @param $image image name
-	 * @returns the url
+	 * @param string $app app
+	 * @param string $image image name
+	 * @return string the url
 	 *
 	 * Returns the path to the image.
 	 */
-	public static function imagePath( $app, $image ){
+	public static function imagePath( $app, $image ) {
 		// Read the selected theme from the config file
 		$theme=OC_Config::getValue( "theme" );
 
 		// Check if the app is in the app folder
-		if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )){
+		if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )) {
 			return OC::$WEBROOT."/themes/$theme/apps/$app/img/$image";
-		}elseif( file_exists(OC_App::getAppPath($app)."/img/$image" )){
+		}elseif( file_exists(OC_App::getAppPath($app)."/img/$image" )) {
 			return OC_App::getAppWebPath($app)."/img/$image";
-		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/themes/$theme/$app/img/$image" )){
+		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/themes/$theme/$app/img/$image" )) {
 			return OC::$WEBROOT."/themes/$theme/$app/img/$image";
-		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/$app/img/$image" )){
+		}elseif( !empty( $app ) and file_exists( OC::$SERVERROOT."/$app/img/$image" )) {
 			return OC::$WEBROOT."/$app/img/$image";
-		}elseif( file_exists( OC::$SERVERROOT."/themes/$theme/core/img/$image" )){
+		}elseif( file_exists( OC::$SERVERROOT."/themes/$theme/core/img/$image" )) {
 			return OC::$WEBROOT."/themes/$theme/core/img/$image";
-		}elseif( file_exists( OC::$SERVERROOT."/core/img/$image" )){
+		}elseif( file_exists( OC::$SERVERROOT."/core/img/$image" )) {
 			return OC::$WEBROOT."/core/img/$image";
 		}else{
 			echo('image not found: image:'.$image.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
@@ -168,33 +155,31 @@ class OC_Helper {
 
 	/**
 	 * @brief get path to icon of file type
-	 * @param $mimetype mimetype
-	 * @returns the url
+	 * @param string $mimetype mimetype
+	 * @return string the url
 	 *
 	 * Returns the path to the image of this file type.
 	 */
-	public static function mimetypeIcon( $mimetype ){
+	public static function mimetypeIcon( $mimetype ) {
 		$alias=array('application/xml'=>'code/xml');
-// 		echo $mimetype;
-		if(isset($alias[$mimetype])){
+		if(isset($alias[$mimetype])) {
 			$mimetype=$alias[$mimetype];
-// 			echo $mimetype;
 		}
 		// Replace slash with a minus
 		$mimetype = str_replace( "/", "-", $mimetype );
 
 		// Is it a dir?
-		if( $mimetype == "dir" ){
+		if( $mimetype == "dir" ) {
 			return OC::$WEBROOT."/core/img/filetypes/folder.png";
 		}
 
 		// Icon exists?
-		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.png" )){
+		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.png" )) {
 			return OC::$WEBROOT."/core/img/filetypes/$mimetype.png";
 		}
 		//try only the first part of the filetype
 		$mimetype=substr($mimetype,0,strpos($mimetype,'-'));
-		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.png" )){
+		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.png" )) {
 			return OC::$WEBROOT."/core/img/filetypes/$mimetype.png";
 		}
 		else{
@@ -204,21 +189,21 @@ class OC_Helper {
 
 	/**
 	 * @brief Make a human file size
-	 * @param $bytes file size in bytes
-	 * @returns a human readable file size
+	 * @param int $bytes file size in bytes
+	 * @return string a human readable file size
 	 *
 	 * Makes 2048 to 2 kB.
 	 */
-	public static function humanFileSize( $bytes ){
-		if( $bytes < 1024 ){
+	public static function humanFileSize( $bytes ) {
+		if( $bytes < 1024 ) {
 			return "$bytes B";
 		}
 		$bytes = round( $bytes / 1024, 1 );
-		if( $bytes < 1024 ){
+		if( $bytes < 1024 ) {
 			return "$bytes kB";
 		}
 		$bytes = round( $bytes / 1024, 1 );
-		if( $bytes < 1024 ){
+		if( $bytes < 1024 ) {
 			return "$bytes MB";
 		}
 
@@ -229,15 +214,14 @@ class OC_Helper {
 
 	/**
 	 * @brief Make a computer file size
-	 * @param $str file size in a fancy format
-	 * @returns a file size in bytes
+	 * @param string $str file size in a fancy format
+	 * @return int a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
 	 *
 	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
 	 */
-	public static function computerFileSize( $str ){
-		$bytes = 0;
+	public static function computerFileSize( $str ) {
 		$str=strtolower($str);
 
 		$bytes_array = array(
@@ -266,10 +250,10 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Recusive editing of file permissions
-	 * @param $path path to file or folder
-	 * @param $filemode unix style file permissions as integer
-	 *
+	 * @brief Recursive editing of file permissions
+	 * @param string $path path to file or folder
+	 * @param int $filemode unix style file permissions
+	 * @return bool
 	 */
 	static function chmodr($path, $filemode) {
 		if (!is_dir($path))
@@ -294,72 +278,80 @@ class OC_Helper {
 	}
 
 	/**
-	 * @brief Recusive copying of folders
+	 * @brief Recursive copying of folders
 	 * @param string $src source folder
 	 * @param string $dest target folder
 	 *
 	 */
 	static function copyr($src, $dest) {
-		if(is_dir($src)){
-			if(!is_dir($dest)){
+		if(is_dir($src)) {
+			if(!is_dir($dest)) {
 				mkdir($dest);
 			}
 			$files = scandir($src);
-			foreach ($files as $file){
-				if ($file != "." && $file != ".."){
+			foreach ($files as $file) {
+				if ($file != "." && $file != "..") {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
-		}elseif(file_exists($src)){
+		}elseif(file_exists($src)) {
 			copy($src, $dest);
 		}
 	}
 
 	/**
-	 * @brief Recusive deletion of folders
+	 * @brief Recursive deletion of folders
 	 * @param string $dir path to the folder
-	 *
+	 * @return bool
 	 */
 	static function rmdirr($dir) {
 		if(is_dir($dir)) {
 			$files=scandir($dir);
-			foreach($files as $file){
-				if ($file != "." && $file != ".."){
+			foreach($files as $file) {
+				if ($file != "." && $file != "..") {
 					self::rmdirr("$dir/$file");
 				}
 			}
 			rmdir($dir);
-		}elseif(file_exists($dir)){
+		}elseif(file_exists($dir)) {
 			unlink($dir);
 		}
 		if(file_exists($dir)) {
 			return false;
+		}else{
+			return true;
 		}
 	}
 
 	/**
 	 * get the mimetype form a local file
-	 * @param string path
+	 * @param string $path
 	 * @return string
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 */
-	static function getMimeType($path){
+	static function getMimeType($path) {
 		$isWrapped=(strpos($path,'://')!==false) and (substr($path,0,7)=='file://');
-		$mimeType='application/octet-stream';
-		if ($mimeType=='application/octet-stream') {
-			self::$mimetypes = include('mimetypes.fixlist.php');
-			$extension=strtolower(strrchr(basename($path), "."));
-			$extension=substr($extension,1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
 
-		}
 		if (@is_dir($path)) {
 			// directories are easy
 			return "httpd/unix-directory";
 		}
-		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)){
+
+		if(strpos($path,'.')) {
+			//try to guess the type by the file extension
+			if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')) {
+				self::$mimetypes=include('mimetypes.list.php');
+			}
+			$extension=strtolower(strrchr(basename($path), "."));
+			$extension=substr($extension,1);//remove leading .
+			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
+		}else{
+			$mimeType='application/octet-stream';
+		}
+
+		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)) {
 			$info = @strtolower(finfo_file($finfo,$path));
-			if($info){
+			if($info) {
 				$mimeType=substr($info,0,strpos($info,';'));
 			}
 			finfo_close($finfo);
@@ -378,6 +370,7 @@ class OC_Helper {
 
 			//trim the character set from the end of the response
 			$mimeType=substr($reply,0,strrpos($reply,' '));
+			$mimeType=substr($mimeType,0,strrpos($mimeType,"\n"));
 
 			//trim ;
 			if (strpos($mimeType, ';') !== false) {
@@ -385,25 +378,16 @@ class OC_Helper {
 			}
 
 		}
-		if ($mimeType=='application/octet-stream') {
-			// Fallback solution: (try to guess the type by the file extension
-			if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')){
-				self::$mimetypes=include('mimetypes.list.php');
-			}
-			$extension=strtolower(strrchr(basename($path), "."));
-			$extension=substr($extension,1);//remove leading .
-			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
-		}
 		return $mimeType;
 	}
 
 	/**
 	 * get the mimetype form a data string
-	 * @param string data
+	 * @param string $data
 	 * @return string
 	 */
-	static function getStringMimeType($data){
-		if(function_exists('finfo_open') and function_exists('finfo_file')){
+	static function getStringMimeType($data) {
+		if(function_exists('finfo_open') and function_exists('finfo_file')) {
 			$finfo=finfo_open(FILEINFO_MIME);
 			return finfo_buffer($finfo, $data);
 		}else{
@@ -419,9 +403,9 @@ class OC_Helper {
 
 	/**
 	 * @brief Checks $_REQUEST contains a var for the $s key. If so, returns the html-escaped value of this var; otherwise returns the default value provided by $d.
-	 * @param $s name of the var to escape, if set.
-	 * @param $d default value.
-	 * @returns the print-safe value.
+	 * @param string $s name of the var to escape, if set.
+	 * @param string $d default value.
+	 * @return string the print-safe value.
 	 *
 	 */
 
@@ -435,7 +419,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * returns "checked"-attribut if request contains selected radio element OR if radio element is the default one -- maybe?
+	 * returns "checked"-attribute if request contains selected radio element OR if radio element is the default one -- maybe?
 	 * @param string $s Name of radio-button element name
 	 * @param string $v Value of current radio-button element
 	 * @param string $d Value of default radio-button element
@@ -448,11 +432,11 @@ class OC_Helper {
 	/**
 	* detect if a given program is found in the search PATH
 	*
-	* @param  string  program name
-	* @param  string  optional search path, defaults to $PATH
+	* @param  string  $program name
+	* @param  string  $optional search path, defaults to $PATH
 	* @return bool    true if executable program found in path
 	*/
-	public static function canExecute($name, $path = false){
+	public static function canExecute($name, $path = false) {
 		// path defaults to PATH from environment if not set
 		if ($path === false) {
 			$path = getenv("PATH");
@@ -471,18 +455,16 @@ class OC_Helper {
 		$dirs = explode(PATH_SEPARATOR, $path);
 		// WARNING : We have to check if open_basedir is enabled :
 		$obd = ini_get('open_basedir');
-		if($obd != "none")
+		if($obd != "none"){
 			$obd_values = explode(PATH_SEPARATOR, $obd);
-		if(count($obd_values) > 0 and $obd_values[0])
-		{
-			// open_basedir is in effect !
-			// We need to check if the program is in one of these dirs :
-			$dirs = $obd_values;
+			if(count($obd_values) > 0 and $obd_values[0]){
+				// open_basedir is in effect !
+				// We need to check if the program is in one of these dirs :
+				$dirs = $obd_values;
+			}
 		}
-		foreach($dirs as $dir)
-		{
-			foreach($exts as $ext)
-			{
+		foreach($dirs as $dir){
+			foreach($exts as $ext){
 				if($check_fn("$dir/$name".$ext))
 					return true;
 			}
@@ -492,16 +474,16 @@ class OC_Helper {
 
 	/**
 	 * copy the contents of one stream to another
-	 * @param resource source
-	 * @param resource target
+	 * @param resource $source
+	 * @param resource $target
 	 * @return int the number of bytes copied
 	 */
-	public static function streamCopy($source,$target){
-		if(!$source or !$target){
+	public static function streamCopy($source,$target) {
+		if(!$source or !$target) {
 			return false;
 		}
 		$count=0;
-		while(!feof($source)){
+		while(!feof($source)) {
 			$count+=fwrite($target,fread($source,8192));
 		}
 		return $count;
@@ -509,12 +491,12 @@ class OC_Helper {
 
 	/**
 	 * create a temporary file with an unique filename
-	 * @param string postfix
+	 * @param string $postfix
 	 * @return string
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
-	public static function tmpFile($postfix=''){
+	public static function tmpFile($postfix='') {
 		$file=get_temp_dir().'/'.md5(time().rand()).$postfix;
 		$fh=fopen($file,'w');
 		fclose($fh);
@@ -528,7 +510,7 @@ class OC_Helper {
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
-	public static function tmpFolder(){
+	public static function tmpFolder() {
 		$path=get_temp_dir().'/'.md5(time().rand());
 		mkdir($path);
 		self::$tmpFiles[]=$path;
@@ -538,9 +520,9 @@ class OC_Helper {
 	/**
 	 * remove all files created by self::tmpFile
 	 */
-	public static function cleanTmp(){
+	public static function cleanTmp() {
 		$leftoversFile=get_temp_dir().'/oc-not-deleted';
-		if(file_exists($leftoversFile)){
+		if(file_exists($leftoversFile)) {
 			$leftovers=file($leftoversFile);
 			foreach($leftovers as $file) {
 				self::rmdirr($file);
@@ -548,8 +530,8 @@ class OC_Helper {
 			unlink($leftoversFile);
 		}
 
-		foreach(self::$tmpFiles as $file){
-			if(file_exists($file)){
+		foreach(self::$tmpFiles as $file) {
+			if(file_exists($file)) {
 				if(!self::rmdirr($file)) {
 					file_put_contents($leftoversFile, $file."\n", FILE_APPEND);
 				}
@@ -564,8 +546,8 @@ class OC_Helper {
 	* @param $filename
 	* @return string
 	*/
-	public static function buildNotExistingFileName($path, $filename){
-		if($path==='/'){
+	public static function buildNotExistingFileName($path, $filename) {
+		if($path==='/') {
 			$path='';
 		}
 		if ($pos = strrpos($filename, '.')) {
@@ -573,10 +555,10 @@ class OC_Helper {
 			$ext = substr($filename, $pos);
 		} else {
 			$name = $filename;
+			$ext = '';
 		}
 
 		$newpath = $path . '/' . $filename;
-		$newname = $filename;
 		$counter = 2;
 		while (OC_Filesystem::file_exists($newpath)) {
 			$newname = $name . ' (' . $counter . ')' . $ext;
@@ -590,25 +572,25 @@ class OC_Helper {
 	/*
 	 * checks if $sub is a subdirectory of $parent
 	 *
-	 * @param $sub
-	 * @param $parent
+	 * @param string $sub
+	 * @param string $parent
 	 * @return bool
 	 */
-	public static function issubdirectory($sub, $parent){
-		if($sub == null || $sub == '' || $parent == null || $parent == ''){
+	public static function issubdirectory($sub, $parent) {
+		if($sub == null || $sub == '' || $parent == null || $parent == '') {
 			return false;
 		}
 		$realpath_sub = realpath($sub);
 		$realpath_parent = realpath($parent);
-		if(($realpath_sub == false && substr_count($realpath_sub, './') != 0) || ($realpath_parent == false && substr_count($realpath_parent, './') != 0)){ //it checks for  both ./ and ../
+		if(($realpath_sub == false && substr_count($realpath_sub, './') != 0) || ($realpath_parent == false && substr_count($realpath_parent, './') != 0)) { //it checks for  both ./ and ../
 			return false;
 		}
-		if($realpath_sub && $realpath_sub != '' && $realpath_parent && $realpath_parent != ''){
-			if(substr($realpath_sub, 0, strlen($realpath_parent)) == $realpath_parent){
+		if($realpath_sub && $realpath_sub != '' && $realpath_parent && $realpath_parent != '') {
+			if(substr($realpath_sub, 0, strlen($realpath_parent)) == $realpath_parent) {
 				return true;
 			}
 		}else{
-			if(substr($sub, 0, strlen($parent)) == $parent){
+			if(substr($sub, 0, strlen($parent)) == $parent) {
 				return true;
 			}
 		}
@@ -624,16 +606,16 @@ class OC_Helper {
 	/**
 	* @brief Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
 	*
-	* @param $input The array to work on
-	* @param $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
-	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @param array $input The array to work on
+	* @param int $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
+	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
 	* @return array
 	*
 	* Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
 	* based on http://www.php.net/manual/en/function.array-change-key-case.php#107715
 	*
 	*/
-	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8'){
+	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
 		$case = ($case != MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
 		$ret = array();
 		foreach ($input as $k => $v) {
@@ -645,11 +627,11 @@ class OC_Helper {
 	/**
 	* @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
 	*
-	* @param $input The input string. .Opposite to the PHP build-in function does not accept an array.
-	* @param $replacement The replacement string.
-	* @param $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
-	* @param $length Length of the part to be replaced
-	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @param string $input The input string. .Opposite to the PHP build-in function does not accept an array.
+	* @param string $replacement The replacement string.
+	* @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
+	* @param int $length Length of the part to be replaced
+	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
 	* @return string
 	*
 	*/
@@ -666,22 +648,48 @@ class OC_Helper {
 	/**
 	* @brief Replace all occurrences of the search string with the replacement string
 	*
-	* @param $search The value being searched for, otherwise known as the needle. String.
-	* @param $replace The replacement string.
-	* @param $subject The string or array being searched and replaced on, otherwise known as the haystack.
-	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	* @param $count If passed, this will be set to the number of replacements performed.
+	* @param string $search The value being searched for, otherwise known as the needle.
+	* @param string $replace The replacement
+	* @param string $subject The string or array being searched and replaced on, otherwise known as the haystack.
+	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @param int $count If passed, this will be set to the number of replacements performed.
 	* @return string
 	*
 	*/
 	public static function mb_str_replace($search, $replace, $subject, $encoding = 'UTF-8', &$count = null) {
 		$offset = -1;
-		$length = mb_strlen($search, 'UTF-8');
-		while(($i = mb_strrpos($subject, $search, $offset, 'UTF-8'))) {
+		$length = mb_strlen($search, $encoding);
+		while(($i = mb_strrpos($subject, $search, $offset, $encoding)) !== false ) {
 			$subject = OC_Helper::mb_substr_replace($subject, $replace, $i, $length);
-			$offset = $i - mb_strlen($subject, 'UTF-8') - 1;
+			$offset = $i - mb_strlen($subject, $encoding);
 			$count++;
 		}
 		return $subject;
+	}
+
+	/**
+	* @brief performs a search in a nested array
+	* @param array $haystack the array to be searched
+	* @param string $needle the search string
+	* @param string $index optional, only search this key name
+	* @return mixed the key of the matching field, otherwise false
+	*
+	* performs a search in a nested array
+	*
+	* taken from http://www.php.net/manual/en/function.array-search.php#97645
+	*/
+	public static function recursiveArraySearch($haystack, $needle, $index = null) {
+		$aIt = new RecursiveArrayIterator($haystack);
+		$it = new RecursiveIteratorIterator($aIt);
+
+		while($it->valid()) {
+			if (((isset($index) AND ($it->key() == $index)) OR (!isset($index))) AND ($it->current() == $needle)) {
+				return $aIt->key();
+			}
+
+			$it->next();
+		}
+
+		return false;
 	}
 }

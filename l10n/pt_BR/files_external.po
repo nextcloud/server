@@ -1,0 +1,107 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <philippi.sedir@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-10-07 02:03+0200\n"
+"PO-Revision-Date: 2012-10-06 13:48+0000\n"
+"Last-Translator: sedir <philippi.sedir@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
+msgid "Access granted"
+msgstr "Acesso concedido"
+
+#: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
+msgid "Error configuring Dropbox storage"
+msgstr "Erro ao configurar armazenamento do Dropbox"
+
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+msgid "Grant access"
+msgstr "Permitir acesso"
+
+#: js/dropbox.js:73 js/google.js:72
+msgid "Fill out all required fields"
+msgstr "Preencha todos os campos obrigatórios"
+
+#: js/dropbox.js:85
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr "Por favor forneça um app key e secret válido do Dropbox"
+
+#: js/google.js:26 js/google.js:73 js/google.js:78
+msgid "Error configuring Google Drive storage"
+msgstr "Erro ao configurar armazenamento do Google Drive"
+
+#: templates/settings.php:3
+msgid "External Storage"
+msgstr "Armazenamento Externo"
+
+#: templates/settings.php:7 templates/settings.php:19
+msgid "Mount point"
+msgstr "Ponto de montagem"
+
+#: templates/settings.php:8
+msgid "Backend"
+msgstr "Backend"
+
+#: templates/settings.php:9
+msgid "Configuration"
+msgstr "Configuração"
+
+#: templates/settings.php:10
+msgid "Options"
+msgstr "Opções"
+
+#: templates/settings.php:11
+msgid "Applicable"
+msgstr "Aplicável"
+
+#: templates/settings.php:23
+msgid "Add mount point"
+msgstr "Adicionar ponto de montagem"
+
+#: templates/settings.php:54 templates/settings.php:62
+msgid "None set"
+msgstr "Nenhum definido"
+
+#: templates/settings.php:63
+msgid "All Users"
+msgstr "Todos os Usuários"
+
+#: templates/settings.php:64
+msgid "Groups"
+msgstr "Grupos"
+
+#: templates/settings.php:69
+msgid "Users"
+msgstr "Usuários"
+
+#: templates/settings.php:77 templates/settings.php:107
+msgid "Delete"
+msgstr "Remover"
+
+#: templates/settings.php:87
+msgid "Enable User External Storage"
+msgstr "Habilitar Armazenamento Externo do Usuário"
+
+#: templates/settings.php:88
+msgid "Allow users to mount their own external storage"
+msgstr "Permitir usuários a montar seus próprios armazenamentos externos"
+
+#: templates/settings.php:99
+msgid "SSL root certificates"
+msgstr "Certificados SSL raíz"
+
+#: templates/settings.php:113
+msgid "Import Root Certificate"
+msgstr "Importar Certificado Raíz"

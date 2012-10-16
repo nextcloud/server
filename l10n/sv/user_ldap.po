@@ -1,0 +1,171 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Magnus Höglund <magnus@linux.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-08-30 02:02+0200\n"
+"PO-Revision-Date: 2012-08-29 09:37+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: templates/settings.php:8
+msgid "Host"
+msgstr "Server"
+
+#: templates/settings.php:8
+msgid ""
+"You can omit the protocol, except you require SSL. Then start with ldaps://"
+msgstr "Du behöver inte ange protokoll förutom om du använder SSL. Starta då med ldaps://"
+
+#: templates/settings.php:9
+msgid "Base DN"
+msgstr "Start DN"
+
+#: templates/settings.php:9
+msgid "You can specify Base DN for users and groups in the Advanced tab"
+msgstr "Du kan ange start DN för användare och grupper under fliken Avancerat"
+
+#: templates/settings.php:10
+msgid "User DN"
+msgstr "Användare DN"
+
+#: templates/settings.php:10
+msgid ""
+"The DN of the client user with which the bind shall be done, e.g. "
+"uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
+"empty."
+msgstr "DN för användaren som skall användas, t.ex. uid=agent, dc=example, dc=com. För anonym åtkomst, lämna DN och lösenord tomt."
+
+#: templates/settings.php:11
+msgid "Password"
+msgstr "Lösenord"
+
+#: templates/settings.php:11
+msgid "For anonymous access, leave DN and Password empty."
+msgstr "För anonym åtkomst, lämna DN och lösenord tomt."
+
+#: templates/settings.php:12
+msgid "User Login Filter"
+msgstr "Filter logga in användare"
+
+#: templates/settings.php:12
+#, php-format
+msgid ""
+"Defines the filter to apply, when login is attempted. %%uid replaces the "
+"username in the login action."
+msgstr "Definierar filter att tillämpa vid inloggningsförsök. %% uid ersätter användarnamn i loginåtgärden."
+
+#: templates/settings.php:12
+#, php-format
+msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
+msgstr "använd platshållare %%uid, t ex \"uid=%%uid\""
+
+#: templates/settings.php:13
+msgid "User List Filter"
+msgstr "Filter lista användare"
+
+#: templates/settings.php:13
+msgid "Defines the filter to apply, when retrieving users."
+msgstr "Definierar filter att tillämpa vid listning av användare."
+
+#: templates/settings.php:13
+msgid "without any placeholder, e.g. \"objectClass=person\"."
+msgstr "utan platshållare, t.ex. \"objectClass=person\"."
+
+#: templates/settings.php:14
+msgid "Group Filter"
+msgstr "Gruppfilter"
+
+#: templates/settings.php:14
+msgid "Defines the filter to apply, when retrieving groups."
+msgstr "Definierar filter att tillämpa vid listning av grupper."
+
+#: templates/settings.php:14
+msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
+msgstr "utan platshållare, t.ex. \"objectClass=posixGroup\"."
+
+#: templates/settings.php:17
+msgid "Port"
+msgstr "Port"
+
+#: templates/settings.php:18
+msgid "Base User Tree"
+msgstr "Bas för användare i katalogtjänst"
+
+#: templates/settings.php:19
+msgid "Base Group Tree"
+msgstr "Bas för grupper i katalogtjänst"
+
+#: templates/settings.php:20
+msgid "Group-Member association"
+msgstr "Attribut för gruppmedlemmar"
+
+#: templates/settings.php:21
+msgid "Use TLS"
+msgstr "Använd TLS"
+
+#: templates/settings.php:21
+msgid "Do not use it for SSL connections, it will fail."
+msgstr "Använd inte för SSL-anslutningar, det kommer inte att fungera."
+
+#: templates/settings.php:22
+msgid "Case insensitve LDAP server (Windows)"
+msgstr "LDAP-servern är okänslig för gemener och versaler (Windows)"
+
+#: templates/settings.php:23
+msgid "Turn off SSL certificate validation."
+msgstr "Stäng av verifiering av SSL-certifikat."
+
+#: templates/settings.php:23
+msgid ""
+"If connection only works with this option, import the LDAP server's SSL "
+"certificate in your ownCloud server."
+msgstr "Om anslutningen bara fungerar med det här alternativet, importera LDAP-serverns SSL-certifikat i din ownCloud-server."
+
+#: templates/settings.php:23
+msgid "Not recommended, use for testing only."
+msgstr "Rekommenderas inte, använd bara för test. "
+
+#: templates/settings.php:24
+msgid "User Display Name Field"
+msgstr "Attribut för användarnamn"
+
+#: templates/settings.php:24
+msgid "The LDAP attribute to use to generate the user`s ownCloud name."
+msgstr "Attribut som används för att generera användarnamn i ownCloud."
+
+#: templates/settings.php:25
+msgid "Group Display Name Field"
+msgstr "Attribut för gruppnamn"
+
+#: templates/settings.php:25
+msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
+msgstr "Attribut som används för att generera gruppnamn i ownCloud."
+
+#: templates/settings.php:27
+msgid "in bytes"
+msgstr "i bytes"
+
+#: templates/settings.php:29
+msgid "in seconds. A change empties the cache."
+msgstr "i sekunder. En förändring tömmer cache."
+
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Lämnas tomt för användarnamn (standard). Ange annars ett LDAP/AD-attribut."
+
+#: templates/settings.php:32
+msgid "Help"
+msgstr "Hjälp"

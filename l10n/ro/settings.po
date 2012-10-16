@@ -6,116 +6,233 @@
 # Claudiu  <claudiu@tanaselia.ro>, 2011, 2012.
 # Dimon Pockemon <>, 2012.
 # Eugen Mihalache <eugemjj@gmail.com>, 2012.
+#   <g.ciprian@osn.ro>, 2012.
 #   <icewind1991@gmail.com>, 2012.
+#   <iuranemo@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-06-06 00:12+0200\n"
-"PO-Revision-Date: 2012-06-05 22:15+0000\n"
-"Last-Translator: icewind <icewind1991@gmail.com>\n"
-"Language-Team: Romanian (http://www.transifex.net/projects/p/owncloud/language/ro/)\n"
+"POT-Creation-Date: 2012-10-09 02:03+0200\n"
+"PO-Revision-Date: 2012-10-09 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ro\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1))\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr "Imposibil de încărcat lista din App Store"
+
+#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Eroare de autentificare"
+
+#: ajax/creategroup.php:19
+msgid "Group already exists"
+msgstr "Grupul există deja"
+
+#: ajax/creategroup.php:28
+msgid "Unable to add group"
+msgstr "Nu s-a putut adăuga grupul"
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
+msgstr "Nu s-a putut activa aplicația."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "E-mail salvat"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "E-mail nevalid"
 
-#: ajax/openid.php:15
+#: ajax/openid.php:16
 msgid "OpenID Changed"
 msgstr "OpenID schimbat"
 
-#: ajax/openid.php:17 ajax/setlanguage.php:19 ajax/setlanguage.php:22
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
 msgstr "Cerere eronată"
 
-#: ajax/setlanguage.php:17
+#: ajax/removegroup.php:16
+msgid "Unable to delete group"
+msgstr "Nu s-a putut șterge grupul"
+
+#: ajax/removeuser.php:22
+msgid "Unable to delete user"
+msgstr "Nu s-a putut șterge utilizatorul"
+
+#: ajax/setlanguage.php:18
 msgid "Language changed"
 msgstr "Limba a fost schimbată"
 
-#: js/apps.js:31 js/apps.js:67
-msgid "Disable"
-msgstr ""
+#: ajax/togglegroups.php:25
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr "Nu s-a putut adăuga utilizatorul la grupul %s"
 
-#: js/apps.js:31 js/apps.js:54
+#: ajax/togglegroups.php:31
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr "Nu s-a putut elimina utilizatorul din grupul %s"
+
+#: js/apps.js:28 js/apps.js:65
+msgid "Disable"
+msgstr "Dezactivați"
+
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
-msgstr ""
+msgstr "Activați"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Salvez..."
 
-#: personal.php:40 personal.php:41
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "_language_name_"
 
-#: templates/admin.php:13
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr "Avertisment de securitate"
+
+#: templates/admin.php:17
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "Directorul tău de date și fișierele tale probabil sunt accesibile prin internet. Fișierul .htaccess oferit de ownCloud nu funcționează. Îți recomandăm să configurezi server-ul tău web într-un mod în care directorul de date să nu mai fie accesibil sau mută directorul de date în afara directorului root al server-ului web."
+
+#: templates/admin.php:31
+msgid "Cron"
+msgstr "Cron"
+
+#: templates/admin.php:37
+msgid "Execute one task with each page loaded"
+msgstr "Execută o sarcină la fiecare pagină încărcată"
+
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr "cron.php este înregistrat în serviciul webcron. Accesează pagina cron.php din root-ul owncloud odată pe minut prin http."
+
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr "Folosește serviciul cron al sistemului. Accesează fișierul cron.php din directorul owncloud printr-un cronjob de sistem odată la fiecare minut."
+
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr "Partajare"
+
+#: templates/admin.php:61
+msgid "Enable Share API"
+msgstr "Activare API partajare"
+
+#: templates/admin.php:62
+msgid "Allow apps to use the Share API"
+msgstr "Permite aplicațiilor să folosească API-ul de partajare"
+
+#: templates/admin.php:67
+msgid "Allow links"
+msgstr "Pemite legături"
+
+#: templates/admin.php:68
+msgid "Allow users to share items to the public with links"
+msgstr "Permite utilizatorilor să partajeze fișiere în mod public prin legături"
+
+#: templates/admin.php:73
+msgid "Allow resharing"
+msgstr "Permite repartajarea"
+
+#: templates/admin.php:74
+msgid "Allow users to share items shared with them again"
+msgstr "Permite utilizatorilor să repartajeze fișiere partajate cu ei"
+
+#: templates/admin.php:79
+msgid "Allow users to share with anyone"
+msgstr "Permite utilizatorilor să partajeze cu oricine"
+
+#: templates/admin.php:81
+msgid "Allow users to only share with users in their groups"
+msgstr "Permite utilizatorilor să partajeze doar cu utilizatori din același grup"
+
+#: templates/admin.php:88
 msgid "Log"
 msgstr "Jurnal de activitate"
 
-#: templates/admin.php:40
+#: templates/admin.php:116
 msgid "More"
 msgstr "Mai mult"
 
-#: templates/apps.php:8
+#: templates/admin.php:124
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Dezvoltat de the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitatea ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">codul sursă</a> este licențiat sub <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+
+#: templates/apps.php:10
 msgid "Add your App"
 msgstr "Adaugă aplicația ta"
 
-#: templates/apps.php:22
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr ""
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Selectează o aplicație"
 
-#: templates/apps.php:25
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Vizualizează pagina applicației pe apps.owncloud.com"
 
-#: templates/apps.php:26
-msgid "-licensed"
-msgstr "-autorizat"
+#: templates/apps.php:32
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span>-licențiat <span class=\"author\"></span>"
 
-#: templates/apps.php:26
-msgid "by"
-msgstr "de"
-
-#: templates/help.php:8
+#: templates/help.php:9
 msgid "Documentation"
 msgstr "Documetație"
 
-#: templates/help.php:9
+#: templates/help.php:10
 msgid "Managing Big Files"
 msgstr "Gestionînd fișiere mari"
 
-#: templates/help.php:10
+#: templates/help.php:11
 msgid "Ask a question"
 msgstr "Întreabă"
 
-#: templates/help.php:22
+#: templates/help.php:23
 msgid "Problems connecting to help database."
 msgstr "Probleme de conectare la baza de date."
 
-#: templates/help.php:23
+#: templates/help.php:24
 msgid "Go there manually."
 msgstr "Pe cale manuală."
 
-#: templates/help.php:31
+#: templates/help.php:32
 msgid "Answer"
 msgstr "Răspuns"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Utilizezi"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "din cele diponibile"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "Ai utilizat <strong>%s</strong> din <strong>%s<strong> spațiu disponibil"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -126,8 +243,8 @@ msgid "Download"
 msgstr "Descărcări"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "Parola ta s-a schimbat"
+msgid "Your password was changed"
+msgstr "Parola a fost modificată"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
@@ -173,34 +290,38 @@ msgstr "Ajută la traducere"
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "folosește această adresă pentru a te conecta la managerul tău de fișiere din ownCloud"
 
-#: templates/users.php:15 templates/users.php:44
+#: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "Nume"
 
-#: templates/users.php:16 templates/users.php:45
+#: templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Parolă"
 
-#: templates/users.php:17 templates/users.php:46 templates/users.php:60
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
 msgstr "Grupuri"
 
-#: templates/users.php:22
+#: templates/users.php:32
 msgid "Create"
 msgstr "Crează"
 
-#: templates/users.php:25
+#: templates/users.php:35
 msgid "Default Quota"
 msgstr "Cotă implicită"
 
-#: templates/users.php:35 templates/users.php:74
+#: templates/users.php:55 templates/users.php:138
 msgid "Other"
 msgstr "Altele"
 
-#: templates/users.php:47
+#: templates/users.php:80 templates/users.php:112
+msgid "Group Admin"
+msgstr "Grupul Admin "
+
+#: templates/users.php:82
 msgid "Quota"
 msgstr "Cotă"
 
-#: templates/users.php:80
+#: templates/users.php:146
 msgid "Delete"
 msgstr "Șterge"

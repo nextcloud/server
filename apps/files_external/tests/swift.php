@@ -6,27 +6,23 @@
  * See the COPYING-README file.
  */
 
-$config=include('apps/files_external/tests/config.php');
-if(!is_array($config) or !isset($config['swift']) or !$config['swift']['run']){
-	abstract class Test_Filestorage_SWIFT extends Test_FileStorage{}
-	return;
-}else{
-	class Test_Filestorage_SWIFT extends Test_FileStorage {
-		private $config;
-		private $id;
+class Test_Filestorage_SWIFT extends Test_FileStorage {
+	private $config;
 
-		public function setUp(){
-			$id=uniqid();
-			$this->config=include('apps/files_external/tests/config.php');
-			$this->config['swift']['root'].='/'.$id;//make sure we have an new empty folder to work in
-			$this->instance=new OC_Filestorage_SWIFT($this->config['swift']);
+	public function setUp() {
+		$id = uniqid();
+		$this->config = include('files_external/tests/config.php');
+		if (!is_array($this->config) or !isset($this->config['swift']) or !$this->config['swift']['run']) {
+			$this->markTestSkipped('OpenStack SWIFT backend not configured');
 		}
+		$this->config['swift']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
+		$this->instance = new OC_Filestorage_SWIFT($this->config['swift']);
+	}
 
-		
-		public function tearDown(){
-		    $this->instance->rmdir('');
+
+	public function tearDown() {
+		if ($this->instance) {
+			$this->instance->rmdir('');
 		}
-		
 	}
 }
-

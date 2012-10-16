@@ -12,12 +12,12 @@
  * A class to handle mail sending.
  */
 
-require_once('class.phpmailer.php');
+require_once 'class.phpmailer.php';
 
 class OC_Mail {
 
 	/**
-	 * send an email 
+	 * send an email
 	 *
 	 * @param string $toaddress
 	 * @param string $toname
@@ -31,17 +31,17 @@ class OC_Mail {
 
 		$SMTPMODE = OC_Config::getValue( 'mail_smtpmode', 'sendmail' );
 		$SMTPHOST = OC_Config::getValue( 'mail_smtphost', '127.0.0.1' );
-		$SMTPAUTH = OC_Config::getValue( 'mail_smtpauth', false ); 
-		$SMTPUSERNAME = OC_Config::getValue( 'mail_smtpname', '' ); 
-		$SMTPPASSWORD = OC_Config::getValue( 'mail_smtppassword', '' );  
+		$SMTPAUTH = OC_Config::getValue( 'mail_smtpauth', false );
+		$SMTPUSERNAME = OC_Config::getValue( 'mail_smtpname', '' );
+		$SMTPPASSWORD = OC_Config::getValue( 'mail_smtppassword', '' );
 
 
-		$mailo = new PHPMailer();
+		$mailo = new PHPMailer(true);
 		if($SMTPMODE=='sendmail') {
 			$mailo->IsSendmail();
-		}elseif($SMTPMODE=='smtp'){
+		}elseif($SMTPMODE=='smtp') {
 			$mailo->IsSMTP();
-		}elseif($SMTPMODE=='qmail'){
+		}elseif($SMTPMODE=='qmail') {
 			$mailo->IsQmail();
 		}else{
 			$mailo->IsMail();
@@ -55,34 +55,38 @@ class OC_Mail {
 
 		$mailo->From =$fromaddress;
 		$mailo->FromName = $fromname;;
+		$mailo->Sender =$fromaddress;
 		$a=explode(' ',$toaddress);
-		foreach($a as $ad) {
-			$mailo->AddAddress($ad,$toname);
+		try {
+			foreach($a as $ad) {
+				$mailo->AddAddress($ad,$toname);
+			}
+
+			if($ccaddress<>'') $mailo->AddCC($ccaddress,$ccname);
+			if($bcc<>'') $mailo->AddBCC($bcc);
+
+			$mailo->AddReplyTo($fromaddress, $fromname);
+
+			$mailo->WordWrap = 50;
+			if($html==1) $mailo->IsHTML(true); else $mailo->IsHTML(false);
+
+			$mailo->Subject = $subject;
+			if($altbody=='') {
+				$mailo->Body    = $mailtext.OC_MAIL::getfooter();
+				$mailo->AltBody = '';
+			}else{
+				$mailo->Body    = $mailtext;
+				$mailo->AltBody = $altbody;
+			}
+			$mailo->CharSet = 'UTF-8';
+
+			$mailo->Send();
+			unset($mailo);
+			OC_Log::write('mail', 'Mail from '.$fromname.' ('.$fromaddress.')'.' to: '.$toname.'('.$toaddress.')'.' subject: '.$subject, OC_Log::DEBUG);
+		} catch (Exception $exception) {
+			OC_Log::write('mail', $exception->getMessage(), OC_Log::ERROR);
+			throw($exception);
 		}
-
-		if($ccaddress<>'') $mailo->AddCC($ccaddress,$ccname);
-		if($bcc<>'') $mailo->AddBCC($bcc);
-
-		$mailo->AddReplyTo($fromaddress, $fromname);
-
-		$mailo->WordWrap = 50;
-		if($html==1) $mailo->IsHTML(true); else $mailo->IsHTML(false);
-
-		$mailo->Subject = $subject;
-		if($altbody=='') {
-			$mailo->Body    = $mailtext.OC_MAIL::getfooter();
-			$mailo->AltBody = '';
-		}else{
-			$mailo->Body    = $mailtext;
-			$mailo->AltBody = $altbody;
-		}
-		$mailo->CharSet = 'UTF-8';
-
-		$mailo->Send();
-		unset($mailo);
-
-		OC_Log::write('Mail from '.$fromname.' ('.$fromaddress.')'.' to: '.$toname.'('.$toaddress.')'.' subject: '.$subject,'mail',OC_Log::DEBUG);
-
 	}
 
 

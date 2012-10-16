@@ -11,20 +11,20 @@ OCP\JSON::checkLoggedIn();
 $query = $_GET['term'];
 $dirOnly=(isset($_GET['dironly']))?($_GET['dironly']=='true'):false;
 
-if($query[0]!='/'){
+if($query[0]!='/') {
 	$query='/'.$query;
 }
 
-if(substr($query,-1,1)=='/'){
+if(substr($query, -1, 1)=='/') {
 	$base=$query;
-}else{
+} else {
 	$base=dirname($query);
 }
 
-$query=substr($query,strlen($base));
+$query=substr($query, strlen($base));
 
-if($base!='/'){
-	$query=substr($query,1);
+if($base!='/') {
+	$query=substr($query, 1);
 }
 $queryLen=strlen($query);
 $query=strtolower($query);
@@ -33,17 +33,17 @@ $query=strtolower($query);
 
 $files=array();
 
-if(OC_Filesystem::file_exists($base) and OC_Filesystem::is_dir($base)){
+if(OC_Filesystem::file_exists($base) and OC_Filesystem::is_dir($base)) {
 	$dh = OC_Filesystem::opendir($base);
-	if($dh){
-		if(substr($base,-1,1)!='/'){
+	if($dh) {
+		if(substr($base, -1, 1)!='/') {
 			$base=$base.'/';
 		}
 		while (($file = readdir($dh)) !== false) {
-			if ($file != "." && $file != ".."){
-				if(substr(strtolower($file),0,$queryLen)==$query){
+			if ($file != "." && $file != "..") {
+				if(substr(strtolower($file), 0, $queryLen)==$query) {
 					$item=$base.$file;
-					if((!$dirOnly or OC_Filesystem::is_dir($item))){
+					if((!$dirOnly or OC_Filesystem::is_dir($item))) {
 						$files[]=(object)array('id'=>$item,'label'=>$item,'name'=>$item);
 					}
 				}

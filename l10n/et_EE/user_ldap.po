@@ -1,0 +1,171 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Rivo Zängov <eraser@eraser.ee>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-12 02:01+0200\n"
+"PO-Revision-Date: 2012-09-11 10:46+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
+"Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: et_EE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/settings.php:8
+msgid "Host"
+msgstr "Host"
+
+#: templates/settings.php:8
+msgid ""
+"You can omit the protocol, except you require SSL. Then start with ldaps://"
+msgstr ""
+
+#: templates/settings.php:9
+msgid "Base DN"
+msgstr "Baas DN"
+
+#: templates/settings.php:9
+msgid "You can specify Base DN for users and groups in the Advanced tab"
+msgstr ""
+
+#: templates/settings.php:10
+msgid "User DN"
+msgstr "Kasutaja DN"
+
+#: templates/settings.php:10
+msgid ""
+"The DN of the client user with which the bind shall be done, e.g. "
+"uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
+"empty."
+msgstr ""
+
+#: templates/settings.php:11
+msgid "Password"
+msgstr "Parool"
+
+#: templates/settings.php:11
+msgid "For anonymous access, leave DN and Password empty."
+msgstr ""
+
+#: templates/settings.php:12
+msgid "User Login Filter"
+msgstr "Kasutajanime filter"
+
+#: templates/settings.php:12
+#, php-format
+msgid ""
+"Defines the filter to apply, when login is attempted. %%uid replaces the "
+"username in the login action."
+msgstr ""
+
+#: templates/settings.php:12
+#, php-format
+msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
+msgstr "kasuta %%uid kohatäitjat, nt. \"uid=%%uid\""
+
+#: templates/settings.php:13
+msgid "User List Filter"
+msgstr "Kasutajate nimekirja filter"
+
+#: templates/settings.php:13
+msgid "Defines the filter to apply, when retrieving users."
+msgstr "Määrab kasutajaid hankides filtri, mida rakendatakse."
+
+#: templates/settings.php:13
+msgid "without any placeholder, e.g. \"objectClass=person\"."
+msgstr "ilma ühegi kohatäitjata, nt. \"objectClass=person\"."
+
+#: templates/settings.php:14
+msgid "Group Filter"
+msgstr "Grupi filter"
+
+#: templates/settings.php:14
+msgid "Defines the filter to apply, when retrieving groups."
+msgstr "Määrab gruppe hankides filtri, mida rakendatakse."
+
+#: templates/settings.php:14
+msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
+msgstr "ilma ühegi kohatäitjata, nt. \"objectClass=posixGroup\"."
+
+#: templates/settings.php:17
+msgid "Port"
+msgstr "Port"
+
+#: templates/settings.php:18
+msgid "Base User Tree"
+msgstr "Baaskasutaja puu"
+
+#: templates/settings.php:19
+msgid "Base Group Tree"
+msgstr "Baasgrupi puu"
+
+#: templates/settings.php:20
+msgid "Group-Member association"
+msgstr "Grupiliikme seotus"
+
+#: templates/settings.php:21
+msgid "Use TLS"
+msgstr "Kasutaja TLS"
+
+#: templates/settings.php:21
+msgid "Do not use it for SSL connections, it will fail."
+msgstr "Ära kasuta seda SSL ühenduse jaoks, see ei toimi."
+
+#: templates/settings.php:22
+msgid "Case insensitve LDAP server (Windows)"
+msgstr "Mittetõstutundlik LDAP server (Windows)"
+
+#: templates/settings.php:23
+msgid "Turn off SSL certificate validation."
+msgstr "Lülita SSL sertifikaadi kontrollimine välja."
+
+#: templates/settings.php:23
+msgid ""
+"If connection only works with this option, import the LDAP server's SSL "
+"certificate in your ownCloud server."
+msgstr ""
+
+#: templates/settings.php:23
+msgid "Not recommended, use for testing only."
+msgstr "Pole soovitatav, kasuta ainult testimiseks."
+
+#: templates/settings.php:24
+msgid "User Display Name Field"
+msgstr "Kasutaja näidatava nime väli"
+
+#: templates/settings.php:24
+msgid "The LDAP attribute to use to generate the user`s ownCloud name."
+msgstr "LDAP omadus, mida kasutatakse kasutaja ownCloudi nime loomiseks."
+
+#: templates/settings.php:25
+msgid "Group Display Name Field"
+msgstr "Grupi näidatava nime väli"
+
+#: templates/settings.php:25
+msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
+msgstr "LDAP omadus, mida kasutatakse ownCloudi grupi nime loomiseks."
+
+#: templates/settings.php:27
+msgid "in bytes"
+msgstr "baitides"
+
+#: templates/settings.php:29
+msgid "in seconds. A change empties the cache."
+msgstr "sekundites. Muudatus tühjendab vahemälu."
+
+#: templates/settings.php:30
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Kasutajanime (vaikeväärtus) kasutamiseks jäta tühjaks. Vastasel juhul määra LDAP/AD omadus."
+
+#: templates/settings.php:32
+msgid "Help"
+msgstr "Abiinfo"

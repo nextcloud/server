@@ -1,0 +1,43 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <g.ciprian@osn.ro>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-09-27 02:01+0200\n"
+"PO-Revision-Date: 2012-09-26 13:05+0000\n"
+"Last-Translator: g.ciprian <g.ciprian@osn.ro>\n"
+"Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#: js/settings-personal.js:31 templates/settings-personal.php:10
+msgid "Expire all versions"
+msgstr "Expiră toate versiunile"
+
+#: js/versions.js:16
+msgid "History"
+msgstr "Istoric"
+
+#: templates/settings-personal.php:4
+msgid "Versions"
+msgstr "Versiuni"
+
+#: templates/settings-personal.php:7
+msgid "This will delete all existing backup versions of your files"
+msgstr "Această acțiune va șterge toate versiunile salvate ale fișierelor tale"
+
+#: templates/settings.php:3
+msgid "Files Versioning"
+msgstr "Versionare fișiere"
+
+#: templates/settings.php:4
+msgid "Enable"
+msgstr "Activare"

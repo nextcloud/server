@@ -39,14 +39,13 @@ require_once 'phpass/PasswordHash.php';
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
 class OC_User_Database extends OC_User_Backend {
-	static private $userGroupCache=array();
 	/**
 	 * @var PasswordHash
 	 */
 	static private $hasher=null;
-	
-	private function getHasher(){
-		if(!self::$hasher){
+
+	private function getHasher() {
+		if(!self::$hasher) {
 			//we don't want to use DES based crypt(), since it doesn't return a has with a recognisable prefix
 			$forcePortable=(CRYPT_BLOWFISH!=1);
 			self::$hasher=new PasswordHash(8,$forcePortable);
@@ -54,7 +53,7 @@ class OC_User_Database extends OC_User_Backend {
 		return self::$hasher;
 
 	}
-	
+
 	/**
 	 * @brief Create a new user
 	 * @param $uid The username of the user to create
@@ -64,13 +63,13 @@ class OC_User_Database extends OC_User_Backend {
 	 * Creates a new user. Basic checking of username is done in OC_User
 	 * itself, not in its subclasses.
 	 */
-	public function createUser( $uid, $password ){
-		if( $this->userExists($uid) ){
+	public function createUser( $uid, $password ) {
+		if( $this->userExists($uid) ) {
 			return false;
 		}else{
 			$hasher=$this->getHasher();
 			$hash = $hasher->HashPassword($password.OC_Config::getValue('passwordsalt', ''));
-			$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
+			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )' );
 			$result = $query->execute( array( $uid, $hash));
 
 			return $result ? true : false;
@@ -84,10 +83,10 @@ class OC_User_Database extends OC_User_Backend {
 	 *
 	 * Deletes a user
 	 */
-	public function deleteUser( $uid ){
+	public function deleteUser( $uid ) {
 		// Delete user-group-relation
-		$query = OC_DB::prepare( "DELETE FROM `*PREFIX*users` WHERE uid = ?" );
-		$result = $query->execute( array( $uid ));
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*users` WHERE uid = ?' );
+		$query->execute( array( $uid ));
 		return true;
 	}
 
@@ -99,16 +98,15 @@ class OC_User_Database extends OC_User_Backend {
 	 *
 	 * Change the password of a user
 	 */
-	public function setPassword( $uid, $password ){
-		if( $this->userExists($uid) ){
+	public function setPassword( $uid, $password ) {
+		if( $this->userExists($uid) ) {
 			$hasher=$this->getHasher();
 			$hash = $hasher->HashPassword($password.OC_Config::getValue('passwordsalt', ''));
-			$query = OC_DB::prepare( "UPDATE *PREFIX*users SET password = ? WHERE uid = ?" );
-			$result = $query->execute( array( $hash, $uid ));
+			$query = OC_DB::prepare( 'UPDATE `*PREFIX*users` SET `password` = ? WHERE `uid` = ?' );
+			$query->execute( array( $hash, $uid ));
 
 			return true;
-		}
-		else{
+		}else{
 			return false;
 		}
 	}
@@ -122,22 +120,22 @@ class OC_User_Database extends OC_User_Backend {
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false
 	 */
-	public function checkPassword( $uid, $password ){
-		$query = OC_DB::prepare( "SELECT uid, password FROM *PREFIX*users WHERE uid = ?" );
+	public function checkPassword( $uid, $password ) {
+		$query = OC_DB::prepare( 'SELECT `uid`, `password` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)' );
 		$result = $query->execute( array( $uid));
 
 		$row=$result->fetchRow();
-		if($row){
+		if($row) {
 			$storedHash=$row['password'];
-			if ($storedHash[0]=='$'){//the new phpass based hashing
+			if ($storedHash[0]=='$') {//the new phpass based hashing
 				$hasher=$this->getHasher();
-				if($hasher->CheckPassword($password.OC_Config::getValue('passwordsalt', ''), $storedHash)){
+				if($hasher->CheckPassword($password.OC_Config::getValue('passwordsalt', ''), $storedHash)) {
 					return $row['uid'];
 				}else{
 					return false;
 				}
 			}else{//old sha1 based hashing
-				if(sha1($password)==$storedHash){
+				if(sha1($password)==$storedHash) {
 					//upgrade to new hashing
 					$this->setPassword($row['uid'],$password);
 					return $row['uid'];
@@ -156,13 +154,12 @@ class OC_User_Database extends OC_User_Backend {
 	 *
 	 * Get a list of all users.
 	 */
-	public function getUsers(){
-		$query = OC_DB::prepare( "SELECT uid FROM *PREFIX*users" );
-		$result = $query->execute();
-
-		$users=array();
-		while( $row = $result->fetchRow()){
-			$users[] = $row["uid"];
+	public function getUsers($search = '', $limit = null, $offset = null) {
+		$query = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users` WHERE LOWER(`uid`) LIKE LOWER(?)',$limit,$offset);
+		$result = $query->execute(array($search.'%'));
+		$users = array();
+		while ($row = $result->fetchRow()) {
+			$users[] = $row['uid'];
 		}
 		return $users;
 	}
@@ -172,10 +169,23 @@ class OC_User_Database extends OC_User_Backend {
 	 * @param string $uid the username
 	 * @return boolean
 	 */
-	public function userExists($uid){
-		$query = OC_DB::prepare( "SELECT * FROM `*PREFIX*users` WHERE uid = ?" );
+	public function userExists($uid) {
+		$query = OC_DB::prepare( 'SELECT * FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)' );
 		$result = $query->execute( array( $uid ));
-		
+
 		return $result->numRows() > 0;
+	}
+
+	/**
+	* @brief get the user's home directory
+	* @param string $uid the username
+	* @return boolean
+	*/
+	public function getHome($uid) {
+		if($this->userExists($uid)) {
+			return OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/' . $uid;
+		}else{
+			return false;
+		}
 	}
 }
