@@ -307,7 +307,7 @@ class OC{
 		ini_set('arg_separator.output', '&amp;');
 
 		// try to switch magic quotes off.
-		if(function_exists('set_magic_quotes_runtime')) {
+		if(get_magic_quotes_gpc()) {
 			@set_magic_quotes_runtime(false);
 		}
 
