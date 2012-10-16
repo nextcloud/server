@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "アプリストアからリストをロードできません",
-"Authentication error" => "認証エラー",
 "Group already exists" => "グループは既に存在しています",
 "Unable to add group" => "グループを追加できません",
 "Could not enable app. " => "アプリを有効にできませんでした。",
@@ -9,6 +8,7 @@
 "OpenID Changed" => "OpenIDが変更されました",
 "Invalid request" => "無効なリクエストです",
 "Unable to delete group" => "グループを削除できません",
+"Authentication error" => "認証エラー",
 "Unable to delete user" => "ユーザを削除できません",
 "Language changed" => "言語が変更されました",
 "Unable to add user to group %s" => "ユーザをグループ %s に追加できません",
@@ -46,7 +46,7 @@
 "Problems connecting to help database." => "ヘルプデータベースへの接続時に問題が発生しました",
 "Go there manually." => "手動で移動してください。",
 "Answer" => "解答",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "現在､<strong>%s</strong> / <strong>%s<strong> を利用しています",
+"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "現在､ <strong>%s</strong> / <strong>%s<strong> を利用しています",
 "Desktop and Mobile Syncing Clients" => "デスクトップおよびモバイル用の同期クライアント",
 "Download" => "ダウンロード",
 "Your password was changed" => "パスワードを変更しました",

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-12 02:03+0200\n"
-"PO-Revision-Date: 2012-10-11 08:03+0000\n"
+"POT-Creation-Date: 2012-10-16 02:03+0200\n"
+"PO-Revision-Date: 2012-10-15 13:57+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "DN клиентского пользователя, с которого должна осуществляться привязка, например, uid=agent,dc=example,dc=com. Для анонимного доступа оставьте поля DN и Пароль пустыми."
 
 #: templates/settings.php:11
 msgid "Password"
@@ -63,7 +63,7 @@ msgstr "Фильтр имен пользователей"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Задает фильтр, применяемый при загрузке пользователя. %%uid заменяет имя пользователя при входе."
 
 #: templates/settings.php:12
 #, php-format
@@ -72,11 +72,11 @@ msgstr "используйте %%uid заполнитель, например, \
 
 #: templates/settings.php:13
 msgid "User List Filter"
-msgstr ""
+msgstr "Фильтр списка пользователей"
 
 #: templates/settings.php:13
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Задает фильтр, применяемый при получении пользователей."
 
 #: templates/settings.php:13
 msgid "without any placeholder, e.g. \"objectClass=person\"."
@@ -88,7 +88,7 @@ msgstr "Групповой фильтр"
 
 #: templates/settings.php:14
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Задает фильтр, применяемый при получении групп."
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
@@ -104,7 +104,7 @@ msgstr "Базовое дерево пользователей"
 
 #: templates/settings.php:19
 msgid "Base Group Tree"
-msgstr ""
+msgstr "Базовое дерево групп"
 
 #: templates/settings.php:20
 msgid "Group-Member association"
@@ -130,7 +130,7 @@ msgstr "Выключить проверку сертификата SSL."
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "Если соединение работает только с этой опцией, импортируйте SSL-сертификат LDAP сервера в ваш ownCloud сервер."
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
@@ -146,7 +146,7 @@ msgstr "Атрибут LDAP, используемый для создания и
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Поле, отображаемое как имя группы"
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."

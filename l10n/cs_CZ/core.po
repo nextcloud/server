@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-15 02:04+0200\n"
-"PO-Revision-Date: 2012-10-15 00:05+0000\n"
+"POT-Creation-Date: 2012-10-16 02:04+0200\n"
+"PO-Revision-Date: 2012-10-16 00:05+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -150,7 +150,8 @@ msgstr "Sdílet s odkazem"
 msgid "Password protect"
 msgstr "Chránit heslem"
 
-#: js/share.js:147 templates/installation.php:36 templates/login.php:13
+#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
 msgid "Password"
 msgstr "Heslo"
 
@@ -242,8 +243,8 @@ msgstr "Požadováno"
 msgid "Login failed!"
 msgstr "Přihlášení selhalo."
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:32
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Uživatelské jméno"
 
@@ -303,64 +304,73 @@ msgstr "Upravit kategorie"
 msgid "Add"
 msgstr "Přidat"
 
-#: templates/installation.php:23
+#: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Bezpečnostní upozornění"
 
 #: templates/installation.php:24
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Není dostupný žádný bezpečný generátor náhodných čísel. Povolte, prosím, rozšíření OpenSSL v PHP."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
+msgstr "Bez bezpečného generátoru náhodných čísel může útočník předpovědět token pro obnovu hesla a převzít kontrolu nad Vaším účtem."
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
 msgstr ""
 
-#: templates/installation.php:30
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvořit <strong>účet správce</strong>"
 
-#: templates/installation.php:42
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "Pokročilé"
 
-#: templates/installation.php:44
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "Složka s daty"
 
-#: templates/installation.php:51
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "Nastavit databázi"
 
-#: templates/installation.php:56 templates/installation.php:67
-#: templates/installation.php:77 templates/installation.php:87
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "bude použito"
 
-#: templates/installation.php:99
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Uživatel databáze"
 
-#: templates/installation.php:103
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "Heslo databáze"
 
-#: templates/installation.php:107
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Název databáze"
 
-#: templates/installation.php:115
+#: templates/installation.php:121
 msgid "Database tablespace"
 msgstr "Tabulkový prostor databáze"
 
-#: templates/installation.php:121
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Hostitel databáze"
 
-#: templates/installation.php:126
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "Dokončit nastavení"
 
@@ -372,15 +382,29 @@ msgstr "webové služby pod Vaší kontrolou"
 msgid "Log out"
 msgstr "Odhlásit se"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr ""
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr ""
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr ""
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "Ztratili jste své heslo?"
 
-#: templates/login.php:16
+#: templates/login.php:27
 msgid "remember"
 msgstr "zapamatovat si"
 
-#: templates/login.php:17
+#: templates/login.php:28
 msgid "Log in"
 msgstr "Přihlásit"
 
@@ -395,3 +419,17 @@ msgstr "předchozí"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "následující"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr ""
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr ""
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr ""
