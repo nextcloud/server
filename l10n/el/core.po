@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-15 02:04+0200\n"
-"PO-Revision-Date: 2012-10-15 00:05+0000\n"
+"POT-Creation-Date: 2012-10-16 02:04+0200\n"
+"PO-Revision-Date: 2012-10-16 00:05+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -151,7 +151,8 @@ msgstr "Διαμοιρασμός με σύνδεσμο"
 msgid "Password protect"
 msgstr "Προστασία κωδικού"
 
-#: js/share.js:147 templates/installation.php:36 templates/login.php:13
+#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
 msgid "Password"
 msgstr "Κωδικός"
 
@@ -243,8 +244,8 @@ msgstr "Ζητήθησαν"
 msgid "Login failed!"
 msgstr "Η σύνδεση απέτυχε!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:32
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Όνομα Χρήστη"
 
@@ -304,9 +305,9 @@ msgstr "Επεξεργασία κατηγορίας"
 msgid "Add"
 msgstr "Προσθήκη"
 
-#: templates/installation.php:23
+#: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Προειδοποίηση Ασφαλείας"
 
 #: templates/installation.php:24
 msgid ""
@@ -320,48 +321,57 @@ msgid ""
 "password reset tokens and take over your account."
 msgstr ""
 
-#: templates/installation.php:30
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>"
 
-#: templates/installation.php:42
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "Για προχωρημένους"
 
-#: templates/installation.php:44
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "Φάκελος δεδομένων"
 
-#: templates/installation.php:51
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "Διαμόρφωση της βάσης δεδομένων"
 
-#: templates/installation.php:56 templates/installation.php:67
-#: templates/installation.php:77 templates/installation.php:87
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "θα χρησιμοποιηθούν"
 
-#: templates/installation.php:99
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Χρήστης της βάσης δεδομένων"
 
-#: templates/installation.php:103
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "Κωδικός πρόσβασης βάσης δεδομένων"
 
-#: templates/installation.php:107
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Όνομα βάσης δεδομένων"
 
-#: templates/installation.php:115
+#: templates/installation.php:121
 msgid "Database tablespace"
 msgstr "Κενά Πινάκων Βάσης Δεδομένων"
 
-#: templates/installation.php:121
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Διακομιστής βάσης δεδομένων"
 
-#: templates/installation.php:126
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "Ολοκλήρωση εγκατάστασης"
 
@@ -373,15 +383,29 @@ msgstr "Υπηρεσίες web υπό τον έλεγχό σας"
 msgid "Log out"
 msgstr "Αποσύνδεση"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr ""
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr ""
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr ""
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "Ξεχάσατε τον κωδικό σας;"
 
-#: templates/login.php:16
+#: templates/login.php:27
 msgid "remember"
 msgstr "να με θυμάσαι"
 
-#: templates/login.php:17
+#: templates/login.php:28
 msgid "Log in"
 msgstr "Είσοδος"
 
@@ -396,3 +420,17 @@ msgstr "προηγούμενο"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "επόμενο"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr ""
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr ""
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr ""

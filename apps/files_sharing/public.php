@@ -24,12 +24,12 @@ if (isset($_GET['token'])) {
 if (isset($_GET['file']) || isset($_GET['dir'])) {
 	if (isset($_GET['dir'])) {
 		$type = 'folder';
-		$path = $_GET['dir'];
+		$path = OC_Filesystem::normalizePath($_GET['dir']);
 		$baseDir = $path;
 		$dir = $baseDir;
 	} else {
 		$type = 'file';
-		$path = $_GET['file'];
+		$path = OC_Filesystem::normalizePath($_GET['file']);
 	}
 	$uidOwner = substr($path, 1, strpos($path, '/', 1) - 1);
 	if (OCP\User::userExists($uidOwner)) {

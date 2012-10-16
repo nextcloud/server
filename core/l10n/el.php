@@ -69,6 +69,7 @@
 "Cloud not found" => "Δεν βρέθηκε σύννεφο",
 "Edit categories" => "Επεξεργασία κατηγορίας",
 "Add" => "Προσθήκη",
+"Security Warning" => "Προειδοποίηση Ασφαλείας",
 "Create an <strong>admin account</strong>" => "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>",
 "Advanced" => "Για προχωρημένους",
 "Data folder" => "Φάκελος δεδομένων",

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-14 02:05+0200\n"
-"PO-Revision-Date: 2012-10-13 06:57+0000\n"
+"POT-Creation-Date: 2012-10-16 02:04+0200\n"
+"PO-Revision-Date: 2012-10-15 07:29+0000\n"
 "Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -23,16 +23,11 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "アプリストアからリストをロードできません"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:18 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "認証エラー"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr "グループは既に存在しています"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr "グループを追加できません"
 
@@ -59,6 +54,10 @@ msgstr "無効なリクエストです"
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
 msgstr "グループを削除できません"
+
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "認証エラー"
 
 #: ajax/removeuser.php:27
 msgid "Unable to delete user"
@@ -228,7 +227,7 @@ msgstr "解答"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr "現在､<strong>%s</strong> / <strong>%s<strong> を利用しています"
+msgstr "現在､ <strong>%s</strong> / <strong>%s<strong> を利用しています"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
