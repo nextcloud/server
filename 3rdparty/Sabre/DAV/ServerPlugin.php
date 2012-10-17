@@ -19,7 +19,7 @@ abstract class Sabre_DAV_ServerPlugin {
      * This function is called by Sabre_DAV_Server, after
      * addPlugin is called.
      *
-     * This method should set up the requires event subscriptions.
+     * This method should set up the required event subscriptions.
      *
      * @param Sabre_DAV_Server $server
      * @return void

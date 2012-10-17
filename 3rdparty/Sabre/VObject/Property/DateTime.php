@@ -1,5 +1,9 @@
 <?php
 
+namespace Sabre\VObject\Property;
+
+use Sabre\VObject;
+
 /**
  * DateTime property
  *
@@ -13,13 +17,11 @@
  * If you use the 'value' or properties directly, this object does not keep
  * reference and results might appear incorrectly.
  *
- * @package Sabre
- * @subpackage VObject
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Sabre_VObject_Property_DateTime extends Sabre_VObject_Property {
+class DateTime extends VObject\Property {
 
     /**
      * Local 'floating' time
@@ -44,7 +46,7 @@ class Sabre_VObject_Property_DateTime extends Sabre_VObject_Property {
     /**
      * DateTime representation
      *
-     * @var DateTime
+     * @var \DateTime
      */
     protected $dateTime;
 
@@ -58,11 +60,11 @@ class Sabre_VObject_Property_DateTime extends Sabre_VObject_Property {
     /**
      * Updates the Date and Time.
      *
-     * @param DateTime $dt
+     * @param \DateTime $dt
      * @param int $dateType
      * @return void
      */
-    public function setDateTime(DateTime $dt, $dateType = self::LOCALTZ) {
+    public function setDateTime(\DateTime $dt, $dateType = self::LOCALTZ) {
 
         switch($dateType) {
 
@@ -73,7 +75,7 @@ class Sabre_VObject_Property_DateTime extends Sabre_VObject_Property {
                 $this->offsetSet('VALUE','DATE-TIME');
                 break;
             case self::UTC :
-                $dt->setTimeZone(new DateTimeZone('UTC'));
+                $dt->setTimeZone(new \DateTimeZone('UTC'));
                 $this->setValue($dt->format('Ymd\\THis\\Z'));
                 $this->offsetUnset('VALUE');
                 $this->offsetUnset('TZID');
@@ -93,7 +95,7 @@ class Sabre_VObject_Property_DateTime extends Sabre_VObject_Property {
                 $this->offsetSet('VALUE','DATE');
                 break;
             default :
-                throw new InvalidArgumentException('You must pass a valid dateType constant');
+                throw new \InvalidArgumentException('You must pass a valid dateType constant');
 
         }
         $this->dateTime = $dt;
@@ -106,7 +108,7 @@ class Sabre_VObject_Property_DateTime extends Sabre_VObject_Property {
      *
      * If no value was set, this method returns null.
      *
-     * @return DateTime|null
+     * @return \DateTime|null
      */
     public function getDateTime() {
 
@@ -152,11 +154,11 @@ class Sabre_VObject_Property_DateTime extends Sabre_VObject_Property {
      *
      * @param string|null $propertyValue The string to parse (yymmdd or
      *                                   ymmddThhmmss, etc..)
-     * @param Sabre_VObject_Property|null $property The instance of the
+     * @param \Sabre\VObject\Property|null $property The instance of the
      *                                              property we're parsing.
      * @return array
      */
-    static public function parseData($propertyValue, Sabre_VObject_Property $property = null) {
+    static public function parseData($propertyValue, VObject\Property $property = null) {
 
         if (is_null($propertyValue)) {
             return array(null, null);
@@ -167,14 +169,14 @@ class Sabre_VObject_Property_DateTime extends Sabre_VObject_Property {
         $regex = "/^$date(T$time(?P<isutc>Z)?)?$/";
 
         if (!preg_match($regex, $propertyValue, $matches)) {
-            throw new InvalidArgumentException($propertyValue . ' is not a valid DateTime or Date string');
+            throw new \InvalidArgumentException($propertyValue . ' is not a valid \DateTime or Date string');
         }
 
         if (!isset($matches['hour'])) {
             // Date-only
             return array(
                 self::DATE,
-                new DateTime($matches['year'] . '-' . $matches['month'] . '-' . $matches['date'] . ' 00:00:00'),
+                new \DateTime($matches['year'] . '-' . $matches['month'] . '-' . $matches['date'] . ' 00:00:00', new \DateTimeZone('UTC')),
             );
         }
 
@@ -187,8 +189,8 @@ class Sabre_VObject_Property_DateTime extends Sabre_VObject_Property {
             $matches['second'];
 
         if (isset($matches['isutc'])) {
-            $dt = new DateTime($dateStr,new DateTimeZone('UTC'));
-            $dt->setTimeZone(new DateTimeZone('UTC'));
+            $dt = new \DateTime($dateStr,new \DateTimeZone('UTC'));
+            $dt->setTimeZone(new \DateTimeZone('UTC'));
             return array(
                 self::UTC,
                 $dt
@@ -198,56 +200,27 @@ class Sabre_VObject_Property_DateTime extends Sabre_VObject_Property {
         // Finding the timezone.
         $tzid = $property['TZID'];
         if (!$tzid) {
+            // This was a floating time string. This implies we use the
+            // timezone from date_default_timezone_set / date.timezone ini
+            // setting.
             return array(
                 self::LOCAL,
-                new DateTime($dateStr)
+                new \DateTime($dateStr)
             );
         }
 
-        try {
-            // tzid an Olson identifier?
-            $tz = new DateTimeZone($tzid->value);
-        } catch (Exception $e) {
-
-            // Not an Olson id, we're going to try to find the information 
-            // through the time zone name map.
-            $newtzid = Sabre_VObject_WindowsTimezoneMap::lookup($tzid->value);
-            if (is_null($newtzid)) {
-
-                // Not a well known time zone name either, we're going to try 
-                // to find the information through the VTIMEZONE object.
-
-                // First we find the root object
-                $root = $property;
-                while($root->parent) {
-                    $root = $root->parent;
-                }
-
-                if (isset($root->VTIMEZONE)) {
-                    foreach($root->VTIMEZONE as $vtimezone) {
-                        if (((string)$vtimezone->TZID) == $tzid) {
-                            if (isset($vtimezone->{'X-LIC-LOCATION'})) {
-                                $newtzid = (string)$vtimezone->{'X-LIC-LOCATION'};
-                            } else {
-                                // No libical location specified. As a last resort we could 
-                                // try matching $vtimezone's DST rules against all known 
-                                // time zones returned by DateTimeZone::list*
-
-                                // TODO
-                            }
-                        }
-                    }
-                }
-            }
-
-            try {
-                $tz = new DateTimeZone($newtzid);
-            } catch (Exception $e) {
-                // If all else fails, we use the default PHP timezone
-                $tz = new DateTimeZone(date_default_timezone_get()); 
-            }
+        // To look up the timezone, we must first find the VCALENDAR component.
+        $root = $property;
+        while($root->parent) {
+            $root = $root->parent;
         }
-        $dt = new DateTime($dateStr, $tz);
+        if ($root->name === 'VCALENDAR') {
+            $tz = VObject\TimeZoneUtil::getTimeZone((string)$tzid, $root);
+        } else {
+            $tz = VObject\TimeZoneUtil::getTimeZone((string)$tzid);
+        }
+
+        $dt = new \DateTime($dateStr, $tz);
         $dt->setTimeZone($tz);
 
         return array(

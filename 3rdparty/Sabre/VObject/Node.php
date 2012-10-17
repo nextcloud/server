@@ -1,15 +1,20 @@
 <?php
 
+namespace Sabre\VObject;
+
 /**
  * Base class for all nodes
  *
- * @package Sabre
- * @subpackage VObject
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-abstract class Sabre_VObject_Node implements IteratorAggregate, ArrayAccess, Countable {
+abstract class Node implements \IteratorAggregate, \ArrayAccess, \Countable {
+
+    /**
+     * The following constants are used by the validate() method.
+     */
+    const REPAIR = 1;
 
     /**
      * Turns the object back into a serialized blob.
@@ -21,30 +26,53 @@ abstract class Sabre_VObject_Node implements IteratorAggregate, ArrayAccess, Cou
     /**
      * Iterator override
      *
-     * @var Sabre_VObject_ElementList
+     * @var ElementList
      */
     protected $iterator = null;
 
     /**
      * A link to the parent node
      *
-     * @var Sabre_VObject_Node
+     * @var Node
      */
     public $parent = null;
+
+    /**
+     * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   - Node::REPAIR - If something is broken, and automatic repair may
+     *                    be attempted.
+     *
+     * An array is returned with warnings.
+     *
+     * Every item in the array has the following properties:
+     *    * level - (number between 1 and 3 with severity information)
+     *    * message - (human readable message)
+     *    * node - (reference to the offending node)
+     *
+     * @param int $options
+     * @return array
+     */
+    public function validate($options = 0) {
+
+        return array();
+
+    }
 
     /* {{{ IteratorAggregator interface */
 
     /**
      * Returns the iterator for this object
      *
-     * @return Sabre_VObject_ElementList
+     * @return ElementList
      */
     public function getIterator() {
 
         if (!is_null($this->iterator))
             return $this->iterator;
 
-        return new Sabre_VObject_ElementList(array($this));
+        return new ElementList(array($this));
 
     }
 
@@ -53,10 +81,10 @@ abstract class Sabre_VObject_Node implements IteratorAggregate, ArrayAccess, Cou
      *
      * Note that this is not actually part of the iterator interface
      *
-     * @param Sabre_VObject_ElementList $iterator
+     * @param ElementList $iterator
      * @return void
      */
-    public function setIterator(Sabre_VObject_ElementList $iterator) {
+    public function setIterator(ElementList $iterator) {
 
         $this->iterator = $iterator;
 
@@ -125,9 +153,14 @@ abstract class Sabre_VObject_Node implements IteratorAggregate, ArrayAccess, Cou
     public function offsetSet($offset,$value) {
 
         $iterator = $this->getIterator();
-        return $iterator->offsetSet($offset,$value);
+        $iterator->offsetSet($offset,$value);
 
+    // @codeCoverageIgnoreStart
+    //
+    // This method always throws an exception, so we ignore the closing
+    // brace
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * Sets an item through ArrayAccess.
@@ -140,9 +173,14 @@ abstract class Sabre_VObject_Node implements IteratorAggregate, ArrayAccess, Cou
     public function offsetUnset($offset) {
 
         $iterator = $this->getIterator();
-        return $iterator->offsetUnset($offset);
+        $iterator->offsetUnset($offset);
 
+    // @codeCoverageIgnoreStart
+    //
+    // This method always throws an exception, so we ignore the closing
+    // brace
     }
+    // @codeCoverageIgnoreEnd
 
     /* }}} */
 

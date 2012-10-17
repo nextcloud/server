@@ -1,14 +1,15 @@
 <?php
 
 /**
- * Users collection
+ * Calendars collection
  *
- * This object is responsible for generating a collection of users.
+ * This object is responsible for generating a list of calendar-homes for each
+ * user.
  *
  * @package Sabre
  * @subpackage CalDAV
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_CalDAV_CalendarRootNode extends Sabre_DAVACL_AbstractPrincipalCollection {
@@ -16,7 +17,7 @@ class Sabre_CalDAV_CalendarRootNode extends Sabre_DAVACL_AbstractPrincipalCollec
     /**
      * CalDAV backend
      *
-     * @var Sabre_CalDAV_Backend_Abstract
+     * @var Sabre_CalDAV_Backend_BackendInterface
      */
     protected $caldavBackend;
 
@@ -32,10 +33,10 @@ class Sabre_CalDAV_CalendarRootNode extends Sabre_DAVACL_AbstractPrincipalCollec
      *
      *
      * @param Sabre_DAVACL_IPrincipalBackend $principalBackend
-     * @param Sabre_CalDAV_Backend_Abstract $caldavBackend
+     * @param Sabre_CalDAV_Backend_BackendInterface $caldavBackend
      * @param string $principalPrefix
      */
-    public function __construct(Sabre_DAVACL_IPrincipalBackend $principalBackend,Sabre_CalDAV_Backend_Abstract $caldavBackend, $principalPrefix = 'principals') {
+    public function __construct(Sabre_DAVACL_IPrincipalBackend $principalBackend,Sabre_CalDAV_Backend_BackendInterface $caldavBackend, $principalPrefix = 'principals') {
 
         parent::__construct($principalBackend, $principalPrefix);
         $this->caldavBackend = $caldavBackend;

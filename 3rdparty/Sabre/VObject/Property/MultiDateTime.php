@@ -1,5 +1,9 @@
 <?php
 
+namespace Sabre\VObject\Property;
+
+use Sabre\VObject;
+
 /**
  * Multi-DateTime property
  *
@@ -13,13 +17,11 @@
  * If you use the 'value' or properties directly, this object does not keep
  * reference and results might appear incorrectly.
  *
- * @package Sabre
- * @subpackage VObject
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Sabre_VObject_Property_MultiDateTime extends Sabre_VObject_Property {
+class MultiDateTime extends VObject\Property {
 
     /**
      * DateTime representation
@@ -31,7 +33,7 @@ class Sabre_VObject_Property_MultiDateTime extends Sabre_VObject_Property {
     /**
      * dateType
      *
-     * This is one of the Sabre_VObject_Property_DateTime constants.
+     * This is one of the Sabre\VObject\Property\DateTime constants.
      *
      * @var int
      */
@@ -44,17 +46,17 @@ class Sabre_VObject_Property_MultiDateTime extends Sabre_VObject_Property {
      * @param int $dateType
      * @return void
      */
-    public function setDateTimes(array $dt, $dateType = Sabre_VObject_Property_DateTime::LOCALTZ) {
+    public function setDateTimes(array $dt, $dateType = VObject\Property\DateTime::LOCALTZ) {
 
         foreach($dt as $i)
-            if (!$i instanceof DateTime)
-                throw new InvalidArgumentException('You must pass an array of DateTime objects');
+            if (!$i instanceof \DateTime)
+                throw new \InvalidArgumentException('You must pass an array of DateTime objects');
 
         $this->offsetUnset('VALUE');
         $this->offsetUnset('TZID');
         switch($dateType) {
 
-            case Sabre_VObject_Property_DateTime::LOCAL :
+            case DateTime::LOCAL :
                 $val = array();
                 foreach($dt as $i) {
                     $val[] = $i->format('Ymd\\THis');
@@ -62,16 +64,16 @@ class Sabre_VObject_Property_MultiDateTime extends Sabre_VObject_Property {
                 $this->setValue(implode(',',$val));
                 $this->offsetSet('VALUE','DATE-TIME');
                 break;
-            case Sabre_VObject_Property_DateTime::UTC :
+            case DateTime::UTC :
                 $val = array();
                 foreach($dt as $i) {
-                    $i->setTimeZone(new DateTimeZone('UTC'));
+                    $i->setTimeZone(new \DateTimeZone('UTC'));
                     $val[] = $i->format('Ymd\\THis\\Z');
                 }
                 $this->setValue(implode(',',$val));
                 $this->offsetSet('VALUE','DATE-TIME');
                 break;
-            case Sabre_VObject_Property_DateTime::LOCALTZ :
+            case DateTime::LOCALTZ :
                 $val = array();
                 foreach($dt as $i) {
                     $val[] = $i->format('Ymd\\THis');
@@ -80,7 +82,7 @@ class Sabre_VObject_Property_MultiDateTime extends Sabre_VObject_Property {
                 $this->offsetSet('VALUE','DATE-TIME');
                 $this->offsetSet('TZID', $dt[0]->getTimeZone()->getName());
                 break;
-            case Sabre_VObject_Property_DateTime::DATE :
+            case DateTime::DATE :
                 $val = array();
                 foreach($dt as $i) {
                     $val[] = $i->format('Ymd');
@@ -89,7 +91,7 @@ class Sabre_VObject_Property_MultiDateTime extends Sabre_VObject_Property {
                 $this->offsetSet('VALUE','DATE');
                 break;
             default :
-                throw new InvalidArgumentException('You must pass a valid dateType constant');
+                throw new \InvalidArgumentException('You must pass a valid dateType constant');
 
         }
         $this->dateTimes = $dt;
@@ -121,7 +123,7 @@ class Sabre_VObject_Property_MultiDateTime extends Sabre_VObject_Property {
             list(
                 $type,
                 $dt
-            ) = Sabre_VObject_Property_DateTime::parseData($val, $this);
+            ) = DateTime::parseData($val, $this);
             $dts[] = $dt;
             $this->dateType = $type;
         }
@@ -154,7 +156,7 @@ class Sabre_VObject_Property_MultiDateTime extends Sabre_VObject_Property {
             list(
                 $type,
                 $dt
-            ) = Sabre_VObject_Property_DateTime::parseData($val, $this);
+            ) = DateTime::parseData($val, $this);
             $dts[] = $dt;
             $this->dateType = $type;
         }

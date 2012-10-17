@@ -1,18 +1,18 @@
 <?php
 
+namespace Sabre\VObject;
+
 /**
  * VObject ElementList
  *
  * This class represents a list of elements. Lists are the result of queries,
  * such as doing $vcalendar->vevent where there's multiple VEVENT objects.
  *
- * @package Sabre
- * @subpackage VObject
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
+class ElementList implements \Iterator, \Countable, \ArrayAccess {
 
     /**
      * Inner elements
@@ -44,7 +44,7 @@ class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
     /**
      * Returns current item in iteration
      *
-     * @return Sabre_VObject_Element
+     * @return Element
      */
     public function current() {
 
@@ -149,7 +149,7 @@ class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
      */
     public function offsetSet($offset,$value) {
 
-        throw new LogicException('You can not add new objects to an ElementList');
+        throw new \LogicException('You can not add new objects to an ElementList');
 
     }
 
@@ -163,7 +163,7 @@ class Sabre_VObject_ElementList implements Iterator, Countable, ArrayAccess {
      */
     public function offsetUnset($offset) {
 
-        throw new LogicException('You can not remove objects from an ElementList');
+        throw new \LogicException('You can not remove objects from an ElementList');
 
     }
 

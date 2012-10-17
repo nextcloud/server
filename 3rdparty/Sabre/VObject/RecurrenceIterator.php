@@ -1,5 +1,7 @@
 <?php
 
+namespace Sabre\VObject;
+
 /**
  * This class is used to determine new for a recurring event, when the next
  * events occur.
@@ -37,13 +39,11 @@
  * you may get unexpected results. The effect is that in some applications the
  * specified recurrence may look incorrect, or is missing.
  *
- * @package Sabre
- * @subpackage VObject
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Sabre_VObject_RecurrenceIterator implements Iterator {
+class RecurrenceIterator implements \Iterator {
 
     /**
      * The initial event date
@@ -82,7 +82,7 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
     /**
      * Base event
      *
-     * @var Sabre_VObject_Component_VEvent
+     * @var Component\VEvent
      */
     public $baseEvent;
 
@@ -97,7 +97,7 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
     /**
      * list of events that are 'overridden'.
      *
-     * This is an array of Sabre_VObject_Component_VEvent objects.
+     * This is an array of Component\VEvent objects.
      *
      * @var array
      */
@@ -281,7 +281,7 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
      * If the current iteration of the event is an overriden event, this
      * property will hold the VObject
      *
-     * @var Sabre_Component_VObject
+     * @var Component
      */
     private $currentOverriddenEvent;
 
@@ -300,14 +300,14 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
      * You should pass a VCALENDAR component, as well as the UID of the event
      * we're going to traverse.
      *
-     * @param Sabre_VObject_Component $vcal
+     * @param Component $vcal
      * @param string|null $uid
      */
-    public function __construct(Sabre_VObject_Component $vcal, $uid=null) {
+    public function __construct(Component $vcal, $uid=null) {
 
         if (is_null($uid)) {
             if ($vcal->name === 'VCALENDAR') {
-                throw new InvalidArgumentException('If you pass a VCALENDAR object, you must pass a uid argument as well');
+                throw new \InvalidArgumentException('If you pass a VCALENDAR object, you must pass a uid argument as well');
             }
             $components = array($vcal);
             $uid = (string)$vcal->uid;
@@ -325,7 +325,7 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
             }
         }
         if (!$this->baseEvent) {
-            throw new InvalidArgumentException('Could not find a base event with uid: ' . $uid);
+            throw new \InvalidArgumentException('Could not find a base event with uid: ' . $uid);
         }
 
         $this->startDate = clone $this->baseEvent->DTSTART->getDateTime();
@@ -336,8 +336,8 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
         } else {
             $this->endDate = clone $this->startDate;
             if (isset($this->baseEvent->DURATION)) {
-                $this->endDate->add(Sabre_VObject_DateTimeParser::parse($this->baseEvent->DURATION->value));
-            } elseif ($this->baseEvent->DTSTART->getDateType()===Sabre_VObject_Property_DateTime::DATE) {
+                $this->endDate->add(DateTimeParser::parse($this->baseEvent->DURATION->value));
+            } elseif ($this->baseEvent->DTSTART->getDateType()===Property\DateTime::DATE) {
                 $this->endDate->modify('+1 day');
             }
         }
@@ -347,7 +347,11 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
 
         $parts = explode(';', $rrule);
 
-        foreach($parts as $part) {
+        // If no rrule was specified, we create a default setting
+        if (!$rrule) {
+            $this->frequency = 'daily';
+            $this->count = 1;
+        } else foreach($parts as $part) {
 
             list($key, $value) = explode('=', $part, 2);
 
@@ -358,14 +362,14 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
                         strtolower($value),
                         array('secondly','minutely','hourly','daily','weekly','monthly','yearly')
                     )) {
-                        throw new InvalidArgumentException('Unknown value for FREQ=' . strtoupper($value));
+                        throw new \InvalidArgumentException('Unknown value for FREQ=' . strtoupper($value));
 
                     }
                     $this->frequency = strtolower($value);
                     break;
 
                 case 'UNTIL' :
-                    $this->until = Sabre_VObject_DateTimeParser::parse($value);
+                    $this->until = DateTimeParser::parse($value);
                     break;
 
                 case 'COUNT' :
@@ -374,6 +378,9 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
 
                 case 'INTERVAL' :
                     $this->interval = (int)$value;
+                    if ($this->interval < 1) {
+                        throw new \InvalidArgumentException('INTERVAL in RRULE must be a positive integer!');
+                    }
                     break;
 
                 case 'BYSECOND' :
@@ -427,7 +434,7 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
                 foreach(explode(',', (string)$exDate) as $exceptionDate) {
 
                     $this->exceptionDates[] =
-                        Sabre_VObject_DateTimeParser::parse($exceptionDate, $this->startDate->getTimeZone());
+                        DateTimeParser::parse($exceptionDate, $this->startDate->getTimeZone());
 
                 }
 
@@ -485,7 +492,7 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
      *
      * This method always returns a cloned instance.
      *
-     * @return void
+     * @return Component\VEvent
      */
     public function getEventObject() {
 
@@ -561,11 +568,22 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
      * @param DateTime $dt
      * @return void
      */
-    public function fastForward(DateTime $dt) {
+    public function fastForward(\DateTime $dt) {
 
         while($this->valid() && $this->getDTEnd() <= $dt) {
             $this->next();
         }
+
+    }
+
+    /**
+     * Returns true if this recurring event never ends.
+     *
+     * @return bool
+     */
+    public function isInfinite() {
+
+        return !$this->count && !$this->until;
 
     }
 
@@ -632,7 +650,7 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
 
             }
 
-            // Checking overriden events
+            // Checking overridden events
             foreach($this->overriddenEvents as $index=>$event) {
                 if ($index > $previousStamp && $index <= $currentStamp) {
 
@@ -880,7 +898,7 @@ class Sabre_VObject_RecurrenceIterator implements Iterator {
                     // The first occurrence that's higher than the current
                     // day of the month wins.
                     // If we advanced to the next month or year, the first
-                    // occurence is always correct.
+                    // occurrence is always correct.
                     if ($occurrence > $currentDayOfMonth || $advancedToNewMonth) {
                         break 2;
                     }

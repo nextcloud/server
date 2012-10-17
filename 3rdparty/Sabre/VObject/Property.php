@@ -1,5 +1,7 @@
 <?php
 
+namespace Sabre\VObject;
+
 /**
  * VObject Property
  *
@@ -11,13 +13,11 @@
  *
  * Parameters can be accessed using the ArrayAccess interface.
  *
- * @package Sabre
- * @subpackage VObject
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Sabre_VObject_Property extends Sabre_VObject_Element {
+class Property extends Node {
 
     /**
      * Propertyname
@@ -57,27 +57,37 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
      * @var array
      */
     static public $classMap = array(
-        'COMPLETED'     => 'Sabre_VObject_Property_DateTime',
-        'CREATED'       => 'Sabre_VObject_Property_DateTime',
-        'DTEND'         => 'Sabre_VObject_Property_DateTime',
-        'DTSTAMP'       => 'Sabre_VObject_Property_DateTime',
-        'DTSTART'       => 'Sabre_VObject_Property_DateTime',
-        'DUE'           => 'Sabre_VObject_Property_DateTime',
-        'EXDATE'        => 'Sabre_VObject_Property_MultiDateTime',
-        'LAST-MODIFIED' => 'Sabre_VObject_Property_DateTime',
-        'RECURRENCE-ID' => 'Sabre_VObject_Property_DateTime',
-        'TRIGGER'       => 'Sabre_VObject_Property_DateTime',
+        'COMPLETED'     => 'Sabre\\VObject\\Property\\DateTime',
+        'CREATED'       => 'Sabre\\VObject\\Property\\DateTime',
+        'DTEND'         => 'Sabre\\VObject\\Property\\DateTime',
+        'DTSTAMP'       => 'Sabre\\VObject\\Property\\DateTime',
+        'DTSTART'       => 'Sabre\\VObject\\Property\\DateTime',
+        'DUE'           => 'Sabre\\VObject\\Property\\DateTime',
+        'EXDATE'        => 'Sabre\\VObject\\Property\\MultiDateTime',
+        'LAST-MODIFIED' => 'Sabre\\VObject\\Property\\DateTime',
+        'RECURRENCE-ID' => 'Sabre\\VObject\\Property\\DateTime',
+        'TRIGGER'       => 'Sabre\\VObject\\Property\\DateTime',
+        'N'             => 'Sabre\\VObject\\Property\\Compound',
+        'ORG'           => 'Sabre\\VObject\\Property\\Compound',
+        'ADR'           => 'Sabre\\VObject\\Property\\Compound',
+        'CATEGORIES'    => 'Sabre\\VObject\\Property\\Compound',
     );
 
     /**
      * Creates the new property by name, but in addition will also see if
      * there's a class mapped to the property name.
      *
+     * Parameters can be specified with the optional third argument. Parameters
+     * must be a key->value map of the parameter name, and value. If the value
+     * is specified as an array, it is assumed that multiple parameters with
+     * the same name should be added.
+     *
      * @param string $name
      * @param string $value
-     * @return void
+     * @param array $parameters
+     * @return Property
      */
-    static public function create($name, $value = null) {
+    static public function create($name, $value = null, array $parameters = array()) {
 
         $name = strtoupper($name);
         $shortName = $name;
@@ -87,9 +97,9 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
         }
 
         if (isset(self::$classMap[$shortName])) {
-            return new self::$classMap[$shortName]($name, $value);
+            return new self::$classMap[$shortName]($name, $value, $parameters);
         } else {
-            return new self($name, $value);
+            return new self($name, $value, $parameters);
         }
 
     }
@@ -97,14 +107,20 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
     /**
      * Creates a new property object
      *
-     * By default this object will iterate over its own children, but this can
-     * be overridden with the iterator argument
+     * Parameters can be specified with the optional third argument. Parameters
+     * must be a key->value map of the parameter name, and value. If the value
+     * is specified as an array, it is assumed that multiple parameters with
+     * the same name should be added.
      *
      * @param string $name
      * @param string $value
-     * @param Sabre_VObject_ElementList $iterator
+     * @param array $parameters
      */
-    public function __construct($name, $value = null, $iterator = null) {
+    public function __construct($name, $value = null, array $parameters = array()) {
+
+        if (!is_scalar($value) && !is_null($value)) {
+            throw new \InvalidArgumentException('The value argument must be scalar or null');
+        }
 
         $name = strtoupper($name);
         $group = null;
@@ -113,12 +129,21 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
         }
         $this->name = $name;
         $this->group = $group;
-        if (!is_null($iterator)) $this->iterator = $iterator;
         $this->setValue($value);
 
+        foreach($parameters as $paramName => $paramValues) {
+
+            if (!is_array($paramValues)) {
+                $paramValues = array($paramValues);
+            }
+
+            foreach($paramValues as $paramValue) {
+                $this->add($paramName, $paramValue);
+            }
+
+        }
+
     }
-
-
 
     /**
      * Updates the internal value
@@ -142,13 +167,12 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
         $str = $this->name;
         if ($this->group) $str = $this->group . '.' . $this->name;
 
-        if (count($this->parameters)) {
-            foreach($this->parameters as $param) {
+        foreach($this->parameters as $param) {
 
-                $str.=';' . $param->serialize();
+            $str.=';' . $param->serialize();
 
-            }
         }
+
         $src = array(
             '\\',
             "\n",
@@ -180,7 +204,7 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
      *
      * You can call this method with the following syntaxes:
      *
-     * add(Sabre_VObject_Parameter $element)
+     * add(Parameter $element)
      * add(string $name, $value)
      *
      * The first version adds an Parameter
@@ -192,24 +216,21 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
      */
     public function add($item, $itemValue = null) {
 
-        if ($item instanceof Sabre_VObject_Parameter) {
+        if ($item instanceof Parameter) {
             if (!is_null($itemValue)) {
-                throw new InvalidArgumentException('The second argument must not be specified, when passing a VObject');
+                throw new \InvalidArgumentException('The second argument must not be specified, when passing a VObject');
             }
             $item->parent = $this;
             $this->parameters[] = $item;
         } elseif(is_string($item)) {
 
-            if (!is_scalar($itemValue) && !is_null($itemValue)) {
-                throw new InvalidArgumentException('The second argument must be scalar');
-            }
-            $parameter = new Sabre_VObject_Parameter($item,$itemValue);
+            $parameter = new Parameter($item,$itemValue);
             $parameter->parent = $this;
             $this->parameters[] = $parameter;
 
         } else {
 
-            throw new InvalidArgumentException('The first argument must either be a Sabre_VObject_Element or a string');
+            throw new \InvalidArgumentException('The first argument must either be a Node a string');
 
         }
 
@@ -240,7 +261,7 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
      * Returns a parameter, or parameter list.
      *
      * @param string $name
-     * @return Sabre_VObject_Element
+     * @return Node
      */
     public function offsetGet($name) {
 
@@ -258,7 +279,7 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
         } elseif (count($result)===1) {
             return $result[0];
         } else {
-            $result[0]->setIterator(new Sabre_VObject_ElementList($result));
+            $result[0]->setIterator(new ElementList($result));
             return $result[0];
         }
 
@@ -273,25 +294,25 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
      */
     public function offsetSet($name, $value) {
 
-        if (is_int($name)) return parent::offsetSet($name, $value);
+        if (is_int($name)) parent::offsetSet($name, $value);
 
         if (is_scalar($value)) {
             if (!is_string($name))
-                throw new InvalidArgumentException('A parameter name must be specified. This means you cannot use the $array[]="string" to add parameters.');
+                throw new \InvalidArgumentException('A parameter name must be specified. This means you cannot use the $array[]="string" to add parameters.');
 
             $this->offsetUnset($name);
-            $parameter = new Sabre_VObject_Parameter($name, $value);
+            $parameter = new Parameter($name, $value);
             $parameter->parent = $this;
             $this->parameters[] = $parameter;
 
-        } elseif ($value instanceof Sabre_VObject_Parameter) {
+        } elseif ($value instanceof Parameter) {
             if (!is_null($name))
-                throw new InvalidArgumentException('Don\'t specify a parameter name if you\'re passing a Sabre_VObject_Parameter. Add using $array[]=$parameterObject.');
+                throw new \InvalidArgumentException('Don\'t specify a parameter name if you\'re passing a \\Sabre\\VObject\\Parameter. Add using $array[]=$parameterObject.');
 
             $value->parent = $this;
             $this->parameters[] = $value;
         } else {
-            throw new InvalidArgumentException('You can only add parameters to the property object');
+            throw new \InvalidArgumentException('You can only add parameters to the property object');
         }
 
     }
@@ -304,7 +325,7 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
      */
     public function offsetUnset($name) {
 
-        if (is_int($name)) return parent::offsetUnset($name);
+        if (is_int($name)) parent::offsetUnset($name);
         $name = strtoupper($name);
 
         foreach($this->parameters as $key=>$parameter) {
@@ -342,6 +363,67 @@ class Sabre_VObject_Property extends Sabre_VObject_Element {
             $this->parameters[$key] = clone $child;
             $this->parameters[$key]->parent = $this;
         }
+
+    }
+
+    /**
+     * Validates the node for correctness.
+     *
+     * The following options are supported:
+     *   - Node::REPAIR - If something is broken, and automatic repair may
+     *                    be attempted.
+     *
+     * An array is returned with warnings.
+     *
+     * Every item in the array has the following properties:
+     *    * level - (number between 1 and 3 with severity information)
+     *    * message - (human readable message)
+     *    * node - (reference to the offending node)
+     *
+     * @param int $options
+     * @return array
+     */
+    public function validate($options = 0) {
+
+        $warnings = array();
+
+        // Checking if our value is UTF-8
+        if (!StringUtil::isUTF8($this->value)) {
+            $warnings[] = array(
+                'level' => 1,
+                'message' => 'Property is not valid UTF-8!',
+                'node' => $this,
+            );
+            if ($options & self::REPAIR) {
+                $this->value = StringUtil::convertToUTF8($this->value);
+            }
+        }
+
+        // Checking if the propertyname does not contain any invalid bytes.
+        if (!preg_match('/^([A-Z0-9-]+)$/', $this->name)) {
+            $warnings[] = array(
+                'level' => 1,
+                'message' => 'The propertyname: ' . $this->name . ' contains invalid characters. Only A-Z, 0-9 and - are allowed',
+                'node' => $this,
+            );
+            if ($options & self::REPAIR) {
+                // Uppercasing and converting underscores to dashes.
+                $this->name = strtoupper(
+                    str_replace('_', '-', $this->name)
+                );
+                // Removing every other invalid character
+                $this->name = preg_replace('/([^A-Z0-9-])/u', '', $this->name);
+
+            }
+
+        }
+
+        // Validating inner parameters
+        foreach($this->parameters as $param) {
+            $warnings = array_merge($warnings, $param->validate($options));
+        }
+
+        return $warnings;
 
     }
 

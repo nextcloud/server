@@ -16,12 +16,25 @@
  */
 class Sabre_DAV_Client {
 
+    /**
+     * The propertyMap is a key-value array.
+     *
+     * If you use the propertyMap, any {DAV:}multistatus responses with the
+     * proeprties listed in this array, will automatically be mapped to a
+     * respective class.
+     *
+     * The {DAV:}resourcetype property is automatically added. This maps to
+     * Sabre_DAV_Property_ResourceType
+     *
+     * @var array
+     */
     public $propertyMap = array();
 
     protected $baseUri;
     protected $userName;
     protected $password;
     protected $proxy;
+    protected $trustedCertificates;
 
     /**
      * Basic authentication
@@ -88,6 +101,18 @@ class Sabre_DAV_Client {
     }
 
     /**
+     * Add trusted root certificates to the webdav client.
+     *
+     * The parameter certificates should be a absulute path to a file
+     * which contains all trusted certificates
+     *
+     * @param string $certificates
+     */
+    public function addTrustedCertificates($certificates) {
+        $this->trustedCertificates = $certificates;
+    }
+
+    /**
      * Does a PROPFIND request
      *
      * The list of requested properties must be specified as an array, in clark
@@ -143,13 +168,13 @@ class Sabre_DAV_Client {
         if ($depth===0) {
             reset($result);
             $result = current($result);
-            return $result[200];
+            return isset($result[200])?$result[200]:array();
         }
 
         $newResult = array();
         foreach($result as $href => $statusList) {
 
-            $newResult[$href] = $statusList[200];
+            $newResult[$href] = isset($statusList[200])?$statusList[200]:array();
 
         }
 
@@ -279,6 +304,10 @@ class Sabre_DAV_Client {
             CURLOPT_MAXREDIRS => 5,
         );
 
+        if($this->trustedCertificates) {
+            $curlSettings[CURLOPT_CAINFO] = $this->trustedCertificates;
+        }
+
         switch ($method) {
             case 'HEAD' :
 
@@ -363,10 +392,30 @@ class Sabre_DAV_Client {
 
         if ($response['statusCode']>=400) {
             switch ($response['statusCode']) {
+                case 400 :
+                    throw new Sabre_DAV_Exception_BadRequest('Bad request');
+                case 401 :
+                    throw new Sabre_DAV_Exception_NotAuthenticated('Not authenticated');
+                case 402 :
+                    throw new Sabre_DAV_Exception_PaymentRequired('Payment required');
+                case 403 :
+                    throw new Sabre_DAV_Exception_Forbidden('Forbidden');
                 case 404:
-                    throw new Sabre_DAV_Exception_NotFound('Resource ' . $url . ' not found.');
-                    break;
-
+                    throw new Sabre_DAV_Exception_NotFound('Resource not found.');
+                case 405 :
+                    throw new Sabre_DAV_Exception_MethodNotAllowed('Method not allowed');
+                case 409 :
+                    throw new Sabre_DAV_Exception_Conflict('Conflict');
+                case 412 :
+                    throw new Sabre_DAV_Exception_PreconditionFailed('Precondition failed');
+                case 416 :
+                    throw new Sabre_DAV_Exception_RequestedRangeNotSatisfiable('Requested Range Not Satisfiable');
+                case 500 :
+                    throw new Sabre_DAV_Exception('Internal server error');
+                case 501 :
+                    throw new Sabre_DAV_Exception_NotImplemented('Not Implemented');
+                case 507 :
+                    throw new Sabre_DAV_Exception_InsufficientStorage('Insufficient storage');
                 default:
                     throw new Sabre_DAV_Exception('HTTP error response. (errorcode ' . $response['statusCode'] . ')');
             }
@@ -386,6 +435,7 @@ class Sabre_DAV_Client {
      * @param array $settings
      * @return array
      */
+    // @codeCoverageIgnoreStart
     protected function curlRequest($url, $settings) {
 
         $curl = curl_init($url);
@@ -399,6 +449,7 @@ class Sabre_DAV_Client {
         );
 
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * Returns the full url based on the given url (which may be relative). All
@@ -453,19 +504,17 @@ class Sabre_DAV_Client {
      */
     public function parseMultiStatus($body) {
 
-        $body = Sabre_DAV_XMLUtil::convertDAVNamespace($body);
-
         $responseXML = simplexml_load_string($body, null, LIBXML_NOBLANKS | LIBXML_NOCDATA);
         if ($responseXML===false) {
             throw new InvalidArgumentException('The passed data is not valid XML');
         }
 
-        $responseXML->registerXPathNamespace('d', 'urn:DAV');
+        $responseXML->registerXPathNamespace('d', 'DAV:');
 
         $propResult = array();
 
         foreach($responseXML->xpath('d:response') as $response) {
-            $response->registerXPathNamespace('d', 'urn:DAV');
+            $response->registerXPathNamespace('d', 'DAV:');
             $href = $response->xpath('d:href');
             $href = (string)$href[0];
 
@@ -473,7 +522,7 @@ class Sabre_DAV_Client {
 
             foreach($response->xpath('d:propstat') as $propStat) {
 
-                $propStat->registerXPathNamespace('d', 'urn:DAV');
+                $propStat->registerXPathNamespace('d', 'DAV:');
                 $status = $propStat->xpath('d:status');
                 list($httpVersion, $statusCode, $message) = explode(' ', (string)$status[0],3);
 

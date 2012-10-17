@@ -24,11 +24,11 @@
  * This class provides a streamlined interface to the Sabre VObject classes
  */
 class OC_VObject{
-	/** @var Sabre_VObject_Component */
+	/** @var Sabre\VObject\Component */
 	protected $vobject;
 
 	/**
-	 * @returns Sabre_VObject_Component
+	 * @returns Sabre\VObject\Component
 	 */
 	public function getVObject() {
 		return $this->vobject;
@@ -41,9 +41,9 @@ class OC_VObject{
 	 */
 	public static function parse($data) {
 		try {
-			Sabre_VObject_Property::$classMap['LAST-MODIFIED'] = 'Sabre_VObject_Property_DateTime';
-			$vobject = Sabre_VObject_Reader::read($data);
-			if ($vobject instanceof Sabre_VObject_Component) {
+			Sabre\VObject\Property::$classMap['LAST-MODIFIED'] = 'Sabre\VObject\Property\DateTime';
+			$vobject = Sabre\VObject\Reader::read($data);
+			if ($vobject instanceof Sabre\VObject\Component) {
 				$vobject = new OC_VObject($vobject);
 			}
 			return $vobject;
@@ -89,13 +89,13 @@ class OC_VObject{
 
 	/**
 	 * Constuctor
-	 * @param Sabre_VObject_Component or string
+	 * @param Sabre\VObject\Component or string
 	 */
 	public function __construct($vobject_or_name) {
 		if (is_object($vobject_or_name)) {
 			$this->vobject = $vobject_or_name;
 		} else {
-			$this->vobject = new Sabre_VObject_Component($vobject_or_name);
+			$this->vobject = new Sabre\VObject\Component($vobject_or_name);
 		}
 	}
 
@@ -117,9 +117,9 @@ class OC_VObject{
 		if(is_array($value)) {
 			$value = OC_VObject::escapeSemicolons($value);
 		}
-		$property = new Sabre_VObject_Property( $name, $value );
+		$property = new Sabre\VObject\Property( $name, $value );
 		foreach($parameters as $name => $value) {
-			$property->parameters[] = new Sabre_VObject_Parameter($name, $value);
+			$property->parameters[] = new Sabre\VObject\Parameter($name, $value);
 		}
 
 		$this->vobject->add($property);
@@ -150,12 +150,12 @@ class OC_VObject{
 	 * @param int $dateType
 	 * @return void
 	 */
-	public function setDateTime($name, $datetime, $dateType=Sabre_VObject_Property_DateTime::LOCALTZ) {
+	public function setDateTime($name, $datetime, $dateType=Sabre\VObject\Property\DateTime::LOCALTZ) {
 		if ($datetime == 'now') {
 			$datetime = new DateTime();
 		}
 		if ($datetime instanceof DateTime) {
-			$datetime_element = new Sabre_VObject_Property_DateTime($name);
+			$datetime_element = new Sabre\VObject\Property\DateTime($name);
 			$datetime_element->setDateTime($datetime, $dateType);
 			$this->vobject->__set($name, $datetime_element);
 		}else{
@@ -183,7 +183,7 @@ class OC_VObject{
 			return $this->vobject->children;
 		}
 		$return = $this->vobject->__get($name);
-		if ($return instanceof Sabre_VObject_Component) {
+		if ($return instanceof Sabre\VObject\Component) {
 			$return = new OC_VObject($return);
 		}
 		return $return;

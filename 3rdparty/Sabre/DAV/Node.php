@@ -27,7 +27,7 @@ abstract class Sabre_DAV_Node implements Sabre_DAV_INode {
     }
 
     /**
-     * Deleted the current node
+     * Deletes the current node
      *
      * @throws Sabre_DAV_Exception_Forbidden
      * @return void

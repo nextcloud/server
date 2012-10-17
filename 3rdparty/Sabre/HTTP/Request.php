@@ -184,7 +184,7 @@ class Sabre_HTTP_Request {
      * This method returns a readable stream resource.
      * If the asString parameter is set to true, a string is sent instead.
      *
-     * @param bool asString
+     * @param bool $asString
      * @return resource
      */
     public function getBody($asString = false) {

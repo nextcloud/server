@@ -6,13 +6,13 @@
  * @package Sabre
  * @subpackage CalDAV
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV_ICalendarObject, Sabre_DAVACL_IACL {
 
     /**
-     * Sabre_CalDAV_Backend_Abstract
+     * Sabre_CalDAV_Backend_BackendInterface
      *
      * @var array
      */
@@ -35,11 +35,11 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
     /**
      * Constructor
      *
-     * @param Sabre_CalDAV_Backend_Abstract $caldavBackend
+     * @param Sabre_CalDAV_Backend_BackendInterface $caldavBackend
      * @param array $calendarInfo
      * @param array $objectData
      */
-    public function __construct(Sabre_CalDAV_Backend_Abstract $caldavBackend,array $calendarInfo,array $objectData) {
+    public function __construct(Sabre_CalDAV_Backend_BackendInterface $caldavBackend,array $calendarInfo,array $objectData) {
 
         $this->caldavBackend = $caldavBackend;
 
@@ -85,8 +85,8 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
     /**
      * Updates the ICalendar-formatted object
      *
-     * @param string $calendarData
-     * @return void
+     * @param string|resource $calendarData
+     * @return string
      */
     public function put($calendarData) {
 
@@ -119,7 +119,7 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
      */
     public function getContentType() {
 
-        return 'text/calendar';
+        return 'text/calendar; charset=utf-8';
 
     }
 
@@ -143,7 +143,7 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
     /**
      * Returns the last modification date as a unix timestamp
      *
-     * @return time
+     * @return int
      */
     public function getLastModified() {
 
@@ -206,6 +206,12 @@ class Sabre_CalDAV_CalendarObject extends Sabre_DAV_File implements Sabre_CalDAV
      */
     public function getACL() {
 
+        // An alternative acl may be specified in the object data.
+        if (isset($this->objectData['acl'])) {
+            return $this->objectData['acl'];
+        }
+
+        // The default ACL
         return array(
             array(
                 'privilege' => '{DAV:}read',
