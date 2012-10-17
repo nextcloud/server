@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA_Encryption;
+namespace OCA\Encryption;
 
 /**
  * This class provides basic operations to read/write encryption keys from/to the filesystem 

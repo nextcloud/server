@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA_Encryption;
+namespace OCA\Encryption;
 
 /**
  * Class for hook specific logic

@@ -22,7 +22,15 @@
  *
  */
 
-namespace OCA_Encryption;
+namespace OCA\Encryption;
+
+// Todo:
+//  - Crypt/decrypt button in the userinterface
+//  - Setting if crypto should be on by default
+//  - Add a setting "Don´t encrypt files larger than xx because of performance reasons"
+//  - Transparent decrypt/encrypt in filesystem.php. Autodetect if a file is encrypted (.encrypted extension)
+//  - Don't use a password directly as encryption key. but a key which is stored on the server and encrypted with the user password. -> password change faster
+//  - IMPORTANT! Check if the block lenght of the encrypted data stays the same
 
 /**
  * Class for common cryptography functionality
@@ -52,7 +60,7 @@ class Crypt {
 				}
 			}
 		}
-
+		
 		return $mode;
 	}
 	
@@ -61,7 +69,7 @@ class Crypt {
          * @return array publicKey, privatekey
          */
 	public static function createKeypair() {
-	
+		
 		$res = openssl_pkey_new();
 
 		// Get private key
@@ -77,8 +85,45 @@ class Crypt {
 	}
 	
         /**
+         * @brief Add arbitrary padding to encrypted data
+         * @param string $data data to be padded
+         * @return padded data
+         * @note In order to end up with data exactly 8192 bytes long we must add two letters. Something about the encryption process always results in 8190 or 8194 byte length, hence the letters must be added manually after encryption takes place
+         */
+	public static function addPadding( $data ) {
+	
+		$padded = $data . 'xx';
+		
+		return $padded;
+	
+	}
+	
+        /**
+         * @brief Remove arbitrary padding to encrypted data
+         * @param string $padded padded data to remove padding from
+         * @return padded data on success, false on error
+         */
+	public static function removePadding( $padded ) {
+	
+		if ( substr( $padded, -2 ) == 'xx' ) {
+	
+			$data = substr( $padded, 0, -2 );
+			
+			return $data;
+		
+		} else {
+		
+			# TODO: log the fact that unpadded data was submitted for removal of padding
+			return false;
+			
+		}
+	
+	}
+	
+        /**
          * @brief Check if a file's contents contains an IV and is symmetrically encrypted
          * @return true / false
+         * @note see also OCA\Encryption\Util->isEncryptedPath()
          */
 	public static function isEncryptedContent( $content ) {
 	
@@ -88,11 +133,17 @@ class Crypt {
 			
 		}
 		
+		$noPadding = self::removePadding( $content );
+		
 		// Fetch encryption metadata from end of file
-		$meta = substr( $content, -22 );
+		$meta = substr( $noPadding, -22 );
 		
 		// Fetch IV from end of file
 		$iv = substr( $meta, -16 );
+		
+// 		$msg = "\$content = ".var_dump($content, 1).", \$noPadding = ".var_dump($noPadding, 1).", \$meta = ".var_dump($meta, 1).", \$iv = ".var_dump($iv, 1);
+// 		
+// 		file_put_contents('/home/samtuke/newtmp.txt', $msg );
 		
 		// Fetch identifier from start of metadata
 		$identifier = substr( $meta, 0, 6 );
@@ -207,7 +258,9 @@ class Crypt {
 				// Combine content to encrypt with IV identifier and actual IV
 				$combinedKeyfile = self::concatIv( $encryptedContent, $iv );
 				
-				return $combinedKeyfile;
+				$padded = self::addPadding( $combinedKeyfile );
+				
+				return $padded;
 		
 		} else {
 		
@@ -237,11 +290,14 @@ class Crypt {
 			
 		}
 		
+		// Remove padding
+		$noPadding = self::removePadding( $keyfileContent );
+		
 		// Fetch IV from end of file
-		$iv = substr( $keyfileContent, -16 );
+		$iv = substr( $noPadding, -16 );
 		
 		// Remove IV and IV identifier text to expose encrypted content
-		$encryptedContent = substr( $keyfileContent, 0, -22 );
+		$encryptedContent = substr( $noPadding, 0, -22 );
 		
 		if ( $plainContent = self::decrypt( $encryptedContent, $iv, $passphrase ) ) {
 		
@@ -412,17 +468,19 @@ class Crypt {
 		
 		while( strlen( $remaining ) ) {
 		
-			//echo "\n\n\$block = ".substr( $remaining, 0, 8192 );
+			//echo "\n\n\$block = ".substr( $remaining, 0, 6126 );
 		
 			// Encrypt a chunk of unencrypted data and add it to the rest
-			$block = self::symmetricEncryptFileContent( substr( $remaining, 0, 8192 ), $key );
+			$block = self::symmetricEncryptFileContent( substr( $remaining, 0, 6126 ), $key );
+			
+			$padded = self::addPadding( $block );
 			
 			$crypted .= $block;
 			
 			$testarray[] = $block;
 			
 			// Remove the data already encrypted from remaining unencrypted data
-			$remaining = substr( $remaining, 8192 );
+			$remaining = substr( $remaining, 6126 );
 		
 		}
 		
@@ -450,18 +508,17 @@ class Crypt {
 		
 		while( strlen( $remaining ) ) {
 			
-			$testarray[] = substr( $remaining, 0, 10946 );
+			$testarray[] = substr( $remaining, 0, 8192 );
 		
-			// Encrypt a chunk of unencrypted data and add it to the rest
-			// 10946 is the length of a 8192 string once it has been encrypted
-			$decrypted .= self::symmetricDecryptFileContent( substr( $remaining, 0, 10946 ), $key );
+			// Decrypt a chunk of unencrypted data and add it to the rest
+			$decrypted .= self::symmetricDecryptFileContent( $remaining, $key );
 			
 			// Remove the data already encrypted from remaining unencrypted data
-			$remaining = substr( $remaining, 10946 );
+			$remaining = substr( $remaining, 8192 );
 			
 		}
 		
-		//print_r($testarray);
+		//echo "\n\n\$testarray = "; print_r($testarray);
 		
 		return $decrypted;
 		

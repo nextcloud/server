@@ -27,7 +27,7 @@
  * transparent encryption
  */
 
-namespace OCA_Encryption;
+namespace OCA\Encryption;
 
 class Proxy extends \OC_FileProxy {
 
@@ -43,7 +43,7 @@ class Proxy extends \OC_FileProxy {
 	 * Tests if server side encryption is enabled, and file is allowed by blacklists
 	 */
 	private static function shouldEncrypt( $path ) {
-	
+		
 		if ( is_null( self::$enableEncryption ) ) {
 		
 			self::$enableEncryption = ( \OCP\Config::getAppValue( 'files_encryption', 'enable_encryption', 'true' ) == 'true' && Crypt::mode() == 'server' );
@@ -127,6 +127,7 @@ class Proxy extends \OC_FileProxy {
 				// Update the file cache with file info
 				\OC_FileCache::put( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
 				
+				// Re-enable proxy - our work is done
 				\OC_FileProxy::$enabled = true;
 				
 			}
@@ -170,22 +171,45 @@ class Proxy extends \OC_FileProxy {
 			
 		}
 		
+		// Disable encryption proxy to prevent recursive calls
+		\OC_FileProxy::$enabled = false;
+		
 		$meta = stream_get_meta_data( $result );
 		
+		$view = new \OC_FilesystemView();
+		
+		$util = new Util( $view, \OCP\USER::getUser());
+		
 		// If file is encrypted, decrypt using crypto protocol
-		if ( Crypt::mode() == 'server' && Crypt::isEncryptedContent( $path ) ) {
+		if ( Crypt::mode() == 'server' && $util->isEncryptedPath( $path ) ) {
 		
-			$keyFile = Keymanager::getFileKey( $filePath );
+			file_put_contents('/home/samtuke/newtmp.txt', "bar" );
 		
-			$tmp = tmpfile();
+			$tmp = fopen( 'php://temp' );
 			
-			file_put_contents( $tmp, Crypt::keyDecryptKeyfile( $result, $keyFile, $_SESSION['enckey'] ) );
+			\OCP\Files::streamCopy( $result, $tmp );
+			
+			fclose( $result );
+			
+			\OC_Filesystem::file_put_contents( $path, $tmp );
+			
+			fclose( $tmp );
+			
+			$result = fopen( 'crypt://' . $path, $meta['mode'] );
 		
-			fclose ( $result );
+// 			file_put_contents('/home/samtuke/newtmp.txt', "mode= server" );
+		
+// 			$keyFile = Keymanager::getFileKey( $filePath );
+// 		
+// 			$tmp = tmpfile();
+// 			
+// 			file_put_contents( $tmp, Crypt::keyDecryptKeyfile( $result, $keyFile, $_SESSION['enckey'] ) );
+// 		
+// 			fclose ( $result );
+// 			
+// 			$result = fopen( $tmp );
 			
-			$result = fopen( $tmp );
-			
-		} elseif ( 
+		} /*elseif ( 
 		self::shouldEncrypt( $path ) 
 		and $meta ['mode'] != 'r' 
 		and $meta['mode'] != 'rb' 
@@ -216,7 +240,7 @@ class Proxy extends \OC_FileProxy {
 			
 			$result = fopen( 'crypt://'.$path, $meta['mode'] );
 		
-		}
+		}*/
 		
 		return $result;
 	

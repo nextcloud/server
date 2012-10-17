@@ -27,7 +27,7 @@
  *   and then fopen('crypt://streams/foo');
  */
 
-namespace OCA_Encryption;
+namespace OCA\Encryption;
 
 /**
  * @brief Provides 'crypt://' stream wrapper protocol.
@@ -89,8 +89,10 @@ class Stream {
 				$this->size = 0;
 
 			} else {
-
-				$this->size = self::$view->filesize( \OCP\USER::getUser() . '/' . 'files' . '/' . $path, $mode );
+				
+				
+				
+				$this->size = self::$view->filesize( $path, $mode );
 				
 				//$this->size = filesize( $path );
 				
@@ -101,13 +103,15 @@ class Stream {
 
 			//$this->handle = fopen( $path, $mode );
 			
-			$this->handle = self::$view->fopen( \OCP\USER::getUser() . '/' . 'files' . '/' . $path, $mode );
-
+			$this->handle = self::$view->fopen( $path, $mode );
+			
+			//file_put_contents('/home/samtuke/newtmp.txt', 'fucking hopeless = '.$path );
+			
 			\OC_FileProxy::$enabled = true;
 
 			if ( !is_resource( $this->handle ) ) {
 
-				\OCP\Util::writeLog( 'files_encryption','failed to open '.$path,OCP\Util::ERROR );
+				\OCP\Util::writeLog( 'files_encryption', 'failed to open '.$path, \OCP\Util::ERROR );
 
 			}
 
@@ -137,6 +141,10 @@ class Stream {
 	
 	public function stream_read( $count ) {
 	
+	trigger_error("\$count = $count");
+	
+	file_put_contents('/home/samtuke/newtmp.txt', "\$count = $count" );
+	
 		$this->writeCache = '';
 
 		if ( $count != 8192 ) {
@@ -151,11 +159,8 @@ class Stream {
 
 // 		$pos = ftell( $this->handle );
 // 
-		// Get the data from the file handle, including IV and padding
-		$padded = fread( $this->handle, 8192 );
-		
-		// Remove padding, leaving data and IV
-		$data = substr( $padded, 0, -2 );
+		// Get the data from the file handle
+		$data = fread( $this->handle, 8192 );
 		
 		//echo "\n\nPRE DECRYPTION = $data\n\n";
 // 
@@ -167,15 +172,17 @@ class Stream {
 			
 			$result = Crypt::symmetricDecryptFileContent( $data, $this->keyfile );
 			
-			echo "\n\n\n\n-----------------------------\n\nNEWS";
+// 			file_put_contents('/home/samtuke/newtmp.txt', '$result = '.$result );
 			
-			echo "\n\n\$data = $data";
-			
-			echo "\n\n\$key = {$this->keyfile}";
-			
-			echo "\n\n\$result = $result";
-			
-			echo "\n\n\n\n-----------------------------\n\n";
+// 			echo "\n\n\n\n-----------------------------\n\nNEWS";
+// 			
+// 			echo "\n\n\$data = $data";
+// 			
+// 			echo "\n\n\$key = {$this->keyfile}";
+// 			
+// 			echo "\n\n\$result = $result";
+// 			
+// 			echo "\n\n\n\n-----------------------------\n\n";
 			
 			//trigger_error("CAT  $result");
 
@@ -208,12 +215,9 @@ class Stream {
 	public function preWriteEncrypt( $plainData, $key ) {
 		
 		// Encrypt data to 'catfile', which includes IV
-		if ( $encrypted = Crypt::symmetricBlockEncryptFileContent( $plainData, $key ) ) {
+		if ( $encrypted = Crypt::symmetricEncryptFileContent( $plainData, $key ) ) {
 		
-			// Add padding. In order to end up with data exactly 8192 bytes long we must add two letters. Something about the encryption process always results in 8190 or 8194 byte length, hence the letters must be added manually after encryption takes place. They get removed in the stream read process
-			$padded = $encrypted  . 'xx';
-			
-			return $padded;
+			return $encrypted; 
 			
 		} else {
 		
@@ -270,6 +274,8 @@ class Stream {
 	 * @note PHP automatically updates the file pointer after writing data to reflect it's length. There is generally no need to update the poitner manually using fseek
 	 */
 	public function stream_write( $data ) {
+		
+		//file_put_contents('/home/samtuke/newtmp.txt', 'stream_write('.$data.')' );
 		
 		// Disable the file proxies so that encryption is not automatically attempted when the file is written to disk - we are handling that separately here and we don't want to get into an infinite loop
 		\OC_FileProxy::$enabled = false;

@@ -71,6 +71,11 @@ class OC{
 	 * SPL autoload
 	 */
 	public static function autoload($className) {
+	
+		//trigger_error('seth', E_ERROR);
+
+		//debug_print_backtrace();
+	
 		if(array_key_exists($className, OC::$CLASSPATH)) {
 			$path = OC::$CLASSPATH[$className];
 			/** @TODO: Remove this when necessary
@@ -106,6 +111,7 @@ class OC{
 	}
 
 	public static function initPaths() {
+	
 		// calculate the root directories
 		OC::$SERVERROOT=str_replace("\\", '/', substr(__DIR__, 0, -4));
 		OC::$SUBURI= str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));

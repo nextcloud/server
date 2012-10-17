@@ -29,7 +29,7 @@
 //  - Don't use a password directly as encryption key. but a key which is stored on the server and encrypted with the user password. -> password change faster
 //  - IMPORTANT! Check if the block lenght of the encrypted data stays the same
 
-namespace OCA_Encryption;
+namespace OCA\Encryption;
 
 /**
  * @brief Class for utilities relating to encrypted file storage system
@@ -45,8 +45,8 @@ class Util {
 	# DONE: add method to fetch legacy key
 	# DONE: add method to decrypt legacy encrypted data
 	# DONE: fix / test the crypt stream proxy class	
+	# DONE: replace cryptstream wrapper new AES based system
 	
-	# TODO: replace cryptstream wrapper new AES based system
 	# TODO: add support for optional recovery user in case of lost passphrase / keys
 	# TODO: add admin optional required long passphrase for users
 	# TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
@@ -220,6 +220,18 @@ class Util {
 		
 		return false;
 
+	}
+	
+        /**
+         * @brief Check if a given path identifies an encrypted file
+         * @return true / false
+         */
+	public function isEncryptedPath( $path ) {
+	
+		$data = $this->view->file_get_contents( $path );
+		
+		return Crypt::isEncryptedContent( $data );
+	
 	}
 	
 	public function encryptAll( $directory ) {

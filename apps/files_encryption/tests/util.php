@@ -27,20 +27,20 @@ class Test_Encryption extends UnitTestCase {
 //	// Cannot use this test for now due to hidden dependencies in OC_FileCache
 // 	function testIsLegacyEncryptedContent() {
 // 		
-// 		$keyfileContent = OCA_Encryption\Crypt::symmetricEncryptFileContent( $this->legacyEncryptedData, 'hat' );
+// 		$keyfileContent = OCA\Encryption\Crypt::symmetricEncryptFileContent( $this->legacyEncryptedData, 'hat' );
 // 		
-// 		$this->assertFalse( OCA_Encryption\Crypt::isLegacyEncryptedContent( $keyfileContent, '/files/admin/test.txt' ) );
+// 		$this->assertFalse( OCA\Encryption\Crypt::isLegacyEncryptedContent( $keyfileContent, '/files/admin/test.txt' ) );
 // 		
 // 		OC_FileCache::put( '/admin/files/legacy-encrypted-test.txt', $this->legacyEncryptedData );
 // 		
-// 		$this->assertTrue( OCA_Encryption\Crypt::isLegacyEncryptedContent( $this->legacyEncryptedData, '/files/admin/test.txt' ) );
+// 		$this->assertTrue( OCA\Encryption\Crypt::isLegacyEncryptedContent( $this->legacyEncryptedData, '/files/admin/test.txt' ) );
 // 		
 // 	}
 
 //	// Cannot use this test for now due to need for different root in OC_Filesystem_view class
 // 	function testGetLegacyKey() {
 // 		
-// 		$c = new \OCA_Encryption\Util( $view, false );
+// 		$c = new \OCA\Encryption\Util( $view, false );
 // 
 // 		$bool = $c->getLegacyKey( 'admin' );
 //
@@ -57,7 +57,7 @@ class Test_Encryption extends UnitTestCase {
 //	// Cannot use this test for now due to need for different root in OC_Filesystem_view class
 // 	function testLegacyDecrypt() {
 // 
-// 		$c = new OCA_Encryption\Util( $this->view, false );
+// 		$c = new OCA\Encryption\Util( $this->view, false );
 // 		
 // 		$bool = $c->getLegacyKey( 'admin' );
 // 

@@ -7,11 +7,11 @@
  * See the COPYING-README file.
  */
 
-namespace OCA_Encryption;
+namespace OCA\Encryption;
 
 require_once "PHPUnit/Framework/TestCase.php";
 require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
-require_once realpath( dirname(__FILE__).'/../lib/crypt.php' );
+//require_once realpath( dirname(__FILE__).'/../lib/crypt.php' );
 
 class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
@@ -92,33 +92,34 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 	}
 	
-	function testSymmetricBlockEncryptShortFileContent() {
-		
-		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->dataShort, $this->randomKey );
-		
-		$this->assertNotEquals( $this->dataShort, $crypted );
-		
-
-		$decrypt = Crypt::symmetricBlockDecryptFileContent( $crypted, $this->randomKey );
-
-		$this->assertEquals( $this->dataShort, $decrypt );
-		
-	}
+	// These aren't used for now
+// 	function testSymmetricBlockEncryptShortFileContent() {
+// 		
+// 		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->dataShort, $this->randomKey );
+// 		
+// 		$this->assertNotEquals( $this->dataShort, $crypted );
+// 		
+// 
+// 		$decrypt = Crypt::symmetricBlockDecryptFileContent( $crypted, $this->randomKey );
+// 
+// 		$this->assertEquals( $this->dataShort, $decrypt );
+// 		
+// 	}
+// 	
+// 	function testSymmetricBlockEncryptLongFileContent() {
+// 		
+// 		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->dataLong, $this->randomKey );
+// 		
+// 		$this->assertNotEquals( $this->dataLong, $crypted );
+// 		
+// 
+// 		$decrypt = Crypt::symmetricBlockDecryptFileContent( $crypted, $this->randomKey );
+// 
+// 		$this->assertEquals( $this->dataLong, $decrypt );
+// 		
+// 	}
 	
-	function testSymmetricBlockEncryptLongFileContent() {
-		
-		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->dataLong, $this->randomKey );
-		
-		$this->assertNotEquals( $this->dataLong, $crypted );
-		
-
-		$decrypt = Crypt::symmetricBlockDecryptFileContent( $crypted, $this->randomKey );
-
-		$this->assertEquals( $this->dataLong, $decrypt );
-		
-	}
-	
-	function testSymmetricStreamEncryptShortFileContent() {
+	function testSymmetricStreamEncryptShortFileContent() { 
 		
 		$filename = 'tmp-'.time();
 		
@@ -129,10 +130,9 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		
 		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( '/admin/files/' . $filename );
+		$retreivedCryptedFile = $this->view->file_get_contents( $filename );
 		
-		// Manually remove padding from end of each chunk
-		$retreivedCryptedFile = substr( $retreivedCryptedFile, 0, -2 );
+		//echo "\n\n\$retreivedCryptedFile = $retreivedCryptedFile";
 		
 		// Check that the file was encrypted before being written to disk
 		$this->assertNotEquals( $this->dataShort, $retreivedCryptedFile );
@@ -164,36 +164,22 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue( is_int( $cryptedFile ) );
 		
 		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( '/admin/files/' . $filename );
+		$retreivedCryptedFile = $this->view->file_get_contents( $filename );
+		
+// 		echo "\n\n\$retreivedCryptedFile = $retreivedCryptedFile\n\n";
 		
 		// Check that the file was encrypted before being written to disk
 		$this->assertNotEquals( $this->dataLong.$this->dataLong, $retreivedCryptedFile );
 		
-		// Get file contents without using any wrapper to get it's actual contents on disk
-		$undecrypted = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files/' . $filename );
-		
-		//echo "\n\n\$undecrypted = $undecrypted\n\n";
-		
 		// Manuallly split saved file into separate IVs and encrypted chunks
-		$r = preg_split('/(00iv00.{16,18})/', $undecrypted, NULL, PREG_SPLIT_DELIM_CAPTURE);
+		$r = preg_split('/(00iv00.{16,18})/', $retreivedCryptedFile, NULL, PREG_SPLIT_DELIM_CAPTURE);
 		
-		print_r($r);
+		//print_r($r);
 		
 		// Join IVs and their respective data chunks
-		$e = array( $r[0].$r[1], $r[2].$r[3], $r[4].$r[5], $r[6].$r[7], $r[8].$r[9], $r[10] );//.$r[11], $r[12].$r[13], $r[14] );
+		$e = array( $r[0].$r[1], $r[2].$r[3], $r[4].$r[5], $r[6].$r[7], $r[8].$r[9], $r[10].$r[11] );//.$r[11], $r[12].$r[13], $r[14] );
 		
 		//print_r($e);
-		
-		$f = array();
-		
-		// Manually remove padding from end of each chunk
-		foreach ( $e as $e ) {
-			
-			$f[] = substr( $e, 0, -2 );
-		
-		}
-		
-// 		print_r($f);
 		
 		// Manually fetch keyfile
 		$keyfile = Keymanager::getFileKey( $filename );
@@ -202,11 +188,11 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$decrypt = '';
 		
 		// Manually decrypt chunk
-		foreach ($f as $f) {
+		foreach ($e as $e) {
 		
 // 			echo "\n\$encryptMe = $f";
 			
-			$chunkDecrypt = Crypt::symmetricDecryptFileContent( $f, $keyfile );
+			$chunkDecrypt = Crypt::symmetricDecryptFileContent( $e, $keyfile );
 			
 			// Assemble decrypted chunks
 			$decrypt .= $chunkDecrypt;
@@ -219,7 +205,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		// Teadown
 		
-		$this->view->unlink( '/admin/files/' . $filename );
+		$this->view->unlink( $filename );
 		
 		Keymanager::deleteFileKey( $filename );
 		
@@ -241,7 +227,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		
 		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( '/admin/files/' . $filename );
+		$retreivedCryptedFile = $this->view->file_get_contents( $filename );
 		
 		$decrypt = file_get_contents( 'crypt://' . $filename );
 		

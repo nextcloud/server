@@ -681,8 +681,8 @@ class OC_OCS {
         */
         private static function publicKeyGet($format, $file) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
-        		if (($keys = OCA_Encryption\Keymanager::getPublicKeys($file))) {
+        	if(OC_App::isEnabled('files_encryption') && OCA\Encryption\Crypt::mode() === 'client') {
+        		if (($keys = OCA\Encryption\Keymanager::getPublicKeys($file))) {
         			$xml=$keys;
         			$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
         			echo($txt);
@@ -703,8 +703,8 @@ class OC_OCS {
          */
         private static function publicKeySet($format, $key) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
-        		if (OCA_Encryption\Keymanager::setPublicKey($key)) {
+        	if(OC_App::isEnabled('files_encryption') && OCA\Encryption\Crypt::mode() === 'client') {
+        		if (OCA\Encryption\Keymanager::setPublicKey($key)) {
         			echo self::generateXml('', 'ok', 100, '');
         		} else {
         			echo self::generateXml('', 'fail', 404, 'could not add your public key to the key storage');
@@ -721,8 +721,8 @@ class OC_OCS {
         */
         private static function privateKeyGet($format) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
-        		if (($key = OCA_Encryption\Keymanager::getPrivateKey())) {
+        	if(OC_App::isEnabled('files_encryption') && OCA\Encryption\Crypt::mode() === 'client') {
+        		if (($key = OCA\Encryption\Keymanager::getPrivateKey())) {
         			$xml=array();
         			$xml['key']=$key;
         			$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
@@ -743,8 +743,8 @@ class OC_OCS {
 		 */
         private static function privateKeySet($format, $key) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
-        		if (($key = OCA_Encryption\Keymanager::setPrivateKey($key))) {
+        	if(OC_App::isEnabled('files_encryption') && OCA\Encryption\Crypt::mode() === 'client') {
+        		if (($key = OCA\Encryption\Keymanager::setPrivateKey($key))) {
         			echo self::generateXml('', 'ok', 100, '');
         		} else {
         			echo self::generateXml('', 'fail', 404, 'could not add your private key to the key storage');
@@ -761,8 +761,8 @@ class OC_OCS {
          */
         private static function userKeysGet($format) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
-        		$keys = OCA_Encryption\Keymanager::getUserKeys();
+        	if(OC_App::isEnabled('files_encryption') && OCA\Encryption\Crypt::mode() === 'client') {
+        		$keys = OCA\Encryption\Keymanager::getUserKeys();
         		if ($keys['privatekey'] && $keys['publickey']) {
         			$xml=array();
         			$xml['privatekey']=$keys['privatekey'];
@@ -786,8 +786,8 @@ class OC_OCS {
          */
         private static function userKeysSet($format, $privatekey, $publickey) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
-        		if (($key = OCA_Encryption\Keymanager::setUserKeys($privatekey, $publickey))) {
+        	if(OC_App::isEnabled('files_encryption') && OCA\Encryption\Crypt::mode() === 'client') {
+        		if (($key = OCA\Encryption\Keymanager::setUserKeys($privatekey, $publickey))) {
         			echo self::generateXml('', 'ok', 100, '');
         		} else {
         			echo self::generateXml('', 'fail', 404, 'could not add your keys to the key storage');
@@ -805,8 +805,8 @@ class OC_OCS {
 		 */
         private static function fileKeyGet($format, $file) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
-        		if (($key = OCA_Encryption\Keymanager::getFileKey($file))) {
+        	if(OC_App::isEnabled('files_encryption') && OCA\Encryption\Crypt::mode() === 'client') {
+        		if (($key = OCA\Encryption\Keymanager::getFileKey($file))) {
         			$xml=array();
         			$xml['key']=$key;
         			$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
@@ -828,8 +828,8 @@ class OC_OCS {
 		 */
         private static function fileKeySet($format, $file, $key) {
         	$login=OC_OCS::checkpassword();
-        	if(OC_App::isEnabled('files_encryption') && OCA_Encryption\Crypt::mode() === 'client') {
-        		if (($key = OCA_Encryption\Keymanager::setFileKey($file, $key))) {
+        	if(OC_App::isEnabled('files_encryption') && OCA\Encryption\Crypt::mode() === 'client') {
+        		if (($key = OCA\Encryption\Keymanager::setFileKey($file, $key))) {
         			echo self::generateXml('', 'ok', 100, '');
         		} else {
         			echo self::generateXml('', 'fail', 404, 'could not write key file');

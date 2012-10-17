@@ -5,7 +5,7 @@
  * See the COPYING-README file.
  */
 
-use OCA_Encryption\Keymanager;
+use OCA\Encryption\Keymanager;
 
 OCP\JSON::checkAppEnabled('files_encryption');
 OCP\JSON::checkLoggedIn();
