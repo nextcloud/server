@@ -5,6 +5,7 @@
 # Translators:
 #   <duda.nogueira@metasys.com.br>, 2011.
 # Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
+#   <henrique@meira.net>, 2012.
 #   <philippi.sedir@gmail.com>, 2012.
 # Thiago Vicente <thiagovice@gmail.com>, 2012.
 # Unforgiving Fallout <>, 2012.
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-07 02:03+0200\n"
-"PO-Revision-Date: 2012-10-06 13:45+0000\n"
-"Last-Translator: sedir <philippi.sedir@gmail.com>\n"
+"POT-Creation-Date: 2012-10-16 02:04+0200\n"
+"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,55 +36,55 @@ msgstr "Nenhuma categoria adicionada?"
 msgid "This category already exists: "
 msgstr "Essa categoria já existe"
 
-#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Configurações"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "January"
 msgstr "Janeiro"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "February"
 msgstr "Fevereiro"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "March"
 msgstr "Março"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "April"
 msgstr "Abril"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "May"
 msgstr "Maio"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "June"
 msgstr "Junho"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "July"
 msgstr "Julho"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "August"
 msgstr "Agosto"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "September"
 msgstr "Setembro"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "October"
 msgstr "Outubro"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "November"
 msgstr "Novembro"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "December"
 msgstr "Dezembro"
 
@@ -111,8 +112,8 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Nenhuma categoria selecionada para deletar."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:494
-#: js/share.js:506
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
 msgstr "Erro"
 
@@ -152,7 +153,8 @@ msgstr "Compartilhar com link"
 msgid "Password protect"
 msgstr "Proteger com senha"
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
 msgid "Password"
 msgstr "Senha"
 
@@ -212,15 +214,15 @@ msgstr "remover"
 msgid "share"
 msgstr "compartilhar"
 
-#: js/share.js:322 js/share.js:481
+#: js/share.js:322 js/share.js:484
 msgid "Password protected"
 msgstr "Protegido com senha"
 
-#: js/share.js:494
+#: js/share.js:497
 msgid "Error unsetting expiration date"
 msgstr "Erro ao remover data de expiração"
 
-#: js/share.js:506
+#: js/share.js:509
 msgid "Error setting expiration date"
 msgstr "Erro ao definir data de expiração"
 
@@ -244,8 +246,8 @@ msgstr "Solicitado"
 msgid "Login failed!"
 msgstr "Falha ao fazer o login!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Nome de Usuário"
 
@@ -305,48 +307,73 @@ msgstr "Editar categorias"
 msgid "Add"
 msgstr "Adicionar"
 
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr "Aviso de Segurança"
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr "Nenhum gerador de número aleatório de segurança disponível. Habilite a extensão OpenSSL do PHP."
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr "Sem um gerador de número aleatório de segurança, um invasor pode ser capaz de prever os símbolos de redefinição de senhas e assumir sua conta."
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Criar uma <strong>conta</strong> de <strong>administrador</strong>"
 
-#: templates/installation.php:36
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "Avançado"
 
-#: templates/installation.php:38
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "Pasta de dados"
 
-#: templates/installation.php:45
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "Configurar o banco de dados"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "será usado"
 
-#: templates/installation.php:93
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Usuário de banco de dados"
 
-#: templates/installation.php:97
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "Senha do banco de dados"
 
-#: templates/installation.php:101
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Nome do banco de dados"
 
-#: templates/installation.php:109
+#: templates/installation.php:121
 msgid "Database tablespace"
 msgstr "Espaço de tabela do banco de dados"
 
-#: templates/installation.php:115
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Banco de dados do host"
 
-#: templates/installation.php:120
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "Concluir configuração"
 
@@ -358,15 +385,29 @@ msgstr "web services sob seu controle"
 msgid "Log out"
 msgstr "Sair"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr ""
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr ""
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr ""
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "Esqueçeu sua senha?"
 
-#: templates/login.php:16
+#: templates/login.php:27
 msgid "remember"
 msgstr "lembrete"
 
-#: templates/login.php:17
+#: templates/login.php:28
 msgid "Log in"
 msgstr "Log in"
 
@@ -381,3 +422,17 @@ msgstr "anterior"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "próximo"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr ""
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr ""
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr ""

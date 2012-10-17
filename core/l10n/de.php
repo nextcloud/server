@@ -69,6 +69,10 @@
 "Cloud not found" => "Cloud nicht gefunden",
 "Edit categories" => "Kategorien bearbeiten",
 "Add" => "Hinzufügen",
+"Security Warning" => "Sicherheitswarnung",
+"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Es ist kein sicherer Zufallszahlengenerator verfügbar, bitte aktiviere die PHP-Erweiterung für OpenSSL.",
+"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Ohne einen sicheren Zufallszahlengenerator sind Angreifer in der Lage die Tokens für das Zurücksetzen der Passwörter vorherzusehen und Konten  zu übernehmen.",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Dein Datenverzeichnis und deine Datein sind vielleicht vom Internet aus erreichbar. Die .htaccess Datei, die ownCloud verwendet, arbeitet nicht richtig. Wir schlagen Dir dringend vor, dass du deinen Webserver so konfigurierst, dass das Datenverzeichnis nicht länger erreichbar ist oder, dass du dein Datenverzeichnis aus dem Dokumenten-root des Webservers bewegst.",
 "Create an <strong>admin account</strong>" => "<strong>Administrator-Konto</strong> anlegen",
 "Advanced" => "Fortgeschritten",
 "Data folder" => "Datenverzeichnis",
@@ -82,10 +86,16 @@
 "Finish setup" => "Installation abschließen",
 "web services under your control" => "Web-Services unter Ihrer Kontrolle",
 "Log out" => "Abmelden",
+"Automatic logon rejected!" => "Automatischer Login zurückgewiesen!",
+"If you did not change your password recently, your account may be compromised!" => "Wenn du Dein Passwort nicht änderst, könnte dein Account kompromitiert werden!",
+"Please change your password to secure your account again." => "Bitte ändere Dein Passwort, um Deinen Account wieder zu schützen.",
 "Lost your password?" => "Passwort vergessen?",
 "remember" => "merken",
 "Log in" => "Einloggen",
 "You are logged out." => "Du wurdest abgemeldet.",
 "prev" => "Zurück",
-"next" => "Weiter"
+"next" => "Weiter",
+"Security Warning!" => "Sicherheitswarnung!",
+"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Bitte bestätige Dein Passwort. <br/> Aus Sicherheitsgründen wirst Du hierbei gebeten, Dein Passwort erneut einzugeben.",
+"Verify" => "Bestätigen"
 );

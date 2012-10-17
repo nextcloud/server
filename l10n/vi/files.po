@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <khanhnd@kenhgiaiphap.vn>, 2012.
 #   <mattheu_9x@yahoo.com>, 2012.
 # Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:20+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-16 23:37+0200\n"
+"PO-Revision-Date: 2012-10-16 07:20+0000\n"
+"Last-Translator: khanhnd <khanhnd@kenhgiaiphap.vn>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,41 +64,41 @@ msgstr "Xóa"
 
 #: js/fileactions.js:182
 msgid "Rename"
-msgstr ""
+msgstr "Sửa tên"
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:192 js/filelist.js:194
 msgid "already exists"
 msgstr "đã tồn tại"
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:192 js/filelist.js:194
 msgid "replace"
 msgstr "thay thế"
 
-#: js/filelist.js:190
+#: js/filelist.js:192
 msgid "suggest name"
 msgstr "tên gợi ý"
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:192 js/filelist.js:194
 msgid "cancel"
 msgstr "hủy"
 
-#: js/filelist.js:239 js/filelist.js:241
+#: js/filelist.js:241 js/filelist.js:243
 msgid "replaced"
 msgstr "đã được thay thế"
 
-#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
+#: js/filelist.js:241 js/filelist.js:243 js/filelist.js:275 js/filelist.js:277
 msgid "undo"
 msgstr "lùi lại"
 
-#: js/filelist.js:241
+#: js/filelist.js:243
 msgid "with"
 msgstr "với"
 
-#: js/filelist.js:273
-msgid "unshared"
-msgstr ""
-
 #: js/filelist.js:275
+msgid "unshared"
+msgstr "gỡ chia sẻ"
+
+#: js/filelist.js:277
 msgid "deleted"
 msgstr "đã xóa"
 
@@ -105,114 +106,114 @@ msgstr "đã xóa"
 msgid "generating ZIP-file, it may take some time."
 msgstr "Tạo tập tinh ZIP, điều này có thể mất một ít thời gian"
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Không thể tải lên tập tin này do nó là một thư mục hoặc kích thước tập tin bằng 0 byte"
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Upload Error"
 msgstr "Tải lên lỗi"
 
-#: js/files.js:236 js/files.js:341 js/files.js:371
+#: js/files.js:242 js/files.js:347 js/files.js:377
 msgid "Pending"
 msgstr "Chờ"
 
-#: js/files.js:256
+#: js/files.js:262
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 tệp tin đang được tải lên"
 
-#: js/files.js:259 js/files.js:304 js/files.js:319
+#: js/files.js:265 js/files.js:310 js/files.js:325
 msgid "files uploading"
-msgstr ""
+msgstr "tệp tin đang được tải lên"
 
-#: js/files.js:322 js/files.js:355
+#: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
 msgstr "Hủy tải lên"
 
-#: js/files.js:424
+#: js/files.js:430
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này."
 
-#: js/files.js:494
+#: js/files.js:500
 msgid "Invalid name, '/' is not allowed."
 msgstr "Tên không hợp lệ ,không được phép dùng '/'"
 
-#: js/files.js:667
+#: js/files.js:681
 msgid "files scanned"
-msgstr ""
+msgstr "tệp tin đã quét"
 
-#: js/files.js:675
+#: js/files.js:689
 msgid "error while scanning"
-msgstr ""
+msgstr "lỗi trong khi quét"
 
-#: js/files.js:748 templates/index.php:48
+#: js/files.js:762 templates/index.php:48
 msgid "Name"
 msgstr "Tên"
 
-#: js/files.js:749 templates/index.php:56
+#: js/files.js:763 templates/index.php:56
 msgid "Size"
 msgstr "Kích cỡ"
 
-#: js/files.js:750 templates/index.php:58
+#: js/files.js:764 templates/index.php:58
 msgid "Modified"
 msgstr "Thay đổi"
 
-#: js/files.js:777
+#: js/files.js:791
 msgid "folder"
 msgstr "folder"
 
-#: js/files.js:779
+#: js/files.js:793
 msgid "folders"
 msgstr "folders"
 
-#: js/files.js:787
+#: js/files.js:801
 msgid "file"
 msgstr "file"
 
-#: js/files.js:789
+#: js/files.js:803
 msgid "files"
 msgstr "files"
 
-#: js/files.js:833
+#: js/files.js:847
 msgid "seconds ago"
-msgstr ""
+msgstr "giây trước"
 
-#: js/files.js:834
+#: js/files.js:848
 msgid "minute ago"
-msgstr ""
+msgstr "một phút trước"
 
-#: js/files.js:835
+#: js/files.js:849
 msgid "minutes ago"
-msgstr ""
+msgstr "phút trước"
 
-#: js/files.js:838
+#: js/files.js:852
 msgid "today"
-msgstr ""
+msgstr "hôm nay"
 
-#: js/files.js:839
+#: js/files.js:853
 msgid "yesterday"
-msgstr ""
+msgstr "hôm qua"
 
-#: js/files.js:840
+#: js/files.js:854
 msgid "days ago"
-msgstr ""
+msgstr "ngày trước"
 
-#: js/files.js:841
+#: js/files.js:855
 msgid "last month"
-msgstr ""
+msgstr "tháng trước"
 
-#: js/files.js:843
+#: js/files.js:857
 msgid "months ago"
-msgstr ""
+msgstr "tháng trước"
 
-#: js/files.js:844
+#: js/files.js:858
 msgid "last year"
-msgstr ""
+msgstr "năm trước"
 
-#: js/files.js:845
+#: js/files.js:859
 msgid "years ago"
-msgstr ""
+msgstr "năm trước"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -224,7 +225,7 @@ msgstr "Kích thước tối đa "
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "tối đa cho phép"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-13 02:05+0200\n"
-"PO-Revision-Date: 2012-10-12 19:36+0000\n"
+"POT-Creation-Date: 2012-10-14 02:05+0200\n"
+"PO-Revision-Date: 2012-10-13 09:09+0000\n"
 "Last-Translator: Richard Bos <radoeka@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -97,7 +97,7 @@ msgstr "Inschakelen"
 msgid "Saving..."
 msgstr "Aan het bewaren....."
 
-#: personal.php:47 personal.php:48
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "Nederlands"
 
@@ -319,7 +319,7 @@ msgstr "Andere"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr "Groep Administrator"
+msgstr "Groep beheerder"
 
 #: templates/users.php:82
 msgid "Quota"

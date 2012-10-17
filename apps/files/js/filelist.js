@@ -150,7 +150,7 @@ var FileList={
 			if (newname != name) {
 				if (FileList.checkName(name, newname, false)) {
 					newname = name;
-				} else {					
+				} else {
 					$.get(OC.filePath('files','ajax','rename.php'), { dir : $('#dir').val(), newname: newname, file: name },function(result) {
 						if (!result || result.status == 'error') {
 							OC.dialogs.alert(result.data.message, 'Error moving file');
@@ -158,7 +158,7 @@ var FileList={
 						}
 						tr.data('renaming',false);
 					});
-					
+
 				}
 			}
 			tr.attr('data-file', newname);
@@ -264,9 +264,9 @@ var FileList={
 		if (FileList.lastAction) {
 			FileList.lastAction();
 		}
-		
+
 		FileList.prepareDeletion(files);
-		
+
 		if (!FileList.useUndo) {
 			FileList.lastAction();
 		} else {

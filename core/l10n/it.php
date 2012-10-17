@@ -69,6 +69,10 @@
 "Cloud not found" => "Nuvola non trovata",
 "Edit categories" => "Modifica le categorie",
 "Add" => "Aggiungi",
+"Security Warning" => "Avviso di sicurezza",
+"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Non è disponibile alcun generatore di numeri casuali sicuro. Abilita l'estensione OpenSSL di PHP",
+"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Senza un generatore di numeri casuali sicuro, un malintenzionato potrebbe riuscire a individuare i token di ripristino delle password e impossessarsi del tuo account.",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "La cartella dei dati e i tuoi file sono probabilmente accessibili da Internet. Il file .htaccess fornito da ownCloud non funziona. Ti suggeriamo vivamente di configurare il server web in modo che la cartella dei dati non sia più accessibile o sposta tale cartella fuori dalla radice del sito.",
 "Create an <strong>admin account</strong>" => "Crea un <strong>account amministratore</strong>",
 "Advanced" => "Avanzate",
 "Data folder" => "Cartella dati",
@@ -82,10 +86,16 @@
 "Finish setup" => "Termina la configurazione",
 "web services under your control" => "servizi web nelle tue mani",
 "Log out" => "Esci",
+"Automatic logon rejected!" => "Accesso automatico rifiutato.",
+"If you did not change your password recently, your account may be compromised!" => "Se non hai cambiato la password recentemente, il tuo account potrebbe essere stato compromesso.",
+"Please change your password to secure your account again." => "Cambia la password per rendere nuovamente sicuro il tuo account.",
 "Lost your password?" => "Hai perso la password?",
 "remember" => "ricorda",
 "Log in" => "Accedi",
 "You are logged out." => "Sei uscito.",
 "prev" => "precedente",
-"next" => "successivo"
+"next" => "successivo",
+"Security Warning!" => "Avviso di sicurezza",
+"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Verifica la tua password.<br/>Per motivi di sicurezza, potresti ricevere una richiesta di digitare nuovamente la password.",
+"Verify" => "Verifica"
 );

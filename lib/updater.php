@@ -45,12 +45,12 @@ class OC_Updater{
 
 		// set a sensible timeout of 10 sec to stay responsive even if the update server is down.
 		$ctx = stream_context_create(
-			array( 
-				'http' => array( 
-					'timeout' => 10 
-				) 
-			) 
-		); 
+			array(
+				'http' => array(
+					'timeout' => 10
+				)
+			)
+		);
 		$xml=@file_get_contents($url, 0, $ctx);
                 if($xml==FALSE) {
                         return array();

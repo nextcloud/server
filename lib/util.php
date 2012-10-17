@@ -303,9 +303,11 @@ class OC_Util {
 		return $errors;
 	}
 
-	public static function displayLoginPage($display_lostpassword) {
+	public static function displayLoginPage($errors = array()) {
 		$parameters = array();
-		$parameters['display_lostpassword'] = $display_lostpassword;
+		foreach( $errors as $key => $value ) {
+			$parameters[$value] = true;
+		}
 		if (!empty($_POST['user'])) {
 			$parameters["username"] =
 				OC_Util::sanitizeHTML($_POST['user']).'"';
@@ -352,6 +354,7 @@ class OC_Util {
 	public static function checkAdminUser() {
 		// Check if we are a user
 		self::checkLoggedIn();
+		self::verifyUser();
 		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
@@ -365,6 +368,7 @@ class OC_Util {
 	public static function checkSubAdminUser() {
 		// Check if we are a user
 		self::checkLoggedIn();
+		self::verifyUser();
 		if(OC_Group::inGroup(OC_User::getUser(),'admin')) {
 			return true;
 		}
@@ -375,6 +379,40 @@ class OC_Util {
 		return true;
 	}
 
+	/**
+	* Check if the user verified the login with his password in the last 15 minutes
+	* If not, the user will be shown a password verification page
+	*/
+	public static function verifyUser() {
+		if(OC_Config::getValue('enhancedauth', true) === true) {
+					// Check password to set session
+			if(isset($_POST['password'])) {
+				if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
+					$_SESSION['verifiedLogin']=time() + OC_Config::getValue('enhancedauthtime', 15 * 60);
+				}
+			}
+
+		// Check if the user verified his password
+			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
+				OC_Template::printGuestPage("", "verify",  array('username' => OC_User::getUser()));
+				exit();
+			}
+		}
+	}
+
+	/**
+	* Check if the user verified the login with his password
+	* @return bool
+	*/
+	public static function isUserVerified() {
+		if(OC_Config::getValue('enhancedauth', true) === true) {
+			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
+				return false;
+			}
+			return true;
+		}
+	}
+	
 	/**
 	* Redirect to the user default page
 	*/
@@ -419,7 +457,7 @@ class OC_Util {
 	 * @description
 	 * Also required for the client side to compute the piont in time when to
 	 * request a fresh token. The client will do so when nearly 97% of the
-	 * timespan coded here has expired. 
+	 * timespan coded here has expired.
 	 */
 	public static $callLifespan = 3600; // 3600 secs = 1 hour
 
@@ -548,30 +586,62 @@ class OC_Util {
 		}
 	}
 
-	/*
-	* @brief Generates random bytes with "openssl_random_pseudo_bytes" with a fallback for systems without openssl
-	* Inspired by gorgo on php.net
-	* @param Int with the length of the random
-	* @return String with the random bytes
+	/**
+	* @brief Generates a cryptographical secure pseudorandom string
+	* @param Int with the length of the random string
+	* @return String
+	* Please also update secureRNG_available if you change something here
 	*/
 	public static function generate_random_bytes($length = 30) {
-		if(function_exists('openssl_random_pseudo_bytes')) { 
+
+		// Try to use openssl_random_pseudo_bytes
+		if(function_exists('openssl_random_pseudo_bytes')) {
 			$pseudo_byte = bin2hex(openssl_random_pseudo_bytes($length, $strong));
 			if($strong == TRUE) {
 				return substr($pseudo_byte, 0, $length); // Truncate it to match the length
 			}
 		}
 
-		// fallback to mt_rand() 
+		// Try to use /dev/urandom
+		$fp = @file_get_contents('/dev/urandom', false, null, 0, $length);
+		if ($fp !== FALSE) {
+			$string = substr(bin2hex($fp), 0, $length);
+			return $string;
+		}
+
+		// Fallback to mt_rand()
 		$characters = '0123456789';
-		$characters .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; 
+		$characters .= 'abcdefghijklmnopqrstuvwxyz';
 		$charactersLength = strlen($characters)-1;
 		$pseudo_byte = "";
 
 		// Select some random characters
 		for ($i = 0; $i < $length; $i++) {
 			$pseudo_byte .= $characters[mt_rand(0, $charactersLength)];
-		}        
+		}
 		return $pseudo_byte;
+	}
+
+	/**
+	* @brief Checks if a secure random number generator is available
+	* @return bool
+	*/
+	public static function secureRNG_available() {
+
+		// Check openssl_random_pseudo_bytes
+		if(function_exists('openssl_random_pseudo_bytes')) {
+			openssl_random_pseudo_bytes(1, $strong);
+			if($strong == TRUE) {
+				return true;
+			}
+		}
+
+		// Check /dev/urandom
+		$fp = @file_get_contents('/dev/urandom', false, null, 0, 1);
+		if ($fp !== FALSE) {
+			return true;
+		}
+
+		return false;
 	}
 }

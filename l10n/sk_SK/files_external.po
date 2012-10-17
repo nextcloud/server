@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-10 02:04+0200\n"
-"PO-Revision-Date: 2012-10-09 18:56+0000\n"
+"POT-Creation-Date: 2012-10-16 23:37+0200\n"
+"PO-Revision-Date: 2012-10-16 18:49+0000\n"
 "Last-Translator: martinb <martin.babik@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Prístup povolený"
 
 #: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
 msgid "Error configuring Dropbox storage"
-msgstr ""
+msgstr "Chyba pri konfigurácii úložiska Dropbox"
 
 #: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
 msgid "Grant access"

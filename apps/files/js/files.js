@@ -199,7 +199,7 @@ $(document).ready(function() {
 	$(document).bind('drop dragover', function (e) {
 			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
 	});
-	 
+
 	if ( document.getElementById("data-upload-form") ) {
 	$(function() {
 		$('.file_upload_start').fileupload({

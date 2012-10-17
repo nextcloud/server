@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Access granted" => "Prístup povolený",
+"Error configuring Dropbox storage" => "Chyba pri konfigurácii úložiska Dropbox",
 "Grant access" => "Povoliť prístup",
 "Fill out all required fields" => "Vyplňte všetky vyžadované kolónky",
 "Please provide a valid Dropbox app key and secret." => "Zadajte platný kľúč aplikácie a heslo Dropbox",

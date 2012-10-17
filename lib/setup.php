@@ -5,12 +5,19 @@ $hasMySQL = is_callable('mysql_connect');
 $hasPostgreSQL = is_callable('pg_connect');
 $hasOracle = is_callable('oci_connect');
 $datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
+
+// Test if  .htaccess is working
+$content = "deny from all";
+file_put_contents(OC::$SERVERROOT.'/data/.htaccess', $content);
+
 $opts = array(
 	'hasSQLite' => $hasSQLite,
 	'hasMySQL' => $hasMySQL,
 	'hasPostgreSQL' => $hasPostgreSQL,
 	'hasOracle' => $hasOracle,
 	'directory' => $datadir,
+	'secureRNG' => OC_Util::secureRNG_available(),
+	'htaccessWorking' => OC_Util::ishtaccessworking(),
 	'errors' => array(),
 );
 
@@ -383,7 +390,7 @@ class OC_Setup {
 				if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 					self::createHtaccess();
 				}
-
+				
 				//and we are done
 				OC_Config::setValue('installed', true);
 			}

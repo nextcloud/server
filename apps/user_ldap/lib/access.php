@@ -339,7 +339,8 @@ abstract class Access {
 		$ownCloudNames = array();
 
 		foreach($ldapObjects as $ldapObject) {
-			$ocname = $this->dn2ocname($ldapObject['dn'], $ldapObject[$nameAttribute], $isUsers);
+			$nameByLDAP = isset($ldapObject[$nameAttribute]) ? $ldapObject[$nameAttribute] : null;
+			$ocname = $this->dn2ocname($ldapObject['dn'], $nameByLDAP, $isUsers);
 			if($ocname) {
 				$ownCloudNames[] = $ocname;
 			}

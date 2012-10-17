@@ -327,6 +327,22 @@ class Share {
 	}
 
 	/**
+	* @brief Unshare an item from all users, groups, and remove all links
+	* @param string Item type
+	* @param string Item source
+	* @return Returns true on success or false on failure
+	*/
+	public static function unshareAll($itemType, $itemSource) {
+		if ($shares = self::getItemShared($itemType, $itemSource)) {
+			foreach ($shares as $share) {
+				self::delete($share['id']);
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	* @brief Unshare an item shared with the current user
 	* @param string Item type
 	* @param string Item target
@@ -515,7 +531,7 @@ class Share {
 		$backend = self::getBackend($itemType);
 		// Get filesystem root to add it to the file target and remove from the file source, match file_source with the file cache
 		if ($itemType == 'file' || $itemType == 'folder') {
-			$root = \OC\Files\Filesystem::getRoot();
+			$root = \OC_Filesystem::getRoot();
 			$where = 'INNER JOIN `*PREFIX*fscache` ON `file_source` = `*PREFIX*fscache`.`id`';
 			if (!isset($item)) {
 				$where .= ' WHERE `file_target` IS NOT NULL';
@@ -602,7 +618,7 @@ class Share {
 			} else {
 				if ($itemType == 'file' || $itemType == 'folder') {
 					$where .= ' `file_target` = ?';
-					$item = \OC\Files\Filesystem::normalizePath($item);
+					$item = \OC_Filesystem::normalizePath($item);
 				} else {
 					$where .= ' `item_target` = ?';
 				}
@@ -751,7 +767,7 @@ class Share {
 									} else {
 										$childItem['file_source'] = \OC_FileCache::getId($child['file_path']);
 									}
-									$childItem['file_target'] = \OC\Files\Filesystem::normalizePath($child['file_path']);
+									$childItem['file_target'] = \OC_Filesystem::normalizePath($child['file_path']);
 								}
 								if (isset($item)) {
 									if ($childItem[$column] == $item) {

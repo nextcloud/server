@@ -62,7 +62,7 @@ class OC_OCSClient{
 					'timeout' => 10
 				)
 			)
-		);      
+		);
 		$data=@file_get_contents($url, 0, $ctx);
 		return($data);
 	}

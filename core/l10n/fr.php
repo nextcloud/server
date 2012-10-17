@@ -69,6 +69,10 @@
 "Cloud not found" => "Introuvable",
 "Edit categories" => "Modifier les catégories",
 "Add" => "Ajouter",
+"Security Warning" => "Avertissement de sécutité",
+"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Aucun générateur de nombre aléatoire sécurisé n'est disponible, veuillez activer l'extension PHP OpenSSL",
+"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Sans générateur de nombre aléatoire sécurisé, un attaquant peut être en mesure de prédire les jetons de réinitialisation du mot de passe, et ainsi prendre le contrôle de votre compte utilisateur.",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Votre dossier data et vos fichiers sont probablement accessibles depuis internet. Le fichier .htaccess fourni par ownCloud ne fonctionne pas. Nous vous recommandons vivement de configurer votre serveur web de manière à ce que le dossier data ne soit plus accessible ou bien de déplacer le dossier data en dehors du dossier racine des documents du serveur web.",
 "Create an <strong>admin account</strong>" => "Créer un <strong>compte administrateur</strong>",
 "Advanced" => "Avancé",
 "Data folder" => "Répertoire des données",
@@ -82,10 +86,16 @@
 "Finish setup" => "Terminer l'installation",
 "web services under your control" => "services web sous votre contrôle",
 "Log out" => "Se déconnecter",
+"Automatic logon rejected!" => "Connexion automatique rejetée !",
+"If you did not change your password recently, your account may be compromised!" => "Si vous n'avez pas changé votre mot de passe récemment, votre compte risque d'être compromis !",
+"Please change your password to secure your account again." => "Veuillez changer votre mot de passe pour sécuriser à nouveau votre compte.",
 "Lost your password?" => "Mot de passe perdu ?",
 "remember" => "se souvenir de moi",
 "Log in" => "Connexion",
 "You are logged out." => "Vous êtes désormais déconnecté.",
 "prev" => "précédent",
-"next" => "suivant"
+"next" => "suivant",
+"Security Warning!" => "Alerte de sécurité !",
+"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Veuillez vérifier votre mot de passe. <br/>Par sécurité il vous sera occasionnellement demandé d'entrer votre mot de passe de nouveau.",
+"Verify" => "Vérification"
 );
