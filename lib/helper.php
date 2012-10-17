@@ -101,6 +101,17 @@ class OC_Helper {
 	}
 
 	/**
+	 * @brief Creates an url for remote use
+	 * @param string $service id
+	 * @return string the url
+	 *
+	 * Returns a url to the given service.
+	 */
+	public static function linkToRemoteBase( $service ) {
+		return self::linkTo( '', 'remote.php') . '/' . $service;
+	}
+
+	/**
 	 * @brief Creates an absolute url for remote use
 	 * @param string $service id
 	 * @return string the url
@@ -108,7 +119,7 @@ class OC_Helper {
 	 * Returns a absolute url to the given service.
 	 */
 	public static function linkToRemote( $service, $add_slash = true ) {
-		return self::linkToAbsolute( '', 'remote.php') . '/' . $service . (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
+		return self::makeURLAbsolute(self::linkToRemoteBase($service)) . (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
 	}
 
 	/**
