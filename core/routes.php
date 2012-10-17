@@ -32,6 +32,20 @@ $this->create('core_ajax_vcategories_edit', '/core/ajax/vcategories/edit.php')
 $this->create('core_ajax_routes', '/core/routes.json')
 	->action('OC_Router', 'JSRoutes');
 
+OC::$CLASSPATH['OC_Core_LostPassword_Controller'] = 'core/lostpassword/controller.php';
+$this->create('core_lostpassword_index', '/lostpassword/')
+	->get()
+	->action('OC_Core_LostPassword_Controller', 'index');
+$this->create('core_lostpassword_send_email', '/lostpassword/')
+	->post()
+	->action('OC_Core_LostPassword_Controller', 'sendEmail');
+$this->create('core_lostpassword_reset', '/lostpassword/reset/{token}/{user}')
+	->get()
+	->action('OC_Core_LostPassword_Controller', 'reset');
+$this->create('core_lostpassword_reset_password', '/lostpassword/reset/{token}/{user}')
+	->post()
+	->action('OC_Core_LostPassword_Controller', 'resetPassword');
+
 // Not specifically routed
 $this->create('app_css', '/apps/{app}/{file}')
 	->requirements(array('file' => '.*.css'))
