@@ -49,7 +49,7 @@ class OC_TemplateLayout extends OC_Template {
 		$jsfiles = self::findJavascriptFiles(OC_Util::$scripts);
 		$this->assign('jsfiles', array(), false);
 		if (!empty(OC_Util::$core_scripts)) {
-			$this->append( 'jsfiles', OC_Helper::linkToRemote('core.js', false));
+			$this->append( 'jsfiles', OC_Helper::linkToRemoteBase('core.js', false));
 		}
 		foreach($jsfiles as $info) {
 			$root = $info[0];
@@ -62,7 +62,7 @@ class OC_TemplateLayout extends OC_Template {
 		$cssfiles = self::findStylesheetFiles(OC_Util::$styles);
 		$this->assign('cssfiles', array());
 		if (!empty(OC_Util::$core_styles)) {
-			$this->append( 'cssfiles', OC_Helper::linkToRemote('core.css', false));
+			$this->append( 'cssfiles', OC_Helper::linkToRemoteBase('core.css', false));
 		}
 		foreach($cssfiles as $info) {
 			$root = $info[0];
