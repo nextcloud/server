@@ -67,6 +67,7 @@ class OC_Core_LostPassword_Controller {
 			if (isset($_POST['password'])) {
 				if (OC_User::setPassword($args['user'], $_POST['password'])) {
 					OC_Preferences::deleteKey($args['user'], 'owncloud', 'lostpassword');
+					OC_User::unsetMagicInCookie();
 					self::displayResetPasswordPage(true, $args);
 				} else {
 					self::displayResetPasswordPage(false, $args);
