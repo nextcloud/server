@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-28 02:03+0200\n"
+"POT-Creation-Date: 2012-10-17 02:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,16 +21,11 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr ""
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr ""
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr ""
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr ""
 
@@ -58,7 +53,11 @@ msgstr ""
 msgid "Unable to delete group"
 msgstr ""
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr ""
+
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr ""
 
@@ -76,11 +75,11 @@ msgstr ""
 msgid "Unable to remove user from group %s"
 msgstr ""
 
-#: js/apps.js:27 js/apps.js:61
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr ""
 
-#: js/apps.js:27 js/apps.js:50
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr ""
 
@@ -88,7 +87,7 @@ msgstr ""
 msgid "Saving..."
 msgstr ""
 
-#: personal.php:46 personal.php:47
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr ""
 
@@ -182,15 +181,19 @@ msgstr ""
 msgid "Add your App"
 msgstr ""
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr ""
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr ""
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr ""
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid ""
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""

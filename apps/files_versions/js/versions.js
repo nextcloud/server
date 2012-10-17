@@ -25,7 +25,7 @@ $(document).ready(function(){
 
 				var file = $('#dir').val()+'/'+filename;
 				// Check if drop down is already visible for a different file
-				if (($('#dropdown').length > 0)) {
+				if (($('#dropdown').length > 0) && $('#dropdown').hasClass('drop-versions') ) {
 					if (file != $('#dropdown').data('file')) {
 						$('#dropdown').hide('blind', function() {
 							$('#dropdown').remove();
@@ -45,7 +45,7 @@ function createVersionsDropdown(filename, files) {
 
 	var historyUrl = OC.linkTo('files_versions', 'history.php') + '?path='+encodeURIComponent( $( '#dir' ).val() ).replace( /%2F/g, '/' )+'/'+encodeURIComponent( filename );
 
-	var html = '<div id="dropdown" class="drop" data-file="'+files+'">';
+	var html = '<div id="dropdown" class="drop drop-versions" data-file="'+escapeHTML(files)+'">';
 	html += '<div id="private">';
 	html += '<select data-placeholder="Saved versions" id="found_versions" class="chzen-select" style="width:16em;">';
 	html += '<option value=""></option>';
@@ -68,7 +68,7 @@ function createVersionsDropdown(filename, files) {
 		data: { source: files },
 		async: false,
 		success: function( versions ) {
-			
+
 			if (versions) {
 				$.each( versions, function(index, row ) {
 					addVersion( row );
@@ -128,7 +128,7 @@ function createVersionsDropdown(filename, files) {
 
 		version.appendTo('#found_versions');
 	}
-	
+
 	$('tr').filterAttr('data-file',filename).addClass('mouseOver');
 	$('#dropdown').show('blind');
 
@@ -137,14 +137,13 @@ function createVersionsDropdown(filename, files) {
 
 $(this).click(
 	function(event) {
-	
-	if ($('#dropdown').has(event.target).length === 0) {
+	if ($('#dropdown').has(event.target).length === 0 && $('#dropdown').hasClass('drop-versions')) {
 		$('#dropdown').hide('blind', function() {
 			$('#dropdown').remove();
 			$('tr').removeClass('mouseOver');
 		});
 	}
 
-	
+
 	}
 );

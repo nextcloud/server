@@ -26,7 +26,7 @@ return array(
 		'run'=>false,
 		'user'=>'test:tester',
 		'token'=>'testing',
-		'host'=>'localhost:8080/auth',
+		'host'=>'localhost.local:8080/auth',
 		'root'=>'/',
 	),
 	'smb'=>array(
@@ -43,4 +43,13 @@ return array(
 		'secret'=>'test',
 		'bucket'=>'bucket',
 	),
+	'dropbox' => array (
+		'run'=>false,
+		'root'=>'owncloud',
+		'configured' => 'true',
+		'app_key' => '',
+		'app_secret' => '',
+		'token' => '',
+		'token_secret' => ''
+	)
 );

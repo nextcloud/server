@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Impossible de charger la liste depuis l'App Store",
-"Authentication error" => "Erreur d'authentification",
 "Group already exists" => "Ce groupe existe déjà",
 "Unable to add group" => "Impossible d'ajouter le groupe",
 "Could not enable app. " => "Impossible d'activer l'Application",
@@ -9,6 +8,7 @@
 "OpenID Changed" => "Identifiant OpenID changé",
 "Invalid request" => "Requête invalide",
 "Unable to delete group" => "Impossible de supprimer le groupe",
+"Authentication error" => "Erreur d'authentification",
 "Unable to delete user" => "Impossible de supprimer l'utilisateur",
 "Language changed" => "Langue changée",
 "Unable to add user to group %s" => "Impossible d'ajouter l'utilisateur au groupe %s",
@@ -36,6 +36,7 @@
 "More" => "Plus",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Développé par la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">communauté ownCloud</a>, le <a href=\"https://github.com/owncloud\" target=\"_blank\">code source</a> est publié sous license <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
 "Add your App" => "Ajoutez votre application",
+"More Apps" => "Plus d'applications…",
 "Select an App" => "Sélectionner une Application",
 "See application page at apps.owncloud.com" => "Voir la page des applications à l'url apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "Distribué sous licence <span class=\"licence\"></span>, par <span class=\"author\"></span>",

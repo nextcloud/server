@@ -38,7 +38,7 @@ div.quota { float:right; display:block; position:absolute; right:25em; top:0; }
 div.quota-select-wrapper { position: relative; }
 select.quota { position:absolute; left:0; top:0; width:10em; }
 select.quota-user { position:relative; left:0; top:0; width:10em; }
-input.quota-other { display:none; position:absolute; left:0.1em; top:0.1em; width:7em; border:none; -webkit-box-shadow: none -mox-box-shadow:none ; box-shadow:none; }
+input.quota-other { display:none; position:absolute; left:0.1em; top:0.1em; width:7em; border:none; -webkit-box-shadow: none; -moz-box-shadow:none ; box-shadow:none; }
 div.quota>span { position:absolute; right:0em; white-space:nowrap; top: 0.7em }
 select.quota.active { background: #fff; }
 
@@ -50,7 +50,7 @@ li { color:#888; }
 li.active { color:#000; }
 small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 4px;}
 small.externalapp.list { float: right; }
-span.version { margin-left:3em; margin-right:3em; color:#555; }
+span.version { margin-left:1em; margin-right:1em; color:#555; }
 
 .app { position: relative; display: inline-block; padding: 0.2em 0 0.2em 0 !important; text-overflow: hidden; overflow: hidden; white-space: nowrap; /*transition: .2s max-width linear; -o-transition: .2s max-width linear; -moz-transition: .2s max-width linear; -webkit-transition: .2s max-width linear; -ms-transition: .2s max-width linear;*/ }
 .app.externalapp { max-width: 12.5em; z-index: 100; }
@@ -58,6 +58,7 @@ span.version { margin-left:3em; margin-right:3em; color:#555; }
 .app:hover, .app:active { max-width: inherit; }
 
 .appslink { text-decoration: underline; }
+.score { color:#666; font-weight:bold; font-size:0.8em; }
 
 /* LOG */
 #log { white-space:normal; }

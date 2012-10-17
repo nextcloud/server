@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:19+0000\n"
+"POT-Creation-Date: 2012-10-16 02:04+0200\n"
+"PO-Revision-Date: 2012-10-16 00:05+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -32,55 +32,55 @@ msgstr "Нема категорија да се додаде?"
 msgid "This category already exists: "
 msgstr "Оваа категорија веќе постои:"
 
-#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Поставки"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "January"
 msgstr "Јануари"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "February"
 msgstr "Февруари"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "March"
 msgstr "Март"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "April"
 msgstr "Април"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "May"
 msgstr "Мај"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "June"
 msgstr "Јуни"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "July"
 msgstr "Јули"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "August"
 msgstr "Август"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "September"
 msgstr "Септември"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "October"
 msgstr "Октомври"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "November"
 msgstr "Ноември"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "December"
 msgstr "Декември"
 
@@ -108,8 +108,8 @@ msgstr "Во ред"
 msgid "No categories selected for deletion."
 msgstr "Не е одбрана категорија за бришење."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
 msgstr "Грешка"
 
@@ -126,13 +126,15 @@ msgid "Error while changing permissions"
 msgstr ""
 
 #: js/share.js:130
-#, python-format
-msgid "Shared with you and the group %s by %s"
+msgid "Shared with you and the group"
+msgstr ""
+
+#: js/share.js:130
+msgid "by"
 msgstr ""
 
 #: js/share.js:132
-#, python-format
-msgid "Shared with you by %s"
+msgid "Shared with you by"
 msgstr ""
 
 #: js/share.js:137
@@ -147,7 +149,8 @@ msgstr ""
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
 msgid "Password"
 msgstr "Лозинка"
 
@@ -160,8 +163,7 @@ msgid "Expiration date"
 msgstr ""
 
 #: js/share.js:185
-#, python-format
-msgid "Share via email: %s"
+msgid "Share via email:"
 msgstr ""
 
 #: js/share.js:187
@@ -173,47 +175,50 @@ msgid "Resharing is not allowed"
 msgstr ""
 
 #: js/share.js:250
-#, python-format
-msgid "Shared in %s with %s"
+msgid "Shared in"
+msgstr ""
+
+#: js/share.js:250
+msgid "with"
 msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:279
+#: js/share.js:283
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:281
+#: js/share.js:285
 msgid "access control"
 msgstr ""
 
-#: js/share.js:284
+#: js/share.js:288
 msgid "create"
 msgstr ""
 
-#: js/share.js:287
+#: js/share.js:291
 msgid "update"
 msgstr ""
 
-#: js/share.js:290
+#: js/share.js:294
 msgid "delete"
 msgstr ""
 
-#: js/share.js:293
+#: js/share.js:297
 msgid "share"
 msgstr ""
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:322 js/share.js:484
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:489
+#: js/share.js:497
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:501
+#: js/share.js:509
 msgid "Error setting expiration date"
 msgstr ""
 
@@ -237,12 +242,12 @@ msgstr "Побарано"
 msgid "Login failed!"
 msgstr "Најавата не успеа!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Корисничко име"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Побарајте ресетирање"
 
@@ -298,68 +303,107 @@ msgstr "Уреди категории"
 msgid "Add"
 msgstr "Додади"
 
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr ""
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Направете <strong>администраторска сметка</strong>"
 
-#: templates/installation.php:36
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "Напредно"
 
-#: templates/installation.php:38
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "Фолдер со податоци"
 
-#: templates/installation.php:45
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "Конфигурирај ја базата"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "ќе биде користено"
 
-#: templates/installation.php:93
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Корисник на база"
 
-#: templates/installation.php:97
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "Лозинка на база"
 
-#: templates/installation.php:101
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Име на база"
 
-#: templates/installation.php:109
+#: templates/installation.php:121
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:115
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Сервер со база"
 
-#: templates/installation.php:120
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "Заврши го подесувањето"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "веб сервиси под Ваша контрола"
 
-#: templates/layout.user.php:39
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "Одјава"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr ""
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr ""
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr ""
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "Ја заборавивте лозинката?"
 
-#: templates/login.php:17
+#: templates/login.php:27
 msgid "remember"
 msgstr "запамти"
 
-#: templates/login.php:18
+#: templates/login.php:28
 msgid "Log in"
 msgstr "Најава"
 
@@ -374,3 +418,17 @@ msgstr "претходно"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "следно"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr ""
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr ""
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr ""

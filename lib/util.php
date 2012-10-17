@@ -1,9 +1,9 @@
 <?php
-
 /**
  * Class for utility functions
  *
  */
+
 class OC_Util {
 	public static $scripts=array();
 	public static $styles=array();
@@ -49,7 +49,9 @@ class OC_Util {
 			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir' => $user_root), $user);
 			OC_Filesystem::init($user_dir);
 			$quotaProxy=new OC_FileProxy_Quota();
+			$fileOperationProxy = new OC_FileProxy_FileOperations();
 			OC_FileProxy::register($quotaProxy);
+			OC_FileProxy::register($fileOperationProxy);
 			// Load personal mount config
 			if (is_file($user_root.'/mount.php')) {
 				$mountConfig = include($user_root.'/mount.php');
@@ -62,7 +64,7 @@ class OC_Util {
 				$mtime=filemtime($user_root.'/mount.php');
 				$previousMTime=OC_Preferences::getValue($user,'files','mountconfigmtime',0);
 				if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-					OC_FileCache::clear($user);
+					OC_FileCache::triggerUpdate($user);
 					OC_Preferences::setValue($user,'files','mountconfigmtime',$mtime);
 				}
 			}
@@ -80,8 +82,8 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion() {
-		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4,9,0. This is not visible to the user
-		return array(4,85,11);
+		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
+		return array(4,91,00);
 	}
 
 	/**
@@ -89,7 +91,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString() {
-		return '4.5 RC 1';
+		return '5.0 pre alpha';
 	}
 
 	/**
@@ -287,6 +289,11 @@ class OC_Util {
 			$errors[]=array('error'=>'PHP module zlib is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
+
+		if(!function_exists('simplexml_load_string')) {
+			$errors[]=array('error'=>'PHP module SimpleXML is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
+		}
 		if(floatval(phpversion())<5.3) {
 			$errors[]=array('error'=>'PHP 5.3 is required.<br/>','hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
 			$web_server_restart= false;
@@ -303,9 +310,11 @@ class OC_Util {
 		return $errors;
 	}
 
-	public static function displayLoginPage($display_lostpassword) {
+	public static function displayLoginPage($errors = array()) {
 		$parameters = array();
-		$parameters['display_lostpassword'] = $display_lostpassword;
+		foreach( $errors as $key => $value ) {
+			$parameters[$value] = true;
+		}
 		if (!empty($_POST['user'])) {
 			$parameters["username"] =
 				OC_Util::sanitizeHTML($_POST['user']).'"';
@@ -314,9 +323,6 @@ class OC_Util {
 			$parameters["username"] = '';
 			$parameters['user_autofocus'] = true;
 		}
-		$sectoken=rand(1000000,9999999);
-		$_SESSION['sectoken']=$sectoken;
-		$parameters["sectoken"] = $sectoken;
 		if (isset($_REQUEST['redirect_url'])) {
 			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
 		} else {
@@ -344,7 +350,7 @@ class OC_Util {
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()) {
-			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php', array('redirect_url' => urlencode($_SERVER["REQUEST_URI"]))));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php', array('redirect_url' => $_SERVER["REQUEST_URI"])));
 			exit();
 		}
 	}
@@ -355,6 +361,7 @@ class OC_Util {
 	public static function checkAdminUser() {
 		// Check if we are a user
 		self::checkLoggedIn();
+		self::verifyUser();
 		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
@@ -368,6 +375,7 @@ class OC_Util {
 	public static function checkSubAdminUser() {
 		// Check if we are a user
 		self::checkLoggedIn();
+		self::verifyUser();
 		if(OC_Group::inGroup(OC_User::getUser(),'admin')) {
 			return true;
 		}
@@ -378,6 +386,40 @@ class OC_Util {
 		return true;
 	}
 
+	/**
+	* Check if the user verified the login with his password in the last 15 minutes
+	* If not, the user will be shown a password verification page
+	*/
+	public static function verifyUser() {
+		if(OC_Config::getValue('enhancedauth', true) === true) {
+					// Check password to set session
+			if(isset($_POST['password'])) {
+				if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
+					$_SESSION['verifiedLogin']=time() + OC_Config::getValue('enhancedauthtime', 15 * 60);
+				}
+			}
+
+		// Check if the user verified his password
+			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
+				OC_Template::printGuestPage("", "verify",  array('username' => OC_User::getUser()));
+				exit();
+			}
+		}
+	}
+
+	/**
+	* Check if the user verified the login with his password
+	* @return bool
+	*/
+	public static function isUserVerified() {
+		if(OC_Config::getValue('enhancedauth', true) === true) {
+			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
+				return false;
+			}
+			return true;
+		}
+	}
+	
 	/**
 	* Redirect to the user default page
 	*/
@@ -422,7 +464,7 @@ class OC_Util {
 	 * @description
 	 * Also required for the client side to compute the piont in time when to
 	 * request a fresh token. The client will do so when nearly 97% of the
-	 * timespan coded here has expired. 
+	 * timespan coded here has expired.
 	 */
 	public static $callLifespan = 3600; // 3600 secs = 1 hour
 
@@ -440,7 +482,7 @@ class OC_Util {
 	 */
 	public static function callRegister() {
 		// generate a random token.
-		$token=mt_rand(1000,9000).mt_rand(1000,9000).mt_rand(1000,9000);
+		$token = self::generate_random_bytes(20);
 
 		// store the token together with a timestamp in the session.
 		$_SESSION['requesttoken-'.$token]=time();
@@ -551,4 +593,62 @@ class OC_Util {
 		}
 	}
 
+	/**
+	* @brief Generates a cryptographical secure pseudorandom string
+	* @param Int with the length of the random string
+	* @return String
+	* Please also update secureRNG_available if you change something here
+	*/
+	public static function generate_random_bytes($length = 30) {
+
+		// Try to use openssl_random_pseudo_bytes
+		if(function_exists('openssl_random_pseudo_bytes')) {
+			$pseudo_byte = bin2hex(openssl_random_pseudo_bytes($length, $strong));
+			if($strong == TRUE) {
+				return substr($pseudo_byte, 0, $length); // Truncate it to match the length
+			}
+		}
+
+		// Try to use /dev/urandom
+		$fp = @file_get_contents('/dev/urandom', false, null, 0, $length);
+		if ($fp !== FALSE) {
+			$string = substr(bin2hex($fp), 0, $length);
+			return $string;
+		}
+
+		// Fallback to mt_rand()
+		$characters = '0123456789';
+		$characters .= 'abcdefghijklmnopqrstuvwxyz';
+		$charactersLength = strlen($characters)-1;
+		$pseudo_byte = "";
+
+		// Select some random characters
+		for ($i = 0; $i < $length; $i++) {
+			$pseudo_byte .= $characters[mt_rand(0, $charactersLength)];
+		}
+		return $pseudo_byte;
+	}
+
+	/**
+	* @brief Checks if a secure random number generator is available
+	* @return bool
+	*/
+	public static function secureRNG_available() {
+
+		// Check openssl_random_pseudo_bytes
+		if(function_exists('openssl_random_pseudo_bytes')) {
+			openssl_random_pseudo_bytes(1, $strong);
+			if($strong == TRUE) {
+				return true;
+			}
+		}
+
+		// Check /dev/urandom
+		$fp = @file_get_contents('/dev/urandom', false, null, 0, 1);
+		if ($fp !== FALSE) {
+			return true;
+		}
+
+		return false;
+	}
 }

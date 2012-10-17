@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-20 02:05+0200\n"
-"PO-Revision-Date: 2012-09-19 05:59+0000\n"
+"POT-Creation-Date: 2012-10-10 02:05+0200\n"
+"PO-Revision-Date: 2012-10-09 12:28+0000\n"
 "Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -83,11 +83,11 @@ msgstr "Kan inte lägga till användare i gruppen %s"
 msgid "Unable to remove user from group %s"
 msgstr "Kan inte radera användare från gruppen %s"
 
-#: js/apps.js:27 js/apps.js:61
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "Deaktivera"
 
-#: js/apps.js:27 js/apps.js:50
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "Aktivera"
 
@@ -95,7 +95,7 @@ msgstr "Aktivera"
 msgid "Saving..."
 msgstr "Sparar..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -190,15 +190,19 @@ msgstr "Utvecklad av <a href=\"http://ownCloud.org/contact\" target=\"_blank\">o
 msgid "Add your App"
 msgstr "Lägg till din applikation"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Fler Appar"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Välj en App"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr "Se programsida på apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licensierad av <span class=\"author\"></span>"
 

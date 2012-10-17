@@ -59,7 +59,7 @@ class OC_Share_Backend_Folder extends OC_Share_Backend_File implements OCP\Share
 			$parents = array();
 			while ($file = $result->fetchRow()) {
 				$children[] = array('source' => $file['id'], 'file_path' => $file['name']);
-				// If a child folder is found look inside it 
+				// If a child folder is found look inside it
 				if ($file['mimetype'] == 'httpd/unix-directory') {
 					$parents[] = $file['id'];
 				}

@@ -47,6 +47,7 @@ class OC_Helper {
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
+	 * 	The value of $args will be urlencoded
 	 * @return string the url
 	 *
 	 * Returns a url to the given app and file.
@@ -79,7 +80,7 @@ class OC_Helper {
 		if (!empty($args)) {
 			$urlLinkTo .= '?';
 			foreach($args as $k => $v) {
-				$urlLinkTo .= '&'.$k.'='.$v;
+				$urlLinkTo .= '&'.$k.'='.urlencode($v);
 			}
 		}
 
@@ -91,6 +92,7 @@ class OC_Helper {
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
+	 * 	The value of $args will be urlencoded
 	 * @return string the url
 	 *
 	 * Returns a absolute url to the given app and file.
@@ -113,6 +115,17 @@ class OC_Helper {
 	}
 
 	/**
+	 * @brief Creates an url for remote use
+	 * @param string $service id
+	 * @return string the url
+	 *
+	 * Returns a url to the given service.
+	 */
+	public static function linkToRemoteBase( $service ) {
+		return self::linkTo( '', 'remote.php') . '/' . $service;
+	}
+
+	/**
 	 * @brief Creates an absolute url for remote use
 	 * @param string $service id
 	 * @return string the url
@@ -120,7 +133,7 @@ class OC_Helper {
 	 * Returns a absolute url to the given service.
 	 */
 	public static function linkToRemote( $service, $add_slash = true ) {
-		return self::linkToAbsolute( '', 'remote.php') . '/' . $service . (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
+		return self::makeURLAbsolute(self::linkToRemoteBase($service)) . (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
 	}
 
 	/**
@@ -382,6 +395,7 @@ class OC_Helper {
 
 			//trim the character set from the end of the response
 			$mimeType=substr($reply,0,strrpos($reply,' '));
+			$mimeType=substr($mimeType,0,strrpos($mimeType,"\n"));
 
 			//trim ;
 			if (strpos($mimeType, ';') !== false) {
@@ -672,7 +686,7 @@ class OC_Helper {
 		$length = mb_strlen($search, $encoding);
 		while(($i = mb_strrpos($subject, $search, $offset, $encoding)) !== false ) {
 			$subject = OC_Helper::mb_substr_replace($subject, $replace, $i, $length);
-			$offset = $i - mb_strlen($subject, $encoding) - 1;
+			$offset = $i - mb_strlen($subject, $encoding);
 			$count++;
 		}
 		return $subject;

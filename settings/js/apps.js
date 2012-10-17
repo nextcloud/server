@@ -17,6 +17,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		} else {
 			page.find('span.version').text('');
 		}
+		page.find('span.score').html(app.score);
 		page.find('p.description').html(app.description);
 		page.find('img.preview').attr('src', app.preview);
 		page.find('small.externalapp').attr('style', 'visibility:visible');
@@ -28,10 +29,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		page.find('input.enable').data('appid', app.id);
 		page.find('input.enable').data('active', app.active);
 		if (app.internal == false) {
+			page.find('span.score').show();
 			page.find('p.appslink').show();
 			page.find('a').attr('href', 'http://apps.owncloud.com/content/show.php?content=' + app.id);
+			page.find('small.externalapp').hide();
 		} else {
 			page.find('p.appslink').hide();
+			page.find('span.score').hide();
 		}
 	},
 	enableApp:function(appid, active, element) {

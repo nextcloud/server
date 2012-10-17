@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <khanhnd@kenhgiaiphap.vn>, 2012.
 # Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:14+0200\n"
-"PO-Revision-Date: 2012-09-21 23:15+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-16 23:38+0200\n"
+"PO-Revision-Date: 2012-10-16 06:32+0000\n"
+"Last-Translator: khanhnd <khanhnd@kenhgiaiphap.vn>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr "Hết hạn tất cả các phiên bản"
 
 #: js/versions.js:16
 msgid "History"
-msgstr ""
+msgstr "Lịch sử"
 
 #: templates/settings-personal.php:4
 msgid "Versions"
@@ -36,8 +37,8 @@ msgstr "Điều này sẽ xóa tất cả các phiên bản sao lưu hiện có 
 
 #: templates/settings.php:3
 msgid "Files Versioning"
-msgstr ""
+msgstr "Phiên bản tệp tin"
 
 #: templates/settings.php:4
 msgid "Enable"
-msgstr ""
+msgstr "Kích hoạtLịch sử"

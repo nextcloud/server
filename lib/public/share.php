@@ -173,6 +173,7 @@ class Share {
 	*/
 	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions) {
 		$uidOwner = \OC_User::getUser();
+		$sharingPolicy = \OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global');
 		// Verify share type and sharing conditions are met
 		if ($shareType === self::SHARE_TYPE_USER) {
 			if ($shareWith == $uidOwner) {
@@ -185,7 +186,7 @@ class Share {
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
 			}
-			if (\OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global') == 'groups_only') {
+			if ($sharingPolicy == 'groups_only') {
 				$inGroup = array_intersect(\OC_Group::getUserGroups($uidOwner), \OC_Group::getUserGroups($shareWith));
 				if (empty($inGroup)) {
 					$message = 'Sharing '.$itemSource.' failed, because the user '.$shareWith.' is not a member of any groups that '.$uidOwner.' is a member of';
@@ -208,7 +209,7 @@ class Share {
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
 			}
-			if (!\OC_Group::inGroup($uidOwner, $shareWith)) {
+			if ($sharingPolicy == 'groups_only' && !\OC_Group::inGroup($uidOwner, $shareWith)) {
 				$message = 'Sharing '.$itemSource.' failed, because '.$uidOwner.' is not a member of the group '.$shareWith;
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				throw new \Exception($message);
@@ -320,6 +321,22 @@ class Share {
 	public static function unshare($itemType, $itemSource, $shareType, $shareWith) {
 		if ($item = self::getItems($itemType, $itemSource, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, null, 1)) {
 			self::delete($item['id']);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	* @brief Unshare an item from all users, groups, and remove all links
+	* @param string Item type
+	* @param string Item source
+	* @return Returns true on success or false on failure
+	*/
+	public static function unshareAll($itemType, $itemSource) {
+		if ($shares = self::getItemShared($itemType, $itemSource)) {
+			foreach ($shares as $share) {
+				self::delete($share['id']);
+			}
 			return true;
 		}
 		return false;
@@ -645,7 +662,7 @@ class Share {
 			} else {
 				if ($fileDependent) {
 					if (($itemType == 'file' || $itemType == 'folder') && $format == \OC_Share_Backend_File::FORMAT_FILE_APP || $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT) {
-						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path`, `file_target`, `permissions`, `expiration`, `name`, `ctime`, `mtime`, `mimetype`, `size`, `encrypted`, `versioned`, `writable`';
+						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `uid_owner`, `share_type`, `share_with`, `file_source`, `path`, `file_target`, `permissions`, `expiration`, `name`, `ctime`, `mtime`, `mimetype`, `size`, `encrypted`, `versioned`, `writable`';
 					} else {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`, `file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`';
 					}
@@ -975,8 +992,10 @@ class Share {
 		} else {
 			if ($itemType == 'file' || $itemType == 'folder') {
 				$column = 'file_target';
+				$columnSource = 'file_source';
 			} else {
 				$column = 'item_target';
+				$columnSource = 'item_source';
 			}
 			if ($shareType == self::SHARE_TYPE_USER) {
 				// Share with is a user, so set share type to user and groups
@@ -1013,9 +1032,14 @@ class Share {
 								continue;
 							}
 						}
-						// If matching target is from the same owner, use the same target. The share type will be different so this isn't the same share.
 						if ($item['uid_owner'] == $uidOwner) {
-							return $target;
+							if ($itemType == 'file' || $itemType == 'folder') {
+								if ($item['file_source'] == \OC_FileCache::getId($itemSource)) {
+									return $target;
+								}
+							} else if ($item['item_source'] == $itemSource) {
+								return $target;
+							}
 						}
 					}
 					if (!isset($exclude)) {
@@ -1023,11 +1047,21 @@ class Share {
 					}
 					// Find similar targets to improve backend's chances to generate a unqiue target
 					if ($userAndGroups) {
-						$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` = ? AND `share_type` IN (?,?,?) AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\') AND `'.$column.'` LIKE ?');
-						$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique, '%'.$target.'%'));
+						if ($column == 'file_target') {
+							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` IN (\'file\', \'folder\') AND `share_type` IN (?,?,?) AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\')');
+							$result = $checkTargets->execute(array(self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique));
+						} else {
+							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` = ? AND `share_type` IN (?,?,?) AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\')');
+							$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique));
+						}
 					} else {
-						$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` = ? AND `share_type` = ? AND `share_with` = ? AND `'.$column.'` LIKE ?');
-						$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_GROUP, $shareWith, '%'.$target.'%'));
+						if ($column == 'file_target') {
+							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` IN (\'file\', \'folder\') AND `share_type` = ? AND `share_with` = ?');
+							$result = $checkTargets->execute(array(self::SHARE_TYPE_GROUP, $shareWith));
+						} else {
+							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share` WHERE `item_type` = ? AND `share_type` = ? AND `share_with` = ?');
+							$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_GROUP, $shareWith));
+						}
 					}
 					while ($row = $result->fetchRow()) {
 						$exclude[] = $row[$column];
@@ -1055,7 +1089,7 @@ class Share {
 			$parents = "'".implode("','", $parents)."'";
 			// Check the owner on the first search of reshares, useful for finding and deleting the reshares by a single user of a group share
 			if (count($ids) == 1 && isset($uidOwner)) {
-				$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') AND `uid_owner` = ?');
+				$query = \OC_DB::prepare('SELECT `id`, `uid_owner`, `item_type`, `item_target`, `parent` FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') AND `uid_owner` = ?');
 				$result = $query->execute(array($uidOwner));
 			} else {
 				$query = \OC_DB::prepare('SELECT `id`, `item_type`, `item_target`, `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.')');

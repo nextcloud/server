@@ -8,12 +8,11 @@ if(!OC_User::isLoggedIn()) {
 }
 
 session_write_close();
-
 // Get the params
-$dir = isset( $_REQUEST['dir'] ) ? stripslashes($_REQUEST['dir']) : '';
-$filename = isset( $_REQUEST['filename'] ) ? stripslashes($_REQUEST['filename']) : '';
+$dir = isset( $_REQUEST['dir'] ) ? trim($_REQUEST['dir'], '/\\') : '';
+$filename = isset( $_REQUEST['filename'] ) ? trim($_REQUEST['filename'], '/\\') : '';
 $content = isset( $_REQUEST['content'] ) ? $_REQUEST['content'] : '';
-$source = isset( $_REQUEST['source'] ) ? stripslashes($_REQUEST['source']) : '';
+$source = isset( $_REQUEST['source'] ) ? trim($_REQUEST['source'], '/\\') : '';
 
 if($source) {
 	$eventSource=new OC_EventSource();

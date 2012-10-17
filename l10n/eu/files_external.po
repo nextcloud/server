@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-09 02:01+0200\n"
-"PO-Revision-Date: 2012-09-08 19:25+0000\n"
+"POT-Creation-Date: 2012-10-07 02:03+0200\n"
+"PO-Revision-Date: 2012-10-06 13:01+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
+msgid "Access granted"
+msgstr "Sarrera baimendua"
+
+#: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
+msgid "Error configuring Dropbox storage"
+msgstr "Errore bat egon da Dropbox biltegiratzea konfiguratzean"
+
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+msgid "Grant access"
+msgstr "Baimendu sarrera"
+
+#: js/dropbox.js:73 js/google.js:72
+msgid "Fill out all required fields"
+msgstr "Bete eskatutako eremu guztiak"
+
+#: js/dropbox.js:85
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr "Mesedez eman baliozkoa den Dropbox app giltza eta sekretua"
+
+#: js/google.js:26 js/google.js:73 js/google.js:78
+msgid "Error configuring Google Drive storage"
+msgstr "Errore bat egon da Google Drive biltegiratzea konfiguratzean"
 
 #: templates/settings.php:3
 msgid "External Storage"
@@ -62,22 +86,22 @@ msgstr "Taldeak"
 msgid "Users"
 msgstr "Erabiltzaileak"
 
-#: templates/settings.php:77 templates/settings.php:96
+#: templates/settings.php:77 templates/settings.php:107
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: templates/settings.php:88
-msgid "SSL root certificates"
-msgstr "SSL erro ziurtagiriak"
-
-#: templates/settings.php:102
-msgid "Import Root Certificate"
-msgstr "Inportatu Erro Ziurtagiria"
-
-#: templates/settings.php:108
+#: templates/settings.php:87
 msgid "Enable User External Storage"
 msgstr "Gaitu erabiltzaileentzako Kanpo Biltegiratzea"
 
-#: templates/settings.php:109
+#: templates/settings.php:88
 msgid "Allow users to mount their own external storage"
 msgstr "Baimendu erabiltzaileak bere kanpo biltegiratzeak muntatzen"
+
+#: templates/settings.php:99
+msgid "SSL root certificates"
+msgstr "SSL erro ziurtagiriak"
+
+#: templates/settings.php:113
+msgid "Import Root Certificate"
+msgstr "Inportatu Erro Ziurtagiria"

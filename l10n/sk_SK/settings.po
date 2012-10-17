@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:14+0200\n"
-"PO-Revision-Date: 2012-09-21 10:33+0000\n"
+"POT-Creation-Date: 2012-10-16 23:38+0200\n"
+"PO-Revision-Date: 2012-10-16 19:10+0000\n"
 "Last-Translator: martinb <martin.babik@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -25,16 +25,11 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Nie je možné nahrať zoznam z App Store"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Chyba pri autentifikácii"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr "Skupina už existuje"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr "Nie je možné pridať skupinu"
 
@@ -62,7 +57,11 @@ msgstr "Neplatná požiadavka"
 msgid "Unable to delete group"
 msgstr "Nie je možné zmazať skupinu"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Chyba pri autentifikácii"
+
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr "Nie je možné zmazať užívateľa"
 
@@ -80,11 +79,11 @@ msgstr "Nie je možné pridať užívateľa do skupiny %s"
 msgid "Unable to remove user from group %s"
 msgstr "Nie je možné zmazať užívateľa zo skupiny %s"
 
-#: js/apps.js:27 js/apps.js:61
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "Zakázať"
 
-#: js/apps.js:27 js/apps.js:50
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "Povoliť"
 
@@ -92,7 +91,7 @@ msgstr "Povoliť"
 msgid "Saving..."
 msgstr "Ukladám..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "Slovensky"
 
@@ -107,7 +106,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Váš priečinok s dátami a vaše súbory sú pravdepodobne dostupné z internetu. .htaccess súbor dodávaný s inštaláciou ownCloud nespĺňa úlohu. Dôrazne vám doporučujeme nakonfigurovať webserver takým spôsobom, aby dáta v priečinku neboli verejné, alebo presuňte dáta mimo štruktúry priečinkov webservera."
 
 #: templates/admin.php:31
 msgid "Cron"
@@ -115,7 +114,7 @@ msgstr ""
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Vykonať jednu úlohu každým nahraním stránky"
 
 #: templates/admin.php:43
 msgid ""
@@ -127,7 +126,7 @@ msgstr ""
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Používať systémovú službu cron. Každú minútu bude spustený súbor cron.php v priečinku owncloud pomocou systémového programu cronjob."
 
 #: templates/admin.php:56
 msgid "Sharing"
@@ -155,7 +154,7 @@ msgstr "Povoliť opakované zdieľanie"
 
 #: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Povoliť zdieľanie zdielaného obsahu iného užívateľa"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
@@ -187,15 +186,19 @@ msgstr ""
 msgid "Add your App"
 msgstr "Pridať vašu aplikáciu"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Viac aplikácií"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Vyberte aplikáciu"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr "Pozrite si stránku aplikácie na apps.owncloud.com"
+msgstr "Pozrite si stránku aplikácií na apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licencované <span class=\"author\"></span>"
 
@@ -205,7 +208,7 @@ msgstr "Dokumentácia"
 
 #: templates/help.php:10
 msgid "Managing Big Files"
-msgstr "Spravovanie veľké súbory"
+msgstr "Správa veľkých súborov"
 
 #: templates/help.php:11
 msgid "Ask a question"
@@ -213,7 +216,7 @@ msgstr "Opýtajte sa otázku"
 
 #: templates/help.php:23
 msgid "Problems connecting to help database."
-msgstr "Problémy spojené s pomocnou databázou."
+msgstr "Problémy s pripojením na databázu pomocníka."
 
 #: templates/help.php:24
 msgid "Go there manually."
@@ -242,7 +245,7 @@ msgstr "Heslo bolo zmenené"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr "Nedokážem zmeniť vaše heslo"
+msgstr "Nie je možné zmeniť vaše heslo"
 
 #: templates/personal.php:21
 msgid "Current password"

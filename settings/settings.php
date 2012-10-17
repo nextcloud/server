@@ -6,6 +6,7 @@
  */
 
 OC_Util::checkLoggedIn();
+OC_Util::verifyUser();
 OC_App::loadApps();
 
 OC_Util::addStyle( 'settings', 'settings' );

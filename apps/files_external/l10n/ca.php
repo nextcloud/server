@@ -1,4 +1,10 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "S'ha concedit l'accés",
+"Error configuring Dropbox storage" => "Error en configurar l'emmagatzemament Dropbox",
+"Grant access" => "Concedeix accés",
+"Fill out all required fields" => "Ompliu els camps requerits",
+"Please provide a valid Dropbox app key and secret." => "Proporcioneu una clau d'aplicació i secret vàlids per a Dropbox",
+"Error configuring Google Drive storage" => "Error en configurar l'emmagatzemament Google Drive",
 "External Storage" => "Emmagatzemament extern",
 "Mount point" => "Punt de muntatge",
 "Backend" => "Dorsal",
@@ -11,8 +17,8 @@
 "Groups" => "Grups",
 "Users" => "Usuaris",
 "Delete" => "Elimina",
-"SSL root certificates" => "Certificats SSL root",
-"Import Root Certificate" => "Importa certificat root",
 "Enable User External Storage" => "Habilita l'emmagatzemament extern d'usuari",
-"Allow users to mount their own external storage" => "Permet als usuaris muntar el seu emmagatzemament extern propi"
+"Allow users to mount their own external storage" => "Permet als usuaris muntar el seu emmagatzemament extern propi",
+"SSL root certificates" => "Certificats SSL root",
+"Import Root Certificate" => "Importa certificat root"
 );

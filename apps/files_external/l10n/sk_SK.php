@@ -1,4 +1,10 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Prístup povolený",
+"Error configuring Dropbox storage" => "Chyba pri konfigurácii úložiska Dropbox",
+"Grant access" => "Povoliť prístup",
+"Fill out all required fields" => "Vyplňte všetky vyžadované kolónky",
+"Please provide a valid Dropbox app key and secret." => "Zadajte platný kľúč aplikácie a heslo Dropbox",
+"Error configuring Google Drive storage" => "Chyba pri konfigurácii úložiska Google drive",
 "External Storage" => "Externé úložisko",
 "Mount point" => "Prípojný bod",
 "Backend" => "Backend",
@@ -11,8 +17,8 @@
 "Groups" => "Skupiny",
 "Users" => "Užívatelia",
 "Delete" => "Odstrániť",
-"SSL root certificates" => "Koreňové SSL certifikáty",
-"Import Root Certificate" => "Importovať koreňový certifikát",
 "Enable User External Storage" => "Povoliť externé úložisko",
-"Allow users to mount their own external storage" => "Povoliť užívateľom pripojiť ich vlastné externé úložisko"
+"Allow users to mount their own external storage" => "Povoliť užívateľom pripojiť ich vlastné externé úložisko",
+"SSL root certificates" => "Koreňové SSL certifikáty",
+"Import Root Certificate" => "Importovať koreňový certifikát"
 );

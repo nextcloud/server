@@ -178,7 +178,12 @@ $(document).ready(function() {
 		var dir=$('#dir').val()||'/';
 		$('#notification').text(t('files','generating ZIP-file, it may take some time.'));
 		$('#notification').fadeIn();
-		window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: files });
+		// use special download URL if provided, e.g. for public shared files
+		if ( (downloadURL = document.getElementById("downloadURL")) ) {
+			window.location=downloadURL.value+"&download&files="+files;
+		} else {
+			window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: files });
+		}
 		return false;
 	});
 
@@ -195,6 +200,7 @@ $(document).ready(function() {
 			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
 	});
 
+	if ( document.getElementById("data-upload-form") ) {
 	$(function() {
 		$('.file_upload_start').fileupload({
 			dropZone: $('#content'), // restrict dropZone to content div
@@ -203,7 +209,7 @@ $(document).ready(function() {
 				var totalSize=0;
 				if(files){
 					for(var i=0;i<files.length;i++){
-						if(files[i].size ==0 && files[i].type== '')
+						if(files[i].size ==0 || files[i].type== '')
 						{
 							OC.dialogs.alert(t('files', 'Unable to upload your file as it is a directory or has 0 bytes'), t('files', 'Upload Error'));
 							return;
@@ -276,7 +282,7 @@ $(document).ready(function() {
 							var fileName = files[i].name
 							var dropTarget = $(e.originalEvent.target).closest('tr');
 							if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
-								var dirName = dropTarget.attr('data-file')
+								var dirName = dropTarget.attr('data-file');
 								var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i],
 										formData: function(form) {
 											var formArray = form.serializeArray();
@@ -341,7 +347,7 @@ $(document).ready(function() {
 												if(size==t('files','Pending')){
 													$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 												}
-												FileList.loadingDone(file.name);
+												FileList.loadingDone(file.name, file.id);
 											} else {
 												$('#notification').text(t('files', response.data.message));
 												$('#notification').fadeIn();
@@ -371,7 +377,7 @@ $(document).ready(function() {
 								if(size==t('files','Pending')){
 									$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 								}
-								FileList.loadingDone(file.name);
+								FileList.loadingDone(file.name, file.id);
 							} else {
 								$('#notification').text(t('files', response.data.message));
 								$('#notification').fadeIn();
@@ -408,7 +414,7 @@ $(document).ready(function() {
 			}
 		})
 	});
-
+	}
 	$.assocArraySize = function(obj) {
 		// http://stackoverflow.com/a/6700/11236
 		var size = 0, key;
@@ -513,6 +519,7 @@ $(document).ready(function() {
 								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
 								tr.data('mime','text/plain').data('id',result.data.id);
+								tr.attr('data-id', result.data.id);
 								getMimeIcon('text/plain',function(path){
 									tr.find('td.filename').attr('style','background-image:url('+path+')');
 								});
@@ -530,6 +537,8 @@ $(document).ready(function() {
 							if (result.status == 'success') {
 								var date=new Date();
 								FileList.addDir(name,0,date,hidden);
+								var tr=$('tr').filterAttr('data-file',name);
+								tr.attr('data-id', result.data.id);
 							} else {
 								OC.dialogs.alert(result.data.message, 'Error');
 							}
@@ -566,6 +575,7 @@ $(document).ready(function() {
 						FileList.addFile(localName,size,date,false,hidden);
 						var tr=$('tr').filterAttr('data-file',localName);
 						tr.data('mime',mime).data('id',id);
+						tr.attr('data-id', id);
 						getMimeIcon(mime,function(path){
 							tr.find('td.filename').attr('style','background-image:url('+path+')');
 						});
@@ -592,7 +602,10 @@ $(document).ready(function() {
 
 	var lastWidth = 0;
 	var breadcrumbs = [];
-	var breadcrumbsWidth = $('#navigation').get(0).offsetWidth;
+	var breadcrumbsWidth = 0;
+	if ( document.getElementById("navigation") ) {
+		breadcrumbsWidth = $('#navigation').get(0).offsetWidth;
+	}
 	var hiddenBreadcrumbs = 0;
 
 	$.each($('.crumb'), function(index, breadcrumb) {

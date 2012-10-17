@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once 'Archive/Tar.php';
+require_once '3rdparty/Archive/Tar.php';
 
 class OC_Archive_TAR extends OC_Archive{
 	const PLAIN=0;
@@ -14,6 +14,7 @@ class OC_Archive_TAR extends OC_Archive{
 	const BZIP=2;
 
 	private $fileList;
+	private $cachedHeaders;
 
 	/**
 	 * @var Archive_Tar tar
@@ -74,6 +75,7 @@ class OC_Archive_TAR extends OC_Archive{
 		$result=$this->tar->addModify(array($tmpBase.$path), '', $tmpBase);
 		rmdir($tmpBase.$path);
 		$this->fileList=false;
+		$this->cachedHeaders=false;
 		return $result;
 	}
 	/**
@@ -95,6 +97,7 @@ class OC_Archive_TAR extends OC_Archive{
 			$result=$this->tar->addString($path, $source);
 		}
 		$this->fileList=false;
+		$this->cachedHeaders=false;
 		return $result;
 	}
 
@@ -115,13 +118,20 @@ class OC_Archive_TAR extends OC_Archive{
 		$this->tar=new Archive_Tar($this->path, $types[self::getTarType($this->path)]);
 		$this->tar->createModify(array($tmp), '', $tmp.'/');
 		$this->fileList=false;
+		$this->cachedHeaders=false;
 		return true;
 	}
 
 	private function getHeader($file) {
-		$headers=$this->tar->listContent();
-		foreach($headers as $header) {
-			if($file==$header['filename'] or $file.'/'==$header['filename'] or '/'.$file.'/'==$header['filename'] or '/'.$file==$header['filename']) {
+		if ( ! $this->cachedHeaders ) {
+			$this->cachedHeaders = $this->tar->listContent();
+		}
+		foreach($this->cachedHeaders as $header) {
+			if(        $file     == $header['filename']
+				or     $file.'/' == $header['filename']
+				or '/'.$file.'/' == $header['filename']
+				or '/'.$file     == $header['filename'])
+			{
 				return $header;
 			}
 		}
@@ -180,9 +190,11 @@ class OC_Archive_TAR extends OC_Archive{
 		if($this->fileList) {
 			return $this->fileList;
 		}
-		$headers=$this->tar->listContent();
+		if ( ! $this->cachedHeaders ) {
+			$this->cachedHeaders = $this->tar->listContent();
+		}
 		$files=array();
-		foreach($headers as $header) {
+		foreach($this->cachedHeaders as $header) {
 			$files[]=$header['filename'];
 		}
 		$this->fileList=$files;
@@ -265,6 +277,7 @@ class OC_Archive_TAR extends OC_Archive{
 			return false;
 		}
 		$this->fileList=false;
+		$this->cachedHeaders=false;
 		//no proper way to delete, extract entire archive, delete file and remake archive
 		$tmp=OCP\Files::tmpFolder();
 		$this->tar->extract($tmp);

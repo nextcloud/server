@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-19 02:02+0200\n"
-"PO-Revision-Date: 2012-09-19 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-12 02:04+0200\n"
+"PO-Revision-Date: 2012-10-11 08:13+0000\n"
+"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Невозможно загрузить список из App Store"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/creategroup.php:9 ajax/removeuser.php:18 ajax/setquota.php:18
 #: ajax/togglegroups.php:15
 msgid "Authentication error"
 msgstr "Ошибка авторизации"
@@ -59,7 +59,7 @@ msgstr "Неверный запрос"
 msgid "Unable to delete group"
 msgstr "Невозможно удалить группу"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr "Невозможно удалить пользователя"
 
@@ -77,11 +77,11 @@ msgstr "Невозможно добавить пользователя в гру
 msgid "Unable to remove user from group %s"
 msgstr "Невозможно удалить пользователя из группы %s"
 
-#: js/apps.js:27 js/apps.js:61
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "Отключить"
 
-#: js/apps.js:27 js/apps.js:50
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "Включить"
 
@@ -89,7 +89,7 @@ msgstr "Включить"
 msgid "Saving..."
 msgstr "Сохранение"
 
-#: personal.php:46 personal.php:47
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "__язык_имя__"
 
@@ -144,7 +144,7 @@ msgstr "Предоставить ссылки"
 
 #: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Позволяет пользователям добавлять объекты в общий доступ по ссылке"
 
 #: templates/admin.php:73
 msgid "Allow resharing"
@@ -184,15 +184,19 @@ msgstr "Разработанный <a href=\"http://ownCloud.org/contact\" targe
 msgid "Add your App"
 msgstr "Добавить Ваше приложение"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Больше приложений"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Выбрать приложение"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr "Обратитесь к странице приложений на apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 
@@ -223,7 +227,7 @@ msgstr "Ответ"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
+msgstr "Вы использовали <strong>%s</strong> из доступных<strong>%s<strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -235,7 +239,7 @@ msgstr "Загрузка"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "Ваш пароль был изменен"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

@@ -11,6 +11,7 @@
 "Selected files too large to generate zip file." => "Zvolené súbory sú príliž veľké na vygenerovanie zip súboru.",
 "Application is not enabled" => "Aplikácia nie je zapnutá",
 "Authentication error" => "Chyba autentifikácie",
+"seconds ago" => "pred sekundami",
 "1 minute ago" => "pred 1 minútou",
 "%d minutes ago" => "pred %d minútami",
 "today" => "dnes",

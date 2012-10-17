@@ -1,4 +1,10 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Acesso concedido",
+"Error configuring Dropbox storage" => "Erro ao configurar armazenamento do Dropbox",
+"Grant access" => "Permitir acesso",
+"Fill out all required fields" => "Preencha todos os campos obrigatórios",
+"Please provide a valid Dropbox app key and secret." => "Por favor forneça um app key e secret válido do Dropbox",
+"Error configuring Google Drive storage" => "Erro ao configurar armazenamento do Google Drive",
 "External Storage" => "Armazenamento Externo",
 "Mount point" => "Ponto de montagem",
 "Backend" => "Backend",
@@ -11,8 +17,8 @@
 "Groups" => "Grupos",
 "Users" => "Usuários",
 "Delete" => "Remover",
-"SSL root certificates" => "Certificados SSL raíz",
-"Import Root Certificate" => "Importar Certificado Raíz",
 "Enable User External Storage" => "Habilitar Armazenamento Externo do Usuário",
-"Allow users to mount their own external storage" => "Permitir usuários a montar seus próprios armazenamentos externos"
+"Allow users to mount their own external storage" => "Permitir usuários a montar seus próprios armazenamentos externos",
+"SSL root certificates" => "Certificados SSL raíz",
+"Import Root Certificate" => "Importar Certificado Raíz"
 );

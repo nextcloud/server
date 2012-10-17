@@ -44,15 +44,16 @@ class OC_Files {
 	public static function getFileInfo($path) {
 		if (($path == '/Shared' || substr($path, 0, 8) == '/Shared/') && OC_App::isEnabled('files_sharing')) {
 			if ($path == '/Shared') {
-				$info = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
+				list($info) = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
+			}else{
+				$info['size'] = OC_Filesystem::filesize($path);
+				$info['mtime'] = OC_Filesystem::filemtime($path);
+				$info['ctime'] = OC_Filesystem::filectime($path);
+				$info['mimetype'] = OC_Filesystem::getMimeType($path);
+				$info['encrypted'] = false;
+				$info['versioned'] = false;
 			}
-			else {
-				$path = substr($path, 7);
-				$info = OCP\Share::getItemSharedWith('file', $path, OC_Share_Backend_File::FORMAT_FILE_APP);
-			}
-			$info = $info[0];
-		}
-		else {
+		} else {
 			$info = OC_FileCache::get($path);
 		}
 		return $info;

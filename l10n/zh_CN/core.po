@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 02:02+0200\n"
-"PO-Revision-Date: 2012-09-27 14:37+0000\n"
-"Last-Translator: waterone <suiy02@gmail.com>\n"
+"POT-Creation-Date: 2012-10-16 02:04+0200\n"
+"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,55 +33,55 @@ msgstr "没有可添加分类？"
 msgid "This category already exists: "
 msgstr "此分类已存在: "
 
-#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "设置"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "January"
 msgstr "一月"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "February"
 msgstr "二月"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "March"
 msgstr "三月"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "April"
 msgstr "四月"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "May"
 msgstr "五月"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "June"
 msgstr "六月"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "July"
 msgstr "七月"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "August"
 msgstr "八月"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "September"
 msgstr "九月"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "October"
 msgstr "十月"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "November"
 msgstr "十一月"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "December"
 msgstr "十二月"
 
@@ -109,8 +109,8 @@ msgstr "好"
 msgid "No categories selected for deletion."
 msgstr "没有选择要删除的类别"
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
 msgstr "错误"
 
@@ -127,14 +127,16 @@ msgid "Error while changing permissions"
 msgstr "修改权限时出错"
 
 #: js/share.js:130
-#, python-format
-msgid "Shared with you and the group %s by %s"
-msgstr "与你及%s组共享，共享人: %s"
+msgid "Shared with you and the group"
+msgstr ""
+
+#: js/share.js:130
+msgid "by"
+msgstr ""
 
 #: js/share.js:132
-#, python-format
-msgid "Shared with you by %s"
-msgstr "共享人: %s"
+msgid "Shared with you by"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -148,7 +150,8 @@ msgstr "共享链接"
 msgid "Password protect"
 msgstr "密码保护"
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
 msgid "Password"
 msgstr "密码"
 
@@ -161,9 +164,8 @@ msgid "Expiration date"
 msgstr "过期日期"
 
 #: js/share.js:185
-#, python-format
-msgid "Share via email: %s"
-msgstr "发电子邮件分享: %s"
+msgid "Share via email:"
+msgstr ""
 
 #: js/share.js:187
 msgid "No people found"
@@ -174,47 +176,50 @@ msgid "Resharing is not allowed"
 msgstr "不允许二次共享"
 
 #: js/share.js:250
-#, python-format
-msgid "Shared in %s with %s"
-msgstr "在%s中与%s共享"
+msgid "Shared in"
+msgstr ""
+
+#: js/share.js:250
+msgid "with"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
 msgstr "取消共享"
 
-#: js/share.js:279
+#: js/share.js:283
 msgid "can edit"
 msgstr "可以修改"
 
-#: js/share.js:281
+#: js/share.js:285
 msgid "access control"
 msgstr "访问控制"
 
-#: js/share.js:284
+#: js/share.js:288
 msgid "create"
 msgstr "创建"
 
-#: js/share.js:287
+#: js/share.js:291
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:290
+#: js/share.js:294
 msgid "delete"
 msgstr "删除"
 
-#: js/share.js:293
+#: js/share.js:297
 msgid "share"
 msgstr "共享"
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:322 js/share.js:484
 msgid "Password protected"
 msgstr "密码已受保护"
 
-#: js/share.js:489
+#: js/share.js:497
 msgid "Error unsetting expiration date"
 msgstr "取消设置过期日期时出错"
 
-#: js/share.js:501
+#: js/share.js:509
 msgid "Error setting expiration date"
 msgstr "设置过期日期时出错"
 
@@ -238,12 +243,12 @@ msgstr "已请求"
 msgid "Login failed!"
 msgstr "登录失败！"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "用户名"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "请求重置"
 
@@ -299,68 +304,107 @@ msgstr "编辑分类"
 msgid "Add"
 msgstr "添加"
 
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr ""
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "创建<strong>管理员账号</strong>"
 
-#: templates/installation.php:36
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "高级"
 
-#: templates/installation.php:38
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "数据目录"
 
-#: templates/installation.php:45
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "配置数据库"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "将被使用"
 
-#: templates/installation.php:93
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "数据库用户"
 
-#: templates/installation.php:97
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "数据库密码"
 
-#: templates/installation.php:101
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "数据库名"
 
-#: templates/installation.php:109
+#: templates/installation.php:121
 msgid "Database tablespace"
 msgstr "数据库表空间"
 
-#: templates/installation.php:115
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "数据库主机"
 
-#: templates/installation.php:120
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "安装完成"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "由您掌控的网络服务"
 
-#: templates/layout.user.php:39
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "注销"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr ""
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr ""
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr ""
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "忘记密码？"
 
-#: templates/login.php:17
+#: templates/login.php:27
 msgid "remember"
 msgstr "记住"
 
-#: templates/login.php:18
+#: templates/login.php:28
 msgid "Log in"
 msgstr "登录"
 
@@ -375,3 +419,17 @@ msgstr "上一页"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "下一页"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr ""
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr ""
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr ""

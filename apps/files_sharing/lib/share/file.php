@@ -53,7 +53,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				$name = substr($target, 0, $pos);
 				$ext = substr($target, $pos);
 			} else {
-				$name = $filePath;
+				$name = $target;
 				$ext = '';
 			}
 			$i = 2;

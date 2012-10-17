@@ -29,7 +29,11 @@ switch ($app) {
 	default:
 		OC_Util::checkAppEnabled($app);
 		OC_App::loadApp($app);
-		$file = '/' . OC_App::getAppPath($app) .'/'. $parts[1];
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+			$file = OC_App::getAppPath($app) .'/'. $parts[1];
+		}else{
+			$file = '/' . OC_App::getAppPath($app) .'/'. $parts[1];
+		}
 		break;
 }
 $baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';

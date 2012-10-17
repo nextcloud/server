@@ -127,9 +127,9 @@ OC.Share={
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
 		if (data.reshare) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
-				html += '<span class="reshare">'+t('core', 'Shared with you and the group %s by %s', data.reshare.share_with, data.reshare.uid_owner)+'</span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you and the group')+' '+data.reshare.share_with+' '+t('core', 'by')+' '+data.reshare.uid_owner+'</span>';
 			} else {
-				html += '<span class="reshare">'+t('core', 'Shared with you by %s', data.reshare.uid_owner)+'</span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you by')+' '+data.reshare.uid_owner+'</span>';
 			}
 			html += '<br />';
 		}
@@ -166,7 +166,7 @@ OC.Share={
 							OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions, false);
 						}
 					}
-					if (share.expiration.length > 0) {
+					if (share.expiration != null) {
 						OC.Share.showExpirationDate(share.expiration);
 					}
 				});
@@ -182,7 +182,7 @@ OC.Share={
 							// Suggest sharing via email if valid email address
 // 							var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
 // 							if (pattern.test(search.term)) {
-// 								response([{label: t('core', 'Share via email: %s', search.term), value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
+// 								response([{label: t('core', 'Share via email:')+' '+search.term, value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
 // 							} else {
 								response([t('core', 'No people found')]);
 // 							}
@@ -247,7 +247,7 @@ OC.Share={
 			if (collectionList.length > 0) {
 				$(collectionList).append(', '+shareWith);
 			} else {
-				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in %s with %s', item, shareWith)+'</li>';
+				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in')+' '+item+' '+t('core', 'with')+' '+shareWith+'</li>';
 				$('#shareWithList').prepend(html);
 			}
 		} else {
@@ -267,9 +267,13 @@ OC.Share={
 			if (permissions & OC.PERMISSION_SHARE) {
 				shareChecked = 'checked="checked"';
 			}
-			var html = '<li style="clear: both;" data-share-type="'+shareType+'" data-share-with="'+shareWith+'">';
+			var html = '<li style="clear: both;" data-share-type="'+shareType+'" data-share-with="'+shareWith+'" title="' + shareWith + '">';
 			html += '<a href="#" class="unshare" style="display:none;"><img class="svg" alt="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
-			html += shareWith;
+			if(shareWith.length > 14){
+				html += shareWith.substr(0,11) + '...';
+			}else{
+				html += shareWith;
+			}
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
 				if (editChecked == '') {
 					html += '<label style="display:none;">';
@@ -302,13 +306,14 @@ OC.Share={
 		OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = true;
 		$('#linkCheckbox').attr('checked', true);
 		var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
+		var type = $('tr').filterAttr('data-id', String(itemSource)).data('type');
 		if ($('#dir').val() == '/') {
 			var file = $('#dir').val() + filename;
 		} else {
 			var file = $('#dir').val() + '/' + filename;
 		}
 		file = '/'+OC.currentUser+'/files'+file;
-		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&file='+file;
+		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&'+type+'='+file;
 		$('#linkText').val(link);
 		$('#linkText').show('blind');
 		$('#showPassword').show();
@@ -365,7 +370,10 @@ $(document).ready(function() {
 	});
 
 	$(this).click(function(event) {
-		if (OC.Share.droppedDown && !($(event.target).hasClass('drop')) && $('#dropdown').has(event.target).length === 0) {
+		var target = $(event.target);
+		var isMatched = !target.is('.drop, .ui-datepicker-next, .ui-datepicker-prev, .ui-icon') 
+			&& !target.closest('#ui-datepicker-div').length;
+		if (OC.Share.droppedDown && isMatched && $('#dropdown').has(event.target).length === 0) {
 			OC.Share.hideDropDown();
 		}
 	});

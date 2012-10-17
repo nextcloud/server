@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-25 02:03+0200\n"
-"PO-Revision-Date: 2012-09-24 23:02+0000\n"
+"POT-Creation-Date: 2012-10-11 02:04+0200\n"
+"PO-Revision-Date: 2012-10-10 06:43+0000\n"
 "Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Imposible cargar la lista desde el App Store"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/creategroup.php:9 ajax/removeuser.php:18 ajax/setquota.php:18
 #: ajax/togglegroups.php:15
 msgid "Authentication error"
 msgstr "Error al autenticar"
@@ -59,7 +59,7 @@ msgstr "Solicitud no válida"
 msgid "Unable to delete group"
 msgstr "No fue posible eliminar el grupo"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr "No fue posible eliminar el usuario"
 
@@ -77,11 +77,11 @@ msgstr "No fue posible añadir el usuario al grupo %s"
 msgid "Unable to remove user from group %s"
 msgstr "No es posible eliminar al usuario del grupo %s"
 
-#: js/apps.js:27 js/apps.js:61
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "Desactivar"
 
-#: js/apps.js:27 js/apps.js:50
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "Activar"
 
@@ -89,7 +89,7 @@ msgstr "Activar"
 msgid "Saving..."
 msgstr "Guardando..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "Castellano (Argentina)"
 
@@ -184,15 +184,19 @@ msgstr "Desarrollado por la <a href=\"http://ownCloud.org/contact\" target=\"_bl
 msgid "Add your App"
 msgstr "Añadí tu aplicación"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Más aplicaciones"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Seleccionar una aplicación"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr "Mirá la web de aplicaciones apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\">"
 

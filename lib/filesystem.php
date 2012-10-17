@@ -240,7 +240,7 @@ class OC_Filesystem{
 			$mtime=filemtime(OC::$SERVERROOT.'/config/mount.php');
 			$previousMTime=OC_Appconfig::getValue('files','mountconfigmtime',0);
 			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-				OC_FileCache::clear();
+				OC_FileCache::triggerUpdate();
 				OC_Appconfig::setValue('files','mountconfigmtime',$mtime);
 			}
 		}

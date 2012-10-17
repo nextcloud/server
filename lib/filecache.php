@@ -79,7 +79,7 @@ class OC_FileCache{
 
 		// add parent directory to the file cache if it does not exist yet.
 		if ($parent == -1 && $fullpath != $root) {
-			$parentDir = substr(dirname($path), 0, strrpos(dirname($path), DIRECTORY_SEPARATOR));
+			$parentDir = dirname($path);
 			self::scanFile($parentDir);
 			$parent = self::getParentId($fullpath);
 		}
@@ -203,7 +203,7 @@ class OC_FileCache{
 
 		OC_Cache::remove('fileid/'.$root.$path);
 	}
-
+	
 	/**
 	 * return array of filenames matching the querty
 	 * @param string $query
@@ -420,6 +420,7 @@ class OC_FileCache{
 		$mimetype=$view->getMimeType($path);
 		$stat=$view->stat($path);
 		if($mimetype=='httpd/unix-directory') {
+			$stat['size'] = 0;
 			$writable=$view->is_writable($path.'/');
 		}else{
 			$writable=$view->is_writable($path);
@@ -488,9 +489,24 @@ class OC_FileCache{
 			$query->execute();
 		}
 	}
+
+	/**
+	 * trigger an update for the cache by setting the mtimes to 0
+	 * @param string $user (optional)
+	 */
+	public static function triggerUpdate($user=''){
+		if($user) {
+			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `mtime`=0 WHERE `user`=? AND `mimetype`="httpd/unix-directory"');
+			$query->execute(array($user));
+		}else{
+			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `mtime`=0 AND `mimetype`="httpd/unix-directory"');
+			$query->execute();
+		}
+	}
 }
 
 //watch for changes and try to keep the cache up to date
 OC_Hook::connect('OC_Filesystem','post_write','OC_FileCache_Update','fileSystemWatcherWrite');
 OC_Hook::connect('OC_Filesystem','post_delete','OC_FileCache_Update','fileSystemWatcherDelete');
 OC_Hook::connect('OC_Filesystem','post_rename','OC_FileCache_Update','fileSystemWatcherRename');
+OC_Hook::connect('OC_User','post_deleteUser','OC_FileCache_Update','deleteFromUser');

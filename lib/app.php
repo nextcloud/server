@@ -63,7 +63,7 @@ class OC_App{
 
 		if (!defined('DEBUG') || !DEBUG) {
 			if (is_null($types)
-			    && empty(OC_Util::$core_scripts) 
+			    && empty(OC_Util::$core_scripts)
 			    && empty(OC_Util::$core_styles)) {
 				OC_Util::$core_scripts = OC_Util::$scripts;
 				OC_Util::$scripts = array();
@@ -390,9 +390,8 @@ class OC_App{
 	 */
 	public static function getAppVersion($appid) {
 		$file= self::getAppPath($appid).'/appinfo/version';
-		$version=@file_get_contents($file);
-		if($version) {
-			return trim($version);
+		if(is_file($file) && $version = trim(file_get_contents($file))) {
+			return $version;
 		}else{
 			$appData=self::getAppInfo($appid);
 			return isset($appData['version'])? $appData['version'] : '';
@@ -458,7 +457,7 @@ class OC_App{
 			}
 		}
 		self::$appInfo[$appid]=$data;
-		
+
 		return $data;
 	}
 
@@ -551,83 +550,78 @@ class OC_App{
 	 * @todo: change the name of this method to getInstalledApps, which is more accurate
 	 */
 	public static function getAllApps() {
-	
+
 		$apps=array();
-		
+
 		foreach ( OC::$APPSROOTS as $apps_dir ) {
 			if(! is_readable($apps_dir['path'])) {
 				OC_Log::write('core', 'unable to read app folder : ' .$apps_dir['path'] , OC_Log::WARN);
 				continue;
 			}
 			$dh = opendir( $apps_dir['path'] );
-			
+
 			while( $file = readdir( $dh ) ) {
-			
-				if ( 
-				$file[0] != '.' 
-				and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php' ) 
+
+				if (
+				$file[0] != '.'
+				and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php' )
 				) {
-				
+
 					$apps[] = $file;
-					
+
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		return $apps;
 	}
-	
+
 	/**
 	 * @brief: get a list of all apps on apps.owncloud.com
 	 * @return array, multi-dimensional array of apps. Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
 	 */
 	public static function getAppstoreApps( $filter = 'approved' ) {
-		
 		$catagoryNames = OC_OCSClient::getCategories();
-		
 		if ( is_array( $catagoryNames ) ) {
-			
 			// Check that categories of apps were retrieved correctly
 			if ( ! $categories = array_keys( $catagoryNames ) ) {
-			
 				return false;
-				
 			}
-			
+
 			$page = 0;
-		
 			$remoteApps = OC_OCSClient::getApplications( $categories, $page, $filter );
-			
 			$app1 = array();
-			
 			$i = 0;
-			
 			foreach ( $remoteApps as $app ) {
-			
 				$app1[$i] = $app;
-			
 				$app1[$i]['author'] = $app['personid'];
-				
 				$app1[$i]['ocs_id'] = $app['id'];
-				
 				$app1[$i]['internal'] = $app1[$i]['active'] = 0;
-				
+
+				// rating img
+				if($app['score']>=0     and $app['score']<5) 	$img=OC_Helper::imagePath( "core", "rating/s1.png" );
+				elseif($app['score']>=5 and $app['score']<15) 	$img=OC_Helper::imagePath( "core", "rating/s2.png" );
+				elseif($app['score']>=15 and $app['score']<25) 	$img=OC_Helper::imagePath( "core", "rating/s3.png" );
+				elseif($app['score']>=25 and $app['score']<35) 	$img=OC_Helper::imagePath( "core", "rating/s4.png" );
+				elseif($app['score']>=35 and $app['score']<45) 	$img=OC_Helper::imagePath( "core", "rating/s5.png" );
+				elseif($app['score']>=45 and $app['score']<55) 	$img=OC_Helper::imagePath( "core", "rating/s6.png" );
+				elseif($app['score']>=55 and $app['score']<65) 	$img=OC_Helper::imagePath( "core", "rating/s7.png" );
+				elseif($app['score']>=65 and $app['score']<75) 	$img=OC_Helper::imagePath( "core", "rating/s8.png" );
+				elseif($app['score']>=75 and $app['score']<85) 	$img=OC_Helper::imagePath( "core", "rating/s9.png" );
+				elseif($app['score']>=85 and $app['score']<95) 	$img=OC_Helper::imagePath( "core", "rating/s10.png" );
+				elseif($app['score']>=95 and $app['score']<100)	$img=OC_Helper::imagePath( "core", "rating/s11.png" );
+
+				$app1[$i]['score'] = '<img src="'.$img.'"> Score: '.$app['score'].'%';
 				$i++;
-			
 			}
-		
 		}
-		
+
 		if ( empty( $app1 ) ) {
-		
 			return false;
-			
 		} else {
-		
 			return $app1;
-			
 		}
 	}
 
@@ -671,7 +665,7 @@ class OC_App{
 		foreach($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
-			if(!isset($info['require']) or ($version[0]>$info['require'])) {
+			if(!isset($info['require']) or (($version[0].'.'.$version[1])>$info['require'])) {
 				OC_Log::write('core', 'App "'.$info['name'].'" ('.$app.') can\'t be used because it is not compatible with this version of ownCloud', OC_Log::ERROR);
 				OC_App::disable( $app );
 			}

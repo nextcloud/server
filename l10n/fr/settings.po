@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-25 02:03+0200\n"
-"PO-Revision-Date: 2012-09-24 14:48+0000\n"
+"POT-Creation-Date: 2012-10-16 02:04+0200\n"
+"PO-Revision-Date: 2012-10-15 15:26+0000\n"
 "Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -33,16 +33,11 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Impossible de charger la liste depuis l'App Store"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Erreur d'authentification"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr "Ce groupe existe déjà"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr "Impossible d'ajouter le groupe"
 
@@ -70,7 +65,11 @@ msgstr "Requête invalide"
 msgid "Unable to delete group"
 msgstr "Impossible de supprimer le groupe"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Erreur d'authentification"
+
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr "Impossible de supprimer l'utilisateur"
 
@@ -88,11 +87,11 @@ msgstr "Impossible d'ajouter l'utilisateur au groupe %s"
 msgid "Unable to remove user from group %s"
 msgstr "Impossible de supprimer l'utilisateur du groupe %s"
 
-#: js/apps.js:27 js/apps.js:61
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "Désactiver"
 
-#: js/apps.js:27 js/apps.js:50
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "Activer"
 
@@ -100,7 +99,7 @@ msgstr "Activer"
 msgid "Saving..."
 msgstr "Sauvegarde..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "Français"
 
@@ -195,15 +194,19 @@ msgstr "Développé par la <a href=\"http://ownCloud.org/contact\" target=\"_bla
 msgid "Add your App"
 msgstr "Ajoutez votre application"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Plus d'applications…"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Sélectionner une Application"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr "Voir la page des applications à l'url apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "Distribué sous licence <span class=\"licence\"></span>, par <span class=\"author\"></span>"
 

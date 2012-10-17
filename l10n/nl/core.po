@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:19+0000\n"
+"POT-Creation-Date: 2012-10-16 02:04+0200\n"
+"PO-Revision-Date: 2012-10-16 00:05+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -37,55 +37,55 @@ msgstr "Geen categorie toevoegen?"
 msgid "This category already exists: "
 msgstr "De categorie bestaat al."
 
-#: js/js.js:213 templates/layout.user.php:54 templates/layout.user.php:55
+#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
 msgstr "Instellingen"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "January"
 msgstr "Januari"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "February"
 msgstr "Februari"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "March"
 msgstr "Maart"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "April"
 msgstr "April"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "May"
 msgstr "Mei"
 
-#: js/js.js:645
+#: js/js.js:670
 msgid "June"
 msgstr "Juni"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "July"
 msgstr "Juli"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "August"
 msgstr "Augustus"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "September"
 msgstr "September"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "October"
 msgstr "Oktober"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "November"
 msgstr "November"
 
-#: js/js.js:646
+#: js/js.js:671
 msgid "December"
 msgstr "December"
 
@@ -113,8 +113,8 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Geen categorie geselecteerd voor verwijdering."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
+#: js/share.js:509
 msgid "Error"
 msgstr "Fout"
 
@@ -131,14 +131,16 @@ msgid "Error while changing permissions"
 msgstr "Fout tijdens het veranderen van permissies"
 
 #: js/share.js:130
-#, python-format
-msgid "Shared with you and the group %s by %s"
-msgstr "Gedeeld met u en de group %s door %s"
+msgid "Shared with you and the group"
+msgstr "Gedeeld me u en de groep"
+
+#: js/share.js:130
+msgid "by"
+msgstr "door"
 
 #: js/share.js:132
-#, python-format
-msgid "Shared with you by %s"
-msgstr "Gedeeld met u door %s"
+msgid "Shared with you by"
+msgstr "Gedeeld met u door"
 
 #: js/share.js:137
 msgid "Share with"
@@ -152,7 +154,8 @@ msgstr "Deel met link"
 msgid "Password protect"
 msgstr "Passeerwoord beveiliging"
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
 msgid "Password"
 msgstr "Wachtwoord"
 
@@ -165,9 +168,8 @@ msgid "Expiration date"
 msgstr "Vervaldatum"
 
 #: js/share.js:185
-#, python-format
-msgid "Share via email: %s"
-msgstr "Deel via email: %s"
+msgid "Share via email:"
+msgstr "Deel via email:"
 
 #: js/share.js:187
 msgid "No people found"
@@ -178,47 +180,50 @@ msgid "Resharing is not allowed"
 msgstr "Verder delen is niet toegestaan"
 
 #: js/share.js:250
-#, python-format
-msgid "Shared in %s with %s"
-msgstr "Deel in %s met %s"
+msgid "Shared in"
+msgstr "Gedeeld in"
+
+#: js/share.js:250
+msgid "with"
+msgstr "met"
 
 #: js/share.js:271
 msgid "Unshare"
 msgstr "Stop met delen"
 
-#: js/share.js:279
+#: js/share.js:283
 msgid "can edit"
 msgstr "kan wijzigen"
 
-#: js/share.js:281
+#: js/share.js:285
 msgid "access control"
 msgstr "toegangscontrole"
 
-#: js/share.js:284
+#: js/share.js:288
 msgid "create"
 msgstr "maak"
 
-#: js/share.js:287
+#: js/share.js:291
 msgid "update"
 msgstr "bijwerken"
 
-#: js/share.js:290
+#: js/share.js:294
 msgid "delete"
 msgstr "verwijderen"
 
-#: js/share.js:293
+#: js/share.js:297
 msgid "share"
 msgstr "deel"
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:322 js/share.js:484
 msgid "Password protected"
 msgstr "Passeerwoord beveiligd"
 
-#: js/share.js:489
+#: js/share.js:497
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Fout tijdens het verwijderen van de verval datum"
 
-#: js/share.js:501
+#: js/share.js:509
 msgid "Error setting expiration date"
 msgstr "Fout tijdens het configureren van de vervaldatum"
 
@@ -242,12 +247,12 @@ msgstr "Gevraagd"
 msgid "Login failed!"
 msgstr "Login mislukt!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Resetaanvraag"
 
@@ -303,68 +308,107 @@ msgstr "Wijzigen categorieën"
 msgid "Add"
 msgstr "Toevoegen"
 
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr ""
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Maak een <strong>beheerdersaccount</strong> aan"
 
-#: templates/installation.php:36
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "Geavanceerd"
 
-#: templates/installation.php:38
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "Gegevensmap"
 
-#: templates/installation.php:45
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "Configureer de databank"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "zal gebruikt worden"
 
-#: templates/installation.php:93
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Gebruiker databank"
 
-#: templates/installation.php:97
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "Wachtwoord databank"
 
-#: templates/installation.php:101
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Naam databank"
 
-#: templates/installation.php:109
+#: templates/installation.php:121
 msgid "Database tablespace"
 msgstr "Database tablespace"
 
-#: templates/installation.php:115
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Database server"
 
-#: templates/installation.php:120
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "Installatie afronden"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "webdiensten die je beheerst"
 
-#: templates/layout.user.php:39
+#: templates/layout.user.php:34
 msgid "Log out"
 msgstr "Afmelden"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr ""
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr ""
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr ""
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "Uw wachtwoord vergeten?"
 
-#: templates/login.php:17
+#: templates/login.php:27
 msgid "remember"
 msgstr "onthoud gegevens"
 
-#: templates/login.php:18
+#: templates/login.php:28
 msgid "Log in"
 msgstr "Meld je aan"
 
@@ -379,3 +423,17 @@ msgstr "vorige"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "volgende"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr ""
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr ""
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr ""
