@@ -217,10 +217,16 @@ class OC_FileCache{
 		}
 		$rootLen=strlen($root);
 		if(!$returnData) {
-			$query=OC_DB::prepare('SELECT `path` FROM `*PREFIX*fscache` WHERE `name` LIKE ? AND `user`=?');
+			$select = '`path`';
 		}else{
-			$query=OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` WHERE `name` LIKE ? AND `user`=?');
+			$select = '*';
 		}
+		if (OC_Config::getValue('dbtype') === 'oci8') {
+			$where = 'LOWER(`name`) LIKE LOWER(?) AND `user`=?';
+		} else {
+			$where = '`name` LIKE ? AND `user`=?';
+		}
+		$query=OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*fscache` WHERE '.$where);
 		$result=$query->execute(array("%$search%",OC_User::getUser()));
 		$names=array();
 		while($row=$result->fetchRow()) {
