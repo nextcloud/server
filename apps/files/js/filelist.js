@@ -189,9 +189,9 @@ var FileList={
 	checkName:function(oldName, newName, isNewFile) {
 		if (isNewFile || $('tr').filterAttr('data-file', newName).length > 0) {
 			if (isNewFile) {
-				$('#notification').html(escapeHTML(newName)+' '+t('files', 'already exists')+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
+				$('#notification').html(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
 			} else {
-				$('#notification').html(escapeHTML(newName)+' '+t('files', 'already exists')+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
+				$('#notification').html(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
 			}
 			$('#notification').data('oldName', oldName);
 			$('#notification').data('newName', newName);
@@ -238,9 +238,9 @@ var FileList={
 			FileList.finishReplace();
 		};
 		if (isNewFile) {
-			$('#notification').html(t('files', 'replaced')+' '+newName+'<span class="undo">'+t('files', 'undo')+'</span>');
+			$('#notification').html(t('files', 'replaced {new_name}', {new_name: newName})+'<span class="undo">'+t('files', 'undo')+'</span>');
 		} else {
-			$('#notification').html(t('files', 'replaced')+' '+newName+' '+t('files', 'with')+' '+oldName+'<span class="undo">'+t('files', 'undo')+'</span>');
+			$('#notification').html(t('files', 'replaced {new_name} with {old_name}', {new_name: newName}, {old_name: oldName})+'<span class="undo">'+t('files', 'undo')+'</span>');
 		}
 		$('#notification').fadeIn();
 	},
@@ -272,9 +272,9 @@ var FileList={
 		} else {
 			// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
 			if ($('#dir').val() == '/Shared') {
-				$('#notification').html(t('files', 'unshared')+' '+ escapeHTML(files) +'<span class="undo">'+t('files', 'undo')+'</span>');
+				$('#notification').html(t('files', 'unshared {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
 			} else {
-				$('#notification').html(t('files', 'deleted')+' '+ escapeHTML(files)+'<span class="undo">'+t('files', 'undo')+'</span>');
+				$('#notification').html(t('files', 'deleted {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
 			}
 			$('#notification').fadeIn();
 		}
