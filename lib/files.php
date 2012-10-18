@@ -42,20 +42,16 @@ class OC_Files {
 	 * - versioned
 	 */
 	public static function getFileInfo($path) {
-		$path = OC_Filesystem::normalizePath($path);
 		if (($path == '/Shared' || substr($path, 0, 8) == '/Shared/') && OC_App::isEnabled('files_sharing')) {
 			if ($path == '/Shared') {
 				list($info) = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
-			} else {
-				$info = array();
-				if (OC_Filesystem::file_exists($path)) {
-					$info['size'] = OC_Filesystem::filesize($path);
-					$info['mtime'] = OC_Filesystem::filemtime($path);
-					$info['ctime'] = OC_Filesystem::filectime($path);
-					$info['mimetype'] = OC_Filesystem::getMimeType($path);
-					$info['encrypted'] = false;
-					$info['versioned'] = false;
-				}
+			}else{
+				$info['size'] = OC_Filesystem::filesize($path);
+				$info['mtime'] = OC_Filesystem::filemtime($path);
+				$info['ctime'] = OC_Filesystem::filectime($path);
+				$info['mimetype'] = OC_Filesystem::getMimeType($path);
+				$info['encrypted'] = false;
+				$info['versioned'] = false;
 			}
 		} else {
 			$info = OC_FileCache::get($path);
@@ -91,13 +87,13 @@ class OC_Files {
 			foreach ($files as &$file) {
 				$file['directory'] = $directory;
 				$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
-				$permissions = OCP\PERMISSION_READ;
+				$permissions = OCP\Share::PERMISSION_READ;
 				// NOTE: Remove check when new encryption is merged
 				if (!$file['encrypted']) {
-					$permissions |= OCP\PERMISSION_SHARE;
+					$permissions |= OCP\Share::PERMISSION_SHARE;
 				}
 				if ($file['type'] == 'dir' && $file['writable']) {
-					$permissions |= OCP\PERMISSION_CREATE;
+					$permissions |= OCP\Share::PERMISSION_CREATE;
 				}
 				if ($file['writable']) {
 					$permissions |= OCP\PERMISSION_UPDATE | OCP\PERMISSION_DELETE;
@@ -140,6 +136,10 @@ class OC_Files {
 	* @param boolean $only_header ; boolean to only send header of the request
 	*/
 	public static function get($dir, $files, $only_header = false) {
+		$xsendfile = false;
+		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) || 
+			isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED']))
+			$xsendfile = true;
 		if(strpos($files, ';')) {
 			$files=explode(';', $files);
 		}
@@ -149,8 +149,11 @@ class OC_Files {
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
-			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
+			if ($xsendfile)
+				$filename = OC_Helper::tmpFileNoClean('.zip');
+			else
+				$filename = OC_Helper::tmpFile('.zip');
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
 				exit("cannot open <$filename>\n");
 			}
 			foreach($files as $file) {
@@ -170,8 +173,11 @@ class OC_Files {
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
-			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
+			if ($xsendfile)
+				$filename = OC_Helper::tmpFileNoClean('.zip');
+			else
+				$filename = OC_Helper::tmpFile('.zip');
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
 				exit("cannot open <$filename>\n");
 			}
 			$file=$dir.'/'.$files;
@@ -191,8 +197,12 @@ class OC_Files {
 				ini_set('zlib.output_compression', 'off');
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
+				self::addSendfileHeader($filename);
 			}else{
 				header('Content-Type: '.OC_Filesystem::getMimeType($filename));
+				$storage = OC_Filesystem::getStorage($filename);
+				if ($storage instanceof OC_Filestorage_Local)
+					self::addSendfileHeader(OC_Filesystem::getLocalFile($filename));
 			}
 		}elseif($zip or !OC_Filesystem::file_exists($filename)) {
 			header("HTTP/1.0 404 Not Found");
@@ -217,7 +227,8 @@ class OC_Files {
 					flush();
 				}
 			}
-			unlink($filename);
+			if (!$xsendfile)
+				unlink($filename);
 		}else{
 			OC_Filesystem::readfile($filename);
 		}
@@ -228,11 +239,19 @@ class OC_Files {
 		}
 	}
 
+	private static function addSendfileHeader($filename) {
+		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED'])) {
+			header("X-Sendfile: " . $filename);
+		}
+		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED']))
+			header("X-Accel-Redirect: " . $filename);
+	}
+
 	public static function zipAddDir($dir, $zip, $internalDir='') {
 		$dirname=basename($dir);
 		$zip->addEmptyDir($internalDir.$dirname);
 		$internalDir.=$dirname.='/';
-		$files=OC_Files::getdirectorycontent($dir);
+		$files=OC_Files::getDirectoryContent($dir);
 		foreach($files as $file) {
 			$filename=$file['name'];
 			$file=$dir.'/'.$filename;

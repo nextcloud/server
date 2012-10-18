@@ -195,7 +195,6 @@ class OC_FilesystemView {
 		return $this->basicOperation('filesize', $path);
 	}
 	public function readfile($path) {
-		$this->addSendfileHeaders($path);
 		@ob_end_clean();
 		$handle=$this->fopen($path, 'rb');
 		if ($handle) {
@@ -208,19 +207,6 @@ class OC_FilesystemView {
 			return $size;
 		}
 		return false;
-	}
-	/* This adds the proper header to let the web server handle
-	* the file transfer, if it's configured through the right
-	* environment variable
-	*/
-	private function addSendfileHeaders($path) {
-		$storage = $this->getStorage($path);
-		if ($storage instanceof OC_Filestorage_Local) {
-			if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED']))
-				header("X-Accel-Redirect: " . $this->getLocalFile($path));
-			if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']))
-				header("X-Sendfile: " . $this->getLocalFile($path));
-		}
 	}
 	/**
 	* @deprecated Replaced by isReadable() as part of CRUDS

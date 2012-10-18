@@ -56,6 +56,9 @@ if( !OC_Config::getValue( 'installed', false )) {
 // Handle unexpected errors
 register_shutdown_function('handleUnexpectedShutdown');
 
+// Delete temp folder
+OC_Helper::cleanTmpNoClean();
+
 // Exit if background jobs are disabled!
 $appmode = OC_BackgroundJob::getExecutionType();
 if( $appmode == 'none' ) {
