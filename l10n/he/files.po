@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:20+0000\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:05+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -67,152 +67,152 @@ msgstr "מחיקה"
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:190 js/filelist.js:192
-msgid "already exists"
-msgstr "כבר קיים"
+#: js/filelist.js:192 js/filelist.js:194
+msgid "{new_name} already exists"
+msgstr ""
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:192 js/filelist.js:194
 msgid "replace"
 msgstr ""
 
-#: js/filelist.js:190
+#: js/filelist.js:192
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:192 js/filelist.js:194
 msgid "cancel"
 msgstr ""
 
-#: js/filelist.js:239 js/filelist.js:241
-msgid "replaced"
+#: js/filelist.js:241
+msgid "replaced {new_name}"
 msgstr ""
 
-#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
+#: js/filelist.js:241 js/filelist.js:243 js/filelist.js:275 js/filelist.js:277
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:241
-msgid "with"
-msgstr ""
-
-#: js/filelist.js:273
-msgid "unshared"
+#: js/filelist.js:243
+msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
 #: js/filelist.js:275
-msgid "deleted"
+msgid "unshared {files}"
+msgstr ""
+
+#: js/filelist.js:277
+msgid "deleted {files}"
 msgstr ""
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "יוצר קובץ ZIP, אנא המתן."
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "לא יכול להעלות את הקובץ מכיוון שזו תקיה או שמשקל הקובץ 0 בתים"
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Upload Error"
 msgstr "שגיאת העלאה"
 
-#: js/files.js:236 js/files.js:341 js/files.js:371
+#: js/files.js:242 js/files.js:347 js/files.js:377
 msgid "Pending"
 msgstr "ממתין"
 
-#: js/files.js:256
+#: js/files.js:262
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:259 js/files.js:304 js/files.js:319
-msgid "files uploading"
+#: js/files.js:265 js/files.js:310 js/files.js:325
+msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:322 js/files.js:355
+#: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
 msgstr "ההעלאה בוטלה."
 
-#: js/files.js:424
+#: js/files.js:430
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:494
+#: js/files.js:500
 msgid "Invalid name, '/' is not allowed."
 msgstr "שם לא חוקי, '/' אסור לשימוש."
 
-#: js/files.js:667
-msgid "files scanned"
+#: js/files.js:681
+msgid "{count} files scanned"
 msgstr ""
 
-#: js/files.js:675
+#: js/files.js:689
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:748 templates/index.php:48
+#: js/files.js:762 templates/index.php:48
 msgid "Name"
 msgstr "שם"
 
-#: js/files.js:749 templates/index.php:56
+#: js/files.js:763 templates/index.php:56
 msgid "Size"
 msgstr "גודל"
 
-#: js/files.js:750 templates/index.php:58
+#: js/files.js:764 templates/index.php:58
 msgid "Modified"
 msgstr "זמן שינוי"
 
-#: js/files.js:777
-msgid "folder"
-msgstr "תקיה"
+#: js/files.js:791
+msgid "1 folder"
+msgstr ""
 
-#: js/files.js:779
-msgid "folders"
-msgstr "תקיות"
+#: js/files.js:793
+msgid "{count} folders"
+msgstr ""
 
-#: js/files.js:787
-msgid "file"
-msgstr "קובץ"
+#: js/files.js:801
+msgid "1 file"
+msgstr ""
 
-#: js/files.js:789
-msgid "files"
-msgstr "קבצים"
+#: js/files.js:803
+msgid "{count} files"
+msgstr ""
 
-#: js/files.js:833
+#: js/files.js:847
 msgid "seconds ago"
 msgstr ""
 
-#: js/files.js:834
+#: js/files.js:848
 msgid "minute ago"
 msgstr ""
 
-#: js/files.js:835
+#: js/files.js:849
 msgid "minutes ago"
 msgstr ""
 
-#: js/files.js:838
+#: js/files.js:852
 msgid "today"
 msgstr ""
 
-#: js/files.js:839
+#: js/files.js:853
 msgid "yesterday"
 msgstr ""
 
-#: js/files.js:840
+#: js/files.js:854
 msgid "days ago"
 msgstr ""
 
-#: js/files.js:841
+#: js/files.js:855
 msgid "last month"
 msgstr ""
 
-#: js/files.js:843
+#: js/files.js:857
 msgid "months ago"
 msgstr ""
 
-#: js/files.js:844
+#: js/files.js:858
 msgid "last year"
 msgstr ""
 
-#: js/files.js:845
+#: js/files.js:859
 msgid "years ago"
 msgstr ""
 

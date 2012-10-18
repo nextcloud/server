@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-11 02:04+0200\n"
-"PO-Revision-Date: 2012-10-10 06:43+0000\n"
+"POT-Creation-Date: 2012-10-18 02:04+0200\n"
+"PO-Revision-Date: 2012-10-17 14:30+0000\n"
 "Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -22,16 +22,11 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Imposible cargar la lista desde el App Store"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:18 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Error al autenticar"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr "El grupo ya existe"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr "No fue posible añadir el grupo"
 
@@ -58,6 +53,10 @@ msgstr "Solicitud no válida"
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
 msgstr "No fue posible eliminar el grupo"
+
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Error al autenticar"
 
 #: ajax/removeuser.php:27
 msgid "Unable to delete user"
@@ -89,7 +88,7 @@ msgstr "Activar"
 msgid "Saving..."
 msgstr "Guardando..."
 
-#: personal.php:47 personal.php:48
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "Castellano (Argentina)"
 
@@ -118,13 +117,13 @@ msgstr "Ejecutar una tarea con cada página cargada"
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr "cron.php está registrado como un servicio del webcron. Llamá a la página de cron.php en la raíz de ownCloud cada minuto sobre http."
+msgstr "cron.php está registrado como un servicio del webcron. Esto carga la página de cron.php en la raíz de ownCloud cada minuto sobre http."
 
 #: templates/admin.php:49
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr "Usar el servicio de cron del sistema. Llamá al archivo cron.php en la carpeta de ownCloud via servidor cronjob cada minuto."
+msgstr "Usar el servicio de cron del sistema. Esto carga  el archivo cron.php en la carpeta de ownCloud via servidor cronjob cada minuto."
 
 #: templates/admin.php:56
 msgid "Sharing"

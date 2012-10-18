@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -130,16 +130,12 @@ msgid "Error while changing permissions"
 msgstr "Fejl under justering af rettigheder"
 
 #: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "Delt med dig og gruppen"
-
-#: js/share.js:130
-msgid "by"
-msgstr "af"
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
 
 #: js/share.js:132
-msgid "Shared with you by"
-msgstr "Delt med dig af"
+msgid "Shared with you by {owner}"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -179,12 +175,8 @@ msgid "Resharing is not allowed"
 msgstr "Videredeling ikke tilladt"
 
 #: js/share.js:250
-msgid "Shared in"
-msgstr "Delt i"
-
-#: js/share.js:250
-msgid "with"
-msgstr "med"
+msgid "Shared in {item} with {user}"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
@@ -309,7 +301,7 @@ msgstr "Tilføj"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Sikkerhedsadvarsel"
 
 #: templates/installation.php:24
 msgid ""
@@ -387,17 +379,17 @@ msgstr "Log ud"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Automatisk login afvist!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Hvis du ikke har ændret din adgangskode for nylig, har nogen muligvis tiltvunget sig adgang til din konto!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Skift adgangskode for at sikre din konto igen."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -425,14 +417,14 @@ msgstr "næste"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "Sikkerhedsadvarsel!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Verificer din adgangskode.<br/>Af sikkerhedsårsager kan du lejlighedsvist blive bedt om at indtaste din adgangskode igen."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Verificer"

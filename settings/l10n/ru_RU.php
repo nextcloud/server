@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Невозможно загрузить список из App Store",
-"Authentication error" => "Ошибка авторизации",
 "Group already exists" => "Группа уже существует",
 "Unable to add group" => "Невозможно добавить группу",
 "Could not enable app. " => "Не удалось запустить приложение",
@@ -9,6 +8,7 @@
 "OpenID Changed" => "OpenID изменен",
 "Invalid request" => "Неверный запрос",
 "Unable to delete group" => "Невозможно удалить группу",
+"Authentication error" => "Ошибка авторизации",
 "Unable to delete user" => "Невозможно удалить пользователя",
 "Language changed" => "Язык изменен",
 "Unable to add user to group %s" => "Невозможно добавить пользователя в группу %s",
@@ -29,6 +29,7 @@
 "Allow links" => "Предоставить ссылки",
 "Allow users to share items to the public with links" => "Позволяет пользователям добавлять объекты в общий доступ по ссылке",
 "Allow resharing" => "Разрешить повторное совместное использование",
+"Allow users to share items shared with them again" => "Позволить пользователям публиковать доступные им объекты других пользователей.",
 "Allow users to share with anyone" => "Разрешить пользователям разделение с кем-либо",
 "Allow users to only share with users in their groups" => "Разрешить пользователям разделение только с пользователями в их группах",
 "Log" => "Вход",

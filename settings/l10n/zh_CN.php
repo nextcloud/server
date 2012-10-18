@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "无法从应用商店载入列表",
-"Authentication error" => "认证错误",
 "Group already exists" => "已存在该组",
 "Unable to add group" => "无法添加组",
 "Could not enable app. " => "无法开启App",
@@ -9,6 +8,7 @@
 "OpenID Changed" => "OpenID 已修改",
 "Invalid request" => "非法请求",
 "Unable to delete group" => "无法删除组",
+"Authentication error" => "认证错误",
 "Unable to delete user" => "无法删除用户",
 "Language changed" => "语言已修改",
 "Unable to add user to group %s" => "无法把用户添加到组 %s",
@@ -36,6 +36,7 @@
 "More" => "更多",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud社区</a>开发，  <a href=\"https://github.com/owncloud\" target=\"_blank\">源代码</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>许可证下发布。",
 "Add your App" => "添加应用",
+"More Apps" => "更多应用",
 "Select an App" => "选择一个应用",
 "See application page at apps.owncloud.com" => "查看在 app.owncloud.com 的应用程序页面",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-核准： <span class=\"author\"></span>",

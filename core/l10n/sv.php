@@ -25,9 +25,6 @@
 "Error while sharing" => "Fel vid delning",
 "Error while unsharing" => "Fel när delning skulle avslutas",
 "Error while changing permissions" => "Fel vid ändring av rättigheter",
-"Shared with you and the group" => "Delas med dig och gruppen",
-"by" => "av",
-"Shared with you by" => "Delas med dig av",
 "Share with" => "Delad med",
 "Share with link" => "Delad med länk",
 "Password protect" => "Lösenordsskydda",
@@ -37,8 +34,6 @@
 "Share via email:" => "Dela via e-post:",
 "No people found" => "Hittar inga användare",
 "Resharing is not allowed" => "Dela vidare är inte tillåtet",
-"Shared in" => "Delas i",
-"with" => "med",
 "Unshare" => "Sluta dela",
 "can edit" => "kan redigera",
 "access control" => "åtkomstkontroll",
@@ -90,5 +85,7 @@
 "Log in" => "Logga in",
 "You are logged out." => "Du är utloggad.",
 "prev" => "föregående",
-"next" => "nästa"
+"next" => "nästa",
+"Security Warning!" => "Säkerhetsvarning!",
+"Verify" => "Verifiera"
 );

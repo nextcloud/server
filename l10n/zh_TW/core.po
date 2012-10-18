@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -125,15 +125,11 @@ msgid "Error while changing permissions"
 msgstr ""
 
 #: js/share.js:130
-msgid "Shared with you and the group"
-msgstr ""
-
-#: js/share.js:130
-msgid "by"
+msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
 #: js/share.js:132
-msgid "Shared with you by"
+msgid "Shared with you by {owner}"
 msgstr ""
 
 #: js/share.js:137
@@ -174,11 +170,7 @@ msgid "Resharing is not allowed"
 msgstr ""
 
 #: js/share.js:250
-msgid "Shared in"
-msgstr ""
-
-#: js/share.js:250
-msgid "with"
+msgid "Shared in {item} with {user}"
 msgstr ""
 
 #: js/share.js:271

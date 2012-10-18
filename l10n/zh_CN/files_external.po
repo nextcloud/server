@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <appweb.cn@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-02 23:16+0200\n"
-"PO-Revision-Date: 2012-10-02 21:17+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-17 05:17+0000\n"
+"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,31 +36,31 @@ msgstr ""
 
 #: js/dropbox.js:85
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr ""
+msgstr "请提供有效的Dropbox应用key和secret"
 
 #: js/google.js:26 js/google.js:73 js/google.js:78
 msgid "Error configuring Google Drive storage"
-msgstr ""
+msgstr "配置Google Drive存储时出错"
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "外部存储"
 
 #: templates/settings.php:7 templates/settings.php:19
 msgid "Mount point"
-msgstr ""
+msgstr "挂载点"
 
 #: templates/settings.php:8
 msgid "Backend"
-msgstr ""
+msgstr "后端"
 
 #: templates/settings.php:9
 msgid "Configuration"
-msgstr ""
+msgstr "配置"
 
 #: templates/settings.php:10
 msgid "Options"
-msgstr ""
+msgstr "选项"
 
 #: templates/settings.php:11
 msgid "Applicable"
@@ -67,7 +68,7 @@ msgstr ""
 
 #: templates/settings.php:23
 msgid "Add mount point"
-msgstr ""
+msgstr "增加挂载点"
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
@@ -75,32 +76,32 @@ msgstr ""
 
 #: templates/settings.php:63
 msgid "All Users"
-msgstr ""
+msgstr "所有用户"
 
 #: templates/settings.php:64
 msgid "Groups"
-msgstr ""
+msgstr "组"
 
 #: templates/settings.php:69
 msgid "Users"
-msgstr ""
+msgstr "用户"
 
 #: templates/settings.php:77 templates/settings.php:107
 msgid "Delete"
-msgstr ""
+msgstr "删除"
 
 #: templates/settings.php:87
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "启用用户外部存储"
 
 #: templates/settings.php:88
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "允许用户挂载自有外部存储"
 
 #: templates/settings.php:99
 msgid "SSL root certificates"
-msgstr ""
+msgstr "SSL根证书"
 
 #: templates/settings.php:113
 msgid "Import Root Certificate"
-msgstr ""
+msgstr "导入根证书"

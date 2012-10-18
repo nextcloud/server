@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -126,16 +126,12 @@ msgid "Error while changing permissions"
 msgstr "Eraro dum ŝanĝo de permesoj"
 
 #: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "Kunhavigita kun vi kaj la grupo"
-
-#: js/share.js:130
-msgid "by"
-msgstr "de"
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
 
 #: js/share.js:132
-msgid "Shared with you by"
-msgstr "Kunhavigita kun vi de"
+msgid "Shared with you by {owner}"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -175,12 +171,8 @@ msgid "Resharing is not allowed"
 msgstr "Rekunhavigo ne permesatas"
 
 #: js/share.js:250
-msgid "Shared in"
-msgstr "Kunhavigita en"
-
-#: js/share.js:250
-msgid "with"
-msgstr "kun"
+msgid "Shared in {item} with {user}"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 23:38+0200\n"
-"PO-Revision-Date: 2012-10-16 06:19+0000\n"
-"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -125,16 +125,12 @@ msgid "Error while changing permissions"
 msgstr "Error en canviar els permisos"
 
 #: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "Compartit amb vós i amb el grup"
-
-#: js/share.js:130
-msgid "by"
-msgstr "per"
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
 
 #: js/share.js:132
-msgid "Shared with you by"
-msgstr "compartit amb vós per"
+msgid "Shared with you by {owner}"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -174,12 +170,8 @@ msgid "Resharing is not allowed"
 msgstr "No es permet compartir de nou"
 
 #: js/share.js:250
-msgid "Shared in"
-msgstr "Compartit en"
-
-#: js/share.js:250
-msgid "with"
-msgstr "amb"
+msgid "Shared in {item} with {user}"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"

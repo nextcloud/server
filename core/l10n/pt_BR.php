@@ -25,9 +25,6 @@
 "Error while sharing" => "Erro ao compartilhar",
 "Error while unsharing" => "Erro ao descompartilhar",
 "Error while changing permissions" => "Erro ao mudar permissões",
-"Shared with you and the group" => "Compartilhado com você e o grupo",
-"by" => "por",
-"Shared with you by" => "Compartilhado com você por",
 "Share with" => "Compartilhar com",
 "Share with link" => "Compartilhar com link",
 "Password protect" => "Proteger com senha",
@@ -37,8 +34,6 @@
 "Share via email:" => "Compartilhar via e-mail:",
 "No people found" => "Nenhuma pessoa encontrada",
 "Resharing is not allowed" => "Não é permitido re-compartilhar",
-"Shared in" => "Compartilhado em",
-"with" => "com",
 "Unshare" => "Descompartilhar",
 "can edit" => "pode editar",
 "access control" => "controle de acesso",
@@ -85,10 +80,12 @@
 "Finish setup" => "Concluir configuração",
 "web services under your control" => "web services sob seu controle",
 "Log out" => "Sair",
+"Please change your password to secure your account again." => "Por favor troque sua senha para tornar sua conta segura novamente.",
 "Lost your password?" => "Esqueçeu sua senha?",
 "remember" => "lembrete",
 "Log in" => "Log in",
 "You are logged out." => "Você está desconectado.",
 "prev" => "anterior",
-"next" => "próximo"
+"next" => "próximo",
+"Security Warning!" => "Aviso de Segurança!"
 );

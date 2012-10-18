@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -131,16 +131,12 @@ msgid "Error while changing permissions"
 msgstr "Błąd przy zmianie uprawnień"
 
 #: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "Współdzielony z tobą i grupą"
-
-#: js/share.js:130
-msgid "by"
-msgstr "przez"
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
 
 #: js/share.js:132
-msgid "Shared with you by"
-msgstr "Współdzielone z taba przez"
+msgid "Shared with you by {owner}"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -180,12 +176,8 @@ msgid "Resharing is not allowed"
 msgstr "Współdzielenie nie jest możliwe"
 
 #: js/share.js:250
-msgid "Shared in"
-msgstr "Współdziel  w"
-
-#: js/share.js:250
-msgid "with"
-msgstr "z"
+msgid "Shared in {item} with {user}"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
@@ -310,19 +302,19 @@ msgstr "Dodaj"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Ostrzeżenie o zabezpieczeniach"
 
 #: templates/installation.php:24
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Niedostępny bezpieczny generator liczb losowych, należy włączyć rozszerzenie OpenSSL w PHP."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Bez bezpiecznego generatora liczb losowych, osoba atakująca może być w stanie przewidzieć resetujące hasło tokena i przejąć kontrolę nad swoim kontem."
 
 #: templates/installation.php:32
 msgid ""
@@ -331,7 +323,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Katalog danych (data) i pliki są prawdopodobnie dostępnego z Internetu. Sprawdź plik .htaccess oraz konfigurację serwera (hosta). Sugerujemy, skonfiguruj swój serwer w taki sposób, żeby dane katalogu nie były dostępne lub przenieść katalog danych spoza głównego dokumentu webserwera."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -388,17 +380,17 @@ msgstr "Wylogowuje użytkownika"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Automatyczne logowanie odrzucone!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Jeśli nie było zmianie niedawno hasło, Twoje konto może być zagrożone!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Proszę zmienić swoje hasło, aby zabezpieczyć swoje konto ponownie."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -426,14 +418,14 @@ msgstr "naprzód"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "Ostrzeżenie o zabezpieczeniach!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Sprawdź swoje hasło.<br/>Ze względów bezpieczeństwa możesz zostać czasami poproszony o wprowadzenie hasła ponownie."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Zweryfikowane"

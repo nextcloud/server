@@ -8,7 +8,6 @@
 "Failed to write to disk" => "寫入硬碟失敗",
 "Files" => "檔案",
 "Delete" => "刪除",
-"already exists" => "已經存在",
 "replace" => "取代",
 "cancel" => "取消",
 "generating ZIP-file, it may take some time." => "產生壓縮檔, 它可能需要一段時間.",
