@@ -214,7 +214,7 @@ class OC_Filesystem{
 				foreach($mountConfig['group'] as $group=>$mounts) {
 					if(OC_Group::inGroup($user,$group)) {
 						foreach($mounts as $mountPoint=>$options) {
-							$mountPoint=self::($mountPoint, $user);
+							$mountPoint=self::setUserVars($mountPoint, $user);
 							foreach($options as &$option) {
 								$option=self::setUserVars($option, $user);
 							}
