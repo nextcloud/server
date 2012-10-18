@@ -20,7 +20,7 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
 
-$type = isset($_POST['type']) ? $_POST['type'] : null;
+$type = isset($_GET['type']) ? $_GET['type'] : null;
 
 if(is_null($type)) {
 	$l = OC_L10N::get('core');
