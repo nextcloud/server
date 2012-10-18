@@ -10,7 +10,7 @@ class Test_Geo extends UnitTestCase {
 	function testTimezone() {
 		$result = OC_Geo::timezone(3,3);
 		$expected = 'Africa/Porto-Novo';
-		$this->assertEquals($expected, $result);
+		$this->assertEquals($expected, $result);
 
 		$result = OC_Geo::timezone(-3,-3333);
 		$expected = 'Pacific/Enderbury';
