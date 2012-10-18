@@ -145,12 +145,14 @@ class OC_Installer{
 
 		//check if an app with the same id is already installed
 		if(self::isInstalled( $info['id'] )){
-			OC_Log::write('core','App already installed',OC_Log::WARN);
-			OC_Helper::rmdirr($extractDir);
-			if($data['source']=='http'){
-				unlink($path);
+			if (OC_App::getAppInfo($app, true)!==null){
+				OC_Log::write('core','App already installed',OC_Log::WARN);
+				OC_Helper::rmdirr($extractDir);
+				if($data['source']=='http'){
+					unlink($path);
+				}
+				return false;
 			}
-			return false;
 		}
 
 		//check if the destination directory already exists
