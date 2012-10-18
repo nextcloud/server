@@ -187,7 +187,8 @@ class OC_Filesystem{
 		$user = ltrim(substr($path, 0, strpos($path, '/', 1)), '/');
 		// check mount points if file was shared from a different user
 		if ($user != OC_User::getUser()) {
-			OC_Util::loadMountPoints($user);
+			OC_Util::loadUserMountPoints($user);
+			self::loadSystemMountPoints($user);
 		}
 
 		$mountpoint=self::getMountPoint($path);
@@ -200,13 +201,7 @@ class OC_Filesystem{
 		}
 	}
 
-	static public function init($root) {
-		if(self::$defaultInstance) {
-			return false;
-		}
-		self::$defaultInstance=new OC_FilesystemView($root);
-
-		//load custom mount config
+	static private function loadSystemMountPoints($user) {
 		if(is_file(OC::$SERVERROOT.'/config/mount.php')) {
 			$mountConfig=include(OC::$SERVERROOT.'/config/mount.php');
 			if(isset($mountConfig['global'])) {
@@ -214,42 +209,52 @@ class OC_Filesystem{
 					self::mount($options['class'],$options['options'],$mountPoint);
 				}
 			}
-
+		
 			if(isset($mountConfig['group'])) {
 				foreach($mountConfig['group'] as $group=>$mounts) {
-					if(OC_Group::inGroup(OC_User::getUser(),$group)) {
+					if(OC_Group::inGroup($user,$group)) {
 						foreach($mounts as $mountPoint=>$options) {
-							$mountPoint=self::setUserVars($mountPoint);
+							$mountPoint=self::($mountPoint, $user);
 							foreach($options as &$option) {
-								$option=self::setUserVars($option);
+								$option=self::setUserVars($option, $user);
 							}
 							self::mount($options['class'],$options['options'],$mountPoint);
 						}
 					}
 				}
 			}
-
+		
 			if(isset($mountConfig['user'])) {
 				foreach($mountConfig['user'] as $user=>$mounts) {
-					if($user==='all' or strtolower($user)===strtolower(OC_User::getUser())) {
+					if($user==='all' or strtolower($user)===strtolower($user)) {
 						foreach($mounts as $mountPoint=>$options) {
-							$mountPoint=self::setUserVars($mountPoint);
+							$mountPoint=self::setUserVars($mountPoint, $user);
 							foreach($options as &$option) {
-								$option=self::setUserVars($option);
+								$option=self::setUserVars($option, $user);
 							}
 							self::mount($options['class'],$options['options'],$mountPoint);
 						}
 					}
 				}
 			}
-
+		
 			$mtime=filemtime(OC::$SERVERROOT.'/config/mount.php');
 			$previousMTime=OC_Appconfig::getValue('files','mountconfigmtime',0);
 			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
 				OC_FileCache::triggerUpdate();
 				OC_Appconfig::setValue('files','mountconfigmtime',$mtime);
 			}
+		}		
+	}
+	
+	static public function init($root) {
+		if(self::$defaultInstance) {
+			return false;
 		}
+		self::$defaultInstance=new OC_FilesystemView($root);
+
+		//load custom mount config
+		self::loadSystemMountPoints(OC_User::getUser());
 
 		self::$loaded=true;
 	}
@@ -259,8 +264,12 @@ class OC_Filesystem{
 	 * @param string intput
 	 * @return string
 	 */
-	private static function setUserVars($input) {
-		return str_replace('$user',OC_User::getUser(),$input);
+	private static function setUserVars($input, $user) {
+		if (isset($user)) {
+			return str_replace('$user', $user,$input);
+		} else {
+			return str_replace('$user',OC_User::getUser(),$input);
+		}
 	}
 
 	/**
