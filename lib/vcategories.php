@@ -226,9 +226,7 @@ class OC_VCategories {
 		if($catid === false) {
 			$l10n = OC_L10N::get('core');
 			throw new Exception(
-				$l10n->t(
-					'Could not find category "%s"', $category
-				)
+				$l10n->t('Could not find category "%s"', $category)
 			);
 		}
 		$fields = '';
