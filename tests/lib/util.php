@@ -16,7 +16,7 @@ class Test_Util extends UnitTestCase {
 	function testFormatDate() {
 		$result = OC_Util::formatDate(1350129205);
 		$expected = 'October 13, 2012 11:53';
-		$this->assertEquals($expected $result);
+		$this->assertEquals($expected, $result);
 
 		$result = OC_Util::formatDate(1102831200, true);
 		$expected = 'December 12, 2004';
