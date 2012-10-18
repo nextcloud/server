@@ -1,14 +1,15 @@
-var OCCategories={
-	edit:function(){
+var OCCategories= {
+	edit:function() {
 		if(OCCategories.app == undefined) {
 			OC.dialogs.alert('OCCategories.app is not set!');
 			return;
 		}
 		$('body').append('<div id="category_dialog"></div>');
-		$('#category_dialog').load(OC.filePath('core', 'ajax', 'vcategories/edit.php')+'?app='+OCCategories.app, function(response){
+		$('#category_dialog').load(
+			OC.filePath('core', 'ajax', 'vcategories/edit.php') + '?app=' + OCCategories.app, function(response) {
 			try {
 				var jsondata = jQuery.parseJSON(response);
-				if(response.status == 'error'){
+				if(response.status == 'error') {
 					OC.dialogs.alert(response.data.message, 'Error');
 					return;
 				}
@@ -32,7 +33,7 @@ var OCCategories={
 							$('#category_dialog').remove();
 						},
 						open : function(event, ui) {
-							$('#category_addinput').live('input',function(){
+							$('#category_addinput').live('input',function() {
 								if($(this).val().length > 0) {
 									$('#category_addbutton').removeAttr('disabled');
 								}
@@ -43,7 +44,7 @@ var OCCategories={
 								$('#category_addbutton').attr('disabled', 'disabled');
 								return false;
 							});
-							$('#category_addbutton').live('click',function(e){
+							$('#category_addbutton').live('click',function(e) {
 								e.preventDefault();
 								if($('#category_addinput').val().length > 0) {
 									OCCategories.add($('#category_addinput').val());
@@ -55,14 +56,37 @@ var OCCategories={
 			}
 		});
 	},
-	_processDeleteResult:function(jsondata, status, xhr){
-		if(jsondata.status == 'success'){
+	_processDeleteResult:function(jsondata, status, xhr) {
+		if(jsondata.status == 'success') {
 			OCCategories._update(jsondata.data.categories);
 		} else {
 			OC.dialogs.alert(jsondata.data.message, 'Error');
 		}
 	},
-	doDelete:function(){
+	favorites:function(type, cb) {
+		$.getJSON(OC.filePath(OCCategories.app, 'ajax', 'categories/favorites.php'),function(jsondata) {
+			if(jsondata.status === 'success') {
+				OCCategories._update(jsondata.data.categories);
+			} else {
+				OC.dialogs.alert(jsondata.data.message, t('core', 'Error'));
+			}
+		});
+	},
+	addToFavorites:function(id, type) {
+		$.post(OC.filePath('core', 'ajax', 'vcategories/addToFavorites.php'), {id:id, type:type}, function(jsondata) {
+			if(jsondata.status !== 'success') {
+				OC.dialogs.alert(jsondata.data.message, 'Error');
+			}
+		});
+	},
+	removeFromFavorites:function(id, type) {
+		$.post(OC.filePath('core', 'ajax', 'vcategories/removeFromFavorites.php'), {id:id, type:type}, function(jsondata) {
+			if(jsondata.status !== 'success') {
+				OC.dialogs.alert(jsondata.data.message, t('core', 'Error'));
+			}
+		});
+	},
+	doDelete:function() {
 		var categories = $('#categorylist').find('input:checkbox').serialize();
 		if(categories == '' || categories == undefined) {
 			OC.dialogs.alert(t('core', 'No categories selected for deletion.'), t('core', 'Error'));
@@ -76,30 +100,31 @@ var OCCategories={
 			}
 		});
 	},
-	add:function(category){
-		$.getJSON(OC.filePath('core', 'ajax', 'vcategories/add.php'),{'category':category, 'app':OCCategories.app},function(jsondata){
-			if(jsondata.status == 'success'){
+	add:function(category) {
+		$.post(OC.filePath('core', 'ajax', 'vcategories/add.php'),{'category':category, 'app':OCCategories.app},function(jsondata) {
+			if(jsondata.status === 'success') {
 				OCCategories._update(jsondata.data.categories);
 			} else {
 				OC.dialogs.alert(jsondata.data.message, 'Error');
 			}
 		});
-		return false;
 	},
-	rescan:function(){
-		$.getJSON(OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php'),function(jsondata, status, xhr){
-			if(jsondata.status == 'success'){
+	rescan:function() {
+		$.getJSON(OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php'),function(jsondata, status, xhr) {
+			if(jsondata.status === 'success') {
 				OCCategories._update(jsondata.data.categories);
 			} else {
 				OC.dialogs.alert(jsondata.data.message, 'Error');
 			}
 		}).error(function(xhr){
 			if (xhr.status == 404) {
-				OC.dialogs.alert('The required file ' + OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php') + ' is not installed!', 'Error');
+				OC.dialogs.alert(
+					t('core', 'The required file {file} is not installed!', 
+					  {file: OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php')}, t('core', 'Error')));
 			}
 		});
 	},
-	_update:function(categories){
+	_update:function(categories) {
 		var categorylist = $('#categorylist');
 		categorylist.find('li').remove();
 		for(var category in categories) {
