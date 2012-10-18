@@ -46,6 +46,7 @@
 class OC_Filesystem{
 	static private $storages=array();
 	static private $mounts=array();
+	static private $loadedUsers=array();
 	public static $loaded=false;
 	/**
 	 * @var OC_Filestorage $defaultInstance
@@ -178,6 +179,11 @@ class OC_Filesystem{
 		$internalPath=substr($path,strlen($mountPoint));
 		return $internalPath;
 	}
+	
+	static private function mountPointsLoaded($user) {
+		return in_array($user, self::$loadedUsers);
+	}
+	
 	/**
 	* get the storage object for a path
 	* @param string path
@@ -186,9 +192,10 @@ class OC_Filesystem{
 	static public function getStorage($path) {
 		$user = ltrim(substr($path, 0, strpos($path, '/', 1)), '/');
 		// check mount points if file was shared from a different user
-		if ($user != OC_User::getUser()) {
+		if ($user != OC_User::getUser() && !self::mountPointsLoaded($user)) {
 			OC_Util::loadUserMountPoints($user);
 			self::loadSystemMountPoints($user);
+			self::$loadedUsers[] = $user;
 		}
 
 		$mountpoint=self::getMountPoint($path);
