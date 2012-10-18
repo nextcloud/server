@@ -140,8 +140,8 @@ var FileList={
 		input=$('<input class="filename"></input>').val(name);
 		form=$('<form></form>');
 		form.append(input);
-		td.children('a.name').text('');
-		td.children('a.name').append(form);
+		td.children('a.name').hide();
+		td.append(form);
 		input.focus();
 		form.submit(function(event){
 			event.stopPropagation();
@@ -169,13 +169,15 @@ var FileList={
 			} else {
 				var basename=newname;
 			}
-			td.children('a.name').empty();
-			var span=$('<span class="nametext"></span>');
-			span.text(basename);
-			td.children('a.name').append(span);
+			td.find('a.name span.nametext').text(basename);
 			if (newname.indexOf('.') > 0 && tr.data('type') != 'dir') {
-				span.append($('<span class="extension">'+newname.substr(newname.lastIndexOf('.'))+'</span>'));
+				if (td.find('a.name span.extension').length == 0 ) {
+					td.find('a.name span.nametext').append('<span class="extension"></span>');
+				}
+				td.find('a.name span.extension').text(newname.substr(newname.lastIndexOf('.')));
 			}
+			form.remove();
+			td.children('a.name').show();
 			return false;
 		});
 		input.click(function(event){
@@ -189,9 +191,9 @@ var FileList={
 	checkName:function(oldName, newName, isNewFile) {
 		if (isNewFile || $('tr').filterAttr('data-file', newName).length > 0) {
 			if (isNewFile) {
-				$('#notification').html(escapeHTML(newName)+' '+t('files', 'already exists')+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
+				$('#notification').html(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
 			} else {
-				$('#notification').html(escapeHTML(newName)+' '+t('files', 'already exists')+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
+				$('#notification').html(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
 			}
 			$('#notification').data('oldName', oldName);
 			$('#notification').data('newName', newName);
@@ -238,9 +240,9 @@ var FileList={
 			FileList.finishReplace();
 		};
 		if (isNewFile) {
-			$('#notification').html(t('files', 'replaced')+' '+newName+'<span class="undo">'+t('files', 'undo')+'</span>');
+			$('#notification').html(t('files', 'replaced {new_name}', {new_name: newName})+'<span class="undo">'+t('files', 'undo')+'</span>');
 		} else {
-			$('#notification').html(t('files', 'replaced')+' '+newName+' '+t('files', 'with')+' '+oldName+'<span class="undo">'+t('files', 'undo')+'</span>');
+			$('#notification').html(t('files', 'replaced {new_name} with {old_name}', {new_name: newName}, {old_name: oldName})+'<span class="undo">'+t('files', 'undo')+'</span>');
 		}
 		$('#notification').fadeIn();
 	},
@@ -272,9 +274,9 @@ var FileList={
 		} else {
 			// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
 			if ($('#dir').val() == '/Shared') {
-				$('#notification').html(t('files', 'unshared')+' '+ escapeHTML(files) +'<span class="undo">'+t('files', 'undo')+'</span>');
+				$('#notification').html(t('files', 'unshared {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
 			} else {
-				$('#notification').html(t('files', 'deleted')+' '+ escapeHTML(files)+'<span class="undo">'+t('files', 'undo')+'</span>');
+				$('#notification').html(t('files', 'deleted {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
 			}
 			$('#notification').fadeIn();
 		}

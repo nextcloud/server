@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -128,16 +128,12 @@ msgid "Error while changing permissions"
 msgstr "Σφάλμα κατά την αλλαγή των δικαιωμάτων"
 
 #: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "Διαμοιρασμένο με εσένα και την ομάδα"
-
-#: js/share.js:130
-msgid "by"
-msgstr "από"
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
 
 #: js/share.js:132
-msgid "Shared with you by"
-msgstr "Μοιράστηκε μαζί σας από "
+msgid "Shared with you by {owner}"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -177,12 +173,8 @@ msgid "Resharing is not allowed"
 msgstr "Ξαναμοιρασμός δεν επιτρέπεται"
 
 #: js/share.js:250
-msgid "Shared in"
-msgstr "Διαμοιράστηκε με"
-
-#: js/share.js:250
-msgid "with"
-msgstr "με"
+msgid "Shared in {item} with {user}"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"

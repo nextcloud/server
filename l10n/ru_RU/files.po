@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-11 02:04+0200\n"
-"PO-Revision-Date: 2012-10-10 13:26+0000\n"
-"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,8 +65,8 @@ msgid "Rename"
 msgstr "Переименовать"
 
 #: js/filelist.js:192 js/filelist.js:194
-msgid "already exists"
-msgstr "уже существует"
+msgid "{new_name} already exists"
+msgstr ""
 
 #: js/filelist.js:192 js/filelist.js:194
 msgid "replace"
@@ -80,25 +80,25 @@ msgstr "подобрать название"
 msgid "cancel"
 msgstr "отменить"
 
-#: js/filelist.js:241 js/filelist.js:243
-msgid "replaced"
-msgstr "заменено"
+#: js/filelist.js:241
+msgid "replaced {new_name}"
+msgstr ""
 
 #: js/filelist.js:241 js/filelist.js:243 js/filelist.js:275 js/filelist.js:277
 msgid "undo"
 msgstr "отменить действие"
 
 #: js/filelist.js:243
-msgid "with"
-msgstr "с"
+msgid "replaced {new_name} with {old_name}"
+msgstr ""
 
 #: js/filelist.js:275
-msgid "unshared"
-msgstr "скрытый"
+msgid "unshared {files}"
+msgstr ""
 
 #: js/filelist.js:277
-msgid "deleted"
-msgstr "удалено"
+msgid "deleted {files}"
+msgstr ""
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
@@ -121,8 +121,8 @@ msgid "1 file uploading"
 msgstr "загрузка 1 файла"
 
 #: js/files.js:265 js/files.js:310 js/files.js:325
-msgid "files uploading"
-msgstr "загрузка файлов"
+msgid "{count} files uploading"
+msgstr ""
 
 #: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
@@ -138,8 +138,8 @@ msgid "Invalid name, '/' is not allowed."
 msgstr "Неправильное имя, '/' не допускается."
 
 #: js/files.js:681
-msgid "files scanned"
-msgstr "файлы отсканированы"
+msgid "{count} files scanned"
+msgstr ""
 
 #: js/files.js:689
 msgid "error while scanning"
@@ -158,20 +158,20 @@ msgid "Modified"
 msgstr "Изменен"
 
 #: js/files.js:791
-msgid "folder"
-msgstr "папка"
+msgid "1 folder"
+msgstr ""
 
 #: js/files.js:793
-msgid "folders"
-msgstr "папки"
+msgid "{count} folders"
+msgstr ""
 
 #: js/files.js:801
-msgid "file"
-msgstr "файл"
+msgid "1 file"
+msgstr ""
 
 #: js/files.js:803
-msgid "files"
-msgstr "файлы"
+msgid "{count} files"
+msgstr ""
 
 #: js/files.js:847
 msgid "seconds ago"

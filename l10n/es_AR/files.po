@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 09:21+0000\n"
-"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,152 +64,152 @@ msgstr "Borrar"
 msgid "Rename"
 msgstr "cambiar nombre"
 
-#: js/filelist.js:190 js/filelist.js:192
-msgid "already exists"
-msgstr "ya existe"
+#: js/filelist.js:192 js/filelist.js:194
+msgid "{new_name} already exists"
+msgstr ""
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:192 js/filelist.js:194
 msgid "replace"
 msgstr "reemplazar"
 
-#: js/filelist.js:190
+#: js/filelist.js:192
 msgid "suggest name"
 msgstr "sugerir nombre"
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:192 js/filelist.js:194
 msgid "cancel"
 msgstr "cancelar"
 
-#: js/filelist.js:239 js/filelist.js:241
-msgid "replaced"
-msgstr "reemplazado"
+#: js/filelist.js:241
+msgid "replaced {new_name}"
+msgstr ""
 
-#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
+#: js/filelist.js:241 js/filelist.js:243 js/filelist.js:275 js/filelist.js:277
 msgid "undo"
 msgstr "deshacer"
 
-#: js/filelist.js:241
-msgid "with"
-msgstr "con"
-
-#: js/filelist.js:273
-msgid "unshared"
-msgstr "no compartido"
+#: js/filelist.js:243
+msgid "replaced {new_name} with {old_name}"
+msgstr ""
 
 #: js/filelist.js:275
-msgid "deleted"
-msgstr "borrado"
+msgid "unshared {files}"
+msgstr ""
+
+#: js/filelist.js:277
+msgid "deleted {files}"
+msgstr ""
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "generando un archivo ZIP, puede llevar un tiempo."
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "No fue posible subir tu archivo porque es un directorio o su tamaño es 0 bytes"
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Upload Error"
 msgstr "Error al subir el archivo"
 
-#: js/files.js:236 js/files.js:341 js/files.js:371
+#: js/files.js:242 js/files.js:347 js/files.js:377
 msgid "Pending"
 msgstr "Pendiente"
 
-#: js/files.js:256
+#: js/files.js:262
 msgid "1 file uploading"
 msgstr "Subiendo 1 archivo"
 
-#: js/files.js:259 js/files.js:304 js/files.js:319
-msgid "files uploading"
-msgstr "Subiendo archivos"
+#: js/files.js:265 js/files.js:310 js/files.js:325
+msgid "{count} files uploading"
+msgstr ""
 
-#: js/files.js:322 js/files.js:355
+#: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
 msgstr "La subida fue cancelada"
 
-#: js/files.js:424
+#: js/files.js:430
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "La subida del archivo está en proceso. Si salís de la página ahora, la subida se cancelará."
 
-#: js/files.js:494
+#: js/files.js:500
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nombre no válido, '/' no está permitido."
 
-#: js/files.js:668
-msgid "files scanned"
-msgstr "archivos escaneados"
+#: js/files.js:681
+msgid "{count} files scanned"
+msgstr ""
 
-#: js/files.js:676
+#: js/files.js:689
 msgid "error while scanning"
 msgstr "error mientras se escaneaba"
 
-#: js/files.js:749 templates/index.php:48
+#: js/files.js:762 templates/index.php:48
 msgid "Name"
 msgstr "Nombre"
 
-#: js/files.js:750 templates/index.php:56
+#: js/files.js:763 templates/index.php:56
 msgid "Size"
 msgstr "Tamaño"
 
-#: js/files.js:751 templates/index.php:58
+#: js/files.js:764 templates/index.php:58
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:778
-msgid "folder"
-msgstr "carpeta"
+#: js/files.js:791
+msgid "1 folder"
+msgstr ""
 
-#: js/files.js:780
-msgid "folders"
-msgstr "carpetas"
+#: js/files.js:793
+msgid "{count} folders"
+msgstr ""
 
-#: js/files.js:788
-msgid "file"
-msgstr "archivo"
+#: js/files.js:801
+msgid "1 file"
+msgstr ""
 
-#: js/files.js:790
-msgid "files"
-msgstr "archivos"
+#: js/files.js:803
+msgid "{count} files"
+msgstr ""
 
-#: js/files.js:834
+#: js/files.js:847
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/files.js:835
+#: js/files.js:848
 msgid "minute ago"
 msgstr "hace un minuto"
 
-#: js/files.js:836
+#: js/files.js:849
 msgid "minutes ago"
 msgstr "minutos atrás"
 
-#: js/files.js:839
+#: js/files.js:852
 msgid "today"
 msgstr "hoy"
 
-#: js/files.js:840
+#: js/files.js:853
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/files.js:841
+#: js/files.js:854
 msgid "days ago"
 msgstr "días atrás"
 
-#: js/files.js:842
+#: js/files.js:855
 msgid "last month"
 msgstr "el mes pasado"
 
-#: js/files.js:844
+#: js/files.js:857
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/files.js:845
+#: js/files.js:858
 msgid "last year"
 msgstr "el año pasado"
 
-#: js/files.js:846
+#: js/files.js:859
 msgid "years ago"
 msgstr "años atrás"
 

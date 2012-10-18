@@ -15,31 +15,31 @@ class Test_Util extends UnitTestCase {
 
 	function testFormatDate() {
 		$result = OC_Util::formatDate(1350129205);
-		$expected = 'October 13, 2012, 11:53';
-		$this->assertEquals($result, $expected);
+		$expected = 'October 13, 2012 11:53';
+		$this->assertEquals($expected, $result);
 
 		$result = OC_Util::formatDate(1102831200, true);
 		$expected = 'December 12, 2004';
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 	}
 
 	function testCallRegister() {
 		$result = strlen(OC_Util::callRegister());
-		$this->assertEquals($result, 20);
+		$this->assertEquals(20, $result);
 	}
 
 	function testSanitizeHTML() {
 		$badString = "<script>alert('Hacked!');</script>";
 		$result = OC_Util::sanitizeHTML($badString);
-		$this->assertEquals($result, "&lt;script&gt;alert(&#039;Hacked!&#039;);&lt;/script&gt;");
+		$this->assertEquals("&lt;script&gt;alert(&#039;Hacked!&#039;);&lt;/script&gt;", $result);
 
 		$goodString = "This is an harmless string.";
 		$result = OC_Util::sanitizeHTML($goodString);
-		$this->assertEquals($result, "This is an harmless string.");
+		$this->assertEquals("This is an harmless string.", $result);
 	} 
 
 	function testGenerate_random_bytes() {
 		$result = strlen(OC_Util::generate_random_bytes(59));
-		$this->assertEquals($result, 59);
+		$this->assertEquals(59, $result);
 	} 
 }

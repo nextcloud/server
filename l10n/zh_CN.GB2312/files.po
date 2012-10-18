@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-12 02:03+0200\n"
-"PO-Revision-Date: 2012-10-11 23:48+0000\n"
-"Last-Translator: marguerite su <i@marguerite.su>\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,8 +66,8 @@ msgid "Rename"
 msgstr "重命名"
 
 #: js/filelist.js:192 js/filelist.js:194
-msgid "already exists"
-msgstr "已经存在了"
+msgid "{new_name} already exists"
+msgstr ""
 
 #: js/filelist.js:192 js/filelist.js:194
 msgid "replace"
@@ -81,25 +81,25 @@ msgstr "推荐名称"
 msgid "cancel"
 msgstr "取消"
 
-#: js/filelist.js:241 js/filelist.js:243
-msgid "replaced"
-msgstr "替换过了"
+#: js/filelist.js:241
+msgid "replaced {new_name}"
+msgstr ""
 
 #: js/filelist.js:241 js/filelist.js:243 js/filelist.js:275 js/filelist.js:277
 msgid "undo"
 msgstr "撤销"
 
 #: js/filelist.js:243
-msgid "with"
-msgstr "随着"
+msgid "replaced {new_name} with {old_name}"
+msgstr ""
 
 #: js/filelist.js:275
-msgid "unshared"
-msgstr "已取消共享"
+msgid "unshared {files}"
+msgstr ""
 
 #: js/filelist.js:277
-msgid "deleted"
-msgstr "删除"
+msgid "deleted {files}"
+msgstr ""
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
@@ -122,8 +122,8 @@ msgid "1 file uploading"
 msgstr "1 个文件正在上传"
 
 #: js/files.js:265 js/files.js:310 js/files.js:325
-msgid "files uploading"
-msgstr "个文件正在上传"
+msgid "{count} files uploading"
+msgstr ""
 
 #: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
@@ -139,8 +139,8 @@ msgid "Invalid name, '/' is not allowed."
 msgstr "非法文件名,\"/\"是不被许可的"
 
 #: js/files.js:681
-msgid "files scanned"
-msgstr "文件已扫描"
+msgid "{count} files scanned"
+msgstr ""
 
 #: js/files.js:689
 msgid "error while scanning"
@@ -159,20 +159,20 @@ msgid "Modified"
 msgstr "修改日期"
 
 #: js/files.js:791
-msgid "folder"
-msgstr "文件夹"
+msgid "1 folder"
+msgstr ""
 
 #: js/files.js:793
-msgid "folders"
-msgstr "文件夹"
+msgid "{count} folders"
+msgstr ""
 
 #: js/files.js:801
-msgid "file"
-msgstr "文件"
+msgid "1 file"
+msgstr ""
 
 #: js/files.js:803
-msgid "files"
-msgstr "文件"
+msgid "{count} files"
+msgstr ""
 
 #: js/files.js:847
 msgid "seconds ago"
