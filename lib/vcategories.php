@@ -149,7 +149,57 @@ class OC_VCategories {
 	}
 
 	/**
-	* @brief Get the a list if items belonging to $category.
+	* Get the a list if items belonging to $category.
+	* 
+	* Throws an exception if the category could not be found.
+	* 
+	* @param string|integer $category Category id or name.
+	* @returns array An array of object ids or false on error.
+	*/
+	public function idsForCategory($category) {
+		$result = null;
+		if(is_numeric($category)) {
+			$catid = $category;
+		} elseif(is_string($category)) {
+			$catid = $this->array_searchi($category, $this->categories);
+		}
+		OCP\Util::writeLog('core', __METHOD__.', category: '.$catid.' '.$category, OCP\Util::DEBUG);
+		if($catid === false) {
+			$l10n = OC_L10N::get('core');
+			throw new Exception(
+				$l10n->t('Could not find category "%s"', $category)
+			);
+		}
+
+		$ids = array();
+		$sql = 'SELECT `objid` FROM `' . self::RELATION_TABLE 
+			. ' WHERE `categoryid` = ?';
+
+		try {
+			$stmt = OCP\DB::prepare($sql);
+			$result = $stmt->execute(array($catid));
+		} catch(Exception $e) {
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+				OCP\Util::ERROR);
+			return false;
+		}
+
+		if(!is_null($result)) {
+			while( $row = $result->fetchRow()) {
+				$ids[] = $row['objid'];
+			}
+		}
+		//OCP\Util::writeLog('core', __METHOD__.', count: ' . count($items), OCP\Util::DEBUG);
+		//OCP\Util::writeLog('core', __METHOD__.', sql: ' . $sql, OCP\Util::DEBUG);
+		
+		return $ids;
+	}
+	
+	/**
+	* Get the a list if items belonging to $category.
+	*
+	* Throws an exception if the category could not be found.
+	* 
 	* @param string|integer $category Category id or name.
 	* @param array $tableinfo Array in the form {'tablename' => table, 'fields' => ['field1', 'field2']}
 	* @param int $limit
@@ -427,6 +477,53 @@ class OC_VCategories {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	* Get favorites for an object type
+	* 
+	* @param string $type The type of object (event/contact/task/journal).
+	* 	Defaults to the type set in the instance
+	* @returns array An array of object ids.
+	*/
+	public function getFavorites($type = null) {
+		$type = is_null($type) ? $this->type : $type;
+		
+		try {
+			return $this->idsForCategory(self::CATEGORY_FAVORITE);
+		} catch(Exception $e) {
+			// No favorites
+			return array();
+		}
+	}
+
+	/**
+	* Add an object to favorites
+	* 
+	* @param int $objid The id of the object
+	* @param string $type The type of object (event/contact/task/journal).
+	* 	Defaults to the type set in the instance
+	* @returns boolean
+	*/
+	public function addToFavorites($objid, $type = null) {
+		$type = is_null($type) ? $this->type : $type;
+		if(!$this->hasCategory(self::CATEGORY_FAVORITE)) {
+			$this->add(self::CATEGORY_FAVORITE, true);
+		}
+		return $this->addToCategory($objid, self::CATEGORY_FAVORITE, $type);
+	}
+	
+	/**
+	* Remove an object from favorites
+	* 
+	* @param int $objid The id of the object
+	* @param string $type The type of object (event/contact/task/journal).
+	* 	Defaults to the type set in the instance
+	* @returns boolean
+	*/
+	public function removeFromFavorites($objid, $type = null) {
+		$type = is_null($type) ? $this->type : $type;
+		return $this->removeFromCategory($objid, self::CATEGORY_FAVORITE, $type);
 	}
 	
 	/**
