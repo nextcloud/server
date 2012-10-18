@@ -33,12 +33,12 @@ OC_Hook::connect('OC_User', 'post_deleteUser', 'OC_VCategories', 'post_deleteUse
  * tries to add a category named 'Family' it will be silently ignored.
  */
 class OC_VCategories {
-	
+
 	/**
 	 * Categories
 	 */
 	private $categories = array();
-	
+
 	/**
 	 * Used for storing objectid/categoryname pairs while rescanning.
 	 */
@@ -46,12 +46,12 @@ class OC_VCategories {
 
 	private $type = null;
 	private $user = null;
-	
+
 	const CATEGORY_TABLE = '*PREFIX*vcategory';
 	const RELATION_TABLE = '*PREFIX*vcategory_to_object';
-	
+
 	const CATEGORY_FAVORITE = '_$!<Favorite>!$_';
-	
+
 	const FORMAT_LIST = 0;
 	const FORMAT_MAP  = 1;
 
@@ -66,13 +66,13 @@ class OC_VCategories {
 	public function __construct($type, $user=null, $defcategories=array()) {
 		$this->type = $type;
 		$this->user = is_null($user) ? OC_User::getUser() : $user;
-		
+
 		$this->loadCategories();
-		OCP\Util::writeLog('core', __METHOD__ . ', categories: ' 
-			. print_r($this->categories, true), 
+		OCP\Util::writeLog('core', __METHOD__ . ', categories: '
+			. print_r($this->categories, true),
 			OCP\Util::DEBUG
 		);
-		
+
 		if($defcategories && count($this->categories) === 0) {
 			$this->add($defcategories, true);
 		}
@@ -90,7 +90,7 @@ class OC_VCategories {
 			$stmt = OCP\DB::prepare($sql);
 			$result = $stmt->execute(array($this->user, $this->type));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
 		}
 
@@ -101,8 +101,8 @@ class OC_VCategories {
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	* @brief Check if any categories are saved for this type and user.
 	* @returns boolean.
@@ -118,12 +118,12 @@ class OC_VCategories {
 			$result = $stmt->execute(array($user, $type));
 			return ($result->numRows() == 0);
 		} catch(Exception $e) {
-			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
 			return false;
 		}
 	}
-	
+
 	/**
 	* @brief Get the categories for a specific user.
 	* @param
@@ -150,9 +150,9 @@ class OC_VCategories {
 
 	/**
 	* Get the a list if items belonging to $category.
-	* 
+	*
 	* Throws an exception if the category could not be found.
-	* 
+	*
 	* @param string|integer $category Category id or name.
 	* @returns array An array of object ids or false on error.
 	*/
@@ -172,14 +172,14 @@ class OC_VCategories {
 		}
 
 		$ids = array();
-		$sql = 'SELECT `objid` FROM `' . self::RELATION_TABLE 
+		$sql = 'SELECT `objid` FROM `' . self::RELATION_TABLE
 			. ' WHERE `categoryid` = ?';
 
 		try {
 			$stmt = OCP\DB::prepare($sql);
 			$result = $stmt->execute(array($catid));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
 			return false;
 		}
@@ -191,28 +191,28 @@ class OC_VCategories {
 		}
 		//OCP\Util::writeLog('core', __METHOD__.', count: ' . count($items), OCP\Util::DEBUG);
 		//OCP\Util::writeLog('core', __METHOD__.', sql: ' . $sql, OCP\Util::DEBUG);
-		
+
 		return $ids;
 	}
-	
+
 	/**
 	* Get the a list if items belonging to $category.
 	*
 	* Throws an exception if the category could not be found.
-	* 
+	*
 	* @param string|integer $category Category id or name.
 	* @param array $tableinfo Array in the form {'tablename' => table, 'fields' => ['field1', 'field2']}
 	* @param int $limit
 	* @param int $offset
-	* 
+	*
 	* This generic method queries a table assuming that the id
 	* field is called 'id' and the table name provided is in
 	* the form '*PREFIX*table_name'.
-	* 
+	*
 	* If the category name cannot be resolved an exception is thrown.
-	* 
+	*
 	* TODO: Maybe add the getting permissions for objects?
-	* 
+	*
 	* @returns array containing the resulting items.
 	*/
 	public function itemsForCategory($category, $tableinfo, $limit = null, $offset = null) {
@@ -236,17 +236,17 @@ class OC_VCategories {
 		$fields = substr($fields, 0, -1);
 
 		$items = array();
-		$sql = 'SELECT `' . self::RELATION_TABLE . '`.`categoryid`, ' . $fields 
-			. ' FROM `' . $tableinfo['tablename'] . '` JOIN `' 
-			. self::RELATION_TABLE . '` ON `' . $tableinfo['tablename'] 
-			. '`.`id` = `' . self::RELATION_TABLE . '`.`objid` WHERE `' 
+		$sql = 'SELECT `' . self::RELATION_TABLE . '`.`categoryid`, ' . $fields
+			. ' FROM `' . $tableinfo['tablename'] . '` JOIN `'
+			. self::RELATION_TABLE . '` ON `' . $tableinfo['tablename']
+			. '`.`id` = `' . self::RELATION_TABLE . '`.`objid` WHERE `'
 			. self::RELATION_TABLE . '`.`categoryid` = ?';
 
 		try {
 			$stmt = OCP\DB::prepare($sql, $limit, $offset);
 			$result = $stmt->execute(array($catid));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
 		}
 
@@ -257,10 +257,10 @@ class OC_VCategories {
 		}
 		//OCP\Util::writeLog('core', __METHOD__.', count: ' . count($items), OCP\Util::DEBUG);
 		//OCP\Util::writeLog('core', __METHOD__.', sql: ' . $sql, OCP\Util::DEBUG);
-		
+
 		return $items;
 	}
-	
+
 	/**
 	* @brief Checks whether a category is already saved.
 	* @param $name The name to check for.
@@ -327,8 +327,8 @@ class OC_VCategories {
 	*	$categories->rescan($objects);
 	*/
 	public function rescan($objects, $sync=true, $reset=true) {
-		
-		if($reset === true) { 
+
+		if($reset === true) {
 			$result = null;
 			// Find all objectid/categoryid pairs.
 			try {
@@ -336,7 +336,7 @@ class OC_VCategories {
 					. 'WHERE `uid` = ? AND `type` = ?');
 				$result = $stmt->execute(array($this->user, $this->type));
 			} catch(Exception $e) {
-				OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+				OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 					OCP\Util::ERROR);
 			}
 
@@ -353,7 +353,7 @@ class OC_VCategories {
 					. 'WHERE `uid` = ? AND `type` = ?');
 				$result = $stmt->execute(array($this->user, $this->type));
 			} catch(Exception $e) {
-				OCP\Util::writeLog('core', __METHOD__ . ', exception: ' 
+				OCP\Util::writeLog('core', __METHOD__ . ', exception: '
 					. $e->getMessage(), OCP\Util::ERROR);
 				return;
 			}
@@ -366,7 +366,7 @@ class OC_VCategories {
 				// Load the categories
 				$this->loadFromVObject($object[0], $vobject, $sync);
 			} else {
-				OC_Log::write('core', __METHOD__ . ', unable to parse. ID: ' . ', ' 
+				OC_Log::write('core', __METHOD__ . ', unable to parse. ID: ' . ', '
 					. substr($object, 0, 100) . '(...)', OC_Log::DEBUG);
 			}
 		}
@@ -379,7 +379,7 @@ class OC_VCategories {
 	private function save() {
 		if(is_array($this->categories)) {
 			foreach($this->categories as $category) {
-				OCP\DB::insertIfNotExist(self::CATEGORY_TABLE, 
+				OCP\DB::insertIfNotExist(self::CATEGORY_TABLE,
 					array(
 						'uid' => $this->user,
 						'type' => $this->type,
@@ -392,12 +392,12 @@ class OC_VCategories {
 			// and save relations.
 			$categories = $this->categories;
 			// For some reason this is needed or array_search(i) will return 0..?
-			ksort($categories); 
+			ksort($categories);
 			foreach(self::$relations as $relation) {
 				$catid = $this->array_searchi($relation['category'], $categories);
 				OC_Log::write('core', __METHOD__ . 'catid, ' . $relation['category'] . ' ' . $catid, OC_Log::DEBUG);
 				if($catid) {
-					OCP\DB::insertIfNotExist(self::RELATION_TABLE, 
+					OCP\DB::insertIfNotExist(self::RELATION_TABLE,
 						array(
 							'objid' => $relation['objid'],
 							'categoryid' => $catid,
@@ -407,11 +407,11 @@ class OC_VCategories {
 			}
 			self::$relations = array(); // reset
 		} else {
-			OC_Log::write('core', __METHOD__.', $this->categories is not an array! ' 
+			OC_Log::write('core', __METHOD__.', $this->categories is not an array! '
 				. print_r($this->categories, true), OC_Log::ERROR);
 		}
 	}
-	
+
 	/**
 	* @brief Delete categories and category/object relations for a user.
 	* For hooking up on post_deleteUser
@@ -425,10 +425,10 @@ class OC_VCategories {
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
 		}
-		
+
 		if(!is_null($result)) {
 			try {
 				$stmt = OCP\DB::prepare('DELETE FROM `' . self::RELATION_TABLE . '` '
@@ -437,12 +437,12 @@ class OC_VCategories {
 					try {
 						$stmt->execute(array($row['id']));
 					} catch(Exception $e) {
-						OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+						OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 							OCP\Util::ERROR);
 					}
 				}
 			} catch(Exception $e) {
-				OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+				OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 					OCP\Util::ERROR);
 			}
 		}
@@ -451,11 +451,11 @@ class OC_VCategories {
 				. 'WHERE `uid` = ? AND');
 			$result = $stmt->execute(array($arguments['uid']));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('core', __METHOD__ . ', exception: ' 
+			OCP\Util::writeLog('core', __METHOD__ . ', exception: '
 				. $e->getMessage(), OCP\Util::ERROR);
 		}
 	}
-	
+
 	/**
 	* @brief Delete category/object relations from the db
 	* @param int $id The id of the object
@@ -470,7 +470,7 @@ class OC_VCategories {
 					. 'WHERE `objid` = ? AND `type`= ?');
 			$stmt->execute(array($id, $type));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
 			return false;
 		}
@@ -479,14 +479,14 @@ class OC_VCategories {
 
 	/**
 	* Get favorites for an object type
-	* 
+	*
 	* @param string $type The type of object (event/contact/task/journal).
 	* 	Defaults to the type set in the instance
 	* @returns array An array of object ids.
 	*/
 	public function getFavorites($type = null) {
 		$type = is_null($type) ? $this->type : $type;
-		
+
 		try {
 			return $this->idsForCategory(self::CATEGORY_FAVORITE);
 		} catch(Exception $e) {
@@ -497,7 +497,7 @@ class OC_VCategories {
 
 	/**
 	* Add an object to favorites
-	* 
+	*
 	* @param int $objid The id of the object
 	* @param string $type The type of object (event/contact/task/journal).
 	* 	Defaults to the type set in the instance
@@ -510,10 +510,10 @@ class OC_VCategories {
 		}
 		return $this->addToCategory($objid, self::CATEGORY_FAVORITE, $type);
 	}
-	
+
 	/**
 	* Remove an object from favorites
-	* 
+	*
 	* @param int $objid The id of the object
 	* @param string $type The type of object (event/contact/task/journal).
 	* 	Defaults to the type set in the instance
@@ -523,7 +523,7 @@ class OC_VCategories {
 		$type = is_null($type) ? $this->type : $type;
 		return $this->removeFromCategory($objid, self::CATEGORY_FAVORITE, $type);
 	}
-	
+
 	/**
 	* @brief Creates a category/object relation.
 	* @param int $objid The id of the object
@@ -538,23 +538,23 @@ class OC_VCategories {
 			$this->add($category, true);
 		}
 		$categoryid = (is_string($category) && !is_numeric($category))
-			? $this->array_searchi($category, $this->categories) 
+			? $this->array_searchi($category, $this->categories)
 			: $category;
 		try {
-			OCP\DB::insertIfNotExist(self::RELATION_TABLE, 
+			OCP\DB::insertIfNotExist(self::RELATION_TABLE,
 				array(
 					'objid' => $objid,
 					'categoryid' => $categoryid,
 					'type' => $type,
 				));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
 			return false;
 		}
 		return true;
 	}
-	
+
 	/**
 	* @brief Delete single category/object relation from the db
 	* @param int $objid The id of the object
@@ -566,23 +566,23 @@ class OC_VCategories {
 	public function removeFromCategory($objid, $category, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
 		$categoryid = (is_string($category) && !is_numeric($category))
-			? $this->array_searchi($category, $this->categories) 
+			? $this->array_searchi($category, $this->categories)
 			: $category;
 		try {
 			$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `objid` = ? AND `categoryid` = ? AND `type` = ?';
-			OCP\Util::writeLog('core', __METHOD__.', sql: ' . $objid . ' ' . $categoryid . ' ' . $type, 
+			OCP\Util::writeLog('core', __METHOD__.', sql: ' . $objid . ' ' . $categoryid . ' ' . $type,
 				OCP\Util::DEBUG);
 			$stmt = OCP\DB::prepare($sql);
 			$stmt->execute(array($objid, $categoryid, $type));
 		} catch(Exception $e) {
-			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(), 
+			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
 			return false;
 		}
 		return true;
 	}
-	
+
 	/**
 	* @brief Delete categories from the db and from all the vobject supplied
 	* @param $names An array of categories to delete
@@ -592,7 +592,7 @@ class OC_VCategories {
 		if(!is_array($names)) {
 			$names = array($names);
 		}
-		//OC_Log::write('core', __METHOD__ . ', before: ' 
+		//OC_Log::write('core', __METHOD__ . ', before: '
 		//	. print_r($this->categories, true), OC_Log::DEBUG);
 		foreach($names as $name) {
 			//OC_Log::write('core', __METHOD__.', '.$name, OC_Log::DEBUG);
@@ -604,11 +604,11 @@ class OC_VCategories {
 					. '`uid` = ? AND `type` = ? AND `category` = ?');
 				$result = $stmt->execute(array($this->user, $this->type, $name));
 			} catch(Exception $e) {
-				OCP\Util::writeLog('core', __METHOD__ . ', exception: ' 
+				OCP\Util::writeLog('core', __METHOD__ . ', exception: '
 					. $e->getMessage(), OCP\Util::ERROR);
 			}
 		}
-		//OC_Log::write('core', __METHOD__.', after: ' 
+		//OC_Log::write('core', __METHOD__.', after: '
 		//	. print_r($this->categories, true), OC_Log::DEBUG);
 		if(!is_null($objects)) {
 			foreach($objects as $key=>&$value) {
@@ -635,7 +635,7 @@ class OC_VCategories {
 						$idx = $this->array_searchi($name, $categories);
 						if($idx !== false) {
 							OC_Log::write('core', __METHOD__
-								.', unsetting: ' 
+								.', unsetting: '
 								. $categories[$this->array_searchi($name, $categories)],
 								OC_Log::DEBUG);
 							unset($categories[$this->array_searchi($name, $categories)]);
@@ -649,7 +649,7 @@ class OC_VCategories {
 					$objects[$key] = $value;
 				} else {
 					OC_Log::write('core', __METHOD__
-						.', unable to parse. ID: ' . $value[0] . ', ' 
+						.', unable to parse. ID: ' . $value[0] . ', '
 						. substr($value[1], 0, 50) . '(...)', OC_Log::DEBUG);
 				}
 			}
@@ -670,7 +670,7 @@ class OC_VCategories {
 			return false;
 		}
 		return array_search(
-			strtolower($needle), 
+			strtolower($needle),
 			array_map('strtolower', $haystack)
 		);
 	}
