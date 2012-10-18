@@ -184,6 +184,12 @@ class OC_Filesystem{
 	* @return OC_Filestorage
 	*/
 	static public function getStorage($path) {
+		$user = ltrim(substr($path, 0, strpos($path, '/', 1)), '/');
+		// check mount points if file was shared from a different user
+		if ($user != OC_User::getUser()) {
+			OC_Util::loadMountPoints($user);
+		}
+
 		$mountpoint=self::getMountPoint($path);
 		if($mountpoint) {
 			if(!isset(OC_Filesystem::$storages[$mountpoint])) {
