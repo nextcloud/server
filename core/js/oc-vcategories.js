@@ -1,12 +1,12 @@
 var OCCategories= {
 	edit:function() {
-		if(OCCategories.app == undefined) {
-			OC.dialogs.alert('OCCategories.app is not set!');
+		if(OCCategories.type == undefined) {
+			OC.dialogs.alert('OCCategories.type is not set!');
 			return;
 		}
 		$('body').append('<div id="category_dialog"></div>');
 		$('#category_dialog').load(
-			OC.filePath('core', 'ajax', 'vcategories/edit.php') + '?app=' + OCCategories.app, function(response) {
+			OC.filePath('core', 'ajax', 'vcategories/edit.php') + '?type=' + OCCategories.type, function(response) {
 			try {
 				var jsondata = jQuery.parseJSON(response);
 				if(response.status == 'error') {
@@ -64,7 +64,7 @@ var OCCategories= {
 		}
 	},
 	favorites:function(type, cb) {
-		$.getJSON(OC.filePath(OCCategories.app, 'ajax', 'categories/favorites.php'),function(jsondata) {
+		$.getJSON(OC.filePath('core', 'ajax', 'categories/favorites.php'), {type: type},function(jsondata) {
 			if(jsondata.status === 'success') {
 				OCCategories._update(jsondata.data.categories);
 			} else {
@@ -92,13 +92,13 @@ var OCCategories= {
 			OC.dialogs.alert(t('core', 'No categories selected for deletion.'), t('core', 'Error'));
 			return false;
 		}
-		categories += '&app=' + OCCategories.app;
-		$.post(OC.filePath(OCCategories.app, 'ajax', 'categories/delete.php'), categories, OCCategories._processDeleteResult)
-		.error(function(xhr){
-			if (xhr.status == 404) {
-				$.post(OC.filePath('core', 'ajax', 'vcategories/delete.php'), categories, OCCategories._processDeleteResult);
-			}
-		});
+		var q = categories + '&type=' + OCCategories.type;
+		if(OCCategories.app) {
+			q += '&app=' + OCCategories.app;
+			$.post(OC.filePath(OCCategories.app, 'ajax', 'categories/delete.php'), q, OCCategories._processDeleteResult);
+		} else {
+			$.post(OC.filePath('core', 'ajax', 'vcategories/delete.php'), q, OCCategories._processDeleteResult);
+		}
 	},
 	add:function(category) {
 		$.post(OC.filePath('core', 'ajax', 'vcategories/add.php'),{'category':category, 'app':OCCategories.app},function(jsondata) {
