@@ -53,21 +53,7 @@ class OC_Util {
 			OC_FileProxy::register($quotaProxy);
 			OC_FileProxy::register($fileOperationProxy);
 			// Load personal mount config
-			if (is_file($user_root.'/mount.php')) {
-				$mountConfig = include($user_root.'/mount.php');
-				if (isset($mountConfig['user'][$user])) {
-					foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
-						OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
-					}
-				}
-
-				$mtime=filemtime($user_root.'/mount.php');
-				$previousMTime=OC_Preferences::getValue($user,'files','mountconfigmtime',0);
-				if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-					OC_FileCache::triggerUpdate($user);
-					OC_Preferences::setValue($user,'files','mountconfigmtime',$mtime);
-				}
-			}
+			self::loadMountPoints($user);
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $user_dir));
 		}
 	}
@@ -75,6 +61,27 @@ class OC_Util {
 	public static function tearDownFS() {
 		OC_Filesystem::tearDown();
 		self::$fsSetup=false;
+	}
+	
+	public static function loadMountPoints($user) {
+		$user_dir = '/'.$user.'/files';
+		$user_root = OC_User::getHome($user);
+		$userdirectory = $user_root . '/files';
+		if (is_file($user_root.'/mount.php')) {
+			$mountConfig = include($user_root.'/mount.php');
+			if (isset($mountConfig['user'][$user])) {
+				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
+					OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
+				}
+			}
+		
+			$mtime=filemtime($user_root.'/mount.php');
+			$previousMTime=OC_Preferences::getValue($user,'files','mountconfigmtime',0);
+			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
+				OC_FileCache::triggerUpdate($user);
+				OC_Preferences::setValue($user,'files','mountconfigmtime',$mtime);
+			}
+		}		
 	}
 
 	/**
