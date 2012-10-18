@@ -55,6 +55,7 @@ if (version_compare($installedVersion, '0.3', '<')) {
 			OC_Util::tearDownFS();
 		}
 	}
+	OC_User::setUserId(null);
 	if ($update_error) {
 		OCP\Util::writeLog('files_sharing', 'There were some problems upgrading the sharing of files', OCP\Util::ERROR);
 	}
