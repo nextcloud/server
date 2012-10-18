@@ -53,7 +53,7 @@ class OC_Util {
 			OC_FileProxy::register($quotaProxy);
 			OC_FileProxy::register($fileOperationProxy);
 			// Load personal mount config
-			self::loadMountPoints($user);
+			self::loadUserMountPoints($user);
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $user_dir));
 		}
 	}
@@ -63,7 +63,7 @@ class OC_Util {
 		self::$fsSetup=false;
 	}
 	
-	public static function loadMountPoints($user) {
+	public static function loadUserMountPoints($user) {
 		$user_dir = '/'.$user.'/files';
 		$user_root = OC_User::getHome($user);
 		$userdirectory = $user_root . '/files';
