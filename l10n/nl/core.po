@@ -11,12 +11,13 @@
 #   <koen@vervloesem.eu>, 2011.
 #   <pietje8501@gmail.com>, 2012.
 # Richard Bos <radoeka@gmail.com>, 2012.
+#   <webbsite-mark@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -131,16 +132,12 @@ msgid "Error while changing permissions"
 msgstr "Fout tijdens het veranderen van permissies"
 
 #: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "Gedeeld me u en de groep"
-
-#: js/share.js:130
-msgid "by"
-msgstr "door"
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
 
 #: js/share.js:132
-msgid "Shared with you by"
-msgstr "Gedeeld met u door"
+msgid "Shared with you by {owner}"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -180,12 +177,8 @@ msgid "Resharing is not allowed"
 msgstr "Verder delen is niet toegestaan"
 
 #: js/share.js:250
-msgid "Shared in"
-msgstr "Gedeeld in"
-
-#: js/share.js:250
-msgid "with"
-msgstr "met"
+msgid "Shared in {item} with {user}"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
@@ -310,7 +303,7 @@ msgstr "Toevoegen"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Beveiligings waarschuwing"
 
 #: templates/installation.php:24
 msgid ""

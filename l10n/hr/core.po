@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -127,16 +127,12 @@ msgid "Error while changing permissions"
 msgstr "Greška prilikom promjena prava"
 
 #: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "Dijeli sa tobom i grupom"
-
-#: js/share.js:130
-msgid "by"
-msgstr "preko"
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
 
 #: js/share.js:132
-msgid "Shared with you by"
-msgstr "Dijeljeno sa tobom preko "
+msgid "Shared with you by {owner}"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -176,12 +172,8 @@ msgid "Resharing is not allowed"
 msgstr "Ponovo dijeljenje nije dopušteno"
 
 #: js/share.js:250
-msgid "Shared in"
-msgstr "Dijeljeno u"
-
-#: js/share.js:250
-msgid "with"
-msgstr "sa"
+msgid "Shared in {item} with {user}"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"

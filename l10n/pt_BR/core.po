@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -130,16 +130,12 @@ msgid "Error while changing permissions"
 msgstr "Erro ao mudar permissões"
 
 #: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "Compartilhado com você e o grupo"
-
-#: js/share.js:130
-msgid "by"
-msgstr "por"
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
 
 #: js/share.js:132
-msgid "Shared with you by"
-msgstr "Compartilhado com você por"
+msgid "Shared with you by {owner}"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -179,12 +175,8 @@ msgid "Resharing is not allowed"
 msgstr "Não é permitido re-compartilhar"
 
 #: js/share.js:250
-msgid "Shared in"
-msgstr "Compartilhado em"
-
-#: js/share.js:250
-msgid "with"
-msgstr "com"
+msgid "Shared in {item} with {user}"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
@@ -397,7 +389,7 @@ msgstr ""
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Por favor troque sua senha para tornar sua conta segura novamente."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -425,7 +417,7 @@ msgstr "próximo"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "Aviso de Segurança!"
 
 #: templates/verify.php:6
 msgid ""

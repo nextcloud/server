@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-06 02:02+0200\n"
-"PO-Revision-Date: 2012-10-05 21:03+0000\n"
-"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,152 +69,152 @@ msgstr "Usuwa element"
 msgid "Rename"
 msgstr "Zmień nazwę"
 
-#: js/filelist.js:189 js/filelist.js:191
-msgid "already exists"
-msgstr "Już istnieje"
+#: js/filelist.js:192 js/filelist.js:194
+msgid "{new_name} already exists"
+msgstr ""
 
-#: js/filelist.js:189 js/filelist.js:191
+#: js/filelist.js:192 js/filelist.js:194
 msgid "replace"
 msgstr "zastap"
 
-#: js/filelist.js:189
+#: js/filelist.js:192
 msgid "suggest name"
 msgstr "zasugeruj nazwę"
 
-#: js/filelist.js:189 js/filelist.js:191
+#: js/filelist.js:192 js/filelist.js:194
 msgid "cancel"
 msgstr "anuluj"
 
-#: js/filelist.js:238 js/filelist.js:240
-msgid "replaced"
-msgstr "zastąpione"
+#: js/filelist.js:241
+msgid "replaced {new_name}"
+msgstr ""
 
-#: js/filelist.js:238 js/filelist.js:240 js/filelist.js:272 js/filelist.js:274
+#: js/filelist.js:241 js/filelist.js:243 js/filelist.js:275 js/filelist.js:277
 msgid "undo"
 msgstr "wróć"
 
-#: js/filelist.js:240
-msgid "with"
-msgstr "z"
+#: js/filelist.js:243
+msgid "replaced {new_name} with {old_name}"
+msgstr ""
 
-#: js/filelist.js:272
-msgid "unshared"
-msgstr "Nie udostępnione"
+#: js/filelist.js:275
+msgid "unshared {files}"
+msgstr ""
 
-#: js/filelist.js:274
-msgid "deleted"
-msgstr "skasuj"
+#: js/filelist.js:277
+msgid "deleted {files}"
+msgstr ""
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "Generowanie pliku ZIP, może potrwać pewien czas."
 
-#: js/files.js:215
+#: js/files.js:214
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Nie można wczytać pliku jeśli jest katalogiem lub ma 0 bajtów"
 
-#: js/files.js:215
+#: js/files.js:214
 msgid "Upload Error"
 msgstr "Błąd wczytywania"
 
-#: js/files.js:243 js/files.js:348 js/files.js:378
+#: js/files.js:242 js/files.js:347 js/files.js:377
 msgid "Pending"
 msgstr "Oczekujące"
 
-#: js/files.js:263
+#: js/files.js:262
 msgid "1 file uploading"
 msgstr "1 plik wczytany"
 
-#: js/files.js:266 js/files.js:311 js/files.js:326
-msgid "files uploading"
-msgstr "pliki wczytane"
+#: js/files.js:265 js/files.js:310 js/files.js:325
+msgid "{count} files uploading"
+msgstr ""
 
-#: js/files.js:329 js/files.js:362
+#: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
 msgstr "Wczytywanie anulowane."
 
-#: js/files.js:432
+#: js/files.js:430
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Wysyłanie pliku jest w toku. Teraz opuszczając stronę wysyłanie zostanie anulowane."
 
-#: js/files.js:502
+#: js/files.js:500
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nieprawidłowa nazwa '/' jest niedozwolone."
 
-#: js/files.js:679
-msgid "files scanned"
-msgstr "Pliki skanowane"
+#: js/files.js:681
+msgid "{count} files scanned"
+msgstr ""
 
-#: js/files.js:687
+#: js/files.js:689
 msgid "error while scanning"
 msgstr "Wystąpił błąd podczas skanowania"
 
-#: js/files.js:760 templates/index.php:48
+#: js/files.js:762 templates/index.php:48
 msgid "Name"
 msgstr "Nazwa"
 
-#: js/files.js:761 templates/index.php:56
+#: js/files.js:763 templates/index.php:56
 msgid "Size"
 msgstr "Rozmiar"
 
-#: js/files.js:762 templates/index.php:58
+#: js/files.js:764 templates/index.php:58
 msgid "Modified"
 msgstr "Czas modyfikacji"
 
-#: js/files.js:789
-msgid "folder"
-msgstr "folder"
-
 #: js/files.js:791
-msgid "folders"
-msgstr "foldery"
+msgid "1 folder"
+msgstr ""
 
-#: js/files.js:799
-msgid "file"
-msgstr "plik"
+#: js/files.js:793
+msgid "{count} folders"
+msgstr ""
 
 #: js/files.js:801
-msgid "files"
-msgstr "pliki"
+msgid "1 file"
+msgstr ""
 
-#: js/files.js:845
+#: js/files.js:803
+msgid "{count} files"
+msgstr ""
+
+#: js/files.js:847
 msgid "seconds ago"
 msgstr "sekund temu"
 
-#: js/files.js:846
+#: js/files.js:848
 msgid "minute ago"
 msgstr "minutę temu"
 
-#: js/files.js:847
+#: js/files.js:849
 msgid "minutes ago"
 msgstr "minut temu"
 
-#: js/files.js:850
+#: js/files.js:852
 msgid "today"
 msgstr "dziś"
 
-#: js/files.js:851
+#: js/files.js:853
 msgid "yesterday"
 msgstr "wczoraj"
 
-#: js/files.js:852
+#: js/files.js:854
 msgid "days ago"
 msgstr "dni temu"
 
-#: js/files.js:853
+#: js/files.js:855
 msgid "last month"
 msgstr "ostani miesiąc"
 
-#: js/files.js:855
+#: js/files.js:857
 msgid "months ago"
 msgstr "miesięcy temu"
 
-#: js/files.js:856
+#: js/files.js:858
 msgid "last year"
 msgstr "ostatni rok"
 
-#: js/files.js:857
+#: js/files.js:859
 msgid "years ago"
 msgstr "lat temu"
 

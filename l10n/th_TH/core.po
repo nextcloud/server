@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -125,16 +125,12 @@ msgid "Error while changing permissions"
 msgstr "เกิดข้อผิดพลาดในการเปลี่ยนสิทธิ์การเข้าใช้งาน"
 
 #: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "แชร์ให้คุณและกลุ่ม"
-
-#: js/share.js:130
-msgid "by"
-msgstr "โดย"
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
 
 #: js/share.js:132
-msgid "Shared with you by"
-msgstr "แชร์ให้คุณโดย"
+msgid "Shared with you by {owner}"
+msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
@@ -174,12 +170,8 @@ msgid "Resharing is not allowed"
 msgstr "ไม่อนุญาตให้แชร์ข้อมูลซ้ำได้"
 
 #: js/share.js:250
-msgid "Shared in"
-msgstr "แชร์ไว้ใน"
-
-#: js/share.js:250
-msgid "with"
-msgstr "ด้วย"
+msgid "Shared in {item} with {user}"
+msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"

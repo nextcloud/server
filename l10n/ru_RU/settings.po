@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-12 02:04+0200\n"
-"PO-Revision-Date: 2012-10-11 08:13+0000\n"
+"POT-Creation-Date: 2012-10-18 02:04+0200\n"
+"PO-Revision-Date: 2012-10-17 13:42+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -22,16 +22,11 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Невозможно загрузить список из App Store"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:18 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Ошибка авторизации"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr "Группа уже существует"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr "Невозможно добавить группу"
 
@@ -58,6 +53,10 @@ msgstr "Неверный запрос"
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
 msgstr "Невозможно удалить группу"
+
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Ошибка авторизации"
 
 #: ajax/removeuser.php:27
 msgid "Unable to delete user"
@@ -89,7 +88,7 @@ msgstr "Включить"
 msgid "Saving..."
 msgstr "Сохранение"
 
-#: personal.php:47 personal.php:48
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "__язык_имя__"
 
@@ -152,7 +151,7 @@ msgstr "Разрешить повторное совместное исполь�
 
 #: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Позволить пользователям публиковать доступные им объекты других пользователей."
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"

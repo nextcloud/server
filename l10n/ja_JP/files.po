@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 02:02+0200\n"
-"PO-Revision-Date: 2012-09-27 00:51+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
+"POT-Creation-Date: 2012-10-18 02:03+0200\n"
+"PO-Revision-Date: 2012-10-18 00:05+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,152 +65,152 @@ msgstr "削除"
 msgid "Rename"
 msgstr "名前の変更"
 
-#: js/filelist.js:190 js/filelist.js:192
-msgid "already exists"
-msgstr "既に存在します"
+#: js/filelist.js:192 js/filelist.js:194
+msgid "{new_name} already exists"
+msgstr ""
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:192 js/filelist.js:194
 msgid "replace"
 msgstr "置き換え"
 
-#: js/filelist.js:190
+#: js/filelist.js:192
 msgid "suggest name"
 msgstr "推奨名称"
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:192 js/filelist.js:194
 msgid "cancel"
 msgstr "キャンセル"
 
-#: js/filelist.js:239 js/filelist.js:241
-msgid "replaced"
-msgstr "置換："
+#: js/filelist.js:241
+msgid "replaced {new_name}"
+msgstr ""
 
-#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
+#: js/filelist.js:241 js/filelist.js:243 js/filelist.js:275 js/filelist.js:277
 msgid "undo"
 msgstr "元に戻す"
 
-#: js/filelist.js:241
-msgid "with"
-msgstr "←"
-
-#: js/filelist.js:273
-msgid "unshared"
-msgstr "未共有"
+#: js/filelist.js:243
+msgid "replaced {new_name} with {old_name}"
+msgstr ""
 
 #: js/filelist.js:275
-msgid "deleted"
-msgstr "削除"
+msgid "unshared {files}"
+msgstr ""
+
+#: js/filelist.js:277
+msgid "deleted {files}"
+msgstr ""
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "ZIPファイルを生成中です、しばらくお待ちください。"
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "アップロード使用としているファイルがディレクトリ、もしくはサイズが0バイトのため、アップロードできません。"
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Upload Error"
 msgstr "アップロードエラー"
 
-#: js/files.js:236 js/files.js:341 js/files.js:371
+#: js/files.js:242 js/files.js:347 js/files.js:377
 msgid "Pending"
 msgstr "保留"
 
-#: js/files.js:256
+#: js/files.js:262
 msgid "1 file uploading"
 msgstr "ファイルを1つアップロード中"
 
-#: js/files.js:259 js/files.js:304 js/files.js:319
-msgid "files uploading"
-msgstr "ファイルをアップロード中"
+#: js/files.js:265 js/files.js:310 js/files.js:325
+msgid "{count} files uploading"
+msgstr ""
 
-#: js/files.js:322 js/files.js:355
+#: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
 msgstr "アップロードはキャンセルされました。"
 
-#: js/files.js:424
+#: js/files.js:430
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。"
 
-#: js/files.js:494
+#: js/files.js:500
 msgid "Invalid name, '/' is not allowed."
 msgstr "無効な名前、'/' は使用できません。"
 
-#: js/files.js:668
-msgid "files scanned"
-msgstr "ファイルをスキャンしました"
+#: js/files.js:681
+msgid "{count} files scanned"
+msgstr ""
 
-#: js/files.js:676
+#: js/files.js:689
 msgid "error while scanning"
 msgstr "スキャン中のエラー"
 
-#: js/files.js:749 templates/index.php:48
+#: js/files.js:762 templates/index.php:48
 msgid "Name"
 msgstr "名前"
 
-#: js/files.js:750 templates/index.php:56
+#: js/files.js:763 templates/index.php:56
 msgid "Size"
 msgstr "サイズ"
 
-#: js/files.js:751 templates/index.php:58
+#: js/files.js:764 templates/index.php:58
 msgid "Modified"
 msgstr "更新日時"
 
-#: js/files.js:778
-msgid "folder"
-msgstr "フォルダ"
+#: js/files.js:791
+msgid "1 folder"
+msgstr ""
 
-#: js/files.js:780
-msgid "folders"
-msgstr "フォルダ"
+#: js/files.js:793
+msgid "{count} folders"
+msgstr ""
 
-#: js/files.js:788
-msgid "file"
-msgstr "ファイル"
+#: js/files.js:801
+msgid "1 file"
+msgstr ""
 
-#: js/files.js:790
-msgid "files"
-msgstr "ファイル"
+#: js/files.js:803
+msgid "{count} files"
+msgstr ""
 
-#: js/files.js:834
+#: js/files.js:847
 msgid "seconds ago"
 msgstr "秒前"
 
-#: js/files.js:835
+#: js/files.js:848
 msgid "minute ago"
 msgstr "分前"
 
-#: js/files.js:836
+#: js/files.js:849
 msgid "minutes ago"
 msgstr "分前"
 
-#: js/files.js:839
+#: js/files.js:852
 msgid "today"
 msgstr "今日"
 
-#: js/files.js:840
+#: js/files.js:853
 msgid "yesterday"
 msgstr "昨日"
 
-#: js/files.js:841
+#: js/files.js:854
 msgid "days ago"
 msgstr "日前"
 
-#: js/files.js:842
+#: js/files.js:855
 msgid "last month"
 msgstr "一月前"
 
-#: js/files.js:844
+#: js/files.js:857
 msgid "months ago"
 msgstr "月前"
 
-#: js/files.js:845
+#: js/files.js:858
 msgid "last year"
 msgstr "一年前"
 
-#: js/files.js:846
+#: js/files.js:859
 msgid "years ago"
 msgstr "年前"
 
