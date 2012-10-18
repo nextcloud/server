@@ -46,8 +46,11 @@ class OC_VCategories {
 
 	private $type = null;
 	private $user = null;
-	private static $category_table = '*PREFIX*vcategory';
-	private static $relation_table = '*PREFIX*vcategory_to_object';
+	
+	const CATEGORY_TABLE = '*PREFIX*vcategory';
+	const RELATION_TABLE = '*PREFIX*vcategory_to_object';
+	
+	const CATEGORY_FAVORITE = '_$!<Favorite>!$_';
 	
 	const FORMAT_LIST = 0;
 	const FORMAT_MAP  = 1;
@@ -81,7 +84,7 @@ class OC_VCategories {
 	private function loadCategories() {
 		$this->categories = array();
 		$result = null;
-		$sql = 'SELECT `id`, `category` FROM `*PREFIX*vcategory` '
+		$sql = 'SELECT `id`, `category` FROM `' . self::CATEGORY_TABLE . '` '
 			. 'WHERE `uid` = ? AND `type` = ? ORDER BY `category`';
 		try {
 			$stmt = OCP\DB::prepare($sql);
@@ -108,7 +111,7 @@ class OC_VCategories {
 	*/
 	public static function isEmpty($type, $user = null) {
 		$user = is_null($user) ? OC_User::getUser() : $user;
-		$sql = 'SELECT COUNT(*) FROM `*PREFIX*vcategory` '
+		$sql = 'SELECT COUNT(*) FROM `' . self::CATEGORY_TABLE . '` '
 			. 'WHERE `uid` = ? AND `type` = ? ORDER BY `category`';
 		try {
 			$stmt = OCP\DB::prepare($sql);
@@ -185,11 +188,11 @@ class OC_VCategories {
 		$fields = substr($fields, 0, -1);
 
 		$items = array();
-		$sql = 'SELECT `' . self::$relation_table . '`.`categoryid`, ' . $fields 
+		$sql = 'SELECT `' . self::RELATION_TABLE . '`.`categoryid`, ' . $fields 
 			. ' FROM `' . $tableinfo['tablename'] . '` JOIN `' 
-			. self::$relation_table . '` ON `' . $tableinfo['tablename'] 
-			. '`.`id` = `' . self::$relation_table . '`.`objid` WHERE `' 
-			. self::$relation_table . '`.`categoryid` = ?';
+			. self::RELATION_TABLE . '` ON `' . $tableinfo['tablename'] 
+			. '`.`id` = `' . self::RELATION_TABLE . '`.`objid` WHERE `' 
+			. self::RELATION_TABLE . '`.`categoryid` = ?';
 
 		try {
 			$stmt = OCP\DB::prepare($sql, $limit, $offset);
@@ -281,7 +284,7 @@ class OC_VCategories {
 			$result = null;
 			// Find all objectid/categoryid pairs.
 			try {
-				$stmt = OCP\DB::prepare('SELECT `id` FROM `*PREFIX*vcategory` '
+				$stmt = OCP\DB::prepare('SELECT `id` FROM `' . self::CATEGORY_TABLE . '` '
 					. 'WHERE `uid` = ? AND `type` = ?');
 				$result = $stmt->execute(array($this->user, $this->type));
 			} catch(Exception $e) {
@@ -291,14 +294,14 @@ class OC_VCategories {
 
 			// And delete them.
 			if(!is_null($result)) {
-				$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*vcategory_to_object` '
+				$stmt = OCP\DB::prepare('DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `categoryid` = ? AND `type`= ?');
 				while( $row = $result->fetchRow()) {
 					$stmt->execute(array($row['id'], $this->type));
 				}
 			}
 			try {
-				$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*vcategory` '
+				$stmt = OCP\DB::prepare('DELETE FROM `' . self::CATEGORY_TABLE . '` '
 					. 'WHERE `uid` = ? AND `type` = ?');
 				$result = $stmt->execute(array($this->user, $this->type));
 			} catch(Exception $e) {
@@ -328,7 +331,7 @@ class OC_VCategories {
 	private function save() {
 		if(is_array($this->categories)) {
 			foreach($this->categories as $category) {
-				OCP\DB::insertIfNotExist(self::$category_table, 
+				OCP\DB::insertIfNotExist(self::CATEGORY_TABLE, 
 					array(
 						'uid' => $this->user,
 						'type' => $this->type,
@@ -346,7 +349,7 @@ class OC_VCategories {
 				$catid = $this->array_searchi($relation['category'], $categories);
 				OC_Log::write('core', __METHOD__ . 'catid, ' . $relation['category'] . ' ' . $catid, OC_Log::DEBUG);
 				if($catid) {
-					OCP\DB::insertIfNotExist(self::$relation_table, 
+					OCP\DB::insertIfNotExist(self::RELATION_TABLE, 
 						array(
 							'objid' => $relation['objid'],
 							'categoryid' => $catid,
@@ -370,7 +373,7 @@ class OC_VCategories {
 		// Find all objectid/categoryid pairs.
 		$result = null;
 		try {
-			$stmt = OCP\DB::prepare('SELECT `id` FROM `*PREFIX*vcategory` '
+			$stmt = OCP\DB::prepare('SELECT `id` FROM `' . self::CATEGORY_TABLE . '` '
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
 		} catch(Exception $e) {
@@ -380,7 +383,7 @@ class OC_VCategories {
 		
 		if(!is_null($result)) {
 			try {
-				$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*vcategory_to_object` '
+				$stmt = OCP\DB::prepare('DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `categoryid` = ?');
 				while( $row = $result->fetchRow()) {
 					try {
@@ -396,7 +399,7 @@ class OC_VCategories {
 			}
 		}
 		try {
-			$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*vcategory` '
+			$stmt = OCP\DB::prepare('DELETE FROM `' . self::CATEGORY_TABLE . '` '
 				. 'WHERE `uid` = ? AND');
 			$result = $stmt->execute(array($arguments['uid']));
 		} catch(Exception $e) {
@@ -415,7 +418,7 @@ class OC_VCategories {
 	public function purgeObject($id, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
 		try {
-			$stmt = OCP\DB::prepare('DELETE FROM `' . self::$relation_table . '` '
+			$stmt = OCP\DB::prepare('DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `objid` = ? AND `type`= ?');
 			$stmt->execute(array($id, $type));
 		} catch(Exception $e) {
@@ -434,13 +437,16 @@ class OC_VCategories {
 	* 	Defaults to the type set in the instance
 	* @returns boolean
 	*/
-	public function createRelation($objid, $category, $type = null) {
+	public function addToCategory($objid, $category, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
+		if(is_string($category) && !$this->hasCategory($category)) {
+			$this->add($category, true);
+		}
 		$categoryid = (is_string($category) && !is_numeric($category))
 			? $this->array_searchi($category, $this->categories) 
 			: $category;
 		try {
-			OCP\DB::insertIfNotExist(self::$relation_table, 
+			OCP\DB::insertIfNotExist(self::RELATION_TABLE, 
 				array(
 					'objid' => $objid,
 					'categoryid' => $categoryid,
@@ -462,13 +468,13 @@ class OC_VCategories {
 	* 	Defaults to the type set in the instance
 	* @returns boolean
 	*/
-	public function removeRelation($objid, $category, $type = null) {
+	public function removeFromCategory($objid, $category, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
 		$categoryid = (is_string($category) && !is_numeric($category))
 			? $this->array_searchi($category, $this->categories) 
 			: $category;
 		try {
-			$sql = 'DELETE FROM `' . self::$relation_table . '` '
+			$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `objid` = ? AND `categoryid` = ? AND `type` = ?';
 			OCP\Util::writeLog('core', __METHOD__.', sql: ' . $objid . ' ' . $categoryid . ' ' . $type, 
 				OCP\Util::DEBUG);
@@ -499,7 +505,7 @@ class OC_VCategories {
 				unset($this->categories[$this->array_searchi($name, $this->categories)]);
 			}
 			try {
-				$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*vcategory` WHERE '
+				$stmt = OCP\DB::prepare('DELETE FROM `' . self::CATEGORY_TABLE . '` WHERE '
 					. '`uid` = ? AND `type` = ? AND `category` = ?');
 				$result = $stmt->execute(array($this->user, $this->type, $name));
 			} catch(Exception $e) {
