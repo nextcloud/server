@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-19 02:04+0200\n"
+"PO-Revision-Date: 2012-10-18 11:21+0000\n"
+"Last-Translator: suganthi <suganthi@nic.lk>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,15 +20,15 @@ msgstr ""
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr ""
+msgstr "செயலி பெயர் வழங்கப்படவில்லை."
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr ""
+msgstr "சேர்ப்பதற்கான வகைகள் இல்லையா?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
-msgstr ""
+msgstr "இந்த வகை ஏற்கனவே உள்ளது:"
 
 #: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
@@ -72,56 +72,56 @@ msgstr "புரட்டாசி"
 
 #: js/js.js:671
 msgid "October"
-msgstr ""
+msgstr "ஐப்பசி"
 
 #: js/js.js:671
 msgid "November"
-msgstr ""
+msgstr "கார்த்திகை"
 
 #: js/js.js:671
 msgid "December"
-msgstr ""
+msgstr "மார்கழி"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "தெரிவுசெய்க "
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "இரத்து செய்க"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "இல்லை"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "ஆம்"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "சரி"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "நீக்குவதற்கு எந்தப் பிரிவும் தெரிவுசெய்யப்படவில்லை."
 
 #: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
 #: js/share.js:509
 msgid "Error"
-msgstr ""
+msgstr "வழு"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "பகிரும் போதான வழு"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "பகிராமல் உள்ளப்போதான வழு"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "அனுமதிகள் மாறும்போதான வழு"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
@@ -133,15 +133,15 @@ msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "பகிர்தல்"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "இணைப்புடன் பகிர்தல்"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "கடவுச்சொல்லை பாதுகாத்தல்"
 
 #: js/share.js:147 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
@@ -214,23 +214,23 @@ msgstr ""
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "ownCloud இன் கடவுச்சொல் மீளமைப்பு"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "உங்கள் கடவுச்சொல்லை மீளமைக்க பின்வரும் இணைப்பை பயன்படுத்தவும் : {இணைப்பு}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "நீங்கள் மின்னஞ்சல் மூலம் உங்களுடைய கடவுச்சொல்லை மீளமைப்பதற்கான இணைப்பை பெறுவீர்கள். "
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "கோரப்பட்டது"
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Login failed!"
-msgstr ""
+msgstr "புகுபதிகை தவறானது!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -239,39 +239,39 @@ msgstr "பயனாளர் பெயர்"
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr ""
+msgstr "கோரிக்கை மீளமைப்பு"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "உங்களுடைய கடவுச்சொல் மீளமைக்கப்பட்டது"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "புகுபதிகைக்கான பக்கம்"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "புதிய கடவுச்சொல்"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "மீளமைத்த கடவுச்சொல்"
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "தனிப்பட்ட"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "பயனாளர்கள்"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "பயன்பாடுகள்"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "நிர்வாகி"
 
 #: strings.php:9
 msgid "Help"
@@ -279,19 +279,19 @@ msgstr "உதவி"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "அணுக தடை"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "Cloud கண்டுப்பிடிப்படவில்லை"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "வகைகளை தொகுக்க"
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "சேர்க்க"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
@@ -320,7 +320,7 @@ msgstr ""
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "<strong> நிர்வாக கணக்கொன்றை </strong> உருவாக்குக"
 
 #: templates/installation.php:48
 msgid "Advanced"
@@ -332,12 +332,12 @@ msgstr "தரவு கோப்புறை"
 
 #: templates/installation.php:57
 msgid "Configure the database"
-msgstr ""
+msgstr "தரவுத்தளத்தை தகவமைக்க"
 
 #: templates/installation.php:62 templates/installation.php:73
 #: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
-msgstr ""
+msgstr "பயன்படுத்தப்படும்"
 
 #: templates/installation.php:105
 msgid "Database user"
@@ -353,11 +353,11 @@ msgstr "தரவுத்தள பெயர்"
 
 #: templates/installation.php:121
 msgid "Database tablespace"
-msgstr ""
+msgstr "தரவுத்தள அட்டவணை"
 
 #: templates/installation.php:127
 msgid "Database host"
-msgstr ""
+msgstr "தரவுத்தள ஓம்புனர்"
 
 #: templates/installation.php:132
 msgid "Finish setup"
@@ -365,11 +365,11 @@ msgstr "அமைப்பை முடிக்க"
 
 #: templates/layout.guest.php:38
 msgid "web services under your control"
-msgstr ""
+msgstr "உங்கள் கட்டுப்பாட்டின் கீழ் இணைய சேவைகள்"
 
 #: templates/layout.user.php:34
 msgid "Log out"
-msgstr ""
+msgstr "விடுபதிகை செய்க"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
@@ -387,15 +387,15 @@ msgstr ""
 
 #: templates/login.php:15
 msgid "Lost your password?"
-msgstr ""
+msgstr "உங்கள் கடவுச்சொல்லை தொலைத்துவிட்டீர்களா?"
 
 #: templates/login.php:27
 msgid "remember"
-msgstr ""
+msgstr "ஞாபகப்படுத்துக"
 
 #: templates/login.php:28
 msgid "Log in"
-msgstr ""
+msgstr "புகுபதிகை"
 
 #: templates/logout.php:1
 msgid "You are logged out."

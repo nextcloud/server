@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-19 02:04+0200\n"
+"PO-Revision-Date: 2012-10-18 08:32+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -130,11 +130,11 @@ msgstr "Fel vid ändring av rättigheter"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Delad med dig och gruppen {group} av {owner}"
 
 #: js/share.js:132
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Delad med dig av {owner}"
 
 #: js/share.js:137
 msgid "Share with"
@@ -175,7 +175,7 @@ msgstr "Dela vidare är inte tillåtet"
 
 #: js/share.js:250
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Delad i {item} med {user}"
 
 #: js/share.js:271
 msgid "Unshare"
@@ -321,7 +321,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Din datakatalog och dina filer är förmodligen tillgängliga från Internet. Den .htaccess-fil som ownCloud tillhandahåller fungerar inte. Vi rekommenderar starkt att du konfigurerar webbservern så att datakatalogen inte längre är tillgänglig eller att du flyttar datakatalogen utanför webbserverns dokument-root."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -378,17 +378,17 @@ msgstr "Logga ut"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Automatisk inloggning inte tillåten!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Om du inte har ändrat ditt lösenord nyligen så kan ditt konto vara manipulerat!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Ändra genast lösenord för att säkra ditt konto."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -422,7 +422,7 @@ msgstr "Säkerhetsvarning!"
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Bekräfta ditt lösenord. <br/>Av säkerhetsskäl kan du ibland bli ombedd att ange ditt lösenord igen."
 
 #: templates/verify.php:16
 msgid "Verify"

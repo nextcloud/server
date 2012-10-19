@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-19 02:04+0200\n"
+"PO-Revision-Date: 2012-10-18 13:06+0000\n"
+"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -125,11 +125,11 @@ msgstr "Ошибка при изменении прав доступа"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Опубликовано для Вас и группы {группа} {собственник}"
 
 #: js/share.js:132
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Опубликовано для Вас {собственник}"
 
 #: js/share.js:137
 msgid "Share with"
@@ -170,7 +170,7 @@ msgstr "Рекурсивный общий доступ не разрешен"
 
 #: js/share.js:250
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Совместное использование в {объект} с {пользователь}"
 
 #: js/share.js:271
 msgid "Unshare"
