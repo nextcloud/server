@@ -4,4 +4,11 @@
 		<directory suffix='.php'>lib/</directory>
 		<file>apps.php</file>
 	</testsuite>
+	<!-- filters for code coverage -->
+	<whitelist processUncoveredFilesFromWhitelist="true">
+		<directory suffix=".php">..</directory>
+		<exclude>
+			<directory suffix=".php">../3rdparty</directory>
+		</exclude>
+	</whitelist>
 </phpunit>
