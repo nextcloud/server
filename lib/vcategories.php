@@ -114,7 +114,7 @@ class OC_VCategories {
 	public static function isEmpty($type, $user = null) {
 		$user = is_null($user) ? OC_User::getUser() : $user;
 		$sql = 'SELECT COUNT(*) FROM `' . self::CATEGORY_TABLE . '` '
-			. 'WHERE `uid` = ? AND `type` = ? ORDER BY `category`';
+			. 'WHERE `uid` = ? AND `type` = ?';
 		try {
 			$stmt = OCP\DB::prepare($sql);
 			$result = $stmt->execute(array($user, $type));
