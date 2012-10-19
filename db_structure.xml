@@ -735,23 +735,6 @@
      </field>
     </index>
 
-    <index>
-     <name>uid_type_category_index</name>
-     <unique>true</unique>
-     <field>
-      <name>uid</name>
-      <sorting>ascending</sorting>
-     </field>
-     <field>
-      <name>type</name>
-      <sorting>ascending</sorting>
-     </field>
-     <field>
-      <name>category</name>
-      <sorting>ascending</sorting>
-     </field>
-    </index>
-
   </declaration>
  </table>
 
