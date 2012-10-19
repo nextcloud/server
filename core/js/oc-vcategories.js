@@ -14,18 +14,34 @@ var OCCategories= {
 					return;
 				}
 			} catch(e) {
-				$('#edit_categories_dialog').dialog({
+				var setEnabled = function(d, enable) {
+					if(enable) {
+						dlg.css('cursor', 'default').find('input,button:not(#category_addbutton)')
+							.prop('disabled', false).css('cursor', 'default');
+					} else {
+						d.css('cursor', 'wait').find('input,button:not(#category_addbutton)')
+							.prop('disabled', true).css('cursor', 'wait');
+					}
+				}
+				var dlg = $('#edit_categories_dialog').dialog({
 						modal: true,
 						height: 350, minHeight:200, width: 250, minWidth: 200,
 						buttons: {
 							'Close': function() { 
-								$(this).dialog("close"); 
+								$(this).dialog('close'); 
 							},
 							'Delete':function() {
-								OCCategories.doDelete();
+								var categories = $('#categorylist').find('input:checkbox').serialize();
+								setEnabled(dlg, false);
+								OCCategories.doDelete(categories, function() {
+									setEnabled(dlg, true);
+								});
 							},
 							'Rescan':function() {
-								OCCategories.rescan();
+								setEnabled(dlg, false);
+								OCCategories.rescan(function() {
+									setEnabled(dlg, true);
+								});
 							}
 						},
 						close : function(event, ui) {
@@ -56,11 +72,14 @@ var OCCategories= {
 			}
 		});
 	},
-	_processDeleteResult:function(jsondata, status, xhr) {
+	_processDeleteResult:function(jsondata, cb) {
 		if(jsondata.status == 'success') {
 			OCCategories._update(jsondata.data.categories);
 		} else {
 			OC.dialogs.alert(jsondata.data.message, 'Error');
+		}
+		if(typeof cb == 'function') {
+			cb();
 		}
 	},
 	favorites:function(type, cb) {
@@ -86,8 +105,7 @@ var OCCategories= {
 			}
 		});
 	},
-	doDelete:function() {
-		var categories = $('#categorylist').find('input:checkbox').serialize();
+	doDelete:function(categories, cb) {
 		if(categories == '' || categories == undefined) {
 			OC.dialogs.alert(t('core', 'No categories selected for deletion.'), t('core', 'Error'));
 			return false;
@@ -95,9 +113,13 @@ var OCCategories= {
 		var q = categories + '&type=' + OCCategories.type;
 		if(OCCategories.app) {
 			q += '&app=' + OCCategories.app;
-			$.post(OC.filePath(OCCategories.app, 'ajax', 'categories/delete.php'), q, OCCategories._processDeleteResult);
+			$.post(OC.filePath(OCCategories.app, 'ajax', 'categories/delete.php'), q, function(jsondata) {
+				OCCategories._processDeleteResult(jsondata, cb)
+			});
 		} else {
-			$.post(OC.filePath('core', 'ajax', 'vcategories/delete.php'), q, OCCategories._processDeleteResult);
+			$.post(OC.filePath('core', 'ajax', 'vcategories/delete.php'), q, function(jsondata) {
+				OCCategories._processDeleteResult(jsondata, cb)
+			});
 		}
 	},
 	add:function(category) {
@@ -109,18 +131,24 @@ var OCCategories= {
 			}
 		});
 	},
-	rescan:function() {
+	rescan:function(cb) {
 		$.getJSON(OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php'),function(jsondata, status, xhr) {
 			if(jsondata.status === 'success') {
 				OCCategories._update(jsondata.data.categories);
 			} else {
 				OC.dialogs.alert(jsondata.data.message, 'Error');
 			}
+			if(typeof cb == 'function') {
+				cb();
+			}
 		}).error(function(xhr){
 			if (xhr.status == 404) {
 				OC.dialogs.alert(
 					t('core', 'The required file {file} is not installed!', 
 					  {file: OC.filePath(OCCategories.app, 'ajax', 'categories/rescan.php')}, t('core', 'Error')));
+			}
+			if(typeof cb == 'function') {
+				cb();
 			}
 		});
 	},
@@ -131,7 +159,7 @@ var OCCategories= {
 			var item = '<li><input type="checkbox" name="categories" value="' + categories[category] + '" />' + categories[category] + '</li>';
 			$(item).appendTo(categorylist);
 		}
-		if(OCCategories.changed != undefined) {
+		if(typeof OCCategories.changed === 'function') {
 			OCCategories.changed(categories);
 		}
 	}
