@@ -25,6 +25,8 @@
 "Error while sharing" => "Errore durante la condivisione",
 "Error while unsharing" => "Errore durante la rimozione della condivisione",
 "Error while changing permissions" => "Errore durante la modifica dei permessi",
+"Shared with you and the group {group} by {owner}" => "Condiviso con te e con il gruppo {group} da {owner}",
+"Shared with you by {owner}" => "Condiviso con te da {owner}",
 "Share with" => "Condividi con",
 "Share with link" => "Condividi con collegamento",
 "Password protect" => "Proteggi con password",
