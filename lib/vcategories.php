@@ -74,7 +74,7 @@ class OC_VCategories {
 		);
 
 		if($defcategories && count(self::$categories) === 0) {
-			$this->add($defcategories, true);
+			$this->addMulti($defcategories, true);
 		}
 	}
 
@@ -273,13 +273,37 @@ class OC_VCategories {
 	}
 
 	/**
-	* @brief Add a new category name.
+	* @brief Add a new category.
+	* @param $name A string with a name of the category
+	* @returns int the id of the added category or false if it already exists.
+	*/
+	public function add($name) {
+		OCP\Util::writeLog('core', __METHOD__.', name: ' . $name, OCP\Util::DEBUG);
+		if($this->hasCategory($name)) {
+			OCP\Util::writeLog('core', __METHOD__.', name: ' . $name. ' exists already', OCP\Util::DEBUG);
+			return false;
+		}
+		OCP\DB::insertIfNotExist(self::CATEGORY_TABLE,
+			array(
+				'uid' => $this->user,
+				'type' => $this->type,
+				'category' => $name,
+			));
+		$id = OCP\DB::insertid(self::CATEGORY_TABLE);
+		OCP\Util::writeLog('core', __METHOD__.', id: ' . $id, OCP\Util::DEBUG);
+		self::$categories[$id] = $name;
+		return $id;
+	}
+
+	/**
+	* @brief Add a new category.
 	* @param $names A string with a name or an array of strings containing
 	* the name(s) of the categor(y|ies) to add.
 	* @param $sync bool When true, save the categories
+	* @param $id int Optional object id to add to this|these categor(y|ies)
 	* @returns bool Returns false on error.
 	*/
-	public function add($names, $sync=false, $id = null) {
+	public function addMulti($names, $sync=false, $id = null) {
 		if(!is_array($names)) {
 			$names = array($names);
 		}
@@ -309,7 +333,7 @@ class OC_VCategories {
 	* @param $vobject The instance of OC_VObject to load the categories from.
 	*/
 	public function loadFromVObject($id, $vobject, $sync=false) {
-		$this->add($vobject->getAsArray('CATEGORIES'), $sync, $id);
+		$this->addMulti($vobject->getAsArray('CATEGORIES'), $sync, $id);
 	}
 
 	/**
