@@ -26,7 +26,6 @@ if(is_null($type)) {
 	bailOut($l->t('Category type not provided.'));
 }
 
-OC_JSON::checkAppEnabled($type);
 $tmpl = new OCP\Template("core", "edit_categories_dialog");
 
 $vcategories = new OC_VCategories($type);
