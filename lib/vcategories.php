@@ -37,7 +37,7 @@ class OC_VCategories {
 	/**
 	 * Categories
 	 */
-	private $categories = array();
+	private static $categories = array();
 
 	/**
 	 * Used for storing objectid/categoryname pairs while rescanning.
@@ -69,11 +69,11 @@ class OC_VCategories {
 
 		$this->loadCategories();
 		OCP\Util::writeLog('core', __METHOD__ . ', categories: '
-			. print_r($this->categories, true),
+			. print_r(self::$categories, true),
 			OCP\Util::DEBUG
 		);
 
-		if($defcategories && count($this->categories) === 0) {
+		if($defcategories && count(self::$categories) === 0) {
 			$this->add($defcategories, true);
 		}
 	}
@@ -82,7 +82,7 @@ class OC_VCategories {
 	* @brief Load categories from db.
 	*/
 	private function loadCategories() {
-		$this->categories = array();
+		self::$categories = array();
 		$result = null;
 		$sql = 'SELECT `id`, `category` FROM `' . self::CATEGORY_TABLE . '` '
 			. 'WHERE `uid` = ? AND `type` = ? ORDER BY `category`';
@@ -97,9 +97,11 @@ class OC_VCategories {
 		if(!is_null($result)) {
 			while( $row = $result->fetchRow()) {
 				// The keys are prefixed because array_search wouldn't work otherwise :-/
-				$this->categories[$row['id']] = $row['category'];
+				self::$categories[$row['id']] = $row['category'];
 			}
 		}
+		OCP\Util::writeLog('core', __METHOD__.', categories: ' . print_r(self::$categories, true),
+			OCP\Util::DEBUG);
 	}
 
 
@@ -130,16 +132,16 @@ class OC_VCategories {
 	* @returns array containing the categories as strings.
 	*/
 	public function categories($format = null) {
-		if(!$this->categories) {
+		if(!self::$categories) {
 			return array();
 		}
-		$categories = array_values($this->categories);
+		$categories = array_values(self::$categories);
 		uasort($categories, 'strnatcasecmp');
 		if($format == self::FORMAT_MAP) {
 			$catmap = array();
 			foreach($categories as $category) {
 				$catmap[] = array(
-					'id' => $this->array_searchi($category, $this->categories),
+					'id' => $this->array_searchi($category, self::$categories),
 					'name' => $category
 					);
 			}
@@ -161,7 +163,7 @@ class OC_VCategories {
 		if(is_numeric($category)) {
 			$catid = $category;
 		} elseif(is_string($category)) {
-			$catid = $this->array_searchi($category, $this->categories);
+			$catid = $this->array_searchi($category, self::$categories);
 		}
 		OCP\Util::writeLog('core', __METHOD__.', category: '.$catid.' '.$category, OCP\Util::DEBUG);
 		if($catid === false) {
@@ -220,7 +222,7 @@ class OC_VCategories {
 		if(is_numeric($category)) {
 			$catid = $category;
 		} elseif(is_string($category)) {
-			$catid = $this->array_searchi($category, $this->categories);
+			$catid = $this->array_searchi($category, self::$categories);
 		}
 		OCP\Util::writeLog('core', __METHOD__.', category: '.$catid.' '.$category, OCP\Util::DEBUG);
 		if($catid === false) {
@@ -267,7 +269,7 @@ class OC_VCategories {
 	* @returns bool
 	*/
 	public function hasCategory($name) {
-		return $this->in_arrayi($name, $this->categories);
+		return $this->in_arrayi($name, self::$categories);
 	}
 
 	/**
@@ -285,7 +287,7 @@ class OC_VCategories {
 		$newones = array();
 		foreach($names as $name) {
 			if(($this->in_arrayi(
-				$name, $this->categories) == false) && $name != '') {
+				$name, self::$categories) == false) && $name != '') {
 				$newones[] = $name;
 			}
 			if(!is_null($id) ) {
@@ -294,7 +296,7 @@ class OC_VCategories {
 			}
 		}
 		if(count($newones) > 0) {
-			$this->categories = array_merge($this->categories, $newones);
+			self::$categories = array_merge(self::$categories, $newones);
 			if($sync === true) {
 				$this->save();
 			}
@@ -357,7 +359,7 @@ class OC_VCategories {
 					. $e->getMessage(), OCP\Util::ERROR);
 				return;
 			}
-			$this->categories = array();
+			self::$categories = array();
 		}
 		// Parse all the VObjects
 		foreach($objects as $object) {
@@ -377,8 +379,8 @@ class OC_VCategories {
 	 * @brief Save the list with categories
 	 */
 	private function save() {
-		if(is_array($this->categories)) {
-			foreach($this->categories as $category) {
+		if(is_array(self::$categories)) {
+			foreach(self::$categories as $category) {
 				OCP\DB::insertIfNotExist(self::CATEGORY_TABLE,
 					array(
 						'uid' => $this->user,
@@ -390,7 +392,7 @@ class OC_VCategories {
 			$this->loadCategories();
 			// Loop through temporarily cached objectid/categoryname pairs
 			// and save relations.
-			$categories = $this->categories;
+			$categories = self::$categories;
 			// For some reason this is needed or array_search(i) will return 0..?
 			ksort($categories);
 			foreach(self::$relations as $relation) {
@@ -407,8 +409,8 @@ class OC_VCategories {
 			}
 			self::$relations = array(); // reset
 		} else {
-			OC_Log::write('core', __METHOD__.', $this->categories is not an array! '
-				. print_r($this->categories, true), OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.', self::$categories is not an array! '
+				. print_r(self::$categories, true), OC_Log::ERROR);
 		}
 	}
 
@@ -538,7 +540,7 @@ class OC_VCategories {
 			$this->add($category, true);
 		}
 		$categoryid = (is_string($category) && !is_numeric($category))
-			? $this->array_searchi($category, $this->categories)
+			? $this->array_searchi($category, self::$categories)
 			: $category;
 		try {
 			OCP\DB::insertIfNotExist(self::RELATION_TABLE,
@@ -566,7 +568,7 @@ class OC_VCategories {
 	public function removeFromCategory($objid, $category, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
 		$categoryid = (is_string($category) && !is_numeric($category))
-			? $this->array_searchi($category, $this->categories)
+			? $this->array_searchi($category, self::$categories)
 			: $category;
 		try {
 			$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
@@ -592,12 +594,12 @@ class OC_VCategories {
 		if(!is_array($names)) {
 			$names = array($names);
 		}
-		//OC_Log::write('core', __METHOD__ . ', before: '
-		//	. print_r($this->categories, true), OC_Log::DEBUG);
+		OC_Log::write('core', __METHOD__ . ', before: '
+			. print_r(self::$categories, true), OC_Log::DEBUG);
 		foreach($names as $name) {
-			//OC_Log::write('core', __METHOD__.', '.$name, OC_Log::DEBUG);
+			OC_Log::write('core', __METHOD__.', '.$name, OC_Log::DEBUG);
 			if($this->hasCategory($name)) {
-				unset($this->categories[$this->array_searchi($name, $this->categories)]);
+				unset(self::$categories[$this->array_searchi($name, self::$categories)]);
 			}
 			try {
 				$stmt = OCP\DB::prepare('DELETE FROM `' . self::CATEGORY_TABLE . '` WHERE '
@@ -608,8 +610,8 @@ class OC_VCategories {
 					. $e->getMessage(), OCP\Util::ERROR);
 			}
 		}
-		//OC_Log::write('core', __METHOD__.', after: '
-		//	. print_r($this->categories, true), OC_Log::DEBUG);
+		OC_Log::write('core', __METHOD__.', after: '
+			. print_r(self::$categories, true), OC_Log::DEBUG);
 		if(!is_null($objects)) {
 			foreach($objects as $key=>&$value) {
 				$vobject = OC_VObject::parse($value[1]);
