@@ -24,6 +24,7 @@ class Test_DB extends UnitTestCase {
 		$this->test_prefix = $r;
 		$this->table1 = $this->test_prefix.'contacts_addressbooks';
 		$this->table2 = $this->test_prefix.'contacts_cards';
+		$this->table3 = $this->test_prefix.'vcategory';
 	}
 
 	public function tearDown() {
@@ -66,5 +67,30 @@ class Test_DB extends UnitTestCase {
 		$query = OC_DB::prepare('SELECT `fullname`,`uri` FROM *PREFIX*'.$this->table2.' WHERE `uri` = ?');
 		$result = $query->execute(array('uri_3'));
 		$this->assertTrue($result);
+	}
+
+	public function testinsertIfNotExist() {
+		$categoryentries = array(
+				array('user' => 'test', 'type' => 'contact', 'category' => 'Family'),
+				array('user' => 'test', 'type' => 'contact', 'category' => 'Friends'),
+				array('user' => 'test', 'type' => 'contact', 'category' => 'Coworkers'),
+				array('user' => 'test', 'type' => 'contact', 'category' => 'Coworkers'),
+				array('user' => 'test', 'type' => 'contact', 'category' => 'School'),
+			);
+
+		foreach($categoryentries as $entry) {
+			$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table3,
+				array(
+					'uid' => $entry['user'],
+					'type' => $entry['type'],
+					'category' => $entry['category'],
+				));
+			$this->assertTrue($result);
+		}
+
+		$query = OC_DB::prepare('SELECT * FROM *PREFIX*'.$this->table3);
+		$result = $query->execute();
+		$this->assertTrue($result);
+		$this->assertEqual($result->numRows(), '4');
 	}
 }
