@@ -587,7 +587,7 @@ class OC_DB {
 		}
 
 		$result = new PDOStatementWrapper($result);
-		$result->execute();
+		return $result->execute();
 	}
 	
 	/**
