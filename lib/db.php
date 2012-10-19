@@ -577,7 +577,7 @@ class OC_DB {
 		//OC_Log::write('core', __METHOD__ . ', type: ' . $type . ', query: ' . $query, OC_Log::DEBUG);
 
 		try {
-			$result=self::$connection->prepare($query);
+			$result = self::prepare($query);
 		} catch(PDOException $e) {
 			$entry = 'DB Error: "'.$e->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$query.'<br />';
