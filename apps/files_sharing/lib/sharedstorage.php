@@ -37,7 +37,7 @@ class Shared extends \OC\Files\Storage\Common {
 	/**
 	* @brief Get the source file path and the permissions granted for a shared file
 	* @param string Shared target file path
-	* @return Returns array with the keys path and permissions or false if not found
+	* @return array with the keys path and permissions or false if not found
 	*/
 	private function getFile($target) {
 		$target = '/'.$target;
@@ -52,7 +52,7 @@ class Shared extends \OC\Files\Storage\Common {
 				if (isset($this->files[$folder])) {
 					$file = $this->files[$folder];
 				} else {
-					$file = OCP\Share::getItemSharedWith('folder', $folder, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
+					$file = \OCP\Share::getItemSharedWith('folder', $folder, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
 				}
 				if ($file) {
 					$this->files[$target]['path'] = $file['path'].substr($target, strlen($folder));
@@ -60,13 +60,13 @@ class Shared extends \OC\Files\Storage\Common {
 					return $this->files[$target];
 				}
 			} else {
-				$file = OCP\Share::getItemSharedWith('file', $target, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
+				$file = \OCP\Share::getItemSharedWith('file', $target, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
 				if ($file) {
 					$this->files[$target] = $file;
 					return $this->files[$target];
 				}
 			}
-			OCP\Util::writeLog('files_sharing', 'File source not found for: '.$target, OCP\Util::ERROR);
+			\OCP\Util::writeLog('files_sharing', 'File source not found for: '.$target, \OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -74,13 +74,13 @@ class Shared extends \OC\Files\Storage\Common {
 	/**
 	* @brief Get the source file path for a shared file
 	* @param string Shared target file path
-	* @return Returns source file path or false if not found
+	* @return string source file path or false if not found
 	*/
 	private function getSourcePath($target) {
 		$file = $this->getFile($target);
 		if (isset($file['path'])) {
 			$uid = substr($file['path'], 1, strpos($file['path'], '/', 1) - 1);
-			\\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir' => \OC_User::getHome($uid)), $uid);
+			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir' => \OC_User::getHome($uid)), $uid);
 			return $file['path'];
 		}
 		return false;
@@ -89,7 +89,7 @@ class Shared extends \OC\Files\Storage\Common {
 	/**
 	* @brief Get the permissions granted for a shared file
 	* @param string Shared target file path
-	* @return Returns CRUDS permissions granted or false if not found
+	* @return int CRUDS permissions granted or false if not found
 	*/
 	public function getPermissions($target) {
 		$file = $this->getFile($target);
@@ -97,17 +97,6 @@ class Shared extends \OC\Files\Storage\Common {
 			return $file['permissions'];
 		}
 		return false;
-	}
-
-	/**
-	* @brief Get the internal path to pass to the storage filesystem call
-	* @param string Source file path
-	* @return Source file path with mount point stripped out
-	*/
-	private function getInternalPath($path) {
-		$mountPoint = \OC\Files\Filesystem::getMountPoint($path);
-		$internalPath = substr($path, strlen($mountPoint));
-		return $internalPath;
 	}
 
 	public function mkdir($path) {
