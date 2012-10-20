@@ -282,16 +282,6 @@ class Filesystem {
 	}
 
 	/**
-	 * change the root to a fake root
-	 *
-	 * @param  string $fakeRoot
-	 * @return bool
-	 */
-	static public function chroot($fakeRoot) {
-		return self::$defaultInstance->chroot($fakeRoot);
-	}
-
-	/**
 	 * @brief get the relative path of the root data directory for the current user
 	 * @return string
 	 *

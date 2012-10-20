@@ -82,17 +82,6 @@ class OC_Filesystem {
 	}
 
 	/**
-	 * change the root to a fake root
-	 *
-	 * @deprecated OC_Filesystem is replaced by \OC\Files\Filesystem
-	 * @param  string $fakeRoot
-	 * @return bool
-	 */
-	static public function chroot($fakeRoot) {
-		return \OC\Files\Filesystem::chroot($fakeRoot);
-	}
-
-	/**
 	 * @brief get the relative path of the root data directory for the current user
 	 * @return string
 	 *
