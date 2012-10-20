@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 09:03+0000\n"
+"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -132,11 +132,11 @@ msgstr "Błąd przy zmianie uprawnień"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Udostępnione Tobie i grupie {group} przez {owner}"
 
 #: js/share.js:132
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Udostępnione Ci przez {owner}"
 
 #: js/share.js:137
 msgid "Share with"
@@ -177,7 +177,7 @@ msgstr "Współdzielenie nie jest możliwe"
 
 #: js/share.js:250
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Współdzielone w {item} z {user}"
 
 #: js/share.js:271
 msgid "Unshare"

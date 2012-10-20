@@ -5,6 +5,7 @@
 # Translators:
 # Denis  <reg.transifex.net@demitel.ru>, 2012.
 #   <jekader@gmail.com>, 2011, 2012.
+#   <skoptev@ukr.net>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
 #   <victor.dubiniuk@gmail.com>, 2012.
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 13:22+0000\n"
+"Last-Translator: skoptev <skoptev@ukr.net>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,7 +89,7 @@ msgstr "Декабрь"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Выбрать"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -117,35 +118,35 @@ msgstr "Ошибка"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Ошибка при открытии доступа"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Ошибка при закрытии доступа"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Ошибка при смене разрешений"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "{owner} открыл доступ для Вас и группы {group} "
 
 #: js/share.js:132
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "{owner} открыл доступ для Вас"
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "Поделиться с"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Поделиться с ссылкой"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "Защитить паролем"
 
 #: js/share.js:147 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
@@ -154,23 +155,23 @@ msgstr "Пароль"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "Установить срок доступа"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "Дата окончания"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Поделится через электронную почту:"
 
 #: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "Ни один человек не найден"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Общий доступ не разрешен"
 
 #: js/share.js:250
 msgid "Shared in {item} with {user}"
@@ -178,43 +179,43 @@ msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Закрыть общий доступ"
 
 #: js/share.js:283
 msgid "can edit"
-msgstr ""
+msgstr "может редактировать"
 
 #: js/share.js:285
 msgid "access control"
-msgstr ""
+msgstr "контроль доступа"
 
 #: js/share.js:288
 msgid "create"
-msgstr ""
+msgstr "создать"
 
 #: js/share.js:291
 msgid "update"
-msgstr ""
+msgstr "обновить"
 
 #: js/share.js:294
 msgid "delete"
-msgstr ""
+msgstr "удалить"
 
 #: js/share.js:297
 msgid "share"
-msgstr ""
+msgstr "открыть доступ"
 
 #: js/share.js:322 js/share.js:484
 msgid "Password protected"
-msgstr ""
+msgstr "Защищено паролем"
 
 #: js/share.js:497
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Ошибка при отмене срока доступа"
 
 #: js/share.js:509
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Ошибка при установке срока доступа"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -299,7 +300,7 @@ msgstr "Добавить"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Предупреждение безопасности"
 
 #: templates/installation.php:24
 msgid ""
@@ -415,7 +416,7 @@ msgstr "след"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "Предупреждение безопасности!"
 
 #: templates/verify.php:6
 msgid ""
@@ -425,4 +426,4 @@ msgstr ""
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Подтвердить"

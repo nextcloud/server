@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 23:38+0200\n"
-"PO-Revision-Date: 2012-10-16 20:38+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 21:41+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgstr "Host"
 #: templates/settings.php:8
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr "Du kannst das Protokoll auslassen, außer wenn Du SSL benötigst. Beginne dann mit ldaps://"
+msgstr "Sie können das Protokoll auslassen, außer wenn Sie SSL benötigen. Beginnen Sie dann mit ldaps://"
 
 #: templates/settings.php:9
 msgid "Base DN"
@@ -38,7 +38,7 @@ msgstr "Basis-DN"
 
 #: templates/settings.php:9
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr "Du kannst Basis-DN für Benutzer und Gruppen in dem \"Erweitert\"-Reiter konfigurieren"
+msgstr "Sie können Basis-DN für Benutzer und Gruppen in dem \"Erweitert\"-Reiter konfigurieren"
 
 #: templates/settings.php:10
 msgid "User DN"
@@ -49,7 +49,7 @@ msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr "Der DN des Benutzers für LDAP-Bind, z.B.: uid=agent,dc=example,dc=com. Für anonymen Zugriff lasse DN und Passwort leer."
+msgstr "Der DN des Benutzers für LDAP-Bind, z.B.: uid=agent,dc=example,dc=com. Für anonymen Zugriff lassen Sie DN und Passwort leer."
 
 #: templates/settings.php:11
 msgid "Password"
@@ -57,7 +57,7 @@ msgstr "Passwort"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "Lasse die Felder von DN und Passwort für anonymen Zugang leer."
+msgstr "Lassen Sie die Felder von DN und Passwort für anonymen Zugang leer."
 
 #: templates/settings.php:12
 msgid "User Login Filter"
@@ -73,7 +73,7 @@ msgstr "Bestimmt den angewendeten Filter, wenn eine Anmeldung versucht wird. %%u
 #: templates/settings.php:12
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr "verwende %%uid Platzhalter, z. B. \"uid=%%uid\""
+msgstr "verwenden Sie %%uid Platzhalter, z. B. \"uid=%%uid\""
 
 #: templates/settings.php:13
 msgid "User List Filter"
@@ -121,7 +121,7 @@ msgstr "Nutze TLS"
 
 #: templates/settings.php:21
 msgid "Do not use it for SSL connections, it will fail."
-msgstr "Verwende dies nicht für SSL-Verbindungen, es wird fehlschlagen."
+msgstr "Verwenden Sie dies nicht für SSL-Verbindungen, es wird fehlschlagen."
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
@@ -129,7 +129,7 @@ msgstr "LDAP-Server (Windows: Groß- und Kleinschreibung bleibt unbeachtet)"
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
-msgstr "Schalte die SSL-Zertifikatsprüfung aus."
+msgstr "Schalten Sie die SSL-Zertifikatsprüfung aus."
 
 #: templates/settings.php:23
 msgid ""

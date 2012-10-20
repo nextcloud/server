@@ -22,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-19 02:03+0200\n"
-"PO-Revision-Date: 2012-10-19 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 21:16+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,7 +108,7 @@ msgstr "{old_name} ersetzt durch {new_name}"
 
 #: js/filelist.js:277
 msgid "unshared {files}"
-msgstr "Teilen von {files} aufgehoben"
+msgstr "Freigabe von {files} aufgehoben"
 
 #: js/filelist.js:279
 msgid "deleted {files}"
@@ -189,15 +189,15 @@ msgstr "{count} Dateien"
 
 #: js/files.js:846
 msgid "seconds ago"
-msgstr "Sekunden her"
+msgstr "Vor wenigen Sekunden"
 
 #: js/files.js:847
 msgid "1 minute ago"
-msgstr ""
+msgstr "vor einer Minute"
 
 #: js/files.js:848
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "Vor {minutes} Minuten"
 
 #: js/files.js:851
 msgid "today"
@@ -209,7 +209,7 @@ msgstr "Gestern"
 
 #: js/files.js:853
 msgid "{days} days ago"
-msgstr ""
+msgstr "Vor {days} Tag(en)"
 
 #: js/files.js:854
 msgid "last month"
@@ -289,7 +289,7 @@ msgstr "Alles leer. Lade etwas hoch!"
 
 #: templates/index.php:50
 msgid "Share"
-msgstr "Teilen"
+msgstr "Freigabe"
 
 #: templates/index.php:52
 msgid "Download"

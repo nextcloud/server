@@ -3,7 +3,7 @@
 "Error configuring Dropbox storage" => "Fehler beim Einrichten von Dropbox",
 "Grant access" => "Zugriff gestatten",
 "Fill out all required fields" => "Bitte alle notwendigen Felder füllen",
-"Please provide a valid Dropbox app key and secret." => "Bitte trage einen gültigen Dropbox-App-Key mit Secret ein.",
+"Please provide a valid Dropbox app key and secret." => "Bitte tragen Sie einen gültigen Dropbox-App-Key mit Secret ein.",
 "Error configuring Google Drive storage" => "Fehler beim Einrichten von Google Drive",
 "External Storage" => "Externer Speicher",
 "Mount point" => "Mount-Point",

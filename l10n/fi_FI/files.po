@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-19 02:03+0200\n"
-"PO-Revision-Date: 2012-10-19 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 18:31+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +70,7 @@ msgstr "Nimeä uudelleen"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} on jo olemassa"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "replace"
@@ -163,19 +163,19 @@ msgstr "Muutettu"
 
 #: js/files.js:791
 msgid "1 folder"
-msgstr ""
+msgstr "1 kansio"
 
 #: js/files.js:793
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} kansiota"
 
 #: js/files.js:801
 msgid "1 file"
-msgstr ""
+msgstr "1 tiedosto"
 
 #: js/files.js:803
 msgid "{count} files"
-msgstr ""
+msgstr "{count} tiedostoa"
 
 #: js/files.js:846
 msgid "seconds ago"
@@ -183,11 +183,11 @@ msgstr "sekuntia sitten"
 
 #: js/files.js:847
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 minuutti sitten"
 
 #: js/files.js:848
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} minuuttia sitten"
 
 #: js/files.js:851
 msgid "today"
@@ -199,7 +199,7 @@ msgstr "eilen"
 
 #: js/files.js:853
 msgid "{days} days ago"
-msgstr ""
+msgstr "{days} päivää sitten"
 
 #: js/files.js:854
 msgid "last month"

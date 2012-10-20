@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-19 02:04+0200\n"
-"PO-Revision-Date: 2012-10-18 05:39+0000\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 05:41+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -174,7 +174,7 @@ msgstr "La ri-condivisione non è consentita"
 
 #: js/share.js:250
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Condiviso in {item} con {user}"
 
 #: js/share.js:271
 msgid "Unshare"

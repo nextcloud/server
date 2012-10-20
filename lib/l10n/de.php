@@ -19,9 +19,9 @@
 "yesterday" => "Gestern",
 "%d days ago" => "Vor %d Tag(en)",
 "last month" => "Letzten Monat",
-"months ago" => "Vor Monaten",
+"months ago" => "Vor wenigen Monaten",
 "last year" => "Letztes Jahr",
-"years ago" => "Vor Jahren",
+"years ago" => "Vor wenigen Jahren",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s ist verfügbar. <a href=\"%s\">Weitere Informationen</a>",
 "up to date" => "aktuell",
 "updates check is disabled" => "Die Update-Überprüfung ist ausgeschaltet"

@@ -65,6 +65,7 @@
 "Edit categories" => "编辑分类",
 "Add" => "添加",
 "Security Warning" => "安全警告",
+"No secure random number generator is available, please enable the PHP OpenSSL extension." => "随机数生成器无效，请启用PHP的OpenSSL扩展",
 "Create an <strong>admin account</strong>" => "创建<strong>管理员账号</strong>",
 "Advanced" => "高级",
 "Data folder" => "数据目录",
@@ -83,5 +84,6 @@
 "Log in" => "登录",
 "You are logged out." => "您已注销。",
 "prev" => "上一页",
-"next" => "下一页"
+"next" => "下一页",
+"Security Warning!" => "安全警告！"
 );

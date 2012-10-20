@@ -63,6 +63,7 @@
 "Cloud not found" => "Pilveä ei löydy",
 "Edit categories" => "Muokkaa luokkia",
 "Add" => "Lisää",
+"Security Warning" => "Turvallisuusvaroitus",
 "Create an <strong>admin account</strong>" => "Luo <strong>ylläpitäjän tunnus</strong>",
 "Advanced" => "Lisäasetukset",
 "Data folder" => "Datakansio",
@@ -81,5 +82,6 @@
 "Log in" => "Kirjaudu sisään",
 "You are logged out." => "Olet kirjautunut ulos.",
 "prev" => "edellinen",
-"next" => "seuraava"
+"next" => "seuraava",
+"Security Warning!" => "Turvallisuusvaroitus!"
 );
