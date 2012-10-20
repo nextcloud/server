@@ -258,13 +258,6 @@ class OC_Filesystem {
 	}
 
 	/**
-	 * @deprecated Replaced by isCreatable(), isUpdatable(), isDeletable() as part of CRUDS
-	 */
-	static public function is_writable($path) {
-		return \OC\Files\Filesystem::is_writable($path);
-	}
-
-	/**
 	 * @deprecated OC_Filesystem is replaced by \OC\Files\Filesystem
 	 */
 	static public function isCreatable($path) {

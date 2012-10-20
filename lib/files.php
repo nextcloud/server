@@ -178,7 +178,7 @@ class OC_Files {
 			$filename=$dir.'/'.$files;
 		}
 		@ob_end_clean();
-		if($zip or \OC\Files\Filesystem::is_readable($filename)) {
+		if($zip or \OC\Files\Filesystem::isReadable($filename)) {
 			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 			header('Content-Transfer-Encoding: binary');
 			OC_Response::disableCaching();

@@ -195,20 +195,6 @@ class View {
 		return false;
 	}
 
-	/**
-	 * @deprecated Replaced by isReadable() as part of CRUDS
-	 */
-	public function is_readable($path) {
-		return $this->basicOperation('isReadable', $path);
-	}
-
-	/**
-	 * @deprecated Replaced by isCreatable(), isUpdatable(), isDeletable() as part of CRUDS
-	 */
-	public function is_writable($path) {
-		return $this->basicOperation('isUpdatable', $path);
-	}
-
 	public function isCreatable($path) {
 		return $this->basicOperation('isCreatable', $path);
 	}
