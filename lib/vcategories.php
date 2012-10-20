@@ -149,7 +149,7 @@ class OC_VCategories {
 			}
 			return $catmap;
 		}
-		
+
 		// Don't add favorites to normal categories.
 		$favpos = array_search(self::CATEGORY_FAVORITE, $categories);
 		if($favpos !== false) {
@@ -569,12 +569,14 @@ class OC_VCategories {
 	*/
 	public function addToCategory($objid, $category, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
-		if(is_string($category) && !$this->hasCategory($category)) {
-			$this->add($category, true);
+		if(is_string($category) && !is_numeric($category)) {
+			if(!$this->hasCategory($category)) {
+				$this->add($category, true);
+			}
+			$categoryid =  $this->array_searchi($category, self::$categories);
+		} else {
+			$categoryid = $category;
 		}
-		$categoryid = (is_string($category) && !is_numeric($category))
-			? $this->array_searchi($category, self::$categories)
-			: $category;
 		try {
 			OCP\DB::insertIfNotExist(self::RELATION_TABLE,
 				array(
@@ -711,3 +713,4 @@ class OC_VCategories {
 	}
 
 }
+
