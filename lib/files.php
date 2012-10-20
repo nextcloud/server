@@ -30,13 +30,12 @@ class OC_Files {
 
 	/**
 	 * get the filesystem info
-	 * @param string path
+	 * @param string $path
 	 * @return array
 	 *
 	 * returns an associative array with the following keys:
 	 * - size
 	 * - mtime
-	 * - ctime
 	 * - mimetype
 	 * - encrypted
 	 * - versioned

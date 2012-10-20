@@ -309,13 +309,6 @@ class OC_Filesystem {
 	/**
 	 * @deprecated OC_Filesystem is replaced by \OC\Files\Filesystem
 	 */
-	static public function filectime($path) {
-		return \OC\Files\Filesystem::filectime($path);
-	}
-
-	/**
-	 * @deprecated OC_Filesystem is replaced by \OC\Files\Filesystem
-	 */
 	static public function filemtime($path) {
 		return \OC\Files\Filesystem::filemtime($path);
 	}

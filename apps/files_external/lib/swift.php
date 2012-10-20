@@ -500,7 +500,6 @@ class SWIFT extends \OC\Files\Storage\Common{
 			return array(
 				'mtime'=>-1,
 				'size'=>$container->bytes_used,
-				'ctime'=>-1
 			);
 		}
 
@@ -518,7 +517,6 @@ class SWIFT extends \OC\Files\Storage\Common{
 		return array(
 			'mtime'=>$mtime,
 			'size'=>$obj->content_length,
-			'ctime'=>-1,
 		);
 	}
 

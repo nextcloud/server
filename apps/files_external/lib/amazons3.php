@@ -115,12 +115,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$stat['size'] = $this->s3->get_bucket_filesize($this->bucket);
 			$stat['atime'] = time();
 			$stat['mtime'] = $stat['atime'];
-			$stat['ctime'] = $stat['atime'];
 		} else if ($object = $this->getObject($path)) {
 			$stat['size'] = $object['Size'];
 			$stat['atime'] = time();
 			$stat['mtime'] = strtotime($object['LastModified']);
-			$stat['ctime'] = $stat['mtime'];
 		}
 		if (isset($stat)) {
 			return $stat;

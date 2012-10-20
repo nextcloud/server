@@ -478,10 +478,6 @@ class Filesystem {
 		return self::$defaultInstance->file_exists($path);
 	}
 
-	static public function filectime($path) {
-		return self::$defaultInstance->filectime($path);
-	}
-
 	static public function filemtime($path) {
 		return self::$defaultInstance->filemtime($path);
 	}

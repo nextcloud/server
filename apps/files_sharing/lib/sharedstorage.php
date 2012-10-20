@@ -162,7 +162,6 @@ class Shared extends \OC\Files\Storage\Common {
 		if ($path == '' || $path == '/') {
 			$stat['size'] = $this->filesize($path);
 			$stat['mtime'] = $this->filemtime($path);
-			$stat['ctime'] = $this->filectime($path);
 			return $stat;
 		} else if ($source = $this->getSourcePath($path)) {
 			list($storage, $internalPath)=\OC\Files\Filesystem::resolvePath($source);
@@ -231,27 +230,6 @@ class Shared extends \OC\Files\Storage\Common {
 			return $storage->file_exists($internalPath);
 		}
 		return false;
-	}
-
-	public function filectime($path) {
-		if ($path == '' || $path == '/') {
-			$ctime = 0;
-			if ($dh = $this->opendir($path)) {
-				while (($filename = readdir($dh)) !== false) {
-					$tempctime = $this->filectime($filename);
-					if ($tempctime < $ctime) {
-						$ctime = $tempctime;
-					}
-				}
-			}
-			return $ctime;
-		} else {
-			$source = $this->getSourcePath($path);
-			if ($source) {
-				list($storage, $internalPath)=\OC\Files\Filesystem::resolvePath($source);
-				return $storage->filectime($internalPath);
-			}
-		}
 	}
 
 	public function filemtime($path) {

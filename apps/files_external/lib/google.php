@@ -257,14 +257,12 @@ class Google extends \OC\Files\Storage\Common {
 			$stat['size'] = $this->free_space($path);
 			$stat['atime'] = time();
 			$stat['mtime'] = time();
-			$stat['ctime'] = time();
 		} else if ($entry = $this->getResource($path)) {
 			// NOTE: Native resources don't have a file size
 			$stat['size'] = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'quotaBytesUsed')->item(0)->nodeValue;
 // 			if (isset($atime = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue))
 // 			$stat['atime'] = strtotime($entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue);
 			$stat['mtime'] = strtotime($entry->getElementsByTagName('updated')->item(0)->nodeValue);
-			$stat['ctime'] = strtotime($entry->getElementsByTagName('published')->item(0)->nodeValue);
 		}
 		if (isset($stat)) {
 			return $stat;

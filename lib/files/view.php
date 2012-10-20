@@ -236,10 +236,6 @@ class View {
 		return $this->basicOperation('file_exists', $path);
 	}
 
-	public function filectime($path) {
-		return $this->basicOperation('filectime', $path);
-	}
-
 	public function filemtime($path) {
 		return $this->basicOperation('filemtime', $path);
 	}

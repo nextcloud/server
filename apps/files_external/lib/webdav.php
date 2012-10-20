@@ -256,7 +256,6 @@ class DAV extends \OC\Files\Storage\Common{
 			return array(
 				'mtime'=>strtotime($response['{DAV:}getlastmodified']),
 				'size'=>(int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
-				'ctime'=>-1,
 			);
 		}catch(\Exception $e) {
 			return array();

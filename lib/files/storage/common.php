@@ -74,10 +74,6 @@ abstract class Common extends \OC\Files\Storage\Storage {
 		return $permissions;
 	}
 // 	abstract public function file_exists($path);
-	public function filectime($path) {
-		$stat = $this->stat($path);
-		return $stat['ctime'];
-	}
 	public function filemtime($path) {
 		$stat = $this->stat($path);
 		return $stat['mtime'];

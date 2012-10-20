@@ -66,9 +66,6 @@ class Local extends \OC\Files\Storage\Common{
 	public function file_exists($path) {
 		return file_exists($this->datadir.$path);
 	}
-	public function filectime($path) {
-		return filectime($this->datadir.$path);
-	}
 	public function filemtime($path) {
 		return filemtime($this->datadir.$path);
 	}

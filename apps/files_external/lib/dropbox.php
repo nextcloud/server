@@ -119,7 +119,6 @@ class Dropbox extends \OC\Files\Storage\Common {
 			$stat['size'] = $metaData['bytes'];
 			$stat['atime'] = time();
 			$stat['mtime'] = (isset($metaData['modified'])) ? strtotime($metaData['modified']) : time();
-			$stat['ctime'] = $stat['mtime'];
 			return $stat;
 		}
 		return false;
