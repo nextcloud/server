@@ -140,14 +140,23 @@ class OC_VCategories {
 		if($format == self::FORMAT_MAP) {
 			$catmap = array();
 			foreach($categories as $category) {
-				$catmap[] = array(
-					'id' => $this->array_searchi($category, self::$categories),
-					'name' => $category
-					);
+				if($category !== self::CATEGORY_FAVORITE) {
+					$catmap[] = array(
+						'id' => $this->array_searchi($category, self::$categories),
+						'name' => $category
+						);
+				}
 			}
 			return $catmap;
 		}
-		return $categories;
+		
+		// Don't add favorites to normal categories.
+		$favpos = array_search(self::CATEGORY_FAVORITE, $categories);
+		if($favpos !== false) {
+			return array_splice($categories, $favpos);
+		} else {
+			return $categories;
+		}
 	}
 
 	/**
