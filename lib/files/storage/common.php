@@ -20,7 +20,7 @@ namespace OC\Files\Storage;
  * in classes which extend it, e.g. $this->stat() .
  */
 
-abstract class Common extends \OC\Files\Storage\Storage {
+abstract class Common implements \OC\Files\Storage\Storage {
 
 	public function __construct($parameters) {}
 // 	abstract public function getId();
@@ -123,64 +123,30 @@ abstract class Common extends \OC\Files\Storage\Storage {
 	 * deleted together with its contents. To avoid this set $empty to true
 	 */
 	public function deleteAll( $directory, $empty = false ) {
-
-		// strip leading slash
-		if( substr( $directory, 0, 1 ) == "/" ) {
-
-			$directory = substr( $directory, 1 );
-
-		}
-
-		// strip trailing slash
-		if( substr( $directory, -1) == "/" ) {
-
-			$directory = substr( $directory, 0, -1 );
-
-		}
+		$directory = trim($directory,'/');
 
 		if ( !$this->file_exists( \OCP\USER::getUser() . '/' . $directory ) || !$this->is_dir( \OCP\USER::getUser() . '/' . $directory ) ) {
-
 			return false;
-
 		} elseif( !$this->is_readable( \OCP\USER::getUser() . '/' . $directory ) ) {
-
 			return false;
-
 		} else {
-
 			$directoryHandle = $this->opendir( \OCP\USER::getUser() . '/' . $directory );
-
 			while ( $contents = readdir( $directoryHandle ) ) {
-
 				if ( $contents != '.' && $contents != '..') {
-
 					$path = $directory . "/" . $contents;
-
 					if ( $this->is_dir( $path ) ) {
-
 						deleteAll( $path );
-
 					} else {
-
 						$this->unlink( \OCP\USER::getUser() .'/' . $path ); // TODO: make unlink use same system path as is_dir
-
 					}
 				}
-
 			}
-
 			//$this->closedir( $directoryHandle ); // TODO: implement closedir in OC_FSV
-
 			if ( $empty == false ) {
-
 				if ( !$this->rmdir( $directory ) ) {
-
-					return false;
-
+				return false;
 				}
-
 			}
-
 			return true;
 		}
 
@@ -209,7 +175,7 @@ abstract class Common extends \OC\Files\Storage\Storage {
 		return $mime;
 	}
 	public function hash($type,$path,$raw = false) {
-		$tmpFile=$this->getLocalFile();
+		$tmpFile=$this->getLocalFile($path);
 		$hash=hash($type,$tmpFile,$raw);
 		unlink($tmpFile);
 		return $hash;
@@ -282,5 +248,13 @@ abstract class Common extends \OC\Files\Storage\Storage {
 	 */
 	public function hasUpdated($path,$time) {
 		return $this->filemtime($path)>$time;
+	}
+
+	public function getCache(){
+		return new \OC\Files\Cache\Cache($this);
+	}
+
+	public function getScanner(){
+		return new \OC\Files\Cache\Scanner($this);
 	}
 }
