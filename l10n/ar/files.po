@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:05+0000\n"
+"POT-Creation-Date: 2012-10-19 02:03+0200\n"
+"PO-Revision-Date: 2012-10-19 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -64,39 +64,39 @@ msgstr "محذوف"
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:192 js/filelist.js:194
+#: js/filelist.js:194 js/filelist.js:196
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/filelist.js:192 js/filelist.js:194
+#: js/filelist.js:194 js/filelist.js:196
 msgid "replace"
 msgstr ""
 
-#: js/filelist.js:192
+#: js/filelist.js:194
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:192 js/filelist.js:194
+#: js/filelist.js:194 js/filelist.js:196
 msgid "cancel"
 msgstr ""
 
-#: js/filelist.js:241
+#: js/filelist.js:243
 msgid "replaced {new_name}"
 msgstr ""
 
-#: js/filelist.js:241 js/filelist.js:243 js/filelist.js:275 js/filelist.js:277
+#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:243
+#: js/filelist.js:245
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:275
+#: js/filelist.js:277
 msgid "unshared {files}"
 msgstr ""
 
-#: js/filelist.js:277
+#: js/filelist.js:279
 msgid "deleted {files}"
 msgstr ""
 
@@ -173,43 +173,43 @@ msgstr ""
 msgid "{count} files"
 msgstr ""
 
-#: js/files.js:847
+#: js/files.js:846
 msgid "seconds ago"
 msgstr ""
 
+#: js/files.js:847
+msgid "1 minute ago"
+msgstr ""
+
 #: js/files.js:848
-msgid "minute ago"
+msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/files.js:849
-msgid "minutes ago"
-msgstr ""
-
-#: js/files.js:852
+#: js/files.js:851
 msgid "today"
 msgstr ""
 
-#: js/files.js:853
+#: js/files.js:852
 msgid "yesterday"
 msgstr ""
 
-#: js/files.js:854
-msgid "days ago"
+#: js/files.js:853
+msgid "{days} days ago"
 msgstr ""
 
-#: js/files.js:855
+#: js/files.js:854
 msgid "last month"
 msgstr ""
 
-#: js/files.js:857
+#: js/files.js:856
 msgid "months ago"
 msgstr ""
 
-#: js/files.js:858
+#: js/files.js:857
 msgid "last year"
 msgstr ""
 
-#: js/files.js:859
+#: js/files.js:858
 msgid "years ago"
 msgstr ""
 

@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 18:31+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,39 +68,39 @@ msgstr "Poista"
 msgid "Rename"
 msgstr "Nimeä uudelleen"
 
-#: js/filelist.js:192 js/filelist.js:194
+#: js/filelist.js:194 js/filelist.js:196
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} on jo olemassa"
 
-#: js/filelist.js:192 js/filelist.js:194
+#: js/filelist.js:194 js/filelist.js:196
 msgid "replace"
 msgstr "korvaa"
 
-#: js/filelist.js:192
+#: js/filelist.js:194
 msgid "suggest name"
 msgstr "ehdota nimeä"
 
-#: js/filelist.js:192 js/filelist.js:194
+#: js/filelist.js:194 js/filelist.js:196
 msgid "cancel"
 msgstr "peru"
 
-#: js/filelist.js:241
+#: js/filelist.js:243
 msgid "replaced {new_name}"
 msgstr ""
 
-#: js/filelist.js:241 js/filelist.js:243 js/filelist.js:275 js/filelist.js:277
+#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
 msgid "undo"
 msgstr "kumoa"
 
-#: js/filelist.js:243
+#: js/filelist.js:245
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:275
+#: js/filelist.js:277
 msgid "unshared {files}"
 msgstr ""
 
-#: js/filelist.js:277
+#: js/filelist.js:279
 msgid "deleted {files}"
 msgstr ""
 
@@ -163,57 +163,57 @@ msgstr "Muutettu"
 
 #: js/files.js:791
 msgid "1 folder"
-msgstr ""
+msgstr "1 kansio"
 
 #: js/files.js:793
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} kansiota"
 
 #: js/files.js:801
 msgid "1 file"
-msgstr ""
+msgstr "1 tiedosto"
 
 #: js/files.js:803
 msgid "{count} files"
-msgstr ""
+msgstr "{count} tiedostoa"
 
-#: js/files.js:847
+#: js/files.js:846
 msgid "seconds ago"
 msgstr "sekuntia sitten"
 
+#: js/files.js:847
+msgid "1 minute ago"
+msgstr "1 minuutti sitten"
+
 #: js/files.js:848
-msgid "minute ago"
-msgstr "minuutti sitten"
+msgid "{minutes} minutes ago"
+msgstr "{minutes} minuuttia sitten"
 
-#: js/files.js:849
-msgid "minutes ago"
-msgstr "minuuttia sitten"
-
-#: js/files.js:852
+#: js/files.js:851
 msgid "today"
 msgstr "tänään"
 
-#: js/files.js:853
+#: js/files.js:852
 msgid "yesterday"
 msgstr "eilen"
 
-#: js/files.js:854
-msgid "days ago"
-msgstr "päivää sitten"
+#: js/files.js:853
+msgid "{days} days ago"
+msgstr "{days} päivää sitten"
 
-#: js/files.js:855
+#: js/files.js:854
 msgid "last month"
 msgstr "viime kuussa"
 
-#: js/files.js:857
+#: js/files.js:856
 msgid "months ago"
 msgstr "kuukautta sitten"
 
-#: js/files.js:858
+#: js/files.js:857
 msgid "last year"
 msgstr "viime vuonna"
 
-#: js/files.js:859
+#: js/files.js:858
 msgid "years ago"
 msgstr "vuotta sitten"
 

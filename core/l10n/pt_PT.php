@@ -64,6 +64,7 @@
 "Cloud not found" => "Cloud nao encontrada",
 "Edit categories" => "Editar categorias",
 "Add" => "Adicionar",
+"Security Warning" => "Aviso de Segurança",
 "Create an <strong>admin account</strong>" => "Criar uma <strong>conta administrativa</strong>",
 "Advanced" => "Avançado",
 "Data folder" => "Pasta de dados",
@@ -82,5 +83,7 @@
 "Log in" => "Entrar",
 "You are logged out." => "Estás desconetado.",
 "prev" => "anterior",
-"next" => "seguinte"
+"next" => "seguinte",
+"Security Warning!" => "Aviso de Segurança!",
+"Verify" => "Verificar"
 );

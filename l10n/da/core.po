@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 18:29+0000\n"
+"Last-Translator: Ole Holm Frandsen <froksen@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -131,11 +131,11 @@ msgstr "Fejl under justering af rettigheder"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Delt med dig og gruppen {group} af {owner}"
 
 #: js/share.js:132
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Delt med dig af {owner}"
 
 #: js/share.js:137
 msgid "Share with"
@@ -176,7 +176,7 @@ msgstr "Videredeling ikke tilladt"
 
 #: js/share.js:250
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Delt i {item} med {user}"
 
 #: js/share.js:271
 msgid "Unshare"
@@ -307,13 +307,13 @@ msgstr "Sikkerhedsadvarsel"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Ingen sikker tilfældighedsgenerator til tal er tilgængelig. Aktiver venligst OpenSSL udvidelsen."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Uden en sikker tilfældighedsgenerator til tal kan en angriber måske gætte dit gendan kodeord og overtage din konto"
 
 #: templates/installation.php:32
 msgid ""
@@ -322,7 +322,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Din data mappe og dine filer er muligvis tilgængelige fra internettet. .htaccess filen som ownCloud leverer virker ikke. Vi anbefaler på det kraftigste at du konfigurerer din webserver på en måske så data mappen ikke  længere er tilgængelig eller at du flytter data mappen uden for webserverens dokument rod.  "
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"

@@ -1,4 +1,9 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Доступ предоставлен",
+"Error configuring Dropbox storage" => "Ошибка при настройке хранилища Dropbox",
+"Grant access" => "Предоставление доступа",
+"Fill out all required fields" => "Заполните все обязательные поля",
+"Error configuring Google Drive storage" => "Ошибка при настройке хранилища Google Drive",
 "External Storage" => "Внешний носитель",
 "Mount point" => "Точка монтирования",
 "Backend" => "Подсистема",

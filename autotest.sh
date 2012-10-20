@@ -86,8 +86,9 @@ function execute_tests {
 	#test execution
 	echo "Testing with $1 ..."
 	cd tests
-	#php -f index.php -- xml $1 > autotest-results-$1.xml
-	phpunit --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml
+	rm -rf coverage-html-$1
+	mkdir coverage-html-$1
+	phpunit --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1
 }
 
 #
