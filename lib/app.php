@@ -390,9 +390,8 @@ class OC_App{
 	 */
 	public static function getAppVersion($appid) {
 		$file= self::getAppPath($appid).'/appinfo/version';
-		$version=@file_get_contents($file);
-		if($version) {
-			return trim($version);
+		if(is_file($file) && $version = trim(file_get_contents($file))) {
+			return $version;
 		}else{
 			$appData=self::getAppInfo($appid);
 			return isset($appData['version'])? $appData['version'] : '';

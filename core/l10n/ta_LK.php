@@ -81,6 +81,8 @@
 "Finish setup" => "அமைப்பை முடிக்க",
 "web services under your control" => "உங்கள் கட்டுப்பாட்டின் கீழ் இணைய சேவைகள்",
 "Log out" => "விடுபதிகை செய்க",
+"Automatic logon rejected!" => "தன்னிச்சையான புகுபதிகை நிராகரிப்பட்டது!",
+"If you did not change your password recently, your account may be compromised!" => "உங்களுடைய கடவுச்சொல்லை அண்மையில் மாற்றவில்லையின், உங்களுடைய கணக்கு சமரசமாகிவிடும்!",
 "Please change your password to secure your account again." => "உங்களுடைய கணக்கை மீண்டும் பாதுகாக்க தயவுசெய்து உங்களுடைய கடவுச்சொல்லை மாற்றவும்.",
 "Lost your password?" => "உங்கள் கடவுச்சொல்லை தொலைத்துவிட்டீர்களா?",
 "remember" => "ஞாபகப்படுத்துக",
