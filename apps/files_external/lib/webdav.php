@@ -14,6 +14,7 @@ class DAV extends \OC\Files\Storage\Common{
 	private $host;
 	private $secure;
 	private $root;
+	private $ready;
 	/**
 	 * @var \Sabre_DAV_Client
 	 */
@@ -37,6 +38,13 @@ class DAV extends \OC\Files\Storage\Common{
 		if(substr($this->root,-1,1)!='/') {
 			$this->root.='/';
 		}
+	}
+
+	private function init(){
+		if($this->ready){
+			return;
+		}
+		$this->ready = true;
 
 		$settings = array(
 			'baseUri' => $this->createBaseUri(),
@@ -70,16 +78,19 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function mkdir($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		return $this->simpleResponse('MKCOL',$path,null,201);
 	}
 
 	public function rmdir($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		return $this->simpleResponse('DELETE',$path,null,204);
 	}
 
 	public function opendir($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		try{
 			$response=$this->client->propfind($path, array(),1);
@@ -98,6 +109,7 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function filetype($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		try{
 			$response=$this->client->propfind($path, array('{DAV:}resourcetype'));
@@ -119,6 +131,7 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function file_exists($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		try{
 			$this->client->propfind($path, array('{DAV:}resourcetype'));
@@ -129,10 +142,12 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function unlink($path) {
+		$this->init();
 		return $this->simpleResponse('DELETE',$path,null,204);
 	}
 
 	public function fopen($path,$mode) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		switch($mode) {
 			case 'r':
@@ -187,6 +202,7 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function free_space($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		try{
 			$response=$this->client->propfind($path, array('{DAV:}quota-available-bytes'));
@@ -201,6 +217,7 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function touch($path,$mtime=null) {
+		$this->init();
 		if(is_null($mtime)) {
 			$mtime=time();
 		}
@@ -209,11 +226,13 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function getFile($path,$target) {
+		$this->init();
 		$source=$this->fopen($path,'r');
 		file_put_contents($target,$source);
 	}
 
 	public function uploadFile($path,$target) {
+		$this->init();
 		$source=fopen($path,'r');
 
 		$curl = curl_init();
@@ -228,6 +247,7 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function rename($path1,$path2) {
+		$this->init();
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try{
@@ -239,6 +259,7 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function copy($path1,$path2) {
+		$this->init();
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try{
@@ -250,6 +271,7 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function stat($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		try{
 			$response=$this->client->propfind($path, array('{DAV:}getlastmodified','{DAV:}getcontentlength'));
@@ -263,6 +285,7 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	public function getMimeType($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		try{
 			$response=$this->client->propfind($path, array('{DAV:}getcontenttype','{DAV:}resourcetype'));

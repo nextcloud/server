@@ -35,11 +35,6 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 		if(substr($this->share,-1,1)=='/') {
 			$this->share=substr($this->share,0,-1);
 		}
-
-		//create the root folder if necesary
-		if(!$this->is_dir('')) {
-			$this->mkdir('');
-		}
 	}
 
 	public function getId(){
@@ -54,6 +49,7 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 	}
 
 	public function stat($path) {
+		$this->init();
 		if(!$path and $this->root=='/') {//mtime doesn't work for shares
 			$mtime=$this->shareMTime();
 			$stat=stat($this->constructUrl($path));
@@ -75,6 +71,7 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 	 * @return bool
 	 */
 	public function hasUpdated($path,$time) {
+		$this->init();
 		if(!$path and $this->root=='/') {
 			//mtime doesn't work for shares, but giving the nature of the backend, doing a full update is still just fast enough
 			return true;

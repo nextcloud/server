@@ -17,6 +17,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	private $user;
 	private $token;
 	private $secure;
+	private $ready = false;
 	/**
 	 * @var \CF_Authentication auth
 	 */
@@ -188,7 +189,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	/**
 	 * add an emulated sub container
-	 * @param CF_Container $container
+	 * @param \CF_Container $container
 	 * @param string $name
 	 * @return bool
 	 */
@@ -222,7 +223,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	/**
 	 * remove an emulated sub container
-	 * @param CF_Container $container
+	 * @param \CF_Container $container
 	 * @param string $name
 	 * @return bool
 	 */
@@ -279,6 +280,15 @@ class SWIFT extends \OC\Files\Storage\Common{
 		if(!$this->root || $this->root[0]!='/') {
 			$this->root='/'.$this->root;
 		}
+
+	}
+
+	private function init(){
+		if($this->ready){
+			return;
+		}
+		$this->ready = true;
+
 		$this->auth = new \CF_Authentication($this->user, $this->token, null, $this->host);
 		$this->auth->authenticate();
 
@@ -297,6 +307,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 
 	public function mkdir($path) {
+		$this->init();
 		if($this->containerExists($path)) {
 			return false;
 		}else{
@@ -306,6 +317,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	public function rmdir($path) {
+		$this->init();
 		if(!$this->containerExists($path)) {
 			return false;
 		}else{
@@ -343,6 +355,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	public function opendir($path) {
+		$this->init();
 		$container=$this->getContainer($path);
 		$files=$this->getObjects($container);
 		$i=array_search(self::SUBCONTAINER_FILE,$files);
@@ -357,6 +370,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	public function filetype($path) {
+		$this->init();
 		if($this->containerExists($path)) {
 			return 'dir';
 		}else{
@@ -373,6 +387,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	public function file_exists($path) {
+		$this->init();
 		if($this->is_dir($path)) {
 			return true;
 		}else{
@@ -381,6 +396,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	public function file_get_contents($path) {
+		$this->init();
 		$obj=$this->getObject($path);
 		if(is_null($obj)) {
 			return false;
@@ -389,6 +405,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	public function file_put_contents($path,$content) {
+		$this->init();
 		$obj=$this->getObject($path);
 		if(is_null($obj)) {
 			$container=$this->getContainer(dirname($path));
@@ -402,6 +419,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	public function unlink($path) {
+		$this->init();
 		if($this->containerExists($path)) {
 			return $this->rmdir($path);
 		}
@@ -415,6 +433,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	public function fopen($path,$mode) {
+		$this->init();
 		switch($mode) {
 			case 'r':
 			case 'rb':
@@ -458,6 +477,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	public function touch($path,$mtime=null) {
+		$this->init();
 		$obj=$this->getObject($path);
 		if(is_null($obj)) {
 			return false;
@@ -472,6 +492,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	public function rename($path1,$path2) {
+		$this->init();
 		$sourceContainer=$this->getContainer(dirname($path1));
 		$targetContainer=$this->getContainer(dirname($path2));
 		$result=$sourceContainer->move_object_to(basename($path1),$targetContainer,basename($path2));
@@ -484,6 +505,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	public function copy($path1,$path2) {
+		$this->init();
 		$sourceContainer=$this->getContainer(dirname($path1));
 		$targetContainer=$this->getContainer(dirname($path2));
 		$result=$sourceContainer->copy_object_to(basename($path1),$targetContainer,basename($path2));
@@ -495,6 +517,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	public function stat($path) {
+		$this->init();
 		$container=$this->getContainer($path);
 		if (!is_null($container)) {
 			return array(
@@ -521,6 +544,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	private function getTmpFile($path) {
+		$this->init();
 		$obj=$this->getObject($path);
 		if(!is_null($obj)) {
 			$tmpFile=\OCP\Files::tmpFile();
@@ -532,6 +556,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	private function fromTmpFile($tmpFile,$path) {
+		$this->init();
 		$obj=$this->getObject($path);
 		if(is_null($obj)) {
 			$obj=$this->createObject($path);

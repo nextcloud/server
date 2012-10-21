@@ -50,6 +50,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 		return $url;
 	}
 	public function fopen($path,$mode) {
+		$this->init();
 		switch($mode) {
 			case 'r':
 			case 'rb':
@@ -86,6 +87,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 	}
 
 	public function writeBack($tmpFile) {
+		$this->init();
 		if(isset(self::$tempFiles[$tmpFile])) {
 			$this->uploadFile($tmpFile,self::$tempFiles[$tmpFile]);
 			unlink($tmpFile);
