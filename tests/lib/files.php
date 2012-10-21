@@ -67,10 +67,29 @@ class Test_Files extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($storageSize, $folderData[3]['size']);
 	}
 
+	public function testAutoScan() {
+		$storage1 = $this->getTestStorage(false);
+		$storage2 = $this->getTestStorage(false);
+		Filesystem::mount($storage1, array(), '/');
+		Filesystem::mount($storage2, array(), '/substorage');
+		$textSize = strlen("dummy file data\n");
+		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
+		$storageSize = $textSize * 2 + $imageSize;
+
+		$cachedData = \OC_Files::getFileInfo('/');
+		$this->assertEquals('httpd/unix-directory', $cachedData['mimetype']);
+		$this->assertEquals(-1, $cachedData['size']);
+
+		$folderData = \OC_Files::getDirectoryContent('/substorage/folder');
+		$this->assertEquals('text/plain', $folderData[0]['mimetype']);
+		$this->assertEquals($textSize, $folderData[0]['size']);
+	}
+
 	/**
+	 * @param bool $scan
 	 * @return OC\Files\Storage\Storage
 	 */
-	private function getTestStorage() {
+	private function getTestStorage($scan = true) {
 		$storage = new \OC\Files\Storage\Temporary(array());
 		$textData = "dummy file data\n";
 		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo.png');
@@ -79,8 +98,10 @@ class Test_Files extends PHPUnit_Framework_TestCase {
 		$storage->file_put_contents('foo.png', $imgData);
 		$storage->file_put_contents('folder/bar.txt', $textData);
 
-		$scanner = $storage->getScanner();
-		$scanner->scan('');
+		if ($scan) {
+			$scanner = $storage->getScanner();
+			$scanner->scan('');
+		}
 		$this->storages[] = $storage;
 		return $storage;
 	}
