@@ -52,6 +52,13 @@ interface Storage{
 	 * returning true for other changes in the folder is optional
 	 */
 	public function hasUpdated($path,$time);
+
+	/**
+	 * @return \OC\Files\Cache\Cache
+	 */
 	public function getCache();
+	/**
+	 * @return \OC\Files\Cache\Scanner
+	 */
 	public function getScanner();
 }

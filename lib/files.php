@@ -41,69 +41,67 @@ class OC_Files {
 	 * - versioned
 	 */
 	public static function getFileInfo($path) {
-		if (($path == '/Shared' || substr($path, 0, 8) == '/Shared/') && OC_App::isEnabled('files_sharing')) {
-			if ($path == '/Shared') {
-				list($info) = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
-			}else{
-				$info['size'] = \OC\Files\Filesystem::filesize($path);
-				$info['mtime'] = \OC\Files\Filesystem::filemtime($path);
-				$info['ctime'] = \OC\Files\Filesystem::filectime($path);
-				$info['mimetype'] = \OC\Files\Filesystem::getMimeType($path);
-				$info['encrypted'] = false;
-				$info['versioned'] = false;
+		$path=\OC\Files\Filesystem::normalizePath($path);
+		/**
+		 * @var \OC\Files\Storage\Storage $storage
+		 * @var string $path
+		 */
+		list($storage, $internalPath)=\OC\Files\Filesystem::resolvePath($path);
+		$cache=$storage->getCache();
+		$data = $cache->get($internalPath);
+
+		if($data['mimetype'] === 'httpd/unix-directory'){
+			//add the sizes of other mountpoints to the folder
+			$mountPoints = \OC\Files\Filesystem::getMountPoints($path);
+			foreach($mountPoints as $mountPoint){
+				$subStorage = \OC\Files\Filesystem::getStorage($mountPoint);
+				$subCache = $subStorage->getCache();
+				$rootEntry = $subCache->get('');
+
+				$data['size'] += $rootEntry['size'];
 			}
-		} else {
-			$info = OC_FileCache::get($path);
 		}
-		return $info;
+
+		return $data;
 	}
 
 	/**
 	* get the content of a directory
-	* @param dir $directory path under datadirectory
+	* @param string $directory path under datadirectory
+	* @return array
 	*/
 	public static function getDirectoryContent($directory, $mimetype_filter = '') {
-		$directory=\OC\Files\Filesystem::normalizePath($directory);
-		if($directory=='/') {
-			$directory='';
-		}
-		$files = array();
-		if (($directory == '/Shared' || substr($directory, 0, 8) == '/Shared/') && OC_App::isEnabled('files_sharing')) {
-			if ($directory == '/Shared') {
-				$files = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP, array('folder' => $directory, 'mimetype_filter' => $mimetype_filter));
-			} else {
-				$pos = strpos($directory, '/', 8);
-				// Get shared folder name
-				if ($pos !== false) {
-					$itemTarget = substr($directory, 7, $pos - 7);
-				} else {
-					$itemTarget = substr($directory, 7);
+		$path=\OC\Files\Filesystem::normalizePath($directory);
+		/**
+		 * @var \OC\Files\Storage\Storage $storage
+		 * @var string $path
+		 */
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
+		$cache=$storage->getCache();
+		$files=$cache->getFolderContents($internalPath); //TODO: mimetype_filter
+
+		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
+		$mountPoints = \OC\Files\Filesystem::getMountPoints($directory);
+		$dirLength = strlen($path);
+		foreach($mountPoints as $mountPoint){
+			$subStorage = \OC\Files\Filesystem::getStorage($mountPoint);
+			$subCache = $subStorage->getCache();
+			$rootEntry = $subCache->get('');
+
+			$relativePath = trim(substr($mountPoint, $dirLength), '/');
+			if($pos = strpos($relativePath, '/')){ //mountpoint inside subfolder add size to the correct folder
+				$entryName = substr($relativePath, 0, $pos);
+				foreach($files as &$entry){
+					if($entry['name'] === $entryName){
+						$entry['size'] += $rootEntry['size'];
+					}
 				}
-				$files = OCP\Share::getItemSharedWith('folder', $itemTarget, OC_Share_Backend_File::FORMAT_FILE_APP, array('folder' => $directory, 'mimetype_filter' => $mimetype_filter));
-			}
-		} else {
-			$files = OC_FileCache::getFolderContent($directory, false, $mimetype_filter);
-			foreach ($files as &$file) {
-				$file['directory'] = $directory;
-				$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
-				$permissions = OCP\Share::PERMISSION_READ;
-				// NOTE: Remove check when new encryption is merged
-				if (!$file['encrypted']) {
-					$permissions |= OCP\Share::PERMISSION_SHARE;
-				}
-				if ($file['type'] == 'dir' && $file['writable']) {
-					$permissions |= OCP\Share::PERMISSION_CREATE;
-				}
-				if ($file['writable']) {
-					$permissions |= OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_DELETE;
-				}
-				$file['permissions'] = $permissions;
-			}
-			if ($directory == '' && OC_App::isEnabled('files_sharing')) {
-				// Add 'Shared' folder
-				$files = array_merge($files, OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT));
+			}else{ //mountpoint in this folder, add an entry for it
+				$rootEntry['name'] = $relativePath;
+				$files[] = $rootEntry;
 			}
 		}
+
 		usort($files, "fileCmp");//TODO: remove this once ajax is merged
 		return $files;
 	}
@@ -145,7 +143,7 @@ class OC_Files {
 			set_time_limit(0);
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				exit("cannot open <$filename>\n");
 			}
 			foreach($files as $file) {
@@ -166,7 +164,7 @@ class OC_Files {
 			set_time_limit(0);
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				exit("cannot open <$filename>\n");
 			}
 			$file=$dir.'/'.$files;
@@ -446,7 +444,7 @@ class OC_Files {
 		    $setting = 'php_value '.$key.' '.$size;
 		    $hasReplaced = 0;
 		    $content = preg_replace($pattern, $setting, $htaccess, 1, $hasReplaced);
-		    if($content !== NULL) {
+		    if($content !== null) {
 				$htaccess = $content;
 			}
 			if($hasReplaced == 0) {

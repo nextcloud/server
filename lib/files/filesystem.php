@@ -165,6 +165,43 @@ class Filesystem {
 	}
 
 	/**
+	 * get a list of all mount points in a directory
+	 *
+	 * @param string $path
+	 * @return string[]
+	 */
+	static public function getMountPoints($path) {
+		$path = self::normalizePath($path);
+		if (strlen($path) > 1) {
+			$path .= '/';
+		}
+		$pathLength = strlen($path);
+
+		$mountPoints = array_keys(self::$mounts);
+		$result = array();
+		foreach ($mountPoints as $mountPoint) {
+			if (substr($mountPoint, 0, $pathLength) === $path and strlen($mountPoint) > $pathLength) {
+				$result[] = $mountPoint;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * get the storage mounted at $mountPoint
+	 *
+	 * @param string $mountPoint
+	 * @return \OC\Files\Storage\Storage
+	 */
+	public static function getStorage($mountPoint) {
+		if (!isset(self::$storages[$mountPoint])) {
+			$mount = self::$mounts[$mountPoint];
+			self::$storages[$mountPoint] = self::createStorage($mount['class'], $mount['arguments']);
+		}
+		return self::$storages[$mountPoint];
+	}
+
+	/**
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path
@@ -173,14 +210,14 @@ class Filesystem {
 	static public function resolvePath($path) {
 		$mountpoint = self::getMountPoint($path);
 		if ($mountpoint) {
-			if (!isset(self::$storages[$mountpoint])) {
-				$mount = self::$mounts[$mountpoint];
-				self::$storages[$mountpoint] = self::createStorage($mount['class'], $mount['arguments']);
+			$storage = self::getStorage($mountpoint);
+			if ($mountpoint === $path) {
+				$internalPath = '';
+			} else {
+				$internalPath = substr($path, strlen($mountpoint));
 			}
-			$storage = self::$storages[$mountpoint];
-			$internalPath = substr($path, strlen($mountpoint));
 			return array($storage, $internalPath);
-		}else{
+		} else {
 			return array(null, null);
 		}
 	}
@@ -302,18 +339,22 @@ class Filesystem {
 	/**
 	 * mount an \OC\Files\Storage\Storage in our virtual filesystem
 	 *
-	 * @param \OC\Files\Storage\Storage $storage
+	 * @param \OC\Files\Storage\Storage|string $class
 	 * @param array $arguments
 	 * @param string $mountpoint
 	 */
 	static public function mount($class, $arguments, $mountpoint) {
-		if ($mountpoint[0] != '/') {
-			$mountpoint = '/' . $mountpoint;
+		$mountpoint = self::normalizePath($mountpoint);
+		if (strlen($mountpoint) > 1) {
+			$mountpoint .= '/';
 		}
-		if (substr($mountpoint, -1) !== '/') {
-			$mountpoint = $mountpoint . '/';
+
+		if ($class instanceof \OC\Files\Storage\Storage) {
+			self::$mounts[$mountpoint] = array('class' => get_class($class), 'arguments' => $arguments);
+			self::$storages[$mountpoint] = $class;
+		} else {
+			self::$mounts[$mountpoint] = array('class' => $class, 'arguments' => $arguments);
 		}
-		self::$mounts[$mountpoint] = array('class' => $class, 'arguments' => $arguments);
 	}
 
 	/**
@@ -522,15 +563,15 @@ class Filesystem {
 
 	static public function removeETagHook($params, $root = false) {
 		if (isset($params['path'])) {
-			$path=$params['path'];
+			$path = $params['path'];
 		} else {
-			$path=$params['oldpath'];
+			$path = $params['oldpath'];
 		}
 
 		if ($root) { // reduce path to the required part of it (no 'username/files')
-			$fakeRootView = new OC_FilesystemView($root);
+			$fakeRootView = new View($root);
 			$count = 1;
-			$path=str_replace(OC_App::getStorage("files")->getAbsolutePath(), "", $fakeRootView->getAbsolutePath($path), $count);
+			$path = str_replace(\OC_App::getStorage("files")->getAbsolutePath(''), "", $fakeRootView->getAbsolutePath($path), $count);
 		}
 
 		$path = self::normalizePath($path);
