@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-20 02:02+0200\n"
-"PO-Revision-Date: 2012-10-19 11:37+0000\n"
+"POT-Creation-Date: 2012-10-21 02:03+0200\n"
+"PO-Revision-Date: 2012-10-20 14:09+0000\n"
 "Last-Translator: suganthi <suganthi@nic.lk>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -373,13 +373,13 @@ msgstr "விடுபதிகை செய்க"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "தன்னிச்சையான புகுபதிகை நிராகரிப்பட்டது!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "உங்களுடைய கடவுச்சொல்லை அண்மையில் மாற்றவில்லையின், உங்களுடைய கணக்கு சமரசமாகிவிடும்!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
