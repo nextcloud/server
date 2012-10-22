@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Rivo Zängov <eraser@eraser.ee>, 2011, 2012.
+# Rivo Zängov <eraser@eraser.ee>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-21 02:03+0200\n"
+"PO-Revision-Date: 2012-10-20 20:09+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +84,7 @@ msgstr "Detsember"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Vali"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -113,15 +113,15 @@ msgstr "Viga"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Viga jagamisel"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Viga jagamise lõpetamisel"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Viga õiguste muutmisel"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
@@ -133,15 +133,15 @@ msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "Jaga"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Jaga lingiga"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "Parooliga kaitstud"
 
 #: js/share.js:147 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
@@ -150,19 +150,19 @@ msgstr "Parool"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "Määra aegumise kuupäev"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "Aegumise kuupäev"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Jaga e-postiga:"
 
 #: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "Ühtegi inimest ei leitud"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
@@ -174,35 +174,35 @@ msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Lõpeta jagamine"
 
 #: js/share.js:283
 msgid "can edit"
-msgstr ""
+msgstr "saab muuta"
 
 #: js/share.js:285
 msgid "access control"
-msgstr ""
+msgstr "ligipääsukontroll"
 
 #: js/share.js:288
 msgid "create"
-msgstr ""
+msgstr "loo"
 
 #: js/share.js:291
 msgid "update"
-msgstr ""
+msgstr "uuenda"
 
 #: js/share.js:294
 msgid "delete"
-msgstr ""
+msgstr "kustuta"
 
 #: js/share.js:297
 msgid "share"
-msgstr ""
+msgstr "jaga"
 
 #: js/share.js:322 js/share.js:484
 msgid "Password protected"
-msgstr ""
+msgstr "Parooliga kaitstud"
 
 #: js/share.js:497
 msgid "Error unsetting expiration date"
@@ -295,7 +295,7 @@ msgstr "Lisa"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Turvahoiatus"
 
 #: templates/installation.php:24
 msgid ""
@@ -411,7 +411,7 @@ msgstr "järgm"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "turvahoiatus!"
 
 #: templates/verify.php:6
 msgid ""
@@ -421,4 +421,4 @@ msgstr ""
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Kinnita"

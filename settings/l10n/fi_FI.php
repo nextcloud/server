@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ei pystytä lataamaan listaa sovellusvarastosta (App Store)",
-"Authentication error" => "Todennusvirhe",
 "Group already exists" => "Ryhmä on jo olemassa",
 "Unable to add group" => "Ryhmän lisäys epäonnistui",
 "Could not enable app. " => "Sovelluksen käyttöönotto epäonnistui.",
@@ -9,6 +8,7 @@
 "OpenID Changed" => "OpenID on vaihdettu",
 "Invalid request" => "Virheellinen pyyntö",
 "Unable to delete group" => "Ryhmän poisto epäonnistui",
+"Authentication error" => "Todennusvirhe",
 "Unable to delete user" => "Käyttäjän poisto epäonnistui",
 "Language changed" => "Kieli on vaihdettu",
 "Unable to add user to group %s" => "Käyttäjän tai ryhmän %s lisääminen ei onnistu",
@@ -33,6 +33,7 @@
 "More" => "Lisää",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Kehityksestä on vastannut <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud-yhteisö</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">lähdekoodi</a> on julkaistu lisenssin <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> alaisena.",
 "Add your App" => "Lisää ohjelmasi",
+"More Apps" => "Lisää sovelluksia",
 "Select an App" => "Valitse ohjelma",
 "See application page at apps.owncloud.com" => "Katso sovellussivu osoitteessa apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-lisensoija <span class=\"author\"></span>",

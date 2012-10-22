@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Anushke Guneratne <anushke@gmail.com>, 2012.
 # Chamara Disanayake <chamara@nic.lk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-19 02:03+0200\n"
-"PO-Revision-Date: 2012-10-19 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 08:53+0000\n"
+"Last-Translator: Anushke Guneratne <anushke@gmail.com>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +47,7 @@ msgstr ""
 
 #: ajax/upload.php:26
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "තැටිගත කිරීම අසාර්ථකයි"
 
 #: appinfo/app.php:6
 msgid "Files"
@@ -58,11 +59,11 @@ msgstr ""
 
 #: js/fileactions.js:110 templates/index.php:64
 msgid "Delete"
-msgstr ""
+msgstr "මකන්න"
 
 #: js/fileactions.js:182
 msgid "Rename"
-msgstr ""
+msgstr "නැවත නම් කරන්න"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "{new_name} already exists"
@@ -70,15 +71,15 @@ msgstr ""
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "replace"
-msgstr ""
+msgstr "ප්‍රතිස්ථාපනය කරන්න"
 
 #: js/filelist.js:194
 msgid "suggest name"
-msgstr ""
+msgstr "නමක් යෝජනා කරන්න"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "cancel"
-msgstr ""
+msgstr "අත් හරින්න"
 
 #: js/filelist.js:243
 msgid "replaced {new_name}"
@@ -86,7 +87,7 @@ msgstr ""
 
 #: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
 msgid "undo"
-msgstr ""
+msgstr "නිෂ්ප්‍රභ කරන්න"
 
 #: js/filelist.js:245
 msgid "replaced {new_name} with {old_name}"
@@ -110,7 +111,7 @@ msgstr ""
 
 #: js/files.js:214
 msgid "Upload Error"
-msgstr ""
+msgstr "උඩුගත කිරීමේ දෝශයක්"
 
 #: js/files.js:242 js/files.js:347 js/files.js:377
 msgid "Pending"
@@ -126,7 +127,7 @@ msgstr ""
 
 #: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
-msgstr ""
+msgstr "උඩුගත කිරීම අත් හරින්න ලදී"
 
 #: js/files.js:430
 msgid ""
@@ -167,7 +168,7 @@ msgstr ""
 
 #: js/files.js:801
 msgid "1 file"
-msgstr ""
+msgstr "1 ගොනුවක්"
 
 #: js/files.js:803
 msgid "{count} files"
@@ -187,11 +188,11 @@ msgstr ""
 
 #: js/files.js:851
 msgid "today"
-msgstr ""
+msgstr "අද"
 
 #: js/files.js:852
 msgid "yesterday"
-msgstr ""
+msgstr "පෙර දින"
 
 #: js/files.js:853
 msgid "{days} days ago"
@@ -215,7 +216,7 @@ msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "ගොනු පරිහරණය"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -223,7 +224,7 @@ msgstr "උඩුගත කිරීමක උපරිම ප්‍රමාණ
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "හැකි උපරිමය:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
@@ -243,7 +244,7 @@ msgstr ""
 
 #: templates/admin.php:14
 msgid "Save"
-msgstr ""
+msgstr "සුරකින්න"
 
 #: templates/index.php:7
 msgid "New"
@@ -251,7 +252,7 @@ msgstr "නව"
 
 #: templates/index.php:9
 msgid "Text file"
-msgstr ""
+msgstr "පෙළ ගොනුව"
 
 #: templates/index.php:10
 msgid "Folder"
@@ -267,7 +268,7 @@ msgstr "උඩුගත කිරීම"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr ""
+msgstr "උඩුගත කිරීම අත් හරින්න"
 
 #: templates/index.php:40
 msgid "Nothing in here. Upload something!"
@@ -283,7 +284,7 @@ msgstr "බාගත කිරීම"
 
 #: templates/index.php:75
 msgid "Upload too large"
-msgstr ""
+msgstr "උඩුගත කිරීම විශාල වැඩිය"
 
 #: templates/index.php:77
 msgid ""

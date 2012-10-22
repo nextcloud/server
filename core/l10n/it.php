@@ -36,6 +36,7 @@
 "Share via email:" => "Condividi tramite email:",
 "No people found" => "Non sono state trovate altre persone",
 "Resharing is not allowed" => "La ri-condivisione non è consentita",
+"Shared in {item} with {user}" => "Condiviso in {item} con {user}",
 "Unshare" => "Rimuovi condivisione",
 "can edit" => "può modificare",
 "access control" => "controllo d'accesso",

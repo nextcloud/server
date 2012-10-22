@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-19 02:03+0200\n"
-"PO-Revision-Date: 2012-10-19 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-22 02:02+0200\n"
+"PO-Revision-Date: 2012-10-21 18:52+0000\n"
+"Last-Translator: martinb <martin.babik@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,7 +68,7 @@ msgstr "Premenovať"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} už existuje"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "replace"
@@ -84,7 +84,7 @@ msgstr "zrušiť"
 
 #: js/filelist.js:243
 msgid "replaced {new_name}"
-msgstr ""
+msgstr "prepísaný {new_name}"
 
 #: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
 msgid "undo"
@@ -92,7 +92,7 @@ msgstr "vrátiť"
 
 #: js/filelist.js:245
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "prepísaný {new_name} súborom {old_name}"
 
 #: js/filelist.js:277
 msgid "unshared {files}"
@@ -100,7 +100,7 @@ msgstr ""
 
 #: js/filelist.js:279
 msgid "deleted {files}"
-msgstr ""
+msgstr "zmazané {files}"
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
@@ -124,7 +124,7 @@ msgstr "1 súbor sa posiela "
 
 #: js/files.js:265 js/files.js:310 js/files.js:325
 msgid "{count} files uploading"
-msgstr ""
+msgstr "{count} súborov odosielaných"
 
 #: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
@@ -141,7 +141,7 @@ msgstr "Chybný názov, \"/\" nie je povolené"
 
 #: js/files.js:681
 msgid "{count} files scanned"
-msgstr ""
+msgstr "{count} súborov prehľadaných"
 
 #: js/files.js:689
 msgid "error while scanning"
@@ -161,19 +161,19 @@ msgstr "Upravené"
 
 #: js/files.js:791
 msgid "1 folder"
-msgstr ""
+msgstr "1 priečinok"
 
 #: js/files.js:793
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} priečinkov"
 
 #: js/files.js:801
 msgid "1 file"
-msgstr ""
+msgstr "1 súbor"
 
 #: js/files.js:803
 msgid "{count} files"
-msgstr ""
+msgstr "{count} súborov"
 
 #: js/files.js:846
 msgid "seconds ago"
@@ -181,11 +181,11 @@ msgstr "pred sekundami"
 
 #: js/files.js:847
 msgid "1 minute ago"
-msgstr ""
+msgstr "pred minútou"
 
 #: js/files.js:848
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "pred {minutes} minútami"
 
 #: js/files.js:851
 msgid "today"
@@ -197,7 +197,7 @@ msgstr "včera"
 
 #: js/files.js:853
 msgid "{days} days ago"
-msgstr ""
+msgstr "pred {days} dňami"
 
 #: js/files.js:854
 msgid "last month"

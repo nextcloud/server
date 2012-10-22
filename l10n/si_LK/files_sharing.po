@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Anushke Guneratne <anushke@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:03+0200\n"
-"PO-Revision-Date: 2012-08-12 22:35+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 09:09+0000\n"
+"Last-Translator: Anushke Guneratne <anushke@gmail.com>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +20,11 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr ""
+msgstr "මුරපදය"
 
 #: templates/authenticate.php:6
 msgid "Submit"
-msgstr ""
+msgstr "යොමු කරන්න"
 
 #: templates/public.php:9
 #, php-format
@@ -37,12 +38,12 @@ msgstr ""
 
 #: templates/public.php:14 templates/public.php:30
 msgid "Download"
-msgstr ""
+msgstr "භාගත කරන්න"
 
 #: templates/public.php:29
 msgid "No preview available for"
-msgstr ""
+msgstr "පූර්වදර්ශනයක් නොමැත"
 
 #: templates/public.php:35
 msgid "web services under your control"
-msgstr ""
+msgstr "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්"

@@ -25,6 +25,8 @@
 "Error while sharing" => "Chyba počas zdieľania",
 "Error while unsharing" => "Chyba počas ukončenia zdieľania",
 "Error while changing permissions" => "Chyba počas zmeny oprávnení",
+"Shared with you and the group {group} by {owner}" => "Zdieľané s vami a so skupinou {group} užívateľom {owner}",
+"Shared with you by {owner}" => "Zdieľané s vami užívateľom {owner}",
 "Share with" => "Zdieľať s",
 "Share with link" => "Zdieľať cez odkaz",
 "Password protect" => "Chrániť heslom",
