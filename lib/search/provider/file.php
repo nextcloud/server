@@ -4,6 +4,7 @@ class OC_Search_Provider_File extends OC_Search_Provider{
 	function search($query) {
 		$files=OC_FileCache::search($query,true);
 		$results=array();
+		$l=OC_L10N::get('lib');
 		foreach($files as $fileData) {
 			$path = $fileData['path'];
 			$mime = $fileData['mimetype'];
@@ -13,7 +14,7 @@ class OC_Search_Provider_File extends OC_Search_Provider{
 			$skip = false;
 			if($mime=='httpd/unix-directory') {
 				$link = OC_Helper::linkTo( 'files', 'index.php', array('dir' => $path));
-				$type = 'Files';
+				$type = (string)$l->t('Files');
 			}else{
 				$link = OC_Helper::linkTo( 'files', 'download.php', array('file' => $path));
 				$mimeBase = $fileData['mimepart'];
@@ -22,16 +23,16 @@ class OC_Search_Provider_File extends OC_Search_Provider{
 						$skip = true;
 						break;
 					case 'text':
-						$type = 'Text';
+						$type = (string)$l->t('Text');
 						break;
 					case 'image':
-						$type = 'Images';
+						$type = (string)$l->t('Images');
 						break;
 					default:
 						if($mime=='application/xml') {
-							$type = 'Text';
+							$type = (string)$l->t('Text');
 						}else{
-							$type = 'Files';
+							$type = (string)$l->t('Files');
 						}
 				}
 			}
