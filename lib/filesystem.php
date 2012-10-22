@@ -254,14 +254,17 @@ class OC_Filesystem{
 		}		
 	}
 	
-	static public function init($root) {
+	static public function init($root, $user = '') {
 		if(self::$defaultInstance) {
 			return false;
 		}
 		self::$defaultInstance=new OC_FilesystemView($root);
 
 		//load custom mount config
-		self::loadSystemMountPoints(OC_User::getUser());
+		if (!isset($user)) {
+			$user = OC_User::getUser();
+		}
+		self::loadSystemMountPoints($user);
 
 		self::$loaded=true;
 	}
