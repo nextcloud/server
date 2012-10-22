@@ -398,7 +398,7 @@ class OC_Util {
 	* If not, the user will be shown a password verification page
 	*/
 	public static function verifyUser() {
-		if(OC_Config::getValue('enhancedauth', true) === true) {
+		if(OC_Config::getValue('enhancedauth', false) === true) {
 					// Check password to set session
 			if(isset($_POST['password'])) {
 				if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
@@ -419,12 +419,12 @@ class OC_Util {
 	* @return bool
 	*/
 	public static function isUserVerified() {
-		if(OC_Config::getValue('enhancedauth', true) === true) {
+		if(OC_Config::getValue('enhancedauth', false) === true) {
 			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
 				return false;
 			}
-			return true;
 		}
+		return true;
 	}
 	
 	/**

@@ -83,7 +83,7 @@ class OC_JSON{
 	* Check if the user verified the login with his password
 	*/
 	public static function verifyUser() {
-		if(OC_Config::getValue('enhancedauth', true) === true) {
+		if(OC_Config::getValue('enhancedauth', false) === true) {
 			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
 				$l = OC_L10N::get('lib');
 				self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
