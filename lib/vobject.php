@@ -62,7 +62,7 @@ class OC_VObject{
 		foreach($value as &$i ) {
 			$i = implode("\\\\;", explode(';', $i));
 		}
-		return implode(';',$value);
+		return implode(';', $value);
 	}
 
 	/**
@@ -71,15 +71,15 @@ class OC_VObject{
 	 * @return array
 	 */
 	public static function unescapeSemicolons($value) {
-		$array = explode(';',$value);
+		$array = explode(';', $value);
 		for($i=0;$i<count($array);$i++) {
-			if(substr($array[$i],-2,2)=="\\\\") {
+			if(substr($array[$i], -2, 2)=="\\\\") {
 				if(isset($array[$i+1])) {
-					$array[$i] = substr($array[$i],0,count($array[$i])-2).';'.$array[$i+1];
+					$array[$i] = substr($array[$i], 0, count($array[$i])-2).';'.$array[$i+1];
 					unset($array[$i+1]);
 				}
 				else{
-					$array[$i] = substr($array[$i],0,count($array[$i])-2).';';
+					$array[$i] = substr($array[$i], 0, count($array[$i])-2).';';
 				}
 				$i = $i - 1;
 			}
@@ -127,8 +127,8 @@ class OC_VObject{
 	}
 
 	public function setUID() {
-		$uid = substr(md5(rand().time()),0,10);
-		$this->vobject->add('UID',$uid);
+		$uid = substr(md5(rand().time()), 0, 10);
+		$this->vobject->add('UID', $uid);
 	}
 
 	public function setString($name, $string) {

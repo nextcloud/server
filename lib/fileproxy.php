@@ -52,7 +52,7 @@ class OC_FileProxy{
 	 * this implements a dummy proxy for all operations
 	 */
 	public function __call($function,$arguments) {
-		if(substr($function,0,3)=='pre') {
+		if(substr($function, 0, 3)=='pre') {
 			return true;
 		}else{
 			return $arguments[1];
@@ -70,7 +70,7 @@ class OC_FileProxy{
 	public static function getProxies($operation) {
 		$proxies=array();
 		foreach(self::$proxies as $proxy) {
-			if(method_exists($proxy,$operation)) {
+			if(method_exists($proxy, $operation)) {
 				$proxies[]=$proxy;
 			}
 		}

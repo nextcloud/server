@@ -38,7 +38,7 @@ class OC_EventSource{
 		if($this->fallback) {
 			$this->fallBackId=$_GET['fallback_id'];
 			header("Content-Type: text/html");
-			echo str_repeat('<span></span>'.PHP_EOL,10); //dummy data to keep IE happy
+			echo str_repeat('<span></span>'.PHP_EOL, 10); //dummy data to keep IE happy
 		}else{
 			header("Content-Type: text/event-stream");
 		}
@@ -78,6 +78,6 @@ class OC_EventSource{
 	 * close the connection of the even source
 	 */
 	public function close() {
-		$this->send('__internal__','close');//server side closing can be an issue, let the client do it
+		$this->send('__internal__', 'close');//server side closing can be an issue, let the client do it
 	}
 }
