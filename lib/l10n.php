@@ -217,7 +217,9 @@ class OC_L10N{
 				if($data instanceof DateTime) return $data->format($this->localizations[$type]);
 				elseif(is_string($data)) $data = strtotime($data);
 				$locales = array(self::findLanguage());
-				if (strlen($locales[0]) == 2) $locales[] = $language.'_'.strtoupper($language);
+				if (strlen($locales[0]) == 2) {
+					$locales[] = $locales[0].'_'.strtoupper($locales[0]);
+				}
 				setlocale(LC_TIME, $locales);
 				return strftime($this->localizations[$type], $data);
 				break;
