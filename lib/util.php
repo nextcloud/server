@@ -68,7 +68,7 @@ class OC_Util {
 		$user_root = OC_User::getHome($user);
 		$userdirectory = $user_root . '/files';
 		if (is_file($user_root.'/mount.php')) {
-			$mountConfig = include($user_root.'/mount.php');
+			$mountConfig = include $user_root.'/mount.php';
 			if (isset($mountConfig['user'][$user])) {
 				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
 					OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);

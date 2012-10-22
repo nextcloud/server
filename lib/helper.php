@@ -350,8 +350,8 @@ class OC_Helper {
 
 		if(strpos($path,'.')) {
 			//try to guess the type by the file extension
-			if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')) {
-				self::$mimetypes=include('mimetypes.list.php');
+			if(!self::$mimetypes || self::$mimetypes != include 'mimetypes.list.php') {
+				self::$mimetypes=include 'mimetypes.list.php';
 			}
 			$extension=strtolower(strrchr(basename($path), "."));
 			$extension=substr($extension,1);//remove leading .
