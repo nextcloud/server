@@ -184,7 +184,7 @@ class OC_VCategories {
 
 		$ids = array();
 		$sql = 'SELECT `objid` FROM `' . self::RELATION_TABLE
-			. ' WHERE `categoryid` = ?';
+			. '` WHERE `categoryid` = ?';
 
 		try {
 			$stmt = OCP\DB::prepare($sql);
