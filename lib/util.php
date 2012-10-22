@@ -47,7 +47,7 @@ class OC_Util {
 			}
 			//jail the user into his "home" directory
 			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir' => $user_root), $user);
-			OC_Filesystem::init($user_dir);
+			OC_Filesystem::init($user_dir, $user);
 			$quotaProxy=new OC_FileProxy_Quota();
 			$fileOperationProxy = new OC_FileProxy_FileOperations();
 			OC_FileProxy::register($quotaProxy);
