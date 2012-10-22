@@ -25,7 +25,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 	if (isset($_GET['dir'])) {
 		$type = 'folder';
 		$path = $_GET['dir'];
-		if($stripTrailingSlash and strlen($path)>1 and substr($path,-1,1)==='/') {
+		if(strlen($path)>1 and substr($path,-1,1)==='/') {
 			$path=substr($path,0,-1);
 		}
 		$baseDir = $path;
@@ -33,7 +33,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 	} else {
 		$type = 'file';
 		$path = $_GET['file'];
-		if($stripTrailingSlash and strlen($path)>1 and substr($path,-1,1)==='/') {
+		if(strlen($path)>1 and substr($path,-1,1)==='/') {
 			$path=substr($path,0,-1);
 		}
 	}
