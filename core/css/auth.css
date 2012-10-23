@@ -27,9 +27,7 @@ h2 img
 	background-color: #5c3;
 	box-shadow: 0 1px 1px #fff, 0 1px 1px #5f3 inset;
 	color: #fff;
-	moz-box-shadow: 0 1px 1px #fff, 0 1px 1px #5f3 inset;
 	text-shadow: #5e3 0 1px 0;
-	webkit-box-shadow: 0 1px 1px #fff, 0 1px 1px #5f3 inset;
 }
 #deny-auth
 {
@@ -38,7 +36,5 @@ h2 img
 	box-shadow: 0 0 0 #fff, 0 0 0 #fff inset;
 	font-size: 1.2em;
 	margin: .7em;
-	moz-box-shadow: 0 0 0 #fff, 0 0 0 #fff inset;
 	padding: 0;
-	webkit-box-shadow: 0 0 0 #fff, 0 0 0 #fff inset;
 }
