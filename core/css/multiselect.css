@@ -10,14 +10,8 @@ ul.multiselectoptions
 	border-bottom-right-radius: .5em;
 	border-top: none;
 	box-shadow: 0 1px 1px #ddd;
-	moz-border-radius-bottomleft: .5em;
-	moz-border-radius-bottomright: .5em;
-	moz-box-shadow: 0 1px 1px #ddd;
 	padding-top: .5em;
 	position: absolute;
-	webkit-border-bottom-left-radius: .5em;
-	webkit-border-bottom-right-radius: .5em;
-	webkit-box-shadow: 0 1px 1px #ddd;
 	z-index: 49;
 }
 ul.multiselectoptions>li
