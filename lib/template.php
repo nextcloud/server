@@ -405,7 +405,7 @@ class OC_Template{
 
 		// Execute the template
 		ob_start();
-		include( $this->template ); // <-- we have to use include because we pass $_!
+		include $this->template; // <-- we have to use include because we pass $_!
 		$data = ob_get_contents();
 		@ob_end_clean();
 
@@ -430,7 +430,7 @@ class OC_Template{
 
 		// Include
 		ob_start();
-		include( $this->path.$file.'.php' );
+		include $this->path.$file.'.php';
 		$data = ob_get_contents();
 		@ob_end_clean();
 
