@@ -585,7 +585,7 @@ class OC_FilesystemView {
 				$result = OC_FileProxy::runPostProxies($operation, $this->getAbsolutePath($path), $result);
 				if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()) {
 					if($operation!='fopen') {//no post hooks for fopen, the file stream is still open
-						$this->runHooks($hooks,$path,true);
+						$this->runHooks($hooks,$path, true);
 					}
 				}
 				return $result;

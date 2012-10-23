@@ -68,7 +68,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 			if (!is_resource($data)) {//stream put contents should have been converter to fopen
 				$size=strlen($data);
 				$data=OC_Crypt::blockEncrypt($data);
-				OC_FileCache::put($path,array('encrypted'=>true,'size'=>$size),'');
+				OC_FileCache::put($path, array('encrypted'=>true,'size'=>$size),'');
 			}
 		}
 	}

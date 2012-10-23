@@ -34,7 +34,7 @@ class OC_Util {
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted) {
-			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY),'/');
+			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir'=>$CONFIG_DATADIRECTORY),'/');
 			self::$rootMounted=true;
 		}
 
@@ -456,7 +456,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getInstanceId() {
-		$id=OC_Config::getValue('instanceid',null);
+		$id=OC_Config::getValue('instanceid', null);
 		if(is_null($id)) {
 			$id=uniqid();
 			OC_Config::setValue('instanceid',$id);

@@ -103,7 +103,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 			if(!$this->file_exists($path2)) {
 				$this->mkdir($path2);
 			}
-			$source=substr($path1,strrpos($path1,'/')+1);
+			$source=substr($path1, strrpos($path1,'/')+1);
 			$path2.=$source;
 		}
 		return copy($this->datadir.$path1,$this->datadir.$path2);
@@ -178,7 +178,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		$files=array();
 		foreach (scandir($this->datadir.$dir) as $item) {
 			if ($item == '.' || $item == '..') continue;
-			if(strstr(strtolower($item),strtolower($query))!==false) {
+			if(strstr(strtolower($item), strtolower($query))!==false) {
 				$files[]=$dir.'/'.$item;
 			}
 			if(is_dir($this->datadir.$dir.'/'.$item)) {
