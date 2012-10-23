@@ -251,6 +251,9 @@ class OC_FilesystemView {
 		return $this->basicOperation('filemtime', $path);
 	}
 	public function touch($path, $mtime=null) {
+		if(!is_null($mtime) and !is_numeric($mtime)){
+			$mtime = strtotime($mtime);
+		}
 		return $this->basicOperation('touch', $path, array('write'), $mtime);
 	}
 	public function file_get_contents($path) {
