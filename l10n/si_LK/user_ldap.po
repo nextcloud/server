@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Anushke Guneratne <anushke@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:03+0200\n"
-"PO-Revision-Date: 2012-08-12 22:45+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-10-23 02:02+0200\n"
+"PO-Revision-Date: 2012-10-22 10:37+0000\n"
+"Last-Translator: Anushke Guneratne <anushke@gmail.com>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,12 +20,12 @@ msgstr ""
 
 #: templates/settings.php:8
 msgid "Host"
-msgstr ""
+msgstr "සත්කාරකය"
 
 #: templates/settings.php:8
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "SSL අවශ්‍යය වන විට පමණක් හැර, අන් අවස්ථාවන්හිදී ප්‍රොටොකෝලය අත් හැරිය හැක. භාවිතා කරන විට ldaps:// ලෙස ආරම්භ කරන්න"
 
 #: templates/settings.php:9
 msgid "Base DN"
@@ -47,7 +48,7 @@ msgstr ""
 
 #: templates/settings.php:11
 msgid "Password"
-msgstr ""
+msgstr "මුර පදය"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
@@ -55,7 +56,7 @@ msgstr ""
 
 #: templates/settings.php:12
 msgid "User Login Filter"
-msgstr ""
+msgstr "පරිශීලක පිවිසුම් පෙරහන"
 
 #: templates/settings.php:12
 #, php-format
@@ -71,7 +72,7 @@ msgstr ""
 
 #: templates/settings.php:13
 msgid "User List Filter"
-msgstr ""
+msgstr "පරිශීලක ලැයිස්තු පෙරහන"
 
 #: templates/settings.php:13
 msgid "Defines the filter to apply, when retrieving users."
@@ -83,7 +84,7 @@ msgstr ""
 
 #: templates/settings.php:14
 msgid "Group Filter"
-msgstr ""
+msgstr "කණ්ඩායම් පෙරහන"
 
 #: templates/settings.php:14
 msgid "Defines the filter to apply, when retrieving groups."
@@ -133,7 +134,7 @@ msgstr ""
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "නිර්දේශ කළ නොහැක. පරීක්ෂණ සඳහා පමණක් භාවිත කරන්න"
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
@@ -167,4 +168,4 @@ msgstr ""
 
 #: templates/settings.php:32
 msgid "Help"
-msgstr ""
+msgstr "උදව්"

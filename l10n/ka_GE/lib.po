@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <romeo@energo-pro.ge>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-22 02:03+0200\n"
-"PO-Revision-Date: 2012-07-27 22:23+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-10-23 02:02+0200\n"
+"PO-Revision-Date: 2012-10-22 12:08+0000\n"
+"Last-Translator: drlinux64 <romeo@energo-pro.ge>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,27 +20,27 @@ msgstr ""
 
 #: app.php:285
 msgid "Help"
-msgstr ""
+msgstr "დახმარება"
 
 #: app.php:292
 msgid "Personal"
-msgstr ""
+msgstr "პირადი"
 
 #: app.php:297
 msgid "Settings"
-msgstr ""
+msgstr "პარამეტრები"
 
 #: app.php:302
 msgid "Users"
-msgstr ""
+msgstr "მომხმარებელი"
 
 #: app.php:309
 msgid "Apps"
-msgstr ""
+msgstr "აპლიკაციები"
 
 #: app.php:311
 msgid "Admin"
-msgstr ""
+msgstr "ადმინისტრატორი"
 
 #: files.php:328
 msgid "ZIP download is turned off."
@@ -101,15 +102,15 @@ msgstr ""
 
 #: template.php:96
 msgid "months ago"
-msgstr ""
+msgstr "თვის წინ"
 
 #: template.php:97
 msgid "last year"
-msgstr ""
+msgstr "ბოლო წელს"
 
 #: template.php:98
 msgid "years ago"
-msgstr ""
+msgstr "წლის წინ"
 
 #: updater.php:75
 #, php-format
@@ -118,8 +119,8 @@ msgstr ""
 
 #: updater.php:77
 msgid "up to date"
-msgstr ""
+msgstr "განახლებულია"
 
 #: updater.php:80
 msgid "updates check is disabled"
-msgstr ""
+msgstr "განახლების ძებნა გათიშულია"

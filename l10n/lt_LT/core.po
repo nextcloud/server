@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <andrejuszl@gmail.com>, 2012.
 # Dr. ROX  <to.dr.rox@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-23 02:02+0200\n"
+"PO-Revision-Date: 2012-10-22 20:43+0000\n"
+"Last-Translator: andrejuseu <andrejuszl@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +85,7 @@ msgstr "Gruodis"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Pasirinkite"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -113,35 +114,35 @@ msgstr "Klaida"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "Klaida, dalijimosi metu"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Klaida, kai atšaukiamas dalijimasis"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Klaida, keičiant privilegijas"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Pasidalino su Jumis ir {group} grupe {owner}"
 
 #: js/share.js:132
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Pasidalino su Jumis {owner}"
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "Dalintis su"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "Dalintis nuoroda"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "Apsaugotas slaptažodžiu"
 
 #: js/share.js:147 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
@@ -150,67 +151,67 @@ msgstr "Slaptažodis"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "Nustatykite galiojimo laiką"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "Galiojimo laikas"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "Dalintis per el. paštą:"
 
 #: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "Žmonių nerasta"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Dalijinasis išnaujo negalimas"
 
 #: js/share.js:250
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Pasidalino {item} su {user}"
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Nesidalinti"
 
 #: js/share.js:283
 msgid "can edit"
-msgstr ""
+msgstr "gali redaguoti"
 
 #: js/share.js:285
 msgid "access control"
-msgstr ""
+msgstr "priėjimo kontrolė"
 
 #: js/share.js:288
 msgid "create"
-msgstr ""
+msgstr "sukurti"
 
 #: js/share.js:291
 msgid "update"
-msgstr ""
+msgstr "atnaujinti"
 
 #: js/share.js:294
 msgid "delete"
-msgstr ""
+msgstr "ištrinti"
 
 #: js/share.js:297
 msgid "share"
-msgstr ""
+msgstr "dalintis"
 
 #: js/share.js:322 js/share.js:484
 msgid "Password protected"
-msgstr ""
+msgstr "Apsaugota slaptažodžiu"
 
 #: js/share.js:497
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Klaida nuimant galiojimo laiką"
 
 #: js/share.js:509
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Klaida nustatant galiojimo laiką"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -295,19 +296,19 @@ msgstr "Pridėti"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Saugumo pranešimas"
 
 #: templates/installation.php:24
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Saugaus atsitiktinių skaičių generatoriaus nėra, prašome įjungti PHP OpenSSL modulį."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Be saugaus atsitiktinių skaičių generatoriaus, piktavaliai gali atspėti Jūsų slaptažodį ir pasisavinti paskyrą."
 
 #: templates/installation.php:32
 msgid ""
@@ -316,7 +317,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Jūsų duomenų aplankalas ir Jūsų failai turbūt yra pasiekiami per internetą. Failas .htaccess, kuris duodamas, neveikia. Mes rekomenduojame susitvarkyti savo nustatymsu taip, kad failai nebūtų pasiekiami per internetą, arba persikelti juos kitur."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -353,7 +354,7 @@ msgstr "Duomenų bazės pavadinimas"
 
 #: templates/installation.php:121
 msgid "Database tablespace"
-msgstr ""
+msgstr "Duomenų bazės loginis saugojimas"
 
 #: templates/installation.php:127
 msgid "Database host"
@@ -373,17 +374,17 @@ msgstr "Atsijungti"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Automatinis prisijungimas atmestas!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Jei paskutinių metu nekeitėte savo slaptažodžio, Jūsų paskyra gali būti pavojuje!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Prašome pasikeisti slaptažodį dar kartą, dėl paskyros saugumo."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -411,14 +412,14 @@ msgstr "kitas"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "Saugumo pranešimas!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Prašome patvirtinti savo vartotoją.<br/>Dėl saugumo, slaptažodžio patvirtinimas bus reikalaujamas įvesti kas kiek laiko."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Patvirtinti"
