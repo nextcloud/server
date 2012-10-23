@@ -80,7 +80,7 @@ class OC_OCSClient{
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/categories';
 		$xml=OC_OCSClient::getOCSresponse($url);
-		if($xml==FALSE) {
+		if($xml==false) {
 			return null;
 		}
 		$data=simplexml_load_string($xml);
@@ -122,8 +122,8 @@ class OC_OCSClient{
 		$apps=array();
 		$xml=OC_OCSClient::getOCSresponse($url);
 
-		if($xml==FALSE) {
-			return NULL;
+		if($xml==false) {
+			return null;
 		}
 		$data=simplexml_load_string($xml);
 
