@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <mr.pige_ina@yahoo.co.id>, 2012.
 # Muhammad Fauzan <yosanpro@gmail.com>, 2012.
 # Muhammad Panji <sumodirjo@gmail.com>, 2012.
 # Muhammad Radifar <m_radifar05@yahoo.com>, 2011.
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-22 02:03+0200\n"
+"PO-Revision-Date: 2012-10-21 02:47+0000\n"
+"Last-Translator: elmakong <mr.pige_ina@yahoo.co.id>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,7 +87,7 @@ msgstr "Desember"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "pilih"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -111,39 +112,39 @@ msgstr "Tidak ada kategori terpilih untuk penghapusan."
 #: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
 #: js/share.js:509
 msgid "Error"
-msgstr ""
+msgstr "gagal"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "gagal ketika membagikan"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "gagal ketika membatalkan pembagian"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "gagal ketika merubah perijinan"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "dibagikan dengan anda dan grup {group} oleh {owner}"
 
 #: js/share.js:132
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "dibagikan dengan anda oleh {owner}"
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "bagikan dengan"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "bagikan dengan tautan"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "lindungi dengan kata kunci"
 
 #: js/share.js:147 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
@@ -152,67 +153,67 @@ msgstr "Password"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "set tanggal kadaluarsa"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "tanggal kadaluarsa"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "berbagi memlalui surel:"
 
 #: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "tidak ada orang ditemukan"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "berbagi ulang tidak diperbolehkan"
 
 #: js/share.js:250
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "dibagikan dalam {item} dengan {user}"
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "batalkan berbagi"
 
 #: js/share.js:283
 msgid "can edit"
-msgstr ""
+msgstr "dapat merubah"
 
 #: js/share.js:285
 msgid "access control"
-msgstr ""
+msgstr "kontrol akses"
 
 #: js/share.js:288
 msgid "create"
-msgstr ""
+msgstr "buat baru"
 
 #: js/share.js:291
 msgid "update"
-msgstr ""
+msgstr "baharui"
 
 #: js/share.js:294
 msgid "delete"
-msgstr ""
+msgstr "hapus"
 
 #: js/share.js:297
 msgid "share"
-msgstr ""
+msgstr "bagikan"
 
 #: js/share.js:322 js/share.js:484
 msgid "Password protected"
-msgstr ""
+msgstr "dilindungi kata kunci"
 
 #: js/share.js:497
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "gagal melepas tanggal kadaluarsa"
 
 #: js/share.js:509
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "gagal memasang tanggal kadaluarsa"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -297,7 +298,7 @@ msgstr "Tambahkan"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "peringatan keamanan"
 
 #: templates/installation.php:24
 msgid ""
@@ -309,7 +310,7 @@ msgstr ""
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "tanpa generator angka acak, penyerang mungkin dapat menebak token reset kata kunci dan mengambil alih akun anda."
 
 #: templates/installation.php:32
 msgid ""
@@ -355,7 +356,7 @@ msgstr "Nama database"
 
 #: templates/installation.php:121
 msgid "Database tablespace"
-msgstr ""
+msgstr "tablespace basis data"
 
 #: templates/installation.php:127
 msgid "Database host"
@@ -375,17 +376,17 @@ msgstr "Keluar"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "login otomatis ditolak!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "apabila anda tidak merubah kata kunci belakangan ini, akun anda dapat di gunakan orang lain!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "mohon ubah kata kunci untuk mengamankan akun anda"
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -413,14 +414,14 @@ msgstr "selanjutnya"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "peringatan keamanan!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "mohon periksa kembali kata kunci anda. <br/>untuk alasan keamanan,anda akan sesekali diminta untuk memasukan kata kunci lagi."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "periksa kembali"

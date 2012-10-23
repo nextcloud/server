@@ -47,7 +47,8 @@ class OC_Util {
 			}
 			//jail the user into his "home" directory
 			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir' => $user_root), $user);
-			\OC\Files\Filesystem::init($user_dir);
+			\OC\Files\Filesystem::init($user_dir, $user);
+
 			$quotaProxy=new OC_FileProxy_Quota();
 			$fileOperationProxy = new OC_FileProxy_FileOperations();
 			OC_FileProxy::register($quotaProxy);
@@ -69,17 +70,16 @@ class OC_Util {
 		$user_root = OC_User::getHome($user);
 		$userdirectory = $user_root . '/files';
 		if (is_file($user_root.'/mount.php')) {
-			$mountConfig = include($user_root.'/mount.php');
+			$mountConfig = include $user_root.'/mount.php';
 			if (isset($mountConfig['user'][$user])) {
 				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
-					OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
+					\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
 				}
 			}
 		
 			$mtime=filemtime($user_root.'/mount.php');
 			$previousMTime=OC_Preferences::getValue($user,'files','mountconfigmtime',0);
 			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-				OC_FileCache::triggerUpdate($user);
 				OC_Preferences::setValue($user,'files','mountconfigmtime',$mtime);
 			}
 		}		
@@ -399,7 +399,7 @@ class OC_Util {
 	* If not, the user will be shown a password verification page
 	*/
 	public static function verifyUser() {
-		if(OC_Config::getValue('enhancedauth', true) === true) {
+		if(OC_Config::getValue('enhancedauth', false) === true) {
 					// Check password to set session
 			if(isset($_POST['password'])) {
 				if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
@@ -420,12 +420,12 @@ class OC_Util {
 	* @return bool
 	*/
 	public static function isUserVerified() {
-		if(OC_Config::getValue('enhancedauth', true) === true) {
+		if(OC_Config::getValue('enhancedauth', false) === true) {
 			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
 				return false;
 			}
-			return true;
 		}
+		return true;
 	}
 	
 	/**

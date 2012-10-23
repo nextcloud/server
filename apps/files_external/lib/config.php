@@ -231,7 +231,7 @@ class OC_Mount_Config {
 			$file = OC::$SERVERROOT.'/config/mount.php';
 		}
 		if (is_file($file)) {
-			$mountPoints = include($file);
+			$mountPoints = include $file;
 			if (is_array($mountPoints)) {
 				return $mountPoints;
 			}

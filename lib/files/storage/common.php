@@ -23,18 +23,18 @@ namespace OC\Files\Storage;
 abstract class Common implements \OC\Files\Storage\Storage {
 
 	public function __construct($parameters) {}
-// 	abstract public function getId();
-// 	abstract public function mkdir($path);
-// 	abstract public function rmdir($path);
-// 	abstract public function opendir($path);
+ 	abstract public function getId();
+ 	abstract public function mkdir($path);
+ 	abstract public function rmdir($path);
+ 	abstract public function opendir($path);
 	public function is_dir($path) {
 		return $this->filetype($path)=='dir';
 	}
 	public function is_file($path) {
 		return $this->filetype($path)=='file';
 	}
-// 	abstract public function stat($path);
-// 	abstract public function filetype($path);
+ 	abstract public function stat($path);
+ 	abstract public function filetype($path);
 	public function filesize($path) {
 		if($this->is_dir($path)) {
 			return 0;//by definition
@@ -46,8 +46,8 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	public function isCreatable($path) {
 		return $this->isUpdatable($path);
 	}
-// 	abstract public function isReadable($path);
-// 	abstract public function isUpdatable($path);
+ 	abstract public function isReadable($path);
+ 	abstract public function isUpdatable($path);
 	public function isDeletable($path) {
 		return $this->isUpdatable($path);
 	}
@@ -73,7 +73,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		}
 		return $permissions;
 	}
-// 	abstract public function file_exists($path);
+ 	abstract public function file_exists($path);
 	public function filemtime($path) {
 		$stat = $this->stat($path);
 		return $stat['mtime'];
@@ -97,7 +97,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		$handle = $this->fopen($path, "w");
 		return fwrite($handle, $data);
 	}
-// 	abstract public function unlink($path);
+ 	abstract public function unlink($path);
 	public function rename($path1,$path2) {
 		if($this->copy($path1,$path2)) {
 			return $this->unlink($path1);
@@ -111,13 +111,13 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		$count=\OC_Helper::streamCopy($source,$target);
 		return $count>0;
 	}
-// 	abstract public function fopen($path,$mode);
+ 	abstract public function fopen($path,$mode);
 
 	/**
 	 * @brief Deletes all files and folders recursively within a directory
-	 * @param $directory The directory whose contents will be deleted
-	 * @param $empty Flag indicating whether directory will be emptied
-	 * @returns true/false
+	 * @param string $directory The directory whose contents will be deleted
+	 * @param bool $empty Flag indicating whether directory will be emptied
+	 * @returns bool
 	 *
 	 * @note By default the directory specified by $directory will be
 	 * deleted together with its contents. To avoid this set $empty to true
@@ -127,7 +127,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 
 		if ( !$this->file_exists( \OCP\USER::getUser() . '/' . $directory ) || !$this->is_dir( \OCP\USER::getUser() . '/' . $directory ) ) {
 			return false;
-		} elseif( !$this->is_readable( \OCP\USER::getUser() . '/' . $directory ) ) {
+		} elseif( !$this->isReadable( \OCP\USER::getUser() . '/' . $directory ) ) {
 			return false;
 		} else {
 			$directoryHandle = $this->opendir( \OCP\USER::getUser() . '/' . $directory );
@@ -135,7 +135,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 				if ( $contents != '.' && $contents != '..') {
 					$path = $directory . "/" . $contents;
 					if ( $this->is_dir( $path ) ) {
-						deleteAll( $path );
+						$this->deleteAll( $path );
 					} else {
 						$this->unlink( \OCP\USER::getUser() .'/' . $path ); // TODO: make unlink use same system path as is_dir
 					}
@@ -180,14 +180,14 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		unlink($tmpFile);
 		return $hash;
 	}
-// 	abstract public function free_space($path);
+ 	abstract public function free_space($path);
 	public function search($query) {
 		return $this->searchInDir($query);
 	}
 	public function getLocalFile($path) {
 		return $this->toTmpFile($path);
 	}
-	private function toTmpFile($path) {//no longer in the storage api, still usefull here
+	private function toTmpFile($path) {//no longer in the storage api, still useful here
 		$source=$this->fopen($path,'r');
 		if(!$source) {
 			return false;
@@ -222,7 +222,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			}
 		}
 	}
-// 	abstract public function touch($path, $mtime=null);
+ 	abstract public function touch($path, $mtime=null);
 
 	protected function searchInDir($query,$dir='') {
 		$files=array();
@@ -243,6 +243,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 
 	/**
 	 * check if a file or folder has been updated since $time
+	 * @param string $path
 	 * @param int $time
 	 * @return bool
 	 */
@@ -256,5 +257,14 @@ abstract class Common implements \OC\Files\Storage\Storage {
 
 	public function getScanner(){
 		return new \OC\Files\Cache\Scanner($this);
+	}
+
+	/**
+	 * get the owner of a path
+	 * @param string $path The path to get the owner
+	 * @return string uid or false
+	 */
+	public function getOwner($path) {
+		return \OC_User::getUser();
 	}
 }

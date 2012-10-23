@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-22 02:03+0200\n"
+"PO-Revision-Date: 2012-10-21 18:57+0000\n"
+"Last-Translator: martinb <martin.babik@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -127,11 +127,11 @@ msgstr "Chyba počas zmeny oprávnení"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Zdieľané s vami a so skupinou {group} užívateľom {owner}"
 
 #: js/share.js:132
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Zdieľané s vami užívateľom {owner}"
 
 #: js/share.js:137
 msgid "Share with"

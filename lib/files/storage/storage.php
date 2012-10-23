@@ -61,4 +61,6 @@ interface Storage{
 	 * @return \OC\Files\Cache\Scanner
 	 */
 	public function getScanner();
+
+	public function getOwner($path);
 }
