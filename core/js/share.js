@@ -313,7 +313,7 @@ OC.Share={
 			var file = $('#dir').val() + '/' + filename;
 		}
 		file = '/'+OC.currentUser+'/files'+file;
-		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&'+type+'='+file;
+		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&'+type+'='+encodeURIComponent(file);
 		$('#linkText').val(link);
 		$('#linkText').show('blind');
 		$('#showPassword').show();
