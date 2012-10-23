@@ -10,15 +10,9 @@
 	box-shadow: 0 1px 1px #777;
 	display: block;
 	margin-right: 7em;
-	moz-border-radius-bottomleft: 1em;
-	moz-border-radius-bottomright: 1em;
-	moz-box-shadow: 0 1px 1px #777;
 	padding: 1em;
 	position: absolute;
 	right: 0;
-	webkit-border-bottom-left-radius: 1em;
-	webkit-border-bottom-right-radius: 1em;
-	webkit-box-shadow: 0 1px 1px #777;
 	width: 19em;
 	z-index: 500;
 }
