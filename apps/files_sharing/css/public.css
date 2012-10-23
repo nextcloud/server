@@ -9,12 +9,10 @@ body
 	height: 2.5em;
 	left: 0;
 	line-height: 2.5em;
-	moz-box-shadow: 0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222;
 	padding: .5em;
 	position: fixed;
 	right: 0;
 	top: 0;
-	webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222;
 	z-index: 100;
 }
 #details
