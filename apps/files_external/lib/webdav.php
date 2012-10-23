@@ -225,7 +225,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try{
-			$response=$this->client->request('MOVE',$path1,null, array('Destination'=>$path2));
+			$response=$this->client->request('MOVE', $path1, null, array('Destination'=>$path2));
 			return true;
 		}catch(Exception $e) {
 			echo $e;
@@ -239,7 +239,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try{
-			$response=$this->client->request('COPY',$path1,null, array('Destination'=>$path2));
+			$response=$this->client->request('COPY', $path1, null, array('Destination'=>$path2));
 			return true;
 		}catch(Exception $e) {
 			echo $e;

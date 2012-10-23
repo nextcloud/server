@@ -38,7 +38,7 @@ class OC_TemplateLayout extends OC_Template {
 		foreach(OC_App::getEnabledApps() as $app) {
 			$apps_paths[$app] = OC_App::getAppWebPath($app);
 		}
-		$this->assign( 'apps_paths', str_replace('\\/', '/',json_encode($apps_paths)), false ); // Ugly unescape slashes waiting for better solution
+		$this->assign( 'apps_paths', str_replace('\\/', '/', json_encode($apps_paths)), false ); // Ugly unescape slashes waiting for better solution
 
 		if (OC_Config::getValue('installed', false) && !OC_AppConfig::getValue('core', 'remote_core.css', false)) {
 			OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
