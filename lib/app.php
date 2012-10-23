@@ -556,10 +556,7 @@ class OC_App{
 
 			while( $file = readdir( $dh ) ) {
 
-				if (
-				$file[0] != '.'
-				and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php' )
-				) {
+				if ($file[0] != '.' and is_file($apps_dir['path'].'/'.$file.'/appinfo/app.php')) {
 
 					$apps[] = $file;
 
