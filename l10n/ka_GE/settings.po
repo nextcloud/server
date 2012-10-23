@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <romeo@energo-pro.ge>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-22 02:03+0200\n"
-"PO-Revision-Date: 2011-07-25 16:05+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-10-23 02:02+0200\n"
+"PO-Revision-Date: 2012-10-22 11:50+0000\n"
+"Last-Translator: drlinux64 <romeo@energo-pro.ge>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,81 +20,81 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "აპლიკაციების სია ვერ ჩამოიტვირთა App Store"
 
 #: ajax/creategroup.php:12
 msgid "Group already exists"
-msgstr ""
+msgstr "ჯგუფი უკვე არსებობს"
 
 #: ajax/creategroup.php:21
 msgid "Unable to add group"
-msgstr ""
+msgstr "ჯგუფის დამატება ვერ მოხერხდა"
 
 #: ajax/enableapp.php:14
 msgid "Could not enable app. "
-msgstr ""
+msgstr "ვერ მოხერხდა აპლიკაციის ჩართვა."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr ""
+msgstr "იმეილი შენახულია"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "არასწორი იმეილი"
 
 #: ajax/openid.php:16
 msgid "OpenID Changed"
-msgstr ""
+msgstr "OpenID შეცვლილია"
 
 #: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
 msgid "Invalid request"
-msgstr ""
+msgstr "არასწორი მოთხოვნა"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr ""
+msgstr "ჯგუფის წაშლა ვერ მოხერხდა"
 
 #: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
 msgid "Authentication error"
-msgstr ""
+msgstr "ავთენტიფიკაციის შეცდომა"
 
 #: ajax/removeuser.php:27
 msgid "Unable to delete user"
-msgstr ""
+msgstr "მომხმარებლის წაშლა ვერ მოხერხდა"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
-msgstr ""
+msgstr "ენა შეცვლილია"
 
 #: ajax/togglegroups.php:25
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "მომხმარებლის დამატება ვერ მოხეხდა ჯგუფში %s"
 
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "მომხმარებლის წაშლა ვერ მოხეხდა ჯგუფიდან %s"
 
 #: js/apps.js:28 js/apps.js:65
 msgid "Disable"
-msgstr ""
+msgstr "გამორთვა"
 
 #: js/apps.js:28 js/apps.js:54
 msgid "Enable"
-msgstr ""
+msgstr "ჩართვა"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "შენახვა..."
 
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
-msgstr ""
+msgstr "__language_name__"
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "უსაფრთხოების გაფრთხილება"
 
 #: templates/admin.php:17
 msgid ""
@@ -106,17 +107,17 @@ msgstr ""
 
 #: templates/admin.php:31
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "გაუშვი თითო მოქმედება ყველა ჩატვირთულ გვერდზე"
 
 #: templates/admin.php:43
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php რეგისტრირებულია webcron servisad. Call the cron.php page in the owncloud root once a minute over http."
 
 #: templates/admin.php:49
 msgid ""
@@ -126,47 +127,47 @@ msgstr ""
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "გაზიარება"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
-msgstr ""
+msgstr "Share API–ის ჩართვა"
 
 #: templates/admin.php:62
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "დაუშვი აპლიკაციების უფლება  Share API –ზე"
 
 #: templates/admin.php:67
 msgid "Allow links"
-msgstr ""
+msgstr "ლინკების დაშვება"
 
 #: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "მიეცი მომხმარებლებს უფლება რომ გააზიაროს ელემენტები საჯაროდ ლინკებით"
 
 #: templates/admin.php:73
 msgid "Allow resharing"
-msgstr ""
+msgstr "გადაზიარების დაშვება"
 
 #: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "მიეცით მომხმარებლებს უფლება რომ გააზიაროს მისთვის დაზიარებული"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "მიეცით უფლება მომხმარებლებს გააზიაროს ყველასთვის"
 
 #: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "მიეცით უფლება მომხმარებლებს რომ გააზიაროს მხოლოდ თავიანთი ჯგუფისთვის"
 
 #: templates/admin.php:88
 msgid "Log"
-msgstr ""
+msgstr "ლოგი"
 
 #: templates/admin.php:116
 msgid "More"
-msgstr ""
+msgstr "უფრო მეტი"
 
 #: templates/admin.php:124
 msgid ""
@@ -180,141 +181,141 @@ msgstr ""
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr ""
+msgstr "დაამატე შენი აპლიკაცია"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "უფრო მეტი აპლიკაციები"
 
 #: templates/apps.php:27
 msgid "Select an App"
-msgstr ""
+msgstr "აირჩიეთ აპლიკაცია"
 
 #: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "ნახეთ აპლიკაციის გვერდი apps.owncloud.com –ზე"
 
 #: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-ლიცენსირებულია <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"
-msgstr ""
+msgstr "დოკუმენტაცია"
 
 #: templates/help.php:10
 msgid "Managing Big Files"
-msgstr ""
+msgstr "დიდი ფაილების მენეჯმენტი"
 
 #: templates/help.php:11
 msgid "Ask a question"
-msgstr ""
+msgstr "დასვით შეკითხვა"
 
 #: templates/help.php:23
 msgid "Problems connecting to help database."
-msgstr ""
+msgstr "დახმარების ბაზასთან წვდომის პრობლემა"
 
 #: templates/help.php:24
 msgid "Go there manually."
-msgstr ""
+msgstr "წადი იქ შენით."
 
 #: templates/help.php:32
 msgid "Answer"
-msgstr ""
+msgstr "პასუხი"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
+msgstr "თქვენ გამოყენებული გაქვთ <strong>%s</strong> –ი –<strong>%s<strong>–დან"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "დესკტოპ და მობილური კლიენტების სინქრონიზაცია"
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "ჩამოტვირთვა"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "თქვენი პაროლი შეიცვალა"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr ""
+msgstr "თქვენი პაროლი არ შეიცვალა"
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr ""
+msgstr "მიმდინარე პაროლი"
 
 #: templates/personal.php:22
 msgid "New password"
-msgstr ""
+msgstr "ახალი პაროლი"
 
 #: templates/personal.php:23
 msgid "show"
-msgstr ""
+msgstr "გამოაჩინე"
 
 #: templates/personal.php:24
 msgid "Change password"
-msgstr ""
+msgstr "პაროლის შეცვლა"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr ""
+msgstr "იმეილი"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr ""
+msgstr "თქვენი იმეილ მისამართი"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "შეავსეთ იმეილ მისამართის ველი პაროლის აღსადგენად"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
-msgstr ""
+msgstr "ენა"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr ""
+msgstr "თარგმნის დახმარება"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "გამოიყენე შემდეგი მისამართი ownCloud–თან დასაკავშირებლად შენს ფაილმენეჯერში"
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
-msgstr ""
+msgstr "სახელი"
 
 #: templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "პაროლი"
 
 #: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
-msgstr ""
+msgstr "ჯგუფი"
 
 #: templates/users.php:32
 msgid "Create"
-msgstr ""
+msgstr "შექმნა"
 
 #: templates/users.php:35
 msgid "Default Quota"
-msgstr ""
+msgstr "საწყისი ქვოტა"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
-msgstr ""
+msgstr "სხვა"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "ჯგუფის ადმინისტრატორი"
 
 #: templates/users.php:82
 msgid "Quota"
-msgstr ""
+msgstr "ქვოტა"
 
 #: templates/users.php:146
 msgid "Delete"
-msgstr ""
+msgstr "წაშლა"

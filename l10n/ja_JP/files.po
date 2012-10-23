@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-20 02:02+0200\n"
-"PO-Revision-Date: 2012-10-19 07:16+0000\n"
+"POT-Creation-Date: 2012-10-23 02:02+0200\n"
+"PO-Revision-Date: 2012-10-22 11:03+0000\n"
 "Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -83,7 +83,7 @@ msgstr "キャンセル"
 
 #: js/filelist.js:243
 msgid "replaced {new_name}"
-msgstr "{new_name} を変更"
+msgstr "{new_name} を置換"
 
 #: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
 msgid "undo"
@@ -91,7 +91,7 @@ msgstr "元に戻す"
 
 #: js/filelist.js:245
 msgid "replaced {new_name} with {old_name}"
-msgstr "{old_name} を {new_name} に変更"
+msgstr "{old_name} を {new_name} に置換"
 
 #: js/filelist.js:277
 msgid "unshared {files}"

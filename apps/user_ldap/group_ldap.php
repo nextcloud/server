@@ -96,12 +96,13 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		if(!$this->enabled) {
 			return array();
 		}
-		if($this->connection->isCached('getUserGroups'.$uid)) {
-			return $this->connection->getFromCache('getUserGroups'.$uid);
+		$cacheKey = 'getUserGroups'.$uid;
+		if($this->connection->isCached($cacheKey)) {
+			return $this->connection->getFromCache($cacheKey);
 		}
 		$userDN = $this->username2dn($uid);
 		if(!$userDN) {
-			$this->connection->writeToCache('getUserGroups'.$uid, array());
+			$this->connection->writeToCache($cacheKey, array());
 			return array();
 		}
 
@@ -124,7 +125,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		));
 		$groups = $this->fetchListOfGroups($filter, array($this->connection->ldapGroupDisplayName,'dn'));
 		$groups = array_unique($this->ownCloudGroupNames($groups), SORT_LOCALE_STRING);
-		$this->connection->writeToCache('getUserGroups'.$uid, $groups);
+		$this->connection->writeToCache($cacheKey, $groups);
 
 		return $groups;
 	}

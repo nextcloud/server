@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <romeo@energo-pro.ge>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-22 02:03+0200\n"
-"PO-Revision-Date: 2011-07-25 16:05+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-10-23 02:02+0200\n"
+"PO-Revision-Date: 2012-10-22 09:21+0000\n"
+"Last-Translator: drlinux64 <romeo@energo-pro.ge>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,108 +20,108 @@ msgstr ""
 
 #: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
 msgid "Application name not provided."
-msgstr ""
+msgstr "აპლიკაციის სახელი  არ არის განხილული"
 
 #: ajax/vcategories/add.php:29
 msgid "No category to add?"
-msgstr ""
+msgstr "არ არის კატეგორია დასამატებლად?"
 
 #: ajax/vcategories/add.php:36
 msgid "This category already exists: "
-msgstr ""
+msgstr "კატეგორია უკვე არსებობს"
 
 #: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
 msgid "Settings"
-msgstr ""
+msgstr "პარამეტრები"
 
 #: js/js.js:670
 msgid "January"
-msgstr ""
+msgstr "იანვარი"
 
 #: js/js.js:670
 msgid "February"
-msgstr ""
+msgstr "თებერვალი"
 
 #: js/js.js:670
 msgid "March"
-msgstr ""
+msgstr "მარტი"
 
 #: js/js.js:670
 msgid "April"
-msgstr ""
+msgstr "აპრილი"
 
 #: js/js.js:670
 msgid "May"
-msgstr ""
+msgstr "მაისი"
 
 #: js/js.js:670
 msgid "June"
-msgstr ""
+msgstr "ივნისი"
 
 #: js/js.js:671
 msgid "July"
-msgstr ""
+msgstr "ივლისი"
 
 #: js/js.js:671
 msgid "August"
-msgstr ""
+msgstr "აგვისტო"
 
 #: js/js.js:671
 msgid "September"
-msgstr ""
+msgstr "სექტემბერი"
 
 #: js/js.js:671
 msgid "October"
-msgstr ""
+msgstr "ოქტომბერი"
 
 #: js/js.js:671
 msgid "November"
-msgstr ""
+msgstr "ნოემბერი"
 
 #: js/js.js:671
 msgid "December"
-msgstr ""
+msgstr "დეკემბერი"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "არჩევა"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "უარყოფა"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "არა"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "კი"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "დიახ"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "სარედაქტირებელი კატეგორია არ არის არჩეული "
 
 #: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
 #: js/share.js:509
 msgid "Error"
-msgstr ""
+msgstr "შეცდომა"
 
 #: js/share.js:103
 msgid "Error while sharing"
-msgstr ""
+msgstr "შეცდომა გაზიარების დროს"
 
 #: js/share.js:114
 msgid "Error while unsharing"
-msgstr ""
+msgstr "შეცდომა გაზიარების გაუქმების დროს"
 
 #: js/share.js:121
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "შეცდომა დაშვების ცვლილების დროს"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
@@ -132,40 +133,40 @@ msgstr ""
 
 #: js/share.js:137
 msgid "Share with"
-msgstr ""
+msgstr "გაუზიარე"
 
 #: js/share.js:142
 msgid "Share with link"
-msgstr ""
+msgstr "გაუზიარე ლინკით"
 
 #: js/share.js:143
 msgid "Password protect"
-msgstr ""
+msgstr "პაროლით დაცვა"
 
 #: js/share.js:147 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
-msgstr ""
+msgstr "პაროლი"
 
 #: js/share.js:152
 msgid "Set expiration date"
-msgstr ""
+msgstr "მიუთითე ვადის გასვლის დრო"
 
 #: js/share.js:153
 msgid "Expiration date"
-msgstr ""
+msgstr "ვადის გასვლის დრო"
 
 #: js/share.js:185
 msgid "Share via email:"
-msgstr ""
+msgstr "გააზიარე მეილზე"
 
 #: js/share.js:187
 msgid "No people found"
-msgstr ""
+msgstr "გვერდი არ არის ნაპოვნი"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "მეორეჯერ გაზიარება არ არის დაშვებული"
 
 #: js/share.js:250
 msgid "Shared in {item} with {user}"
@@ -173,140 +174,140 @@ msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "გაზიარების მოხსნა"
 
 #: js/share.js:283
 msgid "can edit"
-msgstr ""
+msgstr "შეგიძლია შეცვლა"
 
 #: js/share.js:285
 msgid "access control"
-msgstr ""
+msgstr "დაშვების კონტროლი"
 
 #: js/share.js:288
 msgid "create"
-msgstr ""
+msgstr "შექმნა"
 
 #: js/share.js:291
 msgid "update"
-msgstr ""
+msgstr "განახლება"
 
 #: js/share.js:294
 msgid "delete"
-msgstr ""
+msgstr "წაშლა"
 
 #: js/share.js:297
 msgid "share"
-msgstr ""
+msgstr "გაზიარება"
 
 #: js/share.js:322 js/share.js:484
 msgid "Password protected"
-msgstr ""
+msgstr "პაროლით დაცული"
 
 #: js/share.js:497
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "შეცდომა ვადის გასვლის მოხსნის დროს"
 
 #: js/share.js:509
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "შეცდომა ვადის გასვლის მითითების დროს"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "ownCloud პაროლის შეცვლა"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "გამოიყენე შემდეგი ლინკი პაროლის შესაცვლელად: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "თქვენ მოგივათ პაროლის შესაცვლელი ლინკი მეილზე"
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Requested"
-msgstr ""
+msgstr "მოთხოვნილი"
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Login failed!"
-msgstr ""
+msgstr "შესვლა ვერ მოხერხდა!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
 msgid "Username"
-msgstr ""
+msgstr "მომხმარებელი"
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr ""
+msgstr "რესეტის მოთხოვნა"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "თქვენი პაროლი შეცვლილია"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "შესვლის გვერდზე"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "ახალი პაროლი"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "პაროლის რესეტი"
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "პირადი"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "მომხმარებლები"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "აპლიკაციები"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "ადმინი"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "დახმარება"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "წვდომა აკრძალულია"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "ღრუბელი არ არსებობს"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "კატეგორიების რედაქტირება"
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "დამატება"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "უსაფრთხოების გაფრთხილება"
 
 #: templates/installation.php:24
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "შემთხვევითი სიმბოლოების გენერატორი არ არსებობს, გთხოვთ ჩართოთ PHP OpenSSL გაფართოება."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "შემთხვევითი სიმბოლოების გენერატორის გარეშე, შემტევმა შეიძლება ამოიცნოს თქვენი პაროლი შეგიცვალოთ ის და დაეუფლოს თქვენს ექაუნთს."
 
 #: templates/installation.php:32
 msgid ""
@@ -319,60 +320,60 @@ msgstr ""
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "შექმენი ადმინ ექაუნტი"
 
 #: templates/installation.php:48
 msgid "Advanced"
-msgstr ""
+msgstr "Advanced"
 
 #: templates/installation.php:50
 msgid "Data folder"
-msgstr ""
+msgstr "მონაცემთა საქაღალდე"
 
 #: templates/installation.php:57
 msgid "Configure the database"
-msgstr ""
+msgstr "ბაზის კონფიგურირება"
 
 #: templates/installation.php:62 templates/installation.php:73
 #: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
-msgstr ""
+msgstr "გამოყენებული იქნება"
 
 #: templates/installation.php:105
 msgid "Database user"
-msgstr ""
+msgstr "ბაზის მომხმარებელი"
 
 #: templates/installation.php:109
 msgid "Database password"
-msgstr ""
+msgstr "ბაზის პაროლი"
 
 #: templates/installation.php:113
 msgid "Database name"
-msgstr ""
+msgstr "ბაზის სახელი"
 
 #: templates/installation.php:121
 msgid "Database tablespace"
-msgstr ""
+msgstr "ბაზის ცხრილის ზომა"
 
 #: templates/installation.php:127
 msgid "Database host"
-msgstr ""
+msgstr "ბაზის ჰოსტი"
 
 #: templates/installation.php:132
 msgid "Finish setup"
-msgstr ""
+msgstr "კონფიგურაციის დასრულება"
 
 #: templates/layout.guest.php:38
 msgid "web services under your control"
-msgstr ""
+msgstr "თქვენი კონტროლის ქვეშ მყოფი ვებ სერვისები"
 
 #: templates/layout.user.php:34
 msgid "Log out"
-msgstr ""
+msgstr "გამოსვლა"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "ავტომატური შესვლა უარყოფილია!"
 
 #: templates/login.php:9
 msgid ""
@@ -386,31 +387,31 @@ msgstr ""
 
 #: templates/login.php:15
 msgid "Lost your password?"
-msgstr ""
+msgstr "დაგავიწყდათ პაროლი?"
 
 #: templates/login.php:27
 msgid "remember"
-msgstr ""
+msgstr "დამახსოვრება"
 
 #: templates/login.php:28
 msgid "Log in"
-msgstr ""
+msgstr "შესვლა"
 
 #: templates/logout.php:1
 msgid "You are logged out."
-msgstr ""
+msgstr "თქვენ გამოხვედით სისტემიდან"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "წინა"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr ""
+msgstr "შემდეგი"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "უსაფრთხოების გაფრთხილება!"
 
 #: templates/verify.php:6
 msgid ""
@@ -420,4 +421,4 @@ msgstr ""
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "შემოწმება"
