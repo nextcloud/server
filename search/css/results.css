@@ -9,14 +9,12 @@
 	box-shadow: 0 0 10px #000;
 	list-style: none;
 	max-height: 80%;
-	moz-border-radius-bottomleft: 1em;
 	overflow: hidden;
 	padding-bottom: 1em;
 	position: fixed;
 	right: 0;
 	text-overflow: ellipsis;
 	top: 3.5em;
-	webkit-border-bottom-left-radius: 1em;
 	width: 26.5em;
 	z-index: 75;
 }
