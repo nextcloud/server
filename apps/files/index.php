@@ -85,7 +85,7 @@ $upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize')
 $post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
 $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
-$freeSpace=OC_Filesystem::free_space('/');
+$freeSpace=OC_Filesystem::free_space($dir);
 $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 

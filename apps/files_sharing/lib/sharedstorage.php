@@ -108,6 +108,14 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		return $internalPath;
 	}
 
+	public function getOwner($target) {
+		$shared_item = OCP\Share::getItemSharedWith('folder', $target, OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
+		if ($shared_item) {
+			return $shared_item[0]["uid_owner"];
+		}
+		return null;
+	}
+
 	public function mkdir($path) {
 		if ($path == '' || $path == '/' || !$this->isCreatable(dirname($path))) {
 			return false;
