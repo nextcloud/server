@@ -76,12 +76,12 @@ class OC_OCSClient{
 	 */
 	public static function getCategories() {
 		if(OC_Config::getValue('appstoreenabled', true)==false) {
-			return NULL;
+			return null;
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/categories';
 		$xml=OC_OCSClient::getOCSresponse($url);
 		if($xml==FALSE) {
-			return NULL;
+			return null;
 		}
 		$data=simplexml_load_string($xml);
 
@@ -156,14 +156,14 @@ class OC_OCSClient{
 	 */
 	public static function getApplication($id) {
 		if(OC_Config::getValue('appstoreenabled', true)==false) {
-			return NULL;
+			return null;
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/data/'.urlencode($id);
 		$xml=OC_OCSClient::getOCSresponse($url);
 
-		if($xml==FALSE) {
+		if($xml==false) {
 			OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
-			return NULL;
+			return null;
 		}
 		$data=simplexml_load_string($xml);
 
@@ -194,14 +194,14 @@ class OC_OCSClient{
 		*/
 	public static function getApplicationDownload($id,$item) {
 		if(OC_Config::getValue('appstoreenabled', true)==false) {
-			return NULL;
+			return null;
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/download/'.urlencode($id).'/'.urlencode($item);
 		$xml=OC_OCSClient::getOCSresponse($url);
 
-		if($xml==FALSE) {
+		if($xml==false) {
 			OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
-			return NULL;
+			return null;
 		}
 		$data=simplexml_load_string($xml);
 
@@ -237,9 +237,9 @@ class OC_OCSClient{
 		$kbe=array();
 		$xml=OC_OCSClient::getOCSresponse($url);
 
-		if($xml==FALSE) {
+		if($xml==false) {
 			OC_Log::write('core','Unable to parse knowledgebase content',OC_Log::FATAL);
-			return NULL;
+			return null;
 		}
 		$data=simplexml_load_string($xml);
 

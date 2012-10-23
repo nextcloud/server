@@ -6,7 +6,7 @@
  * See the COPYING-README file.
 */
 
-$RUNTIME_NOAPPS = TRUE; //no apps
+$RUNTIME_NOAPPS = true; //no apps
 require_once '../../lib/base.php';
 
 // Someone wants to reset their password:
