@@ -491,8 +491,8 @@ class OC_User {
 		unset($_COOKIE["oc_username"]);
 		unset($_COOKIE["oc_token"]);
 		unset($_COOKIE["oc_remember_login"]);
-		setcookie("oc_username", NULL, -1);
-		setcookie("oc_token", NULL, -1);
-		setcookie("oc_remember_login", NULL, -1);
+		setcookie("oc_username", null, -1);
+		setcookie("oc_token", null, -1);
+		setcookie("oc_remember_login", null, -1);
 	}
 }

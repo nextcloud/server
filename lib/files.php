@@ -146,7 +146,7 @@ class OC_Files {
 			set_time_limit(0);
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				exit("cannot open <$filename>\n");
 			}
 			foreach($files as $file) {
@@ -167,7 +167,7 @@ class OC_Files {
 			set_time_limit(0);
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				exit("cannot open <$filename>\n");
 			}
 			$file=$dir.'/'.$files;
@@ -447,7 +447,7 @@ class OC_Files {
 		    $setting = 'php_value '.$key.' '.$size;
 		    $hasReplaced = 0;
 		    $content = preg_replace($pattern, $setting, $htaccess, 1, $hasReplaced);
-		    if($content !== NULL) {
+		    if($content !== null) {
 				$htaccess = $content;
 			}
 			if($hasReplaced == 0) {
