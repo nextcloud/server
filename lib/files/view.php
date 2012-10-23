@@ -110,7 +110,7 @@ class View {
 	 */
 	public function getLocalFile($path) {
 		$parent = substr($path, 0, strrpos($path, '/'));
-		list($storage, $internalPath)=\OC\Files\Filesystem::resolvePath($path);
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
 		if (Filesystem::isValidPath($parent) and $storage) {
 			return $storage->getLocalFile($internalPath);
 		} else {
@@ -124,7 +124,7 @@ class View {
 	 */
 	public function getLocalFolder($path) {
 		$parent = substr($path, 0, strrpos($path, '/'));
-		list($storage, $internalPath)=\OC\Files\Filesystem::resolvePath($path);
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
 		if (Filesystem::isValidPath($parent) and $storage) {
 			return $storage->getLocalFolder($internalPath);
 		} else {
@@ -227,6 +227,9 @@ class View {
 	}
 
 	public function touch($path, $mtime = null) {
+		if (!is_null($mtime) and !is_numeric($mtime)) {
+			$mtime = strtotime($mtime);
+		}
 		return $this->basicOperation('touch', $path, array('write'), $mtime);
 	}
 
@@ -331,8 +334,8 @@ class View {
 				$mp1 = $this->getMountPoint($path1 . $postFix1);
 				$mp2 = $this->getMountPoint($path2 . $postFix2);
 				if ($mp1 == $mp2) {
-					list($storage, $internalPath1)=\OC\Files\Filesystem::resolvePath($path1 . $postFix1);
-					list( , $internalPath2)=\OC\Files\Filesystem::resolvePath($path2 . $postFix2);
+					list($storage, $internalPath1) = \OC\Files\Filesystem::resolvePath($path1 . $postFix1);
+					list(, $internalPath2) = \OC\Files\Filesystem::resolvePath($path2 . $postFix2);
 					if ($storage) {
 						$result = $storage->rename($internalPath1, $internalPath2);
 					} else {
@@ -342,7 +345,7 @@ class View {
 					$source = $this->fopen($path1 . $postFix1, 'r');
 					$target = $this->fopen($path2 . $postFix2, 'w');
 					$count = \OC_Helper::streamCopy($source, $target);
-					list($storage1, $internalPath1)=\OC\Files\Filesystem::resolvePath($path1 . $postFix1);
+					list($storage1, $internalPath1) = \OC\Files\Filesystem::resolvePath($path1 . $postFix1);
 					$storage1->unlink($internalPath1);
 					$result = $count > 0;
 				}
@@ -414,8 +417,8 @@ class View {
 				$mp1 = $this->getMountPoint($path1 . $postFix1);
 				$mp2 = $this->getMountPoint($path2 . $postFix2);
 				if ($mp1 == $mp2) {
-					list($storage, $internalPath1)=\OC\Files\Filesystem::resolvePath($path1 . $postFix1);
-					list( , $internalPath2)=\OC\Files\Filesystem::resolvePath($path2 . $postFix2);
+					list($storage, $internalPath1) = \OC\Files\Filesystem::resolvePath($path1 . $postFix1);
+					list(, $internalPath2) = \OC\Files\Filesystem::resolvePath($path2 . $postFix2);
 					if ($storage) {
 						$result = $storage->copy($internalPath1, $internalPath2);
 					} else {
@@ -550,7 +553,7 @@ class View {
 					array(Filesystem::signal_param_path => $path)
 				);
 			}
-			list($storage, $internalPath)=\OC\Files\Filesystem::resolvePath($path . $postFix);
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path . $postFix);
 			if ($storage) {
 				$result = $storage->hash($type, $internalPath, $raw);
 				$result = \OC_FileProxy::runPostProxies('hash', $absolutePath, $result);
@@ -585,7 +588,7 @@ class View {
 				return false;
 			}
 			$run = $this->runHooks($hooks, $path);
-			list($storage, $internalPath)=\OC\Files\Filesystem::resolvePath($path . $postFix);
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path . $postFix);
 			if ($run and $storage) {
 				if (!is_null($extraParam)) {
 					$result = $storage->$operation($internalPath, $extraParam);
