@@ -253,77 +253,6 @@ class OC_Files {
 	}
 
 	/**
-	 * move a file or folder
-	 *
-	 * @param dir  $sourceDir
-	 * @param file $source
-	 * @param dir  $targetDir
-	 * @param file $target
-	 */
-	public static function move($sourceDir, $source, $targetDir, $target) {
-		if (OC_User::isLoggedIn() && ($sourceDir != '' || $source != 'Shared')) {
-			$targetFile = self::normalizePath($targetDir . '/' . $target);
-			$sourceFile = self::normalizePath($sourceDir . '/' . $source);
-			return \OC\Files\Filesystem::rename($sourceFile, $targetFile);
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * copy a file or folder
-	 *
-	 * @param dir  $sourceDir
-	 * @param file $source
-	 * @param dir  $targetDir
-	 * @param file $target
-	 */
-	public static function copy($sourceDir, $source, $targetDir, $target) {
-		if (OC_User::isLoggedIn()) {
-			$targetFile = $targetDir . '/' . $target;
-			$sourceFile = $sourceDir . '/' . $source;
-			return \OC\Files\Filesystem::copy($sourceFile, $targetFile);
-		}
-	}
-
-	/**
-	 * create a new file or folder
-	 *
-	 * @param dir  $dir
-	 * @param file $name
-	 * @param type $type
-	 */
-	public static function newFile($dir, $name, $type) {
-		if (OC_User::isLoggedIn()) {
-			$file = $dir . '/' . $name;
-			if ($type == 'dir') {
-				return \OC\Files\Filesystem::mkdir($file);
-			} elseif ($type == 'file') {
-				$fileHandle = \OC\Files\Filesystem::fopen($file, 'w');
-				if ($fileHandle) {
-					fclose($fileHandle);
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}
-	}
-
-	/**
-	 * deletes a file or folder
-	 *
-	 * @param dir  $dir
-	 * @param file $name
-	 */
-	public static function delete($dir, $file) {
-		if (OC_User::isLoggedIn() && ($dir != '' || $file != 'Shared')) {
-			$file = $dir . '/' . $file;
-			return \OC\Files\Filesystem::unlink($file);
-		}
-	}
-
-	/**
 	 * checks if the selected files are within the size constraint. If not, outputs an error page.
 	 *
 	 * @param dir   $dir
@@ -369,55 +298,6 @@ class OC_Files {
 				$tmpl->printPage();
 				exit;
 			}
-		}
-	}
-
-	/**
-	 * try to detect the mime type of a file
-	 *
-	 * @param  string  path
-	 * @return string  guessed mime type
-	 */
-	static function getMimeType($path) {
-		return \OC\Files\Filesystem::getMimeType($path);
-	}
-
-	/**
-	 * get a file tree
-	 *
-	 * @param  string  path
-	 * @return array
-	 */
-	static function getTree($path) {
-		return \OC\Files\Filesystem::getTree($path);
-	}
-
-	/**
-	 * pull a file from a remote server
-	 *
-	 * @param  string  source
-	 * @param  string  token
-	 * @param  string  dir
-	 * @param  string  file
-	 * @return string  guessed mime type
-	 */
-	static function pull($source, $token, $dir, $file) {
-		$tmpfile = tempnam(get_temp_dir(), 'remoteCloudFile');
-		$fp = fopen($tmpfile, 'w+');
-		$url = $source .= "/files/pull.php?token=$token";
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_FILE, $fp);
-		curl_exec($ch);
-		fclose($fp);
-		$info = curl_getinfo($ch);
-		$httpCode = $info['http_code'];
-		curl_close($ch);
-		if ($httpCode == 200 or $httpCode == 0) {
-			\OC\Files\Filesystem::fromTmpFile($tmpfile, $dir . '/' . $file);
-			return true;
-		} else {
-			return false;
 		}
 	}
 
@@ -477,22 +357,6 @@ class OC_Files {
 		}
 
 		return false;
-	}
-
-	/**
-	 * normalize a path, removing any double, add leading /, etc
-	 *
-	 * @param string $path
-	 * @return string
-	 */
-	static public function normalizePath($path) {
-		$path = '/' . $path;
-		$old = '';
-		while ($old != $path) { //replace any multiplicity of slashes with a single one
-			$old = $path;
-			$path = str_replace('//', '/', $path);
-		}
-		return $path;
 	}
 }
 

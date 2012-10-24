@@ -12,17 +12,22 @@ $files = isset($_POST["file"]) ? stripslashes($_POST["file"]) : stripslashes($_P
 
 $files = explode(';', $files);
 $filesWithError = '';
-$success = true;
-//Now delete
-foreach($files as $file) {
-	if( !OC_Files::delete( $dir, $file )) {
-		$filesWithError .= $file . "\n";
-		$success = false;
+if (OC_User::isLoggedIn()) {
+	$success = true;
+
+	//Now delete
+	foreach ($files as $file) {
+		if ($dir != '' || $file != 'Shared' && !\OC\Files\Filesystem::unlink($dir . '/' . $file)) {
+			$filesWithError .= $file . "\n";
+			$success = false;
+		}
 	}
+} else {
+	$success = false;
 }
 
-if($success) {
-	OCP\JSON::success(array("data" => array( "dir" => $dir, "files" => $files )));
+if ($success) {
+	OCP\JSON::success(array("data" => array("dir" => $dir, "files" => $files)));
 } else {
-	OCP\JSON::error(array("data" => array( "message" => "Could not delete:\n" . $filesWithError )));
+	OCP\JSON::error(array("data" => array("message" => "Could not delete:\n" . $filesWithError)));
 }

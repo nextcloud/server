@@ -19,7 +19,7 @@ if(strpos($foldername, '/')!==false) {
 	exit();
 }
 
-if(OC_Files::newFile($dir, stripslashes($foldername), 'dir')) {
+if(\OC\Files\Filesystem::mkdir($dir . '/' . stripslashes($foldername))) {
 	if ( $dir != '/') {
 		$path = $dir.'/'.$foldername;
 	} else {

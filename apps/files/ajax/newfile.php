@@ -82,7 +82,7 @@ if($source) {
 			OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
 			exit();
 		}
-	}elseif(OC_Files::newFile($dir, $filename, 'file')) {
+	}elseif(\OC\Files\Filesystem::touch($dir . '/' . $filename)) {
 		$meta = OC_FileCache::get($dir.'/'.$filename);
 		$id = OC_FileCache::getId($dir.'/'.$filename);
 		OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
