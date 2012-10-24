@@ -19,7 +19,7 @@
 	<?php if (isset($_['folder'])): ?>
 		<?php echo $_['folder']; ?>
 	<?php else: ?>
-		<?php if (substr($_['mimetype'], 0 , strpos($_['mimetype'], '/')) == 'image'): ?>
+		<?php if (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'image'): ?>
 			<div id="imgframe">
 				<img src="<?php echo $_['downloadURL']; ?>" />
 			</div>

@@ -51,7 +51,7 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 		$url= 'http://'.urlencode($uid).':'.urlencode($password).'@'.$this->webdavauth_url;
 		$headers = get_headers($url);
 		if($headers==false) {
-			OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to connect to WebDAV Url: "'.$this->webdavauth_url.'" ' ,3);
+			OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to connect to WebDAV Url: "'.$this->webdavauth_url.'" ', 3);
 			return false;
 
 		}
