@@ -49,7 +49,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 		$dir = $baseDir;
 	} else {
 		$type = 'file';
-		$path = $_GET['dir'];
+		$path = $_GET['file'];
 		if(strlen($path)>1 and substr($path, -1, 1)==='/') {
 			$path=substr($path, 0, -1);
 		}
