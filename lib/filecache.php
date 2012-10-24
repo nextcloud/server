@@ -65,7 +65,7 @@ class OC_FileCache{
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
-		$fullpath=$root.$path;
+		$fullpath=OC_Filesystem::normalizePath($root.'/'.$path);
 		$parent=self::getParentId($fullpath);
 		$id=self::getId($fullpath, '');
 		if(isset(OC_FileCache_Cached::$savedData[$fullpath])) {
