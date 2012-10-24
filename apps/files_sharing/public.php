@@ -25,16 +25,16 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 	if (isset($_GET['dir'])) {
 		$type = 'folder';
 		$path = $_GET['dir'];
-		if(strlen($path)>1 and substr($path,-1,1)==='/') {
-			$path=substr($path,0,-1);
+		if(strlen($path)>1 and substr($path, -1, 1)==='/') {
+			$path=substr($path, 0, -1);
 		}
 		$baseDir = $path;
 		$dir = $baseDir;
 	} else {
 		$type = 'file';
 		$path = $_GET['dir'];
-		if(strlen($path)>1 and substr($path,-1,1)==='/') {
-			$path=substr($path,0,-1);
+		if(strlen($path)>1 and substr($path, -1, 1)==='/') {
+			$path=substr($path, 0, -1);
 		}
 	}
 	$uidOwner = substr($path, 1, strpos($path, '/', 1) - 1);
