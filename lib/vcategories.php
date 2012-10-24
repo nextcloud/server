@@ -632,9 +632,11 @@ class OC_VCategories {
 		OC_Log::write('core', __METHOD__ . ', before: '
 			. print_r(self::$categories, true), OC_Log::DEBUG);
 		foreach($names as $name) {
+			$id = null;
 			OC_Log::write('core', __METHOD__.', '.$name, OC_Log::DEBUG);
 			if($this->hasCategory($name)) {
-				unset(self::$categories[$this->array_searchi($name, self::$categories)]);
+				$id = $this->array_searchi($name, self::$categories);
+				unset(self::$categories[$id]);
 			}
 			try {
 				$stmt = OCP\DB::prepare('DELETE FROM `' . self::CATEGORY_TABLE . '` WHERE '
@@ -643,6 +645,18 @@ class OC_VCategories {
 			} catch(Exception $e) {
 				OCP\Util::writeLog('core', __METHOD__ . ', exception: '
 					. $e->getMessage(), OCP\Util::ERROR);
+			}
+			if(!is_null($id) && $id !== false) {
+				try {
+					$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
+							. 'WHERE `categoryid` = ?';
+					$stmt = OCP\DB::prepare($sql);
+					$stmt->execute(array($id));
+				} catch(Exception $e) {
+					OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
+						OCP\Util::ERROR);
+					return false;
+				}
 			}
 		}
 		OC_Log::write('core', __METHOD__.', after: '
