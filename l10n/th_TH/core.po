@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -31,57 +31,9 @@ msgstr "ไม่มีหมวดหมู่ที่ต้องการเ
 msgid "This category already exists: "
 msgstr "หมวดหมู่นี้มีอยู่แล้ว: "
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "ตั้งค่า"
-
-#: js/js.js:670
-msgid "January"
-msgstr "มกราคม"
-
-#: js/js.js:670
-msgid "February"
-msgstr "กุมภาพันธ์"
-
-#: js/js.js:670
-msgid "March"
-msgstr "มีนาคม"
-
-#: js/js.js:670
-msgid "April"
-msgstr "เมษายน"
-
-#: js/js.js:670
-msgid "May"
-msgstr "พฤษภาคม"
-
-#: js/js.js:670
-msgid "June"
-msgstr "มิถุนายน"
-
-#: js/js.js:671
-msgid "July"
-msgstr "กรกฏาคม"
-
-#: js/js.js:671
-msgid "August"
-msgstr "สิงหาคม"
-
-#: js/js.js:671
-msgid "September"
-msgstr "กันยายน"
-
-#: js/js.js:671
-msgid "October"
-msgstr "ตุลาคม"
-
-#: js/js.js:671
-msgid "November"
-msgstr "พฤศจิกายน"
-
-#: js/js.js:671
-msgid "December"
-msgstr "ธันวาคม"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
@@ -107,8 +59,8 @@ msgstr "ตกลง"
 msgid "No categories selected for deletion."
 msgstr "ยังไม่ได้เลือกหมวดหมู่ที่ต้องการลบ"
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
+#: js/share.js:517
 msgid "Error"
 msgstr "พบข้อผิดพลาด"
 
@@ -201,15 +153,15 @@ msgstr "ลบ"
 msgid "share"
 msgstr "แชร์"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:322 js/share.js:492
 msgid "Password protected"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:497
+#: js/share.js:505
 msgid "Error unsetting expiration date"
 msgstr "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:509
+#: js/share.js:517
 msgid "Error setting expiration date"
 msgstr "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ"
 
@@ -368,7 +320,83 @@ msgstr "ติดตั้งเรียบร้อยแล้ว"
 msgid "web services under your control"
 msgstr "web services under your control"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:17
+msgid "Sunday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Monday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Tuesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Wednesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Thursday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Friday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Saturday"
+msgstr ""
+
+#: templates/layout.user.php:18
+msgid "January"
+msgstr "มกราคม"
+
+#: templates/layout.user.php:18
+msgid "February"
+msgstr "กุมภาพันธ์"
+
+#: templates/layout.user.php:18
+msgid "March"
+msgstr "มีนาคม"
+
+#: templates/layout.user.php:18
+msgid "April"
+msgstr "เมษายน"
+
+#: templates/layout.user.php:18
+msgid "May"
+msgstr "พฤษภาคม"
+
+#: templates/layout.user.php:18
+msgid "June"
+msgstr "มิถุนายน"
+
+#: templates/layout.user.php:18
+msgid "July"
+msgstr "กรกฏาคม"
+
+#: templates/layout.user.php:18
+msgid "August"
+msgstr "สิงหาคม"
+
+#: templates/layout.user.php:18
+msgid "September"
+msgstr "กันยายน"
+
+#: templates/layout.user.php:18
+msgid "October"
+msgstr "ตุลาคม"
+
+#: templates/layout.user.php:18
+msgid "November"
+msgstr "พฤศจิกายน"
+
+#: templates/layout.user.php:18
+msgid "December"
+msgstr "ธันวาคม"
+
+#: templates/layout.user.php:38
 msgid "Log out"
 msgstr "ออกจากระบบ"
 

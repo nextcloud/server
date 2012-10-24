@@ -52,7 +52,7 @@ class OC_Updater{
 			)
 		);
 		$xml=@file_get_contents($url, 0, $ctx);
-                if($xml==FALSE) {
+                if($xml==false) {
                         return array();
                 }
                 $data=@simplexml_load_string($xml);

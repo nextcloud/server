@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-20 02:02+0200\n"
-"PO-Revision-Date: 2012-10-19 18:32+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,57 +36,9 @@ msgstr "Ei lisättävää luokkaa?"
 msgid "This category already exists: "
 msgstr "Tämä luokka on jo olemassa: "
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Asetukset"
-
-#: js/js.js:670
-msgid "January"
-msgstr "Tammikuu"
-
-#: js/js.js:670
-msgid "February"
-msgstr "Helmikuu"
-
-#: js/js.js:670
-msgid "March"
-msgstr "Maaliskuu"
-
-#: js/js.js:670
-msgid "April"
-msgstr "Huhtikuu"
-
-#: js/js.js:670
-msgid "May"
-msgstr "Toukokuu"
-
-#: js/js.js:670
-msgid "June"
-msgstr "Kesäkuu"
-
-#: js/js.js:671
-msgid "July"
-msgstr "Heinäkuu"
-
-#: js/js.js:671
-msgid "August"
-msgstr "Elokuu"
-
-#: js/js.js:671
-msgid "September"
-msgstr "Syyskuu"
-
-#: js/js.js:671
-msgid "October"
-msgstr "Lokakuu"
-
-#: js/js.js:671
-msgid "November"
-msgstr "Marraskuu"
-
-#: js/js.js:671
-msgid "December"
-msgstr "Joulukuu"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
@@ -112,8 +64,8 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Luokkia ei valittu poistettavaksi."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
+#: js/share.js:517
 msgid "Error"
 msgstr "Virhe"
 
@@ -206,15 +158,15 @@ msgstr "poista"
 msgid "share"
 msgstr "jaa"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:322 js/share.js:492
 msgid "Password protected"
 msgstr "Salasanasuojattu"
 
-#: js/share.js:497
+#: js/share.js:505
 msgid "Error unsetting expiration date"
 msgstr "Virhe purettaessa eräpäivää"
 
-#: js/share.js:509
+#: js/share.js:517
 msgid "Error setting expiration date"
 msgstr "Virhe päättymispäivää asettaessa"
 
@@ -373,7 +325,83 @@ msgstr "Viimeistele asennus"
 msgid "web services under your control"
 msgstr "verkkopalvelut hallinnassasi"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:17
+msgid "Sunday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Monday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Tuesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Wednesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Thursday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Friday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Saturday"
+msgstr ""
+
+#: templates/layout.user.php:18
+msgid "January"
+msgstr "Tammikuu"
+
+#: templates/layout.user.php:18
+msgid "February"
+msgstr "Helmikuu"
+
+#: templates/layout.user.php:18
+msgid "March"
+msgstr "Maaliskuu"
+
+#: templates/layout.user.php:18
+msgid "April"
+msgstr "Huhtikuu"
+
+#: templates/layout.user.php:18
+msgid "May"
+msgstr "Toukokuu"
+
+#: templates/layout.user.php:18
+msgid "June"
+msgstr "Kesäkuu"
+
+#: templates/layout.user.php:18
+msgid "July"
+msgstr "Heinäkuu"
+
+#: templates/layout.user.php:18
+msgid "August"
+msgstr "Elokuu"
+
+#: templates/layout.user.php:18
+msgid "September"
+msgstr "Syyskuu"
+
+#: templates/layout.user.php:18
+msgid "October"
+msgstr "Lokakuu"
+
+#: templates/layout.user.php:18
+msgid "November"
+msgstr "Marraskuu"
+
+#: templates/layout.user.php:18
+msgid "December"
+msgstr "Joulukuu"
+
+#: templates/layout.user.php:38
 msgid "Log out"
 msgstr "Kirjaudu ulos"
 

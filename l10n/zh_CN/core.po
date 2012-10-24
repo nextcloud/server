@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-20 02:02+0200\n"
-"PO-Revision-Date: 2012-10-19 05:40+0000\n"
-"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,57 +33,9 @@ msgstr "没有可添加分类？"
 msgid "This category already exists: "
 msgstr "此分类已存在: "
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "设置"
-
-#: js/js.js:670
-msgid "January"
-msgstr "一月"
-
-#: js/js.js:670
-msgid "February"
-msgstr "二月"
-
-#: js/js.js:670
-msgid "March"
-msgstr "三月"
-
-#: js/js.js:670
-msgid "April"
-msgstr "四月"
-
-#: js/js.js:670
-msgid "May"
-msgstr "五月"
-
-#: js/js.js:670
-msgid "June"
-msgstr "六月"
-
-#: js/js.js:671
-msgid "July"
-msgstr "七月"
-
-#: js/js.js:671
-msgid "August"
-msgstr "八月"
-
-#: js/js.js:671
-msgid "September"
-msgstr "九月"
-
-#: js/js.js:671
-msgid "October"
-msgstr "十月"
-
-#: js/js.js:671
-msgid "November"
-msgstr "十一月"
-
-#: js/js.js:671
-msgid "December"
-msgstr "十二月"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
@@ -109,8 +61,8 @@ msgstr "好"
 msgid "No categories selected for deletion."
 msgstr "没有选择要删除的类别"
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
+#: js/share.js:517
 msgid "Error"
 msgstr "错误"
 
@@ -128,11 +80,11 @@ msgstr "修改权限时出错"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "{owner}共享给您及{group}组"
 
 #: js/share.js:132
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr " {owner}与您共享"
 
 #: js/share.js:137
 msgid "Share with"
@@ -203,15 +155,15 @@ msgstr "删除"
 msgid "share"
 msgstr "共享"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:322 js/share.js:492
 msgid "Password protected"
 msgstr "密码已受保护"
 
-#: js/share.js:497
+#: js/share.js:505
 msgid "Error unsetting expiration date"
 msgstr "取消设置过期日期时出错"
 
-#: js/share.js:509
+#: js/share.js:517
 msgid "Error setting expiration date"
 msgstr "设置过期日期时出错"
 
@@ -370,7 +322,83 @@ msgstr "安装完成"
 msgid "web services under your control"
 msgstr "由您掌控的网络服务"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:17
+msgid "Sunday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Monday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Tuesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Wednesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Thursday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Friday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Saturday"
+msgstr ""
+
+#: templates/layout.user.php:18
+msgid "January"
+msgstr "一月"
+
+#: templates/layout.user.php:18
+msgid "February"
+msgstr "二月"
+
+#: templates/layout.user.php:18
+msgid "March"
+msgstr "三月"
+
+#: templates/layout.user.php:18
+msgid "April"
+msgstr "四月"
+
+#: templates/layout.user.php:18
+msgid "May"
+msgstr "五月"
+
+#: templates/layout.user.php:18
+msgid "June"
+msgstr "六月"
+
+#: templates/layout.user.php:18
+msgid "July"
+msgstr "七月"
+
+#: templates/layout.user.php:18
+msgid "August"
+msgstr "八月"
+
+#: templates/layout.user.php:18
+msgid "September"
+msgstr "九月"
+
+#: templates/layout.user.php:18
+msgid "October"
+msgstr "十月"
+
+#: templates/layout.user.php:18
+msgid "November"
+msgstr "十一月"
+
+#: templates/layout.user.php:18
+msgid "December"
+msgstr "十二月"
+
+#: templates/layout.user.php:38
 msgid "Log out"
 msgstr "注销"
 
@@ -424,4 +452,4 @@ msgstr ""
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "验证"

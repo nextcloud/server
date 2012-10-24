@@ -87,7 +87,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 $freeSpace=\OC\Files\Filesystem::free_space($dir);
 $freeSpace=max($freeSpace,0);
-$maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
+$maxUploadFilesize = min($maxUploadFilesize, $freeSpace);
 
 $permissions = OCP\Share::PERMISSION_READ;
 if (\OC\Files\Filesystem::isUpdatable($dir.'/')) {

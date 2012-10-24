@@ -29,8 +29,8 @@
 require_once '../../lib/base.php';
 
 // don't load apps or filesystem for this task
-$RUNTIME_NOAPPS    = TRUE;
-$RUNTIME_NOSETUPFS = TRUE;
+$RUNTIME_NOAPPS    = true;
+$RUNTIME_NOSETUPFS = true;
 
 // Sanity checks
 // using OCP\JSON::callCheck() below protects the token refreshing itself.

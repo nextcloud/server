@@ -28,10 +28,9 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 
 	public function setConnector(lib\Connection &$connection) {
 		parent::setConnector($connection);
-		if(empty($this->connection->ldapGroupFilter) || empty($this->connection->ldapGroupMemberAssocAttr)) {
-			$this->enabled = false;
+		if(!empty($this->connection->ldapGroupFilter) && !empty($this->connection->ldapGroupMemberAssocAttr)) {
+			$this->enabled = true;
 		}
-		$this->enabled = true;
 	}
 
 	/**

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -32,57 +32,9 @@ msgstr "Eklenecek kategori yok?"
 msgid "This category already exists: "
 msgstr "Bu kategori zaten mevcut: "
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Ayarlar"
-
-#: js/js.js:670
-msgid "January"
-msgstr "Ocak"
-
-#: js/js.js:670
-msgid "February"
-msgstr "Şubat"
-
-#: js/js.js:670
-msgid "March"
-msgstr "Mart"
-
-#: js/js.js:670
-msgid "April"
-msgstr "Nisan"
-
-#: js/js.js:670
-msgid "May"
-msgstr "Mayıs"
-
-#: js/js.js:670
-msgid "June"
-msgstr "Haziran"
-
-#: js/js.js:671
-msgid "July"
-msgstr "Temmuz"
-
-#: js/js.js:671
-msgid "August"
-msgstr "Ağustos"
-
-#: js/js.js:671
-msgid "September"
-msgstr "Eylül"
-
-#: js/js.js:671
-msgid "October"
-msgstr "Ekim"
-
-#: js/js.js:671
-msgid "November"
-msgstr "Kasım"
-
-#: js/js.js:671
-msgid "December"
-msgstr "Aralık"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
@@ -108,8 +60,8 @@ msgstr "Tamam"
 msgid "No categories selected for deletion."
 msgstr "Silmek için bir kategori seçilmedi"
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
+#: js/share.js:517
 msgid "Error"
 msgstr "Hata"
 
@@ -202,15 +154,15 @@ msgstr ""
 msgid "share"
 msgstr ""
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:322 js/share.js:492
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:497
+#: js/share.js:505
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:509
+#: js/share.js:517
 msgid "Error setting expiration date"
 msgstr ""
 
@@ -369,7 +321,83 @@ msgstr "Kurulumu tamamla"
 msgid "web services under your control"
 msgstr "kontrolünüzdeki web servisleri"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:17
+msgid "Sunday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Monday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Tuesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Wednesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Thursday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Friday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Saturday"
+msgstr ""
+
+#: templates/layout.user.php:18
+msgid "January"
+msgstr "Ocak"
+
+#: templates/layout.user.php:18
+msgid "February"
+msgstr "Şubat"
+
+#: templates/layout.user.php:18
+msgid "March"
+msgstr "Mart"
+
+#: templates/layout.user.php:18
+msgid "April"
+msgstr "Nisan"
+
+#: templates/layout.user.php:18
+msgid "May"
+msgstr "Mayıs"
+
+#: templates/layout.user.php:18
+msgid "June"
+msgstr "Haziran"
+
+#: templates/layout.user.php:18
+msgid "July"
+msgstr "Temmuz"
+
+#: templates/layout.user.php:18
+msgid "August"
+msgstr "Ağustos"
+
+#: templates/layout.user.php:18
+msgid "September"
+msgstr "Eylül"
+
+#: templates/layout.user.php:18
+msgid "October"
+msgstr "Ekim"
+
+#: templates/layout.user.php:18
+msgid "November"
+msgstr "Kasım"
+
+#: templates/layout.user.php:18
+msgid "December"
+msgstr "Aralık"
+
+#: templates/layout.user.php:38
 msgid "Log out"
 msgstr "Çıkış yap"
 

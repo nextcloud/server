@@ -141,8 +141,8 @@ class OC_Files {
 	/**
 	 * return the content of a file or return a zip file containning multiply files
 	 *
-	 * @param dir  $dir
-	 * @param file $file ; seperated list of files to download
+	 * @param string $dir
+	 * @param string $file ; seperated list of files to download
 	 * @param boolean $only_header ; boolean to only send header of the request
 	 */
 	public static function get($dir, $files, $only_header = false) {
@@ -162,7 +162,7 @@ class OC_Files {
 			foreach ($files as $file) {
 				$file = $dir . '/' . $file;
 				if (\OC\Files\Filesystem::is_file($file)) {
-					$tmpFile = OC_F\OC\Files\Filesystemilesystem::toTmpFile($file);
+					$tmpFile = \OC\Files\Filesystem::toTmpFile($file);
 					self::$tmpFiles[] = $tmpFile;
 					$zip->addFile($tmpFile, basename($file));
 				} elseif (\OC\Files\Filesystem::is_dir($file)) {

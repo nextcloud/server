@@ -274,18 +274,18 @@ class OC_Helper {
 			if($file != '.' && $file != '..') {
 				$fullpath = $path.'/'.$file;
 				if(is_link($fullpath))
-					return FALSE;
+					return false;
 				elseif(!is_dir($fullpath) && !@chmod($fullpath, $filemode))
-						return FALSE;
+						return false;
 				elseif(!self::chmodr($fullpath, $filemode))
-					return FALSE;
+					return false;
 			}
 		}
 		closedir($dh);
 		if(@chmod($path, $filemode))
-			return TRUE;
+			return true;
 		else
-			return FALSE;
+			return false;
 	}
 
 	/**

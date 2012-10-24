@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-25 02:02+0200\n"
-"PO-Revision-Date: 2012-09-24 04:22+0000\n"
-"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,19 +42,19 @@ msgstr "Aplicaciones"
 msgid "Admin"
 msgstr "Administración"
 
-#: files.php:310
+#: files.php:328
 msgid "ZIP download is turned off."
 msgstr "La descarga en ZIP está desactivada."
 
-#: files.php:311
+#: files.php:329
 msgid "Files need to be downloaded one by one."
 msgstr "Los archivos deben ser descargados de a uno."
 
-#: files.php:311 files.php:336
+#: files.php:329 files.php:354
 msgid "Back to Files"
 msgstr "Volver a archivos"
 
-#: files.php:335
+#: files.php:353
 msgid "Selected files too large to generate zip file."
 msgstr "Los archivos seleccionados son demasiado grandes para generar el archivo zip."
 
@@ -62,13 +62,25 @@ msgstr "Los archivos seleccionados son demasiado grandes para generar el archivo
 msgid "Application is not enabled"
 msgstr "La aplicación no está habilitada"
 
-#: json.php:39 json.php:63 json.php:75
+#: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
 msgstr "Error de autenticación"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Token expirado. Por favor, recargá la página."
+
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr ""
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr ""
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr ""
 
 #: template.php:87
 msgid "seconds ago"
@@ -112,15 +124,15 @@ msgstr "este año"
 msgid "years ago"
 msgstr "hace años"
 
-#: updater.php:66
+#: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
 msgstr "%s está disponible. Conseguí <a href=\"%s\">más información</a>"
 
-#: updater.php:68
+#: updater.php:77
 msgid "up to date"
 msgstr "actualizado"
 
-#: updater.php:71
+#: updater.php:80
 msgid "updates check is disabled"
 msgstr "comprobar actualizaciones está desactivado"
