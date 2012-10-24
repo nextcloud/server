@@ -92,7 +92,7 @@ class OC_Setup {
 			//write the config file
 			OC_Config::setValue('datadirectory', $datadir);
 			OC_Config::setValue('dbtype', $dbtype);
-			OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
+			OC_Config::setValue('version', implode('.',OC_Util::getVersion()));
 			if($dbtype == 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
@@ -376,8 +376,8 @@ class OC_Setup {
 			}
 
 			if(count($error) == 0) {
-				OC_Appconfig::setValue('core', 'installedat',microtime(true));
-				OC_Appconfig::setValue('core', 'lastupdatedat',microtime(true));
+				OC_Appconfig::setValue('core', 'installedat', microtime(true));
+				OC_Appconfig::setValue('core', 'lastupdatedat', microtime(true));
 
 				OC_Group::createGroup('admin');
 				OC_Group::addToGroup($username, 'admin');

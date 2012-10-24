@@ -260,7 +260,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		if($dh) {
 			while($item=readdir($dh)) {
 				if ($item == '.' || $item == '..') continue;
-				if(strstr(strtolower($item),strtolower($query))!==false) {
+				if(strstr(strtolower($item), strtolower($query))!==false) {
 					$files[]=$dir.'/'.$item;
 				}
 				if($this->is_dir($dir.'/'.$item)) {

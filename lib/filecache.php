@@ -102,7 +102,7 @@ class OC_FileCache{
 		$data['versioned']=(int)$data['versioned'];
 		$user=OC_User::getUser();
 		$query=OC_DB::prepare('INSERT INTO `*PREFIX*fscache`(`parent`, `name`, `path`, `path_hash`, `size`, `mtime`, `ctime`, `mimetype`, `mimepart`,`user`,`writable`,`encrypted`,`versioned`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)');
-		$result=$query->execute(array($parent,basename($fullpath),$fullpath,md5($fullpath),$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable'],$data['encrypted'],$data['versioned']));
+		$result=$query->execute(array($parent, basename($fullpath), $fullpath, md5($fullpath), $data['size'], $data['mtime'], $data['ctime'], $data['mimetype'], $mimePart, $user, $data['writable'], $data['encrypted'], $data['versioned']));
 		if(OC_DB::isError($result)) {
 			OC_Log::write('files', 'error while writing file('.$fullpath.') to cache', OC_Log::ERROR);
 		}
@@ -163,7 +163,7 @@ class OC_FileCache{
 		$newPath=$root.$newPath;
 		$newParent=self::getParentId($newPath);
 		$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `parent`=? ,`name`=?, `path`=?, `path_hash`=? WHERE `path_hash`=?');
-		$query->execute(array($newParent,basename($newPath),$newPath,md5($newPath),md5($oldPath)));
+		$query->execute(array($newParent, basename($newPath), $newPath, md5($newPath), md5($oldPath)));
 
 		if(($cache=OC_Cache::getUserCache(true)) && $cache->hasKey('fileid/'.$oldPath)) {
 			$cache->set('fileid/'.$newPath, $cache->get('fileid/'.$oldPath));
@@ -176,7 +176,7 @@ class OC_FileCache{
 		while($row= $query->execute(array($oldPath.'/%'))->fetchRow()) {
 			$old=$row['path'];
 			$new=$newPath.substr($old, $oldLength);
-			$updateQuery->execute(array($new,md5($new),md5($old)));
+			$updateQuery->execute(array($new, md5($new), md5($old)));
 
 			if(($cache=OC_Cache::getUserCache(true)) && $cache->hasKey('fileid/'.$old)) {
 				$cache->set('fileid/'.$new, $cache->get('fileid/'.$old));

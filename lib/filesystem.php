@@ -148,7 +148,7 @@ class OC_Filesystem{
 	  * @return string
 	 */
 	static public function getMountPoint($path) {
-		OC_Hook::emit(self::CLASSNAME,'get_mountpoint',array('path'=>$path));
+		OC_Hook::emit(self::CLASSNAME,'get_mountpoint', array('path'=>$path));
 		if(!$path) {
 			$path='/';
 		}
@@ -176,7 +176,7 @@ class OC_Filesystem{
 	*/
 	static public function getInternalPath($path) {
 		$mountPoint=self::getMountPoint($path);
-		$internalPath=substr($path,strlen($mountPoint));
+		$internalPath=substr($path, strlen($mountPoint));
 		return $internalPath;
 	}
 	
