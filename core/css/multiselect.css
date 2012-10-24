@@ -2,60 +2,58 @@
  This file is licensed under the Affero General Public License version 3 or later.
  See the COPYING-README file. */
 
-ul.multiselectoptions
-{
-	background-color: #fff;
-	border: 1px solid #ddd;
-	border-bottom-left-radius: .5em;
-	border-bottom-right-radius: .5em;
-	border-top: none;
-	box-shadow: 0 1px 1px #ddd;
-	padding-top: .5em;
-	position: absolute;
-	z-index: 49;
-}
-ul.multiselectoptions>li
-{
-	overflow: hidden;
-	white-space: nowrap;
-}
-div.multiselect
-{
-	display: inline;
-	display: inline-block;
-	max-width: 400px;
-	min-width: 100px;
-	padding-right: .6em;
-	position: relative;
-	vertical-align: bottom;
-}
-div.multiselect.active
-{
-	background-color: #fff;
-	border-bottom: none;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-	position: relative;
-	z-index: 50;
-}
-div.multiselect>span:first-child
-{
-	float: left;
-	margin-right: 2em;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	width: 90%;
-}
-div.multiselect>span:last-child
-{
-	position: absolute;
-	right: .8em;
-}
-ul.multiselectoptions input.new
-{
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	margin: 0;
-	padding-bottom: 0.2em;
-	padding-top: 0.2em;
-}
+ ul.multiselectoptions {
+ 	background-color:#fff;
+ 	border:1px solid #ddd;
+ 	border-bottom-left-radius:.5em;
+ 	border-bottom-right-radius:.5em;
+ 	border-top:none;
+ 	box-shadow:0 1px 1px #ddd;
+ 	padding-top:.5em;
+ 	position:absolute;
+ 	z-index:49;
+ }
+
+ ul.multiselectoptions>li {
+ 	overflow:hidden;
+ 	white-space:nowrap;
+ }
+
+ div.multiselect {
+ 	display:inline-block;
+ 	max-width:400px;
+ 	min-width:100px;
+ 	padding-right:.6em;
+ 	position:relative;
+ 	vertical-align:bottom;
+ }
+
+ div.multiselect.active {
+ 	background-color:#fff;
+ 	border-bottom:none;
+ 	border-bottom-left-radius:0;
+ 	border-bottom-right-radius:0;
+ 	position:relative;
+ 	z-index:50;
+ }
+
+ div.multiselect>span:first-child {
+ 	float:left;
+ 	margin-right:2em;
+ 	overflow:hidden;
+ 	text-overflow:ellipsis;
+ 	width:90%;
+ }
+
+ div.multiselect>span:last-child {
+ 	position:absolute;
+ 	right:.8em;
+ }
+
+ ul.multiselectoptions input.new {
+ 	border-top-left-radius:0;
+ 	border-top-right-radius:0;
+ 	padding-bottom:.2em;
+ 	padding-top:.2em;
+ 	margin:0;
+ }
