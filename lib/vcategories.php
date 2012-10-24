@@ -706,11 +706,11 @@ class OC_VCategories {
 		if(!is_array($haystack)) {
 			return false;
 		}
+
 		return array_search(
 			strtolower($needle),
 			array_map('strtolower', $haystack)
 		);
 	}
-
 }
 

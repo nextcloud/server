@@ -120,11 +120,11 @@ class OC_User {
 	 * setup the configured backends in config.php
 	 */
 	public static function setupBackends() {
-		$backends=OC_Config::getValue('user_backends',array());
+		$backends=OC_Config::getValue('user_backends', array());
 		foreach($backends as $i=>$config) {
 			$class=$config['class'];
 			$arguments=$config['arguments'];
-			if(class_exists($class) and array_search($i,self::$_setupedBackends)===false) {
+			if(class_exists($class) and array_search($i, self::$_setupedBackends)===false) {
 				// make a reflection object
 				$reflectionObj = new ReflectionClass($class);
 
@@ -491,8 +491,8 @@ class OC_User {
 		unset($_COOKIE["oc_username"]);
 		unset($_COOKIE["oc_token"]);
 		unset($_COOKIE["oc_remember_login"]);
-		setcookie("oc_username", NULL, -1);
-		setcookie("oc_token", NULL, -1);
-		setcookie("oc_remember_login", NULL, -1);
+		setcookie("oc_username", null, -1);
+		setcookie("oc_token", null, -1);
+		setcookie("oc_remember_login", null, -1);
 	}
 }

@@ -8,53 +8,53 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 13:35+0200\n"
-"PO-Revision-Date: 2012-09-01 10:01+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi_FI\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:288
+#: app.php:285
 msgid "Help"
 msgstr "Ohje"
 
-#: app.php:295
+#: app.php:292
 msgid "Personal"
 msgstr "Henkilökohtainen"
 
-#: app.php:300
+#: app.php:297
 msgid "Settings"
 msgstr "Asetukset"
 
-#: app.php:305
+#: app.php:302
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: app.php:312
+#: app.php:309
 msgid "Apps"
 msgstr "Sovellukset"
 
-#: app.php:314
+#: app.php:311
 msgid "Admin"
 msgstr "Ylläpitäjä"
 
-#: files.php:280
+#: files.php:328
 msgid "ZIP download is turned off."
 msgstr "ZIP-lataus on poistettu käytöstä."
 
-#: files.php:281
+#: files.php:329
 msgid "Files need to be downloaded one by one."
 msgstr "Tiedostot on ladattava yksittäin."
 
-#: files.php:281 files.php:306
+#: files.php:329 files.php:354
 msgid "Back to Files"
 msgstr "Takaisin tiedostoihin"
 
-#: files.php:305
+#: files.php:353
 msgid "Selected files too large to generate zip file."
 msgstr "Valitut tiedostot ovat liian suurikokoisia mahtuakseen zip-tiedostoon."
 
@@ -62,7 +62,7 @@ msgstr "Valitut tiedostot ovat liian suurikokoisia mahtuakseen zip-tiedostoon."
 msgid "Application is not enabled"
 msgstr "Sovellusta ei ole otettu käyttöön"
 
-#: json.php:39 json.php:63 json.php:75
+#: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
 msgstr "Todennusvirhe"
 
@@ -70,57 +70,69 @@ msgstr "Todennusvirhe"
 msgid "Token expired. Please reload page."
 msgstr "Valtuutus vanheni. Lataa sivu uudelleen."
 
-#: template.php:86
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr ""
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr ""
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr ""
+
+#: template.php:87
 msgid "seconds ago"
 msgstr "sekuntia sitten"
 
-#: template.php:87
+#: template.php:88
 msgid "1 minute ago"
 msgstr "1 minuutti sitten"
 
-#: template.php:88
+#: template.php:89
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d minuuttia sitten"
 
-#: template.php:91
+#: template.php:92
 msgid "today"
 msgstr "tänään"
 
-#: template.php:92
+#: template.php:93
 msgid "yesterday"
 msgstr "eilen"
 
-#: template.php:93
+#: template.php:94
 #, php-format
 msgid "%d days ago"
 msgstr "%d päivää sitten"
 
-#: template.php:94
+#: template.php:95
 msgid "last month"
 msgstr "viime kuussa"
 
-#: template.php:95
+#: template.php:96
 msgid "months ago"
 msgstr "kuukautta sitten"
 
-#: template.php:96
+#: template.php:97
 msgid "last year"
 msgstr "viime vuonna"
 
-#: template.php:97
+#: template.php:98
 msgid "years ago"
 msgstr "vuotta sitten"
 
-#: updater.php:66
+#: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
 msgstr "%s on saatavilla. Lue <a href=\"%s\">lisätietoja</a>"
 
-#: updater.php:68
+#: updater.php:77
 msgid "up to date"
 msgstr "ajan tasalla"
 
-#: updater.php:71
+#: updater.php:80
 msgid "updates check is disabled"
 msgstr "päivitysten tarkistus on pois käytöstä"

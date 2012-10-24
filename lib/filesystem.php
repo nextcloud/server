@@ -148,7 +148,7 @@ class OC_Filesystem{
 	  * @return string
 	 */
 	static public function getMountPoint($path) {
-		OC_Hook::emit(self::CLASSNAME,'get_mountpoint',array('path'=>$path));
+		OC_Hook::emit(self::CLASSNAME,'get_mountpoint', array('path'=>$path));
 		if(!$path) {
 			$path='/';
 		}
@@ -176,7 +176,7 @@ class OC_Filesystem{
 	*/
 	static public function getInternalPath($path) {
 		$mountPoint=self::getMountPoint($path);
-		$internalPath=substr($path,strlen($mountPoint));
+		$internalPath=substr($path, strlen($mountPoint));
 		return $internalPath;
 	}
 	
@@ -210,7 +210,7 @@ class OC_Filesystem{
 
 	static private function loadSystemMountPoints($user) {
 		if(is_file(OC::$SERVERROOT.'/config/mount.php')) {
-			$mountConfig=include(OC::$SERVERROOT.'/config/mount.php');
+			$mountConfig=include OC::$SERVERROOT.'/config/mount.php';
 			if(isset($mountConfig['global'])) {
 				foreach($mountConfig['global'] as $mountPoint=>$options) {
 					self::mount($options['class'],$options['options'],$mountPoint);

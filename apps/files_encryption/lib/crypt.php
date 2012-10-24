@@ -151,7 +151,7 @@ class OC_Crypt {
 	*/
 	public static function encryptFile( $source, $target, $key='') {
 		$handleread  = fopen($source, "rb");
-		if($handleread!=FALSE) {
+		if($handleread!=false) {
 			$handlewrite = fopen($target, "wb");
 			while (!feof($handleread)) {
 				$content = fread($handleread, 8192);
@@ -174,7 +174,7 @@ class OC_Crypt {
 		*/
 	public static function decryptFile( $source, $target, $key='') {
 		$handleread  = fopen($source, "rb");
-		if($handleread!=FALSE) {
+		if($handleread!=false) {
 			$handlewrite = fopen($target, "wb");
 			while (!feof($handleread)) {
 				$content = fread($handleread, 8192);

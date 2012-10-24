@@ -136,17 +136,17 @@ class OC_Files {
 	* @param boolean $only_header ; boolean to only send header of the request
 	*/
 	public static function get($dir,$files, $only_header = false) {
-		if(strpos($files,';')) {
-			$files=explode(';',$files);
+		if(strpos($files, ';')) {
+			$files=explode(';', $files);
 		}
 
 		if(is_array($files)) {
-			self::validateZipDownload($dir,$files);
+			self::validateZipDownload($dir, $files);
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				exit("cannot open <$filename>\n");
 			}
 			foreach($files as $file) {
@@ -154,24 +154,24 @@ class OC_Files {
 				if(OC_Filesystem::is_file($file)) {
 					$tmpFile=OC_Filesystem::toTmpFile($file);
 					self::$tmpFiles[]=$tmpFile;
-					$zip->addFile($tmpFile,basename($file));
+					$zip->addFile($tmpFile, basename($file));
 				}elseif(OC_Filesystem::is_dir($file)) {
-					self::zipAddDir($file,$zip);
+					self::zipAddDir($file, $zip);
 				}
 			}
 			$zip->close();
 			set_time_limit($executionTime);
 		}elseif(OC_Filesystem::is_dir($dir.'/'.$files)) {
-			self::validateZipDownload($dir,$files);
+			self::validateZipDownload($dir, $files);
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
 			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==TRUE) {
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				exit("cannot open <$filename>\n");
 			}
 			$file=$dir.'/'.$files;
-			self::zipAddDir($file,$zip);
+			self::zipAddDir($file, $zip);
 			$zip->close();
 			set_time_limit($executionTime);
 		}else{
@@ -193,7 +193,7 @@ class OC_Files {
 		}elseif($zip or !OC_Filesystem::file_exists($filename)) {
 			header("HTTP/1.0 404 Not Found");
 			$tmpl = new OC_Template( '', '404', 'guest' );
-			$tmpl->assign('file',$filename);
+			$tmpl->assign('file', $filename);
 			$tmpl->printPage();
 		}else{
 			header("HTTP/1.0 403 Forbidden");
@@ -205,7 +205,7 @@ class OC_Files {
 			return ;
 		}
 		if($zip) {
-			$handle=fopen($filename,'r');
+			$handle=fopen($filename, 'r');
 			if ($handle) {
 				$chunkSize = 8*1024;// 1 MB chunks
 				while (!feof($handle)) {
@@ -235,9 +235,9 @@ class OC_Files {
 			if(OC_Filesystem::is_file($file)) {
 				$tmpFile=OC_Filesystem::toTmpFile($file);
 				OC_Files::$tmpFiles[]=$tmpFile;
-				$zip->addFile($tmpFile,$internalDir.$filename);
+				$zip->addFile($tmpFile, $internalDir.$filename);
 			}elseif(OC_Filesystem::is_dir($file)) {
-				self::zipAddDir($file,$zip,$internalDir);
+				self::zipAddDir($file, $zip, $internalDir);
 			}
 		}
 	}
@@ -253,7 +253,7 @@ class OC_Files {
 		if(OC_User::isLoggedIn() && ($sourceDir != '' || $source != 'Shared')) {
 			$targetFile=self::normalizePath($targetDir.'/'.$target);
 			$sourceFile=self::normalizePath($sourceDir.'/'.$source);
-			return OC_Filesystem::rename($sourceFile,$targetFile);
+			return OC_Filesystem::rename($sourceFile, $targetFile);
 		} else {
 			return false;
 		}
@@ -271,7 +271,7 @@ class OC_Files {
 		if(OC_User::isLoggedIn()) {
 			$targetFile=$targetDir.'/'.$target;
 			$sourceFile=$sourceDir.'/'.$source;
-			return OC_Filesystem::copy($sourceFile,$targetFile);
+			return OC_Filesystem::copy($sourceFile, $targetFile);
 		}
 	}
 
@@ -390,11 +390,11 @@ class OC_Files {
 	* @return string  guessed mime type
 	*/
 	static function pull($source,$token,$dir,$file) {
-		$tmpfile=tempnam(get_temp_dir(),'remoteCloudFile');
+		$tmpfile=tempnam(get_temp_dir(), 'remoteCloudFile');
 		$fp=fopen($tmpfile,'w+');
 		$url=$source.="/files/pull.php?token=$token";
 		$ch=curl_init();
-		curl_setopt($ch,CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_FILE, $fp);
 		curl_exec($ch);
 		fclose($fp);
@@ -402,7 +402,7 @@ class OC_Files {
 		$httpCode=$info['http_code'];
 		curl_close($ch);
 		if($httpCode==200 or $httpCode==0) {
-			OC_Filesystem::fromTmpFile($tmpfile,$dir.'/'.$file);
+			OC_Filesystem::fromTmpFile($tmpfile, $dir.'/'.$file);
 			return true;
 		}else{
 			return false;
@@ -423,8 +423,8 @@ class OC_Files {
 			$size -=1;
 		} else {
 			$size=OC_Helper::humanFileSize($size);
-			$size=substr($size,0,-1);//strip the B
-			$size=str_replace(' ','',$size); //remove the space between the size and the postfix
+			$size=substr($size, 0, -1);//strip the B
+			$size=str_replace(' ', '', $size); //remove the space between the size and the postfix
 		}
 
 		//don't allow user to break his config -- broken or malicious size input
@@ -447,7 +447,7 @@ class OC_Files {
 		    $setting = 'php_value '.$key.' '.$size;
 		    $hasReplaced = 0;
 		    $content = preg_replace($pattern, $setting, $htaccess, 1, $hasReplaced);
-		    if($content !== NULL) {
+		    if($content !== null) {
 				$htaccess = $content;
 			}
 			if($hasReplaced == 0) {
@@ -459,7 +459,7 @@ class OC_Files {
 		if(is_writable(OC::$SERVERROOT.'/.htaccess')) {
 			file_put_contents(OC::$SERVERROOT.'/.htaccess', $htaccess);
 			return OC_Helper::computerFileSize($size);
-		} else { OC_Log::write('files','Can\'t write upload limit to '.OC::$SERVERROOT.'/.htaccess. Please check the file permissions',OC_Log::WARN); }
+		} else { OC_Log::write('files', 'Can\'t write upload limit to '.OC::$SERVERROOT.'/.htaccess. Please check the file permissions', OC_Log::WARN); }
 
 		return false;
 	}
@@ -474,7 +474,7 @@ class OC_Files {
 		$old='';
 		while($old!=$path) {//replace any multiplicity of slashes with a single one
 			$old=$path;
-			$path=str_replace('//','/',$path);
+			$path=str_replace('//', '/', $path);
 		}
 		return $path;
 	}
@@ -486,6 +486,6 @@ function fileCmp($a,$b) {
 	}elseif($a['type']!='dir' and $b['type']=='dir') {
 		return 1;
 	}else{
-		return strnatcasecmp($a['name'],$b['name']);
+		return strnatcasecmp($a['name'], $b['name']);
 	}
 }

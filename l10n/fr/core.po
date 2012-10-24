@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-18 00:04+0000\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:03+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -37,57 +37,9 @@ msgstr "Pas de catégorie à ajouter ?"
 msgid "This category already exists: "
 msgstr "Cette catégorie existe déjà : "
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Paramètres"
-
-#: js/js.js:670
-msgid "January"
-msgstr "janvier"
-
-#: js/js.js:670
-msgid "February"
-msgstr "février"
-
-#: js/js.js:670
-msgid "March"
-msgstr "mars"
-
-#: js/js.js:670
-msgid "April"
-msgstr "avril"
-
-#: js/js.js:670
-msgid "May"
-msgstr "mai"
-
-#: js/js.js:670
-msgid "June"
-msgstr "juin"
-
-#: js/js.js:671
-msgid "July"
-msgstr "juillet"
-
-#: js/js.js:671
-msgid "August"
-msgstr "août"
-
-#: js/js.js:671
-msgid "September"
-msgstr "septembre"
-
-#: js/js.js:671
-msgid "October"
-msgstr "octobre"
-
-#: js/js.js:671
-msgid "November"
-msgstr "novembre"
-
-#: js/js.js:671
-msgid "December"
-msgstr "décembre"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
@@ -113,8 +65,8 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Aucune catégorie sélectionnée pour suppression"
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
+#: js/share.js:517
 msgid "Error"
 msgstr "Erreur"
 
@@ -207,15 +159,15 @@ msgstr "supprimer"
 msgid "share"
 msgstr "partager"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:322 js/share.js:492
 msgid "Password protected"
 msgstr "Protégé par un mot de passe"
 
-#: js/share.js:497
+#: js/share.js:505
 msgid "Error unsetting expiration date"
 msgstr "Un erreur est survenue pendant la suppression de la date d'expiration"
 
-#: js/share.js:509
+#: js/share.js:517
 msgid "Error setting expiration date"
 msgstr "Erreur lors de la spécification de la date d'expiration"
 
@@ -374,7 +326,83 @@ msgstr "Terminer l'installation"
 msgid "web services under your control"
 msgstr "services web sous votre contrôle"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:17
+msgid "Sunday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Monday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Tuesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Wednesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Thursday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Friday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Saturday"
+msgstr ""
+
+#: templates/layout.user.php:18
+msgid "January"
+msgstr "janvier"
+
+#: templates/layout.user.php:18
+msgid "February"
+msgstr "février"
+
+#: templates/layout.user.php:18
+msgid "March"
+msgstr "mars"
+
+#: templates/layout.user.php:18
+msgid "April"
+msgstr "avril"
+
+#: templates/layout.user.php:18
+msgid "May"
+msgstr "mai"
+
+#: templates/layout.user.php:18
+msgid "June"
+msgstr "juin"
+
+#: templates/layout.user.php:18
+msgid "July"
+msgstr "juillet"
+
+#: templates/layout.user.php:18
+msgid "August"
+msgstr "août"
+
+#: templates/layout.user.php:18
+msgid "September"
+msgstr "septembre"
+
+#: templates/layout.user.php:18
+msgid "October"
+msgstr "octobre"
+
+#: templates/layout.user.php:18
+msgid "November"
+msgstr "novembre"
+
+#: templates/layout.user.php:18
+msgid "December"
+msgstr "décembre"
+
+#: templates/layout.user.php:38
 msgid "Log out"
 msgstr "Se déconnecter"
 

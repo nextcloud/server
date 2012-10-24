@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-23 02:02+0200\n"
-"PO-Revision-Date: 2012-10-22 20:43+0000\n"
-"Last-Translator: andrejuseu <andrejuszl@gmail.com>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,57 +31,9 @@ msgstr "Nepridėsite jokios kategorijos?"
 msgid "This category already exists: "
 msgstr "Tokia kategorija jau yra:"
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Nustatymai"
-
-#: js/js.js:670
-msgid "January"
-msgstr "Sausis"
-
-#: js/js.js:670
-msgid "February"
-msgstr "Vasaris"
-
-#: js/js.js:670
-msgid "March"
-msgstr "Kovas"
-
-#: js/js.js:670
-msgid "April"
-msgstr "Balandis"
-
-#: js/js.js:670
-msgid "May"
-msgstr "Gegužė"
-
-#: js/js.js:670
-msgid "June"
-msgstr "Birželis"
-
-#: js/js.js:671
-msgid "July"
-msgstr "Liepa"
-
-#: js/js.js:671
-msgid "August"
-msgstr "Rugpjūtis"
-
-#: js/js.js:671
-msgid "September"
-msgstr "Rugsėjis"
-
-#: js/js.js:671
-msgid "October"
-msgstr "Spalis"
-
-#: js/js.js:671
-msgid "November"
-msgstr "Lapkritis"
-
-#: js/js.js:671
-msgid "December"
-msgstr "Gruodis"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
@@ -107,8 +59,8 @@ msgstr "Gerai"
 msgid "No categories selected for deletion."
 msgstr "Trynimui nepasirinkta jokia kategorija."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
+#: js/share.js:517
 msgid "Error"
 msgstr "Klaida"
 
@@ -201,15 +153,15 @@ msgstr "ištrinti"
 msgid "share"
 msgstr "dalintis"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:322 js/share.js:492
 msgid "Password protected"
 msgstr "Apsaugota slaptažodžiu"
 
-#: js/share.js:497
+#: js/share.js:505
 msgid "Error unsetting expiration date"
 msgstr "Klaida nuimant galiojimo laiką"
 
-#: js/share.js:509
+#: js/share.js:517
 msgid "Error setting expiration date"
 msgstr "Klaida nustatant galiojimo laiką"
 
@@ -368,7 +320,83 @@ msgstr "Baigti diegimą"
 msgid "web services under your control"
 msgstr "jūsų valdomos web paslaugos"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:17
+msgid "Sunday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Monday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Tuesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Wednesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Thursday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Friday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Saturday"
+msgstr ""
+
+#: templates/layout.user.php:18
+msgid "January"
+msgstr "Sausis"
+
+#: templates/layout.user.php:18
+msgid "February"
+msgstr "Vasaris"
+
+#: templates/layout.user.php:18
+msgid "March"
+msgstr "Kovas"
+
+#: templates/layout.user.php:18
+msgid "April"
+msgstr "Balandis"
+
+#: templates/layout.user.php:18
+msgid "May"
+msgstr "Gegužė"
+
+#: templates/layout.user.php:18
+msgid "June"
+msgstr "Birželis"
+
+#: templates/layout.user.php:18
+msgid "July"
+msgstr "Liepa"
+
+#: templates/layout.user.php:18
+msgid "August"
+msgstr "Rugpjūtis"
+
+#: templates/layout.user.php:18
+msgid "September"
+msgstr "Rugsėjis"
+
+#: templates/layout.user.php:18
+msgid "October"
+msgstr "Spalis"
+
+#: templates/layout.user.php:18
+msgid "November"
+msgstr "Lapkritis"
+
+#: templates/layout.user.php:18
+msgid "December"
+msgstr "Gruodis"
+
+#: templates/layout.user.php:38
 msgid "Log out"
 msgstr "Atsijungti"
 

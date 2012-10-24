@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-22 02:03+0200\n"
-"PO-Revision-Date: 2012-10-21 02:47+0000\n"
-"Last-Translator: elmakong <mr.pige_ina@yahoo.co.id>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,57 +33,9 @@ msgstr "Tidak ada kategori yang akan ditambahkan?"
 msgid "This category already exists: "
 msgstr "Kategori ini sudah ada:"
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Setelan"
-
-#: js/js.js:670
-msgid "January"
-msgstr "Januari"
-
-#: js/js.js:670
-msgid "February"
-msgstr "Februari"
-
-#: js/js.js:670
-msgid "March"
-msgstr "Maret"
-
-#: js/js.js:670
-msgid "April"
-msgstr "April"
-
-#: js/js.js:670
-msgid "May"
-msgstr "Mei"
-
-#: js/js.js:670
-msgid "June"
-msgstr "Juni"
-
-#: js/js.js:671
-msgid "July"
-msgstr "Juli"
-
-#: js/js.js:671
-msgid "August"
-msgstr "Agustus"
-
-#: js/js.js:671
-msgid "September"
-msgstr "September"
-
-#: js/js.js:671
-msgid "October"
-msgstr "Oktober"
-
-#: js/js.js:671
-msgid "November"
-msgstr "Nopember"
-
-#: js/js.js:671
-msgid "December"
-msgstr "Desember"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
@@ -109,8 +61,8 @@ msgstr "Oke"
 msgid "No categories selected for deletion."
 msgstr "Tidak ada kategori terpilih untuk penghapusan."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
+#: js/share.js:517
 msgid "Error"
 msgstr "gagal"
 
@@ -203,15 +155,15 @@ msgstr "hapus"
 msgid "share"
 msgstr "bagikan"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:322 js/share.js:492
 msgid "Password protected"
 msgstr "dilindungi kata kunci"
 
-#: js/share.js:497
+#: js/share.js:505
 msgid "Error unsetting expiration date"
 msgstr "gagal melepas tanggal kadaluarsa"
 
-#: js/share.js:509
+#: js/share.js:517
 msgid "Error setting expiration date"
 msgstr "gagal memasang tanggal kadaluarsa"
 
@@ -370,7 +322,83 @@ msgstr "Selesaikan instalasi"
 msgid "web services under your control"
 msgstr "web service dibawah kontrol anda"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:17
+msgid "Sunday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Monday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Tuesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Wednesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Thursday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Friday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Saturday"
+msgstr ""
+
+#: templates/layout.user.php:18
+msgid "January"
+msgstr "Januari"
+
+#: templates/layout.user.php:18
+msgid "February"
+msgstr "Februari"
+
+#: templates/layout.user.php:18
+msgid "March"
+msgstr "Maret"
+
+#: templates/layout.user.php:18
+msgid "April"
+msgstr "April"
+
+#: templates/layout.user.php:18
+msgid "May"
+msgstr "Mei"
+
+#: templates/layout.user.php:18
+msgid "June"
+msgstr "Juni"
+
+#: templates/layout.user.php:18
+msgid "July"
+msgstr "Juli"
+
+#: templates/layout.user.php:18
+msgid "August"
+msgstr "Agustus"
+
+#: templates/layout.user.php:18
+msgid "September"
+msgstr "September"
+
+#: templates/layout.user.php:18
+msgid "October"
+msgstr "Oktober"
+
+#: templates/layout.user.php:18
+msgid "November"
+msgstr "Nopember"
+
+#: templates/layout.user.php:18
+msgid "December"
+msgstr "Desember"
+
+#: templates/layout.user.php:38
 msgid "Log out"
 msgstr "Keluar"
 

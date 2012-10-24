@@ -63,4 +63,5 @@ abstract class OC_Filestorage{
 	 * returning true for other changes in the folder is optional
 	 */
 	abstract public function hasUpdated($path,$time);
+	abstract public function getOwner($path);
 }

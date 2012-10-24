@@ -36,7 +36,7 @@ if(!isset($_SESSION['timezone'])) {
 }
 OCP\App::setActiveNavigationEntry( 'files_index' );
 // Load the files
-$dir = isset( $_GET['dir'] ) ? stripslashes($_GET['dir']) : '';
+$dir = isset( $_GET['dir'] ) ? urldecode(stripslashes($_GET['dir'])) : '';
 // Redirect if directory does not exist
 if(!OC_Filesystem::is_dir($dir.'/')) {
 	header('Location: '.$_SERVER['SCRIPT_NAME'].'');
@@ -85,9 +85,9 @@ $upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize')
 $post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
 $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
-$freeSpace=OC_Filesystem::free_space('/');
+$freeSpace=OC_Filesystem::free_space($dir);
 $freeSpace=max($freeSpace,0);
-$maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
+$maxUploadFilesize = min($maxUploadFilesize, $freeSpace);
 
 $permissions = OCP\Share::PERMISSION_READ;
 if (OC_Filesystem::isUpdatable($dir.'/')) {

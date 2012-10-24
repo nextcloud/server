@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-12 02:04+0200\n"
-"PO-Revision-Date: 2012-10-11 08:16+0000\n"
-"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,13 +62,25 @@ msgstr "Выбранные файлы слишком велики для ген�
 msgid "Application is not enabled"
 msgstr "Приложение не запущено"
 
-#: json.php:39 json.php:63 json.php:75
+#: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
 msgstr "Ошибка аутентификации"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Маркер истек. Пожалуйста, перезагрузите страницу."
+
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr ""
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr ""
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr ""
 
 #: template.php:87
 msgid "seconds ago"

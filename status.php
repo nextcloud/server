@@ -21,7 +21,7 @@
 *
 */
 
-$RUNTIME_NOAPPS = TRUE; //no apps, yet
+$RUNTIME_NOAPPS = true; //no apps, yet
 
 require_once 'lib/base.php';
 

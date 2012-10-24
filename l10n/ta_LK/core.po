@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-23 02:02+0200\n"
-"PO-Revision-Date: 2012-10-22 06:34+0000\n"
-"Last-Translator: suganthi <suganthi@nic.lk>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,57 +30,9 @@ msgstr "சேர்ப்பதற்கான வகைகள் இல்ல�
 msgid "This category already exists: "
 msgstr "இந்த வகை ஏற்கனவே உள்ளது:"
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
+#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "அமைப்புகள்"
-
-#: js/js.js:670
-msgid "January"
-msgstr "தை"
-
-#: js/js.js:670
-msgid "February"
-msgstr "மாசி"
-
-#: js/js.js:670
-msgid "March"
-msgstr "பங்குனி"
-
-#: js/js.js:670
-msgid "April"
-msgstr "சித்திரை"
-
-#: js/js.js:670
-msgid "May"
-msgstr "வைகாசி"
-
-#: js/js.js:670
-msgid "June"
-msgstr "ஆனி"
-
-#: js/js.js:671
-msgid "July"
-msgstr "ஆடி"
-
-#: js/js.js:671
-msgid "August"
-msgstr "ஆவணி"
-
-#: js/js.js:671
-msgid "September"
-msgstr "புரட்டாசி"
-
-#: js/js.js:671
-msgid "October"
-msgstr "ஐப்பசி"
-
-#: js/js.js:671
-msgid "November"
-msgstr "கார்த்திகை"
-
-#: js/js.js:671
-msgid "December"
-msgstr "மார்கழி"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
@@ -106,8 +58,8 @@ msgstr "சரி"
 msgid "No categories selected for deletion."
 msgstr "நீக்குவதற்கு எந்தப் பிரிவும் தெரிவுசெய்யப்படவில்லை."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
+#: js/share.js:517
 msgid "Error"
 msgstr "வழு"
 
@@ -200,15 +152,15 @@ msgstr "நீக்குக"
 msgid "share"
 msgstr "பகிர்தல்"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:322 js/share.js:492
 msgid "Password protected"
 msgstr "கடவுச்சொல் பாதுகாக்கப்பட்டது"
 
-#: js/share.js:497
+#: js/share.js:505
 msgid "Error unsetting expiration date"
 msgstr "காலாவதியாகும் திகதியை குறிப்பிடாமைக்கான வழு"
 
-#: js/share.js:509
+#: js/share.js:517
 msgid "Error setting expiration date"
 msgstr "காலாவதியாகும் திகதியை குறிப்பிடுவதில் வழு"
 
@@ -367,7 +319,83 @@ msgstr "அமைப்பை முடிக்க"
 msgid "web services under your control"
 msgstr "உங்கள் கட்டுப்பாட்டின் கீழ் இணைய சேவைகள்"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:17
+msgid "Sunday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Monday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Tuesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Wednesday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Thursday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Friday"
+msgstr ""
+
+#: templates/layout.user.php:17
+msgid "Saturday"
+msgstr ""
+
+#: templates/layout.user.php:18
+msgid "January"
+msgstr "தை"
+
+#: templates/layout.user.php:18
+msgid "February"
+msgstr "மாசி"
+
+#: templates/layout.user.php:18
+msgid "March"
+msgstr "பங்குனி"
+
+#: templates/layout.user.php:18
+msgid "April"
+msgstr "சித்திரை"
+
+#: templates/layout.user.php:18
+msgid "May"
+msgstr "வைகாசி"
+
+#: templates/layout.user.php:18
+msgid "June"
+msgstr "ஆனி"
+
+#: templates/layout.user.php:18
+msgid "July"
+msgstr "ஆடி"
+
+#: templates/layout.user.php:18
+msgid "August"
+msgstr "ஆவணி"
+
+#: templates/layout.user.php:18
+msgid "September"
+msgstr "புரட்டாசி"
+
+#: templates/layout.user.php:18
+msgid "October"
+msgstr "ஐப்பசி"
+
+#: templates/layout.user.php:18
+msgid "November"
+msgstr "கார்த்திகை"
+
+#: templates/layout.user.php:18
+msgid "December"
+msgstr "மார்கழி"
+
+#: templates/layout.user.php:38
 msgid "Log out"
 msgstr "விடுபதிகை செய்க"
 

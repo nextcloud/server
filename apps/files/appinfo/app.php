@@ -1,7 +1,7 @@
 <?php
 $l=OC_L10N::get('files');
 
-OCP\App::registerAdmin('files','admin');
+OCP\App::registerAdmin('files', 'admin');
 
 OCP\App::addNavigationEntry( array( "id" => "files_index", "order" => 0, "href" => OCP\Util::linkTo( "files", "index.php" ), "icon" => OCP\Util::imagePath( "core", "places/home.svg" ), "name" => $l->t("Files") ));
 

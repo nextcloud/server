@@ -657,7 +657,7 @@ abstract class Access {
 				$this->connection->ldapUuidAttribute = $attribute;
 				return true;
 		    }
-		    \OCP\Util::writeLog('user_ldap', 'The looked for uuid attr is not '.$attribute.', result was '.print_r($value,true), \OCP\Util::DEBUG);
+		    \OCP\Util::writeLog('user_ldap', 'The looked for uuid attr is not '.$attribute.', result was '.print_r($value, true), \OCP\Util::DEBUG);
 		}
 
 		return false;

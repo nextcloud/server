@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-19 02:02+0200\n"
-"PO-Revision-Date: 2012-09-18 12:54+0000\n"
-"Last-Translator: g.ciprian <g.ciprian@osn.ro>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,19 +42,19 @@ msgstr "Aplicații"
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:280
+#: files.php:328
 msgid "ZIP download is turned off."
 msgstr "Descărcarea ZIP este dezactivată."
 
-#: files.php:281
+#: files.php:329
 msgid "Files need to be downloaded one by one."
 msgstr "Fișierele trebuie descărcate unul câte unul."
 
-#: files.php:281 files.php:306
+#: files.php:329 files.php:354
 msgid "Back to Files"
 msgstr "Înapoi la fișiere"
 
-#: files.php:305
+#: files.php:353
 msgid "Selected files too large to generate zip file."
 msgstr "Fișierele selectate sunt prea mari pentru a genera un fișier zip."
 
@@ -62,13 +62,25 @@ msgstr "Fișierele selectate sunt prea mari pentru a genera un fișier zip."
 msgid "Application is not enabled"
 msgstr "Aplicația nu este activată"
 
-#: json.php:39 json.php:63 json.php:75
+#: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
 msgstr "Eroare la autentificare"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Token expirat. Te rugăm să reîncarci pagina."
+
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr ""
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr ""
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr ""
 
 #: template.php:87
 msgid "seconds ago"
@@ -112,15 +124,15 @@ msgstr "ultimul an"
 msgid "years ago"
 msgstr "ani în urmă"
 
-#: updater.php:66
+#: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
 msgstr "%s este disponibil. Vezi <a href=\"%s\">mai multe informații</a>"
 
-#: updater.php:68
+#: updater.php:77
 msgid "up to date"
 msgstr "la zi"
 
-#: updater.php:71
+#: updater.php:80
 msgid "updates check is disabled"
 msgstr "verificarea după actualizări este dezactivată"

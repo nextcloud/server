@@ -251,6 +251,9 @@ class OC_FilesystemView {
 		return $this->basicOperation('filemtime', $path);
 	}
 	public function touch($path, $mtime=null) {
+		if(!is_null($mtime) and !is_numeric($mtime)){
+			$mtime = strtotime($mtime);
+		}
 		return $this->basicOperation('touch', $path, array('write'), $mtime);
 	}
 	public function file_get_contents($path) {
@@ -585,7 +588,7 @@ class OC_FilesystemView {
 				$result = OC_FileProxy::runPostProxies($operation, $this->getAbsolutePath($path), $result);
 				if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()) {
 					if($operation!='fopen') {//no post hooks for fopen, the file stream is still open
-						$this->runHooks($hooks,$path,true);
+						$this->runHooks($hooks,$path, true);
 					}
 				}
 				return $result;

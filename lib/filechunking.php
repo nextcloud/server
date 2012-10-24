@@ -59,7 +59,7 @@ class OC_FileChunking {
 		for($i=0; $i < $this->info['chunkcount']; $i++) {
 			$chunk = $cache->get($prefix.$i);
 			$cache->remove($prefix.$i);
-			$count += fwrite($f,$chunk);
+			$count += fwrite($f, $chunk);
 		}
 		return $count;
 	}

@@ -34,7 +34,7 @@ class OC_Util {
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted) {
-			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY),'/');
+			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir'=>$CONFIG_DATADIRECTORY),'/');
 			self::$rootMounted=true;
 		}
 
@@ -68,7 +68,7 @@ class OC_Util {
 		$user_root = OC_User::getHome($user);
 		$userdirectory = $user_root . '/files';
 		if (is_file($user_root.'/mount.php')) {
-			$mountConfig = include($user_root.'/mount.php');
+			$mountConfig = include $user_root.'/mount.php';
 			if (isset($mountConfig['user'][$user])) {
 				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
 					OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
@@ -456,7 +456,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getInstanceId() {
-		$id=OC_Config::getValue('instanceid',null);
+		$id=OC_Config::getValue('instanceid', null);
 		if(is_null($id)) {
 			$id=uniqid();
 			OC_Config::setValue('instanceid',$id);
@@ -611,14 +611,14 @@ class OC_Util {
 		// Try to use openssl_random_pseudo_bytes
 		if(function_exists('openssl_random_pseudo_bytes')) {
 			$pseudo_byte = bin2hex(openssl_random_pseudo_bytes($length, $strong));
-			if($strong == TRUE) {
+			if($strong == true) {
 				return substr($pseudo_byte, 0, $length); // Truncate it to match the length
 			}
 		}
 
 		// Try to use /dev/urandom
 		$fp = @file_get_contents('/dev/urandom', false, null, 0, $length);
-		if ($fp !== FALSE) {
+		if ($fp !== false) {
 			$string = substr(bin2hex($fp), 0, $length);
 			return $string;
 		}
@@ -645,14 +645,14 @@ class OC_Util {
 		// Check openssl_random_pseudo_bytes
 		if(function_exists('openssl_random_pseudo_bytes')) {
 			openssl_random_pseudo_bytes(1, $strong);
-			if($strong == TRUE) {
+			if($strong == true) {
 				return true;
 			}
 		}
 
 		// Check /dev/urandom
 		$fp = @file_get_contents('/dev/urandom', false, null, 0, 1);
-		if ($fp !== FALSE) {
+		if ($fp !== false) {
 			return true;
 		}
 
