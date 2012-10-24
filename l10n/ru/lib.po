@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-08 02:02+0200\n"
-"PO-Revision-Date: 2012-09-07 11:22+0000\n"
-"Last-Translator: VicDeo <victor.dubiniuk@gmail.com>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,19 +44,19 @@ msgstr "Приложения"
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:280
+#: files.php:328
 msgid "ZIP download is turned off."
 msgstr "ZIP-скачивание отключено."
 
-#: files.php:281
+#: files.php:329
 msgid "Files need to be downloaded one by one."
 msgstr "Файлы должны быть загружены по одному."
 
-#: files.php:281 files.php:306
+#: files.php:329 files.php:354
 msgid "Back to Files"
 msgstr "Назад к файлам"
 
-#: files.php:305
+#: files.php:353
 msgid "Selected files too large to generate zip file."
 msgstr "Выбранные файлы слишком велики, чтобы создать zip файл."
 
@@ -64,13 +64,25 @@ msgstr "Выбранные файлы слишком велики, чтобы с
 msgid "Application is not enabled"
 msgstr "Приложение не разрешено"
 
-#: json.php:39 json.php:63 json.php:75
+#: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
 msgstr "Ошибка аутентификации"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
 msgstr "Токен просрочен. Перезагрузите страницу."
+
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr ""
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr ""
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr ""
 
 #: template.php:87
 msgid "seconds ago"
@@ -114,15 +126,15 @@ msgstr "в прошлом году"
 msgid "years ago"
 msgstr "годы назад"
 
-#: updater.php:66
+#: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
 msgstr "Возможно обновление до %s. <a href=\"%s\">Подробнее</a>"
 
-#: updater.php:68
+#: updater.php:77
 msgid "up to date"
 msgstr "актуальная версия"
 
-#: updater.php:71
+#: updater.php:80
 msgid "updates check is disabled"
 msgstr "проверка обновлений отключена"

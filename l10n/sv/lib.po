@@ -9,53 +9,53 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 13:35+0200\n"
-"PO-Revision-Date: 2012-09-01 10:13+0000\n"
-"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:288
+#: app.php:285
 msgid "Help"
 msgstr "Hjälp"
 
-#: app.php:295
+#: app.php:292
 msgid "Personal"
 msgstr "Personligt"
 
-#: app.php:300
+#: app.php:297
 msgid "Settings"
 msgstr "Inställningar"
 
-#: app.php:305
+#: app.php:302
 msgid "Users"
 msgstr "Användare"
 
-#: app.php:312
+#: app.php:309
 msgid "Apps"
 msgstr "Program"
 
-#: app.php:314
+#: app.php:311
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:280
+#: files.php:328
 msgid "ZIP download is turned off."
 msgstr "Nerladdning av ZIP är avstängd."
 
-#: files.php:281
+#: files.php:329
 msgid "Files need to be downloaded one by one."
 msgstr "Filer laddas ner en åt gången."
 
-#: files.php:281 files.php:306
+#: files.php:329 files.php:354
 msgid "Back to Files"
 msgstr "Tillbaka till Filer"
 
-#: files.php:305
+#: files.php:353
 msgid "Selected files too large to generate zip file."
 msgstr "Valda filer är för stora för att skapa zip-fil."
 
@@ -63,7 +63,7 @@ msgstr "Valda filer är för stora för att skapa zip-fil."
 msgid "Application is not enabled"
 msgstr "Applikationen är inte aktiverad"
 
-#: json.php:39 json.php:63 json.php:75
+#: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
 msgstr "Fel vid autentisering"
 
@@ -71,57 +71,69 @@ msgstr "Fel vid autentisering"
 msgid "Token expired. Please reload page."
 msgstr "Ogiltig token. Ladda om sidan."
 
-#: template.php:86
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr ""
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr ""
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr ""
+
+#: template.php:87
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: template.php:87
+#: template.php:88
 msgid "1 minute ago"
 msgstr "1 minut sedan"
 
-#: template.php:88
+#: template.php:89
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d minuter sedan"
 
-#: template.php:91
+#: template.php:92
 msgid "today"
 msgstr "idag"
 
-#: template.php:92
+#: template.php:93
 msgid "yesterday"
 msgstr "igår"
 
-#: template.php:93
+#: template.php:94
 #, php-format
 msgid "%d days ago"
 msgstr "%d dagar sedan"
 
-#: template.php:94
+#: template.php:95
 msgid "last month"
 msgstr "förra månaden"
 
-#: template.php:95
+#: template.php:96
 msgid "months ago"
 msgstr "månader sedan"
 
-#: template.php:96
+#: template.php:97
 msgid "last year"
 msgstr "förra året"
 
-#: template.php:97
+#: template.php:98
 msgid "years ago"
 msgstr "år sedan"
 
-#: updater.php:66
+#: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
 msgstr "%s finns. Få <a href=\"%s\">mer information</a>"
 
-#: updater.php:68
+#: updater.php:77
 msgid "up to date"
 msgstr "uppdaterad"
 
-#: updater.php:71
+#: updater.php:80
 msgid "updates check is disabled"
 msgstr "uppdateringskontroll är inaktiverad"

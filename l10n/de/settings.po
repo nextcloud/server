@@ -12,6 +12,7 @@
 #   <lukas@statuscode.ch>, 2012.
 #   <mail@felixmoeller.de>, 2012.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2012.
+#   <markus.thiel@desico.de>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
 # Phi Lieb <>, 2012.
@@ -21,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 23:38+0200\n"
-"PO-Revision-Date: 2012-10-16 21:35+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-24 02:03+0200\n"
+"PO-Revision-Date: 2012-10-23 13:00+0000\n"
+"Last-Translator: thiel <markus.thiel@desico.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -168,11 +169,11 @@ msgstr "Erlaubt Nutzern, Dateien die mit ihnen geteilt wurden, erneut zu teilen"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr "Erlaubet Nutzern mit jedem zu Teilen"
+msgstr "Erlaubt Nutzern mit jedem zu Teilen"
 
 #: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
-msgstr "Erlaubet Nutzern nur das Teilen in ihrer Gruppe"
+msgstr "Erlaubt Nutzern nur das Teilen in ihrer Gruppe"
 
 #: templates/admin.php:88
 msgid "Log"

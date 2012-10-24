@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <>, 2012.
 #   <peter.perosa@gmail.com>, 2012.
 # Peter Peroša <peter.perosa@gmail.com>, 2012.
 #   <urossolar@hotmail.com>, 2012.
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-19 02:03+0200\n"
-"PO-Revision-Date: 2012-10-19 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-23 12:42+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
-msgstr "Datoteka je bila uspešno naložena."
+msgstr "Datoteka je uspešno naložena brez napak."
 
 #: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
@@ -36,7 +37,7 @@ msgstr "Naložena datoteka presega velikost, ki jo določa parameter MAX_FILE_SI
 
 #: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
-msgstr "Datoteka je bila le delno naložena"
+msgstr "Datoteka je le delno naložena"
 
 #: ajax/upload.php:24
 msgid "No file was uploaded"
@@ -68,11 +69,11 @@ msgstr "Preimenuj"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} že obstaja"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "replace"
-msgstr "nadomesti"
+msgstr "zamenjaj"
 
 #: js/filelist.js:194
 msgid "suggest name"
@@ -80,11 +81,11 @@ msgstr "predlagaj ime"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "cancel"
-msgstr "ekliči"
+msgstr "prekliči"
 
 #: js/filelist.js:243
 msgid "replaced {new_name}"
-msgstr ""
+msgstr "zamenjano je ime {new_name}"
 
 #: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
 msgid "undo"
@@ -92,7 +93,7 @@ msgstr "razveljavi"
 
 #: js/filelist.js:245
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "zamenjano ime {new_name} z imenom {old_name}"
 
 #: js/filelist.js:277
 msgid "unshared {files}"
@@ -104,23 +105,23 @@ msgstr ""
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
-msgstr "Ustvarjam ZIP datoteko. To lahko traja nekaj časa."
+msgstr "Ustvarjanje datoteke ZIP. To lahko traja nekaj časa."
 
 #: js/files.js:214
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Nalaganje ni mogoče, saj gre za mapo, ali pa ima datoteka velikost 0 bajtov."
+msgstr "Pošiljanje ni mogoče, saj gre za mapo, ali pa je datoteka velikosti 0 bajtov."
 
 #: js/files.js:214
 msgid "Upload Error"
-msgstr "Napaka pri nalaganju"
+msgstr "Napaka med nalaganjem"
 
 #: js/files.js:242 js/files.js:347 js/files.js:377
 msgid "Pending"
-msgstr "Na čakanju"
+msgstr "V čakanju ..."
 
 #: js/files.js:262
 msgid "1 file uploading"
-msgstr ""
+msgstr "Pošiljanje 1 datoteke"
 
 #: js/files.js:265 js/files.js:310 js/files.js:325
 msgid "{count} files uploading"
@@ -128,12 +129,12 @@ msgstr ""
 
 #: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
-msgstr "Nalaganje je bilo preklicano."
+msgstr "Pošiljanje je preklicano."
 
 #: js/files.js:430
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Nalaganje datoteke je v teku. Če zapustite to stran zdaj, boste nalaganje preklicali."
+msgstr "V teku je pošiljanje datoteke. Če zapustite to stran zdaj, bo pošiljanje preklicano."
 
 #: js/files.js:500
 msgid "Invalid name, '/' is not allowed."
@@ -161,7 +162,7 @@ msgstr "Spremenjeno"
 
 #: js/files.js:791
 msgid "1 folder"
-msgstr ""
+msgstr "1 mapa"
 
 #: js/files.js:793
 msgid "{count} folders"
@@ -169,7 +170,7 @@ msgstr ""
 
 #: js/files.js:801
 msgid "1 file"
-msgstr ""
+msgstr "1 datoteka"
 
 #: js/files.js:803
 msgid "{count} files"
@@ -177,11 +178,11 @@ msgstr ""
 
 #: js/files.js:846
 msgid "seconds ago"
-msgstr ""
+msgstr "sekund nazaj"
 
 #: js/files.js:847
 msgid "1 minute ago"
-msgstr ""
+msgstr "Pred 1 minuto"
 
 #: js/files.js:848
 msgid "{minutes} minutes ago"
@@ -189,11 +190,11 @@ msgstr ""
 
 #: js/files.js:851
 msgid "today"
-msgstr ""
+msgstr "danes"
 
 #: js/files.js:852
 msgid "yesterday"
-msgstr ""
+msgstr "včeraj"
 
 #: js/files.js:853
 msgid "{days} days ago"
@@ -201,27 +202,27 @@ msgstr ""
 
 #: js/files.js:854
 msgid "last month"
-msgstr ""
+msgstr "zadnji mesec"
 
 #: js/files.js:856
 msgid "months ago"
-msgstr ""
+msgstr "mesecev nazaj"
 
 #: js/files.js:857
 msgid "last year"
-msgstr ""
+msgstr "lansko leto"
 
 #: js/files.js:858
 msgid "years ago"
-msgstr ""
+msgstr "let nazaj"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr "Rokovanje z datotekami"
+msgstr "Upravljanje z datotekami"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Največja velikost za nalaganje"
+msgstr "Največja velikost za pošiljanja"
 
 #: templates/admin.php:7
 msgid "max. possible: "
@@ -229,11 +230,11 @@ msgstr "največ mogoče:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr "Potrebno za prenose večih datotek in map."
+msgstr "Uporabljeno za prenos več datotek in map."
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr "Omogoči ZIP-prejemanje"
+msgstr "Omogoči prejemanje arhivov ZIP"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
@@ -241,7 +242,7 @@ msgstr "0 je neskončno"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr "Največja vhodna velikost za ZIP datoteke"
+msgstr "Največja vhodna velikost za datoteke ZIP"
 
 #: templates/admin.php:14
 msgid "Save"
@@ -261,15 +262,15 @@ msgstr "Mapa"
 
 #: templates/index.php:11
 msgid "From url"
-msgstr "Iz url naslova"
+msgstr "Iz naslova URL"
 
 #: templates/index.php:20
 msgid "Upload"
-msgstr "Naloži"
+msgstr "Pošlji"
 
 #: templates/index.php:27
 msgid "Cancel upload"
-msgstr "Prekliči nalaganje"
+msgstr "Prekliči pošiljanje"
 
 #: templates/index.php:40
 msgid "Nothing in here. Upload something!"
@@ -281,7 +282,7 @@ msgstr "Souporaba"
 
 #: templates/index.php:52
 msgid "Download"
-msgstr "Prenesi"
+msgstr "Prejmi"
 
 #: templates/index.php:75
 msgid "Upload too large"
@@ -295,8 +296,8 @@ msgstr "Datoteke, ki jih želite naložiti, presegajo največjo dovoljeno veliko
 
 #: templates/index.php:82
 msgid "Files are being scanned, please wait."
-msgstr "Preiskujem datoteke, prosimo počakajte."
+msgstr "Poteka preučevanje datotek, počakajte ..."
 
 #: templates/index.php:85
 msgid "Current scanning"
-msgstr "Trenutno preiskujem"
+msgstr "Trenutno poteka preučevanje"
