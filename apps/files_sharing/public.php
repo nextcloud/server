@@ -209,7 +209,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 						} else {
 							$getPath = '';
 						}
-						$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.urlencode($_GET['dir']).'&path='.$getPath, false);
+						$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.urlencode($_GET['dir']).'&path='.urlencode($getPath), false);
 					}
 				}
 				$tmpl->printPage();
