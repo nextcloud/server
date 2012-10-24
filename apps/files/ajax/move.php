@@ -9,7 +9,7 @@ OCP\JSON::callCheck();
 // Get data
 $dir = stripslashes($_GET["dir"]);
 $file = stripslashes($_GET["file"]);
-$target = stripslashes($_GET["target"]);
+$target = stripslashes(urldecode($_GET["target"]));
 
 
 if(OC_Files::move($dir, $file, $target, $file)) {
