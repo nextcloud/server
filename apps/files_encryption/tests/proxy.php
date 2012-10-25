@@ -30,7 +30,7 @@ class Test_CryptProxy extends UnitTestCase {
 
 		//set up temporary storage
 		\OC\Files\Filesystem::clearMounts();
-		\OC\Files\Filesystem::mount('\OC\Files\Storage\Temporary',array(),'/');
+		\OC\Files\Filesystem::mount('\OC\Files\Storage\Temporary' ,array(), '/');
 
 		\OC\Files\Filesystem::init('/'.$user.'/files');
 
@@ -59,7 +59,7 @@ class Test_CryptProxy extends UnitTestCase {
 
 		$fromFile=\OC\Files\Filesystem::file_get_contents('/file');
 		$this->assertNotEqual($original,$stored);
-		$this->assertEqual(strlen($original),strlen($fromFile));
+		$this->assertEqual(strlen($original), strlen($fromFile));
 		$this->assertEqual($original,$fromFile);
 
 	}
@@ -98,7 +98,7 @@ class Test_CryptProxy extends UnitTestCase {
 
 		$fromFile=\OC\Files\Filesystem::file_get_contents('/file');
 		$this->assertNotEqual($original,$stored);
-		$this->assertEqual(strlen($original),strlen($fromFile));
+		$this->assertEqual(strlen($original), strlen($fromFile));
 		$this->assertEqual($original,$fromFile);
 
 		$file=__DIR__.'/zeros';
@@ -112,6 +112,6 @@ class Test_CryptProxy extends UnitTestCase {
 
 		$fromFile=\OC\Files\Filesystem::file_get_contents('/file');
 		$this->assertNotEqual($original,$stored);
-		$this->assertEqual(strlen($original),strlen($fromFile));
+		$this->assertEqual(strlen($original), strlen($fromFile));
 	}
 }

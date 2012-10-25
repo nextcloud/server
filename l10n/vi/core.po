@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -248,7 +248,7 @@ msgstr "Thêm"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Cảnh bảo bảo mật"
 
 #: templates/installation.php:24
 msgid ""
@@ -269,7 +269,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Thư mục dữ liệu và những tập tin của bạn có thể dễ dàng bị truy cập từ internet. Tập tin .htaccess của ownCloud cung cấp không hoạt động. Chúng tôi đề nghị bạn nên cấu hình lại máy chủ webserver của bạn để thư mục dữ liệu không  còn bị truy cập hoặc bạn di chuyển thư mục dữ liệu ra bên ngoài thư mục gốc của máy chủ."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -322,31 +322,31 @@ msgstr "các dịch vụ web dưới sự kiểm soát của bạn"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "Chủ nhật"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "Thứ 2"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "Thứ 3"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "Thứ 4"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "Thứ 5"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "Thứ "
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "Thứ 7"
 
 #: templates/layout.user.php:18
 msgid "January"

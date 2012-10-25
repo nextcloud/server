@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -129,7 +129,7 @@ msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "הסר שיתוף"
 
 #: js/share.js:283
 msgid "can edit"
@@ -324,31 +324,31 @@ msgstr "שירותי רשת בשליטתך"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "יום ראשון"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "יום שני"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "יום שלישי"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "יום רביעי"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "יום חמישי"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "יום שישי"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "שבת"
 
 #: templates/layout.user.php:18
 msgid "January"

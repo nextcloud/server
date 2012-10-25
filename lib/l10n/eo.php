@@ -12,6 +12,8 @@
 "Application is not enabled" => "La aplikaĵo ne estas kapabligita",
 "Authentication error" => "Aŭtentiga eraro",
 "Token expired. Please reload page." => "Ĵetono eksvalidiĝis. Bonvolu reŝargi la paĝon.",
+"Files" => "Dosieroj",
+"Text" => "Teksto",
 "seconds ago" => "sekundojn antaŭe",
 "1 minute ago" => "antaŭ 1 minuto",
 "%d minutes ago" => "antaŭ %d minutoj",

@@ -100,7 +100,7 @@ class Storage {
 				$versionsFolderName=\OCP\Config::getSystemValue('datadirectory'). $versions_fileview->getAbsolutePath('');
 				$matches=glob($versionsFolderName.'/'.$filename.'.v*');
 				sort($matches);
-				$parts=explode('.v',end($matches));
+				$parts=explode('.v', end($matches));
 				if((end($parts)+Storage::DEFAULTMININTERVAL)>time()) {
 					return false;
 				}
@@ -110,7 +110,7 @@ class Storage {
 			// create all parent folders
 			$info=pathinfo($filename);
 			if(!file_exists($versionsFolderName.'/'.$info['dirname'])) {
-				mkdir($versionsFolderName.'/'.$info['dirname'],0750,true);
+				mkdir($versionsFolderName.'/'.$info['dirname'],0750, true);
 			}
 
 			// store a new version of a file

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Kurdish (Iraq) (http://www.transifex.com/projects/p/owncloud/language/ku_IQ/)\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr ""
 #: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
 #: js/share.js:517
 msgid "Error"
-msgstr ""
+msgstr "هه‌ڵه"
 
 #: js/share.js:103
 msgid "Error while sharing"
@@ -187,7 +187,7 @@ msgstr ""
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
 msgid "Username"
-msgstr ""
+msgstr "ناوی به‌کارهێنه‌ر"
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
@@ -243,7 +243,7 @@ msgstr ""
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "زیادکردن"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
@@ -317,7 +317,7 @@ msgstr "كۆتایی هات ده‌ستكاریه‌كان"
 
 #: templates/layout.guest.php:38
 msgid "web services under your control"
-msgstr ""
+msgstr "ڕاژه‌ی وێب له‌ژێر چاودێریت دایه"
 
 #: templates/layout.user.php:17
 msgid "Sunday"

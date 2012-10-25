@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr ""
 #: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
 #: js/share.js:517
 msgid "Error"
-msgstr ""
+msgstr "Kļūme"
 
 #: js/share.js:103
 msgid "Error while sharing"
@@ -126,7 +126,7 @@ msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Pārtraukt līdzdalīšanu"
 
 #: js/share.js:283
 msgid "can edit"
@@ -247,7 +247,7 @@ msgstr ""
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Brīdinājums par drošību"
 
 #: templates/installation.php:24
 msgid ""

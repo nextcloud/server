@@ -87,7 +87,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 				$parentContainer=$this->getContainer($parent);
 			}
 		}
-		$this->addSubContainer($parentContainer,basename($path));
+		$this->addSubContainer($parentContainer, basename($path));
 		return $this->conn->create_container($this->getContainerName($path));
 	}
 
@@ -248,7 +248,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 			return false;
 		}else{
 			unset($containers[$i]);
-			file_put_contents($tmpFile,implode("\n",$containers)."\n");
+			file_put_contents($tmpFile, implode("\n",$containers)."\n");
 		}
 
 		$obj->load_from_filename($tmpFile);
@@ -324,7 +324,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 			$this->emptyContainer($path);
 			if($path!='' and $path!='/') {
 				$parentContainer=$this->getContainer(dirname($path));
-				$this->removeSubContainer($parentContainer,basename($path));
+				$this->removeSubContainer($parentContainer, basename($path));
 			}
 
 			$this->conn->delete_container($this->getContainerName($path));
@@ -467,7 +467,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 
 	public function writeBack($tmpFile) {
 		if(isset(self::$tempFiles[$tmpFile])) {
-			$this->fromTmpFile($tmpFile,self::$tempFiles[$tmpFile]);
+			$this->fromTmpFile($tmpFile, self::$tempFiles[$tmpFile]);
 			unlink($tmpFile);
 		}
 	}
@@ -495,7 +495,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 		$this->init();
 		$sourceContainer=$this->getContainer(dirname($path1));
 		$targetContainer=$this->getContainer(dirname($path2));
-		$result=$sourceContainer->move_object_to(basename($path1),$targetContainer,basename($path2));
+		$result=$sourceContainer->move_object_to(basename($path1),$targetContainer, basename($path2));
 		unset($this->objects[$path1]);
 		if($result) {
 			$targetObj=$this->getObject($path2);
@@ -508,7 +508,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 		$this->init();
 		$sourceContainer=$this->getContainer(dirname($path1));
 		$targetContainer=$this->getContainer(dirname($path2));
-		$result=$sourceContainer->copy_object_to(basename($path1),$targetContainer,basename($path2));
+		$result=$sourceContainer->copy_object_to(basename($path1),$targetContainer, basename($path2));
 		if($result) {
 			$targetObj=$this->getObject($path2);
 			$this->resetMTime($targetObj);

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -324,31 +324,31 @@ msgstr "web usluge pod vašom kontrolom"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "nedelja"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "ponedeljak"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "utorak"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "srijeda"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "četvrtak"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "petak"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "subota"
 
 #: templates/layout.user.php:18
 msgid "January"

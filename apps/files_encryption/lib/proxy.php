@@ -42,13 +42,13 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 			return false;
 		}
 		if(is_null(self::$blackList)) {
-			self::$blackList=explode(',',OCP\Config::getAppValue('files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
+			self::$blackList=explode(',', OCP\Config::getAppValue('files_encryption', 'type_blacklist', 'jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
 		}
 		if(self::isEncrypted($path)) {
 			return true;
 		}
-		$extension=substr($path,strrpos($path,'.')+1);
-		if(array_search($extension,self::$blackList)===false) {
+		$extension=substr($path, strrpos($path, '.')+1);
+		if(array_search($extension, self::$blackList)===false) {
 			return true;
 		}
 	}
@@ -68,7 +68,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 			if (!is_resource($data)) {//stream put contents should have been converter to fopen
 				$size=strlen($data);
 				$data=OC_Crypt::blockEncrypt($data);
-				OC_FileCache::put($path,array('encrypted'=>true,'size'=>$size),'');
+				OC_FileCache::put($path, array('encrypted'=>true,'size'=>$size),'');
 			}
 		}
 	}

@@ -109,7 +109,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		$lockInfo->created = time();
 		$lockInfo->uri = $uri;
 
-		$locks = $this->getLocks($uri,false);
+		$locks = $this->getLocks($uri, false);
 		$exists = false;
 		foreach($locks as $lock) {
 			if ($lock->token == $lockInfo->token) $exists = true;

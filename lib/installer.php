@@ -125,7 +125,7 @@ class OC_Installer{
 			}
 			return false;
 		}
-		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml',true);
+		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml', true);
 		// check the code for not allowed calls
 		if(!OC_Installer::checkCode($info['id'],$extractDir)) {
 			OC_Log::write('core','App can\'t be installed because of not allowed code in the App',OC_Log::ERROR);

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -321,31 +321,31 @@ msgstr "உங்கள் கட்டுப்பாட்டின் கீ�
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "ஞாயிற்றுக்கிழமை"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "திங்கட்கிழமை"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "செவ்வாய்க்கிழமை"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "புதன்கிழமை"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "வியாழக்கிழமை"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "வெள்ளிக்கிழமை"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "சனிக்கிழமை"
 
 #: templates/layout.user.php:18
 msgid "January"

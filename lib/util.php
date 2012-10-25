@@ -34,7 +34,7 @@ class OC_Util {
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted) {
-			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local',array('datadir'=>$CONFIG_DATADIRECTORY),'/');
+			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir'=>$CONFIG_DATADIRECTORY), '/');
 			self::$rootMounted=true;
 		}
 
@@ -297,7 +297,10 @@ class OC_Util {
 			$errors[]=array('error'=>'PHP module zlib is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
-
+		if(!function_exists('iconv')) {
+			$errors[]=array('error'=>'PHP module iconv is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
+		}
 		if(!function_exists('simplexml_load_string')) {
 			$errors[]=array('error'=>'PHP module SimpleXML is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
@@ -457,7 +460,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getInstanceId() {
-		$id=OC_Config::getValue('instanceid',null);
+		$id=OC_Config::getValue('instanceid', null);
 		if(is_null($id)) {
 			$id=uniqid();
 			OC_Config::setValue('instanceid',$id);

@@ -168,11 +168,11 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					$list = new OCP\Template('files', 'part.list', '');
 					$list->assign('files', $files, false);
 					$list->assign('publicListView', true);
-					$list->assign('baseURL', OCP\Util::linkToPublic('files').'&dir='.$_GET['dir'].'&path=', false);
-					$list->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.$_GET['dir'].'&path=', false);
+					$list->assign('baseURL', OCP\Util::linkToPublic('files').'&dir='.urlencode($_GET['dir']).'&path=', false);
+					$list->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.urlencode($_GET['dir']).'&path=', false);
 					$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '' );
 					$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
-					$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files').'&dir='.$_GET['dir'].'&path=', false);
+					$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files').'&dir='.urlencode($_GET['dir']).'&path=', false);
 					$folder = new OCP\Template('files', 'index', '');
 					$folder->assign('fileList', $list->fetchPage(), false);
 					$folder->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
@@ -194,7 +194,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					} else {
 						$getPath = '';
 					}
-					$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.$_GET['dir'].'&path='.$getPath);
+					$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.urlencode($_GET['dir']).'&path='.urlencode($getPath), false);
 				} else {
 					// Show file preview if viewer is available
 					$tmpl->assign('uidOwner', $uidOwner);
@@ -202,14 +202,14 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					$tmpl->assign('filename', basename($path));
 					$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
 					if ($type == 'file') {
-						$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&file='.$_GET['file'].'&download');
+						$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&file='.urlencode($_GET['file']).'&download', false);
 					} else {
 						if (isset($_GET['path'])) {
 							$getPath = $_GET['path'];
 						} else {
 							$getPath = '';
 						}
-						$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.$_GET['dir'].'&path='.$getPath);
+						$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&download&dir='.urlencode($_GET['dir']).'&path='.urlencode($getPath), false);
 					}
 				}
 				$tmpl->printPage();

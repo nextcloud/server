@@ -80,13 +80,13 @@ class DAV extends \OC\Files\Storage\Common{
 	public function mkdir($path) {
 		$this->init();
 		$path=$this->cleanPath($path);
-		return $this->simpleResponse('MKCOL',$path,null,201);
+		return $this->simpleResponse('MKCOL',$path, null,201);
 	}
 
 	public function rmdir($path) {
 		$this->init();
 		$path=$this->cleanPath($path);
-		return $this->simpleResponse('DELETE',$path,null,204);
+		return $this->simpleResponse('DELETE',$path, null,204);
 	}
 
 	public function opendir($path) {
@@ -143,7 +143,7 @@ class DAV extends \OC\Files\Storage\Common{
 
 	public function unlink($path) {
 		$this->init();
-		return $this->simpleResponse('DELETE',$path,null,204);
+		return $this->simpleResponse('DELETE', $path, null ,204);
 	}
 
 	public function fopen($path,$mode) {
@@ -180,7 +180,7 @@ class DAV extends \OC\Files\Storage\Common{
 			case 'c+':
 				//emulate these
 				if(strrpos($path,'.')!==false) {
-					$ext=substr($path,strrpos($path,'.'));
+					$ext=substr($path, strrpos($path,'.'));
 				}else{
 					$ext='';
 				}
@@ -196,7 +196,7 @@ class DAV extends \OC\Files\Storage\Common{
 
 	public function writeBack($tmpFile) {
 		if(isset(self::$tempFiles[$tmpFile])) {
-			$this->uploadFile($tmpFile,self::$tempFiles[$tmpFile]);
+			$this->uploadFile($tmpFile, self::$tempFiles[$tmpFile]);
 			unlink($tmpFile);
 		}
 	}
@@ -251,7 +251,7 @@ class DAV extends \OC\Files\Storage\Common{
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try{
-			$this->client->request('MOVE',$path1,null,array('Destination'=>$path2));
+			$this->client->request('MOVE', $path1, null, array('Destination' => $path2));
 			return true;
 		}catch(\Exception $e) {
 			return false;
@@ -263,7 +263,7 @@ class DAV extends \OC\Files\Storage\Common{
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try{
-			$this->client->request('COPY',$path1,null,array('Destination'=>$path2));
+			$this->client->request('COPY', $path1, null, array('Destination' => $path2));
 			return true;
 		}catch(\Exception $e) {
 			return false;

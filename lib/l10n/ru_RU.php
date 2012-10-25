@@ -12,6 +12,8 @@
 "Application is not enabled" => "Приложение не запущено",
 "Authentication error" => "Ошибка аутентификации",
 "Token expired. Please reload page." => "Маркер истек. Пожалуйста, перезагрузите страницу.",
+"Files" => "Файлы",
+"Text" => "Текст",
 "seconds ago" => "секунд назад",
 "1 minute ago" => "1 минуту назад",
 "%d minutes ago" => "%d минут назад",

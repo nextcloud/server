@@ -400,7 +400,7 @@ class Google extends \OC\Files\Storage\Common {
 			case 'c':
 			case 'c+':
 				if (strrpos($path,'.') !== false) {
-					$ext = substr($path,strrpos($path,'.'));
+					$ext = substr($path, strrpos($path,'.'));
 				} else {
 					$ext = '';
 				}

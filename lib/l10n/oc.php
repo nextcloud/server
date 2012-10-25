@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Los fichièrs devan èsser avalcargats un per un.",
 "Back to Files" => "Torna cap als fichièrs",
 "Authentication error" => "Error d'autentificacion",
+"Files" => "Fichièrs",
 "seconds ago" => "segonda a",
 "1 minute ago" => "1 minuta a",
 "%d minutes ago" => "%d minutas a",

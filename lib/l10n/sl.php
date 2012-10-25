@@ -12,6 +12,8 @@
 "Application is not enabled" => "Program ni omogočen",
 "Authentication error" => "Napaka overitve",
 "Token expired. Please reload page." => "Žeton je potekel. Spletišče je traba znova naložiti.",
+"Files" => "Datoteke",
+"Text" => "Besedilo",
 "seconds ago" => "pred nekaj sekundami",
 "1 minute ago" => "pred minuto",
 "%d minutes ago" => "pred %d minutami",

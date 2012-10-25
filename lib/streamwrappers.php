@@ -6,7 +6,7 @@ class OC_FakeDirStream{
 	private $index;
 
 	public function dir_opendir($path,$options) {
-		$this->name=substr($path,strlen('fakedir://'));
+		$this->name=substr($path, strlen('fakedir://'));
 		$this->index=0;
 		if(!isset(self::$dirs[$this->name])) {
 			self::$dirs[$this->name]=array();
@@ -223,7 +223,7 @@ class OC_CloseStreamWrapper{
 	private $source;
 	private static $open=array();
 	public function stream_open($path, $mode, $options, &$opened_path) {
-		$path=substr($path,strlen('close://'));
+		$path=substr($path, strlen('close://'));
 		$this->path=$path;
 		$this->source=fopen($path,$mode);
 		if(is_resource($this->source)) {
@@ -279,7 +279,7 @@ class OC_CloseStreamWrapper{
 	}
 
 	public function url_stat($path) {
-		$path=substr($path,strlen('close://'));
+		$path=substr($path, strlen('close://'));
 		if(file_exists($path)) {
 			return stat($path);
 		}else{
@@ -295,7 +295,7 @@ class OC_CloseStreamWrapper{
 	}
 
 	public function unlink($path) {
-		$path=substr($path,strlen('close://'));
+		$path=substr($path, strlen('close://'));
 		return unlink($path);
 	}
 }

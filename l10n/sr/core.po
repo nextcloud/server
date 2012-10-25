@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Откажи"
 
 #: js/oc-dialogs.js:159
 msgid "No"
@@ -243,7 +243,7 @@ msgstr ""
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "Додај"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
@@ -321,79 +321,79 @@ msgstr "веб сервиси под контролом"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "Недеља"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "Понедељак"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "Уторак"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "Среда"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "Четвртак"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "Петак"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "Субота"
 
 #: templates/layout.user.php:18
 msgid "January"
-msgstr ""
+msgstr "Јануар"
 
 #: templates/layout.user.php:18
 msgid "February"
-msgstr ""
+msgstr "Фебруар"
 
 #: templates/layout.user.php:18
 msgid "March"
-msgstr ""
+msgstr "Март"
 
 #: templates/layout.user.php:18
 msgid "April"
-msgstr ""
+msgstr "Април"
 
 #: templates/layout.user.php:18
 msgid "May"
-msgstr ""
+msgstr "Мај"
 
 #: templates/layout.user.php:18
 msgid "June"
-msgstr ""
+msgstr "Јун"
 
 #: templates/layout.user.php:18
 msgid "July"
-msgstr ""
+msgstr "Јул"
 
 #: templates/layout.user.php:18
 msgid "August"
-msgstr ""
+msgstr "Август"
 
 #: templates/layout.user.php:18
 msgid "September"
-msgstr ""
+msgstr "Септембар"
 
 #: templates/layout.user.php:18
 msgid "October"
-msgstr ""
+msgstr "Октобар"
 
 #: templates/layout.user.php:18
 msgid "November"
-msgstr ""
+msgstr "Новембар"
 
 #: templates/layout.user.php:18
 msgid "December"
-msgstr ""
+msgstr "Децембар"
 
 #: templates/layout.user.php:38
 msgid "Log out"

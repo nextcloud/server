@@ -12,6 +12,8 @@
 "Application is not enabled" => "Applikasjon er ikke påslått",
 "Authentication error" => "Autentiseringsfeil",
 "Token expired. Please reload page." => "Symbol utløpt. Vennligst last inn siden på nytt.",
+"Files" => "Filer",
+"Text" => "Tekst",
 "seconds ago" => "sekunder siden",
 "1 minute ago" => "1 minuitt siden",
 "%d minutes ago" => "%d minutter siden",

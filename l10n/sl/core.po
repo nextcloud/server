@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -271,7 +271,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Trenutno je dostop do podatkovne mape in datotek najverjetneje omogočen vsem uporabnikom na omrežju. Datoteka .htaccess, vključena v ownCloud namreč ni omogočena. Močno priporočamo nastavitev spletnega strežnika tako, da mapa podatkov ne bo javno dostopna ali pa, da jo prestavite ven iz korenske mape spletnega strežnika."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -324,31 +324,31 @@ msgstr "spletne storitve pod vašim nadzorom"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "nedelja"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "ponedeljek"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "torek"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "sreda"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "četrtek"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "petek"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "sobota"
 
 #: templates/layout.user.php:18
 msgid "January"

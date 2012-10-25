@@ -9,7 +9,7 @@ if(!OC_User::isLoggedIn()) {
 
 session_write_close();
 // Get the params
-$dir = isset( $_REQUEST['dir'] ) ? trim($_REQUEST['dir'], '/\\') : '';
+$dir = isset( $_REQUEST['dir'] ) ? '/'.trim($_REQUEST['dir'], '/\\') : '';
 $filename = isset( $_REQUEST['filename'] ) ? trim($_REQUEST['filename'], '/\\') : '';
 $content = isset( $_REQUEST['content'] ) ? $_REQUEST['content'] : '';
 $source = isset( $_REQUEST['source'] ) ? trim($_REQUEST['source'], '/\\') : '';

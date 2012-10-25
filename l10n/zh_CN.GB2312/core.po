@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -322,31 +322,31 @@ msgstr "你控制下的网络服务"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "星期天"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "星期一"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "星期二"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "星期三"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "星期四"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "星期五"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "星期六"
 
 #: templates/layout.user.php:18
 msgid "January"
