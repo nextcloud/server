@@ -65,15 +65,8 @@ class OC_Group {
 	 *
 	 * Tries to create a new group. If the group name already exists, false will
 	 * be returned. Basic checking of Group name
-	 *
-	 * Allowed characters in the username are: "a-z", "A-Z", "0-9" and "_.@-"
 	 */
 	public static function createGroup( $gid ) {
-		// Check the name for bad characters
-		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
-		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $gid )) {
-			return false;
-		}
 		// No empty group names!
 		if( !$gid ) {
 			return false;

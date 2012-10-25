@@ -12,6 +12,8 @@
 "Application is not enabled" => "Programmet er ikke aktiveret",
 "Authentication error" => "Adgangsfejl",
 "Token expired. Please reload page." => "Adgang er udløbet. Genindlæs siden.",
+"Files" => "Filer",
+"Text" => "SMS",
 "seconds ago" => "sekunder siden",
 "1 minute ago" => "1 minut siden",
 "%d minutes ago" => "%d minutter siden",

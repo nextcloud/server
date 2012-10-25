@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Kanseller"
 
 #: js/oc-dialogs.js:159
 msgid "No"
@@ -62,7 +62,7 @@ msgstr ""
 #: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
 #: js/share.js:517
 msgid "Error"
-msgstr ""
+msgstr "Feil"
 
 #: js/share.js:103
 msgid "Error while sharing"
@@ -244,7 +244,7 @@ msgstr ""
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "Legg til"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
@@ -322,79 +322,79 @@ msgstr "Vev tjenester under din kontroll"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "Søndag"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "Måndag"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "Tysdag"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "Onsdag"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "Torsdag"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "Fredag"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "Laurdag"
 
 #: templates/layout.user.php:18
 msgid "January"
-msgstr ""
+msgstr "Januar"
 
 #: templates/layout.user.php:18
 msgid "February"
-msgstr ""
+msgstr "Februar"
 
 #: templates/layout.user.php:18
 msgid "March"
-msgstr ""
+msgstr "Mars"
 
 #: templates/layout.user.php:18
 msgid "April"
-msgstr ""
+msgstr "April"
 
 #: templates/layout.user.php:18
 msgid "May"
-msgstr ""
+msgstr "Mai"
 
 #: templates/layout.user.php:18
 msgid "June"
-msgstr ""
+msgstr "Juni"
 
 #: templates/layout.user.php:18
 msgid "July"
-msgstr ""
+msgstr "Juli"
 
 #: templates/layout.user.php:18
 msgid "August"
-msgstr ""
+msgstr "August"
 
 #: templates/layout.user.php:18
 msgid "September"
-msgstr ""
+msgstr "September"
 
 #: templates/layout.user.php:18
 msgid "October"
-msgstr ""
+msgstr "Oktober"
 
 #: templates/layout.user.php:18
 msgid "November"
-msgstr ""
+msgstr "November"
 
 #: templates/layout.user.php:18
 msgid "December"
-msgstr ""
+msgstr "Desember"
 
 #: templates/layout.user.php:38
 msgid "Log out"

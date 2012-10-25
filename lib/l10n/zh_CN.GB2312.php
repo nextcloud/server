@@ -12,6 +12,8 @@
 "Application is not enabled" => "应用未启用",
 "Authentication error" => "验证错误",
 "Token expired. Please reload page." => "会话过期。请刷新页面。",
+"Files" => "文件",
+"Text" => "文本",
 "seconds ago" => "秒前",
 "1 minute ago" => "1 分钟前",
 "%d minutes ago" => "%d 分钟前",

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "الغاء"
 
 #: js/oc-dialogs.js:159
 msgid "No"
@@ -239,11 +239,11 @@ msgstr "لم يتم إيجاد"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "عدل الفئات"
 
 #: templates/edit_categories_dialog.php:14
 msgid "Add"
-msgstr ""
+msgstr "أدخل"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
@@ -321,79 +321,79 @@ msgstr "خدمات الوب تحت تصرفك"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "الاحد"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "الأثنين"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "الثلاثاء"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "الاربعاء"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "الخميس"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "الجمعه"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "السبت"
 
 #: templates/layout.user.php:18
 msgid "January"
-msgstr ""
+msgstr "كانون الثاني"
 
 #: templates/layout.user.php:18
 msgid "February"
-msgstr ""
+msgstr "شباط"
 
 #: templates/layout.user.php:18
 msgid "March"
-msgstr ""
+msgstr "آذار"
 
 #: templates/layout.user.php:18
 msgid "April"
-msgstr ""
+msgstr "نيسان"
 
 #: templates/layout.user.php:18
 msgid "May"
-msgstr ""
+msgstr "أيار"
 
 #: templates/layout.user.php:18
 msgid "June"
-msgstr ""
+msgstr "حزيران"
 
 #: templates/layout.user.php:18
 msgid "July"
-msgstr ""
+msgstr "تموز"
 
 #: templates/layout.user.php:18
 msgid "August"
-msgstr ""
+msgstr "آب"
 
 #: templates/layout.user.php:18
 msgid "September"
-msgstr ""
+msgstr "أيلول"
 
 #: templates/layout.user.php:18
 msgid "October"
-msgstr ""
+msgstr "تشرين الاول"
 
 #: templates/layout.user.php:18
 msgid "November"
-msgstr ""
+msgstr "تشرين الثاني"
 
 #: templates/layout.user.php:18
 msgid "December"
-msgstr ""
+msgstr "كانون الاول"
 
 #: templates/layout.user.php:38
 msgid "Log out"

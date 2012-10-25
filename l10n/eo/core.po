@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -249,7 +249,7 @@ msgstr "Aldoni"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Sekureca averto"
 
 #: templates/installation.php:24
 msgid ""
@@ -323,31 +323,31 @@ msgstr "TTT-servoj sub via kontrolo"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "dimanĉo"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "lundo"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "mardo"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "merkredo"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "ĵaŭdo"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "vendredo"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "sabato"
 
 #: templates/layout.user.php:18
 msgid "January"

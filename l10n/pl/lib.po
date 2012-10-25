@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Cyryl Sochacki <>, 2012.
+# Marcin Małecki <gerber@tkdami.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 15:52+0000\n"
+"Last-Translator: Marcin Małecki <gerber@tkdami.net>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,15 +73,15 @@ msgstr "Token wygasł. Proszę ponownie załadować stronę."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "Pliki"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "Połączenie tekstowe"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Obrazy"
 
 #: template.php:87
 msgid "seconds ago"

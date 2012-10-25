@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -128,7 +128,7 @@ msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "Paylaşılmayan"
 
 #: js/share.js:283
 msgid "can edit"
@@ -140,7 +140,7 @@ msgstr ""
 
 #: js/share.js:288
 msgid "create"
-msgstr ""
+msgstr "oluştur"
 
 #: js/share.js:291
 msgid "update"
@@ -249,7 +249,7 @@ msgstr "Ekle"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Güvenlik Uyarisi"
 
 #: templates/installation.php:24
 msgid ""
@@ -323,31 +323,31 @@ msgstr "kontrolünüzdeki web servisleri"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "Pazar"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "Pazartesi"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "Salı"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "Çarşamba"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "Perşembe"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "Cuma"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "Cumartesi"
 
 #: templates/layout.user.php:18
 msgid "January"

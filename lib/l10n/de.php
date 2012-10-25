@@ -12,6 +12,8 @@
 "Application is not enabled" => "Die Anwendung ist nicht aktiviert",
 "Authentication error" => "Authentifizierungs-Fehler",
 "Token expired. Please reload page." => "Token abgelaufen. Bitte lade die Seite neu.",
+"Files" => "Dateien",
+"Text" => "Text",
 "seconds ago" => "Vor wenigen Sekunden",
 "1 minute ago" => "Vor einer Minute",
 "%d minutes ago" => "Vor %d Minuten",

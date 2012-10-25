@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:11+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgstr ""
 
 #: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
-msgstr ""
+msgstr "ავთენტიფიკაციის შეცდომა"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
@@ -76,7 +76,7 @@ msgstr ""
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "ტექსტი"
 
 #: search/provider/file.php:29
 msgid "Images"
@@ -84,11 +84,11 @@ msgstr ""
 
 #: template.php:87
 msgid "seconds ago"
-msgstr ""
+msgstr "წამის წინ"
 
 #: template.php:88
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 წუთის წინ"
 
 #: template.php:89
 #, php-format
@@ -97,11 +97,11 @@ msgstr ""
 
 #: template.php:92
 msgid "today"
-msgstr ""
+msgstr "დღეს"
 
 #: template.php:93
 msgid "yesterday"
-msgstr ""
+msgstr "გუშინ"
 
 #: template.php:94
 #, php-format
@@ -110,7 +110,7 @@ msgstr ""
 
 #: template.php:95
 msgid "last month"
-msgstr ""
+msgstr "გასულ თვეში"
 
 #: template.php:96
 msgid "months ago"

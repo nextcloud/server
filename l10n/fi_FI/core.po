@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -274,7 +274,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Data-kansio ja tiedostot ovat ehkä saavutettavissa Internetistä. .htaccess-tiedosto, jolla kontrolloidaan pääsyä, ei toimi. Suosittelemme, että muutat web-palvelimesi asetukset niin ettei data-kansio ole enää pääsyä tai siirrät data-kansion pois web-palvelimen tiedostojen juuresta."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -327,31 +327,31 @@ msgstr "verkkopalvelut hallinnassasi"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "Sunnuntai"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "Maanantai"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "Tiistai"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "Keskiviikko"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "Torstai"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "Perjantai"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "Lauantai"
 
 #: templates/layout.user.php:18
 msgid "January"

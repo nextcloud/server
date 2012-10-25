@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 05:39+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,15 +72,15 @@ msgstr "Token scaduto. Ricarica la pagina."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "File"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "Testo"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Immagini"
 
 #: template.php:87
 msgid "seconds ago"

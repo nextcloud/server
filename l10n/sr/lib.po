@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:11+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -19,19 +19,19 @@ msgstr ""
 
 #: app.php:285
 msgid "Help"
-msgstr ""
+msgstr "Помоћ"
 
 #: app.php:292
 msgid "Personal"
-msgstr ""
+msgstr "Лично"
 
 #: app.php:297
 msgid "Settings"
-msgstr ""
+msgstr "Подешавања"
 
 #: app.php:302
 msgid "Users"
-msgstr ""
+msgstr "Корисници"
 
 #: app.php:309
 msgid "Apps"
@@ -63,7 +63,7 @@ msgstr ""
 
 #: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
-msgstr ""
+msgstr "Грешка при аутентификацији"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
@@ -75,7 +75,7 @@ msgstr ""
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "Текст"
 
 #: search/provider/file.php:29
 msgid "Images"

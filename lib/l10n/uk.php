@@ -11,6 +11,8 @@
 "Selected files too large to generate zip file." => "Вибрані фали завеликі для генерування zip файлу.",
 "Application is not enabled" => "Додаток не увімкнений",
 "Authentication error" => "Помилка автентифікації",
+"Files" => "Файли",
+"Text" => "Текст",
 "seconds ago" => "секунди тому",
 "1 minute ago" => "1 хвилину тому",
 "%d minutes ago" => "%d хвилин тому",

@@ -12,6 +12,8 @@
 "Application is not enabled" => "Aplikazioa ez dago gaituta",
 "Authentication error" => "Autentikazio errorea",
 "Token expired. Please reload page." => "Tokena iraungitu da. Mesedez birkargatu orria.",
+"Files" => "Fitxategiak",
+"Text" => "Testua",
 "seconds ago" => "orain dela segundu batzuk",
 "1 minute ago" => "orain dela minutu 1",
 "%d minutes ago" => "orain dela %d minutu",

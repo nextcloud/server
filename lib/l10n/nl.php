@@ -12,6 +12,8 @@
 "Application is not enabled" => "De applicatie is niet actief",
 "Authentication error" => "Authenticatie fout",
 "Token expired. Please reload page." => "Token verlopen.  Herlaad de pagina.",
+"Files" => "Bestanden",
+"Text" => "Tekst",
 "seconds ago" => "seconden geleden",
 "1 minute ago" => "1 minuut geleden",
 "%d minutes ago" => "%d minuten geleden",

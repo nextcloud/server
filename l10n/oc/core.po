@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
 "MIME-Version: 1.0\n"
@@ -247,7 +247,7 @@ msgstr "Ajusta"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Avertiment de securitat"
 
 #: templates/installation.php:24
 msgid ""
@@ -321,31 +321,31 @@ msgstr "Services web jos ton contraròtle"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "Dimenge"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "Diluns"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "Dimarç"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "Dimecres"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "Dijòus"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "Divendres"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "Dissabte"
 
 #: templates/layout.user.php:18
 msgid "January"

@@ -12,6 +12,8 @@
 "Application is not enabled" => "Rakendus pole sisse lülitatud",
 "Authentication error" => "Autentimise viga",
 "Token expired. Please reload page." => "Kontrollkood aegus. Paelun lae leht uuesti.",
+"Files" => "Failid",
+"Text" => "Tekst",
 "seconds ago" => "sekundit tagasi",
 "1 minute ago" => "1 minut tagasi",
 "%d minutes ago" => "%d minutit tagasi",
