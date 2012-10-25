@@ -12,6 +12,8 @@
 "Application is not enabled" => "Δεν ενεργοποιήθηκε η εφαρμογή",
 "Authentication error" => "Σφάλμα πιστοποίησης",
 "Token expired. Please reload page." => "Το αναγνωριστικό έληξε. Παρακαλώ φορτώστε ξανά την σελίδα.",
+"Files" => "Αρχεία",
+"Text" => "Κείμενο",
 "seconds ago" => "δευτερόλεπτα πριν",
 "1 minute ago" => "1 λεπτό πριν",
 "%d minutes ago" => "%d λεπτά πριν",

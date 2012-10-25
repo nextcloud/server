@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -270,7 +270,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Váš priečinok s dátami a vaše súbory sú pravdepodobne dostupné z internetu. .htaccess súbor dodávaný s inštaláciou ownCloud nespĺňa úlohu. Dôrazne vám doporučujeme nakonfigurovať webserver takým spôsobom, aby dáta v priečinku neboli verejné, alebo presuňte dáta mimo štruktúry priečinkov webservera."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -323,31 +323,31 @@ msgstr "webové služby pod vašou kontrolou"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "Nedeľa"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "Pondelok"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "Utorok"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "Streda"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "Štvrtok"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "Piatok"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "Sobota"
 
 #: templates/layout.user.php:18
 msgid "January"

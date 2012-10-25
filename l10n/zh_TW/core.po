@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -127,7 +127,7 @@ msgstr ""
 
 #: js/share.js:271
 msgid "Unshare"
-msgstr ""
+msgstr "取消共享"
 
 #: js/share.js:283
 msgid "can edit"
@@ -139,7 +139,7 @@ msgstr ""
 
 #: js/share.js:288
 msgid "create"
-msgstr ""
+msgstr "建立"
 
 #: js/share.js:291
 msgid "update"
@@ -248,7 +248,7 @@ msgstr "添加"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "安全性警告"
 
 #: templates/installation.php:24
 msgid ""
@@ -322,31 +322,31 @@ msgstr "網路服務已在你控制"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "週日"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "週一"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "週二"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "週三"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "週四"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "週五"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "週六"
 
 #: templates/layout.user.php:18
 msgid "January"

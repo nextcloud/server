@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -321,31 +321,31 @@ msgstr "თქვენი კონტროლის ქვეშ მყოფ
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "კვირა"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "ორშაბათი"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "სამშაბათი"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "ოთხშაბათი"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "ხუთშაბათი"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "პარასკევი"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "შაბათი"
 
 #: templates/layout.user.php:18
 msgid "January"

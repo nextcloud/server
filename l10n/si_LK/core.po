@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -56,12 +56,12 @@ msgstr "හරි"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "මකා දැමීම සඳහා ප්‍රවර්ගයන් තෝරා නොමැත."
 
 #: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
 #: js/share.js:517
 msgid "Error"
-msgstr ""
+msgstr "දෝෂයක්"
 
 #: js/share.js:103
 msgid "Error while sharing"
@@ -187,7 +187,7 @@ msgstr ""
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
 msgid "Username"
-msgstr ""
+msgstr "පරිශීලක නම"
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
@@ -211,11 +211,11 @@ msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "පෞද්ගලික"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "පරිශීලකයන්"
 
 #: strings.php:7
 msgid "Apps"
@@ -223,7 +223,7 @@ msgstr "යෙදුම්"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "පරිපාලක"
 
 #: strings.php:9
 msgid "Help"
@@ -317,35 +317,35 @@ msgstr ""
 
 #: templates/layout.guest.php:38
 msgid "web services under your control"
-msgstr ""
+msgstr "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "ඉරිදා"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "සඳුදා"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "අඟහරුවාදා"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "බදාදා"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "බ්‍රහස්පතින්දා"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "සිකුරාදා"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "සෙනසුරාදා"
 
 #: templates/layout.user.php:18
 msgid "January"

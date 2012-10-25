@@ -12,6 +12,7 @@
 "Application is not enabled" => "යෙදුම සක්‍රිය කර නොමැත",
 "Authentication error" => "සත්‍යාපනය කිරීමේ දෝශයක්",
 "Token expired. Please reload page." => "ටෝකනය කල් ඉකුත් වී ඇත. පිටුව නැවුම් කරන්න",
+"Text" => "පෙළ",
 "seconds ago" => "තත්පරයන්ට පෙර",
 "1 minute ago" => "1 මිනිත්තුවකට පෙර",
 "%d minutes ago" => "%d මිනිත්තුවන්ට පෙර",

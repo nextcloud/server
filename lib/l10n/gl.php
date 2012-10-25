@@ -12,6 +12,7 @@
 "Application is not enabled" => "O aplicativo non está habilitado",
 "Authentication error" => "Erro na autenticación",
 "Token expired. Please reload page." => "Testemuño caducado. Por favor recargue a páxina.",
+"Text" => "Texto",
 "seconds ago" => "hai segundos",
 "1 minute ago" => "hai 1 minuto",
 "%d minutes ago" => "hai %d minutos",

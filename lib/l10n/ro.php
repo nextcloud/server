@@ -12,6 +12,8 @@
 "Application is not enabled" => "Aplicația nu este activată",
 "Authentication error" => "Eroare la autentificare",
 "Token expired. Please reload page." => "Token expirat. Te rugăm să reîncarci pagina.",
+"Files" => "Fișiere",
+"Text" => "Text",
 "seconds ago" => "secunde în urmă",
 "1 minute ago" => "1 minut în urmă",
 "%d minutes ago" => "%d minute în urmă",

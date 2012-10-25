@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "权限已授予。",
+"Error configuring Dropbox storage" => "配置Dropbox存储时出错",
+"Grant access" => "授权",
+"Fill out all required fields" => "完成所有必填项",
 "Please provide a valid Dropbox app key and secret." => "请提供有效的Dropbox应用key和secret",
 "Error configuring Google Drive storage" => "配置Google Drive存储时出错",
 "External Storage" => "外部存储",
@@ -6,7 +10,9 @@
 "Backend" => "后端",
 "Configuration" => "配置",
 "Options" => "选项",
+"Applicable" => "适用的",
 "Add mount point" => "增加挂载点",
+"None set" => "未设置",
 "All Users" => "所有用户",
 "Groups" => "组",
 "Users" => "用户",

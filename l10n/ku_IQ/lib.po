@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:11+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Kurdish (Iraq) (http://www.transifex.com/projects/p/owncloud/language/ku_IQ/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: app.php:285
 msgid "Help"
-msgstr ""
+msgstr "یارمەتی"
 
 #: app.php:292
 msgid "Personal"
@@ -27,11 +27,11 @@ msgstr ""
 
 #: app.php:297
 msgid "Settings"
-msgstr ""
+msgstr "ده‌ستكاری"
 
 #: app.php:302
 msgid "Users"
-msgstr ""
+msgstr "به‌كارهێنه‌ر"
 
 #: app.php:309
 msgid "Apps"

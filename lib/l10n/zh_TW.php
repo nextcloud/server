@@ -12,6 +12,8 @@
 "Application is not enabled" => "應用程式未啟用",
 "Authentication error" => "認證錯誤",
 "Token expired. Please reload page." => "Token 過期. 請重新整理頁面",
+"Files" => "檔案",
+"Text" => "文字",
 "seconds ago" => "幾秒前",
 "1 minute ago" => "1 分鐘前",
 "%d minutes ago" => "%d 分鐘前",

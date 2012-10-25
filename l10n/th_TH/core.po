@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -248,7 +248,7 @@ msgstr "เพิ่ม"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "คำเตือนเกี่ยวกับความปลอดภัย"
 
 #: templates/installation.php:24
 msgid ""
@@ -269,7 +269,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "ไดเร็กทอรี่ข้อมูลและไฟล์ของคุณสามารถเข้าถึงได้จากอินเทอร์เน็ต ไฟล์ .htaccess ที่ ownCloud มีให้ไม่สามารถทำงานได้อย่างเหมาะสม เราขอแนะนำให้คุณกำหนดค่าเว็บเซิร์ฟเวอร์ใหม่ในรูปแบบที่ไดเร็กทอรี่เก็บข้อมูลไม่สามารถเข้าถึงได้อีกต่อไป หรือคุณได้ย้ายไดเร็กทอรี่ที่ใช้เก็บข้อมูลไปอยู่ภายนอกตำแหน่ง root ของเว็บเซิร์ฟเวอร์แล้ว"
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -322,31 +322,31 @@ msgstr "web services under your control"
 
 #: templates/layout.user.php:17
 msgid "Sunday"
-msgstr ""
+msgstr "วันอาทิตย์"
 
 #: templates/layout.user.php:17
 msgid "Monday"
-msgstr ""
+msgstr "วันจันทร์"
 
 #: templates/layout.user.php:17
 msgid "Tuesday"
-msgstr ""
+msgstr "วันอังคาร"
 
 #: templates/layout.user.php:17
 msgid "Wednesday"
-msgstr ""
+msgstr "วันพุธ"
 
 #: templates/layout.user.php:17
 msgid "Thursday"
-msgstr ""
+msgstr "วันพฤหัสบดี"
 
 #: templates/layout.user.php:17
 msgid "Friday"
-msgstr ""
+msgstr "วันศุกร์"
 
 #: templates/layout.user.php:17
 msgid "Saturday"
-msgstr ""
+msgstr "วันเสาร์"
 
 #: templates/layout.user.php:18
 msgid "January"

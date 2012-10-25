@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-24 02:02+0200\n"
-"PO-Revision-Date: 2012-10-24 00:04+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:11+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -19,19 +19,19 @@ msgstr ""
 
 #: app.php:285
 msgid "Help"
-msgstr ""
+msgstr "உதவி"
 
 #: app.php:292
 msgid "Personal"
-msgstr ""
+msgstr "தனிப்பட்ட"
 
 #: app.php:297
 msgid "Settings"
-msgstr ""
+msgstr "அமைப்புகள்"
 
 #: app.php:302
 msgid "Users"
-msgstr ""
+msgstr "பயனாளர்கள்"
 
 #: app.php:309
 msgid "Apps"
@@ -71,7 +71,7 @@ msgstr ""
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "கோப்புகள்"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
@@ -83,11 +83,11 @@ msgstr ""
 
 #: template.php:87
 msgid "seconds ago"
-msgstr ""
+msgstr "செக்கன்களுக்கு முன்"
 
 #: template.php:88
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 நிமிடத்திற்கு முன் "
 
 #: template.php:89
 #, php-format
@@ -96,11 +96,11 @@ msgstr ""
 
 #: template.php:92
 msgid "today"
-msgstr ""
+msgstr "இன்று"
 
 #: template.php:93
 msgid "yesterday"
-msgstr ""
+msgstr "நேற்று"
 
 #: template.php:94
 #, php-format
@@ -109,19 +109,19 @@ msgstr ""
 
 #: template.php:95
 msgid "last month"
-msgstr ""
+msgstr "கடந்த மாதம்"
 
 #: template.php:96
 msgid "months ago"
-msgstr ""
+msgstr "மாதங்களுக்கு முன"
 
 #: template.php:97
 msgid "last year"
-msgstr ""
+msgstr "கடந்த வருடம்"
 
 #: template.php:98
 msgid "years ago"
-msgstr ""
+msgstr "வருடங்களுக்கு முன்"
 
 #: updater.php:75
 #, php-format

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:03+0200\n"
-"PO-Revision-Date: 2012-10-17 05:17+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 05:14+0000\n"
 "Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -20,19 +20,19 @@ msgstr ""
 
 #: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
 msgid "Access granted"
-msgstr ""
+msgstr "权限已授予。"
 
 #: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
 msgid "Error configuring Dropbox storage"
-msgstr ""
+msgstr "配置Dropbox存储时出错"
 
 #: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
 msgid "Grant access"
-msgstr ""
+msgstr "授权"
 
 #: js/dropbox.js:73 js/google.js:72
 msgid "Fill out all required fields"
-msgstr ""
+msgstr "完成所有必填项"
 
 #: js/dropbox.js:85
 msgid "Please provide a valid Dropbox app key and secret."
@@ -64,7 +64,7 @@ msgstr "选项"
 
 #: templates/settings.php:11
 msgid "Applicable"
-msgstr ""
+msgstr "适用的"
 
 #: templates/settings.php:23
 msgid "Add mount point"
@@ -72,7 +72,7 @@ msgstr "增加挂载点"
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
-msgstr ""
+msgstr "未设置"
 
 #: templates/settings.php:63
 msgid "All Users"

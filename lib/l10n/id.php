@@ -12,6 +12,7 @@
 "Application is not enabled" => "aplikasi tidak diaktifkan",
 "Authentication error" => "autentikasi bermasalah",
 "Token expired. Please reload page." => "token kadaluarsa.mohon perbaharui laman.",
+"Text" => "teks",
 "seconds ago" => "beberapa detik yang lalu",
 "1 minute ago" => "1 menit lalu",
 "%d minutes ago" => "%d menit lalu",
