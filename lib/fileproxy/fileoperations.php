@@ -29,7 +29,7 @@ class OC_FileProxy_FileOperations extends OC_FileProxy{
 
 	public function premkdir($path) {
 		if(!self::$rootView){
-			self::$rootView = new OC_FilesystemView('');
+			self::$rootView = new \OC\Files\View('');
 		}
 		return !self::$rootView->file_exists($path);
 	}
