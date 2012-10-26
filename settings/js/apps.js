@@ -51,6 +51,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				}
 				else {
 					element.data('active',false);
+					OC.Settings.Apps.removeNavigation(appid);
 					element.val(t('settings','Enable'));
 				}
 			},'json');
@@ -61,6 +62,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					OC.dialogs.alert('Error while enabling app','Error');
 				}
 				else {
+					OC.Settings.Apps.addNavigation(appid);
 					element.data('active',true);
 					element.val(t('settings','Disable'));
 				}
@@ -87,6 +89,38 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			applist.last().after(app);
 		}
 		return app;
+	},
+	removeNavigation: function(appid){
+		$.getJSON(OC.filePath('core','ajax','navigationdetect.php'), {app: appid}).done(function(response){
+			if(response.status === 'success'){
+				var navIds=response.nav_ids;
+				for(var i=0; i< navIds.length; i++){
+					$('#apps').children('li[data-id="'+navIds[i]+'"]').remove();
+				}
+			}
+		});
+	},
+	addNavigation: function(appid){
+		$.getJSON(OC.filePath('core','ajax','navigationdetect.php'), {app: appid}).done(function(response){
+			if(response.status === 'success'){
+				var navEntries=response.nav_entries;
+				for(var i=0; i< navEntries.length; i++){
+					var entry = navEntries[i];
+					var container = $('#apps');
+
+					if(container.children('li[data-id="'+entry.id+'"]').length === 0){
+						var li=$('<li></li>');
+						li.attr('data-id', entry.id);
+						var a=$('<a></a>');
+						a.attr('style', 'background-image: url('+entry.icon+')');
+						a.text(entry.name);
+						a.attr('href', entry.href);
+						li.append(a);
+						container.append(li);
+					}
+				}
+			}
+		});
 	}
 };
 
