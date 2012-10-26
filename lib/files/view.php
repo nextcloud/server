@@ -712,7 +712,7 @@ class View {
 		$files = $cache->getFolderContents($internalPath); //TODO: mimetype_filter
 
 		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
-		$mountPoints = Filesystem::getMountPoints($directory);
+		$mountPoints = Filesystem::getMountPoints($path);
 		$dirLength = strlen($path);
 		foreach ($mountPoints as $mountPoint) {
 			$subStorage = Filesystem::getStorage($mountPoint);
@@ -731,6 +731,10 @@ class View {
 				$rootEntry['name'] = $relativePath;
 				$files[] = $rootEntry;
 			}
+		}
+
+		foreach($files as $i => $file){
+			$files[$i]['type'] = $file['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
 		}
 
 		usort($files, "fileCmp"); //TODO: remove this once ajax is merged
