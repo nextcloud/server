@@ -23,9 +23,18 @@
 // Unfortunately we need this class for shutdown function
 class my_temporary_cron_class {
 	public static $sent = false;
+	public static $lockfile = "";
+	public static $keeplock = false;
 }
 
+// We use this function to handle (unexpected) shutdowns
 function handleUnexpectedShutdown() {
+	// Delete lockfile
+	if( !my_temporary_cron_class::$keeplock && file_exists( my_temporary_cron_class::$lockfile )){
+		unlink( my_temporary_cron_class::$lockfile );
+	}
+	
+	// Say goodbye if the app did not shutdown properly
 	if( !my_temporary_cron_class::$sent ) {
 		if( OC::$CLI ) {
 			echo 'Unexpected error!'.PHP_EOL;
@@ -48,7 +57,7 @@ if( !OC_Config::getValue( 'installed', false )) {
 register_shutdown_function('handleUnexpectedShutdown');
 
 // Exit if background jobs are disabled!
-$appmode = OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' );
+$appmode = OC_BackgroundJob::getType();
 if( $appmode == 'none' ) {
 	my_temporary_cron_class::$sent = true;
 	if( OC::$CLI ) {
@@ -61,29 +70,42 @@ if( $appmode == 'none' ) {
 }
 
 if( OC::$CLI ) {
+	// Create lock file first
+	my_temporary_cron_class::$lockfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' ).'/cron.lock';
+	
+	// We call ownCloud from the CLI (aka cron)
 	if( $appmode != 'cron' ) {
-		OC_Appconfig::setValue( 'core', 'backgroundjobs_mode', 'cron' );
+		// Use cron in feature!
+		OC_BackgroundJob::setType('cron' );
 	}
 
 	// check if backgroundjobs is still running
-	$pid = OC_Appconfig::getValue( 'core', 'backgroundjobs_pid', false );
-	if( $pid !== false ) {
-		// FIXME: check if $pid is still alive (*nix/mswin). if so then exit
+	if( file_exists( my_temporary_cron_class::$lockfile )){
+		my_temporary_cron_class::$keeplock = true;
+		my_temporary_cron_class::$sent = true;
+		echo "Another instance of cron.php is still running!";
+		exit( 1 );
 	}
-	// save pid
-	OC_Appconfig::setValue( 'core', 'backgroundjobs_pid', getmypid());
+
+	// Create a lock file
+	touch( my_temporary_cron_class::$lockfile );
 
 	// Work
 	OC_BackgroundJob_Worker::doAllSteps();
 }
 else{
+	// We call cron.php from some website
 	if( $appmode == 'cron' ) {
+		// Cron is cron :-P
 		OC_JSON::error( array( 'data' => array( 'message' => 'Backgroundjobs are using system cron!')));
 	}
 	else{
+		// Work and success :-)
 		OC_BackgroundJob_Worker::doNextStep();
 		OC_JSON::success();
 	}
 }
+
+// done!
 my_temporary_cron_class::$sent = true;
 exit();
