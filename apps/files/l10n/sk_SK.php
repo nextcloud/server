@@ -17,6 +17,7 @@
 "replaced {new_name}" => "prepísaný {new_name}",
 "undo" => "vrátiť",
 "replaced {new_name} with {old_name}" => "prepísaný {new_name} súborom {old_name}",
+"unshared {files}" => "zdieľanie zrušené pre {files}",
 "deleted {files}" => "zmazané {files}",
 "generating ZIP-file, it may take some time." => "generujem ZIP-súbor, môže to chvíľu trvať.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nemôžem nahrať súbor lebo je to priečinok alebo má 0 bajtov.",
@@ -64,7 +65,7 @@
 "Share" => "Zdielať",
 "Download" => "Stiahnuť",
 "Upload too large" => "Odosielaný súbor je príliš veľký",
-"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Súbory ktoré sa snažíte nahrať presahujú maximálnu veľkosť pre nahratie súborov na tento server.",
-"Files are being scanned, please wait." => "Čakajte, súbory sú prehľadávané..",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server.",
+"Files are being scanned, please wait." => "Čakajte, súbory sú prehľadávané.",
 "Current scanning" => "Práve prehliadané"
 );

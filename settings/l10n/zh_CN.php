@@ -47,7 +47,7 @@
 "Go there manually." => "手动访问",
 "Answer" => "回答",
 "You have used <strong>%s</strong> of the available <strong>%s<strong>" => "您已使用空间: <strong>%s</strong>，总空间: <strong>%s</strong>",
-"Desktop and Mobile Syncing Clients" => "桌面和移动设备同步程序",
+"Desktop and Mobile Syncing Clients" => "桌面和移动设备同步客户端",
 "Download" => "下载",
 "Your password was changed" => "密码已修改",
 "Unable to change your password" => "无法修改密码",
@@ -57,7 +57,7 @@
 "Change password" => "修改密码",
 "Email" => "电子邮件",
 "Your email address" => "您的电子邮件",
-"Fill in an email address to enable password recovery" => "填写电子邮件地址以启用密码恢复",
+"Fill in an email address to enable password recovery" => "填写电子邮件地址以启用密码恢复功能",
 "Language" => "语言",
 "Help translate" => "帮助翻译",
 "use this address to connect to your ownCloud in your file manager" => "您可在文件管理器中使用该地址连接到ownCloud",
@@ -67,7 +67,7 @@
 "Create" => "创建",
 "Default Quota" => "默认配额",
 "Other" => "其它",
-"Group Admin" => "组管理",
+"Group Admin" => "组管理员",
 "Quota" => "配额",
 "Delete" => "删除"
 );

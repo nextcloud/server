@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <blobbyjj@ymail.com>, 2012.
+# I Robot <thomas.mueller@tmit.eu>, 2012.
 # Phi Lieb <>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
@@ -11,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:11+0000\n"
+"POT-Creation-Date: 2012-10-26 02:03+0200\n"
+"PO-Revision-Date: 2012-10-25 07:56+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -83,7 +84,7 @@ msgstr "Text"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Bilder"
 
 #: template.php:87
 msgid "seconds ago"
