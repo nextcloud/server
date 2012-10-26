@@ -363,6 +363,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             return MDB2_OK;
         }
 
+        $unquoted_name = $name;
         $name = $db->quoteIdentifier($name, true);
 
         if (!empty($changes['remove']) && is_array($changes['remove'])) {
@@ -398,6 +399,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
 
         if (!empty($changes['change']) && is_array($changes['change'])) {
             foreach ($changes['change'] as $field_name => $field) {
+                $unquoted_field_name = $field_name;
                 $field_name = $db->quoteIdentifier($field_name, true);
                 if (!empty($field['definition']['type'])) {
                     $server_info = $db->getServerVersion();
@@ -419,7 +421,14 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
                         return $result;
                     }
                 }
-                if (array_key_exists('default', $field['definition'])) {
+                if (array_key_exists('autoincrement', $field['definition'])) {
+                    $query = "ALTER $field_name SET DEFAULT nextval(".$db->quote($unquoted_name.'_'.$unquoted_field_name.'_seq', 'text').")";
+                    $result = $db->exec("ALTER TABLE $name $query");
+                    if (PEAR::isError($result)) {
+                        return $result;
+                    }
+                }
+                elseif (array_key_exists('default', $field['definition'])) {
                     $query = "ALTER $field_name SET DEFAULT ".$db->quote($field['definition']['default'], $field['definition']['type']);
                     $result = $db->exec("ALTER TABLE $name $query");
                     if (PEAR::isError($result)) {
