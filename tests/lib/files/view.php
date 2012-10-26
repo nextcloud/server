@@ -69,6 +69,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($imageSize, $folderData[1]['size']);
 		$this->assertEquals($textSize, $folderData[2]['size']);
 		$this->assertEquals($storageSize, $folderData[3]['size']);
+
+		$folderView = new \OC\Files\View('/folder');
+		$this->assertEquals($rootView->getFileInfo('/folder'), $folderView->getFileInfo('/'));
 	}
 
 	public function testAutoScan() {

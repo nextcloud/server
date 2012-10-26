@@ -595,13 +595,13 @@ class Filesystem {
 		if ($path[0] !== '/') {
 			$path = '/' . $path;
 		}
-//remove trailing slash
-		if ($stripTrailingSlash and strlen($path) > 1 and substr($path, -1, 1) === '/') {
-			$path = substr($path, 0, -1);
-		}
 //remove duplicate slashes
 		while (strpos($path, '//') !== false) {
 			$path = str_replace('//', '/', $path);
+		}
+//remove trailing slash
+		if ($stripTrailingSlash and strlen($path) > 1 and substr($path, -1, 1) === '/') {
+			$path = substr($path, 0, -1);
 		}
 //normalize unicode if possible
 		if (class_exists('Normalizer')) {
