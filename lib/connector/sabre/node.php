@@ -95,11 +95,11 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * Make sure the fileinfo cache is filled. Uses OC_FileCache or a direct stat
+	 * Make sure the fileinfo cache is filled. Uses the file cache or a direct stat
 	 */
 	protected function getFileinfoCache() {
 		if (!isset($this->fileinfo_cache)) {
-			if ($fileinfo_cache = \OC\Files\Filesystem::get($this->path)) {
+			if ($fileinfo_cache = \OC\Files\Filesystem::getFileInfo($this->path)) {
 			} else {
 				$fileinfo_cache = \OC\Files\Filesystem::stat($this->path);
 			}

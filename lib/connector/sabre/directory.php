@@ -93,7 +93,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 
 		$path = $this->path . '/' . $name;
 		if (is_null($info)) {
-			$info = OC_Files::getFileInfo($path);
+			$info = \OC\Files\Filesystem::getFileInfo($path);
 		}
 
 		if (!$info) {
@@ -117,7 +117,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 */
 	public function getChildren() {
 
-		$folder_content = OC_Files::getDirectoryContent($this->path);
+		$folder_content = \OC\Files\Filesystem::getDirectoryContent($this->path);
 		$paths = array();
 		foreach($folder_content as $info) {
 			$paths[] = $this->path.'/'.$info['name'];
@@ -178,7 +178,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * @return array
 	 */
 	public function getQuotaInfo() {
-		$rootInfo=OC_FileCache_Cached::get('');
+		$rootInfo=\OC\Files\Filesystem::getFileInfo('');
 		return array(
 			$rootInfo['size'],
 			\OC\Files\Filesystem::free_space()

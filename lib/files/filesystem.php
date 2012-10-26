@@ -628,6 +628,19 @@ class Filesystem {
 	}
 
 	/**
+	 * change file metadata
+	 *
+	 * @param string $path
+	 * @param array $data
+	 * @return int
+	 *
+	 * returns the fileid of the updated file
+	 */
+	public static function putFileInfo($path, $data) {
+		return self::$defaultInstance->putFileInfo($path, $data);
+	}
+
+	/**
 	 * get the content of a directory
 	 *
 	 * @param string $directory path under datadirectory

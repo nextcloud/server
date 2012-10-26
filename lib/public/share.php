@@ -285,10 +285,10 @@ class Share {
 		// If the item is a folder, scan through the folder looking for equivalent item types
 		if ($itemType == 'folder') {
 			$parentFolder = self::put('folder', $itemSource, $shareType, $shareWith, $uidOwner, $permissions, true);
-			if ($parentFolder && $files = \OC_Files::getDirectoryContent($itemSource)) {
+			if ($parentFolder && $files = \OC\Files\Filesystem::getDirectoryContent($itemSource)) {
 				for ($i = 0; $i < count($files); $i++) {
 					$name = substr($files[$i]['name'], strpos($files[$i]['name'], $itemSource) - strlen($itemSource));
-					if ($files[$i]['mimetype'] == 'httpd/unix-directory' && $children = \OC_Files::getDirectoryContent($name, '/')) {
+					if ($files[$i]['mimetype'] == 'httpd/unix-directory' && $children = \OC\Files\Filesystem::getDirectoryContent($name, '/')) {
 						// Continue scanning into child folders
 						array_push($files, $children);
 					} else {
@@ -768,9 +768,10 @@ class Share {
 									if ($row['item_type'] == 'file' || $row['item_type'] == 'folder') {
 										$childItem['file_source'] = $child['source'];
 									} else {
-										$childItem['file_source'] = \OC_FileCache::getId($child['file_path']);
+										$meta = \OC\Files\Filesystem::getFileInfo($child['file_path']);
+										$childItem['file_source'] = $meta['fileid'];
 									}
-									$childItem['file_target'] = \OC_Filesystem::normalizePath($child['file_path']);
+									$childItem['file_target'] = \OC\Files\Filesystem::normalizePath($child['file_path']);
 								}
 								if (isset($item)) {
 									if ($childItem[$column] == $item) {
@@ -881,7 +882,8 @@ class Share {
 				if ($itemType == 'file' || $itemType == 'folder') {
 					$fileSource = $itemSource;
 				} else {
-					$fileSource = \OC_FileCache::getId($filePath);
+					$meta = \OC\Files\Filesystem::getFileInfo($filePath);
+					$fileSource = $meta['fileid'];
 				}
 				if ($fileSource == -1) {
 					$message = 'Sharing '.$itemSource.' failed, because the file could not be found in the file cache';
@@ -1063,7 +1065,8 @@ class Share {
 						}
 						if ($item['uid_owner'] == $uidOwner) {
 							if ($itemType == 'file' || $itemType == 'folder') {
-								if ($item['file_source'] == \OC_FileCache::getId($itemSource)) {
+								$meta = \OC\Files\Filesystem::getFileInfo($itemSource);
+								if ($item['file_source'] == $meta['fileid']) {
 									return $target;
 								}
 							} else if ($item['item_source'] == $itemSource) {

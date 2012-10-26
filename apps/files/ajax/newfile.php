@@ -65,9 +65,9 @@ if($source) {
 	$target=$dir.'/'.$filename;
 	$result=\OC\Files\Filesystem::file_put_contents($target, $sourceStream);
 	if($result) {
-		$meta = OC_FileCache::get($target);
+		$meta = \OC\Files\Filesystem::getFileInfo($target);
 		$mime=$meta['mimetype'];
-		$id = OC_FileCache::getId($target);
+		$id = $meta['fileid'];
 		$eventSource->send('success', array('mime'=>$mime, 'size'=>\OC\Files\Filesystem::filesize($target), 'id' => $id));
 	} else {
 		$eventSource->send('error', "Error while downloading ".$source. ' to '.$target);
@@ -77,14 +77,14 @@ if($source) {
 } else {
 	if($content) {
 		if(\OC\Files\Filesystem::file_put_contents($dir.'/'.$filename, $content)) {
-			$meta = OC_FileCache::get($dir.'/'.$filename);
-			$id = OC_FileCache::getId($dir.'/'.$filename);
+			$meta = \OC\Files\Filesystem::getFileInfo($dir.'/'.$filename);
+			$id = $meta['fileid'];
 			OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
 			exit();
 		}
 	}elseif(\OC\Files\Filesystem::touch($dir . '/' . $filename)) {
-		$meta = OC_FileCache::get($dir.'/'.$filename);
-		$id = OC_FileCache::getId($dir.'/'.$filename);
+		$meta = \OC\Files\Filesystem::getFileInfo($dir.'/'.$filename);
+		$id = $meta['fileid'];
 		OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
 		exit();
 	}

@@ -25,7 +25,8 @@ if(\OC\Files\Filesystem::mkdir($dir . '/' . stripslashes($foldername))) {
 	} else {
 		$path = '/'.$foldername;
 	}
-	$id = OC_FileCache::getId($path);
+	$meta = \OC\Files\Filesystem::getFileInfo($path);
+	$id = $meta['fileid'];
 	OCP\JSON::success(array("data" => array('id'=>$id)));
 	exit();
 }

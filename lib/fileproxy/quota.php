@@ -57,7 +57,7 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 	 * @return int
 	 */
 	private function getFreeSpace($path) {
-		$storage=OC_Filesystem::getStorage($path);
+		list($storage,)=\OC\Files\Filesystem::resolvePath($path);
 		$owner=$storage->getOwner($path);
 
 		$totalSpace=$this->getQuota($owner);
@@ -65,13 +65,9 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 			return 0;
 		}
 
-		$rootInfo=OC_FileCache::get('', "/".$owner."/files");
-		// TODO Remove after merge of share_api
-		if (OC_FileCache::inCache('/Shared', "/".$owner."/files")) {
-			$sharedInfo=OC_FileCache::get('/Shared', "/".$owner."/files");
-		} else {
-			$sharedInfo = null;
-		}
+		$view = new \OC\Files\View("/".$owner."/files");
+
+		$rootInfo=$view->getFileInfo('/');
 		$usedSpace=isset($rootInfo['size'])?$rootInfo['size']:0;
 		$usedSpace=isset($sharedInfo['size'])?$usedSpace-$sharedInfo['size']:$usedSpace;
 		return $totalSpace-$usedSpace;

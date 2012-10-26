@@ -10,6 +10,7 @@ if (version_compare($installedVersion, '0.3', '<')) {
 	OC_Group::useBackend(new OC_Group_Database());
 	OC_App::loadApps(array('authentication'));
 	while ($row = $result->fetchRow()) {
+		$meta = \OC\Files\Filesystem::getId($path, '');
 		$itemSource = OC_FileCache::getId($row['source'], '');
 		if ($itemSource != -1) {
 			$file = OC_FileCache::get($row['source'], '');

@@ -146,7 +146,7 @@ class OC_Files {
 		$dirname = basename($dir);
 		$zip->addEmptyDir($internalDir . $dirname);
 		$internalDir .= $dirname .= '/';
-		$files = OC_Files::getdirectorycontent($dir);
+		$files = \OC\Files\Filesystem::getDirectoryContent($dir);
 		foreach ($files as $file) {
 			$filename = $file['name'];
 			$file = $dir . '/' . $filename;

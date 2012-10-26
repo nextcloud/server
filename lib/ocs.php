@@ -590,8 +590,8 @@ class OC_OCS {
 				// calculate the disc space
 				$user_dir = '/'.$user.'/files';
 				\OC\Files\Filesystem::init($user_dir);
-				$rootInfo=OC_FileCache::get('');
-				$sharedInfo=OC_FileCache::get('/Shared');
+				$rootInfo=\OC\Files\Filesystem::getFileInfo('');
+				$sharedInfo=\OC\Files\Filesystem::getFileInfo('/Shared');
 				$used=$rootInfo['size']-$sharedInfo['size'];
 				$free=\OC\Files\Filesystem::free_space();
 				$total=$free+$used;
