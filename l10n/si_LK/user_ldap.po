@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-23 02:02+0200\n"
-"PO-Revision-Date: 2012-10-22 10:37+0000\n"
+"POT-Creation-Date: 2012-10-27 00:01+0200\n"
+"PO-Revision-Date: 2012-10-26 06:00+0000\n"
 "Last-Translator: Anushke Guneratne <anushke@gmail.com>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "කණ්ඩායම් පෙරහන"
 
 #: templates/settings.php:14
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "කණ්ඩායම් සොයා ලබාගන්නා විට, යොදන පෙරහන නියම කරයි"
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
@@ -96,7 +96,7 @@ msgstr ""
 
 #: templates/settings.php:17
 msgid "Port"
-msgstr ""
+msgstr "තොට"
 
 #: templates/settings.php:18
 msgid "Base User Tree"
@@ -112,7 +112,7 @@ msgstr ""
 
 #: templates/settings.php:21
 msgid "Use TLS"
-msgstr ""
+msgstr "TLS භාවිතා කරන්න"
 
 #: templates/settings.php:21
 msgid "Do not use it for SSL connections, it will fail."
