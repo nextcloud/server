@@ -110,7 +110,7 @@ class View {
 	 */
 	public function getLocalFile($path) {
 		$parent = substr($path, 0, strrpos($path, '/'));
-		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
+		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		if (Filesystem::isValidPath($parent) and $storage) {
 			return $storage->getLocalFile($internalPath);
 		} else {
@@ -124,7 +124,7 @@ class View {
 	 */
 	public function getLocalFolder($path) {
 		$parent = substr($path, 0, strrpos($path, '/'));
-		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
+		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		if (Filesystem::isValidPath($parent) and $storage) {
 			return $storage->getLocalFolder($internalPath);
 		} else {
@@ -150,7 +150,7 @@ class View {
 	}
 
 	public function readdir($handle) {
-		$fsLocal = new \OC\Files\Storage\Local(array('datadir' => '/'));
+		$fsLocal = new Storage\Local(array('datadir' => '/'));
 		return $fsLocal->readdir($handle);
 	}
 
@@ -334,8 +334,8 @@ class View {
 				$mp1 = $this->getMountPoint($path1 . $postFix1);
 				$mp2 = $this->getMountPoint($path2 . $postFix2);
 				if ($mp1 == $mp2) {
-					list($storage, $internalPath1) = \OC\Files\Filesystem::resolvePath($path1 . $postFix1);
-					list(, $internalPath2) = \OC\Files\Filesystem::resolvePath($path2 . $postFix2);
+					list($storage, $internalPath1) = Filesystem::resolvePath($path1 . $postFix1);
+					list(, $internalPath2) = Filesystem::resolvePath($path2 . $postFix2);
 					if ($storage) {
 						$result = $storage->rename($internalPath1, $internalPath2);
 					} else {
@@ -345,7 +345,7 @@ class View {
 					$source = $this->fopen($path1 . $postFix1, 'r');
 					$target = $this->fopen($path2 . $postFix2, 'w');
 					$count = \OC_Helper::streamCopy($source, $target);
-					list($storage1, $internalPath1) = \OC\Files\Filesystem::resolvePath($path1 . $postFix1);
+					list($storage1, $internalPath1) = Filesystem::resolvePath($path1 . $postFix1);
 					$storage1->unlink($internalPath1);
 					$result = $count > 0;
 				}
@@ -417,8 +417,8 @@ class View {
 				$mp1 = $this->getMountPoint($path1 . $postFix1);
 				$mp2 = $this->getMountPoint($path2 . $postFix2);
 				if ($mp1 == $mp2) {
-					list($storage, $internalPath1) = \OC\Files\Filesystem::resolvePath($path1 . $postFix1);
-					list(, $internalPath2) = \OC\Files\Filesystem::resolvePath($path2 . $postFix2);
+					list($storage, $internalPath1) = Filesystem::resolvePath($path1 . $postFix1);
+					list(, $internalPath2) = Filesystem::resolvePath($path2 . $postFix2);
 					if ($storage) {
 						$result = $storage->copy($internalPath1, $internalPath2);
 					} else {
@@ -553,7 +553,7 @@ class View {
 					array(Filesystem::signal_param_path => $path)
 				);
 			}
-			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path . $postFix);
+			list($storage, $internalPath) = Filesystem::resolvePath($path . $postFix);
 			if ($storage) {
 				$result = $storage->hash($type, $internalPath, $raw);
 				$result = \OC_FileProxy::runPostProxies('hash', $absolutePath, $result);
@@ -588,7 +588,7 @@ class View {
 				return false;
 			}
 			$run = $this->runHooks($hooks, $path);
-			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path . $postFix);
+			list($storage, $internalPath) = Filesystem::resolvePath($path . $postFix);
 			if ($run and $storage) {
 				if (!is_null($extraParam)) {
 					$result = $storage->$operation($internalPath, $extraParam);
@@ -660,26 +660,26 @@ class View {
 	 * - versioned
 	 */
 	public function getFileInfo($path) {
-		$path = \OC\Files\Filesystem::normalizePath($this->fakeRoot . '/' . $path);
+		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 * @var string $internalPath
 		 */
-		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
+		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		$cache = $storage->getCache();
 
 		if (!$cache->inCache($internalPath)) {
 			$scanner = $storage->getScanner();
-			$scanner->scan($internalPath, \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+			$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 		}
 
 		$data = $cache->get($internalPath);
 
 		if ($data['mimetype'] === 'httpd/unix-directory') {
 			//add the sizes of other mountpoints to the folder
-			$mountPoints = \OC\Files\Filesystem::getMountPoints($path);
+			$mountPoints = Filesystem::getMountPoints($path);
 			foreach ($mountPoints as $mountPoint) {
-				$subStorage = \OC\Files\Filesystem::getStorage($mountPoint);
+				$subStorage = Filesystem::getStorage($mountPoint);
 				$subCache = $subStorage->getCache();
 				$rootEntry = $subCache->get('');
 
@@ -697,26 +697,26 @@ class View {
 	 * @return array
 	 */
 	public function getDirectoryContent($directory, $mimetype_filter = '') {
-		$path = \OC\Files\Filesystem::normalizePath($this->fakeRoot . '/' . $directory);
+		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $directory);
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 * @var string $internalPath
 		 */
-		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
+		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		$cache = $storage->getCache();
 
 		if (!$cache->inCache($internalPath)) {
 			$scanner = $storage->getScanner();
-			$scanner->scan($internalPath, \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+			$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 		}
 
 		$files = $cache->getFolderContents($internalPath); //TODO: mimetype_filter
 
 		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
-		$mountPoints = \OC\Files\Filesystem::getMountPoints($directory);
+		$mountPoints = Filesystem::getMountPoints($directory);
 		$dirLength = strlen($path);
 		foreach ($mountPoints as $mountPoint) {
-			$subStorage = \OC\Files\Filesystem::getStorage($mountPoint);
+			$subStorage = Filesystem::getStorage($mountPoint);
 			$subCache = $subStorage->getCache();
 			$rootEntry = $subCache->get('');
 
@@ -748,19 +748,57 @@ class View {
 	 * returns the fileid of the updated file
 	 */
 	public function putFileInfo($path, $data) {
-		$path = \OC\Files\Filesystem::normalizePath($this->fakeRoot . '/' . $path);
+		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 * @var string $internalPath
 		 */
-		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
+		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		$cache = $storage->getCache();
 
 		if (!$cache->inCache($internalPath)) {
 			$scanner = $storage->getScanner();
-			$scanner->scan($internalPath, \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+			$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 		}
 
 		return $cache->put($internalPath, $data);
+	}
+
+	/**
+	 * search for files with the name matching $query
+	 *
+	 * @param string $query
+	 * @return array
+	 */
+	public function search($query) {
+		$files = array();
+		$rootLength = strlen($this->fakeRoot);
+
+		$mountPoint = Filesystem::getMountPoint($this->fakeRoot);
+		$storage = Filesystem::getStorage($mountPoint);
+		$cache = $storage->getCache();
+
+		$results = $cache->search('%' . $query . '%');
+		foreach ($results as $result) {
+			if (substr($mountPoint . $result['path'], 0, $rootLength) === $this->fakeRoot) {
+				$result['path'] = substr($mountPoint . $result['path'], $rootLength);
+				$files[] = $result;
+			}
+		}
+
+		$mountPoints = Filesystem::getMountPoints($this->fakeRoot);
+		foreach ($mountPoints as $mountPoint) {
+			$storage = Filesystem::getStorage($mountPoint);
+			$cache = $storage->getCache();
+
+			$relativeMountPoint = substr($mountPoint, $rootLength);
+			$results = $cache->search('%' . $query . '%');
+			foreach ($results as $result) {
+				$result['path'] = $relativeMountPoint . $result['path'];
+				$files[] = $result;
+			}
+		}
+
+		return $files;
 	}
 }

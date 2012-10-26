@@ -548,7 +548,7 @@ class Filesystem {
 	}
 
 	static public function search($query) {
-		return Cache\Cache::search($query);
+		return self::$defaultInstance->search($query);
 	}
 
 	/**

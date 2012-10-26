@@ -251,7 +251,7 @@ class Cache {
 	 */
 	public function getStatus($file) {
 		$pathHash = md5($file);
-		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
+		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
 		$result = $query->execute(array($this->storageId, $pathHash));
 		if ($row = $result->fetchRow()) {
 			if ((int)$row['size'] === -1) {
@@ -266,5 +266,24 @@ class Cache {
 				return self::NOT_FOUND;
 			}
 		}
+	}
+
+	/**
+	 * search for files matching $pattern
+	 *
+	 * @param string $pattern
+	 * @return array of file data
+	 */
+	public function search($pattern) {
+		$query = \OC_DB::prepare('
+			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`
+			FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `storage` = ?'
+		);
+		$result = $query->execute(array($pattern, $this->storageId));
+		$files = array();
+		while ($row = $result->fetchRow()) {
+			$files[] = $row;
+		}
+		return $files;
 	}
 }

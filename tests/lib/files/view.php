@@ -87,7 +87,6 @@ class View extends \PHPUnit_Framework_TestCase {
 		Filesystem::mount($storage1, array(), '/');
 		Filesystem::mount($storage2, array(), '/substorage');
 		$textSize = strlen("dummy file data\n");
-		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
 
 		$rootView = new \OC\Files\View('');
 
@@ -98,6 +97,50 @@ class View extends \PHPUnit_Framework_TestCase {
 		$folderData = $rootView->getDirectoryContent('/substorage/folder');
 		$this->assertEquals('text/plain', $folderData[0]['mimetype']);
 		$this->assertEquals($textSize, $folderData[0]['size']);
+	}
+
+	function testSearch() {
+		$storage1 = $this->getTestStorage();
+		$storage2 = $this->getTestStorage();
+		$storage3 = $this->getTestStorage();
+		Filesystem::mount($storage1, array(), '/');
+		Filesystem::mount($storage2, array(), '/substorage');
+		Filesystem::mount($storage3, array(), '/folder/anotherstorage');
+
+		$rootView = new \OC\Files\View('');
+
+		$results = $rootView->search('foo');
+		$this->assertEquals(6, count($results));
+		$paths = array();
+		foreach ($results as $result) {
+			$this->assertEquals($result['path'], Filesystem::normalizePath($result['path']));
+			$paths[] = $result['path'];
+		}
+		$this->assertContains('/foo.txt', $paths);
+		$this->assertContains('/foo.png', $paths);
+		$this->assertContains('/substorage/foo.txt', $paths);
+		$this->assertContains('/substorage/foo.png', $paths);
+		$this->assertContains('/folder/anotherstorage/foo.txt', $paths);
+		$this->assertContains('/folder/anotherstorage/foo.png', $paths);
+
+		$folderView = new \OC\Files\View('/folder');
+		$results = $folderView->search('bar');
+		$this->assertEquals(2, count($results));
+		$paths = array();
+		foreach ($results as $result) {
+			$paths[] = $result['path'];
+		}
+		$this->assertContains('/anotherstorage/folder/bar.txt', $paths);
+		$this->assertContains('/bar.txt', $paths);
+
+		$results = $folderView->search('foo');
+		$this->assertEquals(2, count($results));
+		$paths = array();
+		foreach ($results as $result) {
+			$paths[] = $result['path'];
+		}
+		$this->assertContains('/anotherstorage/foo.txt', $paths);
+		$this->assertContains('/anotherstorage/foo.png', $paths);
 	}
 
 	/**

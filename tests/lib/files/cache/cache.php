@@ -111,6 +111,26 @@ class Cache extends \UnitTestCase {
 		$this->assertEquals(\OC\Files\Cache\Cache::COMPLETE, $this->cache->getStatus('foo'));
 	}
 
+	function testSearch() {
+		$file1 = 'folder';
+		$file2 = 'folder/foobar';
+		$file3 = 'folder/foo';
+		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder');
+		$fileData = array();
+		$fileData['foobar'] = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
+		$fileData['foo'] = array('size' => 20, 'mtime' => 25, 'mimetype' => 'foo/file');
+
+		$this->cache->put($file1, $data1);
+		$this->cache->put($file2, $fileData['foobar']);
+		$this->cache->put($file3, $fileData['foo']);
+
+		$this->assertEquals(2, count($this->cache->search('%foo%')));
+		$this->assertEquals(1, count($this->cache->search('foo')));
+		$this->assertEquals(1, count($this->cache->search('%folder%')));
+		$this->assertEquals(1, count($this->cache->search('folder%')));
+		$this->assertEquals(3, count($this->cache->search('%')));
+	}
+
 	public function tearDown() {
 		$this->cache->clear();
 	}
