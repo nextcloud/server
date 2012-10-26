@@ -28,6 +28,9 @@ namespace OCP;
 /**
 * This class provides the ability for apps to share their content between users.
 * Apps must create a backend class that implements OCP\Share_Backend and register it with this class.
+* 
+* It provides the following hooks:
+*  - post_shared
 */
 class Share {
 
@@ -937,7 +940,20 @@ class Share {
 				// Insert an extra row for the group share if the item or file target is unique for this user
 				if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
 					$query->execute(array($itemType, $itemSource, $itemTarget, $parent, self::$shareTypeGroupUserUnique, $uid, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
-					\OC_DB::insertid('*PREFIX*share');
+					$id = \OC_DB::insertid('*PREFIX*share');
+					\OC_Hook::emit('OCP\Share', 'post_shared', array(
+						'itemType' => $itemType,
+						'itemSource' => $itemSource,
+						'itemTarget' => $itemTarget,
+						'parent' => $parent,
+						'shareType' => self::$shareTypeGroupUserUnique,
+						'shareWith' => $uid,
+						'uidOwner' => $uidOwner,
+						'permissions' => $permissions,
+						'fileSource' => $fileSource,
+						'fileTarget' => $fileTarget,
+						'id' => $id
+					));
 				}
 			}
 			if ($parentFolder === true) {
@@ -963,6 +979,19 @@ class Share {
 			}
 			$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $shareType, $shareWith, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
 			$id = \OC_DB::insertid('*PREFIX*share');
+			\OC_Hook::emit('OCP\Share', 'post_shared', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'itemTarget' => $itemTarget,
+				'parent' => $parent,
+				'shareType' => $shareType,
+				'shareWith' => $shareWith,
+				'uidOwner' => $uidOwner,
+				'permissions' => $permissions,
+				'fileSource' => $fileSource,
+				'fileTarget' => $fileTarget,
+				'id' => $id
+			));
 			if ($parentFolder === true) {
 				$parentFolders['id'] = $id;
 				// Return parent folder to preserve file target paths for potential children
