@@ -104,24 +104,38 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	 * Get a list of all users.
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
-		$ldap_users = $this->connection->getFromCache('getUsers');
-		if(is_null($ldap_users)) {
-			$ldap_users = $this->fetchListOfUsers($this->connection->ldapUserFilter, array($this->connection->ldapUserDisplayName, 'dn'));
-			$ldap_users = $this->ownCloudUserNames($ldap_users);
-			$this->connection->writeToCache('getUsers', $ldap_users);
-		}
-		$this->userSearch = $search;
-		if(!empty($this->userSearch)) {
-			$ldap_users = array_filter($ldap_users, array($this, 'userMatchesFilter'));
-		}
-		if($limit == -1) {
-			$limit = null;
-		}
-		return array_slice($ldap_users, $offset, $limit);
-	}
+		$cachekey = 'getUsers-'.$search.'-'.$limit.'-'.$offset;
 
-	public function userMatchesFilter($user) {
-		return (strripos($user, $this->userSearch) !== false);
+		//check if users are cached, if so return
+		$ldap_users = $this->connection->getFromCache($cachekey);
+		if(!is_null($ldap_users)) {
+			return $ldap_users;
+		}
+
+		//prepare search filter
+		$search = empty($search) ? '*' : '*'.$search.'*';
+		$filter = $this->combineFilterWithAnd(array(
+			$this->connection->ldapUserFilter,
+			$this->connection->ldapGroupDisplayName.'='.$search
+		));
+
+		\OCP\Util::writeLog('user_ldap', 'getUsers: Get users filter '.$filter, \OCP\Util::DEBUG);
+		//do the search and translate results to owncloud names
+		$ldap_users = $this->fetchListOfUsers($filter, array($this->connection->ldapUserDisplayName, 'dn'), $limit, $offset);
+		$ldap_users = $this->ownCloudUserNames($ldap_users);
+
+		if(!$this->getPagedSearchResultState()) {
+			\OCP\Util::writeLog('user_ldap', 'getUsers: We got old-style results', \OCP\Util::DEBUG);
+			//if not supported, a 'normal' search has run automatically, we just need to get our slice of the cake. And we cache the general search, too
+			$this->connection->writeToCache('getUsers-'.$search, $ldap_users);
+			$ldap_users = array_slice($ldap_users, $offset, $limit);
+		} else {
+			//debug message only
+			\OCP\Util::writeLog('user_ldap', 'getUsers: We got paged results', \OCP\Util::DEBUG);
+		}
+
+		$this->connection->writeToCache($cachekey, $ldap_users);
+		return $ldap_users;
 	}
 
 	/**
