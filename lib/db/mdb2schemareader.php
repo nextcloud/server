@@ -131,7 +131,12 @@ class OC_DB_MDB2SchemaReader {
 			if (empty($options['default'])) {
 				if ($type == 'integer') {
 					if (empty($options['default'])) {
-						$options['default'] = 0;
+						if (empty($options['notnull'])) {
+							unset($options['default']);
+						}
+						else {
+							$options['default'] = 0;
+						}
 					}
 				}
 				if (!empty($options['autoincrement'])) {

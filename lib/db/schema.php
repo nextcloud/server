@@ -18,11 +18,10 @@ class OC_DB_Schema {
 	 *
 	 * TODO: write more documentation
 	 */
-	public static function getDbStructure( $conn, $file ,$mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
+	public static function getDbStructure( $conn, $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
 		$sm = $conn->getSchemaManager();
-		$fromSchema = $sm->createSchema();
 
-		return OC_DB_MDB2SchemaWriter::saveSchemaToFile($file);
+		return OC_DB_MDB2SchemaWriter::saveSchemaToFile($file, $sm);
 	}
 
 	/**
