@@ -663,7 +663,7 @@ class View {
 		$path = \OC\Files\Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
-		 * @var string $path
+		 * @var string $internalPath
 		 */
 		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
 		$cache = $storage->getCache();
@@ -700,7 +700,7 @@ class View {
 		$path = \OC\Files\Filesystem::normalizePath($this->fakeRoot . '/' . $directory);
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
-		 * @var string $path
+		 * @var string $internalPath
 		 */
 		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
 		$cache = $storage->getCache();
@@ -736,5 +736,31 @@ class View {
 
 		usort($files, "fileCmp"); //TODO: remove this once ajax is merged
 		return $files;
+	}
+
+	/**
+	 * change file metadata
+	 *
+	 * @param string $path
+	 * @param array $data
+	 * @return int
+	 *
+	 * returns the fileid of the updated file
+	 */
+	public function putFileInfo($path, $data) {
+		$path = \OC\Files\Filesystem::normalizePath($this->fakeRoot . '/' . $path);
+		/**
+		 * @var \OC\Files\Storage\Storage $storage
+		 * @var string $internalPath
+		 */
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
+		$cache = $storage->getCache();
+
+		if (!$cache->inCache($internalPath)) {
+			$scanner = $storage->getScanner();
+			$scanner->scan($internalPath, \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+		}
+
+		return $cache->put($internalPath, $data);
 	}
 }

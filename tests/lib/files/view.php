@@ -72,6 +72,13 @@ class View extends \PHPUnit_Framework_TestCase {
 
 		$folderView = new \OC\Files\View('/folder');
 		$this->assertEquals($rootView->getFileInfo('/folder'), $folderView->getFileInfo('/'));
+
+		$cachedData = $rootView->getFileInfo('/foo.txt');
+		$this->assertFalse($cachedData['encrypted']);
+		$id = $rootView->putFileInfo('/foo.txt', array('encrypted' => true));
+		$cachedData = $rootView->getFileInfo('/foo.txt');
+		$this->assertTrue($cachedData['encrypted']);
+		$this->assertEquals($cachedData['fileid'], $id);
 	}
 
 	public function testAutoScan() {
