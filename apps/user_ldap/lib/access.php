@@ -26,6 +26,9 @@ namespace OCA\user_ldap\lib;
 abstract class Access {
 	protected $connection;
 
+	//never ever check this var directly, always use getPagedSearchResultState
+	protected $pagedSearchedSuccessful;
+
 	public function setConnector(Connection &$connection) {
 		$this->connection = $connection;
 	}
@@ -441,12 +444,12 @@ abstract class Access {
 		return true;
 	}
 
-	public function fetchListOfUsers($filter, $attr) {
-		return $this->fetchList($this->searchUsers($filter, $attr), (count($attr) > 1));
+	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null) {
+		return $this->fetchList($this->searchUsers($filter, $attr, $limit, $offset), (count($attr) > 1));
 	}
 
-	public function fetchListOfGroups($filter, $attr) {
-		return $this->fetchList($this->searchGroups($filter, $attr), (count($attr) > 1));
+	public function fetchListOfGroups($filter, $attr, $limit = null, $offset = null) {
+		return $this->fetchList($this->searchGroups($filter, $attr, $limit, $offset), (count($attr) > 1));
 	}
 
 	private function fetchList($list, $manyAttributes) {
@@ -470,8 +473,8 @@ abstract class Access {
 	 *
 	 * Executes an LDAP search
 	 */
-	public function searchUsers($filter, $attr = null) {
-		return $this->search($filter, $this->connection->ldapBaseUsers, $attr);
+	public function searchUsers($filter, $attr = null, $limit = null, $offset = null) {
+		return $this->search($filter, $this->connection->ldapBaseUsers, $attr, $limit, $offset);
 	}
 
 	/**
@@ -482,8 +485,8 @@ abstract class Access {
 	 *
 	 * Executes an LDAP search
 	 */
-	public function searchGroups($filter, $attr = null) {
-		return $this->search($filter, $this->connection->ldapBaseGroups, $attr);
+	public function searchGroups($filter, $attr = null, $limit = null, $offset = null) {
+		return $this->search($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
 	}
 
 	/**
@@ -495,26 +498,70 @@ abstract class Access {
 	 *
 	 * Executes an LDAP search
 	 */
-	private function search($filter, $base, $attr = null) {
+	private function search($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		if(!is_null($attr) && !is_array($attr)) {
 			$attr = array(mb_strtolower($attr, 'UTF-8'));
 		}
 
-		// See if we have a resource
+		// See if we have a resource, in case not cancel with message
 		$link_resource = $this->connection->getConnectionResource();
-		if(is_resource($link_resource)) {
-			$sr = ldap_search($link_resource, $base, $filter, $attr);
-			$findings = ldap_get_entries($link_resource, $sr );
-
-			// if we're here, probably no connection resource is returned.
-			// to make ownCloud behave nicely, we simply give back an empty array.
-			if(is_null($findings)) {
-				return array();
-			}
-		} else {
+		if(!is_resource($link_resource)) {
 			// Seems like we didn't find any resource.
 			// Return an empty array just like before.
 			\OCP\Util::writeLog('user_ldap', 'Could not search, because resource is missing.', \OCP\Util::DEBUG);
+			return array();
+		}
+
+		//TODO: lines 516:540 into a function of its own. $pagedSearchOK as return
+		//check wether paged query should be attempted
+		$pagedSearchOK = false;
+		if($this->connection->hasPagedResultSupport && !is_null($limit)) {
+			$offset = intval($offset); //can be null
+			//get the cookie from the search for the previous search, required by LDAP
+			$cookie = $this->getPagedResultCookie($filter, $limit, $offset);
+			if(empty($cookie) && ($offset > 0)) {
+				//no cookie known, although the offset is not 0. Maybe cache run out. We need to start all over *sigh* (btw, Dear Reader, did you need LDAP paged searching was designed by MSFT?)
+				$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
+				//a bit recursive, $offset of 0 is the exit
+				$this->search($filter, $base, $attr, $limit, $reOffset, true);
+				$cookie = $this->getPagedResultCookie($filter, $limit, $offset);
+				//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
+				//TODO: remember this, probably does not change in the next request...
+				if(empty($cookie)) {
+					$cookie = null;
+				}
+			}
+			if(!is_null($cookie)) {
+				$pagedSearchOK = ldap_control_paged_result($link_resource, $limit, false, $cookie);
+				\OCP\Util::writeLog('user_ldap', 'Ready for a paged search', \OCP\Util::DEBUG);
+			} else {
+				\OCP\Util::writeLog('user_ldap', 'No paged search for us, Cpt., Limit '.$limit.' Offset '.$offset, \OCP\Util::DEBUG);
+			}
+		}
+
+		$sr = ldap_search($link_resource, $base, $filter, $attr);
+		$findings = ldap_get_entries($link_resource, $sr );
+		if($pagedSearchOK) {
+			\OCP\Util::writeLog('user_ldap', 'Paged search successful', \OCP\Util::INFO);
+			ldap_control_paged_result_response($link_resource, $sr, $cookie);
+			\OCP\Util::writeLog('user_ldap', 'Set paged search cookie '.$cookie, \OCP\Util::INFO);
+			$this->setPagedResultCookie($filter, $limit, $offset, $cookie);
+			//browsing through prior pages to get the cookie for the new one
+			if($skipHandling) {
+				return;
+			}
+			//if count is bigger, then the server does not support paged search. Instead, he did a normal search. We set a flag here, so the callee knows how to deal with it.
+			//TODO: Not used, just make a count on the returned values in the callee
+			if($findings['count'] <= $limit) {
+				$this->pagedSearchedSuccessful = true;
+			}
+		} else {
+			\OCP\Util::writeLog('user_ldap', 'Paged search failed :(', \OCP\Util::INFO);
+		}
+
+		// if we're here, probably no connection resource is returned.
+		// to make ownCloud behave nicely, we simply give back an empty array.
+		if(is_null($findings)) {
 			return array();
 		}
 
@@ -557,6 +604,7 @@ abstract class Access {
 					}
 				}
 			}
+// 			die(var_dump($selection));
 			return $selection;
 		}
 		return $findings;
@@ -680,4 +728,51 @@ abstract class Access {
 		}
 		return $uuid;
 	}
+
+	/**
+	 * @brief get a cookie for the next LDAP paged search
+	 * @param $filter the search filter to identify the correct search
+	 * @param $limit the limit (or 'pageSize'), to identify the correct search well
+	 * @param $offset the offset for the new search to identify the correct search really good
+	 * @returns string containing the key or empty if none is cached
+	 */
+	private function getPagedResultCookie($filter, $limit, $offset) {
+		if($offset == 0) {
+			return '';
+		}
+		$offset -= $limit;
+		//we work with cache here
+		$cachekey = 'lc' . dechex(crc32($filter)) . '-' . $limit . '-' . $offset;
+		$cookie = $this->connection->getFromCache($cachekey);
+		if(is_null($cookie)) {
+			$cookie = '';
+		}
+		return $cookie;
+	}
+
+	/**
+	 * @brief set a cookie for LDAP paged search run
+	 * @param $filter the search filter to identify the correct search
+	 * @param $limit the limit (or 'pageSize'), to identify the correct search well
+	 * @param $offset the offset for the run search to identify the correct search really good
+	 * @param $cookie string containing the cookie returned by ldap_control_paged_result_response
+	 * @return void
+	 */
+	private function setPagedResultCookie($filter, $limit, $offset) {
+		if(!empty($cookie)) {
+			$cachekey = 'lc' . dechex(crc32($filter)) . '-' . $limit . '-' . $offset;
+			$cookie = $this->connection->writeToCache($cachekey, $cookie);
+		}
+	}
+
+	/**
+	 * @brief check wether the most recent paged search was successful. It flushed the state var. Use it always after a possible paged search.
+	 * @return true on success, null or false otherwise
+	 */
+	public function getPagedSearchResultState() {
+		$result = $this->pagedSearchedSuccessful;
+		$this->pagedSearchedSuccessful = null;
+		return $result;
+	}
+
 }
