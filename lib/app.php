@@ -685,6 +685,10 @@ class OC_App{
 	 * @param string $appid
 	 */
 	public static function updateApp($appid) {
+		if(file_exists(self::getAppPath($appid).'/appinfo/preupdate.php')) {
+			self::loadApp($appid);
+			include self::getAppPath($appid).'/appinfo/preupdate.php';
+		}
 		if(file_exists(self::getAppPath($appid).'/appinfo/database.xml')) {
 			OC_DB::updateDbFromStructure(self::getAppPath($appid).'/appinfo/database.xml');
 		}
