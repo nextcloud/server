@@ -64,7 +64,9 @@ class Connection {
 	}
 
 	public function __destruct() {
-		@ldap_unbind($this->ldapConnectionRes);
+		if(is_resource($this->ldapConnectionRes)) {
+			@ldap_unbind($this->ldapConnectionRes);
+		};
 	}
 
 	public function __get($name) {
