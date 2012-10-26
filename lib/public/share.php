@@ -937,23 +937,23 @@ class Share {
 				} else {
 					$fileTarget = null;
 				}
+				\OC_Hook::emit('OCP\Share', 'post_shared', array(
+					'itemType' => $itemType,
+					'itemSource' => $itemSource,
+					'itemTarget' => $itemTarget,
+					'parent' => $parent,
+					'shareType' => self::$shareTypeGroupUserUnique,
+					'shareWith' => $uid,
+					'uidOwner' => $uidOwner,
+					'permissions' => $permissions,
+					'fileSource' => $fileSource,
+					'fileTarget' => $fileTarget,
+					'id' => $parent
+				));
 				// Insert an extra row for the group share if the item or file target is unique for this user
 				if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
 					$query->execute(array($itemType, $itemSource, $itemTarget, $parent, self::$shareTypeGroupUserUnique, $uid, $uidOwner, $permissions, time(), $fileSource, $fileTarget));
 					$id = \OC_DB::insertid('*PREFIX*share');
-					\OC_Hook::emit('OCP\Share', 'post_shared', array(
-						'itemType' => $itemType,
-						'itemSource' => $itemSource,
-						'itemTarget' => $itemTarget,
-						'parent' => $parent,
-						'shareType' => self::$shareTypeGroupUserUnique,
-						'shareWith' => $uid,
-						'uidOwner' => $uidOwner,
-						'permissions' => $permissions,
-						'fileSource' => $fileSource,
-						'fileTarget' => $fileTarget,
-						'id' => $id
-					));
 				}
 			}
 			if ($parentFolder === true) {
