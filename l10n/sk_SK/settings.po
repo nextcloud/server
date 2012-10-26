@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 23:38+0200\n"
-"PO-Revision-Date: 2012-10-16 19:10+0000\n"
-"Last-Translator: martinb <martin.babik@gmail.com>\n"
+"POT-Creation-Date: 2012-10-26 02:03+0200\n"
+"PO-Revision-Date: 2012-10-25 18:56+0000\n"
+"Last-Translator: Roman Priesol <roman@priesol.net>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr "Neplatná požiadavka"
 
 #: ajax/removegroup.php:16
 msgid "Unable to delete group"
-msgstr "Nie je možné zmazať skupinu"
+msgstr "Nie je možné odstrániť skupinu"
 
 #: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
 msgid "Authentication error"
@@ -63,7 +63,7 @@ msgstr "Chyba pri autentifikácii"
 
 #: ajax/removeuser.php:27
 msgid "Unable to delete user"
-msgstr "Nie je možné zmazať užívateľa"
+msgstr "Nie je možné odstrániť používateľa"
 
 #: ajax/setlanguage.php:18
 msgid "Language changed"
@@ -77,7 +77,7 @@ msgstr "Nie je možné pridať užívateľa do skupiny %s"
 #: ajax/togglegroups.php:31
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "Nie je možné zmazať užívateľa zo skupiny %s"
+msgstr "Nie je možné odstrániť používateľa zo skupiny %s"
 
 #: js/apps.js:28 js/apps.js:65
 msgid "Disable"
@@ -110,7 +110,7 @@ msgstr "Váš priečinok s dátami a vaše súbory sú pravdepodobne dostupné z
 
 #: templates/admin.php:31
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
@@ -120,7 +120,7 @@ msgstr "Vykonať jednu úlohu každým nahraním stránky"
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php je zaregistrovaný v službe webcron. Tá zavolá stránku cron.php v koreňovom adresári owncloud každú minútu cez http."
 
 #: templates/admin.php:49
 msgid ""
@@ -146,7 +146,7 @@ msgstr "Povoliť odkazy"
 
 #: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
-msgstr "Povoliť užívateľom zdieľať obsah pomocou verejných odkazov"
+msgstr "Povoliť používateľom zdieľať obsah pomocou verejných odkazov"
 
 #: templates/admin.php:73
 msgid "Allow resharing"
@@ -158,11 +158,11 @@ msgstr "Povoliť zdieľanie zdielaného obsahu iného užívateľa"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr "Povoliť užívateľom zdieľať s každým"
+msgstr "Povoliť používateľom zdieľať s každým"
 
 #: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
-msgstr "Povoliť užívateľom zdieľanie iba s užívateľmi ich vlastnej skupiny"
+msgstr "Povoliť používateľom zdieľanie iba s používateľmi ich vlastnej skupiny"
 
 #: templates/admin.php:88
 msgid "Log"
@@ -180,7 +180,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Vyvinuté <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitou ownCloud</a>,<a href=\"https://github.com/owncloud\" target=\"_blank\">zdrojový kód</a> je licencovaný pod <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -212,7 +212,7 @@ msgstr "Správa veľkých súborov"
 
 #: templates/help.php:11
 msgid "Ask a question"
-msgstr "Opýtajte sa otázku"
+msgstr "Opýtať sa otázku"
 
 #: templates/help.php:23
 msgid "Problems connecting to help database."

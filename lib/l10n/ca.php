@@ -14,6 +14,7 @@
 "Token expired. Please reload page." => "El testimoni ha expirat. Torneu a carregar la pàgina.",
 "Files" => "Fitxers",
 "Text" => "Text",
+"Images" => "Imatges",
 "seconds ago" => "segons enrere",
 "1 minute ago" => "fa 1 minut",
 "%d minutes ago" => "fa %d minuts",

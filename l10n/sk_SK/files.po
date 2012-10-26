@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-22 02:02+0200\n"
-"PO-Revision-Date: 2012-10-21 18:52+0000\n"
-"Last-Translator: martinb <martin.babik@gmail.com>\n"
+"POT-Creation-Date: 2012-10-26 02:02+0200\n"
+"PO-Revision-Date: 2012-10-25 18:52+0000\n"
+"Last-Translator: Roman Priesol <roman@priesol.net>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,7 +96,7 @@ msgstr "prepísaný {new_name} súborom {old_name}"
 
 #: js/filelist.js:277
 msgid "unshared {files}"
-msgstr ""
+msgstr "zdieľanie zrušené pre {files}"
 
 #: js/filelist.js:279
 msgid "deleted {files}"
@@ -291,11 +291,11 @@ msgstr "Odosielaný súbor je príliš veľký"
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Súbory ktoré sa snažíte nahrať presahujú maximálnu veľkosť pre nahratie súborov na tento server."
+msgstr "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server."
 
 #: templates/index.php:82
 msgid "Files are being scanned, please wait."
-msgstr "Čakajte, súbory sú prehľadávané.."
+msgstr "Čakajte, súbory sú prehľadávané."
 
 #: templates/index.php:85
 msgid "Current scanning"

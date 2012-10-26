@@ -3,168 +3,169 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Roman Priesol <roman@priesol.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-29 02:01+0200\n"
-"PO-Revision-Date: 2012-08-29 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-26 02:02+0200\n"
+"PO-Revision-Date: 2012-10-25 19:25+0000\n"
+"Last-Translator: Roman Priesol <roman@priesol.net>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk_SK\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: templates/settings.php:8
 msgid "Host"
-msgstr ""
+msgstr "Hostiteľ"
 
 #: templates/settings.php:8
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Môžete vynechať protokol, s výnimkou požadovania SSL. Vtedy začnite s ldaps://"
 
 #: templates/settings.php:9
 msgid "Base DN"
-msgstr ""
+msgstr "Základné DN"
 
 #: templates/settings.php:9
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "V rozšírenom nastavení môžete zadať základné DN pre používateľov a skupiny"
 
 #: templates/settings.php:10
 msgid "User DN"
-msgstr ""
+msgstr "Používateľské DN"
 
 #: templates/settings.php:10
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "DN klientského používateľa, ku ktorému tvoríte väzbu, napr. uid=agent,dc=example,dc=com. Pre anonymný prístup ponechajte údaje DN a Heslo prázdne."
 
 #: templates/settings.php:11
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Pre anonymný prístup ponechajte údaje DN a Heslo prázdne."
 
 #: templates/settings.php:12
 msgid "User Login Filter"
-msgstr ""
+msgstr "Filter prihlásenia používateľov"
 
 #: templates/settings.php:12
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Určuje použitý filter, pri pokuse o prihlásenie. %%uid nahradzuje používateľské meno v činnosti prihlásenia."
 
 #: templates/settings.php:12
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "použite zástupný vzor %%uid, napr. \\\"uid=%%uid\\\""
 
 #: templates/settings.php:13
 msgid "User List Filter"
-msgstr ""
+msgstr "Filter zoznamov používateľov"
 
 #: templates/settings.php:13
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Definuje použitý filter, pre získanie používateľov."
 
 #: templates/settings.php:13
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "bez zástupných znakov, napr. \"objectClass=person\""
 
 #: templates/settings.php:14
 msgid "Group Filter"
-msgstr ""
+msgstr "Filter skupiny"
 
 #: templates/settings.php:14
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Definuje použitý filter, pre získanie skupín."
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "bez zástupných znakov, napr. \"objectClass=posixGroup\""
 
 #: templates/settings.php:17
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: templates/settings.php:18
 msgid "Base User Tree"
-msgstr ""
+msgstr "Základný používateľský strom"
 
 #: templates/settings.php:19
 msgid "Base Group Tree"
-msgstr ""
+msgstr "Základný skupinový strom"
 
 #: templates/settings.php:20
 msgid "Group-Member association"
-msgstr ""
+msgstr "Asociácia člena skupiny"
 
 #: templates/settings.php:21
 msgid "Use TLS"
-msgstr ""
+msgstr "Použi TLS"
 
 #: templates/settings.php:21
 msgid "Do not use it for SSL connections, it will fail."
-msgstr ""
+msgstr "Nepoužívajte pre pripojenie SSL, pripojenie zlyhá."
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "LDAP server nerozlišuje veľkosť znakov (Windows)"
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "Vypnúť overovanie SSL certifikátu."
 
 #: templates/settings.php:23
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "Ak pripojenie pracuje len s touto možnosťou, tak importujte SSL certifikát LDAP serveru do vášho servera ownCloud."
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "Nie je doporučované, len pre testovacie účely."
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Pole pre zobrazenia mena používateľa"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "Atribút LDAP použitý na vygenerovanie mena používateľa ownCloud "
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Pole pre zobrazenie mena skupiny"
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "Atribút LDAP použitý na vygenerovanie mena skupiny ownCloud "
 
 #: templates/settings.php:27
 msgid "in bytes"
-msgstr ""
+msgstr "v bajtoch"
 
 #: templates/settings.php:29
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "v sekundách. Zmena vyprázdni vyrovnávaciu pamäť."
 
 #: templates/settings.php:30
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr ""
+msgstr "Nechajte prázdne pre používateľské meno (predvolené). Inak uveďte atribút LDAP/AD."
 
 #: templates/settings.php:32
 msgid "Help"
-msgstr ""
+msgstr "Pomoc"

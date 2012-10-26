@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-23 02:02+0200\n"
-"PO-Revision-Date: 2012-10-22 15:40+0000\n"
+"POT-Creation-Date: 2012-10-26 02:02+0200\n"
+"PO-Revision-Date: 2012-10-25 03:45+0000\n"
 "Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -178,7 +178,7 @@ msgstr "{count} 个文件"
 
 #: js/files.js:846
 msgid "seconds ago"
-msgstr "几秒前"
+msgstr "秒前"
 
 #: js/files.js:847
 msgid "1 minute ago"
@@ -210,11 +210,11 @@ msgstr "月前"
 
 #: js/files.js:857
 msgid "last year"
-msgstr "上年"
+msgstr "去年"
 
 #: js/files.js:858
 msgid "years ago"
-msgstr "几年前"
+msgstr "年前"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -226,7 +226,7 @@ msgstr "最大上传大小"
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr "最大可能: "
+msgstr "最大允许: "
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
@@ -292,7 +292,7 @@ msgstr "上传文件过大"
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "您正尝试上传的文件超过了此服务器可以上传的最大大小"
+msgstr "您正尝试上传的文件超过了此服务器可以上传的最大容量限制"
 
 #: templates/index.php:82
 msgid "Files are being scanned, please wait."

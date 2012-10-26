@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:14+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-26 02:02+0200\n"
+"PO-Revision-Date: 2012-10-25 18:49+0000\n"
+"Last-Translator: Roman Priesol <roman@priesol.net>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,11 +79,11 @@ msgstr "Chyba počas zmeny oprávnení"
 
 #: js/share.js:130
 msgid "Shared with you and the group {group} by {owner}"
-msgstr "Zdieľané s vami a so skupinou {group} užívateľom {owner}"
+msgstr "Zdieľané s vami a so skupinou {group} používateľom {owner}"
 
 #: js/share.js:132
 msgid "Shared with you by {owner}"
-msgstr "Zdieľané s vami užívateľom {owner}"
+msgstr "Zdieľané s vami používateľom {owner}"
 
 #: js/share.js:137
 msgid "Share with"
@@ -120,11 +120,11 @@ msgstr "Užívateľ nenájdený"
 
 #: js/share.js:214
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Zdieľanie už zdieľanej položky nie je povolené"
 
 #: js/share.js:250
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Zdieľané v {item} s {user}"
 
 #: js/share.js:271
 msgid "Unshare"
@@ -144,7 +144,7 @@ msgstr "vytvoriť"
 
 #: js/share.js:291
 msgid "update"
-msgstr ""
+msgstr "aktualizácia"
 
 #: js/share.js:294
 msgid "delete"
@@ -160,11 +160,11 @@ msgstr "Chránené heslom"
 
 #: js/share.js:505
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Chyba pri odstraňovaní dátumu vypršania platnosti"
 
 #: js/share.js:517
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Chyba pri nastavení dátumu vypršania platnosti"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -176,7 +176,7 @@ msgstr "Použite nasledujúci odkaz pre obnovenie vášho hesla: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Odkaz pre obnovenie hesla obdržíte E-mailom."
+msgstr "Odkaz pre obnovenie hesla obdržíte e-mailom."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Requested"
@@ -255,13 +255,13 @@ msgstr "Bezpečnostné varovanie"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Nie je dostupný žiadny bezpečný generátor náhodných čísel, prosím, povoľte rozšírenie OpenSSL v PHP."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Bez bezpečného generátora náhodných čísel môže útočník predpovedať token pre obnovu hesla a prevziať kontrolu nad vaším kontom."
 
 #: templates/installation.php:32
 msgid ""
@@ -270,7 +270,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Váš priečinok s dátami a vaše súbory sú pravdepodobne dostupné z internetu. .htaccess súbor dodávaný s inštaláciou ownCloud nespĺňa úlohu. Dôrazne vám doporučujeme nakonfigurovať webserver takým spôsobom, aby dáta v priečinku neboli verejné, alebo presuňte dáta mimo štruktúry priečinkov webservera."
+msgstr "Váš priečinok s dátami a Vaše súbory sú pravdepodobne dostupné z internetu. .htaccess súbor dodávaný s inštaláciou ownCloud nespĺňa úlohu. Dôrazne Vám doporučujeme nakonfigurovať webserver takým spôsobom, aby dáta v priečinku neboli verejné, alebo presuňte dáta mimo štruktúry priečinkov webservera."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -307,7 +307,7 @@ msgstr "Meno databázy"
 
 #: templates/installation.php:121
 msgid "Database tablespace"
-msgstr ""
+msgstr "Tabuľkový priestor databázy"
 
 #: templates/installation.php:127
 msgid "Database host"
@@ -317,85 +317,85 @@ msgstr "Server databázy"
 msgid "Finish setup"
 msgstr "Dokončiť inštaláciu"
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
-msgstr "webové služby pod vašou kontrolou"
-
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Nedeľa"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Pondelok"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Utorok"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Streda"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Štvrtok"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Piatok"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Sobota"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "January"
 msgstr "Január"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "February"
 msgstr "Február"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "March"
 msgstr "Marec"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "April"
 msgstr "Apríl"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "May"
 msgstr "Máj"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "June"
 msgstr "Jún"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "July"
 msgstr "Júl"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "August"
 msgstr "August"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "September"
 msgstr "September"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "October"
 msgstr "Október"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "November"
 msgstr "November"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "December"
 msgstr "December"
+
+#: templates/layout.guest.php:41
+msgid "web services under your control"
+msgstr "webové služby pod vašou kontrolou"
 
 #: templates/layout.user.php:38
 msgid "Log out"
@@ -409,11 +409,11 @@ msgstr "Automatické prihlásenie bolo zamietnuté!"
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "V nedávnej dobe ste nezmenili svoje heslo, Váš účet môže byť kompromitovaný."
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Prosím, zmeňte svoje heslo pre opätovné zabezpečenie Vášho účtu"
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -447,7 +447,7 @@ msgstr "Bezpečnostné varovanie!"
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Prosím, overte svoje heslo. <br />Z bezpečnostných dôvodov môžete byť občas požiadaný o jeho opätovné zadanie."
 
 #: templates/verify.php:16
 msgid "Verify"
