@@ -44,17 +44,25 @@
 		<nav><div id="navigation">
 			<ul id="apps" class="svg">
 				<?php foreach($_['navigation'] as $entry): ?>
-					<li data-id="<?php echo $entry['id']; ?>"><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>><?php echo $entry['name']; ?></a>
+					<li data-id="<?php echo $entry['id']; ?>">
+						<a href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
+							<img src="<?php echo $entry['icon']; ?>">
+							<?php echo $entry['name']; ?>
+						</a>
 					</li>
 				<?php endforeach; ?>
 			</ul>
 
 			<ul id="settings" class="svg">
 				<img role=button tabindex=0 id="expand" class="svg" alt="<?php echo $l->t('Settings');?>" src="<?php echo image_path('', 'actions/settings.svg'); ?>" />
-				<span><?php echo $l->t('Settings');?></span>
 				<div id="expanddiv" <?php if($_['bodyid'] == 'body-user') echo 'style="display:none;"'; ?>>
 				<?php foreach($_['settingsnavigation'] as $entry):?>
-					<li><a style="background-image:url(<?php echo $entry['icon']; ?>)" href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>><?php echo $entry['name'] ?></a></li>
+					<li>
+						<a href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>>
+							<img src="<?php echo $entry['icon']; ?>">
+							<?php echo $entry['name'] ?>
+						</a>
+					</li>
 				<?php endforeach; ?>
 				</div>
 			</ul>

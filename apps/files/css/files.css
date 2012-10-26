@@ -82,8 +82,8 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 .selectedActions a img { position:relative; top:.3em; }
 
 /* add breadcrumb divider to the File item in navigation panel */
-#navigation>ul>li:first-child { background:url('%webroot%/core/img/breadcrumb-start.svg') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; position:fixed; }
-#navigation>ul>li:first-child+li { padding-top:2.9em; }
+#navigation>ul>li:first-child { background:url('%webroot%/core/img/breadcrumb-start.svg') no-repeat 65px 0; width:65px; padding-right:1em; position:fixed; }
+#navigation>ul>li:first-child+li { padding-top:68px; }
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
 

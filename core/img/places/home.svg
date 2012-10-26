@@ -14,8 +14,8 @@
    width="16"
    height="16"
    id="svg11300"
-   inkscape:version="0.48.1 r9760"
-   sodipodi:docname="help.svg"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="home.svg"
    inkscape:export-filename="/home/jancborchardt/jancborchardt/ownCloud/icons/help.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -41,16 +41,16 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1280"
-     inkscape:window-height="776"
+     inkscape:window-height="800"
      id="namedview24"
      showgrid="true"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="22.627418"
      inkscape:cx="14.025105"
-     inkscape:cy="9.2202448"
+     inkscape:cy="3.9169442"
      inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-y="-31"
      inkscape:window-maximized="1"
      inkscape:current-layer="g4146">
     <inkscape:grid
@@ -1733,16 +1733,6 @@
          style="stop-color:#363636;stop-opacity:1"
          offset="1" />
     </linearGradient>
-    <linearGradient
-       y2="18.967093"
-       x2="-2.4040222"
-       y1="4.4573336"
-       x1="-2.4040222"
-       gradientTransform="translate(13.927091,16.573387)"
-       gradientUnits="userSpaceOnUse"
-       id="linearGradient3475"
-       xlink:href="#linearGradient3587-6-5-26"
-       inkscape:collect="always" />
   </defs>
   <g
      transform="matrix(0.78786264,0,0,0.78786264,-3.1483699,0.44173984)"
@@ -1761,19 +1751,14 @@
      style="opacity:0.6;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" />
   <g
      id="g4146">
-    <g
-       id="g4550"
-       transform="translate(0,-20)">
-      <path
-         inkscape:connector-curvature="0"
-         d="M 8,22.03072 0,30 l 3,0 0,6 10,0 0,-6 3,0 L 13,26.969459 13,23 l -3.0000001,0 0,1.081152 L 8,22.03072 z"
-         id="path3887"
-         style="opacity:0.6;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-      <path
-         inkscape:connector-curvature="0"
-         d="M 8,21.03072 0,29 l 3,0 0,6 10,0 0,-6 3,0 L 13,25.969459 13,22 l -3.0000001,0 0,1.081152 L 8,21.03072 z"
-         id="path3883"
-         style="opacity:0.7;fill:url(#linearGradient3475);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    </g>
+    <path
+       style="opacity:0.9;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 8 0.53125 L 0 8.5 L 0.5 8.5 L 8 1.03125 L 10 3.09375 L 10 2.59375 L 8 0.53125 z M 10 1.5 L 10 2 L 13 2 L 13 1.5 L 10 1.5 z M 13 5.46875 L 13 5.96875 L 15.5 8.5 L 16 8.5 L 13 5.46875 z "
+       id="path5338" />
+    <path
+       style="opacity:0.20000000000000001;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path3883"
+       d="M 8,1.03072 0,9 3,9 3,15 13,15 13,9 16,9 13,5.969459 13,2 10,2 10,3.081152 8,1.03072 z"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
