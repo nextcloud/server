@@ -58,6 +58,7 @@ class OC_Util {
 
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $user_dir));
 		}
+		return true;
 	}
 
 	public static function tearDownFS() {
@@ -75,12 +76,6 @@ class OC_Util {
 				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
 					\OC\Files\Filesystem::mount($options['class'], $options['options'], $mountPoint);
 				}
-			}
-		
-			$mtime=filemtime($user_root.'/mount.php');
-			$previousMTime=OC_Preferences::getValue($user,'files','mountconfigmtime',0);
-			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-				OC_Preferences::setValue($user,'files','mountconfigmtime',$mtime);
 			}
 		}		
 	}
@@ -583,6 +578,11 @@ class OC_Util {
 
 		// creating a test file
 		$testfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$filename;
+
+		if(file_exists($testfile)){// already running this test, possible recursive call
+			return false;
+		}
+
 		$fp = @fopen($testfile, 'w');
 		@fwrite($fp, $testcontent);
 		@fclose($fp);
