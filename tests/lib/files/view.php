@@ -7,8 +7,6 @@
 
 namespace Test\Files;
 
-use \OC\Files\Filesystem as Filesystem;
-
 class View extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage[] $storages;
@@ -16,7 +14,7 @@ class View extends \PHPUnit_Framework_TestCase {
 	private $storages = array();
 
 	public function setUp() {
-		Filesystem::clearMounts();
+		\OC\Files\Filesystem::clearMounts();
 	}
 
 	public function tearDown() {
@@ -30,9 +28,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$storage3 = $this->getTestStorage();
-		Filesystem::mount($storage1, array(), '/');
-		Filesystem::mount($storage2, array(), '/substorage');
-		Filesystem::mount($storage3, array(), '/folder/anotherstorage');
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
+		\OC\Files\Filesystem::mount($storage3, array(), '/folder/anotherstorage');
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
 		$storageSize = $textSize * 2 + $imageSize;
@@ -84,8 +82,8 @@ class View extends \PHPUnit_Framework_TestCase {
 	public function testAutoScan() {
 		$storage1 = $this->getTestStorage(false);
 		$storage2 = $this->getTestStorage(false);
-		Filesystem::mount($storage1, array(), '/');
-		Filesystem::mount($storage2, array(), '/substorage');
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
 		$textSize = strlen("dummy file data\n");
 
 		$rootView = new \OC\Files\View('');
@@ -103,9 +101,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$storage3 = $this->getTestStorage();
-		Filesystem::mount($storage1, array(), '/');
-		Filesystem::mount($storage2, array(), '/substorage');
-		Filesystem::mount($storage3, array(), '/folder/anotherstorage');
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
+		\OC\Files\Filesystem::mount($storage3, array(), '/folder/anotherstorage');
 
 		$rootView = new \OC\Files\View('');
 
@@ -113,7 +111,7 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(6, count($results));
 		$paths = array();
 		foreach ($results as $result) {
-			$this->assertEquals($result['path'], Filesystem::normalizePath($result['path']));
+			$this->assertEquals($result['path'], \OC\Files\Filesystem::normalizePath($result['path']));
 			$paths[] = $result['path'];
 		}
 		$this->assertContains('/foo.txt', $paths);
