@@ -609,6 +609,33 @@ class Filesystem {
 		}
 		return $path;
 	}
+
+	/**
+	 * get the filesystem info
+	 *
+	 * @param string $path
+	 * @return array
+	 *
+	 * returns an associative array with the following keys:
+	 * - size
+	 * - mtime
+	 * - mimetype
+	 * - encrypted
+	 * - versioned
+	 */
+	public static function getFileInfo($path) {
+		return self::$defaultInstance->getFileInfo($path);
+	}
+
+	/**
+	 * get the content of a directory
+	 *
+	 * @param string $directory path under datadirectory
+	 * @return array
+	 */
+	public static function getDirectoryContent($directory, $mimetype_filter = '') {
+		return self::$defaultInstance->getDirectoryContent($directory, $mimetype_filter);
+	}
 }
 
 \OC_Hook::connect('OC_Filesystem', 'post_write', 'OC_Filesystem', 'removeETagHook');

@@ -8,6 +8,11 @@
 
 namespace OC\Files\Cache;
 
+/**
+ * Metadata cache for the filesystem
+ *
+ * don't use this class directly if you need to get metadata, use \OC\Files\Filesystem::getFileInfo instead
+ */
 class Cache {
 	const NOT_FOUND = 0;
 	const PARTIAL = 1; //only partial data available, file not cached in the database

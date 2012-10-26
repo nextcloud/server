@@ -645,4 +645,96 @@ class View {
 	public function hasUpdated($path, $time) {
 		return $this->basicOperation('hasUpdated', $path, array(), $time);
 	}
+
+	/**
+	 * get the filesystem info
+	 *
+	 * @param string $path
+	 * @return array
+	 *
+	 * returns an associative array with the following keys:
+	 * - size
+	 * - mtime
+	 * - mimetype
+	 * - encrypted
+	 * - versioned
+	 */
+	public function getFileInfo($path) {
+		$path = \OC\Files\Filesystem::normalizePath($this->fakeRoot . '/' . $path);
+		/**
+		 * @var \OC\Files\Storage\Storage $storage
+		 * @var string $path
+		 */
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
+		$cache = $storage->getCache();
+
+		if (!$cache->inCache($internalPath)) {
+			$scanner = $storage->getScanner();
+			$scanner->scan($internalPath, \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+		}
+
+		$data = $cache->get($internalPath);
+
+		if ($data['mimetype'] === 'httpd/unix-directory') {
+			//add the sizes of other mountpoints to the folder
+			$mountPoints = \OC\Files\Filesystem::getMountPoints($path);
+			foreach ($mountPoints as $mountPoint) {
+				$subStorage = \OC\Files\Filesystem::getStorage($mountPoint);
+				$subCache = $subStorage->getCache();
+				$rootEntry = $subCache->get('');
+
+				$data['size'] += $rootEntry['size'];
+			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * get the content of a directory
+	 *
+	 * @param string $directory path under datadirectory
+	 * @return array
+	 */
+	public function getDirectoryContent($directory, $mimetype_filter = '') {
+		$path = \OC\Files\Filesystem::normalizePath($this->fakeRoot . '/' . $directory);
+		/**
+		 * @var \OC\Files\Storage\Storage $storage
+		 * @var string $path
+		 */
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
+		$cache = $storage->getCache();
+
+		if (!$cache->inCache($internalPath)) {
+			$scanner = $storage->getScanner();
+			$scanner->scan($internalPath, \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+		}
+
+		$files = $cache->getFolderContents($internalPath); //TODO: mimetype_filter
+
+		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
+		$mountPoints = \OC\Files\Filesystem::getMountPoints($directory);
+		$dirLength = strlen($path);
+		foreach ($mountPoints as $mountPoint) {
+			$subStorage = \OC\Files\Filesystem::getStorage($mountPoint);
+			$subCache = $subStorage->getCache();
+			$rootEntry = $subCache->get('');
+
+			$relativePath = trim(substr($mountPoint, $dirLength), '/');
+			if ($pos = strpos($relativePath, '/')) { //mountpoint inside subfolder add size to the correct folder
+				$entryName = substr($relativePath, 0, $pos);
+				foreach ($files as &$entry) {
+					if ($entry['name'] === $entryName) {
+						$entry['size'] += $rootEntry['size'];
+					}
+				}
+			} else { //mountpoint in this folder, add an entry for it
+				$rootEntry['name'] = $relativePath;
+				$files[] = $rootEntry;
+			}
+		}
+
+		usort($files, "fileCmp"); //TODO: remove this once ajax is merged
+		return $files;
+	}
 }

@@ -5,9 +5,11 @@
  * later.
  * See the COPYING-README file. */
 
+namespace Test\Files;
+
 use \OC\Files\Filesystem as Filesystem;
 
-class Test_Files extends PHPUnit_Framework_TestCase {
+class View extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage[] $storages;
 	 */
@@ -35,19 +37,21 @@ class Test_Files extends PHPUnit_Framework_TestCase {
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
 		$storageSize = $textSize * 2 + $imageSize;
 
-		$cachedData = OC_Files::getFileInfo('/foo.txt');
+		$rootView = new \OC\Files\View('');
+
+		$cachedData = $rootView->getFileInfo('/foo.txt');
 		$this->assertEquals($textSize, $cachedData['size']);
 		$this->assertEquals('text/plain', $cachedData['mimetype']);
 
-		$cachedData = OC_Files::getFileInfo('/');
+		$cachedData = $rootView->getFileInfo('/');
 		$this->assertEquals($storageSize * 3, $cachedData['size']);
 		$this->assertEquals('httpd/unix-directory', $cachedData['mimetype']);
 
-		$cachedData = OC_Files::getFileInfo('/folder');
+		$cachedData = $rootView->getFileInfo('/folder');
 		$this->assertEquals($storageSize + $textSize, $cachedData['size']);
 		$this->assertEquals('httpd/unix-directory', $cachedData['mimetype']);
 
-		$folderData = OC_Files::getDirectoryContent('/');
+		$folderData = $rootView->getDirectoryContent('/');
 		/**
 		 * expected entries:
 		 * folder
@@ -74,20 +78,21 @@ class Test_Files extends PHPUnit_Framework_TestCase {
 		Filesystem::mount($storage2, array(), '/substorage');
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
-		$storageSize = $textSize * 2 + $imageSize;
 
-		$cachedData = \OC_Files::getFileInfo('/');
+		$rootView = new \OC\Files\View('');
+
+		$cachedData = $rootView->getFileInfo('/');
 		$this->assertEquals('httpd/unix-directory', $cachedData['mimetype']);
 		$this->assertEquals(-1, $cachedData['size']);
 
-		$folderData = \OC_Files::getDirectoryContent('/substorage/folder');
+		$folderData = $rootView->getDirectoryContent('/substorage/folder');
 		$this->assertEquals('text/plain', $folderData[0]['mimetype']);
 		$this->assertEquals($textSize, $folderData[0]['size']);
 	}
 
 	/**
 	 * @param bool $scan
-	 * @return OC\Files\Storage\Storage
+	 * @return \OC\Files\Storage\Storage
 	 */
 	private function getTestStorage($scan = true) {
 		$storage = new \OC\Files\Storage\Temporary(array());
