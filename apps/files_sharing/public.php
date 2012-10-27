@@ -24,7 +24,7 @@ if (isset($_GET['token'])) {
 function getID($path) {
 	// use the share table from the db to find the item source if the file was reshared because shared files 
 	//are not stored in the file cache.
-	if (substr(OC_Filesystem::getMountPoint($path), -7, 6) == "Shared") {
+	if (substr(\OC\Files\Filesystem::getMountPoint($path), -7, 6) == "Shared") {
 		$path_parts = explode('/', $path, 5);
 		$user = $path_parts[1];
 		$intPath = '/'.$path_parts[4];
@@ -33,7 +33,9 @@ function getID($path) {
 		$row = $result->fetchRow();
 		$fileSource = $row['item_source'];
 	} else {
-		$fileSource = OC_Filecache::getId($path, '');
+		$rootView = new \OC\Files\View('');
+		$meta = $rootView->getFileInfo($path);
+		$fileSource = $meta['fileid'];
 	}
 
 	return $fileSource;
@@ -102,7 +104,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 			if (isset($_GET['path'])) {
 				$path .= $_GET['path'];
 				$dir .= $_GET['path'];
-				if (!OC_Filesystem::file_exists($path)) {
+				if (!\OC\Files\Filesystem::file_exists($path)) {
 					header('HTTP/1.0 404 Not Found');
 					$tmpl = new OCP\Template('', '404', 'guest');
 					$tmpl->printPage();
@@ -130,7 +132,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 				$tmpl = new OCP\Template('files_sharing', 'public', 'base');
 				$tmpl->assign('owner', $uidOwner);
 				// Show file list
-				if (OC_Filesystem::is_dir($path)) {
+				if (\OC\Files\Filesystem::is_dir($path)) {
 					OCP\Util::addStyle('files', 'files');
 					OCP\Util::addScript('files', 'files');
 					OCP\Util::addScript('files', 'filelist');
