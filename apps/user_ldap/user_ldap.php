@@ -120,21 +120,22 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		));
 
 		\OCP\Util::writeLog('user_ldap', 'getUsers: Get users filter '.$filter, \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('user_ldap', 'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset, \OCP\Util::INFO);
 		//do the search and translate results to owncloud names
 		$ldap_users = $this->fetchListOfUsers($filter, array($this->connection->ldapUserDisplayName, 'dn'), $limit, $offset);
 		$ldap_users = $this->ownCloudUserNames($ldap_users);
+		\OCP\Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', \OCP\Util::INFO);
 
+		//if bigger, then paged search is not supported
 		if(!$this->getPagedSearchResultState()) {
 			\OCP\Util::writeLog('user_ldap', 'getUsers: We got old-style results', \OCP\Util::DEBUG);
 			//if not supported, a 'normal' search has run automatically, we just need to get our slice of the cake. And we cache the general search, too
 			$this->connection->writeToCache('getUsers-'.$search, $ldap_users);
 			$ldap_users = array_slice($ldap_users, $offset, $limit);
-		} else {
-			//debug message only
-			\OCP\Util::writeLog('user_ldap', 'getUsers: We got paged results', \OCP\Util::DEBUG);
 		}
 
 		$this->connection->writeToCache($cachekey, $ldap_users);
+		\OCP\Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users returned', \OCP\Util::DEBUG);
 		return $ldap_users;
 	}
 
