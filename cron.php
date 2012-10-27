@@ -57,7 +57,7 @@ if( !OC_Config::getValue( 'installed', false )) {
 register_shutdown_function('handleUnexpectedShutdown');
 
 // Exit if background jobs are disabled!
-$appmode = OC_BackgroundJob::getType();
+$appmode = OC_BackgroundJob::getExecutionType();
 if( $appmode == 'none' ) {
 	my_temporary_cron_class::$sent = true;
 	if( OC::$CLI ) {
@@ -76,7 +76,7 @@ if( OC::$CLI ) {
 	// We call ownCloud from the CLI (aka cron)
 	if( $appmode != 'cron' ) {
 		// Use cron in feature!
-		OC_BackgroundJob::setType('cron' );
+		OC_BackgroundJob::setExecutionType('cron' );
 	}
 
 	// check if backgroundjobs is still running
