@@ -10,7 +10,8 @@ if (isset($_GET['token'])) {
 	$qry = \OC_DB::prepare('SELECT `source` FROM `*PREFIX*sharing` WHERE `target` = ? LIMIT 1');
 	$filepath = $qry->execute(array($_GET['token']))->fetchOne();
 	if(isset($filepath)) {
-		$info = OC_FileCache_Cached::get($filepath, '');
+		$rootView = new \OC\Files\View('');
+		$info = $rootView->getFileInfo($filepath, '');
 		if(strtolower($info['mimetype']) == 'httpd/unix-directory') {
 			$_GET['dir'] = $filepath;
 		} else {
