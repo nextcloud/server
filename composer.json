@@ -1,0 +1,8 @@
+{
+	"require": {
+		"symfony/routing": "2.0.*"
+	},
+	"config": {
+		"vendor-dir": "3rdparty"
+	}
+}

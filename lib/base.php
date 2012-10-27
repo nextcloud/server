@@ -97,8 +97,8 @@ class OC{
 		elseif(strpos($className, 'Sabre_')===0) {
 			$path =  str_replace('_', '/', $className) . '.php';
 		}
-		elseif(strpos($className, 'Symfony\\')===0) {
-			$path = str_replace('\\', '/', $className) . '.php';
+		elseif(strpos($className, 'Symfony\\Component\\Routing\\')===0) {
+			$path = 'symfony/routing/'.str_replace('\\', '/', $className) . '.php';
 		}
 		elseif(strpos($className, 'Test_')===0) {
 			$path =  'tests/lib/'.strtolower(str_replace('_', '/', substr($className, 5)) . '.php');
