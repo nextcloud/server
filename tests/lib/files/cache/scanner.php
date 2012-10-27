@@ -89,14 +89,19 @@ class Scanner extends \UnitTestCase {
 		$cachedDataFolder = $this->cache->get('');
 		$cachedDataFolder2 = $this->cache->get('folder');
 
-		$this->assertEqual($cachedDataFolder['size'], -1);
-		$this->assertEqual($cachedDataFolder2['size'], -1);
+		$this->assertEqual(-1, $cachedDataFolder['size']);
+		$this->assertEqual(-1, $cachedDataFolder2['size']);
 
 		$this->scanner->scan('folder', \OC\Files\Cache\Scanner::SCAN_SHALLOW);
 
 		$cachedDataFolder2 = $this->cache->get('folder');
 
 		$this->assertNotEqual($cachedDataFolder2['size'], -1);
+
+		$this->scanner->correctFolderSize('folder');
+
+		$cachedDataFolder = $this->cache->get('');
+		$this->assertNotEqual($cachedDataFolder['size'], -1);
 	}
 
 	function setUp() {

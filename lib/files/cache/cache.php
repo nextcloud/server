@@ -231,9 +231,15 @@ class Cache {
 	 * @param string $file
 	 */
 	public function remove($file) {
-		$pathHash = md5($file);
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
-		$query->execute(array($this->storageId, $pathHash));
+		$entry = $this->get($file);
+		if ($entry['mimetype'] === 'httpd/unix-directory') {
+			$children = $this->getFolderContents($file);
+			foreach($children as $child){
+				$this->remove($child['path']);
+			}
+		}
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?');
+		$query->execute(array($entry['fileid']));
 	}
 
 	/**

@@ -107,4 +107,20 @@ class Scanner {
 		}
 		return $size;
 	}
+
+	/**
+	 * update the folder size and the size of all parent folders
+	 *
+	 * @param $path
+	 */
+	public function correctFolderSize($path) {
+		$this->cache->calculateFolderSize($path);
+		if ($path !== '') {
+			$parent = dirname($path);
+			if ($parent === '.') {
+				$parent = '';
+			}
+			$this->correctFolderSize($parent);
+		}
+	}
 }

@@ -82,7 +82,7 @@ class Cache extends \UnitTestCase {
 		$file1 = 'folder';
 		$file2 = 'folder/bar';
 		$file3 = 'folder/foo';
-		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder');
+		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
 		$fileData = array();
 		$fileData['bar'] = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
 		$fileData['foo'] = array('size' => 20, 'mtime' => 25, 'mimetype' => 'foo/file');
@@ -110,6 +110,10 @@ class Cache extends \UnitTestCase {
 		$this->cache->put($file4, $fileData['unkownSize']);
 
 		$this->assertEquals(1025, $this->cache->calculateFolderSize($file1));
+
+		$this->cache->remove('folder');
+		$this->assertFalse($this->cache->inCache('folder/foo'));
+		$this->assertFalse($this->cache->inCache('folder/bar'));
 	}
 
 	function testStatus() {
