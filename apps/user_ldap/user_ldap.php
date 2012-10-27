@@ -116,7 +116,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		$search = empty($search) ? '*' : '*'.$search.'*';
 		$filter = $this->combineFilterWithAnd(array(
 			$this->connection->ldapUserFilter,
-			$this->connection->ldapGroupDisplayName.'='.$search
+			$this->connection->ldapUserDisplayName.'='.$search
 		));
 
 		\OCP\Util::writeLog('user_ldap', 'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter, \OCP\Util::DEBUG);
