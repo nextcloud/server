@@ -579,8 +579,15 @@ abstract class Access {
 					}
 				}
 			}
-// 			die(var_dump($selection));
-			return $selection;
+			$findings = $selection;
+		}
+		if(!$this->pagedSearchedSuccessful
+			|| (
+				!is_null($limit)
+				|| !is_null($offset)
+			)
+		) {
+			$findings = array_slice($findings, intval($offset), $limit);
 		}
 		return $findings;
 	}
