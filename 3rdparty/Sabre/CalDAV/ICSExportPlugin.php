@@ -1,5 +1,7 @@
 <?php
 
+use Sabre\VObject;
+
 /**
  * ICS Exporter
  *
@@ -82,7 +84,7 @@ class Sabre_CalDAV_ICSExportPlugin extends Sabre_DAV_ServerPlugin {
      */
     public function generateICS(array $nodes) {
 
-        $calendar = new Sabre_VObject_Component('vcalendar');
+        $calendar = new VObject\Component('vcalendar');
         $calendar->version = '2.0';
         if (Sabre_DAV_Server::$exposeVersion) {
             $calendar->prodid = '-//SabreDAV//SabreDAV ' . Sabre_DAV_Version::VERSION . '//EN';
@@ -103,7 +105,7 @@ class Sabre_CalDAV_ICSExportPlugin extends Sabre_DAV_ServerPlugin {
             }
             $nodeData = $node[200]['{' . Sabre_CalDAV_Plugin::NS_CALDAV . '}calendar-data'];
 
-            $nodeComp = Sabre_VObject_Reader::read($nodeData);
+            $nodeComp = VObject\Reader::read($nodeData);
 
             foreach($nodeComp->children() as $child) {
 

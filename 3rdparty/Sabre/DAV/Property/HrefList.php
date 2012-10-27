@@ -79,7 +79,7 @@ class Sabre_DAV_Property_HrefList extends Sabre_DAV_Property {
      * It will only decode {DAV:}href values.
      *
      * @param DOMElement $dom
-     * @return Sabre_DAV_Property_Href
+     * @return Sabre_DAV_Property_HrefList
      */
     static function unserialize(DOMElement $dom) {
 

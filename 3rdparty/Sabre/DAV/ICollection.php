@@ -19,7 +19,7 @@ interface Sabre_DAV_ICollection extends Sabre_DAV_INode {
      * Data will either be supplied as a stream resource, or in certain cases
      * as a string. Keep in mind that you may have to support either.
      *
-     * After succesful creation of the file, you may choose to return the ETag
+     * After successful creation of the file, you may choose to return the ETag
      * of the new file here.
      *
      * The returned ETag must be surrounded by double-quotes (The quotes should
@@ -49,6 +49,9 @@ interface Sabre_DAV_ICollection extends Sabre_DAV_INode {
 
     /**
      * Returns a specific child node, referenced by its name
+     *
+     * This method must throw Sabre_DAV_Exception_NotFound if the node does not
+     * exist.
      *
      * @param string $name
      * @return Sabre_DAV_INode

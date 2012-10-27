@@ -1,5 +1,7 @@
 <?php
 
+namespace Sabre\VObject;
+
 /**
  * VCALENDAR/VCARD reader
  *
@@ -8,21 +10,38 @@
  * TODO: this class currently completely works 'statically'. This is pointless,
  * and defeats OOP principals. Needs refactoring in a future version.
  *
- * @package Sabre
- * @subpackage VObject
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Sabre_VObject_Reader {
+class Reader {
+
+    /**
+     * If this option is passed to the reader, it will be less strict about the
+     * validity of the lines.
+     *
+     * Currently using this option just means, that it will accept underscores
+     * in property names.
+     */
+    const OPTION_FORGIVING = 1;
+
+    /**
+     * If this option is turned on, any lines we cannot parse will be ignored
+     * by the reader.
+     */
+    const OPTION_IGNORE_INVALID_LINES = 2;
 
     /**
      * Parses the file and returns the top component
      *
+     * The options argument is a bitfield. Pass any of the OPTIONS constant to
+     * alter the parsers' behaviour.
+     *
      * @param string $data
-     * @return Sabre_VObject_Element
+     * @param int $options
+     * @return Node
      */
-    static function read($data) {
+    static function read($data, $options = 0) {
 
         // Normalizing newlines
         $data = str_replace(array("\r","\n\n"), array("\n","\n"), $data);
@@ -48,7 +67,7 @@ class Sabre_VObject_Reader {
 
         reset($lines2);
 
-        return self::readLine($lines2);
+        return self::readLine($lines2, $options);
 
     }
 
@@ -58,37 +77,45 @@ class Sabre_VObject_Reader {
      * This method receives the full array of lines. The array pointer is used
      * to traverse.
      *
+     * This method returns null if an invalid line was encountered, and the
+     * IGNORE_INVALID_LINES option was turned on.
+     *
      * @param array $lines
-     * @return Sabre_VObject_Element
+     * @param int $options See the OPTIONS constants.
+     * @return Node
      */
-    static private function readLine(&$lines) {
+    static private function readLine(&$lines, $options = 0) {
 
         $line = current($lines);
         $lineNr = key($lines);
         next($lines);
 
         // Components
-        if (stripos($line,"BEGIN:")===0) {
+        if (strtoupper(substr($line,0,6)) === "BEGIN:") {
 
             $componentName = strtoupper(substr($line,6));
-            $obj = Sabre_VObject_Component::create($componentName);
+            $obj = Component::create($componentName);
 
             $nextLine = current($lines);
 
-            while(stripos($nextLine,"END:")!==0) {
+            while(strtoupper(substr($nextLine,0,4))!=="END:") {
 
-                $obj->add(self::readLine($lines));
-
+                $parsedLine = self::readLine($lines, $options);
                 $nextLine = current($lines);
 
+                if (is_null($parsedLine)) {
+                    continue;
+                }
+                $obj->add($parsedLine);
+
                 if ($nextLine===false)
-                    throw new Sabre_VObject_ParseException('Invalid VObject. Document ended prematurely.');
+                    throw new ParseException('Invalid VObject. Document ended prematurely.');
 
             }
 
             // Checking component name of the 'END:' line.
             if (substr($nextLine,4)!==$obj->name) {
-                throw new Sabre_VObject_ParseException('Invalid VObject, expected: "END:' . $obj->name . '" got: "' . $nextLine . '"');
+                throw new ParseException('Invalid VObject, expected: "END:' . $obj->name . '" got: "' . $nextLine . '"');
             }
             next($lines);
 
@@ -99,19 +126,26 @@ class Sabre_VObject_Reader {
         // Properties
         //$result = preg_match('/(?P<name>[A-Z0-9-]+)(?:;(?P<parameters>^(?<!:):))(.*)$/',$line,$matches);
 
-
-        $token = '[A-Z0-9-\.]+';
+        if ($options & self::OPTION_FORGIVING) {
+            $token = '[A-Z0-9-\._]+';
+        } else {
+            $token = '[A-Z0-9-\.]+';
+        }
         $parameters = "(?:;(?P<parameters>([^:^\"]|\"([^\"]*)\")*))?";
         $regex = "/^(?P<name>$token)$parameters:(?P<value>.*)$/i";
 
         $result = preg_match($regex,$line,$matches);
 
         if (!$result) {
-            throw new Sabre_VObject_ParseException('Invalid VObject, line ' . ($lineNr+1) . ' did not follow the icalendar/vcard format');
+            if ($options & self::OPTION_IGNORE_INVALID_LINES) {
+                return null;
+            } else {
+                throw new ParseException('Invalid VObject, line ' . ($lineNr+1) . ' did not follow the icalendar/vcard format');
+            }
         }
 
         $propertyName = strtoupper($matches['name']);
-        $propertyValue = preg_replace_callback('#(\\\\(\\\\|N|n|;|,))#',function($matches) {
+        $propertyValue = preg_replace_callback('#(\\\\(\\\\|N|n))#',function($matches) {
             if ($matches[2]==='n' || $matches[2]==='N') {
                 return "\n";
             } else {
@@ -119,7 +153,7 @@ class Sabre_VObject_Reader {
             }
         }, $matches['value']);
 
-        $obj = Sabre_VObject_Property::create($propertyName, $propertyValue);
+        $obj = Property::create($propertyName, $propertyValue);
 
         if ($matches['parameters']) {
 
@@ -137,7 +171,7 @@ class Sabre_VObject_Reader {
     /**
      * Reads a parameter list from a property
      *
-     * This method returns an array of Sabre_VObject_Parameter
+     * This method returns an array of Parameter
      *
      * @param string $parameters
      * @return array
@@ -171,7 +205,7 @@ class Sabre_VObject_Reader {
                 }
             }, $value);
 
-            $params[] = new Sabre_VObject_Parameter($match['paramName'], $value);
+            $params[] = new Parameter($match['paramName'], $value);
 
         }
 

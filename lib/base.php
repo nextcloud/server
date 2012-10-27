@@ -103,6 +103,9 @@ class OC{
 		elseif(strpos($className, 'Symfony\\Component\\Routing\\')===0) {
 			$path = 'symfony/routing/'.str_replace('\\', '/', $className) . '.php';
 		}
+		elseif(strpos($className, 'Sabre\\VObject')===0) {
+			$path = str_replace('\\', '/', $className) . '.php';
+		}
 		elseif(strpos($className, 'Test_')===0) {
 			$path =  'tests/lib/'.strtolower(str_replace('_', '/', substr($className, 5)) . '.php');
 		}
@@ -519,7 +522,8 @@ class OC{
 				}
 				$file_ext = substr($param['file'], -3);
 				if ($file_ext != 'php'
-				    || !self::loadAppScriptFile($param)) {
+				    || !self::loadAppScriptFile($param))
+				{
 					header('HTTP/1.0 404 Not Found');
 				}
 			}

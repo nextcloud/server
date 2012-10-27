@@ -3,7 +3,7 @@
 /**
  * SabreDAV ACL Plugin
  *
- * This plugin provides funcitonality to enforce ACL permissions.
+ * This plugin provides functionality to enforce ACL permissions.
  * ACL is defined in RFC3744.
  *
  * In addition it also provides support for the {DAV:}current-user-principal
@@ -102,11 +102,11 @@ class Sabre_DAVACL_Plugin extends Sabre_DAV_ServerPlugin {
     );
 
     /**
-     * Any principal uri's added here, will automatically be added to the list 
-     * of ACL's. They will effectively receive {DAV:}all privileges, as a 
+     * Any principal uri's added here, will automatically be added to the list
+     * of ACL's. They will effectively receive {DAV:}all privileges, as a
      * protected privilege.
-     * 
-     * @var array 
+     *
+     * @var array
      */
     public $adminPrincipals = array();
 
@@ -233,6 +233,7 @@ class Sabre_DAVACL_Plugin extends Sabre_DAV_ServerPlugin {
 
         $authPlugin = $this->server->getPlugin('auth');
         if (is_null($authPlugin)) return null;
+        /** @var $authPlugin Sabre_DAV_Auth_Plugin */
 
         $userName = $authPlugin->getCurrentUser();
         if (!$userName) return null;
@@ -240,6 +241,14 @@ class Sabre_DAVACL_Plugin extends Sabre_DAV_ServerPlugin {
         return $this->defaultUsernamePath . '/' . $userName;
 
     }
+
+    /**
+     * This array holds a cache for all the principals that are associated with
+     * a single principal.
+     *
+     * @var array
+     */
+    protected $currentUserPrincipalsCache = array();
 
     /**
      * Returns a list of principals that's associated to the current
@@ -252,6 +261,11 @@ class Sabre_DAVACL_Plugin extends Sabre_DAV_ServerPlugin {
         $currentUser = $this->getCurrentUserPrincipal();
 
         if (is_null($currentUser)) return array();
+
+        // First check our cache
+        if (isset($this->currentUserPrincipalsCache[$currentUser])) {
+            return $this->currentUserPrincipalsCache[$currentUser];
+        }
 
         $check = array($currentUser);
         $principals = array($currentUser);
@@ -276,6 +290,9 @@ class Sabre_DAVACL_Plugin extends Sabre_DAV_ServerPlugin {
             }
 
         }
+
+        // Store the result in the cache
+        $this->currentUserPrincipalsCache[$currentUser] = $principals;
 
         return $principals;
 
@@ -771,7 +788,7 @@ class Sabre_DAVACL_Plugin extends Sabre_DAV_ServerPlugin {
      * @param array $requestedProperties
      * @param array $returnedProperties
      * @TODO really should be broken into multiple methods, or even a class.
-     * @return void
+     * @return bool
      */
     public function beforeGetProperties($uri, Sabre_DAV_INode $node, &$requestedProperties, &$returnedProperties) {
 
@@ -895,6 +912,18 @@ class Sabre_DAVACL_Plugin extends Sabre_DAV_ServerPlugin {
             $returnedProperties[200]['{DAV:}acl-restrictions'] = new Sabre_DAVACL_Property_AclRestrictions();
         }
 
+        /* Adding ACL properties */
+        if ($node instanceof Sabre_DAVACL_IACL) {
+
+            if (false !== ($index = array_search('{DAV:}owner', $requestedProperties))) {
+
+                unset($requestedProperties[$index]);
+                $returnedProperties[200]['{DAV:}owner'] = new Sabre_DAV_Property_Href($node->getOwner() . '/');
+
+            }
+
+        }
+
     }
 
     /**
@@ -928,6 +957,9 @@ class Sabre_DAVACL_Plugin extends Sabre_DAV_ServerPlugin {
         }
 
         $node->setGroupMemberSet($memberSet);
+        // We must also clear our cache, just in case
+
+        $this->currentUserPrincipalsCache = array();
 
         $result[200]['{DAV:}group-member-set'] = null;
         unset($propertyDelta['{DAV:}group-member-set']);
@@ -935,7 +967,7 @@ class Sabre_DAVACL_Plugin extends Sabre_DAV_ServerPlugin {
     }
 
     /**
-     * This method handels HTTP REPORT requests
+     * This method handles HTTP REPORT requests
      *
      * @param string $reportName
      * @param DOMNode $dom
@@ -1268,10 +1300,12 @@ class Sabre_DAVACL_Plugin extends Sabre_DAV_ServerPlugin {
         }
         $result = $this->principalSearch($searchProperties, $requestedProperties, $uri);
 
-        $xml = $this->server->generateMultiStatus($result);
-        $this->server->httpResponse->setHeader('Content-Type','application/xml; charset=utf-8');
+        $prefer = $this->server->getHTTPPRefer();
+
         $this->server->httpResponse->sendStatus(207);
-        $this->server->httpResponse->sendBody($xml);
+        $this->server->httpResponse->setHeader('Content-Type','application/xml; charset=utf-8');
+        $this->server->httpResponse->setHeader('Vary','Brief,Prefer');
+        $this->server->httpResponse->sendBody($this->server->generateMultiStatus($result, $prefer['return-minimal']));
 
     }
 

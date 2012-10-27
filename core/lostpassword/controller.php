@@ -8,14 +8,16 @@
 
 class OC_Core_LostPassword_Controller {
 	protected static function displayLostPasswordPage($error, $requested) {
-		OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => $error, 'requested' => $requested));
+		OC_Template::printGuestPage('core/lostpassword', 'lostpassword',
+			array('error' => $error, 'requested' => $requested));
 	}
 	
 	protected static function displayResetPasswordPage($success, $args) {
 		$route_args = array();
 		$route_args['token'] = $args['token'];
 		$route_args['user'] = $args['user'];
-		OC_Template::printGuestPage('core/lostpassword', 'resetpassword', array('success' => $success, 'args' => $route_args));
+		OC_Template::printGuestPage('core/lostpassword', 'resetpassword',
+			array('success' => $success, 'args' => $route_args));
 	}
 
 	protected static function checkToken($user, $token) {
@@ -29,10 +31,12 @@ class OC_Core_LostPassword_Controller {
 	public static function sendEmail($args) {
 		if (OC_User::userExists($_POST['user'])) {
 			$token = hash('sha256', OC_Util::generate_random_bytes(30).OC_Config::getValue('passwordsalt', ''));
-			OC_Preferences::setValue($_POST['user'], 'owncloud', 'lostpassword', hash('sha256', $token)); // Hash the token again to prevent timing attacks
+			OC_Preferences::setValue($_POST['user'], 'owncloud', 'lostpassword',
+				hash('sha256', $token)); // Hash the token again to prevent timing attacks
 			$email = OC_Preferences::getValue($_POST['user'], 'settings', 'email', '');
 			if (!empty($email)) {
-				$link = OC_Helper::linkToRoute('core_lostpassword_reset', array('user' => $_POST['user'], 'token' => $token));
+				$link = OC_Helper::linkToRoute('core_lostpassword_reset',
+					array('user' => $_POST['user'], 'token' => $token));
 				$link = OC_Helper::makeURLAbsolute($link);
 
 				$tmpl = new OC_Template('core/lostpassword', 'email');

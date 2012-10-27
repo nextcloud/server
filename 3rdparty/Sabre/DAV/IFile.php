@@ -51,7 +51,7 @@ interface Sabre_DAV_IFile extends Sabre_DAV_INode {
      *
      * If null is returned, we'll assume application/octet-stream
      *
-     * @return void
+     * @return string|null
      */
     function getContentType();
 

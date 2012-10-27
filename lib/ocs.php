@@ -111,8 +111,8 @@ class OC_OCS {
 					$format = $parameters['format'];
 					$login = OC_OCS::readData('post', 'login', 'text');
 					$passwd = OC_OCS::readData('post', 'password', 'text');
-					OC_OCS::personCheck($format,$login,$passwd);
-					})
+					OC_OCS::personCheck($format, $login, $passwd);
+				})
 			->requirements(array('format'=>'xml|json'));
 
 		// ACTIVITY
@@ -125,7 +125,7 @@ class OC_OCS {
 					$pagesize = OC_OCS::readData('get', 'pagesize', 'int', 10);
 					if($pagesize<1 or $pagesize>100) $pagesize=10;
 					OC_OCS::activityGet($format, $page, $pagesize);
-					})
+				})
 			->requirements(array('format'=>'xml|json'));
 		// activityput - POST ACTIVITY
 		$router->create('activity_put', '/activity.{format}')
@@ -134,8 +134,8 @@ class OC_OCS {
 			->action(function ($parameters) {
 					$format = $parameters['format'];
 					$message = OC_OCS::readData('post', 'message', 'text');
-					OC_OCS::activityPut($format,$message);
-					})
+					OC_OCS::activityPut($format, $message);
+				})
 			->requirements(array('format'=>'xml|json'));
 
 		// PRIVATEDATA
@@ -148,7 +148,7 @@ class OC_OCS {
 					$app = addslashes(strip_tags($parameters['app']));
 					$key = addslashes(strip_tags($parameters['key']));
 					OC_OCS::privateDataGet($format, $app, $key);
-					})
+				})
 			->requirements(array('format'=>'xml|json'));
 		// set - POST DATA
 		$router->create('privatedata_set',
@@ -161,7 +161,7 @@ class OC_OCS {
 					$key = addslashes(strip_tags($parameters['key']));
 					$value=OC_OCS::readData('post', 'value', 'text');
 					OC_OCS::privateDataSet($format, $app, $key, $value);
-					})
+				})
 			->requirements(array('format'=>'xml|json'));
 		// delete - POST DATA
 		$router->create('privatedata_delete',
@@ -173,7 +173,7 @@ class OC_OCS {
 					$app = addslashes(strip_tags($parameters['app']));
 					$key = addslashes(strip_tags($parameters['key']));
 					OC_OCS::privateDataDelete($format, $app, $key);
-					})
+				})
 			->requirements(array('format'=>'xml|json'));
 
 		// CLOUD
@@ -184,7 +184,7 @@ class OC_OCS {
 			->action(function ($parameters) {
 					$format = $parameters['format'];
 					OC_OCS::systemwebapps($format);
-					})
+				})
 			->requirements(array('format'=>'xml|json'));
 
 		// quotaget
@@ -195,7 +195,7 @@ class OC_OCS {
 					$format = $parameters['format'];
 					$user = $parameters['user'];
 					OC_OCS::quotaGet($format, $user);
-					})
+				})
 			->requirements(array('format'=>'xml|json'));
 		// quotaset
 		$router->create('quota_set',
@@ -207,7 +207,7 @@ class OC_OCS {
 					$user = $parameters['user'];
 					$quota = self::readData('post', 'quota', 'int');
 					OC_OCS::quotaSet($format, $user, $quota);
-					})
+				})
 			->requirements(array('format'=>'xml|json'));
 
 		// keygetpublic
@@ -217,8 +217,8 @@ class OC_OCS {
 			->action(function ($parameters) {
 					$format = $parameters['format'];
 					$user = $parameters['user'];
-					OC_OCS::publicKeyGet($format,$user);
-					})
+					OC_OCS::publicKeyGet($format, $user);
+				})
 			->requirements(array('format'=>'xml|json'));
 
 		// keygetprivate
@@ -228,8 +228,8 @@ class OC_OCS {
 			->action(function ($parameters) {
 					$format = $parameters['format'];
 					$user = $parameters['user'];
-					OC_OCS::privateKeyGet($format,$user);
-					})
+					OC_OCS::privateKeyGet($format, $user);
+				})
 			->requirements(array('format'=>'xml|json'));
 
 
@@ -247,7 +247,10 @@ class OC_OCS {
 		try {
 			$router->match($_SERVER['PATH_INFO']);
 		} catch (ResourceNotFoundException $e) {
-			$txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
+			$txt='Invalid query, please check the syntax. '
+			.'API specifications are here: '
+			.'http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'
+			.'DEBUG OUTPUT:'."\n";
 			$txt.=OC_OCS::getdebugoutput();
 			echo(OC_OCS::generatexml($format, 'failed', 999, $txt));
 		} catch (MethodNotAllowedException $e) {
@@ -323,7 +326,7 @@ class OC_OCS {
 	* @param int $itemsperpage
 	* @return string xml/json
 	*/
-	private static function generateXml($format,$status,$statuscode,$message,$data=array(),$tag='',$tagattribute='',$dimension=-1,$itemscount='',$itemsperpage='') {
+	private static function generateXml($format, $status, $statuscode, $message, $data=array(), $tag='', $tagattribute='', $dimension=-1, $itemscount='', $itemsperpage='') {
 		if($format=='json') {
 			$json=array();
 			$json['status']=$status;
@@ -343,7 +346,7 @@ class OC_OCS {
 			xmlwriter_write_element($writer, 'status', $status);
 			xmlwriter_write_element($writer, 'statuscode', $statuscode);
 			xmlwriter_write_element($writer, 'message', $message);
-			if($itemscount<>'') xmlwriter_write_element($writer,'totalitems',$itemscount);
+			if($itemscount<>'') xmlwriter_write_element($writer, 'totalitems', $itemscount);
 			if(!empty($itemsperpage)) xmlwriter_write_element($writer, 'itemsperpage', $itemsperpage);
 			xmlwriter_end_element($writer);
 			if($dimension=='0') {
@@ -358,7 +361,7 @@ class OC_OCS {
 				xmlwriter_end_element($writer);
 
 			}elseif($dimension=='2') {
-				xmlwriter_start_element($writer,'data');
+				xmlwriter_start_element($writer, 'data');
 				foreach($data as $entry) {
 					xmlwriter_start_element($writer, $tag);
 					if(!empty($tagattribute)) {
@@ -413,14 +416,14 @@ class OC_OCS {
 		}
 	}
 
-	public static function toXml($writer,$data,$node) {
+	public static function toXml($writer, $data, $node) {
 		foreach($data as $key => $value) {
 			if (is_numeric($key)) {
 				$key = $node;
 			}
 			if (is_array($value)) {
 				xmlwriter_start_element($writer, $key);
-				OC_OCS::toxml($writer,$value, $node);
+				OC_OCS::toxml($writer, $value, $node);
 				xmlwriter_end_element($writer);
 			}else{
 				xmlwriter_write_element($writer, $key, $value);
@@ -453,7 +456,7 @@ class OC_OCS {
 	* @param string $passwd
 	* @return string xml/json
 	*/
-	private static function personCheck($format,$login,$passwd) {
+	private static function personCheck($format, $login, $passwd) {
 		if($login<>'') {
 			if(OC_User::login($login, $passwd)) {
 				$xml['person']['personid']=$login;
@@ -480,7 +483,7 @@ class OC_OCS {
 
 			//TODO
 
-		$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'activity', 'full', 2, $totalcount,$pagesize);
+		$txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'activity', 'full', 2, $totalcount, $pagesize);
 		echo($txt);
 	}
 
@@ -490,7 +493,7 @@ class OC_OCS {
 	* @param string $message
 	* @return string xml/json
 	*/
-	private static function activityPut($format,$message) {
+	private static function activityPut($format, $message) {
 		// not implemented in ownCloud
 		$user=OC_OCS::checkpassword();
 		echo(OC_OCS::generatexml($format, 'ok', 100, ''));
@@ -621,7 +624,7 @@ class OC_OCS {
 		foreach($apps as $app) {
 			$info=OC_App::getAppInfo($app);
 			if(isset($info['standalone'])) {
-				$newvalue=array('name'=>$info['name'],'url'=>OC_Helper::linkToAbsolute($app,''),'icon'=>'');
+				$newvalue=array('name'=>$info['name'], 'url'=>OC_Helper::linkToAbsolute($app, ''), 'icon'=>'');
 				$values[]=$newvalue;
 			}
 
@@ -638,7 +641,7 @@ class OC_OCS {
         * @param string $user
         * @return string xml/json
         */
-        private static function quotaGet($format,$user) {
+        private static function quotaGet($format, $user) {
                 $login=OC_OCS::checkpassword();
 		if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
 
@@ -677,7 +680,7 @@ class OC_OCS {
         * @param string $quota
         * @return string xml/json
         */
-        private static function quotaSet($format,$user,$quota) {
+        private static function quotaSet($format, $user, $quota) {
                 $login=OC_OCS::checkpassword();
                 if(OC_Group::inGroup($login, 'admin')) {
 
@@ -700,7 +703,7 @@ class OC_OCS {
         * @param string $user
         * @return string xml/json
         */
-        private static function publicKeyGet($format,$user) {
+        private static function publicKeyGet($format, $user) {
                 $login=OC_OCS::checkpassword();
 
 		if(OC_User::userExists($user)) {
@@ -718,7 +721,7 @@ class OC_OCS {
         * @param string $user
         * @return string xml/json
         */
-        private static function privateKeyGet($format,$user) {
+        private static function privateKeyGet($format, $user) {
                 $login=OC_OCS::checkpassword();
                 if(OC_Group::inGroup($login, 'admin') or ($login==$user)) {
 

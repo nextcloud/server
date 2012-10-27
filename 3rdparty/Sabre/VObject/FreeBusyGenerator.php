@@ -1,5 +1,7 @@
 <?php
 
+namespace Sabre\VObject;
+
 /**
  * This class helps with generating FREEBUSY reports based on existing sets of
  * objects.
@@ -10,13 +12,11 @@
  * VFREEBUSY components are described in RFC5545, The rules for what should
  * go in a single freebusy report is taken from RFC4791, section 7.10.
  *
- * @package Sabre
- * @subpackage VObject
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Sabre_VObject_FreeBusyGenerator {
+class FreeBusyGenerator {
 
     /**
      * Input objects
@@ -42,9 +42,32 @@ class Sabre_VObject_FreeBusyGenerator {
     /**
      * VCALENDAR object
      *
-     * @var Sabre_VObject_Component
+     * @var Component
      */
     protected $baseObject;
+
+    /**
+     * Creates the generator.
+     *
+     * Check the setTimeRange and setObjects methods for details about the
+     * arguments.
+     *
+     * @param DateTime $start
+     * @param DateTime $end
+     * @param mixed $objects
+     * @return void
+     */
+    public function __construct(\DateTime $start = null, \DateTime $end = null, $objects = null) {
+
+        if ($start && $end) {
+            $this->setTimeRange($start, $end);
+        }
+
+        if ($objects) {
+            $this->setObjects($objects);
+        }
+
+    }
 
     /**
      * Sets the VCALENDAR object.
@@ -54,10 +77,10 @@ class Sabre_VObject_FreeBusyGenerator {
      *
      * The VFREEBUSY object will be automatically added though.
      *
-     * @param Sabre_VObject_Component $vcalendar
+     * @param Component $vcalendar
      * @return void
      */
-    public function setBaseObject(Sabre_VObject_Component $vcalendar) {
+    public function setBaseObject(Component $vcalendar) {
 
         $this->baseObject = $vcalendar;
 
@@ -66,22 +89,28 @@ class Sabre_VObject_FreeBusyGenerator {
     /**
      * Sets the input objects
      *
-     * Every object must either be a string or a Sabre_VObject_Component.
+     * You must either specify a valendar object as a strong, or as the parse
+     * Component.
+     * It's also possible to specify multiple objects as an array.
      *
-     * @param array $objects
+     * @param mixed $objects
      * @return void
      */
-    public function setObjects(array $objects) {
+    public function setObjects($objects) {
+
+        if (!is_array($objects)) {
+            $objects = array($objects);
+        }
 
         $this->objects = array();
         foreach($objects as $object) {
 
             if (is_string($object)) {
-                $this->objects[] = Sabre_VObject_Reader::read($object);
-            } elseif ($object instanceof Sabre_VObject_Component) {
+                $this->objects[] = Reader::read($object);
+            } elseif ($object instanceof Component) {
                 $this->objects[] = $object;
             } else {
-                throw new InvalidArgumentException('You can only pass strings or Sabre_VObject_Component arguments to setObjects');
+                throw new \InvalidArgumentException('You can only pass strings or \\Sabre\\VObject\\Component arguments to setObjects');
             }
 
         }
@@ -97,7 +126,7 @@ class Sabre_VObject_FreeBusyGenerator {
      * @param DateTime $end
      * @return void
      */
-    public function setTimeRange(DateTime $start = null, DateTime $end = null) {
+    public function setTimeRange(\DateTime $start = null, \DateTime $end = null) {
 
         $this->start = $start;
         $this->end = $end;
@@ -108,7 +137,7 @@ class Sabre_VObject_FreeBusyGenerator {
      * Parses the input data and returns a correct VFREEBUSY object, wrapped in
      * a VCALENDAR.
      *
-     * @return Sabre_VObject_Component
+     * @return Component
      */
     public function getResult() {
 
@@ -140,7 +169,7 @@ class Sabre_VObject_FreeBusyGenerator {
 
                         if ($component->RRULE) {
 
-                            $iterator = new Sabre_VObject_RecurrenceIterator($object, (string)$component->uid);
+                            $iterator = new RecurrenceIterator($object, (string)$component->uid);
                             if ($this->start) {
                                 $iterator->fastForward($this->start);
                             }
@@ -172,10 +201,10 @@ class Sabre_VObject_FreeBusyGenerator {
                             if (isset($component->DTEND)) {
                                 $endTime = $component->DTEND->getDateTime();
                             } elseif (isset($component->DURATION)) {
-                                $duration = Sabre_VObject_DateTimeParser::parseDuration((string)$component->DURATION);
+                                $duration = DateTimeParser::parseDuration((string)$component->DURATION);
                                 $endTime = clone $startTime;
                                 $endTime->add($duration);
-                            } elseif ($component->DTSTART->getDateType() === Sabre_VObject_Property_DateTime::DATE) {
+                            } elseif ($component->DTSTART->getDateType() === Property\DateTime::DATE) {
                                 $endTime = clone $startTime;
                                 $endTime->modify('+1 day');
                             } else {
@@ -212,14 +241,14 @@ class Sabre_VObject_FreeBusyGenerator {
                             $values = explode(',', $freebusy);
                             foreach($values as $value) {
                                 list($startTime, $endTime) = explode('/', $value);
-                                $startTime = Sabre_VObject_DateTimeParser::parseDateTime($startTime);
+                                $startTime = DateTimeParser::parseDateTime($startTime);
 
                                 if (substr($endTime,0,1)==='P' || substr($endTime,0,2)==='-P') {
-                                    $duration = Sabre_VObject_DateTimeParser::parseDuration($endTime);
+                                    $duration = DateTimeParser::parseDuration($endTime);
                                     $endTime = clone $startTime;
                                     $endTime->add($duration);
                                 } else {
-                                    $endTime = Sabre_VObject_DateTimeParser::parseDateTime($endTime);
+                                    $endTime = DateTimeParser::parseDateTime($endTime);
                                 }
 
                                 if($this->start && $this->start > $endTime) continue;
@@ -248,39 +277,35 @@ class Sabre_VObject_FreeBusyGenerator {
         if ($this->baseObject) {
             $calendar = $this->baseObject;
         } else {
-            $calendar = new Sabre_VObject_Component('VCALENDAR');
+            $calendar = new Component('VCALENDAR');
             $calendar->version = '2.0';
-            if (Sabre_DAV_Server::$exposeVersion) {
-                $calendar->prodid = '-//SabreDAV//Sabre VObject ' . Sabre_VObject_Version::VERSION . '//EN';
-            } else {
-                $calendar->prodid = '-//SabreDAV//Sabre VObject//EN';
-            }
+            $calendar->prodid = '-//Sabre//Sabre VObject ' . Version::VERSION . '//EN';
             $calendar->calscale = 'GREGORIAN';
         }
 
-        $vfreebusy = new Sabre_VObject_Component('VFREEBUSY');
+        $vfreebusy = new Component('VFREEBUSY');
         $calendar->add($vfreebusy);
 
         if ($this->start) {
-            $dtstart = new Sabre_VObject_Property_DateTime('DTSTART');
-            $dtstart->setDateTime($this->start,Sabre_VObject_Property_DateTime::UTC);
+            $dtstart = new Property\DateTime('DTSTART');
+            $dtstart->setDateTime($this->start,Property\DateTime::UTC);
             $vfreebusy->add($dtstart);
         }
         if ($this->end) {
-            $dtend = new Sabre_VObject_Property_DateTime('DTEND');
-            $dtend->setDateTime($this->start,Sabre_VObject_Property_DateTime::UTC);
+            $dtend = new Property\DateTime('DTEND');
+            $dtend->setDateTime($this->end,Property\DateTime::UTC);
             $vfreebusy->add($dtend);
         }
-        $dtstamp = new Sabre_VObject_Property_DateTime('DTSTAMP');
-        $dtstamp->setDateTime(new DateTime('now'), Sabre_VObject_Property_DateTime::UTC);
+        $dtstamp = new Property\DateTime('DTSTAMP');
+        $dtstamp->setDateTime(new \DateTime('now'), Property\DateTime::UTC);
         $vfreebusy->add($dtstamp);
 
         foreach($busyTimes as $busyTime) {
 
-            $busyTime[0]->setTimeZone(new DateTimeZone('UTC'));
-            $busyTime[1]->setTimeZone(new DateTimeZone('UTC'));
+            $busyTime[0]->setTimeZone(new \DateTimeZone('UTC'));
+            $busyTime[1]->setTimeZone(new \DateTimeZone('UTC'));
 
-            $prop = new Sabre_VObject_Property(
+            $prop = new Property(
                 'FREEBUSY',
                 $busyTime[0]->format('Ymd\\THis\\Z') . '/' . $busyTime[1]->format('Ymd\\THis\\Z')
             );

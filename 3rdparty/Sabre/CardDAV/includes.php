@@ -26,6 +26,7 @@ include __DIR__ . '/IDirectory.php';
 include __DIR__ . '/Plugin.php';
 include __DIR__ . '/Property/SupportedAddressData.php';
 include __DIR__ . '/UserAddressBooks.php';
+include __DIR__ . '/VCFExportPlugin.php';
 include __DIR__ . '/Version.php';
 include __DIR__ . '/AddressBook.php';
 include __DIR__ . '/Card.php';

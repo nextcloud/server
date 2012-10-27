@@ -35,9 +35,9 @@ class OC_Router {
 	public function loadRoutes() {
 		foreach(OC_APP::getEnabledApps() as $app){
 			$file = OC_App::getAppPath($app).'/appinfo/routes.php';
-			if(file_exists($file)){
+			if(file_exists($file)) {
 				$this->useCollection($app);
-				require_once($file);
+				require_once $file;
 				$collection = $this->getCollection($app);
 				$this->root->addCollection($collection, '/apps/'.$app);
 			}
@@ -81,7 +81,7 @@ class OC_Router {
 	 *
 	 * @param string $url The url to find
 	 */
-    	public function match($url) {
+	public function match($url) {
 		$matcher = new UrlMatcher($this->root, $this->context);
 		$parameters = $matcher->match($url);
 		if (isset($parameters['action'])) {
@@ -93,7 +93,7 @@ class OC_Router {
 			unset($parameters['action']);
 			call_user_func($action, $parameters);
 		} elseif (isset($parameters['file'])) {
-			include ($parameters['file']);
+			include $parameters['file'];
 		} else {
 			throw new Exception('no action available');
 		}

@@ -515,6 +515,11 @@ abstract class Access {
 		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, $limit, $offset);
 
 		$sr = ldap_search($link_resource, $base, $filter, $attr);
+		if(!$sr) {
+			\OCP\Util::writeLog('user_ldap', 'Error when searching: '.ldap_error($link_resource).' code '.ldap_errno($link_resource), \OCP\Util::ERROR);
+			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), \OCP\Util::ERROR);
+			return array();
+		}
 		$findings = ldap_get_entries($link_resource, $sr );
 		if($pagedSearchOK) {
 			\OCP\Util::writeLog('user_ldap', 'Paged search successful', \OCP\Util::INFO);
@@ -526,7 +531,6 @@ abstract class Access {
 				return;
 			}
 			//if count is bigger, then the server does not support paged search. Instead, he did a normal search. We set a flag here, so the callee knows how to deal with it.
-			//TODO: Instead, slice findings or selection later
 			if($findings['count'] <= $limit) {
 				$this->pagedSearchedSuccessful = true;
 			}
@@ -581,10 +585,14 @@ abstract class Access {
 			}
 			$findings = $selection;
 		}
-		if(!$this->pagedSearchedSuccessful
+		//we slice the findings, when
+		//a) paged search insuccessful, though attempted
+		//b) no paged search, but limit set
+		if((!$this->pagedSearchedSuccessful
+				&& $pagedSearchOK)
 			|| (
-				!is_null($limit)
-				|| !is_null($offset)
+				!$pagedSearchOK
+				&& !is_null($limit)
 			)
 		) {
 			$findings = array_slice($findings, intval($offset), $limit);
@@ -771,6 +779,7 @@ abstract class Access {
 		$pagedSearchOK = false;
 		if($this->connection->hasPagedResultSupport && !is_null($limit)) {
 			$offset = intval($offset); //can be null
+			\OCP\Util::writeLog('user_ldap', 'initializing paged search for  Filter'.$filter.' base '.$base.' attr '.print_r($attr, true). ' limit ' .$limit.' offset '.$offset, \OCP\Util::DEBUG);
 			//get the cookie from the search for the previous search, required by LDAP
 			$cookie = $this->getPagedResultCookie($filter, $limit, $offset);
 			if(empty($cookie) && ($offset > 0)) {
