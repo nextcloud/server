@@ -28,24 +28,6 @@
 class OC_Files {
 	static $tmpFiles = array();
 
-	public static function searchByMime($mimetype_filter) {
-		$files = array();
-		$dirs_to_check = array('');
-		while (!empty($dirs_to_check)) {
-			// get next subdir to check
-			$dir = array_pop($dirs_to_check);
-			$dir_content = self::getDirectoryContent($dir, $mimetype_filter);
-			foreach ($dir_content as $file) {
-				if ($file['type'] == 'file') {
-					$files[] = $dir . '/' . $file['name'];
-				} else {
-					$dirs_to_check[] = $dir . '/' . $file['name'];
-				}
-			}
-		}
-		return $files;
-	}
-
 	/**
 	 * return the content of a file or return a zip file containning multiply files
 	 *
