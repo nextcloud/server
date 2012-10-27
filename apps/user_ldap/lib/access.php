@@ -44,7 +44,7 @@ abstract class Access {
 	 *
 	 * Reads an attribute from an LDAP entry
 	 */
-	public function readAttribute($dn, $attr) {
+	public function readAttribute($dn, $attr, $filter = 'objectClass=*') {
 		if(!$this->checkConnection()) {
 			\OCP\Util::writeLog('user_ldap', 'No LDAP Connector assigned, access impossible for readAttribute.', \OCP\Util::WARN);
 			return false;
@@ -55,13 +55,17 @@ abstract class Access {
 			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
 			return false;
 		}
-		$rr = @ldap_read($cr, $dn, 'objectClass=*', array($attr));
+		$rr = @ldap_read($cr, $dn, $filter, array($attr));
 		if(!is_resource($rr)) {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute '.$attr.' failed for DN '.$dn, \OCP\Util::DEBUG);
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
 		$er = ldap_first_entry($cr, $rr);
+		if(!is_resource($er)) {
+			//did not match the filter, return false
+			return false;
+		}
 		//LDAP attributes are not case sensitive
 		$result = \OCP\Util::mb_array_change_key_case(ldap_get_attributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
 		$attr = mb_strtolower($attr, 'UTF-8');
