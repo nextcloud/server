@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once('settings/routes.php');
+require_once 'settings/routes.php';
 
 // Core ajax actions
 // AppConfig
