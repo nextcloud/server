@@ -286,4 +286,19 @@ class Cache {
 		}
 		return $files;
 	}
+
+	/**
+	 * get all file ids on the files on the storage
+	 *
+	 * @return int[]
+	 */
+	public function getAll() {
+		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ?');
+		$result = $query->execute(array($this->storageId));
+		$ids = array();
+		while ($row = $result->fetchRow()) {
+			$ids[] = $row['fileid'];
+		}
+		return $ids;
+	}
 }

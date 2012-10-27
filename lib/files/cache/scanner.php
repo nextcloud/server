@@ -66,7 +66,8 @@ class Scanner {
 				$this->scanFile($parent);
 			}
 		}
-		$this->cache->put($file, $data);
+		$id = $this->cache->put($file, $data);
+		Permissions::set($id, \OC_User::getUser(), $data['permissions']);
 		return $data;
 	}
 

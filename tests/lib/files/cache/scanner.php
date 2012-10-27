@@ -106,6 +106,8 @@ class Scanner extends \UnitTestCase {
 	}
 
 	function tearDown() {
+		$ids = $this->cache->getAll();
+		\OC\Files\Cache\Permissions::removeMultiple($ids, \OC_User::getUser());
 		$this->cache->clear();
 	}
 }

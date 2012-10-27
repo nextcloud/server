@@ -686,6 +686,8 @@ class View {
 			}
 		}
 
+		$data['permissions'] = Cache\Permissions::get($data['fileid'], \OC_User::getUser());
+
 		return $data;
 	}
 
@@ -733,8 +735,16 @@ class View {
 			}
 		}
 
-		foreach($files as $i => $file){
+		$ids = array();
+
+		foreach ($files as $i => $file) {
 			$files[$i]['type'] = $file['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
+			$ids[] = $file['fileid'];
+		}
+
+		$permissions = Cache\Permissions::getMultiple($ids, \OC_User::getUser());
+		foreach ($files as $i => $file) {
+			$files[$i]['permissions'] = $permissions[$file['fileid']];
 		}
 
 		usort($files, "fileCmp"); //TODO: remove this once ajax is merged
