@@ -9,7 +9,7 @@
  * @package Sabre
  * @subpackage CalDAV
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
- * @author Evert Pot (http://www.rooftopsolutions.nl/) 
+ * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
 class Sabre_CalDAV_Calendar implements Sabre_CalDAV_ICalendar, Sabre_DAV_IProperties, Sabre_DAVACL_IACL {
@@ -24,7 +24,7 @@ class Sabre_CalDAV_Calendar implements Sabre_CalDAV_ICalendar, Sabre_DAV_IProper
     /**
      * CalDAV backend
      *
-     * @var Sabre_CalDAV_Backend_Abstract
+     * @var Sabre_CalDAV_Backend_BackendInterface
      */
     protected $caldavBackend;
 
@@ -39,15 +39,14 @@ class Sabre_CalDAV_Calendar implements Sabre_CalDAV_ICalendar, Sabre_DAV_IProper
      * Constructor
      *
      * @param Sabre_DAVACL_IPrincipalBackend $principalBackend
-     * @param Sabre_CalDAV_Backend_Abstract $caldavBackend
+     * @param Sabre_CalDAV_Backend_BackendInterface $caldavBackend
      * @param array $calendarInfo
      */
-    public function __construct(Sabre_DAVACL_IPrincipalBackend $principalBackend, Sabre_CalDAV_Backend_Abstract $caldavBackend, $calendarInfo) {
+    public function __construct(Sabre_DAVACL_IPrincipalBackend $principalBackend, Sabre_CalDAV_Backend_BackendInterface $caldavBackend, $calendarInfo) {
 
         $this->caldavBackend = $caldavBackend;
         $this->principalBackend = $principalBackend;
         $this->calendarInfo = $calendarInfo;
-
 
     }
 
@@ -92,9 +91,6 @@ class Sabre_CalDAV_Calendar implements Sabre_CalDAV_ICalendar, Sabre_DAV_IProper
             case '{urn:ietf:params:xml:ns:caldav}supported-collation-set' :
                 $response[$prop] =  new Sabre_CalDAV_Property_SupportedCollationSet();
                 break;
-            case '{DAV:}owner' :
-                $response[$prop] = new Sabre_DAVACL_Property_Principal(Sabre_DAVACL_Property_Principal::HREF,$this->calendarInfo['principaluri']);
-                break;
             default :
                 if (isset($this->calendarInfo[$prop])) $response[$prop] = $this->calendarInfo[$prop];
                 break;
@@ -110,12 +106,21 @@ class Sabre_CalDAV_Calendar implements Sabre_CalDAV_ICalendar, Sabre_DAV_IProper
      * The contained calendar objects are for example Events or Todo's.
      *
      * @param string $name
-     * @return Sabre_DAV_ICalendarObject
+     * @return Sabre_CalDAV_ICalendarObject
      */
     public function getChild($name) {
 
         $obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'],$name);
         if (!$obj) throw new Sabre_DAV_Exception_NotFound('Calendar object not found');
+
+        $obj['acl'] = $this->getACL();
+        // Removing the irrelivant
+        foreach($obj['acl'] as $key=>$acl) {
+            if ($acl['privilege'] === '{' . Sabre_CalDAV_Plugin::NS_CALDAV . '}read-free-busy') {
+                unset($obj['acl'][$key]);
+            }
+        }
+
         return new Sabre_CalDAV_CalendarObject($this->caldavBackend,$this->calendarInfo,$obj);
 
     }
@@ -130,6 +135,13 @@ class Sabre_CalDAV_Calendar implements Sabre_CalDAV_ICalendar, Sabre_DAV_IProper
         $objs = $this->caldavBackend->getCalendarObjects($this->calendarInfo['id']);
         $children = array();
         foreach($objs as $obj) {
+            $obj['acl'] = $this->getACL();
+            // Removing the irrelivant
+            foreach($obj['acl'] as $key=>$acl) {
+                if ($acl['privilege'] === '{' . Sabre_CalDAV_Plugin::NS_CALDAV . '}read-free-busy') {
+                    unset($obj['acl'][$key]);
+                }
+            }
             $children[] = new Sabre_CalDAV_CalendarObject($this->caldavBackend,$this->calendarInfo,$obj);
         }
         return $children;
@@ -262,27 +274,27 @@ class Sabre_CalDAV_Calendar implements Sabre_CalDAV_ICalendar, Sabre_DAV_IProper
         return array(
             array(
                 'privilege' => '{DAV:}read',
-                'principal' => $this->calendarInfo['principaluri'],
+                'principal' => $this->getOwner(),
                 'protected' => true,
             ),
             array(
                 'privilege' => '{DAV:}write',
-                'principal' => $this->calendarInfo['principaluri'],
+                'principal' => $this->getOwner(),
                 'protected' => true,
             ),
             array(
                 'privilege' => '{DAV:}read',
-                'principal' => $this->calendarInfo['principaluri'] . '/calendar-proxy-write',
+                'principal' => $this->getOwner() . '/calendar-proxy-write',
                 'protected' => true,
             ),
             array(
                 'privilege' => '{DAV:}write',
-                'principal' => $this->calendarInfo['principaluri'] . '/calendar-proxy-write',
+                'principal' => $this->getOwner() . '/calendar-proxy-write',
                 'protected' => true,
             ),
             array(
                 'privilege' => '{DAV:}read',
-                'principal' => $this->calendarInfo['principaluri'] . '/calendar-proxy-read',
+                'principal' => $this->getOwner() . '/calendar-proxy-read',
                 'protected' => true,
             ),
             array(
@@ -337,6 +349,29 @@ class Sabre_CalDAV_Calendar implements Sabre_CalDAV_ICalendar, Sabre_DAV_IProper
 
         }
         return $default;
+
+    }
+
+    /**
+     * Performs a calendar-query on the contents of this calendar.
+     *
+     * The calendar-query is defined in RFC4791 : CalDAV. Using the
+     * calendar-query it is possible for a client to request a specific set of
+     * object, based on contents of iCalendar properties, date-ranges and
+     * iCalendar component types (VTODO, VEVENT).
+     *
+     * This method should just return a list of (relative) urls that match this
+     * query.
+     *
+     * The list of filters are specified as an array. The exact array is
+     * documented by Sabre_CalDAV_CalendarQueryParser.
+     *
+     * @param array $filters
+     * @return array
+     */
+    public function calendarQuery(array $filters) {
+
+        return $this->caldavBackend->calendarQuery($this->calendarInfo['id'], $filters);
 
     }
 

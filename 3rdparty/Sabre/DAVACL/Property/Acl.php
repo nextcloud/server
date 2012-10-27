@@ -88,11 +88,11 @@ class Sabre_DAVACL_Property_Acl extends Sabre_DAV_Property {
     static public function unserialize(DOMElement $dom) {
 
         $privileges = array();
-        $xaces = $dom->getElementsByTagNameNS('urn:DAV','ace');
+        $xaces = $dom->getElementsByTagNameNS('DAV:','ace');
         for($ii=0; $ii < $xaces->length; $ii++) {
 
             $xace = $xaces->item($ii);
-            $principal = $xace->getElementsByTagNameNS('urn:DAV','principal');
+            $principal = $xace->getElementsByTagNameNS('DAV:','principal');
             if ($principal->length !== 1) {
                 throw new Sabre_DAV_Exception_BadRequest('Each {DAV:}ace element must have one {DAV:}principal element');
             }
@@ -116,17 +116,17 @@ class Sabre_DAVACL_Property_Acl extends Sabre_DAV_Property {
 
             $protected = false;
 
-            if ($xace->getElementsByTagNameNS('urn:DAV','protected')->length > 0) {
+            if ($xace->getElementsByTagNameNS('DAV:','protected')->length > 0) {
                 $protected = true;
             }
 
-            $grants = $xace->getElementsByTagNameNS('urn:DAV','grant');
+            $grants = $xace->getElementsByTagNameNS('DAV:','grant');
             if ($grants->length < 1) {
                 throw new Sabre_DAV_Exception_NotImplemented('Every {DAV:}ace element must have a {DAV:}grant element. {DAV:}deny is not yet supported');
             }
             $grant = $grants->item(0);
 
-            $xprivs = $grant->getElementsByTagNameNS('urn:DAV','privilege');
+            $xprivs = $grant->getElementsByTagNameNS('DAV:','privilege');
             for($jj=0; $jj<$xprivs->length; $jj++) {
 
                 $xpriv = $xprivs->item($jj);

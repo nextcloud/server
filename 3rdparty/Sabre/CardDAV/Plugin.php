@@ -1,5 +1,7 @@
 <?php
 
+use Sabre\VObject;
+
 /**
  * CardDAV plugin
  *
@@ -48,6 +50,7 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
 
         /* Events */
         $server->subscribeEvent('beforeGetProperties', array($this, 'beforeGetProperties'));
+        $server->subscribeEvent('afterGetProperties',  array($this, 'afterGetProperties'));
         $server->subscribeEvent('updateProperties', array($this, 'updateProperties'));
         $server->subscribeEvent('report', array($this,'report'));
         $server->subscribeEvent('onHTMLActionsPanel', array($this,'htmlActionsPanel'));
@@ -153,10 +156,6 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
                 if (is_resource($val))
                     $val = stream_get_contents($val);
 
-                // Taking out \r to not screw up the xml output
-                //$returnedProperties[200][$addressDataProp] = str_replace("\r","", $val);
-                // The stripping of \r breaks the Mail App in OSX Mountain Lion
-                // this is fixed in master, but not backported. /Tanghus
                 $returnedProperties[200][$addressDataProp] = $val;
 
             }
@@ -190,7 +189,7 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
      * @param array $mutations
      * @param array $result
      * @param Sabre_DAV_INode $node
-     * @return void
+     * @return bool
      */
     public function updateProperties(&$mutations, &$result, $node) {
 
@@ -272,7 +271,7 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
 
         $properties = array_keys(Sabre_DAV_XMLUtil::parseProperties($dom->firstChild));
 
-        $hrefElems = $dom->getElementsByTagNameNS('urn:DAV','href');
+        $hrefElems = $dom->getElementsByTagNameNS('DAV:','href');
         $propertyList = array();
 
         foreach($hrefElems as $elem) {
@@ -282,9 +281,12 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
 
         }
 
+        $prefer = $this->server->getHTTPPRefer();
+
         $this->server->httpResponse->sendStatus(207);
         $this->server->httpResponse->setHeader('Content-Type','application/xml; charset=utf-8');
-        $this->server->httpResponse->sendBody($this->server->generateMultiStatus($propertyList));
+        $this->server->httpResponse->setHeader('Vary','Brief,Prefer');
+        $this->server->httpResponse->sendBody($this->server->generateMultiStatus($propertyList, $prefer['return-minimal']));
 
     }
 
@@ -348,9 +350,9 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
 
         try {
 
-            $vobj = Sabre_VObject_Reader::read($data);
+            $vobj = VObject\Reader::read($data);
 
-        } catch (Sabre_VObject_ParseException $e) {
+        } catch (VObject\ParseException $e) {
 
             throw new Sabre_DAV_Exception_UnsupportedMediaType('This resource only supports valid vcard data. Parse error: ' . $e->getMessage());
 
@@ -358,6 +360,10 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
 
         if ($vobj->name !== 'VCARD') {
             throw new Sabre_DAV_Exception_UnsupportedMediaType('This collection can only support vcard objects.');
+        }
+
+        if (!isset($vobj->UID)) {
+            throw new Sabre_DAV_Exception_BadRequest('Every vcard must have an UID.');
         }
 
     }
@@ -424,9 +430,12 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
 
         }
 
+        $prefer = $this->server->getHTTPPRefer();
+
         $this->server->httpResponse->sendStatus(207);
         $this->server->httpResponse->setHeader('Content-Type','application/xml; charset=utf-8');
-        $this->server->httpResponse->sendBody($this->server->generateMultiStatus($result));
+        $this->server->httpResponse->setHeader('Vary','Brief,Prefer');
+        $this->server->httpResponse->sendBody($this->server->generateMultiStatus($result, $prefer['return-minimal']));
 
     }
 
@@ -440,7 +449,7 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
      */
     public function validateFilters($vcardData, array $filters, $test) {
 
-        $vcard = Sabre_VObject_Reader::read($vcardData);
+        $vcard = VObject\Reader::read($vcardData);
 
         if (!$filters) return true;
 
@@ -612,6 +621,30 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
         // This implies for 'anyof' that the test failed, and for 'allof' that
         // we succeeded. Sounds weird, but makes sense.
         return $test==='allof';
+
+    }
+
+    /**
+     * This event is triggered after webdav-properties have been retrieved.
+     *
+     * @return bool
+     */
+    public function afterGetProperties($uri, &$properties) {
+
+        // If the request was made using the SOGO connector, we must rewrite
+        // the content-type property. By default SabreDAV will send back
+        // text/x-vcard; charset=utf-8, but for SOGO we must strip that last
+        // part.
+        if (!isset($properties[200]['{DAV:}getcontenttype']))
+            return;
+
+        if (strpos($this->server->httpRequest->getHeader('User-Agent'),'Thunderbird')===false) {
+            return;
+        }
+
+        if (strpos($properties[200]['{DAV:}getcontenttype'],'text/x-vcard')===0) {
+            $properties[200]['{DAV:}getcontenttype'] = 'text/x-vcard';
+        }
 
     }
 

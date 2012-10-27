@@ -4,7 +4,7 @@
  * Sabre_HTTP_Response
  *
  * @package Sabre
- * @subpackage HTTP 
+ * @subpackage HTTP
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
@@ -85,6 +85,9 @@ class Sabre_HTTP_Response {
 
     }
 
+    // @codeCoverageIgnoreStart
+    // We cannot reasonably test header() related methods.
+
     /**
      * Sends an HTTP status header to the client
      *
@@ -114,7 +117,9 @@ class Sabre_HTTP_Response {
             return header($name . ': ' . $value, $replace);
         else return false;
 
+
     }
+    // @codeCoverageIgnoreEnd
 
     /**
      * Sets a bunch of HTTP Headers

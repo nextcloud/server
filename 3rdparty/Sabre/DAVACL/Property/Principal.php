@@ -15,7 +15,7 @@
 class Sabre_DAVACL_Property_Principal extends Sabre_DAV_Property implements Sabre_DAV_Property_IHref {
 
     /**
-     * To specify a not-logged-in user, use the UNAUTHENTICTED principal
+     * To specify a not-logged-in user, use the UNAUTHENTICATED principal
      */
     const UNAUTHENTICATED = 1;
 
@@ -131,7 +131,7 @@ class Sabre_DAVACL_Property_Principal extends Sabre_DAV_Property implements Sabr
      * Deserializes a DOM element into a property object.
      *
      * @param DOMElement $dom
-     * @return Sabre_DAV_Property_Principal
+     * @return Sabre_DAVACL_Property_Principal
      */
     static public function unserialize(DOMElement $dom) {
 

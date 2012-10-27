@@ -1,5 +1,7 @@
 <?php
 
+namespace Sabre\VObject;
+
 /**
  * VObject Parameter
  *
@@ -8,13 +10,11 @@
  *   DTSTART;VALUE=DATE:20101108
  * VALUE=DATE would be the parameter name and value.
  *
- * @package Sabre
- * @subpackage VObject
  * @copyright Copyright (C) 2007-2012 Rooftop Solutions. All rights reserved.
  * @author Evert Pot (http://www.rooftopsolutions.nl/)
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
  */
-class Sabre_VObject_Parameter extends Sabre_VObject_Node {
+class Parameter extends Node {
 
     /**
      * Parameter name
@@ -37,6 +37,10 @@ class Sabre_VObject_Parameter extends Sabre_VObject_Node {
      * @param string $value
      */
     public function __construct($name, $value = null) {
+
+        if (!is_scalar($value) && !is_null($value)) {
+            throw new \InvalidArgumentException('The value argument must be a scalar value or null');
+        }
 
         $this->name = strtoupper($name);
         $this->value = $value;
