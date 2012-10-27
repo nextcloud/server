@@ -276,4 +276,3 @@ class Storage {
 		return $view->deleteAll('', true);
 	}
 }
->>>>>>> 12ea922... fix broken paths in versions app
