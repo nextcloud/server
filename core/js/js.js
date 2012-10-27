@@ -95,9 +95,9 @@ var OC={
 		var isCore=OC.coreApps.indexOf(app)!==-1,
 			link=OC.webroot;
 		if((file.substring(file.length-3) === 'php' || file.substring(file.length-3) === 'css') && !isCore){
-			link+='/?app=' + app;
+			link+='/index.php/apps/' + app;
 			if (file != 'index.php') {
-				link+='&getfile=';
+				link+='/';
 				if(type){
 					link+=encodeURI(type + '/');
 				}
@@ -113,7 +113,12 @@ var OC={
 			}
 			link+=file;
 		}else{
-			link+='/';
+			if ((app == 'settings' || app == 'core') && type == 'ajax') {
+				link+='/index.php/';
+			}
+			else {
+				link+='/';
+			}
 			if(!isCore){
 				link+='apps/';
 			}

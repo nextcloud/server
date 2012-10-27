@@ -20,8 +20,6 @@
  *
  */
 
-require_once '../../lib/base.php';
-
 OC_JSON::callCheck();
 OC_JSON::checkSubAdminUser();
 if (isset($_GET['offset'])) {

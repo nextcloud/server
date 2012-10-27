@@ -54,3 +54,7 @@ nbproject
 # WebFinger
 .well-known
 /.buildpath
+3rdparty/autoload.php
+3rdparty/composer/
+3rdparty/symfony/
+composer.lock

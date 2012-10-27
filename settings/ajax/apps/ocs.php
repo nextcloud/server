@@ -6,9 +6,6 @@
  * See the COPYING-README file.
  */
 
-// Init owncloud
-require_once '../../../lib/base.php';
-
 OC_JSON::checkAdminUser();
 
 $l = OC_L10N::get('settings');

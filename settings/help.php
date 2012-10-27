@@ -5,9 +5,8 @@
  * See the COPYING-README file.
  */
 
-require_once '../lib/base.php';
 OC_Util::checkLoggedIn();
-
+OC_App::loadApps();
 
 // Load the files we need
 OC_Util::addStyle( "settings", "settings" );

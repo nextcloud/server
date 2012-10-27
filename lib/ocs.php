@@ -23,7 +23,8 @@
 *
 */
 
-
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 /**
  * Class to handle open collaboration services API requests
@@ -92,91 +93,144 @@ class OC_OCS {
 			exit();
 		}
 
-		// preprocess url
-		$url = strtolower($_SERVER['REQUEST_URI']);
-		if(substr($url, (strlen($url)-1))<>'/') $url.='/';
-		$ex=explode('/', $url);
-		$paracount=count($ex);
 		$format = self::readData($method, 'format', 'text', '');
 
-		// eventhandler
+		$router = new OC_Router();
+		$router->useCollection('root');
 		// CONFIG
-		// apiconfig - GET - CONFIG
-		if(($method=='get') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'config')) {
-			OC_OCS::apiconfig($format);
+		$router->create('config', '/config.{format}')
+			->defaults(array('format' => $format))
+			->action('OC_OCS', 'apiConfig')
+			->requirements(array('format'=>'xml|json'));
 
 		// PERSON
-		// personcheck - POST - PERSON/CHECK
-		} elseif(($method=='post') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-3]=='person') and ($ex[$paracount-2] == 'check')) {
-			$login = self::readData($method, 'login', 'text');
-			$passwd = self::readData($method, 'password', 'text');
-			OC_OCS::personcheck($format, $login, $passwd);
+		$router->create('person_check', '/person/check.{format}')
+			->post()
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$login = OC_OCS::readData('post', 'login', 'text');
+					$passwd = OC_OCS::readData('post', 'password', 'text');
+					OC_OCS::personCheck($format,$login,$passwd);
+					})
+			->requirements(array('format'=>'xml|json'));
 
 		// ACTIVITY
 		// activityget - GET ACTIVITY   page,pagesize als urlparameter
-		}elseif(($method=='get') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'activity')) {
-			$page = self::readData($method, 'page', 'int', 0);
-			$pagesize = self::readData($method, 'pagesize', 'int', 10);
-			if($pagesize<1 or $pagesize>100) $pagesize=10;
-			OC_OCS::activityget($format, $page, $pagesize);
-
+		$router->create('activity_get', '/activity.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$page = OC_OCS::readData('get', 'page', 'int', 0);
+					$pagesize = OC_OCS::readData('get', 'pagesize', 'int', 10);
+					if($pagesize<1 or $pagesize>100) $pagesize=10;
+					OC_OCS::activityGet($format, $page, $pagesize);
+					})
+			->requirements(array('format'=>'xml|json'));
 		// activityput - POST ACTIVITY
-		}elseif(($method=='post') and ($ex[$paracount-3] == 'v1.php') and ($ex[$paracount-2] == 'activity')) {
-			$message = self::readData($method, 'message', 'text');
-			OC_OCS::activityput($format, $message);
-
+		$router->create('activity_put', '/activity.{format}')
+			->post()
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$message = OC_OCS::readData('post', 'message', 'text');
+					OC_OCS::activityPut($format,$message);
+					})
+			->requirements(array('format'=>'xml|json'));
 
 		// PRIVATEDATA
 		// get - GET DATA
-		}elseif(($method=='get') and ($ex[$paracount-4] == 'v1.php') and ($ex[$paracount-2] == 'getattribute')) {
-			OC_OCS::privateDataGet($format);
-
-		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-3] == 'getattribute')) {
-			$app=$ex[$paracount-2];
-			OC_OCS::privateDataGet($format, $app);
-		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-4] == 'getattribute')) {
-
-			$key=$ex[$paracount-2];
-			$app=$ex[$paracount-3];
-			OC_OCS::privateDataGet($format, $app, $key);
-
+		$router->create('privatedata_get',
+				  '/privatedata/getattribute/{app}/{key}.{format}')
+			->defaults(array('app' => '', 'key' => '', 'format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$app = addslashes(strip_tags($parameters['app']));
+					$key = addslashes(strip_tags($parameters['key']));
+					OC_OCS::privateDataGet($format, $app, $key);
+					})
+			->requirements(array('format'=>'xml|json'));
 		// set - POST DATA
-		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-4] == 'setattribute')) {
-			$key=$ex[$paracount-2];
-			$app=$ex[$paracount-3];
-			$value = self::readData($method, 'value', 'text');
-			OC_OCS::privatedataset($format, $app, $key, $value);
+		$router->create('privatedata_set',
+				  '/privatedata/setattribute/{app}/{key}.{format}')
+			->post()
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$app = addslashes(strip_tags($parameters['app']));
+					$key = addslashes(strip_tags($parameters['key']));
+					$value=OC_OCS::readData('post', 'value', 'text');
+					OC_OCS::privateDataSet($format, $app, $key, $value);
+					})
+			->requirements(array('format'=>'xml|json'));
 		// delete - POST DATA
-		}elseif(($method=='post') and ($ex[$paracount-6] =='v1.php') and ($ex[$paracount-4] == 'deleteattribute')) {
-			$key=$ex[$paracount-2];
-			$app=$ex[$paracount-3];
-			OC_OCS::privatedatadelete($format, $app, $key);
+		$router->create('privatedata_delete',
+				  '/privatedata/deleteattribute/{app}/{key}.{format}')
+			->post()
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$app = addslashes(strip_tags($parameters['app']));
+					$key = addslashes(strip_tags($parameters['key']));
+					OC_OCS::privateDataDelete($format, $app, $key);
+					})
+			->requirements(array('format'=>'xml|json'));
 
 		// CLOUD
 		// systemWebApps
-		}elseif(($method=='get') and ($ex[$paracount-5] == 'v1.php') and ($ex[$paracount-4]=='cloud') and ($ex[$paracount-3] == 'system') and ($ex[$paracount-2] == 'webapps')) {
-			OC_OCS::systemwebapps($format);
+		$router->create('system_webapps',
+				  '/cloud/system/webapps.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					OC_OCS::systemwebapps($format);
+					})
+			->requirements(array('format'=>'xml|json'));
 
 		// quotaget
-		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'quota')) {
-			$user=$ex[$paracount-3];
-			OC_OCS::quotaget($format, $user);
-
+		$router->create('quota_get',
+				  '/cloud/user/{user}.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$user = $parameters['user'];
+					OC_OCS::quotaGet($format, $user);
+					})
+			->requirements(array('format'=>'xml|json'));
 		// quotaset
-		}elseif(($method=='post') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'quota')) {
-			$user=$ex[$paracount-3];
-			$quota = self::readData('post', 'quota', 'int');
-			OC_OCS::quotaset($format, $user, $quota);
+		$router->create('quota_set',
+				  '/cloud/user/{user}.{format}')
+			->post()
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$user = $parameters['user'];
+					$quota = self::readData('post', 'quota', 'int');
+					OC_OCS::quotaSet($format, $user, $quota);
+					})
+			->requirements(array('format'=>'xml|json'));
 
 		// keygetpublic
-		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'publickey')) {
-			$user=$ex[$paracount-3];
-			OC_OCS::publicKeyGet($format, $user);
+		$router->create('keygetpublic',
+				  '/cloud/user/{user}/publickey.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$user = $parameters['user'];
+					OC_OCS::publicKeyGet($format,$user);
+					})
+			->requirements(array('format'=>'xml|json'));
 
 		// keygetprivate
-		}elseif(($method=='get') and ($ex[$paracount-6] == 'v1.php') and ($ex[$paracount-5]=='cloud') and ($ex[$paracount-4] == 'user') and ($ex[$paracount-2] == 'privatekey')) {
-			$user=$ex[$paracount-3];
-			OC_OCS::privateKeyGet($format, $user);
+		$router->create('keygetpublic',
+				  '/cloud/user/{user}/privatekey.{format}')
+			->defaults(array('format' => $format))
+			->action(function ($parameters) {
+					$format = $parameters['format'];
+					$user = $parameters['user'];
+					OC_OCS::privateKeyGet($format,$user);
+					})
+			->requirements(array('format'=>'xml|json'));
 
 
 // add more calls here
@@ -190,13 +244,14 @@ class OC_OCS {
 // sharing
 // versioning
 // news (rss)
-
-
-
-		}else{
+		try {
+			$router->match($_SERVER['PATH_INFO']);
+		} catch (ResourceNotFoundException $e) {
 			$txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 			$txt.=OC_OCS::getdebugoutput();
 			echo(OC_OCS::generatexml($format, 'failed', 999, $txt));
+		} catch (MethodNotAllowedException $e) {
+			OC_Response::setStatus(405);
 		}
 		exit();
 	}
@@ -378,7 +433,8 @@ class OC_OCS {
 	* @param string $format
 	* @return string xml/json
 	*/
-	private static function apiConfig($format) {
+	public static function apiConfig($parameters) {
+		$format = $parameters['format'];
 		$user=OC_OCS::checkpassword(false);
 		$url=substr(OCP\Util::getServerHost().$_SERVER['SCRIPT_NAME'], 0, -11).'';
 

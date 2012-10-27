@@ -1,0 +1,18 @@
+{
+	"description": "ownCloud gives you universal access to your files/contacts/calendar through a web interface or WebDAV.",
+	"homepage": "http://owncloud.org",
+	"license": "AGPL-3.0+",
+	"support": {
+		"email": "owncloud@kde.org",
+		"irc": "irc://irc.freenode.org/owncloud",
+		"forum": "http://forum.owncloud.org/",
+		"issues": "https://github.com/owncloud/core/issues"
+	},
+	"require": {
+		"php": ">=5.3.2",
+		"symfony/routing": "2.0.*"
+	},
+	"config": {
+		"vendor-dir": "3rdparty"
+	}
+}
