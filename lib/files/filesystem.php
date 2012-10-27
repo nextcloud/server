@@ -551,6 +551,10 @@ class Filesystem {
 		return self::$defaultInstance->search($query);
 	}
 
+	static public function searchByMime($query) {
+		return self::$defaultInstance->searchByMime($query);
+	}
+
 	/**
 	 * check if a file or folder has been updated since $time
 	 *

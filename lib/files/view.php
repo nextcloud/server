@@ -747,7 +747,7 @@ class View {
 			$files[$i]['permissions'] = $permissions[$file['fileid']];
 		}
 
-		usort($files, "fileCmp"); //TODO: remove this once ajax is merged
+		usort($files, "fileCmp");
 		return $files;
 	}
 
@@ -784,6 +784,25 @@ class View {
 	 * @return array
 	 */
 	public function search($query) {
+		return $this->searchCommon('%' . $query . '%', 'search');
+	}
+
+	/**
+	 * search for files by mimetype
+	 *
+	 * @param string $query
+	 * @return array
+	 */
+	public function searchByMime($mimetype) {
+		return $this->searchCommon($mimetype, 'searchByMime');
+	}
+
+	/**
+	 * @param string $query
+	 * @param string $method
+	 * @return array
+	 */
+	private function searchCommon($query, $method) {
 		$files = array();
 		$rootLength = strlen($this->fakeRoot);
 
@@ -791,7 +810,7 @@ class View {
 		$storage = Filesystem::getStorage($mountPoint);
 		$cache = $storage->getCache();
 
-		$results = $cache->search('%' . $query . '%');
+		$results = $cache->$method($query);
 		foreach ($results as $result) {
 			if (substr($mountPoint . $result['path'], 0, $rootLength) === $this->fakeRoot) {
 				$result['path'] = substr($mountPoint . $result['path'], $rootLength);
@@ -805,7 +824,7 @@ class View {
 			$cache = $storage->getCache();
 
 			$relativeMountPoint = substr($mountPoint, $rootLength);
-			$results = $cache->search('%' . $query . '%');
+			$results = $cache->$method($query);
 			foreach ($results as $result) {
 				$result['path'] = $relativeMountPoint . $result['path'];
 				$files[] = $result;

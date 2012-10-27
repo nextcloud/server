@@ -129,6 +129,9 @@ class Cache extends \UnitTestCase {
 		$this->assertEquals(1, count($this->cache->search('%folder%')));
 		$this->assertEquals(1, count($this->cache->search('folder%')));
 		$this->assertEquals(3, count($this->cache->search('%')));
+
+		$this->assertEquals(3, count($this->cache->searchByMime('foo')));
+		$this->assertEquals(2, count($this->cache->searchByMime('foo/file')));
 	}
 
 	public function tearDown() {

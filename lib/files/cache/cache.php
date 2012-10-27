@@ -288,6 +288,27 @@ class Cache {
 	}
 
 	/**
+	 * search for files by mimetype
+	 *
+	 * @param string $part1
+	 * @param string $part2
+	 * @return array
+	 */
+	public function searchByMime($mimetype) {
+		if (strpos($mimetype, '/')) {
+			$where = '`mimetype` = ?';
+		} else {
+			$where = '`mimepart` = ?';
+		}
+		$query = \OC_DB::prepare('
+			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`
+			FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `storage` = ?'
+		);
+		$result = $query->execute(array($mimetype, $this->storageId));
+		return $result->fetchAll();
+	}
+
+	/**
 	 * get all file ids on the files on the storage
 	 *
 	 * @return int[]

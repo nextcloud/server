@@ -139,6 +139,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		}
 		$this->assertContains('/anotherstorage/foo.txt', $paths);
 		$this->assertContains('/anotherstorage/foo.png', $paths);
+
+		$this->assertEquals(6, count($rootView->searchByMime('text')));
+		$this->assertEquals(3, count($folderView->searchByMime('text')));
 	}
 
 	/**
