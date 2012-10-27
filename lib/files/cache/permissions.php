@@ -50,6 +50,9 @@ class Permissions {
 	 * @return int[]
 	 */
 	static public function getMultiple($fileIds, $user) {
+		if (count($fileIds) === 0) {
+			return array();
+		}
 		$params = $fileIds;
 		$params[] = $user;
 		$inPart = implode(', ', array_fill(0, count($fileIds), '?'));

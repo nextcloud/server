@@ -534,7 +534,7 @@ class Share {
 		$backend = self::getBackend($itemType);
 		// Get filesystem root to add it to the file target and remove from the file source, match file_source with the file cache
 		if ($itemType == 'file' || $itemType == 'folder') {
-			$root = \OC_Filesystem::getRoot();
+			$root = \OC\Files\Filesystem::getRoot();
 			$where = 'INNER JOIN `*PREFIX*fscache` ON `file_source` = `*PREFIX*fscache`.`id`';
 			if (!isset($item)) {
 				$where .= ' WHERE `file_target` IS NOT NULL';
@@ -621,7 +621,7 @@ class Share {
 			} else {
 				if ($itemType == 'file' || $itemType == 'folder') {
 					$where .= ' `file_target` = ?';
-					$item = \OC_Filesystem::normalizePath($item);
+					$item = \OC\Files\Filesystem::normalizePath($item);
 				} else {
 					$where .= ' `item_target` = ?';
 				}
