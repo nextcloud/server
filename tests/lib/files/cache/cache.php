@@ -99,6 +99,17 @@ class Cache extends \UnitTestCase {
 				$this->assertEqual($value, $cachedData[$name]);
 			}
 		}
+
+		$file4 = 'folder/unkownSize';
+		$fileData['unkownSize'] = array('size' => -1, 'mtime' => 25, 'mimetype' => 'foo/file');
+		$this->cache->put($file4, $fileData['unkownSize']);
+
+		$this->assertEquals(-1, $this->cache->calculateFolderSize($file1));
+
+		$fileData['unkownSize'] = array('size' => 5, 'mtime' => 25, 'mimetype' => 'foo/file');
+		$this->cache->put($file4, $fileData['unkownSize']);
+
+		$this->assertEquals(1025, $this->cache->calculateFolderSize($file1));
 	}
 
 	function testStatus() {

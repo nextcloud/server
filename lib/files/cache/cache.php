@@ -309,6 +309,31 @@ class Cache {
 	}
 
 	/**
+	 * get the size of a folder and set it in the cache
+	 *
+	 * @param string $path
+	 * @return int
+	 */
+	public function calculateFolderSize($path) {
+		$id = $this->getId($path);
+		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*filecache` WHERE `parent` = ? AND `storage` = ?');
+		$result = $query->execute(array($id, $this->storageId));
+		$totalSize = 0;
+		while ($row = $result->fetchRow()) {
+			$size = (int)$row['size'];
+			if ($size === -1) {
+				$totalSize = -1;
+				break;
+			} else {
+				$totalSize += $size;
+			}
+		}
+
+		$this->update($id, array('size' => $totalSize));
+		return $totalSize;
+	}
+
+	/**
 	 * get all file ids on the files on the storage
 	 *
 	 * @return int[]
