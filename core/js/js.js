@@ -464,43 +464,7 @@ function object(o) {
 }
 
 
-/**
- * Fills height of window. (more precise than height: 100%;)
- */
-function fillHeight(selector) {
-	if (selector.length === 0) {
-		return;
-	}
-	var height = parseFloat($(window).height())-selector.offset().top;
-	selector.css('height', height + 'px');
-	if(selector.outerHeight() > selector.height()){
-		selector.css('height', height-(selector.outerHeight()-selector.height()) + 'px');
-	}
-}
-
-/**
- * Fills height and width of window. (more precise than height: 100%; or width: 100%;)
- */
-function fillWindow(selector) {
-	if (selector.length === 0) {
-		return;
-	}
-	fillHeight(selector);
-	var width = parseFloat($(window).width())-selector.offset().left;
-	selector.css('width', width + 'px');
-	if(selector.outerWidth() > selector.width()){
-		selector.css('width', width-(selector.outerWidth()-selector.width()) + 'px');
-	}
-}
-
 $(document).ready(function(){
-
-	$(window).resize(function () {
-		fillHeight($('#leftcontent'));
-		fillWindow($('#content'));
-		fillWindow($('#rightcontent'));
-	});
-	$(window).trigger('resize');
 
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
