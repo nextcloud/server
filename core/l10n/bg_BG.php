@@ -9,8 +9,6 @@
 "Error" => "Грешка",
 "Password" => "Парола",
 "You will receive a link to reset your password via Email." => "Ще получите връзка за нулиране на паролата Ви.",
-"Requested" => "Заявено",
-"Login failed!" => "Входа пропадна!",
 "Username" => "Потребител",
 "Request reset" => "Нулиране на заявка",
 "Your password was reset" => "Вашата парола е нулирана",

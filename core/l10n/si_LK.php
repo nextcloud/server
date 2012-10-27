@@ -19,7 +19,6 @@
 "Help" => "උදව්",
 "Add" => "එක් කරන්න",
 "Data folder" => "දත්ත ෆෝල්ඩරය",
-"web services under your control" => "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්",
 "Sunday" => "ඉරිදා",
 "Monday" => "සඳුදා",
 "Tuesday" => "අඟහරුවාදා",
@@ -39,5 +38,6 @@
 "October" => "ඔක්තෝබර්",
 "November" => "නොවැම්බර්",
 "December" => "දෙසැම්බර්",
+"web services under your control" => "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්",
 "next" => "ඊළඟ"
 );

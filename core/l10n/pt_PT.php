@@ -38,8 +38,6 @@
 "ownCloud password reset" => "Reposição da password ownCloud",
 "Use the following link to reset your password: {link}" => "Use o seguinte endereço para repor a sua password: {link}",
 "You will receive a link to reset your password via Email." => "Vai receber um endereço para repor a sua password",
-"Requested" => "Pedido",
-"Login failed!" => "Conexão falhado!",
 "Username" => "Utilizador",
 "Request reset" => "Pedir reposição",
 "Your password was reset" => "A sua password foi reposta",

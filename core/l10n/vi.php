@@ -38,8 +38,6 @@
 "ownCloud password reset" => "Khôi phục mật khẩu Owncloud ",
 "Use the following link to reset your password: {link}" => "Dùng đường dẫn sau để khôi phục lại mật khẩu : {link}",
 "You will receive a link to reset your password via Email." => "Vui lòng kiểm tra Email để khôi phục lại mật khẩu.",
-"Requested" => "Yêu cầu",
-"Login failed!" => "Bạn đã nhập sai mật khẩu hay tên người dùng !",
 "Username" => "Tên người dùng",
 "Request reset" => "Yêu cầu thiết lập lại ",
 "Your password was reset" => "Mật khẩu của bạn đã được khôi phục",

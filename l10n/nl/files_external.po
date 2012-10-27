@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-13 02:04+0200\n"
-"PO-Revision-Date: 2012-10-12 19:43+0000\n"
+"POT-Creation-Date: 2012-10-28 00:01+0200\n"
+"PO-Revision-Date: 2012-10-27 09:42+0000\n"
 "Last-Translator: Richard Bos <radoeka@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +68,7 @@ msgstr "Van toepassing"
 
 #: templates/settings.php:23
 msgid "Add mount point"
-msgstr "Voeg aankoppelpunt toe"
+msgstr "Aankoppelpunt toevoegen"
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
@@ -92,7 +92,7 @@ msgstr "Verwijder"
 
 #: templates/settings.php:87
 msgid "Enable User External Storage"
-msgstr "Zet gebruiker's externe opslag aan"
+msgstr "Externe opslag voor gebruikers activeren"
 
 #: templates/settings.php:88
 msgid "Allow users to mount their own external storage"
