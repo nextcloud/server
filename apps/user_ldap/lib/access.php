@@ -526,7 +526,6 @@ abstract class Access {
 				return;
 			}
 			//if count is bigger, then the server does not support paged search. Instead, he did a normal search. We set a flag here, so the callee knows how to deal with it.
-			//TODO: Instead, slice findings or selection later
 			if($findings['count'] <= $limit) {
 				$this->pagedSearchedSuccessful = true;
 			}
