@@ -585,10 +585,14 @@ abstract class Access {
 			}
 			$findings = $selection;
 		}
-		if(!$this->pagedSearchedSuccessful
+		//we slice the findings, when
+		//a) paged search insuccessful, though attempted
+		//b) no paged search, but limit set
+		if((!$this->pagedSearchedSuccessful
+				&& $pagedSearchOK)
 			|| (
-				!is_null($limit)
-				|| !is_null($offset)
+				!$pagedSearchOK
+				&& !is_null($limit)
 			)
 		) {
 			$findings = array_slice($findings, intval($offset), $limit);
@@ -775,6 +779,7 @@ abstract class Access {
 		$pagedSearchOK = false;
 		if($this->connection->hasPagedResultSupport && !is_null($limit)) {
 			$offset = intval($offset); //can be null
+			\OCP\Util::writeLog('user_ldap', 'initializing paged search for  Filter'.$filter.' base '.$base.' attr '.print_r($attr, true). ' limit ' .$limit.' offset '.$offset, \OCP\Util::DEBUG);
 			//get the cookie from the search for the previous search, required by LDAP
 			$cookie = $this->getPagedResultCookie($filter, $limit, $offset);
 			if(empty($cookie) && ($offset > 0)) {
