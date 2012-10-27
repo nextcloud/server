@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xsd:schema xmlns="http://symfony.com/schema/routing"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://symfony.com/schema/routing"
+    elementFormDefault="qualified">
+
+  <xsd:element name="routes" type="routes" />
+
+  <xsd:complexType name="routes">
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="import" type="import" />
+      <xsd:element name="route" type="route" />
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:complexType name="route">
+    <xsd:sequence>
+      <xsd:element name="default" type="element" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="requirement" type="element" minOccurs="0" maxOccurs="unbounded" />
+      <xsd:element name="option" type="element" minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+
+    <xsd:attribute name="id" type="xsd:string" />
+    <xsd:attribute name="pattern" type="xsd:string" />
+  </xsd:complexType>
+
+  <xsd:complexType name="import">
+    <xsd:attribute name="resource" type="xsd:string" />
+    <xsd:attribute name="type" type="xsd:string" />
+    <xsd:attribute name="prefix" type="xsd:string" />
+    <xsd:attribute name="class" type="xsd:string" />
+  </xsd:complexType>
+
+  <xsd:complexType name="element" mixed="true">
+    <xsd:attribute name="key" type="xsd:string" />
+  </xsd:complexType>
+</xsd:schema>
