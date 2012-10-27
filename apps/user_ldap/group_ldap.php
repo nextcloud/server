@@ -206,22 +206,30 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		if(!$this->enabled) {
 			return array();
 		}
+		$cachekey = 'getGroups-'.$search.'-'.$limit.'-'.$offset;
 
-		if($this->connection->isCached('getGroups')) {
-			$ldap_groups = $this->connection->getFromCache('getGroups');
-		} else {
-			$ldap_groups = $this->fetchListOfGroups($this->connection->ldapGroupFilter, array($this->connection->ldapGroupDisplayName, 'dn'));
-			$ldap_groups = $this->ownCloudGroupNames($ldap_groups);
-			$this->connection->writeToCache('getGroups', $ldap_groups);
+		//Check cache before driving unnecessary searches
+		\OCP\Util::writeLog('user_ldap', 'getGroups '.$cachekey, \OCP\Util::DEBUG);
+		$ldap_groups = $this->connection->getFromCache($cachekey);
+		if(!is_null($ldap_groups)) {
+			return $ldap_groups;
 		}
-		$this->groupSearch = $search;
-		if(!empty($this->groupSearch)) {
-			$ldap_groups = array_filter($ldap_groups, array($this, 'groupMatchesFilter'));
-		}
-		if($limit = -1) {
+
+		// if we'd pass -1 to LDAP search, we'd end up in a Protocol error. With a limit of 0, we get 0 results. So we pass null.
+		if($limit <= 0) {
 			$limit = null;
 		}
-		return array_slice($ldap_groups, $offset, $limit);
+		$search = empty($search) ? '*' : '*'.$search.'*';
+		$filter = $this->combineFilterWithAnd(array(
+			$this->connection->ldapGroupFilter,
+			$this->connection->ldapGroupDisplayName.'='.$search
+		));
+		\OCP\Util::writeLog('user_ldap', 'getGroups Filter '.$filter, \OCP\Util::DEBUG);
+		$ldap_groups = $this->fetchListOfGroups($filter, array($this->connection->ldapGroupDisplayName, 'dn'), $limit, $offset);
+		$ldap_groups = $this->ownCloudGroupNames($ldap_groups);
+
+		$this->connection->writeToCache($cachekey, $ldap_groups);
+		return $ldap_groups;
 	}
 
 	public function groupMatchesFilter($group) {
