@@ -5,13 +5,13 @@ $CONFIG = array (
   array (
     0 => 
     array (
-      'path' => '/home/thomas/Development/owncloud/core/apps',
+      'path' => OC::$SERVERROOT.'/apps',
       'url' => '/apps',
       'writable' => false,
     ),
     1 => 
     array (
-      'path' => '/home/thomas/Development/owncloud/core/apps2',
+      'path' => OC::$SERVERROOT.'/apps2',
       'url' => '/apps2',
       'writable' => false,
     )
