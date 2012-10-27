@@ -25,7 +25,6 @@ namespace OCA\user_ldap\lib;
 
 abstract class Access {
 	protected $connection;
-
 	//never ever check this var directly, always use getPagedSearchResultState
 	protected $pagedSearchedSuccessful;
 
@@ -512,32 +511,8 @@ abstract class Access {
 			return array();
 		}
 
-		//TODO: lines 516:540 into a function of its own. $pagedSearchOK as return
-		//check wether paged query should be attempted
-		$pagedSearchOK = false;
-		if($this->connection->hasPagedResultSupport && !is_null($limit)) {
-			$offset = intval($offset); //can be null
-			//get the cookie from the search for the previous search, required by LDAP
-			$cookie = $this->getPagedResultCookie($filter, $limit, $offset);
-			if(empty($cookie) && ($offset > 0)) {
-				//no cookie known, although the offset is not 0. Maybe cache run out. We need to start all over *sigh* (btw, Dear Reader, did you need LDAP paged searching was designed by MSFT?)
-				$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
-				//a bit recursive, $offset of 0 is the exit
-				$this->search($filter, $base, $attr, $limit, $reOffset, true);
-				$cookie = $this->getPagedResultCookie($filter, $limit, $offset);
-				//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
-				//TODO: remember this, probably does not change in the next request...
-				if(empty($cookie)) {
-					$cookie = null;
-				}
-			}
-			if(!is_null($cookie)) {
-				$pagedSearchOK = ldap_control_paged_result($link_resource, $limit, false, $cookie);
-				\OCP\Util::writeLog('user_ldap', 'Ready for a paged search', \OCP\Util::DEBUG);
-			} else {
-				\OCP\Util::writeLog('user_ldap', 'No paged search for us, Cpt., Limit '.$limit.' Offset '.$offset, \OCP\Util::DEBUG);
-			}
-		}
+		//check wether paged search should be attempted
+		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, $limit, $offset);
 
 		$sr = ldap_search($link_resource, $base, $filter, $attr);
 		$findings = ldap_get_entries($link_resource, $sr );
@@ -551,7 +526,7 @@ abstract class Access {
 				return;
 			}
 			//if count is bigger, then the server does not support paged search. Instead, he did a normal search. We set a flag here, so the callee knows how to deal with it.
-			//TODO: Not used, just make a count on the returned values in the callee
+			//TODO: Instead, slice findings or selection later
 			if($findings['count'] <= $limit) {
 				$this->pagedSearchedSuccessful = true;
 			}
@@ -773,6 +748,49 @@ abstract class Access {
 		$result = $this->pagedSearchedSuccessful;
 		$this->pagedSearchedSuccessful = null;
 		return $result;
+	}
+
+
+	/**
+	 * @brief prepares a paged search, if possible
+	 * @param $filter the LDAP filter for the search
+	 * @param $base the LDAP subtree that shall be searched
+	 * @param $attr optional, when a certain attribute shall be filtered outside
+	 * @param $limit
+	 * @param $offset
+	 *
+	 */
+	private function initPagedSearch($filter, $base, $attr, $limit, $offset) {
+		$pagedSearchOK = false;
+		if($this->connection->hasPagedResultSupport && !is_null($limit)) {
+			$offset = intval($offset); //can be null
+			//get the cookie from the search for the previous search, required by LDAP
+			$cookie = $this->getPagedResultCookie($filter, $limit, $offset);
+			if(empty($cookie) && ($offset > 0)) {
+				//no cookie known, although the offset is not 0. Maybe cache run out. We need to start all over *sigh* (btw, Dear Reader, did you need LDAP paged searching was designed by MSFT?)
+				$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
+				//a bit recursive, $offset of 0 is the exit
+				\OCP\Util::writeLog('user_ldap', 'Looking for cookie L/O '.$limit.'/'.$reOffset, \OCP\Util::INFO);
+				$this->search($filter, $base, $attr, $limit, $reOffset, true);
+				$cookie = $this->getPagedResultCookie($filter, $limit, $offset);
+				//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
+				//TODO: remember this, probably does not change in the next request...
+				if(empty($cookie)) {
+					$cookie = null;
+				}
+			}
+			if(!is_null($cookie)) {
+				if($offset > 0) {
+					\OCP\Util::writeLog('user_ldap', 'Cookie '.$cookie, \OCP\Util::INFO);
+				}
+				$pagedSearchOK = ldap_control_paged_result($this->connection->getConnectionResource(), $limit, false, $cookie);
+				\OCP\Util::writeLog('user_ldap', 'Ready for a paged search', \OCP\Util::INFO);
+			} else {
+				\OCP\Util::writeLog('user_ldap', 'No paged search for us, Cpt., Limit '.$limit.' Offset '.$offset, \OCP\Util::INFO);
+			}
+		}
+
+		return $pagedSearchOK;
 	}
 
 }
