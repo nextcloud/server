@@ -15,6 +15,4 @@ OC_App::enable('mozilla_sync');
 OC_App::enable('news');
 OC_App::enable('provisioning_api');
 OC_App::enable('user_external');
-OC_App::enable('provisioning_api');
-OC_App::enable('provisioning_api');
 
