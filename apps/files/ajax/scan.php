@@ -1,5 +1,7 @@
 <?php
 
+return;
+
 set_time_limit(0);//scanning can take ages
 
 $force=isset($_GET['force']) and $_GET['force']=='true';

@@ -187,7 +187,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					$tmpl->assign('uidOwner', $uidOwner);
 					$tmpl->assign('dir', basename($dir));
 					$tmpl->assign('filename', basename($path));
-					$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
+					$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 					$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 					if (isset($_GET['path'])) {
 						$getPath = $_GET['path'];
@@ -200,7 +200,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 					$tmpl->assign('uidOwner', $uidOwner);
 					$tmpl->assign('dir', dirname($path));
 					$tmpl->assign('filename', basename($path));
-					$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
+					$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 					if ($type == 'file') {
 						$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').'&file='.urlencode($_GET['file']).'&download', false);
 					} else {

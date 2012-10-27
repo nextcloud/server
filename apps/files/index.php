@@ -43,6 +43,16 @@ if(!\OC\Files\Filesystem::is_dir($dir.'/')) {
 	exit();
 }
 
+function fileCmp($a, $b) {
+	if ($a['type'] == 'dir' and $b['type'] != 'dir') {
+		return -1;
+	} elseif ($a['type'] != 'dir' and $b['type'] == 'dir') {
+		return 1;
+	} else {
+		return strnatcasecmp($a['name'], $b['name']);
+	}
+}
+
 $files = array();
 foreach( \OC\Files\Filesystem::getDirectoryContent( $dir ) as $i ) {
 	$i['date'] = OCP\Util::formatDate($i['mtime'] );
@@ -61,6 +71,8 @@ foreach( \OC\Files\Filesystem::getDirectoryContent( $dir ) as $i ) {
 	}
 	$files[] = $i;
 }
+
+usort($files, "fileCmp");
 
 // Make breadcrumb
 $breadcrumb = array();

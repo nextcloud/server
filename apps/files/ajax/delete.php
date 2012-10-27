@@ -12,18 +12,15 @@ $files = isset($_POST["file"]) ? stripslashes($_POST["file"]) : stripslashes($_P
 
 $files = explode(';', $files);
 $filesWithError = '';
-if (OC_User::isLoggedIn()) {
-	$success = true;
 
-	//Now delete
-	foreach ($files as $file) {
-		if ($dir != '' || $file != 'Shared' && !\OC\Files\Filesystem::unlink($dir . '/' . $file)) {
-			$filesWithError .= $file . "\n";
-			$success = false;
-		}
+$success = true;
+
+//Now delete
+foreach ($files as $file) {
+	if (($dir === '' && $file === 'Shared') || !\OC\Files\Filesystem::unlink($dir . '/' . $file)) {
+		$filesWithError .= $file . "\n";
+		$success = false;
 	}
-} else {
-	$success = false;
 }
 
 if ($success) {
