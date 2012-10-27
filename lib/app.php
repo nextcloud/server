@@ -282,33 +282,33 @@ class OC_App{
 		// by default, settings only contain the help menu
 		if(OC_Config::getValue('knowledgebaseenabled', true)==true) {
 			$settings = array(
-				array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "help.php" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" ))
+				array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkToRoute( "settings_help" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" ))
 			);
 		}
 
 		// if the user is logged-in
 		if (OC_User::isLoggedIn()) {
 			// personal menu
-			$settings[] = array( "id" => "personal", "order" => 1, "href" => OC_Helper::linkTo( "settings", "personal.php" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ));
+			$settings[] = array( "id" => "personal", "order" => 1, "href" => OC_Helper::linkToRoute( "settings_personal" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ));
 
 			// if there are some settings forms
 			if(!empty(self::$settingsForms))
 				// settings menu
-				$settings[]=array( "id" => "settings", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "settings.php" ), "name" => $l->t("Settings"), "icon" => OC_Helper::imagePath( "settings", "settings.svg" ));
+				$settings[]=array( "id" => "settings", "order" => 1000, "href" => OC_Helper::linkToRoute( "settings_settings" ), "name" => $l->t("Settings"), "icon" => OC_Helper::imagePath( "settings", "settings.svg" ));
 
 			//SubAdmins are also allowed to access user management
 			if(OC_SubAdmin::isSubAdmin($_SESSION["user_id"]) || OC_Group::inGroup( $_SESSION["user_id"], "admin" )) {
 				// admin users menu
-				$settings[] = array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkTo( "settings", "users.php" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "settings", "users.svg" ));
+				$settings[] = array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkToRoute( "settings_users" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "settings", "users.svg" ));
 			}
 
 
 			// if the user is an admin
 			if(OC_Group::inGroup( $_SESSION["user_id"], "admin" )) {
 				// admin apps menu
-				$settings[] = array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkTo( "settings", "apps.php" ).'?installed', "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" ));
+				$settings[] = array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkToRoute( "settings_apps" ).'?installed', "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" ));
 
-				$settings[]=array( "id" => "admin", "order" => 1000, "href" => OC_Helper::linkTo( "settings", "admin.php" ), "name" => $l->t("Admin"), "icon" => OC_Helper::imagePath( "settings", "admin.svg" ));
+				$settings[]=array( "id" => "admin", "order" => 1000, "href" => OC_Helper::linkToRoute( "settings_admin" ), "name" => $l->t("Admin"), "icon" => OC_Helper::imagePath( "settings", "admin.svg" ));
 			}
 		}
 
@@ -484,6 +484,12 @@ class OC_App{
 	public static function getCurrentApp() {
 		$script=substr($_SERVER["SCRIPT_NAME"], strlen(OC::$WEBROOT)+1);
 		$topFolder=substr($script, 0, strpos($script, '/'));
+		if (empty($topFolder)) {
+			$path_info = OC_Request::getPathInfo();
+			if ($path_info) {
+				$topFolder=substr($path_info, 1, strpos($path_info, '/', 1)-1);
+			}
+		}
 		if($topFolder=='apps') {
 			$length=strlen($topFolder);
 			return substr($script, $length+1, strpos($script, '/', $length+1)-$length-1);
