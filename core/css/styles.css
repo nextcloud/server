@@ -58,7 +58,7 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 /* CONTENT ------------------------------------------------------------------ */
 #controls { padding: 0 0.5em; width:100%; top:3.5em; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #controls .button { display:inline-block; }
-#content { top: 3.5em; left: 65px; position: absolute; }
+#content { top:3.5em; left:64px; position: absolute; }
 #leftcontent, .leftcontent { position:fixed; overflow: auto; top:6.4em; width:20em; background:#f8f8f8; border-right:1px solid #ddd; }
 #leftcontent li, .leftcontent li { background:#f8f8f8; padding:.5em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
 #leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
@@ -95,8 +95,10 @@ label.infield { cursor: text !important; }
 
 
 /* NAVIGATION ------------------------------------------------------------- */
-#navigation { position:fixed; top:3.5em; float:left; width:65px; padding:0; z-index:75; height:100%; background:#30343a url('../img/noise.png') repeat; border-right: 1px #ccc solid; -moz-box-shadow: -3px 0 7px #000; -webkit-box-shadow: -3px 0 7px #000; box-shadow: -3px 0 7px #000; overflow:hidden;}
-#navigation a { display:block; padding:4px; background:transparent; text-decoration:none; font-size:10px; text-align:center; color:#000; text-shadow:#444 0 1px 0; }
+#navigation { position:fixed; top:3.5em; float:left; width:64px; padding:0; z-index:75; height:100%; background:#30343a url('../img/noise.png') repeat; border-right:1px #333 solid; -moz-box-shadow:0 0 7px #000; -webkit-box-shadow:0 0 7px #000; box-shadow:0 0 7px #000; overflow:hidden;}
+#navigation a { display:block; padding:8px 0 4px; text-decoration:none; font-size:10px; text-align:center; color:#000; text-shadow:#444 0 1px 0; }
+#navigation .icon { width:32px; height:32px; background-position:0 0; background-repeat:no-repeat; margin:0 16px 0; }
+/*#navigation li:hover div { background-position:-32px 0; } hover & active effect, activate when icons are sprited*/
 #navigation li:first-child { padding-top:8px; }
 #navigation a img { display:block; width:32px; height:32px; margin:0 auto; }
 #navigation a.active, #navigation a:hover, #navigation a:focus { color:#888; text-shadow:#000 0 -1px 0; }
