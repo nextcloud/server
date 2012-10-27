@@ -16,7 +16,7 @@ body { background:#fefefe; font:normal .8em/1.6em "Lucida Grande", Arial, Verdan
 
 
 /* HEADERS */
-#body-user #header, #body-settings #header { position:fixed; top:0; left:0; right:0; z-index:100; height:2.5em; line-height:2.5em; padding:.5em; background:#1d2d44; -moz-box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; -webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; }
+#body-user #header, #body-settings #header { position:fixed; top:0; left:0; right:0; z-index:100; height:45px; line-height:2.5em; background:#1d2d44; -moz-box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; -webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; box-shadow:0 0 10px rgba(0, 0, 0, .5), inset 0 -2px 10px #222; }
 #body-login #header { margin: -2em auto 0; text-align:center; height:10em; padding:1em 0 .5em;
  -moz-box-shadow:0 0 1em rgba(0, 0, 0, .5); -webkit-box-shadow:0 0 1em rgba(0, 0, 0, .5); box-shadow:0 0 1em rgba(0, 0, 0, .5);
 background: #1d2d44; /* Old browsers */
@@ -28,9 +28,7 @@ background: -ms-linear-gradient(top, #35537a 0%,#1d2d42 100%); /* IE10+ */
 background: linear-gradient(top, #35537a 0%,#1d2d42 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d42',GradientType=0 ); /* IE6-9 */ }
 
-#owncloud { float:left; vertical-align:middle; }
-.header-right { float:right; vertical-align:middle; padding:0 0.5em; }
-.header-right > * { vertical-align:middle; }
+#owncloud { position:absolute; padding:6px; padding-bottom:0; }
 
 /* INPUTS */
 input[type="text"], input[type="password"] { cursor:text; }
@@ -51,7 +49,7 @@ input[type="checkbox"] { width:auto; }
 #body-login input[type="text"], #body-login input[type="password"] { width: 13em; }
 #body-login input.login { width: auto; float: right; }
 #remember_login { margin:.8em .2em 0 1em; }
-.searchbox input[type="search"] { font-size:1.2em; padding:.2em .5em .2em 1.5em; background:#fff url('../img/actions/search.svg') no-repeat .5em center; border:0; -moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70);opacity:.7; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; }
+.searchbox input[type="search"] { font-size:1.2em; padding:.2em .5em .2em 1.5em; background:#fff url('../img/actions/search.svg') no-repeat .5em center; border:0; -moz-border-radius:1em; -webkit-border-radius:1em; border-radius:1em; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70);opacity:.7; -webkit-transition:opacity 300ms; -moz-transition:opacity 300ms; -o-transition:opacity 300ms; transition:opacity 300ms; margin-top:10px; float:right; }
 input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #cfc inset; }
 input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-shadow:#ffeedd 0 1px 0; -moz-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; box-shadow:0 1px 1px #f8f8f8, 0 1px 1px #ffeedd inset; }
 #select_all{ margin-top: .4em !important;}
@@ -103,9 +101,14 @@ label.infield { cursor: text !important; }
 #navigation a img { display:block; width:32px; height:32px; margin:0 auto; }
 #navigation a.active, #navigation a:hover, #navigation a:focus { color:#888; text-shadow:#000 0 -1px 0; }
 #navigation a.active {  }
-#navigation #settings { position:absolute; bottom:3.5em; width:100%; }
-#navigation #settings img { width:32px; height:32px; }
-#expand { position:relative; z-index:100; margin-bottom:-.5em; padding:.5em 10.1em .7em 1.2em; cursor:pointer; }
+#settings { float:right; margin-top:7px; color:#bbb; text-shadow:0 -1px 0 #000; }
+#expand { padding:15px; cursor:pointer; font-weight:bold; }
+#expand:hover, #expand:focus, #expand:active { color:#fff; }
+#expand img { opacity:.5; margin-bottom:-2px; }
+#expand:hover img, #expand:focus img, #expand:active img { opacity:1; }
+#expanddiv { position:absolute; right:0; background-color:rgb(29, 45, 68); }
+#expanddiv a { color:#ccc; padding:5px 8px; }
+#expanddiv a:hover, #expanddiv a:focus, #expanddiv a:active { color:#fff; }
 
 /* VARIOUS REUSABLE SELECTORS */
 .hidden { display:none; }
