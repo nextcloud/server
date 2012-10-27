@@ -25,25 +25,25 @@
  */
 class OC_BackgroundJob{
 	/**
-	 * @brief get the type of background jobs
+	 * @brief get the execution type of background jobs
 	 * @return string
 	 *
 	 * This method returns the type how background jobs are executed. If the user
 	 * did not select something, the type is ajax.
 	 */
-	public static function getType() {
+	public static function getExecutionType() {
 		return OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' );
 	}
 	
 	/**
-	 * @brief sets the background jobs type
-	 * @param $type type of background jobs
+	 * @brief sets the background jobs execution type
+	 * @param $type execution type
 	 * @return boolean
 	 *
-	 * This method sets the type of the background jobs. Possible types are
-	 * "none", "ajax", "webcron", "cron"
+	 * This method sets the execution type of the background jobs. Possible types 
+	 * are "none", "ajax", "webcron", "cron"
 	 */
-	public static function setType( $type ) {
+	public static function setExecutionType( $type ) {
 		if( !in_array( $type, array('none', 'ajax', 'webcron', 'cron'))){
 			return false;
 		}
