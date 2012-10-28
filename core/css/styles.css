@@ -106,9 +106,10 @@ label.infield { cursor: text !important; }
 #expand:hover, #expand:focus, #expand:active { color:#fff; }
 #expand img { opacity:.5; margin-bottom:-2px; }
 #expand:hover img, #expand:focus img, #expand:active img { opacity:1; }
-#expanddiv { position:absolute; right:0; background-color:rgb(29, 45, 68); }
-#expanddiv a { color:#ccc; padding:5px 8px; }
-#expanddiv a:hover, #expanddiv a:focus, #expanddiv a:active { color:#fff; }
+#expanddiv { position:absolute; right:0; top:45px; background-color:#eee; border-bottom-left-radius:7px; box-shadow: 0 0 20px #888888; z-index:76; }
+#expanddiv a { display:block; color:#222; text-shadow:0 1px 0 #fff; padding:0 8px; }
+#expanddiv a img { margin-bottom:-3px; }
+#expanddiv a:hover, #expanddiv a:focus, #expanddiv a:active { color:#555; background-color:#ddd; }
 
 /* VARIOUS REUSABLE SELECTORS */
 .hidden { display:none; }
