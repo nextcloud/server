@@ -70,6 +70,9 @@ class OC_Setup {
 			if(empty($options['dbname'])) {
 				$error[] = "$dbprettyname enter the database name.";
 			}
+			if(substr_count($options['dbname'], '.') >= 1){
+				$error[] = "$dbprettyname you may not use dots in the database name";
+			}
 			if($dbtype != 'oci' && empty($options['dbhost'])) {
 				$error[] = "$dbprettyname set the database host.";
 			}

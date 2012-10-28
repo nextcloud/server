@@ -62,14 +62,6 @@ $(document).ready(function() {
 		return false;
 	});
 
-	// Sets the file-action buttons behaviour :
-	$('tr').live('mouseenter',function(event) {
-		FileActions.display($(this).children('td.filename'));
-	});
-	$('tr').live('mouseleave',function(event) {
-		FileActions.hide();
-	});
-
 	var lastChecked;
 
 	// Sets the file link behaviour :

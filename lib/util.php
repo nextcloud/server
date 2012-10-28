@@ -24,6 +24,11 @@ class OC_Util {
 			$user = OC_User::getUser();
 		}
 
+		// load all filesystem apps before, so no setup-hook gets lost
+		if(!$RUNTIME_NOAPPS) {
+			OC_App::loadApps(array('filesystem'));
+		}
+
 		// the filesystem will finish when $user is not empty,
 		// mark fs setup here to avoid doing the setup from loading
 		// OC_Filesystem
@@ -62,7 +67,7 @@ class OC_Util {
 		OC_Filesystem::tearDown();
 		self::$fsSetup=false;
 	}
-	
+
 	public static function loadUserMountPoints($user) {
 		$user_dir = '/'.$user.'/files';
 		$user_root = OC_User::getHome($user);
@@ -74,14 +79,14 @@ class OC_Util {
 					OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
 				}
 			}
-		
+
 			$mtime=filemtime($user_root.'/mount.php');
 			$previousMTime=OC_Preferences::getValue($user,'files','mountconfigmtime',0);
 			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
 				OC_FileCache::triggerUpdate($user);
 				OC_Preferences::setValue($user,'files','mountconfigmtime',$mtime);
 			}
-		}		
+		}
 	}
 
 	/**
@@ -429,7 +434,7 @@ class OC_Util {
 		}
 		return true;
 	}
-	
+
 	/**
 	* Redirect to the user default page
 	*/

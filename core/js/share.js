@@ -483,15 +483,14 @@ $(document).ready(function() {
 		$('#linkPass').toggle('blind');
 	});
 
-	$('#linkPassText').live('keyup', function(event) {
-		if (event.keyCode == 13) {
-			var itemType = $('#dropdown').data('item-type');
-			var itemSource = $('#dropdown').data('item-source');
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.PERMISSION_READ, function() {
-				$('#linkPassText').val('');
-				$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
-			});
-		}
+	$('#linkPassText').live('focusout', function(event) {
+		var itemType = $('#dropdown').data('item-type');
+		var itemSource = $('#dropdown').data('item-source');
+		OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.PERMISSION_READ, function() {
+			$('#linkPassText').val('');
+			$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
+		});
+		$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
 	});
 
 	$('#expirationCheckbox').live('click', function() {
