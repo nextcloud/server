@@ -38,6 +38,7 @@
 "ownCloud password reset" => "ownCloud-Passwort zurücksetzen",
 "Use the following link to reset your password: {link}" => "Nutzen Sie den nachfolgenden Link, um Ihr Passwort zurückzusetzen: {link}",
 "You will receive a link to reset your password via Email." => "Sie erhalten einen Link per E-Mail, um Ihr Passwort zurückzusetzen.",
+"Request failed!" => "Die Anforderung schlug fehl!",
 "Username" => "Benutzername",
 "Request reset" => "Beantrage Zurücksetzung",
 "Your password was reset" => "Ihr Passwort wurde zurückgesetzt.",

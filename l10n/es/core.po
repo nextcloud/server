@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-28 00:01+0200\n"
-"PO-Revision-Date: 2012-10-27 22:01+0000\n"
+"POT-Creation-Date: 2012-10-29 00:01+0100\n"
+"PO-Revision-Date: 2012-10-27 22:12+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -66,109 +66,109 @@ msgstr "Aceptar"
 msgid "No categories selected for deletion."
 msgstr "No hay categorías seleccionadas para borrar."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
-#: js/share.js:517
+#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/share.js:537
 msgid "Error"
 msgstr "Fallo"
 
-#: js/share.js:103
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "Error compartiendo"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "Error descompartiendo"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "Error cambiando permisos"
 
-#: js/share.js:130
+#: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Compartido contigo y el grupo {group} por {owner}"
 
-#: js/share.js:132
+#: js/share.js:153
 msgid "Shared with you by {owner}"
 msgstr "Compartido contigo por {owner}"
 
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "Compartir con"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "Compartir con enlace"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
 msgstr "Protegido por contraseña"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Contraseña"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
 msgstr "Establecer fecha de caducidad"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "Fecha de caducidad"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "compartido via e-mail:"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "No se encontró gente"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
 msgstr "No se permite compartir de nuevo"
 
-#: js/share.js:250
+#: js/share.js:271
 msgid "Shared in {item} with {user}"
 msgstr "Compartido en {item} con {user}"
 
-#: js/share.js:271
+#: js/share.js:292
 msgid "Unshare"
 msgstr "No compartir"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
 msgstr "puede editar"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "control de acceso"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr "modificar"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "eliminar"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:322 js/share.js:492
+#: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
 msgstr "Protegido por contraseña"
 
-#: js/share.js:505
+#: js/share.js:525
 msgid "Error unsetting expiration date"
 msgstr "Error al eliminar la fecha de caducidad"
 
-#: js/share.js:517
+#: js/share.js:537
 msgid "Error setting expiration date"
 msgstr "Error estableciendo fecha de caducidad"
 
@@ -323,83 +323,83 @@ msgstr "Host de la base de datos"
 msgid "Finish setup"
 msgstr "Completar la instalación"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Domingo"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Lunes"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Martes"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Miércoles"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Jueves"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Viernes"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Sábado"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "Enero"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "Febrero"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "Marzo"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "Abril"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "Mayo"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "Junio"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "Julio"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "Agosto"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "Septiembre"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "Octubre"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "Noviembre"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "Diciembre"
 
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "servicios web bajo tu control"
 
