@@ -14,9 +14,9 @@
    width="16"
    height="16"
    id="svg11300"
-   inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="home.svg"
-   inkscape:export-filename="home.png"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="help.svg"
+   inkscape:export-filename="/home/jancborchardt/jancborchardt/ownCloud/icons/help.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <metadata
@@ -41,16 +41,16 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1280"
-     inkscape:window-height="800"
+     inkscape:window-height="776"
      id="namedview24"
      showgrid="true"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="8.0000004"
-     inkscape:cx="15.733743"
-     inkscape:cy="8.9471081"
+     inkscape:zoom="22.627418"
+     inkscape:cx="14.025105"
+     inkscape:cy="9.2202448"
      inkscape:window-x="0"
-     inkscape:window-y="-31"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:current-layer="g4146">
     <inkscape:grid
@@ -64,17 +64,6 @@
   </sodipodi:namedview>
   <defs
      id="defs3">
-    <linearGradient
-       id="linearGradient4085">
-      <stop
-         offset="0"
-         style="stop-color:#000000;stop-opacity:1"
-         id="stop4087" />
-      <stop
-         offset="1"
-         style="stop-color:#363636;stop-opacity:0.7"
-         id="stop4089" />
-    </linearGradient>
     <linearGradient
        id="linearGradient4136">
       <stop
@@ -1754,35 +1743,6 @@
        id="linearGradient3475"
        xlink:href="#linearGradient3587-6-5-26"
        inkscape:collect="always" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3587-6-5-26"
-       id="linearGradient4074"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(13.927091,-3.426613)"
-       x1="-2.4040222"
-       y1="4.4573336"
-       x2="-2.4040222"
-       y2="18.967093" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient4085"
-       id="linearGradient4083"
-       x1="8"
-       y1="1"
-       x2="8"
-       y2="15.458407"
-       gradientUnits="userSpaceOnUse" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient4085"
-       id="linearGradient4121"
-       gradientUnits="userSpaceOnUse"
-       x1="8"
-       y1="1"
-       x2="8"
-       y2="15.458407"
-       gradientTransform="translate(-20,0)" />
   </defs>
   <g
      transform="matrix(0.78786264,0,0,0.78786264,-3.1483699,0.44173984)"
@@ -1801,18 +1761,19 @@
      style="opacity:0.6;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" />
   <g
      id="g4146">
-    <path
-       style="fill:url(#linearGradient4083);fill-rule:evenodd;stroke:none;fill-opacity:1;opacity:0.69999999999999996"
-       d="M 4 2 C 2.892 2 2 2.892 2 4 L 2 12 C 2 13.108 2.892 14 4 14 L 12 14 C 13.108 14 14 13.108 14 12 L 14 4 C 14 2.892 13.108 2 12 2 L 4 2 z M 4.09375 4 L 11.90625 4 C 11.96165 4 12 4.03835 12 4.09375 L 12 11.90625 C 12 11.96165 11.96165 12 11.90625 12 L 4.09375 12 C 4.03835 12 4 11.96165 4 11.90625 L 4 4.09375 C 4 4.03835 4.03835 4 4.09375 4 z "
-       id="rect3298" />
-    <rect
-       rx="2"
-       ry="2"
-       y="2"
-       x="-18"
-       height="12"
-       width="12"
-       id="rect4119"
-       style="opacity:0.7;fill:url(#linearGradient4121);fill-opacity:1;fill-rule:evenodd;stroke:none" />
+    <g
+       id="g4550"
+       transform="translate(0,-20)">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 8,22.03072 0,30 l 3,0 0,6 10,0 0,-6 3,0 L 13,26.969459 13,23 l -3.0000001,0 0,1.081152 L 8,22.03072 z"
+         id="path3887"
+         style="opacity:0.6;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <path
+         inkscape:connector-curvature="0"
+         d="M 8,21.03072 0,29 l 3,0 0,6 10,0 0,-6 3,0 L 13,25.969459 13,22 l -3.0000001,0 0,1.081152 L 8,21.03072 z"
+         id="path3883"
+         style="opacity:0.7;fill:url(#linearGradient3475);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
   </g>
 </svg>

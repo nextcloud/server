@@ -177,6 +177,7 @@ a.bookmarklet { background-color: #ddd; border:1px solid #ccc; padding: 5px;padd
 .arrow.down { -webkit-transform: rotate(180deg); -moz-transform: rotate(180deg); -o-transform: rotate(180deg); -ms-transform: rotate(180deg); transform: rotate(180deg); }
 
 /* ---- BREADCRUMB ---- */
-div.crumb { float:left; display:block; background:no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em; }
+div.crumb { float:left; display:block; background:url('../img/breadcrumb.svg') no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em; }
 div.crumb:first-child { padding-left:1em; }
-div.crumb.last { font-weight:bold; }
+div.crumb.last { font-weight:bold; background:none; padding-right:0; }
+div.crumb a{ padding: 0.9em 0 0.7em 0; }

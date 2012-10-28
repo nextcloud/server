@@ -81,10 +81,6 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 .selectedActions a { display:inline; margin:-.5em 0; padding:.5em !important; }
 .selectedActions a img { position:relative; top:.3em; }
 
-/* add breadcrumb divider to the File item in navigation panel */
-#navigation>ul>li:first-child { background:url('%webroot%/core/img/breadcrumb-start.svg') no-repeat 12.5em 0px; width:12.5em; padding-right:1em; position:fixed; }
-#navigation>ul>li:first-child+li { padding-top:2.9em; }
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
 
-div.crumb a{ padding: 0.9em 0 0.7em 0; }
