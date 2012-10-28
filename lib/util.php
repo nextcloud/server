@@ -24,6 +24,11 @@ class OC_Util {
 			$user = OC_User::getUser();
 		}
 
+		// load all filesystem apps before, so no setup-hook gets lost
+		if(!$RUNTIME_NOAPPS) {
+			OC_App::loadApps(array('filesystem'));
+		}
+
 		// the filesystem will finish when $user is not empty,
 		// mark fs setup here to avoid doing the setup from loading
 		// OC_Filesystem
