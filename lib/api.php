@@ -91,7 +91,7 @@ class OC_API {
 		// Loop through registered actions
 		foreach(self::$actions[$name] as $action){
 			$app = $action['app'];
-			// Authorsie this call
+			// Authorise this call
 			if(self::isAuthorised($action)){
 				if(is_callable($action['action'])){
 					$responses[] = array('app' => $app, 'response' => call_user_func($action['action'], $parameters));
