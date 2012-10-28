@@ -82,7 +82,7 @@ var FileActions = {
 				}
 				var html = '<a href="#" class="action">';
 				if (img) {
-					html += '<img src="' + img + '"/> ';
+					html += '<img class ="svg" src="' + img + '"/> ';
 				}
 				html += t('files', name) + '</a>';
 				var element = $(html);
@@ -111,7 +111,7 @@ var FileActions = {
 			}
 			var element = $(html);
 			if (img) {
-				element.append($('<img src="' + img + '"/>'));
+				element.append($('<img class ="svg" src="' + img + '"/>'));
 			}
 			element.data('action', 'Delete');
 			element.click(function (event) {
