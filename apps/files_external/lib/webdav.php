@@ -22,8 +22,8 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	public function __construct($params) {
 		$host = $params['host'];
 		//remove leading http[s], will be generated in createBaseUri()
-		if (substr($host,0,8) == "https://") $host = substr($host, 8);
-		else if (substr($host,0,7) == "http://") $host = substr($host, 7);
+		if (substr($host, 0, 8) == "https://") $host = substr($host, 8);
+		else if (substr($host, 0, 7) == "http://") $host = substr($host, 7);
 		$this->host=$host;
 		$this->user=$params['user'];
 		$this->password=$params['password'];
@@ -32,7 +32,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		if(!$this->root || $this->root[0]!='/') {
 			$this->root='/'.$this->root;
 		}
-		if(substr($this->root,-1,1)!='/') {
+		if(substr($this->root, -1, 1)!='/') {
 			$this->root.='/';
 		}
 
@@ -65,18 +65,18 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 
 	public function mkdir($path) {
 		$path=$this->cleanPath($path);
-		return $this->simpleResponse('MKCOL',$path, null,201);
+		return $this->simpleResponse('MKCOL', $path, null, 201);
 	}
 
 	public function rmdir($path) {
 		$path=$this->cleanPath($path);
-		return $this->simpleResponse('DELETE',$path, null,204);
+		return $this->simpleResponse('DELETE', $path, null, 204);
 	}
 
 	public function opendir($path) {
 		$path=$this->cleanPath($path);
 		try{
-			$response=$this->client->propfind($path, array(),1);
+			$response=$this->client->propfind($path, array(), 1);
 			$id=md5('webdav'.$this->root.$path);
 			OC_FakeDirStream::$dirs[$id]=array();
 			$files=array_keys($response);
@@ -123,7 +123,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	}
 
 	public function unlink($path) {
-		return $this->simpleResponse('DELETE',$path, null,204);
+		return $this->simpleResponse('DELETE', $path, null, 204);
 	}
 
 	public function fopen($path,$mode) {
@@ -137,7 +137,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 				//straight up curl instead of sabredav here, sabredav put's the entire get result in memory
 				$curl = curl_init();
 				$fp = fopen('php://temp', 'r+');
-				curl_setopt($curl,CURLOPT_USERPWD,$this->user.':'.$this->password);
+				curl_setopt($curl, CURLOPT_USERPWD, $this->user.':'.$this->password);
 				curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().$path);
 				curl_setopt($curl, CURLOPT_FILE, $fp);
 
@@ -158,18 +158,18 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			case 'c':
 			case 'c+':
 				//emulate these
-				if(strrpos($path,'.')!==false) {
-					$ext=substr($path, strrpos($path,'.'));
+				if(strrpos($path, '.')!==false) {
+					$ext=substr($path, strrpos($path, '.'));
 				}else{
 					$ext='';
 				}
 				$tmpFile=OCP\Files::tmpFile($ext);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
+				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
 				if($this->file_exists($path)) {
-					$this->getFile($path,$tmpFile);
+					$this->getFile($path, $tmpFile);
 				}
 				self::$tempFiles[$tmpFile]=$path;
-				return fopen('close://'.$tmpFile,$mode);
+				return fopen('close://'.$tmpFile, $mode);
 		}
 	}
 
@@ -203,15 +203,15 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	}
 
 	public function getFile($path,$target) {
-		$source=$this->fopen($path,'r');
-		file_put_contents($target,$source);
+		$source=$this->fopen($path, 'r');
+		file_put_contents($target, $source);
 	}
 
 	public function uploadFile($path,$target) {
-		$source=fopen($path,'r');
+		$source=fopen($path, 'r');
 
 		$curl = curl_init();
-		curl_setopt($curl,CURLOPT_USERPWD,$this->user.':'.$this->password);
+		curl_setopt($curl, CURLOPT_USERPWD, $this->user.':'.$this->password);
 		curl_setopt($curl, CURLOPT_URL, $this->createBaseUri().$target);
 		curl_setopt($curl, CURLOPT_BINARYTRANSFER, true);
 		curl_setopt($curl, CURLOPT_INFILE, $source); // file pointer
@@ -283,7 +283,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 
 	private function cleanPath($path) {
 		if(!$path || $path[0]=='/') {
-			return substr($path,1);
+			return substr($path, 1);
 		}else{
 			return $path;
 		}
@@ -292,7 +292,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	private function simpleResponse($method,$path,$body,$expected) {
 		$path=$this->cleanPath($path);
 		try{
-			$response=$this->client->request($method,$path,$body);
+			$response=$this->client->request($method, $path, $body);
 			return $response['statusCode']==$expected;
 		}catch(Exception $e) {
 			return false;

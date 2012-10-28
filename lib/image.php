@@ -244,7 +244,7 @@ class OC_Image {
 		ob_start();
 		$res = imagepng($this->resource);
 		if (!$res) {
-			OC_Log::write('core','OC_Image->data. Error getting image data.',OC_Log::ERROR);
+			OC_Log::write('core', 'OC_Image->data. Error getting image data.', OC_Log::ERROR);
 		}
 		return ob_get_clean();
 	}
@@ -263,11 +263,11 @@ class OC_Image {
 	*/
 	public function getOrientation() {
 		if(!is_callable('exif_read_data')) {
-			OC_Log::write('core','OC_Image->fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
+			OC_Log::write('core', 'OC_Image->fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
 			return -1;
 		}
 		if(!$this->valid()) {
-			OC_Log::write('core','OC_Image->fixOrientation() No image loaded.', OC_Log::DEBUG);
+			OC_Log::write('core', 'OC_Image->fixOrientation() No image loaded.', OC_Log::DEBUG);
 			return -1;
 		}
 		if(is_null($this->filepath) || !is_readable($this->filepath)) {
@@ -549,7 +549,7 @@ class OC_Image {
 
 	public function preciseResize($width, $height) {
 		if (!$this->valid()) {
-			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): No image loaded', OC_Log::ERROR);
 			return false;
 		}
 		$width_orig=imageSX($this->resource);
@@ -557,14 +557,14 @@ class OC_Image {
 		$process = imagecreatetruecolor($width, $height);
 
 		if ($process == false) {
-			OC_Log::write('core', __METHOD__.'(): Error creating true color image',OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): Error creating true color image', OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}
 
 		imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 		if ($process == false) {
-			OC_Log::write('core', __METHOD__.'(): Error resampling process image '.$width.'x'.$height,OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): Error resampling process image '.$width.'x'.$height, OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}
@@ -607,13 +607,13 @@ class OC_Image {
 		}
 		$process = imagecreatetruecolor($targetWidth, $targetHeight);
 		if ($process == false) {
-			OC_Log::write('core', 'OC_Image->centerCrop. Error creating true color image',OC_Log::ERROR);
+			OC_Log::write('core', 'OC_Image->centerCrop. Error creating true color image', OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}
 		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $targetWidth, $targetHeight, $width, $height);
 		if ($process == false) {
-			OC_Log::write('core', 'OC_Image->centerCrop. Error resampling process image '.$width.'x'.$height,OC_Log::ERROR);
+			OC_Log::write('core', 'OC_Image->centerCrop. Error resampling process image '.$width.'x'.$height, OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}
@@ -637,13 +637,13 @@ class OC_Image {
 		}
 		$process = imagecreatetruecolor($w, $h);
 		if ($process == false) {
-			OC_Log::write('core', __METHOD__.'(): Error creating true color image',OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): Error creating true color image', OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}
 		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $w, $h, $w, $h);
 		if ($process == false) {
-			OC_Log::write('core', __METHOD__.'(): Error resampling process image '.$w.'x'.$h,OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): Error resampling process image '.$w.'x'.$h, OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}

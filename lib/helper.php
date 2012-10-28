@@ -203,7 +203,7 @@ class OC_Helper {
 			return OC::$WEBROOT."/core/img/filetypes/$mimetype.png";
 		}
 		//try only the first part of the filetype
-		$mimetype=substr($mimetype,0, strpos($mimetype,'-'));
+		$mimetype=substr($mimetype, 0, strpos($mimetype, '-'));
 		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.png" )) {
 			return OC::$WEBROOT."/core/img/filetypes/$mimetype.png";
 		}
@@ -355,29 +355,29 @@ class OC_Helper {
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 */
 	static function getMimeType($path) {
-		$isWrapped=(strpos($path,'://')!==false) and (substr($path,0,7)=='file://');
+		$isWrapped=(strpos($path, '://')!==false) and (substr($path, 0, 7)=='file://');
 
 		if (@is_dir($path)) {
 			// directories are easy
 			return "httpd/unix-directory";
 		}
 
-		if(strpos($path,'.')) {
+		if(strpos($path, '.')) {
 			//try to guess the type by the file extension
 			if(!self::$mimetypes || self::$mimetypes != include 'mimetypes.list.php') {
 				self::$mimetypes=include 'mimetypes.list.php';
 			}
 			$extension=strtolower(strrchr(basename($path), "."));
-			$extension=substr($extension,1);//remove leading .
+			$extension=substr($extension, 1);//remove leading .
 			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
 		}else{
 			$mimeType='application/octet-stream';
 		}
 
 		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)) {
-			$info = @strtolower(finfo_file($finfo,$path));
+			$info = @strtolower(finfo_file($finfo, $path));
 			if($info) {
-				$mimeType=substr($info,0, strpos($info,';'));
+				$mimeType=substr($info,0, strpos($info, ';'));
 			}
 			finfo_close($finfo);
 		}
@@ -412,8 +412,8 @@ class OC_Helper {
 			return finfo_buffer($finfo, $data);
 		}else{
 			$tmpFile=OC_Helper::tmpFile();
-			$fh=fopen($tmpFile,'wb');
-			fwrite($fh,$data,8024);
+			$fh=fopen($tmpFile, 'wb');
+			fwrite($fh, $data, 8024);
 			fclose($fh);
 			$mime=self::getMimeType($tmpFile);
 			unset($tmpFile);
@@ -504,7 +504,7 @@ class OC_Helper {
 		}
 		$count=0;
 		while(!feof($source)) {
-			$count+=fwrite($target, fread($source,8192));
+			$count+=fwrite($target, fread($source, 8192));
 		}
 		return $count;
 	}
@@ -518,7 +518,7 @@ class OC_Helper {
 	 */
 	public static function tmpFile($postfix='') {
 		$file=get_temp_dir().'/'.md5(time().rand()).$postfix;
-		$fh=fopen($file,'w');
+		$fh=fopen($file, 'w');
 		fclose($fh);
 		self::$tmpFiles[]=$file;
 		return $file;
