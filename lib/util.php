@@ -524,7 +524,7 @@ class OC_Util {
 	 * @brief Check an ajax get/post call if the request token is valid.
 	 * @return boolean False if request token is not set or is invalid.
 	 * @see OC_Util::$callLifespan
-	 * @see OC_Util::calLRegister()
+	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
 		if(isset($_GET['requesttoken'])) {
