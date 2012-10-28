@@ -14,7 +14,7 @@ class OC_Sharing_API {
 			'remote' => OCP\Share::SHARE_TYPE_USER,
 			);
 		$type = $typemap[$parameters['type']];
-		$shareWith = isset($_POST['shareWith']) ? $_POST['shareWith'] : '';
+		$shareWith = isset($_POST['shareWith']) ? $_POST['shareWith'] : null;
 		$permissionstring = isset($_POST['permissions']) ? $_POST['permissions'] : '';
 		$permissionmap = array(
 			'C' => OCP\Share::PERMISSION_CREATE,
@@ -37,7 +37,7 @@ class OC_Sharing_API {
 		}
 		switch($type){
 			case OCP\Share::SHARE_TYPE_LINK:
-				return array('url' => OC_Helper::linkToPublic('files') . '&file=' . OC_User::getUser() . '/files' . $path);
+				return array('url' => OC_Helper::linkToPublic('files') . '&file=/' . OC_User::getUser() . '/files' . $path);
 			break;
 		}
 		
