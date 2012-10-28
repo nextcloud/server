@@ -91,7 +91,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		return app;
 	},
 	removeNavigation: function(appid){
-		$.getJSON(OC.filePath('core','ajax','navigationdetect.php'), {app: appid}).done(function(response){
+		$.getJSON(OC.filePath('settings', 'ajax', 'navigationdetect.php'), {app: appid}).done(function(response){
 			if(response.status === 'success'){
 				var navIds=response.nav_ids;
 				for(var i=0; i< navIds.length; i++){
@@ -101,7 +101,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		});
 	},
 	addNavigation: function(appid){
-		$.getJSON(OC.filePath('core','ajax','navigationdetect.php'), {app: appid}).done(function(response){
+		$.getJSON(OC.filePath('settings', 'ajax', 'navigationdetect.php'), {app: appid}).done(function(response){
 			if(response.status === 'success'){
 				var navEntries=response.nav_entries;
 				for(var i=0; i< navEntries.length; i++){

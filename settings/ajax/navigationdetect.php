@@ -1,9 +1,5 @@
 <?php
 
-$RUNTIME_NOAPPS = true;
-
-require_once '../../lib/base.php';
-
 OC_Util::checkAdminUser();
 OCP\JSON::callCheck();
 
