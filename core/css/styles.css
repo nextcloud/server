@@ -103,8 +103,8 @@ label.infield { cursor: text !important; }
 #navigation { position:fixed; top:3.5em; float:left; width:64px; padding:0; z-index:75; height:100%; background:#30343a url('../img/noise.png') repeat; border-right:1px #333 solid; -moz-box-shadow:0 0 7px #000; -webkit-box-shadow:0 0 7px #000; box-shadow:0 0 7px #000; overflow:hidden;}
 #navigation a { display:block; padding:8px 0 4px; text-decoration:none; font-size:10px; text-align:center; color:#000; text-shadow:#444 0 1px 0; }
 #navigation .icon { width:32px; height:32px; background-position:0 0; background-repeat:no-repeat; margin:0 16px 0; }
-/*#navigation li:hover div { background-position:-32px 0; } hover & active effect, activate when icons are sprited*/
-#navigation li:first-child { padding-top:8px; }
+#navigation li:hover div, #navigation li a.active div { background-position:-32px 0; }
+#navigation li:first-child a { padding-top:16px; }
 #navigation a img { display:block; width:32px; height:32px; margin:0 auto; }
 #navigation a.active, #navigation a:hover, #navigation a:focus { color:#888; text-shadow:#000 0 -1px 0; }
 #navigation a.active {  }
