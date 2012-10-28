@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:03+0200\n"
-"PO-Revision-Date: 2012-09-17 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-23 02:02+0200\n"
+"PO-Revision-Date: 2012-10-22 10:57+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,20 +23,15 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "アプリストアからリストをロードできません"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "認証エラー"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr "グループは既に存在しています"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr "グループを追加できません"
 
-#: ajax/enableapp.php:13
+#: ajax/enableapp.php:14
 msgid "Could not enable app. "
 msgstr "アプリを有効にできませんでした。"
 
@@ -60,7 +55,11 @@ msgstr "無効なリクエストです"
 msgid "Unable to delete group"
 msgstr "グループを削除できません"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "認証エラー"
+
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr "ユーザを削除できません"
 
@@ -78,15 +77,11 @@ msgstr "ユーザをグループ %s に追加できません"
 msgid "Unable to remove user from group %s"
 msgstr "ユーザをグループ %s から削除できません"
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "エラー"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "無効"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "有効"
 
@@ -94,7 +89,7 @@ msgstr "有効"
 msgid "Saving..."
 msgstr "保存中..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "Japanese (日本語)"
 
@@ -117,7 +112,7 @@ msgstr "cron(自動定期実行)"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "各ページの読み込み時にタスクを1つ実行する"
 
 #: templates/admin.php:43
 msgid ""
@@ -129,43 +124,43 @@ msgstr "cron.php は webcron サービスとして登録されています。HTT
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "システムのcronサービスを利用する。1分に1回の頻度でシステムのcronジョブによりowncloudフォルダ内のcron.phpファイルを呼び出してください。"
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "共有中"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
-msgstr "Share APIを有効"
+msgstr "Share APIを有効にする"
 
 #: templates/admin.php:62
 msgid "Allow apps to use the Share API"
-msgstr "Share APIの使用をアプリケーションに許可"
+msgstr "Share APIの使用をアプリケーションに許可する"
 
 #: templates/admin.php:67
 msgid "Allow links"
-msgstr "リンクを許可"
+msgstr "URLリンクによる共有を許可する"
 
 #: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
-msgstr "ユーザーがリンクによる公開でアイテムを共有することが出来るようにする"
+msgstr "ユーザーにURLリンクによるアイテム共有を許可する"
 
 #: templates/admin.php:73
 msgid "Allow resharing"
-msgstr "再共有を許可"
+msgstr "再共有を許可する"
 
 #: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
-msgstr "ユーザーが共有されているアイテムをさらに共有することが出来るようにする"
+msgstr "ユーザーに共有しているアイテムをさらに共有することを許可する"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr "ユーザーが誰にでも共有出来るようにする"
+msgstr "ユーザーが誰とでも共有できるようにする"
 
 #: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
-msgstr "ユーザーがグループの人にしか共有出来ないようにする"
+msgstr "ユーザーがグループ内の人とのみ共有できるようにする"
 
 #: templates/admin.php:88
 msgid "Log"
@@ -189,15 +184,19 @@ msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud commu
 msgid "Add your App"
 msgstr "アプリを追加"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "さらにアプリを表示"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "アプリを選択してください"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr "apps.owncloud.com でアプリケーションのページを見てください"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-ライセンス: <span class=\"author\"></span>"
 
@@ -226,12 +225,9 @@ msgid "Answer"
 msgstr "解答"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "あなたは"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "を利用しています。利用可能容量："
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "現在､ <strong>%s</strong> / <strong>%s<strong> を利用しています"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -242,8 +238,8 @@ msgid "Download"
 msgstr "ダウンロード"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "パスワードは変更されました"
+msgid "Your password was changed"
+msgstr "パスワードを変更しました"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

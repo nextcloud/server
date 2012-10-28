@@ -65,12 +65,12 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 
 	public function mkdir($path) {
 		$path=$this->cleanPath($path);
-		return $this->simpleResponse('MKCOL',$path,null,201);
+		return $this->simpleResponse('MKCOL',$path, null,201);
 	}
 
 	public function rmdir($path) {
 		$path=$this->cleanPath($path);
-		return $this->simpleResponse('DELETE',$path,null,204);
+		return $this->simpleResponse('DELETE',$path, null,204);
 	}
 
 	public function opendir($path) {
@@ -123,7 +123,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	}
 
 	public function unlink($path) {
-		return $this->simpleResponse('DELETE',$path,null,204);
+		return $this->simpleResponse('DELETE',$path, null,204);
 	}
 
 	public function fopen($path,$mode) {
@@ -131,6 +131,9 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		switch($mode) {
 			case 'r':
 			case 'rb':
+				if(!$this->file_exists($path)) {
+					return false;
+				}
 				//straight up curl instead of sabredav here, sabredav put's the entire get result in memory
 				$curl = curl_init();
 				$fp = fopen('php://temp', 'r+');
@@ -156,7 +159,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			case 'c+':
 				//emulate these
 				if(strrpos($path,'.')!==false) {
-					$ext=substr($path,strrpos($path,'.'));
+					$ext=substr($path, strrpos($path,'.'));
 				}else{
 					$ext='';
 				}
@@ -172,7 +175,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 
 	public function writeBack($tmpFile) {
 		if(isset(self::$tempFiles[$tmpFile])) {
-			$this->uploadFile($tmpFile,self::$tempFiles[$tmpFile]);
+			$this->uploadFile($tmpFile, self::$tempFiles[$tmpFile]);
 			unlink($tmpFile);
 		}
 	}
@@ -222,7 +225,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try{
-			$response=$this->client->request('MOVE',$path1,null,array('Destination'=>$path2));
+			$response=$this->client->request('MOVE', $path1, null, array('Destination'=>$path2));
 			return true;
 		}catch(Exception $e) {
 			echo $e;
@@ -236,7 +239,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try{
-			$response=$this->client->request('COPY',$path1,null,array('Destination'=>$path2));
+			$response=$this->client->request('COPY', $path1, null, array('Destination'=>$path2));
 			return true;
 		}catch(Exception $e) {
 			echo $e;

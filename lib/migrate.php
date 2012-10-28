@@ -66,7 +66,7 @@ class OC_Migrate{
 		foreach($apps as $app) {
 			$path = OC_App::getAppPath($app) . '/appinfo/migrate.php';
 			if( file_exists( $path ) ) {
-				include( $path );
+				include $path;
 			}
 		}
 	}
@@ -84,21 +84,15 @@ class OC_Migrate{
 	 	$types = array( 'user', 'instance', 'system', 'userfiles' );
 	 	if( !in_array( $type, $types ) ) {
 	 		OC_Log::write( 'migration', 'Invalid export type', OC_Log::ERROR );
-	 		return json_encode( array( array( 'success' => false ) ) );
+	 		return json_encode( array( 'success' => false )  );
 	 	}
 	 	self::$exporttype = $type;
 	 	// Userid?
 	 	if( self::$exporttype == 'user' ) {
 	 		// Check user exists
-	 		if( !is_null($uid) ) {
-				$db = new OC_User_Database;
-		 		if( !$db->userExists( $uid ) ) {
-					OC_Log::write('migration', 'User: '.$uid.' is not in the database and so cannot be exported.', OC_Log::ERROR);
-					return json_encode( array( 'success' => false ) );
-				}
-				self::$uid = $uid;
-	 		} else {
-	 			self::$uid = OC_User::getUser();
+	 		self::$uid = is_null($uid) ? OC_User::getUser() : $uid;
+	 		if(!OC_User::userExists(self::$uid)){
+		 		return json_encode( array( 'success' => false) );
 	 		}
 	 	}
 	 	// Calculate zipname
@@ -353,7 +347,7 @@ class OC_Migrate{
 	 		OC_Log::write( 'migration', 'Zip not found', OC_Log::ERROR );
 	 		return false;
 	 	}
-		if ( self::$zip->open( $path ) != TRUE ) {
+		if ( self::$zip->open( $path ) != true ) {
 			OC_Log::write( 'migration', "Failed to open zip file", OC_Log::ERROR );
 			return false;
 		}
@@ -582,7 +576,7 @@ class OC_Migrate{
 			OC_Log::write('migration', 'createZip() called but $zip and/or $zippath have not been set', OC_Log::ERROR);
 			return false;
 		}
-		if ( self::$zip->open( self::$zippath, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE ) !== TRUE ) {
+		if ( self::$zip->open( self::$zippath, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE ) !== true ) {
 			OC_Log::write('migration', 'Failed to create the zip with error: '.self::$zip->getStatusString(), OC_Log::ERROR);
 			return false;
 	    } else {

@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <mr.pige_ina@yahoo.co.id>, 2012.
 # Muhammad Fauzan <yosanpro@gmail.com>, 2012.
 # Muhammad Panji <sumodirjo@gmail.com>, 2012.
 # Muhammad Radifar <m_radifar05@yahoo.com>, 2011.
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:13+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -32,57 +33,13 @@ msgstr "Tidak ada kategori yang akan ditambahkan?"
 msgid "This category already exists: "
 msgstr "Kategori ini sudah ada:"
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Setelan"
 
-#: js/js.js:593
-msgid "January"
-msgstr "Januari"
-
-#: js/js.js:593
-msgid "February"
-msgstr "Februari"
-
-#: js/js.js:593
-msgid "March"
-msgstr "Maret"
-
-#: js/js.js:593
-msgid "April"
-msgstr "April"
-
-#: js/js.js:593
-msgid "May"
-msgstr "Mei"
-
-#: js/js.js:593
-msgid "June"
-msgstr "Juni"
-
-#: js/js.js:594
-msgid "July"
-msgstr "Juli"
-
-#: js/js.js:594
-msgid "August"
-msgstr "Agustus"
-
-#: js/js.js:594
-msgid "September"
-msgstr "September"
-
-#: js/js.js:594
-msgid "October"
-msgstr "Oktober"
-
-#: js/js.js:594
-msgid "November"
-msgstr "Nopember"
-
-#: js/js.js:594
-msgid "December"
-msgstr "Desember"
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr "pilih"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -104,9 +61,111 @@ msgstr "Oke"
 msgid "No categories selected for deletion."
 msgstr "Tidak ada kategori terpilih untuk penghapusan."
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
+#: js/share.js:517
 msgid "Error"
-msgstr ""
+msgstr "gagal"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr "gagal ketika membagikan"
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr "gagal ketika membatalkan pembagian"
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr "gagal ketika merubah perijinan"
+
+#: js/share.js:130
+msgid "Shared with you and the group {group} by {owner}"
+msgstr "dibagikan dengan anda dan grup {group} oleh {owner}"
+
+#: js/share.js:132
+msgid "Shared with you by {owner}"
+msgstr "dibagikan dengan anda oleh {owner}"
+
+#: js/share.js:137
+msgid "Share with"
+msgstr "bagikan dengan"
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr "bagikan dengan tautan"
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr "lindungi dengan kata kunci"
+
+#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
+msgid "Password"
+msgstr "Password"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr "set tanggal kadaluarsa"
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr "tanggal kadaluarsa"
+
+#: js/share.js:185
+msgid "Share via email:"
+msgstr "berbagi memlalui surel:"
+
+#: js/share.js:187
+msgid "No people found"
+msgstr "tidak ada orang ditemukan"
+
+#: js/share.js:214
+msgid "Resharing is not allowed"
+msgstr "berbagi ulang tidak diperbolehkan"
+
+#: js/share.js:250
+msgid "Shared in {item} with {user}"
+msgstr "dibagikan dalam {item} dengan {user}"
+
+#: js/share.js:271
+msgid "Unshare"
+msgstr "batalkan berbagi"
+
+#: js/share.js:283
+msgid "can edit"
+msgstr "dapat merubah"
+
+#: js/share.js:285
+msgid "access control"
+msgstr "kontrol akses"
+
+#: js/share.js:288
+msgid "create"
+msgstr "buat baru"
+
+#: js/share.js:291
+msgid "update"
+msgstr "baharui"
+
+#: js/share.js:294
+msgid "delete"
+msgstr "hapus"
+
+#: js/share.js:297
+msgid "share"
+msgstr "bagikan"
+
+#: js/share.js:322 js/share.js:492
+msgid "Password protected"
+msgstr "dilindungi kata kunci"
+
+#: js/share.js:505
+msgid "Error unsetting expiration date"
+msgstr "gagal melepas tanggal kadaluarsa"
+
+#: js/share.js:517
+msgid "Error setting expiration date"
+msgstr "gagal memasang tanggal kadaluarsa"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -128,12 +187,12 @@ msgstr "Telah diminta"
 msgid "Login failed!"
 msgstr "Login gagal!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Username"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Meminta reset"
 
@@ -189,72 +248,183 @@ msgstr "Edit kategori"
 msgid "Add"
 msgstr "Tambahkan"
 
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr "peringatan keamanan"
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr "tanpa generator angka acak, penyerang mungkin dapat menebak token reset kata kunci dan mengambil alih akun anda."
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Buat sebuah <strong>akun admin</strong>"
 
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr "Password"
-
-#: templates/installation.php:36
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "Tingkat Lanjut"
 
-#: templates/installation.php:38
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "Folder data"
 
-#: templates/installation.php:45
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "Konfigurasi database"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "akan digunakan"
 
-#: templates/installation.php:93
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Pengguna database"
 
-#: templates/installation.php:97
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "Password database"
 
-#: templates/installation.php:101
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Nama database"
 
-#: templates/installation.php:109
+#: templates/installation.php:121
 msgid "Database tablespace"
-msgstr ""
+msgstr "tablespace basis data"
 
-#: templates/installation.php:115
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Host database"
 
-#: templates/installation.php:120
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "Selesaikan instalasi"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "web service dibawah kontrol anda"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:17
+msgid "Sunday"
+msgstr "minggu"
+
+#: templates/layout.user.php:17
+msgid "Monday"
+msgstr "senin"
+
+#: templates/layout.user.php:17
+msgid "Tuesday"
+msgstr "selasa"
+
+#: templates/layout.user.php:17
+msgid "Wednesday"
+msgstr "rabu"
+
+#: templates/layout.user.php:17
+msgid "Thursday"
+msgstr "kamis"
+
+#: templates/layout.user.php:17
+msgid "Friday"
+msgstr "jumat"
+
+#: templates/layout.user.php:17
+msgid "Saturday"
+msgstr "sabtu"
+
+#: templates/layout.user.php:18
+msgid "January"
+msgstr "Januari"
+
+#: templates/layout.user.php:18
+msgid "February"
+msgstr "Februari"
+
+#: templates/layout.user.php:18
+msgid "March"
+msgstr "Maret"
+
+#: templates/layout.user.php:18
+msgid "April"
+msgstr "April"
+
+#: templates/layout.user.php:18
+msgid "May"
+msgstr "Mei"
+
+#: templates/layout.user.php:18
+msgid "June"
+msgstr "Juni"
+
+#: templates/layout.user.php:18
+msgid "July"
+msgstr "Juli"
+
+#: templates/layout.user.php:18
+msgid "August"
+msgstr "Agustus"
+
+#: templates/layout.user.php:18
+msgid "September"
+msgstr "September"
+
+#: templates/layout.user.php:18
+msgid "October"
+msgstr "Oktober"
+
+#: templates/layout.user.php:18
+msgid "November"
+msgstr "Nopember"
+
+#: templates/layout.user.php:18
+msgid "December"
+msgstr "Desember"
+
+#: templates/layout.user.php:38
 msgid "Log out"
 msgstr "Keluar"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr "login otomatis ditolak!"
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr "apabila anda tidak merubah kata kunci belakangan ini, akun anda dapat di gunakan orang lain!"
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr "mohon ubah kata kunci untuk mengamankan akun anda"
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "Lupa password anda?"
 
-#: templates/login.php:17
+#: templates/login.php:27
 msgid "remember"
 msgstr "selalu login"
 
-#: templates/login.php:18
+#: templates/login.php:28
 msgid "Log in"
 msgstr "Masuk"
 
@@ -269,3 +439,17 @@ msgstr "sebelum"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "selanjutnya"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr "peringatan keamanan!"
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr "mohon periksa kembali kata kunci anda. <br/>untuk alasan keamanan,anda akan sesekali diminta untuk memasukan kata kunci lagi."
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr "periksa kembali"

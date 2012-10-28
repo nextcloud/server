@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-10 02:02+0200\n"
-"PO-Revision-Date: 2012-09-09 20:19+0000\n"
+"POT-Creation-Date: 2012-10-21 02:03+0200\n"
+"PO-Revision-Date: 2012-10-20 20:16+0000\n"
 "Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
+msgid "Access granted"
+msgstr "Ligipääs on antud"
+
+#: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
+msgid "Error configuring Dropbox storage"
+msgstr "Viga Dropboxi salvestusruumi seadistamisel"
+
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+msgid "Grant access"
+msgstr "Anna ligipääs"
+
+#: js/dropbox.js:73 js/google.js:72
+msgid "Fill out all required fields"
+msgstr "Täida kõik kohustuslikud lahtrid"
+
+#: js/dropbox.js:85
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr "Palun sisesta korrektne Dropboxi rakenduse võti ja salasõna."
+
+#: js/google.js:26 js/google.js:73 js/google.js:78
+msgid "Error configuring Google Drive storage"
+msgstr "Viga Google Drive'i salvestusruumi seadistamisel"
 
 #: templates/settings.php:3
 msgid "External Storage"
@@ -62,22 +86,22 @@ msgstr "Grupid"
 msgid "Users"
 msgstr "Kasutajad"
 
-#: templates/settings.php:77 templates/settings.php:96
+#: templates/settings.php:77 templates/settings.php:107
 msgid "Delete"
 msgstr "Kustuta"
 
-#: templates/settings.php:88
-msgid "SSL root certificates"
-msgstr "SSL root sertifikaadid"
-
-#: templates/settings.php:102
-msgid "Import Root Certificate"
-msgstr "Impordi root sertifikaadid"
-
-#: templates/settings.php:108
+#: templates/settings.php:87
 msgid "Enable User External Storage"
 msgstr "Luba kasutajatele väline salvestamine"
 
-#: templates/settings.php:109
+#: templates/settings.php:88
 msgid "Allow users to mount their own external storage"
 msgstr "Luba kasutajatel ühendada külge nende enda välised salvestusseadmed"
+
+#: templates/settings.php:99
+msgid "SSL root certificates"
+msgstr "SSL root sertifikaadid"
+
+#: templates/settings.php:113
+msgid "Import Root Certificate"
+msgstr "Impordi root sertifikaadid"

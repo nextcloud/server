@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <mr.pige_ina@yahoo.co.id>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:02+0200\n"
-"PO-Revision-Date: 2012-09-17 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-21 02:03+0200\n"
+"PO-Revision-Date: 2012-10-20 23:40+0000\n"
+"Last-Translator: elmakong <mr.pige_ina@yahoo.co.id>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,20 +20,24 @@ msgstr ""
 
 #: js/settings-personal.js:31 templates/settings-personal.php:10
 msgid "Expire all versions"
-msgstr ""
+msgstr "kadaluarsakan semua versi"
+
+#: js/versions.js:16
+msgid "History"
+msgstr "riwayat"
 
 #: templates/settings-personal.php:4
 msgid "Versions"
-msgstr ""
+msgstr "versi"
 
 #: templates/settings-personal.php:7
 msgid "This will delete all existing backup versions of your files"
-msgstr ""
+msgstr "ini akan menghapus semua versi backup yang ada dari file anda"
 
 #: templates/settings.php:3
 msgid "Files Versioning"
-msgstr ""
+msgstr "pembuatan versi file"
 
 #: templates/settings.php:4
 msgid "Enable"
-msgstr ""
+msgstr "aktifkan"

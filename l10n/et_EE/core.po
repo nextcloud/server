@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Rivo Zängov <eraser@eraser.ee>, 2011, 2012.
+# Rivo Zängov <eraser@eraser.ee>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:13+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -30,57 +30,13 @@ msgstr "Pole kategooriat, mida lisada?"
 msgid "This category already exists: "
 msgstr "See kategooria on juba olemas: "
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Seaded"
 
-#: js/js.js:593
-msgid "January"
-msgstr "Jaanuar"
-
-#: js/js.js:593
-msgid "February"
-msgstr "Veebruar"
-
-#: js/js.js:593
-msgid "March"
-msgstr "Märts"
-
-#: js/js.js:593
-msgid "April"
-msgstr "Aprill"
-
-#: js/js.js:593
-msgid "May"
-msgstr "Mai"
-
-#: js/js.js:593
-msgid "June"
-msgstr "Juuni"
-
-#: js/js.js:594
-msgid "July"
-msgstr "Juuli"
-
-#: js/js.js:594
-msgid "August"
-msgstr "August"
-
-#: js/js.js:594
-msgid "September"
-msgstr "September"
-
-#: js/js.js:594
-msgid "October"
-msgstr "Oktoober"
-
-#: js/js.js:594
-msgid "November"
-msgstr "November"
-
-#: js/js.js:594
-msgid "December"
-msgstr "Detsember"
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr "Vali"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -102,9 +58,111 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Kustutamiseks pole kategooriat valitud."
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
+#: js/share.js:517
 msgid "Error"
 msgstr "Viga"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr "Viga jagamisel"
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr "Viga jagamise lõpetamisel"
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr "Viga õiguste muutmisel"
+
+#: js/share.js:130
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
+
+#: js/share.js:132
+msgid "Shared with you by {owner}"
+msgstr ""
+
+#: js/share.js:137
+msgid "Share with"
+msgstr "Jaga"
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr "Jaga lingiga"
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr "Parooliga kaitstud"
+
+#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
+msgid "Password"
+msgstr "Parool"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr "Määra aegumise kuupäev"
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr "Aegumise kuupäev"
+
+#: js/share.js:185
+msgid "Share via email:"
+msgstr "Jaga e-postiga:"
+
+#: js/share.js:187
+msgid "No people found"
+msgstr "Ühtegi inimest ei leitud"
+
+#: js/share.js:214
+msgid "Resharing is not allowed"
+msgstr ""
+
+#: js/share.js:250
+msgid "Shared in {item} with {user}"
+msgstr ""
+
+#: js/share.js:271
+msgid "Unshare"
+msgstr "Lõpeta jagamine"
+
+#: js/share.js:283
+msgid "can edit"
+msgstr "saab muuta"
+
+#: js/share.js:285
+msgid "access control"
+msgstr "ligipääsukontroll"
+
+#: js/share.js:288
+msgid "create"
+msgstr "loo"
+
+#: js/share.js:291
+msgid "update"
+msgstr "uuenda"
+
+#: js/share.js:294
+msgid "delete"
+msgstr "kustuta"
+
+#: js/share.js:297
+msgid "share"
+msgstr "jaga"
+
+#: js/share.js:322 js/share.js:492
+msgid "Password protected"
+msgstr "Parooliga kaitstud"
+
+#: js/share.js:505
+msgid "Error unsetting expiration date"
+msgstr ""
+
+#: js/share.js:517
+msgid "Error setting expiration date"
+msgstr ""
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -126,12 +184,12 @@ msgstr "Kohustuslik"
 msgid "Login failed!"
 msgstr "Sisselogimine ebaõnnestus!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Kasutajanimi"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Päringu taastamine"
 
@@ -187,72 +245,183 @@ msgstr "Muuda kategooriaid"
 msgid "Add"
 msgstr "Lisa"
 
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr "Turvahoiatus"
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Loo <strong>admini konto</strong>"
 
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr "Parool"
-
-#: templates/installation.php:36
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "Lisavalikud"
 
-#: templates/installation.php:38
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "Andmete kaust"
 
-#: templates/installation.php:45
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "Seadista andmebaasi"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "kasutatakse"
 
-#: templates/installation.php:93
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Andmebaasi kasutaja"
 
-#: templates/installation.php:97
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "Andmebaasi parool"
 
-#: templates/installation.php:101
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Andmebasi nimi"
 
-#: templates/installation.php:109
+#: templates/installation.php:121
 msgid "Database tablespace"
-msgstr ""
+msgstr "Andmebaasi tabeliruum"
 
-#: templates/installation.php:115
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Andmebaasi host"
 
-#: templates/installation.php:120
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "Lõpeta seadistamine"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "veebiteenused sinu kontrolli all"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:17
+msgid "Sunday"
+msgstr "Pühapäev"
+
+#: templates/layout.user.php:17
+msgid "Monday"
+msgstr "Esmaspäev"
+
+#: templates/layout.user.php:17
+msgid "Tuesday"
+msgstr "Teisipäev"
+
+#: templates/layout.user.php:17
+msgid "Wednesday"
+msgstr "Kolmapäev"
+
+#: templates/layout.user.php:17
+msgid "Thursday"
+msgstr "Neljapäev"
+
+#: templates/layout.user.php:17
+msgid "Friday"
+msgstr "Reede"
+
+#: templates/layout.user.php:17
+msgid "Saturday"
+msgstr "Laupäev"
+
+#: templates/layout.user.php:18
+msgid "January"
+msgstr "Jaanuar"
+
+#: templates/layout.user.php:18
+msgid "February"
+msgstr "Veebruar"
+
+#: templates/layout.user.php:18
+msgid "March"
+msgstr "Märts"
+
+#: templates/layout.user.php:18
+msgid "April"
+msgstr "Aprill"
+
+#: templates/layout.user.php:18
+msgid "May"
+msgstr "Mai"
+
+#: templates/layout.user.php:18
+msgid "June"
+msgstr "Juuni"
+
+#: templates/layout.user.php:18
+msgid "July"
+msgstr "Juuli"
+
+#: templates/layout.user.php:18
+msgid "August"
+msgstr "August"
+
+#: templates/layout.user.php:18
+msgid "September"
+msgstr "September"
+
+#: templates/layout.user.php:18
+msgid "October"
+msgstr "Oktoober"
+
+#: templates/layout.user.php:18
+msgid "November"
+msgstr "November"
+
+#: templates/layout.user.php:18
+msgid "December"
+msgstr "Detsember"
+
+#: templates/layout.user.php:38
 msgid "Log out"
 msgstr "Logi välja"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr ""
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr ""
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr ""
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "Kaotasid oma parooli?"
 
-#: templates/login.php:17
+#: templates/login.php:27
 msgid "remember"
 msgstr "pea meeles"
 
-#: templates/login.php:18
+#: templates/login.php:28
 msgid "Log in"
 msgstr "Logi sisse"
 
@@ -267,3 +436,17 @@ msgstr "eelm"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "järgm"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr "turvahoiatus!"
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr ""
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr "Kinnita"

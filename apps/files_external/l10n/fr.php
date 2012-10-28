@@ -1,4 +1,10 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Accès autorisé",
+"Error configuring Dropbox storage" => "Erreur lors de la configuration du support de stockage Dropbox",
+"Grant access" => "Autoriser l'accès",
+"Fill out all required fields" => "Veuillez remplir tous les champs requis",
+"Please provide a valid Dropbox app key and secret." => "Veuillez fournir une clé d'application (app key) ainsi qu'un mot de passe valides.",
+"Error configuring Google Drive storage" => "Erreur lors de la configuration du support de stockage Google Drive",
 "External Storage" => "Stockage externe",
 "Mount point" => "Point de montage",
 "Backend" => "Infrastructure",
@@ -11,8 +17,8 @@
 "Groups" => "Groupes",
 "Users" => "Utilisateurs",
 "Delete" => "Supprimer",
-"SSL root certificates" => "Certificats racine SSL",
-"Import Root Certificate" => "Importer un certificat racine",
 "Enable User External Storage" => "Activer le stockage externe pour les utilisateurs",
-"Allow users to mount their own external storage" => "Autoriser les utilisateurs à monter leur propre stockage externe"
+"Allow users to mount their own external storage" => "Autoriser les utilisateurs à monter leur propre stockage externe",
+"SSL root certificates" => "Certificats racine SSL",
+"Import Root Certificate" => "Importer un certificat racine"
 );

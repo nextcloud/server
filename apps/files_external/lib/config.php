@@ -109,6 +109,21 @@ class OC_Mount_Config {
 		return $personal;
 	}
 
+	/**
+	 * Add directory for mount point to the filesystem
+	 * @param OC_Fileview instance $view
+	 * @param string path to mount point
+	 */
+	private static function addMountPointDirectory($view, $path) {
+		$dir = '';
+		foreach ( explode('/', $path) as $pathPart) {
+			$dir = $dir.'/'.$pathPart;
+			if ( !$view->file_exists($dir)) {
+				$view->mkdir($dir);
+			}
+		}
+	}
+
 
 	/**
 	* Add a mount point to the filesystem
@@ -127,8 +142,33 @@ class OC_Mount_Config {
 			if ($applicable != OCP\User::getUser() || $class == 'OC_Filestorage_Local') {
 				return false;
 			}
+			$view = new OC_FilesystemView('/'.OCP\User::getUser().'/files');
+			self::addMountPointDirectory($view, ltrim($mountPoint, '/'));
 			$mountPoint = '/'.$applicable.'/files/'.ltrim($mountPoint, '/');
 		} else {
+			$view = new OC_FilesystemView('/');
+			switch ($mountType) {
+				case 'user':
+					if ($applicable == "all") {
+						$users = OCP\User::getUsers();
+						foreach ( $users as $user ) {
+							$path = $user.'/files/'.ltrim($mountPoint, '/');
+							self::addMountPointDirectory($view, $path);
+						}
+					} else {
+						$path = $applicable.'/files/'.ltrim($mountPoint, '/');
+						self::addMountPointDirectory($view, $path);
+					}
+					break;
+				case 'group' :
+					$groupMembers = OC_Group::usersInGroups(array($applicable));
+					foreach ( $groupMembers as $user ) {
+						$path =  $user.'/files/'.ltrim($mountPoint, '/');
+						self::addMountPointDirectory($view, $path);
+					}
+					break;
+			}
+
 			$mountPoint = '/$user/files/'.ltrim($mountPoint, '/');
 		}
 		$mount = array($applicable => array($mountPoint => array('class' => $class, 'options' => $classOptions)));
@@ -191,7 +231,7 @@ class OC_Mount_Config {
 			$file = OC::$SERVERROOT.'/config/mount.php';
 		}
 		if (is_file($file)) {
-			$mountPoints = include($file);
+			$mountPoints = include $file;
 			if (is_array($mountPoints)) {
 				return $mountPoints;
 			}
@@ -248,6 +288,9 @@ class OC_Mount_Config {
 		if (!is_dir($path)) mkdir($path);
 		$result = array();
 		$handle = opendir($path);
+		if (!$handle) {
+			return array();
+		}
 		while (false !== ($file = readdir($handle))) {
 			if($file != '.' && $file != '..') $result[] = $file;
 		}
@@ -270,6 +313,7 @@ class OC_Mount_Config {
 			fclose($fh);
 			if (strpos($data, 'BEGIN CERTIFICATE')) {
 				fwrite($fh_certs, $data);
+				fwrite($fh_certs, "\r\n");
 			}
 		}
 

@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined') {
+	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined'  && !publicListView) {
 		OC.Share.loadIcons('file');
 		FileActions.register('all', 'Share', OC.PERMISSION_READ, function(filename) {
 			// Return the correct sharing icon
@@ -39,26 +39,24 @@ $(document).ready(function() {
 			var tr = $('tr').filterAttr('data-file', filename);
 			if ($(tr).data('type') == 'dir') {
 				var itemType = 'folder';
-				var link = false;
 			} else {
 				var itemType = 'file';
-				var link = true;
 			}
 			var possiblePermissions = $(tr).data('permissions');
 			var appendTo = $(tr).find('td.filename');
 			// Check if drop down is already visible for a different file
 			if (OC.Share.droppedDown) {
-				if (item != $('#dropdown').data('item')) {
+				if ($(tr).data('id') != $('#dropdown').attr('data-item-source')) {
 					OC.Share.hideDropDown(function () {
 						$(tr).addClass('mouseOver');
-						OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, link, possiblePermissions);
+						OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions);
 					});
 				} else {
 					OC.Share.hideDropDown();
 				}
 			} else {
 				$(tr).addClass('mouseOver');
-				OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, link, possiblePermissions);
+				OC.Share.showDropDown(itemType, $(tr).data('id'), appendTo, true, possiblePermissions);
 			}
 		});
 	}

@@ -10,11 +10,11 @@ class Test_CryptStream extends UnitTestCase {
 	private $tmpFiles=array();
 
 	function testStream() {
-		$stream=$this->getStream('test1','w',strlen('foobar'));
+		$stream=$this->getStream('test1','w', strlen('foobar'));
 		fwrite($stream,'foobar');
 		fclose($stream);
 
-		$stream=$this->getStream('test1','r',strlen('foobar'));
+		$stream=$this->getStream('test1','r', strlen('foobar'));
 		$data=fread($stream,6);
 		fclose($stream);
 		$this->assertEqual('foobar',$data);
@@ -26,10 +26,10 @@ class Test_CryptStream extends UnitTestCase {
 		fclose($target);
 		fclose($source);
 
-		$stream=$this->getStream('test2','r',filesize($file));
+		$stream=$this->getStream('test2','r', filesize($file));
 		$data=stream_get_contents($stream);
 		$original=file_get_contents($file);
-		$this->assertEqual(strlen($original),strlen($data));
+		$this->assertEqual(strlen($original), strlen($data));
 		$this->assertEqual($original,$data);
 	}
 
@@ -59,27 +59,27 @@ class Test_CryptStream extends UnitTestCase {
 		$file=__DIR__.'/binary';
 		$source=file_get_contents($file);
 
-		$stream=$this->getStream('test','w',strlen($source));
+		$stream=$this->getStream('test','w', strlen($source));
 		fwrite($stream,$source);
 		fclose($stream);
 
-		$stream=$this->getStream('test','r',strlen($source));
+		$stream=$this->getStream('test','r', strlen($source));
 		$data=stream_get_contents($stream);
 		fclose($stream);
-		$this->assertEqual(strlen($data),strlen($source));
+		$this->assertEqual(strlen($data), strlen($source));
 		$this->assertEqual($source,$data);
 
 		$file=__DIR__.'/zeros';
 		$source=file_get_contents($file);
 
-		$stream=$this->getStream('test2','w',strlen($source));
+		$stream=$this->getStream('test2','w', strlen($source));
 		fwrite($stream,$source);
 		fclose($stream);
 
-		$stream=$this->getStream('test2','r',strlen($source));
+		$stream=$this->getStream('test2','r', strlen($source));
 		$data=stream_get_contents($stream);
 		fclose($stream);
-		$this->assertEqual(strlen($data),strlen($source));
+		$this->assertEqual(strlen($data), strlen($source));
 		$this->assertEqual($source,$data);
 	}
 }

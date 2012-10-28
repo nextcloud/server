@@ -5,13 +5,14 @@
 # Translators:
 #   <bury1000@gmail.com>, 2012.
 #   <joan@montane.cat>, 2012.
+#   <josep_tomas@hotmail.com>, 2012.
 #   <rcalvoi@yahoo.com>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-11 02:02+0200\n"
-"PO-Revision-Date: 2012-09-10 07:25+0000\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 06:05+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -62,94 +63,158 @@ msgstr "Deixa de compartir"
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: js/filelist.js:186 js/filelist.js:188
-msgid "already exists"
-msgstr "ja existeix"
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr "Reanomena"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:194 js/filelist.js:196
+msgid "{new_name} already exists"
+msgstr "{new_name} ja existeix"
+
+#: js/filelist.js:194 js/filelist.js:196
 msgid "replace"
 msgstr "substitueix"
 
-#: js/filelist.js:186
+#: js/filelist.js:194
 msgid "suggest name"
 msgstr "sugereix un nom"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:194 js/filelist.js:196
 msgid "cancel"
 msgstr "cancel·la"
 
-#: js/filelist.js:235 js/filelist.js:237
-msgid "replaced"
-msgstr "substituït"
+#: js/filelist.js:243
+msgid "replaced {new_name}"
+msgstr "s'ha substituït {new_name}"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
+#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
 msgid "undo"
 msgstr "desfés"
 
-#: js/filelist.js:237
-msgid "with"
-msgstr "per"
+#: js/filelist.js:245
+msgid "replaced {new_name} with {old_name}"
+msgstr "s'ha substituït {old_name} per {new_name}"
 
-#: js/filelist.js:268
-msgid "unshared"
-msgstr "No compartits"
+#: js/filelist.js:277
+msgid "unshared {files}"
+msgstr "no compartits {files}"
 
-#: js/filelist.js:270
-msgid "deleted"
-msgstr "esborrat"
+#: js/filelist.js:279
+msgid "deleted {files}"
+msgstr "eliminats {files}"
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "s'estan generant fitxers ZIP, pot trigar una estona."
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "No es pot pujar el fitxer perquè és una carpeta o té 0 bytes"
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Upload Error"
 msgstr "Error en la pujada"
 
-#: js/files.js:236 js/files.js:341 js/files.js:370
+#: js/files.js:242 js/files.js:347 js/files.js:377
 msgid "Pending"
 msgstr "Pendents"
 
-#: js/files.js:355
+#: js/files.js:262
+msgid "1 file uploading"
+msgstr "1 fitxer pujant"
+
+#: js/files.js:265 js/files.js:310 js/files.js:325
+msgid "{count} files uploading"
+msgstr "{count} fitxers en pujada"
+
+#: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
 msgstr "La pujada s'ha cancel·lat."
 
-#: js/files.js:423
+#: js/files.js:430
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà."
 
-#: js/files.js:493
+#: js/files.js:500
 msgid "Invalid name, '/' is not allowed."
 msgstr "El nom no és vàlid, no es permet '/'."
 
-#: js/files.js:746 templates/index.php:56
+#: js/files.js:681
+msgid "{count} files scanned"
+msgstr "{count} fitxers escannejats"
+
+#: js/files.js:689
+msgid "error while scanning"
+msgstr "error durant l'escaneig"
+
+#: js/files.js:762 templates/index.php:48
+msgid "Name"
+msgstr "Nom"
+
+#: js/files.js:763 templates/index.php:56
 msgid "Size"
 msgstr "Mida"
 
-#: js/files.js:747 templates/index.php:58
+#: js/files.js:764 templates/index.php:58
 msgid "Modified"
 msgstr "Modificat"
 
-#: js/files.js:774
-msgid "folder"
-msgstr "carpeta"
+#: js/files.js:791
+msgid "1 folder"
+msgstr "1 carpeta"
 
-#: js/files.js:776
-msgid "folders"
-msgstr "carpetes"
+#: js/files.js:793
+msgid "{count} folders"
+msgstr "{count} carpetes"
 
-#: js/files.js:784
-msgid "file"
-msgstr "fitxer"
+#: js/files.js:801
+msgid "1 file"
+msgstr "1 fitxer"
 
-#: js/files.js:786
-msgid "files"
-msgstr "fitxers"
+#: js/files.js:803
+msgid "{count} files"
+msgstr "{count} fitxers"
+
+#: js/files.js:846
+msgid "seconds ago"
+msgstr "segons enrere"
+
+#: js/files.js:847
+msgid "1 minute ago"
+msgstr "fa 1 minut"
+
+#: js/files.js:848
+msgid "{minutes} minutes ago"
+msgstr "fa {minutes} minuts"
+
+#: js/files.js:851
+msgid "today"
+msgstr "avui"
+
+#: js/files.js:852
+msgid "yesterday"
+msgstr "ahir"
+
+#: js/files.js:853
+msgid "{days} days ago"
+msgstr "fa {days} dies"
+
+#: js/files.js:854
+msgid "last month"
+msgstr "el mes passat"
+
+#: js/files.js:856
+msgid "months ago"
+msgstr "mesos enrere"
+
+#: js/files.js:857
+msgid "last year"
+msgstr "l'any passat"
+
+#: js/files.js:858
+msgid "years ago"
+msgstr "anys enrere"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -199,7 +264,7 @@ msgstr "Carpeta"
 msgid "From url"
 msgstr "Des de la url"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Puja"
 
@@ -210,10 +275,6 @@ msgstr "Cancel·la la pujada"
 #: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Res per aquí. Pugeu alguna cosa!"
-
-#: templates/index.php:48
-msgid "Name"
-msgstr "Nom"
 
 #: templates/index.php:50
 msgid "Share"

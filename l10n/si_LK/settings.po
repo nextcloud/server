@@ -1,0 +1,323 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Anushke Guneratne <anushke@gmail.com>, 2012.
+# Chamara Disanayake <chamara@nic.lk>, 2012.
+#   <thanojar@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-10-27 00:01+0200\n"
+"PO-Revision-Date: 2012-10-26 08:03+0000\n"
+"Last-Translator: Chamara Disanayake <chamara@nic.lk>\n"
+"Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: si_LK\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/apps/ocs.php:23
+msgid "Unable to load list from App Store"
+msgstr ""
+
+#: ajax/creategroup.php:12
+msgid "Group already exists"
+msgstr "කණ්ඩායම දැනටමත් තිබේ"
+
+#: ajax/creategroup.php:21
+msgid "Unable to add group"
+msgstr "කාණඩයක් එක් කළ නොහැකි විය"
+
+#: ajax/enableapp.php:14
+msgid "Could not enable app. "
+msgstr "යෙදුම සක්‍රීය කළ නොහැකි විය."
+
+#: ajax/lostpassword.php:14
+msgid "Email saved"
+msgstr ""
+
+#: ajax/lostpassword.php:16
+msgid "Invalid email"
+msgstr ""
+
+#: ajax/openid.php:16
+msgid "OpenID Changed"
+msgstr ""
+
+#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+msgid "Invalid request"
+msgstr "අවලංගු අයදුම"
+
+#: ajax/removegroup.php:16
+msgid "Unable to delete group"
+msgstr "කණ්ඩායම මැකීමට නොහැක"
+
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr ""
+
+#: ajax/removeuser.php:27
+msgid "Unable to delete user"
+msgstr "පරිශීලකයා මැකීමට නොහැක"
+
+#: ajax/setlanguage.php:18
+msgid "Language changed"
+msgstr "භාෂාව ාවනස් කිරීම"
+
+#: ajax/togglegroups.php:25
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr "පරිශීලකයා %s කණ්ඩායමට එකතු කළ නොහැක"
+
+#: ajax/togglegroups.php:31
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr "පරිශීලකයා %s කණ්ඩායමින් ඉවත් කළ නොහැක"
+
+#: js/apps.js:28 js/apps.js:67
+msgid "Disable"
+msgstr "අක්‍රිය කරන්න"
+
+#: js/apps.js:28 js/apps.js:55
+msgid "Enable"
+msgstr "ක්‍රියත්මක කරන්න"
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr "සුරැකෙමින් පවතී..."
+
+#: personal.php:42 personal.php:43
+msgid "__language_name__"
+msgstr ""
+
+#: templates/admin.php:14
+msgid "Security Warning"
+msgstr ""
+
+#: templates/admin.php:17
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/admin.php:31
+msgid "Cron"
+msgstr ""
+
+#: templates/admin.php:37
+msgid "Execute one task with each page loaded"
+msgstr ""
+
+#: templates/admin.php:43
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr ""
+
+#: templates/admin.php:49
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr ""
+
+#: templates/admin.php:56
+msgid "Sharing"
+msgstr "හුවමාරු කිරීම"
+
+#: templates/admin.php:61
+msgid "Enable Share API"
+msgstr ""
+
+#: templates/admin.php:62
+msgid "Allow apps to use the Share API"
+msgstr ""
+
+#: templates/admin.php:67
+msgid "Allow links"
+msgstr "යොමු සලසන්න"
+
+#: templates/admin.php:68
+msgid "Allow users to share items to the public with links"
+msgstr ""
+
+#: templates/admin.php:73
+msgid "Allow resharing"
+msgstr "යළි යළිත් හුවමාරුවට අවසර දෙමි"
+
+#: templates/admin.php:74
+msgid "Allow users to share items shared with them again"
+msgstr "හුවමාරු කළ  හුවමාරුවට අවසර දෙමි"
+
+#: templates/admin.php:79
+msgid "Allow users to share with anyone"
+msgstr "ඕනෑම අයෙකු හා හුවමාරුවට අවසර දෙමි"
+
+#: templates/admin.php:81
+msgid "Allow users to only share with users in their groups"
+msgstr "තම කණ්ඩායමේ අයෙකු හා පමණක් හුවමාරුවට අවසර දෙමි"
+
+#: templates/admin.php:88
+msgid "Log"
+msgstr "ලඝුව"
+
+#: templates/admin.php:116
+msgid "More"
+msgstr "තවත්"
+
+#: templates/admin.php:124
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr ""
+
+#: templates/apps.php:10
+msgid "Add your App"
+msgstr "යෙදුමක් එක් කිරීම"
+
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "තවත් යෙදුම්"
+
+#: templates/apps.php:27
+msgid "Select an App"
+msgstr "යෙදුමක් තොරන්න"
+
+#: templates/apps.php:31
+msgid "See application page at apps.owncloud.com"
+msgstr ""
+
+#: templates/apps.php:32
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr ""
+
+#: templates/help.php:9
+msgid "Documentation"
+msgstr "ලේඛන"
+
+#: templates/help.php:10
+msgid "Managing Big Files"
+msgstr "විශාල ගොනු කළමණාකරනය"
+
+#: templates/help.php:11
+msgid "Ask a question"
+msgstr "ප්‍රශ්ණයක් අසන්න"
+
+#: templates/help.php:23
+msgid "Problems connecting to help database."
+msgstr "උදව් දත්ත ගබඩාව හා සම්බන්ධවීමේදී ගැටළු ඇතිවිය."
+
+#: templates/help.php:24
+msgid "Go there manually."
+msgstr ""
+
+#: templates/help.php:32
+msgid "Answer"
+msgstr "පිළිතුර"
+
+#: templates/personal.php:8
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "ඔබ  <strong>%s</strong>ක් භාවිතා කර ඇත. මුළු ප්‍රමාණය  <strong>%s</strong>කි"
+
+#: templates/personal.php:12
+msgid "Desktop and Mobile Syncing Clients"
+msgstr ""
+
+#: templates/personal.php:13
+msgid "Download"
+msgstr "භාගත කරන්න"
+
+#: templates/personal.php:19
+msgid "Your password was changed"
+msgstr "ඔබගේ මුර පදය වෙනස් කෙරුණි"
+
+#: templates/personal.php:20
+msgid "Unable to change your password"
+msgstr "මුර පදය වෙනස් කළ නොහැකි විය"
+
+#: templates/personal.php:21
+msgid "Current password"
+msgstr "නූතන මුරපදය"
+
+#: templates/personal.php:22
+msgid "New password"
+msgstr "නව මුරපදය"
+
+#: templates/personal.php:23
+msgid "show"
+msgstr "ප්‍රදර්ශනය කිරීම"
+
+#: templates/personal.php:24
+msgid "Change password"
+msgstr "මුරපදය වෙනස් කිරීම"
+
+#: templates/personal.php:30
+msgid "Email"
+msgstr "විද්‍යුත් තැපෑල"
+
+#: templates/personal.php:31
+msgid "Your email address"
+msgstr "ඔබගේ විද්‍යුත් තැපෑල"
+
+#: templates/personal.php:32
+msgid "Fill in an email address to enable password recovery"
+msgstr "මුරපද ප්‍රතිස්ථාපනය සඳහා විද්‍යුත් තැපැල් විස්තර ලබා දෙන්න"
+
+#: templates/personal.php:38 templates/personal.php:39
+msgid "Language"
+msgstr "භාෂාව"
+
+#: templates/personal.php:44
+msgid "Help translate"
+msgstr "පරිවර්ථන සහය"
+
+#: templates/personal.php:51
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr ""
+
+#: templates/users.php:21 templates/users.php:76
+msgid "Name"
+msgstr "නාමය"
+
+#: templates/users.php:23 templates/users.php:77
+msgid "Password"
+msgstr "මුරපදය"
+
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+msgid "Groups"
+msgstr "සමූහය"
+
+#: templates/users.php:32
+msgid "Create"
+msgstr "තනනවා"
+
+#: templates/users.php:35
+msgid "Default Quota"
+msgstr ""
+
+#: templates/users.php:55 templates/users.php:138
+msgid "Other"
+msgstr "වෙනත්"
+
+#: templates/users.php:80 templates/users.php:112
+msgid "Group Admin"
+msgstr "කාණ්ඩ පරිපාලක"
+
+#: templates/users.php:82
+msgid "Quota"
+msgstr "සලාකය"
+
+#: templates/users.php:146
+msgid "Delete"
+msgstr "මකා දමනවා"

@@ -3,23 +3,24 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <mr.pige_ina@yahoo.co.id>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-29 02:01+0200\n"
-"PO-Revision-Date: 2012-08-29 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-22 02:02+0200\n"
+"PO-Revision-Date: 2012-10-21 05:36+0000\n"
+"Last-Translator: elmakong <mr.pige_ina@yahoo.co.id>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: id\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: templates/settings.php:8
 msgid "Host"
-msgstr ""
+msgstr "host"
 
 #: templates/settings.php:8
 msgid ""
@@ -47,7 +48,7 @@ msgstr ""
 
 #: templates/settings.php:11
 msgid "Password"
-msgstr ""
+msgstr "kata kunci"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
@@ -55,7 +56,7 @@ msgstr ""
 
 #: templates/settings.php:12
 msgid "User Login Filter"
-msgstr ""
+msgstr "gunakan saringan login"
 
 #: templates/settings.php:12
 #, php-format
@@ -83,7 +84,7 @@ msgstr ""
 
 #: templates/settings.php:14
 msgid "Group Filter"
-msgstr ""
+msgstr "saringan grup"
 
 #: templates/settings.php:14
 msgid "Defines the filter to apply, when retrieving groups."
@@ -95,7 +96,7 @@ msgstr ""
 
 #: templates/settings.php:17
 msgid "Port"
-msgstr ""
+msgstr "port"
 
 #: templates/settings.php:18
 msgid "Base User Tree"
@@ -111,11 +112,11 @@ msgstr ""
 
 #: templates/settings.php:21
 msgid "Use TLS"
-msgstr ""
+msgstr "gunakan TLS"
 
 #: templates/settings.php:21
 msgid "Do not use it for SSL connections, it will fail."
-msgstr ""
+msgstr "jangan gunakan untuk koneksi SSL, itu akan gagal."
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
@@ -123,7 +124,7 @@ msgstr ""
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "matikan validasi sertivikat SSL"
 
 #: templates/settings.php:23
 msgid ""
@@ -133,7 +134,7 @@ msgstr ""
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "tidak disarankan, gunakan hanya untuk pengujian."
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
@@ -153,11 +154,11 @@ msgstr ""
 
 #: templates/settings.php:27
 msgid "in bytes"
-msgstr ""
+msgstr "dalam bytes"
 
 #: templates/settings.php:29
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "dalam detik. perubahan mengosongkan cache"
 
 #: templates/settings.php:30
 msgid ""
@@ -167,4 +168,4 @@ msgstr ""
 
 #: templates/settings.php:32
 msgid "Help"
-msgstr ""
+msgstr "bantuan"

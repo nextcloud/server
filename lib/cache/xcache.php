@@ -44,6 +44,12 @@ class OC_Cache_XCache {
 	}
 
 	public function clear($prefix='') {
+		if(!function_exists('xcache_unset_by_prefix')) {
+			function xcache_unset_by_prefix($prefix) {
+				// Since we can't clear targetted cache, we'll clear all. :(
+				xcache_clear_cache(XC_TYPE_VAR, 0);
+			}
+		}
 		xcache_unset_by_prefix($this->getNamespace().$prefix);
 		return true;
 	}

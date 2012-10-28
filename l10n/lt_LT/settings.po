@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <andrejuszl@gmail.com>, 2012.
 # Dr. ROX  <to.dr.rox@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:03+0200\n"
-"PO-Revision-Date: 2012-09-17 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-23 02:02+0200\n"
+"PO-Revision-Date: 2012-10-22 20:52+0000\n"
+"Last-Translator: andrejuseu <andrejuszl@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,22 +23,17 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Neįmanoma įkelti sąrašo iš Programų Katalogo"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr ""
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr ""
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr ""
 
-#: ajax/enableapp.php:13
+#: ajax/enableapp.php:14
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Nepavyksta įjungti aplikacijos."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -59,7 +55,11 @@ msgstr "Klaidinga užklausa"
 msgid "Unable to delete group"
 msgstr ""
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr ""
+
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr ""
 
@@ -77,15 +77,11 @@ msgstr ""
 msgid "Unable to remove user from group %s"
 msgstr ""
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "Klaida"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "Išjungti"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "Įjungti"
 
@@ -93,7 +89,7 @@ msgstr "Įjungti"
 msgid "Saving..."
 msgstr "Saugoma.."
 
-#: personal.php:46 personal.php:47
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "Kalba"
 
@@ -132,7 +128,7 @@ msgstr ""
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "Dalijimasis"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
@@ -188,17 +184,21 @@ msgstr ""
 msgid "Add your App"
 msgstr "Pridėti programėlę"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Daugiau aplikacijų"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Pasirinkite programą"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr ""
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>- autorius<span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"
@@ -225,12 +225,9 @@ msgid "Answer"
 msgstr "Atsakyti"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Jūs naudojate"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "iš galimų"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "Jūs panaudojote <strong>%s</strong> iš galimų <strong>%s<strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -241,7 +238,7 @@ msgid "Download"
 msgstr "Atsisiųsti"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
+msgid "Your password was changed"
 msgstr "Jūsų slaptažodis buvo pakeistas"
 
 #: templates/personal.php:20

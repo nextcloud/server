@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <>, 2012.
 # Peter Peroša <peter.perosa@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-16 02:04+0200\n"
-"PO-Revision-Date: 2012-08-15 00:19+0000\n"
-"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
+"POT-Creation-Date: 2012-10-23 02:02+0200\n"
+"PO-Revision-Date: 2012-10-22 16:57+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #: templates/settings.php:3
 msgid "Encryption"
@@ -24,7 +25,7 @@ msgstr "Šifriranje"
 
 #: templates/settings.php:4
 msgid "Exclude the following file types from encryption"
-msgstr "Naslednje vrste datotek naj se ne šifrirajo"
+msgstr "Navedene vrste datotek naj ne bodo šifrirane"
 
 #: templates/settings.php:5
 msgid "None"

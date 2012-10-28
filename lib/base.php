@@ -76,11 +76,14 @@ class OC{
 	 */
 	public static function autoload($className) {
 		if(array_key_exists($className, OC::$CLASSPATH)) {
+			$path = OC::$CLASSPATH[$className];
 			/** @TODO: Remove this when necessary
 			 Remove "apps/" from inclusion path for smooth migration to mutli app dir
 			*/
-			$path = str_replace('apps/', '', OC::$CLASSPATH[$className]);
-			require_once $path;
+			if (strpos($path, 'apps/')===0) {
+				OC_Log::write('core', 'include path for class "'.$className.'" starts with "apps/"', OC_Log::DEBUG);
+				$path = str_replace('apps/', '', $path);
+			}
 		}
 		elseif(strpos($className, 'OC_')===0) {
 			$path = strtolower(str_replace('_', '/', substr($className, 3)) . '.php');
@@ -105,14 +108,14 @@ class OC{
 		}
 
 		if($fullPath = stream_resolve_include_path($path)) {
-			require_once $path;
+			require_once $fullPath;
 		}
 		return false;
 	}
 
 	public static function initPaths() {
 		// calculate the root directories
-		OC::$SERVERROOT=str_replace("\\", '/', substr(__FILE__, 0, -13));
+		OC::$SERVERROOT=str_replace("\\", '/', substr(__DIR__, 0, -4));
 		OC::$SUBURI= str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
 		$scriptName=$_SERVER["SCRIPT_NAME"];
 		if(substr($scriptName, -1)=='/') {
@@ -181,7 +184,7 @@ class OC{
 			OC::$SERVERROOT.'/lib'.PATH_SEPARATOR.
 			OC::$SERVERROOT.'/config'.PATH_SEPARATOR.
 			OC::$THIRDPARTYROOT.'/3rdparty'.PATH_SEPARATOR.
-			implode($paths,PATH_SEPARATOR).PATH_SEPARATOR.
+			implode($paths, PATH_SEPARATOR).PATH_SEPARATOR.
 			get_include_path().PATH_SEPARATOR.
 			OC::$SERVERROOT
 		);
@@ -201,6 +204,7 @@ class OC{
 	public static function checkSSL() {
 		// redirect to https site if configured
 		if( OC_Config::getValue( "forcessl", false )) {
+			header('Strict-Transport-Security: max-age=31536000');
 			ini_set("session.cookie_secure", "on");
 			if(OC_Request::serverProtocol()<>'https' and !OC::$CLI) {
 				$url = "https://". OC_Request::serverHost() . $_SERVER['REQUEST_URI'];
@@ -248,6 +252,8 @@ class OC{
 		OC_Util::addScript( "jquery-tipsy" );
 		OC_Util::addScript( "oc-dialogs" );
 		OC_Util::addScript( "js" );
+		// request protection token MUST be defined after the jquery library but before any $('document').ready()
+		OC_Util::addScript( "requesttoken" );
 		OC_Util::addScript( "eventsource" );
 		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );
@@ -266,8 +272,30 @@ class OC{
 	}
 
 	public static function initSession() {
+		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', '1;');
+
+		// (re)-initialize session
 		session_start();
+		
+		// regenerate session id periodically to avoid session fixation
+		if (!isset($_SESSION['SID_CREATED'])) {
+			$_SESSION['SID_CREATED'] = time();
+		} else if (time() - $_SESSION['SID_CREATED'] > 900) {
+			session_regenerate_id(true);
+			$_SESSION['SID_CREATED'] = time();
+		}
+
+		// session timeout
+		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 3600)) {
+			if (isset($_COOKIE[session_name()])) {
+				setcookie(session_name(), '', time() - 42000, '/');
+			}
+			session_unset();
+			session_destroy();
+			session_start();
+		}
+		$_SESSION['LAST_ACTIVITY'] = time();
 	}
 
 	public static function loadapp(){
@@ -322,7 +350,7 @@ class OC{
 		ini_set('arg_separator.output', '&amp;');
 
 		// try to switch magic quotes off.
-		if(function_exists('set_magic_quotes_runtime')) {
+		if(get_magic_quotes_gpc()) {
 			@set_magic_quotes_runtime(false);
 		}
 
@@ -346,19 +374,23 @@ class OC{
 
 		//set http auth headers for apache+php-cgi work around
 		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
-			list($name, $password) = explode(':', base64_decode($matches[1]));
+			list($name, $password) = explode(':', base64_decode($matches[1]), 2);
 			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
 			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
 		}
 
 		//set http auth headers for apache+php-cgi work around if variable gets renamed by apache
 		if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches)) {
-			list($name, $password) = explode(':', base64_decode($matches[1]));
+			list($name, $password) = explode(':', base64_decode($matches[1]), 2);
 			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
 			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
 		}
 
 		self::initPaths();
+
+		register_shutdown_function(array('OC_Log', 'onShutdown'));
+		set_error_handler(array('OC_Log', 'onError'));
+		set_exception_handler(array('OC_Log', 'onException'));
 
 		// set debug mode if an xdebug session is active
 		if (!defined('DEBUG') || !DEBUG) {
@@ -392,6 +424,10 @@ class OC{
 
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
+
+		if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SESSION['user_id']) && $_SERVER['PHP_AUTH_USER'] != $_SESSION['user_id']) {
+			OC_User::logout();
+		}
 
 		// Load Apps
 		// This includes plugins for users and filesystems as well
@@ -482,6 +518,7 @@ class OC{
 			OC_App::loadApps();
 			OC_User::setupBackends();
 			if(isset($_GET["logout"]) and ($_GET["logout"])) {
+				OC_Preferences::deleteKey(OC_User::getUser(), 'login_token', $_COOKIE['oc_token']);
 				OC_User::logout();
 				header("Location: ".OC::$WEBROOT.'/');
 			}else{
@@ -527,20 +564,31 @@ class OC{
 
 	protected static function handleLogin() {
 		OC_App::loadApps(array('prelogin'));
-		$error = false;
+		$error = array();
 		// remember was checked after last login
 		if (OC::tryRememberLogin()) {
-			// nothing more to do
+			$error[] = 'invalidcookie';
 
 		// Someone wants to log in :
 		} elseif (OC::tryFormLogin()) {
-			$error = true;
+			$error[] = 'invalidpassword';
 
 		// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
 		} elseif (OC::tryBasicAuthLogin()) {
-			$error = true;
+			$error[] = 'invalidpassword';
 		}
-		OC_Util::displayLoginPage($error);
+		OC_Util::displayLoginPage(array_unique($error));
+	}
+
+	protected static function cleanupLoginTokens($user) {
+		$cutoff = time() - OC_Config::getValue('remember_login_cookie_lifetime', 60*60*24*15);
+		$tokens = OC_Preferences::getKeys($user, 'login_token');
+		foreach($tokens as $token) {
+			$time = OC_Preferences::getValue($user, 'login_token', $token);
+			if ($time < $cutoff) {
+				OC_Preferences::deleteKey($user, 'login_token', $token);
+			}
+		}
 	}
 
 	protected static function tryRememberLogin() {
@@ -556,24 +604,35 @@ class OC{
 			OC_Log::write('core', 'Trying to login from cookie', OC_Log::DEBUG);
 		}
 		// confirm credentials in cookie
-		if(isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username']) &&
-			OC_Preferences::getValue($_COOKIE['oc_username'], "login", "token") === $_COOKIE['oc_token'])
-		{
-			OC_User::setUserId($_COOKIE['oc_username']);
-			OC_Util::redirectToDefaultPage();
+		if(isset($_COOKIE['oc_token']) && OC_User::userExists($_COOKIE['oc_username'])) {
+			// delete outdated cookies
+			self::cleanupLoginTokens($_COOKIE['oc_username']);
+			// get stored tokens
+			$tokens = OC_Preferences::getKeys($_COOKIE['oc_username'], 'login_token');
+			// test cookies token against stored tokens
+			if (in_array($_COOKIE['oc_token'], $tokens, true)) {
+				// replace successfully used token with a new one
+				OC_Preferences::deleteKey($_COOKIE['oc_username'], 'login_token', $_COOKIE['oc_token']);
+				$token = OC_Util::generate_random_bytes(32);
+				OC_Preferences::setValue($_COOKIE['oc_username'], 'login_token', $token, time());
+				OC_User::setMagicInCookie($_COOKIE['oc_username'], $token);
+				// login
+				OC_User::setUserId($_COOKIE['oc_username']);
+				OC_Util::redirectToDefaultPage();
+				// doesn't return
+			}
+			// if you reach this point you have changed your password 
+			// or you are an attacker
+			// we can not delete tokens here because users may reach 
+			// this point multiple times after a password change
+			OC_Log::write('core', 'Authentication cookie rejected for user '.$_COOKIE['oc_username'], OC_Log::WARN);
 		}
-		else {
-			OC_User::unsetMagicInCookie();
-		}
+		OC_User::unsetMagicInCookie();
 		return true;
 	}
 
 	protected static function tryFormLogin() {
-		if(!isset($_POST["user"])
-		|| !isset($_POST['password'])
-		|| !isset($_SESSION['sectoken'])
-		|| !isset($_POST['sectoken'])
-		|| ($_SESSION['sectoken']!=$_POST['sectoken']) ) {
+		if(!isset($_POST["user"]) || !isset($_POST['password'])) {
 			return false;
 		}
 
@@ -583,18 +642,20 @@ class OC{
 		OC_User::setupBackends();
 
 		if(OC_User::login($_POST["user"], $_POST["password"])) {
+			self::cleanupLoginTokens($_POST['user']);
 			if(!empty($_POST["remember_login"])) {
 				if(defined("DEBUG") && DEBUG) {
 					OC_Log::write('core', 'Setting remember login to cookie', OC_Log::DEBUG);
 				}
-				$token = md5($_POST["user"].time().$_POST['password']);
-				OC_Preferences::setValue($_POST['user'], 'login', 'token', $token);
+				$token = OC_Util::generate_random_bytes(32);
+				OC_Preferences::setValue($_POST['user'], 'login_token', $token, time());
 				OC_User::setMagicInCookie($_POST["user"], $token);
 			}
 			else {
 				OC_User::unsetMagicInCookie();
 			}
-			OC_Util::redirectToDefaultPage();
+			header( 'Location: '.$_SERVER['REQUEST_URI'] );
+			exit();
 		}
 		return true;
 	}

@@ -8,12 +8,11 @@ if(!OC_User::isLoggedIn()) {
 }
 
 session_write_close();
-
 // Get the params
-$dir = isset( $_REQUEST['dir'] ) ? stripslashes($_REQUEST['dir']) : '';
-$filename = isset( $_REQUEST['filename'] ) ? stripslashes($_REQUEST['filename']) : '';
+$dir = isset( $_REQUEST['dir'] ) ? '/'.trim($_REQUEST['dir'], '/\\') : '';
+$filename = isset( $_REQUEST['filename'] ) ? trim($_REQUEST['filename'], '/\\') : '';
 $content = isset( $_REQUEST['content'] ) ? $_REQUEST['content'] : '';
-$source = isset( $_REQUEST['source'] ) ? stripslashes($_REQUEST['source']) : '';
+$source = isset( $_REQUEST['source'] ) ? trim($_REQUEST['source'], '/\\') : '';
 
 if($source) {
 	$eventSource=new OC_EventSource();
@@ -66,8 +65,10 @@ if($source) {
 	$target=$dir.'/'.$filename;
 	$result=OC_Filesystem::file_put_contents($target, $sourceStream);
 	if($result) {
-		$mime=OC_Filesystem::getMimetype($target);
-		$eventSource->send('success', array('mime'=>$mime, 'size'=>OC_Filesystem::filesize($target)));
+		$meta = OC_FileCache::get($target);
+		$mime=$meta['mimetype'];
+		$id = OC_FileCache::getId($target);
+		$eventSource->send('success', array('mime'=>$mime, 'size'=>OC_Filesystem::filesize($target), 'id' => $id));
 	} else {
 		$eventSource->send('error', "Error while downloading ".$source. ' to '.$target);
 	}
@@ -76,11 +77,15 @@ if($source) {
 } else {
 	if($content) {
 		if(OC_Filesystem::file_put_contents($dir.'/'.$filename, $content)) {
-			OCP\JSON::success(array("data" => array('content'=>$content)));
+			$meta = OC_FileCache::get($dir.'/'.$filename);
+			$id = OC_FileCache::getId($dir.'/'.$filename);
+			OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
 			exit();
 		}
 	}elseif(OC_Files::newFile($dir, $filename, 'file')) {
-		OCP\JSON::success(array("data" => array('content'=>$content)));
+		$meta = OC_FileCache::get($dir.'/'.$filename);
+		$id = OC_FileCache::getId($dir.'/'.$filename);
+		OCP\JSON::success(array("data" => array('content'=>$content, 'id' => $id)));
 		exit();
 	}
 }

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-07 02:04+0200\n"
-"PO-Revision-Date: 2012-09-06 05:03+0000\n"
+"POT-Creation-Date: 2012-10-04 02:04+0200\n"
+"PO-Revision-Date: 2012-10-03 05:50+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
+msgid "Access granted"
+msgstr "Accesso consentito"
+
+#: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
+msgid "Error configuring Dropbox storage"
+msgstr "Errore durante la configurazione dell'archivio Dropbox"
+
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+msgid "Grant access"
+msgstr "Concedi l'accesso"
+
+#: js/dropbox.js:73 js/google.js:72
+msgid "Fill out all required fields"
+msgstr "Compila tutti i campi richiesti"
+
+#: js/dropbox.js:85
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr "Fornisci chiave di applicazione e segreto di Dropbox validi."
+
+#: js/google.js:26 js/google.js:73 js/google.js:78
+msgid "Error configuring Google Drive storage"
+msgstr "Errore durante la configurazione dell'archivio Google Drive"
 
 #: templates/settings.php:3
 msgid "External Storage"
@@ -63,22 +87,22 @@ msgstr "Gruppi"
 msgid "Users"
 msgstr "Utenti"
 
-#: templates/settings.php:77 templates/settings.php:96
+#: templates/settings.php:77 templates/settings.php:107
 msgid "Delete"
 msgstr "Elimina"
 
-#: templates/settings.php:88
-msgid "SSL root certificates"
-msgstr "Certificati SSL radice"
-
-#: templates/settings.php:102
-msgid "Import Root Certificate"
-msgstr "Importa certificato radice"
-
-#: templates/settings.php:108
+#: templates/settings.php:87
 msgid "Enable User External Storage"
 msgstr "Abilita la memoria esterna dell'utente"
 
-#: templates/settings.php:109
+#: templates/settings.php:88
 msgid "Allow users to mount their own external storage"
 msgstr "Consenti agli utenti di montare la propria memoria esterna"
+
+#: templates/settings.php:99
+msgid "SSL root certificates"
+msgstr "Certificati SSL radice"
+
+#: templates/settings.php:113
+msgid "Import Root Certificate"
+msgstr "Importa certificato radice"

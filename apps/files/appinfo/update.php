@@ -1,13 +1,15 @@
 <?php
 
-// fix webdav properties, remove namespace information between curly bracket (update from OC4 to OC5)
+// fix webdav properties,add namespace in front of the property, update for OC4.5
 $installedVersion=OCP\Config::getAppValue('files', 'installed_version');
-if (version_compare($installedVersion, '1.1.4', '<')) {
+if (version_compare($installedVersion, '1.1.6', '<')) {
 	$query = OC_DB::prepare( "SELECT `propertyname`, `propertypath`, `userid` FROM `*PREFIX*properties`" );
 	$result = $query->execute();
-	while( $row = $result->fetchRow()) {
-		$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertyname` = ? WHERE `userid` = ? AND `propertypath` = ?' );
-		$query->execute( array( preg_replace("/^{.*}/", "", $row["propertyname"]),$row["userid"], $row["propertypath"] ));
+	while( $row = $result->fetchRow()){
+		if ( $row["propertyname"][0] != '{' ) {
+			$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertyname` = ? WHERE `userid` = ? AND `propertypath` = ?' );
+			$query->execute( array( '{DAV:}' + $row["propertyname"], $row["userid"], $row["propertypath"] ));
+		}
 	}
 }
 

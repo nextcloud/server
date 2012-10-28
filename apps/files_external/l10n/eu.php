@@ -1,4 +1,10 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Sarrera baimendua",
+"Error configuring Dropbox storage" => "Errore bat egon da Dropbox biltegiratzea konfiguratzean",
+"Grant access" => "Baimendu sarrera",
+"Fill out all required fields" => "Bete eskatutako eremu guztiak",
+"Please provide a valid Dropbox app key and secret." => "Mesedez eman baliozkoa den Dropbox app giltza eta sekretua",
+"Error configuring Google Drive storage" => "Errore bat egon da Google Drive biltegiratzea konfiguratzean",
 "External Storage" => "Kanpoko Biltegiratzea",
 "Mount point" => "Montatze puntua",
 "Backend" => "Motorra",
@@ -11,8 +17,8 @@
 "Groups" => "Taldeak",
 "Users" => "Erabiltzaileak",
 "Delete" => "Ezabatu",
-"SSL root certificates" => "SSL erro ziurtagiriak",
-"Import Root Certificate" => "Inportatu Erro Ziurtagiria",
 "Enable User External Storage" => "Gaitu erabiltzaileentzako Kanpo Biltegiratzea",
-"Allow users to mount their own external storage" => "Baimendu erabiltzaileak bere kanpo biltegiratzeak muntatzen"
+"Allow users to mount their own external storage" => "Baimendu erabiltzaileak bere kanpo biltegiratzeak muntatzen",
+"SSL root certificates" => "SSL erro ziurtagiriak",
+"Import Root Certificate" => "Inportatu Erro Ziurtagiria"
 );

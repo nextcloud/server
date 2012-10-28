@@ -6,6 +6,6 @@
 	<version>1.0</version>
 	<licence>AGPL</licence>
 	<author>Frank Karlitschek</author>
-	<require>3</require>
+	<require>4.9</require>
 	<shipped>true</shipped>
 </info>

@@ -43,7 +43,7 @@ class Jobs {
 
 		if(empty($actualGroups) && empty($knownGroups)) {
 			\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – groups do not seem to be configured properly, aborting.', \OCP\Util::INFO);
-			\OCP\setAppValue('user_ldap', 'bgjUpdateGroupsLastRun', time());
+			\OCP\Config::setAppValue('user_ldap', 'bgjUpdateGroupsLastRun', time());
 			return;
 		}
 

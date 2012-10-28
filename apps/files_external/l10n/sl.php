@@ -1,4 +1,10 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Dostop je odobren",
+"Error configuring Dropbox storage" => "Napaka nastavljanja shrambe Dropbox",
+"Grant access" => "Odobri dostop",
+"Fill out all required fields" => "Zapolni vsa zahtevana polja",
+"Please provide a valid Dropbox app key and secret." => "Vpišite veljaven ključ programa in kodo za Dropbox",
+"Error configuring Google Drive storage" => "Napaka nastavljanja shrambe Google Drive",
 "External Storage" => "Zunanja podatkovna shramba",
 "Mount point" => "Priklopna točka",
 "Backend" => "Zaledje",
@@ -11,8 +17,8 @@
 "Groups" => "Skupine",
 "Users" => "Uporabniki",
 "Delete" => "Izbriši",
-"SSL root certificates" => "SSL korenski certifikati",
-"Import Root Certificate" => "Uvozi korenski certifikat",
 "Enable User External Storage" => "Omogoči uporabo zunanje podatkovne shrambe za uporabnike",
-"Allow users to mount their own external storage" => "Dovoli uporabnikom priklop lastne zunanje podatkovne shrambe"
+"Allow users to mount their own external storage" => "Dovoli uporabnikom priklop lastne zunanje podatkovne shrambe",
+"SSL root certificates" => "Korenska potrdila SSL",
+"Import Root Certificate" => "Uvozi korensko potrdilo"
 );

@@ -1,4 +1,10 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Ligipääs on antud",
+"Error configuring Dropbox storage" => "Viga Dropboxi salvestusruumi seadistamisel",
+"Grant access" => "Anna ligipääs",
+"Fill out all required fields" => "Täida kõik kohustuslikud lahtrid",
+"Please provide a valid Dropbox app key and secret." => "Palun sisesta korrektne Dropboxi rakenduse võti ja salasõna.",
+"Error configuring Google Drive storage" => "Viga Google Drive'i salvestusruumi seadistamisel",
 "External Storage" => "Väline salvestuskoht",
 "Mount point" => "Ühenduspunkt",
 "Backend" => "Admin",
@@ -11,8 +17,8 @@
 "Groups" => "Grupid",
 "Users" => "Kasutajad",
 "Delete" => "Kustuta",
-"SSL root certificates" => "SSL root sertifikaadid",
-"Import Root Certificate" => "Impordi root sertifikaadid",
 "Enable User External Storage" => "Luba kasutajatele väline salvestamine",
-"Allow users to mount their own external storage" => "Luba kasutajatel ühendada külge nende enda välised salvestusseadmed"
+"Allow users to mount their own external storage" => "Luba kasutajatel ühendada külge nende enda välised salvestusseadmed",
+"SSL root certificates" => "SSL root sertifikaadid",
+"Import Root Certificate" => "Impordi root sertifikaadid"
 );

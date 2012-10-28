@@ -12,6 +12,8 @@
 "Application is not enabled" => "Az alkalmazás nincs engedélyezve",
 "Authentication error" => "Hitelesítési hiba",
 "Token expired. Please reload page." => "A token lejárt. Frissítsd az oldalt.",
+"Files" => "Fájlok",
+"Text" => "Szöveg",
 "seconds ago" => "másodperccel ezelőtt",
 "1 minute ago" => "1 perccel ezelőtt",
 "%d minutes ago" => "%d perccel ezelőtt",

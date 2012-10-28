@@ -25,21 +25,25 @@ require_once 'Dropbox/autoload.php';
 class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 
 	private $dropbox;
+	private $root;
 	private $metaData = array();
 
 	private static $tempFiles = array();
 
 	public function __construct($params) {
 		if (isset($params['configured']) && $params['configured'] == 'true' && isset($params['app_key']) && isset($params['app_secret']) && isset($params['token']) && isset($params['token_secret'])) {
+			$this->root=isset($params['root'])?$params['root']:'';
 			$oauth = new Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
 			$oauth->setToken($params['token'], $params['token_secret']);
 			$this->dropbox = new Dropbox_API($oauth, 'dropbox');
+			$this->mkdir('');
 		} else {
 			throw new Exception('Creating OC_Filestorage_Dropbox storage failed');
 		}
 	}
 
 	private function getMetaData($path, $list = false) {
+		$path = $this->root.$path;
 		if (!$list && isset($this->metaData[$path])) {
 			return $this->metaData[$path];
 		} else {
@@ -76,6 +80,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	}
 
 	public function mkdir($path) {
+		$path = $this->root.$path;
 		try {
 			$this->dropbox->createFolder($path);
 			return true;
@@ -144,6 +149,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	}
 
 	public function unlink($path) {
+		$path = $this->root.$path;
 		try {
 			$this->dropbox->delete($path);
 			return true;
@@ -154,6 +160,8 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	}
 
 	public function rename($path1, $path2) {
+		$path1 = $this->root.$path1;
+		$path2 = $this->root.$path2;
 		try {
 			$this->dropbox->move($path1, $path2);
 			return true;
@@ -164,6 +172,8 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	}
 
 	public function copy($path1, $path2) {
+		$path1 = $this->root.$path1;
+		$path2 = $this->root.$path2;
 		try {
 			$this->dropbox->copy($path1, $path2);
 			return true;
@@ -174,6 +184,7 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 	}
 
 	public function fopen($path, $mode) {
+		$path = $this->root.$path;
 		switch ($mode) {
 			case 'r':
 			case 'rb':

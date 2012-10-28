@@ -26,52 +26,59 @@
  */
 
 class OC_FileProxy_Quota extends OC_FileProxy{
-	private $userQuota=-1;
+	static $rootView;
+	private $userQuota=array();
 
 	/**
-	 * get the quota for the current user
+	 * get the quota for the user
+	 * @param user
 	 * @return int
 	 */
-	private function getQuota() {
-		if($this->userQuota!=-1) {
-			return $this->userQuota;
+	private function getQuota($user) {
+		if(in_array($user, $this->userQuota)) {
+			return $this->userQuota[$user];
 		}
-		$userQuota=OC_Preferences::getValue(OC_User::getUser(),'files','quota','default');
+		$userQuota=OC_Preferences::getValue($user,'files','quota','default');
 		if($userQuota=='default') {
 			$userQuota=OC_AppConfig::getValue('files','default_quota','none');
 		}
 		if($userQuota=='none') {
-			$this->userQuota=0;
+			$this->userQuota[$user]=0;
 		}else{
-			$this->userQuota=OC_Helper::computerFileSize($userQuota);
+			$this->userQuota[$user]=OC_Helper::computerFileSize($userQuota);
 		}
-		return $this->userQuota;
+		return $this->userQuota[$user];
 
 	}
 
 	/**
-	 * get the free space in the users home folder
+	 * get the free space in the path's owner home folder
+	 * @param path
 	 * @return int
 	 */
-	private function getFreeSpace() {
-		$rootInfo=OC_FileCache_Cached::get('');
+	private function getFreeSpace($path) {
+		$storage=OC_Filesystem::getStorage($path);
+		$owner=$storage->getOwner($path);
+
+		$totalSpace=$this->getQuota($owner);
+		if($totalSpace==0) {
+			return 0;
+		}
+
+		$rootInfo=OC_FileCache::get('', "/".$owner."/files");
 		// TODO Remove after merge of share_api
-		if (OC_FileCache::inCache('/Shared')) {
-			$sharedInfo=OC_FileCache_Cached::get('/Shared');
+		if (OC_FileCache::inCache('/Shared', "/".$owner."/files")) {
+			$sharedInfo=OC_FileCache::get('/Shared', "/".$owner."/files");
 		} else {
 			$sharedInfo = null;
 		}
 		$usedSpace=isset($rootInfo['size'])?$rootInfo['size']:0;
 		$usedSpace=isset($sharedInfo['size'])?$usedSpace-$sharedInfo['size']:$usedSpace;
-		$totalSpace=$this->getQuota();
-		if($totalSpace==0) {
-			return 0;
-		}
 		return $totalSpace-$usedSpace;
 	}
-
+	
 	public function postFree_space($path,$space) {
-		$free=$this->getFreeSpace();
+		$free=$this->getFreeSpace($path);
 		if($free==0) {
 			return $space;
 		}
@@ -82,18 +89,21 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 		if (is_resource($data)) {
 			$data = '';//TODO: find a way to get the length of the stream without emptying it
 		}
-		return (strlen($data)<$this->getFreeSpace() or $this->getFreeSpace()==0);
+		return (strlen($data)<$this->getFreeSpace($path) or $this->getFreeSpace($path)==0);
 	}
 
 	public function preCopy($path1,$path2) {
-		return (OC_Filesystem::filesize($path1)<$this->getFreeSpace() or $this->getFreeSpace()==0);
+		if(!self::$rootView){
+			self::$rootView = new OC_FilesystemView('');
+		}
+		return (self::$rootView->filesize($path1)<$this->getFreeSpace($path2) or $this->getFreeSpace($path2)==0);
 	}
 
 	public function preFromTmpFile($tmpfile,$path) {
-		return (filesize($tmpfile)<$this->getFreeSpace() or $this->getFreeSpace()==0);
+		return (filesize($tmpfile)<$this->getFreeSpace($path) or $this->getFreeSpace($path)==0);
 	}
 
 	public function preFromUploadedFile($tmpfile,$path) {
-		return (filesize($tmpfile)<$this->getFreeSpace() or $this->getFreeSpace()==0);
+		return (filesize($tmpfile)<$this->getFreeSpace($path) or $this->getFreeSpace($path)==0);
 	}
 }

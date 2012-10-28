@@ -4,12 +4,15 @@
 # 
 # Translators:
 #   <admin@s-goecker.de>, 2011, 2012.
+#   <blobbyjj@ymail.com>, 2012.
 #   <icewind1991@gmail.com>, 2012.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan T <jan-temesinko@web.de>, 2012.
+#   <lukas@statuscode.ch>, 2012.
 #   <mail@felixmoeller.de>, 2012.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2012.
+#   <markus.thiel@desico.de>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
 # Phi Lieb <>, 2012.
@@ -19,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:03+0200\n"
-"PO-Revision-Date: 2012-09-17 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-24 02:03+0200\n"
+"PO-Revision-Date: 2012-10-23 13:00+0000\n"
+"Last-Translator: thiel <markus.thiel@desico.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,32 +34,27 @@ msgstr ""
 
 #: ajax/apps/ocs.php:23
 msgid "Unable to load list from App Store"
-msgstr "Die Liste der Apps im Store konnte nicht geladen werden."
+msgstr "Die Liste der Anwendungen im Store konnte nicht geladen werden."
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Anmeldungsfehler"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr "Gruppe existiert bereits"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr "Gruppe konnte nicht angelegt werden"
 
-#: ajax/enableapp.php:13
+#: ajax/enableapp.php:14
 msgid "Could not enable app. "
 msgstr "App konnte nicht aktiviert werden."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
-msgstr "E-Mail gespeichert"
+msgstr "E-Mail Adresse gespeichert"
 
 #: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr "Ungültige E-Mail"
+msgstr "Ungültige E-Mail Adresse"
 
 #: ajax/openid.php:16
 msgid "OpenID Changed"
@@ -70,7 +68,11 @@ msgstr "Ungültige Anfrage"
 msgid "Unable to delete group"
 msgstr "Gruppe konnte nicht gelöscht werden"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Fehler bei der Anmeldung"
+
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr "Benutzer konnte nicht gelöscht werden"
 
@@ -88,15 +90,11 @@ msgstr "Der Benutzer konnte nicht zur Gruppe %s hinzugefügt werden"
 msgid "Unable to remove user from group %s"
 msgstr "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden"
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "Fehler"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "Deaktivieren"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "Aktivieren"
 
@@ -104,9 +102,9 @@ msgstr "Aktivieren"
 msgid "Saving..."
 msgstr "Speichern..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
-msgstr "Deutsch"
+msgstr "Deutsch (Persönlich)"
 
 #: templates/admin.php:14
 msgid "Security Warning"
@@ -119,39 +117,39 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Ihr Datenverzeichnis ist möglicher Weise aus dem Internet erreichbar. Die .htaccess-Datei von OwnCloud funktioniert nicht. Wir raten Ihnen dringend, dass Sie Ihren Webserver dahingehend konfigurieren, dass Ihr Datenverzeichnis nicht länger aus dem Internet erreichbar ist, oder Sie verschieben das Datenverzeichnis außerhalb des Wurzelverzeichnisses des Webservers."
+msgstr "Dein Datenverzeichnis ist möglicherweise aus dem Internet erreichbar. Die .htaccess-Datei von ownCloud funktioniert nicht. Wir raten Dir dringend, dass Du Deinen Webserver dahingehend konfigurieren, dass Dein Datenverzeichnis nicht länger aus dem Internet erreichbar ist, oder Du verschiebst das Datenverzeichnis außerhalb des Wurzelverzeichnisses des Webservers."
 
 #: templates/admin.php:31
 msgid "Cron"
-msgstr "Cron"
+msgstr "Cron-Jobs"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Führe eine Aufgabe bei jeder geladenen Seite aus."
 
 #: templates/admin.php:43
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr "cron.php ist bei einem Webcron-Dienst registriert. Rufen Sie die Seite cron.php im owncloud Root minütlich per HTTP auf."
+msgstr "cron.php ist bei einem Webcron-Dienst registriert. Ruf die Seite cron.php im ownCloud-Root minütlich per HTTP auf."
 
 #: templates/admin.php:49
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Benutze den System-Crondienst. Bitte ruf die cron.php im ownCloud-Ordner über einen System-Cronjob minütlich auf."
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "Freigabe"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
-msgstr "Teilungs-API aktivieren"
+msgstr "Freigabe-API aktivieren"
 
 #: templates/admin.php:62
 msgid "Allow apps to use the Share API"
-msgstr "Erlaubt Nutzern, die Teilungs-API zu nutzen"
+msgstr "Erlaubt Anwendungen, die Freigabe-API zu nutzen"
 
 #: templates/admin.php:67
 msgid "Allow links"
@@ -159,7 +157,7 @@ msgstr "Links erlauben"
 
 #: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
-msgstr "Erlaube Nutzern, Dateien mithilfe von Links mit der Öffentlichkeit zu teilen"
+msgstr "Erlaube Nutzern, Dateien mithilfe von Links öffentlich zu teilen"
 
 #: templates/admin.php:73
 msgid "Allow resharing"
@@ -171,11 +169,11 @@ msgstr "Erlaubt Nutzern, Dateien die mit ihnen geteilt wurden, erneut zu teilen"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr "Erlaube Nutzern mit jedem zu Teilen"
+msgstr "Erlaubt Nutzern mit jedem zu Teilen"
 
 #: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
-msgstr "Erlaube Nutzern nur das Teilen in ihrer Gruppe"
+msgstr "Erlaubt Nutzern nur das Teilen in ihrer Gruppe"
 
 #: templates/admin.php:88
 msgid "Log"
@@ -197,17 +195,21 @@ msgstr "Entwickelt von der <a href=\"http://ownCloud.org/contact\" target=\"_bla
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr "Fügen Sie Ihre App hinzu"
+msgstr "Füge Deine Anwendung hinzu"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Weitere Anwendungen"
+
+#: templates/apps.php:27
 msgid "Select an App"
-msgstr "Wählen Sie eine Anwendung aus"
+msgstr "Wähle eine Anwendung aus"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr "Weitere Anwendungen finden Sie auf apps.owncloud.com"
+msgstr "Weitere Anwendungen findest Du auf apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lizenziert von <span class=\"author\"></span>"
 
@@ -221,7 +223,7 @@ msgstr "Große Dateien verwalten"
 
 #: templates/help.php:11
 msgid "Ask a question"
-msgstr "Stellen Sie eine Frage"
+msgstr "Stelle eine Frage"
 
 #: templates/help.php:23
 msgid "Problems connecting to help database."
@@ -236,24 +238,21 @@ msgid "Answer"
 msgstr "Antwort"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Sie nutzen"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "der verfügbaren"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "Du verwendest <strong>%s</strong> der verfügbaren <strong>%s<strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr "Desktop- und mobile Synchronierungs-Clients"
+msgstr "Desktop- und mobile Clients für die Synchronisation"
 
 #: templates/personal.php:13
 msgid "Download"
 msgstr "Download"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "Ihr Passwort wurde geändert."
+msgid "Your password was changed"
+msgstr "Dein Passwort wurde geändert."
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
@@ -281,11 +280,11 @@ msgstr "E-Mail"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr "Ihre E-Mail-Adresse"
+msgstr "Deine E-Mail-Adresse"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr "Tragen Sie eine E-Mail-Adresse ein, um die Passwort-Wiederherstellung zu aktivieren."
+msgstr "Trage eine E-Mail-Adresse ein, um die Passwort-Wiederherstellung zu aktivieren."
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
@@ -293,11 +292,11 @@ msgstr "Sprache"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr "Helfen Sie bei der Übersetzung"
+msgstr "Hilf bei der Übersetzung"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "Benutzen Sie diese Adresse, um Ihre ownCloud mit Ihrem Dateimanager zu verbinden."
+msgstr "Verwende diese Adresse, um Deine ownCloud mit Deinem Dateimanager zu verbinden."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

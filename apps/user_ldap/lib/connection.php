@@ -56,15 +56,20 @@ class Connection {
 		'ldapUuidAttribute' => null,
 		'ldapOverrideUuidAttribute' => null,
 		'homeFolderNamingRule' => null,
+		'hasPagedResultSupport' => false,
 	);
 
 	public function __construct($configID = 'user_ldap') {
 		$this->configID = $configID;
 		$this->cache = \OC_Cache::getGlobalCache();
+		$this->config['hasPagedResultSupport'] = (function_exists('ldap_control_paged_result') && function_exists('ldap_control_paged_result_response'));
+		\OCP\Util::writeLog('user_ldap', 'PHP supports paged results? '.print_r($this->config['hasPagedResultSupport'], true), \OCP\Util::INFO);
 	}
 
 	public function __destruct() {
-		@ldap_unbind($this->ldapConnectionRes);
+		if(is_resource($this->ldapConnectionRes)) {
+			@ldap_unbind($this->ldapConnectionRes);
+		};
 	}
 
 	public function __get($name) {
@@ -258,7 +263,7 @@ class Connection {
 		if(empty($this->config['ldapGroupFilter']) && empty($this->config['ldapGroupMemberAssocAttr'])) {
 			\OCP\Util::writeLog('user_ldap', 'No group filter is specified, LDAP group feature will not be used.', \OCP\Util::INFO);
 		}
-		if(!in_array($this->config['ldapUuidAttribute'], array('auto','entryuuid', 'nsuniqueid', 'objectguid'))) {
+		if(!in_array($this->config['ldapUuidAttribute'], array('auto','entryuuid', 'nsuniqueid', 'objectguid')) && (!is_null($this->configID))) {
 			\OCP\Config::setAppValue($this->configID, 'ldap_uuid_attribute', 'auto');
 			\OCP\Util::writeLog('user_ldap', 'Illegal value for the UUID Attribute, reset to autodetect.', \OCP\Util::INFO);
 		}

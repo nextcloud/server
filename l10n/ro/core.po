@@ -6,12 +6,13 @@
 # Claudiu  <claudiu@tanaselia.ro>, 2011, 2012.
 # Dimon Pockemon <>, 2012.
 # Eugen Mihalache <eugemjj@gmail.com>, 2012.
+#   <g.ciprian@osn.ro>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -32,81 +33,139 @@ msgstr "Nici o categorie de adăugat?"
 msgid "This category already exists: "
 msgstr "Această categorie deja există:"
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Configurări"
 
-#: js/js.js:593
-msgid "January"
-msgstr ""
-
-#: js/js.js:593
-msgid "February"
-msgstr ""
-
-#: js/js.js:593
-msgid "March"
-msgstr ""
-
-#: js/js.js:593
-msgid "April"
-msgstr ""
-
-#: js/js.js:593
-msgid "May"
-msgstr ""
-
-#: js/js.js:593
-msgid "June"
-msgstr ""
-
-#: js/js.js:594
-msgid "July"
-msgstr ""
-
-#: js/js.js:594
-msgid "August"
-msgstr ""
-
-#: js/js.js:594
-msgid "September"
-msgstr ""
-
-#: js/js.js:594
-msgid "October"
-msgstr ""
-
-#: js/js.js:594
-msgid "November"
-msgstr ""
-
-#: js/js.js:594
-msgid "December"
-msgstr ""
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr "Alege"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
-msgstr ""
+msgstr "Anulare"
 
 #: js/oc-dialogs.js:159
 msgid "No"
-msgstr ""
+msgstr "Nu"
 
 #: js/oc-dialogs.js:160
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 #: js/oc-dialogs.js:177
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: js/oc-vcategories.js:68
 msgid "No categories selected for deletion."
+msgstr "Nici o categorie selectată pentru ștergere."
+
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
+#: js/share.js:517
+msgid "Error"
+msgstr "Eroare"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr "Eroare la partajare"
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr "Eroare la anularea partajării"
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr "Eroare la modificarea permisiunilor"
+
+#: js/share.js:130
+msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
-#: js/oc-vcategories.js:68
-msgid "Error"
+#: js/share.js:132
+msgid "Shared with you by {owner}"
 msgstr ""
+
+#: js/share.js:137
+msgid "Share with"
+msgstr "Partajat cu"
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr "Partajare cu legătură"
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr "Protejare cu parolă"
+
+#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
+msgid "Password"
+msgstr "Parola"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr "Specifică data expirării"
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr "Data expirării"
+
+#: js/share.js:185
+msgid "Share via email:"
+msgstr ""
+
+#: js/share.js:187
+msgid "No people found"
+msgstr "Nici o persoană găsită"
+
+#: js/share.js:214
+msgid "Resharing is not allowed"
+msgstr "Repartajarea nu este permisă"
+
+#: js/share.js:250
+msgid "Shared in {item} with {user}"
+msgstr ""
+
+#: js/share.js:271
+msgid "Unshare"
+msgstr "Anulare partajare"
+
+#: js/share.js:283
+msgid "can edit"
+msgstr "poate edita"
+
+#: js/share.js:285
+msgid "access control"
+msgstr "control acces"
+
+#: js/share.js:288
+msgid "create"
+msgstr "creare"
+
+#: js/share.js:291
+msgid "update"
+msgstr "actualizare"
+
+#: js/share.js:294
+msgid "delete"
+msgstr "ștergere"
+
+#: js/share.js:297
+msgid "share"
+msgstr "partajare"
+
+#: js/share.js:322 js/share.js:492
+msgid "Password protected"
+msgstr "Protejare cu parolă"
+
+#: js/share.js:505
+msgid "Error unsetting expiration date"
+msgstr "Eroare la anularea datei de expirare"
+
+#: js/share.js:517
+msgid "Error setting expiration date"
+msgstr "Eroare la specificarea datei de expirare"
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -128,12 +187,12 @@ msgstr "Solicitat"
 msgid "Login failed!"
 msgstr "Autentificare eșuată"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Utilizator"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Cerere trimisă"
 
@@ -189,72 +248,183 @@ msgstr "Editează categoriile"
 msgid "Add"
 msgstr "Adaugă"
 
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr "Avertisment de securitate"
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "Directorul tău de date și fișierele tale probabil sunt accesibile prin internet. Fișierul .htaccess oferit de ownCloud nu funcționează. Îți recomandăm să configurezi server-ul tău web într-un mod în care directorul de date să nu mai fie accesibil sau mută directorul de date în afara directorului root al server-ului web."
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crează un <strong>cont de administrator</strong>"
 
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr "Parola"
-
-#: templates/installation.php:36
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "Avansat"
 
-#: templates/installation.php:38
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "Director date"
 
-#: templates/installation.php:45
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "Configurează baza de date"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "vor fi folosite"
 
-#: templates/installation.php:93
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Utilizatorul bazei de date"
 
-#: templates/installation.php:97
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "Parola bazei de date"
 
-#: templates/installation.php:101
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Numele bazei de date"
 
-#: templates/installation.php:109
+#: templates/installation.php:121
 msgid "Database tablespace"
-msgstr ""
+msgstr "Tabela de spațiu a bazei de date"
 
-#: templates/installation.php:115
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Bază date"
 
-#: templates/installation.php:120
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "Finalizează instalarea"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "servicii web controlate de tine"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:17
+msgid "Sunday"
+msgstr "Duminică"
+
+#: templates/layout.user.php:17
+msgid "Monday"
+msgstr "Luni"
+
+#: templates/layout.user.php:17
+msgid "Tuesday"
+msgstr "Marți"
+
+#: templates/layout.user.php:17
+msgid "Wednesday"
+msgstr "Miercuri"
+
+#: templates/layout.user.php:17
+msgid "Thursday"
+msgstr "Joi"
+
+#: templates/layout.user.php:17
+msgid "Friday"
+msgstr "Vineri"
+
+#: templates/layout.user.php:17
+msgid "Saturday"
+msgstr "Sâmbătă"
+
+#: templates/layout.user.php:18
+msgid "January"
+msgstr "Ianuarie"
+
+#: templates/layout.user.php:18
+msgid "February"
+msgstr "Februarie"
+
+#: templates/layout.user.php:18
+msgid "March"
+msgstr "Martie"
+
+#: templates/layout.user.php:18
+msgid "April"
+msgstr "Aprilie"
+
+#: templates/layout.user.php:18
+msgid "May"
+msgstr "Mai"
+
+#: templates/layout.user.php:18
+msgid "June"
+msgstr "Iunie"
+
+#: templates/layout.user.php:18
+msgid "July"
+msgstr "Iulie"
+
+#: templates/layout.user.php:18
+msgid "August"
+msgstr "August"
+
+#: templates/layout.user.php:18
+msgid "September"
+msgstr "Septembrie"
+
+#: templates/layout.user.php:18
+msgid "October"
+msgstr "Octombrie"
+
+#: templates/layout.user.php:18
+msgid "November"
+msgstr "Noiembrie"
+
+#: templates/layout.user.php:18
+msgid "December"
+msgstr "Decembrie"
+
+#: templates/layout.user.php:38
 msgid "Log out"
 msgstr "Ieșire"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr ""
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr ""
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr ""
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "Ai uitat parola?"
 
-#: templates/login.php:17
+#: templates/login.php:27
 msgid "remember"
 msgstr "amintește"
 
-#: templates/login.php:18
+#: templates/login.php:28
 msgid "Log in"
 msgstr "Autentificare"
 
@@ -269,3 +439,17 @@ msgstr "precedentul"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "următorul"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr ""
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr ""
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr ""

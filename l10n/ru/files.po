@@ -7,6 +7,7 @@
 #   <jekader@gmail.com>, 2012.
 #   <lankme@gmail.com>, 2012.
 # Nick Remeslennikov <homolibere@gmail.com>, 2012.
+#   <skoptev@ukr.net>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
 #   <victor.dubiniuk@gmail.com>, 2012.
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-09 02:01+0200\n"
-"PO-Revision-Date: 2012-09-08 14:18+0000\n"
-"Last-Translator: VicDeo <victor.dubiniuk@gmail.com>\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 12:30+0000\n"
+"Last-Translator: skoptev <skoptev@ukr.net>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,94 +67,158 @@ msgstr "Отменить публикацию"
 msgid "Delete"
 msgstr "Удалить"
 
-#: js/filelist.js:186 js/filelist.js:188
-msgid "already exists"
-msgstr "уже существует"
+#: js/fileactions.js:182
+msgid "Rename"
+msgstr "Переименовать"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:194 js/filelist.js:196
+msgid "{new_name} already exists"
+msgstr "{new_name} уже существует"
+
+#: js/filelist.js:194 js/filelist.js:196
 msgid "replace"
 msgstr "заменить"
 
-#: js/filelist.js:186
+#: js/filelist.js:194
 msgid "suggest name"
 msgstr "предложить название"
 
-#: js/filelist.js:186 js/filelist.js:188
+#: js/filelist.js:194 js/filelist.js:196
 msgid "cancel"
 msgstr "отмена"
 
-#: js/filelist.js:235 js/filelist.js:237
-msgid "replaced"
-msgstr "заменён"
+#: js/filelist.js:243
+msgid "replaced {new_name}"
+msgstr "заменено {new_name}"
 
-#: js/filelist.js:235 js/filelist.js:237 js/filelist.js:268 js/filelist.js:270
+#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
 msgid "undo"
 msgstr "отмена"
 
-#: js/filelist.js:237
-msgid "with"
-msgstr "с"
+#: js/filelist.js:245
+msgid "replaced {new_name} with {old_name}"
+msgstr "заменено {new_name} на {old_name}"
 
-#: js/filelist.js:268
-msgid "unshared"
-msgstr "публикация отменена"
+#: js/filelist.js:277
+msgid "unshared {files}"
+msgstr "не опубликованные {files}"
 
-#: js/filelist.js:270
-msgid "deleted"
-msgstr "удален"
+#: js/filelist.js:279
+msgid "deleted {files}"
+msgstr "удаленные {files}"
 
 #: js/files.js:179
 msgid "generating ZIP-file, it may take some time."
 msgstr "создание ZIP-файла, это может занять некоторое время."
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Не удается загрузить файл размером 0 байт в каталог"
 
-#: js/files.js:208
+#: js/files.js:214
 msgid "Upload Error"
 msgstr "Ошибка загрузки"
 
-#: js/files.js:236 js/files.js:341 js/files.js:370
+#: js/files.js:242 js/files.js:347 js/files.js:377
 msgid "Pending"
 msgstr "Ожидание"
 
-#: js/files.js:355
+#: js/files.js:262
+msgid "1 file uploading"
+msgstr "загружается 1 файл"
+
+#: js/files.js:265 js/files.js:310 js/files.js:325
+msgid "{count} files uploading"
+msgstr "{count} файлов загружается"
+
+#: js/files.js:328 js/files.js:361
 msgid "Upload cancelled."
 msgstr "Загрузка отменена."
 
-#: js/files.js:423
+#: js/files.js:430
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Файл в процессе загрузки. Покинув страницу вы прервёте загрузку."
 
-#: js/files.js:493
+#: js/files.js:500
 msgid "Invalid name, '/' is not allowed."
 msgstr "Неверное имя, '/' не допускается."
 
-#: js/files.js:746 templates/index.php:56
+#: js/files.js:681
+msgid "{count} files scanned"
+msgstr "{count} файлов просканировано"
+
+#: js/files.js:689
+msgid "error while scanning"
+msgstr "ошибка во время санирования"
+
+#: js/files.js:762 templates/index.php:48
+msgid "Name"
+msgstr "Название"
+
+#: js/files.js:763 templates/index.php:56
 msgid "Size"
 msgstr "Размер"
 
-#: js/files.js:747 templates/index.php:58
+#: js/files.js:764 templates/index.php:58
 msgid "Modified"
 msgstr "Изменён"
 
-#: js/files.js:774
-msgid "folder"
-msgstr "папка"
+#: js/files.js:791
+msgid "1 folder"
+msgstr "1 папка"
 
-#: js/files.js:776
-msgid "folders"
-msgstr "папки"
+#: js/files.js:793
+msgid "{count} folders"
+msgstr "{count} папок"
 
-#: js/files.js:784
-msgid "file"
-msgstr "файл"
+#: js/files.js:801
+msgid "1 file"
+msgstr "1 файл"
 
-#: js/files.js:786
-msgid "files"
-msgstr "файлы"
+#: js/files.js:803
+msgid "{count} files"
+msgstr "{count} файлов"
+
+#: js/files.js:846
+msgid "seconds ago"
+msgstr "несколько секунд назад"
+
+#: js/files.js:847
+msgid "1 minute ago"
+msgstr "1 минуту назад"
+
+#: js/files.js:848
+msgid "{minutes} minutes ago"
+msgstr "{minutes} минут назад"
+
+#: js/files.js:851
+msgid "today"
+msgstr "сегодня"
+
+#: js/files.js:852
+msgid "yesterday"
+msgstr "вчера"
+
+#: js/files.js:853
+msgid "{days} days ago"
+msgstr "{days} дней назад"
+
+#: js/files.js:854
+msgid "last month"
+msgstr "в прошлом месяце"
+
+#: js/files.js:856
+msgid "months ago"
+msgstr "несколько месяцев назад"
+
+#: js/files.js:857
+msgid "last year"
+msgstr "в прошлом году"
+
+#: js/files.js:858
+msgid "years ago"
+msgstr "несколько лет назад"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -203,7 +268,7 @@ msgstr "Папка"
 msgid "From url"
 msgstr "С url"
 
-#: templates/index.php:21
+#: templates/index.php:20
 msgid "Upload"
 msgstr "Загрузить"
 
@@ -214,10 +279,6 @@ msgstr "Отмена загрузки"
 #: templates/index.php:40
 msgid "Nothing in here. Upload something!"
 msgstr "Здесь ничего нет. Загрузите что-нибудь!"
-
-#: templates/index.php:48
-msgid "Name"
-msgstr "Название"
 
 #: templates/index.php:50
 msgid "Share"

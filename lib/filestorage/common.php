@@ -260,7 +260,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		if($dh) {
 			while($item=readdir($dh)) {
 				if ($item == '.' || $item == '..') continue;
-				if(strstr(strtolower($item),strtolower($query))!==false) {
+				if(strstr(strtolower($item), strtolower($query))!==false) {
 					$files[]=$dir.'/'.$item;
 				}
 				if($this->is_dir($dir.'/'.$item)) {
@@ -278,5 +278,14 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 	 */
 	public function hasUpdated($path,$time) {
 		return $this->filemtime($path)>$time;
+	}
+
+	/**
+	 * get the owner of a path
+	 * @param $path The path to get the owner
+	 * @return string uid or false
+	 */
+	public function getOwner($path) {
+		return OC_User::getUser();
 	}
 }

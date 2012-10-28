@@ -53,7 +53,7 @@ class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
 			case 'ab':
 				//these are supported by the wrapper
 				$context = stream_context_create(array('ftp' => array('overwrite' => true)));
-				return fopen($this->constructUrl($path),$mode,false,$context);
+				return fopen($this->constructUrl($path),$mode, false,$context);
 			case 'r+':
 			case 'w+':
 			case 'wb+':
@@ -64,7 +64,7 @@ class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
 			case 'c+':
 				//emulate these
 				if(strrpos($path,'.')!==false) {
-					$ext=substr($path,strrpos($path,'.'));
+					$ext=substr($path, strrpos($path,'.'));
 				}else{
 					$ext='';
 				}
@@ -80,7 +80,7 @@ class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
 
 	public function writeBack($tmpFile) {
 		if(isset(self::$tempFiles[$tmpFile])) {
-			$this->uploadFile($tmpFile,self::$tempFiles[$tmpFile]);
+			$this->uploadFile($tmpFile, self::$tempFiles[$tmpFile]);
 			unlink($tmpFile);
 		}
 	}

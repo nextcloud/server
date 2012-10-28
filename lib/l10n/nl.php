@@ -4,7 +4,7 @@
 "Settings" => "Instellingen",
 "Users" => "Gebruikers",
 "Apps" => "Apps",
-"Admin" => "Administrator",
+"Admin" => "Beheerder",
 "ZIP download is turned off." => "ZIP download is uitgeschakeld.",
 "Files need to be downloaded one by one." => "Bestanden moeten één voor één worden gedownload.",
 "Back to Files" => "Terug naar bestanden",
@@ -12,6 +12,9 @@
 "Application is not enabled" => "De applicatie is niet actief",
 "Authentication error" => "Authenticatie fout",
 "Token expired. Please reload page." => "Token verlopen.  Herlaad de pagina.",
+"Files" => "Bestanden",
+"Text" => "Tekst",
+"Images" => "Afbeeldingen",
 "seconds ago" => "seconden geleden",
 "1 minute ago" => "1 minuut geleden",
 "%d minutes ago" => "%d minuten geleden",
@@ -23,6 +26,6 @@
 "last year" => "vorig jaar",
 "years ago" => "jaar geleden",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s is beschikbaar. Verkrijg <a href=\"%s\">meer informatie</a>",
-"up to date" => "Bijgewerkt",
+"up to date" => "bijgewerkt",
 "updates check is disabled" => "Meest recente versie controle is uitgeschakeld"
 );

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:03+0200\n"
-"PO-Revision-Date: 2012-09-17 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-12 02:04+0200\n"
+"PO-Revision-Date: 2012-10-11 13:06+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "ไม่สามารถโหลดรายการจาก App Store ได้"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
+#: ajax/creategroup.php:9 ajax/removeuser.php:18 ajax/setquota.php:18
 #: ajax/togglegroups.php:15
 msgid "Authentication error"
 msgstr "เกิดข้อผิดพลาดเกี่ยวกับสิทธิ์การเข้าใช้งาน"
@@ -37,7 +37,7 @@ msgstr "มีกลุ่มดังกล่าวอยู่ในระบ
 msgid "Unable to add group"
 msgstr "ไม่สามารถเพิ่มกลุ่มได้"
 
-#: ajax/enableapp.php:13
+#: ajax/enableapp.php:14
 msgid "Could not enable app. "
 msgstr "ไม่สามารถเปิดใช้งานแอปได้"
 
@@ -61,7 +61,7 @@ msgstr "คำร้องขอไม่ถูกต้อง"
 msgid "Unable to delete group"
 msgstr "ไม่สามารถลบกลุ่มได้"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr "ไม่สามารถลบผู้ใช้งานได้"
 
@@ -79,15 +79,11 @@ msgstr "ไม่สามารถเพิ่มผู้ใช้งานเ
 msgid "Unable to remove user from group %s"
 msgstr "ไม่สามารถลบผู้ใช้งานออกจากกลุ่ม %s ได้"
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "ข้อผิดพลาด"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "ปิดใช้งาน"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "เปิดใช้งาน"
 
@@ -95,7 +91,7 @@ msgstr "เปิดใช้งาน"
 msgid "Saving..."
 msgstr "กำลังบันทึุกข้อมูล..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr "ภาษาไทย"
 
@@ -118,7 +114,7 @@ msgstr "Cron"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "ประมวลคำสั่งหนึ่งงานในแต่ละครั้งที่มีการโหลดหน้าเว็บ"
 
 #: templates/admin.php:43
 msgid ""
@@ -130,11 +126,11 @@ msgstr "cron.php ได้รับการลงทะเบียนแล้
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "ใช้บริการ cron จากระบบ เรียกไฟล์ cron.php ในโฟลเดอร์ owncloud ผ่านทาง cronjob ของระบบหลังจากนี้สักครู่"
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "การแชร์ข้อมูล"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
@@ -190,15 +186,19 @@ msgstr "พัฒนาโดย the <a href=\"http://ownCloud.org/contact\" tar
 msgid "Add your App"
 msgstr "เพิ่มแอปของคุณ"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "แอปฯอื่นเพิ่มเติม"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "เลือก App"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr "ดูหน้าแอพพลิเคชั่นที่ apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-ลิขสิทธิ์การใช้งานโดย <span class=\"author\"></span>"
 
@@ -227,12 +227,9 @@ msgid "Answer"
 msgstr "คำตอบ"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "คุณใช้พื้นที่ไป"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "จากจำนวนที่ใช้ได้"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "คุณได้ใช้ <strong>%s</strong> จากที่สามารถใช้ได้ <strong>%s<strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -243,8 +240,8 @@ msgid "Download"
 msgstr "ดาวน์โหลด"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "เปลี่ยนรหัสผ่านเรียบร้อยแล้ว"
+msgid "Your password was changed"
+msgstr "รหัสผ่านของคุณถูกเปลี่ยนแล้ว"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

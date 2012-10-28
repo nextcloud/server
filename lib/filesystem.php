@@ -46,6 +46,7 @@
 class OC_Filesystem{
 	static private $storages=array();
 	static private $mounts=array();
+	static private $loadedUsers=array();
 	public static $loaded=false;
 	/**
 	 * @var OC_Filestorage $defaultInstance
@@ -147,7 +148,7 @@ class OC_Filesystem{
 	  * @return string
 	 */
 	static public function getMountPoint($path) {
-		OC_Hook::emit(self::CLASSNAME,'get_mountpoint',array('path'=>$path));
+		OC_Hook::emit(self::CLASSNAME,'get_mountpoint', array('path'=>$path));
 		if(!$path) {
 			$path='/';
 		}
@@ -175,15 +176,28 @@ class OC_Filesystem{
 	*/
 	static public function getInternalPath($path) {
 		$mountPoint=self::getMountPoint($path);
-		$internalPath=substr($path,strlen($mountPoint));
+		$internalPath=substr($path, strlen($mountPoint));
 		return $internalPath;
 	}
+	
+	static private function mountPointsLoaded($user) {
+		return in_array($user, self::$loadedUsers);
+	}
+	
 	/**
 	* get the storage object for a path
 	* @param string path
 	* @return OC_Filestorage
 	*/
 	static public function getStorage($path) {
+		$user = ltrim(substr($path, 0, strpos($path, '/', 1)), '/');
+		// check mount points if file was shared from a different user
+		if ($user != OC_User::getUser() && !self::mountPointsLoaded($user)) {
+			OC_Util::loadUserMountPoints($user);
+			self::loadSystemMountPoints($user);
+			self::$loadedUsers[] = $user;
+		}
+
 		$mountpoint=self::getMountPoint($path);
 		if($mountpoint) {
 			if(!isset(OC_Filesystem::$storages[$mountpoint])) {
@@ -194,56 +208,63 @@ class OC_Filesystem{
 		}
 	}
 
-	static public function init($root) {
+	static private function loadSystemMountPoints($user) {
+		if(is_file(OC::$SERVERROOT.'/config/mount.php')) {
+			$mountConfig=include OC::$SERVERROOT.'/config/mount.php';
+			if(isset($mountConfig['global'])) {
+				foreach($mountConfig['global'] as $mountPoint=>$options) {
+					self::mount($options['class'],$options['options'],$mountPoint);
+				}
+			}
+		
+			if(isset($mountConfig['group'])) {
+				foreach($mountConfig['group'] as $group=>$mounts) {
+					if(OC_Group::inGroup($user,$group)) {
+						foreach($mounts as $mountPoint=>$options) {
+							$mountPoint=self::setUserVars($mountPoint, $user);
+							foreach($options as &$option) {
+								$option=self::setUserVars($option, $user);
+							}
+							self::mount($options['class'],$options['options'],$mountPoint);
+						}
+					}
+				}
+			}
+		
+			if(isset($mountConfig['user'])) {
+				foreach($mountConfig['user'] as $user=>$mounts) {
+					if($user==='all' or strtolower($user)===strtolower($user)) {
+						foreach($mounts as $mountPoint=>$options) {
+							$mountPoint=self::setUserVars($mountPoint, $user);
+							foreach($options as &$option) {
+								$option=self::setUserVars($option, $user);
+							}
+							self::mount($options['class'],$options['options'],$mountPoint);
+						}
+					}
+				}
+			}
+		
+			$mtime=filemtime(OC::$SERVERROOT.'/config/mount.php');
+			$previousMTime=OC_Appconfig::getValue('files','mountconfigmtime',0);
+			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
+				OC_FileCache::triggerUpdate();
+				OC_Appconfig::setValue('files','mountconfigmtime',$mtime);
+			}
+		}		
+	}
+	
+	static public function init($root, $user = '') {
 		if(self::$defaultInstance) {
 			return false;
 		}
 		self::$defaultInstance=new OC_FilesystemView($root);
 
 		//load custom mount config
-		if(is_file(OC::$SERVERROOT.'/config/mount.php')) {
-			$mountConfig=include(OC::$SERVERROOT.'/config/mount.php');
-			if(isset($mountConfig['global'])) {
-				foreach($mountConfig['global'] as $mountPoint=>$options) {
-					self::mount($options['class'],$options['options'],$mountPoint);
-				}
-			}
-
-			if(isset($mountConfig['group'])) {
-				foreach($mountConfig['group'] as $group=>$mounts) {
-					if(OC_Group::inGroup(OC_User::getUser(),$group)) {
-						foreach($mounts as $mountPoint=>$options) {
-							$mountPoint=self::setUserVars($mountPoint);
-							foreach($options as &$option) {
-								$option=self::setUserVars($option);
-							}
-							self::mount($options['class'],$options['options'],$mountPoint);
-						}
-					}
-				}
-			}
-
-			if(isset($mountConfig['user'])) {
-				foreach($mountConfig['user'] as $user=>$mounts) {
-					if($user==='all' or strtolower($user)===strtolower(OC_User::getUser())) {
-						foreach($mounts as $mountPoint=>$options) {
-							$mountPoint=self::setUserVars($mountPoint);
-							foreach($options as &$option) {
-								$option=self::setUserVars($option);
-							}
-							self::mount($options['class'],$options['options'],$mountPoint);
-						}
-					}
-				}
-			}
-
-			$mtime=filemtime(OC::$SERVERROOT.'/config/mount.php');
-			$previousMTime=OC_Appconfig::getValue('files','mountconfigmtime',0);
-			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-				OC_FileCache::clear();
-				OC_Appconfig::setValue('files','mountconfigmtime',$mtime);
-			}
+		if (!isset($user)) {
+			$user = OC_User::getUser();
 		}
+		self::loadSystemMountPoints($user);
 
 		self::$loaded=true;
 	}
@@ -253,8 +274,12 @@ class OC_Filesystem{
 	 * @param string intput
 	 * @return string
 	 */
-	private static function setUserVars($input) {
-		return str_replace('$user',OC_User::getUser(),$input);
+	private static function setUserVars($input, $user) {
+		if (isset($user)) {
+			return str_replace('$user', $user,$input);
+		} else {
+			return str_replace('$user',OC_User::getUser(),$input);
+		}
 	}
 
 	/**
@@ -357,7 +382,7 @@ class OC_Filesystem{
 	* @return string
 	*/
 	static public function getLocalPath($path) {
-		$datadir = OC_User::getHome($user).'/files';
+		$datadir = OC_User::getHome(OC_User::getUser()).'/files';
 		$newpath = $path;
 		if (strncmp($newpath, $datadir, strlen($datadir)) == 0) {
 			$newpath = substr($path, strlen($datadir));
@@ -521,12 +546,20 @@ class OC_Filesystem{
 		return self::$defaultInstance->hasUpdated($path,$time);
 	}
 
-	static public function removeETagHook($params) {
+	static public function removeETagHook($params, $root = false) {
 		if (isset($params['path'])) {
 			$path=$params['path'];
 		} else {
 			$path=$params['oldpath'];
 		}
+
+		if ($root) { // reduce path to the required part of it (no 'username/files')
+			$fakeRootView = new OC_FilesystemView($root);
+			$count = 1;
+			$path=str_replace(OC_App::getStorage("files")->getAbsolutePath(), "", $fakeRootView->getAbsolutePath($path), $count);
+		}
+
+		$path = self::normalizePath($path);
 		OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
 	}
 

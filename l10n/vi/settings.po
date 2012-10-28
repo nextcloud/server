@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <khanhnd@kenhgiaiphap.vn>, 2012.
 #   <mattheu_9x@yahoo.com>, 2012.
 # Son Nguyen <sonnghit@gmail.com>, 2012.
 # Sơn Nguyễn <sonnghit@gmail.com>, 2012.
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:03+0200\n"
-"PO-Revision-Date: 2012-09-17 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-16 23:38+0200\n"
+"PO-Revision-Date: 2012-10-16 07:01+0000\n"
+"Last-Translator: khanhnd <khanhnd@kenhgiaiphap.vn>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,22 +26,17 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Không thể tải danh sách ứng dụng từ App Store"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Lỗi xác thực"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr "Nhóm đã tồn tại"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr "Không thể thêm nhóm"
 
-#: ajax/enableapp.php:13
+#: ajax/enableapp.php:14
 msgid "Could not enable app. "
-msgstr ""
+msgstr "không thể kích hoạt ứng dụng."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -62,7 +58,11 @@ msgstr "Yêu cầu không hợp lệ"
 msgid "Unable to delete group"
 msgstr "Không thể xóa nhóm"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Lỗi xác thực"
+
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr "Không thể xóa người dùng"
 
@@ -80,15 +80,11 @@ msgstr "Không thể thêm người dùng vào nhóm %s"
 msgid "Unable to remove user from group %s"
 msgstr "Không thể xóa người dùng từ nhóm %s"
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "Lỗi"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "Vô hiệu"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "Cho phép"
 
@@ -96,7 +92,7 @@ msgstr "Cho phép"
 msgid "Saving..."
 msgstr "Đang tiến hành lưu ..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "__Ngôn ngữ___"
 
@@ -119,23 +115,23 @@ msgstr "Cron"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Thực thi tác vụ mỗi khi trang được tải"
 
 #: templates/admin.php:43
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php đã được đăng ký tại một dịch vụ webcron. Gọi trang cron.php mỗi phút một lần thông qua giao thức http."
 
 #: templates/admin.php:49
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Sử dụng dịch vụ cron của hệ thống. Gọi tệp tin cron.php mỗi phút một lần."
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "Chia sẻ"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
@@ -191,15 +187,19 @@ msgstr "Được phát triển bởi <a href=\"http://ownCloud.org/contact\" tar
 msgid "Add your App"
 msgstr "Thêm ứng dụng của bạn"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Nhiều ứng dụng hơn"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Chọn một ứng dụng"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr "Xem ứng dụng tại apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-Giấy phép được cấp bởi  <span class=\"author\"></span>"
 
@@ -228,12 +228,9 @@ msgid "Answer"
 msgstr "trả lời"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Bạn sử dụng"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "có sẵn"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr "Bạn đã sử dụng <strong>%s</strong> trong <strong>%s</strong> được phép."
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -244,8 +241,8 @@ msgid "Download"
 msgstr "Tải về"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
-msgstr "Mật khẩu đã được thay đổi"
+msgid "Your password was changed"
+msgstr "Mật khẩu của bạn đã được thay đổi."
 
 #: templates/personal.php:20
 msgid "Unable to change your password"

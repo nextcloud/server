@@ -3,157 +3,158 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <appweb.cn@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-29 02:01+0200\n"
-"PO-Revision-Date: 2012-08-29 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-24 02:02+0200\n"
+"PO-Revision-Date: 2012-10-23 05:22+0000\n"
+"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: templates/settings.php:8
 msgid "Host"
-msgstr ""
+msgstr "主机"
 
 #: templates/settings.php:8
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "可以忽略协议，但如要使用SSL，则需以ldaps://开头"
 
 #: templates/settings.php:9
 msgid "Base DN"
-msgstr ""
+msgstr "Base DN"
 
 #: templates/settings.php:9
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "您可以在高级选项卡里为用户和组指定Base DN"
 
 #: templates/settings.php:10
 msgid "User DN"
-msgstr ""
+msgstr "User DN"
 
 #: templates/settings.php:10
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "客户端使用的DN必须与绑定的相同，比如uid=agent,dc=example,dc=com\n如需匿名访问，将DN和密码保留为空"
 
 #: templates/settings.php:11
 msgid "Password"
-msgstr ""
+msgstr "密码"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "启用匿名访问，将DN和密码保留为空"
 
 #: templates/settings.php:12
 msgid "User Login Filter"
-msgstr ""
+msgstr "用户登录过滤"
 
 #: templates/settings.php:12
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "定义当尝试登录时的过滤器。 在登录过程中，%%uid将会被用户名替换"
 
 #: templates/settings.php:12
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "使用 %%uid作为占位符，例如“uid=%%uid”"
 
 #: templates/settings.php:13
 msgid "User List Filter"
-msgstr ""
+msgstr "用户列表过滤"
 
 #: templates/settings.php:13
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "定义拉取用户时的过滤器"
 
 #: templates/settings.php:13
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "没有任何占位符,如 \"objectClass=person\"."
 
 #: templates/settings.php:14
 msgid "Group Filter"
-msgstr ""
+msgstr "组过滤"
 
 #: templates/settings.php:14
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "定义拉取组信息时的过滤器"
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "无需占位符，例如\"objectClass=posixGroup\""
 
 #: templates/settings.php:17
 msgid "Port"
-msgstr ""
+msgstr "端口"
 
 #: templates/settings.php:18
 msgid "Base User Tree"
-msgstr ""
+msgstr "基础用户树"
 
 #: templates/settings.php:19
 msgid "Base Group Tree"
-msgstr ""
+msgstr "基础组树"
 
 #: templates/settings.php:20
 msgid "Group-Member association"
-msgstr ""
+msgstr "组成员关联"
 
 #: templates/settings.php:21
 msgid "Use TLS"
-msgstr ""
+msgstr "使用TLS"
 
 #: templates/settings.php:21
 msgid "Do not use it for SSL connections, it will fail."
-msgstr ""
+msgstr "不要在SSL链接中使用此选项，会导致失败。"
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "大小写敏感LDAP服务器(Windows)"
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "关闭SSL证书验证"
 
 #: templates/settings.php:23
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "如果链接仅在此选项时可用，在您的ownCloud服务器中导入LDAP服务器的SSL证书。"
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "暂不推荐，仅供测试"
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
-msgstr ""
+msgstr "用户显示名称字段"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "用来生成用户的ownCloud名称的 LDAP属性"
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "组显示名称字段"
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "用来生成组的ownCloud名称的LDAP属性"
 
 #: templates/settings.php:27
 msgid "in bytes"
-msgstr ""
+msgstr "字节数"
 
 #: templates/settings.php:29
 msgid "in seconds. A change empties the cache."
@@ -163,8 +164,8 @@ msgstr ""
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr ""
+msgstr "将用户名称留空(默认)。否则指定一个LDAP/AD属性"
 
 #: templates/settings.php:32
 msgid "Help"
-msgstr ""
+msgstr "帮助"

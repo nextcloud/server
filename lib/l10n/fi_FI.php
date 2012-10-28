@@ -12,6 +12,8 @@
 "Application is not enabled" => "Sovellusta ei ole otettu käyttöön",
 "Authentication error" => "Todennusvirhe",
 "Token expired. Please reload page." => "Valtuutus vanheni. Lataa sivu uudelleen.",
+"Files" => "Tiedostot",
+"Text" => "Teksti",
 "seconds ago" => "sekuntia sitten",
 "1 minute ago" => "1 minuutti sitten",
 "%d minutes ago" => "%d minuuttia sitten",

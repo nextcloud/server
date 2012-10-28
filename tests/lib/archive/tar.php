@@ -8,17 +8,13 @@
 
 require_once 'archive.php';
 
-if(is_dir(OC::$SERVERROOT.'/apps/files_archive/tests/data')) {
-	class Test_Archive_TAR extends Test_Archive{
-		protected function getExisting() {
-			$dir=OC::$SERVERROOT.'/apps/files_archive/tests/data';
-			return new OC_Archive_TAR($dir.'/data.tar.gz');
-		}
-
-		protected function getNew() {
-			return new OC_Archive_TAR(OCP\Files::tmpFile('.tar.gz'));
-		}
+class Test_Archive_TAR extends Test_Archive {
+	protected function getExisting() {
+		$dir = OC::$SERVERROOT . '/tests/data';
+		return new OC_Archive_TAR($dir . '/data.tar.gz');
 	}
-}else{
-	abstract class Test_Archive_TAR extends Test_Archive{}
+
+	protected function getNew() {
+		return new OC_Archive_TAR(OCP\Files::tmpFile('.tar.gz'));
+	}
 }

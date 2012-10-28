@@ -29,8 +29,8 @@ class OC_Updater{
 	 * Check if a new version is available
 	 */
 	public static function check() {
-		OC_Appconfig::setValue('core', 'lastupdatedat',microtime(true));
-		if(OC_Appconfig::getValue('core', 'installedat','')=='') OC_Appconfig::setValue('core', 'installedat',microtime(true));
+		OC_Appconfig::setValue('core', 'lastupdatedat', microtime(true));
+		if(OC_Appconfig::getValue('core', 'installedat','')=='') OC_Appconfig::setValue('core', 'installedat', microtime(true));
 
 		$updaterurl='http://apps.owncloud.com/updater.php';
 		$version=OC_Util::getVersion();
@@ -42,8 +42,17 @@ class OC_Updater{
 
 		//fetch xml data from updater
 		$url=$updaterurl.'?version='.$versionstring;
-                $xml=@file_get_contents($url);
-                if($xml==FALSE) {
+
+		// set a sensible timeout of 10 sec to stay responsive even if the update server is down.
+		$ctx = stream_context_create(
+			array(
+				'http' => array(
+					'timeout' => 10
+				)
+			)
+		);
+		$xml=@file_get_contents($url, 0, $ctx);
+                if($xml==false) {
                         return array();
                 }
                 $data=@simplexml_load_string($xml);
@@ -63,7 +72,7 @@ class OC_Updater{
 		if(OC_Config::getValue('updatechecker', true)==true) {
 			$data=OC_Updater::check();
 			if(isset($data['version']) and $data['version']<>'') {
-				$txt='<span style="color:#AA0000; font-weight:bold;">'.$l->t('%s is available. Get <a href="%s">more information</a>',array($data['versionstring'], $data['web'])).'</span>';
+				$txt='<span style="color:#AA0000; font-weight:bold;">'.$l->t('%s is available. Get <a href="%s">more information</a>', array($data['versionstring'], $data['web'])).'</span>';
 			}else{
 				$txt=$l->t('up to date');
 			}

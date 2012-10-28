@@ -12,6 +12,8 @@
 "Application is not enabled" => "Applikasjon er ikke påslått",
 "Authentication error" => "Autentiseringsfeil",
 "Token expired. Please reload page." => "Symbol utløpt. Vennligst last inn siden på nytt.",
+"Files" => "Filer",
+"Text" => "Tekst",
 "seconds ago" => "sekunder siden",
 "1 minute ago" => "1 minuitt siden",
 "%d minutes ago" => "%d minutter siden",
@@ -21,5 +23,8 @@
 "last month" => "forrige måned",
 "months ago" => "måneder siden",
 "last year" => "i fjor",
-"years ago" => "år siden"
+"years ago" => "år siden",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s er tilgjengelig. Få  <a href=\"%s\">mer informasjon</a>",
+"up to date" => "oppdatert",
+"updates check is disabled" => "versjonssjekk er avslått"
 );

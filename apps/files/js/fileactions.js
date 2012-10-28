@@ -157,7 +157,7 @@ $(document).ready(function(){
 		var downloadScope = 'file';
 	}
 	FileActions.register(downloadScope,'Download', OC.PERMISSION_READ, function(){return OC.imagePath('core','actions/download');},function(filename){
-		window.location=OC.filePath('files', 'ajax', 'download.php') + encodeURIComponent('?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val()));
+		window.location=OC.filePath('files', 'ajax', 'download.php') + '&files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val());
 	});
 });
 
@@ -179,6 +179,7 @@ FileActions.register('all','Delete', OC.PERMISSION_DELETE, function(){return OC.
 	$('.tipsy').remove();
 });
 
+// t('files', 'Rename')
 FileActions.register('all','Rename', OC.PERMISSION_UPDATE, function(){return OC.imagePath('core','actions/rename');},function(filename){
 	FileList.rename(filename);
 });

@@ -4,19 +4,20 @@ var FileList={
 		$('#fileList').empty().html(fileListHtml);
 	},
 	addFile:function(name,size,lastModified,loading,hidden){
-		var img=(loading)?OC.imagePath('core', 'loading.gif'):OC.imagePath('core', 'filetypes/file.png');
-		var html='<tr data-type="file" data-size="'+size+'" data-permissions="'+$('#permissions').val()+'">';
+		var basename, extension, simpleSize, sizeColor, lastModifiedTime, modifiedColor,
+			img=(loading)?OC.imagePath('core', 'loading.gif'):OC.imagePath('core', 'filetypes/file.png'),
+			html='<tr data-type="file" data-size="'+size+'" data-permissions="'+$('#permissions').val()+'">';
 		if(name.indexOf('.')!=-1){
-			var basename=name.substr(0,name.lastIndexOf('.'));
-			var extension=name.substr(name.lastIndexOf('.'));
+			basename=name.substr(0,name.lastIndexOf('.'));
+			extension=name.substr(name.lastIndexOf('.'));
 		}else{
-			var basename=name;
-			var extension=false;
+			basename=name;
+			extension=false;
 		}
 		html+='<td class="filename" style="background-image:url('+img+')"><input type="checkbox" />';
-		html+='<a class="name" href="download.php?file='+$('#dir').val().replace(/</, '&lt;').replace(/>/, '&gt;')+'/'+name+'"><span class="nametext">'+basename;
+		html+='<a class="name" href="download.php?file='+$('#dir').val().replace(/</, '&lt;').replace(/>/, '&gt;')+'/'+escapeHTML(name)+'"><span class="nametext">'+escapeHTML(basename);
 		if(extension){
-			html+='<span class="extension">'+extension+'</span>';
+			html+='<span class="extension">'+escapeHTML(extension)+'</span>';
 		}
 		html+='</span></a></td>';
 		if(size!='Pending'){
@@ -41,10 +42,11 @@ var FileList={
 		}
 	},
 	addDir:function(name,size,lastModified,hidden){
+		var html, td, link_elem, sizeColor, lastModifiedTime, modifiedColor;
 		html = $('<tr></tr>').attr({ "data-type": "dir", "data-size": size, "data-file": name, "data-permissions": $('#permissions').val()});
 		td = $('<td></td>').attr({"class": "filename", "style": 'background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')' });
 		td.append('<input type="checkbox" />');
-		var link_elem = $('<a></a>').attr({ "class": "name", "href": OC.linkTo('files', 'index.php')+"&dir="+ encodeURIComponent($('#dir').val()+'/'+name).replace(/%2F/g, '/') });
+		link_elem = $('<a></a>').attr({ "class": "name", "href": OC.linkTo('files', 'index.php')+"&dir="+ encodeURIComponent($('#dir').val()+'/'+name).replace(/%2F/g, '/') });
 		link_elem.append($('<span></span>').addClass('nametext').text(name));
 		link_elem.append($('<span></span>').attr({'class': 'uploadtext', 'currentUploads': 0}));
 		td.append(link_elem);
@@ -71,7 +73,7 @@ var FileList={
 		}
 	},
 	refresh:function(data) {
-		result = jQuery.parseJSON(data.responseText);
+		var result = jQuery.parseJSON(data.responseText);
 		if(typeof(result.data.breadcrumb) != 'undefined'){
 			updateBreadcrumb(result.data.breadcrumb);
 		}
@@ -88,14 +90,13 @@ var FileList={
 	},
 	insertElement:function(name,type,element){
 		//find the correct spot to insert the file or folder
-		var fileElements=$('tr[data-file][data-type="'+type+'"]:visible');
-		var pos;
+		var pos, fileElements=$('tr[data-file][data-type="'+type+'"]:visible');
 		if(name.localeCompare($(fileElements[0]).attr('data-file'))<0){
 			pos=-1;
 		}else if(name.localeCompare($(fileElements[fileElements.length-1]).attr('data-file'))>0){
 			pos=fileElements.length-1;
 		}else{
-			for(var pos=0;pos<fileElements.length-1;pos++){
+			for(pos=0;pos<fileElements.length-1;pos++){
 				if(name.localeCompare($(fileElements[pos]).attr('data-file'))>0 && name.localeCompare($(fileElements[pos+1]).attr('data-file'))<0){
 					break;
 				}
@@ -115,11 +116,14 @@ var FileList={
 		$('#emptyfolder').hide();
 		$('.file_upload_filename').removeClass('highlight');
 	},
-	loadingDone:function(name){
-		var tr=$('tr').filterAttr('data-file',name);
+	loadingDone:function(name, id){
+		var mime, tr=$('tr').filterAttr('data-file',name);
 		tr.data('loading',false);
-		var mime=tr.data('mime');
+		mime=tr.data('mime');
 		tr.attr('data-mime',mime);
+		if (id != null) {
+			tr.attr('data-id', id);
+		}
 		getMimeIcon(mime,function(path){
 			tr.find('td.filename').attr('style','background-image:url('+path+')');
 		});
@@ -129,14 +133,15 @@ var FileList={
 		return $('tr').filterAttr('data-file',name).data('loading');
 	},
 	rename:function(name){
-		var tr=$('tr').filterAttr('data-file',name);
+		var tr, td, input, form;
+		tr=$('tr').filterAttr('data-file',name);
 		tr.data('renaming',true);
-		var td=tr.children('td.filename');
-		var input=$('<input class="filename"></input>').val(name);
-		var form=$('<form></form>')
+		td=tr.children('td.filename');
+		input=$('<input class="filename"></input>').val(name);
+		form=$('<form></form>');
 		form.append(input);
-		td.children('a.name').text('');
-		td.children('a.name').append(form)
+		td.children('a.name').hide();
+		td.append(form);
 		input.focus();
 		form.submit(function(event){
 			event.stopPropagation();
@@ -151,25 +156,28 @@ var FileList={
 							OC.dialogs.alert(result.data.message, 'Error moving file');
 							newname = name;
 						}
+						tr.data('renaming',false);
 					});
+
 				}
 			}
 			tr.attr('data-file', newname);
 			var path = td.children('a.name').attr('href');
 			td.children('a.name').attr('href', path.replace(encodeURIComponent(name), encodeURIComponent(newname)));
-			if (newname.indexOf('.') > 0) {
+			if (newname.indexOf('.') > 0 && tr.data('type') != 'dir') {
 				var basename=newname.substr(0,newname.lastIndexOf('.'));
 			} else {
 				var basename=newname;
 			}
-			td.children('a.name').empty();
-			var span=$('<span class="nametext"></span>');
-			span.text(basename);
-			td.children('a.name').append(span);
-			if (newname.indexOf('.') > 0) {
-				span.append($('<span class="extension">'+newname.substr(newname.lastIndexOf('.'))+'</span>'));
+			td.find('a.name span.nametext').text(basename);
+			if (newname.indexOf('.') > 0 && tr.data('type') != 'dir') {
+				if (td.find('a.name span.extension').length == 0 ) {
+					td.find('a.name span.nametext').append('<span class="extension"></span>');
+				}
+				td.find('a.name span.extension').text(newname.substr(newname.lastIndexOf('.')));
 			}
-			tr.data('renaming',false);
+			form.remove();
+			td.children('a.name').show();
 			return false;
 		});
 		input.click(function(event){
@@ -183,9 +191,9 @@ var FileList={
 	checkName:function(oldName, newName, isNewFile) {
 		if (isNewFile || $('tr').filterAttr('data-file', newName).length > 0) {
 			if (isNewFile) {
-				$('#notification').html(newName+' '+t('files', 'already exists')+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
+				$('#notification').html(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
 			} else {
-				$('#notification').html(newName+' '+t('files', 'already exists')+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
+				$('#notification').html(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
 			}
 			$('#notification').data('oldName', oldName);
 			$('#notification').data('newName', newName);
@@ -232,9 +240,9 @@ var FileList={
 			FileList.finishReplace();
 		};
 		if (isNewFile) {
-			$('#notification').html(t('files', 'replaced')+' '+newName+'<span class="undo">'+t('files', 'undo')+'</span>');
+			$('#notification').html(t('files', 'replaced {new_name}', {new_name: newName})+'<span class="undo">'+t('files', 'undo')+'</span>');
 		} else {
-			$('#notification').html(t('files', 'replaced')+' '+newName+' '+t('files', 'with')+' '+oldName+'<span class="undo">'+t('files', 'undo')+'</span>');
+			$('#notification').html(t('files', 'replaced {new_name} with {old_name}', {new_name: newName}, {old_name: oldName})+'<span class="undo">'+t('files', 'undo')+'</span>');
 		}
 		$('#notification').fadeIn();
 	},
@@ -255,21 +263,23 @@ var FileList={
 	},
 	do_delete:function(files){
 		// Finish any existing actions
-		if (FileList.lastAction || !FileList.useUndo) {
-			if(!FileList.deleteFiles) {
-				FileList.prepareDeletion(files);
-			}
+		if (FileList.lastAction) {
 			FileList.lastAction();
-			return;
 		}
+
 		FileList.prepareDeletion(files);
-		// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
-		if ($('#dir').val() == '/Shared') {
-			$('#notification').html(t('files', 'unshared')+' '+files+'<span class="undo">'+t('files', 'undo')+'</span>');
+
+		if (!FileList.useUndo) {
+			FileList.lastAction();
 		} else {
-			$('#notification').html(t('files', 'deleted')+' '+files+'<span class="undo">'+t('files', 'undo')+'</span>');
+			// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
+			if ($('#dir').val() == '/Shared') {
+				$('#notification').html(t('files', 'unshared {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
+			} else {
+				$('#notification').html(t('files', 'deleted {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
+			}
+			$('#notification').fadeIn();
 		}
-		$('#notification').fadeIn();
 	},
 	finishDelete:function(ready,sync){
 		if(!FileList.deleteCanceled && FileList.deleteFiles){
@@ -277,6 +287,7 @@ var FileList={
 			$.ajax({
 				url: OC.filePath('files', 'ajax', 'delete.php'),
 				async:!sync,
+				type:'post',
 				data: {dir:$('#dir').val(),files:fileNames},
 				complete: function(data){
 					boolOperationFinished(data, function(){
@@ -312,7 +323,7 @@ var FileList={
 			FileList.finishDelete(null, true);
 		};
 	}
-}
+};
 
 $(document).ready(function(){
 	$('#notification').hide();
@@ -358,7 +369,7 @@ $(document).ready(function(){
 			FileList.finishDelete(null, true);
 		}
 	});
-	FileList.useUndo=('onbeforeunload' in window)
+	FileList.useUndo=(window.onbeforeunload)?true:false;
 	$(window).bind('beforeunload', function (){
 		if (FileList.lastAction) {
 			FileList.lastAction();

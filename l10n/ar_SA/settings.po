@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:03+0200\n"
-"PO-Revision-Date: 2012-09-17 00:03+0000\n"
+"POT-Creation-Date: 2012-10-09 02:03+0200\n"
+"PO-Revision-Date: 2012-10-09 00:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Arabic (Saudi Arabia) (http://www.transifex.com/projects/p/owncloud/language/ar_SA/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Unable to add group"
 msgstr ""
 
-#: ajax/enableapp.php:13
+#: ajax/enableapp.php:14
 msgid "Could not enable app. "
 msgstr ""
 
@@ -76,15 +76,11 @@ msgstr ""
 msgid "Unable to remove user from group %s"
 msgstr ""
 
-#: js/apps.js:18
-msgid "Error"
-msgstr ""
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr ""
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr ""
 
@@ -92,7 +88,7 @@ msgstr ""
 msgid "Saving..."
 msgstr ""
 
-#: personal.php:46 personal.php:47
+#: personal.php:47 personal.php:48
 msgid "__language_name__"
 msgstr ""
 
@@ -187,15 +183,19 @@ msgstr ""
 msgid "Add your App"
 msgstr ""
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr ""
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr ""
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr ""
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""
 
@@ -224,11 +224,8 @@ msgid "Answer"
 msgstr ""
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr ""
-
-#: templates/personal.php:8
-msgid "of the available"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
 msgstr ""
 
 #: templates/personal.php:12
@@ -240,7 +237,7 @@ msgid "Download"
 msgstr ""
 
 #: templates/personal.php:19
-msgid "Your password got changed"
+msgid "Your password was changed"
 msgstr ""
 
 #: templates/personal.php:20

@@ -120,11 +120,11 @@ class OC_User {
 	 * setup the configured backends in config.php
 	 */
 	public static function setupBackends() {
-		$backends=OC_Config::getValue('user_backends',array());
+		$backends=OC_Config::getValue('user_backends', array());
 		foreach($backends as $i=>$config) {
 			$class=$config['class'];
 			$arguments=$config['arguments'];
-			if(class_exists($class) and array_search($i,self::$_setupedBackends)===false) {
+			if(class_exists($class) and array_search($i, self::$_setupedBackends)===false) {
 				// make a reflection object
 				$reflectionObj = new ReflectionClass($class);
 
@@ -210,6 +210,10 @@ class OC_User {
 			}
 			// Delete the user's keys in preferences
 			OC_Preferences::deleteUser($uid);
+
+			// Delete user files in /data/
+			OC_Helper::rmdirr(OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/'.$uid.'/');
+
 			// Emit and exit
 			OC_Hook::emit( "OC_User", "post_deleteUser", array( "uid" => $uid ));
 			return true;
@@ -329,6 +333,8 @@ class OC_User {
 					}
 				}
 			}
+			// invalidate all login cookies
+			OC_Preferences::deleteApp($uid, 'login_token');
 			OC_Hook::emit( "OC_User", "post_setPassword", array( "uid" => $uid, "password" => $password ));
 			return $success;
 		}
@@ -472,9 +478,10 @@ class OC_User {
 	 */
 	public static function setMagicInCookie($username, $token) {
 		$secure_cookie = OC_Config::getValue("forcessl", false);
-		setcookie("oc_username", $username, time()+60*60*24*15, '', '', $secure_cookie);
-		setcookie("oc_token", $token, time()+60*60*24*15, '', '', $secure_cookie);
-		setcookie("oc_remember_login", true, time()+60*60*24*15, '', '', $secure_cookie);
+		$expires = time() + OC_Config::getValue('remember_login_cookie_lifetime', 60*60*24*15);
+		setcookie("oc_username", $username, $expires, '', '', $secure_cookie);
+		setcookie("oc_token", $token, $expires, '', '', $secure_cookie, true);
+		setcookie("oc_remember_login", true, $expires, '', '', $secure_cookie);
 	}
 
 	/**
@@ -484,8 +491,8 @@ class OC_User {
 		unset($_COOKIE["oc_username"]);
 		unset($_COOKIE["oc_token"]);
 		unset($_COOKIE["oc_remember_login"]);
-		setcookie("oc_username", NULL, -1);
-		setcookie("oc_token", NULL, -1);
-		setcookie("oc_remember_login", NULL, -1);
+		setcookie("oc_username", null, -1);
+		setcookie("oc_token", null, -1);
+		setcookie("oc_remember_login", null, -1);
 	}
 }

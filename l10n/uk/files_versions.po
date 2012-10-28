@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <skoptev@ukr.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:02+0200\n"
-"PO-Revision-Date: 2012-09-17 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-23 02:02+0200\n"
+"PO-Revision-Date: 2012-10-22 12:22+0000\n"
+"Last-Translator: skoptev <skoptev@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,20 +20,24 @@ msgstr ""
 
 #: js/settings-personal.js:31 templates/settings-personal.php:10
 msgid "Expire all versions"
-msgstr ""
+msgstr "Термін дії всіх версій"
+
+#: js/versions.js:16
+msgid "History"
+msgstr "Історія"
 
 #: templates/settings-personal.php:4
 msgid "Versions"
-msgstr ""
+msgstr "Версії"
 
 #: templates/settings-personal.php:7
 msgid "This will delete all existing backup versions of your files"
-msgstr ""
+msgstr "Це призведе до знищення всіх існуючих збережених версій Ваших файлів"
 
 #: templates/settings.php:3
 msgid "Files Versioning"
-msgstr ""
+msgstr "Версії файлів"
 
 #: templates/settings.php:4
 msgid "Enable"
-msgstr ""
+msgstr "Включити"

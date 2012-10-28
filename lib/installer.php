@@ -125,7 +125,7 @@ class OC_Installer{
 			}
 			return false;
 		}
-		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml',true);
+		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml', true);
 		// check the code for not allowed calls
 		if(!OC_Installer::checkCode($info['id'],$extractDir)) {
 			OC_Log::write('core','App can\'t be installed because of not allowed code in the App',OC_Log::ERROR);
@@ -187,7 +187,7 @@ class OC_Installer{
 
 		//run appinfo/install.php
 		if((!isset($data['noinstall']) or $data['noinstall']==false) and file_exists($basedir.'/appinfo/install.php')) {
-			include($basedir.'/appinfo/install.php');
+			include $basedir.'/appinfo/install.php';
 		}
 
 		//set the installed version
@@ -320,7 +320,7 @@ class OC_Installer{
 
 		//run appinfo/install.php
 		if(is_file(OC_App::getAppPath($app)."/appinfo/install.php")) {
-			include(OC_App::getAppPath($app)."/appinfo/install.php");
+			include OC_App::getAppPath($app)."/appinfo/install.php";
 		}
 		$info=OC_App::getAppInfo($app);
 		OC_Appconfig::setValue($app,'installed_version',OC_App::getAppVersion($app));

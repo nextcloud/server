@@ -28,10 +28,9 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 
 	public function setConnector(lib\Connection &$connection) {
 		parent::setConnector($connection);
-		if(empty($this->connection->ldapGroupFilter) || empty($this->connection->ldapGroupMemberAssocAttr)) {
-			$this->enabled = false;
+		if(!empty($this->connection->ldapGroupFilter) && !empty($this->connection->ldapGroupMemberAssocAttr)) {
+			$this->enabled = true;
 		}
-		$this->enabled = true;
 	}
 
 	/**
@@ -96,12 +95,13 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		if(!$this->enabled) {
 			return array();
 		}
-		if($this->connection->isCached('getUserGroups'.$uid)) {
-			return $this->connection->getFromCache('getUserGroups'.$uid);
+		$cacheKey = 'getUserGroups'.$uid;
+		if($this->connection->isCached($cacheKey)) {
+			return $this->connection->getFromCache($cacheKey);
 		}
 		$userDN = $this->username2dn($uid);
 		if(!$userDN) {
-			$this->connection->writeToCache('getUserGroups'.$uid, array());
+			$this->connection->writeToCache($cacheKey, array());
 			return array();
 		}
 
@@ -124,7 +124,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		));
 		$groups = $this->fetchListOfGroups($filter, array($this->connection->ldapGroupDisplayName,'dn'));
 		$groups = array_unique($this->ownCloudGroupNames($groups), SORT_LOCALE_STRING);
-		$this->connection->writeToCache('getUserGroups'.$uid, $groups);
+		$this->connection->writeToCache($cacheKey, $groups);
 
 		return $groups;
 	}
@@ -143,7 +143,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 			if(!empty($this->groupSearch)) {
 				$groupUsers = array_filter($groupUsers, array($this, 'groupMatchesFilter'));
 			}
-			if($limit = -1) {
+			if($limit == -1) {
 				$limit = null;
 			}
 			return array_slice($groupUsers, $offset, $limit);
@@ -187,7 +187,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		if(!empty($this->groupSearch)) {
 			$groupUsers = array_filter($groupUsers, array($this, 'groupMatchesFilter'));
 		}
-		if($limit = -1) {
+		if($limit == -1) {
 			$limit = null;
 		}
 		return array_slice($groupUsers, $offset, $limit);
@@ -237,7 +237,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		}
 
 		//getting dn, if false the group does not exist. If dn, it may be mapped only, requires more checking.
-		$dn = $this->username2dn($gid);
+		$dn = $this->groupname2dn($gid);
 		if(!$dn) {
 			$this->connection->writeToCache('groupExists'.$gid, false);
 			return false;

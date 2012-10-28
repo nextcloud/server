@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <josep_tomas@hotmail.com>, 2012.
 #   <rcalvoi@yahoo.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:02+0200\n"
-"PO-Revision-Date: 2012-09-17 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-10 02:04+0200\n"
+"PO-Revision-Date: 2012-10-09 07:30+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,6 +23,10 @@ msgstr ""
 msgid "Expire all versions"
 msgstr "Expira totes les versions"
 
+#: js/versions.js:16
+msgid "History"
+msgstr "Historial"
+
 #: templates/settings-personal.php:4
 msgid "Versions"
 msgstr "Versions"
@@ -32,8 +37,8 @@ msgstr "Això eliminarà totes les versions de còpia de seguretat dels vostres 
 
 #: templates/settings.php:3
 msgid "Files Versioning"
-msgstr ""
+msgstr "Fitxers de Versions"
 
 #: templates/settings.php:4
 msgid "Enable"
-msgstr ""
+msgstr "Habilita"

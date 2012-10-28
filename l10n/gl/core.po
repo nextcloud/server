@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:02+0200\n"
-"PO-Revision-Date: 2012-09-06 00:03+0000\n"
+"POT-Creation-Date: 2012-10-25 02:07+0200\n"
+"PO-Revision-Date: 2012-10-24 00:14+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -31,57 +31,13 @@ msgstr "Sen categoría que engadir?"
 msgid "This category already exists: "
 msgstr "Esta categoría xa existe: "
 
-#: js/js.js:208 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Preferencias"
 
-#: js/js.js:593
-msgid "January"
-msgstr "Xaneiro"
-
-#: js/js.js:593
-msgid "February"
-msgstr "Febreiro"
-
-#: js/js.js:593
-msgid "March"
-msgstr "Marzo"
-
-#: js/js.js:593
-msgid "April"
-msgstr "Abril"
-
-#: js/js.js:593
-msgid "May"
-msgstr "Maio"
-
-#: js/js.js:593
-msgid "June"
-msgstr "Xuño"
-
-#: js/js.js:594
-msgid "July"
-msgstr "Xullo"
-
-#: js/js.js:594
-msgid "August"
-msgstr "Agosto"
-
-#: js/js.js:594
-msgid "September"
-msgstr "Setembro"
-
-#: js/js.js:594
-msgid "October"
-msgstr "Outubro"
-
-#: js/js.js:594
-msgid "November"
-msgstr "Novembro"
-
-#: js/js.js:594
-msgid "December"
-msgstr "Nadal"
+#: js/oc-dialogs.js:123
+msgid "Choose"
+msgstr ""
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -103,9 +59,111 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Non hai categorías seleccionadas para eliminar."
 
-#: js/oc-vcategories.js:68
+#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
+#: js/share.js:517
 msgid "Error"
 msgstr "Erro"
+
+#: js/share.js:103
+msgid "Error while sharing"
+msgstr ""
+
+#: js/share.js:114
+msgid "Error while unsharing"
+msgstr ""
+
+#: js/share.js:121
+msgid "Error while changing permissions"
+msgstr ""
+
+#: js/share.js:130
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
+
+#: js/share.js:132
+msgid "Shared with you by {owner}"
+msgstr ""
+
+#: js/share.js:137
+msgid "Share with"
+msgstr ""
+
+#: js/share.js:142
+msgid "Share with link"
+msgstr ""
+
+#: js/share.js:143
+msgid "Password protect"
+msgstr ""
+
+#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
+msgid "Password"
+msgstr "Contrasinal"
+
+#: js/share.js:152
+msgid "Set expiration date"
+msgstr ""
+
+#: js/share.js:153
+msgid "Expiration date"
+msgstr ""
+
+#: js/share.js:185
+msgid "Share via email:"
+msgstr ""
+
+#: js/share.js:187
+msgid "No people found"
+msgstr ""
+
+#: js/share.js:214
+msgid "Resharing is not allowed"
+msgstr ""
+
+#: js/share.js:250
+msgid "Shared in {item} with {user}"
+msgstr ""
+
+#: js/share.js:271
+msgid "Unshare"
+msgstr "Deixar de compartir"
+
+#: js/share.js:283
+msgid "can edit"
+msgstr ""
+
+#: js/share.js:285
+msgid "access control"
+msgstr ""
+
+#: js/share.js:288
+msgid "create"
+msgstr ""
+
+#: js/share.js:291
+msgid "update"
+msgstr ""
+
+#: js/share.js:294
+msgid "delete"
+msgstr ""
+
+#: js/share.js:297
+msgid "share"
+msgstr ""
+
+#: js/share.js:322 js/share.js:492
+msgid "Password protected"
+msgstr ""
+
+#: js/share.js:505
+msgid "Error unsetting expiration date"
+msgstr ""
+
+#: js/share.js:517
+msgid "Error setting expiration date"
+msgstr ""
 
 #: lostpassword/index.php:26
 msgid "ownCloud password reset"
@@ -127,12 +185,12 @@ msgstr "Solicitado"
 msgid "Login failed!"
 msgstr "Fallou a conexión."
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Nome de usuario"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Petición de restablecemento"
 
@@ -188,72 +246,183 @@ msgstr "Editar categorias"
 msgid "Add"
 msgstr "Engadir"
 
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr "Aviso de seguridade"
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crear unha <strong>contra de administrador</strong>"
 
-#: templates/installation.php:30 templates/login.php:13
-msgid "Password"
-msgstr "Contrasinal"
-
-#: templates/installation.php:36
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: templates/installation.php:38
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "Cartafol de datos"
 
-#: templates/installation.php:45
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "Configurar a base de datos"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "será utilizado"
 
-#: templates/installation.php:93
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Usuario da base de datos"
 
-#: templates/installation.php:97
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "Contrasinal da base de datos"
 
-#: templates/installation.php:101
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Nome da base de datos"
 
-#: templates/installation.php:109
+#: templates/installation.php:121
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:115
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Servidor da base de datos"
 
-#: templates/installation.php:120
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "Rematar configuración"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:38
 msgid "web services under your control"
 msgstr "servizos web baixo o seu control"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:17
+msgid "Sunday"
+msgstr "Domingo"
+
+#: templates/layout.user.php:17
+msgid "Monday"
+msgstr "Luns"
+
+#: templates/layout.user.php:17
+msgid "Tuesday"
+msgstr "Martes"
+
+#: templates/layout.user.php:17
+msgid "Wednesday"
+msgstr "Mércores"
+
+#: templates/layout.user.php:17
+msgid "Thursday"
+msgstr "Xoves"
+
+#: templates/layout.user.php:17
+msgid "Friday"
+msgstr "Venres"
+
+#: templates/layout.user.php:17
+msgid "Saturday"
+msgstr "Sábado"
+
+#: templates/layout.user.php:18
+msgid "January"
+msgstr "Xaneiro"
+
+#: templates/layout.user.php:18
+msgid "February"
+msgstr "Febreiro"
+
+#: templates/layout.user.php:18
+msgid "March"
+msgstr "Marzo"
+
+#: templates/layout.user.php:18
+msgid "April"
+msgstr "Abril"
+
+#: templates/layout.user.php:18
+msgid "May"
+msgstr "Maio"
+
+#: templates/layout.user.php:18
+msgid "June"
+msgstr "Xuño"
+
+#: templates/layout.user.php:18
+msgid "July"
+msgstr "Xullo"
+
+#: templates/layout.user.php:18
+msgid "August"
+msgstr "Agosto"
+
+#: templates/layout.user.php:18
+msgid "September"
+msgstr "Setembro"
+
+#: templates/layout.user.php:18
+msgid "October"
+msgstr "Outubro"
+
+#: templates/layout.user.php:18
+msgid "November"
+msgstr "Novembro"
+
+#: templates/layout.user.php:18
+msgid "December"
+msgstr "Nadal"
+
+#: templates/layout.user.php:38
 msgid "Log out"
 msgstr "Desconectar"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr ""
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr ""
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr ""
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "Perdeu o contrasinal?"
 
-#: templates/login.php:17
+#: templates/login.php:27
 msgid "remember"
 msgstr "lembrar"
 
-#: templates/login.php:18
+#: templates/login.php:28
 msgid "Log in"
 msgstr "Conectar"
 
@@ -268,3 +437,17 @@ msgstr "anterior"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "seguinte"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr ""
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr ""
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr ""

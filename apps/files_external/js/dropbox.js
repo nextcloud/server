@@ -4,7 +4,7 @@ $(document).ready(function() {
 		var configured = $(this).find('[data-parameter="configured"]');
 		if ($(configured).val() == 'true') {
 			$(this).find('.configuration input').attr('disabled', 'disabled');
-			$(this).find('.configuration').append('<span id="access" style="padding-left:0.5em;">Access granted</span>');
+			$(this).find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
 		} else {
 			var app_key = $(this).find('.configuration [data-parameter="app_key"]').val();
 			var app_secret = $(this).find('.configuration [data-parameter="app_secret"]').val();
@@ -22,14 +22,16 @@ $(document).ready(function() {
 							$(configured).val('true');
 							OC.MountConfig.saveStorage(tr);
 							$(tr).find('.configuration input').attr('disabled', 'disabled');
-							$(tr).find('.configuration').append('<span id="access" style="padding-left:0.5em;">Access granted</span>');
+							$(tr).find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
 						} else {
-							OC.dialogs.alert(result.data.message, 'Error configuring Dropbox storage');
+							OC.dialogs.alert(result.data.message,
+                                t('files_external', 'Error configuring Dropbox storage')
+                            );
 						}
 					});
 				}
 			} else if ($(this).find('.mountPoint input').val() != '' && $(config).find('[data-parameter="app_key"]').val() != '' && $(config).find('[data-parameter="app_secret"]').val() != '' && $(this).find('.dropbox').length == 0) {
-				$(this).find('.configuration').append('<a class="button dropbox">Grant access</a>');
+				$(this).find('.configuration').append('<a class="button dropbox">'+t('files_external', 'Grant access')+'</a>');
 			}
 		}
 	});
@@ -40,7 +42,7 @@ $(document).ready(function() {
 			var config = $(tr).find('.configuration');
 			if ($(tr).find('.mountPoint input').val() != '' && $(config).find('[data-parameter="app_key"]').val() != '' && $(config).find('[data-parameter="app_secret"]').val() != '') {
 				if ($(tr).find('.dropbox').length == 0) {
-					$(config).append('<a class="button dropbox">Grant access</a>');
+					$(config).append('<a class="button dropbox">'+t('files_external', 'Grant access')+'</a>');
 				} else {
 					$(tr).find('.dropbox').show();
 				}
@@ -67,14 +69,22 @@ $(document).ready(function() {
 					if (OC.MountConfig.saveStorage(tr)) {
 						window.location = result.data.url;
 					} else {
-						OC.dialogs.alert('Fill out all required fields', 'Error configuring Dropbox storage');
+						OC.dialogs.alert(
+                            t('files_external', 'Fill out all required fields'),
+                            t('files_external', 'Error configuring Dropbox storage')
+                        );
 					}
 				} else {
-					OC.dialogs.alert(result.data.message, 'Error configuring Dropbox storage');
+					OC.dialogs.alert(result.data.message,
+                        t('files_external', 'Error configuring Dropbox storage')
+                    );
 				}
 			});
 		} else {
-			OC.dialogs.alert('Please provide a valid Dropbox app key and secret.', 'Error configuring Dropbox storage');
+			OC.dialogs.alert(
+                t('files_external', 'Please provide a valid Dropbox app key and secret.'),
+                t('files_external', 'Error configuring Dropbox storage')
+            );
 		}
 	});
 

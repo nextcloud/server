@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-17 02:03+0200\n"
-"PO-Revision-Date: 2012-09-17 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-21 02:03+0200\n"
+"PO-Revision-Date: 2012-10-20 20:25+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,22 +23,17 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "App Sotre'i nimekirja laadimine ebaõnnestus"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Autentimise viga"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:12
 msgid "Group already exists"
 msgstr "Grupp on juba olemas"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:21
 msgid "Unable to add group"
 msgstr "Keela grupi lisamine"
 
-#: ajax/enableapp.php:13
+#: ajax/enableapp.php:14
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Rakenduse sisselülitamine ebaõnnestus."
 
 #: ajax/lostpassword.php:14
 msgid "Email saved"
@@ -60,7 +55,11 @@ msgstr "Vigane päring"
 msgid "Unable to delete group"
 msgstr "Keela grupi kustutamine"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+msgid "Authentication error"
+msgstr "Autentimise viga"
+
+#: ajax/removeuser.php:27
 msgid "Unable to delete user"
 msgstr "Keela kasutaja kustutamine"
 
@@ -78,15 +77,11 @@ msgstr "Kasutajat ei saa lisada gruppi %s"
 msgid "Unable to remove user from group %s"
 msgstr "Kasutajat ei saa eemaldada grupist %s"
 
-#: js/apps.js:18
-msgid "Error"
-msgstr "Viga"
-
-#: js/apps.js:39 js/apps.js:73
+#: js/apps.js:28 js/apps.js:65
 msgid "Disable"
 msgstr "Lülita välja"
 
-#: js/apps.js:39 js/apps.js:62
+#: js/apps.js:28 js/apps.js:54
 msgid "Enable"
 msgstr "Lülita sisse"
 
@@ -94,7 +89,7 @@ msgstr "Lülita sisse"
 msgid "Saving..."
 msgstr "Salvestamine..."
 
-#: personal.php:46 personal.php:47
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "Eesti"
 
@@ -133,7 +128,7 @@ msgstr ""
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "Jagamine"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
@@ -189,15 +184,19 @@ msgstr ""
 msgid "Add your App"
 msgstr "Lisa oma rakendus"
 
-#: templates/apps.php:26
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Veel rakendusi"
+
+#: templates/apps.php:27
 msgid "Select an App"
 msgstr "Vali programm"
 
-#: templates/apps.php:29
+#: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
 msgstr "Vaata rakenduste lehte aadressil apps.owncloud.com"
 
-#: templates/apps.php:30
+#: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-litsenseeritud <span class=\"author\"></span>"
 
@@ -226,12 +225,9 @@ msgid "Answer"
 msgstr "Vasta"
 
 #: templates/personal.php:8
-msgid "You use"
-msgstr "Sa kasutad"
-
-#: templates/personal.php:8
-msgid "of the available"
-msgstr "saadaolevast"
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -242,7 +238,7 @@ msgid "Download"
 msgstr "Lae alla"
 
 #: templates/personal.php:19
-msgid "Your password got changed"
+msgid "Your password was changed"
 msgstr "Sinu parooli on muudetud"
 
 #: templates/personal.php:20

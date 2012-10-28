@@ -4,6 +4,8 @@
 "Settings" => "تنظیمات",
 "Users" => "کاربران",
 "Admin" => "مدیر",
+"Files" => "پرونده‌ها",
+"Text" => "متن",
 "seconds ago" => "ثانیه‌ها پیش",
 "1 minute ago" => "1 دقیقه پیش",
 "%d minutes ago" => "%d دقیقه پیش",

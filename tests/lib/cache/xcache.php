@@ -21,15 +21,11 @@
 */
 
 class Test_Cache_XCache extends Test_Cache {
-	function skip() {
-		$this->skipUnless(function_exists('xcache_get'));
-	}
-
 	public function setUp() {
+		if(!function_exists('xcache_get')){
+			$this->markTestSkipped('The xcache extension is not available.');
+			return;
+		}
 		$this->instance=new OC_Cache_XCache();
-	}
-
-	function testTTL() {
-		// ttl doesn't work correctly in the same request
 	}
 }

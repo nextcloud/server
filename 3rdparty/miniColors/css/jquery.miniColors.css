@@ -1,19 +1,13 @@
-.miniColors-trigger {
-	height: 22px;
-	width: 22px;
-	background: url(images/trigger.png) center no-repeat;
-	vertical-align: middle;
-	margin: 0 .25em;
-	display: inline-block;
-	outline: none;
+INPUT.miniColors {
+	margin-right: 4px;
 }
 
 .miniColors-selector {
 	position: absolute;
 	width: 175px;
 	height: 150px;
-	background: #FFF;
-	border: solid 1px #BBB;
+	background: white;
+	border: solid 1px #bababa;
 	-moz-box-shadow: 0 0 6px rgba(0, 0, 0, .25);
 	-webkit-box-shadow: 0 0 6px rgba(0, 0, 0, .25);
 	box-shadow: 0 0 6px rgba(0, 0, 0, .25);
@@ -24,9 +18,13 @@
 	z-index: 999999;
 }
 
+.miniColors.opacity.miniColors-selector {
+	width: 200px;
+}
+
 .miniColors-selector.black {
-	background: #000;
-	border-color: #000;
+	background: black;
+	border-color: black;
 }
 
 .miniColors-colors {
@@ -35,8 +33,12 @@
 	left: 5px;
 	width: 150px;
 	height: 150px;
-	background: url(images/colors.png) right no-repeat;
+	background: url(images/colors.png) -40px 0 no-repeat;
 	cursor: crosshair;
+}
+
+.miniColors.opacity .miniColors-colors {
+	left: 30px;
 }
 
 .miniColors-hues {
@@ -45,15 +47,29 @@
 	left: 160px;
 	width: 20px;
 	height: 150px;
-	background: url(images/colors.png) left no-repeat;
+	background: url(images/colors.png) 0 0 no-repeat;
+	cursor: crosshair;
+}
+
+.miniColors.opacity .miniColors-hues {
+	left: 185px;
+}
+
+.miniColors-opacity {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 20px;
+	height: 150px;
+	background: url(images/colors.png) -20px 0 no-repeat;
 	cursor: crosshair;
 }
 
 .miniColors-colorPicker {
 	position: absolute;
-	width: 9px;
-	height: 9px;
-	border: 1px solid #fff;
+	width: 11px;
+	height: 11px;
+	border: 1px solid black;
 	-moz-border-radius: 11px;
 	-webkit-border-radius: 11px;
 	border-radius: 11px;
@@ -64,18 +80,46 @@
 	left: 0; 
 	width: 7px;
 	height: 7px;
-	border: 1px solid #000;
+	border: 2px solid white;
 	-moz-border-radius: 9px;
 	-webkit-border-radius: 9px;
 	border-radius: 9px;
 }
 
-.miniColors-huePicker {
+.miniColors-huePicker,
+.miniColors-opacityPicker {
 	position: absolute;
-	left: -3px;
-	width: 24px;
-	height: 1px;
-	border: 1px solid #fff;
+	left: -2px;
+	width: 22px;
+	height: 2px;
+	border: 1px solid black;
+	background: white;
+	margin-top: -1px;
 	border-radius: 2px;
-	background: #000;
+}
+
+.miniColors-trigger, 
+.miniColors-triggerWrap {
+	width: 22px;
+	height: 22px;
+	display: inline-block;
+}
+
+.miniColors-triggerWrap {
+	background: url(images/trigger.png) -22px 0 no-repeat;
+}
+
+.miniColors-triggerWrap.disabled {
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+
+.miniColors-trigger {
+	vertical-align: middle;
+	outline: none;
+	background: url(images/trigger.png) 0 0 no-repeat;
+}
+
+.miniColors-triggerWrap.disabled .miniColors-trigger {
+	cursor: default;
 }

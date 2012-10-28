@@ -35,7 +35,7 @@
  * @author    Vincent Blavet <vincent@phpconcept.net>
  * @copyright 1997-2010 The Authors
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @version   CVS: $Id: Tar.php 323476 2012-02-24 15:27:26Z mrook $
+ * @version   CVS: $Id: Tar.php 324840 2012-04-05 08:44:41Z mrook $
  * @link      http://pear.php.net/package/Archive_Tar
  */
 
@@ -50,7 +50,7 @@ define('ARCHIVE_TAR_END_BLOCK', pack("a512", ''));
 * @package Archive_Tar
 * @author  Vincent Blavet <vincent@phpconcept.net>
 * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
-* @version $Revision: 323476 $
+* @version $Revision: 324840 $
 */
 class Archive_Tar extends PEAR
 {
@@ -577,7 +577,7 @@ class Archive_Tar extends PEAR
         }
 
         // ----- Get the arguments
-        $v_att_list = func_get_args();
+        $v_att_list = &func_get_args();
 
         // ----- Read the attributes
         $i=0;
@@ -649,14 +649,14 @@ class Archive_Tar extends PEAR
     // {{{ _error()
     function _error($p_message)
     {
-        $this->error_object = $this->raiseError($p_message);
+        $this->error_object = &$this->raiseError($p_message); 
     }
     // }}}
 
     // {{{ _warning()
     function _warning($p_message)
     {
-        $this->error_object = $this->raiseError($p_message);
+        $this->error_object = &$this->raiseError($p_message); 
     }
     // }}}
 
@@ -981,7 +981,7 @@ class Archive_Tar extends PEAR
     // }}}
 
     // {{{ _addFile()
-    function _addFile($p_filename, &$p_header, $p_add_dir, $p_remove_dir,$v_stored_filename=null)
+    function _addFile($p_filename, &$p_header, $p_add_dir, $p_remove_dir, $v_stored_filename=null)
     {
       if (!$this->_file) {
           $this->_error('Invalid file descriptor');
@@ -992,31 +992,32 @@ class Archive_Tar extends PEAR
           $this->_error('Invalid file name');
           return false;
       }
-      if(is_null($v_stored_filename)){
 
-		// ----- Calculate the stored filename
-		$p_filename = $this->_translateWinPath($p_filename, false);
-		$v_stored_filename = $p_filename;
-		if (strcmp($p_filename, $p_remove_dir) == 0) {
-			return true;
-		}
-		if ($p_remove_dir != '') {
-			if (substr($p_remove_dir, -1) != '/')
-				$p_remove_dir .= '/';
+      // ownCloud change to make it possible to specify the filename to use
+      if(is_null($v_stored_filename)) {
+            // ----- Calculate the stored filename
+            $p_filename = $this->_translateWinPath($p_filename, false);
+            $v_stored_filename = $p_filename;
+            if (strcmp($p_filename, $p_remove_dir) == 0) {
+                return true;
+            }
+            if ($p_remove_dir != '') {
+                if (substr($p_remove_dir, -1) != '/')
+                    $p_remove_dir .= '/';
 
-			if (substr($p_filename, 0, strlen($p_remove_dir)) == $p_remove_dir)
-				$v_stored_filename = substr($p_filename, strlen($p_remove_dir));
-		}
-		$v_stored_filename = $this->_translateWinPath($v_stored_filename);
-		if ($p_add_dir != '') {
-			if (substr($p_add_dir, -1) == '/')
-				$v_stored_filename = $p_add_dir.$v_stored_filename;
-			else
-				$v_stored_filename = $p_add_dir.'/'.$v_stored_filename;
-		}
+                if (substr($p_filename, 0, strlen($p_remove_dir)) == $p_remove_dir)
+                    $v_stored_filename = substr($p_filename, strlen($p_remove_dir));
+            }
+            $v_stored_filename = $this->_translateWinPath($v_stored_filename);
+            if ($p_add_dir != '') {
+                if (substr($p_add_dir, -1) == '/')
+                    $v_stored_filename = $p_add_dir.$v_stored_filename;
+                else
+                    $v_stored_filename = $p_add_dir.'/'.$v_stored_filename;
+            }
 
-		$v_stored_filename = $this->_pathReduction($v_stored_filename);
-	}
+            $v_stored_filename = $this->_pathReduction($v_stored_filename);
+      }
 
       if ($this->_isArchive($p_filename)) {
           if (($v_file = @fopen($p_filename, "rb")) == 0) {
@@ -1775,12 +1776,20 @@ class Archive_Tar extends PEAR
             }
 
             if ($this->_compress_type == 'gz') {
+                $end_blocks = 0;
+                
                 while (!@gzeof($v_temp_tar)) {
                     $v_buffer = @gzread($v_temp_tar, 512);
                     if ($v_buffer == ARCHIVE_TAR_END_BLOCK || strlen($v_buffer) == 0) {
+                        $end_blocks++;
                         // do not copy end blocks, we will re-make them
                         // after appending
                         continue;
+                    } elseif ($end_blocks > 0) {
+                        for ($i = 0; $i < $end_blocks; $i++) {
+                            $this->_writeBlock(ARCHIVE_TAR_END_BLOCK);
+                        }
+                        $end_blocks = 0;
                     }
                     $v_binary_data = pack("a512", $v_buffer);
                     $this->_writeBlock($v_binary_data);
@@ -1789,9 +1798,19 @@ class Archive_Tar extends PEAR
                 @gzclose($v_temp_tar);
             }
             elseif ($this->_compress_type == 'bz2') {
+                $end_blocks = 0;
+                
                 while (strlen($v_buffer = @bzread($v_temp_tar, 512)) > 0) {
-                    if ($v_buffer == ARCHIVE_TAR_END_BLOCK) {
+                    if ($v_buffer == ARCHIVE_TAR_END_BLOCK || strlen($v_buffer) == 0) {
+                        $end_blocks++;
+                        // do not copy end blocks, we will re-make them
+                        // after appending
                         continue;
+                    } elseif ($end_blocks > 0) {
+                        for ($i = 0; $i < $end_blocks; $i++) {
+                            $this->_writeBlock(ARCHIVE_TAR_END_BLOCK);
+                        }
+                        $end_blocks = 0;
                     }
                     $v_binary_data = pack("a512", $v_buffer);
                     $this->_writeBlock($v_binary_data);

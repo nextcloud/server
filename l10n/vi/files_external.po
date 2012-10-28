@@ -3,20 +3,45 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <mattheu_9x@yahoo.com>, 2012.
 # Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-08 02:02+0200\n"
-"PO-Revision-Date: 2012-09-07 15:39+0000\n"
-"Last-Translator: Sơn Nguyễn <sonnghit@gmail.com>\n"
+"POT-Creation-Date: 2012-10-27 00:01+0200\n"
+"PO-Revision-Date: 2012-10-26 13:46+0000\n"
+"Last-Translator: mattheu_9x <mattheu_9x@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
+msgid "Access granted"
+msgstr "Đã cấp quyền truy cập"
+
+#: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
+msgid "Error configuring Dropbox storage"
+msgstr "Lỗi cấu hình lưu trữ Dropbox "
+
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+msgid "Grant access"
+msgstr "Cấp quyền truy cập"
+
+#: js/dropbox.js:73 js/google.js:72
+msgid "Fill out all required fields"
+msgstr "Điền vào tất cả các trường bắt buộc"
+
+#: js/dropbox.js:85
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr ""
+
+#: js/google.js:26 js/google.js:73 js/google.js:78
+msgid "Error configuring Google Drive storage"
+msgstr "Lỗi cấu hình lưu trữ Google Drive"
 
 #: templates/settings.php:3
 msgid "External Storage"
@@ -62,22 +87,22 @@ msgstr "Nhóm"
 msgid "Users"
 msgstr "Người dùng"
 
-#: templates/settings.php:77 templates/settings.php:96
+#: templates/settings.php:77 templates/settings.php:107
 msgid "Delete"
 msgstr "Xóa"
 
-#: templates/settings.php:88
-msgid "SSL root certificates"
-msgstr "Chứng chỉ SSL root"
-
-#: templates/settings.php:102
-msgid "Import Root Certificate"
-msgstr "Nhập Root Certificate"
-
-#: templates/settings.php:108
+#: templates/settings.php:87
 msgid "Enable User External Storage"
 msgstr "Kích hoạt tính năng lưu trữ ngoài"
 
-#: templates/settings.php:109
+#: templates/settings.php:88
 msgid "Allow users to mount their own external storage"
 msgstr "Cho phép người dùng kết nối với lưu trữ riêng bên ngoài của họ"
+
+#: templates/settings.php:99
+msgid "SSL root certificates"
+msgstr "Chứng chỉ SSL root"
+
+#: templates/settings.php:113
+msgid "Import Root Certificate"
+msgstr "Nhập Root Certificate"

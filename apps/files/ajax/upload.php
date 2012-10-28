@@ -38,7 +38,7 @@ $totalSize=0;
 foreach($files['size'] as $size) {
 	$totalSize+=$size;
 }
-if($totalSize>OC_Filesystem::free_space('/')) {
+if($totalSize>OC_Filesystem::free_space($dir)){
 	OCP\JSON::error(array("data" => array( "message" => "Not enough space available" )));
 	exit();
 }
@@ -50,7 +50,8 @@ if(strpos($dir, '..') === false) {
         $target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
 		if(is_uploaded_file($files['tmp_name'][$i]) and OC_Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
 			$meta = OC_FileCache::get($target);
-			$result[]=array( "status" => "success", 'mime'=>$meta['mimetype'],'size'=>$meta['size'],'name'=>basename($target));
+			$id = OC_FileCache::getId($target);
+			$result[]=array( "status" => "success", 'mime'=>$meta['mimetype'],'size'=>$meta['size'], 'id'=>$id, 'name'=>basename($target));
 		}
 	}
 	OCP\JSON::encodedPrint($result);

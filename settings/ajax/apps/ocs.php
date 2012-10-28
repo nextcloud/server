@@ -63,4 +63,3 @@ if(is_array($catagoryNames)) {
 }
 
 OCP\JSON::success(array('type' => 'external', 'data' => $apps));
-
