@@ -66,7 +66,7 @@ class OC_Image {
 	public function __construct($imageref = null) {
 		//OC_Log::write('core',__METHOD__.'(): start', OC_Log::DEBUG);
 		if(!extension_loaded('gd') || !function_exists('gd_info')) {
-			OC_Log::write('core',__METHOD__.'(): GD module not installed', OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): GD module not installed', OC_Log::ERROR);
 			return false;
 		}
 		if(!is_null($imageref)) {
@@ -112,7 +112,7 @@ class OC_Image {
 	*/
 	public function widthTopLeft() {
 		$o = $this->getOrientation();
-		OC_Log::write('core','OC_Image->widthTopLeft() Orientation: '.$o, OC_Log::DEBUG);
+		OC_Log::write('core', 'OC_Image->widthTopLeft() Orientation: '.$o, OC_Log::DEBUG);
 		switch($o) {
 			case -1:
 			case 1:
@@ -137,7 +137,7 @@ class OC_Image {
 	*/
 	public function heightTopLeft() {
 		$o = $this->getOrientation();
-		OC_Log::write('core','OC_Image->heightTopLeft() Orientation: '.$o, OC_Log::DEBUG);
+		OC_Log::write('core', 'OC_Image->heightTopLeft() Orientation: '.$o, OC_Log::DEBUG);
 		switch($o) {
 			case -1:
 			case 1:
@@ -172,7 +172,7 @@ class OC_Image {
 
 	public function save($filepath=null) {
 		if($filepath === null && $this->filepath === null) {
-			OC_Log::write('core',__METHOD__.'(): called with no path.', OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): called with no path.', OC_Log::ERROR);
 			return false;
 		} elseif($filepath === null && $this->filepath !== null) {
 			$filepath = $this->filepath;
@@ -188,10 +188,10 @@ class OC_Image {
 			if (!file_exists(dirname($filepath)))
 				mkdir(dirname($filepath), 0777, true);
 			if(!is_writable(dirname($filepath))) {
-				OC_Log::write('core',__METHOD__.'(): Directory \''.dirname($filepath).'\' is not writable.', OC_Log::ERROR);
+				OC_Log::write('core', __METHOD__.'(): Directory \''.dirname($filepath).'\' is not writable.', OC_Log::ERROR);
 				return false;
 			} elseif(is_writable(dirname($filepath)) && file_exists($filepath) && !is_writable($filepath)) {
-				OC_Log::write('core',__METHOD__.'(): File \''.$filepath.'\' is not writable.', OC_Log::ERROR);
+				OC_Log::write('core', __METHOD__.'(): File \''.$filepath.'\' is not writable.', OC_Log::ERROR);
 				return false;
 			}
 		}
@@ -291,7 +291,7 @@ class OC_Image {
 	*/
 	public function fixOrientation() {
 		$o = $this->getOrientation();
-		OC_Log::write('core','OC_Image->fixOrientation() Orientation: '.$o, OC_Log::DEBUG);
+		OC_Log::write('core', 'OC_Image->fixOrientation() Orientation: '.$o, OC_Log::DEBUG);
 		$rotate = 0;
 		$flip = false;
 		switch($o) {
@@ -341,15 +341,15 @@ class OC_Image {
 						$this->resource = $res;
 						return true;
 					} else {
-						OC_Log::write('core','OC_Image->fixOrientation() Error during alphasaving.', OC_Log::DEBUG);
+						OC_Log::write('core', 'OC_Image->fixOrientation() Error during alphasaving.', OC_Log::DEBUG);
 						return false;
 					}
 				} else {
-					OC_Log::write('core','OC_Image->fixOrientation() Error during alphablending.', OC_Log::DEBUG);
+					OC_Log::write('core', 'OC_Image->fixOrientation() Error during alphablending.', OC_Log::DEBUG);
 					return false;
 				}
 			} else {
-				OC_Log::write('core','OC_Image->fixOrientation() Error during oriention fixing.', OC_Log::DEBUG);
+				OC_Log::write('core', 'OC_Image->fixOrientation() Error during oriention fixing.', OC_Log::DEBUG);
 				return false;
 			}
 		}
@@ -365,7 +365,7 @@ class OC_Image {
 			if(get_resource_type($imageref) == 'gd') {
 				$this->resource = $imageref;
 				return $this->resource;
-			} elseif(in_array(get_resource_type($imageref), array('file','stream'))) {
+			} elseif(in_array(get_resource_type($imageref), array('file', 'stream'))) {
 				return $this->loadFromFileHandle($imageref);
 			}
 		} elseif($this->loadFromFile($imageref) !== false) {
@@ -375,7 +375,7 @@ class OC_Image {
 		} elseif($this->loadFromData($imageref) !== false) {
 			return $this->resource;
 		} else {
-			OC_Log::write('core',__METHOD__.'(): couldn\'t load anything. Giving up!', OC_Log::DEBUG);
+			OC_Log::write('core', __METHOD__.'(): couldn\'t load anything. Giving up!', OC_Log::DEBUG);
 			return false;
 		}
 	}
@@ -387,7 +387,7 @@ class OC_Image {
 	* @returns An image resource or false on error
 	*/
 	public function loadFromFileHandle($handle) {
-		OC_Log::write('core',__METHOD__.'(): Trying', OC_Log::DEBUG);
+		OC_Log::write('core', __METHOD__.'(): Trying', OC_Log::DEBUG);
 		$contents = stream_get_contents($handle);
 		if($this->loadFromData($contents)) {
 			return $this->resource;
@@ -402,7 +402,7 @@ class OC_Image {
 	public function loadFromFile($imagepath=false) {
 		if(!is_file($imagepath) || !file_exists($imagepath) || !is_readable($imagepath)) {
 			// Debug output disabled because this method is tried before loadFromBase64?
-			OC_Log::write('core','OC_Image->loadFromFile, couldn\'t load: '.ellipsis($imagepath, 50), OC_Log::DEBUG);
+			OC_Log::write('core', 'OC_Image->loadFromFile, couldn\'t load: '.ellipsis($imagepath, 50), OC_Log::DEBUG);
 			return false;
 		}
 		$itype = exif_imagetype($imagepath);
@@ -411,28 +411,28 @@ class OC_Image {
 				if (imagetypes() & IMG_GIF) {
 					$this->resource = imagecreatefromgif($imagepath);
 				} else {
-					OC_Log::write('core','OC_Image->loadFromFile, GIF images not supported: '.$imagepath, OC_Log::DEBUG);
+					OC_Log::write('core', 'OC_Image->loadFromFile, GIF images not supported: '.$imagepath, OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_JPEG:
 				if (imagetypes() & IMG_JPG) {
 					$this->resource = imagecreatefromjpeg($imagepath);
 				} else {
-					OC_Log::write('core','OC_Image->loadFromFile, JPG images not supported: '.$imagepath, OC_Log::DEBUG);
+					OC_Log::write('core', 'OC_Image->loadFromFile, JPG images not supported: '.$imagepath, OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_PNG:
 				if (imagetypes() & IMG_PNG) {
 					$this->resource = imagecreatefrompng($imagepath);
 				} else {
-					OC_Log::write('core','OC_Image->loadFromFile, PNG images not supported: '.$imagepath, OC_Log::DEBUG);
+					OC_Log::write('core', 'OC_Image->loadFromFile, PNG images not supported: '.$imagepath, OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_XBM:
 				if (imagetypes() & IMG_XPM) {
 					$this->resource = imagecreatefromxbm($imagepath);
 				} else {
-					OC_Log::write('core','OC_Image->loadFromFile, XBM/XPM images not supported: '.$imagepath, OC_Log::DEBUG);
+					OC_Log::write('core', 'OC_Image->loadFromFile, XBM/XPM images not supported: '.$imagepath, OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_WBMP:
@@ -440,7 +440,7 @@ class OC_Image {
 				if (imagetypes() & IMG_WBMP) {
 					$this->resource = imagecreatefromwbmp($imagepath);
 				} else {
-					OC_Log::write('core','OC_Image->loadFromFile, (W)BMP images not supported: '.$imagepath, OC_Log::DEBUG);
+					OC_Log::write('core', 'OC_Image->loadFromFile, (W)BMP images not supported: '.$imagepath, OC_Log::DEBUG);
 				}
 				break;
 			/*
@@ -472,7 +472,7 @@ class OC_Image {
 				// this is mostly file created from encrypted file
 				$this->resource = imagecreatefromstring(\OC_Filesystem::file_get_contents(\OC_Filesystem::getLocalPath($imagepath)));
 				$itype = IMAGETYPE_PNG;
-				OC_Log::write('core','OC_Image->loadFromFile, Default', OC_Log::DEBUG);
+				OC_Log::write('core', 'OC_Image->loadFromFile, Default', OC_Log::DEBUG);
 				break;
 		}
 		if($this->valid()) {
@@ -493,7 +493,7 @@ class OC_Image {
 		}
 		$this->resource = @imagecreatefromstring($str);
 		if(!$this->resource) {
-			OC_Log::write('core','OC_Image->loadFromData, couldn\'t load', OC_Log::DEBUG);
+			OC_Log::write('core', 'OC_Image->loadFromData, couldn\'t load', OC_Log::DEBUG);
 			return false;
 		}
 		return $this->resource;
@@ -512,7 +512,7 @@ class OC_Image {
 		if($data) { // try to load from string data
 			$this->resource = @imagecreatefromstring($data);
 			if(!$this->resource) {
-				OC_Log::write('core','OC_Image->loadFromBase64, couldn\'t load', OC_Log::DEBUG);
+				OC_Log::write('core', 'OC_Image->loadFromBase64, couldn\'t load', OC_Log::DEBUG);
 				return false;
 			}
 			return $this->resource;
@@ -528,7 +528,7 @@ class OC_Image {
 	*/
 	public function resize($maxsize) {
 		if(!$this->valid()) {
-			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): No image loaded', OC_Log::ERROR);
 			return false;
 		}
 		$width_orig=imageSX($this->resource);
@@ -557,14 +557,14 @@ class OC_Image {
 		$process = imagecreatetruecolor($width, $height);
 
 		if ($process == false) {
-			OC_Log::write('core',__METHOD__.'(): Error creating true color image',OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): Error creating true color image',OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}
 
 		imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 		if ($process == false) {
-			OC_Log::write('core',__METHOD__.'(): Error resampling process image '.$width.'x'.$height,OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): Error resampling process image '.$width.'x'.$height,OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}
@@ -580,7 +580,7 @@ class OC_Image {
 	*/
 	public function centerCrop($size=0) {
 		if(!$this->valid()) {
-			OC_Log::write('core','OC_Image->centerCrop, No image loaded', OC_Log::ERROR);
+			OC_Log::write('core', 'OC_Image->centerCrop, No image loaded', OC_Log::ERROR);
 			return false;
 		}
 		$width_orig=imageSX($this->resource);
@@ -607,13 +607,13 @@ class OC_Image {
 		}
 		$process = imagecreatetruecolor($targetWidth, $targetHeight);
 		if ($process == false) {
-			OC_Log::write('core','OC_Image->centerCrop. Error creating true color image',OC_Log::ERROR);
+			OC_Log::write('core', 'OC_Image->centerCrop. Error creating true color image',OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}
 		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $targetWidth, $targetHeight, $width, $height);
 		if ($process == false) {
-			OC_Log::write('core','OC_Image->centerCrop. Error resampling process image '.$width.'x'.$height,OC_Log::ERROR);
+			OC_Log::write('core', 'OC_Image->centerCrop. Error resampling process image '.$width.'x'.$height,OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}
@@ -632,18 +632,18 @@ class OC_Image {
 	*/
 	public function crop($x, $y, $w, $h) {
 		if(!$this->valid()) {
-			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): No image loaded', OC_Log::ERROR);
 			return false;
 		}
 		$process = imagecreatetruecolor($w, $h);
 		if ($process == false) {
-			OC_Log::write('core',__METHOD__.'(): Error creating true color image',OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): Error creating true color image',OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}
 		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $w, $h, $w, $h);
 		if ($process == false) {
-			OC_Log::write('core',__METHOD__.'(): Error resampling process image '.$w.'x'.$h,OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): Error resampling process image '.$w.'x'.$h,OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}
@@ -660,7 +660,7 @@ class OC_Image {
 	 */
 	public function fitIn($maxWidth, $maxHeight) {
 		if(!$this->valid()) {
-			OC_Log::write('core',__METHOD__.'(): No image loaded', OC_Log::ERROR);
+			OC_Log::write('core', __METHOD__.'(): No image loaded', OC_Log::ERROR);
 			return false;
 		}
 		$width_orig=imageSX($this->resource);
