@@ -6,8 +6,6 @@
  * See the COPYING-README file.
  */
 
-require_once 'settings/routes.php';
-
 // Core ajax actions
 // Search
 $this->create('search_ajax_search', '/search/ajax/search.php')

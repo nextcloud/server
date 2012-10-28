@@ -47,6 +47,7 @@ class OC_Router {
 	public function getCacheKey() {
 		if (!isset($this->cache_key)) {
 			$files = $this->getRoutingFiles();
+			$files[] = 'settings/routes.php';
 			$files[] = 'core/routes.php';
 			$this->cache_key = OC_Cache::generateCacheKeyFromFiles($files);
 		}
@@ -64,7 +65,8 @@ class OC_Router {
 			$this->root->addCollection($collection, '/apps/'.$app);
 		}
 		$this->useCollection('root');
-		require_once('core/routes.php');
+		require_once 'settings/routes.php';
+		require_once 'core/routes.php';
 	}
 
 	protected function getCollection($name) {
