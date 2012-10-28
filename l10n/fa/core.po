@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:14+0000\n"
+"POT-Creation-Date: 2012-10-28 00:01+0200\n"
+"PO-Revision-Date: 2012-10-27 22:01+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Language: fa\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
+#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
 msgid "Application name not provided."
 msgstr "نام برنامه پیدا نشد"
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:28
 msgid "No category to add?"
 msgstr "آیا گروه دیگری برای افزودن ندارید"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:35
 msgid "This category already exists: "
 msgstr "این گروه از قبل اضافه شده"
 
-#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
+#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "تنظیمات"
 
@@ -164,7 +164,7 @@ msgstr ""
 msgid "Error setting expiration date"
 msgstr ""
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "پسورد ابرهای شما تغییرکرد"
 
@@ -177,12 +177,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "شما یک نامه الکترونیکی حاوی یک لینک جهت بازسازی گذرواژه دریافت خواهید کرد."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "درخواست"
+msgid "Reset email send."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "ورود ناموفق بود"
+msgid "Request failed!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -315,85 +315,85 @@ msgstr "هاست پایگاه داده"
 msgid "Finish setup"
 msgstr "اتمام نصب"
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
-msgstr "سرویس وب تحت کنترل شما"
-
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "یکشنبه"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Monday"
 msgstr "دوشنبه"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "سه شنبه"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "چهارشنبه"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "پنجشنبه"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Friday"
 msgstr "جمعه"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "شنبه"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "January"
 msgstr "ژانویه"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "February"
 msgstr "فبریه"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "March"
 msgstr "مارس"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "April"
 msgstr "آوریل"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "May"
 msgstr "می"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "June"
 msgstr "ژوئن"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "July"
 msgstr "جولای"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "August"
 msgstr "آگوست"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "September"
 msgstr "سپتامبر"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "October"
 msgstr "اکتبر"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "November"
 msgstr "نوامبر"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "December"
 msgstr "دسامبر"
+
+#: templates/layout.guest.php:41
+msgid "web services under your control"
+msgstr "سرویس وب تحت کنترل شما"
 
 #: templates/layout.user.php:38
 msgid "Log out"

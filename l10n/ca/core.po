@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:13+0000\n"
+"POT-Creation-Date: 2012-10-28 00:01+0200\n"
+"PO-Revision-Date: 2012-10-27 22:01+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -19,19 +19,19 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
+#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
 msgid "Application name not provided."
 msgstr "No s'ha facilitat cap nom per l'aplicació."
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:28
 msgid "No category to add?"
 msgstr "No voleu afegir cap categoria?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:35
 msgid "This category already exists: "
 msgstr "Aquesta categoria ja existeix:"
 
-#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
+#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Arranjament"
 
@@ -165,7 +165,7 @@ msgstr "Error en eliminar la data d'expiració"
 msgid "Error setting expiration date"
 msgstr "Error en establir la data d'expiració"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "estableix de nou la contrasenya Owncloud"
 
@@ -178,12 +178,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Rebreu un enllaç al correu electrònic per reiniciar la contrasenya."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Sol·licitat"
+msgid "Reset email send."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "No s'ha pogut iniciar la sessió"
+msgid "Request failed!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -316,85 +316,85 @@ msgstr "Ordinador central de la base de dades"
 msgid "Finish setup"
 msgstr "Acaba la configuració"
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
-msgstr "controleu els vostres serveis web"
-
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Diumenge"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Dilluns"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Dimarts"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Dimecres"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Dijous"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Divendres"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Dissabte"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "January"
 msgstr "Gener"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "February"
 msgstr "Febrer"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "March"
 msgstr "Març"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "April"
 msgstr "Abril"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "May"
 msgstr "Maig"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "June"
 msgstr "Juny"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "July"
 msgstr "Juliol"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "August"
 msgstr "Agost"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "September"
 msgstr "Setembre"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "October"
 msgstr "Octubre"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "November"
 msgstr "Novembre"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "December"
 msgstr "Desembre"
+
+#: templates/layout.guest.php:41
+msgid "web services under your control"
+msgstr "controleu els vostres serveis web"
 
 #: templates/layout.user.php:38
 msgid "Log out"

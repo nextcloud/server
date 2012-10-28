@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:14+0000\n"
+"POT-Creation-Date: 2012-10-28 00:01+0200\n"
+"PO-Revision-Date: 2012-10-27 22:01+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -19,19 +19,19 @@ msgstr ""
 "Language: th_TH\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
+#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
 msgid "Application name not provided."
 msgstr "ยังไม่ได้ตั้งชื่อแอพพลิเคชั่น"
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:28
 msgid "No category to add?"
 msgstr "ไม่มีหมวดหมู่ที่ต้องการเพิ่ม?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:35
 msgid "This category already exists: "
 msgstr "หมวดหมู่นี้มีอยู่แล้ว: "
 
-#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
+#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "ตั้งค่า"
 
@@ -165,7 +165,7 @@ msgstr "เกิดข้อผิดพลาดในการยกเลิ
 msgid "Error setting expiration date"
 msgstr "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "รีเซ็ตรหัสผ่าน ownCloud"
 
@@ -178,12 +178,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "คุณจะได้รับลิงค์เพื่อกำหนดรหัสผ่านใหม่ทางอีเมล์"
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "ส่งคำร้องเรียบร้อยแล้ว"
+msgid "Reset email send."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "ไม่สามารถเข้าสู่ระบบได้!"
+msgid "Request failed!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -316,85 +316,85 @@ msgstr "Database host"
 msgid "Finish setup"
 msgstr "ติดตั้งเรียบร้อยแล้ว"
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
-msgstr "web services under your control"
-
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "วันอาทิตย์"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Monday"
 msgstr "วันจันทร์"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "วันอังคาร"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "วันพุธ"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "วันพฤหัสบดี"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Friday"
 msgstr "วันศุกร์"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "วันเสาร์"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "January"
 msgstr "มกราคม"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "February"
 msgstr "กุมภาพันธ์"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "March"
 msgstr "มีนาคม"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "April"
 msgstr "เมษายน"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "May"
 msgstr "พฤษภาคม"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "June"
 msgstr "มิถุนายน"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "July"
 msgstr "กรกฏาคม"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "August"
 msgstr "สิงหาคม"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "September"
 msgstr "กันยายน"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "October"
 msgstr "ตุลาคม"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "November"
 msgstr "พฤศจิกายน"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "December"
 msgstr "ธันวาคม"
+
+#: templates/layout.guest.php:41
+msgid "web services under your control"
+msgstr "web services under your control"
 
 #: templates/layout.user.php:38
 msgid "Log out"

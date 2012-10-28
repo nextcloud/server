@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:14+0000\n"
+"POT-Creation-Date: 2012-10-28 00:01+0200\n"
+"PO-Revision-Date: 2012-10-27 22:01+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Language: ka_GE\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
+#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
 msgid "Application name not provided."
 msgstr "აპლიკაციის სახელი  არ არის განხილული"
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:28
 msgid "No category to add?"
 msgstr "არ არის კატეგორია დასამატებლად?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:35
 msgid "This category already exists: "
 msgstr "კატეგორია უკვე არსებობს"
 
-#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
+#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "პარამეტრები"
 
@@ -164,7 +164,7 @@ msgstr "შეცდომა ვადის გასვლის მოხს
 msgid "Error setting expiration date"
 msgstr "შეცდომა ვადის გასვლის მითითების დროს"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "ownCloud პაროლის შეცვლა"
 
@@ -177,12 +177,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "თქვენ მოგივათ პაროლის შესაცვლელი ლინკი მეილზე"
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "მოთხოვნილი"
+msgid "Reset email send."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "შესვლა ვერ მოხერხდა!"
+msgid "Request failed!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -315,85 +315,85 @@ msgstr "ბაზის ჰოსტი"
 msgid "Finish setup"
 msgstr "კონფიგურაციის დასრულება"
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
-msgstr "თქვენი კონტროლის ქვეშ მყოფი ვებ სერვისები"
-
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "კვირა"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Monday"
 msgstr "ორშაბათი"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "სამშაბათი"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "ოთხშაბათი"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "ხუთშაბათი"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Friday"
 msgstr "პარასკევი"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "შაბათი"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "January"
 msgstr "იანვარი"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "February"
 msgstr "თებერვალი"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "March"
 msgstr "მარტი"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "April"
 msgstr "აპრილი"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "May"
 msgstr "მაისი"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "June"
 msgstr "ივნისი"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "July"
 msgstr "ივლისი"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "August"
 msgstr "აგვისტო"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "September"
 msgstr "სექტემბერი"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "October"
 msgstr "ოქტომბერი"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "November"
 msgstr "ნოემბერი"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "December"
 msgstr "დეკემბერი"
+
+#: templates/layout.guest.php:41
+msgid "web services under your control"
+msgstr "თქვენი კონტროლის ქვეშ მყოფი ვებ სერვისები"
 
 #: templates/layout.user.php:38
 msgid "Log out"

@@ -21,6 +21,7 @@
 
 OC_JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+OC_App::loadApps();
 
 if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSource'])) {
 	switch ($_POST['action']) {
