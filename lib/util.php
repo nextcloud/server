@@ -496,28 +496,19 @@ class OC_Util {
 	 * @see OC_Util::isCallRegistered()
 	 */
 	public static function callRegister() {
-		// generate a random token.
-		$token = self::generate_random_bytes(20);
-
-		// store the token together with a timestamp in the session.
-		$_SESSION['requesttoken-'.$token]=time();
-
-		// cleanup old tokens garbage collector
-		// only run every 20th time so we don't waste cpu cycles
-		if(rand(0, 20)==0) {
-			foreach($_SESSION as $key=>$value) {
-				// search all tokens in the session
-				if(substr($key, 0, 12)=='requesttoken') {
-					// check if static lifespan has expired
-					if($value+self::$callLifespan<time()) {
-						// remove outdated tokens
-						unset($_SESSION[$key]);
-					}
-				}
-			}
+		// Check if a token exists
+		if(!isset($_SESSION['requesttoken']) || time() >$_SESSION['requesttoken']['time']) {
+			// No valid token found, generate a new one.
+			$requestTokenArray = array(
+				"requesttoken" => self::generate_random_bytes(20),
+				"time" => time()+self::$callLifespan,
+				);
+			$_SESSION['requesttoken']=$requestTokenArray;
+		} else {
+			// Valid token already exists, send it
+			$requestTokenArray = $_SESSION['requesttoken'];
 		}
-		// return the token
-		return($token);
+		return($requestTokenArray['requesttoken']);
 	}
 
 	/**
@@ -537,17 +528,14 @@ class OC_Util {
 			//no token found.
 			return false;
 		}
-		if(isset($_SESSION['requesttoken-'.$token])) {
-			$timestamp=$_SESSION['requesttoken-'.$token];
-			// check if static lifespan has expired
-			if($timestamp+self::$callLifespan<time()) {
-				return false;
-			}else{
-				//token valid
-				return true;
-			}
-		}else{
+
+		// Check if the token is valid
+		if(!isset($_SESSION['requesttoken']) || time() > $_SESSION['requesttoken']["time"]) {
+			// Not valid
 			return false;
+		} else {
+			// Valid token
+			return true;
 		}
 	}
 
