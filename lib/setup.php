@@ -592,6 +592,10 @@ class OC_Setup {
 		$content.= "RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]\n";
 		$content.= "RewriteRule ^remote/(.*) remote.php [QSA,L]\n";
 		$content.= "</IfModule>\n";
+		$content.= "<IfModule mod_mime.c>\n";
+		$content.= "AddType image/svg+xml svg svgz\n";
+		$content.= "AddEncoding gzip svgz\n";
+		$content.= "</IfModule>\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
