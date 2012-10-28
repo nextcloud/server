@@ -29,6 +29,20 @@ class OC_Helper {
 	private static $tmpFiles=array();
 
 	/**
+	 * @brief Creates an url using a defined route
+	 * @param $route
+	 * @param $parameters
+	 * @param $args array with param=>value, will be appended to the returned url
+	 * @returns the url
+	 *
+	 * Returns a url to the given app and file.
+	 */
+	public static function linkToRoute( $route, $parameters = array() ) {
+		$urlLinkTo = OC::getRouter()->generate($route, $parameters);
+		return $urlLinkTo;
+	}
+
+	/**
 	 * @brief Creates an url
 	 * @param string $app app
 	 * @param string $file file
@@ -44,8 +58,8 @@ class OC_Helper {
 			// Check if the app is in the app folder
 			if( $app_path && file_exists( $app_path.'/'.$file )) {
 				if(substr($file, -3) == 'php' || substr($file, -3) == 'css') {
-					$urlLinkTo =  OC::$WEBROOT . '/?app=' . $app;
-					$urlLinkTo .= ($file!='index.php')?'&getfile=' . urlencode($file):'';
+					$urlLinkTo =  OC::$WEBROOT . '/index.php/apps/' . $app;
+					$urlLinkTo .= ($file!='index.php') ? '/' . $file : '';
 				}else{
 					$urlLinkTo =  OC_App::getAppWebPath($app) . '/' . $file;
 				}

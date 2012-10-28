@@ -1,7 +1,5 @@
 <?php
 
-// Init owncloud
-require_once '../../lib/base.php';
 OCP\JSON::callCheck();
 OC_JSON::checkSubAdminUser();
 

@@ -18,10 +18,10 @@
 * You should have received a copy of the GNU Affero General Public
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
-require_once '../../lib/base.php';
 
 OC_JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+OC_App::loadApps();
 
 if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSource'])) {
 	switch ($_POST['action']) {

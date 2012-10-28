@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-26 02:02+0200\n"
-"PO-Revision-Date: 2012-10-25 15:47+0000\n"
+"POT-Creation-Date: 2012-10-27 00:01+0200\n"
+"PO-Revision-Date: 2012-10-26 10:07+0000\n"
 "Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "Falta un directorio temporal"
 
 #: ajax/upload.php:26
 msgid "Failed to write to disk"
-msgstr "La escritura en disco falló"
+msgstr "Error al escribir en el disco"
 
 #: appinfo/app.php:6
 msgid "Files"
@@ -62,7 +62,7 @@ msgstr "Borrar"
 
 #: js/fileactions.js:182
 msgid "Rename"
-msgstr "cambiar nombre"
+msgstr "Cambiar nombre"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "{new_name} already exists"
@@ -106,7 +106,7 @@ msgstr "generando un archivo ZIP, puede llevar un tiempo."
 
 #: js/files.js:214
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "No fue posible subir tu archivo porque es un directorio o su tamaño es 0 bytes"
+msgstr "No fue posible subir el archivo porque es un directorio o porque su tamaño es 0 bytes"
 
 #: js/files.js:214
 msgid "Upload Error"
@@ -135,7 +135,7 @@ msgstr "La subida del archivo está en proceso. Si salís de la página ahora, l
 
 #: js/files.js:500
 msgid "Invalid name, '/' is not allowed."
-msgstr "Nombre no válido, '/' no está permitido."
+msgstr "Nombre no válido, no se permite '/' en él."
 
 #: js/files.js:681
 msgid "{count} files scanned"
@@ -227,7 +227,7 @@ msgstr "máx. posible:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr "Se necesita para descargas multi-archivo y de carpetas"
+msgstr "Es necesario para descargas multi-archivo y de carpetas"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
@@ -271,7 +271,7 @@ msgstr "Cancelar subida"
 
 #: templates/index.php:40
 msgid "Nothing in here. Upload something!"
-msgstr "Aquí no hay nada. ¡Subí contenido!"
+msgstr "No hay nada. ¡Subí contenido!"
 
 #: templates/index.php:50
 msgid "Share"
@@ -293,7 +293,7 @@ msgstr "Los archivos que intentás subir sobrepasan el tamaño máximo "
 
 #: templates/index.php:82
 msgid "Files are being scanned, please wait."
-msgstr "Se están escaneando los archivos, por favor espere."
+msgstr "Se están escaneando los archivos, por favor esperá."
 
 #: templates/index.php:85
 msgid "Current scanning"

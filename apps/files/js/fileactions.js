@@ -157,7 +157,7 @@ $(document).ready(function(){
 		var downloadScope = 'file';
 	}
 	FileActions.register(downloadScope,'Download', OC.PERMISSION_READ, function(){return OC.imagePath('core','actions/download');},function(filename){
-		window.location=OC.filePath('files', 'ajax', 'download.php') + '&files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val());
+		window.location=OC.filePath('files', 'ajax', 'download.php') + '?files='+encodeURIComponent(filename)+'&dir='+encodeURIComponent($('#dir').val());
 	});
 });
 
@@ -185,7 +185,7 @@ FileActions.register('all','Rename', OC.PERMISSION_UPDATE, function(){return OC.
 });
 
 FileActions.register('dir','Open', OC.PERMISSION_READ, '', function(filename){
-	window.location=OC.linkTo('files', 'index.php') + '&dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
+	window.location=OC.linkTo('files', 'index.php') + '?dir='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+'/'+encodeURIComponent(filename);
 });
 
 FileActions.setDefault('dir','Open');

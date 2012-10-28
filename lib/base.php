@@ -67,6 +67,10 @@ class OC{
 	 * check if owncloud runs in cli mode
 	 */
 	public static $CLI = false;
+	/*
+	 * OC router
+	 */
+	protected static $router = null;
 	/**
 	 * SPL autoload
 	 */
@@ -92,6 +96,12 @@ class OC{
 		}
 		elseif(strpos($className, 'Sabre_')===0) {
 			$path =  str_replace('_', '/', $className) . '.php';
+		}
+		elseif(strpos($className, 'Symfony\\Component\\Routing\\')===0) {
+			$path = 'symfony/routing/'.str_replace('\\', '/', $className) . '.php';
+		}
+		elseif(strpos($className, 'Sabre\\VObject')===0) {
+			$path = str_replace('\\', '/', $className) . '.php';
 		}
 		elseif(strpos($className, 'Test_')===0) {
 			$path =  'tests/lib/'.strtolower(str_replace('_', '/', substr($className, 5)) . '.php');
@@ -250,6 +260,7 @@ class OC{
 		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search', 'result');
+		OC_Util::addScript('router');
 
 		if( OC_Config::getValue( 'installed', false )) {
 			if( OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax' ) {
@@ -288,6 +299,15 @@ class OC{
 			session_start();
 		}
 		$_SESSION['LAST_ACTIVITY'] = time();
+	}
+
+	public static function getRouter() {
+		if (!isset(OC::$router)) {
+			OC::$router = new OC_Router();
+			OC::$router->loadRoutes();
+		}
+
+		return OC::$router;
 	}
 
 	public static function init() {
@@ -465,9 +485,21 @@ class OC{
 			header('location: '.OC_Helper::linkToRemote('webdav'));
 			return;
 		}
+		try {
+			OC::getRouter()->match(OC_Request::getPathInfo());
+			return;
+		} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
+			//header('HTTP/1.0 404 Not Found');
+		} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
+			OC_Response::setStatus(405);
+			return;
+		}
+		$app = OC::$REQUESTEDAPP;
+		$file = OC::$REQUESTEDFILE;
+		$param = array('app' => $app, 'file' => $file);
 		// Handle app css files
-		if(substr(OC::$REQUESTEDFILE, -3) == 'css') {
-			self::loadCSSFile();
+		if(substr($file, -3) == 'css') {
+			self::loadCSSFile($param);
 			return;
 		}
 		// Someone is logged in :
@@ -479,13 +511,13 @@ class OC{
 				OC_User::logout();
 				header("Location: ".OC::$WEBROOT.'/');
 			}else{
-				$app = OC::$REQUESTEDAPP;
-				$file = OC::$REQUESTEDFILE;
 				if(is_null($file)) {
-					$file = 'index.php';
+					$param['file'] = 'index.php';
 				}
-				$file_ext = substr($file, -3);
-				if ($file_ext != 'php'|| !self::loadAppScriptFile($app, $file)) {
+				$file_ext = substr($param['file'], -3);
+				if ($file_ext != 'php'
+				    || !self::loadAppScriptFile($param))
+				{
 					header('HTTP/1.0 404 Not Found');
 				}
 			}
@@ -495,7 +527,10 @@ class OC{
 		self::handleLogin();
 	}
 
-	protected static function loadAppScriptFile($app, $file) {
+	public static function loadAppScriptFile($param) {
+		OC_App::loadApps();
+		$app = $param['app'];
+		$file = $param['file'];
 		$app_path = OC_App::getAppPath($app);
 		$file = $app_path . '/' . $file;
 		unset($app, $app_path);
@@ -506,9 +541,9 @@ class OC{
 		return false;
 	}
 
-	protected static function loadCSSFile() {
-		$app = OC::$REQUESTEDAPP;
-		$file = OC::$REQUESTEDFILE;
+	public static function loadCSSFile($param) {
+		$app = $param['app'];
+		$file = $param['file'];
 		$app_path = OC_App::getAppPath($app);
 		if (file_exists($app_path . '/' . $file)) {
 			$app_web_path = OC_App::getAppWebPath($app);

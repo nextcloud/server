@@ -1,4 +1,9 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Đã cấp quyền truy cập",
+"Error configuring Dropbox storage" => "Lỗi cấu hình lưu trữ Dropbox ",
+"Grant access" => "Cấp quyền truy cập",
+"Fill out all required fields" => "Điền vào tất cả các trường bắt buộc",
+"Error configuring Google Drive storage" => "Lỗi cấu hình lưu trữ Google Drive",
 "External Storage" => "Lưu trữ ngoài",
 "Mount point" => "Điểm gắn",
 "Backend" => "phụ trợ",
