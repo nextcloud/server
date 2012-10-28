@@ -482,6 +482,7 @@ $(document).ready(function() {
 			$('#linkPassText').val('');
 			$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
 		});
+		$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
 	});
 
 	$('#expirationCheckbox').live('click', function() {
