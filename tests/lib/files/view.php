@@ -146,6 +146,23 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(3, count($folderView->searchByMime('text')));
 	}
 
+	function testWatcher() {
+		$storage1 = $this->getTestStorage();
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+
+		$rootView = new \OC\Files\View('');
+
+		$cachedData = $rootView->getFileInfo('foo.txt');
+		$this->assertEquals(16, $cachedData['size']);
+
+		$rootView->putFileInfo('foo.txt', array('mtime' => 10));
+		$storage1->file_put_contents('foo.txt', 'foo');
+		clearstatcache();
+
+		$cachedData = $rootView->getFileInfo('foo.txt');
+		$this->assertEquals(3, $cachedData['size']);
+	}
+
 	/**
 	 * @param bool $scan
 	 * @return \OC\Files\Storage\Storage

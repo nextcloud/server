@@ -672,6 +672,9 @@ class View {
 		if (!$cache->inCache($internalPath)) {
 			$scanner = $storage->getScanner();
 			$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
+		} else {
+			$watcher = new \OC\Files\Cache\Watcher($storage);
+			$watcher->checkUpdate($internalPath);
 		}
 
 		$data = $cache->get($internalPath);
@@ -711,6 +714,9 @@ class View {
 		if (!$cache->inCache($internalPath)) {
 			$scanner = $storage->getScanner();
 			$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
+		} else {
+			$watcher = new \OC\Files\Cache\Watcher($storage);
+			$watcher->checkUpdate($internalPath);
 		}
 
 		$files = $cache->getFolderContents($internalPath); //TODO: mimetype_filter
