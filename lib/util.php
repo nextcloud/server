@@ -25,7 +25,7 @@ class OC_Util {
 		}
 
 		// load all filesystem apps before, so no setup-hook gets lost
-		if(!$RUNTIME_NOAPPS) {
+		if(!isset($RUNTIME_NOAPPS) || !$RUNTIME_NOAPPS) {
 			OC_App::loadApps(array('filesystem'));
 		}
 
