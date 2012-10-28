@@ -21,9 +21,12 @@ OC.Share={
 					if (itemType != 'file' && itemType != 'folder') {
 						$('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
 					} else {
+						var file = $('tr').filterAttr('data-file', OC.basename(item));
+						if (file.length > 0) {
+							$(file).find('.fileactions .action').filterAttr('data-action', 'Share').find('img').attr('src', image);
+						}
 						var dir = $('#dir').val();
-						if ($('#dir').val().length > 1) {
-							console.log(item);
+						if (dir.length > 1) {
 							var last = '';
 							var path = dir;
 							// Search for possible parent folders that are shared
@@ -36,14 +39,6 @@ OC.Share={
 								}
 								last = path;
 								path = OC.Share.dirname(path);
-							}
-						} else {
-							var file = $('tr').filterAttr('data-file', OC.basename(item));
-							if (file.length > 0) {
-								var img = $(file).find('.fileactions .action').filterAttr('data-action', 'Share').find('img');
-								if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
-									img.attr('src', image);
-								}
 							}
 						}
 					}
