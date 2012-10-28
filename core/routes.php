@@ -9,6 +9,9 @@
 require_once 'settings/routes.php';
 
 // Core ajax actions
+// Search
+$this->create('search_ajax_search', '/search/ajax/search.php')
+	->actionInclude('search/ajax/search.php');
 // AppConfig
 $this->create('core_ajax_appconfig', '/core/ajax/appconfig.php')
 	->actionInclude('core/ajax/appconfig.php');
