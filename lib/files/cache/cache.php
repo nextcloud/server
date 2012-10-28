@@ -234,7 +234,7 @@ class Cache {
 		$entry = $this->get($file);
 		if ($entry['mimetype'] === 'httpd/unix-directory') {
 			$children = $this->getFolderContents($file);
-			foreach($children as $child){
+			foreach ($children as $child) {
 				$this->remove($child['path']);
 			}
 		}
@@ -325,7 +325,9 @@ class Cache {
 		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*filecache` WHERE `parent` = ? AND `storage` = ?');
 		$result = $query->execute(array($id, $this->storageId));
 		$totalSize = 0;
+		$hasChilds = 0;
 		while ($row = $result->fetchRow()) {
+			$hasChilds = true;
 			$size = (int)$row['size'];
 			if ($size === -1) {
 				$totalSize = -1;
@@ -335,7 +337,9 @@ class Cache {
 			}
 		}
 
-		$this->update($id, array('size' => $totalSize));
+		if ($hasChilds) {
+			$this->update($id, array('size' => $totalSize));
+		}
 		return $totalSize;
 	}
 
