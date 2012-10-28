@@ -63,7 +63,6 @@ var FileActions = {
 	},
 	display: function (parent) {
 		FileActions.currentFile = parent;
-		$('#fileList span.fileactions, #fileList td.date a.action').remove();
 		var actions = FileActions.get(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 		var file = FileActions.getCurrentFile();
 		if ($('tr').filterAttr('data-file', file).data('renaming')) {
@@ -73,15 +72,15 @@ var FileActions = {
 		var defaultAction = FileActions.getDefault(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 		for (name in actions) {
 			// NOTE: Temporary fix to prevent rename action in root of Shared directory
-			if (name == 'Rename' && $('#dir').val() == '/Shared') {
+			if (name === 'Rename' && $('#dir').val() === '/Shared') {
 				continue;
 			}
-			if ((name == 'Download' || actions[name] != defaultAction) && name != 'Delete') {
+			if ((name === 'Download' || actions[name] !== defaultAction) && name !== 'Delete') {
 				var img = FileActions.icons[name];
 				if (img.call) {
 					img = img(file);
 				}
-				var html = '<a href="#" class="action" style="display:none">';
+				var html = '<a href="#" class="action">';
 				if (img) {
 					html += '<img src="' + img + '"/> ';
 				}
@@ -89,14 +88,13 @@ var FileActions = {
 				var element = $(html);
 				element.data('action', name);
 				element.click(function (event) {
+					FileActions.currentFile = $(this).parent().parent().parent();
 					event.stopPropagation();
 					event.preventDefault();
 					var action = actions[$(this).data('action')];
 					var currentFile = FileActions.getCurrentFile();
-					FileActions.hide();
 					action(currentFile);
 				});
-				element.hide();
 				parent.find('a.name>span.fileactions').append(element);
 			}
 		}
@@ -107,9 +105,9 @@ var FileActions = {
 			}
 			// NOTE: Temporary fix to allow unsharing of files in root of Shared folder
 			if ($('#dir').val() == '/Shared') {
-				var html = '<a href="#" original-title="' + t('files', 'Unshare') + '" class="action delete" style="display:none" />';
+				var html = '<a href="#" original-title="' + t('files', 'Unshare') + '" class="action delete" />';
 			} else {
-				var html = '<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" style="display:none" />';
+				var html = '<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" />';
 			}
 			var element = $(html);
 			if (img) {
@@ -121,22 +119,10 @@ var FileActions = {
 				event.preventDefault();
 				var action = actions[$(this).data('action')];
 				var currentFile = FileActions.getCurrentFile();
-				FileActions.hide();
 				action(currentFile);
 			});
-			element.hide();
 			parent.parent().children().last().append(element);
 		}
-		$('#fileList .action').css('-o-transition-property', 'none');//temporarly disable
-		$('#fileList .action').fadeIn(200, function () {
-			$('#fileList .action').css('-o-transition-property', 'opacity');
-		});
-		return false;
-	},
-	hide: function () {
-		$('#fileList span.fileactions, #fileList td.date a.action').fadeOut(200, function () {
-			$(this).remove();
-		});
 	},
 	getCurrentFile: function () {
 		return FileActions.currentFile.parent().attr('data-file');
@@ -162,6 +148,10 @@ $(document).ready(function () {
 		return OC.imagePath('core', 'actions/download');
 	}, function (filename) {
 		window.location = OC.filePath('files', 'ajax', 'download.php') + '?files=' + encodeURIComponent(filename) + '&dir=' + encodeURIComponent($('#dir').val());
+	});
+
+	$('#fileList tr').each(function(){
+		FileActions.display($(this).children('td.filename'));
 	});
 });
 
