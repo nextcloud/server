@@ -31,7 +31,7 @@ class Test_TemplateFunctions extends UnitTestCase {
 		p($htmlString);
 		$result = ob_get_clean();
 
-		$this->assertEqual($result, "&lt;script&gt;alert(&#039;xss&#039;);&lt;/script&gt;");
+		$this->assertEqual("&lt;script&gt;alert(&#039;xss&#039;);&lt;/script&gt;", $result);
 
 		ob_end_clean();
 		$normalString = "This is a good string!";
@@ -39,7 +39,7 @@ class Test_TemplateFunctions extends UnitTestCase {
 		p($normalString);
 		$result = ob_get_clean();
 
-		$this->assertEqual($result, "This is a good string!");
+		$this->assertEqual("This is a good string!", $result);
 
 	}
 
@@ -51,7 +51,7 @@ class Test_TemplateFunctions extends UnitTestCase {
 		print_unescaped($htmlString);
 		$result = ob_get_clean();
 
-		$this->assertEqual($result, $htmlString);
+		$this->assertEqual($htmlString, $result);
 
 		ob_end_clean();
 		$normalString = "This is a good string!";
@@ -59,7 +59,7 @@ class Test_TemplateFunctions extends UnitTestCase {
 		p($normalString);
 		$result = ob_get_clean();
 
-		$this->assertEqual($result, "This is a good string!");
+		$this->assertEqual("This is a good string!", $result);
 
 	}
 
