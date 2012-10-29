@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-29 00:01+0100\n"
-"PO-Revision-Date: 2012-10-27 22:12+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-30 00:01+0100\n"
+"PO-Revision-Date: 2012-10-29 22:51+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,7 +81,7 @@ msgstr ""
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Sinuga jagas {owner}"
 
 #: js/share.js:158
 msgid "Share with"
@@ -118,7 +118,7 @@ msgstr "Ühtegi inimest ei leitud"
 
 #: js/share.js:235
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Edasijagamine pole lubatud"
 
 #: js/share.js:271
 msgid "Shared in {item} with {user}"
@@ -158,11 +158,11 @@ msgstr "Parooliga kaitstud"
 
 #: js/share.js:525
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Viga aegumise kuupäeva eemaldamisel"
 
 #: js/share.js:537
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Viga aegumise kuupäeva määramisel"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -178,11 +178,11 @@ msgstr "Sinu parooli taastamise link saadetakse sulle e-postile."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "Taastamise e-kiri on saadetud."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "Päring ebaõnnestus!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -401,17 +401,17 @@ msgstr "Logi välja"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Automaatne sisselogimine lükati tagasi!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Kui sa ei muutnud oma parooli hiljut, siis võib su kasutajakonto olla ohustatud!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Palun muuda parooli, et oma kasutajakonto uuesti turvata."
 
 #: templates/login.php:15
 msgid "Lost your password?"

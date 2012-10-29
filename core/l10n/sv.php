@@ -38,6 +38,8 @@
 "ownCloud password reset" => "ownCloud lösenordsåterställning",
 "Use the following link to reset your password: {link}" => "Använd följande länk för att återställa lösenordet: {link}",
 "You will receive a link to reset your password via Email." => "Du får en länk att återställa ditt lösenord via e-post.",
+"Reset email send." => "Återställ skickad e-post.",
+"Request failed!" => "Begäran misslyckades!",
 "Username" => "Användarnamn",
 "Request reset" => "Begär återställning",
 "Your password was reset" => "Ditt lösenord har återställts",
