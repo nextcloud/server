@@ -24,13 +24,13 @@ $this->create('settings_admin', '/settings/admin')
 $this->create('settings_ajax_userlist', '/settings/ajax/userlist')
 	->actionInclude('settings/ajax/userlist.php');
 $this->create('settings_ajax_createuser', '/settings/ajax/createuser.php')
-	->actionInclude('settings_ajax_createuser');
+	->actionInclude('settings/ajax/createuser.php');
 $this->create('settings_ajax_removeuser', '/settings/ajax/removeuser.php')
 	->actionInclude('settings/ajax/removeuser.php');
 $this->create('settings_ajax_setquota', '/settings/ajax/setquota.php')
 	->actionInclude('settings/ajax/setquota.php');
 $this->create('settings_ajax_creategroup', '/settings/ajax/creategroup.php')
-	->actionInclude('settings_ajax_creategroup');
+	->actionInclude('settings/ajax/creategroup.php');
 $this->create('settings_ajax_togglegroups', '/settings/ajax/togglegroups.php')
 	->actionInclude('settings/ajax/togglegroups.php');
 $this->create('settings_ajax_togglesubadmins', '/settings/ajax/togglesubadmins.php')
