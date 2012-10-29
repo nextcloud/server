@@ -221,6 +221,16 @@ class OC{
 			$installedVersion=OC_Config::getValue('version', '0.0.0');
 			$currentVersion=implode('.', OC_Util::getVersion());
 			if (version_compare($currentVersion, $installedVersion, '>')) {
+				// Check if the .htaccess is existing - this is needed for upgrades from really old ownCloud versions
+				if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
+					if(!OC_Util::ishtaccessworking()) {
+						if(!file_exists(OC::$SERVERROOT.'/data/.htaccess')) {
+							$content = "deny from all\n";
+							$content.= "IndexIgnore *";
+							file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.htaccess', $content);
+						}
+					}
+				}		
 				OC_Log::write('core', 'starting upgrade from '.$installedVersion.' to '.$currentVersion, OC_Log::DEBUG);
 				$result=OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
 				if(!$result) {
