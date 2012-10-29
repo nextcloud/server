@@ -40,7 +40,7 @@ class OC_CryptStream{
 		if(!self::$rootView) {
 			self::$rootView=new OC_FilesystemView('');
 		}
-		$path=str_replace('crypt://','',$path);
+		$path=str_replace('crypt://', '', $path);
 		if(dirname($path)=='streams' and isset(self::$sourceStreams[basename($path)])) {
 			$this->source=self::$sourceStreams[basename($path)]['stream'];
 			$this->path=self::$sourceStreams[basename($path)]['path'];
@@ -50,13 +50,13 @@ class OC_CryptStream{
 			if($mode=='w' or $mode=='w+' or $mode=='wb' or $mode=='wb+') {
 				$this->size=0;
 			}else{
-				$this->size=self::$rootView->filesize($path,$mode);
+				$this->size=self::$rootView->filesize($path, $mode);
 			}
 			OC_FileProxy::$enabled=false;//disable fileproxies so we can open the source file
-			$this->source=self::$rootView->fopen($path,$mode);
+			$this->source=self::$rootView->fopen($path, $mode);
 			OC_FileProxy::$enabled=true;
 			if(!is_resource($this->source)) {
-				OCP\Util::writeLog('files_encryption','failed to open '.$path,OCP\Util::ERROR);
+				OCP\Util::writeLog('files_encryption', 'failed to open '.$path, OCP\Util::ERROR);
 			}
 		}
 		if(is_resource($this->source)) {
@@ -67,7 +67,7 @@ class OC_CryptStream{
 
 	public function stream_seek($offset, $whence=SEEK_SET) {
 		$this->flush();
-		fseek($this->source,$offset,$whence);
+		fseek($this->source, $offset, $whence);
 	}
 
 	public function stream_tell() {
@@ -79,11 +79,11 @@ class OC_CryptStream{
 		//This makes this function a lot simpler but will breake everything the moment it's fixed
 		$this->writeCache='';
 		if($count!=8192) {
-			OCP\Util::writeLog('files_encryption','php bug 21641 no longer holds, decryption will not work',OCP\Util::FATAL);
+			OCP\Util::writeLog('files_encryption', 'php bug 21641 no longer holds, decryption will not work', OCP\Util::FATAL);
 			die();
 		}
 		$pos=ftell($this->source);
-		$data=fread($this->source,8192);
+		$data=fread($this->source, 8192);
 		if(strlen($data)) {
 			$result=OC_Crypt::decrypt($data);
 		}else{
@@ -91,7 +91,7 @@ class OC_CryptStream{
 		}
 		$length=$this->size-$pos;
 		if($length<8192) {
-			$result=substr($result,0,$length);
+			$result=substr($result, 0, $length);
 		}
 		return $result;
 	}
@@ -105,12 +105,12 @@ class OC_CryptStream{
 		}
 		if($currentPos%8192!=0) {
 			//make sure we always start on a block start
-			fseek($this->source,-($currentPos%8192),SEEK_CUR);
+			fseek($this->source, -($currentPos%8192), SEEK_CUR);
 			$encryptedBlock=fread($this->source,8192);
-			fseek($this->source,-($currentPos%8192),SEEK_CUR);
+			fseek($this->source, -($currentPos%8192), SEEK_CUR);
 			$block=OC_Crypt::decrypt($encryptedBlock);
-			$data=substr($block,0,$currentPos%8192).$data;
-			fseek($this->source,-($currentPos%8192),SEEK_CUR);
+			$data=substr($block, 0, $currentPos%8192).$data;
+			fseek($this->source, -($currentPos%8192), SEEK_CUR);
 		}
 		$currentPos=ftell($this->source);
 		while($remainingLength=strlen($data)>0) {
@@ -118,9 +118,9 @@ class OC_CryptStream{
 				$this->writeCache=$data;
 				$data='';
 			}else{
-				$encrypted=OC_Crypt::encrypt(substr($data,0,8192));
-				fwrite($this->source,$encrypted);
-				$data=substr($data,8192);
+				$encrypted=OC_Crypt::encrypt(substr($data, 0, 8192));
+				fwrite($this->source, $encrypted);
+				$data=substr($data, 8192);
 			}
 		}
 		$this->size=max($this->size,$currentPos+$length);
@@ -130,13 +130,13 @@ class OC_CryptStream{
 	public function stream_set_option($option,$arg1,$arg2) {
 		switch($option) {
 			case STREAM_OPTION_BLOCKING:
-				stream_set_blocking($this->source,$arg1);
+				stream_set_blocking($this->source, $arg1);
 				break;
 			case STREAM_OPTION_READ_TIMEOUT:
-				stream_set_timeout($this->source,$arg1,$arg2);
+				stream_set_timeout($this->source, $arg1, $arg2);
 				break;
 			case STREAM_OPTION_WRITE_BUFFER:
-				stream_set_write_buffer($this->source,$arg1,$arg2);
+				stream_set_write_buffer($this->source, $arg1, $arg2);
 		}
 	}
 
@@ -145,7 +145,7 @@ class OC_CryptStream{
 	}
 
 	public function stream_lock($mode) {
-		flock($this->source,$mode);
+		flock($this->source, $mode);
 	}
 
 	public function stream_flush() {
@@ -159,7 +159,7 @@ class OC_CryptStream{
 	private function flush() {
 		if($this->writeCache) {
 			$encrypted=OC_Crypt::encrypt($this->writeCache);
-			fwrite($this->source,$encrypted);
+			fwrite($this->source, $encrypted);
 			$this->writeCache='';
 		}
 	}
@@ -167,7 +167,7 @@ class OC_CryptStream{
 	public function stream_close() {
 		$this->flush();
 		if($this->meta['mode']!='r' and $this->meta['mode']!='rb') {
-			OC_FileCache::put($this->path, array('encrypted'=>true,'size'=>$this->size),'');
+			OC_FileCache::put($this->path, array('encrypted'=>true, 'size'=>$this->size), '');
 		}
 		return fclose($this->source);
 	}
