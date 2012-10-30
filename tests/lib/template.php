@@ -60,7 +60,7 @@ class Test_TemplateFunctions extends UnitTestCase {
 	public function testPrintUnescapedNormalString(){
 		$normalString = "This is a good string!";
 		ob_start();
-		p($normalString);
+		print_unescaped($normalString);
 		$result = ob_get_clean();
 		ob_end_clean();
 
