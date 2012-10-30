@@ -534,8 +534,9 @@ class OC_Helper {
 	public static function tmpFileNoClean($postfix='') {
 		$tmpDirNoClean=get_temp_dir().'/oc-noclean/';
 		if (!file_exists($tmpDirNoClean) || !is_dir($tmpDirNoClean)) {
-			if (file_exists($tmpDirNoClean))
+			if (file_exists($tmpDirNoClean)) {
 				unlink($tmpDirNoClean);
+			}
 			mkdir($tmpDirNoClean);
 		}
 		$file=$tmpDirNoClean.md5(time().rand()).$postfix;
