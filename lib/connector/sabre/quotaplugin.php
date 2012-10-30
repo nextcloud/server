@@ -30,8 +30,8 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 	public function initialize(Sabre_DAV_Server $server) {
 
 			$this->server = $server;
-			$this->server->subscribeEvent('beforeWriteContent',array($this,'checkQuota'),10);
-			$this->server->subscribeEvent('beforeCreateFile',array($this,'checkQuota'),10);
+			$this->server->subscribeEvent('beforeWriteContent', array($this, 'checkQuota'), 10);
+			$this->server->subscribeEvent('beforeCreateFile', array($this, 'checkQuota'), 10);
 
 	}
 
@@ -46,8 +46,10 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 		$expected = $this->server->httpRequest->getHeader('X-Expected-Entity-Length');
 		$length = $expected ? $expected : $this->server->httpRequest->getHeader('Content-Length');
 		if ($length) {
-			if(substr($uri,0,1)!=='/') $uri='/'.$uri;
-			list($parentUri,$newName) = Sabre_DAV_URLUtil::splitPath($uri);
+			if (substr($uri, 0, 1)!=='/') {
+				$uri='/'.$uri;
+			}
+			list($parentUri, $newName) = Sabre_DAV_URLUtil::splitPath($uri);
 			if ($length > OC_Filesystem::free_space($parentUri)) {
 				throw new Sabre_DAV_Exception('Quota exceeded. File is too big.');
 			}
