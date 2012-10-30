@@ -37,7 +37,7 @@
 "{count} folders" => "{count} Ordner",
 "1 file" => "1 Datei",
 "{count} files" => "{count} Dateien",
-"seconds ago" => "Vor wenigen Sekunden",
+"seconds ago" => "Gerade eben",
 "1 minute ago" => "vor einer Minute",
 "{minutes} minutes ago" => "Vor {minutes} Minuten",
 "today" => "Heute",

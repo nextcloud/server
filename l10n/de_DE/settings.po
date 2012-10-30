@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 23:38+0200\n"
-"PO-Revision-Date: 2012-10-16 21:34+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-28 00:01+0200\n"
+"PO-Revision-Date: 2012-10-27 17:05+0000\n"
+"Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,69 +31,69 @@ msgstr ""
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "Die Liste der Anwendungen im Store konnte nicht geladen werden."
 
-#: ajax/creategroup.php:12
+#: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr "Gruppe existiert bereits"
+msgstr "Die Gruppe existiert bereits"
 
-#: ajax/creategroup.php:21
+#: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "Gruppe konnte nicht angelegt werden"
+msgstr "Die Gruppe konnte nicht angelegt werden"
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
-msgstr "App konnte nicht aktiviert werden."
+msgstr "Die Anwendung konnte nicht aktiviert werden."
+
+#: ajax/lostpassword.php:12
+msgid "Email saved"
+msgstr "E-Mail-Adresse gespeichert"
 
 #: ajax/lostpassword.php:14
-msgid "Email saved"
-msgstr "E-Mail Adresse gespeichert"
-
-#: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr "Ungültige E-Mail Adresse"
+msgstr "Ungültige E-Mail-Adresse"
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
 msgstr "OpenID geändert"
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
 msgstr "Ungültige Anfrage"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "Gruppe konnte nicht gelöscht werden"
+msgstr "Die Gruppe konnte nicht gelöscht werden"
 
-#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
 msgid "Authentication error"
 msgstr "Fehler bei der Anmeldung"
 
-#: ajax/removeuser.php:27
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr "Benutzer konnte nicht gelöscht werden"
+msgstr "Der Benutzer konnte nicht gelöscht werden"
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Sprache geändert"
 
-#: ajax/togglegroups.php:25
+#: ajax/togglegroups.php:22
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "Der Benutzer konnte nicht zur Gruppe %s hinzugefügt werden"
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden"
 
-#: js/apps.js:28 js/apps.js:65
+#: js/apps.js:28 js/apps.js:67
 msgid "Disable"
 msgstr "Deaktivieren"
 
-#: js/apps.js:28 js/apps.js:54
+#: js/apps.js:28 js/apps.js:55
 msgid "Enable"
 msgstr "Aktivieren"
 
@@ -130,7 +130,7 @@ msgstr "Führt eine Aufgabe bei jeder geladenen Seite aus."
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr "cron.php ist bei einem Webcron-Dienst registriert. Ruf die Seite cron.php im ownCloud-Root minütlich per HTTP auf."
+msgstr "cron.php ist bei einem Webcron-Dienst registriert. Rufen Sie die Seite cron.php im ownCloud-Root minütlich per HTTP auf."
 
 #: templates/admin.php:49
 msgid ""
@@ -168,7 +168,7 @@ msgstr "Erlaubt Nutzern, Dateien die mit ihnen geteilt wurden, erneut zu teilen"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr "Erlaubet Nutzern mit jedem zu Teilen"
+msgstr "Erlaubt Nutzern mit jedem zu teilen"
 
 #: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
@@ -255,7 +255,7 @@ msgstr "Ihr Passwort wurde geändert."
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr "Passwort konnte nicht geändert werden"
+msgstr "Das Passwort konnte nicht geändert werden"
 
 #: templates/personal.php:21
 msgid "Current password"

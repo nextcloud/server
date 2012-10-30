@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:13+0000\n"
+"POT-Creation-Date: 2012-10-29 00:01+0100\n"
+"PO-Revision-Date: 2012-10-27 22:12+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -28,19 +28,19 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
+#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
 msgid "Application name not provided."
 msgstr "Applicatienaam niet gegeven."
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:28
 msgid "No category to add?"
 msgstr "Geen categorie toevoegen?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:35
 msgid "This category already exists: "
 msgstr "Deze categorie bestaat al."
 
-#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
+#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Instellingen"
 
@@ -68,113 +68,113 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Geen categorie geselecteerd voor verwijdering."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
-#: js/share.js:517
+#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/share.js:537
 msgid "Error"
 msgstr "Fout"
 
-#: js/share.js:103
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "Fout tijdens het delen"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "Fout tijdens het stoppen met delen"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "Fout tijdens het veranderen van permissies"
 
-#: js/share.js:130
+#: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Gedeeld met u en de groep {group} door {owner}"
 
-#: js/share.js:132
+#: js/share.js:153
 msgid "Shared with you by {owner}"
 msgstr "Gedeeld met u door {owner}"
 
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "Deel met"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "Deel met link"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
 msgstr "Passeerwoord beveiliging"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
 msgstr "Zet vervaldatum"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "Vervaldatum"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "Deel via email:"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "Geen mensen gevonden"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
 msgstr "Verder delen is niet toegestaan"
 
-#: js/share.js:250
+#: js/share.js:271
 msgid "Shared in {item} with {user}"
 msgstr "Gedeeld in {item} met {user}"
 
-#: js/share.js:271
+#: js/share.js:292
 msgid "Unshare"
 msgstr "Stop met delen"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
 msgstr "kan wijzigen"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "toegangscontrole"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "maak"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr "bijwerken"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "verwijderen"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "deel"
 
-#: js/share.js:322 js/share.js:492
+#: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
 msgstr "Wachtwoord beveiligd"
 
-#: js/share.js:505
+#: js/share.js:525
 msgid "Error unsetting expiration date"
 msgstr "Fout tijdens het verwijderen van de verval datum"
 
-#: js/share.js:517
+#: js/share.js:537
 msgid "Error setting expiration date"
 msgstr "Fout tijdens het instellen van de vervaldatum"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "ownCloud wachtwoord herstellen"
 
@@ -187,12 +187,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "U ontvangt een link om uw wachtwoord opnieuw in te stellen via e-mail."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Gevraagd"
+msgid "Reset email send."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Login mislukt!"
+msgid "Request failed!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -325,85 +325,85 @@ msgstr "Database server"
 msgid "Finish setup"
 msgstr "Installatie afronden"
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
-msgstr "Webdiensten in eigen beheer"
-
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Zondag"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Maandag"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Dinsdag"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Woensdag"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Donderdag"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Vrijdag"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Zaterdag"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "januari"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "februari"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "maart"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "april"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "mei"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "juni"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "juli"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "augustus"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "september"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "oktober"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "november"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "december"
+
+#: templates/layout.guest.php:42
+msgid "web services under your control"
+msgstr "Webdiensten in eigen beheer"
 
 #: templates/layout.user.php:38
 msgid "Log out"

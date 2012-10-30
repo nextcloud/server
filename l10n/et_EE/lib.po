@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:11+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-30 00:01+0100\n"
+"PO-Revision-Date: 2012-10-29 23:00+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,47 +80,47 @@ msgstr "Tekst"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Pildid"
 
-#: template.php:87
+#: template.php:103
 msgid "seconds ago"
 msgstr "sekundit tagasi"
 
-#: template.php:88
+#: template.php:104
 msgid "1 minute ago"
 msgstr "1 minut tagasi"
 
-#: template.php:89
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d minutit tagasi"
 
-#: template.php:92
+#: template.php:108
 msgid "today"
 msgstr "täna"
 
-#: template.php:93
+#: template.php:109
 msgid "yesterday"
 msgstr "eile"
 
-#: template.php:94
+#: template.php:110
 #, php-format
 msgid "%d days ago"
 msgstr "%d päeva tagasi"
 
-#: template.php:95
+#: template.php:111
 msgid "last month"
 msgstr "eelmisel kuul"
 
-#: template.php:96
+#: template.php:112
 msgid "months ago"
 msgstr "kuud tagasi"
 
-#: template.php:97
+#: template.php:113
 msgid "last year"
 msgstr "eelmisel aastal"
 
-#: template.php:98
+#: template.php:114
 msgid "years ago"
 msgstr "aastat tagasi"
 

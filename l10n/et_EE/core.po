@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:13+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-30 00:01+0100\n"
+"PO-Revision-Date: 2012-10-29 22:51+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
+#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
 msgid "Application name not provided."
 msgstr "Rakenduse nime pole sisestatud."
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:28
 msgid "No category to add?"
 msgstr "Pole kategooriat, mida lisada?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:35
 msgid "This category already exists: "
 msgstr "See kategooria on juba olemas: "
 
-#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
+#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Seaded"
 
@@ -58,113 +58,113 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Kustutamiseks pole kategooriat valitud."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
-#: js/share.js:517
+#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/share.js:537
 msgid "Error"
 msgstr "Viga"
 
-#: js/share.js:103
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "Viga jagamisel"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "Viga jagamise lõpetamisel"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "Viga õiguste muutmisel"
 
-#: js/share.js:130
+#: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
-#: js/share.js:132
+#: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Sinuga jagas {owner}"
 
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "Jaga"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "Jaga lingiga"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
 msgstr "Parooliga kaitstud"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Parool"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
 msgstr "Määra aegumise kuupäev"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "Aegumise kuupäev"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "Jaga e-postiga:"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "Ühtegi inimest ei leitud"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Edasijagamine pole lubatud"
 
-#: js/share.js:250
+#: js/share.js:271
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:271
+#: js/share.js:292
 msgid "Unshare"
 msgstr "Lõpeta jagamine"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
 msgstr "saab muuta"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "ligipääsukontroll"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "loo"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr "uuenda"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "kustuta"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "jaga"
 
-#: js/share.js:322 js/share.js:492
+#: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
 msgstr "Parooliga kaitstud"
 
-#: js/share.js:505
+#: js/share.js:525
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Viga aegumise kuupäeva eemaldamisel"
 
-#: js/share.js:517
+#: js/share.js:537
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Viga aegumise kuupäeva määramisel"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "ownCloud parooli taastamine"
 
@@ -177,12 +177,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Sinu parooli taastamise link saadetakse sulle e-postile."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Kohustuslik"
+msgid "Reset email send."
+msgstr "Taastamise e-kiri on saadetud."
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Sisselogimine ebaõnnestus!"
+msgid "Request failed!"
+msgstr "Päring ebaõnnestus!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -315,85 +315,85 @@ msgstr "Andmebaasi host"
 msgid "Finish setup"
 msgstr "Lõpeta seadistamine"
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
-msgstr "veebiteenused sinu kontrolli all"
-
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Pühapäev"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Esmaspäev"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Teisipäev"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Kolmapäev"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Neljapäev"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Reede"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Laupäev"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "Jaanuar"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "Veebruar"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "Märts"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "Aprill"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "Mai"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "Juuni"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "Juuli"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "August"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "September"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "Oktoober"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "November"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "Detsember"
+
+#: templates/layout.guest.php:42
+msgid "web services under your control"
+msgstr "veebiteenused sinu kontrolli all"
 
 #: templates/layout.user.php:38
 msgid "Log out"
@@ -401,17 +401,17 @@ msgstr "Logi välja"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Automaatne sisselogimine lükati tagasi!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Kui sa ei muutnud oma parooli hiljut, siis võib su kasutajakonto olla ohustatud!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Palun muuda parooli, et oma kasutajakonto uuesti turvata."
 
 #: templates/login.php:15
 msgid "Lost your password?"

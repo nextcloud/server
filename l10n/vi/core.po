@@ -4,13 +4,14 @@
 # 
 # Translators:
 #   <khanhnd@kenhgiaiphap.vn>, 2012.
+#   <mattheu_9x@yahoo.com>, 2012.
 # Son Nguyen <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:14+0000\n"
+"POT-Creation-Date: 2012-10-29 00:01+0100\n"
+"PO-Revision-Date: 2012-10-27 22:12+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -19,19 +20,19 @@ msgstr ""
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
+#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
 msgid "Application name not provided."
 msgstr "Tên ứng dụng không tồn tại"
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:28
 msgid "No category to add?"
 msgstr "Không có danh mục được thêm?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:35
 msgid "This category already exists: "
 msgstr "Danh mục này đã được tạo :"
 
-#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
+#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Cài đặt"
 
@@ -59,113 +60,113 @@ msgstr "Ok"
 msgid "No categories selected for deletion."
 msgstr "Không có thể loại nào được chọn để xóa."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
-#: js/share.js:517
+#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/share.js:537
 msgid "Error"
 msgstr "Lỗi"
 
-#: js/share.js:103
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "Lỗi trong quá trình chia sẻ"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "Lỗi trong quá trình gỡ chia sẻ"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "Lỗi trong quá trình phân quyền"
 
-#: js/share.js:130
+#: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Đã được chia sẽ với bạn và nhóm {group} bởi {owner}"
 
-#: js/share.js:132
+#: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Đã được chia sẽ với bạn bởi {owner}"
 
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "Chia sẻ với"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "Chia sẻ với link"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
-msgstr ""
+msgstr "Mật khẩu bảo vệ"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
 msgstr "Đặt ngày kết thúc"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "Ngày kết thúc"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "Chia sẻ thông qua email"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "Không tìm thấy người nào"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
-msgstr ""
-
-#: js/share.js:250
-msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Chia sẻ lại không được phép"
 
 #: js/share.js:271
+msgid "Shared in {item} with {user}"
+msgstr "Đã được chia sẽ trong {item} với {user}"
+
+#: js/share.js:292
 msgid "Unshare"
 msgstr "Gỡ bỏ chia sẻ"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
-msgstr ""
+msgstr "được chỉnh sửa"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "quản lý truy cập"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "tạo"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr "cập nhật"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "xóa"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "chia sẻ"
 
-#: js/share.js:322 js/share.js:492
+#: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
 msgstr "Mật khẩu bảo vệ"
 
-#: js/share.js:505
+#: js/share.js:525
 msgid "Error unsetting expiration date"
 msgstr "Lỗi trong quá trình gỡ bỏ ngày kết thúc"
 
-#: js/share.js:517
+#: js/share.js:537
 msgid "Error setting expiration date"
 msgstr "Lỗi cấu hình ngày kết thúc"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "Khôi phục mật khẩu Owncloud "
 
@@ -178,12 +179,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Vui lòng kiểm tra Email để khôi phục lại mật khẩu."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Yêu cầu"
+msgid "Reset email send."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Bạn đã nhập sai mật khẩu hay tên người dùng !"
+msgid "Request failed!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -269,7 +270,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Thư mục dữ liệu và những tập tin của bạn có thể dễ dàng bị truy cập từ internet. Tập tin .htaccess của ownCloud cung cấp không hoạt động. Chúng tôi đề nghị bạn nên cấu hình lại máy chủ webserver của bạn để thư mục dữ liệu không  còn bị truy cập hoặc bạn di chuyển thư mục dữ liệu ra bên ngoài thư mục gốc của máy chủ."
+msgstr "Thư mục dữ liệu và những tập tin của bạn có thể dễ dàng bị truy cập từ mạng. Tập tin .htaccess do ownCloud cung cấp không hoạt động. Chúng tôi đề nghị bạn nên cấu hình lại máy chủ webserver để thư mục dữ liệu không còn bị truy cập hoặc bạn nên di chuyển thư mục dữ liệu ra bên ngoài thư mục gốc của máy chủ."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -316,85 +317,85 @@ msgstr "Database host"
 msgid "Finish setup"
 msgstr "Cài đặt hoàn tất"
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
-msgstr "các dịch vụ web dưới sự kiểm soát của bạn"
-
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Chủ nhật"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Thứ 2"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Thứ 3"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Thứ 4"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Thứ 5"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Thứ "
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Thứ 7"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "Tháng 1"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "Tháng 2"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "Tháng 3"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "Tháng 4"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "Tháng 5"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "Tháng 6"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "Tháng 7"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "Tháng 8"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "Tháng 9"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "Tháng 10"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "Tháng 11"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "Tháng 12"
+
+#: templates/layout.guest.php:42
+msgid "web services under your control"
+msgstr "các dịch vụ web dưới sự kiểm soát của bạn"
 
 #: templates/layout.user.php:38
 msgid "Log out"
@@ -402,17 +403,17 @@ msgstr "Đăng xuất"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Tự động đăng nhập đã bị từ chối!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Nếu bạn không thay đổi mật khẩu gần đây của bạn, tài khoản của bạn có thể gặp nguy hiểm!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Vui lòng thay đổi mật khẩu của bạn để đảm bảo tài khoản của bạn một lần nữa."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -440,14 +441,14 @@ msgstr "Kế tiếp"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "Cảnh báo bảo mật!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Vui lòng xác nhận mật khẩu của bạn. <br/> Vì lý do bảo mật thỉnh thoảng bạn có thể được yêu cầu nhập lại mật khẩu."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Kiểm tra"

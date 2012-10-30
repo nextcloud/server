@@ -36,7 +36,7 @@ if(!isset($_SESSION['timezone'])) {
 }
 OCP\App::setActiveNavigationEntry( 'files_index' );
 // Load the files
-$dir = isset( $_GET['dir'] ) ? urldecode(stripslashes($_GET['dir'])) : '';
+$dir = isset( $_GET['dir'] ) ? rawurldecode(stripslashes($_GET['dir'])) : '';
 // Redirect if directory does not exist
 if(!OC_Filesystem::is_dir($dir.'/')) {
 	header('Location: '.$_SERVER['SCRIPT_NAME'].'');
@@ -75,11 +75,11 @@ foreach( explode( '/', $dir ) as $i ) {
 // make breadcrumb und filelist markup
 $list = new OCP\Template( 'files', 'part.list', '' );
 $list->assign( 'files', $files, false );
-$list->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'&dir=', false);
+$list->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'?dir=', false);
 $list->assign( 'downloadURL', OCP\Util::linkTo('files', 'download.php').'?file=', false);
 $breadcrumbNav = new OCP\Template( 'files', 'part.breadcrumb', '' );
 $breadcrumbNav->assign( 'breadcrumb', $breadcrumb, false );
-$breadcrumbNav->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'&dir=', false);
+$breadcrumbNav->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'?dir=', false);
 
 $upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
 $post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));

@@ -1,8 +1,5 @@
 <?php
 
-// Init owncloud
-require_once '../../lib/base.php';
-
 // Check if we are a user
 OCP\JSON::callCheck();
 OC_JSON::checkLoggedIn();

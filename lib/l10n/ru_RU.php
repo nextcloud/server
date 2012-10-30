@@ -14,6 +14,7 @@
 "Token expired. Please reload page." => "Маркер истек. Пожалуйста, перезагрузите страницу.",
 "Files" => "Файлы",
 "Text" => "Текст",
+"Images" => "Изображения",
 "seconds ago" => "секунд назад",
 "1 minute ago" => "1 минуту назад",
 "%d minutes ago" => "%d минут назад",

@@ -5,8 +5,6 @@
 "Unshare" => "Pārtraukt līdzdalīšanu",
 "Use the following link to reset your password: {link}" => "Izmantojiet šo linku lai mainītu paroli",
 "You will receive a link to reset your password via Email." => "Jūs savā epastā saņemsiet interneta saiti, caur kuru varēsiet atjaunot paroli.",
-"Requested" => "Obligāts",
-"Login failed!" => "Neizdevās ielogoties.",
 "Username" => "Lietotājvārds",
 "Request reset" => "Pieprasīt paroles maiņu",
 "Your password was reset" => "Jūsu parole tika nomainīta",

@@ -22,6 +22,22 @@
  */
 
 /**
+ * Prints an XSS escaped string
+ * @param string $string the string which will be escaped and printed
+ */
+function p($string){
+	print(OC_Util::sanitizeHTML($string));
+}
+
+/**
+ * Prints an unescaped string
+ * @param string $string the string which will be printed as it is
+ */
+function print_unescaped($string){
+	print($string);
+}
+
+/**
  * @brief make OC_Helper::linkTo available as a simple function
  * @param string $app app
  * @param string $file file

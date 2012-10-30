@@ -111,7 +111,7 @@
 			</p>
 			<p class="infield">
 				<label for="dbname" class="infield"><?php echo $l->t( 'Database name' ); ?></label>
-				<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" autocomplete="off" />
+				<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" autocomplete="off" pattern="[0-9a-zA-Z$_]+" />
 			</p>
 		</div>
 		<?php endif; ?>

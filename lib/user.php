@@ -369,8 +369,7 @@ class OC_User {
 	 * @param $password The password
 	 * @returns string
 	 *
-	 * Check if the password is correct without logging in the user
-	 * returns the user id or false
+	 * returns the path to the users home directory
 	 */
 	public static function getHome($uid) {
 		foreach(self::$_usedBackends as $backend) {

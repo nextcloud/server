@@ -2,14 +2,11 @@
 
 abstract class OC_Minimizer {
 	public function generateETag($files) {
-		$etag = '';
-		sort($files);
+		$fullpath_files = array();
 		foreach($files as $file_info) {
-			$file = $file_info[0] . '/' . $file_info[2];
-			$stat = stat($file);
-			$etag .= $file.$stat['mtime'].$stat['size'];
+			$fullpath_files[] = $file_info[0] . '/' . $file_info[2];
 		}
-		return md5($etag);
+		return OC_Cache::generateCacheKeyFromFiles($fullpath_files);
 	}
 
 	abstract public function minimizeFiles($files);

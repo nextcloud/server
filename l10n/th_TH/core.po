@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:14+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-29 00:01+0100\n"
+"PO-Revision-Date: 2012-10-28 15:58+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,19 +19,19 @@ msgstr ""
 "Language: th_TH\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
+#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
 msgid "Application name not provided."
 msgstr "ยังไม่ได้ตั้งชื่อแอพพลิเคชั่น"
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:28
 msgid "No category to add?"
 msgstr "ไม่มีหมวดหมู่ที่ต้องการเพิ่ม?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:35
 msgid "This category already exists: "
 msgstr "หมวดหมู่นี้มีอยู่แล้ว: "
 
-#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
+#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "ตั้งค่า"
 
@@ -59,113 +59,113 @@ msgstr "ตกลง"
 msgid "No categories selected for deletion."
 msgstr "ยังไม่ได้เลือกหมวดหมู่ที่ต้องการลบ"
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
-#: js/share.js:517
+#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/share.js:537
 msgid "Error"
 msgstr "พบข้อผิดพลาด"
 
-#: js/share.js:103
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "เกิดข้อผิดพลาดในระหว่างการแชร์ข้อมูล"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "เกิดข้อผิดพลาดในการยกเลิกการแชร์ข้อมูล"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "เกิดข้อผิดพลาดในการเปลี่ยนสิทธิ์การเข้าใช้งาน"
 
-#: js/share.js:130
+#: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "ได้แชร์ให้กับคุณ และกลุ่ม {group} โดย {owner}"
 
-#: js/share.js:132
+#: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "ถูกแชร์ให้กับคุณโดย {owner}"
 
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "แชร์ให้กับ"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "แชร์ด้วยลิงก์"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "รหัสผ่าน"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
 msgstr "กำหนดวันที่หมดอายุ"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "วันที่หมดอายุ"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "แชร์ผ่านทางอีเมล"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "ไม่พบบุคคลที่ต้องการ"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
 msgstr "ไม่อนุญาตให้แชร์ข้อมูลซ้ำได้"
 
-#: js/share.js:250
-msgid "Shared in {item} with {user}"
-msgstr ""
-
 #: js/share.js:271
+msgid "Shared in {item} with {user}"
+msgstr "ได้แชร์ {item} ให้กับ {user}"
+
+#: js/share.js:292
 msgid "Unshare"
 msgstr "ยกเลิกการแชร์"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
 msgstr "สามารถแก้ไข"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "ระดับควบคุมการเข้าใช้งาน"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "สร้าง"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr "อัพเดท"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "ลบ"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "แชร์"
 
-#: js/share.js:322 js/share.js:492
+#: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:505
+#: js/share.js:525
 msgid "Error unsetting expiration date"
 msgstr "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:517
+#: js/share.js:537
 msgid "Error setting expiration date"
 msgstr "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "รีเซ็ตรหัสผ่าน ownCloud"
 
@@ -178,12 +178,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "คุณจะได้รับลิงค์เพื่อกำหนดรหัสผ่านใหม่ทางอีเมล์"
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "ส่งคำร้องเรียบร้อยแล้ว"
+msgid "Reset email send."
+msgstr "รีเซ็ตค่าการส่งอีเมล"
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "ไม่สามารถเข้าสู่ระบบได้!"
+msgid "Request failed!"
+msgstr "คำร้องขอล้มเหลว!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -254,13 +254,13 @@ msgstr "คำเตือนเกี่ยวกับความปลอด
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "ยังไม่มีตัวสร้างหมายเลขแบบสุ่มให้ใช้งาน, กรุณาเปิดใช้งานส่วนเสริม PHP OpenSSL"
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "หากปราศจากตัวสร้างหมายเลขแบบสุ่มที่ช่วยป้องกันความปลอดภัย ผู้บุกรุกอาจสามารถที่จะคาดคะเนรหัสยืนยันการเข้าถึงเพื่อรีเซ็ตรหัสผ่าน และเอาบัญชีของคุณไปเป็นของตนเองได้"
 
 #: templates/installation.php:32
 msgid ""
@@ -316,85 +316,85 @@ msgstr "Database host"
 msgid "Finish setup"
 msgstr "ติดตั้งเรียบร้อยแล้ว"
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
-msgstr "web services under your control"
-
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "วันอาทิตย์"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "วันจันทร์"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "วันอังคาร"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "วันพุธ"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "วันพฤหัสบดี"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "วันศุกร์"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "วันเสาร์"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "มกราคม"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "กุมภาพันธ์"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "มีนาคม"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "เมษายน"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "พฤษภาคม"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "มิถุนายน"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "กรกฏาคม"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "สิงหาคม"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "กันยายน"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "ตุลาคม"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "พฤศจิกายน"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "ธันวาคม"
+
+#: templates/layout.guest.php:42
+msgid "web services under your control"
+msgstr "web services under your control"
 
 #: templates/layout.user.php:38
 msgid "Log out"
@@ -402,17 +402,17 @@ msgstr "ออกจากระบบ"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "การเข้าสู่ระบบอัตโนมัติถูกปฏิเสธแล้ว"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "หากคุณยังไม่ได้เปลี่ยนรหัสผ่านของคุณเมื่อเร็วๆนี้, บัญชีของคุณอาจถูกบุกรุกโดยผู้อื่น"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "กรุณาเปลี่ยนรหัสผ่านของคุณอีกครั้ง เพื่อป้องกันบัญชีของคุณให้ปลอดภัย"
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -440,14 +440,14 @@ msgstr "ถัดไป"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "คำเตือนเพื่อความปลอดภัย!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "กรุณายืนยันรหัสผ่านของคุณ <br/> เพื่อความปลอดภัย คุณจะถูกขอให้กรอกรหัสผ่านอีกครั้ง"
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "ยืนยัน"

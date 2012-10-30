@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:14+0000\n"
+"POT-Creation-Date: 2012-10-29 00:01+0100\n"
+"PO-Revision-Date: 2012-10-27 22:12+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -19,19 +19,19 @@ msgstr ""
 "Language: lt_LT\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
+#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
 msgid "Application name not provided."
 msgstr "Nepateiktas programos pavadinimas."
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:28
 msgid "No category to add?"
 msgstr "Nepridėsite jokios kategorijos?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:35
 msgid "This category already exists: "
 msgstr "Tokia kategorija jau yra:"
 
-#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
+#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
 msgid "Settings"
 msgstr "Nustatymai"
 
@@ -59,113 +59,113 @@ msgstr "Gerai"
 msgid "No categories selected for deletion."
 msgstr "Trynimui nepasirinkta jokia kategorija."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
-#: js/share.js:517
+#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/share.js:537
 msgid "Error"
 msgstr "Klaida"
 
-#: js/share.js:103
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "Klaida, dalijimosi metu"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "Klaida, kai atšaukiamas dalijimasis"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "Klaida, keičiant privilegijas"
 
-#: js/share.js:130
+#: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Pasidalino su Jumis ir {group} grupe {owner}"
 
-#: js/share.js:132
+#: js/share.js:153
 msgid "Shared with you by {owner}"
 msgstr "Pasidalino su Jumis {owner}"
 
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "Dalintis su"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "Dalintis nuoroda"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
 msgstr "Apsaugotas slaptažodžiu"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Slaptažodis"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
 msgstr "Nustatykite galiojimo laiką"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "Galiojimo laikas"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "Dalintis per el. paštą:"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "Žmonių nerasta"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
 msgstr "Dalijinasis išnaujo negalimas"
 
-#: js/share.js:250
+#: js/share.js:271
 msgid "Shared in {item} with {user}"
 msgstr "Pasidalino {item} su {user}"
 
-#: js/share.js:271
+#: js/share.js:292
 msgid "Unshare"
 msgstr "Nesidalinti"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
 msgstr "gali redaguoti"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "priėjimo kontrolė"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "sukurti"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr "atnaujinti"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "ištrinti"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "dalintis"
 
-#: js/share.js:322 js/share.js:492
+#: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
 msgstr "Apsaugota slaptažodžiu"
 
-#: js/share.js:505
+#: js/share.js:525
 msgid "Error unsetting expiration date"
 msgstr "Klaida nuimant galiojimo laiką"
 
-#: js/share.js:517
+#: js/share.js:537
 msgid "Error setting expiration date"
 msgstr "Klaida nustatant galiojimo laiką"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "ownCloud slaptažodžio atkūrimas"
 
@@ -178,12 +178,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Elektroniniu paštu gausite nuorodą, su kuria galėsite iš naujo nustatyti slaptažodį."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Užklausta"
+msgid "Reset email send."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Prisijungti nepavyko!"
+msgid "Request failed!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -316,85 +316,85 @@ msgstr "Duomenų bazės serveris"
 msgid "Finish setup"
 msgstr "Baigti diegimą"
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
-msgstr "jūsų valdomos web paslaugos"
-
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Sekmadienis"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Pirmadienis"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Antradienis"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Trečiadienis"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Ketvirtadienis"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Penktadienis"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Šeštadienis"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "Sausis"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "Vasaris"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "Kovas"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "Balandis"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "Gegužė"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "Birželis"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "Liepa"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "Rugpjūtis"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "Rugsėjis"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "Spalis"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "Lapkritis"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "Gruodis"
+
+#: templates/layout.guest.php:42
+msgid "web services under your control"
+msgstr "jūsų valdomos web paslaugos"
 
 #: templates/layout.user.php:38
 msgid "Log out"

@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-18 02:04+0200\n"
-"PO-Revision-Date: 2012-10-17 05:07+0000\n"
+"POT-Creation-Date: 2012-10-26 02:03+0200\n"
+"PO-Revision-Date: 2012-10-25 03:51+0000\n"
 "Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -234,7 +234,7 @@ msgstr "您已使用空间: <strong>%s</strong>，总空间: <strong>%s</strong>
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr "桌面和移动设备同步程序"
+msgstr "桌面和移动设备同步客户端"
 
 #: templates/personal.php:13
 msgid "Download"
@@ -274,7 +274,7 @@ msgstr "您的电子邮件"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr "填写电子邮件地址以启用密码恢复"
+msgstr "填写电子邮件地址以启用密码恢复功能"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
@@ -314,7 +314,7 @@ msgstr "其它"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr "组管理"
+msgstr "组管理员"
 
 #: templates/users.php:82
 msgid "Quota"

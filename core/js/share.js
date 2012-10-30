@@ -10,17 +10,38 @@ OC.Share={
 		// Load all share icons
 		$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getItemsSharedStatuses', itemType: itemType }, function(result) {
 			if (result && result.status === 'success') {
-				$.each(result.data, function(item, hasPrivateLink) {
-					// Private links override shared in terms of icon display
-					if (itemType != 'file' && itemType != 'folder') {
-						if (hasPrivateLink) {
-							var image = OC.imagePath('core', 'actions/public');
-						} else {
-							var image = OC.imagePath('core', 'actions/shared');
-						}
-						$('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
+				$.each(result.data, function(item, hasLink) {
+					OC.Share.statuses[item] = hasLink;
+					// Links override shared in terms of icon display
+					if (hasLink) {
+						var image = OC.imagePath('core', 'actions/public');
+					} else {
+						var image = OC.imagePath('core', 'actions/shared');
 					}
-					OC.Share.statuses[item] = hasPrivateLink;
+					if (itemType != 'file' && itemType != 'folder') {
+						$('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
+					} else {
+						var file = $('tr').filterAttr('data-file', OC.basename(item));
+						if (file.length > 0) {
+							$(file).find('.fileactions .action').filterAttr('data-action', 'Share').find('img').attr('src', image);
+						}
+						var dir = $('#dir').val();
+						if (dir.length > 1) {
+							var last = '';
+							var path = dir;
+							// Search for possible parent folders that are shared
+							while (path != last) {
+								if (path == item) {
+									var img = $('.fileactions .action').filterAttr('data-action', 'Share').find('img');
+									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
+										img.attr('src', image);
+									}
+								}
+								last = path;
+								path = OC.Share.dirname(path);
+							}
+						}
+					}
 				});
 			}
 		});
@@ -483,15 +504,14 @@ $(document).ready(function() {
 		$('#linkPass').toggle('blind');
 	});
 
-	$('#linkPassText').live('keyup', function(event) {
-		if (event.keyCode == 13) {
-			var itemType = $('#dropdown').data('item-type');
-			var itemSource = $('#dropdown').data('item-source');
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.PERMISSION_READ, function() {
-				$('#linkPassText').val('');
-				$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
-			});
-		}
+	$('#linkPassText').live('focusout', function(event) {
+		var itemType = $('#dropdown').data('item-type');
+		var itemSource = $('#dropdown').data('item-source');
+		OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.PERMISSION_READ, function() {
+			$('#linkPassText').val('');
+			$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
+		});
+		$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
 	});
 
 	$('#expirationCheckbox').live('click', function() {

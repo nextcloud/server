@@ -58,6 +58,9 @@ class OC_Log {
 
 	//Recoverable errors handler
 	public static function onError($number, $message, $file, $line){
+		if (error_reporting() === 0) {
+			return;
+		}
 		self::write('PHP', $message . ' at ' . $file . '#' . $line, self::WARN);
 
 	}

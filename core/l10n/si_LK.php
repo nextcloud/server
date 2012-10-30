@@ -9,6 +9,8 @@
 "No categories selected for deletion." => "මකා දැමීම සඳහා ප්‍රවර්ගයන් තෝරා නොමැත.",
 "Error" => "දෝෂයක්",
 "Password" => "මුර පදය ",
+"Unshare" => "නොබෙදු",
+"create" => "සදන්න",
 "Username" => "පරිශීලක නම",
 "To login page" => "පිවිසුම් පිටුවට",
 "New password" => "නව මුර පදයක්",
@@ -17,9 +19,10 @@
 "Apps" => "යෙදුම්",
 "Admin" => "පරිපාලක",
 "Help" => "උදව්",
+"Edit categories" => "ප්‍රභේදයන් සංස්කරණය",
 "Add" => "එක් කරන්න",
+"Advanced" => "දියුණු/උසස්",
 "Data folder" => "දත්ත ෆෝල්ඩරය",
-"web services under your control" => "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්",
 "Sunday" => "ඉරිදා",
 "Monday" => "සඳුදා",
 "Tuesday" => "අඟහරුවාදා",
@@ -39,5 +42,6 @@
 "October" => "ඔක්තෝබර්",
 "November" => "නොවැම්බර්",
 "December" => "දෙසැම්බර්",
+"web services under your control" => "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්",
 "next" => "ඊළඟ"
 );

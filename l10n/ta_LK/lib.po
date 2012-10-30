@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <suganthi@nic.lk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:11+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-27 00:01+0200\n"
+"PO-Revision-Date: 2012-10-26 04:12+0000\n"
+"Last-Translator: suganthi <suganthi@nic.lk>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,39 +36,39 @@ msgstr "பயனாளர்கள்"
 
 #: app.php:309
 msgid "Apps"
-msgstr ""
+msgstr "செயலிகள்"
 
 #: app.php:311
 msgid "Admin"
-msgstr ""
+msgstr "நிர்வாகம்"
 
 #: files.php:328
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "வீசொலிப் பூட்டு பதிவிறக்கம் நிறுத்தப்பட்டுள்ளது."
 
 #: files.php:329
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "கோப்புகள்ஒன்றன் பின் ஒன்றாக பதிவிறக்கப்படவேண்டும்."
 
 #: files.php:329 files.php:354
 msgid "Back to Files"
-msgstr ""
+msgstr "கோப்புகளுக்கு செல்க"
 
 #: files.php:353
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "வீ சொலிக் கோப்புகளை உருவாக்குவதற்கு தெரிவுசெய்யப்பட்ட கோப்புகள் மிகப்பெரியவை"
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "செயலி இயலுமைப்படுத்தப்படவில்லை"
 
 #: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
-msgstr ""
+msgstr "அத்தாட்சிப்படுத்தலில் வழு"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "அடையாளவில்லை காலாவதியாகிவிட்டது. தயவுசெய்து பக்கத்தை மீள் ஏற்றுக."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
@@ -75,11 +76,11 @@ msgstr "கோப்புகள்"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "உரை"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "படங்கள்"
 
 #: template.php:87
 msgid "seconds ago"
@@ -92,7 +93,7 @@ msgstr "1 நிமிடத்திற்கு முன் "
 #: template.php:89
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "%d நிமிடங்களுக்கு முன்"
 
 #: template.php:92
 msgid "today"
@@ -105,7 +106,7 @@ msgstr "நேற்று"
 #: template.php:94
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "%d நாட்களுக்கு முன்"
 
 #: template.php:95
 msgid "last month"
@@ -113,7 +114,7 @@ msgstr "கடந்த மாதம்"
 
 #: template.php:96
 msgid "months ago"
-msgstr "மாதங்களுக்கு முன"
+msgstr "மாதங்களுக்கு முன்"
 
 #: template.php:97
 msgid "last year"
@@ -126,12 +127,12 @@ msgstr "வருடங்களுக்கு முன்"
 #: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s இன்னும் இருக்கின்றன. <a href=\"%s\">மேலதிக தகவல்களுக்கு</a> எடுக்க"
 
 #: updater.php:77
 msgid "up to date"
-msgstr ""
+msgstr "நவீன"
 
 #: updater.php:80
 msgid "updates check is disabled"
-msgstr ""
+msgstr "இற்றைப்படுத்தலை சரிபார்ப்பதை செயலற்றதாக்குக"
