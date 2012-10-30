@@ -30,17 +30,19 @@ class Test_TemplateFunctions extends UnitTestCase {
 		ob_start();
 		p($htmlString);
 		$result = ob_get_clean();
+		ob_end_clean();
 
 		$this->assertEqual("&lt;script&gt;alert(&#039;xss&#039;);&lt;/script&gt;", $result);
+	}
 
-		ob_end_clean();
+	public function testPNormalString(){
 		$normalString = "This is a good string!";
 		ob_start();
 		p($normalString);
 		$result = ob_get_clean();
+		ob_end_clean();
 
 		$this->assertEqual("This is a good string!", $result);
-
 	}
 
 
@@ -50,17 +52,19 @@ class Test_TemplateFunctions extends UnitTestCase {
 		ob_start();
 		print_unescaped($htmlString);
 		$result = ob_get_clean();
+		ob_end_clean();
 
 		$this->assertEqual($htmlString, $result);
+	}
 
-		ob_end_clean();
+	public function testPrintUnescapedNormalString(){
 		$normalString = "This is a good string!";
 		ob_start();
 		p($normalString);
 		$result = ob_get_clean();
+		ob_end_clean();
 
 		$this->assertEqual("This is a good string!", $result);
-
 	}
 
 
