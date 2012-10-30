@@ -34,6 +34,7 @@
 "ownCloud password reset" => "ownCloud-salasanan nollaus",
 "Use the following link to reset your password: {link}" => "Voit palauttaa salasanasi seuraavassa osoitteessa: {link}",
 "You will receive a link to reset your password via Email." => "Saat sähköpostitse linkin nollataksesi salasanan.",
+"Request failed!" => "Pyyntö epäonnistui!",
 "Username" => "Käyttäjätunnus",
 "Request reset" => "Tilaus lähetetty",
 "Your password was reset" => "Salasanasi nollattiin",
@@ -83,11 +84,16 @@
 "December" => "Joulukuu",
 "web services under your control" => "verkkopalvelut hallinnassasi",
 "Log out" => "Kirjaudu ulos",
+"Automatic logon rejected!" => "Automaattinen sisäänkirjautuminen hylättiin!",
+"If you did not change your password recently, your account may be compromised!" => "Jos et vaihtanut salasanaasi äskettäin, tilisi saattaa olla murrettu.",
+"Please change your password to secure your account again." => "Vaihda salasanasi suojataksesi tilisi uudelleen.",
 "Lost your password?" => "Unohditko salasanasi?",
 "remember" => "muista",
 "Log in" => "Kirjaudu sisään",
 "You are logged out." => "Olet kirjautunut ulos.",
 "prev" => "edellinen",
 "next" => "seuraava",
-"Security Warning!" => "Turvallisuusvaroitus!"
+"Security Warning!" => "Turvallisuusvaroitus!",
+"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Vahvista salasanasi. <br/>Turvallisuussyistä sinulta saatetaan ajoittain kysyä salasanasi uudelleen.",
+"Verify" => "Vahvista"
 );

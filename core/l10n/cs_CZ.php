@@ -38,6 +38,8 @@
 "ownCloud password reset" => "Obnovení hesla pro ownCloud",
 "Use the following link to reset your password: {link}" => "Heslo obnovíte použitím následujícího odkazu: {link}",
 "You will receive a link to reset your password via Email." => "Bude Vám e-mailem zaslán odkaz pro obnovu hesla.",
+"Reset email send." => "Obnovovací e-mail odeslán.",
+"Request failed!" => "Požadavek selhal.",
 "Username" => "Uživatelské jméno",
 "Request reset" => "Vyžádat obnovu",
 "Your password was reset" => "Vaše heslo bylo obnoveno",

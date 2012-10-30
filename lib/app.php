@@ -319,7 +319,6 @@ class OC_App{
 	/// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation( $list ) {
 		foreach( $list as &$naventry ) {
-			$naventry['subnavigation'] = array();
 			if( $naventry['id'] == self::$activeapp ) {
 				$naventry['active'] = true;
 			}
@@ -469,8 +468,6 @@ class OC_App{
 	 * entries are sorted by the key 'order' ascending. Additional to the keys
 	 * given for each app the following keys exist:
 	 *   - active: boolean, signals if the user is on this navigation entry
-	 *   - children: array that is empty if the key 'active' is false or
-	 *     contains the subentries if the key 'active' is true
 	 */
 	public static function getNavigation() {
 		$navigation = self::proceedNavigation( self::$navigation );

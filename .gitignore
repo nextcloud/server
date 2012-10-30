@@ -4,6 +4,7 @@ owncloud
 config/config.php
 config/mount.php
 apps/inc.php
+3rdparty
 
 # just sane ignores
 .*.sw[po]

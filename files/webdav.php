@@ -24,24 +24,7 @@
  */
 
 // only need filesystem apps
-$RUNTIME_APPTYPES=array('filesystem','authentication');
+$RUNTIME_APPTYPES=array('filesystem', 'authentication');
 require_once '../lib/base.php';
-
-// Backends
-$authBackend = new OC_Connector_Sabre_Auth();
-$lockBackend = new OC_Connector_Sabre_Locks();
-
-// Create ownCloud Dir
-$publicDir = new OC_Connector_Sabre_Directory('');
-
-// Fire up server
-$server = new Sabre_DAV_Server($publicDir);
-$server->setBaseUri(OC::$WEBROOT. '/files/webdav.php');
-
-// Load plugins
-$server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend, 'ownCloud'));
-$server->addPlugin(new Sabre_DAV_Locks_Plugin($lockBackend));
-$server->addPlugin(new Sabre_DAV_Browser_Plugin(false)); // Show something in the Browser, but no upload
-
-// And off we go!
-$server->exec();
+$baseuri = OC::$WEBROOT. '/files/webdav.php';
+require_once 'apps/files/appinfo/remote.php';

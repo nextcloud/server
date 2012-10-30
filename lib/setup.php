@@ -70,6 +70,9 @@ class OC_Setup {
 			if(empty($options['dbname'])) {
 				$error[] = "$dbprettyname enter the database name.";
 			}
+			if(substr_count($options['dbname'], '.') >= 1){
+				$error[] = "$dbprettyname you may not use dots in the database name";
+			}
 			if($dbtype != 'oci' && empty($options['dbhost'])) {
 				$error[] = "$dbprettyname set the database host.";
 			}
@@ -199,7 +202,7 @@ class OC_Setup {
 		return $error;
 	}
 
-	private static function setupMySQLDatabase($dbhost, $dbuser, $dbpass, $dbtableprefix, $username) {
+	private static function setupMySQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username) {
 		//check if the database user has admin right
 		$connection = @mysql_connect($dbhost, $dbuser, $dbpass);
 		if(!$connection) {
@@ -215,7 +218,7 @@ class OC_Setup {
 			$dbusername=substr('oc_'.$username, 0, 16);
 			if($dbusername!=$oldUser) {
 				//hash the password so we don't need to store the admin config in the config file
-				$dbpassword=md5(time().$password);
+				$dbpassword=md5(time().$dbpass);
 
 				self::createDBUser($dbusername, $dbpassword, $connection);
 
@@ -588,6 +591,10 @@ class OC_Setup {
 		$content.= "RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]\n";
 		$content.= "RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]\n";
 		$content.= "RewriteRule ^remote/(.*) remote.php [QSA,L]\n";
+		$content.= "</IfModule>\n";
+		$content.= "<IfModule mod_mime.c>\n";
+		$content.= "AddType image/svg+xml svg svgz\n";
+		$content.= "AddEncoding gzip svgz\n";
 		$content.= "</IfModule>\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it

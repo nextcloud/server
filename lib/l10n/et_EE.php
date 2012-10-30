@@ -14,6 +14,7 @@
 "Token expired. Please reload page." => "Kontrollkood aegus. Paelun lae leht uuesti.",
 "Files" => "Failid",
 "Text" => "Tekst",
+"Images" => "Pildid",
 "seconds ago" => "sekundit tagasi",
 "1 minute ago" => "1 minut tagasi",
 "%d minutes ago" => "%d minutit tagasi",

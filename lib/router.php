@@ -17,7 +17,9 @@ class OC_Router {
 	protected $collection = null;
 	protected $root = null;
 
-	protected $generator= null;
+	protected $generator = null;
+	protected $routing_files;
+	protected $cache_key;
 
 	public function __construct() {
 		$baseUrl = OC_Helper::linkTo('', 'index.php');
@@ -29,21 +31,42 @@ class OC_Router {
 		$this->root = $this->getCollection('root');
 	}
 
+	public function getRoutingFiles() {
+		if (!isset($this->routing_files)) {
+			$this->routing_files = array();
+			foreach(OC_APP::getEnabledApps() as $app){
+				$file = OC_App::getAppPath($app).'/appinfo/routes.php';
+				if(file_exists($file)) {
+					$this->routing_files[$app] = $file;
+				}
+			}
+		}
+		return $this->routing_files;
+	}
+
+	public function getCacheKey() {
+		if (!isset($this->cache_key)) {
+			$files = $this->getRoutingFiles();
+			$files[] = 'settings/routes.php';
+			$files[] = 'core/routes.php';
+			$this->cache_key = OC_Cache::generateCacheKeyFromFiles($files);
+		}
+		return $this->cache_key;
+	}
+
 	/**
 	 * loads the api routes
 	 */
 	public function loadRoutes() {
-		foreach(OC_APP::getEnabledApps() as $app){
-			$file = OC_App::getAppPath($app).'/appinfo/routes.php';
-			if(file_exists($file)) {
-				$this->useCollection($app);
-				require_once $file;
-				$collection = $this->getCollection($app);
-				$this->root->addCollection($collection, '/apps/'.$app);
-			}
+		foreach($this->getRoutingFiles() as $app => $file) {
+			$this->useCollection($app);
+			require_once $file;
+			$collection = $this->getCollection($app);
+			$this->root->addCollection($collection, '/apps/'.$app);
 		}
 		$this->useCollection('root');
-		require_once('core/routes.php');
+		require_once 'settings/routes.php';
+		require_once 'core/routes.php';
 	}
 
 	protected function getCollection($name) {
@@ -128,10 +151,14 @@ class OC_Router {
 	 */
 	public static function JSRoutes()
 	{
-		// TODO: http caching
-		$routes = array();
 		$router = OC::getRouter();
+
+		$etag = $router->getCacheKey();
+		OC_Response::enableCaching();
+		OC_Response::setETagHeader($etag);
+
 		$root = $router->getCollection('root');
+		$routes = array();
 		foreach($root->all() as $name => $route) {
 			$compiled_route = $route->compile();
 			$defaults = $route->getDefaults();

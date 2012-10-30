@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-28 00:01+0200\n"
+"POT-Creation-Date: 2012-10-30 00:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,45 +81,45 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
-#: template.php:87
+#: template.php:103
 msgid "seconds ago"
 msgstr ""
 
-#: template.php:88
+#: template.php:104
 msgid "1 minute ago"
 msgstr ""
 
-#: template.php:89
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
 msgstr ""
 
-#: template.php:92
+#: template.php:108
 msgid "today"
 msgstr ""
 
-#: template.php:93
+#: template.php:109
 msgid "yesterday"
 msgstr ""
 
-#: template.php:94
+#: template.php:110
 #, php-format
 msgid "%d days ago"
 msgstr ""
 
-#: template.php:95
+#: template.php:111
 msgid "last month"
 msgstr ""
 
-#: template.php:96
+#: template.php:112
 msgid "months ago"
 msgstr ""
 
-#: template.php:97
+#: template.php:113
 msgid "last year"
 msgstr ""
 
-#: template.php:98
+#: template.php:114
 msgid "years ago"
 msgstr ""
 

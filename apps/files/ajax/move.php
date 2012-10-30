@@ -9,9 +9,9 @@ OCP\JSON::callCheck();
 // Get data
 $dir = stripslashes($_GET["dir"]);
 $file = stripslashes($_GET["file"]);
-$target = stripslashes(urldecode($_GET["target"]));
+$target = stripslashes(rawurldecode($_GET["target"]));
 
-if (OC_User::isLoggedIn() && ($dir != '' || $file != 'Shared')) {
+if ($dir != '' || $file != 'Shared') {
 	$targetFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $file);
 	$sourceFile = \OC\Files\Filesystem::normalizePath($target . '/' . $file);
 	if(\OC\Files\Filesystem::rename($sourceFile, $targetFile)) {
