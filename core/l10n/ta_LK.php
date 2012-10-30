@@ -38,6 +38,8 @@
 "ownCloud password reset" => "ownCloud இன் கடவுச்சொல் மீளமைப்பு",
 "Use the following link to reset your password: {link}" => "உங்கள் கடவுச்சொல்லை மீளமைக்க பின்வரும் இணைப்பை பயன்படுத்தவும் : {இணைப்பு}",
 "You will receive a link to reset your password via Email." => "நீங்கள் மின்னஞ்சல் மூலம் உங்களுடைய கடவுச்சொல்லை மீளமைப்பதற்கான இணைப்பை பெறுவீர்கள். ",
+"Reset email send." => "மின்னுஞ்சல் அனுப்புதலை மீளமைக்குக",
+"Request failed!" => "வேண்டுகோள் தோல்வியுற்றது!",
 "Username" => "பயனாளர் பெயர்",
 "Request reset" => "கோரிக்கை மீளமைப்பு",
 "Your password was reset" => "உங்களுடைய கடவுச்சொல் மீளமைக்கப்பட்டது",

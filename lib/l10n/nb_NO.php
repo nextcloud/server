@@ -14,6 +14,7 @@
 "Token expired. Please reload page." => "Symbol utløpt. Vennligst last inn siden på nytt.",
 "Files" => "Filer",
 "Text" => "Tekst",
+"Images" => "Bilder",
 "seconds ago" => "sekunder siden",
 "1 minute ago" => "1 minuitt siden",
 "%d minutes ago" => "%d minutter siden",

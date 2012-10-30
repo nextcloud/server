@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-27 00:01+0200\n"
-"PO-Revision-Date: 2012-10-26 08:03+0000\n"
-"Last-Translator: Chamara Disanayake <chamara@nic.lk>\n"
+"POT-Creation-Date: 2012-10-31 00:01+0100\n"
+"PO-Revision-Date: 2012-10-30 09:14+0000\n"
+"Last-Translator: Anushke Guneratne <anushke@gmail.com>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,60 +20,60 @@ msgstr ""
 "Language: si_LK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr ""
 
-#: ajax/creategroup.php:12
+#: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "කණ්ඩායම දැනටමත් තිබේ"
 
-#: ajax/creategroup.php:21
+#: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "කාණඩයක් එක් කළ නොහැකි විය"
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
 msgstr "යෙදුම සක්‍රීය කළ නොහැකි විය."
 
-#: ajax/lostpassword.php:14
+#: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr ""
 
-#: ajax/lostpassword.php:16
+#: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr ""
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
 msgstr ""
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
 msgstr "අවලංගු අයදුම"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "කණ්ඩායම මැකීමට නොහැක"
 
-#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
 msgid "Authentication error"
 msgstr ""
 
-#: ajax/removeuser.php:27
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
 msgstr "පරිශීලකයා මැකීමට නොහැක"
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "භාෂාව ාවනස් කිරීම"
 
-#: ajax/togglegroups.php:25
+#: ajax/togglegroups.php:22
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "පරිශීලකයා %s කණ්ඩායමට එකතු කළ නොහැක"
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "පරිශීලකයා %s කණ්ඩායමින් ඉවත් කළ නොහැක"
@@ -96,7 +96,7 @@ msgstr ""
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "ආරක්ෂක නිවේදනයක්"
 
 #: templates/admin.php:17
 msgid ""
@@ -248,7 +248,7 @@ msgstr "මුර පදය වෙනස් කළ නොහැකි විය"
 
 #: templates/personal.php:21
 msgid "Current password"
-msgstr "නූතන මුරපදය"
+msgstr "වත්මන් මුරපදය"
 
 #: templates/personal.php:22
 msgid "New password"
@@ -300,7 +300,7 @@ msgstr "සමූහය"
 
 #: templates/users.php:32
 msgid "Create"
-msgstr "තනනවා"
+msgstr "තනන්න"
 
 #: templates/users.php:35
 msgid "Default Quota"
