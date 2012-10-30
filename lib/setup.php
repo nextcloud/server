@@ -559,6 +559,10 @@ class OC_Setup {
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
+		self::protectDataDirectory();
+	}
+
+	public static function protectDataDirectory() {
 		$content = "deny from all\n";
 		$content.= "IndexIgnore *";
 		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.htaccess', $content);

@@ -225,9 +225,7 @@ class OC{
 				if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 					if(!OC_Util::ishtaccessworking()) {
 						if(!file_exists(OC::$SERVERROOT.'/data/.htaccess')) {
-							$content = "deny from all\n";
-							$content.= "IndexIgnore *";
-							file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.htaccess', $content);
+							OC_Setup::protectDataDirectory();
 						}
 					}
 				}		
