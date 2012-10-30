@@ -7,6 +7,7 @@
 #   <a.tangemann@web.de>, 2012.
 #   <blobbyjj@ymail.com>, 2012.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
+# Jan-Christoph Borchardt <hey@jancborchardt.net>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan-Christoph Borchardt <jan@unhosted.org>, 2011.
 #   <lukas@statuscode.ch>, 2012.
@@ -23,9 +24,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-20 02:02+0200\n"
-"PO-Revision-Date: 2012-10-19 21:27+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2012-10-29 00:01+0100\n"
+"PO-Revision-Date: 2012-10-28 12:35+0000\n"
+"Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +36,7 @@ msgstr ""
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
-msgstr "Datei fehlerfrei hochgeladen."
+msgstr "Es sind keine Fehler aufgetreten. Die Datei wurde erfolgreich hochgeladen."
 
 #: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
@@ -57,7 +58,7 @@ msgstr "Es wurde keine Datei hochgeladen."
 
 #: ajax/upload.php:25
 msgid "Missing a temporary folder"
-msgstr "Temporärer Ordner fehlt."
+msgstr "Der temporäre Ordner fehlt."
 
 #: ajax/upload.php:26
 msgid "Failed to write to disk"
@@ -75,7 +76,7 @@ msgstr "Nicht mehr freigeben"
 msgid "Delete"
 msgstr "Löschen"
 
-#: js/fileactions.js:182
+#: js/fileactions.js:178
 msgid "Rename"
 msgstr "Umbenennen"
 
@@ -97,7 +98,7 @@ msgstr "abbrechen"
 
 #: js/filelist.js:243
 msgid "replaced {new_name}"
-msgstr "{new_name} ersetzt"
+msgstr "{new_name} wurde ersetzt"
 
 #: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
 msgid "undo"
@@ -105,7 +106,7 @@ msgstr "rückgängig machen"
 
 #: js/filelist.js:245
 msgid "replaced {new_name} with {old_name}"
-msgstr "{old_name} ersetzt durch {new_name}"
+msgstr "{old_name} wurde ersetzt durch {new_name}"
 
 #: js/filelist.js:277
 msgid "unshared {files}"
@@ -115,118 +116,118 @@ msgstr "Freigabe für {files} beendet"
 msgid "deleted {files}"
 msgstr "{files} gelöscht"
 
-#: js/files.js:179
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "Erstelle ZIP-Datei. Dies kann eine Weile dauern."
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Ihre Datei kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist."
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Upload Error"
 msgstr "Fehler beim Upload"
 
-#: js/files.js:242 js/files.js:347 js/files.js:377
+#: js/files.js:234 js/files.js:339 js/files.js:369
 msgid "Pending"
 msgstr "Ausstehend"
 
-#: js/files.js:262
+#: js/files.js:254
 msgid "1 file uploading"
-msgstr "Eine Datei wird hoch geladen"
+msgstr "1 Datei wird hochgeladen"
 
-#: js/files.js:265 js/files.js:310 js/files.js:325
+#: js/files.js:257 js/files.js:302 js/files.js:317
 msgid "{count} files uploading"
 msgstr "{count} Dateien wurden hochgeladen"
 
-#: js/files.js:328 js/files.js:361
+#: js/files.js:320 js/files.js:353
 msgid "Upload cancelled."
 msgstr "Upload abgebrochen."
 
-#: js/files.js:430
+#: js/files.js:422
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload abgebrochen."
+msgstr "Der Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload abgebrochen."
 
-#: js/files.js:500
+#: js/files.js:492
 msgid "Invalid name, '/' is not allowed."
 msgstr "Ungültiger Name: \"/\" ist nicht erlaubt."
 
-#: js/files.js:681
+#: js/files.js:673
 msgid "{count} files scanned"
 msgstr "{count} Dateien wurden gescannt"
 
-#: js/files.js:689
+#: js/files.js:681
 msgid "error while scanning"
 msgstr "Fehler beim Scannen"
 
-#: js/files.js:762 templates/index.php:48
+#: js/files.js:754 templates/index.php:48
 msgid "Name"
 msgstr "Name"
 
-#: js/files.js:763 templates/index.php:56
+#: js/files.js:755 templates/index.php:56
 msgid "Size"
 msgstr "Größe"
 
-#: js/files.js:764 templates/index.php:58
+#: js/files.js:756 templates/index.php:58
 msgid "Modified"
 msgstr "Bearbeitet"
 
-#: js/files.js:791
+#: js/files.js:783
 msgid "1 folder"
 msgstr "1 Ordner"
 
-#: js/files.js:793
+#: js/files.js:785
 msgid "{count} folders"
 msgstr "{count} Ordner"
 
-#: js/files.js:801
+#: js/files.js:793
 msgid "1 file"
 msgstr "1 Datei"
 
-#: js/files.js:803
+#: js/files.js:795
 msgid "{count} files"
 msgstr "{count} Dateien"
 
-#: js/files.js:846
+#: js/files.js:838
 msgid "seconds ago"
-msgstr "Vor wenigen Sekunden"
+msgstr "Gerade eben"
 
-#: js/files.js:847
+#: js/files.js:839
 msgid "1 minute ago"
-msgstr "vor einer Minute"
+msgstr "Vor 1 Minute"
 
-#: js/files.js:848
+#: js/files.js:840
 msgid "{minutes} minutes ago"
-msgstr "vor {minutes} Minuten"
+msgstr "Vor {minutes} Minuten"
 
-#: js/files.js:851
+#: js/files.js:843
 msgid "today"
 msgstr "Heute"
 
-#: js/files.js:852
+#: js/files.js:844
 msgid "yesterday"
 msgstr "Gestern"
 
-#: js/files.js:853
+#: js/files.js:845
 msgid "{days} days ago"
-msgstr "vor {days} Tage(en)"
+msgstr "Vor {days} Tage(en)"
 
-#: js/files.js:854
+#: js/files.js:846
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: js/files.js:856
+#: js/files.js:848
 msgid "months ago"
-msgstr "Monate her"
+msgstr "Vor Monaten"
 
-#: js/files.js:857
+#: js/files.js:849
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: js/files.js:858
+#: js/files.js:850
 msgid "years ago"
-msgstr "Jahre her"
+msgstr "Vor Jahren"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -298,7 +299,7 @@ msgstr "Herunterladen"
 
 #: templates/index.php:75
 msgid "Upload too large"
-msgstr "Upload zu groß"
+msgstr "Der Upload ist zu groß"
 
 #: templates/index.php:77
 msgid ""

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-28 00:01+0200\n"
-"PO-Revision-Date: 2012-10-27 22:01+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-30 00:01+0100\n"
+"PO-Revision-Date: 2012-10-29 07:47+0000\n"
+"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,109 +58,109 @@ msgstr "Да"
 msgid "No categories selected for deletion."
 msgstr "Нет категорий, выбранных для удаления."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
-#: js/share.js:517
+#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/share.js:537
 msgid "Error"
 msgstr "Ошибка"
 
-#: js/share.js:103
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "Ошибка создания общего доступа"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "Ошибка отключения общего доступа"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "Ошибка при изменении прав доступа"
 
-#: js/share.js:130
+#: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Опубликовано для Вас и группы {группа} {собственник}"
 
-#: js/share.js:132
+#: js/share.js:153
 msgid "Shared with you by {owner}"
 msgstr "Опубликовано для Вас {собственник}"
 
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "Сделать общим с"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "Опубликовать с ссылкой"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
 msgstr "Защитить паролем"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Пароль"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
 msgstr "Установить срок действия"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "Дата истечения срока действия"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "Сделать общедоступным посредством email:"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "Не найдено людей"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
 msgstr "Рекурсивный общий доступ не разрешен"
 
-#: js/share.js:250
+#: js/share.js:271
 msgid "Shared in {item} with {user}"
 msgstr "Совместное использование в {объект} с {пользователь}"
 
-#: js/share.js:271
+#: js/share.js:292
 msgid "Unshare"
 msgstr "Отключить общий доступ"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
 msgstr "возможно редактирование"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "контроль доступа"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "создать"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr "обновить"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "удалить"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "сделать общим"
 
-#: js/share.js:322 js/share.js:492
+#: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
 msgstr "Пароль защищен"
 
-#: js/share.js:505
+#: js/share.js:525
 msgid "Error unsetting expiration date"
 msgstr "Ошибка при отключении даты истечения срока действия"
 
-#: js/share.js:517
+#: js/share.js:537
 msgid "Error setting expiration date"
 msgstr "Ошибка при установке даты истечения срока действия"
 
@@ -178,11 +178,11 @@ msgstr "Вы получите ссылку для восстановления �
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "Сброс отправки email."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "Не удалось выполнить запрос!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -315,83 +315,83 @@ msgstr "Сервер базы данных"
 msgid "Finish setup"
 msgstr "Завершение настройки"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Воскресенье"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Понедельник"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Среда"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Четверг"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Пятница"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Суббота"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "Январь"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "Февраль"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "Март"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "Апрель"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "Май"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "Июнь"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "Июль"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "Август"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "Сентябрь"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "Октябрь"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "Ноябрь"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "Декабрь"
 
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "веб-сервисы под Вашим контролем"
 

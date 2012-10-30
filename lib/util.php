@@ -25,7 +25,7 @@ class OC_Util {
 		}
 
 		// load all filesystem apps before, so no setup-hook gets lost
-		if(!$RUNTIME_NOAPPS) {
+		if(!isset($RUNTIME_NOAPPS) || !$RUNTIME_NOAPPS) {
 			OC_App::loadApps(array('filesystem'));
 		}
 
@@ -39,7 +39,7 @@ class OC_Util {
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted) {
-			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir'=>$CONFIG_DATADIRECTORY),'/');
+			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir'=>$CONFIG_DATADIRECTORY), '/');
 			self::$rootMounted=true;
 		}
 
@@ -81,10 +81,10 @@ class OC_Util {
 			}
 
 			$mtime=filemtime($user_root.'/mount.php');
-			$previousMTime=OC_Preferences::getValue($user,'files','mountconfigmtime',0);
+			$previousMTime=OC_Preferences::getValue($user, 'files', 'mountconfigmtime', 0);
 			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
 				OC_FileCache::triggerUpdate($user);
-				OC_Preferences::setValue($user,'files','mountconfigmtime',$mtime);
+				OC_Preferences::setValue($user, 'files', 'mountconfigmtime', $mtime);
 			}
 		}
 	}
@@ -169,7 +169,7 @@ class OC_Util {
     public static function formatDate( $timestamp,$dateOnly=false) {
 		if(isset($_SESSION['timezone'])) {//adjust to clients timezone if we know it
 			$systemTimeZone = intval(date('O'));
-			$systemTimeZone=(round($systemTimeZone/100,0)*60)+($systemTimeZone%100);
+			$systemTimeZone=(round($systemTimeZone/100, 0)*60)+($systemTimeZone%100);
 			$clientTimeZone=$_SESSION['timezone']*60;
 			$offset=$clientTimeZone-$systemTimeZone;
 			$timestamp=$timestamp+$offset*60;
@@ -196,11 +196,11 @@ class OC_Util {
 			if($pagestop>$pagecount) $pagestop=$pagecount;
 
 			$tmpl = new OC_Template( '', 'part.pagenavi', '' );
-			$tmpl->assign('page',$page);
-			$tmpl->assign('pagecount',$pagecount);
-			$tmpl->assign('pagestart',$pagestart);
-			$tmpl->assign('pagestop',$pagestop);
-			$tmpl->assign('url',$url);
+			$tmpl->assign('page', $page);
+			$tmpl->assign('pagecount', $pagecount);
+			$tmpl->assign('pagestart', $pagestart);
+			$tmpl->assign('pagestop', $pagestop);
+			$tmpl->assign('url', $url);
 			return $tmpl;
 		}
 	}
@@ -241,24 +241,24 @@ class OC_Util {
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')) {
 			$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
-			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)),-3);
-			if(substr($prems,-1)!='0') {
-				OC_Helper::chmodr($CONFIG_DATADIRECTORY,0770);
+			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)), -3);
+			if(substr($prems, -1)!='0') {
+				OC_Helper::chmodr($CONFIG_DATADIRECTORY, 0770);
 				clearstatcache();
-				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)),-3);
-				if(substr($prems,2,1)!='0') {
-					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') is readable for other users<br/>','hint'=>$permissionsModHint);
+				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)), -3);
+				if(substr($prems, 2, 1)!='0') {
+					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') is readable for other users<br/>', 'hint'=>$permissionsModHint);
 				}
 			}
 			if( OC_Config::getValue( "enablebackup", false )) {
 				$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
-				$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)),-3);
-				if(substr($prems,-1)!='0') {
-					OC_Helper::chmodr($CONFIG_BACKUPDIRECTORY,0770);
+				$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)), -3);
+				if(substr($prems, -1)!='0') {
+					OC_Helper::chmodr($CONFIG_BACKUPDIRECTORY, 0770);
 					clearstatcache();
-					$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)),-3);
-					if(substr($prems,2,1)!='0') {
-						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable for other users<br/>','hint'=>$permissionsModHint);
+					$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)), -3);
+					if(substr($prems, 2, 1)!='0') {
+						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable for other users<br/>', 'hint'=>$permissionsModHint);
 					}
 				}
 			}
@@ -391,7 +391,7 @@ class OC_Util {
 		// Check if we are a user
 		self::checkLoggedIn();
 		self::verifyUser();
-		if(OC_Group::inGroup(OC_User::getUser(),'admin')) {
+		if(OC_Group::inGroup(OC_User::getUser(), 'admin')) {
 			return true;
 		}
 		if(!OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
@@ -467,7 +467,7 @@ class OC_Util {
 		$id=OC_Config::getValue('instanceid', null);
 		if(is_null($id)) {
 			$id=uniqid();
-			OC_Config::setValue('instanceid',$id);
+			OC_Config::setValue('instanceid', $id);
 		}
 		return $id;
 	}
@@ -496,35 +496,26 @@ class OC_Util {
 	 * @see OC_Util::isCallRegistered()
 	 */
 	public static function callRegister() {
-		// generate a random token.
-		$token = self::generate_random_bytes(20);
-
-		// store the token together with a timestamp in the session.
-		$_SESSION['requesttoken-'.$token]=time();
-
-		// cleanup old tokens garbage collector
-		// only run every 20th time so we don't waste cpu cycles
-		if(rand(0,20)==0) {
-			foreach($_SESSION as $key=>$value) {
-				// search all tokens in the session
-				if(substr($key,0,12)=='requesttoken') {
-					// check if static lifespan has expired
-					if($value+self::$callLifespan<time()) {
-						// remove outdated tokens
-						unset($_SESSION[$key]);
-					}
-				}
-			}
+		// Check if a token exists
+		if(!isset($_SESSION['requesttoken']) || time() >$_SESSION['requesttoken']['time']) {
+			// No valid token found, generate a new one.
+			$requestTokenArray = array(
+				"requesttoken" => self::generate_random_bytes(20),
+				"time" => time()+self::$callLifespan,
+				);
+			$_SESSION['requesttoken']=$requestTokenArray;
+		} else {
+			// Valid token already exists, send it
+			$requestTokenArray = $_SESSION['requesttoken'];
 		}
-		// return the token
-		return($token);
+		return($requestTokenArray['requesttoken']);
 	}
 
 	/**
 	 * @brief Check an ajax get/post call if the request token is valid.
 	 * @return boolean False if request token is not set or is invalid.
 	 * @see OC_Util::$callLifespan
-	 * @see OC_Util::calLRegister()
+	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
 		if(isset($_GET['requesttoken'])) {
@@ -537,17 +528,14 @@ class OC_Util {
 			//no token found.
 			return false;
 		}
-		if(isset($_SESSION['requesttoken-'.$token])) {
-			$timestamp=$_SESSION['requesttoken-'.$token];
-			// check if static lifespan has expired
-			if($timestamp+self::$callLifespan<time()) {
-				return false;
-			}else{
-				//token valid
-				return true;
-			}
-		}else{
+
+		// Check if the token is valid
+		if(!isset($_SESSION['requesttoken']) || time() > $_SESSION['requesttoken']["time"]) {
+			// Not valid
 			return false;
+		} else {
+			// Valid token
+			return true;
 		}
 	}
 
@@ -571,7 +559,7 @@ class OC_Util {
 	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( &$value ) {
-		if (is_array($value) || is_object($value)) array_walk_recursive($value,'OC_Util::sanitizeHTML');
+		if (is_array($value) || is_object($value)) array_walk_recursive($value, 'OC_Util::sanitizeHTML');
 		else $value = htmlentities($value, ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
 		return $value;
 	}

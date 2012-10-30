@@ -15,7 +15,7 @@
 "Files" => "Dateien",
 "Text" => "Text",
 "Images" => "Bilder",
-"seconds ago" => "Vor wenigen Sekunden",
+"seconds ago" => "Gerade eben",
 "1 minute ago" => "Vor einer Minute",
 "%d minutes ago" => "Vor %d Minuten",
 "today" => "Heute",

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-19 02:03+0200\n"
-"PO-Revision-Date: 2012-10-19 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-29 00:01+0100\n"
+"PO-Revision-Date: 2012-10-28 15:51+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,13 +61,13 @@ msgstr "ยกเลิกการแชร์ข้อมูล"
 msgid "Delete"
 msgstr "ลบ"
 
-#: js/fileactions.js:182
+#: js/fileactions.js:178
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} มีอยู่แล้วในระบบ"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "replace"
@@ -83,7 +83,7 @@ msgstr "ยกเลิก"
 
 #: js/filelist.js:243
 msgid "replaced {new_name}"
-msgstr ""
+msgstr "แทนที่ {new_name} แล้ว"
 
 #: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
 msgid "undo"
@@ -91,126 +91,126 @@ msgstr "เลิกทำ"
 
 #: js/filelist.js:245
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "แทนที่ {new_name} ด้วย {old_name} แล้ว"
 
 #: js/filelist.js:277
 msgid "unshared {files}"
-msgstr ""
+msgstr "ยกเลิกการแชร์แล้ว {files} ไฟล์"
 
 #: js/filelist.js:279
 msgid "deleted {files}"
-msgstr ""
+msgstr "ลบไฟล์แล้ว {files} ไฟล์"
 
-#: js/files.js:179
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "กำลังสร้างไฟล์บีบอัด ZIP อาจใช้เวลาสักครู่"
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "ไม่สามารถอัพโหลดไฟล์ของคุณได้ เนื่องจากไฟล์ดังกล่าวเป็นไดเร็กทอรี่หรือมีขนาด 0 ไบต์"
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Upload Error"
 msgstr "เกิดข้อผิดพลาดในการอัพโหลด"
 
-#: js/files.js:242 js/files.js:347 js/files.js:377
+#: js/files.js:234 js/files.js:339 js/files.js:369
 msgid "Pending"
 msgstr "อยู่ระหว่างดำเนินการ"
 
-#: js/files.js:262
+#: js/files.js:254
 msgid "1 file uploading"
 msgstr "กำลังอัพโหลดไฟล์ 1 ไฟล์"
 
-#: js/files.js:265 js/files.js:310 js/files.js:325
+#: js/files.js:257 js/files.js:302 js/files.js:317
 msgid "{count} files uploading"
-msgstr ""
+msgstr "กำลังอัพโหลด {count} ไฟล์"
 
-#: js/files.js:328 js/files.js:361
+#: js/files.js:320 js/files.js:353
 msgid "Upload cancelled."
 msgstr "การอัพโหลดถูกยกเลิก"
 
-#: js/files.js:430
+#: js/files.js:422
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "การอัพโหลดไฟล์กำลังอยู่ในระหว่างดำเนินการ การออกจากหน้าเว็บนี้จะทำให้การอัพโหลดถูกยกเลิก"
 
-#: js/files.js:500
+#: js/files.js:492
 msgid "Invalid name, '/' is not allowed."
 msgstr "ชื่อที่ใช้ไม่ถูกต้อง '/' ไม่อนุญาตให้ใช้งาน"
 
-#: js/files.js:681
+#: js/files.js:673
 msgid "{count} files scanned"
-msgstr ""
+msgstr "สแกนไฟล์แล้ว {count} ไฟล์"
 
-#: js/files.js:689
+#: js/files.js:681
 msgid "error while scanning"
 msgstr "พบข้อผิดพลาดในระหว่างการสแกนไฟล์"
 
-#: js/files.js:762 templates/index.php:48
+#: js/files.js:754 templates/index.php:48
 msgid "Name"
 msgstr "ชื่อ"
 
-#: js/files.js:763 templates/index.php:56
+#: js/files.js:755 templates/index.php:56
 msgid "Size"
 msgstr "ขนาด"
 
-#: js/files.js:764 templates/index.php:58
+#: js/files.js:756 templates/index.php:58
 msgid "Modified"
 msgstr "ปรับปรุงล่าสุด"
 
-#: js/files.js:791
+#: js/files.js:783
 msgid "1 folder"
-msgstr ""
+msgstr "1 โฟลเดอร์"
+
+#: js/files.js:785
+msgid "{count} folders"
+msgstr "{count} โฟลเดอร์"
 
 #: js/files.js:793
-msgid "{count} folders"
-msgstr ""
-
-#: js/files.js:801
 msgid "1 file"
-msgstr ""
+msgstr "1 ไฟล์"
 
-#: js/files.js:803
+#: js/files.js:795
 msgid "{count} files"
-msgstr ""
+msgstr "{count} ไฟล์"
 
-#: js/files.js:846
+#: js/files.js:838
 msgid "seconds ago"
 msgstr "วินาที ก่อนหน้านี้"
 
-#: js/files.js:847
+#: js/files.js:839
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 นาทีก่อนหน้านี้"
 
-#: js/files.js:848
+#: js/files.js:840
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} นาทีก่อนหน้านี้"
 
-#: js/files.js:851
+#: js/files.js:843
 msgid "today"
 msgstr "วันนี้"
 
-#: js/files.js:852
+#: js/files.js:844
 msgid "yesterday"
 msgstr "เมื่อวานนี้"
 
-#: js/files.js:853
+#: js/files.js:845
 msgid "{days} days ago"
-msgstr ""
+msgstr "{day} วันก่อนหน้านี้"
 
-#: js/files.js:854
+#: js/files.js:846
 msgid "last month"
 msgstr "เดือนที่แล้ว"
 
-#: js/files.js:856
+#: js/files.js:848
 msgid "months ago"
 msgstr "เดือน ที่ผ่านมา"
 
-#: js/files.js:857
+#: js/files.js:849
 msgid "last year"
 msgstr "ปีที่แล้ว"
 
-#: js/files.js:858
+#: js/files.js:850
 msgid "years ago"
 msgstr "ปี ที่ผ่านมา"
 

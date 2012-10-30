@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-28 00:01+0200\n"
-"PO-Revision-Date: 2012-10-27 22:01+0000\n"
+"POT-Creation-Date: 2012-10-29 00:01+0100\n"
+"PO-Revision-Date: 2012-10-27 22:12+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -61,109 +61,109 @@ msgstr "Oke"
 msgid "No categories selected for deletion."
 msgstr "Tidak ada kategori terpilih untuk penghapusan."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
-#: js/share.js:517
+#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/share.js:537
 msgid "Error"
 msgstr "gagal"
 
-#: js/share.js:103
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "gagal ketika membagikan"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "gagal ketika membatalkan pembagian"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "gagal ketika merubah perijinan"
 
-#: js/share.js:130
+#: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "dibagikan dengan anda dan grup {group} oleh {owner}"
 
-#: js/share.js:132
+#: js/share.js:153
 msgid "Shared with you by {owner}"
 msgstr "dibagikan dengan anda oleh {owner}"
 
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "bagikan dengan"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "bagikan dengan tautan"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
 msgstr "lindungi dengan kata kunci"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Password"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
 msgstr "set tanggal kadaluarsa"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "tanggal kadaluarsa"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "berbagi memlalui surel:"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "tidak ada orang ditemukan"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
 msgstr "berbagi ulang tidak diperbolehkan"
 
-#: js/share.js:250
+#: js/share.js:271
 msgid "Shared in {item} with {user}"
 msgstr "dibagikan dalam {item} dengan {user}"
 
-#: js/share.js:271
+#: js/share.js:292
 msgid "Unshare"
 msgstr "batalkan berbagi"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
 msgstr "dapat merubah"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "kontrol akses"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "buat baru"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr "baharui"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "hapus"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "bagikan"
 
-#: js/share.js:322 js/share.js:492
+#: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
 msgstr "dilindungi kata kunci"
 
-#: js/share.js:505
+#: js/share.js:525
 msgid "Error unsetting expiration date"
 msgstr "gagal melepas tanggal kadaluarsa"
 
-#: js/share.js:517
+#: js/share.js:537
 msgid "Error setting expiration date"
 msgstr "gagal memasang tanggal kadaluarsa"
 
@@ -318,83 +318,83 @@ msgstr "Host database"
 msgid "Finish setup"
 msgstr "Selesaikan instalasi"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "minggu"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "senin"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "selasa"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "rabu"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "kamis"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "jumat"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "sabtu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "Januari"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "Februari"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "Maret"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "April"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "Mei"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "Juni"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "Juli"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "Agustus"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "September"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "Oktober"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "Nopember"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "Desember"
 
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "web service dibawah kontrol anda"
 

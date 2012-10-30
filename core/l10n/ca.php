@@ -38,6 +38,8 @@
 "ownCloud password reset" => "estableix de nou la contrasenya Owncloud",
 "Use the following link to reset your password: {link}" => "Useu l'enllaç següent per restablir la contrasenya: {link}",
 "You will receive a link to reset your password via Email." => "Rebreu un enllaç al correu electrònic per reiniciar la contrasenya.",
+"Reset email send." => "S'ha enviat el correu reinicialització",
+"Request failed!" => "El requeriment ha fallat!",
 "Username" => "Nom d'usuari",
 "Request reset" => "Sol·licita reinicialització",
 "Your password was reset" => "La vostra contrasenya s'ha reinicialitzat",

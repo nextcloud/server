@@ -38,6 +38,7 @@
 "ownCloud password reset" => "重置 ownCloud 密码",
 "Use the following link to reset your password: {link}" => "使用以下链接重置您的密码：{link}",
 "You will receive a link to reset your password via Email." => "您将会收到包含可以重置密码链接的邮件。",
+"Request failed!" => "请求失败！",
 "Username" => "用户名",
 "Request reset" => "请求重置",
 "Your password was reset" => "您的密码已重置",

@@ -38,6 +38,8 @@
 "ownCloud password reset" => "Переназначение пароля",
 "Use the following link to reset your password: {link}" => "Воспользуйтесь следующей ссылкой для переназначения пароля: {link}",
 "You will receive a link to reset your password via Email." => "Вы получите ссылку для восстановления пароля по электронной почте.",
+"Reset email send." => "Сброс отправки email.",
+"Request failed!" => "Не удалось выполнить запрос!",
 "Username" => "Имя пользователя",
 "Request reset" => "Сброс запроса",
 "Your password was reset" => "Ваш пароль был переустановлен",

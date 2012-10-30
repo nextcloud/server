@@ -113,7 +113,7 @@ var OC={
 			}
 			link+=file;
 		}else{
-			if ((app == 'settings' || app == 'core') && type == 'ajax') {
+			if ((app == 'settings' || app == 'core' || app == 'search') && type == 'ajax') {
 				link+='/index.php/';
 			}
 			else {

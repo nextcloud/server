@@ -19,4 +19,8 @@ RewriteRule ^apps/contacts/carddav.php remote.php/carddav/ [QSA,L]
 RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]
 RewriteRule ^remote/(.*) remote.php [QSA,L]
 </IfModule>
+<IfModule mod_mime.c>
+AddType image/svg+xml svg svgz
+AddEncoding gzip svgz
+</IfModule>
 Options -Indexes
