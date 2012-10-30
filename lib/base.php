@@ -477,17 +477,7 @@ class OC{
 	 */
 	public static function handleRequest() {
 		if (!OC_Config::getValue('installed', false)) {
-			// Check for autosetup:
-			$autosetup_file = OC::$SERVERROOT."/config/autoconfig.php";
-			if( file_exists( $autosetup_file )) {
-				OC_Log::write('core', 'Autoconfig file found, setting up owncloud...', OC_Log::INFO);
-				include $autosetup_file;
-				$_POST['install'] = 'true';
-				$_POST = array_merge ($_POST, $AUTOCONFIG);
-				unlink($autosetup_file);
-			}
-			OC_Util::addScript('setup');
-			require_once 'setup.php';
+			require_once 'core/setup.php';
 			exit();
 		}
 		// Handle WebDAV
