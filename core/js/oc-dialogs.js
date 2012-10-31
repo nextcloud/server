@@ -66,6 +66,7 @@ var OCdialogs = {
 	/**
 	* prompt user for input with custom form
 	* fields should be passed in following format: [{text:'prompt text', name:'return name', type:'input type', value: 'dafault value'},...]
+	* select example 	var fields=[{text:'Test', name:'test', type:'select', options:[{text:'hallo',value:1},{text:'hallo1',value:2}] }];
 	* @param fields to display 
 	* @param title dialog title
 	* @param callback which will be triggered when user press OK (user answers will be passed to callback in following format: [{name:'return name', value: 'user value'},...])
@@ -74,7 +75,7 @@ var OCdialogs = {
 		var content = '<table>';
 		$.each(fields, function(index, val){
 			content += '<tr><td>'+val.text+'</td><td>';
-			var type=fields[a].type;
+			var type=val.type;
 			
 			if (type == 'text' || type == 'checkbox' || type == 'password') {
 				content += '<input type="'+type+'" name="'+val.name+'"';
@@ -89,13 +90,12 @@ var OCdialogs = {
 				}
 			} else if (type == 'select') {
 				content += '<select name="'+val.name+'"';
-				if (fields[a].value != undefined) {
+				if (val.value != undefined) {
 					content += ' value="'+val.value+'"';
 				}
 				content += '>';
 				$.each(val.options, function(index, valo){
-				//for (var o in val.options) {
-					content += '<option value="'+val.valo.value+'">'+val.valo.text+'</option>';
+					content += '<option value="'+valo.value+'">'+valo.text+'</option>';
 				});
 				content += '</select>';
 			}
