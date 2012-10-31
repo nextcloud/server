@@ -49,7 +49,7 @@ class Test_VCategories extends UnitTestCase {
 
 		$catmgr = new OC_VCategories($this->objectType, $this->user, $defcategories);
 
-		$this->assertEqual(count($catmgr->categories()), 4);
+		$this->assertEqual(4, count($catmgr->categories()));
 	}
 
 	public function testAddCategories() {
@@ -65,19 +65,19 @@ class Test_VCategories extends UnitTestCase {
 		$this->assertFalse($catmgr->add('Family'));
 		$this->assertFalse($catmgr->add('fAMILY'));
 
-		$this->assertEqual(count($catmgr->categories()), 4);
+		$this->assertEqual(4, count($catmgr->categories()));
 	}
 
 	public function testdeleteCategories() {
 		$defcategories = array('Friends', 'Family', 'Work', 'Other');
 		$catmgr = new OC_VCategories($this->objectType, $this->user, $defcategories);
-		$this->assertEqual(count($catmgr->categories()), 4);
+		$this->assertEqual(4, count($catmgr->categories()));
 
 		$catmgr->delete('family');
-		$this->assertEqual(count($catmgr->categories()), 3);
+		$this->assertEqual(3, count($catmgr->categories()));
 
 		$catmgr->delete(array('Friends', 'Work', 'Other'));
-		$this->assertEqual(count($catmgr->categories()), 0);
+		$this->assertEqual(0, count($catmgr->categories()));
 
 	}
 
@@ -90,10 +90,13 @@ class Test_VCategories extends UnitTestCase {
 			$catmgr->addToCategory($id, 'Family');
 		}
 
-		$this->assertEqual(count($catmgr->categories()), 1);
-		$this->assertEqual(count($catmgr->idsForCategory('Family')), 9);
+		$this->assertEqual(1, count($catmgr->categories()));
+		$this->assertEqual(9, count($catmgr->idsForCategory('Family')));
 	}
 
+	/**
+	* @depends testAddToCategory
+	*/
 	public function testRemoveFromCategory() {
 		$objids = array(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
@@ -107,8 +110,8 @@ class Test_VCategories extends UnitTestCase {
 			$this->assertFalse(in_array($id, $catmgr->idsForCategory('Family')));
 		}
 
-		$this->assertEqual(count($catmgr->categories()), 1);
-		$this->assertEqual(count($catmgr->idsForCategory('Family')), 0);
+		$this->assertEqual(1, count($catmgr->categories()));
+		$this->assertEqual(0, count($catmgr->idsForCategory('Family')));
 	}
 
 }
