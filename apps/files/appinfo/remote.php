@@ -22,7 +22,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-// only need filesystem apps
+// load needed apps
 $RUNTIME_APPTYPES=array('filesystem','authentication','logging');
 
 OC_App::loadApps($RUNTIME_APPTYPES);
