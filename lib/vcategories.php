@@ -89,6 +89,9 @@ class OC_VCategories {
 		try {
 			$stmt = OCP\DB::prepare($sql);
 			$result = $stmt->execute(array($this->user, $this->type));
+			if (OC_DB::isError($result)) {
+				OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+			}
 		} catch(Exception $e) {
 			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
@@ -118,6 +121,10 @@ class OC_VCategories {
 		try {
 			$stmt = OCP\DB::prepare($sql);
 			$result = $stmt->execute(array($user, $type));
+			if (OC_DB::isError($result)) {
+				OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+				return false;
+			}
 			return ($result->numRows() == 0);
 		} catch(Exception $e) {
 			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
@@ -189,6 +196,10 @@ class OC_VCategories {
 		try {
 			$stmt = OCP\DB::prepare($sql);
 			$result = $stmt->execute(array($catid));
+			if (OC_DB::isError($result)) {
+				OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+				return false;
+			}
 		} catch(Exception $e) {
 			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
@@ -200,8 +211,6 @@ class OC_VCategories {
 				$ids[] = (int)$row['objid'];
 			}
 		}
-		//OCP\Util::writeLog('core', __METHOD__.', count: ' . count($items), OCP\Util::DEBUG);
-		//OCP\Util::writeLog('core', __METHOD__.', sql: ' . $sql, OCP\Util::DEBUG);
 
 		return $ids;
 	}
@@ -224,7 +233,7 @@ class OC_VCategories {
 	*
 	* TODO: Maybe add the getting permissions for objects?
 	*
-	* @returns array containing the resulting items.
+	* @returns array containing the resulting items or false on error.
 	*/
 	public function itemsForCategory($category, $tableinfo, $limit = null, $offset = null) {
 		$result = null;
@@ -256,9 +265,14 @@ class OC_VCategories {
 		try {
 			$stmt = OCP\DB::prepare($sql, $limit, $offset);
 			$result = $stmt->execute(array($catid));
+			if (OC_DB::isError($result)) {
+				OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+				return false;
+			}
 		} catch(Exception $e) {
 			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
+			return false;
 		}
 
 		if(!is_null($result)) {
@@ -370,6 +384,10 @@ class OC_VCategories {
 				$stmt = OCP\DB::prepare('SELECT `id` FROM `' . self::CATEGORY_TABLE . '` '
 					. 'WHERE `uid` = ? AND `type` = ?');
 				$result = $stmt->execute(array($this->user, $this->type));
+				if (OC_DB::isError($result)) {
+					OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+					return false;
+				}
 			} catch(Exception $e) {
 				OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 					OCP\Util::ERROR);
@@ -387,6 +405,10 @@ class OC_VCategories {
 				$stmt = OCP\DB::prepare('DELETE FROM `' . self::CATEGORY_TABLE . '` '
 					. 'WHERE `uid` = ? AND `type` = ?');
 				$result = $stmt->execute(array($this->user, $this->type));
+				if (OC_DB::isError($result)) {
+					OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+					return;
+				}
 			} catch(Exception $e) {
 				OCP\Util::writeLog('core', __METHOD__ . ', exception: '
 					. $e->getMessage(), OCP\Util::ERROR);
@@ -459,6 +481,9 @@ class OC_VCategories {
 			$stmt = OCP\DB::prepare('SELECT `id` FROM `' . self::CATEGORY_TABLE . '` '
 				. 'WHERE `uid` = ?');
 			$result = $stmt->execute(array($arguments['uid']));
+			if (OC_DB::isError($result)) {
+				OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+			}
 		} catch(Exception $e) {
 			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
@@ -485,6 +510,9 @@ class OC_VCategories {
 			$stmt = OCP\DB::prepare('DELETE FROM `' . self::CATEGORY_TABLE . '` '
 				. 'WHERE `uid` = ? AND');
 			$result = $stmt->execute(array($arguments['uid']));
+			if (OC_DB::isError($result)) {
+				OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+			}
 		} catch(Exception $e) {
 			OCP\Util::writeLog('core', __METHOD__ . ', exception: '
 				. $e->getMessage(), OCP\Util::ERROR);
@@ -496,14 +524,18 @@ class OC_VCategories {
 	* @param int $id The id of the object
 	* @param string $type The type of object (event/contact/task/journal).
 	* 	Defaults to the type set in the instance
-	* @returns boolean
+	* @returns boolean Returns false on error.
 	*/
 	public function purgeObject($id, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
 		try {
 			$stmt = OCP\DB::prepare('DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `objid` = ? AND `type`= ?');
-			$stmt->execute(array($id, $type));
+			$result = $stmt->execute(array($id, $type));
+			if (OC_DB::isError($result)) {
+				OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+				return false;
+			}
 		} catch(Exception $e) {
 			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 				OCP\Util::ERROR);
