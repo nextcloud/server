@@ -20,5 +20,4 @@
 *
 */
 OCP\API::register('post', '/cloud/files/share/{type}/{path}', array('OC_Sharing_API', 'shareFile'), 'files_sharing', OC_API::USER_AUTH, array(), array('type' => 'user|group|link|email|contact|remote', 'path' => '.*'));
-
 ?>

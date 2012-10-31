@@ -37,7 +37,8 @@ class OC_Sharing_API {
 		}
 		switch($type){
 			case OCP\Share::SHARE_TYPE_LINK:
-				return array('url' => OC_Helper::linkToPublic('files') . '&file=/' . OC_User::getUser() . '/files' . $path);
+			$link = OC_Helper::linkToPublic('files') . '&file=/' . OC_User::getUser() . '/files' . $path;
+				return array('link' => array('url' => $link));
 			break;
 		}
 		
