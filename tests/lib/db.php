@@ -93,4 +93,41 @@ class Test_DB extends UnitTestCase {
 		$this->assertTrue($result);
 		$this->assertEqual($result->numRows(), '4');
 	}
+
+	public function testinsertIfNotExistDontOverwrite() {
+		$fullname = 'fullname test';
+		$uri = 'uri_1';
+		$carddata = 'This is a vCard';
+
+		// Normal test to have same known data inserted.
+		$query = OC_DB::prepare('INSERT INTO *PREFIX*'.$this->table2.' (`fullname`, `uri`, `carddata`) VALUES (?, ?, ?)');
+		$result = $query->execute(array($fullname, $uri, $carddata));
+		$this->assertTrue($result);
+		$query = OC_DB::prepare('SELECT `fullname`, `uri`, `carddata` FROM *PREFIX*'.$this->table2.' WHERE `uri` = ?');
+		$result = $query->execute(array($uri));
+		$this->assertTrue($result);
+		$row = $result->fetchRow();
+		$this->assertArrayHasKey('carddata', $row);
+		$this->assertEqual($row['carddata'], $carddata);
+		$this->assertEqual($result->numRows(), '1');
+
+		// Try to insert a new row
+		$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table2,
+			array(
+				'fullname' => $fullname,
+				'uri' => $uri,
+			));
+		$this->assertTrue($result);
+
+		$query = OC_DB::prepare('SELECT `fullname`, `uri`, `carddata` FROM *PREFIX*'.$this->table2.' WHERE `uri` = ?');
+		$result = $query->execute(array($uri));
+		$this->assertTrue($result);
+		$row = $result->fetchRow();
+		$this->assertArrayHasKey('carddata', $row);
+		// Test that previously inserted data isn't overwritten
+		$this->assertEqual($row['carddata'], $carddata);
+		// And that a new row hasn't been inserted.
+		$this->assertEqual($result->numRows(), '1');
+
+	}
 }
