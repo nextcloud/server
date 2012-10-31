@@ -197,7 +197,7 @@ class OC_VCategories {
 
 		if(!is_null($result)) {
 			while( $row = $result->fetchRow()) {
-				$ids[] = $row['objid'];
+				$ids[] = (int)$row['objid'];
 			}
 		}
 		//OCP\Util::writeLog('core', __METHOD__.', count: ' . count($items), OCP\Util::DEBUG);
@@ -565,7 +565,7 @@ class OC_VCategories {
 	* @param int|string $category The id or name of the category
 	* @param string $type The type of object (event/contact/task/journal).
 	* 	Defaults to the type set in the instance
-	* @returns boolean
+	* @returns boolean Returns false on database error.
 	*/
 	public function addToCategory($objid, $category, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
