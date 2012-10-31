@@ -340,10 +340,8 @@ class OC_Util {
 		}
 		if (isset($_REQUEST['redirect_url'])) {
 			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
-		} else {
-			$redirect_url = $_SERVER['REQUEST_URI'];
-		}
-		$parameters['redirect_url'] = $redirect_url;
+		} 
+		$parameters['redirect_url'] = urlencode($redirect_url);
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
@@ -439,8 +437,8 @@ class OC_Util {
 	* Redirect to the user default page
 	*/
 	public static function redirectToDefaultPage() {
-		if(isset($_REQUEST['redirect_url']) && (substr($_REQUEST['redirect_url'], 0, strlen(OC::$WEBROOT)) == OC::$WEBROOT || $_REQUEST['redirect_url'][0] == '/')) {
-			$location = $_REQUEST['redirect_url'];
+		if(isset($_REQUEST['redirect_url'])) {
+			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
 		}
 		else if (isset(OC::$REQUESTEDAPP) && !empty(OC::$REQUESTEDAPP)) {
 			$location = OC_Helper::linkToAbsolute( OC::$REQUESTEDAPP, 'index.php' );

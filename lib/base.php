@@ -656,7 +656,7 @@ class OC{
 			else {
 				OC_User::unsetMagicInCookie();
 			}
-			header( 'Location: '.$_SERVER['REQUEST_URI'] );
+			OC_Util::redirectToDefaultPage();
 			exit();
 		}
 		return true;

@@ -1,7 +1,7 @@
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
 <form method="post">
 	<fieldset>
-		<?php if(!empty($_['redirect'])) { echo '<input type="hidden" name="redirect_url" value="'.$_['redirect'].'" />'; } ?>
+		<?php if(!empty($_['redirect_url'])) { echo '<input type="hidden" name="redirect_url" value="'.$_['redirect_url'].'" />'; } ?>
 		<ul>
 		<?php if(isset($_['invalidcookie']) && ($_['invalidcookie'])): ?>
 			<li class="errors">
