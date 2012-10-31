@@ -14,6 +14,8 @@
 			<div class="file_upload_wrapper svg">
 				<form data-upload-id='1' id="data-upload-form" class="file_upload_form" action="<?php echo OCP\Util::linkTo('files', 'ajax/upload.php'); ?>" method="post" enctype="multipart/form-data" target="file_upload_target_1">
 					<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
+					<!-- Send the requesttoken, this is needed for older IE versions because they don't send the CSRF token via HTTP header in this case -->
+					<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken'] ?>" id="requesttoken">
 					<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 					<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
 					<input class="file_upload_start" type="file" name='files[]'/>
