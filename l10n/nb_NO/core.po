@@ -6,15 +6,16 @@
 #   <ajarmund@gmail.com>, 2011, 2012.
 # Christer Eriksson <post@hc3web.com>, 2012.
 # Daniel  <i18n@daniel.priv.no>, 2012.
+#   <hdalgrav@gmail.com>, 2012.
 #   <itssmail@yahoo.no>, 2012.
 #   <runesudden@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-29 00:01+0100\n"
-"PO-Revision-Date: 2012-10-27 22:12+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-31 00:01+0100\n"
+"PO-Revision-Date: 2012-10-30 13:00+0000\n"
+"Last-Translator: hdalgrav <hdalgrav@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgstr "Innstillinger"
 
 #: js/oc-dialogs.js:123
 msgid "Choose"
-msgstr ""
+msgstr "Velg"
 
 #: js/oc-dialogs.js:143 js/oc-dialogs.js:163
 msgid "Cancel"
@@ -69,7 +70,7 @@ msgstr "Feil"
 
 #: js/share.js:124
 msgid "Error while sharing"
-msgstr ""
+msgstr "Feil under deling"
 
 #: js/share.js:135
 msgid "Error while unsharing"
@@ -89,15 +90,15 @@ msgstr ""
 
 #: js/share.js:158
 msgid "Share with"
-msgstr ""
+msgstr "Del med"
 
 #: js/share.js:163
 msgid "Share with link"
-msgstr ""
+msgstr "Del med link"
 
 #: js/share.js:164
 msgid "Password protect"
-msgstr ""
+msgstr "Passordbeskyttet"
 
 #: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
@@ -106,19 +107,19 @@ msgstr "Passord"
 
 #: js/share.js:173
 msgid "Set expiration date"
-msgstr ""
+msgstr "Set utløpsdato"
 
 #: js/share.js:174
 msgid "Expiration date"
-msgstr ""
+msgstr "Utløpsdato"
 
 #: js/share.js:206
 msgid "Share via email:"
-msgstr ""
+msgstr "Del på epost"
 
 #: js/share.js:208
 msgid "No people found"
-msgstr ""
+msgstr "Ingen personer funnet"
 
 #: js/share.js:235
 msgid "Resharing is not allowed"
@@ -134,11 +135,11 @@ msgstr "Avslutt deling"
 
 #: js/share.js:304
 msgid "can edit"
-msgstr ""
+msgstr "kan endre"
 
 #: js/share.js:306
 msgid "access control"
-msgstr ""
+msgstr "tilgangskontroll"
 
 #: js/share.js:309
 msgid "create"
@@ -146,19 +147,19 @@ msgstr "opprett"
 
 #: js/share.js:312
 msgid "update"
-msgstr ""
+msgstr "oppdater"
 
 #: js/share.js:315
 msgid "delete"
-msgstr ""
+msgstr "slett"
 
 #: js/share.js:318
 msgid "share"
-msgstr ""
+msgstr "del"
 
 #: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
-msgstr ""
+msgstr "Passordbeskyttet"
 
 #: js/share.js:525
 msgid "Error unsetting expiration date"
@@ -166,7 +167,7 @@ msgstr ""
 
 #: js/share.js:537
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Kan ikke sette utløpsdato"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -405,17 +406,17 @@ msgstr "Logg ut"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Automatisk pålogging avvist!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Hvis du ikke har endret passordet ditt nylig kan kontoen din være kompromitert"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Vennligst skift passord for å gjøre kontoen din sikker igjen."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -443,7 +444,7 @@ msgstr "neste"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "Sikkerhetsadvarsel!"
 
 #: templates/verify.php:6
 msgid ""
@@ -453,4 +454,4 @@ msgstr ""
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Verifiser"

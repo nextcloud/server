@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-21 02:03+0200\n"
-"PO-Revision-Date: 2012-10-20 20:25+0000\n"
+"POT-Creation-Date: 2012-10-31 00:01+0100\n"
+"PO-Revision-Date: 2012-10-29 23:12+0000\n"
 "Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -19,69 +19,69 @@ msgstr ""
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "App Sotre'i nimekirja laadimine ebaõnnestus"
 
-#: ajax/creategroup.php:12
+#: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "Grupp on juba olemas"
 
-#: ajax/creategroup.php:21
+#: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Keela grupi lisamine"
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
 msgstr "Rakenduse sisselülitamine ebaõnnestus."
 
-#: ajax/lostpassword.php:14
+#: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Kiri on salvestatud"
 
-#: ajax/lostpassword.php:16
+#: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Vigane e-post"
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
 msgstr "OpenID on muudetud"
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
 msgstr "Vigane päring"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Keela grupi kustutamine"
 
-#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
 msgid "Authentication error"
 msgstr "Autentimise viga"
 
-#: ajax/removeuser.php:27
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
 msgstr "Keela kasutaja kustutamine"
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Keel on muudetud"
 
-#: ajax/togglegroups.php:25
+#: ajax/togglegroups.php:22
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "Kasutajat ei saa lisada gruppi %s"
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "Kasutajat ei saa eemaldada grupist %s"
 
-#: js/apps.js:28 js/apps.js:65
+#: js/apps.js:28 js/apps.js:67
 msgid "Disable"
 msgstr "Lülita välja"
 
-#: js/apps.js:28 js/apps.js:54
+#: js/apps.js:28 js/apps.js:55
 msgid "Enable"
 msgstr "Lülita sisse"
 
@@ -112,7 +112,7 @@ msgstr "Ajastatud töö"
 
 #: templates/admin.php:37
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Kävita igal lehe laadimisel üks ülesanne"
 
 #: templates/admin.php:43
 msgid ""
@@ -124,7 +124,7 @@ msgstr ""
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Kasuta süsteemide cron teenust. Käivita owncloudi kaustas fail cron.php läbi süsteemi cronjobi kord minutis."
 
 #: templates/admin.php:56
 msgid "Sharing"
@@ -227,7 +227,7 @@ msgstr "Vasta"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
+msgstr "Sa oled kasutanud <strong>%s</strong> saadaolevast <strong>%s<strong>-st"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"

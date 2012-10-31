@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Anushke Guneratne <anushke@gmail.com>, 2012.
 # Chamara Disanayake <chamara@nic.lk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-29 00:01+0100\n"
-"PO-Revision-Date: 2012-10-27 22:12+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-31 00:01+0100\n"
+"PO-Revision-Date: 2012-10-30 08:40+0000\n"
+"Last-Translator: Anushke Guneratne <anushke@gmail.com>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,15 +86,15 @@ msgstr ""
 
 #: js/share.js:158
 msgid "Share with"
-msgstr ""
+msgstr "බෙදාගන්න"
 
 #: js/share.js:163
 msgid "Share with link"
-msgstr ""
+msgstr "යොමුවක් මඟින් බෙදාගන්න"
 
 #: js/share.js:164
 msgid "Password protect"
-msgstr ""
+msgstr "මුර පදයකින් ආරක්ශාකරන්න"
 
 #: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
@@ -102,15 +103,15 @@ msgstr "මුර පදය "
 
 #: js/share.js:173
 msgid "Set expiration date"
-msgstr ""
+msgstr "කල් ඉකුත් විමේ දිනය දමන්න"
 
 #: js/share.js:174
 msgid "Expiration date"
-msgstr ""
+msgstr "කල් ඉකුත් විමේ දිනය"
 
 #: js/share.js:206
 msgid "Share via email:"
-msgstr ""
+msgstr "විද්‍යුත් තැපෑල මඟින් බෙදාගන්න: "
 
 #: js/share.js:208
 msgid "No people found"
@@ -130,11 +131,11 @@ msgstr "නොබෙදු"
 
 #: js/share.js:304
 msgid "can edit"
-msgstr ""
+msgstr "සංස්කරණය කළ හැක"
 
 #: js/share.js:306
 msgid "access control"
-msgstr ""
+msgstr "ප්‍රවේශ පාලනය"
 
 #: js/share.js:309
 msgid "create"
@@ -146,23 +147,23 @@ msgstr ""
 
 #: js/share.js:315
 msgid "delete"
-msgstr ""
+msgstr "මකන්න"
 
 #: js/share.js:318
 msgid "share"
-msgstr ""
+msgstr "බෙදාහදාගන්න"
 
 #: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
-msgstr ""
+msgstr "මුර පදයකින් ආරක්ශාකර ඇත"
 
 #: js/share.js:525
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "කල් ඉකුත් දිනය ඉවත් කිරීමේ දෝෂයක්"
 
 #: js/share.js:537
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "කල් ඉකුත් දිනය ස්ථාපනය කිරීමේ දෝෂයක්"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -231,7 +232,7 @@ msgstr "උදව්"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "ඇතුල් වීම තහනම්"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -247,7 +248,7 @@ msgstr "එක් කරන්න"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "ආරක්ෂක නිවේදනයක්"
 
 #: templates/installation.php:24
 msgid ""
@@ -259,7 +260,7 @@ msgstr ""
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "ආරක්ෂිත අහඹු සංඛ්‍යා උත්පාදකයක් නොමැති නම් ඔබගේ ගිණුමට පහරදෙන අයකුට එහි මුරපද යළි පිහිටුවීමට අවශ්‍ය ටෝකන පහසුවෙන් සොයාගෙන ඔබගේ ගිණුම පැහැරගත හැක."
 
 #: templates/installation.php:32
 msgid ""
@@ -293,15 +294,15 @@ msgstr ""
 
 #: templates/installation.php:105
 msgid "Database user"
-msgstr ""
+msgstr "දත්තගබඩා භාවිතාකරු"
 
 #: templates/installation.php:109
 msgid "Database password"
-msgstr ""
+msgstr "දත්තගබඩාවේ මුරපදය"
 
 #: templates/installation.php:113
 msgid "Database name"
-msgstr ""
+msgstr "දත්තගබඩාවේ නම"
 
 #: templates/installation.php:121
 msgid "Database tablespace"
@@ -309,11 +310,11 @@ msgstr ""
 
 #: templates/installation.php:127
 msgid "Database host"
-msgstr ""
+msgstr "දත්තගබඩා සේවාදායකයා"
 
 #: templates/installation.php:132
 msgid "Finish setup"
-msgstr ""
+msgstr "ස්ථාපනය කිරීම අවසන් කරන්න"
 
 #: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
@@ -419,11 +420,11 @@ msgstr ""
 
 #: templates/login.php:27
 msgid "remember"
-msgstr ""
+msgstr "මතක තබාගන්න"
 
 #: templates/login.php:28
 msgid "Log in"
-msgstr ""
+msgstr "ප්‍රවේශවන්න"
 
 #: templates/logout.php:1
 msgid "You are logged out."
@@ -431,7 +432,7 @@ msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "පෙර"
 
 #: templates/part.pagenavi.php:20
 msgid "next"

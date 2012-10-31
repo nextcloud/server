@@ -38,6 +38,8 @@
 "ownCloud password reset" => "Сброс пароля ",
 "Use the following link to reset your password: {link}" => "Используйте следующую ссылку чтобы сбросить пароль: {link}",
 "You will receive a link to reset your password via Email." => "На ваш адрес Email выслана ссылка для сброса пароля.",
+"Reset email send." => "Отправка письма с информацией для сброса.",
+"Request failed!" => "Запрос не удался!",
 "Username" => "Имя пользователя",
 "Request reset" => "Запросить сброс",
 "Your password was reset" => "Ваш пароль был сброшен",

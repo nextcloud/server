@@ -7,6 +7,7 @@
 # Arvid Nornes <arvid.nornes@gmail.com>, 2012.
 # Christer Eriksson <post@hc3web.com>, 2012.
 # Daniel  <i18n@daniel.priv.no>, 2012.
+#   <hdalgrav@gmail.com>, 2012.
 #   <olamaekle@gmail.com>, 2012.
 #   <runesudden@gmail.com>, 2012.
 #   <sindre@haverstad.com>, 2012.
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-19 02:03+0200\n"
-"PO-Revision-Date: 2012-10-19 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-31 00:01+0100\n"
+"PO-Revision-Date: 2012-10-30 13:14+0000\n"
+"Last-Translator: hdalgrav <hdalgrav@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,13 +67,13 @@ msgstr "Avslutt deling"
 msgid "Delete"
 msgstr "Slett"
 
-#: js/fileactions.js:182
+#: js/fileactions.js:178
 msgid "Rename"
 msgstr "Omdøp"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} finnes allerede"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "replace"
@@ -88,7 +89,7 @@ msgstr "avbryt"
 
 #: js/filelist.js:243
 msgid "replaced {new_name}"
-msgstr ""
+msgstr "erstatt {new_name}"
 
 #: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
 msgid "undo"
@@ -96,7 +97,7 @@ msgstr "angre"
 
 #: js/filelist.js:245
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "erstatt {new_name} med {old_name}"
 
 #: js/filelist.js:277
 msgid "unshared {files}"
@@ -104,118 +105,118 @@ msgstr ""
 
 #: js/filelist.js:279
 msgid "deleted {files}"
-msgstr ""
+msgstr "slettet {files}"
 
-#: js/files.js:179
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "opprettet ZIP-fil, dette kan ta litt tid"
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Kan ikke laste opp filen din siden det er en mappe eller den har 0 bytes"
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Upload Error"
 msgstr "Opplasting feilet"
 
-#: js/files.js:242 js/files.js:347 js/files.js:377
+#: js/files.js:234 js/files.js:339 js/files.js:369
 msgid "Pending"
 msgstr "Ventende"
 
-#: js/files.js:262
+#: js/files.js:254
 msgid "1 file uploading"
 msgstr "1 fil lastes opp"
 
-#: js/files.js:265 js/files.js:310 js/files.js:325
+#: js/files.js:257 js/files.js:302 js/files.js:317
 msgid "{count} files uploading"
-msgstr ""
+msgstr "{count} filer laster opp"
 
-#: js/files.js:328 js/files.js:361
+#: js/files.js:320 js/files.js:353
 msgid "Upload cancelled."
 msgstr "Opplasting avbrutt."
 
-#: js/files.js:430
+#: js/files.js:422
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Filopplasting pågår. Forlater du siden nå avbrytes opplastingen."
 
-#: js/files.js:500
+#: js/files.js:492
 msgid "Invalid name, '/' is not allowed."
 msgstr "Ugyldig navn, '/' er ikke tillatt. "
 
-#: js/files.js:681
+#: js/files.js:673
 msgid "{count} files scanned"
-msgstr ""
+msgstr "{count} filer lest inn"
 
-#: js/files.js:689
+#: js/files.js:681
 msgid "error while scanning"
 msgstr "feil under skanning"
 
-#: js/files.js:762 templates/index.php:48
+#: js/files.js:754 templates/index.php:48
 msgid "Name"
 msgstr "Navn"
 
-#: js/files.js:763 templates/index.php:56
+#: js/files.js:755 templates/index.php:56
 msgid "Size"
 msgstr "Størrelse"
 
-#: js/files.js:764 templates/index.php:58
+#: js/files.js:756 templates/index.php:58
 msgid "Modified"
 msgstr "Endret"
 
-#: js/files.js:791
+#: js/files.js:783
 msgid "1 folder"
-msgstr ""
+msgstr "1 mappe"
+
+#: js/files.js:785
+msgid "{count} folders"
+msgstr "{count} mapper"
 
 #: js/files.js:793
-msgid "{count} folders"
-msgstr ""
-
-#: js/files.js:801
 msgid "1 file"
-msgstr ""
+msgstr "1 fil"
 
-#: js/files.js:803
+#: js/files.js:795
 msgid "{count} files"
-msgstr ""
+msgstr "{count} filer"
 
-#: js/files.js:846
+#: js/files.js:838
 msgid "seconds ago"
 msgstr "sekunder siden"
 
-#: js/files.js:847
+#: js/files.js:839
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 minutt siden"
 
-#: js/files.js:848
+#: js/files.js:840
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} minutter siden"
 
-#: js/files.js:851
+#: js/files.js:843
 msgid "today"
 msgstr "i dag"
 
-#: js/files.js:852
+#: js/files.js:844
 msgid "yesterday"
 msgstr "i går"
 
-#: js/files.js:853
+#: js/files.js:845
 msgid "{days} days ago"
-msgstr ""
+msgstr "{days} dager siden"
 
-#: js/files.js:854
+#: js/files.js:846
 msgid "last month"
 msgstr "forrige måned"
 
-#: js/files.js:856
+#: js/files.js:848
 msgid "months ago"
 msgstr "måneder siden"
 
-#: js/files.js:857
+#: js/files.js:849
 msgid "last year"
 msgstr "forrige år"
 
-#: js/files.js:858
+#: js/files.js:850
 msgid "years ago"
 msgstr "år siden"
 
