@@ -11,7 +11,6 @@
 			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
 			var oc_appswebroots = <?php echo $_['apps_paths'] ?>;
 			var oc_requesttoken = '<?php echo $_['requesttoken']; ?>';
-			var oc_requestlifespan = '<?php echo $_['requestlifespan']; ?>';
 			var datepickerFormatDate = <?php echo json_encode($l->l('jsdate', 'jsdate')) ?>;
 			var dayNames = <?php echo json_encode(array((string)$l->t('Sunday'), (string)$l->t('Monday'), (string)$l->t('Tuesday'), (string)$l->t('Wednesday'), (string)$l->t('Thursday'), (string)$l->t('Friday'), (string)$l->t('Saturday'))) ?>;
 			var monthNames = <?php echo json_encode(array((string)$l->t('January'), (string)$l->t('February'), (string)$l->t('March'), (string)$l->t('April'), (string)$l->t('May'), (string)$l->t('June'), (string)$l->t('July'), (string)$l->t('August'), (string)$l->t('September'), (string)$l->t('October'), (string)$l->t('November'), (string)$l->t('December'))) ?>;
