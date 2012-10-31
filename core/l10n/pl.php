@@ -38,6 +38,7 @@
 "ownCloud password reset" => "restart hasła",
 "Use the following link to reset your password: {link}" => "Proszę użyć tego odnośnika do zresetowania hasła: {link}",
 "You will receive a link to reset your password via Email." => "Odnośnik służący do resetowania hasła zostanie wysłany na adres e-mail.",
+"Reset email send." => "Wyślij zresetowany email.",
 "Request failed!" => "Próba nieudana!",
 "Username" => "Nazwa użytkownika",
 "Request reset" => "Żądanie resetowania",

@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Access granted" => "Priėjimas suteiktas",
-"Error configuring Dropbox storage" => "Klaida nustatinėjantDropbox talpyklą",
+"Error configuring Dropbox storage" => "Klaida nustatinėjant Dropbox talpyklą",
 "Grant access" => "Suteikti priėjimą",
 "Fill out all required fields" => "Užpildykite visus reikalingus laukelius",
 "Please provide a valid Dropbox app key and secret." => "Prašome įvesti teisingus Dropbox \"app key\" ir \"secret\".",

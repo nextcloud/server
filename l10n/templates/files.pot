@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-31 00:01+0100\n"
+"POT-Creation-Date: 2012-11-01 00:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,11 +51,11 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: js/fileactions.js:108 templates/index.php:62
+#: js/fileactions.js:108 templates/index.php:64
 msgid "Unshare"
 msgstr ""
 
-#: js/fileactions.js:110 templates/index.php:64
+#: js/fileactions.js:110 templates/index.php:66
 msgid "Delete"
 msgstr ""
 
@@ -144,15 +144,15 @@ msgstr ""
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:754 templates/index.php:48
+#: js/files.js:754 templates/index.php:50
 msgid "Name"
 msgstr ""
 
-#: js/files.js:755 templates/index.php:56
+#: js/files.js:755 templates/index.php:58
 msgid "Size"
 msgstr ""
 
-#: js/files.js:756 templates/index.php:58
+#: js/files.js:756 templates/index.php:60
 msgid "Modified"
 msgstr ""
 
@@ -260,40 +260,40 @@ msgstr ""
 msgid "From url"
 msgstr ""
 
-#: templates/index.php:20
+#: templates/index.php:22
 msgid "Upload"
 msgstr ""
 
-#: templates/index.php:27
+#: templates/index.php:29
 msgid "Cancel upload"
 msgstr ""
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Nothing in here. Upload something!"
 msgstr ""
 
-#: templates/index.php:50
+#: templates/index.php:52
 msgid "Share"
 msgstr ""
 
-#: templates/index.php:52
+#: templates/index.php:54
 msgid "Download"
 msgstr ""
 
-#: templates/index.php:75
+#: templates/index.php:77
 msgid "Upload too large"
 msgstr ""
 
-#: templates/index.php:77
+#: templates/index.php:79
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr ""
 
-#: templates/index.php:82
+#: templates/index.php:84
 msgid "Files are being scanned, please wait."
 msgstr ""
 
-#: templates/index.php:85
+#: templates/index.php:87
 msgid "Current scanning"
 msgstr ""
