@@ -22,8 +22,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-// only need filesystem apps
-$RUNTIME_APPTYPES=array('filesystem', 'authentication');
+// load needed apps
+$RUNTIME_APPTYPES=array('filesystem','authentication','logging');
+
 OC_App::loadApps($RUNTIME_APPTYPES);
 
 // Backends
@@ -41,6 +42,7 @@ $server->setBaseUri($baseuri);
 $server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend, 'ownCloud'));
 $server->addPlugin(new Sabre_DAV_Locks_Plugin($lockBackend));
 $server->addPlugin(new Sabre_DAV_Browser_Plugin(false)); // Show something in the Browser, but no upload
+$server->addPlugin(new OC_Connector_Sabre_QuotaPlugin());
 
 // And off we go!
 $server->exec();

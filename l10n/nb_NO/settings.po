@@ -7,15 +7,16 @@
 # Arvid Nornes <arvid.nornes@gmail.com>, 2012.
 # Christer Eriksson <post@hc3web.com>, 2012.
 # Daniel  <i18n@daniel.priv.no>, 2012.
+#   <hdalgrav@gmail.com>, 2012.
 #   <itssmail@yahoo.no>, 2012.
 #   <runesudden@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-09 02:03+0200\n"
-"PO-Revision-Date: 2012-10-09 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-10-31 00:01+0100\n"
+"PO-Revision-Date: 2012-10-30 12:33+0000\n"
+"Last-Translator: hdalgrav <hdalgrav@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,70 +24,69 @@ msgstr ""
 "Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "Lasting av liste fra App Store feilet."
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Autentikasjonsfeil"
+#: ajax/creategroup.php:10
+msgid "Group already exists"
+msgstr "Gruppen finnes allerede"
 
 #: ajax/creategroup.php:19
-msgid "Group already exists"
-msgstr ""
-
-#: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "Kan ikke legge til gruppe"
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Kan ikke aktivere app."
 
-#: ajax/lostpassword.php:14
+#: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Epost lagret"
 
-#: ajax/lostpassword.php:16
+#: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Ugyldig epost"
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
 msgstr "OpenID endret"
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
 msgstr "Ugyldig forespørsel"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Kan ikke slette gruppe"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
+msgid "Authentication error"
+msgstr "Autentikasjonsfeil"
+
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Kan ikke slette bruker"
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Språk endret"
 
-#: ajax/togglegroups.php:25
+#: ajax/togglegroups.php:22
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Kan ikke legge bruker til gruppen %s"
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Kan ikke slette bruker fra gruppen %s"
 
-#: js/apps.js:28 js/apps.js:65
+#: js/apps.js:28 js/apps.js:67
 msgid "Disable"
 msgstr "Slå avBehandle "
 
-#: js/apps.js:28 js/apps.js:54
+#: js/apps.js:28 js/apps.js:55
 msgid "Enable"
 msgstr "Slå på"
 
@@ -94,7 +94,7 @@ msgstr "Slå på"
 msgid "Saving..."
 msgstr "Lagrer..."
 
-#: personal.php:47 personal.php:48
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -133,7 +133,7 @@ msgstr ""
 
 #: templates/admin.php:56
 msgid "Sharing"
-msgstr ""
+msgstr "Deling"
 
 #: templates/admin.php:61
 msgid "Enable Share API"
@@ -145,11 +145,11 @@ msgstr ""
 
 #: templates/admin.php:67
 msgid "Allow links"
-msgstr ""
+msgstr "Tillat lenker"
 
 #: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Tillat brukere å dele filer med lenker"
 
 #: templates/admin.php:73
 msgid "Allow resharing"
@@ -157,15 +157,15 @@ msgstr ""
 
 #: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Tillat brukere å dele filer som allerede har blitt delt med dem"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Tillat brukere å dele med alle"
 
 #: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Tillat kun deling med andre brukere i samme gruppe"
 
 #: templates/admin.php:88
 msgid "Log"
@@ -191,7 +191,7 @@ msgstr "Legg til din App"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "Flere Apps"
 
 #: templates/apps.php:27
 msgid "Select an App"
@@ -232,7 +232,7 @@ msgstr "Svar"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
+msgstr "Du har brukt <strong>%s</strong> av tilgjengelig <strong>%s</strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -244,7 +244,7 @@ msgstr "Last ned"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "Passord har blitt endret"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
