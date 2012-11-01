@@ -29,7 +29,6 @@
 "New" => "新增",
 "Text file" => "文字檔",
 "Folder" => "資料夾",
-"From url" => "由 url ",
 "Upload" => "上傳",
 "Cancel upload" => "取消上傳",
 "Nothing in here. Upload something!" => "沒有任何東西。請上傳內容!",

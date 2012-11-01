@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-19 02:03+0200\n"
-"PO-Revision-Date: 2012-10-19 00:04+0000\n"
+"POT-Creation-Date: 2012-11-02 00:03+0100\n"
+"PO-Revision-Date: 2012-11-01 23:04+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
 "MIME-Version: 1.0\n"
@@ -52,15 +52,15 @@ msgstr "L'escriptura sul disc a fracassat"
 msgid "Files"
 msgstr "Fichièrs"
 
-#: js/fileactions.js:108 templates/index.php:62
+#: js/fileactions.js:108 templates/index.php:64
 msgid "Unshare"
 msgstr "Non parteja"
 
-#: js/fileactions.js:110 templates/index.php:64
+#: js/fileactions.js:110 templates/index.php:66
 msgid "Delete"
 msgstr "Escafa"
 
-#: js/fileactions.js:182
+#: js/fileactions.js:178
 msgid "Rename"
 msgstr "Torna nomenar"
 
@@ -100,116 +100,116 @@ msgstr ""
 msgid "deleted {files}"
 msgstr ""
 
-#: js/files.js:179
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "Fichièr ZIP a se far, aquò pòt trigar un briu."
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Impossible d'amontcargar lo teu fichièr qu'es un repertòri o que ten pas que 0 octet."
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Upload Error"
 msgstr "Error d'amontcargar"
 
-#: js/files.js:242 js/files.js:347 js/files.js:377
+#: js/files.js:234 js/files.js:339 js/files.js:369
 msgid "Pending"
 msgstr "Al esperar"
 
-#: js/files.js:262
+#: js/files.js:254
 msgid "1 file uploading"
 msgstr "1 fichièr al amontcargar"
 
-#: js/files.js:265 js/files.js:310 js/files.js:325
+#: js/files.js:257 js/files.js:302 js/files.js:317
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:328 js/files.js:361
+#: js/files.js:320 js/files.js:353
 msgid "Upload cancelled."
 msgstr "Amontcargar anullat."
 
-#: js/files.js:430
+#: js/files.js:422
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Un amontcargar es a se far. Daissar aquesta pagina ara tamparà lo cargament. "
 
-#: js/files.js:500
+#: js/files.js:492
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nom invalid, '/' es pas permis."
 
-#: js/files.js:681
+#: js/files.js:673
 msgid "{count} files scanned"
 msgstr ""
 
-#: js/files.js:689
+#: js/files.js:681
 msgid "error while scanning"
 msgstr "error pendant l'exploracion"
 
-#: js/files.js:762 templates/index.php:48
+#: js/files.js:754 templates/index.php:50
 msgid "Name"
 msgstr "Nom"
 
-#: js/files.js:763 templates/index.php:56
+#: js/files.js:755 templates/index.php:58
 msgid "Size"
 msgstr "Talha"
 
-#: js/files.js:764 templates/index.php:58
+#: js/files.js:756 templates/index.php:60
 msgid "Modified"
 msgstr "Modificat"
 
-#: js/files.js:791
+#: js/files.js:783
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:793
+#: js/files.js:785
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:801
+#: js/files.js:793
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:803
+#: js/files.js:795
 msgid "{count} files"
 msgstr ""
 
-#: js/files.js:846
+#: js/files.js:838
 msgid "seconds ago"
 msgstr "secondas"
 
-#: js/files.js:847
+#: js/files.js:839
 msgid "1 minute ago"
 msgstr ""
 
-#: js/files.js:848
+#: js/files.js:840
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/files.js:851
+#: js/files.js:843
 msgid "today"
 msgstr "uèi"
 
-#: js/files.js:852
+#: js/files.js:844
 msgid "yesterday"
 msgstr "ièr"
 
-#: js/files.js:853
+#: js/files.js:845
 msgid "{days} days ago"
 msgstr ""
 
-#: js/files.js:854
+#: js/files.js:846
 msgid "last month"
 msgstr "mes passat"
 
-#: js/files.js:856
+#: js/files.js:848
 msgid "months ago"
 msgstr "meses"
 
-#: js/files.js:857
+#: js/files.js:849
 msgid "last year"
 msgstr "an passat"
 
-#: js/files.js:858
+#: js/files.js:850
 msgid "years ago"
 msgstr "ans"
 
@@ -258,43 +258,43 @@ msgid "Folder"
 msgstr "Dorsièr"
 
 #: templates/index.php:11
-msgid "From url"
-msgstr "Dempuèi l'URL"
+msgid "From link"
+msgstr ""
 
-#: templates/index.php:20
+#: templates/index.php:22
 msgid "Upload"
 msgstr "Amontcarga"
 
-#: templates/index.php:27
+#: templates/index.php:29
 msgid "Cancel upload"
 msgstr " Anulla l'amontcargar"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Nothing in here. Upload something!"
 msgstr "Pas res dedins. Amontcarga qualquaren"
 
-#: templates/index.php:50
+#: templates/index.php:52
 msgid "Share"
 msgstr "Parteja"
 
-#: templates/index.php:52
+#: templates/index.php:54
 msgid "Download"
 msgstr "Avalcarga"
 
-#: templates/index.php:75
+#: templates/index.php:77
 msgid "Upload too large"
 msgstr "Amontcargament tròp gròs"
 
-#: templates/index.php:77
+#: templates/index.php:79
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Los fichièrs que sias a amontcargar son tròp pesucs per la talha maxi pel servidor."
 
-#: templates/index.php:82
+#: templates/index.php:84
 msgid "Files are being scanned, please wait."
 msgstr "Los fiichièrs son a èsser explorats, "
 
-#: templates/index.php:85
+#: templates/index.php:87
 msgid "Current scanning"
 msgstr "Exploracion en cors"

@@ -58,7 +58,6 @@
 "New" => "Uus",
 "Text file" => "Tekstifail",
 "Folder" => "Kaust",
-"From url" => "URL-ilt",
 "Upload" => "Lae üles",
 "Cancel upload" => "Tühista üleslaadimine",
 "Nothing in here. Upload something!" => "Siin pole midagi. Lae midagi üles!",

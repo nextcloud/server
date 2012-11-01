@@ -58,7 +58,6 @@
 "New" => "Ny",
 "Text file" => "Tekstfil",
 "Folder" => "Mappe",
-"From url" => "Fra URL",
 "Upload" => "Upload",
 "Cancel upload" => "Fortryd upload",
 "Nothing in here. Upload something!" => "Her er tomt. Upload noget!",

@@ -49,7 +49,6 @@
 "New" => "Uusi",
 "Text file" => "Tekstitiedosto",
 "Folder" => "Kansio",
-"From url" => "Verkko-osoitteesta",
 "Upload" => "Lähetä",
 "Cancel upload" => "Peru lähetys",
 "Nothing in here. Upload something!" => "Täällä ei ole mitään. Lähetä tänne jotakin!",

@@ -58,7 +58,6 @@
 "New" => "Neu",
 "Text file" => "Textdatei",
 "Folder" => "Ordner",
-"From url" => "Von einer URL",
 "Upload" => "Hochladen",
 "Cancel upload" => "Upload abbrechen",
 "Nothing in here. Upload something!" => "Alles leer. Bitte laden Sie etwas hoch!",

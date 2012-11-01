@@ -23,7 +23,6 @@
 "New" => "Створити",
 "Text file" => "Текстовий файл",
 "Folder" => "Папка",
-"From url" => "З URL",
 "Upload" => "Відвантажити",
 "Cancel upload" => "Перервати завантаження",
 "Nothing in here. Upload something!" => "Тут нічого немає. Відвантажте що-небудь!",

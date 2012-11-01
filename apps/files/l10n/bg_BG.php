@@ -19,7 +19,6 @@
 "New" => "Нов",
 "Text file" => "Текстов файл",
 "Folder" => "Папка",
-"From url" => "От url-адрес",
 "Upload" => "Качване",
 "Cancel upload" => "Отказване на качването",
 "Nothing in here. Upload something!" => "Няма нищо, качете нещо!",

@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-20 02:02+0200\n"
-"PO-Revision-Date: 2012-10-19 18:31+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2012-11-02 00:03+0100\n"
+"PO-Revision-Date: 2012-11-01 23:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,15 +56,15 @@ msgstr "Levylle kirjoitus epäonnistui"
 msgid "Files"
 msgstr "Tiedostot"
 
-#: js/fileactions.js:108 templates/index.php:62
+#: js/fileactions.js:108 templates/index.php:64
 msgid "Unshare"
 msgstr ""
 
-#: js/fileactions.js:110 templates/index.php:64
+#: js/fileactions.js:110 templates/index.php:66
 msgid "Delete"
 msgstr "Poista"
 
-#: js/fileactions.js:182
+#: js/fileactions.js:178
 msgid "Rename"
 msgstr "Nimeä uudelleen"
 
@@ -104,116 +104,116 @@ msgstr ""
 msgid "deleted {files}"
 msgstr ""
 
-#: js/files.js:179
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "luodaan ZIP-tiedostoa, tämä saattaa kestää hetken."
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Tiedoston lähetys epäonnistui, koska sen koko on 0 tavua tai kyseessä on kansio"
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Upload Error"
 msgstr "Lähetysvirhe."
 
-#: js/files.js:242 js/files.js:347 js/files.js:377
+#: js/files.js:234 js/files.js:339 js/files.js:369
 msgid "Pending"
 msgstr "Odottaa"
 
-#: js/files.js:262
+#: js/files.js:254
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:265 js/files.js:310 js/files.js:325
+#: js/files.js:257 js/files.js:302 js/files.js:317
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:328 js/files.js:361
+#: js/files.js:320 js/files.js:353
 msgid "Upload cancelled."
 msgstr "Lähetys peruttu."
 
-#: js/files.js:430
+#: js/files.js:422
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Tiedoston lähetys on meneillään. Sivulta poistuminen nyt peruu tiedoston lähetyksen."
 
-#: js/files.js:500
+#: js/files.js:492
 msgid "Invalid name, '/' is not allowed."
 msgstr "Virheellinen nimi, merkki '/' ei ole sallittu."
 
-#: js/files.js:681
+#: js/files.js:673
 msgid "{count} files scanned"
 msgstr ""
 
-#: js/files.js:689
+#: js/files.js:681
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:762 templates/index.php:48
+#: js/files.js:754 templates/index.php:50
 msgid "Name"
 msgstr "Nimi"
 
-#: js/files.js:763 templates/index.php:56
+#: js/files.js:755 templates/index.php:58
 msgid "Size"
 msgstr "Koko"
 
-#: js/files.js:764 templates/index.php:58
+#: js/files.js:756 templates/index.php:60
 msgid "Modified"
 msgstr "Muutettu"
 
-#: js/files.js:791
+#: js/files.js:783
 msgid "1 folder"
 msgstr "1 kansio"
 
-#: js/files.js:793
+#: js/files.js:785
 msgid "{count} folders"
 msgstr "{count} kansiota"
 
-#: js/files.js:801
+#: js/files.js:793
 msgid "1 file"
 msgstr "1 tiedosto"
 
-#: js/files.js:803
+#: js/files.js:795
 msgid "{count} files"
 msgstr "{count} tiedostoa"
 
-#: js/files.js:846
+#: js/files.js:838
 msgid "seconds ago"
 msgstr "sekuntia sitten"
 
-#: js/files.js:847
+#: js/files.js:839
 msgid "1 minute ago"
 msgstr "1 minuutti sitten"
 
-#: js/files.js:848
+#: js/files.js:840
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuuttia sitten"
 
-#: js/files.js:851
+#: js/files.js:843
 msgid "today"
 msgstr "tänään"
 
-#: js/files.js:852
+#: js/files.js:844
 msgid "yesterday"
 msgstr "eilen"
 
-#: js/files.js:853
+#: js/files.js:845
 msgid "{days} days ago"
 msgstr "{days} päivää sitten"
 
-#: js/files.js:854
+#: js/files.js:846
 msgid "last month"
 msgstr "viime kuussa"
 
-#: js/files.js:856
+#: js/files.js:848
 msgid "months ago"
 msgstr "kuukautta sitten"
 
-#: js/files.js:857
+#: js/files.js:849
 msgid "last year"
 msgstr "viime vuonna"
 
-#: js/files.js:858
+#: js/files.js:850
 msgid "years ago"
 msgstr "vuotta sitten"
 
@@ -262,43 +262,43 @@ msgid "Folder"
 msgstr "Kansio"
 
 #: templates/index.php:11
-msgid "From url"
-msgstr "Verkko-osoitteesta"
+msgid "From link"
+msgstr ""
 
-#: templates/index.php:20
+#: templates/index.php:22
 msgid "Upload"
 msgstr "Lähetä"
 
-#: templates/index.php:27
+#: templates/index.php:29
 msgid "Cancel upload"
 msgstr "Peru lähetys"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Nothing in here. Upload something!"
 msgstr "Täällä ei ole mitään. Lähetä tänne jotakin!"
 
-#: templates/index.php:50
+#: templates/index.php:52
 msgid "Share"
 msgstr "Jaa"
 
-#: templates/index.php:52
+#: templates/index.php:54
 msgid "Download"
 msgstr "Lataa"
 
-#: templates/index.php:75
+#: templates/index.php:77
 msgid "Upload too large"
 msgstr "Lähetettävä tiedosto on liian suuri"
 
-#: templates/index.php:77
+#: templates/index.php:79
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan."
 
-#: templates/index.php:82
+#: templates/index.php:84
 msgid "Files are being scanned, please wait."
 msgstr "Tiedostoja tarkistetaan, odota hetki."
 
-#: templates/index.php:85
+#: templates/index.php:87
 msgid "Current scanning"
 msgstr "Tämänhetkinen tutkinta"

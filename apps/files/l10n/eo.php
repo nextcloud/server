@@ -44,7 +44,6 @@
 "New" => "Nova",
 "Text file" => "Tekstodosiero",
 "Folder" => "Dosierujo",
-"From url" => "El URL",
 "Upload" => "Alŝuti",
 "Cancel upload" => "Nuligi alŝuton",
 "Nothing in here. Upload something!" => "Nenio estas ĉi tie. Alŝutu ion!",

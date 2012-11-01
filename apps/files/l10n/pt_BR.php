@@ -44,7 +44,6 @@
 "New" => "Novo",
 "Text file" => "Arquivo texto",
 "Folder" => "Pasta",
-"From url" => "URL de origem",
 "Upload" => "Carregar",
 "Cancel upload" => "Cancelar upload",
 "Nothing in here. Upload something!" => "Nada aqui.Carrege alguma coisa!",

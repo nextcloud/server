@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-23 02:02+0200\n"
-"PO-Revision-Date: 2012-10-22 11:03+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
+"POT-Creation-Date: 2012-11-02 00:03+0100\n"
+"PO-Revision-Date: 2012-11-01 23:04+0000\n"
+"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,15 +53,15 @@ msgstr "ディスクへの書き込みに失敗しました"
 msgid "Files"
 msgstr "ファイル"
 
-#: js/fileactions.js:108 templates/index.php:62
+#: js/fileactions.js:108 templates/index.php:64
 msgid "Unshare"
 msgstr "共有しない"
 
-#: js/fileactions.js:110 templates/index.php:64
+#: js/fileactions.js:110 templates/index.php:66
 msgid "Delete"
 msgstr "削除"
 
-#: js/fileactions.js:182
+#: js/fileactions.js:178
 msgid "Rename"
 msgstr "名前の変更"
 
@@ -101,116 +101,116 @@ msgstr "未共有 {files}"
 msgid "deleted {files}"
 msgstr "削除 {files}"
 
-#: js/files.js:179
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "ZIPファイルを生成中です、しばらくお待ちください。"
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "アップロード使用としているファイルがディレクトリ、もしくはサイズが0バイトのため、アップロードできません。"
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Upload Error"
 msgstr "アップロードエラー"
 
-#: js/files.js:242 js/files.js:347 js/files.js:377
+#: js/files.js:234 js/files.js:339 js/files.js:369
 msgid "Pending"
 msgstr "保留"
 
-#: js/files.js:262
+#: js/files.js:254
 msgid "1 file uploading"
 msgstr "ファイルを1つアップロード中"
 
-#: js/files.js:265 js/files.js:310 js/files.js:325
+#: js/files.js:257 js/files.js:302 js/files.js:317
 msgid "{count} files uploading"
 msgstr "{count} ファイルをアップロード中"
 
-#: js/files.js:328 js/files.js:361
+#: js/files.js:320 js/files.js:353
 msgid "Upload cancelled."
 msgstr "アップロードはキャンセルされました。"
 
-#: js/files.js:430
+#: js/files.js:422
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。"
 
-#: js/files.js:500
+#: js/files.js:492
 msgid "Invalid name, '/' is not allowed."
 msgstr "無効な名前、'/' は使用できません。"
 
-#: js/files.js:681
+#: js/files.js:673
 msgid "{count} files scanned"
 msgstr "{count} ファイルをスキャン"
 
-#: js/files.js:689
+#: js/files.js:681
 msgid "error while scanning"
 msgstr "スキャン中のエラー"
 
-#: js/files.js:762 templates/index.php:48
+#: js/files.js:754 templates/index.php:50
 msgid "Name"
 msgstr "名前"
 
-#: js/files.js:763 templates/index.php:56
+#: js/files.js:755 templates/index.php:58
 msgid "Size"
 msgstr "サイズ"
 
-#: js/files.js:764 templates/index.php:58
+#: js/files.js:756 templates/index.php:60
 msgid "Modified"
 msgstr "更新日時"
 
-#: js/files.js:791
+#: js/files.js:783
 msgid "1 folder"
 msgstr "1 フォルダ"
 
-#: js/files.js:793
+#: js/files.js:785
 msgid "{count} folders"
 msgstr "{count} フォルダ"
 
-#: js/files.js:801
+#: js/files.js:793
 msgid "1 file"
 msgstr "1 ファイル"
 
-#: js/files.js:803
+#: js/files.js:795
 msgid "{count} files"
 msgstr "{count} ファイル"
 
-#: js/files.js:846
+#: js/files.js:838
 msgid "seconds ago"
 msgstr "秒前"
 
-#: js/files.js:847
+#: js/files.js:839
 msgid "1 minute ago"
 msgstr "1 分前"
 
-#: js/files.js:848
+#: js/files.js:840
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分前"
 
-#: js/files.js:851
+#: js/files.js:843
 msgid "today"
 msgstr "今日"
 
-#: js/files.js:852
+#: js/files.js:844
 msgid "yesterday"
 msgstr "昨日"
 
-#: js/files.js:853
+#: js/files.js:845
 msgid "{days} days ago"
 msgstr "{days} 日前"
 
-#: js/files.js:854
+#: js/files.js:846
 msgid "last month"
 msgstr "一月前"
 
-#: js/files.js:856
+#: js/files.js:848
 msgid "months ago"
 msgstr "月前"
 
-#: js/files.js:857
+#: js/files.js:849
 msgid "last year"
 msgstr "一年前"
 
-#: js/files.js:858
+#: js/files.js:850
 msgid "years ago"
 msgstr "年前"
 
@@ -259,43 +259,43 @@ msgid "Folder"
 msgstr "フォルダ"
 
 #: templates/index.php:11
-msgid "From url"
-msgstr "URL"
+msgid "From link"
+msgstr ""
 
-#: templates/index.php:20
+#: templates/index.php:22
 msgid "Upload"
 msgstr "アップロード"
 
-#: templates/index.php:27
+#: templates/index.php:29
 msgid "Cancel upload"
 msgstr "アップロードをキャンセル"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Nothing in here. Upload something!"
 msgstr "ここには何もありません。何かアップロードしてください。"
 
-#: templates/index.php:50
+#: templates/index.php:52
 msgid "Share"
 msgstr "共有"
 
-#: templates/index.php:52
+#: templates/index.php:54
 msgid "Download"
 msgstr "ダウンロード"
 
-#: templates/index.php:75
+#: templates/index.php:77
 msgid "Upload too large"
 msgstr "ファイルサイズが大きすぎます"
 
-#: templates/index.php:77
+#: templates/index.php:79
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "アップロードしようとしているファイルは、サーバで規定された最大サイズを超えています。"
 
-#: templates/index.php:82
+#: templates/index.php:84
 msgid "Files are being scanned, please wait."
 msgstr "ファイルをスキャンしています、しばらくお待ちください。"
 
-#: templates/index.php:85
+#: templates/index.php:87
 msgid "Current scanning"
 msgstr "スキャン中"

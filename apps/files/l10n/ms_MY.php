@@ -29,7 +29,6 @@
 "New" => "Baru",
 "Text file" => "Fail teks",
 "Folder" => "Folder",
-"From url" => "Dari url",
 "Upload" => "Muat naik",
 "Cancel upload" => "Batal muat naik",
 "Nothing in here. Upload something!" => "Tiada apa-apa di sini. Muat naik sesuatu!",

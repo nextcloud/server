@@ -44,7 +44,6 @@
 "New" => "Nòu",
 "Text file" => "Fichièr de tèxte",
 "Folder" => "Dorsièr",
-"From url" => "Dempuèi l'URL",
 "Upload" => "Amontcarga",
 "Cancel upload" => " Anulla l'amontcargar",
 "Nothing in here. Upload something!" => "Pas res dedins. Amontcarga qualquaren",

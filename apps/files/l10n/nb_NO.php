@@ -57,7 +57,6 @@
 "New" => "Ny",
 "Text file" => "Tekstfil",
 "Folder" => "Mappe",
-"From url" => "Fra url",
 "Upload" => "Last opp",
 "Cancel upload" => "Avbryt opplasting",
 "Nothing in here. Upload something!" => "Ingenting her. Last opp noe!",

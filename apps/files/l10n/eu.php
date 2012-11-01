@@ -44,7 +44,6 @@
 "New" => "Berria",
 "Text file" => "Testu fitxategia",
 "Folder" => "Karpeta",
-"From url" => "URLtik",
 "Upload" => "Igo",
 "Cancel upload" => "Ezeztatu igoera",
 "Nothing in here. Upload something!" => "Ez dago ezer. Igo zerbait!",

@@ -22,7 +22,6 @@
 "New" => "Jauns",
 "Text file" => "Teksta fails",
 "Folder" => "Mape",
-"From url" => "No URL saites",
 "Upload" => "Augšuplādet",
 "Cancel upload" => "Atcelt augšuplādi",
 "Nothing in here. Upload something!" => "Te vēl nekas nav. Rīkojies, sāc augšuplādēt",

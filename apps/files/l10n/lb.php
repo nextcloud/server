@@ -30,7 +30,6 @@
 "New" => "Nei",
 "Text file" => "Text Fichier",
 "Folder" => "Dossier",
-"From url" => "From URL",
 "Upload" => "Eroplueden",
 "Cancel upload" => "Upload ofbriechen",
 "Nothing in here. Upload something!" => "Hei ass näischt. Lued eppes rop!",

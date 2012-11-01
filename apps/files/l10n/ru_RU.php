@@ -58,7 +58,6 @@
 "New" => "Новый",
 "Text file" => "Текстовый файл",
 "Folder" => "Папка",
-"From url" => "Из url",
 "Upload" => "Загрузить ",
 "Cancel upload" => "Отмена загрузки",
 "Nothing in here. Upload something!" => "Здесь ничего нет. Загрузите что-нибудь!",
