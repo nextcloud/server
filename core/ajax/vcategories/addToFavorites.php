@@ -14,8 +14,6 @@ function debug($msg) {
 	OC_Log::write('core', 'ajax/vcategories/addToFavorites.php: '.$msg, OC_Log::DEBUG);
 }
 
-require_once '../../../lib/base.php';
-
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
