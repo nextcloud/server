@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-30 00:01+0100\n"
+"POT-Creation-Date: 2012-11-01 00:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,23 +33,23 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:126
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
 msgstr ""
 
-#: js/oc-dialogs.js:159
+#: js/oc-dialogs.js:162
 msgid "No"
 msgstr ""
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:163
 msgid "Yes"
 msgstr ""
 
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:180
 msgid "Ok"
 msgstr ""
 

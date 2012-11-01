@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <javierkaiser@gmail.com>, 2012.
 # Javier Llorente <javier@opensuse.org>, 2012.
 #   <juanma@kde.org.ar>, 2011-2012.
 # oSiNaReF  <>, 2012.
@@ -10,15 +11,15 @@
 #   <rodrigo.calvo@gmail.com>, 2012.
 #   <rom1dep@gmail.com>, 2011.
 # Rubén Trujillo <rubentrf@gmail.com>, 2012.
-#   <sergioballesterossolanas@gmail.com>, 2011, 2012.
+#   <sergioballesterossolanas@gmail.com>, 2011-2012.
 #   <sergio@entrecables.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-29 00:01+0100\n"
-"PO-Revision-Date: 2012-10-27 22:12+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-01 00:01+0100\n"
+"PO-Revision-Date: 2012-10-31 20:49+0000\n"
+"Last-Translator: Javierkaiser <javierkaiser@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,23 +43,23 @@ msgstr "Esta categoría ya existe: "
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:126
 msgid "Choose"
 msgstr "Seleccionar"
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: js/oc-dialogs.js:159
+#: js/oc-dialogs.js:162
 msgid "No"
 msgstr "No"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:163
 msgid "Yes"
 msgstr "Sí"
 
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:180
 msgid "Ok"
 msgstr "Aceptar"
 
@@ -186,11 +187,11 @@ msgstr "Recibirás un enlace por correo electrónico para restablecer tu contras
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "Email de reconfiguración enviado."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "Pedido fallado!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
