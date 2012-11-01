@@ -490,6 +490,13 @@ class OC{
 			require_once 'setup.php';
 			exit();
 		}
+		// Handle redirect URL for logged in users
+		if(isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
+			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
+			header( 'Location: '.$location );
+			return;
+		}
+
 		// Handle WebDAV
 		if($_SERVER['REQUEST_METHOD']=='PROPFIND') {
 			header('location: '.OC_Helper::linkToRemote('webdav'));
