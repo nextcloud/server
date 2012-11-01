@@ -23,57 +23,31 @@
 define('MDB2_SCHEMA_DUMP_STRUCTURE', '1');
 /**
  * This class manages the access to the database. It basically is a wrapper for
- * MDB2 with some adaptions.
+ * Doctrine with some adaptions.
  */
 class OC_DB {
-	const BACKEND_PDO=0;
-	const BACKEND_MDB2=1;
 	const BACKEND_DOCTRINE=2;
 
 	/**
-	 * @var MDB2_Driver_Common
+	 * @var \Doctrine\DBAL\Connection
 	 */
-	static private $connection; //the prefered connection to use, either PDO or MDB2
+	static private $connection; //the prefered connection to use, only Doctrine
 	static private $backend=null;
-	/**
-	 * @var MDB2_Driver_Common
-	 */
-	static private $MDB2=null;
 	/**
 	 * @var Doctrine
 	 */
 	static private $DOCTRINE=null;
-	/**
-	 * @var PDO
-	 */
-	static private $PDO=null;
-	/**
-	 * @var MDB2_Schema
-	 */
-	static private $schema=null;
+
 	static private $inTransaction=false;
 	static private $prefix=null;
 	static private $type=null;
 
 	/**
 	 * check which backend we should use
-	 * @return int BACKEND_MDB2 or BACKEND_PDO
+	 * @return int BACKEND_DOCTRINE
 	 */
 	private static function getDBBackend() {
 		return self::BACKEND_DOCTRINE;
-		//check if we can use PDO, else use MDB2 (installation always needs to be done my mdb2)
-		if(class_exists('PDO') && OC_Config::getValue('installed', false)) {
-			$type = OC_Config::getValue( "dbtype", "sqlite" );
-			if($type=='oci') { //oracle also always needs mdb2
-				return self::BACKEND_MDB2;
-			}
-			if($type=='sqlite3') $type='sqlite';
-			$drivers=PDO::getAvailableDrivers();
-			if(array_search($type, $drivers)!==false) {
-				return self::BACKEND_PDO;
-			}
-		}
-		return self::BACKEND_MDB2;
 	}
 
 	/**
@@ -94,15 +68,6 @@ class OC_DB {
 			$success = self::connectDoctrine();
 			self::$connection=self::$DOCTRINE;
 			self::$backend=self::BACKEND_DOCTRINE;
-		} else
-		if($backend==self::BACKEND_PDO) {
-			$success = self::connectPDO();
-			self::$connection=self::$PDO;
-			self::$backend=self::BACKEND_PDO;
-		}else{
-			$success = self::connectMDB2();
-			self::$connection=self::$MDB2;
-			self::$backend=self::BACKEND_MDB2;
 		}
 		return $success;
 	}
@@ -137,14 +102,6 @@ class OC_DB {
 			$config = new \Doctrine\DBAL\Configuration();
 			switch($type) {
 				case 'sqlite':
-					if (!self::connectPDO()) {
-						return false;
-					}
-					$connectionParams = array(
-							'driver' => 'pdo',
-							'pdo' => self::$PDO,
-					);
-					break;
 				case 'sqlite3':
 					$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
 					$connectionParams = array(
@@ -195,219 +152,32 @@ class OC_DB {
 	}
 
 	/**
-	 * connect to the database using pdo
-	 *
-	 * @return bool
-	 */
-	public static function connectPDO() {
-		if(self::$connection) {
-			if(self::$backend==self::BACKEND_MDB2) {
-				self::disconnect();
-			}else{
-				return true;
-			}
-		}
-		// The global data we need
-		$name = OC_Config::getValue( "dbname", "owncloud" );
-		$host = OC_Config::getValue( "dbhost", "" );
-		$user = OC_Config::getValue( "dbuser", "" );
-		$pass = OC_Config::getValue( "dbpassword", "" );
-		$type = OC_Config::getValue( "dbtype", "sqlite" );
-		if(strpos($host, ':')) {
-			list($host, $port)=explode(':', $host,2);
-		}else{
-			$port=false;
-		}
-		$opts = array();
-		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
-
-		// do nothing if the connection already has been established
-		if(!self::$PDO) {
-			// Add the dsn according to the database type
-			switch($type) {
-				case 'sqlite':
-					$dsn='sqlite2:'.$datadir.'/'.$name.'.db';
-					break;
-				case 'sqlite3':
-					$dsn='sqlite:'.$datadir.'/'.$name.'.db';
-					break;
-				case 'mysql':
-					if($port) {
-						$dsn='mysql:dbname='.$name.';host='.$host.';port='.$port;
-					}else{
-						$dsn='mysql:dbname='.$name.';host='.$host;
-					}
-					$opts[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES 'UTF8'";
-					break;
-				case 'pgsql':
-					if($port) {
-						$dsn='pgsql:dbname='.$name.';host='.$host.';port='.$port;
-					}else{
-						$dsn='pgsql:dbname='.$name.';host='.$host;
-					}
-					/**
-					* Ugly fix for pg connections pbm when password use spaces
-					*/
-					$e_user = addslashes($user);
-					$e_password = addslashes($pass);
-					$pass = $user = null;
-					$dsn .= ";user='$e_user';password='$e_password'";
-					/** END OF FIX***/
-					break;
-				case 'oci': // Oracle with PDO is unsupported
-					if ($port) {
-							$dsn = 'oci:dbname=//' . $host . ':' . $port . '/' . $name;
-					} else {
-							$dsn = 'oci:dbname=//' . $host . '/' . $name;
-					}
-					break;
-				default:
-					return false;
-			}
-			try{
-				self::$PDO=new PDO($dsn, $user, $pass, $opts);
-			}catch(PDOException $e) {
-				echo( '<b>can not connect to database, using '.$type.'. ('.$e->getMessage().')</center>');
-				die();
-			}
-			// We always, really always want associative arrays
-			self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-			self::$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		}
-		return true;
-	}
-
-	/**
-	 * connect to the database using mdb2
-	 */
-	public static function connectMDB2() {
-		if(self::$connection) {
-			if(self::$backend==self::BACKEND_PDO) {
-				self::disconnect();
-			}else{
-				return true;
-			}
-		}
-		// The global data we need
-		$name = OC_Config::getValue( "dbname", "owncloud" );
-		$host = OC_Config::getValue( "dbhost", "" );
-		$user = OC_Config::getValue( "dbuser", "" );
-		$pass = OC_Config::getValue( "dbpassword", "" );
-		$type = OC_Config::getValue( "dbtype", "sqlite" );
-		$SERVERROOT=OC::$SERVERROOT;
-		$datadir=OC_Config::getValue( "datadirectory", "$SERVERROOT/data" );
-
-		// do nothing if the connection already has been established
-		if(!self::$MDB2) {
-			// Require MDB2.php (not required in the head of the file so we only load it when needed)
-			require_once 'MDB2.php';
-
-			// Prepare options array
-			$options = array(
-			  'portability' => MDB2_PORTABILITY_ALL - MDB2_PORTABILITY_FIX_CASE,
-			  'log_line_break' => '<br>',
-			  'idxname_format' => '%s',
-			  'debug' => true,
-			  'quote_identifier' => true  );
-
-			// Add the dsn according to the database type
-			switch($type) {
-				case 'sqlite':
-				case 'sqlite3':
-					$dsn = array(
-						'phptype'  => $type,
-						'database' => "$datadir/$name.db",
-						'mode' => '0644'
-					);
-					break;
-				case 'mysql':
-					$dsn = array(
-						'phptype'  => 'mysql',
-						'username' => $user,
-						'password' => $pass,
-						'hostspec' => $host,
-						'database' => $name
-					);
-					break;
-				case 'pgsql':
-					$dsn = array(
-						'phptype'  => 'pgsql',
-						'username' => $user,
-						'password' => $pass,
-						'hostspec' => $host,
-						'database' => $name
-					);
-					break;
-				case 'oci':
-					$dsn = array(
-							'phptype'  => 'oci8',
-							'username' => $user,
-							'password' => $pass,
-							'charset' => 'AL32UTF8',
-					);
-					if ($host != '') {
-						$dsn['hostspec'] = $host;
-						$dsn['database'] = $name;
-					} else { // use dbname for hostspec
-						$dsn['hostspec'] = $name;
-						$dsn['database'] = $user;
-					}
-					break;
-				default:
-					return false;
-			}
-
-			// Try to establish connection
-			self::$MDB2 = MDB2::factory( $dsn, $options );
-
-			// Die if we could not connect
-			if( PEAR::isError( self::$MDB2 )) {
-				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
-				OC_Log::write('core', self::$MDB2->getUserInfo(), OC_Log::FATAL);
-				OC_Log::write('core', self::$MDB2->getMessage(), OC_Log::FATAL);
-				die();
-			}
-
-			// We always, really always want associative arrays
-			self::$MDB2->setFetchMode(MDB2_FETCHMODE_ASSOC);
-		}
-
-		// we are done. great!
-		return true;
-	}
-
-	/**
 	 * @brief Prepare a SQL query
 	 * @param string $query Query string
 	 * @param int $limit
 	 * @param int $offset
-	 * @return MDB2_Statement_Common prepared SQL query
+	 * @return \Doctrine\DBAL\Statement prepared SQL query
 	 *
-	 * SQL query via MDB2 prepare(), needs to be execute()'d!
+	 * SQL query via Doctrine prepare(), needs to be execute()'d!
 	 */
 	static public function prepare( $query , $limit=null, $offset=null ) {
 
 		if (!is_null($limit) && $limit != -1) {
-			if (self::$backend == self::BACKEND_MDB2) {
-				//MDB2 uses or emulates limits & offset internally
-				self::$MDB2->setLimit($limit, $offset);
+			//PDO does not handle limit and offset.
+			//FIXME: check limit notation for other dbs
+			//the following sql thus might needs to take into account db ways of representing it
+			//(oracle has no LIMIT / OFFSET)
+			$limit = (int)$limit;
+			$limitsql = ' LIMIT ' . $limit;
+			if (!is_null($offset)) {
+				$offset = (int)$offset;
+				$limitsql .= ' OFFSET ' . $offset;
+			}
+			//insert limitsql
+			if (substr($query, -1) == ';') { //if query ends with ;
+				$query = substr($query, 0, -1) . $limitsql . ';';
 			} else {
-				//PDO does not handle limit and offset.
-				//FIXME: check limit notation for other dbs
-				//the following sql thus might needs to take into account db ways of representing it
-				//(oracle has no LIMIT / OFFSET)
-				$limit = (int)$limit;
-				$limitsql = ' LIMIT ' . $limit;
-				if (!is_null($offset)) {
-					$offset = (int)$offset;
-					$limitsql .= ' OFFSET ' . $offset;
-				}
-				//insert limitsql
-				if (substr($query, -1) == ';') { //if query ends with ;
-					$query = substr($query, 0, -1) . $limitsql . ';';
-				} else {
-					$query.=$limitsql;
-				}
+				$query.=$limitsql;
 			}
 		}
 
@@ -427,29 +197,6 @@ class OC_DB {
 				die( $entry );
 			}
 			$result=new DoctrineStatementWrapper($result);
-		} else
-		if(self::$backend==self::BACKEND_MDB2) {
-			$result = self::$connection->prepare( $query );
-
-			// Die if we have an error (error means: bad query, not 0 results!)
-			if( PEAR::isError($result)) {
-				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
-				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
-				OC_Log::write('core', $entry,OC_Log::FATAL);
-				error_log('DB error: '.$entry);
-				die( $entry );
-			}
-		}else{
-			try{
-				$result=self::$connection->prepare($query);
-			}catch(PDOException $e) {
-				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
-				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
-				OC_Log::write('core', $entry,OC_Log::FATAL);
-				error_log('DB error: '.$entry);
-				die( $entry );
-			}
-			$result=new PDOStatementWrapper($result);
 		}
 		return $result;
 	}
@@ -459,7 +206,7 @@ class OC_DB {
 	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
 	 * @return int id
 	 *
-	 * MDB2 lastInsertID()
+	 * \Doctrine\DBAL\Connection lastInsertId
 	 *
 	 * Call this method right after the insert command or other functions may
 	 * cause trouble!
@@ -483,13 +230,8 @@ class OC_DB {
 	public static function disconnect() {
 		// Cut connection if required
 		if(self::$connection) {
-			if(self::$backend==self::BACKEND_MDB2) {
-				self::$connection->disconnect();
-			}
 			self::$connection=false;
 			self::$DOCTRINE=false;
-			self::$MDB2=false;
-			self::$PDO=false;
 		}
 
 		return true;
@@ -630,9 +372,6 @@ class OC_DB {
 	 */
 	public static function beginTransaction() {
 		self::connect();
-		if (self::$backend==self::BACKEND_MDB2 && !self::$connection->supports('transactions')) {
-			return false;
-		}
 		self::$connection->beginTransaction();
 		self::$inTransaction=true;
 		return true;
@@ -653,14 +392,12 @@ class OC_DB {
 	}
 
 	/**
-	 * check if a result is an error, works with MDB2 and PDOException
+	 * check if a result is an error, works with Doctrine
 	 * @param mixed $result
 	 * @return bool
 	 */
 	public static function isError($result) {
 		if(!$result) {
-			return true;
-		}elseif(self::$backend==self::BACKEND_MDB2 and PEAR::isError($result)) {
 			return true;
 		}else{
 			return false;
@@ -669,27 +406,12 @@ class OC_DB {
 	
 	/**
 	 * returns the error code and message as a string for logging
-	 * works with MDB2 and PDOException
+	 * works with DoctrineException
 	 * @param mixed $error
 	 * @return string
 	 */
 	public static function getErrorMessage($error) {
-		if ( self::$backend==self::BACKEND_MDB2 and PEAR::isError($error) ) {
-			$msg = $error->getCode() . ': ' . $error->getMessage();
-			if (defined('DEBUG') && DEBUG) {
-				$msg .= '(' . $error->getDebugInfo() . ')';
-			}
-		} elseif (self::$backend==self::BACKEND_PDO and self::$PDO) {
-			$msg = self::$PDO->errorCode() . ': ';
-			$errorInfo = self::$PDO->errorInfo();
-			if (is_array($errorInfo)) {
-				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
-				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
-				$msg .= 'Driver Message = '.$errorInfo[2];
-			}else{
-				$msg = '';
-			}
-		} elseif (self::$backend==self::BACKEND_DOCTRINE and self::$DOCTRINE) {
+		if (self::$backend==self::BACKEND_DOCTRINE and self::$DOCTRINE) {
 			$msg = self::$DOCTRINE->errorCode() . ': ';
 			$errorInfo = self::$DOCTRINE->errorInfo();
 			if (is_array($errorInfo)) {
@@ -756,73 +478,6 @@ class DoctrineStatementWrapper {
 	 */
 	public function fetchRow() {
 		return $this->statement->fetch();
-	}
-
-	/**
-	 * Provide a simple fetchOne.
-	 * fetch single column from the next row
-	 * @param int $colnum the column number to fetch
-	 */
-	public function fetchOne($colnum = 0) {
-		return $this->statement->fetchColumn($colnum);
-	}
-}
-/**
- * small wrapper around PDOStatement to make it behave ,more like an MDB2 Statement
- */
-class PDOStatementWrapper{
-	/**
-	 * @var PDOStatement
-	 */
-	private $statement=null;
-	private $lastArguments=array();
-
-	public function __construct($statement) {
-		$this->statement=$statement;
-	}
-
-	/**
-	 * make execute return the result instead of a bool
-	 */
-	public function execute($input=array()) {
-		$this->lastArguments=$input;
-		if(count($input)>0) {
-			$result=$this->statement->execute($input);
-		}else{
-			$result=$this->statement->execute();
-		}
-		if($result) {
-			return $this;
-		}else{
-			return false;
-		}
-	}
-
-	/**
-	 * provide numRows
-	 */
-	public function numRows() {
-		$regex = '/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/i';
-		if (preg_match($regex, $this->statement->queryString, $output) > 0) {
-			$query = OC_DB::prepare("SELECT COUNT(*) FROM {$output[1]}", PDO::FETCH_NUM);
-			return $query->execute($this->lastArguments)->fetchColumn();
-		}else{
-			return $this->statement->rowCount();
-		}
-	}
-
-	/**
-	 * provide an alias for fetch
-	 */
-	public function fetchRow() {
-		return $this->statement->fetch();
-	}
-
-	/**
-	 * pass all other function directly to the PDOStatement
-	 */
-	public function __call($name,$arguments) {
-		return call_user_func_array(array($this->statement,$name), $arguments);
 	}
 
 	/**
