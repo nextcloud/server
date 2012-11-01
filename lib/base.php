@@ -496,7 +496,6 @@ class OC{
 			header( 'Location: '.$location );
 			return;
 		}
-
 		// Handle WebDAV
 		if($_SERVER['REQUEST_METHOD']=='PROPFIND') {
 			header('location: '.OC_Helper::linkToRemote('webdav'));
