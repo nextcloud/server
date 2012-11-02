@@ -361,6 +361,7 @@ class OC_Filesystem{
 	 * @return bool
 	 */
 	static public function isValidPath($path){
+		$path = str_replace('\\', '/', $path);
 		if(!$path || $path[0]!=='/'){
 			$path='/'.$path;
 		}
