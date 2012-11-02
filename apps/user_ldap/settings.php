@@ -50,7 +50,7 @@ if ($_POST) {
 			OCP\Config::setAppValue('user_ldap', $param, 0);
 		}
 	}
-	if($clearCache){
+	if($clearCache) {
 		$ldap = new \OCA\user_ldap\lib\Connection('user_ldap');
 		$ldap->clearCache();
 	}
