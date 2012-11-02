@@ -44,7 +44,6 @@
 "New" => "Nou",
 "Text file" => "Fișier text",
 "Folder" => "Dosar",
-"From url" => "De la URL",
 "Upload" => "Încarcă",
 "Cancel upload" => "Anulează încărcarea",
 "Nothing in here. Upload something!" => "Nimic aici. Încarcă ceva!",

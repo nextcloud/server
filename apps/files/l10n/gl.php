@@ -35,7 +35,6 @@
 "New" => "Novo",
 "Text file" => "Ficheiro de texto",
 "Folder" => "Cartafol",
-"From url" => "Desde url",
 "Upload" => "Enviar",
 "Cancel upload" => "Cancelar subida",
 "Nothing in here. Upload something!" => "Nada por aquí. Envíe algo.",

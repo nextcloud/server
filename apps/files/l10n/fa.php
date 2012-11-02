@@ -30,7 +30,6 @@
 "New" => "جدید",
 "Text file" => "فایل متنی",
 "Folder" => "پوشه",
-"From url" => "از نشانی",
 "Upload" => "بارگذاری",
 "Cancel upload" => "متوقف کردن بار گذاری",
 "Nothing in here. Upload something!" => "اینجا هیچ چیز نیست.",

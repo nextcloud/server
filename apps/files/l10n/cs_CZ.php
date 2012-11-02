@@ -58,7 +58,6 @@
 "New" => "Nový",
 "Text file" => "Textový soubor",
 "Folder" => "Složka",
-"From url" => "Z url",
 "Upload" => "Odeslat",
 "Cancel upload" => "Zrušit odesílání",
 "Nothing in here. Upload something!" => "Žádný obsah. Nahrajte něco.",

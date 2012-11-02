@@ -30,7 +30,6 @@
 "New" => "Új",
 "Text file" => "Szövegfájl",
 "Folder" => "Mappa",
-"From url" => "URL-ből",
 "Upload" => "Feltöltés",
 "Cancel upload" => "Feltöltés megszakítása",
 "Nothing in here. Upload something!" => "Töltsön fel egy fájlt.",

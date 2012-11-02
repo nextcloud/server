@@ -30,7 +30,6 @@
 "New" => "새로 만들기",
 "Text file" => "텍스트 파일",
 "Folder" => "폴더",
-"From url" => "URL 에서",
 "Upload" => "업로드",
 "Cancel upload" => "업로드 취소",
 "Nothing in here. Upload something!" => "내용이 없습니다. 업로드할 수 있습니다!",

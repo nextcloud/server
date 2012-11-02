@@ -27,7 +27,6 @@
 "New" => "Ново",
 "Text file" => "Текстуална датотека",
 "Folder" => "Папка",
-"From url" => "Од адреса",
 "Upload" => "Подигни",
 "Cancel upload" => "Откажи прикачување",
 "Nothing in here. Upload something!" => "Тука нема ништо. Снимете нешто!",

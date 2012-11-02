@@ -58,7 +58,6 @@
 "New" => "Mới",
 "Text file" => "Tập tin văn bản",
 "Folder" => "Folder",
-"From url" => "Từ url",
 "Upload" => "Tải lên",
 "Cancel upload" => "Hủy upload",
 "Nothing in here. Upload something!" => "Không có gì ở đây .Hãy tải lên một cái gì đó !",
