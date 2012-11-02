@@ -31,7 +31,6 @@
 "New" => "Yeni",
 "Text file" => "Metin dosyası",
 "Folder" => "Klasör",
-"From url" => "Url'den",
 "Upload" => "Yükle",
 "Cancel upload" => "Yüklemeyi iptal et",
 "Nothing in here. Upload something!" => "Burada hiçbir şey yok. Birşeyler yükleyin!",

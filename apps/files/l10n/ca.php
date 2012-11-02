@@ -58,7 +58,6 @@
 "New" => "Nou",
 "Text file" => "Fitxer de text",
 "Folder" => "Carpeta",
-"From url" => "Des de la url",
 "Upload" => "Puja",
 "Cancel upload" => "Cancel·la la pujada",
 "Nothing in here. Upload something!" => "Res per aquí. Pugeu alguna cosa!",

@@ -27,7 +27,6 @@
 "New" => "חדש",
 "Text file" => "קובץ טקסט",
 "Folder" => "תיקייה",
-"From url" => "מכתובת",
 "Upload" => "העלאה",
 "Cancel upload" => "ביטול ההעלאה",
 "Nothing in here. Upload something!" => "אין כאן שום דבר. אולי ברצונך להעלות משהו?",

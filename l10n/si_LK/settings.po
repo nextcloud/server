@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-31 00:01+0100\n"
-"PO-Revision-Date: 2012-10-30 09:14+0000\n"
+"POT-Creation-Date: 2012-11-02 00:04+0100\n"
+"PO-Revision-Date: 2012-11-01 08:56+0000\n"
 "Last-Translator: Anushke Guneratne <anushke@gmail.com>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -38,11 +38,11 @@ msgstr "යෙදුම සක්‍රීය කළ නොහැකි වි�
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr ""
+msgstr "වි-තැපෑල සුරකින ලදී"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr ""
+msgstr "අවලංගු වි-තැපෑල"
 
 #: ajax/openid.php:13
 msgid "OpenID Changed"
@@ -304,7 +304,7 @@ msgstr "තනන්න"
 
 #: templates/users.php:35
 msgid "Default Quota"
-msgstr ""
+msgstr "සාමාන්‍ය සලාකය"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"

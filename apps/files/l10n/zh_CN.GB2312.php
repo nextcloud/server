@@ -44,7 +44,6 @@
 "New" => "新建",
 "Text file" => "文本文档",
 "Folder" => "文件夹",
-"From url" => "从URL:",
 "Upload" => "上传",
 "Cancel upload" => "取消上传",
 "Nothing in here. Upload something!" => "这里没有东西.上传点什么!",

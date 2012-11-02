@@ -30,7 +30,6 @@
 "New" => "Baru",
 "Text file" => "Berkas teks",
 "Folder" => "Folder",
-"From url" => "Dari url",
 "Upload" => "Unggah",
 "Cancel upload" => "Batal mengunggah",
 "Nothing in here. Upload something!" => "Tidak ada apa-apa di sini. Unggah sesuatu!",
