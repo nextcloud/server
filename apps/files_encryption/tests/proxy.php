@@ -41,7 +41,7 @@ class Test_CryptProxy extends UnitTestCase {
 	}
 
 	public function tearDown() {
-		OCP\Config::setAppValue('files_encryption','enable_encryption',$this->oldConfig);
+		OCP\Config::setAppValue('files_encryption', 'enable_encryption', $this->oldConfig);
 		if(!is_null($this->oldKey)) {
 			$_SESSION['enckey']=$this->oldKey;
 		}
@@ -51,16 +51,16 @@ class Test_CryptProxy extends UnitTestCase {
 		$file=OC::$SERVERROOT.'/3rdparty/MDB2.php';
 		$original=file_get_contents($file);
 
-		OC_Filesystem::file_put_contents('/file',$original);
+		OC_Filesystem::file_put_contents('/file', $original);
 
 		OC_FileProxy::$enabled=false;
 		$stored=OC_Filesystem::file_get_contents('/file');
 		OC_FileProxy::$enabled=true;
 
 		$fromFile=OC_Filesystem::file_get_contents('/file');
-		$this->assertNotEqual($original,$stored);
+		$this->assertNotEqual($original, $stored);
 		$this->assertEqual(strlen($original), strlen($fromFile));
-		$this->assertEqual($original,$fromFile);
+		$this->assertEqual($original, $fromFile);
 
 	}
 
@@ -72,46 +72,46 @@ class Test_CryptProxy extends UnitTestCase {
 		$view=new OC_FilesystemView('/'.OC_User::getUser());
 		$userDir='/'.OC_User::getUser().'/files';
 
-		$rootView->file_put_contents($userDir.'/file',$original);
+		$rootView->file_put_contents($userDir.'/file', $original);
 
 		OC_FileProxy::$enabled=false;
 		$stored=$rootView->file_get_contents($userDir.'/file');
 		OC_FileProxy::$enabled=true;
 
-		$this->assertNotEqual($original,$stored);
+		$this->assertNotEqual($original, $stored);
 		$fromFile=$rootView->file_get_contents($userDir.'/file');
-		$this->assertEqual($original,$fromFile);
+		$this->assertEqual($original, $fromFile);
 
 		$fromFile=$view->file_get_contents('files/file');
-		$this->assertEqual($original,$fromFile);
+		$this->assertEqual($original, $fromFile);
 	}
 
 	public function testBinary() {
 		$file=__DIR__.'/binary';
 		$original=file_get_contents($file);
 
-		OC_Filesystem::file_put_contents('/file',$original);
+		OC_Filesystem::file_put_contents('/file', $original);
 
 		OC_FileProxy::$enabled=false;
 		$stored=OC_Filesystem::file_get_contents('/file');
 		OC_FileProxy::$enabled=true;
 
 		$fromFile=OC_Filesystem::file_get_contents('/file');
-		$this->assertNotEqual($original,$stored);
+		$this->assertNotEqual($original, $stored);
 		$this->assertEqual(strlen($original), strlen($fromFile));
-		$this->assertEqual($original,$fromFile);
+		$this->assertEqual($original, $fromFile);
 
 		$file=__DIR__.'/zeros';
 		$original=file_get_contents($file);
 
-		OC_Filesystem::file_put_contents('/file',$original);
+		OC_Filesystem::file_put_contents('/file', $original);
 
 		OC_FileProxy::$enabled=false;
 		$stored=OC_Filesystem::file_get_contents('/file');
 		OC_FileProxy::$enabled=true;
 
 		$fromFile=OC_Filesystem::file_get_contents('/file');
-		$this->assertNotEqual($original,$stored);
+		$this->assertNotEqual($original, $stored);
 		$this->assertEqual(strlen($original), strlen($fromFile));
 	}
 }

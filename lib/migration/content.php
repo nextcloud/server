@@ -152,7 +152,7 @@ class OC_Migration_Content{
 			$sql = "INSERT INTO `" . $options['table'] . '` ( `';
 			$fieldssql = implode( '`, `', $fields );
 			$sql .= $fieldssql . "` ) VALUES( ";
-			$valuessql = substr( str_repeat( '?, ', count( $fields ) ),0,-2 );
+			$valuessql = substr( str_repeat( '?, ', count( $fields ) ), 0, -2 );
 			$sql .= $valuessql . " )";
 			// Make the query
 			$query = $this->prepare( $sql );

@@ -35,7 +35,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @param string source either a local file or string data
 	 * @return bool
 	 */
-	function addFile($path,$source='') {
+	function addFile($path, $source='') {
 		if($source and $source[0]=='/' and file_exists($source)) {
 			$result=$this->zip->addFile($source, $path);
 		}else{
@@ -53,7 +53,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @param string dest
 	 * @return bool
 	 */
-	function rename($source,$dest) {
+	function rename($source, $dest) {
 		$source=$this->stripPath($source);
 		$dest=$this->stripPath($dest);
 		$this->zip->renameName($source, $dest);
@@ -119,7 +119,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @param string dest
 	 * @return bool
 	 */
-	function extractFile($path,$dest) {
+	function extractFile($path, $dest) {
 		$fp = $this->zip->getStream($path);
 		file_put_contents($dest, $fp);
 	}
@@ -158,7 +158,7 @@ class OC_Archive_ZIP extends OC_Archive{
 	 * @param string mode
 	 * @return resource
 	 */
-	function getStream($path,$mode) {
+	function getStream($path, $mode) {
 		if($mode=='r' or $mode=='rb') {
 			return $this->zip->getStream($path);
 		} else {

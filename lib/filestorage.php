@@ -42,13 +42,13 @@ abstract class OC_Filestorage{
 	abstract public function filectime($path);
 	abstract public function filemtime($path);
 	abstract public function file_get_contents($path);
-	abstract public function file_put_contents($path,$data);
+	abstract public function file_put_contents($path, $data);
 	abstract public function unlink($path);
-	abstract public function rename($path1,$path2);
-	abstract public function copy($path1,$path2);
-	abstract public function fopen($path,$mode);
+	abstract public function rename($path1, $path2);
+	abstract public function copy($path1, $path2);
+	abstract public function fopen($path, $mode);
 	abstract public function getMimeType($path);
-	abstract public function hash($type,$path,$raw = false);
+	abstract public function hash($type,$path, $raw = false);
 	abstract public function free_space($path);
 	abstract public function search($query);
 	abstract public function touch($path, $mtime=null);
@@ -62,6 +62,6 @@ abstract class OC_Filestorage{
 	 * hasUpdated for folders should return at least true if a file inside the folder is add, removed or renamed.
 	 * returning true for other changes in the folder is optional
 	 */
-	abstract public function hasUpdated($path,$time);
+	abstract public function hasUpdated($path, $time);
 	abstract public function getOwner($path);
 }

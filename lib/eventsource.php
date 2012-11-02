@@ -56,7 +56,7 @@ class OC_EventSource{
 	 *
 	 * if only one paramater is given, a typeless message will be send with that paramater as data
 	 */
-	public function send($type,$data=null) {
+	public function send($type, $data=null) {
 		if(is_null($data)) {
 			$data=$type;
 			$type=null;

@@ -73,7 +73,7 @@ class Storage {
 			}
 
 			// check filetype blacklist
-			$blacklist=explode(' ',\OCP\Config::getSystemValue('files_versionsblacklist', Storage::DEFAULTBLACKLIST));
+			$blacklist=explode(' ', \OCP\Config::getSystemValue('files_versionsblacklist', Storage::DEFAULTBLACKLIST));
 			foreach($blacklist as $bl) {
 				$parts=explode('.', $filename);
 				$ext=end($parts);
@@ -99,7 +99,7 @@ class Storage {
 				$versionsFolderName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
 				$matches=glob($versionsName.'.v*');
 				sort($matches);
-				$parts=explode('.v',end($matches));
+				$parts=explode('.v', end($matches));
 				if((end($parts)+Storage::DEFAULTMININTERVAL)>time()) {
 					return false;
 				}
@@ -109,7 +109,7 @@ class Storage {
 			// create all parent folders
 			$info=pathinfo($filename);
 			if(!file_exists($versionsFolderName.'/'.$info['dirname'])) {
-				mkdir($versionsFolderName.'/'.$info['dirname'],0750,true);
+				mkdir($versionsFolderName.'/'.$info['dirname'],0750, true);
 			}
 
 			// store a new version of a file
@@ -124,7 +124,7 @@ class Storage {
 	/**
 	 * rollback to an old version of a file.
 	 */
-	public static function rollback($filename,$revision) {
+	public static function rollback($filename, $revision) {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);

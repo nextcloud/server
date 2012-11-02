@@ -18,7 +18,7 @@ class OC_FileCache_Update{
 	 * @param boolean folder
 	 * @return bool
 	 */
-	public static function hasUpdated($path,$root=false,$folder=false) {
+	public static function hasUpdated($path, $root=false, $folder=false) {
 		if($root===false) {
 			$view=OC_Filesystem::getView();
 		}else{
@@ -46,14 +46,14 @@ class OC_FileCache_Update{
 	/**
 	 * delete non existing files from the cache
 	 */
-	public static function cleanFolder($path,$root=false) {
+	public static function cleanFolder($path, $root=false) {
 		if($root===false) {
 			$view=OC_Filesystem::getView();
 		}else{
 			$view=new OC_FilesystemView($root);
 		}
 
-		$cachedContent=OC_FileCache_Cached::getFolderContent($path,$root);
+		$cachedContent=OC_FileCache_Cached::getFolderContent($path, $root);
 		foreach($cachedContent as $fileData) {
 			$path=$fileData['path'];
 			$file=$view->getRelativePath($path);
@@ -72,7 +72,7 @@ class OC_FileCache_Update{
 	 * @param string path
 	 * @param string root (optional)
 	 */
-	public static function updateFolder($path,$root=false) {
+	public static function updateFolder($path, $root=false) {
 		if($root===false) {
 			$view=OC_Filesystem::getView();
 		}else{
@@ -143,7 +143,7 @@ class OC_FileCache_Update{
 	 * @param string path
 	 * @param string root (optional)
 	 */
-	public static function update($path,$root=false) {
+	public static function update($path, $root=false) {
 		if($root===false) {
 			$view=OC_Filesystem::getView();
 		}else{
@@ -153,7 +153,7 @@ class OC_FileCache_Update{
 		$mimetype=$view->getMimeType($path);
 
 		$size=0;
-		$cached=OC_FileCache_Cached::get($path,$root);
+		$cached=OC_FileCache_Cached::get($path, $root);
 		$cachedSize=isset($cached['size'])?$cached['size']:0;
 
 		if($view->is_dir($path.'/')) {
@@ -184,7 +184,7 @@ class OC_FileCache_Update{
 	 * @param string path
 	 * @param string root (optional)
 	 */
-	public static function delete($path,$root=false) {
+	public static function delete($path, $root=false) {
 		$cached=OC_FileCache_Cached::get($path, $root);
 		if(!isset($cached['size'])) {
 			return;
@@ -200,7 +200,7 @@ class OC_FileCache_Update{
 	 * @param string newPath
 	 * @param string root (optional)
 	 */
-	public static function rename($oldPath,$newPath,$root=false) {
+	public static function rename($oldPath,$newPath, $root=false) {
 		if(!OC_FileCache::inCache($oldPath, $root)) {
 			return;
 		}

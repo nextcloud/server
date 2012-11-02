@@ -303,7 +303,7 @@ class OC_Filesystem{
 	* @param  array  arguments
 	* @return OC_Filestorage
 	*/
-	static private function createStorage($class,$arguments) {
+	static private function createStorage($class, $arguments) {
 		if(class_exists($class)) {
 			try {
 				return new $class($arguments);
@@ -349,7 +349,7 @@ class OC_Filesystem{
 	* @param OC_Filestorage storage
 	* @param string mountpoint
 	*/
-	static public function mount($class,$arguments,$mountpoint) {
+	static public function mount($class, $arguments, $mountpoint) {
 		if($mountpoint[0]!='/') {
 			$mountpoint='/'.$mountpoint;
 		}
@@ -500,32 +500,32 @@ class OC_Filesystem{
 	static public function file_get_contents($path) {
 		return self::$defaultInstance->file_get_contents($path);
 	}
-	static public function file_put_contents($path,$data) {
+	static public function file_put_contents($path, $data) {
 		return self::$defaultInstance->file_put_contents($path, $data);
 	}
 	static public function unlink($path) {
 		return self::$defaultInstance->unlink($path);
 	}
-	static public function rename($path1,$path2) {
+	static public function rename($path1, $path2) {
 		return self::$defaultInstance->rename($path1, $path2);
 	}
-	static public function copy($path1,$path2) {
+	static public function copy($path1, $path2) {
 		return self::$defaultInstance->copy($path1, $path2);
 	}
-	static public function fopen($path,$mode) {
+	static public function fopen($path, $mode) {
 		return self::$defaultInstance->fopen($path, $mode);
 	}
 	static public function toTmpFile($path) {
 		return self::$defaultInstance->toTmpFile($path);
 	}
-	static public function fromTmpFile($tmpFile,$path) {
+	static public function fromTmpFile($tmpFile, $path) {
 		return self::$defaultInstance->fromTmpFile($tmpFile, $path);
 	}
 
 	static public function getMimeType($path) {
 		return self::$defaultInstance->getMimeType($path);
 	}
-	static public function hash($type,$path, $raw = false) {
+	static public function hash($type, $path, $raw = false) {
 		return self::$defaultInstance->hash($type, $path, $raw);
 	}
 
@@ -542,7 +542,7 @@ class OC_Filesystem{
 	 * @param int $time
 	 * @return bool
 	 */
-	static public function hasUpdated($path,$time) {
+	static public function hasUpdated($path, $time) {
 		return self::$defaultInstance->hasUpdated($path, $time);
 	}
 
@@ -569,7 +569,7 @@ class OC_Filesystem{
 	 * @param bool $stripTrailingSlash
 	 * @return string
 	 */
-	public static function normalizePath($path,$stripTrailingSlash=true) {
+	public static function normalizePath($path, $stripTrailingSlash=true) {
 		if($path=='') {
 			return '/';
 		}

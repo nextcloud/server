@@ -42,7 +42,7 @@ class DB {
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
 	static public function prepare( $query, $limit=null, $offset=null ) {
-		return(\OC_DB::prepare($query,$limit,$offset));
+		return(\OC_DB::prepare($query, $limit, $offset));
 	}
 
 	/**

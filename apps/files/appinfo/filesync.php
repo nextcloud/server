@@ -36,7 +36,7 @@ if(!OC_User::isLoggedIn()) {
         }
 }
 
-list($type,$file) = explode('/', substr($path_info,1+strlen($service)+1), 2);
+list($type,$file) = explode('/', substr($path_info, 1+strlen($service)+1), 2);
 
 if ($type != 'oc_chunked') {
 	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);

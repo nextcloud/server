@@ -188,9 +188,9 @@ class Connection {
 			$this->config['ldapAgentName']         = \OCP\Config::getAppValue($this->configID, 'ldap_dn','');
 			$this->config['ldapAgentPassword']     = base64_decode(\OCP\Config::getAppValue($this->configID, 'ldap_agent_password',''));
 			$this->config['ldapBase']              = \OCP\Config::getAppValue($this->configID, 'ldap_base', '');
-			$this->config['ldapBaseUsers']         = \OCP\Config::getAppValue($this->configID, 'ldap_base_users',$this->config['ldapBase']);
+			$this->config['ldapBaseUsers']         = \OCP\Config::getAppValue($this->configID, 'ldap_base_users', $this->config['ldapBase']);
 			$this->config['ldapBaseGroups']        = \OCP\Config::getAppValue($this->configID, 'ldap_base_groups', $this->config['ldapBase']);
-			$this->config['ldapTLS']               = \OCP\Config::getAppValue($this->configID, 'ldap_tls',0);
+			$this->config['ldapTLS']               = \OCP\Config::getAppValue($this->configID, 'ldap_tls', 0);
 			$this->config['ldapNoCase']            = \OCP\Config::getAppValue($this->configID, 'ldap_nocase', 0);
 			$this->config['turnOffCertCheck']      = \OCP\Config::getAppValue($this->configID, 'ldap_turn_off_cert_check', 0);
 			$this->config['ldapUserDisplayName']   = mb_strtolower(\OCP\Config::getAppValue($this->configID, 'ldap_display_name', 'uid'), 'UTF-8');

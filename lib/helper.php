@@ -377,7 +377,7 @@ class OC_Helper {
 		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)) {
 			$info = @strtolower(finfo_file($finfo, $path));
 			if($info) {
-				$mimeType=substr($info,0, strpos($info, ';'));
+				$mimeType=substr($info, 0, strpos($info, ';'));
 			}
 			finfo_close($finfo);
 		}
@@ -498,7 +498,7 @@ class OC_Helper {
 	 * @param resource $target
 	 * @return int the number of bytes copied
 	 */
-	public static function streamCopy($source,$target) {
+	public static function streamCopy($source, $target) {
 		if(!$source or !$target) {
 			return false;
 		}

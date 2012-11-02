@@ -56,13 +56,13 @@ class OC_Mail {
 		$mailo->From =$fromaddress;
 		$mailo->FromName = $fromname;;
 		$mailo->Sender =$fromaddress;
-		$a=explode(' ',$toaddress);
+		$a=explode(' ', $toaddress);
 		try {
 			foreach($a as $ad) {
-				$mailo->AddAddress($ad,$toname);
+				$mailo->AddAddress($ad, $toname);
 			}
 
-			if($ccaddress<>'') $mailo->AddCC($ccaddress,$ccname);
+			if($ccaddress<>'') $mailo->AddCC($ccaddress, $ccname);
 			if($bcc<>'') $mailo->AddBCC($bcc);
 
 			$mailo->AddReplyTo($fromaddress, $fromname);
