@@ -396,6 +396,7 @@ class OC_Filesystem{
 	 * @return bool
 	 */
 	static public function isValidPath($path) {
+		$path = self::normalizePath($path);
 		if(!$path || $path[0]!=='/') {
 			$path='/'.$path;
 		}
