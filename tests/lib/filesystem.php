@@ -101,6 +101,7 @@ class Test_Filesystem extends UnitTestCase {
 		$rootView->mkdir('/' . $user);
 		$rootView->mkdir('/' . $user . '/files');
 
+		$this->assertFalse($rootView->file_put_contents('/.htaccess', 'foo'));
 		$this->assertFalse(OC_Filesystem::file_put_contents('/.htaccess', 'foo'));
 		$fh = fopen(__FILE__, 'r');
 		$this->assertFalse(OC_Filesystem::file_put_contents('/.htaccess', $fh));

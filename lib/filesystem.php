@@ -403,6 +403,9 @@ class OC_Filesystem{
 		if(strstr($path, '/../') || strrchr($path, '/') === '/..' ) {
 			return false;
 		}
+		if(self::isFileBlacklisted($path)){
+			return false;
+		}
 		return true;
 	}
 
@@ -412,18 +415,20 @@ class OC_Filesystem{
 	 * @param array $data from hook
 	 */
 	static public function isBlacklisted($data) {
-		$blacklist = array('.htaccess');
 		if (isset($data['path'])) {
 			$path = $data['path'];
 		} else if (isset($data['newpath'])) {
 			$path = $data['newpath'];
 		}
 		if (isset($path)) {
-			$filename = strtolower(basename($path));
-			if (in_array($filename, $blacklist)) {
-				$data['run'] = false;
-			}
+			$data['run'] = !self::isFileBlacklisted($path);
 		}
+	}
+
+	static public function isFileBlacklisted($path){
+		$blacklist = array('.htaccess');
+		$filename = strtolower(basename($path));
+		return in_array($filename, $blacklist);
 	}
 
 	/**
