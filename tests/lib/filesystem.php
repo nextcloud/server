@@ -72,6 +72,41 @@ class Test_Filesystem extends UnitTestCase {
 		}
 	}
 
+	public function testBlacklist() {
+		OC_Hook::clear('OC_Filesystem');
+		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
+		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
+
+		$run = true;
+		OC_Hook::emit(
+			OC_Filesystem::CLASSNAME,
+			OC_Filesystem::signal_write,
+			array(
+				OC_Filesystem::signal_param_path => '/test/.htaccess',
+				OC_Filesystem::signal_param_run => &$run
+			)
+		);
+		$this->assertFalse($run);
+
+		if (OC_Filesystem::getView()) {
+			$user = OC_User::getUser();
+		} else {
+			$user = uniqid();
+			OC_Filesystem::init('/' . $user . '/files');
+		}
+
+		OC_Filesystem::mount('OC_Filestorage_Temporary', array(), '/');
+
+		$rootView = new OC_FilesystemView('');
+		$rootView->mkdir('/' . $user);
+		$rootView->mkdir('/' . $user . '/files');
+
+		$this->assertFalse($rootView->file_put_contents('/.htaccess', 'foo'));
+		$this->assertFalse(OC_Filesystem::file_put_contents('/.htaccess', 'foo'));
+		$fh = fopen(__FILE__, 'r');
+		$this->assertFalse(OC_Filesystem::file_put_contents('/.htaccess', $fh));
+	}
+
 	public function testHooks() {
 		if(OC_Filesystem::getView()){
 			$user = OC_User::getUser();
