@@ -24,6 +24,7 @@
 "Enable ZIP-download" => "Овозможи ZIP симнување ",
 "0 is unlimited" => "0 е неограничено",
 "Maximum input size for ZIP files" => "Максимална големина за внес на ZIP датотеки",
+"Save" => "Сними",
 "New" => "Ново",
 "Text file" => "Текстуална датотека",
 "Folder" => "Папка",

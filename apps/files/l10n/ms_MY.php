@@ -26,6 +26,7 @@
 "Enable ZIP-download" => "Aktifkan muatturun ZIP",
 "0 is unlimited" => "0 adalah tanpa had",
 "Maximum input size for ZIP files" => "Saiz maksimum input untuk fail ZIP",
+"Save" => "Simpan",
 "New" => "Baru",
 "Text file" => "Fail teks",
 "Folder" => "Folder",

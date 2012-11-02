@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-02 00:03+0100\n"
-"PO-Revision-Date: 2012-11-01 23:04+0000\n"
+"POT-Creation-Date: 2012-11-03 00:00+0100\n"
+"PO-Revision-Date: 2012-11-01 23:21+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr "Fájlok"
 
 #: js/fileactions.js:108 templates/index.php:64
 msgid "Unshare"
-msgstr ""
+msgstr "Nem oszt meg"
 
 #: js/fileactions.js:110 templates/index.php:66
 msgid "Delete"
@@ -177,11 +177,11 @@ msgstr ""
 
 #: js/files.js:838
 msgid "seconds ago"
-msgstr ""
+msgstr "másodperccel ezelőtt"
 
 #: js/files.js:839
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 perccel ezelőtt"
 
 #: js/files.js:840
 msgid "{minutes} minutes ago"
@@ -189,11 +189,11 @@ msgstr ""
 
 #: js/files.js:843
 msgid "today"
-msgstr ""
+msgstr "ma"
 
 #: js/files.js:844
 msgid "yesterday"
-msgstr ""
+msgstr "tegnap"
 
 #: js/files.js:845
 msgid "{days} days ago"
@@ -201,19 +201,19 @@ msgstr ""
 
 #: js/files.js:846
 msgid "last month"
-msgstr ""
+msgstr "múlt hónapban"
 
 #: js/files.js:848
 msgid "months ago"
-msgstr ""
+msgstr "hónappal ezelőtt"
 
 #: js/files.js:849
 msgid "last year"
-msgstr ""
+msgstr "tavaly"
 
 #: js/files.js:850
 msgid "years ago"
-msgstr ""
+msgstr "évvel ezelőtt"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -243,9 +243,9 @@ msgstr "0 = korlátlan"
 msgid "Maximum input size for ZIP files"
 msgstr "ZIP file-ok maximum mérete"
 
-#: templates/admin.php:14
+#: templates/admin.php:15
 msgid "Save"
-msgstr ""
+msgstr "Mentés"
 
 #: templates/index.php:7
 msgid "New"

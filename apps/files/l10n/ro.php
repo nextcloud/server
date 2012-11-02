@@ -27,6 +27,7 @@
 "Size" => "Dimensiune",
 "Modified" => "Modificat",
 "seconds ago" => "secunde în urmă",
+"1 minute ago" => "1 minut în urmă",
 "today" => "astăzi",
 "yesterday" => "ieri",
 "last month" => "ultima lună",

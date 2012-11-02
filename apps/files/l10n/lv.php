@@ -2,6 +2,7 @@
 "No file was uploaded" => "Neviens fails netika augšuplādēts",
 "Failed to write to disk" => "Nav iespējams saglabāt",
 "Files" => "Faili",
+"Unshare" => "Pārtraukt līdzdalīšanu",
 "Delete" => "Izdzēst",
 "replace" => "aizvietot",
 "cancel" => "atcelt",

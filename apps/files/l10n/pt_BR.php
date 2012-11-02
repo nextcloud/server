@@ -27,6 +27,7 @@
 "Size" => "Tamanho",
 "Modified" => "Modificado",
 "seconds ago" => "segundos atrás",
+"1 minute ago" => "1 minuto atrás",
 "today" => "hoje",
 "yesterday" => "ontem",
 "last month" => "último mês",

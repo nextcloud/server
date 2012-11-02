@@ -27,6 +27,7 @@
 "Enable ZIP-download" => "ZIP-download erlaben",
 "0 is unlimited" => "0 ass onlimitéiert",
 "Maximum input size for ZIP files" => "Maximal Gréisst fir ZIP Fichieren",
+"Save" => "Späicheren",
 "New" => "Nei",
 "Text file" => "Text Fichier",
 "Folder" => "Dossier",

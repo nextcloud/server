@@ -11,6 +11,7 @@
 "Size" => "Veličina",
 "Modified" => "Zadnja izmena",
 "Maximum upload size" => "Maksimalna veličina pošiljke",
+"Save" => "Snimi",
 "Upload" => "Pošalji",
 "Nothing in here. Upload something!" => "Ovde nema ničeg. Pošaljite nešto!",
 "Download" => "Preuzmi",

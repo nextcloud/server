@@ -27,6 +27,7 @@
 "Size" => "Talha",
 "Modified" => "Modificat",
 "seconds ago" => "secondas",
+"1 minute ago" => "1 minuta a",
 "today" => "uèi",
 "yesterday" => "ièr",
 "last month" => "mes passat",

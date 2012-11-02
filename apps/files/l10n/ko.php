@@ -27,6 +27,7 @@
 "Enable ZIP-download" => "ZIP- 다운로드 허용",
 "0 is unlimited" => "0은 무제한 입니다",
 "Maximum input size for ZIP files" => "ZIP 파일에 대한 최대 입력 크기",
+"Save" => "저장",
 "New" => "새로 만들기",
 "Text file" => "텍스트 파일",
 "Folder" => "폴더",

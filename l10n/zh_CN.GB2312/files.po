@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-02 00:03+0100\n"
-"PO-Revision-Date: 2012-11-01 23:04+0000\n"
+"POT-Creation-Date: 2012-11-03 00:00+0100\n"
+"PO-Revision-Date: 2012-11-01 23:21+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -180,7 +180,7 @@ msgstr "秒前"
 
 #: js/files.js:839
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 分钟前"
 
 #: js/files.js:840
 msgid "{minutes} minutes ago"
@@ -242,7 +242,7 @@ msgstr "0是无限的"
 msgid "Maximum input size for ZIP files"
 msgstr "最大的ZIP文件输入大小"
 
-#: templates/admin.php:14
+#: templates/admin.php:15
 msgid "Save"
 msgstr "保存"
 

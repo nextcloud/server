@@ -7,6 +7,7 @@
 "Missing a temporary folder" => "Väliaikaiskansiota ei ole olemassa",
 "Failed to write to disk" => "Levylle kirjoitus epäonnistui",
 "Files" => "Tiedostot",
+"Unshare" => "Peru jakaminen",
 "Delete" => "Poista",
 "Rename" => "Nimeä uudelleen",
 "{new_name} already exists" => "{new_name} on jo olemassa",
