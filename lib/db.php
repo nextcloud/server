@@ -115,7 +115,7 @@ class OC_DB {
 		$pass = OC_Config::getValue( "dbpassword", "" );
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
 		if(strpos($host, ':')) {
-			list($host, $port)=explode(':', $host,2);
+			list($host, $port)=explode(':', $host, 2);
 		}else{
 			$port=false;
 		}
@@ -767,8 +767,8 @@ class PDOStatementWrapper{
 	/**
 	 * pass all other function directly to the PDOStatement
 	 */
-	public function __call($name,$arguments) {
-		return call_user_func_array(array($this->statement,$name), $arguments);
+	public function __call($name, $arguments) {
+		return call_user_func_array(array($this->statement, $name), $arguments);
 	}
 
 	/**

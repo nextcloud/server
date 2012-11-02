@@ -45,10 +45,10 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		// but otherwise reading locks from SQLite Databases will return
 		// nothing
 		$query = 'SELECT * FROM `*PREFIX*locks` WHERE `userid` = ? AND (`created` + `timeout`) > '.time().' AND (( `uri` = ?)';
-		$params = array(OC_User::getUser(),$uri);
+		$params = array(OC_User::getUser(), $uri);
 
 		// We need to check locks for every part in the uri.
-		$uriParts = explode('/',$uri);
+		$uriParts = explode('/', $uri);
 
 		// We already covered the last part of the uri
 		array_pop($uriParts);
@@ -137,7 +137,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 	public function unlock($uri,Sabre_DAV_Locks_LockInfo $lockInfo) {
 
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*locks` WHERE `userid` = ? AND `uri` = ? AND `token` = ?' );
-		$result = $query->execute( array(OC_User::getUser(),$uri,$lockInfo->token));
+		$result = $query->execute( array(OC_User::getUser(), $uri, $lockInfo->token));
 
 		return $result->numRows() === 1;
 

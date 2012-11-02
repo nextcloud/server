@@ -106,7 +106,7 @@ class OC_CryptStream{
 		if($currentPos%8192!=0) {
 			//make sure we always start on a block start
 			fseek($this->source, -($currentPos%8192), SEEK_CUR);
-			$encryptedBlock=fread($this->source,8192);
+			$encryptedBlock=fread($this->source, 8192);
 			fseek($this->source, -($currentPos%8192), SEEK_CUR);
 			$block=OC_Crypt::decrypt($encryptedBlock);
 			$data=substr($block, 0, $currentPos%8192).$data;

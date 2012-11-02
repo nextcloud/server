@@ -45,7 +45,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function put($data) {
 
-		OC_Filesystem::file_put_contents($this->path,$data);
+		OC_Filesystem::file_put_contents($this->path, $data);
 
 		return OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
 	}

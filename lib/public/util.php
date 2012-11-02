@@ -107,8 +107,8 @@ class Util {
 	 * @param int timestamp $timestamp
 	 * @param bool dateOnly option to ommit time from the result
 	 */
-	public static function formatDate( $timestamp,$dateOnly=false) {
-		return(\OC_Util::formatDate( $timestamp,$dateOnly ));
+	public static function formatDate( $timestamp, $dateOnly=false) {
+		return(\OC_Util::formatDate( $timestamp, $dateOnly ));
 	}
 
 	/**

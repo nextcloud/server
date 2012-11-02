@@ -92,7 +92,7 @@ class OC_App{
 	 * @param string/array $types
 	 * @return bool
 	 */
-	public static function isType($app,$types) {
+	public static function isType($app, $types) {
 		if(is_string($types)) {
 			$types=array($types);
 		}
@@ -404,7 +404,7 @@ class OC_App{
 	 * @return array
 	 * @note all data is read from info.xml, not just pre-defined fields
 	*/
-	public static function getAppInfo($appid,$path=false) {
+	public static function getAppInfo($appid, $path=false) {
 		if($path) {
 			$file=$appid;
 		}else{
@@ -523,21 +523,21 @@ class OC_App{
 	/**
 	 * register a settings form to be shown
 	 */
-	public static function registerSettings($app,$page) {
+	public static function registerSettings($app, $page) {
 		self::$settingsForms[]= $app.'/'.$page.'.php';
 	}
 
 	/**
 	 * register an admin form to be shown
 	 */
-	public static function registerAdmin($app,$page) {
+	public static function registerAdmin($app, $page) {
 		self::$adminForms[]= $app.'/'.$page.'.php';
 	}
 
 	/**
 	 * register a personal form to be shown
 	 */
-	public static function registerPersonal($app,$page) {
+	public static function registerPersonal($app, $page) {
 		self::$personalForms[]= $app.'/'.$page.'.php';
 	}
 

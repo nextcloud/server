@@ -23,22 +23,22 @@ abstract class Test_Cache extends UnitTestCase {
 		$this->assertFalse($this->instance->hasKey('value1'));
 		
 		$value='foobar';
-		$this->instance->set('value1',$value);
+		$this->instance->set('value1', $value);
 		$this->assertTrue($this->instance->hasKey('value1'));
 		$received=$this->instance->get('value1');
-		$this->assertEqual($value,$received,'Value recieved from cache not equal to the original');
+		$this->assertEqual($value, $received,'Value recieved from cache not equal to the original');
 		$value='ipsum lorum';
-		$this->instance->set('value1',$value);
+		$this->instance->set('value1', $value);
 		$received=$this->instance->get('value1');
-		$this->assertEqual($value,$received,'Value not overwritten by second set');
+		$this->assertEqual($value, $received,'Value not overwritten by second set');
 
 		$value2='foobar';
-		$this->instance->set('value2',$value2);
+		$this->instance->set('value2', $value2);
 		$received2=$this->instance->get('value2');
 		$this->assertTrue($this->instance->hasKey('value1'));
 		$this->assertTrue($this->instance->hasKey('value2'));
-		$this->assertEqual($value,$received,'Value changed while setting other variable');
-		$this->assertEqual($value2,$received2,'Second value not equal to original');
+		$this->assertEqual($value, $received,'Value changed while setting other variable');
+		$this->assertEqual($value2, $received2,'Second value not equal to original');
 
 		$this->assertFalse($this->instance->hasKey('not_set'));
 		$this->assertNull($this->instance->get('not_set'),'Unset value not equal to null');
@@ -49,10 +49,10 @@ abstract class Test_Cache extends UnitTestCase {
 
 	function testClear() {
 		$value='ipsum lorum';
-		$this->instance->set('1_value1',$value);
-		$this->instance->set('1_value2',$value);
-		$this->instance->set('2_value1',$value);
-		$this->instance->set('3_value1',$value);
+		$this->instance->set('1_value1', $value);
+		$this->instance->set('1_value2', $value);
+		$this->instance->set('2_value1', $value);
+		$this->instance->set('3_value1', $value);
 
 		$this->assertTrue($this->instance->clear('1_'));
 		$this->assertFalse($this->instance->hasKey('1_value1'));

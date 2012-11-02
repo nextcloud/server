@@ -24,14 +24,14 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 		if(!$this->root || $this->root[0]!='/') {
 			$this->root='/'.$this->root;
 		}
-		if(substr($this->root,-1,1)!='/') {
+		if(substr($this->root,-1, 1)!='/') {
 			$this->root.='/';
 		}
 		if(!$this->share || $this->share[0]!='/') {
 			$this->share='/'.$this->share;
 		}
-		if(substr($this->share,-1,1)=='/') {
-			$this->share=substr($this->share,0,-1);
+		if(substr($this->share, -1, 1)=='/') {
+			$this->share=substr($this->share, 0, -1);
 		}
 
 		//create the root folder if necesary
@@ -42,7 +42,7 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 
 	public function constructUrl($path) {
 		if(substr($path,-1)=='/') {
-			$path=substr($path,0,-1);
+			$path=substr($path, 0, -1);
 		}
 		return 'smb://'.$this->user.':'.$this->password.'@'.$this->host.$this->share.$this->root.$path;
 	}
@@ -67,7 +67,7 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 	 * @param int $time
 	 * @return bool
 	 */
-	public function hasUpdated($path,$time) {
+	public function hasUpdated($path, $time) {
 		if(!$path and $this->root=='/') {
 			//mtime doesn't work for shares, but giving the nature of the backend, doing a full update is still just fast enough
 			return true;
