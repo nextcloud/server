@@ -149,6 +149,32 @@ class Cache extends \UnitTestCase {
 		$this->assertEquals(2, count($this->cache->searchByMime('foo/file')));
 	}
 
+	function testMove() {
+		$file1 = 'folder';
+		$file2 = 'folder/bar';
+		$file3 = 'folder/foo';
+		$file4 = 'folder/foo/1';
+		$file5 = 'folder/foo/2';
+		$data = array('size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar');
+
+		$this->cache->put($file1, $data);
+		$this->cache->put($file2, $data);
+		$this->cache->put($file3, $data);
+		$this->cache->put($file4, $data);
+		$this->cache->put($file5, $data);
+
+		$this->cache->move('folder/foo', 'folder/foobar');
+
+		$this->assertFalse($this->cache->inCache('folder/foo'));
+		$this->assertFalse($this->cache->inCache('folder/foo/1'));
+		$this->assertFalse($this->cache->inCache('folder/foo/2'));
+
+		$this->assertTrue($this->cache->inCache('folder/bar'));
+		$this->assertTrue($this->cache->inCache('folder/foobar'));
+		$this->assertTrue($this->cache->inCache('folder/foobar/1'));
+		$this->assertTrue($this->cache->inCache('folder/foobar/2'));
+	}
+
 	public function tearDown() {
 		$this->cache->clear();
 	}

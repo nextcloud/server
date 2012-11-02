@@ -243,6 +243,32 @@ class Cache {
 	}
 
 	/**
+	 * Move a file or folder in the cache
+	 *
+	 * @param string $source
+	 * @param string $target
+	 */
+	public function move($source, $target) {
+		$sourceId = $this->getId($source);
+		$newParentId = $this->getParentId($target);
+
+		//find all child entries
+		$query = \OC_DB::prepare('SELECT `path`, `fileid` FROM `*PREFIX*filecache` WHERE `path` LIKE ?');
+		$result = $query->execute(array($source . '/%'));
+		$childEntries = $result->fetchAll();
+		$sourceLength = strlen($source);
+		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ? WHERE `fileid` = ?');
+
+		foreach ($childEntries as $child) {
+			$targetPath = $target . substr($child['path'], $sourceLength);
+			$query->execute(array($targetPath, md5($targetPath), $child['fileid']));
+		}
+
+		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ?, `parent` =? WHERE `fileid` = ?');
+		$query->execute(array($target, md5($target), $newParentId, $sourceId));
+	}
+
+	/**
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
@@ -296,8 +322,7 @@ class Cache {
 	/**
 	 * search for files by mimetype
 	 *
-	 * @param string $part1
-	 * @param string $part2
+	 * @param string $mimetype
 	 * @return array
 	 */
 	public function searchByMime($mimetype) {
