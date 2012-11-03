@@ -13,6 +13,8 @@
 "Error while sharing" => "Erro ao compartilhar",
 "Error while unsharing" => "Erro ao descompartilhar",
 "Error while changing permissions" => "Erro ao mudar permissões",
+"Shared with you and the group {group} by {owner}" => "Compartilhado com você e com o grupo {group} por {owner}",
+"Shared with you by {owner}" => "Compartilhado com você por {owner}",
 "Share with" => "Compartilhar com",
 "Share with link" => "Compartilhar com link",
 "Password protect" => "Proteger com senha",
@@ -22,6 +24,7 @@
 "Share via email:" => "Compartilhar via e-mail:",
 "No people found" => "Nenhuma pessoa encontrada",
 "Resharing is not allowed" => "Não é permitido re-compartilhar",
+"Shared in {item} with {user}" => "Compartilhado em {item} com {user}",
 "Unshare" => "Descompartilhar",
 "can edit" => "pode editar",
 "access control" => "controle de acesso",
@@ -35,6 +38,8 @@
 "ownCloud password reset" => "Redefinir senha ownCloud",
 "Use the following link to reset your password: {link}" => "Use o seguinte link para redefinir sua senha: {link}",
 "You will receive a link to reset your password via Email." => "Você receberá um link para redefinir sua senha via e-mail.",
+"Reset email send." => "Email de redefinição de senha enviado.",
+"Request failed!" => "A requisição falhou!",
 "Username" => "Nome de Usuário",
 "Request reset" => "Pedido de reposição",
 "Your password was reset" => "Sua senha foi mudada",
@@ -86,6 +91,8 @@
 "December" => "Dezembro",
 "web services under your control" => "web services sob seu controle",
 "Log out" => "Sair",
+"Automatic logon rejected!" => "Entrada Automática no Sistema Rejeitada!",
+"If you did not change your password recently, your account may be compromised!" => "Se você não mudou a sua senha recentemente, a sua conta pode estar comprometida!",
 "Please change your password to secure your account again." => "Por favor troque sua senha para tornar sua conta segura novamente.",
 "Lost your password?" => "Esqueçeu sua senha?",
 "remember" => "lembrete",
@@ -93,5 +100,7 @@
 "You are logged out." => "Você está desconectado.",
 "prev" => "anterior",
 "next" => "próximo",
-"Security Warning!" => "Aviso de Segurança!"
+"Security Warning!" => "Aviso de Segurança!",
+"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Por favor, verifique a sua senha.<br />Por motivos de segurança, você deverá ser solicitado a muda-la ocasionalmente.",
+"Verify" => "Verificar"
 );
