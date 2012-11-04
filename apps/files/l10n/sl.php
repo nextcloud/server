@@ -50,7 +50,6 @@
 "New" => "Nova",
 "Text file" => "Besedilna datoteka",
 "Folder" => "Mapa",
-"From url" => "Iz naslova URL",
 "Upload" => "Pošlji",
 "Cancel upload" => "Prekliči pošiljanje",
 "Nothing in here. Upload something!" => "Tukaj ni ničesar. Naložite kaj!",

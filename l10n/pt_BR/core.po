@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <dudanogueira@gmail.com>, 2012.
 #   <duda.nogueira@metasys.com.br>, 2011.
 # Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
 #   <henrique@meira.net>, 2012.
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-29 00:01+0100\n"
-"PO-Revision-Date: 2012-10-27 22:12+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-04 00:00+0100\n"
+"PO-Revision-Date: 2012-11-03 14:28+0000\n"
+"Last-Translator: dudanogueira <dudanogueira@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,23 +41,23 @@ msgstr "Essa categoria já existe"
 msgid "Settings"
 msgstr "Configurações"
 
-#: js/oc-dialogs.js:123
+#: js/oc-dialogs.js:126
 msgid "Choose"
 msgstr "Escolha"
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: js/oc-dialogs.js:159
+#: js/oc-dialogs.js:162
 msgid "No"
 msgstr "Não"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:163
 msgid "Yes"
 msgstr "Sim"
 
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:180
 msgid "Ok"
 msgstr "Ok"
 
@@ -83,11 +84,11 @@ msgstr "Erro ao mudar permissões"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Compartilhado com você e com o grupo {group} por {owner}"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Compartilhado com você por {owner}"
 
 #: js/share.js:158
 msgid "Share with"
@@ -128,7 +129,7 @@ msgstr "Não é permitido re-compartilhar"
 
 #: js/share.js:271
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Compartilhado em {item} com {user}"
 
 #: js/share.js:292
 msgid "Unshare"
@@ -184,11 +185,11 @@ msgstr "Você receberá um link para redefinir sua senha via e-mail."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "Email de redefinição de senha enviado."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "A requisição falhou!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -407,13 +408,13 @@ msgstr "Sair"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Entrada Automática no Sistema Rejeitada!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Se você não mudou a sua senha recentemente, a sua conta pode estar comprometida!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
@@ -451,8 +452,8 @@ msgstr "Aviso de Segurança!"
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Por favor, verifique a sua senha.<br />Por motivos de segurança, você deverá ser solicitado a muda-la ocasionalmente."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Verificar"

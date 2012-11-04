@@ -135,7 +135,7 @@ class OC_Files {
 	* @param file $file ; seperated list of files to download
 	* @param boolean $only_header ; boolean to only send header of the request
 	*/
-	public static function get($dir,$files, $only_header = false) {
+	public static function get($dir, $files, $only_header = false) {
 		if(strpos($files, ';')) {
 			$files=explode(';', $files);
 		}
@@ -224,7 +224,7 @@ class OC_Files {
 		}
 	}
 
-	public static function zipAddDir($dir,$zip,$internalDir='') {
+	public static function zipAddDir($dir, $zip, $internalDir='') {
 		$dirname=basename($dir);
 		$zip->addEmptyDir($internalDir.$dirname);
 		$internalDir.=$dirname.='/';
@@ -249,7 +249,7 @@ class OC_Files {
 	* @param dir  $targetDir
 	* @param file $target
 	*/
-	public static function move($sourceDir,$source,$targetDir,$target) {
+	public static function move($sourceDir, $source, $targetDir, $target) {
 		if(OC_User::isLoggedIn() && ($sourceDir != '' || $source != 'Shared')) {
 			$targetFile=self::normalizePath($targetDir.'/'.$target);
 			$sourceFile=self::normalizePath($sourceDir.'/'.$source);
@@ -267,7 +267,7 @@ class OC_Files {
 	* @param dir  $targetDir
 	* @param file $target
 	*/
-	public static function copy($sourceDir,$source,$targetDir,$target) {
+	public static function copy($sourceDir, $source, $targetDir, $target) {
 		if(OC_User::isLoggedIn()) {
 			$targetFile=$targetDir.'/'.$target;
 			$sourceFile=$sourceDir.'/'.$source;
@@ -282,7 +282,7 @@ class OC_Files {
 	* @param file $name
 	* @param type $type
 	*/
-	public static function newFile($dir,$name,$type) {
+	public static function newFile($dir, $name, $type) {
 		if(OC_User::isLoggedIn()) {
 			$file=$dir.'/'.$name;
 			if($type=='dir') {
@@ -305,7 +305,7 @@ class OC_Files {
 	* @param dir  $dir
 	* @param file $name
 	*/
-	public static function delete($dir,$file) {
+	public static function delete($dir, $file) {
 		if(OC_User::isLoggedIn() && ($dir!= '' || $file != 'Shared')) {
 			$file=$dir.'/'.$file;
 			return OC_Filesystem::unlink($file);
@@ -389,9 +389,9 @@ class OC_Files {
 	* @param  string  file
 	* @return string  guessed mime type
 	*/
-	static function pull($source,$token,$dir,$file) {
+	static function pull($source, $token, $dir, $file) {
 		$tmpfile=tempnam(get_temp_dir(), 'remoteCloudFile');
-		$fp=fopen($tmpfile,'w+');
+		$fp=fopen($tmpfile, 'w+');
 		$url=$source.="/files/pull.php?token=$token";
 		$ch=curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -480,7 +480,7 @@ class OC_Files {
 	}
 }
 
-function fileCmp($a,$b) {
+function fileCmp($a, $b) {
 	if($a['type']=='dir' and $b['type']!='dir') {
 		return -1;
 	}elseif($a['type']!='dir' and $b['type']=='dir') {

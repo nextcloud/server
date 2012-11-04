@@ -68,14 +68,14 @@ class OC_L10N{
 	 * get an L10N instance
 	 * @return OC_L10N
 	 */
-	public static function get($app,$lang=null) {
+	public static function get($app, $lang=null) {
 		if(is_null($lang)) {
 			if(!isset(self::$instances[$app])) {
 				self::$instances[$app]=new OC_L10N($app);
 			}
 			return self::$instances[$app];
 		}else{
-			return new OC_L10N($app,$lang);
+			return new OC_L10N($app, $lang);
 		}
 	}
 
@@ -167,7 +167,7 @@ class OC_L10N{
 	 *
 	 */
 	public function tA($textArray) {
-		OC_Log::write('core', 'DEPRECATED: the method tA is deprecated and will be removed soon.',OC_Log::WARN);
+		OC_Log::write('core', 'DEPRECATED: the method tA is deprecated and will be removed soon.', OC_Log::WARN);
 		$result = array();
 		foreach($textArray as $key => $text) {
 			$result[$key] = (string)$this->t($text);

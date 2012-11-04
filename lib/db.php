@@ -115,7 +115,7 @@ class OC_DB {
 		$pass = OC_Config::getValue( "dbpassword", "" );
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
 		if(strpos($host, ':')) {
-			list($host, $port)=explode(':', $host,2);
+			list($host, $port)=explode(':', $host, 2);
 		}else{
 			$port=false;
 		}
@@ -324,7 +324,7 @@ class OC_DB {
 			if( PEAR::isError($result)) {
 				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
-				OC_Log::write('core', $entry,OC_Log::FATAL);
+				OC_Log::write('core', $entry, OC_Log::FATAL);
 				error_log('DB error: '.$entry);
 				die( $entry );
 			}
@@ -334,7 +334,7 @@ class OC_DB {
 			}catch(PDOException $e) {
 				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
 				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
-				OC_Log::write('core', $entry,OC_Log::FATAL);
+				OC_Log::write('core', $entry, OC_Log::FATAL);
 				error_log('DB error: '.$entry);
 				die( $entry );
 			}
@@ -767,8 +767,8 @@ class PDOStatementWrapper{
 	/**
 	 * pass all other function directly to the PDOStatement
 	 */
-	public function __call($name,$arguments) {
-		return call_user_func_array(array($this->statement,$name), $arguments);
+	public function __call($name, $arguments) {
+		return call_user_func_array(array($this->statement, $name), $arguments);
 	}
 
 	/**

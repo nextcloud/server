@@ -30,7 +30,7 @@ class OC_Updater{
 	 */
 	public static function check() {
 		OC_Appconfig::setValue('core', 'lastupdatedat', microtime(true));
-		if(OC_Appconfig::getValue('core', 'installedat','')=='') OC_Appconfig::setValue('core', 'installedat', microtime(true));
+		if(OC_Appconfig::getValue('core', 'installedat', '')=='') OC_Appconfig::setValue('core', 'installedat', microtime(true));
 
 		$updaterurl='http://apps.owncloud.com/updater.php';
 		$version=OC_Util::getVersion();
@@ -38,7 +38,7 @@ class OC_Updater{
 		$version['updated']=OC_Appconfig::getValue('core', 'lastupdatedat');
 		$version['updatechannel']='stable';
 		$version['edition']=OC_Util::getEditionString();
-		$versionstring=implode('x',$version);
+		$versionstring=implode('x', $version);
 
 		//fetch xml data from updater
 		$url=$updaterurl.'?version='.$versionstring;

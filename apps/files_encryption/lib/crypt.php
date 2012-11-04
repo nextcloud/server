@@ -43,7 +43,7 @@ class OC_Crypt {
 		self::init($params['uid'], $params['password']);
 	}
 
-	public static function init($login,$password) {
+	public static function init($login, $password) {
 		$view=new OC_FilesystemView('/');
 		if(!$view->file_exists('/'.$login)) {
 			$view->mkdir('/'.$login);
@@ -80,7 +80,7 @@ class OC_Crypt {
 		}
 	}
 
-	public static function createkey($username,$passcode) {
+	public static function createkey($username, $passcode) {
 		// generate a random key
 		$key=mt_rand(10000, 99999).mt_rand(10000, 99999).mt_rand(10000, 99999).mt_rand(10000, 99999);
 
@@ -195,7 +195,7 @@ class OC_Crypt {
 	public static function blockEncrypt($data, $key='') {
 		$result='';
 		while(strlen($data)) {
-			$result.=self::encrypt(substr($data, 0, 8192),$key);
+			$result.=self::encrypt(substr($data, 0, 8192), $key);
 			$data=substr($data, 8192);
 		}
 		return $result;
@@ -204,10 +204,10 @@ class OC_Crypt {
 	/**
 	 * decrypt data in 8192b sized blocks
 	 */
-	public static function blockDecrypt($data, $key='',$maxLength=0) {
+	public static function blockDecrypt($data, $key='', $maxLength=0) {
 		$result='';
 		while(strlen($data)) {
-			$result.=self::decrypt(substr($data, 0, 8192),$key);
+			$result.=self::decrypt(substr($data, 0, 8192), $key);
 			$data=substr($data, 8192);
 		}
 		if($maxLength>0) {

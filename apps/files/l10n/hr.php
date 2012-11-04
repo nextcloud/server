@@ -44,7 +44,6 @@
 "New" => "novo",
 "Text file" => "tekstualna datoteka",
 "Folder" => "mapa",
-"From url" => "od URL-a",
 "Upload" => "Pošalji",
 "Cancel upload" => "Prekini upload",
 "Nothing in here. Upload something!" => "Nema ničega u ovoj mapi. Pošalji nešto!",

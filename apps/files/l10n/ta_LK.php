@@ -58,7 +58,6 @@
 "New" => "புதிய",
 "Text file" => "கோப்பு உரை",
 "Folder" => "கோப்புறை",
-"From url" => "url இலிருந்து",
 "Upload" => "பதிவேற்றுக",
 "Cancel upload" => "பதிவேற்றலை இரத்து செய்க",
 "Nothing in here. Upload something!" => "இங்கு ஒன்றும் இல்லை. ஏதாவது பதிவேற்றுக!",

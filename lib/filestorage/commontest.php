@@ -63,13 +63,13 @@ class OC_Filestorage_CommonTest extends OC_Filestorage_Common{
 	public function unlink($path) {
 		return $this->storage->unlink($path);
 	}
-	public function fopen($path,$mode) {
-		return $this->storage->fopen($path,$mode);
+	public function fopen($path, $mode) {
+		return $this->storage->fopen($path, $mode);
 	}
 	public function free_space($path) {
 		return $this->storage->free_space($path);
 	}
 	public function touch($path, $mtime=null) {
-		return $this->storage->touch($path,$mtime);
+		return $this->storage->touch($path, $mtime);
 	}
 }

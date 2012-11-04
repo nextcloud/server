@@ -50,34 +50,34 @@ abstract class OC_FileStorage_StreamWrapper extends OC_Filestorage_Common{
 		return $succes;
 	}
 
-	public function fopen($path,$mode) {
-		return fopen($this->constructUrl($path),$mode);
+	public function fopen($path, $mode) {
+		return fopen($this->constructUrl($path), $mode);
 	}
 
 	public function free_space($path) {
 		return 0;
 	}
 
-	public function touch($path,$mtime=null) {
+	public function touch($path, $mtime=null) {
 		if(is_null($mtime)) {
-			$fh=$this->fopen($path,'a');
-			fwrite($fh,'');
+			$fh=$this->fopen($path, 'a');
+			fwrite($fh, '');
 			fclose($fh);
 		}else{
 			return false;//not supported
 		}
 	}
 
-	public function getFile($path,$target) {
-		return copy($this->constructUrl($path),$target);
+	public function getFile($path, $target) {
+		return copy($this->constructUrl($path), $target);
 	}
 
-	public function uploadFile($path,$target) {
-		return copy($path,$this->constructUrl($target));
+	public function uploadFile($path, $target) {
+		return copy($path, $this->constructUrl($target));
 	}
 
-	public function rename($path1,$path2) {
-		return rename($this->constructUrl($path1),$this->constructUrl($path2));
+	public function rename($path1, $path2) {
+		return rename($this->constructUrl($path1), $this->constructUrl($path2));
 	}
 
 	public function stat($path) {

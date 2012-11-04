@@ -126,7 +126,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		return $this->simpleResponse('DELETE', $path, null, 204);
 	}
 
-	public function fopen($path,$mode) {
+	public function fopen($path, $mode) {
 		$path=$this->cleanPath($path);
 		switch($mode) {
 			case 'r':
@@ -194,7 +194,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		}
 	}
 
-	public function touch($path,$mtime=null) {
+	public function touch($path, $mtime=null) {
 		if(is_null($mtime)) {
 			$mtime=time();
 		}
@@ -202,12 +202,12 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		$this->client->proppatch($path, array('{DAV:}lastmodified' => $mtime));
 	}
 
-	public function getFile($path,$target) {
+	public function getFile($path, $target) {
 		$source=$this->fopen($path, 'r');
 		file_put_contents($target, $source);
 	}
 
-	public function uploadFile($path,$target) {
+	public function uploadFile($path, $target) {
 		$source=fopen($path, 'r');
 
 		$curl = curl_init();
@@ -221,7 +221,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		curl_close ($curl);
 	}
 
-	public function rename($path1,$path2) {
+	public function rename($path1, $path2) {
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try{
@@ -235,7 +235,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		}
 	}
 
-	public function copy($path1,$path2) {
+	public function copy($path1, $path2) {
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try{
@@ -252,7 +252,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	public function stat($path) {
 		$path=$this->cleanPath($path);
 		try{
-			$response=$this->client->propfind($path, array('{DAV:}getlastmodified','{DAV:}getcontentlength'));
+			$response=$this->client->propfind($path, array('{DAV:}getlastmodified', '{DAV:}getcontentlength'));
 			return array(
 				'mtime'=>strtotime($response['{DAV:}getlastmodified']),
 				'size'=>(int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
@@ -266,7 +266,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	public function getMimeType($path) {
 		$path=$this->cleanPath($path);
 		try{
-			$response=$this->client->propfind($path, array('{DAV:}getcontenttype','{DAV:}resourcetype'));
+			$response=$this->client->propfind($path, array('{DAV:}getcontenttype', '{DAV:}resourcetype'));
 			$responseType=$response["{DAV:}resourcetype"]->resourceType;
 			$type=(count($responseType)>0 and $responseType[0]=="{DAV:}collection")?'dir':'file';
 			if($type=='dir') {
@@ -289,7 +289,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		}
 	}
 
-	private function simpleResponse($method,$path,$body,$expected) {
+	private function simpleResponse($method, $path, $body, $expected) {
 		$path=$this->cleanPath($path);
 		try{
 			$response=$this->client->request($method, $path, $body);

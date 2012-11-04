@@ -89,25 +89,25 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		}
 		return fread($handle, $size);
 	}
-	public function file_put_contents($path,$data) {
+	public function file_put_contents($path, $data) {
 		$handle = $this->fopen($path, "w");
 		return fwrite($handle, $data);
 	}
 // 	abstract public function unlink($path);
-	public function rename($path1,$path2) {
+	public function rename($path1, $path2) {
 		if($this->copy($path1, $path2)) {
 			return $this->unlink($path1);
 		}else{
 			return false;
 		}
 	}
-	public function copy($path1,$path2) {
+	public function copy($path1, $path2) {
 		$source=$this->fopen($path1, 'r');
 		$target=$this->fopen($path2, 'w');
 		$count=OC_Helper::streamCopy($source, $target);
 		return $count>0;
 	}
-// 	abstract public function fopen($path,$mode);
+// 	abstract public function fopen($path, $mode);
 
 	/**
 	 * @brief Deletes all files and folders recursively within a directory
@@ -204,7 +204,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		unlink($tmpFile);
 		return $mime;
 	}
-	public function hash($type,$path,$raw = false) {
+	public function hash($type, $path, $raw = false) {
 		$tmpFile=$this->getLocalFile();
 		$hash=hash($type, $tmpFile, $raw);
 		unlink($tmpFile);
@@ -237,7 +237,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		$this->addLocalFolder($path, $baseDir);
 		return $baseDir;
 	}
-	private function addLocalFolder($path,$target) {
+	private function addLocalFolder($path, $target) {
 		if($dh=$this->opendir($path)) {
 			while($file=readdir($dh)) {
 				if($file!=='.' and $file!=='..') {
@@ -254,7 +254,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 	}
 // 	abstract public function touch($path, $mtime=null);
 
-	protected function searchInDir($query,$dir='') {
+	protected function searchInDir($query, $dir='') {
 		$files=array();
 		$dh=$this->opendir($dir);
 		if($dh) {
@@ -264,7 +264,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 					$files[]=$dir.'/'.$item;
 				}
 				if($this->is_dir($dir.'/'.$item)) {
-					$files=array_merge($files,$this->searchInDir($query,$dir.'/'.$item));
+					$files=array_merge($files, $this->searchInDir($query, $dir.'/'.$item));
 				}
 			}
 		}
@@ -276,7 +276,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 	 * @param int $time
 	 * @return bool
 	 */
-	public function hasUpdated($path,$time) {
+	public function hasUpdated($path, $time) {
 		return $this->filemtime($path)>$time;
 	}
 

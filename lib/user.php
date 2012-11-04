@@ -133,7 +133,7 @@ class OC_User {
 				self::useBackend($backend);
 				$_setupedBackends[]=$i;
 			}else{
-				OC_Log::write('core','User backend '.$class.' not found.',OC_Log::ERROR);
+				OC_Log::write('core','User backend '.$class.' not found.', OC_Log::ERROR);
 			}
 		}
 	}
@@ -179,7 +179,7 @@ class OC_User {
 				if(!$backend->implementsActions(OC_USER_BACKEND_CREATE_USER))
 					continue;
 
-				$backend->createUser($uid,$password);
+				$backend->createUser($uid, $password);
 				OC_Hook::emit( "OC_User", "post_createUser", array( "uid" => $uid, "password" => $password ));
 
 				return true;
@@ -329,7 +329,7 @@ class OC_User {
 			foreach(self::$_usedBackends as $backend) {
 				if($backend->implementsActions(OC_USER_BACKEND_SET_PASSWORD)) {
 					if($backend->userExists($uid)) {
-						$success |= $backend->setPassword($uid,$password);
+						$success |= $backend->setPassword($uid, $password);
 					}
 				}
 			}

@@ -377,7 +377,7 @@ class OC_Helper {
 		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)) {
 			$info = @strtolower(finfo_file($finfo, $path));
 			if($info) {
-				$mimeType=substr($info,0, strpos($info, ';'));
+				$mimeType=substr($info, 0, strpos($info, ';'));
 			}
 			finfo_close($finfo);
 		}
@@ -475,16 +475,16 @@ class OC_Helper {
 		$dirs = explode(PATH_SEPARATOR, $path);
 		// WARNING : We have to check if open_basedir is enabled :
 		$obd = ini_get('open_basedir');
-		if($obd != "none"){
+		if($obd != "none") {
 			$obd_values = explode(PATH_SEPARATOR, $obd);
-			if(count($obd_values) > 0 and $obd_values[0]){
+			if(count($obd_values) > 0 and $obd_values[0]) {
 				// open_basedir is in effect !
 				// We need to check if the program is in one of these dirs :
 				$dirs = $obd_values;
 			}
 		}
-		foreach($dirs as $dir){
-			foreach($exts as $ext){
+		foreach($dirs as $dir) {
+			foreach($exts as $ext) {
 				if($check_fn("$dir/$name".$ext))
 					return true;
 			}
@@ -498,7 +498,7 @@ class OC_Helper {
 	 * @param resource $target
 	 * @return int the number of bytes copied
 	 */
-	public static function streamCopy($source,$target) {
+	public static function streamCopy($source, $target) {
 		if(!$source or !$target) {
 			return false;
 		}

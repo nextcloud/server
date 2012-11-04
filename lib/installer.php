@@ -57,7 +57,7 @@ class OC_Installer{
 	 */
 	public static function installApp( $data = array()) {
 		if(!isset($data['source'])) {
-			OC_Log::write('core','No source specified when installing app',OC_Log::ERROR);
+			OC_Log::write('core','No source specified when installing app', OC_Log::ERROR);
 			return false;
 		}
 
@@ -65,13 +65,13 @@ class OC_Installer{
 		if($data['source']=='http') {
 			$path=OC_Helper::tmpFile();
 			if(!isset($data['href'])) {
-				OC_Log::write('core','No href specified when installing app from http',OC_Log::ERROR);
+				OC_Log::write('core','No href specified when installing app from http', OC_Log::ERROR);
 				return false;
 			}
-			copy($data['href'],$path);
+			copy($data['href'], $path);
 		}else{
 			if(!isset($data['path'])) {
-				OC_Log::write('core','No path specified when installing app from local file',OC_Log::ERROR);
+				OC_Log::write('core','No path specified when installing app from local file', OC_Log::ERROR);
 				return false;
 			}
 			$path=$data['path'];
@@ -80,13 +80,13 @@ class OC_Installer{
 		//detect the archive type
 		$mime=OC_Helper::getMimeType($path);
 		if($mime=='application/zip') {
-			rename($path,$path.'.zip');
+			rename($path, $path.'.zip');
 			$path.='.zip';
 		}elseif($mime=='application/x-gzip') {
-			rename($path,$path.'.tgz');
+			rename($path, $path.'.tgz');
 			$path.='.tgz';
 		}else{
-			OC_Log::write('core','Archives of type '.$mime.' are not supported',OC_Log::ERROR);
+			OC_Log::write('core','Archives of type '.$mime.' are not supported', OC_Log::ERROR);
 			return false;
 		}
 
@@ -248,7 +248,7 @@ class OC_Installer{
 	 *   -# including appinfo/upgrade.php
 	 *   -# setting the installed version
 	 *
-	 * upgrade.php can determine the current installed version of the app using "OC_Appconfig::getValue($appid,'installed_version')"
+	 * upgrade.php can determine the current installed version of the app using "OC_Appconfig::getValue($appid, 'installed_version')"
 	 */
 	public static function upgradeApp( $data = array()) {
 		// TODO: write function
@@ -344,7 +344,7 @@ class OC_Installer{
 	 * @param string $folder the folder of the app to check
 	 * @returns true for app is o.k. and false for app is not o.k.
 	 */
-	public static function checkCode($appname,$folder) {
+	public static function checkCode($appname, $folder) {
 
 		$blacklist=array(
 			'exec(',

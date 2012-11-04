@@ -70,7 +70,7 @@ class OC_Setup {
 			if(empty($options['dbname'])) {
 				$error[] = "$dbprettyname enter the database name.";
 			}
-			if(substr_count($options['dbname'], '.') >= 1){
+			if(substr_count($options['dbname'], '.') >= 1) {
 				$error[] = "$dbprettyname you may not use dots in the database name";
 			}
 			if($dbtype != 'oci' && empty($options['dbhost'])) {
@@ -95,7 +95,7 @@ class OC_Setup {
 			//write the config file
 			OC_Config::setValue('datadirectory', $datadir);
 			OC_Config::setValue('dbtype', $dbtype);
-			OC_Config::setValue('version', implode('.',OC_Util::getVersion()));
+			OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
 			if($dbtype == 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
@@ -251,7 +251,7 @@ class OC_Setup {
 		mysql_close($connection);
 	}
 
-	private static function createMySQLDatabase($name,$user,$connection) {
+	private static function createMySQLDatabase($name, $user, $connection) {
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
 		$query = "CREATE DATABASE IF NOT EXISTS  `$name`";
 		$result = mysql_query($query, $connection);
@@ -264,7 +264,7 @@ class OC_Setup {
 		$result = mysql_query($query, $connection); //this query will fail if there aren't the right permissons, ignore the error
 	}
 
-	private static function createDBUser($name,$password,$connection) {
+	private static function createDBUser($name, $password, $connection) {
 		// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
 		// the anonymous user would take precedence when there is one.
 		$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
@@ -339,7 +339,7 @@ class OC_Setup {
 		}
 	}
 
-	private static function pg_createDatabase($name,$user,$connection) {
+	private static function pg_createDatabase($name, $user, $connection) {
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
 		$e_name = pg_escape_string($name);
 		$e_user = pg_escape_string($user);
@@ -364,7 +364,7 @@ class OC_Setup {
 		$result = pg_query($connection, $query);
 	}
 
-	private static function pg_createDBUser($name,$password,$connection) {
+	private static function pg_createDBUser($name, $password, $connection) {
 		$e_name = pg_escape_string($name);
 		$e_password = pg_escape_string($password);
 		$query = "select * from pg_roles where rolname='$e_name';";

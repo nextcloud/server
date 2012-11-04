@@ -58,7 +58,6 @@
 "New" => "ახალი",
 "Text file" => "ტექსტური ფაილი",
 "Folder" => "საქაღალდე",
-"From url" => "მისამართიდან",
 "Upload" => "ატვირთვა",
 "Cancel upload" => "ატვირთვის გაუქმება",
 "Nothing in here. Upload something!" => "აქ არაფერი არ არის. ატვირთე რამე!",

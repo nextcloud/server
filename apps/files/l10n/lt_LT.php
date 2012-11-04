@@ -58,7 +58,6 @@
 "New" => "Naujas",
 "Text file" => "Teksto failas",
 "Folder" => "Katalogas",
-"From url" => "Iš adreso",
 "Upload" => "Įkelti",
 "Cancel upload" => "Atšaukti siuntimą",
 "Nothing in here. Upload something!" => "Čia tuščia. Įkelkite ką nors!",

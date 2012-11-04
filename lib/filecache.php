@@ -42,7 +42,7 @@ class OC_FileCache{
 	 * - encrypted
 	 * - versioned
 	 */
-	public static function get($path,$root=false) {
+	public static function get($path, $root=false) {
 		if(OC_FileCache_Update::hasUpdated($path, $root)) {
 			if($root===false) {//filesystem hooks are only valid for the default root
 				OC_Hook::emit('OC_Filesystem', 'post_write', array('path'=>$path));
@@ -61,7 +61,7 @@ class OC_FileCache{
 	 *
 	 * $data is an assiciative array in the same format as returned by get
 	 */
-	public static function put($path,$data,$root=false) {
+	public static function put($path, $data, $root=false) {
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
@@ -117,10 +117,10 @@ class OC_FileCache{
 	 * @param int $id
 	 * @param array $data
 	 */
-	private static function update($id,$data) {
+	private static function update($id, $data) {
 		$arguments=array();
 		$queryParts=array();
-		foreach(array('size','mtime','ctime','mimetype','encrypted','versioned','writable') as $attribute) {
+		foreach(array('size','mtime','ctime','mimetype','encrypted','versioned', 'writable') as $attribute) {
 			if(isset($data[$attribute])) {
 				//Convert to int it args are false
 				if($data[$attribute] === false) {
@@ -151,7 +151,7 @@ class OC_FileCache{
 	 * @param string newPath
 	 * @param string root (optional)
 	 */
-	public static function move($oldPath,$newPath,$root=false) {
+	public static function move($oldPath, $newPath, $root=false) {
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
@@ -190,7 +190,7 @@ class OC_FileCache{
 	 * @param string path
 	 * @param string root (optional)
 	 */
-	public static function delete($path,$root=false) {
+	public static function delete($path, $root=false) {
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
@@ -211,7 +211,7 @@ class OC_FileCache{
 	 * @param string root (optional)
 	 * @return array of filepaths
 	 */
-	public static function search($search,$returnData=false,$root=false) {
+	public static function search($search, $returnData=false, $root=false) {
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
@@ -227,7 +227,7 @@ class OC_FileCache{
 			$where = '`name` LIKE ? AND `user`=?';
 		}
 		$query=OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*fscache` WHERE '.$where);
-		$result=$query->execute(array("%$search%",OC_User::getUser()));
+		$result=$query->execute(array("%$search%", OC_User::getUser()));
 		$names=array();
 		while($row=$result->fetchRow()) {
 			if(!$returnData) {
@@ -255,7 +255,7 @@ class OC_FileCache{
 	 * - encrypted
 	 * - versioned
 	 */
-	public static function getFolderContent($path,$root=false,$mimetype_filter='') {
+	public static function getFolderContent($path, $root=false, $mimetype_filter='') {
 		if(OC_FileCache_Update::hasUpdated($path, $root, true)) {
 			OC_FileCache_Update::updateFolder($path, $root);
 		}
@@ -268,7 +268,7 @@ class OC_FileCache{
 	 * @param string root (optional)
 	 * @return bool
 	 */
-	public static function inCache($path,$root=false) {
+	public static function inCache($path, $root=false) {
 		return self::getId($path, $root)!=-1;
 	}
 
@@ -278,7 +278,7 @@ class OC_FileCache{
 	 * @param string root (optional)
 	 * @return int
 	 */
-	public static function getId($path,$root=false) {
+	public static function getId($path, $root=false) {
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
@@ -314,7 +314,7 @@ class OC_FileCache{
 	 * @param string user (optional)
 	 * @return string
 	 */
-	public static function getPath($id,$user='') {
+	public static function getPath($id, $user='') {
 		if(!$user) {
 			$user=OC_User::getUser();
 		}
@@ -348,12 +348,12 @@ class OC_FileCache{
 	 * @param int $sizeDiff
 	 * @param string root (optinal)
 	 */
-	public static function increaseSize($path,$sizeDiff, $root=false) {
+	public static function increaseSize($path, $sizeDiff, $root=false) {
 		if($sizeDiff==0) return;
 		$id=self::getId($path, $root);
 		while($id!=-1) {//walk up the filetree increasing the size of all parent folders
 			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `size`=`size`+? WHERE `id`=?');
-			$query->execute(array($sizeDiff,$id));
+			$query->execute(array($sizeDiff, $id));
 			$id=self::getParentId($path);
 			$path=dirname($path);
 		}
@@ -366,7 +366,7 @@ class OC_FileCache{
 	 * @param int count (optional)
 	 * @param string root (optional)
 	 */
-	public static function scan($path,$eventSource=false,&$count=0,$root=false) {
+	public static function scan($path, $eventSource=false,&$count=0, $root=false) {
 		if($eventSource) {
 			$eventSource->send('scanning', array('file'=>$path, 'count'=>$count));
 		}
@@ -401,8 +401,8 @@ class OC_FileCache{
 			}
 		}
 
-		OC_FileCache_Update::cleanFolder($path,$root);
-		self::increaseSize($path,$totalSize,$root);
+		OC_FileCache_Update::cleanFolder($path, $root);
+		self::increaseSize($path, $totalSize, $root);
 	}
 
 	/**
@@ -411,7 +411,7 @@ class OC_FileCache{
 	 * @param string root (optional)
 	 * @return int size of the scanned file
 	 */
-	public static function scanFile($path,$root=false) {
+	public static function scanFile($path, $root=false) {
 		// NOTE: Ugly hack to prevent shared files from going into the cache (the source already exists somewhere in the cache)
 		if (substr($path, 0, 7) == '/Shared') {
 			return;
@@ -448,12 +448,12 @@ class OC_FileCache{
 	 * @return array of file paths
 	 *
 	 * $part1 and $part2 together form the complete mimetype.
-	 * e.g. searchByMime('text','plain')
+	 * e.g. searchByMime('text', 'plain')
 	 *
 	 * seccond mimetype part can be ommited
 	 * e.g. searchByMime('audio')
 	 */
-	public static function searchByMime($part1,$part2=null,$root=false) {
+	public static function searchByMime($part1, $part2=null, $root=false) {
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
@@ -500,7 +500,7 @@ class OC_FileCache{
 	 * trigger an update for the cache by setting the mtimes to 0
 	 * @param string $user (optional)
 	 */
-	public static function triggerUpdate($user=''){
+	public static function triggerUpdate($user='') {
 		if($user) {
 			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `mtime`=0 WHERE `user`=? AND `mimetype`="httpd/unix-directory"');
 			$query->execute(array($user));
