@@ -31,7 +31,7 @@ if($isadmin) {
 
 foreach($accessibleusers as $i) {
 	$users[] = array(
-		"name" => $i, 
+		"name" => $i,
 		"groups" => join( ", ", /*array_intersect(*/OC_Group::getUserGroups($i)/*, OC_SubAdmin::getSubAdminsGroups(OC_User::getUser()))*/),
 		'quota'=>OC_Preferences::getValue($i, 'files', 'quota', 'default'),
 		'subadmin'=>implode(', ', OC_SubAdmin::getSubAdminsGroups($i)));

@@ -619,9 +619,9 @@ class OC{
 				OC_Util::redirectToDefaultPage();
 				// doesn't return
 			}
-			// if you reach this point you have changed your password 
+			// if you reach this point you have changed your password
 			// or you are an attacker
-			// we can not delete tokens here because users may reach 
+			// we can not delete tokens here because users may reach
 			// this point multiple times after a password change
 			OC_Log::write('core', 'Authentication cookie rejected for user '.$_COOKIE['oc_username'], OC_Log::WARN);
 		}

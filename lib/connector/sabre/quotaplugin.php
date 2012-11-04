@@ -2,7 +2,7 @@
 
 /**
  * This plugin check user quota and deny creating files when they exceeds the quota.
- * 
+ *
  * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
  * @author Sergio Cambra
  * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
@@ -10,9 +10,9 @@
 class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 
 	/**
-		* Reference to main server object 
-		* 
-		* @var Sabre_DAV_Server 
+		* Reference to main server object
+		*
+		* @var Sabre_DAV_Server
 		*/
 	private $server;
 
@@ -23,8 +23,8 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 		* addPlugin is called.
 		*
 		* This method should set up the requires event subscriptions.
-		* 
-		* @param Sabre_DAV_Server $server 
+		*
+		* @param Sabre_DAV_Server $server
 		* @return void
 		*/
 	public function initialize(Sabre_DAV_Server $server) {
@@ -37,10 +37,10 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 
 	/**
 		* This method is called before any HTTP method and forces users to be authenticated
-		* 
+		*
 		* @param string $method
 		* @throws Sabre_DAV_Exception
-		* @return bool 
+		* @return bool
 		*/
 	public function checkQuota($uri, $data = null) {
 		$expected = $this->server->httpRequest->getHeader('X-Expected-Entity-Length');

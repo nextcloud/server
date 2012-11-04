@@ -22,7 +22,7 @@ if (isset($_GET['token'])) {
 // Enf of backward compatibility
 
 function getID($path) {
-	// use the share table from the db to find the item source if the file was reshared because shared files 
+	// use the share table from the db to find the item source if the file was reshared because shared files
 	//are not stored in the file cache.
 	if (substr(OC_Filesystem::getMountPoint($path), -7, 6) == "Shared") {
 		$path_parts = explode('/', $path, 5);

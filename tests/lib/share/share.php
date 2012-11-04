@@ -181,7 +181,7 @@ class Test_Share extends UnitTestCase {
 			$this->assertEquals($message, $exception->getMessage());
 		}
 		
-		// Owner grants share and update permission 
+		// Owner grants share and update permission
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(OCP\Share::setPermissions('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_SHARE));
 		
@@ -375,7 +375,7 @@ class Test_Share extends UnitTestCase {
 		$this->assertTrue(in_array('test.txt', $to_test));
 		$this->assertTrue(in_array('test1.txt', $to_test));
 		
-		// Valid reshare 
+		// Valid reshare
 		$this->assertTrue(OCP\Share::shareItem('test', 'share.txt', OCP\Share::SHARE_TYPE_USER, $this->user4, OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE));
 		OC_User::setUserId($this->user4);
 		$this->assertEquals(array('test1.txt'), OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET));
