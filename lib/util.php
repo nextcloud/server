@@ -559,7 +559,7 @@ class OC_Util {
 		// creating a test file
 		$testfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$filename;
 
-		if(file_exists($testfile)){// already running this test, possible recursive call
+		if(file_exists($testfile)) {// already running this test, possible recursive call
 			return false;
 		}
 
