@@ -108,8 +108,8 @@ class Test_DB extends UnitTestCase {
 		$this->assertTrue($result);
 		$row = $result->fetchRow();
 		$this->assertArrayHasKey('carddata', $row);
-		$this->assertEqual($row['carddata'], $carddata);
-		$this->assertEqual($result->numRows(), '1');
+		$this->assertEqual($carddata, $row['carddata']);
+		$this->assertEqual('1', $result->numRows());
 
 		// Try to insert a new row
 		$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table2,
@@ -125,9 +125,9 @@ class Test_DB extends UnitTestCase {
 		$row = $result->fetchRow();
 		$this->assertArrayHasKey('carddata', $row);
 		// Test that previously inserted data isn't overwritten
-		$this->assertEqual($row['carddata'], $carddata);
+		$this->assertEqual($carddata, $row['carddata']);
 		// And that a new row hasn't been inserted.
-		$this->assertEqual($result->numRows(), '1');
+		$this->assertEqual('1', $result->numRows());
 
 	}
 }
