@@ -17,7 +17,7 @@ var OCCategories= {
 			} catch(e) {
 				var setEnabled = function(d, enable) {
 					if(enable) {
-						dlg.css('cursor', 'default').find('input,button:not(#category_addbutton)')
+						d.css('cursor', 'default').find('input,button:not(#category_addbutton)')
 							.prop('disabled', false).css('cursor', 'default');
 					} else {
 						d.css('cursor', 'wait').find('input,button:not(#category_addbutton)')
