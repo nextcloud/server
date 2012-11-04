@@ -73,7 +73,6 @@ var FileActions = {
 		var actionHandler = function (parent, action, event) {
 			event.stopPropagation();
 			event.preventDefault();
-			if(action)
 			FileActions.currentFile = parent;
 			file = FileActions.getCurrentFile();
 			console.log(file);
