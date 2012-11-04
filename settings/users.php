@@ -42,7 +42,7 @@ foreach( $accessiblegroups as $i ) {
 	$groups[] = array( "name" => $i );
 }
 $quotaPreset=OC_Appconfig::getValue('files', 'quota_preset', 'default,none,1 GB, 5 GB, 10 GB');
-$quotaPreset=explode(',',$quotaPreset);
+$quotaPreset=explode(',', $quotaPreset);
 foreach($quotaPreset as &$preset) {
 	$preset=trim($preset);
 }

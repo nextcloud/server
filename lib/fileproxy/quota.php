@@ -38,9 +38,9 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 		if(in_array($user, $this->userQuota)) {
 			return $this->userQuota[$user];
 		}
-		$userQuota=OC_Preferences::getValue($user,'files','quota', 'default');
+		$userQuota=OC_Preferences::getValue($user, 'files', 'quota', 'default');
 		if($userQuota=='default') {
-			$userQuota=OC_AppConfig::getValue('files','default_quota', 'none');
+			$userQuota=OC_AppConfig::getValue('files', 'default_quota', 'none');
 		}
 		if($userQuota=='none') {
 			$this->userQuota[$user]=0;
