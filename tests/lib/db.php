@@ -91,7 +91,7 @@ class Test_DB extends UnitTestCase {
 		$query = OC_DB::prepare('SELECT * FROM *PREFIX*'.$this->table3);
 		$result = $query->execute();
 		$this->assertTrue($result);
-		$this->assertEqual($result->numRows(), '4');
+		$this->assertEqual('4', $result->numRows());
 	}
 
 	public function testinsertIfNotExistDontOverwrite() {
