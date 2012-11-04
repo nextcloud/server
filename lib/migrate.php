@@ -91,7 +91,7 @@ class OC_Migrate{
 	 	if( self::$exporttype == 'user' ) {
 	 		// Check user exists
 	 		self::$uid = is_null($uid) ? OC_User::getUser() : $uid;
-	 		if(!OC_User::userExists(self::$uid)){
+	 		if(!OC_User::userExists(self::$uid)) {
 		 		return json_encode( array( 'success' => false) );
 	 		}
 	 	}

@@ -403,7 +403,7 @@ class OC_Filesystem{
 		if(strstr($path, '/../') || strrchr($path, '/') === '/..' ) {
 			return false;
 		}
-		if(self::isFileBlacklisted($path)){
+		if(self::isFileBlacklisted($path)) {
 			return false;
 		}
 		return true;
@@ -425,7 +425,7 @@ class OC_Filesystem{
 		}
 	}
 
-	static public function isFileBlacklisted($path){
+	static public function isFileBlacklisted($path) {
 		$blacklist = array('.htaccess');
 		$filename = strtolower(basename($path));
 		return in_array($filename, $blacklist);

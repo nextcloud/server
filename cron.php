@@ -30,7 +30,7 @@ class my_temporary_cron_class {
 // We use this function to handle (unexpected) shutdowns
 function handleUnexpectedShutdown() {
 	// Delete lockfile
-	if( !my_temporary_cron_class::$keeplock && file_exists( my_temporary_cron_class::$lockfile )){
+	if( !my_temporary_cron_class::$keeplock && file_exists( my_temporary_cron_class::$lockfile )) {
 		unlink( my_temporary_cron_class::$lockfile );
 	}
 	
@@ -80,7 +80,7 @@ if( OC::$CLI ) {
 	}
 
 	// check if backgroundjobs is still running
-	if( file_exists( my_temporary_cron_class::$lockfile )){
+	if( file_exists( my_temporary_cron_class::$lockfile )) {
 		my_temporary_cron_class::$keeplock = true;
 		my_temporary_cron_class::$sent = true;
 		echo "Another instance of cron.php is still running!";

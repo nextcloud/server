@@ -34,7 +34,7 @@ class OC_Router {
 	public function getRoutingFiles() {
 		if (!isset($this->routing_files)) {
 			$this->routing_files = array();
-			foreach(OC_APP::getEnabledApps() as $app){
+			foreach(OC_APP::getEnabledApps() as $app) {
 				$file = OC_App::getAppPath($app).'/appinfo/routes.php';
 				if(file_exists($file)) {
 					$this->routing_files[$app] = $file;

@@ -25,7 +25,7 @@
  * Prints an XSS escaped string
  * @param string $string the string which will be escaped and printed
  */
-function p($string){
+function p($string) {
 	print(OC_Util::sanitizeHTML($string));
 }
 
@@ -33,7 +33,7 @@ function p($string){
  * Prints an unescaped string
  * @param string $string the string which will be printed as it is
  */
-function print_unescaped($string){
+function print_unescaped($string) {
 	print($string);
 }
 

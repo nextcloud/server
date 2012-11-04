@@ -24,7 +24,7 @@ require_once("lib/template.php");
 
 class Test_TemplateFunctions extends UnitTestCase {
 
-	public function testP(){
+	public function testP() {
 		// FIXME: do we need more testcases?
 		$htmlString = "<script>alert('xss');</script>";
 		ob_start();
@@ -35,7 +35,7 @@ class Test_TemplateFunctions extends UnitTestCase {
 		$this->assertEqual("&lt;script&gt;alert(&#039;xss&#039;);&lt;/script&gt;", $result);
 	}
 
-	public function testPNormalString(){
+	public function testPNormalString() {
 		$normalString = "This is a good string!";
 		ob_start();
 		p($normalString);
@@ -46,7 +46,7 @@ class Test_TemplateFunctions extends UnitTestCase {
 	}
 
 
-	public function testPrintUnescaped(){
+	public function testPrintUnescaped() {
 		$htmlString = "<script>alert('xss');</script>";
 
 		ob_start();
@@ -57,7 +57,7 @@ class Test_TemplateFunctions extends UnitTestCase {
 		$this->assertEqual($htmlString, $result);
 	}
 
-	public function testPrintUnescapedNormalString(){
+	public function testPrintUnescapedNormalString() {
 		$normalString = "This is a good string!";
 		ob_start();
 		print_unescaped($normalString);

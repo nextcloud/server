@@ -53,7 +53,7 @@ class OC_Migration_Content{
 		if( !is_null( $this->db ) ) {
 			// Get db path
 			$db = $this->db->getDatabase();
-			if(!in_array($db, $this->tmpfiles)){
+			if(!in_array($db, $this->tmpfiles)) {
 				$this->tmpfiles[] = $db;
 			}
 		}

@@ -500,7 +500,7 @@ class OC_FileCache{
 	 * trigger an update for the cache by setting the mtimes to 0
 	 * @param string $user (optional)
 	 */
-	public static function triggerUpdate($user=''){
+	public static function triggerUpdate($user='') {
 		if($user) {
 			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `mtime`=0 WHERE `user`=? AND `mimetype`="httpd/unix-directory"');
 			$query->execute(array($user));

@@ -93,7 +93,7 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 	}
 
 	public function preCopy($path1, $path2) {
-		if(!self::$rootView){
+		if(!self::$rootView) {
 			self::$rootView = new OC_FilesystemView('');
 		}
 		return (self::$rootView->filesize($path1)<$this->getFreeSpace($path2) or $this->getFreeSpace($path2)==0);

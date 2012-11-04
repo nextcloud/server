@@ -13,7 +13,7 @@ abstract class Test_Cache extends UnitTestCase {
 	protected $instance;
 
 	public function tearDown() {
-		if($this->instance){
+		if($this->instance) {
 			$this->instance->clear();
 		}
 	}

@@ -475,16 +475,16 @@ class OC_Helper {
 		$dirs = explode(PATH_SEPARATOR, $path);
 		// WARNING : We have to check if open_basedir is enabled :
 		$obd = ini_get('open_basedir');
-		if($obd != "none"){
+		if($obd != "none") {
 			$obd_values = explode(PATH_SEPARATOR, $obd);
-			if(count($obd_values) > 0 and $obd_values[0]){
+			if(count($obd_values) > 0 and $obd_values[0]) {
 				// open_basedir is in effect !
 				// We need to check if the program is in one of these dirs :
 				$dirs = $obd_values;
 			}
 		}
-		foreach($dirs as $dir){
-			foreach($exts as $ext){
+		foreach($dirs as $dir) {
+			foreach($exts as $ext) {
 				if($check_fn("$dir/$name".$ext))
 					return true;
 			}

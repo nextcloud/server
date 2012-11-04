@@ -85,7 +85,7 @@ class OC_FileCache_Update{
 					$file=$path.'/'.$filename;
 					$isDir=$view->is_dir($file);
 					if(self::hasUpdated($file, $root, $isDir)) {
-						if($isDir){
+						if($isDir) {
 							self::updateFolder($file, $root);
 						}elseif($root===false) {//filesystem hooks are only valid for the default root
 							OC_Hook::emit('OC_Filesystem', 'post_write', array('path'=>$file));
@@ -174,7 +174,7 @@ class OC_FileCache_Update{
 		}else{
 			$size=OC_FileCache::scanFile($path, $root);
 		}
-		if($path !== '' and $path !== '/'){
+		if($path !== '' and $path !== '/') {
 			OC_FileCache::increaseSize(dirname($path), $size-$cachedSize, $root);
 		}
 	}
