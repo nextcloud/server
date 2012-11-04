@@ -204,7 +204,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 		unlink($tmpFile);
 		return $mime;
 	}
-	public function hash($type,$path, $raw = false) {
+	public function hash($type, $path, $raw = false) {
 		$tmpFile=$this->getLocalFile();
 		$hash=hash($type, $tmpFile, $raw);
 		unlink($tmpFile);
@@ -264,7 +264,7 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 					$files[]=$dir.'/'.$item;
 				}
 				if($this->is_dir($dir.'/'.$item)) {
-					$files=array_merge($files,$this->searchInDir($query, $dir.'/'.$item));
+					$files=array_merge($files, $this->searchInDir($query, $dir.'/'.$item));
 				}
 			}
 		}

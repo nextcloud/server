@@ -23,7 +23,7 @@ class OC_Archive_TAR extends OC_Archive{
 	private $path;
 
 	function __construct($source) {
-		$types=array(null,'gz','bz');
+		$types=array(null, 'gz', 'bz');
 		$this->path=$source;
 		$this->tar=new Archive_Tar($source, $types[self::getTarType($source)]);
 	}
@@ -309,7 +309,7 @@ class OC_Archive_TAR extends OC_Archive{
 		if($mode=='r' or $mode=='rb') {
 			return fopen($tmpFile, $mode);
 		}else{
-			OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
+			OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
 			self::$tempFiles[$tmpFile]=$path;
 			return fopen('close://'.$tmpFile, $mode);
 		}
@@ -334,7 +334,7 @@ class OC_Archive_TAR extends OC_Archive{
 			$this->tar->_close();
 			$this->tar=null;
 		}
-		$types=array(null,'gz','bz');
+		$types=array(null, 'gz', 'bz');
 		$this->tar=new Archive_Tar($this->path, $types[self::getTarType($this->path)]);
 	}
 }

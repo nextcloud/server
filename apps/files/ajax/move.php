@@ -12,7 +12,7 @@ $file = stripslashes($_GET["file"]);
 $target = stripslashes(rawurldecode($_GET["target"]));
 
 
-if(OC_Filesystem::file_exists($target . '/' . $file)){
+if(OC_Filesystem::file_exists($target . '/' . $file)) {
 	OCP\JSON::error(array("data" => array( "message" => "Could not move $file - File with this name already exists" )));
 	exit;
 }

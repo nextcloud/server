@@ -391,7 +391,7 @@ class OC_Files {
 	*/
 	static function pull($source, $token, $dir, $file) {
 		$tmpfile=tempnam(get_temp_dir(), 'remoteCloudFile');
-		$fp=fopen($tmpfile,'w+');
+		$fp=fopen($tmpfile, 'w+');
 		$url=$source.="/files/pull.php?token=$token";
 		$ch=curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);

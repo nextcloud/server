@@ -51,12 +51,12 @@ abstract class Test_User_Backend extends UnitTestCase {
 
 		$name1=$this->getUser();
 		$name2=$this->getUser();
-		$this->backend->createUser($name1,'');
+		$this->backend->createUser($name1, '');
 		$count=count($this->backend->getUsers())-$startCount;
 		$this->assertEqual(1, $count);
 		$this->assertTrue((array_search($name1, $this->backend->getUsers())!==false));
 		$this->assertFalse((array_search($name2, $this->backend->getUsers())!==false));
-		$this->backend->createUser($name2,'');
+		$this->backend->createUser($name2, '');
 		$count=count($this->backend->getUsers())-$startCount;
 		$this->assertEqual(2, $count);
 		$this->assertTrue((array_search($name1, $this->backend->getUsers())!==false));
@@ -76,24 +76,24 @@ abstract class Test_User_Backend extends UnitTestCase {
 		$this->assertFalse($this->backend->userExists($name1));
 		$this->assertFalse($this->backend->userExists($name2));
 		
-		$this->backend->createUser($name1,'pass1');
-		$this->backend->createUser($name2,'pass2');
+		$this->backend->createUser($name1, 'pass1');
+		$this->backend->createUser($name2, 'pass2');
 		
 		$this->assertTrue($this->backend->userExists($name1));
 		$this->assertTrue($this->backend->userExists($name2));
 		
-		$this->assertTrue($this->backend->checkPassword($name1,'pass1'));
-		$this->assertTrue($this->backend->checkPassword($name2,'pass2'));
+		$this->assertTrue($this->backend->checkPassword($name1, 'pass1'));
+		$this->assertTrue($this->backend->checkPassword($name2, 'pass2'));
 		
-		$this->assertFalse($this->backend->checkPassword($name1,'pass2'));
-		$this->assertFalse($this->backend->checkPassword($name2,'pass1'));
+		$this->assertFalse($this->backend->checkPassword($name1, 'pass2'));
+		$this->assertFalse($this->backend->checkPassword($name2, 'pass1'));
 		
-		$this->assertFalse($this->backend->checkPassword($name1,'dummy'));
-		$this->assertFalse($this->backend->checkPassword($name2,'foobar'));
+		$this->assertFalse($this->backend->checkPassword($name1, 'dummy'));
+		$this->assertFalse($this->backend->checkPassword($name2, 'foobar'));
 		
-		$this->backend->setPassword($name1,'newpass1');
-		$this->assertFalse($this->backend->checkPassword($name1,'pass1'));
-		$this->assertTrue($this->backend->checkPassword($name1,'newpass1'));
-		$this->assertFalse($this->backend->checkPassword($name2,'newpass1'));
+		$this->backend->setPassword($name1, 'newpass1');
+		$this->assertFalse($this->backend->checkPassword($name1, 'pass1'));
+		$this->assertTrue($this->backend->checkPassword($name1, 'newpass1'));
+		$this->assertFalse($this->backend->checkPassword($name2, 'newpass1'));
 	}
 }

@@ -25,7 +25,7 @@
  * Prints an XSS escaped string
  * @param string $string the string which will be escaped and printed
  */
-function p($string){
+function p($string) {
 	print(OC_Util::sanitizeHTML($string));
 }
 
@@ -33,7 +33,7 @@ function p($string){
  * Prints an unescaped string
  * @param string $string the string which will be printed as it is
  */
-function print_unescaped($string){
+function print_unescaped($string) {
 	print($string);
 }
 
@@ -195,11 +195,11 @@ class OC_Template{
 	public static function detectFormfactor() {
 		// please add more useragent strings for other devices
 		if(isset($_SERVER['HTTP_USER_AGENT'])) {
-			if(stripos($_SERVER['HTTP_USER_AGENT'],'ipad')>0) {
+			if(stripos($_SERVER['HTTP_USER_AGENT'], 'ipad')>0) {
 				$mode='tablet';
-			}elseif(stripos($_SERVER['HTTP_USER_AGENT'],'iphone')>0) {
+			}elseif(stripos($_SERVER['HTTP_USER_AGENT'], 'iphone')>0) {
 				$mode='mobile';
-			}elseif((stripos($_SERVER['HTTP_USER_AGENT'],'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'],'nokia')>0)) {
+			}elseif((stripos($_SERVER['HTTP_USER_AGENT'],'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'], 'nokia')>0)) {
 				$mode='mobile';
 			}else{
 				$mode='default';
@@ -356,7 +356,7 @@ class OC_Template{
 	 * @param string $text the text content for the element
 	 */
 	public function addHeader( $tag, $attributes, $text='') {
-		$this->headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
+		$this->headers[]=array('tag'=>$tag,'attributes'=>$attributes, 'text'=>$text);
 	}
 
 	/**

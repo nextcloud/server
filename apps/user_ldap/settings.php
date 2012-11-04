@@ -31,7 +31,7 @@ if ($_POST) {
 			if('ldap_agent_password' == $param) {
 				OCP\Config::setAppValue('user_ldap', $param, base64_encode($_POST[$param]));
 			} elseif('ldap_cache_ttl' == $param) {
-				if(OCP\Config::getAppValue('user_ldap', $param,'') != $_POST[$param]) {
+				if(OCP\Config::getAppValue('user_ldap', $param, '') != $_POST[$param]) {
 					$ldap = new \OCA\user_ldap\lib\Connection('user_ldap');
 					$ldap->clearCache();
 					OCP\Config::setAppValue('user_ldap', $param, $_POST[$param]);
@@ -59,7 +59,7 @@ if ($_POST) {
 // fill template
 $tmpl = new OCP\Template( 'user_ldap', 'settings');
 foreach($params as $param) {
-		$value = OCP\Config::getAppValue('user_ldap', $param,'');
+		$value = OCP\Config::getAppValue('user_ldap', $param, '');
 		$tmpl->assign($param, $value);
 }
 

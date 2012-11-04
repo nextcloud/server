@@ -25,7 +25,7 @@ function compareEntries($a, $b) {
 }
 usort($entries, 'compareEntries');
 
-$tmpl->assign('loglevel',OC_Config::getValue( "loglevel", 2 ));
+$tmpl->assign('loglevel', OC_Config::getValue( "loglevel", 2 ));
 $tmpl->assign('entries', $entries);
 $tmpl->assign('entriesremain', $entriesremain);
 $tmpl->assign('htaccessworking', $htaccessworking);

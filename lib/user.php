@@ -133,7 +133,7 @@ class OC_User {
 				self::useBackend($backend);
 				$_setupedBackends[]=$i;
 			}else{
-				OC_Log::write('core','User backend '.$class.' not found.',OC_Log::ERROR);
+				OC_Log::write('core','User backend '.$class.' not found.', OC_Log::ERROR);
 			}
 		}
 	}

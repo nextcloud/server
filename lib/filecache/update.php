@@ -85,7 +85,7 @@ class OC_FileCache_Update{
 					$file=$path.'/'.$filename;
 					$isDir=$view->is_dir($file);
 					if(self::hasUpdated($file, $root, $isDir)) {
-						if($isDir){
+						if($isDir) {
 							self::updateFolder($file, $root);
 						}elseif($root===false) {//filesystem hooks are only valid for the default root
 							OC_Hook::emit('OC_Filesystem', 'post_write', array('path'=>$file));
@@ -165,7 +165,7 @@ class OC_FileCache_Update{
 				$mtime=$view->filemtime($path.'/');
 				$ctime=$view->filectime($path.'/');
 				$writable=$view->is_writable($path.'/');
-				OC_FileCache::put($path, array('size'=>$size,'mtime'=>$mtime,'ctime'=>$ctime,'mimetype'=>$mimetype,'writable'=>$writable));
+				OC_FileCache::put($path, array('size'=>$size,'mtime'=>$mtime,'ctime'=>$ctime,'mimetype'=>$mimetype, 'writable'=>$writable));
 			}else{
 				$count=0;
 				OC_FileCache::scan($path, null, $count, $root);
@@ -174,7 +174,7 @@ class OC_FileCache_Update{
 		}else{
 			$size=OC_FileCache::scanFile($path, $root);
 		}
-		if($path !== '' and $path !== '/'){
+		if($path !== '' and $path !== '/') {
 			OC_FileCache::increaseSize(dirname($path), $size-$cachedSize, $root);
 		}
 	}
@@ -200,7 +200,7 @@ class OC_FileCache_Update{
 	 * @param string newPath
 	 * @param string root (optional)
 	 */
-	public static function rename($oldPath,$newPath, $root=false) {
+	public static function rename($oldPath, $newPath, $root=false) {
 		if(!OC_FileCache::inCache($oldPath, $root)) {
 			return;
 		}

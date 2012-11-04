@@ -22,7 +22,7 @@
 
 class Test_StreamWrappers extends UnitTestCase {
 	public function testFakeDir() {
-		$items=array('foo','bar');
+		$items=array('foo', 'bar');
 		OC_FakeDirStream::$dirs['test']=$items;
 		$dh=opendir('fakedir://test');
 		$result=array();
@@ -60,9 +60,9 @@ class Test_StreamWrappers extends UnitTestCase {
 		//test callback
 		$tmpFile=OC_Helper::TmpFile('.txt');
 		$file='close://'.$tmpFile;
-		OC_CloseStreamWrapper::$callBacks[$tmpFile]=array('Test_StreamWrappers','closeCallBack');
-		$fh=fopen($file,'w');
-		fwrite($fh,'asd');
+		OC_CloseStreamWrapper::$callBacks[$tmpFile]=array('Test_StreamWrappers', 'closeCallBack');
+		$fh=fopen($file, 'w');
+		fwrite($fh, 'asd');
 		try{
 			fclose($fh);
 			$this->fail('Expected exception');

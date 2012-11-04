@@ -23,7 +23,7 @@
 /**
  * transparently encrypted filestream
  *
- * you can use it as wrapper around an existing stream by setting OC_CryptStream::$sourceStreams['foo']=array('path'=>$path,'stream'=>$stream)
+ * you can use it as wrapper around an existing stream by setting OC_CryptStream::$sourceStreams['foo']=array('path'=>$path, 'stream'=>$stream)
  *   and then fopen('crypt://streams/foo');
  */
 
@@ -123,11 +123,11 @@ class OC_CryptStream{
 				$data=substr($data, 8192);
 			}
 		}
-		$this->size=max($this->size,$currentPos+$length);
+		$this->size=max($this->size, $currentPos+$length);
 		return $length;
 	}
 
-	public function stream_set_option($option,$arg1,$arg2) {
+	public function stream_set_option($option, $arg1, $arg2) {
 		switch($option) {
 			case STREAM_OPTION_BLOCKING:
 				stream_set_blocking($this->source, $arg1);

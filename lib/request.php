@@ -63,7 +63,7 @@ class OC_Request {
 			$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
 			// following is taken from Sabre_DAV_URLUtil::decodePathSegment
 			$path_info = rawurldecode($path_info);
-			$encoding = mb_detect_encoding($path_info, array('UTF-8','ISO-8859-1'));
+			$encoding = mb_detect_encoding($path_info, array('UTF-8', 'ISO-8859-1'));
 
 			switch($encoding) {
 
@@ -98,7 +98,7 @@ class OC_Request {
 		$HTTP_ACCEPT_ENCODING = $_SERVER["HTTP_ACCEPT_ENCODING"];
 		if( strpos($HTTP_ACCEPT_ENCODING, 'x-gzip') !== false )
 			return 'x-gzip';
-		else if( strpos($HTTP_ACCEPT_ENCODING,'gzip') !== false )
+		else if( strpos($HTTP_ACCEPT_ENCODING, 'gzip') !== false )
 			return 'gzip';
 		return false;
 	}

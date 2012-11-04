@@ -70,7 +70,7 @@ class OC_Setup {
 			if(empty($options['dbname'])) {
 				$error[] = "$dbprettyname enter the database name.";
 			}
-			if(substr_count($options['dbname'], '.') >= 1){
+			if(substr_count($options['dbname'], '.') >= 1) {
 				$error[] = "$dbprettyname you may not use dots in the database name";
 			}
 			if($dbtype != 'oci' && empty($options['dbhost'])) {
@@ -95,7 +95,7 @@ class OC_Setup {
 			//write the config file
 			OC_Config::setValue('datadirectory', $datadir);
 			OC_Config::setValue('dbtype', $dbtype);
-			OC_Config::setValue('version', implode('.',OC_Util::getVersion()));
+			OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
 			if($dbtype == 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];

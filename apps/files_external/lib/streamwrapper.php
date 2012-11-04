@@ -60,8 +60,8 @@ abstract class OC_FileStorage_StreamWrapper extends OC_Filestorage_Common{
 
 	public function touch($path, $mtime=null) {
 		if(is_null($mtime)) {
-			$fh=$this->fopen($path,'a');
-			fwrite($fh,'');
+			$fh=$this->fopen($path, 'a');
+			fwrite($fh, '');
 			fclose($fh);
 		}else{
 			return false;//not supported

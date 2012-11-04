@@ -44,9 +44,9 @@ class OC_Log_Owncloud {
 	 * @param int level
 	 */
 	public static function write($app, $message, $level) {
-		$minLevel=min(OC_Config::getValue( "loglevel", OC_Log::WARN ),OC_Log::ERROR);
+		$minLevel=min(OC_Config::getValue( "loglevel", OC_Log::WARN ), OC_Log::ERROR);
 		if($level>=$minLevel) {
-			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level,'time'=>time());
+			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=>time());
 			$fh=fopen(self::$logFile, 'a');
 			fwrite($fh, json_encode($entry)."\n");
 			fclose($fh);

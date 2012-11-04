@@ -97,7 +97,7 @@ class OC_FileProxy{
 		return true;
 	}
 
-	public static function runPostProxies($operation,$path, $result) {
+	public static function runPostProxies($operation, $path, $result) {
 		if(!self::$enabled) {
 			return $result;
 		}

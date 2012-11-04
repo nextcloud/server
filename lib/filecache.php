@@ -61,7 +61,7 @@ class OC_FileCache{
 	 *
 	 * $data is an assiciative array in the same format as returned by get
 	 */
-	public static function put($path,$data, $root=false) {
+	public static function put($path, $data, $root=false) {
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
@@ -120,7 +120,7 @@ class OC_FileCache{
 	private static function update($id, $data) {
 		$arguments=array();
 		$queryParts=array();
-		foreach(array('size','mtime','ctime','mimetype','encrypted','versioned','writable') as $attribute) {
+		foreach(array('size','mtime','ctime','mimetype','encrypted','versioned', 'writable') as $attribute) {
 			if(isset($data[$attribute])) {
 				//Convert to int it args are false
 				if($data[$attribute] === false) {
@@ -227,7 +227,7 @@ class OC_FileCache{
 			$where = '`name` LIKE ? AND `user`=?';
 		}
 		$query=OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*fscache` WHERE '.$where);
-		$result=$query->execute(array("%$search%",OC_User::getUser()));
+		$result=$query->execute(array("%$search%", OC_User::getUser()));
 		$names=array();
 		while($row=$result->fetchRow()) {
 			if(!$returnData) {
@@ -366,7 +366,7 @@ class OC_FileCache{
 	 * @param int count (optional)
 	 * @param string root (optional)
 	 */
-	public static function scan($path,$eventSource=false,&$count=0, $root=false) {
+	public static function scan($path, $eventSource=false,&$count=0, $root=false) {
 		if($eventSource) {
 			$eventSource->send('scanning', array('file'=>$path, 'count'=>$count));
 		}
@@ -402,7 +402,7 @@ class OC_FileCache{
 		}
 
 		OC_FileCache_Update::cleanFolder($path, $root);
-		self::increaseSize($path,$totalSize, $root);
+		self::increaseSize($path, $totalSize, $root);
 	}
 
 	/**
@@ -448,7 +448,7 @@ class OC_FileCache{
 	 * @return array of file paths
 	 *
 	 * $part1 and $part2 together form the complete mimetype.
-	 * e.g. searchByMime('text','plain')
+	 * e.g. searchByMime('text', 'plain')
 	 *
 	 * seccond mimetype part can be ommited
 	 * e.g. searchByMime('audio')
@@ -500,7 +500,7 @@ class OC_FileCache{
 	 * trigger an update for the cache by setting the mtimes to 0
 	 * @param string $user (optional)
 	 */
-	public static function triggerUpdate($user=''){
+	public static function triggerUpdate($user='') {
 		if($user) {
 			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `mtime`=0 WHERE `user`=? AND `mimetype`="httpd/unix-directory"');
 			$query->execute(array($user));

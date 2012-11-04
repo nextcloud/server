@@ -73,7 +73,7 @@
 		<p>MySQL <?php echo $l->t( 'will be used' ); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="mysql" />
 		<?php else: ?>
-		<input type="radio" name="dbtype" value="mysql" id="mysql" <?php OC_Helper::init_radio('dbtype','mysql', 'sqlite'); ?>/>
+		<input type="radio" name="dbtype" value="mysql" id="mysql" <?php OC_Helper::init_radio('dbtype', 'mysql', 'sqlite'); ?>/>
 		<label class="mysql" for="mysql">MySQL</label>
 		<?php endif; ?>
 		<?php endif; ?>
@@ -84,7 +84,7 @@
 		<input type="hidden" id="dbtype" name="dbtype" value="pgsql" />
 		<?php else: ?>
 		<label class="pgsql" for="pgsql">PostgreSQL</label>
-		<input type="radio" name="dbtype" value='pgsql' id="pgsql" <?php OC_Helper::init_radio('dbtype','pgsql', 'sqlite'); ?>/>
+		<input type="radio" name="dbtype" value='pgsql' id="pgsql" <?php OC_Helper::init_radio('dbtype', 'pgsql', 'sqlite'); ?>/>
 		<?php endif; ?>
 		<?php endif; ?>
 
@@ -94,7 +94,7 @@
 		<input type="hidden" id="dbtype" name="dbtype" value="oci" />
 		<?php else: ?>
 		<label class="oci" for="oci">Oracle</label>
-		<input type="radio" name="dbtype" value='oci' id="oci" <?php OC_Helper::init_radio('dbtype','oci', 'sqlite'); ?>/>
+		<input type="radio" name="dbtype" value='oci' id="oci" <?php OC_Helper::init_radio('dbtype', 'oci', 'sqlite'); ?>/>
 		<?php endif; ?>
 		<?php endif; ?>
 		</div>
