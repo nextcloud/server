@@ -20,8 +20,8 @@
  * The final URL will look like http://.../remote.php/filesync/oc_chunked/path/to/file
  */
 
-// only need filesystem apps
-$RUNTIME_APPTYPES=array('filesystem','authentication');
+// load needed apps
+$RUNTIME_APPTYPES=array('filesystem','authentication','logging');
 OC_App::loadApps($RUNTIME_APPTYPES);
 if(!OC_User::isLoggedIn()) {
         if(!isset($_SERVER['PHP_AUTH_USER'])) {
@@ -36,7 +36,7 @@ if(!OC_User::isLoggedIn()) {
         }
 }
 
-list($type,$file) = explode('/', substr($path_info,1+strlen($service)+1), 2);
+list($type,$file) = explode('/', substr($path_info, 1+strlen($service)+1), 2);
 
 if ($type != 'oc_chunked') {
 	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);

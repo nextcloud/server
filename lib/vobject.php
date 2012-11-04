@@ -201,7 +201,7 @@ class OC_VObject{
 		return $this->vobject->__isset($name);
 	}
 
-	public function __call($function,$arguments) {
+	public function __call($function, $arguments) {
 		return call_user_func_array(array($this->vobject, $function), $arguments);
 	}
 }

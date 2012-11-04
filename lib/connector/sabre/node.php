@@ -80,7 +80,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		$newPath = $parentPath . '/' . $newName;
 		$oldPath = $this->path;
 
-		OC_Filesystem::rename($this->path,$newPath);
+		OC_Filesystem::rename($this->path, $newPath);
 
 		$this->path = $newPath;
 
@@ -156,7 +156,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 				} else {
 					if(!array_key_exists( $propertyName, $existing )) {
 						$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*properties` (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)' );
-						$query->execute( array( OC_User::getUser(), $this->path, $propertyName,$propertyValue ));
+						$query->execute( array( OC_User::getUser(), $this->path, $propertyName, $propertyValue ));
 					} else {
 						$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertyvalue` = ? WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?' );
 						$query->execute( array( $propertyValue,OC_User::getUser(), $this->path, $propertyName ));

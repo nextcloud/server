@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-27 00:01+0200\n"
-"PO-Revision-Date: 2012-10-26 07:25+0000\n"
+"POT-Creation-Date: 2012-11-04 00:00+0100\n"
+"PO-Revision-Date: 2012-11-03 11:39+0000\n"
 "Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -61,15 +61,15 @@ msgstr "Erreur d'écriture sur le disque"
 msgid "Files"
 msgstr "Fichiers"
 
-#: js/fileactions.js:108 templates/index.php:62
+#: js/fileactions.js:108 templates/index.php:64
 msgid "Unshare"
 msgstr "Ne plus partager"
 
-#: js/fileactions.js:110 templates/index.php:64
+#: js/fileactions.js:110 templates/index.php:66
 msgid "Delete"
 msgstr "Supprimer"
 
-#: js/fileactions.js:182
+#: js/fileactions.js:178
 msgid "Rename"
 msgstr "Renommer"
 
@@ -109,116 +109,116 @@ msgstr "Fichiers non partagés : {files}"
 msgid "deleted {files}"
 msgstr "Fichiers supprimés : {files}"
 
-#: js/files.js:179
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "Fichier ZIP en cours d'assemblage ;  cela peut prendre du temps."
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Impossible de charger vos fichiers car il s'agit d'un dossier ou le fichier fait 0 octet."
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Upload Error"
 msgstr "Erreur de chargement"
 
-#: js/files.js:242 js/files.js:347 js/files.js:377
+#: js/files.js:234 js/files.js:339 js/files.js:369
 msgid "Pending"
 msgstr "En cours"
 
-#: js/files.js:262
+#: js/files.js:254
 msgid "1 file uploading"
 msgstr "1 fichier en cours de téléchargement"
 
-#: js/files.js:265 js/files.js:310 js/files.js:325
+#: js/files.js:257 js/files.js:302 js/files.js:317
 msgid "{count} files uploading"
 msgstr "{count} fichiers téléversés"
 
-#: js/files.js:328 js/files.js:361
+#: js/files.js:320 js/files.js:353
 msgid "Upload cancelled."
 msgstr "Chargement annulé."
 
-#: js/files.js:430
+#: js/files.js:422
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "L'envoi du fichier est en cours. Quitter cette page maintenant annulera l'envoi du fichier."
 
-#: js/files.js:500
+#: js/files.js:492
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nom invalide, '/' n'est pas autorisé."
 
-#: js/files.js:681
+#: js/files.js:673
 msgid "{count} files scanned"
 msgstr "{count} fichiers indexés"
 
-#: js/files.js:689
+#: js/files.js:681
 msgid "error while scanning"
 msgstr "erreur lors de l'indexation"
 
-#: js/files.js:762 templates/index.php:48
+#: js/files.js:754 templates/index.php:50
 msgid "Name"
 msgstr "Nom"
 
-#: js/files.js:763 templates/index.php:56
+#: js/files.js:755 templates/index.php:58
 msgid "Size"
 msgstr "Taille"
 
-#: js/files.js:764 templates/index.php:58
+#: js/files.js:756 templates/index.php:60
 msgid "Modified"
 msgstr "Modifié"
 
-#: js/files.js:791
+#: js/files.js:783
 msgid "1 folder"
 msgstr "1 dossier"
 
-#: js/files.js:793
+#: js/files.js:785
 msgid "{count} folders"
 msgstr "{count} dossiers"
 
-#: js/files.js:801
+#: js/files.js:793
 msgid "1 file"
 msgstr "1 fichier"
 
-#: js/files.js:803
+#: js/files.js:795
 msgid "{count} files"
 msgstr "{count} fichiers"
 
-#: js/files.js:846
+#: js/files.js:838
 msgid "seconds ago"
 msgstr "secondes passées"
 
-#: js/files.js:847
+#: js/files.js:839
 msgid "1 minute ago"
 msgstr "Il y a une minute"
 
-#: js/files.js:848
+#: js/files.js:840
 msgid "{minutes} minutes ago"
 msgstr "Il y a {minutes} minutes"
 
-#: js/files.js:851
+#: js/files.js:843
 msgid "today"
 msgstr "aujourd'hui"
 
-#: js/files.js:852
+#: js/files.js:844
 msgid "yesterday"
 msgstr "hier"
 
-#: js/files.js:853
+#: js/files.js:845
 msgid "{days} days ago"
 msgstr "Il y a {days} jours"
 
-#: js/files.js:854
+#: js/files.js:846
 msgid "last month"
 msgstr "mois dernier"
 
-#: js/files.js:856
+#: js/files.js:848
 msgid "months ago"
 msgstr "mois passés"
 
-#: js/files.js:857
+#: js/files.js:849
 msgid "last year"
 msgstr "année dernière"
 
-#: js/files.js:858
+#: js/files.js:850
 msgid "years ago"
 msgstr "années passées"
 
@@ -250,7 +250,7 @@ msgstr "0 est illimité"
 msgid "Maximum input size for ZIP files"
 msgstr "Taille maximale pour les fichiers ZIP"
 
-#: templates/admin.php:14
+#: templates/admin.php:15
 msgid "Save"
 msgstr "Sauvegarder"
 
@@ -267,43 +267,43 @@ msgid "Folder"
 msgstr "Dossier"
 
 #: templates/index.php:11
-msgid "From url"
-msgstr "Depuis URL"
+msgid "From link"
+msgstr "Depuis le lien"
 
-#: templates/index.php:20
+#: templates/index.php:22
 msgid "Upload"
 msgstr "Envoyer"
 
-#: templates/index.php:27
+#: templates/index.php:29
 msgid "Cancel upload"
 msgstr "Annuler l'envoi"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Nothing in here. Upload something!"
 msgstr "Il n'y a rien ici ! Envoyez donc quelque chose :)"
 
-#: templates/index.php:50
+#: templates/index.php:52
 msgid "Share"
 msgstr "Partager"
 
-#: templates/index.php:52
+#: templates/index.php:54
 msgid "Download"
 msgstr "Téléchargement"
 
-#: templates/index.php:75
+#: templates/index.php:77
 msgid "Upload too large"
 msgstr "Fichier trop volumineux"
 
-#: templates/index.php:77
+#: templates/index.php:79
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Les fichiers que vous essayez d'envoyer dépassent la taille maximale permise par ce serveur."
 
-#: templates/index.php:82
+#: templates/index.php:84
 msgid "Files are being scanned, please wait."
 msgstr "Les fichiers sont en cours d'analyse, veuillez patienter."
 
-#: templates/index.php:85
+#: templates/index.php:87
 msgid "Current scanning"
 msgstr "Analyse en cours"

@@ -48,11 +48,11 @@ abstract class OC_Minimizer {
 }
 
 if (!function_exists('gzdecode')) {
-	function gzdecode($data,$maxlength=null,&$filename='',&$error='')
+	function gzdecode($data, $maxlength=null, &$filename='', &$error='')
 	{
-		if (strcmp(substr($data,0,9),"\x1f\x8b\x8\0\0\0\0\0\0")) {
+		if (strcmp(substr($data, 0, 9),"\x1f\x8b\x8\0\0\0\0\0\0")) {
 			return null;  // Not the GZIP format we expect (See RFC 1952)
 		}
-		return gzinflate(substr($data,10,-8));
+		return gzinflate(substr($data, 10, -8));
 	}
 }

@@ -107,7 +107,7 @@ class OC_Appconfig{
 	 * @param string $key
 	 * @return bool
 	 */
-	public static function hasKey($app,$key) {
+	public static function hasKey($app, $key) {
 		$exists = self::getKeys( $app );
 		return in_array( $key, $exists );
 	}
@@ -170,7 +170,7 @@ class OC_Appconfig{
 	 * @param key
 	 * @return array
 	 */
-	public static function getValues($app,$key) {
+	public static function getValues($app, $key) {
 		if($app!==false and $key!==false) {
 			return false;
 		}

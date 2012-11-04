@@ -13,7 +13,7 @@
 class OC_FileCache_Cached{
 	public static $savedData=array();
 
-	public static function get($path,$root=false) {
+	public static function get($path, $root=false) {
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
@@ -61,7 +61,7 @@ class OC_FileCache_Cached{
 	 * - encrypted
 	 * - versioned
 	 */
-	public static function getFolderContent($path,$root=false,$mimetype_filter='') {
+	public static function getFolderContent($path, $root=false, $mimetype_filter='') {
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}

@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once '3rdparty/Archive/Tar.php';
+require_once 'Archive/Tar.php';
 
 class OC_Archive_TAR extends OC_Archive{
 	const PLAIN=0;
@@ -84,7 +84,7 @@ class OC_Archive_TAR extends OC_Archive{
 	 * @param string source either a local file or string data
 	 * @return bool
 	 */
-	function addFile($path,$source='') {
+	function addFile($path, $source='') {
 		if($this->fileExists($path)) {
 			$this->remove($path);
 		}
@@ -107,7 +107,7 @@ class OC_Archive_TAR extends OC_Archive{
 	 * @param string dest
 	 * @return bool
 	 */
-	function rename($source,$dest) {
+	function rename($source, $dest) {
 		//no proper way to delete, rename entire archive, rename file and remake archive
 		$tmp=OCP\Files::tmpFolder();
 		$this->tar->extract($tmp);
@@ -214,7 +214,7 @@ class OC_Archive_TAR extends OC_Archive{
 	 * @param string dest
 	 * @return bool
 	 */
-	function extractFile($path,$dest) {
+	function extractFile($path, $dest) {
 		$tmp=OCP\Files::tmpFolder();
 		if(!$this->fileExists($path)) {
 			return false;
@@ -294,7 +294,7 @@ class OC_Archive_TAR extends OC_Archive{
 	 * @param string mode
 	 * @return resource
 	 */
-	function getStream($path,$mode) {
+	function getStream($path, $mode) {
 		if(strrpos($path, '.')!==false) {
 			$ext=substr($path, strrpos($path, '.'));
 		}else{

@@ -58,7 +58,6 @@
 "New" => "Nuevo",
 "Text file" => "Archivo de texto",
 "Folder" => "Carpeta",
-"From url" => "Desde la URL",
 "Upload" => "Subir",
 "Cancel upload" => "Cancelar subida",
 "Nothing in here. Upload something!" => "No hay nada. ¡Subí contenido!",

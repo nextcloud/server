@@ -85,7 +85,7 @@ function human_file_size( $bytes ) {
 }
 
 function simple_file_size($bytes) {
-	$mbytes = round($bytes/(1024*1024),1);
+	$mbytes = round($bytes/(1024*1024), 1);
 	if($bytes == 0) { return '0'; }
 	else if($mbytes < 0.1) { return '&lt; 0.1'; }
 	else if($mbytes > 1000) { return '&gt; 1000'; }
@@ -102,12 +102,12 @@ function relative_modified_date($timestamp) {
 
 	if($timediff < 60) { return $l->t('seconds ago'); }
 	else if($timediff < 120) { return $l->t('1 minute ago'); }
-	else if($timediff < 3600) { return $l->t('%d minutes ago',$diffminutes); }
+	else if($timediff < 3600) { return $l->t('%d minutes ago', $diffminutes); }
 	//else if($timediff < 7200) { return '1 hour ago'; }
 	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
 	else if((date('G')-$diffhours) > 0) { return $l->t('today'); }
 	else if((date('G')-$diffhours) > -24) { return $l->t('yesterday'); }
-	else if($timediff < 2678400) { return $l->t('%d days ago',$diffdays); }
+	else if($timediff < 2678400) { return $l->t('%d days ago', $diffdays); }
 	else if($timediff < 5184000) { return $l->t('last month'); }
 	else if((date('n')-$diffmonths) > 0) { return $l->t('months ago'); }
 	else if($timediff < 63113852) { return $l->t('last year'); }
@@ -395,9 +395,9 @@ class OC_Template{
 			}
 
 			// Add custom headers
-			$page->assign('headers',$this->headers, false);
+			$page->assign('headers', $this->headers, false);
 			foreach(OC_Util::$headers as $header) {
-				$page->append('headers',$header);
+				$page->append('headers', $header);
 			}
 
 			$page->assign( "content", $data, false );

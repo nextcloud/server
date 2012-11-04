@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-20 02:02+0200\n"
-"PO-Revision-Date: 2012-10-19 09:21+0000\n"
+"POT-Creation-Date: 2012-11-04 00:00+0100\n"
+"PO-Revision-Date: 2012-11-03 09:10+0000\n"
 "Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -57,15 +57,15 @@ msgstr "Misslyckades spara till disk"
 msgid "Files"
 msgstr "Filer"
 
-#: js/fileactions.js:108 templates/index.php:62
+#: js/fileactions.js:108 templates/index.php:64
 msgid "Unshare"
 msgstr "Sluta dela"
 
-#: js/fileactions.js:110 templates/index.php:64
+#: js/fileactions.js:110 templates/index.php:66
 msgid "Delete"
 msgstr "Radera"
 
-#: js/fileactions.js:182
+#: js/fileactions.js:178
 msgid "Rename"
 msgstr "Byt namn"
 
@@ -105,116 +105,116 @@ msgstr "stoppad delning {files}"
 msgid "deleted {files}"
 msgstr "raderade {files}"
 
-#: js/files.js:179
+#: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
 msgstr "genererar ZIP-fil, det kan ta lite tid."
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Kunde inte ladda upp dina filer eftersom det antingen är en mapp eller har 0 bytes."
 
-#: js/files.js:214
+#: js/files.js:206
 msgid "Upload Error"
 msgstr "Uppladdningsfel"
 
-#: js/files.js:242 js/files.js:347 js/files.js:377
+#: js/files.js:234 js/files.js:339 js/files.js:369
 msgid "Pending"
 msgstr "Väntar"
 
-#: js/files.js:262
+#: js/files.js:254
 msgid "1 file uploading"
 msgstr "1 filuppladdning"
 
-#: js/files.js:265 js/files.js:310 js/files.js:325
+#: js/files.js:257 js/files.js:302 js/files.js:317
 msgid "{count} files uploading"
 msgstr "{count} filer laddas upp"
 
-#: js/files.js:328 js/files.js:361
+#: js/files.js:320 js/files.js:353
 msgid "Upload cancelled."
 msgstr "Uppladdning avbruten."
 
-#: js/files.js:430
+#: js/files.js:422
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Filuppladdning pågår. Lämnar du sidan så avbryts uppladdningen."
 
-#: js/files.js:500
+#: js/files.js:492
 msgid "Invalid name, '/' is not allowed."
 msgstr "Ogiltigt namn, '/' är inte tillåten."
 
-#: js/files.js:681
+#: js/files.js:673
 msgid "{count} files scanned"
 msgstr "{count} filer skannade"
 
-#: js/files.js:689
+#: js/files.js:681
 msgid "error while scanning"
 msgstr "fel vid skanning"
 
-#: js/files.js:762 templates/index.php:48
+#: js/files.js:754 templates/index.php:50
 msgid "Name"
 msgstr "Namn"
 
-#: js/files.js:763 templates/index.php:56
+#: js/files.js:755 templates/index.php:58
 msgid "Size"
 msgstr "Storlek"
 
-#: js/files.js:764 templates/index.php:58
+#: js/files.js:756 templates/index.php:60
 msgid "Modified"
 msgstr "Ändrad"
 
-#: js/files.js:791
+#: js/files.js:783
 msgid "1 folder"
 msgstr "1 mapp"
 
-#: js/files.js:793
+#: js/files.js:785
 msgid "{count} folders"
 msgstr "{count} mappar"
 
-#: js/files.js:801
+#: js/files.js:793
 msgid "1 file"
 msgstr "1 fil"
 
-#: js/files.js:803
+#: js/files.js:795
 msgid "{count} files"
 msgstr "{count} filer"
 
-#: js/files.js:846
+#: js/files.js:838
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: js/files.js:847
+#: js/files.js:839
 msgid "1 minute ago"
 msgstr "1 minut sedan"
 
-#: js/files.js:848
+#: js/files.js:840
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuter sedan"
 
-#: js/files.js:851
+#: js/files.js:843
 msgid "today"
 msgstr "i dag"
 
-#: js/files.js:852
+#: js/files.js:844
 msgid "yesterday"
 msgstr "i går"
 
-#: js/files.js:853
+#: js/files.js:845
 msgid "{days} days ago"
 msgstr "{days} dagar sedan"
 
-#: js/files.js:854
+#: js/files.js:846
 msgid "last month"
 msgstr "förra månaden"
 
-#: js/files.js:856
+#: js/files.js:848
 msgid "months ago"
 msgstr "månader sedan"
 
-#: js/files.js:857
+#: js/files.js:849
 msgid "last year"
 msgstr "förra året"
 
-#: js/files.js:858
+#: js/files.js:850
 msgid "years ago"
 msgstr "år sedan"
 
@@ -246,7 +246,7 @@ msgstr "0 är oändligt"
 msgid "Maximum input size for ZIP files"
 msgstr "Största tillåtna storlek för ZIP-filer"
 
-#: templates/admin.php:14
+#: templates/admin.php:15
 msgid "Save"
 msgstr "Spara"
 
@@ -263,43 +263,43 @@ msgid "Folder"
 msgstr "Mapp"
 
 #: templates/index.php:11
-msgid "From url"
-msgstr "Från webbadress"
+msgid "From link"
+msgstr "Från länk"
 
-#: templates/index.php:20
+#: templates/index.php:22
 msgid "Upload"
 msgstr "Ladda upp"
 
-#: templates/index.php:27
+#: templates/index.php:29
 msgid "Cancel upload"
 msgstr "Avbryt uppladdning"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Nothing in here. Upload something!"
 msgstr "Ingenting här. Ladda upp något!"
 
-#: templates/index.php:50
+#: templates/index.php:52
 msgid "Share"
 msgstr "Dela"
 
-#: templates/index.php:52
+#: templates/index.php:54
 msgid "Download"
 msgstr "Ladda ner"
 
-#: templates/index.php:75
+#: templates/index.php:77
 msgid "Upload too large"
 msgstr "För stor uppladdning"
 
-#: templates/index.php:77
+#: templates/index.php:79
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern."
 
-#: templates/index.php:82
+#: templates/index.php:84
 msgid "Files are being scanned, please wait."
 msgstr "Filer skannas, var god vänta"
 
-#: templates/index.php:85
+#: templates/index.php:87
 msgid "Current scanning"
 msgstr "Aktuell skanning"

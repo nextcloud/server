@@ -58,7 +58,6 @@
 "New" => "新規",
 "Text file" => "テキストファイル",
 "Folder" => "フォルダ",
-"From url" => "URL",
 "Upload" => "アップロード",
 "Cancel upload" => "アップロードをキャンセル",
 "Nothing in here. Upload something!" => "ここには何もありません。何かアップロードしてください。",

@@ -58,7 +58,6 @@
 "New" => "Nieuw",
 "Text file" => "Tekstbestand",
 "Folder" => "Map",
-"From url" => "Van hyperlink",
 "Upload" => "Upload",
 "Cancel upload" => "Upload afbreken",
 "Nothing in here. Upload something!" => "Er bevindt zich hier niets. Upload een bestand!",

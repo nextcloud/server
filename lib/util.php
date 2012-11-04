@@ -95,7 +95,7 @@ class OC_Util {
 	 */
 	public static function getVersion() {
 		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
-		return array(4,91,00);
+		return array(4,91, 00);
 	}
 
 	/**
@@ -166,7 +166,7 @@ class OC_Util {
 	 * @param int timestamp $timestamp
 	 * @param bool dateOnly option to ommit time from the result
 	 */
-    public static function formatDate( $timestamp,$dateOnly=false) {
+    public static function formatDate( $timestamp, $dateOnly=false) {
 		if(isset($_SESSION['timezone'])) {//adjust to clients timezone if we know it
 			$systemTimeZone = intval(date('O'));
 			$systemTimeZone=(round($systemTimeZone/100, 0)*60)+($systemTimeZone%100);
@@ -186,7 +186,7 @@ class OC_Util {
 	 * @param string $url
 	 * @return OC_Template
 	 */
-	public static function getPageNavi($pagecount,$page,$url) {
+	public static function getPageNavi($pagecount,$page, $url) {
 
 		$pagelinkcount=8;
 		if ($pagecount>1) {

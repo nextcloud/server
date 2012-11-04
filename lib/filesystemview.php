@@ -597,7 +597,7 @@ class OC_FilesystemView {
 		return null;
 	}
 
-	private function runHooks($hooks,$path,$post=false) {
+	private function runHooks($hooks, $path, $post=false) {
 		$prefix=($post)?'post_':'';
 		$run=true;
 		if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()) {

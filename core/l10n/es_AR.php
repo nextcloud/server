@@ -38,6 +38,8 @@
 "ownCloud password reset" => "Restablecer contraseña de ownCloud",
 "Use the following link to reset your password: {link}" => "Usá este enlace para restablecer tu contraseña: {link}",
 "You will receive a link to reset your password via Email." => "Vas a recibir un enlace por e-mail para restablecer tu contraseña",
+"Reset email send." => "Reiniciar envío de email.",
+"Request failed!" => "Error en el pedido!",
 "Username" => "Nombre de usuario",
 "Request reset" => "Solicitar restablecimiento",
 "Your password was reset" => "Tu contraseña fue restablecida",
