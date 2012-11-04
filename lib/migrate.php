@@ -611,11 +611,11 @@ class OC_Migrate{
 		if( file_exists( $db ) ) {
 			// Connect to the db
 			if(!self::connectDB( $db )) {
-				OC_Log::write('migration','Failed to connect to migration.db',OC_Log::ERROR);
+				OC_Log::write('migration','Failed to connect to migration.db', OC_Log::ERROR);
 				return false;
 			}
 		} else {
-			OC_Log::write('migration','Migration.db not found at: '.$db, OC_Log::FATAL );
+			OC_Log::write('migration', 'Migration.db not found at: '.$db, OC_Log::FATAL );
 			return false;
 		}
 

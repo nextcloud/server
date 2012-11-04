@@ -162,7 +162,7 @@ class OC_OCSClient{
 		$xml=OC_OCSClient::getOCSresponse($url);
 
 		if($xml==false) {
-			OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
+			OC_Log::write('core','Unable to parse OCS content', OC_Log::FATAL);
 			return null;
 		}
 		$data=simplexml_load_string($xml);
@@ -200,7 +200,7 @@ class OC_OCSClient{
 		$xml=OC_OCSClient::getOCSresponse($url);
 
 		if($xml==false) {
-			OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
+			OC_Log::write('core','Unable to parse OCS content', OC_Log::FATAL);
 			return null;
 		}
 		$data=simplexml_load_string($xml);
@@ -238,7 +238,7 @@ class OC_OCSClient{
 		$xml=OC_OCSClient::getOCSresponse($url);
 
 		if($xml==false) {
-			OC_Log::write('core','Unable to parse knowledgebase content',OC_Log::FATAL);
+			OC_Log::write('core','Unable to parse knowledgebase content', OC_Log::FATAL);
 			return null;
 		}
 		$data=simplexml_load_string($xml);

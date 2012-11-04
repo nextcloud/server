@@ -72,7 +72,7 @@ class OC_JSON{
 	public static function checkSubAdminUser() {
 		self::checkLoggedIn();
 		self::verifyUser();
-		if(!OC_Group::inGroup(OC_User::getUser(),'admin') && !OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
+		if(!OC_Group::inGroup(OC_User::getUser(), 'admin') && !OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();

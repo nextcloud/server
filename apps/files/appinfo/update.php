@@ -39,7 +39,7 @@ foreach($filesToRemove as $file) {
     $success = OCP\Files::rmdirr($filepath);
     if($success === false) {
 		//probably not sufficient privileges, give up and give a message.
-		OCP\Util::writeLog('files','Could not clean /files/ directory. Please remove everything except webdav.php from ' . OC::$SERVERROOT . '/files/', OCP\Util::ERROR);
+		OCP\Util::writeLog('files', 'Could not clean /files/ directory. Please remove everything except webdav.php from ' . OC::$SERVERROOT . '/files/', OCP\Util::ERROR);
 		break;
     }
 }

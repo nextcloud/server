@@ -95,7 +95,7 @@ class OC_Setup {
 			//write the config file
 			OC_Config::setValue('datadirectory', $datadir);
 			OC_Config::setValue('dbtype', $dbtype);
-			OC_Config::setValue('version', implode('.',OC_Util::getVersion()));
+			OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
 			if($dbtype == 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];

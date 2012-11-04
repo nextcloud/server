@@ -394,8 +394,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			case 'x+':
 			case 'c':
 			case 'c+':
-				if (strrpos($path,'.') !== false) {
-					$ext = substr($path, strrpos($path,'.'));
+				if (strrpos($path, '.') !== false) {
+					$ext = substr($path, strrpos($path, '.'));
 				} else {
 					$ext = '';
 				}

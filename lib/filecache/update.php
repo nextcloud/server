@@ -165,7 +165,7 @@ class OC_FileCache_Update{
 				$mtime=$view->filemtime($path.'/');
 				$ctime=$view->filectime($path.'/');
 				$writable=$view->is_writable($path.'/');
-				OC_FileCache::put($path, array('size'=>$size,'mtime'=>$mtime,'ctime'=>$ctime,'mimetype'=>$mimetype,'writable'=>$writable));
+				OC_FileCache::put($path, array('size'=>$size,'mtime'=>$mtime,'ctime'=>$ctime,'mimetype'=>$mimetype, 'writable'=>$writable));
 			}else{
 				$count=0;
 				OC_FileCache::scan($path, null, $count, $root);
@@ -200,7 +200,7 @@ class OC_FileCache_Update{
 	 * @param string newPath
 	 * @param string root (optional)
 	 */
-	public static function rename($oldPath,$newPath, $root=false) {
+	public static function rename($oldPath, $newPath, $root=false) {
 		if(!OC_FileCache::inCache($oldPath, $root)) {
 			return;
 		}

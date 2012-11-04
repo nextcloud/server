@@ -36,5 +36,5 @@ if($username) {
 	}
 	OC_Appconfig::setValue('files', 'default_quota', $quota);
 }
-OC_JSON::success(array("data" => array( "username" => $username ,'quota' => $quota)));
+OC_JSON::success(array("data" => array( "username" => $username , 'quota' => $quota)));
 

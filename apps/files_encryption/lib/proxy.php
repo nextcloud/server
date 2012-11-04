@@ -36,7 +36,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	 */
 	private static function shouldEncrypt($path) {
 		if(is_null(self::$enableEncryption)) {
-			self::$enableEncryption=(OCP\Config::getAppValue('files_encryption','enable_encryption','true')=='true');
+			self::$enableEncryption=(OCP\Config::getAppValue('files_encryption', 'enable_encryption', 'true')=='true');
 		}
 		if(!self::$enableEncryption) {
 			return false;
@@ -59,7 +59,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 	 * @return bool
 	 */
 	private static function isEncrypted($path) {
-		$metadata=OC_FileCache_Cached::get($path,'');
+		$metadata=OC_FileCache_Cached::get($path, '');
 		return isset($metadata['encrypted']) and (bool)$metadata['encrypted'];
 	}
 
@@ -68,14 +68,14 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 			if (!is_resource($data)) {//stream put contents should have been converter to fopen
 				$size=strlen($data);
 				$data=OC_Crypt::blockEncrypt($data);
-				OC_FileCache::put($path, array('encrypted'=>true,'size'=>$size),'');
+				OC_FileCache::put($path, array('encrypted'=>true,'size'=>$size), '');
 			}
 		}
 	}
 
-	public function postFile_get_contents($path,$data) {
+	public function postFile_get_contents($path, $data) {
 		if(self::isEncrypted($path)) {
-			$cached=OC_FileCache_Cached::get($path,'');
+			$cached=OC_FileCache_Cached::get($path, '');
 			$data=OC_Crypt::blockDecrypt($data, '', $cached['size']);
 		}
 		return $data;
@@ -92,7 +92,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		}elseif(self::shouldEncrypt($path) and $meta['mode']!='r' and $meta['mode']!='rb') {
 			if(OC_Filesystem::file_exists($path) and OC_Filesystem::filesize($path)>0) {
 				//first encrypt the target file so we don't end up with a half encrypted file
-				OCP\Util::writeLog('files_encryption','Decrypting '.$path.' before writing',OCP\Util::DEBUG);
+				OCP\Util::writeLog('files_encryption','Decrypting '.$path.' before writing', OCP\Util::DEBUG);
 				$tmp=fopen('php://temp');
 				OCP\Files::streamCopy($result, $tmp);
 				fclose($result);
@@ -106,14 +106,14 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 
 	public function postGetMimeType($path, $mime) {
 		if(self::isEncrypted($path)) {
-			$mime=OCP\Files::getMimeType('crypt://'.$path,'w');
+			$mime=OCP\Files::getMimeType('crypt://'.$path, 'w');
 		}
 		return $mime;
 	}
 
 	public function postStat($path, $data) {
 		if(self::isEncrypted($path)) {
-			$cached=OC_FileCache_Cached::get($path,'');
+			$cached=OC_FileCache_Cached::get($path, '');
 			$data['size']=$cached['size'];
 		}
 		return $data;
@@ -121,7 +121,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 
 	public function postFileSize($path, $size) {
 		if(self::isEncrypted($path)) {
-			$cached=OC_FileCache_Cached::get($path,'');
+			$cached=OC_FileCache_Cached::get($path, '');
 			return  $cached['size'];
 		}else{
 			return $size;

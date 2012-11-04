@@ -205,7 +205,7 @@ class OC_Migration_Content{
 			}
 			closedir($dirhandle);
 	    } else {
-			OC_Log::write('admin_export',"Was not able to open directory: " . $dir,OC_Log::ERROR);
+			OC_Log::write('admin_export',"Was not able to open directory: " . $dir, OC_Log::ERROR);
 			return false;
 	    }
 	    return true;
