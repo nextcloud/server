@@ -27,6 +27,7 @@
 "Size" => "Grando",
 "Modified" => "Modifita",
 "seconds ago" => "sekundoj antaŭe",
+"1 minute ago" => "antaŭ 1 minuto",
 "today" => "hodiaŭ",
 "yesterday" => "hieraŭ",
 "last month" => "lastamonate",

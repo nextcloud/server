@@ -91,7 +91,7 @@ class OC_Migrate{
 	 	if( self::$exporttype == 'user' ) {
 	 		// Check user exists
 	 		self::$uid = is_null($uid) ? OC_User::getUser() : $uid;
-	 		if(!OC_User::userExists(self::$uid)){
+	 		if(!OC_User::userExists(self::$uid)) {
 		 		return json_encode( array( 'success' => false) );
 	 		}
 	 	}
@@ -611,11 +611,11 @@ class OC_Migrate{
 		if( file_exists( $db ) ) {
 			// Connect to the db
 			if(!self::connectDB( $db )) {
-				OC_Log::write('migration','Failed to connect to migration.db',OC_Log::ERROR);
+				OC_Log::write('migration','Failed to connect to migration.db', OC_Log::ERROR);
 				return false;
 			}
 		} else {
-			OC_Log::write('migration','Migration.db not found at: '.$db, OC_Log::FATAL );
+			OC_Log::write('migration', 'Migration.db not found at: '.$db, OC_Log::FATAL );
 			return false;
 		}
 

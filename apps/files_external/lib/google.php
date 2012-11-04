@@ -399,8 +399,8 @@ class Google extends \OC\Files\Storage\Common {
 			case 'x+':
 			case 'c':
 			case 'c+':
-				if (strrpos($path,'.') !== false) {
-					$ext = substr($path, strrpos($path,'.'));
+				if (strrpos($path, '.') !== false) {
+					$ext = substr($path, strrpos($path, '.'));
 				} else {
 					$ext = '';
 				}

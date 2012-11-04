@@ -25,7 +25,7 @@
  * Prints an XSS escaped string
  * @param string $string the string which will be escaped and printed
  */
-function p($string){
+function p($string) {
 	print(OC_Util::sanitizeHTML($string));
 }
 
@@ -33,7 +33,7 @@ function p($string){
  * Prints an unescaped string
  * @param string $string the string which will be printed as it is
  */
-function print_unescaped($string){
+function print_unescaped($string) {
 	print($string);
 }
 
@@ -85,7 +85,7 @@ function human_file_size( $bytes ) {
 }
 
 function simple_file_size($bytes) {
-	$mbytes = round($bytes/(1024*1024),1);
+	$mbytes = round($bytes/(1024*1024), 1);
 	if($bytes == 0) { return '0'; }
 	else if($mbytes < 0.1) { return '&lt; 0.1'; }
 	else if($mbytes > 1000) { return '&gt; 1000'; }
@@ -102,12 +102,12 @@ function relative_modified_date($timestamp) {
 
 	if($timediff < 60) { return $l->t('seconds ago'); }
 	else if($timediff < 120) { return $l->t('1 minute ago'); }
-	else if($timediff < 3600) { return $l->t('%d minutes ago',$diffminutes); }
+	else if($timediff < 3600) { return $l->t('%d minutes ago', $diffminutes); }
 	//else if($timediff < 7200) { return '1 hour ago'; }
 	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
 	else if((date('G')-$diffhours) > 0) { return $l->t('today'); }
 	else if((date('G')-$diffhours) > -24) { return $l->t('yesterday'); }
-	else if($timediff < 2678400) { return $l->t('%d days ago',$diffdays); }
+	else if($timediff < 2678400) { return $l->t('%d days ago', $diffdays); }
 	else if($timediff < 5184000) { return $l->t('last month'); }
 	else if((date('n')-$diffmonths) > 0) { return $l->t('months ago'); }
 	else if($timediff < 63113852) { return $l->t('last year'); }
@@ -172,7 +172,6 @@ class OC_Template{
 		$this->application = $app;
 		$this->vars = array();
 		$this->vars['requesttoken'] = OC_Util::callRegister();
-		$this->vars['requestlifespan'] = OC_Util::$callLifespan;
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$this->l10n = OC_L10N::get($parts[0]);
 
@@ -196,11 +195,11 @@ class OC_Template{
 	public static function detectFormfactor() {
 		// please add more useragent strings for other devices
 		if(isset($_SERVER['HTTP_USER_AGENT'])) {
-			if(stripos($_SERVER['HTTP_USER_AGENT'],'ipad')>0) {
+			if(stripos($_SERVER['HTTP_USER_AGENT'], 'ipad')>0) {
 				$mode='tablet';
-			}elseif(stripos($_SERVER['HTTP_USER_AGENT'],'iphone')>0) {
+			}elseif(stripos($_SERVER['HTTP_USER_AGENT'], 'iphone')>0) {
 				$mode='mobile';
-			}elseif((stripos($_SERVER['HTTP_USER_AGENT'],'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'],'nokia')>0)) {
+			}elseif((stripos($_SERVER['HTTP_USER_AGENT'],'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'], 'nokia')>0)) {
 				$mode='mobile';
 			}else{
 				$mode='default';
@@ -357,7 +356,7 @@ class OC_Template{
 	 * @param string $text the text content for the element
 	 */
 	public function addHeader( $tag, $attributes, $text='') {
-		$this->headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
+		$this->headers[]=array('tag'=>$tag,'attributes'=>$attributes, 'text'=>$text);
 	}
 
 	/**
@@ -391,13 +390,12 @@ class OC_Template{
 			$page = new OC_TemplateLayout($this->renderas);
 			if($this->renderas == 'user') {
 				$page->assign('requesttoken', $this->vars['requesttoken']);
-				$page->assign('requestlifespan', $this->vars['requestlifespan']);
 			}
 
 			// Add custom headers
-			$page->assign('headers',$this->headers, false);
+			$page->assign('headers', $this->headers, false);
 			foreach(OC_Util::$headers as $header) {
-				$page->append('headers',$header);
+				$page->append('headers', $header);
 			}
 
 			$page->assign( "content", $data, false );

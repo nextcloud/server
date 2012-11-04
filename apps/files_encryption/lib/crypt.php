@@ -43,7 +43,7 @@ class OC_Crypt {
 		self::init($params['uid'], $params['password']);
 	}
 
-	public static function init($login,$password) {
+	public static function init($login, $password) {
 		$view=new \OC\Files\View('/');
 		if(!$view->file_exists('/'.$login)) {
 			$view->mkdir('/'.$login);

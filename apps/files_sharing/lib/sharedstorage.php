@@ -422,7 +422,7 @@ class Shared extends \OC\Files\Storage\Common {
 	 * @param int $time
 	 * @return bool
 	 */
-	public function hasUpdated($path,$time) {
+	public function hasUpdated($path, $time) {
 		//TODO
 		return false;
 	}

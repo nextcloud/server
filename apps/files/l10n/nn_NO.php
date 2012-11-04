@@ -11,6 +11,7 @@
 "Size" => "Storleik",
 "Modified" => "Endra",
 "Maximum upload size" => "Maksimal opplastingsstorleik",
+"Save" => "Lagre",
 "New" => "Ny",
 "Text file" => "Tekst fil",
 "Folder" => "Mappe",

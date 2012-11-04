@@ -21,7 +21,6 @@
  *
  */
 
-print_r($_POST);
 if($_POST) {
 
 		if(isset($_POST['webdav_url'])) {

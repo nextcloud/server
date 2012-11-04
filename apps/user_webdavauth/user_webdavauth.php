@@ -30,19 +30,19 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 
 	public function createUser() {
 		// Can't create user
-		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to create users from web frontend using WebDAV user backend',3);
+		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to create users from web frontend using WebDAV user backend', 3);
 		return false;
 	}
 
 	public function deleteUser() {
 		// Can't delete user
-		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to delete users from web frontend using WebDAV user backend',3);
+		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to delete users from web frontend using WebDAV user backend', 3);
 		return false;
 	}
 
 	public function setPassword ( $uid, $password ) {
 		// We can't change user password
-		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to change password for users from web frontend using WebDAV user backend',3);
+		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to change password for users from web frontend using WebDAV user backend', 3);
 		return false;
 	}
 

@@ -40,8 +40,8 @@ class OC_Search{
 	 * register a new search provider to be used
 	 * @param string $provider class name of a OC_Search_Provider
 	 */
-	public static function registerProvider($class,$options=array()) {
-		self::$registeredProviders[]=array('class'=>$class,'options'=>$options);
+	public static function registerProvider($class, $options=array()) {
+		self::$registeredProviders[]=array('class'=>$class, 'options'=>$options);
 	}
 
 	/**

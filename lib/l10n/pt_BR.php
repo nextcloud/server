@@ -14,6 +14,7 @@
 "Token expired. Please reload page." => "Token expirou. Por favor recarregue a página.",
 "Files" => "Arquivos",
 "Text" => "Texto",
+"Images" => "Imagens",
 "seconds ago" => "segundos atrás",
 "1 minute ago" => "1 minuto atrás",
 "%d minutes ago" => "%d minutos atrás",

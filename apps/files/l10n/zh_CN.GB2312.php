@@ -27,6 +27,7 @@
 "Size" => "大小",
 "Modified" => "修改日期",
 "seconds ago" => "秒前",
+"1 minute ago" => "1 分钟前",
 "today" => "今天",
 "yesterday" => "昨天",
 "last month" => "上个月",

@@ -58,6 +58,7 @@
 "New" => "Ny",
 "Text file" => "Textfil",
 "Folder" => "Mapp",
+"From link" => "Från länk",
 "Upload" => "Ladda upp",
 "Cancel upload" => "Avbryt uppladdning",
 "Nothing in here. Upload something!" => "Ingenting här. Ladda upp något!",

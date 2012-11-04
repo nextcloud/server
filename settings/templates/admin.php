@@ -3,7 +3,7 @@
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
-$levels=array('Debug','Info','Warning','Error','Fatal');
+$levels=array('Debug','Info','Warning','Error', 'Fatal');
 ?>
 
 <?php

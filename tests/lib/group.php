@@ -36,30 +36,30 @@ class Test_Group extends UnitTestCase {
 		$user1=uniqid();
 		$user2=uniqid();
 
-		$this->assertFalse(OC_Group::inGroup($user1,$group1));
-		$this->assertFalse(OC_Group::inGroup($user2,$group1));
-		$this->assertFalse(OC_Group::inGroup($user1,$group2));
-		$this->assertFalse(OC_Group::inGroup($user2,$group2));
+		$this->assertFalse(OC_Group::inGroup($user1, $group1));
+		$this->assertFalse(OC_Group::inGroup($user2, $group1));
+		$this->assertFalse(OC_Group::inGroup($user1, $group2));
+		$this->assertFalse(OC_Group::inGroup($user2, $group2));
 
-		$this->assertTrue(OC_Group::addToGroup($user1,$group1));
+		$this->assertTrue(OC_Group::addToGroup($user1, $group1));
 
-		$this->assertTrue(OC_Group::inGroup($user1,$group1));
-		$this->assertFalse(OC_Group::inGroup($user2,$group1));
-		$this->assertFalse(OC_Group::inGroup($user1,$group2));
-		$this->assertFalse(OC_Group::inGroup($user2,$group2));
+		$this->assertTrue(OC_Group::inGroup($user1, $group1));
+		$this->assertFalse(OC_Group::inGroup($user2, $group1));
+		$this->assertFalse(OC_Group::inGroup($user1, $group2));
+		$this->assertFalse(OC_Group::inGroup($user2, $group2));
 
-		$this->assertFalse(OC_Group::addToGroup($user1,$group1));
+		$this->assertFalse(OC_Group::addToGroup($user1, $group1));
 
-		$this->assertEqual(array($user1),OC_Group::usersInGroup($group1));
-		$this->assertEqual(array(),OC_Group::usersInGroup($group2));
+		$this->assertEqual(array($user1), OC_Group::usersInGroup($group1));
+		$this->assertEqual(array(), OC_Group::usersInGroup($group2));
 
-		$this->assertEqual(array($group1),OC_Group::getUserGroups($user1));
-		$this->assertEqual(array(),OC_Group::getUserGroups($user2));
+		$this->assertEqual(array($group1), OC_Group::getUserGroups($user1));
+		$this->assertEqual(array(), OC_Group::getUserGroups($user2));
 
 		OC_Group::deleteGroup($group1);
-		$this->assertEqual(array(),OC_Group::getUserGroups($user1));
-		$this->assertEqual(array(),OC_Group::usersInGroup($group1));
-		$this->assertFalse(OC_Group::inGroup($user1,$group1));
+		$this->assertEqual(array(), OC_Group::getUserGroups($user1));
+		$this->assertEqual(array(), OC_Group::usersInGroup($group1));
+		$this->assertFalse(OC_Group::inGroup($user1, $group1));
 	}
 
 	function testMultiBackend() {
@@ -73,42 +73,42 @@ class Test_Group extends UnitTestCase {
 		OC_Group::createGroup($group1);
 
 		//groups should be added to the first registered backend
-		$this->assertEqual(array($group1),$backend1->getGroups());
-		$this->assertEqual(array(),$backend2->getGroups());
+		$this->assertEqual(array($group1), $backend1->getGroups());
+		$this->assertEqual(array(), $backend2->getGroups());
 
-		$this->assertEqual(array($group1),OC_Group::getGroups());
+		$this->assertEqual(array($group1), OC_Group::getGroups());
 		$this->assertTrue(OC_Group::groupExists($group1));
 		$this->assertFalse(OC_Group::groupExists($group2));
 
 		$backend1->createGroup($group2);
 
-		$this->assertEqual(array($group1,$group2),OC_Group::getGroups());
+		$this->assertEqual(array($group1, $group2), OC_Group::getGroups());
 		$this->assertTrue(OC_Group::groupExists($group1));
 		$this->assertTrue(OC_Group::groupExists($group2));
 
 		$user1=uniqid();
 		$user2=uniqid();
 
-		$this->assertFalse(OC_Group::inGroup($user1,$group1));
-		$this->assertFalse(OC_Group::inGroup($user2,$group1));
+		$this->assertFalse(OC_Group::inGroup($user1, $group1));
+		$this->assertFalse(OC_Group::inGroup($user2, $group1));
 
 
-		$this->assertTrue(OC_Group::addToGroup($user1,$group1));
+		$this->assertTrue(OC_Group::addToGroup($user1, $group1));
 
-		$this->assertTrue(OC_Group::inGroup($user1,$group1));
-		$this->assertFalse(OC_Group::inGroup($user2,$group1));
-		$this->assertFalse($backend2->inGroup($user1,$group1));
+		$this->assertTrue(OC_Group::inGroup($user1, $group1));
+		$this->assertFalse(OC_Group::inGroup($user2, $group1));
+		$this->assertFalse($backend2->inGroup($user1, $group1));
 
-		$this->assertFalse(OC_Group::addToGroup($user1,$group1));
+		$this->assertFalse(OC_Group::addToGroup($user1, $group1));
 
-		$this->assertEqual(array($user1),OC_Group::usersInGroup($group1));
+		$this->assertEqual(array($user1), OC_Group::usersInGroup($group1));
 
-		$this->assertEqual(array($group1),OC_Group::getUserGroups($user1));
-		$this->assertEqual(array(),OC_Group::getUserGroups($user2));
+		$this->assertEqual(array($group1), OC_Group::getUserGroups($user1));
+		$this->assertEqual(array(), OC_Group::getUserGroups($user2));
 
 		OC_Group::deleteGroup($group1);
-		$this->assertEqual(array(),OC_Group::getUserGroups($user1));
-		$this->assertEqual(array(),OC_Group::usersInGroup($group1));
-		$this->assertFalse(OC_Group::inGroup($user1,$group1));
+		$this->assertEqual(array(), OC_Group::getUserGroups($user1));
+		$this->assertEqual(array(), OC_Group::usersInGroup($group1));
+		$this->assertFalse(OC_Group::inGroup($user1, $group1));
 	}
 }

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-02 00:03+0100\n"
-"PO-Revision-Date: 2012-11-01 23:04+0000\n"
+"POT-Creation-Date: 2012-11-03 00:00+0100\n"
+"PO-Revision-Date: 2012-11-01 23:21+0000\n"
 "Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -249,7 +249,7 @@ msgstr "0 is ongelimiteerd"
 msgid "Maximum input size for ZIP files"
 msgstr "Maximale grootte voor ZIP bestanden"
 
-#: templates/admin.php:14
+#: templates/admin.php:15
 msgid "Save"
 msgstr "Opslaan"
 

@@ -105,18 +105,18 @@ class OC_OCSClient{
 	 *
 	 * This function returns a list of all the applications on the OCS server
 	 */
-	public static function getApplications($categories,$page,$filter) {
+	public static function getApplications($categories, $page, $filter) {
 		if(OC_Config::getValue('appstoreenabled', true)==false) {
 			return(array());
 		}
 
 		if(is_array($categories)) {
-			$categoriesstring=implode('x',$categories);
+			$categoriesstring=implode('x', $categories);
 		}else{
 			$categoriesstring=$categories;
 		}
 
-		$version='&version='.implode('x',\OC_Util::getVersion());
+		$version='&version='.implode('x', \OC_Util::getVersion());
 		$filterurl='&filter='.urlencode($filter);
 		$url=OC_OCSClient::getAppStoreURL().'/content/data?categories='.urlencode($categoriesstring).'&sortmode=new&page='.urlencode($page).'&pagesize=100'.$filterurl.$version;
 		$apps=array();
@@ -162,7 +162,7 @@ class OC_OCSClient{
 		$xml=OC_OCSClient::getOCSresponse($url);
 
 		if($xml==false) {
-			OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
+			OC_Log::write('core','Unable to parse OCS content', OC_Log::FATAL);
 			return null;
 		}
 		$data=simplexml_load_string($xml);
@@ -192,7 +192,7 @@ class OC_OCSClient{
 		*
 		* This function returns an download url for an applications from the OCS server
 		*/
-	public static function getApplicationDownload($id,$item) {
+	public static function getApplicationDownload($id, $item) {
 		if(OC_Config::getValue('appstoreenabled', true)==false) {
 			return null;
 		}
@@ -200,7 +200,7 @@ class OC_OCSClient{
 		$xml=OC_OCSClient::getOCSresponse($url);
 
 		if($xml==false) {
-			OC_Log::write('core','Unable to parse OCS content',OC_Log::FATAL);
+			OC_Log::write('core','Unable to parse OCS content', OC_Log::FATAL);
 			return null;
 		}
 		$data=simplexml_load_string($xml);
@@ -222,7 +222,7 @@ class OC_OCSClient{
 	 *
 	 * This function returns a list of all the knowledgebase entries from the OCS server
 	 */
-	public static function getKnownledgebaseEntries($page,$pagesize,$search='') {
+	public static function getKnownledgebaseEntries($page, $pagesize, $search='') {
 		if(OC_Config::getValue('knowledgebaseenabled', true)==false) {
 			$kbe=array();
 			$kbe['totalitems']=0;
@@ -238,7 +238,7 @@ class OC_OCSClient{
 		$xml=OC_OCSClient::getOCSresponse($url);
 
 		if($xml==false) {
-			OC_Log::write('core','Unable to parse knowledgebase content',OC_Log::FATAL);
+			OC_Log::write('core','Unable to parse knowledgebase content', OC_Log::FATAL);
 			return null;
 		}
 		$data=simplexml_load_string($xml);

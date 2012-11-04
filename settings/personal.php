@@ -40,11 +40,11 @@ $languages=array();
 foreach($languageCodes as $lang) {
 	$l=OC_L10N::get('settings', $lang);
 	if(substr($l->t('__language_name__'), 0, 1)!='_') {//first check if the language name is in the translation file
-		$languages[]=array('code'=>$lang,'name'=>$l->t('__language_name__'));
+		$languages[]=array('code'=>$lang, 'name'=>$l->t('__language_name__'));
 	}elseif(isset($languageNames[$lang])) {
-		$languages[]=array('code'=>$lang,'name'=>$languageNames[$lang]);
+		$languages[]=array('code'=>$lang, 'name'=>$languageNames[$lang]);
 	}else{//fallback to language code
-		$languages[]=array('code'=>$lang,'name'=>$lang);
+		$languages[]=array('code'=>$lang, 'name'=>$lang);
 	}
 }
 

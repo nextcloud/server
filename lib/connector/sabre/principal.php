@@ -46,7 +46,7 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
-		list($prefix,$name) = explode('/', $path);
+		list($prefix, $name) = explode('/', $path);
 
 		if ($prefix == 'principals' && OC_User::userExists($name)) {
 			return array(
@@ -83,7 +83,7 @@ class OC_Connector_Sabre_Principal implements Sabre_DAVACL_IPrincipalBackend {
 	 * @return array
 	 */
 	public function getGroupMembership($principal) {
-		list($prefix,$name) = Sabre_DAV_URLUtil::splitPath($principal);
+		list($prefix, $name) = Sabre_DAV_URLUtil::splitPath($principal);
 
 		$group_membership = array();
 		if ($prefix == 'principals') {

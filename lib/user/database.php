@@ -48,7 +48,7 @@ class OC_User_Database extends OC_User_Backend {
 		if(!self::$hasher) {
 			//we don't want to use DES based crypt(), since it doesn't return a has with a recognisable prefix
 			$forcePortable=(CRYPT_BLOWFISH!=1);
-			self::$hasher=new PasswordHash(8,$forcePortable);
+			self::$hasher=new PasswordHash(8, $forcePortable);
 		}
 		return self::$hasher;
 
@@ -137,7 +137,7 @@ class OC_User_Database extends OC_User_Backend {
 			}else{//old sha1 based hashing
 				if(sha1($password)==$storedHash) {
 					//upgrade to new hashing
-					$this->setPassword($row['uid'],$password);
+					$this->setPassword($row['uid'], $password);
 					return $row['uid'];
 				}else{
 					return false;
@@ -155,7 +155,7 @@ class OC_User_Database extends OC_User_Backend {
 	 * Get a list of all users.
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
-		$query = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users` WHERE LOWER(`uid`) LIKE LOWER(?)',$limit,$offset);
+		$query = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users` WHERE LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
 		$result = $query->execute(array($search.'%'));
 		$users = array();
 		while ($row = $result->fetchRow()) {

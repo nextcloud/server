@@ -27,6 +27,7 @@
 "Size" => "Tamaina",
 "Modified" => "Aldatuta",
 "seconds ago" => "segundu",
+"1 minute ago" => "orain dela minutu 1",
 "today" => "gaur",
 "yesterday" => "atzo",
 "last month" => "joan den hilabetean",
