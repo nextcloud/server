@@ -397,8 +397,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
         }
 
         if ($this->fix_assoc_fields_names ||
-            $this->options['portability'] & MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES)
-        {
+            $this->options['portability'] & MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES) {
             $this->connection->exec("PRAGMA short_column_names = 1");
             $this->fix_assoc_fields_names = true;
         }

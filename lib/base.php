@@ -524,8 +524,7 @@ class OC{
 				}
 				$file_ext = substr($param['file'], -3);
 				if ($file_ext != 'php'
-				    || !self::loadAppScriptFile($param))
-				{
+				    || !self::loadAppScriptFile($param)) {
 					header('HTTP/1.0 404 Not Found');
 				}
 			}
@@ -595,8 +594,7 @@ class OC{
 		if(!isset($_COOKIE["oc_remember_login"])
 			|| !isset($_COOKIE["oc_token"])
 			|| !isset($_COOKIE["oc_username"])
-			|| !$_COOKIE["oc_remember_login"])
-		{
+			|| !$_COOKIE["oc_remember_login"]) {
 			return false;
 		}
 		OC_App::loadApps(array('authentication'));

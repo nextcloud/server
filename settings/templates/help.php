@@ -12,8 +12,7 @@
 	<?php
 		$url=OC_Helper::linkTo( "settings", "help.php" ).'?page=';
 		$pageNavi=OC_Util::getPageNavi($_['pagecount'], $_['page'], $url);
-		if($pageNavi)
-		{
+		if($pageNavi) {
 			$pageNavi->printPage();
 		}
 	?>
