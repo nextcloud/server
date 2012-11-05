@@ -45,13 +45,16 @@ class OC_Files {
 		if (($path == '/Shared' || substr($path, 0, 8) == '/Shared/') && OC_App::isEnabled('files_sharing')) {
 			if ($path == '/Shared') {
 				list($info) = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
-			}else{
-				$info['size'] = OC_Filesystem::filesize($path);
-				$info['mtime'] = OC_Filesystem::filemtime($path);
-				$info['ctime'] = OC_Filesystem::filectime($path);
-				$info['mimetype'] = OC_Filesystem::getMimeType($path);
-				$info['encrypted'] = false;
-				$info['versioned'] = false;
+			} else {
+				$info = array();
+				if (OC_Filesystem::file_exists($path)) {
+					$info['size'] = OC_Filesystem::filesize($path);
+					$info['mtime'] = OC_Filesystem::filemtime($path);
+					$info['ctime'] = OC_Filesystem::filectime($path);
+					$info['mimetype'] = OC_Filesystem::getMimeType($path);
+					$info['encrypted'] = false;
+					$info['versioned'] = false;
+				}
 			}
 		} else {
 			$info = OC_FileCache::get($path);
