@@ -6,9 +6,9 @@ $categories = isset($_['categories'])?$_['categories']:array();
 	<form method="post" id="categoryform">
 	<div class="scrollarea">
 	<ul id="categorylist">
-	<?php foreach($categories as $category) { ?>
+	<?php foreach($categories as $category): ?>
 	<li><input type="checkbox" name="categories[]" value="<?php echo $category; ?>" /><?php echo $category; ?></li>
-	<?php } ?>
+	<?php endforeach; ?>
 	</ul>
 	</div>
 	<div class="bottombuttons">
