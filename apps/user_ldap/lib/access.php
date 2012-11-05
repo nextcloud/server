@@ -40,9 +40,10 @@ abstract class Access {
 	 * @brief reads a given attribute for an LDAP record identified by a DN
 	 * @param $dn the record in question
 	 * @param $attr the attribute that shall be retrieved
-	 * @returns the values in an array on success, false otherwise
+	 *        if empty, just check the record's existence
+	 * @returns true or the values in an array on success, false otherwise
 	 *
-	 * Reads an attribute from an LDAP entry
+	 * Reads an attribute from an LDAP entry or check if entry exists
 	 */
 	public function readAttribute($dn, $attr, $filter = 'objectClass=*') {
 		if(!$this->checkConnection()) {
@@ -57,9 +58,13 @@ abstract class Access {
 		}
 		$rr = @ldap_read($cr, $dn, $filter, array($attr));
 		if(!is_resource($rr)) {
-			\OCP\Util::writeLog('user_ldap', 'readAttribute '.$attr.' failed for DN '.$dn, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
 			//in case an error occurs , e.g. object does not exist
 			return false;
+		}
+		if (empty($attr)) {
+			\OCP\Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', \OCP\Util::DEBUG);
+			return true;
 		}
 		$er = ldap_first_entry($cr, $rr);
 		if(!is_resource($er)) {
