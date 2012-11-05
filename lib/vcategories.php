@@ -675,6 +675,9 @@ class OC_VCategories {
 				$stmt = OCP\DB::prepare('DELETE FROM `' . self::CATEGORY_TABLE . '` WHERE '
 					. '`uid` = ? AND `type` = ? AND `category` = ?');
 				$result = $stmt->execute(array($this->user, $this->type, $name));
+				if (OC_DB::isError($result)) {
+					OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+				}
 			} catch(Exception $e) {
 				OCP\Util::writeLog('core', __METHOD__ . ', exception: '
 					. $e->getMessage(), OCP\Util::ERROR);
@@ -684,7 +687,10 @@ class OC_VCategories {
 					$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
 							. 'WHERE `categoryid` = ?';
 					$stmt = OCP\DB::prepare($sql);
-					$stmt->execute(array($id));
+					$result = $stmt->execute(array($id));
+					if (OC_DB::isError($result)) {
+						OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+					}
 				} catch(Exception $e) {
 					OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
 						OCP\Util::ERROR);
