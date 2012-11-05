@@ -75,8 +75,6 @@ var FileActions = {
 			event.preventDefault();
 			FileActions.currentFile = parent;
 			file = FileActions.getCurrentFile();
-			console.log(file);
-			console.log(file);
 			action(file);
 		};
 		for (name in actions) {
