@@ -24,4 +24,22 @@ class Test_Filestorage_FTP extends Test_FileStorage {
 			OCP\Files::rmdirr($this->instance->constructUrl(''));
 		}
 	}
+
+	public function testConstructUrl(){
+		$config = array ( 'host' => 'localhost', 'user' => 'ftp', 'password' => 'ftp', 'root' => '/', 'secure' => false );
+		$instance = new OC_Filestorage_FTP($config);
+		$this->assertEqual('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
+
+		$config['secure'] = true;
+		$instance = new OC_Filestorage_FTP($config);
+		$this->assertEqual('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
+
+		$config['secure'] = 'false';
+		$instance = new OC_Filestorage_FTP($config);
+		$this->assertEqual('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
+
+		$config['secure'] = 'true';
+		$instance = new OC_Filestorage_FTP($config);
+		$this->assertEqual('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
+	}
 }

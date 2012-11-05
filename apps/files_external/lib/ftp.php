@@ -19,7 +19,15 @@ class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
 		$this->host=$params['host'];
 		$this->user=$params['user'];
 		$this->password=$params['password'];
-		$this->secure=isset($params['secure'])?(bool)$params['secure']:false;
+		if(isset($params['secure'])){
+			if(is_string($params['secure'])){
+				$this->secure = ($params['secure'] === 'true');
+			}else{
+				$this->secure = (bool)$params['secure'];
+			}
+		}else{
+			$this->secure = false;
+		}
 		$this->root=isset($params['root'])?$params['root']:'/';
 		if(!$this->root || $this->root[0]!='/') {
 			$this->root='/'.$this->root;
