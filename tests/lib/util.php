@@ -10,7 +10,7 @@ class Test_Util extends UnitTestCase {
 
 	// Constructor
 	function Test_Util() {
-		date_default_timezone_set("UTC"); 
+		date_default_timezone_set("UTC");
 	}
 
 	function testFormatDate() {
@@ -36,10 +36,10 @@ class Test_Util extends UnitTestCase {
 		$goodString = "This is an harmless string.";
 		$result = OC_Util::sanitizeHTML($goodString);
 		$this->assertEquals("This is an harmless string.", $result);
-	} 
+	}
 
 	function testGenerate_random_bytes() {
 		$result = strlen(OC_Util::generate_random_bytes(59));
 		$this->assertEquals(59, $result);
-	} 
+	}
 }

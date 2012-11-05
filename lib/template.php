@@ -199,7 +199,7 @@ class OC_Template{
 				$mode='tablet';
 			}elseif(stripos($_SERVER['HTTP_USER_AGENT'], 'iphone')>0) {
 				$mode='mobile';
-			}elseif((stripos($_SERVER['HTTP_USER_AGENT'],'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'], 'nokia')>0)) {
+			}elseif((stripos($_SERVER['HTTP_USER_AGENT'], 'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'], 'nokia')>0)) {
 				$mode='mobile';
 			}else{
 				$mode='default';

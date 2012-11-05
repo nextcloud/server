@@ -524,8 +524,7 @@ class OC{
 				}
 				$file_ext = substr($param['file'], -3);
 				if ($file_ext != 'php'
-				    || !self::loadAppScriptFile($param))
-				{
+				    || !self::loadAppScriptFile($param)) {
 					header('HTTP/1.0 404 Not Found');
 				}
 			}
@@ -595,8 +594,7 @@ class OC{
 		if(!isset($_COOKIE["oc_remember_login"])
 			|| !isset($_COOKIE["oc_token"])
 			|| !isset($_COOKIE["oc_username"])
-			|| !$_COOKIE["oc_remember_login"])
-		{
+			|| !$_COOKIE["oc_remember_login"]) {
 			return false;
 		}
 		OC_App::loadApps(array('authentication'));
@@ -621,9 +619,9 @@ class OC{
 				OC_Util::redirectToDefaultPage();
 				// doesn't return
 			}
-			// if you reach this point you have changed your password 
+			// if you reach this point you have changed your password
 			// or you are an attacker
-			// we can not delete tokens here because users may reach 
+			// we can not delete tokens here because users may reach
 			// this point multiple times after a password change
 			OC_Log::write('core', 'Authentication cookie rejected for user '.$_COOKIE['oc_username'], OC_Log::WARN);
 		}

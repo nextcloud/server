@@ -130,8 +130,7 @@ class OC_Archive_TAR extends OC_Archive{
 			if(        $file     == $header['filename']
 				or     $file.'/' == $header['filename']
 				or '/'.$file.'/' == $header['filename']
-				or '/'.$file     == $header['filename'])
-			{
+				or '/'.$file     == $header['filename']) {
 				return $header;
 			}
 		}

@@ -32,9 +32,9 @@ if (OC_Group::inGroup(OC_User::getUser(), 'admin')) {
 	$batch = OC_User::getUsers('', 10, $offset);
 	foreach ($batch as $user) {
 		$users[] = array(
-			'name' => $user, 
-			'groups' => join(', ', OC_Group::getUserGroups($user)), 
-			'subadmin' => join(', ', OC_SubAdmin::getSubAdminsGroups($user)), 
+			'name' => $user,
+			'groups' => join(', ', OC_Group::getUserGroups($user)),
+			'subadmin' => join(', ', OC_SubAdmin::getSubAdminsGroups($user)),
 			'quota' => OC_Preferences::getValue($user, 'files', 'quota', 'default'));
 	}
 } else {
@@ -42,8 +42,8 @@ if (OC_Group::inGroup(OC_User::getUser(), 'admin')) {
 	$batch = OC_Group::usersInGroups($groups, '', 10, $offset);
 	foreach ($batch as $user) {
 		$users[] = array(
-			'name' => $user, 
-			'groups' => join(', ', OC_Group::getUserGroups($user)), 
+			'name' => $user,
+			'groups' => join(', ', OC_Group::getUserGroups($user)),
 			'quota' => OC_Preferences::getValue($user, 'files', 'quota', 'default'));
 	}
 }

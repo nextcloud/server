@@ -47,7 +47,7 @@ class OC_Log {
 			//ob_end_clean();
 			self::write('PHP', $error['message'] . ' at ' . $error['file'] . '#' . $error['line'], self::FATAL);
 		} else {
-			return true; 
+			return true;
 		}
 	}
 	

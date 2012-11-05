@@ -92,7 +92,7 @@ class OC_FileProxy_Encryption extends OC_FileProxy{
 		}elseif(self::shouldEncrypt($path) and $meta['mode']!='r' and $meta['mode']!='rb') {
 			if(OC_Filesystem::file_exists($path) and OC_Filesystem::filesize($path)>0) {
 				//first encrypt the target file so we don't end up with a half encrypted file
-				OCP\Util::writeLog('files_encryption','Decrypting '.$path.' before writing', OCP\Util::DEBUG);
+				OCP\Util::writeLog('files_encryption', 'Decrypting '.$path.' before writing', OCP\Util::DEBUG);
 				$tmp=fopen('php://temp');
 				OCP\Files::streamCopy($result, $tmp);
 				fclose($result);
