@@ -34,7 +34,7 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 		return false;
 	}
 
-	public function deleteUser() {
+	public function deleteUser($uid) {
 		// Can't delete user
 		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to delete users from web frontend using WebDAV user backend', 3);
 		return false;
@@ -47,7 +47,6 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 	}
 
 	public function checkPassword( $uid, $password ) {
-
 		$url= 'http://'.urlencode($uid).':'.urlencode($password).'@'.$this->webdavauth_url;
 		$headers = get_headers($url);
 		if($headers==false) {
@@ -58,9 +57,9 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 		$returncode= substr($headers[0], 9, 3);
 
 		if($returncode=='401') {
-			return false;
+			return(false);
 		}else{
-			return true;
+			return($uid);
 		}
 
 	}
@@ -75,7 +74,7 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 	/*
 	* we don´t know the users so all we can do it return an empty array here
 	*/
-	public function getUsers() {
+	public function getUsers($search = '', $limit = 10, $offset = 0) {
 		$returnArray = array();
 
 		return $returnArray;
