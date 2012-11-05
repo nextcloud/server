@@ -41,7 +41,8 @@ abstract class Access {
 	 * @param $dn the record in question
 	 * @param $attr the attribute that shall be retrieved
 	 *        if empty, just check the record's existence
-	 * @returns true or the values in an array on success, false otherwise
+	 * @returns an array of values on success or an empty
+	 *          array if $attr is empty, false otherwise
 	 *
 	 * Reads an attribute from an LDAP entry or check if entry exists
 	 */
@@ -64,7 +65,7 @@ abstract class Access {
 		}
 		if (empty($attr)) {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', \OCP\Util::DEBUG);
-			return true;
+			return array();
 		}
 		$er = ldap_first_entry($cr, $rr);
 		if(!is_resource($er)) {

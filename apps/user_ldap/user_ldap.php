@@ -150,7 +150,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		}
 
 		//check if user really still exists by reading its entry
-		if(!$this->readAttribute($dn, '') ) {
+		if(!is_array($this->readAttribute($dn, ''))) {
 			$this->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
