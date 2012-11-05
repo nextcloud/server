@@ -271,7 +271,15 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 		$this->host=$params['host'];
 		$this->user=$params['user'];
 		$this->root=isset($params['root'])?$params['root']:'/';
-		$this->secure=isset($params['secure'])?(bool)$params['secure']:true;
+		if(isset($params['secure'])){
+			if(is_string($params['secure'])){
+				$this->secure = ($params['secure'] === 'true');
+			}else{
+				$this->secure = (bool)$params['secure'];
+			}
+		}else{
+			$this->secure = false;
+		}
 		if(!$this->root || $this->root[0]!='/') {
 			$this->root='/'.$this->root;
 		}
