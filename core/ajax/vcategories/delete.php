@@ -27,7 +27,9 @@ if(is_null($type)) {
 	bailOut($l->t('Object type not provided.'));
 }
 
-debug('The application using category type "' . $type . '" uses the default file for deletion. OC_VObjects will not be updated.');
+debug('The application using category type "'
+	. $type
+	. '" uses the default file for deletion. OC_VObjects will not be updated.');
 
 if(is_null($categories)) {
 	bailOut($l->t('No categories selected for deletion.'));
