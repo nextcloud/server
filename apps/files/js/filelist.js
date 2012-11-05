@@ -373,4 +373,7 @@ $(document).ready(function(){
 			FileList.lastAction();
 		}
 	});
+	$(window).unload(function (){
+		$(window).trigger('beforeunload');
+	});
 });
