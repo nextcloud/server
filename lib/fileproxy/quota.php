@@ -38,9 +38,9 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 		if(in_array($user, $this->userQuota)) {
 			return $this->userQuota[$user];
 		}
-		$userQuota=OC_Preferences::getValue($user,'files','quota','default');
+		$userQuota=OC_Preferences::getValue($user, 'files', 'quota', 'default');
 		if($userQuota=='default') {
-			$userQuota=OC_AppConfig::getValue('files','default_quota','none');
+			$userQuota=OC_AppConfig::getValue('files', 'default_quota', 'none');
 		}
 		if($userQuota=='none') {
 			$this->userQuota[$user]=0;
@@ -93,7 +93,7 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 	}
 
 	public function preCopy($path1, $path2) {
-		if(!self::$rootView){
+		if(!self::$rootView) {
 			self::$rootView = new OC_FilesystemView('');
 		}
 		return (self::$rootView->filesize($path1)<$this->getFreeSpace($path2) or $this->getFreeSpace($path2)==0);

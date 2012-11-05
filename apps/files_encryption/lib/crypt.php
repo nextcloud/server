@@ -80,7 +80,7 @@ class OC_Crypt {
 		}
 	}
 
-	public static function createkey($username,$passcode) {
+	public static function createkey($username, $passcode) {
 		// generate a random key
 		$key=mt_rand(10000, 99999).mt_rand(10000, 99999).mt_rand(10000, 99999).mt_rand(10000, 99999);
 

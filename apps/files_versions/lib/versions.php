@@ -109,7 +109,7 @@ class Storage {
 			// create all parent folders
 			$info=pathinfo($filename);
 			if(!file_exists($versionsFolderName.'/'.$info['dirname'])) {
-				mkdir($versionsFolderName.'/'.$info['dirname'],0750, true);
+				mkdir($versionsFolderName.'/'.$info['dirname'], 0750, true);
 			}
 
 			// store a new version of a file

@@ -351,7 +351,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
         }
 
         if ($database_file !== ':memory:') {
-			if(!strpos($database_file,'.db')) {
+			if(!strpos($database_file, '.db')) {
 				$database_file="$datadir/$database_file.db";
 			}
             if (!file_exists($database_file)) {
@@ -387,7 +387,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
 
         $php_errormsg = '';
 		$this->connection = new SQLite3($database_file);
-		if(is_callable(array($this->connection,'busyTimeout'))) {//busy timout is only available in php>=5.3
+		if(is_callable(array($this->connection, 'busyTimeout'))) {//busy timout is only available in php>=5.3
 			$this->connection->busyTimeout(100);
 		}
         $this->_lasterror = $this->connection->lastErrorMsg();
@@ -397,8 +397,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
         }
 
         if ($this->fix_assoc_fields_names ||
-            $this->options['portability'] & MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES)
-        {
+            $this->options['portability'] & MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES) {
             $this->connection->exec("PRAGMA short_column_names = 1");
             $this->fix_assoc_fields_names = true;
         }

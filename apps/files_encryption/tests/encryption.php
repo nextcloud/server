@@ -17,7 +17,7 @@ class Test_Encryption extends UnitTestCase {
 		$this->assertNotEqual($encrypted, $source);
 		$this->assertEqual($decrypted, $source);
 
-		$chunk=substr($source,0, 8192);
+		$chunk=substr($source, 0, 8192);
 		$encrypted=OC_Crypt::encrypt($chunk, $key);
 		$this->assertEqual(strlen($chunk), strlen($encrypted));
 		$decrypted=OC_Crypt::decrypt($encrypted, $key);
@@ -30,14 +30,14 @@ class Test_Encryption extends UnitTestCase {
 		$this->assertEqual($decrypted, $source);
 
 		$tmpFileEncrypted=OCP\Files::tmpFile();
-		OC_Crypt::encryptfile($file,$tmpFileEncrypted, $key);
+		OC_Crypt::encryptfile($file, $tmpFileEncrypted, $key);
 		$encrypted=file_get_contents($tmpFileEncrypted);
 		$decrypted=OC_Crypt::blockDecrypt($encrypted, $key);
 		$this->assertNotEqual($encrypted, $source);
 		$this->assertEqual($decrypted, $source);
 
 		$tmpFileDecrypted=OCP\Files::tmpFile();
-		OC_Crypt::decryptfile($tmpFileEncrypted,$tmpFileDecrypted, $key);
+		OC_Crypt::decryptfile($tmpFileEncrypted, $tmpFileDecrypted, $key);
 		$decrypted=file_get_contents($tmpFileDecrypted);
 		$this->assertEqual($decrypted, $source);
 

@@ -85,7 +85,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		$this->path = $newPath;
 
 		$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertypath` = ? WHERE `userid` = ? AND `propertypath` = ?' );
-		$query->execute( array( $newPath,OC_User::getUser(), $oldPath ));
+		$query->execute( array( $newPath, OC_User::getUser(), $oldPath ));
 
 	}
 
@@ -159,7 +159,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 						$query->execute( array( OC_User::getUser(), $this->path, $propertyName, $propertyValue ));
 					} else {
 						$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertyvalue` = ? WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?' );
-						$query->execute( array( $propertyValue,OC_User::getUser(), $this->path, $propertyName ));
+						$query->execute( array( $propertyValue, OC_User::getUser(), $this->path, $propertyName ));
 					}
 				}
 			}

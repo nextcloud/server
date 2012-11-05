@@ -661,6 +661,7 @@ class OC_VCategories {
 		if(!is_array($names)) {
 			$names = array($names);
 		}
+
 		OC_Log::write('core', __METHOD__ . ', before: '
 			. print_r($this->categories, true), OC_Log::DEBUG);
 		foreach($names as $name) {
@@ -724,6 +725,7 @@ class OC_VCategories {
 							unset($categories[$this->array_searchi($name, $categories)]);
 						}
 					}
+
 					$object->setString('CATEGORIES', implode(',', $categories));
 					if($vobject !== $object) {
 						$vobject[$componentname] = $object;

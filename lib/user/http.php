@@ -50,7 +50,7 @@ class OC_User_HTTP extends OC_User_Backend {
 	 * @return boolean
 	 */
 	private function matchUrl($url) {
-		return ! is_null(parse_url($url,PHP_URL_USER));
+		return ! is_null(parse_url($url, PHP_URL_USER));
 	}
 
 	/**

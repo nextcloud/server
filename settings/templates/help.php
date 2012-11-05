@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 2012 Frank Karlitschek frank@owncloud.org
  * This file is licensed under the Affero General Public License version 3 or later.
@@ -12,8 +12,7 @@
 	<?php
 		$url=OC_Helper::linkTo( "settings", "help.php" ).'?page=';
 		$pageNavi=OC_Util::getPageNavi($_['pagecount'], $_['page'], $url);
-		if($pageNavi)
-		{
+		if($pageNavi) {
 			$pageNavi->printPage();
 		}
 	?>

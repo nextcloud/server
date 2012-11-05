@@ -12,10 +12,10 @@ class OC_TemplateLayout extends OC_Template {
 
 		if( $renderas == 'user' ) {
 			parent::__construct( 'core', 'layout.user' );
-			if(in_array(OC_APP::getCurrentApp(), array('settings','admin','help'))!==false) {
-				$this->assign('bodyid','body-settings', false);
+			if(in_array(OC_APP::getCurrentApp(), array('settings','admin', 'help'))!==false) {
+				$this->assign('bodyid', 'body-settings', false);
 			}else{
-				$this->assign('bodyid','body-user', false);
+				$this->assign('bodyid', 'body-user', false);
 			}
 
 			// Add navigation entry

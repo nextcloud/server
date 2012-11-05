@@ -6,7 +6,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 	protected $datadir;
 	public function __construct($arguments) {
 		$this->datadir=$arguments['datadir'];
-		if(substr($this->datadir,-1)!=='/') {
+		if(substr($this->datadir, -1)!=='/') {
 			$this->datadir.='/';
 		}
 	}
@@ -20,7 +20,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		return opendir($this->datadir.$path);
 	}
 	public function is_dir($path) {
-		if(substr($path,-1)=='/') {
+		if(substr($path, -1)=='/') {
 			$path=substr($path, 0, -1);
 		}
 		return is_dir($this->datadir.$path);
@@ -86,11 +86,11 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 	}
 	public function rename($path1, $path2) {
 		if (!$this->isUpdatable($path1)) {
-			OC_Log::write('core','unable to rename, file is not writable : '.$path1,OC_Log::ERROR);
+			OC_Log::write('core', 'unable to rename, file is not writable : '.$path1, OC_Log::ERROR);
 			return false;
 		}
 		if(! $this->file_exists($path1)) {
-			OC_Log::write('core','unable to rename, file does not exists : '.$path1,OC_Log::ERROR);
+			OC_Log::write('core', 'unable to rename, file does not exists : '.$path1, OC_Log::ERROR);
 			return false;
 		}
 
@@ -103,7 +103,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 			if(!$this->file_exists($path2)) {
 				$this->mkdir($path2);
 			}
-			$source=substr($path1, strrpos($path1,'/')+1);
+			$source=substr($path1, strrpos($path1, '/')+1);
 			$path2.=$source;
 		}
 		return copy($this->datadir.$path1, $this->datadir.$path2);
@@ -156,8 +156,8 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		return $return;
 	}
 
-	public function hash($path,$type, $raw=false) {
-		return hash_file($type,$this->datadir.$path, $raw);
+	public function hash($path, $type, $raw=false) {
+		return hash_file($type, $this->datadir.$path, $raw);
 	}
 
 	public function free_space($path) {
@@ -182,7 +182,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 				$files[]=$dir.'/'.$item;
 			}
 			if(is_dir($this->datadir.$dir.'/'.$item)) {
-				$files=array_merge($files,$this->searchInDir($query, $dir.'/'.$item));
+				$files=array_merge($files, $this->searchInDir($query, $dir.'/'.$item));
 			}
 		}
 		return $files;

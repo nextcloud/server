@@ -46,7 +46,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 
 		if($caview = \OCP\Files::getStorage('files_external')) {
 			$certPath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("").'rootcerts.crt';
-			if (file_exists($certPath))  {
+			if (file_exists($certPath)) {
 				$this->client->addTrustedCertificates($certPath);
 			}
 		}
@@ -252,7 +252,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	public function stat($path) {
 		$path=$this->cleanPath($path);
 		try{
-			$response=$this->client->propfind($path, array('{DAV:}getlastmodified','{DAV:}getcontentlength'));
+			$response=$this->client->propfind($path, array('{DAV:}getlastmodified', '{DAV:}getcontentlength'));
 			return array(
 				'mtime'=>strtotime($response['{DAV:}getlastmodified']),
 				'size'=>(int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
@@ -266,7 +266,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	public function getMimeType($path) {
 		$path=$this->cleanPath($path);
 		try{
-			$response=$this->client->propfind($path, array('{DAV:}getcontenttype','{DAV:}resourcetype'));
+			$response=$this->client->propfind($path, array('{DAV:}getcontenttype', '{DAV:}resourcetype'));
 			$responseType=$response["{DAV:}resourcetype"]->resourceType;
 			$type=(count($responseType)>0 and $responseType[0]=="{DAV:}collection")?'dir':'file';
 			if($type=='dir') {

@@ -40,11 +40,11 @@ class OC_BackgroundJob{
 	 * @param $type execution type
 	 * @return boolean
 	 *
-	 * This method sets the execution type of the background jobs. Possible types 
+	 * This method sets the execution type of the background jobs. Possible types
 	 * are "none", "ajax", "webcron", "cron"
 	 */
 	public static function setExecutionType( $type ) {
-		if( !in_array( $type, array('none', 'ajax', 'webcron', 'cron'))){
+		if( !in_array( $type, array('none', 'ajax', 'webcron', 'cron'))) {
 			return false;
 		}
 		return OC_Appconfig::setValue( 'core', 'backgroundjobs_mode', $type );

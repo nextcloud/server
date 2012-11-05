@@ -27,7 +27,7 @@ class OC_Mail {
 	 * @param string $fromname
 	 * @param bool $html
 	 */
-	public static function send($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='',$bcc='') {
+	public static function send($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='', $bcc='') {
 
 		$SMTPMODE = OC_Config::getValue( 'mail_smtpmode', 'sendmail' );
 		$SMTPHOST = OC_Config::getValue( 'mail_smtphost', '127.0.0.1' );

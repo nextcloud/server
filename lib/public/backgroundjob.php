@@ -62,7 +62,7 @@ class BackgroundJob {
 	 * @param $type execution type
 	 * @return boolean
 	 *
-	 * This method sets the execution type of the background jobs. Possible types 
+	 * This method sets the execution type of the background jobs. Possible types
 	 * are "none", "ajax", "webcron", "cron"
 	 */
 	public static function setExecutionType( $type ) {

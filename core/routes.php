@@ -13,9 +13,6 @@ $this->create('search_ajax_search', '/search/ajax/search.php')
 // AppConfig
 $this->create('core_ajax_appconfig', '/core/ajax/appconfig.php')
 	->actionInclude('core/ajax/appconfig.php');
-// RequestToken
-$this->create('core_ajax_requesttoken', '/core/ajax/requesttoken.php')
-	->actionInclude('core/ajax/requesttoken.php');
 // Share
 $this->create('core_ajax_share', '/core/ajax/share.php')
 	->actionInclude('core/ajax/share.php');

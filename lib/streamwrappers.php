@@ -234,7 +234,7 @@ class OC_CloseStreamWrapper{
 	}
 
 	public function stream_seek($offset, $whence=SEEK_SET) {
-		fseek($this->source,$offset, $whence);
+		fseek($this->source, $offset, $whence);
 	}
 
 	public function stream_tell() {
@@ -249,16 +249,16 @@ class OC_CloseStreamWrapper{
 		return fwrite($this->source, $data);
 	}
 
-	public function stream_set_option($option,$arg1, $arg2) {
+	public function stream_set_option($option, $arg1, $arg2) {
 		switch($option) {
 			case STREAM_OPTION_BLOCKING:
 				stream_set_blocking($this->source, $arg1);
 				break;
 			case STREAM_OPTION_READ_TIMEOUT:
-				stream_set_timeout($this->source,$arg1, $arg2);
+				stream_set_timeout($this->source, $arg1, $arg2);
 				break;
 			case STREAM_OPTION_WRITE_BUFFER:
-				stream_set_write_buffer($this->source,$arg1, $arg2);
+				stream_set_write_buffer($this->source, $arg1, $arg2);
 		}
 	}
 

@@ -39,7 +39,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	 * @return string
 	 */
 	private function getContainerName($path) {
-		$path=trim(trim($this->root,'/')."/".$path,'/.');
+		$path=trim(trim($this->root, '/')."/".$path, '/.');
 		return str_replace('/', '\\', $path);
 	}
 
@@ -205,7 +205,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 				unlink($tmpFile);
 				return false;
 			}else{
-				$fh=fopen($tmpFile,'a');
+				$fh=fopen($tmpFile, 'a');
 				fwrite($fh, $name."\n");
 			}
 		}catch(Exception $e) {
@@ -432,7 +432,7 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 			case 'c':
 			case 'c+':
 				$tmpFile=$this->getTmpFile($path);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
+				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
 				self::$tempFiles[$tmpFile]=$path;
 				return fopen('close://'.$tmpFile, $mode);
 		}

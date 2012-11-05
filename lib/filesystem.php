@@ -35,10 +35,10 @@
  *   post_create(path)
  *   delete(path, &run)
  *   post_delete(path)
- *   rename(oldpath,newpath, &run)
- *   post_rename(oldpath,newpath)
- *   copy(oldpath,newpath, &run) (if the newpath doesn't exists yes, copy, create and write will be emited in that order)
- *   post_rename(oldpath,newpath)
+ *   rename(oldpath, newpath, &run)
+ *   post_rename(oldpath, newpath)
+ *   copy(oldpath, newpath, &run) (if the newpath doesn't exists yes, copy, create and write will be emited in that order)
+ *   post_rename(oldpath, newpath)
  *
  *   the &run parameter can be set to false to prevent the operation from occuring
  */
@@ -246,7 +246,7 @@ class OC_Filesystem{
 			}
 		
 			$mtime=filemtime(OC::$SERVERROOT.'/config/mount.php');
-			$previousMTime=OC_Appconfig::getValue('files','mountconfigmtime',0);
+			$previousMTime=OC_Appconfig::getValue('files', 'mountconfigmtime', 0);
 			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
 				OC_FileCache::triggerUpdate();
 				OC_Appconfig::setValue('files', 'mountconfigmtime', $mtime);
@@ -312,7 +312,7 @@ class OC_Filesystem{
 				return false;
 			}
 		}else{
-			OC_Log::write('core','storage backend '.$class.' not found',OC_Log::ERROR);
+			OC_Log::write('core', 'storage backend '.$class.' not found', OC_Log::ERROR);
 			return false;
 		}
 	}
@@ -356,7 +356,7 @@ class OC_Filesystem{
 		if(substr($mountpoint, -1)!=='/') {
 			$mountpoint=$mountpoint.'/';
 		}
-		self::$mounts[$mountpoint]=array('class'=>$class,'arguments'=>$arguments);
+		self::$mounts[$mountpoint]=array('class'=>$class, 'arguments'=>$arguments);
 	}
 
 	/**
@@ -403,7 +403,7 @@ class OC_Filesystem{
 		if(strstr($path, '/../') || strrchr($path, '/') === '/..' ) {
 			return false;
 		}
-		if(self::isFileBlacklisted($path)){
+		if(self::isFileBlacklisted($path)) {
 			return false;
 		}
 		return true;
@@ -425,7 +425,7 @@ class OC_Filesystem{
 		}
 	}
 
-	static public function isFileBlacklisted($path){
+	static public function isFileBlacklisted($path) {
 		$blacklist = array('.htaccess');
 		$filename = strtolower(basename($path));
 		return in_array($filename, $blacklist);
@@ -590,7 +590,7 @@ class OC_Filesystem{
 			$path=substr($path, 0, -1);
 		}
 		//remove duplicate slashes
-		while(strpos($path,'//')!==false) {
+		while(strpos($path, '//')!==false) {
 			$path=str_replace('//', '/', $path);
 		}
 		//normalize unicode if possible

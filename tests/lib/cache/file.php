@@ -39,7 +39,7 @@ class Test_Cache_File extends Test_Cache {
 		
 		//set up temporary storage
 		OC_Filesystem::clearMounts();
-		OC_Filesystem::mount('OC_Filestorage_Temporary', array(),'/');
+		OC_Filesystem::mount('OC_Filestorage_Temporary', array(), '/');
 
 		OC_User::clearBackends();
 		OC_User::useBackend(new OC_User_Dummy());

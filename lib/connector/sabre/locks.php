@@ -102,7 +102,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 	 * @param Sabre_DAV_Locks_LockInfo $lockInfo
 	 * @return bool
 	 */
-	public function lock($uri,Sabre_DAV_Locks_LockInfo $lockInfo) {
+	public function lock($uri, Sabre_DAV_Locks_LockInfo $lockInfo) {
 
 		// We're making the lock timeout 5 minutes
 		$lockInfo->timeout = 300;
@@ -134,7 +134,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 	 * @param Sabre_DAV_Locks_LockInfo $lockInfo
 	 * @return bool
 	 */
-	public function unlock($uri,Sabre_DAV_Locks_LockInfo $lockInfo) {
+	public function unlock($uri, Sabre_DAV_Locks_LockInfo $lockInfo) {
 
 		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*locks` WHERE `userid` = ? AND `uri` = ? AND `token` = ?' );
 		$result = $query->execute( array(OC_User::getUser(), $uri, $lockInfo->token));

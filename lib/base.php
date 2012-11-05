@@ -239,7 +239,7 @@ class OC{
 				}
 				if(file_exists(OC::$SERVERROOT."/config/config.php") and !is_writable(OC::$SERVERROOT."/config/config.php")) {
 					$tmpl = new OC_Template( '', 'error', 'guest' );
-					$tmpl->assign('errors', array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
+					$tmpl->assign('errors', array(1=>array('error'=>"Can't write into config directory 'config'", 'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
 					$tmpl->printPage();
 					exit;
 				}
@@ -264,8 +264,6 @@ class OC{
 		OC_Util::addScript( "jquery-tipsy" );
 		OC_Util::addScript( "oc-dialogs" );
 		OC_Util::addScript( "js" );
-		// request protection token MUST be defined after the jquery library but before any $('document').ready()
-		OC_Util::addScript( "requesttoken" );
 		OC_Util::addScript( "eventsource" );
 		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );
@@ -322,7 +320,7 @@ class OC{
 
 	public static function init() {
 		// register autoloader
-		spl_autoload_register(array('OC','autoload'));
+		spl_autoload_register(array('OC', 'autoload'));
 		setlocale(LC_ALL, 'en_US.UTF-8');
 
 		// set some stuff
@@ -440,7 +438,7 @@ class OC{
 		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
 
 		//make sure temporary files are cleaned up
-		register_shutdown_function(array('OC_Helper','cleanTmp'));
+		register_shutdown_function(array('OC_Helper', 'cleanTmp'));
 
 		//parse the given parameters
 		self::$REQUESTEDAPP = (isset($_GET['app']) && trim($_GET['app']) != '' && !is_null($_GET['app'])?str_replace(array('\0', '/', '\\', '..'), '', strip_tags($_GET['app'])):OC_Config::getValue('defaultapp', 'files'));
@@ -526,8 +524,7 @@ class OC{
 				}
 				$file_ext = substr($param['file'], -3);
 				if ($file_ext != 'php'
-				    || !self::loadAppScriptFile($param))
-				{
+				    || !self::loadAppScriptFile($param)) {
 					header('HTTP/1.0 404 Not Found');
 				}
 			}
@@ -597,8 +594,7 @@ class OC{
 		if(!isset($_COOKIE["oc_remember_login"])
 			|| !isset($_COOKIE["oc_token"])
 			|| !isset($_COOKIE["oc_username"])
-			|| !$_COOKIE["oc_remember_login"])
-		{
+			|| !$_COOKIE["oc_remember_login"]) {
 			return false;
 		}
 		OC_App::loadApps(array('authentication'));
@@ -623,9 +619,9 @@ class OC{
 				OC_Util::redirectToDefaultPage();
 				// doesn't return
 			}
-			// if you reach this point you have changed your password 
+			// if you reach this point you have changed your password
 			// or you are an attacker
-			// we can not delete tokens here because users may reach 
+			// we can not delete tokens here because users may reach
 			// this point multiple times after a password change
 			OC_Log::write('core', 'Authentication cookie rejected for user '.$_COOKIE['oc_username'], OC_Log::WARN);
 		}
@@ -669,7 +665,7 @@ class OC{
 		}
 		OC_App::loadApps(array('authentication'));
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
-			//OC_Log::write('core',"Logged in with HTTP Authentication",OC_Log::DEBUG);
+			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
 			$_REQUEST['redirect_url'] = (isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'');
 			OC_Util::redirectToDefaultPage();

@@ -44,7 +44,7 @@ if(OC_Filesystem::file_exists($base) and OC_Filesystem::is_dir($base)) {
 				if(substr(strtolower($file), 0, $queryLen)==$query) {
 					$item=$base.$file;
 					if((!$dirOnly or OC_Filesystem::is_dir($item))) {
-						$files[]=(object)array('id'=>$item,'label'=>$item,'name'=>$item);
+						$files[]=(object)array('id'=>$item, 'label'=>$item, 'name'=>$item);
 					}
 				}
 			}
