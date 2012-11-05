@@ -11,6 +11,9 @@ $categories = isset($_['categories'])?$_['categories']:array();
 	<?php } ?>
 	</ul>
 	</div>
-	<div class="bottombuttons"><input type="text" id="category_addinput" name="category" /><button id="category_addbutton" disabled="disabled"><?php echo $l->t('Add'); ?></button></div>
+	<div class="bottombuttons">
+		<input type="text" id="category_addinput" name="category" />
+		<button id="category_addbutton" disabled="disabled"><?php echo $l->t('Add'); ?></button>
+	</div>
 	</form>
 </div>
