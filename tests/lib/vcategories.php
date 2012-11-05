@@ -55,7 +55,7 @@ class Test_VCategories extends UnitTestCase {
 	public function testAddCategories() {
 		$categories = array('Friends', 'Family', 'Work', 'Other');
 
-		$catmgr = new OC_VCategories($this->objectType, $this->user, $defcategories);
+		$catmgr = new OC_VCategories($this->objectType, $this->user);
 
 		foreach($categories as $category) {
 			$result = $catmgr->add($category);
