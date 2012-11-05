@@ -20,7 +20,7 @@
 *
 */
 
-require_once("lib/template.php");
+OC::autoload('OC_Template');
 
 class Test_TemplateFunctions extends UnitTestCase {
 
