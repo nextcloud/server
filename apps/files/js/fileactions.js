@@ -70,6 +70,13 @@ var FileActions = {
 		}
 		parent.children('a.name').append('<span class="fileactions" />');
 		var defaultAction = FileActions.getDefault(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
+		var actionHandler = function (parent, action, event) {
+			event.stopPropagation();
+			event.preventDefault();
+			FileActions.currentFile = parent;
+			file = FileActions.getCurrentFile();
+			action(file);
+		};
 		for (name in actions) {
 			// NOTE: Temporary fix to prevent rename action in root of Shared directory
 			if (name === 'Rename' && $('#dir').val() === '/Shared') {
@@ -87,14 +94,7 @@ var FileActions = {
 				html += t('files', name) + '</a>';
 				var element = $(html);
 				element.data('action', name);
-				element.click(function (event) {
-					FileActions.currentFile = $(this).parent().parent().parent();
-					event.stopPropagation();
-					event.preventDefault();
-					var action = actions[$(this).data('action')];
-					var currentFile = FileActions.getCurrentFile();
-					action(currentFile);
-				});
+				element.click(actionHandler.bind(null, parent, actions[name]));
 				parent.find('a.name>span.fileactions').append(element);
 			}
 		}
@@ -113,14 +113,8 @@ var FileActions = {
 			if (img) {
 				element.append($('<img class ="svg" src="' + img + '"/>'));
 			}
-			element.data('action', 'Delete');
-			element.click(function (event) {
-				event.stopPropagation();
-				event.preventDefault();
-				var action = actions[$(this).data('action')];
-				var currentFile = FileActions.getCurrentFile();
-				action(currentFile);
-			});
+			element.data('action', actions['Delete']);
+			element.click(actionHandler.bind(null, parent, actions['Delete']));
 			parent.parent().children().last().append(element);
 		}
 	},
