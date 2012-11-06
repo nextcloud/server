@@ -89,7 +89,7 @@ class Connection {
 			\OCP\Util::writeLog('user_ldap', 'Set config ldapUuidAttribute to  '.$value, \OCP\Util::DEBUG);
 			$this->config[$name] = $value;
 			if(!empty($this->configID)) {
-				\OCP\Config::getAppValue($this->configID, 'ldap_uuid_attribute', $value);
+				\OCP\Config::setAppValue($this->configID, 'ldap_uuid_attribute', $value);
 			}
 			$changed = true;
 		}
