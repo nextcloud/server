@@ -149,37 +149,27 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 */
 	public function updateProperties($properties) {
 		// get source path of shared files
-		if (!strncmp($this->path, '/Shared/', 8)) {
-			$source = OC_Filestorage_Shared::getSourcePath(str_replace('/Shared/', '', $this->path));
-			$parts = explode('/', $source, 4);
-			$user =  $parts[1];
-			$path = '/'.$parts[3];
-		} else {
-			$user = OC_User::getUser();
-			$path = $this->path;
-		}
-		
+		$source = self::getFileSource($this->path);
+
 		$existing = $this->getProperties(array());
 		foreach($properties as $propertyName => $propertyValue) {
 			// If it was null, we need to delete the property
 			if (is_null($propertyValue)) {
 				if(array_key_exists( $propertyName, $existing )) {
 					$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?' );
-					$query->execute( array( $user, $path, $propertyName ));
+					$query->execute( array( $source['user'], $source['path'], $propertyName ));
 				}
 			}
 			else {
 				if( strcmp( $propertyName, self::LASTMODIFIED_PROPERTYNAME) === 0 ) {
-					error_log("propertyName: " . $propertyName);
 					$this->touch($propertyValue);
 				} else {
-					error_log("update/insert property: user: $user; path: $path");
 					if(!array_key_exists( $propertyName, $existing )) {
 						$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*properties` (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)' );
-						$query->execute( array( $user, $path, $propertyName, $propertyValue ));
+						$query->execute( array( $source['user'], $source['path'], $propertyName, $propertyValue ));
 					} else {
 						$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertyvalue` = ? WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?' );
-						$query->execute( array( $propertyValue, $user, $path, $propertyName ));
+						$query->execute( array( $propertyValue, $source['user'], $source['path'], $propertyName ));
 					}
 				}
 			}
@@ -249,18 +239,11 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			return null;
 		}
 		
-		if (!strncmp($path, '/Shared/', 8)) {
-			$source = OC_Filestorage_Shared::getSourcePath(str_replace('/Shared/', '', $path));
-			$parts = explode('/', $source, 4);
-			$user =  $parts[1];
-			$path = '/'.$parts[3];
-		} else {
-			$user = OC_User::getUser();
-		}
-		
+		$source = self::getFileSource($path);
+			
 		$etag = '"'.$tag.'"';
 		$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*properties` (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)' );
-		$query->execute( array( $user, $path, self::GETETAG_PROPERTYNAME, $etag ));
+		$query->execute( array( $source['user'], $source['path'], self::GETETAG_PROPERTYNAME, $etag ));
 		return $etag;
 	}
 
@@ -270,7 +253,10 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 */
 	static public function removeETagPropertyForPath($path) {
 		// remove tags from this and parent paths
-		//TODO Shared Files?!?
+		
+		$source = self::getFileSource($path);
+		$path = $source['path'];
+		
 		$paths = array();
 		while ($path != '/' && $path != '.' && $path != '' && $path != '\\') {
 			$paths[] = $path;
@@ -286,7 +272,19 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			.' AND `propertyname` = ?'
 			.' AND `propertypath` IN ('.$path_placeholders.')'
 			);
-		$vals = array( OC_User::getUser(), self::GETETAG_PROPERTYNAME );
+		$vals = array( $source['user'], self::GETETAG_PROPERTYNAME );
 		$query->execute(array_merge( $vals, $paths ));
+	}
+	
+	private function getFileSource($path) {
+		if ( OC_App::isEnabled('files_sharing') &&  !strncmp($path, '/Shared/', 8)) {
+			$source = OC_Files_Sharing_Util::getSourcePath(str_replace('/Shared/', '', $path));
+			$parts = explode('/', $source, 4);
+			$user =  $parts[1];
+			$path = '/'.$parts[3];
+		} else {
+			$user = OC_User::getUser();
+		}
+		return(array('user' => $user, 'path' => $path));
 	}
 }
