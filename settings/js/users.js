@@ -113,7 +113,7 @@ var UserList={
 		if (sort) {
 			username = username.toLowerCase();
 			$('tbody tr').each(function() {
-				if (username < $(this).data('uid').toLowerCase()) {
+				if (username < $(this).attr('data-uid').toLowerCase()) {
 					$(tr).insertBefore($(this));
 					added = true;
 					return false;
