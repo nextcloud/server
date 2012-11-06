@@ -3,7 +3,7 @@
 	<?php echo($_['breadcrumb']); ?>
 	<?php if ($_['isCreatable']):?>
 		<div class="actions <?php if (isset($_['files']) and count($_['files'])==0):?>emptyfolder<?php endif; ?>">
-			<div id='new' class='button'>
+			<div id="new" class="button">
 				<a><?php echo $l->t('New');?></a>
 				<ul class="popup popupTop">
 					<li style="background-image:url('<?php echo OCP\mimetype_icon('text/plain') ?>')"
@@ -30,19 +30,21 @@
 					<input type="hidden" class="max_human_file_size"
 						   value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 					<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
+					<a id="upload" class="button"></a>
 					<input class="file_upload_start" type="file" name='files[]'/>
 					<a href="#" class="file_upload_button_wrapper" onclick="return false;"
 					   title="<?php echo $l->t('Upload'); echo ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
-					<button class="file_upload_filename"></button>
+					
 					<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>
 				</form>
 			</div>
-					<div id="upload">
-						<div id="uploadprogressbar"></div>
-						<input type="button" class="stop" style="display:none"
-							   value="<?php echo $l->t('Cancel upload');?>"
-							   onclick="javascript:Files.cancelUploads();" />
-					</div>
+			<div id="upload">
+				<div id="uploadprogressbar"></div>
+				<input type="button" class="stop" style="display:none"
+					value="<?php echo $l->t('Cancel upload');?>"
+					onclick="javascript:Files.cancelUploads();"
+				/>
+			</div>
 
 		</div>
 		<div id="file_action_panel"></div>
