@@ -191,17 +191,19 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @return array
 	 */
 	public function getProperties($properties) {
-		//TODO: Shared files?!?
-		if (is_null($this->property_cache)) {
+		
+		$source = self::getFileSource($this->path);
+		
+		if (is_null($this->property_cache) || empty($this->property_cache)) {
 			$query = OC_DB::prepare( 'SELECT * FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ?' );
-			$result = $query->execute( array( OC_User::getUser(), $this->path ));
+			$result = $query->execute( array( $source['user'], $source['path'] ));
 
 			$this->property_cache = array();
 			while( $row = $result->fetchRow()) {
 				$this->property_cache[$row['propertyname']] = $row['propertyvalue'];
 			}
 		}
-
+		
 		// if the array was empty, we need to return everything
 		if(count($properties) == 0) {
 			return $this->property_cache;
@@ -253,7 +255,6 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 */
 	static public function removeETagPropertyForPath($path) {
 		// remove tags from this and parent paths
-		
 		$source = self::getFileSource($path);
 		$path = $source['path'];
 		
@@ -276,7 +277,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		$query->execute(array_merge( $vals, $paths ));
 	}
 	
-	private function getFileSource($path) {
+	protected function getFileSource($path) {
 		if ( OC_App::isEnabled('files_sharing') &&  !strncmp($path, '/Shared/', 8)) {
 			$source = OC_Files_Sharing_Util::getSourcePath(str_replace('/Shared/', '', $path));
 			$parts = explode('/', $source, 4);
