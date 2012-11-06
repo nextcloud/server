@@ -123,6 +123,10 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 		}
 		$properties = array_fill_keys($paths, array());
 		if(count($paths)>0) {
+			//
+			// the number of arguments within IN conditions are limited in most databases
+			// we chunk $paths into arrays of 200 items each to meet this criteria
+			//
 			$chunks = array_chunk($paths, 200, false);
 			foreach ($chunks as $pack) {
 				$placeholders = join(',', array_fill(0, count($pack), '?'));
