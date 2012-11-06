@@ -305,7 +305,7 @@ class OC_Helper {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
-		}elseif(file_exists($src)) {
+		}elseif(file_exists($src) && !OC_Filesystem::isFileBlacklisted($src)) {
 			copy($src, $dest);
 		}
 	}
