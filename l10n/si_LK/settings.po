@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-02 00:04+0100\n"
-"PO-Revision-Date: 2012-11-01 08:56+0000\n"
+"POT-Creation-Date: 2012-11-07 00:01+0100\n"
+"PO-Revision-Date: 2012-11-06 05:39+0000\n"
 "Last-Translator: Anushke Guneratne <anushke@gmail.com>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "අවලංගු වි-තැපෑල"
 
 #: ajax/openid.php:13
 msgid "OpenID Changed"
-msgstr ""
+msgstr "විවෘත හැඳුනුම නැතහොත් OpenID වෙනස්විය."
 
 #: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
@@ -58,7 +58,7 @@ msgstr "කණ්ඩායම මැකීමට නොහැක"
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
 msgid "Authentication error"
-msgstr ""
+msgstr "සත්‍යාපන දෝෂයක්"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -105,7 +105,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "ඔබගේ දත්ත ඩිරෙක්ටරිය හා ගොනුවලට අන්තර්ජාලයෙන් පිවිසිය හැක. ownCloud සපයා ඇති .htaccess ගොනුව ක්‍රියාකරන්නේ නැත. අපි තරයේ කියා සිටිනුයේ නම්, මෙම දත්ත හා ගොනු එසේ පිවිසීමට නොහැකි වන ලෙස ඔබේ වෙබ් සේවාදායකයා  වින්‍යාස කරන ලෙස හෝ එම ඩිරෙක්ටරිය වෙබ් මූලයෙන් පිටතට ගෙනයන ලෙසය."
 
 #: templates/admin.php:31
 msgid "Cron"
@@ -213,15 +213,15 @@ msgstr "විශාල ගොනු කළමණාකරනය"
 msgid "Ask a question"
 msgstr "ප්‍රශ්ණයක් අසන්න"
 
-#: templates/help.php:23
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr "උදව් දත්ත ගබඩාව හා සම්බන්ධවීමේදී ගැටළු ඇතිවිය."
 
-#: templates/help.php:24
+#: templates/help.php:23
 msgid "Go there manually."
-msgstr ""
+msgstr "ස්වශක්තියෙන් එතැනට යන්න"
 
-#: templates/help.php:32
+#: templates/help.php:31
 msgid "Answer"
 msgstr "පිළිතුර"
 
@@ -284,7 +284,7 @@ msgstr "පරිවර්ථන සහය"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "ඔබගේ ගොනු කළමනාකරු ownCloudයට සම්බන්ධ කිරීමට මෙම ලිපිනය භාවිතා කරන්න"
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
