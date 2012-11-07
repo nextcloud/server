@@ -41,6 +41,7 @@ var FileList={
 		if (hidden) {
 			row.hide();
 		}
+		FileActions.display(row.find('td.filename'));
 	},
 	addDir:function(name,size,lastModified,hidden){
 		var html, td, link_elem, sizeColor, lastModifiedTime, modifiedColor;
@@ -73,6 +74,7 @@ var FileList={
 		if (hidden) {
 			row.hide();
 		}
+		FileActions.display(row.find('td.filename'));
 	},
 	refresh:function(data) {
 		var result = jQuery.parseJSON(data.responseText);
