@@ -649,7 +649,7 @@ $.fn.filterAttr = function(attr_name, attr_value) {
 function humanFileSize(size) {
 	var humanList = ['B', 'kB', 'MB', 'GB', 'TB'];
 	// Calculate Log with base 1024: size = 1024 ** order
-	var order = Math.floor(Math.log(size) / Math.log(1024));
+	var order = size?Math.floor(Math.log(size) / Math.log(1024)):0;
 	// Stay in range of the byte sizes that are defined
 	order = Math.min(humanList.length - 1, order);
 	var readableFormat = humanList[order];
@@ -673,6 +673,30 @@ function formatDate(date){
 		date=new Date(date);
 	}
 	return $.datepicker.formatDate(datepickerFormatDate, date)+' '+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
+}
+
+/* takes an absolute timestamp and return a string with a human-friendly relative date
+ * @param int a Unix timestamp
+ */
+function relative_modified_date(timestamp) {
+	var timediff = Math.round((new Date()).getTime() / 1000) - timestamp;
+	var diffminutes = Math.round(timediff/60);
+	var diffhours = Math.round(diffminutes/60);
+	var diffdays = Math.round(diffhours/24);
+	var diffmonths = Math.round(diffdays/31);
+	if(timediff < 60) { return t('core','seconds ago'); }
+	else if(timediff < 120) { return t('core','1 minute ago'); }
+	else if(timediff < 3600) { return t('core','{minutes} minutes ago',{minutes: diffminutes}); }
+	//else if($timediff < 7200) { return '1 hour ago'; }
+	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
+	else if(timediff < 86400) { return t('core','today'); }
+	else if(timediff < 172800) { return t('core','yesterday'); }
+	else if(timediff < 2678400) { return t('core','{days} days ago',{days: diffdays}); }
+	else if(timediff < 5184000) { return t('core','last month'); }
+	//else if($timediff < 31556926) { return $diffmonths.' months ago'; }
+	else if(timediff < 31556926) { return t('core','months ago'); }
+	else if(timediff < 63113852) { return t('core','last year'); }
+	else { return t('core','years ago'); }
 }
 
 /**

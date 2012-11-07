@@ -70,9 +70,9 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 			if (isset($linkItem['share_with'])) {
 				// Check password
 				if (isset($_GET['file'])) {
-					$url = OCP\Util::linkToPublic('files').'&file='.$_GET['file'];
+					$url = OCP\Util::linkToPublic('files').'&file='.urlencode($_GET['file']);
 				} else {
-					$url = OCP\Util::linkToPublic('files').'&dir='.$_GET['dir'];
+					$url = OCP\Util::linkToPublic('files').'&dir='.urlencode($_GET['dir']);
 				}
 				if (isset($_POST['password'])) {
 					$password = $_POST['password'];

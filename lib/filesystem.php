@@ -232,8 +232,8 @@ class OC_Filesystem{
 			}
 		
 			if(isset($mountConfig['user'])) {
-				foreach($mountConfig['user'] as $user=>$mounts) {
-					if($user==='all' or strtolower($user)===strtolower($user)) {
+				foreach($mountConfig['user'] as $mountUser=>$mounts) {
+					if($user==='all' or strtolower($mountUser)===strtolower($user)) {
 						foreach($mounts as $mountPoint=>$options) {
 							$mountPoint=self::setUserVars($mountPoint, $user);
 							foreach($options as &$option) {

@@ -44,6 +44,7 @@ textarea:hover, textarea:focus, textarea:active { background-color:#fff; color:#
 
 input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a { width:auto; padding:.4em; border:1px solid #ddd; font-weight:bold; cursor:pointer; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
 input[type="submit"]:hover, input[type="submit"]:focus, input[type="button"]:hover, select:hover, select:focus, select:active, input[type="button"]:focus, .button:hover { background:#fff; color:#333; }
+input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
 input[type="checkbox"] { width:auto; }
 #quota { cursor:default; }
 

@@ -58,6 +58,7 @@
 "New" => "Nowy",
 "Text file" => "Plik tekstowy",
 "Folder" => "Katalog",
+"From link" => "Z linku",
 "Upload" => "Prześlij",
 "Cancel upload" => "Przestań wysyłać",
 "Nothing in here. Upload something!" => "Brak zawartości. Proszę wysłać pliki!",
