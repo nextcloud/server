@@ -79,7 +79,7 @@ var UserList={
 			subadminSelect.data('subadmin', subadmin);
 			tr.find('td.subadmins').empty();
 		}
-		var allGroups = String($('#content table').data('groups')).split(', ');
+		var allGroups = String($('#content table').attr('data-groups')).split(', ');
 		$.each(allGroups, function(i, group) {
 			groupsSelect.append($('<option value="'+group+'">'+group+'</option>'));
 			if (typeof subadminSelect !== 'undefined' && group != 'admin') {
@@ -113,7 +113,7 @@ var UserList={
 		if (sort) {
 			username = username.toLowerCase();
 			$('tbody tr').each(function() {
-				if (username < $(this).data('uid').toLowerCase()) {
+				if (username < $(this).attr('data-uid').toLowerCase()) {
 					$(tr).insertBefore($(this));
 					added = true;
 					return false;
@@ -148,7 +148,7 @@ var UserList={
 
 	applyMultiplySelect:function(element) {
 		var checked=[];
-		var user=element.data('username');
+		var user=element.attr('data-username');
 		if($(element).attr('class') == 'groupsselect'){
 			if(element.data('userGroups')){
 				checked=String(element.data('userGroups')).split(', ');
