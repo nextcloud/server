@@ -722,7 +722,7 @@ var folderDropOptions={
 }
 var crumbDropOptions={
 	drop: function( event, ui ) {
-		var file=ui.draggable.text().trim();
+		var file=ui.draggable.parent().data('file');
 		var target=$(this).data('dir');
 		var dir=$('#dir').val();
 		while(dir.substr(0,1)=='/'){//remove extra leading /'s
