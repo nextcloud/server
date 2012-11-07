@@ -562,7 +562,7 @@ class OC_Filesystem{
 		if ($root) { // reduce path to the required part of it (no 'username/files')
 			$fakeRootView = new OC_FilesystemView($root);
 			$count = 1;
-			$path=str_replace(OC_App::getStorage("files")->getAbsolutePath(), "", $fakeRootView->getAbsolutePath($path), $count);
+			$path=str_replace(OC_App::getStorage("files")->getAbsolutePath(''), "", $fakeRootView->getAbsolutePath($path), $count);
 		}
 
 		$path = self::normalizePath($path);
