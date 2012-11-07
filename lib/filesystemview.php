@@ -47,10 +47,7 @@ class OC_FilesystemView {
 		$this->fakeRoot=$root;
 	}
 
-	public function getAbsolutePath($path) {
-		if(!$path) {
-			$path='/';
-		}
+	public function getAbsolutePath($path = '/') {
 		if($path[0]!=='/') {
 			$path='/'.$path;
 		}
