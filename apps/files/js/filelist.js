@@ -32,13 +32,14 @@ var FileList={
 		html+='<td class="date"><span class="modified" title="'+formatDate(lastModified)+'" style="color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')">'+relative_modified_date(lastModified.getTime() / 1000)+'</span></td>';
 		html+='</tr>';
 		FileList.insertElement(name,'file',$(html).attr('data-file',name));
+		var row = $('tr').filterAttr('data-file',name);
 		if(loading){
-			$('tr').filterAttr('data-file',name).data('loading',true);
+			row.data('loading',true);
 		}else{
-			$('tr').filterAttr('data-file',name).find('td.filename').draggable(dragOptions);
+			row.find('td.filename').draggable(dragOptions);
 		}
 		if (hidden) {
-			$('tr').filterAttr('data-file', name).hide();
+			row.hide();
 		}
 	},
 	addDir:function(name,size,lastModified,hidden){
@@ -66,10 +67,11 @@ var FileList={
 		td.append($('<span></span>').attr({ "class": "modified", "title": formatDate(lastModified), "style": 'color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')' }).text( relative_modified_date(lastModified.getTime() / 1000) ));
 		html.append(td);
 		FileList.insertElement(name,'dir',html);
-		$('tr').filterAttr('data-file',name).find('td.filename').draggable(dragOptions);
-		$('tr').filterAttr('data-file',name).find('td.filename').droppable(folderDropOptions);
+		var row = $('tr').filterAttr('data-file',name);
+		row.find('td.filename').draggable(dragOptions);
+		row.find('td.filename').droppable(folderDropOptions);
 		if (hidden) {
-			$('tr').filterAttr('data-file', name).hide();
+			row.hide();
 		}
 	},
 	refresh:function(data) {
