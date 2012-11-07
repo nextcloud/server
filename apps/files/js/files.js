@@ -722,7 +722,7 @@ var folderDropOptions={
 }
 var crumbDropOptions={
 	drop: function( event, ui ) {
-		var file=ui.draggable.text().trim();
+		var file=ui.draggable.parent().data('file');
 		var target=$(this).data('dir');
 		var dir=$('#dir').val();
 		while(dir.substr(0,1)=='/'){//remove extra leading /'s
@@ -827,27 +827,6 @@ function getSelectedFiles(property){
 		}
 	});
 	return files;
-}
-
-function relative_modified_date(timestamp) {
-	var timediff = Math.round((new Date()).getTime() / 1000) - timestamp;
-	var diffminutes = Math.round(timediff/60);
-	var diffhours = Math.round(diffminutes/60);
-	var diffdays = Math.round(diffhours/24);
-	var diffmonths = Math.round(diffdays/31);
-	if(timediff < 60) { return t('files','seconds ago'); }
-	else if(timediff < 120) { return t('files','1 minute ago'); }
-	else if(timediff < 3600) { return t('files','{minutes} minutes ago',{minutes: diffminutes}); }
-	//else if($timediff < 7200) { return '1 hour ago'; }
-	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
-	else if(timediff < 86400) { return t('files','today'); }
-	else if(timediff < 172800) { return t('files','yesterday'); }
-	else if(timediff < 2678400) { return t('files','{days} days ago',{days: diffdays}); }
-	else if(timediff < 5184000) { return t('files','last month'); }
-	//else if($timediff < 31556926) { return $diffmonths.' months ago'; }
-	else if(timediff < 31556926) { return t('files','months ago'); }
-	else if(timediff < 63113852) { return t('files','last year'); }
-	else { return t('files','years ago'); }
 }
 
 function getMimeIcon(mime, ready){

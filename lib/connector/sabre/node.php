@@ -26,6 +26,13 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
 
 	/**
+	 * Allow configuring the method used to generate Etags
+	 *
+	 * @var array(class_name, function_name)
+	*/
+	public static $ETagFunction = null;
+
+	/**
 	 * The path to the current node
 	 *
 	 * @var string
@@ -178,7 +185,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * If the array is empty, all properties should be returned
 	 *
 	 * @param array $properties
-	 * @return void
+	 * @return array
 	 */
 	public function getProperties($properties) {
 		if (is_null($this->property_cache)) {
@@ -209,7 +216,12 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @return string|null Returns null if the ETag can not effectively be determined
 	 */
 	static protected function createETag($path) {
-		return uniqid('', true);
+		if(self::$ETagFunction) {
+			$hash = call_user_func(self::$ETagFunction, $path);
+			return $hash;
+		}else{
+			return uniqid('', true);
+		}
 	}
 
 	/**

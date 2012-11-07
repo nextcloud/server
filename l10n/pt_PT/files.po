@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-03 00:00+0100\n"
-"PO-Revision-Date: 2012-11-01 23:21+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-06 00:00+0100\n"
+"PO-Revision-Date: 2012-11-05 13:54+0000\n"
+"Last-Translator: Duarte Velez Grilo <duartegrilo@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,7 +63,7 @@ msgstr "Deixar de partilhar"
 msgid "Delete"
 msgstr "Apagar"
 
-#: js/fileactions.js:178
+#: js/fileactions.js:172
 msgid "Rename"
 msgstr "Renomear"
 
@@ -262,7 +262,7 @@ msgstr "Pasta"
 
 #: templates/index.php:11
 msgid "From link"
-msgstr ""
+msgstr "Da ligação"
 
 #: templates/index.php:22
 msgid "Upload"

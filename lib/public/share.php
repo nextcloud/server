@@ -28,7 +28,7 @@ namespace OCP;
 /**
 * This class provides the ability for apps to share their content between users.
 * Apps must create a backend class that implements OCP\Share_Backend and register it with this class.
-* 
+*
 * It provides the following hooks:
 *  - post_shared
 */

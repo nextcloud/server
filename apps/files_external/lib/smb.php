@@ -26,30 +26,28 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 		if(!$this->root || $this->root[0]!='/') {
 			$this->root='/'.$this->root;
 		}
-		if(substr($this->root,-1,1)!='/') {
+		if(substr($this->root, -1, 1)!='/') {
 			$this->root.='/';
 		}
 		if(!$this->share || $this->share[0]!='/') {
 			$this->share='/'.$this->share;
 		}
-		if(substr($this->share,-1,1)=='/') {
-			$this->share=substr($this->share,0,-1);
+		if(substr($this->share, -1, 1)=='/') {
+			$this->share = substr($this->share,0,-1);
 		}
-	}
 
 	public function getId(){
 		return 'smb::' . $this->user . '@' . $this->host . '/' . $this->share . '/' . $this->root;
 	}
 
 	public function constructUrl($path) {
-		if(substr($path,-1)=='/') {
-			$path=substr($path,0,-1);
+		if(substr($path, -1)=='/') {
+			$path=substr($path, 0, -1);
 		}
 		return 'smb://'.$this->user.':'.$this->password.'@'.$this->host.$this->share.$this->root.$path;
 	}
 
 	public function stat($path) {
-		$this->init();
 		if(!$path and $this->root=='/') {//mtime doesn't work for shares
 			$mtime=$this->shareMTime();
 			$stat=stat($this->constructUrl($path));

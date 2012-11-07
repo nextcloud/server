@@ -205,15 +205,15 @@ class SWIFT extends \OC\Files\Storage\Common{
 			foreach($containers as &$sub) {
 				$sub=trim($sub);
 			}
-			if(array_search($name,$containers)!==false) {
+			if(array_search($name, $containers) !== false) {
 				unlink($tmpFile);
 				return false;
 			}else{
-				$fh=fopen($tmpFile,'a');
-				fwrite($fh,$name."\n");
+				$fh=fopen($tmpFile, 'a');
+				fwrite($fh,$name . "\n");
 			}
 		}catch(\Exception $e) {
-			file_put_contents($tmpFile,$name."\n");
+			file_put_contents($tmpFile, $name . "\n");
 		}
 
 		$obj->load_from_filename($tmpFile);
@@ -227,7 +227,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	 * @param string $name
 	 * @return bool
 	 */
-	private function removeSubContainer($container,$name) {
+	private function removeSubContainer($container, $name) {
 		if(!$name) {
 			return false;
 		}
@@ -242,13 +242,13 @@ class SWIFT extends \OC\Files\Storage\Common{
 		foreach($containers as &$sub) {
 			$sub=trim($sub);
 		}
-		$i=array_search($name,$containers);
+		$i=array_search($name, $containers);
 		if($i===false) {
 			unlink($tmpFile);
 			return false;
 		}else{
 			unset($containers[$i]);
-			file_put_contents($tmpFile, implode("\n",$containers)."\n");
+			file_put_contents($tmpFile, implode("\n", $containers)."\n");
 		}
 
 		$obj->load_from_filename($tmpFile);
@@ -264,7 +264,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	private function getSubContainerFile($container) {
 		try{
 			return $container->get_object(self::SUBCONTAINER_FILE);
-		}catch(\NoSuchObjectException $e) {
+		}catch(NoSuchObjectException $e) {
 			return $container->create_object(self::SUBCONTAINER_FILE);
 		}
 	}
@@ -274,9 +274,15 @@ class SWIFT extends \OC\Files\Storage\Common{
 		$this->host=$params['host'];
 		$this->user=$params['user'];
 		$this->root=isset($params['root'])?$params['root']:'/';
-		$this->secure=isset($params['secure'])?(bool)$params['secure']:true;
-
-		$this->id = 'swift::' . $this->user . '@' . $this->host . '/' . $this->root;
+		if(isset($params['secure'])){
+			if(is_string($params['secure'])){
+				$this->secure = ($params['secure'] === 'true');
+			}else{
+				$this->secure = (bool)$params['secure'];
+			}
+		}else{
+			$this->secure = false;
+		}
 		if(!$this->root || $this->root[0]!='/') {
 			$this->root='/'.$this->root;
 		}
@@ -358,12 +364,12 @@ class SWIFT extends \OC\Files\Storage\Common{
 		$this->init();
 		$container=$this->getContainer($path);
 		$files=$this->getObjects($container);
-		$i=array_search(self::SUBCONTAINER_FILE,$files);
+		$i=array_search(self::SUBCONTAINER_FILE, $files);
 		if($i!==false) {
 			unset($files[$i]);
 		}
 		$subContainers=$this->getSubContainers($container);
-		$files=array_merge($files,$subContainers);
+		$files=array_merge($files, $subContainers);
 		$id=$this->getContainerName($path);
 		\OC_FakeDirStream::$dirs[$id]=$files;
 		return opendir('fakedir://'.$id);
@@ -404,7 +410,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 		return $obj->read();
 	}
 
-	public function file_put_contents($path,$content) {
+	public function file_put_contents($path, $content) {
 		$this->init();
 		$obj=$this->getObject($path);
 		if(is_null($obj)) {
@@ -432,7 +438,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 		}
 	}
 
-	public function fopen($path,$mode) {
+	public function fopen($path, $mode) {
 		$this->init();
 		switch($mode) {
 			case 'r':
@@ -459,9 +465,9 @@ class SWIFT extends \OC\Files\Storage\Common{
 			case 'c':
 			case 'c+':
 				$tmpFile=$this->getTmpFile($path);
-				\OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
+				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
 				self::$tempFiles[$tmpFile]=$path;
-				return fopen('close://'.$tmpFile,$mode);
+				return fopen('close://'.$tmpFile, $mode);
 		}
 	}
 
@@ -476,7 +482,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 		return 1024*1024*1024*8;
 	}
 
-	public function touch($path,$mtime=null) {
+	public function touch($path, $mtime=null) {
 		$this->init();
 		$obj=$this->getObject($path);
 		if(is_null($obj)) {
@@ -491,11 +497,11 @@ class SWIFT extends \OC\Files\Storage\Common{
 		$obj->sync_metadata();
 	}
 
-	public function rename($path1,$path2) {
+	public function rename($path1, $path2) {
 		$this->init();
 		$sourceContainer=$this->getContainer(dirname($path1));
 		$targetContainer=$this->getContainer(dirname($path2));
-		$result=$sourceContainer->move_object_to(basename($path1),$targetContainer, basename($path2));
+		$result=$sourceContainer->move_object_to(basename($path1), $targetContainer, basename($path2));
 		unset($this->objects[$path1]);
 		if($result) {
 			$targetObj=$this->getObject($path2);
@@ -504,11 +510,11 @@ class SWIFT extends \OC\Files\Storage\Common{
 		return $result;
 	}
 
-	public function copy($path1,$path2) {
+	public function copy($path1, $path2) {
 		$this->init();
 		$sourceContainer=$this->getContainer(dirname($path1));
 		$targetContainer=$this->getContainer(dirname($path2));
-		$result=$sourceContainer->copy_object_to(basename($path1),$targetContainer, basename($path2));
+		$result=$sourceContainer->copy_object_to(basename($path1), $targetContainer, basename($path2));
 		if($result) {
 			$targetObj=$this->getObject($path2);
 			$this->resetMTime($targetObj);
@@ -523,6 +529,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 			return array(
 				'mtime'=>-1,
 				'size'=>$container->bytes_used,
+				'ctime'=>-1
 			);
 		}
 
@@ -540,6 +547,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 		return array(
 			'mtime'=>$mtime,
 			'size'=>$obj->content_length,
+			'ctime'=>-1,
 		);
 	}
 
@@ -555,7 +563,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 		}
 	}
 
-	private function fromTmpFile($tmpFile,$path) {
+	private function fromTmpFile($tmpFile, $path) {
 		$this->init();
 		$obj=$this->getObject($path);
 		if(is_null($obj)) {

@@ -58,6 +58,7 @@
 "New" => "Novo",
 "Text file" => "Ficheiro de texto",
 "Folder" => "Pasta",
+"From link" => "Da ligação",
 "Upload" => "Enviar",
 "Cancel upload" => "Cancelar envio",
 "Nothing in here. Upload something!" => "Vazio. Envie alguma coisa!",

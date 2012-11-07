@@ -285,7 +285,12 @@ class OC_Mount_Config {
 	public static function getCertificates() {
 		$view = \OCP\Files::getStorage('files_external');
 		$path=\OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("").'uploads/';
-		if (!is_dir($path)) mkdir($path);
+		\OCP\Util::writeLog('files_external', 'checking path '.$path, \OCP\Util::INFO);
+		if(!is_dir($path)) {
+			//path might not exist (e.g. non-standard OC_User::getHome() value)
+			//in this case create full path using 3rd (recursive=true) parameter.
+			mkdir($path, 0777, true);
+		}
 		$result = array();
 		$handle = opendir($path);
 		if (!$handle) {

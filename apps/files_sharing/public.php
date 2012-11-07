@@ -23,7 +23,7 @@ if (isset($_GET['token'])) {
 // Enf of backward compatibility
 
 function getID($path) {
-	// use the share table from the db to find the item source if the file was reshared because shared files 
+	// use the share table from the db to find the item source if the file was reshared because shared files
 	//are not stored in the file cache.
 	if (substr(\OC\Files\Filesystem::getMountPoint($path), -7, 6) == "Shared") {
 		$path_parts = explode('/', $path, 5);
@@ -73,9 +73,9 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 			if (isset($linkItem['share_with'])) {
 				// Check password
 				if (isset($_GET['file'])) {
-					$url = OCP\Util::linkToPublic('files').'&file='.$_GET['file'];
+					$url = OCP\Util::linkToPublic('files').'&file='.urlencode($_GET['file']);
 				} else {
-					$url = OCP\Util::linkToPublic('files').'&dir='.$_GET['dir'];
+					$url = OCP\Util::linkToPublic('files').'&dir='.urlencode($_GET['dir']);
 				}
 				if (isset($_POST['password'])) {
 					$password = $_POST['password'];

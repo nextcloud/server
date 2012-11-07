@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-04 00:01+0100\n"
+"POT-Creation-Date: 2012-11-07 00:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -210,15 +210,15 @@ msgstr ""
 msgid "Ask a question"
 msgstr ""
 
-#: templates/help.php:23
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr ""
 
-#: templates/help.php:24
+#: templates/help.php:23
 msgid "Go there manually."
 msgstr ""
 
-#: templates/help.php:32
+#: templates/help.php:31
 msgid "Answer"
 msgstr ""
 

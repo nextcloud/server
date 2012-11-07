@@ -34,7 +34,7 @@ class View {
 		$this->fakeRoot = $root;
 	}
 
-	public function getAbsolutePath($path) {
+	public function getAbsolutePath($path = '/') {
 		if (!$path) {
 			$path = '/';
 		}

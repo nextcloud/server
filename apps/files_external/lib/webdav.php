@@ -30,7 +30,15 @@ class DAV extends \OC\Files\Storage\Common{
 		$this->host=$host;
 		$this->user=$params['user'];
 		$this->password=$params['password'];
-		$this->secure=(isset($params['secure']) && $params['secure'] == 'true')?true:false;
+		if(isset($params['secure'])){
+			if(is_string($params['secure'])){
+				$this->secure = ($params['secure'] === 'true');
+			}else{
+				$this->secure = (bool)$params['secure'];
+			}
+		}else{
+			$this->secure = false;
+		}
 		$this->root=isset($params['root'])?$params['root']:'/';
 		if(!$this->root || $this->root[0]!='/') {
 			$this->root='/'.$this->root;
@@ -56,7 +64,7 @@ class DAV extends \OC\Files\Storage\Common{
 
 		if($caview = \OCP\Files::getStorage('files_external')) {
 			$certPath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("").'rootcerts.crt';
-			if (file_exists($certPath))  {
+			if (file_exists($certPath)) {
 				$this->client->addTrustedCertificates($certPath);
 			}
 		}
