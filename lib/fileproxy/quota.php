@@ -22,7 +22,7 @@
 */
 
 /**
- * user quota managment
+ * user quota management
  */
 
 class OC_FileProxy_Quota extends OC_FileProxy{
@@ -39,10 +39,8 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 			return $this->userQuota[$user];
 		}
 		$userQuota=OC_Preferences::getValue($user, 'files', 'quota', 'default');
-		$userQuota=OC_Preferences::getValue($user,'files','quota','default');
 		if($userQuota=='default') {
 			$userQuota=OC_AppConfig::getValue('files', 'default_quota', 'none');
-			$userQuota=OC_AppConfig::getValue('files','default_quota','none');
 		}
 		if($userQuota=='none') {
 			$this->userQuota[$user]=0;
@@ -59,8 +57,12 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 	 * @return int
 	 */
 	private function getFreeSpace($path) {
-		$storage=OC_Filesystem::getStorage($path);
-		$owner=$storage->getOwner($path);
+		/**
+		 * @var \OC\Files\Storage\Storage $storage
+		 * @var string $internalPath
+		 */
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
+		$owner=$storage->getOwner($internalPath);
 
 		$totalSpace=$this->getQuota($owner);
 		if($totalSpace==0) {
