@@ -102,6 +102,16 @@ class View {
 	}
 
 	/**
+	 * resolve a path to a storage and internal path
+	 *
+	 * @param string $path
+	 * @return array consisting of the storage and the internal path
+	 */
+	public function resolvePath($path) {
+		return Filesystem::resolvePath($this->getAbsolutePath($path));
+	}
+
+	/**
 	 * return the path to a local version of the file
 	 * we need this because we can't know if a file is stored local or not from outside the filestorage and for some purposes a local file is needed
 	 *
