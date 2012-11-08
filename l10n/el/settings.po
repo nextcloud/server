@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-14 02:05+0200\n"
-"PO-Revision-Date: 2012-10-13 21:01+0000\n"
-"Last-Translator: Γιάννης Ανθυμίδης <yannanth@gmail.com>\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 23:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,70 +28,69 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "Σφάλμα στην φόρτωση της λίστας από το App Store"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:18 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Σφάλμα πιστοποίησης"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "Η ομάδα υπάρχει ήδη"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Αδυναμία προσθήκης ομάδας"
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
 msgstr "Αδυναμία ενεργοποίησης εφαρμογής "
 
-#: ajax/lostpassword.php:14
+#: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Το email αποθηκεύτηκε "
 
-#: ajax/lostpassword.php:16
+#: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Μη έγκυρο email"
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
 msgstr "Το OpenID άλλαξε"
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
 msgstr "Μη έγκυρο αίτημα"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Αδυναμία διαγραφής ομάδας"
 
-#: ajax/removeuser.php:27
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
+msgid "Authentication error"
+msgstr "Σφάλμα πιστοποίησης"
+
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
 msgstr "Αδυναμία διαγραφής χρήστη"
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Η γλώσσα άλλαξε"
 
-#: ajax/togglegroups.php:25
+#: ajax/togglegroups.php:22
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "Αδυναμία προσθήκη χρήστη στην ομάδα %s"
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "Αδυναμία αφαίρεσης χρήστη από την ομάδα %s"
 
-#: js/apps.js:28 js/apps.js:65
+#: js/apps.js:28 js/apps.js:67
 msgid "Disable"
 msgstr "Απενεργοποίηση"
 
-#: js/apps.js:28 js/apps.js:54
+#: js/apps.js:28 js/apps.js:55
 msgid "Enable"
 msgstr "Ενεργοποίηση"
 
@@ -180,7 +179,7 @@ msgstr "Αρχείο καταγραφής"
 msgid "More"
 msgstr "Περισσότερα"
 
-#: templates/admin.php:124
+#: templates/admin.php:124 templates/personal.php:61
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -222,22 +221,22 @@ msgstr "Διαχείριση Μεγάλων Αρχείων"
 msgid "Ask a question"
 msgstr "Ρωτήστε μια ερώτηση"
 
-#: templates/help.php:23
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr "Προβλήματα κατά τη σύνδεση με τη βάση δεδομένων βοήθειας."
 
-#: templates/help.php:24
+#: templates/help.php:23
 msgid "Go there manually."
 msgstr "Χειροκίνητη μετάβαση."
 
-#: templates/help.php:32
+#: templates/help.php:31
 msgid "Answer"
 msgstr "Απάντηση"
 
 #: templates/personal.php:8
 #, php-format
-msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr "Έχετε χρησιμοποιήσει <strong>%s</strong> από τα διαθέσιμα <strong>%s<strong>"
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"

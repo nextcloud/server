@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "නිවැරදි ව ගොනුව උඩුගත කෙරිනි",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini" => "php.ini හි upload_max_filesize නියමයට වඩා උඩුගත කළ ගොනුව විශාලයි",
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "උඩුගත කළ ගොනුවේ විශාලත්වය HTML පෝරමයේ නියම කළ ඇති MAX_FILE_SIZE විශාලත්වයට වඩා වැඩිය",
 "The uploaded file was only partially uploaded" => "උඩුගත කළ ගොනුවේ කොටසක් පමණක් උඩුගත විය",
 "No file was uploaded" => "කිසිදු ගොනවක් උඩුගත නොවිනි",
 "Missing a temporary folder" => "තාවකාලික ෆොල්ඩරයක් සොයාගත නොහැක",

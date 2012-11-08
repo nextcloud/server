@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -42,43 +42,43 @@ msgstr "Настройки"
 
 #: js/js.js:687
 msgid "seconds ago"
-msgstr ""
+msgstr "несколько секунд назад"
 
 #: js/js.js:688
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 минуту назад"
 
 #: js/js.js:689
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} минут назад"
 
 #: js/js.js:692
 msgid "today"
-msgstr ""
+msgstr "сегодня"
 
 #: js/js.js:693
 msgid "yesterday"
-msgstr ""
+msgstr "вчера"
 
 #: js/js.js:694
 msgid "{days} days ago"
-msgstr ""
+msgstr "{days} дней назад"
 
 #: js/js.js:695
 msgid "last month"
-msgstr ""
+msgstr "в прошлом месяце"
 
 #: js/js.js:697
 msgid "months ago"
-msgstr ""
+msgstr "несколько месяцев назад"
 
 #: js/js.js:698
 msgid "last year"
-msgstr ""
+msgstr "в прошлом году"
 
 #: js/js.js:699
 msgid "years ago"
-msgstr ""
+msgstr "несколько лет назад"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"

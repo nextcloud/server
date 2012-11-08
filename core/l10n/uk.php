@@ -1,5 +1,13 @@
 <?php $TRANSLATIONS = array(
 "Settings" => "Налаштування",
+"seconds ago" => "секунди тому",
+"1 minute ago" => "1 хвилину тому",
+"today" => "сьогодні",
+"yesterday" => "вчора",
+"last month" => "минулого місяця",
+"months ago" => "місяці тому",
+"last year" => "минулого року",
+"years ago" => "роки тому",
 "Cancel" => "Відмінити",
 "No" => "Ні",
 "Yes" => "Так",

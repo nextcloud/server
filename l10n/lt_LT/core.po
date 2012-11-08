@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -37,43 +37,43 @@ msgstr "Nustatymai"
 
 #: js/js.js:687
 msgid "seconds ago"
-msgstr ""
+msgstr "prieš sekundę"
 
 #: js/js.js:688
 msgid "1 minute ago"
-msgstr ""
+msgstr "Prieš 1 minutę"
 
 #: js/js.js:689
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "Prieš {count} minutes"
 
 #: js/js.js:692
 msgid "today"
-msgstr ""
+msgstr "šiandien"
 
 #: js/js.js:693
 msgid "yesterday"
-msgstr ""
+msgstr "vakar"
 
 #: js/js.js:694
 msgid "{days} days ago"
-msgstr ""
+msgstr "Prieš {days}  dienas"
 
 #: js/js.js:695
 msgid "last month"
-msgstr ""
+msgstr "praeitą mėnesį"
 
 #: js/js.js:697
 msgid "months ago"
-msgstr ""
+msgstr "prieš mėnesį"
 
 #: js/js.js:698
 msgid "last year"
-msgstr ""
+msgstr "praeitais metais"
 
 #: js/js.js:699
 msgid "years ago"
-msgstr ""
+msgstr "prieš metus"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"

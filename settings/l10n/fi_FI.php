@@ -43,7 +43,6 @@
 "Problems connecting to help database." => "Virhe yhdistettäessä tietokantaan.",
 "Go there manually." => "Ohje löytyy sieltä.",
 "Answer" => "Vastaus",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Käytössäsi on <strong>%s</strong>/<strong>%s<strong>",
 "Desktop and Mobile Syncing Clients" => "Tietokoneen ja mobiililaitteiden synkronointisovellukset",
 "Download" => "Lataa",
 "Your password was changed" => "Salasanasi vaihdettiin",

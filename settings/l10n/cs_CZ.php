@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nelze načíst seznam z App Store",
-"Authentication error" => "Chyba ověření",
 "Group already exists" => "Skupina již existuje",
 "Unable to add group" => "Nelze přidat skupinu",
 "Could not enable app. " => "Nelze povolit aplikaci.",
@@ -9,6 +8,7 @@
 "OpenID Changed" => "OpenID změněno",
 "Invalid request" => "Neplatný požadavek",
 "Unable to delete group" => "Nelze smazat skupinu",
+"Authentication error" => "Chyba ověření",
 "Unable to delete user" => "Nelze smazat uživatele",
 "Language changed" => "Jazyk byl změněn",
 "Unable to add user to group %s" => "Nelze přidat uživatele do skupiny %s",
@@ -46,7 +46,6 @@
 "Problems connecting to help database." => "Problémy s připojením k databázi s nápovědou.",
 "Go there manually." => "Přejít ručně.",
 "Answer" => "Odpověď",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Použili jste <strong>%s</strong> z dostupných <strong>%s<strong>",
 "Desktop and Mobile Syncing Clients" => "Klienti pro synchronizaci",
 "Download" => "Stáhnout",
 "Your password was changed" => "Vaše heslo bylo změněno",

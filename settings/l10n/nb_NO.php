@@ -37,7 +37,6 @@
 "Problems connecting to help database." => "Problemer med å koble til hjelp-databasen",
 "Go there manually." => "Gå dit manuelt",
 "Answer" => "Svar",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Du har brukt <strong>%s</strong> av tilgjengelig <strong>%s</strong>",
 "Desktop and Mobile Syncing Clients" => "Klienter for datamaskiner og mobile enheter",
 "Download" => "Last ned",
 "Your password was changed" => "Passord har blitt endret",

@@ -34,7 +34,6 @@
 "Problems connecting to help database." => "උදව් දත්ත ගබඩාව හා සම්බන්ධවීමේදී ගැටළු ඇතිවිය.",
 "Go there manually." => "ස්වශක්තියෙන් එතැනට යන්න",
 "Answer" => "පිළිතුර",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "ඔබ  <strong>%s</strong>ක් භාවිතා කර ඇත. මුළු ප්‍රමාණය  <strong>%s</strong>කි",
 "Download" => "භාගත කරන්න",
 "Your password was changed" => "ඔබගේ මුර පදය වෙනස් කෙරුණි",
 "Unable to change your password" => "මුර පදය වෙනස් කළ නොහැකි විය",

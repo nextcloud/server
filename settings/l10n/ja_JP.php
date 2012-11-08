@@ -46,7 +46,6 @@
 "Problems connecting to help database." => "ヘルプデータベースへの接続時に問題が発生しました",
 "Go there manually." => "手動で移動してください。",
 "Answer" => "解答",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "現在､ <strong>%s</strong> / <strong>%s<strong> を利用しています",
 "Desktop and Mobile Syncing Clients" => "デスクトップおよびモバイル用の同期クライアント",
 "Download" => "ダウンロード",
 "Your password was changed" => "パスワードを変更しました",

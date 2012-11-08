@@ -43,7 +43,6 @@
 "Problems connecting to help database." => "Probleemid abiinfo andmebaasiga ühendumisel.",
 "Go there manually." => "Mine sinna käsitsi.",
 "Answer" => "Vasta",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Sa oled kasutanud <strong>%s</strong> saadaolevast <strong>%s<strong>-st",
 "Desktop and Mobile Syncing Clients" => "Töölaua ja mobiiliga sünkroniseerimise rakendused",
 "Download" => "Lae alla",
 "Your password was changed" => "Sinu parooli on muudetud",

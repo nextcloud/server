@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Imposibil de încărcat lista din App Store",
-"Authentication error" => "Eroare de autentificare",
 "Group already exists" => "Grupul există deja",
 "Unable to add group" => "Nu s-a putut adăuga grupul",
 "Could not enable app. " => "Nu s-a putut activa aplicația.",
@@ -9,6 +8,7 @@
 "OpenID Changed" => "OpenID schimbat",
 "Invalid request" => "Cerere eronată",
 "Unable to delete group" => "Nu s-a putut șterge grupul",
+"Authentication error" => "Eroare de autentificare",
 "Unable to delete user" => "Nu s-a putut șterge utilizatorul",
 "Language changed" => "Limba a fost schimbată",
 "Unable to add user to group %s" => "Nu s-a putut adăuga utilizatorul la grupul %s",
@@ -45,7 +45,6 @@
 "Problems connecting to help database." => "Probleme de conectare la baza de date.",
 "Go there manually." => "Pe cale manuală.",
 "Answer" => "Răspuns",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Ai utilizat <strong>%s</strong> din <strong>%s<strong> spațiu disponibil",
 "Desktop and Mobile Syncing Clients" => "Clienți de sincronizare pentru telefon mobil și desktop",
 "Download" => "Descărcări",
 "Your password was changed" => "Parola a fost modificată",

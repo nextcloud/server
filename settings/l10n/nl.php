@@ -46,7 +46,6 @@
 "Problems connecting to help database." => "Problemen bij het verbinden met de helpdatabank.",
 "Go there manually." => "Ga er zelf heen.",
 "Answer" => "Beantwoord",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Je hebt <strong>%s</strong> gebruikt van de beschikbare <strong>%s<strong>",
 "Desktop and Mobile Syncing Clients" => "Desktop en mobiele synchronisatie applicaties",
 "Download" => "Download",
 "Your password was changed" => "Je wachtwoord is veranderd",

@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Σφάλμα στην φόρτωση της λίστας από το App Store",
-"Authentication error" => "Σφάλμα πιστοποίησης",
 "Group already exists" => "Η ομάδα υπάρχει ήδη",
 "Unable to add group" => "Αδυναμία προσθήκης ομάδας",
 "Could not enable app. " => "Αδυναμία ενεργοποίησης εφαρμογής ",
@@ -9,6 +8,7 @@
 "OpenID Changed" => "Το OpenID άλλαξε",
 "Invalid request" => "Μη έγκυρο αίτημα",
 "Unable to delete group" => "Αδυναμία διαγραφής ομάδας",
+"Authentication error" => "Σφάλμα πιστοποίησης",
 "Unable to delete user" => "Αδυναμία διαγραφής χρήστη",
 "Language changed" => "Η γλώσσα άλλαξε",
 "Unable to add user to group %s" => "Αδυναμία προσθήκη χρήστη στην ομάδα %s",
@@ -46,7 +46,6 @@
 "Problems connecting to help database." => "Προβλήματα κατά τη σύνδεση με τη βάση δεδομένων βοήθειας.",
 "Go there manually." => "Χειροκίνητη μετάβαση.",
 "Answer" => "Απάντηση",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Έχετε χρησιμοποιήσει <strong>%s</strong> από τα διαθέσιμα <strong>%s<strong>",
 "Desktop and Mobile Syncing Clients" => "Πελάτες συγχρονισμού για Desktop και Mobile",
 "Download" => "Λήψη",
 "Your password was changed" => "Το συνθηματικό σας έχει αλλάξει",

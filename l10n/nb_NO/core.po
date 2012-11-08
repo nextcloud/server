@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -41,43 +41,43 @@ msgstr "Innstillinger"
 
 #: js/js.js:687
 msgid "seconds ago"
-msgstr ""
+msgstr "sekunder siden"
 
 #: js/js.js:688
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 minutt siden"
 
 #: js/js.js:689
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} minutter siden"
 
 #: js/js.js:692
 msgid "today"
-msgstr ""
+msgstr "i dag"
 
 #: js/js.js:693
 msgid "yesterday"
-msgstr ""
+msgstr "i går"
 
 #: js/js.js:694
 msgid "{days} days ago"
-msgstr ""
+msgstr "{days} dager siden"
 
 #: js/js.js:695
 msgid "last month"
-msgstr ""
+msgstr "forrige måned"
 
 #: js/js.js:697
 msgid "months ago"
-msgstr ""
+msgstr "måneder siden"
 
 #: js/js.js:698
 msgid "last year"
-msgstr ""
+msgstr "forrige år"
 
 #: js/js.js:699
 msgid "years ago"
-msgstr ""
+msgstr "år siden"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"

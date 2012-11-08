@@ -23,7 +23,6 @@
 "Ask a question" => "Užduoti klausimą",
 "Problems connecting to help database." => "Problemos jungiantis prie duomenų bazės",
 "Answer" => "Atsakyti",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Jūs panaudojote <strong>%s</strong> iš galimų <strong>%s<strong>",
 "Download" => "Atsisiųsti",
 "Your password was changed" => "Jūsų slaptažodis buvo pakeistas",
 "Unable to change your password" => "Neįmanoma pakeisti slaptažodžio",

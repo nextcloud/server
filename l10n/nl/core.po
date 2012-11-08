@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 20:51+0000\n"
+"Last-Translator: Richard Bos <radoeka@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,43 +46,43 @@ msgstr "Instellingen"
 
 #: js/js.js:687
 msgid "seconds ago"
-msgstr ""
+msgstr "seconden geleden"
 
 #: js/js.js:688
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 minuut geleden"
 
 #: js/js.js:689
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} minuten geleden"
 
 #: js/js.js:692
 msgid "today"
-msgstr ""
+msgstr "vandaag"
 
 #: js/js.js:693
 msgid "yesterday"
-msgstr ""
+msgstr "gisteren"
 
 #: js/js.js:694
 msgid "{days} days ago"
-msgstr ""
+msgstr "{days} dagen geleden"
 
 #: js/js.js:695
 msgid "last month"
-msgstr ""
+msgstr "vorige maand"
 
 #: js/js.js:697
 msgid "months ago"
-msgstr ""
+msgstr "maanden geleden"
 
 #: js/js.js:698
 msgid "last year"
-msgstr ""
+msgstr "vorig jaar"
 
 #: js/js.js:699
 msgid "years ago"
-msgstr ""
+msgstr "jaar geleden"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
@@ -228,11 +228,11 @@ msgstr "U ontvangt een link om uw wachtwoord opnieuw in te stellen via e-mail."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "Reset e-mail verstuurd."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "Verzoek gefaald!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20

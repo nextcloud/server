@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:26+0000\n"
+"Last-Translator: Mouxy <daniel@mouxy.net>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,43 +41,43 @@ msgstr "Definições"
 
 #: js/js.js:687
 msgid "seconds ago"
-msgstr ""
+msgstr "Minutos atrás"
 
 #: js/js.js:688
 msgid "1 minute ago"
-msgstr ""
+msgstr "Falta 1 minuto"
 
 #: js/js.js:689
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} minutos atrás"
 
 #: js/js.js:692
 msgid "today"
-msgstr ""
+msgstr "hoje"
 
 #: js/js.js:693
 msgid "yesterday"
-msgstr ""
+msgstr "ontem"
 
 #: js/js.js:694
 msgid "{days} days ago"
-msgstr ""
+msgstr "{days} dias atrás"
 
 #: js/js.js:695
 msgid "last month"
-msgstr ""
+msgstr "ultímo mês"
 
 #: js/js.js:697
 msgid "months ago"
-msgstr ""
+msgstr "meses atrás"
 
 #: js/js.js:698
 msgid "last year"
-msgstr ""
+msgstr "ano passado"
 
 #: js/js.js:699
 msgid "years ago"
-msgstr ""
+msgstr "anos atrás"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"

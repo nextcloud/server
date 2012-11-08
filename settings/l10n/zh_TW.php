@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "無法從 App Store 讀取清單",
-"Authentication error" => "認證錯誤",
 "Group already exists" => "群組已存在",
 "Unable to add group" => "群組增加失敗",
 "Email saved" => "Email已儲存",
@@ -8,6 +7,7 @@
 "OpenID Changed" => "OpenID 已變更",
 "Invalid request" => "無效請求",
 "Unable to delete group" => "群組刪除錯誤",
+"Authentication error" => "認證錯誤",
 "Unable to delete user" => "使用者刪除錯誤",
 "Language changed" => "語言已變更",
 "Unable to add user to group %s" => "使用者加入群組%s錯誤",

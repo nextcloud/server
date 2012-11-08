@@ -43,7 +43,6 @@
 "Problems connecting to help database." => "დახმარების ბაზასთან წვდომის პრობლემა",
 "Go there manually." => "წადი იქ შენით.",
 "Answer" => "პასუხი",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "თქვენ გამოყენებული გაქვთ <strong>%s</strong> –ი –<strong>%s<strong>–დან",
 "Desktop and Mobile Syncing Clients" => "დესკტოპ და მობილური კლიენტების სინქრონიზაცია",
 "Download" => "ჩამოტვირთვა",
 "Your password was changed" => "თქვენი პაროლი შეიცვალა",

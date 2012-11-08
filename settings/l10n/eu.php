@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ezin izan da App Dendatik zerrenda kargatu",
-"Authentication error" => "Autentifikazio errorea",
 "Group already exists" => "Taldea dagoeneko existitzenda",
 "Unable to add group" => "Ezin izan da taldea gehitu",
 "Could not enable app. " => "Ezin izan da aplikazioa gaitu.",
@@ -9,6 +8,7 @@
 "OpenID Changed" => "OpenID aldatuta",
 "Invalid request" => "Baliogabeko eskaria",
 "Unable to delete group" => "Ezin izan da taldea ezabatu",
+"Authentication error" => "Autentifikazio errorea",
 "Unable to delete user" => "Ezin izan da erabiltzailea ezabatu",
 "Language changed" => "Hizkuntza aldatuta",
 "Unable to add user to group %s" => "Ezin izan da erabiltzailea %s taldera gehitu",
@@ -45,7 +45,6 @@
 "Problems connecting to help database." => "Arazoak daude laguntza datubasera konektatzeko.",
 "Go there manually." => "Joan hara eskuz.",
 "Answer" => "Erantzun",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Eskuragarri dituzun <strong>%s</strong>etik <strong>%s</strong> erabili duzu",
 "Desktop and Mobile Syncing Clients" => "Mahaigain eta mugikorren sinkronizazio bezeroak",
 "Download" => "Deskargatu",
 "Your password was changed" => "Zere pasahitza aldatu da",

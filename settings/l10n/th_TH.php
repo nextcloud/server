@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "ไม่สามารถโหลดรายการจาก App Store ได้",
-"Authentication error" => "เกิดข้อผิดพลาดเกี่ยวกับสิทธิ์การเข้าใช้งาน",
 "Group already exists" => "มีกลุ่มดังกล่าวอยู่ในระบบอยู่แล้ว",
 "Unable to add group" => "ไม่สามารถเพิ่มกลุ่มได้",
 "Could not enable app. " => "ไม่สามารถเปิดใช้งานแอปได้",
@@ -9,6 +8,7 @@
 "OpenID Changed" => "เปลี่ยนชื่อบัญชี OpenID แล้ว",
 "Invalid request" => "คำร้องขอไม่ถูกต้อง",
 "Unable to delete group" => "ไม่สามารถลบกลุ่มได้",
+"Authentication error" => "เกิดข้อผิดพลาดเกี่ยวกับสิทธิ์การเข้าใช้งาน",
 "Unable to delete user" => "ไม่สามารถลบผู้ใช้งานได้",
 "Language changed" => "เปลี่ยนภาษาเรียบร้อยแล้ว",
 "Unable to add user to group %s" => "ไม่สามารถเพิ่มผู้ใช้งานเข้าไปที่กลุ่ม %s ได้",
@@ -46,7 +46,6 @@
 "Problems connecting to help database." => "เกิดปัญหาในการเชื่อมต่อกับฐานข้อมูลช่วยเหลือ",
 "Go there manually." => "ไปที่นั่นด้วยตนเอง",
 "Answer" => "คำตอบ",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "คุณได้ใช้ <strong>%s</strong> จากที่สามารถใช้ได้ <strong>%s<strong>",
 "Desktop and Mobile Syncing Clients" => "โปรแกรมเชื่อมข้อมูลไฟล์สำหรับเครื่องเดสก์ท็อปและมือถือ",
 "Download" => "ดาวน์โหลด",
 "Your password was changed" => "รหัสผ่านของคุณถูกเปลี่ยนแล้ว",

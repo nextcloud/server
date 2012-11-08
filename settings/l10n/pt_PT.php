@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Incapaz de carregar a lista da App Store",
-"Authentication error" => "Erro de autenticação",
 "Group already exists" => "O grupo já existe",
 "Unable to add group" => "Impossível acrescentar o grupo",
 "Could not enable app. " => "Não foi possível activar a app.",
@@ -9,6 +8,7 @@
 "OpenID Changed" => "OpenID alterado",
 "Invalid request" => "Pedido inválido",
 "Unable to delete group" => "Impossível apagar grupo",
+"Authentication error" => "Erro de autenticação",
 "Unable to delete user" => "Impossível apagar utilizador",
 "Language changed" => "Idioma alterado",
 "Unable to add user to group %s" => "Impossível acrescentar utilizador ao grupo %s",
@@ -46,7 +46,6 @@
 "Problems connecting to help database." => "Problemas ao ligar à base de dados de ajuda",
 "Go there manually." => "Vá lá manualmente",
 "Answer" => "Resposta",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Usou <strong>%s</strong> dos <strong>%s<strong> disponíveis.",
 "Desktop and Mobile Syncing Clients" => "Clientes de sincronização desktop e móvel",
 "Download" => "Transferir",
 "Your password was changed" => "A sua palavra-passe foi alterada",

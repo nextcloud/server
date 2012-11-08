@@ -46,7 +46,6 @@
 "Problems connecting to help database." => "Проблемы, связанные с разделом Помощь базы данных",
 "Go there manually." => "Сделать вручную.",
 "Answer" => "Ответ",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Вы использовали <strong>%s</strong> из доступных<strong>%s<strong>",
 "Desktop and Mobile Syncing Clients" => "Клиенты синхронизации настольной и мобильной систем",
 "Download" => "Загрузка",
 "Your password was changed" => "Ваш пароль был изменен",

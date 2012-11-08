@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -37,11 +37,11 @@ msgstr "設定"
 
 #: js/js.js:687
 msgid "seconds ago"
-msgstr ""
+msgstr "幾秒前"
 
 #: js/js.js:688
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 分鐘前"
 
 #: js/js.js:689
 msgid "{minutes} minutes ago"
@@ -49,11 +49,11 @@ msgstr ""
 
 #: js/js.js:692
 msgid "today"
-msgstr ""
+msgstr "今天"
 
 #: js/js.js:693
 msgid "yesterday"
-msgstr ""
+msgstr "昨天"
 
 #: js/js.js:694
 msgid "{days} days ago"
@@ -61,19 +61,19 @@ msgstr ""
 
 #: js/js.js:695
 msgid "last month"
-msgstr ""
+msgstr "上個月"
 
 #: js/js.js:697
 msgid "months ago"
-msgstr ""
+msgstr "幾個月前"
 
 #: js/js.js:698
 msgid "last year"
-msgstr ""
+msgstr "去年"
 
 #: js/js.js:699
 msgid "years ago"
-msgstr ""
+msgstr "幾年前"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"

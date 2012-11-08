@@ -46,7 +46,6 @@
 "Problems connecting to help database." => "Vấn đề kết nối đến cơ sở dữ liệu.",
 "Go there manually." => "Đến bằng thủ công",
 "Answer" => "trả lời",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "Bạn đã sử dụng <strong>%s</strong> trong <strong>%s</strong> được phép.",
 "Desktop and Mobile Syncing Clients" => "Đồng bộ dữ liệu",
 "Download" => "Tải về",
 "Your password was changed" => "Mật khẩu của bạn đã được thay đổi.",

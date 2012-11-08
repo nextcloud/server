@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Pas possible de cargar la tièra dempuèi App Store",
-"Authentication error" => "Error d'autentificacion",
 "Group already exists" => "Lo grop existís ja",
 "Unable to add group" => "Pas capable d'apondre  un grop",
 "Could not enable app. " => "Pòt pas activar app. ",
@@ -9,6 +8,7 @@
 "OpenID Changed" => "OpenID cambiat",
 "Invalid request" => "Demanda invalida",
 "Unable to delete group" => "Pas capable d'escafar un grop",
+"Authentication error" => "Error d'autentificacion",
 "Unable to delete user" => "Pas capable d'escafar un usancièr",
 "Language changed" => "Lengas cambiadas",
 "Unable to add user to group %s" => "Pas capable d'apondre un usancièr al grop %s",
@@ -35,7 +35,6 @@
 "Problems connecting to help database." => "Problemas al connectar de la basa de donadas d'ajuda",
 "Go there manually." => "Vas çai manualament",
 "Answer" => "Responsa",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "As utilizat <strong>%s</strong> dels <strong>%s<strong> disponibles",
 "Download" => "Avalcarga",
 "Your password was changed" => "Ton senhal a cambiat",
 "Unable to change your password" => "Pas possible de cambiar ton senhal",

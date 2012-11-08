@@ -46,7 +46,6 @@
 "Problems connecting to help database." => "连接到帮助数据库时的问题",
 "Go there manually." => "收到转到.",
 "Answer" => "回答",
-"You have used <strong>%s</strong> of the available <strong>%s<strong>" => "您已使用了 <strong>%s</strong>，总可用 <strong>%s<strong>",
 "Desktop and Mobile Syncing Clients" => "桌面和移动同步客户端",
 "Download" => "下载",
 "Your password was changed" => "您的密码以变更",
