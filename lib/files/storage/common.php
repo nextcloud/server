@@ -267,4 +267,20 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	public function getOwner($path) {
 		return \OC_User::getUser();
 	}
+
+	/**
+	 * get the ETag for a file or folder
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	public function getETag($path){
+		$ETagFunction = \OC_Connector_Sabre_Node::$ETagFunction;
+		if($ETagFunction) {
+			$hash = call_user_func($ETagFunction, $path);
+			return $hash;
+		}else{
+			return uniqid('', true);
+		}
+	}
 }

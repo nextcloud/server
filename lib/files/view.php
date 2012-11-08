@@ -866,4 +866,19 @@ class View {
 
 		return $files;
 	}
+
+	/**
+	 * get the ETag for a file or folder
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	public function getETag($path){
+		/**
+		 * @var Storage\Storage $storage
+		 * @var string $internalPath
+		 */
+		list($storage, $internalPath) = $this->resolvePath($path);
+		return $storage->getETag($internalPath);
+	}
 }

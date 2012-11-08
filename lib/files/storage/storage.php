@@ -63,4 +63,12 @@ interface Storage{
 	public function getScanner();
 
 	public function getOwner($path);
+
+	/**
+	 * get the ETag for a file or folder
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	public function getETag($path);
 }

@@ -654,6 +654,16 @@ class Filesystem {
 	public static function getDirectoryContent($directory, $mimetype_filter = '') {
 		return self::$defaultInstance->getDirectoryContent($directory, $mimetype_filter);
 	}
+
+	/**
+	 * get the ETag for a file or folder
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	static public function getETag($path){
+		return self::$defaultInstance->getETag($path);
+	}
 }
 
 \OC_Hook::connect('OC_Filesystem', 'post_write', 'OC_Filesystem', 'removeETagHook');
