@@ -341,6 +341,22 @@ class Cache {
 	}
 
 	/**
+	 * update the folder size and the size of all parent folders
+	 *
+	 * @param $path
+	 */
+	public function correctFolderSize($path) {
+		$this->calculateFolderSize($path);
+		if ($path !== '') {
+			$parent = dirname($path);
+			if ($parent === '.') {
+				$parent = '';
+			}
+			$this->correctFolderSize($parent);
+		}
+	}
+
+	/**
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path

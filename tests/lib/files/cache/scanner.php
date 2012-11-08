@@ -98,7 +98,7 @@ class Scanner extends \UnitTestCase {
 
 		$this->assertNotEqual($cachedDataFolder2['size'], -1);
 
-		$this->scanner->correctFolderSize('folder');
+		$this->cache->correctFolderSize('folder');
 
 		$cachedDataFolder = $this->cache->get('');
 		$this->assertNotEqual($cachedDataFolder['size'], -1);

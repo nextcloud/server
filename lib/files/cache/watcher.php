@@ -50,7 +50,7 @@ class Watcher {
 			} else {
 				$this->scanner->scanFile($path);
 			}
-			$this->scanner->correctFolderSize($path);
+			$this->cache->correctFolderSize($path);
 		}
 	}
 
