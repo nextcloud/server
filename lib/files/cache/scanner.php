@@ -101,9 +101,9 @@ class Scanner {
 					}
 				}
 			}
-		}
-		if ($size !== -1) {
-			$this->cache->put($path, array('size' => $size));
+			if ($size !== -1) {
+				$this->cache->put($path, array('size' => $size));
+			}
 		}
 		return $size;
 	}
