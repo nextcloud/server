@@ -66,9 +66,7 @@ foreach( \OC\Files\Filesystem::getDirectoryContent( $dir ) as $i ) {
 			$i['extension']='';
 		}
 	}
-	if($i['directory']=='/') {
-		$i['directory']='';
-	}
+	$i['directory'] = $dir;
 	$files[] = $i;
 }
 
