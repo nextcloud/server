@@ -275,6 +275,13 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			);
 		$vals = array( $source['user'], self::GETETAG_PROPERTYNAME );
 		$query->execute(array_merge( $vals, $paths ));
+		
+		//remove etag for all Shared folders
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*properties`'
+				.' WHERE `propertypath` = "/Shared"'
+		);
+		$query->execute(array());
+		
 	}
 	
 	protected function getFileSource($path) {
