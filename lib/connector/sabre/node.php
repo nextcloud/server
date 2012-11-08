@@ -284,7 +284,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		
 	}
 	
-	protected function getFileSource($path) {
+	protected static function getFileSource($path) {
 		if ( OC_App::isEnabled('files_sharing') &&  !strncmp($path, '/Shared/', 8)) {
 			$source = OC_Files_Sharing_Util::getSourcePath(str_replace('/Shared/', '', $path));
 			$parts = explode('/', $source, 4);
