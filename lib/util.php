@@ -584,6 +584,33 @@ class OC_Util {
 		}
 	}
 
+
+        /**
+         * Check if the ownCloud server can connect to the internet
+         */
+        public static function isinternetconnectionworking() {
+
+		// try to connect to owncloud.org to see if http connections to the internet are possible.
+		$connected = @fsockopen("www.owncloud.org", 80); 
+		if ($connected){
+			fclose($connected);
+			return true; 
+		}else{
+
+			// second try in case one server is down
+			$connected = @fsockopen("apps.owncloud.com", 80); 
+			if ($connected){
+				fclose($connected);
+				return true; 
+			}else{
+				return false; 
+			}
+
+		}
+
+	}
+
+
 	/**
 	* @brief Generates a cryptographical secure pseudorandom string
 	* @param Int with the length of the random string
