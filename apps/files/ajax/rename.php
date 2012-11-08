@@ -11,9 +11,9 @@ $dir = stripslashes($_GET["dir"]);
 $file = stripslashes($_GET["file"]);
 $newname = stripslashes($_GET["newname"]);
 
-if (OC_User::isLoggedIn() && ($dir != '' || $file != 'Shared')) {
-	$targetFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $file);
-	$sourceFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $newname);
+if (($dir != '' || $file != 'Shared')) {
+	$targetFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $newname);
+	$sourceFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $file);
 	if(\OC\Files\Filesystem::rename($sourceFile, $targetFile)) {
 		OCP\JSON::success(array("data" => array( "dir" => $dir, "file" => $file, "newname" => $newname )));
 	} else {
