@@ -93,7 +93,14 @@ var UserList={
 			UserList.applyMultiplySelect(subadminSelect);
 		}
 		if (tr.find('td.remove img').length == 0 && OC.currentUser != username) {
-			tr.find('td.remove').append($('<img alt="Delete" title="'+t('settings','Delete')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
+			var rm_img = $('<img>', {
+				class: 'svg action',
+				src: OC.imagePath('core','actions/delete'),
+				alt: t('settings','Delete'),
+				title: t('settings','Delete')
+			});
+			var rm_link = $('<a>', { class: 'action delete', href: '#'}).append(rm_img);
+			tr.find('td.remove').append(rm_link);
 		} else if (OC.currentUser == username) {
 			tr.find('td.remove a').remove();
 		}
