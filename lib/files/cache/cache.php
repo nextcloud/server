@@ -348,6 +348,9 @@ class Cache {
 	 */
 	public function calculateFolderSize($path) {
 		$id = $this->getId($path);
+		if($id === -1){
+			return 0;
+		}
 		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*filecache` WHERE `parent` = ? AND `storage` = ?');
 		$result = $query->execute(array($id, $this->storageId));
 		$totalSize = 0;
