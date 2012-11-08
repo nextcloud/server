@@ -20,23 +20,24 @@ class Cache {
 	const COMPLETE = 3;
 
 	/**
-	 * @var \OC\Files\Storage\Storage
-	 */
-	private $storage;
-
-	/**
 	 * @var array partial data for the cache
 	 */
 	private $partial = array();
 
+	/**
+	 * @var string
+	 */
 	private $storageId;
 
 	/**
-	 * @param \OC\Files\Storage\Storage $storage
+	 * @param \OC\Files\Storage\Storage|string $storage
 	 */
-	public function __construct(\OC\Files\Storage\Storage $storage) {
-		$this->storage = $storage;
-		$this->storageId = $storage->getId();
+	public function __construct($storage) {
+		if($storage instanceof \OC\Files\Storage\Storage){
+			$this->storageId = $storage->getId();
+		}else{
+			$this->storageId = $storage;
+		}
 	}
 
 	/**
