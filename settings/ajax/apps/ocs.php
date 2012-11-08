@@ -40,7 +40,7 @@ if(is_array($catagoryNames)) {
 
 		if(!$local) {
 			if($app['preview']=='') {
-				$pre='trans.png';
+				$pre=OC_Helper::imagePath('settings','trans.png');
 			} else {
 				$pre=$app['preview'];
 			}
