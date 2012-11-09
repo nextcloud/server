@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 00:01+0100\n"
-"PO-Revision-Date: 2012-11-08 23:02+0000\n"
+"POT-Creation-Date: 2012-11-09 10:06+0100\n"
+"PO-Revision-Date: 2012-11-08 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hindi (http://www.transifex.com/projects/p/owncloud/language/hi/)\n"
 "MIME-Version: 1.0\n"
@@ -289,7 +289,7 @@ msgstr ""
 
 #: templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "पासवर्ड"
 
 #: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"

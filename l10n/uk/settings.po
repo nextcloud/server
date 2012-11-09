@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 00:01+0100\n"
-"PO-Revision-Date: 2012-11-08 23:02+0000\n"
+"POT-Creation-Date: 2012-11-09 10:06+0100\n"
+"PO-Revision-Date: 2012-11-08 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr ""
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
 msgid "Authentication error"
-msgstr ""
+msgstr "Помилка автентифікації"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -82,11 +82,11 @@ msgstr ""
 
 #: js/apps.js:28 js/apps.js:55
 msgid "Enable"
-msgstr ""
+msgstr "Включити"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "Зберігаю..."
 
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
@@ -201,7 +201,7 @@ msgstr ""
 
 #: templates/help.php:9
 msgid "Documentation"
-msgstr ""
+msgstr "Документація"
 
 #: templates/help.php:10
 msgid "Managing Big Files"
@@ -234,7 +234,7 @@ msgstr ""
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "Завантажити"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
@@ -262,7 +262,7 @@ msgstr "Змінити пароль"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr ""
+msgstr "Ел.пошта"
 
 #: templates/personal.php:31
 msgid "Your email address"
@@ -306,7 +306,7 @@ msgstr ""
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
-msgstr ""
+msgstr "Інше"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"

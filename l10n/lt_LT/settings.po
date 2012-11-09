@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 00:01+0100\n"
-"PO-Revision-Date: 2012-11-08 23:02+0000\n"
+"POT-Creation-Date: 2012-11-09 10:06+0100\n"
+"PO-Revision-Date: 2012-11-08 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr ""
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
 msgid "Authentication error"
-msgstr ""
+msgstr "Autentikacijos klaida"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -104,7 +104,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Jūsų duomenų aplankalas ir Jūsų failai turbūt yra pasiekiami per internetą. Failas .htaccess, kuris duodamas, neveikia. Mes rekomenduojame susitvarkyti savo nustatymsu taip, kad failai nebūtų pasiekiami per internetą, arba persikelti juos kitur."
 
 #: templates/admin.php:31
 msgid "Cron"

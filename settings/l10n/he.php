@@ -3,6 +3,7 @@
 "Invalid email" => "דוא״ל לא חוקי",
 "OpenID Changed" => "OpenID השתנה",
 "Invalid request" => "בקשה לא חוקית",
+"Authentication error" => "שגיאת הזדהות",
 "Language changed" => "שפה השתנתה",
 "Disable" => "בטל",
 "Enable" => "הפעל",

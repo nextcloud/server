@@ -14,6 +14,7 @@
 "Problems connecting to help database." => "Problem ved tilkopling til hjelpedatabasen.",
 "Go there manually." => "Gå der på eigen hand.",
 "Answer" => "Svar",
+"Download" => "Last ned",
 "Unable to change your password" => "Klarte ikkje å endra passordet",
 "Current password" => "Passord",
 "New password" => "Nytt passord",
@@ -29,6 +30,7 @@
 "Password" => "Passord",
 "Groups" => "Grupper",
 "Create" => "Lag",
+"Other" => "Anna",
 "Quota" => "Kvote",
 "Delete" => "Slett"
 );

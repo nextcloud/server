@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 00:01+0100\n"
-"PO-Revision-Date: 2012-11-08 23:02+0000\n"
+"POT-Creation-Date: 2012-11-09 10:06+0100\n"
+"PO-Revision-Date: 2012-11-08 23:14+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr ""
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
 msgid "Authentication error"
-msgstr ""
+msgstr "அத்தாட்சிப்படுத்தலில் வழு"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -93,7 +93,7 @@ msgstr ""
 
 #: templates/admin.php:14
 msgid "Security Warning"
-msgstr ""
+msgstr "பாதுகாப்பு எச்சரிக்கை"
 
 #: templates/admin.php:17
 msgid ""
@@ -102,7 +102,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "உங்களுடைய தரவு அடைவு மற்றும் உங்களுடைய கோப்புக்களை பெரும்பாலும் இணையத்தினூடாக அணுகலாம். ownCloud இனால் வழங்கப்படுகின்ற .htaccess கோப்பு வேலை செய்யவில்லை. தரவு அடைவை நீண்ட நேரத்திற்கு அணுகக்கூடியதாக உங்களுடைய வலைய சேவையகத்தை தகவமைக்குமாறு நாங்கள் உறுதியாக கூறுகிறோம் அல்லது தரவு அடைவை வலைய சேவையக மூல ஆவணத்திலிருந்து வெளியே அகற்றுக.  "
 
 #: templates/admin.php:31
 msgid "Cron"
@@ -233,7 +233,7 @@ msgstr ""
 
 #: templates/personal.php:13
 msgid "Download"
-msgstr ""
+msgstr "பதிவிறக்குக"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
@@ -249,7 +249,7 @@ msgstr ""
 
 #: templates/personal.php:22
 msgid "New password"
-msgstr ""
+msgstr "புதிய கடவுச்சொல்"
 
 #: templates/personal.php:23
 msgid "show"
@@ -261,7 +261,7 @@ msgstr ""
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr ""
+msgstr "மின்னஞ்சல்"
 
 #: templates/personal.php:31
 msgid "Your email address"
@@ -285,11 +285,11 @@ msgstr ""
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
-msgstr ""
+msgstr "பெயர்"
 
 #: templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "கடவுச்சொல்"
 
 #: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
@@ -305,7 +305,7 @@ msgstr ""
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
-msgstr ""
+msgstr "மற்றவை"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
@@ -317,4 +317,4 @@ msgstr ""
 
 #: templates/users.php:146
 msgid "Delete"
-msgstr ""
+msgstr "அழிக்க"
