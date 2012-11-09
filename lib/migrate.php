@@ -238,13 +238,13 @@ class OC_Migrate{
 				$userfolder = $extractpath . $json->exporteduser;
 				$newuserfolder = $datadir . '/' . self::$uid;
 				foreach(scandir($userfolder) as $file){
-					if($file !== '.' && $file !== '..' && is_dir($file)){
+					if($file !== '.' && $file !== '..' && is_dir($file)) {
 						// Then copy the folder over
 						OC_Helper::copyr($userfolder.'/'.$file, $newuserfolder.'/'.$file);
 					}
 				}
 				// Import user app data
-				if(file_exists($extractpath . $json->exporteduser . '/migration.db')){
+				if(file_exists($extractpath . $json->exporteduser . '/migration.db')) {
 					if( !$appsimported = self::importAppData( $extractpath . $json->exporteduser . '/migration.db', $json, self::$uid ) ) {
 						return json_encode( array( 'success' => false ) );
 					}
