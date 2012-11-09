@@ -516,6 +516,12 @@ abstract class Access {
 		$link_resource = $this->connection->getConnectionResource();
 		if(is_resource($link_resource)) {
 			$sr = ldap_search($link_resource, $base, $filter, $attr);
+			if(!is_resource($sr)) {
+				$errmsg  = '('.ldap_errno($link_resource).') ' . ldap_error($link_resource);
+				$errmsg .= ', search filter: ' . $filter;
+				\OCP\Util::writeLog('user_ldap', 'Search: no result resource, LDAP error message: ' . $errmsg, \OCP\Util::ERROR);
+				return array();
+			}
 			$findings = ldap_get_entries($link_resource, $sr );
 
 			// if we're here, probably no connection resource is returned.
