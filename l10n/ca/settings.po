@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 10:06+0100\n"
-"PO-Revision-Date: 2012-11-08 23:14+0000\n"
+"POT-Creation-Date: 2012-11-10 00:01+0100\n"
+"PO-Revision-Date: 2012-11-09 23:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -95,93 +95,6 @@ msgstr "S'està desant..."
 msgid "__language_name__"
 msgstr "Català"
 
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "Avís de seguretat"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "La carpeta de dades i els vostres fitxersprobablement són accessibles des d'Internet. La fitxer .htaccess que ownCloud proporciona no funciona. Us recomanem que configureu el servidor web de tal manera que la carpeta de dades no sigui accessible o que moveu la carpeta de dades fora de l'arrel de documents del servidor web."
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr "Cron"
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr "Executar una tasca de cada pàgina carregada"
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr "cron.php està registrat en un servei webcron. Feu una crida a la pàgina cron.php a l'arrel de ownCloud cada minut a través de http."
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr "Utilitzeu el sistema de servei cron. Cridar el arxiu cron.php de la carpeta owncloud cada minut utilitzant el sistema de tasques cron."
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr "Compartir"
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr "Activa l'API de compartir"
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr "Permet que les aplicacions usin l'API de compartir"
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr "Permet enllaços"
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr "Permet als usuaris compartir elements amb el públic amb enllaços"
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr "Permet compartir de nou"
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr "Permet als usuaris comparir elements ja compartits amb ells"
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr "Permet als usuaris compartir amb qualsevol"
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr "Permet als usuaris compartir només amb usuaris del seu grup"
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "Registre"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "Més"
-
-#: templates/admin.php:124 templates/personal.php:61
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr "Desenvolupat per la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitat ownCloud</a>, el <a href=\"https://github.com/owncloud\" target=\"_blank\">codi font</a> té llicència <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
-
 #: templates/apps.php:10
 msgid "Add your App"
 msgstr "Afegiu la vostra aplicació"
@@ -229,7 +142,7 @@ msgstr "Resposta"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Heu utilitzat <strong>%s</strong> d'un total disponible de <strong>%s</strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -286,6 +199,16 @@ msgstr "Ajudeu-nos amb la traducció"
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "useu aquesta adreça per connectar-vos a ownCloud des del gestor de fitxers"
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Desenvolupat per la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitat ownCloud</a>, el <a href=\"https://github.com/owncloud\" target=\"_blank\">codi font</a> té llicència <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

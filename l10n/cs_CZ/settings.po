@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 10:06+0100\n"
-"PO-Revision-Date: 2012-11-08 23:14+0000\n"
+"POT-Creation-Date: 2012-11-10 00:01+0100\n"
+"PO-Revision-Date: 2012-11-09 23:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -96,93 +96,6 @@ msgstr "Ukládám..."
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "Česky"
-
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "Bezpečnostní varování"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Váš adresář dat a soubory jsou pravděpodobně přístupné z internetu. Soubor .htacces, který ownCloud poskytuje nefunguje. Doporučujeme Vám abyste nastavili Váš webový server tak, aby nebylo možno přistupovat do adresáře s daty, nebo přesunuli adresář dat mimo kořenovou složku dokumentů webového serveru."
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr "Cron"
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr "Spustit jednu úlohu s každou načtenou stránkou"
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr "cron.php je registrován u služby webcron. Zavolá stránku cron.php v kořenovém adresáři owncloud každou minutu skrze http."
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr "Použít systémovou službu cron. Zavolat soubor cron.php ze složky owncloud pomocí systémové úlohy cron každou minutu."
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr "Sdílení"
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr "Povolit API sdílení"
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr "Povolit aplikacím používat API sdílení"
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr "Povolit odkazy"
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr "Povolit uživatelům sdílet položky s veřejností pomocí odkazů"
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr "Povolit znovu-sdílení"
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr "Povolit uživatelům znovu sdílet položky, které jsou pro ně sdíleny"
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr "Povolit uživatelům sdílet s kýmkoliv"
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr "Povolit uživatelům sdílet pouze s uživateli v jejich skupinách"
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "Záznam"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "Více"
-
-#: templates/admin.php:124 templates/personal.php:61
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr "Vyvinuto <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitou ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">zdrojový kód</a> je licencován pod <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -288,6 +201,16 @@ msgstr "Pomoci s překladem"
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "tuto adresu použijte pro připojení k ownCloud ve Vašem správci souborů"
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Vyvinuto <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitou ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">zdrojový kód</a> je licencován pod <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

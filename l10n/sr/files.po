@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 10:06+0100\n"
-"PO-Revision-Date: 2012-11-09 09:06+0000\n"
+"POT-Creation-Date: 2012-11-10 00:01+0100\n"
+"PO-Revision-Date: 2012-11-09 09:07+0000\n"
 "Last-Translator: Ivan Petrović <ivan@ipplusstudio.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -91,11 +91,11 @@ msgstr "врати"
 
 #: js/filelist.js:245
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "замењено {new_name} са {old_name}"
 
 #: js/filelist.js:277
 msgid "unshared {files}"
-msgstr ""
+msgstr "укинуто дељење над {files}"
 
 #: js/filelist.js:279
 msgid "deleted {files}"

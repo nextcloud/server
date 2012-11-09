@@ -9,8 +9,6 @@
 "Enable" => "הפעל",
 "Saving..." => "שומר..",
 "__language_name__" => "עברית",
-"Log" => "יומן",
-"More" => "עוד",
 "Add your App" => "הוספת היישום שלך",
 "Select an App" => "בחירת יישום",
 "See application page at apps.owncloud.com" => "צפה בעמוד הישום ב apps.owncloud.com",

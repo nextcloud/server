@@ -16,6 +16,8 @@
 "cancel" => "поништи",
 "replaced {new_name}" => "замењена са {new_name}",
 "undo" => "врати",
+"replaced {new_name} with {old_name}" => "замењено {new_name} са {old_name}",
+"unshared {files}" => "укинуто дељење над {files}",
 "deleted {files}" => "обриши {files}",
 "generating ZIP-file, it may take some time." => "генерисање ЗИП датотеке, потрајаће неко време.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Није могуће послати датотеку или зато што је директоријуму или јој је величина 0 бајта",

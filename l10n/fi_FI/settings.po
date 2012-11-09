@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 10:06+0100\n"
-"PO-Revision-Date: 2012-11-08 23:14+0000\n"
+"POT-Creation-Date: 2012-11-10 00:01+0100\n"
+"PO-Revision-Date: 2012-11-09 23:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -94,93 +94,6 @@ msgstr "Tallennetaan..."
 msgid "__language_name__"
 msgstr "_kielen_nimi_"
 
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "Turvallisuusvaroitus"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Data-kansio ja tiedostot ovat ehkä saavutettavissa Internetistä. .htaccess-tiedosto, jolla kontrolloidaan pääsyä, ei toimi. Suosittelemme, että muutat web-palvelimesi asetukset niin ettei data-kansio ole enää pääsyä tai siirrät data-kansion pois web-palvelimen tiedostojen juuresta."
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr "Cron"
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr ""
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr ""
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr ""
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr "Jakaminen"
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr "Ota käyttöön jaon ohjelmoitirajapinta (Share API)"
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr "Salli sovellusten käyttää jaon ohjelmointirajapintaa (Share API)"
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr "Salli linkit"
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr "Salli käyttäjien jakaa kohteita julkisesti linkkejä käyttäen"
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr "Salli uudelleenjako"
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr "Salli käyttäjien jakaa heille itselleen jaettuja tietoja edelleen"
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr "Salli käyttäjien jakaa kohteita kenen tahansa kanssa"
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr "Salli käyttäjien jakaa kohteita vain omien ryhmien jäsenten kesken"
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "Loki"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "Lisää"
-
-#: templates/admin.php:124 templates/personal.php:61
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr "Kehityksestä on vastannut <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud-yhteisö</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">lähdekoodi</a> on julkaistu lisenssin <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> alaisena."
-
 #: templates/apps.php:10
 msgid "Add your App"
 msgstr "Lisää ohjelmasi"
@@ -228,7 +141,7 @@ msgstr "Vastaus"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Käytössäsi on <strong>%s</strong>/<strong>%s</strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -285,6 +198,16 @@ msgstr "Auta kääntämisessä"
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "voit yhdistää tiedostonhallintasovelluksellasi ownCloudiin käyttämällä tätä osoitetta"
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Kehityksestä on vastannut <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud-yhteisö</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">lähdekoodi</a> on julkaistu lisenssin <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> alaisena."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

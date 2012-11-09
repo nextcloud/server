@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 10:06+0100\n"
-"PO-Revision-Date: 2012-11-08 23:14+0000\n"
+"POT-Creation-Date: 2012-11-10 00:01+0100\n"
+"PO-Revision-Date: 2012-11-09 23:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -92,93 +92,6 @@ msgstr "Gardando..."
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "Galego"
-
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "Aviso de seguridade"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr ""
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr "Cron"
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr ""
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr ""
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr ""
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr ""
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr ""
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr ""
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr ""
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr ""
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr ""
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr ""
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr ""
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr ""
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "Conectar"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "Máis"
-
-#: templates/admin.php:124 templates/personal.php:61
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr ""
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -284,6 +197,16 @@ msgstr "Axude na tradución"
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "utilice este enderezo para conectar ao seu ownCloud no xestor de ficheiros"
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr ""
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

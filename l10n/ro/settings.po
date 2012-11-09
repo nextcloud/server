@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 10:06+0100\n"
-"PO-Revision-Date: 2012-11-08 23:14+0000\n"
+"POT-Creation-Date: 2012-11-10 00:01+0100\n"
+"PO-Revision-Date: 2012-11-09 23:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -96,93 +96,6 @@ msgstr "Salvez..."
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "_language_name_"
-
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "Avertisment de securitate"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Directorul tău de date și fișierele tale probabil sunt accesibile prin internet. Fișierul .htaccess oferit de ownCloud nu funcționează. Îți recomandăm să configurezi server-ul tău web într-un mod în care directorul de date să nu mai fie accesibil sau mută directorul de date în afara directorului root al server-ului web."
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr "Cron"
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr "Execută o sarcină la fiecare pagină încărcată"
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr "cron.php este înregistrat în serviciul webcron. Accesează pagina cron.php din root-ul owncloud odată pe minut prin http."
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr "Folosește serviciul cron al sistemului. Accesează fișierul cron.php din directorul owncloud printr-un cronjob de sistem odată la fiecare minut."
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr "Partajare"
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr "Activare API partajare"
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr "Permite aplicațiilor să folosească API-ul de partajare"
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr "Pemite legături"
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr "Permite utilizatorilor să partajeze fișiere în mod public prin legături"
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr "Permite repartajarea"
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr "Permite utilizatorilor să repartajeze fișiere partajate cu ei"
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr "Permite utilizatorilor să partajeze cu oricine"
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr "Permite utilizatorilor să partajeze doar cu utilizatori din același grup"
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "Jurnal de activitate"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "Mai mult"
-
-#: templates/admin.php:124 templates/personal.php:61
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr "Dezvoltat de the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitatea ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">codul sursă</a> este licențiat sub <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -288,6 +201,16 @@ msgstr "Ajută la traducere"
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "folosește această adresă pentru a te conecta la managerul tău de fișiere din ownCloud"
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Dezvoltat de the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitatea ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">codul sursă</a> este licențiat sub <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

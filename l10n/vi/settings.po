@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 10:06+0100\n"
-"PO-Revision-Date: 2012-11-08 23:14+0000\n"
+"POT-Creation-Date: 2012-11-10 00:01+0100\n"
+"PO-Revision-Date: 2012-11-09 23:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -96,93 +96,6 @@ msgstr "Đang tiến hành lưu ..."
 msgid "__language_name__"
 msgstr "__Ngôn ngữ___"
 
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "Cảnh bảo bảo mật"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Thư mục dữ liệu và những tập tin của bạn có thể dễ dàng bị truy cập từ internet. Tập tin .htaccess của ownCloud cung cấp không hoạt động. Chúng tôi đề nghị bạn nên cấu hình lại máy chủ webserver của bạn để thư mục dữ liệu không  còn bị truy cập hoặc bạn di chuyển thư mục dữ liệu ra bên ngoài thư mục gốc của máy chủ."
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr "Cron"
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr "Thực thi tác vụ mỗi khi trang được tải"
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr "cron.php đã được đăng ký tại một dịch vụ webcron. Gọi trang cron.php mỗi phút một lần thông qua giao thức http."
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr "Sử dụng dịch vụ cron của hệ thống. Gọi tệp tin cron.php mỗi phút một lần."
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr "Chia sẻ"
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr "Bật chia sẻ API"
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr "Cho phép các ứng dụng sử dụng chia sẻ API"
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr "Cho phép liên kết"
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr "Cho phép người dùng chia sẻ công khai các mục bằng các liên kết"
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr "Cho phép chia sẻ lại"
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr "Cho phép người dùng chia sẻ lại những mục đã được chia sẻ"
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr "Cho phép người dùng chia sẻ với bất cứ ai"
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr "Chỉ cho phép người dùng chia sẻ với những người dùng trong nhóm của họ"
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "Log"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "nhiều hơn"
-
-#: templates/admin.php:124 templates/personal.php:61
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr "Được phát triển bởi <a href=\"http://ownCloud.org/contact\" target=\"_blank\">cộng đồng ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">mã nguồn </a> đã được cấp phép theo chuẩn <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
-
 #: templates/apps.php:10
 msgid "Add your App"
 msgstr "Thêm ứng dụng của bạn"
@@ -230,7 +143,7 @@ msgstr "trả lời"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Bạn đã sử dụng <strong>%s </ strong> có sẵn <strong> %s </ strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -287,6 +200,16 @@ msgstr "Dịch "
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "sử dụng địa chỉ này để kết nối với ownCloud của bạn trong quản lý tập tin "
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Được phát triển bởi <a href=\"http://ownCloud.org/contact\" target=\"_blank\">cộng đồng ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">mã nguồn </a> đã được cấp phép theo chuẩn <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

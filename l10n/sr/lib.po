@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ivan Petrović <ivan@ipplusstudio.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:11+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-10 00:01+0100\n"
+"PO-Revision-Date: 2012-11-09 09:16+0000\n"
+"Last-Translator: Ivan Petrović <ivan@ipplusstudio.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,31 +36,31 @@ msgstr "Корисници"
 
 #: app.php:309
 msgid "Apps"
-msgstr ""
+msgstr "Апликације"
 
 #: app.php:311
 msgid "Admin"
-msgstr ""
+msgstr "Администрација"
 
-#: files.php:328
+#: files.php:332
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "Преузимање ЗИПа је искључено."
 
-#: files.php:329
+#: files.php:333
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Преузимање морате радити једану по једану."
 
-#: files.php:329 files.php:354
+#: files.php:333 files.php:358
 msgid "Back to Files"
-msgstr ""
+msgstr "Назад на датотеке"
 
-#: files.php:353
+#: files.php:357
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "Изабране датотеке су превелике да бисте правили зип датотеку."
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "Апликација није укључена"
 
 #: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
@@ -67,11 +68,11 @@ msgstr "Грешка при аутентификацији"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Токен је истекао. Поново учитајте страну."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "Датотеке"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
@@ -79,59 +80,59 @@ msgstr "Текст"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Слике"
 
-#: template.php:87
+#: template.php:103
 msgid "seconds ago"
-msgstr ""
+msgstr "пре неколико секунди"
 
-#: template.php:88
+#: template.php:104
 msgid "1 minute ago"
-msgstr ""
+msgstr "пре 1 минута"
 
-#: template.php:89
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "%d минута раније"
 
-#: template.php:92
+#: template.php:108
 msgid "today"
-msgstr ""
+msgstr "данас"
 
-#: template.php:93
+#: template.php:109
 msgid "yesterday"
-msgstr ""
+msgstr "јуче"
 
-#: template.php:94
+#: template.php:110
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "%d дана раније"
 
-#: template.php:95
+#: template.php:111
 msgid "last month"
-msgstr ""
+msgstr "прошлог месеца"
 
-#: template.php:96
+#: template.php:112
 msgid "months ago"
-msgstr ""
+msgstr "месеци раније"
 
-#: template.php:97
+#: template.php:113
 msgid "last year"
-msgstr ""
+msgstr "прошле године"
 
-#: template.php:98
+#: template.php:114
 msgid "years ago"
-msgstr ""
+msgstr "година раније"
 
 #: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s је доступна. Погледајте <a href=\"%s\">више информација</a>"
 
 #: updater.php:77
 msgid "up to date"
-msgstr ""
+msgstr "је ажурна"
 
 #: updater.php:80
 msgid "updates check is disabled"
-msgstr ""
+msgstr "провера ажурирања је искључена"
