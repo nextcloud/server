@@ -1,3 +1,11 @@
+<IfModule mod_fcgid.c>
+<IfModule mod_setenvif.c>
+<IfModule mod_headers.c>
+SetEnvIfNoCase ^Authorization$ "(.+)" XAUTHORIZATION=$1
+RequestHeader set XAuthorization %{XAUTHORIZATION}e env=XAUTHORIZATION
+</IfModule>
+</IfModule>
+</IfModule>
 ErrorDocument 403 /core/templates/403.php
 ErrorDocument 404 /core/templates/404.php
 <IfModule mod_php5.c>
