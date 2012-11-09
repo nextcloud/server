@@ -30,7 +30,7 @@ class OC_Files_Sharing_Util {
 	 * @param string Shared target file path
 	 * @return Returns array with the keys path and permissions or false if not found
 	 */
-	private function getFile($target) {
+	private static function getFile($target) {
 		$target = '/'.$target;
 		$target = rtrim($target, '/');
 		if (isset(self::$files[$target])) {
