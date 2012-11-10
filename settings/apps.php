@@ -77,7 +77,7 @@ foreach ( $installedApps as $app ) {
 		
 		}
 		
-		$info['preview'] = OC_Helper::imagePath('settings','trans.png');
+		$info['preview'] = OC_Helper::imagePath('settings', 'trans.png');
 		
 		$info['version'] = OC_App::getAppVersion($app);
 		

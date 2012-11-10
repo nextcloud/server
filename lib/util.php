@@ -592,14 +592,14 @@ class OC_Util {
 
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
 		$connected = @fsockopen("www.owncloud.org", 80); 
-		if ($connected){
+		if ($connected) {
 			fclose($connected);
 			return true; 
 		}else{
 
 			// second try in case one server is down
 			$connected = @fsockopen("apps.owncloud.com", 80); 
-			if ($connected){
+			if ($connected) {
 				fclose($connected);
 				return true; 
 			}else{
