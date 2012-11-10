@@ -28,6 +28,7 @@
 "Problems connecting to help database." => "Problémy s připojením k databázi s nápovědou.",
 "Go there manually." => "Přejít ručně.",
 "Answer" => "Odpověď",
+"You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Používáte <strong>%s</strong> z <strong>%s</strong> dostupných",
 "Desktop and Mobile Syncing Clients" => "Klienti pro synchronizaci",
 "Download" => "Stáhnout",
 "Your password was changed" => "Vaše heslo bylo změněno",

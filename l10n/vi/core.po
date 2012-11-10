@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-10 00:01+0100\n"
-"PO-Revision-Date: 2012-11-09 11:25+0000\n"
+"POT-Creation-Date: 2012-11-11 00:01+0100\n"
+"PO-Revision-Date: 2012-11-10 04:40+0000\n"
 "Last-Translator: Sơn Nguyễn <sonnghit@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr "Cài đặt"
 
 #: js/js.js:687
 msgid "seconds ago"
-msgstr "giây trước"
+msgstr "vài giây trước"
 
 #: js/js.js:688
 msgid "1 minute ago"
@@ -124,7 +124,7 @@ msgstr "Đã được chia sẽ với bạn và nhóm {group} bởi {owner}"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr "Đã được chia sẽ với bạn bởi {owner}"
+msgstr "Đã được chia sẽ bởi {owner}"
 
 #: js/share.js:158
 msgid "Share with"
@@ -132,7 +132,7 @@ msgstr "Chia sẻ với"
 
 #: js/share.js:163
 msgid "Share with link"
-msgstr "Chia sẻ với link"
+msgstr "Chia sẻ với liên kết"
 
 #: js/share.js:164
 msgid "Password protect"
@@ -444,7 +444,7 @@ msgstr "Đăng xuất"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr "Tự động đăng nhập đã bị từ chối!"
+msgstr "Tự động đăng nhập đã bị từ chối !"
 
 #: templates/login.php:9
 msgid ""
@@ -462,7 +462,7 @@ msgstr "Bạn quên mật khẩu ?"
 
 #: templates/login.php:27
 msgid "remember"
-msgstr "Nhớ"
+msgstr "ghi nhớ"
 
 #: templates/login.php:28
 msgid "Log in"
