@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-03 00:00+0100\n"
-"PO-Revision-Date: 2012-11-01 23:21+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-10 00:01+0100\n"
+"PO-Revision-Date: 2012-11-09 11:31+0000\n"
+"Last-Translator: Sơn Nguyễn <sonnghit@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +62,7 @@ msgstr "Không chia sẽ"
 msgid "Delete"
 msgstr "Xóa"
 
-#: js/fileactions.js:178
+#: js/fileactions.js:172
 msgid "Rename"
 msgstr "Sửa tên"
 
@@ -175,46 +175,6 @@ msgstr "1 tập tin"
 msgid "{count} files"
 msgstr "{count} tập tin"
 
-#: js/files.js:838
-msgid "seconds ago"
-msgstr "giây trước"
-
-#: js/files.js:839
-msgid "1 minute ago"
-msgstr "1 phút trước"
-
-#: js/files.js:840
-msgid "{minutes} minutes ago"
-msgstr "{minutes} phút trước"
-
-#: js/files.js:843
-msgid "today"
-msgstr "hôm nay"
-
-#: js/files.js:844
-msgid "yesterday"
-msgstr "hôm qua"
-
-#: js/files.js:845
-msgid "{days} days ago"
-msgstr "{days} ngày trước"
-
-#: js/files.js:846
-msgid "last month"
-msgstr "tháng trước"
-
-#: js/files.js:848
-msgid "months ago"
-msgstr "tháng trước"
-
-#: js/files.js:849
-msgid "last year"
-msgstr "năm trước"
-
-#: js/files.js:850
-msgid "years ago"
-msgstr "năm trước"
-
 #: templates/admin.php:5
 msgid "File handling"
 msgstr "Xử lý tập tin"
@@ -261,7 +221,7 @@ msgstr "Folder"
 
 #: templates/index.php:11
 msgid "From link"
-msgstr ""
+msgstr "Từ liên kết"
 
 #: templates/index.php:22
 msgid "Upload"

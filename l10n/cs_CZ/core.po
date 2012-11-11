@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-29 00:01+0100\n"
-"PO-Revision-Date: 2012-10-28 09:46+0000\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:26+0000\n"
 "Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -33,27 +33,67 @@ msgstr "Žádná kategorie k přidání?"
 msgid "This category already exists: "
 msgstr "Tato kategorie již existuje: "
 
-#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
+#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/oc-dialogs.js:123
+#: js/js.js:687
+msgid "seconds ago"
+msgstr "před pár vteřinami"
+
+#: js/js.js:688
+msgid "1 minute ago"
+msgstr "před minutou"
+
+#: js/js.js:689
+msgid "{minutes} minutes ago"
+msgstr "před {minutes} minutami"
+
+#: js/js.js:692
+msgid "today"
+msgstr "dnes"
+
+#: js/js.js:693
+msgid "yesterday"
+msgstr "včera"
+
+#: js/js.js:694
+msgid "{days} days ago"
+msgstr "před {days} dny"
+
+#: js/js.js:695
+msgid "last month"
+msgstr "minulý mesíc"
+
+#: js/js.js:697
+msgid "months ago"
+msgstr "před měsíci"
+
+#: js/js.js:698
+msgid "last year"
+msgstr "minulý rok"
+
+#: js/js.js:699
+msgid "years ago"
+msgstr "před lety"
+
+#: js/oc-dialogs.js:126
 msgid "Choose"
 msgstr "Vybrat"
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: js/oc-dialogs.js:159
+#: js/oc-dialogs.js:162
 msgid "No"
 msgstr "Ne"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:163
 msgid "Yes"
 msgstr "Ano"
 
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:180
 msgid "Ok"
 msgstr "Ok"
 
@@ -318,87 +358,87 @@ msgstr "Hostitel databáze"
 msgid "Finish setup"
 msgstr "Dokončit nastavení"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Sunday"
 msgstr "Neděle"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Monday"
 msgstr "Pondělí"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Tuesday"
 msgstr "Úterý"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Wednesday"
 msgstr "Středa"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Thursday"
 msgstr "Čtvrtek"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Friday"
 msgstr "Pátek"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Saturday"
 msgstr "Sobota"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "January"
 msgstr "Leden"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "February"
 msgstr "Únor"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "March"
 msgstr "Březen"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "April"
 msgstr "Duben"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "May"
 msgstr "Květen"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "June"
 msgstr "Červen"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "July"
 msgstr "Červenec"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "August"
 msgstr "Srpen"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "September"
 msgstr "Září"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "October"
 msgstr "Říjen"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "November"
 msgstr "Listopad"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "December"
 msgstr "Prosinec"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:41
 msgid "web services under your control"
 msgstr "webové služby pod Vaší kontrolou"
 
-#: templates/layout.user.php:38
+#: templates/layout.user.php:44
 msgid "Log out"
 msgstr "Odhlásit se"
 

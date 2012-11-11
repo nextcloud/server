@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-10 02:05+0200\n"
-"PO-Revision-Date: 2012-10-09 08:35+0000\n"
+"POT-Creation-Date: 2012-11-11 00:01+0100\n"
+"PO-Revision-Date: 2012-11-10 10:16+0000\n"
 "Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -23,70 +23,69 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "Nelze načíst seznam z App Store"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Chyba ověření"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "Skupina již existuje"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Nelze přidat skupinu"
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
 msgstr "Nelze povolit aplikaci."
 
-#: ajax/lostpassword.php:14
+#: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "E-mail uložen"
 
-#: ajax/lostpassword.php:16
+#: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Neplatný e-mail"
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
 msgstr "OpenID změněno"
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
 msgstr "Neplatný požadavek"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Nelze smazat skupinu"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
+msgid "Authentication error"
+msgstr "Chyba ověření"
+
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
 msgstr "Nelze smazat uživatele"
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Jazyk byl změněn"
 
-#: ajax/togglegroups.php:25
+#: ajax/togglegroups.php:22
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "Nelze přidat uživatele do skupiny %s"
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "Nelze odstranit uživatele ze skupiny %s"
 
-#: js/apps.js:28 js/apps.js:65
+#: js/apps.js:28 js/apps.js:67
 msgid "Disable"
 msgstr "Zakázat"
 
-#: js/apps.js:28 js/apps.js:54
+#: js/apps.js:28 js/apps.js:55
 msgid "Enable"
 msgstr "Povolit"
 
@@ -94,96 +93,9 @@ msgstr "Povolit"
 msgid "Saving..."
 msgstr "Ukládám..."
 
-#: personal.php:47 personal.php:48
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "Česky"
-
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "Bezpečnostní varování"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Váš adresář dat a soubory jsou pravděpodobně přístupné z internetu. Soubor .htacces, který ownCloud poskytuje nefunguje. Doporučujeme Vám abyste nastavili Váš webový server tak, aby nebylo možno přistupovat do adresáře s daty, nebo přesunuli adresář dat mimo kořenovou složku dokumentů webového serveru."
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr "Cron"
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr "Spustit jednu úlohu s každou načtenou stránkou"
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr "cron.php je registrován u služby webcron. Zavolá stránku cron.php v kořenovém adresáři owncloud každou minutu skrze http."
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr "Použít systémovou službu cron. Zavolat soubor cron.php ze složky owncloud pomocí systémové úlohy cron každou minutu."
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr "Sdílení"
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr "Povolit API sdílení"
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr "Povolit aplikacím používat API sdílení"
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr "Povolit odkazy"
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr "Povolit uživatelům sdílet položky s veřejností pomocí odkazů"
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr "Povolit znovu-sdílení"
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr "Povolit uživatelům znovu sdílet položky, které jsou pro ně sdíleny"
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr "Povolit uživatelům sdílet s kýmkoliv"
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr "Povolit uživatelům sdílet pouze s uživateli v jejich skupinách"
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "Záznam"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "Více"
-
-#: templates/admin.php:124
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr "Vyvinuto <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitou ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">zdrojový kód</a> je licencován pod <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -217,22 +129,22 @@ msgstr "Správa velkých souborů"
 msgid "Ask a question"
 msgstr "Zeptat se"
 
-#: templates/help.php:23
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr "Problémy s připojením k databázi s nápovědou."
 
-#: templates/help.php:24
+#: templates/help.php:23
 msgid "Go there manually."
 msgstr "Přejít ručně."
 
-#: templates/help.php:32
+#: templates/help.php:31
 msgid "Answer"
 msgstr "Odpověď"
 
 #: templates/personal.php:8
 #, php-format
-msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr "Použili jste <strong>%s</strong> z dostupných <strong>%s<strong>"
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr "Používáte <strong>%s</strong> z <strong>%s</strong> dostupných"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -289,6 +201,16 @@ msgstr "Pomoci s překladem"
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "tuto adresu použijte pro připojení k ownCloud ve Vašem správci souborů"
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Vyvinuto <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitou ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">zdrojový kód</a> je licencován pod <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

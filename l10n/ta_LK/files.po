@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-06 00:00+0100\n"
-"PO-Revision-Date: 2012-11-05 07:17+0000\n"
-"Last-Translator: suganthi <suganthi@nic.lk>\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:26+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -172,46 +172,6 @@ msgstr "1 கோப்பு"
 #: js/files.js:795
 msgid "{count} files"
 msgstr "{எண்ணிக்கை} கோப்புகள்"
-
-#: js/files.js:838
-msgid "seconds ago"
-msgstr "செக்கன்களுக்கு முன்"
-
-#: js/files.js:839
-msgid "1 minute ago"
-msgstr "1 நிமிடத்திற்கு முன் "
-
-#: js/files.js:840
-msgid "{minutes} minutes ago"
-msgstr "{நிமிடங்கள்} நிமிடங்களுக்கு முன் "
-
-#: js/files.js:843
-msgid "today"
-msgstr "இன்று"
-
-#: js/files.js:844
-msgid "yesterday"
-msgstr "நேற்று"
-
-#: js/files.js:845
-msgid "{days} days ago"
-msgstr "{நாட்கள்} நாட்களுக்கு முன்"
-
-#: js/files.js:846
-msgid "last month"
-msgstr "கடந்த மாதம்"
-
-#: js/files.js:848
-msgid "months ago"
-msgstr "மாதங்களுக்கு முன"
-
-#: js/files.js:849
-msgid "last year"
-msgstr "கடந்த வருடம்"
-
-#: js/files.js:850
-msgid "years ago"
-msgstr "வருடங்களுக்கு முன்"
 
 #: templates/admin.php:5
 msgid "File handling"

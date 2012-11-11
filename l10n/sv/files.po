@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-04 00:00+0100\n"
-"PO-Revision-Date: 2012-11-03 09:10+0000\n"
-"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:25+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,7 +65,7 @@ msgstr "Sluta dela"
 msgid "Delete"
 msgstr "Radera"
 
-#: js/fileactions.js:178
+#: js/fileactions.js:172
 msgid "Rename"
 msgstr "Byt namn"
 
@@ -177,46 +177,6 @@ msgstr "1 fil"
 #: js/files.js:795
 msgid "{count} files"
 msgstr "{count} filer"
-
-#: js/files.js:838
-msgid "seconds ago"
-msgstr "sekunder sedan"
-
-#: js/files.js:839
-msgid "1 minute ago"
-msgstr "1 minut sedan"
-
-#: js/files.js:840
-msgid "{minutes} minutes ago"
-msgstr "{minutes} minuter sedan"
-
-#: js/files.js:843
-msgid "today"
-msgstr "i dag"
-
-#: js/files.js:844
-msgid "yesterday"
-msgstr "i går"
-
-#: js/files.js:845
-msgid "{days} days ago"
-msgstr "{days} dagar sedan"
-
-#: js/files.js:846
-msgid "last month"
-msgstr "förra månaden"
-
-#: js/files.js:848
-msgid "months ago"
-msgstr "månader sedan"
-
-#: js/files.js:849
-msgid "last year"
-msgstr "förra året"
-
-#: js/files.js:850
-msgid "years ago"
-msgstr "år sedan"
 
 #: templates/admin.php:5
 msgid "File handling"

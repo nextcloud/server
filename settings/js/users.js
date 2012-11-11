@@ -79,7 +79,7 @@ var UserList={
 			subadminSelect.data('subadmin', subadmin);
 			tr.find('td.subadmins').empty();
 		}
-		var allGroups = String($('#content table').data('groups')).split(', ');
+		var allGroups = String($('#content table').attr('data-groups')).split(', ');
 		$.each(allGroups, function(i, group) {
 			groupsSelect.append($('<option value="'+group+'">'+group+'</option>'));
 			if (typeof subadminSelect !== 'undefined' && group != 'admin') {
@@ -93,7 +93,14 @@ var UserList={
 			UserList.applyMultiplySelect(subadminSelect);
 		}
 		if (tr.find('td.remove img').length == 0 && OC.currentUser != username) {
-			tr.find('td.remove').append($('<img alt="Delete" title="'+t('settings','Delete')+'" class="svg action" src="'+OC.imagePath('core','actions/delete')+'"/>'));
+			var rm_img = $('<img>', {
+				class: 'svg action',
+				src: OC.imagePath('core','actions/delete'),
+				alt: t('settings','Delete'),
+				title: t('settings','Delete')
+			});
+			var rm_link = $('<a>', { class: 'action delete', href: '#'}).append(rm_img);
+			tr.find('td.remove').append(rm_link);
 		} else if (OC.currentUser == username) {
 			tr.find('td.remove a').remove();
 		}
@@ -148,7 +155,7 @@ var UserList={
 
 	applyMultiplySelect:function(element) {
 		var checked=[];
-		var user=element.data('username');
+		var user=element.attr('data-username');
 		if($(element).attr('class') == 'groupsselect'){
 			if(element.data('userGroups')){
 				checked=String(element.data('userGroups')).split(', ');

@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-07 00:01+0100\n"
-"PO-Revision-Date: 2012-11-05 23:19+0000\n"
-"Last-Translator: emc <mplichta@gmail.com>\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:25+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -177,46 +177,6 @@ msgstr "1 plik"
 #: js/files.js:795
 msgid "{count} files"
 msgstr "{count} pliki"
-
-#: js/files.js:838
-msgid "seconds ago"
-msgstr "sekund temu"
-
-#: js/files.js:839
-msgid "1 minute ago"
-msgstr "1 minute temu"
-
-#: js/files.js:840
-msgid "{minutes} minutes ago"
-msgstr "{minutes} minut temu"
-
-#: js/files.js:843
-msgid "today"
-msgstr "dziś"
-
-#: js/files.js:844
-msgid "yesterday"
-msgstr "wczoraj"
-
-#: js/files.js:845
-msgid "{days} days ago"
-msgstr "{days} dni temu"
-
-#: js/files.js:846
-msgid "last month"
-msgstr "ostani miesiąc"
-
-#: js/files.js:848
-msgid "months ago"
-msgstr "miesięcy temu"
-
-#: js/files.js:849
-msgid "last year"
-msgstr "ostatni rok"
-
-#: js/files.js:850
-msgid "years ago"
-msgstr "lat temu"
 
 #: templates/admin.php:5
 msgid "File handling"

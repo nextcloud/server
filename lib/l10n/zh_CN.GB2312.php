@@ -14,6 +14,7 @@
 "Token expired. Please reload page." => "会话过期。请刷新页面。",
 "Files" => "文件",
 "Text" => "文本",
+"Images" => "图片",
 "seconds ago" => "秒前",
 "1 minute ago" => "1 分钟前",
 "%d minutes ago" => "%d 分钟前",

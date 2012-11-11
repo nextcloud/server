@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-03 00:00+0100\n"
-"PO-Revision-Date: 2012-11-01 23:21+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:25+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,7 +61,7 @@ msgstr "ยกเลิกการแชร์ข้อมูล"
 msgid "Delete"
 msgstr "ลบ"
 
-#: js/fileactions.js:178
+#: js/fileactions.js:172
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
@@ -173,46 +173,6 @@ msgstr "1 ไฟล์"
 #: js/files.js:795
 msgid "{count} files"
 msgstr "{count} ไฟล์"
-
-#: js/files.js:838
-msgid "seconds ago"
-msgstr "วินาที ก่อนหน้านี้"
-
-#: js/files.js:839
-msgid "1 minute ago"
-msgstr "1 นาทีก่อนหน้านี้"
-
-#: js/files.js:840
-msgid "{minutes} minutes ago"
-msgstr "{minutes} นาทีก่อนหน้านี้"
-
-#: js/files.js:843
-msgid "today"
-msgstr "วันนี้"
-
-#: js/files.js:844
-msgid "yesterday"
-msgstr "เมื่อวานนี้"
-
-#: js/files.js:845
-msgid "{days} days ago"
-msgstr "{day} วันก่อนหน้านี้"
-
-#: js/files.js:846
-msgid "last month"
-msgstr "เดือนที่แล้ว"
-
-#: js/files.js:848
-msgid "months ago"
-msgstr "เดือน ที่ผ่านมา"
-
-#: js/files.js:849
-msgid "last year"
-msgstr "ปีที่แล้ว"
-
-#: js/files.js:850
-msgid "years ago"
-msgstr "ปี ที่ผ่านมา"
 
 #: templates/admin.php:5
 msgid "File handling"

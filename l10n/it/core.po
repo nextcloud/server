@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-29 00:01+0100\n"
-"PO-Revision-Date: 2012-10-27 22:25+0000\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:26+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -34,27 +34,67 @@ msgstr "Nessuna categoria da aggiungere?"
 msgid "This category already exists: "
 msgstr "Questa categoria esiste già: "
 
-#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
+#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: js/oc-dialogs.js:123
+#: js/js.js:687
+msgid "seconds ago"
+msgstr "secondi fa"
+
+#: js/js.js:688
+msgid "1 minute ago"
+msgstr "Un minuto fa"
+
+#: js/js.js:689
+msgid "{minutes} minutes ago"
+msgstr "{minutes} minuti fa"
+
+#: js/js.js:692
+msgid "today"
+msgstr "oggi"
+
+#: js/js.js:693
+msgid "yesterday"
+msgstr "ieri"
+
+#: js/js.js:694
+msgid "{days} days ago"
+msgstr "{days} giorni fa"
+
+#: js/js.js:695
+msgid "last month"
+msgstr "mese scorso"
+
+#: js/js.js:697
+msgid "months ago"
+msgstr "mesi fa"
+
+#: js/js.js:698
+msgid "last year"
+msgstr "anno scorso"
+
+#: js/js.js:699
+msgid "years ago"
+msgstr "anni fa"
+
+#: js/oc-dialogs.js:126
 msgid "Choose"
 msgstr "Scegli"
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
 msgstr "Annulla"
 
-#: js/oc-dialogs.js:159
+#: js/oc-dialogs.js:162
 msgid "No"
 msgstr "No"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:163
 msgid "Yes"
 msgstr "Sì"
 
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:180
 msgid "Ok"
 msgstr "Ok"
 
@@ -319,87 +359,87 @@ msgstr "Host del database"
 msgid "Finish setup"
 msgstr "Termina la configurazione"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Sunday"
 msgstr "Domenica"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Monday"
 msgstr "Lunedì"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Tuesday"
 msgstr "Martedì"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Wednesday"
 msgstr "Mercoledì"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Thursday"
 msgstr "Giovedì"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Friday"
 msgstr "Venerdì"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Saturday"
 msgstr "Sabato"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "January"
 msgstr "Gennaio"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "February"
 msgstr "Febbraio"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "March"
 msgstr "Marzo"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "April"
 msgstr "Aprile"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "May"
 msgstr "Maggio"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "June"
 msgstr "Giugno"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "July"
 msgstr "Luglio"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "August"
 msgstr "Agosto"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "September"
 msgstr "Settembre"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "October"
 msgstr "Ottobre"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "November"
 msgstr "Novembre"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "December"
 msgstr "Dicembre"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:41
 msgid "web services under your control"
 msgstr "servizi web nelle tue mani"
 
-#: templates/layout.user.php:38
+#: templates/layout.user.php:44
 msgid "Log out"
 msgstr "Esci"
 

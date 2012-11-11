@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-07 00:01+0100\n"
+"POT-Creation-Date: 2012-11-11 00:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -170,46 +170,6 @@ msgstr ""
 
 #: js/files.js:795
 msgid "{count} files"
-msgstr ""
-
-#: js/files.js:838
-msgid "seconds ago"
-msgstr ""
-
-#: js/files.js:839
-msgid "1 minute ago"
-msgstr ""
-
-#: js/files.js:840
-msgid "{minutes} minutes ago"
-msgstr ""
-
-#: js/files.js:843
-msgid "today"
-msgstr ""
-
-#: js/files.js:844
-msgid "yesterday"
-msgstr ""
-
-#: js/files.js:845
-msgid "{days} days ago"
-msgstr ""
-
-#: js/files.js:846
-msgid "last month"
-msgstr ""
-
-#: js/files.js:848
-msgid "months ago"
-msgstr ""
-
-#: js/files.js:849
-msgid "last year"
-msgstr ""
-
-#: js/files.js:850
-msgid "years ago"
 msgstr ""
 
 #: templates/admin.php:5

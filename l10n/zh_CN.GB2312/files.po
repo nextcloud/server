@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-03 00:00+0100\n"
-"PO-Revision-Date: 2012-11-01 23:21+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:25+0000\n"
+"Last-Translator: marguerite su <i@marguerite.su>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,13 +61,13 @@ msgstr "取消共享"
 msgid "Delete"
 msgstr "删除"
 
-#: js/fileactions.js:178
+#: js/fileactions.js:172
 msgid "Rename"
 msgstr "重命名"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} 已存在"
 
 #: js/filelist.js:194 js/filelist.js:196
 msgid "replace"
@@ -83,7 +83,7 @@ msgstr "取消"
 
 #: js/filelist.js:243
 msgid "replaced {new_name}"
-msgstr ""
+msgstr "已替换 {new_name}"
 
 #: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
 msgid "undo"
@@ -91,15 +91,15 @@ msgstr "撤销"
 
 #: js/filelist.js:245
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "已用 {old_name} 替换 {new_name}"
 
 #: js/filelist.js:277
 msgid "unshared {files}"
-msgstr ""
+msgstr "未分享的 {files}"
 
 #: js/filelist.js:279
 msgid "deleted {files}"
-msgstr ""
+msgstr "已删除的 {files}"
 
 #: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
@@ -123,7 +123,7 @@ msgstr "1 个文件正在上传"
 
 #: js/files.js:257 js/files.js:302 js/files.js:317
 msgid "{count} files uploading"
-msgstr ""
+msgstr "{count} 个文件正在上传"
 
 #: js/files.js:320 js/files.js:353
 msgid "Upload cancelled."
@@ -140,7 +140,7 @@ msgstr "非法文件名,\"/\"是不被许可的"
 
 #: js/files.js:673
 msgid "{count} files scanned"
-msgstr ""
+msgstr "{count} 个文件已扫描"
 
 #: js/files.js:681
 msgid "error while scanning"
@@ -160,59 +160,19 @@ msgstr "修改日期"
 
 #: js/files.js:783
 msgid "1 folder"
-msgstr ""
+msgstr "1 个文件夹"
 
 #: js/files.js:785
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} 个文件夹"
 
 #: js/files.js:793
 msgid "1 file"
-msgstr ""
+msgstr "1 个文件"
 
 #: js/files.js:795
 msgid "{count} files"
-msgstr ""
-
-#: js/files.js:838
-msgid "seconds ago"
-msgstr "秒前"
-
-#: js/files.js:839
-msgid "1 minute ago"
-msgstr "1 分钟前"
-
-#: js/files.js:840
-msgid "{minutes} minutes ago"
-msgstr ""
-
-#: js/files.js:843
-msgid "today"
-msgstr "今天"
-
-#: js/files.js:844
-msgid "yesterday"
-msgstr "昨天"
-
-#: js/files.js:845
-msgid "{days} days ago"
-msgstr ""
-
-#: js/files.js:846
-msgid "last month"
-msgstr "上个月"
-
-#: js/files.js:848
-msgid "months ago"
-msgstr "月前"
-
-#: js/files.js:849
-msgid "last year"
-msgstr "去年"
-
-#: js/files.js:850
-msgid "years ago"
-msgstr "年前"
+msgstr "{count} 个文件"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -260,7 +220,7 @@ msgstr "文件夹"
 
 #: templates/index.php:11
 msgid "From link"
-msgstr ""
+msgstr "来自链接"
 
 #: templates/index.php:22
 msgid "Upload"

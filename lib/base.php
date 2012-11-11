@@ -356,6 +356,10 @@ class OC{
 		//try to set the session lifetime to 60min
 		@ini_set('gc_maxlifetime', '3600');
 
+		//copy http auth headers for apache+php-fcgid work around
+		if (isset($_SERVER['HTTP_XAUTHORIZATION']) && !isset($_SERVER['HTTP_AUTHORIZATION'])) {
+			$_SERVER['HTTP_AUTHORIZATION'] = $_SERVER['HTTP_XAUTHORIZATION'];
+		}
 
 		//set http auth headers for apache+php-cgi work around
 		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {

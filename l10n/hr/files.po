@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-03 00:00+0100\n"
-"PO-Revision-Date: 2012-11-01 23:21+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:25+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +62,7 @@ msgstr "Prekini djeljenje"
 msgid "Delete"
 msgstr "Briši"
 
-#: js/fileactions.js:178
+#: js/fileactions.js:172
 msgid "Rename"
 msgstr "Promjeni ime"
 
@@ -174,46 +174,6 @@ msgstr ""
 #: js/files.js:795
 msgid "{count} files"
 msgstr ""
-
-#: js/files.js:838
-msgid "seconds ago"
-msgstr "sekundi prije"
-
-#: js/files.js:839
-msgid "1 minute ago"
-msgstr ""
-
-#: js/files.js:840
-msgid "{minutes} minutes ago"
-msgstr ""
-
-#: js/files.js:843
-msgid "today"
-msgstr "danas"
-
-#: js/files.js:844
-msgid "yesterday"
-msgstr "jučer"
-
-#: js/files.js:845
-msgid "{days} days ago"
-msgstr ""
-
-#: js/files.js:846
-msgid "last month"
-msgstr "prošli mjesec"
-
-#: js/files.js:848
-msgid "months ago"
-msgstr "mjeseci"
-
-#: js/files.js:849
-msgid "last year"
-msgstr "prošlu godinu"
-
-#: js/files.js:850
-msgid "years ago"
-msgstr "godina"
 
 #: templates/admin.php:5
 msgid "File handling"

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-23 02:02+0200\n"
-"PO-Revision-Date: 2012-10-22 11:50+0000\n"
-"Last-Translator: drlinux64 <romeo@energo-pro.ge>\n"
+"POT-Creation-Date: 2012-11-10 00:01+0100\n"
+"PO-Revision-Date: 2012-11-09 23:01+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,69 +18,69 @@ msgstr ""
 "Language: ka_GE\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "აპლიკაციების სია ვერ ჩამოიტვირთა App Store"
 
-#: ajax/creategroup.php:12
+#: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "ჯგუფი უკვე არსებობს"
 
-#: ajax/creategroup.php:21
+#: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "ჯგუფის დამატება ვერ მოხერხდა"
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
 msgstr "ვერ მოხერხდა აპლიკაციის ჩართვა."
 
-#: ajax/lostpassword.php:14
+#: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "იმეილი შენახულია"
 
-#: ajax/lostpassword.php:16
+#: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "არასწორი იმეილი"
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
 msgstr "OpenID შეცვლილია"
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
 msgstr "არასწორი მოთხოვნა"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "ჯგუფის წაშლა ვერ მოხერხდა"
 
-#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
 msgid "Authentication error"
 msgstr "ავთენტიფიკაციის შეცდომა"
 
-#: ajax/removeuser.php:27
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
 msgstr "მომხმარებლის წაშლა ვერ მოხერხდა"
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "ენა შეცვლილია"
 
-#: ajax/togglegroups.php:25
+#: ajax/togglegroups.php:22
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "მომხმარებლის დამატება ვერ მოხეხდა ჯგუფში %s"
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "მომხმარებლის წაშლა ვერ მოხეხდა ჯგუფიდან %s"
 
-#: js/apps.js:28 js/apps.js:65
+#: js/apps.js:28 js/apps.js:67
 msgid "Disable"
 msgstr "გამორთვა"
 
-#: js/apps.js:28 js/apps.js:54
+#: js/apps.js:28 js/apps.js:55
 msgid "Enable"
 msgstr "ჩართვა"
 
@@ -91,93 +91,6 @@ msgstr "შენახვა..."
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "__language_name__"
-
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "უსაფრთხოების გაფრთხილება"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr ""
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr "Cron"
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr "გაუშვი თითო მოქმედება ყველა ჩატვირთულ გვერდზე"
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr "cron.php რეგისტრირებულია webcron servisad. Call the cron.php page in the owncloud root once a minute over http."
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr ""
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr "გაზიარება"
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr "Share API–ის ჩართვა"
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr "დაუშვი აპლიკაციების უფლება  Share API –ზე"
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr "ლინკების დაშვება"
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr "მიეცი მომხმარებლებს უფლება რომ გააზიაროს ელემენტები საჯაროდ ლინკებით"
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr "გადაზიარების დაშვება"
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr "მიეცით მომხმარებლებს უფლება რომ გააზიაროს მისთვის დაზიარებული"
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr "მიეცით უფლება მომხმარებლებს გააზიაროს ყველასთვის"
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr "მიეცით უფლება მომხმარებლებს რომ გააზიაროს მხოლოდ თავიანთი ჯგუფისთვის"
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "ლოგი"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "უფრო მეტი"
-
-#: templates/admin.php:124
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr ""
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -211,22 +124,22 @@ msgstr "დიდი ფაილების მენეჯმენტი"
 msgid "Ask a question"
 msgstr "დასვით შეკითხვა"
 
-#: templates/help.php:23
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr "დახმარების ბაზასთან წვდომის პრობლემა"
 
-#: templates/help.php:24
+#: templates/help.php:23
 msgid "Go there manually."
 msgstr "წადი იქ შენით."
 
-#: templates/help.php:32
+#: templates/help.php:31
 msgid "Answer"
 msgstr "პასუხი"
 
 #: templates/personal.php:8
 #, php-format
-msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr "თქვენ გამოყენებული გაქვთ <strong>%s</strong> –ი –<strong>%s<strong>–დან"
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -283,6 +196,16 @@ msgstr "თარგმნის დახმარება"
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "გამოიყენე შემდეგი მისამართი ownCloud–თან დასაკავშირებლად შენს ფაილმენეჯერში"
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr ""
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

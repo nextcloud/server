@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-29 00:01+0100\n"
-"PO-Revision-Date: 2012-10-27 22:12+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-09 00:01+0100\n"
+"PO-Revision-Date: 2012-11-08 17:26+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,27 +32,67 @@ msgstr "Nincs hozzáadandó kategória?"
 msgid "This category already exists: "
 msgstr "Ez a kategória már létezik"
 
-#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
+#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
 msgid "Settings"
 msgstr "Beállítások"
 
-#: js/oc-dialogs.js:123
+#: js/js.js:687
+msgid "seconds ago"
+msgstr "másodperccel ezelőtt"
+
+#: js/js.js:688
+msgid "1 minute ago"
+msgstr "1 perccel ezelőtt"
+
+#: js/js.js:689
+msgid "{minutes} minutes ago"
+msgstr ""
+
+#: js/js.js:692
+msgid "today"
+msgstr "ma"
+
+#: js/js.js:693
+msgid "yesterday"
+msgstr "tegnap"
+
+#: js/js.js:694
+msgid "{days} days ago"
+msgstr ""
+
+#: js/js.js:695
+msgid "last month"
+msgstr "múlt hónapban"
+
+#: js/js.js:697
+msgid "months ago"
+msgstr "hónappal ezelőtt"
+
+#: js/js.js:698
+msgid "last year"
+msgstr "tavaly"
+
+#: js/js.js:699
+msgid "years ago"
+msgstr "évvel ezelőtt"
+
+#: js/oc-dialogs.js:126
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
 msgstr "Mégse"
 
-#: js/oc-dialogs.js:159
+#: js/oc-dialogs.js:162
 msgid "No"
 msgstr "Nem"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:163
 msgid "Yes"
 msgstr "Igen"
 
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:180
 msgid "Ok"
 msgstr "Ok"
 
@@ -317,87 +357,87 @@ msgstr "Adatbázis szerver"
 msgid "Finish setup"
 msgstr "Beállítás befejezése"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Sunday"
 msgstr "Vasárnap"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Monday"
 msgstr "Hétfő"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Tuesday"
 msgstr "Kedd"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Wednesday"
 msgstr "Szerda"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Thursday"
 msgstr "Csütörtök"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Friday"
 msgstr "Péntek"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:16
 msgid "Saturday"
 msgstr "Szombat"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "January"
 msgstr "Január"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "February"
 msgstr "Február"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "March"
 msgstr "Március"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "April"
 msgstr "Április"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "May"
 msgstr "Május"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "June"
 msgstr "Június"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "July"
 msgstr "Július"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "August"
 msgstr "Augusztus"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "September"
 msgstr "Szeptember"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "October"
 msgstr "Október"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "November"
 msgstr "November"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "December"
 msgstr "December"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:41
 msgid "web services under your control"
 msgstr "webszolgáltatások az irányításod alatt"
 
-#: templates/layout.user.php:38
+#: templates/layout.user.php:44
 msgid "Log out"
 msgstr "Kilépés"
 

@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Klarer ikkje å laste inn liste fra App Store",
-"Authentication error" => "Feil i autentisering",
 "Email saved" => "E-postadresse lagra",
 "Invalid email" => "Ugyldig e-postadresse",
 "OpenID Changed" => "OpenID endra",
 "Invalid request" => "Ugyldig førespurnad",
+"Authentication error" => "Feil i autentisering",
 "Language changed" => "Språk endra",
 "Disable" => "Slå av",
 "Enable" => "Slå på",
@@ -14,6 +14,7 @@
 "Problems connecting to help database." => "Problem ved tilkopling til hjelpedatabasen.",
 "Go there manually." => "Gå der på eigen hand.",
 "Answer" => "Svar",
+"Download" => "Last ned",
 "Unable to change your password" => "Klarte ikkje å endra passordet",
 "Current password" => "Passord",
 "New password" => "Nytt passord",
@@ -29,6 +30,7 @@
 "Password" => "Passord",
 "Groups" => "Grupper",
 "Create" => "Lag",
+"Other" => "Anna",
 "Quota" => "Kvote",
 "Delete" => "Slett"
 );

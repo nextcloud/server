@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-27 00:01+0200\n"
-"PO-Revision-Date: 2012-10-26 13:46+0000\n"
-"Last-Translator: mattheu_9x <mattheu_9x@yahoo.com>\n"
+"POT-Creation-Date: 2012-11-10 00:01+0100\n"
+"PO-Revision-Date: 2012-11-09 11:30+0000\n"
+"Last-Translator: Sơn Nguyễn <sonnghit@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +37,7 @@ msgstr "Điền vào tất cả các trường bắt buộc"
 
 #: js/dropbox.js:85
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr ""
+msgstr "Xin vui lòng cung cấp một ứng dụng Dropbox hợp lệ và mã bí mật."
 
 #: js/google.js:26 js/google.js:73 js/google.js:78
 msgid "Error configuring Google Drive storage"

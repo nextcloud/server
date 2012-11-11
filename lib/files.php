@@ -42,6 +42,7 @@ class OC_Files {
 	 * - versioned
 	 */
 	public static function getFileInfo($path) {
+		$path = OC_Filesystem::normalizePath($path);
 		if (($path == '/Shared' || substr($path, 0, 8) == '/Shared/') && OC_App::isEnabled('files_sharing')) {
 			if ($path == '/Shared') {
 				list($info) = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);

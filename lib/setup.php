@@ -573,7 +573,15 @@ class OC_Setup {
 	 * create .htaccess files for apache hosts
 	 */
 	private static function createHtaccess() {
-		$content = "ErrorDocument 403 ".OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
+		$content = "<IfModule mod_fcgid.c>\n";
+		$content.= "<IfModule mod_setenvif.c>\n";
+		$content.= "<IfModule mod_headers.c>\n";
+		$content.= "SetEnvIfNoCase ^Authorization$ \"(.+)\" XAUTHORIZATION=$1\n";
+		$content.= "RequestHeader set XAuthorization %{XAUTHORIZATION}e env=XAUTHORIZATION\n";
+		$content.= "</IfModule>\n";
+		$content.= "</IfModule>\n";
+		$content.= "</IfModule>\n";
+		$content.= "ErrorDocument 403 ".OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
 		$content.= "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php\n";//custom 404 error page
 		$content.= "<IfModule mod_php5.c>\n";
 		$content.= "php_value upload_max_filesize 512M\n";//upload limit

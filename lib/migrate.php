@@ -200,7 +200,7 @@ class OC_Migrate{
 		$scan = scandir( $extractpath );
 		// Check for export_info.json
 		if( !in_array( 'export_info.json', $scan ) ) {
-			OC_Log::write( 'migration', 'Invalid import file, export_info.json note found', OC_Log::ERROR );
+			OC_Log::write( 'migration', 'Invalid import file, export_info.json not found', OC_Log::ERROR );
 			return json_encode( array( 'success' => false ) );
 		}
 		$json = json_decode( file_get_contents( $extractpath . 'export_info.json' ) );
@@ -235,12 +235,19 @@ class OC_Migrate{
 					return json_encode( array( 'success' => false ) );
 				}
 				// Copy data
-				if( !self::copy_r( $extractpath . $json->exporteduser, $datadir . '/' . self::$uid ) ) {
-					return json_encode( array( 'success' => false ) );
+				$userfolder = $extractpath . $json->exporteduser;
+				$newuserfolder = $datadir . '/' . self::$uid;
+				foreach(scandir($userfolder) as $file){
+					if($file !== '.' && $file !== '..' && is_dir($file)) {
+						// Then copy the folder over
+						OC_Helper::copyr($userfolder.'/'.$file, $newuserfolder.'/'.$file);
+					}
 				}
 				// Import user app data
-				if( !$appsimported = self::importAppData( $extractpath . $json->exporteduser . '/migration.db', $json, self::$uid ) ) {
-					return json_encode( array( 'success' => false ) );
+				if(file_exists($extractpath . $json->exporteduser . '/migration.db')) {
+					if( !$appsimported = self::importAppData( $extractpath . $json->exporteduser . '/migration.db', $json, self::$uid ) ) {
+						return json_encode( array( 'success' => false ) );
+					}
 				}
 				// All done!
 				if( !self::unlink_r( $extractpath ) ) {
@@ -302,37 +309,6 @@ class OC_Migrate{
 			@rmdir($dir);
 		}
 		return true;
-	}
-
-	/**
-	* @brief copies recursively
-	* @param $path string path to source folder
-	* @param $dest string path to destination
-	* @return bool
-	*/
-	private static function copy_r( $path, $dest ) {
-		if( is_dir($path) ) {
-			@mkdir( $dest );
-			$objects = scandir( $path );
-			if( sizeof( $objects ) > 0 ) {
-				foreach( $objects as $file ) {
-					if( $file == "." || $file == ".." || $file == ".htaccess")
-					continue;
-					// go on
-					if( is_dir( $path . '/' . $file ) ) {
-						self::copy_r( $path  .'/' . $file, $dest . '/' . $file );
-					} else {
-						copy( $path . '/' . $file, $dest . '/' . $file );
-					}
-				}
-			}
-			return true;
-		}
-		elseif( is_file( $path ) ) {
-			return copy( $path, $dest );
-		} else {
-			return false;
-		}
 	}
 
 	/**
