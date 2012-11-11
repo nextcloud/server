@@ -97,10 +97,10 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				$file['permissions'] = $item['permissions'];
 				if ($file['type'] == 'file') {
 					// Remove Create permission if type is file
-					$file['permissions'] &= ~OCP\Share::PERMISSION_CREATE;
+					$file['permissions'] &= ~OCP\PERMISSION_CREATE;
 				}
 				// NOTE: Temporary fix to allow unsharing of files in root of Shared directory
-				$file['permissions'] |= OCP\Share::PERMISSION_DELETE;
+				$file['permissions'] |= OCP\PERMISSION_DELETE;
 				$files[] = $file;
 			}
 			return $files;
@@ -113,7 +113,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				}
 				$size += $item['size'];
 			}
-			return array(0 => array('id' => -1, 'name' => 'Shared', 'mtime' => $mtime, 'mimetype' => 'httpd/unix-directory', 'size' => $size, 'writable' => false, 'type' => 'dir', 'directory' => '', 'permissions' => OCP\Share::PERMISSION_READ));
+			return array(0 => array('id' => -1, 'name' => 'Shared', 'mtime' => $mtime, 'mimetype' => 'httpd/unix-directory', 'size' => $size, 'writable' => false, 'type' => 'dir', 'directory' => '', 'permissions' => OCP\PERMISSION_READ));
 		} else if ($format == self::FORMAT_OPENDIR) {
 			$files = array();
 			foreach ($items as $item) {

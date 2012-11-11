@@ -46,12 +46,8 @@ class Share {
 	* Check if permission is granted with And (&) e.g. Check if delete is granted: if ($permissions & PERMISSION_DELETE)
 	* Remove permissions with And (&) and Not (~) e.g. Remove the update permission: $permissions &= ~PERMISSION_UPDATE
 	* Apps are required to handle permissions on their own, this class only stores and manages the permissions of shares
+	* @see lib/public/constants.php
 	*/
-	const PERMISSION_CREATE = 4;
-	const PERMISSION_READ = 1;
-	const PERMISSION_UPDATE = 2;
-	const PERMISSION_DELETE = 8;
-	const PERMISSION_SHARE = 16;
 
 	const FORMAT_NONE = -1;
 	const FORMAT_STATUSES = -2;
@@ -402,7 +398,7 @@ class Share {
 			// Check if permissions were removed
 			if ($item['permissions'] & ~$permissions) {
 				// If share permission is removed all reshares must be deleted
-				if (($item['permissions'] & self::PERMISSION_SHARE) && (~$permissions & self::PERMISSION_SHARE)) {
+				if (($item['permissions'] & PERMISSION_SHARE) && (~$permissions & PERMISSION_SHARE)) {
 					self::delete($item['id'], true);
 				} else {
 					$ids = array();
@@ -701,7 +697,7 @@ class Share {
 							$items[$id]['share_with'] = $row['share_with'];
 						}
 						// Switch ids if sharing permission is granted on only one share to ensure correct parent is used if resharing
-						if (~(int)$items[$id]['permissions'] & self::PERMISSION_SHARE && (int)$row['permissions'] & self::PERMISSION_SHARE) {
+						if (~(int)$items[$id]['permissions'] & PERMISSION_SHARE && (int)$row['permissions'] & PERMISSION_SHARE) {
 							$items[$row['id']] = $items[$id];
 							unset($items[$id]);
 							$id = $row['id'];
@@ -847,7 +843,7 @@ class Share {
 				throw new \Exception($message);
 			}
 			// Check if share permissions is granted
-			if ((int)$checkReshare['permissions'] & self::PERMISSION_SHARE) {
+			if ((int)$checkReshare['permissions'] & PERMISSION_SHARE) {
 				if (~(int)$checkReshare['permissions'] & $permissions) {
 					$message = 'Sharing '.$itemSource.' failed, because the permissions exceed permissions granted to '.$uidOwner;
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
@@ -1133,7 +1129,7 @@ class Share {
 				$duplicateParent = $query->execute(array($item['item_type'], $item['item_target'], self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique, $item['uid_owner'], $item['parent']))->fetchRow();
 				if ($duplicateParent) {
 					// Change the parent to the other item id if share permission is granted
-					if ($duplicateParent['permissions'] & self::PERMISSION_SHARE) {
+					if ($duplicateParent['permissions'] & PERMISSION_SHARE) {
 						$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `parent` = ? WHERE `id` = ?');
 						$query->execute(array($duplicateParent['id'], $item['id']));
 						continue;

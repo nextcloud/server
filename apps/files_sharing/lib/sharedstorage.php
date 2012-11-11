@@ -201,7 +201,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($path == '') {
 			return false;
 		}
-		return ($this->getPermissions($path) & OCP\Share::PERMISSION_CREATE);
+		return ($this->getPermissions($path) & OCP\PERMISSION_CREATE);
 	}
 
 	public function isReadable($path) {
@@ -212,21 +212,21 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($path == '') {
 			return false;
 		}
-		return ($this->getPermissions($path) & OCP\Share::PERMISSION_UPDATE);
+		return ($this->getPermissions($path) & OCP\PERMISSION_UPDATE);
 	}
 
 	public function isDeletable($path) {
 		if ($path == '') {
 			return true;
 		}
-		return ($this->getPermissions($path) & OCP\Share::PERMISSION_DELETE);
+		return ($this->getPermissions($path) & OCP\PERMISSION_DELETE);
 	}
 
 	public function isSharable($path) {
 		if ($path == '') {
 			return false;
 		}
-		return ($this->getPermissions($path) & OCP\Share::PERMISSION_SHARE);
+		return ($this->getPermissions($path) & OCP\PERMISSION_SHARE);
 	}
 
 	public function file_exists($path) {
