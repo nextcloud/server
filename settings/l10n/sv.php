@@ -28,6 +28,7 @@
 "Problems connecting to help database." => "Problem med att ansluta till hjälpdatabasen.",
 "Go there manually." => "Gå dit manuellt.",
 "Answer" => "Svar",
+"You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Du har använt <strong>%s</strong> av tillgängliga <strong>%s</strong>",
 "Desktop and Mobile Syncing Clients" => "Synkroniseringsklienter för dator och mobil",
 "Download" => "Ladda ner",
 "Your password was changed" => "Ditt lösenord har ändrats",
