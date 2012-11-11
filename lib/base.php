@@ -20,6 +20,8 @@
  *
  */
 
+require_once 'public/constants.php';
+
 /**
  * Class that is a namespace for all global OC variables
  * No, we can not put this class in its own file because it is used by
@@ -230,7 +232,7 @@ class OC{
 							file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.htaccess', $content);
 						}
 					}
-				}		
+				}
 				OC_Log::write('core', 'starting upgrade from '.$installedVersion.' to '.$currentVersion, OC_Log::DEBUG);
 				$result=OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
 				if(!$result) {
@@ -288,7 +290,7 @@ class OC{
 
 		// (re)-initialize session
 		session_start();
-		
+
 		// regenerate session id periodically to avoid session fixation
 		if (!isset($_SESSION['SID_CREATED'])) {
 			$_SESSION['SID_CREATED'] = time();

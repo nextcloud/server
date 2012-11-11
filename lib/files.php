@@ -91,16 +91,16 @@ class OC_Files {
 			foreach ($files as &$file) {
 				$file['directory'] = $directory;
 				$file['type'] = ($file['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
-				$permissions = OCP\Share::PERMISSION_READ;
+				$permissions = OCP\PERMISSION_READ;
 				// NOTE: Remove check when new encryption is merged
 				if (!$file['encrypted']) {
-					$permissions |= OCP\Share::PERMISSION_SHARE;
+					$permissions |= OCP\PERMISSION_SHARE;
 				}
 				if ($file['type'] == 'dir' && $file['writable']) {
-					$permissions |= OCP\Share::PERMISSION_CREATE;
+					$permissions |= OCP\PERMISSION_CREATE;
 				}
 				if ($file['writable']) {
-					$permissions |= OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_DELETE;
+					$permissions |= OCP\PERMISSION_UPDATE | OCP\PERMISSION_DELETE;
 				}
 				$file['permissions'] = $permissions;
 			}

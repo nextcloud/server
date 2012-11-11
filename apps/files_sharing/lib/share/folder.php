@@ -41,7 +41,7 @@ class OC_Share_Backend_Folder extends OC_Share_Backend_File implements OCP\Share
 				$file['permissions'] = $folder['permissions'];
 				if ($file['type'] == 'file') {
 					// Remove Create permission if type is file
-					$file['permissions'] &= ~OCP\Share::PERMISSION_CREATE;
+					$file['permissions'] &= ~OCP\PERMISSION_CREATE;
 				}
 			}
 			return $files;

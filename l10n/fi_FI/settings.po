@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-10 00:01+0100\n"
-"PO-Revision-Date: 2012-11-09 23:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-12 00:01+0100\n"
+"PO-Revision-Date: 2012-11-11 21:26+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,7 +96,7 @@ msgstr "_kielen_nimi_"
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr "Lisää ohjelmasi"
+msgstr "Lisää sovelluksesi"
 
 #: templates/apps.php:11
 msgid "More Apps"
@@ -104,7 +104,7 @@ msgstr "Lisää sovelluksia"
 
 #: templates/apps.php:27
 msgid "Select an App"
-msgstr "Valitse ohjelma"
+msgstr "Valitse sovellus"
 
 #: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
@@ -132,7 +132,7 @@ msgstr "Virhe yhdistettäessä tietokantaan."
 
 #: templates/help.php:23
 msgid "Go there manually."
-msgstr "Ohje löytyy sieltä."
+msgstr "Siirry sinne itse."
 
 #: templates/help.php:31
 msgid "Answer"
