@@ -29,8 +29,6 @@
 	color:#fff;
 	text-shadow:0 1px 0 #51a351;
 	border-color:#51a351 #419341 #387038;
-	-moz-box-shadow:0 1px 1px #f8f8f8, 1px 1px 1px #ada inset;
-	-webkit-box-shadow:0 1px 1px #f8f8f8, 1px 1px 1px #ada inset;
 	box-shadow:0 1px 1px #f8f8f8, 1px 1px 1px #ada inset;
 	background-color:#5bb75b;
 	margin-left:0.2em;
