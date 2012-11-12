@@ -55,19 +55,29 @@ class OC_OCSClient{
 	 * This function calls an OCS server and returns the response. It also sets a sane timeout
 	*/
 	private static function getOCSresponse($url) {
-		// set a sensible timeout of 10 sec to stay responsive even if the server is down.
-		$ctx = stream_context_create(
-			array(
-				'http' => array(
-					'timeout' => 10
-				)
-			)
-		);
-		$data=@file_get_contents($url, 0, $ctx);
+		$data = self::fileGetContentCurl($url);
 		return($data);
 	}
 
-
+        /**
+         * @Brief Get file content via curl.
+         * @return string of the response
+         * This function get the content of a page via curl.
+         */
+        
+        private static function fileGetContentCurl($url){
+            $curl = curl_init();
+            
+            curl_setopt($curl, CURLOPT_HEADER, 0);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl, CURLOPT_URL, $url);
+            
+            $data = curl_exec($curl);
+            curl_close($data);
+            
+            return $data;
+        }
+        
 	/**
 	 * @brief Get all the categories from the OCS server
 	 * @returns array with category ids
