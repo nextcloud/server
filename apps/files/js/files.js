@@ -219,8 +219,11 @@ $(document).ready(function() {
 					$( '#uploadsize-message' ).dialog({
 						modal: true,
 						buttons: {
-							Close: function() {
-								$( this ).dialog( 'close' );
+							Close: {
+								text:t('files', 'Close'),
+								click:function() {
+									$( this ).dialog( 'close' );
+								}
 							}
 						}
 					});
