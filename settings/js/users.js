@@ -16,7 +16,10 @@ var UserList={
 	 * finishDelete() completes the process. This allows for 'undo'.
 	 */
 	do_delete:function( uid ) {
-		
+		if (typeof UserList.deleteUid !== 'undefined') {
+			//Already a user in the undo queue
+			UserList.finishDelete(null);
+		}
 		UserList.deleteUid = uid;
 		
 		// Set undo flag
