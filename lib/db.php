@@ -543,8 +543,9 @@ class OC_DB {
 
 	/**
 	 * @brief Insert a row if a matching row doesn't exists.
-	 * @returns true/false
-	 *
+	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
+	 * @param array $input. An array of fieldname/value pairs
+	 * @returns The return value from PDOStatementWrapper->execute()
 	 */
 	public static function insertIfNotExist($table, $input) {
 		self::connect();
@@ -559,30 +560,53 @@ class OC_DB {
 		$query = '';
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
 		if( $type == 'sqlite' || $type == 'sqlite3' ) {
-			$query = 'INSERT OR REPLACE INTO "' . $table . '" ("' 
-				. implode('","', array_keys($input)) . '") VALUES("' 
-				. implode('","', array_values($input)) . '")';
+			// NOTE: For SQLite we have to use this clumsy approach
+			// otherwise all fieldnames used must have a unique key.
+			$query = 'SELECT * FROM "' . $table . '" WHERE ';
+			foreach($input as $key => $value) {
+				$query .= $key . " = '" . $value . '\' AND ';
+			}
+			$query = substr($query, 0, strlen($query) - 5);
+			try {
+				$stmt = self::prepare($query);
+				$result = $stmt->execute();
+			} catch(PDOException $e) {
+				$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
+				$entry .= 'Offending command was: ' . $query . '<br />';
+				OC_Log::write('core', $entry, OC_Log::FATAL);
+				error_log('DB error: '.$entry);
+				die( $entry );
+			}
+			
+			if($result->numRows() == 0) {
+				$query = 'INSERT INTO "' . $table . '" ("'
+					. implode('","', array_keys($input)) . '") VALUES("'
+					. implode('","', array_values($input)) . '")';
+			} else {
+				return true;
+			}
 		} elseif( $type == 'pgsql' || $type == 'oci' || $type == 'mysql') {
-			$query = 'INSERT INTO `' .$table . '` (' 
-				. implode(',', array_keys($input)) . ') SELECT \'' 
+			$query = 'INSERT INTO `' .$table . '` ('
+				. implode(',', array_keys($input)) . ') SELECT \''
 				. implode('\',\'', array_values($input)) . '\' FROM ' . $table . ' WHERE ';
-				
+
 			foreach($input as $key => $value) {
 				$query .= $key . " = '" . $value . '\' AND ';
 			}
 			$query = substr($query, 0, strlen($query) - 5);
 			$query .= ' HAVING COUNT(*) = 0';
 		}
+
 		// TODO: oci should be use " (quote) instead of ` (backtick).
 		//OC_Log::write('core', __METHOD__ . ', type: ' . $type . ', query: ' . $query, OC_Log::DEBUG);
 
 		try {
 			$result = self::prepare($query);
 		} catch(PDOException $e) {
-			$entry = 'DB Error: "'.$e->getMessage().'"<br />';
-			$entry .= 'Offending command was: '.$query.'<br />';
-			OC_Log::write('core', $entry,OC_Log::FATAL);
-			error_log('DB error: '.$entry);
+			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
+			$entry .= 'Offending command was: ' . $query.'<br />';
+			OC_Log::write('core', $entry, OC_Log::FATAL);
+			error_log('DB error: ' . $entry);
 			die( $entry );
 		}
 
