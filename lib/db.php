@@ -559,7 +559,7 @@ class OC_DB {
 		$query = '';
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
 		if( $type == 'sqlite' || $type == 'sqlite3' ) {
-			$query = 'REPLACE OR INSERT INTO "' . $table . '" ("' 
+			$query = 'INSERT OR REPLACE INTO "' . $table . '" ("' 
 				. implode('","', array_keys($input)) . '") VALUES("' 
 				. implode('","', array_values($input)) . '")';
 		} elseif( $type == 'pgsql' || $type == 'oci' || $type == 'mysql') {
