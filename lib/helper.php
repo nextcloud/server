@@ -712,4 +712,14 @@ class OC_Helper {
 
 		return false;
 	}
+	
+
+	public static function ellipsis($str, $maxlen) {
+		if (strlen($str) > $maxlen) {
+			$characters = floor($maxlen / 2);
+			return substr($str, 0, $characters) . '...' . substr($str, -1 * $characters);
+		}
+		return $str;
+	}
+	
 }
