@@ -20,10 +20,21 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
-//From http://www.programmierer-forum.de/imagebmp-gute-funktion-gefunden-t143716.htm
 if ( ! function_exists( 'imagebmp') ) {
+	/**
+	 * Output a BMP image to either the browser or a file
+	 * @link http://www.ugia.cn/wp-data/imagebmp.php
+	 * @author legend <legendsky@hotmail.com>
+	 * @link http://www.programmierer-forum.de/imagebmp-gute-funktion-gefunden-t143716.htm
+	 * @author mgutt <marc@gutt.it>
+	 * @version 1.00
+	 * @param resource $image
+	 * @param string $filename [optional] <p>The path to save the file to.</p>
+	 * @param int $bit [optional] <p>Bit depth, (default is 24).</p>
+	 * @param int $compression [optional]
+	 * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
+	 */
 	function imagebmp($im, $filename='', $bit=24, $compression=0) {
-		// version 1.00
 		if (!in_array($bit, array(1, 4, 8, 16, 24, 32))) {
 			$bit = 24;
 		}
@@ -129,7 +140,6 @@ if ( ! function_exists( 'imagebmp') ) {
 		return true;
 	}
 }
-
 
 //From user comments at http://dk2.php.net/manual/en/function.exif-imagetype.php
 if ( ! function_exists( 'exif_imagetype' ) ) {
@@ -636,9 +646,16 @@ class OC_Image {
 		}
 	}
 
-	//From http://www.programmierer-forum.de/function-imagecreatefrombmp-laeuft-mit-allen-bitraten-t143137.htm
+	/**
+	 * Create a new image from file or URL
+	 * @link http://www.programmierer-forum.de/function-imagecreatefrombmp-laeuft-mit-allen-bitraten-t143137.htm
+	 * @version 1.00
+	 * @param string $filename <p>
+	 * Path to the BMP image.
+	 * </p>
+	 * @return resource an image resource identifier on success, <b>FALSE</b> on errors.
+	 */
 	private function imagecreatefrombmp($filename) {
-		// version 1.00
 		if (!($fh = fopen($filename, 'rb'))) {
 			trigger_error('imagecreatefrombmp: Can not open ' . $filename, E_USER_WARNING);
 			return false;
@@ -658,7 +675,7 @@ class OC_Image {
 		}
 		// set bytes and padding
 		$meta['bytes'] = $meta['bits'] / 8;
-		$this->bit_depth = $meta['bits'];
+		$this->bit_depth = $meta['bits']; //remember the bit depth for the imagebmp call
 		$meta['decal'] = 4 - (4 * (($meta['width'] * $meta['bytes'] / 4)- floor($meta['width'] * $meta['bytes'] / 4)));
 		if ($meta['decal'] == 4) {
 			$meta['decal'] = 0;
