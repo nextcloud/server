@@ -548,7 +548,7 @@ class Share {
 					$itemTypes = $collectionTypes;
 				}
 				$placeholders = join(',', array_fill(0, count($itemTypes), '?'));
-				$where .= ' WHERE item_type IN ('.$placeholders.'))';
+				$where .= ' WHERE `item_type` IN ('.$placeholders.'))';
 				$queryArgs = $itemTypes;
 			} else {
 				$where = ' WHERE `item_type` = ?';
@@ -625,7 +625,7 @@ class Share {
 			$queryArgs[] = $item;
 			if ($includeCollections && $collectionTypes) {
 				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
-				$where .= ' OR item_type IN ('.$placeholders.'))';
+				$where .= ' OR `item_type` IN ('.$placeholders.'))';
 				$queryArgs = array_merge($queryArgs, $collectionTypes);
 			}
 		}
@@ -673,6 +673,9 @@ class Share {
 		$root = strlen($root);
 		$query = \OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*share` '.$where, $queryLimit);
 		$result = $query->execute($queryArgs);
+		if (\OC_DB::isError($result)) {
+			\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result) . ', select=' . $select . ' where=' . $where, \OC_Log::ERROR);
+		}
 		$items = array();
 		$targets = array();
 		while ($row = $result->fetchRow()) {

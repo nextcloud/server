@@ -79,7 +79,13 @@ abstract class Access {
 		if(isset($result[$attr]) && $result[$attr]['count'] > 0) {
 			$values = array();
 			for($i=0;$i<$result[$attr]['count'];$i++) {
-				$values[] = $this->resemblesDN($attr) ? $this->sanitizeDN($result[$attr][$i]) : $result[$attr][$i];
+				if($this->resemblesDN($attr)) {
+					$values[] = $this->sanitizeDN($result[$attr][$i]);
+				} elseif(strtolower($attr) == 'objectguid') {
+					$values[] = $this->convertObjectGUID2Str($result[$attr][$i]);
+				} else {
+					$values[] = $result[$attr][$i];
+				}
 			}
 			return $values;
 		}
@@ -727,6 +733,34 @@ abstract class Access {
 			$uuid = false;
 		}
 		return $uuid;
+	}
+
+	/**
+	 * @brief converts a binary ObjectGUID into a string representation
+	 * @param $oguid the ObjectGUID in it's binary form as retrieved from AD
+	 * @returns String
+	 *
+	 * converts a binary ObjectGUID into a string representation
+	 * http://www.php.net/manual/en/function.ldap-get-values-len.php#73198
+	 */
+	private function convertObjectGUID2Str($oguid) {
+		$hex_guid = bin2hex($oguid);
+		$hex_guid_to_guid_str = '';
+		for($k = 1; $k <= 4; ++$k) {
+			$hex_guid_to_guid_str .= substr($hex_guid, 8 - 2 * $k, 2);
+		}
+		$hex_guid_to_guid_str .= '-';
+		for($k = 1; $k <= 2; ++$k) {
+			$hex_guid_to_guid_str .= substr($hex_guid, 12 - 2 * $k, 2);
+		}
+		$hex_guid_to_guid_str .= '-';
+		for($k = 1; $k <= 2; ++$k) {
+			$hex_guid_to_guid_str .= substr($hex_guid, 16 - 2 * $k, 2);
+		}
+		$hex_guid_to_guid_str .= '-' . substr($hex_guid, 16, 4);
+		$hex_guid_to_guid_str .= '-' . substr($hex_guid, 20);
+
+		return strtoupper($hex_guid_to_guid_str);
 	}
 
 	/**
