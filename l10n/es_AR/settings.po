@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-10 00:01+0100\n"
-"PO-Revision-Date: 2012-11-09 23:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-13 00:06+0100\n"
+"PO-Revision-Date: 2012-11-12 10:40+0000\n"
+"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -139,7 +139,7 @@ msgstr "Respuesta"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Usaste  <strong>%s</strong>  de los  <strong>%s</strong>  disponibles"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
