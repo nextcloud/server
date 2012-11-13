@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 00:01+0100\n"
-"PO-Revision-Date: 2012-11-08 17:25+0000\n"
+"POT-Creation-Date: 2012-11-13 00:05+0100\n"
+"PO-Revision-Date: 2012-11-12 23:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -66,39 +66,39 @@ msgstr "Smazat"
 msgid "Rename"
 msgstr "Přejmenovat"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "{new_name} already exists"
 msgstr "{new_name} již existuje"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "replace"
 msgstr "nahradit"
 
-#: js/filelist.js:194
+#: js/filelist.js:198
 msgid "suggest name"
 msgstr "navrhnout název"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "cancel"
 msgstr "zrušit"
 
-#: js/filelist.js:243
+#: js/filelist.js:247
 msgid "replaced {new_name}"
 msgstr "nahrazeno {new_name}"
 
-#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
+#: js/filelist.js:247 js/filelist.js:249 js/filelist.js:281 js/filelist.js:283
 msgid "undo"
 msgstr "zpět"
 
-#: js/filelist.js:245
+#: js/filelist.js:249
 msgid "replaced {new_name} with {old_name}"
 msgstr "nahrazeno {new_name} s {old_name}"
 
-#: js/filelist.js:277
+#: js/filelist.js:281
 msgid "unshared {files}"
 msgstr "sdílení zrušeno pro {files}"
 
-#: js/filelist.js:279
+#: js/filelist.js:283
 msgid "deleted {files}"
 msgstr "smazáno {files}"
 
@@ -114,64 +114,68 @@ msgstr "Nelze odeslat Váš soubor, protože je to adresář nebo má velikost 0
 msgid "Upload Error"
 msgstr "Chyba odesílání"
 
-#: js/files.js:234 js/files.js:339 js/files.js:369
+#: js/files.js:223
+msgid "Close"
+msgstr ""
+
+#: js/files.js:237 js/files.js:342 js/files.js:372
 msgid "Pending"
 msgstr "Čekající"
 
-#: js/files.js:254
+#: js/files.js:257
 msgid "1 file uploading"
 msgstr "odesílá se 1 soubor"
 
-#: js/files.js:257 js/files.js:302 js/files.js:317
+#: js/files.js:260 js/files.js:305 js/files.js:320
 msgid "{count} files uploading"
 msgstr "odesílám {count} souborů"
 
-#: js/files.js:320 js/files.js:353
+#: js/files.js:323 js/files.js:356
 msgid "Upload cancelled."
 msgstr "Odesílání zrušeno."
 
-#: js/files.js:422
+#: js/files.js:425
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Probíhá odesílání souboru. Opuštění stránky vyústí ve zrušení nahrávání."
 
-#: js/files.js:492
+#: js/files.js:495
 msgid "Invalid name, '/' is not allowed."
 msgstr "Neplatný název, znak '/' není povolen"
 
-#: js/files.js:673
+#: js/files.js:676
 msgid "{count} files scanned"
 msgstr "prozkoumáno {count} souborů"
 
-#: js/files.js:681
+#: js/files.js:684
 msgid "error while scanning"
 msgstr "chyba při prohledávání"
 
-#: js/files.js:754 templates/index.php:50
+#: js/files.js:757 templates/index.php:50
 msgid "Name"
 msgstr "Název"
 
-#: js/files.js:755 templates/index.php:58
+#: js/files.js:758 templates/index.php:58
 msgid "Size"
 msgstr "Velikost"
 
-#: js/files.js:756 templates/index.php:60
+#: js/files.js:759 templates/index.php:60
 msgid "Modified"
 msgstr "Změněno"
 
-#: js/files.js:783
+#: js/files.js:786
 msgid "1 folder"
 msgstr "1 složka"
 
-#: js/files.js:785
+#: js/files.js:788
 msgid "{count} folders"
 msgstr "{count} složky"
 
-#: js/files.js:793
+#: js/files.js:796
 msgid "1 file"
 msgstr "1 soubor"
 
-#: js/files.js:795
+#: js/files.js:798
 msgid "{count} files"
 msgstr "{count} soubory"
 

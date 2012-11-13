@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 00:01+0100\n"
-"PO-Revision-Date: 2012-11-08 17:25+0000\n"
+"POT-Creation-Date: 2012-11-13 00:05+0100\n"
+"PO-Revision-Date: 2012-11-12 23:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -69,39 +69,39 @@ msgstr "Radera"
 msgid "Rename"
 msgstr "Byt namn"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "{new_name} already exists"
 msgstr "{new_name} finns redan"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "replace"
 msgstr "ersätt"
 
-#: js/filelist.js:194
+#: js/filelist.js:198
 msgid "suggest name"
 msgstr "föreslå namn"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "cancel"
 msgstr "avbryt"
 
-#: js/filelist.js:243
+#: js/filelist.js:247
 msgid "replaced {new_name}"
 msgstr "ersatt {new_name}"
 
-#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
+#: js/filelist.js:247 js/filelist.js:249 js/filelist.js:281 js/filelist.js:283
 msgid "undo"
 msgstr "ångra"
 
-#: js/filelist.js:245
+#: js/filelist.js:249
 msgid "replaced {new_name} with {old_name}"
 msgstr "ersatt {new_name} med {old_name}"
 
-#: js/filelist.js:277
+#: js/filelist.js:281
 msgid "unshared {files}"
 msgstr "stoppad delning {files}"
 
-#: js/filelist.js:279
+#: js/filelist.js:283
 msgid "deleted {files}"
 msgstr "raderade {files}"
 
@@ -117,64 +117,68 @@ msgstr "Kunde inte ladda upp dina filer eftersom det antingen är en mapp eller 
 msgid "Upload Error"
 msgstr "Uppladdningsfel"
 
-#: js/files.js:234 js/files.js:339 js/files.js:369
+#: js/files.js:223
+msgid "Close"
+msgstr ""
+
+#: js/files.js:237 js/files.js:342 js/files.js:372
 msgid "Pending"
 msgstr "Väntar"
 
-#: js/files.js:254
+#: js/files.js:257
 msgid "1 file uploading"
 msgstr "1 filuppladdning"
 
-#: js/files.js:257 js/files.js:302 js/files.js:317
+#: js/files.js:260 js/files.js:305 js/files.js:320
 msgid "{count} files uploading"
 msgstr "{count} filer laddas upp"
 
-#: js/files.js:320 js/files.js:353
+#: js/files.js:323 js/files.js:356
 msgid "Upload cancelled."
 msgstr "Uppladdning avbruten."
 
-#: js/files.js:422
+#: js/files.js:425
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Filuppladdning pågår. Lämnar du sidan så avbryts uppladdningen."
 
-#: js/files.js:492
+#: js/files.js:495
 msgid "Invalid name, '/' is not allowed."
 msgstr "Ogiltigt namn, '/' är inte tillåten."
 
-#: js/files.js:673
+#: js/files.js:676
 msgid "{count} files scanned"
 msgstr "{count} filer skannade"
 
-#: js/files.js:681
+#: js/files.js:684
 msgid "error while scanning"
 msgstr "fel vid skanning"
 
-#: js/files.js:754 templates/index.php:50
+#: js/files.js:757 templates/index.php:50
 msgid "Name"
 msgstr "Namn"
 
-#: js/files.js:755 templates/index.php:58
+#: js/files.js:758 templates/index.php:58
 msgid "Size"
 msgstr "Storlek"
 
-#: js/files.js:756 templates/index.php:60
+#: js/files.js:759 templates/index.php:60
 msgid "Modified"
 msgstr "Ändrad"
 
-#: js/files.js:783
+#: js/files.js:786
 msgid "1 folder"
 msgstr "1 mapp"
 
-#: js/files.js:785
+#: js/files.js:788
 msgid "{count} folders"
 msgstr "{count} mappar"
 
-#: js/files.js:793
+#: js/files.js:796
 msgid "1 file"
 msgstr "1 fil"
 
-#: js/files.js:795
+#: js/files.js:798
 msgid "{count} files"
 msgstr "{count} filer"
 

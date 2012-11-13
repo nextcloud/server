@@ -102,7 +102,7 @@
 "web services under your control" => "Web-Services unter Ihrer Kontrolle",
 "Log out" => "Abmelden",
 "Automatic logon rejected!" => "Automatische Anmeldung verweigert.",
-"If you did not change your password recently, your account may be compromised!" => "Wenn Sie Ihr Passwort nicht kürzlich geändert haben könnte Ihr Konto gefährdet sein.",
+"If you did not change your password recently, your account may be compromised!" => "Wenn Sie Ihr Passwort nicht vor kurzem geändert haben, könnte Ihr\nAccount kompromittiert sein!",
 "Please change your password to secure your account again." => "Bitte ändern Sie Ihr Passwort, um Ihr Konto wieder zu sichern..",
 "Lost your password?" => "Passwort vergessen?",
 "remember" => "merken",
