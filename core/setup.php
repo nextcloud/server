@@ -18,9 +18,8 @@ $hasPostgreSQL = is_callable('pg_connect');
 $hasOracle = is_callable('oci_connect');
 $datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
 
-// Test if  .htaccess is working
-$content = "deny from all";
-file_put_contents(OC::$SERVERROOT.'/data/.htaccess', $content);
+// Protect data directory here, so we can test if the protection is working
+OC_Setup::protectDataDirectory();
 
 $opts = array(
 	'hasSQLite' => $hasSQLite,
