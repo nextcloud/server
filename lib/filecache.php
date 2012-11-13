@@ -79,8 +79,8 @@ class OC_FileCache{
 
 		// add parent directory to the file cache if it does not exist yet.
 		if ($parent == -1 && $fullpath != $root) {
-			$parentDir = dirname($path);
-			self::scanFile($parentDir);
+			$parentDir = dirname(OC_Filesystem::normalizePath($path));
+			self::scanFile($parentDir, $root);
 			$parent = self::getParentId($fullpath);
 		}
 
@@ -94,15 +94,19 @@ class OC_FileCache{
 		if(!isset($data['versioned'])) {
 			$data['versioned']=false;
 		}
+		if(!isset($data['user'])) {
+			$data['user']=OC_User::getUser();
+		}
+		
+		
 		$mimePart=dirname($data['mimetype']);
 		$data['size']=(int)$data['size'];
 		$data['ctime']=(int)$data['mtime'];
 		$data['writable']=(int)$data['writable'];
 		$data['encrypted']=(int)$data['encrypted'];
 		$data['versioned']=(int)$data['versioned'];
-		$user=OC_User::getUser();
 		$query=OC_DB::prepare('INSERT INTO `*PREFIX*fscache`(`parent`, `name`, `path`, `path_hash`, `size`, `mtime`, `ctime`, `mimetype`, `mimepart`,`user`,`writable`,`encrypted`,`versioned`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)');
-		$result=$query->execute(array($parent,basename($fullpath),$fullpath,md5($fullpath),$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$user,$data['writable'],$data['encrypted'],$data['versioned']));
+		$result=$query->execute(array($parent,basename($fullpath),$fullpath,md5($fullpath),$data['size'],$data['mtime'],$data['ctime'],$data['mimetype'],$mimePart,$data['user'],$data['writable'],$data['encrypted'],$data['versioned']));
 		if(OC_DB::isError($result)) {
 			OC_Log::write('files','error while writing file('.$fullpath.') to cache',OC_Log::ERROR);
 		}
