@@ -24,6 +24,12 @@ $this->create('core_ajax_vcategories_add', '/core/ajax/vcategories/add.php')
 	->actionInclude('core/ajax/vcategories/add.php');
 $this->create('core_ajax_vcategories_delete', '/core/ajax/vcategories/delete.php')
 	->actionInclude('core/ajax/vcategories/delete.php');
+$this->create('core_ajax_vcategories_addtofavorites', '/core/ajax/vcategories/addToFavorites.php')
+	->actionInclude('core/ajax/vcategories/addToFavorites.php');
+$this->create('core_ajax_vcategories_removefromfavorites', '/core/ajax/vcategories/removeFromFavorites.php')
+	->actionInclude('core/ajax/vcategories/removeFromFavorites.php');
+$this->create('core_ajax_vcategories_favorites', '/core/ajax/vcategories/favorites.php')
+	->actionInclude('core/ajax/vcategories/favorites.php');
 $this->create('core_ajax_vcategories_edit', '/core/ajax/vcategories/edit.php')
 	->actionInclude('core/ajax/vcategories/edit.php');
 // Routing

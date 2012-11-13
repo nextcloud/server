@@ -15,21 +15,26 @@ function debug($msg) {
 	OC_Log::write('core', 'ajax/vcategories/delete.php: '.$msg, OC_Log::DEBUG);
 }
 
-OC_JSON::checkLoggedIn();
-$app = isset($_POST['app'])?$_POST['app']:null;
-$categories = isset($_POST['categories'])?$_POST['categories']:null;
-if(is_null($app)) {
-	bailOut(OC_Contacts_App::$l10n->t('Application name not provided.'));
+OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
+
+$l = OC_L10N::get('core');
+
+$type = isset($_POST['type']) ? $_POST['type'] : null;
+$categories = isset($_POST['categories']) ? $_POST['categories'] : null;
+
+if(is_null($type)) {
+	bailOut($l->t('Object type not provided.'));
 }
 
-OC_JSON::checkAppEnabled($app);
-
-debug('The application "'.$app.'" uses the default file. OC_VObjects will not be updated.');
+debug('The application using category type "'
+	. $type
+	. '" uses the default file for deletion. OC_VObjects will not be updated.');
 
 if(is_null($categories)) {
-	bailOut('No categories selected for deletion.');
+	bailOut($l->t('No categories selected for deletion.'));
 }
 
-$vcategories = new OC_VCategories($app);
+$vcategories = new OC_VCategories($type);
 $vcategories->delete($categories);
 OC_JSON::success(array('data' => array('categories'=>$vcategories->categories())));
