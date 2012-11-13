@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "ZIP-faili loomine, see võib veidi aega võtta.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Sinu faili üleslaadimine ebaõnnestus, kuna see on kaust või selle suurus on 0 baiti",
 "Upload Error" => "Üleslaadimise viga",
+"Close" => "Sulge",
 "Pending" => "Ootel",
 "1 file uploading" => "1 faili üleslaadimisel",
 "{count} files uploading" => "{count} faili üleslaadimist",

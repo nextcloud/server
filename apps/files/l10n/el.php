@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "παραγωγή αρχείου ZIP, ίσως διαρκέσει αρκετά.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Αδυναμία στην αποστολή του αρχείου σας αφού είναι φάκελος ή έχει 0 bytes",
 "Upload Error" => "Σφάλμα Αποστολής",
+"Close" => "Κλείσιμο",
 "Pending" => "Εκκρεμεί",
 "1 file uploading" => "1 αρχείο ανεβαίνει",
 "{count} files uploading" => "{count} αρχεία ανεβαίνουν",

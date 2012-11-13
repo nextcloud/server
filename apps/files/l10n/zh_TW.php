@@ -15,6 +15,7 @@
 "generating ZIP-file, it may take some time." => "產生壓縮檔, 它可能需要一段時間.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "無法上傳您的檔案因為它可能是一個目錄或檔案大小為0",
 "Upload Error" => "上傳發生錯誤",
+"Close" => "關閉",
 "Upload cancelled." => "上傳取消",
 "File upload is in progress. Leaving the page now will cancel the upload." => "檔案上傳中. 離開此頁面將會取消上傳.",
 "Invalid name, '/' is not allowed." => "無效的名稱, '/'是不被允許的",

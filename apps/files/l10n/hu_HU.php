@@ -15,6 +15,7 @@
 "generating ZIP-file, it may take some time." => "ZIP-fájl generálása, ez eltarthat egy ideig.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nem tölthető fel, mert mappa volt, vagy 0 byte méretű",
 "Upload Error" => "Feltöltési hiba",
+"Close" => "Bezár",
 "Pending" => "Folyamatban",
 "Upload cancelled." => "Feltöltés megszakítva",
 "Invalid name, '/' is not allowed." => "Érvénytelen név, a '/' nem megengedett",

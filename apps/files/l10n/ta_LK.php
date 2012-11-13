@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => " ZIP கோப்பு உருவாக்கப்படுகின்றது, இது சில நேரம் ஆகலாம்.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "அடைவு அல்லது 0 bytes ஐ கொண்டுள்ளதால் உங்களுடைய கோப்பை பதிவேற்ற முடியவில்லை",
 "Upload Error" => "பதிவேற்றல் வழு",
+"Close" => "மூடுக",
 "Pending" => "நிலுவையிலுள்ள",
 "1 file uploading" => "1 கோப்பு பதிவேற்றப்படுகிறது",
 "{count} files uploading" => "{எண்ணிக்கை} கோப்புகள் பதிவேற்றப்படுகின்றது",

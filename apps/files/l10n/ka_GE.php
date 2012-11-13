@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "ZIP-ფაილის გენერირება, ამას ჭირდება გარკვეული დრო.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "თქვენი ფაილის ატვირთვა ვერ მოხერხდა. ის არის საქაღალდე და შეიცავს 0 ბაიტს",
 "Upload Error" => "შეცდომა ატვირთვისას",
+"Close" => "დახურვა",
 "Pending" => "მოცდის რეჟიმში",
 "1 file uploading" => "1 ფაილის ატვირთვა",
 "{count} files uploading" => "{count} ფაილი იტვირთება",

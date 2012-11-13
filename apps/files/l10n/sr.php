@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "генерисање ЗИП датотеке, потрајаће неко време.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Није могуће послати датотеку или зато што је директоријуму или јој је величина 0 бајта",
 "Upload Error" => "Грешка у слању",
+"Close" => "Затвори",
 "Pending" => "На чекању",
 "1 file uploading" => "1 датотека се шаље",
 "{count} files uploading" => "Шаље се {count} датотека",

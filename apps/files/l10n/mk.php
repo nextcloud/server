@@ -11,6 +11,7 @@
 "generating ZIP-file, it may take some time." => "Се генерира ZIP фајлот, ќе треба извесно време.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Не може да се преземе вашата датотека бидејќи фолдерот во кој се наоѓа фајлот има големина од 0 бајти",
 "Upload Error" => "Грешка при преземање",
+"Close" => "Затвои",
 "Pending" => "Чека",
 "Upload cancelled." => "Преземањето е прекинато.",
 "Invalid name, '/' is not allowed." => "неисправно име, '/' не е дозволено.",

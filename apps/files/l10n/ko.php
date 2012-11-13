@@ -14,6 +14,7 @@
 "generating ZIP-file, it may take some time." => "ZIP파일 생성에 시간이 걸릴 수 있습니다.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "이 파일은 디렉토리이거나 0 바이트이기 때문에 업로드 할 수 없습니다.",
 "Upload Error" => "업로드 에러",
+"Close" => "닫기",
 "Pending" => "보류 중",
 "Upload cancelled." => "업로드 취소.",
 "Invalid name, '/' is not allowed." => "잘못된 이름, '/' 은 허용이 되지 않습니다.",

@@ -18,6 +18,7 @@
 "generating ZIP-file, it may take some time." => "luodaan ZIP-tiedostoa, tämä saattaa kestää hetken.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Tiedoston lähetys epäonnistui, koska sen koko on 0 tavua tai kyseessä on kansio",
 "Upload Error" => "Lähetysvirhe.",
+"Close" => "Sulje",
 "Pending" => "Odottaa",
 "Upload cancelled." => "Lähetys peruttu.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Tiedoston lähetys on meneillään. Sivulta poistuminen nyt peruu tiedoston lähetyksen.",

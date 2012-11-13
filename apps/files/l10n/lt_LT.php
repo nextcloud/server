@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "kuriamas ZIP archyvas, tai gali užtrukti šiek tiek laiko.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Neįmanoma įkelti failo - jo dydis gali būti 0 bitų arba tai katalogas",
 "Upload Error" => "Įkėlimo klaida",
+"Close" => "Užverti",
 "Pending" => "Laukiantis",
 "1 file uploading" => "įkeliamas 1 failas",
 "{count} files uploading" => "{count}  įkeliami failai",

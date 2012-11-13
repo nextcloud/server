@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "genererar ZIP-fil, det kan ta lite tid.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Kunde inte ladda upp dina filer eftersom det antingen är en mapp eller har 0 bytes.",
 "Upload Error" => "Uppladdningsfel",
+"Close" => "Stäng",
 "Pending" => "Väntar",
 "1 file uploading" => "1 filuppladdning",
 "{count} files uploading" => "{count} filer laddas upp",

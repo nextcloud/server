@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "正在生成 ZIP 文件，可能需要一些时间",
 "Unable to upload your file as it is a directory or has 0 bytes" => "无法上传文件，因为它是一个目录或者大小为 0 字节",
 "Upload Error" => "上传错误",
+"Close" => "关闭",
 "Pending" => "操作等待中",
 "1 file uploading" => "1个文件上传中",
 "{count} files uploading" => "{count} 个文件上传中",

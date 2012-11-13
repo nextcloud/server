@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "Generowanie pliku ZIP, może potrwać pewien czas.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nie można wczytać pliku jeśli jest katalogiem lub ma 0 bajtów",
 "Upload Error" => "Błąd wczytywania",
+"Close" => "Zamknij",
 "Pending" => "Oczekujące",
 "1 file uploading" => "1 plik wczytany",
 "{count} files uploading" => "{count} przesyłanie plików",

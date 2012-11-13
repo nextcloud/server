@@ -17,6 +17,7 @@
 "generating ZIP-file, it may take some time." => "generanta ZIP-dosiero, ĝi povas daŭri iom da tempo",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Ne eblis alŝuti vian dosieron ĉar ĝi estas dosierujo aŭ havas 0 duumokojn",
 "Upload Error" => "Alŝuta eraro",
+"Close" => "Fermi",
 "Pending" => "Traktotaj",
 "1 file uploading" => "1 dosiero estas alŝutata",
 "Upload cancelled." => "La alŝuto nuliĝis.",
