@@ -433,13 +433,9 @@ class OC{
 		//setup extra user backends
 		OC_User::setupBackends();
 
-		// register cache cleanup jobs
-		OC_BackgroundJob_RegularTask::register('OC_Cache_FileGlobal', 'gc');
-		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
-
-		// Check for blacklisted files
-		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
-		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
+		self::installCacheHooks();
+		self::installFilesystemHooks();
+		self::installShareHooks();
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper', 'cleanTmp'));
@@ -472,6 +468,34 @@ class OC{
 				exit;
 			}
 		}
+	}
+
+	/**
+	 * install hooks for the cache
+	 */
+	public static function installCacheHooks() {
+		// register cache cleanup jobs
+		OC_BackgroundJob_RegularTask::register('OC_Cache_FileGlobal', 'gc');
+		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
+	}
+
+	/**
+	 * install hooks for the filesystem
+	 */
+	public static function installFilesystemHooks() {
+		// Check for blacklisted files
+		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
+		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
+	}
+
+	/**
+	 * install hooks for sharing
+	 */
+	public static function installShareHooks() {
+		OC_Hook::connect('OC_User', 'post_deleteUser', 'OCP\Share', 'post_deleteUser');
+		OC_Hook::connect('OC_User', 'post_addToGroup', 'OCP\Share', 'post_addToGroup');
+		OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OCP\Share', 'post_removeFromGroup');
+		OC_Hook::connect('OC_User', 'post_deleteGroup', 'OCP\Share', 'post_deleteGroup');
 	}
 
 	/**
