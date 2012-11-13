@@ -56,7 +56,7 @@ class Contacts
 	 * @param array $options - for future use. One should always have options!
 	 * @return array of contacts which are arrays of key-value-pairs
 	 */
-	static function search($pattern, $searchProperties = array(), $options = array()) {
+	public static function search($pattern, $searchProperties = array(), $options = array()) {
 
 		// dummy results
 		return array(
@@ -71,7 +71,7 @@ class Contacts
 	 * @param object $id the unique identifier to a contact
 	 * @return bool successful or not
 	 */
-	static function delete($id) {
+	public static function delete($id) {
 		return false;
 	}
 
@@ -82,7 +82,7 @@ class Contacts
 	 * @param array $properties this array if key-value-pairs defines a contact
 	 * @return array representing the contact just created or updated
 	 */
-	static function createOrUpdate($properties) {
+	public static function createOrUpdate($properties) {
 
 		// dummy
 		return array('id'    => 0, 'FN' => 'Thomas Müller', 'EMAIL' => 'a@b.c',
@@ -90,4 +90,14 @@ class Contacts
 		             'ADR'   => ';;123 Main Street;Any Town;CA;91921-1234'
 		);
 	}
+
+	/**
+	 * Check if contacts are available (e.g. contacts app enabled)
+	 *
+	 * @return bool true if enabled, false if not
+	 */
+	public static function isEnabled() {
+		return false;
+	}
+
 }
