@@ -148,13 +148,16 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @return bool|array
 	 */
 	public function updateProperties($properties) {
+		// get source path of shared files
+		$source = self::getFileSource($this->path);
+
 		$existing = $this->getProperties(array());
 		foreach($properties as $propertyName => $propertyValue) {
 			// If it was null, we need to delete the property
 			if (is_null($propertyValue)) {
 				if(array_key_exists( $propertyName, $existing )) {
 					$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?' );
-					$query->execute( array( OC_User::getUser(), $this->path, $propertyName ));
+					$query->execute( array( $source['user'], $source['path'], $propertyName ));
 				}
 			}
 			else {
@@ -163,10 +166,10 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 				} else {
 					if(!array_key_exists( $propertyName, $existing )) {
 						$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*properties` (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)' );
-						$query->execute( array( OC_User::getUser(), $this->path, $propertyName,$propertyValue ));
+						$query->execute( array( $source['user'], $source['path'], $propertyName, $propertyValue ));
 					} else {
 						$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertyvalue` = ? WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?' );
-						$query->execute( array( $propertyValue,OC_User::getUser(), $this->path, $propertyName ));
+						$query->execute( array( $propertyValue, $source['user'], $source['path'], $propertyName ));
 					}
 				}
 			}
@@ -188,16 +191,19 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @return array
 	 */
 	public function getProperties($properties) {
-		if (is_null($this->property_cache)) {
+		
+		$source = self::getFileSource($this->path);
+		
+		if (is_null($this->property_cache) || empty($this->property_cache)) {
 			$query = OC_DB::prepare( 'SELECT * FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ?' );
-			$result = $query->execute( array( OC_User::getUser(), $this->path ));
+			$result = $query->execute( array( $source['user'], $source['path'] ));
 
 			$this->property_cache = array();
 			while( $row = $result->fetchRow()) {
 				$this->property_cache[$row['propertyname']] = $row['propertyvalue'];
 			}
 		}
-
+		
 		// if the array was empty, we need to return everything
 		if(count($properties) == 0) {
 			return $this->property_cache;
@@ -234,9 +240,12 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		if (empty($tag)) {
 			return null;
 		}
+		
+		$source = self::getFileSource($path);
+			
 		$etag = '"'.$tag.'"';
 		$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*properties` (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)' );
-		$query->execute( array( OC_User::getUser(), $path, self::GETETAG_PROPERTYNAME, $etag ));
+		$query->execute( array( $source['user'], $source['path'], self::GETETAG_PROPERTYNAME, $etag ));
 		return $etag;
 	}
 
@@ -246,6 +255,9 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 */
 	static public function removeETagPropertyForPath($path) {
 		// remove tags from this and parent paths
+		$source = self::getFileSource($path);
+		$path = $source['path'];
+		
 		$paths = array();
 		while ($path != '/' && $path != '.' && $path != '' && $path != '\\') {
 			$paths[] = $path;
@@ -261,7 +273,26 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			.' AND `propertyname` = ?'
 			.' AND `propertypath` IN ('.$path_placeholders.')'
 			);
-		$vals = array( OC_User::getUser(), self::GETETAG_PROPERTYNAME );
+		$vals = array( $source['user'], self::GETETAG_PROPERTYNAME );
 		$query->execute(array_merge( $vals, $paths ));
+		
+		//remove etag for all Shared folders
+		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*properties`'
+				.' WHERE `propertypath` = "/Shared"'
+		);
+		$query->execute(array());
+		
+	}
+	
+	protected static function getFileSource($path) {
+		if ( OC_App::isEnabled('files_sharing') &&  !strncmp($path, '/Shared/', 8)) {
+			$source = OC_Files_Sharing_Util::getSourcePath(str_replace('/Shared/', '', $path));
+			$parts = explode('/', $source, 4);
+			$user =  $parts[1];
+			$path = '/'.$parts[3];
+		} else {
+			$user = OC_User::getUser();
+		}
+		return(array('user' => $user, 'path' => $path));
 	}
 }

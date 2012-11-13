@@ -112,8 +112,14 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($path == '' || $path == '/' || !$this->isCreatable(dirname($path))) {
 			return false;
 		} else if ($source = $this->getSourcePath($path)) {
+			$parts = explode('/', $source, 4);
+			$user =  $parts[1];
+			$intPath = '/'.$parts[3];
 			$storage = OC_Filesystem::getStorage($source);
-			return $storage->mkdir($this->getInternalPath($source));
+			if( ($storage->mkdir($this->getInternalPath($source))) ) {
+				OC_FileCache::put($intPath ,array('user'=>$user), '/'.$user.'/files');
+				return true;
+			}
 		}
 		return false;
 	}
@@ -297,9 +303,14 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 					'source' => $source,
 				);
 			OCP\Util::emitHook('OC_Filestorage_Shared', 'file_put_contents', $info);
+			$parts = explode('/', $source, 4);
+			$user =  $parts[1];
+			$intPath = '/'.$parts[3];
 			$storage = OC_Filesystem::getStorage($source);
-			$result = $storage->file_put_contents($this->getInternalPath($source), $data);
-			return $result;
+			if( ( $result = $storage->file_put_contents($this->getInternalPath($source), $data) ) ) {
+				OC_FileCache::put($intPath ,array('user'=>$user), '/'.$user.'/files');
+				return $result;
+			}	
 		}
 		return false;
 	}
@@ -368,17 +379,18 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 
 	public function fopen($path, $mode) {
 		if ($source = $this->getSourcePath($path)) {
+			$write = false;
 			switch ($mode) {
+				case 'w':
+				case 'wb':
+				case 'w+':
+				case 'wb+': $write = true;
 				case 'r+':
 				case 'rb+':
-				case 'w+':
-				case 'wb+':
 				case 'x+':
 				case 'xb+':
 				case 'a+':
 				case 'ab+':
-				case 'w':
-				case 'wb':
 				case 'x':
 				case 'xb':
 				case 'a':
@@ -394,6 +406,14 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 			);
 			OCP\Util::emitHook('OC_Filestorage_Shared', 'fopen', $info);
 			$storage = OC_Filesystem::getStorage($source);
+			
+			$parts = explode('/', $source, 4);
+			$user =  $parts[1];
+			$intPath = '/'.$parts[3];
+
+			if ( $write && $storage->touch($this->getInternalPath($source)) ) {
+				OC_FileCache::put($intPath ,array('user'=>$user), '/'.$user.'/files');
+			}
 			return $storage->fopen($this->getInternalPath($source), $mode);
 		}
 		return false;
