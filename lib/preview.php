@@ -19,21 +19,28 @@ TODO:
 
 
 class OC_Preview {
-        
+
+	// the thumbnail cache folder
+	const THUMBNAILS_FOLDER = 'thumbnails';
 
 	/**
 	 * @brief return a preview of a file
 	 * @param $file The path to the file where you want a thumbnail from
 	 * @param $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
 	 * @param $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
+	 * @param $scaleup Scale smaller images up to the thumbnail size or not. Might look ugly
 	 * @return image
 	*/
-	static public function show($file,$maxX,$maxY) {
+	static public function show($file,$maxX,$maxY,$scalingup) {
+		// get the mimetype of the file
 		$mimetype=explode('/',OC_FileSystem::getMimeType($file));
-		if($mimetype[0]=='imaage'){
+
+		// it´s an image
+		if($mimetype[0]=='image'){
 			OCP\Response::enableCaching(3600 * 24); // 24 hour
-			$image=OC_PreviewImage::getThumbnail($file,$maxX,$maxY,false);
+			$image=OC_PreviewImage::getThumbnail($file,$maxX,$maxY,$scalingup);
 			$image->show();
+		// it´s something else. Let´s create a dummy preview
 		}else{
 			header('Content-type: image/png');
 			OC_PreviewUnknown::getThumbnail($maxX,$maxY);
@@ -47,11 +54,8 @@ class OC_Preview {
 
 class OC_PreviewImage {
 
-	// the thumbnail cache folder
-	const THUMBNAILS_FOLDER = 'thumbnails';
-
         public static function getThumbnail($path,$maxX,$maxY,$scalingup) {
-		$thumbnails_view = new \OC_FilesystemView('/'.\OCP\User::getUser() .'/'.self::THUMBNAILS_FOLDER);
+		$thumbnails_view = new \OC_FilesystemView('/'.\OCP\User::getUser() .'/'.OC_Preview::THUMBNAILS_FOLDER);
 
 		// is a preview already in the cache?
                 if ($thumbnails_view->file_exists($path.'-'.$maxX.'-'.$maxY.'-'.$scalingup)) {
