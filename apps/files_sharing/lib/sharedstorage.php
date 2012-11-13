@@ -413,8 +413,8 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 
 			if ( $write && $storage->touch($this->getInternalPath($source)) ) {
 				OC_FileCache::put($intPath ,array('user'=>$user), '/'.$user.'/files');
-				return $storage->fopen($this->getInternalPath($source), $mode);
-			}			
+			}
+			return $storage->fopen($this->getInternalPath($source), $mode);
 		}
 		return false;
 	}
