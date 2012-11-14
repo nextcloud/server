@@ -7,11 +7,18 @@
  * See the COPYING-README file.
  */
 
-namespace OCA\Encryption;
+
 
 require_once "PHPUnit/Framework/TestCase.php";
 require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
-//require_once realpath( dirname(__FILE__).'/../lib/crypt.php' );
+require_once realpath( dirname(__FILE__).'/../lib/crypt.php' );
+require_once realpath( dirname(__FILE__).'/../lib/keymanager.php' );
+require_once realpath( dirname(__FILE__).'/../lib/proxy.php' );
+require_once realpath( dirname(__FILE__).'/../lib/stream.php' );
+require_once realpath( dirname(__FILE__).'/../lib/util.php' );
+require_once realpath( dirname(__FILE__).'/../appinfo/app.php' );
+
+use OCA\Encryption;
 
 class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
@@ -23,7 +30,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->dataUrl = realpath( dirname(__FILE__).'/../lib/crypt.php' );
 		$this->legacyData = realpath( dirname(__FILE__).'/legacy-text.txt' );
 		$this->legacyEncryptedData = realpath( dirname(__FILE__).'/legacy-encrypted-text.txt' );
-		$this->randomKey = Crypt::generateKey();
+		$this->randomKey = Encryption\Crypt::generateKey();
 		
 		$this->view = new \OC_FilesystemView( '/' );
 		
@@ -37,7 +44,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 		# TODO: use more accurate (larger) string length for test confirmation
 		
-		$key = Crypt::generateKey();
+		$key = Encryption\Crypt::generateKey();
 		
 		$this->assertTrue( strlen( $key ) > 16 );
 	
@@ -45,9 +52,65 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 	function testGenerateIv() {
 		
-		$iv = Crypt::generateIv();
+		$iv = Encryption\Crypt::generateIv();
 		
-		$this->assertTrue( strlen( $iv ) == 16 );
+		echo $iv;
+		
+		$this->assertEquals( 16, strlen( $iv ) );
+		
+		return $iv;
+	
+	}
+	
+	/**
+	 * @depends testGenerateIv
+	 */
+	function testConcatIv( $iv ) {
+		
+		Encryption\Crypt::concatIv( $this->dataLong, $iv );
+		
+		// Fetch encryption metadata from end of file
+		$meta = substr( $catFile, -22 );
+		
+		$identifier = substr( $meta, 6 );
+		
+		$this->assertEquals( '00iv00', $identifier );
+		
+		// Fetch IV from end of file
+		$foundIv = substr( $meta, -16 );
+		
+		$this->assertEquals( $iv, $foundIv );
+		
+		// Remove IV and IV identifier text to expose encrypted content
+		$data = substr( $catFile, 0, -22 );
+		
+		$this->assertEquals( $this->dataLong, $data );
+	
+	}
+	
+	/**
+	 * @depends testGenerateIv
+	 */
+	function testSplitIv( $iv ) {
+		
+		Encryption\Crypt::concatIv( $this->dataLong, $iv );
+		
+		// Fetch encryption metadata from end of file
+		$meta = substr( $catFile, -22 );
+		
+		$identifier = substr( $meta, 6 );
+		
+		$this->assertEquals( '00iv00', $identifier );
+		
+		// Fetch IV from end of file
+		$foundIv = substr( $meta, -16 );
+		
+		$this->assertEquals( $iv, $foundIv );
+		
+		// Remove IV and IV identifier text to expose encrypted content
+		$data = substr( $catFile, 0, -22 );
+		
+		$this->assertEquals( $this->dataLong, $data );
 	
 	}
 	
@@ -57,7 +120,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 
 		$iv = substr( base64_encode( $random ), 0, -4 ); // i.e. E5IG033j+mRNKrht
 
-		$crypted = Crypt::encrypt( $this->dataUrl, $iv, 'hat' );
+		$crypted = Encryption\Crypt::encrypt( $this->dataUrl, $iv, 'hat' );
 
 		$this->assertNotEquals( $this->dataUrl, $crypted );
 	
@@ -69,9 +132,9 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 
 		$iv = substr( base64_encode( $random ), 0, -4 ); // i.e. E5IG033j+mRNKrht
 
-		$crypted = Crypt::encrypt( $this->dataUrl, $iv, 'hat' );
+		$crypted = Encryption\Crypt::encrypt( $this->dataUrl, $iv, 'hat' );
 	
-		$decrypt = Crypt::decrypt( $crypted, $iv, 'hat' );
+		$decrypt = Encryption\Crypt::decrypt( $crypted, $iv, 'hat' );
 
 		$this->assertEquals( $this->dataUrl, $decrypt );
 	
@@ -81,12 +144,12 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
 		
-		$crypted = Crypt::symmetricEncryptFileContent( $this->dataShort, 'hat' );
+		$crypted = Encryption\Crypt::symmetricEncryptFileContent( $this->dataShort, 'hat' );
 
 		$this->assertNotEquals( $this->dataShort, $crypted );
 		
 
-		$decrypt = Crypt::symmetricDecryptFileContent( $crypted, 'hat' );
+		$decrypt = Encryption\Crypt::symmetricDecryptFileContent( $crypted, 'hat' );
 
 		$this->assertEquals( $this->dataShort, $decrypt );
 		
@@ -95,12 +158,12 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	// These aren't used for now
 // 	function testSymmetricBlockEncryptShortFileContent() {
 // 		
-// 		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->dataShort, $this->randomKey );
+// 		$crypted = Encryption\Crypt::symmetricBlockEncryptFileContent( $this->dataShort, $this->randomKey );
 // 		
 // 		$this->assertNotEquals( $this->dataShort, $crypted );
 // 		
 // 
-// 		$decrypt = Crypt::symmetricBlockDecryptFileContent( $crypted, $this->randomKey );
+// 		$decrypt = Encryption\Crypt::symmetricBlockDecryptFileContent( $crypted, $this->randomKey );
 // 
 // 		$this->assertEquals( $this->dataShort, $decrypt );
 // 		
@@ -108,12 +171,12 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 // 	
 // 	function testSymmetricBlockEncryptLongFileContent() {
 // 		
-// 		$crypted = Crypt::symmetricBlockEncryptFileContent( $this->dataLong, $this->randomKey );
+// 		$crypted = Encryption\Crypt::symmetricBlockEncryptFileContent( $this->dataLong, $this->randomKey );
 // 		
 // 		$this->assertNotEquals( $this->dataLong, $crypted );
 // 		
 // 
-// 		$decrypt = Crypt::symmetricBlockDecryptFileContent( $crypted, $this->randomKey );
+// 		$decrypt = Encryption\Crypt::symmetricBlockDecryptFileContent( $crypted, $this->randomKey );
 // 
 // 		$this->assertEquals( $this->dataLong, $decrypt );
 // 		
@@ -140,7 +203,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		$key = Keymanager::getFileKey( $filename );
 		
-		$manualDecrypt = Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $key );
+		$manualDecrypt = Encryption\Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $key );
 		
 		$this->assertEquals( $this->dataShort, $manualDecrypt );
 		
@@ -192,7 +255,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 // 			echo "\n\$encryptMe = $f";
 			
-			$chunkDecrypt = Crypt::symmetricDecryptFileContent( $e, $keyfile );
+			$chunkDecrypt = Encryption\Crypt::symmetricDecryptFileContent( $e, $keyfile );
 			
 			// Assemble decrypted chunks
 			$decrypt .= $chunkDecrypt;
@@ -282,12 +345,12 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
 	
-		$crypted = Crypt::symmetricEncryptFileContentKeyfile( $this->dataUrl );
+		$crypted = Encryption\Crypt::symmetricEncryptFileContentKeyfile( $this->dataUrl );
 		
 		$this->assertNotEquals( $this->dataUrl, $crypted['encrypted'] );
 		
 		
-		$decrypt = Crypt::symmetricDecryptFileContent( $crypted['encrypted'], $crypted['key'] );
+		$decrypt = Encryption\Crypt::symmetricDecryptFileContent( $crypted['encrypted'], $crypted['key'] );
 		
 		$this->assertEquals( $this->dataUrl, $decrypt );
 	
@@ -295,13 +358,13 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 	function testIsEncryptedContent() {
 		
-		$this->assertFalse( Crypt::isEncryptedContent( $this->dataUrl ) );
+		$this->assertFalse( Encryption\Crypt::isEncryptedContent( $this->dataUrl ) );
 		
-		$this->assertFalse( Crypt::isEncryptedContent( $this->legacyEncryptedData ) );
+		$this->assertFalse( Encryption\Crypt::isEncryptedContent( $this->legacyEncryptedData ) );
 		
-		$keyfileContent = Crypt::symmetricEncryptFileContent( $this->dataUrl, 'hat' );
+		$keyfileContent = Encryption\Crypt::symmetricEncryptFileContent( $this->dataUrl, 'hat' );
 
-		$this->assertTrue( Crypt::isEncryptedContent( $keyfileContent ) );
+		$this->assertTrue( Encryption\Crypt::isEncryptedContent( $keyfileContent ) );
 		
 	}
 	
@@ -309,7 +372,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
 		
-		$pair1 = Crypt::createKeypair();
+		$pair1 = Encryption\Crypt::createKeypair();
 		
 		$this->assertEquals( 2, count( $pair1 ) );
 		
@@ -318,12 +381,12 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue( strlen( $pair1['privateKey'] ) > 1 );
 		
 
-		$crypted = Crypt::multiKeyEncrypt( $this->dataUrl, array( $pair1['publicKey'] ) );
+		$crypted = Encryption\Crypt::multiKeyEncrypt( $this->dataUrl, array( $pair1['publicKey'] ) );
 		
 		$this->assertNotEquals( $this->dataUrl, $crypted['encrypted'] );
 		
 
-		$decrypt = Crypt::multiKeyDecrypt( $crypted['encrypted'], $crypted['keys'][0], $pair1['privateKey'] );
+		$decrypt = Encryption\Crypt::multiKeyDecrypt( $crypted['encrypted'], $crypted['keys'][0], $pair1['privateKey'] );
 		
  		$this->assertEquals( $this->dataUrl, $decrypt );
 	
@@ -332,15 +395,15 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	function testKeyEncrypt() {
 		
 		// Generate keypair
-		$pair1 = Crypt::createKeypair();
+		$pair1 = Encryption\Crypt::createKeypair();
 		
 		// Encrypt data
-		$crypted = Crypt::keyEncrypt( $this->dataUrl, $pair1['publicKey'] );
+		$crypted = Encryption\Crypt::keyEncrypt( $this->dataUrl, $pair1['publicKey'] );
 		
 		$this->assertNotEquals( $this->dataUrl, $crypted );
 		
 		// Decrypt data
-		$decrypt = Crypt::keyDecrypt( $crypted, $pair1['privateKey'] );
+		$decrypt = Encryption\Crypt::keyDecrypt( $crypted, $pair1['privateKey'] );
 		
 		$this->assertEquals( $this->dataUrl, $decrypt );
 	
@@ -351,19 +414,19 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		# TODO: Don't repeat encryption from previous tests, use PHPUnit test interdependency instead
 		
 		// Generate keypair
-		$pair1 = Crypt::createKeypair();
+		$pair1 = Encryption\Crypt::createKeypair();
 		
 		// Encrypt plain data, generate keyfile & encrypted file
-		$cryptedData = Crypt::symmetricEncryptFileContentKeyfile( $this->dataUrl );
+		$cryptedData = Encryption\Crypt::symmetricEncryptFileContentKeyfile( $this->dataUrl );
 		
 		// Encrypt keyfile
-		$cryptedKey = Crypt::keyEncrypt( $cryptedData['key'], $pair1['publicKey'] );
+		$cryptedKey = Encryption\Crypt::keyEncrypt( $cryptedData['key'], $pair1['publicKey'] );
 		
 		// Decrypt keyfile
-		$decryptKey = Crypt::keyDecrypt( $cryptedKey, $pair1['privateKey'] );
+		$decryptKey = Encryption\Crypt::keyDecrypt( $cryptedKey, $pair1['privateKey'] );
 		
 		// Decrypt encrypted file
-		$decryptData = Crypt::symmetricDecryptFileContent( $cryptedData['encrypted'], $decryptKey );
+		$decryptData = Encryption\Crypt::symmetricDecryptFileContent( $cryptedData['encrypted'], $decryptKey );
 		
 		$this->assertEquals( $this->dataUrl, $decryptData );
 	
@@ -374,45 +437,45 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 // 		$key=uniqid();
 // 		$file=OC::$SERVERROOT.'/3rdparty/MDB2.php';
 // 		$source=file_get_contents($file); //nice large text file
-// 		$encrypted=OC_Crypt::encrypt($source,$key);
-// 		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+// 		$encrypted=OC_Encryption\Crypt::encrypt($source,$key);
+// 		$decrypted=OC_Encryption\Crypt::decrypt($encrypted,$key);
 // 		$decrypted=rtrim($decrypted, "\0");
 // 		$this->assertNotEquals($encrypted,$source);
 // 		$this->assertEqual($decrypted,$source);
 // 
 // 		$chunk=substr($source,0,8192);
-// 		$encrypted=OC_Crypt::encrypt($chunk,$key);
+// 		$encrypted=OC_Encryption\Crypt::encrypt($chunk,$key);
 // 		$this->assertEqual(strlen($chunk),strlen($encrypted));
-// 		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+// 		$decrypted=OC_Encryption\Crypt::decrypt($encrypted,$key);
 // 		$decrypted=rtrim($decrypted, "\0");
 // 		$this->assertEqual($decrypted,$chunk);
 // 		
-// 		$encrypted=OC_Crypt::blockEncrypt($source,$key);
-// 		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
+// 		$encrypted=OC_Encryption\Crypt::blockEncrypt($source,$key);
+// 		$decrypted=OC_Encryption\Crypt::blockDecrypt($encrypted,$key);
 // 		$this->assertNotEquals($encrypted,$source);
 // 		$this->assertEqual($decrypted,$source);
 // 
 // 		$tmpFileEncrypted=OCP\Files::tmpFile();
-// 		OC_Crypt::encryptfile($file,$tmpFileEncrypted,$key);
+// 		OC_Encryption\Crypt::encryptfile($file,$tmpFileEncrypted,$key);
 // 		$encrypted=file_get_contents($tmpFileEncrypted);
-// 		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
+// 		$decrypted=OC_Encryption\Crypt::blockDecrypt($encrypted,$key);
 // 		$this->assertNotEquals($encrypted,$source);
 // 		$this->assertEqual($decrypted,$source);
 // 
 // 		$tmpFileDecrypted=OCP\Files::tmpFile();
-// 		OC_Crypt::decryptfile($tmpFileEncrypted,$tmpFileDecrypted,$key);
+// 		OC_Encryption\Crypt::decryptfile($tmpFileEncrypted,$tmpFileDecrypted,$key);
 // 		$decrypted=file_get_contents($tmpFileDecrypted);
 // 		$this->assertEqual($decrypted,$source);
 // 
 // 		$file=OC::$SERVERROOT.'/core/img/weather-clear.png';
 // 		$source=file_get_contents($file); //binary file
-// 		$encrypted=OC_Crypt::encrypt($source,$key);
-// 		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+// 		$encrypted=OC_Encryption\Crypt::encrypt($source,$key);
+// 		$decrypted=OC_Encryption\Crypt::decrypt($encrypted,$key);
 // 		$decrypted=rtrim($decrypted, "\0");
 // 		$this->assertEqual($decrypted,$source);
 // 
-// 		$encrypted=OC_Crypt::blockEncrypt($source,$key);
-// 		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
+// 		$encrypted=OC_Encryption\Crypt::blockEncrypt($source,$key);
+// 		$decrypted=OC_Encryption\Crypt::blockDecrypt($encrypted,$key);
 // 		$this->assertEqual($decrypted,$source);
 // 
 // 	}
@@ -422,14 +485,14 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 // 	
 // 		$file=__DIR__.'/binary';
 // 		$source=file_get_contents($file); //binary file
-// 		$encrypted=OC_Crypt::encrypt($source,$key);
-// 		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+// 		$encrypted=OC_Encryption\Crypt::encrypt($source,$key);
+// 		$decrypted=OC_Encryption\Crypt::decrypt($encrypted,$key);
 // 
 // 		$decrypted=rtrim($decrypted, "\0");
 // 		$this->assertEqual($decrypted,$source);
 // 
-// 		$encrypted=OC_Crypt::blockEncrypt($source,$key);
-// 		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key,strlen($source));
+// 		$encrypted=OC_Encryption\Crypt::blockEncrypt($source,$key);
+// 		$decrypted=OC_Encryption\Crypt::blockDecrypt($encrypted,$key,strlen($source));
 // 		$this->assertEqual($decrypted,$source);
 // 	}
 	
