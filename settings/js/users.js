@@ -29,7 +29,6 @@ var UserList={
 		$('#notification').html(t('users', 'deleted')+' '+uid+'<span class="undo">'+t('users', 'undo')+'</span>');
 		$('#notification').data('deleteuser',true);
 		$('#notification').fadeIn();
-			
 	},
 	
 	/**
@@ -57,7 +56,6 @@ var UserList={
 						$('#notification').fadeOut();
 						$('tr').filterAttr('data-uid', UserList.deleteUid).remove();
 						UserList.deleteCanceled = true;
-						UserList.deleteFiles = null;
 						if (ready) {
 							ready();
 						}
@@ -401,13 +399,8 @@ $(document).ready(function(){
 	$('#notification').hide();
 	$('#notification .undo').live('click', function() {
 		if($('#notification').data('deleteuser')) {
-			$('tbody tr').each(function(index, row) {
-				if ($(row).data('uid') == UserList.deleteUid) {
-					$(row).show();
-				}
-			});
+			$('tbody tr').filterAttr('data-uid', UserList.deleteUid).show();
 			UserList.deleteCanceled=true;
-			UserList.deleteFiles=null;
 		}
 		$('#notification').fadeOut();
 	});
