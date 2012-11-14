@@ -31,6 +31,7 @@ namespace OCA\Encryption;
 
 /**
  * @brief Provides 'crypt://' stream wrapper protocol.
+ * @note We use a stream wrapper because it is the most secure way to handle decrypted content transfers. There is no safe way to decrypt the entire file somewhere on the server, so we have to encrypt and decrypt blocks on the fly.
  * @note Paths used with this protocol MUST BE RELATIVE, due to limitations of OC_FilesystemView. crypt:///home/user/owncloud/data <- will put keyfiles in [owncloud]/data/user/files_encryption/keyfiles/home/user/owncloud/data and will not be accessible by other functions.
  * @note Data read and written must always be 8192 bytes long, as this is the buffer size used internally by PHP. The encryption process makes the input data longer, and input is chunked into smaller pieces in order to result in a 8192 encrypted block size.
  */
@@ -52,6 +53,8 @@ class Stream {
 
 	public function stream_open( $path, $mode, $options, &$opened_path ) {
 	
+		file_put_contents('/home/samtuke/newtmp.txt', 'stream_open('.$path.')' );
+		
 		// Get access to filesystem via filesystemview object
 		if ( !self::$view ) {
 
@@ -141,9 +144,7 @@ class Stream {
 	
 	public function stream_read( $count ) {
 	
-	trigger_error("\$count = $count");
-	
-	file_put_contents('/home/samtuke/newtmp.txt', "\$count = $count" );
+// 	file_put_contents('/home/samtuke/newtmp.txt', "\$count = $count" );
 	
 		$this->writeCache = '';
 
@@ -275,7 +276,7 @@ class Stream {
 	 */
 	public function stream_write( $data ) {
 		
-		//file_put_contents('/home/samtuke/newtmp.txt', 'stream_write('.$data.')' );
+// 		file_put_contents('/home/samtuke/newtmp.txt', 'stream_write('.$data.')' );
 		
 		// Disable the file proxies so that encryption is not automatically attempted when the file is written to disk - we are handling that separately here and we don't want to get into an infinite loop
 		\OC_FileProxy::$enabled = false;

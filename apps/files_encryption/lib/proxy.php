@@ -183,17 +183,22 @@ class Proxy extends \OC_FileProxy {
 		// If file is encrypted, decrypt using crypto protocol
 		if ( Crypt::mode() == 'server' && $util->isEncryptedPath( $path ) ) {
 		
-			file_put_contents('/home/samtuke/newtmp.txt', "bar" );
-		
 			$tmp = fopen( 'php://temp' );
 			
 			\OCP\Files::streamCopy( $result, $tmp );
 			
 			fclose( $result );
 			
+			$encrypted = $view->file_get_contents( $path );
+			
+			//file_put_contents('/home/samtuke/newtmp.txt', "\$path = $path, \$data = $data" );
+			
+			// Replace the contents of 
 			\OC_Filesystem::file_put_contents( $path, $tmp );
 			
 			fclose( $tmp );
+			
+			//file_put_contents('/home/samtuke/newtmp.txt', file_get_contents( 'crypt://' . $path ) );
 			
 			$result = fopen( 'crypt://' . $path, $meta['mode'] );
 		
@@ -241,6 +246,9 @@ class Proxy extends \OC_FileProxy {
 			$result = fopen( 'crypt://'.$path, $meta['mode'] );
 		
 		}*/
+		
+		// Re-enable the proxy
+		\OC_FileProxy::$enabled = true;
 		
 		return $result;
 	
