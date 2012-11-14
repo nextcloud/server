@@ -216,7 +216,7 @@ class OC_User {
 
 			// Emit and exit
 			OC_Hook::emit( "OC_User", "post_deleteUser", array( "uid" => $uid ));
-			return true;
+			return !self::userExists($uid);
 		}
 		else{
 			return false;
