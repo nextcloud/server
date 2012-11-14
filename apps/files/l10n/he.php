@@ -12,6 +12,7 @@
 "generating ZIP-file, it may take some time." => "יוצר קובץ ZIP, אנא המתן.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "לא יכול להעלות את הקובץ מכיוון שזו תקיה או שמשקל הקובץ 0 בתים",
 "Upload Error" => "שגיאת העלאה",
+"Close" => "סגירה",
 "Pending" => "ממתין",
 "Upload cancelled." => "ההעלאה בוטלה.",
 "Invalid name, '/' is not allowed." => "שם לא חוקי, '/' אסור לשימוש.",

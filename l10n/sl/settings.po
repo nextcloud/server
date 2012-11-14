@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-23 02:02+0200\n"
-"PO-Revision-Date: 2012-10-22 18:54+0000\n"
-"Last-Translator: mateju <>\n"
+"POT-Creation-Date: 2012-11-10 00:01+0100\n"
+"PO-Revision-Date: 2012-11-09 23:01+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,69 +21,69 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "Ni mogoče naložiti seznama iz App Store"
 
-#: ajax/creategroup.php:12
+#: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "Skupina že obstaja"
 
-#: ajax/creategroup.php:21
+#: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Ni mogoče dodati skupine"
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
 msgstr "Programa ni mogoče omogočiti."
 
-#: ajax/lostpassword.php:14
+#: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Elektronski naslov je shranjen"
 
-#: ajax/lostpassword.php:16
+#: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Neveljaven elektronski naslov"
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
 msgstr "OpenID je bil spremenjen"
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
 msgstr "Neveljavna zahteva"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Ni mogoče izbrisati skupine"
 
-#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
 msgid "Authentication error"
 msgstr "Napaka overitve"
 
-#: ajax/removeuser.php:27
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
 msgstr "Ni mogoče izbrisati uporabnika"
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Jezik je bil spremenjen"
 
-#: ajax/togglegroups.php:25
+#: ajax/togglegroups.php:22
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "Uporabnika ni mogoče dodati k skupini %s"
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "Uporabnika ni mogoče odstraniti iz skupine %s"
 
-#: js/apps.js:28 js/apps.js:65
+#: js/apps.js:28 js/apps.js:67
 msgid "Disable"
 msgstr "Onemogoči"
 
-#: js/apps.js:28 js/apps.js:54
+#: js/apps.js:28 js/apps.js:55
 msgid "Enable"
 msgstr "Omogoči"
 
@@ -94,93 +94,6 @@ msgstr "Poteka shranjevanje ..."
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "__ime_jezika__"
-
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "Varnostno opozorilo"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Trenutno je dostop do podatkovne mape in datotek najverjetneje omogočen vsem uporabnikom na omrežju. Datoteka .htaccess, vključena v ownCloud namreč ni omogočena. Močno priporočamo nastavitev spletnega strežnika tako, da mapa podatkov ne bo javno dostopna ali pa, da jo prestavite ven iz korenske mape spletnega strežnika."
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr "Periodično opravilo"
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr "Izvede eno opravilo z vsako naloženo stranjo."
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr "Datoteka cron.php je prijavljena pri enem izmed ponudnikov spletnih storitev za periodična opravila. Preko protokola HTTP pokličite datoteko cron.php, ki se nahaja v ownCloud korenski mapi, enkrat na minuto."
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr "Uporabi sistemske storitve za periodična opravila. Preko sistema povežite datoteko cron.php, ki se nahaja v korenski mapi ownCloud , enkrat na minuto."
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr "Souporaba"
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr "Omogoči vmesnik souporabe"
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr "Programom dovoli uporabo vmesnika souporabe"
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr "Dovoli povezave"
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr "Uporabnikom dovoli souporabo z javnimi povezavami"
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr "Dovoli nadaljnjo souporabo"
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr "Uporabnikom dovoli nadaljnjo souporabo"
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr "Uporabnikom dovoli souporabo s komerkoli"
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr "Uporabnikom dovoli souporabo le znotraj njihove skupine"
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "Dnevnik"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "Več"
-
-#: templates/admin.php:124
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr "Programski paket razvija <a href=\"http://ownCloud.org/contact\" target=\"_blank\">skupnost ownCloud</a>. <a href=\"https://github.com/owncloud\" target=\"_blank\">Izvorna koda</a> je objavljena pod pogoji dovoljenja <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Splošno javno dovoljenje Affero\">AGPL</abbr></a>."
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -214,22 +127,22 @@ msgstr "Upravljanje velikih datotek"
 msgid "Ask a question"
 msgstr "Zastavi vprašanje"
 
-#: templates/help.php:23
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr "Težave med povezovanjem s podatkovno zbirko pomoči."
 
-#: templates/help.php:24
+#: templates/help.php:23
 msgid "Go there manually."
 msgstr "Ustvari povezavo ročno."
 
-#: templates/help.php:32
+#: templates/help.php:31
 msgid "Answer"
 msgstr "Odgovor"
 
 #: templates/personal.php:8
 #, php-format
-msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr "Uporabili ste <strong>%s</strong> od razpoložljivih <strong>%s<strong>"
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -286,6 +199,16 @@ msgstr "Pomagajte pri prevajanju"
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "Uporabite ta naslov za povezavo do ownCloud v upravljalniku datotek."
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Programski paket razvija <a href=\"http://ownCloud.org/contact\" target=\"_blank\">skupnost ownCloud</a>. <a href=\"https://github.com/owncloud\" target=\"_blank\">Izvorna koda</a> je objavljena pod pogoji dovoljenja <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Splošno javno dovoljenje Affero\">AGPL</abbr></a>."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

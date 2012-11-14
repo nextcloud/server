@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "Fichier ZIP en cours d'assemblage ;  cela peut prendre du temps.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Impossible de charger vos fichiers car il s'agit d'un dossier ou le fichier fait 0 octet.",
 "Upload Error" => "Erreur de chargement",
+"Close" => "Fermer",
 "Pending" => "En cours",
 "1 file uploading" => "1 fichier en cours de téléchargement",
 "{count} files uploading" => "{count} fichiers téléversés",

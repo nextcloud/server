@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ivan Petrović <ivan@ipplusstudio.com>, 2012.
 # Slobodan Terzić <githzerai06@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
+"POT-Creation-Date: 2012-11-14 00:02+0100\n"
+"PO-Revision-Date: 2012-11-13 02:43+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +47,7 @@ msgstr "Недостаје привремена фасцикла"
 
 #: ajax/upload.php:26
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Није успело записивање на диск"
 
 #: appinfo/app.php:6
 msgid "Files"
@@ -54,7 +55,7 @@ msgstr "Фајлови"
 
 #: js/fileactions.js:108 templates/index.php:64
 msgid "Unshare"
-msgstr ""
+msgstr "Укини дељење"
 
 #: js/fileactions.js:110 templates/index.php:66
 msgid "Delete"
@@ -62,120 +63,124 @@ msgstr "Обриши"
 
 #: js/fileactions.js:172
 msgid "Rename"
-msgstr ""
+msgstr "Преименуј"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} већ постоји"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "replace"
-msgstr ""
+msgstr "замени"
 
-#: js/filelist.js:194
+#: js/filelist.js:198
 msgid "suggest name"
-msgstr ""
+msgstr "предложи назив"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "cancel"
-msgstr ""
+msgstr "поништи"
 
-#: js/filelist.js:243
+#: js/filelist.js:247
 msgid "replaced {new_name}"
-msgstr ""
+msgstr "замењена са {new_name}"
 
-#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
+#: js/filelist.js:247 js/filelist.js:249 js/filelist.js:281 js/filelist.js:283
 msgid "undo"
-msgstr ""
+msgstr "врати"
 
-#: js/filelist.js:245
+#: js/filelist.js:249
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "замењено {new_name} са {old_name}"
 
-#: js/filelist.js:277
+#: js/filelist.js:281
 msgid "unshared {files}"
-msgstr ""
+msgstr "укинуто дељење над {files}"
 
-#: js/filelist.js:279
+#: js/filelist.js:283
 msgid "deleted {files}"
-msgstr ""
+msgstr "обриши {files}"
 
 #: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "генерисање ЗИП датотеке, потрајаће неко време."
 
 #: js/files.js:206
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Није могуће послати датотеку или зато што је директоријуму или јој је величина 0 бајта"
 
 #: js/files.js:206
 msgid "Upload Error"
-msgstr ""
+msgstr "Грешка у слању"
 
-#: js/files.js:234 js/files.js:339 js/files.js:369
+#: js/files.js:223
+msgid "Close"
+msgstr "Затвори"
+
+#: js/files.js:237 js/files.js:342 js/files.js:372
 msgid "Pending"
-msgstr ""
+msgstr "На чекању"
 
-#: js/files.js:254
+#: js/files.js:257
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 датотека се шаље"
 
-#: js/files.js:257 js/files.js:302 js/files.js:317
+#: js/files.js:260 js/files.js:305 js/files.js:320
 msgid "{count} files uploading"
-msgstr ""
+msgstr "Шаље се {count} датотека"
 
-#: js/files.js:320 js/files.js:353
+#: js/files.js:323 js/files.js:356
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Слање је прекинуто."
 
-#: js/files.js:422
+#: js/files.js:425
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Слање датотеке је у току. Ако сада напустите страну слање ће бити прекинуто."
 
-#: js/files.js:492
+#: js/files.js:495
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "Грешка у имену, '/' није дозвољено."
 
-#: js/files.js:673
+#: js/files.js:676
 msgid "{count} files scanned"
-msgstr ""
+msgstr "{count} датотека се скенира"
 
-#: js/files.js:681
+#: js/files.js:684
 msgid "error while scanning"
-msgstr ""
+msgstr "грешка у скенирању"
 
-#: js/files.js:754 templates/index.php:50
+#: js/files.js:757 templates/index.php:50
 msgid "Name"
 msgstr "Име"
 
-#: js/files.js:755 templates/index.php:58
+#: js/files.js:758 templates/index.php:58
 msgid "Size"
 msgstr "Величина"
 
-#: js/files.js:756 templates/index.php:60
+#: js/files.js:759 templates/index.php:60
 msgid "Modified"
 msgstr "Задња измена"
 
-#: js/files.js:783
+#: js/files.js:786
 msgid "1 folder"
-msgstr ""
+msgstr "1 директоријум"
 
-#: js/files.js:785
+#: js/files.js:788
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} директоријума"
 
-#: js/files.js:793
+#: js/files.js:796
 msgid "1 file"
-msgstr ""
+msgstr "1 датотека"
 
-#: js/files.js:795
+#: js/files.js:798
 msgid "{count} files"
-msgstr ""
+msgstr "{count} датотека"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Рад са датотекама"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -183,23 +188,23 @@ msgstr "Максимална величина пошиљке"
 
 #: templates/admin.php:7
 msgid "max. possible: "
-msgstr ""
+msgstr "макс. величина:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Неопходно за вишеструко преузимања датотека и директоријума."
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Укључи преузимање у ЗИП-у"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 је неограничено"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Максимална величина ЗИП датотека"
 
 #: templates/admin.php:15
 msgid "Save"
@@ -219,7 +224,7 @@ msgstr "фасцикла"
 
 #: templates/index.php:11
 msgid "From link"
-msgstr ""
+msgstr "Са линка"
 
 #: templates/index.php:22
 msgid "Upload"
@@ -227,7 +232,7 @@ msgstr "Пошаљи"
 
 #: templates/index.php:29
 msgid "Cancel upload"
-msgstr ""
+msgstr "Прекини слање"
 
 #: templates/index.php:42
 msgid "Nothing in here. Upload something!"
@@ -235,7 +240,7 @@ msgstr "Овде нема ничег. Пошаљите нешто!"
 
 #: templates/index.php:52
 msgid "Share"
-msgstr ""
+msgstr "Дељење"
 
 #: templates/index.php:54
 msgid "Download"
@@ -253,8 +258,8 @@ msgstr "Фајлови које желите да пошаљете преваз�
 
 #: templates/index.php:84
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Скенирање датотека у току, молим вас сачекајте."
 
 #: templates/index.php:87
 msgid "Current scanning"
-msgstr ""
+msgstr "Тренутно се скенира"

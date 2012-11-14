@@ -22,6 +22,20 @@ if(!$_['htaccessworking']) {
 }
 ?>
 
+<?php
+if(!$_['internetconnectionworking']) {
+?>
+<fieldset class="personalblock">
+        <legend><strong><?php echo $l->t('Internet connection not working');?></strong></legend>
+
+        <span class="connectionwarning">
+        <?php echo $l->t('This ownCloud server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features of ownCloud.'); ?>
+    </span>
+
+</fieldset>
+<?php
+}
+?>
 
 <?php foreach($_['forms'] as $form) {
 	echo $form;

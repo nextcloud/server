@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "generujem ZIP-súbor, môže to chvíľu trvať.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nemôžem nahrať súbor lebo je to priečinok alebo má 0 bajtov.",
 "Upload Error" => "Chyba odosielania",
+"Close" => "Zavrieť",
 "Pending" => "Čaká sa",
 "1 file uploading" => "1 súbor sa posiela ",
 "{count} files uploading" => "{count} súborov odosielaných",

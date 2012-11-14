@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "Erstelle ZIP-Datei. Dies kann eine Weile dauern.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Ihre Datei kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist.",
 "Upload Error" => "Fehler beim Upload",
+"Close" => "Schließen",
 "Pending" => "Ausstehend",
 "1 file uploading" => "1 Datei wird hochgeladen",
 "{count} files uploading" => "{count} Dateien wurden hochgeladen",

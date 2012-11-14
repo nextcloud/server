@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André Koot <meneer@tken.net>, 2012.
 #   <bart.formosus@gmail.com>, 2011.
 #   <didi.debian@cknow.org>, 2012.
 # Erik Bent <hj.bent.60@gmail.com>, 2012.
@@ -18,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:01+0000\n"
+"POT-Creation-Date: 2012-11-15 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 23:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -28,61 +29,99 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
-msgid "Application name not provided."
-msgstr "Applicatienaam niet gegeven."
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr ""
 
-#: ajax/vcategories/add.php:28
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "Geen categorie toevoegen?"
 
-#: ajax/vcategories/add.php:35
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "Deze categorie bestaat al."
+
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr ""
+
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
+msgid "No categories selected for deletion."
+msgstr "Geen categorie geselecteerd voor verwijdering."
+
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr ""
 
 #: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
 msgid "Settings"
 msgstr "Instellingen"
 
-#: js/js.js:687
-msgid "seconds ago"
-msgstr ""
-
 #: js/js.js:688
-msgid "1 minute ago"
-msgstr ""
+msgid "seconds ago"
+msgstr "seconden geleden"
 
 #: js/js.js:689
+msgid "1 minute ago"
+msgstr "1 minuut geleden"
+
+#: js/js.js:690
 msgid "{minutes} minutes ago"
+msgstr "{minutes} minuten geleden"
+
+#: js/js.js:691
+msgid "1 hour ago"
 msgstr ""
 
 #: js/js.js:692
-msgid "today"
+msgid "{hours} hours ago"
 msgstr ""
 
 #: js/js.js:693
-msgid "yesterday"
-msgstr ""
+msgid "today"
+msgstr "vandaag"
 
 #: js/js.js:694
-msgid "{days} days ago"
-msgstr ""
+msgid "yesterday"
+msgstr "gisteren"
 
 #: js/js.js:695
+msgid "{days} days ago"
+msgstr "{days} dagen geleden"
+
+#: js/js.js:696
 msgid "last month"
-msgstr ""
+msgstr "vorige maand"
 
 #: js/js.js:697
-msgid "months ago"
+msgid "{months} months ago"
 msgstr ""
 
 #: js/js.js:698
-msgid "last year"
-msgstr ""
+msgid "months ago"
+msgstr "maanden geleden"
 
 #: js/js.js:699
+msgid "last year"
+msgstr "vorig jaar"
+
+#: js/js.js:700
 msgid "years ago"
-msgstr ""
+msgstr "jaar geleden"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
@@ -104,14 +143,24 @@ msgstr "Ja"
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-vcategories.js:68
-msgid "No categories selected for deletion."
-msgstr "Geen categorie geselecteerd voor verwijdering."
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr ""
 
-#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
 #: js/share.js:537
 msgid "Error"
 msgstr "Fout"
+
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr ""
 
 #: js/share.js:124
 msgid "Error while sharing"
@@ -143,7 +192,7 @@ msgstr "Deel met link"
 
 #: js/share.js:164
 msgid "Password protect"
-msgstr "Passeerwoord beveiliging"
+msgstr "Wachtwoord beveiliging"
 
 #: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
@@ -152,7 +201,7 @@ msgstr "Wachtwoord"
 
 #: js/share.js:173
 msgid "Set expiration date"
-msgstr "Zet vervaldatum"
+msgstr "Stel vervaldatum in"
 
 #: js/share.js:174
 msgid "Expiration date"
@@ -228,11 +277,11 @@ msgstr "U ontvangt een link om uw wachtwoord opnieuw in te stellen via e-mail."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "Reset e-mail verstuurd."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "Verzoek mislukt!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -291,13 +340,13 @@ msgstr "Cloud niet gevonden"
 msgid "Edit categories"
 msgstr "Wijzigen categorieën"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Toevoegen"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr "Beveiligings waarschuwing"
+msgstr "Beveiligingswaarschuwing"
 
 #: templates/installation.php:24
 msgid ""
@@ -334,7 +383,7 @@ msgstr "Gegevensmap"
 
 #: templates/installation.php:57
 msgid "Configure the database"
-msgstr "Configureer de databank"
+msgstr "Configureer de database"
 
 #: templates/installation.php:62 templates/installation.php:73
 #: templates/installation.php:83 templates/installation.php:93
@@ -343,15 +392,15 @@ msgstr "zal gebruikt worden"
 
 #: templates/installation.php:105
 msgid "Database user"
-msgstr "Gebruiker databank"
+msgstr "Gebruiker database"
 
 #: templates/installation.php:109
 msgid "Database password"
-msgstr "Wachtwoord databank"
+msgstr "Wachtwoord database"
 
 #: templates/installation.php:113
 msgid "Database name"
-msgstr "Naam databank"
+msgstr "Naam database"
 
 #: templates/installation.php:121
 msgid "Database tablespace"
@@ -489,13 +538,13 @@ msgstr "volgende"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr "Beveiligings waarschuwing!"
+msgstr "Beveiligingswaarschuwing!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr "Verifiëer uw wachtwoord!<br/>Om veiligheidsredenen wordt u regelmatig gevraagd uw wachtwoord in te geven."
+msgstr "Verifieer uw wachtwoord!<br/>Om veiligheidsredenen wordt u regelmatig gevraagd uw wachtwoord in te geven."
 
 #: templates/verify.php:16
 msgid "Verify"

@@ -22,7 +22,6 @@
 "yesterday" => "вчера",
 "%d days ago" => "%d дней назад",
 "last month" => "в прошлом месяце",
-"months ago" => "месяц назад",
 "last year" => "в прошлом году",
 "years ago" => "год назад",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s доступно. Получите <a href=\"%s\">more information</a>",

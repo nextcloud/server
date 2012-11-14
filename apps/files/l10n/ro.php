@@ -17,6 +17,7 @@
 "generating ZIP-file, it may take some time." => "se generază fișierul ZIP, va dura ceva timp.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nu s-a putut încărca fișierul tău deoarece pare să fie un director sau are 0 bytes.",
 "Upload Error" => "Eroare la încărcare",
+"Close" => "Închide",
 "Pending" => "În așteptare",
 "1 file uploading" => "un fișier se încarcă",
 "Upload cancelled." => "Încărcare anulată.",

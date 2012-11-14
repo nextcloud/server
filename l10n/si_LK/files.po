@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
+"POT-Creation-Date: 2012-11-14 00:02+0100\n"
+"PO-Revision-Date: 2012-11-13 02:43+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "php.ini හි upload_max_filesize නියමයට වඩා උඩ�
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "උඩුගත කළ ගොනුවේ විශාලත්වය HTML පෝරමයේ නියම කළ ඇති MAX_FILE_SIZE විශාලත්වයට වඩා වැඩිය"
 
 #: ajax/upload.php:23
 msgid "The uploaded file was only partially uploaded"
@@ -65,45 +65,45 @@ msgstr "මකන්න"
 msgid "Rename"
 msgstr "නැවත නම් කරන්න"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "replace"
 msgstr "ප්‍රතිස්ථාපනය කරන්න"
 
-#: js/filelist.js:194
+#: js/filelist.js:198
 msgid "suggest name"
 msgstr "නමක් යෝජනා කරන්න"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "cancel"
 msgstr "අත් හරින්න"
 
-#: js/filelist.js:243
+#: js/filelist.js:247
 msgid "replaced {new_name}"
 msgstr ""
 
-#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
+#: js/filelist.js:247 js/filelist.js:249 js/filelist.js:281 js/filelist.js:283
 msgid "undo"
 msgstr "නිෂ්ප්‍රභ කරන්න"
 
-#: js/filelist.js:245
+#: js/filelist.js:249
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:277
+#: js/filelist.js:281
 msgid "unshared {files}"
 msgstr ""
 
-#: js/filelist.js:279
+#: js/filelist.js:283
 msgid "deleted {files}"
 msgstr ""
 
 #: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
-msgstr ""
+msgstr "ගොනුවක් සෑදෙමින් පවතී. කෙටි වේලාවක් ගත විය හැක"
 
 #: js/files.js:206
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
@@ -113,64 +113,68 @@ msgstr ""
 msgid "Upload Error"
 msgstr "උඩුගත කිරීමේ දෝශයක්"
 
-#: js/files.js:234 js/files.js:339 js/files.js:369
+#: js/files.js:223
+msgid "Close"
+msgstr "වසන්න"
+
+#: js/files.js:237 js/files.js:342 js/files.js:372
 msgid "Pending"
 msgstr ""
 
-#: js/files.js:254
+#: js/files.js:257
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 ගොනුවක් උඩගත කෙරේ"
 
-#: js/files.js:257 js/files.js:302 js/files.js:317
+#: js/files.js:260 js/files.js:305 js/files.js:320
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:320 js/files.js:353
+#: js/files.js:323 js/files.js:356
 msgid "Upload cancelled."
 msgstr "උඩුගත කිරීම අත් හරින්න ලදී"
 
-#: js/files.js:422
+#: js/files.js:425
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "උඩුගතකිරීමක් සිදුවේ. පිටුව හැර යාමෙන් එය නැවතෙනු ඇත"
 
-#: js/files.js:492
+#: js/files.js:495
 msgid "Invalid name, '/' is not allowed."
-msgstr ""
+msgstr "අවලංගු නමක්. '/' ට අවසර නැත"
 
-#: js/files.js:673
+#: js/files.js:676
 msgid "{count} files scanned"
 msgstr ""
 
-#: js/files.js:681
+#: js/files.js:684
 msgid "error while scanning"
-msgstr ""
+msgstr "පරීක්ෂා කිරීමේදී දෝෂයක්"
 
-#: js/files.js:754 templates/index.php:50
+#: js/files.js:757 templates/index.php:50
 msgid "Name"
 msgstr "නම"
 
-#: js/files.js:755 templates/index.php:58
+#: js/files.js:758 templates/index.php:58
 msgid "Size"
 msgstr "ප්‍රමාණය"
 
-#: js/files.js:756 templates/index.php:60
+#: js/files.js:759 templates/index.php:60
 msgid "Modified"
 msgstr "වෙනස් කළ"
 
-#: js/files.js:783
+#: js/files.js:786
 msgid "1 folder"
-msgstr ""
+msgstr "1 ෆොල්ඩරයක්"
 
-#: js/files.js:785
+#: js/files.js:788
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:793
+#: js/files.js:796
 msgid "1 file"
 msgstr "1 ගොනුවක්"
 
-#: js/files.js:795
+#: js/files.js:798
 msgid "{count} files"
 msgstr ""
 
@@ -188,11 +192,11 @@ msgstr "හැකි උපරිමය:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "බහු-ගොනු හා ෆොල්ඩර බාගත කිරීමට අවශ්‍යයි"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "ZIP-බාගත කිරීම් සක්‍රිය කරන්න"
 
 #: templates/admin.php:11
 msgid "0 is unlimited"
@@ -200,7 +204,7 @@ msgstr "0 යනු සීමාවක් නැති බවය"
 
 #: templates/admin.php:12
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "ZIP ගොනු සඳහා දැමිය හැකි උපරිම විශාලතවය"
 
 #: templates/admin.php:15
 msgid "Save"
@@ -220,7 +224,7 @@ msgstr "ෆෝල්ඩරය"
 
 #: templates/index.php:11
 msgid "From link"
-msgstr ""
+msgstr "යොමුවෙන්"
 
 #: templates/index.php:22
 msgid "Upload"
@@ -254,8 +258,8 @@ msgstr "ඔබ උඩුගත කිරීමට තැත් කරන ගො�
 
 #: templates/index.php:84
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "ගොනු පරික්ෂා කෙරේ. මඳක් රැඳී සිටින්න"
 
 #: templates/index.php:87
 msgid "Current scanning"
-msgstr ""
+msgstr "වර්තමාන පරික්ෂාව"

@@ -20,6 +20,8 @@
  *
  */
 
+require_once 'public/constants.php';
+
 /**
  * Class that is a namespace for all global OC variables
  * No, we can not put this class in its own file because it is used by
@@ -231,12 +233,10 @@ class OC{
 				if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 					if(!OC_Util::ishtaccessworking()) {
 						if(!file_exists(OC::$SERVERROOT.'/data/.htaccess')) {
-							$content = "deny from all\n";
-							$content.= "IndexIgnore *";
-							file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.htaccess', $content);
+							OC_Setup::protectDataDirectory();
 						}
 					}
-				}		
+				}
 				OC_Log::write('core', 'starting upgrade from '.$installedVersion.' to '.$currentVersion, OC_Log::DEBUG);
 				$result=OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
 				if(!$result) {
@@ -294,7 +294,7 @@ class OC{
 
 		// (re)-initialize session
 		session_start();
-		
+
 		// regenerate session id periodically to avoid session fixation
 		if (!isset($_SESSION['SID_CREATED'])) {
 			$_SESSION['SID_CREATED'] = time();
@@ -362,6 +362,10 @@ class OC{
 		//try to set the session lifetime to 60min
 		@ini_set('gc_maxlifetime', '3600');
 
+		//copy http auth headers for apache+php-fcgid work around
+		if (isset($_SERVER['HTTP_XAUTHORIZATION']) && !isset($_SERVER['HTTP_AUTHORIZATION'])) {
+			$_SERVER['HTTP_AUTHORIZATION'] = $_SERVER['HTTP_XAUTHORIZATION'];
+		}
 
 		//set http auth headers for apache+php-cgi work around
 		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
@@ -481,17 +485,7 @@ class OC{
 	 */
 	public static function handleRequest() {
 		if (!OC_Config::getValue('installed', false)) {
-			// Check for autosetup:
-			$autosetup_file = OC::$SERVERROOT."/config/autoconfig.php";
-			if( file_exists( $autosetup_file )) {
-				OC_Log::write('core', 'Autoconfig file found, setting up owncloud...', OC_Log::INFO);
-				include $autosetup_file;
-				$_POST['install'] = 'true';
-				$_POST = array_merge ($_POST, $AUTOCONFIG);
-				unlink($autosetup_file);
-			}
-			OC_Util::addScript('setup');
-			require_once 'setup.php';
+			require_once 'core/setup.php';
 			exit();
 		}
 		// Handle WebDAV

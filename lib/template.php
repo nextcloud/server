@@ -103,13 +103,13 @@ function relative_modified_date($timestamp) {
 	if($timediff < 60) { return $l->t('seconds ago'); }
 	else if($timediff < 120) { return $l->t('1 minute ago'); }
 	else if($timediff < 3600) { return $l->t('%d minutes ago', $diffminutes); }
-	//else if($timediff < 7200) { return '1 hour ago'; }
-	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
+	else if($timediff < 7200) { return $l->t('1 hour ago'); }
+	else if($timediff < 86400) { return $l->t('%d hours ago', $diffhours); }
 	else if((date('G')-$diffhours) > 0) { return $l->t('today'); }
 	else if((date('G')-$diffhours) > -24) { return $l->t('yesterday'); }
 	else if($timediff < 2678400) { return $l->t('%d days ago', $diffdays); }
 	else if($timediff < 5184000) { return $l->t('last month'); }
-	else if((date('n')-$diffmonths) > 0) { return $l->t('months ago'); }
+	else if((date('n')-$diffmonths) > 0) { return $l->t('%d months ago', $diffmonths); }
 	else if($timediff < 63113852) { return $l->t('last year'); }
 	else { return $l->t('years ago'); }
 }

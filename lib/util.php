@@ -91,7 +91,7 @@ class OC_Util {
 	 */
 	public static function getVersion() {
 		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
-		return array(4,91,01);
+		return array(4,91,02);
 	}
 
 	/**
@@ -182,7 +182,7 @@ class OC_Util {
 	 * @param string $url
 	 * @return OC_Template
 	 */
-	public static function getPageNavi($pagecount,$page,$url) {
+	public static function getPageNavi($pagecount, $page, $url) {
 
 		$pagelinkcount=8;
 		if ($pagecount>1) {
@@ -213,7 +213,7 @@ class OC_Util {
 		$web_server_restart= false;
 		//check for database drivers
 		if(!(is_callable('sqlite_open') or class_exists('SQLite3')) and !is_callable('mysql_connect') and !is_callable('pg_connect')) {
-			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.<br/>','hint'=>'');//TODO: sane hint
+			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.<br/>', 'hint'=>'');//TODO: sane hint
 			$web_server_restart= true;
 		}
 
@@ -222,13 +222,13 @@ class OC_Util {
 
 		// Check if config folder is writable.
 		if(!is_writable(OC::$SERVERROOT."/config/") or !is_readable(OC::$SERVERROOT."/config/")) {
-			$errors[]=array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
+			$errors[]=array('error'=>"Can't write into config directory 'config'", 'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
 		}
 
 		// Check if there is a writable install folder.
 		if(OC_Config::getValue('appstoreenabled', true)) {
 			if( OC_App::getInstallPath() === null  || !is_writable(OC_App::getInstallPath()) || !is_readable(OC_App::getInstallPath()) ) {
-				$errors[]=array('error'=>"Can't write into apps directory",'hint'=>"You can usually fix this by giving the webserver user write access to the apps directory
+				$errors[]=array('error'=>"Can't write into apps directory", 'hint'=>"You can usually fix this by giving the webserver user write access to the apps directory
 				in owncloud or disabling the appstore in the config file.");
 			}
 		}
@@ -265,57 +265,57 @@ class OC_Util {
 		if(!is_dir($CONFIG_DATADIRECTORY)) {
 			$success=@mkdir($CONFIG_DATADIRECTORY);
 			if(!$success) {
-				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
+				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")", 'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
 			}
 		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
-			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
+			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>', 'hint'=>$permissionsHint);
 		}
 
 		// check if all required php modules are present
 		if(!class_exists('ZipArchive')) {
-			$errors[]=array('error'=>'PHP module zip not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module zip not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 
 		if(!function_exists('mb_detect_encoding')) {
-			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('ctype_digit')) {
-			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('json_encode')) {
-			$errors[]=array('error'=>'PHP module JSON is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module JSON is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('imagepng')) {
-			$errors[]=array('error'=>'PHP module GD is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module GD is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('gzencode')) {
-			$errors[]=array('error'=>'PHP module zlib is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module zlib is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('iconv')) {
-			$errors[]=array('error'=>'PHP module iconv is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module iconv is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('simplexml_load_string')) {
-			$errors[]=array('error'=>'PHP module SimpleXML is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module SimpleXML is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(floatval(phpversion())<5.3) {
-			$errors[]=array('error'=>'PHP 5.3 is required.<br/>','hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
+			$errors[]=array('error'=>'PHP 5.3 is required.<br/>', 'hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
 			$web_server_restart= false;
 		}
 		if(!defined('PDO::ATTR_DRIVER_NAME')) {
-			$errors[]=array('error'=>'PHP PDO module is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP PDO module is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 
 		if($web_server_restart) {
-			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?<br/>','hint'=>'Please ask your server administrator to restart the web server.');
+			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?<br/>', 'hint'=>'Please ask your server administrator to restart the web server.');
 		}
 
 		return $errors;
@@ -430,7 +430,7 @@ class OC_Util {
 		}
 		return true;
 	}
-	
+
 	/**
 	* Redirect to the user default page
 	*/
@@ -463,7 +463,7 @@ class OC_Util {
 		$id=OC_Config::getValue('instanceid', null);
 		if(is_null($id)) {
 			$id=uniqid();
-			OC_Config::setValue('instanceid',$id);
+			OC_Config::setValue('instanceid', $id);
 		}
 		return $id;
 	}
@@ -493,18 +493,15 @@ class OC_Util {
 	 */
 	public static function callRegister() {
 		// Check if a token exists
-		if(!isset($_SESSION['requesttoken']) || time() >$_SESSION['requesttoken']['time']) {
+		if(!isset($_SESSION['requesttoken'])) {
 			// No valid token found, generate a new one.
-			$requestTokenArray = array(
-				"requesttoken" => self::generate_random_bytes(20),
-				"time" => time()+self::$callLifespan,
-				);
-			$_SESSION['requesttoken']=$requestTokenArray;
+			$requestToken = self::generate_random_bytes(20);
+			$_SESSION['requesttoken']=$requestToken;
 		} else {
 			// Valid token already exists, send it
-			$requestTokenArray = $_SESSION['requesttoken'];
+			$requestToken = $_SESSION['requesttoken'];
 		}
-		return($requestTokenArray['requesttoken']);
+		return($requestToken);
 	}
 
 	/**
@@ -526,7 +523,7 @@ class OC_Util {
 		}
 
 		// Check if the token is valid
-		if(!isset($_SESSION['requesttoken']) || time() > $_SESSION['requesttoken']["time"]) {
+		if($token !== $_SESSION['requesttoken']) {
 			// Not valid
 			return false;
 		} else {
@@ -596,6 +593,33 @@ class OC_Util {
 			return(true);
 		}
 	}
+
+
+        /**
+         * Check if the ownCloud server can connect to the internet
+         */
+        public static function isinternetconnectionworking() {
+
+		// try to connect to owncloud.org to see if http connections to the internet are possible.
+		$connected = @fsockopen("www.owncloud.org", 80); 
+		if ($connected) {
+			fclose($connected);
+			return true; 
+		}else{
+
+			// second try in case one server is down
+			$connected = @fsockopen("apps.owncloud.com", 80); 
+			if ($connected) {
+				fclose($connected);
+				return true; 
+			}else{
+				return false; 
+			}
+
+		}
+
+	}
+
 
 	/**
 	* @brief Generates a cryptographical secure pseudorandom string

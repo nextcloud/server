@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
+"POT-Creation-Date: 2012-11-14 00:02+0100\n"
+"PO-Revision-Date: 2012-11-13 02:43+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -65,41 +65,41 @@ msgstr "删除"
 msgid "Rename"
 msgstr "重命名"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} 已存在"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "replace"
 msgstr "替换"
 
-#: js/filelist.js:194
+#: js/filelist.js:198
 msgid "suggest name"
 msgstr "推荐名称"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "cancel"
 msgstr "取消"
 
-#: js/filelist.js:243
+#: js/filelist.js:247
 msgid "replaced {new_name}"
-msgstr ""
+msgstr "已替换 {new_name}"
 
-#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
+#: js/filelist.js:247 js/filelist.js:249 js/filelist.js:281 js/filelist.js:283
 msgid "undo"
 msgstr "撤销"
 
-#: js/filelist.js:245
+#: js/filelist.js:249
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "已用 {old_name} 替换 {new_name}"
 
-#: js/filelist.js:277
+#: js/filelist.js:281
 msgid "unshared {files}"
-msgstr ""
+msgstr "未分享的 {files}"
 
-#: js/filelist.js:279
+#: js/filelist.js:283
 msgid "deleted {files}"
-msgstr ""
+msgstr "已删除的 {files}"
 
 #: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
@@ -113,66 +113,70 @@ msgstr "不能上传你指定的文件,可能因为它是个文件夹或者大�
 msgid "Upload Error"
 msgstr "上传错误"
 
-#: js/files.js:234 js/files.js:339 js/files.js:369
+#: js/files.js:223
+msgid "Close"
+msgstr "关闭"
+
+#: js/files.js:237 js/files.js:342 js/files.js:372
 msgid "Pending"
 msgstr "Pending"
 
-#: js/files.js:254
+#: js/files.js:257
 msgid "1 file uploading"
 msgstr "1 个文件正在上传"
 
-#: js/files.js:257 js/files.js:302 js/files.js:317
+#: js/files.js:260 js/files.js:305 js/files.js:320
 msgid "{count} files uploading"
-msgstr ""
+msgstr "{count} 个文件正在上传"
 
-#: js/files.js:320 js/files.js:353
+#: js/files.js:323 js/files.js:356
 msgid "Upload cancelled."
 msgstr "上传取消了"
 
-#: js/files.js:422
+#: js/files.js:425
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "文件正在上传。关闭页面会取消上传。"
 
-#: js/files.js:492
+#: js/files.js:495
 msgid "Invalid name, '/' is not allowed."
 msgstr "非法文件名,\"/\"是不被许可的"
 
-#: js/files.js:673
+#: js/files.js:676
 msgid "{count} files scanned"
-msgstr ""
+msgstr "{count} 个文件已扫描"
 
-#: js/files.js:681
+#: js/files.js:684
 msgid "error while scanning"
 msgstr "扫描出错"
 
-#: js/files.js:754 templates/index.php:50
+#: js/files.js:757 templates/index.php:50
 msgid "Name"
 msgstr "名字"
 
-#: js/files.js:755 templates/index.php:58
+#: js/files.js:758 templates/index.php:58
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:756 templates/index.php:60
+#: js/files.js:759 templates/index.php:60
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:783
+#: js/files.js:786
 msgid "1 folder"
-msgstr ""
+msgstr "1 个文件夹"
 
-#: js/files.js:785
+#: js/files.js:788
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} 个文件夹"
 
-#: js/files.js:793
+#: js/files.js:796
 msgid "1 file"
-msgstr ""
+msgstr "1 个文件"
 
-#: js/files.js:795
+#: js/files.js:798
 msgid "{count} files"
-msgstr ""
+msgstr "{count} 个文件"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -220,7 +224,7 @@ msgstr "文件夹"
 
 #: templates/index.php:11
 msgid "From link"
-msgstr ""
+msgstr "来自链接"
 
 #: templates/index.php:22
 msgid "Upload"

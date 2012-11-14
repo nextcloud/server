@@ -13,6 +13,7 @@
 "generating ZIP-file, it may take some time." => "sedang menghasilkan fail ZIP, mungkin mengambil sedikit masa.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Tidak boleh memuatnaik fail anda kerana mungkin ianya direktori atau saiz fail 0 bytes",
 "Upload Error" => "Muat naik ralat",
+"Close" => "Tutup",
 "Pending" => "Dalam proses",
 "Upload cancelled." => "Muatnaik dibatalkan.",
 "Invalid name, '/' is not allowed." => "penggunaa nama tidak sah, '/' tidak dibenarkan.",

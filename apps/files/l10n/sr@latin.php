@@ -7,6 +7,7 @@
 "Missing a temporary folder" => "Nedostaje privremena fascikla",
 "Files" => "Fajlovi",
 "Delete" => "Obriši",
+"Close" => "Zatvori",
 "Name" => "Ime",
 "Size" => "Veličina",
 "Modified" => "Zadnja izmena",

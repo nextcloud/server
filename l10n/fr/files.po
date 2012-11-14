@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
+"POT-Creation-Date: 2012-11-14 00:02+0100\n"
+"PO-Revision-Date: 2012-11-13 02:43+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -73,39 +73,39 @@ msgstr "Supprimer"
 msgid "Rename"
 msgstr "Renommer"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "{new_name} already exists"
 msgstr "{new_name} existe déjà"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "replace"
 msgstr "remplacer"
 
-#: js/filelist.js:194
+#: js/filelist.js:198
 msgid "suggest name"
 msgstr "Suggérer un nom"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:198 js/filelist.js:200
 msgid "cancel"
 msgstr "annuler"
 
-#: js/filelist.js:243
+#: js/filelist.js:247
 msgid "replaced {new_name}"
 msgstr "{new_name} a été replacé"
 
-#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
+#: js/filelist.js:247 js/filelist.js:249 js/filelist.js:281 js/filelist.js:283
 msgid "undo"
 msgstr "annuler"
 
-#: js/filelist.js:245
+#: js/filelist.js:249
 msgid "replaced {new_name} with {old_name}"
 msgstr "{new_name} a été remplacé par {old_name}"
 
-#: js/filelist.js:277
+#: js/filelist.js:281
 msgid "unshared {files}"
 msgstr "Fichiers non partagés : {files}"
 
-#: js/filelist.js:279
+#: js/filelist.js:283
 msgid "deleted {files}"
 msgstr "Fichiers supprimés : {files}"
 
@@ -121,64 +121,68 @@ msgstr "Impossible de charger vos fichiers car il s'agit d'un dossier ou le fich
 msgid "Upload Error"
 msgstr "Erreur de chargement"
 
-#: js/files.js:234 js/files.js:339 js/files.js:369
+#: js/files.js:223
+msgid "Close"
+msgstr "Fermer"
+
+#: js/files.js:237 js/files.js:342 js/files.js:372
 msgid "Pending"
 msgstr "En cours"
 
-#: js/files.js:254
+#: js/files.js:257
 msgid "1 file uploading"
 msgstr "1 fichier en cours de téléchargement"
 
-#: js/files.js:257 js/files.js:302 js/files.js:317
+#: js/files.js:260 js/files.js:305 js/files.js:320
 msgid "{count} files uploading"
 msgstr "{count} fichiers téléversés"
 
-#: js/files.js:320 js/files.js:353
+#: js/files.js:323 js/files.js:356
 msgid "Upload cancelled."
 msgstr "Chargement annulé."
 
-#: js/files.js:422
+#: js/files.js:425
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "L'envoi du fichier est en cours. Quitter cette page maintenant annulera l'envoi du fichier."
 
-#: js/files.js:492
+#: js/files.js:495
 msgid "Invalid name, '/' is not allowed."
 msgstr "Nom invalide, '/' n'est pas autorisé."
 
-#: js/files.js:673
+#: js/files.js:676
 msgid "{count} files scanned"
 msgstr "{count} fichiers indexés"
 
-#: js/files.js:681
+#: js/files.js:684
 msgid "error while scanning"
 msgstr "erreur lors de l'indexation"
 
-#: js/files.js:754 templates/index.php:50
+#: js/files.js:757 templates/index.php:50
 msgid "Name"
 msgstr "Nom"
 
-#: js/files.js:755 templates/index.php:58
+#: js/files.js:758 templates/index.php:58
 msgid "Size"
 msgstr "Taille"
 
-#: js/files.js:756 templates/index.php:60
+#: js/files.js:759 templates/index.php:60
 msgid "Modified"
 msgstr "Modifié"
 
-#: js/files.js:783
+#: js/files.js:786
 msgid "1 folder"
 msgstr "1 dossier"
 
-#: js/files.js:785
+#: js/files.js:788
 msgid "{count} folders"
 msgstr "{count} dossiers"
 
-#: js/files.js:793
+#: js/files.js:796
 msgid "1 file"
 msgstr "1 fichier"
 
-#: js/files.js:795
+#: js/files.js:798
 msgid "{count} files"
 msgstr "{count} fichiers"
 

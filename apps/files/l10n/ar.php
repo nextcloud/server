@@ -7,6 +7,7 @@
 "Missing a temporary folder" => "المجلد المؤقت غير موجود",
 "Files" => "الملفات",
 "Delete" => "محذوف",
+"Close" => "إغلق",
 "Name" => "الاسم",
 "Size" => "حجم",
 "Modified" => "معدل",

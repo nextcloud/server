@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "Создание ZIP-файла, это может занять некоторое время.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Невозможно загрузить файл,\n так как он имеет нулевой размер или является директорией",
 "Upload Error" => "Ошибка загрузки",
+"Close" => "Закрыть",
 "Pending" => "Ожидающий решения",
 "1 file uploading" => "загрузка 1 файла",
 "{count} files uploading" => "{количество} загружено файлов",

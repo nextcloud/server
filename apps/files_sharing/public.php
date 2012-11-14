@@ -150,7 +150,7 @@ if (isset($_GET['file']) || isset($_GET['dir'])) {
 						if ($i['directory'] == '/') {
 							$i['directory'] = '';
 						}
-						$i['permissions'] = OCP\Share::PERMISSION_READ;
+						$i['permissions'] = OCP\PERMISSION_READ;
 						$files[] = $i;
 					}
 					// Make breadcrumb

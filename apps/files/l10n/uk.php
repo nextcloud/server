@@ -12,6 +12,7 @@
 "generating ZIP-file, it may take some time." => "Створення ZIP-файлу, це може зайняти певний час.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Неможливо завантажити ваш файл тому, що він тека або файл розміром 0 байт",
 "Upload Error" => "Помилка завантаження",
+"Close" => "Закрити",
 "Pending" => "Очікування",
 "Upload cancelled." => "Завантаження перервано.",
 "Invalid name, '/' is not allowed." => "Некоректне ім'я, '/' не дозволено.",

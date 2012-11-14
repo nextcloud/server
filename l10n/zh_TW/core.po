@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
+"POT-Creation-Date: 2012-11-15 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 23:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -19,61 +19,99 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
-msgid "Application name not provided."
-msgstr "未提供應用程式名稱"
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr ""
 
-#: ajax/vcategories/add.php:28
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "無分類添加?"
 
-#: ajax/vcategories/add.php:35
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "此分類已經存在:"
+
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr ""
+
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
+msgid "No categories selected for deletion."
+msgstr "沒選擇要刪除的分類"
+
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr ""
 
 #: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:687
-msgid "seconds ago"
-msgstr ""
-
 #: js/js.js:688
-msgid "1 minute ago"
-msgstr ""
+msgid "seconds ago"
+msgstr "幾秒前"
 
 #: js/js.js:689
+msgid "1 minute ago"
+msgstr "1 分鐘前"
+
+#: js/js.js:690
 msgid "{minutes} minutes ago"
 msgstr ""
 
+#: js/js.js:691
+msgid "1 hour ago"
+msgstr ""
+
 #: js/js.js:692
-msgid "today"
+msgid "{hours} hours ago"
 msgstr ""
 
 #: js/js.js:693
-msgid "yesterday"
-msgstr ""
+msgid "today"
+msgstr "今天"
 
 #: js/js.js:694
+msgid "yesterday"
+msgstr "昨天"
+
+#: js/js.js:695
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:695
+#: js/js.js:696
 msgid "last month"
-msgstr ""
+msgstr "上個月"
 
 #: js/js.js:697
-msgid "months ago"
+msgid "{months} months ago"
 msgstr ""
 
 #: js/js.js:698
-msgid "last year"
-msgstr ""
+msgid "months ago"
+msgstr "幾個月前"
 
 #: js/js.js:699
+msgid "last year"
+msgstr "去年"
+
+#: js/js.js:700
 msgid "years ago"
-msgstr ""
+msgstr "幾年前"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
@@ -95,14 +133,24 @@ msgstr "Yes"
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-vcategories.js:68
-msgid "No categories selected for deletion."
-msgstr "沒選擇要刪除的分類"
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr ""
 
-#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
 #: js/share.js:537
 msgid "Error"
 msgstr "錯誤"
+
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr ""
 
 #: js/share.js:124
 msgid "Error while sharing"
@@ -282,7 +330,7 @@ msgstr "未發現雲"
 msgid "Edit categories"
 msgstr "編輯分類"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "添加"
 

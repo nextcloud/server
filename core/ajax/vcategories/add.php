@@ -14,23 +14,25 @@ function debug($msg) {
 	OC_Log::write('core', 'ajax/vcategories/add.php: '.$msg, OC_Log::DEBUG);
 }
 
-OC_JSON::checkLoggedIn();
-$category = isset($_GET['category'])?strip_tags($_GET['category']):null;
-$app = isset($_GET['app'])?$_GET['app']:null;
+OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
-if(is_null($app)) {
-	bailOut(OC_Contacts_App::$l10n->t('Application name not provided.'));
+$l = OC_L10N::get('core');
+
+$category = isset($_POST['category']) ? strip_tags($_POST['category']) : null;
+$type = isset($_POST['type']) ? $_POST['type'] : null;
+
+if(is_null($type)) {
+	bailOut($l->t('Category type not provided.'));
 }
 
-OC_JSON::checkAppEnabled($app);
-
 if(is_null($category)) {
-	bailOut(OC_Contacts_App::$l10n->t('No category to add?'));
+	bailOut($l->t('No category to add?'));
 }
 
 debug(print_r($category, true));
 
-$categories = new OC_VCategories($app);
+$categories = new OC_VCategories($type);
 if($categories->hasCategory($category)) {
 	bailOut(OC_Contacts_App::$l10n->t('This category already exists: '.$category));
 } else {

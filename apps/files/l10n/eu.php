@@ -17,6 +17,7 @@
 "generating ZIP-file, it may take some time." => "ZIP-fitxategia sortzen ari da, denbora har dezake",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Ezin da zure fitxategia igo, karpeta bat da edo 0 byt ditu",
 "Upload Error" => "Igotzean errore bat suertatu da",
+"Close" => "Itxi",
 "Pending" => "Zain",
 "1 file uploading" => "fitxategi 1 igotzen",
 "Upload cancelled." => "Igoera ezeztatuta",

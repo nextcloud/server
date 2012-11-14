@@ -20,6 +20,7 @@
 "generating ZIP-file, it may take some time." => "Ustvarjanje datoteke ZIP. To lahko traja nekaj časa.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Pošiljanje ni mogoče, saj gre za mapo, ali pa je datoteka velikosti 0 bajtov.",
 "Upload Error" => "Napaka med nalaganjem",
+"Close" => "Zapri",
 "Pending" => "V čakanju ...",
 "1 file uploading" => "Pošiljanje 1 datoteke",
 "Upload cancelled." => "Pošiljanje je preklicano.",

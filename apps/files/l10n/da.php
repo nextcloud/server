@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "genererer ZIP-fil, det kan tage lidt tid.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Kunne ikke uploade din fil, da det enten er en mappe eller er tom",
 "Upload Error" => "Fejl ved upload",
+"Close" => "Luk",
 "Pending" => "Afventer",
 "1 file uploading" => "1 fil uploades",
 "{count} files uploading" => "{count} filer uploades",

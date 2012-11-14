@@ -21,7 +21,6 @@
 "yesterday" => "χθές",
 "%d days ago" => "%d ημέρες πριν",
 "last month" => "τον προηγούμενο μήνα",
-"months ago" => "μήνες πριν",
 "last year" => "τον προηγούμενο χρόνο",
 "years ago" => "χρόνια πριν",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s είναι διαθέσιμα. Δείτε <a href=\"%s\">περισσότερες πληροφορίες</a>",

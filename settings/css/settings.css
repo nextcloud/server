@@ -65,5 +65,6 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 
 /* ADMIN */
 span.securitywarning {color:#C33; font-weight:bold; }
+span.connectionwarning {color:#933; font-weight:bold; }
 input[type=radio] { width:1em; }
 table.shareAPI td { padding-bottom: 0.8em; }

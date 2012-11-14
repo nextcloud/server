@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-26 02:03+0200\n"
-"PO-Revision-Date: 2012-10-25 15:45+0000\n"
-"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
+"POT-Creation-Date: 2012-11-15 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 23:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,19 +42,19 @@ msgstr "Aplicaciones"
 msgid "Admin"
 msgstr "Administración"
 
-#: files.php:328
+#: files.php:332
 msgid "ZIP download is turned off."
 msgstr "La descarga en ZIP está desactivada."
 
-#: files.php:329
+#: files.php:333
 msgid "Files need to be downloaded one by one."
 msgstr "Los archivos deben ser descargados de a uno."
 
-#: files.php:329 files.php:354
+#: files.php:333 files.php:358
 msgid "Back to Files"
 msgstr "Volver a archivos"
 
-#: files.php:353
+#: files.php:357
 msgid "Selected files too large to generate zip file."
 msgstr "Los archivos seleccionados son demasiado grandes para generar el archivo zip."
 
@@ -82,45 +82,55 @@ msgstr "Texto"
 msgid "Images"
 msgstr "Imágenes"
 
-#: template.php:87
+#: template.php:103
 msgid "seconds ago"
 msgstr "hace unos segundos"
 
-#: template.php:88
+#: template.php:104
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: template.php:89
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
 msgstr "hace %d minutos"
 
-#: template.php:92
+#: template.php:106
+msgid "1 hour ago"
+msgstr ""
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr ""
+
+#: template.php:108
 msgid "today"
 msgstr "hoy"
 
-#: template.php:93
+#: template.php:109
 msgid "yesterday"
 msgstr "ayer"
 
-#: template.php:94
+#: template.php:110
 #, php-format
 msgid "%d days ago"
 msgstr "hace %d días"
 
-#: template.php:95
+#: template.php:111
 msgid "last month"
 msgstr "este mes"
 
-#: template.php:96
-msgid "months ago"
-msgstr "hace meses"
+#: template.php:112
+#, php-format
+msgid "%d months ago"
+msgstr ""
 
-#: template.php:97
+#: template.php:113
 msgid "last year"
 msgstr "este año"
 
-#: template.php:98
+#: template.php:114
 msgid "years ago"
 msgstr "hace años"
 
@@ -136,3 +146,8 @@ msgstr "actualizado"
 #: updater.php:80
 msgid "updates check is disabled"
 msgstr "comprobar actualizaciones está desactivado"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr ""

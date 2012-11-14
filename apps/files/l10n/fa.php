@@ -15,6 +15,7 @@
 "generating ZIP-file, it may take some time." => "در حال ساخت فایل فشرده ممکن است زمان زیادی به طول بیانجامد",
 "Unable to upload your file as it is a directory or has 0 bytes" => "ناتوان در بارگذاری یا فایل یک پوشه است یا 0بایت دارد",
 "Upload Error" => "خطا در بار گذاری",
+"Close" => "بستن",
 "Pending" => "در انتظار",
 "Upload cancelled." => "بار گذاری لغو شد",
 "Invalid name, '/' is not allowed." => "نام نامناسب '/' غیرفعال است",

@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
+"POT-Creation-Date: 2012-11-15 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 23:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -31,61 +31,99 @@ msgstr ""
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
-msgid "Application name not provided."
-msgstr "Der Anwendungsname wurde nicht angegeben."
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr ""
 
-#: ajax/vcategories/add.php:28
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "Keine Kategorie hinzuzufügen?"
 
-#: ajax/vcategories/add.php:35
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "Kategorie existiert bereits:"
+
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr ""
+
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
+msgid "No categories selected for deletion."
+msgstr "Es wurden keine Kategorien zum Löschen ausgewählt."
+
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr ""
 
 #: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:687
-msgid "seconds ago"
-msgstr ""
-
 #: js/js.js:688
-msgid "1 minute ago"
-msgstr ""
+msgid "seconds ago"
+msgstr "Gerade eben"
 
 #: js/js.js:689
+msgid "1 minute ago"
+msgstr "Vor 1 Minute"
+
+#: js/js.js:690
 msgid "{minutes} minutes ago"
+msgstr "Vor {minutes} Minuten"
+
+#: js/js.js:691
+msgid "1 hour ago"
 msgstr ""
 
 #: js/js.js:692
-msgid "today"
+msgid "{hours} hours ago"
 msgstr ""
 
 #: js/js.js:693
-msgid "yesterday"
-msgstr ""
+msgid "today"
+msgstr "Heute"
 
 #: js/js.js:694
-msgid "{days} days ago"
-msgstr ""
+msgid "yesterday"
+msgstr "Gestern"
 
 #: js/js.js:695
+msgid "{days} days ago"
+msgstr "Vor {days} Tage(en)"
+
+#: js/js.js:696
 msgid "last month"
-msgstr ""
+msgstr "Letzten Monat"
 
 #: js/js.js:697
-msgid "months ago"
+msgid "{months} months ago"
 msgstr ""
 
 #: js/js.js:698
-msgid "last year"
-msgstr ""
+msgid "months ago"
+msgstr "Vor Monaten"
 
 #: js/js.js:699
+msgid "last year"
+msgstr "Letztes Jahr"
+
+#: js/js.js:700
 msgid "years ago"
-msgstr ""
+msgstr "Vor Jahren"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
@@ -107,14 +145,24 @@ msgstr "Ja"
 msgid "Ok"
 msgstr "OK"
 
-#: js/oc-vcategories.js:68
-msgid "No categories selected for deletion."
-msgstr "Es wurden keine Kategorien zum Löschen ausgewählt."
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr ""
 
-#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
 #: js/share.js:537
 msgid "Error"
 msgstr "Fehler"
+
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr ""
 
 #: js/share.js:124
 msgid "Error while sharing"
@@ -294,7 +342,7 @@ msgstr "Cloud nicht gefunden"
 msgid "Edit categories"
 msgstr "Kategorien bearbeiten"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -460,7 +508,7 @@ msgstr "Automatische Anmeldung verweigert."
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Wenn Sie Ihr Passwort nicht kürzlich geändert haben könnte Ihr Konto gefährdet sein."
+msgstr "Wenn Sie Ihr Passwort nicht vor kurzem geändert haben, könnte Ihr\nAccount kompromittiert sein!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."

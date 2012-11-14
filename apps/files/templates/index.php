@@ -58,7 +58,7 @@
 			<th id="headerSize"><?php echo $l->t( 'Size' ); ?></th>
 			<th id="headerDate">
 				<span id="modified"><?php echo $l->t( 'Modified' ); ?></span>
-				<?php if ($_['permissions'] & OCP\Share::PERMISSION_DELETE): ?>
+				<?php if ($_['permissions'] & OCP\PERMISSION_DELETE): ?>
 <!-- 					NOTE: Temporary fix to allow unsharing of files in root of Shared folder -->
 					<?php if ($_['dir'] == '/Shared'): ?>
 						<span class="selectedActions"><a href="" class="delete"><?php echo $l->t('Unshare')?> <img class="svg" alt="<?php echo $l->t('Unshare')?>" src="<?php echo OCP\image_path("core", "actions/delete.svg"); ?>" /></a></span>

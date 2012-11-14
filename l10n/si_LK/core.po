@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
+"POT-Creation-Date: 2012-11-15 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 23:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -20,61 +20,99 @@ msgstr ""
 "Language: si_LK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
-msgid "Application name not provided."
-msgstr "යෙදුම් නාමය සපයා නැත."
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr ""
 
-#: ajax/vcategories/add.php:28
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr ""
 
-#: ajax/vcategories/add.php:35
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr ""
+
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
+msgid "No categories selected for deletion."
+msgstr "මකා දැමීම සඳහා ප්‍රවර්ගයන් තෝරා නොමැත."
+
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
 msgstr ""
 
 #: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
 msgid "Settings"
 msgstr "සැකසුම්"
 
-#: js/js.js:687
-msgid "seconds ago"
-msgstr ""
-
 #: js/js.js:688
-msgid "1 minute ago"
-msgstr ""
+msgid "seconds ago"
+msgstr "තත්පරයන්ට පෙර"
 
 #: js/js.js:689
+msgid "1 minute ago"
+msgstr "1 මිනිත්තුවකට පෙර"
+
+#: js/js.js:690
 msgid "{minutes} minutes ago"
 msgstr ""
 
+#: js/js.js:691
+msgid "1 hour ago"
+msgstr ""
+
 #: js/js.js:692
-msgid "today"
+msgid "{hours} hours ago"
 msgstr ""
 
 #: js/js.js:693
-msgid "yesterday"
-msgstr ""
+msgid "today"
+msgstr "අද"
 
 #: js/js.js:694
+msgid "yesterday"
+msgstr "ඊයේ"
+
+#: js/js.js:695
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:695
+#: js/js.js:696
 msgid "last month"
-msgstr ""
+msgstr "පෙර මාසයේ"
 
 #: js/js.js:697
-msgid "months ago"
+msgid "{months} months ago"
 msgstr ""
 
 #: js/js.js:698
-msgid "last year"
-msgstr ""
+msgid "months ago"
+msgstr "මාස කීපයකට පෙර"
 
 #: js/js.js:699
+msgid "last year"
+msgstr "පෙර අවුරුද්දේ"
+
+#: js/js.js:700
 msgid "years ago"
-msgstr ""
+msgstr "අවුරුදු කීපයකට පෙර"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
@@ -96,14 +134,24 @@ msgstr "ඔව්"
 msgid "Ok"
 msgstr "හරි"
 
-#: js/oc-vcategories.js:68
-msgid "No categories selected for deletion."
-msgstr "මකා දැමීම සඳහා ප්‍රවර්ගයන් තෝරා නොමැත."
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr ""
 
-#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
 #: js/share.js:537
 msgid "Error"
 msgstr "දෝෂයක්"
+
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr ""
 
 #: js/share.js:124
 msgid "Error while sharing"
@@ -184,7 +232,7 @@ msgstr "සදන්න"
 
 #: js/share.js:312
 msgid "update"
-msgstr ""
+msgstr "යාවත්කාලීන කරන්න"
 
 #: js/share.js:315
 msgid "delete"
@@ -208,7 +256,7 @@ msgstr "කල් ඉකුත් දිනය ස්ථාපනය කිර�
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "ownCloud මුරපදය ප්‍රත්‍යාරම්භ කරන්න"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -216,7 +264,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "ඔබගේ මුරපදය ප්‍රත්‍යාරම්භ කිරීම සඳහා යොමුව විද්‍යුත් තැපෑලෙන් ලැබෙනු ඇත"
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
@@ -237,7 +285,7 @@ msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "ඔබේ මුරපදය ප්‍රත්‍යාරම්භ කරන ලදී"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
@@ -249,7 +297,7 @@ msgstr "නව මුර පදයක්"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "මුරපදය ප්‍රත්‍යාරම්භ කරන්න"
 
 #: strings.php:5
 msgid "Personal"
@@ -283,7 +331,7 @@ msgstr "සොයා ගත නොහැක"
 msgid "Edit categories"
 msgstr "ප්‍රභේදයන් සංස්කරණය"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "එක් කරන්න"
 
@@ -310,7 +358,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "ඔබගේ දත්ත ඩිරෙක්ටරිය හා ගොනුවලට අන්තර්ජාලයෙන් පිවිසිය හැක. ownCloud සපයා ඇති .htaccess ගොනුව ක්‍රියාකරන්නේ නැත. අපි තරයේ කියා සිටිනුයේ නම්, මෙම දත්ත හා ගොනු එසේ පිවිසීමට නොහැකි වන ලෙස ඔබේ වෙබ් සේවාදායකයා  වින්‍යාස කරන ලෙස හෝ එම ඩිරෙක්ටරිය වෙබ් මූලයෙන් පිටතට ගෙනයන ලෙසය."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -331,7 +379,7 @@ msgstr "දත්ත සමුදාය හැඩගැසීම"
 #: templates/installation.php:62 templates/installation.php:73
 #: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
-msgstr ""
+msgstr "භාවිතා වනු ඇත"
 
 #: templates/installation.php:105
 msgid "Database user"

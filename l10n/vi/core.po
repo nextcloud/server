@@ -6,12 +6,13 @@
 #   <khanhnd@kenhgiaiphap.vn>, 2012.
 #   <mattheu_9x@yahoo.com>, 2012.
 # Son Nguyen <sonnghit@gmail.com>, 2012.
+# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-08 00:01+0100\n"
-"PO-Revision-Date: 2012-11-07 23:02+0000\n"
+"POT-Creation-Date: 2012-11-15 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 23:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -20,61 +21,99 @@ msgstr ""
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
-msgid "Application name not provided."
-msgstr "Tên ứng dụng không tồn tại"
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr ""
 
-#: ajax/vcategories/add.php:28
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "Không có danh mục được thêm?"
 
-#: ajax/vcategories/add.php:35
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "Danh mục này đã được tạo :"
+
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr ""
+
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
+msgid "No categories selected for deletion."
+msgstr "Không có thể loại nào được chọn để xóa."
+
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr ""
 
 #: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
 msgid "Settings"
 msgstr "Cài đặt"
 
-#: js/js.js:687
-msgid "seconds ago"
-msgstr ""
-
 #: js/js.js:688
-msgid "1 minute ago"
-msgstr ""
+msgid "seconds ago"
+msgstr "vài giây trước"
 
 #: js/js.js:689
+msgid "1 minute ago"
+msgstr "1 phút trước"
+
+#: js/js.js:690
 msgid "{minutes} minutes ago"
+msgstr "{minutes} phút trước"
+
+#: js/js.js:691
+msgid "1 hour ago"
 msgstr ""
 
 #: js/js.js:692
-msgid "today"
+msgid "{hours} hours ago"
 msgstr ""
 
 #: js/js.js:693
-msgid "yesterday"
-msgstr ""
+msgid "today"
+msgstr "hôm nay"
 
 #: js/js.js:694
-msgid "{days} days ago"
-msgstr ""
+msgid "yesterday"
+msgstr "hôm qua"
 
 #: js/js.js:695
+msgid "{days} days ago"
+msgstr "{days} ngày trước"
+
+#: js/js.js:696
 msgid "last month"
-msgstr ""
+msgstr "tháng trước"
 
 #: js/js.js:697
-msgid "months ago"
+msgid "{months} months ago"
 msgstr ""
 
 #: js/js.js:698
-msgid "last year"
-msgstr ""
+msgid "months ago"
+msgstr "tháng trước"
 
 #: js/js.js:699
+msgid "last year"
+msgstr "năm trước"
+
+#: js/js.js:700
 msgid "years ago"
-msgstr ""
+msgstr "năm trước"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
@@ -96,14 +135,24 @@ msgstr "Yes"
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-vcategories.js:68
-msgid "No categories selected for deletion."
-msgstr "Không có thể loại nào được chọn để xóa."
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr ""
 
-#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
 #: js/share.js:537
 msgid "Error"
 msgstr "Lỗi"
+
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr ""
 
 #: js/share.js:124
 msgid "Error while sharing"
@@ -123,7 +172,7 @@ msgstr "Đã được chia sẽ với bạn và nhóm {group} bởi {owner}"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr "Đã được chia sẽ với bạn bởi {owner}"
+msgstr "Đã được chia sẽ bởi {owner}"
 
 #: js/share.js:158
 msgid "Share with"
@@ -131,7 +180,7 @@ msgstr "Chia sẻ với"
 
 #: js/share.js:163
 msgid "Share with link"
-msgstr "Chia sẻ với link"
+msgstr "Chia sẻ với liên kết"
 
 #: js/share.js:164
 msgid "Password protect"
@@ -220,11 +269,11 @@ msgstr "Vui lòng kiểm tra Email để khôi phục lại mật khẩu."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "Thiết lập lại email gởi."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "Yêu cầu  của bạn không thành công !"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -283,7 +332,7 @@ msgstr "Không tìm thấy Clound"
 msgid "Edit categories"
 msgstr "Sửa thể loại"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Thêm"
 
@@ -295,13 +344,13 @@ msgstr "Cảnh bảo bảo mật"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Không an toàn ! chức năng random number generator đã có sẵn ,vui lòng bật  PHP OpenSSL extension."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Nếu không có random number generator , Hacker có thể  thiết lập lại mật khẩu và chiếm tài khoản của bạn."
 
 #: templates/installation.php:32
 msgid ""
@@ -347,7 +396,7 @@ msgstr "Tên cơ sở dữ liệu"
 
 #: templates/installation.php:121
 msgid "Database tablespace"
-msgstr ""
+msgstr "Cơ sở dữ liệu tablespace"
 
 #: templates/installation.php:127
 msgid "Database host"
@@ -443,7 +492,7 @@ msgstr "Đăng xuất"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr "Tự động đăng nhập đã bị từ chối!"
+msgstr "Tự động đăng nhập đã bị từ chối !"
 
 #: templates/login.php:9
 msgid ""
@@ -461,7 +510,7 @@ msgstr "Bạn quên mật khẩu ?"
 
 #: templates/login.php:27
 msgid "remember"
-msgstr "Nhớ"
+msgstr "ghi nhớ"
 
 #: templates/login.php:28
 msgid "Log in"

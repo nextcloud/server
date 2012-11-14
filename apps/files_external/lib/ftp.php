@@ -21,8 +21,8 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 		$this->host=$params['host'];
 		$this->user=$params['user'];
 		$this->password=$params['password'];
-		if(isset($params['secure'])){
-			if(is_string($params['secure'])){
+		if(isset($params['secure'])) {
+			if(is_string($params['secure'])) {
 				$this->secure = ($params['secure'] === 'true');
 			}else{
 				$this->secure = (bool)$params['secure'];

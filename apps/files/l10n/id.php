@@ -15,6 +15,7 @@
 "generating ZIP-file, it may take some time." => "membuat berkas ZIP, ini mungkin memakan waktu.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Gagal mengunggah berkas anda karena berupa direktori atau mempunyai ukuran 0 byte",
 "Upload Error" => "Terjadi Galat Pengunggahan",
+"Close" => "tutup",
 "Pending" => "Menunggu",
 "Upload cancelled." => "Pengunggahan dibatalkan.",
 "Invalid name, '/' is not allowed." => "Kesalahan nama, '/' tidak diijinkan.",

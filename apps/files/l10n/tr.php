@@ -16,6 +16,7 @@
 "generating ZIP-file, it may take some time." => "ZIP dosyası oluşturuluyor, biraz sürebilir.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Dosyanızın boyutu 0 byte olduğundan veya bir dizin olduğundan yüklenemedi",
 "Upload Error" => "Yükleme hatası",
+"Close" => "Kapat",
 "Pending" => "Bekliyor",
 "Upload cancelled." => "Yükleme iptal edildi.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Dosya yükleme işlemi sürüyor. Şimdi sayfadan ayrılırsanız işleminiz iptal olur.",

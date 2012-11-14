@@ -22,7 +22,6 @@
 "yesterday" => "včera",
 "%d days ago" => "před %d dny",
 "last month" => "minulý měsíc",
-"months ago" => "před měsíci",
 "last year" => "loni",
 "years ago" => "před lety",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s je dostupná. Získat <a href=\"%s\">více informací</a>",

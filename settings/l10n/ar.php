@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "OpenID Changed" => "تم تغيير ال OpenID",
 "Invalid request" => "طلبك غير مفهوم",
+"Authentication error" => "لم يتم التأكد من الشخصية بنجاح",
 "Language changed" => "تم تغيير اللغة",
 "__language_name__" => "__language_name__",
 "Select an App" => "إختر تطبيقاً",
@@ -8,6 +9,7 @@
 "Problems connecting to help database." => "الاتصال بقاعدة بيانات المساعدة لم يتم بنجاح",
 "Go there manually." => "إذهب هنالك بنفسك",
 "Answer" => "الجواب",
+"Download" => "انزال",
 "Unable to change your password" => "لم يتم تعديل كلمة السر بنجاح",
 "Current password" => "كلمات السر الحالية",
 "New password" => "كلمات سر جديدة",
@@ -23,6 +25,7 @@
 "Password" => "كلمات السر",
 "Groups" => "مجموعات",
 "Create" => "انشئ",
+"Other" => "شيء آخر",
 "Quota" => "حصه",
 "Delete" => "حذف"
 );

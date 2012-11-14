@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "generuji ZIP soubor, může to nějakou dobu trvat.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nelze odeslat Váš soubor, protože je to adresář nebo má velikost 0 bajtů",
 "Upload Error" => "Chyba odesílání",
+"Close" => "Zavřít",
 "Pending" => "Čekající",
 "1 file uploading" => "odesílá se 1 soubor",
 "{count} files uploading" => "odesílám {count} souborů",

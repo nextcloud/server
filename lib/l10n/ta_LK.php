@@ -22,7 +22,6 @@
 "yesterday" => "நேற்று",
 "%d days ago" => "%d நாட்களுக்கு முன்",
 "last month" => "கடந்த மாதம்",
-"months ago" => "மாதங்களுக்கு முன்",
 "last year" => "கடந்த வருடம்",
 "years ago" => "வருடங்களுக்கு முன்",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s இன்னும் இருக்கின்றன. <a href=\"%s\">மேலதிக தகவல்களுக்கு</a> எடுக்க",

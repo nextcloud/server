@@ -17,6 +17,7 @@
 "generating ZIP-file, it may take some time." => "generiranje ZIP datoteke, ovo može potrajati.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nemoguće poslati datoteku jer je prazna ili je direktorij",
 "Upload Error" => "Pogreška pri slanju",
+"Close" => "Zatvori",
 "Pending" => "U tijeku",
 "1 file uploading" => "1 datoteka se učitava",
 "Upload cancelled." => "Slanje poništeno.",

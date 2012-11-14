@@ -22,6 +22,7 @@
 "generating ZIP-file, it may take some time." => "กำลังสร้างไฟล์บีบอัด ZIP อาจใช้เวลาสักครู่",
 "Unable to upload your file as it is a directory or has 0 bytes" => "ไม่สามารถอัพโหลดไฟล์ของคุณได้ เนื่องจากไฟล์ดังกล่าวเป็นไดเร็กทอรี่หรือมีขนาด 0 ไบต์",
 "Upload Error" => "เกิดข้อผิดพลาดในการอัพโหลด",
+"Close" => "ปิด",
 "Pending" => "อยู่ระหว่างดำเนินการ",
 "1 file uploading" => "กำลังอัพโหลดไฟล์ 1 ไฟล์",
 "{count} files uploading" => "กำลังอัพโหลด {count} ไฟล์",

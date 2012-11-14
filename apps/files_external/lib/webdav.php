@@ -30,8 +30,8 @@ class DAV extends \OC\Files\Storage\Common{
 		$this->host=$host;
 		$this->user=$params['user'];
 		$this->password=$params['password'];
-		if(isset($params['secure'])){
-			if(is_string($params['secure'])){
+		if(isset($params['secure'])) {
+			if(is_string($params['secure'])) {
 				$this->secure = ($params['secure'] === 'true');
 			}else{
 				$this->secure = (bool)$params['secure'];
