@@ -55,31 +55,11 @@ class OC_OCSClient{
 	 * This function calls an OCS server and returns the response. It also sets a sane timeout
 	*/
 	private static function getOCSresponse($url) {
-		$data = self::fileGetContentCurl($url);
+		$data = \OC_Util::getUrlContent($url);
 		return($data);
 	}
 
         /**
-         * @Brief Get file content via curl.
-         * @return string of the response
-         * This function get the content of a page via curl.
-         */
-        
-        private static function fileGetContentCurl($url){
-            $curl = curl_init();
-            
-            curl_setopt($curl, CURLOPT_HEADER, 0);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
-            curl_setopt($curl, CURLOPT_URL, $url);
-            
-            $data = curl_exec($curl);
-            curl_close($data);
-            
-            return $data;
-        }
-        
-	/**
 	 * @brief Get all the categories from the OCS server
 	 * @returns array with category ids
 	 * @note returns NULL if config value appstoreenabled is set to false
