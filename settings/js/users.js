@@ -67,7 +67,7 @@ var UserList={
 
 	add:function(username, groups, subadmin, quota, sort) {
 		var tr = $('tbody tr').first().clone();
-		tr.data('uid', username);
+		tr.attr('data-uid', username);
 		tr.find('td.name').text(username);
 		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="Groups">');
 		groupsSelect.data('username', username);
@@ -121,7 +121,7 @@ var UserList={
 		if (sort) {
 			username = username.toLowerCase();
 			$('tbody tr').each(function() {
-				if (username < $(this).data('uid').toLowerCase()) {
+				if (username < $(this).attr('data-uid').toLowerCase()) {
 					$(tr).insertBefore($(this));
 					added = true;
 					return false;
@@ -265,7 +265,7 @@ $(document).ready(function(){
 	
 	$('td.remove>a').live('click',function(event){
 		var row = $(this).parent().parent();
-		var uid = $(row).data('uid');
+		var uid = $(row).attr('data-uid');
 		$(row).hide();
 		// Call function for handling delete/undo
 		UserList.do_delete(uid);
@@ -274,7 +274,7 @@ $(document).ready(function(){
 	$('td.password>img').live('click',function(event){
 		event.stopPropagation();
 		var img=$(this);
-		var uid=img.parent().parent().data('uid');
+		var uid=img.parent().parent().attr('data-uid');
 		var input=$('<input type="password">');
 		img.css('display','none');
 		img.parent().children('span').replaceWith(input);
@@ -304,7 +304,7 @@ $(document).ready(function(){
 	
 	$('select.quota, select.quota-user').live('change',function(){
 		var select=$(this);
-		var uid=$(this).parent().parent().parent().data('uid');
+		var uid=$(this).parent().parent().parent().attr('data-uid');
 		var quota=$(this).val();
 		var other=$(this).next();
 		if(quota!='other'){
@@ -322,7 +322,7 @@ $(document).ready(function(){
 	})
 	
 	$('input.quota-other').live('change',function(){
-		var uid=$(this).parent().parent().parent().data('uid');
+		var uid=$(this).parent().parent().parent().attr('data-uid');
 		var quota=$(this).val();
 		var select=$(this).prev();
 		var other=$(this);
