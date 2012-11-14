@@ -33,6 +33,12 @@ abstract class OC_Minimizer {
 			$cache->set($cache_key.'.gz', $gzout);
 			OC_Response::setETagHeader($etag);
 		}
+		// on some systems (e.g. SLES 11, but not Ubuntu) mod_deflate and zlib compression will compress the output twice.
+		// This results in broken core.css and  core.js. To avoid it, we switch off zlib compression.
+		// Since mod_deflate is still active, Apache will compress what needs to be compressed, i.e. no disadvantage.
+		if(function_exists('apache_get_modules') && ini_get('zlib.output_compression') && in_array('mod_deflate', apache_get_modules())) {
+			ini_set('zlib.output_compression', 'Off');
+		}
 		if ($encoding = OC_Request::acceptGZip()) {
 			header('Content-Encoding: '.$encoding);
 			$out = $gzout;
