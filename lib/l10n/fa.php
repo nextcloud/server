@@ -12,7 +12,6 @@
 "today" => "امروز",
 "yesterday" => "دیروز",
 "last month" => "ماه قبل",
-"months ago" => "ماه‌های قبل",
 "last year" => "سال قبل",
 "years ago" => "سال‌های قبل"
 );

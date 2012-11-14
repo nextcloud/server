@@ -22,7 +22,6 @@
 "yesterday" => "hôm qua",
 "%d days ago" => "%d ngày trước",
 "last month" => "tháng trước",
-"months ago" => "tháng trước",
 "last year" => "năm trước",
 "years ago" => "năm trước",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s có sẵn.  <a href=\"%s\">xem thêm ở đây</a>",

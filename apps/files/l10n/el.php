@@ -49,6 +49,7 @@
 "New" => "Νέο",
 "Text file" => "Αρχείο κειμένου",
 "Folder" => "Φάκελος",
+"From link" => "Από σύνδεσμο",
 "Upload" => "Αποστολή",
 "Cancel upload" => "Ακύρωση αποστολής",
 "Nothing in here. Upload something!" => "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!",

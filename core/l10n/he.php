@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "שם היישום לא סופק.",
 "No category to add?" => "אין קטגוריה להוספה?",
 "This category already exists: " => "קטגוריה זאת כבר קיימת: ",
+"No categories selected for deletion." => "לא נבחרו קטגוריות למחיקה",
 "Settings" => "הגדרות",
 "seconds ago" => "שניות",
 "1 minute ago" => "לפני דקה אחת",
@@ -15,7 +15,6 @@
 "No" => "לא",
 "Yes" => "כן",
 "Ok" => "בסדר",
-"No categories selected for deletion." => "לא נבחרו קטגוריות למחיקה",
 "Error" => "שגיאה",
 "Password" => "ססמה",
 "Unshare" => "הסר שיתוף",

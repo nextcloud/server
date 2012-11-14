@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "未提供應用程式名稱",
 "No category to add?" => "無分類添加?",
 "This category already exists: " => "此分類已經存在:",
+"No categories selected for deletion." => "沒選擇要刪除的分類",
 "Settings" => "設定",
 "seconds ago" => "幾秒前",
 "1 minute ago" => "1 分鐘前",
@@ -15,7 +15,6 @@
 "No" => "No",
 "Yes" => "Yes",
 "Ok" => "Ok",
-"No categories selected for deletion." => "沒選擇要刪除的分類",
 "Error" => "錯誤",
 "Password" => "密碼",
 "Unshare" => "取消共享",

@@ -22,7 +22,6 @@
 "yesterday" => "ieri",
 "%d days ago" => "%d giorni fa",
 "last month" => "il mese scorso",
-"months ago" => "mesi fa",
 "last year" => "l'anno scorso",
 "years ago" => "anni fa",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s è disponibile. Ottieni <a href=\"%s\">ulteriori informazioni</a>",

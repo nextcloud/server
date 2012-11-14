@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Ime programa ni določeno.",
 "No category to add?" => "Ni kategorije za dodajanje?",
 "This category already exists: " => "Ta kategorija že obstaja:",
+"No categories selected for deletion." => "Za izbris ni izbrana nobena kategorija.",
 "Settings" => "Nastavitve",
 "seconds ago" => "sekund nazaj",
 "1 minute ago" => "Pred 1 minuto",
@@ -16,7 +16,6 @@
 "No" => "Ne",
 "Yes" => "Da",
 "Ok" => "V redu",
-"No categories selected for deletion." => "Za izbris ni izbrana nobena kategorija.",
 "Error" => "Napaka",
 "Error while sharing" => "Napaka med souporabo",
 "Error while unsharing" => "Napaka med odstranjevanjem souporabe",

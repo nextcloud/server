@@ -21,7 +21,6 @@
 "yesterday" => "昨天",
 "%d days ago" => "%d 天前",
 "last month" => "上個月",
-"months ago" => "幾個月前",
 "last year" => "去年",
 "years ago" => "幾年前",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s 已經可用. 取得 <a href=\"%s\">更多資訊</a>",

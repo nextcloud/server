@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "აპლიკაციის სახელი  არ არის განხილული",
 "No category to add?" => "არ არის კატეგორია დასამატებლად?",
 "This category already exists: " => "კატეგორია უკვე არსებობს",
+"No categories selected for deletion." => "სარედაქტირებელი კატეგორია არ არის არჩეული ",
 "Settings" => "პარამეტრები",
 "seconds ago" => "წამის წინ",
 "1 minute ago" => "1 წუთის წინ",
@@ -18,7 +18,6 @@
 "No" => "არა",
 "Yes" => "კი",
 "Ok" => "დიახ",
-"No categories selected for deletion." => "სარედაქტირებელი კატეგორია არ არის არჩეული ",
 "Error" => "შეცდომა",
 "Error while sharing" => "შეცდომა გაზიარების დროს",
 "Error while unsharing" => "შეცდომა გაზიარების გაუქმების დროს",

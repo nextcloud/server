@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Rakenduse nime pole sisestatud.",
 "No category to add?" => "Pole kategooriat, mida lisada?",
 "This category already exists: " => "See kategooria on juba olemas: ",
+"No categories selected for deletion." => "Kustutamiseks pole kategooriat valitud.",
 "Settings" => "Seaded",
 "seconds ago" => "sekundit tagasi",
 "1 minute ago" => "1 minut tagasi",
@@ -18,7 +18,6 @@
 "No" => "Ei",
 "Yes" => "Jah",
 "Ok" => "Ok",
-"No categories selected for deletion." => "Kustutamiseks pole kategooriat valitud.",
 "Error" => "Viga",
 "Error while sharing" => "Viga jagamisel",
 "Error while unsharing" => "Viga jagamise lõpetamisel",

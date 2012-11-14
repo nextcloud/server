@@ -22,7 +22,6 @@
 "yesterday" => "i går",
 "%d days ago" => "%d dager siden",
 "last month" => "forrige måned",
-"months ago" => "måneder siden",
 "last year" => "i fjor",
 "years ago" => "år siden",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s er tilgjengelig. Få  <a href=\"%s\">mer informasjon</a>",

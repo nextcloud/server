@@ -20,7 +20,6 @@
 "yesterday" => "אתמול",
 "%d days ago" => "לפני %d ימים",
 "last month" => "חודש שעבר",
-"months ago" => "חודשים",
 "last year" => "שנה שעברה",
 "years ago" => "שנים",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s זמין. קבלת <a href=\"%s\">מידע נוסף</a>",

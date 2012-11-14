@@ -22,7 +22,6 @@
 "yesterday" => "јуче",
 "%d days ago" => "%d дана раније",
 "last month" => "прошлог месеца",
-"months ago" => "месеци раније",
 "last year" => "прошле године",
 "years ago" => "година раније",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s је доступна. Погледајте <a href=\"%s\">више информација</a>",

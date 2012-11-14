@@ -20,7 +20,6 @@
 "yesterday" => "kemarin",
 "%d days ago" => "%d hari lalu",
 "last month" => "bulan kemarin",
-"months ago" => "beberapa bulan lalu",
 "last year" => "tahun kemarin",
 "years ago" => "beberapa tahun lalu",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s tersedia. dapatkan <a href=\"%s\"> info lebih lanjut</a>",

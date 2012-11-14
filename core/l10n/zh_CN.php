@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "没有提供应用程序名称。",
 "No category to add?" => "没有可添加分类？",
 "This category already exists: " => "此分类已存在: ",
+"No categories selected for deletion." => "没有选择要删除的类别",
 "Settings" => "设置",
 "seconds ago" => "秒前",
 "1 minute ago" => "一分钟前",
@@ -18,7 +18,6 @@
 "No" => "否",
 "Yes" => "是",
 "Ok" => "好",
-"No categories selected for deletion." => "没有选择要删除的类别",
 "Error" => "错误",
 "Error while sharing" => "共享时出错",
 "Error while unsharing" => "取消共享时出错",

@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Meno aplikácie nezadané.",
 "No category to add?" => "Žiadna kategória pre pridanie?",
 "This category already exists: " => "Táto kategória už existuje:",
+"No categories selected for deletion." => "Neboli vybrané žiadne kategórie pre odstránenie.",
 "Settings" => "Nastavenia",
 "seconds ago" => "pred sekundami",
 "1 minute ago" => "pred minútou",
@@ -18,7 +18,6 @@
 "No" => "Nie",
 "Yes" => "Áno",
 "Ok" => "Ok",
-"No categories selected for deletion." => "Neboli vybrané žiadne kategórie pre odstránenie.",
 "Error" => "Chyba",
 "Error while sharing" => "Chyba počas zdieľania",
 "Error while unsharing" => "Chyba počas ukončenia zdieľania",

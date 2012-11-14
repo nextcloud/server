@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-14 00:02+0100\n"
+"POT-Creation-Date: 2012-11-15 00:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,6 +94,15 @@ msgstr ""
 msgid "%d minutes ago"
 msgstr ""
 
+#: template.php:106
+msgid "1 hour ago"
+msgstr ""
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr ""
+
 #: template.php:108
 msgid "today"
 msgstr ""
@@ -112,7 +121,8 @@ msgid "last month"
 msgstr ""
 
 #: template.php:112
-msgid "months ago"
+#, php-format
+msgid "%d months ago"
 msgstr ""
 
 #: template.php:113
@@ -134,4 +144,9 @@ msgstr ""
 
 #: updater.php:80
 msgid "updates check is disabled"
+msgstr ""
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
 msgstr ""

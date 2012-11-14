@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Programnamn har inte angetts.",
 "No category to add?" => "Ingen kategori att lägga till?",
 "This category already exists: " => "Denna kategori finns redan:",
+"No categories selected for deletion." => "Inga kategorier valda för radering.",
 "Settings" => "Inställningar",
 "seconds ago" => "sekunder sedan",
 "1 minute ago" => "1 minut sedan",
@@ -18,7 +18,6 @@
 "No" => "Nej",
 "Yes" => "Ja",
 "Ok" => "Ok",
-"No categories selected for deletion." => "Inga kategorier valda för radering.",
 "Error" => "Fel",
 "Error while sharing" => "Fel vid delning",
 "Error while unsharing" => "Fel när delning skulle avslutas",

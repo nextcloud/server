@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Δε προσδιορίστηκε όνομα εφαρμογής",
 "No category to add?" => "Δεν έχετε να προστέσθέσεται μια κα",
 "This category already exists: " => "Αυτή η κατηγορία υπάρχει ήδη",
+"No categories selected for deletion." => "Δεν επιλέχτηκαν κατηγορίες για διαγραφή",
 "Settings" => "Ρυθμίσεις",
 "seconds ago" => "δευτερόλεπτα πριν",
 "1 minute ago" => "1 λεπτό πριν",
@@ -18,7 +18,6 @@
 "No" => "Όχι",
 "Yes" => "Ναι",
 "Ok" => "Οκ",
-"No categories selected for deletion." => "Δεν επιλέχτηκαν κατηγορίες για διαγραφή",
 "Error" => "Σφάλμα",
 "Error while sharing" => "Σφάλμα κατά τον διαμοιρασμό",
 "Error while unsharing" => "Σφάλμα κατά το σταμάτημα του διαμοιρασμού",
@@ -108,5 +107,6 @@
 "prev" => "προηγούμενο",
 "next" => "επόμενο",
 "Security Warning!" => "Προειδοποίηση Ασφαλείας!",
+"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Παρακαλώ επιβεβαιώστε το συνθηματικό σας. <br/>Για λόγους ασφαλείας μπορεί να ερωτάστε να εισάγετε ξανά το συνθηματικό σας.",
 "Verify" => "Επαλήθευση"
 );

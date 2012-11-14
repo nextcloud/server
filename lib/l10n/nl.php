@@ -22,7 +22,6 @@
 "yesterday" => "gisteren",
 "%d days ago" => "%d dagen geleden",
 "last month" => "vorige maand",
-"months ago" => "maanden geleden",
 "last year" => "vorig jaar",
 "years ago" => "jaar geleden",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s is beschikbaar. Verkrijg <a href=\"%s\">meer informatie</a>",

@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Sovelluksen nimeä ei määritelty.",
 "No category to add?" => "Ei lisättävää luokkaa?",
 "This category already exists: " => "Tämä luokka on jo olemassa: ",
+"No categories selected for deletion." => "Luokkia ei valittu poistettavaksi.",
 "Settings" => "Asetukset",
 "seconds ago" => "sekuntia sitten",
 "1 minute ago" => "1 minuutti sitten",
@@ -18,7 +18,6 @@
 "No" => "Ei",
 "Yes" => "Kyllä",
 "Ok" => "Ok",
-"No categories selected for deletion." => "Luokkia ei valittu poistettavaksi.",
 "Error" => "Virhe",
 "Error while sharing" => "Virhe jaettaessa",
 "Error while unsharing" => "Virhe jakoa peruttaessa",

@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Nepateiktas programos pavadinimas.",
 "No category to add?" => "Nepridėsite jokios kategorijos?",
 "This category already exists: " => "Tokia kategorija jau yra:",
+"No categories selected for deletion." => "Trynimui nepasirinkta jokia kategorija.",
 "Settings" => "Nustatymai",
 "seconds ago" => "prieš sekundę",
 "1 minute ago" => "Prieš 1 minutę",
@@ -18,7 +18,6 @@
 "No" => "Ne",
 "Yes" => "Taip",
 "Ok" => "Gerai",
-"No categories selected for deletion." => "Trynimui nepasirinkta jokia kategorija.",
 "Error" => "Klaida",
 "Error while sharing" => "Klaida, dalijimosi metu",
 "Error while unsharing" => "Klaida, kai atšaukiamas dalijimasis",

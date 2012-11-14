@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Applicatienaam niet gegeven.",
 "No category to add?" => "Geen categorie toevoegen?",
 "This category already exists: " => "Deze categorie bestaat al.",
+"No categories selected for deletion." => "Geen categorie geselecteerd voor verwijdering.",
 "Settings" => "Instellingen",
 "seconds ago" => "seconden geleden",
 "1 minute ago" => "1 minuut geleden",
@@ -18,7 +18,6 @@
 "No" => "Nee",
 "Yes" => "Ja",
 "Ok" => "Ok",
-"No categories selected for deletion." => "Geen categorie geselecteerd voor verwijdering.",
 "Error" => "Fout",
 "Error while sharing" => "Fout tijdens het delen",
 "Error while unsharing" => "Fout tijdens het stoppen met delen",

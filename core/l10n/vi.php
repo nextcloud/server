@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Tên ứng dụng không tồn tại",
 "No category to add?" => "Không có danh mục được thêm?",
 "This category already exists: " => "Danh mục này đã được tạo :",
+"No categories selected for deletion." => "Không có thể loại nào được chọn để xóa.",
 "Settings" => "Cài đặt",
 "seconds ago" => "vài giây trước",
 "1 minute ago" => "1 phút trước",
@@ -18,7 +18,6 @@
 "No" => "No",
 "Yes" => "Yes",
 "Ok" => "Ok",
-"No categories selected for deletion." => "Không có thể loại nào được chọn để xóa.",
 "Error" => "Lỗi",
 "Error while sharing" => "Lỗi trong quá trình chia sẻ",
 "Error while unsharing" => "Lỗi trong quá trình gỡ chia sẻ",

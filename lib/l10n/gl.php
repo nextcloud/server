@@ -20,7 +20,6 @@
 "yesterday" => "onte",
 "%d days ago" => "hai %d días",
 "last month" => "último mes",
-"months ago" => "meses atrás",
 "last year" => "último ano",
 "years ago" => "anos atrás",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s está dispoñible. Obteña <a href=\"%s\">máis información</a>",

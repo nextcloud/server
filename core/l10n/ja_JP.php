@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "アプリケーション名は提供されていません。",
 "No category to add?" => "追加するカテゴリはありませんか？",
 "This category already exists: " => "このカテゴリはすでに存在します: ",
+"No categories selected for deletion." => "削除するカテゴリが選択されていません。",
 "Settings" => "設定",
 "seconds ago" => "秒前",
 "1 minute ago" => "1 分前",
@@ -18,7 +18,6 @@
 "No" => "いいえ",
 "Yes" => "はい",
 "Ok" => "OK",
-"No categories selected for deletion." => "削除するカテゴリが選択されていません。",
 "Error" => "エラー",
 "Error while sharing" => "共有でエラー発生",
 "Error while unsharing" => "共有解除でエラー発生",

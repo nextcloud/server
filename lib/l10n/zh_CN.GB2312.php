@@ -22,7 +22,6 @@
 "yesterday" => "昨天",
 "%d days ago" => "%d 天前",
 "last month" => "上个月",
-"months ago" => "月前",
 "last year" => "去年",
 "years ago" => "年前",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s 不可用。获知 <a href=\"%s\">详情</a>",

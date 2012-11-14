@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Applikationens navn ikke medsendt",
 "No category to add?" => "Ingen kategori at tilføje?",
 "This category already exists: " => "Denne kategori eksisterer allerede: ",
+"No categories selected for deletion." => "Ingen kategorier valgt",
 "Settings" => "Indstillinger",
 "seconds ago" => "sekunder siden",
 "1 minute ago" => "1 minut siden",
@@ -18,7 +18,6 @@
 "No" => "Nej",
 "Yes" => "Ja",
 "Ok" => "OK",
-"No categories selected for deletion." => "Ingen kategorier valgt",
 "Error" => "Fejl",
 "Error while sharing" => "Fejl under deling",
 "Error while unsharing" => "Fejl under annullering af deling",

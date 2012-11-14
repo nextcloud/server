@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Имя приложения не предоставлено.",
 "No category to add?" => "Нет категории для добавления?",
 "This category already exists: " => "Эта категория уже существует:",
+"No categories selected for deletion." => "Нет категорий, выбранных для удаления.",
 "Settings" => "Настройки",
 "seconds ago" => "секунд назад",
 "1 minute ago" => " 1 минуту назад",
@@ -18,7 +18,6 @@
 "No" => "Нет",
 "Yes" => "Да",
 "Ok" => "Да",
-"No categories selected for deletion." => "Нет категорий, выбранных для удаления.",
 "Error" => "Ошибка",
 "Error while sharing" => "Ошибка создания общего доступа",
 "Error while unsharing" => "Ошибка отключения общего доступа",

@@ -12,7 +12,6 @@
 "today" => "დღეს",
 "yesterday" => "გუშინ",
 "last month" => "გასულ თვეში",
-"months ago" => "თვის წინ",
 "last year" => "ბოლო წელს",
 "years ago" => "წლის წინ",
 "up to date" => "განახლებულია",

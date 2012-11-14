@@ -21,7 +21,6 @@
 "yesterday" => "včeraj",
 "%d days ago" => "pred %d dnevi",
 "last month" => "prejšnji mesec",
-"months ago" => "pred nekaj meseci",
 "last year" => "lani",
 "years ago" => "pred nekaj leti",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s je na voljo. <a href=\"%s\">Več podrobnosti.</a>",

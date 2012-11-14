@@ -21,7 +21,6 @@
 "yesterday" => "hieraŭ",
 "%d days ago" => "antaŭ %d tagoj",
 "last month" => "lasta monato",
-"months ago" => "monatojn antaŭe",
 "last year" => "lasta jaro",
 "years ago" => "jarojn antaŭe",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s haveblas. Ekhavu <a href=\"%s\">pli da informo</a>",

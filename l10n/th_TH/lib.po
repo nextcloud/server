@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-29 00:01+0100\n"
-"PO-Revision-Date: 2012-10-28 15:44+0000\n"
-"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
+"POT-Creation-Date: 2012-11-15 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 23:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,19 +42,19 @@ msgstr "แอปฯ"
 msgid "Admin"
 msgstr "ผู้ดูแล"
 
-#: files.php:328
+#: files.php:332
 msgid "ZIP download is turned off."
 msgstr "คุณสมบัติการดาวน์โหลด zip ถูกปิดการใช้งานไว้"
 
-#: files.php:329
+#: files.php:333
 msgid "Files need to be downloaded one by one."
 msgstr "ไฟล์สามารถดาวน์โหลดได้ทีละครั้งเท่านั้น"
 
-#: files.php:329 files.php:354
+#: files.php:333 files.php:358
 msgid "Back to Files"
 msgstr "กลับไปที่ไฟล์"
 
-#: files.php:353
+#: files.php:357
 msgid "Selected files too large to generate zip file."
 msgstr "ไฟล์ที่เลือกมีขนาดใหญ่เกินกว่าที่จะสร้างเป็นไฟล์ zip"
 
@@ -95,6 +95,15 @@ msgstr "1 นาทีมาแล้ว"
 msgid "%d minutes ago"
 msgstr "%d นาทีที่ผ่านมา"
 
+#: template.php:106
+msgid "1 hour ago"
+msgstr ""
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr ""
+
 #: template.php:108
 msgid "today"
 msgstr "วันนี้"
@@ -113,8 +122,9 @@ msgid "last month"
 msgstr "เดือนที่แล้ว"
 
 #: template.php:112
-msgid "months ago"
-msgstr "เดือนมาแล้ว"
+#, php-format
+msgid "%d months ago"
+msgstr ""
 
 #: template.php:113
 msgid "last year"
@@ -136,3 +146,8 @@ msgstr "ทันสมัย"
 #: updater.php:80
 msgid "updates check is disabled"
 msgstr "การตรวจสอบชุดอัพเดทถูกปิดใช้งานไว้"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr ""

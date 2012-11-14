@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Numele aplicație nu este furnizat.",
 "No category to add?" => "Nici o categorie de adăugat?",
 "This category already exists: " => "Această categorie deja există:",
+"No categories selected for deletion." => "Nici o categorie selectată pentru ștergere.",
 "Settings" => "Configurări",
 "seconds ago" => "secunde în urmă",
 "1 minute ago" => "1 minut în urmă",
@@ -16,7 +16,6 @@
 "No" => "Nu",
 "Yes" => "Da",
 "Ok" => "Ok",
-"No categories selected for deletion." => "Nici o categorie selectată pentru ștergere.",
 "Error" => "Eroare",
 "Error while sharing" => "Eroare la partajare",
 "Error while unsharing" => "Eroare la anularea partajării",

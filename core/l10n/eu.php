@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Aplikazioaren izena falta da",
 "No category to add?" => "Ez dago gehitzeko kategoriarik?",
 "This category already exists: " => "Kategoria hau dagoeneko existitzen da:",
+"No categories selected for deletion." => "Ez da ezabatzeko kategoriarik hautatu.",
 "Settings" => "Ezarpenak",
 "seconds ago" => "segundu",
 "1 minute ago" => "orain dela minutu 1",
@@ -16,7 +16,6 @@
 "No" => "Ez",
 "Yes" => "Bai",
 "Ok" => "Ados",
-"No categories selected for deletion." => "Ez da ezabatzeko kategoriarik hautatu.",
 "Error" => "Errorea",
 "Error while sharing" => "Errore bat egon da elkarbanatzean",
 "Error while unsharing" => "Errore bat egon da elkarbanaketa desegitean",

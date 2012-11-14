@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "No s'ha facilitat cap nom per l'aplicació.",
 "No category to add?" => "No voleu afegir cap categoria?",
 "This category already exists: " => "Aquesta categoria ja existeix:",
+"No categories selected for deletion." => "No hi ha categories per eliminar.",
 "Settings" => "Arranjament",
 "seconds ago" => "segons enrere",
 "1 minute ago" => "fa 1 minut",
@@ -18,7 +18,6 @@
 "No" => "No",
 "Yes" => "Sí",
 "Ok" => "D'acord",
-"No categories selected for deletion." => "No hi ha categories per eliminar.",
 "Error" => "Error",
 "Error while sharing" => "Error en compartir",
 "Error while unsharing" => "Error en deixar de compartir",

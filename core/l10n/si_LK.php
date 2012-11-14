@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "යෙදුම් නාමය සපයා නැත.",
+"No categories selected for deletion." => "මකා දැමීම සඳහා ප්‍රවර්ගයන් තෝරා නොමැත.",
 "Settings" => "සැකසුම්",
 "seconds ago" => "තත්පරයන්ට පෙර",
 "1 minute ago" => "1 මිනිත්තුවකට පෙර",
@@ -14,7 +14,6 @@
 "No" => "නැහැ",
 "Yes" => "ඔව්",
 "Ok" => "හරි",
-"No categories selected for deletion." => "මකා දැමීම සඳහා ප්‍රවර්ගයන් තෝරා නොමැත.",
 "Error" => "දෝෂයක්",
 "Share with" => "බෙදාගන්න",
 "Share with link" => "යොමුවක් මඟින් බෙදාගන්න",

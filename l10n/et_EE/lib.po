@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-30 00:01+0100\n"
-"PO-Revision-Date: 2012-10-29 23:00+0000\n"
-"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
+"POT-Creation-Date: 2012-11-15 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 23:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,19 +42,19 @@ msgstr "Rakendused"
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:328
+#: files.php:332
 msgid "ZIP download is turned off."
 msgstr "ZIP-ina allalaadimine on välja lülitatud."
 
-#: files.php:329
+#: files.php:333
 msgid "Files need to be downloaded one by one."
 msgstr "Failid tuleb alla laadida ükshaaval."
 
-#: files.php:329 files.php:354
+#: files.php:333 files.php:358
 msgid "Back to Files"
 msgstr "Tagasi failide juurde"
 
-#: files.php:353
+#: files.php:357
 msgid "Selected files too large to generate zip file."
 msgstr "Valitud failid on ZIP-faili loomiseks liiga suured."
 
@@ -95,6 +95,15 @@ msgstr "1 minut tagasi"
 msgid "%d minutes ago"
 msgstr "%d minutit tagasi"
 
+#: template.php:106
+msgid "1 hour ago"
+msgstr ""
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr ""
+
 #: template.php:108
 msgid "today"
 msgstr "täna"
@@ -113,8 +122,9 @@ msgid "last month"
 msgstr "eelmisel kuul"
 
 #: template.php:112
-msgid "months ago"
-msgstr "kuud tagasi"
+#, php-format
+msgid "%d months ago"
+msgstr ""
 
 #: template.php:113
 msgid "last year"
@@ -136,3 +146,8 @@ msgstr "ajakohane"
 #: updater.php:80
 msgid "updates check is disabled"
 msgstr "uuenduste kontrollimine on välja lülitatud"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr ""

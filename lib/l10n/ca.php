@@ -22,7 +22,6 @@
 "yesterday" => "ahir",
 "%d days ago" => "fa %d dies",
 "last month" => "el mes passat",
-"months ago" => "mesos enrere",
 "last year" => "l'any passat",
 "years ago" => "fa anys",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s està disponible. Obtén <a href=\"%s\">més informació</a>",

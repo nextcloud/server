@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Апликација са овим називом није доступна.",
 "This category already exists: " => "Категорија већ постоји:",
+"No categories selected for deletion." => "Ни једна категорија није означена за брисање.",
 "Settings" => "Подешавања",
 "seconds ago" => "пре неколико секунди",
 "1 minute ago" => "пре 1 минут",
@@ -17,7 +17,6 @@
 "No" => "Не",
 "Yes" => "Да",
 "Ok" => "У реду",
-"No categories selected for deletion." => "Ни једна категорија није означена за брисање.",
 "Error" => "Грешка",
 "Error while sharing" => "Грешка у дељењу",
 "Error while unsharing" => "Грешка код искључења дељења",

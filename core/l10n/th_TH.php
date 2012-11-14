@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "ยังไม่ได้ตั้งชื่อแอพพลิเคชั่น",
 "No category to add?" => "ไม่มีหมวดหมู่ที่ต้องการเพิ่ม?",
 "This category already exists: " => "หมวดหมู่นี้มีอยู่แล้ว: ",
+"No categories selected for deletion." => "ยังไม่ได้เลือกหมวดหมู่ที่ต้องการลบ",
 "Settings" => "ตั้งค่า",
 "seconds ago" => "วินาที ก่อนหน้านี้",
 "1 minute ago" => "1 นาทีก่อนหน้านี้",
@@ -18,7 +18,6 @@
 "No" => "ไม่ตกลง",
 "Yes" => "ตกลง",
 "Ok" => "ตกลง",
-"No categories selected for deletion." => "ยังไม่ได้เลือกหมวดหมู่ที่ต้องการลบ",
 "Error" => "พบข้อผิดพลาด",
 "Error while sharing" => "เกิดข้อผิดพลาดในระหว่างการแชร์ข้อมูล",
 "Error while unsharing" => "เกิดข้อผิดพลาดในการยกเลิกการแชร์ข้อมูล",

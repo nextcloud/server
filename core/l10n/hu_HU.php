@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "Alkalmazásnév hiányzik",
 "No category to add?" => "Nincs hozzáadandó kategória?",
 "This category already exists: " => "Ez a kategória már létezik",
+"No categories selected for deletion." => "Nincs törlésre jelölt kategória",
 "Settings" => "Beállítások",
 "seconds ago" => "másodperccel ezelőtt",
 "1 minute ago" => "1 perccel ezelőtt",
@@ -15,7 +15,6 @@
 "No" => "Nem",
 "Yes" => "Igen",
 "Ok" => "Ok",
-"No categories selected for deletion." => "Nincs törlésre jelölt kategória",
 "Error" => "Hiba",
 "Password" => "Jelszó",
 "Unshare" => "Nem oszt meg",

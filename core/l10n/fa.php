@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Application name not provided." => "نام برنامه پیدا نشد",
 "No category to add?" => "آیا گروه دیگری برای افزودن ندارید",
 "This category already exists: " => "این گروه از قبل اضافه شده",
+"No categories selected for deletion." => "هیج دسته ای برای پاک شدن انتخاب نشده است",
 "Settings" => "تنظیمات",
 "seconds ago" => "ثانیه‌ها پیش",
 "1 minute ago" => "1 دقیقه پیش",
@@ -15,7 +15,6 @@
 "No" => "نه",
 "Yes" => "بله",
 "Ok" => "قبول",
-"No categories selected for deletion." => "هیج دسته ای برای پاک شدن انتخاب نشده است",
 "Error" => "خطا",
 "Password" => "گذرواژه",
 "create" => "ایجاد",
