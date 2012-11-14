@@ -6,10 +6,12 @@
  * See the COPYING-README file.
  */
 
-require realpath( dirname(__FILE__).'/../lib/crypt.php' );
-require realpath( dirname(__FILE__).'/../lib/util.php' );
+namespace OCA\Encryption;
 
-class Test_Encryption extends UnitTestCase {
+require_once "PHPUnit/Framework/TestCase.php";
+require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
+
+class Test_Util extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
 		
