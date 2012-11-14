@@ -44,7 +44,6 @@ class Keymanager {
 
 	/**
 	 * @brief retrieve public key for a specified user
-	 * 
 	 * @return string public key or false
 	 */
 	public static function getPublicKey() {
@@ -65,7 +64,7 @@ class Keymanager {
 	return array(
 			'privatekey' => self::getPrivateKey(),
 			'publickey' => self::getPublicKey(),
-			);
+		);
 	
 	}
 	
@@ -80,20 +79,25 @@ class Keymanager {
 		$path = ltrim( $path, '/' );
 		$filepath = '/'.$userId.'/files/'.$path;
 		
-		// check if file was shared with other users
-		$query = \OC_DB::prepare( "SELECT uid_owner, source, target, uid_shared_with FROM `*PREFIX*sharing` WHERE ( target = ? AND uid_shared_with = ? ) OR source = ? " );
-		$result = $query->execute( array ($filepath, $userId, $filepath));
-		$users = array();
-		if ($row = $result->fetchRow()){
-			$source = $row['source'];
-			$owner = $row['uid_owner'];
-			$users[] = $owner;
-			// get the uids of all user with access to the file
-			$query = \OC_DB::prepare( "SELECT source, uid_shared_with FROM `*PREFIX*sharing` WHERE source = ?" );
-			$result = $query->execute( array ($source));
-			while ( ($row = $result->fetchRow()) ) {
-				$users[] = $row['uid_shared_with'];
-			}
+		// Check if sharing is enabled
+		if ( OC_App::isEnabled( 'files_sharing' ) ) {
+			
+// 			// Check if file was shared with other users
+// 			$query = \OC_DB::prepare( "SELECT uid_owner, source, target, uid_shared_with FROM `*PREFIX*sharing` WHERE ( target = ? AND uid_shared_with = ? ) OR source = ? " );
+// 			$result = $query->execute( array ($filepath, $userId, $filepath));
+// 			$users = array();
+// 			if ($row = $result->fetchRow()){
+// 				$source = $row['source'];
+// 				$owner = $row['uid_owner'];
+// 				$users[] = $owner;
+// 				// get the uids of all user with access to the file
+// 				$query = \OC_DB::prepare( "SELECT source, uid_shared_with FROM `*PREFIX*sharing` WHERE source = ?" );
+// 				$result = $query->execute( array ($source));
+// 				while ( ($row = $result->fetchRow()) ) {
+// 					$users[] = $row['uid_shared_with'];
+// 				}
+// 			}
+		
 		} else {
 			// check if it is a file owned by the user and not shared at all
 			$userview = new \OC_FilesystemView( '/'.$userId.'/files/' );
@@ -125,19 +129,19 @@ class Keymanager {
 		$keypath = ltrim( $path, '/' );
 		$user = $staticUserClass::getUser();
 
-		// update $keypath and $user if path point to a file shared by someone else
-		$query = \OC_DB::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
-		
-		$result = $query->execute( array ('/'.$user.'/files/'.$keypath, $user));
-		
-		if ($row = $result->fetchRow()) {
-		
-			$keypath = $row['source'];
-			$keypath_parts = explode( '/', $keypath );
-			$user = $keypath_parts[1];
-			$keypath = str_replace( '/' . $user . '/files/', '', $keypath );
-			
-		}
+// 		// update $keypath and $user if path point to a file shared by someone else
+// 		$query = \OC_DB::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
+// 		
+// 		$result = $query->execute( array ('/'.$user.'/files/'.$keypath, $user));
+// 		
+// 		if ($row = $result->fetchRow()) {
+// 		
+// 			$keypath = $row['source'];
+// 			$keypath_parts = explode( '/', $keypath );
+// 			$user = $keypath_parts[1];
+// 			$keypath = str_replace( '/' . $user . '/files/', '', $keypath );
+// 			
+// 		}
 		
 		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/keyfiles/');
 		
@@ -204,7 +208,6 @@ class Keymanager {
 	
 	}
 	
-	
 	/**
 	 * @brief store public key of the user
 	 *
@@ -231,34 +234,34 @@ class Keymanager {
 		$targetPath = ltrim(  $path, '/'  );
 		$user = \OCP\User::getUser();
 		
-		// update $keytarget and $user if key belongs to a file shared by someone else
-		$query = $dbClassName::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
-		
-		$result = $query->execute(  array ( '/'.$user.'/files/'.$targetPath, $user ) );
-		
-		if ( $row = $result->fetchRow(  ) ) {
-		
-			$targetPath = $row['source'];
-			
-			$targetPath_parts = explode( '/', $targetPath );
-			
-			$user = $targetPath_parts[1];
-
-			$rootview = new \OC_FilesystemView( '/' );
-			
-			if ( ! $rootview->is_writable( $targetPath ) ) {
-			
-				\OC_Log::write( 'Encryption library', "File Key not updated because you don't have write access for the corresponding file", \OC_Log::ERROR );
-				
-				return false;
-				
-			}
-			
-			$targetPath = str_replace( '/'.$user.'/files/', '', $targetPath );
-			
-			//TODO: check for write permission on shared file once the new sharing API is in place
-			
-		}
+// 		// update $keytarget and $user if key belongs to a file shared by someone else
+// 		$query = $dbClassName::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
+// 		
+// 		$result = $query->execute(  array ( '/'.$user.'/files/'.$targetPath, $user ) );
+// 		
+// 		if ( $row = $result->fetchRow(  ) ) {
+// 		
+// 			$targetPath = $row['source'];
+// 			
+// 			$targetPath_parts = explode( '/', $targetPath );
+// 			
+// 			$user = $targetPath_parts[1];
+// 
+// 			$rootview = new \OC_FilesystemView( '/' );
+// 			
+// 			if ( ! $rootview->is_writable( $targetPath ) ) {
+// 			
+// 				\OC_Log::write( 'Encryption library', "File Key not updated because you don't have write access for the corresponding file", \OC_Log::ERROR );
+// 				
+// 				return false;
+// 				
+// 			}
+// 			
+// 			$targetPath = str_replace( '/'.$user.'/files/', '', $targetPath );
+// 			
+// 			//TODO: check for write permission on shared file once the new sharing API is in place
+// 			
+// 		}
 		
 		$path_parts = pathinfo( $targetPath );
 		
