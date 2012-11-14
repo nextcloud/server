@@ -49,19 +49,8 @@ if(strpos($dir, '..') === false) {
 	for($i=0;$i<$fileCount;$i++) {
         $target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
 		if(is_uploaded_file($files['tmp_name'][$i]) and OC_Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
-			if ( OC_App::isEnabled('files_sharing') &&  !strncmp($target, '/Shared/', 8)) {
-				$source = OC_Files_Sharing_Util::getSourcePath(str_replace('/Shared/', '', $target));
-				$parts = explode('/', $source, 4);
-				$root =  '/'.$parts[1].'/files';
-				$path = '/'.$parts[3];
-			} else {
-				$path = $target;
-				$root = false;
-			}
-				
-			$meta = OC_FileCache::get($path, $root);
-			$id = OC_FileCache::getId($path, $root);
-
+			$meta = OC_FileCache::get($target);
+			$id = OC_FileCache::getId($target);
 			$result[]=array( "status" => "success", 'mime'=>$meta['mimetype'],'size'=>$meta['size'], 'id'=>$id, 'name'=>basename($target));
 		}
 	}
