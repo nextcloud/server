@@ -88,7 +88,7 @@ class Crypt {
          * @brief Add arbitrary padding to encrypted data
          * @param string $data data to be padded
          * @return padded data
-         * @note In order to end up with data exactly 8192 bytes long we must add two letters. Something about the encryption process always results in 8190 or 8194 byte length, hence the letters must be added manually after encryption takes place
+         * @note In order to end up with data exactly 8192 bytes long we must add two letters. It is impossible to achieve exactly 8192 length blocks with encryption alone, hence padding is added to achieve the required length. 
          */
 	public static function addPadding( $data ) {
 	
@@ -228,8 +228,41 @@ class Crypt {
 	
 	}
 	
+        /**
+         * @brief Concatenate encrypted data with its IV and padding
+         * @param string $content content to be concatenated
+         * @param string $iv IV to be concatenated
+         * @returns string concatenated content
+         */
 	public static function concatIv ( $content, $iv ) {
 	
+		$combined = $content . '00iv00' . $iv;
+		
+		return $combined;
+	
+	}
+	
+        /**
+         * @brief Split concatenated data and IV into respective parts
+         * @param string $catFile concatenated data to be split
+         * @returns array keys: encrypted, iv
+         */
+	public static function splitIv ( $catFile ) {
+	
+		// Fetch encryption metadata from end of file
+		$meta = substr( $catFile, -22 );
+		
+		// Fetch IV from end of file
+		$iv = substr( $meta, -16 );
+		
+		// Remove IV and IV identifier text to expose encrypted content
+		$encrypted = substr( $catFile, 0, -22 );
+	
+		$split = array(
+			'encrypted' => $encrypted
+			, 'iv' => $iv
+		);
+		
 		$combined = $content . '00iv00' . $iv;
 		
 		return $combined;
@@ -525,12 +558,12 @@ class Crypt {
 	}
 	
         /**
-         * @brief Generate a pseudo random 1024kb ASCII key
-         * @returns $key Generated key
+         * @brief Generates a pseudo random initialisation vector
+         * @return String $iv generated IV
          */
 	public static function generateIv() {
 		
-		if ( $random = openssl_random_pseudo_bytes( 13, $strong ) ) {
+		if ( $random = openssl_random_pseudo_bytes( 12, $strong ) ) {
 		
 			if ( !$strong ) {
 			
@@ -539,13 +572,15 @@ class Crypt {
 			
 			}
 			
-			$iv = substr( base64_encode( $random ), 0, -4 );
+			// We encode the iv purely for string manipulation 
+			// purposes - it gets decoded before use
+			$iv = base64_encode( $random );
 			
 			return $iv;
 			
 		} else {
 		
-			return false;
+			throw new Exception( 'Generating IV failed' );
 			
 		}
 		
@@ -565,7 +600,7 @@ class Crypt {
 			if ( !$strong ) {
 			
 				// If OpenSSL indicates randomness is insecure, log error
-				\OC_Log::write( 'Encryption library', 'Insecure symmetric key was generated using openssl_random_pseudo_bytes()' , \OC_Log::WARN );
+				throw new Exception ( 'Encryption library, Insecure symmetric key was generated using openssl_random_pseudo_bytes()' );
 			
 			}
 		
