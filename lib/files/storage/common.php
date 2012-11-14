@@ -57,19 +57,19 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	public function getPermissions($path){
 		$permissions = 0;
 		if($this->isCreatable($path)){
-			$permissions |= \OCP\Share::PERMISSION_CREATE;
+			$permissions |= \OCP\PERMISSION_CREATE;
 		}
 		if($this->isReadable($path)){
-			$permissions |= \OCP\Share::PERMISSION_READ;
+			$permissions |= \OCP\PERMISSION_READ;
 		}
 		if($this->isUpdatable($path)){
-			$permissions |= \OCP\Share::PERMISSION_UPDATE;
+			$permissions |= \OCP\PERMISSION_UPDATE;
 		}
 		if($this->isDeletable($path)){
-			$permissions |= \OCP\Share::PERMISSION_DELETE;
+			$permissions |= \OCP\PERMISSION_DELETE;
 		}
 		if($this->isSharable($path)){
-			$permissions |= \OCP\Share::PERMISSION_SHARE;
+			$permissions |= \OCP\PERMISSION_SHARE;
 		}
 		return $permissions;
 	}
@@ -257,6 +257,10 @@ abstract class Common implements \OC\Files\Storage\Storage {
 
 	public function getScanner(){
 		return new \OC\Files\Cache\Scanner($this);
+	}
+
+	public function getPermissionsCache(){
+		return new \OC\Files\Cache\Permissions($this);
 	}
 
 	/**

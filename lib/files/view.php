@@ -701,7 +701,8 @@ class View {
 			}
 		}
 
-		$data['permissions'] = Cache\Permissions::get($data['fileid'], \OC_User::getUser());
+		$permissionsCache = $storage->getPermissionsCache();
+		$data['permissions'] = $permissionsCache->get($data['fileid'], \OC_User::getUser());
 
 		return $data;
 	}
@@ -759,8 +760,9 @@ class View {
 			$files[$i]['type'] = $file['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
 			$ids[] = $file['fileid'];
 		}
+		$permissionsCache = $storage->getPermissionsCache();
 
-		$permissions = Cache\Permissions::getMultiple($ids, \OC_User::getUser());
+		$permissions = $permissionsCache->getMultiple($ids, \OC_User::getUser());
 		foreach ($files as $i => $file) {
 			$files[$i]['permissions'] = $permissions[$file['fileid']];
 		}

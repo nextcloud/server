@@ -65,6 +65,11 @@ interface Storage{
 	public function getOwner($path);
 
 	/**
+	 * @return \OC\Files\Cache\Permissions
+	 */
+	public function getPermissionsCache();
+
+	/**
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
