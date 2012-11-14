@@ -25,6 +25,6 @@ if(is_null($type)) {
 }
 
 $categories = new OC_VCategories($type);
-$ids = $categories->getFavorites($type)) {
+$ids = $categories->getFavorites($type));
 
 OC_JSON::success(array('ids' => $ids));
