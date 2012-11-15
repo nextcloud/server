@@ -646,7 +646,7 @@ class OC_Util {
         /**
          * @Brief Get file content via curl.
          * @param string $url Url to get content
-         * @return string of the response
+         * @return string of the response or false on error
          * This function get the content of a page via curl, if curl is enabled.
          * If not, file_get_element is used.
          */
@@ -663,7 +663,7 @@ class OC_Util {
                 curl_setopt($curl, CURLOPT_URL, $url);
 
                 $data = curl_exec($curl);
-                curl_close($data);
+                curl_close($curl);
 
             } else {
                 
@@ -678,7 +678,7 @@ class OC_Util {
                 
             }
             
-            return($data);
+            return $data;
         }
         
 }
