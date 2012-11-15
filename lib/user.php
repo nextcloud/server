@@ -204,6 +204,9 @@ class OC_User {
 			foreach(self::$_usedBackends as $backend) {
 				$backend->deleteUser($uid);
 			}
+			if (self::userExists($uid)) {
+				return false;
+			}
 			// We have to delete the user from all groups
 			foreach( OC_Group::getUserGroups( $uid ) as $i ) {
 				OC_Group::removeFromGroup( $uid, $i );
@@ -216,7 +219,7 @@ class OC_User {
 
 			// Emit and exit
 			OC_Hook::emit( "OC_User", "post_deleteUser", array( "uid" => $uid ));
-			return !self::userExists($uid);
+			return true;
 		}
 		else{
 			return false;
