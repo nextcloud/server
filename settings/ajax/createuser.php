@@ -29,14 +29,17 @@ $username = $_POST["username"];
 $password = $_POST["password"];
 
 // Does the group exist?
-if( in_array( $username, OC_User::getUsers())) {
+if(OC_User::userExists($username)) {
 	OC_JSON::error(array("data" => array( "message" => "User already exists" )));
 	exit();
 }
 
 // Return Success story
 try {
-	OC_User::createUser($username, $password);
+	if (!OC_User::createUser($username, $password)) {
+		OC_JSON::error(array('data' => array( 'message' => 'User creation failed for '.$username )));
+		exit();
+	}
 	foreach( $groups as $i ) {
 		if(!OC_Group::groupExists($i)) {
 			OC_Group::createGroup($i);

@@ -182,7 +182,7 @@ class OC_User {
 				$backend->createUser($uid, $password);
 				OC_Hook::emit( "OC_User", "post_createUser", array( "uid" => $uid, "password" => $password ));
 
-				return true;
+				return self::userExists($uid);
 			}
 		}
 		return false;
@@ -203,6 +203,9 @@ class OC_User {
 			//delete the user from all backends
 			foreach(self::$_usedBackends as $backend) {
 				$backend->deleteUser($uid);
+			}
+			if (self::userExists($uid)) {
+				return false;
 			}
 			// We have to delete the user from all groups
 			foreach( OC_Group::getUserGroups( $uid ) as $i ) {
