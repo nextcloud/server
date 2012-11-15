@@ -156,11 +156,11 @@ var FileList={
 							OC.dialogs.alert(result.data.message, 'Error moving file');
 							newname = name;
 						}
-						tr.data('renaming',false);
 					});
 					
 				}
 			}
+			tr.data('renaming',false);
 			tr.attr('data-file', newname);
 			var path = td.children('a.name').attr('href');
 			td.children('a.name').attr('href', path.replace(encodeURIComponent(name), encodeURIComponent(newname)));
