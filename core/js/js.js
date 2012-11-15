@@ -1,4 +1,20 @@
 /**
+ * Disable console output unless DEBUG mode is enabled.
+ * Add 
+ *     define('DEBUG', true);
+ * To the end of config/config.php to enable debug mode.
+ */
+if (oc_debug !== true) {
+	if (!window.console) {
+		window.console = {};
+	}
+	var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert'];
+	for (var i = 0; i < methods.length; i++) {
+	console[methods[i]] = function () { };
+	}
+}
+
+/**
  * translate a string
  * @param app the id of the app for which to translate the string
  * @param text the string to translate
