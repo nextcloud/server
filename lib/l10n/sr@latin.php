@@ -4,5 +4,6 @@
 "Settings" => "Podešavanja",
 "Users" => "Korisnici",
 "Authentication error" => "Greška pri autentifikaciji",
+"Files" => "Fajlovi",
 "Text" => "Tekst"
 );

@@ -18,13 +18,17 @@
 "seconds ago" => "před vteřinami",
 "1 minute ago" => "před 1 minutou",
 "%d minutes ago" => "před %d minutami",
+"1 hour ago" => "před hodinou",
+"%d hours ago" => "před %d hodinami",
 "today" => "dnes",
 "yesterday" => "včera",
 "%d days ago" => "před %d dny",
 "last month" => "minulý měsíc",
+"%d months ago" => "Před %d měsíci",
 "last year" => "loni",
 "years ago" => "před lety",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s je dostupná. Získat <a href=\"%s\">více informací</a>",
 "up to date" => "aktuální",
-"updates check is disabled" => "kontrola aktualizací je vypnuta"
+"updates check is disabled" => "kontrola aktualizací je vypnuta",
+"Could not find category \"%s\"" => "Nelze nalézt kategorii \"%s\""
 );

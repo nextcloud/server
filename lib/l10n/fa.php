@@ -4,6 +4,7 @@
 "Settings" => "تنظیمات",
 "Users" => "کاربران",
 "Admin" => "مدیر",
+"Authentication error" => "خطا در اعتبار سنجی",
 "Files" => "پرونده‌ها",
 "Text" => "متن",
 "seconds ago" => "ثانیه‌ها پیش",

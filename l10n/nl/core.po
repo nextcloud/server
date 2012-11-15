@@ -13,15 +13,16 @@
 # Martin Wildeman <mhwildeman@gmail.com>, 2012.
 #   <pietje8501@gmail.com>, 2012.
 # Richard Bos <radoeka@gmail.com>, 2012.
+#   <transifex@thisnet.nl>, 2012.
 #   <translator@it-dept.eu>, 2012.
 #   <webbsite-mark@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-15 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-15 12:57+0000\n"
+"Last-Translator: bartv <transifex@thisnet.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,11 +86,11 @@ msgstr "{minutes} minuten geleden"
 
 #: js/js.js:691
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 uur geleden"
 
 #: js/js.js:692
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} uren geleden"
 
 #: js/js.js:693
 msgid "today"
@@ -109,7 +110,7 @@ msgstr "vorige maand"
 
 #: js/js.js:697
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} maanden geleden"
 
 #: js/js.js:698
 msgid "months ago"

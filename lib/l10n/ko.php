@@ -4,5 +4,6 @@
 "Settings" => "설정",
 "Users" => "사용자",
 "Authentication error" => "인증 오류",
+"Files" => "파일",
 "Text" => "문자 번호"
 );

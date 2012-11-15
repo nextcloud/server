@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-15 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-15 10:19+0000\n"
+"Last-Translator: suganthi <suganthi@nic.lk>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "பிரிவு வகைகள் வழங்கப்படவில்லை"
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -34,18 +34,18 @@ msgstr "இந்த வகை ஏற்கனவே உள்ளது:"
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "பொருள் வகை வழங்கப்படவில்லை"
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "%s ID வழங்கப்படவில்லை"
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "விருப்பங்களுக்கு %s ஐ சேர்ப்பதில் வழு"
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -54,7 +54,7 @@ msgstr "நீக்குவதற்கு எந்தப் பிரிவ�
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "விருப்பத்திலிருந்து %s ஐ அகற்றுவதில் வழு.உஇஇ"
 
 #: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
 msgid "Settings"
@@ -74,11 +74,11 @@ msgstr "{நிமிடங்கள்} நிமிடங்களுக்க
 
 #: js/js.js:691
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 மணித்தியாலத்திற்கு முன்"
 
 #: js/js.js:692
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{மணித்தியாலங்கள்} மணித்தியாலங்களிற்கு முன்"
 
 #: js/js.js:693
 msgid "today"
@@ -98,7 +98,7 @@ msgstr "கடந்த மாதம்"
 
 #: js/js.js:697
 msgid "{months} months ago"
-msgstr ""
+msgstr "{மாதங்கள்} மாதங்களிற்கு முன்"
 
 #: js/js.js:698
 msgid "months ago"
@@ -135,7 +135,7 @@ msgstr "சரி"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "பொருள் வகை குறிப்பிடப்படவில்லை."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
@@ -145,11 +145,11 @@ msgstr "வழு"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "செயலி பெயர் குறிப்பிடப்படவில்லை."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "தேவைப்பட்ட கோப்பு {கோப்பு} நிறுவப்படவில்லை!"
 
 #: js/share.js:124
 msgid "Error while sharing"

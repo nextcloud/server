@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-15 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-15 00:36+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "カテゴリタイプは提供されていません。"
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -35,18 +35,18 @@ msgstr "このカテゴリはすでに存在します: "
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "オブジェクトタイプは提供されていません。"
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "%s ID は提供されていません。"
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "お気に入りに %s を追加エラー"
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -55,7 +55,7 @@ msgstr "削除するカテゴリが選択されていません。"
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "お気に入りから %s の削除エラー"
 
 #: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
 msgid "Settings"
@@ -75,11 +75,11 @@ msgstr "{minutes} 分前"
 
 #: js/js.js:691
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 時間前"
 
 #: js/js.js:692
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} 時間前"
 
 #: js/js.js:693
 msgid "today"
@@ -99,7 +99,7 @@ msgstr "一月前"
 
 #: js/js.js:697
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} 月前"
 
 #: js/js.js:698
 msgid "months ago"
@@ -136,7 +136,7 @@ msgstr "OK"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "オブジェクタイプが指定されていません。"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
@@ -146,11 +146,11 @@ msgstr "エラー"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "アプリ名がしていされていません。"
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "必要なファイル {file} がインストールされていません！"
 
 #: js/share.js:124
 msgid "Error while sharing"
