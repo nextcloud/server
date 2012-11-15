@@ -1,6 +1,5 @@
 OC.router_base_url = OC.webroot + '/index.php/',
 OC.Router = {
-	loadedCallback: null,
 	// register your ajax requests to load after the loading of the routes
 	// has finished. otherwise you face problems with race conditions
 	registerLoadedCallback: function(callback){
@@ -11,9 +10,6 @@ OC.Router = {
 		success: function(jsondata) {
 			if (jsondata.status === 'success') {
 				OC.Router.routes = jsondata.data;
-				if(OC.Router.loadedCallback !== null){
-					OC.Router.loadedCallback();
-				}
 			}
 		}
 	}),
