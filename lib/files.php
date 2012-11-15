@@ -28,6 +28,14 @@
 class OC_Files {
 	static $tmpFiles = array();
 
+	public function getFileInfo($path){
+		return \OC\Files\Filesystem::getFileInfo($path);
+	}
+
+	public function getDirectoryContent($path){
+		return \OC\Files\Filesystem::getDirectoryContent($path);
+	}
+
 	/**
 	 * return the content of a file or return a zip file containning multiply files
 	 *
