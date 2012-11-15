@@ -67,17 +67,17 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	 */
 	function testConcatIv( $iv ) {
 		
-		Encryption\Crypt::concatIv( $this->dataLong, $iv );
+		$catFile = Encryption\Crypt::concatIv( $this->dataLong, $iv );
 		
 		// Fetch encryption metadata from end of file
 		$meta = substr( $catFile, -22 );
 		
-		$identifier = substr( $meta, 6 );
-		
-		$this->assertEquals( '00iv00', $identifier );
+		$identifier = substr( $meta, 0, 6);
 		
 		// Fetch IV from end of file
-		$foundIv = substr( $meta, -16 );
+		$foundIv = substr( $meta, 6 );
+		
+		$this->assertEquals( '00iv00', $identifier );
 		
 		$this->assertEquals( $iv, $foundIv );
 		
@@ -85,32 +85,27 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$data = substr( $catFile, 0, -22 );
 		
 		$this->assertEquals( $this->dataLong, $data );
+		
+		return array(
+			'iv' => $iv
+			, 'catfile' => $catFile
+		);
 	
 	}
 	
 	/**
-	 * @depends testGenerateIv
+	 * @depends testConcatIv
 	 */
-	function testSplitIv( $iv ) {
+	function testSplitIv( $testConcatIv ) {
 		
-		Encryption\Crypt::concatIv( $this->dataLong, $iv );
+		// Split catfile into components
+		$splitCatfile = Encryption\Crypt::splitIv( $testConcatIv['catfile'] );
 		
-		// Fetch encryption metadata from end of file
-		$meta = substr( $catFile, -22 );
+		// Check that original IV and split IV match
+		$this->assertEquals( $testConcatIv['iv'], $splitCatfile['iv'] );
 		
-		$identifier = substr( $meta, 6 );
-		
-		$this->assertEquals( '00iv00', $identifier );
-		
-		// Fetch IV from end of file
-		$foundIv = substr( $meta, -16 );
-		
-		$this->assertEquals( $iv, $foundIv );
-		
-		// Remove IV and IV identifier text to expose encrypted content
-		$data = substr( $catFile, 0, -22 );
-		
-		$this->assertEquals( $this->dataLong, $data );
+		// Check that original data and split data match
+		$this->assertEquals( $this->dataLong, $splitCatfile['encrypted'] );
 	
 	}
 	
@@ -201,7 +196,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertNotEquals( $this->dataShort, $retreivedCryptedFile );
 		
 		
-		$key = Keymanager::getFileKey( $filename );
+		$key = Encryption\Keymanager::getFileKey( $filename );
 		
 		$manualDecrypt = Encryption\Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $key );
 		
@@ -245,7 +240,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		//print_r($e);
 		
 		// Manually fetch keyfile
-		$keyfile = Keymanager::getFileKey( $filename );
+		$keyfile = Encryption\Keymanager::getFileKey( $filename );
 		
 		// Set var for reassembling decrypted content
 		$decrypt = '';

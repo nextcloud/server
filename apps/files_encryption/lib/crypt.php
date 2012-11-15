@@ -263,9 +263,7 @@ class Crypt {
 			, 'iv' => $iv
 		);
 		
-		$combined = $content . '00iv00' . $iv;
-		
-		return $combined;
+		return $split;
 	
 	}
 	
