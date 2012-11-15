@@ -55,7 +55,7 @@ class Test_Share extends UnitTestCase {
 		OC_Group::addToGroup($this->user4, $this->group2);
 		OCP\Share::registerBackend('test', 'Test_Share_Backend');
 		OC_Hook::clear('OCP\\Share');
-		OC::installShareHooks();
+		OC::registerShareHooks();
 	}
 
 	public function tearDown() {

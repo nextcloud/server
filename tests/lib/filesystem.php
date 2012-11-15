@@ -74,7 +74,7 @@ class Test_Filesystem extends UnitTestCase {
 
 	public function testBlacklist() {
 		OC_Hook::clear('OC_Filesystem');
-		OC::installFilesystemHooks();
+		OC::registerFilesystemHooks();
 
 		$run = true;
 		OC_Hook::emit(
