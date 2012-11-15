@@ -65,6 +65,9 @@ if($source) {
 	$target=$dir.'/'.$filename;
 	$result=OC_Filesystem::file_put_contents($target, $sourceStream);
 	if($result) {
+		if($target[0] != '/') {
+			$target = '/'.$target;
+		}
 		$meta = OC_FileCache::get($target);
 		$mime=$meta['mimetype'];
 		$id = OC_FileCache::getId($target);
