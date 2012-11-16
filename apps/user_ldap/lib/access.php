@@ -119,6 +119,19 @@ abstract class Access {
 		//make comparisons and everything work
 		$dn = mb_strtolower($dn, 'UTF-8');
 
+		//escape DN values according to RFC 2253
+		//thanks to Kolab, http://git.kolab.org/pear/Net_LDAP3/tree/lib/Net/LDAP3.php#n1313
+		$aDN = ldap_explode_dn($dn, false);
+		unset($aDN['count']);
+		foreach($aDN as $key => $part) {
+			$value = substr($part, strpos($part, '=')+1);
+			$escapedValue = strtr($value, Array(','=>'\2c', '='=>'\3d', '+'=>'\2b',
+				'<'=>'\3c', '>'=>'\3e', ';'=>'\3b', '\\'=>'\5c',
+				'"'=>'\22', '#'=>'\23'));
+			$part = str_replace($part, $value, $escapedValue);
+		}
+		$dn = implode(',', $aDN);
+
 		return $dn;
 	}
 
