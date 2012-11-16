@@ -505,8 +505,8 @@ $(document).ready(function() {
 		$(this).append(input);
 		input.focus();
 		input.change(function(){
-			if(type != 'web' && $(this).val().indexOf('/')!=-1){
-				$('#notification').text(t('files','Invalid name, \'/\' is not allowed.'));
+			if(type != 'web' && ($(this).val().indexOf('/')!=-1 || $(this).val().indexOf('\\')!=-1)) {
+				$('#notification').text(t('files', 'Invalid name, \'/\' or \'\\\' is not allowed.'));
 				$('#notification').fadeIn();
 				return;
 			}
