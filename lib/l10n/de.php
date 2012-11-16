@@ -12,7 +12,7 @@
 "Application is not enabled" => "Die Anwendung ist nicht aktiviert",
 "Authentication error" => "Authentifizierungs-Fehler",
 "Token expired. Please reload page." => "Token abgelaufen. Bitte lade die Seite neu.",
-"seconds ago" => "Vor wenigen Sekunden",
+"seconds ago" => "Gerade eben",
 "1 minute ago" => "Vor einer Minute",
 "%d minutes ago" => "Vor %d Minuten",
 "today" => "Heute",

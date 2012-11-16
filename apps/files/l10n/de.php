@@ -37,7 +37,7 @@
 "folders" => "Ordner",
 "file" => "Datei",
 "files" => "Dateien",
-"seconds ago" => "Sekunden her",
+"seconds ago" => "Gerade eben",
 "minute ago" => "Minute her",
 "minutes ago" => "Minuten her",
 "today" => "Heute",
