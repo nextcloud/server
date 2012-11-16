@@ -362,9 +362,9 @@ class OC_FileCache{
 	/**
 	 * recursively scan the filesystem and fill the cache
 	 * @param string $path
-	 * @param OC_EventSource $enventSource (optional)
-	 * @param int count (optional)
-	 * @param string root (optional)
+	 * @param OC_EventSource $eventSource (optional)
+	 * @param int $count (optional)
+	 * @param string $root (optional)
 	 */
 	public static function scan($path, $eventSource=false,&$count=0, $root=false) {
 		if($eventSource) {
