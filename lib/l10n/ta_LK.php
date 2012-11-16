@@ -18,13 +18,17 @@
 "seconds ago" => "செக்கன்களுக்கு முன்",
 "1 minute ago" => "1 நிமிடத்திற்கு முன் ",
 "%d minutes ago" => "%d நிமிடங்களுக்கு முன்",
+"1 hour ago" => "1 மணித்தியாலத்திற்கு முன்",
+"%d hours ago" => "%d மணித்தியாலத்திற்கு முன்",
 "today" => "இன்று",
 "yesterday" => "நேற்று",
 "%d days ago" => "%d நாட்களுக்கு முன்",
 "last month" => "கடந்த மாதம்",
+"%d months ago" => "%d மாதத்திற்கு முன்",
 "last year" => "கடந்த வருடம்",
 "years ago" => "வருடங்களுக்கு முன்",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s இன்னும் இருக்கின்றன. <a href=\"%s\">மேலதிக தகவல்களுக்கு</a> எடுக்க",
 "up to date" => "நவீன",
-"updates check is disabled" => "இற்றைப்படுத்தலை சரிபார்ப்பதை செயலற்றதாக்குக"
+"updates check is disabled" => "இற்றைப்படுத்தலை சரிபார்ப்பதை செயலற்றதாக்குக",
+"Could not find category \"%s\"" => "பிரிவு \"%s\" ஐ கண்டுப்பிடிக்க முடியவில்லை"
 );

@@ -3,5 +3,6 @@
 "Personal" => "Personīgi",
 "Settings" => "Iestatījumi",
 "Users" => "Lietotāji",
-"Authentication error" => "Ielogošanās kļūme"
+"Authentication error" => "Ielogošanās kļūme",
+"Files" => "Faili"
 );

@@ -1,9 +1,14 @@
 OC.router_base_url = OC.webroot + '/index.php/',
 OC.Router = {
+	// register your ajax requests to load after the loading of the routes
+	// has finished. otherwise you face problems with race conditions
+	registerLoadedCallback: function(callback){
+		this.routes_request.done(callback);
+	},
 	routes_request: $.ajax(OC.router_base_url + 'core/routes.json', {
 		dataType: 'json',
 		success: function(jsondata) {
-			if (jsondata.status == 'success') {
+			if (jsondata.status === 'success') {
 				OC.Router.routes = jsondata.data;
 			}
 		}
@@ -11,7 +16,7 @@ OC.Router = {
 	generate:function(name, opt_params) {
 		if (!('routes' in this)) {
 			if(this.routes_request.state() != 'resolved') {
-				alert('wait');// wait
+				console.warn('To avoid race conditions, please register a callback');// wait
 			}
 		}
 		if (!(name in this.routes)) {

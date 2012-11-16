@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-15 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-15 20:58+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,12 +97,12 @@ msgstr "%d minuuttia sitten"
 
 #: template.php:106
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 tunti sitten"
 
 #: template.php:107
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "%d tuntia sitten"
 
 #: template.php:108
 msgid "today"
@@ -124,7 +124,7 @@ msgstr "viime kuussa"
 #: template.php:112
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "%d kuukautta sitten"
 
 #: template.php:113
 msgid "last year"
@@ -150,4 +150,4 @@ msgstr "päivitysten tarkistus on pois käytöstä"
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Luokkaa \"%s\" ei löytynyt"

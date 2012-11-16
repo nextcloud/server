@@ -12,6 +12,7 @@
 "Application is not enabled" => "יישומים אינם מופעלים",
 "Authentication error" => "שגיאת הזדהות",
 "Token expired. Please reload page." => "פג תוקף. נא לטעון שוב את הדף.",
+"Files" => "קבצים",
 "Text" => "טקסט",
 "seconds ago" => "שניות",
 "1 minute ago" => "לפני דקה אחת",
