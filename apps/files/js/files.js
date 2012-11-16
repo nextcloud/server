@@ -286,6 +286,9 @@ $(document).ready(function() {
 								var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i],
 										formData: function(form) {
 											var formArray = form.serializeArray();
+                                            // array index 0 contains the max files size
+                                            // array index 1 contains the request token
+                                            // array index 2 contains the directory
 											formArray[2]['value'] = dirName;
 											return formArray;
 										}}).success(function(result, textStatus, jqXHR) {
