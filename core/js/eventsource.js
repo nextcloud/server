@@ -65,7 +65,8 @@ OC.EventSource=function(src,data){
 		if(src.indexOf('?') == -1) {
 			joinChar = '?';
 		}
-		alert(src.indexOf('?'));	this.iframe.attr('src',src+joinChar+'fallback=true&fallback_id='+OC.EventSource.iframeCount+'&'+dataStr);
+		alert(src.indexOf('?'));
+		this.iframe.attr('src',src+joinChar+'fallback=true&fallback_id='+OC.EventSource.iframeCount+'&'+dataStr);
 		$('body').append(this.iframe);
 		this.useFallBack=true;
 		OC.EventSource.iframeCount++
