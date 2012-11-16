@@ -189,7 +189,7 @@ class Storage {
 
 			$i = 0;
 
-			$files_view = new \OC\Files\View('/'  \OCP\User::getUser() . '/files');
+			$files_view = new \OC\Files\View('/' . \OCP\User::getUser() . '/files');
 			$local_file = $files_view->getLocalFile($filename);
 			foreach( $matches as $ma ) {
 
