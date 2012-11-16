@@ -11,7 +11,7 @@
 			</li>
 		<?php endif; ?>
 		<?php if(isset($_['invalidpassword']) && ($_['invalidpassword'])): ?>
-			<a href="./core/lostpassword/"><li class="errors">
+			<a href="<?php echo OC_Helper::linkToRoute('core_lostpassword_index') ?>"><li class="errors">
 				<?php echo $l->t('Lost your password?'); ?>
 			</li></a>
 		<?php endif; ?>
