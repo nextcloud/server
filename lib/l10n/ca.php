@@ -18,13 +18,17 @@
 "seconds ago" => "segons enrere",
 "1 minute ago" => "fa 1 minut",
 "%d minutes ago" => "fa %d minuts",
+"1 hour ago" => "fa 1 hora",
+"%d hours ago" => "fa %d hores",
 "today" => "avui",
 "yesterday" => "ahir",
 "%d days ago" => "fa %d dies",
 "last month" => "el mes passat",
+"%d months ago" => "fa %d mesos",
 "last year" => "l'any passat",
 "years ago" => "fa anys",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s està disponible. Obtén <a href=\"%s\">més informació</a>",
 "up to date" => "actualitzat",
-"updates check is disabled" => "la comprovació d'actualitzacions està desactivada"
+"updates check is disabled" => "la comprovació d'actualitzacions està desactivada",
+"Could not find category \"%s\"" => "No s'ha trobat la categoria \"%s\""
 );

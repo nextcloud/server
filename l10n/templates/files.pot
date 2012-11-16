@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-16 00:01+0100\n"
+"POT-Creation-Date: 2012-11-17 00:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,64 +115,64 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: js/files.js:237 js/files.js:342 js/files.js:372
+#: js/files.js:242 js/files.js:356 js/files.js:386
 msgid "Pending"
 msgstr ""
 
-#: js/files.js:257
+#: js/files.js:262
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:260 js/files.js:305 js/files.js:320
+#: js/files.js:265 js/files.js:319 js/files.js:334
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:323 js/files.js:356
+#: js/files.js:337 js/files.js:370
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/files.js:425
+#: js/files.js:439
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:495
+#: js/files.js:509
 msgid "Invalid name, '/' is not allowed."
 msgstr ""
 
-#: js/files.js:676
+#: js/files.js:690
 msgid "{count} files scanned"
 msgstr ""
 
-#: js/files.js:684
+#: js/files.js:698
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:757 templates/index.php:50
+#: js/files.js:771 templates/index.php:50
 msgid "Name"
 msgstr ""
 
-#: js/files.js:758 templates/index.php:58
+#: js/files.js:772 templates/index.php:58
 msgid "Size"
 msgstr ""
 
-#: js/files.js:759 templates/index.php:60
+#: js/files.js:773 templates/index.php:60
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:786
+#: js/files.js:800
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:788
+#: js/files.js:802
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:796
+#: js/files.js:810
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:798
+#: js/files.js:812
 msgid "{count} files"
 msgstr ""
 

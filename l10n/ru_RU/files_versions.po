@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-11 02:04+0200\n"
-"PO-Revision-Date: 2012-10-10 13:22+0000\n"
+"POT-Creation-Date: 2012-11-17 00:01+0100\n"
+"PO-Revision-Date: 2012-11-16 07:25+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Версии"
 
 #: templates/settings-personal.php:7
 msgid "This will delete all existing backup versions of your files"
-msgstr "Это приведет к удалению всех существующих версий резервной копии ваших файлов"
+msgstr "Это приведет к удалению всех существующих версий резервной копии Ваших файлов"
 
 #: templates/settings.php:3
 msgid "Files Versioning"
