@@ -65,6 +65,11 @@ class Util {
 	private $view; // OC_FilesystemView object for filesystem operations
 	private $pwd; // User Password
 	private $client; // Client side encryption mode flag
+	private $publicKeyDir; // Directory containing all public user keys
+	private $encryptionDir; // Directory containing user's files_encryption
+	private $keyfilesPath; // Directory containing user's keyfiles
+	private $publicKeyPath; // Path to user's public key
+	private $privateKeyPath; // Path to user's private key
 
 	public function __construct( \OC_FilesystemView $view, $userId, $client = false ) {
 	
@@ -102,11 +107,6 @@ class Util {
          * @param $passphrase passphrase to encrypt server-stored private key with
          */
 	public function setupServerSide( $passphrase = null ) {
-	
-		// Log changes to user's filesystem
-		$this->appInfo = \OC_APP::getAppInfo( 'files_encryption' );
-		
-		\OC_Log::write( $this->appInfo['name'], 'File encryption for user "' . $this->userId . '" will be set up' , \OC_Log::INFO );
 		
 		// Create shared public key directory
 		if( !$this->view->file_exists( $this->publicKeyDir ) ) {
@@ -152,6 +152,8 @@ class Util {
 			\OC_FileProxy::$enabled = true;
 			
 		}
+		
+		return true;
 	
 	}
 	
@@ -356,6 +358,44 @@ class Util {
 		
 		# TODO: write me
 	
+	}
+	
+	public function getPath( $pathName ) {
+	
+		switch ( $pathName ) {
+			
+			case 'publicKeyDir':
+			
+				return $this->publicKeyDir;
+				
+				break;
+				
+			case 'encryptionDir':
+			
+				return $this->encryptionDir;
+				
+				break;
+				
+			case 'keyfilesPath':
+			
+				return $this->keyfilesPath;
+				
+				break;
+				
+			case 'publicKeyPath':
+			
+				return $this->publicKeyPath;
+				
+				break;
+				
+			case 'privateKeyPath':
+			
+				return $this->privateKeyPath;
+				
+				break;
+			
+		}
+		
 	}
 
 }

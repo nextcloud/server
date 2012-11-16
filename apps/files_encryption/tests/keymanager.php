@@ -5,11 +5,11 @@
  * later.
  * See the COPYING-README file.
  */
-
-namespace OCA\Encryption;
  
 require_once "PHPUnit/Framework/TestCase.php";
 require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
+
+use OCA\Encryption;
 
 class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
@@ -34,7 +34,7 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 
 	function testGetEncryptedPrivateKey() {
 	
-		$key = Keymanager::getPrivateKey( $this->user, $this->view );
+		$key = Encryption\Keymanager::getPrivateKey( $this->user, $this->view );
 		
 		$this->assertEquals( 2302, strlen( $key ) );
 	
@@ -52,16 +52,18 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 // 		
 // 		//$view = new \OC_FilesystemView( '/' . $this->user . '/files_encryption/keyfiles' );
 // 		
-// 		Keymanager::setFileKey( $tmpPath, $key['key'], $view );
+// 		Encryption\Keymanager::setFileKey( $tmpPath, $key['key'], $view );
 	
 	}
 	
 	function testGetDecryptedPrivateKey() {
 	
-		$key = Keymanager::getPrivateKey( $this->user, $this->view );
+		$key = Encryption\Keymanager::getPrivateKey( $this->user, $this->view );
 		
 		# TODO: replace call to Crypt with a mock object?
-		$decrypted = Crypt::symmetricDecryptFileContent( $key, $this->passphrase );
+		$decrypted = Encryption\Crypt::symmetricDecryptFileContent( $key, $this->passphrase );
+		
+		var_dump($decrypted);
 		
 		$this->assertEquals( 1708, strlen( $decrypted ) );
 		

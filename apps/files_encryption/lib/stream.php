@@ -31,9 +31,18 @@ namespace OCA\Encryption;
 
 /**
  * @brief Provides 'crypt://' stream wrapper protocol.
- * @note We use a stream wrapper because it is the most secure way to handle decrypted content transfers. There is no safe way to decrypt the entire file somewhere on the server, so we have to encrypt and decrypt blocks on the fly.
- * @note Paths used with this protocol MUST BE RELATIVE, due to limitations of OC_FilesystemView. crypt:///home/user/owncloud/data <- will put keyfiles in [owncloud]/data/user/files_encryption/keyfiles/home/user/owncloud/data and will not be accessible by other functions.
- * @note Data read and written must always be 8192 bytes long, as this is the buffer size used internally by PHP. The encryption process makes the input data longer, and input is chunked into smaller pieces in order to result in a 8192 encrypted block size.
+ * @note We use a stream wrapper because it is the most secure way to handle 
+ * decrypted content transfers. There is no safe way to decrypt the entire file
+ * somewhere on the server, so we have to encrypt and decrypt blocks on the fly.
+ * @note Paths used with this protocol MUST BE RELATIVE. Use URLs like:
+ * crypt://filename, or crypt://subdirectory/filename, NOT 
+ * crypt:///home/user/owncloud/data. Otherwise keyfiles will be put keyfiles in 
+ * [owncloud]/data/user/files_encryption/keyfiles/home/user/owncloud/data and 
+ * will not be accessible to other functions.
+ * @note Data read and written must always be 8192 bytes long, as this is the 
+ * buffer size used internally by PHP. The encryption process makes the input 
+ * data longer, and input is chunked into smaller pieces in order to result in 
+ * a 8192 encrypted block size.
  */
 class Stream {
 
@@ -41,6 +50,8 @@ class Stream {
 
 	# TODO: make all below properties private again once unit testing is configured correctly
 	public $rawPath; // The raw path received by stream_open
+	public $path_f; // The raw path formatted to include username and data directory
+	private $userId;
 	private $handle; // Resource returned by fopen
 	private $path;
 	private $readBuffer; // For streams that dont support seeking
@@ -53,19 +64,23 @@ class Stream {
 
 	public function stream_open( $path, $mode, $options, &$opened_path ) {
 	
-		file_put_contents('/home/samtuke/newtmp.txt', 'stream_open('.$path.')' );
+		//file_put_contents('/home/samtuke/newtmp.txt', 'stream_open('.$path.')' );
 		
 		// Get access to filesystem via filesystemview object
 		if ( !self::$view ) {
 
-			self::$view = new \OC_FilesystemView( '' );
+			self::$view = new \OC_FilesystemView( $this->userId . '/' );
 
 		}
+		
+		$this->userId = \OCP\User::getUser();
 		
 		// Get the bare file path
 		$path = str_replace( 'crypt://', '', $path );
 		
 		$this->rawPath = $path;
+		
+		$this->path_f = $this->userId . '/files/' . $path;
 		
 		if ( 
 		dirname( $path ) == 'streams' 
@@ -95,7 +110,7 @@ class Stream {
 				
 				
 				
-				$this->size = self::$view->filesize( $path, $mode );
+				$this->size = self::$view->filesize( $this->path_f, $mode );
 				
 				//$this->size = filesize( $path );
 				
@@ -106,7 +121,7 @@ class Stream {
 
 			//$this->handle = fopen( $path, $mode );
 			
-			$this->handle = self::$view->fopen( $path, $mode );
+			$this->handle = self::$view->fopen( $this->path_f, $mode );
 			
 			//file_put_contents('/home/samtuke/newtmp.txt', 'fucking hopeless = '.$path );
 			
@@ -165,7 +180,7 @@ class Stream {
 		
 		//echo "\n\nPRE DECRYPTION = $data\n\n";
 // 
-// 		if ( strlen( $data ) ) {
+		if ( strlen( $data ) ) {
 			
 			$this->getKey();
 			
@@ -186,14 +201,12 @@ class Stream {
 // 			echo "\n\n\n\n-----------------------------\n\n";
 			
 			//trigger_error("CAT  $result");
+			
+		} else {
 
-			
-			
-// 		} else {
-// 
-// 			$result = '';
-// 
-// 		}
+			$result = '';
+
+		}
 
 // 		$length = $this->size - $pos;
 // 
@@ -234,14 +247,11 @@ class Stream {
 	 * @return bool true on key found and set, false on key not found and new key generated and set
 	 */
 	public function getKey( $generate = true ) {
-	
-		# TODO: Move this user call out of here - it belongs elsewhere
-		$user = \OCP\User::getUser();
 		
 		//echo "\n\$this->rawPath = {$this->rawPath}";
 		
 		// If a keyfile already exists for a file named identically to file to be written
-		if ( self::$view->file_exists( $user . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->rawPath . '.key' ) ) {
+		if ( self::$view->file_exists( $this->userId . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->rawPath . '.key' ) ) {
 		
 			# TODO: add error handling for when file exists but no keyfile
 			
@@ -275,6 +285,8 @@ class Stream {
 	 * @note PHP automatically updates the file pointer after writing data to reflect it's length. There is generally no need to update the poitner manually using fseek
 	 */
 	public function stream_write( $data ) {
+		
+		
 		
 // 		file_put_contents('/home/samtuke/newtmp.txt', 'stream_write('.$data.')' );
 		

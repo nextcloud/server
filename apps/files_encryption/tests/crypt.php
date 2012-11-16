@@ -34,7 +34,9 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		$this->view = new \OC_FilesystemView( '/' );
 		
-		\OC_User::setUserId( 'admin' );
+		$this->userId = 'admin';
+		
+		\OC_User::setUserId( $this->userId );
 	
 	}
 	
@@ -106,6 +108,29 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		// Check that original data and split data match
 		$this->assertEquals( $this->dataLong, $splitCatfile['encrypted'] );
+	
+	}
+	
+	function testAddPadding() {
+	
+		$padded = Encryption\Crypt::addPadding( $this->dataLong );
+		
+		$padding = substr( $padded, -2 );
+		
+		$this->assertEquals( 'xx' , $padding );
+		
+		return $padded;
+	
+	}
+	
+	/**
+	 * @depends testAddPadding
+	 */
+	function testRemovePadding( $padded ) {
+	
+		$noPadding = Encryption\Crypt::RemovePadding( $padded );
+		
+		$this->assertEquals( $this->dataLong, $noPadding );
 	
 	}
 	
@@ -188,7 +213,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		
 		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( $filename );
+		$retreivedCryptedFile = $this->view->file_get_contents( $this->userId . '/files/' . $filename );
 		
 		//echo "\n\n\$retreivedCryptedFile = $retreivedCryptedFile";
 		
@@ -222,7 +247,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue( is_int( $cryptedFile ) );
 		
 		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( $filename );
+		$retreivedCryptedFile = $this->view->file_get_contents( $this->userId . '/files/' . $filename );
 		
 // 		echo "\n\n\$retreivedCryptedFile = $retreivedCryptedFile\n\n";
 		
@@ -261,17 +286,16 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		$this->assertEquals( $this->dataLong.$this->dataLong, $decrypt );
 		
-		// Teadown
+		// Teardown
 		
 		$this->view->unlink( $filename );
 		
-		Keymanager::deleteFileKey( $filename );
+		Encryption\Keymanager::deleteFileKey( $filename );
 		
 	}
 	
 	/**
 	 * @brief Test that data that is read by the crypto stream wrapper
-	 * @depends testSymmetricStreamEncryptLongFileContent
 	 */
 	function testSymmetricStreamDecryptShortFileContent() {
 		
@@ -285,7 +309,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		
 		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( $filename );
+		$retreivedCryptedFile = $this->view->file_get_contents( $this->userId . '/files/' . $filename );
 		
 		$decrypt = file_get_contents( 'crypt://' . $filename );
 		
@@ -305,7 +329,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		
 		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( '/admin/files/' . $filename );
+		$retreivedCryptedFile = $this->view->file_get_contents( $this->userId . '/files/' . $filename );
 		
 		$decrypt = file_get_contents( 'crypt://' . $filename );
 		

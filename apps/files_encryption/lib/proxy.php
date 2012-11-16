@@ -46,23 +46,34 @@ class Proxy extends \OC_FileProxy {
 		
 		if ( is_null( self::$enableEncryption ) ) {
 		
-			self::$enableEncryption = ( \OCP\Config::getAppValue( 'files_encryption', 'enable_encryption', 'true' ) == 'true' && Crypt::mode() == 'server' );
+			if ( 
+			\OCP\Config::getAppValue( 'files_encryption', 'enable_encryption', 'true' ) == 'true' 
+			&& Crypt::mode() == 'server' 
+			) {
+			
+				self::$enableEncryption = true;
+			
+			} else {
+				
+				self::$enableEncryption = false;
+			
+			}
 			
 		}
 		
-		if( !self::$enableEncryption ) {
+		if ( !self::$enableEncryption ) {
 		
 			return false;
 			
 		}
 		
-		if( is_null(self::$blackList ) ) {
+		if ( is_null(self::$blackList ) ) {
 		
 			self::$blackList = explode(',', \OCP\Config::getAppValue( 'files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg' ) );
 			
 		}
 		
-		if( Crypt::isEncryptedContent( $path ) ) {
+		if ( Crypt::isEncryptedContent( $path ) ) {
 		
 			return true;
 			
@@ -132,6 +143,7 @@ class Proxy extends \OC_FileProxy {
 				
 			}
 		}
+		
 	}
 	
 	public function postFile_get_contents( $path, $data ) {

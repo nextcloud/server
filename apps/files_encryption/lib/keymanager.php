@@ -230,7 +230,7 @@ class Keymanager {
 	 * @return bool true/false
 	 */
 	public static function setFileKey( $path, $key, $view = Null, $dbClassName = '\OC_DB') {
-
+var_dump($path);
 		$targetPath = ltrim(  $path, '/'  );
 		$user = \OCP\User::getUser();
 		
@@ -274,7 +274,10 @@ class Keymanager {
 		$view->chroot( '/' . $user . '/files_encryption/keyfiles' );
 		
 		// If the file resides within a subdirectory, create it
-		if ( ! $view->file_exists( $path_parts['dirname'] ) ) {
+		if ( 
+		isset( $path_parts['dirname'] )
+		&& ! $view->file_exists( $path_parts['dirname'] ) 
+		) {
 		
 			$view->mkdir( $path_parts['dirname'] );
 			

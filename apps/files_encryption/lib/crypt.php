@@ -45,23 +45,26 @@ class Crypt {
 	 */
 	public static function mode( $user = null ) {
 		
-		$mode = \OC_Appconfig::getValue( 'files_encryption', 'mode', 'none' );
+// 		$mode = \OC_Appconfig::getValue( 'files_encryption', 'mode', 'none' );
+// 
+// 		if ( $mode == 'user') {
+// 			if ( !$user ) {
+// 				$user = \OCP\User::getUser();
+// 			}
+// 			$mode = 'none';
+// 			if ( $user ) {
+// 				$query = \OC_DB::prepare( "SELECT mode FROM *PREFIX*encryption WHERE uid = ?" );
+// 				$result = $query->execute(array($user));
+// 				if ($row = $result->fetchRow()){
+// 					$mode = $row['mode'];
+// 				}
+// 			}
+// 		}
+// 		
+// 		return $mode;
 
-		if ( $mode == 'user') {
-			if ( !$user ) {
-				$user = \OCP\User::getUser();
-			}
-			$mode = 'none';
-			if ( $user ) {
-				$query = \OC_DB::prepare( "SELECT mode FROM *PREFIX*encryption WHERE uid = ?" );
-				$result = $query->execute(array($user));
-				if ($row = $result->fetchRow()){
-					$mode = $row['mode'];
-				}
-			}
-		}
+		return 'server';
 		
-		return $mode;
 	}
 	
         /**
@@ -101,7 +104,7 @@ class Crypt {
         /**
          * @brief Remove arbitrary padding to encrypted data
          * @param string $padded padded data to remove padding from
-         * @return padded data on success, false on error
+         * @return unpadded data on success, false on error
          */
 	public static function removePadding( $padded ) {
 	
@@ -220,7 +223,7 @@ class Crypt {
 			
 		} else {
 		
-			\OC_Log::write( 'Encryption library', 'Decryption (symmetric) of content failed' , \OC_Log::ERROR );
+			throw new \Exception( 'Encryption library: Decryption (symmetric) of content failed' );
 			
 			return false;
 			
@@ -317,7 +320,7 @@ class Crypt {
 	
 		if ( !$keyfileContent ) {
 		
-			return false;
+			throw new \Exception( 'Encryption library: no data provided for decryption' );
 			
 		}
 		
@@ -330,15 +333,11 @@ class Crypt {
 		// Remove IV and IV identifier text to expose encrypted content
 		$encryptedContent = substr( $noPadding, 0, -22 );
 		
+		//trigger_error( "\n\n\$noPadding = ".var_export($noPadding)."\n\n\$iv = ".var_export($iv )."\n\n\$encryptedContent = ".var_export($encryptedContent) );
+		
 		if ( $plainContent = self::decrypt( $encryptedContent, $iv, $passphrase ) ) {
 		
 			return $plainContent;
-			
-		} else {
-		
-			\OC_Log::write( 'Encryption library', 'Decryption (symmetric) of keyfile content failed' , \OC_Log::ERROR );
-			
-			return false;
 			
 		}
 	

@@ -36,32 +36,40 @@ class Hooks {
 	 */
 
 	public static function login( $params ) {
-
-		if ( Crypt::mode( $params['uid'] ) == 'server' ) {
-
+	
+// 		if ( Crypt::mode( $params['uid'] ) == 'server' ) {
+			
 			# TODO: use lots of dependency injection here
 		
 			$view = new \OC_FilesystemView( '/' );
 
 			$util = new Util( $view, $params['uid'] );
-
-			if ( !$util->ready()) {
+			
+			if ( ! $util->ready() ) {
+				
+				\OC_Log::write( 'Encryption library', 'User account "' . $params['uid'] . '" is not ready for encryption; configuration started' , \OC_Log::DEBUG );
 				
 				return $util->setupServerSide( $params['password'] );
 
 			}
 		
 			\OC_FileProxy::$enabled = false;
-		
+			
 			$encryptedKey = Keymanager::getPrivateKey( $params['uid'], $view );
-
+			
 			\OC_FileProxy::$enabled = true;
 			
 			# TODO: dont manually encrypt the private keyfile - use the config options of openssl_pkey_export instead for better mobile compatibility
 			
+			//trigger_error( "\$encryptedKey = ".var_export($encryptedKey)." \n\n\$params['password'] = ".var_export($params['password'] ) );
+			
+// 			trigger_error( "\$params['password'] = {$params['password']}" );
+			
 			$_SESSION['enckey'] = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
 			
-		}
+// 			trigger_error( "\$_SESSION['enckey'] = {$_SESSION['enckey']}" );
+			
+// 		}
 
 		return true;
 
