@@ -18,7 +18,7 @@ class OC_FileCache_Cached{
 			$root=OC_Filesystem::getRoot();
 		}
 		$path=$root.$path;
-		$stmt=OC_DB::prepare('SELECT `path`,`ctime`,`mtime`,`mimetype`,`size`,`encrypted`,`versioned`,`writable` FROM `*PREFIX*fscache` WHERE `path_hash`=?');
+		$stmt=OC_DB::prepare('SELECT `id`, `path`,`ctime`,`mtime`,`mimetype`,`size`,`encrypted`,`versioned`,`writable` FROM `*PREFIX*fscache` WHERE `path_hash`=?');
 		if ( ! OC_DB::isError($stmt) ) {
 			$result=$stmt->execute(array(md5($path)));
 			if ( ! OC_DB::isError($result) ) {
