@@ -51,6 +51,12 @@ if(strpos($dir, '..') === false) {
 		if(is_uploaded_file($files['tmp_name'][$i]) and OC_Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
 			$meta = OC_FileCache::get($target);
 			$id = OC_FileCache::getId($target);
+			// in case the upload goes to a sub directory getID() returns -1 and $target needs to be normalized
+			// calling normalizePath() inside getId() causes endless scan.
+			if ($id == -1) {
+				$path = OC_Filesystem::normalizePath($target);
+				$id = OC_FileCache::getId($path);
+			}
 			$result[]=array( "status" => "success", 'mime'=>$meta['mimetype'], 'size'=>$meta['size'], 'id'=>$id, 'name'=>basename($target));
 		}
 	}
