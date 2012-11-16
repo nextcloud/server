@@ -35,6 +35,7 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 		if(substr($this->share, -1, 1)=='/') {
 			$this->share = substr($this->share,0,-1);
 		}
+	}
 
 	public function getId(){
 		return 'smb::' . $this->user . '@' . $this->host . '/' . $this->share . '/' . $this->root;
