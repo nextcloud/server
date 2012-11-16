@@ -48,6 +48,8 @@ if(strpos($dir, '..') === false) {
 	$fileCount=count($files['name']);
 	for($i=0;$i<$fileCount;$i++) {
         $target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
+		// $path needs to be normalized - this failed within drag'n'drop upload to a sub-folder
+		$target = OC_Filesystem::normalizePath($target);
 		if(is_uploaded_file($files['tmp_name'][$i]) and OC_Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
 			$meta = OC_FileCache::get($target);
 			$id = OC_FileCache::getId($target);
