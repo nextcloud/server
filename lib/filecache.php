@@ -43,8 +43,6 @@ class OC_FileCache{
 	 * - versioned
 	 */
 	public static function get($path, $root=false) {
-		// $path needs to be normalized - this failed within drag'n'drop upload to a subfolder
-		$path = OC_Filesystem::normalizePath($path);
 		if(OC_FileCache_Update::hasUpdated($path, $root)) {
 			if($root===false) {//filesystem hooks are only valid for the default root
 				OC_Hook::emit('OC_Filesystem', 'post_write', array('path'=>$path));
