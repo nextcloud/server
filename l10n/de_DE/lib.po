@@ -6,6 +6,7 @@
 #   <a.tangemann@web.de>, 2012.
 #   <blobbyjj@ymail.com>, 2012.
 # Jan-Christoph Borchardt <hey@jancborchardt.net>, 2012.
+# Marcel Kühlhorn <susefan93@gmx.de>, 2012.
 # Phi Lieb <>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-18 00:01+0100\n"
+"PO-Revision-Date: 2012-11-17 21:14+0000\n"
+"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -102,12 +103,12 @@ msgstr "Vor %d Minuten"
 
 #: template.php:106
 msgid "1 hour ago"
-msgstr ""
+msgstr "Vor einer Stunde"
 
 #: template.php:107
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "Vor %d Stunden"
 
 #: template.php:108
 msgid "today"
@@ -129,7 +130,7 @@ msgstr "Letzten Monat"
 #: template.php:112
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "Vor %d Monaten"
 
 #: template.php:113
 msgid "last year"
@@ -155,4 +156,4 @@ msgstr "Die Update-Überprüfung ist ausgeschaltet"
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Die Kategorie \"%s\" konnte nicht gefunden werden."
