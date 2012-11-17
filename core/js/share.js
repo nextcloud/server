@@ -364,6 +364,8 @@ OC.Share={
 }
 
 $(document).ready(function() {
+	
+	if(typeof monthNames != 'undefined'){
 	$.datepicker.setDefaults({
 		monthNames: monthNames,
 		monthNamesShort: $.map(monthNames, function(v) { return v.slice(0,3)+'.'; }),
@@ -372,7 +374,7 @@ $(document).ready(function() {
 		dayNamesShort: $.map(dayNames, function(v) { return v.slice(0,3)+'.'; }),
 		firstDay: firstDay
 	});
-
+  }
 	$('a.share').live('click', function(event) {
 		event.stopPropagation();
 		if ($(this).data('item-type') !== undefined && $(this).data('item') !== undefined) {
