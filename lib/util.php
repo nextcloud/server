@@ -688,7 +688,7 @@ class OC_Util {
                 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
                 curl_setopt($curl, CURLOPT_URL, $url);
-
+		curl_setopt($ch, CURLOPT_USERAGENT, "ownCloud Server Crawler");
                 $data = curl_exec($curl);
                 curl_close($curl);
 
