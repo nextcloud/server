@@ -19,12 +19,18 @@ class Scanner {
 	 */
 	private $cache;
 
+	/**
+	 * @var \OC\Files\Cache\Permissions $permissionsCache
+	 */
+	private $permissionsCache;
+
 	const SCAN_RECURSIVE = true;
 	const SCAN_SHALLOW = false;
 
 	public function __construct(\OC\Files\Storage\Storage $storage) {
 		$this->storage = $storage;
-		$this->cache = new Cache($storage);
+		$this->cache = $storage->getCache();
+		$this->permissionsCache = $storage->getPermissionsCache();
 	}
 
 	/**
@@ -67,7 +73,7 @@ class Scanner {
 			}
 		}
 		$id = $this->cache->put($file, $data);
-		Permissions::set($id, \OC_User::getUser(), $data['permissions']);
+		$this->permissionsCache->set($id, \OC_User::getUser(), $data['permissions']);
 		return $data;
 	}
 
