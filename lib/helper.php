@@ -525,6 +525,27 @@ class OC_Helper {
 	}
 
 	/**
+	 * create a temporary file with an unique filename. It will not be deleted
+	 * automatically
+	 * @param string $postfix
+	 * @return string
+	 *
+	 */
+	public static function tmpFileNoClean($postfix='') {
+		$tmpDirNoClean=get_temp_dir().'/oc-noclean/';
+		if (!file_exists($tmpDirNoClean) || !is_dir($tmpDirNoClean)) {
+			if (file_exists($tmpDirNoClean)) {
+				unlink($tmpDirNoClean);
+			}
+			mkdir($tmpDirNoClean);
+		}
+		$file=$tmpDirNoClean.md5(time().rand()).$postfix;
+		$fh=fopen($file,'w');
+		fclose($fh);
+		return $file;
+	}
+	
+	/**
 	 * create a temporary folder with an unique filename
 	 * @return string
 	 *
@@ -556,6 +577,16 @@ class OC_Helper {
 					file_put_contents($leftoversFile, $file."\n", FILE_APPEND);
 				}
 			}
+		}
+	}
+
+	/**
+	 * remove all files created by self::tmpFileNoClean
+	 */
+	public static function cleanTmpNoClean() {
+		$tmpDirNoCleanFile=get_temp_dir().'/oc-noclean/';
+		if(file_exists($tmpDirNoCleanFile)) {
+			self::rmdirr($tmpDirNoCleanFile);
 		}
 	}
 

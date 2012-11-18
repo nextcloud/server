@@ -141,7 +141,7 @@ var FileList={
 		tr=$('tr').filterAttr('data-file',name);
 		tr.data('renaming',true);
 		td=tr.children('td.filename');
-		input=$('<input class="filename"></input>').val(name);
+		input=$('<input class="filename"/>').val(name);
 		form=$('<form></form>');
 		form.append(input);
 		td.children('a.name').hide();

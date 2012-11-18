@@ -55,20 +55,11 @@ class OC_OCSClient{
 	 * This function calls an OCS server and returns the response. It also sets a sane timeout
 	*/
 	private static function getOCSresponse($url) {
-		// set a sensible timeout of 10 sec to stay responsive even if the server is down.
-		$ctx = stream_context_create(
-			array(
-				'http' => array(
-					'timeout' => 10
-				)
-			)
-		);
-		$data=@file_get_contents($url, 0, $ctx);
+		$data = \OC_Util::getUrlContent($url);
 		return($data);
 	}
 
-
-	/**
+        /**
 	 * @brief Get all the categories from the OCS server
 	 * @returns array with category ids
 	 * @note returns NULL if config value appstoreenabled is set to false

@@ -44,8 +44,13 @@ class OC_Files {
 	 * @param boolean $only_header ; boolean to only send header of the request
 	 */
 	public static function get($dir, $files, $only_header = false) {
-		if (strpos($files, ';')) {
-			$files = explode(';', $files);
+		$xsendfile = false;
+		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) || 
+			isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
+			$xsendfile = true;
+		}
+		if(strpos($files, ';')) {
+			$files=explode(';', $files);
 		}
 
 		if (is_array($files)) {
@@ -53,8 +58,12 @@ class OC_Files {
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
-			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE) !== true) {
+			if ($xsendfile) {
+				$filename = OC_Helper::tmpFileNoClean('.zip');
+			}else{
+				$filename = OC_Helper::tmpFile('.zip');
+			}
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				exit("cannot open <$filename>\n");
 			}
 			foreach ($files as $file) {
@@ -74,8 +83,12 @@ class OC_Files {
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
-			$filename = OC_Helper::tmpFile('.zip');
-			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE) !== true) {
+			if ($xsendfile) {
+				$filename = OC_Helper::tmpFileNoClean('.zip');
+			}else{
+				$filename = OC_Helper::tmpFile('.zip');
+			}
+			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				exit("cannot open <$filename>\n");
 			}
 			$file = $dir . '/' . $files;
@@ -95,8 +108,13 @@ class OC_Files {
 				ini_set('zlib.output_compression', 'off');
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
-			} else {
-				header('Content-Type: ' . \OC\Files\Filesystem::getMimeType($filename));
+				self::addSendfileHeader($filename);
+			}else{
+				header('Content-Type: '.\OC\Files\Filesystem::getMimeType($filename));
+				list($storage, ) = \OC\Files\Filesystem::resolvePath($filename);
+				if ($storage instanceof \OC\File\Storage\Local) {
+					self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
+				}
 			}
 		} elseif ($zip or !\OC\Files\Filesystem::file_exists($filename)) {
 			header("HTTP/1.0 404 Not Found");
@@ -121,8 +139,10 @@ class OC_Files {
 					flush();
 				}
 			}
-			unlink($filename);
-		} else {
+			if (!$xsendfile) {
+				unlink($filename);
+			}
+		}else{
 			\OC\Files\Filesystem::readfile($filename);
 		}
 		foreach (self::$tmpFiles as $tmpFile) {
@@ -132,19 +152,28 @@ class OC_Files {
 		}
 	}
 
-	public static function zipAddDir($dir, $zip, $internalDir = '') {
-		$dirname = basename($dir);
-		$zip->addEmptyDir($internalDir . $dirname);
-		$internalDir .= $dirname .= '/';
-		$files = \OC\Files\Filesystem::getDirectoryContent($dir);
-		foreach ($files as $file) {
-			$filename = $file['name'];
-			$file = $dir . '/' . $filename;
-			if (\OC\Files\Filesystem::is_file($file)) {
-				$tmpFile = \OC\Files\Filesystem::toTmpFile($file);
-				OC_Files::$tmpFiles[] = $tmpFile;
-				$zip->addFile($tmpFile, $internalDir . $filename);
-			} elseif (\OC\Files\Filesystem::is_dir($file)) {
+	private static function addSendfileHeader($filename) {
+		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED'])) {
+			header("X-Sendfile: " . $filename);
+		}
+		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
+			header("X-Accel-Redirect: " . $filename);
+		}
+	}
+
+	public static function zipAddDir($dir, $zip, $internalDir='') {
+		$dirname=basename($dir);
+		$zip->addEmptyDir($internalDir.$dirname);
+		$internalDir.=$dirname.='/';
+		$files=OC_Files::getDirectoryContent($dir);
+		foreach($files as $file) {
+			$filename=$file['name'];
+			$file=$dir.'/'.$filename;
+			if(\OC\Files\Filesystem::is_file($file)) {
+				$tmpFile=\OC\Files\Filesystem::toTmpFile($file);
+				OC_Files::$tmpFiles[]=$tmpFile;
+				$zip->addFile($tmpFile, $internalDir.$filename);
+			}elseif(\OC\Files\Filesystem::is_dir($file)) {
 				self::zipAddDir($file, $zip, $internalDir);
 			}
 		}

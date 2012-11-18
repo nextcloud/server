@@ -29,5 +29,6 @@
 "years ago" => "jaar geleden",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s is beschikbaar. Verkrijg <a href=\"%s\">meer informatie</a>",
 "up to date" => "bijgewerkt",
-"updates check is disabled" => "Meest recente versie controle is uitgeschakeld"
+"updates check is disabled" => "Meest recente versie controle is uitgeschakeld",
+"Could not find category \"%s\"" => "Kon categorie \"%s\" niet vinden"
 );

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <lenny@weijl.org>, 2012.
 # Richard Bos <radoeka@gmail.com>, 2012.
 #   <transifex@thisnet.nl>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-15 12:58+0000\n"
-"Last-Translator: bartv <transifex@thisnet.nl>\n"
+"POT-Creation-Date: 2012-11-17 00:01+0100\n"
+"PO-Revision-Date: 2012-11-16 05:45+0000\n"
+"Last-Translator: Len <lenny@weijl.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -151,4 +152,4 @@ msgstr "Meest recente versie controle is uitgeschakeld"
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Kon categorie \"%s\" niet vinden"

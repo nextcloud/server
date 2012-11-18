@@ -49,6 +49,7 @@
 "New" => "新建",
 "Text file" => "文本文件",
 "Folder" => "文件夹",
+"From link" => "来自链接",
 "Upload" => "上传",
 "Cancel upload" => "取消上传",
 "Nothing in here. Upload something!" => "这里还什么都没有。上传些东西吧！",

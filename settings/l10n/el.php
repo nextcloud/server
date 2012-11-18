@@ -28,6 +28,7 @@
 "Problems connecting to help database." => "Προβλήματα κατά τη σύνδεση με τη βάση δεδομένων βοήθειας.",
 "Go there manually." => "Χειροκίνητη μετάβαση.",
 "Answer" => "Απάντηση",
+"You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Χρησιμοποιήσατε <strong>%s</strong> από διαθέσιμα <strong>%s</strong>",
 "Desktop and Mobile Syncing Clients" => "Πελάτες συγχρονισμού για Desktop και Mobile",
 "Download" => "Λήψη",
 "Your password was changed" => "Το συνθηματικό σας έχει αλλάξει",
