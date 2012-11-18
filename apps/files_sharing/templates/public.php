@@ -1,3 +1,11 @@
+<script type="text/javascript">
+	<?php if ( array_key_exists('publicListView', $_) && $_['publicListView'] == true ) {
+		echo "var publicListView = true;";
+	} else {
+		echo "var publicListView = false;";
+	}
+	?>
+</script>
 <input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
 <input type="hidden" name="downloadURL" value="<?php echo $_['downloadURL'] ?>" id="downloadURL">
 <input type="hidden" name="filename" value="<?php echo $_['filename'] ?>" id="filename">
