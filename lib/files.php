@@ -140,6 +140,11 @@ class OC_Files {
 	* @param boolean $only_header ; boolean to only send header of the request
 	*/
 	public static function get($dir, $files, $only_header = false) {
+		$xsendfile = false;
+		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) || 
+			isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
+			$xsendfile = true;
+		}
 		if(strpos($files, ';')) {
 			$files=explode(';', $files);
 		}
@@ -149,7 +154,11 @@ class OC_Files {
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
-			$filename = OC_Helper::tmpFile('.zip');
+			if ($xsendfile) {
+				$filename = OC_Helper::tmpFileNoClean('.zip');
+			}else{
+				$filename = OC_Helper::tmpFile('.zip');
+			}
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				exit("cannot open <$filename>\n");
 			}
@@ -170,7 +179,11 @@ class OC_Files {
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
 			$zip = new ZipArchive();
-			$filename = OC_Helper::tmpFile('.zip');
+			if ($xsendfile) {
+				$filename = OC_Helper::tmpFileNoClean('.zip');
+			}else{
+				$filename = OC_Helper::tmpFile('.zip');
+			}
 			if ($zip->open($filename, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE)!==true) {
 				exit("cannot open <$filename>\n");
 			}
@@ -191,8 +204,13 @@ class OC_Files {
 				ini_set('zlib.output_compression', 'off');
 				header('Content-Type: application/zip');
 				header('Content-Length: ' . filesize($filename));
+				self::addSendfileHeader($filename);
 			}else{
 				header('Content-Type: '.OC_Filesystem::getMimeType($filename));
+				$storage = OC_Filesystem::getStorage($filename);
+				if ($storage instanceof OC_Filestorage_Local) {
+					self::addSendfileHeader(OC_Filesystem::getLocalFile($filename));
+				}
 			}
 		}elseif($zip or !OC_Filesystem::file_exists($filename)) {
 			header("HTTP/1.0 404 Not Found");
@@ -217,7 +235,9 @@ class OC_Files {
 					flush();
 				}
 			}
-			unlink($filename);
+			if (!$xsendfile) {
+				unlink($filename);
+			}
 		}else{
 			OC_Filesystem::readfile($filename);
 		}
@@ -228,11 +248,20 @@ class OC_Files {
 		}
 	}
 
+	private static function addSendfileHeader($filename) {
+		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED'])) {
+			header("X-Sendfile: " . $filename);
+		}
+		if (isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
+			header("X-Accel-Redirect: " . $filename);
+		}
+	}
+
 	public static function zipAddDir($dir, $zip, $internalDir='') {
 		$dirname=basename($dir);
 		$zip->addEmptyDir($internalDir.$dirname);
 		$internalDir.=$dirname.='/';
-		$files=OC_Files::getdirectorycontent($dir);
+		$files=OC_Files::getDirectoryContent($dir);
 		foreach($files as $file) {
 			$filename=$file['name'];
 			$file=$dir.'/'.$filename;
