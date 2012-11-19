@@ -28,6 +28,7 @@
 "Problems connecting to help database." => "Težave med povezovanjem s podatkovno zbirko pomoči.",
 "Go there manually." => "Ustvari povezavo ročno.",
 "Answer" => "Odgovor",
+"You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Uporabljate <strong>%s</strong> od razpoložljivih <strong>%s</strong>",
 "Desktop and Mobile Syncing Clients" => "Namizni in mobilni odjemalci za usklajevanje",
 "Download" => "Prejmi",
 "Your password was changed" => "Vaše geslo je spremenjeno",

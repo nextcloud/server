@@ -14,16 +14,21 @@
 "Token expired. Please reload page." => "Testemuño caducado. Por favor recargue a páxina.",
 "Files" => "Ficheiros",
 "Text" => "Texto",
+"Images" => "Imaxes",
 "seconds ago" => "hai segundos",
 "1 minute ago" => "hai 1 minuto",
 "%d minutes ago" => "hai %d minutos",
+"1 hour ago" => "1 hora antes",
+"%d hours ago" => "%d horas antes",
 "today" => "hoxe",
 "yesterday" => "onte",
 "%d days ago" => "hai %d días",
 "last month" => "último mes",
+"%d months ago" => "%d meses antes",
 "last year" => "último ano",
 "years ago" => "anos atrás",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s está dispoñible. Obteña <a href=\"%s\">máis información</a>",
 "up to date" => "ao día",
-"updates check is disabled" => "comprobación de actualizacións está deshabilitada"
+"updates check is disabled" => "comprobación de actualizacións está deshabilitada",
+"Could not find category \"%s\"" => "Non se puido atopar a categoría «%s»"
 );

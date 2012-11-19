@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-18 00:01+0100\n"
-"PO-Revision-Date: 2012-11-17 21:11+0000\n"
-"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
+"POT-Creation-Date: 2012-11-20 00:01+0100\n"
+"PO-Revision-Date: 2012-11-19 13:20+0000\n"
+"Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -103,7 +103,7 @@ msgstr "Gestern"
 
 #: js/js.js:711
 msgid "{days} days ago"
-msgstr "Vor {days} Tage(en)"
+msgstr "Vor {days} Tag(en)"
 
 #: js/js.js:712
 msgid "last month"
@@ -166,19 +166,19 @@ msgstr "Die benötigte Datei {file} ist nicht installiert."
 
 #: js/share.js:124
 msgid "Error while sharing"
-msgstr "Fehler beim Freigeben"
+msgstr "Fehler bei der Freigabe"
 
 #: js/share.js:135
 msgid "Error while unsharing"
-msgstr "Fehler beim Aufheben der Freigabe"
+msgstr "Fehler bei der Aufhebung der Freigabe"
 
 #: js/share.js:142
 msgid "Error while changing permissions"
-msgstr "Fehler beim Ändern  der Rechte"
+msgstr "Fehler bei der Änderung der Rechte"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr "Durch {owner} für Sie und die Gruppe{group} freigegeben."
+msgstr "Durch {owner} für Sie und die Gruppe {group} freigegeben."
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
@@ -211,7 +211,7 @@ msgstr "Ablaufdatum"
 
 #: js/share.js:206
 msgid "Share via email:"
-msgstr "Über eine E-Mail freigeben:"
+msgstr "Mittels einer E-Mail freigeben:"
 
 #: js/share.js:208
 msgid "No people found"
@@ -219,7 +219,7 @@ msgstr "Niemand gefunden"
 
 #: js/share.js:235
 msgid "Resharing is not allowed"
-msgstr "Weiterverteilen ist nicht erlaubt"
+msgstr "Das Weiterverteilen ist nicht erlaubt"
 
 #: js/share.js:271
 msgid "Shared in {item} with {user}"
@@ -259,7 +259,7 @@ msgstr "Durch ein Passwort geschützt"
 
 #: js/share.js:527
 msgid "Error unsetting expiration date"
-msgstr "Fehler beim entfernen des Ablaufdatums"
+msgstr "Fehler beim Entfernen des Ablaufdatums"
 
 #: js/share.js:539
 msgid "Error setting expiration date"
@@ -354,13 +354,13 @@ msgstr "Sicherheitshinweis"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr "Es ist kein sicherer Zufallszahlengenerator verfügbar, bitte aktivieren Sie die PHP-Erweiterung für OpenSSL"
+msgstr "Es ist kein sicherer Zufallszahlengenerator verfügbar, bitte aktivieren Sie die PHP-Erweiterung für OpenSSL."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr "Ohne einen sicheren Zufallszahlengenerator sind Angreifer in der Lage die Tokens für das Zurücksetzen der Passwörter vorherzusehen und damit können Konten übernommen."
+msgstr "Ohne einen sicheren Zufallszahlengenerator sind Angreifer in der Lage, die Tokens für das Zurücksetzen der Passwörter vorherzusehen und Ihr Konto zu übernehmen."
 
 #: templates/installation.php:32
 msgid ""
@@ -512,7 +512,7 @@ msgstr "Wenn Sie Ihr Passwort nicht vor kurzem geändert haben, könnte Ihr\nAcc
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr "Bitte ändern Sie Ihr Passwort, um Ihr Konto wieder zu sichern.."
+msgstr "Bitte ändern Sie Ihr Passwort, um Ihr Konto wieder zu sichern."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -546,7 +546,7 @@ msgstr "Sicherheitshinweis!"
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr "Bitte überprüfen Sie Ihr Passwort. <br/>Aus Sicherheitsgründen werden Sie gelegentlich aufgefordert, Ihr Passwort einzugeben."
+msgstr "Bitte überprüfen Sie Ihr Passwort. <br/>Aus Sicherheitsgründen werden Sie gelegentlich aufgefordert, Ihr Passwort erneut einzugeben."
 
 #: templates/verify.php:16
 msgid "Verify"

@@ -22,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-14 00:02+0100\n"
-"PO-Revision-Date: 2012-11-13 18:14+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2012-11-20 00:01+0100\n"
+"PO-Revision-Date: 2012-11-19 13:06+0000\n"
+"Last-Translator: traductor <transifex.3.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -104,7 +104,7 @@ msgstr "Speichern..."
 
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
-msgstr "Deutsch (Förmlich)"
+msgstr "Deutsch (Förmlich: Sie)"
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -205,7 +205,7 @@ msgstr "Sprache"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr "Hilf bei der Übersetzung"
+msgstr "Helfen Sie bei der Übersetzung"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
