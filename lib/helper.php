@@ -743,4 +743,20 @@ class OC_Helper {
 
 		return false;
 	}
+
+	/**
+	 * Shortens str to maxlen by replacing characters in the middle with '...', eg.
+	 * ellipsis('a very long string with lots of useless info to make a better example', 14) becomes 'a very ...example'
+	 * @param string $str the string
+	 * @param string $maxlen the maximum length of the result
+	 * @return string with at most maxlen characters
+	 */
+	public static function ellipsis($str, $maxlen) {
+		if (strlen($str) > $maxlen) {
+			$characters = floor($maxlen / 2);
+			return substr($str, 0, $characters) . '...' . substr($str, -1 * $characters);
+		}
+		return $str;
+	}
+
 }
