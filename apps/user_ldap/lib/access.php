@@ -55,6 +55,8 @@ abstract class Access {
 			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
 			return false;
 		}
+		//Slashes should only be escaped in filters, not bases.
+		$dn = $dn = str_replace('\\5c', '\\', $dn);
 		$rr = @ldap_read($cr, $dn, 'objectClass=*', array($attr));
 		if(!is_resource($rr)) {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
@@ -113,18 +115,13 @@ abstract class Access {
 		//make comparisons and everything work
 		$dn = mb_strtolower($dn, 'UTF-8');
 
-		//escape DN values according to RFC 2253
-		//thanks to Kolab, http://git.kolab.org/pear/Net_LDAP3/tree/lib/Net/LDAP3.php#n1313
+		//escape DN values according to RFC 2253 – this is already done by ldap_explode_dn
+		//to use the DN in search filters, \ needs to be escaped to \5c additionally
+		//to use them in bases, we convert them back to simple backslashes in readAttribute()
 		$aDN = ldap_explode_dn($dn, false);
 		unset($aDN['count']);
-		foreach($aDN as $key => $part) {
-			$value = substr($part, strpos($part, '=')+1);
-			$escapedValue = strtr($value, Array(','=>'\2c', '='=>'\3d', '+'=>'\2b',
-				'<'=>'\3c', '>'=>'\3e', ';'=>'\3b', '\\'=>'\5c',
-				'"'=>'\22', '#'=>'\23'));
-			$part = str_replace($part, $value, $escapedValue);
-		}
 		$dn = implode(',', $aDN);
+		$dn = str_replace('\\', '\\5c', $dn);
 
 		return $dn;
 	}
@@ -234,7 +231,6 @@ abstract class Access {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN
 	 */
 	public function dn2ocname($dn, $ldapname = null, $isUser = true) {
-		$dn = $this->sanitizeDN($dn);
 		$table = $this->getMapTable($isUser);
 		if($isUser) {
 			$fncFindMappedName = 'findMappedUser';
@@ -431,7 +427,6 @@ abstract class Access {
 	 */
 	private function mapComponent($dn, $ocname, $isUser = true) {
 		$table = $this->getMapTable($isUser);
-		$dn = $this->sanitizeDN($dn);
 
 		$sqlAdjustment = '';
 		$dbtype = \OCP\Config::getSystemValue('dbtype');
@@ -696,6 +691,7 @@ abstract class Access {
 
 	public function getUUID($dn) {
 		if($this->detectUuidAttribute($dn)) {
+			\OCP\Util::writeLog('user_ldap', 'UUID Checking \ UUID for '.$dn.' using '. $this->connection->ldapUuidAttribute, \OCP\Util::DEBUG);
 			$uuid = $this->readAttribute($dn, $this->connection->ldapUuidAttribute);
 			if(!is_array($uuid) && $this->connection->ldapOverrideUuidAttribute) {
 				$this->detectUuidAttribute($dn, true);
