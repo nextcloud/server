@@ -58,7 +58,7 @@ abstract class Access {
 			return false;
 		}
 		$rr = @ldap_read($cr, $dn, $filter, array($attr));
-		$dn = $dn = str_replace('\\5c', '\\', $dn);
+		$dn = $this->DNasBaseParameter($dn);
 		if(!is_resource($rr)) {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
 			//in case an error occurs , e.g. object does not exist
@@ -684,6 +684,7 @@ abstract class Access {
 	}
 
 	public function areCredentialsValid($name, $password) {
+		$name = $this->DNasBaseParameter($name);
 		$testConnection = clone $this->connection;
 		$credentials = array(
 			'ldapAgentName' => $name,
@@ -769,6 +770,18 @@ abstract class Access {
 		$hex_guid_to_guid_str .= '-' . substr($hex_guid, 20);
 
 		return strtoupper($hex_guid_to_guid_str);
+	}
+
+	/**
+	 * @brief converts a stored DN so it can be used as base parameter for LDAP queries
+	 * @param $dn the DN
+	 * @returns String
+	 *
+	 * converts a stored DN so it can be used as base parameter for LDAP queries
+	 * internally we store them for usage in LDAP filters
+	 */
+	private function DNasBaseParameter($dn) {
+		return str_replace('\\5c', '\\', $dn);
 	}
 
 	/**
