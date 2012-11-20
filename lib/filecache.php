@@ -520,11 +520,15 @@ class OC_FileCache{
 	 * @return array with the path and the root of the give file
 	 */
 	private static function getSourcePathOfSharedFile($path, $root) {
-		if ( OC_App::isEnabled('files_sharing') &&  !strncmp($path, '/Shared/', 8)) {
-			$source = OC_Files_Sharing_Util::getSourcePath(str_replace('/Shared/', '', $path));
-			$parts = explode('/', $source, 4);
-			$root =  '/'.$parts[1].'/files';
-			$path = '/'.$parts[3];
+		if ( OC_App::isEnabled('files_sharing')) {
+			$fullPath = OC_Filesystem::normalizePath($root.'/'.$path);
+			$sharedPos =  strpos($fullPath, '/Shared/');
+			if ( $sharedPos !== false && ($source = OC_Files_Sharing_Util::getSourcePath(substr($fullPath, $sharedPos+8))) ) {
+				$source = OC_Files_Sharing_Util::getSourcePath(str_replace('/Shared/', '', $path));
+				$parts = explode('/', $source, 4);
+				$root =  '/'.$parts[1].'/files';
+				$path = '/'.$parts[3];
+			}
 		}
 		
 		return array($path, $root);
