@@ -137,11 +137,13 @@ class OC_FileCache{
 		}
 		$arguments[]=$id;
 
-		$sql = 'UPDATE `*PREFIX*fscache` SET '.implode(' , ', $queryParts).' WHERE `id`=?';
-		$query=OC_DB::prepare($sql);
-		$result=$query->execute($arguments);
-		if(OC_DB::isError($result)) {
-			OC_Log::write('files', 'error while updating file('.$id.') in cache', OC_Log::ERROR);
+		if(!empty($queryParts)) {
+			$sql = 'UPDATE `*PREFIX*fscache` SET '.implode(' , ', $queryParts).' WHERE `id`=?';
+			$query=OC_DB::prepare($sql);
+			$result=$query->execute($arguments);
+			if(OC_DB::isError($result)) {
+				OC_Log::write('files', 'error while updating file('.$id.') in cache', OC_Log::ERROR);
+			}
 		}
 	}
 
