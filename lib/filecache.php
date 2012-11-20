@@ -43,6 +43,9 @@ class OC_FileCache{
 	 * - versioned
 	 */
 	public static function get($path,$root=false) {
+		
+		list($path, $root) = self::getSourcePathOfSharedFile($path);
+		
 		if(OC_FileCache_Update::hasUpdated($path,$root)) {
 			if($root===false) {//filesystem hooks are only valid for the default root
 				OC_Hook::emit('OC_Filesystem','post_write',array('path'=>$path));
@@ -277,6 +280,9 @@ class OC_FileCache{
 	 * @return int
 	 */
 	public static function getId($path,$root=false) {
+		
+		list($path, $root) = self::getSourcePathOfSharedFile($path);
+			
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
@@ -506,6 +512,24 @@ class OC_FileCache{
 			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `mtime`=0 AND `mimetype`= ? ');
 			$query->execute(array('httpd/unix-directory'));
 		}
+	}
+	
+	/**
+	 * get the real path and the root of a shared file
+	 * @param string $path
+	 * @return array with the path and the root of the give file
+	 */
+	private static function getSourcePathOfSharedFile($path) {
+		if ( OC_App::isEnabled('files_sharing') &&  !strncmp($path, '/Shared/', 8)) {
+			$source = OC_Files_Sharing_Util::getSourcePath(str_replace('/Shared/', '', $path));
+			$parts = explode('/', $source, 4);
+			$root =  '/'.$parts[1].'/files';
+			$path = '/'.$parts[3];
+		} else {
+			$root = false; 
+		}
+		
+		return array($path, $root);
 	}
 }
 
