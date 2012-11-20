@@ -146,7 +146,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 		$nodes = array();
 		foreach($folder_content as $info) {
 			$node = $this->getChild($info['name'], $info);
-			$node->setPropertyCache($properties[$this->path.'/'.$info['name']]);
+			$node->setPropertyCache($properties[$path.'/'.$info['name']]);
 			$nodes[] = $node;
 		}
 		return $nodes;
