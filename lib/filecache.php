@@ -127,7 +127,7 @@ class OC_FileCache{
 	private static function update($id,$data) {
 		$arguments=array();
 		$queryParts=array();
-		foreach(array('size','mtime','ctime','mimetype','encrypted','versioned','writable') as $attribute) {
+		foreach(array('size','mtime','ctime','mimetype','encrypted','versioned','writable', 'user') as $attribute) {
 			if(isset($data[$attribute])) {
 				//Convert to int it args are false
 				if($data[$attribute] === false) {
