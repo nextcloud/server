@@ -8,6 +8,7 @@
 
 require_once "PHPUnit/Framework/TestCase.php";
 require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
+require_once realpath( dirname(__FILE__).'/../../../3rdparty/Crypt_Blowfish/Blowfish.php' );
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery.php' );
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Container.php' );
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Generator.php' );
@@ -29,12 +30,20 @@ class Test_Util extends \PHPUnit_Framework_TestCase {
 	function setUp() {
 		
 		// set content for encrypting / decrypting in tests
-		$this->data = realpath( dirname(__FILE__).'/../lib/crypt.php' );
+		$this->dataUrl = realpath( dirname(__FILE__).'/../lib/crypt.php' );
+		$this->dataShort = 'hats';
+		$this->dataLong = file_get_contents( realpath( dirname(__FILE__).'/../lib/crypt.php' ) );
 		$this->legacyData = realpath( dirname(__FILE__).'/legacy-text.txt' );
 		$this->legacyEncryptedData = realpath( dirname(__FILE__).'/legacy-encrypted-text.txt' );
 		
 		$this->userId = 'admin';
 		$this->pass = 'admin';
+		
+		$keypair = Encryption\Crypt::createKeypair();
+		
+		$this->genPublicKey =  $keypair['publicKey'];
+		$this->genPrivateKey = $keypair['privateKey'];
+		
 		$this->publicKeyDir =  '/' . 'public-keys';
 		$this->encryptionDir =  '/' . $this->userId . '/' . 'files_encryption';
 		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
@@ -42,6 +51,9 @@ class Test_Util extends \PHPUnit_Framework_TestCase {
 		$this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
 		
 		$this->view = new OC_FilesystemView( '/admin' );
+		
+		$this->mockView = m::mock('OC_FilesystemView');
+		$this->util = new Encryption\Util( $this->mockView, $this->userId );
 	
 	}
 	
@@ -136,6 +148,91 @@ class Test_Util extends \PHPUnit_Framework_TestCase {
 		# then false will be returned. Use strict ordering?
 		
 	}
+	
+	/**
+	 * @brief test encryption using legacy blowfish method
+	 */
+	function testLegacyEncryptShort() {
+	
+		$crypted = $this->util->legacyEncrypt( $this->dataShort, $this->pass );
+
+		$this->assertNotEquals( $this->dataShort, $crypted );
+		
+		# TODO: search inencrypted text for actual content to ensure it
+		# genuine transformation
+		
+		return $crypted;
+		
+	}
+	
+	/**
+	 * @brief test decryption using legacy blowfish method
+	 * @depends testLegacyEncryptShort
+	 */
+	function testLegacyDecryptShort( $crypted ) {
+	
+		$decrypted = $this->util->legacyDecrypt( $crypted, $this->pass );
+		
+		$this->assertEquals( $this->dataShort, $decrypted );
+		
+	}
+
+	/**
+	 * @brief test encryption using legacy blowfish method
+	 */
+	function testLegacyEncryptLong() {
+	
+		$crypted = $this->util->legacyEncrypt( $this->dataLong, $this->pass );
+
+		$this->assertNotEquals( $this->dataLong, $crypted );
+		
+		# TODO: search inencrypted text for actual content to ensure it
+		# genuine transformation
+		
+		return $crypted;
+		
+	}
+	
+	/**
+	 * @brief test decryption using legacy blowfish method
+	 * @depends testLegacyEncryptLong
+	 */
+	function testLegacyDecryptLong( $crypted ) {
+	
+		$decrypted = $this->util->legacyDecrypt( $crypted, $this->pass );
+		
+		$this->assertEquals( $this->dataLong, $decrypted );
+		
+	}
+
+	/**
+	 * @brief test decryption using legacy blowfish method
+	 * @depends testLegacyEncryptLong
+	 */
+	function testLegacyKeyRecryptKeyfileEncrypt( $crypted ) {
+	
+		$recrypted = $this->util->LegacyKeyRecryptKeyfile( $crypted, $this->pass, $this->genPublicKey, $this->pass );
+		
+		$this->assertNotEquals( $this->dataLong, $recrypted['data'] );
+		
+		return $recrypted;
+		
+		# TODO: search inencrypted text for actual content to ensure it
+		# genuine transformation
+		
+	}
+
+// 	/**
+// 	 * @brief test decryption using legacy blowfish method
+// 	 * @depends testLegacyEncryptLong
+// 	 */
+// 	function testLegacyKeyRecryptKeyfileDecrypt( $recrypted ) {
+// 	
+// 		$decrypted = Encryption\Crypt::keyDecryptKeyfile( $recrypted['data'], $recrypted['key'], $this->genPrivateKey );
+// 		
+// 		$this->assertEquals( $this->dataLong, $decrypted );
+// 		
+// 	}
 	
 //	// Cannot use this test for now due to hidden dependencies in OC_FileCache
 // 	function testIsLegacyEncryptedContent() {

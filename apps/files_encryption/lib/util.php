@@ -341,10 +341,22 @@ class Util {
 	
 		$bf = $this->getBlowfish( $passphrase );
 		
-		$data = $bf->decrypt( $content );
+		$decrypted = $bf->decrypt( $content );
 		
-		return $data;
+		$trimmed = rtrim( $decrypted, "\0" );
 		
+		return $trimmed;
+		
+	}
+	
+	public function legacyKeyRecryptKeyfile( $legacyEncryptedContent, $legacyPassphrase, $publicKey, $newPassphrase ) {
+	
+		$decrypted = $this->legacyDecrypt( $legacyEncryptedContent, $legacyPassphrase );
+	
+		$recrypted = Crypt::keyEncryptKeyfile( $decrypted, $publicKey );
+		
+		return $recrypted;
+	
 	}
 	
 	/**
@@ -354,7 +366,7 @@ class Util {
 	*
 	* This function decrypts an content
 	*/
-	public function legacyRecrypt( $legacyContent ) {
+	public function legacyRecrypt( $legacyContent, $legacyPassphrase, $newPassphrase ) {
 		
 		# TODO: write me
 	

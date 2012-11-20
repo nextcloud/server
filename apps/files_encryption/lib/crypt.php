@@ -452,8 +452,8 @@ class Crypt {
 	}
 
         /**
-         * @brief Encrypts content symmetrically and generated keyfile asymmetrically
-         * @returns array keys: data, key
+         * @brief Encrypts content symmetrically and generates keyfile asymmetrically
+         * @returns array keys: encrypted, key
          * @note this method is a wrapper for combining other crypt class methods
          */
 	public static function keyEncryptKeyfile( $plainContent, $publicKey ) {
@@ -469,7 +469,8 @@ class Crypt {
 	}
 	
         /**
-         * @brief Encrypts content symmetrically and generated keyfile asymmetrically
+         * @brief Takes encrypted data, encrypted catfile, and private key, and
+         * performs decryption
          * @returns decrypted content
          * @note this method is a wrapper for combining other crypt class methods
          */
