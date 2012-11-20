@@ -1,7 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Password" => "Contrasinal",
 "Submit" => "Enviar",
+"%s shared the folder %s with you" => "%s compartiu o cartafol %s contigo",
+"%s shared the file %s with you" => "%s compartiu ficheiro %s contigo",
 "Download" => "Baixar",
 "No preview available for" => "Sen vista previa dispoñible para ",
-"web services under your control" => "servizos web baixo o seu control"
+"web services under your control" => "servizos web baixo o teu control"
 );

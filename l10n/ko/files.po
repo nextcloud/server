@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-20 00:01+0100\n"
-"PO-Revision-Date: 2012-11-19 12:01+0000\n"
+"POT-Creation-Date: 2012-11-21 00:01+0100\n"
+"PO-Revision-Date: 2012-11-20 10:41+0000\n"
 "Last-Translator: 남자사람 <cessnagi@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr "파일"
 
 #: js/fileactions.js:108 templates/index.php:64
 msgid "Unshare"
-msgstr ""
+msgstr "공유해제"
 
 #: js/fileactions.js:110 templates/index.php:66
 msgid "Delete"
@@ -68,7 +68,7 @@ msgstr "이름변경"
 
 #: js/filelist.js:198 js/filelist.js:200
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} 이미 존재함"
 
 #: js/filelist.js:198 js/filelist.js:200
 msgid "replace"
@@ -76,7 +76,7 @@ msgstr "대체"
 
 #: js/filelist.js:198
 msgid "suggest name"
-msgstr ""
+msgstr "이름을 제안"
 
 #: js/filelist.js:198 js/filelist.js:200
 msgid "cancel"
@@ -84,7 +84,7 @@ msgstr "취소"
 
 #: js/filelist.js:247
 msgid "replaced {new_name}"
-msgstr ""
+msgstr "{new_name} 으로 대체"
 
 #: js/filelist.js:247 js/filelist.js:249 js/filelist.js:281 js/filelist.js:283
 msgid "undo"
@@ -92,15 +92,15 @@ msgstr "복구"
 
 #: js/filelist.js:249
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "{old_name}이 {new_name}으로 대체됨"
 
 #: js/filelist.js:281
 msgid "unshared {files}"
-msgstr ""
+msgstr "{files} 공유해제"
 
 #: js/filelist.js:283
 msgid "deleted {files}"
-msgstr ""
+msgstr "{files} 삭제됨"
 
 #: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
@@ -124,11 +124,11 @@ msgstr "보류 중"
 
 #: js/files.js:262
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 파일 업로드중"
 
 #: js/files.js:265 js/files.js:319 js/files.js:334
 msgid "{count} files uploading"
-msgstr ""
+msgstr "{count} 파일 업로드중"
 
 #: js/files.js:337 js/files.js:370
 msgid "Upload cancelled."
@@ -145,7 +145,7 @@ msgstr "잘못된 이름, '/' 은 허용이 되지 않습니다."
 
 #: js/files.js:690
 msgid "{count} files scanned"
-msgstr ""
+msgstr "{count} 파일 스캔되었습니다."
 
 #: js/files.js:698
 msgid "error while scanning"
@@ -165,19 +165,19 @@ msgstr "수정됨"
 
 #: js/files.js:800
 msgid "1 folder"
-msgstr ""
+msgstr "1 폴더"
 
 #: js/files.js:802
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} 폴더"
 
 #: js/files.js:810
 msgid "1 file"
-msgstr ""
+msgstr "1 파일"
 
 #: js/files.js:812
 msgid "{count} files"
-msgstr ""
+msgstr "{count} 파일"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -225,7 +225,7 @@ msgstr "폴더"
 
 #: templates/index.php:11
 msgid "From link"
-msgstr ""
+msgstr "From link"
 
 #: templates/index.php:22
 msgid "Upload"

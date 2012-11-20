@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <khanhnd@kenhgiaiphap.vn>, 2012.
+#   <mattheu.9x@gmail.com>, 2012.
 #   <mattheu_9x@yahoo.com>, 2012.
 # Son Nguyen <sonnghit@gmail.com>, 2012.
 # Sơn Nguyễn <sonnghit@gmail.com>, 2012.
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-21 00:01+0100\n"
+"PO-Revision-Date: 2012-11-20 05:31+0000\n"
+"Last-Translator: mattheu_9x <mattheu.9x@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Kiểu hạng mục không được cung cấp."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -37,18 +38,18 @@ msgstr "Danh mục này đã được tạo :"
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Loại đối tượng không được cung cấp."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "%s ID không được cung cấp."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Lỗi thêm %s vào mục yêu thích."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -57,61 +58,61 @@ msgstr "Không có thể loại nào được chọn để xóa."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Lỗi xóa %s từ mục yêu thích."
 
-#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Cài đặt"
 
-#: js/js.js:688
+#: js/js.js:704
 msgid "seconds ago"
 msgstr "vài giây trước"
 
-#: js/js.js:689
+#: js/js.js:705
 msgid "1 minute ago"
 msgstr "1 phút trước"
 
-#: js/js.js:690
+#: js/js.js:706
 msgid "{minutes} minutes ago"
 msgstr "{minutes} phút trước"
 
-#: js/js.js:691
+#: js/js.js:707
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 giờ trước"
 
-#: js/js.js:692
+#: js/js.js:708
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} giờ trước"
 
-#: js/js.js:693
+#: js/js.js:709
 msgid "today"
 msgstr "hôm nay"
 
-#: js/js.js:694
+#: js/js.js:710
 msgid "yesterday"
 msgstr "hôm qua"
 
-#: js/js.js:695
+#: js/js.js:711
 msgid "{days} days ago"
 msgstr "{days} ngày trước"
 
-#: js/js.js:696
+#: js/js.js:712
 msgid "last month"
 msgstr "tháng trước"
 
-#: js/js.js:697
+#: js/js.js:713
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} tháng trước"
 
-#: js/js.js:698
+#: js/js.js:714
 msgid "months ago"
 msgstr "tháng trước"
 
-#: js/js.js:699
+#: js/js.js:715
 msgid "last year"
 msgstr "năm trước"
 
-#: js/js.js:700
+#: js/js.js:716
 msgid "years ago"
 msgstr "năm trước"
 
@@ -125,34 +126,34 @@ msgstr "Hủy"
 
 #: js/oc-dialogs.js:162
 msgid "No"
-msgstr "No"
+msgstr "Không"
 
 #: js/oc-dialogs.js:163
 msgid "Yes"
-msgstr "Yes"
+msgstr "Có"
 
 #: js/oc-dialogs.js:180
 msgid "Ok"
-msgstr "Ok"
+msgstr "Đồng ý"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Loại đối tượng không được chỉ định."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
+#: js/share.js:539
 msgid "Error"
 msgstr "Lỗi"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "Tên ứng dụng không được chỉ định."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "Tập tin cần thiết {file} không được cài đặt!"
 
 #: js/share.js:124
 msgid "Error while sharing"
@@ -209,7 +210,7 @@ msgstr "Không tìm thấy người nào"
 
 #: js/share.js:235
 msgid "Resharing is not allowed"
-msgstr "Chia sẻ lại không được phép"
+msgstr "Chia sẻ lại không được cho phép"
 
 #: js/share.js:271
 msgid "Shared in {item} with {user}"
@@ -221,7 +222,7 @@ msgstr "Gỡ bỏ chia sẻ"
 
 #: js/share.js:304
 msgid "can edit"
-msgstr "được chỉnh sửa"
+msgstr "có thể chỉnh sửa"
 
 #: js/share.js:306
 msgid "access control"
@@ -243,15 +244,15 @@ msgstr "xóa"
 msgid "share"
 msgstr "chia sẻ"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:343 js/share.js:514 js/share.js:516
 msgid "Password protected"
 msgstr "Mật khẩu bảo vệ"
 
-#: js/share.js:525
+#: js/share.js:527
 msgid "Error unsetting expiration date"
-msgstr "Lỗi trong quá trình gỡ bỏ ngày kết thúc"
+msgstr "Lỗi không thiết lập ngày kết thúc"
 
-#: js/share.js:537
+#: js/share.js:539
 msgid "Error setting expiration date"
 msgstr "Lỗi cấu hình ngày kết thúc"
 
@@ -322,7 +323,7 @@ msgstr "Giúp đỡ"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Truy cập bị cấm "
+msgstr "Truy cập bị cấm"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -359,7 +360,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Thư mục dữ liệu và những tập tin của bạn có thể dễ dàng bị truy cập từ mạng. Tập tin .htaccess do ownCloud cung cấp không hoạt động. Chúng tôi đề nghị bạn nên cấu hình lại máy chủ webserver để thư mục dữ liệu không còn bị truy cập hoặc bạn nên di chuyển thư mục dữ liệu ra bên ngoài thư mục gốc của máy chủ."
+msgstr "Thư mục dữ liệu và những tập tin của bạn có thể dễ dàng bị truy cập từ mạng. Tập tin .htaccess do ownCloud cung cấp không hoạt động. Chúng tôi đề nghị bạn nên cấu hình lại máy chủ web để thư mục dữ liệu không còn bị truy cập hoặc bạn nên di chuyển thư mục dữ liệu ra bên ngoài thư mục gốc của máy chủ."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -375,7 +376,7 @@ msgstr "Thư mục dữ liệu"
 
 #: templates/installation.php:57
 msgid "Configure the database"
-msgstr "Cấu hình Cơ Sở Dữ Liệu"
+msgstr "Cấu hình cơ sở dữ liệu"
 
 #: templates/installation.php:62 templates/installation.php:73
 #: templates/installation.php:83 templates/installation.php:93
@@ -406,87 +407,87 @@ msgstr "Database host"
 msgid "Finish setup"
 msgstr "Cài đặt hoàn tất"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Chủ nhật"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Thứ 2"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Thứ 3"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Thứ 4"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Thứ 5"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Thứ "
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Thứ 7"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "Tháng 1"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "Tháng 2"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "Tháng 3"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "Tháng 4"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "Tháng 5"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "Tháng 6"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "Tháng 7"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "Tháng 8"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "Tháng 9"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "Tháng 10"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "Tháng 11"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "Tháng 12"
 
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "các dịch vụ web dưới sự kiểm soát của bạn"
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Đăng xuất"
 
@@ -530,7 +531,7 @@ msgstr "Kế tiếp"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr "Cảnh báo bảo mật!"
+msgstr "Cảnh báo bảo mật !"
 
 #: templates/verify.php:6
 msgid ""

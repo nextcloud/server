@@ -112,7 +112,7 @@
 "web services under your control" => "servizos web baixo o seu control",
 "Log out" => "Desconectar",
 "Automatic logon rejected!" => "Rexeitouse a entrada automática",
-"If you did not change your password recently, your account may be compromised!" => "Se non fixeches cambios de contrasinal recementemente é posíbel que a túa conta estea comprometida!",
+"If you did not change your password recently, your account may be compromised!" => "Se non fixeches cambios de contrasinal recentemente é posíbel que a túa conta estea comprometida!",
 "Please change your password to secure your account again." => "Cambia de novo o teu contrasinal para asegurar a túa conta.",
 "Lost your password?" => "Perdeu o contrasinal?",
 "remember" => "lembrar",

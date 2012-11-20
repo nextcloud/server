@@ -43,6 +43,7 @@
 "Language" => "언어",
 "Help translate" => "번역 돕기",
 "use this address to connect to your ownCloud in your file manager" => "파일 관리자에서 내 ownCloud에 연결할 때 이 주소를 사용하십시오",
+"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>에 의해서 개발되었습니다. <a href=\"https://github.com/owncloud\" target=\"_blank\">소스코드</a>는 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>에 따라 사용이 허가됩니다.",
 "Name" => "이름",
 "Password" => "암호",
 "Groups" => "그룹",
