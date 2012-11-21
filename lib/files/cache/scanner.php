@@ -15,6 +15,11 @@ class Scanner {
 	private $storage;
 
 	/**
+	 * @var string $storageId
+	 */
+	private $storageId;
+
+	/**
 	 * @var \OC\Files\Cache\Cache $cache
 	 */
 	private $cache;
@@ -29,6 +34,7 @@ class Scanner {
 
 	public function __construct(\OC\Files\Storage\Storage $storage) {
 		$this->storage = $storage;
+		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
 		$this->permissionsCache = $storage->getPermissionsCache();
 	}
@@ -62,6 +68,7 @@ class Scanner {
 	 * @return array with metadata of the scanned file
 	 */
 	public function scanFile($file) {
+		\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 		$data = $this->getData($file);
 		if ($file !== '') {
 			$parent = dirname($file);
@@ -85,6 +92,7 @@ class Scanner {
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE) {
+		\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_folder', array('path' => $path, 'storage' => $this->storageId));
 		$this->scanFile($path);
 
 		$size = 0;
