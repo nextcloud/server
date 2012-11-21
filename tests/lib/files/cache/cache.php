@@ -175,6 +175,23 @@ class Cache extends \UnitTestCase {
 		$this->assertTrue($this->cache->inCache('folder/foobar/2'));
 	}
 
+	function testGetIncomplete() {
+		$file1 = 'folder1';
+		$file2 = 'folder2';
+		$file3 = 'folder3';
+		$file4 = 'folder4';
+		$data = array('size' => 10, 'mtime' => 50, 'mimetype' => 'foo/bar');
+
+		$this->cache->put($file1, $data);
+		$data['size'] = -1;
+		$this->cache->put($file2, $data);
+		$this->cache->put($file3, $data);
+		$data['size'] = 12;
+		$this->cache->put($file4, $data);
+
+		$this->assertEquals($file3, $this->cache->getIncomplete());
+	}
+
 	public function tearDown() {
 		$this->cache->clear();
 	}
