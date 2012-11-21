@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# 남자사람  <cessnagi@gmail.com>, 2012.
 #   <limonade83@gmail.com>, 2012.
 # Shinjo Park <kde@peremen.name>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-14 00:02+0100\n"
-"PO-Revision-Date: 2012-11-13 02:43+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-21 00:01+0100\n"
+"PO-Revision-Date: 2012-11-20 10:41+0000\n"
+"Last-Translator: 남자사람 <cessnagi@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +56,7 @@ msgstr "파일"
 
 #: js/fileactions.js:108 templates/index.php:64
 msgid "Unshare"
-msgstr ""
+msgstr "공유해제"
 
 #: js/fileactions.js:110 templates/index.php:66
 msgid "Delete"
@@ -63,11 +64,11 @@ msgstr "삭제"
 
 #: js/fileactions.js:172
 msgid "Rename"
-msgstr ""
+msgstr "이름변경"
 
 #: js/filelist.js:198 js/filelist.js:200
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} 이미 존재함"
 
 #: js/filelist.js:198 js/filelist.js:200
 msgid "replace"
@@ -75,7 +76,7 @@ msgstr "대체"
 
 #: js/filelist.js:198
 msgid "suggest name"
-msgstr ""
+msgstr "이름을 제안"
 
 #: js/filelist.js:198 js/filelist.js:200
 msgid "cancel"
@@ -83,7 +84,7 @@ msgstr "취소"
 
 #: js/filelist.js:247
 msgid "replaced {new_name}"
-msgstr ""
+msgstr "{new_name} 으로 대체"
 
 #: js/filelist.js:247 js/filelist.js:249 js/filelist.js:281 js/filelist.js:283
 msgid "undo"
@@ -91,15 +92,15 @@ msgstr "복구"
 
 #: js/filelist.js:249
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "{old_name}이 {new_name}으로 대체됨"
 
 #: js/filelist.js:281
 msgid "unshared {files}"
-msgstr ""
+msgstr "{files} 공유해제"
 
 #: js/filelist.js:283
 msgid "deleted {files}"
-msgstr ""
+msgstr "{files} 삭제됨"
 
 #: js/files.js:171
 msgid "generating ZIP-file, it may take some time."
@@ -117,66 +118,66 @@ msgstr "업로드 에러"
 msgid "Close"
 msgstr "닫기"
 
-#: js/files.js:237 js/files.js:342 js/files.js:372
+#: js/files.js:242 js/files.js:356 js/files.js:386
 msgid "Pending"
 msgstr "보류 중"
 
-#: js/files.js:257
+#: js/files.js:262
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 파일 업로드중"
 
-#: js/files.js:260 js/files.js:305 js/files.js:320
+#: js/files.js:265 js/files.js:319 js/files.js:334
 msgid "{count} files uploading"
-msgstr ""
+msgstr "{count} 파일 업로드중"
 
-#: js/files.js:323 js/files.js:356
+#: js/files.js:337 js/files.js:370
 msgid "Upload cancelled."
 msgstr "업로드 취소."
 
-#: js/files.js:425
+#: js/files.js:439
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "파일 업로드을 진행합니다. 페이지를 떠나게 될경우 업로드가 취소됩니다."
 
-#: js/files.js:495
+#: js/files.js:509
 msgid "Invalid name, '/' is not allowed."
 msgstr "잘못된 이름, '/' 은 허용이 되지 않습니다."
 
-#: js/files.js:676
+#: js/files.js:690
 msgid "{count} files scanned"
-msgstr ""
+msgstr "{count} 파일 스캔되었습니다."
 
-#: js/files.js:684
+#: js/files.js:698
 msgid "error while scanning"
-msgstr ""
+msgstr "스캔하는 도중 에러"
 
-#: js/files.js:757 templates/index.php:50
+#: js/files.js:771 templates/index.php:50
 msgid "Name"
 msgstr "이름"
 
-#: js/files.js:758 templates/index.php:58
+#: js/files.js:772 templates/index.php:58
 msgid "Size"
 msgstr "크기"
 
-#: js/files.js:759 templates/index.php:60
+#: js/files.js:773 templates/index.php:60
 msgid "Modified"
 msgstr "수정됨"
 
-#: js/files.js:786
+#: js/files.js:800
 msgid "1 folder"
-msgstr ""
+msgstr "1 폴더"
 
-#: js/files.js:788
+#: js/files.js:802
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} 폴더"
 
-#: js/files.js:796
+#: js/files.js:810
 msgid "1 file"
-msgstr ""
+msgstr "1 파일"
 
-#: js/files.js:798
+#: js/files.js:812
 msgid "{count} files"
-msgstr ""
+msgstr "{count} 파일"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -224,7 +225,7 @@ msgstr "폴더"
 
 #: templates/index.php:11
 msgid "From link"
-msgstr ""
+msgstr "From link"
 
 #: templates/index.php:22
 msgid "Upload"

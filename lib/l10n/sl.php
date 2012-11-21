@@ -14,16 +14,21 @@
 "Token expired. Please reload page." => "Žeton je potekel. Spletišče je traba znova naložiti.",
 "Files" => "Datoteke",
 "Text" => "Besedilo",
+"Images" => "Slike",
 "seconds ago" => "pred nekaj sekundami",
 "1 minute ago" => "pred minuto",
 "%d minutes ago" => "pred %d minutami",
+"1 hour ago" => "Pred 1 uro",
+"%d hours ago" => "Pred %d urami",
 "today" => "danes",
 "yesterday" => "včeraj",
 "%d days ago" => "pred %d dnevi",
 "last month" => "prejšnji mesec",
+"%d months ago" => "Pred %d meseci",
 "last year" => "lani",
 "years ago" => "pred nekaj leti",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s je na voljo. <a href=\"%s\">Več podrobnosti.</a>",
 "up to date" => "posodobljeno",
-"updates check is disabled" => "preverjanje za posodobitve je onemogočeno"
+"updates check is disabled" => "preverjanje za posodobitve je onemogočeno",
+"Could not find category \"%s\"" => "Kategorije \"%s\" ni bilo mogoče najti."
 );

@@ -58,6 +58,7 @@ abstract class Access {
 			return false;
 		}
 		$rr = @ldap_read($cr, $dn, $filter, array($attr));
+		$dn = $this->DNasBaseParameter($dn);
 		if(!is_resource($rr)) {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
 			//in case an error occurs , e.g. object does not exist
@@ -118,6 +119,14 @@ abstract class Access {
 
 		//make comparisons and everything work
 		$dn = mb_strtolower($dn, 'UTF-8');
+
+		//escape DN values according to RFC 2253 – this is already done by ldap_explode_dn
+		//to use the DN in search filters, \ needs to be escaped to \5c additionally
+		//to use them in bases, we convert them back to simple backslashes in readAttribute()
+		$aDN = ldap_explode_dn($dn, false);
+		unset($aDN['count']);
+		$dn = implode(',', $aDN);
+		$dn = str_replace('\\', '\\5c', $dn);
 
 		return $dn;
 	}
@@ -227,7 +236,6 @@ abstract class Access {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN
 	 */
 	public function dn2ocname($dn, $ldapname = null, $isUser = true) {
-		$dn = $this->sanitizeDN($dn);
 		$table = $this->getMapTable($isUser);
 		if($isUser) {
 			$fncFindMappedName = 'findMappedUser';
@@ -424,7 +432,6 @@ abstract class Access {
 	 */
 	private function mapComponent($dn, $ocname, $isUser = true) {
 		$table = $this->getMapTable($isUser);
-		$dn = $this->sanitizeDN($dn);
 
 		$sqlAdjustment = '';
 		$dbtype = \OCP\Config::getSystemValue('dbtype');
@@ -677,6 +684,7 @@ abstract class Access {
 	}
 
 	public function areCredentialsValid($name, $password) {
+		$name = $this->DNasBaseParameter($name);
 		$testConnection = clone $this->connection;
 		$credentials = array(
 			'ldapAgentName' => $name,
@@ -719,6 +727,7 @@ abstract class Access {
 
 	public function getUUID($dn) {
 		if($this->detectUuidAttribute($dn)) {
+			\OCP\Util::writeLog('user_ldap', 'UUID Checking \ UUID for '.$dn.' using '. $this->connection->ldapUuidAttribute, \OCP\Util::DEBUG);
 			$uuid = $this->readAttribute($dn, $this->connection->ldapUuidAttribute);
 			if(!is_array($uuid) && $this->connection->ldapOverrideUuidAttribute) {
 				$this->detectUuidAttribute($dn, true);
@@ -761,6 +770,18 @@ abstract class Access {
 		$hex_guid_to_guid_str .= '-' . substr($hex_guid, 20);
 
 		return strtoupper($hex_guid_to_guid_str);
+	}
+
+	/**
+	 * @brief converts a stored DN so it can be used as base parameter for LDAP queries
+	 * @param $dn the DN
+	 * @returns String
+	 *
+	 * converts a stored DN so it can be used as base parameter for LDAP queries
+	 * internally we store them for usage in LDAP filters
+	 */
+	private function DNasBaseParameter($dn) {
+		return str_replace('\\5c', '\\', $dn);
 	}
 
 	/**

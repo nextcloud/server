@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-17 00:01+0100\n"
-"PO-Revision-Date: 2012-11-16 05:47+0000\n"
+"POT-Creation-Date: 2012-11-19 00:01+0100\n"
+"PO-Revision-Date: 2012-11-18 13:25+0000\n"
 "Last-Translator: Len <lenny@weijl.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "%s ID niet opgegeven."
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Toevoegen van %s aan favorieten is mislukt."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -67,7 +67,7 @@ msgstr "Geen categorie geselecteerd voor verwijdering."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Verwijderen %s van favorieten is mislukt."
 
 #: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
@@ -151,8 +151,8 @@ msgid "The object type is not specified."
 msgstr "Het object type is niet gespecificeerd."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
+#: js/share.js:539
 msgid "Error"
 msgstr "Fout"
 
@@ -162,7 +162,7 @@ msgstr "De app naam is niet gespecificeerd."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "Het vereiste bestand {file} is niet geïnstalleerd!"
 
 #: js/share.js:124
 msgid "Error while sharing"
@@ -253,15 +253,15 @@ msgstr "verwijderen"
 msgid "share"
 msgstr "deel"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:343 js/share.js:514 js/share.js:516
 msgid "Password protected"
 msgstr "Wachtwoord beveiligd"
 
-#: js/share.js:525
+#: js/share.js:527
 msgid "Error unsetting expiration date"
 msgstr "Fout tijdens het verwijderen van de verval datum"
 
-#: js/share.js:537
+#: js/share.js:539
 msgid "Error setting expiration date"
 msgstr "Fout tijdens het instellen van de vervaldatum"
 

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-02 23:16+0200\n"
-"PO-Revision-Date: 2012-10-02 21:17+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-21 00:01+0100\n"
+"PO-Revision-Date: 2012-11-20 22:21+0000\n"
+"Last-Translator: Miguel Branco <mgl.branco@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,27 +20,27 @@ msgstr ""
 
 #: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
 msgid "Access granted"
-msgstr ""
+msgstr "Concedeuse acceso"
 
 #: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
 msgid "Error configuring Dropbox storage"
-msgstr ""
+msgstr "Erro configurando o almacenamento en Dropbox"
 
 #: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
 msgid "Grant access"
-msgstr ""
+msgstr "Permitir o acceso"
 
 #: js/dropbox.js:73 js/google.js:72
 msgid "Fill out all required fields"
-msgstr ""
+msgstr "Cubrir todos os campos obrigatorios"
 
 #: js/dropbox.js:85
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr ""
+msgstr "Dá o segredo e a clave correcta do aplicativo de Dropbox."
 
 #: js/google.js:26 js/google.js:73 js/google.js:78
 msgid "Error configuring Google Drive storage"
-msgstr ""
+msgstr "Erro configurando o almacenamento en Google Drive"
 
 #: templates/settings.php:3
 msgid "External Storage"
@@ -52,7 +52,7 @@ msgstr "Punto de montaxe"
 
 #: templates/settings.php:8
 msgid "Backend"
-msgstr "Almacén"
+msgstr "Infraestrutura"
 
 #: templates/settings.php:9
 msgid "Configuration"
@@ -68,11 +68,11 @@ msgstr "Aplicable"
 
 #: templates/settings.php:23
 msgid "Add mount point"
-msgstr "Engadir punto de montaxe"
+msgstr "Engadir un punto de montaxe"
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
-msgstr "Non establecido"
+msgstr "Ningún definido"
 
 #: templates/settings.php:63
 msgid "All Users"
@@ -92,7 +92,7 @@ msgstr "Eliminar"
 
 #: templates/settings.php:87
 msgid "Enable User External Storage"
-msgstr "Habilitar almacenamento externo do usuario"
+msgstr "Activar o almacenamento externo do usuario"
 
 #: templates/settings.php:88
 msgid "Allow users to mount their own external storage"
@@ -100,8 +100,8 @@ msgstr "Permitir aos usuarios montar os seus propios almacenamentos externos"
 
 #: templates/settings.php:99
 msgid "SSL root certificates"
-msgstr "Certificados raíz SSL"
+msgstr "Certificados SSL root"
 
 #: templates/settings.php:113
 msgid "Import Root Certificate"
-msgstr "Importar Certificado Raíz"
+msgstr "Importar o certificado root"

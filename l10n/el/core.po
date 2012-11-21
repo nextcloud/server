@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-17 00:01+0100\n"
-"PO-Revision-Date: 2012-11-16 17:29+0000\n"
+"POT-Creation-Date: 2012-11-21 00:01+0100\n"
+"PO-Revision-Date: 2012-11-19 23:56+0000\n"
 "Last-Translator: Efstathios Iosifidis <diamond_gr@freemail.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -26,27 +26,27 @@ msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Δεν δώθηκε τύπος κατηγορίας."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr "Δεν έχετε να προστέσθέσεται μια κα"
+msgstr "Δεν έχετε κατηγορία να προσθέσετε;"
 
 #: ajax/vcategories/add.php:37
 msgid "This category already exists: "
-msgstr "Αυτή η κατηγορία υπάρχει ήδη"
+msgstr "Αυτή η κατηγορία υπάρχει ήδη:"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Δεν δώθηκε τύπος αντικειμένου."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "Δεν δώθηκε η ID για %s."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
@@ -55,7 +55,7 @@ msgstr "Σφάλμα προσθήκης %s στα αγαπημένα."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Δεν επιλέχτηκαν κατηγορίες για διαγραφή"
+msgstr "Δεν επιλέχτηκαν κατηγορίες για διαγραφή."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -144,8 +144,8 @@ msgid "The object type is not specified."
 msgstr "Δεν καθορίστηκε ο τύπος του αντικειμένου."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
+#: js/share.js:539
 msgid "Error"
 msgstr "Σφάλμα"
 
@@ -246,15 +246,15 @@ msgstr "διαγραφή"
 msgid "share"
 msgstr "διαμοιρασμός"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:343 js/share.js:514 js/share.js:516
 msgid "Password protected"
 msgstr "Προστασία με συνθηματικό"
 
-#: js/share.js:525
+#: js/share.js:527
 msgid "Error unsetting expiration date"
 msgstr "Σφάλμα κατά την διαγραφή της ημ. λήξης"
 
-#: js/share.js:537
+#: js/share.js:539
 msgid "Error setting expiration date"
 msgstr "Σφάλμα κατά τον ορισμό ημ. λήξης"
 

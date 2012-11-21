@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <skoptev@ukr.net>, 2012.
 #   <victor.dubiniuk@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-02 23:16+0200\n"
-"PO-Revision-Date: 2012-10-02 21:17+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-20 00:01+0100\n"
+"PO-Revision-Date: 2012-11-19 15:12+0000\n"
+"Last-Translator: skoptev <skoptev@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,47 +21,47 @@ msgstr ""
 
 #: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
 msgid "Access granted"
-msgstr ""
+msgstr "Доступ дозволено"
 
 #: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
 msgid "Error configuring Dropbox storage"
-msgstr ""
+msgstr "Помилка при налаштуванні сховища Dropbox"
 
 #: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
 msgid "Grant access"
-msgstr ""
+msgstr "Дозволити доступ"
 
 #: js/dropbox.js:73 js/google.js:72
 msgid "Fill out all required fields"
-msgstr ""
+msgstr "Заповніть всі обов'язкові поля"
 
 #: js/dropbox.js:85
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr ""
+msgstr "Будь ласка, надайте дійсний ключ та пароль Dropbox."
 
 #: js/google.js:26 js/google.js:73 js/google.js:78
 msgid "Error configuring Google Drive storage"
-msgstr ""
+msgstr "Помилка при налаштуванні сховища Google Drive"
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "Зовнішні сховища"
 
 #: templates/settings.php:7 templates/settings.php:19
 msgid "Mount point"
-msgstr ""
+msgstr "Точка монтування"
 
 #: templates/settings.php:8
 msgid "Backend"
-msgstr ""
+msgstr "Backend"
 
 #: templates/settings.php:9
 msgid "Configuration"
-msgstr ""
+msgstr "Налаштування"
 
 #: templates/settings.php:10
 msgid "Options"
-msgstr ""
+msgstr "Опції"
 
 #: templates/settings.php:11
 msgid "Applicable"
@@ -68,15 +69,15 @@ msgstr ""
 
 #: templates/settings.php:23
 msgid "Add mount point"
-msgstr ""
+msgstr "Додати точку монтування"
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
-msgstr ""
+msgstr "Не встановлено"
 
 #: templates/settings.php:63
 msgid "All Users"
-msgstr ""
+msgstr "Усі користувачі"
 
 #: templates/settings.php:64
 msgid "Groups"
@@ -92,16 +93,16 @@ msgstr "Видалити"
 
 #: templates/settings.php:87
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "Активувати користувацькі зовнішні сховища"
 
 #: templates/settings.php:88
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "Дозволити користувачам монтувати власні зовнішні сховища"
 
 #: templates/settings.php:99
 msgid "SSL root certificates"
-msgstr ""
+msgstr "SSL корневі сертифікати"
 
 #: templates/settings.php:113
 msgid "Import Root Certificate"
-msgstr ""
+msgstr "Імпортувати корневі сертифікати"

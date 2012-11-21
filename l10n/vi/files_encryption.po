@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-08 02:01+0200\n"
-"PO-Revision-Date: 2012-09-07 14:56+0000\n"
+"POT-Creation-Date: 2012-11-21 00:01+0100\n"
+"PO-Revision-Date: 2012-11-20 05:48+0000\n"
 "Last-Translator: Sơn Nguyễn <sonnghit@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Loại trừ các loại tập tin sau đây từ mã hóa"
 
 #: templates/settings.php:5
 msgid "None"
-msgstr "none"
+msgstr "Không có gì hết"
 
 #: templates/settings.php:10
 msgid "Enable Encryption"

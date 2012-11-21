@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <khanhnd@kenhgiaiphap.vn>, 2012.
+#   <mattheu.9x@gmail.com>, 2012.
 #   <mattheu_9x@yahoo.com>, 2012.
 # Son Nguyen <sonnghit@gmail.com>, 2012.
 # Sơn Nguyễn <sonnghit@gmail.com>, 2012.
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-10 00:01+0100\n"
-"PO-Revision-Date: 2012-11-09 23:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-21 00:01+0100\n"
+"PO-Revision-Date: 2012-11-20 05:31+0000\n"
+"Last-Translator: Sơn Nguyễn <sonnghit@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,11 +83,11 @@ msgstr "Không thể xóa người dùng từ nhóm %s"
 
 #: js/apps.js:28 js/apps.js:67
 msgid "Disable"
-msgstr "Vô hiệu"
+msgstr "Tắt"
 
 #: js/apps.js:28 js/apps.js:55
 msgid "Enable"
-msgstr "Cho phép"
+msgstr "Bật"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -110,7 +111,7 @@ msgstr "Chọn một ứng dụng"
 
 #: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr "Xem ứng dụng tại apps.owncloud.com"
+msgstr "Xem nhiều ứng dụng hơn tại apps.owncloud.com"
 
 #: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -134,7 +135,7 @@ msgstr "Vấn đề kết nối đến cơ sở dữ liệu."
 
 #: templates/help.php:23
 msgid "Go there manually."
-msgstr "Đến bằng thủ công"
+msgstr "Đến bằng thủ công."
 
 #: templates/help.php:31
 msgid "Answer"
@@ -195,7 +196,7 @@ msgstr "Ngôn ngữ"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr "Dịch "
+msgstr "Hỗ trợ dịch thuật"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"

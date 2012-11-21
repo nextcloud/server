@@ -18,13 +18,17 @@
 "seconds ago" => "1 giây trước",
 "1 minute ago" => "1 phút trước",
 "%d minutes ago" => "%d phút trước",
+"1 hour ago" => "1 giờ trước",
+"%d hours ago" => "%d giờ trước",
 "today" => "hôm nay",
 "yesterday" => "hôm qua",
 "%d days ago" => "%d ngày trước",
 "last month" => "tháng trước",
+"%d months ago" => "%d tháng trước",
 "last year" => "năm trước",
 "years ago" => "năm trước",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s có sẵn.  <a href=\"%s\">xem thêm ở đây</a>",
 "up to date" => "đến ngày",
-"updates check is disabled" => "đã TĂT chức năng cập nhật "
+"updates check is disabled" => "đã TĂT chức năng cập nhật ",
+"Could not find category \"%s\"" => "không thể tìm thấy mục \"%s\""
 );
