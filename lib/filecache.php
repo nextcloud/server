@@ -44,7 +44,7 @@ class OC_FileCache{
 	 */
 	public static function get($path,$root=false) {
 		
-		list($path, $root) = self::getSourcePathOfSharedFile($path);
+		list($path, $root) = self::getSourcePathOfSharedFile($path, $root);
 		
 		if(OC_FileCache_Update::hasUpdated($path,$root)) {
 			if($root===false) {//filesystem hooks are only valid for the default root
@@ -281,7 +281,7 @@ class OC_FileCache{
 	 */
 	public static function getId($path,$root=false) {
 		
-		list($path, $root) = self::getSourcePathOfSharedFile($path);
+		list($path, $root) = self::getSourcePathOfSharedFile($path, $root);
 			
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
@@ -519,14 +519,16 @@ class OC_FileCache{
 	 * @param string $path
 	 * @return array with the path and the root of the give file
 	 */
-	private static function getSourcePathOfSharedFile($path) {
-		if ( OC_App::isEnabled('files_sharing') &&  !strncmp($path, '/Shared/', 8)) {
-			$source = OC_Files_Sharing_Util::getSourcePath(str_replace('/Shared/', '', $path));
-			$parts = explode('/', $source, 4);
-			$root =  '/'.$parts[1].'/files';
-			$path = '/'.$parts[3];
-		} else {
-			$root = false; 
+	private static function getSourcePathOfSharedFile($path, $root) {
+		if ( OC_App::isEnabled('files_sharing')) {
+			$fullPath = OC_Filesystem::normalizePath($root.'/'.$path);
+			$sharedPos =  strpos($fullPath, '/Shared/');
+			if ( $sharedPos !== false && ($source = OC_Files_Sharing_Util::getSourcePath(substr($fullPath, $sharedPos+8))) ) {
+				$source = OC_Files_Sharing_Util::getSourcePath(str_replace('/Shared/', '', $path));
+				$parts = explode('/', $source, 4);
+				$root =  '/'.$parts[1].'/files';
+				$path = '/'.$parts[3];
+			}
 		}
 		
 		return array($path, $root);
