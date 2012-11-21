@@ -104,6 +104,28 @@ class Scanner extends \UnitTestCase {
 		$this->assertNotEqual($cachedDataFolder['size'], -1);
 	}
 
+	function testBackgroundScan(){
+		$this->fillTestFolders();
+		$this->storage->mkdir('folder2');
+		$this->storage->file_put_contents('folder2/bar.txt', 'foobar');
+
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
+		$this->assertFalse($this->cache->inCache('folder/2bar.txt'));
+		$cachedData = $this->cache->get('');
+		$this->assertEquals(-1, $cachedData['size']);
+
+		$this->scanner->backgroundScan();
+
+		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
+		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
+
+		$cachedData = $this->cache->get('');
+		$this->assertnotEquals(-1, $cachedData['size']);
+
+		$this->assertFalse($this->cache->getIncomplete());
+	}
+
 	function setUp() {
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		$this->scanner = new \OC\Files\Cache\Scanner($this->storage);

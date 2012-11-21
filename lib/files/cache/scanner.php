@@ -121,4 +121,14 @@ class Scanner {
 		}
 		return $size;
 	}
+
+	/**
+	 * walk over any folders that are not fully scanned yet and scan them
+	 */
+	public function backgroundScan() {
+		while ($path = $this->cache->getIncomplete()) {
+			$this->scan($path);
+			$this->cache->correctFolderSize($path);
+		}
+	}
 }
