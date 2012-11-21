@@ -4,13 +4,14 @@
 # 
 # Translators:
 #   <dzubchikd@gmail.com>, 2012.
+#   <skoptev@ukr.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-10 00:01+0100\n"
-"PO-Revision-Date: 2012-11-09 23:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-22 00:01+0100\n"
+"PO-Revision-Date: 2012-11-21 13:10+0000\n"
+"Last-Translator: skoptev <skoptev@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,27 +21,27 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Не вдалося завантажити список з App Store"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "Група вже існує"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "Не вдалося додати групу"
 
 #: ajax/enableapp.php:12
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Не вдалося активувати програму. "
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr ""
+msgstr "Адресу збережено"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr ""
+msgstr "Невірна адреса"
 
 #: ajax/openid.php:13
 msgid "OpenID Changed"
@@ -52,7 +53,7 @@ msgstr "Помилковий запит"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Не вдалося видалити групу"
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
 msgid "Authentication error"
@@ -60,7 +61,7 @@ msgstr "Помилка автентифікації"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Не вдалося видалити користувача"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -69,16 +70,16 @@ msgstr "Мова змінена"
 #: ajax/togglegroups.php:22
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Не вдалося додати користувача у групу %s"
 
 #: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Не вдалося видалити користувача із групи %s"
 
 #: js/apps.js:28 js/apps.js:67
 msgid "Disable"
-msgstr ""
+msgstr "Вимкнути"
 
 #: js/apps.js:28 js/apps.js:55
 msgid "Enable"
@@ -90,15 +91,15 @@ msgstr "Зберігаю..."
 
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
-msgstr ""
+msgstr "__language_name__"
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr ""
+msgstr "Додати свою програму"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "Більше програм"
 
 #: templates/apps.php:27
 msgid "Select an App"
@@ -106,11 +107,11 @@ msgstr "Вибрати додаток"
 
 #: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Перегляньте сторінку програм на apps.owncloud.com"
 
 #: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"
@@ -118,7 +119,7 @@ msgstr "Документація"
 
 #: templates/help.php:10
 msgid "Managing Big Files"
-msgstr ""
+msgstr "Управління великими файлами"
 
 #: templates/help.php:11
 msgid "Ask a question"
@@ -134,16 +135,16 @@ msgstr ""
 
 #: templates/help.php:31
 msgid "Answer"
-msgstr ""
+msgstr "Відповідь"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Ви використали <strong>%s</strong> із доступних <strong>%s</strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
+msgstr "Настільні та мобільні клієнти синхронізації"
 
 #: templates/personal.php:13
 msgid "Download"
@@ -151,11 +152,11 @@ msgstr "Завантажити"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "Ваш пароль змінено"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Не вдалося змінити Ваш пароль"
 
 #: templates/personal.php:21
 msgid "Current password"
@@ -179,11 +180,11 @@ msgstr "Ел.пошта"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr ""
+msgstr "Ваша адреса електронної пошти"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Введіть адресу електронної пошти для відновлення паролю"
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
@@ -191,11 +192,11 @@ msgstr "Мова"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr ""
+msgstr "Допомогти з перекладом"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "використовувати цю адресу для з'єднання з ownCloud у Вашому файловому менеджері"
 
 #: templates/personal.php:61
 msgid ""
@@ -205,7 +206,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Розроблено <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud громадою</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">вихідний код</a> має ліцензію <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
@@ -225,7 +226,7 @@ msgstr "Створити"
 
 #: templates/users.php:35
 msgid "Default Quota"
-msgstr ""
+msgstr "Квота за замовчуванням"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
@@ -233,11 +234,11 @@ msgstr "Інше"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "Адміністратор групи"
 
 #: templates/users.php:82
 msgid "Quota"
-msgstr ""
+msgstr "Квота"
 
 #: templates/users.php:146
 msgid "Delete"

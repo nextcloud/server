@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-20 00:01+0100\n"
-"PO-Revision-Date: 2012-11-19 12:14+0000\n"
+"POT-Creation-Date: 2012-11-22 00:01+0100\n"
+"PO-Revision-Date: 2012-11-21 07:04+0000\n"
 "Last-Translator: 남자사람 <cessnagi@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -42,12 +42,12 @@ msgstr "오브젝트 타입이 제공되지 않습니다."
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "%s ID가 제공되지 않습니다."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "즐겨찾기에 %s 를 추가하는데 에러발생."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -56,7 +56,7 @@ msgstr "삭제 카테고리를 선택하지 않았습니다."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "즐겨찾기로 부터 %s 를 제거하는데 에러발생"
 
 #: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
@@ -64,23 +64,23 @@ msgstr "설정"
 
 #: js/js.js:704
 msgid "seconds ago"
-msgstr ""
+msgstr "초 전"
 
 #: js/js.js:705
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 분 전"
 
 #: js/js.js:706
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} 분 전"
 
 #: js/js.js:707
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 시간 전"
 
 #: js/js.js:708
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} 시간 전"
 
 #: js/js.js:709
 msgid "today"
@@ -96,23 +96,23 @@ msgstr "{days} 일 전"
 
 #: js/js.js:712
 msgid "last month"
-msgstr ""
+msgstr "지난 달"
 
 #: js/js.js:713
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} 달 전"
 
 #: js/js.js:714
 msgid "months ago"
-msgstr ""
+msgstr "달 전"
 
 #: js/js.js:715
 msgid "last year"
-msgstr ""
+msgstr "지난 해"
 
 #: js/js.js:716
 msgid "years ago"
-msgstr ""
+msgstr "년 전"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
@@ -137,7 +137,7 @@ msgstr "승락"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "객체 유형이 지정되지 않았습니다."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
@@ -147,11 +147,11 @@ msgstr "에러"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "응용프로그램 이름이 지정되지 않았습니다."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "필요한 파일 {file} 이 인스톨되지 않았습니다!"
 
 #: js/share.js:124
 msgid "Error while sharing"
@@ -220,11 +220,11 @@ msgstr "공유해제"
 
 #: js/share.js:304
 msgid "can edit"
-msgstr ""
+msgstr "편집 가능"
 
 #: js/share.js:306
 msgid "access control"
-msgstr ""
+msgstr "컨트롤에 접근"
 
 #: js/share.js:309
 msgid "create"
@@ -268,11 +268,11 @@ msgstr "전자 우편으로 암호 재설정 링크를 보냈습니다."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "리셋 이메일을 보냈습니다."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "요청이 실패했습니다!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -358,7 +358,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "당신의 데이터 디렉토리 및 파일을 인터넷에서 액세스 할 수 있습니다. ownCloud가 제공하는 .htaccess 파일이 작동하지 않습니다. 우리는 데이터 디렉토리를 더이상 접근 할 수 없도록 웹서버의 루트 외부로 데이터 디렉토리를 이동하는 방식의 웹 서버를 구성하는 것이 좋다고 강력하게 제안합니다."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"

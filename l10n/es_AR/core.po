@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-21 00:01+0100\n"
-"PO-Revision-Date: 2012-11-19 23:20+0000\n"
-"Last-Translator: Javierkaiser <javierkaiser@gmail.com>\n"
+"POT-Creation-Date: 2012-11-22 00:01+0100\n"
+"PO-Revision-Date: 2012-11-21 09:55+0000\n"
+"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,7 +79,7 @@ msgstr "Hace 1 hora"
 
 #: js/js.js:708
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} horas atrás"
 
 #: js/js.js:709
 msgid "today"
@@ -99,7 +99,7 @@ msgstr "el mes pasado"
 
 #: js/js.js:713
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} meses atrás"
 
 #: js/js.js:714
 msgid "months ago"
@@ -150,7 +150,7 @@ msgstr "El nombre de la aplicación no esta especificado."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "¡El archivo requerido {file} no está instalado!"
 
 #: js/share.js:124
 msgid "Error while sharing"
