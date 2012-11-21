@@ -509,7 +509,7 @@ class OC_FileCache{
 			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `mtime`=0 WHERE `user`=? AND `mimetype`= ?  ');
 			$query->execute(array($user,'httpd/unix-directory'));
 		}else{
-			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `mtime`=0 AND `mimetype`= ? ');
+			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `mtime`=0 WHERE `mimetype`= ? ');
 			$query->execute(array('httpd/unix-directory'));
 		}
 	}
