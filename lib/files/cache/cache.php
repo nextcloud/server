@@ -33,9 +33,9 @@ class Cache {
 	 * @param \OC\Files\Storage\Storage|string $storage
 	 */
 	public function __construct($storage) {
-		if($storage instanceof \OC\Files\Storage\Storage){
+		if ($storage instanceof \OC\Files\Storage\Storage) {
 			$this->storageId = $storage->getId();
-		}else{
+		} else {
 			$this->storageId = $storage;
 		}
 	}
@@ -87,7 +87,7 @@ class Cache {
 		if ($fileId > -1) {
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`
-			 	 FROM `*PREFIX*filecache` WHERE parent = ?');
+			 	 FROM `*PREFIX*filecache` WHERE parent = ? ORDER BY `fileid` ASC');
 			$result = $query->execute(array($fileId));
 			return $result->fetchAll();
 		} else {
@@ -364,7 +364,7 @@ class Cache {
 	 */
 	public function calculateFolderSize($path) {
 		$id = $this->getId($path);
-		if($id === -1){
+		if ($id === -1) {
 			return 0;
 		}
 		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*filecache` WHERE `parent` = ? AND `storage` = ?');
@@ -412,12 +412,12 @@ class Cache {
 	 *
 	 * @return string|bool the path of the folder or false when no folder matched
 	 */
-	public function getIncomplete(){
+	public function getIncomplete() {
 		$query = \OC_DB::prepare('SELECT `path` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `size` = -1 ORDER BY `fileid` DESC LIMIT 1');
 		$query->execute(array($this->storageId));
-		if($row = $query->fetchRow()){
+		if ($row = $query->fetchRow()) {
 			return $row['path'];
-		}else{
+		} else {
 			return false;
 		}
 	}
