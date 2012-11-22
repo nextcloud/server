@@ -89,27 +89,12 @@ class Proxy extends \OC_FileProxy {
 		
 		return false;
 	}
-
-	/**
-	 * Check if a file is encrypted according to database file cache
-	 * @param string $path
-	 * @return bool
-	 */
-	private static function isEncrypted( $path ){
-	
-		// Fetch all file metadata from DB
-		$metadata = \OC_FileCache_Cached::get( $path, '' );
-		
-		// Return encryption status
-		return isset( $metadata['encrypted'] ) and ( bool )$metadata['encrypted'];
-	
-	}
 	
 	public function preFile_put_contents( $path, &$data ) {
 		
 		if ( self::shouldEncrypt( $path ) ) {
 		
-			if ( !is_resource( $data ) ) { //stream put contents should have been converter to fopen
+			if ( !is_resource( $data ) ) { //stream put contents should have been converted to fopen
 			
 				// Set the filesize for userland, before encrypting
 				$size = strlen( $data );
@@ -176,7 +161,7 @@ class Proxy extends \OC_FileProxy {
 	}
 	
 	public function postFopen( $path, &$result ){
-	
+	trigger_error(var_export($path));
 		if ( !$result ) {
 		
 			return $result;
@@ -188,7 +173,7 @@ class Proxy extends \OC_FileProxy {
 		
 		$meta = stream_get_meta_data( $result );
 		
-		$view = new \OC_FilesystemView();
+		$view = new \OC_FilesystemView( '' );
 		
 		$util = new Util( $view, \OCP\USER::getUser());
 		
@@ -203,30 +188,22 @@ class Proxy extends \OC_FileProxy {
 			
 			$encrypted = $view->file_get_contents( $path );
 			
-			//file_put_contents('/home/samtuke/newtmp.txt', "\$path = $path, \$data = $data" );
-			
 			// Replace the contents of 
 			\OC_Filesystem::file_put_contents( $path, $tmp );
 			
 			fclose( $tmp );
 			
-			//file_put_contents('/home/samtuke/newtmp.txt', file_get_contents( 'crypt://' . $path ) );
-			
 			$result = fopen( 'crypt://' . $path, $meta['mode'] );
-		
-// 			file_put_contents('/home/samtuke/newtmp.txt', "mode= server" );
 		
 // 			$keyFile = Keymanager::getFileKey( $filePath );
 // 		
 // 			$tmp = tmpfile();
-// 			
-// 			file_put_contents( $tmp, Crypt::keyDecryptKeyfile( $result, $keyFile, $_SESSION['enckey'] ) );
 // 		
 // 			fclose ( $result );
 // 			
 // 			$result = fopen( $tmp );
 			
-		} /*elseif ( 
+		} elseif ( 
 		self::shouldEncrypt( $path ) 
 		and $meta ['mode'] != 'r' 
 		and $meta['mode'] != 'rb' 
@@ -235,8 +212,8 @@ class Proxy extends \OC_FileProxy {
 		# TODO: figure out what this does
 		
 			if ( 
-			\OC_Filesystem::file_exists( $path ) 
-			and \OC_Filesystem::filesize( $path ) > 0 
+			$view->file_exists( $path ) 
+			and $view->filesize( $path ) > 0 
 			) {
 			
 				//first encrypt the target file so we don't end up with a half encrypted file
@@ -244,6 +221,7 @@ class Proxy extends \OC_FileProxy {
 				
 				$tmp = fopen( 'php://temp' );
 				
+				// Make a temporary copy of the original file
 				\OCP\Files::streamCopy( $result, $tmp );
 				
 				// Close the original stream, we'll return another one
@@ -257,7 +235,7 @@ class Proxy extends \OC_FileProxy {
 			
 			$result = fopen( 'crypt://'.$path, $meta['mode'] );
 		
-		}*/
+		}
 		
 		// Re-enable the proxy
 		\OC_FileProxy::$enabled = true;

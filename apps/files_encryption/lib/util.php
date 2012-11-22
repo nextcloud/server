@@ -46,6 +46,11 @@ class Util {
 	# DONE: add method to decrypt legacy encrypted data
 	# DONE: fix / test the crypt stream proxy class	
 	# DONE: replace cryptstream wrapper new AES based system
+	# DONE: Encryption works for writing new text files in web ui
+	# DONE: reading unencrypted files when encryption is enabled works via webdav
+	
+	# TODO: file uploaded via web ui get encrypted
+	# TODO: new files created and uploaded via webdav get encrypted
 	
 	# TODO: add support for optional recovery user in case of lost passphrase / keys
 	# TODO: add admin optional required long passphrase for users
@@ -61,6 +66,8 @@ class Util {
 	# TODO: test new encryption with versioning
 	# TODO: test new encryption with sharing
 	# TODO: test new encryption with proxies
+	
+	# NOTE: Curretly code on line 206 onwards in lib/proxy.php needs work. This code is executed when webdav writes take place, and appears to need to convert streams into fopen resources. Currently code within the if statement on 215 is not executing. Investigate the paths (handled there (which appear to be blank), and whether oc_fsv is borking them during processing.
 
 	private $view; // OC_FilesystemView object for filesystem operations
 	private $pwd; // User Password

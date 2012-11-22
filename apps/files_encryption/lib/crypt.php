@@ -144,10 +144,6 @@ class Crypt {
 		// Fetch IV from end of file
 		$iv = substr( $meta, -16 );
 		
-// 		$msg = "\$content = ".var_dump($content, 1).", \$noPadding = ".var_dump($noPadding, 1).", \$meta = ".var_dump($meta, 1).", \$iv = ".var_dump($iv, 1);
-// 		
-// 		file_put_contents('/home/samtuke/newtmp.txt', $msg );
-		
 		// Fetch identifier from start of metadata
 		$identifier = substr( $meta, 0, 6 );
 		
@@ -160,6 +156,23 @@ class Crypt {
 			return false;
 			
 		}
+	
+	}
+	
+	/**
+	 * Check if a file is encrypted according to database file cache
+	 * @param string $path
+	 * @return bool
+	 */
+	private static function isEncryptedMeta( $path ) {
+	
+		# TODO: Use DI to get OC_FileCache_Cached out of here
+	
+		// Fetch all file metadata from DB
+		$metadata = \OC_FileCache_Cached::get( $path, '' );
+		
+		// Return encryption status
+		return isset( $metadata['encrypted'] ) and ( bool )$metadata['encrypted'];
 	
 	}
 	
@@ -625,6 +638,7 @@ class Crypt {
 		}
 		return false;
 	}
+	
 }
 
 ?>
