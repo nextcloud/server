@@ -137,8 +137,11 @@ class Proxy extends \OC_FileProxy {
 	
 		if ( Crypt::mode() == 'server' && Crypt::isEncryptedContent( $data ) ) {
 		
-			$path_split = explode( '/', $path );
-			$path_f = implode( array_slice( $path_split, 3 ) );
+			$filePath = explode( '/', $path );
+			
+			$filePath = array_slice( $filePath, 3 );
+			
+			$filePath = '/' . implode( '/', $filePath );
 			
 			$cached = \OC_FileCache_Cached::get( $path, '' );
 			
@@ -170,10 +173,6 @@ class Proxy extends \OC_FileProxy {
 		
 		$meta = stream_get_meta_data( $result );
 		
-		// Reformat path for use with OC_FSV
-		$path_split = explode( '/', $path );
-		$path_f = implode( array_slice( $path_split, 3 ) );
-		
 // 		trigger_error("\$meta(result) = ".var_export($meta, 1));
 		
 		$view = new \OC_FilesystemView( '' );
@@ -199,25 +198,37 @@ class Proxy extends \OC_FileProxy {
 		// If the file should be encrypted and has been opened for 
 		// reading only
 		
-			if (
-			\OC_Filesystem::file_exists( $path_f ) 
-			and \OC_Filesystem::filesize( $path_f ) > 0
-			) {
+			// Reformat path for use with OC_FSV
+			$path_split = explode( '/', $path );
+			$path_f = implode( array_slice( $path_split, 3 ) );
 			
-				trigger_error("BAT");
+// 			trigger_error("$path_f = ".var_export($path_f, 1));
+		
+			if ( 
+			$view->file_exists( $path ) 
+			and $view->filesize( $path ) > 0 
+			) {
+				$x = $view->file_get_contents( $path );
+				
+				trigger_error( "size = ".var_export( $x, 1 ) );
+				
 				$tmp = tmpfile();
 				
-				\OCP\Files::streamCopy($result, $tmp);
+// 				trigger_error("Result meta = ".var_export($meta, 1));
 				
-				fclose($result);
-				
-				\OC_Filesystem::file_put_contents($path_f, $tmp);
-				
-				fclose($tmp);
-				
+// 				// Make a temporary copy of the original file
+// 				\OCP\Files::streamCopy( $result, $tmp );
+// 				
+// 				// Close the original stream, we'll return another one
+// 				fclose( $result );
+// 				
+// 				$view->file_put_contents( $path_f, $tmp );
+// 				
+// 				fclose( $tmp );
+			
 			}
 			
-			$result = fopen( 'crypt://' . $path_f, $meta['mode'] );
+			$result = fopen( 'crypt://'.$path_f, $meta['mode'] );
 		
 		}
 		
