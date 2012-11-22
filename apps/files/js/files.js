@@ -509,6 +509,10 @@ $(document).ready(function() {
 				$('#notification').text(t('files','Invalid name, \'/\' is not allowed.'));
 				$('#notification').fadeIn();
 				return;
+			} else if( type == 'folder' && $('#dir').val() == '/' && $(this).val() == 'Shared') {
+				$('#notification').text(t('files','Invalid folder name. Usage of "Shared" is reserved by Owncloud'));
+				$('#notification').fadeIn();
+				return;
 			}
 			var name = getUniqueName($(this).val());
 			if (name != $(this).val()) {
