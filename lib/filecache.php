@@ -352,21 +352,34 @@ class OC_FileCache{
 	 */
 	public static function increaseSize($path, $sizeDiff, $root=false) {
 		if($sizeDiff==0) return;
-		$id=self::getId($path, $root);
+		$item = OC_FileCache_Cached::get($path);
+		//stop walking up the filetree if we hit a non-folder
+		if($item['mimetype'] !== 'httpd/unix-directory'){
+			return;
+		}
+		$id = $item['id'];
 		while($id!=-1) {//walk up the filetree increasing the size of all parent folders
 			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `size`=`size`+? WHERE `id`=?');
 			$query->execute(array($sizeDiff, $id));
-			$id=self::getParentId($path);
+			if($path == '' or $path =='/'){
+				return;
+			}
 			$path=dirname($path);
+			$parent = OC_FileCache_Cached::get($path);
+			$id = $parent['id'];
+			//stop walking up the filetree if we hit a non-folder
+			if($parent['mimetype'] !== 'httpd/unix-directory'){
+				return;
+			}
 		}
 	}
 
 	/**
 	 * recursively scan the filesystem and fill the cache
 	 * @param string $path
-	 * @param OC_EventSource $enventSource (optional)
-	 * @param int count (optional)
-	 * @param string root (optional)
+	 * @param OC_EventSource $eventSource (optional)
+	 * @param int $count (optional)
+	 * @param string $root (optional)
 	 */
 	public static function scan($path, $eventSource=false,&$count=0, $root=false) {
 		if($eventSource) {
