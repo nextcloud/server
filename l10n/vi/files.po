@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-21 00:01+0100\n"
-"PO-Revision-Date: 2012-11-20 04:00+0000\n"
-"Last-Translator: Sơn Nguyễn <sonnghit@gmail.com>\n"
+"POT-Creation-Date: 2012-11-23 00:01+0100\n"
+"PO-Revision-Date: 2012-11-22 23:01+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -143,39 +143,43 @@ msgstr "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi t
 msgid "Invalid name, '/' is not allowed."
 msgstr "Tên không hợp lệ ,không được phép dùng '/'"
 
-#: js/files.js:690
+#: js/files.js:513
+msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
+msgstr ""
+
+#: js/files.js:694
 msgid "{count} files scanned"
 msgstr "{count} tập tin đã được quét"
 
-#: js/files.js:698
+#: js/files.js:702
 msgid "error while scanning"
 msgstr "lỗi trong khi quét"
 
-#: js/files.js:771 templates/index.php:50
+#: js/files.js:775 templates/index.php:50
 msgid "Name"
 msgstr "Tên"
 
-#: js/files.js:772 templates/index.php:58
+#: js/files.js:776 templates/index.php:58
 msgid "Size"
 msgstr "Kích cỡ"
 
-#: js/files.js:773 templates/index.php:60
+#: js/files.js:777 templates/index.php:60
 msgid "Modified"
 msgstr "Thay đổi"
 
-#: js/files.js:800
+#: js/files.js:804
 msgid "1 folder"
 msgstr "1 thư mục"
 
-#: js/files.js:802
+#: js/files.js:806
 msgid "{count} folders"
 msgstr "{count} thư mục"
 
-#: js/files.js:810
+#: js/files.js:814
 msgid "1 file"
 msgstr "1 tập tin"
 
-#: js/files.js:812
+#: js/files.js:816
 msgid "{count} files"
 msgstr "{count} tập tin"
 

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-23 00:01+0100\n"
+"PO-Revision-Date: 2012-11-22 10:55+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "ยังไม่ได้ระบุชนิดของหมวดหมู่"
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -35,18 +35,18 @@ msgstr "หมวดหมู่นี้มีอยู่แล้ว: "
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "ชนิดของวัตถุยังไม่ได้ถูกระบุ"
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "ยังไม่ได้ระบุรหัส %s"
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการเพิ่ม %s เข้าไปยังรายการโปรด"
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -55,61 +55,61 @@ msgstr "ยังไม่ได้เลือกหมวดหมู่ที
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการลบ %s ออกจากรายการโปรด"
 
-#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "ตั้งค่า"
 
-#: js/js.js:688
+#: js/js.js:704
 msgid "seconds ago"
 msgstr "วินาที ก่อนหน้านี้"
 
-#: js/js.js:689
+#: js/js.js:705
 msgid "1 minute ago"
 msgstr "1 นาทีก่อนหน้านี้"
 
-#: js/js.js:690
+#: js/js.js:706
 msgid "{minutes} minutes ago"
 msgstr "{minutes} นาทีก่อนหน้านี้"
 
-#: js/js.js:691
+#: js/js.js:707
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 ชั่วโมงก่อนหน้านี้"
 
-#: js/js.js:692
+#: js/js.js:708
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} ชั่วโมงก่อนหน้านี้"
 
-#: js/js.js:693
+#: js/js.js:709
 msgid "today"
 msgstr "วันนี้"
 
-#: js/js.js:694
+#: js/js.js:710
 msgid "yesterday"
 msgstr "เมื่อวานนี้"
 
-#: js/js.js:695
+#: js/js.js:711
 msgid "{days} days ago"
 msgstr "{day} วันก่อนหน้านี้"
 
-#: js/js.js:696
+#: js/js.js:712
 msgid "last month"
 msgstr "เดือนที่แล้ว"
 
-#: js/js.js:697
+#: js/js.js:713
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} เดือนก่อนหน้านี้"
 
-#: js/js.js:698
+#: js/js.js:714
 msgid "months ago"
 msgstr "เดือน ที่ผ่านมา"
 
-#: js/js.js:699
+#: js/js.js:715
 msgid "last year"
 msgstr "ปีที่แล้ว"
 
-#: js/js.js:700
+#: js/js.js:716
 msgid "years ago"
 msgstr "ปี ที่ผ่านมา"
 
@@ -136,21 +136,21 @@ msgstr "ตกลง"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "ชนิดของวัตถุยังไม่ได้รับการระบุ"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
+#: js/share.js:539
 msgid "Error"
 msgstr "พบข้อผิดพลาด"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "ชื่อของแอปยังไม่ได้รับการระบุชื่อ"
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "ไฟล์ {file} ซึ่งเป็นไฟล์ที่จำเป็นต้องได้รับการติดตั้งไว้ก่อน ยังไม่ได้ถูกติดตั้ง"
 
 #: js/share.js:124
 msgid "Error while sharing"
@@ -241,15 +241,15 @@ msgstr "ลบ"
 msgid "share"
 msgstr "แชร์"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:343 js/share.js:514 js/share.js:516
 msgid "Password protected"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:525
+#: js/share.js:527
 msgid "Error unsetting expiration date"
 msgstr "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:537
+#: js/share.js:539
 msgid "Error setting expiration date"
 msgstr "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ"
 
@@ -404,87 +404,87 @@ msgstr "Database host"
 msgid "Finish setup"
 msgstr "ติดตั้งเรียบร้อยแล้ว"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "วันอาทิตย์"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "วันจันทร์"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "วันอังคาร"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "วันพุธ"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "วันพฤหัสบดี"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "วันศุกร์"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "วันเสาร์"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "มกราคม"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "กุมภาพันธ์"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "มีนาคม"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "เมษายน"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "พฤษภาคม"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "มิถุนายน"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "กรกฏาคม"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "สิงหาคม"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "กันยายน"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "ตุลาคม"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "พฤศจิกายน"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "ธันวาคม"
 
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "web services under your control"
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "ออกจากระบบ"
 

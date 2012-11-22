@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# 남자사람  <cessnagi@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-22 00:01+0100\n"
+"PO-Revision-Date: 2012-11-21 06:19+0000\n"
+"Last-Translator: 남자사람 <cessnagi@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,31 +36,31 @@ msgstr "사용자"
 
 #: app.php:309
 msgid "Apps"
-msgstr ""
+msgstr "어플리케이션"
 
 #: app.php:311
 msgid "Admin"
-msgstr ""
+msgstr "관리자"
 
-#: files.php:332
+#: files.php:361
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "ZIP 다운로드가 꺼졌습니다."
 
-#: files.php:333
+#: files.php:362
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "파일 차례대로 다운로드가 필요합니다."
 
-#: files.php:333 files.php:358
+#: files.php:362 files.php:387
 msgid "Back to Files"
-msgstr ""
+msgstr "파일로 돌아가기"
 
-#: files.php:357
+#: files.php:386
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "zip 파일 생성하기 위한 너무 많은 파일들이 선택되었습니다."
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "응용프로그램이 사용 가능하지 않습니다."
 
 #: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
@@ -67,7 +68,7 @@ msgstr "인증 오류"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "토큰 만료. 페이지를 새로고침 해주세요."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
@@ -79,74 +80,74 @@ msgstr "문자 번호"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "그림"
 
 #: template.php:103
 msgid "seconds ago"
-msgstr ""
+msgstr "초 전"
 
 #: template.php:104
 msgid "1 minute ago"
-msgstr ""
+msgstr "1분 전"
 
 #: template.php:105
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "%d 분 전"
 
 #: template.php:106
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 시간 전"
 
 #: template.php:107
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "%d 시간 전"
 
 #: template.php:108
 msgid "today"
-msgstr ""
+msgstr "오늘"
 
 #: template.php:109
 msgid "yesterday"
-msgstr ""
+msgstr "어제"
 
 #: template.php:110
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "%d 일 전"
 
 #: template.php:111
 msgid "last month"
-msgstr ""
+msgstr "지난 달"
 
 #: template.php:112
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "%d 달 전"
 
 #: template.php:113
 msgid "last year"
-msgstr ""
+msgstr "지난 해"
 
 #: template.php:114
 msgid "years ago"
-msgstr ""
+msgstr "작년"
 
 #: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s은 가능합니다. 더 자세한 정보는 <a href=\"%s\">이곳</a>으로.."
 
 #: updater.php:77
 msgid "up to date"
-msgstr ""
+msgstr "최신"
 
 #: updater.php:80
 msgid "updates check is disabled"
-msgstr ""
+msgstr "업데이트 확인이 비활성화 되어있습니다."
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "\"%s\" 카테고리를 찾을 수 없습니다."

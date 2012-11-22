@@ -6,6 +6,7 @@
 # Denis  <reg.transifex.net@demitel.ru>, 2012.
 #   <jekader@gmail.com>, 2011, 2012.
 #   <k0ldbl00d@gmail.com>, 2012.
+# Mihail Vasiliev <mickvav@gmail.com>, 2012.
 #   <skoptev@ukr.net>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-22 00:01+0100\n"
+"PO-Revision-Date: 2012-11-21 12:18+0000\n"
+"Last-Translator: Mihail Vasiliev <mickvav@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Тип категории не предоставлен"
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -40,18 +41,18 @@ msgstr "Эта категория уже существует: "
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Тип объекта не предоставлен"
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "ID %s не  предоставлен"
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Ошибка добавления %s в избранное"
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -60,61 +61,61 @@ msgstr "Нет категорий для удаления."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Ошибка удаления %s из избранного"
 
-#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Настройки"
 
-#: js/js.js:688
+#: js/js.js:704
 msgid "seconds ago"
 msgstr "несколько секунд назад"
 
-#: js/js.js:689
+#: js/js.js:705
 msgid "1 minute ago"
 msgstr "1 минуту назад"
 
-#: js/js.js:690
+#: js/js.js:706
 msgid "{minutes} minutes ago"
 msgstr "{minutes} минут назад"
 
-#: js/js.js:691
+#: js/js.js:707
 msgid "1 hour ago"
-msgstr ""
+msgstr "час назад"
 
-#: js/js.js:692
+#: js/js.js:708
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} часов назад"
 
-#: js/js.js:693
+#: js/js.js:709
 msgid "today"
 msgstr "сегодня"
 
-#: js/js.js:694
+#: js/js.js:710
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:695
+#: js/js.js:711
 msgid "{days} days ago"
 msgstr "{days} дней назад"
 
-#: js/js.js:696
+#: js/js.js:712
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: js/js.js:697
+#: js/js.js:713
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} месяцев назад"
 
-#: js/js.js:698
+#: js/js.js:714
 msgid "months ago"
 msgstr "несколько месяцев назад"
 
-#: js/js.js:699
+#: js/js.js:715
 msgid "last year"
 msgstr "в прошлом году"
 
-#: js/js.js:700
+#: js/js.js:716
 msgid "years ago"
 msgstr "несколько лет назад"
 
@@ -141,21 +142,21 @@ msgstr "Ок"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Тип объекта не указан"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
+#: js/share.js:539
 msgid "Error"
 msgstr "Ошибка"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "Имя приложения не указано"
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "Необходимый файл {file} не установлен!"
 
 #: js/share.js:124
 msgid "Error while sharing"
@@ -246,15 +247,15 @@ msgstr "удалить"
 msgid "share"
 msgstr "открыть доступ"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:343 js/share.js:514 js/share.js:516
 msgid "Password protected"
 msgstr "Защищено паролем"
 
-#: js/share.js:525
+#: js/share.js:527
 msgid "Error unsetting expiration date"
 msgstr "Ошибка при отмене срока доступа"
 
-#: js/share.js:537
+#: js/share.js:539
 msgid "Error setting expiration date"
 msgstr "Ошибка при установке срока доступа"
 
@@ -409,87 +410,87 @@ msgstr "Хост базы данных"
 msgid "Finish setup"
 msgstr "Завершить установку"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Воскресенье"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Понедельник"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Среда"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Четверг"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Пятница"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Суббота"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "Январь"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "Февраль"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "Март"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "Апрель"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "Май"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "Июнь"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "Июль"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "Август"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "Сентябрь"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "Октябрь"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "Ноябрь"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "Декабрь"
 
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "Сетевые службы под твоим контролем"
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Выйти"
 

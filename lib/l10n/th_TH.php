@@ -18,13 +18,17 @@
 "seconds ago" => "วินาทีที่ผ่านมา",
 "1 minute ago" => "1 นาทีมาแล้ว",
 "%d minutes ago" => "%d นาทีที่ผ่านมา",
+"1 hour ago" => "1 ชั่วโมงก่อนหน้านี้",
+"%d hours ago" => "%d ชั่วโมงก่อนหน้านี้",
 "today" => "วันนี้",
 "yesterday" => "เมื่อวานนี้",
 "%d days ago" => "%d วันที่ผ่านมา",
 "last month" => "เดือนที่แล้ว",
+"%d months ago" => "%d เดือนมาแล้ว",
 "last year" => "ปีที่แล้ว",
 "years ago" => "ปีที่ผ่านมา",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s พร้อมให้ใช้งานได้แล้ว. <a href=\"%s\">ดูรายละเอียดเพิ่มเติม</a>",
 "up to date" => "ทันสมัย",
-"updates check is disabled" => "การตรวจสอบชุดอัพเดทถูกปิดใช้งานไว้"
+"updates check is disabled" => "การตรวจสอบชุดอัพเดทถูกปิดใช้งานไว้",
+"Could not find category \"%s\"" => "ไม่พบหมวดหมู่ \"%s\""
 );

@@ -4,12 +4,13 @@
 # 
 # Translators:
 #   <aldis@udris.lv>, 2012.
+# Imants Liepiņš <imzzinator@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-14 00:02+0100\n"
-"PO-Revision-Date: 2012-11-13 02:43+0000\n"
+"POT-Creation-Date: 2012-11-23 00:01+0100\n"
+"PO-Revision-Date: 2012-11-22 23:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Viss kārtībā, augšupielāde veiksmīga"
 
 #: ajax/upload.php:21
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
@@ -42,7 +43,7 @@ msgstr "Neviens fails netika augšuplādēts"
 
 #: ajax/upload.php:25
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Trūkst pagaidu mapes"
 
 #: ajax/upload.php:26
 msgid "Failed to write to disk"
@@ -62,7 +63,7 @@ msgstr "Izdzēst"
 
 #: js/fileactions.js:172
 msgid "Rename"
-msgstr ""
+msgstr "Pārdēvēt"
 
 #: js/filelist.js:198 js/filelist.js:200
 msgid "{new_name} already exists"
@@ -74,7 +75,7 @@ msgstr "aizvietot"
 
 #: js/filelist.js:198
 msgid "suggest name"
-msgstr ""
+msgstr "Ieteiktais nosaukums"
 
 #: js/filelist.js:198 js/filelist.js:200
 msgid "cancel"
@@ -116,70 +117,74 @@ msgstr "Augšuplādēšanas laikā radās kļūda"
 msgid "Close"
 msgstr ""
 
-#: js/files.js:237 js/files.js:342 js/files.js:372
+#: js/files.js:242 js/files.js:356 js/files.js:386
 msgid "Pending"
 msgstr "Gaida savu kārtu"
 
-#: js/files.js:257
+#: js/files.js:262
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:260 js/files.js:305 js/files.js:320
+#: js/files.js:265 js/files.js:319 js/files.js:334
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:323 js/files.js:356
+#: js/files.js:337 js/files.js:370
 msgid "Upload cancelled."
 msgstr "Augšuplāde ir atcelta"
 
-#: js/files.js:425
+#: js/files.js:439
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Notiek augšupielāde. Pametot lapu tagad, tiks atcelta augšupielāde."
 
-#: js/files.js:495
+#: js/files.js:509
 msgid "Invalid name, '/' is not allowed."
 msgstr "Šis simbols '/', nav atļauts."
 
-#: js/files.js:676
+#: js/files.js:513
+msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
+msgstr ""
+
+#: js/files.js:694
 msgid "{count} files scanned"
 msgstr ""
 
-#: js/files.js:684
+#: js/files.js:702
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:757 templates/index.php:50
+#: js/files.js:775 templates/index.php:50
 msgid "Name"
 msgstr "Nosaukums"
 
-#: js/files.js:758 templates/index.php:58
+#: js/files.js:776 templates/index.php:58
 msgid "Size"
 msgstr "Izmērs"
 
-#: js/files.js:759 templates/index.php:60
+#: js/files.js:777 templates/index.php:60
 msgid "Modified"
 msgstr "Izmainīts"
 
-#: js/files.js:786
+#: js/files.js:804
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:788
+#: js/files.js:806
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:796
+#: js/files.js:814
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:798
+#: js/files.js:816
 msgid "{count} files"
 msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Failu pārvaldība"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -191,7 +196,7 @@ msgstr "maksīmālais iespējamais:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Vajadzīgs vairāku failu un mapju lejuplādei"
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"
@@ -207,7 +212,7 @@ msgstr ""
 
 #: templates/admin.php:15
 msgid "Save"
-msgstr ""
+msgstr "Saglabāt"
 
 #: templates/index.php:7
 msgid "New"
@@ -253,7 +258,7 @@ msgstr "Fails ir par lielu lai to augšuplādetu"
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Jūsu augšuplādējamie faili pārsniedz servera pieļaujamo failu augšupielādes apjomu"
 
 #: templates/index.php:84
 msgid "Files are being scanned, please wait."

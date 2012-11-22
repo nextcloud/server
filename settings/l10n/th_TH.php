@@ -28,6 +28,7 @@
 "Problems connecting to help database." => "เกิดปัญหาในการเชื่อมต่อกับฐานข้อมูลช่วยเหลือ",
 "Go there manually." => "ไปที่นั่นด้วยตนเอง",
 "Answer" => "คำตอบ",
+"You have used <strong>%s</strong> of the available <strong>%s</strong>" => "คุณได้ใช้งานไปแล้ว <strong>%s</strong> จากจำนวนที่สามารถใช้ได้ <strong>%s</strong>",
 "Desktop and Mobile Syncing Clients" => "โปรแกรมเชื่อมข้อมูลไฟล์สำหรับเครื่องเดสก์ท็อปและมือถือ",
 "Download" => "ดาวน์โหลด",
 "Your password was changed" => "รหัสผ่านของคุณถูกเปลี่ยนแล้ว",
