@@ -505,12 +505,17 @@ $(document).ready(function() {
 		$(this).append(input);
 		input.focus();
 		input.change(function(){
-			if(type != 'web' && ($(this).val().indexOf('/')!=-1 || $(this).val().indexOf('\\')!=-1)) {
-				$('#notification').text(t('files', 'Invalid name, \'/\' or \'\\\' is not allowed.'));
-				$('#notification').fadeIn();
-				return;
-			}
-			var name = getUniqueName($(this).val());
+            if (type != 'web') {
+                var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
+                for (var i = 0; i < invalid_characters.length; i++) {
+                    if ($(this).val().indexOf(invalid_characters[i]) != -1) {
+                        $('#notification').text(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
+                        $('#notification').fadeIn();
+                        return;
+                    }
+                }
+            }
+            var name = getUniqueName($(this).val());
 			if (name != $(this).val()) {
 				FileList.checkName(name, $(this).val(), true);
 				var hidden = true;
