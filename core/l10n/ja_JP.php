@@ -34,7 +34,7 @@
 "Error while unsharing" => "共有解除でエラー発生",
 "Error while changing permissions" => "権限変更でエラー発生",
 "Shared with you and the group {group} by {owner}" => "あなたと {owner} のグループ {group} で共有中",
-"Shared with you by {owner}" => "{owner} があなたと共有中",
+"Shared with you by {owner}" => "{owner} と共有中",
 "Share with" => "共有者",
 "Share with link" => "URLリンクで共有",
 "Password protect" => "パスワード保護",

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-14 00:02+0100\n"
-"PO-Revision-Date: 2012-11-13 02:43+0000\n"
+"POT-Creation-Date: 2012-11-23 00:01+0100\n"
+"PO-Revision-Date: 2012-11-22 23:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -123,64 +123,68 @@ msgstr "Ошибка загрузки"
 msgid "Close"
 msgstr "Закрыть"
 
-#: js/files.js:237 js/files.js:342 js/files.js:372
+#: js/files.js:242 js/files.js:356 js/files.js:386
 msgid "Pending"
 msgstr "Ожидание"
 
-#: js/files.js:257
+#: js/files.js:262
 msgid "1 file uploading"
 msgstr "загружается 1 файл"
 
-#: js/files.js:260 js/files.js:305 js/files.js:320
+#: js/files.js:265 js/files.js:319 js/files.js:334
 msgid "{count} files uploading"
 msgstr "{count} файлов загружается"
 
-#: js/files.js:323 js/files.js:356
+#: js/files.js:337 js/files.js:370
 msgid "Upload cancelled."
 msgstr "Загрузка отменена."
 
-#: js/files.js:425
+#: js/files.js:439
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Файл в процессе загрузки. Покинув страницу вы прервёте загрузку."
 
-#: js/files.js:495
+#: js/files.js:509
 msgid "Invalid name, '/' is not allowed."
 msgstr "Неверное имя, '/' не допускается."
 
-#: js/files.js:676
+#: js/files.js:513
+msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
+msgstr ""
+
+#: js/files.js:694
 msgid "{count} files scanned"
 msgstr "{count} файлов просканировано"
 
-#: js/files.js:684
+#: js/files.js:702
 msgid "error while scanning"
 msgstr "ошибка во время санирования"
 
-#: js/files.js:757 templates/index.php:50
+#: js/files.js:775 templates/index.php:50
 msgid "Name"
 msgstr "Название"
 
-#: js/files.js:758 templates/index.php:58
+#: js/files.js:776 templates/index.php:58
 msgid "Size"
 msgstr "Размер"
 
-#: js/files.js:759 templates/index.php:60
+#: js/files.js:777 templates/index.php:60
 msgid "Modified"
 msgstr "Изменён"
 
-#: js/files.js:786
+#: js/files.js:804
 msgid "1 folder"
 msgstr "1 папка"
 
-#: js/files.js:788
+#: js/files.js:806
 msgid "{count} folders"
 msgstr "{count} папок"
 
-#: js/files.js:796
+#: js/files.js:814
 msgid "1 file"
 msgstr "1 файл"
 
-#: js/files.js:798
+#: js/files.js:816
 msgid "{count} files"
 msgstr "{count} файлов"
 

@@ -20,7 +20,7 @@
 "unshared {files}" => "未共有 {files}",
 "deleted {files}" => "削除 {files}",
 "generating ZIP-file, it may take some time." => "ZIPファイルを生成中です、しばらくお待ちください。",
-"Unable to upload your file as it is a directory or has 0 bytes" => "アップロード使用としているファイルがディレクトリ、もしくはサイズが0バイトのため、アップロードできません。",
+"Unable to upload your file as it is a directory or has 0 bytes" => "ディレクトリもしくは0バイトのファイルはアップロードできません",
 "Upload Error" => "アップロードエラー",
 "Close" => "閉じる",
 "Pending" => "保留",

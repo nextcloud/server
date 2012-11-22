@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-22 00:01+0100\n"
+"POT-Creation-Date: 2012-11-23 00:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,24 +25,24 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: templates/public.php:9
+#: templates/public.php:17
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr ""
 
-#: templates/public.php:11
+#: templates/public.php:19
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr ""
 
-#: templates/public.php:14 templates/public.php:30
+#: templates/public.php:22 templates/public.php:38
 msgid "Download"
 msgstr ""
 
-#: templates/public.php:29
+#: templates/public.php:37
 msgid "No preview available for"
 msgstr ""
 
-#: templates/public.php:35
+#: templates/public.php:43
 msgid "web services under your control"
 msgstr ""

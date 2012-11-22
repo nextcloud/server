@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-18 00:01+0100\n"
-"PO-Revision-Date: 2012-11-17 09:10+0000\n"
-"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
+"POT-Creation-Date: 2012-11-23 00:01+0100\n"
+"PO-Revision-Date: 2012-11-22 23:01+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -144,39 +144,43 @@ msgstr "文件正在上传中。现在离开此页会导致上传动作被取消
 msgid "Invalid name, '/' is not allowed."
 msgstr "非法的名称，不允许使用‘/’。"
 
-#: js/files.js:690
+#: js/files.js:513
+msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
+msgstr ""
+
+#: js/files.js:694
 msgid "{count} files scanned"
 msgstr "{count} 个文件已扫描。"
 
-#: js/files.js:698
+#: js/files.js:702
 msgid "error while scanning"
 msgstr "扫描时出错"
 
-#: js/files.js:771 templates/index.php:50
+#: js/files.js:775 templates/index.php:50
 msgid "Name"
 msgstr "名称"
 
-#: js/files.js:772 templates/index.php:58
+#: js/files.js:776 templates/index.php:58
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:773 templates/index.php:60
+#: js/files.js:777 templates/index.php:60
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:800
+#: js/files.js:804
 msgid "1 folder"
 msgstr "1个文件夹"
 
-#: js/files.js:802
+#: js/files.js:806
 msgid "{count} folders"
 msgstr "{count} 个文件夹"
 
-#: js/files.js:810
+#: js/files.js:814
 msgid "1 file"
 msgstr "1 个文件"
 
-#: js/files.js:812
+#: js/files.js:816
 msgid "{count} files"
 msgstr "{count} 个文件"
 
