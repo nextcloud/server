@@ -68,6 +68,10 @@ class Util {
 	# TODO: test new encryption with proxies
 	
 	# NOTE: Curretly code on line 206 onwards in lib/proxy.php needs work. This code is executed when webdav writes take place, and appears to need to convert streams into fopen resources. Currently code within the if statement on 215 is not executing. Investigate the paths (handled there (which appear to be blank), and whether oc_fsv is borking them during processing.
+	
+	# NOTE: When files are written via webdav, they are encrypted and saved on the server, though they are not readable via web ui or webdav. proof of this is the changing length of content. When read in web ui, text reads "false", persumably because decryption failed. Why no error in 
+	
+	# NOTE: for some reason file_get_contents is not working in proxy class postfopen. The same line works in sscce, but always returns an empty string in proxy.php. this is the same regardless of whether oc_fs, oc_fsv, or direct use of phps file_get_contents is used
 
 	private $view; // OC_FilesystemView object for filesystem operations
 	private $pwd; // User Password

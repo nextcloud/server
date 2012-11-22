@@ -137,11 +137,8 @@ class Proxy extends \OC_FileProxy {
 	
 		if ( Crypt::mode() == 'server' && Crypt::isEncryptedContent( $data ) ) {
 		
-			$filePath = explode( '/', $path );
-			
-			$filePath = array_slice( $filePath, 3 );
-			
-			$filePath = '/' . implode( '/', $filePath );
+			$path_split = explode( '/', $path );
+			$path_f = implode( array_slice( $path_split, 3 ) );
 			
 			$cached = \OC_FileCache_Cached::get( $path, '' );
 			
@@ -161,7 +158,7 @@ class Proxy extends \OC_FileProxy {
 	}
 	
 	public function postFopen( $path, &$result ){
-	trigger_error(var_export($path));
+	
 		if ( !$result ) {
 		
 			return $result;
@@ -173,67 +170,54 @@ class Proxy extends \OC_FileProxy {
 		
 		$meta = stream_get_meta_data( $result );
 		
+		// Reformat path for use with OC_FSV
+		$path_split = explode( '/', $path );
+		$path_f = implode( array_slice( $path_split, 3 ) );
+		
+// 		trigger_error("\$meta(result) = ".var_export($meta, 1));
+		
 		$view = new \OC_FilesystemView( '' );
 		
 		$util = new Util( $view, \OCP\USER::getUser());
 		
-		// If file is encrypted, decrypt using crypto protocol
+		// If file is already encrypted, decrypt using crypto protocol
 		if ( Crypt::mode() == 'server' && $util->isEncryptedPath( $path ) ) {
-		
-			$tmp = fopen( 'php://temp' );
 			
-			\OCP\Files::streamCopy( $result, $tmp );
-			
+			// Close the original encrypted file
 			fclose( $result );
 			
-			$encrypted = $view->file_get_contents( $path );
-			
-			// Replace the contents of 
-			\OC_Filesystem::file_put_contents( $path, $tmp );
-			
-			fclose( $tmp );
-			
+			// Open the file using the crypto protocol and let
+			// it do the decryption work instead
 			$result = fopen( 'crypt://' . $path, $meta['mode'] );
-		
-// 			$keyFile = Keymanager::getFileKey( $filePath );
-// 		
-// 			$tmp = tmpfile();
-// 		
-// 			fclose ( $result );
-// 			
-// 			$result = fopen( $tmp );
+			
 			
 		} elseif ( 
 		self::shouldEncrypt( $path ) 
 		and $meta ['mode'] != 'r' 
 		and $meta['mode'] != 'rb' 
 		) {
+		// If the file should be encrypted and has been opened for 
+		// reading only
 		
-		# TODO: figure out what this does
-		
-			if ( 
-			$view->file_exists( $path ) 
-			and $view->filesize( $path ) > 0 
+			if (
+			\OC_Filesystem::file_exists( $path_f ) 
+			and \OC_Filesystem::filesize( $path_f ) > 0
 			) {
 			
-				//first encrypt the target file so we don't end up with a half encrypted file
-				\OCP\Util::writeLog( 'files_encryption', 'Decrypting '.$path.' before writing', \OCP\Util::DEBUG );
+				trigger_error("BAT");
+				$tmp = tmpfile();
 				
-				$tmp = fopen( 'php://temp' );
+				\OCP\Files::streamCopy($result, $tmp);
 				
-				// Make a temporary copy of the original file
-				\OCP\Files::streamCopy( $result, $tmp );
+				fclose($result);
 				
-				// Close the original stream, we'll return another one
-				fclose( $result );
+				\OC_Filesystem::file_put_contents($path_f, $tmp);
 				
-				\OC_Filesystem::file_put_contents( $path, $tmp );
+				fclose($tmp);
 				
-				fclose( $tmp );
-			
 			}
 			
-			$result = fopen( 'crypt://'.$path, $meta['mode'] );
+			$result = fopen( 'crypt://' . $path_f, $meta['mode'] );
 		
 		}
 		
