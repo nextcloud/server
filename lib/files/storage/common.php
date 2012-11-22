@@ -23,18 +23,12 @@ namespace OC\Files\Storage;
 abstract class Common implements \OC\Files\Storage\Storage {
 
 	public function __construct($parameters) {}
- 	abstract public function getId();
- 	abstract public function mkdir($path);
- 	abstract public function rmdir($path);
- 	abstract public function opendir($path);
 	public function is_dir($path) {
 		return $this->filetype($path)=='dir';
 	}
 	public function is_file($path) {
 		return $this->filetype($path)=='file';
 	}
- 	abstract public function stat($path);
- 	abstract public function filetype($path);
 	public function filesize($path) {
 		if($this->is_dir($path)) {
 			return 0;//by definition
@@ -46,8 +40,6 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	public function isCreatable($path) {
 		return $this->isUpdatable($path);
 	}
- 	abstract public function isReadable($path);
- 	abstract public function isUpdatable($path);
 	public function isDeletable($path) {
 		return $this->isUpdatable($path);
 	}
@@ -73,7 +65,6 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		}
 		return $permissions;
 	}
- 	abstract public function file_exists($path);
 	public function filemtime($path) {
 		$stat = $this->stat($path);
 		return $stat['mtime'];
@@ -97,7 +88,6 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		$handle = $this->fopen($path, "w");
 		return fwrite($handle, $data);
 	}
- 	abstract public function unlink($path);
 	public function rename($path1,$path2) {
 		if($this->copy($path1,$path2)) {
 			return $this->unlink($path1);
@@ -111,7 +101,6 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		$count=\OC_Helper::streamCopy($source,$target);
 		return $count>0;
 	}
- 	abstract public function fopen($path,$mode);
 
 	/**
 	 * @brief Deletes all files and folders recursively within a directory
@@ -180,7 +169,6 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		unlink($tmpFile);
 		return $hash;
 	}
- 	abstract public function free_space($path);
 	public function search($query) {
 		return $this->searchInDir($query);
 	}
@@ -222,7 +210,6 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			}
 		}
 	}
- 	abstract public function touch($path, $mtime=null);
 
 	protected function searchInDir($query,$dir='') {
 		$files=array();
