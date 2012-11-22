@@ -229,35 +229,50 @@ class Filesystem {
 		self::$defaultInstance = new View($root);
 
 		//load custom mount config
-		if (is_file(\OC::$SERVERROOT . '/config/mount.php')) {
+		self::initMountPoints();
+
+		self::$loaded = true;
+
+		return true;
+	}
+
+	/**
+	* Initialize system and personal mount points for a user
+	*
+	* @param string $user
+	*/
+	public static function initMountPoints($user = '') {
+		if ($user == '') {
+			$user = \OC_User::getUser();
+		}
+		// Load system mount points
+		if (is_file(\OC::$SERVERROOT.'/config/mount.php')) {
 			$mountConfig = include 'config/mount.php';
 			if (isset($mountConfig['global'])) {
 				foreach ($mountConfig['global'] as $mountPoint => $options) {
 					self::mount($options['class'], $options['options'], $mountPoint);
 				}
 			}
-
 			if (isset($mountConfig['group'])) {
 				foreach ($mountConfig['group'] as $group => $mounts) {
-					if (\OC_Group::inGroup(\OC_User::getUser(), $group)) {
+					if (\OC_Group::inGroup($user, $group)) {
 						foreach ($mounts as $mountPoint => $options) {
-							$mountPoint = self::setUserVars($mountPoint);
+							$mountPoint = self::setUserVars($user, $mountPoint);
 							foreach ($options as &$option) {
-								$option = self::setUserVars($option);
+								$option = self::setUserVars($user, $option);
 							}
 							self::mount($options['class'], $options['options'], $mountPoint);
 						}
 					}
 				}
 			}
-
 			if (isset($mountConfig['user'])) {
-				foreach ($mountConfig['user'] as $user => $mounts) {
-					if ($user === 'all' or strtolower($user) === strtolower(\OC_User::getUser())) {
+				foreach ($mountConfig['user'] as $mountUser => $mounts) {
+					if ($user === 'all' or strtolower($mountUser) === strtolower($user)) {
 						foreach ($mounts as $mountPoint => $options) {
-							$mountPoint = self::setUserVars($mountPoint);
+							$mountPoint = self::setUserVars($user, $mountPoint);
 							foreach ($options as &$option) {
-								$option = self::setUserVars($option);
+								$option = self::setUserVars($user, $option);
 							}
 							self::mount($options['class'], $options['options'], $mountPoint);
 						}
@@ -265,10 +280,16 @@ class Filesystem {
 				}
 			}
 		}
-
-		self::$loaded = true;
-
-		return true;
+		// Load personal mount points
+		$root = OC_User::getHome($user);
+		if (is_file($root.'/mount.php')) {
+			$mountConfig = include $root.'/mount.php';
+			if (isset($mountConfig['user'][$user])) {
+				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
+					self::mount($options['class'], $options['options'], $mountPoint);
+				}
+			}
+		}
 	}
 
 	/**
@@ -277,8 +298,8 @@ class Filesystem {
 	 * @param string $input
 	 * @return string
 	 */
-	private static function setUserVars($input) {
-		return str_replace('$user', \OC_User::getUser(), $input);
+	private static function setUserVars($user, $input) {
+		return str_replace('$user', $user, $input);
 	}
 
 	/**
