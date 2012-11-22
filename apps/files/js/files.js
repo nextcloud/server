@@ -602,12 +602,8 @@ $(document).ready(function() {
 		});
 	});
 
-	//check if we need to scan the filesystem
-	$.get(OC.filePath('files','ajax','scan.php'),{checkonly:'true'}, function(response) {
-		if(response.data.done){
-			scanFiles();
-		}
-	}, "json");
+	//do a background scan if needed
+	scanFiles();
 
 	var lastWidth = 0;
 	var breadcrumbs = [];
@@ -676,27 +672,23 @@ $(document).ready(function() {
 	resizeBreadcrumbs(true);
 });
 
-function scanFiles(force,dir){
+function scanFiles(force, dir){
 	if(!dir){
-		dir='';
+		dir = '';
 	}
-	force=!!force; //cast to bool
-	scanFiles.scanning=true;
-	$('#scanning-message').show();
-	$('#fileList').remove();
-	var scannerEventSource=new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force,dir:dir});
-	scanFiles.cancel=scannerEventSource.close.bind(scannerEventSource);
-	scannerEventSource.listen('scanning',function(data){
-		$('#scan-count').text(t('files', '{count} files scanned', {count: data.count}));
-		$('#scan-current').text(data.file+'/');
+	force = !!force; //cast to bool
+	scanFiles.scanning = true;
+	var scannerEventSource = new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force,dir:dir});
+	scanFiles.cancel = scannerEventSource.close.bind(scannerEventSource);
+	scannerEventSource.listen('count',function(count){
+		console.log(count + 'files scanned')
 	});
-	scannerEventSource.listen('success',function(success){
+	scannerEventSource.listen('folder',function(path){
+		console.log('now scanning ' + path)
+	});
+	scannerEventSource.listen('done',function(count){
 		scanFiles.scanning=false;
-		if(success){
-			window.location.reload();
-		}else{
-			alert(t('files', 'error while scanning'));
-		}
+		console.log('done after ' + count + 'files');
 	});
 }
 scanFiles.scanning=false;
