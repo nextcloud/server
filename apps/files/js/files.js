@@ -25,6 +25,18 @@ Files={
 			delete uploadingFiles[index];
 		});
 		procesSelection();
+	},
+	containsInvalidCharacters:function (name) {
+		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
+		for (var i = 0; i < invalid_characters.length; i++) {
+			if (name.indexOf(invalid_characters[i]) != -1) {
+				$('#notification').text(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
+				$('#notification').fadeIn();
+				return true;
+			}
+		}
+		$('#notification').fadeOut();
+		return false;
 	}
 };
 $(document).ready(function() {
@@ -505,9 +517,7 @@ $(document).ready(function() {
 		$(this).append(input);
 		input.focus();
 		input.change(function(){
-			if(type != 'web' && $(this).val().indexOf('/')!=-1){
-				$('#notification').text(t('files','Invalid name, \'/\' is not allowed.'));
-				$('#notification').fadeIn();
+			if (type != 'web' && Files.containsInvalidCharacters($(this).val())) {
 				return;
 			} else if( type == 'folder' && $('#dir').val() == '/' && $(this).val() == 'Shared') {
 				$('#notification').text(t('files','Invalid folder name. Usage of "Shared" is reserved by Owncloud'));
