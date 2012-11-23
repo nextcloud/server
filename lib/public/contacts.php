@@ -67,7 +67,7 @@ namespace OC {
 		/**
 		 * @return mixed
 		 */
-		public function isReadOnly();
+		public function getPermissions();
 
 		/**
 		 * @param $id
@@ -129,7 +129,7 @@ namespace OCP {
 				return null;
 
 			$address_book = self::$address_books[$address_book_key];
-			if ($address_book->isReadOnly())
+			if ($address_book->getPermissions() & \OCP\PERMISSION_DELETE)
 				return null;
 
 			return $address_book->delete($id);
@@ -149,7 +149,7 @@ namespace OCP {
 				return null;
 
 			$address_book = self::$address_books[$address_book_key];
-			if ($address_book->isReadOnly())
+			if ($address_book->getPermissions() & \OCP\PERMISSION_CREATE)
 				return null;
 
 			return $address_book->createOrUpdate($properties);
@@ -188,6 +188,13 @@ namespace OCP {
 			}
 
 			return $result;
+		}
+
+		/**
+		 * removes all registered address book instances
+		 */
+		public static function clear() {
+			self::$address_books = array();
 		}
 
 		/**
