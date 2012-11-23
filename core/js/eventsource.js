@@ -46,8 +46,6 @@ OC.EventSource=function(src,data){
 		if(src.indexOf('?') == -1) {
 			joinChar = '?';
 		}
-		alert(src.indexOf('?'));
-		alert(joinChar);
 		this.source=new EventSource(src+joinChar+dataStr);
 		this.source.onmessage=function(e){
 			for(var i=0;i<this.typelessListeners.length;i++){
@@ -65,7 +63,6 @@ OC.EventSource=function(src,data){
 		if(src.indexOf('?') == -1) {
 			joinChar = '?';
 		}
-		alert(src.indexOf('?'));
 		this.iframe.attr('src',src+joinChar+'fallback=true&fallback_id='+OC.EventSource.iframeCount+'&'+dataStr);
 		$('body').append(this.iframe);
 		this.useFallBack=true;
