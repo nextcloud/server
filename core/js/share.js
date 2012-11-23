@@ -179,7 +179,7 @@ OC.Share={
 			if (data.shares) {
 				$.each(data.shares, function(index, share) {
 					if (share.share_type == OC.Share.SHARE_TYPE_LINK) {
-						OC.Share.showLink(share.token, share.share_with);
+						OC.Share.showLink(share.token, share.share_with, itemSource);
 					} else {
 						if (share.collection) {
 							OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions, share.collection);
@@ -323,10 +323,24 @@ OC.Share={
 			$('#expiration').show();
 		}
 	},
-	showLink:function(token, password) {
+	showLink:function(token, password, itemSource) {
 		OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = true;
 		$('#linkCheckbox').attr('checked', true);
-		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&t='+token;
+		if (! token) {
+			//fallback to pre token link
+			var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
+			var type = $('tr').filterAttr('data-id', String(itemSource)).data('type');
+			if ($('#dir').val() == '/') {
+				var file = $('#dir').val() + filename;
+			} else {
+				var file = $('#dir').val() + '/' + filename;
+			}
+			file = '/'+OC.currentUser+'/files'+file;
+			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&'+type+'='+encodeURIComponent(file);
+		} else {
+			//TODO add path param when showing a link to file in a subfolder of a public link share
+			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&t='+token;
+		}
 		$('#linkText').val(link);
 		$('#linkText').show('blind');
 		$('#showPassword').show();
@@ -473,7 +487,7 @@ $(document).ready(function() {
 		if (this.checked) {
 			// Create a link
 			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, function(data) {
-				OC.Share.showLink(data.token);
+				OC.Share.showLink(data.token, null, itemSource);
 				OC.Share.updateIcon(itemType, itemSource);
 			});
 		} else {
