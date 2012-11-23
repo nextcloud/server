@@ -28,7 +28,6 @@
 "{count} files uploading" => "nalagam {count} datotek",
 "Upload cancelled." => "Pošiljanje je preklicano.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "V teku je pošiljanje datoteke. Če zapustite to stran zdaj, bo pošiljanje preklicano.",
-"Invalid name, '/' is not allowed." => "Neveljavno ime. Znak '/' ni dovoljen.",
 "{count} files scanned" => "{count} files scanned",
 "error while scanning" => "napaka med pregledovanjem datotek",
 "Name" => "Ime",

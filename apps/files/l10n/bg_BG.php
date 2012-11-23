@@ -10,7 +10,6 @@
 "Delete" => "Изтриване",
 "Upload Error" => "Грешка при качване",
 "Upload cancelled." => "Качването е отменено.",
-"Invalid name, '/' is not allowed." => "Неправилно име – \"/\" не е позволено.",
 "Name" => "Име",
 "Size" => "Размер",
 "Modified" => "Променено",

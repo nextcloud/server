@@ -28,7 +28,6 @@
 "{count} files uploading" => "Enviando {count} arquivos",
 "Upload cancelled." => "Envio cancelado.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Upload em andamento. Sair da página agora resultará no cancelamento do envio.",
-"Invalid name, '/' is not allowed." => "Nome inválido, '/' não é permitido.",
 "{count} files scanned" => "{count} arquivos scaneados",
 "error while scanning" => "erro durante verificação",
 "Name" => "Nome",

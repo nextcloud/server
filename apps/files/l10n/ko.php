@@ -28,7 +28,6 @@
 "{count} files uploading" => "{count} 파일 업로드중",
 "Upload cancelled." => "업로드 취소.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "파일 업로드을 진행합니다. 페이지를 떠나게 될경우 업로드가 취소됩니다.",
-"Invalid name, '/' is not allowed." => "잘못된 이름, '/' 은 허용이 되지 않습니다.",
 "{count} files scanned" => "{count} 파일 스캔되었습니다.",
 "error while scanning" => "스캔하는 도중 에러",
 "Name" => "이름",

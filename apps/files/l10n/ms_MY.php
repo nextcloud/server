@@ -16,7 +16,6 @@
 "Close" => "Tutup",
 "Pending" => "Dalam proses",
 "Upload cancelled." => "Muatnaik dibatalkan.",
-"Invalid name, '/' is not allowed." => "penggunaa nama tidak sah, '/' tidak dibenarkan.",
 "Name" => "Nama ",
 "Size" => "Saiz",
 "Modified" => "Dimodifikasi",

@@ -22,7 +22,6 @@
 "1 file uploading" => "un fișier se încarcă",
 "Upload cancelled." => "Încărcare anulată.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Fișierul este în curs de încărcare. Părăsirea paginii va întrerupe încărcarea.",
-"Invalid name, '/' is not allowed." => "Nume invalid, '/' nu este permis.",
 "error while scanning" => "eroare la scanarea",
 "Name" => "Nume",
 "Size" => "Dimensiune",

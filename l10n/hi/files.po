@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-23 00:01+0100\n"
-"PO-Revision-Date: 2012-11-22 23:01+0000\n"
+"POT-Creation-Date: 2012-11-24 00:01+0100\n"
+"PO-Revision-Date: 2012-11-23 23:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hindi (http://www.transifex.com/projects/p/owncloud/language/hi/)\n"
 "MIME-Version: 1.0\n"
@@ -51,132 +51,134 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: js/fileactions.js:108 templates/index.php:64
+#: js/fileactions.js:117 templates/index.php:64
 msgid "Unshare"
 msgstr ""
 
-#: js/fileactions.js:110 templates/index.php:66
+#: js/fileactions.js:119 templates/index.php:66
 msgid "Delete"
 msgstr ""
 
-#: js/fileactions.js:172
+#: js/fileactions.js:181
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:198 js/filelist.js:200
+#: js/filelist.js:201 js/filelist.js:203
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/filelist.js:198 js/filelist.js:200
+#: js/filelist.js:201 js/filelist.js:203
 msgid "replace"
 msgstr ""
 
-#: js/filelist.js:198
+#: js/filelist.js:201
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:198 js/filelist.js:200
+#: js/filelist.js:201 js/filelist.js:203
 msgid "cancel"
 msgstr ""
 
-#: js/filelist.js:247
+#: js/filelist.js:250
 msgid "replaced {new_name}"
 msgstr ""
 
-#: js/filelist.js:247 js/filelist.js:249 js/filelist.js:281 js/filelist.js:283
+#: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:249
+#: js/filelist.js:252
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:281
+#: js/filelist.js:284
 msgid "unshared {files}"
 msgstr ""
 
-#: js/filelist.js:283
+#: js/filelist.js:286
 msgid "deleted {files}"
 msgstr ""
 
-#: js/files.js:171
+#: js/files.js:33
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr ""
+
+#: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
 msgstr ""
 
-#: js/files.js:206
+#: js/files.js:218
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/files.js:206
+#: js/files.js:218
 msgid "Upload Error"
 msgstr ""
 
-#: js/files.js:223
+#: js/files.js:235
 msgid "Close"
 msgstr ""
 
-#: js/files.js:242 js/files.js:356 js/files.js:386
+#: js/files.js:254 js/files.js:368 js/files.js:398
 msgid "Pending"
 msgstr ""
 
-#: js/files.js:262
+#: js/files.js:274
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:265 js/files.js:319 js/files.js:334
+#: js/files.js:277 js/files.js:331 js/files.js:346
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:337 js/files.js:370
+#: js/files.js:349 js/files.js:382
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/files.js:439
+#: js/files.js:451
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:509
-msgid "Invalid name, '/' is not allowed."
-msgstr ""
-
-#: js/files.js:513
+#: js/files.js:523
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:694
+#: js/files.js:704
 msgid "{count} files scanned"
 msgstr ""
 
-#: js/files.js:702
+#: js/files.js:712
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:775 templates/index.php:50
+#: js/files.js:785 templates/index.php:50
 msgid "Name"
 msgstr ""
 
-#: js/files.js:776 templates/index.php:58
+#: js/files.js:786 templates/index.php:58
 msgid "Size"
 msgstr ""
 
-#: js/files.js:777 templates/index.php:60
+#: js/files.js:787 templates/index.php:60
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:804
+#: js/files.js:814
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:806
+#: js/files.js:816
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:814
+#: js/files.js:824
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:816
+#: js/files.js:826
 msgid "{count} files"
 msgstr ""
 

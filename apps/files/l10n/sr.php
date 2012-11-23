@@ -28,7 +28,6 @@
 "{count} files uploading" => "Шаље се {count} датотека",
 "Upload cancelled." => "Слање је прекинуто.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Слање датотеке је у току. Ако сада напустите страну слање ће бити прекинуто.",
-"Invalid name, '/' is not allowed." => "Грешка у имену, '/' није дозвољено.",
 "{count} files scanned" => "{count} датотека се скенира",
 "error while scanning" => "грешка у скенирању",
 "Name" => "Име",

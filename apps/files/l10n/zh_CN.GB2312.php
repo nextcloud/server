@@ -28,7 +28,6 @@
 "{count} files uploading" => "{count} 个文件正在上传",
 "Upload cancelled." => "上传取消了",
 "File upload is in progress. Leaving the page now will cancel the upload." => "文件正在上传。关闭页面会取消上传。",
-"Invalid name, '/' is not allowed." => "非法文件名,\"/\"是不被许可的",
 "{count} files scanned" => "{count} 个文件已扫描",
 "error while scanning" => "扫描出错",
 "Name" => "名字",

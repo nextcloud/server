@@ -28,7 +28,7 @@
 "{count} files uploading" => "{count} fitxers en pujada",
 "Upload cancelled." => "La pujada s'ha cancel·lat.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà.",
-"Invalid name, '/' is not allowed." => "El nom no és vàlid, no es permet '/'.",
+"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "El nom de la carpeta no és vàlid. L'ús de \"Compartit\" està reservat per a OwnCloud",
 "{count} files scanned" => "{count} fitxers escannejats",
 "error while scanning" => "error durant l'escaneig",
 "Name" => "Nom",

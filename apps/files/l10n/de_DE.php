@@ -28,7 +28,6 @@
 "{count} files uploading" => "{count} Dateien wurden hochgeladen",
 "Upload cancelled." => "Upload abgebrochen.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Der Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload abgebrochen.",
-"Invalid name, '/' is not allowed." => "Ungültiger Name: \"/\" ist nicht erlaubt.",
 "{count} files scanned" => "{count} Dateien wurden gescannt",
 "error while scanning" => "Fehler beim Scannen",
 "Name" => "Name",

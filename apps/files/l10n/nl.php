@@ -28,7 +28,6 @@
 "{count} files uploading" => "{count} bestanden aan het uploaden",
 "Upload cancelled." => "Uploaden geannuleerd.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload.",
-"Invalid name, '/' is not allowed." => "Ongeldige naam, '/' is niet toegestaan.",
 "{count} files scanned" => "{count} bestanden gescanned",
 "error while scanning" => "Fout tijdens het scannen",
 "Name" => "Naam",

@@ -17,7 +17,6 @@
 "Close" => "Zoumaachen",
 "Upload cancelled." => "Upload ofgebrach.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
-"Invalid name, '/' is not allowed." => "Ongültege Numm, '/' net erlaabt.",
 "Name" => "Numm",
 "Size" => "Gréisst",
 "Modified" => "Geännert",

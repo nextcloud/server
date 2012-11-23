@@ -28,7 +28,7 @@
 "{count} files uploading" => "A carregar {count} ficheiros",
 "Upload cancelled." => "O envio foi cancelado.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Envio de ficheiro em progresso. Irá cancelar o envio se sair da página agora.",
-"Invalid name, '/' is not allowed." => "Nome inválido, '/' não permitido.",
+"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Nome de pasta inválido! O uso de \"Shared\" (Partilhado) está reservado pelo OwnCloud",
 "{count} files scanned" => "{count} ficheiros analisados",
 "error while scanning" => "erro ao analisar",
 "Name" => "Nome",

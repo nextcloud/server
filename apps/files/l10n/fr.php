@@ -28,7 +28,6 @@
 "{count} files uploading" => "{count} fichiers téléversés",
 "Upload cancelled." => "Chargement annulé.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "L'envoi du fichier est en cours. Quitter cette page maintenant annulera l'envoi du fichier.",
-"Invalid name, '/' is not allowed." => "Nom invalide, '/' n'est pas autorisé.",
 "{count} files scanned" => "{count} fichiers indexés",
 "error while scanning" => "erreur lors de l'indexation",
 "Name" => "Nom",

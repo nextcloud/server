@@ -14,7 +14,6 @@
 "Close" => "Затвои",
 "Pending" => "Чека",
 "Upload cancelled." => "Преземањето е прекинато.",
-"Invalid name, '/' is not allowed." => "неисправно име, '/' не е дозволено.",
 "Name" => "Име",
 "Size" => "Големина",
 "Modified" => "Променето",

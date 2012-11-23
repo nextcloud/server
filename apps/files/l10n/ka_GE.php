@@ -28,7 +28,6 @@
 "{count} files uploading" => "{count} ფაილი იტვირთება",
 "Upload cancelled." => "ატვირთვა შეჩერებულ იქნა.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "მიმდინარეობს ფაილის ატვირთვა. სხვა გვერდზე გადასვლა გამოიწვევს ატვირთვის შეჩერებას",
-"Invalid name, '/' is not allowed." => "არასწორი სახელი, '/' არ დაიშვება.",
 "{count} files scanned" => "{count} ფაილი სკანირებულია",
 "error while scanning" => "შეცდომა სკანირებისას",
 "Name" => "სახელი",

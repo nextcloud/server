@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-23 00:01+0100\n"
-"PO-Revision-Date: 2012-11-22 23:01+0000\n"
+"POT-Creation-Date: 2012-11-24 00:01+0100\n"
+"PO-Revision-Date: 2012-11-23 23:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -61,132 +61,134 @@ msgstr "Erreur d'écriture sur le disque"
 msgid "Files"
 msgstr "Fichiers"
 
-#: js/fileactions.js:108 templates/index.php:64
+#: js/fileactions.js:117 templates/index.php:64
 msgid "Unshare"
 msgstr "Ne plus partager"
 
-#: js/fileactions.js:110 templates/index.php:66
+#: js/fileactions.js:119 templates/index.php:66
 msgid "Delete"
 msgstr "Supprimer"
 
-#: js/fileactions.js:172
+#: js/fileactions.js:181
 msgid "Rename"
 msgstr "Renommer"
 
-#: js/filelist.js:198 js/filelist.js:200
+#: js/filelist.js:201 js/filelist.js:203
 msgid "{new_name} already exists"
 msgstr "{new_name} existe déjà"
 
-#: js/filelist.js:198 js/filelist.js:200
+#: js/filelist.js:201 js/filelist.js:203
 msgid "replace"
 msgstr "remplacer"
 
-#: js/filelist.js:198
+#: js/filelist.js:201
 msgid "suggest name"
 msgstr "Suggérer un nom"
 
-#: js/filelist.js:198 js/filelist.js:200
+#: js/filelist.js:201 js/filelist.js:203
 msgid "cancel"
 msgstr "annuler"
 
-#: js/filelist.js:247
+#: js/filelist.js:250
 msgid "replaced {new_name}"
 msgstr "{new_name} a été replacé"
 
-#: js/filelist.js:247 js/filelist.js:249 js/filelist.js:281 js/filelist.js:283
+#: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
 msgid "undo"
 msgstr "annuler"
 
-#: js/filelist.js:249
+#: js/filelist.js:252
 msgid "replaced {new_name} with {old_name}"
 msgstr "{new_name} a été remplacé par {old_name}"
 
-#: js/filelist.js:281
+#: js/filelist.js:284
 msgid "unshared {files}"
 msgstr "Fichiers non partagés : {files}"
 
-#: js/filelist.js:283
+#: js/filelist.js:286
 msgid "deleted {files}"
 msgstr "Fichiers supprimés : {files}"
 
-#: js/files.js:171
+#: js/files.js:33
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr ""
+
+#: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
 msgstr "Fichier ZIP en cours d'assemblage ;  cela peut prendre du temps."
 
-#: js/files.js:206
+#: js/files.js:218
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Impossible de charger vos fichiers car il s'agit d'un dossier ou le fichier fait 0 octet."
 
-#: js/files.js:206
+#: js/files.js:218
 msgid "Upload Error"
 msgstr "Erreur de chargement"
 
-#: js/files.js:223
+#: js/files.js:235
 msgid "Close"
 msgstr "Fermer"
 
-#: js/files.js:242 js/files.js:356 js/files.js:386
+#: js/files.js:254 js/files.js:368 js/files.js:398
 msgid "Pending"
 msgstr "En cours"
 
-#: js/files.js:262
+#: js/files.js:274
 msgid "1 file uploading"
 msgstr "1 fichier en cours de téléchargement"
 
-#: js/files.js:265 js/files.js:319 js/files.js:334
+#: js/files.js:277 js/files.js:331 js/files.js:346
 msgid "{count} files uploading"
 msgstr "{count} fichiers téléversés"
 
-#: js/files.js:337 js/files.js:370
+#: js/files.js:349 js/files.js:382
 msgid "Upload cancelled."
 msgstr "Chargement annulé."
 
-#: js/files.js:439
+#: js/files.js:451
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "L'envoi du fichier est en cours. Quitter cette page maintenant annulera l'envoi du fichier."
 
-#: js/files.js:509
-msgid "Invalid name, '/' is not allowed."
-msgstr "Nom invalide, '/' n'est pas autorisé."
-
-#: js/files.js:513
+#: js/files.js:523
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:694
+#: js/files.js:704
 msgid "{count} files scanned"
 msgstr "{count} fichiers indexés"
 
-#: js/files.js:702
+#: js/files.js:712
 msgid "error while scanning"
 msgstr "erreur lors de l'indexation"
 
-#: js/files.js:775 templates/index.php:50
+#: js/files.js:785 templates/index.php:50
 msgid "Name"
 msgstr "Nom"
 
-#: js/files.js:776 templates/index.php:58
+#: js/files.js:786 templates/index.php:58
 msgid "Size"
 msgstr "Taille"
 
-#: js/files.js:777 templates/index.php:60
+#: js/files.js:787 templates/index.php:60
 msgid "Modified"
 msgstr "Modifié"
 
-#: js/files.js:804
+#: js/files.js:814
 msgid "1 folder"
 msgstr "1 dossier"
 
-#: js/files.js:806
+#: js/files.js:816
 msgid "{count} folders"
 msgstr "{count} dossiers"
 
-#: js/files.js:814
+#: js/files.js:824
 msgid "1 file"
 msgstr "1 fichier"
 
-#: js/files.js:816
+#: js/files.js:826
 msgid "{count} files"
 msgstr "{count} fichiers"
 

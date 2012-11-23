@@ -28,7 +28,6 @@
 "{count} files uploading" => "{count} súborov odosielaných",
 "Upload cancelled." => "Odosielanie zrušené",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Opustenie stránky zruší práve prebiehajúce odosielanie súboru.",
-"Invalid name, '/' is not allowed." => "Chybný názov, \"/\" nie je povolené",
 "{count} files scanned" => "{count} súborov prehľadaných",
 "error while scanning" => "chyba počas kontroly",
 "Name" => "Meno",
