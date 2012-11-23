@@ -27,7 +27,7 @@
  */
 
 namespace OC {
-	interface AddressBook {
+	interface IAddressBook {
 
 		/**
 		 * @return string defining the technical unique key
@@ -165,16 +165,16 @@ namespace OCP {
 		}
 
 		/**
-		 * @param \OC\AddressBook $address_book
+		 * @param \OC\IAddressBook $address_book
 		 */
-		public static function registerAddressBook(\OC\AddressBook $address_book) {
+		public static function registerAddressBook(\OC\IAddressBook $address_book) {
 			self::$address_books[$address_book->getKey()] = $address_book;
 		}
 
 		/**
-		 * @param \OC\AddressBook $address_book
+		 * @param \OC\IAddressBook $address_book
 		 */
-		public static function unregisterAddressBook(\OC\AddressBook $address_book) {
+		public static function unregisterAddressBook(\OC\IAddressBook $address_book) {
 			unset(self::$address_books[$address_book->getKey()]);
 		}
 
@@ -191,7 +191,7 @@ namespace OCP {
 		}
 
 		/**
-		 * @var \OC\AddressBook[] which holds all registered address books
+		 * @var \OC\IAddressBook[] which holds all registered address books
 		 */
 		private static $address_books = array();
 	}
