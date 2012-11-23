@@ -70,34 +70,43 @@ var FileActions = {
 		}
 		parent.children('a.name').append('<span class="fileactions" />');
 		var defaultAction = FileActions.getDefault(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
-		var actionHandler = function (parent, action, event) {
+		
+		var actionHandler = function (event) {
 			event.stopPropagation();
 			event.preventDefault();
-			FileActions.currentFile = parent;
-			file = FileActions.getCurrentFile();
-			action(file);
+
+			FileActions.currentFile = event.data.elem;
+			var file = FileActions.getCurrentFile();
+			
+			event.data.actionFunc(file);
 		};
-		for (name in actions) {
+		
+		$.each(actions, function (name, action) {
 			// NOTE: Temporary fix to prevent rename action in root of Shared directory
 			if (name === 'Rename' && $('#dir').val() === '/Shared') {
-				continue;
+				return true;
 			}
-			if ((name === 'Download' || actions[name] !== defaultAction) && name !== 'Delete') {
+			
+			if ((name === 'Download' || action !== defaultAction) && name !== 'Delete') {
 				var img = FileActions.icons[name];
 				if (img.call) {
 					img = img(file);
 				}
 				var html = '<a href="#" class="action" data-action="'+name+'">';
 				if (img) {
-					html += '<img class ="svg" src="' + img + '"/> ';
+					html += '<img class ="svg" src="' + img + '" /> ';
 				}
 				html += t('files', name) + '</a>';
+				
 				var element = $(html);
 				element.data('action', name);
-				element.click(actionHandler.bind(null, parent, actions[name]));
+				//alert(element);
+				element.on('click',{a:null, elem:parent, actionFunc:actions[name]},actionHandler);
 				parent.find('a.name>span.fileactions').append(element);
 			}
-		}
+			
+		});
+		
 		if (actions['Delete']) {
 			var img = FileActions.icons['Delete'];
 			if (img.call) {
@@ -114,7 +123,7 @@ var FileActions = {
 				element.append($('<img class ="svg" src="' + img + '"/>'));
 			}
 			element.data('action', actions['Delete']);
-			element.click(actionHandler.bind(null, parent, actions['Delete']));
+			element.on('click',{a:null, elem:parent, actionFunc:actions['Delete']},actionHandler);
 			parent.parent().children().last().append(element);
 		}
 	},

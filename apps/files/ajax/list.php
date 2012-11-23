@@ -25,7 +25,7 @@ if($doBreadcrumb) {
 	}
 
 	$breadcrumbNav = new OCP\Template( "files", "part.breadcrumb", "" );
-	$breadcrumbNav->assign( "breadcrumb", $breadcrumb );
+	$breadcrumbNav->assign( "breadcrumb", $breadcrumb, false );
 
 	$data['breadcrumb'] = $breadcrumbNav->fetchPage();
 }
