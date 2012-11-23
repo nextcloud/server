@@ -36,7 +36,7 @@ if(!isset($_SESSION['timezone'])) {
 }
 OCP\App::setActiveNavigationEntry( 'files_index' );
 // Load the files
-$dir = isset( $_GET['dir'] ) ? rawurldecode(stripslashes($_GET['dir'])) : '';
+$dir = isset( $_GET['dir'] ) ? stripslashes($_GET['dir']) : '';
 // Redirect if directory does not exist
 if(!OC_Filesystem::is_dir($dir.'/')) {
 	header('Location: '.$_SERVER['SCRIPT_NAME'].'');
@@ -67,7 +67,7 @@ $breadcrumb = array();
 $pathtohere = '';
 foreach( explode( '/', $dir ) as $i ) {
 	if( $i != '' ) {
-		$pathtohere .= '/'.str_replace('+', '%20', urlencode($i));
+		$pathtohere .= '/'.$i;
 		$breadcrumb[] = array( 'dir' => $pathtohere, 'name' => $i );
 	}
 }
