@@ -168,7 +168,10 @@ class OC_DB {
 			try{
 				self::$PDO=new PDO($dsn, $user, $pass, $opts);
 			}catch(PDOException $e) {
-				echo( '<b>can not connect to database, using '.$type.'. ('.$e->getMessage().')</center>');
+				$error['error']='<b>can not connect to database, using '.$type.'. ('.$e->getMessage().')</center>';
+				$error['hint']='';
+				$errors[]=$error;
+				OC_Template::printGuestPage("", "error", array("errors" => $errors));
 				die();
 			}
 			// We always, really always want associative arrays
@@ -263,9 +266,12 @@ class OC_DB {
 
 			// Die if we could not connect
 			if( PEAR::isError( self::$MDB2 )) {
-				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
 				OC_Log::write('core', self::$MDB2->getUserInfo(), OC_Log::FATAL);
 				OC_Log::write('core', self::$MDB2->getMessage(), OC_Log::FATAL);
+				$error['error']='<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>';
+				$error['hint']='';
+				$errors[]=$error;
+				OC_Template::printGuestPage("", "error", array("errors" => $errors));
 				die();
 			}
 
@@ -326,7 +332,11 @@ class OC_DB {
 				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
 				OC_Log::write('core', $entry, OC_Log::FATAL);
 				error_log('DB error: '.$entry);
-				die( $entry );
+				$error['error']=$entry;
+				$error['hint']='';
+				$errors[]=$error;
+				OC_Template::printGuestPage("", "error", array("errors" => $errors));
+				die();
 			}
 		}else{
 			try{
@@ -336,7 +346,11 @@ class OC_DB {
 				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
 				OC_Log::write('core', $entry, OC_Log::FATAL);
 				error_log('DB error: '.$entry);
-				die( $entry );
+				$error['error']=$entry;
+				$error['hint']='';
+				$errors[]=$error;
+				OC_Template::printGuestPage("", "error", array("errors" => $errors));
+				die();
 			}
 			$result=new PDOStatementWrapper($result);
 		}
@@ -449,7 +463,11 @@ class OC_DB {
 
 		// Die in case something went wrong
 		if( $definition instanceof MDB2_Schema_Error ) {
-			die( $definition->getMessage().': '.$definition->getUserInfo());
+			$error['error']=$definition->getMessage().': '.$definition->getUserInfo();
+			$error['hint']='';
+			$errors[]=$error;
+			OC_Template::printGuestPage("", "error", array("errors" => $errors));
+			die();
 		}
 		if(OC_Config::getValue('dbtype', 'sqlite')==='oci') {
 			unset($definition['charset']); //or MDB2 tries SHUTDOWN IMMEDIATE
@@ -461,8 +479,11 @@ class OC_DB {
 
 		// Die in case something went wrong
 		if( $ret instanceof MDB2_Error ) {
-			echo (self::$MDB2->getDebugOutput());
-			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
+			$error['error']=self::$MDB2->getDebugOutput().' '.$ret->getMessage() . ': ' . $ret->getUserInfo();
+			$error['hint']='';
+			$errors[]=$error;
+			OC_Template::printGuestPage("", "error", array("errors" => $errors));
+			die();
 		}
 
 		return true;
@@ -575,7 +596,11 @@ class OC_DB {
 				$entry .= 'Offending command was: ' . $query . '<br />';
 				OC_Log::write('core', $entry, OC_Log::FATAL);
 				error_log('DB error: '.$entry);
-				die( $entry );
+				$error['error']=$entry;
+				$error['hint']='';
+				$errors[]=$error;
+				OC_Template::printGuestPage("", "error", array("errors" => $errors));
+				die();
 			}
 			
 			if($result->numRows() == 0) {
@@ -607,7 +632,11 @@ class OC_DB {
 			$entry .= 'Offending command was: ' . $query.'<br />';
 			OC_Log::write('core', $entry, OC_Log::FATAL);
 			error_log('DB error: ' . $entry);
-			die( $entry );
+			$error['error']=$entry;
+			$error['hint']='';
+			$errors[]=$error;
+			OC_Template::printGuestPage("", "error", array("errors" => $errors));
+			die();
 		}
 
 		return $result->execute();
