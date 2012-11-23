@@ -69,10 +69,6 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		$stat = $this->stat($path);
 		return $stat['mtime'];
 	}
-	public function fileatime($path) {
-		$stat = $this->stat($path);
-		return $stat['atime'];
-	}
 	public function file_get_contents($path) {
 		$handle = $this->fopen($path, "r");
 		if(!$handle) {
