@@ -20,13 +20,14 @@ $mountPoints = array_reverse($mountPoints); //start with the mount point of $dir
 
 foreach ($mountPoints as $mountPoint) {
 	$storage = \OC\Files\Filesystem::getStorage($mountPoint);
-	error_log('scanning mp '.$mountPoint);
-	ScanListener::$mountPoints[$storage->getId()] = $mountPoint;
-	$scanner = $storage->getScanner();
-	if ($force) {
-		$scanner->scan('');
-	} else {
-		$scanner->backgroundScan();
+	if ($storage) {
+		ScanListener::$mountPoints[$storage->getId()] = $mountPoint;
+		$scanner = $storage->getScanner();
+		if ($force) {
+			$scanner->scan('');
+		} else {
+			$scanner->backgroundScan();
+		}
 	}
 }
 
