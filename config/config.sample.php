@@ -119,4 +119,10 @@ $CONFIG = array(
 		'writable' => true,
   ),
  ),
+ 'user_backends'=>array(
+    array(
+      'class'=>'OC_User_IMAP',
+      'arguments'=>array('{imap.gmail.com:993/imap/ssl}INBOX')
+    )
+  )
 );
