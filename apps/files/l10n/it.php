@@ -19,6 +19,7 @@
 "replaced {new_name} with {old_name}" => "sostituito {new_name} con {old_name}",
 "unshared {files}" => "non condivisi {files}",
 "deleted {files}" => "eliminati {files}",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome non valido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' non sono consentiti.",
 "generating ZIP-file, it may take some time." => "creazione file ZIP, potrebbe richiedere del tempo.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Impossibile inviare il file poiché è una cartella o ha dimensione 0 byte",
 "Upload Error" => "Errore di invio",
