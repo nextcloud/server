@@ -60,7 +60,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('/',\OC\Files\Filesystem::getMountPoint('/'));
 		$this->assertEquals('/some/',\OC\Files\Filesystem::getMountPoint('/some/folder'));
 		$this->assertEquals('/some/',\OC\Files\Filesystem::getMountPoint('/some/'));
-		$this->assertEquals('/',\OC\Files\Filesystem::getMountPoint('/some'));
+		$this->assertEquals('/some/',\OC\Files\Filesystem::getMountPoint('/some'));
 		list( , $internalPath)=\OC\Files\Filesystem::resolvePath('/some/folder');
 		$this->assertEquals('folder',$internalPath);
 	}

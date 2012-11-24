@@ -144,13 +144,7 @@ class Filesystem {
 	 */
 	static public function getMountPoint($path) {
 		\OC_Hook::emit(self::CLASSNAME, 'get_mountpoint', array('path' => $path));
-		if (!$path) {
-			$path = '/';
-		}
-		if ($path[0] !== '/') {
-			$path = '/' . $path;
-		}
-		$path = str_replace('//', '/', $path);
+		$path = self::normalizePath($path) . '/';
 		$foundMountPoint = '';
 		$mountPoints = array_keys(self::$mounts);
 		foreach ($mountPoints as $mountpoint) {

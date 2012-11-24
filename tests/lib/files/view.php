@@ -71,6 +71,18 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($storageSize + $textSize, $folderData[2]['size']);
 		$this->assertEquals($storageSize, $folderData[3]['size']);
 
+		$folderData = $rootView->getDirectoryContent('/substorage');
+		/**
+		 * expected entries:
+		 * foo.png
+		 * foo.txt
+		 * folder
+		 */
+		$this->assertEquals(3, count($folderData));
+		$this->assertEquals('foo.png', $folderData[0]['name']);
+		$this->assertEquals('foo.txt', $folderData[1]['name']);
+		$this->assertEquals('folder', $folderData[2]['name']);
+
 		$folderView = new \OC\Files\View('/folder');
 		$this->assertEquals($rootView->getFileInfo('/folder'), $folderView->getFileInfo('/'));
 
