@@ -168,7 +168,7 @@ class OC_DB {
 			try{
 				self::$PDO=new PDO($dsn, $user, $pass, $opts);
 			}catch(PDOException $e) {
-				OC_Template::printErrorPage( '<b>can not connect to database, using '.$type.'. ('.$e->getMessage().')' );
+				OC_Template::printErrorPage( 'can not connect to database, using '.$type.'. ('.$e->getMessage().')' );
 			}
 			// We always, really always want associative arrays
 			self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
