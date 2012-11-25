@@ -55,33 +55,33 @@ class View extends \PHPUnit_Framework_TestCase {
 		$folderData = $rootView->getDirectoryContent('/');
 		/**
 		 * expected entries:
+		 * folder
 		 * foo.png
 		 * foo.txt
-		 * folder
 		 * substorage
 		 */
 		$this->assertEquals(4, count($folderData));
-		$this->assertEquals('foo.png', $folderData[0]['name']);
-		$this->assertEquals('foo.txt', $folderData[1]['name']);
-		$this->assertEquals('folder', $folderData[2]['name']);
+		$this->assertEquals('folder', $folderData[0]['name']);
+		$this->assertEquals('foo.png', $folderData[1]['name']);
+		$this->assertEquals('foo.txt', $folderData[2]['name']);
 		$this->assertEquals('substorage', $folderData[3]['name']);
 
-		$this->assertEquals($imageSize, $folderData[0]['size']);
-		$this->assertEquals($textSize, $folderData[1]['size']);
-		$this->assertEquals($storageSize + $textSize, $folderData[2]['size']);
+		$this->assertEquals($storageSize + $textSize, $folderData[0]['size']);
+		$this->assertEquals($imageSize, $folderData[1]['size']);
+		$this->assertEquals($textSize, $folderData[2]['size']);
 		$this->assertEquals($storageSize, $folderData[3]['size']);
 
 		$folderData = $rootView->getDirectoryContent('/substorage');
 		/**
 		 * expected entries:
+		 * folder
 		 * foo.png
 		 * foo.txt
-		 * folder
 		 */
 		$this->assertEquals(3, count($folderData));
-		$this->assertEquals('foo.png', $folderData[0]['name']);
-		$this->assertEquals('foo.txt', $folderData[1]['name']);
-		$this->assertEquals('folder', $folderData[2]['name']);
+		$this->assertEquals('folder', $folderData[0]['name']);
+		$this->assertEquals('foo.png', $folderData[1]['name']);
+		$this->assertEquals('foo.txt', $folderData[2]['name']);
 
 		$folderView = new \OC\Files\View('/folder');
 		$this->assertEquals($rootView->getFileInfo('/folder'), $folderView->getFileInfo('/'));

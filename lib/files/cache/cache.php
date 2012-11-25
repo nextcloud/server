@@ -87,7 +87,7 @@ class Cache {
 		if ($fileId > -1) {
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`
-			 	 FROM `*PREFIX*filecache` WHERE parent = ? ORDER BY `fileid` ASC');
+			 	 FROM `*PREFIX*filecache` WHERE parent = ? ORDER BY `name` ASC');
 			$result = $query->execute(array($fileId));
 			return $result->fetchAll();
 		} else {
