@@ -353,12 +353,19 @@ class OC_DB {
 	 */
 	public static function insertid($table=null) {
 		self::connect();
-		if($table !== null) {
-			$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
-			$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
-			$table = str_replace( '*PREFIX*', $prefix, $table ).$suffix;
+		$type = OC_Config::getValue( "dbtype", "sqlite" );
+		if( $type == 'pgsql' ) {
+			$query = self::prepare('SELECT lastval() AS id');
+			$row = $query->execute()->fetchRow();
+			return $row['id'];
+		}else{
+			if($table !== null) {
+				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
+				$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
+				$table = str_replace( '*PREFIX*', $prefix, $table ).$suffix;
+			}
+			return self::$connection->lastInsertId($table);
 		}
-		return self::$connection->lastInsertId($table);
 	}
 
 	/**
