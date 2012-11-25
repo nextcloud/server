@@ -70,17 +70,19 @@ class Scanner {
 	public function scanFile($file) {
 		\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 		$data = $this->getData($file);
-		if ($file !== '') {
-			$parent = dirname($file);
-			if ($parent === '.') {
-				$parent = '';
+		if ($data) {
+			if ($file !== '') {
+				$parent = dirname($file);
+				if ($parent === '.') {
+					$parent = '';
+				}
+				if (!$this->cache->inCache($parent)) {
+					$this->scanFile($parent);
+				}
 			}
-			if (!$this->cache->inCache($parent)) {
-				$this->scanFile($parent);
-			}
+			$id = $this->cache->put($file, $data);
+			$this->permissionsCache->set($id, \OC_User::getUser(), $data['permissions']);
 		}
-		$id = $this->cache->put($file, $data);
-		$this->permissionsCache->set($id, \OC_User::getUser(), $data['permissions']);
 		return $data;
 	}
 
@@ -101,17 +103,19 @@ class Scanner {
 				if ($file !== '.' and $file !== '..') {
 					$child = ($path !== '') ? $path . '/' . $file : $file;
 					$data = $this->scanFile($child);
-					if ($data['mimetype'] === 'httpd/unix-directory') {
-						if ($recursive === self::SCAN_RECURSIVE) {
-							$data['size'] = $this->scan($child, self::SCAN_RECURSIVE);
-						} else {
-							$data['size'] = -1;
+					if ($data) {
+						if ($data['mimetype'] === 'httpd/unix-directory') {
+							if ($recursive === self::SCAN_RECURSIVE) {
+								$data['size'] = $this->scan($child, self::SCAN_RECURSIVE);
+							} else {
+								$data['size'] = -1;
+							}
 						}
-					}
-					if ($data['size'] === -1) {
-						$size = -1;
-					} elseif ($size !== -1) {
-						$size += $data['size'];
+						if ($data['size'] === -1) {
+							$size = -1;
+						} elseif ($size !== -1) {
+							$size += $data['size'];
+						}
 					}
 				}
 			}
