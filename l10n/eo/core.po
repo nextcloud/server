@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-24 00:01+0100\n"
+"PO-Revision-Date: 2012-11-23 20:03+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Ne proviziĝis tipon de kategorio."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -36,13 +36,13 @@ msgstr "Ĉi tiu kategorio jam ekzistas: "
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Ne proviziĝis tipon de objekto."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "Ne proviziĝis ID-on de %s."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
@@ -58,59 +58,59 @@ msgstr "Neniu kategorio elektiĝis por forigo."
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Agordo"
 
-#: js/js.js:688
+#: js/js.js:704
 msgid "seconds ago"
 msgstr "sekundoj antaŭe"
 
-#: js/js.js:689
+#: js/js.js:705
 msgid "1 minute ago"
 msgstr "antaŭ 1 minuto"
 
-#: js/js.js:690
+#: js/js.js:706
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "antaŭ {minutes} minutoj"
 
-#: js/js.js:691
+#: js/js.js:707
 msgid "1 hour ago"
-msgstr ""
+msgstr "antaŭ 1 horo"
 
-#: js/js.js:692
+#: js/js.js:708
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "antaŭ {hours} horoj"
 
-#: js/js.js:693
+#: js/js.js:709
 msgid "today"
 msgstr "hodiaŭ"
 
-#: js/js.js:694
+#: js/js.js:710
 msgid "yesterday"
 msgstr "hieraŭ"
 
-#: js/js.js:695
+#: js/js.js:711
 msgid "{days} days ago"
-msgstr ""
+msgstr "antaŭ {days} tagoj"
 
-#: js/js.js:696
+#: js/js.js:712
 msgid "last month"
 msgstr "lastamonate"
 
-#: js/js.js:697
+#: js/js.js:713
 msgid "{months} months ago"
-msgstr ""
+msgstr "antaŭ {months} monatoj"
 
-#: js/js.js:698
+#: js/js.js:714
 msgid "months ago"
 msgstr "monatoj antaŭe"
 
-#: js/js.js:699
+#: js/js.js:715
 msgid "last year"
 msgstr "lastajare"
 
-#: js/js.js:700
+#: js/js.js:716
 msgid "years ago"
 msgstr "jaroj antaŭe"
 
@@ -137,21 +137,21 @@ msgstr "Akcepti"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Ne indikiĝis tipo de la objekto."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
+#: js/share.js:539
 msgid "Error"
 msgstr "Eraro"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "Ne indikiĝis nomo de la aplikaĵo."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "La necesa dosiero {file} ne instaliĝis!"
 
 #: js/share.js:124
 msgid "Error while sharing"
@@ -167,11 +167,11 @@ msgstr "Eraro dum ŝanĝo de permesoj"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Kunhavigita kun vi kaj la grupo {group} de {owner}"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Kunhavigita kun vi de {owner}"
 
 #: js/share.js:158
 msgid "Share with"
@@ -212,7 +212,7 @@ msgstr "Rekunhavigo ne permesatas"
 
 #: js/share.js:271
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Kunhavigita en {item} kun {user}"
 
 #: js/share.js:292
 msgid "Unshare"
@@ -242,15 +242,15 @@ msgstr "forigi"
 msgid "share"
 msgstr "kunhavigi"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:343 js/share.js:514 js/share.js:516
 msgid "Password protected"
 msgstr "Protektita per pasvorto"
 
-#: js/share.js:525
+#: js/share.js:527
 msgid "Error unsetting expiration date"
 msgstr "Eraro dum malagordado de limdato"
 
-#: js/share.js:537
+#: js/share.js:539
 msgid "Error setting expiration date"
 msgstr "Eraro dum agordado de limdato"
 
@@ -272,7 +272,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "Peto malsukcesis!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -405,87 +405,87 @@ msgstr "Datumbaza gastigo"
 msgid "Finish setup"
 msgstr "Fini la instalon"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "dimanĉo"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "lundo"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "mardo"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "merkredo"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "ĵaŭdo"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "vendredo"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "sabato"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "Januaro"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "Februaro"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "Marto"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "Aprilo"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "Majo"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "Junio"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "Julio"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "Aŭgusto"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "Septembro"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "Oktobro"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "Novembro"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "Decembro"
 
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "TTT-servoj sub via kontrolo"
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Elsaluti"
 
@@ -501,7 +501,7 @@ msgstr ""
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Bonvolu ŝanĝi vian pasvorton por sekurigi vian konton ree."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -529,14 +529,14 @@ msgstr "jena"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "Sekureca averto!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Bonvolu kontroli vian pasvorton. <br/>Pro sekureco, oni okaze povas peti al vi enigi vian pasvorton ree."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Kontroli"

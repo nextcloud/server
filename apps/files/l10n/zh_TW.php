@@ -18,7 +18,6 @@
 "Close" => "關閉",
 "Upload cancelled." => "上傳取消",
 "File upload is in progress. Leaving the page now will cancel the upload." => "檔案上傳中. 離開此頁面將會取消上傳.",
-"Invalid name, '/' is not allowed." => "無效的名稱, '/'是不被允許的",
 "Name" => "名稱",
 "Size" => "大小",
 "Modified" => "修改",

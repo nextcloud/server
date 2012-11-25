@@ -20,7 +20,6 @@
 "Pending" => "Bekliyor",
 "Upload cancelled." => "Yükleme iptal edildi.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Dosya yükleme işlemi sürüyor. Şimdi sayfadan ayrılırsanız işleminiz iptal olur.",
-"Invalid name, '/' is not allowed." => "Geçersiz isim, '/' işaretine izin verilmiyor.",
 "Name" => "Ad",
 "Size" => "Boyut",
 "Modified" => "Değiştirilme",

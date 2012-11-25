@@ -6,6 +6,7 @@
 "No file was uploaded" => "لم يتم ترفيع أي من الملفات",
 "Missing a temporary folder" => "المجلد المؤقت غير موجود",
 "Files" => "الملفات",
+"Unshare" => "إلغاء مشاركة",
 "Delete" => "محذوف",
 "Close" => "إغلق",
 "Name" => "الاسم",

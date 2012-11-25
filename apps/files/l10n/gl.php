@@ -28,7 +28,6 @@
 "{count} files uploading" => "{count} ficheiros subíndose",
 "Upload cancelled." => "Subida cancelada.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "A subida do ficheiro está en curso. Saír agora da páxina cancelará a subida.",
-"Invalid name, '/' is not allowed." => "Nome non válido, '/' non está permitido.",
 "{count} files scanned" => "{count} ficheiros escaneados",
 "error while scanning" => "erro mentres analizaba",
 "Name" => "Nome",

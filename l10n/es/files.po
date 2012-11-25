@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Agustin Ferrario <>, 2012.
 #   <devianpctek@gmail.com>, 2012.
 # Javier Llorente <javier@opensuse.org>, 2012.
 #   <juanma@kde.org.ar>, 2012.
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-23 00:01+0100\n"
-"PO-Revision-Date: 2012-11-22 23:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-25 00:02+0100\n"
+"PO-Revision-Date: 2012-11-24 15:20+0000\n"
+"Last-Translator: Agustin Ferrario <>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,132 +58,134 @@ msgstr "La escritura en disco ha fallado"
 msgid "Files"
 msgstr "Archivos"
 
-#: js/fileactions.js:108 templates/index.php:64
+#: js/fileactions.js:117 templates/index.php:64
 msgid "Unshare"
 msgstr "Dejar de compartir"
 
-#: js/fileactions.js:110 templates/index.php:66
+#: js/fileactions.js:119 templates/index.php:66
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/fileactions.js:172
+#: js/fileactions.js:181
 msgid "Rename"
 msgstr "Renombrar"
 
-#: js/filelist.js:198 js/filelist.js:200
+#: js/filelist.js:201 js/filelist.js:203
 msgid "{new_name} already exists"
 msgstr "{new_name} ya existe"
 
-#: js/filelist.js:198 js/filelist.js:200
+#: js/filelist.js:201 js/filelist.js:203
 msgid "replace"
 msgstr "reemplazar"
 
-#: js/filelist.js:198
+#: js/filelist.js:201
 msgid "suggest name"
 msgstr "sugerir nombre"
 
-#: js/filelist.js:198 js/filelist.js:200
+#: js/filelist.js:201 js/filelist.js:203
 msgid "cancel"
 msgstr "cancelar"
 
-#: js/filelist.js:247
+#: js/filelist.js:250
 msgid "replaced {new_name}"
 msgstr "reemplazado {new_name}"
 
-#: js/filelist.js:247 js/filelist.js:249 js/filelist.js:281 js/filelist.js:283
+#: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
 msgid "undo"
 msgstr "deshacer"
 
-#: js/filelist.js:249
+#: js/filelist.js:252
 msgid "replaced {new_name} with {old_name}"
 msgstr "reemplazado {new_name} con {old_name}"
 
-#: js/filelist.js:281
+#: js/filelist.js:284
 msgid "unshared {files}"
 msgstr "{files} descompartidos"
 
-#: js/filelist.js:283
+#: js/filelist.js:286
 msgid "deleted {files}"
 msgstr "{files} eliminados"
 
-#: js/files.js:171
+#: js/files.js:33
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr "Nombre Invalido, \"\\\", \"/\", \"<\", \">\", \":\", \"\", \"|\" \"?\" y \"*\" no están permitidos "
+
+#: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
 msgstr "generando un fichero ZIP, puede llevar un tiempo."
 
-#: js/files.js:206
+#: js/files.js:218
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "No ha sido posible subir tu archivo porque es un directorio o tiene 0 bytes"
 
-#: js/files.js:206
+#: js/files.js:218
 msgid "Upload Error"
 msgstr "Error al subir el archivo"
 
-#: js/files.js:223
+#: js/files.js:235
 msgid "Close"
 msgstr "cerrrar"
 
-#: js/files.js:242 js/files.js:356 js/files.js:386
+#: js/files.js:254 js/files.js:368 js/files.js:398
 msgid "Pending"
 msgstr "Pendiente"
 
-#: js/files.js:262
+#: js/files.js:274
 msgid "1 file uploading"
 msgstr "subiendo 1 archivo"
 
-#: js/files.js:265 js/files.js:319 js/files.js:334
+#: js/files.js:277 js/files.js:331 js/files.js:346
 msgid "{count} files uploading"
 msgstr "Subiendo {count} archivos"
 
-#: js/files.js:337 js/files.js:370
+#: js/files.js:349 js/files.js:382
 msgid "Upload cancelled."
 msgstr "Subida cancelada."
 
-#: js/files.js:439
+#: js/files.js:451
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "La subida del archivo está en proceso. Salir de la página ahora cancelará la subida."
 
-#: js/files.js:509
-msgid "Invalid name, '/' is not allowed."
-msgstr "Nombre no válido, '/' no está permitido."
-
-#: js/files.js:513
+#: js/files.js:523
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr ""
+msgstr "Nombre de la carpeta invalido. El uso de \"Shared\" esta reservado para Owncloud"
 
-#: js/files.js:694
+#: js/files.js:704
 msgid "{count} files scanned"
 msgstr "{count} archivos escaneados"
 
-#: js/files.js:702
+#: js/files.js:712
 msgid "error while scanning"
 msgstr "error escaneando"
 
-#: js/files.js:775 templates/index.php:50
+#: js/files.js:785 templates/index.php:50
 msgid "Name"
 msgstr "Nombre"
 
-#: js/files.js:776 templates/index.php:58
+#: js/files.js:786 templates/index.php:58
 msgid "Size"
 msgstr "Tamaño"
 
-#: js/files.js:777 templates/index.php:60
+#: js/files.js:787 templates/index.php:60
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:804
+#: js/files.js:814
 msgid "1 folder"
 msgstr "1 carpeta"
 
-#: js/files.js:806
+#: js/files.js:816
 msgid "{count} folders"
 msgstr "{count} carpetas"
 
-#: js/files.js:814
+#: js/files.js:824
 msgid "1 file"
 msgstr "1 archivo"
 
-#: js/files.js:816
+#: js/files.js:826
 msgid "{count} files"
 msgstr "{count} archivos"
 

@@ -15,7 +15,6 @@
 "Close" => "סגירה",
 "Pending" => "ממתין",
 "Upload cancelled." => "ההעלאה בוטלה.",
-"Invalid name, '/' is not allowed." => "שם לא חוקי, '/' אסור לשימוש.",
 "Name" => "שם",
 "Size" => "גודל",
 "Modified" => "זמן שינוי",

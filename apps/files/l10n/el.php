@@ -28,7 +28,6 @@
 "{count} files uploading" => "{count} αρχεία ανεβαίνουν",
 "Upload cancelled." => "Η αποστολή ακυρώθηκε.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη.  Έξοδος από την σελίδα τώρα θα ακυρώσει την αποστολή.",
-"Invalid name, '/' is not allowed." => "Μη έγκυρο όνομα, το '/' δεν επιτρέπεται.",
 "{count} files scanned" => "{count} αρχεία ανιχνεύτηκαν",
 "error while scanning" => "σφάλμα κατά την ανίχνευση",
 "Name" => "Όνομα",

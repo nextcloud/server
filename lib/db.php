@@ -168,8 +168,7 @@ class OC_DB {
 			try{
 				self::$PDO=new PDO($dsn, $user, $pass, $opts);
 			}catch(PDOException $e) {
-				echo( '<b>can not connect to database, using '.$type.'. ('.$e->getMessage().')</center>');
-				die();
+				OC_Template::printErrorPage( 'can not connect to database, using '.$type.'. ('.$e->getMessage().')' );
 			}
 			// We always, really always want associative arrays
 			self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
@@ -263,10 +262,9 @@ class OC_DB {
 
 			// Die if we could not connect
 			if( PEAR::isError( self::$MDB2 )) {
-				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
 				OC_Log::write('core', self::$MDB2->getUserInfo(), OC_Log::FATAL);
 				OC_Log::write('core', self::$MDB2->getMessage(), OC_Log::FATAL);
-				die();
+				OC_Template::printErrorPage( 'can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')' );
 			}
 
 			// We always, really always want associative arrays
@@ -326,7 +324,7 @@ class OC_DB {
 				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
 				OC_Log::write('core', $entry, OC_Log::FATAL);
 				error_log('DB error: '.$entry);
-				die( $entry );
+				OC_Template::printErrorPage( $entry );
 			}
 		}else{
 			try{
@@ -336,7 +334,7 @@ class OC_DB {
 				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
 				OC_Log::write('core', $entry, OC_Log::FATAL);
 				error_log('DB error: '.$entry);
-				die( $entry );
+				OC_Template::printErrorPage( $entry );
 			}
 			$result=new PDOStatementWrapper($result);
 		}
@@ -355,12 +353,19 @@ class OC_DB {
 	 */
 	public static function insertid($table=null) {
 		self::connect();
-		if($table !== null) {
-			$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
-			$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
-			$table = str_replace( '*PREFIX*', $prefix, $table ).$suffix;
+		$type = OC_Config::getValue( "dbtype", "sqlite" );
+		if( $type == 'pgsql' ) {
+			$query = self::prepare('SELECT lastval() AS id');
+			$row = $query->execute()->fetchRow();
+			return $row['id'];
+		}else{
+			if($table !== null) {
+				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
+				$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
+				$table = str_replace( '*PREFIX*', $prefix, $table ).$suffix;
+			}
+			return self::$connection->lastInsertId($table);
 		}
-		return self::$connection->lastInsertId($table);
 	}
 
 	/**
@@ -449,7 +454,7 @@ class OC_DB {
 
 		// Die in case something went wrong
 		if( $definition instanceof MDB2_Schema_Error ) {
-			die( $definition->getMessage().': '.$definition->getUserInfo());
+			OC_Template::printErrorPage( $definition->getMessage().': '.$definition->getUserInfo() );
 		}
 		if(OC_Config::getValue('dbtype', 'sqlite')==='oci') {
 			unset($definition['charset']); //or MDB2 tries SHUTDOWN IMMEDIATE
@@ -461,8 +466,7 @@ class OC_DB {
 
 		// Die in case something went wrong
 		if( $ret instanceof MDB2_Error ) {
-			echo (self::$MDB2->getDebugOutput());
-			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
+			OC_Template::printErrorPage( self::$MDB2->getDebugOutput().' '.$ret->getMessage() . ': ' . $ret->getUserInfo() );
 		}
 
 		return true;
@@ -575,7 +579,7 @@ class OC_DB {
 				$entry .= 'Offending command was: ' . $query . '<br />';
 				OC_Log::write('core', $entry, OC_Log::FATAL);
 				error_log('DB error: '.$entry);
-				die( $entry );
+				OC_Template::printErrorPage( $entry );
 			}
 			
 			if($result->numRows() == 0) {
@@ -607,7 +611,7 @@ class OC_DB {
 			$entry .= 'Offending command was: ' . $query.'<br />';
 			OC_Log::write('core', $entry, OC_Log::FATAL);
 			error_log('DB error: ' . $entry);
-			die( $entry );
+			OC_Template::printErrorPage( $entry );
 		}
 
 		return $result->execute();

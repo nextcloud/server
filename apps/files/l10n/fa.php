@@ -18,7 +18,6 @@
 "Close" => "بستن",
 "Pending" => "در انتظار",
 "Upload cancelled." => "بار گذاری لغو شد",
-"Invalid name, '/' is not allowed." => "نام نامناسب '/' غیرفعال است",
 "Name" => "نام",
 "Size" => "اندازه",
 "Modified" => "تغییر یافته",

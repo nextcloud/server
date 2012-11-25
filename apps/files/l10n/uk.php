@@ -27,7 +27,6 @@
 "{count} files uploading" => "{count} файлів завантажується",
 "Upload cancelled." => "Завантаження перервано.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Виконується завантаження файлу. Закриття цієї сторінки приведе до відміни завантаження.",
-"Invalid name, '/' is not allowed." => "Некоректне ім'я, '/' не дозволено.",
 "{count} files scanned" => "{count} файлів проскановано",
 "error while scanning" => "помилка при скануванні",
 "Name" => "Ім'я",

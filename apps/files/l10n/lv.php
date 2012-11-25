@@ -17,7 +17,6 @@
 "Pending" => "Gaida savu kārtu",
 "Upload cancelled." => "Augšuplāde ir atcelta",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Notiek augšupielāde. Pametot lapu tagad, tiks atcelta augšupielāde.",
-"Invalid name, '/' is not allowed." => "Šis simbols '/', nav atļauts.",
 "Name" => "Nosaukums",
 "Size" => "Izmērs",
 "Modified" => "Izmainīts",

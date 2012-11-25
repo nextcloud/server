@@ -18,7 +18,6 @@
 "Close" => "tutup",
 "Pending" => "Menunggu",
 "Upload cancelled." => "Pengunggahan dibatalkan.",
-"Invalid name, '/' is not allowed." => "Kesalahan nama, '/' tidak diijinkan.",
 "Name" => "Nama",
 "Size" => "Ukuran",
 "Modified" => "Dimodifikasi",

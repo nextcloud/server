@@ -28,7 +28,6 @@
 "{count} files uploading" => "{count} ファイルをアップロード中",
 "Upload cancelled." => "アップロードはキャンセルされました。",
 "File upload is in progress. Leaving the page now will cancel the upload." => "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。",
-"Invalid name, '/' is not allowed." => "無効な名前、'/' は使用できません。",
 "{count} files scanned" => "{count} ファイルをスキャン",
 "error while scanning" => "スキャン中のエラー",
 "Name" => "名前",

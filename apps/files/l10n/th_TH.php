@@ -28,7 +28,6 @@
 "{count} files uploading" => "กำลังอัพโหลด {count} ไฟล์",
 "Upload cancelled." => "การอัพโหลดถูกยกเลิก",
 "File upload is in progress. Leaving the page now will cancel the upload." => "การอัพโหลดไฟล์กำลังอยู่ในระหว่างดำเนินการ การออกจากหน้าเว็บนี้จะทำให้การอัพโหลดถูกยกเลิก",
-"Invalid name, '/' is not allowed." => "ชื่อที่ใช้ไม่ถูกต้อง '/' ไม่อนุญาตให้ใช้งาน",
 "{count} files scanned" => "สแกนไฟล์แล้ว {count} ไฟล์",
 "error while scanning" => "พบข้อผิดพลาดในระหว่างการสแกนไฟล์",
 "Name" => "ชื่อ",

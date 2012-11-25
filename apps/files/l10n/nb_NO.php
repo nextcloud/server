@@ -27,7 +27,6 @@
 "{count} files uploading" => "{count} filer laster opp",
 "Upload cancelled." => "Opplasting avbrutt.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Filopplasting pågår. Forlater du siden nå avbrytes opplastingen.",
-"Invalid name, '/' is not allowed." => "Ugyldig navn, '/' er ikke tillatt. ",
 "{count} files scanned" => "{count} filer lest inn",
 "error while scanning" => "feil under skanning",
 "Name" => "Navn",

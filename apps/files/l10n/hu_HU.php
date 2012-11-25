@@ -18,7 +18,6 @@
 "Close" => "Bezár",
 "Pending" => "Folyamatban",
 "Upload cancelled." => "Feltöltés megszakítva",
-"Invalid name, '/' is not allowed." => "Érvénytelen név, a '/' nem megengedett",
 "Name" => "Név",
 "Size" => "Méret",
 "Modified" => "Módosítva",
