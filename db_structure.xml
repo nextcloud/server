@@ -594,21 +594,6 @@
 				<default></default>
 				<notnull>false</notnull>
 			</field>
-			<index>
-				<name>share_file_target_index</name>
-				<field>
-					<name>file_target</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>uid_owner</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>share_type</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
 
 		</declaration>
 
