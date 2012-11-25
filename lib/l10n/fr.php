@@ -18,13 +18,17 @@
 "seconds ago" => "à l'instant",
 "1 minute ago" => "il y a 1 minute",
 "%d minutes ago" => "il y a %d minutes",
+"1 hour ago" => "Il y a une heure",
+"%d hours ago" => "Il y a %d heures",
 "today" => "aujourd'hui",
 "yesterday" => "hier",
 "%d days ago" => "il y a %d jours",
 "last month" => "le mois dernier",
+"%d months ago" => "Il y a %d mois",
 "last year" => "l'année dernière",
 "years ago" => "il y a plusieurs années",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s est disponible. Obtenez <a href=\"%s\">plus d'informations</a>",
 "up to date" => "À jour",
-"updates check is disabled" => "la vérification des mises à jour est désactivée"
+"updates check is disabled" => "la vérification des mises à jour est désactivée",
+"Could not find category \"%s\"" => "Impossible de trouver la catégorie \"%s\""
 );

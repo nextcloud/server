@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-24 00:01+0100\n"
-"PO-Revision-Date: 2012-11-23 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-26 00:01+0100\n"
+"PO-Revision-Date: 2012-11-25 16:24+0000\n"
+"Last-Translator: suganthi <suganthi@nic.lk>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -104,7 +104,7 @@ msgstr "நீக்கப்பட்டது  {கோப்புகள்}"
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "செல்லுபடியற்ற பெயர்,'\\', '/', '<', '>', ':', '\"', '|', '?' மற்றும் '*' ஆகியன அனுமதிக்கப்படமாட்டாது."
 
 #: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
@@ -145,7 +145,7 @@ msgstr "கோப்பு பதிவேற்றம் செயல்பா�
 
 #: js/files.js:523
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr ""
+msgstr "செல்லுபடியற்ற கோப்புறை பெயர். \"பகிர்வின்\" பாவனை Owncloud இனால் ஒதுக்கப்பட்டுள்ளது"
 
 #: js/files.js:704
 msgid "{count} files scanned"

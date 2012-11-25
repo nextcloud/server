@@ -1,6 +1,9 @@
 <?php $TRANSLATIONS = array(
+"Category type not provided." => "Kategoria mota ez da zehaztu.",
 "No category to add?" => "Ez dago gehitzeko kategoriarik?",
 "This category already exists: " => "Kategoria hau dagoeneko existitzen da:",
+"Object type not provided." => "Objetu mota ez da zehaztu.",
+"%s ID not provided." => "%s ID mota ez da zehaztu.",
 "No categories selected for deletion." => "Ez da ezabatzeko kategoriarik hautatu.",
 "Settings" => "Ezarpenak",
 "seconds ago" => "segundu",
@@ -96,5 +99,7 @@
 "Log in" => "Hasi saioa",
 "You are logged out." => "Zure saioa bukatu da.",
 "prev" => "aurrekoa",
-"next" => "hurrengoa"
+"next" => "hurrengoa",
+"Security Warning!" => "Segurtasun abisua",
+"Verify" => "Egiaztatu"
 );
