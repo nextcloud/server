@@ -108,10 +108,10 @@ namespace OCP {
 		 * @return array of contacts which are arrays of key-value-pairs
 		 */
 		public static function search($pattern, $searchProperties = array(), $options = array()) {
-
 			$result = array();
 			foreach(self::$address_books as $address_book) {
-				$result = $result + $address_book->search($pattern, $searchProperties, $options);
+				$r = $address_book->search($pattern, $searchProperties, $options);
+				$result = array_merge($result, $r);
 			}
 
 			return $result;
