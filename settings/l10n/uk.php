@@ -26,6 +26,7 @@
 "Managing Big Files" => "Управління великими файлами",
 "Ask a question" => "Запитати",
 "Problems connecting to help database." => "Проблема при з'єднані з базою допомоги",
+"Go there manually." => "Перейти вручну.",
 "Answer" => "Відповідь",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Ви використали <strong>%s</strong> із доступних <strong>%s</strong>",
 "Desktop and Mobile Syncing Clients" => "Настільні та мобільні клієнти синхронізації",

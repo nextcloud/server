@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-24 00:01+0100\n"
-"PO-Revision-Date: 2012-11-23 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-27 00:09+0100\n"
+"PO-Revision-Date: 2012-11-26 01:15+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -106,7 +106,7 @@ msgstr "削除 {files}"
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使用できません。"
 
 #: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
@@ -147,7 +147,7 @@ msgstr "ファイル転送を実行中です。今このページから移動す
 
 #: js/files.js:523
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr ""
+msgstr "無効なフォルダ名です。\"Shared\" の利用は ownCloud が予約済みです。"
 
 #: js/files.js:704
 msgid "{count} files scanned"

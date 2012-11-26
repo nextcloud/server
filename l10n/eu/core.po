@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-26 00:01+0100\n"
-"PO-Revision-Date: 2012-11-25 23:01+0000\n"
+"POT-Creation-Date: 2012-11-27 00:10+0100\n"
+"PO-Revision-Date: 2012-11-25 23:09+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "%s ID mota ez da zehaztu."
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Errorea gertatu da %s gogokoetara gehitzean."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -55,7 +55,7 @@ msgstr "Ez da ezabatzeko kategoriarik hautatu."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Errorea gertatu da %s gogokoetatik ezabatzean."
 
 #: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
@@ -71,15 +71,15 @@ msgstr "orain dela minutu 1"
 
 #: js/js.js:706
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "orain dela {minutes} minutu"
 
 #: js/js.js:707
 msgid "1 hour ago"
-msgstr ""
+msgstr "orain dela ordu bat"
 
 #: js/js.js:708
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "orain dela {hours} ordu"
 
 #: js/js.js:709
 msgid "today"
@@ -91,7 +91,7 @@ msgstr "atzo"
 
 #: js/js.js:711
 msgid "{days} days ago"
-msgstr ""
+msgstr "orain dela {days} egun"
 
 #: js/js.js:712
 msgid "last month"
@@ -99,7 +99,7 @@ msgstr "joan den hilabetean"
 
 #: js/js.js:713
 msgid "{months} months ago"
-msgstr ""
+msgstr "orain dela {months} hilabete"
 
 #: js/js.js:714
 msgid "months ago"
@@ -136,21 +136,21 @@ msgstr "Ados"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Objetu mota ez dago zehaztuta."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
-#: js/share.js:539
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
+#: js/share.js:545
 msgid "Error"
 msgstr "Errorea"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "App izena ez dago zehaztuta."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "Beharrezkoa den {file} fitxategia ez dago instalatuta!"
 
 #: js/share.js:124
 msgid "Error while sharing"
@@ -166,11 +166,11 @@ msgstr "Errore bat egon da baimenak aldatzean"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "{owner}-k zu eta {group} taldearekin partekatuta"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "{owner}-k zurekin partekatuta"
 
 #: js/share.js:158
 msgid "Share with"
@@ -211,7 +211,7 @@ msgstr "Berriz elkarbanatzea ez dago baimendua"
 
 #: js/share.js:271
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "{user}ekin {item}-n partekatuta"
 
 #: js/share.js:292
 msgid "Unshare"
@@ -241,15 +241,15 @@ msgstr "ezabatu"
 msgid "share"
 msgstr "elkarbanatu"
 
-#: js/share.js:343 js/share.js:514 js/share.js:516
+#: js/share.js:349 js/share.js:520 js/share.js:522
 msgid "Password protected"
 msgstr "Pasahitzarekin babestuta"
 
-#: js/share.js:527
+#: js/share.js:533
 msgid "Error unsetting expiration date"
 msgstr "Errorea izan da muga data kentzean"
 
-#: js/share.js:539
+#: js/share.js:545
 msgid "Error setting expiration date"
 msgstr "Errore bat egon da muga data ezartzean"
 
@@ -267,11 +267,11 @@ msgstr "Zure pashitza berrezartzeko lotura bat jasoko duzu Epostaren bidez."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "Berrezartzeko eposta bidali da."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "Eskariak huts egin du!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -342,13 +342,13 @@ msgstr "Segurtasun abisua"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Ez dago hausazko zenbaki sortzaile segururik eskuragarri, mesedez gatiu PHP OpenSSL extensioa."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Hausazko zenbaki sortzaile segururik gabe erasotzaile batek pasahitza berrezartzeko kodeak iragarri ditzake eta zure kontuaz jabetu."
 
 #: templates/installation.php:32
 msgid ""
@@ -490,17 +490,17 @@ msgstr "Saioa bukatu"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Saio hasiera automatikoa ez onartuta!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Zure pasahitza orain dela gutxi ez baduzu aldatu, zure kontua arriskuan egon daiteke!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Mesedez aldatu zure pasahitza zure kontua berriz segurtatzeko."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -534,7 +534,7 @@ msgstr "Segurtasun abisua"
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Mesedez egiaztatu zure pasahitza. <br/>Segurtasun arrazoiengatik noizbehinka zure pasahitza berriz sartzea eska diezazukegu."
 
 #: templates/verify.php:16
 msgid "Verify"

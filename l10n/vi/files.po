@@ -4,15 +4,16 @@
 # 
 # Translators:
 #   <khanhnd@kenhgiaiphap.vn>, 2012.
+#   <mattheu.9x@gmail.com>, 2012.
 #   <mattheu_9x@yahoo.com>, 2012.
 # Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-24 00:01+0100\n"
-"PO-Revision-Date: 2012-11-23 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-27 00:09+0100\n"
+"PO-Revision-Date: 2012-11-26 03:19+0000\n"
+"Last-Translator: mattheu_9x <mattheu.9x@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -106,7 +107,7 @@ msgstr "đã xóa {files}"
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Tên không hợp lệ, '\\', '/', '<', '>', ':', '\"', '|', '?' và '*' thì không được phép dùng."
 
 #: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
@@ -147,7 +148,7 @@ msgstr "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi t
 
 #: js/files.js:523
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr ""
+msgstr "Tên thư mục không hợp lệ. Sử dụng \"Chia sẻ\" được dành riêng bởi Owncloud"
 
 #: js/files.js:704
 msgid "{count} files scanned"
