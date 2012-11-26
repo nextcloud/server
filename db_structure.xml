@@ -595,6 +595,21 @@
 				<notnull>false</notnull>
 			</field>
 
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>32</length>
+			</field>
+
+			<index>
+				<name>token_index</name>
+				<field>
+					<name>token</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 		</declaration>
 
 	</table>
