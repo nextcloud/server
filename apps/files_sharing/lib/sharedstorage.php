@@ -112,12 +112,9 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($path == '' || $path == '/' || !$this->isCreatable(dirname($path))) {
 			return false;
 		} else if ($source = $this->getSourcePath($path)) {
-			$parts = explode('/', $source, 4);
-			$user =  $parts[1];
-			$intPath = '/'.$parts[3];
 			$storage = OC_Filesystem::getStorage($source);
 			if( ($storage->mkdir($this->getInternalPath($source))) ) {
-				OC_FileCache::put($intPath ,array('user'=>$user), '/'.$user.'/files');
+				$this->updateFSCache($path);
 				return true;
 			}
 		}
@@ -308,7 +305,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 			$intPath = '/'.$parts[3];
 			$storage = OC_Filesystem::getStorage($source);
 			if( ( $result = $storage->file_put_contents($this->getInternalPath($source), $data) ) ) {
-				OC_FileCache::put($intPath ,array('user'=>$user), '/'.$user.'/files');
+				$this->updateFSCache($path);
 				return $result;
 			}	
 		}
@@ -412,7 +409,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 			$intPath = '/'.$parts[3];
 
 			if ( $write && $storage->touch($this->getInternalPath($source)) ) {
-				OC_FileCache::put($intPath ,array('user'=>$user), '/'.$user.'/files');
+				$this->updateFSCache($path);
 			}
 			return $storage->fopen($this->getInternalPath($source), $mode);
 		}
@@ -466,5 +463,17 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	public function hasUpdated($path,$time) {
 		//TODO
 		return false;
+	}
+	
+	private function updateFSCache($path) {
+		$source = $this->getSourcePath($path);
+		$parts = explode('/', $source, 4);
+		$user =  $parts[1];
+		$intPath = '/'.$parts[3];
+		
+		$mtime = $this->filemtime($path);
+		$size = $this->filesize($path);
+		$mime = $this->getMimeType($path);
+		OC_FileCache::put($intPath ,array('user'=>$user, 'size'=>$size, 'mtime'=>$mtime, 'mimetype'=>$mime, 'writable'=>true),'/'.$user.'/files');
 	}
 }
