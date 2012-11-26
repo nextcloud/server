@@ -537,7 +537,6 @@ class OC_FileCache{
 			$fullPath = OC_Filesystem::normalizePath($root.'/'.$path);
 			$sharedPos =  strpos($fullPath, '/Shared/');
 			if ( $sharedPos !== false && ($source = OC_Files_Sharing_Util::getSourcePath(substr($fullPath, $sharedPos+8))) ) {
-				$source = OC_Files_Sharing_Util::getSourcePath(str_replace('/Shared/', '', $path));
 				$parts = explode('/', $source, 4);
 				$root =  '/'.$parts[1].'/files';
 				$path = '/'.$parts[3];
