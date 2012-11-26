@@ -46,6 +46,13 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
+			<index>
+				<name>appconfig_config_key_index</name>
+				<field>
+					<name>configkey</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 
@@ -257,6 +264,13 @@
 				<notnull>true</notnull>
 				<length>64</length>
 			</field>
+			<index>
+				<name>group_admin_uid</name>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 
