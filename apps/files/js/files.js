@@ -211,7 +211,7 @@ $(document).ready(function() {
 	$(document).bind('drop dragover', function (e) {
 			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
 	});
-	 
+
 	if ( document.getElementById("data-upload-form") ) {
 	$(function() {
 		$('.file_upload_start').fileupload({
@@ -891,7 +891,7 @@ function getMimeIcon(mime, ready){
 	if(getMimeIcon.cache[mime]){
 		ready(getMimeIcon.cache[mime]);
 	}else{
-		$.get( OC.filePath('files','ajax','mimeicon.php')+'?mime='+mime, function(path){
+		$.get( OC.filePath('files','ajax','mimeicon.php')+'&mime='+mime, function(path){
 			getMimeIcon.cache[mime]=path;
 			ready(getMimeIcon.cache[mime]);
 		});

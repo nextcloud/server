@@ -42,7 +42,11 @@ OC.EventSource=function(src,data){
 	}
 	dataStr+='requesttoken='+OC.Request.Token;
 	if(!this.useFallBack && typeof EventSource !='undefined'){
-		this.source=new EventSource(src+'?'+dataStr);
+		var joinChar = '&';
+		if(src.indexOf('?') == -1) {
+			joinChar = '?';
+		}
+		this.source=new EventSource(src+joinChar+dataStr);
 		this.source.onmessage=function(e){
 			for(var i=0;i<this.typelessListeners.length;i++){
 				this.typelessListeners[i](JSON.parse(e.data));
@@ -54,7 +58,12 @@ OC.EventSource=function(src,data){
 		this.iframe=$('<iframe/>');
 		this.iframe.attr('id',iframeId);
 		this.iframe.hide();
-		this.iframe.attr('src',src+'?fallback=true&fallback_id='+OC.EventSource.iframeCount+'&'+dataStr);
+
+		var joinChar = '&';
+		if(src.indexOf('?') == -1) {
+			joinChar = '?';
+		}
+		this.iframe.attr('src',src+joinChar+'fallback=true&fallback_id='+OC.EventSource.iframeCount+'&'+dataStr);
 		$('body').append(this.iframe);
 		this.useFallBack=true;
 		OC.EventSource.iframeCount++
@@ -90,7 +99,7 @@ OC.EventSource.prototype={
 	lastLength:0,//for fallback
 	listen:function(type,callback){
 		if(callback && callback.call){
-			
+
 			if(type){
 				if(this.useFallBack){
 					if(!this.listeners[type]){
