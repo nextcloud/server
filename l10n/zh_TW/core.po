@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Donahue Chuang <soshinwu@gmail.com>, 2012.
+#   <dw4dev@gmail.com>, 2012.
 # Ming Yi Wu <mingi.wu@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-28 00:10+0100\n"
+"PO-Revision-Date: 2012-11-27 14:16+0000\n"
+"Last-Translator: dw4dev <dw4dev@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,59 +58,59 @@ msgstr "沒選擇要刪除的分類"
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:688
+#: js/js.js:704
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: js/js.js:689
+#: js/js.js:705
 msgid "1 minute ago"
 msgstr "1 分鐘前"
 
-#: js/js.js:690
+#: js/js.js:706
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} 分鐘前"
 
-#: js/js.js:691
+#: js/js.js:707
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 個小時前"
 
-#: js/js.js:692
+#: js/js.js:708
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} 個小時前"
 
-#: js/js.js:693
+#: js/js.js:709
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:694
+#: js/js.js:710
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:695
+#: js/js.js:711
 msgid "{days} days ago"
-msgstr ""
+msgstr "{days} 天前"
 
-#: js/js.js:696
+#: js/js.js:712
 msgid "last month"
 msgstr "上個月"
 
-#: js/js.js:697
+#: js/js.js:713
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} 個月前"
 
-#: js/js.js:698
+#: js/js.js:714
 msgid "months ago"
 msgstr "幾個月前"
 
-#: js/js.js:699
+#: js/js.js:715
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:700
+#: js/js.js:716
 msgid "years ago"
 msgstr "幾年前"
 
@@ -139,8 +140,8 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
+#: js/share.js:545
 msgid "Error"
 msgstr "錯誤"
 
@@ -154,7 +155,7 @@ msgstr ""
 
 #: js/share.js:124
 msgid "Error while sharing"
-msgstr ""
+msgstr "分享時發生錯誤"
 
 #: js/share.js:135
 msgid "Error while unsharing"
@@ -182,7 +183,7 @@ msgstr ""
 
 #: js/share.js:164
 msgid "Password protect"
-msgstr ""
+msgstr "密碼保護"
 
 #: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
@@ -191,15 +192,15 @@ msgstr "密碼"
 
 #: js/share.js:173
 msgid "Set expiration date"
-msgstr ""
+msgstr "設置到期日"
 
 #: js/share.js:174
 msgid "Expiration date"
-msgstr ""
+msgstr "到期日"
 
 #: js/share.js:206
 msgid "Share via email:"
-msgstr ""
+msgstr "透過email分享:"
 
 #: js/share.js:208
 msgid "No people found"
@@ -219,11 +220,11 @@ msgstr "取消共享"
 
 #: js/share.js:304
 msgid "can edit"
-msgstr ""
+msgstr "可編輯"
 
 #: js/share.js:306
 msgid "access control"
-msgstr ""
+msgstr "存取控制"
 
 #: js/share.js:309
 msgid "create"
@@ -231,27 +232,27 @@ msgstr "建立"
 
 #: js/share.js:312
 msgid "update"
-msgstr ""
+msgstr "更新"
 
 #: js/share.js:315
 msgid "delete"
-msgstr ""
+msgstr "刪除"
 
 #: js/share.js:318
 msgid "share"
-msgstr ""
+msgstr "分享"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:349 js/share.js:520 js/share.js:522
 msgid "Password protected"
-msgstr ""
+msgstr "密碼保護"
 
-#: js/share.js:525
+#: js/share.js:533
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:537
+#: js/share.js:545
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "錯誤的到期日設定"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -342,7 +343,7 @@ msgstr "安全性警告"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "沒有可用的隨機數字產生器, 請啟用 PHP 中 OpenSSL 擴充功能."
 
 #: templates/installation.php:26
 msgid ""
@@ -404,87 +405,87 @@ msgstr "資料庫主機"
 msgid "Finish setup"
 msgstr "完成設定"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "週日"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "週一"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "週二"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "週三"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "週四"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "週五"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "週六"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "一月"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "二月"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "三月"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "四月"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "五月"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "六月"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "七月"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "八月"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "九月"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "十月"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "十一月"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "十二月"
 
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "網路服務已在你控制"
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "登出"
 
@@ -528,7 +529,7 @@ msgstr "下一頁"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "安全性警告!"
 
 #: templates/verify.php:6
 msgid ""
@@ -538,4 +539,4 @@ msgstr ""
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "驗證"

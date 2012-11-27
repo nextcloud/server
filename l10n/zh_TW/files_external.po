@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <dw4dev@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-02 23:16+0200\n"
-"PO-Revision-Date: 2012-10-02 21:17+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-28 00:10+0100\n"
+"PO-Revision-Date: 2012-11-27 14:30+0000\n"
+"Last-Translator: dw4dev <dw4dev@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,11 +44,11 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "外部儲存裝置"
 
 #: templates/settings.php:7 templates/settings.php:19
 msgid "Mount point"
-msgstr ""
+msgstr "掛載點"
 
 #: templates/settings.php:8
 msgid "Backend"
@@ -71,23 +72,23 @@ msgstr ""
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
-msgstr ""
+msgstr "尚未設定"
 
 #: templates/settings.php:63
 msgid "All Users"
-msgstr ""
+msgstr "所有使用者"
 
 #: templates/settings.php:64
 msgid "Groups"
-msgstr ""
+msgstr "群組"
 
 #: templates/settings.php:69
 msgid "Users"
-msgstr ""
+msgstr "使用者"
 
 #: templates/settings.php:77 templates/settings.php:107
 msgid "Delete"
-msgstr ""
+msgstr "刪除"
 
 #: templates/settings.php:87
 msgid "Enable User External Storage"
@@ -103,4 +104,4 @@ msgstr ""
 
 #: templates/settings.php:113
 msgid "Import Root Certificate"
-msgstr ""
+msgstr "匯入根憑證"
