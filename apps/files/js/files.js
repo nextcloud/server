@@ -730,7 +730,7 @@ function updateBreadcrumb(breadcrumbHtml) {
 
 //options for file drag/dropp
 var dragOptions={
-	distance: 20, revert: 'invalid', opacity: 0.7,
+	distance: 20, revert: 'invalid', opacity: 0.7, helper: 'clone',
 	stop: function(event, ui) {
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
