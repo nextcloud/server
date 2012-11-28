@@ -3,7 +3,9 @@
 * ownCloud
 *
 * @author Robin Appelman
+* @author Bernhard Posselt
 * @copyright 2012 Robin Appelman icewind@owncloud.com
+* @copyright 2012 Bernhard Posselt nukeawhale@gmail.com
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -61,6 +63,72 @@ class Test_Group extends UnitTestCase {
 		$this->assertEqual(array(), OC_Group::usersInGroup($group1));
 		$this->assertFalse(OC_Group::inGroup($user1, $group1));
 	}
+
+
+	public function testNoEmptyGIDs(){
+		OC_Group::useBackend(new OC_Group_Dummy());
+		$emptyGroup = null;
+
+		$this->assertEqual(false, OC_Group::createGroup($emptyGroup));
+	}
+
+
+	public function testNoGroupsTwice(){
+		OC_Group::useBackend(new OC_Group_Dummy());
+		$group = uniqid();
+		OC_Group::createGroup($group);
+
+		$groupCopy = $group;
+
+		$this->assertEqual(false, OC_Group::createGroup($groupCopy));
+		$this->assertEqual(array($group), OC_Group::getGroups());
+	}
+
+
+	public function testDontDeleteAdminGroup(){
+		OC_Group::useBackend(new OC_Group_Dummy());
+		$adminGroup = 'admin';
+		OC_Group::createGroup($adminGroup);
+
+		$this->assertEqual(false, OC_Group::deleteGroup($adminGroup));
+		$this->assertEqual(array($adminGroup), OC_Group::getGroups());	
+	}
+
+
+	public function testDontAddUserToNonexistentGroup(){
+		OC_Group::useBackend(new OC_Group_Dummy());
+		$groupNonExistent = 'notExistent';
+		$user = uniqid();
+
+		$this->assertEqual(false, OC_Group::addToGroup($user, $groupNonExistent));
+		$this->assertEqual(array(), OC_Group::getGroups());
+	}
+
+
+	public function testUsersInGroup(){
+		OC_Group::useBackend(new OC_Group_Dummy());
+		$group1 = uniqid();
+		$group2 = uniqid();
+		$group3 = uniqid();
+		$user1 = uniqid();
+		$user2 = uniqid();
+		$user3 = uniqid();
+		OC_Group::createGroup($group1);
+		OC_Group::createGroup($group2);
+		OC_Group::createGroup($group3);
+
+		OC_Group::addToGroup($user1, $group1);
+		OC_Group::addToGroup($user2, $group1);
+		OC_Group::addToGroup($user3, $group1);
+		OC_Group::addToGroup($user3, $group2);
+
+		$this->assertEqual(array($user1, $user2, $user3), 
+					OC_Group::usersInGroups(array($group1, $group2, $group3)));
+
+		// FIXME: needs more parameter variation
+	}
+
+
 
 	function testMultiBackend() {
 		$backend1=new OC_Group_Dummy();
