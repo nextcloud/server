@@ -71,15 +71,10 @@ var UserList={
 		var tr = $('tbody tr').first().clone();
 		tr.attr('data-uid', username);
 		tr.find('td.name').text(username);
-		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="Groups">');
-		groupsSelect.data('username', username);
-		groupsSelect.data('userGroups', groups);
+		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" data-username="' + username + '" data-user-groups="' + groups + '" title="Groups">');
 		tr.find('td.groups').empty();
 		if (tr.find('td.subadmins').length > 0) {
-			var subadminSelect = $('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('files', 'Group Admin') + '">');
-			subadminSelect.data('username', username);
-			subadminSelect.data('userGroups', groups);
-			subadminSelect.data('subadmin', subadmin);
+			var subadminSelect = $('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" data-username="' + username + '" data-user-groups="' + groups + '" data-subadmin="' + subadmin + '" title="' + t('files', 'Group Admin') + '">');
 			tr.find('td.subadmins').empty();
 		}
 		var allGroups = String($('#content table').attr('data-groups')).split(', ');
