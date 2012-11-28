@@ -8,7 +8,6 @@
 
 require_once "PHPUnit/Framework/TestCase.php";
 require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/Crypt_Blowfish/Blowfish.php' );
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery.php' );
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Container.php' );
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Generator.php' );
@@ -146,79 +145,6 @@ class Test_Util extends \PHPUnit_Framework_TestCase {
 		
 		# TODO: Add more tests here to check that if any of the dirs are 
 		# then false will be returned. Use strict ordering?
-		
-	}
-	
-	/**
-	 * @brief test encryption using legacy blowfish method
-	 */
-	function testLegacyEncryptShort() {
-	
-		$crypted = $this->util->legacyEncrypt( $this->dataShort, $this->pass );
-
-		$this->assertNotEquals( $this->dataShort, $crypted );
-		
-		# TODO: search inencrypted text for actual content to ensure it
-		# genuine transformation
-		
-		return $crypted;
-		
-	}
-	
-	/**
-	 * @brief test decryption using legacy blowfish method
-	 * @depends testLegacyEncryptShort
-	 */
-	function testLegacyDecryptShort( $crypted ) {
-	
-		$decrypted = $this->util->legacyDecrypt( $crypted, $this->pass );
-		
-		$this->assertEquals( $this->dataShort, $decrypted );
-		
-	}
-
-	/**
-	 * @brief test encryption using legacy blowfish method
-	 */
-	function testLegacyEncryptLong() {
-	
-		$crypted = $this->util->legacyEncrypt( $this->dataLong, $this->pass );
-
-		$this->assertNotEquals( $this->dataLong, $crypted );
-		
-		# TODO: search inencrypted text for actual content to ensure it
-		# genuine transformation
-		
-		return $crypted;
-		
-	}
-	
-	/**
-	 * @brief test decryption using legacy blowfish method
-	 * @depends testLegacyEncryptLong
-	 */
-	function testLegacyDecryptLong( $crypted ) {
-	
-		$decrypted = $this->util->legacyDecrypt( $crypted, $this->pass );
-		
-		$this->assertEquals( $this->dataLong, $decrypted );
-		
-	}
-
-	/**
-	 * @brief test decryption using legacy blowfish method
-	 * @depends testLegacyEncryptLong
-	 */
-	function testLegacyKeyRecryptKeyfileEncrypt( $crypted ) {
-	
-		$recrypted = $this->util->LegacyKeyRecryptKeyfile( $crypted, $this->pass, $this->genPublicKey, $this->pass );
-		
-		$this->assertNotEquals( $this->dataLong, $recrypted['data'] );
-		
-		return $recrypted;
-		
-		# TODO: search inencrypted text for actual content to ensure it
-		# genuine transformation
 		
 	}
 

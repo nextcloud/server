@@ -69,6 +69,19 @@ class Hooks {
 			
 // 			trigger_error( "\$_SESSION['enckey'] = {$_SESSION['enckey']}" );
 			
+			$view1 = new \OC_FilesystemView( '/' . $params['uid'] );
+			
+			// Set legacy encryption key if it exists, to support 
+			// depreciated encryption system
+			if ( 
+			$view1->file_exists( 'encryption.key' )
+			&& $legacyKey = $view1->file_get_contents( 'encryption.key' ) 
+			) {
+				
+				$_SESSION['legacyenckey'] = Crypt::legacyDecrypt( $legacyKey, $params['password'] );
+				trigger_error('leg enc key = '.$_SESSION['legacyenckey']);
+			
+			}
 // 		}
 
 		return true;

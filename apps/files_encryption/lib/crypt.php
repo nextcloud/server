@@ -24,6 +24,8 @@
 
 namespace OCA\Encryption;
 
+require_once 'Crypt_Blowfish/Blowfish.php';
+
 // Todo:
 //  - Crypt/decrypt button in the userinterface
 //  - Setting if crypto should be on by default
@@ -164,7 +166,7 @@ class Crypt {
 	 * @param string $path
 	 * @return bool
 	 */
-	private static function isEncryptedMeta( $path ) {
+	public static function isEncryptedMeta( $path ) {
 	
 		# TODO: Use DI to get OC_FileCache_Cached out of here
 	
@@ -180,7 +182,7 @@ class Crypt {
          * @brief Check if a file is encrypted via legacy system
          * @return true / false
          */
-	public static function isLegacyEncryptedContent( $content, $path ) {
+	public static function isLegacyEncryptedContent( $content ) {
 	
 		// Fetch all file metadata from DB
 		$metadata = \OC_FileCache_Cached::get( $content, '' );
@@ -637,6 +639,106 @@ class Crypt {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * @brief Get the blowfish encryption handeler for a key
+	 * @param $key string (optional)
+	 * @return Crypt_Blowfish blowfish object
+	 *
+	 * if the key is left out, the default handeler will be used
+	 */
+	public static function getBlowfish( $key = '' ) {
+	
+		if ( $key ) {
+		
+			return new \Crypt_Blowfish( $key );
+		
+		} else {
+		
+			return false;
+			
+		}
+		
+	}
+	
+	public static function legacyCreateKey( $passphrase ) {
+	
+		// Generate a random integer
+		$key = mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 );
+
+		// Encrypt the key with the passphrase
+		$legacyEncKey = self::legacyEncrypt( $key, $passphrase );
+
+		return $legacyEncKey;
+	
+	}
+	
+	/**
+	 * @brief encrypts content using legacy blowfish system
+	 * @param $content the cleartext message you want to encrypt
+	 * @param $key the encryption key (optional)
+	 * @returns encrypted content
+	 *
+	 * This function encrypts an content
+	 */
+	public static function legacyEncrypt( $content, $passphrase = '' ) {
+	
+		trigger_error("OC2 enc \$content = $content    \$passphrase = ".var_export($passphrase, 1) );
+	
+		$bf = self::getBlowfish( $passphrase );
+		
+		return $bf->encrypt( $content );
+		
+	}
+	
+	/**
+	* @brief decrypts content using legacy blowfish system
+	* @param $content the cleartext message you want to decrypt
+	* @param $key the encryption key (optional)
+	* @returns cleartext content
+	*
+	* This function decrypts an content
+	*/
+	public static function legacyDecrypt( $content, $passphrase = '' ) {
+	
+		$passphrase = '';
+		
+		//trigger_error("OC2 dec \$content = $content    \$key = ".strlen($passphrase) );
+		
+		$bf = self::getBlowfish( "67362885833455692562" );
+		
+		trigger_error(var_export($bf, 1) );
+		
+		$decrypted = $bf->decrypt( $content );
+		
+		$trimmed = rtrim( $decrypted, "\0" );
+		
+		return $trimmed;
+		
+	}
+	
+	public static function legacyKeyRecryptKeyfile( $legacyEncryptedContent, $legacyPassphrase, $publicKey, $newPassphrase ) {
+	
+		$decrypted = self::legacyDecrypt( $legacyEncryptedContent, $legacyPassphrase );
+	
+		$recrypted = self::keyEncryptKeyfile( $decrypted, $publicKey );
+		
+		return $recrypted;
+	
+	}
+	
+	/**
+	* @brief Re-encryptes a legacy blowfish encrypted file using AES with integrated IV
+	* @param $legacyContent the legacy encrypted content to re-encrypt
+	* @returns cleartext content
+	*
+	* This function decrypts an content
+	*/
+	public static function legacyRecrypt( $legacyContent, $legacyPassphrase, $newPassphrase ) {
+		
+		# TODO: write me
+	
 	}
 	
 }

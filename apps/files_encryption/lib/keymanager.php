@@ -230,7 +230,7 @@ class Keymanager {
 	 * @return bool true/false
 	 */
 	public static function setFileKey( $path, $key, $view = Null, $dbClassName = '\OC_DB') {
-var_dump($path);
+
 		$targetPath = ltrim(  $path, '/'  );
 		$user = \OCP\User::getUser();
 		
@@ -301,6 +301,22 @@ var_dump($path);
 			return Crypt::changekeypasscode($oldpasswd, $newpasswd);
 		}
 		return false;
+		
+	}
+	
+	/**
+	 * @brief Fetch the legacy encryption key from user files
+	 * @param string $login used to locate the legacy key
+	 * @param string $passphrase used to decrypt the legacy key
+	 * @return true / false
+	 *
+	 * if the key is left out, the default handeler will be used
+	 */
+	public function getLegacyKey() {
+		
+		$user = \OCP\User::getUser();
+		$view = new \OC_FilesystemView( '/' . $user );
+		return $view->file_get_contents( 'encryption.key' );
 		
 	}
 	

@@ -134,8 +134,14 @@ class Proxy extends \OC_FileProxy {
 	public function postFile_get_contents( $path, $data ) {
 	
 		# TODO: Use dependency injection to add required args for view and user etc. to this method
-	
-		if ( Crypt::mode() == 'server' && Crypt::isEncryptedContent( $data ) ) {
+
+		// Disable encryption proxy to prevent recursive calls
+		\OC_FileProxy::$enabled = false;
+		
+		if ( 
+		Crypt::mode() == 'server' 
+		&& Crypt::isEncryptedContent( $data ) 
+		) {
 		
 			$filePath = explode( '/', $path );
 			
@@ -145,16 +151,22 @@ class Proxy extends \OC_FileProxy {
 			
 			$cached = \OC_FileCache_Cached::get( $path, '' );
 			
-			// Disable encryption proxy to prevent recursive calls
-			\OC_FileProxy::$enabled = false;
-			
 			$keyFile = Keymanager::getFileKey( $filePath );
 			
 			$data = Crypt::keyDecryptKeyfile( $data, $keyFile, $_SESSION['enckey'] );
-			
-			\OC_FileProxy::$enabled = true;
 		
+		} elseif (
+		Crypt::mode() == 'server' 
+		&& isset( $_SESSION['legacyenckey'] )
+		//&& Crypt::isEncryptedMeta( $path ) 
+		) {
+			
+			$data = Crypt::legacyDecrypt( $data, $_SESSION['legacyenckey'] );
+			//trigger_error($data);
+			
 		}
+		
+		\OC_FileProxy::$enabled = true;
 		
 		return $data;
 		
