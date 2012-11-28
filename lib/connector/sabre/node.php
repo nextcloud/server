@@ -50,8 +50,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	protected $property_cache = null;
 
 	/**
-	 * Sets up the node, expects a full path name
-	 *
+	 * @brief Sets up the node, expects a full path name
 	 * @param string $path
 	 * @return void
 	 */
@@ -62,8 +61,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 
 
 	/**
-	 * Returns the name of the node
-	 *
+	 * @brief  Returns the name of the node
 	 * @return string
 	 */
 	public function getName() {
@@ -74,8 +72,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * Renames the node
-	 *
+	 * @brief Renames the node
 	 * @param string $name The new name
 	 * @return void
 	 */
@@ -102,7 +99,8 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * Make sure the fileinfo cache is filled. Uses OC_FileCache or a direct stat
+	 * @brief Ensure that the fileinfo cache is filled
+	 & @note Uses OC_FileCache or a direct stat
 	 */
 	protected function getFileinfoCache() {
 		if (!isset($this->fileinfo_cache)) {
@@ -121,8 +119,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * Returns the last modification time, as a unix timestamp
-	 *
+	 * @brief Returns the last modification time, as a unix timestamp
 	 * @return int
 	 */
 	public function getLastModified() {
@@ -141,8 +138,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * Updates properties on this node,
-	 *
+	 * @brief Updates properties on this node,
 	 * @param array $mutations
 	 * @see Sabre_DAV_IProperties::updateProperties
 	 * @return bool|array
@@ -177,15 +173,13 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * Returns a list of properties for this nodes.;
-	 *
-	 * The properties list is a list of propertynames the client requested,
-	 * encoded as xmlnamespace#tagName, for example:
-	 * http://www.example.org/namespace#author
-	 * If the array is empty, all properties should be returned
-	 *
+	 * @brief Returns a list of properties for this nodes.;
 	 * @param array $properties
 	 * @return array
+	 * @note The properties list is a list of propertynames the client 
+	 * requested, encoded as xmlnamespace#tagName, for example: 
+	 * http://www.example.org/namespace#author If the array is empty, all 
+	 * properties should be returned
 	 */
 	public function getProperties($properties) {
 		if (is_null($this->property_cache)) {
@@ -211,7 +205,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * Creates a ETag for this path.
+	 * @brief Creates a ETag for this path.
 	 * @param string $path Path of the file
 	 * @return string|null Returns null if the ETag can not effectively be determined
 	 */
@@ -225,7 +219,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * Returns the ETag surrounded by double-quotes for this path.
+	 * @brief Returns the ETag surrounded by double-quotes for this path.
 	 * @param string $path Path of the file
 	 * @return string|null Returns null if the ETag can not effectively be determined
 	 */
@@ -241,7 +235,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * Remove the ETag from the cache.
+	 * @brief Remove the ETag from the cache.
 	 * @param string $path Path of the file
 	 */
 	static public function removeETagPropertyForPath($path) {
