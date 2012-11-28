@@ -1,12 +1,16 @@
 // your file
 var Files = Files || {};
 
-// Array Remove - By John Resig (MIT Licensed)
-Array.prototype.remove = function(from, to) {
-  var rest = this.slice((to || from) + 1 || this.length);
-  this.length = from < 0 ? this.length + from : from;
-  return this.push.apply(this, rest);
-};
+function removeA(arr) {
+    var what, a = arguments, L = a.length, ax;
+    while (L > 1 && arr.length) {
+        what = a[--L];
+        while ((ax= arr.indexOf(what)) !== -1) {
+            arr.splice(ax, 1);
+        }
+    }
+    return arr;
+}
 
 Files.bindKeyboardShortcuts = function (document, $){
 	var keys = [];
@@ -41,14 +45,16 @@ Files.bindKeyboardShortcuts = function (document, $){
 				$(".popup.popupTop").toggle(true);
 				$('#new li[data-type="file"]').trigger('click');
 				console.log("new file");
-				keys.remove($.inArray(keyCodes.n, keys));
+/* 				keys.remove($.inArray(keyCodes.n, keys)); */
+				removeA(keys, keyCodes.n);
 			}
 			else{ //New Folder
 				$("#new").addClass("active");
 				$(".popup.popupTop").toggle(true);
 				$('#new li[data-type="folder"]').trigger('click');
 				console.log("new folder");
-				keys.remove($.inArray(keyCodes.n, keys));
+/* 				keys.remove($.inArray(keyCodes.n, keys)); */
+				removeA(keys, keyCodes.n);
 			}
 		}
 		if($("#new").hasClass("active") && $.inArray(keyCodes.esc, keys) !== -1){
@@ -56,6 +62,7 @@ Files.bindKeyboardShortcuts = function (document, $){
 			console.log("close");
 		}
 		
-		keys.remove($.inArray(event.keyCode, keys));
+/* 		keys.remove($.inArray(event.keyCode, keys)); */
+		removeA(keys, event.keyCode);
 	});
 };
