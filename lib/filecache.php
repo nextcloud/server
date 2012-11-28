@@ -28,6 +28,7 @@
  * It will try to keep the data up to date but changes from outside ownCloud can invalidate the cache
  */
 class OC_FileCache{
+
 	/**
 	 * get the filesystem info from the cache
 	 * @param string path
@@ -58,8 +59,8 @@ class OC_FileCache{
 	 * @param string $path
 	 * @param array data
 	 * @param string root (optional)
-	 *
-	 * $data is an assiciative array in the same format as returned by get
+	 * @note $data is an associative array in the same format as returned 
+	 * by get
 	 */
 	public static function put($path, $data, $root=false) {
 		if($root===false) {
