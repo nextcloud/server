@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-28 00:10+0100\n"
-"PO-Revision-Date: 2012-11-27 14:25+0000\n"
+"POT-Creation-Date: 2012-11-29 00:04+0100\n"
+"PO-Revision-Date: 2012-11-28 01:33+0000\n"
 "Last-Translator: dw4dev <dw4dev@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "Files Versioning"
-msgstr ""
+msgstr "檔案版本化中..."
 
 #: templates/settings.php:4
 msgid "Enable"

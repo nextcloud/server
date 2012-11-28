@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-28 00:10+0100\n"
-"PO-Revision-Date: 2012-11-27 14:16+0000\n"
+"POT-Creation-Date: 2012-11-29 00:04+0100\n"
+"PO-Revision-Date: 2012-11-28 01:36+0000\n"
 "Last-Translator: dw4dev <dw4dev@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -116,7 +116,7 @@ msgstr "幾年前"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
-msgstr ""
+msgstr "選擇"
 
 #: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
@@ -171,15 +171,15 @@ msgstr ""
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "{owner} 已經和您分享"
 
 #: js/share.js:158
 msgid "Share with"
-msgstr ""
+msgstr "與分享"
 
 #: js/share.js:163
 msgid "Share with link"
-msgstr ""
+msgstr "使用連結分享"
 
 #: js/share.js:164
 msgid "Password protect"
@@ -212,7 +212,7 @@ msgstr ""
 
 #: js/share.js:271
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "已和 {user} 分享 {item}"
 
 #: js/share.js:292
 msgid "Unshare"
@@ -268,11 +268,11 @@ msgstr "重設密碼的連結將會寄到你的電子郵件信箱"
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "重設郵件已送出."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "請求失敗!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
