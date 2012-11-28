@@ -74,8 +74,7 @@ class Test_Filesystem extends UnitTestCase {
 
 	public function testBlacklist() {
 		OC_Hook::clear('OC_Filesystem');
-		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
-		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
+		OC::registerFilesystemHooks();
 
 		$run = true;
 		OC_Hook::emit(
