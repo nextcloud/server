@@ -9,14 +9,23 @@ Array.prototype.remove = function(from, to) {
 };
 
 Files.bindKeyboardShortcuts = function (document, $){
-	var keys = []
+	var keys = [];
+	keyCodes = {
+		shift: 16,
+		n: 78,
+		cmdFirefox: 224,
+		cmdOpera: 17,
+		leftCmdWebKit: 91,
+		rightCmdWebKit: 93,
+		esc: 27
+	};
 
 	$(document).keydown(function(event){//check for modifier keys
 		if($.inArray(event.keyCode, keys) == -1)
 			keys.push(event.keyCode);
 		console.log(event.keyCode);
 		
-		if($.inArray(78, keys) !== -1 && ($.inArray(224, keys) !== -1 || $.inArray(17, keys) !== -1 || $.inArray(91, keys) !== -1 || $.inArray(93, keys) !== -1)){ //78=n, 224=cmd(firefox), 17=cmd(Opera), 91=leftCmd(WebKit), 93=rightCmd(WebKit)
+		if($.inArray(keyCodes.n, keys) !== -1 && ($.inArray(keyCodes.cmdFirefox, keys) !== -1 || $.inArray(keyCodes.cmdOpera, keys) !== -1 || $.inArray(keyCodes.leftCmdWebKit, keys) !== -1 || $.inArray(keyCodes.rightCmdWebKit, keys) !== -1)){
 			event.preventDefault(); //Prevent web browser from responding
 		}
 	});
@@ -26,27 +35,27 @@ Files.bindKeyboardShortcuts = function (document, $){
 		
 		console.log(JSON.stringify(keys));
 		
-		if($.inArray(78, keys) !== -1 && ($.inArray(224, keys) !== -1 || $.inArray(17, keys) !== -1 || $.inArray(91, keys) !== -1 || $.inArray(93, keys) !== -1)){ //78=n, 224=cmd(firefox), 17=cmd(Opera), 91=leftCmd(WebKit), 93=rightCmd(WebKit)
-			if($.inArray(16, keys) !== -1){ //16=shift, New File
+		if($.inArray(keyCodes.n, keys) !== -1 && ($.inArray(keyCodes.cmdFirefox, keys) !== -1 || $.inArray(keyCodes.cmdOpera, keys) !== -1 || $.inArray(keyCodes.leftCmdWebKit, keys) !== -1 || $.inArray(keyCodes.rightCmdWebKit, keys) !== -1)){
+			if($.inArray(keyCodes.shift, keys) !== -1){ //16=shift, New File
 				$("#new").addClass("active");
 				$(".popup.popupTop").toggle(true);
 				$('#new li[data-type="file"]').trigger('click');
 				console.log("new file");
-				keys.remove($.inArray(78, keys));
+				keys.remove($.inArray(keyCodes.n, keys));
 			}
 			else{ //New Folder
 				$("#new").addClass("active");
 				$(".popup.popupTop").toggle(true);
 				$('#new li[data-type="folder"]').trigger('click');
 				console.log("new folder");
-				keys.remove($.inArray(78, keys));
+				keys.remove($.inArray(keyCodes.n, keys));
 			}
 		}
-		if($("#new").hasClass("active") && $.inArray(27, keys) !== -1){
+		if($("#new").hasClass("active") && $.inArray(keyCodes.esc, keys) !== -1){
 			$("#controls").trigger('click');
 			console.log("close");
 		}
 		
 		keys.remove($.inArray(event.keyCode, keys));
 	});
-}; 
+};
