@@ -49,4 +49,4 @@ Files.bindKeyboardShortcuts = function (document, $){
 		
 		keys.remove($.inArray(event.keyCode, keys));
 	});
-};
+}; 
