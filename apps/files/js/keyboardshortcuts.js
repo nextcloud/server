@@ -24,7 +24,8 @@ Files.bindKeyboardShortcuts = function (document, $) {
 		ctrl: 16,
 		esc: 27,
 		downArrow: 40,
-		upArrow: 38
+		upArrow: 38,
+		enter: 13
 	};
 
 	$(document).keydown(function(event){//check for modifier keys
@@ -106,6 +107,15 @@ Files.bindKeyboardShortcuts = function (document, $) {
 					}
 				});
 			}
+		}
+		
+		if($.inArray(keyCodes.enter, keys) !== -1){
+			$("#fileList tr").each(function(index){
+				if($(this).hasClass("mouseOver")){
+			        $(this).removeClass("mouseOver");
+			        $(this).find("span:first").trigger('click');
+		        }
+			});
 		}
 		
 		removeA(keys, event.keyCode);
