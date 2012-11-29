@@ -6,27 +6,42 @@
 			<div id='new' class='button'>
 				<a><?php echo $l->t('New');?></a>
 				<ul class="popup popupTop">
-					<li style="background-image:url('<?php echo OCP\mimetype_icon('text/plain') ?>')" data-type='file'><p><?php echo $l->t('Text file');?></p></li>
-					<li style="background-image:url('<?php echo OCP\mimetype_icon('dir') ?>')" data-type='folder'><p><?php echo $l->t('Folder');?></p></li>
-					<li style="background-image:url('<?php echo OCP\image_path('core', 'actions/public.png') ?>')" data-type='web'><p><?php echo $l->t('From link');?></p></li>
+					<li style="background-image:url('<?php echo OCP\mimetype_icon('text/plain') ?>')"
+						data-type='file'><p><?php echo $l->t('Text file');?></p></li>
+					<li style="background-image:url('<?php echo OCP\mimetype_icon('dir') ?>')"
+						data-type='folder'><p><?php echo $l->t('Folder');?></p></li>
+					<li style="background-image:url('<?php echo OCP\image_path('core', 'actions/public.png') ?>')"
+						data-type='web'><p><?php echo $l->t('From link');?></p></li>
 				</ul>
 			</div>
 			<div class="file_upload_wrapper svg">
-				<form data-upload-id='1' id="data-upload-form" class="file_upload_form" action="<?php echo OCP\Util::linkTo('files', 'ajax/upload.php'); ?>" method="post" enctype="multipart/form-data" target="file_upload_target_1">
-					<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $_['uploadMaxFilesize'] ?>" id="max_upload">
-					<!-- Send the requesttoken, this is needed for older IE versions because they don't send the CSRF token via HTTP header in this case -->
+				<form data-upload-id='1'
+					  id="data-upload-form"
+					  class="file_upload_form"
+					  action="<?php echo OCP\Util::linkTo('files', 'ajax/upload.php'); ?>"
+					  method="post"
+					  enctype="multipart/form-data"
+					  target="file_upload_target_1">
+					<input type="hidden" name="MAX_FILE_SIZE" id="max_upload"
+						   value="<?php echo $_['uploadMaxFilesize'] ?>">
+					<!-- Send the requesttoken, this is needed for older IE versions
+						 because they don't send the CSRF token via HTTP header in this case -->
 					<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken'] ?>" id="requesttoken">
-					<input type="hidden" class="max_human_file_size" value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
+					<input type="hidden" class="max_human_file_size"
+						   value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 					<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
 					<input class="file_upload_start" type="file" name='files[]'/>
-					<a href="#" class="file_upload_button_wrapper" onclick="return false;" title="<?php echo $l->t('Upload'); echo  ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
+					<a href="#" class="file_upload_button_wrapper" onclick="return false;"
+					   title="<?php echo $l->t('Upload'); echo ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
 					<button class="file_upload_filename"></button>
 					<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>
 				</form>
 			</div>
 					<div id="upload">
 						<div id="uploadprogressbar"></div>
-						<input type="button" class="stop" style="display:none" value="<?php echo $l->t('Cancel upload');?>" onclick="javascript:Files.cancelUploads();" />
+						<input type="button" class="stop" style="display:none"
+							   value="<?php echo $l->t('Cancel upload');?>"
+							   onclick="javascript:Files.cancelUploads();" />
 					</div>
 
 		</div>
@@ -49,9 +64,12 @@
 				<input type="checkbox" id="select_all" />
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
 				<span class='selectedActions'>
-<!-- 					<a href="" class="share"><img class='svg' alt="Share" src="<?php echo OCP\image_path("core", "actions/share.svg"); ?>" /> <?php echo $l->t('Share')?></a> -->
 					<?php if($_['allowZipDownload']) : ?>
-						<a href="" class="download"><img class='svg' alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /> <?php echo $l->t('Download')?></a>
+						<a href="" class="download">
+							<img class="svg" alt="Download"
+								 src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" />
+							<?php echo $l->t('Download')?>
+						</a>
 					<?php endif; ?>
 				</span>
 			</th>
@@ -61,9 +79,17 @@
 				<?php if ($_['permissions'] & OCP\PERMISSION_DELETE): ?>
 <!-- 					NOTE: Temporary fix to allow unsharing of files in root of Shared folder -->
 					<?php if ($_['dir'] == '/Shared'): ?>
-						<span class="selectedActions"><a href="" class="delete"><?php echo $l->t('Unshare')?> <img class="svg" alt="<?php echo $l->t('Unshare')?>" src="<?php echo OCP\image_path("core", "actions/delete.svg"); ?>" /></a></span>
+						<span class="selectedActions"><a href="" class="delete">
+							<?php echo $l->t('Unshare')?>
+							<img class="svg" alt="<?php echo $l->t('Unshare')?>"
+								 src="<?php echo OCP\image_path("core", "actions/delete.svg"); ?>" />
+						</a></span>
 					<?php else: ?>
-						<span class="selectedActions"><a href="" class="delete"><?php echo $l->t('Delete')?> <img class="svg" alt="<?php echo $l->t('Delete')?>" src="<?php echo OCP\image_path("core", "actions/delete.svg"); ?>" /></a></span>
+						<span class="selectedActions"><a href="" class="delete">
+							<?php echo $l->t('Delete')?>
+							<img class="svg" alt="<?php echo $l->t('Delete')?>"
+								 src="<?php echo OCP\image_path("core", "actions/delete.svg"); ?>" />
+						</a></span>
 					<?php endif; ?>
 				<?php endif; ?>
 			</th>
@@ -76,7 +102,7 @@
 <div id="editor"></div>
 <div id="uploadsize-message" title="<?php echo $l->t('Upload too large')?>">
 	<p>
-		<?php echo $l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.');?>
+	<?php echo $l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.');?>
 	</p>
 </div>
 <div id="scanning-message">
