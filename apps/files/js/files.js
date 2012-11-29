@@ -722,7 +722,7 @@ function updateBreadcrumb(breadcrumbHtml) {
 
 //options for file drag/dropp
 var dragOptions={
-	distance: 20, revert: 'invalid', opacity: 0.7,
+	distance: 20, revert: 'invalid', opacity: 0.7, helper: 'clone',
 	stop: function(event, ui) {
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
@@ -856,7 +856,7 @@ function getMimeIcon(mime, ready){
 	if(getMimeIcon.cache[mime]){
 		ready(getMimeIcon.cache[mime]);
 	}else{
-		$.get( OC.filePath('files','ajax','mimeicon.php')+'?mime='+mime, function(path){
+		$.get( OC.filePath('files','ajax','mimeicon.php')+'&mime='+mime, function(path){
 			getMimeIcon.cache[mime]=path;
 			ready(getMimeIcon.cache[mime]);
 		});

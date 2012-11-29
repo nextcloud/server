@@ -44,5 +44,5 @@ header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 OCP\Response::disableCaching();
 header('Content-Length: '.\OC\Files\Filesystem::filesize($filename));
 
-@ob_end_clean();
+OC_Util::obEnd();
 \OC\Files\Filesystem::readfile( $filename );

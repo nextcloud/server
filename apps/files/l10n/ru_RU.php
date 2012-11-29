@@ -19,6 +19,7 @@
 "replaced {new_name} with {old_name}" => "заменено {новое_имя} с {старое_имя}",
 "unshared {files}" => "Cовместное использование прекращено {файлы}",
 "deleted {files}" => "удалено {файлы}",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Некорректное имя, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не допустимы.",
 "generating ZIP-file, it may take some time." => "Создание ZIP-файла, это может занять некоторое время.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Невозможно загрузить файл,\n так как он имеет нулевой размер или является директорией",
 "Upload Error" => "Ошибка загрузки",

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-22 00:01+0100\n"
-"PO-Revision-Date: 2012-11-21 13:10+0000\n"
+"POT-Creation-Date: 2012-11-27 00:10+0100\n"
+"PO-Revision-Date: 2012-11-26 15:30+0000\n"
 "Last-Translator: skoptev <skoptev@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +131,7 @@ msgstr "Проблема при з'єднані з базою допомоги"
 
 #: templates/help.php:23
 msgid "Go there manually."
-msgstr ""
+msgstr "Перейти вручну."
 
 #: templates/help.php:31
 msgid "Answer"

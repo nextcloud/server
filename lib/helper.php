@@ -758,5 +758,4 @@ class OC_Helper {
 		}
 		return $str;
 	}
-
 }

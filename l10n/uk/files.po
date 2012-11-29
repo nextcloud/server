@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-24 00:01+0100\n"
-"PO-Revision-Date: 2012-11-23 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-27 00:09+0100\n"
+"PO-Revision-Date: 2012-11-26 15:33+0000\n"
+"Last-Translator: skoptev <skoptev@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,7 +96,7 @@ msgstr "замінено {new_name} на {old_name}"
 
 #: js/filelist.js:284
 msgid "unshared {files}"
-msgstr ""
+msgstr "неопубліковано {files}"
 
 #: js/filelist.js:286
 msgid "deleted {files}"
@@ -106,7 +106,7 @@ msgstr "видалено {files}"
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Невірне ім'я, '\\', '/', '<', '>', ':', '\"', '|', '?' та '*' не дозволені."
 
 #: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
@@ -147,7 +147,7 @@ msgstr "Виконується завантаження файлу. Закрит
 
 #: js/files.js:523
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr ""
+msgstr "Невірне ім'я каталогу. Використання \"Shared\" зарезервовано Owncloud"
 
 #: js/files.js:704
 msgid "{count} files scanned"
@@ -187,7 +187,7 @@ msgstr "{count} файлів"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Робота з файлами"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -199,7 +199,7 @@ msgstr "макс.можливе:"
 
 #: templates/admin.php:9
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Необхідно для мульти-файлового та каталогового завантаження."
 
 #: templates/admin.php:9
 msgid "Enable ZIP-download"

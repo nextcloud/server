@@ -28,6 +28,7 @@
 "Problems connecting to help database." => "連接到求助資料庫時發生問題",
 "Go there manually." => "手動前往",
 "Answer" => "答案",
+"You have used <strong>%s</strong> of the available <strong>%s</strong>" => "您已經使用了 <strong>%s</strong> ，目前可用空間為 <strong>%s</strong>",
 "Desktop and Mobile Syncing Clients" => "桌機與手機同步客戶端",
 "Download" => "下載",
 "Your password was changed" => "你的密碼已更改",

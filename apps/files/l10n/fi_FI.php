@@ -15,6 +15,7 @@
 "suggest name" => "ehdota nimeä",
 "cancel" => "peru",
 "undo" => "kumoa",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' eivät ole sallittuja.",
 "generating ZIP-file, it may take some time." => "luodaan ZIP-tiedostoa, tämä saattaa kestää hetken.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Tiedoston lähetys epäonnistui, koska sen koko on 0 tavua tai kyseessä on kansio",
 "Upload Error" => "Lähetysvirhe.",

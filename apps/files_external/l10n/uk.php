@@ -10,6 +10,7 @@
 "Backend" => "Backend",
 "Configuration" => "Налаштування",
 "Options" => "Опції",
+"Applicable" => "Придатний",
 "Add mount point" => "Додати точку монтування",
 "None set" => "Не встановлено",
 "All Users" => "Усі користувачі",

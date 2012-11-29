@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-25 00:02+0100\n"
+"POT-Creation-Date: 2012-11-29 00:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -137,8 +137,8 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
-#: js/share.js:539
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
+#: js/share.js:545
 msgid "Error"
 msgstr ""
 
@@ -239,15 +239,15 @@ msgstr ""
 msgid "share"
 msgstr ""
 
-#: js/share.js:343 js/share.js:514 js/share.js:516
+#: js/share.js:349 js/share.js:520 js/share.js:522
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:527
+#: js/share.js:533
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:539
+#: js/share.js:545
 msgid "Error setting expiration date"
 msgstr ""
 

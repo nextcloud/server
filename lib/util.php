@@ -137,16 +137,16 @@ class OC_Util {
 	 * @param string $text the text content for the element
 	 */
 	public static function addHeader( $tag, $attributes, $text='') {
-		self::$headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
+		self::$headers[] = array('tag'=>$tag, 'attributes'=>$attributes, 'text'=>$text);
 	}
 
 	/**
 	 * formats a timestamp in the "right" way
 	 *
 	 * @param int timestamp $timestamp
-	 * @param bool dateOnly option to ommit time from the result
+	 * @param bool dateOnly option to omit time from the result
 	 */
-    public static function formatDate( $timestamp,$dateOnly=false) {
+    public static function formatDate( $timestamp, $dateOnly=false) {
 		if(isset($_SESSION['timezone'])) {//adjust to clients timezone if we know it
 			$systemTimeZone = intval(date('O'));
 			$systemTimeZone=(round($systemTimeZone/100, 0)*60)+($systemTimeZone%100);
@@ -588,20 +588,29 @@ class OC_Util {
 		$connected = @fsockopen("www.owncloud.org", 80); 
 		if ($connected) {
 			fclose($connected);
-			return true; 
+			return true;
 		}else{
 
 			// second try in case one server is down
 			$connected = @fsockopen("apps.owncloud.com", 80); 
 			if ($connected) {
 				fclose($connected);
-				return true; 
+				return true;
 			}else{
-				return false; 
+				return false;
 			}
 
 		}
 
+	}
+
+	/**
+	 * clear all levels of output buffering
+	 */
+	public static function obEnd(){
+		while (ob_get_level()) {
+			ob_end_clean();
+		}
 	}
 
 

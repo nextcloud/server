@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-20 00:01+0100\n"
-"PO-Revision-Date: 2012-11-19 15:12+0000\n"
+"POT-Creation-Date: 2012-11-27 00:09+0100\n"
+"PO-Revision-Date: 2012-11-26 15:31+0000\n"
 "Last-Translator: skoptev <skoptev@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr "Опції"
 
 #: templates/settings.php:11
 msgid "Applicable"
-msgstr ""
+msgstr "Придатний"
 
 #: templates/settings.php:23
 msgid "Add mount point"

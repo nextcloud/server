@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Cyryl Sochacki <>, 2012.
+# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012.
 # Marcin Małecki <gerber@tkdami.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-28 00:10+0100\n"
+"PO-Revision-Date: 2012-11-27 08:54+0000\n"
+"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,19 +44,19 @@ msgstr "Aplikacje"
 msgid "Admin"
 msgstr "Administrator"
 
-#: files.php:332
+#: files.php:361
 msgid "ZIP download is turned off."
 msgstr "Pobieranie ZIP jest wyłączone."
 
-#: files.php:333
+#: files.php:362
 msgid "Files need to be downloaded one by one."
 msgstr "Pliki muszą zostać pobrane pojedynczo."
 
-#: files.php:333 files.php:358
+#: files.php:362 files.php:387
 msgid "Back to Files"
 msgstr "Wróć do plików"
 
-#: files.php:357
+#: files.php:386
 msgid "Selected files too large to generate zip file."
 msgstr "Wybrane pliki są zbyt duże, aby wygenerować plik zip."
 
@@ -98,12 +99,12 @@ msgstr "%d minut temu"
 
 #: template.php:106
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 godzine temu"
 
 #: template.php:107
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "%d godzin temu"
 
 #: template.php:108
 msgid "today"
@@ -125,7 +126,7 @@ msgstr "ostatni miesiąc"
 #: template.php:112
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "%d miesiecy temu"
 
 #: template.php:113
 msgid "last year"
@@ -151,4 +152,4 @@ msgstr "wybór aktualizacji jest wyłączony"
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Nie można odnaleźć kategorii \"%s\""
