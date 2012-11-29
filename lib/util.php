@@ -575,7 +575,17 @@ class OC_Util {
 		}
 	}
 
-	/*
+	/**
+	 * clear all levels of output buffering
+	 */
+	public static function obEnd(){
+		while (ob_get_level()) {
+			ob_end_clean();
+		}
+	}
+
+
+	/**
 	* @brief Generates a cryptographical secure pseudorandom string
 	* @param Int with the length of the random string
 	* @return String
