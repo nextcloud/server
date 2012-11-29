@@ -167,26 +167,22 @@ Files.bindKeyboardShortcuts = function (document, $) {
 			}
 		}
 		
-		else if($("#new").hasClass("active") && $.inArray(keyCodes.esc, keys) !== -1){
+		else if($("#new").hasClass("active") && $.inArray(keyCodes.esc, keys) !== -1){ //close new window
 			esc();
 		}
-		
-		else if($.inArray(keyCodes.downArrow, keys) !== -1){
+		else if($.inArray(keyCodes.downArrow, keys) !== -1){ //select file
 			down();
 		}
-		
-		else if($.inArray(keyCodes.upArrow, keys) !== -1){
+		else if($.inArray(keyCodes.upArrow, keys) !== -1){ //select file
 			up();
 		}
-		
-		else if(!$("#new").hasClass("active") && $.inArray(keyCodes.enter, keys) !== -1){
+		else if(!$("#new").hasClass("active") && $.inArray(keyCodes.enter, keys) !== -1){//open file
 			enter();
 		}
-		
-		else if(!$("#new").hasClass("active") && ($.inArray(keyCodes.backspace, keys) !== -1 || $.inArray(keyCodes.del, keys) !== -1)) {
+		else if(!$("#new").hasClass("active") && ($.inArray(keyCodes.backspace, keys) !== -1 || $.inArray(keyCodes.del, keys) !== -1)) {//delete file
 			del();
 		}
-		else if(!$("#new").hasClass("active") && $.inArray(keyCodes.r, keys) !== -1 && ($.inArray(keyCodes.cmdFirefox, keys) !== -1 || $.inArray(keyCodes.cmdOpera, keys) !== -1 || $.inArray(keyCodes.leftCmdWebKit, keys) !== -1 || $.inArray(keyCodes.rightCmdWebKit, keys) !== -1 || $.inArray(keyCodes.ctrl, keys) !== -1) && $.inArray(keyCodes.shift, keys) !== -1){
+		else if(!$("#new").hasClass("active") && $.inArray(keyCodes.r, keys) !== -1 && ($.inArray(keyCodes.cmdFirefox, keys) !== -1 || $.inArray(keyCodes.cmdOpera, keys) !== -1 || $.inArray(keyCodes.leftCmdWebKit, keys) !== -1 || $.inArray(keyCodes.rightCmdWebKit, keys) !== -1 || $.inArray(keyCodes.ctrl, keys) !== -1) && $.inArray(keyCodes.shift, keys) !== -1){//rename file
 			rename();
 		}
 		
