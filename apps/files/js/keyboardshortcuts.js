@@ -17,6 +17,7 @@ Files.bindKeyboardShortcuts = function (document, $) {
 	var keyCodes = {
 		shift: 16,
 		n: 78,
+		r: 82,
 		cmdFirefox: 224,
 		cmdOpera: 17,
 		leftCmdWebKit: 91,
@@ -25,15 +26,35 @@ Files.bindKeyboardShortcuts = function (document, $) {
 		esc: 27,
 		downArrow: 40,
 		upArrow: 38,
-		enter: 13
+		enter: 13,
+		backspace: 8,
+		delete: 46
 	};
 
 	$(document).keydown(function(event){//check for modifier keys
+		var preventDefault = false;
 		if($.inArray(event.keyCode, keys) === -1)
 			keys.push(event.keyCode);
 		console.log(event.keyCode);
 		
 		if($.inArray(keyCodes.n, keys) !== -1 && ($.inArray(keyCodes.cmdFirefox, keys) !== -1 || $.inArray(keyCodes.cmdOpera, keys) !== -1 || $.inArray(keyCodes.leftCmdWebKit, keys) !== -1 || $.inArray(keyCodes.rightCmdWebKit, keys) !== -1 || $.inArray(keyCodes.ctrl, keys) !== -1)){
+			preventDefault = true;
+		}
+		if($.inArray(keyCodes.backspace, keys) !== -1 && !$("#new").hasClass("active")) {
+			$("#fileList tr").each(function(index){
+				if($(this).hasClass("mouseOver")){
+					preventDefault = true;
+				}
+			});
+		}
+		if(!$("#new").hasClass("active") && $.inArray(keyCodes.r, keys) !== -1 && ($.inArray(keyCodes.cmdFirefox, keys) !== -1 || $.inArray(keyCodes.cmdOpera, keys) !== -1 || $.inArray(keyCodes.leftCmdWebKit, keys) !== -1 || $.inArray(keyCodes.rightCmdWebKit, keys) !== -1 || $.inArray(keyCodes.ctrl, keys) !== -1) && $.inArray(keyCodes.shift, keys) !== -1){
+			$("#fileList tr").each(function(index){
+				if($(this).hasClass("mouseOver")){
+			        preventDefault = true;
+		        }
+			});
+		}
+		if(preventDefault){
 			event.preventDefault(); //Prevent web browser from responding
 			event.stopPropagation();
 			return false;
@@ -62,12 +83,12 @@ Files.bindKeyboardShortcuts = function (document, $) {
 			}
 		}
 		
-		if($("#new").hasClass("active") && $.inArray(keyCodes.esc, keys) !== -1){
+		else if($("#new").hasClass("active") && $.inArray(keyCodes.esc, keys) !== -1){
 			$("#controls").trigger('click');
 			console.log("close");
 		}
 		
-		if(!$("#new").hasClass("active") && $.inArray(keyCodes.downArrow, keys) !== -1){
+		else if($.inArray(keyCodes.downArrow, keys) !== -1){
 			var select = -1;
 			$("#fileList tr").each(function(index){
 				if($(this).hasClass("mouseOver")){
@@ -88,7 +109,7 @@ Files.bindKeyboardShortcuts = function (document, $) {
 			}
 		}
 		
-		if(!$("#new").hasClass("active") && $.inArray(keyCodes.upArrow, keys) !== -1){
+		else if($.inArray(keyCodes.upArrow, keys) !== -1){
 			var select = -1;
 			$("#fileList tr").each(function(index){
 				if($(this).hasClass("mouseOver")){
@@ -109,11 +130,28 @@ Files.bindKeyboardShortcuts = function (document, $) {
 			}
 		}
 		
-		if($.inArray(keyCodes.enter, keys) !== -1){
+		else if(!$("#new").hasClass("active") && $.inArray(keyCodes.enter, keys) !== -1){
 			$("#fileList tr").each(function(index){
 				if($(this).hasClass("mouseOver")){
 			        $(this).removeClass("mouseOver");
-			        $(this).find("span:first").trigger('click');
+			        $(this).find("span.nametext").trigger('click');
+		        }
+			});
+		}
+		
+		else if(!$("#new").hasClass("active") && ($.inArray(keyCodes.backspace, keys) !== -1 || $.inArray(keyCodes.delete, keys) !== -1)) {
+			$("#fileList tr").each(function(index){
+				if($(this).hasClass("mouseOver")){
+			        $(this).removeClass("mouseOver");
+			        $(this).find("a.action.delete").trigger('click');
+		        }
+			});
+		}
+		else if(!$("#new").hasClass("active") && $.inArray(keyCodes.r, keys) !== -1 && ($.inArray(keyCodes.cmdFirefox, keys) !== -1 || $.inArray(keyCodes.cmdOpera, keys) !== -1 || $.inArray(keyCodes.leftCmdWebKit, keys) !== -1 || $.inArray(keyCodes.rightCmdWebKit, keys) !== -1 || $.inArray(keyCodes.ctrl, keys) !== -1) && $.inArray(keyCodes.shift, keys) !== -1){
+			$("#fileList tr").each(function(index){
+				if($(this).hasClass("mouseOver")){
+					$(this).removeClass("mouseOver");
+			        $(this).find("a[data-action='Rename']").trigger('click');
 		        }
 			});
 		}
