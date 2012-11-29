@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-17 00:01+0100\n"
-"PO-Revision-Date: 2012-11-16 06:57+0000\n"
-"Last-Translator: Anushke Guneratne <anushke@gmail.com>\n"
+"POT-Creation-Date: 2012-11-30 00:04+0100\n"
+"PO-Revision-Date: 2012-11-29 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,7 +56,7 @@ msgstr "අවලංගු අයදුම"
 msgid "Unable to delete group"
 msgstr "කණ්ඩායම මැකීමට නොහැක"
 
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
 msgstr "සත්‍යාපන දෝෂයක්"
 
@@ -68,12 +68,16 @@ msgstr "පරිශීලකයා මැකීමට නොහැක"
 msgid "Language changed"
 msgstr "භාෂාව ාවනස් කිරීම"
 
-#: ajax/togglegroups.php:22
+#: ajax/togglegroups.php:12
+msgid "Admins can't remove themself from the admin group"
+msgstr ""
+
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "පරිශීලකයා %s කණ්ඩායමට එකතු කළ නොහැක"
 
-#: ajax/togglegroups.php:28
+#: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "පරිශීලකයා %s කණ්ඩායමින් ඉවත් කළ නොහැක"

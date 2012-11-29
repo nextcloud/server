@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <mbouzada@gmail.com>, 2012.
 # Miguel Branco <mgl.branco@gmail.com>, 2012.
 # Xosé M. Lamas <correo.xmgz@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-21 00:01+0100\n"
-"PO-Revision-Date: 2012-11-20 22:23+0000\n"
-"Last-Translator: Miguel Branco <mgl.branco@gmail.com>\n"
+"POT-Creation-Date: 2012-11-30 00:03+0100\n"
+"PO-Revision-Date: 2012-11-29 16:08+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +22,11 @@ msgstr ""
 
 #: js/settings-personal.js:31 templates/settings-personal.php:10
 msgid "Expire all versions"
-msgstr "Caducar todas as versións"
+msgstr "Caducan todas as versións"
 
 #: js/versions.js:16
 msgid "History"
-msgstr "Historia"
+msgstr "Historial"
 
 #: templates/settings-personal.php:4
 msgid "Versions"
@@ -33,7 +34,7 @@ msgstr "Versións"
 
 #: templates/settings-personal.php:7
 msgid "This will delete all existing backup versions of your files"
-msgstr "Isto eliminará todas as copias de seguranza que haxa dos teus ficheiros"
+msgstr "Isto eliminará todas as copias de seguranza que haxa dos seus ficheiros"
 
 #: templates/settings.php:3
 msgid "Files Versioning"
